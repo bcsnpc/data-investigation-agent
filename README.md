@@ -8,8 +8,10 @@ The project specification is in [cross_system_data_investigator_poc.md](cross_sy
 - Deterministic retail generator for 100,000 connected orders.
 - Local relationship validation and tests that introduce invalid records.
 - Transactional SQL bulk loader, reconciliation queries and a dataset manifest.
+- Restricted app, Fabric and investigator SQL users with live permission tests.
 
 See [synthetic data rules and loading instructions](docs/synthetic-data.md).
+See [runtime identities](docs/runtime-identities.md) for credentials and permission boundaries.
 
 Track completed work and remaining phases in [project progress](docs/progress.md)
 and [GitHub issues](https://github.com/bcsnpc/data-investigation-agent/issues).
