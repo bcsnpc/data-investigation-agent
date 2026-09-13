@@ -54,5 +54,3 @@ def definition(endpoint, call, sleep=time.sleep):
             raise ValueError('Duplicate definition part')
         parts[part['path']] = base64.b64decode(part['payload'], validate=True).decode('utf-8-sig')
     return parts
-
-
