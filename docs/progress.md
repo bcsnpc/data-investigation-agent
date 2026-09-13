@@ -16,7 +16,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 | 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions deployed and verified; broader specification features remain scoped for follow-up |
 | 2 Data platform | In progress | Bronze, initial Silver and Gold complete: 100k orders, reconciled reporting tables and independent source totals; recurring orchestration remains |
 | 3 Analytics | Initial release complete | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
-| 4A Metadata connectors | Initial collector complete; PR pending | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
+| 4A Metadata connectors | Initial collector complete; PR #18 pending | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
 | 4B Lineage | Not started | Derive edges from discovered definitions, preserve provenance, add traversal and UI |
 | 5A Deterministic investigator | Not started | Context-aware comparisons, freshness, first divergence, evidence and impact |
 | 5B Ticket experience | Not started | Ticket form, attachments, investigation workspace and auditable timeline |
@@ -106,7 +106,7 @@ Reviewed the ticket and defect lab scope before starting the next implementation
 
 Scenario clarification: scope examples illustrate defect patterns. Select controlled scenarios using existing orders, payments, refunds, transformations and reports; reinstatement and incremental ingestion are not prerequisites. Candidate injections and baseline protections are recorded in [scope alignment](scope-alignment.md).
 
-- [META-001: Metadata connectors](https://github.com/bcsnpc/data-investigation-agent/issues/17) - initial collector implemented and live-verified; eight offline contract tests passed; PR pending.
+- [META-001: Metadata connectors](https://github.com/bcsnpc/data-investigation-agent/issues/17) - initial collector implemented and live-verified; eight offline contract tests passed; [PR #18](https://github.com/bcsnpc/data-investigation-agent/pull/18) pending review.
 
 ## Metadata milestone evidence
 
