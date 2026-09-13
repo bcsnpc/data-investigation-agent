@@ -217,3 +217,13 @@ Build `549f1a33-5b04-40c3-8b64-718d507e480c` contains 403 links, zero remaining 
 Next: use this explicit graph build in investigation acquisition and expose its versioned evidence. Metric/snapshot compatibility checks remain required; exact model Delta-version comparability is still false and no automatic defect routing is enabled.
 
 [PR #44](https://github.com/bcsnpc/data-investigation-agent/pull/44) contains the reviewed scope resolution and awaits review. Full-history secret scan passed with no leaks.
+
+PR #44 subsequently merged at `db1ba1f6d483ee5625e469b936422721fb1e8d1d`; issue #43 closed.
+
+## INV-004 current lineage acquisition
+
+[Issue #45](https://github.com/bcsnpc/data-investigation-agent/issues/45) pins development acquisition to reviewed graph `549f1a33-5b04-40c3-8b64-718d507e480c`, resolves snapshot Bronze assets and queries the matching schema. Actual paths, expected publication references and eligibility are retained alongside evidence. Four selection tests, twelve cross-layer tests and two generator tests pass; PowerShell syntax is valid.
+
+Live full-baseline run `203157aa-0ccd-4bca-9188-1111191c8cc1` returned 100,000 orders and USD 64,892,824.49 net cash across all five layers, with eight observed boundary matches and lineage eligibility supported. Sample run `6fee7189-fa82-4bdd-a510-74c95cdd1573` matched Bronze through semantic at one order/USD 1,529.64; source SQL returned 40613 at connection time and remains explicitly unavailable in that historical run. The full-baseline retry subsequently succeeded without changing source data.
+
+[PR #46](https://github.com/bcsnpc/data-investigation-agent/pull/46) contains this integration; full-history secret scan passed. See [current-lineage acquisition](investigation-current-lineage.md). Live endpoint reads remain unpinned and do not inherit snapshot comparability from publication references; strict boundaries remain NOT_COMPARABLE and classification remains UNRESOLVED. Next: expose the stored investigation evidence through the backend workflow, preserving these statuses and limitations.

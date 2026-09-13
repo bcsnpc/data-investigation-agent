@@ -20,6 +20,12 @@ def filters(currency, order_id):
         raise ValueError('Unsupported order ID')
 
 
+def bronze_schema(value):
+    if not isinstance(value,str) or not re.fullmatch(r'app|snapshot_[0-9a-f]{32}',value):
+        raise ValueError('Unsupported Bronze schema')
+    return value
+
+
 def dax(currency, order_id):
     filters(currency, order_id)
     clauses = [f'TREATAS({{"{currency}"}},FactOrderLine[currency])']
@@ -51,6 +57,7 @@ def execute(request):
     layer = request['layer']
     if layer not in ('sql', 'bronze', 'silver', 'gold', 'semantic'):
         raise ValueError('Unsupported layer')
+    schema=bronze_schema(request.get('bronze_schema','app')) if layer=='bronze' else None
     if layer == 'semantic':
         workspace, model = str(UUID(request['workspace'])), str(UUID(request['model']))
         query = dax(request['currency'], request.get('order_id'))
@@ -66,6 +73,7 @@ def execute(request):
     if not re.fullmatch(r'[a-zA-Z0-9.-]+', request['server']) or not request['server'].endswith(suffix):
         raise ValueError('Unsupported SQL host')
     payload = {key: request.get(key) for key in ('layer', 'currency', 'order_id', 'server', 'database', 'credential_file')}
+    if layer=='bronze':payload['bronze_schema']=schema
     if layer != 'sql':
         payload['access_token'] = get_sql_token(request['tenant'])
     result = subprocess.run(['powershell', '-NoProfile', '-File', str(ROOT/'infra/scripts/Read-InvestigationMetric.ps1')],

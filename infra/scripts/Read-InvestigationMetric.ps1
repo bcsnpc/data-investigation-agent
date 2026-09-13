@@ -8,6 +8,7 @@ try {
  if($request.layer -notin @('sql','bronze','silver','gold')) { throw 'Unsupported layer' }
  if($request.currency -cnotmatch '^[A-Z]{3}$') { throw 'Invalid currency' }
  if($request.order_id -and $request.order_id -cnotmatch '^ORD-[0-9]{6}$') { throw 'Invalid order ID' }
+ if($request.layer -eq 'bronze' -and $request.bronze_schema -cnotmatch '^(app|snapshot_[0-9a-f]{32})$') { throw 'Invalid Bronze schema' }
  $builder=New-Object System.Data.SqlClient.SqlConnectionStringBuilder
  $builder['Data Source']="tcp:$($request.server),1433"
  $builder['Initial Catalog']=$request.database
@@ -31,6 +32,7 @@ SELECT COUNT_BIG(*) order_count,CAST(COALESCE(SUM(COALESCE(p.amount,0)-COALESCE(
 FROM app.orders o LEFT JOIN captured p ON p.order_id=o.order_id LEFT JOIN refunded r ON r.order_id=o.order_id
 WHERE o.currency=@currency AND (@order_id IS NULL OR o.order_id=@order_id)
 '@
+  if($request.layer -eq 'bronze') { $command.CommandText=$command.CommandText.Replace('app.',"[$($request.bronze_schema)].") }
  } elseif($request.layer -eq 'silver') {
   $command.CommandText=@'
 SELECT COUNT_BIG(*) order_count,CAST(COALESCE(SUM(net_amount),0) AS DECIMAL(28,4)) net_cash,
