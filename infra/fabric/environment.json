@@ -55,5 +55,9 @@
     "refresh_id": "63e0ebc6-d4e3-4544-8e9b-92c07778819e",
     "status": "SEMANTIC_RUN_ALIGNED",
     "snapshot_comparable": false
+  },
+  "investigation": {
+    "lineage_run": "549f1a33-5b04-40c3-8b64-718d507e480c",
+    "metadata_scan_id": "4f443959-2657-4ca3-911a-0627441fa25f"
   }
 }

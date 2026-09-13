@@ -10,7 +10,7 @@ import subprocess
 import uuid
 
 from investigation_checks import canonical, compare, compatible, number, timestamp
-from investigation_query_worker import filters
+from investigation_query_worker import filters,bronze_schema
 from lineage_graph import load_graph
 from lineage_gap_policy import eligibility
 from metadata_auth import WorkerTransport
@@ -79,11 +79,19 @@ def metric_observation(asset, metric, result, currency, order_id, layer):
                 result_hash=hashlib.sha256(canonical(value).encode()).hexdigest())
 
 
+def selected_bronze_schema(estate):
+    snapshot=estate.get('snapshot_bronze')
+    if snapshot is None:return 'app'  # Explicit older estates retain their original path.
+    expected='snapshot_'+str(uuid.UUID(snapshot['source_snapshot_id'])).replace('-','')
+    if snapshot['schema']!=expected:raise ValueError('Bronze schema differs from snapshot reference')
+    return bronze_schema(expected)
+
+
 def asset_path(graph, config, estate, metric):
     workspace = config['fabric']['workspace_id']
     sql = config['sql']
     ids = [graph.find('SqlObject', 'app.orders', f"sql://{sql['server']}/{sql['database']}")]
-    for layer, table in [('bronze', 'app.orders'), ('silver', 'fact_order'), ('gold', 'order_line_summary')]:
+    for layer, table in [('bronze', selected_bronze_schema(estate)+'.orders'), ('silver', 'fact_order'), ('gold', 'order_line_summary')]:
         ids.append(graph.find('LakehouseTable', table, f"fabric://{workspace}/{estate[layer+'_lakehouse_id']}"))
     model = f"fabric://{workspace}/{estate['semantic_model_id']}"
     table = graph.find('SemanticTable', 'FactOrderLine', model)
@@ -112,6 +120,9 @@ def acquire(config, estate, lineage_run, currency, order_id, query=worker):
     filters(currency, order_id)
     if estate['workspace_id'] != config['fabric']['workspace_id']:
         raise ValueError('Estate and auth workspace differ')
+    lineage_run=lineage_run or estate.get('investigation',{}).get('lineage_run')
+    if not lineage_run:raise ValueError('Explicit investigation lineage build required')
+    schema=selected_bronze_schema(estate)
     graph = load_graph(config['storage']['database'], lineage_run)
     paths = {metric: asset_path(graph, config, estate, metric) for metric in MEASURES}
     # Validate all planned paths before any cloud query.
@@ -123,6 +134,7 @@ def acquire(config, estate, lineage_run, currency, order_id, query=worker):
     acquisitions = {}
     for layer in LAYERS:
         request = {'layer': layer, 'currency': currency, 'order_id': order_id}
+        if layer=='bronze':request['bronze_schema']=schema
         try:
             if layer == 'sql':
                 request.update(server=config['sql']['server'], database=config['sql']['database'],
@@ -150,11 +162,15 @@ def acquire(config, estate, lineage_run, currency, order_id, query=worker):
     run = str(uuid.uuid4())
     captured = datetime.now(timezone.utc).isoformat()
     request = {'kind': 'cross_layer_metrics', 'lineage_run': lineage_run, 'as_of': captured,
+               'asset_paths':paths,'bronze_schema':schema,
+               'expected_publications':{key:estate[key] for key in ('snapshot_bronze','snapshot_silver','snapshot_gold','snapshot_semantic') if key in estate},
+               'publication_reference_scope':'Expected lineage context only; independent endpoint reads are not pinned to these versions',
                'observations': chains, 'endpoint_evidence': acquisitions,
                'adapter_hashes': {path: hashlib.sha256((ROOT/path).read_bytes()).hexdigest() for path in
                                   ('scripts/investigation_query_worker.py', 'infra/scripts/Read-InvestigationMetric.ps1')},
                'scope': 'Currency and optional order filter; no product/date/report slicer reproduction'}
     output = {'id': run, 'lineage_run': lineage_run, 'classification': 'UNRESOLVED',
+              'bronze_schema':schema,'asset_paths':paths,
               'metrics': results, 'provenance': continuity(raw),
               'values': {layer: value.get('values', value) for layer, value in raw.items()}}
     with closing(sqlite3.connect(config['storage']['database'])) as db:
@@ -168,7 +184,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, default=ROOT/'infra/metadata/development.json')
     parser.add_argument('--estate', type=Path, default=ROOT/'infra/fabric/environment.json')
-    parser.add_argument('--lineage-run', required=True)
+    parser.add_argument('--lineage-run', help='Explicit build override; otherwise use the estate investigation.lineage_run')
     parser.add_argument('--currency', required=True)
     parser.add_argument('--order-id')
     args = parser.parse_args()
