@@ -3,18 +3,18 @@
 No business queries, refreshes, deployments or inferred lineage are performed.
 """
 import argparse
-import base64
 import hashlib
 import json
 import sqlite3
-import subprocess
-import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import quote, urlsplit
+from urllib.parse import quote
 
-from fabric_api import ROOT, api
+from metadata_config import ROOT, load_config
+from metadata_auth import WorkerTransport, PowerShellSqlCatalog
+from metadata_protocol import pages, definition
+from metadata_connectors import SqlMetadataConnector, FabricMetadataConnector, PowerBIMetadataConnector
 
 
 def utc():
@@ -62,59 +62,6 @@ class Inventory:
         return {'scan_id': self.scan, 'status': state, 'assets': counts, 'unavailable_capabilities': gaps}
 
 
-def relative(endpoint, audience='fabric'):
-    """Only follow pagination URLs on the original service, never arbitrary hosts."""
-    if '://' not in endpoint:
-        return endpoint
-    url = urlsplit(endpoint)
-    host, prefix = ('api.fabric.microsoft.com', '/v1/') if audience == 'fabric' else ('api.powerbi.com', '/v1.0/myorg/')
-    if url.scheme != 'https' or url.netloc != host or not url.path.startswith(prefix):
-        raise ValueError('Unexpected continuation origin')
-    return url.path[len(prefix):] + ('?' + url.query if url.query else '')
-
-
-def pages(endpoint, call=api, audience='fabric', key='value'):
-    result, seen = [], set()
-    base = endpoint
-    while endpoint:
-        if endpoint in seen:
-            raise ValueError('Repeated continuation')
-        seen.add(endpoint)
-        body = call(endpoint, audience=audience)['text']
-        result.extend(body[key])
-        next_url = body.get('continuationUri') or body.get('@odata.nextLink')
-        token = body.get('continuationToken')
-        endpoint = relative(next_url, audience) if next_url else (base + ('&' if '?' in base else '?') + 'continuationToken=' + quote(token, safe='') if token else None)
-    return result
-
-
-def definition(endpoint, call=api, sleep=time.sleep):
-    response = call(endpoint, 'post')
-    if response['status_code'] == 202:
-        headers = {k.lower(): v for k, v in response.get('headers', {}).items()}
-        operation = headers.get('x-ms-operation-id')
-        if not operation:
-            raise ValueError('Definition operation ID missing')
-        for _ in range(30):
-            status = call(f'operations/{operation}')['text']['status']
-            if status in ('Succeeded', 'Completed'):
-                response = call(f'operations/{operation}/result')
-                break
-            if status in ('Failed', 'Cancelled'):
-                raise RuntimeError('Definition operation failed')
-            sleep(min(30, max(1, int(headers.get('retry-after', 5)))))
-        else:
-            raise TimeoutError('Definition operation timed out')
-    parts = {}
-    for part in response['text']['definition']['parts']:
-        if part['payloadType'] != 'InlineBase64':
-            raise ValueError('Unsupported definition payload')
-        if part['path'] in parts:
-            raise ValueError('Duplicate definition part')
-        parts[part['path']] = base64.b64decode(part['payload'], validate=True).decode('utf-8-sig')
-    return parts
-
-
 def expand_definition(store, item_id, kind, parts, source):
     for path, content in parts.items():
         store.asset(item_id + '/part/' + quote(path, safe=''), 'DefinitionPart', path, source,
@@ -145,7 +92,7 @@ def expand_definition(store, item_id, kind, parts, source):
 
 
 def collect_sql(store, snapshot):
-    source = 'Azure SQL sys catalog via orderops_investigator'
+    source = 'Azure SQL sys catalog'
     root = 'sql://' + snapshot['server'].removeprefix('tcp:').split(',')[0] + '/' + snapshot['database']
     store.asset(root, 'SqlDatabase', snapshot['database'], source, {'captured_at': snapshot['collected_at_utc']})
     for obj in snapshot['objects']:
@@ -161,7 +108,7 @@ def collect_sql(store, snapshot):
             store.asset(aid + '/column/' + str(col['column_id']), 'SqlColumn', col['name'], source, col, aid)
     allowed = bool(snapshot['permissions'] and snapshot['permissions'][0]['can_view_definition'])
     store.observe(root, 'catalog_visibility', 'AVAILABLE' if allowed else 'UNAVAILABLE', source,
-                  {'view_definition': allowed, 'scope': 'app schema; other objects only when visible to investigator identity'})
+                  {'view_definition': allowed, 'scope': snapshot.get('visibility_schema', 'app') + ' schema; other objects only when visible to configured identity'})
     store.observe(root, 'business_owner', 'UNKNOWN', source, 'Database principals are not assumed to be business owners.')
     store.observe(root, 'data_freshness', 'NOT_COLLECTED', source, 'Catalog modification dates are schema dates, not business-data watermarks.')
 
@@ -182,9 +129,10 @@ def attempt(store, aid, capability, endpoint, fn):
         return None
 
 
-def collect_fabric(store, workspace, call=api):
+def collect_fabric(store, connector, powerbi):
+    workspace = connector.workspace
     endpoint = f'workspaces/{workspace}/items'
-    items = pages(endpoint, call)
+    items = connector.discover_assets()
     root = 'fabric://' + workspace
     store.asset(root, 'Workspace', workspace, endpoint, {'id': workspace})
     for item in items:
@@ -196,24 +144,14 @@ def collect_fabric(store, workspace, call=api):
         if kind in ('Notebook', 'DataPipeline', 'CopyJob', 'SemanticModel', 'Report'):
             target = base + '/getDefinition' + ('?format=TMSL' if kind == 'SemanticModel' else '')
             def extract():
-                parts = definition(target, call)
+                reader = powerbi if kind in ('SemanticModel', 'Report') else connector
+                parts = reader.get_definition(item)
                 expand_definition(store, aid, kind, parts, target)
                 return {'parts': len(parts)}
             attempt(store, aid, 'definition', target, extract)
         if kind == 'Lakehouse':
             target = f"workspaces/{workspace}/lakehouses/{item['id']}/tables"
-            def table_inventory():
-                try:
-                    found = pages(target, call, key='data')
-                    return {'tables': found, 'source': target, 'column_schema': False}
-                except (RuntimeError, subprocess.CalledProcessError):
-                    result = subprocess.run([str(ROOT / '.local/fabric-cli-env/Scripts/python.exe'),
-                        str(ROOT / 'scripts/onelake_metadata.py'), workspace, item['id'],
-                        item['displayName'] + '.Lakehouse'], capture_output=True, text=True, check=True, timeout=300)
-                    data = json.loads(result.stdout)
-                    data['column_schema'] = True
-                    return data
-            inventory = attempt(store, aid, 'tables', target, table_inventory)
+            inventory = attempt(store, aid, 'tables', target, lambda: connector.get_tables(item))
             for table in (inventory or {}).get('tables', []):
                 name = (table.get('schema_name', table.get('schemaName', '')) + '.' + table['name']).lstrip('.')
                 tid = aid + '/table/' + quote(name, safe='')
@@ -225,33 +163,38 @@ def collect_fabric(store, workspace, call=api):
                           'OneLake table details' if has_columns else 'Fabric table listing has no column schemas.')
         if kind in ('Notebook', 'DataPipeline', 'CopyJob'):
             target = base + '/jobs/instances'
-            attempt(store, aid, 'run_history', target, lambda: pages(target, call))
+            attempt(store, aid, 'run_history', target, lambda: connector.get_refresh_history(item))
             store.observe(aid, 'expected_refresh_frequency', 'UNKNOWN', target, 'No verified schedule contract configured.')
         if kind == 'SemanticModel':
             target = f"groups/{workspace}/datasets/{item['id']}/refreshes"
-            attempt(store, aid, 'refresh_history', target, lambda: pages(target, call, audience='powerbi'))
+            attempt(store, aid, 'refresh_history', target, lambda: powerbi.get_refresh_history(item))
         print('Collected ' + kind + ': ' + item['displayName'], flush=True)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--database', type=Path, default=ROOT / '.local/metadata/inventory.sqlite')
+    parser.add_argument('--config', type=Path, default=ROOT / 'infra/metadata/development.json')
+    parser.add_argument('--database', type=Path, help='Override inventory database location')
     args = parser.parse_args()
-    store = Inventory(args.database)
-    path = ROOT / '.local/sql-metadata.json'
+    config = load_config(args.config)
+    database = args.database or Path(config['storage']['database'])
+    sql_reader = PowerShellSqlCatalog(ROOT / 'infra/scripts/Get-SqlMetadata.ps1', config['sql']['auth']['credential_file'])
+    sql = SqlMetadataConnector(config['sql'], sql_reader)
+    auth = config['fabric']['auth']
+    transport = WorkerTransport(auth['python'], auth['tenant_id'], ROOT / 'scripts/metadata_worker.py')
+    fabric = FabricMetadataConnector(config['fabric']['workspace_id'], transport, transport.tables)
+    powerbi = PowerBIMetadataConnector(fabric)
+    store = Inventory(database)
     def sql_scan():
-        subprocess.run(['powershell', '-NoProfile', '-File', str(ROOT / 'infra/scripts/Get-SqlMetadata.ps1'), '-OutputPath', str(path)], check=True, capture_output=True)
-        collect_sql(store, json.loads(path.read_text(encoding='utf-8-sig')))
+        collect_sql(store, sql.discover_assets())
         return {'collected': True}
     sql_result = attempt(store, 'scan', 'sql_collection', 'Azure SQL catalog', sql_scan)
-    config = json.loads((ROOT / 'infra/fabric/environment.json').read_text())
     def fabric_scan():
-        collect_fabric(store, config['workspace_id'])
+        collect_fabric(store, fabric, powerbi)
         return {'collected': True}
     fabric_result = attempt(store, 'scan', 'fabric_collection', 'Fabric workspace', fabric_scan)
     summary = store.finish(failed=sql_result is None and fabric_result is None)
-    output = ROOT / '.local/metadata/latest.json'
-    output.parent.mkdir(parents=True, exist_ok=True)
+    output = Path(database).parent / 'latest.json'
     output.write_text(json.dumps(summary, indent=2))
     print(json.dumps(summary, indent=2))
     store.db.close()

@@ -16,7 +16,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 | 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions deployed and verified; broader specification features remain scoped for follow-up |
 | 2 Data platform | In progress | Bronze, initial Silver and Gold complete: 100k orders, reconciled reporting tables and independent source totals; recurring orchestration remains |
 | 3 Analytics | Initial release complete | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
-| 4A Metadata connectors | Initial collector complete; PR #18 pending | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
+| 4A Metadata connectors | Initial collector merged; reusable connector refactor verified | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
 | 4B Lineage | Not started | Derive edges from discovered definitions, preserve provenance, add traversal and UI |
 | 5A Deterministic investigator | Not started | Context-aware comparisons, freshness, first divergence, evidence and impact |
 | 5B Ticket experience | Not started | Ticket form, attachments, investigation workspace and auditable timeline |
@@ -106,10 +106,14 @@ Reviewed the ticket and defect lab scope before starting the next implementation
 
 Scenario clarification: scope examples illustrate defect patterns. Select controlled scenarios using existing orders, payments, refunds, transformations and reports; reinstatement and incremental ingestion are not prerequisites. Candidate injections and baseline protections are recorded in [scope alignment](scope-alignment.md).
 
-- [META-001: Metadata connectors](https://github.com/bcsnpc/data-investigation-agent/issues/17) - initial collector implemented and live-verified; eight offline contract tests passed; [PR #18](https://github.com/bcsnpc/data-investigation-agent/pull/18) pending review.
+- [META-001: Metadata connectors](https://github.com/bcsnpc/data-investigation-agent/issues/17) - initial collector implemented and live-verified; eight offline contract tests passed; [PR #18](https://github.com/bcsnpc/data-investigation-agent/pull/18) merged; issue closed.
 
 ## Metadata milestone evidence
 
 Scan `a2ca371b-6377-444b-ae5d-d41c91baf9eb` completed with 476 metadata records and zero failed attempted capabilities. Live validation passed: 11 SQL objects/81 columns, 11 foreign-key relationships, 29 lakehouse tables (Bronze 10, Silver 10, Gold 9), 25 measures matching deployed DAX exactly, five semantic relationships, four report pages and 45 visuals. Bronze schema discovery includes 74 columns through the OneLake API. Source data was not modified.
 
 Remaining boundaries are explicit: business ownership and expected refresh schedules are unknown; business-data watermarks and Silver/Gold Delta column/version collection remain follow-up enrichment. This milestone supplies a local collector and SQLite persistence, not a hosted API, lineage graph or ticket UI. Next is Phase 4B: derive lineage from the acquired definitions and mappings, retain provenance and unresolved dependencies, then provide traversal. See [metadata documentation](metadata.md).
+
+## Reusable connector milestone
+
+[META-002](https://github.com/bcsnpc/data-investigation-agent/issues/19) separates connection configuration, authentication adapters and metadata discovery before Phase 4B. SQL server/database/schema and Fabric workspace/tenant are configuration-driven. Local DPAPI and CLI authentication remain supported behind injected reader/token interfaces. The hosted credential adapter is an extension point; no service principal, managed identity or permissions have been provisioned. Sixteen offline metadata tests and two generator tests pass. Live scan `5d11f419-0596-412a-9002-1971b3fed6ad` is COMPLETE with zero unavailable attempted capabilities. Parity against scan `a2ca371b-6377-444b-ae5d-d41c91baf9eb` passed: all 476 asset IDs, parents, names and definitions unchanged (excluding the SQL acquisition timestamp). The existing POC count/DAX validation also passed. Implementation PR pending review; next is Phase 4B lineage.

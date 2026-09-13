@@ -1,12 +1,22 @@
 [CmdletBinding()]
-param([string]$OutputPath)
+param(
+ [Parameter(Mandatory=$true)][string]$Server,
+ [Parameter(Mandatory=$true)][string]$Database,
+ [Parameter(Mandatory=$true)][string]$VisibilitySchema,
+ [Parameter(Mandatory=$true)][string]$CredentialPath,
+ [Parameter(Mandatory=$true)][string]$OutputPath
+)
 $ErrorActionPreference='Stop'
-$projectRoot=Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
-if (-not $OutputPath) { $OutputPath=Join-Path $projectRoot '.local/sql-metadata.json' }
 Add-Type -AssemblyName System.Data
-$credential=Import-Clixml -LiteralPath (Join-Path $projectRoot '.local/runtime-credentials/orderops_investigator.credential.xml')
+$credential=Import-Clixml -LiteralPath $CredentialPath
 $credential.Password.MakeReadOnly()
-$connection=New-Object System.Data.SqlClient.SqlConnection('Data Source=tcp:sql-orderops-9696025.database.windows.net,1433;Initial Catalog=ordersops;Encrypt=True;TrustServerCertificate=False;Connect Timeout=60')
+$builder=New-Object System.Data.SqlClient.SqlConnectionStringBuilder
+$builder['Data Source']="tcp:$Server,1433"
+$builder['Initial Catalog']=$Database
+$builder['Encrypt']=$true
+$builder['TrustServerCertificate']=$false
+$builder['Connect Timeout']=60
+$connection=New-Object System.Data.SqlClient.SqlConnection($builder.ConnectionString)
 $connection.Credential=New-Object System.Data.SqlClient.SqlCredential($credential.UserName,$credential.Password)
 $queries=[ordered]@{
  objects="SELECT o.object_id, s.name AS schema_name,o.name,o.type_desc,o.create_date,o.modify_date FROM sys.objects o JOIN sys.schemas s ON s.schema_id=o.schema_id WHERE o.is_ms_shipped=0 AND o.type IN ('U','V','P','FN','IF','TF')"
@@ -15,13 +25,26 @@ $queries=[ordered]@{
  foreign_keys="SELECT fk.name,fkc.parent_object_id,fkc.parent_column_id,fkc.referenced_object_id,fkc.referenced_column_id,fkc.constraint_column_id,fk.is_disabled,fk.is_not_trusted FROM sys.foreign_keys fk JOIN sys.foreign_key_columns fkc ON fkc.constraint_object_id=fk.object_id"
  definitions="SELECT object_id,definition FROM sys.sql_modules WHERE OBJECTPROPERTY(object_id,'IsMSShipped')=0"
  checks="SELECT parent_object_id,name,definition,is_disabled,is_not_trusted FROM sys.check_constraints WHERE is_ms_shipped=0"
- permissions="SELECT HAS_PERMS_BY_NAME('app','SCHEMA','VIEW DEFINITION') AS can_view_definition"
+ permissions="SELECT HAS_PERMS_BY_NAME(@visibility_schema,'SCHEMA','VIEW DEFINITION') AS can_view_definition"
 }
 try {
- $connection.Open()
- $result=[ordered]@{server=$connection.DataSource;database=$connection.Database;collected_at_utc=[DateTime]::UtcNow.ToString('o')}
+ for($attempt=1;$attempt -le 3;$attempt++) {
+  try { $connection.Open(); break }
+  catch {
+   $sqlError=$_.Exception
+   while($sqlError -and -not ($sqlError -is [System.Data.SqlClient.SqlException])) { $sqlError=$sqlError.InnerException }
+   if($attempt -ge 3 -or -not $sqlError -or $sqlError.Number -notin @(40613,40197,40501,49918,49919,49920)) { throw }
+   $connection.Close()
+   Start-Sleep -Seconds 5
+  }
+ }
+ $result=[ordered]@{server=$connection.DataSource;database=$connection.Database;collected_at_utc=[DateTime]::UtcNow.ToString('o');visibility_schema=$VisibilitySchema}
  foreach($entry in $queries.GetEnumerator()) {
   $command=$connection.CreateCommand(); $command.CommandTimeout=60; $command.CommandText=$entry.Value
+  if($entry.Key -eq 'permissions') {
+   $null=$command.Parameters.Add('@visibility_schema',[System.Data.SqlDbType]::NVarChar,128)
+   $command.Parameters['@visibility_schema'].Value=$VisibilitySchema
+  }
   $reader=$command.ExecuteReader(); $rows=New-Object System.Collections.Generic.List[object]
   try {
    while($reader.Read()) {
