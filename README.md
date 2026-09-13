@@ -62,3 +62,6 @@ See [portal operations](docs/order-portal.md#controlled-order-actions).
 
 Fabric Bronze initial load: 10 table counts match the baseline and eight integrity
 checks passed (user-confirmed). See [Bronze validation](docs/fabric-bronze-validation.md).
+
+Silver now contains ten validated entities, including 100,000 orders.
+See [Silver rules and run evidence](docs/fabric-silver.md). Gold is the next data-platform milestone.

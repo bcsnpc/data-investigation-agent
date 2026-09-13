@@ -1,0 +1,13 @@
+{
+  "workspace_id": "09cea7db-63ec-41f0-9cf0-872a6dc5c61d",
+  "bronze_lakehouse_id": "9d7d4a68-7f33-4a0b-8c2d-f3239eb5f6ad",
+  "silver_lakehouse_id": "3b685f1d-66c8-4323-85d3-4b86f3896b0c",
+  "bronze_pipeline_id": "8cf1c354-1677-4434-a452-1678a6b70aa4",
+  "bronze_copy_job_id": "0e2514a0-33e6-4c26-b562-bb304a71f6af",
+  "bronze_pipeline_run_id": "7d169d18-02c5-468a-ad16-ad8d79156215",
+  "bronze_start_utc": "2026-09-13T04:23:55.0816538",
+  "bronze_end_utc": "2026-09-13T04:25:28.0966667",
+  "silver_notebook_id": "11a2c0e9-47f6-4f48-9683-f68a69752ca0",
+  "silver_notebook_job_id": "ab0efd65-d6ed-45f5-bba1-ddea9eeb31cb",
+  "silver_validation_run_id": "55cdeeb3-0772-494a-8e7f-f0df4da03353"
+}

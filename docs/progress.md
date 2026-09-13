@@ -6,13 +6,13 @@ Updated: 2026-09-12. Source plan: [POC specification](../cross_system_data_inves
 
 Phases 0 (engineering foundation), 1 (business system), and 2 (data platform) are **in progress**.
 The SQL baseline and authenticated order-browsing portal are implemented.
-Ship, deliver and full-line return actions with transactional audit writing are implemented and verified locally against Azure SQL; merged in PR #9 and deployed to Azure App Service; hosted API and browser checks passed. The initial Fabric Bronze copy succeeded: all 10 table counts match and the user confirmed zero failures in eight integrity checks. Silver, Gold, Power BI, lineage and AI remain pending.
+Ship, deliver and full-line return actions with transactional audit writing are implemented and verified locally against Azure SQL; merged in PR #9 and deployed to Azure App Service; hosted API and browser checks passed. Bronze ingestion is independently verified. Silver has ten conformed tables, 100,000 orders and a READY validation report. Gold, Power BI, lineage and AI remain pending.
 
 | Phase | Status | Evidence / remaining work |
 |---|---|---|
 | 0 Engineering foundation | In progress | Private repository, README, SQL scripts, tests and tracking; broader standards and deployment automation remain |
 | 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions deployed and verified; broader specification features remain scoped for follow-up |
-| 2 Data platform | In progress | Initial Bronze load and eight integrity checks passed; run metadata, one-order trace, Silver and Gold remain |
+| 2 Data platform | In progress | Bronze and initial Silver complete: counts, keys, eleven checks and SQL/Bronze order trace passed; Gold and recurring orchestration remain |
 | 3 Analytics | Not started | Semantic model, DAX and reports |
 | 4 Metadata and lineage | Not started | Connectors, graph, traversal and UI |
 | 5 Deterministic investigator | Not started | Cross-layer comparisons, first divergence and evidence |
@@ -40,6 +40,8 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 | 2026-09-12 | Validated initial Fabric Bronze load | User-reported successful copy; screenshot confirms all 10 baseline counts; user confirmed eight integrity checks returned zero; [evidence and remaining work](fabric-bronze-validation.md) |
 
+| 2026-09-12 | Built and verified Silver directly in Fabric | Notebook completed; ten tables, 100k orders, eleven zero-failure checks, source/row run metadata and successful eight-table SQL/Bronze trace; [details](fabric-silver.md) |
+
 ## Decisions and departures from the original draft
 
 - User increased baseline from the draft's 50,000 orders to 100,000. Related
@@ -59,7 +61,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 ## Next milestone
 
-Finish Bronze traceability: record the run ID/time and item IDs, and reconcile one complete order (#5). Then implement Silver transformations and validation. The end-to-end milestone is not achieved until one
+Review the Silver implementation, then define and build Gold reporting aggregates. The end-to-end milestone is not achieved until one
 order can be traced from the app through Azure SQL, Fabric and Power BI.
 
 ## Tracking convention
@@ -74,6 +76,8 @@ relevant documentation. Mark completed work based on evidence, not intended work
 - [ENG-001: Complete engineering foundation](https://github.com/bcsnpc/data-investigation-agent/issues/2) - open
 - [DB-002: Add restricted runtime SQL identities](https://github.com/bcsnpc/data-investigation-agent/issues/3) - closed; merged in PR #6
 - [APP-001: Build Order Operations Portal](https://github.com/bcsnpc/data-investigation-agent/issues/4) - closed: browsing and controlled actions deployed and verified; PRs #8 and #9 merged
-- [FAB-001: Validate enterprise access and ingest Azure SQL to Bronze](https://github.com/bcsnpc/data-investigation-agent/issues/5) - in progress: initial copy, counts and eight integrity checks passed; run metadata and one-order trace pending
+- [FAB-001: Validate enterprise access and ingest Azure SQL to Bronze](https://github.com/bcsnpc/data-investigation-agent/issues/5) - closed: direct API/run evidence, Overwrite confirmation, counts/keys/integrity and full sample-order comparison passed
 
 - [INF-001: Deploy authenticated portal](https://github.com/bcsnpc/data-investigation-agent/issues/7) - closed; deployment merged in PR #8, user confirmed portal access
+
+- [FAB-002: Build and validate Silver](https://github.com/bcsnpc/data-investigation-agent/issues/11) - implemented and executed successfully; code review pending

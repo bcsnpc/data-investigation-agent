@@ -42,17 +42,23 @@ failure count was zero:
 7. Refund lines missing parents or linked to a different order.
 8. Refund headers differing from summed refund-line merchandise plus tax.
 
-This records user-provided Fabric execution evidence, not an independent agent
-query against Fabric. Matching counts and these checks do not establish complete
+The initial evidence above was user-provided; subsequent direct notebook and API verification is recorded below. Matching counts and these checks do not establish complete
 row-by-row equality, key uniqueness, every chronology rule, or an atomic multi-table
 snapshot. The user was instructed to pause order updates for the initial load.
 
-## Remaining FAB-001 work
+## Direct verification completed
 
-- Record actual pipeline/copy run ID, start/end UTC and Lakehouse/Copy job item IDs.
-- Final write mode: Overwrite confirmed by the user after validation.
-- Preserve ingestion metadata and document the batch/run-to-source association.
-- Compare one complete order across SQL and Bronze (for example ORD-000002).
+- Enterprise CLI access verified as the workspace user. API confirmed all ten tables use Overwrite.
+- Pipeline run `7d169d18-02c5-468a-ad16-ad8d79156215` completed successfully,
+  from `2026-09-13T04:23:55.0816538Z` to `2026-09-13T04:25:28.0966667Z`.
+- Item IDs and run association are recorded in `infra/fabric/environment.json`.
+- The notebook independently validated all ten counts, unique/non-null keys and
+  eleven relationship/financial/status checks against pinned Bronze Delta versions.
+- ORD-000002 matched SQL in every compared column across orders (1), lines (2),
+  payments (1), shipments (1), shipment lines (2), refunds (1), refund lines (1)
+  and audit events (7). Total 1682.64; refund 153.00.
+- Source run ID and Delta version map are preserved in Silver rows and the
+  validation report. The source run association is explicit for this baseline.
 
-Initial loading and validation are complete. FAB-001 remains open for these
-traceability items; Silver/Gold transformations and Power BI have not started.
+FAB-001 is complete for the initial ingestion milestone. Recurring snapshot
+coordination and incremental loading remain future work. See [Silver evidence](fabric-silver.md).
