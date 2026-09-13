@@ -48,6 +48,8 @@ jobs:
           python -m unittest discover -s scripts -p test_bronze_publication.py
           python -m unittest discover -s scripts -p test_silver_snapshot_input.py
           python -m unittest discover -s scripts -p test_silver_publication.py
+          python -m unittest discover -s scripts -p test_gold_publication.py
+          python -m py_compile scripts/gold_snapshot_input.py scripts/gold_publication.py scripts/record_gold_publication.py
           python -m py_compile scripts/silver_publication.py scripts/record_silver_publication.py
           python -m py_compile scripts/silver_snapshot_input.py infra/fabric/read_pinned_bronze.py
           pip install -r scripts/requirements-publication.txt
