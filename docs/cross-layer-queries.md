@@ -26,7 +26,7 @@ If the SQL audience needs interactive authentication, run this explicitly in Pow
 & 'D:\data_investigation_agent\.local\fabric-cli-env\Scripts\python.exe' 'D:\data_investigation_agent\scripts\connect_fabric_sql.py'
 ```
 
-The helper verifies the configured tenant. Tokens remain in the existing protected CLI cache or process memory; the SQL token is passed to the child process over stdin, never in command arguments, logs or an exported file. Background queries never initiate interactive sign-in. Hosted identity provisioning remains separate work.
+The helper uses browser authentication with the Windows broker disabled, requests the current development operator `admin@skynwhy.com`, and verifies the configured tenant and selected account. Background SQL reads select that same operator from the existing encrypted cache. The account constant is specific to this development adapter; reusable hosted identity configuration remains follow-up work. Tokens remain in the existing protected CLI cache or process memory; the SQL token is passed to the child process over stdin, never in command arguments, logs or an exported file. Background queries never initiate interactive sign-in. Hosted identity provisioning remains separate work.
 
 ## Boundary interpretation and persistence
 
@@ -50,3 +50,5 @@ Live Azure SQL and Power BI reads agree on 100,000 USD orders and net cash `6489
 Bronze/Silver/Gold endpoint queries are implemented but live verification is pending the additional Fabric SQL audience sign-in. The existing REST and Power BI sessions work; silent SQL-token acquisition returned an authentication broker error. No complete five-layer validation or first broken boundary is claimed yet.
 
 Microsoft references: [SQL endpoint connectivity and Entra authentication](https://learn.microsoft.com/en-us/fabric/data-warehouse/how-to-connect), [Power BI Execute Queries](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/execute-queries-in-group).
+
+Authentication troubleshooting: the initial Windows broker flow failed while showing a different account (`cbusa2025@skynwhy.com`). The SQL helper now uses browser sign-in with an explicit operator hint; REST/Power BI authentication is unchanged. Browser sign-in is still pending user completion. See [Microsoft MSAL account selection and broker documentation](https://learn.microsoft.com/en-us/entra/msal/python/advanced/wam).

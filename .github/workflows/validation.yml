@@ -43,7 +43,7 @@ jobs:
       - name: Test read-only metric adapters and ordered boundaries
         run: |
           python -m unittest discover -s scripts -p test_cross_layer_investigation.py
-          python -m py_compile scripts/cross_layer_investigation.py scripts/investigation_query_worker.py scripts/connect_fabric_sql.py
+          python -m py_compile scripts/cross_layer_investigation.py scripts/investigation_query_worker.py scripts/connect_fabric_sql.py scripts/fabric_sql_auth.py
   powershell-syntax:
     runs-on: windows-latest
     steps:

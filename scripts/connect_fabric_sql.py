@@ -3,7 +3,7 @@ import argparse
 from pathlib import Path
 
 from metadata_config import ROOT, load_config
-from metadata_auth import FabricCliTokens
+from fabric_sql_auth import sign_in, ACCOUNT
 
 
 if __name__ == '__main__':
@@ -11,8 +11,10 @@ if __name__ == '__main__':
     parser.add_argument('--config', type=Path, default=ROOT/'infra/metadata/development.json')
     args = parser.parse_args()
     config = load_config(args.config)
-    from fabric_cli.core.fab_auth import FabAuth
-    # Explicit interactive sign-in only in this helper, never in background queries.
-    FabAuth().get_access_token(['https://database.windows.net/.default'], interactive_renew=True)
-    FabricCliTokens(config['fabric']['auth']['tenant_id']).get_token('https://database.windows.net/.default')
+    print('Opening browser sign-in. Choose '+ACCOUNT+'.', flush=True)
+    try:
+        sign_in(config['fabric']['auth']['tenant_id'])
+    except Exception as exc:
+        print('SQL sign-in did not complete ('+type(exc).__name__+'). Choose '+ACCOUNT+' and retry.')
+        raise SystemExit(1)
     print('Fabric SQL sign-in verified for the configured enterprise tenant. No token exported.')

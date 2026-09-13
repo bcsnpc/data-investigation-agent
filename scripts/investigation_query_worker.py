@@ -8,6 +8,7 @@ from urllib.request import Request, build_opener
 from uuid import UUID
 
 from metadata_auth import FabricCliTokens, NoRedirect
+from fabric_sql_auth import get_sql_token
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -60,7 +61,7 @@ def execute(request):
         raise ValueError('Unsupported SQL host')
     payload = {key: request.get(key) for key in ('layer', 'currency', 'order_id', 'server', 'database', 'credential_file')}
     if layer != 'sql':
-        payload['access_token'] = FabricCliTokens(request['tenant']).get_token('https://database.windows.net/.default')
+        payload['access_token'] = get_sql_token(request['tenant'])
     result = subprocess.run(['powershell', '-NoProfile', '-File', str(ROOT/'infra/scripts/Read-InvestigationMetric.ps1')],
                             input=json.dumps(payload), text=True, capture_output=True, timeout=150)
     if result.returncode:
