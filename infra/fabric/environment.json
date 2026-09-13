@@ -24,5 +24,16 @@
     "Order Operations": "44e960a6-d470-49e4-a791-cc9e8c5c6783",
     "Product Performance": "5d5495a7-0385-4608-8958-c7dd12dd9a10"
   },
-  "semantic_model_refresh_id": "c17842ad-ecb1-4c72-bb7e-0e939135a5f8"
+  "semantic_model_refresh_id": "c17842ad-ecb1-4c72-bb7e-0e939135a5f8",
+  "snapshot_bronze": {
+    "source_snapshot_id": "3b9354f3-af21-4296-a936-91b4a299777a",
+    "source_manifest_sha256": "809b998a4a731072f504e5435e0b3cdd08a61abf18947e926c9cac2ea358601a",
+    "schema": "snapshot_3b9354f3af214296a93691b4a299777a",
+    "publisher_notebook_id": "f7465b47-a127-49fa-91f4-24624a28aebf",
+    "publisher_job_id": "8091da39-ff69-4a8e-ac86-7cb583270380",
+    "verifier_notebook_id": "26cedef4-8133-4446-a694-cbe8878bd3d8",
+    "verification_job_id": "ee41fc12-0e81-4d44-a68f-a4ce47cbdcde",
+    "verification_id": "a28d6885-78a8-4f5a-b97b-59cdd90a265b",
+    "publication_receipt": "Files/source_snapshots/3b9354f3-af21-4296-a936-91b4a299777a/publication.json"
+  }
 }
