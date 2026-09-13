@@ -201,3 +201,5 @@ See [semantic refresh evidence](semantic-snapshot-refresh.md). Exact engine Delt
 Graph `18791918-710b-4dfc-9360-ae328d7ada00` has 373 links and SQL paths for all 41 data-bound visuals. Status remains PARTIAL: ten static-parser gaps in the snapshot publisher/verifier are retained. The initial rebuild without receipt-backed mappings (`f7ae59db-bbd2-4dd4-b258-6bda766d0713`) is retained as historical evidence, not selected as the current build. Seven new audit/parser tests, twelve existing lineage tests and two generator tests pass. No cloud data, definitions or refreshes changed in this step.
 
 See [refreshed lineage](refreshed-lineage.md). Next: make investigation consumers use the explicit refreshed graph and present its publication evidence and remaining limitations; do not infer exact model Delta-version comparability or hide unresolved dependencies.
+
+[PR #42](https://github.com/bcsnpc/data-investigation-agent/pull/42) contains the refreshed lineage work and awaits review. Full-history secret scan passed with no leaks.
