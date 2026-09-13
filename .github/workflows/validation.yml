@@ -37,6 +37,7 @@ jobs:
           python -m unittest discover -s scripts -p test_lineage.py
           python -m unittest discover -s scripts -p test_lineage_audit.py
           python -m unittest discover -s scripts -p test_lineage_gap_policy.py
+          python -m unittest discover -s scripts -p test_publication_lineage_contract.py
           python -m py_compile scripts/lineage_graph.py scripts/lineage_notebook.py scripts/collect_lineage_evidence.py scripts/validate_lineage.py
       - name: Test deterministic investigation evidence
         run: |

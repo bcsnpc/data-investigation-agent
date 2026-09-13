@@ -27,4 +27,5 @@ def eligibility(graph, downstream):
             'lineage_conclusions_allowed':not blockers,
             'automatic_defect_routing_allowed':False,
             'blocking_gaps':blockers,'unrelated_gap_count':len(classified)-len(blockers),
+            'resolved_parser_gap_count':len(graph.resolved_gaps),
             'limitation':'Lineage eligibility alone does not establish snapshot compatibility or a technical defect'}
