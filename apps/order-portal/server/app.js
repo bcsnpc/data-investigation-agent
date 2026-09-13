@@ -1,3 +1,4 @@
+import { parseAction } from "./actions.js";
 import express from "express";
 import helmet from "helmet";
 import { rateLimit } from "express-rate-limit";
@@ -128,6 +129,36 @@ export function createApp({
       next(error);
     }
   });
+  app.post("/api/orders/:id/actions", async (req, res, next) => {
+    // Non-simple custom header + JSON enforce same-origin browser requests (no CORS enabled).
+    if (
+      !req.is("application/json") ||
+      req.get("X-Order-Action") !== "1" ||
+      (req.get("Sec-Fetch-Site") && req.get("Sec-Fetch-Site") !== "same-origin")
+    )
+      return res
+        .status(403)
+        .json({ error: "Submit actions from this portal." });
+    if (!validOrderId(req.params.id))
+      return res.status(400).json({ error: "Invalid order ID." });
+    let command;
+    try {
+      command = parseAction(req.body);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+    try {
+      res.json(await database.action(req.params.id, command));
+    } catch (error) {
+      if ([51000, 51001, 2601, 2627, 1205, 1222].includes(error.number))
+        return res.status(error.number === 51001 ? 404 : 409).json({
+          error: [51000, 51001].includes(error.number)
+            ? error.message
+            : "Conflicting update or tracking number. Refresh and retry.",
+        });
+      next(error);
+    }
+  });
   app.use("/api", (_req, res) =>
     res.status(404).json({ error: "Endpoint not found." }),
   );
@@ -145,12 +176,10 @@ export function createApp({
         code: error.code || "ERROR",
       }),
     );
-    res
-      .status(error.type === "entity.parse.failed" ? 400 : 503)
-      .json({
-        error: "Unable to complete this request. Please try again.",
-        requestId: id,
-      });
+    res.status(error.type === "entity.parse.failed" ? 400 : 503).json({
+      error: "Unable to complete this request. Please try again.",
+      requestId: id,
+    });
   });
   return app;
 }

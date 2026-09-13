@@ -1,3 +1,4 @@
+import { OrderActions } from "./OrderActions";
 import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
@@ -54,6 +55,30 @@ async function api<T>(path: string, signal?: AbortSignal): Promise<T> {
         : data.error || "Request failed.",
     );
   return data;
+}
+function auditText(event: Row): string {
+  if (event.operation === "ACTION" || event.field === "record") {
+    try {
+      const value = JSON.parse(String(event.new_value));
+      if (event.operation === "ACTION")
+        return `${label(event.field)}: ${value.reason}`;
+      if (event.entity_type === "shipment")
+        return value.delivered_at
+          ? "Delivery recorded"
+          : `Shipment created: ${value.carrier}`;
+      if (event.entity_type === "refund")
+        return `Refund issued: ${money(value.refund_amount)}`;
+    } catch {
+      return `${label(event.entity_type)} ${label(event.operation).toLowerCase()}`;
+    }
+  }
+  if (event.entity_type === "order")
+    return event.old_value
+      ? `${label(event.old_value)} ? ${label(event.new_value)}`
+      : label(event.new_value);
+  if (event.entity_type === "payment")
+    return `Payment ${label(event.new_value).toLowerCase()}`;
+  return `Refund issued: ${money(event.new_value)}`;
 }
 function Status({ value }: { value: unknown }) {
   return (
@@ -140,7 +165,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
     </div>
   );
 }
-function OrderList() {
+function OrderList({ revision }: { revision: number }) {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [from, setFrom] = useState("");
@@ -161,7 +186,7 @@ function OrderList() {
         if (error.name !== "AbortError") setSummaryError(true);
       });
     return () => controller.abort();
-  }, []);
+  }, [revision]);
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
@@ -175,7 +200,7 @@ function OrderList() {
         if (!controller.signal.aborted) setLoading(false);
       });
     return () => controller.abort();
-  }, [query, refresh]);
+  }, [query, refresh, revision]);
   function apply(e?: React.FormEvent) {
     e?.preventDefault();
     setRefresh((value) => value + 1);
@@ -391,7 +416,7 @@ function OrderList() {
     </>
   );
 }
-function OrderDetail({ id }: { id: string }) {
+function OrderDetail({ id, onChanged }: { id: string; onChanged: () => void }) {
   const [data, setData] = useState<DetailResult | null>(null);
   const [error, setError] = useState("");
   useEffect(() => {
@@ -435,6 +460,19 @@ function OrderDetail({ id }: { id: string }) {
         </div>
         <Status value={order.status} />
       </div>
+      <OrderActions
+        key={`${id}:${order.updated_at}`}
+        order={order}
+        lines={lines}
+        refundLines={refundLines}
+        onSaved={async () => {
+          const fresh = await api<DetailResult>(
+            `/api/orders/${encodeURIComponent(id)}`,
+          );
+          setData(fresh);
+          onChanged();
+        }}
+      />
       <div className="detail-grid">
         <div>
           <section className="card">
@@ -551,13 +589,7 @@ function OrderDetail({ id }: { id: string }) {
                 <li key={String(a.event_id)}>
                   <span className="timeline-dot" />
                   <div>
-                    <strong>
-                      {a.entity_type === "order"
-                        ? label(a.new_value)
-                        : a.entity_type === "payment"
-                          ? `Payment ${label(a.new_value).toLowerCase()}`
-                          : `Refund issued · ${money(a.new_value)}`}
-                    </strong>
+                    <strong>{auditText(a)}</strong>
                     <span className="subtext">
                       {date(a.timestamp, true)} · {a.user_id}
                     </span>
@@ -619,6 +651,7 @@ function OrderDetail({ id }: { id: string }) {
   );
 }
 function App() {
+  const [revision, setRevision] = useState(0);
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [sessionError, setSessionError] = useState("");
   const [hash, setHash] = useState(location.hash);
@@ -684,9 +717,15 @@ function App() {
         </header>
         <main className="content">
           <div hidden={Boolean(id)}>
-            <OrderList />
+            <OrderList revision={revision} />
           </div>
-          {id ? <OrderDetail id={id} /> : null}
+          {id ? (
+            <OrderDetail
+              key={id}
+              id={id}
+              onChanged={() => setRevision((v) => v + 1)}
+            />
+          ) : null}
         </main>
         <footer>
           Northline Operations <span>Development environment · USD · UTC</span>

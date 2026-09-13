@@ -1,7 +1,8 @@
-# Order Operations Portal: first release
+# Order Operations Portal
 
-Tracking: APP-001 (#4). The first release supports authenticated, read-only
-order browsing. Updates and transactional live audit writing remain pending.
+Tracking: APP-001 (#4). Browsing is deployed (PR #8). Ship/deliver/return actions
+and transactional audit writing are implemented and verified on the feature branch;
+the action release is not deployed yet.
 
 Live development URL: https://orderops-portal-9696025.azurewebsites.net
 
@@ -26,7 +27,7 @@ Northline is fictional demo branding, not a real retailer.
 - Overview counts and paginated orders, 25 per page.
 - Literal order/customer search, status filter and inclusive date filters.
 - Order detail: customer, lines, promotions/coupons, tax, payments, shipments,
-  refund lines and related order/payment/refund audit events.
+  refund lines and related order/payment/shipment/refund audit events.
 - UTC date display and USD formatting; order total is not labeled revenue.
 - Loading/error/empty states, preserved filters when returning from details,
   and responsive desktop/mobile layouts.
@@ -36,8 +37,9 @@ Northline is fictional demo branding, not a real retailer.
 
 This is single-operator demo authentication, not enterprise SSO. Session signing
 is stateless: logout clears the browser cookie; rotating SESSION_SECRET revokes
-all issued sessions. The next application write phase must add business-rule
-validation, actor attribution, CSRF protection and atomic audit insertion.
+all issued sessions. Writes use a server-assigned shared `portal-operator` identity;
+this does not identify individual people. JSON plus a required custom header,
+Fetch Metadata checks and no CORS support reject cross-site browser writes.
 
 ## Local operation
 
@@ -113,3 +115,66 @@ no database schema/data changes are part of this portal deployment.
 References: [Node App Service quickstart](https://learn.microsoft.com/en-us/azure/app-service/quickstart-nodejs),
 [ZIP deployment](https://learn.microsoft.com/en-us/azure/app-service/deploy-zip),
 [application settings API](https://learn.microsoft.com/en-us/rest/api/appservice/web-apps/update-application-settings?view=rest-appservice-2024-11-01).
+
+## Controlled order actions (awaiting release)
+
+- Ship a PAID order: requires one captured payment matching its total, reconciled
+  lines, and no existing shipments/refunds. Creates one shipment with every order
+  line and changes status to SHIPPED. Carrier and unique tracking number required.
+- Deliver a SHIPPED order: verifies shipment coverage and chronology, records UTC
+  delivery and changes status to DELIVERED.
+- Return selected lines on a DELIVERED/PARTIALLY_RETURNED order: returns all units
+  of each selected line. Uses stored `line_total` (after both discounts) plus
+  original `tax_amount`, calculated as SQL decimal, never client amounts. Creates
+  refund/header lines tied to the captured payment; status becomes PARTIALLY_RETURNED
+  or RETURNED. Previously returned or unrelated lines and over-refunds are rejected.
+- These are synthetic business records: no carrier or payment gateway is contacted.
+  Split shipments, partial line quantities, cancellations and payment capture are
+  outside this release. Existing baseline lifecycle conventions are preserved.
+
+`POST /api/orders/:id/actions` accepts action, UUID-v4 requestId, expectedUpdatedAt,
+reason, and carrier/trackingNumber (ship) or lineIds (return). Authentication and
+input validation precede SQL. Client actor, amounts and timestamps cannot override
+server-owned values. Reasons are required for every action.
+
+A SQL transaction holds an update lock on the order through business writes and
+three audit inserts (status before/after, related record before/after including
+new line records, and action reason/request payload). A failure rolls back all
+changes. Each request ID is an audit primary key: an identical retry returns
+success without repeating writes, while changed payloads conflict. `updated_at`
+provides an optimistic version; locks serialize concurrent portal actions. A
+five-second lock wait returns a conflict for refresh/retry. This protocol governs
+portal actions; direct admin SQL writers must follow equivalent invariants.
+Detail reads hold the order lock while fetching related tables so portal writes
+cannot commit halfway through a detail response.
+
+The browser refreshes detail, list and counts after success. Retrying unchanged
+form values keeps the request ID if a response is lost. Refreshing the browser
+loses that ID, but lifecycle/version checks still reject an already-applied ship
+or delivery and previously returned lines.
+
+### Write verification
+
+```powershell
+powershell -ExecutionPolicy Bypass -File infra/scripts/Test-OrderActions.ps1
+```
+
+Uses the restricted app credential and rolls back every transaction. Verified:
+authenticated API -> Azure SQL -> shipment/delivery/partial/full refunds; exact
+refund sums including discounted merchandise and tax; 12 audit entries across
+four actions; identical retries; stale version; invalid transition; changed
+request payload; competing connection lock; duplicate/unrelated returned lines;
+captured-payment mismatch; unchanged baseline after rollback.
+
+`-Browser` starts an isolated localhost-only harness on port 3001 with a bounded
+15-minute rollback transaction and a test-only password `rollback-browser-test`.
+It is excluded from deployment. Stop with Ctrl+C; disconnect also rolls back.
+Browser verification exercised ship -> deliver -> partial return, refreshed
+status/refund/audit display, and 390px layout without horizontal page overflow or
+browser errors. The harness serializes requests because one transaction uses one
+SQL connection; the normal server uses its connection pool.
+
+The 100k seed is an initial snapshot. After actual portal actions are committed,
+status/refund/audit counts and timestamps will legitimately change. Do not treat
+the original cutoff-specific baseline report as a live-data acceptance test or
+reload the baseline over live changes. Code rollback does not undo business writes.

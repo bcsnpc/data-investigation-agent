@@ -6,12 +6,12 @@ Updated: 2026-09-12. Source plan: [POC specification](../cross_system_data_inves
 
 Phase 0 (engineering foundation) and Phase 1 (business system) are **in progress**.
 The SQL baseline and authenticated order-browsing portal are implemented.
-Business updates and live audit writing remain pending. No Fabric, Power BI, lineage engine or AI integration is complete.
+Ship, deliver and full-line return actions with transactional audit writing are implemented and verified locally against Azure SQL; PR review and deployment remain pending. No Fabric, Power BI, lineage engine or AI integration is complete.
 
 | Phase | Status | Evidence / remaining work |
 |---|---|---|
 | 0 Engineering foundation | In progress | Private repository, README, SQL scripts, tests and tracking; broader standards and deployment automation remain |
-| 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; portal browsing implemented; controlled updates and live audit writing remain |
+| 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions verified; action release review/deployment remain |
 | 2 Data platform | Not started | Fabric Bronze/Silver/Gold, ingestion and validation |
 | 3 Analytics | Not started | Semantic model, DAX and reports |
 | 4 Metadata and lineage | Not started | Connectors, graph, traversal and UI |
@@ -36,6 +36,8 @@ Business updates and live audit writing remain pending. No Fabric, Power BI, lin
 | 2026-09-12 | Implemented APP-001 browsing release | React/Vite portal, authenticated Node API, live SQL reads and local browser/API verification; [details](order-portal.md) |
 | 2026-09-12 | Deployed portal to Azure App Service | Central US, F1 Free, HTTPS; public API smoke tests passed; controlled updates remain pending |
 
+| 2026-09-12 | Implemented controlled order actions | Ship/deliver/return, exact SQL refund arithmetic, atomic audit, stale/retry/concurrency protection; API-to-SQL and mobile browser verification rolled back; action release awaits review/deployment |
+
 ## Decisions and departures from the original draft
 
 - User increased baseline from the draft's 50,000 orders to 100,000. Related
@@ -47,7 +49,7 @@ Business updates and live audit writing remain pending. No Fabric, Power BI, lin
   App/service directories will be introduced as those components are implemented.
 - A root commit is needed to bootstrap the empty repository. Normal development
   after bootstrap will use feature branches and pull requests.
-- Synthetic audit events exist, but live application audit logging is pending.
+- Synthetic audit events exist; portal actions now write audit events atomically. Write verification used rollback-only transactions, preserving the baseline.
 - Admin credentials remain for schema/setup scripts. Restricted app, Fabric and
   investigator users are provisioned and verified; future runtime integrations
   must use their designated credentials.
@@ -55,9 +57,8 @@ Business updates and live audit writing remain pending. No Fabric, Power BI, lin
 
 ## Next milestone
 
-Complete the operational business system: add safe updates with transactional
-audit events to the implemented order list and detail screens. Then establish
-the first Fabric pipeline. The end-to-end milestone is not achieved until one
+Review and deploy the operational action release, then establish the first
+Fabric pipeline. The end-to-end milestone is not achieved until one
 order can be traced from the app through Azure SQL, Fabric and Power BI.
 
 ## Tracking convention
@@ -71,7 +72,7 @@ relevant documentation. Mark completed work based on evidence, not intended work
 - [DATA-001: Connected 100,000-order baseline](https://github.com/bcsnpc/data-investigation-agent/issues/1) - closed
 - [ENG-001: Complete engineering foundation](https://github.com/bcsnpc/data-investigation-agent/issues/2) - open
 - [DB-002: Add restricted runtime SQL identities](https://github.com/bcsnpc/data-investigation-agent/issues/3) - closed; merged in PR #6
-- [APP-001: Build Order Operations Portal](https://github.com/bcsnpc/data-investigation-agent/issues/4) - in progress: browsing deployed and verified; controlled updates and live audit writing pending
+- [APP-001: Build Order Operations Portal](https://github.com/bcsnpc/data-investigation-agent/issues/4) - in progress: browsing deployed; ship/deliver/return and atomic audit verified; action PR review/deployment pending
 - [FAB-001: Validate enterprise access and ingest Azure SQL to Bronze](https://github.com/bcsnpc/data-investigation-agent/issues/5) - open
 
-- [INF-001: Deploy authenticated portal](https://github.com/bcsnpc/data-investigation-agent/issues/7) - deployed and verified; PR review pending
+- [INF-001: Deploy authenticated portal](https://github.com/bcsnpc/data-investigation-agent/issues/7) - closed; deployment merged in PR #8, user confirmed portal access
