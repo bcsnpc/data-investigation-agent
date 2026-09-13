@@ -1,5 +1,6 @@
 """Conservative static notebook dataflow. Never imports or executes notebook code."""
 import ast
+import hashlib
 from dataclasses import dataclass
 import sqlglot
 from sqlglot import exp
@@ -15,6 +16,12 @@ class Value:
 class StaticNotebook:
     def __init__(self, code):
         self.code=code; self.env={}; self.nodes={}; self.views={}; self.writes=[]; self.gaps=[]; self.steps=0
+        tree=ast.parse(code)
+        helpers=[n for n in ast.walk(tree) if isinstance(n,ast.FunctionDef) and n.name=='read_pinned_bronze']
+        self.pinned_reader = (len(helpers)==1 and helpers[0] in tree.body
+            and hashlib.sha256(ast.dump(helpers[0],include_attributes=False).encode()).hexdigest()==
+                'b005d4efea5c348430b46e5568506a158248449bb798769888bca75b666afdd4'
+            and not any(isinstance(n,ast.Name) and isinstance(n.ctx,ast.Store) and n.id=='read_pinned_bronze' for n in ast.walk(tree)))
 
     def node(self, refs, line, detail, transparent=False):
         key='node:'+str(len(self.nodes))
@@ -75,6 +82,14 @@ class StaticNotebook:
         keywords=[self.eval(k.value) for k in n.keywords]
         name=n.func.attr if isinstance(n.func,ast.Attribute) else getattr(n.func,'id','')
         base=self.eval(n.func.value) if isinstance(n.func,ast.Attribute) else Value()
+        if isinstance(n.func,ast.Name) and name=='read_pinned_bronze':
+            binding=args[2] if len(args)==3 else None
+            if self.pinned_reader and isinstance(binding,dict) and binding.get('status')=='BOUND_INPUTS':
+                tables=binding.get('tables',[])
+                if isinstance(tables,list) and len(tables)==10 and all(isinstance(r,dict) and isinstance(r.get('source_table'),str) and isinstance(r.get('destination'),str) for r in tables) and len({r['source_table'] for r in tables})==10:
+                    return {r['source_table']:Value(None,frozenset({r['destination']})) for r in tables}
+            self.gaps.append((n.lineno,'Unrecognized pinned reader or unresolved binding'))
+            return Value()
         if name in ('keys','values','items') and isinstance(base,dict): return list(getattr(base,name)())
         if name=='zip' and all(isinstance(a,(list,tuple)) for a in args): return list(zip(*args))
         if name=='dict' and args and isinstance(args[0],list):
