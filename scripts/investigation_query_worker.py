@@ -76,13 +76,23 @@ def execute(request):
     if layer=='bronze':payload['bronze_schema']=schema
     if layer != 'sql':
         payload['access_token'] = get_sql_token(request['tenant'])
-    result = subprocess.run(['powershell', '-NoProfile', '-File', str(ROOT/'infra/scripts/Read-InvestigationMetric.ps1')],
-                            input=json.dumps(payload), text=True, capture_output=True, timeout=150)
-    if result.returncode:
-        # Only fixed error code/type/stage/number is emitted by the SQL helper.
-        failure = json.loads(result.stdout)
-        return {key: failure.get(key) for key in ('error', 'error_type', 'stage', 'sql_error_number')}
-    return json.loads(result.stdout)
+    def read():
+        result = subprocess.run(['powershell', '-NoProfile', '-File', str(ROOT/'infra/scripts/Read-InvestigationMetric.ps1')],
+                                input=json.dumps(payload), text=True, capture_output=True, timeout=150)
+        value = json.loads(result.stdout)
+        if not isinstance(value, dict):
+            raise ValueError('Invalid SQL response')
+        if result.returncode:
+            if value.get('error') != 'SQL_READ_FAILED':
+                raise ValueError('Invalid SQL failure response')
+            return {key: value.get(key) for key in ('error', 'error_type', 'stage', 'sql_error_number')}
+        if not isinstance(value.get('values'), dict):
+            raise ValueError('Missing SQL values')
+        return value
+    if layer == 'sql':
+        from sql_connect_retry import read_with_retry
+        return read_with_retry(read)
+    return read()
 
 
 if __name__ == '__main__':
