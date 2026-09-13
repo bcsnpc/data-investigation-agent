@@ -7,6 +7,7 @@ from urllib.parse import unquote, urlsplit
 from pathlib import Path
 from metadata_config import ROOT
 from lineage_notebook import StaticNotebook
+from publication_lineage_contract import resolve as publication_scope
 
 DEFAULT_KINDS={'data','binding','presentation','context'}
 
@@ -21,7 +22,7 @@ def walk(value,path='$'):
 
 class Graph:
     def __init__(self,assets):
-        self.assets={a['id']:a for a in assets}; self.edges={}; self.gaps=[]
+        self.assets={a['id']:a for a in assets}; self.edges={}; self.gaps=[]; self.resolved_gaps=[]
     def edge(self,source,target,kind,evidence,detail):
         if source not in self.assets or target not in self.assets:
             self.gap(target,'Asset reference not resolved',detail); return
@@ -102,6 +103,16 @@ def build(assets,supplement):
             try: writes,gaps=StaticNotebook(part['meta']['content']).analyze()
             except Exception as exc:
                 graph.gap(part['parent'],'Notebook parsing failed',type(exc).__name__);continue
+            contract=publication_scope(part['meta']['content'],supplement.get('snapshot_mappings',[]))
+            if contract and all(graph.table_path(path) for path in contract['verified_table_dependencies']):
+                for line,reason in gaps:
+                    graph.resolved_gaps.append({'asset':part['parent'],'reason':reason,'detail':{'line':line},
+                        'definition_asset':part['id'],'definition_hash':part['hash'],'evidence':contract})
+                for path in contract['possible_table_writes']:
+                    graph.edge(part['parent'],graph.table_path(path),'produces',part['id'],contract)
+                for path in contract['verified_table_dependencies']:
+                    graph.edge(graph.table_path(path),part['parent'],'verification_input',part['id'],contract)
+                continue
             for line,reason in gaps: graph.gap(part['parent'],reason,{'line':line})
             for write in writes:
                 target=graph.table_path(write['destination'])
@@ -206,7 +217,8 @@ def persist(database,scan,graph,supplement):
         db.executescript('''CREATE TABLE IF NOT EXISTS lineage_runs(id TEXT PRIMARY KEY,scan_id TEXT,created TEXT,status TEXT,supplement TEXT);
         CREATE TABLE IF NOT EXISTS lineage_edges(run_id TEXT,source TEXT,target TEXT,kind TEXT,evidence TEXT,PRIMARY KEY(run_id,source,target,kind));
         CREATE TABLE IF NOT EXISTS lineage_gaps(run_id TEXT,asset TEXT,reason TEXT,detail TEXT);''')
-        db.execute('INSERT INTO lineage_runs VALUES(?,?,?,?,?)',(run,scan,datetime.now(timezone.utc).isoformat(),'PARTIAL' if graph.gaps else 'COMPLETE',json.dumps(supplement)))
+        retained=dict(supplement,resolved_parser_gaps=graph.resolved_gaps)
+        db.execute('INSERT INTO lineage_runs VALUES(?,?,?,?,?)',(run,scan,datetime.now(timezone.utc).isoformat(),'PARTIAL' if graph.gaps else 'COMPLETE',json.dumps(retained)))
         db.executemany('INSERT INTO lineage_edges VALUES(?,?,?,?,?)',[(run,*key,json.dumps(proof)) for key,proof in graph.edges.items()])
         db.executemany('INSERT INTO lineage_gaps VALUES(?,?,?,?)',[(run,x['asset'],x['reason'],json.dumps(x['detail'])) for x in graph.gaps]);db.commit()
     return run
@@ -228,6 +240,8 @@ def load_graph(database,run=None):
         if not row:raise ValueError('Lineage build not found')
         run,scan=row
         graph=Graph(load_assets(database,scan))
+        retained=json.loads(db.execute('SELECT supplement FROM lineage_runs WHERE id=?',(run,)).fetchone()[0])
+        graph.resolved_gaps=retained.get('resolved_parser_gaps',[])
         for source,target,kind,evidence in db.execute('SELECT source,target,kind,evidence FROM lineage_edges WHERE run_id=?',(run,)):
             graph.edges[(source,target,kind)]=json.loads(evidence)
         graph.gaps=[{'asset':a,'reason':r,'detail':json.loads(d)} for a,r,d in db.execute('SELECT asset,reason,detail FROM lineage_gaps WHERE run_id=?',(run,))]

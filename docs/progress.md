@@ -205,3 +205,15 @@ See [refreshed lineage](refreshed-lineage.md). Next: make investigation consumer
 [PR #42](https://github.com/bcsnpc/data-investigation-agent/pull/42) contains the refreshed lineage work and awaits review. Full-history secret scan passed with no leaks.
 
 PR #42 pre-merge follow-up: added gap classification and enforcement in generic investigation checks and cross-layer boundary evaluation. Relevant or unscoped gaps return INSUFFICIENT_EVIDENCE, preserve diagnostic comparisons, and block verified divergence claims; unrelated scoped gaps do not block a supported path. All ten current publisher/verifier gaps are UNSCOPED, so the audit finds 41 SQL paths but zero paths eligible for definitive lineage conclusions. No gaps were relabeled resolved. Six policy tests and 33 comparison/investigation/audit/generator tests pass. PR #42 remains unmerged. Next: establish execution-specific scope for these ten gaps or extend reviewed parser support before enabling conclusions on affected paths.
+
+PR #42 subsequently merged at `e509efd0ffb3864a8c3abeb06792de692eefb8c7`; issue #41 closed. Its blocked graph is retained as historical evidence.
+
+## LIN-003 reviewed publication scope
+
+[Issue #43](https://github.com/bcsnpc/data-investigation-agent/issues/43) adds a narrow exact-code contract for the captured publisher/verifier. Review establishes ten possible publisher table destinations and zero verifier table writes, bound to the verified source manifest and Bronze proof. This resolves finite dependency scope without inventing historical branch-execution evidence.
+
+Build `549f1a33-5b04-40c3-8b64-718d507e480c` contains 403 links, zero remaining parser gaps and ten retained RESOLVED_BY_REVIEWED_CONTRACT records. All 41 data-bound visuals pass the lineage eligibility check. Changed code, parameters or publication mappings restore the blocks. Six contract tests, twelve lineage tests, six gap-policy tests, seven audit tests and two generator tests pass. No cloud mutation occurred. See [publication scope review](publication-lineage-scope.md).
+
+Next: use this explicit graph build in investigation acquisition and expose its versioned evidence. Metric/snapshot compatibility checks remain required; exact model Delta-version comparability is still false and no automatic defect routing is enabled.
+
+[PR #44](https://github.com/bcsnpc/data-investigation-agent/pull/44) contains the reviewed scope resolution and awaits review. Full-history secret scan passed with no leaks.

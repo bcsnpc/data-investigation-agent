@@ -25,6 +25,8 @@ def audit(graph):
             'source_paths_found':sum(r['status']=='SOURCE_PATH_FOUND' for r in results),
             'gap_reasons':dict(sorted(Counter(g['reason'] for g in graph.gaps).items())),
             'classified_gaps':[classify(graph,g) for g in graph.gaps],
+            'resolved_parser_gaps':graph.resolved_gaps,
+            'resolved_parser_gap_count':len(graph.resolved_gaps),
             'investigation_supported_visuals':sum(r['investigation_eligibility']['lineage_conclusions_allowed'] for r in results),
             'gaps':graph.gaps,'visual_paths':results,
             'scope':'Captured static dependencies only; a source path does not prove complete runtime lineage. Unbound visuals may be text or unresolved.'}
@@ -38,4 +40,4 @@ if __name__=='__main__':
     result={'lineage_run':args.run,**audit(load_graph(args.database,args.run))}
     output=args.database.parent/('lineage-audit-'+args.run+'.json')
     output.write_text(json.dumps(result,indent=2),encoding='utf-8')
-    print(json.dumps({k:v for k,v in result.items() if k not in ('visual_paths','gaps','classified_gaps','visuals_without_discovered_binding')},indent=2))
+    print(json.dumps({k:v for k,v in result.items() if k not in ('visual_paths','gaps','classified_gaps','resolved_parser_gaps','visuals_without_discovered_binding')},indent=2))
