@@ -14,7 +14,7 @@ The project specification is in [cross_system_data_investigator_poc.md](cross_sy
 **Development portal:** https://orderops-portal-9696025.azurewebsites.net
 
 See [portal setup, access and deployment](docs/order-portal.md). Order browsing is
-deployed. Transactional order actions are implemented and verified; review and deployment remain the next milestone.
+deployed, including transactional shipping, delivery and full-line returns with audit history.
 
 See [synthetic data rules and loading instructions](docs/synthetic-data.md).
 See [runtime identities](docs/runtime-identities.md) for credentials and permission boundaries.
@@ -57,5 +57,11 @@ use Windows PowerShell 5.1 and .NET System.Data.SqlClient. The portal uses Node 
 No Fabric ingestion or AI investigation engine is implemented yet.
 
 Order action release: ship, deliver and full-line returns with transactional audit
-are implemented and verified on the feature branch; review/deployment pending.
-See [portal operations](docs/order-portal.md#controlled-order-actions-awaiting-release).
+are deployed and verified on Azure App Service.
+See [portal operations](docs/order-portal.md#controlled-order-actions).
+
+Fabric Bronze initial load: 10 table counts match the baseline and eight integrity
+checks passed (user-confirmed). See [Bronze validation](docs/fabric-bronze-validation.md).
+
+Silver now contains ten validated entities, including 100,000 orders.
+See [Silver rules and run evidence](docs/fabric-silver.md). Gold is the next data-platform milestone.
