@@ -124,4 +124,4 @@ The backend stores lineage runs, edges and gaps in SQLite, with definition hashe
 
 Live semantic refresh acquisition persisted run `7b04d9cc-01ed-42e2-be04-d1ad34c774a0`; the connection succeeded and freshness remains UNKNOWN because no policy is configured. Executive Sales / Net Sales resolved uniquely with zero relevant lineage gaps. Twelve investigation tests, twelve lineage tests, sixteen metadata tests and two generator tests pass. See [contracts and verification](investigation-checks.md).
 
-This is a backend foundation, not completed end-to-end investigation: live cross-layer business query adapters, runtime filter reproduction, snapshot propagation and root-cause classification remain next. No cloud data, definitions or refresh schedules changed. Review pending.
+This is a backend foundation, not completed end-to-end investigation: live cross-layer business query adapters, runtime filter reproduction, snapshot propagation and root-cause classification remain next. No cloud data, definitions or refresh schedules changed. [PR #24](https://github.com/bcsnpc/data-investigation-agent/pull/24) pending review.
