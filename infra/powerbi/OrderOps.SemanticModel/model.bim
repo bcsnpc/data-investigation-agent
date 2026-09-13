@@ -1,0 +1,1234 @@
+{
+  "compatibilityLevel": 1604,
+  "model": {
+    "culture": "en-US",
+    "sourceQueryCulture": "en-US",
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "discourageImplicitMeasures": true,
+    "annotations": [
+      {
+        "name": "GoldValidationRun",
+        "value": "f4e5f3e9-455b-4f99-9a55-408268444b8c"
+      }
+    ],
+    "expressions": [
+      {
+        "name": "GoldSource",
+        "kind": "m",
+        "expression": "let database = Sql.Database(\"i4iptx6c5nlundn6llzsrvlxqa-3ot44cpmmpyedhhqq4vg3rogdu.datawarehouse.fabric.microsoft.com\", \"701ab1fc-4a8e-48dc-92fd-8640740bb854\") in database"
+      }
+    ],
+    "tables": [
+      {
+        "name": "DimDate",
+        "lineageTag": "bb9b8815-0da3-5c50-b28f-10b4ff563e77",
+        "columns": [
+          {
+            "name": "date",
+            "sourceColumn": "date",
+            "dataType": "dateTime",
+            "summarizeBy": "none",
+            "lineageTag": "7ac260d4-ae8c-592d-b7e4-7d75744dfc2b",
+            "formatString": "yyyy-MM-dd",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ]
+          },
+          {
+            "name": "year",
+            "sourceColumn": "year",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "02d841e3-4d2e-5815-9c27-4b216a5dc26f"
+          },
+          {
+            "name": "month_number",
+            "sourceColumn": "month_number",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "a3e36d80-90a4-527a-9de2-b96d16075f15"
+          },
+          {
+            "name": "month",
+            "sourceColumn": "month",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "3220ffd4-a47d-545e-8343-640e40caa4c9",
+            "sortByColumn": "month_number"
+          },
+          {
+            "name": "year_month",
+            "sourceColumn": "year_month",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "b987c653-2e37-5f0d-a545-5723c8f8e828"
+          },
+          {
+            "name": "quarter",
+            "sourceColumn": "quarter",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "d5c435f0-4254-5ee5-a695-78a56d646305"
+          },
+          {
+            "name": "_gold_run_id",
+            "sourceColumn": "_gold_run_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "dc2d0d9c-7287-50be-804c-f72dc6a2d5c4",
+            "isHidden": true
+          }
+        ],
+        "description": "Gold dim_date; validated snapshot f4e5f3e9-455b-4f99-9a55-408268444b8c.",
+        "partitions": [
+          {
+            "name": "DimDate",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "dbo",
+              "entityName": "dim_date",
+              "expressionSource": "GoldSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimCustomer",
+        "lineageTag": "989c1b13-e59d-5511-9579-70c287abe06f",
+        "columns": [
+          {
+            "name": "customer_id",
+            "sourceColumn": "customer_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "20f024ef-5e52-556f-9ed5-0fd7a64a7bb4"
+          },
+          {
+            "name": "customer_name",
+            "sourceColumn": "customer_name",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "d40fc7b3-1f1b-536f-9ac7-33a2898aa80f"
+          },
+          {
+            "name": "customer_segment",
+            "sourceColumn": "customer_segment",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "0f29b7d1-cb55-5eb0-bf88-439c34805c58"
+          },
+          {
+            "name": "state_code",
+            "sourceColumn": "state_code",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "384f6337-75a5-577a-a17a-55e80c03a1dc"
+          },
+          {
+            "name": "country_code",
+            "sourceColumn": "country_code",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "37ab2e01-f837-5069-98ab-89fb28ee55b9"
+          },
+          {
+            "name": "_gold_run_id",
+            "sourceColumn": "_gold_run_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "b7a3762e-629d-50f1-a4ae-741971b0c16a",
+            "isHidden": true
+          }
+        ],
+        "description": "Gold dim_customer; validated snapshot f4e5f3e9-455b-4f99-9a55-408268444b8c.",
+        "partitions": [
+          {
+            "name": "DimCustomer",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "dbo",
+              "entityName": "dim_customer",
+              "expressionSource": "GoldSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "DimProduct",
+        "lineageTag": "d6714353-a7a8-5152-9182-192c289510e0",
+        "columns": [
+          {
+            "name": "product_id",
+            "sourceColumn": "product_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "8d4fc7d3-403f-584e-8f9c-7145c05fa9c6"
+          },
+          {
+            "name": "product_name",
+            "sourceColumn": "product_name",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "4172b737-bf44-52ee-8822-f84611711f3d"
+          },
+          {
+            "name": "category",
+            "sourceColumn": "category",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "ccc2ac89-1979-5dbb-81fe-f4b66e99108d"
+          },
+          {
+            "name": "subcategory",
+            "sourceColumn": "subcategory",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "9424f800-9204-59f6-99b2-92f2b249851a"
+          },
+          {
+            "name": "_gold_run_id",
+            "sourceColumn": "_gold_run_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "0c1c4320-987c-5614-9437-e8f3e3208914",
+            "isHidden": true
+          }
+        ],
+        "description": "Gold dim_product; validated snapshot f4e5f3e9-455b-4f99-9a55-408268444b8c.",
+        "partitions": [
+          {
+            "name": "DimProduct",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "dbo",
+              "entityName": "dim_product",
+              "expressionSource": "GoldSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "FactOrder",
+        "lineageTag": "aa9072bf-2b5d-5a2a-aa80-0393cdd443e8",
+        "columns": [
+          {
+            "name": "order_id",
+            "sourceColumn": "order_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "79e63d99-f3e7-5e19-993f-4e1a78b047a9"
+          },
+          {
+            "name": "customer_id",
+            "sourceColumn": "customer_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "bc47b67d-4365-5f81-982b-b7bdeaeb38e5"
+          },
+          {
+            "name": "customer_name",
+            "sourceColumn": "customer_name",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "b69ad1de-0f5d-54d2-bd4c-abd29e3b566e"
+          },
+          {
+            "name": "customer_segment",
+            "sourceColumn": "customer_segment",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "6a4b0ca1-2b0b-5e75-99eb-20833ee959e9"
+          },
+          {
+            "name": "state_code",
+            "sourceColumn": "state_code",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "1a657d70-fbd7-57a8-a4e9-c550d9ee5c0d"
+          },
+          {
+            "name": "country_code",
+            "sourceColumn": "country_code",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "045720f3-ca6a-543c-9ded-f219825ae974"
+          },
+          {
+            "name": "order_day",
+            "sourceColumn": "order_day",
+            "dataType": "dateTime",
+            "summarizeBy": "none",
+            "lineageTag": "bfb2bb8e-91a4-5629-98a9-86de36c6897f",
+            "formatString": "yyyy-MM-dd",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ]
+          },
+          {
+            "name": "order_date",
+            "sourceColumn": "order_date",
+            "dataType": "dateTime",
+            "summarizeBy": "none",
+            "lineageTag": "ec9be49a-be51-5534-8409-02b5cf5e2f4a",
+            "formatString": "yyyy-MM-dd HH:mm:ss"
+          },
+          {
+            "name": "currency",
+            "sourceColumn": "currency",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "0b5874de-dcf6-57a5-a5c5-0c1af35764a5"
+          },
+          {
+            "name": "status",
+            "sourceColumn": "status",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "a466585a-af75-59c3-89e8-f1d2e77fcb67"
+          },
+          {
+            "name": "order_amount",
+            "sourceColumn": "order_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "727cc6b8-3451-5fee-8285-b0f8b1482815",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "coupon_code",
+            "sourceColumn": "coupon_code",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "a21ff2df-a810-596f-a03a-1024c94e1ee0"
+          },
+          {
+            "name": "dataset_id",
+            "sourceColumn": "dataset_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "79812463-c4e1-50ab-9012-0df423d07431"
+          },
+          {
+            "name": "is_funded",
+            "sourceColumn": "is_funded",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "a752e527-e2e8-5617-96b1-4c68c7f71679",
+            "isHidden": true
+          },
+          {
+            "name": "is_cancelled",
+            "sourceColumn": "is_cancelled",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "f8f33f14-4075-5282-ac8d-91bc5a5d4a5d",
+            "isHidden": true
+          },
+          {
+            "name": "has_return",
+            "sourceColumn": "has_return",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "aa91b71d-e299-58e9-84fb-e71438bc35fa",
+            "isHidden": true
+          },
+          {
+            "name": "line_count",
+            "sourceColumn": "line_count",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "470d4f20-9f7e-5b5c-8f9e-7e83bfd5d250",
+            "isHidden": true
+          },
+          {
+            "name": "gross_sales_amount",
+            "sourceColumn": "gross_sales_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "29102a87-39e5-5930-a40c-b9988c7629e9",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "discount_amount",
+            "sourceColumn": "discount_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "0f2c6600-4e90-503e-ad24-86031f530b5e",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "sales_amount",
+            "sourceColumn": "sales_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "d8de4f01-ea49-5429-8ab8-31334a7d9d1a",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "tax_amount",
+            "sourceColumn": "tax_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "fe498017-1c78-58e0-9037-8a0dd20556cd",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "captured_amount",
+            "sourceColumn": "captured_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "b45ad485-a7f8-5d7c-9ebd-067478e35a4b",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "refunded_sales_amount",
+            "sourceColumn": "refunded_sales_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "6537da3b-f864-5c90-8901-ce5946fe4f9d",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "refunded_tax_amount",
+            "sourceColumn": "refunded_tax_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "fb2f7563-1720-55cc-9d25-51800b287948",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "refund_amount",
+            "sourceColumn": "refund_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "4f0fa3ed-93a7-55b9-a7d6-924d47d2337d",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "net_sales_amount",
+            "sourceColumn": "net_sales_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "19ee061b-e8c9-56c5-b2e8-261fff4ddff2",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "net_tax_amount",
+            "sourceColumn": "net_tax_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "68b177ff-ee2a-5f8a-83ab-8724ba41a72b",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "net_cash_amount",
+            "sourceColumn": "net_cash_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "9e70b9a2-fe93-5d8a-92e4-adc4ee08bcef",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "units_ordered",
+            "sourceColumn": "units_ordered",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "8e6e14ab-fd6c-547e-bf79-ced8a684fec9",
+            "isHidden": true
+          },
+          {
+            "name": "units_sold",
+            "sourceColumn": "units_sold",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "1a9c483f-4bc3-5f53-9b6b-ed02a844ab23",
+            "isHidden": true
+          },
+          {
+            "name": "units_returned",
+            "sourceColumn": "units_returned",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "81dd839b-7eda-57de-8300-fb76bb6cd17f",
+            "isHidden": true
+          },
+          {
+            "name": "net_units",
+            "sourceColumn": "net_units",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "5387c5a2-d06e-5217-8be3-1f66dbf79778",
+            "isHidden": true
+          },
+          {
+            "name": "_gold_run_id",
+            "sourceColumn": "_gold_run_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "24f93151-0776-5056-8559-7de29c8d8c0d",
+            "isHidden": true
+          },
+          {
+            "name": "_silver_run_id",
+            "sourceColumn": "_silver_run_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "4f23bce4-8cf5-5f1e-b63d-66bb95b181f4",
+            "isHidden": true
+          },
+          {
+            "name": "_processed_at_utc",
+            "sourceColumn": "_processed_at_utc",
+            "dataType": "dateTime",
+            "summarizeBy": "none",
+            "lineageTag": "e43c54e7-ef52-59f6-92a1-58f36a82c4d7",
+            "isHidden": true,
+            "formatString": "yyyy-MM-dd HH:mm:ss"
+          },
+          {
+            "name": "_silver_versions",
+            "sourceColumn": "_silver_versions",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "eb87c3a3-68b0-5b14-bc53-68c8ae0dd27d",
+            "isHidden": true
+          }
+        ],
+        "description": "Gold order_summary; validated snapshot f4e5f3e9-455b-4f99-9a55-408268444b8c.",
+        "partitions": [
+          {
+            "name": "FactOrder",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "dbo",
+              "entityName": "order_summary",
+              "expressionSource": "GoldSource"
+            }
+          }
+        ]
+      },
+      {
+        "name": "FactOrderLine",
+        "lineageTag": "04b87211-d88c-5fba-98c5-6c454c289aa0",
+        "columns": [
+          {
+            "name": "order_line_id",
+            "sourceColumn": "order_line_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "1d66cd1c-21c9-5b45-b335-9ee1472df6c5"
+          },
+          {
+            "name": "order_id",
+            "sourceColumn": "order_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "c0ea9ff8-b718-56c6-996b-f85bb485b7cc"
+          },
+          {
+            "name": "customer_id",
+            "sourceColumn": "customer_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "494957c6-6332-5af0-bc15-6d104233c980"
+          },
+          {
+            "name": "product_id",
+            "sourceColumn": "product_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "b1f1fff2-115e-53d7-a7be-5511dc88e24a"
+          },
+          {
+            "name": "product_name",
+            "sourceColumn": "product_name",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "b9004a43-ae88-5f58-996e-62d63da9c039"
+          },
+          {
+            "name": "category",
+            "sourceColumn": "category",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "45715116-c62d-5589-b863-fcb737530296"
+          },
+          {
+            "name": "subcategory",
+            "sourceColumn": "subcategory",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "b239175d-5dc2-5e77-b62a-2989178d8eed"
+          },
+          {
+            "name": "order_day",
+            "sourceColumn": "order_day",
+            "dataType": "dateTime",
+            "summarizeBy": "none",
+            "lineageTag": "cd10a32d-3b4d-597a-9891-f5d5da9a9c08",
+            "formatString": "yyyy-MM-dd",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ]
+          },
+          {
+            "name": "currency",
+            "sourceColumn": "currency",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "7e58ce94-63fe-5870-b947-5cb4865a3d4a"
+          },
+          {
+            "name": "status",
+            "sourceColumn": "status",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "0fdef1a8-4e40-50de-ab28-3904dff06a83"
+          },
+          {
+            "name": "is_funded",
+            "sourceColumn": "is_funded",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "52f13138-b523-5972-b4f1-481b9d628813",
+            "isHidden": true
+          },
+          {
+            "name": "units_ordered",
+            "sourceColumn": "units_ordered",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "dce502f1-3776-5acd-bda8-d0370bb666e2",
+            "isHidden": true
+          },
+          {
+            "name": "units_sold",
+            "sourceColumn": "units_sold",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "8c4aca2f-c83a-5d38-8bf0-7fe5c66f27d4",
+            "isHidden": true
+          },
+          {
+            "name": "units_returned",
+            "sourceColumn": "units_returned",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "738e9e0c-811a-5214-8994-405c319b659a",
+            "isHidden": true
+          },
+          {
+            "name": "gross_sales_amount",
+            "sourceColumn": "gross_sales_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "16497761-43cb-53c5-beee-c1b0937c6dc1",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "discount_amount",
+            "sourceColumn": "discount_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "c3cef29a-c1fa-519f-864f-5b77e3e50072",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "sales_amount",
+            "sourceColumn": "sales_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "cd1f0035-5f9e-5e5b-8dfa-29e53930ee56",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "tax_amount",
+            "sourceColumn": "tax_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "d4064e5f-30b0-51b3-8d50-93e16b2cd991",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "captured_amount",
+            "sourceColumn": "captured_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "072b2a03-c45c-5617-8def-b954823b6f78",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "refunded_sales_amount",
+            "sourceColumn": "refunded_sales_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "63a3fc5e-7120-5c63-9202-b5426268bb75",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "refunded_tax_amount",
+            "sourceColumn": "refunded_tax_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "5c6c5981-5d6a-50f6-8356-7ed215bc9791",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "refund_amount",
+            "sourceColumn": "refund_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "f7c828db-cb95-5582-aa0c-b169a71525c3",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "net_units",
+            "sourceColumn": "net_units",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "400e3479-451b-5197-a1fb-91c7810cc823",
+            "isHidden": true
+          },
+          {
+            "name": "net_sales_amount",
+            "sourceColumn": "net_sales_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "dc58d2ad-4ed8-59e8-9e10-09f43f762894",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "net_tax_amount",
+            "sourceColumn": "net_tax_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "e8f16588-2082-5074-bba3-aa00de65a729",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "net_cash_amount",
+            "sourceColumn": "net_cash_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "2e2a1213-53c3-51cc-bef1-16b9ae1baf60",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "_gold_run_id",
+            "sourceColumn": "_gold_run_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "3fb5736d-a16d-5720-9019-9eeec89695d8",
+            "isHidden": true
+          },
+          {
+            "name": "_silver_run_id",
+            "sourceColumn": "_silver_run_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "88deba88-f1e8-55fe-acdd-8c394ddaa445",
+            "isHidden": true
+          },
+          {
+            "name": "_processed_at_utc",
+            "sourceColumn": "_processed_at_utc",
+            "dataType": "dateTime",
+            "summarizeBy": "none",
+            "lineageTag": "b5b91bc9-b178-507e-a9ff-74d86766837b",
+            "isHidden": true,
+            "formatString": "yyyy-MM-dd HH:mm:ss"
+          },
+          {
+            "name": "_silver_versions",
+            "sourceColumn": "_silver_versions",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "789e19ed-f576-5d79-9f27-f7a2027fe47c",
+            "isHidden": true
+          }
+        ],
+        "description": "Gold order_line_summary; validated snapshot f4e5f3e9-455b-4f99-9a55-408268444b8c.",
+        "partitions": [
+          {
+            "name": "FactOrderLine",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "dbo",
+              "entityName": "order_line_summary",
+              "expressionSource": "GoldSource"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Gross Sales",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[gross_sales_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold gross_sales_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "c83b586a-c4b3-54df-beec-c90cb6fdca17"
+          },
+          {
+            "name": "Discount Amount",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[discount_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold discount_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "48a76272-9db4-5a86-86e4-61c13438b4f4"
+          },
+          {
+            "name": "Sales Amount",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[sales_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold sales_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "3bad03a8-99fa-50ba-a90e-e25f9af61475"
+          },
+          {
+            "name": "Tax Amount",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[tax_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold tax_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "27f324d3-1c97-58c4-83dc-defebe0262b9"
+          },
+          {
+            "name": "Captured Amount",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[captured_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold captured_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "0c88edd2-d670-5006-a5c5-4aef4e4530e7"
+          },
+          {
+            "name": "Refunded Sales",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[refunded_sales_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold refunded_sales_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "20aba884-3dc2-553e-a107-efa40333bbc2"
+          },
+          {
+            "name": "Refunded Tax",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[refunded_tax_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold refunded_tax_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "6d641350-acde-58b9-96fc-196699fa312e"
+          },
+          {
+            "name": "Refund Amount",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[refund_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold refund_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "cc17e2d4-47d2-597d-b5db-8b1f6ac8f0d8"
+          },
+          {
+            "name": "Net Sales",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[net_sales_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold net_sales_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "4200a446-5101-5eb3-9de7-bfcd7b498600"
+          },
+          {
+            "name": "Net Tax",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[net_tax_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold net_tax_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "84ab5183-ff66-564c-a4d0-47d9684291d0"
+          },
+          {
+            "name": "Net Cash",
+            "expression": "IF(HASONEVALUE(FactOrderLine[currency]), SUM(FactOrderLine[net_cash_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Gold net_cash_amount, by original order-date cohort. Blank across multiple currencies. Paid cancellations preserve capture and refund history.",
+            "displayFolder": "Financial",
+            "lineageTag": "559cc1a9-edc1-5175-b905-ee3132f8a1ee"
+          },
+          {
+            "name": "Units Ordered",
+            "expression": "SUM(FactOrderLine[units_ordered])",
+            "formatString": "#,##0",
+            "description": "Refunded quantities include paid cancellations before shipment.",
+            "displayFolder": "Quantities",
+            "lineageTag": "0d59e3fa-f239-5a2b-b21b-0ba271683fd0"
+          },
+          {
+            "name": "Units Sold",
+            "expression": "SUM(FactOrderLine[units_sold])",
+            "formatString": "#,##0",
+            "description": "Refunded quantities include paid cancellations before shipment.",
+            "displayFolder": "Quantities",
+            "lineageTag": "ec853510-2445-51b8-bcc0-69c58616dd94"
+          },
+          {
+            "name": "Units Refunded",
+            "expression": "SUM(FactOrderLine[units_returned])",
+            "formatString": "#,##0",
+            "description": "Refunded quantities include paid cancellations before shipment.",
+            "displayFolder": "Quantities",
+            "lineageTag": "11f8e516-67ad-5fba-b67f-043837677832"
+          },
+          {
+            "name": "Net Units",
+            "expression": "SUM(FactOrderLine[net_units])",
+            "formatString": "#,##0",
+            "description": "Refunded quantities include paid cancellations before shipment.",
+            "displayFolder": "Quantities",
+            "lineageTag": "a0bad0a9-3b4b-598e-a89c-8d36635c64ef"
+          },
+          {
+            "name": "Order Count",
+            "expression": "DISTINCTCOUNT(FactOrderLine[order_id])",
+            "formatString": "#,##0",
+            "description": "Distinct orders in the selected product/customer/date context.",
+            "displayFolder": "Orders",
+            "lineageTag": "934024ae-9a70-5642-ac9f-faa82c27c81a"
+          },
+          {
+            "name": "Funded Orders",
+            "expression": "CALCULATE([Order Count], FactOrderLine[is_funded] = 1)",
+            "formatString": "#,##0",
+            "description": "",
+            "displayFolder": "Orders",
+            "lineageTag": "3c4c8bf7-361f-5dd7-b50f-0b9ab072dbc2"
+          },
+          {
+            "name": "Cancelled Orders",
+            "expression": "CALCULATE([Order Count], FactOrderLine[status] = \"CANCELLED\")",
+            "formatString": "#,##0",
+            "description": "",
+            "displayFolder": "Orders",
+            "lineageTag": "d59fc4f8-2a76-5945-bcec-a58530bb2b00"
+          },
+          {
+            "name": "Refunded Orders",
+            "expression": "CALCULATE([Order Count], FactOrderLine[refund_amount] > 0)",
+            "formatString": "#,##0",
+            "description": "",
+            "displayFolder": "Orders",
+            "lineageTag": "3f353877-1acf-52a5-a249-c1f5373a9975"
+          },
+          {
+            "name": "Average Order Value",
+            "expression": "DIVIDE([Sales Amount], [Funded Orders])",
+            "formatString": "#,##0.00",
+            "description": "Funded merchandise after discounts, before refunds, per funded order.",
+            "displayFolder": "Financial",
+            "lineageTag": "07d97a17-2618-58e3-aa81-ae37448e9440"
+          },
+          {
+            "name": "Discount %",
+            "expression": "DIVIDE([Discount Amount], [Gross Sales])",
+            "formatString": "0.00%",
+            "description": "Ratio of totals; both item and coupon discounts.",
+            "displayFolder": "Financial",
+            "lineageTag": "cd946983-d759-52b0-a7a1-054d975587de"
+          },
+          {
+            "name": "Refund %",
+            "expression": "DIVIDE([Refund Amount], [Captured Amount])",
+            "formatString": "0.00%",
+            "description": "Refunded cash divided by captured cash, both including tax.",
+            "displayFolder": "Financial",
+            "lineageTag": "13e26fe0-37f8-5a24-8f38-9f06cffc7928"
+          },
+          {
+            "name": "Selected Currency",
+            "expression": "SELECTEDVALUE(FactOrderLine[currency], \"Select one currency\")",
+            "formatString": "",
+            "description": "",
+            "displayFolder": "Context",
+            "lineageTag": "19060703-59db-5f1a-af65-4c4dc8c5c9aa"
+          },
+          {
+            "name": "Refund Events",
+            "expression": "COUNTROWS(FactRefund)",
+            "formatString": "#,##0",
+            "description": "Refund events in the order/date/customer context. Product filtering applies to line measures, not this event count.",
+            "displayFolder": "Refund events",
+            "lineageTag": "4a5df8e0-c14f-542f-90c6-25b076692fea"
+          },
+          {
+            "name": "Event Refund Amount",
+            "expression": "IF(HASONEVALUE(FactRefund[currency]), SUM(FactRefund[refund_amount]))",
+            "formatString": "#,##0.00",
+            "description": "Refund headers; use refund_day for refund-calendar analysis. Product filters do not filter refund headers.",
+            "displayFolder": "Refund events",
+            "lineageTag": "2f89dbfe-5f5b-5d12-80b5-263bf0576f96"
+          }
+        ]
+      },
+      {
+        "name": "FactRefund",
+        "lineageTag": "f60e7734-2edd-591d-a17e-3a236b14d906",
+        "columns": [
+          {
+            "name": "refund_id",
+            "sourceColumn": "refund_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "b5b4c7e6-58d0-533c-ac3f-4a305be995d5"
+          },
+          {
+            "name": "order_id",
+            "sourceColumn": "order_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "18c38315-b18f-56d2-a67f-90c1949838c1"
+          },
+          {
+            "name": "payment_id",
+            "sourceColumn": "payment_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "d822b385-a32d-5c5d-affc-d86dc1274c16"
+          },
+          {
+            "name": "customer_id",
+            "sourceColumn": "customer_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "cd96dff6-8188-5d4f-a8cf-0a8f59929d91"
+          },
+          {
+            "name": "currency",
+            "sourceColumn": "currency",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "905a4cc7-083c-52db-964e-1d501e637458"
+          },
+          {
+            "name": "order_day",
+            "sourceColumn": "order_day",
+            "dataType": "dateTime",
+            "summarizeBy": "none",
+            "lineageTag": "8129bf85-622a-5b4b-8a73-79aa2e93eedd",
+            "formatString": "yyyy-MM-dd",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ]
+          },
+          {
+            "name": "refund_day",
+            "sourceColumn": "refund_day",
+            "dataType": "dateTime",
+            "summarizeBy": "none",
+            "lineageTag": "07355909-a0f5-52f8-8f4c-9f093f50f2f9",
+            "formatString": "yyyy-MM-dd",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ]
+          },
+          {
+            "name": "refund_date",
+            "sourceColumn": "refund_date",
+            "dataType": "dateTime",
+            "summarizeBy": "none",
+            "lineageTag": "10c101a5-8ce8-5859-9bdd-d95c2ba19558",
+            "formatString": "yyyy-MM-dd HH:mm:ss"
+          },
+          {
+            "name": "refund_reason",
+            "sourceColumn": "refund_reason",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "79fe958c-171a-5ab5-b234-cfb218c1a194"
+          },
+          {
+            "name": "returned_line_count",
+            "sourceColumn": "returned_line_count",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "7018e7b5-c8a4-55e9-84cb-cb574c81aac7",
+            "isHidden": true
+          },
+          {
+            "name": "units_returned",
+            "sourceColumn": "units_returned",
+            "dataType": "int64",
+            "summarizeBy": "none",
+            "lineageTag": "ae346480-db91-513b-9a8e-469e3077915a",
+            "isHidden": true
+          },
+          {
+            "name": "refunded_sales_amount",
+            "sourceColumn": "refunded_sales_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "f1233872-1345-5e85-aacd-4abb5546e88d",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "refunded_tax_amount",
+            "sourceColumn": "refunded_tax_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "d6199775-acb3-5297-aed1-0b610fc8a7c0",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "refund_amount",
+            "sourceColumn": "refund_amount",
+            "dataType": "decimal",
+            "summarizeBy": "none",
+            "lineageTag": "6f1861de-bd9d-56f5-9f64-8b6363b8d9f5",
+            "isHidden": true,
+            "formatString": "#,##0.00"
+          },
+          {
+            "name": "_gold_run_id",
+            "sourceColumn": "_gold_run_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "8e72d4e8-0993-55ee-8001-fc9252340275",
+            "isHidden": true
+          },
+          {
+            "name": "_silver_run_id",
+            "sourceColumn": "_silver_run_id",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "b4b6874a-1cda-51ef-902a-8e616890189f",
+            "isHidden": true
+          },
+          {
+            "name": "_processed_at_utc",
+            "sourceColumn": "_processed_at_utc",
+            "dataType": "dateTime",
+            "summarizeBy": "none",
+            "lineageTag": "94aa8b97-f672-51a6-bdc8-f2b791d2edde",
+            "isHidden": true,
+            "formatString": "yyyy-MM-dd HH:mm:ss"
+          },
+          {
+            "name": "_silver_versions",
+            "sourceColumn": "_silver_versions",
+            "dataType": "string",
+            "summarizeBy": "none",
+            "lineageTag": "d73340d7-d26c-5b9f-b347-f5ed435b8e5e",
+            "isHidden": true
+          }
+        ],
+        "description": "Gold refund_summary; validated snapshot f4e5f3e9-455b-4f99-9a55-408268444b8c.",
+        "partitions": [
+          {
+            "name": "FactRefund",
+            "mode": "directLake",
+            "source": {
+              "type": "entity",
+              "schemaName": "dbo",
+              "entityName": "refund_summary",
+              "expressionSource": "GoldSource"
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "abd8d93d-c75b-5d3e-b79e-9248f7050f24",
+        "fromTable": "FactOrder",
+        "fromColumn": "customer_id",
+        "toTable": "DimCustomer",
+        "toColumn": "customer_id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection",
+        "isActive": true
+      },
+      {
+        "name": "e55556bf-8754-5005-af54-ffcc0bec3a25",
+        "fromTable": "FactOrder",
+        "fromColumn": "order_day",
+        "toTable": "DimDate",
+        "toColumn": "date",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection",
+        "isActive": true
+      },
+      {
+        "name": "addeb520-4174-59d0-ac4b-aca08da18c5a",
+        "fromTable": "FactOrderLine",
+        "fromColumn": "order_id",
+        "toTable": "FactOrder",
+        "toColumn": "order_id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection",
+        "isActive": true
+      },
+      {
+        "name": "1174e251-ca4e-564a-bae4-1da310b9ff11",
+        "fromTable": "FactOrderLine",
+        "fromColumn": "product_id",
+        "toTable": "DimProduct",
+        "toColumn": "product_id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection",
+        "isActive": true
+      },
+      {
+        "name": "6aac568a-e7c1-5089-80b6-182ff6b888df",
+        "fromTable": "FactRefund",
+        "fromColumn": "order_id",
+        "toTable": "FactOrder",
+        "toColumn": "order_id",
+        "fromCardinality": "many",
+        "toCardinality": "one",
+        "crossFilteringBehavior": "oneDirection",
+        "isActive": true
+      }
+    ]
+  }
+}

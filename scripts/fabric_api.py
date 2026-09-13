@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKSPACE = "09cea7db-63ec-41f0-9cf0-872a6dc5c61d"
 
 def api(endpoint, method="get", body=None, audience="fabric"):
-    command = [str(ROOT / ".local/fabric-cli-env/Scripts/fab.exe"), "api", endpoint, "-X", method, "-A", audience]
+    command = [str(ROOT / ".local/fabric-cli-env/Scripts/fab.exe"), "api", endpoint, "-X", method, "-A", audience, "--show_headers"]
     if body is not None:
         path = ROOT / ".local/fabric-request.json"
         path.write_text(json.dumps(body), encoding="utf-8")

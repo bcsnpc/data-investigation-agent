@@ -4,16 +4,16 @@ Updated: 2026-09-13. Source plan: [POC specification](../cross_system_data_inves
 
 ## Current position
 
-Phases 0 (engineering foundation), 1 (business system), and 2 (data platform) are **in progress**.
+Phases 0 (engineering foundation), 1 (business system), 2 (data platform), and 3 (analytics) are **in progress**.
 The SQL baseline and authenticated order-browsing portal are implemented.
-Ship, deliver and full-line return actions with transactional audit writing are implemented and verified locally against Azure SQL; merged in PR #9 and deployed to Azure App Service; hosted API and browser checks passed. Bronze ingestion is independently verified. Silver has ten conformed tables, 100,000 orders and a READY validation report. Gold has six reporting tables and a READY report with 59 passing checks; all 15 currency totals match independent Azure SQL queries. Power BI, lineage and AI remain pending.
+Ship, deliver and full-line return actions with transactional audit writing are implemented and verified locally against Azure SQL; merged in PR #9 and deployed to Azure App Service; hosted API and browser checks passed. Bronze ingestion is independently verified. Silver has ten conformed tables, 100,000 orders and a READY validation report. Gold has six reporting tables and a READY report with 59 passing checks; all 15 currency totals match independent Azure SQL queries. Power BI now has a six-table semantic model and three reports with verified DAX totals and order drillthrough. Lineage and AI remain pending.
 
 | Phase | Status | Evidence / remaining work |
 |---|---|---|
 | 0 Engineering foundation | In progress | Private repository, README, SQL scripts, tests and tracking; broader standards and deployment automation remain |
 | 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions deployed and verified; broader specification features remain scoped for follow-up |
 | 2 Data platform | In progress | Bronze, initial Silver and Gold complete: 100k orders, reconciled reporting tables and independent source totals; recurring orchestration remains |
-| 3 Analytics | Not started | Semantic model, DAX and reports |
+| 3 Analytics | Initial release complete; review pending | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
 | 4 Metadata and lineage | Not started | Connectors, graph, traversal and UI |
 | 5 Deterministic investigator | Not started | Cross-layer comparisons, first divergence and evidence |
 | 6 AI investigator | Not started | Ticket interpretation and explanations over verified evidence |
@@ -44,6 +44,8 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 | 2026-09-13 | Built and verified Gold directly in Fabric | Six reporting tables, 59 checks, 15 exact SQL/Gold totals and six adversarial fixtures passed; paid cancellations retain capture/refund history with zero net values; [details](fabric-gold.md) |
 
+| 2026-09-13 | Deployed semantic model and three reports | Six Direct Lake tables, 25 explicit measures, 15 DAX totals equal Gold, eight filter cases and refund event checks passed; browser order drillthrough verified; [details](powerbi.md) |
+
 ## Decisions and departures from the original draft
 
 - User increased baseline from the draft's 50,000 orders to 100,000. Related
@@ -63,8 +65,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 ## Next milestone
 
-Silver is merged in PR #12. Gold is deployed and verified; implementation PR review is next, followed by the Power BI semantic model and reports. The end-to-end milestone is not achieved until one
-order can be traced from the app through Azure SQL, Fabric and Power BI.
+Silver and Gold are merged in PRs #12 and #14. The initial Power BI release is deployed and verified, pending implementation review. The manual app ? SQL ? Bronze ? Silver ? Gold ? Power BI trace is verified for `ORD-000002`. Next: metadata connectors and a stored lineage graph, followed by deterministic cross-layer investigation. Recurring refresh orchestration remains open.
 
 ## Tracking convention
 
@@ -84,4 +85,6 @@ relevant documentation. Mark completed work based on evidence, not intended work
 
 - [FAB-002: Build and validate Silver](https://github.com/bcsnpc/data-investigation-agent/issues/11) - closed; implemented, executed successfully and merged in PR #12
 
-- [FAB-003: Build reconciled Gold reporting tables](https://github.com/bcsnpc/data-investigation-agent/issues/13) - deployed and verified; 59 Fabric checks and 15 independent source totals passed; [PR #14](https://github.com/bcsnpc/data-investigation-agent/pull/14) review pending
+- [FAB-003: Build reconciled Gold reporting tables](https://github.com/bcsnpc/data-investigation-agent/issues/13) - deployed and verified; 59 Fabric checks and 15 independent source totals passed; closed; [PR #14](https://github.com/bcsnpc/data-investigation-agent/pull/14) merged
+
+- [PBI-001/002: Semantic model and reports](https://github.com/bcsnpc/data-investigation-agent/issues/15) - deployed and verified; implementation review pending
