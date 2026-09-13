@@ -18,7 +18,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 | 4A Metadata connectors | Initial collector merged; reusable connector refactor verified | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
 | 4B Lineage | Reviewed scope backend merged | 403 links, retained resolution evidence and 41 eligible visual paths; UI remains later |
 | 5A Deterministic investigator | In progress | Check engine merged in PR #24; cross-layer adapters implemented with SQL/Power BI live reads; all five layers live-verified; common-source snapshot proof pending |
-| 5B Ticket experience | Not started | Ticket form, attachments, investigation workspace and auditable timeline |
+| 5B Ticket experience | Backend intake/workflow implemented | Local authenticated ticket queue, status/timeline and evidence links; UI, attachments and hosted worker remain |
 | 6 AI investigator | Not started | Ticket interpretation and explanations over verified evidence |
 | 7 Defect lab | Not started | Deterministic injection/reset, isolated evaluation ground truth and expected-behavior coverage |
 | 7B Routing | Not started | Generic issue/notification providers, ownership-based routing and human triage |
@@ -236,3 +236,11 @@ PR #46 subsequently merged at `18f983a680b628c342682387a5416776952c70e0`; issue 
 A local HTTP smoke check successfully retrieved stored five-layer run `203157aa-0ccd-4bca-9188-1111191c8cc1`, preserving the 100,000-order totals and NOT_COMPARABLE boundaries. It executed zero cloud queries, and the temporary server was stopped. See [evidence API](investigation-evidence-api.md). No public backend deployment occurred. Next: ticket intake and the investigation execution/status workflow before adding the user interface.
 
 [PR #48](https://github.com/bcsnpc/data-investigation-agent/pull/48) contains the local evidence API and awaits review. Full-history secret scan passed with no leaks.
+
+PR #48 subsequently merged at `0f8f25ad029cdf168cb079b152f6641f57e46d1f`; issue #47 closed.
+
+## WF-001 ticket intake and execution
+
+[Issue #49](https://github.com/bcsnpc/data-investigation-agent/issues/49) adds optional authenticated ticket intake, UUID idempotency, a separate durable SQLite queue, status/timeline and a bounded worker. The worker resolves explicit report/metric scope on the pinned graph and links saved evidence. Missing scope becomes NEEDS_INPUT; COMPLETED does not claim ticket resolution. Claims have fenced 30-minute leases with at-least-once recovery. Six workflow tests, six evidence API tests and two generator tests pass.
+
+Live baseline-verification ticket `f2fa6c29-7080-4d54-a882-3d99772b5b0b` was submitted through HTTP and is running. See [ticket workflow](ticket-workflow.md). No LLM or defect-routing capability is enabled. Next: add structured ticket interpretation/planning, with LLM integration over validated tools and explicit missing-input handling.
