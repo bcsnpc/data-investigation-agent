@@ -17,8 +17,8 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 | 2 Data platform | In progress | Bronze, initial Silver and Gold complete: 100k orders, reconciled reporting tables and independent source totals; recurring orchestration remains |
 | 3 Analytics | Initial release complete | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
 | 4A Metadata connectors | Initial collector merged; reusable connector refactor verified | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
-| 4B Lineage | Backend verified; review pending | 360 evidence-backed links, persisted upstream/downstream traversal and 41 data-bound visual traces; UI remains later |
-| 5A Deterministic investigator | Not started | Context-aware comparisons, freshness, first divergence, evidence and impact |
+| 4B Lineage | Backend merged in PR #22 | 360 evidence-backed links, persisted upstream/downstream traversal and 41 data-bound visual traces; UI remains later |
+| 5A Deterministic investigator | In progress | Check engine merged in PR #24; cross-layer adapters implemented with SQL/Power BI live reads; Fabric SQL sign-in and common-source snapshot proof pending |
 | 5B Ticket experience | Not started | Ticket form, attachments, investigation workspace and auditable timeline |
 | 6 AI investigator | Not started | Ticket interpretation and explanations over verified evidence |
 | 7 Defect lab | Not started | Deterministic injection/reset, isolated evaluation ground truth and expected-behavior coverage |
@@ -70,7 +70,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 ## Next milestone
 
-Metadata and lineage are merged through PR #22. Phase 5A now has an initial deterministic check engine and live semantic-refresh evidence acquisition. Next: bounded read-only SQL/Fabric/DAX query adapters with reproducible filter and snapshot context, followed by first-divergent-boundary analysis. Ticket UI and AI follow the backend. Recurring refresh orchestration remains open.
+Metadata and lineage are merged through PR #22; deterministic check contracts are merged in PR #24. Cross-layer query adapters and ordered boundary checks are implemented. Next: finish Fabric SQL audience sign-in and five-layer live verification, then establish common-source snapshot evidence for comparable diagnosis. Ticket UI and AI follow the backend. Recurring refresh orchestration remains open.
 
 ## Tracking convention
 
@@ -124,4 +124,12 @@ The backend stores lineage runs, edges and gaps in SQLite, with definition hashe
 
 Live semantic refresh acquisition persisted run `7b04d9cc-01ed-42e2-be04-d1ad34c774a0`; the connection succeeded and freshness remains UNKNOWN because no policy is configured. Executive Sales / Net Sales resolved uniquely with zero relevant lineage gaps. Twelve investigation tests, twelve lineage tests, sixteen metadata tests and two generator tests pass. See [contracts and verification](investigation-checks.md).
 
-This is a backend foundation, not completed end-to-end investigation: live cross-layer business query adapters, runtime filter reproduction, snapshot propagation and root-cause classification remain next. No cloud data, definitions or refresh schedules changed. [PR #24](https://github.com/bcsnpc/data-investigation-agent/pull/24) pending review.
+This is a backend foundation, not completed end-to-end investigation: live cross-layer business query adapters, runtime filter reproduction, snapshot propagation and root-cause classification remain next. No cloud data, definitions or refresh schedules changed. [PR #24](https://github.com/bcsnpc/data-investigation-agent/pull/24) merged; issue #23 closed.
+
+## Cross-layer value acquisition (INV-002)
+
+[Issue #25](https://github.com/bcsnpc/data-investigation-agent/issues/25) implements fixed read-only Order Count and Net Cash queries across SQL, Bronze, Silver, Gold and the semantic model, with required currency and optional order filters. Ordered boundaries distinguish numerical differences from snapshot-comparable divergence. Evidence, adapter/query hashes, endpoint acquisition and sanitized failures are retained in SQLite. Missing earlier evidence prevents an unsupported first-boundary claim.
+
+Twelve new tests pass, including actual source SQL business-rule fixtures and partial-acquisition persistence. Live Azure SQL and Power BI agree on 100,000 orders and USD 64,892,824.49 net cash; sample ORD-000002 agrees at one order and USD 1,529.64. Persisted endpoint check `1cae5e66-3293-41b4-9491-b59ccc3de7cb` remains NOT_COMPARABLE because no common source snapshot is proven.
+
+Fabric SQL endpoint live verification is pending an additional enterprise SQL audience sign-in; the existing REST and Power BI sessions work. No five-layer success, verified root cause, bug creation or cloud mutation is claimed. See [query contracts and verification](cross-layer-queries.md). Next after authentication: complete the live five-layer checks, then capture trustworthy common-source version evidence for causal boundary analysis.

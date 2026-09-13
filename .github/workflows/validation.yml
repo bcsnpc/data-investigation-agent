@@ -40,6 +40,10 @@ jobs:
         run: |
           python -m unittest discover -s scripts -p test_investigation_checks.py
           python -m py_compile scripts/investigation_checks.py scripts/check_model_freshness.py
+      - name: Test read-only metric adapters and ordered boundaries
+        run: |
+          python -m unittest discover -s scripts -p test_cross_layer_investigation.py
+          python -m py_compile scripts/cross_layer_investigation.py scripts/investigation_query_worker.py scripts/connect_fabric_sql.py
   powershell-syntax:
     runs-on: windows-latest
     steps:
