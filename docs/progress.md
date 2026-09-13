@@ -234,3 +234,5 @@ PR #46 subsequently merged at `18f983a680b628c342682387a5416776952c70e0`; issue 
 [Issue #47](https://github.com/bcsnpc/data-investigation-agent/issues/47) adds an authenticated loopback-only WSGI service with bounded list/detail endpoints over read-only SQLite. Saved statuses, graph references and evidence are preserved; no cloud query execution or defect routing is exposed. Six API tests and two generator tests passed, including a real HTTP round trip and SQLite mutation rejection.
 
 A local HTTP smoke check successfully retrieved stored five-layer run `203157aa-0ccd-4bca-9188-1111191c8cc1`, preserving the 100,000-order totals and NOT_COMPARABLE boundaries. It executed zero cloud queries, and the temporary server was stopped. See [evidence API](investigation-evidence-api.md). No public backend deployment occurred. Next: ticket intake and the investigation execution/status workflow before adding the user interface.
+
+[PR #48](https://github.com/bcsnpc/data-investigation-agent/pull/48) contains the local evidence API and awaits review. Full-history secret scan passed with no leaks.
