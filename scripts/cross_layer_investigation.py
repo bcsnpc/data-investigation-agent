@@ -14,6 +14,7 @@ from investigation_query_worker import filters
 from lineage_graph import load_graph
 from metadata_auth import WorkerTransport
 from metadata_config import ROOT, load_config
+from snapshot_provenance import continuity
 
 LAYERS = ('sql', 'bronze', 'silver', 'gold', 'semantic')
 MEASURES = {'order_count': 'Order Count', 'net_cash': 'Net Cash'}
@@ -64,7 +65,10 @@ def metric_observation(asset, metric, result, currency, order_id, layer):
         return dict(base, status='UNAVAILABLE', **{key: result.get(key) for key in ('error', 'error_type', 'stage', 'sql_error_number')})
     value = result['values'][metric]
     number(value)
+    run_evidence = {key: val for key, val in result['values'].items() if key not in MEASURES}
     return dict(base, status='AVAILABLE', data=value, captured_at=result['captured_at'],
+                run_evidence=run_evidence,
+                run_evidence_hash=hashlib.sha256(canonical(run_evidence).encode()).hexdigest(),
                 query_id=hashlib.sha256(result['query'].encode()).hexdigest(), query=result['query'],
                 result_hash=hashlib.sha256(canonical(value).encode()).hexdigest())
 
@@ -145,7 +149,8 @@ def acquire(config, estate, lineage_run, currency, order_id, query=worker):
                                   ('scripts/investigation_query_worker.py', 'infra/scripts/Read-InvestigationMetric.ps1')},
                'scope': 'Currency and optional order filter; no product/date/report slicer reproduction'}
     output = {'id': run, 'lineage_run': lineage_run, 'classification': 'UNRESOLVED',
-              'metrics': results, 'values': {layer: value.get('values', value) for layer, value in raw.items()}}
+              'metrics': results, 'provenance': continuity(raw),
+              'values': {layer: value.get('values', value) for layer, value in raw.items()}}
     with closing(sqlite3.connect(config['storage']['database'])) as db:
         db.execute('CREATE TABLE IF NOT EXISTS investigation_runs(id TEXT PRIMARY KEY, lineage_run TEXT NOT NULL, created TEXT NOT NULL, request TEXT NOT NULL, result TEXT NOT NULL)')
         db.execute('INSERT INTO investigation_runs VALUES(?,?,?,?,?)', (run, lineage_run, captured, canonical(request), canonical(output)))

@@ -33,12 +33,19 @@ WHERE o.currency=@currency AND (@order_id IS NULL OR o.order_id=@order_id)
 '@
  } elseif($request.layer -eq 'silver') {
   $command.CommandText=@'
-SELECT COUNT_BIG(*) order_count,CAST(COALESCE(SUM(net_amount),0) AS DECIMAL(28,4)) net_cash
+SELECT COUNT_BIG(*) order_count,CAST(COALESCE(SUM(net_amount),0) AS DECIMAL(28,4)) net_cash,
+COUNT_BIG(*) provenance_rows,MIN(_silver_run_id) silver_run,
+COUNT_BIG(DISTINCT _silver_run_id) silver_run_count,
+COALESCE(SUM(CAST(CASE WHEN _silver_run_id IS NULL THEN 1 ELSE 0 END AS BIGINT)),0) silver_run_nulls
 FROM dbo.fact_order WHERE currency=@currency AND (@order_id IS NULL OR order_id=@order_id)
 '@
  } else {
   $command.CommandText=@'
-SELECT COUNT_BIG(DISTINCT order_id) order_count,CAST(COALESCE(SUM(net_cash_amount),0) AS DECIMAL(28,4)) net_cash
+SELECT COUNT_BIG(DISTINCT order_id) order_count,CAST(COALESCE(SUM(net_cash_amount),0) AS DECIMAL(28,4)) net_cash,
+COUNT_BIG(*) provenance_rows,MIN(_silver_run_id) silver_run,MIN(_gold_run_id) gold_run,
+COUNT_BIG(DISTINCT _silver_run_id) silver_run_count,COUNT_BIG(DISTINCT _gold_run_id) gold_run_count,
+COALESCE(SUM(CAST(CASE WHEN _silver_run_id IS NULL THEN 1 ELSE 0 END AS BIGINT)),0) silver_run_nulls,
+COALESCE(SUM(CAST(CASE WHEN _gold_run_id IS NULL THEN 1 ELSE 0 END AS BIGINT)),0) gold_run_nulls
 FROM dbo.order_line_summary WHERE currency=@currency AND (@order_id IS NULL OR order_id=@order_id)
 '@
  }
@@ -54,7 +61,10 @@ FROM dbo.order_line_summary WHERE currency=@currency AND (@order_id IS NULL OR o
  if(-not $reader.Read()) { throw 'Aggregate result missing' }
  $values=@{}
  for($i=0;$i -lt $reader.FieldCount;$i++) {
-  $values[$reader.GetName($i)]=$reader.GetValue($i).ToString($null,[System.Globalization.CultureInfo]::InvariantCulture)
+  $value=$reader.GetValue($i)
+  if($value -is [DBNull]) { $value=$null }
+  elseif($value -is [System.IFormattable]) { $value=$value.ToString($null,[System.Globalization.CultureInfo]::InvariantCulture) }
+  $values[$reader.GetName($i)]=$value
  }
  $reader.Dispose()
  @{values=$values;query=$command.CommandText;captured_at=[DateTime]::UtcNow.ToString('o')} | ConvertTo-Json -Depth 4 -Compress
