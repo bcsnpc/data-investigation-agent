@@ -18,13 +18,11 @@ keys = {"customers":["customer_id"],"products":["product_id"],"orders":["order_i
  "order_lines":["order_line_id"],"payments":["payment_id"],"shipments":["shipment_id"],
  "shipment_lines":["shipment_id","order_line_id"],"refunds":["refund_id"],
  "refund_lines":["refund_id","order_line_id"],"audit_log":["event_id"]}
-frames, versions, counts, checks = {}, {}, {}, {}
+frames = read_pinned_bronze(spark, DeltaTable, BRONZE_BINDING)
+versions = {r['source_table']:r['delta_version'] for r in BRONZE_BINDING['tables']}
+counts, checks = {}, {}
 for name in expected:
-    path = f"{bronze}/Tables/app/{name}"
-    version = DeltaTable.forPath(spark,path).history(1).select("version").first()[0]
-    versions[name] = version
-    df = spark.read.format("delta").option("versionAsOf",version).load(path)
-    frames[name] = df
+    df = frames[name]
     df.createOrReplaceTempView("b_"+name)
     counts[name] = df.count()
     # This first release deliberately accepts only the verified initial baseline.
@@ -88,7 +86,10 @@ sources = dict(zip(["dim_customer","dim_product","fact_order","fact_order_line",
 for name, query in transforms.items():
     df = spark.sql(query)
     df = (df.withColumn("_silver_run_id",F.lit(run_id))
-          .withColumn("_bronze_pipeline_run_id",F.lit(BRONZE_RUN_ID))
+          .withColumn("_bronze_pipeline_run_id",F.lit(None).cast('string'))
+          .withColumn("_source_snapshot_id",F.lit(BRONZE_BINDING['source_snapshot_id']))
+          .withColumn("_source_manifest_sha256",F.lit(BRONZE_BINDING['source_manifest_sha256']))
+          .withColumn("_bronze_proof_sha256",F.lit(BRONZE_BINDING['bronze_proof_sha256']))
           .withColumn("_processed_at_utc",F.to_timestamp(F.lit(started)))
           .withColumn("_bronze_versions",F.lit(json.dumps(versions,sort_keys=True))))
     assert df.count() == counts[sources[name]], f"Grain changed: {name}"
@@ -101,7 +102,8 @@ example = fact.where("order_id='ORD-000002'").first().asDict()
 assert example['net_amount'] == Decimal('1529.6400')
 assert outputs['fact_order_line'].agg(F.sum('payable_amount')).first()[0] == frames['orders'].agg(F.sum('total_amount')).first()[0]
 
-report = {"status":"VALIDATED","run_id":run_id,"started_utc":started,"bronze_pipeline_run_id":BRONZE_RUN_ID,
+report = {"status":"VALIDATED","run_id":run_id,"started_utc":started,"bronze_pipeline_run_id":None,
+ "bronze_binding":BRONZE_BINDING,"outputs":{},
  "bronze_versions":versions,"bronze_counts":counts,"checks":checks,"sample_order":sample,
  "silver_counts":{},"silver_sample_order":example}
 report_path = f"{silver}/Files/validation/{run_id}.json"
@@ -110,11 +112,24 @@ notebookutils.fs.put(f"{silver}/Files/validation/latest.json",json.dumps({"statu
 for name, df in outputs.items():
     path = f"{silver}/Tables/{name}"
     df.write.format('delta').mode('overwrite').option('overwriteSchema','true').save(path)
-    actual = spark.read.format('delta').load(path)
+    table = DeltaTable.forPath(spark,path)
+    identity = table.detail().select('id').first()[0]
+    version = table.history(1).select('version').first()[0]
+    actual = spark.read.format('delta').option('versionAsOf',version).load(path)
     n = actual.count()
     assert n == counts[sources[name]], f"Destination count mismatch: {name}"
     assert actual.select(*keys[sources[name]]).distinct().count() == n
+    assert [(f.name,f.dataType.simpleString()) for f in actual.schema.fields] == [(f.name,f.dataType.simpleString()) for f in df.schema.fields], f"Destination schema mismatch: {name}"
+    assert not actual.exceptAll(df).limit(1).count(), f"Unexpected output rows: {name}"
+    assert not df.exceptAll(actual).limit(1).count(), f"Missing output rows: {name}"
+    assert table.detail().select('id').first()[0] == identity
+    report['outputs'][name] = {'path':path,'delta_table_id':identity,'delta_version':version,
+                               'rows':n,'schema':actual.schema.jsonValue(),'content_reconciled':True}
     report['silver_counts'][name] = n
+for name, output in report['outputs'].items():
+    table = DeltaTable.forPath(spark,output['path'])
+    assert table.detail().select('id').first()[0] == output['delta_table_id']
+    assert table.history(1).select('version').first()[0] == output['delta_version'], f"Concurrent Silver write: {name}"
 report['status']='READY'
 report['finished_utc']=datetime.now(timezone.utc).isoformat()
 notebookutils.fs.put(report_path,json.dumps(report,default=str,indent=2),True)

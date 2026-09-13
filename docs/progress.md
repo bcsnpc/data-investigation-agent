@@ -168,4 +168,12 @@ Six new publication/upload tests, eight source contract tests and two generator 
 
 Local verification against the registered source artifact and completed Bronze proof produced BOUND_INPUTS for all ten tables. This verifies binding construction; live Spark execution remains pending.
 
-[PR #34](https://github.com/bcsnpc/data-investigation-agent/pull/34) contains the input preparation slice and awaits review. Full-history secret scan passed with no leaks.
+[PR #34](https://github.com/bcsnpc/data-investigation-agent/pull/34) merged at `33f8be08ee4d1cb79acec3baa5155ac0636985a1`; issue #33 closed. Full-history secret scan passed with no leaks.
+
+## ING-004 Silver snapshot publication
+
+[Issue #35](https://github.com/bcsnpc/data-investigation-agent/issues/35) wires the verified input binding into the existing Silver notebook and adds output Delta identities/versions, two-way content reconciliation, and a registry recorder. The existing ten Silver destinations are reused. Four publication tests, six input tests, twelve lineage tests and two generator tests passed.
+
+Live job `885d3567-c838-4a35-bbe2-136a5524cffe` completed successfully. READY run `63a22c91-21b2-4fb1-a41c-cc5a97ac4284` reconciled all ten outputs (1,410,699 rows) and was registered as SOURCE_TO_SILVER_PUBLISHED in SQLite. Source snapshot and exact Bronze proof references are retained in the receipt and output rows. [PR #36](https://github.com/bcsnpc/data-investigation-agent/pull/36) contains this publication; CI and the full-history secret scan passed on the implementation commit.
+
+Gold/model propagation and refreshed metadata lineage remain outstanding. Current Silver now has a newer run than the Silver run referenced by existing Gold; that expected publication gap must not be classified as a technical defect. The old metadata graph has not been refreshed to describe the new notebook input path. No end-to-end common snapshot or independent Silver verifier is claimed. Next: make Gold consume these pinned Silver outputs and propagate the source evidence before refreshing the semantic model.
