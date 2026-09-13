@@ -1,0 +1,21 @@
+﻿{
+  "version": 1,
+  "sql": {
+    "server": "sql-orderops-9696025.database.windows.net",
+    "database": "ordersops",
+    "visibility_schema": "app",
+    "auth": {
+      "mode": "dpapi_file",
+      "credential_file": ".local/runtime-credentials/orderops_investigator.credential.xml"
+    }
+  },
+  "fabric": {
+    "workspace_id": "09cea7db-63ec-41f0-9cf0-872a6dc5c61d",
+    "auth": {
+      "mode": "fabric_cli",
+      "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+      "python": ".local/fabric-cli-env/Scripts/python.exe"
+    }
+  },
+  "storage": { "database": ".local/metadata/inventory.sqlite" }
+}
