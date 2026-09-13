@@ -13,7 +13,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 | 0 Engineering foundation | In progress | Private repository, README, SQL scripts, tests and tracking; broader standards and deployment automation remain |
 | 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions deployed and verified; broader specification features remain scoped for follow-up |
 | 2 Data platform | In progress | Bronze, initial Silver and Gold complete: 100k orders, reconciled reporting tables and independent source totals; recurring orchestration remains |
-| 3 Analytics | Initial release complete; review pending | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
+| 3 Analytics | Initial release complete | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
 | 4 Metadata and lineage | Not started | Connectors, graph, traversal and UI |
 | 5 Deterministic investigator | Not started | Cross-layer comparisons, first divergence and evidence |
 | 6 AI investigator | Not started | Ticket interpretation and explanations over verified evidence |
@@ -65,7 +65,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 ## Next milestone
 
-Silver and Gold are merged in PRs #12 and #14. The initial Power BI release is deployed and verified, pending implementation review. The manual app ? SQL ? Bronze ? Silver ? Gold ? Power BI trace is verified for `ORD-000002`. Next: metadata connectors and a stored lineage graph, followed by deterministic cross-layer investigation. Recurring refresh orchestration remains open.
+Silver and Gold are merged in PRs #12 and #14. The initial Power BI release is deployed and verified; approved for merge in PR #16. The manual app ? SQL ? Bronze ? Silver ? Gold ? Power BI trace is verified for `ORD-000002`. Next: metadata connectors and a stored lineage graph, followed by deterministic cross-layer investigation. Recurring refresh orchestration remains open.
 
 ## Tracking convention
 
@@ -87,4 +87,10 @@ relevant documentation. Mark completed work based on evidence, not intended work
 
 - [FAB-003: Build reconciled Gold reporting tables](https://github.com/bcsnpc/data-investigation-agent/issues/13) - deployed and verified; 59 Fabric checks and 15 independent source totals passed; closed; [PR #14](https://github.com/bcsnpc/data-investigation-agent/pull/14) merged
 
-- [PBI-001/002: Semantic model and reports](https://github.com/bcsnpc/data-investigation-agent/issues/15) - deployed and verified; [PR #16](https://github.com/bcsnpc/data-investigation-agent/pull/16) review pending
+- [PBI-001/002: Semantic model and reports](https://github.com/bcsnpc/data-investigation-agent/issues/15) - deployed and verified; [PR #16](https://github.com/bcsnpc/data-investigation-agent/pull/16) approved for merge
+
+## Session handoff
+
+The semantic model and all three reports are deployed and verified. PR #16 is approved for merge; GitHub records its final merge status. No further implementation is planned for this session.
+
+Next session: build metadata connectors and persist the lineage graph covering SQL, Fabric transformations, semantic model measures and report dependencies. Follow with deterministic cross-layer investigation. Recurring refresh orchestration remains an open follow-up. Resume from the verified baseline and sample order `ORD-000002`; detailed validation and report links are in [Power BI documentation](powerbi.md).
