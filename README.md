@@ -9,6 +9,12 @@ The project specification is in [cross_system_data_investigator_poc.md](cross_sy
 - Local relationship validation and tests that introduce invalid records.
 - Transactional SQL bulk loader, reconciliation queries and a dataset manifest.
 - Restricted app, Fabric and investigator SQL users with live permission tests.
+- Authenticated React order portal deployed to Azure App Service F1 Free.
+
+**Development portal:** https://orderops-portal-9696025.azurewebsites.net
+
+See [portal setup, access and deployment](docs/order-portal.md). Order browsing is
+implemented; business updates and live audit writing remain the next milestone.
 
 See [synthetic data rules and loading instructions](docs/synthetic-data.md).
 See [runtime identities](docs/runtime-identities.md) for credentials and permission boundaries.
@@ -16,7 +22,8 @@ See [runtime identities](docs/runtime-identities.md) for credentials and permiss
 Track completed work and remaining phases in [project progress](docs/progress.md)
 and [GitHub issues](https://github.com/bcsnpc/data-investigation-agent/issues).
 See [baseline verification](docs/baseline-validation.md) for live SQL evidence.
-CI runs generator tests and PowerShell syntax checks without cloud credentials.
+CI runs generator tests, PowerShell syntax checks, portal API tests and the
+TypeScript/frontend build without cloud credentials.
 
 ## Connection
 
@@ -46,5 +53,5 @@ powershell -NoProfile -ExecutionPolicy Bypass -File infra/scripts/Get-BaselineRe
 ```
 
 Generator tests need Python 3.10+ and only its standard library. Loader scripts
-use Windows PowerShell 5.1 and .NET System.Data.SqlClient. No Fabric ingestion,
-business web application, or AI investigation engine is implemented yet.
+use Windows PowerShell 5.1 and .NET System.Data.SqlClient. The portal uses Node 24.
+No Fabric ingestion or AI investigation engine is implemented yet.
