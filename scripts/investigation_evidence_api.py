@@ -6,6 +6,7 @@ from pathlib import Path
 import sqlite3
 from urllib.parse import parse_qs
 from uuid import UUID
+from ticket_workflow import Conflict
 
 
 class EvidenceStore:
@@ -41,10 +42,11 @@ class EvidenceStore:
         return self.decode(row,True) if row else None
 
 
-def create_app(database, token):
+def create_app(database, token, workflow=None, lineage_run=None):
     if not isinstance(token,str) or len(token)<32 or not token.isascii():
         raise ValueError('API token must contain at least 32 ASCII characters')
     store=EvidenceStore(database)
+    if workflow is not None:lineage_run=str(UUID(lineage_run))
 
     def application(environ,start_response):
         def respond(status, body):
@@ -59,11 +61,33 @@ def create_app(database, token):
         supplied=environ.get('HTTP_AUTHORIZATION','')
         if not supplied.isascii() or not hmac.compare_digest(supplied,'Bearer '+token):
             return respond('401 Unauthorized',{'error':'UNAUTHORIZED'})
-        if environ.get('REQUEST_METHOD')!='GET':
+        method=environ.get('REQUEST_METHOD')
+        if method!='GET' and not (method=='POST' and workflow is not None and environ.get('PATH_INFO')=='/api/tickets'):
             return respond('405 Method Not Allowed',{'error':'READ_ONLY_API'})
         path=environ.get('PATH_INFO','')
         query=environ.get('QUERY_STRING','')
         try:
+            if workflow is not None and path=='/api/tickets' and method=='POST':
+                if query:return respond('400 Bad Request',{'error':'INVALID_REQUEST'})
+                if environ.get('CONTENT_TYPE','').split(';')[0].strip()!='application/json':
+                    return respond('415 Unsupported Media Type',{'error':'JSON_REQUIRED'})
+                try:
+                    length=int(environ.get('CONTENT_LENGTH','0'))
+                    if not 1<=length<=16384:return respond('413 Payload Too Large',{'error':'INVALID_BODY_SIZE'})
+                    raw=environ['wsgi.input'].read(length)
+                    if len(raw)!=length:raise ValueError('Incomplete body')
+                    body=json.loads(raw.decode('utf-8'))
+                except (ValueError,UnicodeError):return respond('400 Bad Request',{'error':'INVALID_JSON'})
+                identity,created=workflow.submit(body,environ.get('HTTP_IDEMPOTENCY_KEY',''),lineage_run)
+                return respond('201 Created' if created else '200 OK',{'ticket_id':identity,'created':created,
+                               'status_url':'/api/tickets/'+identity})
+            if workflow is not None and path.startswith('/api/tickets/'):
+                if query:raise ValueError('Unexpected query')
+                raw=path[len('/api/tickets/'):];identity=str(UUID(raw))
+                if identity!=raw:raise ValueError('Canonical ticket UUID required')
+                item=workflow.get(identity)
+                if item is None:return respond('404 Not Found',{'error':'TICKET_NOT_FOUND'})
+                return respond('200 OK',{'ticket':item})
             if path=='/api/investigations':
                 params=parse_qs(query,keep_blank_values=True,strict_parsing=True,max_num_fields=2)
                 if set(params)-{'limit','offset'} or any(len(v)!=1 for v in params.values()):
@@ -86,6 +110,8 @@ def create_app(database, token):
                     'capabilities':{'read_saved_evidence':True,'execute_queries':False,'route_defects':False},
                     'evidence_scope':'Historical recorded observations; statuses are preserved, not recomputed or promoted to root cause'})
             return respond('404 Not Found',{'error':'NOT_FOUND'})
+        except Conflict:
+            return respond('409 Conflict',{'error':'IDEMPOTENCY_CONFLICT'})
         except (sqlite3.Error,json.JSONDecodeError,KeyError,TypeError,AttributeError):
             return respond('503 Service Unavailable',{'error':'EVIDENCE_STORE_UNAVAILABLE'})
         except ValueError:
