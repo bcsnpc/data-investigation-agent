@@ -1,49 +1,41 @@
-"""Browser-based SQL authentication using the CLI's existing encrypted cache."""
+﻿"""Azure CLI SQL tokens in an isolated enterprise profile; no token exports."""
 import base64
 import json
+import os
+from pathlib import Path
+import subprocess
+from uuid import UUID
 
-SQL_SCOPE = 'https://database.windows.net/.default'
-ACCOUNT = 'admin@skynwhy.com'  # Current OrderOps development operator.
-
-
-def client(tenant):
-    import msal
-    from msal_extensions import PersistedTokenCache
-    from fabric_cli.core.fab_auth import FabAuth
-    from fabric_cli.core import fab_constant
-    auth = FabAuth()
-    return msal.PublicClientApplication(
-        fab_constant.AUTH_DEFAULT_CLIENT_ID,
-        authority='https://login.microsoftonline.com/'+tenant,
-        token_cache=PersistedTokenCache(auth._get_persistence()),
-        enable_broker_on_windows=False, enable_broker_on_mac=False)
+ROOT = Path(__file__).resolve().parents[1]
+ACCOUNT = 'admin@skynwhy.com'
+SQL_RESOURCE = 'https://database.windows.net/'
 
 
-def verify(result, tenant):
-    if not result or not result.get('access_token'):
-        raise RuntimeError('SQL sign-in unavailable; run connect_fabric_sql.py')
-    token = result['access_token']
-    part = token.split('.')[1]
-    claims = json.loads(base64.urlsafe_b64decode(part+'='*(-len(part)%4)))
-    if claims.get('tid', '').lower() != tenant.lower():
-        raise RuntimeError('SQL token tenant differs from configuration')
-    return token
+def cli(args, interactive=False):
+    env = dict(os.environ, AZURE_CONFIG_DIR=str(ROOT/'.local/azure-fabric-sql'),
+               AZURE_CORE_ENABLE_BROKER_ON_WINDOWS='false', AZURE_CORE_LOGIN_EXPERIENCE_V2='off')
+    command = [str(ROOT/'.local/azure-cli-env/Scripts/python.exe'), '-m', 'azure.cli', *args]
+    result = subprocess.run(command, env=env, text=True, capture_output=not interactive, timeout=360 if interactive else 90)
+    if result.returncode:
+        raise RuntimeError('Enterprise Azure CLI authentication unavailable')
+    return None if interactive else json.loads(result.stdout)
 
 
 def get_sql_token(tenant):
-    app = client(tenant)
-    accounts = app.get_accounts(username=ACCOUNT)
-    if len(accounts) != 1:
-        raise RuntimeError('Expected enterprise SQL account unavailable or ambiguous')
-    return verify(app.acquire_token_silent([SQL_SCOPE], account=accounts[0]), tenant)
+    tenant = str(UUID(tenant))
+    account = cli(['account', 'show', '--output', 'json', '--only-show-errors'])
+    if account.get('tenantId', '').lower() != tenant.lower() or account.get('user', {}).get('name', '').casefold() != ACCOUNT.casefold():
+        raise RuntimeError('Enterprise SQL profile account or tenant mismatch')
+    result = cli(['account', 'get-access-token', '--tenant', tenant, '--resource', SQL_RESOURCE, '--output', 'json', '--only-show-errors'])
+    token = result['accessToken']
+    part = token.split('.')[1]
+    claims = json.loads(base64.urlsafe_b64decode(part+'='*(-len(part)%4)))
+    if claims.get('tid', '').lower() != tenant.lower() or claims.get('aud', '').rstrip('/') != SQL_RESOURCE.rstrip('/'):
+        raise RuntimeError('SQL token tenant or audience mismatch')
+    return token
 
 
 def sign_in(tenant):
-    app = client(tenant)
-    result = app.acquire_token_interactive([SQL_SCOPE], login_hint=ACCOUNT,
-                                           prompt='select_account', timeout=300)
-    verify(result, tenant)
-    claims = result.get('id_token_claims', {})
-    if claims.get('preferred_username', '').casefold() != ACCOUNT.casefold():
-        raise RuntimeError('Select '+ACCOUNT+' when signing in')
+    tenant = str(UUID(tenant))
+    cli(['login', '--tenant', tenant, '--allow-no-subscriptions', '--scope', SQL_RESOURCE+'.default', '--output', 'none'], interactive=True)
     get_sql_token(tenant)
