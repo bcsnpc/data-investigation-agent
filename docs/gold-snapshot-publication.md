@@ -17,3 +17,5 @@ The recorder checks the completed job time window, exact Silver binding, all che
 Gold publication alone does not prove which versions a Direct Lake query used. Semantic refresh, model evidence and refreshed metadata lineage are still required. The previously acquired lineage graph describes older notebook definitions until recollected.
 
 Four new evidence tests, six Gold business-rule tests, twelve lineage tests and two generator tests cover this implementation. Live results are recorded in the progress tracker.
+
+Live job `a05cdfd0-7e65-4c55-9a84-14d32af5aad1` completed with READY run `e6559c75-d1ba-49bc-a87e-61cc47ecaf99`. All 115 checks passed and nine existing outputs were reconciled at Delta version 1. Counts include 100,000 orders, 286,652 order lines, 20,000 customers, 150 products and 365 dates. Net cash remains USD 64,892,824.49. The receipt was registered as SOURCE_TO_GOLD_PUBLISHED in SQLite. The model has not been explicitly reframed by this step.
