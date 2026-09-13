@@ -62,6 +62,7 @@ class ApiTests(unittest.TestCase):
             item=body['investigation']
             self.assertEqual(item['result']['checks'][0]['status'],status)
             self.assertEqual(item['classification'],'UNRESOLVED')
+            self.assertIn(status,body['summary']['text'])
             self.assertFalse(body['capabilities']['execute_queries'])
             self.assertFalse(body['capabilities']['route_defects'])
 

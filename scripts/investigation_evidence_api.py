@@ -7,6 +7,7 @@ import sqlite3
 from urllib.parse import parse_qs
 from uuid import UUID
 from ticket_workflow import Conflict
+from evidence_summary import summarize
 
 
 class EvidenceStore:
@@ -107,6 +108,7 @@ def create_app(database, token, workflow=None, lineage_run=None):
                 item=store.get(identity)
                 if item is None:return respond('404 Not Found',{'error':'INVESTIGATION_NOT_FOUND'})
                 return respond('200 OK',{'investigation':item,
+                    'summary':summarize(item),
                     'capabilities':{'read_saved_evidence':True,'execute_queries':False,'route_defects':False},
                     'evidence_scope':'Historical recorded observations; statuses are preserved, not recomputed or promoted to root cause'})
             return respond('404 Not Found',{'error':'NOT_FOUND'})
