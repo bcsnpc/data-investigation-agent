@@ -31,6 +31,11 @@ jobs:
           python -m unittest discover -s scripts -p test_metadata_inventory.py
           python -m unittest discover -s scripts -p test_metadata_connectors.py
           python -m py_compile scripts/metadata_inventory.py scripts/onelake_metadata.py scripts/validate_metadata_inventory.py scripts/metadata_config.py scripts/metadata_auth.py scripts/metadata_worker.py scripts/metadata_connectors.py scripts/metadata_protocol.py scripts/compare_metadata_scans.py
+      - name: Test static lineage and graph traversal
+        run: |
+          pip install -r scripts/requirements-lineage.txt
+          python -m unittest discover -s scripts -p test_lineage.py
+          python -m py_compile scripts/lineage_graph.py scripts/lineage_notebook.py scripts/collect_lineage_evidence.py scripts/validate_lineage.py
   powershell-syntax:
     runs-on: windows-latest
     steps:
