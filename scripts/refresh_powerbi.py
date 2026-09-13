@@ -1,12 +1,14 @@
 """Synchronize Gold SQL metadata and frame a validated semantic model snapshot."""
 import json,time
 from fabric_api import api,ROOT
+from metadata_config import load_config
+from semantic_snapshot import registered_gold,alignment_query,validate_alignment
 
 config=json.loads((ROOT/'infra/fabric/environment.json').read_text())
 w=config['workspace_id'];g=config['gold_lakehouse_id'];m=config['semantic_model_id']
-gold=api(f'{w}/{g}/Files/validation/latest.json',audience='storage')['text']
-dims=api(f'{w}/{g}/Files/reporting/latest.json',audience='storage')['text']
-assert gold['status']==dims['status']=='READY' and gold['run_id']==dims['gold_run_id']
+reference=registered_gold(load_config(ROOT/'infra/metadata/development.json')['storage']['database'],config)
+gold=reference['report']
+assert api(f'{w}/{g}/Files/validation/latest.json',audience='storage')['text']==gold,'Gold publication changed'
 result=api(f"workspaces/{w}/sqlEndpoints/{config['gold_sql_endpoint_id']}/refreshMetadata",'post',{'recreateTables':False})
 operation=result.get('headers',{}).get('x-ms-operation-id')
 if operation:
@@ -33,9 +35,12 @@ else:raise TimeoutError('Semantic model refresh still running')
 tables=['DimDate','DimCustomer','DimProduct','FactOrder','FactOrderLine','FactRefund']
 # DISTINCT excludes the engine's virtual blank relationship row; actual run IDs
 # (including any mixed/stale run) remain visible and must match exactly.
-dax='EVALUATE ROW('+','.join(f'"{t}",CONCATENATEX(DISTINCT({t}[_gold_run_id]),{t}[_gold_run_id],",")' for t in tables)+')'
-observed=api(f'groups/{w}/datasets/{m}/executeQueries','post',{'queries':[{'query':dax}]},audience='powerbi')['text']
+dax=alignment_query()
+observed=api(f'groups/{w}/datasets/{m}/executeQueries','post',{'queries':[{'query':dax}],'serializerSettings':{'includeNulls':True}},audience='powerbi')['text']
 row=observed['results'][0]['tables'][0]['rows'][0]
-assert all(row.get(f'[{t}]')==gold['run_id'] for t in tables),observed
+alignment=validate_alignment(gold,row)
+assert api(f'{w}/{g}/Files/validation/latest.json',audience='storage')['text']==gold,'Gold publication changed during refresh'
 (ROOT/'.local/powerbi-refresh.json').write_text(json.dumps(state,indent=2))
+(ROOT/'.local/semantic-snapshot-refresh.json').write_text(json.dumps({'gold_reference':reference,
+ 'model_id':m,'refresh_id':refresh_id,'refresh':state,'query':dax,'observed':observed,'alignment':alignment},indent=2))
 print('SQL metadata and semantic model refresh completed. Run validate_powerbi.py next.')
