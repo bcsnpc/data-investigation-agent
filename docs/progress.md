@@ -59,7 +59,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 ## Next milestone
 
-Finish Bronze traceability: record the run ID/time and item IDs, confirm overwrite settings, and reconcile one complete order (#5). Then implement Silver transformations and validation. The end-to-end milestone is not achieved until one
+Finish Bronze traceability: record the run ID/time and item IDs, and reconcile one complete order (#5). Then implement Silver transformations and validation. The end-to-end milestone is not achieved until one
 order can be traced from the app through Azure SQL, Fabric and Power BI.
 
 ## Tracking convention

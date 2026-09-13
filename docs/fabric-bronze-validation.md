@@ -50,8 +50,7 @@ snapshot. The user was instructed to pause order updates for the initial load.
 ## Remaining FAB-001 work
 
 - Record actual pipeline/copy run ID, start/end UTC and Lakehouse/Copy job item IDs.
-- Verify final write mode: review screenshot initially showed Append; Overwrite
-  was recommended, but the final setting was not shown. Avoid rerunning until verified.
+- Final write mode: Overwrite confirmed by the user after validation.
 - Preserve ingestion metadata and document the batch/run-to-source association.
 - Compare one complete order across SQL and Bronze (for example ORD-000002).
 
