@@ -8,8 +8,8 @@
   "bronze_start_utc": "2026-09-13T04:23:55.0816538",
   "bronze_end_utc": "2026-09-13T04:25:28.0966667",
   "silver_notebook_id": "11a2c0e9-47f6-4f48-9683-f68a69752ca0",
-  "silver_notebook_job_id": "ab0efd65-d6ed-45f5-bba1-ddea9eeb31cb",
-  "silver_validation_run_id": "55cdeeb3-0772-494a-8e7f-f0df4da03353",
+  "silver_notebook_job_id": "885d3567-c838-4a35-bbe2-136a5524cffe",
+  "silver_validation_run_id": "63a22c91-21b2-4fb1-a41c-cc5a97ac4284",
   "gold_lakehouse_id": "a3422248-584b-4bdb-8ab8-b12a90ec3074",
   "gold_notebook_id": "0f60ea8d-e983-4048-bc28-48d3d2112e89",
   "gold_notebook_job_id": "99c62fbc-9ed3-40fe-8120-e605c37d8139",
@@ -35,5 +35,12 @@
     "verification_job_id": "ee41fc12-0e81-4d44-a68f-a4ce47cbdcde",
     "verification_id": "a28d6885-78a8-4f5a-b97b-59cdd90a265b",
     "publication_receipt": "Files/source_snapshots/3b9354f3-af21-4296-a936-91b4a299777a/publication.json"
+  },
+  "snapshot_silver": {
+    "source_snapshot_id": "3b9354f3-af21-4296-a936-91b4a299777a",
+    "bronze_verification_id": "a28d6885-78a8-4f5a-b97b-59cdd90a265b",
+    "job_id": "885d3567-c838-4a35-bbe2-136a5524cffe",
+    "run_id": "63a22c91-21b2-4fb1-a41c-cc5a97ac4284",
+    "receipt": "Files/validation/63a22c91-21b2-4fb1-a41c-cc5a97ac4284.json"
   }
 }
