@@ -60,6 +60,13 @@ class Graph:
 
 def build(assets,supplement):
     graph=Graph(assets)
+    for mapping in supplement.get('snapshot_mappings',[]):
+        source=graph.find('SqlObject',mapping['sql_table'],mapping['sql_parent'])
+        target=graph.table_path(mapping['destination'])
+        if source and target:
+            graph.edge(source,target,'data',target,{'verified_snapshot_mapping':mapping})
+        else:
+            graph.gap(target or mapping['destination'],'Verified snapshot mapping unresolved',mapping)
     parts=[a for a in assets if a['kind']=='DefinitionPart']
     endpoints={}; connections={}
     for record in supplement['records']:

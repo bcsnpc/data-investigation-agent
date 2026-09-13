@@ -192,4 +192,12 @@ See [Gold snapshot publication](gold-snapshot-publication.md). [PR #38](https://
 
 Live transactional refresh `63e0ebc6-d4e3-4544-8e9b-92c07778819e` completed successfully against Gold run `e6559c75-d1ba-49bc-a87e-61cc47ecaf99`. All six tables aligned with expected counts and zero physical rows with missing run markers. Fifteen business totals, order count, eight filter cases and refund drillthrough passed. Combined evidence is stored in SQLite `semantic_snapshot_verifications` as SEMANTIC_RUN_ALIGNED. [PR #40](https://github.com/bcsnpc/data-investigation-agent/pull/40) contains this change; implementation CI and full-history secret scan passed.
 
-See [semantic refresh evidence](semantic-snapshot-refresh.md). Exact engine Delta-version selection is not exposed by these DAX checks; snapshot comparability remains false. Next: recollect metadata and update lineage for the new snapshot input paths and combined Gold dimension publication, preserving any unsupported parser gaps rather than relying on the old graph.
+See [semantic refresh evidence](semantic-snapshot-refresh.md). Exact engine Delta-version selection is not exposed by these DAX checks; snapshot comparability remains false. [PR #40](https://github.com/bcsnpc/data-investigation-agent/pull/40) merged at `0471a84dea91f75765e9d03fb0557c7fd850da76`; issue #39 closed.
+
+## LIN-002 refreshed metadata and lineage
+
+[Issue #41](https://github.com/bcsnpc/data-investigation-agent/issues/41) recollects current definitions and adds conservative support for the reviewed pinned Bronze reader plus verified source-publication mappings. Scan `4f443959-2657-4ca3-911a-0627441fa25f` is COMPLETE with zero unavailable capabilities, 39 lakehouse tables and five notebooks.
+
+Graph `18791918-710b-4dfc-9360-ae328d7ada00` has 373 links and SQL paths for all 41 data-bound visuals. Status remains PARTIAL: ten static-parser gaps in the snapshot publisher/verifier are retained. The initial rebuild without receipt-backed mappings (`f7ae59db-bbd2-4dd4-b258-6bda766d0713`) is retained as historical evidence, not selected as the current build. Seven new audit/parser tests, twelve existing lineage tests and two generator tests pass. No cloud data, definitions or refreshes changed in this step.
+
+See [refreshed lineage](refreshed-lineage.md). Next: make investigation consumers use the explicit refreshed graph and present its publication evidence and remaining limitations; do not infer exact model Delta-version comparability or hide unresolved dependencies.
