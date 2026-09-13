@@ -44,6 +44,7 @@ jobs:
         run: |
           python -m unittest discover -s scripts -p test_cross_layer_investigation.py
           python -m unittest discover -s scripts -p test_snapshot_provenance.py
+          python -m unittest discover -s scripts -p test_source_snapshot.py
           python -m py_compile scripts/cross_layer_investigation.py scripts/investigation_query_worker.py scripts/connect_fabric_sql.py scripts/fabric_sql_auth.py
   powershell-syntax:
     runs-on: windows-latest
