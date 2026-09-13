@@ -14,7 +14,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 |---|---|---|
 | 0 Engineering foundation | In progress | Private repository, README, SQL scripts, tests and tracking; broader standards and deployment automation remain |
 | 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions deployed and verified; broader specification features remain scoped for follow-up |
-| 2 Data platform | In progress | Bronze, initial Silver and Gold complete: 100k orders, reconciled reporting tables and independent source totals; recurring orchestration remains |
+| 2 Data platform | In progress | Initial Bronze/Silver/Gold complete; isolated transaction-consistent Bronze snapshot also published and independently verified; pinned downstream publications and recurring orchestration remain |
 | 3 Analytics | Initial release complete | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
 | 4A Metadata connectors | Initial collector merged; reusable connector refactor verified | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
 | 4B Lineage | Backend merged in PR #22 | 360 evidence-backed links, persisted upstream/downstream traversal and 41 data-bound visual traces; UI remains later |
@@ -70,7 +70,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 ## Next milestone
 
-Metadata and lineage are merged through PR #22; deterministic check contracts are merged in PR #24. Cross-layer query adapters and ordered boundary checks are implemented. Five-layer live verification passed. Next: establish common-source snapshot evidence for comparable diagnosis. Ticket UI and AI follow the backend. Recurring refresh orchestration remains open.
+Metadata and lineage are merged through PR #22; deterministic check contracts are merged in PR #24. Cross-layer query adapters and ordered boundary checks are implemented. Five-layer live verification passed. Source-to-isolated-Bronze snapshot evidence is now verified. Next: publish Silver from the pinned Bronze versions, then propagate the chain through Gold and Power BI. Ticket UI and AI follow the backend. Recurring refresh orchestration remains open.
 
 ## Tracking convention
 
@@ -154,4 +154,10 @@ This improves available version evidence but does not complete common-source sna
 
 [Issue #29](https://github.com/bcsnpc/data-investigation-agent/issues/29) implements a read-only ten-table export in one SQL SNAPSHOT transaction. The finalized source artifact `3b9354f3-af21-4296-a936-91b4a299777a` contains 1,410,699 rows with verified content/schema hashes; its manifest reference is registered in SQLite. Exported data independently reconciles to 100,000 orders and USD 64,892,824.49 net cash. Eight source/manifest contract tests and two generator tests pass.
 
-The planned Bronze publication uses an isolated snapshot schema and requires actual Delta table identities/versions and content reconciliation. This is a source artifact plus publication contract, not a deployed replacement ingestion pipeline. Existing cross-layer snapshot gaps remain until Bronze and downstream publications consume this exact artifact. No cloud data or definitions changed. See [source snapshot documentation](source-snapshot.md). Next: execute and independently verify the isolated Bronze publication, then propagate its version chain. [PR #30](https://github.com/bcsnpc/data-investigation-agent/pull/30) pending review.
+The planned Bronze publication uses an isolated snapshot schema and requires actual Delta table identities/versions and content reconciliation. This is a source artifact plus publication contract, not a deployed replacement ingestion pipeline. Existing cross-layer snapshot gaps remain until Bronze and downstream publications consume this exact artifact. No cloud data or definitions changed. See [source snapshot documentation](source-snapshot.md). Next: execute and independently verify the isolated Bronze publication, then propagate its version chain. [PR #30](https://github.com/bcsnpc/data-investigation-agent/pull/30) merged; issue #29 closed.
+
+## ING-002 isolated Bronze publication verified
+
+[Issue #31](https://github.com/bcsnpc/data-investigation-agent/issues/31) stages the exact registered source artifact and publishes ten typed Delta tables under `snapshot_3b9354f3af214296a93691b4a299777a`. Publisher job `8091da39-ff69-4a8e-ac86-7cb583270380` and independent verifier job `ee41fc12-0e81-4d44-a68f-a4ce47cbdcde` both completed successfully. All 1,410,699 rows reconcile in both directions, with ten distinct Delta IDs pinned at version 0. The source-to-Bronze evidence is registered in SQLite as SOURCE_TO_BRONZE_VERIFIED.
+
+Six new publication/upload tests, eight source contract tests and two generator tests passed. The existing app Bronze/Silver/Gold/model path remains separate; it has not been assigned this source snapshot. Details, job IDs, guarantees and limitations are in [isolated Bronze publication](snapshot-bronze.md), with environment references in infra/fabric/environment.json. Next: make Silver consume the verified table IDs/versions and propagate the publication chain. Review pending.
