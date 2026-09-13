@@ -7,7 +7,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 ## Current position
 
 Phases 0 (engineering foundation), 1 (business system) and 2 (data platform) remain in progress; the initial analytics release is complete.
-The 100,000-order SQL baseline and authenticated operational portal are deployed. Verified source snapshots now propagate through Bronze, Silver and nine Gold reporting/dimension tables. The six-table semantic model and three reports have verified measures and filter cases. Current metadata includes 39 lakehouse tables and five notebooks; the reviewed lineage graph has 403 links and 41 eligible data-bound visual paths. Live five-layer metrics have been verified, while exact model snapshot comparability remains explicitly unproven. A local evidence API, ticket intake and durable execution/status workflow are implemented. Investigation UI, LLM interpretation and routing remain pending.
+The 100,000-order SQL baseline and authenticated operational portal are deployed. Verified source snapshots now propagate through Bronze, Silver and nine Gold reporting/dimension tables. The six-table semantic model and three reports have verified measures and filter cases. Current metadata includes 39 lakehouse tables and five notebooks; the reviewed lineage graph has 403 links and 41 eligible data-bound visual paths. Live five-layer metrics have been verified, while exact model snapshot comparability remains explicitly unproven. A local evidence API, ticket intake and durable execution/status workflow are implemented. A review-only structured LLM planning adapter is implemented; live model verification, investigation UI and routing remain pending.
 
 | Phase | Status | Evidence / remaining work |
 |---|---|---|
@@ -19,7 +19,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 | 4B Lineage | Reviewed scope backend merged | 403 links, retained resolution evidence and 41 eligible visual paths; UI remains later |
 | 5A Deterministic investigator | In progress | Check engine merged in PR #24; cross-layer adapters implemented with SQL/Power BI live reads; all five layers live-verified; common-source snapshot proof pending |
 | 5B Ticket experience | Backend intake/workflow implemented | Local authenticated ticket queue, status/timeline and evidence links; UI, attachments and hosted worker remain |
-| 6 AI investigator | Not started | Ticket interpretation and explanations over verified evidence |
+| 6 AI investigator | Draft planning adapter implemented; live verification pending | Opt-in structured ticket drafts, local validation and persisted attempts; Azure deployment, model evaluations, handoff and explanations pending |
 | 7 Defect lab | Not started | Deterministic injection/reset, isolated evaluation ground truth and expected-behavior coverage |
 | 7B Routing | Not started | Generic issue/notification providers, ownership-based routing and human triage |
 | 8 Portfolio polish | Not started | Hosted demo, screenshots, video and presentation |
@@ -246,3 +246,10 @@ PR #48 subsequently merged at `0f8f25ad029cdf168cb079b152f6641f57e46d1f`; issue 
 Live baseline-verification ticket `f2fa6c29-7080-4d54-a882-3d99772b5b0b` completed through HTTP intake, separate worker, status retrieval and linked evidence retrieval. Its investigation is `d8cab0ab-c823-4171-a98a-6f20497e63b7`: Bronze/Silver/Gold/semantic matched at 100,000 orders and USD 64,892,824.49; source SQL was unavailable. The outcome preserves UNAVAILABLE and NOT_COMPARABLE, with classification UNRESOLVED. No full five-layer success is claimed for this run. The test server stopped after verification.
 
 [PR #50](https://github.com/bcsnpc/data-investigation-agent/pull/50) contains the workflow; full-history secret scan passed. See [ticket workflow](ticket-workflow.md). No LLM or defect-routing capability is enabled. Next: configure the LLM provider and add structured ticket interpretation/planning over validated tools with explicit missing-input handling.
+
+
+PR #50 merged at 307710d0e16ec57440e1fff585a4001d9c42b9bb; issue #49 closed.
+
+## AI-001 structured ticket drafts
+
+Issue #51 adds an opt-in Azure Responses adapter, strict local scope validation and persisted planning attempts in workflow.sqlite. Drafts require review and cannot execute queries or classify defects. Seven planner tests, six workflow tests and two generator tests passed. No Azure model deployment is configured or live model call verified. See [LLM ticket planning](llm-ticket-planning.md). Next: Azure deployment configuration, live ambiguity/filter evaluations and reviewed handoff. Bounded SQL availability retries remain a separate follow-up; the current completed partial run is not automatically requeued.
