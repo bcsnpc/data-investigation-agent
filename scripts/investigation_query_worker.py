@@ -26,7 +26,11 @@ def dax(currency, order_id):
     if order_id:
         clauses.append(f'TREATAS({{"{order_id}"}},FactOrder[order_id])')
     return ('EVALUATE CALCULATETABLE(ROW("order_count",FORMAT(COALESCE([Order Count],0),"0","en-US"),'
-            '"net_cash",FORMAT(COALESCE([Net Cash],0),"0.0000","en-US")),' + ','.join(clauses) + ')')
+            '"net_cash",FORMAT(COALESCE([Net Cash],0),"0.0000","en-US"),'
+            '"provenance_rows",FORMAT(COALESCE(COUNTROWS(FactOrderLine),0),"0","en-US"),'
+            '"gold_run",SELECTEDVALUE(FactOrderLine[_gold_run_id]),'
+            '"gold_run_count",FORMAT(COALESCE(COUNTROWS(VALUES(FactOrderLine[_gold_run_id])),0),"0","en-US"),'
+            '"gold_run_nulls",FORMAT(COALESCE(COUNTROWS(FILTER(FactOrderLine,ISBLANK(FactOrderLine[_gold_run_id]))),0),"0","en-US")),' + ','.join(clauses) + ')')
 
 
 def extract_dax(response):
@@ -37,7 +41,9 @@ def extract_dax(response):
     if result.get('error') or len(tables) != 1 or tables[0].get('error') or len(tables[0].get('rows', [])) != 1:
         raise ValueError('DAX result incomplete')
     row = tables[0]['rows'][0]
-    return {key: row[f'[{key}]'] for key in ('order_count', 'net_cash')}
+    values = {key: row[f'[{key}]'] for key in ('order_count', 'net_cash')}
+    values.update({key: row.get(f'[{key}]') for key in ('provenance_rows', 'gold_run', 'gold_run_count', 'gold_run_nulls')})
+    return values
 
 
 def execute(request):

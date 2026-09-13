@@ -142,4 +142,10 @@ INV-002 confirmed auth cause: AADSTS65002 identifies missing first-party preauth
 
 The isolated Azure CLI enterprise sign-in succeeded. Sample run `464fd436-1667-46de-b5a8-607c0689d4bf` returned one order and USD 1,529.64 net cash across SQL, Bronze, Silver, Gold and Power BI. Full baseline run `188e33fd-2363-4980-9557-b9ad1ff93c45` returned 100,000 orders and USD 64,892,824.49 net cash in all five layers. Each run has eight observed boundary matches and no unavailable layers. Evidence is retained in SQLite; no cloud data or definitions changed.
 
-This resolves the authentication/live-verification blockers recorded above. PR #26 is ready for review. Strict comparisons remain NOT_COMPARABLE because independently acquired values do not prove a common source snapshot; classification remains UNRESOLVED. Next: propagate trustworthy source/dependency versions for comparable boundary diagnosis.
+This resolves the authentication/live-verification blockers recorded above. PR #26 merged; issue #25 closed. Strict comparisons remain NOT_COMPARABLE because independently acquired values do not prove a common source snapshot; classification remains UNRESOLVED. Next: propagate trustworthy source/dependency versions for comparable boundary diagnosis.
+
+## INV-003 run provenance evidence
+
+[Issue #27](https://github.com/bcsnpc/data-investigation-agent/issues/27) captures publication run IDs, distinct/null counts and scope row counts in the same query as the metrics. Live run `9a1976a2-0699-4361-a88c-6509fc36d02b` verified Silver-to-Gold and Gold-to-model run alignment with no mixed or missing markers. All five layers still agree on 100,000 orders and USD 64,892,824.49 net cash. Six new provenance tests and 26 query/investigation/generator tests pass.
+
+This improves available version evidence but does not complete common-source snapshot proof. The original SQL-to-Bronze ingestion has no captured immutable extraction identity; SQL endpoint reads are not pinned Delta snapshots. Source snapshot remains null, strict comparisons remain NOT_COMPARABLE and classification remains UNRESOLVED. The ingestion/publication changes required for proof are specified in [snapshot provenance](snapshot-provenance.md). No pipelines, cloud data or definitions changed. Review pending.
