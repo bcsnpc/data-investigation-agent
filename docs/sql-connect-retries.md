@@ -43,3 +43,5 @@ the saved observation. Classification remains UNRESOLVED and live snapshot
 comparability is not promoted by connection recovery. No forced database pause
 or business write was performed. Five retry tests, twelve cross-layer tests and
 two generator tests passed.
+
+User constraint: SQL must stay on the free allowance. Reverified useFreeLimit=true and freeLimitExhaustionBehavior=AutoPause. No change to paid overage or free-limit settings is authorized. If the allowance is exhausted, preserve unavailability and wait for renewal; do not change billing settings to make retries succeed.

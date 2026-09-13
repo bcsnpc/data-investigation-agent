@@ -263,3 +263,6 @@ Issue #53: PR #52 merged; browser login restored personal Azure access. Register
 ## Reliability: SQL auto-resume retries
 
 Issue #57: Azure activity logs and successful reads after resume identified SQL auto-resume plus missing initial-connection retry as the recurring 40613 mechanism. Added at most three SQL-only connection attempts with 10/20-second delays for connection-stage 40613; query/authentication/unknown errors are not replayed. Saved observations retain attempt history. Five retry tests, twelve cross-layer tests and two generator tests passed. Live run 5a161256-05a0-4f81-9fdb-ab3c238284b4 successfully read all five layers at 100,000 orders and USD 64,892,824.49. SQL was already awake and succeeded on attempt one; recovery/exhaustion are simulated tests, not a live cold-start claim. See [SQL retry details](sql-connect-retries.md). No database settings or business data changed.
+
+
+User constraint: Azure SQL must remain within its free allowance. Verified useFreeLimit=true and freeLimitExhaustionBehavior=AutoPause; normal idle autoPauseDelay=60 minutes. Do not enable paid overage, remove the free limit or upgrade SQL compute without explicit user authorization. Accept quota-exhaustion unavailability until allowance renews; bounded connection retries must not change these settings. Minimize avoidable full-estate validation runs.
