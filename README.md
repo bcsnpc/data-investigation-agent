@@ -59,3 +59,6 @@ No Fabric ingestion or AI investigation engine is implemented yet.
 Order action release: ship, deliver and full-line returns with transactional audit
 are deployed and verified on Azure App Service.
 See [portal operations](docs/order-portal.md#controlled-order-actions).
+
+Fabric Bronze initial load: 10 table counts match the baseline and eight integrity
+checks passed (user-confirmed). See [Bronze validation](docs/fabric-bronze-validation.md).

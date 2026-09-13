@@ -4,15 +4,15 @@ Updated: 2026-09-12. Source plan: [POC specification](../cross_system_data_inves
 
 ## Current position
 
-Phase 0 (engineering foundation) and Phase 1 (business system) are **in progress**.
+Phases 0 (engineering foundation), 1 (business system), and 2 (data platform) are **in progress**.
 The SQL baseline and authenticated order-browsing portal are implemented.
-Ship, deliver and full-line return actions with transactional audit writing are implemented and verified locally against Azure SQL; merged in PR #9 and deployed to Azure App Service; hosted API and browser checks passed. No Fabric, Power BI, lineage engine or AI integration is complete.
+Ship, deliver and full-line return actions with transactional audit writing are implemented and verified locally against Azure SQL; merged in PR #9 and deployed to Azure App Service; hosted API and browser checks passed. The initial Fabric Bronze copy succeeded: all 10 table counts match and the user confirmed zero failures in eight integrity checks. Silver, Gold, Power BI, lineage and AI remain pending.
 
 | Phase | Status | Evidence / remaining work |
 |---|---|---|
 | 0 Engineering foundation | In progress | Private repository, README, SQL scripts, tests and tracking; broader standards and deployment automation remain |
 | 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions deployed and verified; broader specification features remain scoped for follow-up |
-| 2 Data platform | Not started | Fabric Bronze/Silver/Gold, ingestion and validation |
+| 2 Data platform | In progress | Initial Bronze load and eight integrity checks passed; run metadata, one-order trace, Silver and Gold remain |
 | 3 Analytics | Not started | Semantic model, DAX and reports |
 | 4 Metadata and lineage | Not started | Connectors, graph, traversal and UI |
 | 5 Deterministic investigator | Not started | Cross-layer comparisons, first divergence and evidence |
@@ -36,8 +36,9 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 | 2026-09-12 | Implemented APP-001 browsing release | React/Vite portal, authenticated Node API, live SQL reads and local browser/API verification; [details](order-portal.md) |
 | 2026-09-12 | Deployed portal to Azure App Service | Central US, F1 Free, HTTPS; public API smoke tests passed; browsing release (PR #8) |
 | 2026-09-12 | Implemented controlled order actions | Ship/deliver/return, exact SQL refund arithmetic, atomic audit, stale/retry/concurrency protection; API-to-SQL and mobile browser verification rolled back; merged in PR #9 |
-
 | 2026-09-12 | Deployed controlled action release | Azure F1 Free; hosted browsing and action rejection checks passed; ship/deliver/return forms and mobile refund preview verified; no business writes committed during deployment checks |
+
+| 2026-09-12 | Validated initial Fabric Bronze load | User-reported successful copy; screenshot confirms all 10 baseline counts; user confirmed eight integrity checks returned zero; [evidence and remaining work](fabric-bronze-validation.md) |
 
 ## Decisions and departures from the original draft
 
@@ -58,8 +59,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 ## Next milestone
 
-Validate enterprise Fabric workspace/capacity and source access, then establish
-the first Azure SQL-to-Bronze pipeline (#5). The end-to-end milestone is not achieved until one
+Finish Bronze traceability: record the run ID/time and item IDs, confirm overwrite settings, and reconcile one complete order (#5). Then implement Silver transformations and validation. The end-to-end milestone is not achieved until one
 order can be traced from the app through Azure SQL, Fabric and Power BI.
 
 ## Tracking convention
@@ -74,6 +74,6 @@ relevant documentation. Mark completed work based on evidence, not intended work
 - [ENG-001: Complete engineering foundation](https://github.com/bcsnpc/data-investigation-agent/issues/2) - open
 - [DB-002: Add restricted runtime SQL identities](https://github.com/bcsnpc/data-investigation-agent/issues/3) - closed; merged in PR #6
 - [APP-001: Build Order Operations Portal](https://github.com/bcsnpc/data-investigation-agent/issues/4) - closed: browsing and controlled actions deployed and verified; PRs #8 and #9 merged
-- [FAB-001: Validate enterprise access and ingest Azure SQL to Bronze](https://github.com/bcsnpc/data-investigation-agent/issues/5) - open
+- [FAB-001: Validate enterprise access and ingest Azure SQL to Bronze](https://github.com/bcsnpc/data-investigation-agent/issues/5) - in progress: initial copy, counts and eight integrity checks passed; run metadata and one-order trace pending
 
 - [INF-001: Deploy authenticated portal](https://github.com/bcsnpc/data-investigation-agent/issues/7) - closed; deployment merged in PR #8, user confirmed portal access
