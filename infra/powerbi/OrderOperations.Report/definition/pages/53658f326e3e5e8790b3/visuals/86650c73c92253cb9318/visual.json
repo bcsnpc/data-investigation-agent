@@ -1,0 +1,169 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "86650c73c92253cb9318",
+  "position": {
+    "x": 24,
+    "y": 558,
+    "width": 1232,
+    "height": 240,
+    "z": 9,
+    "tabOrder": 9
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Refund events \u2022 includes paid cancellations before shipment'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactRefund"
+                    }
+                  },
+                  "Property": "refund_id"
+                }
+              },
+              "queryRef": "FactRefund.refund_id",
+              "nativeQueryRef": "refund_id",
+              "displayName": "Refund Id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactRefund"
+                    }
+                  },
+                  "Property": "payment_id"
+                }
+              },
+              "queryRef": "FactRefund.payment_id",
+              "nativeQueryRef": "payment_id",
+              "displayName": "Payment Id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactRefund"
+                    }
+                  },
+                  "Property": "refund_day"
+                }
+              },
+              "queryRef": "FactRefund.refund_day",
+              "nativeQueryRef": "refund_day",
+              "displayName": "Refund Day"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactRefund"
+                    }
+                  },
+                  "Property": "refund_reason"
+                }
+              },
+              "queryRef": "FactRefund.refund_reason",
+              "nativeQueryRef": "refund_reason",
+              "displayName": "Refund Reason"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactOrderLine"
+                    }
+                  },
+                  "Property": "Event Refund Amount"
+                }
+              },
+              "queryRef": "FactOrderLine.Event Refund Amount",
+              "nativeQueryRef": "Event Refund Amount",
+              "displayName": "Event Refund Amount"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

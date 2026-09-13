@@ -1,0 +1,154 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "bf321aad2af9521186fa",
+  "position": {
+    "x": 798,
+    "y": 558,
+    "width": 458,
+    "height": 240,
+    "z": 13,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Capture and refund reconciliation'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#17324D'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FFFFFF'"
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactOrderLine"
+                    }
+                  },
+                  "Property": "Captured Amount"
+                }
+              },
+              "queryRef": "FactOrderLine.Captured Amount",
+              "nativeQueryRef": "Captured Amount",
+              "displayName": "Captured Amount"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactOrderLine"
+                    }
+                  },
+                  "Property": "Refund Amount"
+                }
+              },
+              "queryRef": "FactOrderLine.Refund Amount",
+              "nativeQueryRef": "Refund Amount",
+              "displayName": "Refund Amount"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactOrderLine"
+                    }
+                  },
+                  "Property": "Net Cash"
+                }
+              },
+              "queryRef": "FactOrderLine.Net Cash",
+              "nativeQueryRef": "Net Cash",
+              "displayName": "Net Cash"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactOrderLine"
+                    }
+                  },
+                  "Property": "Net Tax"
+                }
+              },
+              "queryRef": "FactOrderLine.Net Tax",
+              "nativeQueryRef": "Net Tax",
+              "displayName": "Net Tax"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
