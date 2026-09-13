@@ -6,18 +6,17 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-Phases 0 (engineering foundation), 1 (business system), 2 (data platform), and 3 (analytics) are **in progress**.
-The SQL baseline and authenticated order-browsing portal are implemented.
-Ship, deliver and full-line return actions with transactional audit writing are implemented and verified locally against Azure SQL; merged in PR #9 and deployed to Azure App Service; hosted API and browser checks passed. Bronze ingestion is independently verified. Silver has ten conformed tables, 100,000 orders and a READY validation report. Gold has six reporting tables and a READY report with 59 passing checks; all 15 currency totals match independent Azure SQL queries. Power BI now has a six-table semantic model and three reports with verified DAX totals and order drillthrough. The initial metadata connector release is implemented and live-verified: 476 metadata records with no failed attempted capabilities. The lineage backend is now implemented and verified against the captured metadata; lineage UI and AI remain pending.
+Phases 0 (engineering foundation), 1 (business system) and 2 (data platform) remain in progress; the initial analytics release is complete.
+The 100,000-order SQL baseline and authenticated operational portal are deployed. Verified source snapshots now propagate through Bronze, Silver and nine Gold reporting/dimension tables. The six-table semantic model and three reports have verified measures and filter cases. Current metadata includes 39 lakehouse tables and five notebooks; the reviewed lineage graph has 403 links and 41 eligible data-bound visual paths. Live five-layer metrics agree, while exact model snapshot comparability remains explicitly unproven. A local read-only evidence API is now implemented; ticket intake, investigation UI, AI and routing remain pending.
 
 | Phase | Status | Evidence / remaining work |
 |---|---|---|
 | 0 Engineering foundation | In progress | Private repository, README, SQL scripts, tests and tracking; broader standards and deployment automation remain |
 | 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions deployed and verified; broader specification features remain scoped for follow-up |
-| 2 Data platform | In progress | Initial Bronze/Silver/Gold complete; isolated transaction-consistent Bronze snapshot also published and independently verified; pinned downstream publications and recurring orchestration remain |
+| 2 Data platform | In progress | Transaction-consistent source and verified Bronze/Silver/Gold publications complete; recurring orchestration remains |
 | 3 Analytics | Initial release complete | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
 | 4A Metadata connectors | Initial collector merged; reusable connector refactor verified | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
-| 4B Lineage | Backend merged in PR #22 | 360 evidence-backed links, persisted upstream/downstream traversal and 41 data-bound visual traces; UI remains later |
+| 4B Lineage | Reviewed scope backend merged | 403 links, retained resolution evidence and 41 eligible visual paths; UI remains later |
 | 5A Deterministic investigator | In progress | Check engine merged in PR #24; cross-layer adapters implemented with SQL/Power BI live reads; all five layers live-verified; common-source snapshot proof pending |
 | 5B Ticket experience | Not started | Ticket form, attachments, investigation workspace and auditable timeline |
 | 6 AI investigator | Not started | Ticket interpretation and explanations over verified evidence |
@@ -227,3 +226,11 @@ PR #44 subsequently merged at `db1ba1f6d483ee5625e469b936422721fb1e8d1d`; issue 
 Live full-baseline run `203157aa-0ccd-4bca-9188-1111191c8cc1` returned 100,000 orders and USD 64,892,824.49 net cash across all five layers, with eight observed boundary matches and lineage eligibility supported. Sample run `6fee7189-fa82-4bdd-a510-74c95cdd1573` matched Bronze through semantic at one order/USD 1,529.64; source SQL returned 40613 at connection time and remains explicitly unavailable in that historical run. The full-baseline retry subsequently succeeded without changing source data.
 
 [PR #46](https://github.com/bcsnpc/data-investigation-agent/pull/46) contains this integration; full-history secret scan passed. See [current-lineage acquisition](investigation-current-lineage.md). Live endpoint reads remain unpinned and do not inherit snapshot comparability from publication references; strict boundaries remain NOT_COMPARABLE and classification remains UNRESOLVED. Next: expose the stored investigation evidence through the backend workflow, preserving these statuses and limitations.
+
+PR #46 subsequently merged at `18f983a680b628c342682387a5416776952c70e0`; issue #45 closed.
+
+## API-001 saved investigation evidence
+
+[Issue #47](https://github.com/bcsnpc/data-investigation-agent/issues/47) adds an authenticated loopback-only WSGI service with bounded list/detail endpoints over read-only SQLite. Saved statuses, graph references and evidence are preserved; no cloud query execution or defect routing is exposed. Six API tests and two generator tests passed, including a real HTTP round trip and SQLite mutation rejection.
+
+A local HTTP smoke check successfully retrieved stored five-layer run `203157aa-0ccd-4bca-9188-1111191c8cc1`, preserving the 100,000-order totals and NOT_COMPARABLE boundaries. It executed zero cloud queries, and the temporary server was stopped. See [evidence API](investigation-evidence-api.md). No public backend deployment occurred. Next: ticket intake and the investigation execution/status workflow before adding the user interface.
