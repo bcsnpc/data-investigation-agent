@@ -18,7 +18,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 | 3 Analytics | Initial release complete | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
 | 4A Metadata connectors | Initial collector merged; reusable connector refactor verified | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
 | 4B Lineage | Backend merged in PR #22 | 360 evidence-backed links, persisted upstream/downstream traversal and 41 data-bound visual traces; UI remains later |
-| 5A Deterministic investigator | In progress | Check engine merged in PR #24; cross-layer adapters implemented with SQL/Power BI live reads; Fabric SQL sign-in and common-source snapshot proof pending |
+| 5A Deterministic investigator | In progress | Check engine merged in PR #24; cross-layer adapters implemented with SQL/Power BI live reads; all five layers live-verified; common-source snapshot proof pending |
 | 5B Ticket experience | Not started | Ticket form, attachments, investigation workspace and auditable timeline |
 | 6 AI investigator | Not started | Ticket interpretation and explanations over verified evidence |
 | 7 Defect lab | Not started | Deterministic injection/reset, isolated evaluation ground truth and expected-behavior coverage |
@@ -70,7 +70,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 ## Next milestone
 
-Metadata and lineage are merged through PR #22; deterministic check contracts are merged in PR #24. Cross-layer query adapters and ordered boundary checks are implemented. Next: finish Fabric SQL audience sign-in and five-layer live verification, then establish common-source snapshot evidence for comparable diagnosis. Ticket UI and AI follow the backend. Recurring refresh orchestration remains open.
+Metadata and lineage are merged through PR #22; deterministic check contracts are merged in PR #24. Cross-layer query adapters and ordered boundary checks are implemented. Five-layer live verification passed. Next: establish common-source snapshot evidence for comparable diagnosis. Ticket UI and AI follow the backend. Recurring refresh orchestration remains open.
 
 ## Tracking convention
 
@@ -137,3 +137,9 @@ Fabric SQL endpoint live verification is pending an additional enterprise SQL au
 INV-002 authentication follow-up: the Windows broker showed a different account and failed. The SQL-only helper now uses browser authentication, explicitly selects the development operator and validates the tenant/account. Existing REST/Power BI sessions are preserved. Twelve query tests pass; user browser sign-in and the five-layer live check remain pending.
 
 INV-002 confirmed auth cause: AADSTS65002 identifies missing first-party preauthorization between Fabric CLI and the SQL resource. SQL auth now uses Azure CLI in an isolated enterprise profile; no personal Azure session or tenant permissions are changed. Additional user sign-in remains pending.
+
+## INV-002 live verification complete
+
+The isolated Azure CLI enterprise sign-in succeeded. Sample run `464fd436-1667-46de-b5a8-607c0689d4bf` returned one order and USD 1,529.64 net cash across SQL, Bronze, Silver, Gold and Power BI. Full baseline run `188e33fd-2363-4980-9557-b9ad1ff93c45` returned 100,000 orders and USD 64,892,824.49 net cash in all five layers. Each run has eight observed boundary matches and no unavailable layers. Evidence is retained in SQLite; no cloud data or definitions changed.
+
+This resolves the authentication/live-verification blockers recorded above. PR #26 is ready for review. Strict comparisons remain NOT_COMPARABLE because independently acquired values do not prove a common source snapshot; classification remains UNRESOLVED. Next: propagate trustworthy source/dependency versions for comparable boundary diagnosis.
