@@ -848,3 +848,49 @@ dd {
     gap: 15px;
   }
 }
+
+.order-actions fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.order-actions label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.order-actions textarea {
+  font: inherit;
+  width: 100%;
+  min-height: 80px;
+  border: 1px solid #ccd4cd;
+  border-radius: 8px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+.action-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.order-actions .return-option {
+  flex-direction: row;
+  align-items: center;
+}
+.return-option input {
+  width: 18px;
+  height: 18px;
+}
+.order-actions .text-button {
+  margin-top: 12px;
+}
+.timeline {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .action-fields {
+    grid-template-columns: 1fr;
+  }
+}
