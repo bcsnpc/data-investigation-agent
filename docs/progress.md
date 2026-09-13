@@ -168,4 +168,8 @@ Six new publication/upload tests, eight source contract tests and two generator 
 
 Local verification against the registered source artifact and completed Bronze proof produced BOUND_INPUTS for all ten tables. This verifies binding construction; live Spark execution remains pending.
 
-[PR #34](https://github.com/bcsnpc/data-investigation-agent/pull/34) contains the input preparation slice and awaits review. Full-history secret scan passed with no leaks.
+[PR #34](https://github.com/bcsnpc/data-investigation-agent/pull/34) merged at `33f8be08ee4d1cb79acec3baa5155ac0636985a1`; issue #33 closed. Full-history secret scan passed with no leaks.
+
+## ING-004 Silver snapshot publication
+
+[Issue #35](https://github.com/bcsnpc/data-investigation-agent/issues/35) wires the verified input binding into the existing Silver notebook and adds output Delta identities/versions, two-way content reconciliation, and a registry recorder. The existing ten Silver destinations are reused. Four publication tests, six input tests, twelve lineage tests and two generator tests passed. Live job `885d3567-c838-4a35-bbe2-136a5524cffe` is in progress; no completion is claimed yet. Gold/model propagation and refreshed metadata lineage remain outstanding.
