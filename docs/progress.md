@@ -167,3 +167,5 @@ Six new publication/upload tests, eight source contract tests and two generator 
 [Issue #33](https://github.com/bcsnpc/data-investigation-agent/issues/33) adds a registry-backed input builder and pinned Delta reader for the verified Bronze snapshot. Six offline contract/reader tests and two generator tests pass. No additional cloud tables or notebooks are created. This is the input preparation slice: wiring and live publication into the existing Silver tables, output version receipts, Gold propagation and semantic refresh remain outstanding. See [Silver input contract](silver-snapshot-input.md).
 
 Local verification against the registered source artifact and completed Bronze proof produced BOUND_INPUTS for all ten tables. This verifies binding construction; live Spark execution remains pending.
+
+[PR #34](https://github.com/bcsnpc/data-investigation-agent/pull/34) contains the input preparation slice and awaits review. Full-history secret scan passed with no leaks.
