@@ -24,8 +24,8 @@ before the record is saved can leave an unrecorded provider request.
 ## Local configuration
 
 Requires an Azure OpenAI deployment supporting Responses and structured outputs.
-Availability and quota must be checked in the user's subscription. Nothing has
-been provisioned and no live model call has been verified in this change.
+The development deployment is now live; see [deployment verification](azure-llm-deployment.md).
+Availability and quota must still be checked when configuring another subscription.
 
 Install `scripts/requirements-llm.txt` in a local Python environment. Set process
 environment variables `AZURE_OPENAI_ENDPOINT` (resource root HTTPS URL ending in
@@ -48,9 +48,9 @@ responsibility. Planning is not yet available through the HTTP API or UI.
 Offline tests cover unknown reports, unsupported metrics, explicit filter
 conflicts, SQL/diagnosis field injection, missing scope, durable attempts,
 sanitized failures and unchanged ticket status. These are contract tests, not
-live model quality evaluations. Next: configure a deployment, run representative
-ticket evaluations (including ambiguous scope and unsupported date filters),
-then implement reviewed handoff and evidence-grounded explanation.
+live model quality evaluations. The initial six live cases are recorded separately
+in the deployment verification. Next: implement reviewed handoff and
+evidence-grounded explanation, and broaden model quality evaluations.
 
 References: [OpenAI structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
 and [Microsoft Azure endpoint configuration](https://learn.microsoft.com/en-us/azure/foundry-classic/openai/how-to/switching-endpoints).

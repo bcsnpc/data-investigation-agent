@@ -7,7 +7,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 ## Current position
 
 Phases 0 (engineering foundation), 1 (business system) and 2 (data platform) remain in progress; the initial analytics release is complete.
-The 100,000-order SQL baseline and authenticated operational portal are deployed. Verified source snapshots now propagate through Bronze, Silver and nine Gold reporting/dimension tables. The six-table semantic model and three reports have verified measures and filter cases. Current metadata includes 39 lakehouse tables and five notebooks; the reviewed lineage graph has 403 links and 41 eligible data-bound visual paths. Live five-layer metrics have been verified, while exact model snapshot comparability remains explicitly unproven. A local evidence API, ticket intake and durable execution/status workflow are implemented. A review-only structured LLM planning adapter is implemented; live model verification, investigation UI and routing remain pending.
+The 100,000-order SQL baseline and authenticated operational portal are deployed. Verified source snapshots now propagate through Bronze, Silver and nine Gold reporting/dimension tables. The six-table semantic model and three reports have verified measures and filter cases. Current metadata includes 39 lakehouse tables and five notebooks; the reviewed lineage graph has 403 links and 41 eligible data-bound visual paths. Live five-layer metrics have been verified, while exact model snapshot comparability remains explicitly unproven. A local evidence API, ticket intake and durable execution/status workflow are implemented. A review-only structured LLM planning adapter is implemented; initial live model smoke verification is complete; reviewed handoff, investigation UI and routing remain pending.
 
 | Phase | Status | Evidence / remaining work |
 |---|---|---|
@@ -19,7 +19,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 | 4B Lineage | Reviewed scope backend merged | 403 links, retained resolution evidence and 41 eligible visual paths; UI remains later |
 | 5A Deterministic investigator | In progress | Check engine merged in PR #24; cross-layer adapters implemented with SQL/Power BI live reads; all five layers live-verified; common-source snapshot proof pending |
 | 5B Ticket experience | Backend intake/workflow implemented | Local authenticated ticket queue, status/timeline and evidence links; UI, attachments and hosted worker remain |
-| 6 AI investigator | Draft planning adapter implemented; live verification pending | Opt-in structured ticket drafts, local validation and persisted attempts; Azure deployment, model evaluations, handoff and explanations pending |
+| 6 AI investigator | Azure draft planning live-verified | GPT-4.1 mini deployment, six live smoke cases and persisted ticket draft verified; reviewed handoff, broader evaluations and explanations pending |
 | 7 Defect lab | Not started | Deterministic injection/reset, isolated evaluation ground truth and expected-behavior coverage |
 | 7B Routing | Not started | Generic issue/notification providers, ownership-based routing and human triage |
 | 8 Portfolio polish | Not started | Hosted demo, screenshots, video and presentation |
@@ -253,3 +253,8 @@ PR #50 merged at 307710d0e16ec57440e1fff585a4001d9c42b9bb; issue #49 closed.
 ## AI-001 structured ticket drafts
 
 Issue #51 adds an opt-in Azure Responses adapter, strict local scope validation and persisted planning attempts in workflow.sqlite. Drafts require review and cannot execute queries or classify defects. Seven planner tests, six workflow tests and two generator tests passed. No Azure model deployment is configured or live model call verified. See [LLM ticket planning](llm-ticket-planning.md). Next: Azure deployment configuration, live ambiguity/filter evaluations and reviewed handoff. Bounded SQL availability retries remain a separate follow-up; the current completed partial run is not automatically requeued.
+
+
+## AI-002 Azure deployment and live smoke evaluation
+
+Issue #53: PR #52 merged; browser login restored personal Azure access. Registered the AI provider and created aoai-investigator-9696025 / investigator-llm in East US 2 using GPT-4.1 mini 2025-04-14, GlobalStandard capacity 10. Six live planning cases passed (3,344 total tokens); an existing ticket draft was persisted through the local operator launcher (550 tokens). Seven planner tests and two generator tests passed. No business queries or mutations occurred. Model credentials remain in process memory only. See [deployment verification](azure-llm-deployment.md). Next: reviewed handoff and evidence-grounded explanations; broader model evaluation and SQL availability retries remain pending.
