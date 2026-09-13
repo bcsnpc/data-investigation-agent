@@ -16,6 +16,12 @@ jobs:
         run: python -m unittest discover -s scripts -p test_generate_orders.py
       - name: Check Fabric notebook and deployment helper syntax
         run: python -m py_compile infra/fabric/bronze_to_silver.py scripts/fabric_api.py scripts/deploy_silver_notebook.py scripts/compare_bronze_order.py
+      - name: Install Gold SQL test engine
+        run: pip install -r scripts/requirements-fabric-tests.txt
+      - name: Test Gold reporting rules and notebook syntax
+        run: |
+          python -m unittest discover -s scripts -p test_gold_models.py
+          python -m py_compile infra/fabric/gold_models.py infra/fabric/silver_to_gold.py scripts/deploy_gold_notebook.py scripts/compare_gold_source.py
   powershell-syntax:
     runs-on: windows-latest
     steps:
