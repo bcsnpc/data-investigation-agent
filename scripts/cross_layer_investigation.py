@@ -12,6 +12,7 @@ import uuid
 from investigation_checks import canonical, compare, compatible, number, timestamp
 from investigation_query_worker import filters
 from lineage_graph import load_graph
+from lineage_gap_policy import eligibility
 from metadata_auth import WorkerTransport
 from metadata_config import ROOT, load_config
 from snapshot_provenance import continuity
@@ -44,12 +45,17 @@ def boundaries(graph, chain):
             item['observed_value'] = ('UNKNOWN' if other_gaps else
                                       'MATCH' if number(left['data']) == number(right['data']) else 'MISMATCH')
         item['lineage_gaps'] = trace['unresolved']
+        gate=eligibility(graph,right['asset'])
+        item['lineage_eligibility']=gate
+        if not gate['lineage_conclusions_allowed']:
+            item['comparison_status']=item['status']
+            item['status']='INSUFFICIENT_EVIDENCE'
         if observed_prefix and item['observed_value'] == 'MISMATCH' and first_observed is None:
             first_observed = {'upstream': left['asset'], 'downstream': right['asset']}
         observed_prefix = observed_prefix and item['observed_value'] == 'MATCH'
-        if prefix_verified and item['status'] == 'MISMATCH' and not trace['unresolved'] and first_verified is None:
+        if prefix_verified and item['status'] == 'MISMATCH' and gate['lineage_conclusions_allowed'] and first_verified is None:
             first_verified = {'upstream': left['asset'], 'downstream': right['asset']}
-        prefix_verified = prefix_verified and item['status'] == 'MATCH' and not trace['unresolved']
+        prefix_verified = prefix_verified and item['status'] == 'MATCH' and gate['lineage_conclusions_allowed']
         results.append(item)
     return {'boundaries': results, 'first_verified_divergence': first_verified,
             'first_observed_difference': first_observed, 'classification': 'UNRESOLVED',

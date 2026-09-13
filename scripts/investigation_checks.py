@@ -11,6 +11,7 @@ import sqlite3
 import uuid
 
 from lineage_graph import load_graph
+from lineage_gap_policy import eligibility
 
 
 def timestamp(value):
@@ -149,6 +150,11 @@ def run_checks(database, request):
                 raise ValueError('Comparison boundary has no upstream lineage path')
             result = compare(upstream, downstream, kind)
             result['lineage_gaps'] = trace['unresolved']
+            gate=eligibility(graph,downstream['asset'])
+            result['lineage_eligibility']=gate
+            if not gate['lineage_conclusions_allowed']:
+                result['comparison_status']=result['status']
+                result['status']='INSUFFICIENT_EVIDENCE'
             result['affected_assets'] = [a['id'] for a in graph.traverse(downstream['asset'], 'downstream')['assets']]
         results.append({'kind': kind, 'result': result})
     if not results:
@@ -176,6 +182,7 @@ def resolve_context(database, lineage_run, report_id, metric):
     return {'status': 'RESOLVED' if len(matches) == 1 else 'UNRESOLVED',
             'report': report_id, 'metric_candidates': matches, 'lineage_run': lineage_run,
             'lineage_gaps': trace['unresolved'],
+            'lineage_eligibility': eligibility(graph,report_id),
             'limitation': 'Captured dependencies do not reproduce active report slicers'}
 
 
