@@ -36,6 +36,10 @@ jobs:
           pip install -r scripts/requirements-lineage.txt
           python -m unittest discover -s scripts -p test_lineage.py
           python -m py_compile scripts/lineage_graph.py scripts/lineage_notebook.py scripts/collect_lineage_evidence.py scripts/validate_lineage.py
+      - name: Test deterministic investigation evidence
+        run: |
+          python -m unittest discover -s scripts -p test_investigation_checks.py
+          python -m py_compile scripts/investigation_checks.py scripts/check_model_freshness.py
   powershell-syntax:
     runs-on: windows-latest
     steps:

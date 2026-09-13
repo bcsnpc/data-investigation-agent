@@ -70,7 +70,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 ## Next milestone
 
-Silver and Gold are merged in PRs #12 and #14. The initial Power BI release is deployed and verified; approved for merge in PR #16. The manual app ? SQL ? Bronze ? Silver ? Gold ? Power BI trace is verified for `ORD-000002`. The initial metadata collector is now live-verified. Next: derive and persist lineage edges with traversal, followed by deterministic cross-layer investigation. Recurring refresh orchestration remains open.
+Metadata and lineage are merged through PR #22. Phase 5A now has an initial deterministic check engine and live semantic-refresh evidence acquisition. Next: bounded read-only SQL/Fabric/DAX query adapters with reproducible filter and snapshot context, followed by first-divergent-boundary analysis. Ticket UI and AI follow the backend. Recurring refresh orchestration remains open.
 
 ## Tracking convention
 
@@ -92,13 +92,7 @@ relevant documentation. Mark completed work based on evidence, not intended work
 
 - [FAB-003: Build reconciled Gold reporting tables](https://github.com/bcsnpc/data-investigation-agent/issues/13) - deployed and verified; 59 Fabric checks and 15 independent source totals passed; closed; [PR #14](https://github.com/bcsnpc/data-investigation-agent/pull/14) merged
 
-- [PBI-001/002: Semantic model and reports](https://github.com/bcsnpc/data-investigation-agent/issues/15) - deployed and verified; [PR #16](https://github.com/bcsnpc/data-investigation-agent/pull/16) approved for merge
-
-## Previous session handoff
-
-The semantic model and all three reports are deployed and verified. PR #16 is approved for merge; GitHub records its final merge status. No further implementation is planned for this session.
-
-Next session: build metadata connectors and persist the lineage graph covering SQL, Fabric transformations, semantic model measures and report dependencies. Follow with deterministic cross-layer investigation. Recurring refresh orchestration remains an open follow-up. Resume from the verified baseline and sample order `ORD-000002`; detailed validation and report links are in [Power BI documentation](powerbi.md).
+- [PBI-001/002: Semantic model and reports](https://github.com/bcsnpc/data-investigation-agent/issues/15) - deployed and verified; [PR #16](https://github.com/bcsnpc/data-investigation-agent/pull/16) merged
 
 ## Scope extension review
 
@@ -122,4 +116,12 @@ Remaining boundaries are explicit: business ownership and expected refresh sched
 
 [LIN-001](https://github.com/bcsnpc/data-investigation-agent/issues/21) derives the graph from captured definitions and supplemental connection/endpoint API evidence. Build `b5db8886-61e4-49cc-92c5-4f682ab7268f` over inventory scan `5d11f419-0596-412a-9002-1971b3fed6ad` contains 360 typed links and zero detected unresolved references. All 41 data-bound visuals trace to SQL. Net Sales reaches six independently expected source tables and downstream Executive Sales/Product Performance reports. Twelve adversarial lineage tests, sixteen metadata tests and two generator tests pass.
 
-The backend stores lineage runs, edges and gaps in SQLite, with definition hashes and source evidence. Static Python/SQL parsing never executes notebook code. Unsupported constructs remain gaps; completeness is limited to the supported parser and captured snapshot. No cloud definitions, refreshes or business data changed. The lineage UI, runtime filter reproduction, application-event correlation and deterministic value comparisons remain future work. See [lineage documentation](lineage.md). [PR #22](https://github.com/bcsnpc/data-investigation-agent/pull/22) pending review; next backend milestone is Phase 5A deterministic investigator tools over this graph.
+The backend stores lineage runs, edges and gaps in SQLite, with definition hashes and source evidence. Static Python/SQL parsing never executes notebook code. Unsupported constructs remain gaps; completeness is limited to the supported parser and captured snapshot. No cloud definitions, refreshes or business data changed. The lineage UI, runtime filter reproduction, application-event correlation and deterministic value comparisons remain future work. See [lineage documentation](lineage.md). [PR #22](https://github.com/bcsnpc/data-investigation-agent/pull/22) merged; issue #21 closed. Phase 5A begins with the deterministic check contracts below.
+
+## Deterministic checks: initial Phase 5A slice
+
+[INV-001](https://github.com/bcsnpc/data-investigation-agent/issues/23) adds exact decimal totals, composite-key multiset comparison, strict metric/filter/grain/currency/snapshot compatibility, report/metric resolution and freshness policy evaluation. Evidence and results are retained atomically in local SQLite against an explicit lineage build. Missing snapshot context stays NOT_COMPARABLE; no configured freshness policy stays UNKNOWN. Results do not automatically classify a defect.
+
+Live semantic refresh acquisition persisted run `7b04d9cc-01ed-42e2-be04-d1ad34c774a0`; the connection succeeded and freshness remains UNKNOWN because no policy is configured. Executive Sales / Net Sales resolved uniquely with zero relevant lineage gaps. Twelve investigation tests, twelve lineage tests, sixteen metadata tests and two generator tests pass. See [contracts and verification](investigation-checks.md).
+
+This is a backend foundation, not completed end-to-end investigation: live cross-layer business query adapters, runtime filter reproduction, snapshot propagation and root-cause classification remain next. No cloud data, definitions or refresh schedules changed. [PR #24](https://github.com/bcsnpc/data-investigation-agent/pull/24) pending review.
