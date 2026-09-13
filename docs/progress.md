@@ -84,4 +84,4 @@ relevant documentation. Mark completed work based on evidence, not intended work
 
 - [FAB-002: Build and validate Silver](https://github.com/bcsnpc/data-investigation-agent/issues/11) - closed; implemented, executed successfully and merged in PR #12
 
-- [FAB-003: Build reconciled Gold reporting tables](https://github.com/bcsnpc/data-investigation-agent/issues/13) - deployed and verified; 59 Fabric checks and 15 independent source totals passed; implementation PR review pending
+- [FAB-003: Build reconciled Gold reporting tables](https://github.com/bcsnpc/data-investigation-agent/issues/13) - deployed and verified; 59 Fabric checks and 15 independent source totals passed; [PR #14](https://github.com/bcsnpc/data-investigation-agent/pull/14) review pending
