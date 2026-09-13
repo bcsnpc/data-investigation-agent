@@ -11,7 +11,8 @@ run_id = str(uuid4())
 started = datetime.now(timezone.utc).isoformat()
 silver = f"abfss://{WORKSPACE}@onelake.dfs.fabric.microsoft.com/{SILVER_ID}"
 gold = f"abfss://{WORKSPACE}@onelake.dfs.fabric.microsoft.com/{GOLD_ID}"
-source_report = json.loads(notebookutils.fs.head(f"{silver}/Files/validation/latest.json", 1048576))
+assert SILVER_BINDING['status']=='BOUND_SILVER'
+source_report = SILVER_BINDING['report']
 assert source_report['status'] == 'READY', 'Silver is not READY'
 silver_run_id = source_report['run_id']
 input_keys = {
@@ -26,14 +27,22 @@ def check(name, condition):
     assert condition, name
 
 for name, keys in input_keys.items():
-    path = f"{silver}/Tables/{name}"
-    versions[name] = DeltaTable.forPath(spark,path).history(1).select('version').first()[0]
+    source = source_report['outputs'][name]
+    path = source['path']
+    assert path == f"{silver}/Tables/{name}"
+    check(f'{name}:identity', DeltaTable.forPath(spark,path).detail().select('id').first()[0] == source['delta_table_id'])
+    versions[name] = source['delta_version']
     df = spark.read.format('delta').option('versionAsOf',versions[name]).load(path).cache()
     n = df.count()
+    check(f'{name}:schema', df.schema.jsonValue() == source['schema'])
     check(f'{name}:count', n == source_report['silver_counts'][name])
     check(f'{name}:keys', df.select(*keys).distinct().count() == n and not df.where(' OR '.join(f'`{k}` IS NULL' for k in keys)).limit(1).count())
     observed = [r[0] for r in df.select('_silver_run_id').distinct().collect()]
     check(f'{name}:run', observed == [silver_run_id])
+    for column, value in {'_source_snapshot_id':source_report['bronze_binding']['source_snapshot_id'],
+                          '_source_manifest_sha256':source_report['bronze_binding']['source_manifest_sha256'],
+                          '_bronze_proof_sha256':source_report['bronze_binding']['bronze_proof_sha256']}.items():
+        check(f'{name}:{column}', [r[0] for r in df.select(column).distinct().collect()] == [value])
     df.createOrReplaceTempView('s_'+name)
     frames[name] = df
 
@@ -89,12 +98,25 @@ independent = spark.sql("""SELECT o.currency,SUM(p.amount) captured_amount FROM 
 for row in independent.collect():
     check(f'captured payments:{row.currency}', row.captured_amount == reference[row.currency]['captured_amount'])
 
-source_now = json.loads(notebookutils.fs.head(f"{silver}/Files/validation/latest.json",1048576))
-check('Silver report stable', source_now['status']=='READY' and source_now['run_id']==silver_run_id)
 for name, version in versions.items():
-    check(f'{name}:version stable', DeltaTable.forPath(spark,f'{silver}/Tables/{name}').history(1).select('version').first()[0] == version)
+    check(f'{name}:identity stable', DeltaTable.forPath(spark,f'{silver}/Tables/{name}').detail().select('id').first()[0] == source_report['outputs'][name]['delta_table_id'])
+
+# Publish reporting dimensions in the same run as the six reporting aggregates.
+customers=outputs['order_summary'].select('customer_id','customer_name','customer_segment','state_code','country_code').distinct()
+products=outputs['order_line_summary'].select('product_id','product_name','category','subcategory').distinct()
+days=outputs['order_summary'].select(F.col('order_day').alias('date')).union(outputs['refund_summary'].select(F.col('refund_day').alias('date')))
+bounds=days.agg(F.min('date').alias('first'),F.max('date').alias('last')).first()
+dates=spark.sql(f"SELECT explode(sequence(DATE '{bounds['first']}',DATE '{bounds['last']}',INTERVAL 1 DAY)) date")
+dates=(dates.withColumn('year',F.year('date')).withColumn('month_number',F.month('date'))
+ .withColumn('month',F.date_format('date','MMM')).withColumn('year_month',F.date_format('date','yyyy-MM'))
+ .withColumn('quarter',F.concat(F.lit('Q'),F.quarter('date'))))
+for name,df,key in [('dim_customer',customers,'customer_id'),('dim_product',products,'product_id'),('dim_date',dates,'date')]:
+    counts[name]=df.count()
+    check(f'{name}:keys',df.select(key).distinct().count()==counts[name] and not df.where(F.col(key).isNull()).limit(1).count())
+    outputs[name]=df
 
 report = {'status':'RUNNING','run_id':run_id,'started_utc':started,'silver_run_id':silver_run_id,
+ 'silver_binding':SILVER_BINDING,'outputs':{},
  'silver_versions':versions,'bronze_pipeline_run_id':source_report['bronze_pipeline_run_id'],
  'checks':checks,'counts':counts,'totals_by_currency':reference,
  'sample_order':[r.asDict() for r in outputs['order_summary'].where("order_id='ORD-000002'").collect()],
@@ -104,12 +126,24 @@ try:
     for name, df in outputs.items():
         published = (df.withColumn('_gold_run_id',F.lit(run_id))
          .withColumn('_silver_run_id',F.lit(silver_run_id))
+         .withColumn('_source_snapshot_id',F.lit(source_report['bronze_binding']['source_snapshot_id']))
+         .withColumn('_source_manifest_sha256',F.lit(source_report['bronze_binding']['source_manifest_sha256']))
+         .withColumn('_silver_proof_sha256',F.lit(SILVER_BINDING['silver_proof_sha256']))
          .withColumn('_processed_at_utc',F.to_timestamp(F.lit(started)))
          .withColumn('_silver_versions',F.lit(json.dumps(versions,sort_keys=True))))
         path=f'{gold}/Tables/{name}'
         published.write.format('delta').mode('overwrite').option('overwriteSchema','true').save(path)
-        actual=spark.read.format('delta').load(path)
-        check(f'{name}:persisted rows', actual.count()==counts[name] and not published.exceptAll(actual).limit(1).count())
+        table=DeltaTable.forPath(spark,path)
+        identity=table.detail().select('id').first()[0]
+        version=table.history(1).select('version').first()[0]
+        actual=spark.read.format('delta').option('versionAsOf',version).load(path)
+        check(f'{name}:persisted schema',[(f.name,f.dataType.simpleString()) for f in actual.schema.fields]==[(f.name,f.dataType.simpleString()) for f in published.schema.fields])
+        check(f'{name}:persisted rows', actual.count()==counts[name] and not published.exceptAll(actual).limit(1).count() and not actual.exceptAll(published).limit(1).count())
+        report['outputs'][name]={'path':path,'delta_table_id':identity,'delta_version':version,'rows':counts[name],
+                                 'schema':actual.schema.jsonValue(),'content_reconciled':True}
+    for name,output in report['outputs'].items():
+        table=DeltaTable.forPath(spark,output['path'])
+        check(f'{name}:output stable',table.detail().select('id').first()[0]==output['delta_table_id'] and table.history(1).select('version').first()[0]==output['delta_version'])
     report['status']='READY'
 except Exception as exc:
     report['status']='FAILED'
