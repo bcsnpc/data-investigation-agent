@@ -215,3 +215,5 @@ PR #42 subsequently merged at `e509efd0ffb3864a8c3abeb06792de692eefb8c7`; issue 
 Build `549f1a33-5b04-40c3-8b64-718d507e480c` contains 403 links, zero remaining parser gaps and ten retained RESOLVED_BY_REVIEWED_CONTRACT records. All 41 data-bound visuals pass the lineage eligibility check. Changed code, parameters or publication mappings restore the blocks. Six contract tests, twelve lineage tests, six gap-policy tests, seven audit tests and two generator tests pass. No cloud mutation occurred. See [publication scope review](publication-lineage-scope.md).
 
 Next: use this explicit graph build in investigation acquisition and expose its versioned evidence. Metric/snapshot compatibility checks remain required; exact model Delta-version comparability is still false and no automatic defect routing is enabled.
+
+[PR #44](https://github.com/bcsnpc/data-investigation-agent/pull/44) contains the reviewed scope resolution and awaits review. Full-history secret scan passed with no leaks.
