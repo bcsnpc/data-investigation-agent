@@ -24,7 +24,7 @@
     "Order Operations": "44e960a6-d470-49e4-a791-cc9e8c5c6783",
     "Product Performance": "5d5495a7-0385-4608-8958-c7dd12dd9a10"
   },
-  "semantic_model_refresh_id": "c17842ad-ecb1-4c72-bb7e-0e939135a5f8",
+  "semantic_model_refresh_id": "63e0ebc6-d4e3-4544-8e9b-92c07778819e",
   "snapshot_bronze": {
     "source_snapshot_id": "3b9354f3-af21-4296-a936-91b4a299777a",
     "source_manifest_sha256": "809b998a4a731072f504e5435e0b3cdd08a61abf18947e926c9cac2ea358601a",
@@ -49,5 +49,11 @@
     "job_id": "a05cdfd0-7e65-4c55-9a84-14d32af5aad1",
     "run_id": "e6559c75-d1ba-49bc-a87e-61cc47ecaf99",
     "receipt": "Files/validation/e6559c75-d1ba-49bc-a87e-61cc47ecaf99.json"
+  },
+  "snapshot_semantic": {
+    "gold_run_id": "e6559c75-d1ba-49bc-a87e-61cc47ecaf99",
+    "refresh_id": "63e0ebc6-d4e3-4544-8e9b-92c07778819e",
+    "status": "SEMANTIC_RUN_ALIGNED",
+    "snapshot_comparable": false
   }
 }
