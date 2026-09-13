@@ -26,6 +26,10 @@ jobs:
         run: |
           python -m unittest discover -s scripts -p test_powerbi_contract.py
           python -m py_compile infra/fabric/prepare_reporting_dimensions.py scripts/build_powerbi_model.py scripts/build_powerbi_reports.py scripts/deploy_powerbi.py scripts/deploy_reporting_dimensions.py scripts/refresh_powerbi.py scripts/validate_powerbi.py
+      - name: Test metadata snapshots and API contracts
+        run: |
+          python -m unittest discover -s scripts -p test_metadata_inventory.py
+          python -m py_compile scripts/metadata_inventory.py scripts/onelake_metadata.py scripts/validate_metadata_inventory.py
   powershell-syntax:
     runs-on: windows-latest
     steps:

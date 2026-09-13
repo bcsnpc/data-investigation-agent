@@ -2,11 +2,13 @@
 
 Updated: 2026-09-13. Source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90–100.
 
+Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATOR_TICKET_AND_DEFECT_LAB_SCOPE.md). This extension governs the investigation experience and scope boundary alongside the original plan. Integration decisions and dependencies are recorded in [scope alignment](scope-alignment.md).
+
 ## Current position
 
 Phases 0 (engineering foundation), 1 (business system), 2 (data platform), and 3 (analytics) are **in progress**.
 The SQL baseline and authenticated order-browsing portal are implemented.
-Ship, deliver and full-line return actions with transactional audit writing are implemented and verified locally against Azure SQL; merged in PR #9 and deployed to Azure App Service; hosted API and browser checks passed. Bronze ingestion is independently verified. Silver has ten conformed tables, 100,000 orders and a READY validation report. Gold has six reporting tables and a READY report with 59 passing checks; all 15 currency totals match independent Azure SQL queries. Power BI now has a six-table semantic model and three reports with verified DAX totals and order drillthrough. Lineage and AI remain pending.
+Ship, deliver and full-line return actions with transactional audit writing are implemented and verified locally against Azure SQL; merged in PR #9 and deployed to Azure App Service; hosted API and browser checks passed. Bronze ingestion is independently verified. Silver has ten conformed tables, 100,000 orders and a READY validation report. Gold has six reporting tables and a READY report with 59 passing checks; all 15 currency totals match independent Azure SQL queries. Power BI now has a six-table semantic model and three reports with verified DAX totals and order drillthrough. The initial metadata connector release is implemented and live-verified: 476 metadata records with no failed attempted capabilities. Lineage and AI remain pending.
 
 | Phase | Status | Evidence / remaining work |
 |---|---|---|
@@ -14,10 +16,13 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 | 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions deployed and verified; broader specification features remain scoped for follow-up |
 | 2 Data platform | In progress | Bronze, initial Silver and Gold complete: 100k orders, reconciled reporting tables and independent source totals; recurring orchestration remains |
 | 3 Analytics | Initial release complete | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
-| 4 Metadata and lineage | Not started | Connectors, graph, traversal and UI |
-| 5 Deterministic investigator | Not started | Cross-layer comparisons, first divergence and evidence |
+| 4A Metadata connectors | Initial collector complete; PR #18 pending | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
+| 4B Lineage | Not started | Derive edges from discovered definitions, preserve provenance, add traversal and UI |
+| 5A Deterministic investigator | Not started | Context-aware comparisons, freshness, first divergence, evidence and impact |
+| 5B Ticket experience | Not started | Ticket form, attachments, investigation workspace and auditable timeline |
 | 6 AI investigator | Not started | Ticket interpretation and explanations over verified evidence |
-| 7 Defect lab | Not started | Named defect injection, reset and golden regression results |
+| 7 Defect lab | Not started | Deterministic injection/reset, isolated evaluation ground truth and expected-behavior coverage |
+| 7B Routing | Not started | Generic issue/notification providers, ownership-based routing and human triage |
 | 8 Portfolio polish | Not started | Hosted demo, screenshots, video and presentation |
 
 ## Work record
@@ -65,7 +70,7 @@ Ship, deliver and full-line return actions with transactional audit writing are 
 
 ## Next milestone
 
-Silver and Gold are merged in PRs #12 and #14. The initial Power BI release is deployed and verified; approved for merge in PR #16. The manual app ? SQL ? Bronze ? Silver ? Gold ? Power BI trace is verified for `ORD-000002`. Next: metadata connectors and a stored lineage graph, followed by deterministic cross-layer investigation. Recurring refresh orchestration remains open.
+Silver and Gold are merged in PRs #12 and #14. The initial Power BI release is deployed and verified; approved for merge in PR #16. The manual app ? SQL ? Bronze ? Silver ? Gold ? Power BI trace is verified for `ORD-000002`. The initial metadata collector is now live-verified. Next: derive and persist lineage edges with traversal, followed by deterministic cross-layer investigation. Recurring refresh orchestration remains open.
 
 ## Tracking convention
 
@@ -89,8 +94,22 @@ relevant documentation. Mark completed work based on evidence, not intended work
 
 - [PBI-001/002: Semantic model and reports](https://github.com/bcsnpc/data-investigation-agent/issues/15) - deployed and verified; [PR #16](https://github.com/bcsnpc/data-investigation-agent/pull/16) approved for merge
 
-## Session handoff
+## Previous session handoff
 
 The semantic model and all three reports are deployed and verified. PR #16 is approved for merge; GitHub records its final merge status. No further implementation is planned for this session.
 
 Next session: build metadata connectors and persist the lineage graph covering SQL, Fabric transformations, semantic model measures and report dependencies. Follow with deterministic cross-layer investigation. Recurring refresh orchestration remains an open follow-up. Resume from the verified baseline and sample order `ORD-000002`; detailed validation and report links are in [Power BI documentation](powerbi.md).
+
+## Scope extension review
+
+Reviewed the ticket and defect lab scope before starting the next implementation. The product begins with a business-facing ticket and ends at verified findings, classification, impact, appropriate bug/notification routing and human triage. Autonomous remediation is excluded. Phase 4A incorporates the additional evidence, ownership and freshness contracts described in [scope alignment](scope-alignment.md). No defects have been injected and no runtime behavior changed during this review.
+
+Scenario clarification: scope examples illustrate defect patterns. Select controlled scenarios using existing orders, payments, refunds, transformations and reports; reinstatement and incremental ingestion are not prerequisites. Candidate injections and baseline protections are recorded in [scope alignment](scope-alignment.md).
+
+- [META-001: Metadata connectors](https://github.com/bcsnpc/data-investigation-agent/issues/17) - initial collector implemented and live-verified; eight offline contract tests passed; [PR #18](https://github.com/bcsnpc/data-investigation-agent/pull/18) pending review.
+
+## Metadata milestone evidence
+
+Scan `a2ca371b-6377-444b-ae5d-d41c91baf9eb` completed with 476 metadata records and zero failed attempted capabilities. Live validation passed: 11 SQL objects/81 columns, 11 foreign-key relationships, 29 lakehouse tables (Bronze 10, Silver 10, Gold 9), 25 measures matching deployed DAX exactly, five semantic relationships, four report pages and 45 visuals. Bronze schema discovery includes 74 columns through the OneLake API. Source data was not modified.
+
+Remaining boundaries are explicit: business ownership and expected refresh schedules are unknown; business-data watermarks and Silver/Gold Delta column/version collection remain follow-up enrichment. This milestone supplies a local collector and SQLite persistence, not a hosted API, lineage graph or ticket UI. Next is Phase 4B: derive lineage from the acquired definitions and mappings, retain provenance and unresolved dependencies, then provide traversal. See [metadata documentation](metadata.md).
