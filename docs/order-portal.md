@@ -1,8 +1,8 @@
 # Order Operations Portal
 
 Tracking: APP-001 (#4). Browsing is deployed (PR #8). Ship/deliver/return actions
-and transactional audit writing are implemented and verified on the feature branch;
-the action release is not deployed yet.
+and transactional audit writing are deployed to Azure App Service (PR #9).
+Hosted browsing, action rejection and desktop/mobile browser checks passed.
 
 Live development URL: https://orderops-portal-9696025.azurewebsites.net
 
@@ -116,7 +116,7 @@ References: [Node App Service quickstart](https://learn.microsoft.com/en-us/azur
 [ZIP deployment](https://learn.microsoft.com/en-us/azure/app-service/deploy-zip),
 [application settings API](https://learn.microsoft.com/en-us/rest/api/appservice/web-apps/update-application-settings?view=rest-appservice-2024-11-01).
 
-## Controlled order actions (awaiting release)
+## Controlled order actions
 
 - Ship a PAID order: requires one captured payment matching its total, reconciled
   lines, and no existing shipments/refunds. Creates one shipment with every order
@@ -178,3 +178,22 @@ The 100k seed is an initial snapshot. After actual portal actions are committed,
 status/refund/audit counts and timestamps will legitimately change. Do not treat
 the original cutoff-specific baseline report as a live-data acceptance test or
 reload the baseline over live changes. Code rollback does not undo business writes.
+
+### Hosted release verification
+
+Merged commit `220567988353014b0c26d7fa8892c618ef985bed` deployed on 2026-09-12
+using the existing F1 Free plan. Deployment completed successfully; HTTPS-only
+app is Running. Hosted read smoke checks passed. Run the non-mutating action
+endpoint checks with:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File infra/scripts/Test-HostedOrderActions.ps1
+```
+
+Verified HTTP 401 (anonymous), 403 (missing custom header/cross-site), 400
+(invalid input) and 409 (SQL stale order version); the target order and audit
+count remained unchanged. Browser checks confirmed the ship and delivery forms,
+the remaining returnable line on ORD-000002, and its $1,529.64 refund preview.
+Mobile width 390px had no page overflow; no browser errors were recorded.
+Successful mutation paths were tested against Azure SQL in rollback transactions
+before release; hosted verification did not commit a shipment or refund.
