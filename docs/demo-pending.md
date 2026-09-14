@@ -12,7 +12,7 @@ capability first. Additional feature work is not a prerequisite for presenting i
 | Live report investigation | Native definitions retained; one-order currency DAX diagnostic matched | Comparable source versions, broader DAX/filter/relationship and RLS evidence; production slicer holds remain |
 | AI | Existing AI planning work is separate; this demo uses a fixed scope | Demonstrate and evaluate LLM-led hypothesis/tool selection across broader questions |
 | Defects | Supported isolated scenarios include filter, refund arithmetic and freshness | Broader defects, unknown cases and cross-estate cause verification |
-| Ticket context | Text and supported explicit context | Attachment/screenshot interpretation and richer inherited report context |
+| Ticket context | Text, PNG attachments retained in the business demo, selected report context | Automatic screenshot interpretation and richer inherited report context |
 | Delivery | Reviewed drafts and local/provider adapter work | Configure real owners/destinations and perform authorized issue/email acceptance |
 | Hosting | Orders portal deployed; investigator demo runs on loopback | Enterprise investigator hosting, identity/permissions, monitoring and recovery |
 | Acceptance | Isolated demo API/worker and browser path | Full live, multi-user end-to-end product acceptance |

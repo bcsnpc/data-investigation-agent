@@ -498,3 +498,20 @@ live snapshot/filter/semantic proof, richer AI/defects/context, real delivery,
 enterprise hosting/auth/recovery/monitoring and full live acceptance.
 
 Validation: all 361 script tests passed, including the complete demo rehearsal and existing-folder protection; new tests included in CI. Browser acceptance passed with no errors.
+
+## DEMO-002 business-user journey and recording
+
+Added local Orders and Net Cash views backed by the same isolated records, PNG
+screenshot attachment intake, a plain-language question, persisted backend activity
+and business results with collapsed technical evidence. Browser recording shows
+$253 payments / $99 refunds / $154 retained, the $55 report, attachment submission,
+real checks and the verified double-refund finding with a $99 shortfall. Both
+attachment hashes match the captured screenshots. All 366 script tests pass;
+JavaScript syntax and browser checks pass. Lab reset READY and token removed.
+See [business demo](business-user-demo.md) for the recording and repeatable steps.
+
+This is a local selected-report check, not screenshot OCR or LLM interpretation,
+and the demo views are not the deployed Azure/Power BI interfaces. Remaining product
+work stays in [demo pending](demo-pending.md); no live data or delivery was changed.
+
+Tracked under issue #145. The business-demo changes build on the isolated-demo PR #144.
