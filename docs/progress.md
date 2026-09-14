@@ -471,3 +471,11 @@ Issue #137: PR #136 merged after all six CI checks passed. Added a separate loca
 ## UI-015 local categorical replay review
 
 Issue #139: PR #138 merged after all six CI checks passed. Added an authenticated loopback replay UI/API with explicit slicer choices, scope preview, confirmation, separate approve/run actions and saved review URLs. Server scope is bound to lab/definitions/page; existing one-attempt execution and production holds remain intact. All 355 script tests passed, including four new API tests. Browser verified selection, saved-review restoration, mandatory confirmation, approval and completed mismatch display with no browser errors. See [replay UI](categorical-replay-ui.md). No cloud, SQL business queries, LLM or delivery calls. Next: live filter/snapshot equivalence and broader native measure verification. Remaining: broader defect/AI coverage, live freshness guarantees, real delivery acceptance, enterprise hosting/auth/recovery/monitoring and full product acceptance/demo.
+
+## META-010 bounded live native currency comparison
+
+Issue #141: PR #140 merged after all six CI checks passed. Added a fixed, single-order DAX diagnostic comparing native FactOrder currency filtering with the existing FactOrderLine adapter path in one request. Live Fabric evaluation for USD / ORD-000001 returned one order and 63.9000 net cash on both paths (OBSERVED_MATCH); retained evidence is .local/native-filter-parity-141.json. This is one observed case, not full report parity, comparable source versions or root-cause proof. Production slicer holds remain. See [native filter diagnostic](native-filter-parity.md). No Azure SQL query, model refresh, LLM or delivery operation was performed.
+
+Next: representative native filter/measure scopes and comparable source-version evidence. Remaining: broader semantic/relationship defects and AI investigation coverage; ticket attachment/context handling; real delivery configuration and acceptance; enterprise investigator hosting/auth, recovery and monitoring; full end-to-end acceptance/demo.
+
+Validation: all 359 script tests passed; the four diagnostic tests also passed after tightening empty/error result handling. CI includes the new tests.
