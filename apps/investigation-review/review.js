@@ -3,6 +3,7 @@ const $ = id => document.getElementById(id);
 let token = '', session = 0, ticketId = '', selected = null, offset = null, busy = false;
 let submission=null;const planningKeys=new Map();
 let routingEnabled=false;
+let envelopeEnabled=false;
 const show = (id, visible) => { $(id).hidden = !visible; };
 const message = text => { $('message').textContent = text; };
 function element(tag, text) { const node = document.createElement(tag); node.textContent = text; return node; }
@@ -32,6 +33,7 @@ $('login-form').addEventListener('submit', event => { event.preventDefault(); ac
   token=$('token').value; $('token').value=''; await api('/api/investigations?limit=1');
   const context=await api('/api/context');
   routingEnabled=context.routing_review===true;
+  envelopeEnabled=context.envelope_review===true;
   if(context.workspace_mode==='local_lab') {
     $('new-report').value='Lab Net Cash';
     $('generate').nextElementSibling.textContent='Isolated lab: fixed Net Cash / USD / all-orders draft; no AI or cloud calls. Ticket narrative does not change this scope. One approved job per server session.';
@@ -156,7 +158,7 @@ function renderRouting(panel,detail) {
     panel.append(element('h4','Proposed notification'),element('p','Email to: '+preview.notification.recipients.join(', ')),element('p','Subject: '+preview.notification.subject),element('pre',preview.notification.body),element('p',preview.limitation));
   }else{panel.append(element('p','No delivery destinations configured. This review covers the finding only.'));}
   panel.append(element('p','Approval records this draft only. Issue creation and notifications are disabled.'));
-  if(detail.approval){panel.append(element('p','Review approved; delivery disabled.'));return;}
+  if(detail.approval){panel.append(element('p','Review approved; delivery disabled.'));renderEnvelopeIntake(panel,detail);return;}
   const label=document.createElement('label');label.className='check';const check=document.createElement('input');check.type='checkbox';
   label.append(check,element('span','I reviewed the owner, evidence, scope, proposed content and any displayed destinations.'));panel.append(label);
   const approve=element('button','Approve routing draft');approve.disabled=true;check.addEventListener('change',()=>approve.disabled=!check.checked);
@@ -165,3 +167,24 @@ function renderRouting(panel,detail) {
   }));panel.append(approve);
 }
 $('ticket-id').value=new URLSearchParams(location.search).get('ticket') || '';
+
+function renderEnvelopeIntake(panel,detail) {
+  if(!envelopeEnabled || !detail.record.draft.destination_preview)return;
+  const holder=document.createElement('div');panel.append(holder);
+  const label=element('label','Email sender '),sender=document.createElement('input');sender.type='email';label.append(sender);
+  const prepare=element('button','Review email envelope');holder.append(label,prepare);
+  holder.append(element('p','Requires a confirmed issue receipt. Reviewing an envelope does not send email.'));
+  prepare.addEventListener('click',()=>action(prepare,async()=>{
+    renderEnvelope(holder,await api('/api/routing/'+detail.record.id+'/envelope',{confirm:true,draft_hash:detail.draft_hash,sender:sender.value}));
+  }));
+}
+function renderEnvelope(panel,detail) {
+  const envelope=detail.preview.envelope;
+  panel.replaceChildren(element('h4','Email envelope review'),element('p','From: '+envelope.sender),element('p','To: '+envelope.recipients.join(', ')),element('p','Subject: '+envelope.subject),element('pre',envelope.body));
+  panel.append(element('p','Issue: '+envelope.issue_receipt.url),element('p','Delivery is disabled. SMTP acceptance does not confirm mailbox delivery.'));
+  if(detail.attempt)panel.append(element('p','Recorded attempt: '+detail.attempt.state+' (envelope '+detail.attempt.envelope_hash+')'));
+  if(detail.approval){panel.append(element('p','Envelope review approved; no email sent by this action.'));return;}
+  const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';label.append(check,element('span','I reviewed this sender, recipients and exact message.'));panel.append(label);
+  const approve=element('button','Approve envelope review');approve.disabled=true;check.addEventListener('change',()=>approve.disabled=!check.checked);
+  approve.addEventListener('click',()=>action(approve,async()=>renderEnvelope(panel,await api('/api/envelopes/'+detail.preview.envelope_hash+'/approve',{confirm:true}))));panel.append(approve);
+}

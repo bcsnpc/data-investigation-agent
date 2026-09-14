@@ -43,7 +43,7 @@ class EvidenceStore:
         return self.decode(row,True) if row else None
 
 
-def create_app(database, token, workflow=None, lineage_run=None, reviews=None, ui=False,worker_status=None,workspace_mode='standard',routing=None):
+def create_app(database, token, workflow=None, lineage_run=None, reviews=None, ui=False,worker_status=None,workspace_mode='standard',routing=None,envelopes=None):
     if not isinstance(token,str) or len(token)<32 or not token.isascii():
         raise ValueError('API token must contain at least 32 ASCII characters')
     store=EvidenceStore(database)
@@ -70,13 +70,15 @@ def create_app(database, token, workflow=None, lineage_run=None, reviews=None, u
             return respond('401 Unauthorized',{'error':'UNAUTHORIZED'})
         method=environ.get('REQUEST_METHOD')
         review_route=reviews is not None and reviews.matches(environ.get('PATH_INFO',''))
+        envelope_route=envelopes is not None and envelopes.matches(environ.get('PATH_INFO',''))
         routing_route=routing is not None and routing.matches(environ.get('PATH_INFO',''))
-        if method!='GET' and not (method=='POST' and (routing_route or review_route or (workflow is not None and environ.get('PATH_INFO')=='/api/tickets'))):
+        if method!='GET' and not (method=='POST' and (envelope_route or routing_route or review_route or (workflow is not None and environ.get('PATH_INFO')=='/api/tickets'))):
             return respond('405 Method Not Allowed',{'error':'READ_ONLY_API'})
         path=environ.get('PATH_INFO','')
         query=environ.get('QUERY_STRING','')
         try:
-            if path=='/api/context':return respond('200 OK',{'workspace_mode':workspace_mode,'routing_review':routing is not None})
+            if path=='/api/context':return respond('200 OK',{'workspace_mode':workspace_mode,'routing_review':routing is not None,'envelope_review':envelopes is not None})
+            if envelope_route:return envelopes.handle(environ,respond)
             if routing_route:return routing.handle(environ,respond)
             if path=='/api/worker' and worker_status is not None:
                 if query:raise ValueError('Unexpected query')
