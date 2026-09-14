@@ -27,7 +27,7 @@ def summarize(item):
         text.append('Some boundaries are NOT_COMPARABLE; observed values do not establish a comparable snapshot.')
     if 'INSUFFICIENT_EVIDENCE' in statuses:
         text.append('Some boundaries have INSUFFICIENT_EVIDENCE; their evidence gates remain blocked.')
-    text.append('This summary describes saved evidence and does not establish a root cause or authorize defect routing.')
+    text.append('The saved result records a verified cause within its stated scope; defect routing is not authorized.' if result.get('root_cause_verified') is True else 'This summary describes saved evidence and does not establish a root cause or authorize defect routing.')
     return {'version': 'evidence-summary-v1', 'investigation_id': item['id'],
             'classification': item['classification'], 'text': ' '.join(text),
             'observations': rows, 'boundaries': boundaries, 'automatic_defect_routing': False,
