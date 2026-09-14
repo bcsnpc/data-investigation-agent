@@ -274,3 +274,8 @@ Issue #57: Azure activity logs and successful reads after resume identified SQL 
 
 
 User constraint: Azure SQL must remain within its free allowance. Verified useFreeLimit=true and freeLimitExhaustionBehavior=AutoPause; normal idle autoPauseDelay=60 minutes. Do not enable paid overage, remove the free limit or upgrade SQL compute without explicit user authorization. Accept quota-exhaustion unavailability until allowance renews; bounded connection retries must not change these settings. Minimize avoidable full-estate validation runs.
+
+
+## UI-001 local investigation review
+
+Issue #61: PR #56 and PR #60 merged. Added a same-origin local review screen for saved tickets, drafts, scope confirmation, queued investigation status and evidence summaries. Browser verification passed on desktop and 390px mobile, including token rejection, approval, partial evidence and disconnect; fixture server/browser stopped. Two UI route/auth tests, five review API tests, six evidence API tests and two generator tests passed; JavaScript syntax checked. No SQL or LLM calls occurred. See [review UI](investigation-review-ui.md). The UI is local; ticket creation/planning and workers remain CLI workflows. Next: integrate ticket intake/planning experience and validate evidence-grounded LLM narratives. SQL free limits and AutoPause-on-exhaustion remain mandatory.

@@ -34,7 +34,7 @@ if __name__=='__main__':
     if args.enable_plan_review:
         from plan_review_api import PlanReviews
         reviews=PlanReviews(workflow,config,lambda: json.loads(args.estate.read_text()))
-    app=create_app(database,token,workflow,lineage,reviews)
+    app=create_app(database,token,workflow,lineage,reviews,ui=args.enable_plan_review)
     with make_server('127.0.0.1',args.port,app,handler_class=QuietHandler) as server:
         print(f'Investigation evidence API listening on http://127.0.0.1:{args.port}',flush=True)
         server.serve_forever()

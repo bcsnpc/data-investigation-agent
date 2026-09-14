@@ -43,13 +43,17 @@ class EvidenceStore:
         return self.decode(row,True) if row else None
 
 
-def create_app(database, token, workflow=None, lineage_run=None, reviews=None):
+def create_app(database, token, workflow=None, lineage_run=None, reviews=None, ui=False):
     if not isinstance(token,str) or len(token)<32 or not token.isascii():
         raise ValueError('API token must contain at least 32 ASCII characters')
     store=EvidenceStore(database)
     if workflow is not None:lineage_run=str(UUID(lineage_run))
 
     def application(environ,start_response):
+        if ui:
+            from review_ui import serve
+            static=serve(environ,start_response)
+            if static is not None:return static
         def respond(status, body):
             encoded=json.dumps(body,ensure_ascii=False).encode('utf-8')
             headers=[('Content-Type','application/json; charset=utf-8'),('Content-Length',str(len(encoded))),

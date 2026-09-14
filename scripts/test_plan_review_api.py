@@ -19,6 +19,8 @@ class ReviewApiTests(unittest.TestCase):
         reviews = PlanReviews(self.store, self.config, lambda: self.estate)
         self.app = create_app(self.store.database, self.token, self.store, self.lineage, reviews)
         self.path = '/api/plans/' + self.record['id']
+        graph_patch=patch('review_ticket_plan.load_graph',return_value=self.graph)
+        graph_patch.start();self.addCleanup(graph_patch.stop)
 
     def request(self, path=None, method='GET', body=None, token=None, query=''):
         raw = json.dumps(body).encode() if body is not None else b''
