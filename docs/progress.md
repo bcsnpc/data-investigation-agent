@@ -21,7 +21,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 | 5B Ticket experience | Local workflow and UI implemented | Intake, review, related statuses, evidence and bounded worker implemented; attachments, richer context, lineage/impact views and hosting remain |
 | 6 AI investigator | Scoped planning and explanations implemented | Azure planning and model-selected evidence highlights verified; automatic explanations are opt-in; hypothesis/tool orchestration, verified classification and impact remain |
 | 7 Defect lab | Initial local scenario implemented | Isolated Gold omission, fingerprints and reset tested; investigator integration, multi-layer scenarios and expected-behavior classification remain |
-| 7B Routing | Not started | Generic issue/notification providers, ownership-based routing and human triage |
+| 7B Routing | Review-only contracts implemented | Explicit owner policy, evidence-bound drafts and provider interfaces; review/approval UI, actual adapters, delivery recovery and real ownership remain |
 | 8 Portfolio polish | Not started | Hosted demo, screenshots, video and presentation |
 
 ## Work record
@@ -331,3 +331,8 @@ Issue #81: PR #80 merged after all CI checks passed. Added an isolated lab revie
 ## LAB-006 source-version freshness distinction
 
 Issue #83: PR #82 merged after all CI checks passed. Added resettable inject-stale using the unchanged Gold transformation over a controlled prior empty-refund source view. Receipt/hash/current-observation agreement and prior/current replay are required for REFRESH_FRESHNESS. Filter-build defects remain TECHNICAL_DEFECT, missing/drifted proof remains UNRESOLVED. Local run eb5ccabd-f6b5-43dc-86d7-a27bc93c367f proved one order overstated by USD 99; reset restored READY. All 213 script tests pass; the reviewed API test now covers all three supported classifications. No cloud/model calls or SQL settings changes. See [lab freshness](lab-freshness.md). This does not prove cloud snapshots or refresh SLA. Next: broaden scenario evaluation and ownership/routing contracts; live freshness, richer AI/UI and hosting remain pending.
+
+
+## ROUTE-001 ownership-aware draft contracts
+
+Issue #85: PR #84 merged after all CI checks passed. Added explicit ownership policy, provider interfaces and deterministic evidence-bound routing drafts. Expected behavior is NO_BUG; non-technical findings require human triage. Supported local technical findings require recomputed impact, consistent cause and an explicit owner. Repeated preparation is idempotent; changed evidence/policy gets a new draft. Real saved run 3eaec492-8777-42fe-bce0-8ba468c75d63 returned NEEDS_OWNER under the deliberately empty policy. All 217 script tests pass, including four routing tests. Tests use fixture teams; no real owner is invented. No bugs/notifications sent, no cloud/model calls. See [routing drafts](routing-drafts.md). Next: review/approval experience and provider delivery contracts, with real ownership/recipients required before enabling delivery. Broader scenarios, live freshness, richer AI/UI and hosting remain open.

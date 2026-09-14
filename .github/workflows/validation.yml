@@ -65,6 +65,7 @@ jobs:
           python -m unittest discover -s scripts -p test_lab_filter_cause.py
           python -m unittest discover -s scripts -p test_lab_review.py
           python -m unittest discover -s scripts -p test_lab_freshness.py
+          python -m unittest discover -s scripts -p test_routing_drafts.py
           python -m py_compile scripts/evaluate_ticket_planner.py scripts/run_azure_ticket_planner.py
           python -m unittest discover -s scripts -p test_snapshot_provenance.py
           python -m unittest discover -s scripts -p test_source_snapshot.py
