@@ -150,10 +150,15 @@ function renderRouting(panel,detail) {
   if(!draft)return;
   panel.append(element('h4',draft.title),element('p','Team: '+draft.team+' · Severity: '+draft.severity),element('p',draft.scope));
   panel.append(element('pre',JSON.stringify(draft.impact_by_currency,null,2)),element('p',draft.notification_text));
+  if(draft.destination_preview){
+    const preview=draft.destination_preview;
+    panel.append(element('h4','Proposed issue'),element('p','GitHub repository: '+preview.issue.repository),element('p',preview.issue.title),element('pre',preview.issue.body));
+    panel.append(element('h4','Proposed notification'),element('p','Email to: '+preview.notification.recipients.join(', ')),element('p','Subject: '+preview.notification.subject),element('pre',preview.notification.body),element('p',preview.limitation));
+  }else{panel.append(element('p','No delivery destinations configured. This review covers the finding only.'));}
   panel.append(element('p','Approval records this draft only. Issue creation and notifications are disabled.'));
   if(detail.approval){panel.append(element('p','Review approved; delivery disabled.'));return;}
   const label=document.createElement('label');label.className='check';const check=document.createElement('input');check.type='checkbox';
-  label.append(check,element('span','I reviewed the owner, evidence, scope and proposed content.'));panel.append(label);
+  label.append(check,element('span','I reviewed the owner, evidence, scope, proposed content and any displayed destinations.'));panel.append(label);
   const approve=element('button','Approve routing draft');approve.disabled=true;check.addEventListener('change',()=>approve.disabled=!check.checked);
   approve.addEventListener('click',()=>action(approve,async()=>{
     renderRouting(panel,await api('/api/routing/'+detail.record.id+'/approve',{confirm:true,draft_hash:detail.draft_hash}));
