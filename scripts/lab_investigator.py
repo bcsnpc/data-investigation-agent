@@ -62,7 +62,9 @@ def investigate(payload,database,business_context=None,cause_verifier=None):
     if cause_verifier is not None:
         cause=cause_verifier(payload,result)
         if cause['verified']:
-            result.update(classification='TECHNICAL_DEFECT',root_cause_verified=True,
+            classification=cause.get('classification','TECHNICAL_DEFECT')
+            if classification not in ('TECHNICAL_DEFECT','REFRESH_FRESHNESS'):raise ValueError('Unsupported verified classification')
+            result.update(classification=classification,root_cause_verified=True,
                 root_cause=cause['cause'],limitation='Verified against one local build receipt and replay. Not a full-estate first-boundary or production finding; routing remains disabled.')
     for currency,totals in result['impact_by_currency'].items():
         observations['net_cash_'+currency]=[{'layer':layer,'status':'AVAILABLE','data':totals[layer+'_total'],'currency':currency,'filters':{'scope':'local_lab'}} for layer in ('silver','gold')]
@@ -81,7 +83,7 @@ def investigate(payload,database,business_context=None,cause_verifier=None):
 
 if __name__=='__main__':
     import argparse
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--explain-returns',action='store_true');parser.add_argument('--verify-filter',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--explain-returns',action='store_true');parser.add_argument('--verify-filter','--verify-cause',dest='verify_filter',action='store_true');args=parser.parse_args()
     from defect_lab import ROOT,evidence
     captured=evidence(ROOT/'.local/defect-lab/lab.duckdb',include_business_drivers=args.explain_returns)
     payload,context=captured if args.explain_returns else (captured,None)

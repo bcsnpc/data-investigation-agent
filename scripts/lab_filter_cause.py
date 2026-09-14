@@ -5,7 +5,7 @@ import duckdb
 from defect_lab import evidence,fingerprints,query,filter_query
 
 
-def verify(path,payload,result):
+def verify_filter(path,payload,result):
     def blocked(reason):return {'verified':False,'reason':reason}
     if result['comparison_status']!='MISMATCH':return blocked('No discrepancy to explain')
     with closing(duckdb.connect(str(path),read_only=True)) as db:
@@ -30,3 +30,11 @@ def verify(path,payload,result):
                 'scope':'This local Silver-to-Gold build only','query_text':sql,'build_fingerprints':json.loads(recorded),
                 'filtered_replay_matches':True,'unfiltered_replay_reconciles':True,
                 'references':['/request/cause_evidence','/request/lab_evidence/rows']}
+
+
+def verify(path,payload,result):
+    finding=verify_filter(path,payload,result)
+    if finding['verified']:return finding
+    from lab_freshness import verify as verify_freshness
+    freshness=verify_freshness(path,payload,result)
+    return freshness if freshness['verified'] else {'verified':False,'filter_reason':finding['reason'],'freshness_reason':freshness['reason']}
