@@ -61,7 +61,11 @@ def components(folder,lab_path,token,policy_loader=None):
     from routing_review import RoutingReview
     from investigation_evidence_api import EvidenceStore
     routing=RoutingReview(store,EvidenceStore(config['storage']['database']),policy_loader or (lambda:json.loads((ROOT/'infra/routing/ownership.json').read_text())))
-    app=create_app(config['storage']['database'],token,store,LINEAGE,reviews,ui=True,worker_status=worker.status,workspace_mode='local_lab',routing=routing)
+    from email_delivery_adapter import EmailAdapter
+    from envelope_workflow import EnvelopeWorkflow
+    from envelope_review_api import EnvelopeReviewApi
+    envelopes=EnvelopeReviewApi(EnvelopeWorkflow(EmailAdapter(routing,None)))
+    app=create_app(config['storage']['database'],token,store,LINEAGE,reviews,ui=True,worker_status=worker.status,workspace_mode='local_lab',routing=routing,envelopes=envelopes)
     return app,worker,store
 
 
