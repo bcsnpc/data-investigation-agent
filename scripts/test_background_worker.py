@@ -87,5 +87,27 @@ class BackgroundTests(unittest.TestCase):
         self.assertTrue(call('POST','Bearer '+'x'*32)[0].startswith('405'))
         self.assertEqual(call('GET','Bearer '+'x'*32)[1]['processed'],1)
 
+    def test_explanation_failure_does_not_change_completed_run(self):
+        def fail(_):raise RuntimeError('secret provider detail')
+        result={'status':'COMPLETED','investigation_run_id':str(uuid4())}
+        worker=BackgroundWorker(self.store,self.config,lambda:self.estate,process=lambda *a,**k:result,explain=fail)
+        worker.start();worker.thread.join(2)
+        self.assertEqual(worker.status()['last_result'],result)
+        self.assertEqual(worker.status()['last_explanation'],{'status':'FAILED'})
+        self.assertEqual(worker.status()['status'],'JOB_LIMIT')
+
+    def test_noncompleted_jobs_never_call_model(self):
+        worker=BackgroundWorker(self.store,self.config,lambda:self.estate,
+            process=lambda *a,**k:{'status':'NEEDS_INPUT'},explain=lambda _:self.fail('Unexpected model call'))
+        worker.start();worker.thread.join(2)
+        self.assertNotIn('last_explanation',worker.status())
+
+    def test_related_tickets_preserve_separate_statuses(self):
+        parent,child=self.approved();job=self.store.claim(approved_only=True)
+        self.store.finish(job,'COMPLETED',{'classification':'UNRESOLVED'},str(uuid4()))
+        self.assertEqual(self.store.related(parent)['items'][0]['status'],'COMPLETED')
+        self.assertEqual(self.store.related(child)['items'][0]['id'],parent)
+        self.assertEqual(self.store.get(parent)['status'],'QUEUED')
+
 
 if __name__=='__main__':unittest.main()

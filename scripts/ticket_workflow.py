@@ -90,6 +90,20 @@ class TicketStore:
             self.event(db,row[0],'RUNNING',{'reason':'Recovered expired lease' if row[3]=='RUNNING' else 'Worker claimed ticket'},now);db.commit()
             return dict(id=row[0],body=json.loads(row[1]),lineage_run=row[2],claim=claim)
 
+    def related(self,identity):
+        identity=str(UUID(identity))
+        with closing(self.connect()) as db:
+            if not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='plan_approvals'").fetchone():
+                return {'items':[],'truncated':False}
+            rows=db.execute('''SELECT t.id,t.status,t.run_id,a.original_ticket_id,a.created
+                FROM plan_approvals a JOIN tickets t ON t.id=CASE
+                WHEN a.original_ticket_id=? THEN a.child_ticket_id ELSE a.original_ticket_id END
+                WHERE a.original_ticket_id=? OR a.child_ticket_id=?
+                ORDER BY a.created DESC,t.id LIMIT 21''',(identity,identity,identity)).fetchall()
+        return {'items':[{'id':r[0],'status':r[1],'investigation_run_id':r[2],
+                         'relationship':'investigation' if r[3]==identity else 'original ticket'} for r in rows[:20]],
+                'truncated':len(rows)>20}
+
     def finish(self,job,status,outcome,run_id=None):
         if status not in ('COMPLETED','NEEDS_INPUT','FAILED'):raise ValueError('Invalid terminal status')
         now=time.time()

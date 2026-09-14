@@ -32,7 +32,8 @@ behavior. Existing connection-stage SQL 40613 retry limits still apply within a 
 Worker execution occurs separately from the HTTP thread. Current model planning requests
 still occupy the synchronous HTTP server while generating drafts. Explanation generation
 remains the explicit operator CLI from [grounded explanations](grounded-explanations.md);
-automatic explanation scheduling and parent/child status consolidation are follow-ups.
+opt-in automatic explanations and related ticket navigation are described in
+[post-run explanations](post-run-explanations.md).
 
 Run one server instance for a workspace. Claim transactions prevent two workers claiming
 the same queued ticket, but session budgets are per process and reset on restart. This
