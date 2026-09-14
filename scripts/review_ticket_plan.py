@@ -46,6 +46,15 @@ def approve(store, plan_id, config, estate, reviewer, expected_hash=None):
     validated = validate_plan(record['plan'], original['ticket'], reports)
     if validated['status'] != 'DRAFT_REQUIRES_REVIEW':
         raise Conflict('Questions must be resolved in a new plan')
+    if 'native_context' in record:
+        from native_plan_context import check
+        saved=record['native_context']
+        try:
+            current=check(config['storage']['database'],record['lineage_run'],record['plan']['report_id'],saved['page_path'],original['ticket'].get('order_id'))
+        except Exception as error:
+            raise Conflict('Native definition context is unavailable or changed') from error
+        if current!=saved or current['status']!='CONTEXT_SUPPLIED':
+            raise Conflict('Native definition context changed; create a new plan')
     plan = validated['plan']
     body = dict(original['ticket'], report=plan['report_id'], metric=plan['metric'], currency=plan['currency'])
     if plan['order_id'] is not None:
