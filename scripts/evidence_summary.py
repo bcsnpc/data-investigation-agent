@@ -18,6 +18,17 @@ def summarize(item):
         for index, boundary in enumerate(entry.get('boundaries', [])):
             boundaries.append({'metric': metric, 'status': boundary['status'],
                                'reference': '/result/metrics/' + metric + '/boundaries/' + str(index)})
+    if item['request'].get('scope') == 'local_same_transaction_three_layer':
+        for layer, records in item['request']['layers'].items():
+            for index, record in enumerate(records):
+                rows.append({'metric': 'net_cash_' + record['currency'] + ' / ' + record['order_id'],
+                             'layer': layer, 'status': 'AVAILABLE', 'value': record['net_cash'],
+                             'currency': record['currency'], 'filters': {'order_id': record['order_id'], 'scope': 'local_lab'},
+                             'reference': '/request/layers/' + layer + '/' + str(index)})
+        for index, boundary in enumerate(result.get('boundaries', [])):
+            for currency in boundary['impact_by_currency']:
+                boundaries.append({'metric': 'net_cash_' + currency + ' / ' + boundary['upstream'] + ' to ' + boundary['downstream'],
+                                   'status': boundary['comparison_status'], 'reference': '/result/boundaries/' + str(index)})
     statuses = sorted({b['status'] for b in boundaries})
     unavailable = sorted({r['layer'] for r in rows if r['status'] != 'AVAILABLE'})
     text = [f"Recorded classification: {item['classification']}."]
