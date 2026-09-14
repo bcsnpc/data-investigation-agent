@@ -99,6 +99,9 @@ def plan_ticket(store, ticket_id, graph, generate=azure_generate, *, native_page
         value, metadata = generate(payload)
         record.update(validate_plan(value, ticket['ticket'], payload['reports']))
         record['provider'] = metadata
+        selected_page=ticket['ticket'].get('native_page')
+        if selected_page is not None and native_page is not None and selected_page!=native_page:raise ValueError('Explicit native page changed')
+        native_page=selected_page or native_page
         if native_page is not None:
             from native_plan_context import check
             if metadata_database is None:raise ValueError('Native context database required')

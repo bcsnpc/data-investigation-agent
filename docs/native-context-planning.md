@@ -3,7 +3,7 @@
 The planner accepts an optional native page path. It checks the supported order drillthrough
 requirement using the same metadata scan referenced by the ticket's lineage run, then retains
 the result and bundle hash inside the saved draft. This option is explicit; existing planners
-without a selected page keep their prior behavior. The hosted UI does not select a page yet.
+without a selected page keep their prior behavior. The local review UI can now select a retained page and save it on the ticket.
 
 Only an explicit ticket order_id satisfies the requirement. An LLM-inferred ID does not:
 the saved plan remains NEEDS_INPUT and cannot be approved. Unsupported page definitions also

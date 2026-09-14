@@ -25,7 +25,7 @@ class NativePlanningTests(unittest.TestCase):
         inventory.asset(self.report,'Report','Orders','endpoint',{},'fabric://workspace')
         model='fabric://workspace/22222222-2222-4222-8222-222222222222'
         inventory.asset(model,'SemanticModel','Model','endpoint',{},'fabric://workspace')
-        page={'pageBinding':{'type':'Drillthrough','parameters':[{'name':'p','boundFilter':'order','fieldExpr':FIELD}]},'filterConfig':{'filters':[{'name':'order','field':FIELD,'type':'Categorical','howCreated':'Drillthrough'}]}}
+        page={'name':'details','displayName':'Order details','pageBinding':{'type':'Drillthrough','parameters':[{'name':'p','boundFilter':'order','fieldExpr':FIELD}]},'filterConfig':{'filters':[{'name':'order','field':FIELD,'type':'Categorical','howCreated':'Drillthrough'}]}}
         expand_definition(inventory,self.report,'Report',{'definition.pbir':json.dumps({'datasetReference':{'byConnection':{'connectionString':'semanticmodelid=22222222-2222-4222-8222-222222222222'}}}),'definition/report.json':'{}',PAGE:json.dumps(page)},'endpoint')
         expand_definition(inventory,model,'SemanticModel',{'model.bim':json.dumps({'model':{'tables':[]}})},'endpoint')
         inventory.db.execute('CREATE TABLE lineage_runs(id TEXT,scan_id TEXT)')
