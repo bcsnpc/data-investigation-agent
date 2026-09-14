@@ -34,6 +34,11 @@ $('login-form').addEventListener('submit', event => { event.preventDefault(); ac
   const context=await api('/api/context');
   routingEnabled=context.routing_review===true;
   envelopeEnabled=context.envelope_review===true;
+  if(context.workspace_mode==='local_multilayer_lab') {
+    $('new-report').value='Lab Three-layer Net Cash';
+    $('generate').nextElementSibling.textContent='Three-layer local lab: Net Cash / USD / all orders. One approved job; no cloud or AI calls.';
+    message('LOCAL THREE-LAYER LAB: review the fixed scope before approval.');
+  }
   if(context.workspace_mode==='local_lab') {
     $('new-report').value='Lab Net Cash';
     $('generate').nextElementSibling.textContent='Isolated lab: fixed Net Cash / USD / all-orders draft; no AI or cloud calls. Ticket narrative does not change this scope. One approved job per server session.';
