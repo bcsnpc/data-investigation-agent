@@ -2,6 +2,7 @@
 const $ = id => document.getElementById(id);
 let token = '', session = 0, ticketId = '', selected = null, offset = null, busy = false;
 let submission=null;const planningKeys=new Map();
+let routingEnabled=false;
 const show = (id, visible) => { $(id).hidden = !visible; };
 const message = text => { $('message').textContent = text; };
 function element(tag, text) { const node = document.createElement(tag); node.textContent = text; return node; }
@@ -30,6 +31,7 @@ function resetViews() { for (const id of ['ticket','drafts-card','review','evide
 $('login-form').addEventListener('submit', event => { event.preventDefault(); action(event.submitter, async () => {
   token=$('token').value; $('token').value=''; await api('/api/investigations?limit=1');
   const context=await api('/api/context');
+  routingEnabled=context.routing_review===true;
   if(context.workspace_mode==='local_lab') {
     $('new-report').value='Lab Net Cash';
     $('generate').nextElementSibling.textContent='Isolated lab: fixed Net Cash / USD / all-orders draft; no AI or cloud calls. Ticket narrative does not change this scope. One approved job per server session.';
@@ -134,6 +136,27 @@ async function evidence(id) {
       $('explanation').append(list);
     }
   } else $('explanation').append(element('p','No validated AI explanation is saved for this evidence yet.'));
+  if(routingEnabled) {
+    const panel=document.createElement('div');panel.className='routing-review';const button=element('button','Prepare routing review');
+    button.addEventListener('click',()=>action(button,async()=>{
+      const detail=await api('/api/investigations/'+id+'/routing',{confirm:true});renderRouting(panel,detail);
+    }));panel.append(button);$('explanation').append(panel);
+  }
   show('evidence',true);
+}
+function renderRouting(panel,detail) {
+  panel.replaceChildren(element('h3','Routing review'),element('p',detail.record.status),element('p',detail.record.reason));
+  const draft=detail.record.draft;
+  if(!draft)return;
+  panel.append(element('h4',draft.title),element('p','Team: '+draft.team+' · Severity: '+draft.severity),element('p',draft.scope));
+  panel.append(element('pre',JSON.stringify(draft.impact_by_currency,null,2)),element('p',draft.notification_text));
+  panel.append(element('p','Approval records this draft only. Issue creation and notifications are disabled.'));
+  if(detail.approval){panel.append(element('p','Review approved; delivery disabled.'));return;}
+  const label=document.createElement('label');label.className='check';const check=document.createElement('input');check.type='checkbox';
+  label.append(check,element('span','I reviewed the owner, evidence, scope and proposed content.'));panel.append(label);
+  const approve=element('button','Approve routing draft');approve.disabled=true;check.addEventListener('change',()=>approve.disabled=!check.checked);
+  approve.addEventListener('click',()=>action(approve,async()=>{
+    renderRouting(panel,await api('/api/routing/'+detail.record.id+'/approve',{confirm:true,draft_hash:detail.draft_hash}));
+  }));panel.append(approve);
 }
 $('ticket-id').value=new URLSearchParams(location.search).get('ticket') || '';
