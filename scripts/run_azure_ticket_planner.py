@@ -48,7 +48,7 @@ def main():
         if ticket is None:
             raise ValueError('Unknown ticket')
         graph = load_graph(config['storage']['database'], ticket['lineage_run'])
-        record = plan_ticket(store, args.ticket_id, graph)
+        record = plan_ticket(store, args.ticket_id, graph, metadata_database=config['storage']['database'])
         print(json.dumps(record))
         return 1 if record['status'] == 'PLANNING_FAILED' else 0
     except Exception as exc:

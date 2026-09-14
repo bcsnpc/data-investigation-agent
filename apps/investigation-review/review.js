@@ -2,6 +2,13 @@
 const $ = id => document.getElementById(id);
 let token = '', session = 0, ticketId = '', selected = null, offset = null, busy = false;
 let submission=null;const planningKeys=new Map();
+let nativePages=[];
+function pageChoices(){
+  const report=$('new-report').value.trim().toLowerCase();
+  $('new-page').replaceChildren(new Option('No page selected',''));
+  for(const p of nativePages.filter(p=>p.report_id.toLowerCase()===report || p.report_name.toLowerCase()===report)) $('new-page').append(new Option(p.label,p.path));
+}
+$('new-report').addEventListener('input',pageChoices);
 let routingEnabled=false;
 let envelopeEnabled=false;
 const show = (id, visible) => { $(id).hidden = !visible; };
@@ -32,6 +39,7 @@ function resetViews() { for (const id of ['ticket','drafts-card','review','evide
 $('login-form').addEventListener('submit', event => { event.preventDefault(); action(event.submitter, async () => {
   token=$('token').value; $('token').value=''; await api('/api/investigations?limit=1');
   const context=await api('/api/context');
+  nativePages=context.native_pages || [];pageChoices();
   routingEnabled=context.routing_review===true;
   envelopeEnabled=context.envelope_review===true;
   if(context.workspace_mode==='local_multilayer_lab') {
@@ -80,6 +88,8 @@ $('refresh').addEventListener('click',event=>action(event.currentTarget,()=>load
 $('more').addEventListener('click',event=>action(event.currentTarget,()=>drafts(true)));
 $('create-form').addEventListener('submit',event=>{event.preventDefault();action(event.submitter,async()=>{
   const body={title:$('new-title').value.trim(),report:$('new-report').value.trim(),description:$('new-description').value.trim()};
+  if($('new-page').value)body.native_page=$('new-page').value;
+  if($('new-order').value.trim())body.order_id=$('new-order').value.trim();
   const encoded=JSON.stringify(body);if(!submission || submission.encoded!==encoded)submission={encoded,key:crypto.randomUUID()};
   const result=await api('/api/tickets',body,submission.key);await loadTicket(result.ticket_id);
   $('create-form').closest('details').open=false;message('Ticket submitted. Generate a draft to review its proposed scope.');
@@ -95,8 +105,13 @@ $('generate').addEventListener('click',event=>action(event.currentTarget,async()
 async function review(id) {
   selected=null;show('review',false);const result=await api('/api/plans/'+encodeURIComponent(id));selected=result;
   const scope=result.draft.plan;$('scope').replaceChildren();$('questions').replaceChildren();
-  if(scope) for(const [label,value] of [['Report',result.report_name || 'Unresolved report'],['Metric',scope.metric],['Currency',scope.currency],['Order',scope.order_id || 'All orders']]) {
+  if(scope) for(const [label,value] of [['Report',result.report_name || 'Unresolved report'],['Metric',scope.metric],['Currency',scope.currency],['Order',scope.order_id || (result.draft.native_context?.required_context.includes('order_id') ? 'Not specified' : 'All orders')]]) {
     $('scope').append(element('dt',label),element('dd',value || 'Not specified'));
+  }
+  if(result.draft.native_context){
+    const c=result.draft.native_context;
+    $('scope').append(element('dt','Page context'),element('dd',c.status.replaceAll('_',' ')),element('dt','Report page'),element('dd',nativePages.find(p=>p.path===c.page_path && p.report_id===c.report_id)?.label || 'Selected report page'));
+    $('questions').append(element('p',c.limitation));
   }
   for(const question of scope?.questions || []) $('questions').append(element('p',question));
   $('confirm').checked=false;

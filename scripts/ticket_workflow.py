@@ -12,18 +12,21 @@ class Conflict(ValueError):pass
 
 
 def validate_ticket(body):
-    allowed={'title','report','description','metric','currency','order_id'}
+    allowed={'title','report','description','metric','currency','order_id','native_page'}
     if not isinstance(body,dict) or set(body)-allowed:raise ValueError('Unsupported ticket fields')
     result={}
     for key,maximum in [('title',200),('report',200),('description',10000)]:
         value=body.get(key)
         if not isinstance(value,str) or not value.strip() or len(value)>maximum:raise ValueError('Required ticket field invalid')
         result[key]=value.strip()
-    for key,maximum in [('metric',100),('currency',3),('order_id',20)]:
+    for key,maximum in [('metric',100),('currency',3),('order_id',20),('native_page',250)]:
         value=body.get(key)
         if value is not None:
             if not isinstance(value,str) or not value.strip() or len(value)>maximum:raise ValueError('Optional ticket field invalid')
             result[key]=value.strip()
+    if 'native_page' in result:
+        import re
+        if not re.fullmatch(r'definition/pages/[A-Za-z0-9_-]+/page.json',result['native_page']):raise ValueError('Invalid native page path')
     return result
 
 

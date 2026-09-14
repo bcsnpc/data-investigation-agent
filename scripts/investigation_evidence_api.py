@@ -77,7 +77,9 @@ def create_app(database, token, workflow=None, lineage_run=None, reviews=None, u
         path=environ.get('PATH_INFO','')
         query=environ.get('QUERY_STRING','')
         try:
-            if path=='/api/context':return respond('200 OK',{'workspace_mode':workspace_mode,'routing_review':routing is not None,'envelope_review':envelopes is not None})
+            if path=='/api/context':
+                from native_plan_context import pages
+                return respond('200 OK',{'workspace_mode':workspace_mode,'routing_review':routing is not None,'envelope_review':envelopes is not None,'native_pages':pages(database,lineage_run)})
             if envelope_route:return envelopes.handle(environ,respond)
             if routing_route:return routing.handle(environ,respond)
             if path=='/api/worker' and worker_status is not None:
