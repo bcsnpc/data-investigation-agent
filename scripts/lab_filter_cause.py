@@ -37,4 +37,7 @@ def verify(path,payload,result):
     if finding['verified']:return finding
     from lab_freshness import verify as verify_freshness
     freshness=verify_freshness(path,payload,result)
-    return freshness if freshness['verified'] else {'verified':False,'filter_reason':finding['reason'],'freshness_reason':freshness['reason']}
+    if freshness['verified']:return freshness
+    from lab_refund_arithmetic import verify as verify_arithmetic
+    arithmetic=verify_arithmetic(path,payload,result)
+    return arithmetic if arithmetic['verified'] else {'verified':False,'filter_reason':finding['reason'],'freshness_reason':freshness['reason'],'arithmetic_reason':arithmetic['reason']}

@@ -14,6 +14,7 @@ CASES = (
     ('matching_without_context',None,False,'UNRESOLVED','0.0000',False,0),
     ('expected_refunds',None,True,'EXPECTED_BEHAVIOR','0.0000',False,0),
     ('unexplained_omission','inject',False,'UNRESOLVED','-99.0000',False,1),
+    ('verified_double_refund','inject-double-refund',False,'TECHNICAL_DEFECT','-99.0000',True,1),
     ('verified_filter','inject-filter',False,'TECHNICAL_DEFECT','-99.0000',True,1),
     ('verified_stale_source','inject-stale',False,'REFRESH_FRESHNESS','99.0000',True,1),
     ('missing_filter_receipt','inject-filter',False,'UNRESOLVED','-99.0000',False,1),

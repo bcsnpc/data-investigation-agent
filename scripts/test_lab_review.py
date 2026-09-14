@@ -10,7 +10,7 @@ from serve_lab_review import components
 
 class LabReviewTests(unittest.TestCase):
     def test_reviewed_cases_flow_to_saved_evidence(self):
-        for injected,expected in [(None,'EXPECTED_BEHAVIOR'),('inject-filter','TECHNICAL_DEFECT'),('inject-stale','REFRESH_FRESHNESS')]:
+        for injected,expected in [(None,'EXPECTED_BEHAVIOR'),('inject-filter','TECHNICAL_DEFECT'),('inject-stale','REFRESH_FRESHNESS'),('inject-double-refund','TECHNICAL_DEFECT')]:
             with self.subTest(injected=injected),tempfile.TemporaryDirectory() as folder:
                 path=Path(folder)/'lab.duckdb';initialize(path)
                 if injected:mutate(path,injected)

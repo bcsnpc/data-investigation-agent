@@ -10,6 +10,7 @@ Exit status is nonzero if any observed result or reset fails.
 | Matching without business context | UNRESOLVED | 0 |
 | Complete capture/refund explanation | EXPECTED_BEHAVIOR | 0 |
 | Output omission without cause proof | UNRESOLVED | -99 |
+| Verified double-refund arithmetic | TECHNICAL_DEFECT | -99 |
 | Verified filter build | TECHNICAL_DEFECT | -99 |
 | Verified stale refund source | REFRESH_FRESHNESS | +99 |
 | Missing filter receipt | UNRESOLVED | -99 |
