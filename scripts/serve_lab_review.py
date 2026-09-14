@@ -20,9 +20,14 @@ from ticket_workflow import TicketStore
 
 LINEAGE='194e3b0c-9c06-4c83-aaba-cae2736e3164'
 REPORT='lab-cash-report'
+MULTI_LINEAGE='6b901118-25b6-4a69-8c78-8f19b392690b'
+MULTI_REPORT='lab-three-layer-cash-report'
 
 
-def setup(folder):
+def setup(folder,multilayer=False):
+    lineage=MULTI_LINEAGE if multilayer else LINEAGE
+    report=MULTI_REPORT if multilayer else REPORT
+    report_name='Lab Three-layer Net Cash' if multilayer else 'Lab Net Cash'
     folder=Path(folder);folder.mkdir(parents=True,exist_ok=True);database=folder/'review.sqlite'
     with closing(sqlite3.connect(database)) as db:
         db.executescript('''CREATE TABLE IF NOT EXISTS scans(id TEXT PRIMARY KEY,status TEXT);
@@ -31,26 +36,48 @@ def setup(folder):
         CREATE TABLE IF NOT EXISTS lineage_edges(run_id TEXT,source TEXT,target TEXT,kind TEXT,evidence TEXT,PRIMARY KEY(run_id,source,target));
         CREATE TABLE IF NOT EXISTS lineage_gaps(run_id TEXT,asset TEXT,reason TEXT,detail TEXT);
         CREATE TABLE IF NOT EXISTS investigation_runs(id TEXT PRIMARY KEY,lineage_run TEXT,created TEXT,request TEXT,result TEXT);''')
-        db.execute('INSERT OR IGNORE INTO scans VALUES(?,?)',(LINEAGE,'COMPLETE'))
-        for identity,kind,name in [(REPORT,'Report','Lab Net Cash'),('lab-cash','Measure','Net Cash')]:
-            db.execute('INSERT OR IGNORE INTO assets VALUES(?,?,?,?,?,?,?)',(LINEAGE,identity,None,kind,name,'{}','local-lab-v1'))
-        db.execute('INSERT OR IGNORE INTO lineage_runs VALUES(?,?,?,?)',(LINEAGE,LINEAGE,'2026-09-13','{}'))
-        db.execute('INSERT OR IGNORE INTO lineage_edges VALUES(?,?,?,?,?)',(LINEAGE,'lab-cash',REPORT,'binding','{"source":"explicit local lab contract"}'));db.commit()
+        db.execute('CREATE TABLE IF NOT EXISTS lab_review_mode(mode TEXT NOT NULL)')
+        mode='three_layer' if multilayer else 'two_layer'
+        old=db.execute('SELECT mode FROM lab_review_mode').fetchall()
+        if old and old!=[(mode,)]:raise ValueError('Review folder belongs to a different lab mode')
+        if not old:
+            if multilayer and db.execute('SELECT COUNT(*) FROM scans').fetchone()[0]:raise ValueError('Use a fresh review folder for multi-layer mode')
+            db.execute('INSERT INTO lab_review_mode VALUES(?)',(mode,))
+        db.execute('INSERT OR IGNORE INTO scans VALUES(?,?)',(lineage,'COMPLETE'))
+        for identity,kind,name in [(report,'Report',report_name),('lab-cash','Measure','Net Cash')]:
+            db.execute('INSERT OR IGNORE INTO assets VALUES(?,?,?,?,?,?,?)',(lineage,identity,None,kind,name,'{}','local-lab-v1'))
+        db.execute('INSERT OR IGNORE INTO lineage_runs VALUES(?,?,?,?)',(lineage,lineage,'2026-09-13','{}'))
+        db.execute('INSERT OR IGNORE INTO lineage_edges VALUES(?,?,?,?,?)',(lineage,'lab-cash',report,'binding','{"source":"explicit local lab contract"}'));db.commit()
     return {'storage':{'database':str(database)}},TicketStore(folder/'review-workflow.sqlite')
 
 
-def components(folder,lab_path,token,policy_loader=None):
-    config,store=setup(folder);estate={'investigation':{'lineage_run':LINEAGE}}
-    graph=load_graph(config['storage']['database'],LINEAGE)
+def components(folder,lab_path,token,policy_loader=None,*,multilayer=False):
+    lineage=MULTI_LINEAGE if multilayer else LINEAGE
+    report=MULTI_REPORT if multilayer else REPORT
+    report_name='Lab Three-layer Net Cash' if multilayer else 'Lab Net Cash'
+    config,store=setup(folder,multilayer);estate={'investigation':{'lineage_run':lineage}}
+    with closing(sqlite3.connect(config['storage']['database'])) as db:
+        db.execute('CREATE TABLE IF NOT EXISTS lab_review_source(path TEXT NOT NULL)')
+        source=str(Path(lab_path).resolve());old=db.execute('SELECT path FROM lab_review_source').fetchall()
+        if old and old!=[(source,)]:raise ValueError('Review folder belongs to another lab source')
+        if not old:db.execute('INSERT INTO lab_review_source VALUES(?)',(source,))
+        db.commit()
+    graph=load_graph(config['storage']['database'],lineage)
     def planner(identity):
         body=store.get(identity)['ticket']
-        supported=body['report'] in ('Lab Net Cash',REPORT)
-        scope={'report_id':REPORT if supported else None,'metric':'Net Cash','currency':'USD','order_id':None,
-               'questions':[] if supported else ['Use report Lab Net Cash for this isolated server.']}
+        supported=body['report'] in (report_name,report)
+        scope={'report_id':report if supported else None,'metric':'Net Cash','currency':'USD','order_id':None,
+               'questions':[] if supported else ['Use report '+report_name+' for this isolated server.']}
         return plan_ticket(store,identity,graph,lambda _: (scope,{'mode':'fixed_lab_scope_no_llm'}))['id']
     def process(*args,**kwargs):
         def acquire(config,estate,lineage,currency,order_id):
             if currency!='USD' or order_id is not None:raise ValueError('Lab supports full USD scope only')
+            if multilayer:
+                from multilayer_lab import capture,investigate_layers
+                payload=capture(lab_path)
+                if any(r['currency']!='USD' for rows in payload['layers'].values() for r in rows):raise ValueError('Lab data exceeds reviewed currency')
+                result=investigate_layers(payload,config['storage']['database'])
+                return dict(result,metrics={'Net Cash':{'boundaries':[{'status':b['comparison_status']} for b in result['boundaries']]}})
             payload,context=evidence(lab_path,True)
             if any(r['currency']!='USD' for r in payload['rows']):raise ValueError('Lab data exceeds reviewed currency')
             result=investigate(payload,config['storage']['database'],context,lambda p,r:verify(lab_path,p,r))
@@ -65,7 +92,7 @@ def components(folder,lab_path,token,policy_loader=None):
     from envelope_workflow import EnvelopeWorkflow
     from envelope_review_api import EnvelopeReviewApi
     envelopes=EnvelopeReviewApi(EnvelopeWorkflow(EmailAdapter(routing,None)))
-    app=create_app(config['storage']['database'],token,store,LINEAGE,reviews,ui=True,worker_status=worker.status,workspace_mode='local_lab',routing=routing,envelopes=envelopes)
+    app=create_app(config['storage']['database'],token,store,lineage,reviews,ui=True,worker_status=worker.status,workspace_mode='local_multilayer_lab' if multilayer else 'local_lab',routing=routing,envelopes=envelopes)
     return app,worker,store
 
 
