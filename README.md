@@ -2,6 +2,9 @@
 
 The project specification is in [cross_system_data_investigator_poc.md](cross_system_data_investigator_poc.md).
 
+**Demo:** start with the [presenter runbook](docs/demo-runbook.md), including setup,
+expected results and [remaining product work](docs/demo-pending.md).
+
 ## Current implementation
 
 - Azure SQL application schema and lifecycle extensions.

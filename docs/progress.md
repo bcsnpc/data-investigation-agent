@@ -479,3 +479,22 @@ Issue #141: PR #140 merged after all six CI checks passed. Added a fixed, single
 Next: representative native filter/measure scopes and comparable source-version evidence. Remaining: broader semantic/relationship defects and AI investigation coverage; ticket attachment/context handling; real delivery configuration and acceptance; enterprise investigator hosting/auth, recovery and monitoring; full end-to-end acceptance/demo.
 
 Validation: all 359 script tests passed; the four diagnostic tests also passed after tightening empty/error result handling. CI includes the new tests.
+
+## DEMO-001 complete isolated presentation
+
+Issue #143: merged PR #142 after all six checks passed. Closed the demo scope with
+a repeatable prepare/inject/serve/rehearse/reset command using the existing ticket
+API, reviewed plan, worker, cause verification and defect draft. Automated and
+browser rehearsals passed: refund subtracted twice, Silver 154 / Gold 55,
+USD -99 difference for ORD-000001, simulated owner and review-only draft. Both
+labs reset READY; browser server stopped and temporary token removed. No cloud,
+LLM or delivery calls. This is a complete isolated demo, not full live product
+acceptance. The fixed lab planner is explicitly identified as non-LLM.
+
+Start with the [demo runbook](demo-runbook.md), [acceptance record](demo-acceptance.md)
+and [remaining product work](demo-pending.md). The next action is the presentation,
+not another feature milestone. Production work remains separately documented:
+live snapshot/filter/semantic proof, richer AI/defects/context, real delivery,
+enterprise hosting/auth/recovery/monitoring and full live acceptance.
+
+Validation: all 361 script tests passed, including the complete demo rehearsal and existing-folder protection; new tests included in CI. Browser acceptance passed with no errors.
