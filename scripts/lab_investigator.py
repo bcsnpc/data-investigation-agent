@@ -50,13 +50,21 @@ def reconcile(payload):
             'limitation':'Local projected records only. Absent records contribute zero to aggregate differences, but remain explicitly missing. Matching records do not establish expected business behavior; differences do not prove a cause or the first boundary across the full estate.'}
 
 
-def investigate(payload,database):
+def investigate(payload,database,business_context=None):
     result=reconcile(payload);identity=str(uuid4());observations={}
+    if business_context is not None:
+        from expected_behavior import verify_refunds
+        result['business_verification']=verify_refunds(payload,business_context,result)
+        if result['business_verification']['verified']:
+            result['classification']='EXPECTED_BEHAVIOR'
+            result['limitation']='Verified only for the recorded local capture-minus-refund question and compared Silver/Gold records. Does not prove full-estate correctness, business-event legitimacy or period-over-period trends.'
     for currency,totals in result['impact_by_currency'].items():
         observations['net_cash_'+currency]=[{'layer':layer,'status':'AVAILABLE','data':totals[layer+'_total'],'currency':currency,'filters':{'scope':'local_lab'}} for layer in ('silver','gold')]
     encoded=json.dumps(payload,default=str,sort_keys=True)
     request={'kind':'lab_record_reconciliation','lab_evidence':json.loads(encoded),
              'evidence_hash':hashlib.sha256(encoded.encode()).hexdigest(),'observations':observations}
+    if business_context is not None:request['business_context']=json.loads(json.dumps(business_context,default=str))
+    request['evidence_hash']=hashlib.sha256(json.dumps({'lab_evidence':request['lab_evidence'],'business_context':request.get('business_context')},sort_keys=True).encode()).hexdigest()
     result['id']=identity;Path(database).parent.mkdir(parents=True,exist_ok=True)
     with closing(sqlite3.connect(database)) as db:
         db.execute('CREATE TABLE IF NOT EXISTS investigation_runs(id TEXT PRIMARY KEY,lineage_run TEXT,created TEXT,request TEXT,result TEXT)')
@@ -65,6 +73,10 @@ def investigate(payload,database):
 
 
 if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--explain-returns',action='store_true');args=parser.parse_args()
     from defect_lab import ROOT,evidence
-    result=investigate(evidence(ROOT/'.local/defect-lab/lab.duckdb'),ROOT/'.local/defect-lab/evidence.sqlite')
+    captured=evidence(ROOT/'.local/defect-lab/lab.duckdb',include_business_drivers=args.explain_returns)
+    payload,context=captured if args.explain_returns else (captured,None)
+    result=investigate(payload,ROOT/'.local/defect-lab/evidence.sqlite',context)
     print(json.dumps(result,indent=2))

@@ -69,7 +69,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 
 ## Next milestone
 
-PR #70 is merged. The isolated acceptance baseline exercises ticket-to-evidence/explanation flow with equal values, missing source evidence and comparable divergence. Workflow passes while product acceptance remains incomplete. Initial local lab baseline/reset and deterministic record-impact investigation are implemented. Next: business-grounded expected-behavior and cause verification, then lab ticket/UI integration and multi-layer coverage. Live model snapshot comparability, recurring data refresh, routing and investigator hosting remain open. See [acceptance baseline](acceptance-baseline.md).
+PR #70 is merged. The isolated acceptance baseline exercises ticket-to-evidence/explanation flow with equal values, missing source evidence and comparable divergence. Workflow passes while product acceptance remains incomplete. Initial local lab baseline/reset and deterministic record-impact investigation are implemented. One scoped expected-refund case is implemented. Next: cause-specific defect verification, then lab ticket/UI integration and multi-layer coverage. Live model snapshot comparability, recurring data refresh, routing and investigator hosting remain open. See [acceptance baseline](acceptance-baseline.md).
 
 ## Tracking convention
 
@@ -311,3 +311,8 @@ Issue #73: PR #72 merged after all CI checks passed. Added a local DuckDB lab us
 ## LAB-002 record reconciliation and exact impact
 
 Issue #75: PR #74 merged after all CI checks passed. Added a deterministic lab investigator over the business-only projection, expanded to retain extra Gold keys. Missing/extra/value mismatches and exact per-currency impacts are persisted in an isolated EvidenceStore-compatible database with row references. The local injection run d03cf387-91a9-4578-bd10-6627054ff417 identified ORD-000001 and USD -99.0000; reset returned READY. All 200 script tests pass, including five new impact tests. No evaluator truth, cloud queries, model calls or cloud settings changes. Root cause remains unverified and classification UNRESOLVED. See [lab record impact](lab-record-impact.md). Lab-specific ticket/UI integration, business-grounded expected behavior, cause verification and multi-layer coverage remain pending.
+
+
+## LAB-003 scoped expected refund behavior
+
+Issue #77: PR #76 merged after all CI checks passed. Added an explicit local net-cash-after-refunds contract requiring matching records and complete, exact capture/refund evidence. The reset lab proves USD 253 captured minus USD 99 refunded equals USD 154 net cash and returns EXPECTED_BEHAVIOR, with routing disabled. Plain matching, incomplete drivers, unsupported questions and mismatches are not promoted. Evidence and contract are persisted. See [expected refund behavior](expected-refund-behavior.md). No cloud/model calls or baseline mutations. All 205 script tests pass, including five new business-verification tests. This covers one scoped no-defect case; technical-cause verification, live estate coverage and ticket/UI integration remain pending.
