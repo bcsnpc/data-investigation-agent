@@ -8,6 +8,7 @@ from typing import Protocol
 from uuid import uuid4
 from investigation_evidence_api import EvidenceStore
 from lab_investigator import reconcile
+from routing_destination import validate_destination,destination_preview
 from ticket_workflow import TicketStore
 
 
@@ -26,7 +27,9 @@ def validate_policy(policy):
     if set(policy)!={'version','owners'} or policy['version']!=1 or not isinstance(policy['owners'],list):raise ValueError('Invalid ownership policy')
     seen=set()
     for entry in policy['owners']:
-        if set(entry)!={'kind','upstream','downstream','team'} or any(not isinstance(v,str) or not v.strip() or len(v)>200 for v in entry.values()):raise ValueError('Invalid owner entry')
+        required={'kind','upstream','downstream','team'}
+        if not isinstance(entry,dict) or not required<=set(entry) or set(entry)-required-{'destination'} or any(not isinstance(entry[k],str) or not entry[k].strip() or len(entry[k])>200 for k in required):raise ValueError('Invalid owner entry')
+        if 'destination' in entry:validate_destination(entry['destination'])
         key=(entry['kind'],entry['upstream'],entry['downstream'])
         if key in seen:raise ValueError('Ambiguous ownership')
         seen.add(key)
@@ -62,6 +65,7 @@ def prepare(item,policy):
            'evidence_reference':'/api/investigations/'+item['id'],
            'notification_text':'Review local investigation '+item['id']+': '+result['root_cause'],
            'triage_after_delivery':'AWAITING_HUMAN_TRIAGE'}
+    if 'destination' in owners[0]:draft['destination_preview']=destination_preview(draft,owners[0]['destination'])
     return dict(base,status='DRAFT_REQUIRES_REVIEW',draft=draft,
                 reason='Local cause only; no production first-boundary or automatic-routing claim')
 
