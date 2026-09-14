@@ -55,6 +55,10 @@ def approve(store, plan_id, config, estate, reviewer, expected_hash=None):
             raise Conflict('Native definition context is unavailable or changed') from error
         if current!=saved or current['status']!='CONTEXT_SUPPLIED':
             raise Conflict('Native definition context changed; create a new plan')
+    if 'slicer_context' in record and record['slicer_context']['status']!='NO_SLICERS_CAPTURED':
+        raise Conflict('Native slicer execution is not supported')
+    if original['ticket'].get('native_slicers'):
+        raise Conflict('Native slicer execution is not supported')
     plan = validated['plan']
     body = dict(original['ticket'], report=plan['report_id'], metric=plan['metric'], currency=plan['currency'])
     if plan['order_id'] is not None:

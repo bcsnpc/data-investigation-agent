@@ -107,6 +107,13 @@ def plan_ticket(store, ticket_id, graph, generate=azure_generate, *, native_page
             if metadata_database is None:raise ValueError('Native context database required')
             context=check(metadata_database,ticket['lineage_run'],value['report_id'],native_page,ticket['ticket'].get('order_id'))
             record['native_context']=context
+            from native_plan_context import slicers
+            slicer_context=slicers(metadata_database,ticket['lineage_run'],value['report_id'],native_page,ticket['ticket'].get('native_slicers'))
+            record['slicer_context']=slicer_context
+            if slicer_context['status']!='NO_SLICERS_CAPTURED':
+                record['status']='NEEDS_INPUT'
+                reason='Provide explicit slicer choices; missing choices are not all values' if slicer_context['status']=='NEEDS_INPUT' else 'Native slicer context retained; worker filter execution is not supported yet'
+                record['plan']['questions']=list(record['plan']['questions'])+[reason]
             if context['status']!='CONTEXT_SUPPLIED':
                 record['status']='NEEDS_INPUT'
                 record['plan']['questions']=list(record['plan']['questions'])+[context['reason']]
