@@ -69,7 +69,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 
 ## Next milestone
 
-PR #70 is merged. The isolated acceptance baseline exercises ticket-to-evidence/explanation flow with equal values, missing source evidence and comparable divergence. Workflow passes while product acceptance remains incomplete. Initial local lab baseline/reset and deterministic record-impact investigation are implemented. One scoped expected-refund case is implemented. One local filter cause is now verified. Next: lab ticket/UI integration and multi-layer cause/freshness coverage. Live model snapshot comparability, recurring data refresh, routing and investigator hosting remain open. See [acceptance baseline](acceptance-baseline.md).
+PR #70 is merged. The isolated acceptance baseline exercises ticket-to-evidence/explanation flow with equal values, missing source evidence and comparable divergence. Workflow passes while product acceptance remains incomplete. Initial local lab baseline/reset and deterministic record-impact investigation are implemented. One scoped expected-refund case is implemented. One local filter cause is now verified. Isolated lab ticket/UI integration is implemented. Next: multi-layer cause/freshness coverage and acceptance evaluation. Live model snapshot comparability, recurring data refresh, routing and investigator hosting remain open. See [acceptance baseline](acceptance-baseline.md).
 
 ## Tracking convention
 
@@ -321,3 +321,8 @@ Issue #77: PR #76 merged after all CI checks passed. Added an explicit local net
 ## LAB-004 verified local filter cause
 
 Issue #79: PR #78 merged after all CI checks passed. Added an explicit filter-build variant with transactional build receipt and deterministic supported-query replay. Current source/output fingerprints, observation equality, filtered replay and unfiltered Silver reconciliation are required for TECHNICAL_DEFECT. The original output deletion remains UNRESOLVED. Local run 3eaec492-8777-42fe-bce0-8ba468c75d63 verified one omitted partially returned order and USD 99 impact; reset restored READY. All 209 script tests pass. Evidence is persisted; routing remains disabled. No cloud or LLM calls. See [verified lab filter](verified-lab-filter.md). Next: reviewed ticket/UI integration of lab results and broader cause/freshness scenarios.
+
+
+## LAB-005 reviewed lab tickets and findings UI
+
+Issue #81: PR #80 merged after all CI checks passed. Added an isolated lab review server with an explicitly fixed local Net Cash/USD catalog and draft mode; no cloud or LLM calls. Approved tickets run through the existing bounded worker and save lab findings separately. UI displays deterministic cause, affected orders, exact per-currency impact and verified business arithmetic. All 210 script tests pass, including both classification paths through actual review/worker APIs. Browser submission/approval/completion and mobile technical-defect display passed with no console errors or page overflow. Browser/server stopped, temporary token removed and lab reset READY. See [lab review UI](lab-review-ui.md). Next: expand resettable cause/freshness scenarios and acceptance coverage before ownership/routing.

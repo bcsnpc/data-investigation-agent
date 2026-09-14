@@ -29,6 +29,12 @@ async function action(button, work) {
 function resetViews() { for (const id of ['ticket','drafts-card','review','evidence']) show(id,false); selected=null; }
 $('login-form').addEventListener('submit', event => { event.preventDefault(); action(event.submitter, async () => {
   token=$('token').value; $('token').value=''; await api('/api/investigations?limit=1');
+  const context=await api('/api/context');
+  if(context.workspace_mode==='local_lab') {
+    $('new-report').value='Lab Net Cash';
+    $('generate').nextElementSibling.textContent='Isolated lab: fixed Net Cash / USD / all-orders draft; no AI or cloud calls. Ticket narrative does not change this scope. One approved job per server session.';
+    message('LOCAL LAB — use report Lab Net Cash. Review the fixed scope before approval.');
+  }
   show('login',false); show('workspace',true); show('disconnect',true);
 }); });
 $('disconnect').addEventListener('click', () => { session++;token='';selected=null;ticketId='';resetViews();show('workspace',false);show('login',true);show('disconnect',false);message('Disconnected.'); });
@@ -104,6 +110,16 @@ async function evidence(id) {
     for(const value of [item.metric,item.layer,item.value===null?'Unavailable':item.value+(item.currency && item.metric!=='order_count'?' '+item.currency:''),item.status])row.append(element('td',value));return row;}));
   $('boundaries').replaceChildren(...summary.boundaries.map(item=>element('p',item.metric+' · '+item.status)));
   $('explanation').replaceChildren();
+  const finding=result.investigation.result;
+  if(finding.impact_by_currency) {
+    $('explanation').append(element('h3','Deterministic findings'),element('p',finding.limitation));
+    if(finding.root_cause_verified)$('explanation').append(element('p','Verified local cause: '+finding.root_cause));
+    for(const [currency,impact] of Object.entries(finding.impact_by_currency))
+      $('explanation').append(element('p',currency+' — Silver '+impact.silver_total+'; Gold '+impact.gold_total+'; difference '+impact.downstream_minus_upstream+'; affected records '+impact.affected_records));
+    for(const row of finding.affected_records || [])$('explanation').append(element('p',row.order_id+' · '+row.status+' · '+row.currency+' '+row.downstream_minus_upstream));
+    for(const [currency,drivers] of Object.entries(finding.business_verification?.by_currency || {}))
+      $('explanation').append(element('p',currency+' — captured '+drivers.captured+' − refunded '+drivers.refunded+' = net cash '+drivers.net_cash));
+  }
   if(result.explanation) {
     const explanation=result.explanation.explanation;
     $('explanation').append(element('h3','Evidence highlights'),element('p','AI selected these findings from the saved evidence.'),element('p',explanation.limitations));
