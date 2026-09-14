@@ -88,13 +88,15 @@ def mutate(path,action):
 def evidence(path):
     # Strict business-table projection: excludes lab control, events and evaluation answers.
     with closing(duckdb.connect(str(path),read_only=True)) as db:
-        rows=db.execute('''SELECT o.order_id,o.currency,o.captured_amount-COALESCE(r.refunded,0) silver_net_cash,
-            g.gold_net_cash FROM s_fact_order o
+        rows=db.execute('''WITH silver AS (SELECT o.order_id,o.currency,o.captured_amount-COALESCE(r.refunded,0) silver_net_cash FROM s_fact_order o
             LEFT JOIN (SELECT l.order_id,SUM(r.merchandise_amount+r.tax_amount) refunded
             FROM s_fact_refund_line r JOIN s_fact_order_line l USING(order_line_id) GROUP BY l.order_id) r USING(order_id)
-            LEFT JOIN (SELECT order_id,SUM(net_cash_amount) gold_net_cash FROM g_order_line_summary GROUP BY order_id) g USING(order_id)
-            ORDER BY o.order_id''').fetchall()
-        return {'mode':'local_lab','rows':[dict(zip(('order_id','currency','silver_net_cash','gold_net_cash'),r)) for r in rows]}
+            ) SELECT COALESCE(s.order_id,g.order_id),COALESCE(s.currency,g.currency),
+            s.silver_net_cash,g.gold_net_cash,s.order_id IS NOT NULL,g.order_id IS NOT NULL
+            FROM silver s FULL OUTER JOIN
+            (SELECT order_id,currency,SUM(net_cash_amount) gold_net_cash FROM g_order_line_summary GROUP BY order_id,currency) g
+            ON s.order_id=g.order_id AND s.currency=g.currency ORDER BY 1,2''').fetchall()
+        return {'mode':'local_lab','rows':[dict(zip(('order_id','currency','silver_net_cash','gold_net_cash','silver_present','gold_present'),r)) for r in rows]}
 
 
 if __name__=='__main__':

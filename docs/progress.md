@@ -69,7 +69,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 
 ## Next milestone
 
-PR #70 is merged. The isolated acceptance baseline exercises ticket-to-evidence/explanation flow with equal values, missing source evidence and comparable divergence. Workflow passes while product acceptance remains incomplete. Initial local lab baseline/reset is implemented. Next: lab-to-investigator evidence integration, affected-record/impact verification and expected-behavior coverage. Live model snapshot comparability, recurring data refresh, routing and investigator hosting remain open. See [acceptance baseline](acceptance-baseline.md).
+PR #70 is merged. The isolated acceptance baseline exercises ticket-to-evidence/explanation flow with equal values, missing source evidence and comparable divergence. Workflow passes while product acceptance remains incomplete. Initial local lab baseline/reset and deterministic record-impact investigation are implemented. Next: business-grounded expected-behavior and cause verification, then lab ticket/UI integration and multi-layer coverage. Live model snapshot comparability, recurring data refresh, routing and investigator hosting remain open. See [acceptance baseline](acceptance-baseline.md).
 
 ## Tracking convention
 
@@ -306,3 +306,8 @@ Issue #71: PR #70 merged after all CI checks passed. Added a repeatable isolated
 ## LAB-001 isolated omission and reset
 
 Issue #73: PR #72 merged after all CI checks passed. Added a local DuckDB lab using shared Gold SQL and a three-order partial-return/paid/unpaid fixture. The controlled Gold omission reduces net cash from USD 154 to USD 55; independent evaluator truth identifies one affected order and USD 99 difference. Transactional reset restores original table/schema fingerprints and rejects source/code drift. All 195 script tests pass, including six new lab tests; CLI initialization, injection, evidence and reset were exercised and the local lab is READY. Evaluation truth is excluded from the business evidence projection. This is a materialized-output omission, not cloud defect injection or agent root-cause verification. See [defect lab](defect-lab.md). Next: investigator integration and affected-record/impact verification, followed by no-defect business explanation and multi-layer coverage.
+
+
+## LAB-002 record reconciliation and exact impact
+
+Issue #75: PR #74 merged after all CI checks passed. Added a deterministic lab investigator over the business-only projection, expanded to retain extra Gold keys. Missing/extra/value mismatches and exact per-currency impacts are persisted in an isolated EvidenceStore-compatible database with row references. The local injection run d03cf387-91a9-4578-bd10-6627054ff417 identified ORD-000001 and USD -99.0000; reset returned READY. All 200 script tests pass, including five new impact tests. No evaluator truth, cloud queries, model calls or cloud settings changes. Root cause remains unverified and classification UNRESOLVED. See [lab record impact](lab-record-impact.md). Lab-specific ticket/UI integration, business-grounded expected behavior, cause verification and multi-layer coverage remain pending.
