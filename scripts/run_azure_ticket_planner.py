@@ -17,6 +17,7 @@ def main():
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--ticket-id')
     mode.add_argument('--evaluate', action='store_true')
+    mode.add_argument('--explain',metavar='INVESTIGATION_ID')
     parser.add_argument('--config',type=Path,default=ROOT / 'infra/metadata/development.json')
     args = parser.parse_args()
     settings = json.loads((ROOT / 'infra/llm/development.json').read_text())
@@ -36,6 +37,13 @@ def main():
             estate = json.loads((ROOT / 'infra/fabric/environment.json').read_text())
             return 0 if evaluate(config, estate['investigation']['lineage_run'], ROOT / '.local/llm-evaluation.json') else 1
         store = TicketStore(Path(config['storage']['database']).with_name('workflow.sqlite'))
+        if args.explain:
+            from investigation_evidence_api import EvidenceStore
+            from investigation_explanation import explain
+            item=EvidenceStore(config['storage']['database']).get(args.explain)
+            if item is None:raise ValueError('Unknown investigation')
+            record=explain(store,item);print(json.dumps(record))
+            return 0 if record['status']=='VALIDATED' else 1
         ticket = store.get(args.ticket_id)
         if ticket is None:
             raise ValueError('Unknown ticket')

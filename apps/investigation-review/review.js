@@ -95,6 +95,21 @@ async function evidence(id) {
   $('observations').replaceChildren(...summary.observations.map(item=>{const row=document.createElement('tr');
     for(const value of [item.metric,item.layer,item.value===null?'Unavailable':item.value+(item.currency && item.metric!=='order_count'?' '+item.currency:''),item.status])row.append(element('td',value));return row;}));
   $('boundaries').replaceChildren(...summary.boundaries.map(item=>element('p',item.metric+' · '+item.status)));
+  $('explanation').replaceChildren();
+  if(result.explanation) {
+    const explanation=result.explanation.explanation;
+    $('explanation').append(element('h3','Evidence highlights'),element('p','AI selected these findings from the saved evidence.'),element('p',explanation.limitations));
+    for(const [heading,items] of [['Findings',explanation.findings],['Suggested next steps',explanation.next_steps]]) {
+      $('explanation').append(element('h4',heading));const list=document.createElement('ul');
+      for(const item of items) {
+        const row=element('li',item.text);const refs=document.createElement('details');
+        refs.append(element('summary','Evidence references'));
+        for(const ref of item.references)refs.append(element('p',ref));
+        row.append(refs);list.append(row);
+      }
+      $('explanation').append(list);
+    }
+  } else $('explanation').append(element('p','No validated AI explanation is saved for this evidence yet.'));
   show('evidence',true);
 }
 $('ticket-id').value=new URLSearchParams(location.search).get('ticket') || '';
