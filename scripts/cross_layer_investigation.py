@@ -67,6 +67,8 @@ def metric_observation(asset, metric, result, currency, order_id, layer):
             'grain': 'order', 'currency': currency, 'filters': {'order_id': order_id},
             'source_snapshot': None,
             'snapshot_gap': 'Independent live reads have no proven common source snapshot'}
+    if 'connection_attempts' in result:
+        base['connection_attempts'] = result['connection_attempts']
     if result.get('error'):
         return dict(base, status='UNAVAILABLE', **{key: result.get(key) for key in ('error', 'error_type', 'stage', 'sql_error_number')})
     value = result['values'][metric]
@@ -105,7 +107,7 @@ def worker(config, request):
     auth = config['fabric']['auth']
     result = subprocess.run([auth['python'], str(ROOT/'scripts/investigation_query_worker.py')],
                             input=json.dumps(dict(request, tenant=auth['tenant_id'])),
-                            text=True, capture_output=True, timeout=180)
+                              text=True, capture_output=True, timeout=510 if request['layer']=='sql' else 180)
     if result.returncode:
         # Worker emits only fixed status and an exception class, never error bodies.
         try:
