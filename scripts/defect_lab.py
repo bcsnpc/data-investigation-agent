@@ -1,6 +1,6 @@
 """Local DuckDB lab using shared Gold SQL; no cloud clients or credentials."""
 import argparse
-from contextlib import closing
+from contextlib import closing,nullcontext
 import hashlib
 import importlib.util
 import json
@@ -20,6 +20,9 @@ def query():
 
 
 def digest(value):return hashlib.sha256(value.encode()).hexdigest()
+
+
+def filter_query():return "SELECT * FROM ("+query()+") base WHERE status <> 'PARTIALLY_RETURNED'"
 
 
 def fingerprints(db):
@@ -64,7 +67,7 @@ def validate(path):
 
 
 def mutate(path,action):
-    if action not in ('inject','reset'):raise ValueError('Unknown lab action')
+    if action not in ('inject','inject-filter','reset'):raise ValueError('Unknown lab action')
     if not Path(path).is_file():raise ValueError('Initialize the lab first')
     with closing(duckdb.connect(str(path))) as db:
         db.execute('BEGIN TRANSACTION')
@@ -72,22 +75,29 @@ def mutate(path,action):
             state=inspect(db)
             if state['transformation_changed'] or any(t in SOURCE for t in state['changed_tables']):
                 raise ValueError('Source or transformation drift; refusing to bless or reset it')
-            if action=='inject':
+            if action in ('inject','inject-filter'):
                 if state['status']!='READY':raise ValueError('Reset and validate before injecting')
-                db.execute("DELETE FROM g_order_line_summary WHERE status='PARTIALLY_RETURNED'")
+                if action=='inject':db.execute("DELETE FROM g_order_line_summary WHERE status='PARTIALLY_RETURNED'")
+                else:
+                    db.execute('DELETE FROM g_order_line_summary')
+                    db.execute('INSERT INTO g_order_line_summary '+filter_query())
+                    db.execute('CREATE TABLE IF NOT EXISTS gold_build_receipt(query_text VARCHAR,fingerprints VARCHAR)')
+                    db.execute('DELETE FROM gold_build_receipt')
+                    db.execute('INSERT INTO gold_build_receipt VALUES (?,?)',[filter_query(),json.dumps(fingerprints(db))])
             else:
                 db.execute('DELETE FROM g_order_line_summary')
                 db.execute('INSERT INTO g_order_line_summary '+query())
                 if inspect(db)['status']!='READY':raise ValueError('Reset did not reproduce baseline')
+                db.execute('DROP TABLE IF EXISTS gold_build_receipt')
             db.execute('INSERT INTO lab_events(sequence,action) SELECT COALESCE(MAX(sequence),0)+1,? FROM lab_events',[action.upper()])
             db.execute('COMMIT')
         except Exception:db.execute('ROLLBACK');raise
     return validate(path)
 
 
-def evidence(path,include_business_drivers=False):
+def evidence(path,include_business_drivers=False,connection=None):
     # Strict business-table projection: excludes lab control, events and evaluation answers.
-    with closing(duckdb.connect(str(path),read_only=True)) as db:
+    with (nullcontext(connection) if connection is not None else closing(duckdb.connect(str(path),read_only=True))) as db:
         rows=db.execute('''WITH silver AS (SELECT o.order_id,o.currency,o.captured_amount,COALESCE(r.refunded,0) refunded_amount,o.captured_amount-COALESCE(r.refunded,0) silver_net_cash FROM s_fact_order o
             LEFT JOIN (SELECT l.order_id,SUM(r.merchandise_amount+r.tax_amount) refunded
             FROM s_fact_refund_line r JOIN s_fact_order_line l USING(order_line_id) GROUP BY l.order_id) r USING(order_id)
@@ -104,7 +114,7 @@ def evidence(path,include_business_drivers=False):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',choices=('initialize','validate','inject','reset','evidence'))
+    parser.add_argument('action',choices=('initialize','validate','inject','inject-filter','reset','evidence'))
     args=parser.parse_args();path=ROOT/'.local/defect-lab/lab.duckdb'
-    result=initialize(path) if args.action=='initialize' else mutate(path,args.action) if args.action in ('inject','reset') else validate(path) if args.action=='validate' else evidence(path)
+    result=initialize(path) if args.action=='initialize' else mutate(path,args.action) if args.action in ('inject','inject-filter','reset') else validate(path) if args.action=='validate' else evidence(path)
     print(json.dumps(result,default=str,indent=2))
