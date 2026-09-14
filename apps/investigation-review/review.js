@@ -115,6 +115,7 @@ async function evidence(id) {
   $('boundaries').replaceChildren(...summary.boundaries.map(item=>element('p',item.metric+' · '+item.status)));
   $('explanation').replaceChildren();
   const finding=result.investigation.result;
+  if(result.investigation.request.scope==='local_same_transaction_three_layer')renderMultiLayer($('explanation'),finding);
   if(finding.impact_by_currency) {
     $('explanation').append(element('h3','Deterministic findings'),element('p',finding.limitation));
     if(finding.root_cause_verified)$('explanation').append(element('p','Verified local cause: '+finding.root_cause));
@@ -187,4 +188,19 @@ function renderEnvelope(panel,detail) {
   const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';label.append(check,element('span','I reviewed this sender, recipients and exact message.'));panel.append(label);
   const approve=element('button','Approve envelope review');approve.disabled=true;check.addEventListener('change',()=>approve.disabled=!check.checked);
   approve.addEventListener('click',()=>action(approve,async()=>renderEnvelope(panel,await api('/api/envelopes/'+detail.preview.envelope_hash+'/approve',{confirm:true}))));panel.append(approve);
+}
+
+function renderMultiLayer(panel,finding) {
+  const section=document.createElement('section');section.className='multi-layer-findings';panel.append(section);
+  section.append(element('h3','Multi-layer findings'),element('p',finding.limitation));
+  const first=finding.first_observed_local_boundary;
+  section.append(element('p',first?'First observed local discrepancy: '+first.upstream+' to '+first.downstream+'.':'No discrepancy recorded across these local boundaries.'));
+  section.append(element('p','Root cause is not verified. Matching downstream layers do not prove the upstream data is correct.'));
+  for(const boundary of finding.boundaries) {
+    section.append(element('h4',boundary.upstream+' to '+boundary.downstream+': '+boundary.comparison_status));
+    for(const [currency,impact] of Object.entries(boundary.impact_by_currency))
+      section.append(element('p',currency+': upstream '+impact.upstream_total+'; downstream '+impact.downstream_total+'; difference '+impact.downstream_minus_upstream+'; affected records '+impact.affected_records));
+    for(const row of boundary.affected_records)
+      section.append(element('p',row.order_id+'; '+row.status+'; '+row.currency+' '+row.downstream_minus_upstream));
+  }
 }
