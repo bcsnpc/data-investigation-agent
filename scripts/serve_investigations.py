@@ -21,6 +21,9 @@ if __name__=='__main__':
     parser.add_argument('--enable-tickets',action='store_true')
     parser.add_argument('--enable-plan-review',action='store_true')
     parser.add_argument('--enable-planning',action='store_true')
+    parser.add_argument('--enable-worker',action='store_true')
+    parser.add_argument('--worker-max-jobs',type=int,default=1)
+    parser.add_argument('--worker-max-seconds',type=int,default=900)
     parser.add_argument('--estate',type=Path,default=ROOT/'infra/fabric/environment.json')
     args=parser.parse_args()
     if not 1<=args.port<=65535:parser.error('Port must be between 1 and 65535')
@@ -28,6 +31,8 @@ if __name__=='__main__':
     if not token:parser.error('Set INVESTIGATOR_API_TOKEN before starting the local API')
     if args.enable_plan_review and not args.enable_tickets:parser.error('Plan review requires --enable-tickets')
     if args.enable_planning and not args.enable_plan_review:parser.error('Planning requires --enable-plan-review')
+    if args.enable_worker and not args.enable_plan_review:parser.error('Worker requires --enable-plan-review')
+    if not 1<=args.worker_max_jobs<=10 or not 1<=args.worker_max_seconds<=3600:parser.error('Worker limits: 1-10 jobs and 1-3600 seconds')
     config=load_config(args.config)
     database=config['storage']['database']
     workflow=TicketStore(Path(database).with_name('workflow.sqlite')) if args.enable_tickets else None
@@ -38,7 +43,15 @@ if __name__=='__main__':
         from planning_request import launch
         planner=(lambda ticket_id:launch(ticket_id,args.config)) if args.enable_planning else None
         reviews=PlanReviews(workflow,config,lambda: json.loads(args.estate.read_text()),planner)
-    app=create_app(database,token,workflow,lineage,reviews,ui=args.enable_plan_review)
+    worker=None
+    if args.enable_worker:
+        from background_worker import BackgroundWorker
+        worker=BackgroundWorker(workflow,config,lambda:json.loads(args.estate.read_text()),args.worker_max_jobs,args.worker_max_seconds)
+    app=create_app(database,token,workflow,lineage,reviews,ui=args.enable_plan_review,worker_status=worker.status if worker else None)
     with make_server('127.0.0.1',args.port,app,handler_class=QuietHandler) as server:
         print(f'Investigation evidence API listening on http://127.0.0.1:{args.port}',flush=True)
-        server.serve_forever()
+        if worker:worker.start()
+        try:server.serve_forever()
+        except KeyboardInterrupt:pass
+        finally:
+            if worker:worker.stop()

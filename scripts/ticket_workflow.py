@@ -74,11 +74,16 @@ class TicketStore:
                     investigation_run_id=row[6],outcome=json.loads(row[7]) if row[7] else None,
                     timeline=[dict(sequence=e[0],at=e[1],status=e[2],detail=json.loads(e[3])) for e in events])
 
-    def claim(self,now=None):
+    def claim(self,now=None,approved_only=False):
         now=time.time() if now is None else now
         with closing(self.connect()) as db:
             db.execute('BEGIN IMMEDIATE')
-            row=db.execute("SELECT id,body,lineage_run,status FROM tickets WHERE status='QUEUED' OR (status='RUNNING' AND lease_until<?) ORDER BY created,id LIMIT 1",(now,)).fetchone()
+            if approved_only:
+                if not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='plan_approvals'").fetchone():return None
+                # Ambiguous expired runs require operator recovery, never automatic replay.
+                row=db.execute("SELECT id,body,lineage_run,status FROM tickets WHERE status='QUEUED' AND EXISTS (SELECT 1 FROM plan_approvals WHERE child_ticket_id=tickets.id) ORDER BY created,id LIMIT 1").fetchone()
+            else:
+                row=db.execute("SELECT id,body,lineage_run,status FROM tickets WHERE status='QUEUED' OR (status='RUNNING' AND lease_until<?) ORDER BY created,id LIMIT 1",(now,)).fetchone()
             if not row:return None
             claim=str(uuid4())
             db.execute("UPDATE tickets SET status='RUNNING',claim=?,lease_until=?,updated=? WHERE id=?",(claim,now+1800,now,row[0]))
