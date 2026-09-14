@@ -23,9 +23,9 @@ The existing deterministic UI displays its cause/impact without a new presentati
 The Silver/Gold evaluation matrix now contains ten cases including this arithmetic cause.
 Reset rebuilds the original Gold query and removes the arithmetic receipt.
 
-Routing preparation deliberately returns HUMAN_TRIAGE for this new cause: its current proof
-contract supports the filter defect only. No automatic issue/notification or repair occurs.
-Extending routing eligibility requires a reviewed arithmetic evidence contract.
+Routing now supports this arithmetic cause through its exact query/replay evidence contract.
+Missing ownership yields NEEDS_OWNER; an explicit owner enables a review-only draft. Mixed or
+stale proof remains HUMAN_TRIAGE. No automatic issue/notification or repair occurs.
 
 Tests cover successful replay/impact/reset, missing or forged receipt text, source/output drift,
 and routing hold. The existing reviewed lab workflow test includes the new case. All tests
