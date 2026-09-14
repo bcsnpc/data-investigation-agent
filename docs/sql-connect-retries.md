@@ -45,3 +45,9 @@ or business write was performed. Five retry tests, twelve cross-layer tests and
 two generator tests passed.
 
 User constraint: SQL must stay on the free allowance. Reverified useFreeLimit=true and freeLimitExhaustionBehavior=AutoPause. No change to paid overage or free-limit settings is authorized. If the allowance is exhausted, preserve unavailability and wait for renewal; do not change billing settings to make retries succeed.
+
+Subsequent live recovery verification: UI-driven run
+`9ef75410-0b9e-433b-b648-6b20b806c73a` encountered connection-stage 40613 on
+attempt one, waited 10 seconds, then succeeded on attempt two. SQL returned one
+order and USD 1,529.64, matching the other four layers. Both attempts are retained
+in the saved observations. Auto-pause and free-limit settings were unchanged.

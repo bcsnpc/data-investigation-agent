@@ -17,18 +17,20 @@ class ReviewApiTests(unittest.TestCase):
         fixtures.HandoffTests.setUp(self)
         self.token = 'local-test-' + 'x' * 40
         reviews = PlanReviews(self.store, self.config, lambda: self.estate)
+        self.reviews=reviews
         self.app = create_app(self.store.database, self.token, self.store, self.lineage, reviews)
         self.path = '/api/plans/' + self.record['id']
         graph_patch=patch('review_ticket_plan.load_graph',return_value=self.graph)
         graph_patch.start();self.addCleanup(graph_patch.stop)
 
-    def request(self, path=None, method='GET', body=None, token=None, query=''):
+    def request(self, path=None, method='GET', body=None, token=None, query='', key=''):
         raw = json.dumps(body).encode() if body is not None else b''
         captured = {}
         def start(status, headers): captured.update(status=status, headers=dict(headers))
         with patch('review_ticket_plan.load_graph', return_value=self.graph):
             output = b''.join(self.app(dict(PATH_INFO=path or self.path, REQUEST_METHOD=method,
                 QUERY_STRING=query, HTTP_AUTHORIZATION='Bearer ' + (token or self.token),
+                HTTP_IDEMPOTENCY_KEY=key,
                 CONTENT_TYPE='application/json', CONTENT_LENGTH=str(len(raw)), **{'wsgi.input': BytesIO(raw)}), start))
         return captured['status'], json.loads(output)
 
@@ -86,6 +88,22 @@ class ReviewApiTests(unittest.TestCase):
             self.assertEqual(self.store.get(result['ticket_id'])['status'], 'QUEUED')
         finally:
             server.shutdown(); server.server_close(); thread.join()
+
+    def test_explicit_planning_and_replay(self):
+        from unittest.mock import Mock
+        self.reviews.planner=Mock(return_value=self.record['id'])
+        path='/api/tickets/'+self.original+'/plan';key=str(uuid4())
+        first=self.request(path,'POST',{'confirm':True},key=key)
+        second=self.request(path,'POST',{'confirm':True},key=key)
+        self.assertEqual(first[1]['status'],'COMPLETED')
+        self.assertTrue(second[1]['replayed'])
+        self.assertEqual(self.reviews.planner.call_count,1)
+
+    def test_planning_requires_opt_in_and_key(self):
+        path='/api/tickets/'+self.original+'/plan'
+        self.assertTrue(self.request(path,'POST',{'confirm':True})[0].startswith('503'))
+        self.reviews.planner=lambda _:self.record['id']
+        self.assertTrue(self.request(path,'POST',{'confirm':True})[0].startswith('400'))
 
 
 if __name__ == '__main__': unittest.main()
