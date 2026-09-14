@@ -22,7 +22,7 @@ Policies:
 
 - EXPECTED_BEHAVIOR produces NO_BUG.
 - Freshness, unresolved, source/data and business-review findings produce HUMAN_TRIAGE.
-- A technical finding must have supported saved filter-cause proof, a matching evidence
+- A technical finding must have supported saved filter or double-refund cause proof, a matching evidence
   hash, and independently recomputed affected records/impact before draft preparation.
 - Missing ownership produces NEEDS_OWNER; duplicate owner mappings are rejected.
 - A qualified, owned finding produces DRAFT_REQUIRES_REVIEW with local scope, cause,
@@ -33,7 +33,7 @@ is invented. Automatic delivery is always false. The evidence and policy hashes 
 the saved draft; unchanged repeated preparation returns the same draft, while changed
 inputs produce a new one. This is draft idempotency, not external delivery idempotency.
 
-Current cause validation supports the local filter finding only and trusts retained
+Current cause validation supports the local filter and double-refund findings and trusts retained
 operator-controlled evidence. Future cloud routing requires its own stronger supported
 evidence policy, real ownership, severity/confidence configuration, review UX, approval
 bound to fresh evidence/policy, provider adapters and durable delivery recovery.

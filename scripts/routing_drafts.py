@@ -44,12 +44,17 @@ def prepare(item,policy):
     if classification=='EXPECTED_BEHAVIOR':return dict(base,status='NO_BUG',reason='Expected behavior does not create a bug')
     if classification!='TECHNICAL_DEFECT':return dict(base,status='HUMAN_TRIAGE',reason='Classification is not eligible for technical bug preparation')
     try:
-        from defect_lab import filter_query
+        from defect_lab import filter_query,double_refund_query
         cause=request['cause_evidence'];payload=request['lab_evidence']
+        contracts={
+            'Gold build excludes PARTIALLY_RETURNED records':(filter_query(),('filtered_replay_matches','unfiltered_replay_reconciles')),
+            'Gold build subtracts refund amount twice':(double_refund_query(),('faulty_replay_matches','corrected_replay_reconciles')),
+        }
+        sql,flags=contracts[cause['cause']]
         verified=(request['kind']=='lab_record_reconciliation' and result['root_cause_verified'] is True
             and cause['verified'] is True and cause['cause']==result['root_cause']
-            and cause['query_text']==filter_query() and cause['filtered_replay_matches'] is True
-            and cause['unfiltered_replay_reconciles'] is True)
+            and cause.get('classification','TECHNICAL_DEFECT')=='TECHNICAL_DEFECT'
+            and cause['query_text']==sql and all(cause.get(flag) is True for flag in flags))
         evidence_hash=digest({k:request.get(k) for k in ('lab_evidence','business_context','cause_evidence')})
         observed=reconcile(payload)
         verified=verified and evidence_hash==request['evidence_hash'] and observed['comparison_status']=='MISMATCH'

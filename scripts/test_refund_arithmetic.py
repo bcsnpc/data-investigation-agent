@@ -44,10 +44,10 @@ class ArithmeticTests(unittest.TestCase):
                 result=investigate(evidence(path),self.database,cause_verifier=lambda p,r:verify(path,p,r))
                 self.assertEqual(result['classification'],'UNRESOLVED')
 
-    def test_routing_contract_does_not_assume_filter_cause(self):
+    def test_verified_arithmetic_still_requires_owner(self):
         mutate(self.path,'inject-double-refund');result=self.run_case()
         item=EvidenceStore(self.database).get(result['id'])
-        self.assertEqual(prepare(item,{'version':1,'owners':[]})['status'],'HUMAN_TRIAGE')
+        self.assertEqual(prepare(item,{'version':1,'owners':[]})['status'],'NEEDS_OWNER')
 
 
 if __name__=='__main__':unittest.main()
