@@ -39,7 +39,7 @@ def setup(folder):
     return {'storage':{'database':str(database)}},TicketStore(folder/'review-workflow.sqlite')
 
 
-def components(folder,lab_path,token):
+def components(folder,lab_path,token,policy_loader=None):
     config,store=setup(folder);estate={'investigation':{'lineage_run':LINEAGE}}
     graph=load_graph(config['storage']['database'],LINEAGE)
     def planner(identity):
@@ -58,7 +58,10 @@ def components(folder,lab_path,token):
         return process_one(*args,execute=acquire,**kwargs)
     worker=BackgroundWorker(store,config,lambda:estate,process=process)
     reviews=PlanReviews(store,config,lambda:estate,planner)
-    app=create_app(config['storage']['database'],token,store,LINEAGE,reviews,ui=True,worker_status=worker.status,workspace_mode='local_lab')
+    from routing_review import RoutingReview
+    from investigation_evidence_api import EvidenceStore
+    routing=RoutingReview(store,EvidenceStore(config['storage']['database']),policy_loader or (lambda:json.loads((ROOT/'infra/routing/ownership.json').read_text())))
+    app=create_app(config['storage']['database'],token,store,LINEAGE,reviews,ui=True,worker_status=worker.status,workspace_mode='local_lab',routing=routing)
     return app,worker,store
 
 
