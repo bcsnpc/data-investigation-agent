@@ -14,7 +14,7 @@ from report_slicer_context import assess
 SUPPORTED={('FactOrder','order_id'),('FactOrder','currency'),('FactOrder','status')}
 
 
-def execute(lab,definitions,page,selections,database):
+def execute(lab,definitions,page,selections,database,*,expected_fingerprints=None):
     context=assess(definitions,page,selections)
     if context['status']!='CONTEXT_SUPPLIED':raise ValueError('Complete supported slicer context required')
     if any((s['table'],s['column']) not in SUPPORTED for s in context['slicers']):
@@ -22,6 +22,9 @@ def execute(lab,definitions,page,selections,database):
     if not Path(lab).is_file():raise ValueError('Existing isolated lab required')
     with closing(duckdb.connect(str(lab),read_only=True)) as db:
         db.execute('BEGIN TRANSACTION')
+        if expected_fingerprints is not None:
+            from defect_lab import fingerprints
+            if fingerprints(db)!=expected_fingerprints:raise ValueError('Reviewed lab snapshot changed')
         payload=json.loads(json.dumps(capture(lab,connection=db),default=str))
         statuses=db.execute('SELECT order_id,currency,status FROM s_fact_order').fetchall()
     reconcile(payload)  # Validate complete capture before any row can be filtered away.
