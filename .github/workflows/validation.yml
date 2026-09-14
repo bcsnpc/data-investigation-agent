@@ -71,6 +71,7 @@ jobs:
           python -m unittest discover -s scripts -p test_report_scope_execution.py
           python -m unittest discover -s scripts -p test_report_metadata.py
           python -m unittest discover -s scripts -p test_report_definition_evidence.py
+          python -m unittest discover -s scripts -p test_report_drillthrough_context.py
           python -m unittest discover -s scripts -p test_lab_matrix.py
           python -m unittest discover -s scripts -p test_multilayer_lab.py
           python -m unittest discover -s scripts -p test_multilayer_review.py
