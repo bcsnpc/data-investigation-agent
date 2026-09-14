@@ -1,0 +1,9 @@
+{
+  "access": "Evaluator only; never include in investigator evidence",
+  "scenario": "LAB-GOLD-OMIT-PARTIAL",
+  "baseline_usd_net_cash": "154.0000",
+  "injected_usd_net_cash": "55.0000",
+  "affected_orders": ["ORD-000001"],
+  "understatement": "99.0000",
+  "expected_boundary": "silver_to_gold"
+}

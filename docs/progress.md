@@ -20,7 +20,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 | 5A Deterministic investigator | In progress | Check engine merged in PR #24; cross-layer adapters implemented with SQL/Power BI live reads; all five layers live-verified; common-source snapshot proof pending |
 | 5B Ticket experience | Local workflow and UI implemented | Intake, review, related statuses, evidence and bounded worker implemented; attachments, richer context, lineage/impact views and hosting remain |
 | 6 AI investigator | Scoped planning and explanations implemented | Azure planning and model-selected evidence highlights verified; automatic explanations are opt-in; hypothesis/tool orchestration, verified classification and impact remain |
-| 7 Defect lab | Not started | Deterministic injection/reset, isolated evaluation ground truth and expected-behavior coverage |
+| 7 Defect lab | Initial local scenario implemented | Isolated Gold omission, fingerprints and reset tested; investigator integration, multi-layer scenarios and expected-behavior classification remain |
 | 7B Routing | Not started | Generic issue/notification providers, ownership-based routing and human triage |
 | 8 Portfolio polish | Not started | Hosted demo, screenshots, video and presentation |
 
@@ -69,7 +69,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 
 ## Next milestone
 
-PR #70 is merged. The isolated acceptance baseline exercises ticket-to-evidence/explanation flow with equal values, missing source evidence and comparable divergence. Workflow passes while product acceptance remains incomplete. Next: isolated defect-lab baseline and reset contracts, then verified expected-behavior/root-cause and impact coverage. Live model snapshot comparability, recurring data refresh, routing and investigator hosting remain open. See [acceptance baseline](acceptance-baseline.md).
+PR #70 is merged. The isolated acceptance baseline exercises ticket-to-evidence/explanation flow with equal values, missing source evidence and comparable divergence. Workflow passes while product acceptance remains incomplete. Initial local lab baseline/reset is implemented. Next: lab-to-investigator evidence integration, affected-record/impact verification and expected-behavior coverage. Live model snapshot comparability, recurring data refresh, routing and investigator hosting remain open. See [acceptance baseline](acceptance-baseline.md).
 
 ## Tracking convention
 
@@ -301,3 +301,8 @@ Issue #69: PR #68 merged after all CI checks passed. Added opt-in automatic expl
 ## ACCEPT-001 workflow acceptance baseline
 
 Issue #71: PR #70 merged after all CI checks passed. Added a repeatable isolated acceptance harness spanning authenticated WSGI intake/planning/approval, background execution, saved evidence, automatic explanations and related statuses. Three cases pass: equal unpinned values, unavailable SQL and comparable Gold divergence. All remain UNRESOLVED; only the comparable case identifies Silver to Gold as the first verified divergence. All 189 script tests pass. Full product acceptance is explicitly false. Tracker overview and next milestone now reflect recent work. No cloud calls or baseline mutations. See [acceptance baseline](acceptance-baseline.md). Next: isolated lab baseline/reset and business-grounded expected-behavior verification.
+
+
+## LAB-001 isolated omission and reset
+
+Issue #73: PR #72 merged after all CI checks passed. Added a local DuckDB lab using shared Gold SQL and a three-order partial-return/paid/unpaid fixture. The controlled Gold omission reduces net cash from USD 154 to USD 55; independent evaluator truth identifies one affected order and USD 99 difference. Transactional reset restores original table/schema fingerprints and rejects source/code drift. All 195 script tests pass, including six new lab tests; CLI initialization, injection, evidence and reset were exercised and the local lab is READY. Evaluation truth is excluded from the business evidence projection. This is a materialized-output omission, not cloud defect injection or agent root-cause verification. See [defect lab](defect-lab.md). Next: investigator integration and affected-record/impact verification, followed by no-defect business explanation and multi-layer coverage.
