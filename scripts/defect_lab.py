@@ -25,6 +25,10 @@ def digest(value):return hashlib.sha256(value.encode()).hexdigest()
 def filter_query():return "SELECT * FROM ("+query()+") base WHERE status <> 'PARTIALLY_RETURNED'"
 
 
+def double_refund_query():
+    return 'SELECT * REPLACE (CAST(net_cash_amount-refund_amount AS DECIMAL(28,4)) AS net_cash_amount) FROM ('+query()+') base'
+
+
 def stale_query():
     return "WITH s_fact_refund_line AS (SELECT * FROM main.s_fact_refund_line WHERE FALSE) SELECT * FROM ("+query()+") prior_snapshot"
 
@@ -71,7 +75,7 @@ def validate(path):
 
 
 def mutate(path,action):
-    if action not in ('inject','inject-filter','inject-stale','reset'):raise ValueError('Unknown lab action')
+    if action not in ('inject','inject-filter','inject-stale','inject-double-refund','reset'):raise ValueError('Unknown lab action')
     if not Path(path).is_file():raise ValueError('Initialize the lab first')
     with closing(duckdb.connect(str(path))) as db:
         db.execute('BEGIN TRANSACTION')
@@ -79,9 +83,13 @@ def mutate(path,action):
             state=inspect(db)
             if state['transformation_changed'] or any(t in SOURCE for t in state['changed_tables']):
                 raise ValueError('Source or transformation drift; refusing to bless or reset it')
-            if action in ('inject','inject-filter','inject-stale'):
+            if action in ('inject','inject-filter','inject-stale','inject-double-refund'):
                 if state['status']!='READY':raise ValueError('Reset and validate before injecting')
                 if action=='inject':db.execute("DELETE FROM g_order_line_summary WHERE status='PARTIALLY_RETURNED'")
+                elif action=='inject-double-refund':
+                    db.execute('DELETE FROM g_order_line_summary');db.execute('INSERT INTO g_order_line_summary '+double_refund_query())
+                    db.execute('CREATE TABLE gold_arithmetic_receipt(query_text VARCHAR,fingerprints VARCHAR)')
+                    db.execute('INSERT INTO gold_arithmetic_receipt VALUES (?,?)',[double_refund_query(),json.dumps(fingerprints(db))])
                 elif action=='inject-filter':
                     db.execute('DELETE FROM g_order_line_summary')
                     db.execute('INSERT INTO g_order_line_summary '+filter_query())
@@ -100,6 +108,7 @@ def mutate(path,action):
                 if inspect(db)['status']!='READY':raise ValueError('Reset did not reproduce baseline')
                 db.execute('DROP TABLE IF EXISTS gold_build_receipt')
                 db.execute('DROP TABLE IF EXISTS gold_snapshot_receipt')
+                db.execute('DROP TABLE IF EXISTS gold_arithmetic_receipt')
             db.execute('INSERT INTO lab_events(sequence,action) SELECT COALESCE(MAX(sequence),0)+1,? FROM lab_events',[action.upper()])
             db.execute('COMMIT')
         except Exception:db.execute('ROLLBACK');raise
@@ -125,7 +134,7 @@ def evidence(path,include_business_drivers=False,connection=None):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',choices=('initialize','validate','inject','inject-filter','inject-stale','reset','evidence'))
+    parser.add_argument('action',choices=('initialize','validate','inject','inject-filter','inject-stale','inject-double-refund','reset','evidence'))
     args=parser.parse_args();path=ROOT/'.local/defect-lab/lab.duckdb'
-    result=initialize(path) if args.action=='initialize' else mutate(path,args.action) if args.action in ('inject','inject-filter','inject-stale','reset') else validate(path) if args.action=='validate' else evidence(path)
+    result=initialize(path) if args.action=='initialize' else mutate(path,args.action) if args.action in ('inject','inject-filter','inject-stale','inject-double-refund','reset') else validate(path) if args.action=='validate' else evidence(path)
     print(json.dumps(result,default=str,indent=2))

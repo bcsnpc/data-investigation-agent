@@ -11,7 +11,7 @@ class MatrixTests(unittest.TestCase):
     def test_matrix_persists_evidence_and_resets_all_cases(self):
         with tempfile.TemporaryDirectory() as folder:
             output=Path(folder)/'run';report=evaluate(output)
-            self.assertTrue(report['passed']);self.assertEqual(report['passed_count'],9)
+            self.assertTrue(report['passed']);self.assertEqual(report['passed_count'],10)
             self.assertFalse(report['product_acceptance'])
             self.assertEqual(report,json.loads((output/'report.json').read_text()))
             for case in report['cases']:
