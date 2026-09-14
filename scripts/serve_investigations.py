@@ -22,6 +22,7 @@ if __name__=='__main__':
     parser.add_argument('--enable-plan-review',action='store_true')
     parser.add_argument('--enable-planning',action='store_true')
     parser.add_argument('--enable-worker',action='store_true')
+    parser.add_argument('--enable-explanations',action='store_true')
     parser.add_argument('--worker-max-jobs',type=int,default=1)
     parser.add_argument('--worker-max-seconds',type=int,default=900)
     parser.add_argument('--estate',type=Path,default=ROOT/'infra/fabric/environment.json')
@@ -32,6 +33,7 @@ if __name__=='__main__':
     if args.enable_plan_review and not args.enable_tickets:parser.error('Plan review requires --enable-tickets')
     if args.enable_planning and not args.enable_plan_review:parser.error('Planning requires --enable-plan-review')
     if args.enable_worker and not args.enable_plan_review:parser.error('Worker requires --enable-plan-review')
+    if args.enable_explanations and not args.enable_worker:parser.error('Automatic explanations require --enable-worker')
     if not 1<=args.worker_max_jobs<=10 or not 1<=args.worker_max_seconds<=3600:parser.error('Worker limits: 1-10 jobs and 1-3600 seconds')
     config=load_config(args.config)
     database=config['storage']['database']
@@ -46,7 +48,13 @@ if __name__=='__main__':
     worker=None
     if args.enable_worker:
         from background_worker import BackgroundWorker
-        worker=BackgroundWorker(workflow,config,lambda:json.loads(args.estate.read_text()),args.worker_max_jobs,args.worker_max_seconds)
+        explain=None
+        if args.enable_explanations:
+            from explanation_request import request_explanation,launch as launch_explanation
+            from investigation_evidence_api import EvidenceStore
+            evidence=EvidenceStore(database)
+            explain=lambda run_id:request_explanation(workflow,evidence,run_id,lambda identity:launch_explanation(identity,args.config))
+        worker=BackgroundWorker(workflow,config,lambda:json.loads(args.estate.read_text()),args.worker_max_jobs,args.worker_max_seconds,explain=explain)
     app=create_app(database,token,workflow,lineage,reviews,ui=args.enable_plan_review,worker_status=worker.status if worker else None)
     with make_server('127.0.0.1',args.port,app,handler_class=QuietHandler) as server:
         print(f'Investigation evidence API listening on http://127.0.0.1:{args.port}',flush=True)

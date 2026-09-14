@@ -49,6 +49,14 @@ async function loadTicket(id) {
   $('ticket-id').value=id;$('ticket-title').textContent=result.ticket.ticket.title;
   $('description').textContent=result.ticket.ticket.description;$('ticket-status').textContent=result.ticket.status;
   $('timeline').replaceChildren(...result.ticket.timeline.map(item=>element('div',new Date(item.at*1000).toLocaleString()+' · '+item.status)));
+  if(result.related?.items.length) {
+    $('timeline').append(element('h3','Related tickets'));
+    for(const related of result.related.items) {
+      const button=element('button','Open '+related.relationship+' · '+related.status+' · '+related.id.slice(0,8));button.className='secondary';
+      button.addEventListener('click',()=>action(button,()=>loadTicket(related.id)));$('timeline').append(button);
+    }
+    if(result.related.truncated)$('timeline').append(element('p','Showing the 20 most recent links. Older approvals are available in the draft list.'));
+  }
   show('ticket',true);await drafts();
   if(result.ticket.investigation_run_id) await evidence(result.ticket.investigation_run_id);
 }

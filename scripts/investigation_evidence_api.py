@@ -99,7 +99,7 @@ def create_app(database, token, workflow=None, lineage_run=None, reviews=None, u
                 if identity!=raw:raise ValueError('Canonical ticket UUID required')
                 item=workflow.get(identity)
                 if item is None:return respond('404 Not Found',{'error':'TICKET_NOT_FOUND'})
-                return respond('200 OK',{'ticket':item})
+                return respond('200 OK',{'ticket':item,'related':workflow.related(identity)})
             if path=='/api/investigations':
                 params=parse_qs(query,keep_blank_values=True,strict_parsing=True,max_num_fields=2)
                 if set(params)-{'limit','offset'} or any(len(v)!=1 for v in params.values()):
