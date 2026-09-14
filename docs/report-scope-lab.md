@@ -20,8 +20,8 @@ The module saves captured projections, scope, evidence hash and result in invest
 A replayed scope mismatch sets local_filter_mismatch_verified, but classification remains
 UNRESOLVED and root_cause_verified remains false. This establishes a local filter effect,
 not deployed report provenance or business intent. Matching scope also does not establish
-full business correctness. Automatic routing remains false. This CLI is not yet wired into
-the reviewed ticket worker or a dedicated report-scope UI.
+full business correctness. Automatic routing remains false. The fixed all-orders versus excluded-partial-returns comparison is also available through
+the reviewed ticket API; a dedicated report-scope UI remains pending.
 
 Run against an existing isolated lab (never a live SQL connection):
 
