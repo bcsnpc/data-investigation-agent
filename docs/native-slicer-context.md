@@ -27,7 +27,7 @@ python scripts/report_slicer_context.py --database .local/metadata/report-defini
 ```
 
 Optionally add --selections with a local JSON file. Output never overwrites an existing file.
-This CLI is not yet connected to ticket planning or the UI. It does not validate value existence,
+Ticket planning now retains slicer context and holds execution; UI selection controls remain pending. It does not validate value existence,
 convert data types, apply filters or execute DAX. Other filters, custom visuals, bookmarks,
 relationships and RLS remain outside scope; classification stays UNRESOLVED.
 

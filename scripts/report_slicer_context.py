@@ -6,13 +6,25 @@ import re
 from report_definition_evidence import bundle
 
 
+def validate_selections(selections):
+    if not isinstance(selections,dict) or len(selections)>20 or len(json.dumps(selections))>16000:
+        raise ValueError('Bounded visual selection map required')
+    for identity,selection in selections.items():
+        if not isinstance(identity,str) or not identity or len(identity)>1000:raise ValueError('Invalid visual ID')
+        if selection=={'mode':'all'}:continue
+        if not isinstance(selection,dict) or set(selection)!={'mode','values'} or selection['mode']!='values':raise ValueError('Invalid selection mode')
+        values=selection['values']
+        if not isinstance(values,list) or not 1<=len(values)<=100 or any(not isinstance(v,str) or not v or len(v)>200 for v in values) or len(set(values))!=len(values):raise ValueError('Invalid categorical values')
+    return json.loads(json.dumps(selections))
+
+
 def assess(evidence,page_path,selections=None):
     unsigned={k:v for k,v in evidence.items() if k!='bundle_hash'}
     if hashlib.sha256(json.dumps(unsigned,sort_keys=True).encode()).hexdigest()!=evidence.get('bundle_hash'):
         raise ValueError('Definition bundle hash differs')
     if not re.fullmatch(r'definition/pages/[A-Za-z0-9_-]+/page.json',page_path):raise ValueError('Native page required')
     selections={} if selections is None else selections
-    if not isinstance(selections,dict):raise ValueError('Selections must be keyed by visual ID')
+    selections=validate_selections(selections)
     parts=evidence['report_definitions']
     if sum(p['name']==page_path for p in parts)!=1:raise ValueError('Page unavailable or ambiguous')
     assets={a['id']:a for a in evidence['model_assets']}

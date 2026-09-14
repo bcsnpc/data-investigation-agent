@@ -12,7 +12,7 @@ class Conflict(ValueError):pass
 
 
 def validate_ticket(body):
-    allowed={'title','report','description','metric','currency','order_id','native_page'}
+    allowed={'title','report','description','metric','currency','order_id','native_page','native_slicers'}
     if not isinstance(body,dict) or set(body)-allowed:raise ValueError('Unsupported ticket fields')
     result={}
     for key,maximum in [('title',200),('report',200),('description',10000)]:
@@ -27,6 +27,10 @@ def validate_ticket(body):
     if 'native_page' in result:
         import re
         if not re.fullmatch(r'definition/pages/[A-Za-z0-9_-]+/page.json',result['native_page']):raise ValueError('Invalid native page path')
+    if 'native_slicers' in body:
+        from report_slicer_context import validate_selections
+        if 'native_page' not in result:raise ValueError('Slicer selections require a native page')
+        result['native_slicers']=validate_selections(body['native_slicers'])
     return result
 
 

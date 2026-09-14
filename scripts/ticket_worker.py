@@ -14,6 +14,9 @@ def process_one(store,config,estate,execute=acquire,approved_only=False):
     if not job:return {'status':'IDLE'}
     body=job['body']
     try:
+        if body.get('native_slicers'):
+            store.finish(job,'NEEDS_INPUT',{'reason':'Native slicer execution is not supported; selections were not dropped'})
+            return {'id':job['id'],'status':'NEEDS_INPUT'}
         if job['lineage_run']!=estate.get('investigation',{}).get('lineage_run'):
             store.finish(job,'NEEDS_INPUT',{'reason':'Configured lineage changed; submit against the current context'})
             return {'id':job['id'],'status':'NEEDS_INPUT'}
