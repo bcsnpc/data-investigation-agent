@@ -66,7 +66,7 @@ def validate_plan(value, ticket, reports):
             'plan': value, 'executable': False, 'automatic_defect_routing': False}
 
 
-def azure_generate(payload):
+def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan'):
     endpoint = os.environ.get('AZURE_OPENAI_ENDPOINT', '')
     deployment = os.environ.get('AZURE_OPENAI_DEPLOYMENT', '')
     key = os.environ.get('AZURE_OPENAI_API_KEY', '')
@@ -75,9 +75,9 @@ def azure_generate(payload):
     from openai import OpenAI
     with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=45, max_retries=0) as client:
         response = client.responses.create(
-            model=deployment, instructions=INSTRUCTIONS, input=json.dumps(payload), store=False,
+            model=deployment, instructions=instructions, input=json.dumps(payload), store=False,
             max_output_tokens=1500,
-            text={'format': {'type': 'json_schema', 'name': 'ticket_plan', 'strict': True, 'schema': SCHEMA}})
+            text={'format': {'type': 'json_schema', 'name': name, 'strict': True, 'schema': schema}})
     if response.status != 'completed' or any(
             c.type == 'refusal' for item in response.output if item.type == 'message' for c in item.content):
         raise ValueError('Model refused or returned an incomplete response')

@@ -115,7 +115,9 @@ def create_app(database, token, workflow=None, lineage_run=None, reviews=None, u
                 if identity!=raw:raise ValueError('Canonical run UUID required')
                 item=store.get(identity)
                 if item is None:return respond('404 Not Found',{'error':'INVESTIGATION_NOT_FOUND'})
+                from investigation_explanation import latest
                 return respond('200 OK',{'investigation':item,
+                    'explanation':latest(workflow,item) if workflow is not None else None,
                     'summary':summarize(item),
                     'capabilities':{'read_saved_evidence':True,'execute_queries':False,'route_defects':False},
                     'evidence_scope':'Historical recorded observations; statuses are preserved, not recomputed or promoted to root cause'})
