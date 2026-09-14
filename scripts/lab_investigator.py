@@ -1,0 +1,70 @@
+"""Deterministic reconciliation over a lab business projection, never evaluator truth."""
+from contextlib import closing
+from datetime import datetime,timezone
+from decimal import Decimal,localcontext
+import hashlib
+import json
+from pathlib import Path
+import re
+import sqlite3
+from uuid import uuid4
+from investigation_checks import number
+
+
+def reconcile(payload):
+    if set(payload)!={'mode','rows'} or payload['mode']!='local_lab' or not isinstance(payload['rows'],list):
+        raise ValueError('Expected isolated lab evidence')
+    if not 1<=len(payload['rows'])<=100000:raise ValueError('Invalid evidence size')
+    seen=set();currencies={};affected=[]
+    with localcontext() as context:
+        context.prec=100
+        for i,row in enumerate(payload['rows']):
+            if set(row)!={'order_id','currency','silver_net_cash','gold_net_cash','silver_present','gold_present'}:
+                raise ValueError('Unsupported record fields')
+            if not isinstance(row['order_id'],str) or not re.fullmatch(r'ORD-\d{6}',row['order_id']):raise ValueError('Invalid order key')
+            if not isinstance(row['currency'],str) or not re.fullmatch(r'[A-Z]{3}',row['currency']):raise ValueError('Invalid currency')
+            key=(row['order_id'],row['currency'])
+            if key in seen:raise ValueError('Duplicate business key')
+            seen.add(key);values=[]
+            for layer in ('silver','gold'):
+                present=row[layer+'_present'];value=row[layer+'_net_cash']
+                if type(present) is not bool or (not present and value is not None):raise ValueError('Inconsistent presence evidence')
+                if present:
+                    value=number(str(value) if isinstance(value,Decimal) else value)
+                    if abs(value)>=Decimal('1e28') or value.as_tuple().exponent < -4:raise ValueError('Amount outside metric contract')
+                else:value=Decimal(0)
+                values.append(value)
+            if not row['silver_present'] and not row['gold_present']:raise ValueError('Absent on both sides')
+            silver,gold=values;difference=gold-silver
+            totals=currencies.setdefault(row['currency'],{'silver_total':Decimal(0),'gold_total':Decimal(0),'downstream_minus_upstream':Decimal(0),'affected_records':0})
+            totals['silver_total']+=silver;totals['gold_total']+=gold;totals['downstream_minus_upstream']+=difference
+            status='MISSING_IN_GOLD' if not row['gold_present'] else 'EXTRA_IN_GOLD' if not row['silver_present'] else 'VALUE_MISMATCH' if difference else 'MATCH'
+            if status!='MATCH':
+                totals['affected_records']+=1
+                affected.append({'order_id':key[0],'currency':key[1],'status':status,
+                    'downstream_minus_upstream':format(difference,'.4f'),'reference':'/request/lab_evidence/rows/'+str(i)})
+        totals={currency:{key:format(value,'.4f') if isinstance(value,Decimal) else value for key,value in group.items()} for currency,group in currencies.items()}
+    return {'classification':'UNRESOLVED','comparison_status':'MISMATCH' if affected else 'MATCH',
+            'compared_boundary':{'upstream':'silver','downstream':'gold'},'affected_records':affected,'impact_by_currency':totals,
+            'automatic_defect_routing':False,'root_cause_verified':False,
+            'limitation':'Local projected records only. Absent records contribute zero to aggregate differences, but remain explicitly missing. Matching records do not establish expected business behavior; differences do not prove a cause or the first boundary across the full estate.'}
+
+
+def investigate(payload,database):
+    result=reconcile(payload);identity=str(uuid4());observations={}
+    for currency,totals in result['impact_by_currency'].items():
+        observations['net_cash_'+currency]=[{'layer':layer,'status':'AVAILABLE','data':totals[layer+'_total'],'currency':currency,'filters':{'scope':'local_lab'}} for layer in ('silver','gold')]
+    encoded=json.dumps(payload,default=str,sort_keys=True)
+    request={'kind':'lab_record_reconciliation','lab_evidence':json.loads(encoded),
+             'evidence_hash':hashlib.sha256(encoded.encode()).hexdigest(),'observations':observations}
+    result['id']=identity;Path(database).parent.mkdir(parents=True,exist_ok=True)
+    with closing(sqlite3.connect(database)) as db:
+        db.execute('CREATE TABLE IF NOT EXISTS investigation_runs(id TEXT PRIMARY KEY,lineage_run TEXT,created TEXT,request TEXT,result TEXT)')
+        db.execute('INSERT INTO investigation_runs VALUES(?,?,?,?,?)',(identity,None,datetime.now(timezone.utc).isoformat(),json.dumps(request),json.dumps(result)));db.commit()
+    return result
+
+
+if __name__=='__main__':
+    from defect_lab import ROOT,evidence
+    result=investigate(evidence(ROOT/'.local/defect-lab/lab.duckdb'),ROOT/'.local/defect-lab/evidence.sqlite')
+    print(json.dumps(result,indent=2))
