@@ -1,13 +1,14 @@
 'use strict';
 const $ = id => document.getElementById(id);
 let token = '', session = 0, ticketId = '', selected = null, offset = null, busy = false;
+let submission=null;const planningKeys=new Map();
 const show = (id, visible) => { $(id).hidden = !visible; };
 const message = text => { $('message').textContent = text; };
 function element(tag, text) { const node = document.createElement(tag); node.textContent = text; return node; }
-async function api(path, body) {
+async function api(path, body, key) {
   const current = session;
   const response = await fetch(path, {method:body ? 'POST':'GET', cache:'no-store',
-    headers:{Authorization:'Bearer '+token, ...(body ? {'Content-Type':'application/json'}:{})},
+    headers:{Authorization:'Bearer '+token, ...(body ? {'Content-Type':'application/json'}:{}),...(key?{'Idempotency-Key':key}:{})},
     ...(body ? {body:JSON.stringify(body)}:{})});
   if (current !== session) throw new Error('Session changed.');
   if (!response.ok) {
@@ -54,6 +55,20 @@ async function loadTicket(id) {
 $('open-form').addEventListener('submit',event=>{event.preventDefault();action(event.submitter,()=>loadTicket($('ticket-id').value.trim()));});
 $('refresh').addEventListener('click',event=>action(event.currentTarget,()=>loadTicket(ticketId)));
 $('more').addEventListener('click',event=>action(event.currentTarget,()=>drafts(true)));
+$('create-form').addEventListener('submit',event=>{event.preventDefault();action(event.submitter,async()=>{
+  const body={title:$('new-title').value.trim(),report:$('new-report').value.trim(),description:$('new-description').value.trim()};
+  const encoded=JSON.stringify(body);if(!submission || submission.encoded!==encoded)submission={encoded,key:crypto.randomUUID()};
+  const result=await api('/api/tickets',body,submission.key);await loadTicket(result.ticket_id);
+  $('create-form').closest('details').open=false;message('Ticket submitted. Generate a draft to review its proposed scope.');
+});});
+$('generate').addEventListener('click',event=>action(event.currentTarget,async()=>{
+  const id=ticketId;if(!planningKeys.has(id))planningKeys.set(id,crypto.randomUUID());
+  message('Generating a draft. This may take up to two minutes.');
+  const result=await api('/api/tickets/'+encodeURIComponent(id)+'/plan',{confirm:true},planningKeys.get(id));
+  if(result.status==='FAILED')throw new Error('Planning failed. The same request will not be charged again automatically. Review the local provider setup before trying a new request.');
+  if(result.status==='RUNNING'){message('Planning is still running or its outcome is uncertain. Refresh drafts shortly.');return;}
+  await drafts();await review(result.plan_id);message('Draft ready. Review the scope before approving.');
+}));
 async function review(id) {
   selected=null;show('review',false);const result=await api('/api/plans/'+encodeURIComponent(id));selected=result;
   const scope=result.draft.plan;$('scope').replaceChildren();$('questions').replaceChildren();

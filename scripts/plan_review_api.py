@@ -11,12 +11,13 @@ import review_ticket_plan
 
 
 class PlanReviews:
-    def __init__(self, store, config, estate_loader):
+    def __init__(self, store, config, estate_loader, planner=None):
         self.store, self.config, self.estate_loader = store, config, estate_loader
+        self.planner=planner
 
     @staticmethod
     def matches(path):
-        return path.startswith('/api/plans/') or (path.startswith('/api/tickets/') and path.endswith('/plans'))
+        return path.startswith('/api/plans/') or (path.startswith('/api/tickets/') and path.endswith(('/plans','/plan')))
 
     def handle(self, environ, respond):
         path = environ['PATH_INFO'].split('/')
@@ -27,6 +28,28 @@ class PlanReviews:
         identity = str(UUID(path[3]))
         if identity != path[3]:
             raise ValueError('Canonical UUID required')
+        if path[2]=='tickets' and len(path)==5 and path[4]=='plan':
+            if method!='POST':return respond('405 Method Not Allowed',{'error':'POST_REQUIRED'})
+            if self.planner is None:return respond('503 Service Unavailable',{'error':'PLANNING_DISABLED'})
+            if query:raise ValueError('Unexpected query')
+            if environ.get('CONTENT_TYPE','').split(';')[0].strip()!='application/json':
+                return respond('415 Unsupported Media Type',{'error':'JSON_REQUIRED'})
+            length=int(environ.get('CONTENT_LENGTH','0'))
+            if not 1<=length<=64:return respond('413 Payload Too Large',{'error':'INVALID_BODY_SIZE'})
+            try:
+                raw=environ['wsgi.input'].read(length)
+                if len(raw)!=length:raise ValueError('Incomplete body')
+                body=json.loads(raw.decode('utf-8'))
+            except (ValueError,UnicodeError):raise ValueError('Invalid JSON')
+            if body!={'confirm':True} or body.get('confirm') is not True:raise ValueError('Confirmation required')
+            ticket=self.store.get(identity)
+            if ticket is None:return respond('404 Not Found',{'error':'TICKET_NOT_FOUND'})
+            if ticket['lineage_run']!=self.estate_loader()['investigation']['lineage_run']:
+                return respond('409 Conflict',{'error':'STALE_TICKET_CONTEXT'})
+            from planning_request import request_plan
+            result=request_plan(self.store,identity,environ.get('HTTP_IDEMPOTENCY_KEY',''),self.planner)
+            code='202 Accepted' if result['status']=='RUNNING' else '200 OK'
+            return respond(code,result)
         if path[2] == 'tickets' and len(path) == 5 and path[4] == 'plans':
             if method != 'GET':
                 return respond('405 Method Not Allowed', {'error': 'GET_REQUIRED'})

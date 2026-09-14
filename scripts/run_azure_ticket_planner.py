@@ -17,9 +17,10 @@ def main():
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--ticket-id')
     mode.add_argument('--evaluate', action='store_true')
+    parser.add_argument('--config',type=Path,default=ROOT / 'infra/metadata/development.json')
     args = parser.parse_args()
     settings = json.loads((ROOT / 'infra/llm/development.json').read_text())
-    config = load_config(ROOT / 'infra/metadata/development.json')
+    config = load_config(args.config)
     variables = ('AZURE_OPENAI_API_KEY', 'AZURE_OPENAI_ENDPOINT', 'AZURE_OPENAI_DEPLOYMENT')
     previous = {k: os.environ.get(k) for k in variables}
     try:
