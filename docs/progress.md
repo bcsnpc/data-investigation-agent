@@ -21,7 +21,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 | 5B Ticket experience | Local workflow and UI implemented | Intake, review, related statuses, evidence and bounded worker implemented; attachments, richer context, lineage/impact views and hosting remain |
 | 6 AI investigator | Scoped planning and explanations implemented | Azure planning and model-selected evidence highlights verified; local deterministic cause/impact checks implemented; broader hypothesis/tool orchestration and live cause coverage remain |
 | 7 Defect lab | Local scenarios and review integration implemented | Resettable omission, filter defect, stale-source and expected-refund cases with record impact; multi-layer scenarios and broader evaluation remain |
-| 7B Routing | Local approval and delivery rehearsal implemented | Durable simulated issue/notification stages and receipt recovery; destination/content review implemented; GitHub adapter implemented without live transport; SMTP email adapter implemented without live connection; local CLI envelope approval/coordinator implemented; browser envelope review implemented; recipient configuration, live recovery and hosted integration remain |
+| 7B Routing | Review, adapters and operator transport integration implemented | Browser/CLI approval and durable attempts; real provider configuration, live acceptance, recovery and hosted permissions remain |
 | 8 Portfolio polish | Not started | Hosted demo, screenshots, video and presentation |
 
 ## Work record
@@ -371,3 +371,8 @@ Issue #97: PR #96 merged after all six CI checks passed. Added persisted envelop
 ## ROUTE-008 browser envelope review
 
 Issue #99: PR #98 merged after all six CI checks passed. Added authenticated review-only envelope preparation/status/approval endpoints and lab browser sender/message review. The API refuses an enabled coordinator, has no send endpoint, and validates bounded JSON and explicit confirmation. All 262 script tests pass, including four envelope API tests; JavaScript syntax and browser preparation/approval/mobile checks pass. Browser fixture uses a simulated issue receipt and no live SMTP. No real recipients configured or messages sent. See [browser envelope review](browser-envelope-review.md). Next: live transport configuration and explicitly authorized delivery acceptance, plus hosted integration. Remaining: real owners/recipients/credentials, recovery operations, broader defect evaluation, live freshness/snapshot checks, richer AI/context/lineage, hosting/auth/monitoring and full acceptance/demo.
+
+
+## ROUTE-009 explicit transport integration
+
+Issue #101: PR #100 merged after all six CI checks passed. Added fixed-origin HTTPS and TLS SMTP transports plus an explicit external-action CLI using existing approval checks and durable adapters. Credentials come from environment variables; review servers/workers do not activate transports. Redirects, plaintext fallback and automatic retries are disabled. All 271 script tests pass, including nine mocked transport/CLI tests. No live issue/email or cloud query was executed. Real destination/provider information requested from the user remains pending. See [live transports](live-delivery-transports.md). Next: configure approved real destinations/provider and perform authorized delivery acceptance; investigate provider-specific gaps if needed. Remaining: hosted permission/recovery integration, broader defect evaluation, live snapshot/freshness checks, richer AI/context/lineage, hosting/auth/monitoring and full product acceptance/demo.

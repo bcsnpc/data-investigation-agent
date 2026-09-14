@@ -73,6 +73,7 @@ jobs:
           python -m unittest discover -s scripts -p test_email_delivery_adapter.py
           python -m unittest discover -s scripts -p test_envelope_workflow.py
           python -m unittest discover -s scripts -p test_envelope_review_api.py
+          python -m unittest discover -s scripts -p test_delivery_transports.py
           python -m py_compile scripts/evaluate_ticket_planner.py scripts/run_azure_ticket_planner.py
           python -m unittest discover -s scripts -p test_snapshot_provenance.py
           python -m unittest discover -s scripts -p test_source_snapshot.py
