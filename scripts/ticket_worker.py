@@ -9,8 +9,8 @@ from metadata_config import ROOT,load_config
 from ticket_workflow import TicketStore
 
 
-def process_one(store,config,estate,execute=acquire):
-    job=store.claim()
+def process_one(store,config,estate,execute=acquire,approved_only=False):
+    job=store.claim(approved_only=approved_only)
     if not job:return {'status':'IDLE'}
     body=job['body']
     try:
