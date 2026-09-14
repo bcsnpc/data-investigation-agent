@@ -7,7 +7,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 ## Current position
 
 Phases 0 (engineering foundation), 1 (business system) and 2 (data platform) remain in progress; the initial analytics release is complete.
-The 100,000-order SQL baseline and authenticated operational portal are deployed. Verified source snapshots now propagate through Bronze, Silver and nine Gold reporting/dimension tables. The six-table semantic model and three reports have verified measures and filter cases. Current metadata includes 39 lakehouse tables and five notebooks; the reviewed lineage graph has 403 links and 41 eligible data-bound visual paths. Live five-layer metrics have been verified, while exact model snapshot comparability remains explicitly unproven. A local evidence API, ticket intake and durable execution/status workflow are implemented. A review-only structured LLM planning adapter is implemented; initial live model smoke verification is complete; reviewed CLI handoff and deterministic evidence summaries are implemented; investigation UI and routing remain pending.
+The 100,000-order SQL baseline and authenticated operational portal are deployed. Verified source snapshots now propagate through Bronze, Silver and nine Gold reporting/dimension tables. The six-table semantic model and three reports have verified measures and filter cases. Current metadata includes 39 lakehouse tables and five notebooks; the reviewed lineage graph has 403 links and 41 eligible data-bound visual paths. Live five-layer metrics have been verified, while exact model snapshot comparability remains explicitly unproven. A local evidence API, ticket intake and durable execution/status workflow are implemented. The local review UI supports ticket intake, scope approval, related ticket navigation and evidence display. Bounded background execution and opt-in, idempotent post-run explanations are merged through PR #70. Model planning and constrained explanation selection have live verification. Broader tool orchestration, root-cause classification, impact, attachments, investigator hosting and routing remain pending.
 
 | Phase | Status | Evidence / remaining work |
 |---|---|---|
@@ -18,8 +18,8 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 | 4A Metadata connectors | Initial collector merged; reusable connector refactor verified | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
 | 4B Lineage | Reviewed scope backend merged | 403 links, retained resolution evidence and 41 eligible visual paths; UI remains later |
 | 5A Deterministic investigator | In progress | Check engine merged in PR #24; cross-layer adapters implemented with SQL/Power BI live reads; all five layers live-verified; common-source snapshot proof pending |
-| 5B Ticket experience | Backend intake/workflow implemented | Local authenticated ticket queue, status/timeline and evidence links; UI, attachments and hosted worker remain |
-| 6 AI investigator | Azure draft planning live-verified | GPT-4.1 mini deployment, six live smoke cases and persisted ticket draft verified; reviewed CLI handoff and saved-evidence summaries implemented; broader evaluations and LLM narratives pending |
+| 5B Ticket experience | Local workflow and UI implemented | Intake, review, related statuses, evidence and bounded worker implemented; attachments, richer context, lineage/impact views and hosting remain |
+| 6 AI investigator | Scoped planning and explanations implemented | Azure planning and model-selected evidence highlights verified; automatic explanations are opt-in; hypothesis/tool orchestration, verified classification and impact remain |
 | 7 Defect lab | Not started | Deterministic injection/reset, isolated evaluation ground truth and expected-behavior coverage |
 | 7B Routing | Not started | Generic issue/notification providers, ownership-based routing and human triage |
 | 8 Portfolio polish | Not started | Hosted demo, screenshots, video and presentation |
@@ -69,7 +69,7 @@ The 100,000-order SQL baseline and authenticated operational portal are deployed
 
 ## Next milestone
 
-Metadata and lineage are merged through PR #22; deterministic check contracts are merged in PR #24. Cross-layer query adapters and ordered boundary checks are implemented. Five-layer live verification passed. Source-to-isolated-Bronze snapshot evidence is now verified. Next: publish Silver from the pinned Bronze versions, then propagate the chain through Gold and Power BI. Ticket UI and AI follow the backend. Recurring refresh orchestration remains open.
+PR #70 is merged. The isolated acceptance baseline exercises ticket-to-evidence/explanation flow with equal values, missing source evidence and comparable divergence. Workflow passes while product acceptance remains incomplete. Next: isolated defect-lab baseline and reset contracts, then verified expected-behavior/root-cause and impact coverage. Live model snapshot comparability, recurring data refresh, routing and investigator hosting remain open. See [acceptance baseline](acceptance-baseline.md).
 
 ## Tracking convention
 
@@ -296,3 +296,8 @@ Issue #67: PR #66 merged after all CI checks passed. Added opt-in background pro
 ## WORKER-002 post-run explanations and related tickets
 
 Issue #69: PR #68 merged after all CI checks passed. Added opt-in automatic explanation callbacks with durable per-run request state, reuse of validated explanations, and no automatic replay of failed or uncertain calls. Explanation failures preserve completed evidence. Ticket API/UI expose related approval links and individual statuses without rewriting original histories. All 188 script tests pass; JavaScript syntax passes. Browser navigation verified against saved original/child tickets; the existing explanation for run 9ef75410-0b9e-433b-b648-6b20b806c73a was reused through the new request path without a paid model call. See [post-run explanations](post-run-explanations.md). No new cloud queries or SQL settings changes. Historical catch-up is manual; local orchestration is not deployed. Next: a controlled end-to-end ticket/defect-lab acceptance run covering expected behavior and evidence gaps before expanding investigation scope.
+
+
+## ACCEPT-001 workflow acceptance baseline
+
+Issue #71: PR #70 merged after all CI checks passed. Added a repeatable isolated acceptance harness spanning authenticated WSGI intake/planning/approval, background execution, saved evidence, automatic explanations and related statuses. Three cases pass: equal unpinned values, unavailable SQL and comparable Gold divergence. All remain UNRESOLVED; only the comparable case identifies Silver to Gold as the first verified divergence. All 189 script tests pass. Full product acceptance is explicitly false. Tracker overview and next milestone now reflect recent work. No cloud calls or baseline mutations. See [acceptance baseline](acceptance-baseline.md). Next: isolated lab baseline/reset and business-grounded expected-behavior verification.
