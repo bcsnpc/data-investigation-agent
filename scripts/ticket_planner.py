@@ -85,7 +85,7 @@ def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tick
                                             'usage': response.usage.model_dump() if response.usage else None}
 
 
-def plan_ticket(store, ticket_id, graph, generate=azure_generate):
+def plan_ticket(store, ticket_id, graph, generate=azure_generate, *, native_page=None, metadata_database=None):
     ticket = store.get(ticket_id)
     if ticket is None:
         raise ValueError('Unknown ticket')
@@ -99,6 +99,15 @@ def plan_ticket(store, ticket_id, graph, generate=azure_generate):
         value, metadata = generate(payload)
         record.update(validate_plan(value, ticket['ticket'], payload['reports']))
         record['provider'] = metadata
+        if native_page is not None:
+            from native_plan_context import check
+            if metadata_database is None:raise ValueError('Native context database required')
+            context=check(metadata_database,ticket['lineage_run'],value['report_id'],native_page,ticket['ticket'].get('order_id'))
+            record['native_context']=context
+            if context['status']!='CONTEXT_SUPPLIED':
+                record['status']='NEEDS_INPUT'
+                record['plan']['questions']=list(record['plan']['questions'])+[context['reason']]
+
     except Exception as exc:
         record.update(status='PLANNING_FAILED', error_type=type(exc).__name__)
     with closing(store.connect()) as db:
@@ -111,6 +120,7 @@ def plan_ticket(store, ticket_id, graph, generate=azure_generate):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--ticket-id', required=True)
+    parser.add_argument('--page', help='Optional retained native drillthrough page path')
     parser.add_argument('--config', type=Path, default=ROOT / 'infra/metadata/development.json')
     args = parser.parse_args()
     config = load_config(args.config)
@@ -119,4 +129,4 @@ if __name__ == '__main__':
     if ticket is None:
         parser.error('Unknown ticket')
     graph = load_graph(config['storage']['database'], ticket['lineage_run'])
-    print(json.dumps(plan_ticket(store, args.ticket_id, graph)))
+    print(json.dumps(plan_ticket(store, args.ticket_id, graph, native_page=args.page, metadata_database=config['storage']['database'])))

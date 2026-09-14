@@ -23,7 +23,7 @@ python scripts/report_drillthrough_context.py --database .local/metadata/report-
 ```
 
 Add --order-id ORD-000001 to supply order context. Output creation refuses overwriting.
-The command is not yet integrated into ticket planning or the review UI.
+Ticket planning can opt into this check with --page; native page selection in the review UI remains pending.
 
 Validation: five tests cover missing/provided context, changed bundles, invalid order IDs,
 unsupported page/binding, extra predicate and invalid filter shape. Against retained live scan
