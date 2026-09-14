@@ -1,4 +1,5 @@
 """Validated proposed destinations and deterministic content; no provider calls."""
+import hashlib
 import json
 import re
 
@@ -35,8 +36,10 @@ def destination_preview(draft, destination):
                         'Affected records:\n' + json.dumps(draft['affected_records'], sort_keys=True, indent=2),
                         'Local evidence reference: ' + draft['evidence_reference'],
                         'Human triage required. No remediation authorized.'))
+    marker = hashlib.sha256(json.dumps([destination['issue']['repository'], draft['title'], body], ensure_ascii=True).encode()).hexdigest()
+    issue_body = body + '\n\n<!-- investigator-operation:' + marker + ' -->'
     return {'issue': {'provider': 'github', 'repository': destination['issue']['repository'],
-                      'title': draft['title'], 'body': body},
+                      'title': draft['title'], 'body': issue_body},
             'notification': {'provider': 'email', 'recipients': list(destination['notification']['recipients']),
                              'subject': draft['title'], 'body': draft['notification_text'] + '\n\n' + body},
             'external_delivery_enabled': False,
