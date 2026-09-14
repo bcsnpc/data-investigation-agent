@@ -53,6 +53,7 @@ jobs:
           python -m unittest discover -s scripts -p test_ticket_planner.py
           python -m unittest discover -s scripts -p test_reviewed_handoff.py
           python -m unittest discover -s scripts -p test_plan_review_api.py
+          python -m unittest discover -s scripts -p test_review_ui.py
           python -m py_compile scripts/evaluate_ticket_planner.py scripts/run_azure_ticket_planner.py
           python -m unittest discover -s scripts -p test_snapshot_provenance.py
           python -m unittest discover -s scripts -p test_source_snapshot.py

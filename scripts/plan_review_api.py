@@ -7,6 +7,7 @@ from urllib.parse import parse_qs
 from uuid import UUID
 from review_ticket_plan import get_plan, approve
 from ticket_workflow import Conflict
+import review_ticket_plan
 
 
 class PlanReviews:
@@ -53,11 +54,15 @@ class PlanReviews:
         if row is None: return respond('404 Not Found', {'error': 'PLAN_NOT_FOUND'})
         record = get_plan(self.store, identity)
         if len(path) == 4 and method == 'GET':
+            graph=review_ticket_plan.load_graph(self.config['storage']['database'],record['lineage_run'])
+            report_id=(record.get('plan') or {}).get('report_id')
+            report_name=graph.assets.get(report_id,{}).get('name')
             with closing(self.store.connect()) as db:
                 exists = db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='plan_approvals'").fetchone()
                 approved = db.execute('SELECT child_ticket_id,reviewer,created FROM plan_approvals WHERE plan_id=?',
                                       (identity,)).fetchone() if exists else None
             return respond('200 OK', {'draft': record,
+                           'report_name': report_name,
                            'plan_hash': hashlib.sha256(json.dumps(record, sort_keys=True).encode()).hexdigest(),
                            'approval': dict(ticket_id=approved[0], reviewer=approved[1], created=approved[2]) if approved else None})
         if len(path) != 5 or method != 'POST':
