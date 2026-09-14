@@ -43,7 +43,7 @@ class EvidenceStore:
         return self.decode(row,True) if row else None
 
 
-def create_app(database, token, workflow=None, lineage_run=None):
+def create_app(database, token, workflow=None, lineage_run=None, reviews=None):
     if not isinstance(token,str) or len(token)<32 or not token.isascii():
         raise ValueError('API token must contain at least 32 ASCII characters')
     store=EvidenceStore(database)
@@ -55,7 +55,9 @@ def create_app(database, token, workflow=None, lineage_run=None):
             headers=[('Content-Type','application/json; charset=utf-8'),('Content-Length',str(len(encoded))),
                      ('Cache-Control','no-store'),('X-Content-Type-Options','nosniff')]
             if status.startswith('401'):headers.append(('WWW-Authenticate','Bearer'))
-            if status.startswith('405'):headers.append(('Allow','GET'))
+            if status.startswith('405'):
+                allowed='POST' if reviews is not None and environ.get('PATH_INFO','').startswith('/api/plans/') and environ.get('PATH_INFO','').endswith('/approve') else 'GET'
+                headers.append(('Allow',allowed))
             start_response(status,headers)
             return [encoded]
 
@@ -63,11 +65,13 @@ def create_app(database, token, workflow=None, lineage_run=None):
         if not supplied.isascii() or not hmac.compare_digest(supplied,'Bearer '+token):
             return respond('401 Unauthorized',{'error':'UNAUTHORIZED'})
         method=environ.get('REQUEST_METHOD')
-        if method!='GET' and not (method=='POST' and workflow is not None and environ.get('PATH_INFO')=='/api/tickets'):
+        review_route=reviews is not None and reviews.matches(environ.get('PATH_INFO',''))
+        if method!='GET' and not (method=='POST' and (review_route or (workflow is not None and environ.get('PATH_INFO')=='/api/tickets'))):
             return respond('405 Method Not Allowed',{'error':'READ_ONLY_API'})
         path=environ.get('PATH_INFO','')
         query=environ.get('QUERY_STRING','')
         try:
+            if review_route:return reviews.handle(environ,respond)
             if workflow is not None and path=='/api/tickets' and method=='POST':
                 if query:return respond('400 Bad Request',{'error':'INVALID_REQUEST'})
                 if environ.get('CONTENT_TYPE','').split(';')[0].strip()!='application/json':
@@ -114,7 +118,7 @@ def create_app(database, token, workflow=None, lineage_run=None):
             return respond('404 Not Found',{'error':'NOT_FOUND'})
         except Conflict:
             return respond('409 Conflict',{'error':'IDEMPOTENCY_CONFLICT'})
-        except (sqlite3.Error,json.JSONDecodeError,KeyError,TypeError,AttributeError):
+        except (sqlite3.Error,json.JSONDecodeError,KeyError,TypeError,AttributeError,OSError):
             return respond('503 Service Unavailable',{'error':'EVIDENCE_STORE_UNAVAILABLE'})
         except ValueError:
             return respond('400 Bad Request',{'error':'INVALID_REQUEST'})

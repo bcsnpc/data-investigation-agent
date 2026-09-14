@@ -24,10 +24,12 @@ def get_plan(store, identity):
     return record
 
 
-def approve(store, plan_id, config, estate, reviewer):
+def approve(store, plan_id, config, estate, reviewer, expected_hash=None):
     if not isinstance(reviewer, str) or not reviewer.strip() or len(reviewer) > 100:
         raise ValueError('Reviewer label required')
     record = get_plan(store, plan_id)
+    if expected_hash is not None and hashlib.sha256(json.dumps(record, sort_keys=True).encode()).hexdigest() != expected_hash:
+        raise Conflict('Reviewed draft changed')
     original = store.get(record['ticket_id'])
     if original is None or record['lineage_run'] != original['lineage_run']:
         raise Conflict('Ticket context changed')
