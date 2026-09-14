@@ -30,9 +30,11 @@ def capture(path, requested_scope, report_scope):
             'report_scope': report_scope, 'projections': projections}
 
 
-def investigate(path, database, requested_scope, report_scope):
+def investigate(path, database, requested_scope, report_scope, *, expected_currency=None):
     # Always capture and replay here; callers cannot submit their own proof flags or SQL.
     evidence = capture(path, requested_scope, report_scope)
+    if expected_currency is not None and any(r['currency'] != expected_currency for rows in evidence['projections'].values() for r in rows):
+        raise ValueError('Captured currency exceeds approved scope')
     identity = str(uuid4())
     result = {'id': identity, 'classification': 'UNRESOLVED', 'root_cause_verified': False,
               'automatic_defect_routing': False, 'limitation': LIMIT,
