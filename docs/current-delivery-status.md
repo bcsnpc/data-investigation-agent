@@ -1,5 +1,7 @@
 # Current delivery status
 
+Review: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
+
 Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
 Updated 2026-09-15. **PR #174 is merged.** The current grouped milestone adds [aggregate-to-record reconciliation](record-aggregate-reconciliation-milestone.md), tracked by [#175](https://github.com/bcsnpc/data-investigation-agent/issues/175).

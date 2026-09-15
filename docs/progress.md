@@ -1,5 +1,7 @@
 # Project progress
 
+Review: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
+
 Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
 **Latest:** PR #174 merged. [Aggregate-to-record reconciliation](record-aggregate-reconciliation-milestone.md), tracked by [#175](https://github.com/bcsnpc/data-investigation-agent/issues/175), connects captured direct aggregates to supporting record evidence with receipt integrity, durable recovery and adaptive consumption. 668 tests passed, including 27 focused tests. Live evidence: 49 units / 15 lines in each system; arithmetic reconciled, cause unverified.
