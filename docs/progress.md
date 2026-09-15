@@ -6,7 +6,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #154 is merged; D/E typed diagnostic scope continues under #155. The historical planning text below is retained for context.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #156 is merged; D/E source aggregate diagnostics continues under #157. The historical planning text below is retained for context.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
@@ -52,6 +52,10 @@ PR #152 is merged after successful CI. [Issue #153](https://github.com/bcsnpc/da
 ## Typed scope continuation
 
 PR #154 is merged after successful CI. [Issue #155](https://github.com/bcsnpc/data-investigation-agent/issues/155) groups metadata-bound date/numeric/boolean/BLANK filters, range semantics, scope discovery and native integration. All 417 regression tests passed. Two live Power BI reads passed, including preservation of BLANK for an empty date window. [Contract, limits and validation](typed-diagnostic-scope.md). D/E remain in progress; upstream equivalence, effective report context and the adaptive runtime remain pending.
+
+## Source diagnostic continuation
+
+PR #156 is merged after successful CI. [Issue #157](https://github.com/bcsnpc/data-investigation-agent/issues/157) groups metadata-bound SQL count/sum reads, parameterized filters, pinned scan/connection checks, bounded transport and scoped evidence access. Live SQL count (100000 USD orders) and sum (69713713.6800 total amount) succeeded after one separately recorded failed attempt. All 427 regression tests passed; the focused source suite and PowerShell syntax checks passed. No snapshot or semantic equivalence is claimed. [Contract and remaining gates](source-catalog-diagnostics.md).
 
 ## Planning change record
 
