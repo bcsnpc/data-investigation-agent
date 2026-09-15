@@ -26,6 +26,8 @@ def read(store, model_id, receipt_id):
                            (receipt_id,)).fetchone() if row and has_decisions else None
     if row is None:
         raise KeyError('Receipt not found')
+    from .receipt_integrity import verify
+    with store.connect() as db:integrity=verify(db,'native',receipt_id,captured_row=[receipt_id,model_id,*row])
     created, status, raw_request, raw_result = row
     request = json.loads(raw_request)
     admission = json.loads(saved[1]) if saved else None
@@ -54,5 +56,5 @@ def read(store, model_id, receipt_id):
                 'verification_eligible': False, 'root_cause_verified': False,
                 'future_execution_guaranteed': False, 'scope_hash': request['scope_hash'],
                 'context_id': request['context_id'], 'request_hash': digest({k: v for k, v in request.items() if k != 'plan'})}
-    return {'id': receipt_id, 'model_id': model_id, 'created': created, 'status': status,
+    return {'id': receipt_id, 'integrity':integrity, 'model_id': model_id, 'created': created, 'status': status,
             'request': request, 'result': result, 'admission': admission, 'assessment': decision}

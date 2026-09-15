@@ -1,5 +1,7 @@
 # Metadata-driven investigator: product and engineering plan
 
+Implemented: [aggregate-to-record reconciliation](../record-aggregate-reconciliation-milestone.md) connects supported direct counts/sums to sealed captures and reviewed record projections. This is arithmetic consistency; shared-generation and effective-context proof remain open.
+
 Implemented: [reviewed record discovery](../reviewed-record-discovery-milestone.md) reuses model-level record projections across tickets with complete scope, typed catalog validation, revocation and paired adaptive evidence. Review remains intent, not causal or semantic proof.
 
 **Status: Phase A verified; B-E implementation slices and F/G governed adaptive diagnostic foundations implemented. [Reviewed watermark conditions](../watermark-freshness-milestone.md) extend the proof slice; [Reviewed mapping discovery and typed source scope](../reviewed-source-scopes-milestone.md) now reduce per-ticket setup; [Bounded record readback and keyed evidence](../keyed-readback-milestone.md) now support deeper diagnostics; B-G full exit gates remain open.** Updated 2026-09-14.

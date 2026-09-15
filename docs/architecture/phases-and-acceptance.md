@@ -1,5 +1,7 @@
 # Engineering phases and acceptance: revised A-J
 
+Implemented: [aggregate-to-record reconciliation](../record-aggregate-reconciliation-milestone.md) connects supported direct counts/sums to sealed captures and reviewed record projections. This is arithmetic consistency; shared-generation and effective-context proof remain open.
+
 Implemented: [reviewed record discovery](../reviewed-record-discovery-milestone.md) reuses model-level record projections across tickets with complete scope, typed catalog validation, revocation and paired adaptive evidence. Review remains intent, not causal or semantic proof.
 
 **Phase plan with implementation tracked separately.** This replaces the earlier A-I sequence with the [first-class product plan](../../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). Phase A is verified; see [baseline evidence](../bounded-v1-baseline.md). B/C have an [implemented onboarding/catalog slice](../model-onboarding.md); D/E now have [native diagnostic](../native-catalog-diagnostics.md) and [capability assessment](../capability-evidence-assessment.md) slices. F now has a [durable typed runtime foundation](../v2-diagnostic-milestone.md). G now has an [evidence-led diagnostic loop](../adaptive-investigation-milestone.md), with [shared usage and cancellation controls](../runtime-governance-milestone.md). D/F/G also include [bounded native/source readback and keyed evidence](../keyed-readback-milestone.md); complete published-generation and causal certification remain open. Remaining B-G gates and H-J are not complete.

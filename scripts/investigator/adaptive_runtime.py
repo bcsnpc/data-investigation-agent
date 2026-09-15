@@ -12,6 +12,7 @@ from .runtime import fingerprint
 from .adaptive_candidates import catalog, available, observation, diagnostic_pairs, record_pairs
 from .adaptive_planner import validate, VERSION
 from .usage_governance import UsageGovernor,UsageHold
+from .record_aggregate import derive as reconcile_aggregates
 
 
 def now():
@@ -23,6 +24,7 @@ def outcome(state):
     classification='UNRESOLVED' if reason in ('BUDGET_LIMIT','DEADLINE','PLANNER_FAILED','TOOL_UNAVAILABLE','PLANNER_COMPLETION_UNCERTAIN','REMOTE_COMPLETION_UNCERTAIN','USAGE_LIMIT','NO_PROGRESS','USER_CANCELLED') else 'INSUFFICIENT_EVIDENCE'
     return {'classification':classification,'stop_reason':reason,
             'record_comparisons':state.get('record_comparisons',[]),
+            'aggregate_reconciliations':state.get('aggregate_reconciliations',[]),
             'scoped_conditions':[{'observation_id':o['id'], **o['freshness']} for o in state['observations']
                                  if o.get('freshness')],
             'facts':state['observations'],'diagnostic_pairs':diagnostic_pairs(state['observations']),'hypotheses':[{**h,'verified':False} for h in state['hypotheses']],
@@ -125,6 +127,7 @@ class AdaptiveRuntime:
                 'observations':observations,'diagnostic_pairs':diagnostic_pairs(state['observations']),
                 'record_comparisons':[{**p,'differences':p.get('differences',[])[:3],
                                        'planner_examples_truncated':len(p.get('differences',[]))>3} for p in state.get('record_comparisons',[])],
+                'aggregate_reconciliations':state.get('aggregate_reconciliations',[]),
                 'hypotheses':state['hypotheses'],'gaps':state['gaps'],
                 'remaining_cloud_calls':state['envelope']['limits']['cloud_calls']-state['cloud_calls'],
                 'limitation':'All observations are diagnostic only; no semantic equivalence or causal proof.'}
@@ -240,6 +243,7 @@ class AdaptiveRuntime:
             item=observation(state['pending']['candidate'],child)
             if item and item['id'] not in {o['id'] for o in state['observations']}:state['observations'].append(item)
             state['record_comparisons']=record_pairs(state['envelope'],state['observations'])
+            state['aggregate_reconciliations']=reconcile_aggregates(self.store,state['model_id'],state['observations'])
             if self.governor:self.governor.settle(db,identity,'tool:'+str(state['cloud_calls']),uncertain=child['status'] not in ('COMPLETED','CANCELLED') and not any(s['status']=='FAILED' for s in child['steps']))
             if child['status']!='COMPLETED':self.stop(db,state,'TOOL_UNAVAILABLE','HELD')
             else:
@@ -335,5 +339,6 @@ class AdaptiveRuntime:
             if item and item['id'] not in {o['id'] for o in current['observations']}:
                 current['observations'].append(item)
                 current['record_comparisons']=record_pairs(current['envelope'],current['observations'])
+                current['aggregate_reconciliations']=reconcile_aggregates(self.store,current['model_id'],current['observations'])
                 self.save(db,current,'CANCELLED_RECEIPT_ADOPTED',{'observation_id':item['id']})
         return self.get(identity)

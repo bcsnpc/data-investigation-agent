@@ -1,14 +1,15 @@
 """Typed action admission independent of metric names and fixed layer order."""
 from .onboarding import fields, text, Conflict
 from . import native_diagnostics, source_diagnostics, comparisons
-from . import record_readback, record_comparison
+from . import record_readback, record_comparison, record_aggregate, record_bindings
 
 TOOLS = {'native': {'cloud':True,'receipt_table':'native_diagnostics'},
          'source': {'cloud':True,'receipt_table':'source_diagnostics'},
          'compare': {'cloud':False,'receipt_table':'comparison_assessments'},
          'native_records': {'cloud':True,'receipt_table':'record_readbacks'},
          'source_records': {'cloud':True,'receipt_table':'record_readbacks'},
-         'compare_records': {'cloud':False,'receipt_table':'record_comparisons'}}
+         'compare_records': {'cloud':False,'receipt_table':'record_comparisons'},
+         'reconcile_records': {'cloud':False,'receipt_table':record_aggregate.TABLE}}
 
 
 def normalize(request):
@@ -35,6 +36,20 @@ def compile_actions(store,config,request):
         if tool in ('native_records','source_records'):
             if not isinstance(payload,dict) or payload.get('model_id')!=model['id']:raise ValueError('Cross-model readback')
             compiled.append(record_readback.build(store,payload,config,tool));cloud+=1
+        elif tool=='reconcile_records':
+            fields(payload,['native_step','source_step','native_records_step','source_records_step','measure_id','record_mapping_id'])
+            for key,expected in [('native_step','native'),('source_step','source'),('native_records_step','native_records'),('source_records_step','source_records')]:
+                index=payload[key]
+                if type(index) is not int or not 0<=index<ordinal or actions[index]['tool']!=expected:raise ValueError('Reconciliation requires four prior typed reads')
+            review=record_bindings.read(store,model['id'],payload['record_mapping_id'])
+            record_bindings.validate(store,model['id'],review['body'],config)
+            if review['revocation'] is not None:raise Conflict('Record review revoked')
+            if review['body']['measure_id']!=payload['measure_id']:raise ValueError('Review measure differs')
+            native=compiled[payload['native_step']]
+            if payload['measure_id'] not in native['measure_ids'] or native['dimension_id'] is not None:raise ValueError('Reconciliation requires selected scalar')
+            for key in ('native_records_step','source_records_step'):
+                if actions[payload[key]]['input'].get('record_mapping_id')!=review['id']:raise ValueError('Record reads must pin reconciliation review')
+            compiled.append(payload)
         elif tool=='compare_records':
             fields(payload,['native_step','source_step','column_bindings','filter_bindings'])
             for key,expected in [('native_step','native_records'),('source_step','source_records')]:

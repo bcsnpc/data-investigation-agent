@@ -10,7 +10,7 @@ from uuid import uuid4
 
 from .onboarding import fields, text, digest, encoded, Conflict
 from . import native_diagnostics, source_diagnostics, comparisons
-from . import record_readback, record_comparison
+from . import record_readback, record_comparison, record_aggregate
 from .tool_registry import TOOLS, normalize, compile_actions
 
 
@@ -151,7 +151,7 @@ class Runtime:
                 db.execute("UPDATE v2_runs SET status='COMPLETED',lease_token=NULL,outcome=? WHERE id=?",(encoded(self.outcome(db,identity)),identity))
 
     def outcome(self,db,identity):
-        row=db.execute("SELECT result FROM v2_steps WHERE run_id=? AND tool IN ('compare','compare_records') AND status='COMPLETED' ORDER BY ordinal DESC LIMIT 1",(identity,)).fetchone()
+        row=db.execute("SELECT result FROM v2_steps WHERE run_id=? AND tool IN ('compare','compare_records','reconcile_records') AND status='COMPLETED' ORDER BY ordinal DESC LIMIT 1",(identity,)).fetchone()
         return json.loads(row[0]) if row else {'outcome':'INSUFFICIENT_EVIDENCE','reason':'Observations only; no comparison assessment',
                                               'root_cause_verified':False,'delivery_eligible':False}
 
@@ -178,7 +178,10 @@ class Runtime:
                     else:
                         ids = {s['ordinal']:s['receipt_id'] for s in db.execute('SELECT ordinal,receipt_id FROM v2_steps WHERE run_id=?',(identity,))}
                         comparison_request = {'native_receipt_id':ids[payload['native_step']], 'source_receipt_id':ids[payload['source_step']]}
-                        comparison_request.update({k:payload[k] for k in (('column_bindings','filter_bindings') if tool=='compare_records' else ('measure_id','mapping_id'))})
+                        if tool=='reconcile_records':
+                            comparison_request.update(native_records_id=ids[payload['native_records_step']],source_records_id=ids[payload['source_records_step']],
+                                                      measure_id=payload['measure_id'],record_mapping_id=payload['record_mapping_id'])
+                        else:comparison_request.update({k:payload[k] for k in (('column_bindings','filter_bindings') if tool=='compare_records' else ('measure_id','mapping_id'))})
                         db.execute('UPDATE v2_steps SET request_hash=? WHERE run_id=? AND ordinal=?',
                                    (digest(comparison_request),identity,ordinal))
                     db.execute("UPDATE v2_steps SET status='DISPATCHED' WHERE run_id=? AND ordinal=?",(identity,ordinal))
@@ -190,6 +193,8 @@ class Runtime:
                 elif tool in ('native_records','source_records'):
                     result=record_readback.run(self.store,payload,self.config,tool,
                         self.native_transport if tool=='native_records' else self.source_transport,receipt_id=step['receipt_id'])
+                elif tool=='reconcile_records':
+                    result=record_aggregate.assess(self.store,row['model_id'],comparison_request,assessment_id=step['receipt_id'])
                 elif tool=='compare_records':
                     result=record_comparison.assess(self.store,row['model_id'],comparison_request,assessment_id=step['receipt_id'])
                 else:
@@ -235,7 +240,7 @@ class Runtime:
                 self.event(db,identity,'RECONCILED_BEFORE_DISPATCH',{})
             if len(steps)>1:raise Conflict('Multiple orphaned dispatches require investigation')
             for step in steps:
-                if step['tool'] in ('compare','compare_records'):
+                if step['tool'] in ('compare','compare_records','reconcile_records'):
                     table=TOOLS[step['tool']]['receipt_table']
                     exists = db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",(table,)).fetchone()
                     saved = db.execute('SELECT body,hash,model_id FROM '+table+' WHERE id=?', (step['receipt_id'],)).fetchone() if exists else None
@@ -257,6 +262,9 @@ class Runtime:
                     if not receipt or receipt['status'] in ('RUNNING','INTERRUPTED'):raise Conflict('Remote completion is still uncertain')
                     if step['tool'] in ('native_records','source_records'):
                         record_readback.read(self.store,row['model_id'],step['receipt_id'])
+                    if step['tool'] in ('native','source'):
+                        from .receipt_integrity import verify
+                        verify(db,step['tool'],step['receipt_id'])
                     compiled = json.loads(receipt['request']); compiled.pop('plan')
                     if receipt['model_id'] != row['model_id'] or digest(compiled) != step['request_hash']:raise Conflict('Receipt does not match reserved request')
                     result = {'id':step['receipt_id'],'status':receipt['status'],'request_hash':step['request_hash'],'result':json.loads(receipt['result'])}

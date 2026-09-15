@@ -1,5 +1,7 @@
 # Model onboarding and reusable context
 
+Implemented: [aggregate-to-record reconciliation](../record-aggregate-reconciliation-milestone.md) connects supported direct counts/sums to sealed captures and reviewed record projections. This is arithmetic consistency; shared-generation and effective-context proof remain open.
+
 Implemented: [reviewed record discovery](../reviewed-record-discovery-milestone.md) reuses model-level record projections across tickets with complete scope, typed catalog validation, revocation and paired adaptive evidence. Review remains intent, not causal or semantic proof.
 
 Proposed implementation of sections 3–12 and 30 of the [product plan](../../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). Onboarding is an admin workflow, not a metadata script users must rerun for every ticket.
