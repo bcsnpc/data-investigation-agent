@@ -6,7 +6,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #162 is merged. The grouped adaptive diagnostic milestone is open in [PR #164](https://github.com/bcsnpc/data-investigation-agent/pull/164), tracked under [#163](https://github.com/bcsnpc/data-investigation-agent/issues/163). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #164 is merged. The grouped runtime-governance milestone is open in [PR #166](https://github.com/bcsnpc/data-investigation-agent/pull/166), tracked under [#165](https://github.com/bcsnpc/data-investigation-agent/issues/165). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
@@ -21,7 +21,7 @@ V2 makes model onboarding/admin readiness, versioned business context, delta sca
 | C Deep catalog/change detection | In progress | Retained definitions, immutable context/diffs, dependency graph and scan queue; broader DAX analysis and scheduled scans remain |
 | D Native execution/tools | In progress | [Native catalog diagnostics](native-catalog-diagnostics.md); upstream tools and complete context certification remain |
 | E Semantic capabilities | In progress | [Versioned capability/evidence decisions](capability-evidence-assessment.md); full context and upstream equivalence remain |
-| F Persisted state | In progress | [Durable typed diagnostic runtime](v2-diagnostic-milestone.md), budgets, receipts and recovery implemented; hypothesis lifecycle remains |
+| F Persisted state | In progress | Durable sessions/hypotheses, [shared usage and cancellation](runtime-governance-milestone.md), receipts and recovery implemented; broader operational acceptance remains |
 | G Dynamic planner/verifier | In progress | [Evidence-led diagnostic loop](adaptive-investigation-milestone.md); complete deterministic causal verification remains |
 | H Complex/unseen acceptance | Planned | Eight required acceptance families; frozen runtime, real DAX |
 | I Unified ticket workspace | Planned | Shared run/evidence across both views |
@@ -68,6 +68,10 @@ PR #160 merged with successful CI. [Issue #161](https://github.com/bcsnpc/data-i
 ## Evidence-led investigation milestone
 
 PR #162 merged with successful CI. [Issue #163](https://github.com/bcsnpc/data-investigation-agent/issues/163) groups adaptive candidate selection, persistent hypotheses, clarification successors, shared budgets and recovery, backend business/technical projections, provider protocol hardening and acceptance tests. No fixed metric-name or layer-order branch is added. **505 script tests passed**, including 33 focused adaptive tests. A live Azure-planned run performed two reads (Power BI and SQL each 100000); repeat execution added no reads/events, and both projections shared an outcome hash. Initial multi-action provider responses were rejected and fixed through strict single-function admission; those failed/probe calls are documented separately. F/G now have working foundations; causal proof, cross-session governance and all eight generality families remain pending. [Implementation and verification](adaptive-investigation-milestone.md).
+
+## Governed runtime milestone
+
+PR #164 merged with successful CI. [Issue #165](https://github.com/bcsnpc/data-investigation-agent/issues/165) groups shared daily request/output reservations, policy admission, cancellation across planner/child dispatch, retained cancelled receipts, progress stopping and operator/API controls. **528 script tests passed**, including 23 focused governance tests. Live session `72e6bd71-c9ea-471d-bf0d-816bcf42ea73` completed with two planner calls and two reads (Power BI/SQL each 100000), retaining four settled reservations. Repeat execution added no receipts/reservations. A queued-session cancellation made no cloud calls. [Evidence and limits](runtime-governance-milestone.md). Authoritative causal proof, eight-family generality and the full ticket workflow remain the major pending milestones.
 
 ## Planning change record
 

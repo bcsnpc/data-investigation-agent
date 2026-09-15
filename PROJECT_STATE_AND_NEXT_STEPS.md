@@ -12,7 +12,7 @@ the recent architecture discussion. Cloud deployment statements below describe
 previously recorded deployments and checks; cloud availability, credentials,
 capacity and billing were not rechecked for this document.
 
-**Latest status:** [Current delivery summary](docs/current-delivery-status.md) records the implemented v2 slices and remaining milestones after PR #162 and the [grouped adaptive investigation milestone](docs/adaptive-investigation-milestone.md). The assessment below describes the earlier bounded foundation.
+**Latest status:** [Current delivery summary](docs/current-delivery-status.md) records the implemented v2 slices and remaining milestones after PR #164 and the [grouped runtime governance milestone](docs/runtime-governance-milestone.md). The assessment below describes the earlier bounded foundation.
 
 ## 1. The current position
 

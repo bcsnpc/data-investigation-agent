@@ -42,32 +42,42 @@ def main():
     parser.add_argument('--config',type=Path,required=True);parser.add_argument('--database',type=Path,required=True)
     parser.add_argument('--environment',required=True)
     select=parser.add_mutually_exclusive_group(required=True)
-    select.add_argument('--envelope',type=Path);select.add_argument('--session-id')
+    select.add_argument('--envelope',type=Path);select.add_argument('--session-id');select.add_argument('--usage-status',action='store_true')
     parser.add_argument('--request-key');parser.add_argument('--approve',action='store_true')
     parser.add_argument('--status-only',action='store_true');parser.add_argument('--recover',action='store_true')
+    parser.add_argument('--usage-policy',type=Path)
+    parser.add_argument('--cancel',action='store_true');parser.add_argument('--reconcile-cancelled',action='store_true')
     parser.add_argument('--predecessor');parser.add_argument('--azure-settings',type=Path)
     args=parser.parse_args()
-    if not args.status_only and not args.approve:parser.error('Explicit scope approval required')
+    if not (args.status_only or args.usage_status) and not args.approve:parser.error('Explicit scope approval required')
     if args.envelope and (not args.request_key or args.status_only or args.recover):parser.error('New envelope needs request key and approval')
     if args.predecessor and not args.envelope:parser.error('Reviewed successor needs a new envelope')
     if args.status_only and args.recover:parser.error('Status and recovery are separate actions')
+    if sum(bool(x) for x in (args.status_only,args.recover,args.cancel,args.reconcile_cancelled,args.usage_status))>1:parser.error('Choose one control action')
+    if (args.cancel or args.reconcile_cancelled) and not args.session_id:parser.error('Cancellation requires session ID')
     config=load_config(args.config);store=ModelStore(args.database,config['storage']['database'],args.environment)
     runtime=Runtime(store,config,lambda p:native_transport(config,p),lambda p:source_transport(config,p))
     settings=json.loads(args.azure_settings.read_text(encoding='utf-8-sig')) if args.azure_settings else {}
     profile={'adapter':'azure','endpoint':settings.get('endpoint',os.environ.get('AZURE_OPENAI_ENDPOINT')),
              'deployment':settings.get('deployment',os.environ.get('AZURE_OPENAI_DEPLOYMENT'))}
-    agent=AdaptiveRuntime(runtime,azure_plan,planner_profile=profile);identity=args.session_id
+    policy=json.loads(args.usage_policy.read_text(encoding='utf-8-sig')) if args.usage_policy else None
+    agent=AdaptiveRuntime(runtime,azure_plan,planner_profile=profile,usage_policy=policy);identity=args.session_id
     try:
         if args.envelope:
             envelope=json.loads(args.envelope.read_text(encoding='utf-8-sig'))
             result=agent.revise(args.predecessor,envelope,args.request_key) if args.predecessor else agent.create(envelope,args.request_key)
             identity=result['id']
+        if args.usage_status:
+            if agent.governor is None:raise ValueError('Usage policy required')
+            print(json.dumps(agent.governor.snapshot()));return 0
         if args.status_only:result=agent.get(identity)
+        elif args.cancel:result=agent.cancel(identity)
+        elif args.reconcile_cancelled:result=agent.reconcile_cancelled(identity)
         else:
             with local_azure_key(args.azure_settings):
                 if args.recover:result=agent.recover(identity)
                 else:result=agent.run(identity)
-        print(json.dumps(result));return 0 if result['status'] in ('COMPLETED','NEEDS_INPUT') or args.status_only else 1
+        print(json.dumps(result));return 0 if result['status'] in ('COMPLETED','NEEDS_INPUT','CANCELLED') or args.status_only else 1
     except Exception as exc:
         print(json.dumps({'status':'HELD','session_id':identity,'error_type':type(exc).__name__}));return 1
 

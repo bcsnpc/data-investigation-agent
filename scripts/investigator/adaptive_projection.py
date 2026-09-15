@@ -25,6 +25,7 @@ def read(store,model_id,identity,audience='technical'):
                       budgets={k:state[k] for k in ('planner_calls','cloud_calls','input_characters')})
     else:
         shared['summary']='Additional evidence is needed before we can explain the reported difference.'
-        if state['status']=='NEEDS_INPUT':shared['summary']='Please clarify the question below before further checks.'
+        if state['status']=='CANCELLED':shared['summary']='The investigation was cancelled. Captured results remain available.'
+        elif state['status']=='NEEDS_INPUT':shared['summary']='Please clarify the question below before further checks.'
         elif state['status'] in ('READY','PLANNING','EXECUTING'):shared['summary']='The investigation is checking the approved information.'
     return shared

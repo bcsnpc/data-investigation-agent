@@ -18,7 +18,7 @@ from .adaptive_projection import read as read_adaptive
 ASSETS = Path(__file__).resolve().parents[2] / 'apps' / 'model-admin'
 
 
-def create_app(store, admin_token, reader_token, scans=None):
+def create_app(store, admin_token, reader_token, scans=None, investigations=None):
     for token in (admin_token, reader_token):
         if not isinstance(token, str) or len(token) < 32 or not token.isascii():
             raise ValueError('Tokens must have at least 32 ASCII characters')
@@ -51,6 +51,9 @@ def create_app(store, admin_token, reader_token, scans=None):
                      'execution_available':False} for m in store.list(True) for r in m['reports']]})
             if not is_admin:
                 return respond('403 Forbidden',{'error':'Admin role required'})
+            if path=='/api/v2/admin/usage' and method=='GET':
+                if investigations is None or investigations.governor is None:return respond('503 Service Unavailable',{'error':'Usage controller not configured'})
+                return respond('200 OK',investigations.governor.snapshot())
             if path=='/api/v2/admin/tools' and method=='GET':
                 return respond('200 OK',{'tools':[{'name':name,'cloud_call_cost':int(spec['cloud'])} for name,spec in TOOLS.items()],
                                          'action_limit':20,'cloud_call_limit':10,'adaptive_planner_available':True,'execution_entrypoint':'operator_cli','proof_complete':False})
@@ -75,6 +78,11 @@ def create_app(store, admin_token, reader_token, scans=None):
                 return respond('404 Not Found',{'error':'Not found'})
             parts = path[len(base)+1:].split('/')
             identity = parts[0]
+            if len(parts)==4 and parts[1]=='adaptive-sessions' and parts[3]=='cancel' and method=='POST':
+                fields(body,[])
+                read_adaptive(store,identity,parts[2])
+                if investigations is None:return respond('503 Service Unavailable',{'error':'Session controller not configured'})
+                return respond('200 OK',investigations.cancel(parts[2]))
             if len(parts)==4 and parts[1]=='adaptive-sessions' and method=='GET':
                 return respond('200 OK',read_adaptive(store,identity,parts[2],parts[3]))
             if len(parts)==2 and parts[1]=='proof-readiness' and method=='GET':
