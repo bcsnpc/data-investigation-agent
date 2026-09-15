@@ -1,5 +1,7 @@
 # Reviewed record discovery
 
+Review: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
+
 Tracked by [#173](https://github.com/bcsnpc/data-investigation-agent/issues/173). Builds on merged PR #172.
 
 ## Problem and delivered behavior

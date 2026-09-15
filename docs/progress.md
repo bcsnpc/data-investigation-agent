@@ -1,5 +1,7 @@
 # Project progress
 
+Review: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
+
 **Latest:** PR #172 merged. [Reviewed record discovery](reviewed-record-discovery-milestone.md) adds reusable model reviews, query-free draft preview, automatic paired checks and revocation gates; tracked by [#173](https://github.com/bcsnpc/data-investigation-agent/issues/173). 641 regression tests passed, including 27 focused tests.
 
 Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90–100.

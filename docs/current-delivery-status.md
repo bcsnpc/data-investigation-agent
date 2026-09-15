@@ -1,5 +1,7 @@
 # Current delivery status
 
+Review: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
+
 Updated 2026-09-14. **PR #172 is merged.** The next grouped milestone adds [reviewed record discovery](reviewed-record-discovery-milestone.md), tracked by [#173](https://github.com/bcsnpc/data-investigation-agent/issues/173).
 
 ## What is built
