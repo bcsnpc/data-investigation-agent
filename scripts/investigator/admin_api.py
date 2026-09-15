@@ -13,6 +13,7 @@ from .runtime import read_run
 from .aggregate_semantics import describe as describe_aggregate, dependency_shapes
 from .proof_requirements import readiness as proof_readiness
 from .tool_registry import TOOLS
+from .adaptive_projection import read as read_adaptive
 
 ASSETS = Path(__file__).resolve().parents[2] / 'apps' / 'model-admin'
 
@@ -52,7 +53,7 @@ def create_app(store, admin_token, reader_token, scans=None):
                 return respond('403 Forbidden',{'error':'Admin role required'})
             if path=='/api/v2/admin/tools' and method=='GET':
                 return respond('200 OK',{'tools':[{'name':name,'cloud_call_cost':int(spec['cloud'])} for name,spec in TOOLS.items()],
-                                         'action_limit':20,'cloud_call_limit':10,'adaptive_planner_available':False})
+                                         'action_limit':20,'cloud_call_limit':10,'adaptive_planner_available':True,'execution_entrypoint':'operator_cli','proof_complete':False})
             if path=='/api/v2/admin/connection' and method=='GET':
                 return respond('200 OK',{'configured':scans is not None,
                      'workspace':scans.workspace if scans else None,
@@ -74,6 +75,8 @@ def create_app(store, admin_token, reader_token, scans=None):
                 return respond('404 Not Found',{'error':'Not found'})
             parts = path[len(base)+1:].split('/')
             identity = parts[0]
+            if len(parts)==4 and parts[1]=='adaptive-sessions' and method=='GET':
+                return respond('200 OK',read_adaptive(store,identity,parts[2],parts[3]))
             if len(parts)==2 and parts[1]=='proof-readiness' and method=='GET':
                 return respond('200 OK',proof_readiness(store.get(identity)))
             if len(parts)==3 and parts[1]=='investigations' and method=='GET':

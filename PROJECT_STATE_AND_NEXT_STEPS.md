@@ -5,14 +5,14 @@
 **Reviewed working branch:** `feature/business-demo`, commit `c92d56b`  
 **Purpose:** An implementation handoff and next-step decision document, not a claim of product completion.
 
-**Revised engineering plan (first-class product direction):** [Metadata-driven architecture and phased acceptance](docs/architecture/README.md). This package governs the next phases. The historical assessment below is retained; current delivery status is in [the tracker](docs/progress.md). Model onboarding, scan/dependency analysis and [native diagnostic reads](docs/native-catalog-diagnostics.md) now have implementation slices; the adaptive investigator remains pending.
+**Revised engineering plan (first-class product direction):** [Metadata-driven architecture and phased acceptance](docs/architecture/README.md). This package governs the next phases. The historical assessment below is retained; current delivery status is in [the tracker](docs/progress.md). Model onboarding, scan/dependency analysis and [native diagnostic reads](docs/native-catalog-diagnostics.md) now have implementation slices; the [adaptive diagnostic loop](docs/adaptive-investigation-milestone.md) is now implemented, while complete causal investigation remains pending.
 
 This assessment uses the repository's code, configuration, validation records and
 the recent architecture discussion. Cloud deployment statements below describe
 previously recorded deployments and checks; cloud availability, credentials,
 capacity and billing were not rechecked for this document.
 
-**Latest status:** [Current delivery summary](docs/current-delivery-status.md) records the implemented v2 slices and remaining milestones after PR #160 and the [grouped durable diagnostic milestone](docs/v2-diagnostic-milestone.md). The assessment below describes the earlier bounded foundation.
+**Latest status:** [Current delivery summary](docs/current-delivery-status.md) records the implemented v2 slices and remaining milestones after PR #162 and the [grouped adaptive investigation milestone](docs/adaptive-investigation-milestone.md). The assessment below describes the earlier bounded foundation.
 
 ## 1. The current position
 
