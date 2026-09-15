@@ -6,6 +6,8 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #152 is merged; D/E capability and evidence assessment continues under #153. The historical planning text below is retained for context.
+
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
 The working foundation includes the 100,000-order business baseline and portal, SQL/Fabric/Power BI data platform, metadata/lineage/provenance collection, a bounded two-metric investigator, reviewed ticket/evidence workflows, local defect evaluations, demos and routing infrastructure. It is not yet the metadata-driven product. Live deployment availability and current PR checks were not revalidated during this plan update; baseline reconciliation remains Phase A.
@@ -18,7 +20,7 @@ V2 makes model onboarding/admin readiness, versioned business context, delta sca
 | B Model onboarding | In progress | [Working admin/catalog slice](model-onboarding.md); scan worker added, hosted onboarding remains |
 | C Deep catalog/change detection | In progress | Retained definitions, immutable context/diffs, dependency graph and scan queue; broader DAX analysis and scheduled scans remain |
 | D Native execution/tools | In progress | [Native catalog diagnostics](native-catalog-diagnostics.md); upstream tools and complete context certification remain |
-| E Semantic capabilities | Planned | Accurate per-metric support/readiness |
+| E Semantic capabilities | In progress | [Versioned capability/evidence decisions](capability-evidence-assessment.md); full context and upstream equivalence remain |
 | F Persisted state | Planned | Versioned context, evidence, budget and recovery |
 | G Dynamic planner/verifier | Planned | Evidence-dependent tests and deterministic claims |
 | H Complex/unseen acceptance | Planned | Eight required acceptance families; frozen runtime, real DAX |
@@ -42,6 +44,10 @@ PR #148 is merged. [Issue #149](https://github.com/bcsnpc/data-investigation-age
 ## Native diagnostic continuation
 
 PR #150 is merged. [Issue #151](https://github.com/bcsnpc/data-investigation-agent/issues/151) groups catalog-selected native measure, dependency and dimension reads, bounded transport, typed evidence and durable receipts. Two live Power BI reads succeeded, including Average Order Value and its discovered dependencies. This is operator-driven diagnostic evidence, not autonomous investigation or verified root cause. [Implementation, verification and remaining work](native-catalog-diagnostics.md). B/C remain in progress; D is now in progress.
+
+## Capability and evidence continuation
+
+PR #152 is merged after successful CI. [Issue #153](https://github.com/bcsnpc/data-investigation-agent/issues/153) groups per-measure capability decisions, dry-run plan assessment, saved admission records and scoped evidence APIs. Historical native execution remains distinct from verified context or cause. All 407 regression tests passed. Retained live receipts and the 25-measure catalog were assessed without new cloud reads. [Details](capability-evidence-assessment.md).
 
 ## Planning change record
 

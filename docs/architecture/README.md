@@ -71,7 +71,7 @@ flowchart TD
 | B | Product model onboarding foundation | In progress; [implemented slice](../model-onboarding.md) |
 | C | Deep semantic catalog and change detection | In progress; [scan queue and dependency analysis](../catalog-scans-and-semantics.md) |
 | D | Native semantic execution and typed tools | In progress; [native catalog diagnostics](../native-catalog-diagnostics.md) |
-| E | Semantic operation and capability evaluator | Planned |
+| E | Semantic operation and capability evaluator | In progress; [capability/evidence decisions](../capability-evidence-assessment.md) |
 | F | Persisted investigation state and runtime registry | Planned |
 | G | Evidence-led planner and deterministic verification | Planned |
 | H | Frozen-engine complex/unseen metric acceptance | Planned |
