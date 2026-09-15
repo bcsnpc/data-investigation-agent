@@ -1,6 +1,6 @@
 # Reviewed watermark freshness evidence
 
-Tracked by [#167](https://github.com/bcsnpc/data-investigation-agent/issues/167). Builds on merged PR #166. This is a grouped D/F/G implementation slice, not completion of causal investigation or the eight-family acceptance gate.
+Tracked by [#167](https://github.com/bcsnpc/data-investigation-agent/issues/167), implemented in [PR #168](https://github.com/bcsnpc/data-investigation-agent/pull/168). Builds on merged PR #166. This is a grouped D/F/G implementation slice, not completion of causal investigation or the eight-family acceptance gate.
 
 ## Behavior
 

@@ -6,7 +6,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #166 is merged. The grouped [watermark freshness milestone](watermark-freshness-milestone.md) is tracked under [#167](https://github.com/bcsnpc/data-investigation-agent/issues/167). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #166 is merged. The grouped [watermark freshness milestone](watermark-freshness-milestone.md) is tracked under [#167](https://github.com/bcsnpc/data-investigation-agent/issues/167), implemented in [PR #168](https://github.com/bcsnpc/data-investigation-agent/pull/168). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 

@@ -1,6 +1,6 @@
 # Current delivery status
 
-Updated 2026-09-14. **PR #166 is merged.** The next grouped milestone adds [reviewed watermark freshness evidence](watermark-freshness-milestone.md), tracked by [#167](https://github.com/bcsnpc/data-investigation-agent/issues/167).
+Updated 2026-09-14. **PR #166 is merged.** The next grouped milestone adds [reviewed watermark freshness evidence](watermark-freshness-milestone.md), tracked by [#167](https://github.com/bcsnpc/data-investigation-agent/issues/167), implemented in [PR #168](https://github.com/bcsnpc/data-investigation-agent/pull/168).
 
 ## What is built
 
