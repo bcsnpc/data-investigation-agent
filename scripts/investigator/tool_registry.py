@@ -1,10 +1,14 @@
 """Typed action admission independent of metric names and fixed layer order."""
 from .onboarding import fields, text, Conflict
 from . import native_diagnostics, source_diagnostics, comparisons
+from . import record_readback, record_comparison
 
 TOOLS = {'native': {'cloud':True,'receipt_table':'native_diagnostics'},
          'source': {'cloud':True,'receipt_table':'source_diagnostics'},
-         'compare': {'cloud':False,'receipt_table':'comparison_assessments'}}
+         'compare': {'cloud':False,'receipt_table':'comparison_assessments'},
+         'native_records': {'cloud':True,'receipt_table':'record_readbacks'},
+         'source_records': {'cloud':True,'receipt_table':'record_readbacks'},
+         'compare_records': {'cloud':False,'receipt_table':'record_comparisons'}}
 
 
 def normalize(request):
@@ -28,7 +32,18 @@ def compile_actions(store,config,request):
     for ordinal,action in enumerate(actions):
         fields(action,['tool','input']);tool=action['tool'];payload=action['input']
         if not isinstance(tool,str) or tool not in TOOLS:raise ValueError('Unknown registered tool')
-        if tool in ('native','source'):
+        if tool in ('native_records','source_records'):
+            if not isinstance(payload,dict) or payload.get('model_id')!=model['id']:raise ValueError('Cross-model readback')
+            compiled.append(record_readback.build(store,payload,config,tool));cloud+=1
+        elif tool=='compare_records':
+            fields(payload,['native_step','source_step','column_bindings','filter_bindings'])
+            for key,expected in [('native_step','native_records'),('source_step','source_records')]:
+                index=payload[key]
+                if type(index) is not int or not 0<=index<ordinal or actions[index]['tool']!=expected:raise ValueError('Comparison requires prior record reads')
+            record_comparison.validate_projection(compiled[payload['native_step']],compiled[payload['source_step']],
+                                                 payload['column_bindings'],payload['filter_bindings'])
+            compiled.append(payload)
+        elif tool in ('native','source'):
             if not isinstance(payload,dict) or payload.get('model_id')!=model['id']:raise ValueError('Cross-model action')
             compiled.append(native_diagnostics.build(model,payload) if tool=='native' else source_diagnostics.build(store,payload,config))
             cloud+=1

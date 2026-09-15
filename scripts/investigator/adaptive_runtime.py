@@ -9,7 +9,7 @@ from uuid import uuid4
 
 from .onboarding import digest, encoded, text, Conflict
 from .runtime import fingerprint
-from .adaptive_candidates import catalog, available, observation, diagnostic_pairs
+from .adaptive_candidates import catalog, available, observation, diagnostic_pairs, record_pairs
 from .adaptive_planner import validate, VERSION
 from .usage_governance import UsageGovernor,UsageHold
 
@@ -22,6 +22,7 @@ def outcome(state):
     reason=state.get('stop_reason')
     classification='UNRESOLVED' if reason in ('BUDGET_LIMIT','DEADLINE','PLANNER_FAILED','TOOL_UNAVAILABLE','PLANNER_COMPLETION_UNCERTAIN','REMOTE_COMPLETION_UNCERTAIN','USAGE_LIMIT','NO_PROGRESS','USER_CANCELLED') else 'INSUFFICIENT_EVIDENCE'
     return {'classification':classification,'stop_reason':reason,
+            'record_comparisons':state.get('record_comparisons',[]),
             'scoped_conditions':[{'observation_id':o['id'], **o['freshness']} for o in state['observations']
                                  if o.get('freshness')],
             'facts':state['observations'],'diagnostic_pairs':diagnostic_pairs(state['observations']),'hypotheses':[{**h,'verified':False} for h in state['hypotheses']],
@@ -78,7 +79,7 @@ class AdaptiveRuntime:
                'catalog_hash':digest(candidates),'planner_profile_hash':digest(self.planner_profile),'planner_version':VERSION,'status':'READY','token':None,
                'deadline':self.clock()+envelope['limits']['wall_seconds'],'planner_calls':0,'cloud_calls':0,
                'usage_policy_hash':self.governor.hash if self.governor else None,'no_progress':0,
-               'input_characters':0,'attempted':[],'observations':[],'hypotheses':[],'decisions':[],
+                'input_characters':0,'attempted':[],'observations':[],'record_comparisons':[],'hypotheses':[],'decisions':[],
                'question':None,'stop_reason':None,'pending':None,'predecessor':predecessor,'gaps':gaps}
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE')
@@ -109,12 +110,21 @@ class AdaptiveRuntime:
                   'dimension_id':c['dimension_id'],'depth':c['depth'],
                   'operations':model['context'].get('semantic_graph',{}).get('measures',{}).get(c['measure_id'],{}).get('operations',[]),
                   'source_binding':c.get('reviewed_mapping') or ('OPERATOR_SELECTED_NOT_EQUIVALENCE_PROOF' if c['tool']=='source' else None),
-                  'source_operation':c['plan'].get('operation'), 'approved_filters':c['plan']['filters']} for c in candidates]
-        observations=[{**o,'values':o['values'][:20],
-                       'planner_sample_truncated':len(o['values'])>20} for o in state['observations']]
+                  'source_operation':c['plan'].get('operation'), 'approved_filters':c['plan']['filters'],
+                  'projected_columns':c['plan'].get('column_ids'),'record_limit':c['plan'].get('limit')} for c in candidates]
+        observations=[]
+        for o in state['observations']:
+            sampled=[];size=0
+            for value in o['values'][:20]:
+                size+=len(encoded(value))
+                if size>6000:break
+                sampled.append(value)
+            observations.append({**o,'values':sampled,'planner_sample_truncated':len(sampled)<len(o['values'])})
         return {'symptom':state['envelope']['symptom'],'scope_hash':state['scope_hash'],
                 'filters':state['envelope']['filters'],'candidates':choices,
                 'observations':observations,'diagnostic_pairs':diagnostic_pairs(state['observations']),
+                'record_comparisons':[{**p,'differences':p.get('differences',[])[:3],
+                                       'planner_examples_truncated':len(p.get('differences',[]))>3} for p in state.get('record_comparisons',[])],
                 'hypotheses':state['hypotheses'],'gaps':state['gaps'],
                 'remaining_cloud_calls':state['envelope']['limits']['cloud_calls']-state['cloud_calls'],
                 'limitation':'All observations are diagnostic only; no semantic equivalence or causal proof.'}
@@ -180,7 +190,7 @@ class AdaptiveRuntime:
             elif decision['action']=='STOP':self.stop(db,state,decision['stop_reason'])
             else:
                 candidate=next(c for c in choices if c['id']==decision['candidate_id'])
-                seconds=300 if candidate['tool']=='source' else 120
+                seconds=300 if candidate['tool'] in ('source','source_records') else 120
                 if self.clock()+seconds>state['deadline']:self.stop(db,state,'DEADLINE')
                 else:
                     if self.governor:
@@ -205,7 +215,7 @@ class AdaptiveRuntime:
             state=self.load(db,identity)
             if state['token']!=token or state['status']!='EXECUTING':raise Conflict('Dispatcher fenced')
             self.admit(state);pending=state['pending'];candidate=pending['candidate']
-            if self.clock()+(300 if candidate['tool']=='source' else 120)>state['deadline']:
+            if self.clock()+(300 if candidate['tool'] in ('source','source_records') else 120)>state['deadline']:
                 self.stop(db,state,'DEADLINE','HELD');return self.project_after_commit(db,state)
         child=self.runtime.create({'model_id':state['model_id'],'call_budget':1,
                                   'actions':[{'tool':candidate['tool'],'input':candidate['plan']}]},pending['key'])
@@ -229,6 +239,7 @@ class AdaptiveRuntime:
             if child['id']!=state['pending']['run_id']:raise Conflict('Child run differs')
             item=observation(state['pending']['candidate'],child)
             if item and item['id'] not in {o['id'] for o in state['observations']}:state['observations'].append(item)
+            state['record_comparisons']=record_pairs(state['envelope'],state['observations'])
             if self.governor:self.governor.settle(db,identity,'tool:'+str(state['cloud_calls']),uncertain=child['status'] not in ('COMPLETED','CANCELLED') and not any(s['status']=='FAILED' for s in child['steps']))
             if child['status']!='COMPLETED':self.stop(db,state,'TOOL_UNAVAILABLE','HELD')
             else:
@@ -280,7 +291,7 @@ class AdaptiveRuntime:
         if child['status']=='READY':
             with self.runtime.db() as db:
                 state=self.load(db,identity);self.admit(state)
-                if self.clock()+(300 if pending['candidate']['tool']=='source' else 120)>state['deadline']:
+                if self.clock()+(300 if pending['candidate']['tool'] in ('source','source_records') else 120)>state['deadline']:
                     self.stop(db,state,'DEADLINE','HELD');return self.project_after_commit(db,state)
             child=self.runtime.execute(child['id'])
         return self.consume(identity,token,child)
@@ -323,5 +334,6 @@ class AdaptiveRuntime:
             if current['status']!='CANCELLED':raise Conflict('Cancellation state differs')
             if item and item['id'] not in {o['id'] for o in current['observations']}:
                 current['observations'].append(item)
+                current['record_comparisons']=record_pairs(current['envelope'],current['observations'])
                 self.save(db,current,'CANCELLED_RECEIPT_ADOPTED',{'observation_id':item['id']})
         return self.get(identity)

@@ -7,7 +7,7 @@ CONTEXT_CHANGERS={'FILTERED_MEASURE','TIME_SHIFT','RELATIONSHIP_SWITCH','CONDITI
 
 def catalog(store,config,envelope):
     fields(envelope,['model_id','revision','context_id','measure_id','filters','dimension_ids','source_tests','symptom','limits']+
-           (['source_selection'] if 'source_selection' in envelope else []))
+           [k for k in ('source_selection','record_tests','record_pairs') if k in envelope])
     if 'source_selection' in envelope and (envelope['source_selection']!='reviewed_mappings' or envelope['source_tests']!=[]):
         raise ValueError('Reviewed discovery requires an empty manual source-test list')
     text(envelope['symptom'],2000)
@@ -60,6 +60,31 @@ def catalog(store,config,envelope):
         candidates.append({'id':identity,'tool':'source','plan':plan,'measure_id':source['measure_id'],
                            'dimension_id':None,'depth':0,'parent':None,
                            'reviewed_mapping':compiled.get('reviewed_mapping')})
+    record_tests=envelope.get('record_tests',[])
+    if not isinstance(record_tests,list) or len(record_tests)>4:raise ValueError('Record candidate budget exceeded')
+    from . import record_readback
+    for test in record_tests:
+        fields(test,['measure_id','tool','plan'])
+        if test['measure_id'] not in visited or test['tool'] not in ('native_records','source_records'):raise ValueError('Record test outside admitted scope')
+        plan=test['plan']
+        if any(plan.get(k)!=envelope[k] for k in ('model_id','revision','context_id')):raise Conflict('Record scope is stale')
+        if test['tool']=='native_records' and plan['filters']!=envelope['filters']:raise ValueError('Native readback must retain full native scope')
+        record_readback.build(store,plan,config,test['tool'])
+        identity=digest({'tool':test['tool'],'plan':plan})
+        if any(c['id']==identity for c in candidates):raise ValueError('Duplicate record candidate')
+        candidates.append({'id':identity,'tool':test['tool'],'plan':plan,'measure_id':test['measure_id'],
+                           'dimension_id':None,'depth':0,'parent':test['measure_id']})
+    pairs=envelope.get('record_pairs',[])
+    if not isinstance(pairs,list) or len(pairs)>2:raise ValueError('Record pair budget exceeded')
+    from .record_comparison import validate_projection
+    for pair in pairs:
+        fields(pair,['native_test','source_test','column_bindings','filter_bindings'])
+        for key,tool in [('native_test','native_records'),('source_test','source_records')]:
+            index=pair[key]
+            if type(index) is not int or not 0<=index<len(record_tests) or record_tests[index]['tool']!=tool:raise ValueError('Record pair needs approved typed tests')
+        left=record_tests[pair['native_test']];right=record_tests[pair['source_test']]
+        if left['measure_id']!=right['measure_id']:raise ValueError('Record pair crosses measure scope')
+        validate_projection(left['plan'],right['plan'],pair['column_bindings'],pair['filter_bindings'])
     if len(candidates)>100:raise ValueError('Candidate catalog too large')
     return candidates,gaps
 
@@ -77,12 +102,37 @@ def observation(candidate,child):
     data=receipt.get('result') or {}
     return {'id':receipt['id'],'candidate_id':candidate['id'],'run_id':child['id'],
             'tool':candidate['tool'],'measure_id':candidate['measure_id'],'dimension_id':candidate['dimension_id'],
-            'status':receipt['status'],'values':(data.get('rows',[]) if candidate['tool']=='native' else [data.get('value')]) if receipt['status']=='COMPLETED' else [],
+            'status':receipt['status'],'values':(data.get('rows',[]) if candidate['tool'] in ('native','native_records','source_records') else [data.get('value')]) if receipt['status']=='COMPLETED' else [],
             'completeness':data.get('completeness','SOURCE_AGGREGATE'),
             'request_hash':receipt['request_hash'],'proof_eligible':False,
             'source_operation':candidate['plan'].get('operation'),
             'reviewed_mapping':candidate.get('reviewed_mapping'),
-            'freshness':data.get('freshness')}
+            'freshness':data.get('freshness'),
+            'record_readback':dict({k:data.get(k) for k in ('column_ids','key_column_ids','types','record_hash','observed_row_count')},
+                                   filters=candidate['plan']['filters'],context_hash=child.get('context_hash')) if candidate['tool'] in ('native_records','source_records') else None}
+
+
+def record_pairs(envelope,observations):
+    """Deterministic local evidence from approved pairs; no additional data call."""
+    from .record_comparison import compare
+    results=[]
+    for pair in envelope.get('record_pairs',[]):
+        receipts=[]
+        for key in ('native_test','source_test'):
+            test=envelope['record_tests'][pair[key]]
+            identity=digest({'tool':test['tool'],'plan':test['plan']})
+            observed=next((o for o in observations if o['candidate_id']==identity),None)
+            if not observed:break
+            info=observed['record_readback']
+            receipts.append({'id':observed['id'],'status':observed['status'],'local_context_current':True,
+                             'request':{**info,'backend':observed['tool'],'plan':{'filters':info['filters']}},
+                             'result':{'rows':observed['values'],'completeness':observed['completeness']}})
+        if len(receipts)==2:
+            # Failed reads carry no shape. Keep their unavailable evidence explicit.
+            if any(r['status']!='COMPLETED' for r in receipts):
+                results.append({'status':'NOT_ASSESSED','gaps':['READBACK_UNAVAILABLE'],'root_cause_verified':False})
+            else:results.append(compare(*receipts,pair['column_bindings'],pair['filter_bindings']))
+    return results
 
 
 def diagnostic_pairs(observations):
