@@ -6,7 +6,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #168 is merged. The grouped [reviewed source scope milestone](reviewed-source-scopes-milestone.md) is tracked under [#169](https://github.com/bcsnpc/data-investigation-agent/issues/169), implemented in [PR #170](https://github.com/bcsnpc/data-investigation-agent/pull/170). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #170 is merged. The grouped [keyed readback milestone](keyed-readback-milestone.md) is tracked under [#171](https://github.com/bcsnpc/data-investigation-agent/issues/171). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
@@ -28,6 +28,10 @@ V2 makes model onboarding/admin readiness, versioned business context, delta sca
 | J Reviewed routing | Planned | Authorized eligible draft/delivery/triage |
 
 No v2 phase is marked complete by documentation. Detailed tasks, files, tests, risks and non-goals are in [phases and acceptance](architecture/phases-and-acceptance.md). Preserve legacy metric/scope/provenance/lab/delivery regressions. The latest product classification set is versioned; historical source-issue outcomes must not be relabeled as newly proven application defects.
+
+## Bounded readback and keyed evidence
+
+Added native/SQL projected record groups with multiplicity, strict completeness detection, keyed differences, receipt integrity, durable recovery and adaptive paired evidence. 35 focused tests include equal totals hiding changed keys and crash/cancellation paths. A live five-order comparison returned matching projected values from Power BI and SQL while preserving generation/semantic/identity proof gaps. See [scope, operational use and live evidence](keyed-readback-milestone.md). D/F/G remain in progress; H is not passed.
 
 ## Reviewed source scopes and onboarding reuse
 

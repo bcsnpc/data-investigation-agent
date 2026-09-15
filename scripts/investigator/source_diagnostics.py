@@ -124,6 +124,7 @@ def build(store, plan, config):
     query = ('SELECT ' + aggregate + ' AS value,COUNT_BIG(*) AS row_count,' + nonblank + ' AS nonblank_count FROM ' +
              quote(meta['schema_name']) + '.' + quote(meta['name']) + ' WHERE ' + ' AND '.join(predicates) + ' OPTION (MAXDOP 1)')
     request = {'version': 'source-aggregate-v1', 'query': query, 'parameters': parameters,
+            'object_sql':quote(meta['schema_name'])+'.'+quote(meta['name']), 'predicate_sql':' AND '.join(predicates),
             'model_id': model['id'], 'context_id': model['context_id'], 'context_hash': digest(model['context']),
             'scan_id': model['context']['scan_id'], 'scope_hash': digest(plan),
             'object_id': obj['id'], 'object_hash': obj['hash'],

@@ -16,6 +16,7 @@ from .tool_registry import TOOLS
 from .adaptive_projection import read as read_adaptive
 from . import freshness
 from . import comparisons
+from . import record_readback, record_comparison
 
 ASSETS = Path(__file__).resolve().parents[2] / 'apps' / 'model-admin'
 
@@ -80,6 +81,12 @@ def create_app(store, admin_token, reader_token, scans=None, investigations=None
                 return respond('404 Not Found',{'error':'Not found'})
             parts = path[len(base)+1:].split('/')
             identity = parts[0]
+            if len(parts)==3 and parts[1]=='record-readbacks' and method=='GET':
+                return respond('200 OK',record_readback.read(store,identity,parts[2]))
+            if len(parts)==2 and parts[1]=='record-comparisons' and method=='POST':
+                return respond('200 OK',record_comparison.assess(store,identity,body))
+            if len(parts)==3 and parts[1]=='record-comparisons' and method=='GET':
+                return respond('200 OK',record_comparison.read(store,identity,parts[2]))
             if len(parts)==2 and parts[1]=='diagnostic-preview' and method=='POST':
                 if investigations is None:return respond('503 Service Unavailable',{'error':'Connection controller required'})
                 if not isinstance(body,dict) or body.get('model_id')!=identity:raise ValueError('Cross-model preview')

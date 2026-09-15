@@ -29,10 +29,12 @@ def read_once(config, request):
     payload = {'server': config['sql']['server'], 'database': config['sql']['database'],
                'credential_file': config['sql']['auth']['credential_file'],
                'query': request['query'], 'parameters': request['parameters']}
+    if request.get('response_mode')=='records':
+        payload.update(response_mode='records',max_rows=request['max_rows'],result_columns=request['result_columns'])
     completed = subprocess.run(['powershell', '-NoProfile', '-NonInteractive', '-File',
         str(ROOT / 'infra/scripts/Read-CatalogAggregate.ps1')],
         input=json.dumps(payload), capture_output=True, text=True, encoding='utf-8', timeout=90)
-    if len(completed.stdout) > 8192:
+    if len(completed.stdout) > (2*1024*1024 if request.get('response_mode')=='records' else 8192):
         raise RuntimeError('Source transport unavailable')
     result = json.loads(completed.stdout)
     if completed.returncode:

@@ -28,6 +28,32 @@ try {
         $command.Parameters[$parameter.name].Value = $parameter.value
     }
     $reader = $command.ExecuteReader()
+    if ($request.response_mode -eq 'records') {
+        if ($request.max_rows -lt 2 -or $request.max_rows -gt 251) { throw 'Invalid record budget' }
+        $columns = @($request.result_columns)
+        if ($columns.Count -lt 2 -or $columns.Count -gt 9 -or $reader.FieldCount -ne $columns.Count) { throw 'Invalid record shape' }
+        for ($index = 0; $index -lt $columns.Count; $index++) {
+            if ($reader.GetName($index) -cne $columns[$index]) { throw 'Record column differs' }
+        }
+        $rows = New-Object System.Collections.Generic.List[object]
+        while ($reader.Read()) {
+            if ($rows.Count -ge $request.max_rows) { throw 'Record response exceeds budget' }
+            $row = [ordered]@{}
+            for ($index = 0; $index -lt $columns.Count; $index++) {
+                $value = $reader.GetValue($index)
+                if ($value -is [DBNull]) { $row[$columns[$index]] = $null }
+                else {
+                    $value = $value.ToString([Globalization.CultureInfo]::InvariantCulture)
+                    if ($value.Length -gt 1000) { throw 'Record value exceeds budget' }
+                    $row[$columns[$index]] = $value
+                }
+            }
+            $rows.Add($row)
+        }
+        if ($reader.NextResult()) { throw 'Unexpected extra record result' }
+        @{rows=@($rows.ToArray())} | ConvertTo-Json -Depth 8 -Compress
+        return
+    }
     if (-not $reader.Read() -or $reader.FieldCount -ne 3) { throw 'Unexpected aggregate result' }
     $result = [ordered]@{}
     for ($index = 0; $index -lt 3; $index++) {

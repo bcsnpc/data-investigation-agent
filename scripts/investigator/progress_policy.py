@@ -3,6 +3,8 @@
 def informative(observation):
     if not observation or observation['status']!='COMPLETED':return False
     values=observation['values']
+    if observation.get('record_readback'):
+        return bool(values)
     for row in values:
         if not isinstance(row,dict):continue
         if 'type' in row:
