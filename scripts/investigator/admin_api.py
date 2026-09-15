@@ -8,6 +8,7 @@ from .capabilities import evaluate, assess
 from .diagnostic_evidence import receipts, read
 from .filter_scope import catalog as scope_catalog
 from .source_diagnostics import evidence as source_evidence
+from .comparisons import register as register_mapping, mapping as read_mapping, assess as compare, read as read_comparison
 
 ASSETS = Path(__file__).resolve().parents[2] / 'apps' / 'model-admin'
 
@@ -66,6 +67,14 @@ def create_app(store, admin_token, reader_token, scans=None):
                 return respond('404 Not Found',{'error':'Not found'})
             parts = path[len(base)+1:].split('/')
             identity = parts[0]
+            if len(parts)==2 and parts[1]=='comparison-mappings' and method=='POST':
+                return respond('200 OK',register_mapping(store,identity,body,'local-admin'))
+            if len(parts)==3 and parts[1]=='comparison-mappings' and method=='GET':
+                return respond('200 OK',read_mapping(store,identity,parts[2]))
+            if len(parts)==2 and parts[1]=='comparisons' and method=='POST':
+                return respond('200 OK',compare(store,identity,body))
+            if len(parts)==3 and parts[1]=='comparisons' and method=='GET':
+                return respond('200 OK',read_comparison(store,identity,parts[2]))
             if len(parts)==2 and parts[1]=='source-diagnostics' and method=='GET':
                 return respond('200 OK',source_evidence(store,identity))
             if len(parts)==3 and parts[1]=='source-diagnostics' and method=='GET':
