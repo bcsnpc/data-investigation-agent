@@ -6,6 +6,7 @@ import sqlite3
 from .onboarding import Conflict, fields
 from .capabilities import evaluate, assess
 from .diagnostic_evidence import receipts, read
+from .filter_scope import catalog as scope_catalog
 
 ASSETS = Path(__file__).resolve().parents[2] / 'apps' / 'model-admin'
 
@@ -64,6 +65,8 @@ def create_app(store, admin_token, reader_token, scans=None):
                 return respond('404 Not Found',{'error':'Not found'})
             parts = path[len(base)+1:].split('/')
             identity = parts[0]
+            if len(parts)==2 and parts[1]=='scope' and method=='GET':
+                return respond('200 OK',scope_catalog(store.get(identity)))
             if len(parts)==2 and parts[1]=='capabilities' and method=='GET':
                 return respond('200 OK',evaluate(store.get(identity)))
             if len(parts)==2 and parts[1]=='assess' and method=='POST':

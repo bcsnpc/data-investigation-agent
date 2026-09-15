@@ -6,7 +6,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #152 is merged; D/E capability and evidence assessment continues under #153. The historical planning text below is retained for context.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #154 is merged; D/E typed diagnostic scope continues under #155. The historical planning text below is retained for context.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
@@ -48,6 +48,10 @@ PR #150 is merged. [Issue #151](https://github.com/bcsnpc/data-investigation-age
 ## Capability and evidence continuation
 
 PR #152 is merged after successful CI. [Issue #153](https://github.com/bcsnpc/data-investigation-agent/issues/153) groups per-measure capability decisions, dry-run plan assessment, saved admission records and scoped evidence APIs. Historical native execution remains distinct from verified context or cause. All 407 regression tests passed. Retained live receipts and the 25-measure catalog were assessed without new cloud reads. [Details](capability-evidence-assessment.md).
+
+## Typed scope continuation
+
+PR #154 is merged after successful CI. [Issue #155](https://github.com/bcsnpc/data-investigation-agent/issues/155) groups metadata-bound date/numeric/boolean/BLANK filters, range semantics, scope discovery and native integration. All 417 regression tests passed. Two live Power BI reads passed, including preservation of BLANK for an empty date window. [Contract, limits and validation](typed-diagnostic-scope.md). D/E remain in progress; upstream equivalence, effective report context and the adaptive runtime remain pending.
 
 ## Planning change record
 
