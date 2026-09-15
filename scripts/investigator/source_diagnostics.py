@@ -196,6 +196,8 @@ def run(store, plan, config, execute, *, receipt_id=None):
     if attempts is not None:result['connection_attempts']=attempts
     with store.connect() as db:
         db.execute('UPDATE source_diagnostics SET status=?,result=? WHERE id=?', (status, encoded(result), identity))
+        from .receipt_integrity import seal
+        seal(db,'source',identity)
     return {'id': identity, 'status': status, 'request_hash': digest(request), 'result': result}
 
 
@@ -210,6 +212,8 @@ def evidence(store, model_id, receipt_id=None):
         row = db.execute('SELECT created,status,request,result FROM source_diagnostics WHERE model_id=? AND id=?',
                          (model_id, receipt_id)).fetchone() if exists else None
     if row is None:raise KeyError('Source receipt not found')
+    from .receipt_integrity import verify
+    with store.connect() as db:integrity=verify(db,'source',receipt_id,captured_row=[receipt_id,model_id,*row])
     request = json.loads(row[2])
     result = json.loads(row[3]) if row[3] else None
     mapping_current = None
@@ -235,7 +239,7 @@ def evidence(store, model_id, receipt_id=None):
                                   and request['plan']['revision'] == model['revision'])
             except (KeyError, ValueError):
                 pass
-    return {'id': receipt_id, 'created': row[0], 'status': row[1], 'request': request,
+    return {'id': receipt_id, 'integrity':integrity, 'created': row[0], 'status': row[1], 'request': request,
             'result': result, 'freshness_policy_current': policy_current, 'reviewed_mapping_current':mapping_current,
             'local_context_current': bool(model['enabled'] and request['context_id'] == model['context_id']
                                           and request['context_hash'] == digest(model['context'])

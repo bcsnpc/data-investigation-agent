@@ -1,8 +1,10 @@
 # Project progress
 
-Review: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
+Review: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
 
-**Latest:** PR #172 merged. [Reviewed record discovery](reviewed-record-discovery-milestone.md) adds reusable model reviews, query-free draft preview, automatic paired checks and revocation gates; tracked by [#173](https://github.com/bcsnpc/data-investigation-agent/issues/173). 641 regression tests passed, including 27 focused tests.
+Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
+
+**Latest:** PR #174 merged. [Aggregate-to-record reconciliation](record-aggregate-reconciliation-milestone.md), tracked by [#175](https://github.com/bcsnpc/data-investigation-agent/issues/175), connects captured direct aggregates to supporting record evidence with receipt integrity, durable recovery and adaptive consumption. 668 tests passed, including 27 focused tests. Live evidence: 49 units / 15 lines in each system; arithmetic reconciled, cause unverified.
 
 Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90–100.
 
@@ -10,7 +12,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #172 is merged. [Reviewed record discovery](reviewed-record-discovery-milestone.md) is tracked under [#173](https://github.com/bcsnpc/data-investigation-agent/issues/173). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #174 is merged. [Aggregate-to-record reconciliation](record-aggregate-reconciliation-milestone.md) is tracked under [#175](https://github.com/bcsnpc/data-investigation-agent/issues/175). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 

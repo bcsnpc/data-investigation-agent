@@ -1,8 +1,10 @@
 # Current delivery status
 
-Review: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
+Review: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
 
-Updated 2026-09-14. **PR #172 is merged.** The next grouped milestone adds [reviewed record discovery](reviewed-record-discovery-milestone.md), tracked by [#173](https://github.com/bcsnpc/data-investigation-agent/issues/173).
+Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
+
+Updated 2026-09-15. **PR #174 is merged.** The current grouped milestone adds [aggregate-to-record reconciliation](record-aggregate-reconciliation-milestone.md), tracked by [#175](https://github.com/bcsnpc/data-investigation-agent/issues/175).
 
 ## What is built
 
@@ -19,15 +21,16 @@ Updated 2026-09-14. **PR #172 is merged.** The next grouped milestone adds [revi
 | Scoped freshness evidence | Metadata-selected watermark reads, immutable reviewed policies, revocation and deterministic age conditions | Narrow historical watermark rule only; no production SLA or report-cause proof |
 | Reviewed source discovery | Derives complete source scopes from onboarding mappings; ambiguity/revocation gates and query-free preview | Development mappings still need actual team review; no equivalence certification |
 | Record evidence | Bounded Power BI/SQL projected groups, multiplicity, keyed differences, saved adaptive pairs and recovery | Complete response is not shared-generation or semantic proof; model mappings now derive reviewed projections per ticket |
+| Aggregate record consistency | Sealed aggregate receipts, exact count/sum reconstruction, SQL count checks, durable/local assessments and adaptive consumption | Arithmetic consistency across separate captures; remote generation/context/causal proof remains |
 | Shared projections | Business and technical API projections share one session, scope and outcome hash | Backend only; unified v2 ticket UI is not deployed |
 
-**Validation:** 641 script tests passed, including 27 focused reviewed-record discovery tests. A query-free draft preview compiled both four-field order projections against the saved development catalog, with matching supported types and no saved confirmation. The previous PR's live five-order reads and zero-call replay remain historical evidence. This milestone made no SQL/LLM calls or quota changes and did not deploy the UI. Actual development mappings still need business review.
+**Validation:** 668 regression tests passed, including 27 focused reconciliation tests. A bounded live check returned 49 units across 15 order lines in both Power BI and SQL, with both totals reconstructed from their saved records. Replay made zero cloud calls. The isolated local test review did not change development business approvals. Three SQL data queries and two Power BI data queries ran across the held initial check and completed check; SQL quota settings and deployment were unchanged.
 
 ## Where we are
 
 **Phase A is verified. B-E have working implementation slices. F/G now have durable execution, evidence-led planning and governed session controls; their full acceptance gates remain open.** H is pending. I has a shared backend projection but still needs its user workflow; J has reusable bounded-v1 routing but no completed v2 handoff.
 
-The new path can select a catalog measure, choose and run an approved diagnostic, observe the result and choose a different next test. It can now derive approved record projections from reusable model reviews and ticket filters, then use saved keyed comparisons in later decisions. It no longer requires an operator to prewrite the whole sequence. With reviewed model mappings, source tests are derived from the ticket filters rather than manually authored per ticket. It still cannot certify a general business cause from incomplete evidence. Numeric observations and diagnostic differences come from saved receipts. A reviewed watermark policy can now establish a narrow age condition; the reported business cause, hypotheses and routing remain unverified.
+The new path can select a catalog measure, choose and run an approved diagnostic, observe the result and choose a different next test. It can now derive approved record projections from reusable model reviews and ticket filters, then use saved keyed comparisons in later decisions. It no longer requires an operator to prewrite the whole sequence. With reviewed model mappings, source tests are derived from the ticket filters rather than manually authored per ticket. It can also establish whether supported captured count/sum totals agree with their bounded record evidence, including whether those records explain a numeric delta. It still cannot certify a general business cause from incomplete evidence. Numeric observations and diagnostic differences come from saved receipts. A reviewed watermark policy can now establish a narrow age condition; the reported business cause, hypotheses and routing remain unverified.
 
 ## Remaining grouped milestones
 

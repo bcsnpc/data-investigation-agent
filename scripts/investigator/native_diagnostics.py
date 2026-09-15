@@ -152,4 +152,6 @@ def run(store,plan,execute,*,receipt_id=None):
         result={'error_type':type(exc).__name__,'snapshot_comparable':False,'root_cause_verified':False}
     with store.connect() as db:
         db.execute('UPDATE native_diagnostics SET status=?,result=? WHERE id=?',(status,encoded(result),identity))
+        from .receipt_integrity import seal
+        seal(db,'native',identity)
     return {'id':identity,'status':status,'request_hash':digest(request),'result':result}
