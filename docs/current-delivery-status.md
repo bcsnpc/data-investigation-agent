@@ -1,6 +1,6 @@
 # Current delivery status
 
-Updated 2026-09-14. **PR #168 is merged.** The next grouped milestone adds [reviewed source discovery and typed scopes](reviewed-source-scopes-milestone.md), tracked by [#169](https://github.com/bcsnpc/data-investigation-agent/issues/169).
+Updated 2026-09-14. **PR #168 is merged.** The next grouped milestone adds [reviewed source discovery and typed scopes](reviewed-source-scopes-milestone.md), tracked by [#169](https://github.com/bcsnpc/data-investigation-agent/issues/169), implemented in [PR #170](https://github.com/bcsnpc/data-investigation-agent/pull/170).
 
 ## What is built
 

@@ -1,6 +1,6 @@
 # Reviewed source discovery and typed scopes
 
-Tracked by [#169](https://github.com/bcsnpc/data-investigation-agent/issues/169), following merged PR #168. This grouped milestone covers source-scope compilation, onboarding mapping reuse, admission/provenance, admin/operator preview and verification. It advances B/D/F/G without completing their proof gates.
+Tracked by [#169](https://github.com/bcsnpc/data-investigation-agent/issues/169), implemented in [PR #170](https://github.com/bcsnpc/data-investigation-agent/pull/170), following merged PR #168. This grouped milestone covers source-scope compilation, onboarding mapping reuse, admission/provenance, admin/operator preview and verification. It advances B/D/F/G without completing their proof gates.
 
 ## What changes for investigations
 

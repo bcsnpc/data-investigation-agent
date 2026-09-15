@@ -6,7 +6,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #168 is merged. The grouped [reviewed source scope milestone](reviewed-source-scopes-milestone.md) is tracked under [#169](https://github.com/bcsnpc/data-investigation-agent/issues/169). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #168 is merged. The grouped [reviewed source scope milestone](reviewed-source-scopes-milestone.md) is tracked under [#169](https://github.com/bcsnpc/data-investigation-agent/issues/169), implemented in [PR #170](https://github.com/bcsnpc/data-investigation-agent/pull/170). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
