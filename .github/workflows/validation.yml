@@ -81,6 +81,7 @@ jobs:
           python -m unittest discover -s scripts -p test_categorical_replay_api.py
           python -m unittest discover -s scripts -p test_native_filter_parity.py
           python -m unittest discover -s scripts -p test_demo.py
+          python -m unittest discover -s scripts -p test_business_demo.py
           python -m unittest discover -s scripts -p test_lab_matrix.py
           python -m unittest discover -s scripts -p test_multilayer_lab.py
           python -m unittest discover -s scripts -p test_multilayer_review.py

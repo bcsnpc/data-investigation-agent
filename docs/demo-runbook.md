@@ -1,5 +1,9 @@
 # Investigator demo: ticket to evidence to defect draft
 
+For a business audience, use the [business-user demo](business-user-demo.md):
+Orders -> report screenshot -> plain-language question -> investigation -> result.
+The operator review flow below remains available for a technical audience.
+
 ## What this demonstration proves
 
 This is a repeatable, isolated demonstration of the existing investigator review
