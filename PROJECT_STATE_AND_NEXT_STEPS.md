@@ -362,7 +362,7 @@ One investigation ID, context, scope, evidence and outcome power business and te
 
 ## 15. Revised phases and acceptance gates
 
-Phase A is verified in [baseline evidence](docs/bounded-v1-baseline.md); B-J remain planned.
+Phase A is verified in [baseline evidence](docs/bounded-v1-baseline.md). B/C now have a [working onboarding/catalog slice](docs/model-onboarding.md); the remaining requirements stay open.
 
 | Phase | Deliverable | Exit gate |
 | --- | --- | --- |

@@ -6,7 +6,7 @@ The project specification is in [cross_system_data_investigator_poc.md](cross_sy
 Use this consolidated assessment alongside the historical milestone notes below.
 
 **Revised product direction:** [First-class product plan](METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md).
-**Engineering roadmap:** [Onboarding, native semantic execution and phases A-J](docs/architecture/README.md). Planning only; v2 is not implemented.
+**Engineering roadmap:** [Onboarding, native semantic execution and phases A-J](docs/architecture/README.md). The first [model onboarding/admin slice](docs/model-onboarding.md) is implemented; general v2 investigation remains in progress.
 
 **Demo:** start with the [presenter runbook](docs/demo-runbook.md), including setup,
 expected results and [remaining product work](docs/demo-pending.md).

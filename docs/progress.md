@@ -15,8 +15,8 @@ V2 makes model onboarding/admin readiness, versioned business context, delta sca
 | Revised phase | Status | Required exit evidence |
 | --- | --- | --- |
 | A Freeze bounded-v1 | Verified | PR144/146 merged; bounded-v1-20260914 tag; 366 script tests, 6 portal tests, 15 matrix cases and rehearsal passed |
-| B Model onboarding | Planned | Basic admin UI/API, registration/review/enablement |
-| C Deep catalog/change detection | Planned | New measures discovered, affected context invalidated |
+| B Model onboarding | In progress | [Working admin/catalog slice](model-onboarding.md); live connections and asynchronous onboarding remain |
+| C Deep catalog/change detection | In progress | Retained definitions, all measures, immutable context/diffs and invalidation; dependency graph and scheduled scans remain |
 | D Native execution/tools | Planned | Generic readonly model/source tools and receipts |
 | E Semantic capabilities | Planned | Accurate per-metric support/readiness |
 | F Persisted state | Planned | Versioned context, evidence, budget and recovery |
@@ -30,6 +30,10 @@ No v2 phase is marked complete by documentation. Detailed tasks, files, tests, r
 ## Phase A verification
 
 [Baseline manifest and results](bounded-v1-baseline.md): PRs #144/#146 merged, source tag published, regression and local demo evidence retained. Tracked by [#147](https://github.com/bcsnpc/data-investigation-agent/issues/147). No v2 runtime implementation or live cloud revalidation in this phase.
+
+## Combined onboarding/catalog delivery
+
+Continuing in PR #148 rather than opening helper PRs. Implemented registration, retained metadata import, business review, catalog enablement, role separation, immutable history and change invalidation. Verified import of 25 measures/three reports from existing OrderOps metadata. See [scope and remaining work](model-onboarding.md). B/C remain in progress; live investigation is not enabled.
 
 ## Planning change record
 

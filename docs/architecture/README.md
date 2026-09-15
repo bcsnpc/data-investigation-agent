@@ -1,6 +1,6 @@
 # Metadata-driven investigator: product and engineering plan
 
-**Status: Phase A baseline verified; Phase B onboarding is next.** Updated 2026-09-14.
+**Status: Phase A baseline verified; Phase B/C onboarding and catalog slice is in progress.** Updated 2026-09-14.
 
 The [first-class product plan](../../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md) controls this revision. It supersedes the previous A–I roadmap and the proposal to treat a local expression compiler as the semantic execution gate. [Existing implementation facts](current-assessment-and-migration.md) remain distinct from proposed functionality.
 
@@ -68,8 +68,8 @@ flowchart TD
 | Phase | Deliverable | Status |
 | --- | --- | --- |
 | A | Freeze and reconcile `bounded-v1` | Verified; baseline tag and evidence recorded |
-| B | Product model onboarding foundation | Planned |
-| C | Deep semantic catalog and change detection | Planned |
+| B | Product model onboarding foundation | In progress; [implemented slice](../model-onboarding.md) |
+| C | Deep semantic catalog and change detection | In progress; retained context import/diffs |
 | D | Native semantic execution and typed tools | Planned |
 | E | Semantic operation and capability evaluator | Planned |
 | F | Persisted investigation state and runtime registry | Planned |
