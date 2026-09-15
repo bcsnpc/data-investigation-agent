@@ -48,6 +48,7 @@ class Runtime:
         self.native_transport = native_transport; self.source_transport = source_transport
         with self.db() as db:
             db.executescript('''
+            CREATE TABLE IF NOT EXISTS v2_cancellations(run_id TEXT PRIMARY KEY,created TEXT);
             CREATE TABLE IF NOT EXISTS v2_runs(
               id TEXT PRIMARY KEY,model_id TEXT,request_key TEXT,request TEXT,request_hash TEXT,
               engine_hash TEXT,connection_hash TEXT,context_hash TEXT,status TEXT,
@@ -198,14 +199,28 @@ class Runtime:
                     self.event(db,identity,'HELD',{'error_type':type(exc).__name__})
             return self.get(identity)
 
+    def cancel_in_transaction(self,db,identity):
+        row=self.load(db,identity)
+        if row['status'] in ('COMPLETED','CANCELLED'):return
+        db.execute('INSERT OR IGNORE INTO v2_cancellations VALUES(?,?)',(identity,datetime.now(timezone.utc).isoformat()))
+        db.execute("UPDATE v2_runs SET status='CANCELLED',lease_token=NULL WHERE id=?",(identity,))
+        self.event(db,identity,'CANCELLED',{'remote_cancellation_confirmed':False})
+
+    def cancel(self,identity):
+        with self.db() as db:
+            db.execute('BEGIN IMMEDIATE');self.cancel_in_transaction(db,identity)
+        return self.get(identity)
+
     def reconcile(self, identity):
         """Adopt only a terminal receipt at the reserved ID; never resend a read."""
         with self.db() as db:
             db.execute('BEGIN IMMEDIATE'); row = self.load(db,identity)
+            cancelled=bool(db.execute('SELECT 1 FROM v2_cancellations WHERE run_id=?',(identity,)).fetchone())
             admission_valid = True
             try:self.validate(row)
             except Conflict:admission_valid = False
             steps = [dict(s) for s in db.execute("SELECT * FROM v2_steps WHERE run_id=? AND status='DISPATCHED'",(identity,))]
+            if not steps and cancelled:return self.get(identity)
             if not steps:
                 states = [s[0] for s in db.execute('SELECT status FROM v2_steps WHERE run_id=?',(identity,))]
                 if row['status'] not in ('RUNNING','HELD') or 'FAILED' in states:
@@ -221,7 +236,7 @@ class Runtime:
                         # Pure local assessment can be replayed after fencing;
                         # it cannot dispatch a cloud query or consume a call.
                         db.execute("UPDATE v2_steps SET status='PENDING' WHERE run_id=? AND ordinal=?",(identity,step['ordinal']))
-                        db.execute('UPDATE v2_runs SET status=?,lease_token=NULL WHERE id=?',('READY' if admission_valid else 'HELD',identity))
+                        db.execute('UPDATE v2_runs SET status=?,lease_token=NULL WHERE id=?',('CANCELLED' if cancelled else 'READY' if admission_valid else 'HELD',identity))
                         self.event(db,identity,'RECONCILED_LOCAL_REPLAY',{'ordinal':step['ordinal']})
                         continue
                     result = json.loads(saved['body'])
@@ -242,6 +257,7 @@ class Runtime:
                 remaining=db.execute("SELECT 1 FROM v2_steps WHERE run_id=? AND status!='COMPLETED'",(identity,)).fetchone()
                 state = 'COMPLETED' if success and not remaining else 'READY' if success else 'HELD'
                 if not admission_valid:state='HELD'
+                if cancelled:state='CANCELLED'
                 db.execute('UPDATE v2_runs SET status=?,lease_token=NULL,outcome=? WHERE id=?',
                            (state,encoded(self.outcome(db,identity)) if state=='COMPLETED' else row['outcome'],identity))
                 self.event(db,identity,'RECONCILED',{'ordinal':step['ordinal'],'receipt_id':step['receipt_id']})

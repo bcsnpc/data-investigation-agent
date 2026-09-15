@@ -1,0 +1,11 @@
+{
+  "environment": "development",
+  "daily_limits": {
+    "planner_calls": 12,
+    "cloud_calls": 6,
+    "input_characters": 150000,
+    "output_tokens": 18000
+  },
+  "max_inflight_planners": 1,
+  "no_progress_limit": 2
+}

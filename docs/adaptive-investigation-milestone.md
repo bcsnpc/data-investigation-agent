@@ -1,5 +1,7 @@
 # Evidence-led diagnostic investigation milestone
 
+PR #164 is merged. New live sessions additionally require the [shared usage policy](runtime-governance-milestone.md); cancellation and progress controls build on this original milestone.
+
 Implemented in [PR #164](https://github.com/bcsnpc/data-investigation-agent/pull/164), tracked by [#163](https://github.com/bcsnpc/data-investigation-agent/issues/163), following merged PR #162. This adds an adaptive diagnostic loop to the [durable typed runtime](v2-diagnostic-milestone.md). It does not complete the general investigator or causal verification gates.
 
 ## What changes
@@ -55,7 +57,7 @@ Limits are explicit per session:
 
 At most 24 reachable measures, four approved dimensions, eight source tests and 100 total candidates are admitted. Each candidate can be attempted once. Planner payloads are limited to 32000 characters and at most 20 rows per observation; truncation is explicit. Saved facts retain the bounded tool receipt values. Input characters are not a token or billing guarantee. Azure output is capped at 1500 tokens per planner call; actual available usage counts are retained without keys or raw provider payloads.
 
-Before starting a call, sufficient time must remain for the adapter bound: 45 seconds for planning, 120 seconds for native workers, and 300 seconds for the SQL recovery envelope. These checks do not cancel an already-running remote query or establish exact cloud billing. Cross-session daily spend/usage governance remains pending. This is an explicitly approved local operator workflow, not an unattended hosted scheduler.
+Before starting a call, sufficient time must remain for the adapter bound: 45 seconds for planning, 120 seconds for native workers, and 300 seconds for the SQL recovery envelope. These checks do not cancel an already-running remote query or establish exact cloud billing. Shared adaptive request allowances are now implemented in the governance milestone; provider-wide spend governance remains pending. This is an explicitly approved local operator workflow, not an unattended hosted scheduler.
 
 ## Run and inspect
 
@@ -67,7 +69,8 @@ Use the Python environment containing the existing OpenAI dependency:
   --database .local/model-admin-verify/native-diagnostics.sqlite `
   --environment development `
   --envelope .local/reviewed-envelope.json --request-key unique-review-key `
-  --azure-settings infra/llm/development.json --approve
+  --azure-settings infra/llm/development.json `
+  --usage-policy infra/runtime/development-usage-policy.json --approve
 ```
 
 `--azure-settings` retrieves the existing resource key through the signed-in local Azure CLI, keeps it in memory, and restores prior environment variables afterward. Alternatively, omit it and use the existing Azure OpenAI environment variables. Never commit credentials or generated session output.

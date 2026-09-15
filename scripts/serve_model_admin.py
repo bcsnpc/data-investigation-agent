@@ -1,6 +1,7 @@
 """Local model onboarding over retained metadata; no live source queries."""
 import argparse
 import os
+import json
 from pathlib import Path
 from wsgiref.simple_server import make_server
 from investigator.onboarding import ModelStore
@@ -15,6 +16,7 @@ if __name__ == '__main__':
     parser.add_argument('--environment',required=True)
     parser.add_argument('--port',type=int,default=8774)
     parser.add_argument('--scan-config',type=Path,help='Enable metadata scan requests using this operator-owned connection')
+    parser.add_argument('--usage-policy',type=Path,help='Expose governed adaptive usage with this operator-owned policy')
     args=parser.parse_args()
     if not 1<=args.port<=65535:parser.error('Invalid port')
     store=ModelStore(args.database,args.inventory,args.environment)
@@ -26,7 +28,12 @@ if __name__ == '__main__':
         if Path(config['storage']['database']).resolve()!=args.inventory.resolve():
             parser.error('Scan configuration inventory must match --inventory')
         scans=ScanQueue(store,config['fabric']['workspace_id'],profile)
-    app=create_app(store,os.environ.get('INVESTIGATOR_ADMIN_TOKEN'),os.environ.get('INVESTIGATOR_READER_TOKEN'),scans)
+    from investigator.runtime import Runtime
+    from investigator.adaptive_runtime import AdaptiveRuntime
+    policy=json.loads(args.usage_policy.read_text(encoding='utf-8-sig')) if args.usage_policy else None
+    # Control-only host: no planner or query transports can be invoked here.
+    controller=AdaptiveRuntime(Runtime(store,config if args.scan_config else {},None,None),None,usage_policy=policy)
+    app=create_app(store,os.environ.get('INVESTIGATOR_ADMIN_TOKEN'),os.environ.get('INVESTIGATOR_READER_TOKEN'),scans,controller)
     with make_server('127.0.0.1',args.port,app,handler_class=QuietHandler) as server:
         print(f'Model admin: http://127.0.0.1:{args.port}',flush=True)
         server.serve_forever()
