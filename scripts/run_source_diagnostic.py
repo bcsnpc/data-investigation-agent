@@ -6,6 +6,7 @@ import subprocess
 
 from investigator.onboarding import ModelStore
 from investigator.source_diagnostics import run, snapshot
+from investigator.source_scope import describe
 from metadata_config import load_config, ROOT
 from sql_connect_retry import read_with_retry
 
@@ -66,7 +67,8 @@ if __name__ == '__main__':
         objects, columns = snapshot(store, model, config)
         print(json.dumps({'model_id': model['id'], 'revision': model['revision'], 'context_id': model['context_id'],
               'objects': [{'id': a['id'], 'schema': a['metadata']['schema_name'], 'name': a['metadata']['name'],
-                           'columns': [{'id': c['id'], 'name': c['metadata']['name'], 'type': c['metadata']['data_type']}
+                           'columns': [{'id': c['id'], 'name': c['metadata']['name'], 'type': c['metadata']['data_type'],
+                                        'filter_capability':describe(c['metadata'])}
                                        for c in columns.values() if c['parent_id'] == a['id']]} for a in objects.values()]}))
     else:
         if not args.approve or not args.plan:parser.error('Explicit --plan and --approve required')

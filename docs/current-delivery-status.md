@@ -1,6 +1,6 @@
 # Current delivery status
 
-Updated 2026-09-14. **PR #166 is merged.** The next grouped milestone adds [reviewed watermark freshness evidence](watermark-freshness-milestone.md), tracked by [#167](https://github.com/bcsnpc/data-investigation-agent/issues/167), implemented in [PR #168](https://github.com/bcsnpc/data-investigation-agent/pull/168).
+Updated 2026-09-14. **PR #168 is merged.** The next grouped milestone adds [reviewed source discovery and typed scopes](reviewed-source-scopes-milestone.md), tracked by [#169](https://github.com/bcsnpc/data-investigation-agent/issues/169), implemented in [PR #170](https://github.com/bcsnpc/data-investigation-agent/pull/170).
 
 ## What is built
 
@@ -10,20 +10,21 @@ Updated 2026-09-14. **PR #166 is merged.** The next grouped milestone adds [revi
 | Analytics | Fabric Bronze/Silver/Gold processing, reconciliation, semantic model and Power BI reports | Complete native/source snapshot certification remains separate |
 | Bounded-v1 investigator | Two-metric diagnosis, LLM-assisted ticket planning, review/evidence/routing workflows, defect labs and demos | Preserved as the bounded baseline |
 | V2 onboarding/catalog | Admin UI/API, model registration, metadata scans, immutable contexts, business review, dependency discovery and invalidation | Hosted onboarding and broader semantic/context coverage remain |
-| V2 diagnostic tools | Metadata-selected Power BI scalar/dependency/dimension reads, SQL count/sum reads, typed filters, saved receipts and comparison gaps | Scope/version/equivalence proof remains incomplete |
+| V2 diagnostic tools | Metadata-selected Power BI scalar/dependency/dimension reads, SQL count/sum/watermark reads, typed date/numeric/boolean/null filters, saved receipts and comparison gaps | Scope/version/equivalence proof remains incomplete |
 | Durable runtime | Typed plans, reserved budgets/receipts, idempotency, worker fencing, explicit recovery and timeout holds | Local operator runtime; uncertain completion is not automatically retried |
-| Adaptive diagnostic loop | LLM selects the next admitted test from saved observations; hypotheses, clarification, scope successors and stop reasons persist | Not a complete causal verifier; source tests still need reviewed configuration |
+| Adaptive diagnostic loop | LLM selects the next admitted test from saved observations; hypotheses, clarification, scope successors and stop reasons persist | Not a complete causal verifier; automatic source tests require unique current onboarding mappings |
 | Governed adaptive controls | Shared daily reservations, policy pinning, cancellation/reconciliation and no-progress stopping | Same catalog/environment; provider-wide spend is not certified |
 | Scoped freshness evidence | Metadata-selected watermark reads, immutable reviewed policies, revocation and deterministic age conditions | Narrow historical watermark rule only; no production SLA or report-cause proof |
+| Reviewed source discovery | Derives complete source scopes from onboarding mappings; ambiguity/revocation gates and query-free preview | Development mappings still need actual team review; no equivalence certification |
 | Shared projections | Business and technical API projections share one session, scope and outcome hash | Backend only; unified v2 ticket UI is not deployed |
 
-**Validation:** 548 script tests passed, including 20 focused freshness tests. The new live SQL diagnostic read 100000 non-null timestamps on its first connection attempt and correctly retained the missing-policy gap. Durable replay made no cloud call. Earlier governance validation also exercised two LLM decisions/two data reads, daily reservations and cancellation. No new UI deployment or production freshness SLA is claimed.
+**Validation:** 579 script tests passed, including 31 focused source-scope/discovery tests. One live typed date/amount SQL query returned 21365 rows on its first connection attempt; replay made no cloud call. Live automatic preview correctly reports `CURRENT_SOURCE_MAPPING_MISSING`: actual team review is still required in development. Controlled fixtures verify automatic adaptive execution. Earlier watermark/governance evidence is retained; no new UI deployment or semantic-equivalence claim.
 
 ## Where we are
 
 **Phase A is verified. B-E have working implementation slices. F/G now have durable execution, evidence-led planning and governed session controls; their full acceptance gates remain open.** H is pending. I has a shared backend projection but still needs its user workflow; J has reusable bounded-v1 routing but no completed v2 handoff.
 
-The new path can select a catalog measure, choose and run an approved diagnostic, observe the result and choose a different next test. It no longer requires an operator to prewrite the whole sequence. It still cannot certify a general business cause from incomplete evidence. Numeric observations and diagnostic differences come from saved receipts. A reviewed watermark policy can now establish a narrow age condition; the reported business cause, hypotheses and routing remain unverified.
+The new path can select a catalog measure, choose and run an approved diagnostic, observe the result and choose a different next test. It no longer requires an operator to prewrite the whole sequence. With reviewed model mappings, source tests are derived from the ticket filters rather than manually authored per ticket. It still cannot certify a general business cause from incomplete evidence. Numeric observations and diagnostic differences come from saved receipts. A reviewed watermark policy can now establish a narrow age condition; the reported business cause, hypotheses and routing remain unverified.
 
 ## Remaining grouped milestones
 

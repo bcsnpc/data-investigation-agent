@@ -14,6 +14,8 @@ def initialize(db):
       id TEXT PRIMARY KEY,model_id TEXT,context_id TEXT,body TEXT,hash TEXT,actor TEXT,created TEXT);
     CREATE TABLE IF NOT EXISTS comparison_assessments(
       id TEXT PRIMARY KEY,model_id TEXT,context_id TEXT,body TEXT,hash TEXT,created TEXT);
+    CREATE TABLE IF NOT EXISTS comparison_mapping_revocations(
+      id TEXT PRIMARY KEY,reason TEXT,actor TEXT,created TEXT);
     ''')
 
 
@@ -60,10 +62,29 @@ def mapping(store, model_id, identity):
     with store.connect() as db:
         initialize(db)
         row = db.execute('SELECT body,hash,actor FROM comparison_mappings WHERE id=? AND model_id=?', (identity, model_id)).fetchone()
+        revoked = db.execute('SELECT reason,actor,created FROM comparison_mapping_revocations WHERE id=?', (identity,)).fetchone()
     if not row:raise KeyError('Mapping not found')
     body = json.loads(row[0])
     if digest(body) != row[1]:raise ValueError('Mapping integrity differs')
-    return {'id': identity, 'body': body, 'hash': row[1], 'actor': row[2]}
+    return {'id': identity, 'body': body, 'hash': row[1], 'actor': row[2], 'revocation':list(revoked) if revoked else None}
+
+
+def list_mappings(store, model_id):
+    store.get(model_id)
+    with store.connect() as db:
+        initialize(db)
+        rows=db.execute('SELECT id FROM comparison_mappings WHERE model_id=? ORDER BY created,id LIMIT 101',(model_id,)).fetchall()
+    if len(rows)>100:raise ValueError('Mapping catalog exceeds diagnostic budget')
+    return [mapping(store,model_id,row[0]) for row in rows]
+
+
+def revoke(store, model_id, identity, reason, actor):
+    mapping(store,model_id,identity);text(reason,1000);text(actor,100)
+    with store.connect() as db:
+        initialize(db)
+        db.execute('INSERT OR IGNORE INTO comparison_mapping_revocations VALUES(?,?,?,?)',
+                   (identity,reason,actor,datetime.now(timezone.utc).isoformat()))
+    return mapping(store,model_id,identity)
 
 
 def aligned(native_filters, source_filters, bindings):
@@ -72,11 +93,12 @@ def aligned(native_filters, source_filters, bindings):
     if set(left) != {b['native_column_id'] for b in bindings} or set(right) != {b['source_column_id'] for b in bindings}:return False
     for binding in bindings:
         a = left[binding['native_column_id']]; b = right[binding['source_column_id']]
-        if a.get('operator', 'in') != 'in':return False
-        # Current source adapter supports strings only. Do not coerce values,
-        # assume case-insensitive collations, or ignore an extra scope filter.
-        if not all(isinstance(v, str) for v in a['values'] + b['values']):return False
-        if sorted(a['values']) != sorted(b['values']):return False
+        operator=a.get('operator','in')
+        if operator!=b.get('operator','in') or operator not in ('in','range'):return False
+        # Compare exact JSON types/values, not coercion (True must not equal 1).
+        if operator=='range':
+            if encoded(a['values'])!=encoded(b['values']):return False
+        elif sorted(encoded(v) for v in a['values'])!=sorted(encoded(v) for v in b['values']):return False
     return True
 
 
@@ -104,6 +126,7 @@ def assess(store, model_id, body, *, assessment_id=None):
     if body['mapping_id'] is None:gaps.append('REVIEWED_MAPPING_REQUIRED')
     else:
         reviewed = mapping(store, model_id, text(body['mapping_id'], 500)); contract = reviewed['body']
+        if reviewed['revocation'] is not None:gaps.append('MAPPING_REVOKED')
         if contract['context_id'] != model['context_id'] or contract['revision'] != model['revision']:
             gaps.append('MAPPING_REVIEW_STALE')
         plan = source['request']['plan']
@@ -170,7 +193,8 @@ def read(store, model_id, identity):
         unchanged = (digest(native_read(store, model_id, request['native_receipt_id'])) == body['native_evidence_hash'] and
                      digest(source_read(store, model_id, request['source_receipt_id'])) == body['source_evidence_hash'])
         if request['mapping_id'] is not None:
-            unchanged = unchanged and mapping(store, model_id, request['mapping_id'])['hash'] == body['mapping_hash']
+            review=mapping(store, model_id, request['mapping_id'])
+            unchanged = unchanged and review['hash'] == body['mapping_hash'] and review['revocation'] is None
     except (KeyError, ValueError, TypeError):
         unchanged = False
     return {'id': identity, 'hash': row[1], 'assessment': body,

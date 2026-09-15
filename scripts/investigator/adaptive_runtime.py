@@ -64,7 +64,8 @@ class AdaptiveRuntime:
         if state['engine_hash']!=fingerprint() or state['config_hash']!=digest(self.config) or state['planner_profile_hash']!=digest(self.planner_profile):raise Conflict('Engine or connection changed')
         model=self.store.get(state['model_id'])
         if digest(model['context'])!=state['context_hash']:raise Conflict('Context changed')
-        candidates,gaps=catalog(self.store,self.config,state['envelope'])
+        try:candidates,gaps=catalog(self.store,self.config,state['envelope'])
+        except (ValueError,KeyError) as exc:raise Conflict('Candidate metadata or review is no longer admissible') from exc
         if digest(candidates)!=state['catalog_hash']:raise Conflict('Candidate admission changed')
         return candidates
 
@@ -107,7 +108,7 @@ class AdaptiveRuntime:
                   'measure_name':names.get(c['measure_id'],c['measure_id']),
                   'dimension_id':c['dimension_id'],'depth':c['depth'],
                   'operations':model['context'].get('semantic_graph',{}).get('measures',{}).get(c['measure_id'],{}).get('operations',[]),
-                  'source_binding':'OPERATOR_SELECTED_NOT_EQUIVALENCE_PROOF' if c['tool']=='source' else None,
+                  'source_binding':c.get('reviewed_mapping') or ('OPERATOR_SELECTED_NOT_EQUIVALENCE_PROOF' if c['tool']=='source' else None),
                   'source_operation':c['plan'].get('operation'), 'approved_filters':c['plan']['filters']} for c in candidates]
         observations=[{**o,'values':o['values'][:20],
                        'planner_sample_truncated':len(o['values'])>20} for o in state['observations']]

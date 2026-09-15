@@ -6,7 +6,10 @@ CONTEXT_CHANGERS={'FILTERED_MEASURE','TIME_SHIFT','RELATIONSHIP_SWITCH','CONDITI
 
 
 def catalog(store,config,envelope):
-    fields(envelope,['model_id','revision','context_id','measure_id','filters','dimension_ids','source_tests','symptom','limits'])
+    fields(envelope,['model_id','revision','context_id','measure_id','filters','dimension_ids','source_tests','symptom','limits']+
+           (['source_selection'] if 'source_selection' in envelope else []))
+    if 'source_selection' in envelope and (envelope['source_selection']!='reviewed_mappings' or envelope['source_tests']!=[]):
+        raise ValueError('Reviewed discovery requires an empty manual source-test list')
     text(envelope['symptom'],2000)
     limits=envelope['limits'];fields(limits,['cloud_calls','planner_calls','wall_seconds','input_characters','max_depth'])
     for name,low,high in [('cloud_calls',1,10),('planner_calls',1,6),('wall_seconds',60,1800),('input_characters',1000,80000),('max_depth',0,4)]:
@@ -43,16 +46,20 @@ def catalog(store,config,envelope):
         if node['dependencies'] and depth>=limits['max_depth']:
             gaps.append({'measure_id':measure,'reason':'DEPTH_LIMIT'});continue
         pending.extend((child,depth+1,measure) for child in node['dependencies'])
+    if envelope.get('source_selection')=='reviewed_mappings':
+        from .source_bindings import resolve
+        sources,source_gaps=resolve(store,config,envelope,visited);gaps.extend(source_gaps)
     for source in sources:
         fields(source,['measure_id','plan'])
         if source['measure_id'] not in visited:raise ValueError('Source test is outside reachable measure scope')
         plan=source['plan']
         if any(plan.get(k)!=envelope[k] for k in ('model_id','revision','context_id')):raise Conflict('Source scope is stale')
-        source_diagnostics.build(store,plan,config)
+        compiled=source_diagnostics.build(store,plan,config)
         identity=digest({'tool':'source','plan':plan})
         if any(c['id']==identity for c in candidates):raise ValueError('Duplicate source test')
         candidates.append({'id':identity,'tool':'source','plan':plan,'measure_id':source['measure_id'],
-                           'dimension_id':None,'depth':0,'parent':None})
+                           'dimension_id':None,'depth':0,'parent':None,
+                           'reviewed_mapping':compiled.get('reviewed_mapping')})
     if len(candidates)>100:raise ValueError('Candidate catalog too large')
     return candidates,gaps
 
@@ -74,6 +81,7 @@ def observation(candidate,child):
             'completeness':data.get('completeness','SOURCE_AGGREGATE'),
             'request_hash':receipt['request_hash'],'proof_eligible':False,
             'source_operation':candidate['plan'].get('operation'),
+            'reviewed_mapping':candidate.get('reviewed_mapping'),
             'freshness':data.get('freshness')}
 
 

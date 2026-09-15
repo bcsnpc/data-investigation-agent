@@ -59,7 +59,7 @@ def connection_attempts(value):
 
 def build(store, plan, config):
     fields(plan, ['model_id', 'revision', 'context_id', 'object_id', 'operation', 'column_id', 'filters'] +
-           (['freshness_policy_id'] if 'freshness_policy_id' in plan else []))
+           [k for k in ('freshness_policy_id','comparison_mapping_id') if k in plan])
     if 'freshness_policy_id' in plan and plan['operation'] != 'watermark_age_microseconds':
         raise ValueError('Freshness policy requires watermark operation')
     model = store.get(plan['model_id'])
@@ -100,8 +100,14 @@ def build(store, plan, config):
         raise ValueError('Explicit bounded source filters required')
     predicates = []; parameters = []; used = set()
     for spec in filters:
-        fields(spec, ['column_id', 'values'])
+        fields(spec, ['column_id', 'values'] + (['operator'] if 'operator' in spec else []))
         col = column(spec['column_id']); meta = col['metadata']
+        if col['id'] in used:raise ValueError('Duplicate source filter')
+        if 'operator' in spec:
+            from .source_scope import compile_filter
+            predicate, bound = compile_filter(spec, meta, quote(meta['name']), len(parameters))
+            used.add(col['id']);predicates.append(predicate);parameters.extend(bound)
+            continue
         if col['id'] in used or meta['data_type'] not in ('varchar', 'nvarchar', 'char', 'nchar'):
             raise ValueError('Only unique string-column source filters supported')
         used.add(col['id']); values = spec['values']
@@ -122,6 +128,12 @@ def build(store, plan, config):
             'scan_id': model['context']['scan_id'], 'scope_hash': digest(plan),
             'object_id': obj['id'], 'object_hash': obj['hash'],
             'catalog_hash': digest([objects, columns]), 'connection_hash': digest(config['sql'])}
+    if any('operator' in f for f in filters):
+        from .source_scope import VERSION
+        request['filter_scope_version'] = VERSION
+    if 'comparison_mapping_id' in plan:
+        from .source_bindings import validate_plan
+        request['reviewed_mapping'] = validate_plan(store, plan, columns)
     if plan['operation'] == 'watermark_age_microseconds':
         from .freshness import policy_for_plan
         request['freshness_policy'] = policy_for_plan(store, plan)
@@ -199,6 +211,16 @@ def evidence(store, model_id, receipt_id=None):
     if row is None:raise KeyError('Source receipt not found')
     request = json.loads(row[2])
     result = json.loads(row[3]) if row[3] else None
+    mapping_current = None
+    if request.get('reviewed_mapping'):
+        mapping_current = False
+        from .comparisons import mapping
+        try:
+            review=mapping(store,model_id,request['reviewed_mapping']['id'])
+            mapping_current=(review['revocation'] is None and review['hash']==request['reviewed_mapping']['hash']
+                             and model['enabled'] and request['context_hash']==digest(model['context'])
+                             and request['plan']['revision']==model['revision'])
+        except (KeyError,ValueError):pass
     policy_current = None
     if result and result.get('freshness'):
         policy_current = False
@@ -213,7 +235,7 @@ def evidence(store, model_id, receipt_id=None):
             except (KeyError, ValueError):
                 pass
     return {'id': receipt_id, 'created': row[0], 'status': row[1], 'request': request,
-            'result': result, 'freshness_policy_current': policy_current,
+            'result': result, 'freshness_policy_current': policy_current, 'reviewed_mapping_current':mapping_current,
             'local_context_current': bool(model['enabled'] and request['context_id'] == model['context_id']
                                           and request['context_hash'] == digest(model['context'])
                                           and request['plan']['revision'] == model['revision']),
