@@ -44,7 +44,9 @@ def compile_actions(store,config,request):
             if payload['measure_id'] not in native['measure_ids'] or native['dimension_id'] is not None:
                 raise ValueError('Comparison needs selected scalar native measure')
             if payload['mapping_id'] is not None:
-                contract=comparisons.mapping(store,model['id'],text(payload['mapping_id'],500))['body']
+                review=comparisons.mapping(store,model['id'],text(payload['mapping_id'],500))
+                if review['revocation'] is not None:raise Conflict('Mapping review revoked')
+                contract=review['body']
                 if contract['context_id']!=model['context_id'] or contract['revision']!=model['revision']:
                     raise Conflict('Mapping review is stale')
             compiled.append(payload)

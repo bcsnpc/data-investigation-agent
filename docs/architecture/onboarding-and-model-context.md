@@ -2,6 +2,8 @@
 
 Proposed implementation of sections 3–12 and 30 of the [product plan](../../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). Onboarding is an admin workflow, not a metadata script users must rerun for every ticket.
 
+**Implemented mapping reuse:** [Reviewed source discovery and typed scopes](../reviewed-source-scopes-milestone.md) derives source tests from confirmed model mappings and complete ticket filters. Missing/ambiguous/stale reviews remain gaps; mapping intent is not equivalent-calculation proof.
+
 ## Lifecycle
 
 `REGISTERED → CONNECTED → SCANNING → DISCOVERED → SEMANTICALLY_ANALYZED → BUSINESS_CONTEXT_REVIEW → CAPABILITY_EVALUATED → INVESTIGATION_READY → ENABLED`

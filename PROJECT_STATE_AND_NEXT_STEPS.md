@@ -12,7 +12,7 @@ the recent architecture discussion. Cloud deployment statements below describe
 previously recorded deployments and checks; cloud availability, credentials,
 capacity and billing were not rechecked for this document.
 
-**Latest status:** [Current delivery summary](docs/current-delivery-status.md) records the implemented v2 slices and remaining milestones after merged PR #166 and the [grouped watermark evidence milestone](docs/watermark-freshness-milestone.md). The assessment below describes the earlier bounded foundation.
+**Latest status:** [Current delivery summary](docs/current-delivery-status.md) records the implemented v2 slices and remaining milestones after merged PR #168 and the [grouped reviewed source scopes milestone](docs/reviewed-source-scopes-milestone.md). The assessment below describes the earlier bounded foundation.
 
 ## 1. The current position
 

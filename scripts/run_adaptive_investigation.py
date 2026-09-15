@@ -48,14 +48,20 @@ def main():
     parser.add_argument('--usage-policy',type=Path)
     parser.add_argument('--cancel',action='store_true');parser.add_argument('--reconcile-cancelled',action='store_true')
     parser.add_argument('--predecessor');parser.add_argument('--azure-settings',type=Path)
+    parser.add_argument('--preview',action='store_true')
     args=parser.parse_args()
-    if not (args.status_only or args.usage_status) and not args.approve:parser.error('Explicit scope approval required')
-    if args.envelope and (not args.request_key or args.status_only or args.recover):parser.error('New envelope needs request key and approval')
+    if not (args.status_only or args.usage_status or args.preview) and not args.approve:parser.error('Explicit scope approval required')
+    if args.preview and (not args.envelope or args.predecessor):parser.error('Preview requires an envelope')
+    if args.envelope and (not (args.request_key or args.preview) or args.status_only or args.recover):parser.error('New envelope needs request key and approval')
     if args.predecessor and not args.envelope:parser.error('Reviewed successor needs a new envelope')
     if args.status_only and args.recover:parser.error('Status and recovery are separate actions')
-    if sum(bool(x) for x in (args.status_only,args.recover,args.cancel,args.reconcile_cancelled,args.usage_status))>1:parser.error('Choose one control action')
+    if sum(bool(x) for x in (args.status_only,args.recover,args.cancel,args.reconcile_cancelled,args.usage_status,args.preview))>1:parser.error('Choose one control action')
     if (args.cancel or args.reconcile_cancelled) and not args.session_id:parser.error('Cancellation requires session ID')
     config=load_config(args.config);store=ModelStore(args.database,config['storage']['database'],args.environment)
+    if args.preview:
+        from investigator.adaptive_candidates import catalog
+        candidates,gaps=catalog(store,config,json.loads(args.envelope.read_text(encoding='utf-8-sig')))
+        print(json.dumps({'candidates':candidates,'gaps':gaps,'cloud_calls':0,'equivalence_verified':False}));return 0
     runtime=Runtime(store,config,lambda p:native_transport(config,p),lambda p:source_transport(config,p))
     settings=json.loads(args.azure_settings.read_text(encoding='utf-8-sig')) if args.azure_settings else {}
     profile={'adapter':'azure','endpoint':settings.get('endpoint',os.environ.get('AZURE_OPENAI_ENDPOINT')),
