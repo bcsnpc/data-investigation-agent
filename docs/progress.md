@@ -6,7 +6,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #158 is merged; D/E comparison intent and evidence gates continue under #159. The historical planning text below is retained for context.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #160 is merged; the grouped D/E/F diagnostic runtime milestone is implemented under [#161](https://github.com/bcsnpc/data-investigation-agent/issues/161). The historical planning text below is retained for context.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
@@ -21,7 +21,7 @@ V2 makes model onboarding/admin readiness, versioned business context, delta sca
 | C Deep catalog/change detection | In progress | Retained definitions, immutable context/diffs, dependency graph and scan queue; broader DAX analysis and scheduled scans remain |
 | D Native execution/tools | In progress | [Native catalog diagnostics](native-catalog-diagnostics.md); upstream tools and complete context certification remain |
 | E Semantic capabilities | In progress | [Versioned capability/evidence decisions](capability-evidence-assessment.md); full context and upstream equivalence remain |
-| F Persisted state | Planned | Versioned context, evidence, budget and recovery |
+| F Persisted state | In progress | [Durable typed diagnostic runtime](v2-diagnostic-milestone.md), budgets, receipts and recovery implemented; hypothesis lifecycle remains |
 | G Dynamic planner/verifier | Planned | Evidence-dependent tests and deterministic claims |
 | H Complex/unseen acceptance | Planned | Eight required acceptance families; frozen runtime, real DAX |
 | I Unified ticket workspace | Planned | Shared run/evidence across both views |
@@ -60,6 +60,10 @@ PR #156 is merged after successful CI. [Issue #157](https://github.com/bcsnpc/da
 ## Comparison evidence continuation
 
 PR #158 is merged after successful CI. [Issue #159](https://github.com/bcsnpc/data-investigation-agent/issues/159) groups immutable reviewed mapping intent, native/source receipt assessment, complete filter coverage, diagnostic Decimal differences and saved proof gaps. All 437 regression tests passed. Two retained-evidence assessments ran without new cloud queries or invented business mappings. Equivalence/version adapters are still absent, so no comparable/healthy/defect outcome is certified. [Contract and remaining gates](comparison-evidence-gates.md).
+
+## Durable diagnostic backend milestone
+
+PR #160 merged with successful CI. [Issue #161](https://github.com/bcsnpc/data-investigation-agent/issues/161) groups aggregate semantics, a flexible typed action registry, durable execution and recovery, SQL connection recovery, proof readiness and acceptance coverage in one larger milestone. **472 script tests passed.** A live Power BI/SQL run returned 100000 on both sides; repeat execution added no cloud reads. The result remains insufficient evidence, not a verified healthy or causal result. D/E remain in progress and F now has an implemented runtime foundation. Adaptive planning, full proof adapters and eight-family acceptance remain pending. [Full behavior, live evidence and limits](v2-diagnostic-milestone.md).
 
 ## Planning change record
 

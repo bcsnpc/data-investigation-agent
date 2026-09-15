@@ -1,6 +1,6 @@
 # Metadata-driven investigator: product and engineering plan
 
-**Status: Phase A baseline verified; Phase B/C onboarding and catalog slice is in progress.** Updated 2026-09-14.
+**Status: Phase A verified; B/C onboarding/catalog and D/E diagnostic slices implemented; F durable typed runtime foundation implemented. B-F remain in progress.** Updated 2026-09-14.
 
 The [first-class product plan](../../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md) controls this revision. It supersedes the previous A–I roadmap and the proposal to treat a local expression compiler as the semantic execution gate. [Existing implementation facts](current-assessment-and-migration.md) remain distinct from proposed functionality.
 
@@ -72,7 +72,7 @@ flowchart TD
 | C | Deep semantic catalog and change detection | In progress; [scan queue and dependency analysis](../catalog-scans-and-semantics.md) |
 | D | Native semantic execution and typed tools | In progress; [native catalog diagnostics](../native-catalog-diagnostics.md) |
 | E | Semantic operation and capability evaluator | In progress; [capability/evidence decisions](../capability-evidence-assessment.md) |
-| F | Persisted investigation state and runtime registry | Planned |
+| F | Persisted investigation state and runtime registry | In progress: [durable diagnostic foundation](../v2-diagnostic-milestone.md) |
 | G | Evidence-led planner and deterministic verification | Planned |
 | H | Frozen-engine complex/unseen metric acceptance | Planned |
 | I | Unified ticket product experience | Planned |

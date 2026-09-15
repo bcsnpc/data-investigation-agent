@@ -18,12 +18,15 @@ def initialize(db):
 
 
 def register(store, model_id, body, actor):
-    fields(body, ['revision', 'context_id', 'measure_id', 'source_object_id', 'source_operation',
-                  'source_column_id', 'grain', 'unit', 'date_basis', 'blank_policy', 'filter_bindings', 'confirmed'])
+    expected = ['revision', 'context_id', 'measure_id', 'source_object_id', 'source_operation',
+                'source_column_id', 'grain', 'unit', 'date_basis', 'blank_policy', 'filter_bindings', 'confirmed']
+    if isinstance(body, dict) and 'native_input_id' in body:expected.append('native_input_id')
+    fields(body, expected)
     model = store.get(model_id)
     if not model['enabled'] or type(body['revision']) is not int or body['revision'] != model['revision'] or body['context_id'] != model['context_id']:
         raise Conflict('Mapping review requires current enabled context')
     if body['confirmed'] is not True:raise ValueError('Explicit mapping confirmation required')
+    if 'native_input_id' in body:text(body['native_input_id'], 500)
     if body['measure_id'] not in {m['id'] for m in model['context']['measures']}:
         raise ValueError('Unknown measure')
     for key in ['source_object_id', 'grain', 'unit', 'date_basis']:
@@ -77,7 +80,7 @@ def aligned(native_filters, source_filters, bindings):
     return True
 
 
-def assess(store, model_id, body):
+def assess(store, model_id, body, *, assessment_id=None):
     fields(body, ['native_receipt_id', 'source_receipt_id', 'measure_id', 'mapping_id'])
     for key in ['native_receipt_id', 'source_receipt_id', 'measure_id']:text(body[key], 500)
     model = store.get(model_id)
@@ -97,7 +100,7 @@ def assess(store, model_id, body):
         left = nresult['rows'][0]['[m' + str(index) + ']']
     if source['status'] != 'COMPLETED':gaps.append('SOURCE_READ_UNAVAILABLE')
     else:right = sresult['value']
-    reviewed = None
+    reviewed = None; semantic_shape = None
     if body['mapping_id'] is None:gaps.append('REVIEWED_MAPPING_REQUIRED')
     else:
         reviewed = mapping(store, model_id, text(body['mapping_id'], 500)); contract = reviewed['body']
@@ -109,6 +112,10 @@ def assess(store, model_id, body):
             gaps.append('MAPPING_DOES_NOT_BIND_RECEIPTS')
         if not aligned(native['request']['plan']['filters'], plan['filters'], contract['filter_bindings']):
             gaps.append('FILTER_SCOPES_NOT_ALIGNED')
+        if 'native_input_id' in contract:
+            from .aggregate_semantics import assess_mapping
+            semantic_shape = assess_mapping(model, contract, source)
+            gaps.extend(semantic_shape['gaps'])
     # Numeric proximity is diagnostic only, and only after reviewed intent and
     # structural scope match. Proof is deliberately not accepted from the API.
     difference = None
@@ -129,6 +136,7 @@ def assess(store, model_id, body):
               'context_id': model['context_id'], 'revision': model['revision'],
               'native_evidence_hash': digest(native), 'source_evidence_hash': digest(source),
               'mapping_hash': reviewed['hash'] if reviewed else None,
+              'aggregate_semantics': semantic_shape,
               'observations': {'native': left, 'source': right},
               'diagnostic_difference_native_minus_source': difference,
               'gaps': sorted(set(gaps)), 'outcome': 'INSUFFICIENT_EVIDENCE',
@@ -136,7 +144,10 @@ def assess(store, model_id, body):
     current = store.get(model_id)
     if current['revision'] != model['revision'] or current['context_id'] != model['context_id']:
         raise Conflict('Context changed during assessment')
-    identity = str(uuid4())
+    identity = assessment_id or str(uuid4())
+    if assessment_id is not None:
+        from uuid import UUID
+        if str(UUID(assessment_id)) != assessment_id:raise ValueError('Invalid reserved assessment ID')
     with store.connect() as db:
         initialize(db)
         db.execute('INSERT INTO comparison_assessments VALUES(?,?,?,?,?,?)',
