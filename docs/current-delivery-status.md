@@ -1,6 +1,6 @@
 # Current delivery status
 
-Updated 2026-09-14. PR #160 is merged, including comparison intent and evidence gates. The next substantial backend milestone is implemented on `feature/v2-investigation-milestone`, tracked by [#161](https://github.com/bcsnpc/data-investigation-agent/issues/161). See [implementation and verification](v2-diagnostic-milestone.md).
+Updated 2026-09-14. PR #160 is merged, including comparison intent and evidence gates. The next substantial backend milestone is implemented on `feature/v2-investigation-milestone`, in [PR #162](https://github.com/bcsnpc/data-investigation-agent/pull/162), tracked by [#161](https://github.com/bcsnpc/data-investigation-agent/issues/161). See [implementation and verification](v2-diagnostic-milestone.md).
 
 ## What is built
 

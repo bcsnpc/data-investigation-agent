@@ -6,7 +6,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #160 is merged; the grouped D/E/F diagnostic runtime milestone is implemented under [#161](https://github.com/bcsnpc/data-investigation-agent/issues/161). The historical planning text below is retained for context.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #160 is merged; the grouped D/E/F diagnostic runtime milestone is implemented in [PR #162](https://github.com/bcsnpc/data-investigation-agent/pull/162), tracked under [#161](https://github.com/bcsnpc/data-investigation-agent/issues/161). The historical planning text below is retained for context.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
