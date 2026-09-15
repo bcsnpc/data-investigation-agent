@@ -14,6 +14,7 @@ from .aggregate_semantics import describe as describe_aggregate, dependency_shap
 from .proof_requirements import readiness as proof_readiness
 from .tool_registry import TOOLS
 from .adaptive_projection import read as read_adaptive
+from . import freshness
 
 ASSETS = Path(__file__).resolve().parents[2] / 'apps' / 'model-admin'
 
@@ -78,6 +79,14 @@ def create_app(store, admin_token, reader_token, scans=None, investigations=None
                 return respond('404 Not Found',{'error':'Not found'})
             parts = path[len(base)+1:].split('/')
             identity = parts[0]
+            if len(parts)==4 and parts[1]=='freshness-policies' and parts[3]=='revoke' and method=='POST':
+                fields(body,['reason'])
+                return respond('200 OK',freshness.revoke(store,identity,parts[2],body['reason'],'local-admin'))
+            if len(parts)==2 and parts[1]=='freshness-policies' and method=='POST':
+                if investigations is None:return respond('503 Service Unavailable',{'error':'Connection controller required'})
+                return respond('200 OK',freshness.register(store,identity,body,'local-admin',investigations.runtime.config))
+            if len(parts)==3 and parts[1]=='freshness-policies' and method=='GET':
+                return respond('200 OK',freshness.read(store,identity,parts[2]))
             if len(parts)==4 and parts[1]=='adaptive-sessions' and parts[3]=='cancel' and method=='POST':
                 fields(body,[])
                 read_adaptive(store,identity,parts[2])

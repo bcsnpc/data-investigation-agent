@@ -58,7 +58,10 @@ def connection_attempts(value):
 
 
 def build(store, plan, config):
-    fields(plan, ['model_id', 'revision', 'context_id', 'object_id', 'operation', 'column_id', 'filters'])
+    fields(plan, ['model_id', 'revision', 'context_id', 'object_id', 'operation', 'column_id', 'filters'] +
+           (['freshness_policy_id'] if 'freshness_policy_id' in plan else []))
+    if 'freshness_policy_id' in plan and plan['operation'] != 'watermark_age_microseconds':
+        raise ValueError('Freshness policy requires watermark operation')
     model = store.get(plan['model_id'])
     if type(plan['revision']) is not int or model['revision'] != plan['revision'] or model['context_id'] != plan['context_id']:
         raise Conflict('Stale source plan')
@@ -83,6 +86,13 @@ def build(store, plan, config):
             raise ValueError('Unsupported aggregate scale')
         ref = quote(meta['name'])
         aggregate = f'SUM(CAST({ref} AS decimal(38,{scale})))'; nonblank = 'COUNT_BIG(' + ref + ')'
+    elif plan['operation'] == 'watermark_age_microseconds':
+        col = column(plan['column_id']); meta = col['metadata']
+        if meta['data_type'] != 'datetime2':
+            raise ValueError('Watermark requires datetime2 with reviewed UTC meaning')
+        ref = quote(meta['name'])
+        aggregate = 'DATEDIFF_BIG(microsecond,MAX(' + ref + '),SYSUTCDATETIME())'
+        nonblank = 'COUNT_BIG(' + ref + ')'
     else:
         raise ValueError('Unsupported aggregate operation')
     filters = plan['filters']
@@ -107,11 +117,18 @@ def build(store, plan, config):
     meta = obj['metadata']
     query = ('SELECT ' + aggregate + ' AS value,COUNT_BIG(*) AS row_count,' + nonblank + ' AS nonblank_count FROM ' +
              quote(meta['schema_name']) + '.' + quote(meta['name']) + ' WHERE ' + ' AND '.join(predicates) + ' OPTION (MAXDOP 1)')
-    return {'version': 'source-aggregate-v1', 'query': query, 'parameters': parameters,
+    request = {'version': 'source-aggregate-v1', 'query': query, 'parameters': parameters,
             'model_id': model['id'], 'context_id': model['context_id'], 'context_hash': digest(model['context']),
             'scan_id': model['context']['scan_id'], 'scope_hash': digest(plan),
             'object_id': obj['id'], 'object_hash': obj['hash'],
             'catalog_hash': digest([objects, columns]), 'connection_hash': digest(config['sql'])}
+    if plan['operation'] == 'watermark_age_microseconds':
+        from .freshness import policy_for_plan
+        request['freshness_policy'] = policy_for_plan(store, plan)
+        request['watermark_semantics'] = 'MAX_DATETIME2_ASSUMED_UTC_MICROSECOND_BOUNDARIES_AT_SQL_READ'
+        from .freshness import validate_binding
+        validate_binding(request)
+    return request
 
 
 def run(store, plan, config, execute, *, receipt_id=None):
@@ -139,10 +156,17 @@ def run(store, plan, config, execute, *, receipt_id=None):
             raise ValueError('Inconsistent counts')
         if plan['operation'] == 'count_rows' and (result['value'] is None or Decimal(result['value']) != count):
             raise ValueError('Count differs')
-        if plan['operation'] == 'sum' and (result['value'] is None) != (nonblank == 0):
+        if plan['operation'] in ('sum', 'watermark_age_microseconds') and (result['value'] is None) != (nonblank == 0):
             raise ValueError('Sum nullability differs')
+        if plan['operation'] == 'watermark_age_microseconds' and result['value'] is not None:
+            age = Decimal(result['value'])
+            if age != int(age) or abs(age) > 315537897600000000:
+                raise ValueError('Invalid datetime2 watermark age')
         if build(store, plan, config) != request:raise Conflict('Source context changed during read')
         result = {k: {'type': 'blank' if v is None else 'decimal', 'value': v} for k, v in result.items()}
+        if plan['operation'] == 'watermark_age_microseconds':
+            from .freshness import assess
+            result['freshness'] = assess(request, result)
         status = 'COMPLETED'
     except Exception as exc:
         attempts=None
@@ -174,8 +198,22 @@ def evidence(store, model_id, receipt_id=None):
                          (model_id, receipt_id)).fetchone() if exists else None
     if row is None:raise KeyError('Source receipt not found')
     request = json.loads(row[2])
+    result = json.loads(row[3]) if row[3] else None
+    policy_current = None
+    if result and result.get('freshness'):
+        policy_current = False
+        policy_id = result['freshness'].get('policy_id')
+        if policy_id:
+            from .freshness import read as read_policy
+            try:
+                policy = read_policy(store, model_id, policy_id)
+                policy_current = (policy['revocation'] is None and policy['body_hash'] == result['freshness']['policy_hash']
+                                  and model['enabled'] and request['context_hash'] == digest(model['context'])
+                                  and request['plan']['revision'] == model['revision'])
+            except (KeyError, ValueError):
+                pass
     return {'id': receipt_id, 'created': row[0], 'status': row[1], 'request': request,
-            'result': json.loads(row[3]) if row[3] else None,
+            'result': result, 'freshness_policy_current': policy_current,
             'local_context_current': bool(model['enabled'] and request['context_id'] == model['context_id']
                                           and request['context_hash'] == digest(model['context'])
                                           and request['plan']['revision'] == model['revision']),

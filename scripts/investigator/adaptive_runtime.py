@@ -22,6 +22,8 @@ def outcome(state):
     reason=state.get('stop_reason')
     classification='UNRESOLVED' if reason in ('BUDGET_LIMIT','DEADLINE','PLANNER_FAILED','TOOL_UNAVAILABLE','PLANNER_COMPLETION_UNCERTAIN','REMOTE_COMPLETION_UNCERTAIN','USAGE_LIMIT','NO_PROGRESS','USER_CANCELLED') else 'INSUFFICIENT_EVIDENCE'
     return {'classification':classification,'stop_reason':reason,
+            'scoped_conditions':[{'observation_id':o['id'], **o['freshness']} for o in state['observations']
+                                 if o.get('freshness')],
             'facts':state['observations'],'diagnostic_pairs':diagnostic_pairs(state['observations']),'hypotheses':[{**h,'verified':False} for h in state['hypotheses']],
             'gaps':state['gaps']+[{'reason':'MAPPING_CONTEXT_VERSION_AND_CAUSAL_PROOF_NOT_VERIFIED'}],
             'cause_verified':False,'delivery_eligible':False}
