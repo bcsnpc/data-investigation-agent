@@ -15,9 +15,9 @@ V2 makes model onboarding/admin readiness, versioned business context, delta sca
 | Revised phase | Status | Required exit evidence |
 | --- | --- | --- |
 | A Freeze bounded-v1 | Verified | PR144/146 merged; bounded-v1-20260914 tag; 366 script tests, 6 portal tests, 15 matrix cases and rehearsal passed |
-| B Model onboarding | In progress | [Working admin/catalog slice](model-onboarding.md); live connections and asynchronous onboarding remain |
-| C Deep catalog/change detection | In progress | Retained definitions, all measures, immutable context/diffs and invalidation; dependency graph and scheduled scans remain |
-| D Native execution/tools | Planned | Generic readonly model/source tools and receipts |
+| B Model onboarding | In progress | [Working admin/catalog slice](model-onboarding.md); scan worker added, hosted onboarding remains |
+| C Deep catalog/change detection | In progress | Retained definitions, immutable context/diffs, dependency graph and scan queue; broader DAX analysis and scheduled scans remain |
+| D Native execution/tools | In progress | [Native catalog diagnostics](native-catalog-diagnostics.md); upstream tools and complete context certification remain |
 | E Semantic capabilities | Planned | Accurate per-metric support/readiness |
 | F Persisted state | Planned | Versioned context, evidence, budget and recovery |
 | G Dynamic planner/verifier | Planned | Evidence-dependent tests and deterministic claims |
@@ -38,6 +38,10 @@ Continuing in PR #148 rather than opening helper PRs. Implemented registration, 
 ## Catalog scan and dependency continuation
 
 PR #148 is merged. [Issue #149](https://github.com/bcsnpc/data-investigation-agent/issues/149) groups durable scan orchestration, connection receipts, conservative dependency/operation analysis, cycle/gap handling, affected measures and admin controls. See [behavior and remaining limits](catalog-scans-and-semantics.md). B/C remain in progress; no full semantic-execution claim. Verification: 387 tests passed; browser scan controls passed; live SQL/Fabric metadata scan completed and imported 25 measures, five relationships and three reports with explicit analysis gaps.
+
+## Native diagnostic continuation
+
+PR #150 is merged. [Issue #151](https://github.com/bcsnpc/data-investigation-agent/issues/151) groups catalog-selected native measure, dependency and dimension reads, bounded transport, typed evidence and durable receipts. Two live Power BI reads succeeded, including Average Order Value and its discovered dependencies. This is operator-driven diagnostic evidence, not autonomous investigation or verified root cause. [Implementation, verification and remaining work](native-catalog-diagnostics.md). B/C remain in progress; D is now in progress.
 
 ## Planning change record
 
