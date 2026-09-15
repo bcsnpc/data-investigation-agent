@@ -72,7 +72,9 @@ def observation(candidate,child):
             'tool':candidate['tool'],'measure_id':candidate['measure_id'],'dimension_id':candidate['dimension_id'],
             'status':receipt['status'],'values':(data.get('rows',[]) if candidate['tool']=='native' else [data.get('value')]) if receipt['status']=='COMPLETED' else [],
             'completeness':data.get('completeness','SOURCE_AGGREGATE'),
-            'request_hash':receipt['request_hash'],'proof_eligible':False}
+            'request_hash':receipt['request_hash'],'proof_eligible':False,
+            'source_operation':candidate['plan'].get('operation'),
+            'freshness':data.get('freshness')}
 
 
 def diagnostic_pairs(observations):
@@ -83,6 +85,7 @@ def diagnostic_pairs(observations):
         if native['tool']!='native' or native['dimension_id'] is not None or native['status']!='COMPLETED':continue
         for source in observations:
             if source['tool']!='source' or source['status']!='COMPLETED' or source['measure_id']!=native['measure_id']:continue
+            if source.get('source_operation') == 'watermark_age_microseconds':continue
             left=native['values'][0].get('[m0]');right=source['values'][0]
             pair={'native_observation_id':native['id'],'source_observation_id':source['id'],
                   'association':'OPERATOR_DECLARED_ONLY','comparable':False,'difference':None}

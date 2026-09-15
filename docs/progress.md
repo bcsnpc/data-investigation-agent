@@ -6,7 +6,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #164 is merged. The grouped runtime-governance milestone is open in [PR #166](https://github.com/bcsnpc/data-investigation-agent/pull/166), tracked under [#165](https://github.com/bcsnpc/data-investigation-agent/issues/165). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #166 is merged. The grouped [watermark freshness milestone](watermark-freshness-milestone.md) is tracked under [#167](https://github.com/bcsnpc/data-investigation-agent/issues/167). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
@@ -28,6 +28,10 @@ V2 makes model onboarding/admin readiness, versioned business context, delta sca
 | J Reviewed routing | Planned | Authorized eligible draft/delivery/triage |
 
 No v2 phase is marked complete by documentation. Detailed tasks, files, tests, risks and non-goals are in [phases and acceptance](architecture/phases-and-acceptance.md). Preserve legacy metric/scope/provenance/lab/delivery regressions. The latest product classification set is versioned; historical source-issue outcomes must not be relabeled as newly proven application defects.
+
+## Reviewed watermark evidence milestone
+
+Added catalog-selected SQL watermark reads, immutable admin-reviewed UTC policies, threshold verification, revocation, durable/adaptive integration and operator/API administration. Twenty focused tests cover healthy, exceeded and gap conditions plus lifecycle failures. One live SQL read succeeded with 100000 non-null timestamps and correctly retained the missing-policy gap. No production SLA was invented. See [behavior, evidence and remaining proof boundaries](watermark-freshness-milestone.md). D/F/G remain in progress; this verifies a narrow condition, not a report cause.
 
 ## Phase A verification
 

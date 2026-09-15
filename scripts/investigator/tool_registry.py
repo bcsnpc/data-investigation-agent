@@ -39,6 +39,8 @@ def compile_actions(store,config,request):
                 if type(index) is not int or not 0<=index<ordinal or actions[index]['tool']!=expected:
                     raise ValueError('Comparison needs prior typed observations')
             native=compiled[payload['native_step']]
+            if actions[payload['source_step']]['input']['operation']=='watermark_age_microseconds':
+                raise ValueError('Watermark age is not a native metric comparison')
             if payload['measure_id'] not in native['measure_ids'] or native['dimension_id'] is not None:
                 raise ValueError('Comparison needs selected scalar native measure')
             if payload['mapping_id'] is not None:
