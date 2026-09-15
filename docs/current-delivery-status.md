@@ -1,6 +1,6 @@
 # Current delivery status
 
-Updated 2026-09-14. PR #152 is merged. The next grouped work is [capability and evidence assessment](capability-evidence-assessment.md), tracked by [#153](https://github.com/bcsnpc/data-investigation-agent/issues/153).
+Updated 2026-09-14. PR #154 is merged. Capability/evidence assessment is now on main. The next grouped work is [typed diagnostic scope](typed-diagnostic-scope.md), tracked by [#155](https://github.com/bcsnpc/data-investigation-agent/issues/155).
 
 ## What is built
 
@@ -12,7 +12,9 @@ Updated 2026-09-14. PR #152 is merged. The next grouped work is [capability and 
 | V2 onboarding | Admin UI/API, registration, environment scoping, business review, enable/disable, immutable context history | Local control plane; hosted identity/tenant product not delivered |
 | V2 catalog | Metadata scan queue/worker, retained definitions, dependency/operation discovery, change diffs and invalidation | Conservative analysis; complex effective contexts remain partial |
 | V2 native diagnostics | Catalog-selected Power BI measure, dependency and dimension reads; typed values, limits and saved receipts | Operator-driven, not an adaptive loop; two live reads passed |
-| V2 capabilities/evidence | Per-measure decisions, dry-run admission, saved decision/request binding, scoped receipt APIs and stale/partial/error assessment | Current continuation; upstream and causal certification remain unavailable |
+| V2 capabilities/evidence | Per-measure decisions, dry-run admission, saved decision/request binding, scoped receipt APIs and stale/partial/error assessment | Merged in #154; upstream and causal certification remain unavailable |
+
+Typed diagnostic scope adds date, integer, fixed-decimal and boolean filters, explicit BLANK values, scope discovery and validation. Two new live Power BI reads passed; this continuation is not full visual-context certification.
 
 ## Where we are
 

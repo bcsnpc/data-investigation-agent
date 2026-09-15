@@ -4,6 +4,7 @@ from decimal import Decimal
 import subprocess
 from uuid import uuid4
 from .onboarding import fields, digest, encoded, Conflict
+from .filter_scope import compile_filter, VERSION as FILTER_VERSION
 
 
 def table(name):
@@ -56,10 +57,14 @@ def build(model, plan):
     if not isinstance(filters,list) or not 1<=len(filters)<=8:raise ValueError('Explicit bounded filters required')
     clauses=[];used=set()
     for f in filters:
-        fields(f,['column_id','values'])
+        if not isinstance(f,dict):raise ValueError('Expected filter object')
+        fields(f,['column_id','operator','values'] if 'operator' in f else ['column_id','values'])
         identity=f['column_id']
         if not isinstance(identity,str) or identity in used:raise ValueError('Duplicate or invalid filter')
         ref=column(identity);used.add(identity)
+        if 'operator' in f:
+            clauses.append(compile_filter(f,columns[identity]['metadata'],ref))
+            continue
         if columns[identity]['metadata'].get('dataType')!='string':raise ValueError('Only string-column filters supported')
         values=f['values']
         if not isinstance(values,list) or not 1<=len(values)<=50:raise ValueError('Filter values outside budget')
@@ -78,9 +83,11 @@ def build(model, plan):
         projections=['"dimension"',ref]
         for i in range(len(selected)):projections.extend(['"m'+str(i)+'"','[m'+str(i)+']'])
         query='EVALUATE SELECTCOLUMNS(TOPN(501,'+grouped+','+ref+',ASC),'+','.join(projections)+')'
-    return {'query':query,'measure_ids':selected,'dimension_id':dimension,'gaps':gaps,
+    request={'query':query,'measure_ids':selected,'dimension_id':dimension,'gaps':gaps,
             'scope_hash':digest(plan),'context_id':context['id'],'context_hash':digest(context),
             'workspace':model['workspace'],'native_model_id':model['native_id']}
+    if any('operator' in f for f in filters):request['filter_scope_version']=FILTER_VERSION
+    return request
 
 
 def typed(value):

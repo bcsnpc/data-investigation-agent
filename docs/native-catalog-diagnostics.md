@@ -12,6 +12,8 @@ The transport sends one read to the configured workspace/model using the existin
 
 The local catalog database stores a `native_diagnostics` receipt before dispatch and updates it after completion. Each receipt retains the plan, generated query, catalog/context/scope hashes, selected IDs, typed results and status. BLANK remains BLANK; decimals retain their numeric type and decimal text across the subprocess boundary. Missing/error responses never become zero. Local context changes during execution hold the result. Timeouts are INTERRUPTED because remote completion is unknown; an abandoned RUNNING receipt is not automatically resumed.
 
+Typed scope now extends these string-only filters with date windows and metadata-bound values. See [typed diagnostic scope](typed-diagnostic-scope.md) for the current contract and remaining limits.
+
 ## Run
 
 Use IDs from the current catalog context, not the illustrative placeholders below:
