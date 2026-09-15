@@ -12,6 +12,7 @@ import sqlite3
 from uuid import UUID, uuid4
 
 from report_definition_evidence import bundle
+from .semantic_graph import analyze, affected
 
 
 class Conflict(ValueError):
@@ -173,15 +174,19 @@ class ModelStore:
         changes = {'added':sorted(source_hashes.keys()-old_hashes.keys()),
                    'removed':sorted(old_hashes.keys()-source_hashes.keys()),
                    'changed':sorted(k for k in source_hashes.keys() & old_hashes.keys() if source_hashes[k] != old_hashes[k])}
+        semantic = analyze(assets)
+        impacted = affected(changes['added']+changes['removed']+changes['changed'],semantic,
+                            prior.get('semantic_graph') if prior else None)
         # A partial listing cannot establish deletion or replace last good context.
         if changes['removed'] and any(r['scan_status'] != 'COMPLETE' for r in reports):
             raise ValueError('Partial scan cannot remove retained assets')
         value = {'schema_version':1,'id':str(uuid4()),'model_id':identity,'scan_id':scan_id,'scan_ended':scan[0],
                  'measures':measures,'reports':reports,'source_hashes':source_hashes,'changes':changes,
+                 'semantic_graph':semantic,'affected_measures':impacted,
                  'capabilities':{'MEASURE_DEFINITION_AVAILABLE':'SUPPORTED','REPORT_CONTEXT_AVAILABLE':'PARTIAL',
-                                 'MODEL_QUERYABLE':'UNKNOWN','MEASURE_DEPENDENCIES_RESOLVED':'UNKNOWN',
+                                 'MODEL_QUERYABLE':'UNKNOWN','MEASURE_DEPENDENCIES_RESOLVED':semantic['dependency_state'],
                                  'AGGREGATE_RECONCILABLE':'UNKNOWN','SOURCE_PROVENANCE_VERIFIED':'UNKNOWN'},
-                 'limitation':'Retained metadata only. Live execution, dependency analysis and runtime filters are not verified.'}
+                 'limitation':'Retained metadata and conservative dependency analysis only. Live execution and runtime filters are not verified.'}
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE')
             row = self.row(db, identity)
@@ -192,7 +197,8 @@ class ModelStore:
             db.execute('INSERT INTO model_contexts VALUES(?,?,?,?,?,?)',
                        (value['id'],identity,scan_id,encoded(value),digest(value),datetime.now(timezone.utc).isoformat()))
             business = json.loads(row['business'])
-            unchanged = prior is not None and not any(changes.values())
+            unchanged = (prior is not None and not any(changes.values()) and
+                         prior.get('semantic_graph',{}).get('version')==semantic['version'])
             if unchanged and business.get('confirmed_context') == row['context_id']:
                 business['confirmed_context'] = value['id']
             db.execute('UPDATE models SET context_id=?,revision=revision+1,enabled=?,business=? WHERE id=?',

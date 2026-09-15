@@ -42,11 +42,15 @@ All paths use bearer authentication; `/api/v2/admin/*` requires the admin creden
 
 JSON writes are limited to 16 KiB. Stale revisions return 409. Environment/model ownership checks reject cross-scope context access. This implementation deliberately names the action `import`, not `scan`: it does not pretend a new cloud scan ran.
 
+## Follow-on scan and semantic delivery
+
+[Catalog scans and reference analysis](catalog-scans-and-semantics.md) adds durable scan requests, explicit worker dispatch, connection receipts, dependency/operation analysis and affected-measure propagation. This extends the original retained-import slice; native model querying is still unverified.
+
 ## Remaining work in the same product milestone
 
-- Connection registration/permission probes and asynchronous scan lifecycle.
+- Rich connection registration and fine-grained permission probes; configured-connection metadata scans now have a queued lifecycle.
 - Scheduled/triggered scans, affected-subgraph invalidation and scan failure history.
-- Semantic dependency/relationship analysis and richer per-metric readiness.
+- Full semantic/context analysis and richer per-metric readiness beyond conservative reference discovery.
 - Structured per-metric business definitions, provenance enrichment and policy enforcement.
 - Versioned context packs attached to v2 investigations; native query tools and adaptive execution.
 

@@ -7,7 +7,8 @@
 <label>Name<input name="name" required></label><label>Workspace ID<input name="workspace" required></label><label>Semantic model ID<input name="model_id" required></label><label>Report IDs (comma separated)<textarea name="report_ids" required></textarea></label><button>Register</button></form></section>
 <section id="detail" hidden><h2 id="name"></h2><p id="state"></p><p id="limit"></p>
 <form id="scan"><label>Completed metadata scan ID<input name="scan_id" required></label><button>Import scan</button></form>
+<h3>Connection and metadata scans</h3><p id="connection"></p><button id="queue" type="button" disabled>Request new metadata scan</button><button id="refresh" type="button">Refresh status</button><pre id="jobs"></pre>
 <h3>Business context</h3><p>Confirm the intended definition for these reports. Unknown expectations can be recorded as “Unknown”; they do not authorize comparison or delivery.</p>
 <form id="review"><label>Business definition<textarea name="definition" required></textarea></label><label>Responsible team<input name="owner" required></label><label>Date basis<input name="date_basis" required></label><label>Refresh expectation<input name="refresh_expectation" required></label><label>Tolerance<input name="tolerance" required></label><label>Exceptions<textarea name="exceptions" required></textarea></label><button>Confirm context</button></form>
 <button id="enable" type="button">Enable catalog</button><p>Enablement makes reports visible in the v2 catalog only. Live-query capabilities remain unverified.</p>
-<h3>Readiness</h3><dl id="capabilities"></dl><h3>Measures</h3><ul id="measures"></ul><h3>Changes and history</h3><pre id="history"></pre></section></div></main><script src="/admin.js"></script></body></html>
+<h3>Readiness</h3><dl id="capabilities"></dl><h3>Measures and dependencies</h3><ul id="measures"></ul><h3>Changes and history</h3><pre id="history"></pre></section></div></main><script src="/admin.js"></script></body></html>
