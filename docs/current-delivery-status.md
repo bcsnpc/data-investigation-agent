@@ -1,6 +1,6 @@
 # Current delivery status
 
-Updated 2026-09-14. PR #154 is merged. Capability/evidence assessment is now on main. The next grouped work is [typed diagnostic scope](typed-diagnostic-scope.md), tracked by [#155](https://github.com/bcsnpc/data-investigation-agent/issues/155).
+Updated 2026-09-14. PR #156 is merged. Typed diagnostic scope is now on main. The next grouped work is [catalog-driven SQL diagnostics](source-catalog-diagnostics.md), tracked by [#157](https://github.com/bcsnpc/data-investigation-agent/issues/157).
 
 ## What is built
 
@@ -15,6 +15,8 @@ Updated 2026-09-14. PR #154 is merged. Capability/evidence assessment is now on 
 | V2 capabilities/evidence | Per-measure decisions, dry-run admission, saved decision/request binding, scoped receipt APIs and stale/partial/error assessment | Merged in #154; upstream and causal certification remain unavailable |
 
 Typed diagnostic scope adds date, integer, fixed-decimal and boolean filters, explicit BLANK values, scope discovery and validation. Two new live Power BI reads passed; this continuation is not full visual-context certification.
+
+Source diagnostics now add pinned-catalog SQL count/sum reads and saved evidence. Live USD order count and total-amount sum succeeded after one separately recorded failed attempt. This adds source observations; source-to-measure equivalence is still unverified.
 
 ## Where we are
 
