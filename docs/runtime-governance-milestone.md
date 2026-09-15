@@ -1,6 +1,6 @@
 # Governed adaptive runtime milestone
 
-Tracked by [#165](https://github.com/bcsnpc/data-investigation-agent/issues/165), after merged PR #164. This groups shared usage controls, cancellation, receipt recovery, progress stopping and operator interfaces in one change. It does not add causal proof or change Azure SQL billing configuration.
+Implemented in [PR #166](https://github.com/bcsnpc/data-investigation-agent/pull/166), tracked by [#165](https://github.com/bcsnpc/data-investigation-agent/issues/165), after merged PR #164. This groups shared usage controls, cancellation, receipt recovery, progress stopping and operator interfaces in one change. It does not add causal proof or change Azure SQL billing configuration.
 
 ## Shared reservations
 

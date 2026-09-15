@@ -1,6 +1,6 @@
 # Current delivery status
 
-Updated 2026-09-14. **PR #164 is merged.** The next grouped milestone, [governed adaptive execution](runtime-governance-milestone.md), is implemented on `feature/v2-runtime-governance`, tracked by [#165](https://github.com/bcsnpc/data-investigation-agent/issues/165).
+Updated 2026-09-14. **PR #164 is merged.** The next grouped milestone, [governed adaptive execution](runtime-governance-milestone.md), is open in [PR #166](https://github.com/bcsnpc/data-investigation-agent/pull/166), tracked by [#165](https://github.com/bcsnpc/data-investigation-agent/issues/165).
 
 ## What is built
 
