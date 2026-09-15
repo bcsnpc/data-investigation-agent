@@ -5,7 +5,7 @@
 **Reviewed working branch:** `feature/business-demo`, commit `c92d56b`  
 **Purpose:** An implementation handoff and next-step decision document, not a claim of product completion.
 
-**Revised engineering plan (first-class product direction):** [Metadata-driven architecture and phased acceptance](docs/architecture/README.md). This planning package expands the next steps below; it is awaiting review and does not represent implemented functionality.
+**Revised engineering plan (first-class product direction):** [Metadata-driven architecture and phased acceptance](docs/architecture/README.md). This package governs the next phases. The historical assessment below is retained; current delivery status is in [the tracker](docs/progress.md). Model onboarding, scan/dependency analysis and [native diagnostic reads](docs/native-catalog-diagnostics.md) now have implementation slices; the adaptive investigator remains pending.
 
 This assessment uses the repository's code, configuration, validation records and
 the recent architecture discussion. Cloud deployment statements below describe
