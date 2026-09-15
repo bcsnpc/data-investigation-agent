@@ -1,46 +1,32 @@
 # Current delivery status
 
-Updated 2026-09-14. PR #160 is merged, including comparison intent and evidence gates. The next substantial backend milestone is implemented on `feature/v2-investigation-milestone`, in [PR #162](https://github.com/bcsnpc/data-investigation-agent/pull/162), tracked by [#161](https://github.com/bcsnpc/data-investigation-agent/issues/161). See [implementation and verification](v2-diagnostic-milestone.md).
+Updated 2026-09-14. **PR #162 is merged.** The next grouped milestone, [evidence-led diagnostic investigation](adaptive-investigation-milestone.md), is implemented on `feature/v2-adaptive-investigation`, tracked by [#163](https://github.com/bcsnpc/data-investigation-agent/issues/163).
 
 ## What is built
 
-| Area | Delivered | Boundary |
+| Area | Delivered | Current boundary |
 | --- | --- | --- |
-| Business data and application | Related synthetic dataset with 100,000 orders, SQL schema/loading, orders portal and deployed Azure foundation | Cloud availability is not revalidated by this status update |
-| Analytics platform | Fabric Bronze/Silver/Gold processing, reconciliation, semantic model and Power BI reports | Existing platform; not a newly certified source/semantic snapshot |
-| Existing investigator | Bounded two-metric diagnosis, LLM-assisted ticket planning, evidence/review workflows, defect labs, demos and reviewed routing infrastructure | Preserved as bounded-v1; not a general investigator |
-| V2 onboarding | Admin UI/API, registration, environment scoping, business review, enable/disable, immutable context history | Local control plane; hosted identity/tenant product not delivered |
-| V2 catalog | Metadata scan queue/worker, retained definitions, dependency/operation discovery, change diffs and invalidation | Conservative analysis; complex effective contexts remain partial |
-| V2 native diagnostics | Catalog-selected Power BI measure, dependency and dimension reads; typed values, limits and saved receipts | Operator-driven, not an adaptive loop; two live reads passed |
-| V2 capabilities/evidence | Per-measure decisions, dry-run admission, saved decision/request binding, scoped receipt APIs and stale/partial/error assessment | Merged in #154; upstream and causal certification remain unavailable |
+| Business foundation | Related 100000-order dataset, Azure SQL loading and orders application | Existing deployment; no new application deployment in this milestone |
+| Analytics | Fabric Bronze/Silver/Gold processing, reconciliation, semantic model and Power BI reports | Complete native/source snapshot certification remains separate |
+| Bounded-v1 investigator | Two-metric diagnosis, LLM-assisted ticket planning, review/evidence/routing workflows, defect labs and demos | Preserved as the bounded baseline |
+| V2 onboarding/catalog | Admin UI/API, model registration, metadata scans, immutable contexts, business review, dependency discovery and invalidation | Hosted onboarding and broader semantic/context coverage remain |
+| V2 diagnostic tools | Metadata-selected Power BI scalar/dependency/dimension reads, SQL count/sum reads, typed filters, saved receipts and comparison gaps | Scope/version/equivalence proof remains incomplete |
+| Durable runtime | Typed plans, reserved budgets/receipts, idempotency, worker fencing, explicit recovery and timeout holds | Local operator runtime; uncertain completion is not automatically retried |
+| Adaptive diagnostic loop | LLM selects the next admitted test from saved observations; hypotheses, clarification, scope successors and stop reasons persist | Not a complete causal verifier; source tests still need reviewed configuration |
+| Shared projections | Business and technical API projections share one session, scope and outcome hash | Backend only; unified v2 ticket UI is not deployed |
 
-Typed diagnostic scope adds date, integer, fixed-decimal and boolean filters, explicit BLANK values, scope discovery and validation. Two new live Power BI reads passed; this continuation is not full visual-context certification.
-
-Source diagnostics now add pinned-catalog SQL count/sum reads and saved evidence. Live USD order count and total-amount sum succeeded after one separately recorded failed attempt. This adds source observations; source-to-measure equivalence is still unverified.
-
-Comparison assessment now pairs saved observations, checks reviewed mappings and scope, and persists exact missing-proof reasons. It does not yet certify comparability or a cause. No business mapping was invented during validation.
-
-## Larger backend milestone now implemented
-
-- Metadata-derived direct SUM/COUNTROWS semantics and recursive dependency shape inspection; unsupported expressions remain explicit.
-- A typed tool registry and durable action plans supporting source-first, multiple native observations and explicit evidence references.
-- Idempotent run creation, reserved receipts/call budgets, worker fencing, admission fingerprints and conservative crash recovery.
-- SQL connection-only 40613 recovery using the existing bounded retry policy; query failures are not retried.
-- Admin run history and proof-readiness endpoints, a CLI, and regression coverage.
-
-**Validation:** 472 script tests passed. A live run read 100000 from both Power BI and SQL using two cloud actions; repeating the completed run created no new reads. The comparison correctly remained insufficient evidence because mapping, version and context proof are missing. No new v2 UI or Azure deployment is claimed.
+**Validation:** 505 script tests passed. One live session used two Azure LLM decisions and two data reads, each returning 100000. Repeating the completed session made no new reads; both projections shared the same outcome. Earlier provider-response failures and their fix are recorded in the milestone document.
 
 ## Where we are
 
-**Phase A is verified. B/C have working foundations. We are implementing D/E: native tools and semantic capability decisions. F now has a durable runtime foundation; G-J remain ahead.** The roadmap is the [A–J architecture](architecture/README.md); merging a PR does not complete its phase.
+**Phase A is verified. B-E have working implementation slices. F/G now have durable execution and evidence-led planning foundations; their full acceptance gates remain open.** H is pending. I has a shared backend projection but still needs its user workflow; J has reusable bounded-v1 routing but no completed v2 handoff.
 
-The new path can discover a measure, admit a bounded diagnostic request, ask Power BI for its value and inspect saved evidence. It cannot yet autonomously choose and revise hypotheses until it proves why a business metric differs.
+The new path can select a catalog measure, choose and run an approved diagnostic, observe the result and choose a different next test. It no longer requires an operator to prewrite the whole sequence. It still cannot certify a general business cause from incomplete evidence. Numeric observations and diagnostic differences come from saved receipts; hypotheses stay unverified and routing stays ineligible.
 
 ## Remaining grouped milestones
 
-1. **Finish diagnostic semantics and proof prerequisites (B–E):** complete report/filter/date/effective-identity context, authoritative source mappings and upstream tools, model/source version evidence, dependency context certification, capability gates and remaining scan/onboarding lifecycle work.
-2. **Complete durable adaptive investigation (F-G):** typed tools, persisted diagnostic actions, budget reservations and conservative recovery are implemented. Persisted hypotheses, evidence-led next-test selection, deterministic verification and impact remain. Uncertain cloud completion intentionally holds for reconciliation.
-3. **Prove generality (H):** freeze the engine and pass all eight acceptance families, including new additive/ratio/complex measures, visual-context, freshness, application-origin, healthy and insufficient-evidence cases. Live native version-proof prerequisites must actually pass.
-4. **Complete the product workflow (I–J):** one shared run in business/technical views, enabled-report selection, clarification, reviewed routing and triage.
+1. **Complete trustworthy investigation and proof:** effective report/identity/date context, authoritative source mappings, version/shared-generation evidence, supported causal/freshness/application-intent verifiers, impact/ownership and cross-session usage governance. Complete the remaining B-G exit gates together with meaningful end-to-end checks.
+2. **Prove generality:** freeze the runtime and run all eight hidden/native acceptance families, including new additive, ratio and complex measures, healthy/defect/gap variants and repeated planner evaluations. Current injected tests and live smoke checks do not replace this gate.
+3. **Complete the user product:** resolve business tickets/screenshots into reviewed scope, build the shared business/technical workspace, integrate reviewed v2 routing/triage, then deploy and verify the complete workflow.
 
-The platform and bounded demos are available as a foundation. The general metadata-driven investigator is still under construction; no completion percentage or delivery date is inferred from the PR count.
+See the [tracker](progress.md), [milestone behavior and limits](adaptive-investigation-milestone.md) and [A-J acceptance plan](architecture/phases-and-acceptance.md). PR count is not a completion measure.

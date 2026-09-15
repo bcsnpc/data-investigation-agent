@@ -42,7 +42,8 @@ def read_once(config, request):
 
 def transport(config, request):
     result=read_with_retry(lambda:read_once(config,request))
-    if result.get('error') == 'SQL_READ_TIMEOUT':raise SourceReadTimeout(result['connection_attempts'])
+    if result.get('error') == 'SQL_READ_TIMEOUT' or (result.get('stage')=='query' and result.get('sql_error_number')==-2):
+        raise SourceReadTimeout(result['connection_attempts'])
     if result.get('error'):
         raise SourceReadError(result.get('sql_error_number'),result.get('error_kind'),result['connection_attempts'])
     return result

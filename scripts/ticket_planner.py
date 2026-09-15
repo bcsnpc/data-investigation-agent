@@ -66,7 +66,7 @@ def validate_plan(value, ticket, reports):
             'plan': value, 'executable': False, 'automatic_defect_routing': False}
 
 
-def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan'):
+def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False):
     endpoint = os.environ.get('AZURE_OPENAI_ENDPOINT', '')
     deployment = os.environ.get('AZURE_OPENAI_DEPLOYMENT', '')
     key = os.environ.get('AZURE_OPENAI_API_KEY', '')
@@ -74,14 +74,23 @@ def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tick
         raise ValueError('Azure endpoint, deployment and local API key must be configured')
     from openai import OpenAI
     with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=45, max_retries=0) as client:
+        options = ({'tools':[{'type':'function','name':name,'description':'Propose exactly one next diagnostic action; no execution.',
+                             'parameters':schema,'strict':True}],
+                    'tool_choice':{'type':'function','name':name},'parallel_tool_calls':False}
+                   if decision_tool else {'text':{'format':{'type':'json_schema','name':name,'strict':True,'schema':schema}}})
         response = client.responses.create(
             model=deployment, instructions=instructions, input=json.dumps(payload), store=False,
-            max_output_tokens=1500,
-            text={'format': {'type': 'json_schema', 'name': name, 'strict': True, 'schema': schema}})
+            max_output_tokens=1500, **options)
     if response.status != 'completed' or any(
             c.type == 'refusal' for item in response.output if item.type == 'message' for c in item.content):
         raise ValueError('Model refused or returned an incomplete response')
-    return json.loads(response.output_text), {'response_id': response.id, 'model': response.model,
+    if decision_tool:
+        calls=[item for item in response.output if item.type=='function_call']
+        if len(calls)!=1 or calls[0].name!=name or any(item.type not in ('function_call','reasoning') for item in response.output):
+            raise ValueError('Expected one unambiguous decision call')
+        raw=calls[0].arguments
+    else:raw=response.output_text
+    return json.loads(raw), {'response_id': response.id, 'model': response.model,
                                             'usage': response.usage.model_dump() if response.usage else None}
 
 

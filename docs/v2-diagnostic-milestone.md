@@ -1,5 +1,7 @@
 # Durable v2 diagnostic backend milestone
 
+This typed-runtime milestone is merged in PR #162. The next [adaptive session milestone](adaptive-investigation-milestone.md) builds on it; descriptions below apply to the original operator-supplied action runtime.
+
 Tracked by [#161](https://github.com/bcsnpc/data-investigation-agent/issues/161), following merged PR #160. This is one grouped delivery across aggregate analysis, execution, recovery, SQL connection handling and acceptance tests. It does not close every D/E/F exit gate or introduce the adaptive LLM planner.
 
 ## Delivered together

@@ -14,3 +14,7 @@ SQL changes require review of constraints and a relevant development-database
 validation. CI intentionally does not connect to Azure or modify cloud data.
 Record live verification separately when relevant. Update `docs/progress.md`
 when milestone status or scope changes.
+
+Group cohesive milestones into substantial PRs with implementation, meaningful
+verification and tracker updates together. Avoid a chain of helper-only PRs;
+record acceptance boundaries and remaining work for each grouped milestone.

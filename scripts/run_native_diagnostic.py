@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 from urllib.request import Request, build_opener
+from urllib.error import URLError
 from uuid import UUID
 
 from investigator.onboarding import ModelStore
@@ -35,7 +36,12 @@ def transport(config, request):
         p=subprocess.run([config['fabric']['auth']['python'],str(ROOT/'scripts/run_native_diagnostic.py'),
             '--config',str(frozen),'--transport-worker'],input=json.dumps(request),
             capture_output=True,text=True,encoding='utf-8',timeout=120)
-    if p.returncode:raise RuntimeError('Native transport unavailable')
+    if p.returncode:
+        try:failure=json.loads(p.stdout)
+        except (ValueError,TypeError):failure={}
+        if isinstance(failure,dict) and failure.get('completion_uncertain') is True:
+            raise TimeoutError('Native completion is uncertain')
+        raise RuntimeError('Native transport unavailable')
     return json.loads(p.stdout,parse_float=Decimal)
 
 
@@ -54,7 +60,8 @@ if __name__=='__main__':
             if request['workspace']!=config['fabric']['workspace_id']:raise ValueError('Workspace differs')
             print(execute(request,config['fabric']['auth']['tenant_id']))
         except Exception as exc:
-            print(json.dumps({'error':type(exc).__name__}));raise SystemExit(1)
+            print(json.dumps({'error':type(exc).__name__,
+                              'completion_uncertain':isinstance(exc,(TimeoutError,URLError))}));raise SystemExit(1)
     else:
         if not args.approve or not args.plan or not args.database or not args.environment:
             parser.error('Explicit --approve, --plan, --database and --environment required')
