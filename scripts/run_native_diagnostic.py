@@ -27,6 +27,18 @@ def execute(request,tenant):
     return raw.decode('utf-8')
 
 
+def transport(config, request):
+    """Trusted native worker, also used by the durable operator runtime."""
+    with tempfile.TemporaryDirectory() as directory:
+        frozen=Path(directory)/'profile.json'
+        frozen.write_text(json.dumps(config),encoding='utf-8')
+        p=subprocess.run([config['fabric']['auth']['python'],str(ROOT/'scripts/run_native_diagnostic.py'),
+            '--config',str(frozen),'--transport-worker'],input=json.dumps(request),
+            capture_output=True,text=True,encoding='utf-8',timeout=120)
+    if p.returncode:raise RuntimeError('Native transport unavailable')
+    return json.loads(p.stdout,parse_float=Decimal)
+
+
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config',type=Path,required=True)
@@ -49,15 +61,5 @@ if __name__=='__main__':
         plan=json.loads(args.plan.read_text(encoding='utf-8-sig'))
         store=ModelStore(args.database,config['storage']['database'],args.environment)
         if store.get(plan['model_id'])['workspace']!=config['fabric']['workspace_id']:parser.error('Workspace differs')
-        def transport(request):
-            # Freeze the admitted profile for the worker; never copy tokens.
-            with tempfile.TemporaryDirectory() as directory:
-                frozen=Path(directory)/'profile.json'
-                frozen.write_text(json.dumps(config),encoding='utf-8')
-                p=subprocess.run([config['fabric']['auth']['python'],str(ROOT/'scripts/run_native_diagnostic.py'),
-                    '--config',str(frozen),'--transport-worker'],input=json.dumps(request),
-                    capture_output=True,text=True,encoding='utf-8',timeout=120)
-            if p.returncode:raise RuntimeError('Native transport unavailable')
-            return json.loads(p.stdout,parse_float=Decimal)
-        result=run(store,plan,transport);print(json.dumps(result))
+        result=run(store,plan,lambda request:transport(config,request));print(json.dumps(result))
         raise SystemExit(0 if result['status']=='COMPLETED' else 1)

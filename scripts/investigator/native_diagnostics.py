@@ -118,12 +118,15 @@ def extract(response, request):
             'returned_rows':len(rows),'limitation':'Response completeness is not snapshot or cross-system comparability. Grouped results can omit all-blank groups.'}
 
 
-def run(store,plan,execute):
+def run(store,plan,execute,*,receipt_id=None):
     """One approved operator invocation, one call; save receipt before/after.
 
     No automatic resume/retry. Execute is an operator-owned bounded transport.
     """
-    model=store.get(plan['model_id']);request=build(model,plan);identity=str(uuid4())
+    model=store.get(plan['model_id']);request=build(model,plan);identity=receipt_id or str(uuid4())
+    if receipt_id is not None:
+        from uuid import UUID
+        if str(UUID(receipt_id)) != receipt_id:raise ValueError('Invalid reserved receipt ID')
     from .capabilities import assess
     decision=assess(model,plan)
     with store.connect() as db:

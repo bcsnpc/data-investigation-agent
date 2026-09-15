@@ -7,16 +7,24 @@ import subprocess
 from investigator.onboarding import ModelStore
 from investigator.source_diagnostics import run, snapshot
 from metadata_config import load_config, ROOT
+from sql_connect_retry import read_with_retry
 
 
 class SourceReadError(RuntimeError):
-    def __init__(self, number=None, kind=None):
+    def __init__(self, number=None, kind=None, attempts=None):
         super().__init__('Source transport unavailable')
         self.error_number = number if type(number) is int else None
         self.error_kind = kind if kind in ('SqlException', 'InvalidOperationException', 'MethodException', 'ArgumentException') else 'TransportError'
+        self.connection_attempts = attempts
 
 
-def transport(config, request):
+class SourceReadTimeout(TimeoutError):
+    def __init__(self, attempts):
+        super().__init__('Source completion is uncertain')
+        self.connection_attempts = attempts
+
+
+def read_once(config, request):
     payload = {'server': config['sql']['server'], 'database': config['sql']['database'],
                'credential_file': config['sql']['auth']['credential_file'],
                'query': request['query'], 'parameters': request['parameters']}
@@ -27,7 +35,16 @@ def transport(config, request):
         raise RuntimeError('Source transport unavailable')
     result = json.loads(completed.stdout)
     if completed.returncode:
-        raise SourceReadError(result.get('error_number'), result.get('error_kind'))
+        return {'error':'SQL_READ_FAILED','stage':result.get('stage','unknown'),
+                'sql_error_number':result.get('error_number'),'error_kind':result.get('error_kind')}
+    return result
+
+
+def transport(config, request):
+    result=read_with_retry(lambda:read_once(config,request))
+    if result.get('error') == 'SQL_READ_TIMEOUT':raise SourceReadTimeout(result['connection_attempts'])
+    if result.get('error'):
+        raise SourceReadError(result.get('sql_error_number'),result.get('error_kind'),result['connection_attempts'])
     return result
 
 

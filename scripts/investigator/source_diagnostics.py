@@ -41,6 +41,22 @@ def quote(name):
     return '[' + name.replace(']', ']]') + ']'
 
 
+def connection_attempts(value):
+    if value is None:return None
+    if not isinstance(value,list) or not 1<=len(value)<=3:raise ValueError('Invalid connection attempts')
+    for index,attempt in enumerate(value,1):
+        fields(attempt,['attempt','started_at','finished_at','status','stage','sql_error_number','retry_delay_seconds'])
+        if type(attempt['attempt']) is not int or attempt['attempt']!=index or attempt['status'] not in ('FAILED','SUCCEEDED'):
+            raise ValueError('Invalid connection attempt state')
+        if attempt['stage'] not in (None,'connect','query','unknown') or attempt['retry_delay_seconds'] not in (0,10,20):
+            raise ValueError('Invalid connection stage')
+        if attempt['sql_error_number'] is not None and type(attempt['sql_error_number']) is not int:raise ValueError('Invalid SQL error number')
+        for key in ('started_at','finished_at'):
+            if not isinstance(attempt[key],str) or len(attempt[key])>40:raise ValueError('Invalid connection timestamp')
+            datetime.fromisoformat(attempt[key])
+    return value
+
+
 def build(store, plan, config):
     fields(plan, ['model_id', 'revision', 'context_id', 'object_id', 'operation', 'column_id', 'filters'])
     model = store.get(plan['model_id'])
@@ -98,15 +114,20 @@ def build(store, plan, config):
             'catalog_hash': digest([objects, columns]), 'connection_hash': digest(config['sql'])}
 
 
-def run(store, plan, config, execute):
-    request = build(store, plan, config); identity = str(uuid4())
+def run(store, plan, config, execute, *, receipt_id=None):
+    request = build(store, plan, config); identity = receipt_id or str(uuid4())
+    if receipt_id is not None:
+        from uuid import UUID
+        if str(UUID(receipt_id)) != receipt_id:raise ValueError('Invalid reserved receipt ID')
     with store.connect() as db:
         db.execute('CREATE TABLE IF NOT EXISTS source_diagnostics(id TEXT PRIMARY KEY,model_id TEXT,created TEXT,status TEXT,request TEXT,result TEXT)')
         db.execute('INSERT INTO source_diagnostics VALUES(?,?,?,?,?,NULL)',
                    (identity, plan['model_id'], datetime.now(timezone.utc).isoformat(), 'RUNNING', encoded({'plan': plan, **request})))
+    attempts=None
     try:
         if build(store, plan, config) != request:raise Conflict('Source context changed')
-        result = execute(request)
+        result = dict(execute(request))
+        attempts=connection_attempts(result.pop('connection_attempts',None))
         fields(result, ['value', 'row_count', 'nonblank_count'])
         from decimal import Decimal
         for key, value in result.items():
@@ -124,6 +145,9 @@ def run(store, plan, config, execute):
         result = {k: {'type': 'blank' if v is None else 'decimal', 'value': v} for k, v in result.items()}
         status = 'COMPLETED'
     except Exception as exc:
+        attempts=None
+        try:attempts=connection_attempts(getattr(exc,'connection_attempts',None))
+        except (ValueError,TypeError):pass
         uncertain = isinstance(exc, (TimeoutError, subprocess.TimeoutExpired)) or getattr(exc, 'error_number', None) == -2
         status = 'HELD' if isinstance(exc, Conflict) else 'INTERRUPTED' if uncertain else 'FAILED'
         result = {'error_type': type(exc).__name__}
@@ -132,6 +156,7 @@ def run(store, plan, config, execute):
         if getattr(exc, 'error_kind', None) in ('SqlException', 'InvalidOperationException', 'MethodException', 'ArgumentException', 'TransportError'):
             result['error_kind'] = exc.error_kind
     result.update(snapshot_comparable=False, measure_equivalence_verified=False, root_cause_verified=False)
+    if attempts is not None:result['connection_attempts']=attempts
     with store.connect() as db:
         db.execute('UPDATE source_diagnostics SET status=?,result=? WHERE id=?', (status, encoded(result), identity))
     return {'id': identity, 'status': status, 'request_hash': digest(request), 'result': result}

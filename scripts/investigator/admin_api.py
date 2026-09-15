@@ -9,6 +9,10 @@ from .diagnostic_evidence import receipts, read
 from .filter_scope import catalog as scope_catalog
 from .source_diagnostics import evidence as source_evidence
 from .comparisons import register as register_mapping, mapping as read_mapping, assess as compare, read as read_comparison
+from .runtime import read_run
+from .aggregate_semantics import describe as describe_aggregate, dependency_shapes
+from .proof_requirements import readiness as proof_readiness
+from .tool_registry import TOOLS
 
 ASSETS = Path(__file__).resolve().parents[2] / 'apps' / 'model-admin'
 
@@ -46,6 +50,9 @@ def create_app(store, admin_token, reader_token, scans=None):
                      'execution_available':False} for m in store.list(True) for r in m['reports']]})
             if not is_admin:
                 return respond('403 Forbidden',{'error':'Admin role required'})
+            if path=='/api/v2/admin/tools' and method=='GET':
+                return respond('200 OK',{'tools':[{'name':name,'cloud_call_cost':int(spec['cloud'])} for name,spec in TOOLS.items()],
+                                         'action_limit':20,'cloud_call_limit':10,'adaptive_planner_available':False})
             if path=='/api/v2/admin/connection' and method=='GET':
                 return respond('200 OK',{'configured':scans is not None,
                      'workspace':scans.workspace if scans else None,
@@ -67,6 +74,17 @@ def create_app(store, admin_token, reader_token, scans=None):
                 return respond('404 Not Found',{'error':'Not found'})
             parts = path[len(base)+1:].split('/')
             identity = parts[0]
+            if len(parts)==2 and parts[1]=='proof-readiness' and method=='GET':
+                return respond('200 OK',proof_readiness(store.get(identity)))
+            if len(parts)==3 and parts[1]=='investigations' and method=='GET':
+                return respond('200 OK',read_run(store,identity,parts[2]))
+            if len(parts)==2 and parts[1]=='aggregate-semantics' and method=='GET':
+                model=store.get(identity)
+                return respond('200 OK',{'context_id':model['context_id'],'measures':[
+                    describe_aggregate(model,m['id']) for m in model['context']['measures']] if model['context'] else []})
+            if len(parts)==2 and parts[1]=='aggregate-semantics' and method=='POST':
+                fields(body,['measure_id'])
+                return respond('200 OK',dependency_shapes(store.get(identity),body['measure_id']))
             if len(parts)==2 and parts[1]=='comparison-mappings' and method=='POST':
                 return respond('200 OK',register_mapping(store,identity,body,'local-admin'))
             if len(parts)==3 and parts[1]=='comparison-mappings' and method=='GET':

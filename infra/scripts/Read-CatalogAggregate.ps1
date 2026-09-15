@@ -5,6 +5,7 @@ $request = [Console]::In.ReadToEnd() | ConvertFrom-Json
 $connection = $null
 $command = $null
 $reader = $null
+$stage = 'connect'
 try {
     $credential = Import-Clixml -LiteralPath $request.credential_file
     $credential.Password.MakeReadOnly()
@@ -18,6 +19,7 @@ try {
     $connection = New-Object System.Data.SqlClient.SqlConnection($builder.ConnectionString)
     $connection.Credential = New-Object System.Data.SqlClient.SqlCredential($credential.UserName, $credential.Password)
     $connection.Open()
+    $stage = 'query'
     $command = $connection.CreateCommand()
     $command.CommandTimeout = 30
     $command.CommandText = $request.query
@@ -41,7 +43,7 @@ try {
     while ($failure.InnerException) { $failure = $failure.InnerException }
     $number = $null
     if ($failure -is [System.Data.SqlClient.SqlException]) { $number = $failure.Number }
-    @{error='SourceReadFailed'; error_number=$number; error_kind=$failure.GetType().Name} | ConvertTo-Json -Compress
+    @{error='SourceReadFailed'; error_number=$number; error_kind=$failure.GetType().Name; stage=$stage} | ConvertTo-Json -Compress
     exit 1
 } finally {
     if ($reader) { $reader.Dispose() }
