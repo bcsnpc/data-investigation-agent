@@ -1,6 +1,6 @@
 # Current delivery status
 
-Updated 2026-09-14. PR #156 is merged. Typed diagnostic scope is now on main. The next grouped work is [catalog-driven SQL diagnostics](source-catalog-diagnostics.md), tracked by [#157](https://github.com/bcsnpc/data-investigation-agent/issues/157).
+Updated 2026-09-14. PR #158 is merged. Catalog-driven SQL diagnostics are now on main. The next grouped work is [comparison intent and evidence gates](comparison-evidence-gates.md), tracked by [#159](https://github.com/bcsnpc/data-investigation-agent/issues/159).
 
 ## What is built
 
@@ -17,6 +17,8 @@ Updated 2026-09-14. PR #156 is merged. Typed diagnostic scope is now on main. Th
 Typed diagnostic scope adds date, integer, fixed-decimal and boolean filters, explicit BLANK values, scope discovery and validation. Two new live Power BI reads passed; this continuation is not full visual-context certification.
 
 Source diagnostics now add pinned-catalog SQL count/sum reads and saved evidence. Live USD order count and total-amount sum succeeded after one separately recorded failed attempt. This adds source observations; source-to-measure equivalence is still unverified.
+
+Comparison assessment now pairs saved observations, checks reviewed mappings and scope, and persists exact missing-proof reasons. It does not yet certify comparability or a cause. No business mapping was invented during validation.
 
 ## Where we are
 
