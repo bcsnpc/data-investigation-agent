@@ -19,7 +19,8 @@ def fixture():
     graph={name:{'dependency_state':'SUPPORTED','operations':ops,'dependencies':deps}
            for name,ops,deps in [('Unseen ratio',['RATIO'],['Child']),('Child',['FILTERED_MEASURE'],[])]}
     model={'id':'model','revision':3,'context_id':'ctx','enabled':True,'workspace':'workspace','native_id':'native',
-           'context':{'id':'ctx','reports':[{'model_assets':assets}],'semantic_graph':{'measures':graph}}}
+           'context':{'id':'ctx','measures':[{'id':name,'name':name} for name in ['Unseen ratio','Child']],
+                      'reports':[{'model_assets':assets}],'semantic_graph':{'measures':graph}}}
     plan={'model_id':'model','revision':3,'context_id':'ctx','measure_ids':['Unseen ratio'],
           'filters':[{'column_id':'c','values':['USD']}],'dimension_id':None,'include_dependencies':False}
     return model,plan

@@ -117,10 +117,15 @@ def run(store,plan,execute):
     No automatic resume/retry. Execute is an operator-owned bounded transport.
     """
     model=store.get(plan['model_id']);request=build(model,plan);identity=str(uuid4())
+    from .capabilities import assess
+    decision=assess(model,plan)
     with store.connect() as db:
         db.execute('CREATE TABLE IF NOT EXISTS native_diagnostics(id TEXT PRIMARY KEY,model_id TEXT,created TEXT,status TEXT,request TEXT,result TEXT)')
+        db.execute('CREATE TABLE IF NOT EXISTS native_capability_decisions(receipt_id TEXT PRIMARY KEY,decision_hash TEXT,body TEXT)')
         db.execute('INSERT INTO native_diagnostics VALUES(?,?,?,?,?,NULL)',
                    (identity,model['id'],datetime.now(timezone.utc).isoformat(),'RUNNING',encoded({'plan':plan,**request})))
+        db.execute('INSERT INTO native_capability_decisions VALUES(?,?,?)',
+                   (identity,decision['decision_hash'],encoded(decision)))
     try:
         # Revalidate immediately before dispatch, and hold results if local
         # context/enablement changed during the native read.
