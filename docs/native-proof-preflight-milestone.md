@@ -1,5 +1,7 @@
 # Native acceptance proof preflight
 
+Review: [PR #178](https://github.com/bcsnpc/data-investigation-agent/pull/178).
+
 Tracked by [#177](https://github.com/bcsnpc/data-investigation-agent/issues/177), following merged PR #176. This completes a repeatable feasibility check for the D/H version-proof prerequisite; it does not pass the H acceptance experiment.
 
 ## Why this was the next step
