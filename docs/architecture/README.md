@@ -1,5 +1,7 @@
 # Metadata-driven investigator: product and engineering plan
 
+Implemented: [reviewed record discovery](../reviewed-record-discovery-milestone.md) reuses model-level record projections across tickets with complete scope, typed catalog validation, revocation and paired adaptive evidence. Review remains intent, not causal or semantic proof.
+
 **Status: Phase A verified; B-E implementation slices and F/G governed adaptive diagnostic foundations implemented. [Reviewed watermark conditions](../watermark-freshness-milestone.md) extend the proof slice; [Reviewed mapping discovery and typed source scope](../reviewed-source-scopes-milestone.md) now reduce per-ticket setup; [Bounded record readback and keyed evidence](../keyed-readback-milestone.md) now support deeper diagnostics; B-G full exit gates remain open.** Updated 2026-09-14.
 
 The [first-class product plan](../../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md) controls this revision. It supersedes the previous A–I roadmap and the proposal to treat a local expression compiler as the semantic execution gate. [Existing implementation facts](current-assessment-and-migration.md) remain distinct from proposed functionality.

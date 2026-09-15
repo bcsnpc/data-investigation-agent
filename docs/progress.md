@@ -1,12 +1,16 @@
 # Project progress
 
+Review: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
+
+**Latest:** PR #172 merged. [Reviewed record discovery](reviewed-record-discovery-milestone.md) adds reusable model reviews, query-free draft preview, automatic paired checks and revocation gates; tracked by [#173](https://github.com/bcsnpc/data-investigation-agent/issues/173). 641 regression tests passed, including 27 focused tests.
+
 Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90–100.
 
 Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATOR_TICKET_AND_DEFECT_LAB_SCOPE.md). This extension governs the investigation experience and scope boundary alongside the original plan. Integration decisions and dependencies are recorded in [scope alignment](scope-alignment.md).
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #170 is merged. The grouped [keyed readback milestone](keyed-readback-milestone.md) is tracked under [#171](https://github.com/bcsnpc/data-investigation-agent/issues/171). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #172 is merged. [Reviewed record discovery](reviewed-record-discovery-milestone.md) is tracked under [#173](https://github.com/bcsnpc/data-investigation-agent/issues/173). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 

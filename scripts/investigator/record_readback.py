@@ -15,7 +15,7 @@ TABLE = 'record_readbacks'
 
 
 def build(store, plan, config, backend):
-    fields(plan,['model_id','revision','context_id','object_id','column_ids','key_column_ids','filters','limit'])
+    fields(plan,['model_id','revision','context_id','object_id','column_ids','key_column_ids','filters','limit']+(['record_mapping_id'] if 'record_mapping_id' in plan else []))
     model=store.get(plan['model_id'])
     if not model['enabled'] or model['revision']!=plan['revision'] or type(plan['revision']) is not int or model['context_id']!=plan['context_id']:
         raise Conflict('Record plan requires current enabled context')
@@ -77,6 +77,9 @@ def build(store, plan, config, backend):
         for index,ref in enumerate(refs):pairs.extend(['"c'+str(index)+'"',ref])
         query='EVALUATE SELECTCOLUMNS('+top+','+','.join(pairs+['"multiplicity"','[__count]'])+')'
         request={'query':query,'workspace':model['workspace'],'native_model_id':model['native_id']}
+    if 'record_mapping_id' in plan:
+        from .record_bindings import validate_plan
+        request['reviewed_mapping']=validate_plan(store,plan,config,backend)
     return {**request,'version':'record-readback-v1','backend':backend,'model_id':model['id'],
             'context_id':model['context_id'],'context_hash':digest(model['context']),'scope_hash':digest(plan),
             'column_ids':columns,'key_column_ids':keys,'types':types,'limit':plan['limit']}

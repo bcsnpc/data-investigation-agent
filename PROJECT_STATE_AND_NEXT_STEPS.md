@@ -1,5 +1,7 @@
 # Data Investigator: what we built and what comes next
 
+Latest: PR #172 merged; [reviewed record discovery](docs/reviewed-record-discovery-milestone.md) is the next grouped milestone. See [current status](docs/current-delivery-status.md) for implementation and remaining acceptance gates.
+
 **As of:** 2026-09-14  
 **Repository:** https://github.com/bcsnpc/data-investigation-agent (private)  
 **Reviewed working branch:** `feature/business-demo`, commit `c92d56b`  

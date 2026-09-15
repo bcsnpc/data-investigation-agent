@@ -93,6 +93,20 @@ def create_app(store, admin_token, reader_token, scans=None, investigations=None
                 from .adaptive_candidates import catalog
                 candidates,gaps=catalog(store,investigations.runtime.config,body)
                 return respond('200 OK',{'candidates':candidates,'gaps':gaps,'cloud_calls':0,'equivalence_verified':False})
+            from . import record_bindings
+            if len(parts)==2 and parts[1]=='record-mapping-preview' and method=='POST':
+                if investigations is None:return respond('503 Service Unavailable',{'error':'Connection controller required'})
+                return respond('200 OK',record_bindings.preview(store,identity,body,investigations.runtime.config))
+            if len(parts)==2 and parts[1]=='record-mappings' and method=='GET':
+                return respond('200 OK',record_bindings.listing(store,identity))
+            if len(parts)==2 and parts[1]=='record-mappings' and method=='POST':
+                if investigations is None:return respond('503 Service Unavailable',{'error':'Connection controller required'})
+                return respond('200 OK',record_bindings.register(store,identity,body,'local-admin',investigations.runtime.config))
+            if len(parts)==3 and parts[1]=='record-mappings' and method=='GET':
+                return respond('200 OK',record_bindings.read(store,identity,parts[2]))
+            if len(parts)==4 and parts[1]=='record-mappings' and parts[3]=='revoke' and method=='POST':
+                fields(body,['reason'])
+                return respond('200 OK',record_bindings.revoke(store,identity,parts[2],body['reason'],'local-admin'))
             if len(parts)==2 and parts[1]=='comparison-mappings' and method=='GET':
                 return respond('200 OK',comparisons.list_mappings(store,identity))
             if len(parts)==4 and parts[1]=='comparison-mappings' and parts[3]=='revoke' and method=='POST':

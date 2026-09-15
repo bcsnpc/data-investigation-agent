@@ -1,5 +1,7 @@
 # Model onboarding and reusable context
 
+Implemented: [reviewed record discovery](../reviewed-record-discovery-milestone.md) reuses model-level record projections across tickets with complete scope, typed catalog validation, revocation and paired adaptive evidence. Review remains intent, not causal or semantic proof.
+
 Proposed implementation of sections 3–12 and 30 of the [product plan](../../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). Onboarding is an admin workflow, not a metadata script users must rerun for every ticket.
 
 **Implemented mapping reuse:** [Reviewed source discovery and typed scopes](../reviewed-source-scopes-milestone.md) derives source tests from confirmed model mappings and complete ticket filters. Missing/ambiguous/stale reviews remain gaps; mapping intent is not equivalent-calculation proof.
