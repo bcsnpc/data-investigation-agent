@@ -1,6 +1,6 @@
 # Current delivery status
 
-Updated 2026-09-14. **PR #162 is merged.** The next grouped milestone, [evidence-led diagnostic investigation](adaptive-investigation-milestone.md), is implemented on `feature/v2-adaptive-investigation`, tracked by [#163](https://github.com/bcsnpc/data-investigation-agent/issues/163).
+Updated 2026-09-14. **PR #162 is merged.** The next grouped milestone, [evidence-led diagnostic investigation](adaptive-investigation-milestone.md), is open in [PR #164](https://github.com/bcsnpc/data-investigation-agent/pull/164), tracked by [#163](https://github.com/bcsnpc/data-investigation-agent/issues/163).
 
 ## What is built
 

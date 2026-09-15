@@ -1,6 +1,6 @@
 # Evidence-led diagnostic investigation milestone
 
-Tracked by [#163](https://github.com/bcsnpc/data-investigation-agent/issues/163), following merged PR #162. This adds an adaptive diagnostic loop to the [durable typed runtime](v2-diagnostic-milestone.md). It does not complete the general investigator or causal verification gates.
+Implemented in [PR #164](https://github.com/bcsnpc/data-investigation-agent/pull/164), tracked by [#163](https://github.com/bcsnpc/data-investigation-agent/issues/163), following merged PR #162. This adds an adaptive diagnostic loop to the [durable typed runtime](v2-diagnostic-milestone.md). It does not complete the general investigator or causal verification gates.
 
 ## What changes
 

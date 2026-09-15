@@ -6,7 +6,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #162 is merged. The grouped adaptive diagnostic milestone is implemented under [#163](https://github.com/bcsnpc/data-investigation-agent/issues/163). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #162 is merged. The grouped adaptive diagnostic milestone is open in [PR #164](https://github.com/bcsnpc/data-investigation-agent/pull/164), tracked under [#163](https://github.com/bcsnpc/data-investigation-agent/issues/163). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
