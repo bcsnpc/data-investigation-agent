@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Investigator · Model onboarding</title><link rel="stylesheet" href="/style.css"></head>
+<body><header><span>INVESTIGATOR / ADMIN</span><h1>Prepare a model for investigation</h1><p>Register reports, review their metadata and confirm business context.</p></header>
+<main><section><h2>Connect to this admin workspace</h2><form id="login"><label>Admin access token<input id="token" type="password" required autocomplete="off"></label><button>Connect</button></form><p>Token stays in this page's memory. This local pilot imports retained metadata; it does not run live investigations.</p></section>
+<p id="message" role="status" aria-live="polite"></p>
+<div class="grid"><section><h2>Models</h2><div id="models"></div><h3>Register model</h3><form id="register">
+<label>Name<input name="name" required></label><label>Workspace ID<input name="workspace" required></label><label>Semantic model ID<input name="model_id" required></label><label>Report IDs (comma separated)<textarea name="report_ids" required></textarea></label><button>Register</button></form></section>
+<section id="detail" hidden><h2 id="name"></h2><p id="state"></p><p id="limit"></p>
+<form id="scan"><label>Completed metadata scan ID<input name="scan_id" required></label><button>Import scan</button></form>
+<h3>Business context</h3><p>Confirm the intended definition for these reports. Unknown expectations can be recorded as “Unknown”; they do not authorize comparison or delivery.</p>
+<form id="review"><label>Business definition<textarea name="definition" required></textarea></label><label>Responsible team<input name="owner" required></label><label>Date basis<input name="date_basis" required></label><label>Refresh expectation<input name="refresh_expectation" required></label><label>Tolerance<input name="tolerance" required></label><label>Exceptions<textarea name="exceptions" required></textarea></label><button>Confirm context</button></form>
+<button id="enable" type="button">Enable catalog</button><p>Enablement makes reports visible in the v2 catalog only. Live-query capabilities remain unverified.</p>
+<h3>Readiness</h3><dl id="capabilities"></dl><h3>Measures</h3><ul id="measures"></ul><h3>Changes and history</h3><pre id="history"></pre></section></div></main><script src="/admin.js"></script></body></html>
