@@ -20,5 +20,7 @@ def readiness(model):
     body={'version':'proof-requirements-v1','model_id':model['id'],'context_id':model['context_id'],
           'observed_partition_modes':modes,'requirements':[{'id':key,'state':state,'reason':reason} for key,state,reason in requirements],
           'live_acceptance_ready':False,'verification_adapter_registered':False,
-          'next_gate':'Implement a controlled generation provider and readback/equivalence adapters before the live healthy/defect acceptance test.'}
+          'preflight_available':True,
+          'preflight_limitation':'Read-only metadata observations expose gaps; they cannot certify an exclusive remote write boundary.',
+          'next_gate':'Run the proof preflight, then establish controlled publication/input generation and effective context before live healthy/defect acceptance.'}
     return dict(body,hash=digest(body))

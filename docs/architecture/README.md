@@ -1,5 +1,7 @@
 # Metadata-driven investigator: product and engineering plan
 
+Live prerequisite status: the [native proof preflight](../native-proof-preflight-milestone.md) completed on 2026-09-15. D/H live acceptance remains **blocked** on enforceable publication control, shared-generation/fixture evidence and effective identity/context. Definition/role/refresh observations do not satisfy those gates.
+
 Implemented: [aggregate-to-record reconciliation](../record-aggregate-reconciliation-milestone.md) connects supported direct counts/sums to sealed captures and reviewed record projections. This is arithmetic consistency; shared-generation and effective-context proof remain open.
 
 Implemented: [reviewed record discovery](../reviewed-record-discovery-milestone.md) reuses model-level record projections across tickets with complete scope, typed catalog validation, revocation and paired adaptive evidence. Review remains intent, not causal or semantic proof.

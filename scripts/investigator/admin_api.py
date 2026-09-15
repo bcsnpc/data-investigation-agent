@@ -83,6 +83,11 @@ def create_app(store, admin_token, reader_token, scans=None, investigations=None
             identity = parts[0]
             if len(parts)==3 and parts[1]=='record-readbacks' and method=='GET':
                 return respond('200 OK',record_readback.read(store,identity,parts[2]))
+            from . import proof_preflight
+            if len(parts)==2 and parts[1]=='proof-preflights' and method=='GET':
+                return respond('200 OK',proof_preflight.listing(store,identity))
+            if len(parts)==3 and parts[1]=='proof-preflights' and method=='GET':
+                return respond('200 OK',proof_preflight.read(store,identity,parts[2]))
             if len(parts)==2 and parts[1]=='record-aggregate-assessments' and method=='POST':
                 return respond('200 OK',record_aggregate.assess(store,identity,body))
             if len(parts)==3 and parts[1]=='record-aggregate-assessments' and method=='GET':
