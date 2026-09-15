@@ -1,6 +1,6 @@
 # Current delivery status
 
-Updated 2026-09-14. **PR #170 is merged.** The next grouped milestone adds [bounded readback and keyed evidence](keyed-readback-milestone.md), tracked by [#171](https://github.com/bcsnpc/data-investigation-agent/issues/171).
+Updated 2026-09-14. **PR #170 is merged.** The next grouped milestone adds [bounded readback and keyed evidence](keyed-readback-milestone.md), delivered for review in [PR #172](https://github.com/bcsnpc/data-investigation-agent/pull/172), tracked by [#171](https://github.com/bcsnpc/data-investigation-agent/issues/171).
 
 ## What is built
 

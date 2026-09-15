@@ -84,3 +84,5 @@ This closes the missing bounded native/source record-acquisition capability. The
 Next: establish the controlled generation/publication and business-scope contracts, use readback to validate that boundary, and add supported causal confirmation. Actual development source mappings still need team review. Then run the frozen eight-family native acceptance protocol, finish the shared business/technical ticket workspace and reviewed routing, and deploy/verify the end-to-end v2 product. The five-order live check is not a substitute for those acceptance families.
 
 Full regression: **614 tests passed**. Completed live-run replay returned the saved result with transports configured to fail if called: **zero cloud calls**.
+
+Review: [PR #172](https://github.com/bcsnpc/data-investigation-agent/pull/172).
