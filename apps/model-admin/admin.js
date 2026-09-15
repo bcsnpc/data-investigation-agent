@@ -1,5 +1,5 @@
 'use strict';
-let credential='', current=null;
+let credential='', current=null, scanConnection=false;
 const $=id=>document.getElementById(id);
 const message=text=>{$('message').textContent=text;};
 async function api(path,body){
@@ -15,13 +15,16 @@ function show(model){
   $('capabilities').replaceChildren();
   for(const [key,value] of Object.entries(model.context?.capabilities||{})){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=key;dd.textContent=value;$('capabilities').append(dt,dd);}
   $('measures').replaceChildren();
-  for(const m of model.context?.measures||[]){const li=document.createElement('li');li.textContent=m.name;$('measures').append(li);}
-  $('history').textContent=JSON.stringify({changes:model.context?.changes,versions:model.context_history,activity:model.events},null,2);
+  for(const m of model.context?.measures||[]){const li=document.createElement('li');const node=model.context?.semantic_graph?.measures?.[m.id];li.textContent=m.name+(node?' · '+node.operations.join(', ')+' · '+node.dependency_state:'');if(node){const pre=document.createElement('pre');pre.textContent=JSON.stringify({dependencies:node.dependencies,gaps:node.gaps},null,2);li.append(pre);}$('measures').append(li);}
+  $('history').textContent=JSON.stringify({changes:model.context?.changes,affected_measures:model.context?.affected_measures,versions:model.context_history,activity:model.events},null,2);
+  $('jobs').textContent='';$('queue').disabled=!scanConnection;
 }
 async function refresh(){const models=await api('');$('models').replaceChildren();for(const m of models){const b=document.createElement('button');b.type='button';b.textContent=m.name+' · '+(m.enabled?'Enabled':'Disabled');b.onclick=()=>show(m);$('models').append(b);}return models;}
 async function act(work){try{message('Working…');await work();message('Saved.');}catch(e){message(e.message);}}
-$('login').onsubmit=e=>{e.preventDefault();credential=$('token').value;$('token').value='';current=null;$('detail').hidden=true;$('models').replaceChildren();act(async()=>{await refresh();current=null;$('detail').hidden=true;});};
+$('login').onsubmit=e=>{e.preventDefault();credential=$('token').value;$('token').value='';current=null;$('detail').hidden=true;$('models').replaceChildren();act(async()=>{await refresh();const r=await fetch('/api/v2/admin/connection',{headers:{Authorization:'Bearer '+credential}});if(!r.ok)throw new Error('Connection configuration unavailable');const c=await r.json();scanConnection=c.configured;$('connection').textContent=c.configured?'Metadata connection configured for workspace '+c.workspace+'. The operator worker processes queued scans.':'No live scan connection configured. Retained scan import is available.';});};
 $('register').onsubmit=e=>{e.preventDefault();act(async()=>{const body=Object.fromEntries(new FormData(e.target));body.report_ids=body.report_ids.split(',').map(x=>x.trim()).filter(Boolean);show(await api('',body));await refresh();});};
 $('scan').onsubmit=e=>{e.preventDefault();act(async()=>{if(!current)throw new Error('Select a model');show(await api('/'+current.id+'/import',{revision:current.revision,scan_id:new FormData(e.target).get('scan_id')}));await refresh();});};
 $('review').onsubmit=e=>{e.preventDefault();act(async()=>{show(await api('/'+current.id+'/review',{revision:current.revision,business:Object.fromEntries(new FormData(e.target))}));await refresh();});};
 $('enable').onclick=()=>act(async()=>{show(await api('/'+current.id+'/enable',{revision:current.revision,enabled:!current.enabled}));await refresh();});
+$('queue').onclick=()=>act(async()=>{await api('/'+current.id+'/scans',{revision:current.revision,request_key:crypto.randomUUID()});$('jobs').textContent=JSON.stringify(await api('/'+current.id+'/scans'),null,2);});
+$('refresh').onclick=()=>act(async()=>{show(await api('/'+current.id));if(scanConnection)$('jobs').textContent=JSON.stringify(await api('/'+current.id+'/scans'),null,2);await refresh();});

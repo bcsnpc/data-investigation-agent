@@ -175,6 +175,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, default=ROOT / 'infra/metadata/development.json')
     parser.add_argument('--database', type=Path, help='Override inventory database location')
+    parser.add_argument('--summary', type=Path, help='Write the scan receipt to this operator-owned path')
     args = parser.parse_args()
     config = load_config(args.config)
     database = args.database or Path(config['storage']['database'])
@@ -194,7 +195,7 @@ def main():
         return {'collected': True}
     fabric_result = attempt(store, 'scan', 'fabric_collection', 'Fabric workspace', fabric_scan)
     summary = store.finish(failed=sql_result is None and fabric_result is None)
-    output = Path(database).parent / 'latest.json'
+    output = args.summary or Path(database).parent / 'latest.json'
     output.write_text(json.dumps(summary, indent=2))
     print(json.dumps(summary, indent=2))
     store.db.close()

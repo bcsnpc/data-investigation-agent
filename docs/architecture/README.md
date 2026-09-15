@@ -69,7 +69,7 @@ flowchart TD
 | --- | --- | --- |
 | A | Freeze and reconcile `bounded-v1` | Verified; baseline tag and evidence recorded |
 | B | Product model onboarding foundation | In progress; [implemented slice](../model-onboarding.md) |
-| C | Deep semantic catalog and change detection | In progress; retained context import/diffs |
+| C | Deep semantic catalog and change detection | In progress; [scan queue and dependency analysis](../catalog-scans-and-semantics.md) |
 | D | Native semantic execution and typed tools | Planned |
 | E | Semantic operation and capability evaluator | Planned |
 | F | Persisted investigation state and runtime registry | Planned |

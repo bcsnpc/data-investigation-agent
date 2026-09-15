@@ -8,7 +8,7 @@ from .onboarding import Conflict, fields
 ASSETS = Path(__file__).resolve().parents[2] / 'apps' / 'model-admin'
 
 
-def create_app(store, admin_token, reader_token):
+def create_app(store, admin_token, reader_token, scans=None):
     for token in (admin_token, reader_token):
         if not isinstance(token, str) or len(token) < 32 or not token.isascii():
             raise ValueError('Tokens must have at least 32 ASCII characters')
@@ -41,6 +41,11 @@ def create_app(store, admin_token, reader_token):
                      'execution_available':False} for m in store.list(True) for r in m['reports']]})
             if not is_admin:
                 return respond('403 Forbidden',{'error':'Admin role required'})
+            if path=='/api/v2/admin/connection' and method=='GET':
+                return respond('200 OK',{'configured':scans is not None,
+                     'workspace':scans.workspace if scans else None,
+                     'profile_hash':scans.profile_hash if scans else None,
+                     'limitation':'Configured metadata access only; inspect scan receipts for connectivity results. Native queries remain unverified.'})
             if method not in ('GET','POST'):
                 return respond('405 Method Not Allowed',{'error':'Method not allowed'})
             body = None
@@ -57,6 +62,10 @@ def create_app(store, admin_token, reader_token):
                 return respond('404 Not Found',{'error':'Not found'})
             parts = path[len(base)+1:].split('/')
             identity = parts[0]
+            if len(parts)==2 and parts[1]=='scans' and scans is not None:
+                if method=='GET':return respond('200 OK',scans.list(identity))
+                fields(body,['revision','request_key'])
+                return respond('200 OK',scans.request(identity,body['revision'],body['request_key'],'local-admin'))
             if len(parts)==1 and method=='GET':
                 return respond('200 OK',store.get(identity))
             if len(parts)==3 and parts[1]=='contexts' and method=='GET':

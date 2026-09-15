@@ -35,6 +35,10 @@ No v2 phase is marked complete by documentation. Detailed tasks, files, tests, r
 
 Continuing in PR #148 rather than opening helper PRs. Implemented registration, retained metadata import, business review, catalog enablement, role separation, immutable history and change invalidation. Verified import of 25 measures/three reports from existing OrderOps metadata. See [scope and remaining work](model-onboarding.md). B/C remain in progress; live investigation is not enabled.
 
+## Catalog scan and dependency continuation
+
+PR #148 is merged. [Issue #149](https://github.com/bcsnpc/data-investigation-agent/issues/149) groups durable scan orchestration, connection receipts, conservative dependency/operation analysis, cycle/gap handling, affected measures and admin controls. See [behavior and remaining limits](catalog-scans-and-semantics.md). B/C remain in progress; no full semantic-execution claim. Verification: 387 tests passed; browser scan controls passed; live SQL/Fabric metadata scan completed and imported 25 measures, five relationships and three reports with explicit analysis gaps.
+
 ## Planning change record
 
 | Date | Change | Result |
