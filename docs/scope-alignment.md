@@ -1,5 +1,15 @@
 # Ticket and defect lab scope alignment
 
+## Current planning authority (2026-09-14)
+
+The [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md) and [revised A-J engineering package](architecture/README.md) govern next implementation. Model onboarding, reviewed business context/readiness, change detection, native Power BI execution and complex dependency/dimensional investigation are core requirements. Semantic IR supports decomposition/comparability, not a second DAX engine. Both user views share one run; reviewed routing ends current scope.
+
+The new versioned outcome set includes SOURCE_OR_APPLICATION_DEFECT, INSUFFICIENT_EVIDENCE and UNSUPPORTED_CAPABILITY; see [evidence gates and legacy handling](architecture/planner-and-safety.md). Preserve original stored classifications and tests, rather than retrospectively promoting them to verified defects.
+
+The sequence and classifications below record the earlier scope integration. Where they differ, the new product plan governs future work. Existing read-only, provenance, review and no-repair boundaries remain in force.
+
+
+
 The approved [scope extension](../DATA_INVESTIGATOR_TICKET_AND_DEFECT_LAB_SCOPE.md) extends the [original plan](../cross_system_data_investigator_poc.md). This review records implementation implications; it does not mark the new capabilities complete.
 
 ## Product contract

@@ -2,6 +2,12 @@
 
 The project specification is in [cross_system_data_investigator_poc.md](cross_system_data_investigator_poc.md).
 
+**Current handoff:** [What we built, limitations and next steps](PROJECT_STATE_AND_NEXT_STEPS.md).
+Use this consolidated assessment alongside the historical milestone notes below.
+
+**Revised product direction:** [First-class product plan](METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md).
+**Engineering roadmap:** [Onboarding, native semantic execution and phases A-J](docs/architecture/README.md). Planning only; v2 is not implemented.
+
 **Demo:** start with the [presenter runbook](docs/demo-runbook.md), including setup,
 expected results and [remaining product work](docs/demo-pending.md).
 
@@ -13,6 +19,9 @@ expected results and [remaining product work](docs/demo-pending.md).
 - Transactional SQL bulk loader, reconciliation queries and a dataset manifest.
 - Restricted app, Fabric and investigator SQL users with live permission tests.
 - Authenticated React order portal deployed to Azure App Service F1 Free.
+- Fabric Bronze/Silver/Gold transformations, native Power BI model/reports, and metadata/lineage evidence.
+- Bounded investigator with two-metric planning, reviewed execution, saved evidence, local labs and demonstrations.
+- Generic onboarding, complex-metric investigation and shared v2 product views remain planned.
 
 **Development portal:** https://orderops-portal-9696025.azurewebsites.net
 

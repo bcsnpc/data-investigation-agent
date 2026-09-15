@@ -1,28 +1,41 @@
 # Project progress
 
-Updated: 2026-09-13. Source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90–100.
+Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90–100.
 
 Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATOR_TICKET_AND_DEFECT_LAB_SCOPE.md). This extension governs the investigation experience and scope boundary alongside the original plan. Integration decisions and dependencies are recorded in [scope alignment](scope-alignment.md).
 
 ## Current position
 
-Phases 0 (engineering foundation), 1 (business system) and 2 (data platform) remain in progress; the initial analytics release is complete.
-The 100,000-order SQL baseline and authenticated operational portal are deployed. Verified source snapshots now propagate through Bronze, Silver and nine Gold reporting/dimension tables. The six-table semantic model and three reports have verified measures and filter cases. Current metadata includes 39 lakehouse tables and five notebooks; the reviewed lineage graph has 403 links and 41 eligible data-bound visual paths. Live five-layer metrics have been verified, while exact model snapshot comparability remains explicitly unproven. A local evidence API, ticket intake and durable execution/status workflow are implemented. The local review UI supports ticket intake, scope approval, related ticket navigation and evidence display. Bounded background execution and opt-in, idempotent post-run explanations are merged through PR #70. Model planning and constrained explanation selection have live verification. Local lab findings now include verified filter cause, exact record impact, expected refund behavior and source-version freshness. Local routing review and delivery rehearsal are implemented. Broader tool/scenario coverage, attachments, investigator hosting and real delivery remain pending.
+Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
-| Phase | Status | Evidence / remaining work |
-|---|---|---|
-| 0 Engineering foundation | In progress | Private repository, README, SQL scripts, tests and tracking; broader standards and deployment automation remain |
-| 1 Business system | In progress | Azure SQL, 100k baseline and restricted runtime users verified; browsing deployed; transactional actions deployed and verified; broader specification features remain scoped for follow-up |
-| 2 Data platform | In progress | Transaction-consistent source and verified Bronze/Silver/Gold publications complete; recurring orchestration remains |
-| 3 Analytics | Initial release complete | Six-table model, 25 measures, three reports, 15 exact DAX totals and sample-order drillthrough verified; [details](powerbi.md) |
-| 4A Metadata connectors | Initial collector merged; reusable connector refactor verified | Versioned SQLite inventory, live SQL/Fabric/Power BI definitions and explicit capability gaps; [details](metadata.md) |
-| 4B Lineage | Reviewed scope backend merged | 403 links, retained resolution evidence and 41 eligible visual paths; UI remains later |
-| 5A Deterministic investigator | In progress | Check engine merged in PR #24; cross-layer adapters implemented with SQL/Power BI live reads; all five layers live-verified; common-source snapshot proof pending |
-| 5B Ticket experience | Local workflow and UI implemented | Intake, review, related statuses, evidence and bounded worker implemented; attachments, richer context, lineage/impact views and hosting remain |
-| 6 AI investigator | Scoped planning and explanations implemented | Azure planning and model-selected evidence highlights verified; local deterministic cause/impact checks implemented; broader hypothesis/tool orchestration and live cause coverage remain |
-| 7 Defect lab | Local scenarios and review integration implemented | Ten-case Silver/Gold matrix plus three-layer propagated discrepancy and reset; reviewed multi-layer execution/UI and five-case boundary matrix implemented; transformation/model cause proof remains |
-| 7B Routing | Review, adapters and operator transport integration implemented | Browser/CLI approval and durable attempts; real provider configuration, live acceptance, recovery and hosted permissions remain |
-| 8 Portfolio polish | Not started | Hosted demo, screenshots, video and presentation |
+The working foundation includes the 100,000-order business baseline and portal, SQL/Fabric/Power BI data platform, metadata/lineage/provenance collection, a bounded two-metric investigator, reviewed ticket/evidence workflows, local defect evaluations, demos and routing infrastructure. It is not yet the metadata-driven product. Live deployment availability and current PR checks were not revalidated during this plan update; baseline reconciliation remains Phase A.
+
+V2 makes model onboarding/admin readiness, versioned business context, delta scans, native DAX execution, recursive complex-measure diagnosis and dimensional diagnostics first-class. Semantic IR supports analysis/comparison, not a replacement DAX engine. Business and technical views share one run.
+
+| Revised phase | Status | Required exit evidence |
+| --- | --- | --- |
+| A Freeze bounded-v1 | Verified | PR144/146 merged; bounded-v1-20260914 tag; 366 script tests, 6 portal tests, 15 matrix cases and rehearsal passed |
+| B Model onboarding | Planned | Basic admin UI/API, registration/review/enablement |
+| C Deep catalog/change detection | Planned | New measures discovered, affected context invalidated |
+| D Native execution/tools | Planned | Generic readonly model/source tools and receipts |
+| E Semantic capabilities | Planned | Accurate per-metric support/readiness |
+| F Persisted state | Planned | Versioned context, evidence, budget and recovery |
+| G Dynamic planner/verifier | Planned | Evidence-dependent tests and deterministic claims |
+| H Complex/unseen acceptance | Planned | Eight required acceptance families; frozen runtime, real DAX |
+| I Unified ticket workspace | Planned | Shared run/evidence across both views |
+| J Reviewed routing | Planned | Authorized eligible draft/delivery/triage |
+
+No v2 phase is marked complete by documentation. Detailed tasks, files, tests, risks and non-goals are in [phases and acceptance](architecture/phases-and-acceptance.md). Preserve legacy metric/scope/provenance/lab/delivery regressions. The latest product classification set is versioned; historical source-issue outcomes must not be relabeled as newly proven application defects.
+
+## Phase A verification
+
+[Baseline manifest and results](bounded-v1-baseline.md): PRs #144/#146 merged, source tag published, regression and local demo evidence retained. Tracked by [#147](https://github.com/bcsnpc/data-investigation-agent/issues/147). No v2 runtime implementation or live cloud revalidation in this phase.
+
+## Planning change record
+
+| Date | Change | Result |
+| --- | --- | --- |
+| 2026-09-14 | Aligned all active planning to the first-class product plan | Added onboarding/context specification, native semantic execution, expanded tools/classifications, A-J roadmap and eight acceptance families. Docs only; no merges, code changes or cloud actions. |
 
 ## Work record
 
