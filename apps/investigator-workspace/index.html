@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Investigator · Investigations</title><link rel="stylesheet" href="/style.css"><script src="/workspace.js" defer></script></head>
+<body>
+<header><a class="brand" href="/"> <span class="mark">i</span> Investigator</a><span class="environment">Local workspace</span><button id="signout" class="quiet" hidden>Sign out</button></header>
+<main>
+  <section id="login" class="login card"><p class="eyebrow">INVESTIGATION WORKSPACE</p><h1>Follow the numbers.</h1><p>Review a reporting question, watch the checks, and inspect the evidence in one place.</p><form id="login-form"><label for="access-key">Local workspace access key</label><input id="access-key" type="password" autocomplete="off" required><button type="submit">Open workspace <span aria-hidden="true">→</span></button></form><p class="muted small">Your key is held only in this tab’s memory. This local workspace is for a single operator.</p></section>
+  <div id="error" class="error" role="alert" hidden></div>
+  <div id="workspace" class="layout" hidden>
+    <aside><div class="section-heading"><h2>Investigations</h2><button id="refresh-history" class="quiet" aria-label="Refresh investigations">↻</button></div><button id="new-investigation" class="secondary full">+ New investigation</button><div id="history" class="history"></div></aside>
+    <div class="content">
+      <section id="composer" class="card">
+        <p class="eyebrow">START WITH YOUR QUESTION</p><h1>What looks different?</h1><p class="muted">Choose a metric and the records you want checked. The investigator chooses its next checks from the available evidence.</p>
+        <div id="read-only" class="notice" hidden>This host shows history and scope previews. Live execution is disabled.</div>
+        <div id="clarification-note" class="notice" hidden></div>
+        <form id="scope-form">
+          <div class="grid"><div><label for="model">Reporting model</label><select id="model" required></select></div><div><label for="metric">Metric</label><select id="metric" required></select></div></div>
+          <label for="symptom">Describe the difference you noticed</label><textarea id="symptom" rows="3" maxlength="2000" required placeholder="For example: this number looks lower than expected for the records I selected."></textarea>
+          <div class="section-heading"><h2>Records to check</h2><button id="add-filter" type="button" class="quiet">+ Add filter</button></div>
+          <div id="filters"></div>
+          <p id="scope-empty" class="muted small">Add at least one filter to keep the investigation bounded.</p>
+          <p class="muted small">Only these filters are applied. Report, page and screenshot filters are not imported automatically. Date ranges use the model’s dates, with the end excluded.</p>
+          <label for="breakdown">Optional breakdown</label><select id="breakdown"><option value="">No breakdown selected</option></select>
+          <button id="review" type="submit" class="review-button">Review scope <span aria-hidden="true">→</span></button>
+        </form>
+      </section>
+      <section id="preview" class="card review" hidden><p class="eyebrow">READY FOR YOUR REVIEW</p><h2 id="preview-title"></h2><p id="preview-symptom"></p><div id="preview-filters" class="scope-pills"></div><p id="preview-note" class="muted"></p><p class="small">Starting runs connected read-only checks and may use the language model within the configured usage limits.</p><button id="start">Start investigation</button></section>
+      <section id="result" hidden>
+        <div class="result-heading"><div><p class="eyebrow">INVESTIGATION</p><h1 id="result-title"></h1><p id="result-symptom" class="muted"></p></div><span id="status" class="status" role="status"></span></div>
+        <div class="tabs" role="tablist" aria-label="Investigation view"><button id="business-tab" role="tab" aria-selected="true" aria-controls="business">Overview</button><button id="technical-tab" role="tab" aria-selected="false" aria-controls="technical">Technical evidence</button><button id="cancel" class="quiet danger">Cancel investigation</button></div>
+        <section id="business" role="tabpanel" aria-labelledby="business-tab">
+          <div class="card conclusion"><p class="eyebrow">WHAT WE KNOW</p><h2 id="summary"></h2><p class="muted">Captured values are observations. A difference alone does not establish its cause.</p><div id="question" class="notice" hidden></div><button id="clarify" class="secondary" hidden>Clarify and review a new scope</button></div>
+          <div id="facts" class="facts"></div>
+          <div class="card"><h2>What is still needed</h2><ul id="evidence-gaps" class="gap-list"></ul><p class="muted small">The model owner can review missing comparisons and context. These checks have not established a cause.</p></div>
+          <div class="card"><h2>Scope checked</h2><div id="result-filters" class="scope-pills"></div><p id="scope-warning" class="muted small">Selected scope only; full report context and cause are not yet verified.</p></div>
+          <div class="card"><h2>Activity</h2><ol id="activity" class="activity"></ol></div>
+        </section>
+        <section id="technical" role="tabpanel" aria-labelledby="technical-tab" hidden><div class="card"><div class="section-heading"><h2>Saved evidence</h2><button id="download" class="secondary">Download JSON</button></div><p class="muted">Both views use the same saved session and outcome. Hypotheses remain unverified.</p><dl id="identities"></dl><details open><summary>Scope and budgets</summary><pre id="technical-scope"></pre></details><details><summary>Observations, comparisons and gaps</summary><pre id="technical-outcome"></pre></details><details><summary>Planner decisions</summary><pre id="technical-decisions"></pre></details></div></section>
+      </section>
+    </div>
+  </div>
+</main>
+<footer>Investigator · Evidence first. Uncertainty stays visible.</footer>
+</body></html>

@@ -18,7 +18,7 @@ def fingerprint():
     root = Path(__file__).resolve().parents[2]
     files = sorted((root / 'scripts/investigator').glob('*.py'))
     files += [root / name for name in ('scripts/run_native_diagnostic.py', 'scripts/run_source_diagnostic.py','scripts/run_investigation_v2.py',
-               'scripts/run_adaptive_investigation.py', 'scripts/ticket_planner.py', 'scripts/metadata_auth.py', 'scripts/metadata_config.py', 'scripts/sql_connect_retry.py', 'infra/scripts/Read-CatalogAggregate.ps1')]
+               'scripts/run_adaptive_investigation.py', 'scripts/serve_investigator_workspace.py', 'scripts/ticket_planner.py', 'scripts/metadata_auth.py', 'scripts/metadata_config.py', 'scripts/sql_connect_retry.py', 'infra/scripts/Read-CatalogAggregate.ps1')]
     return digest({'python': sys.version, 'files': {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}})
 
 

@@ -88,18 +88,7 @@ service error bodies.
 
 ## Reader account and remaining proof boundary
 
-The user approved creating a dedicated reader account. The current Fabric CLI
-login cannot acquire a Microsoft Graph token, and Azure CLI is signed into the
-personal Azure tenant. Therefore no enterprise account was silently created or
-assumed. The user has been asked to create `investigator-reader@skynwhy.com` in
-the enterprise tenant, with ordinary User directory role and a privately retained
-temporary password. Account creation, license/sign-in readiness and access tests
-are still pending.
-
-After creation, grant only the isolated workspace Viewer access and required
-model Read/Build permissions. Verify using that account's own token; never use
-an admin token with a reader label. Check both successful bounded reads and
-denied administrative capabilities. Do not add it to the business workspace.
+Update 2026-09-15: the user created `investigator-reader@skynwhy.com` and completed its own sign-in. Isolated workspace Viewer and model Read/Build grants were applied. Its separate DPAPI-protected cache returned the correct native identity and all ten exact fixture rows; a refresh-history request requiring Write returned HTTP 403. No business-workspace grant was added. See the [reader verification and workspace milestone](investigation-workspace-milestone.md) for commands, evidence and remaining limits. The earlier publisher-only verification above remains historical evidence.
 
 **`generation_proven` and `live_acceptance_ready` remain false.** A successful
 refresh, same model ID, exact readback or local journal cannot prove the model
