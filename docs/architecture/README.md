@@ -1,6 +1,6 @@
 # Metadata-driven investigator: product and engineering plan
 
-Latest continuation: PR #188 merged. [Reviewed screenshot intake](../screenshot-intake-milestone.md) now joins business text, explicit transcription confirmation, catalog scope review and adaptive execution. Live Azure verification kept screenshot value 9 separate from native value 8, with no cause claim. Phase I remains local; effective report context, D/H proof, hosted authorization and deployment remain open.
+Latest continuation: PR #190 merged. [Joint native capture](../joint-native-capture-milestone.md) now obtains a direct native total and supporting projected groups in one response, reconstructs supported arithmetic, and feeds the saved assessment into adaptive planning and the workspace. Live complete, empty and partial checks passed under the dedicated reader. D/H shared-generation, effective report context and causal proof remain open; hosted v2 is still pending.
 
 Latest continuation: PR #184 merged. [Native dependency calculation contexts](../dependency-context-milestone.md) now preserve supported measure-local filters through adaptive child reads, with scope review, sealed context evidence and eight live parity checks. This advances D/E/G; full B-G gates, Phase H and hosted v2 remain open.
 

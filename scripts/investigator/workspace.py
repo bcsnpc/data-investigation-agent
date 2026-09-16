@@ -80,7 +80,7 @@ class Workspace:
                 raise Conflict('Clarification must continue a waiting investigation in the same model')
         envelope = {k: request[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids', 'symptom')}
         envelope.update(revision=model['revision'], context_id=model['context_id'], source_tests=[],
-                        source_selection='reviewed_mappings', record_selection='reviewed_mappings', limits=dict(LIMITS))
+                        source_selection='reviewed_mappings', record_selection='reviewed_mappings', joint_native_records=True, limits=dict(LIMITS))
         candidates, gaps = catalog(self.store, self.agent.config, envelope)
         metadata = self.model(model['id'])
         labels = {m['id']: m['name'] for m in metadata['measures']}
@@ -210,6 +210,7 @@ class Workspace:
                           'origin': 'Report' if fact['tool'].startswith('native') else 'Connected records',
                           **({'calculation_context':[labels.get(m,'Related metric') for m in fact['dependency_context']['path']]}
                              if fact.get('dependency_context') else {}),
+                          **({'joint_aggregate':fact['joint_aggregate']} if fact.get('joint_aggregate') else {}),
                           'status': fact['status'], 'values': fact['values'], 'completeness': fact['completeness'],
                           'kind': 'records' if fact['tool'].endswith('records') else 'breakdown' if fact['dimension_id'] else 'metric'})
         stopped = technical['status'] not in ('READY', 'PLANNING', 'EXECUTING')

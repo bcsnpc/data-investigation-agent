@@ -81,7 +81,15 @@ function format(value){if(value===null)return 'Blank';if(typeof value==='boolean
     const card=node('article',undefined,'card fact');card.dataset.receiptId=fact.id;card.append(node('p',fact.origin.toUpperCase(),'eyebrow'),node('h2',fact.metric));
     if(fact.calculation_context)card.append(node('p','Calculation path: '+fact.calculation_context.join(' → '),'muted small'));
   if(fact.status!=='COMPLETED'){card.append(node('p','This check did not return a usable result.','muted'));return card;}
-  if(fact.kind==='records'){card.append(node('p',String(fact.values.length),'value'),node('p','Record groups captured','muted small'));return card;}
+  if(fact.kind==='records'){
+    card.append(node('p',String(fact.values.length),'value'),node('p','Record groups captured','muted small'));
+    if(fact.joint_aggregate){const a=fact.joint_aggregate;const detail=node('section',undefined,'joint-capture');
+      detail.append(node('h3','Total and supporting records checked together'),node('p','Observed total: '+format(a.observed)));
+      if(a.reconstructed)detail.append(node('p','Total rebuilt from records: '+format(a.reconstructed.value)));
+      detail.append(node('p',a.status==='CAPTURE_RECONCILES'?'The captured total agrees with these records.':a.status==='CAPTURE_INCONSISTENCY'?'The captured total differs from these records. More evidence is needed.':'The record capture is insufficient to check the total.'));
+      detail.append(node('p','Returned in one response. Report context and cause are not verified.','muted small'));card.append(detail);
+    }return card;
+  }
   if(fact.values.length===1 && fact.kind==='metric'){
     const row=fact.values[0];const values=row!==null && typeof row==='object'?Object.values(row):[row];
     card.append(node('p',values.map(format).join(' · '),'value'));

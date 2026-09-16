@@ -15,11 +15,12 @@ TABLE = 'record_readbacks'
 
 
 def build(store, plan, config, backend):
-    fields(plan,['model_id','revision','context_id','object_id','column_ids','key_column_ids','filters','limit']+(['record_mapping_id'] if 'record_mapping_id' in plan else []))
+    fields(plan,['model_id','revision','context_id','object_id','column_ids','key_column_ids','filters','limit']+[k for k in ('record_mapping_id','aggregate_measure_id') if k in plan])
     model=store.get(plan['model_id'])
     if not model['enabled'] or model['revision']!=plan['revision'] or type(plan['revision']) is not int or model['context_id']!=plan['context_id']:
         raise Conflict('Record plan requires current enabled context')
     if backend not in ('native_records','source_records'):raise ValueError('Unknown record backend')
+    if 'aggregate_measure_id' in plan and backend != 'native_records':raise ValueError('Joint aggregate is native only')
     if type(plan['limit']) is not int or not 1<=plan['limit']<=250:raise ValueError('Record limit must be 1-250')
     columns=plan['column_ids'];keys=plan['key_column_ids']
     for ids,maximum in [(columns,8),(keys,3)]:
@@ -77,6 +78,9 @@ def build(store, plan, config, backend):
         for index,ref in enumerate(refs):pairs.extend(['"c'+str(index)+'"',ref])
         query='EVALUATE SELECTCOLUMNS('+top+','+','.join(pairs+['"multiplicity"','[__count]'])+')'
         request={'query':query,'workspace':model['workspace'],'native_model_id':model['native_id']}
+        if 'aggregate_measure_id' in plan:
+            from .joint_native_capture import attach
+            attach(model,plan,request)
     if 'record_mapping_id' in plan:
         from .record_bindings import validate_plan
         request['reviewed_mapping']=validate_plan(store,plan,config,backend)
@@ -122,12 +126,16 @@ def value(raw, value_kind, backend):
 
 
 def extract(response, request):
+    scalar=None
     backend=request['backend']
     if backend=='native_records':
         if not isinstance(response,dict) or response.get('error') or len(response.get('results',[]))!=1:raise ValueError('Native record response unavailable')
         result=response['results'][0];tables=result.get('tables',[])
         if result.get('error') or len(tables)!=1 or tables[0].get('error'):raise ValueError('Native record response incomplete')
         rows=tables[0].get('rows');names=['[c'+str(i)+']' for i in range(len(request['types']))];count_name='[multiplicity]'
+        if 'joint_aggregate' in request:
+            from .joint_native_capture import split
+            rows,scalar=split(rows,request)
     else:
         fields(response,['rows']);rows=response['rows'];names=['c'+str(i) for i in range(len(request['types']))];count_name='multiplicity'
     if not isinstance(rows,list) or len(rows)>request['limit']+1:raise ValueError('Record response exceeds budget')
@@ -143,12 +151,16 @@ def extract(response, request):
     partial=len(output)>request['limit'];output=output[:request['limit']]
     from .native_identity import observed
     identity = observed(response, request) if backend=='native_records' else None
-    return {**({'execution_identity': identity} if identity is not None else {}),
+    result={**({'execution_identity': identity} if identity is not None else {}),
             'rows':output,'column_ids':request['column_ids'],'key_column_ids':request['key_column_ids'],'types':request['types'],
             'completeness':'PARTIAL' if partial else 'COMPLETE_RESPONSE','returned_groups':len(rows),
             'retained_groups':len(output),'observed_row_count':str(sum(int(r['multiplicity']) for r in output)),
             'record_hash':digest(output),'snapshot_comparable':False,'root_cause_verified':False,
             'limitation':'Complete response covers grouped projected values under the executed scope; it is not proof of model contents, effective identity or a shared data generation.'}
+    if scalar is not None:
+        from .joint_native_capture import reconcile
+        result['joint_aggregate']=reconcile(request,result,scalar)
+    return result
 
 
 def run(store,plan,config,backend,execute,*,receipt_id=None):
