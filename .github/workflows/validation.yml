@@ -107,6 +107,7 @@ jobs:
           python -m unittest discover -s scripts -p test_reader_runtime.py
           python -m unittest discover -s scripts -p test_dependency_context.py
           python -m unittest discover -s scripts -p test_context_runtime.py
+          python -m unittest discover -s scripts -p test_question_intake.py
           python -m py_compile scripts/verify_dependency_context.py
           python -m py_compile scripts/verify_reader_runtime.py
           python -m py_compile scripts/serve_investigator_workspace.py scripts/verify_investigator_workspace.py scripts/connect_fixture_reader.py

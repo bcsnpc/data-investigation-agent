@@ -3,9 +3,16 @@ import hmac
 import json
 from pathlib import Path
 import sqlite3
+from socketserver import ThreadingMixIn
+from wsgiref.simple_server import WSGIServer
 from .onboarding import Conflict, fields
 
 ASSETS = Path(__file__).resolve().parents[2] / 'apps/investigator-workspace'
+
+
+class WorkspaceServer(ThreadingMixIn, WSGIServer):
+    """Keep status/history responsive during a bounded intake provider call."""
+    daemon_threads = True
 
 
 def create_app(workspace, token, port=8776):
@@ -48,6 +55,18 @@ def create_app(workspace, token, port=8776):
                 body = json.loads(env['wsgi.input'].read(size))
             if path == '/api/workspace/models' and method == 'GET':
                 result = workspace.models()
+            elif path == '/api/workspace/questions' and method == 'POST':
+                result = workspace.intake.resolve(body)
+            elif path == '/api/workspace/questions' and method == 'GET':
+                result = workspace.intake.list()
+            elif path.startswith('/api/workspace/questions/'):
+                parts = path[len('/api/workspace/questions/'):].split('/')
+                if len(parts) == 1 and method == 'GET':
+                    result = workspace.intake.get(parts[0])
+                elif len(parts) == 2 and parts[1] == 'hold' and method == 'POST':
+                    fields(body, []); result = workspace.intake.hold(parts[0])
+                else:
+                    return respond('404 Not Found', {'error': 'Not found'})
             elif path == '/api/workspace/previews' and method == 'POST':
                 result = workspace.preview(body)
             elif path == '/api/workspace/sessions' and method == 'GET':

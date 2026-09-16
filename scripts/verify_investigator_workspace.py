@@ -12,7 +12,7 @@ from threading import Thread
 import time
 from wsgiref.simple_server import make_server
 
-from investigator.workspace_api import create_app
+from investigator.workspace_api import create_app, WorkspaceServer
 from serve_investigations import QuietHandler
 from test_investigator_workspace import WorkspaceTests
 from test_adaptive_investigation import decision
@@ -34,7 +34,7 @@ def main():
         return original(payload)
     helper.planner.side_effect = planner
     key = secrets.token_urlsafe(40)
-    server = make_server('127.0.0.1', 0, create_app(helper.workspace, key), handler_class=QuietHandler)
+    server = make_server('127.0.0.1', 0, create_app(helper.workspace, key), server_class=WorkspaceServer, handler_class=QuietHandler)
     server.set_app(create_app(helper.workspace, key, server.server_port))
     browser_session = 'workspace-verify-' + secrets.token_hex(4)
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -151,9 +151,45 @@ def main():
         browser('screenshot',str(args.output.with_suffix('.context-results.png').resolve()),'--full')
         assert browser('errors').get('errors',[])==[]
         click('#signout')
+        # Business text -> clarification -> scope review -> same adaptive runtime.
+        from investigator.question_intake import Intake
+        from test_question_intake import ask
+        from unittest.mock import MagicMock
+        def resolve_question(payload):
+            if 'Clarification:' not in payload['text']: return ask(), {}
+            return {'action':'PROPOSE','model_id':helper.model['id'],'measure_id':'Combined',
+                    'metric_quote':'Combined','question':None,'filters':[{'column_id':'f','operator':'in','values':[False]}],
+                    'dimension_ids':[],'scope_quotes':[{'column_id':'f','quote':'Flag false'}]}, {}
+        resolver=MagicMock(side_effect=resolve_question)
+        helper.workspace.intake=Intake(helper.workspace,resolver)
+        fill('#access-key',key);click('#login-form button');wait("!document.getElementById('workspace').hidden")
+        before=helper.native.call_count
+        fill('#business-question','This report seems off.');click('#resolve-question')
+        wait("document.getElementById('intake-status').textContent.includes('Which metric')")
+        assert helper.native.call_count==before
+        click('#refresh-history');click('#question-history button')
+        assert resolver.call_count==1
+        fill('#business-question','Combined metric for Flag false.');click('#resolve-question')
+        wait("document.getElementById('intake-status').textContent.includes('Metric and filters suggested')")
+        assert evaluate("document.getElementById('metric').value==='Combined' && document.querySelector('#filters textarea').value==='false'")
+        assert helper.native.call_count==before
+        click('#review');wait("!document.getElementById('preview').hidden")
+        browser('screenshot',str(args.output.with_suffix('.question-review.png').resolve()),'--full')
+        click('#start');wait("document.getElementById('status').textContent==='Checks finished'")
+        click('#technical-tab')
+        assert evaluate("document.getElementById('technical-scope').textContent.includes('SAVED_LLM_SCOPE_PROPOSAL')")
+        click('#business-tab');browser('screenshot',str(args.output.with_suffix('.question-results.png').resolve()),'--full')
+        calls=helper.native.call_count;click('#refresh-history');click('#question-history button')
+        assert resolver.call_count==2 and helper.native.call_count==calls
+        fill('#symptom','Manually corrected question about Combined for Flag false.')
+        click('#review');wait("!document.getElementById('preview').hidden")
+        assert evaluate("preview.intake===null")
+        assert evaluate('document.documentElement.scrollWidth<=window.innerWidth')
+        assert browser('errors').get('errors',[])==[]
+        click('#signout');assert evaluate("document.getElementById('question-history').children.length===0")
         result = {'status': 'PASSED', 'checks': ['login', 'explicit_scope', 'preview_start', 'saved_numeric_values',
             'shared_outcome', 'technical_view', 'history_no_requery', 'clarification_successor', 'cancellation', 'mobile_layout', 'signout', 'no_console_errors',
-            'context_preview','context_result_labels'],
+            'context_preview','context_result_labels','question_clarification','question_scope_review','question_runtime_provenance','question_history_no_calls','manual_scope_provenance'],
             'injected_native_calls': helper.native.call_count, 'live_cloud_calls': 0,
             'causal_acceptance': False}
         args.output.write_text(json.dumps(result, indent=2), encoding='utf-8')

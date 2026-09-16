@@ -25,7 +25,7 @@ PHASES = {'CREATED': 'Investigation created', 'PLANNER_RESERVED': 'Choosing the 
 
 
 class Workspace:
-    def __init__(self, agent, *, execution_enabled=False, clock=time.time):
+    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None):
         self.agent, self.store, self.clock = agent, agent.store, clock
         self.execution_enabled = execution_enabled
         if execution_enabled and (agent.planner is None or agent.governor is None):
@@ -42,9 +42,12 @@ class Workspace:
             CREATE UNIQUE INDEX IF NOT EXISTS workspace_single_active ON workspace_jobs((1))
               WHERE status IN ('SUBMITTING','QUEUED','RUNNING');
             ''')
+        from .question_intake import Intake
+        self.intake = Intake(self, question_resolver)
 
     def models(self):
-        return {'execution_enabled': self.execution_enabled, 'models': [self.model(m['id']) for m in self.store.list(True)],
+        return {'execution_enabled': self.execution_enabled, 'question_intake_enabled': self.execution_enabled and self.intake.resolver is not None,
+                'models': [self.model(m['id']) for m in self.store.list(True)],
                 'limits': LIMITS, 'deployment': 'LOCAL_SINGLE_OPERATOR', 'cause_verification_available': False}
 
     def model(self, identity):
@@ -61,7 +64,9 @@ class Workspace:
                 'columns': columns, 'range_semantics': scope['range_semantics']}
 
     def preview(self, request):
-        fields(request, ['model_id', 'measure_id', 'filters', 'dimension_ids', 'symptom', 'predecessor'])
+        fields(request, ['model_id', 'measure_id', 'filters', 'dimension_ids', 'symptom', 'predecessor'] +
+               (['intake_id'] if 'intake_id' in request else []))
+        intake = self.intake.review(request['intake_id'], request) if 'intake_id' in request else None
         model = self.store.get(request['model_id'])
         if not model['enabled']:
             raise Conflict('This model is not enabled')
@@ -90,9 +95,11 @@ class Workspace:
                 'catalog_hash': digest(candidates), 'context_hash': digest(model['context']),
                 'labels': labels, 'columns': columns, 'measure_name': labels[envelope['measure_id']],
                 'candidate_count': len(candidates), 'gaps': gaps, 'cloud_calls': 0,
-                'calculation_contexts':list(contexts.values()),
+                'calculation_contexts':list(contexts.values()), 'intake': intake,
                 'scope_note': 'Selected filters supply the starting context. Measures may apply their own filters; component paths are listed below when supported. A screenshot or report selection is not automatically reproduced.'}
         with self.store.connect() as db:
+            if intake is not None:
+                self.intake.review(request['intake_id'], request)
             db.execute('INSERT INTO workspace_previews VALUES (?,?,?,?)', (body['id'], model['id'], encoded(body), digest(body)))
         return body
 
@@ -221,7 +228,7 @@ class Workspace:
                 'facts': facts, 'scope': preview['envelope'], 'columns': preview['columns'], 'predecessor': preview['predecessor'],
                 'activity': [{'label': PHASES.get(e['kind'], 'Investigation updated'), **e} for e in technical['activity']],
                 'cause_verified': technical['outcome']['cause_verified'], 'delivery_eligible': technical['outcome']['delivery_eligible'],
-                'technical': technical}
+                'intake': preview.get('intake'), 'technical': technical}
 
     def cancel(self, identity):
         self.session(identity)
