@@ -114,7 +114,10 @@ def extract(response, request):
     for row in rows:
         if not isinstance(row,dict) or set(row)!=expected:raise ValueError('Native columns differ')
         output.append({key:typed(value) for key,value in row.items()})
-    return {'rows':output[:500],'completeness':'PARTIAL' if len(rows)>500 else 'COMPLETE_RESPONSE',
+    from .native_identity import observed
+    identity = observed(response, request)
+    return {**({'execution_identity': identity} if identity is not None else {}),
+            'rows':output[:500],'completeness':'PARTIAL' if len(rows)>500 else 'COMPLETE_RESPONSE',
             'returned_rows':len(rows),'limitation':'Response completeness is not snapshot or cross-system comparability. Grouped results can omit all-blank groups.'}
 
 

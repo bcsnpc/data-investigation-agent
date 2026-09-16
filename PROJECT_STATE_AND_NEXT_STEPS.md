@@ -1,6 +1,6 @@
 # Data Investigator: what we built and what comes next
 
-Latest continuation: PR #180 merged. The [shared investigation workspace milestone](docs/investigation-workspace-milestone.md) adds verified local business/technical execution and independent fixture-reader checks. Validation: 746 tests, 12 browser checks, and one live 49-unit observation. General causal proof, all eight Phase H acceptance families and hosted v2 delivery remain open. See [current delivery status](docs/current-delivery-status.md) for cumulative progress.
+Latest continuation: PR #182 merged. [Reader-bound native execution](docs/reader-bound-execution-milestone.md) now connects the separate reader to actual native scalar, dimensional and record tools with saved principal evidence. Three live queries succeeded and ten projected fixture rows matched; saved replay made no calls. This advances the execution identity prerequisite, not general causal or Phase H acceptance. See [current delivery status](docs/current-delivery-status.md) for cumulative progress and remaining grouped work.
 
 
 Latest: PR #176 merged; [native proof preflight](docs/native-proof-preflight-milestone.md) completed the live feasibility audit and records the blocked acceptance prerequisites. See [current status](docs/current-delivery-status.md) for implementation and remaining acceptance gates.

@@ -1,6 +1,6 @@
 # Current delivery status
 
-Review: [PR #182](https://github.com/bcsnpc/data-investigation-agent/pull/182).
+Merged: [PR #182](https://github.com/bcsnpc/data-investigation-agent/pull/182).
 
 Merged: [PR #180](https://github.com/bcsnpc/data-investigation-agent/pull/180).
 
@@ -10,7 +10,7 @@ Merged: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
 
 Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
-Updated 2026-09-15. **PR #180 is merged.** The current milestone is the [shared investigation workspace and isolated reader verification](investigation-workspace-milestone.md), tracked by [#181](https://github.com/bcsnpc/data-investigation-agent/issues/181). Local interactive v2 execution is verified; general causal acceptance and Azure v2 deployment remain open.
+Updated 2026-09-15. **PR #182 is merged.** The current milestone is [reader-bound native execution](reader-bound-execution-milestone.md), tracked by [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183). The actual native worker and durable runtime now support the separate reader with retained identity evidence. General causal acceptance and Azure v2 deployment remain open.
 
 ## What is built
 
@@ -28,16 +28,17 @@ Updated 2026-09-15. **PR #180 is merged.** The current milestone is the [shared 
 | Reviewed source discovery | Derives complete source scopes from onboarding mappings; ambiguity/revocation gates and query-free preview | Development mappings still need actual team review; no equivalence certification |
 | Record evidence | Bounded Power BI/SQL projected groups, multiplicity, keyed differences, saved adaptive pairs and recovery | Complete response is not shared-generation or semantic proof; model mappings now derive reviewed projections per ticket |
 | Aggregate record consistency | Sealed aggregate receipts, exact count/sum reconstruction, SQL count checks, durable/local assessments and adaptive consumption | Arithmetic consistency across separate captures; remote generation/context/causal proof remains |
-| Proof feasibility | Bounded live metadata preflight, two definition hashes, access/refresh summaries, persisted history and CLI gate | Actual acceptance blocked: exclusive publication, shared generation, fixture contents and effective identity/context remain unproven |
+| Proof feasibility | Bounded live metadata preflight, two definition hashes, access/refresh summaries, persisted history and CLI gate | Actual acceptance blocked: exclusive publication, shared generation and effective report identity/context remain unproven; isolated fixture content is checked separately |
+| Native execution identity | Explicit reader account/tenant/object/model binding, no publisher fallback, identity retained in sealed scalar/dimension/record evidence | Optional profile; local transport observation, not report/RLS or permission-stability proof |
 | Shared workspace | Local catalog scope review, explicit governed start, history, cancellation, clarification and business/technical views sharing saved evidence | Single operator; manual metric/filter intake; not deployed to Azure |
 
 **Previous preflight validation:** 694 regression tests passed, including 26 focused proof-preflight tests. Live collection completed six observations using 10 metadata HTTP calls. It found Direct Lake, one workspace Admin assignment, five completed refreshes and equal definition hashes. This is not stability or exclusivity proof. Historical read used zero HTTP calls; the CLI acceptance gate returned exit 2. No SQL/DAX queries, permission changes, remote writes or deployment occurred in this milestone.
 
-**Current validation:** 746 regression tests passed, including 24 workspace and four reader tests; 12 browser checks passed. A live workspace run captured 49 Units Ordered for five order IDs using one Azure LLM planning call and one Power BI query. No SQL query was used in that run. Cause and delivery remain unverified. The isolated reader independently matched all ten fixture rows and received HTTP 403 from a write-required refresh-history endpoint.
+**Current validation:** All 775 regression tests passed, including 29 focused reader execution/runtime tests. A live durable run used the dedicated reader for three Power BI queries: scalar values 10 eligible / 2 refunded / 20% / 65 units, a complete two-group breakdown, and ten exact projected fixture rows. Replaying the completed request and reading history added zero cloud calls. Six Power BI calls were made across the initial and final three-query validations. No SQL or LLM calls, permission changes or deployment were used in this milestone. Previous workspace validation remains 746 tests and 12 browser checks, plus its separate 49-unit live observation.
 
 ## Latest isolated lab milestone
 
-PR #178 is merged. The [isolated Import fixture](isolated-import-fixture-milestone.md) now publishes hashed inline data into a separate workspace/model, correlates refresh completion and verifies complete typed row multisets. Live verification matched 10 rows; native measures returned 10 eligible, 2 refunded, 20% and 65 units. Interrupted publication is held; received mutations replay without creating or refreshing again. This removes the need for mutable external fixture inputs, but does not establish remote exclusivity or shared-generation proof. The dedicated reader account is now created, independently signed in and verified with isolated Viewer/Read/Build access. Exact rows and one denied write-required capability were observed; enforced publication and shared-generation proof remain open. No business model or Azure SQL quota settings changed.
+PR #178 is merged. The [isolated Import fixture](isolated-import-fixture-milestone.md) now publishes hashed inline data into a separate workspace/model, correlates refresh completion and verifies complete typed row multisets. Live verification matched 10 rows; native measures returned 10 eligible, 2 refunded, 20% and 65 units. Interrupted publication is held; received mutations replay without creating or refreshing again. This removes the need for mutable external fixture inputs, but does not establish remote exclusivity or shared-generation proof. The dedicated reader account is now created, independently signed in and verified with isolated Viewer/Read/Build access. Exact rows and one denied write-required capability were observed. The [current reader-runtime milestone](reader-bound-execution-milestone.md) also verifies three actual runtime reads with identity-bound receipts; enforced publication and shared-generation proof remain open. No business model or Azure SQL quota settings changed.
 
 ## Where we are
 
@@ -47,7 +48,7 @@ The new path can select a catalog measure, choose and run an approved diagnostic
 
 ## Remaining grouped milestones
 
-1. **Resolve the measured proof blocker:** isolate and enforce the fixture publication boundary, carry the now-separated publisher/reader identities into the acceptance workflow, then bind input/model hashes to publication and complete readbacks. The [live preflight](native-proof-preflight-milestone.md) documents exact observations. **Complete trustworthy investigation and proof:** effective report/identity/date context, authoritative source mappings, version/shared-generation evidence, supported causal/freshness/application-intent verifiers, impact/ownership and provider-wide monetary governance. Shared adaptive request allowances are now implemented. Complete the remaining B-G exit gates together with meaningful end-to-end checks.
+1. **Resolve the measured proof blocker:** isolate and enforce the fixture publication boundary, use the now-reader-bound native runtime in the frozen acceptance workflow, then bind input/model hashes to publication and complete readbacks. The [live preflight](native-proof-preflight-milestone.md) documents exact observations. **Complete trustworthy investigation and proof:** effective report/identity/date context, authoritative source mappings, version/shared-generation evidence, supported causal/freshness/application-intent verifiers, impact/ownership and provider-wide monetary governance. Shared adaptive request allowances are now implemented. Complete the remaining B-G exit gates together with meaningful end-to-end checks.
 2. **Prove generality:** freeze the runtime and run all eight hidden/native acceptance families, including new additive, ratio and complex measures, healthy/defect/gap variants and repeated planner evaluations. Current injected tests and live smoke checks do not replace this gate.
 3. **Complete the user product:** resolve business tickets/screenshots into reviewed scope, extend the local shared workspace into the hosted business workflow, integrate reviewed v2 routing/triage, then deploy and verify the complete workflow.
 

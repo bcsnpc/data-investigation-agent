@@ -1,6 +1,6 @@
 # Project progress
 
-Review: [PR #182](https://github.com/bcsnpc/data-investigation-agent/pull/182).
+Merged: [PR #182](https://github.com/bcsnpc/data-investigation-agent/pull/182).
 
 Merged: [PR #180](https://github.com/bcsnpc/data-investigation-agent/pull/180).
 
@@ -10,7 +10,7 @@ Merged: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
 
 Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
-**Latest:** PR #180 merged. The [shared investigation workspace and reader milestone](investigation-workspace-milestone.md), tracked by [#181](https://github.com/bcsnpc/data-investigation-agent/issues/181), delivers local scope review, governed execution, history, cancellation, clarification and shared business/technical evidence. All 746 regression tests and 12 browser checks passed. A live run captured 49 Units Ordered using one LLM call and one Power BI query. The dedicated reader independently matched ten fixture rows and received a write-required endpoint denial. General causal proof, Phase H acceptance and hosted v2 delivery remain open.
+**Latest:** PR #182 merged. [Reader-bound native execution](reader-bound-execution-milestone.md), tracked by [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183), connects the dedicated reader to the actual native worker and durable runtime with account/tenant/object/model binding and sealed identity evidence. All 775 regression tests passed, including 29 focused tests. Three live native calls captured scalar/breakdown/record evidence; ten projected rows matched, and replay made zero cloud calls. General causal proof, Phase H acceptance and hosted v2 delivery remain open.
 
 Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90â€“100.
 
@@ -18,7 +18,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #180 is merged. [The local workspace milestone](investigation-workspace-milestone.md) is tracked under [#181](https://github.com/bcsnpc/data-investigation-agent/issues/181). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #182 is merged. [Reader-bound runtime execution](reader-bound-execution-milestone.md) is tracked under [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 

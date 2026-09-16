@@ -14,22 +14,50 @@ from investigator.onboarding import ModelStore
 from investigator.native_diagnostics import run
 from metadata_auth import FabricCliTokens, NoRedirect
 from metadata_config import load_config, ROOT
+from investigator.native_identity import KEY, profile, make, require
 
 
-def execute(request,tenant):
+def execute(request,tenant,reader=None):
     workspace=str(UUID(request['workspace']));model=str(UUID(request['native_model_id']))
-    token=FabricCliTokens(tenant).get_token('https://analysis.windows.net/powerbi/api/.default')
+    if reader is None:
+        token=FabricCliTokens(tenant).get_token('https://analysis.windows.net/powerbi/api/.default')
+    else:
+        profile(reader)
+        if reader['tenant_id'] != tenant or model not in reader['model_ids']:
+            raise ValueError('Native reader target differs')
+        from connect_fixture_reader import application, token as reader_token
+        import base64
+        token=reader_token(application(tenant),reader['account'],tenant,'https://analysis.windows.net/powerbi/api/.default')
+        part=token.split('.')[1]
+        claims=json.loads(base64.urlsafe_b64decode(part+'='*(-len(part)%4)))
+        if claims.get('oid') != reader['principal_id']:
+            raise ValueError('Native reader principal differs')
     body={'queries':[{'query':request['query']}],'serializerSettings':{'includeNulls':True}}
     http=Request(f'https://api.powerbi.com/v1.0/myorg/groups/{workspace}/datasets/{model}/executeQueries',
                  data=json.dumps(body).encode(),headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'})
     with build_opener(NoRedirect()).open(http,timeout=90) as response:
         raw=response.read(2*1024*1024+1)
     if len(raw)>2*1024*1024:raise ValueError('Native response exceeds budget')
-    return raw.decode('utf-8')
+    decoded=raw.decode('utf-8')
+    if reader is not None:
+        response=json.loads(decoded,parse_float=Decimal)
+        evidence=make(response,request,reader)
+        # Append only our metadata, preserving the provider's exact numeric JSON.
+        decoded=decoded.rstrip()
+        if not decoded.endswith('}'):raise ValueError('Expected native response object')
+        decoded=decoded[:-1]+','+json.dumps(KEY)+':'+json.dumps(evidence)+'}'
+    return decoded
 
 
 def transport(config, request):
     """Trusted native worker, also used by the durable operator runtime."""
+    if request['workspace'] != config['fabric']['workspace_id']:
+        raise ValueError('Workspace differs')
+    reader=config['fabric'].get('native_reader')
+    if reader is not None:
+        profile(reader)
+        if request['native_model_id'] not in reader['model_ids']:
+            raise ValueError('Native model is outside reader allowlist')
     with tempfile.TemporaryDirectory() as directory:
         frozen=Path(directory)/'profile.json'
         frozen.write_text(json.dumps(config),encoding='utf-8')
@@ -42,7 +70,8 @@ def transport(config, request):
         if isinstance(failure,dict) and failure.get('completion_uncertain') is True:
             raise TimeoutError('Native completion is uncertain')
         raise RuntimeError('Native transport unavailable')
-    return json.loads(p.stdout,parse_float=Decimal)
+    response=json.loads(p.stdout,parse_float=Decimal)
+    return require(response,request,reader) if reader is not None else response
 
 
 if __name__=='__main__':
@@ -58,7 +87,7 @@ if __name__=='__main__':
         try:
             request=json.load(sys.stdin)
             if request['workspace']!=config['fabric']['workspace_id']:raise ValueError('Workspace differs')
-            print(execute(request,config['fabric']['auth']['tenant_id']))
+            print(execute(request,config['fabric']['auth']['tenant_id'],config['fabric'].get('native_reader')))
         except Exception as exc:
             print(json.dumps({'error':type(exc).__name__,
                               'completion_uncertain':isinstance(exc,(TimeoutError,URLError))}));raise SystemExit(1)

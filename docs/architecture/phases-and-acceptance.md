@@ -98,6 +98,8 @@ Dependency order: **A -> B -> C -> D -> E -> F -> G -> H -> I -> J**. Contracts 
 
 ## H - Complex/unseen metric acceptance
 
+**Execution prerequisite (2026-09-15):** [Reader-bound runtime](../reader-bound-execution-milestone.md) passed scalar, breakdown and record reads under the isolated reader, with sealed identity evidence and zero-query replay. The operator fixture manifest is not a report onboarding scan or hidden evaluator. Effective report/RLS context, shared generation, exclusive publication and all eight acceptance families remain unverified.
+
 **Objective/why:** prove generality after runtime freeze, using real Power BI.
 
 **Existing:** native model artifacts, lab/evaluator isolation, legacy regression matrices. **New:** isolated fixture publisher, hidden evaluator and frozen manifest; no runtime metric/scenario branch.
