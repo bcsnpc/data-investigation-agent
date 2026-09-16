@@ -62,6 +62,8 @@ def main():
         raise AssertionError('Browser state did not arrive: ' + script)
     def fill(selector, value): browser('fill', selector, value)
     def click(selector):
+        # Stabilize long mobile-page scrolling before the native pointer click.
+        evaluate('document.querySelector('+json.dumps(selector)+').scrollIntoView({behavior:"instant",block:"center"})')
         names = {'#new-investigation': '+ New investigation', '#add-filter': '+ Add filter', '#review': 'Review scope',
                  '#start': 'Start investigation', '#login-form button': 'Open workspace', '#technical-tab': 'Technical evidence',
                  '#business-tab': 'Overview', '#refresh-history': 'Refresh investigations', '#clarify': 'Clarify and review a new scope',
@@ -187,9 +189,45 @@ def main():
         assert evaluate('document.documentElement.scrollWidth<=window.innerWidth')
         assert browser('errors').get('errors',[])==[]
         click('#signout');assert evaluate("document.getElementById('question-history').children.length===0")
+        # Screenshot input is reviewed user context, never a queried observation.
+        from investigator.screenshot_intake import Screenshots
+        extractor=MagicMock(return_value=({'visible_text':'Combined 9\nFlag false','readable':True,'uncertainties':[]}, {}))
+        helper.workspace.screenshots=Screenshots(helper.workspace,extractor)
+        resolver.side_effect=lambda payload: ({'action':'PROPOSE','model_id':helper.model['id'],'measure_id':'Combined',
+            'metric_quote':'Combined','question':None,'filters':[{'column_id':'f','operator':'in','values':[False]}],
+            'dimension_ids':[],'scope_quotes':[{'column_id':'f','quote':'Flag false'}]}, {})
+        fill('#access-key',key);click('#login-form button');wait("!document.getElementById('workspace').hidden")
+        # Browser-rendered controlled input card; this is not a Power BI capture.
+        evaluate("document.body.insertAdjacentHTML('beforeend', '<div id=fixture-card><h1>Combined</h1><p>Flag false</p><p>Displayed value: 9</p></div>');Object.assign(document.getElementById('fixture-card').style,{position:'fixed',inset:'0',background:'white',zIndex:'9999',padding:'40px',font:'24px Arial'})")
+        input_image=args.output.with_suffix('.input.png').resolve()
+        browser('screenshot',str(input_image));evaluate("document.getElementById('fixture-card').remove()")
+        before=helper.native.call_count;resolved=resolver.call_count
+        browser('upload','#screenshot-file',str(input_image));click('#read-screenshot')
+        wait("!document.getElementById('screenshot-review').hidden")
+        assert helper.native.call_count==before and resolver.call_count==resolved
+        fill('#screenshot-text','Combined 9\nFlag false');click('#confirm-screenshot')
+        wait("screenshotReviewId!==null")
+        fill('#business-question','This number looks higher than expected.');click('#resolve-question')
+        wait("document.getElementById('intake-status').textContent.includes('Metric and filters suggested')")
+        click('#review');wait("!document.getElementById('preview').hidden")
+        browser('screenshot',str(args.output.with_suffix('.screenshot-review.png').resolve()),'--full')
+        click('#start');wait("document.getElementById('status').textContent==='Checks finished'")
+        assert evaluate("!document.getElementById('result-screenshot').hidden && document.getElementById('result-screenshot-text').textContent.includes('Combined 9')")
+        assert evaluate("document.querySelector('.fact .value').textContent==='7'")
+        assert evaluate('document.documentElement.scrollWidth<=window.innerWidth')
+        browser('screenshot',str(args.output.with_suffix('.screenshot-results.png').resolve()),'--full')
+        calls=helper.native.call_count;resolved=resolver.call_count
+        click('#refresh-history');click('#image-history button');click('#screenshot-saved-status')
+        assert extractor.call_count==1 and resolver.call_count==resolved and helper.native.call_count==calls
+        click('#remove-screenshot');wait("document.getElementById('screenshot-status').textContent.includes('Stored image removed')")
+        click('#question-history button')
+        assert evaluate("document.getElementById('business-question').value.includes('higher than expected')")
+        assert browser('errors').get('errors',[])==[]
+        click('#signout');assert evaluate("document.getElementById('image-history').children.length===0")
         result = {'status': 'PASSED', 'checks': ['login', 'explicit_scope', 'preview_start', 'saved_numeric_values',
             'shared_outcome', 'technical_view', 'history_no_requery', 'clarification_successor', 'cancellation', 'mobile_layout', 'signout', 'no_console_errors',
-            'context_preview','context_result_labels','question_clarification','question_scope_review','question_runtime_provenance','question_history_no_calls','manual_scope_provenance'],
+            'context_preview','context_result_labels','question_clarification','question_scope_review','question_runtime_provenance','question_history_no_calls','manual_scope_provenance',
+            'image_upload_review','image_scope_start','image_claim_separate_from_native','image_history_no_calls','image_removal_preserves_question','image_mobile_layout','image_signout'],
             'injected_native_calls': helper.native.call_count, 'live_cloud_calls': 0,
             'causal_acceptance': False}
         args.output.write_text(json.dumps(result, indent=2), encoding='utf-8')
@@ -197,6 +235,8 @@ def main():
     except Exception:
         browser('screenshot', str(args.output.with_suffix('.failure.png').resolve()), '--full')
         args.output.with_suffix('.failure.json').write_text(json.dumps({
+            'saved_questions': helper.workspace.intake.list(),
+            'image_state': evaluate('({screenshotReviewId,screenshotRevision,questionRevision,screenshotRead,screenshotReviewKey})'),
             'page': evaluate('document.body.innerText'), 'errors': browser('errors'),
             'overflow': evaluate("Array.from(document.querySelectorAll('body *')).filter(e=>e.getBoundingClientRect().right>innerWidth+1).map(e=>({tag:e.tagName,id:e.id,width:e.getBoundingClientRect().width,right:e.getBoundingClientRect().right})).slice(0,15)"),
             'snapshot': browser('snapshot', '-i')}, indent=2), encoding='utf-8')

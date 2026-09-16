@@ -1,20 +1,29 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Investigator · Investigations</title><link rel="stylesheet" href="/style.css"><script src="/workspace.js" defer></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Investigator · Investigations</title><link rel="stylesheet" href="/style.css"><script src="/workspace.js" defer></script><script src="/screenshots.js" defer></script></head>
 <body>
 <header><a class="brand" href="/"> <span class="mark">i</span> Investigator</a><span class="environment">Local workspace</span><button id="signout" class="quiet" hidden>Sign out</button></header>
 <main>
   <section id="login" class="login card"><p class="eyebrow">INVESTIGATION WORKSPACE</p><h1>Follow the numbers.</h1><p>Review a reporting question, watch the checks, and inspect the evidence in one place.</p><form id="login-form"><label for="access-key">Local workspace access key</label><input id="access-key" type="password" autocomplete="off" required><button type="submit">Open workspace <span aria-hidden="true">→</span></button></form><p class="muted small">Your key is held only in this tab’s memory. This local workspace is for a single operator.</p></section>
   <div id="error" class="error" role="alert" hidden></div>
   <div id="workspace" class="layout" hidden>
-    <aside><div class="section-heading"><h2>Investigations</h2><button id="refresh-history" class="quiet" aria-label="Refresh investigations">↻</button></div><button id="new-investigation" class="secondary full">+ New investigation</button><div id="history" class="history"></div><h2>Recent questions</h2><div id="question-history" class="history"></div></aside>
+    <aside><div class="section-heading"><h2>Investigations</h2><button id="refresh-history" class="quiet" aria-label="Refresh investigations">↻</button></div><button id="new-investigation" class="secondary full">+ New investigation</button><div id="history" class="history"></div><h2>Recent questions</h2><div id="question-history" class="history"></div><h2>Recent screenshots</h2><div id="image-history" class="history"></div></aside>
     <div class="content">
       <section id="composer" class="card">
         <p class="eyebrow">START WITH YOUR QUESTION</p><h1>What looks different?</h1><p class="muted">Choose a metric and the records you want checked. The investigator chooses its next checks from the available evidence.</p>
         <div id="read-only" class="notice" hidden>This host shows history and scope previews. Live execution is disabled.</div>
         <div id="clarification-note" class="notice" hidden></div>
+        <section id="screenshot-intake" hidden>
+          <label for="screenshot-file">Add a report screenshot (optional)</label><input id="screenshot-file" type="file" accept="image/png,image/jpeg">
+          <p class="muted small">PNG or JPEG, up to 1 MB and 8 million pixels. Reading sends this image to the configured AI service. Review the visible text before using it.</p>
+          <img id="screenshot-preview" class="screenshot" alt="Your uploaded report screenshot" hidden>
+          <button id="read-screenshot" type="button" class="secondary">Read screenshot</button><button id="remove-screenshot" type="button" class="quiet" hidden>Remove stored image</button>
+          <div id="screenshot-status" class="notice" role="status" hidden></div>
+          <button id="screenshot-saved-status" type="button" class="quiet" hidden>Check saved image read</button><button id="hold-screenshot" type="button" class="quiet" hidden>Stop waiting for image read</button>
+          <div id="screenshot-review" hidden><label for="screenshot-text">Check or correct the visible details</label><textarea id="screenshot-text" rows="5" maxlength="1600"></textarea><ul id="screenshot-uncertainties" class="small"></ul><p class="muted small">These are details from your image. Hidden filters, full report context and the cause still need evidence.</p><button id="confirm-screenshot" type="button">Use reviewed screenshot details</button></div>
+        </section>
         <section id="question-intake" hidden>
-          <form id="question-form"><label for="business-question">Tell us what looks wrong in the report</label><textarea id="business-question" rows="4" maxlength="2000" required placeholder="Include the report or metric name and the exact filters or dates you selected."></textarea><p class="muted small">AI uses the onboarded catalog to suggest a scope. This uses one language-model call, but does not query your data. Screenshots and links are not opened.</p><button id="resolve-question" type="submit">Find metric and filters</button></form>
+          <form id="question-form"><label for="business-question">Tell us what looks wrong in the report</label><textarea id="business-question" rows="4" maxlength="2000" required placeholder="Include the report or metric name and the exact filters or dates you selected."></textarea><p class="muted small">AI uses the onboarded catalog to suggest a scope. This uses one language-model call, but does not query your data. Reviewed screenshot details can be included. Links are not opened.</p><button id="resolve-question" type="submit">Find metric and filters</button></form>
           <div id="intake-status" class="notice" role="status" hidden></div><button id="intake-history" class="quiet" type="button" hidden>Check saved question status</button>
           <button id="hold-question" class="quiet danger" type="button" hidden>Stop waiting for this question</button>
           <p id="intake-provenance" class="muted small" hidden>AI suggested the scope below. Check every metric and filter before reviewing. Editing it switches to your manually selected scope.</p>
@@ -37,7 +46,7 @@
         <div class="tabs" role="tablist" aria-label="Investigation view"><button id="business-tab" role="tab" aria-selected="true" aria-controls="business">Overview</button><button id="technical-tab" role="tab" aria-selected="false" aria-controls="technical">Technical evidence</button><button id="cancel" class="quiet danger">Cancel investigation</button></div>
         <section id="business" role="tabpanel" aria-labelledby="business-tab">
           <div class="card conclusion"><p class="eyebrow">WHAT WE KNOW</p><h2 id="summary"></h2><p class="muted">Captured values are observations. A difference alone does not establish its cause.</p><div id="question" class="notice" hidden></div><button id="clarify" class="secondary" hidden>Clarify and review a new scope</button></div>
-          <div id="facts" class="facts"></div>
+          <section id="result-screenshot" class="card" hidden><h2>User-provided screenshot</h2><img id="result-screenshot-image" class="screenshot" alt="Screenshot supplied with this question" hidden><p class="muted small">Visible details reviewed by the user. Live check results appear below.</p><p id="result-screenshot-note" class="muted small"></p><pre id="result-screenshot-text"></pre></section><div id="facts" class="facts"></div>
           <div class="card"><h2>What is still needed</h2><ul id="evidence-gaps" class="gap-list"></ul><p class="muted small">The model owner can review missing comparisons and context. These checks have not established a cause.</p></div>
           <div class="card"><h2>Scope checked</h2><div id="result-filters" class="scope-pills"></div><p id="scope-warning" class="muted small">Selected scope only; full report context and cause are not yet verified.</p></div>
           <div class="card"><h2>Activity</h2><ol id="activity" class="activity"></ol></div>

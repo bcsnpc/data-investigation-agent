@@ -25,7 +25,7 @@ PHASES = {'CREATED': 'Investigation created', 'PLANNER_RESERVED': 'Choosing the 
 
 
 class Workspace:
-    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None):
+    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None):
         self.agent, self.store, self.clock = agent, agent.store, clock
         self.execution_enabled = execution_enabled
         if execution_enabled and (agent.planner is None or agent.governor is None):
@@ -44,9 +44,12 @@ class Workspace:
             ''')
         from .question_intake import Intake
         self.intake = Intake(self, question_resolver)
+        from .screenshot_intake import Screenshots
+        self.screenshots = Screenshots(self, screenshot_extractor)
 
     def models(self):
         return {'execution_enabled': self.execution_enabled, 'question_intake_enabled': self.execution_enabled and self.intake.resolver is not None,
+                'screenshot_intake_enabled': self.execution_enabled and self.screenshots.extractor is not None,
                 'models': [self.model(m['id']) for m in self.store.list(True)],
                 'limits': LIMITS, 'deployment': 'LOCAL_SINGLE_OPERATOR', 'cause_verification_available': False}
 

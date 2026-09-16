@@ -1,6 +1,6 @@
 # Engineering phases and acceptance: revised A-J
 
-Latest continuation: PR #186 merged. [Business question intake](../business-question-intake-milestone.md) connects natural-language catalog resolution and clarification to explicit scope review and the governed runtime. Phase I now includes local text intake; screenshot/report context, hosted authorization and deployment remain. D/H proof prerequisites are still open.
+Latest continuation: PR #188 merged. [Reviewed screenshot intake](../screenshot-intake-milestone.md) now joins business text, explicit transcription confirmation, catalog scope review and adaptive execution. Live Azure verification kept screenshot value 9 separate from native value 8, with no cause claim. Phase I remains local; effective report context, D/H proof, hosted authorization and deployment remain open.
 
 Latest continuation: PR #184 merged. [Native dependency calculation contexts](../dependency-context-milestone.md) now preserve supported measure-local filters through adaptive child reads, with scope review, sealed context evidence and eight live parity checks. This advances D/E/G; full B-G gates, Phase H and hosted v2 remain open.
 
