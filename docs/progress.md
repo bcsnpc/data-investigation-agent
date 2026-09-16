@@ -1,10 +1,12 @@
 # Project progress
 
-Review: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
+Review: [PR #178](https://github.com/bcsnpc/data-investigation-agent/pull/178).
+
+Merged: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
 
 Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
-**Latest:** PR #174 merged. [Aggregate-to-record reconciliation](record-aggregate-reconciliation-milestone.md), tracked by [#175](https://github.com/bcsnpc/data-investigation-agent/issues/175), connects captured direct aggregates to supporting record evidence with receipt integrity, durable recovery and adaptive consumption. 668 tests passed, including 27 focused tests. Live evidence: 49 units / 15 lines in each system; arithmetic reconciled, cause unverified.
+**Latest:** PR #176 merged. The [native proof preflight](native-proof-preflight-milestone.md), tracked by [#177](https://github.com/bcsnpc/data-investigation-agent/issues/177), completed a live D/H feasibility check with 10 metadata calls. Its acceptance gate is BLOCKED: no exclusive publication control, shared generation, complete fixture proof or verified effective identity/context. Matching definitions and completed refreshes were observed, not promoted to proof.
 
 Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90–100.
 
@@ -12,7 +14,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #174 is merged. [Aggregate-to-record reconciliation](record-aggregate-reconciliation-milestone.md) is tracked under [#175](https://github.com/bcsnpc/data-investigation-agent/issues/175). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #176 is merged. [Native proof preflight](native-proof-preflight-milestone.md) is tracked under [#177](https://github.com/bcsnpc/data-investigation-agent/issues/177). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
@@ -29,7 +31,7 @@ V2 makes model onboarding/admin readiness, versioned business context, delta sca
 | E Semantic capabilities | In progress | [Versioned capability/evidence decisions](capability-evidence-assessment.md); full context and upstream equivalence remain |
 | F Persisted state | In progress | Durable sessions/hypotheses, [shared usage and cancellation](runtime-governance-milestone.md), receipts and recovery implemented; broader operational acceptance remains |
 | G Dynamic planner/verifier | In progress | [Evidence-led diagnostic loop](adaptive-investigation-milestone.md); complete deterministic causal verification remains |
-| H Complex/unseen acceptance | Planned | Eight required acceptance families; frozen runtime, real DAX |
+| H Complex/unseen acceptance | Blocked on measured prerequisites | Eight required acceptance families; frozen runtime, real DAX |
 | I Unified ticket workspace | Planned | Shared run/evidence across both views |
 | J Reviewed routing | Planned | Authorized eligible draft/delivery/triage |
 

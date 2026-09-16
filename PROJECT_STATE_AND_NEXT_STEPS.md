@@ -1,6 +1,6 @@
 # Data Investigator: what we built and what comes next
 
-Latest: PR #174 merged; [aggregate-to-record reconciliation](docs/record-aggregate-reconciliation-milestone.md) is the current grouped milestone. See [current status](docs/current-delivery-status.md) for implementation and remaining acceptance gates.
+Latest: PR #176 merged; [native proof preflight](docs/native-proof-preflight-milestone.md) completed the live feasibility audit and records the blocked acceptance prerequisites. See [current status](docs/current-delivery-status.md) for implementation and remaining acceptance gates.
 
 **As of:** 2026-09-14  
 **Repository:** https://github.com/bcsnpc/data-investigation-agent (private)  
