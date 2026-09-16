@@ -1,12 +1,14 @@
 # Current delivery status
 
-Review: [PR #178](https://github.com/bcsnpc/data-investigation-agent/pull/178).
+Review: [PR #180](https://github.com/bcsnpc/data-investigation-agent/pull/180).
+
+Merged: [PR #178](https://github.com/bcsnpc/data-investigation-agent/pull/178).
 
 Merged: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
 
 Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
-Updated 2026-09-15. **PR #176 is merged.** The current milestone adds a [native proof preflight](native-proof-preflight-milestone.md), tracked by [#177](https://github.com/bcsnpc/data-investigation-agent/issues/177). The live D/H feasibility check completed; its acceptance gate is explicitly blocked.
+Updated 2026-09-15. **PR #178 is merged.** The current milestone is [isolated Import fixture publication and verification](isolated-import-fixture-milestone.md), tracked by [#179](https://github.com/bcsnpc/data-investigation-agent/issues/179). Live contents are verified; the broader Phase H gate remains blocked by publication control and effective context/identity.
 
 ## What is built
 
@@ -27,7 +29,13 @@ Updated 2026-09-15. **PR #176 is merged.** The current milestone adds a [native 
 | Proof feasibility | Bounded live metadata preflight, two definition hashes, access/refresh summaries, persisted history and CLI gate | Actual acceptance blocked: exclusive publication, shared generation, fixture contents and effective identity/context remain unproven |
 | Shared projections | Business and technical API projections share one session, scope and outcome hash | Backend only; unified v2 ticket UI is not deployed |
 
-**Validation:** 694 regression tests passed, including 26 focused proof-preflight tests. Live collection completed six observations using 10 metadata HTTP calls. It found Direct Lake, one workspace Admin assignment, five completed refreshes and equal definition hashes. This is not stability or exclusivity proof. Historical read used zero HTTP calls; the CLI acceptance gate returned exit 2. No SQL/DAX queries, permission changes, remote writes or deployment occurred in this milestone.
+**Previous preflight validation:** 694 regression tests passed, including 26 focused proof-preflight tests. Live collection completed six observations using 10 metadata HTTP calls. It found Direct Lake, one workspace Admin assignment, five completed refreshes and equal definition hashes. This is not stability or exclusivity proof. Historical read used zero HTTP calls; the CLI acceptance gate returned exit 2. No SQL/DAX queries, permission changes, remote writes or deployment occurred in this milestone.
+
+**Current validation:** 718 regression tests passed, including 24 fixture/publication tests; live create, refresh, exact content verification and replay passed.
+
+## Latest isolated lab milestone
+
+PR #178 is merged. The [isolated Import fixture](isolated-import-fixture-milestone.md) now publishes hashed inline data into a separate workspace/model, correlates refresh completion and verifies complete typed row multisets. Live verification matched 10 rows; native measures returned 10 eligible, 2 refunded, 20% and 65 units. Interrupted publication is held; received mutations replay without creating or refreshing again. This removes the need for mutable external fixture inputs, but does not establish remote exclusivity or shared-generation proof. The dedicated reader account is user-approved and awaiting enterprise account creation/sign-in. No business model or Azure SQL quota settings changed.
 
 ## Where we are
 

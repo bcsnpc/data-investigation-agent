@@ -1,20 +1,22 @@
 # Project progress
 
-Review: [PR #178](https://github.com/bcsnpc/data-investigation-agent/pull/178).
+Review: [PR #180](https://github.com/bcsnpc/data-investigation-agent/pull/180).
+
+Merged: [PR #178](https://github.com/bcsnpc/data-investigation-agent/pull/178).
 
 Merged: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
 
 Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
-**Latest:** PR #176 merged. The [native proof preflight](native-proof-preflight-milestone.md), tracked by [#177](https://github.com/bcsnpc/data-investigation-agent/issues/177), completed a live D/H feasibility check with 10 metadata calls. Its acceptance gate is BLOCKED: no exclusive publication control, shared generation, complete fixture proof or verified effective identity/context. Matching definitions and completed refreshes were observed, not promoted to proof.
+**Latest:** PR #178 merged. [Isolated Import fixture publication](isolated-import-fixture-milestone.md), tracked by [#179](https://github.com/bcsnpc/data-investigation-agent/issues/179), now creates a separate test workspace/model with hashed inline inputs, durable create/refresh receipts and complete row-multiset verification. Live publication/refresh succeeded; 10 rows matched and native measures returned 10, 2, 20% and 65. Separate-reader setup and enforceable remote generation/context proof remain pending; Phase H is still blocked.
 
-Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90–100.
+Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90â€“100.
 
 Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATOR_TICKET_AND_DEFECT_LAB_SCOPE.md). This extension governs the investigation experience and scope boundary alongside the original plan. Integration decisions and dependencies are recorded in [scope alignment](scope-alignment.md).
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #176 is merged. [Native proof preflight](native-proof-preflight-milestone.md) is tracked under [#177](https://github.com/bcsnpc/data-investigation-agent/issues/177). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #178 is merged. [Isolated fixture publication](isolated-import-fixture-milestone.md) is tracked under [#179](https://github.com/bcsnpc/data-investigation-agent/issues/179). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
