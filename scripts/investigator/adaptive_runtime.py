@@ -121,7 +121,9 @@ class AdaptiveRuntime:
                 size+=len(encoded(value))
                 if size>6000:break
                 sampled.append(value)
-            observations.append({**o,'values':sampled,'planner_sample_truncated':len(sampled)<len(o['values'])})
+            # The planner needs values, not the operator's account identifiers.
+            observations.append({**{k:v for k,v in o.items() if k!='execution_identity'},
+                                 'values':sampled,'planner_sample_truncated':len(sampled)<len(o['values'])})
         return {'symptom':state['envelope']['symptom'],'scope_hash':state['scope_hash'],
                 'filters':state['envelope']['filters'],'candidates':choices,
                 'observations':observations,'diagnostic_pairs':diagnostic_pairs(state['observations']),

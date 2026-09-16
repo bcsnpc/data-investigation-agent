@@ -17,6 +17,12 @@ def catalog(store,config,envelope):
     for name,low,high in [('cloud_calls',1,10),('planner_calls',1,6),('wall_seconds',60,1800),('input_characters',1000,80000),('max_depth',0,4)]:
         if type(limits[name]) is not int or not low<=limits[name]<=high:raise ValueError('Invalid budget')
     model=store.get(envelope['model_id'])
+    reader=config.get('fabric',{}).get('native_reader')
+    if reader is not None:
+        from .native_identity import profile
+        profile(reader)
+        if model['workspace'] != config['fabric']['workspace_id'] or model['native_id'] not in reader['model_ids']:
+            raise Conflict('Model is outside the configured native reader scope')
     dimensions=envelope['dimension_ids']; sources=envelope['source_tests']
     if not isinstance(dimensions,list) or len(dimensions)>4 or any(not isinstance(x,str) for x in dimensions) or len(set(dimensions))!=len(dimensions):
         raise ValueError('Invalid dimension envelope')
@@ -106,7 +112,8 @@ def observation(candidate,child):
     receipt=child['steps'][0]['result']
     if not receipt:return None
     data=receipt.get('result') or {}
-    return {'id':receipt['id'],'candidate_id':candidate['id'],'run_id':child['id'],
+    return {**({'execution_identity':data['execution_identity']} if data.get('execution_identity') else {}),
+            'id':receipt['id'],'candidate_id':candidate['id'],'run_id':child['id'],
             'tool':candidate['tool'],'measure_id':candidate['measure_id'],'dimension_id':candidate['dimension_id'],
             'status':receipt['status'],'values':(data.get('rows',[]) if candidate['tool'] in ('native','native_records','source_records') else [data.get('value')]) if receipt['status']=='COMPLETED' else [],
             'completeness':data.get('completeness','SOURCE_AGGREGATE'),

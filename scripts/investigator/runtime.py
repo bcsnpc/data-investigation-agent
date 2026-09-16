@@ -18,7 +18,7 @@ def fingerprint():
     root = Path(__file__).resolve().parents[2]
     files = sorted((root / 'scripts/investigator').glob('*.py'))
     files += [root / name for name in ('scripts/run_native_diagnostic.py', 'scripts/run_source_diagnostic.py','scripts/run_investigation_v2.py',
-               'scripts/run_adaptive_investigation.py', 'scripts/serve_investigator_workspace.py', 'scripts/ticket_planner.py', 'scripts/metadata_auth.py', 'scripts/metadata_config.py', 'scripts/sql_connect_retry.py', 'infra/scripts/Read-CatalogAggregate.ps1')]
+               'scripts/run_adaptive_investigation.py', 'scripts/serve_investigator_workspace.py', 'scripts/connect_fixture_reader.py', 'scripts/ticket_planner.py', 'scripts/metadata_auth.py', 'scripts/metadata_config.py', 'scripts/sql_connect_retry.py', 'infra/scripts/Read-CatalogAggregate.ps1')]
     return digest({'python': sys.version, 'files': {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}})
 
 
@@ -46,7 +46,9 @@ def read_run(store, model_id, identity):
 class Runtime:
     def __init__(self, store, config, native_transport, source_transport):
         self.store = store; self.config = config
-        self.native_transport = native_transport; self.source_transport = source_transport
+        from .native_identity import guarded
+        self.native_transport = (lambda request: guarded(self.config, request, native_transport)) if native_transport is not None else None
+        self.source_transport = source_transport
         with self.db() as db:
             db.executescript('''
             CREATE TABLE IF NOT EXISTS v2_cancellations(run_id TEXT PRIMARY KEY,created TEXT);

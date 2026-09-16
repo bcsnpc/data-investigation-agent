@@ -31,12 +31,17 @@ def load_config(path):
     keys(sql['auth'], ['mode', 'credential_file'])
     if sql['auth']['mode'] != 'dpapi_file':
         raise ValueError('Unsupported SQL authentication mode')
-    keys(fabric, ['workspace_id', 'auth'])
+    keys(fabric, ['workspace_id', 'auth'] + (['native_reader'] if 'native_reader' in fabric else []))
     fabric['workspace_id'] = str(UUID(text(fabric['workspace_id'])))
     keys(fabric['auth'], ['mode', 'tenant_id', 'python'])
     if fabric['auth']['mode'] != 'fabric_cli':
         raise ValueError('Unsupported Fabric authentication mode')
     fabric['auth']['tenant_id'] = str(UUID(text(fabric['auth']['tenant_id'])))
+    if 'native_reader' in fabric:
+        from investigator.native_identity import profile
+        profile(fabric['native_reader'])
+        if fabric['native_reader']['tenant_id'] != fabric['auth']['tenant_id']:
+            raise ValueError('Native reader and metadata tenant differ')
     keys(config['storage'], ['database'])
     for section, key in [(sql['auth'], 'credential_file'), (fabric['auth'], 'python'), (config['storage'], 'database')]:
         section[key] = str((ROOT / text(section[key])).resolve())

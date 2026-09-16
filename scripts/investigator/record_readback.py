@@ -141,7 +141,10 @@ def extract(response, request):
         if identity in seen:raise ValueError('Repeated projected group')
         seen.add(identity);output.append({'values':values,'multiplicity':multiplicity})
     partial=len(output)>request['limit'];output=output[:request['limit']]
-    return {'rows':output,'column_ids':request['column_ids'],'key_column_ids':request['key_column_ids'],'types':request['types'],
+    from .native_identity import observed
+    identity = observed(response, request) if backend=='native_records' else None
+    return {**({'execution_identity': identity} if identity is not None else {}),
+            'rows':output,'column_ids':request['column_ids'],'key_column_ids':request['key_column_ids'],'types':request['types'],
             'completeness':'PARTIAL' if partial else 'COMPLETE_RESPONSE','returned_groups':len(rows),
             'retained_groups':len(output),'observed_row_count':str(sum(int(r['multiplicity']) for r in output)),
             'record_hash':digest(output),'snapshot_comparable':False,'root_cause_verified':False,

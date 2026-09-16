@@ -1,5 +1,7 @@
 # Metadata-driven investigator: product and engineering plan
 
+Current execution prerequisite: [reader-bound native runtime](../reader-bound-execution-milestone.md) retains the dedicated principal with scalar, dimensional and record evidence. Three live runtime queries and no-query replay passed. Token identity is distinct from effective report/RLS context; Phase H remains open.
+
 Current implementation: [local shared investigation workspace and reader verification](../investigation-workspace-milestone.md). Phase I now has an interactive operator slice with shared saved evidence; business screenshot intake, hosted authorization and deployment remain open. The isolated reader passed identity/content/negative-capability checks, without establishing exclusive publication or Phase H acceptance.
 
 Live prerequisite status: the [native proof preflight](../native-proof-preflight-milestone.md) completed on 2026-09-15. D/H live acceptance remains **blocked** on enforceable publication control, shared-generation/fixture evidence and effective identity/context. Definition/role/refresh observations do not satisfy those gates.
