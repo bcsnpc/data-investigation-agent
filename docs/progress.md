@@ -1,10 +1,10 @@
 # Project progress
 
-Review: [PR #188](https://github.com/bcsnpc/data-investigation-agent/pull/188).
+Review: [PR #190](https://github.com/bcsnpc/data-investigation-agent/pull/190).
 
-Merged: [PR #186](https://github.com/bcsnpc/data-investigation-agent/pull/186).
+Merged: [PR #188](https://github.com/bcsnpc/data-investigation-agent/pull/188).
 
-Current milestone: [business question intake](business-question-intake-milestone.md), tracked by [#187](https://github.com/bcsnpc/data-investigation-agent/issues/187). PR #186 is merged. Catalog-only question resolution, clarification and reviewed scope now feed the existing adaptive workspace. All 822 regression tests, 19 browser checks and a real LLM-to-native investigation passed; causal acceptance and hosted v2 remain open.
+Current milestone: [reviewed screenshot intake](screenshot-intake-milestone.md), tracked by [#189](https://github.com/bcsnpc/data-investigation-agent/issues/189). Image upload, governed vision transcription, user confirmation, catalog scope review and adaptive execution are connected. All 844 regression tests, 26 browser checks and a real Azure vision-to-native run passed. Screenshot value 9 remained separate from native value 8; replay added zero provider calls. Causal acceptance and hosted v2 remain open.
 
 Merged: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184).
 

@@ -14,7 +14,8 @@ Do not invent a metric, filter, date role, date window or breakdown. Do not sile
 requested restriction. Ambiguous metric/model/date role, relative dates without exact boundaries,
 unsupported filters, or missing bounded scope require ASK. Resolve synonyms only when unambiguous.
 A screenshot or URL does not supply hidden report/page/visual/RLS filters. If needed ask the user
-to describe the metric and selected filters. This version reads text only; it does not open URLs.
+to describe the metric and selected filters. Reviewed screenshot transcription is still untrusted
+user context, not a live result or proof of hidden filters. This resolver does not open URLs.
 PROPOSE requires one measure, one to six filters, and at most one breakdown. Use typed JSON:
 integer for int64, boolean for boolean, string for decimal/dateTime/string, null for blank.
 Ranges use explicit model-local ISO endpoints: lower inclusive, upper exclusive. Never convert
@@ -127,7 +128,7 @@ class Intake:
                               for value in (self.get(identity) for identity in identities)]}
 
     def resolve(self, request):
-        fields(request, ['text', 'request_key', 'parent_id'])
+        fields(request, ['text', 'request_key', 'parent_id'] + (['screenshot_review_id'] if 'screenshot_review_id' in request else []))
         text(request['text'], 2000); text(request['request_key'], 100)
         with self.store.connect() as db:
             prior = db.execute('SELECT id FROM workspace_intakes WHERE request_key=?', (request['request_key'],)).fetchone()
@@ -137,11 +138,17 @@ class Intake:
             return saved  # Includes uncertain reservations; never dispatches again.
         if not self.workspace.execution_enabled or self.resolver is None or self.workspace.agent.governor is None:
             raise Conflict('Question resolution is disabled on this host')
-        combined = request['text']; turn = 1
+        combined = request['text']; turn = 1; screenshot = None
+        if 'screenshot_review_id' in request:
+            if request['parent_id'] is not None: raise ValueError('Clarification inherits its original screenshot')
+            screenshot = self.workspace.screenshots.saved('workspace_image_reviews', request['screenshot_review_id'])
+            combined += '\nReviewed screenshot details:\n' + screenshot['text']
+            text(combined, 2000)
         if request['parent_id'] is not None:
             parent = self.get(request['parent_id'])
             if parent['status'] != 'NEEDS_INPUT' or parent['turn'] >= 4: raise Conflict('Question is not waiting for clarification')
             combined = parent['text'] + '\nClarification: ' + combined; turn = parent['turn'] + 1
+            screenshot = parent.get('screenshot_review')
             text(combined, 2000)
         catalog = snapshot(self.workspace); payload = {'text': combined, 'models': catalog['models']}
         body = {'id': str(uuid4()), 'version': VERSION, 'request': request, 'text': combined, 'turn': turn,
@@ -149,6 +156,7 @@ class Intake:
                 'created': self.workspace.clock(), 'expires': self.workspace.clock() + 900,
                 'catalog_hash': digest(catalog), 'engine_hash': fingerprint(),
                 'config_hash': digest(self.workspace.agent.config), 'planner_hash': digest(self.workspace.agent.planner_profile),
+                'screenshot_review': screenshot,
                 'data_queries': 0, 'requires_scope_review': True, 'cause_verified': False}
         governor = self.workspace.agent.governor
         with self.store.connect() as db:
@@ -209,5 +217,6 @@ class Intake:
         if any(request[k] != proposal[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids')) or request['symptom'] != saved['text'] or request['predecessor'] is not None:
             raise Conflict('Reviewed question scope differs from the saved proposal')
         return {'id': saved['id'], 'text': saved['text'], 'metric_quote': proposal['metric_quote'],
+                'screenshot_review': saved.get('screenshot_review'),
                 'scope_quotes': proposal['scope_quotes'], 'provenance': 'SAVED_LLM_SCOPE_PROPOSAL',
                 'interpretation_verified': False}
