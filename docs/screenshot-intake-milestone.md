@@ -1,5 +1,7 @@
 # Reviewed report screenshot intake
 
+Review: [PR #190](https://github.com/bcsnpc/data-investigation-agent/pull/190).
+
 PR #188 is merged. This milestone is tracked by [#189](https://github.com/bcsnpc/data-investigation-agent/issues/189).
 
 A business user can attach a PNG or JPEG, explicitly request an AI transcription,

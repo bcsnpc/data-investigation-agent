@@ -1,5 +1,7 @@
 # Project progress
 
+Review: [PR #190](https://github.com/bcsnpc/data-investigation-agent/pull/190).
+
 Merged: [PR #188](https://github.com/bcsnpc/data-investigation-agent/pull/188).
 
 Current milestone: [reviewed screenshot intake](screenshot-intake-milestone.md), tracked by [#189](https://github.com/bcsnpc/data-investigation-agent/issues/189). Image upload, governed vision transcription, user confirmation, catalog scope review and adaptive execution are connected. All 844 regression tests, 26 browser checks and a real Azure vision-to-native run passed. Screenshot value 9 remained separate from native value 8; replay added zero provider calls. Causal acceptance and hosted v2 remain open.
