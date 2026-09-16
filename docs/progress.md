@@ -1,6 +1,8 @@
 # Project progress
 
-Review: [PR #180](https://github.com/bcsnpc/data-investigation-agent/pull/180).
+Review: [PR #182](https://github.com/bcsnpc/data-investigation-agent/pull/182).
+
+Merged: [PR #180](https://github.com/bcsnpc/data-investigation-agent/pull/180).
 
 Merged: [PR #178](https://github.com/bcsnpc/data-investigation-agent/pull/178).
 
@@ -8,7 +10,7 @@ Merged: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
 
 Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
-**Latest:** PR #178 merged. [Isolated Import fixture publication](isolated-import-fixture-milestone.md), tracked by [#179](https://github.com/bcsnpc/data-investigation-agent/issues/179), now creates a separate test workspace/model with hashed inline inputs, durable create/refresh receipts and complete row-multiset verification. Live publication/refresh succeeded; 10 rows matched and native measures returned 10, 2, 20% and 65. Separate-reader setup and enforceable remote generation/context proof remain pending; Phase H is still blocked.
+**Latest:** PR #180 merged. The [shared investigation workspace and reader milestone](investigation-workspace-milestone.md), tracked by [#181](https://github.com/bcsnpc/data-investigation-agent/issues/181), delivers local scope review, governed execution, history, cancellation, clarification and shared business/technical evidence. All 746 regression tests and 12 browser checks passed. A live run captured 49 Units Ordered using one LLM call and one Power BI query. The dedicated reader independently matched ten fixture rows and received a write-required endpoint denial. General causal proof, Phase H acceptance and hosted v2 delivery remain open.
 
 Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90â€“100.
 
@@ -16,7 +18,7 @@ Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATO
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #178 is merged. [Isolated fixture publication](isolated-import-fixture-milestone.md) is tracked under [#179](https://github.com/bcsnpc/data-investigation-agent/issues/179). Historical evidence below is retained.
+**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #180 is merged. [The local workspace milestone](investigation-workspace-milestone.md) is tracked under [#181](https://github.com/bcsnpc/data-investigation-agent/issues/181). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 
@@ -34,7 +36,7 @@ V2 makes model onboarding/admin readiness, versioned business context, delta sca
 | F Persisted state | In progress | Durable sessions/hypotheses, [shared usage and cancellation](runtime-governance-milestone.md), receipts and recovery implemented; broader operational acceptance remains |
 | G Dynamic planner/verifier | In progress | [Evidence-led diagnostic loop](adaptive-investigation-milestone.md); complete deterministic causal verification remains |
 | H Complex/unseen acceptance | Blocked on measured prerequisites | Eight required acceptance families; frozen runtime, real DAX |
-| I Unified ticket workspace | Planned | Shared run/evidence across both views |
+| I Unified ticket workspace | Local operator slice verified | Shared scope/start/history/cancellation and both views; business intake and hosted delivery remain |
 | J Reviewed routing | Planned | Authorized eligible draft/delivery/triage |
 
 No v2 phase is marked complete by documentation. Detailed tasks, files, tests, risks and non-goals are in [phases and acceptance](architecture/phases-and-acceptance.md). Preserve legacy metric/scope/provenance/lab/delivery regressions. The latest product classification set is versioned; historical source-issue outcomes must not be relabeled as newly proven application defects.

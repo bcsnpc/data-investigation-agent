@@ -1,6 +1,6 @@
 # Data Investigator: what we built and what comes next
 
-Latest continuation: PR #178 merged. The [isolated Import fixture milestone](docs/isolated-import-fixture-milestone.md) has live create/refresh/content evidence in a separate test workspace. Reader setup and enforced publication/context proof remain open; this is not Phase H acceptance. See [current delivery status](docs/current-delivery-status.md) for cumulative progress.
+Latest continuation: PR #180 merged. The [shared investigation workspace milestone](docs/investigation-workspace-milestone.md) adds verified local business/technical execution and independent fixture-reader checks. Validation: 746 tests, 12 browser checks, and one live 49-unit observation. General causal proof, all eight Phase H acceptance families and hosted v2 delivery remain open. See [current delivery status](docs/current-delivery-status.md) for cumulative progress.
 
 
 Latest: PR #176 merged; [native proof preflight](docs/native-proof-preflight-milestone.md) completed the live feasibility audit and records the blocked acceptance prerequisites. See [current status](docs/current-delivery-status.md) for implementation and remaining acceptance gates.

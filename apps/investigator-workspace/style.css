@@ -1,0 +1,96 @@
+:root{font-family:Inter,"Segoe UI",system-ui,sans-serif;color:#192d35;background:#f4f6f5;font-synthesis:none;--ink:#192d35;--muted:#596d75;--line:#dce4e1;--teal:#17645b;--pale:#eaf4ef}
+*{box-sizing:border-box}
+body{margin:0}
+header{height:76px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 4%;gap:24px}
+.brand{font-size:22px;font-weight:750;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
+.mark{background:var(--teal);color:#fff;border-radius:10px;width:33px;height:33px;display:grid;place-items:center;font-family:Georgia,serif;font-style:italic}
+.environment{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:6px 12px}
+#signout{margin-left:auto}
+main{max-width:1450px;margin:0 auto;padding:30px 4%;min-height:calc(100vh - 130px)}
+.layout{display:grid;grid-template-columns:245px minmax(0,1fr);gap:34px}
+aside{min-width:0;border-right:1px solid var(--line);padding-right:24px}
+.content{min-width:0}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;margin-bottom:20px;box-shadow:0 4px 16px #1b3e3204}
+.login{max-width:520px;margin:7vh auto 0;padding:40px}
+h1{font-size:clamp(26px,3vw,36px);letter-spacing:-1px;font-weight:650;line-height:1.15;margin:12px 0 16px}
+h2{font-size:18px;line-height:1.4;margin:0 0 14px;font-weight:650}
+p{line-height:1.6;margin:10px 0}
+.eyebrow{font-size:11px;font-weight:750;letter-spacing:1.6px;color:var(--teal)}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+label{display:block;font-size:13px;font-weight:600;margin:18px 0 7px}
+input,select,textarea{display:block;width:100%;font:inherit;font-size:14px;color:var(--ink);border:1px solid #bfcdc7;border-radius:8px;padding:11px 12px;background:#fff}
+textarea{resize:vertical;line-height:1.6}
+button{font:inherit;font-size:13px;font-weight:600;cursor:pointer;background:var(--teal);color:#fff;border:1px solid transparent;border-radius:8px;padding:11px 16px;line-height:1.4}
+button:hover{filter:brightness(.95)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #66a9dc;outline-offset:3px}
+.quiet{background:transparent;color:var(--teal);padding:7px 9px}
+.secondary{color:var(--teal);background:#fff;border-color:#b6cfc5}
+.full{width:100%}
+.section-heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:18px 0 10px}
+.section-heading h2{margin:0}
+.check{display:flex;align-items:center;gap:10px;font-weight:400}
+.check input{width:17px;height:17px}
+.filter{display:grid;grid-template-columns:minmax(120px,1fr) 115px minmax(120px,1fr) auto;gap:9px;background:#f6f8f7;padding:12px;border-radius:10px;margin:10px 0}
+.filter textarea{min-height:65px}
+.filter label{margin:0 0 5px;font-size:11px}
+.filter .quiet{align-self:center}
+.review-button{margin-top:24px}
+.login button{margin-top:18px;width:100%}
+.notice,.error{padding:16px;border-radius:10px;font-size:14px;line-height:1.6}
+.notice{background:#fff5dd;color:#655024;margin:16px 0}
+.error{background:#fff0ee;color:#862d25;border:1px solid #ebc6c1;margin-bottom:20px}
+.review{border-color:#a5c7b8;background:#f5fbf7}
+.scope-pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-block;padding:7px 11px;background:var(--pale);border-radius:6px;font-size:12px;overflow-wrap:anywhere}
+.history{margin-top:22px}
+.history button{display:block;width:100%;text-align:left;background:none;color:var(--ink);border:1px solid transparent;padding:13px 10px;margin-bottom:6px;font-weight:500}
+.history button:hover,.history button.active{background:#e8f0ec;border-color:#d3e0d9}
+.history strong{display:block;font-size:13px;margin-bottom:4px}
+.history small{display:block;font-size:11px;color:var(--muted);line-height:1.5}
+.result-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin:4px 0 24px}
+.result-heading h1{font-size:30px;margin-top:8px}
+.status{white-space:nowrap;background:#e5eee9;color:#205646;border:1px solid #c7d9cf;border-radius:24px;font-size:12px;font-weight:600;padding:9px 13px;margin-top:30px}
+.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:24px;padding-bottom:10px}
+.tabs button[role=tab]{background:transparent;color:var(--muted);border-radius:6px}
+.tabs button[aria-selected=true]{background:#dfebe5;color:var(--teal)}
+.tabs .danger{margin-left:auto;color:#9a453e}
+.conclusion{border-left:4px solid var(--teal)}
+.conclusion h2{font-size:22px;max-width:720px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.fact{overflow:hidden}
+.fact .value{font-size:34px;font-weight:600;letter-spacing:-1px;margin:18px 0;overflow-wrap:anywhere}
+.fact table{font-size:13px;border-collapse:collapse;width:100%;margin-top:14px}
+.fact td{padding:7px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.fact caption{text-align:left;color:var(--muted)}
+.activity{padding-left:24px;margin:12px 0}
+.activity li{padding:8px 0;color:var(--muted);font-size:13px}
+.activity time{display:block;font-size:11px;margin-top:3px}
+.activity li:last-child{color:var(--teal)}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;line-height:1.6;background:#f4f7f5;padding:18px;border-radius:8px;max-height:550px;overflow:auto}
+details{border-top:1px solid var(--line);padding:16px 0}
+summary{font-size:14px;font-weight:600;cursor:pointer}
+dl{font-size:12px;display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px}
+dt{color:var(--muted)}
+dd{margin:0;overflow-wrap:anywhere}
+footer{padding:14px 4%;color:#687c73;font-size:11px;text-align:center}
+#result-symptom{white-space:pre-wrap}
+ [hidden]{display:none!important}
+@media(max-width:850px){.layout{grid-template-columns:minmax(0,1fr)}
+aside{min-width:0;border-right:0;border-bottom:1px solid var(--line);padding:0 0 20px}
+.history{display:flex;overflow:auto;gap:10px;max-height:130px}
+.history button{min-width:180px;width:180px}
+.filter{grid-template-columns:1fr 1fr}
+.card{padding:22px}
+.tabs{flex-wrap:wrap}
+.tabs .danger{margin-left:0}
+.grid{grid-template-columns:1fr;gap:0}
+.result-heading{flex-direction:column}
+.status{margin:0 0 10px}
+main{padding:22px 4%}
+.login{margin-top:2vh}
+.environment{margin-left:auto;font-size:10px}
+header{gap:12px}
+}

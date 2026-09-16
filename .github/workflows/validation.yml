@@ -101,6 +101,10 @@ jobs:
           python -m unittest discover -s scripts -p test_record_aggregate.py
           python -m unittest discover -s scripts -p test_proof_preflight.py
           python -m unittest discover -s scripts -p test_import_fixture.py
+          python -m unittest discover -s scripts -p test_investigator_workspace.py
+          python -m unittest discover -s scripts -p test_fixture_reader.py
+          python -m py_compile scripts/serve_investigator_workspace.py scripts/verify_investigator_workspace.py scripts/connect_fixture_reader.py
+          node --check apps/investigator-workspace/workspace.js
           python -m unittest discover -s scripts -p test_runtime_transport.py
           python -m unittest discover -s scripts -p test_lab_matrix.py
           python -m unittest discover -s scripts -p test_multilayer_lab.py

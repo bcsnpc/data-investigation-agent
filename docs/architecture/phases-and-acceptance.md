@@ -110,6 +110,8 @@ Dependency order: **A -> B -> C -> D -> E -> F -> G -> H -> I -> J**. Contracts 
 
 ## I - Unified ticket product experience
 
+**Current slice (2026-09-15):** [Local workspace](../investigation-workspace-milestone.md) implements explicit scope review/start, asynchronous governed execution, history, cancellation, clarification successors and shared business/technical evidence. 746 regression tests and 12 browser checks passed, plus a bounded live native run. Manual catalog/filter intake and local single-operator access do not close this phase. Dedicated fixture-reader verification also advances H prerequisites; shared-generation/causal proof and all eight acceptance families remain open.
+
 **Objective/why:** one investigation powers business and technical users.
 
 **Existing:** ticket/review API/UI, business and technical demos. **New:** shared v2 timeline/outcome projections and ticket components.
