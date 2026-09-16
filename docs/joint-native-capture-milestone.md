@@ -1,5 +1,7 @@
 # Native totals and record groups captured together
 
+Review: [PR #192](https://github.com/bcsnpc/data-investigation-agent/pull/192).
+
 PR #190 is merged. This milestone is tracked by [#191](https://github.com/bcsnpc/data-investigation-agent/issues/191).
 
 The investigator can request a supported native measure and its bounded projected

@@ -1,5 +1,7 @@
 # Project progress
 
+Review: [PR #192](https://github.com/bcsnpc/data-investigation-agent/pull/192).
+
 Merged: [PR #190](https://github.com/bcsnpc/data-investigation-agent/pull/190).
 
 Current milestone: [joint native capture](joint-native-capture-milestone.md), tracked by [#191](https://github.com/bcsnpc/data-investigation-agent/issues/191). Supported native totals and record groups now share one response and a sealed consistency assessment. The adaptive planner and workspace consume that evidence. All 860 regression tests and 30 browser checks passed. Complete (8/8), empty and partial live cases passed; a real LLM selected the combined read and replay made zero calls. Earlier UNION probes timed out and remain documented. Full causal acceptance and hosted v2 remain open.
