@@ -24,7 +24,7 @@
           <button id="review" type="submit" class="review-button">Review scope <span aria-hidden="true">→</span></button>
         </form>
       </section>
-      <section id="preview" class="card review" hidden><p class="eyebrow">READY FOR YOUR REVIEW</p><h2 id="preview-title"></h2><p id="preview-symptom"></p><div id="preview-filters" class="scope-pills"></div><p id="preview-note" class="muted"></p><p class="small">Starting runs connected read-only checks and may use the language model within the configured usage limits.</p><button id="start">Start investigation</button></section>
+      <section id="preview" class="card review" hidden><p class="eyebrow">READY FOR YOUR REVIEW</p><h2 id="preview-title"></h2><p id="preview-symptom"></p><div id="preview-filters" class="scope-pills"></div><p id="preview-note" class="muted"></p><ul id="preview-contexts" class="small"></ul><p class="small">Starting runs connected read-only checks and may use the language model within the configured usage limits.</p><button id="start">Start investigation</button></section>
       <section id="result" hidden>
         <div class="result-heading"><div><p class="eyebrow">INVESTIGATION</p><h1 id="result-title"></h1><p id="result-symptom" class="muted"></p></div><span id="status" class="status" role="status"></span></div>
         <div class="tabs" role="tablist" aria-label="Investigation view"><button id="business-tab" role="tab" aria-selected="true" aria-controls="business">Overview</button><button id="technical-tab" role="tab" aria-selected="false" aria-controls="technical">Technical evidence</button><button id="cancel" class="quiet danger">Cancel investigation</button></div>

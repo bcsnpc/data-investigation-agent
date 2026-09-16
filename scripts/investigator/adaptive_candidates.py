@@ -28,32 +28,60 @@ def catalog(store,config,envelope):
         raise ValueError('Invalid dimension envelope')
     if not isinstance(sources,list) or len(sources)>8:raise ValueError('Invalid source envelope')
     graph=model['context'].get('semantic_graph',{}).get('measures',{}) if model['context'] else {}
-    pending=[(envelope['measure_id'],0,None)]; visited=set(); candidates=[]; gaps=[]
+    pending=[(envelope['measure_id'],0,None,[envelope['measure_id']],False,None)]
+    visited=set(); seen_contexts=set(); candidates=[]; gaps=[]
     while pending:
-        measure,depth,parent=pending.pop(0)
-        if measure in visited:continue
-        visited.add(measure)
-        if len(visited)>24:raise ValueError('Dependency candidate limit exceeded')
+        measure,depth,parent,path,transformed,parent_candidate=pending.pop(0)
+        visit=(measure,tuple(path) if transformed else None)
+        if visit in seen_contexts:continue
+        seen_contexts.add(visit)
+        if not transformed:visited.add(measure)
+        if len(seen_contexts)>24:raise ValueError('Dependency candidate limit exceeded')
         plan={k:envelope[k] for k in ('model_id','revision','context_id','filters')}
         plan.update(measure_ids=[measure],dimension_id=None,include_dependencies=False)
-        native_diagnostics.build(model,plan)
-        def add(tool,plan,dimension=None):
+        if transformed:plan['context_path']=path
+        compiled_native=native_diagnostics.build(model,plan)
+        def add(tool,plan,dimension=None,scalar_candidate=None):
             identity=digest({'tool':tool,'plan':plan})
-            if any(c['id']==identity for c in candidates):return
+            if any(c['id']==identity for c in candidates):return identity
             candidates.append({'id':identity,'tool':tool,'plan':plan,'measure_id':measure,
-                               'dimension_id':dimension,'depth':depth,'parent':parent})
-        add('native',plan)
+                               'dimension_id':dimension,'depth':depth,'parent':parent,
+                               **({'parent_candidate_id':parent_candidate,'scalar_candidate_id':scalar_candidate,
+                                   'dependency_context':compiled_native['dependency_context']} if transformed else {})})
+            return identity
+        scalar_id=add('native',plan)
         for dimension in dimensions:
-            sliced=dict(plan,dimension_id=dimension);native_diagnostics.build(model,sliced);add('native',sliced,dimension)
+            sliced=dict(plan,dimension_id=dimension);native_diagnostics.build(model,sliced);add('native',sliced,dimension,scalar_id)
         node=graph.get(measure)
-        if not node or node.get('dependency_state')!='SUPPORTED':
-            gaps.append({'measure_id':measure,'reason':'DEPENDENCY_ANALYSIS_PARTIAL'});continue
-        if set(node['operations']) & CONTEXT_CHANGERS:
-            if node['dependencies']:gaps.append({'measure_id':measure,'reason':'CHILD_CONTEXT_UNCERTIFIED'})
-            continue
-        if node['dependencies'] and depth>=limits['max_depth']:
+        from .dependency_context import edges, Unsupported
+        try:context_edges=edges(model,measure)
+        except Unsupported:context_edges=None
+        if context_edges is None:
+            if not node or node.get('dependency_state')!='SUPPORTED':
+                gaps.append({'measure_id':measure,'reason':'DEPENDENCY_ANALYSIS_PARTIAL'});continue
+            if set(node['operations']) & CONTEXT_CHANGERS:
+                if node['dependencies']:gaps.append({'measure_id':measure,'reason':'CHILD_CONTEXT_UNCERTIFIED'})
+                continue
+            # Legacy retained contexts without expressions preserve their old diagnostic path.
+            # A transformed path cannot extend through an unrecognized expression.
+            if transformed and node['dependencies']:
+                gaps.append({'measure_id':measure,'reason':'CHILD_CONTEXT_UNCERTIFIED'});continue
+            context_edges=[{'child_id':child,'filters':[]} for child in node['dependencies']]
+        if transformed:
+            gaps.append({'measure_id':measure,'reason':'CONTEXTUAL_SOURCE_COMPARISON_UNSUPPORTED','context_path':path})
+        if context_edges and depth>=limits['max_depth']:
             gaps.append({'measure_id':measure,'reason':'DEPTH_LIMIT'});continue
-        pending.extend((child,depth+1,measure) for child in node['dependencies'])
+        for edge in context_edges:
+            child=edge['child_id']
+            if child in path:
+                gaps.append({'measure_id':measure,'reason':'CYCLIC_CONTEXT_PATH'});continue
+            next_transformed=transformed or bool(edge['filters'])
+            if next_transformed:
+                from .dependency_context import compile_path
+                try:compile_path(model,path+[child],child)
+                except Unsupported:
+                    gaps.append({'measure_id':measure,'reason':'CHILD_CONTEXT_UNCERTIFIED'});continue
+            pending.append((child,depth+1,measure,path+[child],next_transformed,scalar_id))
     if envelope.get('source_selection')=='reviewed_mappings':
         from .source_bindings import resolve
         sources,source_gaps=resolve(store,config,envelope,visited);gaps.extend(source_gaps)
@@ -102,10 +130,12 @@ def catalog(store,config,envelope):
 
 
 def available(candidates,observations,attempted):
-    scalars={o['measure_id'] for o in observations if o['tool']=='native' and o['dimension_id'] is None and o['status']=='COMPLETED'}
+    captured=[o for o in observations if o['tool']=='native' and o['dimension_id'] is None and o['status']=='COMPLETED']
+    scalars={o['measure_id'] for o in captured if not o.get('dependency_context')}
+    scalar_candidates={o['candidate_id'] for o in captured if o.get('candidate_id')}
     return [c for c in candidates if c['id'] not in attempted
-            and (c['parent'] is None or c['parent'] in scalars)
-            and (c['dimension_id'] is None or c['measure_id'] in scalars)]
+            and ((c['parent_candidate_id'] in scalar_candidates) if c.get('dependency_context') else (c['parent'] is None or c['parent'] in scalars))
+            and (c['dimension_id'] is None or (c['scalar_candidate_id'] in scalar_candidates if c.get('dependency_context') else c['measure_id'] in scalars))]
 
 
 def observation(candidate,child):
@@ -113,6 +143,7 @@ def observation(candidate,child):
     if not receipt:return None
     data=receipt.get('result') or {}
     return {**({'execution_identity':data['execution_identity']} if data.get('execution_identity') else {}),
+            **({'dependency_context':candidate['dependency_context']} if candidate.get('dependency_context') else {}),
             'id':receipt['id'],'candidate_id':candidate['id'],'run_id':child['id'],
             'tool':candidate['tool'],'measure_id':candidate['measure_id'],'dimension_id':candidate['dimension_id'],
             'status':receipt['status'],'values':(data.get('rows',[]) if candidate['tool'] in ('native','native_records','source_records') else [data.get('value')]) if receipt['status']=='COMPLETED' else [],
@@ -174,6 +205,7 @@ def diagnostic_pairs(observations):
     pairs=[]
     for native in observations:
         if native['tool']!='native' or native['dimension_id'] is not None or native['status']!='COMPLETED':continue
+        if native.get('dependency_context'):continue
         for source in observations:
             if source['tool']!='source' or source['status']!='COMPLETED' or source['measure_id']!=native['measure_id']:continue
             if source.get('source_operation') == 'watermark_age_microseconds':continue

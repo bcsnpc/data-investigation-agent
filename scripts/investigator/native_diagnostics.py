@@ -22,7 +22,8 @@ def literal(value):
 
 
 def build(model, plan):
-    fields(plan,['model_id','revision','context_id','measure_ids','filters','dimension_id','include_dependencies'])
+    fields(plan,['model_id','revision','context_id','measure_ids','filters','dimension_id','include_dependencies']+
+           (['context_path'] if 'context_path' in plan else []))
     if plan['model_id']!=model['id'] or plan['context_id']!=model['context_id'] or type(plan['revision']) is not int or plan['revision']!=model['revision']:
         raise Conflict('Plan refers to stale model context')
     if not model['enabled']:raise Conflict('Enable reviewed catalog before diagnostics')
@@ -34,7 +35,11 @@ def build(model, plan):
     selected=plan['measure_ids']
     if not isinstance(selected,list) or not 1<=len(selected)<=12 or any(not isinstance(x,str) or x not in measures for x in selected) or len(set(selected))!=len(selected):
         raise ValueError('Select 1-12 unique catalog measures')
-    selected=list(selected);gaps=[]
+    selected=list(selected);gaps=[]; dependency_context=None
+    if 'context_path' in plan:
+        if len(selected)!=1 or plan['include_dependencies']:raise ValueError('Context path selects exactly one dependency')
+        from .dependency_context import compile_path
+        dependency_context=compile_path(model,plan['context_path'],selected[0])
     graph=context.get('semantic_graph',{}).get('measures',{})
     if plan['include_dependencies']:
         pending=list(selected)
@@ -72,7 +77,8 @@ def build(model, plan):
     expressions=[]
     for i,identity in enumerate(selected):
         a=measures[identity]
-        expressions.extend(['"m'+str(i)+'"',table(tables[a['parent_id']])+bracket(a['name'])])
+        expression=dependency_context['expression'] if dependency_context else table(tables[a['parent_id']])+bracket(a['name'])
+        expressions.extend(['"m'+str(i)+'"',expression])
     dimension=plan['dimension_id']
     if dimension is None:
         query='EVALUATE CALCULATETABLE(ROW('+','.join(expressions)+'),'+','.join(clauses)+')'
@@ -87,6 +93,7 @@ def build(model, plan):
             'scope_hash':digest(plan),'context_id':context['id'],'context_hash':digest(context),
             'workspace':model['workspace'],'native_model_id':model['native_id']}
     if any('operator' in f for f in filters):request['filter_scope_version']=FILTER_VERSION
+    if dependency_context is not None:request['dependency_context']=dependency_context
     return request
 
 
@@ -148,6 +155,8 @@ def run(store,plan,execute,*,receipt_id=None):
         result.update(snapshot_comparable=False,root_cause_verified=False,gaps=request['gaps'],
                       remote_definition_version_verified=False,visual_context_reproduced=False,
                       effective_identity_verified=False,captured_at=datetime.now(timezone.utc).isoformat())
+        if dependency_context := request.get('dependency_context'):
+            result['dependency_context']=dependency_context
         status='COMPLETED'
     except Exception as exc:
         status=('HELD' if isinstance(exc,Conflict) else

@@ -127,8 +127,33 @@ def main():
         click('#signout'); wait("!document.getElementById('login').hidden")
         assert evaluate("document.getElementById('access-key').value==='' && localStorage.length===0 && sessionStorage.length===0")
         assert browser('errors').get('errors', []) == []
+        # New metadata, same UI/runtime: review measure-local filters before start
+        # and distinguish a repeated child by its calculation path after capture.
+        from test_dependency_context import fixture as context_fixture
+        helper.model.clear(); helper.model.update(context_fixture()); helper.config['fabric']['workspace_id']='workspace'
+        def contextual_planner(payload):
+            choices=[c for c in payload['candidates'] if c['dimension_id'] is None]
+            if len(payload['observations'])>=3:return decision(),{}
+            chosen=next((c for c in choices if c.get('dependency_context')),None)
+            chosen=chosen or next((c for c in choices if c['measure_id']=='Replaced'),choices[0])
+            return decision(chosen['id']),{}
+        helper.planner.side_effect=contextual_planner
+        fill('#access-key',key);click('#login-form button');wait("!document.getElementById('workspace').hidden")
+        click('#new-investigation');browser('select','#metric','Combined')
+        fill('#symptom','Why do the component totals differ?');click('#add-filter');fill('#filters textarea','false');click('#review')
+        wait("!document.getElementById('preview').hidden")
+        assert evaluate("document.getElementById('preview-contexts').textContent.includes('replaces existing filter') && document.getElementById('preview-contexts').textContent.includes('intersects existing filter')")
+        browser('screenshot',str(args.output.with_suffix('.context-review.png').resolve()),'--full')
+        click('#start');wait("document.getElementById('status').textContent==='Checks finished'")
+        assert evaluate("document.getElementById('facts').textContent.includes('Calculation path: Combined → Replaced → Base')")
+        assert evaluate("document.getElementById('business').dataset.outcomeHash===document.getElementById('technical').dataset.outcomeHash")
+        assert evaluate('document.documentElement.scrollWidth<=window.innerWidth')
+        browser('screenshot',str(args.output.with_suffix('.context-results.png').resolve()),'--full')
+        assert browser('errors').get('errors',[])==[]
+        click('#signout')
         result = {'status': 'PASSED', 'checks': ['login', 'explicit_scope', 'preview_start', 'saved_numeric_values',
-            'shared_outcome', 'technical_view', 'history_no_requery', 'clarification_successor', 'cancellation', 'mobile_layout', 'signout', 'no_console_errors'],
+            'shared_outcome', 'technical_view', 'history_no_requery', 'clarification_successor', 'cancellation', 'mobile_layout', 'signout', 'no_console_errors',
+            'context_preview','context_result_labels'],
             'injected_native_calls': helper.native.call_count, 'live_cloud_calls': 0,
             'causal_acceptance': False}
         args.output.write_text(json.dumps(result, indent=2), encoding='utf-8')
