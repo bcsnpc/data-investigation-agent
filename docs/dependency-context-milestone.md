@@ -1,6 +1,6 @@
 # Native dependency calculation contexts
 
-Review: [PR #186](https://github.com/bcsnpc/data-investigation-agent/pull/186).
+Merged: [PR #186](https://github.com/bcsnpc/data-investigation-agent/pull/186).
 
 PR #184 is merged. This grouped milestone is tracked by [#185](https://github.com/bcsnpc/data-investigation-agent/issues/185).
 

@@ -1,5 +1,7 @@
 # Data Investigator: what we built and what comes next
 
+Latest continuation: PR #186 merged. [Business question intake](docs/business-question-intake-milestone.md) connects natural-language catalog resolution and clarification to explicit scope review and the governed runtime. Phase I now includes local text intake; screenshot/report context, hosted authorization and deployment remain. D/H proof prerequisites are still open.
+
 Latest continuation: PR #184 merged. [Native dependency calculation contexts](docs/dependency-context-milestone.md) now preserve supported measure-local filters through adaptive child reads, with scope review, sealed context evidence and eight live parity checks. This advances D/E/G; full B-G gates, Phase H and hosted v2 remain open.
 
 Latest continuation: PR #182 merged. [Reader-bound native execution](docs/reader-bound-execution-milestone.md) now connects the separate reader to actual native scalar, dimensional and record tools with saved principal evidence. Three live queries succeeded and ten projected fixture rows matched; saved replay made no calls. This advances the execution identity prerequisite, not general causal or Phase H acceptance. See [current delivery status](docs/current-delivery-status.md) for cumulative progress and remaining grouped work.

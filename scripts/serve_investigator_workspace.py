@@ -11,7 +11,8 @@ from investigator.runtime import Runtime
 from investigator.adaptive_runtime import AdaptiveRuntime
 from investigator.adaptive_planner import azure_plan
 from investigator.workspace import Workspace
-from investigator.workspace_api import create_app
+from investigator.question_intake import azure_resolve
+from investigator.workspace_api import create_app, WorkspaceServer
 from metadata_config import load_config
 from run_adaptive_investigation import local_azure_key
 from run_native_diagnostic import transport as native_transport
@@ -42,10 +43,10 @@ def main():
     runtime = Runtime(store, config, (lambda p: native_transport(config, p)) if args.live else None,
                       (lambda p: source_transport(config, p)) if args.live else None)
     agent = AdaptiveRuntime(runtime, azure_plan if args.live else None, planner_profile=profile, usage_policy=policy)
-    workspace = Workspace(agent, execution_enabled=args.live)
+    workspace = Workspace(agent, execution_enabled=args.live, question_resolver=azure_resolve if args.live else None)
     app = create_app(workspace, os.environ.get('INVESTIGATOR_WORKSPACE_TOKEN'), args.port)
     with local_azure_key(args.azure_settings if args.live else None):
-        with make_server('127.0.0.1', args.port, app, handler_class=QuietHandler) as server:
+        with make_server('127.0.0.1', args.port, app, server_class=WorkspaceServer, handler_class=QuietHandler) as server:
             worker = Thread(target=workspace.work, daemon=True)
             if args.live:
                 worker.start()

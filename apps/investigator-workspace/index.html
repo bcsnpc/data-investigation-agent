@@ -7,12 +7,19 @@
   <section id="login" class="login card"><p class="eyebrow">INVESTIGATION WORKSPACE</p><h1>Follow the numbers.</h1><p>Review a reporting question, watch the checks, and inspect the evidence in one place.</p><form id="login-form"><label for="access-key">Local workspace access key</label><input id="access-key" type="password" autocomplete="off" required><button type="submit">Open workspace <span aria-hidden="true">→</span></button></form><p class="muted small">Your key is held only in this tab’s memory. This local workspace is for a single operator.</p></section>
   <div id="error" class="error" role="alert" hidden></div>
   <div id="workspace" class="layout" hidden>
-    <aside><div class="section-heading"><h2>Investigations</h2><button id="refresh-history" class="quiet" aria-label="Refresh investigations">↻</button></div><button id="new-investigation" class="secondary full">+ New investigation</button><div id="history" class="history"></div></aside>
+    <aside><div class="section-heading"><h2>Investigations</h2><button id="refresh-history" class="quiet" aria-label="Refresh investigations">↻</button></div><button id="new-investigation" class="secondary full">+ New investigation</button><div id="history" class="history"></div><h2>Recent questions</h2><div id="question-history" class="history"></div></aside>
     <div class="content">
       <section id="composer" class="card">
         <p class="eyebrow">START WITH YOUR QUESTION</p><h1>What looks different?</h1><p class="muted">Choose a metric and the records you want checked. The investigator chooses its next checks from the available evidence.</p>
         <div id="read-only" class="notice" hidden>This host shows history and scope previews. Live execution is disabled.</div>
         <div id="clarification-note" class="notice" hidden></div>
+        <section id="question-intake" hidden>
+          <form id="question-form"><label for="business-question">Tell us what looks wrong in the report</label><textarea id="business-question" rows="4" maxlength="2000" required placeholder="Include the report or metric name and the exact filters or dates you selected."></textarea><p class="muted small">AI uses the onboarded catalog to suggest a scope. This uses one language-model call, but does not query your data. Screenshots and links are not opened.</p><button id="resolve-question" type="submit">Find metric and filters</button></form>
+          <div id="intake-status" class="notice" role="status" hidden></div><button id="intake-history" class="quiet" type="button" hidden>Check saved question status</button>
+          <button id="hold-question" class="quiet danger" type="button" hidden>Stop waiting for this question</button>
+          <p id="intake-provenance" class="muted small" hidden>AI suggested the scope below. Check every metric and filter before reviewing. Editing it switches to your manually selected scope.</p>
+        </section>
+        <h2>Select or review the scope</h2>
         <form id="scope-form">
           <div class="grid"><div><label for="model">Reporting model</label><select id="model" required></select></div><div><label for="metric">Metric</label><select id="metric" required></select></div></div>
           <label for="symptom">Describe the difference you noticed</label><textarea id="symptom" rows="3" maxlength="2000" required placeholder="For example: this number looks lower than expected for the records I selected."></textarea>

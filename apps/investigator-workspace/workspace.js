@@ -2,6 +2,7 @@
 const $ = id => document.getElementById(id);
 let key = '', models = [], execution = false, preview = null, current = null, predecessor = null;
 let generation = 0, timer = null, scopeRevision = 0;
+let intakeId = null, intakeParent = null, intakeRequest = null, intakeSaved = null, questionRevision = 0;
 const activeStates = ['READY', 'PLANNING', 'EXECUTING'];
 const statusNames = {READY:'Queued', PLANNING:'Choosing a check', EXECUTING:'Checking', COMPLETED:'Checks finished', NEEDS_INPUT:'Needs your input', HELD:'Paused', CANCELLED:'Cancelled'};
 function node(tag, text, cls) { const e=document.createElement(tag); if(text!==undefined)e.textContent=text; if(cls)e.className=cls; return e; }
@@ -25,7 +26,7 @@ function options(select, items, empty) {
 function selectedModel(){return models.find(m=>m.id===$('model').value);}
 function selectableColumns(m){return (m?.columns||[]).filter(c=>!c.name.startsWith('_'));}
 function columnLabel(c){return c.name.replaceAll('_',' ')+' · '+c.table_name;}
-function invalidate(){scopeRevision++;preview=null;$('preview').hidden=true;}
+function invalidate(){scopeRevision++;intakeId=null;preview=null;$('preview').hidden=true;}
 function modelChanged(){
   invalidate();const m=selectedModel();$('filters').replaceChildren();updateAll();
   options($('metric'),m?.measures || []);
@@ -65,7 +66,8 @@ function scopePills(target,scope,columns){
   for(const id of scope.dimension_ids){const c=columns[id];target.append(node('span','Breakdown: '+(c?.name || 'Selected column'),'pill'));}
 }
 async function history(){
-  const data=await api('sessions');$('history').replaceChildren();
+  const [data,questions]=await Promise.all([api('sessions'),api('questions')]);
+  $('question-history').replaceChildren(...questions.questions.map(q=>{const b=node('button');b.type='button';b.append(node('strong',q.text.slice(0,90)),node('small',q.status==='PROPOSED'?'Scope suggested':q.status==='NEEDS_INPUT'?'Clarification needed':q.status==='RESOLVING'?'Waiting for response':'Paused'));b.addEventListener('click',guard(async()=>{resetComposer();const epoch=generation;const draft=await api('questions/'+encodeURIComponent(q.id));if(epoch===generation)showIntake(draft);}));return b;}));$('history').replaceChildren();
   if(!data.sessions.length)$('history').append(node('p','Your investigations will appear here.','muted small'));
   for(const s of data.sessions){const button=node('button');button.type='button';button.classList.toggle('active',s.id===current?.id);
     button.append(node('strong',s.measure_name),node('small',s.symptom.slice(0,100)),node('small',new Date(s.created*1000).toLocaleString()));
@@ -103,7 +105,7 @@ function render(data){
   $('activity').replaceChildren();for(const e of data.activity.slice(-12)){const li=node('li',e.label);const t=node('time',new Date(e.created).toLocaleTimeString());t.dateTime=e.created;li.append(t);$('activity').append(li);}
   $('business').dataset.outcomeHash=data.outcome_hash;$('technical').dataset.outcomeHash=data.outcome_hash;
   $('identities').replaceChildren();for(const [label,value] of [['Session',data.id],['Scope',data.scope_hash],['Outcome',data.outcome_hash],['Cause verified',String(data.cause_verified)],['Delivery eligible',String(data.delivery_eligible)]])$('identities').append(node('dt',label),node('dd',value));
-  $('technical-scope').textContent=JSON.stringify({scope:data.scope,budgets:data.technical.budgets},null,2);
+  $('technical-scope').textContent=JSON.stringify({scope:data.scope,budgets:data.technical.budgets,intake:data.intake},null,2);
   $('technical-outcome').textContent=JSON.stringify(data.technical.outcome,null,2);$('technical-decisions').textContent=JSON.stringify(data.technical.decisions,null,2);
 }
 async function openSession(id){
@@ -114,19 +116,19 @@ function schedule(epoch){
   if(!current||!activeStates.includes(current.status)||!current.worker_attached||current.job_status==='INTERRUPTED')return;
   timer=setTimeout(async()=>{try{const id=current.id;const data=await api('sessions/'+encodeURIComponent(id));if(epoch!==generation||id!==current?.id)return;render(data);schedule(epoch);}catch(e){if(epoch===generation)showError(e);}},2000);
 }
-function resetComposer(){stopPolling();current=null;predecessor=null;invalidate();$('result').hidden=true;$('composer').hidden=false;$('clarification-note').hidden=true;$('symptom').value='';modelChanged();}
+function resetComposer(){resetIntake();stopPolling();current=null;predecessor=null;invalidate();$('result').hidden=true;$('composer').hidden=false;$('clarification-note').hidden=true;$('symptom').value='';modelChanged();}
 $('login-form').addEventListener('submit',guard(async()=>{
-  key=$('access-key').value;const result=await api('models');models=result.models;execution=result.execution_enabled;
+  key=$('access-key').value;const result=await api('models');models=result.models;execution=result.execution_enabled;$('question-intake').hidden=!result.question_intake_enabled;
   $('access-key').value='';$('login').hidden=true;$('workspace').hidden=false;$('signout').hidden=false;$('read-only').hidden=execution;
   options($('model'),models.map(m=>({id:m.id,name:m.name})));resetComposer();await history();
 }));
-$('signout').addEventListener('click',()=>{stopPolling();key='';models=[];current=null;preview=null;predecessor=null;$('workspace').hidden=true;$('login').hidden=false;$('signout').hidden=true;$('access-key').value='';$('history').replaceChildren();$('facts').replaceChildren();$('activity').replaceChildren();for(const id of ['technical-scope','technical-outcome','technical-decisions','identities'])$(id).replaceChildren();$('scope-form').reset();clearError();});
+$('signout').addEventListener('click',()=>{resetIntake();stopPolling();key='';models=[];current=null;preview=null;predecessor=null;$('workspace').hidden=true;$('login').hidden=false;$('signout').hidden=true;$('access-key').value='';$('history').replaceChildren();$('question-history').replaceChildren();$('facts').replaceChildren();$('activity').replaceChildren();for(const id of ['technical-scope','technical-outcome','technical-decisions','identities'])$(id).replaceChildren();$('scope-form').reset();clearError();});
 $('model').addEventListener('change',()=>{predecessor=null;$('clarification-note').hidden=true;modelChanged();});
 $('scope-form').addEventListener('input',invalidate);$('scope-form').addEventListener('change',invalidate);
 $('add-filter').addEventListener('click',guard(()=>addFilter()));
 $('scope-form').addEventListener('submit',guard(async()=>{
   const filters=[...$('filters').children].map(row=>row.read());if(!filters.length)throw new Error('Add at least one filter to keep this investigation bounded.');
-  const request={model_id:$('model').value,measure_id:$('metric').value,symptom:$('symptom').value.trim(),filters,dimension_ids:$('breakdown').value?[$('breakdown').value]:[],predecessor};
+  const request={model_id:$('model').value,measure_id:$('metric').value,symptom:$('symptom').value.trim(),filters,dimension_ids:$('breakdown').value?[$('breakdown').value]:[],predecessor,...(intakeId?{intake_id:intakeId}:{})};
   const revision=scopeRevision;$('review').disabled=true;try{const data=await api('previews',request);if(revision!==scopeRevision)throw new Error('The scope changed during review. Please review it again.');preview=data;$('preview-title').textContent=data.measure_name;$('preview-symptom').textContent=data.envelope.symptom;scopePills($('preview-filters'),data.envelope,data.columns);$('preview-note').textContent=data.scope_note;$('preview-contexts').replaceChildren(...(data.calculation_contexts||[]).map(c=>node('li',c.path.join(' \u2192 ')+': '+c.filters.map(f=>f.column+' = '+JSON.stringify(f.value)+(f.mode==='INTERSECT'?' (intersects existing filter)':' (replaces existing filter)')).join('; '))));$('preview').hidden=false;$('start').disabled=!execution;$('preview').scrollIntoView({behavior:'smooth',block:'nearest'});}finally{$('review').disabled=false;}
 }));
 $('start').addEventListener('click',guard(async()=>{if(!preview)return;const epoch=generation;$('start').disabled=true;try{const data=await api('sessions',{preview_id:preview.id});if(epoch===generation)await openSession(data.id);else await history();}finally{$('start').disabled=!execution;}}));
@@ -137,3 +139,26 @@ function tab(technical){$('business').hidden=technical;$('technical').hidden=!te
 $('business-tab').addEventListener('click',()=>tab(false));$('technical-tab').addEventListener('click',()=>tab(true));
 for(const id of ['business-tab','technical-tab'])$(id).addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const technical=event.key==='End'||(event.key!=='Home'&&id==='business-tab');tab(technical);$(technical?'technical-tab':'business-tab').focus();}});
 $('download').addEventListener('click',()=>{if(!current)return;const url=URL.createObjectURL(new Blob([JSON.stringify(current,null,2)],{type:'application/json'}));const a=node('a');a.href=url;a.download='investigation-'+current.id+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
+
+function resetIntake(){questionRevision++;intakeId=null;intakeParent=null;intakeRequest=null;intakeSaved=null;$('business-question').value='';$('business-question').placeholder='Include the report or metric name and the exact filters or dates you selected.';$('intake-status').hidden=true;$('intake-history').hidden=true;$('hold-question').hidden=true;$('intake-provenance').hidden=true;}
+function showIntake(data){
+  intakeSaved=data.id;$('hold-question').hidden=data.status!=='RESOLVING';$('intake-history').hidden=false;$('intake-status').hidden=false;
+  if(data.status==='NEEDS_INPUT'){intakeParent=data.id;intakeRequest=null;$('intake-status').textContent=data.question;$('business-question').value='';$('business-question').placeholder='Add the clarification requested above.';$('business-question').focus();return;}
+  if(data.status!=='PROPOSED'){$('intake-status').textContent=data.status==='RESOLVING'?'This question is still reserved or its response is uncertain. Check saved status; it will not be sent again automatically.':'The question could not be resolved safely. You can select the scope manually or submit a new question.';return;}
+  intakeParent=null;const p=data.proposal;if(!models.some(m=>m.id===p.model_id))throw new Error('The model catalog changed. Reopen the workspace.');
+  predecessor=null;$('clarification-note').hidden=true;$('model').value=p.model_id;modelChanged();$('metric').value=p.measure_id;$('symptom').value=data.text;
+  for(const f of p.filters)addFilter(f);$('breakdown').value=p.dimension_ids[0]||'';intakeId=data.id;
+  $('intake-provenance').hidden=false;$('intake-status').textContent='Metric and filters suggested. Review the selection below; no data checks have run.';
+  $('scope-form').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+$('business-question').addEventListener('input',()=>{questionRevision++;intakeRequest=null;invalidate();});
+$('question-form').addEventListener('submit',guard(async()=>{
+  const submitted=$('business-question').value.trim();if(!submitted)throw new Error('Describe the reporting question.');
+  const epoch=generation,revision=questionRevision,scope=scopeRevision;
+  if(!intakeRequest)intakeRequest={text:submitted,parent_id:intakeParent,request_key:crypto.randomUUID()};
+  $('resolve-question').disabled=true;$('intake-status').hidden=false;$('intake-status').textContent='Finding the metric and filters in the catalog...';
+  try{const data=await api('questions',intakeRequest);if(epoch!==generation||revision!==questionRevision||scope!==scopeRevision)return;showIntake(data);await history();}finally{$('resolve-question').disabled=false;}
+}));
+$('intake-history').addEventListener('click',guard(async()=>{if(!intakeSaved)return;const epoch=generation,revision=questionRevision,scope=scopeRevision;const data=await api('questions/'+encodeURIComponent(intakeSaved));if(epoch===generation&&revision===questionRevision&&scope===scopeRevision)showIntake(data);}));
+
+$('hold-question').addEventListener('click',guard(async()=>{if(!intakeSaved)return;const epoch=generation;const data=await api('questions/'+encodeURIComponent(intakeSaved)+'/hold',{});if(epoch===generation)showIntake(data);await history();}));

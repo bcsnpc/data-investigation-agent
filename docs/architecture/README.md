@@ -1,5 +1,7 @@
 # Metadata-driven investigator: product and engineering plan
 
+Latest continuation: PR #186 merged. [Business question intake](../business-question-intake-milestone.md) connects natural-language catalog resolution and clarification to explicit scope review and the governed runtime. Phase I now includes local text intake; screenshot/report context, hosted authorization and deployment remain. D/H proof prerequisites are still open.
+
 Latest continuation: PR #184 merged. [Native dependency calculation contexts](../dependency-context-milestone.md) now preserve supported measure-local filters through adaptive child reads, with scope review, sealed context evidence and eight live parity checks. This advances D/E/G; full B-G gates, Phase H and hosted v2 remain open.
 
 Current execution prerequisite: [reader-bound native runtime](../reader-bound-execution-milestone.md) retains the dedicated principal with scalar, dimensional and record evidence. Three live runtime queries and no-query replay passed. Token identity is distinct from effective report/RLS context; Phase H remains open.

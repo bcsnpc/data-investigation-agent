@@ -1,8 +1,8 @@
 # Project progress
 
-Review: [PR #186](https://github.com/bcsnpc/data-investigation-agent/pull/186).
+Merged: [PR #186](https://github.com/bcsnpc/data-investigation-agent/pull/186).
 
-Current milestone: [native dependency calculation contexts](dependency-context-milestone.md), tracked by [#185](https://github.com/bcsnpc/data-investigation-agent/issues/185). PR #184 is merged. Validation: 795 regression tests, 14 browser checks, eight live native parity cases and a three-step Azure LLM/native run passed; replay added zero queries; general causal acceptance and hosted v2 remain open.
+Current milestone: [business question intake](business-question-intake-milestone.md), tracked by [#187](https://github.com/bcsnpc/data-investigation-agent/issues/187). PR #186 is merged. Catalog-only question resolution, clarification and reviewed scope now feed the existing adaptive workspace. All 822 regression tests, 19 browser checks and a real LLM-to-native investigation passed; causal acceptance and hosted v2 remain open.
 
 Merged: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184).
 
@@ -42,7 +42,7 @@ V2 makes model onboarding/admin readiness, versioned business context, delta sca
 | F Persisted state | In progress | Durable sessions/hypotheses, [shared usage and cancellation](runtime-governance-milestone.md), receipts and recovery implemented; broader operational acceptance remains |
 | G Dynamic planner/verifier | In progress | [Evidence-led diagnostic loop](adaptive-investigation-milestone.md); complete deterministic causal verification remains |
 | H Complex/unseen acceptance | Blocked on measured prerequisites | Eight required acceptance families; frozen runtime, real DAX |
-| I Unified ticket workspace | Local operator slice verified | Shared scope/start/history/cancellation and both views; business intake and hosted delivery remain |
+| I Unified ticket workspace | Local text intake and operator flow verified | Catalog scope proposals, clarification, review/start/history/cancellation and both views; screenshot/report context and hosted delivery remain |
 | J Reviewed routing | Planned | Authorized eligible draft/delivery/triage |
 
 No v2 phase is marked complete by documentation. Detailed tasks, files, tests, risks and non-goals are in [phases and acceptance](architecture/phases-and-acceptance.md). Preserve legacy metric/scope/provenance/lab/delivery regressions. The latest product classification set is versioned; historical source-issue outcomes must not be relabeled as newly proven application defects.
