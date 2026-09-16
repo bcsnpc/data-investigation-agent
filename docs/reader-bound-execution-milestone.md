@@ -1,6 +1,6 @@
 # Reader-bound native execution
 
-Updated 2026-09-15. PR #182 is merged. This milestone is tracked by [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183).
+Updated 2026-09-15. PR #182 is merged. Review: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184). This milestone is tracked by [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183).
 
 The dedicated reader can now execute through the actual native diagnostic worker and durable runtime. Previously, its sign-in was verified separately while all runtime queries still selected the Fabric CLI publisher login. This change makes reader selection explicit and carries the observed principal into saved evidence.
 
