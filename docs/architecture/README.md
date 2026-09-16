@@ -1,5 +1,7 @@
 # Metadata-driven investigator: product and engineering plan
 
+Latest continuation: PR #184 merged. [Native dependency calculation contexts](../dependency-context-milestone.md) now preserve supported measure-local filters through adaptive child reads, with scope review, sealed context evidence and eight live parity checks. This advances D/E/G; full B-G gates, Phase H and hosted v2 remain open.
+
 Current execution prerequisite: [reader-bound native runtime](../reader-bound-execution-milestone.md) retains the dedicated principal with scalar, dimensional and record evidence. Three live runtime queries and no-query replay passed. Token identity is distinct from effective report/RLS context; Phase H remains open.
 
 Current implementation: [local shared investigation workspace and reader verification](../investigation-workspace-milestone.md). Phase I now has an interactive operator slice with shared saved evidence; business screenshot intake, hosted authorization and deployment remain open. The isolated reader passed identity/content/negative-capability checks, without establishing exclusive publication or Phase H acceptance.

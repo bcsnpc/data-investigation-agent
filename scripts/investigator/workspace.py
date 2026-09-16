@@ -77,13 +77,21 @@ class Workspace:
         metadata = self.model(model['id'])
         labels = {m['id']: m['name'] for m in metadata['measures']}
         columns = {c['column_id']: c for c in metadata['columns']}
+        contexts = {}
+        for candidate in candidates:
+            context = candidate.get('dependency_context')
+            if context:
+                contexts[digest(context['path'])] = {'path':[labels.get(m,'Related metric') for m in context['path']],
+                    'filters':[{'column':columns[f['column_id']]['name'], 'mode':f['mode'], 'value':f['value']}
+                               for step in context['steps'] for f in step['filters']]}
         body = {'id': str(uuid4()), 'model_id': model['id'], 'model_name': metadata['name'],
                 'envelope': envelope, 'predecessor': predecessor, 'created': self.clock(),
                 'expires': self.clock() + 900, 'engine_hash': fingerprint(), 'config_hash': digest(self.agent.config),
                 'catalog_hash': digest(candidates), 'context_hash': digest(model['context']),
                 'labels': labels, 'columns': columns, 'measure_name': labels[envelope['measure_id']],
                 'candidate_count': len(candidates), 'gaps': gaps, 'cloud_calls': 0,
-                'scope_note': 'Only the selected filters are applied. A screenshot or report selection is not automatically reproduced.'}
+                'calculation_contexts':list(contexts.values()),
+                'scope_note': 'Selected filters supply the starting context. Measures may apply their own filters; component paths are listed below when supported. A screenshot or report selection is not automatically reproduced.'}
         with self.store.connect() as db:
             db.execute('INSERT INTO workspace_previews VALUES (?,?,?,?)', (body['id'], model['id'], encoded(body), digest(body)))
         return body
@@ -190,6 +198,8 @@ class Workspace:
         for fact in technical['outcome']['facts']:
             facts.append({'id': fact['id'], 'metric': labels.get(fact['measure_id'], 'Related metric'),
                           'origin': 'Report' if fact['tool'].startswith('native') else 'Connected records',
+                          **({'calculation_context':[labels.get(m,'Related metric') for m in fact['dependency_context']['path']]}
+                             if fact.get('dependency_context') else {}),
                           'status': fact['status'], 'values': fact['values'], 'completeness': fact['completeness'],
                           'kind': 'records' if fact['tool'].endswith('records') else 'breakdown' if fact['dimension_id'] else 'metric'})
         stopped = technical['status'] not in ('READY', 'PLANNING', 'EXECUTING')

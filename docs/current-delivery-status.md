@@ -1,6 +1,8 @@
 # Current delivery status
 
-Review: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184).
+Current milestone: [native dependency calculation contexts](dependency-context-milestone.md), tracked by [#185](https://github.com/bcsnpc/data-investigation-agent/issues/185). PR #184 is merged. Validation: 795 regression tests, 14 browser checks, eight live native parity cases and a three-step Azure LLM/native run passed; replay added zero queries; general causal acceptance and hosted v2 remain open.
+
+Merged: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184).
 
 Merged: [PR #182](https://github.com/bcsnpc/data-investigation-agent/pull/182).
 
@@ -12,7 +14,7 @@ Merged: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
 
 Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
-Updated 2026-09-15. **PR #182 is merged.** The current milestone is [reader-bound native execution](reader-bound-execution-milestone.md), tracked by [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183). The actual native worker and durable runtime now support the separate reader with retained identity evidence. General causal acceptance and Azure v2 deployment remain open.
+Updated 2026-09-15. **PR #184 is merged.** The current [dependency-context milestone](dependency-context-milestone.md) adds bounded CALCULATE/KEEPFILTERS paths, contextual adaptive candidates, sealed evidence and workspace labels. Eight native parity checks and an actual three-step Azure LLM/Power BI investigation passed. General causal acceptance and Azure v2 deployment remain open.
 
 ## What is built
 
@@ -36,7 +38,7 @@ Updated 2026-09-15. **PR #182 is merged.** The current milestone is [reader-boun
 
 **Previous preflight validation:** 694 regression tests passed, including 26 focused proof-preflight tests. Live collection completed six observations using 10 metadata HTTP calls. It found Direct Lake, one workspace Admin assignment, five completed refreshes and equal definition hashes. This is not stability or exclusivity proof. Historical read used zero HTTP calls; the CLI acceptance gate returned exit 2. No SQL/DAX queries, permission changes, remote writes or deployment occurred in this milestone.
 
-**Current validation:** All 775 regression tests passed, including 29 focused reader execution/runtime tests. A live durable run used the dedicated reader for three Power BI queries: scalar values 10 eligible / 2 refunded / 20% / 65 units, a complete two-group breakdown, and ten exact projected fixture rows. Replaying the completed request and reading history added zero cloud calls. Six Power BI calls were made across the initial and final three-query validations. No SQL or LLM calls, permission changes or deployment were used in this milestone. Previous workspace validation remains 746 tests and 12 browser checks, plus its separate 49-unit live observation.
+**Prior reader validation:** All 775 regression tests passed, including 29 focused reader execution/runtime tests. A live durable run used the dedicated reader for three Power BI queries: scalar values 10 eligible / 2 refunded / 20% / 65 units, a complete two-group breakdown, and ten exact projected fixture rows. Replaying the completed request and reading history added zero cloud calls. Six Power BI calls were made across the initial and final three-query validations. No SQL or LLM calls, permission changes or deployment were used in this milestone. Previous workspace validation remains 746 tests and 12 browser checks, plus its separate 49-unit live observation.
 
 ## Latest isolated lab milestone
 

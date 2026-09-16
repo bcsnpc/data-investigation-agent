@@ -1,6 +1,8 @@
 # Project progress
 
-Review: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184).
+Current milestone: [native dependency calculation contexts](dependency-context-milestone.md), tracked by [#185](https://github.com/bcsnpc/data-investigation-agent/issues/185). PR #184 is merged. Validation: 795 regression tests, 14 browser checks, eight live native parity cases and a three-step Azure LLM/native run passed; replay added zero queries; general causal acceptance and hosted v2 remain open.
+
+Merged: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184).
 
 Merged: [PR #182](https://github.com/bcsnpc/data-investigation-agent/pull/182).
 
@@ -12,15 +14,15 @@ Merged: [PR #176](https://github.com/bcsnpc/data-investigation-agent/pull/176).
 
 Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
-**Latest:** PR #182 merged. [Reader-bound native execution](reader-bound-execution-milestone.md), tracked by [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183), connects the dedicated reader to the actual native worker and durable runtime with account/tenant/object/model binding and sealed identity evidence. All 775 regression tests passed, including 29 focused tests. Three live native calls captured scalar/breakdown/record evidence; ten projected rows matched, and replay made zero cloud calls. General causal proof, Phase H acceptance and hosted v2 delivery remain open.
+**Previous milestone:** PR #182 merged. [Reader-bound native execution](reader-bound-execution-milestone.md), tracked by [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183), connects the dedicated reader to the actual native worker and durable runtime with account/tenant/object/model binding and sealed identity evidence. All 775 regression tests passed, including 29 focused tests. Three live native calls captured scalar/breakdown/record evidence; ten projected rows matched, and replay made zero cloud calls. General causal proof, Phase H acceptance and hosted v2 delivery remain open.
 
-Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90â€“100.
+Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90Ã¢â‚¬â€œ100.
 
 Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATOR_TICKET_AND_DEFECT_LAB_SCOPE.md). This extension governs the investigation experience and scope boundary alongside the original plan. Integration decisions and dependencies are recorded in [scope alignment](scope-alignment.md).
 
 ## Current position
 
-**Current delivery summary:** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #182 is merged. [Reader-bound runtime execution](reader-bound-execution-milestone.md) is tracked under [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183). Historical evidence below is retained.
+**Delivery summary (prior milestone retained below):** [what is built, where we are, and remaining grouped milestones](current-delivery-status.md). PR #182 is merged. [Reader-bound runtime execution](reader-bound-execution-milestone.md) is tracked under [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183). Historical evidence below is retained.
 
 Planning updated 2026-09-14 against the [first-class product plan](../METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md). The [revised engineering package](architecture/README.md) replaces the earlier A-I roadmap with A-J. This is a scope/planning update, not implementation or a new live validation.
 

@@ -113,7 +113,8 @@ class AdaptiveRuntime:
                   'operations':model['context'].get('semantic_graph',{}).get('measures',{}).get(c['measure_id'],{}).get('operations',[]),
                   'source_binding':c.get('reviewed_mapping') or ('OPERATOR_SELECTED_NOT_EQUIVALENCE_PROOF' if c['tool']=='source' else None),
                   'source_operation':c['plan'].get('operation'), 'approved_filters':c['plan']['filters'],
-                  'projected_columns':c['plan'].get('column_ids'),'record_limit':c['plan'].get('limit')} for c in candidates]
+                  'projected_columns':c['plan'].get('column_ids'),'record_limit':c['plan'].get('limit'),
+                  **({'dependency_context':c['dependency_context']} if c.get('dependency_context') else {})} for c in candidates]
         observations=[]
         for o in state['observations']:
             sampled=[];size=0

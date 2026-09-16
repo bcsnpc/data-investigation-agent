@@ -74,8 +74,9 @@ async function history(){
     $('history').append(button);}
 }
 function format(value){if(value===null)return 'Blank';if(typeof value==='boolean')return value?'True':'False';if(typeof value==='object'){if(value.type==='blank')return 'Blank';if('type' in value && 'value' in value)return format(value.value);return JSON.stringify(value);}return String(value);}
-function renderFact(fact){
-  const card=node('article',undefined,'card fact');card.dataset.receiptId=fact.id;card.append(node('p',fact.origin.toUpperCase(),'eyebrow'),node('h2',fact.metric));
+  function renderFact(fact){
+    const card=node('article',undefined,'card fact');card.dataset.receiptId=fact.id;card.append(node('p',fact.origin.toUpperCase(),'eyebrow'),node('h2',fact.metric));
+    if(fact.calculation_context)card.append(node('p','Calculation path: '+fact.calculation_context.join(' → '),'muted small'));
   if(fact.status!=='COMPLETED'){card.append(node('p','This check did not return a usable result.','muted'));return card;}
   if(fact.kind==='records'){card.append(node('p',String(fact.values.length),'value'),node('p','Record groups captured','muted small'));return card;}
   if(fact.values.length===1 && fact.kind==='metric'){
@@ -126,7 +127,7 @@ $('add-filter').addEventListener('click',guard(()=>addFilter()));
 $('scope-form').addEventListener('submit',guard(async()=>{
   const filters=[...$('filters').children].map(row=>row.read());if(!filters.length)throw new Error('Add at least one filter to keep this investigation bounded.');
   const request={model_id:$('model').value,measure_id:$('metric').value,symptom:$('symptom').value.trim(),filters,dimension_ids:$('breakdown').value?[$('breakdown').value]:[],predecessor};
-  const revision=scopeRevision;$('review').disabled=true;try{const data=await api('previews',request);if(revision!==scopeRevision)throw new Error('The scope changed during review. Please review it again.');preview=data;$('preview-title').textContent=data.measure_name;$('preview-symptom').textContent=data.envelope.symptom;scopePills($('preview-filters'),data.envelope,data.columns);$('preview-note').textContent=data.scope_note;$('preview').hidden=false;$('start').disabled=!execution;$('preview').scrollIntoView({behavior:'smooth',block:'nearest'});}finally{$('review').disabled=false;}
+  const revision=scopeRevision;$('review').disabled=true;try{const data=await api('previews',request);if(revision!==scopeRevision)throw new Error('The scope changed during review. Please review it again.');preview=data;$('preview-title').textContent=data.measure_name;$('preview-symptom').textContent=data.envelope.symptom;scopePills($('preview-filters'),data.envelope,data.columns);$('preview-note').textContent=data.scope_note;$('preview-contexts').replaceChildren(...(data.calculation_contexts||[]).map(c=>node('li',c.path.join(' \u2192 ')+': '+c.filters.map(f=>f.column+' = '+JSON.stringify(f.value)+(f.mode==='INTERSECT'?' (intersects existing filter)':' (replaces existing filter)')).join('; '))));$('preview').hidden=false;$('start').disabled=!execution;$('preview').scrollIntoView({behavior:'smooth',block:'nearest'});}finally{$('review').disabled=false;}
 }));
 $('start').addEventListener('click',guard(async()=>{if(!preview)return;const epoch=generation;$('start').disabled=true;try{const data=await api('sessions',{preview_id:preview.id});if(epoch===generation)await openSession(data.id);else await history();}finally{$('start').disabled=!execution;}}));
 $('new-investigation').addEventListener('click',resetComposer);$('refresh-history').addEventListener('click',guard(history));

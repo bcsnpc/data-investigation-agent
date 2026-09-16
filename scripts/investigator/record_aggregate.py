@@ -74,6 +74,7 @@ def calculate(model,review,native,source,nrecords,srecords,measure_id):
         pinned=receipt['request'].get('reviewed_mapping') or {}
         if pinned.get('id')!=review['id'] or pinned.get('hash')!=review['hash']:gaps.append(label+'_REVIEW_NOT_PINNED')
     np=native['request']['plan'];sp=source['request']['plan'];nr=nrecords['request']['plan'];sr=srecords['request']['plan']
+    if np.get('context_path'):gaps.append('DEPENDENCY_CONTEXT_RECONSTRUCTION_UNSUPPORTED')
     if native['request']['dimension_id'] is not None or measure_id not in native['request']['measure_ids']:
         gaps.append('NATIVE_SCALAR_REQUIRED')
     if (native.get('result') or {}).get('completeness')!='COMPLETE_RESPONSE':gaps.append('NATIVE_RESPONSE_INCOMPLETE')
@@ -151,7 +152,7 @@ def derive(store,model_id,observations):
         if review:groups.setdefault((review['id'],observation['measure_id']),[]).append(observation)
     for (mapping_id,measure),group in groups.items():
         if len(group)!=2 or {o['tool'] for o in group}!={'native_records','source_records'}:continue
-        natives=[o for o in observations if o['tool']=='native' and o['measure_id']==measure and o['dimension_id'] is None]
+        natives=[o for o in observations if o['tool']=='native' and o['measure_id']==measure and o['dimension_id'] is None and not o.get('dependency_context')]
         sources=[o for o in observations if o['tool']=='source' and o['measure_id']==measure and o.get('source_operation') in ('count_rows','sum')]
         if not natives or not sources:continue
         if len(natives)!=1 or len(sources)!=1:

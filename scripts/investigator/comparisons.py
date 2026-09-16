@@ -109,6 +109,7 @@ def assess(store, model_id, body, *, assessment_id=None):
     native = native_read(store, model_id, body['native_receipt_id'])
     source = source_read(store, model_id, body['source_receipt_id'])
     gaps = []; left = None; right = None
+    if native['request']['plan'].get('context_path'):gaps.append('DEPENDENCY_CONTEXT_COMPARISON_UNSUPPORTED')
     if not native['assessment']['current_context'] or not source['local_context_current']:
         gaps.append('STALE_OR_DISABLED_CONTEXT')
     if native['request']['context_id'] != source['request']['context_id']:gaps.append('DIFFERENT_CONTEXT_VERSIONS')
