@@ -1,5 +1,7 @@
 # Business question intake and reviewed investigation scope
 
+Review: [PR #188](https://github.com/bcsnpc/data-investigation-agent/pull/188).
+
 PR #186 is merged. This grouped milestone is tracked by [#187](https://github.com/bcsnpc/data-investigation-agent/issues/187).
 
 Users can now describe a report issue in the local v2 workspace before selecting technical fields. A separate LLM call uses the enabled onboarding catalog to suggest one model, metric and bounded set of filters, or ask a clarification. The suggested scope fills the existing form. The user reviews it and explicitly starts the existing governed investigation; intake itself never queries Power BI or SQL.

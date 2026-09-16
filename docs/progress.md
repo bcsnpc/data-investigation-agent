@@ -1,5 +1,7 @@
 # Project progress
 
+Review: [PR #188](https://github.com/bcsnpc/data-investigation-agent/pull/188).
+
 Merged: [PR #186](https://github.com/bcsnpc/data-investigation-agent/pull/186).
 
 Current milestone: [business question intake](business-question-intake-milestone.md), tracked by [#187](https://github.com/bcsnpc/data-investigation-agent/issues/187). PR #186 is merged. Catalog-only question resolution, clarification and reviewed scope now feed the existing adaptive workspace. All 822 regression tests, 19 browser checks and a real LLM-to-native investigation passed; causal acceptance and hosted v2 remain open.
