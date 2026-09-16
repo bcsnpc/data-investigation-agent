@@ -1,5 +1,7 @@
 # Project progress
 
+Review: [PR #186](https://github.com/bcsnpc/data-investigation-agent/pull/186).
+
 Current milestone: [native dependency calculation contexts](dependency-context-milestone.md), tracked by [#185](https://github.com/bcsnpc/data-investigation-agent/issues/185). PR #184 is merged. Validation: 795 regression tests, 14 browser checks, eight live native parity cases and a three-step Azure LLM/native run passed; replay added zero queries; general causal acceptance and hosted v2 remain open.
 
 Merged: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184).
@@ -16,7 +18,7 @@ Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
 **Previous milestone:** PR #182 merged. [Reader-bound native execution](reader-bound-execution-milestone.md), tracked by [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183), connects the dedicated reader to the actual native worker and durable runtime with account/tenant/object/model binding and sealed identity evidence. All 775 regression tests passed, including 29 focused tests. Three live native calls captured scalar/breakdown/record evidence; ten projected rows matched, and replay made zero cloud calls. General causal proof, Phase H acceptance and hosted v2 delivery remain open.
 
-Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90Ã¢â‚¬â€œ100.
+Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“100.
 
 Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATOR_TICKET_AND_DEFECT_LAB_SCOPE.md). This extension governs the investigation experience and scope boundary alongside the original plan. Integration decisions and dependencies are recorded in [scope alignment](scope-alignment.md).
 

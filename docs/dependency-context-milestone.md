@@ -1,5 +1,7 @@
 # Native dependency calculation contexts
 
+Review: [PR #186](https://github.com/bcsnpc/data-investigation-agent/pull/186).
+
 PR #184 is merged. This grouped milestone is tracked by [#185](https://github.com/bcsnpc/data-investigation-agent/issues/185).
 
 A measure can change filters before evaluating its components. Reading every child under the original ticket filters could therefore show an unrelated component value. The investigator now derives supported filter paths from retained model definitions and asks Power BI to evaluate the child in that calculation context. No metric names, expected values or local DAX evaluator are added to the agent.

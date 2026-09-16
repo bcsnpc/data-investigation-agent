@@ -1,5 +1,7 @@
 # Current delivery status
 
+Review: [PR #186](https://github.com/bcsnpc/data-investigation-agent/pull/186).
+
 Current milestone: [native dependency calculation contexts](dependency-context-milestone.md), tracked by [#185](https://github.com/bcsnpc/data-investigation-agent/issues/185). PR #184 is merged. Validation: 795 regression tests, 14 browser checks, eight live native parity cases and a three-step Azure LLM/native run passed; replay added zero queries; general causal acceptance and hosted v2 remain open.
 
 Merged: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184).
