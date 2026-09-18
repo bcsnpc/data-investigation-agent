@@ -11,7 +11,7 @@ import time
 
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'scripts'))
-from challenge_freeze import verify
+from challenge_freeze import verify,sha
 from metadata_config import load_config
 from investigator.onboarding import ModelStore
 from investigator.runtime import Runtime
@@ -24,11 +24,20 @@ from run_source_diagnostic import transport as source
 from run_adaptive_investigation import local_azure_key
 
 
+def verify_model_settings(freeze,path):
+    settings_path=path.resolve()
+    frozen_settings={**{str((ROOT/name).resolve()):value for name,value in freeze['files'].items()},
+                     **freeze['policy_files']}
+    if frozen_settings.get(str(settings_path))!=sha(settings_path.read_bytes()):
+        raise ValueError('Azure model settings must be included in the engine freeze or frozen policy files')
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--folder',type=Path,required=True)
     p.add_argument('--ticket',type=Path,required=True)
     p.add_argument('--key',required=True)
+    p.add_argument('--azure-settings',type=Path,default=ROOT/'infra/llm/development.json')
     p.add_argument('--execute-reviewed-scope',action='store_true')
     p.add_argument('--known-domain-regression',action='store_true',
                    help='Explicitly test changed code against an already known domain; never unknown-domain acceptance')
@@ -37,7 +46,9 @@ def main():
     args=p.parse_args();folder=args.folder
     if not 0<=args.minimum_llm_interval<=120:p.error('LLM interval must be 0–120 seconds')
     freeze=json.loads((folder/'freeze.json').read_text())
-    if not args.known_domain_regression:verify(freeze)
+    if not args.known_domain_regression:
+        verify(freeze)
+        verify_model_settings(freeze,args.azure_settings)
     c=load_config(folder/'config.json');store=ModelStore(folder/'catalog.sqlite',c['storage']['database'],'development')
     last_call=[0.0]
     def paced(call,payload):
@@ -47,8 +58,9 @@ def main():
             remaining=args.minimum_llm_interval-(time.monotonic()-last_call[0])
         last_call[0]=time.monotonic()
         return call(payload)
+    settings=json.loads(args.azure_settings.read_text(encoding='utf-8-sig'))
     agent=AdaptiveRuntime(Runtime(store,c,lambda r:native(c,r),lambda r:source(c,r)),lambda payload:paced(azure_plan,payload),
-          planner_profile={'adapter':'azure','deployment':'investigator-llm'},
+          planner_profile={'adapter':'azure','deployment':settings['deployment']},
           usage_policy=json.loads((folder/'usage-policy.json').read_text()))
     def resolve(payload):
         response=paced(azure_resolve,payload)
@@ -56,10 +68,11 @@ def main():
         (folder/('intake-proposal-'+args.key+'.json')).write_text(json.dumps(response,indent=2))
         return response
     ws=Workspace(agent,execution_enabled=True,question_resolver=resolve)
-    with local_azure_key(ROOT/'infra/llm/development.json'):
+    with local_azure_key(args.azure_settings):
         intake=ws.intake.resolve({'text':args.ticket.read_text(encoding='utf-8'),'request_key':args.key,'parent_id':None})
         output={'freeze_commit':None if args.known_domain_regression else freeze['commit'],
                 'trial_kind':'KNOWN_DOMAIN_REGRESSION' if args.known_domain_regression else 'FROZEN_UNKNOWN_DOMAIN',
+                'planner_deployment':settings['deployment'],
                 'minimum_llm_interval':args.minimum_llm_interval,'intake':intake}
         if intake['status']=='PROPOSED':
             proposal=intake['proposal'];request={k:proposal[k] for k in ('model_id','measure_id','filters','dimension_ids')}

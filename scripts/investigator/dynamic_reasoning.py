@@ -10,7 +10,7 @@ from .onboarding import fields,text,digest,encoded,Conflict
 from . import context_search
 from .model_context import assets
 
-VERSION='dynamic-investigation-v2'
+VERSION='dynamic-investigation-v3'
 INSTRUCTIONS='''Choose ONE next action: RUN a preferred typed candidate, LOOKUP context,
 QUERY a bounded SQL/DAX diagnostic, ASK a material clarification, or STOP with an assessment.
 No fixed layer/test order. Use actual observations to revise failed hypotheses.
@@ -25,6 +25,13 @@ Inspect unfamiliar notebook/pipeline/definition context before assigning a trans
 A diagnostic may broaden the starting filters to distinguish hypotheses, but label that
 scope difference. Never present it as the captured visual/RLS context. Hidden context is unknown.
 LOOKUP search finds assets by name/kind; asset returns bounded metadata and adjacent lineage.
+Asset lookup includes labelled children. Notebook/pipeline source text is in DefinitionPart
+children, not the parent item metadata. LOOKUP content reads a definition at a character
+offset; follow next_offset for more. LOOKUP find locates literal text in that definition.
+Use these tools to inspect relevant code instead of guessing a transformation from names.
+Review action_history before choosing a test. Repeating unchanged metadata adds no evidence.
+Choose the action that resolves a specific remaining uncertainty; stop if no useful action remains.
+Do not reject a hypothesis merely because a different hypothesis has supporting metadata.
 Use context_entry_points to retrieve actual source schemas, notebook definitions and run history.
 An empty search is not evidence that a source is absent; try its kind or a shorter name.
 Never translate a semantic table name into a SQL table name or invent a history view.
@@ -81,6 +88,10 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None):
     if asset_handles is not None:
         choices[1]=variant('LOOKUP',{'operation':{'type':'string','enum':['search']},'value':{'type':'string'}})
         if asset_handles:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':['asset']},'value':{'type':'string','enum':list(asset_handles)}}))
+        for operation,extra in [('content',{'offset':{'type':'integer','minimum':0,'maximum':1000000}}),
+                                ('find',{'needle':{'type':'string','minLength':1,'maxLength':200}})]:
+            if asset_handles:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':[operation]},
+                'value':{'type':'string','enum':list(asset_handles)},**extra}))
     known={h['id'] for h in hypotheses}
     evidence=[o['id'] for o in observations]
     new_ids=[f'h{i}' for i in range(1,33) if f'h{i}' not in known][:max(0,16-len(known))]
@@ -118,6 +129,7 @@ def wire_contract(payload):
     for observation in payload['observations']:
         metadata=observation.get('metadata',{})
         entries+=metadata.get('assets',[])
+        entries+=metadata.get('children',[])
         if metadata.get('asset'):entries.append(metadata['asset'])
         entries+=metadata.get('edges',[])
     for entry in entries:
@@ -140,6 +152,8 @@ def from_wire(value,asset_handles=None):
     fields(value,['next','hypotheses']);action=value['next'];kind=action.get('kind')
     keys={'QUERY':['tool','text','max_rows'],'LOOKUP':['operation','value'],
           'ASK':['question'],'STOP':['assessment'],'RUN':['candidate_id']}
+    if kind=='LOOKUP' and action.get('operation') in ('content','find'):
+        keys['LOOKUP']+=['offset' if action['operation']=='content' else 'needle']
     if kind not in keys:raise ValueError('Unknown action kind')
     fields(action,['kind']+keys[kind])
     result=dict(action=kind,candidate_id=None,question=None,stop_reason=None,
@@ -147,7 +161,7 @@ def from_wire(value,asset_handles=None):
     if kind=='QUERY':result['query']={k:action[k] for k in keys[kind]}
     elif kind=='LOOKUP':
         result['lookup']={k:action[k] for k in keys[kind]}
-        if action['operation']=='asset' and asset_handles is not None:
+        if action['operation'] in ('asset','content','find') and asset_handles is not None:
             if action['value'] not in asset_handles:raise ValueError('Unknown lookup handle')
             result['lookup']['value']=asset_handles[action['value']]
     elif kind=='STOP':result.update(stop_reason='ENOUGH_DIAGNOSTICS',assessment=action['assessment'])
@@ -168,8 +182,12 @@ def validate(proposal,payload):
     for key,used in [('lookup',action=='LOOKUP'),('query',action=='QUERY'),('assessment',action=='STOP')]:
         if not used and proposal[key] is not None:raise ValueError('Unused dynamic field must be null')
     if action=='LOOKUP':
-        value=proposal['lookup'];fields(value,['operation','value']);text(value['value'],2000)
-        if value['operation'] not in ('search','asset'):raise ValueError('Unknown context lookup')
+        value=proposal['lookup'];operation=value.get('operation')
+        extra=['offset'] if operation=='content' else ['needle'] if operation=='find' else []
+        fields(value,['operation','value']+extra);text(value['value'],2000)
+        if operation not in ('search','asset','content','find'):raise ValueError('Unknown context lookup')
+        if operation=='content' and (type(value['offset']) is not int or not 0<=value['offset']<=1000000):raise ValueError('Invalid content offset')
+        if operation=='find':text(value['needle'],200)
     if action=='QUERY':
         value=proposal['query'];fields(value,['tool','text','max_rows']);text(value['text'],16000)
         if value['tool'] not in ('bounded_sql','bounded_dax') or type(value['max_rows']) is not int or not 1<=value['max_rows']<=250:
@@ -191,8 +209,12 @@ def validate(proposal,payload):
 
 
 def lookup(store,request):
-    result=(context_search.search(store,{'text':request['value'],'limit':20}) if request['operation']=='search'
-            else context_search.get_asset(store,request['value']))
+    operation=request['operation']
+    if operation=='search':result=context_search.search(store,{'text':request['value'],'limit':20})
+    elif operation=='asset':result=context_search.get_asset(store,request['value'])
+    elif operation=='content':result=context_search.read_content(store,request['value'],offset=request['offset'])
+    elif operation=='find':result=context_search.find_content(store,request['value'],request['needle'])
+    else:raise ValueError('Unknown context lookup')
     raw=encoded(result)
     if len(raw)>12000:
         # Explicit text excerpt, never a silently complete definition/lineage.
@@ -246,7 +268,18 @@ def enrich(store,state,payload):
             size+=len(encoded(entry))
             if size>4000:break
             entry_points.append(entry)
+    history=[]
+    for item in state.get('decisions',[])[-6:]:
+        entry=copy.deepcopy({k:v for k,v in item['decision'].items() if k in ('action','lookup','query') and v is not None})
+        if entry.get('query') and len(entry['query']['text'])>1200:
+            entry['query']['text']=entry['query']['text'][:1200]
+            entry['query_excerpt_truncated']=True
+        history.append(entry)
     payload.update(strategy=VERSION,context_version=state['discovery_version'],context=used,
+                   action_history=history,
+                   progress={'consecutive_uninformative_actions':state.get('no_progress',0),
+                             'remaining_planner_calls':state['envelope']['limits']['planner_calls']-state['planner_calls'],
+                             'remaining_input_characters':state['envelope']['limits']['input_characters']-state['input_characters']},
                    context_entry_points=entry_points,
                    context_directory_truncated=bool(discovered and len(entry_points)<len(roots)),
                    source_query_context={'retrieved_object_ids':sorted(retrieved_sources(state['observations'])),

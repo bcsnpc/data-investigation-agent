@@ -46,13 +46,13 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-**Discovery-to-ticket (Stages 2â€“3)** merged in PR #196. **Dynamic reasoning and
-governed tools (Stages 4â€“5)** merged in PR #198. Two frozen engine attempts and an unfamiliar
+**Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and
+governed tools (Stages 4–5)** merged in PR #198. Two frozen engine attempts and an unfamiliar
 warehouse domain are recorded. Reliability corrections now require a fresh freeze. The first nine-family trial recorded partial reads,
 reasoning failures and provider rate-limit blocks; it has **not passed**.
 [Challenge acceptance](docs/unknown-domain-challenge.md) remains in progress.
 [Current delivery status](docs/current-delivery-status.md) owns
-implementation and verification claims; [stages 1â€“9](docs/architecture/phases-and-acceptance.md)
+implementation and verification claims; [stages 1–9](docs/architecture/phases-and-acceptance.md)
 define remaining work.
 
 Discovery currently uses one approved workspace and SQL database/schema per profile.
@@ -65,10 +65,14 @@ Practical assessments are evidence-qualified LLM interpretations, not verified c
 Frozen unknown-domain acceptance remains pending. The legacy manual
 catalog retains its review gates. Runtime report filters/RLS and cross-system
 comparability remain explicit limits. V2 is local and single-operator; enterprise
-hosting/authentication is pending. The latest reliability revision passed 903 regression tests. Ten dynamic browser
-checks passed before the final backend recovery fixes; 25 focused tests also pass. These checks
-and live generated SQL/DAX do not establish unfamiliar-domain acceptance or retest
-every deployed application. See [reliability evidence](docs/reasoning-reliability.md).
+hosting/authentication is pending. The latest quality revision passed 910 local regression tests, eight subsequent
+focused checks and ten browser checks. Labelled definition navigation, bounded
+content inspection and repeated-context accounting are implemented. A separate
+GPT-4.1 evaluation deployment is available; the baseline reached the shared daily
+usage limit before data queries, so no model-quality improvement is claimed.
+See [quality engineering and research](docs/investigation-quality-engineering.md).
+These checks do not establish unfamiliar-domain acceptance or retest every
+deployed application.
 
 ## Run and demo
 

@@ -234,8 +234,14 @@ class AdaptiveRuntime:
                 except (ValueError,KeyError):
                     item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE',
                           'values':[],'metadata':{'reason':'Context lookup unavailable or outside scope'},'measure_id':None,'dimension_id':None}
+                duplicate=next((o for o in state['observations'] if o['tool']=='context' and o['status']=='COMPLETED'
+                                and o.get('lookup')==item.get('lookup') and
+                                o.get('metadata',{}).get('context_version')==item.get('metadata',{}).get('context_version')),None) if item['status']=='COMPLETED' else None
+                if duplicate:
+                    item['duplicate_of']=duplicate['id']
+                    item['metadata']['progress_notice']='This request already returned the same context version. Reuse that evidence or choose a different definition, content range or diagnostic.'
                 state['observations'].append(item);state.update(status='READY',token=None)
-                if item['status']=='REJECTED':state['no_progress']=state.get('no_progress',0)+1
+                state['no_progress']=state.get('no_progress',0)+1 if item['status']=='REJECTED' or duplicate else 0
                 self.save(db,state,'CONTEXT_OBSERVED',{'observation_id':item['id']})
             else:
                 if decision['action']=='QUERY':

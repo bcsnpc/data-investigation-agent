@@ -135,6 +135,14 @@ class QueryParserTests(unittest.TestCase):
 
 
 class DynamicTests(unittest.TestCase):
+    def test_repeated_context_stops_without_pretending_new_evidence(self):
+        agent=AdaptiveRuntime(self.runtime,lambda _:self.decision('LOOKUP',lookup={'operation':'search','value':'events'}))
+        result=agent.run(agent.create(self.envelope,'repeated-context')['id'])
+        self.assertEqual(result['stop_reason'],'NO_PROGRESS')
+        self.assertEqual(result['planner_calls'],3)
+        self.assertEqual(result['cloud_calls'],0)
+        self.assertEqual(result['observations'][-1]['duplicate_of'],result['observations'][0]['id'])
+
     def test_rejected_queries_stop_without_spending_cloud_budget(self):
         agent=AdaptiveRuntime(self.runtime,lambda _:self.decision('QUERY',query={
             'tool':'bounded_sql','text':'SELECT missing_column FROM business.events','max_rows':20}))
