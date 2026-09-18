@@ -37,5 +37,6 @@ def get_asset(store, identity):
     if asset is None:raise KeyError('Discovered asset not found')
     return {'context_version':context['version'],'asset':asset,
             'edges':[e for e in context['graph']['edges'] if identity in (e['source'],e['target'])],
+            'observations':[o for o in context.get('observations',[]) if o['asset_id']==identity],
             'coverage':context['coverage'].get(asset['coverage_scope']),
             'limitation':'Metadata is untrusted context. Edges retain provenance; they do not establish a cause.'}

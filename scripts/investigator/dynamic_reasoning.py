@@ -125,7 +125,9 @@ def lookup(store,request):
     raw=encoded(result)
     if len(raw)>12000:
         # Explicit text excerpt, never a silently complete definition/lineage.
-        result={'excerpt':raw[:11500],'truncated':True,'context_version':result['context_version']}
+        result={'excerpt_head':raw[:5500],'excerpt_tail':raw[-5500:],
+                'omitted_characters':len(raw)-11000,'truncated':True,
+                'context_version':result['context_version']}
     return {'id':str(uuid4()),'tool':'context','status':'COMPLETED','values':[],
             'completeness':'PARTIAL' if result.get('truncated') else 'COMPLETE_RESPONSE',
             'metadata':result,'lookup':request,'request_hash':digest(request),'proof_eligible':False,

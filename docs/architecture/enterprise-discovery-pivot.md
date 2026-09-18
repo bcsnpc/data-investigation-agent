@@ -4,6 +4,11 @@ Date: 2026-09-18. Tracking: [#193](https://github.com/bcsnpc/data-investigation-
 Authority: [the user mission](../../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the implementation proposal, not evidence that the target already works.
 
+Sections A–B and the Stage 1 validation below preserve the initial audit. They are
+not the current implementation status. Discovery and dynamic-query milestones
+have since merged; follow [current delivery status](../current-delivery-status.md)
+for delivered capabilities, live challenge results and remaining work.
+
 ## A. Current-state assessment
 
 Inspected `origin/main` at `3c62be9` and the clean `feature/joint-native-capture`

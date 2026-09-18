@@ -151,6 +151,11 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(found['total'],2);self.assertTrue(found['truncated'])
         asset=get_asset(self.store,found['assets'][0]['id'])
         self.assertTrue(asset['coverage']);self.assertTrue(asset['edges'])
+        model=get_asset(self.store,'fabric://'+self.ws+'/'+self.mid)
+        self.assertEqual(model['observations'][0]['capability'],'refresh_history')
+        self.assertEqual(model['observations'][0]['detail'],[])
+        report=get_asset(self.store,'fabric://'+self.ws+'/'+self.rid)
+        self.assertEqual(report['observations'],[])
         other=ModelStore(self.store.database,self.store.inventory,'another')
         self.assertEqual(search(other,{'text':'Unfamiliar','limit':10})['total'],0)
 

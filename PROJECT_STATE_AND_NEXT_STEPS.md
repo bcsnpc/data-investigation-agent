@@ -12,9 +12,10 @@ checks remain reusable.
 Discovery-to-ticket merged in PR #196: environment
 scans, independent model context, versioned graph/search and automatic catalog
 projection. See current status for acceptance results and remaining limits.
-Dynamic reasoning and parser-governed SQL/DAX are now implemented on the feature
-branch, with 891 regression tests, 40 browser checks and live native/source reads.
-Next is engine freeze and post-freeze unknown-domain acceptance; it is not yet run.
+Dynamic reasoning and parser-governed SQL/DAX merged in PR #198, with 891 regression
+tests, 40 browser checks and live native/source reads. The engine is now tagged
+unknown-domain-engine-v1; unfamiliar warehouse assets were published after freeze.
+The [challenge](docs/unknown-domain-challenge.md) is in progress, not passed.
 The [audit/proposal](docs/architecture/enterprise-discovery-pivot.md) and
 [stages 1?9](docs/architecture/phases-and-acceptance.md) define the work.
 

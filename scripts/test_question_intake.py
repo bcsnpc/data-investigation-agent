@@ -4,7 +4,7 @@ from threading import Event, Thread
 import unittest
 from unittest.mock import MagicMock, patch
 
-from investigator.question_intake import Intake, validate, snapshot
+from investigator.question_intake import Intake, validate, snapshot, azure_resolve, wire_contract
 from investigator.onboarding import Conflict
 from investigator.usage_governance import UsageHold
 from investigator.workspace import Workspace
@@ -20,6 +20,38 @@ def proposal():
 def ask():
     return {'action': 'ASK', 'model_id': None, 'measure_id': None, 'metric_quote': None,
             'question': 'Which metric and exact filters should be checked?', 'filters': [], 'dimension_ids': [], 'scope_quotes': []}
+
+
+class WireContractTests(unittest.TestCase):
+    def payload(self):
+        return {'text':'Compare an unfamiliar value for North.', 'models':[{
+            'id':'model-id','measures':[{'id':'fabric://a/measure/Unfamiliar%20value','name':'Unfamiliar value'}],
+            'columns':[{'column_id':'fabric://a/column/Region%20name','name':'Region name'}]}]}
+
+    def test_opaque_handles_roundtrip_and_filter_quotes_stay_attached(self):
+        payload=self.payload();original=copy.deepcopy(payload)
+        proposed={'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value','question':None,
+                  'filters':[{'column_id':'m0c0','operator':'in','values':['North'],'quote':'North'}],
+                  'dimension_ids':['m0c0']}
+        with patch('ticket_planner.azure_generate',return_value=(proposed,{})) as generate:
+            result,_=azure_resolve(payload)
+        self.assertEqual(result['measure_id'],'fabric://a/measure/Unfamiliar%20value')
+        self.assertEqual(result['scope_quotes'],[{'column_id':'fabric://a/column/Region%20name','quote':'North'}])
+        self.assertNotIn('quote',result['filters'][0]);self.assertEqual(payload,original)
+        schema=generate.call_args.kwargs['schema']
+        self.assertEqual(schema['properties']['measure_id']['enum'],['m0v0',None])
+        self.assertNotIn('scope_quotes',schema['properties'])
+        self.assertEqual(schema['properties']['dimension_ids']['maxItems'],1)
+
+    def test_global_proposal_cannot_add_detached_scope_quotes(self):
+        proposed={'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
+                  'question':None,'filters':[],'dimension_ids':[]}
+        with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
+            result,_=azure_resolve(self.payload())
+        self.assertEqual(result['scope_quotes'],[])
+        proposed['measure_id']='fabric://a/measure/Unfamiliar value'
+        with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
+            with self.assertRaises(ValueError):azure_resolve(self.payload())
 
 
 class IntakeTests(unittest.TestCase):

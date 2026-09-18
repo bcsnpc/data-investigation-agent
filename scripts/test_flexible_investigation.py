@@ -1,6 +1,7 @@
 """Adversarial parser admission and evidence-driven dynamic runtime tests."""
 import copy
 import unittest
+from unittest.mock import patch
 from uuid import uuid4
 import test_enterprise_discovery as discovery_fixture
 from investigator import query_sql,query_dax,dynamic_reasoning
@@ -13,6 +14,15 @@ from investigator.onboarding import Conflict
 
 
 class QueryParserTests(unittest.TestCase):
+    def test_large_context_excerpt_exposes_both_ends_and_marks_omission(self):
+        value={'context_version':'revision','content':'START'+('x'*15000)+'END'}
+        with patch('investigator.context_search.get_asset',return_value=value):
+            observed=dynamic_reasoning.lookup(None,{'operation':'asset','value':'asset'})
+        self.assertEqual(observed['completeness'],'PARTIAL')
+        self.assertIn('START',observed['metadata']['excerpt_head'])
+        self.assertIn('END',observed['metadata']['excerpt_tail'])
+        self.assertGreater(observed['metadata']['omitted_characters'],0)
+
     def setUp(self):
         self.objects=[{'id':'events','metadata':{'schema_name':'approved','name':'events','type_desc':'USER_TABLE',
           'columns':[{'name':'id','data_type':'int'},{'name':'amount','data_type':'decimal'}, {'name':'state','data_type':'varchar'}]}}]
