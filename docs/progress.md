@@ -625,3 +625,17 @@ and the demo views are not the deployed Azure/Power BI interfaces. Remaining pro
 work stays in [demo pending](demo-pending.md); no live data or delivery was changed.
 
 Tracked under issue #145. The business-demo changes build on the isolated-demo PR #144.
+
+
+## 2026-09-18 ? Discovery-to-ticket implementation (#195)
+
+Merged architecture PR #194 after its six green checks. Implemented environment
+scans, coverage/diffs, independent model context, graph/search, automatic ticket
+projection and workspace-scoped isolated reader admission. Legacy registration
+remains an override. All 876 regression tests and 30 browser checks pass.
+Business scan: 399 assets, 24 complete surfaces, one lakehouse listing gap.
+Isolated reader scan plus two finite repeat scans completed (nine operations each,
+zero repeat changes); automatic catalog model query returned 8 with a dedicated
+reader receipt. No data/schema/permission/quota/deployment changes.
+See [milestone/runbook](enterprise-discovery-milestone.md) and
+[current status](current-delivery-status.md) for scope and pending work.

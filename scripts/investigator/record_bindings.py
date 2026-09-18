@@ -1,4 +1,5 @@
 """Reusable catalog-reviewed record projections. Review is intent, not proof."""
+from .model_context import assets as model_assets
 from datetime import datetime, timezone
 import json
 from uuid import uuid4
@@ -34,7 +35,7 @@ def validate(store, model_id, body, config, *, require_confirmation=True):
     keys=body['key_column_ids'];native_ids=[b['native_column_id'] for b in projected]
     if not isinstance(keys,list) or not 1<=len(keys)<=3 or any(not isinstance(k,str) for k in keys) or len(set(keys))!=len(keys) or not set(keys)<=set(native_ids):
         raise ValueError('Record keys must be unique projected columns')
-    assets={a['id']:a for a in model['context']['reports'][0]['model_assets']}
+    assets={a['id']:a for a in model_assets(model['context'])}
     obj=assets.get(body['native_object_id'])
     if not obj or obj['kind']!='SemanticTable':raise ValueError('Unknown native record table')
     objects,columns=snapshot(store,model,config)

@@ -25,7 +25,8 @@ def canonical(value):
 
 
 def profile(value):
-    fields(value, ['mode', 'tenant_id', 'account', 'principal_id', 'model_ids'])
+    scope='workspace_ids' if 'workspace_ids' in value else 'model_ids'
+    fields(value, ['mode', 'tenant_id', 'account', 'principal_id', scope])
     if value['mode'] != 'isolated_reader':
         raise ValueError('Unsupported native reader mode')
     for key in ('tenant_id', 'principal_id'):
@@ -35,7 +36,7 @@ def profile(value):
     if (not isinstance(account, str) or not 3 <= len(account) <= 254 or account.count('@') != 1
             or any(c.isspace() or ord(c) < 32 for c in account)):
         raise ValueError('Expected reader account')
-    models = value['model_ids']
+    models = value[scope]
     if (not isinstance(models, list) or not 1 <= len(models) <= 50
             or any(not isinstance(m, str) or str(UUID(m)) != m for m in models)
             or len(set(models)) != len(models)):
@@ -43,9 +44,17 @@ def profile(value):
     return value
 
 
+def allows(reader, workspace, model):
+    profile(reader)
+    try:
+        if str(UUID(model)) != model or str(UUID(workspace)) != workspace:return False
+    except (ValueError, TypeError, AttributeError):return False
+    return workspace in reader['workspace_ids'] if 'workspace_ids' in reader else model in reader['model_ids']
+
+
 def make(response, request, reader):
     profile(reader)
-    if KEY in response or request['native_model_id'] not in reader['model_ids']:
+    if KEY in response or not allows(reader,request['workspace'],request['native_model_id']):
         raise ValueError('Unexpected native response or target')
     return {'version': VERSION, 'mode': reader['mode'], 'tenant_id': reader['tenant_id'],
             'principal_id': reader['principal_id'], 'account': reader['account'],
@@ -73,7 +82,7 @@ def observed(response, request):
 
 def require(response, request, reader):
     profile(reader)
-    if request['native_model_id'] not in reader['model_ids']:
+    if not allows(reader,request['workspace'],request['native_model_id']):
         raise ValueError('Native model is outside reader allowlist')
     value = observed(response, request)
     if value is None or any(value[k] != reader[k] for k in ('mode', 'tenant_id', 'principal_id', 'account')):
@@ -85,8 +94,9 @@ def guarded(config, request, execute):
     """Apply the same boundary to injected runtime transports and worker transports."""
     reader = config.get('fabric', {}).get('native_reader')
     if reader is None:
+        if request.get('requires_native_reader'):raise ValueError('Discovered execution requires a read-only reader')
         return execute(request)
     profile(reader)
-    if request['workspace'] != config['fabric']['workspace_id'] or request['native_model_id'] not in reader['model_ids']:
+    if request['workspace'] != config['fabric']['workspace_id'] or not allows(reader,request['workspace'],request['native_model_id']):
         raise ValueError('Native reader target differs')
     return require(execute(request), request, reader)

@@ -3,15 +3,17 @@
 An enterprise data investigator for Azure SQL, Microsoft Fabric and Power BI.
 The target is to connect an approved environment once, discover its changing data
 estate, and use an LLM with safe read-only tools to investigate unfamiliar business
-questions. **Self-discovery is the new direction, not a completed capability.**
+questions. **Approved-workspace discovery now feeds ticket context; unfamiliar-domain
+investigation is still under construction.**
 This is an FDE integration with one enterprise environment.
 
 ## What works today
 
 - Related 100,000-order application data, Azure SQL source, deployed order portal,
   Fabric Bronze/Silver/Gold processing and native Power BI model/reports.
-- Workspace metadata enumeration, definitions, semantic dependency analysis and
-  evidence-backed lineage; a manually registered and enabled v2 model catalog.
+- Environment-owned metadata scans, per-surface coverage, versioned changes and
+  evidence-backed context graphs. Supported discovered models/reports enter the
+  ticket catalog automatically; manual registration remains a compatibility override.
 - A persisted adaptive loop: the LLM selects admitted diagnostics, sees actual
   observations and revises hypotheses. Native measure/dependency/dimension reads,
   bounded SQL aggregates/watermarks and record comparisons produce receipts.
@@ -26,8 +28,10 @@ this is arithmetic consistency, not general root-cause proof.
 
 ## How it works and what changes next
 
-Today, operators register models/reports and review/enable their catalog context.
-The new architecture moves discovery ahead of that manual workflow:
+An operator approves a workspace/database profile once. Scans discover supported
+models independently of reports and publish technical context without mandatory
+business review. Explicit deny and the separate reader policy still govern access.
+The complete target flow is:
 
 ```text
 Approved connections -> recurring discovery -> versioned enterprise context graph
@@ -42,27 +46,31 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-**Stage 1: architectural pivot.** Code audit, manual-onboarding dependency map,
-discovery/graph design, governed query plan and frozen Unknown Domain Challenge.
-[Current delivery status](docs/current-delivery-status.md) owns implementation and
-verification claims; [stages 1-9](docs/architecture/phases-and-acceptance.md) define
-remaining work.
+**Discovery-to-ticket (Stages 2?3)** is implemented on the current branch and under
+acceptance review. [Current delivery status](docs/current-delivery-status.md) owns
+implementation and verification claims; [stages 1?9](docs/architecture/phases-and-acceptance.md)
+define remaining work.
 
-Automatic environment-to-ticket discovery, generated SQL/DAX diagnostics, broader
-causal outcomes and frozen unknown-domain acceptance are not yet delivered.
-Planning still selects precompiled candidates. Business review and model enablement
-still gate the legacy catalog. Runtime report filters/RLS, cross-system comparability
-and unsupported syntax remain explicit limits. V2 is local and single-operator;
-enterprise hosting/authentication is pending. Cloud deployment evidence is historical,
-not a current availability check.
+Discovery currently uses one approved workspace and SQL database/schema per profile.
+Finite repeat scans support an external scheduler; no persistent scheduler is installed.
+Denied/unsupported metadata is explicit. Warehouse catalogs require an approved
+endpoint adapter. Search exposes context but does not grant query authority.
+
+Planning still selects precompiled candidates. Generated SQL/DAX, broader practical
+outcomes and frozen unknown-domain acceptance remain pending. The legacy manual
+catalog retains its review gates. Runtime report filters/RLS and cross-system
+comparability remain explicit limits. V2 is local and single-operator; enterprise
+hosting/authentication is pending. The current milestone retests metadata and an
+isolated native read, not every deployed application.
 
 ## Run and demo
 
 - [Local v2 workspace setup](docs/investigation-workspace-milestone.md#local-runbook)
   and [reviewed screenshot intake](docs/screenshot-intake-milestone.md).
   Install `scripts/requirements-workspace.txt` in your development environment.
-  Keep provider credentials and workspace token outside Git. Current execution
-  still requires an enabled manual catalog and configured provider access.
+  Keep provider credentials and workspace token outside Git. Execution requires an eligible discovered or enabled legacy catalog and
+  configured provider access. Discovered execution requires a separate reader.
+- [Environment discovery runbook](docs/enterprise-discovery-milestone.md).
 - [Model admin fallback](docs/model-onboarding.md) and
   [metadata scan worker](docs/catalog-scans-and-semantics.md).
 - [Bounded-v1 presenter runbook](docs/demo-runbook.md): historical demonstrations,

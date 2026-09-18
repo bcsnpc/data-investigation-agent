@@ -21,10 +21,12 @@ def catalog(store,config,envelope):
     model=store.get(envelope['model_id'])
     reader=config.get('fabric',{}).get('native_reader')
     if reader is not None:
-        from .native_identity import profile
+        from .native_identity import profile, allows
         profile(reader)
-        if model['workspace'] != config['fabric']['workspace_id'] or model['native_id'] not in reader['model_ids']:
+        if model['workspace'] != config['fabric']['workspace_id'] or not allows(reader,model['workspace'],model['native_id']):
             raise Conflict('Model is outside the configured native reader scope')
+    elif model.get('discovery'):
+        raise Conflict('Discovered execution requires a configured read-only native reader')
     dimensions=envelope['dimension_ids']; sources=envelope['source_tests']
     if not isinstance(dimensions,list) or len(dimensions)>4 or any(not isinstance(x,str) for x in dimensions) or len(set(dimensions))!=len(dimensions):
         raise ValueError('Invalid dimension envelope')

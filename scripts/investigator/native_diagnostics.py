@@ -1,4 +1,5 @@
 """Catalog-scoped native DAX diagnostics. No semantic emulation or cause claims."""
+from .model_context import assets as model_assets
 from datetime import datetime, timezone
 from decimal import Decimal
 import subprocess
@@ -28,7 +29,7 @@ def build(model, plan):
         raise Conflict('Plan refers to stale model context')
     if not model['enabled']:raise Conflict('Enable reviewed catalog before diagnostics')
     if type(plan['include_dependencies']) is not bool:raise ValueError('Expected dependency flag')
-    context=model['context'];assets=context['reports'][0]['model_assets']
+    context=model['context'];assets=model_assets(context)
     tables={a['id']:a['name'] for a in assets if a['kind']=='SemanticTable'}
     measures={a['id']:a for a in assets if a['kind']=='Measure'}
     columns={a['id']:a for a in assets if a['kind']=='SemanticColumn'}
@@ -92,6 +93,7 @@ def build(model, plan):
     request={'query':query,'measure_ids':selected,'dimension_id':dimension,'gaps':gaps,
             'scope_hash':digest(plan),'context_id':context['id'],'context_hash':digest(context),
             'workspace':model['workspace'],'native_model_id':model['native_id']}
+    if model.get('discovery'):request['requires_native_reader']=True
     if any('operator' in f for f in filters):request['filter_scope_version']=FILTER_VERSION
     if dependency_context is not None:request['dependency_context']=dependency_context
     return request

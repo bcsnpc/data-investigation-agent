@@ -1,11 +1,12 @@
 """Current proof readiness from implemented adapters, never operator flags."""
+from .model_context import assets as model_assets
 from .onboarding import digest
 
 
 def readiness(model):
     context=model.get('context') or {}
     reports=context.get('reports') or []
-    assets=reports[0]['model_assets'] if reports else []
+    assets=model_assets(context)
     modes=sorted({p.get('mode','unknown') for a in assets if a['kind']=='SemanticTable'
                   for p in a['metadata'].get('partitions',[])})
     requirements=[
