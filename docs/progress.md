@@ -708,3 +708,9 @@ Ten dynamic browser checks passed before the final backend recovery corrections.
 The patch secret scan is clean; edited documentation links resolve. Known-domain
 trials do not certify unfamiliar-domain behavior. Follow [reliability evidence](reasoning-reliability.md)
 and [current status](current-delivery-status.md) for live outcomes and remaining work.
+
+PR #201 groups these corrections. Final known-domain trial
+`16e5fe6e-26dc-42c4-96dc-ddf1bf8420f2` ended UNRESOLVED / BUDGET_LIMIT
+with 10 planner calls and two SQL reads. Query recovery worked once; metadata
+repetition and absent transformation inspection still prevented diagnosis.
+Fresh-freeze acceptance is not yet justified by this evidence.

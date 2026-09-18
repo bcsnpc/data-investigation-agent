@@ -80,3 +80,15 @@ SQL or values, and apply the existing no-progress limit before more provider or
 cloud work. All 25 focused tests passed, including zero-cloud-call termination
 for repeated invalid columns and lookups. The final full regression passed all
 903 tests in 266 seconds. The patch secret scan found no leaks.
+
+
+Final known-domain session `16e5fe6e-26dc-42c4-96dc-ddf1bf8420f2` ended
+UNRESOLVED / BUDGET_LIMIT after 10 planning calls and two successful SQL reads.
+It corrected the first missing-column proposal after receiving binding guidance,
+but later repeated semantic-table lookups and another invalid derived-column
+proposal. No native total or transformation-definition evidence was obtained.
+This validates reader execution and one recovery behavior, not transformation
+acceptance. Remaining generic work is useful next-test selection, avoiding
+unchanged metadata repetition, and evidence-relevant hypothesis revision before
+a new freeze and fresh unfamiliar-domain variant. Do not increase budgets merely
+to hide this failure.

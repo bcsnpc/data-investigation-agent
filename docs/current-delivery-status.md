@@ -6,7 +6,7 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Engine freeze and unfamiliar-domain challenge (Stages 6Ã¢â‚¬â€œ7) are in progress.**
+**Engine freeze and unfamiliar-domain challenge (Stages 6ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“7) are in progress.**
 The first frozen attempt failed intake reliability; one ratio case passed but most
 questions did not reach investigation. Generic corrections were validated and frozen as `unknown-domain-engine-v2`;
 a fresh variant is published. Its publisher DAX rename defect is repaired and
@@ -20,7 +20,10 @@ are now in development; v2 remains a historical failed attempt and cannot certif
 the changed engine. The current revision passed 903 regression tests; 10 dynamic
 browser checks passed before its final backend recovery fixes. The six isolated
 v2 SQL tables now have user-approved reader SELECT; the denied query subsequently
-succeeded with read-only verification. See [reasoning reliability](reasoning-reliability.md).
+succeeded with read-only verification. The final known-domain trial recovered
+from a column-binding error but ended UNRESOLVED after 10 planner calls and two
+SQL reads, repeating metadata without inspecting transformations. Useful next-test
+selection remains pending. See [reasoning reliability](reasoning-reliability.md).
 Dynamic reasoning and governed tools merged in PR #198 after all six CI checks passed.
 [Issue #197](https://github.com/bcsnpc/data-investigation-agent/issues/197) tracks
 this grouped change. Architecture PR #194 and discovery PR #196 are merged.
