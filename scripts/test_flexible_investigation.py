@@ -96,6 +96,17 @@ class QueryParserTests(unittest.TestCase):
         self.assertEqual(value['asset_ids'],['events']);self.assertEqual(value['result_columns'],['id','total'])
         self.assertNotIn("'ok'",value['query']);self.assertIn('@p0',value['query']);self.assertIn('TOP 251',value['query'])
 
+    def test_sql_ambiguity_names_column_and_aliases_without_choosing_for_user(self):
+        query='SELECT id FROM approved.events a JOIN approved.events b ON a.id=b.id'
+        with self.assertRaisesRegex(ValueError,'candidate_aliases') as rejected:
+            query_sql.compile_query(query,self.objects)
+        self.assertIn("'column': 'id'",str(rejected.exception))
+        self.assertIn("['a', 'b']",str(rejected.exception))
+        corrected=query_sql.compile_query(query.replace('SELECT id','SELECT a.id'),self.objects)
+        self.assertEqual(corrected['result_columns'],['id'])
+        with self.assertRaisesRegex(ValueError,'unavailable'):
+            query_sql.compile_query(query.replace('approved.events b','hidden.events b'),self.objects)
+
     def test_sql_write_escape_ambiguous_unknown_and_unsupported_rejected(self):
         bad=["DELETE FROM approved.events","SELECT * INTO approved.new FROM approved.events",
              "SELECT * FROM approved.events; DROP TABLE approved.events", "EXEC proc", "SELECT dbo.secret() FROM approved.events",
@@ -321,6 +332,18 @@ class DynamicTests(unittest.TestCase):
         plan.update(query='SELECT COUNT(*) AS n FROM business.events',max_rows=20)
         result=run(self.store,plan,self.config,'bounded_sql',lambda q:calls.append(q) or {'rows':[{'n':'1'}]})
         self.assertEqual(result['status'],'FAILED');self.assertEqual(len(calls),1)
+
+    def test_source_failure_keeps_safe_error_category_not_exception_text(self):
+        from investigator.flexible_tools import run
+        from run_source_diagnostic import SourceReadError
+        plan={k:self.envelope[k] for k in ('model_id','revision','context_id')}
+        plan.update(query='SELECT COUNT(*) AS n FROM business.events',max_rows=20)
+        def failed(_):raise SourceReadError(40613,'SqlException')
+        result=run(self.store,plan,self.config,'bounded_sql',failed)
+        self.assertEqual(result['status'],'FAILED')
+        self.assertEqual(result['result']['error_number'],40613)
+        self.assertEqual(result['result']['error_kind'],'SqlException')
+        self.assertNotIn('message',result['result'])
 
     def test_dynamic_cancel_before_next_turn_has_no_query(self):
         agent=AdaptiveRuntime(self.runtime,lambda _:self.fail('cancelled planning'))

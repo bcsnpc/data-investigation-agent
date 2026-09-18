@@ -84,11 +84,24 @@ def run(store,plan,config,tool,execute,*,receipt_id=None):
         if tool=='bounded_dax':require(response,request,config['fabric']['native_reader'])
         elif not response.get('read_only_verified'):raise ValueError('Source read-only permission check missing')
         result=extract(response,request)
+        if tool=='bounded_sql':
+            from .source_diagnostics import connection_attempts
+            attempts=connection_attempts(response.get('connection_attempts'))
+            if attempts is not None:result['connection_attempts']=attempts
         if build(store,plan,config,tool)!=request:raise Conflict('Context changed during query')
         status='COMPLETED'
     except Exception as exc:
         status='HELD' if isinstance(exc,Conflict) else 'INTERRUPTED' if isinstance(exc,(TimeoutError,subprocess.TimeoutExpired)) else 'FAILED'
         result={'error_type':type(exc).__name__,'cause_verified':False}
+        if tool=='bounded_sql':
+            from .source_diagnostics import connection_attempts
+            if type(getattr(exc,'error_number',None)) is int:result['error_number']=exc.error_number
+            if getattr(exc,'error_kind',None) in ('SqlException','InvalidOperationException','MethodException','ArgumentException','TransportError'):
+                result['error_kind']=exc.error_kind
+            try:
+                attempts=connection_attempts(getattr(exc,'connection_attempts',None))
+                if attempts is not None:result['connection_attempts']=attempts
+            except (ValueError,TypeError):pass
     with store.connect() as db:
         db.execute('UPDATE '+TABLE+' SET status=?,result=? WHERE id=?',(status,encoded(result),identity))
         from .receipt_integrity import seal

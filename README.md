@@ -74,6 +74,10 @@ transformation code but failed to recover from a missing-schema query rejection
 before its context budget ended. No data query executed and no model-quality
 improvement or supported diagnosis is claimed. Context efficiency and recovery
 remain the immediate priority; the temporary daily allowance has been restored.
+The subsequent [context/query recovery milestone](docs/context-query-recovery.md)
+preserves structured metadata and names missing schemas or ambiguous column aliases.
+Its first live trial executed one source query, but ended unresolved after repeated
+query errors and a planner connection failure. A follow-up trial is in progress.
 See [quality engineering and research](docs/investigation-quality-engineering.md).
 These checks do not establish unfamiliar-domain acceptance or retest every
 deployed application.
@@ -98,11 +102,11 @@ Development order portal: https://orderops-portal-9696025.azurewebsites.net
 
 ## Engineering and plan
 
-[Controlling mission](SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md) ?
-[Architecture and audit](docs/architecture/README.md) ?
-[Current status](docs/current-delivery-status.md) ?
-[Progress history](docs/progress.md) ?
-[Handoff](PROJECT_STATE_AND_NEXT_STEPS.md) ? [Contributing](CONTRIBUTING.md)
+[Controlling mission](SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md) |
+[Architecture and audit](docs/architecture/README.md) |
+[Current status](docs/current-delivery-status.md) |
+[Progress history](docs/progress.md) |
+[Handoff](PROJECT_STATE_AND_NEXT_STEPS.md) | [Contributing](CONTRIBUTING.md)
 
 Keep SQL free-overage settings unchanged. Query/result limits do not guarantee zero
 resource cost. Automatic production repairs, deployments and data mutations are

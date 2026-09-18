@@ -6,6 +6,21 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current quality work: PR #203** adds structured large-asset responses, explicit
+missing-schema recovery targets and specific SQL alias feedback. The user approved
+larger input/output allowances where needed; dynamic runs now permit 384,000 input
+characters while preserving 12 planner calls and existing SQL/cloud-call limits.
+Output remains 1,500 tokens per response. The first known-domain trial inspected
+transformation code and executed one source query, then repeated an ambiguous
+query and ended HELD after a planner API connection failure. A follow-up trial is
+running; [context/query recovery](context-query-recovery.md) records the evidence.
+A second trial exposed a SQL connection failure. A budgeted operator retry
+identified firewall error 40615; the user-approved single-IP rule restored reader
+access. The database remains on free-limit AutoPause. Parent-qualified search and
+safe source error receipts are implemented. Local validation passed 919 tests;
+ten browser checks passed before the final search/error changes. A fresh GPT-4.1
+trial and a same-engine GPT-5.4 comparison are next. This is not unfamiliar-domain acceptance.
+
 **Engine freeze and unfamiliar-domain challenge (Stages 6–7) are in progress.**
 The first frozen attempt failed intake reliability; one ratio case passed but most
 questions did not reach investigation. Generic corrections were validated and frozen as `unknown-domain-engine-v2`;
@@ -15,7 +30,7 @@ establishes full challenge acceptance. Several runs hit Azure LLM rate limits;
 a paced transformation repeat avoided throttling but exhausted its budget on
 repeated native reads without retrieving transformation context. Generic reasoning
 corrections, a fresh freeze and remaining acceptance experiments are next. See [attempt details](unknown-domain-challenge.md).
-PRs #200 and #201 merged after all six CI checks passed. Further context and
+PRs #200, #201 and #202 merged after all six CI checks passed. Further context and
 trajectory improvements are in development; v2 remains a historical failed attempt and cannot certify
 the changed engine. The current revision passed 903 regression tests; 10 dynamic
 browser checks passed before its final backend recovery fixes. The six isolated

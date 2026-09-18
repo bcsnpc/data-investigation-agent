@@ -5,6 +5,16 @@ from investigator import context_search
 
 
 class ContextNavigationTests(unittest.TestCase):
+    def test_search_uses_real_parent_identity_without_reading_definition_content(self):
+        context=self.context()
+        with patch.object(context_search,'latest',return_value=context):
+            found=context_search.search(None,{'text':'Orchid source.py','limit':20})
+            self.assertEqual([a['id'] for a in found['assets']],['part:random'])
+            self.assertEqual(context_search.search(None,{'text':'Orchid','limit':20})['total'],1)
+            self.assertEqual(context_search.search(None,{'text':'NEEDLE','limit':20})['total'],0)
+            self.parent['parent_id']=self.part['id']
+            self.assertEqual(context_search.search(None,{'text':'Orchid source.py','limit':20})['total'],2)
+
     def test_definition_handles_decode_content_parameters_exactly(self):
         from investigator.dynamic_reasoning import wire_contract,from_wire
         payload={'candidates':[],'hypotheses':[],'observations':[{'id':'receipt','tool':'context','status':'COMPLETED',

@@ -25,7 +25,19 @@ def search(store, request):
     context=latest(store)
     if context is None:return {'context_version':None,'assets':[],'total':0,'truncated':False}
     terms=query.split()
-    matches=[a for a in context['assets'] if all(term in (a['name']+' '+a['kind']).casefold() for term in terms)]
+    by_id={a['id']:a for a in context['assets']}
+    def qualified_name(asset):
+        names=[asset['kind']];seen=set()
+        for _ in range(8):
+            if asset is None or asset['id'] in seen:break
+            seen.add(asset['id']);names.append(asset['name'])
+            asset=by_id.get(asset.get('parent_id'))
+        return ' '.join(names).casefold()
+    matches=[]
+    for asset in context['assets']:
+        name=qualified_name(asset)
+        own=(asset['name']+' '+asset['kind']).casefold()
+        if any(term in own for term in terms) and all(term in name for term in terms):matches.append(asset)
     matches.sort(key=lambda a:(a['availability']!='CURRENT',a['name'].casefold(),a['id']))
     return {'context_version':context['version'],'total':len(matches),'truncated':len(matches)>request['limit'],
             'assets':[{k:a[k] for k in ('id','parent_id','name','kind','availability','provenance')} for a in matches[:request['limit']]]}
