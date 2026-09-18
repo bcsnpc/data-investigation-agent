@@ -14,9 +14,9 @@ This is an FDE integration with one enterprise environment.
 - Environment-owned metadata scans, per-surface coverage, versioned changes and
   evidence-backed context graphs. Supported discovered models/reports enter the
   ticket catalog automatically; manual registration remains a compatibility override.
-- A persisted adaptive loop: the LLM selects admitted diagnostics, sees actual
-  observations and revises hypotheses. Native measure/dependency/dimension reads,
-  bounded SQL aggregates/watermarks and record comparisons produce receipts.
+- A persisted adaptive loop: the LLM retrieves context, proposes governed SQL/DAX
+  or selects typed diagnostics, sees actual observations and revises hypotheses.
+  Parsed queries run through approved read-only identities and produce receipts.
 - A local workspace with business questions, reviewed screenshot transcription,
   scope review, history, cancellation and shared business/technical evidence.
   Read-only identities, budgets and replay controls remain in place.
@@ -46,9 +46,10 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-**Discovery-to-ticket (Stages 2?3)** is implemented on the current branch and under
-acceptance review. [Current delivery status](docs/current-delivery-status.md) owns
-implementation and verification claims; [stages 1?9](docs/architecture/phases-and-acceptance.md)
+**Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and
+governed tools (Stages 4–5)** are implemented and verified on the current branch.
+[Current delivery status](docs/current-delivery-status.md) owns
+implementation and verification claims; [stages 1–9](docs/architecture/phases-and-acceptance.md)
 define remaining work.
 
 Discovery currently uses one approved workspace and SQL database/schema per profile.
@@ -56,12 +57,13 @@ Finite repeat scans support an external scheduler; no persistent scheduler is in
 Denied/unsupported metadata is explicit. Warehouse catalogs require an approved
 endpoint adapter. Search exposes context but does not grant query authority.
 
-Planning still selects precompiled candidates. Generated SQL/DAX, broader practical
-outcomes and frozen unknown-domain acceptance remain pending. The legacy manual
+Generated queries support explicit grammar subsets; SQL views are not yet admitted.
+Practical assessments are evidence-qualified LLM interpretations, not verified causes.
+Frozen unknown-domain acceptance remains pending. The legacy manual
 catalog retains its review gates. Runtime report filters/RLS and cross-system
 comparability remain explicit limits. V2 is local and single-operator; enterprise
-hosting/authentication is pending. The current milestone retests metadata and an
-isolated native read, not every deployed application.
+hosting/authentication is pending. Current verification includes 891 tests, 40 browser
+checks and live generated SQL/DAX; it does not retest every deployed application.
 
 ## Run and demo
 
@@ -71,6 +73,7 @@ isolated native read, not every deployed application.
   Keep provider credentials and workspace token outside Git. Execution requires an eligible discovered or enabled legacy catalog and
   configured provider access. Discovered execution requires a separate reader.
 - [Environment discovery runbook](docs/enterprise-discovery-milestone.md).
+- [Dynamic investigation behavior and limits](docs/dynamic-investigation-milestone.md).
 - [Model admin fallback](docs/model-onboarding.md) and
   [metadata scan worker](docs/catalog-scans-and-semantics.md).
 - [Bounded-v1 presenter runbook](docs/demo-runbook.md): historical demonstrations,

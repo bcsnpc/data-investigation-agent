@@ -64,4 +64,8 @@ def azure_plan(payload):
     # Reuse the existing configured transport: 45 seconds, 1500 output tokens,
     # no SDK retries and no stored provider response. No legacy metric whitelist.
     from ticket_planner import azure_generate
+    if payload.get('strategy'):
+        from .dynamic_reasoning import INSTRUCTIONS as dynamic_instructions,wire_schema,from_wire
+        result,usage=azure_generate(payload,instructions=dynamic_instructions,schema=wire_schema(payload['candidates']),name='dynamic_investigation_action',decision_tool=True)
+        return from_wire(result),usage
     return azure_generate(payload,instructions=INSTRUCTIONS,schema=SCHEMA,name='investigation_action',decision_tool=True)

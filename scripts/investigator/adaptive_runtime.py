@@ -23,7 +23,7 @@ def now():
 def outcome(state):
     reason=state.get('stop_reason')
     classification='UNRESOLVED' if reason in ('BUDGET_LIMIT','DEADLINE','PLANNER_FAILED','TOOL_UNAVAILABLE','PLANNER_COMPLETION_UNCERTAIN','REMOTE_COMPLETION_UNCERTAIN','USAGE_LIMIT','NO_PROGRESS','USER_CANCELLED') else 'INSUFFICIENT_EVIDENCE'
-    return {'classification':classification,'stop_reason':reason,
+    result={'classification':classification,'stop_reason':reason,
             'record_comparisons':state.get('record_comparisons',[]),
             'aggregate_reconciliations':state.get('aggregate_reconciliations',[]),
             'scoped_conditions':[{'observation_id':o['id'], **o['freshness']} for o in state['observations']
@@ -31,6 +31,10 @@ def outcome(state):
             'facts':state['observations'],'diagnostic_pairs':diagnostic_pairs(state['observations']),'hypotheses':[{**h,'verified':False} for h in state['hypotheses']],
             'gaps':state['gaps']+[{'reason':'MAPPING_CONTEXT_VERSION_AND_CAUSAL_PROOF_NOT_VERIFIED'}],
             'cause_verified':False,'delivery_eligible':False}
+    if state['envelope'].get('strategy'):
+        from .dynamic_reasoning import outcome as dynamic_outcome
+        return dynamic_outcome(state,result)
+    return result
 
 
 class AdaptiveRuntime:
@@ -68,6 +72,10 @@ class AdaptiveRuntime:
         if state['engine_hash']!=fingerprint() or state['config_hash']!=digest(self.config) or state['planner_profile_hash']!=digest(self.planner_profile):raise Conflict('Engine or connection changed')
         model=self.store.get(state['model_id'])
         if digest(model['context'])!=state['context_hash']:raise Conflict('Context changed')
+        if state['envelope'].get('strategy'):
+            from .context_search import latest
+            current=latest(self.store)
+            if not current or current['version']!=state['discovery_version']:raise Conflict('Environment context changed')
         try:candidates,gaps=catalog(self.store,self.config,state['envelope'])
         except (ValueError,KeyError) as exc:raise Conflict('Candidate metadata or review is no longer admissible') from exc
         if digest(candidates)!=state['catalog_hash']:raise Conflict('Candidate admission changed')
@@ -84,6 +92,11 @@ class AdaptiveRuntime:
                'usage_policy_hash':self.governor.hash if self.governor else None,'no_progress':0,
                 'input_characters':0,'attempted':[],'observations':[],'record_comparisons':[],'hypotheses':[],'decisions':[],
                'question':None,'stop_reason':None,'pending':None,'predecessor':predecessor,'gaps':gaps}
+        if envelope.get('strategy'):
+            from .context_search import latest
+            context=latest(self.store)
+            if context is None:raise Conflict('Dynamic investigation needs discovered context')
+            state['discovery_version']=context['version']
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE')
             row=db.execute('SELECT id,request_hash FROM adaptive_sessions WHERE model_id=? AND request_key=?',
@@ -113,7 +126,7 @@ class AdaptiveRuntime:
                   'dimension_id':c['dimension_id'],'depth':c['depth'],
                   'operations':model['context'].get('semantic_graph',{}).get('measures',{}).get(c['measure_id'],{}).get('operations',[]),
                   'source_binding':c.get('reviewed_mapping') or ('OPERATOR_SELECTED_NOT_EQUIVALENCE_PROOF' if c['tool']=='source' else None),
-                  'source_operation':c['plan'].get('operation'), 'approved_filters':c['plan']['filters'],
+                  'source_operation':c['plan'].get('operation'), 'approved_filters':c['plan'].get('filters',[]),
                   'projected_columns':c['plan'].get('column_ids'),'record_limit':c['plan'].get('limit'),
                   'captures_aggregate_with_records':'aggregate_measure_id' in c['plan'],
                   **({'dependency_context':c['dependency_context']} if c.get('dependency_context') else {})} for c in candidates]
@@ -127,7 +140,7 @@ class AdaptiveRuntime:
             # The planner needs values, not the operator's account identifiers.
             observations.append({**{k:v for k,v in o.items() if k!='execution_identity'},
                                  'values':sampled,'planner_sample_truncated':len(sampled)<len(o['values'])})
-        return {'symptom':state['envelope']['symptom'],'scope_hash':state['scope_hash'],
+        result={'symptom':state['envelope']['symptom'],'scope_hash':state['scope_hash'],
                 'filters':state['envelope']['filters'],'candidates':choices,
                 'observations':observations,'diagnostic_pairs':diagnostic_pairs(state['observations']),
                 'record_comparisons':[{**p,'differences':p.get('differences',[])[:3],
@@ -136,6 +149,10 @@ class AdaptiveRuntime:
                 'hypotheses':state['hypotheses'],'gaps':state['gaps'],
                 'remaining_cloud_calls':state['envelope']['limits']['cloud_calls']-state['cloud_calls'],
                 'limitation':'All observations are diagnostic only; no semantic equivalence or causal proof.'}
+        if state['envelope'].get('strategy'):
+            from .dynamic_reasoning import enrich
+            return enrich(self.store,state,result)
+        return result
 
     def stop(self,db,state,reason,status='COMPLETED'):
         state.update(status=status,token=None,stop_reason=reason)
@@ -150,12 +167,13 @@ class AdaptiveRuntime:
             try:candidates=self.admit(state)
             except Conflict:
                 self.stop(db,state,'ADMISSION_CHANGED','HELD');return self.project_after_commit(db,state)
-            choices=available(candidates,state['observations'],state['attempted']);limits=state['envelope']['limits']
+            dynamic=bool(state['envelope'].get('strategy'))
+            choices=([c for c in candidates if c['id'] not in state['attempted']] if dynamic else available(candidates,state['observations'],state['attempted']));limits=state['envelope']['limits']
             reason=None
             if self.clock()+45>state['deadline']:reason='DEADLINE'
             elif state['planner_calls']>=limits['planner_calls'] or state['cloud_calls']>=limits['cloud_calls']:reason='BUDGET_LIMIT'
             elif state.get('no_progress',0)>=(self.governor.policy['no_progress_limit'] if self.governor else 2):reason='NO_PROGRESS'
-            elif not choices:reason='NO_ADMITTED_TEST'
+            elif not choices and not dynamic:reason='NO_ADMITTED_TEST'
             payload=self.payload(state,choices);size=len(encoded(payload))
             if size>32000 or state['input_characters']+size>limits['input_characters']:reason='BUDGET_LIMIT'
             if reason:
@@ -167,16 +185,28 @@ class AdaptiveRuntime:
             state.update(status='PLANNING',token=token)
             state['planner_calls']+=1;state['input_characters']+=size
             self.save(db,state,'PLANNER_RESERVED',{'payload_hash':digest(payload),'input_characters':size})
+        proposal_received=False
         try:
             proposal,usage=self.planner(payload)
-            decision=validate(proposal,payload)
+            proposal_received=True
+            if dynamic:
+                from .dynamic_reasoning import validate as validate_dynamic
+                decision=validate_dynamic(proposal,payload)
+            else:decision=validate(proposal,payload)
         except Exception as exc:
             with self.runtime.db() as db:
                 db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
-                if self.governor:self.governor.settle(db,identity,'planner:'+str(state['planner_calls']),uncertain=True)
+                if self.governor:self.governor.settle(db,identity,'planner:'+str(state['planner_calls']),
+                    usage.get('usage') if proposal_received and isinstance(usage,dict) else None,uncertain=not proposal_received)
                 if state['token']==token:
-                    self.stop(db,state,'PLANNER_FAILED','HELD')
-                    self.save(db,state,'PLANNER_ERROR',{'error_type':type(exc).__name__})
+                    if dynamic and proposal_received and isinstance(exc,ValueError):
+                        item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
+                              'metadata':{'reason':'Decision contract rejected: '+str(exc)[:400]},'measure_id':None,'dimension_id':None}
+                        state['observations'].append(item);state.update(status='READY',token=None,no_progress=state.get('no_progress',0)+1)
+                        self.save(db,state,'PROPOSAL_REJECTED',{'observation_id':item['id']})
+                    else:
+                        self.stop(db,state,'PLANNER_FAILED','HELD')
+                        self.save(db,state,'PLANNER_ERROR',{'error_type':type(exc).__name__})
             return self.get(identity)
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
@@ -195,10 +225,29 @@ class AdaptiveRuntime:
             state['decisions'].append({'decision':decision,'usage':counts,'payload_hash':digest(payload)})
             if decision['action']=='ASK':
                 state['question']=decision['question'];self.stop(db,state,'CLARIFICATION_REQUIRED','NEEDS_INPUT')
-            elif decision['action']=='STOP':self.stop(db,state,decision['stop_reason'])
+            elif decision['action']=='STOP':
+                if dynamic:state['assessment']=decision['assessment']
+                self.stop(db,state,decision['stop_reason'])
+            elif decision['action']=='LOOKUP':
+                from .dynamic_reasoning import lookup
+                try:item=lookup(self.store,decision['lookup'])
+                except (ValueError,KeyError):
+                    item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE',
+                          'values':[],'metadata':{'reason':'Context lookup unavailable or outside scope'},'measure_id':None,'dimension_id':None}
+                state['observations'].append(item);state.update(status='READY',token=None)
+                self.save(db,state,'CONTEXT_OBSERVED',{'observation_id':item['id']})
             else:
-                candidate=next(c for c in choices if c['id']==decision['candidate_id'])
-                seconds=300 if candidate['tool'] in ('source','source_records') else 120
+                if decision['action']=='QUERY':
+                    from .dynamic_reasoning import candidate as proposed_candidate
+                    try:candidate=proposed_candidate(self.store,self.config,state,decision['query'])
+                    except (ValueError,KeyError) as exc:
+                        item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
+                              'metadata':{'reason':str(exc)[:500]},'measure_id':None,'dimension_id':None}
+                        state['observations'].append(item);state.update(status='READY',token=None)
+                        self.save(db,state,'PROPOSAL_REJECTED',{'observation_id':item['id']})
+                        return self.project_after_commit(db,state)
+                else:candidate=next(c for c in choices if c['id']==decision['candidate_id'])
+                seconds=300 if candidate['tool'] in ('source','source_records','bounded_sql') else 120
                 if self.clock()+seconds>state['deadline']:self.stop(db,state,'DEADLINE')
                 else:
                     if self.governor:
@@ -223,7 +272,7 @@ class AdaptiveRuntime:
             state=self.load(db,identity)
             if state['token']!=token or state['status']!='EXECUTING':raise Conflict('Dispatcher fenced')
             self.admit(state);pending=state['pending'];candidate=pending['candidate']
-            if self.clock()+(300 if candidate['tool'] in ('source','source_records') else 120)>state['deadline']:
+            if self.clock()+(300 if candidate['tool'] in ('source','source_records','bounded_sql') else 120)>state['deadline']:
                 self.stop(db,state,'DEADLINE','HELD');return self.project_after_commit(db,state)
         child=self.runtime.create({'model_id':state['model_id'],'call_budget':1,
                                   'actions':[{'tool':candidate['tool'],'input':candidate['plan']}]},pending['key'])
@@ -300,7 +349,7 @@ class AdaptiveRuntime:
         if child['status']=='READY':
             with self.runtime.db() as db:
                 state=self.load(db,identity);self.admit(state)
-                if self.clock()+(300 if pending['candidate']['tool'] in ('source','source_records') else 120)>state['deadline']:
+                if self.clock()+(300 if pending['candidate']['tool'] in ('source','source_records','bounded_sql') else 120)>state['deadline']:
                     self.stop(db,state,'DEADLINE','HELD');return self.project_after_commit(db,state)
             child=self.runtime.execute(child['id'])
         return self.consume(identity,token,child)

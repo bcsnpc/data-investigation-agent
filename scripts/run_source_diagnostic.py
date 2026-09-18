@@ -31,6 +31,8 @@ def read_once(config, request):
                'query': request['query'], 'parameters': request['parameters']}
     if request.get('response_mode')=='records':
         payload.update(response_mode='records',max_rows=request['max_rows'],result_columns=request['result_columns'])
+    if request.get('require_read_only'):
+        payload.update(require_read_only=True,read_only_objects=request['read_only_objects'])
     completed = subprocess.run(['powershell', '-NoProfile', '-NonInteractive', '-File',
         str(ROOT / 'infra/scripts/Read-CatalogAggregate.ps1')],
         input=json.dumps(payload), capture_output=True, text=True, encoding='utf-8', timeout=90)

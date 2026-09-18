@@ -20,6 +20,27 @@ try {
     $connection.Credential = New-Object System.Data.SqlClient.SqlCredential($credential.UserName, $credential.Password)
     $connection.Open()
     $stage = 'query'
+    if ($request.require_read_only) {
+        # ApplicationIntent alone does not enforce read-only access. Verify the
+        # configured principal's effective permissions before proposed SQL runs.
+        $guard = $connection.CreateCommand()
+        try {
+            $guard.CommandTimeout = 15
+            $guard.CommandText = "SELECT COUNT(*) FROM sys.fn_my_permissions(NULL,'DATABASE') WHERE permission_name NOT IN ('CONNECT','SELECT','VIEW DEFINITION','VIEW DATABASE STATE','VIEW DATABASE PERFORMANCE STATE','VIEW DATABASE SECURITY STATE')"
+            if ([int]$guard.ExecuteScalar() -ne 0) { throw 'Proposed SQL requires a read-only principal' }
+            $objects = @($request.read_only_objects)
+            if ($objects.Count -lt 1 -or $objects.Count -gt 24) { throw 'Invalid object permission scope' }
+            $guard.CommandText = "SELECT COUNT(*) FROM sys.fn_my_permissions(@object,'OBJECT') WHERE permission_name NOT IN ('SELECT','VIEW DEFINITION')"
+            $null = $guard.Parameters.Add('@object', [System.Data.SqlDbType]::NVarChar, 300)
+            foreach ($objectName in $objects) {
+                $guard.Parameters['@object'].Value = $objectName
+                if ([int]$guard.ExecuteScalar() -ne 0) { throw 'Proposed SQL object is not read-only' }
+            }
+            $guard.Parameters.Clear()
+            $guard.CommandText = 'SELECT CURRENT_USER'
+            $sourcePrincipal = [string]$guard.ExecuteScalar()
+        } finally { $guard.Dispose() }
+    }
     $command = $connection.CreateCommand()
     $command.CommandTimeout = 30
     $command.CommandText = $request.query
@@ -31,9 +52,16 @@ try {
     if ($request.response_mode -eq 'records') {
         if ($request.max_rows -lt 2 -or $request.max_rows -gt 251) { throw 'Invalid record budget' }
         $columns = @($request.result_columns)
-        if ($columns.Count -lt 2 -or $columns.Count -gt 9 -or $reader.FieldCount -ne $columns.Count) { throw 'Invalid record shape' }
+        $minimumColumns = 2
+        $maximumColumns = 9
+        if ($request.require_read_only) { $minimumColumns = 1; $maximumColumns = 16 }
+        if ($columns.Count -lt $minimumColumns -or $columns.Count -gt $maximumColumns -or $reader.FieldCount -ne $columns.Count) { throw 'Invalid record shape' }
         for ($index = 0; $index -lt $columns.Count; $index++) {
             if ($reader.GetName($index) -cne $columns[$index]) { throw 'Record column differs' }
+        }
+        $types = @{}
+        if ($request.require_read_only) {
+            for ($index = 0; $index -lt $columns.Count; $index++) { $types[$columns[$index]] = $reader.GetFieldType($index).Name }
         }
         $rows = New-Object System.Collections.Generic.List[object]
         while ($reader.Read()) {
@@ -51,7 +79,13 @@ try {
             $rows.Add($row)
         }
         if ($reader.NextResult()) { throw 'Unexpected extra record result' }
-        @{rows=@($rows.ToArray())} | ConvertTo-Json -Depth 8 -Compress
+        $result = @{rows=@($rows.ToArray())}
+        if ($request.require_read_only) {
+            $result.read_only_verified = $true
+            $result.column_types = $types
+            $result.execution_identity = @{principal=$sourcePrincipal;server=$request.server;database=$request.database;provenance='TRANSPORT_PERMISSION_CHECK'}
+        }
+        $result | ConvertTo-Json -Depth 8 -Compress
         return
     }
     if (-not $reader.Read() -or $reader.FieldCount -ne 3) { throw 'Unexpected aggregate result' }

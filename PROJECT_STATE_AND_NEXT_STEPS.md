@@ -9,11 +9,12 @@ catalog, adaptive runtime, receipts/budgets, dedicated reader and local text/scr
 workspace are working foundations. PR #192 merged at `d0c7bee`; its aggregate/record
 checks remain reusable.
 
-Discovery-to-ticket is implemented on the current feature branch: environment
+Discovery-to-ticket merged in PR #196: environment
 scans, independent model context, versioned graph/search and automatic catalog
 projection. See current status for acceptance results and remaining limits.
-The next grouped milestone is dynamic reasoning and governed tools. Generated
-SQL/DAX and post-freeze unknown-domain acceptance are not yet delivered.
+Dynamic reasoning and parser-governed SQL/DAX are now implemented on the feature
+branch, with 891 regression tests, 40 browser checks and live native/source reads.
+Next is engine freeze and post-freeze unknown-domain acceptance; it is not yet run.
 The [audit/proposal](docs/architecture/enterprise-discovery-pivot.md) and
 [stages 1?9](docs/architecture/phases-and-acceptance.md) define the work.
 
