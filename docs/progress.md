@@ -737,3 +737,19 @@ pagination/evaluator changes. Ten dynamic browser checks passed. Stored notebook
 metadata navigation exposed two definition children, paged 20,528 characters and
 found two literal matches without SQL or LLM calls. This is tool verification,
 not a live agent diagnosis. See [quality engineering](investigation-quality-engineering.md).
+
+### 2026-09-18 - Approved quality trial follow-up
+
+The user approved up to 20 additional planner calls with a temporary 150,000
+output reservation allowance. A first navigation trial exposed lost definition
+links during context compaction; it was cancelled with receipts retained. The
+generic correction preserves child links and restricts content tools to definition
+parts. Six navigation and 27 flexible-runtime tests passed; all six CI checks
+passed on `4efa8f1`.
+
+Corrected known-domain run `3b0a375e-0027-4715-b3b7-fe991bb883e6` used nine
+planner calls, found transformation code, and ended UNRESOLVED / BUDGET_LIMIT.
+Eight lookups completed; a missing-schema SQL proposal was rejected and no data
+queries executed. The original daily allowance was restored without resetting
+usage. Context efficiency and rejected-query recovery remain pending; this is
+not unknown-domain acceptance or evidence that GPT-4.1 is superior.

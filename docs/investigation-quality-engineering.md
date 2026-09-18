@@ -97,3 +97,18 @@ and preserved; the pending planner response was fenced. Definition links now
 survive bounded compaction, and content tools enumerate only DefinitionPart
 handles. Six navigation and 27 flexible-runtime tests passed after this correction.
 A fresh known-domain run uses the same approved allowance; no counters were reset.
+
+The corrected run `3b0a375e-0027-4715-b3b7-fe991bb883e6` completed
+UNRESOLVED / BUDGET_LIMIT after nine planner calls and 192,844 reserved input
+characters. Eight lookups completed (seven distinct); literal definition search
+successfully exposed the relevant transformation expression. One SQL proposal
+was rejected before execution because not all referenced object schemas had been
+retrieved. The planner did not repair that prerequisite and execute a test before
+the context budget ended. Zero data queries executed. This demonstrates improved
+definition reachability, not a supported diagnosis or model superiority.
+
+The original 120,000 daily output reservation limit was restored after testing;
+consumed reservations were retained. SQL/cloud limits were unchanged. Next work
+is compact, structured context and actionable schema-prerequisite recovery,
+followed by repeatable quality evaluation. No new unknown-domain freeze or pass
+is claimed. All six CI checks passed on implementation commit `4efa8f1`.

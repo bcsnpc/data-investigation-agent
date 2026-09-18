@@ -69,7 +69,11 @@ hosting/authentication is pending. The latest quality revision passed 910 local 
 focused checks and ten browser checks. Labelled definition navigation, bounded
 content inspection and repeated-context accounting are implemented. A separate
 GPT-4.1 evaluation deployment is available; the baseline reached the shared daily
-usage limit before data queries, so no model-quality improvement is claimed.
+usage limit before data queries. A subsequent nine-call trial successfully found
+transformation code but failed to recover from a missing-schema query rejection
+before its context budget ended. No data query executed and no model-quality
+improvement or supported diagnosis is claimed. Context efficiency and recovery
+remain the immediate priority; the temporary daily allowance has been restored.
 See [quality engineering and research](docs/investigation-quality-engineering.md).
 These checks do not establish unfamiliar-domain acceptance or retest every
 deployed application.
