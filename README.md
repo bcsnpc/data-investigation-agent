@@ -1,79 +1,85 @@
-# Cross-System Data Investigator
+# Self-Discovering Enterprise Data Investigator
 
-The project specification is in [cross_system_data_investigator_poc.md](cross_system_data_investigator_poc.md).
+An enterprise data investigator for Azure SQL, Microsoft Fabric and Power BI.
+The target is to connect an approved environment once, discover its changing data
+estate, and use an LLM with safe read-only tools to investigate unfamiliar business
+questions. **Self-discovery is the new direction, not a completed capability.**
+This is an FDE integration with one enterprise environment.
 
-**Current handoff:** [What we built, limitations and next steps](PROJECT_STATE_AND_NEXT_STEPS.md).
-Use this consolidated assessment alongside the historical milestone notes below.
+## What works today
 
-**Revised product direction:** [First-class product plan](METADATA_DRIVEN_INVESTIGATOR_FIRST_CLASS_PRODUCT_PLAN.md).
-**Engineering roadmap:** [Onboarding, native semantic execution and phases A-J](docs/architecture/README.md). The first [model onboarding/admin slice](docs/model-onboarding.md) is implemented; general v2 investigation remains in progress.
+- Related 100,000-order application data, Azure SQL source, deployed order portal,
+  Fabric Bronze/Silver/Gold processing and native Power BI model/reports.
+- Workspace metadata enumeration, definitions, semantic dependency analysis and
+  evidence-backed lineage; a manually registered and enabled v2 model catalog.
+- A persisted adaptive loop: the LLM selects admitted diagnostics, sees actual
+  observations and revises hypotheses. Native measure/dependency/dimension reads,
+  bounded SQL aggregates/watermarks and record comparisons produce receipts.
+- A local workspace with business questions, reviewed screenshot transcription,
+  scope review, history, cancellation and shared business/technical evidence.
+  Read-only identities, budgets and replay controls remain in place.
+- The older bounded-v1 investigator and reviewed routing workflows remain available.
 
-**Demo:** start with the [presenter runbook](docs/demo-runbook.md), including setup,
-expected results and [remaining product work](docs/demo-pending.md).
+PR #192 is merged. Its count/sum diagnostic captures a native total and supporting
+record groups together. Complete, empty and truncated live cases were checked;
+this is arithmetic consistency, not general root-cause proof.
 
-## Current implementation
+## How it works and what changes next
 
-- Azure SQL application schema and lifecycle extensions.
-- Deterministic retail generator for 100,000 connected orders.
-- Local relationship validation and tests that introduce invalid records.
-- Transactional SQL bulk loader, reconciliation queries and a dataset manifest.
-- Restricted app, Fabric and investigator SQL users with live permission tests.
-- Authenticated React order portal deployed to Azure App Service F1 Free.
-- Fabric Bronze/Silver/Gold transformations, native Power BI model/reports, and metadata/lineage evidence.
-- Bounded investigator with two-metric planning, reviewed execution, saved evidence, local labs and demonstrations.
-- Generic onboarding, complex-metric investigation and shared v2 product views remain planned.
+Today, operators register models/reports and review/enable their catalog context.
+The new architecture moves discovery ahead of that manual workflow:
 
-**Development portal:** https://orderops-portal-9696025.azurewebsites.net
-
-See [portal setup, access and deployment](docs/order-portal.md). Order browsing is
-deployed, including transactional shipping, delivery and full-line returns with audit history.
-
-See [synthetic data rules and loading instructions](docs/synthetic-data.md).
-See [runtime identities](docs/runtime-identities.md) for credentials and permission boundaries.
-
-Track completed work and remaining phases in [project progress](docs/progress.md)
-and [GitHub issues](https://github.com/bcsnpc/data-investigation-agent/issues).
-See [baseline verification](docs/baseline-validation.md) for live SQL evidence.
-CI runs generator tests, PowerShell syntax checks, portal API tests and the
-TypeScript/frontend build without cloud credentials.
-
-## Connection
-
-Development server: `sql-orderops-9696025.database.windows.net`.
-Database: `ordersops`. Credentials are never stored in source files.
-
-On Windows, save the SQL credential for your current Windows user:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File infra/scripts/Initialize-AzureSql.ps1 -SaveCredentialOnly
+```text
+Approved connections -> recurring discovery -> versioned enterprise context graph
+Business question / screenshot -> context resolution -> LLM hypotheses and tests
+Policy + read-only tools -> real observations -> revised tests -> qualified outcome
+Shared business/technical view -> human-reviewed handoff
 ```
 
-Create the base schema if using a fresh database:
+Power BI remains the DAX engine. The LLM interprets context and chooses tests;
+deterministic tools supply facts. New supported assets should require discovery,
+not investigator-specific code changes.
 
-```powershell
-powershell -ExecutionPolicy Bypass -File infra/scripts/Initialize-AzureSql.ps1
-```
+## Current milestone and limitations
 
-The loader applies the lifecycle schema extension automatically. Scripts target
-this development database explicitly. Configure another target in the connection
-code before using another environment.
+**Stage 1: architectural pivot.** Code audit, manual-onboarding dependency map,
+discovery/graph design, governed query plan and frozen Unknown Domain Challenge.
+[Current delivery status](docs/current-delivery-status.md) owns implementation and
+verification claims; [stages 1-9](docs/architecture/phases-and-acceptance.md) define
+remaining work.
 
-## Verify the loaded baseline
+Automatic environment-to-ticket discovery, generated SQL/DAX diagnostics, broader
+causal outcomes and frozen unknown-domain acceptance are not yet delivered.
+Planning still selects precompiled candidates. Business review and model enablement
+still gate the legacy catalog. Runtime report filters/RLS, cross-system comparability
+and unsupported syntax remain explicit limits. V2 is local and single-operator;
+enterprise hosting/authentication is pending. Cloud deployment evidence is historical,
+not a current availability check.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File infra/scripts/Get-BaselineReport.ps1
-```
+## Run and demo
 
-Generator tests need Python 3.10+ and only its standard library. Loader scripts
-use Windows PowerShell 5.1 and .NET System.Data.SqlClient. The portal uses Node 24.
-No Fabric ingestion or AI investigation engine is implemented yet.
+- [Local v2 workspace setup](docs/investigation-workspace-milestone.md#local-runbook)
+  and [reviewed screenshot intake](docs/screenshot-intake-milestone.md).
+  Install `scripts/requirements-workspace.txt` in your development environment.
+  Keep provider credentials and workspace token outside Git. Current execution
+  still requires an enabled manual catalog and configured provider access.
+- [Model admin fallback](docs/model-onboarding.md) and
+  [metadata scan worker](docs/catalog-scans-and-semantics.md).
+- [Bounded-v1 presenter runbook](docs/demo-runbook.md): historical demonstrations,
+  not proof of unfamiliar-domain self-discovery.
+- [Order portal setup](docs/order-portal.md), [synthetic data/loading](docs/synthetic-data.md)
+  and [runtime identities](docs/runtime-identities.md).
 
-Order action release: ship, deliver and full-line returns with transactional audit
-are deployed and verified on Azure App Service.
-See [portal operations](docs/order-portal.md#controlled-order-actions).
+Development order portal: https://orderops-portal-9696025.azurewebsites.net
 
-Fabric Bronze initial load: 10 table counts match the baseline and eight integrity
-checks passed (user-confirmed). See [Bronze validation](docs/fabric-bronze-validation.md).
+## Engineering and plan
 
-Silver now contains ten validated entities, including 100,000 orders.
-See [Silver rules and run evidence](docs/fabric-silver.md). Gold is the next data-platform milestone.
+[Controlling mission](SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md) ?
+[Architecture and audit](docs/architecture/README.md) ?
+[Current status](docs/current-delivery-status.md) ?
+[Progress history](docs/progress.md) ?
+[Handoff](PROJECT_STATE_AND_NEXT_STEPS.md) ? [Contributing](CONTRIBUTING.md)
+
+Keep SQL free-overage settings unchanged. Query/result limits do not guarantee zero
+resource cost. Automatic production repairs, deployments and data mutations are
+outside the investigation product boundary.

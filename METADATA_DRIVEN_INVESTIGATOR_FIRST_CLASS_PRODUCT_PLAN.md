@@ -1,3 +1,5 @@
+> **Superseded direction (2026-09-18).** The [Self-Discovering Enterprise Investigator mission](SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md) and [architectural review](docs/architecture/enterprise-discovery-pivot.md) now govern. This document is retained as historical input. Manual model onboarding is a fallback, and the old proof-first phase order no longer controls delivery.
+
 # Metadata-Driven Data Investigator — Product Architecture & Engineering Plan
 
 **Status:** Proposed architecture plan for review. No application implementation is authorized by this document.  

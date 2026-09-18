@@ -1,3 +1,7 @@
+> Release-specific implementation/runbook. Its old roadmap and next-step statements
+> are historical. [Current status](current-delivery-status.md) and the
+> [discovery-first plan](architecture/README.md) govern new work.
+
 # Native totals and record groups captured together
 
 Review: [PR #192](https://github.com/bcsnpc/data-investigation-agent/pull/192).

@@ -1,5 +1,26 @@
 # Project progress
 
+## 2026-09-18: discovery-first architectural pivot
+
+Tracking [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
+PR #192 merged at `d0c7bee` after six green CI checks. Audited collectors, lineage,
+manual catalog, execution tools, planner/runtime and text/screenshot intake against
+the new mission. Delivered [the A-J architectural review](architecture/enterprise-discovery-pivot.md),
+[stages 1-9](architecture/phases-and-acceptance.md), accurate README, current status
+and handoff. Old controlling architecture retained under `docs/architecture/archive/`.
+
+[Current delivery status](current-delivery-status.md) is authoritative. Automatic
+self-discovery, generated queries and Unknown Domain Challenge are not yet implemented.
+Next grouped implementation: environment discovery through automatic ticket context.
+No SQL/DAX/LLM calls, cloud data/permission changes or deployments in this audit.
+Documentation validation is recorded with the pivot review PR.
+
+## Historical progress before the pivot
+
+Entries below retain their original release status, limitations and phase labels.
+Their old next-step/proof-first plans are superseded by stages 1-9 above.
+
+
 Review: [PR #192](https://github.com/bcsnpc/data-investigation-agent/pull/192).
 
 Merged: [PR #190](https://github.com/bcsnpc/data-investigation-agent/pull/190).

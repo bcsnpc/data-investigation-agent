@@ -1,3 +1,7 @@
+> Release-specific implementation/runbook. Its old roadmap and next-step statements
+> are historical. [Current status](current-delivery-status.md) and the
+> [discovery-first plan](architecture/README.md) govern new work.
+
 # Model onboarding: implemented control-plane slice
 
 Delivered in the existing [PR #148](https://github.com/bcsnpc/data-investigation-agent/pull/148), together with the bounded-v1 baseline and product roadmap. This is the first combined B/C slice, not completion of every B/C requirement.
