@@ -67,7 +67,8 @@ GPT-4.1 baseline `fdfb386a-eefb-42a5-bd63-cea755faed7a` stopped HELD /
 USAGE_LIMIT after four planning calls, four metadata lookups (three distinct), and
 zero data calls. This used the pre-navigation engine and cannot compare the new
 tools. Today's shared output reservation limit was reached; it was not reset or
-bypassed. User approval for an additional 20 bounded calls is pending.
+bypassed. The user subsequently approved 20 additional bounded calls for today; the local
+output reservation limit is temporarily 150,000, with original SQL/cloud limits.
 
 
 Model configuration is secret-free in `infra/llm/quality-evaluation.json`.
@@ -86,4 +87,13 @@ passed with injected transport and no browser errors; the screenshot was inspect
 Validation: the full local suite passed 910 tests in 245 seconds. After the final
 pagination-completeness and evaluator-freeze checks, six navigation tests and two
 evaluation-boundary tests passed. Ten browser checks passed. No live LLM result
-for the new navigation engine is claimed while daily budget approval is pending.
+for the new navigation engine is claimed from these tests alone.
+
+
+The first navigation trial `efb7c226-a277-4504-87c0-1d54e5e9c82e` reached the
+relevant notebook but targeted its parent with a content search. Inspection found
+that compaction discarded earlier definition-child links. The run was cancelled
+and preserved; the pending planner response was fenced. Definition links now
+survive bounded compaction, and content tools enumerate only DefinitionPart
+handles. Six navigation and 27 flexible-runtime tests passed after this correction.
+A fresh known-domain run uses the same approved allowance; no counters were reset.

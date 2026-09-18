@@ -29,8 +29,8 @@ search, bounded action history and unchanged-context repetition accounting.
 Research and model evaluation are recorded in [quality engineering](investigation-quality-engineering.md).
 A separate GPT-4.1 evaluation deployment is available; its baseline was held at
 the shared daily usage limit after four planning calls and no data queries. It
-cannot establish model superiority. Further live testing awaits daily budget
-availability or explicit approval. Local validation passed 910 full-suite tests,
+cannot establish model superiority. The user approved 20 additional planner calls today; live trials are continuing
+within that temporary allowance. Local validation passed 910 full-suite tests,
 plus eight focused checks after the final pagination/evaluator changes, and all
 ten dynamic browser checks. These do not establish live diagnosis quality.
 

@@ -73,7 +73,7 @@ SCHEMA['properties'].update({
 SCHEMA['required']+=['lookup','query','assessment']
 
 
-def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None):
+def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,content_handles=None):
     def variant(kind,props):
         properties={'kind':{'type':'string','enum':[kind]},**props}
         return {'type':'object','additionalProperties':False,'properties':properties,'required':list(properties)}
@@ -90,8 +90,8 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None):
         if asset_handles:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':['asset']},'value':{'type':'string','enum':list(asset_handles)}}))
         for operation,extra in [('content',{'offset':{'type':'integer','minimum':0,'maximum':1000000}}),
                                 ('find',{'needle':{'type':'string','minLength':1,'maxLength':200}})]:
-            if asset_handles:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':[operation]},
-                'value':{'type':'string','enum':list(asset_handles)},**extra}))
+            if content_handles:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':[operation]},
+                'value':{'type':'string','enum':list(content_handles)},**extra}))
     known={h['id'] for h in hypotheses}
     evidence=[o['id'] for o in observations]
     new_ids=[f'h{i}' for i in range(1,33) if f'h{i}' not in known][:max(0,16-len(known))]
@@ -145,7 +145,9 @@ def wire_contract(payload):
         return value
     wire=replace(payload)
     wire['lookup_identity_instruction']='Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities.'
-    return wire,wire_schema(wire['candidates'],wire['hypotheses'],wire['observations'],mapping),mapping
+    definition_ids={entry['id'] for entry in entries if entry.get('kind')=='DefinitionPart' and 'id' in entry}
+    content_handles={handle:identity for handle,identity in mapping.items() if identity in definition_ids}
+    return wire,wire_schema(wire['candidates'],wire['hypotheses'],wire['observations'],mapping,content_handles),mapping
 
 
 def from_wire(value,asset_handles=None):
@@ -236,6 +238,9 @@ def enrich(store,state,payload):
         asset=metadata.get('asset')
         compact={'context_version':metadata.get('context_version'),'planner_context_compacted':True,
                  'limitation':'Earlier metadata is summarized for planning; original receipt is retained. LOOKUP again for full detail.'}
+        if metadata.get('children'):
+            compact['children']=metadata['children'][:10]
+            compact['children_truncated']=metadata.get('children_truncated',False) or len(metadata['children'])>10
         if asset:
             compact['asset']={k:asset[k] for k in ('id','parent_id','name','kind','availability') if k in asset}
             if asset.get('metadata',{}).get('columns'):
