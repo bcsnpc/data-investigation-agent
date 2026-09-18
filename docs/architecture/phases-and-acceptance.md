@@ -14,7 +14,7 @@ The [architectural review](enterprise-discovery-pivot.md) defines migration.
 | 6 Engine freeze | Tagged code/prompt/tool/policy manifest; separate evaluator/publisher | Frozen logic/config audited for scenario/answer leakage; truth unavailable to runtime |
 | 7 Unknown Domain Challenge | Post-freeze Inventory/Warehouse SQL/Fabric/model/reports and nine ticket families | Real discovery/investigations without ID registration/code edits; honest pass/gap/failure matrix; all-gap answers fail |
 | 8 UX consolidation | Question plus optional report/screenshot/value; shared timeline | Actual Power BI-to-investigator business/technical flow; real progress/shared evidence; hosting/auth verified before hosted claim |
-| 9 Reviewed handoff | Qualified impact, ownership, reviewed drafts and triage | No automatic send/repair; stale/duplicate approval handling; missing owners explicit |
+| 9 Support-engine-ready core and reviewed handoff | Generic asset/context/tool/evidence boundaries; qualified impact, ownership, reviewed drafts and triage | No automatic send/repair; stale/duplicate approval handling; missing owners explicit |
 
 Group implementation: architecture; discovery-to-ticket (2-3); reasoning/tools
 (4-5); freeze/challenge (6-7); UX/handoff (8-9). No helper-only PR chains.

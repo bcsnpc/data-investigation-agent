@@ -34,6 +34,7 @@ jobs:
       - name: Test static lineage and graph traversal
         run: |
           pip install -r scripts/requirements-lineage.txt
+          python -m unittest discover -s scripts -p test_enterprise_discovery.py
           python -m unittest discover -s scripts -p test_lineage.py
           python -m unittest discover -s scripts -p test_lineage_audit.py
           python -m unittest discover -s scripts -p test_lineage_gap_policy.py

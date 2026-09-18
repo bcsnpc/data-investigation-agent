@@ -3,6 +3,7 @@
 Scope previews never dispatch. A start consumes one immutable preview once.
 Restarted hosts cannot silently take over another host's queued/in-flight work.
 """
+from .model_context import assets as model_assets
 import json
 import threading
 import time
@@ -57,7 +58,7 @@ class Workspace:
         model = self.store.get(identity)
         context = model.get('context') or {}
         reports = context.get('reports') or []
-        assets = reports[0]['model_assets'] if reports else []
+        assets = model_assets(context)
         names = {a['id']: a['name'] for a in assets}
         scope = filter_catalog(model)
         columns = [dict(c, table_name=names.get(c['table_id'], '')) for c in scope['columns'] if c['operators']]

@@ -1,4 +1,5 @@
 """One-response native aggregate/record consistency, never a remote snapshot claim."""
+from .model_context import assets as model_assets
 from .onboarding import fields
 from . import aggregate_semantics, native_diagnostics
 
@@ -7,7 +8,7 @@ def attach(model, plan, request):
     measure = plan['aggregate_measure_id']
     shape = aggregate_semantics.describe(model, measure)
     if shape['state'] != 'SUPPORTED': raise ValueError('Joint capture requires a direct count or exact sum')
-    assets = {a['id']: a for a in model['context']['reports'][0]['model_assets']}
+    assets = {a['id']: a for a in model_assets(model['context'])}
     table = shape['input_id'] if shape['operation'] == 'count_rows' else assets[shape['input_id']]['parent_id']
     if table != plan['object_id']: raise ValueError('Aggregate and records must use the same table')
     if shape['operation'] == 'sum' and shape['input_id'] not in plan['column_ids']:

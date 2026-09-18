@@ -56,6 +56,12 @@ def create_app(workspace, token, port=8776):
                 body = json.loads(env['wsgi.input'].read(size))
             if path == '/api/workspace/models' and method == 'GET':
                 result = workspace.models()
+            elif path == '/api/workspace/context/search' and method == 'POST':
+                from .context_search import search
+                result = search(workspace.store,body)
+            elif path == '/api/workspace/context/asset' and method == 'POST':
+                from .context_search import get_asset
+                fields(body,['asset_id']);result=get_asset(workspace.store,body['asset_id'])
             elif path == '/api/workspace/attachments':
                 result = workspace.screenshots.upload(body) if method == 'POST' else workspace.screenshots.history()
             elif path.startswith('/api/workspace/attachments/'):

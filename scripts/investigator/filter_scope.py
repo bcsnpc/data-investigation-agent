@@ -1,4 +1,5 @@
 """Metadata-bound DAX filter literals. No SQL/DAX supplied by a caller."""
+from .model_context import assets as model_assets
 from datetime import datetime
 from decimal import Decimal
 import re
@@ -78,7 +79,7 @@ def compile_filter(spec, metadata, reference):
 def catalog(model):
     context = model.get('context') or {}
     reports = context.get('reports') or []
-    assets = reports[0]['model_assets'] if reports else []
+    assets = model_assets(context)
     columns = []
     for asset in assets:
         if asset['kind'] != 'SemanticColumn':

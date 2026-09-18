@@ -1,4 +1,5 @@
 """Derive reviewed source tests from ticket filters, without per-ticket SQL plans."""
+from .model_context import assets as model_assets
 from . import comparisons, native_diagnostics
 from .onboarding import Conflict
 from .source_scope import kind
@@ -19,7 +20,7 @@ def validate_plan(store, plan, columns=None):
     native_plan.update(measure_ids=[body['measure_id']],filters=native_filters,dimension_id=None,include_dependencies=False)
     native_diagnostics.build(model,native_plan)
     if columns is not None:
-        native={a['id']:a['metadata'] for a in model['context']['reports'][0]['model_assets'] if a['kind']=='SemanticColumn'}
+        native={a['id']:a['metadata'] for a in model_assets(model['context']) if a['kind']=='SemanticColumn'}
         for source_id,native_id in bindings.items():
             if source_id not in columns or kind(columns[source_id]['metadata'])!=native[native_id].get('dataType'):
                 raise Conflict('Mapped filter types differ')

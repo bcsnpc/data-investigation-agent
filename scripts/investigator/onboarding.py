@@ -120,7 +120,11 @@ class ModelStore:
             row['enabled'] = bool(row['enabled'])
             context = self._context(db, identity, row['context_id']) if row['context_id'] else None
             row['context'] = context
+            discovered = db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='discovery_models'").fetchone()
+            discovered = db.execute('SELECT denied,policy_hash FROM discovery_models WHERE model_id=?',(identity,)).fetchone() if discovered else None
+            row['discovery'] = dict(discovered) if discovered else None
             row['stage'] = ('ENABLED' if row['enabled'] else 'INVESTIGATION_READY') if context and row['business'].get('confirmed_context') == row['context_id'] else ('BUSINESS_CONTEXT_REVIEW' if context else 'REGISTERED')
+            if discovered: row['stage'] = 'AVAILABLE_FOR_INVESTIGATION' if row['enabled'] else 'DISCOVERED_PARTIAL_OR_DENIED'
             row['readiness'] = 'PARTIAL' if context else 'NEEDS_CONTEXT'
             row['events'] = [dict(x) for x in db.execute('SELECT revision,action,actor,at,detail FROM model_events WHERE model_id=? ORDER BY id', (identity,))]
             row['context_history'] = [dict(x) for x in db.execute('SELECT id,scan_id,hash,created FROM model_contexts WHERE model_id=? ORDER BY created,id', (identity,))]
@@ -228,10 +232,15 @@ class ModelStore:
             db.execute('BEGIN IMMEDIATE')
             row = self.row(db, identity)
             self.check_revision(row, revision)
+            discovery_table=db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='discovery_models'").fetchone()
+            discovered=db.execute('SELECT 1 FROM discovery_models WHERE model_id=?',(identity,)).fetchone() if discovery_table else None
             if enabled:
-                if not row['context_id'] or json.loads(row['business']).get('confirmed_context') != row['context_id']:
+                if not row['context_id'] or (not discovered and json.loads(row['business']).get('confirmed_context') != row['context_id']):
                     raise Conflict('Review current context first')
-                self._context(db, identity, row['context_id'])
+                context=self._context(db, identity, row['context_id'])
+                if discovered and not (context.get('discovery',{}).get('definition_available') and context.get('measures')):
+                    raise Conflict('Current discovered definition unavailable')
+            if discovered:db.execute('UPDATE discovery_models SET denied=? WHERE model_id=?',(int(not enabled),identity))
             db.execute('UPDATE models SET enabled=?,revision=revision+1 WHERE id=?',(int(enabled),identity))
             self.event(db,identity,revision+1,'ENABLED' if enabled else 'DISABLED',actor,{'mode':'catalog_only'})
         return self.get(identity)

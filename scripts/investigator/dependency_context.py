@@ -4,6 +4,7 @@ Recognizes neutral arithmetic/DIVIDE measure expressions and top-level CALCULATE
 of a direct measure with simple typed equality filters, optionally KEEPFILTERS.
 No row context, table filters, date/relationship switches or arbitrary functions.
 """
+from .model_context import assets as model_assets
 from .onboarding import digest
 from .semantic_graph import tokenize
 from .filter_scope import scalar
@@ -123,7 +124,7 @@ class Parser:
 
 
 def edges(model, measure_id):
-    assets = model['context']['reports'][0]['model_assets']
+    assets = model_assets(model['context'])
     measures = {a['id']: a for a in assets if a['kind'] == 'Measure'}
     if measure_id not in measures: raise Unsupported('Unknown measure')
     return Parser(assets, measures[measure_id]).parse()
@@ -133,7 +134,7 @@ def compile_path(model, path, selected):
     if (not isinstance(path, list) or not 2 <= len(path) <= 5 or path[-1] != selected
             or any(not isinstance(p, str) for p in path) or len(set(path)) != len(path)):
         raise Unsupported('Expected bounded acyclic root-to-measure path')
-    assets = model['context']['reports'][0]['model_assets']
+    assets = model_assets(model['context'])
     index = {a['id']: a for a in assets}; wrappers = []; steps = []
     for parent, child in zip(path, path[1:]):
         found = [e for e in edges(model, parent) if e['child_id'] == child]

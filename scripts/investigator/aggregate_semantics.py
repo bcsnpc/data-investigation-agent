@@ -1,10 +1,11 @@
 """Parse a deliberately small native aggregate grammar; never evaluate DAX."""
+from .model_context import assets as model_assets
 from .semantic_graph import tokenize
 from .onboarding import digest
 
 
 def describe(model, measure_id):
-    assets = model['context']['reports'][0]['model_assets']
+    assets = model_assets(model['context'])
     measures = {a['id']: a for a in assets if a['kind'] == 'Measure'}
     if measure_id not in measures:raise ValueError('Unknown measure')
     measure = measures[measure_id]

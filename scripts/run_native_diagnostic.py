@@ -14,16 +14,17 @@ from investigator.onboarding import ModelStore
 from investigator.native_diagnostics import run
 from metadata_auth import FabricCliTokens, NoRedirect
 from metadata_config import load_config, ROOT
-from investigator.native_identity import KEY, profile, make, require
+from investigator.native_identity import KEY, profile, make, require, allows
 
 
 def execute(request,tenant,reader=None):
     workspace=str(UUID(request['workspace']));model=str(UUID(request['native_model_id']))
     if reader is None:
+        if request.get('requires_native_reader'):raise ValueError('Discovered execution requires a read-only reader')
         token=FabricCliTokens(tenant).get_token('https://analysis.windows.net/powerbi/api/.default')
     else:
         profile(reader)
-        if reader['tenant_id'] != tenant or model not in reader['model_ids']:
+        if reader['tenant_id'] != tenant or not allows(reader,workspace,model):
             raise ValueError('Native reader target differs')
         from connect_fixture_reader import application, token as reader_token
         import base64
@@ -56,7 +57,7 @@ def transport(config, request):
     reader=config['fabric'].get('native_reader')
     if reader is not None:
         profile(reader)
-        if request['native_model_id'] not in reader['model_ids']:
+        if not allows(reader,request['workspace'],request['native_model_id']):
             raise ValueError('Native model is outside reader allowlist')
     with tempfile.TemporaryDirectory() as directory:
         frozen=Path(directory)/'profile.json'

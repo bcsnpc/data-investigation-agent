@@ -2,6 +2,7 @@
 
 Planner suggestions are unverified. This module owns scope, budgets, facts and stops.
 """
+from .model_context import assets as model_assets
 from datetime import datetime, timezone
 import json
 import time
@@ -105,7 +106,7 @@ class AdaptiveRuntime:
 
     def payload(self,state,candidates):
         model=self.store.get(state['model_id'])
-        assets=model['context']['reports'][0]['model_assets']
+        assets=model_assets(model['context'])
         names={a['id']:a.get('name',a['id']) for a in assets}
         choices=[{'id':c['id'],'tool':c['tool'],'measure_id':c['measure_id'],
                   'measure_name':names.get(c['measure_id'],c['measure_id']),

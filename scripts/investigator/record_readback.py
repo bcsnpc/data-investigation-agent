@@ -1,4 +1,5 @@
 """Bounded projected record groups, with multiplicity and no snapshot claims."""
+from .model_context import assets as model_assets
 from datetime import datetime, timezone
 from decimal import Decimal, localcontext
 import json
@@ -49,7 +50,7 @@ def build(store, plan, config, backend):
                  'result_columns':['c'+str(i) for i in range(len(columns))]+['multiplicity']}
     else:
         if model['workspace']!=config['fabric']['workspace_id']:raise Conflict('Native workspace differs')
-        assets={a['id']:a for a in model['context']['reports'][0]['model_assets']}
+        assets={a['id']:a for a in model_assets(model['context'])}
         obj=assets.get(plan['object_id'])
         if not obj or obj['kind']!='SemanticTable':raise ValueError('Unknown native table')
         if any(c not in assets or assets[c]['kind']!='SemanticColumn' or assets[c]['parent_id']!=obj['id'] for c in columns):
@@ -78,6 +79,7 @@ def build(store, plan, config, backend):
         for index,ref in enumerate(refs):pairs.extend(['"c'+str(index)+'"',ref])
         query='EVALUATE SELECTCOLUMNS('+top+','+','.join(pairs+['"multiplicity"','[__count]'])+')'
         request={'query':query,'workspace':model['workspace'],'native_model_id':model['native_id']}
+        if model.get('discovery'):request['requires_native_reader']=True
         if 'aggregate_measure_id' in plan:
             from .joint_native_capture import attach
             attach(model,plan,request)
