@@ -50,6 +50,8 @@ Evidence includes metadata receipts, but numeric claims need actual successful q
 If a proposed query is rejected, use its recorded reason to revise the test within remaining budget.
 When rejection metadata lists recovery_assets, retrieve those exact schemas before retrying.
 Do not abandon a testable hypothesis merely because its query prerequisites were missing.
+Unsupported SQL feedback names parser constructs; remove or replace them instead of resending the same query.
+Use remaining wall time and dispatch reserves to decide whether another read can fit; otherwise assess the available evidence and its limits.
 STOP assessment is an evidence-qualified interpretation, not a verified cause. Give alternatives
 and limits. Equality alone does not prove expected behavior; difference alone does not prove defect.
 Never fabricate evidence or claim unsupported tests ran. Numeric facts are projected from receipts.
@@ -317,7 +319,9 @@ def enrich(store,state,payload):
                    action_history=history,
                    progress={'consecutive_uninformative_actions':state.get('no_progress',0),
                              'remaining_planner_calls':state['envelope']['limits']['planner_calls']-state['planner_calls'],
-                             'remaining_input_characters':state['envelope']['limits']['input_characters']-state['input_characters']},
+                             'remaining_input_characters':state['envelope']['limits']['input_characters']-state['input_characters'],
+                             'remaining_wall_seconds':payload.get('remaining_wall_seconds'),
+                             'dispatch_reserve_seconds':{'bounded_sql':300,'bounded_dax':120}},
                    context_entry_points=entry_points,
                    context_directory_truncated=bool(discovered and len(entry_points)<len(roots)),
                    source_query_context={'retrieved_object_ids':sorted(retrieved_sources(state['observations'])),

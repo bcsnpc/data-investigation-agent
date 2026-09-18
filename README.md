@@ -65,20 +65,20 @@ Practical assessments are evidence-qualified LLM interpretations, not verified c
 Frozen unknown-domain acceptance remains pending. The legacy manual
 catalog retains its review gates. Runtime report filters/RLS and cross-system
 comparability remain explicit limits. V2 is local and single-operator; enterprise
-hosting/authentication is pending. The latest quality revision passed 910 local regression tests, eight subsequent
-focused checks and ten browser checks. Labelled definition navigation, bounded
-content inspection and repeated-context accounting are implemented. A separate
-GPT-4.1 evaluation deployment is available; the baseline reached the shared daily
-usage limit before data queries. A subsequent nine-call trial successfully found
-transformation code but failed to recover from a missing-schema query rejection
-before its context budget ended. No data query executed and no model-quality
-improvement or supported diagnosis is claimed. Context efficiency and recovery
-remain the immediate priority; the temporary daily allowance has been restored.
-The subsequent [context/query recovery milestone](docs/context-query-recovery.md)
-preserves structured metadata and names missing schemas or ambiguous column aliases.
-Its first live trial executed one source query, but ended unresolved after repeated
-query errors and a planner connection failure. A follow-up trial is in progress.
-See [quality engineering and research](docs/investigation-quality-engineering.md).
+hosting/authentication is pending. The current context/query recovery revision passed
+920 local regression tests and 10 dynamic browser checks after the final backend
+changes. Structured definitions, parent-qualified asset search, missing-schema
+recovery, actionable query feedback and remaining-time context are implemented.
+
+A GPT-5.4 known-domain trial completed a qualified join-multiplication diagnosis:
+one Power BI read and two SQL reads reproduced 57,043 and linked it to the inspected
+notebook logic. It preserved uncertainty about the intended rate-selection rule
+and corrected total. Earlier trials remained unresolved; one successful case does
+not establish model superiority or unfamiliar-domain generality. The default model
+is unchanged. SQL firewall error 40615 was resolved by a user-approved single-IP
+rule; free-limit AutoPause remains.
+See [context/query recovery](docs/context-query-recovery.md) and
+[quality engineering research](docs/investigation-quality-engineering.md).
 These checks do not establish unfamiliar-domain acceptance or retest every
 deployed application.
 

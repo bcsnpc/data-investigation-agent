@@ -107,6 +107,11 @@ class QueryParserTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'unavailable'):
             query_sql.compile_query(query.replace('approved.events b','hidden.events b'),self.objects)
 
+    def test_unsupported_function_is_named_and_simplified_query_is_admitted(self):
+        with self.assertRaisesRegex(ValueError,'Concat'):
+            query_sql.compile_query("SELECT COUNT(DISTINCT CONCAT(id, ':', state)) AS n FROM approved.events",self.objects)
+        self.assertEqual(query_sql.compile_query('SELECT COUNT(DISTINCT id) AS n FROM approved.events',self.objects)['result_columns'],['n'])
+
     def test_sql_write_escape_ambiguous_unknown_and_unsupported_rejected(self):
         bad=["DELETE FROM approved.events","SELECT * INTO approved.new FROM approved.events",
              "SELECT * FROM approved.events; DROP TABLE approved.events", "EXEC proc", "SELECT dbo.secret() FROM approved.events",

@@ -753,3 +753,30 @@ Eight lookups completed; a missing-schema SQL proposal was rejected and no data
 queries executed. The original daily allowance was restored without resetting
 usage. Context efficiency and rejected-query recovery remain pending; this is
 not unknown-domain acceptance or evidence that GPT-4.1 is superior.
+
+### 2026-09-18 - Context recovery and completed qualified investigation (PR #203)
+
+Grouped structured large-definition context, parent-qualified graph search,
+missing-schema recovery targets, precise SQL alias/unsupported-node feedback,
+safe source connection errors and remaining-time context. Dynamic input capacity
+is 384,000 characters with 12 planner calls and a 1,800-second ceiling; per-response
+output remains 1,500 tokens. No domain-specific route or expected answer was added.
+
+The user-approved single-IP firewall rule restored the dedicated SQL reader after
+an operator retry exposed error 40615. Database grants and free-limit/AutoPause
+settings stayed unchanged. A separate GPT-5.4 evaluation deployment was created;
+the default mini model remains unchanged. Temporary daily LLM allowances were
+restored after testing, with prior usage and failed runs retained.
+
+Earlier GPT-4.1 and GPT-5.4 trials ended unresolved. Final known-domain session
+`03407a3e-d110-498a-a7d1-1bfd07094f9b` completed LIKELY_TECHNICAL_DEFECT after
+nine planner calls and three data reads. Power BI and the source join returned
+57,043. Inspected notebook/schema evidence and SQL supported a join-multiplication
+mechanism; the agent explicitly left the intended rate rule and corrected total
+unknown. Five distinct lookups completed, with no rejected queries or repeated
+lookups. This does not pass the frozen unfamiliar-domain matrix.
+
+Validation: 920 regression tests and 10 dynamic browser checks passed on the final
+backend. Browser verification used injected transport; live evidence is separate.
+See [context/query recovery](context-query-recovery.md) for exact observations,
+failed trials and limits; [current status](current-delivery-status.md) owns next steps.

@@ -6,54 +6,44 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Current quality work: PR #203** adds structured large-asset responses, explicit
-missing-schema recovery targets and specific SQL alias feedback. The user approved
-larger input/output allowances where needed; dynamic runs now permit 384,000 input
-characters while preserving 12 planner calls and existing SQL/cloud-call limits.
-Output remains 1,500 tokens per response. The first known-domain trial inspected
-transformation code and executed one source query, then repeated an ambiguous
-query and ended HELD after a planner API connection failure. A follow-up trial is
-running; [context/query recovery](context-query-recovery.md) records the evidence.
-A second trial exposed a SQL connection failure. A budgeted operator retry
-identified firewall error 40615; the user-approved single-IP rule restored reader
-access. The database remains on free-limit AutoPause. Parent-qualified search and
-safe source error receipts are implemented. Local validation passed 919 tests;
-ten browser checks passed before the final search/error changes. A fresh GPT-4.1
-trial and a same-engine GPT-5.4 comparison are next. This is not unfamiliar-domain acceptance.
+**Investigation quality before a fresh unfamiliar-domain challenge.** Discovery,
+dynamic queries and earlier reliability work merged in PRs #194, #196, #198,
+#200, #201 and #202. The v1/v2 frozen attempts are historical failed/partial
+attempts; changed engine code cannot use them as acceptance evidence.
 
-**Engine freeze and unfamiliar-domain challenge (Stages 6–7) are in progress.**
-The first frozen attempt failed intake reliability; one ratio case passed but most
-questions did not reach investigation. Generic corrections were validated and frozen as `unknown-domain-engine-v2`;
-a fresh variant is published. Its publisher DAX rename defect is repaired and
-rescanned. All nine question families have a first recorded attempt; none yet
-establishes full challenge acceptance. Several runs hit Azure LLM rate limits;
-a paced transformation repeat avoided throttling but exhausted its budget on
-repeated native reads without retrieving transformation context. Generic reasoning
-corrections, a fresh freeze and remaining acceptance experiments are next. See [attempt details](unknown-domain-challenge.md).
-PRs #200, #201 and #202 merged after all six CI checks passed. Further context and
-trajectory improvements are in development; v2 remains a historical failed attempt and cannot certify
-the changed engine. The current revision passed 903 regression tests; 10 dynamic
-browser checks passed before its final backend recovery fixes. The six isolated
-v2 SQL tables now have user-approved reader SELECT; the denied query subsequently
-succeeded with read-only verification. The final known-domain trial recovered
-from a column-binding error but ended UNRESOLVED after 10 planner calls and two
-SQL reads, repeating metadata without inspecting transformations. Useful next-test
-selection remains pending. See [reasoning reliability](reasoning-reliability.md).
-The current quality work adds labelled definition children, paged content/literal
-search, bounded action history and unchanged-context repetition accounting.
-Research and model evaluation are recorded in [quality engineering](investigation-quality-engineering.md).
-A separate GPT-4.1 evaluation deployment is available; its baseline was held at
-the shared daily usage limit after four planning calls and no data queries. It
-cannot establish model superiority. With the approved temporary allowance, the
-corrected run reached transformation code through literal definition search but
-ended UNRESOLVED / BUDGET_LIMIT after nine planner calls and zero data queries.
-A SQL proposal was rejected for missing schema context; recovery remains weak.
-The original daily allowance is restored and consumed reservations are retained.
-Next: compact structured context and schema-prerequisite recovery before another
-quality trial. All six CI checks passed on implementation commit `4efa8f1`.
-Local validation passed 910 full-suite tests,
-plus eight focused checks after the final pagination/evaluator changes, and all
-ten dynamic browser checks. These do not establish live diagnosis quality.
+[PR #203](https://github.com/bcsnpc/data-investigation-agent/pull/203) implements
+structured large-asset context, parent-qualified search, exact missing-schema
+recovery targets, SQL alias feedback and safe connection-error receipts. Dynamic
+runs allow 384,000 cumulative input characters under the user-approved increase;
+12 planner calls, per-call output of 1,500 tokens and existing SQL/cloud limits
+remain bounded. No domain-specific investigation route or expected answer was added.
+
+The final GPT-5.4 known-domain trial completed with **LIKELY_TECHNICAL_DEFECT**:
+nine planner calls, one Power BI read, two SQL reads and five distinct metadata
+lookups. It reproduced 57,043 in Power BI and the source join, connected the result
+to the notebook's product-only join against versioned rates, and explicitly left
+the intended rate-selection rule and corrected total unknown. No query rejection
+or repeated lookup occurred. This is a qualified mechanism explanation in one
+known case, not verified business intent or unfamiliar-domain acceptance.
+
+Earlier GPT-4.1 and GPT-5.4 runs ended unresolved; their failures remain recorded.
+The final generic changes expose unsupported SQL constructs and remaining dispatch
+time, with a 1,800-second dynamic-run ceiling. A prior failure exposed firewall
+error 40615; the user-approved single-IP rule restored reader access. SQL
+useFreeLimit=true and AutoPause remain unchanged. The original daily LLM policy
+was restored after testing without resetting usage. The default mini model is unchanged.
+
+Validation: **920 regression tests and 10 dynamic browser checks passed** after
+the final backend changes. Browser checks used injected transport, with no live
+cloud calls. [Context/query recovery evidence](context-query-recovery.md) records
+trial IDs, failures, query observations, budget changes and limits. CI and merge
+state are available on PR #203.
+
+Next: repeated ratio, transformation and ambiguity evaluations, then a new engine
+freeze and fresh domain for acceptance. The nine-family challenge, broader
+discovery, hosted authentication and integrated handoff remain pending. Earlier
+[reasoning reliability](reasoning-reliability.md) and [quality engineering](investigation-quality-engineering.md)
+retain their release-specific evidence.
 
 Dynamic reasoning and governed tools merged in PR #198 after all six CI checks passed.
 [Issue #197](https://github.com/bcsnpc/data-investigation-agent/issues/197) tracks
@@ -66,7 +56,7 @@ workspace enables this path for discovered models, including budgeted global
 questions. Suggested explanations are LLM_INFERRED, not verified causes or confirmed
 business intent. Reader isolation, budgets, receipts, cancellation and replay remain.
 
-Validation: **891 regression tests and 40 browser checks passed**. Live generated
+Earlier dynamic-tool milestone validation: **891 regression tests and 40 browser checks passed**. Live generated
 DAX returned a ratio of 0.2 with its component values in one native query. A separate
 context-first SQL investigation returned 20,000 total and distinct customer IDs.
 Both completed with the isolated reader. Earlier contract/Decimal failures and

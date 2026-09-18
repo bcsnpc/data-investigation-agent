@@ -20,7 +20,8 @@ def compile_query(query, objects, *, max_rows=250):
     if len(statements)!=1 or not isinstance(statements[0],exp.Select):raise ValueError('One SELECT/CTE query required')
     tree=statements[0]
     if len(list(tree.walk()))>1200:raise ValueError('SQL syntax budget exceeded')
-    if any(type(n).__name__ not in NODES for n in tree.walk()):raise ValueError('Unsupported SQL syntax or function')
+    unsupported=sorted({type(n).__name__ for n in tree.walk()}-NODES)
+    if unsupported:raise ValueError('Unsupported SQL syntax or function nodes: '+', '.join(unsupported[:8])+'. Remove these constructs or choose a supported diagnostic; no query executed.')
     if any(n.args.get('recursive') for n in tree.find_all(exp.With)):raise ValueError('Recursive CTE unsupported')
     if len(list(tree.find_all(exp.Join)))>4 or len(list(tree.find_all(exp.Select)))>8:raise ValueError('Relational complexity budget exceeded')
     if any(n.args.get('offset') for n in tree.find_all(exp.Select)):raise ValueError('Offset is unsupported')

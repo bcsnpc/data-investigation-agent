@@ -148,6 +148,7 @@ class AdaptiveRuntime:
                 'aggregate_reconciliations':state.get('aggregate_reconciliations',[]),
                 'hypotheses':state['hypotheses'],'gaps':state['gaps'],
                 'remaining_cloud_calls':state['envelope']['limits']['cloud_calls']-state['cloud_calls'],
+                'remaining_wall_seconds':max(0,int(state['deadline']-self.clock())),
                 'limitation':'All observations are diagnostic only; no semantic equivalence or causal proof.'}
         if state['envelope'].get('strategy'):
             from .dynamic_reasoning import enrich

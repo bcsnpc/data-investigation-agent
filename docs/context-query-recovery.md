@@ -34,19 +34,24 @@ searching for a parent alone does not flood the results with all its children.
 
 The user authorized input/output increases when needed. Dynamic workspace runs now
 permit 384,000 cumulative input characters: at most 12 calls of 32,000 characters.
-These are character reservations, not measured input tokens. The planner-call,
-per-call payload, SQL/cloud-call and legacy-engine limits remain unchanged.
+These are character reservations, not measured input tokens. Dynamic runs now allow up to 1,800 seconds rather than 900; the planner sees
+remaining time and the unchanged SQL/DAX dispatch reserves. Parser rejection
+feedback names unsupported syntax nodes so a proposal can be simplified without
+broadening the grammar. The planner-call, per-call payload, SQL/cloud-call and
+legacy-engine limits remain unchanged.
 Output stays at 1,500 tokens per response; no output-truncation evidence justified
-raising that cap. A temporary local daily allowance covers two bounded quality
+raising that cap. A temporary local daily allowance covers bounded quality
 trials; it does not reset prior usage or change SQL compute/quota settings.
 
 ## Validation
 
-All 919 local regression tests passed on the final context/error changes. Coverage includes missing-schema rejection
+All 920 local regression tests passed, including the final unsupported-function
+and wall-time feedback changes. Coverage includes missing-schema rejection
 without execution, explicit lookup recovery followed by one source read, recovery
 target retention in a large catalog, partial large-definition projection, and input
-budget boundary rejection. Ten dynamic browser checks passed with an injected
-native transport and no browser errors; the rendered screenshot was inspected.
+budget boundary rejection. Ten dynamic browser checks passed again after the final backend changes, with an
+injected native transport and no browser errors; the rendered screenshot was
+inspected. This browser run made no live cloud calls.
 
 A stored-metadata probe reduced a notebook asset response from 23,744 to 2,850
 characters with its identity preserved and completeness marked PARTIAL. No live
@@ -81,9 +86,48 @@ it, reader receipt `13983c0d-7bcf-4c53-8afa-4f9815c63438` completed and returned
 it is not an autonomous agent result. Database grants and free-limit settings were
 not changed. [Microsoft documents error 40615 as an IP firewall rejection](https://learn.microsoft.com/en-us/azure/azure-sql/database/vnet-service-endpoint-rule-overview?view=azuresql#troubleshoot-errors-40914-and-40615).
 
-A fresh post-firewall GPT-4.1 trial is running. A separate GPT-5.4 evaluation
-deployment, investigator-quality-54 (2026-03-05, GlobalStandard capacity 10), is
-prepared for a same-engine comparison. No production default changed. Its
+Post-firewall GPT-4.1 session `8407bcf9-7bf7-4382-b17d-3094fc48eeb5`
+recovered from a missing-schema rejection and executed two SQL reads. It used ten
+planner calls and 204,909 cumulative input characters, then ended UNRESOLVED at
+the deadline. Its largely repeated joined totals did not answer the ticket.
+
+Same-engine GPT-5.4 session `0a92a4d5-e320-4471-b2f8-5b465fb4136f`
+reproduced the native Extended Value of 57,043, retrieved transformation code and
+tested the suspected multi-rate join. A successful source query found product 7
+with two rate versions and 92 joined rows contributing 17,664. These are joined
+rows, not 92 distinct source movements. The planner proposed a useful
+join-multiplication hypothesis, but twice repeated an unsupported CONCAT expression.
+It removed that expression on call 11, when insufficient time remained for the
+300-second source-dispatch reserve. It ended UNRESOLVED / DEADLINE with two data
+reads. This is promising test selection in one known case, not a completed diagnosis
+or model superiority evidence. It motivated exact unsupported-node feedback and
+the longer bounded wall allowance described above.
+
+Completion trial `03407a3e-d110-498a-a7d1-1bfd07094f9b` finished with
+ENOUGH_DIAGNOSTICS / LIKELY_TECHNICAL_DEFECT: nine planner calls, 177,493 input
+characters, one native read, two SQL reads and five distinct context lookups.
+There were no rejected queries or repeated lookups. The native total and the
+source join both returned 57,043. The second SQL query separated 17,664 from
+multi-rate products and 39,379 from single-rate products; their sum matches the
+observed total. It returned 406 joined rows, 92 associated with multi-rate products.
+These are contribution amounts, not the amount of overstatement or a corrected total.
+
+The assessment cited native, schema, notebook and SQL receipts, identified the
+product-only join against versioned rates, and retained alternatives: multiple
+valuations might be intentional; the intended rate-selection rule is unknown.
+It did not claim an intended replacement total, hidden visual/RLS context, pipeline
+execution provenance or a verified defect. Manual receipt review supports the
+qualified mechanism explanation. The automated trajectory scorer deliberately
+leaves business correctness NOT_GRADED; this is one successful known-domain case,
+not a full quality matrix or unfamiliar-domain acceptance. The final engine differs
+from the earlier model comparison, so this does not isolate a model-only effect.
+
+The original daily usage policy was restored after the completion trial. All
+reservations and failed trials remain recorded; no usage counter was reset.
+
+The separate GPT-5.4
+evaluation deployment is investigator-quality-54 (2026-03-05, GlobalStandard
+capacity 10). No production default changed. Its
 secret-free settings are in `infra/llm/quality-gpt54.json`.
 [GPT-5.4 supports structured tool calls](https://developers.openai.com/api/docs/models/gpt-5.4).
 [Reasoning uses the output-token budget too](https://developers.openai.com/api/docs/guides/reasoning#controlling-costs);
