@@ -1,5 +1,7 @@
 # Current delivery status
 
+Review: [PR #194](https://github.com/bcsnpc/data-investigation-agent/pull/194).
+
 Updated 2026-09-18. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This page is the authoritative current status; milestone documents retain historical evidence.

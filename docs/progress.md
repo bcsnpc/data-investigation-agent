@@ -1,5 +1,7 @@
 # Project progress
 
+Review: [PR #194](https://github.com/bcsnpc/data-investigation-agent/pull/194).
+
 ## 2026-09-18: discovery-first architectural pivot
 
 Tracking [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
