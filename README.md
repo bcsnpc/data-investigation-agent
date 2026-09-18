@@ -47,7 +47,8 @@ not investigator-specific code changes.
 ## Current milestone and limitations
 
 **Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and
-governed tools (Stages 4–5)** are implemented and verified on the current branch.
+governed tools (Stages 4–5)** merged in PR #198. The engine is frozen and an unfamiliar
+warehouse domain is published; [challenge acceptance](docs/unknown-domain-challenge.md) is in progress.
 [Current delivery status](docs/current-delivery-status.md) owns
 implementation and verification claims; [stages 1–9](docs/architecture/phases-and-acceptance.md)
 define remaining work.

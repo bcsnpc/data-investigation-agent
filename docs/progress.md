@@ -1,5 +1,22 @@
 # Project progress
 
+## 2026-09-18 — First frozen unfamiliar-domain attempt and intake correction
+
+PR #198 merged with all six CI checks green. Engine tag unknown-domain-engine-v1
+preceded publication of six SQL tables, three lakehouses, a transformation notebook,
+a Direct Lake model and two native reports. Ordinary discovery found them without
+registration. The user approved Read + Build on the new model; the dedicated
+reader then queried it successfully.
+
+Attempt v1 failed end-to-end intake reliability: A/C/D/F/G/H were held (A twice),
+E/I asked clarification, and B completed a native ratio/component investigation.
+Receipts and exact boundaries are in [the challenge record](unknown-domain-challenge.md).
+The engine is being corrected and this attempt cannot be relabelled as passed.
+Generic short catalog handles and attached filter quotes fix encoded-ID/provenance
+errors; context lookup now includes collected history. No domain-specific names
+or answers were added to runtime logic. The 894-test suite passed; focused intake
+tests passed after tightening schema array limits. Fresh freeze/variant follows.
+
 ## 2026-09-18 — Dynamic reasoning and governed diagnostics
 
 Discovery PR #196 merged at `af6a0523db3d2e9e6c308f98b01d1e5a3745fcf4`.
