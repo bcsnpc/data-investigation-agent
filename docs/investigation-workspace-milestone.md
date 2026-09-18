@@ -1,3 +1,7 @@
+> Release-specific implementation/runbook. Its old roadmap and next-step statements
+> are historical. [Current status](current-delivery-status.md) and the
+> [discovery-first plan](architecture/README.md) govern new work.
+
 # Shared investigation workspace and isolated reader verification
 
 Updated 2026-09-15. PR #180 is merged. Review: [PR #182](https://github.com/bcsnpc/data-investigation-agent/pull/182). This combined milestone is tracked by [#181](https://github.com/bcsnpc/data-investigation-agent/issues/181). It delivers a local interactive v2 workspace and verifies the dedicated fixture reader. It does not close the general causal-investigation or hosted-product gates.

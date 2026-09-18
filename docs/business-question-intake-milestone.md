@@ -1,3 +1,7 @@
+> Release-specific implementation/runbook. Its old roadmap and next-step statements
+> are historical. [Current status](current-delivery-status.md) and the
+> [discovery-first plan](architecture/README.md) govern new work.
+
 # Business question intake and reviewed investigation scope
 
 Review: [PR #188](https://github.com/bcsnpc/data-investigation-agent/pull/188).

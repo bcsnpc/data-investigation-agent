@@ -1,3 +1,7 @@
+> Release-specific implementation/runbook. Its old roadmap and next-step statements
+> are historical. [Current status](current-delivery-status.md) and the
+> [discovery-first plan](architecture/README.md) govern new work.
+
 # Catalog scans and semantic reference analysis
 
 Grouped B/C continuation after merged PR #148, tracked by [#149](https://github.com/bcsnpc/data-investigation-agent/issues/149).
