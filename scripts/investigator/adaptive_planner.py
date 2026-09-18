@@ -65,7 +65,8 @@ def azure_plan(payload):
     # no SDK retries and no stored provider response. No legacy metric whitelist.
     from ticket_planner import azure_generate
     if payload.get('strategy'):
-        from .dynamic_reasoning import INSTRUCTIONS as dynamic_instructions,wire_schema,from_wire
-        result,usage=azure_generate(payload,instructions=dynamic_instructions,schema=wire_schema(payload['candidates']),name='dynamic_investigation_action',decision_tool=True)
-        return from_wire(result),usage
+        from .dynamic_reasoning import INSTRUCTIONS as dynamic_instructions,wire_contract,from_wire
+        wire,schema,handles=wire_contract(payload)
+        result,usage=azure_generate(wire,instructions=dynamic_instructions,schema=schema,name='dynamic_investigation_action',decision_tool=True)
+        return from_wire(result,handles),usage
     return azure_generate(payload,instructions=INSTRUCTIONS,schema=SCHEMA,name='investigation_action',decision_tool=True)
