@@ -16,8 +16,6 @@ def catalog(store,config,envelope):
         if not model['enabled'] or model['revision']!=envelope['revision'] or model['context_id']!=envelope['context_id']:
             raise Conflict('Dynamic context changed or disabled')
         if envelope['measure_id'] not in {m['id'] for m in model['context']['measures']}:raise ValueError('Unknown starting measure')
-        if envelope['filters']:
-            return catalog(store,config,{k:v for k,v in envelope.items() if k!='strategy'})
     if 'joint_native_records' in envelope and type(envelope['joint_native_records']) is not bool:
         raise ValueError('Joint native capture selection must be Boolean')
     if 'source_selection' in envelope and (envelope['source_selection']!='reviewed_mappings' or envelope['source_tests']!=[]):
@@ -26,8 +24,15 @@ def catalog(store,config,envelope):
         raise ValueError('Reviewed record discovery cannot mix manual tests or pairs')
     text(envelope['symptom'],2000)
     limits=envelope['limits'];fields(limits,['cloud_calls','planner_calls','wall_seconds','input_characters','max_depth'])
-    for name,low,high in [('cloud_calls',1,10),('planner_calls',1,6),('wall_seconds',60,1800),('input_characters',1000,80000),('max_depth',0,4)]:
+    dynamic='strategy' in envelope
+    for name,low,high in [('cloud_calls',1,10),('planner_calls',1,12 if dynamic else 6),('wall_seconds',60,1800),('input_characters',1000,200000 if dynamic else 80000),('max_depth',0,4)]:
         if type(limits[name]) is not int or not low<=limits[name]<=high:raise ValueError('Invalid budget')
+    if dynamic and envelope['filters']:
+        # Candidate construction does not consume planner/input budgets. Preserve
+        # legacy admission limits while the outer dynamic run owns its budget.
+        legacy={k:v for k,v in envelope.items() if k!='strategy'}
+        legacy['limits']={**limits,'planner_calls':min(limits['planner_calls'],6),'input_characters':min(limits['input_characters'],80000)}
+        return catalog(store,config,legacy)
     model=store.get(envelope['model_id'])
     reader=config.get('fabric',{}).get('native_reader')
     if reader is not None:

@@ -235,6 +235,7 @@ class AdaptiveRuntime:
                     item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE',
                           'values':[],'metadata':{'reason':'Context lookup unavailable or outside scope'},'measure_id':None,'dimension_id':None}
                 state['observations'].append(item);state.update(status='READY',token=None)
+                if item['status']=='REJECTED':state['no_progress']=state.get('no_progress',0)+1
                 self.save(db,state,'CONTEXT_OBSERVED',{'observation_id':item['id']})
             else:
                 if decision['action']=='QUERY':
@@ -243,7 +244,7 @@ class AdaptiveRuntime:
                     except (ValueError,KeyError) as exc:
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
                               'metadata':{'reason':str(exc)[:500]},'measure_id':None,'dimension_id':None}
-                        state['observations'].append(item);state.update(status='READY',token=None)
+                        state['observations'].append(item);state.update(status='READY',token=None,no_progress=state.get('no_progress',0)+1)
                         self.save(db,state,'PROPOSAL_REJECTED',{'observation_id':item['id']})
                         return self.project_after_commit(db,state)
                 else:candidate=next(c for c in choices if c['id']==decision['candidate_id'])

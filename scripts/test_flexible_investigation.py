@@ -14,6 +14,48 @@ from investigator.onboarding import Conflict
 
 
 class QueryParserTests(unittest.TestCase):
+    def test_lookup_handles_roundtrip_without_mutating_payload(self):
+        payload={'candidates':[],'hypotheses':[],'observations':[],
+                 'context':[{'id':'fabric://model/measure/Encoded%20Name','parent_id':'fabric://model/table'}]}
+        original=copy.deepcopy(payload)
+        wire,schema,handles=dynamic_reasoning.wire_contract(payload)
+        self.assertEqual(payload,original)
+        self.assertEqual(wire['context'][0]['id'],'a0')
+        result=dynamic_reasoning.from_wire({'next':{'kind':'LOOKUP','operation':'asset','value':'a0'},'hypotheses':[]},handles)
+        self.assertEqual(result['lookup']['value'],original['context'][0]['id'])
+        with self.assertRaises(ValueError):
+            dynamic_reasoning.from_wire({'next':{'kind':'LOOKUP','operation':'asset','value':'invented'},'hypotheses':[]},handles)
+
+    def test_hypothesis_wire_schema_separates_new_and_evidenced_updates(self):
+        schema=dynamic_reasoning.wire_schema([], [{'id':'h1'}], [{'id':'receipt'}])
+        variants=schema['properties']['hypotheses']['items']['anyOf']
+        new,update=variants
+        self.assertNotIn('h1',new['properties']['id']['enum'])
+        self.assertEqual(new['properties']['status']['enum'],['OPEN'])
+        self.assertEqual(update['properties']['id']['enum'],['h1'])
+        self.assertNotIn('OPEN',update['properties']['status']['enum'])
+        self.assertEqual(update['properties']['evidence_ids']['items']['enum'],['receipt'])
+        self.assertEqual(update['properties']['evidence_ids']['minItems'],1)
+
+    def test_generated_sql_requires_retrieved_schema_but_metadata_lookup_is_available_first(self):
+        def tools(observations):
+            choices=dynamic_reasoning.wire_schema([],observations=observations)['properties']['next']['anyOf']
+            return next(c for c in choices if c['properties']['kind']['enum']==['QUERY'])['properties']['tool']['enum']
+        self.assertEqual(tools([]),['bounded_dax'])
+        observation={'id':'receipt','tool':'context','status':'COMPLETED','metadata':{'asset':{'id':'source','kind':'SqlObject',
+          'availability':'CURRENT','metadata':{'columns':[{'name':'id'}]}}}}
+        self.assertIn('bounded_sql',tools([observation]))
+        observation['status']='REJECTED'
+        self.assertEqual(tools([observation]),['bounded_dax'])
+
+    def test_scalar_comparison_preserves_expression_and_filter_semantics(self):
+        keys=dynamic_reasoning.scalar_read_keys
+        self.assertEqual(keys('EVALUATE ROW("first",[Ratio])'),keys('evaluate row("renamed", [Ratio])'))
+        self.assertNotEqual(keys('EVALUATE ROW("v",[Ratio])'),keys('EVALUATE ROW("v",[Ratio]+1)'))
+        self.assertNotEqual(keys('EVALUATE ROW("v",CALCULATE([Ratio],Events[Region]="West"))'),keys('EVALUATE ROW("v",CALCULATE([Ratio],Events[Region]="East"))'))
+        self.assertFalse(keys('EVALUATE CALCULATETABLE(ROW("v",[Ratio]))'))
+        self.assertFalse(keys('EVALUATE ROW("v",NOW())'))
+
     def test_large_context_excerpt_exposes_both_ends_and_marks_omission(self):
         value={'context_version':'revision','content':'START'+('x'*15000)+'END'}
         with patch('investigator.context_search.get_asset',return_value=value):
@@ -93,6 +135,58 @@ class QueryParserTests(unittest.TestCase):
 
 
 class DynamicTests(unittest.TestCase):
+    def test_rejected_queries_stop_without_spending_cloud_budget(self):
+        agent=AdaptiveRuntime(self.runtime,lambda _:self.decision('QUERY',query={
+            'tool':'bounded_sql','text':'SELECT missing_column FROM business.events','max_rows':20}))
+        result=agent.run(agent.create(self.envelope,'invalid-columns')['id'])
+        self.assertEqual(result['cloud_calls'],0)
+        self.assertEqual(result['planner_calls'],2)
+        self.assertEqual(result['stop_reason'],'NO_PROGRESS')
+        self.assertIn('column binding failed',result['observations'][0]['metadata']['reason'])
+        self.assertFalse(self.sql_calls)
+
+    def test_rejected_lookups_stop_without_cloud_calls(self):
+        agent=AdaptiveRuntime(self.runtime,lambda _:self.decision('LOOKUP',lookup={'operation':'asset','value':'unknown'}))
+        result=agent.run(agent.create(self.envelope,'invalid-lookups')['id'])
+        self.assertEqual(result['planner_calls'],2)
+        self.assertEqual(result['stop_reason'],'NO_PROGRESS')
+        self.assertEqual(result['cloud_calls'],0)
+
+    def test_duplicate_detection_rejects_tampered_prior_receipt(self):
+        query={'tool':'bounded_dax','text':'EVALUATE ROW("v",[Total])','max_rows':20}
+        agent=AdaptiveRuntime(self.runtime,lambda _:self.decision('QUERY',query=query))
+        identity=agent.create(self.envelope,'tampered-dedup')['id']
+        agent.step(identity)
+        state=agent.get(identity)
+        receipt=next(o['id'] for o in state['observations'] if o['tool']=='bounded_dax')
+        with self.store.connect() as db:
+            db.execute('UPDATE flexible_diagnostics SET result=? WHERE id=?',('{}',receipt))
+        with self.assertRaises(Conflict):dynamic_reasoning.candidate(self.store,self.config,state,query)
+
+    def test_dynamic_budget_admission_keeps_cloud_and_legacy_bounds(self):
+        from investigator.adaptive_candidates import catalog
+        envelope=copy.deepcopy(self.envelope)
+        envelope['limits'].update(planner_calls=12,input_characters=200000)
+        catalog(self.store,self.config,envelope)
+        envelope['limits']['planner_calls']=13
+        with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
+        envelope['limits']['planner_calls']=12
+        envelope.pop('strategy')
+        with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
+
+    def test_relabelled_completed_scalar_is_rejected_without_second_query(self):
+        calls=[]
+        def planner(payload):
+            calls.append(payload)
+            if len(calls)<=2:
+                return self.decision('QUERY',query={'tool':'bounded_dax','text':'EVALUATE ROW("label'+str(len(calls))+'",[Total])','max_rows':20})
+            self.assertIn('already observed',payload['observations'][-1]['metadata']['reason'])
+            return self.decision('ASK',question='What business rule defines the expected amount?')
+        agent=AdaptiveRuntime(self.runtime,planner)
+        result=agent.run(agent.create(self.envelope,'dedup')['id'])
+        self.assertEqual(result['cloud_calls'],1)
+        self.assertEqual(len(self.native_calls),1)
+
     def setUp(self):
         self.fixture=discovery_fixture.DiscoveryTests();self.fixture.setUp();self.addCleanup(self.fixture.doCleanups)
         f=self.fixture
@@ -122,7 +216,7 @@ class DynamicTests(unittest.TestCase):
         calls=[]
         def planner(payload):
             calls.append(payload)
-            if len(calls)==1:return self.decision('LOOKUP',lookup={'operation':'search','value':'events'},
+            if len(calls)==1:return self.decision('LOOKUP',lookup={'operation':'asset','value':next(a['id'] for a in dynamic_reasoning.context_search.latest(self.store)['assets'] if a['kind']=='SqlObject')},
                 hypotheses=[{'id':'empty','claim':'Source may be empty','status':'OPEN','evidence_ids':[]}])
             if len(calls)==2:return self.decision('QUERY',query={'tool':'bounded_sql','text':'DROP TABLE business.events','max_rows':20})
             if len(calls)==3:

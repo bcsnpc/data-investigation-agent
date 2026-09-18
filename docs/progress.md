@@ -686,3 +686,31 @@ zero repeat changes); automatic catalog model query returned 8 with a dedicated
 reader receipt. No data/schema/permission/quota/deployment changes.
 See [milestone/runbook](enterprise-discovery-milestone.md) and
 [current status](current-delivery-status.md) for scope and pending work.
+
+
+## 2026-09-18 - Generic reasoning reliability after challenge v2 (#199)
+
+Merged PR #200 after six successful CI checks. Added provider-schema constraints
+for hypothesis updates and lookup identities, retrieved-source-schema admission,
+bounded metadata projection, and sealed-receipt scalar repetition detection.
+Dynamic planning now allows 12 steps / 200,000 input characters while retaining
+six cloud calls, 900 seconds and daily usage governance in workspace runs.
+Legacy admission remains unchanged. No scenario-specific branch was added.
+
+Applied the explicitly approved SELECT grant to the six isolated `_e1b8e1`
+source tables for `orderops_investigator`; the previously denied query returned
+100 rows with read-only verification. A live regression then exposed repeated
+missing-column proposals. It was cancelled and preserved. Generic column-binding
+feedback and rejected-query/lookup no-progress accounting were corrected.
+
+All 903 regression tests pass, including 25 focused flexible-investigation tests.
+Ten dynamic browser checks passed before the final backend recovery corrections.
+The patch secret scan is clean; edited documentation links resolve. Known-domain
+trials do not certify unfamiliar-domain behavior. Follow [reliability evidence](reasoning-reliability.md)
+and [current status](current-delivery-status.md) for live outcomes and remaining work.
+
+PR #201 groups these corrections. Final known-domain trial
+`16e5fe6e-26dc-42c4-96dc-ddf1bf8420f2` ended UNRESOLVED / BUDGET_LIMIT
+with 10 planner calls and two SQL reads. Query recovery worked once; metadata
+repetition and absent transformation inspection still prevented diagnosis.
+Fresh-freeze acceptance is not yet justified by this evidence.

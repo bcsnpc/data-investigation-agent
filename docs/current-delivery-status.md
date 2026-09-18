@@ -6,7 +6,7 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Engine freeze and unfamiliar-domain challenge (Stages 6–7) are in progress.**
+**Engine freeze and unfamiliar-domain challenge (Stages 6ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“7) are in progress.**
 The first frozen attempt failed intake reliability; one ratio case passed but most
 questions did not reach investigation. Generic corrections were validated and frozen as `unknown-domain-engine-v2`;
 a fresh variant is published. Its publisher DAX rename defect is repaired and
@@ -15,6 +15,15 @@ establishes full challenge acceptance. Several runs hit Azure LLM rate limits;
 a paced transformation repeat avoided throttling but exhausted its budget on
 repeated native reads without retrieving transformation context. Generic reasoning
 corrections, a fresh freeze and remaining acceptance experiments are next. See [attempt details](unknown-domain-challenge.md).
+PR #200 merged after all six CI checks passed. Generic reliability corrections
+are now in development; v2 remains a historical failed attempt and cannot certify
+the changed engine. The current revision passed 903 regression tests; 10 dynamic
+browser checks passed before its final backend recovery fixes. The six isolated
+v2 SQL tables now have user-approved reader SELECT; the denied query subsequently
+succeeded with read-only verification. The final known-domain trial recovered
+from a column-binding error but ended UNRESOLVED after 10 planner calls and two
+SQL reads, repeating metadata without inspecting transformations. Useful next-test
+selection remains pending. See [reasoning reliability](reasoning-reliability.md).
 Dynamic reasoning and governed tools merged in PR #198 after all six CI checks passed.
 [Issue #197](https://github.com/bcsnpc/data-investigation-agent/issues/197) tracks
 this grouped change. Architecture PR #194 and discovery PR #196 are merged.
@@ -66,13 +75,13 @@ returned rows, not work scanned.
 | 3 Automatic context graph | Merged #196; independent context, graph/search and ticket visibility |
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
-| 6 General engine freeze | v1 failed and preserved; corrected engine frozen as unknown-domain-engine-v2 |
-| 7 Unknown Domain Challenge | v2 published/discovered; dedicated reader verified; ticket matrix and change experiments in progress |
+| 6 General engine freeze | v1/v2 attempts preserved; current reliability changes require a fresh freeze |
+| 7 Unknown Domain Challenge | v2 did not pass; known-domain reliability regression in progress before fresh-variant acceptance |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **unfamiliar-domain challenge**. The engine was frozen before new assets
-were published. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
+Current: **reasoning reliability before a fresh unfamiliar-domain challenge**. Prior
+attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.
 

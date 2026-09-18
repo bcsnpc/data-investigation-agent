@@ -27,8 +27,10 @@ def build(store,plan,config,tool):
     elif tool=='bounded_sql':
         from .source_diagnostics import snapshot
         objects,_=snapshot(store,model,config)
-        from sqlglot.errors import SqlglotError
+        from sqlglot.errors import SqlglotError, OptimizeError
         try:compiled=query_sql.compile_query(plan['query'],list(objects.values()),max_rows=plan['max_rows'])
+        except OptimizeError as exc:
+            raise ValueError('SQL column binding failed. Use only columns present in the retrieved source schemas and qualify ambiguous columns with table aliases. A semantic or derived field is not automatically a source column; retrieve transformation context before using it.') from exc
         except SqlglotError as exc:raise ValueError('SQL syntax or catalog binding unsupported') from exc
         from .source_diagnostics import quote
         compiled['read_only_objects']=[quote(objects[k]['metadata']['schema_name'])+'.'+quote(objects[k]['metadata']['name']) for k in compiled['asset_ids']]

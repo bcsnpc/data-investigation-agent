@@ -30,11 +30,14 @@ def main():
     p.add_argument('--ticket',type=Path,required=True)
     p.add_argument('--key',required=True)
     p.add_argument('--execute-reviewed-scope',action='store_true')
+    p.add_argument('--known-domain-regression',action='store_true',
+                   help='Explicitly test changed code against an already known domain; never unknown-domain acceptance')
     p.add_argument('--minimum-llm-interval',type=int,default=0,
                    help='Evaluator-side pacing in seconds; does not retry failed calls or change prompts')
     args=p.parse_args();folder=args.folder
     if not 0<=args.minimum_llm_interval<=120:p.error('LLM interval must be 0–120 seconds')
-    freeze=json.loads((folder/'freeze.json').read_text());verify(freeze)
+    freeze=json.loads((folder/'freeze.json').read_text())
+    if not args.known_domain_regression:verify(freeze)
     c=load_config(folder/'config.json');store=ModelStore(folder/'catalog.sqlite',c['storage']['database'],'development')
     last_call=[0.0]
     def paced(call,payload):
@@ -55,7 +58,9 @@ def main():
     ws=Workspace(agent,execution_enabled=True,question_resolver=resolve)
     with local_azure_key(ROOT/'infra/llm/development.json'):
         intake=ws.intake.resolve({'text':args.ticket.read_text(encoding='utf-8'),'request_key':args.key,'parent_id':None})
-        output={'freeze_commit':freeze['commit'],'minimum_llm_interval':args.minimum_llm_interval,'intake':intake}
+        output={'freeze_commit':None if args.known_domain_regression else freeze['commit'],
+                'trial_kind':'KNOWN_DOMAIN_REGRESSION' if args.known_domain_regression else 'FROZEN_UNKNOWN_DOMAIN',
+                'minimum_llm_interval':args.minimum_llm_interval,'intake':intake}
         if intake['status']=='PROPOSED':
             proposal=intake['proposal'];request={k:proposal[k] for k in ('model_id','measure_id','filters','dimension_ids')}
             request.update(symptom=intake['text'],predecessor=None,intake_id=intake['id'])
@@ -64,7 +69,7 @@ def main():
                 state=agent.create(preview['envelope'],'challenge:'+args.key)
                 print('SESSION '+state['id'],flush=True)
                 output['session']=agent.run(state['id'])
-    verify(freeze)
+    if not args.known_domain_regression:verify(freeze)
     destination=folder/'runs';destination.mkdir(exist_ok=True)
     # Key is not a path supplied to the investigator.
     if not args.key.replace('-','').replace('_','').isalnum():raise ValueError('Simple output key required')
