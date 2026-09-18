@@ -23,6 +23,7 @@ PHASES = {'CREATED': 'Investigation created', 'PLANNER_RESERVED': 'Choosing the 
           'CHILD_LINKED': 'Checking the selected information', 'OBSERVED': 'Results captured',
           'PLANNER_ERROR': 'The next check could not be selected',
           'STOPPED': 'Investigation stopped', 'CANCELLED_RECEIPT_ADOPTED': 'A result arrived after cancellation'}
+PHASES.update(CONTEXT_OBSERVED='Reading definitions and relationships',PROPOSAL_REJECTED='Revising a check that could not be accepted')
 
 
 class Workspace:
@@ -63,6 +64,7 @@ class Workspace:
         scope = filter_catalog(model)
         columns = [dict(c, table_name=names.get(c['table_id'], '')) for c in scope['columns'] if c['operators']]
         return {'id': model['id'], 'name': model.get('name', model['id']), 'revision': model['revision'],
+                'dynamic_investigation':bool(model.get('discovery')),
                 'context_id': model['context_id'], 'enabled': model['enabled'],
                 'measures': [{'id': m['id'], 'name': m['name']} for m in context.get('measures', [])],
                 'columns': columns, 'range_semantics': scope['range_semantics']}
@@ -82,6 +84,9 @@ class Workspace:
         envelope = {k: request[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids', 'symptom')}
         envelope.update(revision=model['revision'], context_id=model['context_id'], source_tests=[],
                         source_selection='reviewed_mappings', record_selection='reviewed_mappings', joint_native_records=True, limits=dict(LIMITS))
+        if model.get('discovery'):
+            from .dynamic_reasoning import VERSION
+            envelope['strategy']=VERSION
         candidates, gaps = catalog(self.store, self.agent.config, envelope)
         metadata = self.model(model['id'])
         labels = {m['id']: m['name'] for m in metadata['measures']}
@@ -101,6 +106,8 @@ class Workspace:
                 'candidate_count': len(candidates), 'gaps': gaps, 'cloud_calls': 0,
                 'calculation_contexts':list(contexts.values()), 'intake': intake,
                 'scope_note': 'Selected filters supply the starting context. Measures may apply their own filters; component paths are listed below when supported. A screenshot or report selection is not automatically reproduced.'}
+        if envelope.get('strategy'):
+            body['scope_note']='These selections describe your question. The investigator may inspect definitions and run bounded read-only checks across the approved environment to test explanations. Each check retains its actual scope. Hidden report selections are not automatically reproduced.'
         with self.store.connect() as db:
             if intake is not None:
                 self.intake.review(request['intake_id'], request)
@@ -207,13 +214,14 @@ class Workspace:
         labels = preview['labels']
         facts = []
         for fact in technical['outcome']['facts']:
+            if fact['tool']=='context':continue
             facts.append({'id': fact['id'], 'metric': labels.get(fact['measure_id'], 'Related metric'),
-                          'origin': 'Report' if fact['tool'].startswith('native') else 'Connected records',
+                          'origin': 'Report' if fact['tool'].startswith('native') or fact['tool']=='bounded_dax' else 'Connected records',
                           **({'calculation_context':[labels.get(m,'Related metric') for m in fact['dependency_context']['path']]}
                              if fact.get('dependency_context') else {}),
                           **({'joint_aggregate':fact['joint_aggregate']} if fact.get('joint_aggregate') else {}),
                           'status': fact['status'], 'values': fact['values'], 'completeness': fact['completeness'],
-                          'kind': 'records' if fact['tool'].endswith('records') else 'breakdown' if fact['dimension_id'] else 'metric'})
+                          'kind': 'diagnostic' if fact['tool'].startswith('bounded_') else 'records' if fact['tool'].endswith('records') else 'breakdown' if fact['dimension_id'] else 'metric'})
         stopped = technical['status'] not in ('READY', 'PLANNING', 'EXECUTING')
         attached = (job['owner'] == self.owner and self.execution_enabled and not self.stopping.is_set()
                     and job['status'] != 'INTERRUPTED')
@@ -225,6 +233,8 @@ class Workspace:
             summary = 'Investigation cancelled. Checks already sent may still finish; saved results remain available.'
         elif job['status'] == 'INTERRUPTED' or (not attached and not stopped):
             summary = 'The worker is not attached to this investigation. Cancel it before starting a new review; no check will be silently retried.'
+        elif technical['outcome'].get('assessment'):
+            summary='Suggested explanation: '+technical['outcome']['assessment']['claim']+' This is not a verified cause or confirmation of the intended business rule.'
         return {'id': identity, 'model_id': job['model_id'], 'model_name': preview['model_name'],
                 'measure_name': preview['measure_name'], 'symptom': preview['envelope']['symptom'],
                 'status': technical['status'], 'job_status': job['status'], 'worker_attached': attached,

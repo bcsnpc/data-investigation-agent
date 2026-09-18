@@ -16,7 +16,10 @@ unsupported filters, or missing bounded scope require ASK. Resolve synonyms only
 A screenshot or URL does not supply hidden report/page/visual/RLS filters. If needed ask the user
 to describe the metric and selected filters. Reviewed screenshot transcription is still untrusted
 user context, not a live result or proof of hidden filters. This resolver does not open URLs.
-PROPOSE requires one measure, one to six filters, and at most one breakdown. Use typed JSON:
+PROPOSE requires one measure and at most one breakdown. Legacy models require one to six
+filters. Models with dynamic_investigation=true may propose no filters for a global
+starting scope when no restriction was requested; this still requires user scope review.
+Never omit a requested date/filter merely to use global scope. Use typed JSON:
 integer for int64, boolean for boolean, string for decimal/dateTime/string, null for blank.
 Ranges use explicit model-local ISO endpoints: lower inclusive, upper exclusive. Never convert
 an inclusive end or relative date silently. Each filter needs a verbatim quote from the user's
@@ -84,7 +87,7 @@ def validate(value, payload):
     quote(value['metric_quote'])
     columns = {c['column_id']: c for c in model['columns']}
     filters = value['filters']; dimensions = value['dimension_ids']; quotes = value['scope_quotes']
-    if not isinstance(filters, list) or not 1 <= len(filters) <= 6: raise ValueError('Bounded filters required')
+    if not isinstance(filters, list) or not (0 if model.get('dynamic_investigation') else 1) <= len(filters) <= 6: raise ValueError('Bounded filters required')
     if not isinstance(dimensions, list) or len(dimensions) > 1 or any(not isinstance(c, str) or c not in columns for c in dimensions):
         raise ValueError('Unknown breakdown')
     selected = set()

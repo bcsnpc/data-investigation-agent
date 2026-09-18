@@ -190,6 +190,9 @@ class Runtime:
                     self.event(db,identity,'DISPATCHED',{'ordinal':ordinal,'receipt_id':step['receipt_id']})
                 if tool == 'native':
                     result = native_diagnostics.run(self.store,payload,self.native_transport,receipt_id=step['receipt_id'])
+                elif tool in ('bounded_dax','bounded_sql'):
+                    from .flexible_tools import run
+                    result=run(self.store,payload,self.config,tool,self.native_transport if tool=='bounded_dax' else self.source_transport,receipt_id=step['receipt_id'])
                 elif tool == 'source':
                     result = source_diagnostics.run(self.store,payload,self.config,self.source_transport,receipt_id=step['receipt_id'])
                 elif tool in ('native_records','source_records'):
@@ -264,7 +267,7 @@ class Runtime:
                     if not receipt or receipt['status'] in ('RUNNING','INTERRUPTED'):raise Conflict('Remote completion is still uncertain')
                     if step['tool'] in ('native_records','source_records'):
                         record_readback.read(self.store,row['model_id'],step['receipt_id'])
-                    if step['tool'] in ('native','source'):
+                    if step['tool'] in ('native','source','bounded_dax','bounded_sql'):
                         from .receipt_integrity import verify
                         verify(db,step['tool'],step['receipt_id'])
                     compiled = json.loads(receipt['request']); compiled.pop('plan')

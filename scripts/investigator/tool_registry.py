@@ -4,6 +4,8 @@ from . import native_diagnostics, source_diagnostics, comparisons
 from . import record_readback, record_comparison, record_aggregate, record_bindings
 
 TOOLS = {'native': {'cloud':True,'receipt_table':'native_diagnostics'},
+         'bounded_dax': {'cloud':True,'receipt_table':'flexible_diagnostics'},
+         'bounded_sql': {'cloud':True,'receipt_table':'flexible_diagnostics'},
          'source': {'cloud':True,'receipt_table':'source_diagnostics'},
          'compare': {'cloud':False,'receipt_table':'comparison_assessments'},
          'native_records': {'cloud':True,'receipt_table':'record_readbacks'},
@@ -33,7 +35,11 @@ def compile_actions(store,config,request):
     for ordinal,action in enumerate(actions):
         fields(action,['tool','input']);tool=action['tool'];payload=action['input']
         if not isinstance(tool,str) or tool not in TOOLS:raise ValueError('Unknown registered tool')
-        if tool in ('native_records','source_records'):
+        if tool in ('bounded_dax','bounded_sql'):
+            from .flexible_tools import build
+            if not isinstance(payload,dict) or payload.get('model_id')!=model['id']:raise ValueError('Cross-model proposed query')
+            compiled.append(build(store,payload,config,tool));cloud+=1
+        elif tool in ('native_records','source_records'):
             if not isinstance(payload,dict) or payload.get('model_id')!=model['id']:raise ValueError('Cross-model readback')
             compiled.append(record_readback.build(store,payload,config,tool));cloud+=1
         elif tool=='reconcile_records':

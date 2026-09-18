@@ -7,7 +7,17 @@ CONTEXT_CHANGERS={'FILTERED_MEASURE','TIME_SHIFT','RELATIONSHIP_SWITCH','CONDITI
 
 def catalog(store,config,envelope):
     fields(envelope,['model_id','revision','context_id','measure_id','filters','dimension_ids','source_tests','symptom','limits']+
-           [k for k in ('source_selection','record_tests','record_pairs','record_selection','joint_native_records') if k in envelope])
+           [k for k in ('source_selection','record_tests','record_pairs','record_selection','joint_native_records','strategy') if k in envelope])
+    if 'strategy' in envelope:
+        from .dynamic_reasoning import VERSION
+        if envelope['strategy']!=VERSION:raise ValueError('Unknown investigation strategy')
+        model=store.get(envelope['model_id'])
+        if not model.get('discovery') or model['discovery']['policy_hash']!=digest(config):raise Conflict('Dynamic investigation needs current approved discovery policy')
+        if not model['enabled'] or model['revision']!=envelope['revision'] or model['context_id']!=envelope['context_id']:
+            raise Conflict('Dynamic context changed or disabled')
+        if envelope['measure_id'] not in {m['id'] for m in model['context']['measures']}:raise ValueError('Unknown starting measure')
+        if envelope['filters']:
+            return catalog(store,config,{k:v for k,v in envelope.items() if k!='strategy'})
     if 'joint_native_records' in envelope and type(envelope['joint_native_records']) is not bool:
         raise ValueError('Joint native capture selection must be Boolean')
     if 'source_selection' in envelope and (envelope['source_selection']!='reviewed_mappings' or envelope['source_tests']!=[]):
@@ -27,6 +37,12 @@ def catalog(store,config,envelope):
             raise Conflict('Model is outside the configured native reader scope')
     elif model.get('discovery'):
         raise Conflict('Discovered execution requires a configured read-only native reader')
+    if 'strategy' in envelope:
+        if envelope['filters']!=[] or envelope['source_tests']!=[]:raise ValueError('Global dynamic scope starts without precompiled tests')
+        from .model_context import assets
+        columns={a['id'] for a in assets(model['context']) if a['kind']=='SemanticColumn'}
+        if not isinstance(envelope['dimension_ids'],list) or len(envelope['dimension_ids'])>4 or any(d not in columns for d in envelope['dimension_ids']):raise ValueError('Unknown dimensions')
+        return [],[]
     dimensions=envelope['dimension_ids']; sources=envelope['source_tests']
     if not isinstance(dimensions,list) or len(dimensions)>4 or any(not isinstance(x,str) for x in dimensions) or len(set(dimensions))!=len(dimensions):
         raise ValueError('Invalid dimension envelope')
@@ -150,7 +166,7 @@ def observation(candidate,child):
             **({'dependency_context':candidate['dependency_context']} if candidate.get('dependency_context') else {}),
             'id':receipt['id'],'candidate_id':candidate['id'],'run_id':child['id'],
             'tool':candidate['tool'],'measure_id':candidate['measure_id'],'dimension_id':candidate['dimension_id'],
-            'status':receipt['status'],'values':(data.get('rows',[]) if candidate['tool'] in ('native','native_records','source_records') else [data.get('value')]) if receipt['status']=='COMPLETED' else [],
+            'status':receipt['status'],'values':(data.get('rows',[]) if candidate['tool'] in ('native','native_records','source_records','bounded_dax','bounded_sql') else [data.get('value')]) if receipt['status']=='COMPLETED' else [],
             'completeness':data.get('completeness','SOURCE_AGGREGATE'),
             'request_hash':receipt['request_hash'],'proof_eligible':False,
             'source_operation':candidate['plan'].get('operation'),

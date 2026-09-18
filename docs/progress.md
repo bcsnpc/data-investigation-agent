@@ -1,5 +1,16 @@
 # Project progress
 
+## 2026-09-18 — Dynamic reasoning and governed diagnostics
+
+Discovery PR #196 merged at `af6a0523db3d2e9e6c308f98b01d1e5a3745fcf4`.
+Grouped issue #197 adds dynamic context lookup, proposed parser-governed SQL/DAX,
+qualified assessments and workspace integration. All 891 tests and 40 browser
+checks passed. Live DAX ratio and context-first SQL duplicate checks completed;
+earlier contract/Decimal failures and grammar/causal limits are preserved in
+[the milestone evidence](dynamic-investigation-milestone.md).
+No SQL quota, production data or identity permissions changed.
+Next: engine freeze and post-freeze unknown-domain challenge, not yet run.
+
 Review: [PR #194](https://github.com/bcsnpc/data-investigation-agent/pull/194).
 
 ## 2026-09-18: discovery-first architectural pivot
