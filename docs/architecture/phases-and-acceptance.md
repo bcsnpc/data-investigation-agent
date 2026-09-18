@@ -1,6 +1,6 @@
 # Engineering phases and acceptance: revised A-J
 
-Latest continuation: PR #188 merged. [Reviewed screenshot intake](../screenshot-intake-milestone.md) now joins business text, explicit transcription confirmation, catalog scope review and adaptive execution. Live Azure verification kept screenshot value 9 separate from native value 8, with no cause claim. Phase I remains local; effective report context, D/H proof, hosted authorization and deployment remain open.
+Latest continuation: PR #190 merged. [Joint native capture](../joint-native-capture-milestone.md) now obtains a direct native total and supporting projected groups in one response, reconstructs supported arithmetic, and feeds the saved assessment into adaptive planning and the workspace. Live complete, empty and partial checks passed under the dedicated reader. D/H shared-generation, effective report context and causal proof remain open; hosted v2 is still pending.
 
 Latest continuation: PR #184 merged. [Native dependency calculation contexts](../dependency-context-milestone.md) now preserve supported measure-local filters through adaptive child reads, with scope review, sealed context evidence and eight live parity checks. This advances D/E/G; full B-G gates, Phase H and hosted v2 remain open.
 
@@ -116,7 +116,7 @@ Dependency order: **A -> B -> C -> D -> E -> F -> G -> H -> I -> J**. Contracts 
 
 ## I - Unified ticket product experience
 
-**Current slice (2026-09-15):** [Local workspace](../investigation-workspace-milestone.md) implements explicit scope review/start, asynchronous governed execution, history, cancellation, clarification successors and shared business/technical evidence. 746 regression tests and 12 browser checks passed, plus a bounded live native run. Manual catalog/filter intake and local single-operator access do not close this phase. Dedicated fixture-reader verification also advances H prerequisites; shared-generation/causal proof and all eight acceptance families remain open.
+**Current slice (2026-09-16):** The local workspace now includes business text and reviewed screenshot intake, explicit scope review/start, governed execution, history, cancellation and shared business/technical evidence. Supported totals and record groups can be checked in one native response. The final browser suite covers 30 checks. Local single-operator access does not close this phase; effective report context, hosted authorization and deployment remain. Phase H and general causal proof are still open.
 
 **Objective/why:** one investigation powers business and technical users.
 

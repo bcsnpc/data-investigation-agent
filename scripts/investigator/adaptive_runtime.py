@@ -114,6 +114,7 @@ class AdaptiveRuntime:
                   'source_binding':c.get('reviewed_mapping') or ('OPERATOR_SELECTED_NOT_EQUIVALENCE_PROOF' if c['tool']=='source' else None),
                   'source_operation':c['plan'].get('operation'), 'approved_filters':c['plan']['filters'],
                   'projected_columns':c['plan'].get('column_ids'),'record_limit':c['plan'].get('limit'),
+                  'captures_aggregate_with_records':'aggregate_measure_id' in c['plan'],
                   **({'dependency_context':c['dependency_context']} if c.get('dependency_context') else {})} for c in candidates]
         observations=[]
         for o in state['observations']:

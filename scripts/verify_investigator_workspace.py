@@ -224,10 +224,48 @@ def main():
         assert evaluate("document.getElementById('business-question').value.includes('higher than expected')")
         assert browser('errors').get('errors',[])==[]
         click('#signout');assert evaluate("document.getElementById('image-history').children.length===0")
+        # New catalog/review, same workspace: aggregate + records share one receipt.
+        from test_joint_native_capture import JointCaptureTests
+        from investigator.runtime import Runtime
+        from investigator.adaptive_runtime import AdaptiveRuntime
+        from investigator.workspace import Workspace
+        from test_native_diagnostics import response
+        from decimal import Decimal
+        joint=JointCaptureTests();joint.setUp();helper.addCleanup(joint.doCleanups)
+        joint.h.register();joint.store.environment='test';joint.store.list=MagicMock(return_value=[joint.model])
+        from contextlib import contextmanager
+        import sqlite3
+        original_connect=joint.store.connect.side_effect
+        @contextmanager
+        def joint_connect():
+            with original_connect() as db:
+                db.row_factory=sqlite3.Row
+                yield db
+        joint.store.connect.side_effect=joint_connect
+        joint.model['name']='Joint capture verification'
+        joint_calls=MagicMock(side_effect=lambda r:joint.rows() if 'joint_aggregate' in r else response([{'[m0]':Decimal('30')}]))
+        def joint_plan(payload):
+            kind='native' if not payload['observations'] else 'native_records'
+            return (decision(next(c['id'] for c in payload['candidates'] if c['tool']==kind)) if len(payload['observations'])<2 else decision()),{}
+        helper.workspace.stopping.set();worker.join(10)
+        helper.workspace=Workspace(AdaptiveRuntime(Runtime(joint.store,joint.config,joint_calls,None),joint_plan,usage_policy=helper.policy),execution_enabled=True)
+        server.set_app(create_app(helper.workspace,key,server.server_port))
+        worker=Thread(target=helper.workspace.work,daemon=True);worker.start()
+        fill('#access-key',key);click('#login-form button');wait("!document.getElementById('workspace').hidden")
+        fill('#symptom','Check whether this total agrees with its records.');click('#add-filter');fill('#filters textarea','USD')
+        click('#review');wait("!document.getElementById('preview').hidden");click('#start')
+        wait("document.querySelector('.joint-capture')!==null && document.getElementById('status').textContent==='Checks finished'")
+        assert evaluate("document.querySelector('.joint-capture').textContent.includes('Observed total: 30') && document.querySelector('.joint-capture').textContent.includes('Total rebuilt from records: 30')")
+        assert evaluate("document.getElementById('business').dataset.outcomeHash===document.getElementById('technical').dataset.outcomeHash")
+        assert evaluate('document.documentElement.scrollWidth<=window.innerWidth')
+        browser('screenshot',str(args.output.with_suffix('.joint-capture.png').resolve()),'--full')
+        click('#refresh-history');click('#history button');assert joint_calls.call_count==2
+        assert browser('errors').get('errors',[])==[];click('#signout')
         result = {'status': 'PASSED', 'checks': ['login', 'explicit_scope', 'preview_start', 'saved_numeric_values',
             'shared_outcome', 'technical_view', 'history_no_requery', 'clarification_successor', 'cancellation', 'mobile_layout', 'signout', 'no_console_errors',
             'context_preview','context_result_labels','question_clarification','question_scope_review','question_runtime_provenance','question_history_no_calls','manual_scope_provenance',
-            'image_upload_review','image_scope_start','image_claim_separate_from_native','image_history_no_calls','image_removal_preserves_question','image_mobile_layout','image_signout'],
+            'image_upload_review','image_scope_start','image_claim_separate_from_native','image_history_no_calls','image_removal_preserves_question','image_mobile_layout','image_signout',
+            'joint_capture_scope_to_result','joint_capture_shared_outcome','joint_capture_history_no_calls','joint_capture_mobile'],
             'injected_native_calls': helper.native.call_count, 'live_cloud_calls': 0,
             'causal_acceptance': False}
         args.output.write_text(json.dumps(result, indent=2), encoding='utf-8')

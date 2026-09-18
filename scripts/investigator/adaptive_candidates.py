@@ -7,7 +7,9 @@ CONTEXT_CHANGERS={'FILTERED_MEASURE','TIME_SHIFT','RELATIONSHIP_SWITCH','CONDITI
 
 def catalog(store,config,envelope):
     fields(envelope,['model_id','revision','context_id','measure_id','filters','dimension_ids','source_tests','symptom','limits']+
-           [k for k in ('source_selection','record_tests','record_pairs','record_selection') if k in envelope])
+           [k for k in ('source_selection','record_tests','record_pairs','record_selection','joint_native_records') if k in envelope])
+    if 'joint_native_records' in envelope and type(envelope['joint_native_records']) is not bool:
+        raise ValueError('Joint native capture selection must be Boolean')
     if 'source_selection' in envelope and (envelope['source_selection']!='reviewed_mappings' or envelope['source_tests']!=[]):
         raise ValueError('Reviewed discovery requires an empty manual source-test list')
     if 'record_selection' in envelope and (envelope['record_selection']!='reviewed_mappings' or envelope.get('record_tests',[]) or envelope.get('record_pairs',[])):
@@ -153,6 +155,7 @@ def observation(candidate,child):
             'reviewed_mapping':candidate.get('reviewed_mapping'),
             'record_mapping':candidate.get('record_mapping'),
             'freshness':data.get('freshness'),
+            **({'joint_aggregate':data['joint_aggregate']} if data.get('joint_aggregate') else {}),
             'record_readback':dict({k:data.get(k) for k in ('column_ids','key_column_ids','types','record_hash','observed_row_count')},
                                    filters=candidate['plan']['filters'],context_hash=child.get('context_hash')) if candidate['tool'] in ('native_records','source_records') else None}
 

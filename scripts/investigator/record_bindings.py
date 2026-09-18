@@ -138,7 +138,11 @@ def validate_plan(store,plan,config,backend):
     else:filters=plan['filters']
     envelope={k:plan[k] for k in ('model_id','revision','context_id')};envelope['filters']=filters
     expected=plans(review,envelope)[backend=='source_records']
-    if encoded(expected)!=encoded(plan):raise Conflict('Record plan differs from reviewed projection')
+    compared=dict(plan)
+    if 'aggregate_measure_id' in compared:
+        if backend!='native_records' or compared.pop('aggregate_measure_id')!=body['measure_id']:
+            raise Conflict('Joint aggregate differs from reviewed measure')
+    if encoded(expected)!=encoded(compared):raise Conflict('Record plan differs from reviewed projection')
     return {'id':review['id'],'hash':review['hash'],'authority':review['authority'],'equivalence_verified':False,
             'column_bindings':body['column_bindings'],'filter_bindings':body['filter_bindings']}
 
@@ -154,6 +158,12 @@ def resolve(store,config,envelope,reachable):
         review=matches[0]
         try:
             native,source=plans(review,envelope)
+            if envelope.get('joint_native_records'):
+                joint=dict(native,aggregate_measure_id=measure)
+                try:build(store,joint,config,'native_records')
+                except (ValueError,KeyError):
+                    gaps.append({'measure_id':measure,'reason':'JOINT_NATIVE_CAPTURE_UNSUPPORTED'})
+                else:native=joint
             build(store,native,config,'native_records');build(store,source,config,'source_records')
         except (ValueError,KeyError):
             gaps.append({'measure_id':measure,'mapping_id':review['id'],'reason':'RECORD_MAPPING_SCOPE_OR_CATALOG_GAP'});continue

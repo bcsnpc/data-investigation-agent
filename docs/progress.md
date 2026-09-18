@@ -1,10 +1,10 @@
 # Project progress
 
-Review: [PR #190](https://github.com/bcsnpc/data-investigation-agent/pull/190).
+Review: [PR #192](https://github.com/bcsnpc/data-investigation-agent/pull/192).
 
-Merged: [PR #188](https://github.com/bcsnpc/data-investigation-agent/pull/188).
+Merged: [PR #190](https://github.com/bcsnpc/data-investigation-agent/pull/190).
 
-Current milestone: [reviewed screenshot intake](screenshot-intake-milestone.md), tracked by [#189](https://github.com/bcsnpc/data-investigation-agent/issues/189). Image upload, governed vision transcription, user confirmation, catalog scope review and adaptive execution are connected. All 844 regression tests, 26 browser checks and a real Azure vision-to-native run passed. Screenshot value 9 remained separate from native value 8; replay added zero provider calls. Causal acceptance and hosted v2 remain open.
+Current milestone: [joint native capture](joint-native-capture-milestone.md), tracked by [#191](https://github.com/bcsnpc/data-investigation-agent/issues/191). Supported native totals and record groups now share one response and a sealed consistency assessment. The adaptive planner and workspace consume that evidence. All 860 regression tests and 30 browser checks passed. Complete (8/8), empty and partial live cases passed; a real LLM selected the combined read and replay made zero calls. Earlier UNION probes timed out and remain documented. Full causal acceptance and hosted v2 remain open.
 
 Merged: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184).
 

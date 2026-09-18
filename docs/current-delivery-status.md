@@ -1,10 +1,10 @@
 # Current delivery status
 
-Review: [PR #190](https://github.com/bcsnpc/data-investigation-agent/pull/190).
+Review: [PR #192](https://github.com/bcsnpc/data-investigation-agent/pull/192).
 
-Merged: [PR #188](https://github.com/bcsnpc/data-investigation-agent/pull/188).
+Merged: [PR #190](https://github.com/bcsnpc/data-investigation-agent/pull/190).
 
-Current milestone: [reviewed screenshot intake](screenshot-intake-milestone.md), tracked by [#189](https://github.com/bcsnpc/data-investigation-agent/issues/189). Image upload, governed vision transcription, user confirmation, catalog scope review and adaptive execution are connected. All 844 regression tests, 26 browser checks and a real Azure vision-to-native run passed. Screenshot value 9 remained separate from native value 8; replay added zero provider calls. Causal acceptance and hosted v2 remain open.
+Current milestone: [joint native capture](joint-native-capture-milestone.md), tracked by [#191](https://github.com/bcsnpc/data-investigation-agent/issues/191). Supported native totals and record groups now share one response and a sealed consistency assessment. The adaptive planner and workspace consume that evidence. All 860 regression tests and 30 browser checks passed. Complete (8/8), empty and partial live cases passed; a real LLM selected the combined read and replay made zero calls. Earlier UNION probes timed out and remain documented. Full causal acceptance and hosted v2 remain open.
 
 Merged: [PR #184](https://github.com/bcsnpc/data-investigation-agent/pull/184).
 
@@ -35,7 +35,7 @@ Updated 2026-09-15. **PR #186 is merged.** The [business-question intake milesto
 | Scoped freshness evidence | Metadata-selected watermark reads, immutable reviewed policies, revocation and deterministic age conditions | Narrow historical watermark rule only; no production SLA or report-cause proof |
 | Reviewed source discovery | Derives complete source scopes from onboarding mappings; ambiguity/revocation gates and query-free preview | Development mappings still need actual team review; no equivalence certification |
 | Record evidence | Bounded Power BI/SQL projected groups, multiplicity, keyed differences, saved adaptive pairs and recovery | Complete response is not shared-generation or semantic proof; model mappings now derive reviewed projections per ticket |
-| Aggregate record consistency | Sealed aggregate receipts, exact count/sum reconstruction, SQL count checks, durable/local assessments and adaptive consumption | Arithmetic consistency across separate captures; remote generation/context/causal proof remains |
+| Aggregate record consistency | Sealed aggregate receipts, exact count/sum reconstruction, SQL count checks, durable/local assessments and adaptive consumption | Joint native capture is available for supported counts/sums; cross-system generation/context/causal proof remains |
 | Proof feasibility | Bounded live metadata preflight, two definition hashes, access/refresh summaries, persisted history and CLI gate | Actual acceptance blocked: exclusive publication, shared generation and effective report identity/context remain unproven; isolated fixture content is checked separately |
 | Native execution identity | Explicit reader account/tenant/object/model binding, no publisher fallback, identity retained in sealed scalar/dimension/record evidence | Optional profile; local transport observation, not report/RLS or permission-stability proof |
 | Shared workspace and question intake | Natural-language catalog scope suggestions, clarification, explicit review/start, saved questions, cancellation and business/technical views sharing evidence | Local single operator; reviewed text and screenshot intake; effective report-context capture and hosted v2 remain |

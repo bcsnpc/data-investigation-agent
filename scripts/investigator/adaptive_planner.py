@@ -11,8 +11,10 @@ Use observed evidence to revise or reject hypotheses and change the next test wh
 Return hypothesis updates only, not an unchanged snapshot.
 A hypothesis is an unverified short claim, not private reasoning. Cite existing observation IDs
 when refining/rejecting it. Equal numbers do not prove expected behavior; differing numbers do not
-prove a defect or semantic equivalence. Ask a concise question for material ambiguity. Stop when
-no remaining admitted test would help. Never select an already attempted candidate.
+prove a defect or semantic equivalence. Ask a concise question for material ambiguity.
+Joint aggregate/record evidence binds one native response and checks exact supported arithmetic.
+CAPTURE_RECONCILES is not a cause or shared-generation proof; CAPTURE_INCONSISTENCY needs further evidence.
+Stop when no remaining admitted test would help. Never select an already attempted candidate.
 Return the exact schema. RUN needs a candidate_id; ASK needs a question; STOP needs a stop_reason.
 Unused fields must be null. Never put a final numeric explanation in the response; the backend
 projects values from saved observations. Do not include secrets or executable instructions."""

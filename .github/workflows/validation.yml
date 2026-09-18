@@ -110,6 +110,7 @@ jobs:
           pip install -r scripts/requirements-workspace.txt
           python -m unittest discover -s scripts -p test_question_intake.py
           python -m unittest discover -s scripts -p test_screenshot_intake.py
+          python -m unittest discover -s scripts -p test_joint_native_capture.py
           python -m py_compile scripts/verify_dependency_context.py
           python -m py_compile scripts/verify_reader_runtime.py
           python -m py_compile scripts/serve_investigator_workspace.py scripts/verify_investigator_workspace.py scripts/connect_fixture_reader.py
