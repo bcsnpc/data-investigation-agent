@@ -48,7 +48,9 @@ not investigator-specific code changes.
 
 **Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and
 governed tools (Stages 4–5)** merged in PR #198. The engine is frozen and an unfamiliar
-warehouse domain is published; [challenge acceptance](docs/unknown-domain-challenge.md) is in progress.
+warehouse domain is published. The first nine-family trial recorded partial reads,
+reasoning failures and provider rate-limit blocks; it has **not passed**.
+[Challenge acceptance](docs/unknown-domain-challenge.md) remains in progress.
 [Current delivery status](docs/current-delivery-status.md) owns
 implementation and verification claims; [stages 1–9](docs/architecture/phases-and-acceptance.md)
 define remaining work.

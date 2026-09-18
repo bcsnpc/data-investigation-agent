@@ -1,5 +1,24 @@
 # Project progress
 
+## 2026-09-18 ? Second frozen variant and publisher repair
+
+Engine v2 was frozen at `3d95859` before the fresh e1b8e1 variant. Discovery
+completed with 45 operations; the user approved Read + Build on the new model
+and the dedicated reader access probe succeeded. The first ticket resolved
+correctly but its query failed because the publisher left COUNTROWS(Movements)
+after renaming the table. The failed session remains preserved.
+
+The publisher now handles table-valued COUNTROWS references as well as column
+references. Three publisher tests and two generator tests passed. The isolated
+model update succeeded; the reader returned all five requested measures, including
+406 activity entries and 8,765 handled units. Discovery is refreshed before new
+trials. All nine families were attempted; four were rate-limited. A paced
+transformation repeat avoided throttling but exhausted its budget without tracing
+upstream logic. The challenge remains failed/incomplete; next corrections must
+remain generic and require a new freeze for acceptance. Engine files/prompts remain
+frozen; no permissions or SQL quota were
+changed by this repair. See [challenge evidence](unknown-domain-challenge.md).
+
 ## 2026-09-18 — First frozen unfamiliar-domain attempt and intake correction
 
 PR #198 merged with all six CI checks green. Engine tag unknown-domain-engine-v1

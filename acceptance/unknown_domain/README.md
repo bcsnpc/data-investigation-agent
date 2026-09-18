@@ -3,7 +3,8 @@
 These scripts are operator/evaluator tooling. The investigator never imports them
 or reads the publisher manifest, seed, private expected values or grading labels.
 Run after a committed freeze and an ordinary discovery scan showing the domain absent.
-Freeze v1 is tagged `unknown-domain-engine-v1`; issue #199 tracks acceptance.
+Freeze tags and attempt results are recorded in
+[the challenge record](../../docs/unknown-domain-challenge.md); issue #199 tracks acceptance.
 
 `publish.py generate` creates a fresh random related warehouse variant locally.
 `sql` creates new suffixed tables in the already approved SQL schema and reads
@@ -25,6 +26,11 @@ resolves/previews; use that flag after the evaluator reviews the proposed scope.
 It loads no expected value or per-model ID. The ticket text may naturally name the
 report/metric the business user is asking about. Its outputs are acceptance receipts,
 not authoritative grading or proof of generality.
+
+For a constrained Azure model deployment, use `--minimum-llm-interval 65` to pace
+calls in the evaluator harness. This counts toward the existing run deadline;
+it does not retry failed calls, increase quota or change engine prompts/policies.
+Record rate-limited attempts as blocked and preserve them before fresh trials.
 
 The challenge must cover all nine architecture families, hidden variants, repeated
 LLM trials, changed/added/removed assets and permission/partial scans. Unrun cases

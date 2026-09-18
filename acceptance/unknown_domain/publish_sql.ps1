@@ -19,6 +19,19 @@ try {
             $type='nvarchar(100)';if($column[1] -eq 'int'){$type='int'}
             $definitions+="[$($column[0])] $type NOT NULL"
         }
+        if($table.primary_key) {
+            $keyColumns=@()
+            foreach($keyColumn in $table.primary_key) {
+                if($keyColumn -notin @($table.columns | ForEach-Object {$_[0]})){throw 'Unknown primary key column'}
+                $keyColumns+="[$keyColumn]"
+            }
+            $definitions+='PRIMARY KEY ('+($keyColumns -join ',')+')'
+        }
+        foreach($foreignKey in $table.foreign_keys) {
+            $target=@($inputData.tables | Where-Object {$_.name -eq $foreignKey.table})
+            if($target.Count -ne 1 -or $foreignKey.column -notin @($table.columns | ForEach-Object {$_[0]}) -or $foreignKey.target_column -notin @($target[0].columns | ForEach-Object {$_[0]})){throw 'Unknown foreign key target'}
+            $definitions+="FOREIGN KEY ([$($foreignKey.column)]) REFERENCES app.[$($foreignKey.table)] ([$($foreignKey.target_column)])"
+        }
         $command=$connection.CreateCommand();$command.Transaction=$transaction;$command.CommandTimeout=30
         $command.CommandText="CREATE TABLE app.[$($table.name)] ("+($definitions -join ',')+")"
         $null=$command.ExecuteNonQuery()

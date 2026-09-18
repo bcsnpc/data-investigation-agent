@@ -8,8 +8,13 @@ This is the authoritative current status; milestone pages retain historical evid
 
 **Engine freeze and unfamiliar-domain challenge (Stages 6–7) are in progress.**
 The first frozen attempt failed intake reliability; one ratio case passed but most
-questions did not reach investigation. Generic corrections are being validated
-before a new freeze and fresh variant. See [attempt details](unknown-domain-challenge.md).
+questions did not reach investigation. Generic corrections were validated and frozen as `unknown-domain-engine-v2`;
+a fresh variant is published. Its publisher DAX rename defect is repaired and
+rescanned. All nine question families have a first recorded attempt; none yet
+establishes full challenge acceptance. Several runs hit Azure LLM rate limits;
+a paced transformation repeat avoided throttling but exhausted its budget on
+repeated native reads without retrieving transformation context. Generic reasoning
+corrections, a fresh freeze and remaining acceptance experiments are next. See [attempt details](unknown-domain-challenge.md).
 Dynamic reasoning and governed tools merged in PR #198 after all six CI checks passed.
 [Issue #197](https://github.com/bcsnpc/data-investigation-agent/issues/197) tracks
 this grouped change. Architecture PR #194 and discovery PR #196 are merged.
@@ -35,8 +40,10 @@ nine operations each; repeat scans recorded zero changes. A discovered native
 query returned 8. No permanent scheduler was installed.
 See [discovery runbook/evidence](enterprise-discovery-milestone.md).
 
-No SQL quota, production data, identity permissions or deployment changed in these
-milestones. SQL TOP limits returned rows, not work scanned.
+The earlier discovery/tools milestones changed no production data or SQL quota.
+The challenge publishes isolated fixtures and uses separately approved Read + Build
+grants on its models. SQL free-overage settings remain unchanged. SQL TOP limits
+returned rows, not work scanned.
 
 ## Working foundation and limits
 
@@ -59,8 +66,8 @@ milestones. SQL TOP limits returned rows, not work scanned.
 | 3 Automatic context graph | Merged #196; independent context, graph/search and ticket visibility |
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
-| 6 General engine freeze | v1 tagged and preserved; engine correction requires a fresh freeze |
-| 7 Unknown Domain Challenge | v1 failed intake reliability; corrected engine/fresh variant and change experiments pending |
+| 6 General engine freeze | v1 failed and preserved; corrected engine frozen as unknown-domain-engine-v2 |
+| 7 Unknown Domain Challenge | v2 published/discovered; dedicated reader verified; ticket matrix and change experiments in progress |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 

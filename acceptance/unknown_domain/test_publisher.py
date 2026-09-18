@@ -7,6 +7,15 @@ from publish_reports import model
 
 
 class PublisherTests(unittest.TestCase):
+    def test_renamed_model_has_no_stale_table_references(self):
+        value=model({'id':'endpoint','connectionString':'endpoint.fabric.microsoft.com'},
+                    {'Movements':'Stock Activity','Movement Units':'Handled Quantity','Movement Rows':'Activity Entries'})['model']
+        measures={m['name']:m['expression'] for m in value['tables'][0]['measures']}
+        self.assertEqual(measures['Activity Entries'],"COUNTROWS('Stock Activity')")
+        self.assertEqual(measures['Handled Quantity'],"SUM('Stock Activity'[units])")
+        self.assertNotIn('Movements',json.dumps(measures))
+        self.assertEqual(value['relationships'][0]['fromTable'],'Stock Activity')
+
     def test_related_rows_and_private_expectations(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory);generate(root)

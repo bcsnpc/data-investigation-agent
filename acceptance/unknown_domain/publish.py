@@ -42,6 +42,18 @@ def generate(folder):
               table('stock_movements', [['movement_id','int'],['warehouse_id','int'],['product_id','int'],['units','int'],['event_day','string'],['movement_type','string']], movements),
               table('purchase_orders', [['purchase_order_id','int'],['warehouse_id','int'],['product_id','int'],['ordered_units','int'],['status','string']], orders),
               table('inventory_adjustments', [['adjustment_id','int'],['movement_id','int'],['units','int'],['reason_code','string']], adjustments)]
+    by_name={t['name'].rsplit('_',1)[0]:t for t in tables}
+    for t in tables:
+        t['primary_key']=[t['columns'][0][0]]
+        t['foreign_keys']=[]
+    by_name['product_rates']['primary_key']=['product_id','rate_version']
+    for source,column,target in [('product_rates','product_id','inventory_products'),
+                                 ('stock_movements','product_id','inventory_products'),
+                                 ('stock_movements','warehouse_id','warehouse_locations'),
+                                 ('purchase_orders','product_id','inventory_products'),
+                                 ('purchase_orders','warehouse_id','warehouse_locations'),
+                                 ('inventory_adjustments','movement_id','stock_movements')]:
+        by_name[source]['foreign_keys'].append({'column':column,'table':by_name[target]['name'],'target_column':column})
     write(folder / 'publisher-input.json', {'suffix':suffix, 'tables':tables})
     # Never exposed to discovery, planner, model descriptions or runtime config.
     write(folder / 'evaluator-private.json', {'duplicate_product':duplicate,

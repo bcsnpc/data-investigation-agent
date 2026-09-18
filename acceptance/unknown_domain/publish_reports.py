@@ -12,7 +12,8 @@ from challenge_freeze import verify
 from build_powerbi_reports import Report, write, BASE
 
 
-def model(endpoint):
+def model(endpoint, vocabulary=None):
+    vocabulary=vocabulary or {}
     definitions={
         'Movements':('movement_values',[('product_id','int64'),('movement_id','int64'),('warehouse_id','int64'),('units','int64'),('event_day','string'),('movement_type','string'),('rate_version','int64'),('unit_cost','int64'),('movement_value','int64')]),
         'Warehouses':('warehouse_locations',[('warehouse_id','int64'),('warehouse_name','string')]),
@@ -34,6 +35,17 @@ def model(endpoint):
     relations=[{'name':'Movements'+dim,'fromTable':'Movements','fromColumn':col,'toTable':dim,'toColumn':col,
                 'fromCardinality':'many','toCardinality':'one','crossFilteringBehavior':'oneDirection','isActive':True}
                for dim,col in [('Warehouses','warehouse_id'),('Products','product_id')]]
+    for table in tables:
+        table['name']=vocabulary.get(table['name'],table['name'])
+        table['partitions'][0]['name']=table['name']
+        for measure in table.get('measures',[]):
+            measure['name']=vocabulary.get(measure['name'],measure['name'])
+            for old,new in vocabulary.items():
+                # These are publisher-owned templates, not arbitrary DAX rewriting.
+                measure['expression']=measure['expression'].replace('['+old+']','['+new+']').replace(old+'[',"'"+new.replace("'","''")+"'[")
+                measure['expression']=measure['expression'].replace('COUNTROWS('+old+')',"COUNTROWS('"+new.replace("'","''")+"')")
+    for relation in relations:
+        for key in ('fromTable','toTable'):relation[key]=vocabulary.get(relation[key],relation[key])
     return {'compatibilityLevel':1604,'model':{'culture':'en-US','defaultPowerBIDataSourceVersion':'powerBI_V3',
             'expressions':[{'name':'WarehouseSource','kind':'m','expression':'let database = Sql.Database('+json.dumps(endpoint['connectionString'])+', '+json.dumps(endpoint['id'])+') in database'}],
             'tables':tables,'relationships':relations}}
@@ -69,17 +81,8 @@ def main():
     gold=json.loads((folder/'lakehouses.json').read_text())['gold']
     endpoint=publisher.call(f'workspaces/{w}/lakehouses/{gold}')['text']['properties']['sqlEndpointProperties']
     if endpoint.get('provisioningStatus')!='Success':raise RuntimeError('Gold SQL endpoint not ready')
-    body=model(endpoint)
     vocabulary=json.loads((folder/'vocabulary.json').read_text()) if (folder/'vocabulary.json').exists() else {}
-    for table in body['model']['tables']:
-        table['name']=vocabulary.get(table['name'],table['name'])
-        table['partitions'][0]['name']=table['name']
-        for measure in table.get('measures',[]):
-            measure['name']=vocabulary.get(measure['name'],measure['name'])
-            for old,new in vocabulary.items():
-                measure['expression']=measure['expression'].replace('['+old+']','['+new+']').replace(old+'[',new+'[')
-    for relation in body['model']['relationships']:
-        for key in ('fromTable','toTable'):relation[key]=vocabulary.get(relation[key],relation[key])
+    body=model(endpoint,vocabulary)
     definition=parts({'model.bim':body,'definition.pbism':{'version':'1.0','settings':{}}})
     suffix=json.loads((folder/'publisher-input.json').read_text())['suffix']
     result=publisher.item(publisher.post('semantic-model',f'workspaces/{w}/semanticModels',{'displayName':'Warehouse Operations '+suffix,'definition':definition}))
