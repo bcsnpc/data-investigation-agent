@@ -87,7 +87,7 @@ class Workspace:
         if model.get('discovery'):
             from .dynamic_reasoning import VERSION
             envelope['strategy']=VERSION
-            envelope['limits'].update(planner_calls=12,input_characters=200000)
+            envelope['limits'].update(planner_calls=12,input_characters=384000)
         candidates, gaps = catalog(self.store, self.agent.config, envelope)
         metadata = self.model(model['id'])
         labels = {m['id']: m['name'] for m in metadata['measures']}

@@ -14,6 +14,25 @@ from investigator.onboarding import Conflict
 
 
 class QueryParserTests(unittest.TestCase):
+    def test_large_definition_lookup_remains_navigable_without_whole_code(self):
+        asset={'id':'definition','kind':'DefinitionPart','metadata':{'content':'x'*25000}}
+        with patch.object(dynamic_reasoning.context_search,'get_asset',return_value={
+                'context_version':'v','asset':asset,'edges':[],'children':[]}):
+            result=dynamic_reasoning.lookup(None,{'operation':'asset','value':'definition'})
+        self.assertEqual(result['metadata']['asset']['id'],'definition')
+        self.assertEqual(result['metadata']['asset']['metadata']['content_length'],25000)
+        self.assertNotIn('content',result['metadata']['asset']['metadata'])
+        self.assertEqual(result['completeness'],'PARTIAL')
+        self.assertEqual(len(asset['metadata']['content']),25000)
+
+    def test_recovery_targets_survive_large_catalog_handle_limit(self):
+        payload={'candidates':[],'hypotheses':[],'observations':[{'id':'r','tool':'context','status':'REJECTED',
+            'metadata':{'recovery_assets':[{'id':'missing-table','kind':'SqlObject'}]}}],
+            'context':[{'id':f'asset-{i}'} for i in range(150)]}
+        wire,_,handles=dynamic_reasoning.wire_contract(payload)
+        target=wire['observations'][0]['metadata']['recovery_assets'][0]['id']
+        self.assertEqual(handles[target],'missing-table')
+
     def test_lookup_handles_roundtrip_without_mutating_payload(self):
         payload={'candidates':[],'hypotheses':[],'observations':[],
                  'context':[{'id':'fabric://model/measure/Encoded%20Name','parent_id':'fabric://model/table'}]}
@@ -188,8 +207,11 @@ class DynamicTests(unittest.TestCase):
     def test_dynamic_budget_admission_keeps_cloud_and_legacy_bounds(self):
         from investigator.adaptive_candidates import catalog
         envelope=copy.deepcopy(self.envelope)
-        envelope['limits'].update(planner_calls=12,input_characters=200000)
+        envelope['limits'].update(planner_calls=12,input_characters=384000)
         catalog(self.store,self.config,envelope)
+        envelope['limits']['input_characters']=384001
+        with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
+        envelope['limits']['input_characters']=384000
         envelope['limits']['planner_calls']=13
         with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
         envelope['limits']['planner_calls']=12
@@ -265,6 +287,23 @@ class DynamicTests(unittest.TestCase):
         agent=AdaptiveRuntime(self.runtime,lambda _:self.fail('stale planning'))
         state=agent.create(self.envelope,'stale');self.fixture.scan()
         self.assertEqual(agent.run(state['id'])['status'],'HELD');self.assertFalse(self.native_calls)
+
+    def test_missing_schema_feedback_drives_lookup_then_real_query(self):
+        calls=[]
+        def planner(payload):
+            calls.append(payload)
+            if len(calls)==1:return self.decision('QUERY',query={'tool':'bounded_sql','text':'SELECT COUNT(*) AS n FROM business.events','max_rows':20})
+            if len(calls)==2:
+                self.assertFalse(self.sql_calls)
+                target=payload['observations'][-1]['metadata']['recovery_assets'][0]
+                return self.decision('LOOKUP',lookup={'operation':'asset','value':target['id']})
+            if len(calls)==3:return self.decision('QUERY',query={'tool':'bounded_sql','text':'SELECT COUNT(*) AS n FROM business.events','max_rows':20})
+            return self.decision('ASK',question='What count was expected?')
+        agent=AdaptiveRuntime(self.runtime,planner)
+        result=agent.run(agent.create(self.envelope,'schema-recovery')['id'])
+        self.assertEqual(result['status'],'NEEDS_INPUT')
+        self.assertEqual(len(self.sql_calls),1)
+        self.assertEqual(result['cloud_calls'],1)
 
     def test_principal_and_parser_checked_before_native_dispatch(self):
         from investigator.flexible_tools import build
