@@ -6,7 +6,7 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Engine freeze and unfamiliar-domain challenge (Stages 6ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“7) are in progress.**
+**Engine freeze and unfamiliar-domain challenge (Stages 6–7) are in progress.**
 The first frozen attempt failed intake reliability; one ratio case passed but most
 questions did not reach investigation. Generic corrections were validated and frozen as `unknown-domain-engine-v2`;
 a fresh variant is published. Its publisher DAX rename defect is repaired and
@@ -15,8 +15,8 @@ establishes full challenge acceptance. Several runs hit Azure LLM rate limits;
 a paced transformation repeat avoided throttling but exhausted its budget on
 repeated native reads without retrieving transformation context. Generic reasoning
 corrections, a fresh freeze and remaining acceptance experiments are next. See [attempt details](unknown-domain-challenge.md).
-PR #200 merged after all six CI checks passed. Generic reliability corrections
-are now in development; v2 remains a historical failed attempt and cannot certify
+PRs #200 and #201 merged after all six CI checks passed. Further context and
+trajectory improvements are in development; v2 remains a historical failed attempt and cannot certify
 the changed engine. The current revision passed 903 regression tests; 10 dynamic
 browser checks passed before its final backend recovery fixes. The six isolated
 v2 SQL tables now have user-approved reader SELECT; the denied query subsequently
@@ -24,6 +24,22 @@ succeeded with read-only verification. The final known-domain trial recovered
 from a column-binding error but ended UNRESOLVED after 10 planner calls and two
 SQL reads, repeating metadata without inspecting transformations. Useful next-test
 selection remains pending. See [reasoning reliability](reasoning-reliability.md).
+The current quality work adds labelled definition children, paged content/literal
+search, bounded action history and unchanged-context repetition accounting.
+Research and model evaluation are recorded in [quality engineering](investigation-quality-engineering.md).
+A separate GPT-4.1 evaluation deployment is available; its baseline was held at
+the shared daily usage limit after four planning calls and no data queries. It
+cannot establish model superiority. With the approved temporary allowance, the
+corrected run reached transformation code through literal definition search but
+ended UNRESOLVED / BUDGET_LIMIT after nine planner calls and zero data queries.
+A SQL proposal was rejected for missing schema context; recovery remains weak.
+The original daily allowance is restored and consumed reservations are retained.
+Next: compact structured context and schema-prerequisite recovery before another
+quality trial. All six CI checks passed on implementation commit `4efa8f1`.
+Local validation passed 910 full-suite tests,
+plus eight focused checks after the final pagination/evaluator changes, and all
+ten dynamic browser checks. These do not establish live diagnosis quality.
+
 Dynamic reasoning and governed tools merged in PR #198 after all six CI checks passed.
 [Issue #197](https://github.com/bcsnpc/data-investigation-agent/issues/197) tracks
 this grouped change. Architecture PR #194 and discovery PR #196 are merged.

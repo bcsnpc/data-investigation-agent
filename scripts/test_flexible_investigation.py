@@ -135,6 +135,28 @@ class QueryParserTests(unittest.TestCase):
 
 
 class DynamicTests(unittest.TestCase):
+    def test_compacted_parent_keeps_definition_handles_for_content_tools(self):
+        agent=AdaptiveRuntime(self.runtime,lambda _:None)
+        state=agent.create(self.envelope,'definition-history')
+        state['observations']=[{'id':'first','tool':'context','status':'COMPLETED','values':[],
+            'metadata':{'asset':{'id':'parent','kind':'Notebook','name':'Unfamiliar','metadata':{'large':'x'*2000}},
+                        'children':[{'id':'definition','kind':'DefinitionPart','name':'code.py'}]}},
+            {'id':'second','tool':'context','status':'COMPLETED','values':[], 'metadata':{}}]
+        payload=agent.payload(state,[])
+        self.assertEqual(payload['observations'][0]['metadata']['children'][0]['id'],'definition')
+        wire,schema,handles=dynamic_reasoning.wire_contract(payload)
+        content=next(c for c in schema['properties']['next']['anyOf'] if c['properties'].get('operation',{}).get('enum')==['content'])
+        allowed=content['properties']['value']['enum']
+        self.assertEqual([handles[h] for h in allowed],['definition'])
+
+    def test_repeated_context_stops_without_pretending_new_evidence(self):
+        agent=AdaptiveRuntime(self.runtime,lambda _:self.decision('LOOKUP',lookup={'operation':'search','value':'events'}))
+        result=agent.run(agent.create(self.envelope,'repeated-context')['id'])
+        self.assertEqual(result['stop_reason'],'NO_PROGRESS')
+        self.assertEqual(result['planner_calls'],3)
+        self.assertEqual(result['cloud_calls'],0)
+        self.assertEqual(result['observations'][-1]['duplicate_of'],result['observations'][0]['id'])
+
     def test_rejected_queries_stop_without_spending_cloud_budget(self):
         agent=AdaptiveRuntime(self.runtime,lambda _:self.decision('QUERY',query={
             'tool':'bounded_sql','text':'SELECT missing_column FROM business.events','max_rows':20}))

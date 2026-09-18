@@ -714,3 +714,42 @@ PR #201 groups these corrections. Final known-domain trial
 with 10 planner calls and two SQL reads. Query recovery worked once; metadata
 repetition and absent transformation inspection still prevented diagnosis.
 Fresh-freeze acceptance is not yet justified by this evidence.
+
+
+## 2026-09-18 - Context navigation and quality engineering (#199)
+
+Researched official OpenAI and Anthropic guidance on tool/context design and
+behavioral evaluation. Added labelled definition children, bounded content pages
+and literal search, concise action history, remaining-budget context and repeated
+lookup accounting. No domain names, formulas or expected answers enter these
+runtime changes. Model settings selection is explicit and must be frozen for
+unfamiliar-domain acceptance. A trajectory scorer reports signals without grading
+business correctness.
+
+The user authorized better models. Created a separate GPT-4.1 evaluation deployment
+at capacity 10; the default mini deployment is unchanged. Baseline session
+`fdfb386a-eefb-42a5-bd63-cea755faed7a` was HELD / USAGE_LIMIT after four planning
+calls and no data reads. Shared daily limits were preserved. Further live testing
+awaits the requested budget approval or the next UTC usage day.
+
+Validation: 910 full-suite tests passed; eight focused checks passed after final
+pagination/evaluator changes. Ten dynamic browser checks passed. Stored notebook
+metadata navigation exposed two definition children, paged 20,528 characters and
+found two literal matches without SQL or LLM calls. This is tool verification,
+not a live agent diagnosis. See [quality engineering](investigation-quality-engineering.md).
+
+### 2026-09-18 - Approved quality trial follow-up
+
+The user approved up to 20 additional planner calls with a temporary 150,000
+output reservation allowance. A first navigation trial exposed lost definition
+links during context compaction; it was cancelled with receipts retained. The
+generic correction preserves child links and restricts content tools to definition
+parts. Six navigation and 27 flexible-runtime tests passed; all six CI checks
+passed on `4efa8f1`.
+
+Corrected known-domain run `3b0a375e-0027-4715-b3b7-fe991bb883e6` used nine
+planner calls, found transformation code, and ended UNRESOLVED / BUDGET_LIMIT.
+Eight lookups completed; a missing-schema SQL proposal was rejected and no data
+queries executed. The original daily allowance was restored without resetting
+usage. Context efficiency and rejected-query recovery remain pending; this is
+not unknown-domain acceptance or evidence that GPT-4.1 is superior.
