@@ -5,6 +5,7 @@ security boundary, not a keyword regex. Native SQL remains the calculation engin
 """
 import re
 from sqlglot import parse, exp
+from sqlglot.errors import OptimizeError
 from sqlglot.optimizer.qualify import qualify
 from sqlglot.optimizer.scope import traverse_scope
 
@@ -19,7 +20,8 @@ def compile_query(query, objects, *, max_rows=250):
     if len(statements)!=1 or not isinstance(statements[0],exp.Select):raise ValueError('One SELECT/CTE query required')
     tree=statements[0]
     if len(list(tree.walk()))>1200:raise ValueError('SQL syntax budget exceeded')
-    if any(type(n).__name__ not in NODES for n in tree.walk()):raise ValueError('Unsupported SQL syntax or function')
+    unsupported=sorted({type(n).__name__ for n in tree.walk()}-NODES)
+    if unsupported:raise ValueError('Unsupported SQL syntax or function nodes: '+', '.join(unsupported[:8])+'. Remove these constructs or choose a supported diagnostic; no query executed.')
     if any(n.args.get('recursive') for n in tree.find_all(exp.With)):raise ValueError('Recursive CTE unsupported')
     if len(list(tree.find_all(exp.Join)))>4 or len(list(tree.find_all(exp.Select)))>8:raise ValueError('Relational complexity budget exceeded')
     if any(n.args.get('offset') for n in tree.find_all(exp.Select)):raise ValueError('Offset is unsupported')
@@ -30,8 +32,9 @@ def compile_query(query, objects, *, max_rows=250):
         if key in index:raise ValueError('Ambiguous SQL catalog')
         index[key]=asset
         schema.setdefault(meta['schema_name'],{})[meta['name']]={c['name']:c['data_type'] for c in meta['columns'] if not c.get('computed_definition')}
-    referenced=[]
+    referenced=[];ambiguous=[]
     for scope in traverse_scope(tree):
+        source_columns={}
         for name,source in scope.sources.items():
             if not isinstance(source,exp.Table):continue
             if source.catalog or not source.db or not isinstance(source.this,exp.Identifier):raise ValueError('Qualified approved schema/table required')
@@ -40,8 +43,21 @@ def compile_query(query, objects, *, max_rows=250):
             # Never allow hints, temporal/version modifiers or schema-qualified functions.
             if any(v for k,v in source.args.items() if k not in ('this','db','catalog','alias')):raise ValueError('Unsupported table modifier')
             referenced.append(asset['id'])
+            source_columns[name]={c['name'].casefold() for c in asset['metadata']['columns'] if not c.get('computed_definition')}
+        for column in scope.columns:
+            if column.table:continue
+            aliases=[alias for alias,columns in source_columns.items() if column.name.casefold() in columns]
+            if len(aliases)>1:
+                hint=(column.name,tuple(aliases))
+                if hint not in ambiguous:ambiguous.append(hint)
     if not referenced:raise ValueError('At least one approved source asset required')
-    qualified=qualify(tree,dialect='tsql',schema=schema,validate_qualify_columns=True,identify=True)
+    try:qualified=qualify(tree,dialect='tsql',schema=schema,validate_qualify_columns=True,identify=True)
+    except OptimizeError as exc:
+        if ambiguous:
+            hints=[{'column':column,'candidate_aliases':list(aliases)} for column,aliases in ambiguous[:4]]
+            raise ValueError('SQL binding rejected: ambiguous unqualified columns '+repr(hints)+
+                             '. Choose the intended table alias in SELECT, GROUP BY and other references; the query was not executed.') from exc
+        raise
     names=qualified.named_selects
     if not 1<=len(names)<=16 or len(set(n.casefold() for n in names))!=len(names) or any(not n or n=='*' or len(n)>128 for n in names):raise ValueError('Bounded uniquely named result columns required')
     # Outer TOP is a result limit, not a scan-cost guarantee. Reject caller TOP

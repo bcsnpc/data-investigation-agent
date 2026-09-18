@@ -148,6 +148,7 @@ class AdaptiveRuntime:
                 'aggregate_reconciliations':state.get('aggregate_reconciliations',[]),
                 'hypotheses':state['hypotheses'],'gaps':state['gaps'],
                 'remaining_cloud_calls':state['envelope']['limits']['cloud_calls']-state['cloud_calls'],
+                'remaining_wall_seconds':max(0,int(state['deadline']-self.clock())),
                 'limitation':'All observations are diagnostic only; no semantic equivalence or causal proof.'}
         if state['envelope'].get('strategy'):
             from .dynamic_reasoning import enrich
@@ -245,11 +246,12 @@ class AdaptiveRuntime:
                 self.save(db,state,'CONTEXT_OBSERVED',{'observation_id':item['id']})
             else:
                 if decision['action']=='QUERY':
-                    from .dynamic_reasoning import candidate as proposed_candidate
+                    from .dynamic_reasoning import candidate as proposed_candidate, MissingSourceContext
                     try:candidate=proposed_candidate(self.store,self.config,state,decision['query'])
                     except (ValueError,KeyError) as exc:
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
                               'metadata':{'reason':str(exc)[:500]},'measure_id':None,'dimension_id':None}
+                        if isinstance(exc,MissingSourceContext):item['metadata']['recovery_assets']=exc.recovery_assets
                         state['observations'].append(item);state.update(status='READY',token=None,no_progress=state.get('no_progress',0)+1)
                         self.save(db,state,'PROPOSAL_REJECTED',{'observation_id':item['id']})
                         return self.project_after_commit(db,state)

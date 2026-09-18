@@ -14,6 +14,25 @@ from investigator.onboarding import Conflict
 
 
 class QueryParserTests(unittest.TestCase):
+    def test_large_definition_lookup_remains_navigable_without_whole_code(self):
+        asset={'id':'definition','kind':'DefinitionPart','metadata':{'content':'x'*25000}}
+        with patch.object(dynamic_reasoning.context_search,'get_asset',return_value={
+                'context_version':'v','asset':asset,'edges':[],'children':[]}):
+            result=dynamic_reasoning.lookup(None,{'operation':'asset','value':'definition'})
+        self.assertEqual(result['metadata']['asset']['id'],'definition')
+        self.assertEqual(result['metadata']['asset']['metadata']['content_length'],25000)
+        self.assertNotIn('content',result['metadata']['asset']['metadata'])
+        self.assertEqual(result['completeness'],'PARTIAL')
+        self.assertEqual(len(asset['metadata']['content']),25000)
+
+    def test_recovery_targets_survive_large_catalog_handle_limit(self):
+        payload={'candidates':[],'hypotheses':[],'observations':[{'id':'r','tool':'context','status':'REJECTED',
+            'metadata':{'recovery_assets':[{'id':'missing-table','kind':'SqlObject'}]}}],
+            'context':[{'id':f'asset-{i}'} for i in range(150)]}
+        wire,_,handles=dynamic_reasoning.wire_contract(payload)
+        target=wire['observations'][0]['metadata']['recovery_assets'][0]['id']
+        self.assertEqual(handles[target],'missing-table')
+
     def test_lookup_handles_roundtrip_without_mutating_payload(self):
         payload={'candidates':[],'hypotheses':[],'observations':[],
                  'context':[{'id':'fabric://model/measure/Encoded%20Name','parent_id':'fabric://model/table'}]}
@@ -76,6 +95,22 @@ class QueryParserTests(unittest.TestCase):
         value=query_sql.compile_query("WITH a AS (SELECT id, SUM(amount) AS total FROM approved.events WHERE state='ok' GROUP BY id) SELECT a.id,a.total FROM a JOIN approved.events AS e ON e.id=a.id WHERE a.total>1",self.objects)
         self.assertEqual(value['asset_ids'],['events']);self.assertEqual(value['result_columns'],['id','total'])
         self.assertNotIn("'ok'",value['query']);self.assertIn('@p0',value['query']);self.assertIn('TOP 251',value['query'])
+
+    def test_sql_ambiguity_names_column_and_aliases_without_choosing_for_user(self):
+        query='SELECT id FROM approved.events a JOIN approved.events b ON a.id=b.id'
+        with self.assertRaisesRegex(ValueError,'candidate_aliases') as rejected:
+            query_sql.compile_query(query,self.objects)
+        self.assertIn("'column': 'id'",str(rejected.exception))
+        self.assertIn("['a', 'b']",str(rejected.exception))
+        corrected=query_sql.compile_query(query.replace('SELECT id','SELECT a.id'),self.objects)
+        self.assertEqual(corrected['result_columns'],['id'])
+        with self.assertRaisesRegex(ValueError,'unavailable'):
+            query_sql.compile_query(query.replace('approved.events b','hidden.events b'),self.objects)
+
+    def test_unsupported_function_is_named_and_simplified_query_is_admitted(self):
+        with self.assertRaisesRegex(ValueError,'Concat'):
+            query_sql.compile_query("SELECT COUNT(DISTINCT CONCAT(id, ':', state)) AS n FROM approved.events",self.objects)
+        self.assertEqual(query_sql.compile_query('SELECT COUNT(DISTINCT id) AS n FROM approved.events',self.objects)['result_columns'],['n'])
 
     def test_sql_write_escape_ambiguous_unknown_and_unsupported_rejected(self):
         bad=["DELETE FROM approved.events","SELECT * INTO approved.new FROM approved.events",
@@ -188,8 +223,11 @@ class DynamicTests(unittest.TestCase):
     def test_dynamic_budget_admission_keeps_cloud_and_legacy_bounds(self):
         from investigator.adaptive_candidates import catalog
         envelope=copy.deepcopy(self.envelope)
-        envelope['limits'].update(planner_calls=12,input_characters=200000)
+        envelope['limits'].update(planner_calls=12,input_characters=384000)
         catalog(self.store,self.config,envelope)
+        envelope['limits']['input_characters']=384001
+        with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
+        envelope['limits']['input_characters']=384000
         envelope['limits']['planner_calls']=13
         with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
         envelope['limits']['planner_calls']=12
@@ -266,6 +304,23 @@ class DynamicTests(unittest.TestCase):
         state=agent.create(self.envelope,'stale');self.fixture.scan()
         self.assertEqual(agent.run(state['id'])['status'],'HELD');self.assertFalse(self.native_calls)
 
+    def test_missing_schema_feedback_drives_lookup_then_real_query(self):
+        calls=[]
+        def planner(payload):
+            calls.append(payload)
+            if len(calls)==1:return self.decision('QUERY',query={'tool':'bounded_sql','text':'SELECT COUNT(*) AS n FROM business.events','max_rows':20})
+            if len(calls)==2:
+                self.assertFalse(self.sql_calls)
+                target=payload['observations'][-1]['metadata']['recovery_assets'][0]
+                return self.decision('LOOKUP',lookup={'operation':'asset','value':target['id']})
+            if len(calls)==3:return self.decision('QUERY',query={'tool':'bounded_sql','text':'SELECT COUNT(*) AS n FROM business.events','max_rows':20})
+            return self.decision('ASK',question='What count was expected?')
+        agent=AdaptiveRuntime(self.runtime,planner)
+        result=agent.run(agent.create(self.envelope,'schema-recovery')['id'])
+        self.assertEqual(result['status'],'NEEDS_INPUT')
+        self.assertEqual(len(self.sql_calls),1)
+        self.assertEqual(result['cloud_calls'],1)
+
     def test_principal_and_parser_checked_before_native_dispatch(self):
         from investigator.flexible_tools import build
         plan={k:self.envelope[k] for k in ('model_id','revision','context_id')}
@@ -282,6 +337,18 @@ class DynamicTests(unittest.TestCase):
         plan.update(query='SELECT COUNT(*) AS n FROM business.events',max_rows=20)
         result=run(self.store,plan,self.config,'bounded_sql',lambda q:calls.append(q) or {'rows':[{'n':'1'}]})
         self.assertEqual(result['status'],'FAILED');self.assertEqual(len(calls),1)
+
+    def test_source_failure_keeps_safe_error_category_not_exception_text(self):
+        from investigator.flexible_tools import run
+        from run_source_diagnostic import SourceReadError
+        plan={k:self.envelope[k] for k in ('model_id','revision','context_id')}
+        plan.update(query='SELECT COUNT(*) AS n FROM business.events',max_rows=20)
+        def failed(_):raise SourceReadError(40613,'SqlException')
+        result=run(self.store,plan,self.config,'bounded_sql',failed)
+        self.assertEqual(result['status'],'FAILED')
+        self.assertEqual(result['result']['error_number'],40613)
+        self.assertEqual(result['result']['error_kind'],'SqlException')
+        self.assertNotIn('message',result['result'])
 
     def test_dynamic_cancel_before_next_turn_has_no_query(self):
         agent=AdaptiveRuntime(self.runtime,lambda _:self.fail('cancelled planning'))
