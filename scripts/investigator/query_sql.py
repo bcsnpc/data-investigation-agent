@@ -9,7 +9,7 @@ from sqlglot.errors import OptimizeError
 from sqlglot.optimizer.qualify import qualify
 from sqlglot.optimizer.scope import traverse_scope
 
-VERSION = 'bounded-tsql-v1'
+VERSION = 'bounded-tsql-v2'
 NODES = set('Select From Table Identifier TableAlias Column Alias Star Where Group Having Order Ordered Limit Join With CTE Subquery Paren And Or Not EQ NEQ GT GTE LT LTE Is In Between Like ILike Add Sub Mul Div Mod Neg Literal Null Boolean Parameter Var Distinct Case If Cast TryCast DataType DataTypeParam Count Sum Avg Min Max Coalesce Nullif Abs Round Floor Ceil DateAdd DateDiff CurrentDate CurrentTimestamp Extract Window RowNumber Partition Offset'.split())
 
 
@@ -22,6 +22,25 @@ def capabilities():
             'experiments':['Uniqueness and nulls','Composite grain','Functional dependency counterexamples',
                            'Join fanout and unmatched keys','Date ranges and observed freshness'],
             'limits':'TOP bounds output, not scan cost. A sample cannot prove global uniqueness or a business rule.'}
+
+
+def validate_ungrouped_projection(tree):
+    """Catch mixed scalar/aggregate projections, not a replacement SQL engine."""
+    for select in tree.find_all(exp.Select):
+        if select.args.get('group') or any(n.find_ancestor(exp.Select) is select for n in select.find_all(exp.Window)):
+            continue
+        aggregates={id(n) for expression in select.expressions for n in expression.find_all(exp.AggFunc)
+                    if n.find_ancestor(exp.Select) is select}
+        if not aggregates:continue
+        for expression in select.expressions:
+            for column in expression.find_all(exp.Column):
+                if column.find_ancestor(exp.Select) is not select:continue
+                parent=column.parent;covered=False
+                while parent is not None and parent is not select:
+                    if id(parent) in aggregates:covered=True;break
+                    parent=parent.parent
+                if not covered:
+                    raise ValueError('Aggregate SELECT without GROUP BY contains an unaggregated output column. Group that expression or aggregate the scalar summary field; no query executed.')
 
 
 def compile_query(query, objects, *, max_rows=250):
@@ -69,6 +88,7 @@ def compile_query(query, objects, *, max_rows=250):
             raise ValueError('SQL binding rejected: ambiguous unqualified columns '+repr(hints)+
                              '. Choose the intended table alias in SELECT, GROUP BY and other references; the query was not executed.') from exc
         raise
+    validate_ungrouped_projection(qualified)
     names=qualified.named_selects
     if not 1<=len(names)<=16 or len(set(n.casefold() for n in names))!=len(names) or any(not n or n=='*' or len(n)>128 for n in names):raise ValueError('Bounded uniquely named result columns required')
     # Outer TOP is a result limit, not a scan-cost guarantee. Reject caller TOP

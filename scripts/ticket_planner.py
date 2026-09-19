@@ -90,17 +90,25 @@ def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tick
         response = client.responses.create(
             model=deployment, instructions=instructions, input=request_input, store=False,
             max_output_tokens=policy['max_output_tokens'], **options)
-    if response.status != 'completed' or any(
-            c.type == 'refusal' for item in response.output if item.type == 'message' for c in item.content):
-        raise ValueError('Model refused or returned an incomplete response')
+    from investigator.generation_policy import ProviderResponseError
+    usage=response.usage.model_dump() if response.usage else None
+    if any(c.type=='refusal' for item in response.output if item.type=='message' for c in item.content):
+        raise ProviderResponseError('REFUSAL',usage)
+    if response.status=='incomplete':
+        reason=getattr(getattr(response,'incomplete_details',None),'reason',None)
+        code={'max_output_tokens':'OUTPUT_TOKEN_LIMIT','content_filter':'CONTENT_FILTER'}.get(reason,'INCOMPLETE')
+        raise ProviderResponseError(code,usage)
+    if response.status!='completed':raise ProviderResponseError('RESPONSE_NOT_COMPLETED',usage)
     if decision_tool:
         calls=[item for item in response.output if item.type=='function_call']
         if len(calls)!=1 or calls[0].name!=name or any(item.type not in ('function_call','reasoning') for item in response.output):
-            raise ValueError('Expected one unambiguous decision call')
+            raise ProviderResponseError('DECISION_CALL_SHAPE',usage)
         raw=calls[0].arguments
     else:raw=response.output_text
-    return json.loads(raw), {'response_id': response.id, 'model': response.model,
-                                            'usage': response.usage.model_dump() if response.usage else None}
+    try:value=json.loads(raw)
+    except (ValueError,TypeError):raise ProviderResponseError('INVALID_JSON',usage) from None
+    return value, {'response_id':response.id,'model':response.model,'usage':usage}
+
 
 
 def plan_ticket(store, ticket_id, graph, generate=azure_generate, *, native_page=None, metadata_database=None):

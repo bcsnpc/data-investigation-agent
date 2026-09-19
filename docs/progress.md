@@ -855,3 +855,16 @@ confirmation without querying; that failure is retained. The temporary daily out
 reservation allowance was restored to the original policy without resetting usage.
 Provider response failure diagnosis and repeated broader evaluations remain the
 next priority before a fresh freeze; the nine-family challenge is still pending.
+
+
+## 2026-09-18 - Provider response reliability and continued quality evaluation
+
+Safe provider failure categories and numeric usage now distinguish incomplete
+responses from connection failures. Replays reproduced an output-token limit;
+the experimental profile increased to 8,000 output tokens under existing user
+authorization. A narrow SQL AST guard rejects invalid ungrouped mixed aggregates.
+All 943 regression tests passed. The full transformation run completed but left
+its business premise and source duplication untested; the ambiguity run inspected
+available technical context and preserved unknown business meaning. These remain
+known-domain evidence, not a fresh frozen acceptance pass. Original daily limits
+were restored without deleting usage. See [evaluation](provider-response-reliability.md).

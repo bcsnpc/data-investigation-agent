@@ -99,5 +99,32 @@ class PlannerTests(unittest.TestCase):
             response.output = [SimpleNamespace(type='message', content=[SimpleNamespace(type='refusal')])]
             with self.assertRaises(ValueError): azure_generate({})
 
+    def test_provider_failure_categories_never_preserve_output_or_messages(self):
+        from investigator.generation_policy import ProviderResponseError,error_summary
+        sdk=MagicMock();client=sdk.OpenAI.return_value.__enter__.return_value
+        response=SimpleNamespace(status='incomplete',output=[],output_text='secret partial text',
+            incomplete_details=SimpleNamespace(reason='max_output_tokens'),
+            usage=SimpleNamespace(model_dump=lambda:{'input_tokens':10,'output_tokens':1500,'secret':'private'}))
+        client.responses.create.return_value=response
+        env={'AZURE_OPENAI_ENDPOINT':'https://test.openai.azure.com','AZURE_OPENAI_DEPLOYMENT':'test','AZURE_OPENAI_API_KEY':'placeholder'}
+        with patch.dict('os.environ',env,clear=True),patch.dict('sys.modules',{'openai':sdk}):
+            for status,reason,code in [('incomplete','max_output_tokens','OUTPUT_TOKEN_LIMIT'),
+                    ('incomplete','content_filter','CONTENT_FILTER'),('incomplete','secret','INCOMPLETE'),
+                    ('failed',None,'RESPONSE_NOT_COMPLETED')]:
+                response.status=status;response.incomplete_details.reason=reason
+                with self.assertRaises(ProviderResponseError) as caught:azure_generate({})
+                self.assertEqual(error_summary(caught.exception)['response_failure'],code)
+                self.assertEqual(caught.exception.usage,{'input_tokens':10,'output_tokens':1500})
+                self.assertNotIn('secret',str(caught.exception)+json.dumps(error_summary(caught.exception)))
+            response.status='completed'
+            with self.assertRaises(ProviderResponseError) as caught:azure_generate({})
+            self.assertEqual(caught.exception.code,'INVALID_JSON')
+            response.output_text='{}'
+            with self.assertRaises(ProviderResponseError) as caught:azure_generate({},decision_tool=True)
+            self.assertEqual(caught.exception.code,'DECISION_CALL_SHAPE')
+            response.output=[SimpleNamespace(type='message',content=[SimpleNamespace(type='refusal',refusal='private')])]
+            with self.assertRaises(ProviderResponseError) as caught:azure_generate({})
+            self.assertEqual(caught.exception.code,'REFUSAL')
+
 
 if __name__ == '__main__': unittest.main()

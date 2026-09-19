@@ -204,10 +204,12 @@ class AdaptiveRuntime:
                 decision=validate_dynamic(proposal,payload)
             else:decision=validate(proposal,payload)
         except Exception as exc:
+            from .generation_policy import failure_usage
+            failed_usage=usage.get('usage') if proposal_received and isinstance(usage,dict) else failure_usage(exc)
             with self.runtime.db() as db:
                 db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
                 if self.governor:self.governor.settle(db,identity,'planner:'+str(state['planner_calls']),
-                    usage.get('usage') if proposal_received and isinstance(usage,dict) else None,uncertain=not proposal_received)
+                    failed_usage,uncertain=not proposal_received and failed_usage is None)
                 if state['token']==token:
                     if dynamic and proposal_received and isinstance(exc,ValueError):
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
