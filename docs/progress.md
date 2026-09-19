@@ -780,3 +780,21 @@ Validation: 920 regression tests and 10 dynamic browser checks passed on the fin
 backend. Browser verification used injected transport; live evidence is separate.
 See [context/query recovery](context-query-recovery.md) for exact observations,
 failed trials and limits; [current status](current-delivery-status.md) owns next steps.
+
+### 2026-09-18 - Structural discovery supporting the frozen challenge
+
+Added tentative domain profiles during discovered-model projection, adapter-owned
+SQL/DAX capability descriptions and runtime structural experimentation guidance.
+Existing readers, parsers, receipt persistence and budgets remain the execution
+path. Profiles distinguish declared cardinality/type information from measured
+uniqueness, business grain and intent. Scans perform no new data-query sweep.
+
+928 regression tests passed after the bounded planner-profile adjustment; ten
+browser checks passed before that final metadata-only adjustment. Known-domain
+ratio evaluation returned the ratio and both components in one native query;
+missing-business-code evaluation requested meaning without inventing it, but did
+not search all documentation. Neither passes the unknown-domain challenge.
+
+The next freeze uses a fresh variant and copied historical usage records rather
+than resetting counters. See [structural discovery](structural-discovery.md) and
+[current status](current-delivery-status.md) for acceptance status and limitations.

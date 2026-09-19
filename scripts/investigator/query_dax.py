@@ -18,6 +18,14 @@ ENUMS={'ASC','DESC','DAY','MONTH','QUARTER','YEAR','SECOND','MINUTE','HOUR','WEE
 OPS={'+','-','*','/','^','&','=','<','>','<=','>=','<>','==','&&','||','IN'}
 
 
+def capabilities():
+    return {'tool':'bounded_dax','validator_version':VERSION,'mode':'READ_ONLY_EVALUATE',
+            'supported_functions':sorted(FUNCTIONS),'max_result_rows':250,
+            'prerequisites':['Approved discovered model','Isolated native reader'],
+            'experiments':['Native cardinality','Measure components','Dimension sensitivity','Date sensitivity'],
+            'limits':'Power BI executes expressions. Observed behavior does not establish intended additivity, visual filters or RLS equivalence.'}
+
+
 class Parser:
     def __init__(self,query,assets):
         if not isinstance(query,str) or not 1<=len(query)<=16000:raise ValueError('DAX text budget exceeded')

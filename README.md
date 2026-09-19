@@ -46,6 +46,16 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
+The current reliability work adds automatic structural hypotheses to discovered
+model context, SQL/DAX capability descriptions from the validators, and autonomous
+structural experiments during relevant tickets. Keys, grain, join behavior,
+functional dependencies and freshness can be tested through the existing bounded
+read-only tools. Metadata guesses remain distinct from measured evidence and
+business intent. Scans do not launch background data profiling. See
+[structural discovery](docs/structural-discovery.md). The frozen unfamiliar-domain
+challenge remains the main acceptance gate; these additions do not replace it.
+
+
 **Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and
 governed tools (Stages 4–5)** merged in PR #198. Two frozen engine attempts and an unfamiliar
 warehouse domain are recorded. Reliability corrections now require a fresh freeze. The first nine-family trial recorded partial reads,

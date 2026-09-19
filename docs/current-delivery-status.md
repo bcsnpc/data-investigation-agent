@@ -6,6 +6,23 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Active extension: structural discovery within the existing reliability work.**
+New model contexts now include bounded metadata-derived role/key/date/measure
+hypotheses and explicit unknown semantics. SQL/DAX adapters advertise supported
+operations, prerequisites and limits; runtime eligibility does not grant execution.
+Relevant tickets can choose bounded uniqueness, grain, functional-dependency,
+join, freshness and native measure-behavior experiments with existing query receipts.
+There is no new architecture layer, mandatory tool sequence or domain mapping.
+Data profiling is ticket-driven, not an automatic scan-time sweep. The fresh engine
+freeze and unfamiliar-domain challenge remain next, with no acceptance pass claimed.
+Validation: 928 regression tests passed; ten injected-transport browser checks
+passed before the final profile-size adjustment. A ratio trial reproduced native
+components in one read; an ambiguity trial requested business meaning without
+inventing it, but did not exhaust available documentation. These are known-domain
+checks. The fresh challenge attempt is being prepared with prior usage retained.
+See [structural discovery evidence](structural-discovery.md).
+
+
 **Investigation quality before a fresh unfamiliar-domain challenge.** Discovery,
 dynamic queries and earlier reliability work merged in PRs #194, #196, #198,
 #200, #201 and #202. The v1/v2 frozen attempts are historical failed/partial

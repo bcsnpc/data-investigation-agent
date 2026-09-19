@@ -13,6 +13,17 @@ VERSION = 'bounded-tsql-v1'
 NODES = set('Select From Table Identifier TableAlias Column Alias Star Where Group Having Order Ordered Limit Join With CTE Subquery Paren And Or Not EQ NEQ GT GTE LT LTE Is In Between Like ILike Add Sub Mul Div Mod Neg Literal Null Boolean Parameter Var Distinct Case If Cast TryCast DataType DataTypeParam Count Sum Avg Min Max Coalesce Nullif Abs Round Floor Ceil DateAdd DateDiff CurrentDate CurrentTimestamp Extract Window RowNumber Partition Offset'.split())
 
 
+def capabilities():
+    return {'tool':'bounded_sql','validator_version':VERSION,'mode':'READ_ONLY_SELECT',
+            'supported_ast_nodes':sorted(NODES-{'Offset','Parameter'}),
+            'max_joins':4,'max_selects':8,'max_result_columns':16,'max_result_rows':250,
+            'prerequisites':['Approved USER_TABLE catalog','Retrieved exact source schemas','Isolated reader permission check'],
+            'unsupported':['Views','Computed columns','External access','Recursive CTE','Writes'],
+            'experiments':['Uniqueness and nulls','Composite grain','Functional dependency counterexamples',
+                           'Join fanout and unmatched keys','Date ranges and observed freshness'],
+            'limits':'TOP bounds output, not scan cost. A sample cannot prove global uniqueness or a business rule.'}
+
+
 def compile_query(query, objects, *, max_rows=250):
     if not isinstance(query,str) or not 1<=len(query)<=16000:raise ValueError('SQL text budget exceeded')
     if type(max_rows) is not int or not 1<=max_rows<=250:raise ValueError('Invalid row budget')

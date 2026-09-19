@@ -152,6 +152,8 @@ class AdaptiveRuntime:
                 'limitation':'All observations are diagnostic only; no semantic equivalence or causal proof.'}
         if state['envelope'].get('strategy'):
             from .dynamic_reasoning import enrich
+            from .flexible_tools import capabilities
+            result['tool_capabilities']=capabilities(self.store,model,self.config)
             return enrich(self.store,state,result)
         return result
 

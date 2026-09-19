@@ -211,6 +211,14 @@ advanced tools. Stop building milestones around proving every remote property.
 Do not weaken read-only access, identity/scope isolation, truncation handling,
 replay protection, cancellation or human review of external mutation.
 
+### Targeted structural discovery extension
+
+Within the same runtime, derive tentative domain profiles from discovered metadata,
+advertise adapter capabilities and allow bounded structural hypotheses/tests during
+relevant tickets. Declared cardinality is not measured uniqueness; observed grain
+is not business intent. This is supporting work for the frozen challenge, not a
+new platform phase. See [implementation and evidence](../structural-discovery.md).
+
 ## H. Frozen Unknown Domain Challenge
 
 Freeze engine code, prompts, validators, tool registry and policy semantics in a
