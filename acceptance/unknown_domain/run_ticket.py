@@ -60,7 +60,9 @@ def main():
         return call(payload)
     settings=json.loads(args.azure_settings.read_text(encoding='utf-8-sig'))
     agent=AdaptiveRuntime(Runtime(store,c,lambda r:native(c,r),lambda r:source(c,r)),lambda payload:paced(azure_plan,payload),
-          planner_profile={'adapter':'azure','deployment':settings['deployment']},
+          planner_profile={'adapter':'azure','deployment':settings['deployment'],
+                           **({'max_planner_recoveries':settings['max_planner_recoveries']} if 'max_planner_recoveries' in settings else {}),
+                           **({'generation_options':settings['generation_options']} if 'generation_options' in settings else {})},
           usage_policy=json.loads((folder/'usage-policy.json').read_text()))
     def resolve(payload):
         response=paced(azure_resolve,payload)
@@ -73,6 +75,8 @@ def main():
         output={'freeze_commit':None if args.known_domain_regression else freeze['commit'],
                 'trial_kind':'KNOWN_DOMAIN_REGRESSION' if args.known_domain_regression else 'FROZEN_UNKNOWN_DOMAIN',
                 'planner_deployment':settings['deployment'],
+                'generation_options':settings.get('generation_options'),
+                'max_planner_recoveries':settings.get('max_planner_recoveries',0),
                 'minimum_llm_interval':args.minimum_llm_interval,'intake':intake}
         if intake['status']=='PROPOSED':
             proposal=intake['proposal'];request={k:proposal[k] for k in ('model_id','measure_id','filters','dimension_ids')}

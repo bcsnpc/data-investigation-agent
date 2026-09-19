@@ -826,3 +826,32 @@ failed completed investigation, not acceptance or a supported cause. The origina
 daily policy was restored after the run without resetting usage. The next quality
 work must evaluate test selection and provider timeout behavior before another
 freeze; merely publishing another variant would not resolve these findings.
+
+
+### 2026-09-18 - Planner reliability research and evidence continuity
+
+Research from official OpenAI, Microsoft and Anthropic engineering documentation
+led to controlled reasoning comparisons, bounded operator generation settings,
+proper output reservations and an optional single metered planner recovery.
+Known-domain evaluations exposed source-text loss during context compaction,
+duplicate/overlong hypothesis updates and a per-call input ceiling reached after
+retrieving source schemas. Generic corrections retain bounded source evidence,
+use keyed hypothesis slots and expose backend response limits to the model.
+The experimental profile permits 48,000 characters per call; cumulative and SQL
+limits remain unchanged. No domain route, metric branch or expected answer was
+added. All 939 local regression tests passed. The final transformation trial
+reached the notebook join and both source schemas with no proposal rejection or
+repeated lookup, but ended UNRESOLVED on a provider-response ValueError before SQL.
+The safe error category does not establish its cause. Six implementation CI checks
+passed; no unfamiliar-domain acceptance or model-setting superiority is claimed.
+See [planner reliability evidence](planner-runtime-quality.md) for failed,
+interrupted and completed trials; current acceptance remains pending.
+
+
+The final quality-profile ratio regression completed in two planner calls and one
+native read, explaining 6,432 / 8,580 from actual measure definitions and retaining
+the missing business benchmark. The default-model ratio trial asked an unnecessary
+confirmation without querying; that failure is retained. The temporary daily output
+reservation allowance was restored to the original policy without resetting usage.
+Provider response failure diagnosis and repeated broader evaluations remain the
+next priority before a fresh freeze; the nine-family challenge is still pending.

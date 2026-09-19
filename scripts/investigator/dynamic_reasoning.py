@@ -10,7 +10,7 @@ from .onboarding import fields,text,digest,encoded,Conflict
 from . import context_search
 from .model_context import assets
 
-VERSION='dynamic-investigation-v5'
+VERSION='dynamic-investigation-v6'
 INSTRUCTIONS='''Choose ONE next action: RUN a preferred typed candidate, LOOKUP context,
 QUERY a bounded SQL/DAX diagnostic, ASK a material clarification, or STOP with an assessment.
 No fixed layer/test order. Use actual observations to revise failed hypotheses.
@@ -55,7 +55,8 @@ ASK only for missing business intent, ambiguous targets or unavailable user filt
 Arithmetic agreement explains a formula; it does not establish why a value is unusually low/high.
 Treat meaning inferred from names or code as LLM_INFERRED. Missing intended business rules need ASK.
 Hypotheses are short testable claims, not private reasoning. Cite observation IDs when revising.
-Return hypothesis updates only. Existing IDs must use REFINED or REJECTED; omit unchanged hypotheses.
+Return hypothesis updates only, each ID at most once. Merge updates for the same ID.
+Existing IDs must use REFINED or REJECTED; omit unchanged hypotheses.
 Evidence includes metadata receipts, but numeric claims need actual successful query receipts.
 If a proposed query is rejected, use its recorded reason to revise the test within remaining budget.
 When rejection metadata lists recovery_assets, retrieve those exact schemas before retrying.
@@ -65,7 +66,8 @@ Use remaining wall time and dispatch reserves to decide whether another read can
 STOP assessment is an evidence-qualified interpretation, not a verified cause. Give alternatives
 and limits. Equality alone does not prove expected behavior; difference alone does not prove defect.
 Never fabricate evidence or claim unsupported tests ran. Numeric facts are projected from receipts.
-Return {next: {kind: ..., action-specific fields}, hypotheses: [...]}.
+Return {next: {kind: ..., action-specific fields}, hypotheses: {provided_id: update_or_null}}.
+Set unchanged/unused hypothesis slots to null. Supply at most eight non-null updates.
 RUN selects an existing candidate_id verbatim. QUERY supplies tool, text and max_rows.
 LOOKUP supplies operation and value. ASK supplies question. STOP supplies assessment.
 Never invent candidate IDs. Do not combine multiple action types in one response.
@@ -102,12 +104,20 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
         properties={'kind':{'type':'string','enum':[kind]},**props}
         return {'type':'object','additionalProperties':False,'properties':properties,'required':list(properties)}
     query_props=copy.deepcopy(SCHEMA['properties']['query']['anyOf'][1]['properties'])
+    query_props['text'].update(minLength=1,maxLength=16000)
+    query_props['max_rows'].update(minimum=1,maximum=250)
+    assessment=copy.deepcopy(SCHEMA['properties']['assessment']['anyOf'][1])
+    assessment['properties']['claim'].update(minLength=1,maxLength=1000)
+    assessment['properties']['evidence_ids']['maxItems']=12
+    for key in ('alternatives','limits'):
+        assessment['properties'][key].update(minItems=1,maxItems=6)
+        assessment['properties'][key]['items'].update(minLength=1,maxLength=500)
     if not retrieved_sources(observations):query_props['tool']['enum']=['bounded_dax']
     lookup_props=SCHEMA['properties']['lookup']['anyOf'][1]['properties']
     choices=[variant('QUERY',query_props),
              variant('LOOKUP',lookup_props),
-             variant('ASK',{'question':{'type':'string'}}),
-             variant('STOP',{'assessment':SCHEMA['properties']['assessment']['anyOf'][1]})]
+             variant('ASK',{'question':{'type':'string','minLength':1,'maxLength':500}}),
+             variant('STOP',{'assessment':assessment})]
     if candidates:choices.append(variant('RUN',{'candidate_id':{'type':'string','enum':[c['id'] for c in candidates]}}))
     if asset_handles is not None:
         choices[1]=variant('LOOKUP',{'operation':{'type':'string','enum':['search']},'value':{'type':'string'}})
@@ -119,20 +129,22 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
     known={h['id'] for h in hypotheses}
     evidence=[o['id'] for o in observations]
     new_ids=[f'h{i}' for i in range(1,33) if f'h{i}' not in known][:max(0,16-len(known))]
-    variants=[]
+    slots={}
     for ids,statuses in [(new_ids,['OPEN']),(sorted(known),['REFINED','REJECTED'])]:
-        if not ids or (statuses!=['OPEN'] and not evidence):continue
-        item=copy.deepcopy(SCHEMA['properties']['hypotheses']['items'])
-        item['properties']['id']['enum']=ids
-        item['properties']['status']['enum']=statuses
-        refs=item['properties']['evidence_ids']
-        refs['maxItems']=10
-        if evidence:refs['items']['enum']=evidence
-        else:refs['maxItems']=0
-        if statuses!=['OPEN']:refs['minItems']=1
-        variants.append(item)
-    updates={'type':'array','maxItems':8 if variants else 0,
-             'items':{'anyOf':variants} if variants else copy.deepcopy(SCHEMA['properties']['hypotheses']['items'])}
+        for identity in ids:
+            if statuses!=['OPEN'] and not evidence:
+                slots[identity]={'type':'null'}
+                continue
+            item=copy.deepcopy(SCHEMA['properties']['hypotheses']['items'])
+            item['properties'].pop('id');item['required'].remove('id')
+            item['properties']['claim'].update(minLength=1,maxLength=400)
+            item['properties']['status']['enum']=statuses
+            refs=item['properties']['evidence_ids'];refs['maxItems']=10
+            if evidence:refs['items']['enum']=evidence
+            else:refs['maxItems']=0
+            if statuses!=['OPEN']:refs['minItems']=1
+            slots[identity]={'anyOf':[{'type':'null'},item]}
+    updates={'type':'object','additionalProperties':False,'properties':slots,'required':list(slots)}
     return {'type':'object','additionalProperties':False,'properties':{
         'next':{'anyOf':choices},'hypotheses':updates},'required':['next','hypotheses']}
 
@@ -185,8 +197,16 @@ def from_wire(value,asset_handles=None):
         keys['LOOKUP']+=['offset' if action['operation']=='content' else 'needle']
     if kind not in keys:raise ValueError('Unknown action kind')
     fields(action,['kind']+keys[kind])
+    hypotheses=value['hypotheses']
+    if isinstance(hypotheses,dict):
+        converted=[]
+        for identity,update in hypotheses.items():
+            if update is None:continue
+            fields(update,['claim','status','evidence_ids'])
+            converted.append({'id':identity,**update})
+        hypotheses=converted
     result=dict(action=kind,candidate_id=None,question=None,stop_reason=None,
-                hypotheses=value['hypotheses'],lookup=None,query=None,assessment=None)
+                hypotheses=hypotheses,lookup=None,query=None,assessment=None)
     if kind=='QUERY':result['query']={k:action[k] for k in keys[kind]}
     elif kind=='LOOKUP':
         result['lookup']={k:action[k] for k in keys[kind]}
@@ -269,15 +289,27 @@ def lookup(store,request):
             'measure_id':None,'dimension_id':None}
 
 
-def enrich(store,state,payload):
+def compact_context(payload):
+    # Retain recent source evidence across later lookups/rejections without growing context unboundedly.
+    remaining_content=2500
     context_positions=[i for i,o in enumerate(payload['observations']) if o['tool']=='context']
-    for i in context_positions[:-1]:
+    for i in reversed(context_positions[:-1]):
         observation=payload['observations'][i]
         metadata=observation.get('metadata',{})
+        if isinstance(metadata.get('content'),str):
+            content=metadata['content']; retained=content[:remaining_content]
+            remaining_content-=len(retained)
+            compact={k:metadata[k] for k in ('asset_id','context_version','content_hash','offset','total_characters','next_offset','truncated','limitation') if k in metadata}
+            compact.update(content=retained,planner_context_compacted=True,
+                           planner_content_truncated=len(retained)<len(content),
+                           retained_end_offset=metadata.get('offset',0)+len(retained))
+            observation['metadata']=compact
+            observation['planner_sample_truncated']=len(retained)<len(content)
+            continue
         if len(encoded(metadata))<=800:continue
         asset=metadata.get('asset')
         compact={'context_version':metadata.get('context_version'),'planner_context_compacted':True,
-                 'limitation':'Earlier metadata is summarized for planning; original receipt is retained. LOOKUP again for full detail.'}
+                 'limitation':'Earlier metadata is summarized; original receipt is retained. Retrieve only missing details needed for a new test.'}
         if metadata.get('children'):
             compact['children']=metadata['children'][:10]
             compact['children_truncated']=metadata.get('children_truncated',False) or len(metadata['children'])>10
@@ -295,6 +327,10 @@ def enrich(store,state,payload):
             compact['assets']=metadata['assets'][:4]
         observation['metadata']=compact
         observation['planner_sample_truncated']=True
+
+
+def enrich(store,state,payload):
+    compact_context(payload)
     model=store.get(state['model_id']);model_assets=assets(model['context'])
     from .domain_profile import infer,for_planner
     profile=model['context'].get('domain_profile') or infer(model_assets,model['context'].get('semantic_graph'))

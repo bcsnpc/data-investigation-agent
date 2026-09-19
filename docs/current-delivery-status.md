@@ -6,7 +6,43 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Active extension: structural discovery within the existing reliability work.**
+
+**Current milestone: planner reliability and evidence continuity ([PR #205](https://github.com/bcsnpc/data-investigation-agent/pull/205)).**
+Research and live evaluations led to bounded retention of retrieved transformation
+text, keyed hypothesis updates, response-schema field limits, governed reasoning/
+output/timeout settings, and one optional metered planner connection recovery.
+The experimental quality profile allows 48,000 input characters per call; default
+settings, cumulative bounds, reader permissions and SQL free-tier policy remain.
+No domain-specific route, metric branch or scenario mapping was added.
+
+The final known-domain transformation trial made **nine planner calls, one native
+read and seven metadata lookups**, reproducing 53,145 and reaching the actual
+notebook join plus both source schemas. It had no rejected proposal or repeated
+lookup, but **ended UNRESOLVED before SQL execution** on a provider-response
+`ValueError`. The saved category does not identify whether the response was
+incomplete or otherwise invalid. This is not an end-to-end reliability pass.
+Earlier timeout, contract, payload-limit and interrupted experiments remain recorded.
+
+A final quality-profile ratio trial completed its requested calculation in **two
+planner calls and one native read**: 6,432 / 8,580 = 0.7496503496503496. It explained
+the actual measure definitions and preserved the missing business benchmark.
+The default-model trial instead asked for confirmation already supplied in the
+ticket; that task-completion failure is recorded. Neither establishes generality.
+The original daily LLM policy was restored after testing without resetting usage.
+
+**939 local regression tests passed** on the final engine. Six CI checks passed
+on the implementation commit; final PR checks track the documentation head.
+No dedicated browser session was rerun locally. See [research, trials and limits](planner-runtime-quality.md).
+
+Next: safely distinguish provider response failures and repeat ratio,
+transformation and ambiguity evaluations; then freeze a new engine and publish
+a fresh domain for the full acceptance matrix. The unknown-domain challenge
+remains the priority and has not passed. Broader discovery, hosted authentication
+and integrated handoff remain pending.
+
+### Previous milestone: structural discovery (merged PR #204)
+
+**Structural discovery within the existing reliability work.**
 New model contexts now include bounded metadata-derived role/key/date/measure
 hypotheses and explicit unknown semantics. SQL/DAX adapters advertise supported
 operations, prerequisites and limits; runtime eligibility does not grant execution.
@@ -125,7 +161,7 @@ returned rows, not work scanned.
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
 | 6 General engine freeze | v3 profile finding requires a fresh freeze; previous attempts preserved |
-| 7 Unknown Domain Challenge | v3 discovery complete; profile correction under regression; fresh variant pending |
+| 7 Unknown Domain Challenge | v3 discovery complete; planner reliability/context retention under regression; fresh variant pending |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 

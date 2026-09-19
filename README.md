@@ -46,6 +46,12 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
+Current reliability work compares explicit planner reasoning on saved context and
+live known-domain tickets. Bounded provider settings are tied to usage reservations
+and deadline checks; defaults remain unchanged. Early results are mixed, so no
+model-setting superiority or unfamiliar-domain pass is claimed. See
+[planner reliability research](docs/planner-runtime-quality.md).
+
 The current reliability work adds automatic structural hypotheses to discovered
 model context, SQL/DAX capability descriptions from the validators, and autonomous
 structural experiments during relevant tickets. Keys, grain, join behavior,
@@ -54,9 +60,16 @@ read-only tools. Metadata guesses remain distinct from measured evidence and
 business intent. Scans do not launch background data profiling. See
 [structural discovery](docs/structural-discovery.md). The frozen unfamiliar-domain
 challenge remains the main acceptance gate; these additions do not replace it.
-The latest known-domain transformation run reproduced the native value but timed
-out before a supported conclusion, with overlapping tests and no SQL read.
-Test-selection reliability remains the next priority.
+Earlier known-domain transformation runs timed out or stopped at business-context
+questions without measuring source join behavior. A discovered compaction bug
+removed retrieved transformation text from later planner prompts; bounded evidence
+retention now preserves recent excerpts and their provenance. All 939 local
+regression tests pass. The final known-domain trial reached both source schemas
+without proposal rejections or repeated lookups, but a provider-response error
+stopped it before SQL execution. A separate quality-profile ratio trial completed
+the requested value/component explanation in two planner calls and one native read,
+while the default model asked an unnecessary clarification. General reliability
+and unfamiliar-domain acceptance remain unproven.
 
 
 **Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and

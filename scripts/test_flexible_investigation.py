@@ -47,14 +47,28 @@ class QueryParserTests(unittest.TestCase):
 
     def test_hypothesis_wire_schema_separates_new_and_evidenced_updates(self):
         schema=dynamic_reasoning.wire_schema([], [{'id':'h1'}], [{'id':'receipt'}])
-        variants=schema['properties']['hypotheses']['items']['anyOf']
-        new,update=variants
-        self.assertNotIn('h1',new['properties']['id']['enum'])
+        slots=schema['properties']['hypotheses']['properties']
+        new=slots['h2']['anyOf'][1];update=slots['h1']['anyOf'][1]
         self.assertEqual(new['properties']['status']['enum'],['OPEN'])
-        self.assertEqual(update['properties']['id']['enum'],['h1'])
+        self.assertNotIn('id',new['properties'])
         self.assertNotIn('OPEN',update['properties']['status']['enum'])
+        self.assertEqual(update['properties']['claim']['maxLength'],400)
         self.assertEqual(update['properties']['evidence_ids']['items']['enum'],['receipt'])
         self.assertEqual(update['properties']['evidence_ids']['minItems'],1)
+        self.assertEqual(set(schema['properties']['hypotheses']['required']),set(slots))
+
+    def test_keyed_hypotheses_preserve_identity_and_backend_validation(self):
+        value={'next':{'kind':'ASK','question':'Which business date?'},'hypotheses':{
+            'h1':{'claim':'A date mismatch is possible','status':'REFINED','evidence_ids':['r']},'h2':None}}
+        result=dynamic_reasoning.from_wire(value)
+        self.assertEqual(result['hypotheses'],[{'id':'h1',**value['hypotheses']['h1']}])
+        payload={'hypotheses':[{'id':'h1'}],'observations':[{'id':'r'}],'candidates':[]}
+        dynamic_reasoning.validate(result,payload)
+        result['hypotheses'][0]['claim']='x'*401
+        with self.assertRaises(ValueError):dynamic_reasoning.validate(result,payload)
+        value['hypotheses']['h1']['id']='different'
+        with self.assertRaises(ValueError):dynamic_reasoning.from_wire(value)
+
 
     def test_generated_sql_requires_retrieved_schema_but_metadata_lookup_is_available_first(self):
         def tools(observations):

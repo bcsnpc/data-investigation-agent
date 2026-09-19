@@ -50,7 +50,8 @@ def validate(value, payload):
     evidence={o['id'] for o in payload['observations']}
     for h in hypotheses:
         fields(h,['id','claim','status','evidence_ids']); text(h['id'],80);text(h['claim'],400)
-        if h['id'] in seen or h['status'] not in ('OPEN','REFINED','REJECTED'):raise ValueError('Invalid hypothesis')
+        if h['id'] in seen:raise ValueError('Duplicate hypothesis update: include each ID once and merge its updates')
+        if h['status'] not in ('OPEN','REFINED','REJECTED'):raise ValueError('Hypothesis status must be OPEN, REFINED or REJECTED')
         seen.add(h['id']); refs=h['evidence_ids']
         if not isinstance(refs,list) or len(refs)>10 or any(not isinstance(x,str) or x not in evidence for x in refs):
             raise ValueError('Unknown evidence')
@@ -61,12 +62,13 @@ def validate(value, payload):
 
 
 def azure_plan(payload):
-    # Reuse the existing configured transport: 45 seconds, 1500 output tokens,
-    # no SDK retries and no stored provider response. No legacy metric whitelist.
+    # Runtime owns these settings and reserves their output allowance before dispatch.
     from ticket_planner import azure_generate
+    payload=dict(payload)
+    options=payload.pop('generation_options',None)
     if payload.get('strategy'):
         from .dynamic_reasoning import INSTRUCTIONS as dynamic_instructions,wire_contract,from_wire
         wire,schema,handles=wire_contract(payload)
-        result,usage=azure_generate(wire,instructions=dynamic_instructions,schema=schema,name='dynamic_investigation_action',decision_tool=True)
+        result,usage=azure_generate(wire,instructions=dynamic_instructions,schema=schema,name='dynamic_investigation_action',decision_tool=True,generation_options=options)
         return from_wire(result,handles),usage
-    return azure_generate(payload,instructions=INSTRUCTIONS,schema=SCHEMA,name='investigation_action',decision_tool=True)
+    return azure_generate(payload,instructions=INSTRUCTIONS,schema=SCHEMA,name='investigation_action',decision_tool=True,generation_options=options)

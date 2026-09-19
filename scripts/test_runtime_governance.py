@@ -44,6 +44,72 @@ class GovernanceTests(unittest.TestCase):
         self.policy['daily_limits']['input_characters']=1;self.reset_agent()
         self.assertEqual(self.agent.run(self.create())['stop_reason'],'USAGE_LIMIT');self.planner.assert_not_called()
 
+    def test_configured_output_is_reserved_and_provider_settings_are_fenced(self):
+        profile={'adapter':'azure','generation_options':{'max_output_tokens':4000,'timeout_seconds':120,'reasoning_effort':'medium'}}
+        self.agent=AdaptiveRuntime(self.runtime,self.planner,self.clock,planner_profile=profile,usage_policy=self.policy)
+        self.planner.return_value=(fixture.decision(),{'usage':{'output_tokens':2500}})
+        self.agent.run(self.create())
+        self.assertEqual(self.agent.governor.snapshot()['reserved_today']['output_tokens'],4000)
+        self.assertEqual(self.planner.call_args.args[0]['generation_options']['reasoning_effort'],'medium')
+        identity=self.create('changed');profile['generation_options']['reasoning_effort']='low'
+        self.assertEqual(self.agent.run(identity)['stop_reason'],'ADMISSION_CHANGED')
+
+    def test_payload_allowance_is_opt_in_and_cumulative_limit_still_applies(self):
+        self.planner.return_value=(fixture.decision(),{})
+        with patch.object(self.agent,'payload',return_value={'padding':'x'*34000}):
+            self.assertEqual(self.agent.run(self.create('default'))['stop_reason'],'BUDGET_LIMIT')
+        self.agent=AdaptiveRuntime(self.runtime,self.planner,self.clock,
+            planner_profile={'generation_options':{'max_payload_characters':48000}},usage_policy=self.policy)
+        original=self.agent.payload
+        def larger(state,candidates):return {**original(state,candidates),'padding':'x'*34000}
+        with patch.object(self.agent,'payload',side_effect=larger):
+            self.assertEqual(self.agent.run(self.create('larger'))['stop_reason'],'NO_USEFUL_TEST')
+            self.envelope['limits']['input_characters']=30000
+            self.assertEqual(self.agent.run(self.create('cumulative'))['stop_reason'],'BUDGET_LIMIT')
+        self.assertEqual(self.planner.call_count,1)
+
+    def test_timeout_reserve_prevents_late_provider_dispatch(self):
+        self.agent=AdaptiveRuntime(self.runtime,self.planner,self.clock,
+            planner_profile={'adapter':'azure','generation_options':{'timeout_seconds':120}},usage_policy=self.policy)
+        identity=self.create();self.clock.return_value+=800
+        self.assertEqual(self.agent.run(identity)['stop_reason'],'DEADLINE');self.planner.assert_not_called()
+
+    def test_provider_error_records_classes_without_messages(self):
+        from investigator.generation_policy import error_summary
+        inner=TimeoutError('secret request body');outer=RuntimeError('secret API key');outer.__cause__=inner
+        self.assertEqual(error_summary(outer),{'error_type':'RuntimeError','cause_types':['TimeoutError']})
+        inner.__cause__=outer
+        self.assertEqual(len(error_summary(outer)['cause_types']),1)
+
+    def test_explicit_planner_recovery_reserves_again_without_data_execution(self):
+        class APITimeoutError(Exception):pass
+        self.agent=AdaptiveRuntime(self.runtime,self.planner,self.clock,
+            planner_profile={'adapter':'azure','max_planner_recoveries':1},usage_policy=self.policy)
+        self.planner.side_effect=[APITimeoutError(),(fixture.decision(),{})]
+        result=self.agent.run(self.create())
+        self.assertEqual(result['status'],'COMPLETED');self.assertEqual(self.planner.call_count,2)
+        states=self.agent.governor.snapshot()
+        self.assertEqual(states['reserved_today']['output_tokens'],3000)
+        self.assertEqual(states['reservation_states'],{'UNCERTAIN':1,'SETTLED':1})
+        self.native.assert_not_called();self.source.assert_not_called()
+
+    def test_repeated_timeout_stops_after_one_recovery(self):
+        class APITimeoutError(Exception):pass
+        self.agent=AdaptiveRuntime(self.runtime,self.planner,self.clock,
+            planner_profile={'adapter':'azure','max_planner_recoveries':1},usage_policy=self.policy)
+        self.planner.side_effect=APITimeoutError()
+        self.assertEqual(self.agent.run(self.create())['stop_reason'],'PLANNER_FAILED')
+        self.assertEqual(self.planner.call_count,2)
+
+    def test_recovery_cannot_bypass_daily_budget(self):
+        class APITimeoutError(Exception):pass
+        self.policy['daily_limits']['planner_calls']=1
+        self.agent=AdaptiveRuntime(self.runtime,self.planner,self.clock,
+            planner_profile={'adapter':'azure','max_planner_recoveries':1},usage_policy=self.policy)
+        self.planner.side_effect=APITimeoutError()
+        self.assertEqual(self.agent.run(self.create())['stop_reason'],'USAGE_LIMIT')
+        self.planner.assert_called_once()
+
     def test_actual_usage_does_not_refund_reservation(self):
         self.planner.return_value=(fixture.decision(),{'usage':{'output_tokens':10,'input_tokens':20}})
         self.agent.run(self.create())
