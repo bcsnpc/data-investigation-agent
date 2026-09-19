@@ -85,6 +85,14 @@ class PlannerTests(unittest.TestCase):
             self.assertFalse(request['store'])
             self.assertTrue(request['text']['format']['strict'])
             self.assertNotIn('tools', request)
+            azure_generate({},generation_options={'timeout_seconds':120,'max_output_tokens':4000,'reasoning_effort':'medium'})
+            request=client.responses.create.call_args.kwargs
+            self.assertEqual(request['reasoning'],{'effort':'medium'})
+            self.assertEqual(request['max_output_tokens'],4000)
+            self.assertEqual(sdk.OpenAI.call_args.kwargs['timeout'],120)
+            self.assertEqual(sdk.OpenAI.call_args.kwargs['max_retries'],0)
+            for options in ({'max_output_tokens':True},{'timeout_seconds':121},{'reasoning_effort':'unknown'},{'endpoint':'untrusted'}):
+                with self.assertRaises(ValueError):azure_generate({},generation_options=options)
             response.status = 'incomplete'
             with self.assertRaises(ValueError): azure_generate({})
             response.status = 'completed'

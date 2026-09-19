@@ -68,6 +68,38 @@ class ContextNavigationTests(unittest.TestCase):
             self.part['availability']='REMOVED'
             with self.assertRaises(ValueError):context_search.read_content(None,'part:random',offset=0)
 
+    def test_prior_definition_survives_later_lookup_and_rejection(self):
+        from copy import deepcopy
+        from investigator.dynamic_reasoning import compact_context
+        source={'tool':'context','metadata':{'asset_id':'part:random','context_version':'v1',
+                'content_hash':'source-hash','offset':7000,'content':'join(left, right)',
+                'total_characters':14000,'next_offset':7017,'truncated':True,
+                'limitation':'Untrusted definition text'}}
+        observations=[source,{'tool':'context','metadata':{'reason':'Invalid proposal'}}]
+        payload={'observations':deepcopy(observations)}
+        compact_context(payload)
+        retained=payload['observations'][0]['metadata']
+        self.assertEqual(retained['content'],'join(left, right)')
+        self.assertEqual(retained['content_hash'],'source-hash')
+        self.assertEqual(retained['retained_end_offset'],7017)
+        self.assertTrue(retained['truncated'])
+        self.assertFalse(retained['planner_content_truncated'])
+        self.assertNotIn('planner_context_compacted',source['metadata'])
+
+    def test_prior_source_budget_prioritizes_recent_text_and_exposes_omission(self):
+        from investigator.dynamic_reasoning import compact_context
+        payload={'observations':[{'tool':'context','metadata':{'asset_id':str(i),
+                 'content':str(i)*2000,'offset':100,'next_offset':2100,'truncated':True}}
+                 for i in range(3)]+[{'tool':'context','metadata':{'reason':'later lookup'}}]}
+        compact_context(payload)
+        prior=[o['metadata'] for o in payload['observations'][:-1]]
+        self.assertEqual([len(m['content']) for m in prior],[0,500,2000])
+        self.assertEqual(prior[1]['retained_end_offset'],600)
+        self.assertEqual(prior[1]['next_offset'],2100)
+        self.assertTrue(prior[0]['planner_content_truncated'])
+        self.assertTrue(prior[1]['planner_content_truncated'])
+        self.assertFalse(prior[2]['planner_content_truncated'])
+
     def test_unicode_content_retains_structured_pagination(self):
         from investigator.onboarding import encoded
         context=self.context();self.part['metadata']['content']='\u4e00'*14000

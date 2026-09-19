@@ -6,7 +6,29 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Active extension: structural discovery within the existing reliability work.**
+
+**Active work: evidence retention and controlled planner reliability evaluation.**
+Research identified that the existing GPT-5.4 adapter did not request reasoning,
+while its documented default is `none`. Operator settings now support bounded
+reasoning effort, timeout and output allowance, with matching usage reservations
+and deadline checks. Defaults and the mini deployment remain unchanged.
+A no-execution comparison on reconstructed known context recorded two overlapping
+native proposals with `none`, one source-schema lookup with `medium`, and one
+medium timeout. This is a small diagnostic sample, not an acceptance pass.
+The first full reasoning trial ended unresolved on a read timeout after five
+planner calls and one native read. An explicit single planning-call recovery is
+available as an opt-in; every attempt is charged and re-admitted. SQL/Power BI
+reads and external actions are not retried. A later trial reached
+BUSINESS_CONTEXT_REQUIRED after 11 calls but did not measure source join behavior.
+Repeated lookups exposed a planner compaction bug that discarded previously read
+source text. The correction retains bounded recent excerpts with source hashes,
+offsets and explicit omissions. Its full live regression is in progress.
+All **937 local regression tests passed** after this correction; no browser UI
+was changed or retested. See [research and evaluation](planner-runtime-quality.md).
+
+### Previous milestone: structural discovery (merged PR #204)
+
+**Structural discovery within the existing reliability work.**
 New model contexts now include bounded metadata-derived role/key/date/measure
 hypotheses and explicit unknown semantics. SQL/DAX adapters advertise supported
 operations, prerequisites and limits; runtime eligibility does not grant execution.
@@ -125,7 +147,7 @@ returned rows, not work scanned.
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
 | 6 General engine freeze | v3 profile finding requires a fresh freeze; previous attempts preserved |
-| 7 Unknown Domain Challenge | v3 discovery complete; profile correction under regression; fresh variant pending |
+| 7 Unknown Domain Challenge | v3 discovery complete; planner reliability/context retention under regression; fresh variant pending |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 

@@ -31,11 +31,12 @@ class UsageGovernor:
 
     def day(self):return datetime.fromtimestamp(self.clock(),timezone.utc).date().isoformat()
 
-    def reserve(self,db,session_id,key,kind,characters=0):
+    def reserve(self,db,session_id,key,kind,characters=0,*,output_tokens=1500):
         # Caller holds BEGIN IMMEDIATE; budget and session transition commit together.
         if kind not in ('planner','cloud'):raise ValueError('Unknown usage kind')
         amount=dict.fromkeys(KEYS,0)
-        if kind=='planner':amount.update(planner_calls=1,input_characters=characters,output_tokens=1500)
+        if type(output_tokens) is not int or not 500<=output_tokens<=8000:raise ValueError('Invalid output reservation')
+        if kind=='planner':amount.update(planner_calls=1,input_characters=characters,output_tokens=output_tokens)
         else:amount['cloud_calls']=1
         prior=db.execute('SELECT reserved,kind FROM adaptive_usage WHERE environment=? AND session_id=? AND reservation_key=?',
                          (self.environment,session_id,key)).fetchone()

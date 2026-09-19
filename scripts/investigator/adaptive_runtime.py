@@ -42,6 +42,11 @@ class AdaptiveRuntime:
         self.runtime=runtime;self.store=runtime.store;self.config=runtime.config
         self.planner=planner;self.clock=clock
         self.planner_profile=planner_profile or {"adapter":"injected"}
+        from .generation_policy import validate as generation_policy
+        self.generation_options=generation_policy(self.planner_profile.get('generation_options'))
+        self.max_planner_recoveries=self.planner_profile.get('max_planner_recoveries',0)
+        if type(self.max_planner_recoveries) is not int or self.max_planner_recoveries not in (0,1):
+            raise ValueError('At most one explicit planner recovery is supported')
         self.governor=UsageGovernor(runtime,usage_policy,clock) if usage_policy is not None else None
         with runtime.db() as db:
             db.executescript("""
@@ -173,22 +178,24 @@ class AdaptiveRuntime:
             dynamic=bool(state['envelope'].get('strategy'))
             choices=([c for c in candidates if c['id'] not in state['attempted']] if dynamic else available(candidates,state['observations'],state['attempted']));limits=state['envelope']['limits']
             reason=None
-            if self.clock()+45>state['deadline']:reason='DEADLINE'
+            if self.clock()+self.generation_options['timeout_seconds']>state['deadline']:reason='DEADLINE'
             elif state['planner_calls']>=limits['planner_calls'] or state['cloud_calls']>=limits['cloud_calls']:reason='BUDGET_LIMIT'
             elif state.get('no_progress',0)>=(self.governor.policy['no_progress_limit'] if self.governor else 2):reason='NO_PROGRESS'
             elif not choices and not dynamic:reason='NO_ADMITTED_TEST'
             payload=self.payload(state,choices);size=len(encoded(payload))
-            if size>32000 or state['input_characters']+size>limits['input_characters']:reason='BUDGET_LIMIT'
+            if size>self.generation_options['max_payload_characters'] or state['input_characters']+size>limits['input_characters']:reason='BUDGET_LIMIT'
             if reason:
                 self.stop(db,state,reason);return self.project_after_commit(db,state)
             if self.governor:
-                try:self.governor.reserve(db,identity,'planner:'+str(state['planner_calls']+1),'planner',size)
+                try:self.governor.reserve(db,identity,'planner:'+str(state['planner_calls']+1),'planner',size,
+                                         output_tokens=self.generation_options['max_output_tokens'])
                 except UsageHold:
                     self.stop(db,state,'USAGE_LIMIT','HELD');return self.project_after_commit(db,state)
             state.update(status='PLANNING',token=token)
             state['planner_calls']+=1;state['input_characters']+=size
             self.save(db,state,'PLANNER_RESERVED',{'payload_hash':digest(payload),'input_characters':size})
         proposal_received=False
+        if self.planner_profile.get('adapter')=='azure':payload['generation_options']=self.generation_options
         try:
             proposal,usage=self.planner(payload)
             proposal_received=True
@@ -208,8 +215,14 @@ class AdaptiveRuntime:
                         state['observations'].append(item);state.update(status='READY',token=None,no_progress=state.get('no_progress',0)+1)
                         self.save(db,state,'PROPOSAL_REJECTED',{'observation_id':item['id']})
                     else:
-                        self.stop(db,state,'PLANNER_FAILED','HELD')
-                        self.save(db,state,'PLANNER_ERROR',{'error_type':type(exc).__name__})
+                        from .generation_policy import error_summary
+                        detail=error_summary(exc)
+                        recover=(not proposal_received and detail['error_type'] in ('APITimeoutError','APIConnectionError')
+                                 and state.get('planner_recoveries',0)<self.max_planner_recoveries)
+                        if recover:
+                            state.update(status='READY',token=None,planner_recoveries=state.get('planner_recoveries',0)+1)
+                        else:self.stop(db,state,'PLANNER_FAILED','HELD')
+                        self.save(db,state,'PLANNER_ERROR',{**detail,'recovery_scheduled':recover})
             return self.get(identity)
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)

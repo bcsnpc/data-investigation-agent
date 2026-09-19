@@ -66,7 +66,9 @@ def validate_plan(value, ticket, reports):
             'plan': value, 'executable': False, 'automatic_defect_routing': False}
 
 
-def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False, image_data_url=None):
+def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False, image_data_url=None, generation_options=None):
+    from investigator.generation_policy import validate as generation_policy
+    policy=generation_policy(generation_options)
     endpoint = os.environ.get('AZURE_OPENAI_ENDPOINT', '')
     deployment = os.environ.get('AZURE_OPENAI_DEPLOYMENT', '')
     key = os.environ.get('AZURE_OPENAI_API_KEY', '')
@@ -79,14 +81,15 @@ def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tick
             raise ValueError('Expected bounded inline image; remote image URLs are not accepted')
         request_input = [{'role':'user','content':[{'type':'input_text','text':request_input},
                          {'type':'input_image','image_url':image_data_url,'detail':'high'}]}]
-    with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=45, max_retries=0) as client:
+    with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=policy['timeout_seconds'], max_retries=0) as client:
         options = ({'tools':[{'type':'function','name':name,'description':'Propose exactly one next diagnostic action; no execution.',
                              'parameters':schema,'strict':True}],
                     'tool_choice':{'type':'function','name':name},'parallel_tool_calls':False}
                    if decision_tool else {'text':{'format':{'type':'json_schema','name':name,'strict':True,'schema':schema}}})
+        if 'reasoning_effort' in policy:options['reasoning']={'effort':policy['reasoning_effort']}
         response = client.responses.create(
             model=deployment, instructions=instructions, input=request_input, store=False,
-            max_output_tokens=1500, **options)
+            max_output_tokens=policy['max_output_tokens'], **options)
     if response.status != 'completed' or any(
             c.type == 'refusal' for item in response.output if item.type == 'message' for c in item.content):
         raise ValueError('Model refused or returned an incomplete response')

@@ -66,6 +66,8 @@ def main():
     settings=json.loads(args.azure_settings.read_text(encoding='utf-8-sig')) if args.azure_settings else {}
     profile={'adapter':'azure','endpoint':settings.get('endpoint',os.environ.get('AZURE_OPENAI_ENDPOINT')),
              'deployment':settings.get('deployment',os.environ.get('AZURE_OPENAI_DEPLOYMENT'))}
+    if 'generation_options' in settings:profile['generation_options']=settings['generation_options']
+    if 'max_planner_recoveries' in settings:profile['max_planner_recoveries']=settings['max_planner_recoveries']
     policy=json.loads(args.usage_policy.read_text(encoding='utf-8-sig')) if args.usage_policy else None
     agent=AdaptiveRuntime(runtime,azure_plan,planner_profile=profile,usage_policy=policy);identity=args.session_id
     try:

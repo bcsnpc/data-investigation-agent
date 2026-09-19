@@ -826,3 +826,19 @@ failed completed investigation, not acceptance or a supported cause. The origina
 daily policy was restored after the run without resetting usage. The next quality
 work must evaluate test selection and provider timeout behavior before another
 freeze; merely publishing another variant would not resolve these findings.
+
+
+### 2026-09-18 - Planner reliability research and evidence continuity
+
+Research from official OpenAI, Microsoft and Anthropic engineering documentation
+led to controlled reasoning comparisons, bounded operator generation settings,
+proper output reservations and an optional single metered planner recovery.
+Known-domain evaluations exposed source-text loss during context compaction,
+duplicate/overlong hypothesis updates and a per-call input ceiling reached after
+retrieving source schemas. Generic corrections retain bounded source evidence,
+use keyed hypothesis slots and expose backend response limits to the model.
+The experimental profile permits 48,000 characters per call; cumulative and SQL
+limits remain unchanged. No domain route, metric branch or expected answer was
+added. Final live regression and final full-suite validation are in progress.
+See [planner reliability evidence](planner-runtime-quality.md) for failed,
+interrupted and completed trials; current acceptance remains pending.

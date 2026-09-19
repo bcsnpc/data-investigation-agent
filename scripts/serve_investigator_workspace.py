@@ -40,6 +40,9 @@ def main():
     settings = json.loads(args.azure_settings.read_text(encoding='utf-8-sig')) if args.azure_settings else {}
     profile = {'adapter': 'azure', 'endpoint': settings.get('endpoint', os.environ.get('AZURE_OPENAI_ENDPOINT')),
                'deployment': settings.get('deployment', os.environ.get('AZURE_OPENAI_DEPLOYMENT'))}
+    for key in ('generation_options', 'max_planner_recoveries'):
+        if key in settings:
+            profile[key] = settings[key]
     policy = json.loads(args.usage_policy.read_text(encoding='utf-8-sig')) if args.usage_policy else None
     runtime = Runtime(store, config, (lambda p: native_transport(config, p)) if args.live else None,
                       (lambda p: source_transport(config, p)) if args.live else None)
