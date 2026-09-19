@@ -885,3 +885,17 @@ rate-selection rule. It recovered from one query and one citation rejection.
 Original daily allowances restored with usage retained; SQL limits and permissions
 unchanged. Next is fresh frozen acceptance, not another architecture layer.
 See [research and live evidence](conclusion-quality.md).
+
+
+## 2026-09-19 - Frozen v4 acceptance publication
+
+After merging #207, froze 382 engine files at 981bec8 plus connection and usage
+policy. The v4 catalog retains all 313 prior usage records, with no publisher
+truth copied. A complete 66-operation baseline preceded generation of fresh
+variant 23619e and contains no matching assets. Published six isolated SQL tables,
+three lakehouses and a notebook; notebook execution completed. The new model and
+two reports are published without runtime model/table registration. Discovery
+rescan completed with 81 operations and automatic model projection; reader grants
+are prepared and pending explicit approval.
+No live ticket or unfamiliar-domain acceptance pass is claimed. See
+[challenge record](unknown-domain-challenge.md).
