@@ -11,6 +11,25 @@ import copy
 def for_planner(profile, focus_table=None):
     result=copy.deepcopy(profile)
     result['tables'].sort(key=lambda t:t['asset_id']!=focus_table)
+    # Keep the selected table useful even when scoped member IDs are long.
+    # Counts describe the stored profile, not a claim of catalog completeness.
+    fields=('candidate_key_columns','date_columns','numeric_columns','measure_ids','relationship_evidence')
+    for table in result['tables']:
+        for field in fields:
+            members=table.get(field,[])
+            if len(members)>1:
+                table[field+'_profile_count']=len(members)
+                table[field]=members[:1]
+                table['truncated']=True
+    while len(result['tables'])>1 and len(encoded(result))>2500:
+        result['tables'].pop();result['tables_truncated']=True
+    if result['tables']:
+        table=result['tables'][0]
+        for field in reversed(fields):
+            if len(encoded(result))<=2500:break
+            if table.get(field):
+                table.setdefault(field+'_profile_count',len(table[field]))
+                table[field]=[];table['truncated']=True
     while result['tables'] and len(encoded(result))>2500:
         result['tables'].pop();result['tables_truncated']=True
     return result

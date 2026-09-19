@@ -69,6 +69,26 @@ class DomainProfileTests(unittest.TestCase):
         self.assertEqual(projected['tables'][0]['asset_id'],focus)
         self.assertTrue(projected['tables_truncated']);self.assertEqual(encoded(profile),before)
 
+    def test_dense_scoped_members_do_not_erase_selected_table(self):
+        from investigator.domain_profile import for_planner
+        from investigator.onboarding import encoded
+        identity='workspace/'+'a'*36+'/model/'+'b'*36+'/table/Neutral'
+        items=[asset(identity,'SemanticTable','Neutral')]
+        for i in range(8):
+            items.append(asset(identity+'/column/'+str(i),'SemanticColumn',str(i),identity,dataType='double'))
+            items.append(asset(identity+'/measure/'+str(i),'Measure',str(i),identity))
+        profile=infer(items);before=encoded(profile)
+        projected=for_planner(profile,identity)
+        self.assertLessEqual(len(encoded(projected)),2500)
+        table=projected['tables'][0]
+        self.assertEqual(table['asset_id'],identity)
+        self.assertEqual(table['numeric_columns_profile_count'],8)
+        self.assertEqual(table['measure_ids_profile_count'],8)
+        self.assertTrue(table['numeric_columns'])
+        self.assertTrue(table['measure_ids'])
+        self.assertTrue(table['truncated'])
+        self.assertEqual(encoded(profile),before)
+
     def test_structural_experiments_use_existing_governed_sql(self):
         obj={'id':'opaque','metadata':{'schema_name':'approved','name':'entities','type_desc':'USER_TABLE',
              'columns':[{'name':n,'data_type':'int'} for n in ('a','b')]}}

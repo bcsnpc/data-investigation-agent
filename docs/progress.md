@@ -798,3 +798,31 @@ not search all documentation. Neither passes the unknown-domain challenge.
 The next freeze uses a fresh variant and copied historical usage records rather
 than resetting counters. See [structural discovery](structural-discovery.md) and
 [current status](current-delivery-status.md) for acceptance status and limitations.
+
+
+### 2026-09-18 - v3 reader grants, discovery and dense-profile correction
+
+Applied the explicitly approved model Read + Build and six table-level SELECT
+grants for variant 0fd86f; readbacks confirmed scope. The complete post-publication
+scan used 63 metadata operations and automatically discovered the model and both
+reports. Dense scoped IDs exposed a planner projection that dropped all table hints.
+The generic correction preserves selected-table hints and explicit truncation/counts;
+the actual projection is now 1,997 characters. Immutable discovered context remains
+unchanged. All 929 regression tests reported OK; the two generator tests also passed.
+The new profile tests are now included in CI.
+
+Engine edits end v3 frozen acceptance before ticket trials. Subsequent v3 trials
+are known-domain regressions. A new freeze/variant and the nine-family acceptance
+matrix remain pending; see the current status and challenge record.
+
+
+Known-domain transformation session `2337130f-66f5-4014-95a3-b601d2d338a3`
+ended HELD / PLANNER_FAILED / UNRESOLVED with `APITimeoutError`, after ten
+planner calls, five successful native reads, four metadata lookups and 230,746
+cumulative input characters. It reproduced 53,145 and inspected notebook join
+logic, but performed no SQL read or measured key/join-cardinality experiment.
+Several native checks overlapped. This is partial observation evidence and a
+failed completed investigation, not acceptance or a supported cause. The original
+daily policy was restored after the run without resetting usage. The next quality
+work must evaluate test selection and provider timeout behavior before another
+freeze; merely publishing another variant would not resolve these findings.

@@ -54,11 +54,15 @@ read-only tools. Metadata guesses remain distinct from measured evidence and
 business intent. Scans do not launch background data profiling. See
 [structural discovery](docs/structural-discovery.md). The frozen unfamiliar-domain
 challenge remains the main acceptance gate; these additions do not replace it.
+The latest known-domain transformation run reproduced the native value but timed
+out before a supported conclusion, with overlapping tests and no SQL read.
+Test-selection reliability remains the next priority.
 
 
 **Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and
-governed tools (Stages 4–5)** merged in PR #198. Two frozen engine attempts and an unfamiliar
-warehouse domain are recorded. Reliability corrections now require a fresh freeze. The first nine-family trial recorded partial reads,
+governed tools (Stages 4–5)** merged in PR #198. Three frozen engine attempts are recorded. The latest discovered its new model
+and reports automatically, then exposed excessive planner-profile truncation.
+The generic correction requires a fresh freeze and variant. The first nine-family trial recorded partial reads,
 reasoning failures and provider rate-limit blocks; it has **not passed**.
 [Challenge acceptance](docs/unknown-domain-challenge.md) remains in progress.
 [Current delivery status](docs/current-delivery-status.md) owns
@@ -75,9 +79,10 @@ Practical assessments are evidence-qualified LLM interpretations, not verified c
 Frozen unknown-domain acceptance remains pending. The legacy manual
 catalog retains its review gates. Runtime report filters/RLS and cross-system
 comparability remain explicit limits. V2 is local and single-operator; enterprise
-hosting/authentication is pending. The current context/query recovery revision passed
-920 local regression tests and 10 dynamic browser checks after the final backend
-changes. Structured definitions, parent-qualified asset search, missing-schema
+hosting/authentication is pending. The earlier context/query recovery revision passed
+920 local regression tests and 10 dynamic browser checks. The structural-discovery
+revision now passes 929 regression tests; its ten browser checks preceded the final
+profile projection correction. Structured definitions, parent-qualified asset search, missing-schema
 recovery, actionable query feedback and remaining-time context are implemented.
 
 A GPT-5.4 known-domain trial completed a qualified join-multiplication diagnosis:

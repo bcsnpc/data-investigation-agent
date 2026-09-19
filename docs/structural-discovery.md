@@ -71,3 +71,32 @@ Validation before freeze: 928 regression tests passed after the final planner
 projection change. Ten dynamic browser checks passed with injected transport
 before that final metadata-size adjustment; no UI code changed. The rendered
 screenshot was inspected. Live native evidence is recorded separately above.
+
+
+### v3 discovery finding and projection correction
+
+The frozen v3 scan automatically discovered its new model and reports in 63
+operations. Its dense member identifiers made the planner projection drop all
+tables. The generic correction keeps bounded member hints and stored-profile
+counts, marks truncation, and prioritizes the selected table without modifying
+the immutable discovered profile. On the actual context it retains two tables
+in 1,997 characters, including numeric/measure hints for the selected table.
+A regression covers realistic scoped IDs and eight measures/numeric columns.
+
+This is an engine correction after publication: v3 cannot supply further frozen
+acceptance evidence. The subsequent transformation trial is explicitly a
+known-domain regression. Fresh freeze/variant work remains required. Discovered
+relationship metadata in this variant omitted cardinality fields, so role
+hypotheses remain UNKNOWN; no cardinality or business meaning was invented.
+
+
+Known-domain transformation session `2337130f-66f5-4014-95a3-b601d2d338a3`
+ended HELD / PLANNER_FAILED / UNRESOLVED with `APITimeoutError`, after ten
+planner calls, five successful native reads, four metadata lookups and 230,746
+cumulative input characters. It reproduced 53,145 and inspected notebook join
+logic, but performed no SQL read or measured key/join-cardinality experiment.
+Several native checks overlapped. This is partial observation evidence and a
+failed completed investigation, not acceptance or a supported cause. The original
+daily policy was restored after the run without resetting usage. The next quality
+work must evaluate test selection and provider timeout behavior before another
+freeze; merely publishing another variant would not resolve these findings.

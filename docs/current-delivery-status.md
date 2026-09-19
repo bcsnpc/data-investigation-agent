@@ -15,11 +15,22 @@ join, freshness and native measure-behavior experiments with existing query rece
 There is no new architecture layer, mandatory tool sequence or domain mapping.
 Data profiling is ticket-driven, not an automatic scan-time sweep. The fresh engine
 freeze and unfamiliar-domain challenge remain next, with no acceptance pass claimed.
-Validation: 928 regression tests passed; ten injected-transport browser checks
+Validation: 929 regression tests passed after the dense-profile correction; ten injected-transport browser checks
 passed before the final profile-size adjustment. A ratio trial reproduced native
 components in one read; an ambiguity trial requested business meaning without
 inventing it, but did not exhaust available documentation. These are known-domain
-checks. The fresh challenge attempt is being prepared with prior usage retained.
+checks. Attempt v3 froze `05348d0` and published variant `0fd86f`, retaining prior
+usage and applying explicitly approved reader grants. Its complete 63-operation
+scan discovered the model and reports automatically, but exposed a planner profile
+projection that discarded all table hints for dense scoped IDs. A generic correction
+now retains selected-table member hints with explicit truncation. This engine
+change ends v3 frozen acceptance; further v3 runs are known-domain regressions.
+A fresh freeze and variant are required; no acceptance pass is claimed.
+The post-correction known-domain transformation run ended UNRESOLVED after an
+API timeout: ten planner calls, five native reads, four metadata lookups and no
+SQL reads. It reproduced 53,145 but did not test the upstream join mechanism.
+Overlapping tests and timeout behavior need quality evaluation before another
+freeze. Original daily limits were restored without resetting usage.
 See [structural discovery evidence](structural-discovery.md).
 
 
@@ -56,8 +67,8 @@ cloud calls. [Context/query recovery evidence](context-query-recovery.md) record
 trial IDs, failures, query observations, budget changes and limits. CI and merge
 state are available on PR #203.
 
-Next: repeated ratio, transformation and ambiguity evaluations, then a new engine
-freeze and fresh domain for acceptance. The nine-family challenge, broader
+PR #203 follow-up is now the structural-discovery extension and frozen v3 attempt
+above. Further repeated evaluations and unfamiliar-domain acceptance remain required. The nine-family challenge, broader
 discovery, hosted authentication and integrated handoff remain pending. Earlier
 [reasoning reliability](reasoning-reliability.md) and [quality engineering](investigation-quality-engineering.md)
 retain their release-specific evidence.
@@ -113,8 +124,8 @@ returned rows, not work scanned.
 | 3 Automatic context graph | Merged #196; independent context, graph/search and ticket visibility |
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
-| 6 General engine freeze | v1/v2 attempts preserved; current reliability changes require a fresh freeze |
-| 7 Unknown Domain Challenge | v2 did not pass; known-domain reliability regression in progress before fresh-variant acceptance |
+| 6 General engine freeze | v3 profile finding requires a fresh freeze; previous attempts preserved |
+| 7 Unknown Domain Challenge | v3 discovery complete; profile correction under regression; fresh variant pending |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
