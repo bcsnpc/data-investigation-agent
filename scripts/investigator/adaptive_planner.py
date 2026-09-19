@@ -70,5 +70,9 @@ def azure_plan(payload):
         from .dynamic_reasoning import INSTRUCTIONS as dynamic_instructions,wire_contract,from_wire
         wire,schema,handles=wire_contract(payload)
         result,usage=azure_generate(wire,instructions=dynamic_instructions,schema=schema,name='dynamic_investigation_action',decision_tool=True,generation_options=options)
-        return from_wire(result,handles),usage
+        try:decision=from_wire(result,handles)
+        except (ValueError,TypeError,KeyError,AttributeError):
+            from .generation_policy import ProviderResponseError
+            raise ProviderResponseError('DECISION_DECODE',usage.get('usage')) from None
+        return decision,usage
     return azure_generate(payload,instructions=INSTRUCTIONS,schema=SCHEMA,name='investigation_action',decision_tool=True,generation_options=options)

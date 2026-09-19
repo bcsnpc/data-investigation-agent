@@ -22,4 +22,23 @@ def error_summary(error):
         seen.add(id(current));name=type(current).__name__
         classes.append(name if re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]{0,63}',name) else 'UnknownError')
         current=current.__cause__
-    return {'error_type':classes[0],'cause_types':classes[1:]}
+    result={'error_type':classes[0],'cause_types':classes[1:]}
+    if isinstance(error,ProviderResponseError):result['response_failure']=error.code
+    return result
+
+
+class ProviderResponseError(ValueError):
+    """Allowlisted failure category and numeric usage, never response content."""
+    CODES={'OUTPUT_TOKEN_LIMIT','CONTENT_FILTER','INCOMPLETE','REFUSAL',
+           'RESPONSE_NOT_COMPLETED','DECISION_CALL_SHAPE','INVALID_JSON','DECISION_DECODE'}
+
+    def __init__(self,code,usage=None):
+        if code not in self.CODES:raise ValueError('Unknown response failure category')
+        super().__init__(code)
+        self.code=code
+        self.usage={k:v for k,v in (usage if isinstance(usage,dict) else {}).items()
+                    if k in ('input_tokens','output_tokens','total_tokens') and type(v) is int and v>=0} or None
+
+
+def failure_usage(error):
+    return error.usage if isinstance(error,ProviderResponseError) else None

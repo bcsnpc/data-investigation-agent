@@ -18,7 +18,7 @@ from investigator.runtime import Runtime
 from investigator.usage_governance import UsageGovernor
 from investigator.adaptive_planner import azure_plan
 from investigator.dynamic_reasoning import validate
-from investigator.generation_policy import error_summary
+from investigator.generation_policy import error_summary,failure_usage
 from run_adaptive_investigation import local_azure_key
 
 
@@ -33,8 +33,11 @@ def main():
     p.add_argument('--azure-settings',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True)
     p.add_argument('--repeats',type=int,default=2)
+    p.add_argument('--reasoning-efforts',nargs='+',choices=['none','low','medium','high'],default=['none','medium'])
+    p.add_argument('--max-output-tokens',type=int,default=4000)
     args=p.parse_args()
     if not 1<=args.repeats<=3:p.error('One to three repetitions')
+    if not 1<=len(args.reasoning_efforts)<=3 or not 500<=args.max_output_tokens<=8000:p.error('Bounded comparison settings required')
     if args.output.exists():p.error('Use a new output path; preserve previous trials')
     payload=json.loads(args.payload.read_text(encoding='utf-8'))
     if 'generation_options' in payload:raise ValueError('Provider settings are evaluator-owned')
@@ -45,14 +48,14 @@ def main():
     identity='planner-replay:'+str(uuid4());rows=[];last=0
     with local_azure_key(args.azure_settings):
         for repeat in range(args.repeats):
-            for effort in ('none','medium'):
+            for effort in args.reasoning_efforts:
                 delay=65-(time.monotonic()-last)
                 while delay>0:
                     time.sleep(min(delay,30));delay=65-(time.monotonic()-last)
-                key=str(len(rows));options={'reasoning_effort':effort,'max_output_tokens':4000,'timeout_seconds':120}
+                key=str(len(rows));options={'reasoning_effort':effort,'max_output_tokens':args.max_output_tokens,'timeout_seconds':120}
                 with runtime.db() as db:
                     db.execute('BEGIN IMMEDIATE')
-                    governor.reserve(db,identity,key,'planner',len(encoded(payload)),output_tokens=4000)
+                    governor.reserve(db,identity,key,'planner',len(encoded(payload)),output_tokens=args.max_output_tokens)
                 started=last=time.monotonic();usage=None
                 row={'repeat':repeat,'generation_options':options}
                 try:
@@ -61,7 +64,8 @@ def main():
                     validate(proposal,payload)
                     row.update(status='VALID_PROPOSAL',proposal=proposal,provider=metadata)
                 except Exception as exc:
-                    row.update(status='FAILED',**error_summary(exc))
+                    usage=failure_usage(exc)
+                    row.update(status='FAILED',provider_usage=usage,**error_summary(exc))
                 finally:
                     with runtime.db() as db:
                         governor.settle(db,identity,key,usage,uncertain=usage is None)

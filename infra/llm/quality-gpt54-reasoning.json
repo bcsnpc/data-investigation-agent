@@ -11,7 +11,7 @@
   "capacity": 10,
   "generation_options": {
     "reasoning_effort": "medium",
-    "max_output_tokens": 4000,
+    "max_output_tokens": 8000,
     "timeout_seconds": 120,
     "max_payload_characters": 48000
   },

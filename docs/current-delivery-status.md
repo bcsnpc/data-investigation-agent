@@ -7,7 +7,29 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Current milestone: planner reliability and evidence continuity ([PR #205](https://github.com/bcsnpc/data-investigation-agent/pull/205)).**
+**Current milestone: provider response reliability and conclusion quality.**
+Provider failures now retain safe categories and numeric usage without retaining
+response content. Four source-ready replays at 4,000 output tokens produced three
+structured proposals and one observed OUTPUT_TOKEN_LIMIT. The experimental profile
+now allows 8,000 output tokens; default settings remain unchanged. A narrow SQL
+AST check rejects mixed aggregate/nonaggregate projections without GROUP BY.
+**943 local regression tests passed.** See [research and evaluation](provider-response-reliability.md).
+
+The next full known-domain transformation run completed without a provider error:
+eight planner calls, two native reads, five metadata lookups and no SQL reads.
+It reproduced 53,145 but proposed a sign-handling diagnosis whose business premise
+was not established, while leaving join duplication untested. This is **partial
+investigation evidence, not a correctness or frozen-acceptance pass**. Increased
+output room alone has not resolved test selection or conclusion qualification.
+The ambiguity run completed with BUSINESS_CONTEXT_REQUIRED after seven planner
+calls, two native reads and four context lookups, preserving unknown code meaning
+and intended rules. The original daily policy was restored without resetting
+usage. The fresh freeze remains pending while transformation test selection and
+claim qualification are improved. No permissions or SQL limits changed.
+
+### Previous milestone: planner reliability and evidence continuity (merged PR #205)
+
+**Planner reliability and evidence continuity.**
 Research and live evaluations led to bounded retention of retrieved transformation
 text, keyed hypothesis updates, response-schema field limits, governed reasoning/
 output/timeout settings, and one optional metered planner connection recovery.
@@ -34,8 +56,8 @@ The original daily LLM policy was restored after testing without resetting usage
 on the implementation commit; final PR checks track the documentation head.
 No dedicated browser session was rerun locally. See [research, trials and limits](planner-runtime-quality.md).
 
-Next: safely distinguish provider response failures and repeat ratio,
-transformation and ambiguity evaluations; then freeze a new engine and publish
+The follow-up above distinguishes provider response failures and continues
+transformation and ambiguity evaluations before freezing a new engine to publish
 a fresh domain for the full acceptance matrix. The unknown-domain challenge
 remains the priority and has not passed. Broader discovery, hosted authentication
 and integrated handoff remain pending.

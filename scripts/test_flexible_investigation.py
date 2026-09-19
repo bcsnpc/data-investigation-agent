@@ -110,6 +110,20 @@ class QueryParserTests(unittest.TestCase):
         self.assertEqual(value['asset_ids'],['events']);self.assertEqual(value['result_columns'],['id','total'])
         self.assertNotIn("'ok'",value['query']);self.assertIn('@p0',value['query']);self.assertIn('TOP 251',value['query'])
 
+    def test_mixed_aggregate_projection_rejected_before_execution(self):
+        for query in ['SELECT id,SUM(amount) AS total FROM approved.events',
+                'WITH a AS (SELECT COUNT(*) AS n FROM approved.events) SELECT a.n,SUM(e.amount) AS total FROM a CROSS JOIN approved.events e']:
+            with self.subTest(query=query),self.assertRaisesRegex(ValueError,'without GROUP BY'):
+                query_sql.compile_query(query,self.objects)
+
+    def test_valid_grouped_scalar_window_and_nested_aggregates_remain_admitted(self):
+        for query in ['SELECT id,SUM(amount) AS total FROM approved.events GROUP BY id',
+                'SELECT SUM(amount) AS total,COUNT(*) AS n FROM approved.events',
+                'SELECT id,SUM(amount) OVER() AS total FROM approved.events',
+                'SELECT id,(SELECT SUM(amount) FROM approved.events) AS total FROM approved.events',
+                'WITH a AS (SELECT COUNT(*) AS n FROM approved.events) SELECT MAX(a.n) AS n,SUM(e.amount) AS total FROM a CROSS JOIN approved.events e']:
+            with self.subTest(query=query):query_sql.compile_query(query,self.objects)
+
     def test_sql_ambiguity_names_column_and_aliases_without_choosing_for_user(self):
         query='SELECT id FROM approved.events a JOIN approved.events b ON a.id=b.id'
         with self.assertRaisesRegex(ValueError,'candidate_aliases') as rejected:

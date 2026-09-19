@@ -110,6 +110,22 @@ class GovernanceTests(unittest.TestCase):
         self.assertEqual(self.agent.run(self.create())['stop_reason'],'USAGE_LIMIT')
         self.planner.assert_called_once()
 
+    def test_incomplete_response_usage_is_settled_without_retry_or_execution(self):
+        from investigator.generation_policy import ProviderResponseError
+        self.agent=AdaptiveRuntime(self.runtime,self.planner,self.clock,
+            planner_profile={'adapter':'azure','max_planner_recoveries':1},usage_policy=self.policy)
+        self.planner.side_effect=ProviderResponseError('OUTPUT_TOKEN_LIMIT',{'output_tokens':1500,'input_tokens':20})
+        identity=self.create();result=self.agent.run(identity)
+        self.assertEqual(result['stop_reason'],'PLANNER_FAILED');self.planner.assert_called_once()
+        self.native.assert_not_called();self.source.assert_not_called()
+        snapshot=self.agent.governor.snapshot()
+        self.assertEqual(snapshot['reservation_states'],{'SETTLED':1})
+        self.assertEqual(snapshot['reserved_today']['output_tokens'],1500)
+        with self.runtime.db() as db:
+            event=json.loads(db.execute("SELECT detail FROM adaptive_events WHERE session_id=? AND kind='PLANNER_ERROR'",(identity,)).fetchone()[0])
+        self.assertEqual(event['response_failure'],'OUTPUT_TOKEN_LIMIT')
+        self.assertFalse(event['recovery_scheduled'])
+
     def test_actual_usage_does_not_refund_reservation(self):
         self.planner.return_value=(fixture.decision(),{'usage':{'output_tokens':10,'input_tokens':20}})
         self.agent.run(self.create())

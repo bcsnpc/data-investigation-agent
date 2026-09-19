@@ -46,11 +46,12 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-Current reliability work compares explicit planner reasoning on saved context and
-live known-domain tickets. Bounded provider settings are tied to usage reservations
-and deadline checks; defaults remain unchanged. Early results are mixed, so no
-model-setting superiority or unfamiliar-domain pass is claimed. See
-[planner reliability research](docs/planner-runtime-quality.md).
+Current reliability work now distinguishes provider response limits/refusals from
+connection failures and preserves numeric usage for failed decisions. A reproduced
+output-limit failure motivated an 8,000-token experimental reasoning profile;
+defaults remain unchanged. A narrow SQL AST check catches invalid mixed aggregate
+projections before execution. All 943 local regression tests pass. See
+[provider response reliability](docs/provider-response-reliability.md).
 
 The current reliability work adds automatic structural hypotheses to discovered
 model context, SQL/DAX capability descriptions from the validators, and autonomous
@@ -63,8 +64,8 @@ challenge remains the main acceptance gate; these additions do not replace it.
 Earlier known-domain transformation runs timed out or stopped at business-context
 questions without measuring source join behavior. A discovered compaction bug
 removed retrieved transformation text from later planner prompts; bounded evidence
-retention now preserves recent excerpts and their provenance. All 939 local
-regression tests pass. The final known-domain trial reached both source schemas
+retention now preserves recent excerpts and their provenance. That milestone passed
+939 local regression tests. Its final known-domain trial reached both source schemas
 without proposal rejections or repeated lookups, but a provider-response error
 stopped it before SQL execution. A separate quality-profile ratio trial completed
 the requested value/component explanation in two planner calls and one native read,
