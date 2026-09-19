@@ -215,6 +215,8 @@ class Discovery:
                     'binding_status':'RESOLVED_EXPLICIT_ID','report_definitions':[x for x in parts if x['kind']=='DefinitionPart'],
                     'gaps':[] if result['coverage'].get(rid+'/definition',{}).get('status')=='COMPLETE' else ['REPORT_DEFINITION_UNAVAILABLE']})
             semantic=analyze(children)
+            from .domain_profile import infer
+            domain_profile=infer(children,semantic)
             hashes={x['id']:stable(x) for x in children}
             for report in reports:
                 for x in descendants(assets,report['report']['id']):hashes[x['id']]=stable(x)
@@ -224,7 +226,7 @@ class Discovery:
                      'changed':sorted(k for k in hashes.keys()&oldhash.keys() if hashes[k]!=oldhash[k])}
             context={'schema_version':2,'id':str(uuid4()),'model_id':mid,'scan_id':result['inventory_scan_id'],
                      'scan_ended':result['created'],'model_assets':children,'measures':measures,'reports':reports,
-                     'source_hashes':hashes,'changes':changes,'semantic_graph':semantic,
+                     'source_hashes':hashes,'changes':changes,'semantic_graph':semantic,'domain_profile':domain_profile,
                      'affected_measures':affected(sum(changes.values(),[]),semantic,old.get('semantic_graph') if old else None),
                      'discovery':{'policy_hash':self.policy_hash,'definition_available':ready},
                      'capabilities':{'MODEL_QUERYABLE':'UNKNOWN','MEASURE_DEFINITION_AVAILABLE':'SUPPORTED' if ready else 'UNKNOWN'},

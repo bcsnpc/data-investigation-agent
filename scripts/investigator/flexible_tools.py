@@ -13,6 +13,22 @@ from .native_diagnostics import typed
 TABLE='flexible_diagnostics'
 
 
+def capabilities(store,model,config):
+    """Local eligibility only; advertising a tool never grants execution rights."""
+    sql=query_sql.capabilities();dax=query_dax.capabilities()
+    reader=config['fabric'].get('native_reader')
+    dax['eligibility']='ELIGIBLE_FOR_VALIDATION' if model['enabled'] and reader and allows(reader,model['workspace'],model['native_id']) else 'UNAVAILABLE'
+    try:
+        from .source_diagnostics import snapshot
+        objects,_=snapshot(store,model,config)
+        sql['eligibility']='ELIGIBLE_FOR_VALIDATION' if objects else 'UNAVAILABLE'
+    except (ValueError,Conflict):sql['eligibility']='UNAVAILABLE'
+    for item in (sql,dax):
+        item['execution_permission']='UNKNOWN_UNTIL_DISPATCH'
+        item['dispatch_revalidation_required']=True
+    return [sql,dax]
+
+
 def build(store,plan,config,tool):
     fields(plan,['model_id','revision','context_id','query','max_rows'])
     model=store.get(plan['model_id'])

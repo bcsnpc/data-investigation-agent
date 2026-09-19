@@ -69,6 +69,10 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(len(models),1);model=models[0]
         self.assertEqual(model['business'],{});self.assertEqual(model['reports'],[self.rid])
         self.assertEqual(len(model['context']['measures']),2)
+        profile=model['context']['domain_profile']
+        self.assertEqual(profile['authority'],'STRUCTURAL_HYPOTHESES_ONLY')
+        self.assertEqual(profile['tables'][0]['data_profile'],'NOT_MEASURED')
+        self.assertEqual(len(profile['tables'][0]['measure_ids']),2)
         self.assertTrue(assets(model['context']))
         workspace=Workspace(SimpleNamespace(store=self.store))
         resolved=snapshot(workspace)

@@ -1,8 +1,68 @@
 # Frozen unfamiliar-domain challenge
 
 2026-09-18. [Issue #199](https://github.com/bcsnpc/data-investigation-agent/issues/199)
-under mission #193. Attempt v1 **failed end-to-end intake reliability**; general
-intake corrections and a fresh freeze/variant are in progress. Acceptance has not passed.
+under mission #193. Attempts v1/v2 are historical failed/partial attempts.
+**Attempt v3 exposed a profile-projection defect after discovery. The engine
+correction requires a fresh freeze; live acceptance has not passed.**
+Sections below the v3 record preserve their original release evidence.
+
+## Attempt v3: structural discovery and fresh publication
+
+Engine tag `unknown-domain-v3-engine` freezes
+`05348d0bc37eb03409f2f6d3726c62b92b6390e2` before variant generation.
+The manifest covers 378 engine/infrastructure/workspace files plus connection and
+usage policies. Manifest SHA-256:
+`8d7eaf79210f9aadd6f916a243c97944f9e32cde08ea3e68cfcefe3b5b21a258`.
+GPT-5.4 evaluation settings are included in the frozen infrastructure files.
+
+Baseline `3e59c4d8-b4f4-4ba1-96d0-bd4b71c0d325` completed with 47 metadata
+operations, complete listing coverage and zero changes before generation. Variant
+`0fd86f` was absent. Publication created six new suffixed SQL tables, three
+lakehouses, a notebook, one semantic model and two reports. Notebook job
+`7d62256b-0507-47ba-b995-04778187cad8` completed successfully. Existing application
+tables were not modified. Display vocabulary is publisher-owned and appears only
+as ordinary generated model metadata, never investigator configuration or mappings.
+
+The user explicitly approved Read + Build for investigator-reader on model
+`8e434350-7100-47b7-a0de-2c5732385dbb`, and table-level SELECT for the SQL reader
+on the six `_0fd86f` tables. Both grants were applied and read back. The initial
+Power BI add request failed; access was read back and the documented
+[update-user API](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/put-dataset-user-in-group)
+set only ReadExplore. No write/admin grants were added. The first failed request
+remains in the publisher journal.
+
+Historical catalog, inventory and usage rows were copied using SQLite backup;
+183 usage rows were retained. The challenge allowance is 150 planner calls,
+4,800,000 input characters and 225,000 output-token reservations per UTC day;
+cloud-call limit remains 60. This uses the user's existing authorization for
+needed LLM budget increases, not a reset of consumption. Previous-folder trials
+are stopped while this acceptance copy is active.
+
+Post-publication scan `94dca95d-2e45-47eb-a225-13f38004ba0c` completed with
+63 operations and complete coverage. It discovered the model and both reports
+without manual model/table ID registration. The stored profile was 5,130
+characters, but long scoped member IDs caused the 2,500-character planner
+projection to discard every table. This was found before any v3 ticket trial.
+
+The generic correction trims member lists with explicit truncation/counts before
+dropping the selected table. The same discovered context now yields 1,997
+characters, two table hints and selected-table numeric/measure references. The
+original profile and freeze manifest remain unchanged. Engine edits invalidate v3
+for further frozen grading; subsequent runs are explicitly known-domain regressions.
+A new freeze and fresh variant are required. Nine-family results, hypothesis
+revision, change/permission experiments and repeated hidden variants remain pending.
+
+
+Known-domain transformation session `2337130f-66f5-4014-95a3-b601d2d338a3`
+ended HELD / PLANNER_FAILED / UNRESOLVED with `APITimeoutError`, after ten
+planner calls, five successful native reads, four metadata lookups and 230,746
+cumulative input characters. It reproduced 53,145 and inspected notebook join
+logic, but performed no SQL read or measured key/join-cardinality experiment.
+Several native checks overlapped. This is partial observation evidence and a
+failed completed investigation, not acceptance or a supported cause. The original
+daily policy was restored after the run without resetting usage. The next quality
+work must evaluate test selection and provider timeout behavior before another
+freeze; merely publishing another variant would not resolve these findings.
 
 ## Freeze and separation
 
