@@ -868,3 +868,20 @@ its business premise and source duplication untested; the ambiguity run inspecte
 available technical context and preserved unknown business meaning. These remain
 known-domain evidence, not a fresh frozen acceptance pass. Original daily limits
 were restored without deleting usage. See [evaluation](provider-response-reliability.md).
+
+
+## 2026-09-19 - Discriminating tests and conclusion support
+
+Official agent-evaluation research informed explicit mechanism/intent support and
+discriminating-test guidance in the existing runtime. Support validation rejects
+assertive labels with explicitly unknown essential intent, incomplete mechanism
+receipts and missing citations; it does not certify interpretation truth. Provider
+decoding requires support, while historical results remain readable.
+
+949 regression tests passed. Two live known-domain transformation trials reached
+source diagnostics. The first exposed a source-issue label inconsistency; the
+corrected-engine repeat explained measured fanout and preserved the unknown
+rate-selection rule. It recovered from one query and one citation rejection.
+Original daily allowances restored with usage retained; SQL limits and permissions
+unchanged. Next is fresh frozen acceptance, not another architecture layer.
+See [research and live evidence](conclusion-quality.md).

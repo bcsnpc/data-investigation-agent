@@ -1,13 +1,31 @@
 # Current delivery status
 
-Updated 2026-09-18. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
+Updated 2026-09-19. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
 ## Current milestone
 
 
-**Current milestone: provider response reliability and conclusion quality.**
+**Active work: discriminating tests and explicit conclusion support.**
+The current provider contract requires the proposed mechanism, its receipts,
+dependency on intended business rules and the best remaining test. Contradictory
+defect/expected-behavior labels with explicitly unknown intent are rejected;
+reference validation does not certify semantic truth. Historical assessments
+remain readable. Planner guidance prioritizes discriminating tests and targeted
+source search without a domain-specific route. Research and evaluation criteria
+are in [conclusion quality](conclusion-quality.md). Validation: 949 local
+regression tests passed after the provider-decoding and classification corrections. Two known-domain transformation trials reached source mechanism evidence.
+The corrected-engine repeat completed BUSINESS_CONTEXT_REQUIRED in 11 planner
+calls and three reads, reproducing 53,145 and explicitly treating 50,109 as a
+counterfactual, not a corrected total. It recovered from SQL complexity and citation
+rejections. Retrieval efficiency remains limited. Original daily allowances were
+restored without resetting usage. Next: a fresh freeze and unfamiliar variant;
+no unfamiliar-domain acceptance pass is claimed.
+
+### Previous milestone: provider response reliability (merged PR #206)
+
+**Provider response reliability and conclusion quality.**
 Provider failures now retain safe categories and numeric usage without retaining
 response content. Four source-ready replays at 4,000 output tokens produced three
 structured proposals and one observed OUTPUT_TOKEN_LIMIT. The experimental profile
