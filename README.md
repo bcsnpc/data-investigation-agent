@@ -46,6 +46,12 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
+The next acceptance attempt is now frozen at `981bec8` (tag
+`unknown-domain-v4-engine`), after PR #207 passed 949 regression tests and six CI
+checks. The fresh model and reports are published and automatically discovered;
+reader-grant approval and the live ticket matrix remain pending. Unfamiliar-domain
+acceptance has not passed. See [current status](docs/current-delivery-status.md).
+
 Current reliability work makes conclusion support explicit: a proposed mechanism,
 its evidence, dependency on business intent, and remaining useful tests. The
 validator rejects a defect/expected-behavior label that explicitly depends on an
@@ -77,9 +83,9 @@ and unfamiliar-domain acceptance remain unproven.
 
 
 **Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and
-governed tools (Stages 4–5)** merged in PR #198. Three frozen engine attempts are recorded. The latest discovered its new model
+governed tools (Stages 4–5)** merged in PR #198. A fourth frozen attempt is underway. The preceding v3 attempt discovered its new model
 and reports automatically, then exposed excessive planner-profile truncation.
-The generic correction requires a fresh freeze and variant. The first nine-family trial recorded partial reads,
+The generic correction required a fresh freeze and variant. The first nine-family trial recorded partial reads,
 reasoning failures and provider rate-limit blocks; it has **not passed**.
 [Challenge acceptance](docs/unknown-domain-challenge.md) remains in progress.
 [Current delivery status](docs/current-delivery-status.md) owns
