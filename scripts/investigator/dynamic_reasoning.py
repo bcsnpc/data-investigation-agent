@@ -10,7 +10,7 @@ from .onboarding import fields,text,digest,encoded,Conflict
 from . import context_search
 from .model_context import assets
 
-VERSION='dynamic-investigation-v6'
+VERSION='dynamic-investigation-v7'
 INSTRUCTIONS='''Choose ONE next action: RUN a preferred typed candidate, LOOKUP context,
 QUERY a bounded SQL/DAX diagnostic, ASK a material clarification, or STOP with an assessment.
 No fixed layer/test order. Use actual observations to revise failed hypotheses.
@@ -37,12 +37,17 @@ A diagnostic may broaden the starting filters to distinguish hypotheses, but lab
 scope difference. Never present it as the captured visual/RLS context. Hidden context is unknown.
 LOOKUP search finds assets by name/kind and parent names; asset returns bounded metadata and adjacent lineage.
 Search matches all space-separated terms literally; it has no OR operator or wildcard syntax.
+To locate a named database object and its schema, use search then asset. find searches source text, not the object catalog.
 Asset lookup includes labelled children. Notebook/pipeline source text is in DefinitionPart
 children, not the parent item metadata. LOOKUP content reads a definition at a character
 offset; follow next_offset for more. LOOKUP find locates literal text in that definition.
 Use these tools to inspect relevant code instead of guessing a transformation from names.
 Review action_history before choosing a test. Repeating unchanged metadata adds no evidence.
-Choose the action that resolves a specific remaining uncertainty; stop if no useful action remains.
+Choose the action that best separates the leading explanation from a plausible alternative.
+Prefer a targeted literal find using an observed identifier over paging through unrelated source literals.
+After locating the implementation, test a plausible data mechanism when an admitted test can distinguish it.
+Do not spend the remaining budget merely reproducing the symptom or confirming the favored explanation.
+Stop if no useful admitted test remains; explain missing prerequisites or the budget limit.
 Do not reject a hypothesis merely because a different hypothesis has supporting metadata.
 Use context_entry_points to retrieve actual source schemas, notebook definitions and run history.
 An empty search is not evidence that a source is absent; try its kind or a shorter name.
@@ -65,6 +70,14 @@ Unsupported SQL feedback names parser constructs; remove or replace them instead
 Use remaining wall time and dispatch reserves to decide whether another read can fit; otherwise assess the available evidence and its limits.
 STOP assessment is an evidence-qualified interpretation, not a verified cause. Give alternatives
 and limits. Equality alone does not prove expected behavior; difference alone does not prove defect.
+STOP support separates the observed mechanism from its business premise. Cite successful query receipts
+that actually test the mechanism, not just the symptom. State the best remaining discriminating test,
+or why none would help. This is a concise auditable decision summary, not private reasoning.
+intent_dependency is UNKNOWN when the classification depends on an intended rule not established by
+retrieved authority. Names, signs, data types and implementation alone do not establish intended semantics.
+Use BUSINESS_CONTEXT_REQUIRED or a narrower unresolved observation if that missing rule is essential.
+ESTABLISHED requires cited evidence supporting the intended rule; NOT_REQUIRED means the stated claim
+stands without assuming an unknown rule. Do not use NOT_REQUIRED merely to bypass missing business intent.
 Never fabricate evidence or claim unsupported tests ran. Numeric facts are projected from receipts.
 Return {next: {kind: ..., action-specific fields}, hypotheses: {provided_id: update_or_null}}.
 Set unchanged/unused hypothesis slots to null. Supply at most eight non-null updates.
@@ -107,6 +120,9 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
     query_props['text'].update(minLength=1,maxLength=16000)
     query_props['max_rows'].update(minimum=1,maximum=250)
     assessment=copy.deepcopy(SCHEMA['properties']['assessment']['anyOf'][1])
+    from .assessment_support import SCHEMA as support_schema
+    assessment['properties']['support']=copy.deepcopy(support_schema)
+    assessment['required'].append('support')
     assessment['properties']['claim'].update(minLength=1,maxLength=1000)
     assessment['properties']['evidence_ids']['maxItems']=12
     for key in ('alternatives','limits'):
@@ -213,7 +229,9 @@ def from_wire(value,asset_handles=None):
         if action['operation'] in ('asset','content','find') and asset_handles is not None:
             if action['value'] not in asset_handles:raise ValueError('Unknown lookup handle')
             result['lookup']['value']=asset_handles[action['value']]
-    elif kind=='STOP':result.update(stop_reason='ENOUGH_DIAGNOSTICS',assessment=action['assessment'])
+    elif kind=='STOP':
+        fields(action['assessment'],['classification','claim','evidence_ids','alternatives','limits','support'])
+        result.update(stop_reason='ENOUGH_DIAGNOSTICS',assessment=action['assessment'])
     else:result[keys[kind][0]]=action[keys[kind][0]]
     return result
 
@@ -242,12 +260,15 @@ def validate(proposal,payload):
         if value['tool'] not in ('bounded_sql','bounded_dax') or type(value['max_rows']) is not int or not 1<=value['max_rows']<=250:
             raise ValueError('Invalid proposed query')
     if action=='STOP':
-        a=proposal['assessment'];fields(a,['classification','claim','evidence_ids','alternatives','limits']);text(a['claim'],1000)
+        a=proposal['assessment'];fields(a,['classification','claim','evidence_ids','alternatives','limits']+(['support'] if 'support' in a else []));text(a['claim'],1000)
         allowed=SCHEMA['properties']['assessment']['anyOf'][1]['properties']['classification']['enum']
         if a['classification'] not in allowed:raise ValueError('Unsupported outcome')
         known={o['id']:o for o in payload['observations']}
         refs=a['evidence_ids']
         if not isinstance(refs,list) or len(refs)>12 or any(r not in known for r in refs):raise ValueError('Unknown assessment evidence')
+        if 'support' in a:
+            from .assessment_support import validate as validate_support
+            validate_support(a,known)
         for key in ('alternatives','limits'):
             if not isinstance(a[key],list) or not 1<=len(a[key])<=6:raise ValueError('Assessment needs alternatives and limits')
             for value in a[key]:text(value,500)

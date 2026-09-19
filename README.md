@@ -46,12 +46,15 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-Current reliability work now distinguishes provider response limits/refusals from
-connection failures and preserves numeric usage for failed decisions. A reproduced
-output-limit failure motivated an 8,000-token experimental reasoning profile;
-defaults remain unchanged. A narrow SQL AST check catches invalid mixed aggregate
-projections before execution. All 943 local regression tests pass. See
-[provider response reliability](docs/provider-response-reliability.md).
+Current reliability work makes conclusion support explicit: a proposed mechanism,
+its evidence, dependency on business intent, and remaining useful tests. The
+validator rejects a defect/expected-behavior label that explicitly depends on an
+unknown intended rule. This catches structural contradictions, not semantic truth;
+interpretations remain LLM_INFERRED. Targeted search and discriminating-test guidance
+are under known-domain evaluation. See [conclusion quality](docs/conclusion-quality.md).
+The previous [provider response milestone](docs/provider-response-reliability.md)
+added safe failure categories, retained numeric usage and aggregate-query admission
+checks; its 943 regression tests passed. Default model settings remain unchanged.
 
 The current reliability work adds automatic structural hypotheses to discovered
 model context, SQL/DAX capability descriptions from the validators, and autonomous
