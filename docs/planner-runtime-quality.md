@@ -152,3 +152,55 @@ not a scored success or evidence that the final engine failed.
 
 All v3 trials remain known-domain regressions. Changed engine code requires a new
 freeze and fresh variant for unfamiliar-domain acceptance.
+
+
+## Final engine validation and remaining limit
+
+The final transformation regression, `09e8b35e-889b-4995-8a82-6f52d96dd78d`,
+used keyed hypothesis slots, retained source context and the 48,000-character
+experimental per-call allowance. It made nine planner calls, one successful native
+read and seven metadata lookups. It reproduced 53,145 and reached the notebook
+join definition plus both actual source schemas without rejected proposals or
+repeated lookup requests. It did not execute SQL: the ninth planning call ended
+HELD / PLANNER_FAILED / UNRESOLVED with a safe `ValueError` category and no cause
+chain. No transient recovery was scheduled because this was not a recognized
+connection/timeout exception. The saved category does not distinguish an incomplete
+provider response from another response-validation error; its cause remains unknown.
+
+This demonstrates removal of the observed contract/payload barriers in this one
+trajectory, not a completed mechanism diagnosis or general reliability. The next
+quality work must distinguish provider response failure categories safely and
+complete repeated ratio/transformation/ambiguity evaluations before another freeze.
+Do not promote this experimental model profile as generally superior.
+
+All **939 local regression tests passed** on the final engine, including generator,
+parser, receipt, cancellation, budget and legacy paths. Six CI checks passed on
+implementation commit `d9daf75`; final documentation receives its own CI checks.
+No dedicated browser session was rerun locally because this change has no UI edit.
+The README/current status preserve the remaining nine-family unfamiliar-domain,
+broader discovery, hosted authentication and integrated handoff work.
+
+
+The default-model compatibility trial, `a8fce4c6-ef55-43e0-a0df-a74ebdd8a78f`,
+accepted the new keyed response format but stopped NEEDS_INPUT after one planner
+call and no data read. It asked the user to confirm the metric and component
+calculation already explicitly requested in the ticket. This is an unnecessary
+clarification and a failed task-completion check, not a successful ratio result.
+A single trial cannot attribute that behavior to this code change or establish
+relative model quality. The default deployment has not been changed.
+
+
+The quality-profile ratio trial, `6d41bda2-f48b-47b3-9629-36a80822ca67`, completed
+with BUSINESS_CONTEXT_REQUIRED after two planner calls and one native DAX read.
+That single response returned Receipt Volume 6,432, Processed Units 8,580 and
+Receipt Proportion 0.7496503496503496 (also Dispatch Volume 2,148). The explanation
+used the discovered DIVIDE/CALCULATE/SUM definitions and correctly kept the missing
+benchmark for ?high? separate from the observed calculation. It had no proposal
+rejection. This completes the requested current ratio/component explanation in
+one known case; it does not prove an unfamiliar-domain pass or model superiority.
+
+The temporary local daily output reservation allowance was 225,000, under the
+user's prior authorization for additional LLM testing. The original 120,000-token
+policy was restored after all runs, without deleting/resetting any usage record.
+Planner-call, cloud-call and cumulative-input daily limits were unchanged. SQL
+free-limit/AutoPause, permissions, deployments and capacity were not changed.

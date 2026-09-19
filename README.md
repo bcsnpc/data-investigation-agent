@@ -63,8 +63,13 @@ challenge remains the main acceptance gate; these additions do not replace it.
 Earlier known-domain transformation runs timed out or stopped at business-context
 questions without measuring source join behavior. A discovered compaction bug
 removed retrieved transformation text from later planner prompts; bounded evidence
-retention now preserves recent excerpts and their provenance. All 937 local
-regression tests pass. Live test-selection reliability remains under evaluation.
+retention now preserves recent excerpts and their provenance. All 939 local
+regression tests pass. The final known-domain trial reached both source schemas
+without proposal rejections or repeated lookups, but a provider-response error
+stopped it before SQL execution. A separate quality-profile ratio trial completed
+the requested value/component explanation in two planner calls and one native read,
+while the default model asked an unnecessary clarification. General reliability
+and unfamiliar-domain acceptance remain unproven.
 
 
 **Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and

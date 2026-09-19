@@ -7,24 +7,38 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Active work: evidence retention and controlled planner reliability evaluation.**
-Research identified that the existing GPT-5.4 adapter did not request reasoning,
-while its documented default is `none`. Operator settings now support bounded
-reasoning effort, timeout and output allowance, with matching usage reservations
-and deadline checks. Defaults and the mini deployment remain unchanged.
-A no-execution comparison on reconstructed known context recorded two overlapping
-native proposals with `none`, one source-schema lookup with `medium`, and one
-medium timeout. This is a small diagnostic sample, not an acceptance pass.
-The first full reasoning trial ended unresolved on a read timeout after five
-planner calls and one native read. An explicit single planning-call recovery is
-available as an opt-in; every attempt is charged and re-admitted. SQL/Power BI
-reads and external actions are not retried. A later trial reached
-BUSINESS_CONTEXT_REQUIRED after 11 calls but did not measure source join behavior.
-Repeated lookups exposed a planner compaction bug that discarded previously read
-source text. The correction retains bounded recent excerpts with source hashes,
-offsets and explicit omissions. Its full live regression is in progress.
-All **937 local regression tests passed** after this correction; no browser UI
-was changed or retested. See [research and evaluation](planner-runtime-quality.md).
+**Current milestone: planner reliability and evidence continuity ([PR #205](https://github.com/bcsnpc/data-investigation-agent/pull/205)).**
+Research and live evaluations led to bounded retention of retrieved transformation
+text, keyed hypothesis updates, response-schema field limits, governed reasoning/
+output/timeout settings, and one optional metered planner connection recovery.
+The experimental quality profile allows 48,000 input characters per call; default
+settings, cumulative bounds, reader permissions and SQL free-tier policy remain.
+No domain-specific route, metric branch or scenario mapping was added.
+
+The final known-domain transformation trial made **nine planner calls, one native
+read and seven metadata lookups**, reproducing 53,145 and reaching the actual
+notebook join plus both source schemas. It had no rejected proposal or repeated
+lookup, but **ended UNRESOLVED before SQL execution** on a provider-response
+`ValueError`. The saved category does not identify whether the response was
+incomplete or otherwise invalid. This is not an end-to-end reliability pass.
+Earlier timeout, contract, payload-limit and interrupted experiments remain recorded.
+
+A final quality-profile ratio trial completed its requested calculation in **two
+planner calls and one native read**: 6,432 / 8,580 = 0.7496503496503496. It explained
+the actual measure definitions and preserved the missing business benchmark.
+The default-model trial instead asked for confirmation already supplied in the
+ticket; that task-completion failure is recorded. Neither establishes generality.
+The original daily LLM policy was restored after testing without resetting usage.
+
+**939 local regression tests passed** on the final engine. Six CI checks passed
+on the implementation commit; final PR checks track the documentation head.
+No dedicated browser session was rerun locally. See [research, trials and limits](planner-runtime-quality.md).
+
+Next: safely distinguish provider response failures and repeat ratio,
+transformation and ambiguity evaluations; then freeze a new engine and publish
+a fresh domain for the full acceptance matrix. The unknown-domain challenge
+remains the priority and has not passed. Broader discovery, hosted authentication
+and integrated handoff remain pending.
 
 ### Previous milestone: structural discovery (merged PR #204)
 

@@ -839,6 +839,19 @@ retrieving source schemas. Generic corrections retain bounded source evidence,
 use keyed hypothesis slots and expose backend response limits to the model.
 The experimental profile permits 48,000 characters per call; cumulative and SQL
 limits remain unchanged. No domain route, metric branch or expected answer was
-added. Final live regression and final full-suite validation are in progress.
+added. All 939 local regression tests passed. The final transformation trial
+reached the notebook join and both source schemas with no proposal rejection or
+repeated lookup, but ended UNRESOLVED on a provider-response ValueError before SQL.
+The safe error category does not establish its cause. Six implementation CI checks
+passed; no unfamiliar-domain acceptance or model-setting superiority is claimed.
 See [planner reliability evidence](planner-runtime-quality.md) for failed,
 interrupted and completed trials; current acceptance remains pending.
+
+
+The final quality-profile ratio regression completed in two planner calls and one
+native read, explaining 6,432 / 8,580 from actual measure definitions and retaining
+the missing business benchmark. The default-model ratio trial asked an unnecessary
+confirmation without querying; that failure is retained. The temporary daily output
+reservation allowance was restored to the original policy without resetting usage.
+Provider response failure diagnosis and repeated broader evaluations remain the
+next priority before a fresh freeze; the nine-family challenge is still pending.
