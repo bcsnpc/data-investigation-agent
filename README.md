@@ -66,7 +66,7 @@ are repaired locally; missing approved SQL schemas are fetched before dispatch.
 Repairs have separate events and do not change executable query text or authority.
 Six repair and five replay tests passed; all 979 regression tests passed. See
 [local repair evidence](docs/local-proposal-repairs.md).
-Current work is item 5: strict SQL/DAX text-and-scope repeats reuse sealed receipts
+Current work is item 5 ([draft PR #213](https://github.com/bcsnpc/data-investigation-agent/pull/213)): strict SQL/DAX text-and-scope repeats reuse sealed receipts
 without another data read. Six focused tests passed; all 985 regression tests passed.
 The original F-paced queries are not identical, so its failure remains unresolved
 under this conservative rule. See [redundancy evidence](docs/conservative-read-redundancy.md).

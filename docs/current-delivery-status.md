@@ -16,7 +16,7 @@ used. Six focused tests passed; all 985 regression tests passed.
 The original F-paced queries are not text-identical and its source proposal is
 unqualified. It remains a failed trajectory; the requested F-paced gate is not met
 by a strict matcher. Clarification on the exact-duplicate replacement gate is
-pending. See [redundancy evidence](conservative-read-redundancy.md).
+pending. [Draft PR #213](https://github.com/bcsnpc/data-investigation-agent/pull/213) holds the implementation pending that decision and final CI. See [redundancy evidence](conservative-read-redundancy.md).
 Engine bytes change; v4 remains invalidated. No live calls or new freeze/variant.
 
 ### Previous milestone: item 4 - local proposal repairs (merged PR #212)
