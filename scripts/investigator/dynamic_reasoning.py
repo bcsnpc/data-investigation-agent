@@ -70,6 +70,12 @@ The runtime can fetch missing approved object schemas for a valid SQL proposal w
 This does not invent object names, columns, joins or business rules; inspect metadata when those are unknown.
 Do not abandon a testable hypothesis merely because its query prerequisites were missing.
 Unsupported SQL feedback names parser constructs; remove or replace them instead of resending the same query.
+Context LOOKUP has its own allowance inside the existing planner total. action_budget
+shows retrieval_remaining and protected test turns. When retrieval is exhausted,
+reuse available evidence, propose a discriminating read under the advertised
+capabilities, or name the specific missing fact/permission. Do not manufacture a
+query or a conclusion just to consume a reserved test turn. Local approved-schema
+prefetch does not require another planner retrieval turn.
 Use remaining wall time and dispatch reserves to decide whether another read can fit; otherwise assess the available evidence and its limits.
 STOP assessment is an evidence-qualified interpretation, not a verified cause. Give alternatives
 and limits. Equality alone does not prove expected behavior; difference alone does not prove defect.
@@ -115,7 +121,7 @@ SCHEMA['properties'].update({
 SCHEMA['required']+=['lookup','query','assessment']
 
 
-def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,content_handles=None,source_available=False):
+def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,content_handles=None,source_available=False,retrieval_available=True):
     def variant(kind,props):
         properties={'kind':{'type':'string','enum':[kind]},**props}
         return {'type':'object','additionalProperties':False,'properties':properties,'required':list(properties)}
@@ -145,6 +151,7 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
                                 ('find',{'needle':{'type':'string','minLength':1,'maxLength':200}})]:
             if content_handles:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':[operation]},
                 'value':{'type':'string','enum':list(content_handles)},**extra}))
+    if not retrieval_available:choices=[v for v in choices if v['properties']['kind']['enum']!=['LOOKUP']]
     known={h['id'] for h in hypotheses}
     evidence=[o['id'] for o in observations]
     new_ids=[f'h{i}' for i in range(1,33) if f'h{i}' not in known][:max(0,16-len(known))]
@@ -216,7 +223,7 @@ def wire_contract(payload):
     definition_ids={entry['id'] for entry in entries if entry.get('kind')=='DefinitionPart' and 'id' in entry}
     content_handles={handle:identity for handle,identity in mapping.items() if identity in definition_ids}
     source_available=any(a.get('kind')=='SqlObject' for a in payload.get('context_entry_points',[]))
-    return wire,wire_schema(wire['candidates'],wire['hypotheses'],wire['observations'],mapping,content_handles,source_available),mapping
+    return wire,wire_schema(wire['candidates'],wire['hypotheses'],wire['observations'],mapping,content_handles,source_available,payload.get('action_budget',{}).get('retrieval_remaining',1)>0),mapping
 
 
 def from_wire(value,asset_handles=None):
@@ -254,6 +261,9 @@ def validate(proposal,payload):
     from .adaptive_planner import validate as legacy_validate
     fields(proposal,SCHEMA['required'])
     action=proposal['action']
+    if action=='LOOKUP' and payload.get('action_budget',{}).get('retrieval_remaining',1)<=0:
+        from .action_budget import RetrievalBudgetExceeded
+        raise RetrievalBudgetExceeded('RETRIEVAL_BUDGET_EXHAUSTED: reuse retrieved evidence, propose an admitted test, or state the specific remaining limitation')
     if action not in ('RUN','ASK','STOP','LOOKUP','QUERY'):raise ValueError('Unknown dynamic action')
     base={k:proposal[k] for k in LEGACY_SCHEMA['required']}
     if action in ('LOOKUP','QUERY'):

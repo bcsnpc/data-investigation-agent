@@ -66,16 +66,20 @@ are repaired locally; missing approved SQL schemas are fetched before dispatch.
 Repairs have separate events and do not change executable query text or authority.
 Six repair and five replay tests passed; all 979 regression tests passed. See
 [local repair evidence](docs/local-proposal-repairs.md).
-Current work is item 5 ([PR #213](https://github.com/bcsnpc/data-investigation-agent/pull/213)):
+Item 5 merged ([PR #213](https://github.com/bcsnpc/data-investigation-agent/pull/213)):
 compiled SQL/DAX duplicates reuse sealed receipts without another data read.
 Eleven focused checks cover alias normalization and admission of distinct reads;
 result equality is a reporting-only metric. Recording exclusions no longer abort
-provider calls. All 994 regression tests passed; final CI/merge are tracked on the PR.
+provider calls. All 994 regression tests and six CI checks passed.
 F-paced remains failed for test selection and is no longer the duplicate gate.
 See [redundancy evidence](docs/conservative-read-redundancy.md).
-V4 remains invalidated. Budget separation, intake regression and a capacity report
-follow in separate PRs; no live run, recording, freeze or variant before all are
-merged. See [current status](docs/current-delivery-status.md).
+Current item 6 ([PR #214](https://github.com/bcsnpc/data-investigation-agent/pull/214)) separates retrieval allowance from two protected test-planning turns
+within the existing total. Five focused checks include four lookups and two mock
+reads in six calls with exact offline replay. Session metrics report reads and the
+retrieval/test ratio. All 999 regression tests passed; final CI/merge remain pending. See
+[budget evidence](docs/retrieval-test-budgets.md).
+V4 remains invalidated. Intake regression and a capacity report follow separately;
+no live run, recording, freeze or variant before all are merged. See [current status](docs/current-delivery-status.md).
 
 Current reliability work makes conclusion support explicit: a proposed mechanism,
 its evidence, dependency on business intent, and remaining useful tests. The

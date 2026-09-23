@@ -18,7 +18,8 @@ def metrics(state):
                       for d in state.get('decisions',[]))
     sql_rejections=sum(o.get('status')=='REJECTED' and o.get('metadata',{}).get('proposed_tool')=='bounded_sql'
                        for o in state.get('observations',[]))
-    return {'result_equality_overlap_reads':overlap,
+    return {'reads_per_run':sum(o.get('status')=='COMPLETED' and o.get('tool') in ('native','source','native_records','source_records','bounded_sql','bounded_dax') for o in state.get('observations',[])),
+            'result_equality_overlap_reads':overlap,
             'schema_prefetch_repairs':sum(e.get('kind')=='PROPOSAL_REPAIRED' and
                 e.get('detail',{}).get('repair_kind')=='schema_prefetch' for e in state.get('events',[])),
             'sql_query_proposals':sql_proposals,'sql_query_rejections':sql_rejections,
