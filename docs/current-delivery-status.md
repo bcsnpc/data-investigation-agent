@@ -18,7 +18,7 @@ of this item. See [recording runbook and verification](planner-call-recordings.m
 Initial verification: 957 regression tests, ten final focused recording tests,
 31 runtime-governance tests, PowerShell syntax, six portal tests and build passed.
 The initial implementation has six green CI checks; final-head verification and
-merge remain in [PR #209](https://github.com/bcsnpc/data-investigation-agent/pull/209).
+merge state are recorded in [PR #209](https://github.com/bcsnpc/data-investigation-agent/pull/209).
 
 The required order is one item per PR: recordings; projected-context golden tests;
 offline session simulation; deterministic repairs; conservative read redundancy;
