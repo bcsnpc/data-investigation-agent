@@ -59,7 +59,13 @@ def main():
                 started=last=time.monotonic();usage=None
                 row={'repeat':repeat,'generation_options':options}
                 try:
-                    proposal,metadata=azure_plan({**payload,'generation_options':options})
+                    from investigator.planner_recording import recording
+                    with recording({'session_id':identity,'planner_call':len(rows)+1,
+                            'context_version':payload.get('context_version'), 'payload':payload,
+                            'budget':governor.snapshot(), 'reservation':{'key':key,
+                                'input_characters':len(encoded(payload)),
+                                'output_tokens':args.max_output_tokens,'governed':True}}):
+                        proposal,metadata=azure_plan({**payload,'generation_options':options})
                     usage=metadata.get('usage')
                     validate(proposal,payload)
                     row.update(status='VALID_PROPOSAL',proposal=proposal,provider=metadata)

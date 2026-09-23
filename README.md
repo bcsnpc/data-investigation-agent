@@ -1,10 +1,12 @@
 # Self-Discovering Enterprise Data Investigator
 
 An enterprise data investigator for Azure SQL, Microsoft Fabric and Power BI.
-The target is to connect an approved environment once, discover its changing data
-estate, and use an LLM with safe read-only tools to investigate unfamiliar business
-questions. **Approved-workspace discovery now feeds ticket context; unfamiliar-domain
-investigation is still under construction.**
+It has automatically discovered a newly published model and reports and made them
+available for investigation without manual registration. Known-domain trials have
+reached source mechanism evidence while preserving unknown business intent.
+**Reliable investigation of unfamiliar domains has not passed acceptance.** The
+target is to discover an approved environment and investigate business questions
+with an LLM, bounded read-only queries and saved evidence.
 This is an FDE integration with one enterprise environment.
 
 ## What works today
@@ -46,6 +48,17 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
+Current work is item 1 of the ordered offline reliability plan: opt-in exact
+planner request/response recordings and loadable local fixtures. Recordings include
+runtime context, budget and reservation metadata; credentials and headers are
+excluded. Transport tests use no live LLM calls. See the
+[recording runbook](docs/planner-call-recordings.md).
+This engine change invalidates v4 for further frozen grading. Its publication and
+automatic-discovery evidence remain historical. No new freeze or variant will be
+created until the offline work is green. Golden projection tests, full-session
+simulation, local repairs, redundancy checks, budget separation, intake regression
+and capacity evaluation remain pending. See [current status](docs/current-delivery-status.md).
+
 Current reliability work makes conclusion support explicit: a proposed mechanism,
 its evidence, dependency on business intent, and remaining useful tests. The
 validator rejects a defect/expected-behavior label that explicitly depends on an
@@ -77,9 +90,9 @@ and unfamiliar-domain acceptance remain unproven.
 
 
 **Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and
-governed tools (Stages 4–5)** merged in PR #198. Three frozen engine attempts are recorded. The latest discovered its new model
+governed tools (Stages 4–5)** merged in PR #198. The v4 attempt remains historical discovery evidence. The preceding v3 attempt discovered its new model
 and reports automatically, then exposed excessive planner-profile truncation.
-The generic correction requires a fresh freeze and variant. The first nine-family trial recorded partial reads,
+The generic correction required a fresh freeze and variant. The first nine-family trial recorded partial reads,
 reasoning failures and provider rate-limit blocks; it has **not passed**.
 [Challenge acceptance](docs/unknown-domain-challenge.md) remains in progress.
 [Current delivery status](docs/current-delivery-status.md) owns

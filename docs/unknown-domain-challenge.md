@@ -1,6 +1,34 @@
 # Frozen unfamiliar-domain challenge
 
-2026-09-18. [Issue #199](https://github.com/bcsnpc/data-investigation-agent/issues/199)
+**Dated note, 2026-09-22:** The operator requested ordered offline reliability
+work before further frozen grading. Item 1 changes engine bytes, invalidating v4
+for further acceptance. Its freeze, published assets, receipts and the historical
+checkpoint below are preserved. A fresh freeze and variant are required after the
+offline gates pass. See [current status](current-delivery-status.md).
+
+## v4 attempt: published and discovered; reader approval pending
+
+Engine `981bec80b53ec17d01dfa7f02c3fc470257dbfe0`, tag `unknown-domain-v4-engine`.
+Manifest SHA-256: `6540c4976b181b4481f1f7116066433cee5cbbf54b43e9c302e2084d60e1b46e`.
+The freeze covers 382 engine files plus the v4 connection and usage policy.
+The isolated working catalog retains 313 prior usage records. No publisher truth
+was copied into investigator context. The baseline scan precedes generation and
+publication. The baseline completed with 66 operations and zero matching assets
+for fresh suffix `23619e`. Six SQL tables, three lakehouses and a notebook were
+created; notebook execution completed. Model `163ce520-ec47-4824-975c-96f5c749205f`
+and reports `ce379e11-9a02-43df-9ddd-14be119ec0ee` and
+`e74fae1b-aab8-4058-9ae1-4038b7eec18a` are published. Nine business tickets are
+prepared using the fresh published vocabulary. Rescan
+`ffbc0be4-225a-47d9-a280-4c0a456646d6` completed with 81 operations, discovering
+the model and both reports as CURRENT. The model was automatically projected
+into the enabled catalog without runtime ID registration (five available models).
+Exact reader grants are prepared and pending user approval; none has been applied.
+This starts an attempt; it is not a challenge pass.
+
+
+## Historical attempts (recorded 2026-09-18)
+
+[Issue #199](https://github.com/bcsnpc/data-investigation-agent/issues/199)
 under mission #193. Attempts v1/v2 are historical failed/partial attempts.
 **Attempt v3 exposed a profile-projection defect after discovery. The engine
 correction requires a fresh freeze; live acceptance has not passed.**

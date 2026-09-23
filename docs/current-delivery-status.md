@@ -1,13 +1,53 @@
 # Current delivery status
 
-Updated 2026-09-19. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
+Updated 2026-09-22. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
 ## Current milestone
 
 
-**Active work: discriminating tests and explicit conclusion support.**
+**Current milestone: offline reliability, item 1 — exact planner recordings.**
+Operator-enabled recording captures HTTP request bodies after wire conversion,
+raw response bodies before decoding, context version, state, budget and reservation.
+Fixtures stay under `.local/`; default operation does not record content. Tests use
+mock transport, including failures and credential exclusion. This engine change
+invalidates v4 for further frozen grading; frozen artifacts and previous receipts
+remain untouched. No new variant, freeze, permission grant or live LLM call is part
+of this item. See [recording runbook and verification](planner-call-recordings.md).
+Verification: 959 regression tests, ten focused recording tests,
+31 runtime-governance tests, PowerShell syntax, six portal tests and build passed.
+The implementation has six green CI checks; final-head verification and
+merge state are recorded in [PR #209](https://github.com/bcsnpc/data-investigation-agent/pull/209).
+
+The required order is one item per PR: recordings; projected-context golden tests;
+offline session simulation; deterministic repairs; conservative read redundancy;
+retrieval/test budget separation; nine-family intake regressions; operator capacity
+assessment. Only after these gates pass may a new freeze and fresh variant proceed.
+The append-only [run ledger](runs/ledger.jsonl) begins with this work; earlier run
+evidence remains in its original milestone documents.
+
+### Historical checkpoint: v4 publication and discovery (2026-09-19)
+
+**v4 frozen unfamiliar-domain acceptance checkpoint.**
+Conclusion-quality PR #207 merged with 949 local regression tests and six green
+CI checks. The corrected known-domain transformation repeat reached source
+mechanism evidence and preserved unknown intended semantics. The engine is now
+frozen at `981bec80b53ec17d01dfa7f02c3fc470257dbfe0`, tag
+`unknown-domain-v4-engine`, covering 382 engine files plus connection/usage policy.
+The v4 catalog retains all 313 prior usage records; publisher truth was not copied.
+Pre-publication discovery completed with 66 operations and no assets matching
+fresh variant `23619e`. Its six isolated SQL tables, three lakehouses and notebook
+are published and the notebook completed. Model
+`163ce520-ec47-4824-975c-96f5c749205f` and two reports are published. The complete
+81-operation rescan discovered them and automatically projected the model into
+the enabled ticket catalog without runtime ID registration. Exact model Read + Build and six table SELECT requests are
+prepared and awaiting user approval. No write/admin access is requested. No
+unfamiliar-domain acceptance pass is claimed.
+
+### Previous milestone: conclusion quality (merged PR #207)
+
+**Discriminating tests and explicit conclusion support.**
 The current provider contract requires the proposed mechanism, its receipts,
 dependency on intended business rules and the best remaining test. Contradictory
 defect/expected-behavior labels with explicitly unknown intent are rejected;
@@ -20,7 +60,7 @@ The corrected-engine repeat completed BUSINESS_CONTEXT_REQUIRED in 11 planner
 calls and three reads, reproducing 53,145 and explicitly treating 50,109 as a
 counterfactual, not a corrected total. It recovered from SQL complexity and citation
 rejections. Retrieval efficiency remains limited. Original daily allowances were
-restored without resetting usage. Next: a fresh freeze and unfamiliar variant;
+restored without resetting usage. This milestone led to the v4 freeze above;
 no unfamiliar-domain acceptance pass is claimed.
 
 ### Previous milestone: provider response reliability (merged PR #206)
@@ -200,12 +240,12 @@ returned rows, not work scanned.
 | 3 Automatic context graph | Merged #196; independent context, graph/search and ticket visibility |
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
-| 6 General engine freeze | v3 profile finding requires a fresh freeze; previous attempts preserved |
-| 7 Unknown Domain Challenge | v3 discovery complete; planner reliability/context retention under regression; fresh variant pending |
+| 6 General engine freeze | v4 invalidated by recording changes; fresh freeze waits for offline gates |
+| 7 Unknown Domain Challenge | v4 publication/discovery preserved; offline reliability work precedes a fresh variant |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **reasoning reliability before a fresh unfamiliar-domain challenge**. Prior
+Current: **item 1 implemented and verified; projected-context golden tests are next**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

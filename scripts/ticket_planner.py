@@ -67,6 +67,15 @@ def validate_plan(value, ticket, reports):
 
 
 def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False, image_data_url=None, generation_options=None):
+    from investigator.planner_recording import recording
+    with recording({'session_id':'standalone:'+str(uuid4()),'planner_call':1,
+                    'call_kind':name,'context_version':None,'payload':payload,
+                    'budget':None,'reservation':None}):
+        return _azure_generate(payload,instructions,schema,name,decision_tool=decision_tool,
+            image_data_url=image_data_url,generation_options=generation_options)
+
+
+def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False, image_data_url=None, generation_options=None):
     from investigator.generation_policy import validate as generation_policy
     policy=generation_policy(generation_options)
     endpoint = os.environ.get('AZURE_OPENAI_ENDPOINT', '')
@@ -81,7 +90,8 @@ def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tick
             raise ValueError('Expected bounded inline image; remote image URLs are not accepted')
         request_input = [{'role':'user','content':[{'type':'input_text','text':request_input},
                          {'type':'input_image','image_url':image_data_url,'detail':'high'}]}]
-    with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=policy['timeout_seconds'], max_retries=0) as client:
+    from investigator.planner_recording import http_options
+    with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=policy['timeout_seconds'], max_retries=0, **http_options()) as client:
         options = ({'tools':[{'type':'function','name':name,'description':'Propose exactly one next diagnostic action; no execution.',
                              'parameters':schema,'strict':True}],
                     'tool_choice':{'type':'function','name':name},'parallel_tool_calls':False}

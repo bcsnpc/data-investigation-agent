@@ -885,3 +885,35 @@ rate-selection rule. It recovered from one query and one citation rejection.
 Original daily allowances restored with usage retained; SQL limits and permissions
 unchanged. Next is fresh frozen acceptance, not another architecture layer.
 See [research and live evidence](conclusion-quality.md).
+
+
+## 2026-09-19 - Frozen v4 acceptance publication
+
+After merging #207, froze 382 engine files at 981bec8 plus connection and usage
+policy. The v4 catalog retains all 313 prior usage records, with no publisher
+truth copied. A complete 66-operation baseline preceded generation of fresh
+variant 23619e and contains no matching assets. Published six isolated SQL tables,
+three lakehouses and a notebook; notebook execution completed. The new model and
+two reports are published without runtime model/table registration. Discovery
+rescan completed with 81 operations and automatic model projection; reader grants
+are prepared and pending explicit approval.
+No live ticket or unfamiliar-domain acceptance pass is claimed. See
+[challenge record](unknown-domain-challenge.md).
+
+
+## 2026-09-22 ? offline reliability item 1: planner recordings
+
+Implemented opt-in HTTP-body recording after wire conversion, raw response capture
+before validation, local fixture loading and runtime context/budget reservations.
+Initial focused tests and a retained two-call mock investigation verified exact
+bytes without cloud calls. The run ledger begins at `docs/runs/ledger.jsonl`.
+Full regression and CI are pending at this checkpoint. This engine change
+invalidates v4 for further frozen grading; existing freeze artifacts and receipts
+remain unchanged. No new freeze or domain will be published before the ordered
+offline gates pass. See [recording evidence](planner-call-recordings.md).
+
+Item 1 final verification: 959 regression tests passed, plus ten focused recording
+and 31 governance tests; six CI checks passed on the implementation head.
+PowerShell syntax, six portal tests and build passed. PR #209 tracks final-head
+checks. The ledger preserves every recorded evaluation outcome as NOT_GRADED.
+No live provider calls or new freeze were used.
