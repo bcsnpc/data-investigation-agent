@@ -122,7 +122,7 @@ def load_session(session_id, directory=None):
         manifest = json.loads(manifest_path.read_bytes())
         bodies = {}
         for name, expected in manifest['files'].items():
-            if name not in {'context.json', 'request.body', 'response.body', 'response-status.json'}:
+            if name not in {'context.json', 'request.body', 'response.body', 'response-status.json', 'runtime-return.json'}:
                 raise RecordingError('RECORDING_UNKNOWN_FILE')
             data = (path.parent / name).read_bytes()
             if len(data) != expected['bytes'] or hashlib.sha256(data).hexdigest() != expected['sha256']:

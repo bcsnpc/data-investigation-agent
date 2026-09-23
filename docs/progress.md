@@ -936,3 +936,7 @@ tests that compare four recorded mock-SDK inputs with exact wire goldens. Six
 implementation CI checks passed; PR #210 tracks final-head checks. The second
 offline failure (a directory exhausting definition handles) is recorded alongside
 its generic priority/counting correction. No new freeze or live call was used.
+
+## 2026-09-23 UTC ? offline reliability item 3
+
+Added recorded-provider full-session replay over disposable SQLite copies, exact HTTP request comparisons, network denial and per-step malformed-proposal probes. Five focused tests passed. A retained six-call synthetic replay matched in 1.666 seconds with saved SQL/DAX receipts; this is not business grading or new cloud execution. Initial fixture and runner failures are recorded in [replay evidence](offline-session-replay.md). Full regression passed 973 tests; secret and local-link checks passed. Engine bytes change; v4 remains invalidated, with no new freeze or variant. Items 1 and 2 merged separately as PRs #209 and #210.

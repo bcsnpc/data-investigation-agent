@@ -53,14 +53,17 @@ planner request/response recordings and loadable local fixtures. Recordings incl
 runtime context, budget and reservation metadata; credentials and headers are
 excluded. Transport tests use no live LLM calls. See the
 [recording runbook](docs/planner-call-recordings.md).
-Current work is item 2: exact planner-view golden tests, counted context omissions,
-preserved definition links and deterministic fitting before the per-call ceiling.
-The full offline regression passed 968 tests, and six implementation CI checks
-passed; PR #210 tracks final-head checks and merge state. See
-[projection evidence](docs/planner-view-goldens.md).
+Item 2 merged in PR #210: planner-view goldens, counted omissions, preserved
+links and deterministic fitting; 968 regression tests passed.
+Current work is item 3: a recorded-provider session simulator runs the actual
+runtime over isolated database copies with network access blocked. Five focused
+tests cover complete replay, malformed proposals at each step, prerequisite
+rejections, recorded timeouts and input/configuration safeguards. Saved completed
+query receipts are reused; no fresh SQL/DAX execution or business correctness is
+claimed. All 973 local regression tests passed. See [replay evidence](docs/offline-session-replay.md).
 This engine change invalidates v4 for further frozen grading. Its publication and
 automatic-discovery evidence remain historical. No new freeze or variant will be
-created until the offline work is green. Full-session simulation, local repairs,
+created until the offline work is green. Local repairs,
 redundancy checks, budget separation, intake regression
 and capacity evaluation remain pending. See [current status](docs/current-delivery-status.md).
 

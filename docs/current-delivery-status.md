@@ -7,7 +7,22 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Current milestone: offline reliability, item 2 — planner-view golden tests.**
+**Current milestone: offline reliability, item 3: recorded-provider session replay.**
+The simulator rebuilds planner context through the actual runtime, validates exact
+request bytes, decodes recorded provider responses and repeats rejection, lookup,
+compaction, budget and stop behavior in disposable database copies. Completed
+child receipts are reused; network and uncached tool execution are blocked.
+Five focused tests passed, including malformed proposals injected at every step
+and a recorded timeout without a fabricated response. Full regression passed 973 tests; secret scanning and changed-document local links passed.
+This is engineering replay, not unfamiliar-domain acceptance or business grading.
+Recording now includes runtime profile/policy and return timing; older recordings
+without those fields explicitly cannot bootstrap full-session replay. Engine bytes
+change, so v4 remains invalidated. No new freeze, variant or live LLM call was used.
+See [offline replay evidence](offline-session-replay.md). Next: local repairs.
+
+### Previous milestone: item 2: planner-view goldens (merged PR #210)
+
+**Completed milestone: offline reliability, item 2 — planner-view golden tests.**
 Exact synthetic projected/wire snapshots cover dense profiles, definition children,
 paged older content and assembled input exceeding the per-call ceiling. Omissions
 are counted and distinguished from catalog removal. Deterministic fitting occurs
@@ -18,7 +33,7 @@ regression tests passed, with six green implementation CI checks. Final-head che
 and merge state are in [PR #210](https://github.com/bcsnpc/data-investigation-agent/pull/210).
 See [projection evidence](planner-view-goldens.md).
 No live LLM call, new freeze or new variant was used. Engine bytes change, so v4
-remains invalidated for further frozen grading. Next: item 3 session simulation.
+remains invalidated for further frozen grading. Item 3 follows above.
 
 ### Previous milestone: item 1 — exact planner recordings (merged PR #209)
 
@@ -259,7 +274,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **item 2 in validation; full-session offline simulation is next**. Prior
+Current: **item 3 in validation; local deterministic repairs are next**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.
