@@ -75,6 +75,9 @@ class QueryParserTests(unittest.TestCase):
             choices=dynamic_reasoning.wire_schema([],observations=observations)['properties']['next']['anyOf']
             return next(c for c in choices if c['properties']['kind']['enum']==['QUERY'])['properties']['tool']['enum']
         self.assertEqual(tools([]),['bounded_dax'])
+        choices=dynamic_reasoning.wire_schema([],source_available=True)['properties']['next']['anyOf']
+        query=next(c for c in choices if c['properties']['kind']['enum']==['QUERY'])
+        self.assertIn('bounded_sql',query['properties']['tool']['enum'])
         observation={'id':'receipt','tool':'context','status':'COMPLETED','metadata':{'asset':{'id':'source','kind':'SqlObject',
           'availability':'CURRENT','metadata':{'columns':[{'name':'id'}]}}}}
         self.assertIn('bounded_sql',tools([observation]))
@@ -332,22 +335,20 @@ class DynamicTests(unittest.TestCase):
         state=agent.create(self.envelope,'stale');self.fixture.scan()
         self.assertEqual(agent.run(state['id'])['status'],'HELD');self.assertFalse(self.native_calls)
 
-    def test_missing_schema_feedback_drives_lookup_then_real_query(self):
+    def test_missing_schema_is_fetched_without_another_planner_call(self):
         calls=[]
         def planner(payload):
             calls.append(payload)
             if len(calls)==1:return self.decision('QUERY',query={'tool':'bounded_sql','text':'SELECT COUNT(*) AS n FROM business.events','max_rows':20})
-            if len(calls)==2:
-                self.assertFalse(self.sql_calls)
-                target=payload['observations'][-1]['metadata']['recovery_assets'][0]
-                return self.decision('LOOKUP',lookup={'operation':'asset','value':target['id']})
-            if len(calls)==3:return self.decision('QUERY',query={'tool':'bounded_sql','text':'SELECT COUNT(*) AS n FROM business.events','max_rows':20})
+            self.assertEqual(len(self.sql_calls),1)
             return self.decision('ASK',question='What count was expected?')
         agent=AdaptiveRuntime(self.runtime,planner)
         result=agent.run(agent.create(self.envelope,'schema-recovery')['id'])
         self.assertEqual(result['status'],'NEEDS_INPUT')
         self.assertEqual(len(self.sql_calls),1)
         self.assertEqual(result['cloud_calls'],1)
+        self.assertEqual(result['planner_calls'],2)
+        self.assertEqual([e['detail']['repair_kind'] for e in result['events'] if e['kind']=='PROPOSAL_REPAIRED'],['schema_prefetch'])
 
     def test_principal_and_parser_checked_before_native_dispatch(self):
         from investigator.flexible_tools import build

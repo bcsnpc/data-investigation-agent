@@ -7,7 +7,22 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Current milestone: offline reliability, item 3: recorded-provider session replay.**
+**Current milestone: offline reliability, item 4: local proposal repairs.**
+Identical duplicate hypothesis updates and overlong descriptive fields are repaired
+before validation. Conflicting updates and executable text are not rewritten.
+Missing approved SQL schemas are fetched locally without another planner call,
+then normal admission runs again. Every repair is recorded separately.
+Six repair tests, five replay tests, 36 flexible-query tests and nine projection
+tests passed. A synthetic three-rejection failure shape now completes three mock
+reads and a final question in four planner calls, with matching offline replay.
+This is not the exact unrecorded v2 trajectory or an unfamiliar-domain pass.
+All 979 regression tests passed. No live calls, new freeze or variant were used.
+Engine bytes change; v4 remains invalidated. See [repair evidence](local-proposal-repairs.md).
+Next: conservative read redundancy, in a separate PR.
+
+### Previous milestone: item 3 - recorded-provider replay (merged PR #211)
+
+**Completed milestone: offline reliability, item 3: recorded-provider session replay.**
 The simulator rebuilds planner context through the actual runtime, validates exact
 request bytes, decodes recorded provider responses and repeats rejection, lookup,
 compaction, budget and stop behavior in disposable database copies. Completed
@@ -274,7 +289,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **item 3 in validation; local deterministic repairs are next**. Prior
+Current: **item 4 in validation; conservative read redundancy is next**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

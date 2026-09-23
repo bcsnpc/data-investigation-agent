@@ -940,3 +940,7 @@ its generic priority/counting correction. No new freeze or live call was used.
 ## 2026-09-23 UTC ? offline reliability item 3
 
 Added recorded-provider full-session replay over disposable SQLite copies, exact HTTP request comparisons, network denial and per-step malformed-proposal probes. Five focused tests passed. A retained six-call synthetic replay matched in 1.666 seconds with saved SQL/DAX receipts; this is not business grading or new cloud execution. Initial fixture and runner failures are recorded in [replay evidence](offline-session-replay.md). Full regression passed 973 tests; secret and local-link checks passed. Engine bytes change; v4 remains invalidated, with no new freeze or variant. Items 1 and 2 merged separately as PRs #209 and #210.
+
+## 2026-09-23 UTC - offline reliability item 4
+
+Item 3 merged as PR #211 after all six final-head CI checks passed. Local repairs now deduplicate identical hypothesis updates, bound descriptive fields and fetch missing approved schemas without another planner call. Six repair tests, five replay tests, 36 flexible-query tests and nine goldens passed; the final full regression passed 979 tests. An earlier 978-test run was invalidated by an engine edit during execution and remains recorded. Synthetic replay demonstrates the three-rejection failure shape, not a verbatim historical v2 recording. Fixture failures are preserved in [repair evidence](local-proposal-repairs.md) and the append-only ledger. Engine bytes change; v4 remains invalidated. No live calls or fresh variant.

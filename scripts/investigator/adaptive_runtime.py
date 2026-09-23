@@ -199,6 +199,7 @@ class AdaptiveRuntime:
             state['planner_calls']+=1;state['input_characters']+=size
             self.save(db,state,'PLANNER_RESERVED',{'payload_hash':digest(payload),'input_characters':size})
         proposal_received=False
+        repairs=[]
         if self.planner_profile.get('adapter')=='azure':payload['generation_options']=self.generation_options
         try:
             from .planner_recording import recording
@@ -216,6 +217,8 @@ class AdaptiveRuntime:
                     if record:record.write('runtime-return.json',encoded({'clock':self.clock()}).encode('utf-8'))
             proposal_received=True
             if dynamic:
+                from .proposal_repairs import repair
+                proposal,repairs=repair(proposal)
                 from .dynamic_reasoning import validate as validate_dynamic
                 decision=validate_dynamic(proposal,payload)
             else:decision=validate(proposal,payload)
@@ -227,6 +230,7 @@ class AdaptiveRuntime:
                 if self.governor:self.governor.settle(db,identity,'planner:'+str(state['planner_calls']),
                     failed_usage,uncertain=not proposal_received and failed_usage is None)
                 if state['token']==token:
+                    for detail in repairs:self.save(db,state,'PROPOSAL_REPAIRED',detail)
                     if dynamic and proposal_received and isinstance(exc,ValueError):
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
                               'metadata':{'reason':'Decision contract rejected: '+str(exc)[:400]},'measure_id':None,'dimension_id':None}
@@ -246,6 +250,7 @@ class AdaptiveRuntime:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
             if self.governor:self.governor.settle(db,identity,'planner:'+str(state['planner_calls']),usage.get('usage') if isinstance(usage,dict) else None)
             if state['token']!=token or state['status']!='PLANNING':raise Conflict('Planner is fenced')
+            for detail in repairs:self.save(db,state,'PROPOSAL_REPAIRED',detail)
             try:self.admit(state)
             except Conflict:
                 self.stop(db,state,'ADMISSION_CHANGED','HELD');return self.project_after_commit(db,state)
@@ -279,8 +284,12 @@ class AdaptiveRuntime:
                 self.save(db,state,'CONTEXT_OBSERVED',{'observation_id':item['id']})
             else:
                 if decision['action']=='QUERY':
-                    from .dynamic_reasoning import candidate as proposed_candidate, MissingSourceContext
-                    try:candidate=proposed_candidate(self.store,self.config,state,decision['query'])
+                    from .dynamic_reasoning import MissingSourceContext
+                    from .proposal_repairs import candidate_with_schema
+                    def schema_observed(item):
+                        self.save(db,state,'PROPOSAL_REPAIRED',{'repair_kind':'schema_prefetch',
+                                  'observation_id':item['id'],'status':item['status']})
+                    try:candidate=candidate_with_schema(self.store,self.config,state,decision['query'],schema_observed)
                     except (ValueError,KeyError) as exc:
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
                               'metadata':{'reason':str(exc)[:500]},'measure_id':None,'dimension_id':None}
