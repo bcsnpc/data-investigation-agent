@@ -7,7 +7,21 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Current milestone: offline reliability, item 1 — exact planner recordings.**
+**Current milestone: offline reliability, item 2 — planner-view golden tests.**
+Exact synthetic projected/wire snapshots cover dense profiles, definition children,
+paged older content and assembled input exceeding the per-call ceiling. Omissions
+are counted and distinguished from catalog removal. Deterministic fitting occurs
+before reservation/dispatch; protected scope and schemas remain admitted or fail
+closed. A realistic offline fixture exposed compaction that enlarged metadata;
+the correction avoids that inflation. Nine focused projection tests and 968 full
+regression tests passed, with six green implementation CI checks. Final-head checks
+and merge state are in [PR #210](https://github.com/bcsnpc/data-investigation-agent/pull/210).
+See [projection evidence](planner-view-goldens.md).
+No live LLM call, new freeze or new variant was used. Engine bytes change, so v4
+remains invalidated for further frozen grading. Next: item 3 session simulation.
+
+### Previous milestone: item 1 — exact planner recordings (merged PR #209)
+
 Operator-enabled recording captures HTTP request bodies after wire conversion,
 raw response bodies before decoding, context version, state, budget and reservation.
 Fixtures stay under `.local/`; default operation does not record content. Tests use
@@ -245,7 +259,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **item 1 implemented and verified; projected-context golden tests are next**. Prior
+Current: **item 2 in validation; full-session offline simulation is next**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

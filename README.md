@@ -48,15 +48,20 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-Current work is item 1 of the ordered offline reliability plan: opt-in exact
+Item 1 of the ordered offline reliability plan merged in PR #209: opt-in exact
 planner request/response recordings and loadable local fixtures. Recordings include
 runtime context, budget and reservation metadata; credentials and headers are
 excluded. Transport tests use no live LLM calls. See the
 [recording runbook](docs/planner-call-recordings.md).
+Current work is item 2: exact planner-view golden tests, counted context omissions,
+preserved definition links and deterministic fitting before the per-call ceiling.
+The full offline regression passed 968 tests, and six implementation CI checks
+passed; PR #210 tracks final-head checks and merge state. See
+[projection evidence](docs/planner-view-goldens.md).
 This engine change invalidates v4 for further frozen grading. Its publication and
 automatic-discovery evidence remain historical. No new freeze or variant will be
-created until the offline work is green. Golden projection tests, full-session
-simulation, local repairs, redundancy checks, budget separation, intake regression
+created until the offline work is green. Full-session simulation, local repairs,
+redundancy checks, budget separation, intake regression
 and capacity evaluation remain pending. See [current status](docs/current-delivery-status.md).
 
 Current reliability work makes conclusion support explicit: a proposed mechanism,

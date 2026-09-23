@@ -1,0 +1,5185 @@
+{
+  "dense-profile": {
+    "projected": {
+      "scope_hash": "scope:synthetic",
+      "hypotheses": [],
+      "candidates": [],
+      "observations": [],
+      "domain_profile": {
+        "version": "domain-profile-v1",
+        "provenance": "DETERMINISTICALLY_DERIVED",
+        "authority": "STRUCTURAL_HYPOTHESES_ONLY",
+        "tables": [
+          {
+            "asset_id": "workspace/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/table/Neutral",
+            "name": "Neutral",
+            "role_hypotheses": [
+              "UNKNOWN"
+            ],
+            "candidate_key_columns": [],
+            "date_columns": [],
+            "numeric_columns": [
+              "workspace/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/table/Neutral/column/0"
+            ],
+            "measure_ids": [
+              "workspace/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/table/Neutral/measure/0"
+            ],
+            "relationship_evidence": [],
+            "grain": "UNKNOWN_UNTIL_TESTED",
+            "data_profile": "NOT_MEASURED",
+            "truncated": true,
+            "numeric_columns_profile_count": 8,
+            "measure_ids_profile_count": 8
+          }
+        ],
+        "tables_truncated": false,
+        "dependency_context": "semantic_graph",
+        "measure_count": 0,
+        "unknown_semantics": [
+          "Business grain and event meaning",
+          "Additivity across dimensions/time",
+          "Intended join/rate/date rules",
+          "Freshness SLA"
+        ],
+        "limits": "Relationship cardinality is declared metadata, not measured uniqueness. Numeric types do not establish measures; date types do not establish business time. Roles can overlap. Use bounded query receipts to test relevant hypotheses; never infer intent from names.",
+        "planner_tables_available": 1,
+        "planner_tables_omitted": 0
+      },
+      "strategy": "dynamic-investigation-v8"
+    },
+    "wire": {
+      "scope_hash": "scope:synthetic",
+      "hypotheses": [],
+      "candidates": [],
+      "observations": [],
+      "domain_profile": {
+        "version": "domain-profile-v1",
+        "provenance": "DETERMINISTICALLY_DERIVED",
+        "authority": "STRUCTURAL_HYPOTHESES_ONLY",
+        "tables": [
+          {
+            "asset_id": "a0",
+            "name": "Neutral",
+            "role_hypotheses": [
+              "UNKNOWN"
+            ],
+            "candidate_key_columns": [],
+            "date_columns": [],
+            "numeric_columns": [
+              "workspace/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/table/Neutral/column/0"
+            ],
+            "measure_ids": [
+              "workspace/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/table/Neutral/measure/0"
+            ],
+            "relationship_evidence": [],
+            "grain": "UNKNOWN_UNTIL_TESTED",
+            "data_profile": "NOT_MEASURED",
+            "truncated": true,
+            "numeric_columns_profile_count": 8,
+            "measure_ids_profile_count": 8
+          }
+        ],
+        "tables_truncated": false,
+        "dependency_context": "semantic_graph",
+        "measure_count": 0,
+        "unknown_semantics": [
+          "Business grain and event meaning",
+          "Additivity across dimensions/time",
+          "Intended join/rate/date rules",
+          "Freshness SLA"
+        ],
+        "limits": "Relationship cardinality is declared metadata, not measured uniqueness. Numeric types do not establish measures; date types do not establish business time. Roles can overlap. Use bounded query receipts to test relevant hypotheses; never infer intent from names.",
+        "planner_tables_available": 1,
+        "planner_tables_omitted": 0
+      },
+      "strategy": "dynamic-investigation-v8",
+      "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
+    },
+    "schema_hash": "fd0bcf1821cb490c3cb7733861ea2d2d4a42b4d27a388261b7af83fa3f82e41c",
+    "handles": {
+      "a0": "workspace/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/table/Neutral"
+    }
+  },
+  "definition-children": {
+    "projected": {
+      "scope_hash": "scope:synthetic",
+      "hypotheses": [],
+      "candidates": [],
+      "observations": [
+        {
+          "id": "receipt:asset",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "planner_context_compacted": true,
+            "limitation": "Earlier metadata is summarized; original receipt is retained. Retrieve only missing details needed for a new test.",
+            "children": [
+              {
+                "id": "definition:part",
+                "name": "source.py",
+                "kind": "DefinitionPart"
+              },
+              {
+                "id": "child:0",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:1",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:2",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:3",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:4",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:5",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:6",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:7",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:8",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:9",
+                "name": "child",
+                "kind": "Other"
+              }
+            ],
+            "children_truncated": true,
+            "planner_children_omitted": 2,
+            "asset": {
+              "id": "item:parent",
+              "kind": "Notebook"
+            },
+            "planner_omitted_fields": [],
+            "planner_omitted_field_count": 0,
+            "planner_metadata_omitted_values": 3,
+            "planner_projection_reason": "CONTEXT_COMPACTION_NOT_CATALOG_REMOVAL"
+          },
+          "planner_sample_truncated": true
+        },
+        {
+          "id": "receipt:later",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {}
+        }
+      ],
+      "context": [
+        {
+          "id": "metric:0",
+          "kind": "Measure",
+          "name": "m0"
+        },
+        {
+          "id": "metric:1",
+          "kind": "Measure",
+          "name": "m1"
+        },
+        {
+          "id": "metric:2",
+          "kind": "Measure",
+          "name": "m2"
+        },
+        {
+          "id": "metric:3",
+          "kind": "Measure",
+          "name": "m3"
+        },
+        {
+          "id": "metric:4",
+          "kind": "Measure",
+          "name": "m4"
+        },
+        {
+          "id": "metric:5",
+          "kind": "Measure",
+          "name": "m5"
+        },
+        {
+          "id": "metric:6",
+          "kind": "Measure",
+          "name": "m6"
+        },
+        {
+          "id": "metric:7",
+          "kind": "Measure",
+          "name": "m7"
+        },
+        {
+          "id": "metric:8",
+          "kind": "Measure",
+          "name": "m8"
+        },
+        {
+          "id": "metric:9",
+          "kind": "Measure",
+          "name": "m9"
+        },
+        {
+          "id": "metric:10",
+          "kind": "Measure",
+          "name": "m10"
+        },
+        {
+          "id": "metric:11",
+          "kind": "Measure",
+          "name": "m11"
+        },
+        {
+          "id": "metric:12",
+          "kind": "Measure",
+          "name": "m12"
+        },
+        {
+          "id": "metric:13",
+          "kind": "Measure",
+          "name": "m13"
+        },
+        {
+          "id": "metric:14",
+          "kind": "Measure",
+          "name": "m14"
+        },
+        {
+          "id": "metric:15",
+          "kind": "Measure",
+          "name": "m15"
+        },
+        {
+          "id": "metric:16",
+          "kind": "Measure",
+          "name": "m16"
+        },
+        {
+          "id": "metric:17",
+          "kind": "Measure",
+          "name": "m17"
+        },
+        {
+          "id": "metric:18",
+          "kind": "Measure",
+          "name": "m18"
+        },
+        {
+          "id": "metric:19",
+          "kind": "Measure",
+          "name": "m19"
+        },
+        {
+          "id": "metric:20",
+          "kind": "Measure",
+          "name": "m20"
+        },
+        {
+          "id": "metric:21",
+          "kind": "Measure",
+          "name": "m21"
+        },
+        {
+          "id": "metric:22",
+          "kind": "Measure",
+          "name": "m22"
+        },
+        {
+          "id": "metric:23",
+          "kind": "Measure",
+          "name": "m23"
+        },
+        {
+          "id": "metric:24",
+          "kind": "Measure",
+          "name": "m24"
+        },
+        {
+          "id": "metric:25",
+          "kind": "Measure",
+          "name": "m25"
+        },
+        {
+          "id": "metric:26",
+          "kind": "Measure",
+          "name": "m26"
+        },
+        {
+          "id": "metric:27",
+          "kind": "Measure",
+          "name": "m27"
+        },
+        {
+          "id": "metric:28",
+          "kind": "Measure",
+          "name": "m28"
+        },
+        {
+          "id": "metric:29",
+          "kind": "Measure",
+          "name": "m29"
+        },
+        {
+          "id": "metric:30",
+          "kind": "Measure",
+          "name": "m30"
+        },
+        {
+          "id": "metric:31",
+          "kind": "Measure",
+          "name": "m31"
+        },
+        {
+          "id": "metric:32",
+          "kind": "Measure",
+          "name": "m32"
+        },
+        {
+          "id": "metric:33",
+          "kind": "Measure",
+          "name": "m33"
+        },
+        {
+          "id": "metric:34",
+          "kind": "Measure",
+          "name": "m34"
+        },
+        {
+          "id": "metric:35",
+          "kind": "Measure",
+          "name": "m35"
+        },
+        {
+          "id": "metric:36",
+          "kind": "Measure",
+          "name": "m36"
+        },
+        {
+          "id": "metric:37",
+          "kind": "Measure",
+          "name": "m37"
+        },
+        {
+          "id": "metric:38",
+          "kind": "Measure",
+          "name": "m38"
+        },
+        {
+          "id": "metric:39",
+          "kind": "Measure",
+          "name": "m39"
+        },
+        {
+          "id": "metric:40",
+          "kind": "Measure",
+          "name": "m40"
+        },
+        {
+          "id": "metric:41",
+          "kind": "Measure",
+          "name": "m41"
+        },
+        {
+          "id": "metric:42",
+          "kind": "Measure",
+          "name": "m42"
+        },
+        {
+          "id": "metric:43",
+          "kind": "Measure",
+          "name": "m43"
+        },
+        {
+          "id": "metric:44",
+          "kind": "Measure",
+          "name": "m44"
+        },
+        {
+          "id": "metric:45",
+          "kind": "Measure",
+          "name": "m45"
+        },
+        {
+          "id": "metric:46",
+          "kind": "Measure",
+          "name": "m46"
+        },
+        {
+          "id": "metric:47",
+          "kind": "Measure",
+          "name": "m47"
+        },
+        {
+          "id": "metric:48",
+          "kind": "Measure",
+          "name": "m48"
+        },
+        {
+          "id": "metric:49",
+          "kind": "Measure",
+          "name": "m49"
+        },
+        {
+          "id": "metric:50",
+          "kind": "Measure",
+          "name": "m50"
+        },
+        {
+          "id": "metric:51",
+          "kind": "Measure",
+          "name": "m51"
+        },
+        {
+          "id": "metric:52",
+          "kind": "Measure",
+          "name": "m52"
+        },
+        {
+          "id": "metric:53",
+          "kind": "Measure",
+          "name": "m53"
+        },
+        {
+          "id": "metric:54",
+          "kind": "Measure",
+          "name": "m54"
+        },
+        {
+          "id": "metric:55",
+          "kind": "Measure",
+          "name": "m55"
+        },
+        {
+          "id": "metric:56",
+          "kind": "Measure",
+          "name": "m56"
+        },
+        {
+          "id": "metric:57",
+          "kind": "Measure",
+          "name": "m57"
+        },
+        {
+          "id": "metric:58",
+          "kind": "Measure",
+          "name": "m58"
+        },
+        {
+          "id": "metric:59",
+          "kind": "Measure",
+          "name": "m59"
+        },
+        {
+          "id": "metric:60",
+          "kind": "Measure",
+          "name": "m60"
+        },
+        {
+          "id": "metric:61",
+          "kind": "Measure",
+          "name": "m61"
+        },
+        {
+          "id": "metric:62",
+          "kind": "Measure",
+          "name": "m62"
+        },
+        {
+          "id": "metric:63",
+          "kind": "Measure",
+          "name": "m63"
+        },
+        {
+          "id": "metric:64",
+          "kind": "Measure",
+          "name": "m64"
+        },
+        {
+          "id": "metric:65",
+          "kind": "Measure",
+          "name": "m65"
+        },
+        {
+          "id": "metric:66",
+          "kind": "Measure",
+          "name": "m66"
+        },
+        {
+          "id": "metric:67",
+          "kind": "Measure",
+          "name": "m67"
+        },
+        {
+          "id": "metric:68",
+          "kind": "Measure",
+          "name": "m68"
+        },
+        {
+          "id": "metric:69",
+          "kind": "Measure",
+          "name": "m69"
+        }
+      ],
+      "context_entry_points": [
+        {
+          "id": "entry:0",
+          "kind": "Notebook",
+          "name": "n0"
+        },
+        {
+          "id": "entry:1",
+          "kind": "Notebook",
+          "name": "n1"
+        },
+        {
+          "id": "entry:2",
+          "kind": "Notebook",
+          "name": "n2"
+        },
+        {
+          "id": "entry:3",
+          "kind": "Notebook",
+          "name": "n3"
+        },
+        {
+          "id": "entry:4",
+          "kind": "Notebook",
+          "name": "n4"
+        },
+        {
+          "id": "entry:5",
+          "kind": "Notebook",
+          "name": "n5"
+        },
+        {
+          "id": "entry:6",
+          "kind": "Notebook",
+          "name": "n6"
+        },
+        {
+          "id": "entry:7",
+          "kind": "Notebook",
+          "name": "n7"
+        },
+        {
+          "id": "entry:8",
+          "kind": "Notebook",
+          "name": "n8"
+        },
+        {
+          "id": "entry:9",
+          "kind": "Notebook",
+          "name": "n9"
+        },
+        {
+          "id": "entry:10",
+          "kind": "Notebook",
+          "name": "n10"
+        },
+        {
+          "id": "entry:11",
+          "kind": "Notebook",
+          "name": "n11"
+        },
+        {
+          "id": "entry:12",
+          "kind": "Notebook",
+          "name": "n12"
+        },
+        {
+          "id": "entry:13",
+          "kind": "Notebook",
+          "name": "n13"
+        },
+        {
+          "id": "entry:14",
+          "kind": "Notebook",
+          "name": "n14"
+        },
+        {
+          "id": "entry:15",
+          "kind": "Notebook",
+          "name": "n15"
+        },
+        {
+          "id": "entry:16",
+          "kind": "Notebook",
+          "name": "n16"
+        },
+        {
+          "id": "entry:17",
+          "kind": "Notebook",
+          "name": "n17"
+        },
+        {
+          "id": "entry:18",
+          "kind": "Notebook",
+          "name": "n18"
+        },
+        {
+          "id": "entry:19",
+          "kind": "Notebook",
+          "name": "n19"
+        },
+        {
+          "id": "entry:20",
+          "kind": "Notebook",
+          "name": "n20"
+        },
+        {
+          "id": "entry:21",
+          "kind": "Notebook",
+          "name": "n21"
+        },
+        {
+          "id": "entry:22",
+          "kind": "Notebook",
+          "name": "n22"
+        },
+        {
+          "id": "entry:23",
+          "kind": "Notebook",
+          "name": "n23"
+        },
+        {
+          "id": "entry:24",
+          "kind": "Notebook",
+          "name": "n24"
+        },
+        {
+          "id": "entry:25",
+          "kind": "Notebook",
+          "name": "n25"
+        },
+        {
+          "id": "entry:26",
+          "kind": "Notebook",
+          "name": "n26"
+        },
+        {
+          "id": "entry:27",
+          "kind": "Notebook",
+          "name": "n27"
+        },
+        {
+          "id": "entry:28",
+          "kind": "Notebook",
+          "name": "n28"
+        },
+        {
+          "id": "entry:29",
+          "kind": "Notebook",
+          "name": "n29"
+        },
+        {
+          "id": "entry:30",
+          "kind": "Notebook",
+          "name": "n30"
+        },
+        {
+          "id": "entry:31",
+          "kind": "Notebook",
+          "name": "n31"
+        },
+        {
+          "id": "entry:32",
+          "kind": "Notebook",
+          "name": "n32"
+        },
+        {
+          "id": "entry:33",
+          "kind": "Notebook",
+          "name": "n33"
+        },
+        {
+          "id": "entry:34",
+          "kind": "Notebook",
+          "name": "n34"
+        },
+        {
+          "id": "entry:35",
+          "kind": "Notebook",
+          "name": "n35"
+        },
+        {
+          "id": "entry:36",
+          "kind": "Notebook",
+          "name": "n36"
+        },
+        {
+          "id": "entry:37",
+          "kind": "Notebook",
+          "name": "n37"
+        },
+        {
+          "id": "entry:38",
+          "kind": "Notebook",
+          "name": "n38"
+        },
+        {
+          "id": "entry:39",
+          "kind": "Notebook",
+          "name": "n39"
+        },
+        {
+          "id": "entry:40",
+          "kind": "Notebook",
+          "name": "n40"
+        },
+        {
+          "id": "entry:41",
+          "kind": "Notebook",
+          "name": "n41"
+        },
+        {
+          "id": "entry:42",
+          "kind": "Notebook",
+          "name": "n42"
+        },
+        {
+          "id": "entry:43",
+          "kind": "Notebook",
+          "name": "n43"
+        },
+        {
+          "id": "entry:44",
+          "kind": "Notebook",
+          "name": "n44"
+        },
+        {
+          "id": "entry:45",
+          "kind": "Notebook",
+          "name": "n45"
+        },
+        {
+          "id": "entry:46",
+          "kind": "Notebook",
+          "name": "n46"
+        },
+        {
+          "id": "entry:47",
+          "kind": "Notebook",
+          "name": "n47"
+        },
+        {
+          "id": "entry:48",
+          "kind": "Notebook",
+          "name": "n48"
+        },
+        {
+          "id": "entry:49",
+          "kind": "Notebook",
+          "name": "n49"
+        }
+      ],
+      "strategy": "dynamic-investigation-v8"
+    },
+    "wire": {
+      "scope_hash": "scope:synthetic",
+      "hypotheses": [],
+      "candidates": [],
+      "observations": [
+        {
+          "id": "receipt:asset",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "planner_context_compacted": true,
+            "limitation": "Earlier metadata is summarized; original receipt is retained. Retrieve only missing details needed for a new test.",
+            "children": [
+              {
+                "id": "a0",
+                "name": "source.py",
+                "kind": "DefinitionPart"
+              },
+              {
+                "id": "child:0",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:1",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:2",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:3",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:4",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:5",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:6",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:7",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:8",
+                "name": "child",
+                "kind": "Other"
+              },
+              {
+                "id": "child:9",
+                "name": "child",
+                "kind": "Other"
+              }
+            ],
+            "children_truncated": true,
+            "planner_children_omitted": 2,
+            "asset": {
+              "id": "item:parent",
+              "kind": "Notebook"
+            },
+            "planner_omitted_fields": [],
+            "planner_omitted_field_count": 0,
+            "planner_metadata_omitted_values": 3,
+            "planner_projection_reason": "CONTEXT_COMPACTION_NOT_CATALOG_REMOVAL"
+          },
+          "planner_sample_truncated": true
+        },
+        {
+          "id": "receipt:later",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {}
+        }
+      ],
+      "context": [
+        {
+          "id": "a1",
+          "kind": "Measure",
+          "name": "m0"
+        },
+        {
+          "id": "a2",
+          "kind": "Measure",
+          "name": "m1"
+        },
+        {
+          "id": "a3",
+          "kind": "Measure",
+          "name": "m2"
+        },
+        {
+          "id": "a4",
+          "kind": "Measure",
+          "name": "m3"
+        },
+        {
+          "id": "a5",
+          "kind": "Measure",
+          "name": "m4"
+        },
+        {
+          "id": "a6",
+          "kind": "Measure",
+          "name": "m5"
+        },
+        {
+          "id": "a7",
+          "kind": "Measure",
+          "name": "m6"
+        },
+        {
+          "id": "a8",
+          "kind": "Measure",
+          "name": "m7"
+        },
+        {
+          "id": "a9",
+          "kind": "Measure",
+          "name": "m8"
+        },
+        {
+          "id": "a10",
+          "kind": "Measure",
+          "name": "m9"
+        },
+        {
+          "id": "a11",
+          "kind": "Measure",
+          "name": "m10"
+        },
+        {
+          "id": "a12",
+          "kind": "Measure",
+          "name": "m11"
+        },
+        {
+          "id": "a13",
+          "kind": "Measure",
+          "name": "m12"
+        },
+        {
+          "id": "a14",
+          "kind": "Measure",
+          "name": "m13"
+        },
+        {
+          "id": "a15",
+          "kind": "Measure",
+          "name": "m14"
+        },
+        {
+          "id": "a16",
+          "kind": "Measure",
+          "name": "m15"
+        },
+        {
+          "id": "a17",
+          "kind": "Measure",
+          "name": "m16"
+        },
+        {
+          "id": "a18",
+          "kind": "Measure",
+          "name": "m17"
+        },
+        {
+          "id": "a19",
+          "kind": "Measure",
+          "name": "m18"
+        },
+        {
+          "id": "a20",
+          "kind": "Measure",
+          "name": "m19"
+        },
+        {
+          "id": "a21",
+          "kind": "Measure",
+          "name": "m20"
+        },
+        {
+          "id": "a22",
+          "kind": "Measure",
+          "name": "m21"
+        },
+        {
+          "id": "a23",
+          "kind": "Measure",
+          "name": "m22"
+        },
+        {
+          "id": "a24",
+          "kind": "Measure",
+          "name": "m23"
+        },
+        {
+          "id": "a25",
+          "kind": "Measure",
+          "name": "m24"
+        },
+        {
+          "id": "a26",
+          "kind": "Measure",
+          "name": "m25"
+        },
+        {
+          "id": "a27",
+          "kind": "Measure",
+          "name": "m26"
+        },
+        {
+          "id": "a28",
+          "kind": "Measure",
+          "name": "m27"
+        },
+        {
+          "id": "a29",
+          "kind": "Measure",
+          "name": "m28"
+        },
+        {
+          "id": "a30",
+          "kind": "Measure",
+          "name": "m29"
+        },
+        {
+          "id": "a31",
+          "kind": "Measure",
+          "name": "m30"
+        },
+        {
+          "id": "a32",
+          "kind": "Measure",
+          "name": "m31"
+        },
+        {
+          "id": "a33",
+          "kind": "Measure",
+          "name": "m32"
+        },
+        {
+          "id": "a34",
+          "kind": "Measure",
+          "name": "m33"
+        },
+        {
+          "id": "a35",
+          "kind": "Measure",
+          "name": "m34"
+        },
+        {
+          "id": "a36",
+          "kind": "Measure",
+          "name": "m35"
+        },
+        {
+          "id": "a37",
+          "kind": "Measure",
+          "name": "m36"
+        },
+        {
+          "id": "a38",
+          "kind": "Measure",
+          "name": "m37"
+        },
+        {
+          "id": "a39",
+          "kind": "Measure",
+          "name": "m38"
+        },
+        {
+          "id": "a40",
+          "kind": "Measure",
+          "name": "m39"
+        },
+        {
+          "id": "a41",
+          "kind": "Measure",
+          "name": "m40"
+        },
+        {
+          "id": "a42",
+          "kind": "Measure",
+          "name": "m41"
+        },
+        {
+          "id": "a43",
+          "kind": "Measure",
+          "name": "m42"
+        },
+        {
+          "id": "a44",
+          "kind": "Measure",
+          "name": "m43"
+        },
+        {
+          "id": "a45",
+          "kind": "Measure",
+          "name": "m44"
+        },
+        {
+          "id": "a46",
+          "kind": "Measure",
+          "name": "m45"
+        },
+        {
+          "id": "a47",
+          "kind": "Measure",
+          "name": "m46"
+        },
+        {
+          "id": "a48",
+          "kind": "Measure",
+          "name": "m47"
+        },
+        {
+          "id": "a49",
+          "kind": "Measure",
+          "name": "m48"
+        },
+        {
+          "id": "a50",
+          "kind": "Measure",
+          "name": "m49"
+        },
+        {
+          "id": "a51",
+          "kind": "Measure",
+          "name": "m50"
+        },
+        {
+          "id": "a52",
+          "kind": "Measure",
+          "name": "m51"
+        },
+        {
+          "id": "a53",
+          "kind": "Measure",
+          "name": "m52"
+        },
+        {
+          "id": "a54",
+          "kind": "Measure",
+          "name": "m53"
+        },
+        {
+          "id": "a55",
+          "kind": "Measure",
+          "name": "m54"
+        },
+        {
+          "id": "a56",
+          "kind": "Measure",
+          "name": "m55"
+        },
+        {
+          "id": "a57",
+          "kind": "Measure",
+          "name": "m56"
+        },
+        {
+          "id": "a58",
+          "kind": "Measure",
+          "name": "m57"
+        },
+        {
+          "id": "a59",
+          "kind": "Measure",
+          "name": "m58"
+        },
+        {
+          "id": "a60",
+          "kind": "Measure",
+          "name": "m59"
+        },
+        {
+          "id": "a61",
+          "kind": "Measure",
+          "name": "m60"
+        },
+        {
+          "id": "a62",
+          "kind": "Measure",
+          "name": "m61"
+        },
+        {
+          "id": "a63",
+          "kind": "Measure",
+          "name": "m62"
+        },
+        {
+          "id": "a64",
+          "kind": "Measure",
+          "name": "m63"
+        },
+        {
+          "id": "a65",
+          "kind": "Measure",
+          "name": "m64"
+        },
+        {
+          "id": "a66",
+          "kind": "Measure",
+          "name": "m65"
+        },
+        {
+          "id": "a67",
+          "kind": "Measure",
+          "name": "m66"
+        },
+        {
+          "id": "a68",
+          "kind": "Measure",
+          "name": "m67"
+        },
+        {
+          "id": "a69",
+          "kind": "Measure",
+          "name": "m68"
+        },
+        {
+          "id": "a70",
+          "kind": "Measure",
+          "name": "m69"
+        }
+      ],
+      "context_entry_points": [
+        {
+          "id": "a71",
+          "kind": "Notebook",
+          "name": "n0"
+        },
+        {
+          "id": "a72",
+          "kind": "Notebook",
+          "name": "n1"
+        },
+        {
+          "id": "a73",
+          "kind": "Notebook",
+          "name": "n2"
+        },
+        {
+          "id": "a74",
+          "kind": "Notebook",
+          "name": "n3"
+        },
+        {
+          "id": "a75",
+          "kind": "Notebook",
+          "name": "n4"
+        },
+        {
+          "id": "a76",
+          "kind": "Notebook",
+          "name": "n5"
+        },
+        {
+          "id": "a77",
+          "kind": "Notebook",
+          "name": "n6"
+        },
+        {
+          "id": "a78",
+          "kind": "Notebook",
+          "name": "n7"
+        },
+        {
+          "id": "a79",
+          "kind": "Notebook",
+          "name": "n8"
+        },
+        {
+          "id": "a80",
+          "kind": "Notebook",
+          "name": "n9"
+        },
+        {
+          "id": "a81",
+          "kind": "Notebook",
+          "name": "n10"
+        },
+        {
+          "id": "a82",
+          "kind": "Notebook",
+          "name": "n11"
+        },
+        {
+          "id": "a83",
+          "kind": "Notebook",
+          "name": "n12"
+        },
+        {
+          "id": "a84",
+          "kind": "Notebook",
+          "name": "n13"
+        },
+        {
+          "id": "a85",
+          "kind": "Notebook",
+          "name": "n14"
+        },
+        {
+          "id": "a86",
+          "kind": "Notebook",
+          "name": "n15"
+        },
+        {
+          "id": "a87",
+          "kind": "Notebook",
+          "name": "n16"
+        },
+        {
+          "id": "a88",
+          "kind": "Notebook",
+          "name": "n17"
+        },
+        {
+          "id": "a89",
+          "kind": "Notebook",
+          "name": "n18"
+        },
+        {
+          "id": "a90",
+          "kind": "Notebook",
+          "name": "n19"
+        },
+        {
+          "id": "a91",
+          "kind": "Notebook",
+          "name": "n20"
+        },
+        {
+          "id": "a92",
+          "kind": "Notebook",
+          "name": "n21"
+        },
+        {
+          "id": "a93",
+          "kind": "Notebook",
+          "name": "n22"
+        },
+        {
+          "id": "a94",
+          "kind": "Notebook",
+          "name": "n23"
+        },
+        {
+          "id": "a95",
+          "kind": "Notebook",
+          "name": "n24"
+        },
+        {
+          "id": "a96",
+          "kind": "Notebook",
+          "name": "n25"
+        },
+        {
+          "id": "a97",
+          "kind": "Notebook",
+          "name": "n26"
+        },
+        {
+          "id": "a98",
+          "kind": "Notebook",
+          "name": "n27"
+        },
+        {
+          "id": "a99",
+          "kind": "Notebook",
+          "name": "n28"
+        },
+        {
+          "id": "a100",
+          "kind": "Notebook",
+          "name": "n29"
+        },
+        {
+          "id": "a101",
+          "kind": "Notebook",
+          "name": "n30"
+        },
+        {
+          "id": "a102",
+          "kind": "Notebook",
+          "name": "n31"
+        },
+        {
+          "id": "a103",
+          "kind": "Notebook",
+          "name": "n32"
+        },
+        {
+          "id": "a104",
+          "kind": "Notebook",
+          "name": "n33"
+        },
+        {
+          "id": "a105",
+          "kind": "Notebook",
+          "name": "n34"
+        },
+        {
+          "id": "a106",
+          "kind": "Notebook",
+          "name": "n35"
+        },
+        {
+          "id": "a107",
+          "kind": "Notebook",
+          "name": "n36"
+        },
+        {
+          "id": "a108",
+          "kind": "Notebook",
+          "name": "n37"
+        },
+        {
+          "id": "a109",
+          "kind": "Notebook",
+          "name": "n38"
+        },
+        {
+          "id": "a110",
+          "kind": "Notebook",
+          "name": "n39"
+        },
+        {
+          "id": "a111",
+          "kind": "Notebook",
+          "name": "n40"
+        },
+        {
+          "id": "a112",
+          "kind": "Notebook",
+          "name": "n41"
+        },
+        {
+          "id": "a113",
+          "kind": "Notebook",
+          "name": "n42"
+        },
+        {
+          "id": "a114",
+          "kind": "Notebook",
+          "name": "n43"
+        },
+        {
+          "id": "a115",
+          "kind": "Notebook",
+          "name": "n44"
+        },
+        {
+          "id": "a116",
+          "kind": "Notebook",
+          "name": "n45"
+        },
+        {
+          "id": "a117",
+          "kind": "Notebook",
+          "name": "n46"
+        },
+        {
+          "id": "a118",
+          "kind": "Notebook",
+          "name": "n47"
+        },
+        {
+          "id": "a119",
+          "kind": "Notebook",
+          "name": "n48"
+        },
+        {
+          "id": "entry:49",
+          "kind": "Notebook",
+          "name": "n49"
+        }
+      ],
+      "strategy": "dynamic-investigation-v8",
+      "lookup_handle_projection": {
+        "available_identities": 132,
+        "retained_handles": 120,
+        "omitted_handles": 12,
+        "reason": "WIRE_HANDLE_LIMIT",
+        "catalog_removal": false
+      },
+      "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
+    },
+    "schema_hash": "80bfa4d4787d8bd9dea63861b3c1285cbf309d50ba370cd2bee34e3920e1d63f",
+    "handles": {
+      "a0": "definition:part",
+      "a1": "metric:0",
+      "a2": "metric:1",
+      "a3": "metric:2",
+      "a4": "metric:3",
+      "a5": "metric:4",
+      "a6": "metric:5",
+      "a7": "metric:6",
+      "a8": "metric:7",
+      "a9": "metric:8",
+      "a10": "metric:9",
+      "a11": "metric:10",
+      "a12": "metric:11",
+      "a13": "metric:12",
+      "a14": "metric:13",
+      "a15": "metric:14",
+      "a16": "metric:15",
+      "a17": "metric:16",
+      "a18": "metric:17",
+      "a19": "metric:18",
+      "a20": "metric:19",
+      "a21": "metric:20",
+      "a22": "metric:21",
+      "a23": "metric:22",
+      "a24": "metric:23",
+      "a25": "metric:24",
+      "a26": "metric:25",
+      "a27": "metric:26",
+      "a28": "metric:27",
+      "a29": "metric:28",
+      "a30": "metric:29",
+      "a31": "metric:30",
+      "a32": "metric:31",
+      "a33": "metric:32",
+      "a34": "metric:33",
+      "a35": "metric:34",
+      "a36": "metric:35",
+      "a37": "metric:36",
+      "a38": "metric:37",
+      "a39": "metric:38",
+      "a40": "metric:39",
+      "a41": "metric:40",
+      "a42": "metric:41",
+      "a43": "metric:42",
+      "a44": "metric:43",
+      "a45": "metric:44",
+      "a46": "metric:45",
+      "a47": "metric:46",
+      "a48": "metric:47",
+      "a49": "metric:48",
+      "a50": "metric:49",
+      "a51": "metric:50",
+      "a52": "metric:51",
+      "a53": "metric:52",
+      "a54": "metric:53",
+      "a55": "metric:54",
+      "a56": "metric:55",
+      "a57": "metric:56",
+      "a58": "metric:57",
+      "a59": "metric:58",
+      "a60": "metric:59",
+      "a61": "metric:60",
+      "a62": "metric:61",
+      "a63": "metric:62",
+      "a64": "metric:63",
+      "a65": "metric:64",
+      "a66": "metric:65",
+      "a67": "metric:66",
+      "a68": "metric:67",
+      "a69": "metric:68",
+      "a70": "metric:69",
+      "a71": "entry:0",
+      "a72": "entry:1",
+      "a73": "entry:2",
+      "a74": "entry:3",
+      "a75": "entry:4",
+      "a76": "entry:5",
+      "a77": "entry:6",
+      "a78": "entry:7",
+      "a79": "entry:8",
+      "a80": "entry:9",
+      "a81": "entry:10",
+      "a82": "entry:11",
+      "a83": "entry:12",
+      "a84": "entry:13",
+      "a85": "entry:14",
+      "a86": "entry:15",
+      "a87": "entry:16",
+      "a88": "entry:17",
+      "a89": "entry:18",
+      "a90": "entry:19",
+      "a91": "entry:20",
+      "a92": "entry:21",
+      "a93": "entry:22",
+      "a94": "entry:23",
+      "a95": "entry:24",
+      "a96": "entry:25",
+      "a97": "entry:26",
+      "a98": "entry:27",
+      "a99": "entry:28",
+      "a100": "entry:29",
+      "a101": "entry:30",
+      "a102": "entry:31",
+      "a103": "entry:32",
+      "a104": "entry:33",
+      "a105": "entry:34",
+      "a106": "entry:35",
+      "a107": "entry:36",
+      "a108": "entry:37",
+      "a109": "entry:38",
+      "a110": "entry:39",
+      "a111": "entry:40",
+      "a112": "entry:41",
+      "a113": "entry:42",
+      "a114": "entry:43",
+      "a115": "entry:44",
+      "a116": "entry:45",
+      "a117": "entry:46",
+      "a118": "entry:47",
+      "a119": "entry:48"
+    }
+  },
+  "paged-content": {
+    "projected": {
+      "scope_hash": "scope:synthetic",
+      "hypotheses": [],
+      "candidates": [],
+      "observations": [
+        {
+          "id": "receipt:page:0",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "asset_id": "definition:part",
+            "context_version": "context:1",
+            "content_hash": "sha:synthetic",
+            "offset": 0,
+            "total_characters": 24000,
+            "next_offset": 6000,
+            "truncated": true,
+            "content": "",
+            "planner_context_compacted": true,
+            "planner_content_truncated": true,
+            "retained_end_offset": 0,
+            "planner_content_projection": {
+              "status": "OMITTED",
+              "retrieved_characters": 6000,
+              "retained_characters": 0,
+              "omitted_characters": 6000,
+              "reason": "PLANNER_CONTEXT_LIMIT",
+              "catalog_removal": false
+            },
+            "planner_omitted_fields": [],
+            "planner_omitted_field_count": 0,
+            "planner_metadata_omitted_values": 1
+          },
+          "planner_sample_truncated": true
+        },
+        {
+          "id": "receipt:page:1",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "asset_id": "definition:part",
+            "context_version": "context:1",
+            "content_hash": "sha:synthetic",
+            "offset": 6000,
+            "total_characters": 24000,
+            "next_offset": 12000,
+            "truncated": true,
+            "content": "",
+            "planner_context_compacted": true,
+            "planner_content_truncated": true,
+            "retained_end_offset": 6000,
+            "planner_content_projection": {
+              "status": "OMITTED",
+              "retrieved_characters": 6000,
+              "retained_characters": 0,
+              "omitted_characters": 6000,
+              "reason": "PLANNER_CONTEXT_LIMIT",
+              "catalog_removal": false
+            },
+            "planner_omitted_fields": [],
+            "planner_omitted_field_count": 0,
+            "planner_metadata_omitted_values": 1
+          },
+          "planner_sample_truncated": true
+        },
+        {
+          "id": "receipt:page:2",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "asset_id": "definition:part",
+            "context_version": "context:1",
+            "content_hash": "sha:synthetic",
+            "offset": 12000,
+            "total_characters": 24000,
+            "next_offset": 18000,
+            "truncated": true,
+            "content": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "planner_context_compacted": true,
+            "planner_content_truncated": true,
+            "retained_end_offset": 14500,
+            "planner_content_projection": {
+              "status": "TRUNCATED",
+              "retrieved_characters": 6000,
+              "retained_characters": 2500,
+              "omitted_characters": 3500,
+              "reason": "PLANNER_CONTEXT_LIMIT",
+              "catalog_removal": false
+            },
+            "planner_omitted_fields": [],
+            "planner_omitted_field_count": 0,
+            "planner_metadata_omitted_values": 1
+          },
+          "planner_sample_truncated": true
+        },
+        {
+          "id": "receipt:later",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {}
+        }
+      ],
+      "strategy": "dynamic-investigation-v8"
+    },
+    "wire": {
+      "scope_hash": "scope:synthetic",
+      "hypotheses": [],
+      "candidates": [],
+      "observations": [
+        {
+          "id": "receipt:page:0",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "asset_id": "definition:part",
+            "context_version": "context:1",
+            "content_hash": "sha:synthetic",
+            "offset": 0,
+            "total_characters": 24000,
+            "next_offset": 6000,
+            "truncated": true,
+            "content": "",
+            "planner_context_compacted": true,
+            "planner_content_truncated": true,
+            "retained_end_offset": 0,
+            "planner_content_projection": {
+              "status": "OMITTED",
+              "retrieved_characters": 6000,
+              "retained_characters": 0,
+              "omitted_characters": 6000,
+              "reason": "PLANNER_CONTEXT_LIMIT",
+              "catalog_removal": false
+            },
+            "planner_omitted_fields": [],
+            "planner_omitted_field_count": 0,
+            "planner_metadata_omitted_values": 1
+          },
+          "planner_sample_truncated": true
+        },
+        {
+          "id": "receipt:page:1",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "asset_id": "definition:part",
+            "context_version": "context:1",
+            "content_hash": "sha:synthetic",
+            "offset": 6000,
+            "total_characters": 24000,
+            "next_offset": 12000,
+            "truncated": true,
+            "content": "",
+            "planner_context_compacted": true,
+            "planner_content_truncated": true,
+            "retained_end_offset": 6000,
+            "planner_content_projection": {
+              "status": "OMITTED",
+              "retrieved_characters": 6000,
+              "retained_characters": 0,
+              "omitted_characters": 6000,
+              "reason": "PLANNER_CONTEXT_LIMIT",
+              "catalog_removal": false
+            },
+            "planner_omitted_fields": [],
+            "planner_omitted_field_count": 0,
+            "planner_metadata_omitted_values": 1
+          },
+          "planner_sample_truncated": true
+        },
+        {
+          "id": "receipt:page:2",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "asset_id": "definition:part",
+            "context_version": "context:1",
+            "content_hash": "sha:synthetic",
+            "offset": 12000,
+            "total_characters": 24000,
+            "next_offset": 18000,
+            "truncated": true,
+            "content": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "planner_context_compacted": true,
+            "planner_content_truncated": true,
+            "retained_end_offset": 14500,
+            "planner_content_projection": {
+              "status": "TRUNCATED",
+              "retrieved_characters": 6000,
+              "retained_characters": 2500,
+              "omitted_characters": 3500,
+              "reason": "PLANNER_CONTEXT_LIMIT",
+              "catalog_removal": false
+            },
+            "planner_omitted_fields": [],
+            "planner_omitted_field_count": 0,
+            "planner_metadata_omitted_values": 1
+          },
+          "planner_sample_truncated": true
+        },
+        {
+          "id": "receipt:later",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {}
+        }
+      ],
+      "strategy": "dynamic-investigation-v8",
+      "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
+    },
+    "schema_hash": "01e5bbf2598858c1a87e93bbf7cf00f9f9573182320addc655a7521b380a4378",
+    "handles": {}
+  },
+  "per-call-ceiling": {
+    "projected": {
+      "scope_hash": "scope:synthetic",
+      "hypotheses": [],
+      "candidates": [
+        {
+          "id": "candidate:0",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:1",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:2",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:3",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:4",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:5",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:6",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:7",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:8",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:9",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:10",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:11",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:12",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:13",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:14",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:15",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:16",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:17",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ],
+      "observations": [
+        {
+          "id": "receipt:schema:0",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "object:0",
+              "kind": "SqlObject",
+              "name": "entity0",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:1",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "object:1",
+              "kind": "SqlObject",
+              "name": "entity1",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:2",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "object:2",
+              "kind": "SqlObject",
+              "name": "entity2",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:3",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "object:3",
+              "kind": "SqlObject",
+              "name": "entity3",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:4",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "object:4",
+              "kind": "SqlObject",
+              "name": "entity4",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:5",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "object:5",
+              "kind": "SqlObject",
+              "name": "entity5",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:6",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "object:6",
+              "kind": "SqlObject",
+              "name": "entity6",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:7",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "object:7",
+              "kind": "SqlObject",
+              "name": "entity7",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:large",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "asset_id": "definition:large",
+            "context_version": "context:1",
+            "content": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "offset": 0,
+            "next_offset": 6000,
+            "truncated": true,
+            "planner_content_truncated": true,
+            "retained_end_offset": 750,
+            "planner_content_projection": {
+              "status": "TRUNCATED",
+              "retrieved_characters": 6000,
+              "retained_characters": 750,
+              "omitted_characters": 5250,
+              "reason": "PLANNER_CONTEXT_LIMIT",
+              "catalog_removal": false
+            }
+          },
+          "planner_sample_truncated": true
+        }
+      ],
+      "progress": {
+        "remaining_input_characters": 119040,
+        "remaining_planner_calls": 4
+      },
+      "context": [],
+      "context_entry_points": [],
+      "tool_capabilities": [
+        {
+          "tool": "bounded_sql",
+          "validator_version": "bounded-tsql-v2",
+          "mode": "READ_ONLY_SELECT",
+          "supported_ast_nodes": [
+            "Abs",
+            "Add",
+            "Alias",
+            "And",
+            "Avg",
+            "Between",
+            "Boolean",
+            "CTE",
+            "Case",
+            "Cast",
+            "Ceil",
+            "Coalesce",
+            "Column",
+            "Count",
+            "CurrentDate",
+            "CurrentTimestamp",
+            "DataType",
+            "DataTypeParam",
+            "DateAdd",
+            "DateDiff",
+            "Distinct",
+            "Div",
+            "EQ",
+            "Extract",
+            "Floor",
+            "From",
+            "GT",
+            "GTE",
+            "Group",
+            "Having",
+            "ILike",
+            "Identifier",
+            "If",
+            "In",
+            "Is",
+            "Join",
+            "LT",
+            "LTE",
+            "Like",
+            "Limit",
+            "Literal",
+            "Max",
+            "Min",
+            "Mod",
+            "Mul",
+            "NEQ",
+            "Neg",
+            "Not",
+            "Null",
+            "Nullif",
+            "Or",
+            "Order",
+            "Ordered",
+            "Paren",
+            "Partition",
+            "Round",
+            "RowNumber",
+            "Select",
+            "Star",
+            "Sub",
+            "Subquery",
+            "Sum",
+            "Table",
+            "TableAlias",
+            "TryCast",
+            "Var",
+            "Where",
+            "Window",
+            "With"
+          ],
+          "max_joins": 4,
+          "max_selects": 8,
+          "max_result_columns": 16,
+          "max_result_rows": 250,
+          "prerequisites": [
+            "Approved USER_TABLE catalog",
+            "Retrieved exact source schemas",
+            "Isolated reader permission check"
+          ],
+          "unsupported": [
+            "Views",
+            "Computed columns",
+            "External access",
+            "Recursive CTE",
+            "Writes"
+          ],
+          "experiments": [
+            "Uniqueness and nulls",
+            "Composite grain",
+            "Functional dependency counterexamples",
+            "Join fanout and unmatched keys",
+            "Date ranges and observed freshness"
+          ],
+          "limits": "TOP bounds output, not scan cost. A sample cannot prove global uniqueness or a business rule."
+        }
+      ],
+      "strategy": "dynamic-investigation-v8",
+      "planner_projection": {
+        "input_characters_before": 44844,
+        "ceiling": 32000,
+        "status": "TRUNCATED",
+        "catalog_removal": false,
+        "omissions": {
+          "context_entry_points": 20,
+          "context": 10,
+          "content_characters": 5250
+        }
+      },
+      "context_directory_truncated": true,
+      "context_truncated": true
+    },
+    "wire": {
+      "scope_hash": "scope:synthetic",
+      "hypotheses": [],
+      "candidates": [
+        {
+          "id": "candidate:0",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:1",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:2",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:3",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:4",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:5",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:6",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:7",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:8",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:9",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:10",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:11",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:12",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:13",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:14",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:15",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:16",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "id": "candidate:17",
+          "description": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ],
+      "observations": [
+        {
+          "id": "receipt:schema:0",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "a0",
+              "kind": "SqlObject",
+              "name": "entity0",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:1",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "a1",
+              "kind": "SqlObject",
+              "name": "entity1",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:2",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "a2",
+              "kind": "SqlObject",
+              "name": "entity2",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:3",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "a3",
+              "kind": "SqlObject",
+              "name": "entity3",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:4",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "a4",
+              "kind": "SqlObject",
+              "name": "entity4",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:5",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "a5",
+              "kind": "SqlObject",
+              "name": "entity5",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:6",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "a6",
+              "kind": "SqlObject",
+              "name": "entity6",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:schema:7",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "context_version": "context:1",
+            "asset": {
+              "id": "a7",
+              "kind": "SqlObject",
+              "name": "entity7",
+              "availability": "CURRENT",
+              "metadata": {
+                "columns": [
+                  {
+                    "name": "column_00000000000000000000",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000001",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000002",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000003",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000004",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000005",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000006",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000007",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000008",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000009",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000010",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000011",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000012",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000013",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000014",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000015",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000016",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000017",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000018",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000019",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000020",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000021",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000022",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000023",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000024",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000025",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000026",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000027",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000028",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000029",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000030",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000031",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000032",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000033",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000034",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000035",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000036",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000037",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000038",
+                    "data_type": "int"
+                  },
+                  {
+                    "name": "column_00000000000000000039",
+                    "data_type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "receipt:large",
+          "tool": "context",
+          "status": "COMPLETED",
+          "values": [],
+          "metadata": {
+            "asset_id": "definition:large",
+            "context_version": "context:1",
+            "content": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "offset": 0,
+            "next_offset": 6000,
+            "truncated": true,
+            "planner_content_truncated": true,
+            "retained_end_offset": 750,
+            "planner_content_projection": {
+              "status": "TRUNCATED",
+              "retrieved_characters": 6000,
+              "retained_characters": 750,
+              "omitted_characters": 5250,
+              "reason": "PLANNER_CONTEXT_LIMIT",
+              "catalog_removal": false
+            }
+          },
+          "planner_sample_truncated": true
+        }
+      ],
+      "progress": {
+        "remaining_input_characters": 119040,
+        "remaining_planner_calls": 4
+      },
+      "context": [],
+      "context_entry_points": [],
+      "tool_capabilities": [
+        {
+          "tool": "bounded_sql",
+          "validator_version": "bounded-tsql-v2",
+          "mode": "READ_ONLY_SELECT",
+          "supported_ast_nodes": [
+            "Abs",
+            "Add",
+            "Alias",
+            "And",
+            "Avg",
+            "Between",
+            "Boolean",
+            "CTE",
+            "Case",
+            "Cast",
+            "Ceil",
+            "Coalesce",
+            "Column",
+            "Count",
+            "CurrentDate",
+            "CurrentTimestamp",
+            "DataType",
+            "DataTypeParam",
+            "DateAdd",
+            "DateDiff",
+            "Distinct",
+            "Div",
+            "EQ",
+            "Extract",
+            "Floor",
+            "From",
+            "GT",
+            "GTE",
+            "Group",
+            "Having",
+            "ILike",
+            "Identifier",
+            "If",
+            "In",
+            "Is",
+            "Join",
+            "LT",
+            "LTE",
+            "Like",
+            "Limit",
+            "Literal",
+            "Max",
+            "Min",
+            "Mod",
+            "Mul",
+            "NEQ",
+            "Neg",
+            "Not",
+            "Null",
+            "Nullif",
+            "Or",
+            "Order",
+            "Ordered",
+            "Paren",
+            "Partition",
+            "Round",
+            "RowNumber",
+            "Select",
+            "Star",
+            "Sub",
+            "Subquery",
+            "Sum",
+            "Table",
+            "TableAlias",
+            "TryCast",
+            "Var",
+            "Where",
+            "Window",
+            "With"
+          ],
+          "max_joins": 4,
+          "max_selects": 8,
+          "max_result_columns": 16,
+          "max_result_rows": 250,
+          "prerequisites": [
+            "Approved USER_TABLE catalog",
+            "Retrieved exact source schemas",
+            "Isolated reader permission check"
+          ],
+          "unsupported": [
+            "Views",
+            "Computed columns",
+            "External access",
+            "Recursive CTE",
+            "Writes"
+          ],
+          "experiments": [
+            "Uniqueness and nulls",
+            "Composite grain",
+            "Functional dependency counterexamples",
+            "Join fanout and unmatched keys",
+            "Date ranges and observed freshness"
+          ],
+          "limits": "TOP bounds output, not scan cost. A sample cannot prove global uniqueness or a business rule."
+        }
+      ],
+      "strategy": "dynamic-investigation-v8",
+      "planner_projection": {
+        "input_characters_before": 44844,
+        "ceiling": 32000,
+        "status": "TRUNCATED",
+        "catalog_removal": false,
+        "omissions": {
+          "context_entry_points": 20,
+          "context": 10,
+          "content_characters": 5250
+        }
+      },
+      "context_directory_truncated": true,
+      "context_truncated": true,
+      "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
+    },
+    "schema_hash": "c4c98f58705a50098e2eac1cdc374217b58ff41bc6129475f3f569f687ecbcd0",
+    "handles": {
+      "a0": "object:0",
+      "a1": "object:1",
+      "a2": "object:2",
+      "a3": "object:3",
+      "a4": "object:4",
+      "a5": "object:5",
+      "a6": "object:6",
+      "a7": "object:7"
+    }
+  }
+}

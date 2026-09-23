@@ -10,6 +10,8 @@ import copy
 
 def for_planner(profile, focus_table=None):
     result=copy.deepcopy(profile)
+    result['planner_tables_available']=len(result['tables'])
+    result['planner_tables_omitted']=0
     result['tables'].sort(key=lambda t:t['asset_id']!=focus_table)
     # Keep the selected table useful even when scoped member IDs are long.
     # Counts describe the stored profile, not a claim of catalog completeness.
@@ -23,6 +25,7 @@ def for_planner(profile, focus_table=None):
                 table['truncated']=True
     while len(result['tables'])>1 and len(encoded(result))>2500:
         result['tables'].pop();result['tables_truncated']=True
+        result['planner_tables_omitted']+=1
     if result['tables']:
         table=result['tables'][0]
         for field in reversed(fields):
@@ -32,6 +35,7 @@ def for_planner(profile, focus_table=None):
                 table[field]=[];table['truncated']=True
     while result['tables'] and len(encoded(result))>2500:
         result['tables'].pop();result['tables_truncated']=True
+        result['planner_tables_omitted']+=1
     return result
 
 
