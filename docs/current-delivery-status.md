@@ -18,7 +18,7 @@ reads and a final question in four planner calls, with matching offline replay.
 This is not the exact unrecorded v2 trajectory or an unfamiliar-domain pass.
 All 979 regression tests passed. No live calls, new freeze or variant were used.
 Engine bytes change; v4 remains invalidated. See [repair evidence](local-proposal-repairs.md).
-Next: conservative read redundancy, in a separate PR.
+[PR #212](https://github.com/bcsnpc/data-investigation-agent/pull/212) tracks final CI and merge state. Next: conservative read redundancy, in a separate PR.
 
 ### Previous milestone: item 3 - recorded-provider replay (merged PR #211)
 
