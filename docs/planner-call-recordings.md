@@ -88,3 +88,7 @@ a mock HTTP transport. It does not require a new agent framework.
 These engine changes invalidate v4 for further frozen grading. Frozen manifests,
 stored receipts and historical run evidence were not rewritten. After items 1–8
 pass, create one new freeze and one fresh variant for the nine-family matrix.
+
+## 2026-09-23 UTC ? item 3 recording extension
+
+New opt-in runtime recordings also include planner profile, usage policy, environment and runtime return timing for [full-session offline replay](offline-session-replay.md). Older captures remain unchanged and may lack the bootstrap fields needed for this new harness.

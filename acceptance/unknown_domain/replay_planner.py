@@ -1,6 +1,6 @@
-"""Budgeted next-action comparison on a saved payload. Never executes proposals.
+"""Offline recorded-session replay or explicit live next-action comparison.
 
-This is known-state evaluation, not frozen acceptance or end-to-end validation.
+Both modes are known-state evaluation, not frozen acceptance or business grading.
 No expected answers or grading labels enter the planner payload.
 """
 import argparse
@@ -27,6 +27,8 @@ def no_execution(*args):
 
 
 def main():
+    if '--offline-session' in sys.argv:
+        return offline_main()
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--folder',type=Path,required=True)
     p.add_argument('--payload',type=Path,required=True)
@@ -82,4 +84,37 @@ def main():
                 print(json.dumps({k:v for k,v in row.items() if k not in ('proposal','provider')}),flush=True)
 
 
-if __name__=='__main__':main()
+def offline_main():
+    """Separate offline path: never obtains a cloud key or calls the live adapter."""
+    from session_replay import replay
+    from run_ledger import append, row, failed
+    from investigator.planner_recording import load_session
+    p=argparse.ArgumentParser(description='Replay a recorded session offline in an isolated local copy')
+    p.add_argument('--offline-session',required=True)
+    p.add_argument('--recordings',type=Path,default=ROOT/'.local/planner-recordings')
+    p.add_argument('--folder',type=Path,required=True)
+    p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--inject-at',type=int)
+    p.add_argument('--injection',type=Path)
+    p.add_argument('--allow-engine-drift',action='store_true')
+    args=p.parse_args()
+    destination=args.output.resolve()
+    if not destination.is_relative_to((ROOT/'.local').resolve()):
+        p.error('Replay output must be a new directory under .local')
+    started=time.monotonic()
+    try:
+        config=load_config(args.folder/'config.json')
+        result=replay(args.offline_session,args.recordings,args.folder/'catalog.sqlite',
+            config['storage']['database'],config,destination,inject_at=args.inject_at,
+            injection=json.loads(args.injection.read_text()) if args.injection else None,
+            allow_engine_drift=args.allow_engine_drift)
+    except Exception as exc:
+        append(ROOT/'docs/runs/ledger.jsonl',failed(type(exc).__name__,round(time.monotonic()-started,3)))
+        print(json.dumps({'status':'REPLAY_PREFLIGHT_FAILED','error_type':type(exc).__name__}))
+        return 1
+    append(ROOT/'docs/runs/ledger.jsonl', row(result, load_session(args.offline_session,args.recordings)))
+    print(json.dumps({k:v for k,v in result.items() if k!='session'}))
+    return 0 if result['status'] in ('MATCHED','INJECTION_PROBE') else 1
+
+
+if __name__=='__main__':raise SystemExit(main())

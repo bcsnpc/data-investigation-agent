@@ -203,13 +203,17 @@ class AdaptiveRuntime:
         try:
             from .planner_recording import recording
             with recording(lambda: {'session_id':identity,'planner_call':state['planner_calls'],
+                    'environment':self.store.environment,'planner_profile':self.planner_profile,
+                    'usage_policy':self.governor.policy if self.governor else None,
                     'context_version':state.get('discovery_version',state['context_hash']),
                     'state':{k:v for k,v in state.items() if k!='token'},'payload':payload,
                     'reservation':{'key':'planner:'+str(state['planner_calls']),
                         'input_characters':size,'output_tokens':self.generation_options['max_output_tokens'],
                         'governed':self.governor is not None},
-                    'budget':self.governor.snapshot() if self.governor else {'limits':limits}}):
-                proposal,usage=self.planner(payload)
+                    'budget':self.governor.snapshot() if self.governor else {'limits':limits}}) as record:
+                try:proposal,usage=self.planner(payload)
+                finally:
+                    if record:record.write('runtime-return.json',encoded({'clock':self.clock()}).encode('utf-8'))
             proposal_received=True
             if dynamic:
                 from .dynamic_reasoning import validate as validate_dynamic
