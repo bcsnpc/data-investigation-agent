@@ -944,3 +944,22 @@ Added recorded-provider full-session replay over disposable SQLite copies, exact
 ## 2026-09-23 UTC - offline reliability item 4
 
 Item 3 merged as PR #211 after all six final-head CI checks passed. Local repairs now deduplicate identical hypothesis updates, bound descriptive fields and fetch missing approved schemas without another planner call. Six repair tests, five replay tests, 36 flexible-query tests and nine goldens passed; the final full regression passed 979 tests. An earlier 978-test run was invalidated by an engine edit during execution and remains recorded. Synthetic replay demonstrates the three-rejection failure shape, not a verbatim historical v2 recording. Fixture failures are preserved in [repair evidence](local-proposal-repairs.md) and the append-only ledger. Engine bytes change; v4 remains invalidated. No live calls or fresh variant.
+
+## 2026-09-23 UTC - offline reliability item 5
+
+Item 4 merged as PR #212 after six final-head CI checks passed. Generated-query repeats now use exact normalized text, scope and version against sealed complete receipts; scalar-subset matching is removed. Six focused tests and all 985 regression tests passed; secret scanning and local links passed. Read-only inspection found F-paced has no identical native queries and an unqualified source proposal, so its original acceptance gate is not claimed. Clarification is pending; [evidence](conservative-read-redundancy.md) preserves that gap. No live calls or new freeze; v4 remains invalidated.
+
+### 2026-09-23 ? item 5 clarified; compiled identity and recording carry-over
+
+The user replaced the contradictory F-paced gate with compiled-candidate equality
+and explicitly retained F-paced as failed. PR #213 now normalizes bound aliases,
+keeps distinct computations/scopes separate and reports result equality only after
+execution. Shared descriptive bounds, schema-prefetch/SQL-rejection telemetry and
+nonfatal recording exclusions address the carried review points. Focused checks
+pass; full regression/final CI remain pending. No live execution or new freeze.
+See [revision evidence](conservative-read-redundancy.md).
+
+Item 5 final validation: 994 tests passed in 219.467 seconds after an offline
+ORDER BY alias collision was found and corrected. The initial failing regression
+and pre-correction suite remain recorded. Secret scanning and 180 local links
+passed. PR #213 tracks final CI/merge; no live LLM/data reads were made.

@@ -5,6 +5,7 @@ Reads evaluator output only. Never loads expected answers or modifies runtime.
 import argparse
 from collections import Counter
 import json
+from trajectory_metrics import metrics
 from pathlib import Path
 
 
@@ -19,13 +20,14 @@ def score(record):
     recovered=any(o.get('status')=='COMPLETED' and o.get('tool') in ('bounded_sql','bounded_dax')
                   for i,o in enumerate(observations)
                   if any(p.get('status')=='REJECTED' for p in observations[:i]))
-    return {'session_id':state.get('id'),'trial_kind':record.get('trial_kind'),
+    return {**metrics(state),'session_id':state.get('id'),'trial_kind':record.get('trial_kind'),
             'deployment':record.get('planner_deployment'),'status':state.get('status'),
             'classification':state.get('outcome',{}).get('classification'),
             'stop_reason':state.get('stop_reason'),'planner_calls':state.get('planner_calls',0),
             'cloud_calls':state.get('cloud_calls',0),'completed_reads':len(reads),
             'read_tools':dict(Counter(o['tool'] for o in reads)),
             'rejected_actions':len(rejected),'read_after_rejection':recovered,
+            'redundant_reads_blocked':sum(o.get('metadata',{}).get('reason_code')=='READ_ALREADY_OBSERVED' for o in rejected),
             'completed_lookups':len(lookups),'distinct_lookup_requests':len(set(keys)),
             'repeated_lookup_requests':len(keys)-len(set(keys)),
             'partial_observations':sum(o.get('completeness')=='PARTIAL' for o in observations),

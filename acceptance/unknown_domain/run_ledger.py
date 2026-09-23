@@ -1,6 +1,7 @@
 """Content-free, append-only evaluation telemetry; receipts remain the evidence."""
 from datetime import datetime, timezone
 import json
+from trajectory_metrics import metrics
 from pathlib import Path
 from uuid import uuid4
 
@@ -37,7 +38,7 @@ def row(result, calls, family='engineering'):
     count = state.get('planner_calls', 0)
     sql = sum(o.get('tool') in ('bounded_sql', 'source', 'source_records') for o in reads)
     dax = sum(o.get('tool') in ('bounded_dax', 'native', 'native_records') for o in reads)
-    return dict(session_id=result['replay_id'], date_utc=datetime.now(timezone.utc).isoformat(),
+    return dict(**metrics(state),session_id=result['replay_id'], date_utc=datetime.now(timezone.utc).isoformat(),
         mode='replay', family=family, engine_tag='unfrozen-'+state['engine_hash'][:12], manifest_sha_short='NONE',
         model_deployment=json.loads(calls[0]['bodies']['request.body'])['model'],
         settings_hash=state['planner_profile_hash'], planner_calls=count,
@@ -62,7 +63,7 @@ def append(path, entry):
 
 def failed(error_type, wall_seconds):
     """A preflight failure has no reconstructed calls; never log exception text."""
-    return dict(session_id=str(uuid4()), date_utc=datetime.now(timezone.utc).isoformat(),
+    return dict(**metrics({}),session_id=str(uuid4()), date_utc=datetime.now(timezone.utc).isoformat(),
         mode='replay', family='engineering', engine_tag='unfrozen-item-3',
         manifest_sha_short='NONE', model_deployment='NOT_RECONSTRUCTED',
         settings_hash='NOT_RECONSTRUCTED', planner_calls=0, reads_sql=0, reads_dax=0,

@@ -214,7 +214,7 @@ class AdaptiveRuntime:
                     'budget':self.governor.snapshot() if self.governor else {'limits':limits}}) as record:
                 try:proposal,usage=self.planner(payload)
                 finally:
-                    if record:record.write('runtime-return.json',encoded({'clock':self.clock()}).encode('utf-8'))
+                    if record:record.safe_write('runtime-return.json',encoded({'clock':self.clock()}).encode('utf-8'))
             proposal_received=True
             if dynamic:
                 from .proposal_repairs import repair
@@ -291,9 +291,17 @@ class AdaptiveRuntime:
                                   'observation_id':item['id'],'status':item['status']})
                     try:candidate=candidate_with_schema(self.store,self.config,state,decision['query'],schema_observed)
                     except (ValueError,KeyError) as exc:
+                        from .read_redundancy import RedundantRead
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
-                              'metadata':{'reason':str(exc)[:500]},'measure_id':None,'dimension_id':None}
+                              'metadata':{'reason':str(exc)[:500],'proposed_tool':decision['query']['tool']},'measure_id':None,'dimension_id':None}
                         if isinstance(exc,MissingSourceContext):item['metadata']['recovery_assets']=exc.recovery_assets
+                        if isinstance(exc,RedundantRead):
+                            prior=exc.observation
+                            item.update(duplicate_of=prior['id'],values=prior['values'])
+                            item['metadata'].update(reason_code='READ_ALREADY_OBSERVED',prior_tool=prior['tool'],
+                                context_version=state.get('discovery_version'),result_is_reused=True,
+                                prior_completeness=prior['completeness'])
+                            self.save(db,state,'READ_REDUNDANT',{'prior_observation_id':prior['id'],'observation_id':item['id']})
                         state['observations'].append(item);state.update(status='READY',token=None,no_progress=state.get('no_progress',0)+1)
                         self.save(db,state,'PROPOSAL_REJECTED',{'observation_id':item['id']})
                         return self.project_after_commit(db,state)

@@ -43,6 +43,51 @@ def validate_ungrouped_projection(tree):
                     raise ValueError('Aggregate SELECT without GROUP BY contains an unaggregated output column. Group that expression or aggregate the scalar summary field; no query executed.')
 
 
+def compiled_identity(qualified):
+    """Alpha-rename bound aliases; preserve every operator and expression.
+
+    Scope binding comes from SQLGlot, not text substitution or equivalence rules.
+    Source positions retain self-join roles. Output positions retain multiplicity.
+    """
+    tree=qualified.copy()
+    scopes=list(traverse_scope(tree))
+    ids={id(scope):i for i,scope in enumerate(scopes)}
+    outputs={id(scope):{name:'read_column_'+str(i) for i,name in enumerate(scope.expression.named_selects)} for scope in scopes}
+    aliases={id(scope):{name:'read_source_'+str(i) for i,name in enumerate(scope.sources)} for scope in scopes}
+    # Resolve all original names before mutating source/output aliases.
+    for scope in scopes:
+        # SQLGlot excludes output-alias references from scope.columns. Bind
+        # ORDER BY aliases separately before renaming projections.
+        for column in scope.expression.find_all(exp.Column):
+            if (column.find_ancestor(exp.Select) is scope.expression and not column.table
+                    and column.name in outputs[id(scope)]):
+                column.set('this',exp.to_identifier(outputs[id(scope)][column.name],quoted=True))
+        for column in scope.columns:
+            owner=scope
+            while owner is not None and column.table not in owner.sources:
+                owner=owner.parent
+            if owner is None:continue
+            source=owner.sources[column.table]
+            if not isinstance(source,exp.Table):
+                mapped=outputs[id(source)].get(column.name)
+                if mapped:column.set('this',exp.to_identifier(mapped,quoted=True))
+            column.set('table',exp.to_identifier(aliases[id(owner)][column.table],quoted=True))
+    for scope in scopes:
+        for name,(node,source) in scope.selected_sources.items():
+            alias=aliases[id(scope)][name]
+            if isinstance(node,exp.Table):
+                if not isinstance(source,exp.Table):node.set('this',exp.to_identifier('read_cte_'+str(ids[id(source)]),quoted=True))
+                node.set('alias',exp.TableAlias(this=exp.to_identifier(alias,quoted=True)))
+            elif isinstance(node.parent,exp.Subquery):
+                node.parent.set('alias',exp.TableAlias(this=exp.to_identifier(alias,quoted=True)))
+        scope.expression.set('expressions',[
+            exp.alias_(expression.unalias(),'read_column_'+str(i),quoted=True)
+            for i,expression in enumerate(scope.expression.expressions)])
+        if isinstance(scope.expression.parent,exp.CTE):
+            scope.expression.parent.set('alias',exp.TableAlias(this=exp.to_identifier('read_cte_'+str(ids[id(scope)]),quoted=True)))
+    return tree
+
+
 def compile_query(query, objects, *, max_rows=250):
     if not isinstance(query,str) or not 1<=len(query)<=16000:raise ValueError('SQL text budget exceeded')
     if type(max_rows) is not int or not 1<=max_rows<=250:raise ValueError('Invalid row budget')
@@ -117,7 +162,9 @@ def compile_query(query, objects, *, max_rows=250):
             replacement=exp.Cast(this=replacement,to=exp.DataType.build('DECIMAL(38,10)' if '.' in literal.this else 'BIGINT',dialect='tsql'))
         literal.replace(replacement)
     if len(parameters)>60:raise ValueError('Parameter budget exceeded')
-    return {'query':qualified.sql(dialect='tsql',comments=False),'parameters':parameters,
+    identity=compiled_identity(qualified)
+    compiled_read=None if any(identity.find_all(exp.CurrentDate,exp.CurrentTimestamp)) else identity.sql(dialect='tsql',comments=False)
+    return {'compiled_read':compiled_read,'query':qualified.sql(dialect='tsql',comments=False),'parameters':parameters,
             'asset_ids':sorted(set(referenced)),'result_columns':names,'max_rows':max_rows+1,
             'caller_limit':requested,'response_mode':'records','validator_version':VERSION,
             'limitation':'TOP limits results, not work scanned. Independent source read; no cross-system equivalence asserted.'}

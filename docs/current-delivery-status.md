@@ -1,13 +1,32 @@
 # Current delivery status
 
-Updated 2026-09-22. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
+Updated 2026-09-23. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
 ## Current milestone
 
 
-**Current milestone: offline reliability, item 4: local proposal repairs.**
+**Current milestone: offline reliability, item 5: compiled read redundancy.**
+The user clarified the acceptance gate: compiled candidates, not semantic
+containment. SQL/DAX compiler identities now normalize bound aliases while
+preserving calculations, filters, parameters, scope and limits. Repeats reuse sealed
+receipts without another data-read reservation. Distinct equal-result reads remain
+admitted; equality is reported only afterward, alongside schema-prefetch repairs
+and SQL rejection rate. F-paced remains FAILED and is not this item's gate.
+Eleven focused checks, 13 recording checks, 36 flexible-query checks and seven repair
+checks passed. All 994 regression tests passed after the sort-alias correction;
+secret scanning and local links passed. Final CI and merge are tracked on
+[PR #213](https://github.com/bcsnpc/data-investigation-agent/pull/213).
+Shared text bounds and nonfatal secret-excluding recording address the carry-over
+review. See [redundancy evidence](conservative-read-redundancy.md).
+Next, in separate PRs: retrieval/test budgets (6), intake regressions (7), capacity
+report (8). No live run/tape, new freeze or variant before these are merged.
+Engine bytes change; v4 remains invalidated. No acceptance pass is claimed.
+
+### Previous milestone: item 4 - local proposal repairs (merged PR #212)
+
+**Completed milestone: offline reliability, item 4: local proposal repairs.**
 Identical duplicate hypothesis updates and overlong descriptive fields are repaired
 before validation. Conflicting updates and executable text are not rewritten.
 Missing approved SQL schemas are fetched locally without another planner call,
@@ -289,7 +308,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **item 4 in validation; conservative read redundancy is next**. Prior
+Current: **item 5 in validation; F-paced gate clarification pending, then budget separation**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

@@ -29,6 +29,20 @@ class LocalRepairTests(unittest.TestCase):
         self.assertEqual(len(fixed['question']),500)
         self.assertEqual(len(fixed['hypotheses'][0]['claim']),400)
 
+    def test_repair_schema_and_validator_share_changed_bounds(self):
+        from investigator import proposal_limits,dynamic_reasoning
+        with patch.object(proposal_limits,'QUESTION',37),patch.object(proposal_limits,'HYPOTHESIS_CLAIM',29):
+            proposal={'action':'ASK','candidate_id':None,'question':'q'*100,'stop_reason':None,
+                'hypotheses':[{'id':'h1','claim':'c'*100,'status':'OPEN','evidence_ids':[]}],
+                'lookup':None,'query':None,'assessment':None}
+            fixed,_=repair(proposal)
+            validate(fixed,{'candidates':[],'observations':[],'hypotheses':[]})
+            self.assertEqual(len(fixed['question']),37)
+            self.assertEqual(len(fixed['hypotheses'][0]['claim']),29)
+            schema=dynamic_reasoning.wire_schema([])
+            ask=next(v for v in schema['properties']['next']['anyOf'] if v['properties']['kind']['enum']==['ASK'])
+            self.assertEqual(ask['properties']['question']['maxLength'],37)
+
     def test_conflicting_duplicates_remain_rejected_and_query_never_changes(self):
         h={'id':'h1','claim':'First claim','status':'OPEN','evidence_ids':[]}
         proposal={'action':'QUERY','candidate_id':None,'question':None,'stop_reason':None,
@@ -47,7 +61,7 @@ class LocalRepairTests(unittest.TestCase):
             if len(calls)<=3:
                 h={'id':'h'+str(len(calls)),'claim':'A structural hypothesis.','status':'OPEN','evidence_ids':[]}
                 return helper.decision('QUERY',query={'tool':'bounded_sql',
-                    'text':f'SELECT COUNT(*) AS n{len(calls)} FROM business.events','max_rows':20},hypotheses=[h,dict(h)])
+                    'text':f'SELECT COUNT(*)+{len(calls)} AS n{len(calls)} FROM business.events','max_rows':20},hypotheses=[h,dict(h)])
             return helper.decision('ASK',question='Which intended business rule applies?')
         agent=AdaptiveRuntime(helper.runtime,planner)
         result=agent.run(agent.create(helper.envelope,'duplicate-shape')['id'])
@@ -89,7 +103,7 @@ class LocalRepairTests(unittest.TestCase):
             if len(calls)<=3:
                 h={'id':'h'+str(len(calls)),'claim':'c'*401,'status':'OPEN','evidence_ids':[]}
                 action={'kind':'QUERY','tool':'bounded_sql',
-                        'text':f'SELECT COUNT(*) AS n{len(calls)} FROM business.events','max_rows':20}
+                        'text':f'SELECT COUNT(*)+{len(calls)} AS n{len(calls)} FROM business.events','max_rows':20}
                 hypotheses=[h,dict(h)]
             else:
                 action={'kind':'ASK','question':'q'*501};hypotheses=[]

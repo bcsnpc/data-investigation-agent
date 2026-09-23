@@ -66,3 +66,7 @@ Full regression passed 973 tests in 245.492 seconds. Secret scanning and changed
 Engine recording bytes change, so v4 remains invalidated for further frozen
 grading. A fresh freeze and variant must wait for all offline reliability gates.
 Frozen artifacts, stored receipts and failed historical attempts remain unchanged.
+
+## 2026-09-23 UTC - validation bookkeeping addendum
+
+Two earlier fixture/debug invocations also have ledger entries: a manual diagnostic failed on the same synthetic schema-field assumption, and process 12109 had no retrievable completion output after session continuation. Neither is counted as a pass. Their wall time is unavailable (zero in the ledger); later five-test and full-suite results above are separately observed evidence. No recorded provider or frozen artifact was changed.
