@@ -51,7 +51,7 @@ Earlier four-test checks passed in 7.118 seconds, nine planner-view goldens in
 tape or F-paced result was modified; F-paced remains FAILED. Full regression and
 CI are pending. All recordings in these tests use mock transport, not a live
 investigation. Payload shaping changes invalidate prior exact-request tapes and
-v4 remains invalidated. No live tape/run, freeze or new variant until items 5?8
+v4 remains invalidated. No live tape/run, freeze or new variant until items 5-8
 are merged. Intake regressions follow in their own PR.
 
 A retained zero-network proof is saved under

@@ -7,18 +7,32 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Current milestone: offline reliability, item 7: intake family regressions.**
+**Current milestone: item 8 operator capacity report; live work remains pending.**
+Items 5-7 merged in PRs #213, #214 and #215 with six green checks each. The latest
+local full suite passed 1,003 tests. Read-only Azure inspection confirms the GPT-5.4
+evaluation deployment is still 10,000 TPM / 100 RPM, with regional quota available.
+The report proposes capacity 10 to 100 (100,000 TPM; expected 1,000 RPM), one request
+in flight and 65-second start spacing. This is proposed, not applied or live-tested.
+See [capacity report](provider-capacity-readiness.md) for the exact scope, evidence
+and per-trial capacity fields. SQL/free-tier settings and the default mini remain
+unchanged. No live run/tape, freeze or new variant was made. Operator approval and
+application, followed by the fresh frozen matrix, remain pending. F-paced remains
+FAILED; unfamiliar-domain acceptance has not passed.
+
+### Previous milestone: item 7 - intake regressions (merged PR #215)
+
+**Completed item 7: intake family regressions.**
 Twelve fixed synthetic captures cover all nine ticket families and three material
 scope questions. All nine proceed through real scope-review/start admission and
 one mock native read. Negative grading probes reject unnecessary metadata
 clarification and missing-fact questions for facts already supplied. Four focused
 tests passed, plus a retained nine-case flow proof. These controlled responses do
 not establish live LLM judgment or nine solved investigations. All 1,003 regression
-tests passed; final CI/merge remain pending. See [intake evidence](intake-family-regressions.md).
+tests and six CI checks passed; merged in PR #215. See [intake evidence](intake-family-regressions.md).
 No investigator runtime behavior changed. Next: item 8 capacity report; no live
 run/tape, freeze or new variant before all ordered items are merged.
 
-### Previous milestone: item 6 ? retrieval/test budgets (merged PR #214)
+### Previous milestone: item 6 - retrieval/test budgets (merged PR #214)
 
 **Completed item 6: retrieval/test budgets.**
 New dynamic sessions reserve two planning turns for tests inside the existing total;
@@ -34,7 +48,7 @@ after clarifying the missing-date fixture. Six CI checks passed and the change m
 See [budget evidence](retrieval-test-budgets.md). Next: intake regressions (7), then
 capacity report (8), each separately. No live run/tape, freeze or new variant.
 
-### Previous milestone: item 5 ? compiled read reuse (merged PR #213)
+### Previous milestone: item 5 - compiled read reuse (merged PR #213)
 
 **Completed item 5: compiled read redundancy.**
 The user clarified the acceptance gate: compiled candidates, not semantic
@@ -337,7 +351,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **items 5?6 merged; intake regression CI/merge, then the capacity report**. Prior
+Current: **items 5-7 merged; capacity report ready, operator change and live gates pending**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

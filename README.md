@@ -78,13 +78,16 @@ within the existing total. Five focused checks include four lookups and two mock
 reads in six calls with exact offline replay. Session metrics report reads and the
 retrieval/test ratio. All 999 regression tests and six CI checks passed. See
 [budget evidence](docs/retrieval-test-budgets.md).
-Current item 7 adds twelve synthetic intake captures covering nine ticket families
+Item 7 merged in [PR #215](https://github.com/bcsnpc/data-investigation-agent/pull/215), adding twelve synthetic intake captures covering nine ticket families
 and three specific missing user facts. All nine reach reviewed investigation and
 a mock read; negative probes reject unnecessary metadata clarification. Four tests
-passed; all 1,003 regression tests passed. Final CI/merge remain pending. This checks admission and replay of
+passed; all 1,003 regression tests and six CI checks passed. This checks admission and replay of
 controlled responses, not live LLM judgment. See [intake evidence](docs/intake-family-regressions.md).
-V4 remains invalidated. A capacity report follows separately; no live run,
-recording, freeze or variant before all ordered items are merged. See [current status](docs/current-delivery-status.md).
+Item 8's [capacity report](docs/provider-capacity-readiness.md) confirms 10,000 TPM /
+100 RPM and proposes 100,000 TPM with one request in flight and 65-second spacing.
+The change is not applied; operator approval and the live rate-limit gate remain.
+V4 remains invalidated. No live run, recording, freeze or variant before the
+ordered PRs are merged and operator prerequisites are satisfied. See [current status](docs/current-delivery-status.md).
 
 Current reliability work makes conclusion support explicit: a proposed mechanism,
 its evidence, dependency on business intent, and remaining useful tests. The

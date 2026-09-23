@@ -10,7 +10,7 @@ live model decisions. No investigator prompt, production mapping or runtime
 behavior changed for this item. Fixture expectations and family labels remain
 outside the investigator.
 
-All A?I fixtures proceed to proposed scope without asking for a definition, refresh
+All A-I fixtures proceed to proposed scope without asking for a definition, refresh
 pipeline or business-rule confirmation as an intake prerequisite. Separate tests
 use the actual discovered catalog, scope review, workspace start, governed runtime
 and mock native reader. Each family reaches a read of its selected measure. The

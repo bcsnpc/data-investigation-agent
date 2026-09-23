@@ -949,7 +949,7 @@ Item 3 merged as PR #211 after all six final-head CI checks passed. Local repair
 
 Item 4 merged as PR #212 after six final-head CI checks passed. Generated-query repeats now use exact normalized text, scope and version against sealed complete receipts; scalar-subset matching is removed. Six focused tests and all 985 regression tests passed; secret scanning and local links passed. Read-only inspection found F-paced has no identical native queries and an unqualified source proposal, so its original acceptance gate is not claimed. Clarification is pending; [evidence](conservative-read-redundancy.md) preserves that gap. No live calls or new freeze; v4 remains invalidated.
 
-### 2026-09-23 ? item 5 clarified; compiled identity and recording carry-over
+### 2026-09-23 - item 5 clarified; compiled identity and recording carry-over
 
 The user replaced the contradictory F-paced gate with compiled-candidate equality
 and explicitly retained F-paced as failed. PR #213 now normalizes bound aliases,
@@ -964,7 +964,7 @@ ORDER BY alias collision was found and corrected. The initial failing regression
 and pre-correction suite remain recorded. Secret scanning and 180 local links
 passed. PR #213 tracks final CI/merge; no live LLM/data reads were made.
 
-### 2026-09-23 ? item 5 merged; item 6 budget partition under verification
+### 2026-09-23 - item 5 merged; item 6 budget partition under verification
 
 PR #213 merged at 2e482352c2b2544a7161c2919f78b2dd045c8575 after six green checks.
 Item 6 partitions existing planner turns, exposes retrieval/test/read metrics and
@@ -978,7 +978,7 @@ The retained recorded-provider pressure replay MATCHED in 2.075 seconds with zer
 network/uncached-tool calls. Its actual counts have a separate append-only ledger
 row. No live recording, investigation, freeze or variant was made.
 
-### 2026-09-23 ? item 6 merged; nine-family intake regression coverage
+### 2026-09-23 - item 6 merged; nine-family intake regression coverage
 
 PR #214 merged after six green CI checks. Item 7 adds fixed synthetic intake
 request/response fixtures, all-nine reviewed-start/read checks and explicit
@@ -992,3 +992,14 @@ Item 7 final local verification: 1,003 regression tests passed in 231.426 second
 The stale status footer referring to unresolved item-5 clarification is corrected.
 No runtime changes, live LLM/data calls or acceptance claims accompany this fixture
 coverage. Final CI/merge precede the separate capacity report.
+
+### 2026-09-23 - item 7 merged; item 8 capacity report prepared
+
+PR #215 merged at 6a634e7af127105d269659c5cf0c1d41b114ae97 after six green checks.
+Read-only control-plane inspection confirmed GPT-5.4 capacity 10, 10,000 TPM and
+100 RPM, with 10 of 1,000 regional units allocated. The operator proposal is
+capacity 100 / 100,000 TPM, serial calls at least 65 seconds apart, with actual
+limits recorded beside each future trial settings hash. No allocation, permissions,
+SQL limit, inference, new freeze or variant changed. The report is ready; operator
+approval/application and live capacity/correctness gates remain pending.
+See [capacity report](provider-capacity-readiness.md).
