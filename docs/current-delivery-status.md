@@ -7,25 +7,46 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Current milestone: compiler correctness and physical binding, before re-baseline.**
-The stopping-contract hypothesis from #218 is explicitly rejected and not adopted;
-its method and negative results remain in [the review record](stopping-criteria-review.md).
-No experimental stopping fields or instructions are carried into this work.
+**Completed milestone: compiler binding, physical context and six-run re-baseline.**
+The stopping-contract proposal is **evaluated and not adopted**; its negative result
+remains in [the review record](stopping-criteria-review.md). Repeated typed SQL
+literals now share bindings, fixing the saved G SELECT/GROUP BY defect offline.
+SQL rejections report measured complexity/caps and approved connection/schema with
+scoped catalog targets. Planner context labels physical ownership. No query rewrite,
+permission expansion, cross-system adapter or experimental stopping field was added.
+**All 1,008 regression tests passed.**
+[PR #219](https://github.com/bcsnpc/data-investigation-agent/pull/219) tracks implementation,
+evidence and final CI/merge state.
 
-Repeated typed SQL literals now preserve binding identity, fixing G's SELECT/GROUP
-BY CASE discrepancy offline. Rejections expose measured complexity and approved
-connection/schema with bounded catalog lookup targets. Context labels physical
-ownership and unknown schemas rather than assuming cross-system name bindings.
-Query text, scope, permissions, caps and stopping behavior are unchanged.
-All 1,008 regression tests passed, including binding/feedback and projection checks.
-Live E/F/G/I and two extra G trials are next. See
-[implementation and re-baseline evidence](physical-binding-reliability.md).
+The authorized E/F/G/I plus two G repeats completed with **53 planner calls, seven
+native reads and zero successful SQL reads**. E repeated the denied registry read;
+F remained unresolved and did **not** establish the source mechanism. G trials made
+1/2/0 reads in 12/10/5 calls, with 4/1/2 DAX rejections; all were unresolved (two
+BUDGET_LIMIT, one NO_PROGRESS). I reached BUSINESS_CONTEXT_REQUIRED while preserving
+unknown Q49 meaning and intended rules. It had one charged connection recovery and
+an unexplained host-wait delay, so its wall time is not a clean latency comparison.
 
-Deployment readback retains GPT-5.4 2026-03-05, GlobalStandard 100 units,
-100,000 TPM / 1,000 RPM. No configuration changes, budget increases, counter
-resets, refunds or deadline extensions. The previous nine-family baseline remains
-51 planner calls and 14 successful reads (3 SQL / 11 native), with zero provider
-errors and preserved failures. No freeze, fresh variant or unfamiliar-domain claim.
+The matched four-family baseline had 34 calls and 3 SQL / 4 native reads; the new
+first four had 38 calls and 0 SQL / 5 native reads. All ten local rejections across
+six trials were DAX member-binding limitations; no live complexity rejection tested
+the new SQL feedback. Offline replay retains the measured 9/8 SELECT and 3/4 join
+counts. Repairs, redundancy refusals and result-equality overlap were zero.
+Explicit labels also reduced initial F directory coverage from 28 to 11 entries
+(SQL objects 11 to 3) under the unchanged cap. This is a measured tradeoff, not
+proven causality for action selection. **Source-investigation reliability did not
+improve in this batch.** See [full metrics, receipts and variance](physical-binding-reliability.md).
+
+All 53 planner recordings load; the prior 111 ledger rows are intact and six new
+rows identify KNOWN_DOMAIN_REGRESSION. Usage records rose from 399 to 466 with no
+reset/refund. Before/after deployment reads retain GPT-5.4 2026-03-05, GlobalStandard
+100, 100,000 TPM / 1,000 RPM. Profile, serial 65-second pacing, daily policy and run
+deadlines stayed unchanged. Final daily reservations: 129 planner / 24 cloud calls,
+3,856,655 input characters / 934,500 output tokens, within the existing
+240 / 60 / 8,000,000 / 1,500,000 limits. No active reservation or usage violation.
+
+Work stops at the requested report. Virtual DAX references/feedback, retrieval
+coverage and repeated failed test selection remain findings for review. F-paced and
+baseline F remain failed. No freeze, fresh variant or unfamiliar acceptance claim.
 
 ### Previous milestone: item 7 - intake regressions (merged PR #215)
 
@@ -354,12 +375,12 @@ returned rows, not work scanned.
 | 3 Automatic context graph | Merged #196; independent context, graph/search and ticket visibility |
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
-| 6 General engine freeze | v4 invalidated by recording changes; no new freeze authorized; physical-binding fixes and affected-family re-baseline pending |
+| 6 General engine freeze | v4 invalidated; compiler/binding re-baseline complete with failures; no new freeze authorized |
 | 7 Unknown Domain Challenge | v4 discovery preserved; full known-domain baseline recorded with failures; fresh variant not started |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **stopping hypothesis rejected; compiler/binding correction and re-baseline; no freeze**. Prior
+Current: **six-run re-baseline complete; source reliability unproven; stopped for report; no freeze**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.
