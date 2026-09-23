@@ -55,6 +55,7 @@ class ActionBudgetTests(unittest.TestCase):
         for expired in (False,True):
             helper=fixture.DynamicTests();helper.setUp()
             try:
+                helper.envelope['symptom']='Investigate Total for my selected reporting period; I have not supplied the dates.'
                 clock=[1000]
                 agent=AdaptiveRuntime(helper.runtime,lambda _:helper.decision('ASK',question='Which exact reporting date window did you intend?'),clock=lambda:clock[0])
                 identity=agent.create(helper.envelope,'material-hold')['id']

@@ -15,7 +15,9 @@ retrieval/test proposals and their ratio. No cloud/daily/token limit increased.
 Five focused tests passed, including a recorded mock-provider run with four
 lookups and two reads in six calls, followed by exact offline replay. Material
 ambiguity/deadline holds still permit zero reads; the reserve does not manufacture
-successful tests. All 999 regression tests passed; final CI/merge remain pending.
+successful tests. All 999 regression tests passed; five focused tests passed again
+after clarifying the missing-date fixture. Final CI/merge are tracked in
+[PR #214](https://github.com/bcsnpc/data-investigation-agent/pull/214).
 See [budget evidence](retrieval-test-budgets.md). Next: intake regressions (7), then
 capacity report (8), each separately. No live run/tape, freeze or new variant.
 

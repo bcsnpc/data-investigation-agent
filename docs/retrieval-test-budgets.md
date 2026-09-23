@@ -64,3 +64,9 @@ prefetch); validation-suite rows do not aggregate internal fixture trajectories.
 Final local validation: **999 regression tests passed in 236.111 seconds**. CI and
 merge follow on the item-6 PR. Engine bytes and planner payloads changed; previous
 frozen grading and exact-request tapes cannot be reused as current acceptance.
+
+The clarification fixture now explicitly requests an unspecified reporting period,
+so the missing-date question has a concrete ticket basis. All five focused tests
+passed again in 5.853 seconds; engine code did not change after the full suite.
+[PR #214](https://github.com/bcsnpc/data-investigation-agent/pull/214) tracks final CI
+and merge. Secret scanning and 183 local documentation links passed.
