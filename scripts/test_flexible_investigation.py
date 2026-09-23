@@ -85,9 +85,11 @@ class QueryParserTests(unittest.TestCase):
         self.assertEqual(tools([observation]),['bounded_dax'])
 
     def test_scalar_comparison_preserves_expression_and_filter_semantics(self):
-        from investigator.read_redundancy import normalized
-        keys=lambda query:normalized('bounded_dax',query)
-        self.assertNotEqual(keys('EVALUATE ROW("first",[Ratio])'),keys('EVALUATE ROW("renamed", [Ratio])'))
+        members=[{'id':'t','kind':'SemanticTable','name':'Events'},
+                 {'id':'m','kind':'Measure','name':'Ratio','parent_id':'t'},
+                 {'id':'c','kind':'SemanticColumn','name':'Region','parent_id':'t'}]
+        keys=lambda query:query_dax.compile_query(query,members)['compiled_read']
+        self.assertEqual(keys('EVALUATE ROW("first",[Ratio])'),keys('EVALUATE ROW("renamed", [Ratio])'))
         self.assertEqual(keys('EVALUATE ROW("first",[Ratio])'),keys('EVALUATE   ROW ( "first", [Ratio] )'))
         self.assertNotEqual(keys('EVALUATE ROW("v",[Ratio])'),keys('EVALUATE ROW("v",[Ratio]+1)'))
         self.assertNotEqual(keys('EVALUATE ROW("v",CALCULATE([Ratio],Events[Region]="West"))'),keys('EVALUATE ROW("v",CALCULATE([Ratio],Events[Region]="East"))'))

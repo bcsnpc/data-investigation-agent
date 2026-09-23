@@ -1,5 +1,9 @@
 # Provider capacity report
 
+Historical report below. The user subsequently authorized this exact capacity
+change, now applied and read back. Follow [baseline evidence](known-domain-baseline.md)
+for current capacity and the required known-domain gate before any freeze.
+
 2026-09-23. Ordered reliability item 8, issue #199. **Report only: no capacity,
 permission, SQL/free-tier setting, deployment model or live-run change applied.**
 

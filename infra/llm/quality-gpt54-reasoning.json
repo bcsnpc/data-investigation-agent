@@ -8,7 +8,7 @@
   "model": "gpt-5.4",
   "model_version": "2026-03-05",
   "deployment_type": "GlobalStandard",
-  "capacity": 10,
+  "capacity": 100,
   "generation_options": {
     "reasoning_effort": "medium",
     "max_output_tokens": 8000,

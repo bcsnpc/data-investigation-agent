@@ -9,17 +9,6 @@ class RedundantRead(ValueError):
         self.observation = observation
 
 
-def normalized(tool, query):
-    if tool == 'bounded_sql':
-        import sqlglot
-        return [(token.token_type.name, token.text) for token in sqlglot.tokenize(query, read='tsql')]
-    if tool == 'bounded_dax':
-        from .semantic_graph import tokenize
-        tokens, gaps = tokenize(query)
-        return None if gaps else tokens
-    return None
-
-
 def key(tool, plan, request, version, scope_hash=None):
     compiled = request.get('compiled_read')
     if compiled is None or version is None:

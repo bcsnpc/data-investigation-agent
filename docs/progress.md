@@ -1003,3 +1003,22 @@ limits recorded beside each future trial settings hash. No allocation, permissio
 SQL limit, inference, new freeze or variant changed. The report is ready; operator
 approval/application and live capacity/correctness gates remain pending.
 See [capacity report](provider-capacity-readiness.md).
+
+## 2026-09-23 - Baseline readiness and approved capacity
+
+Removed unused lexical redundancy normalization; deliberately retained proposed-turn
+reserves. Applied only authorized GPT-5.4 capacity 10 to 100; before/after reads
+confirm 100,000 TPM / 1,000 RPM and unchanged model/version. See
+[known-domain baseline](known-domain-baseline.md). Live gates remain pending.
+
+## 2026-09-23 - Partial known-domain comparison, stopped as instructed
+
+Two serial metered capacity probes passed. F/B/C/D/E produced seven native reads
+in 25 planner calls with no LLM provider errors. B/C/D provide useful scoped
+explanations; F remains unresolved. E's source connection cold-started (40613),
+then the existing retry reached a query denied with 229 on app.dataset_runs.
+The batch stopped; A/G/H/I were not started. No further Azure changes, grant,
+usage reset, deadline extension, freeze or publication occurred. Eleven recorded
+planner requests replayed byte-exact offline. All 1,002 tests passed after retaining
+and correcting an initial stale-test-import failure. Full metrics and comparison:
+[known-domain baseline](known-domain-baseline.md). Do not freeze on this evidence.
