@@ -48,13 +48,18 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-The authorized quality-deployment capacity is now 100,000 TPM / 1,000 RPM.
-Two paced provider probes passed. Five recorded known-domain families produced
-seven native reads and no LLM provider errors; one full session replayed byte-exact
-offline. B/C/D gave useful scoped answers, F remained unresolved, and E stopped on
-SQL permission 229 after the existing AutoPause retry. A/G/H/I were not run.
-No other Azure settings changed, no usage reset, and no new freeze or variant.
-All 1,002 regression tests passed. See [baseline evidence](docs/known-domain-baseline.md).
+The complete recorded known-domain baseline has 51 planner calls, 14 successful
+reads (3 SQL / 11 native), and zero LLM provider errors at 100,000 TPM / 1,000 RPM.
+G reached source SQL; A stopped early, F remains failed, and E/G/I exposed distinct
+selection, compiler or budget failures. Relevant processing history was already
+readable for E, so no grant was applied. A stopping-contract revision was tested
+with eight controlled next-action calls: D stayed valid, revised C failed intent
+consistency, and F still proposed inadmissible queries. No reliability gain was
+demonstrated and no runtime implementation was made. The proposal awaits review.
+No settings, permissions or deadlines changed; usage was not reset or refunded. No new freeze or
+variant. The prior engine passed 1,002 tests; two generator tests passed for this
+review. See [baseline completion and proposal](docs/stopping-criteria-review.md)
+and [exact SQL audit](docs/baseline-sql-proposals.md).
 
 Item 1 of the ordered offline reliability plan merged in PR #209: opt-in exact
 planner request/response recordings and loadable local fixtures. Recordings include

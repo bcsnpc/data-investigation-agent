@@ -1022,3 +1022,29 @@ usage reset, deadline extension, freeze or publication occurred. Eleven recorded
 planner requests replayed byte-exact offline. All 1,002 tests passed after retaining
 and correcting an initial stale-test-import failure. Full metrics and comparison:
 [known-domain baseline](known-domain-baseline.md). Do not freeze on this evidence.
+
+## 2026-09-23 - Baseline completed; stopping proposal evaluated without implementation
+
+A/G/H/I completed under the unchanged engine/profile and 65-second serial pacing.
+The full nine-family baseline has 51 planner calls, 14 reads (3 SQL / 11 native),
+22 retrieval and 22 test proposals, and no provider errors. G attempted five SQL
+queries, completed three and then failed SQL 8120. The tape audit found that the
+compiler assigned different parameters to identical SELECT/GROUP BY CASE literals;
+no fix was applied. F's rejected SQL had nine SELECTs against a cap of eight, then
+used wrong-schema dbo objects. I mixed a lakehouse object into the SQL connection.
+Exact queries and failure classes: [SQL audit](baseline-sql-proposals.md).
+
+E already had relevant notebook history accessible through ordinary context lookup;
+model refresh history is empty and scan age limits freshness claims. No grant or
+E rerun was justified. No settings, permissions, daily policy or deadlines changed;
+usage was not reset or refunded. Original failures, including F-paced and F, remain unchanged.
+
+Eight controlled next-action samples used saved C/D/F contexts, executing no data
+tools. Every control request matched original bytes. D remained valid, revised C
+failed existing intent consistency, and both F pairs proposed locally inadmissible
+queries. No reliability gain is established. A preliminary zero-call preflight
+failure and a post-hoc correction of the C failure's telemetry category are both
+recorded append-only. The two completion-support fields remain a proposal only;
+no runtime implementation, freeze, variant or unfamiliar acceptance claim.
+See [full baseline and stopping review](stopping-criteria-review.md).
+The two required generator tests passed; prior full-suite evidence remains 1,002.
