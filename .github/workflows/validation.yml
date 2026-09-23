@@ -112,6 +112,8 @@ jobs:
           python -m unittest discover -s scripts -p test_dependency_context.py
           python -m unittest discover -s scripts -p test_context_runtime.py
           pip install -r scripts/requirements-workspace.txt
+          pip install -r scripts/requirements-llm.txt
+          python -m unittest discover -s scripts -p test_planner_recording.py
           python -m unittest discover -s scripts -p test_question_intake.py
           python -m unittest discover -s scripts -p test_screenshot_intake.py
           python -m unittest discover -s scripts -p test_joint_native_capture.py

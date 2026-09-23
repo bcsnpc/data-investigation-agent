@@ -1,5 +1,11 @@
 # Frozen unfamiliar-domain challenge
 
+**Dated note, 2026-09-22:** The operator requested ordered offline reliability
+work before further frozen grading. Item 1 changes engine bytes, invalidating v4
+for further acceptance. Its freeze, published assets, receipts and the historical
+checkpoint below are preserved. A fresh freeze and variant are required after the
+offline gates pass. See [current status](current-delivery-status.md).
+
 ## v4 attempt: published and discovered; reader approval pending
 
 Engine `981bec80b53ec17d01dfa7f02c3fc470257dbfe0`, tag `unknown-domain-v4-engine`.

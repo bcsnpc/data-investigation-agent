@@ -899,3 +899,15 @@ rescan completed with 81 operations and automatic model projection; reader grant
 are prepared and pending explicit approval.
 No live ticket or unfamiliar-domain acceptance pass is claimed. See
 [challenge record](unknown-domain-challenge.md).
+
+
+## 2026-09-22 ? offline reliability item 1: planner recordings
+
+Implemented opt-in HTTP-body recording after wire conversion, raw response capture
+before validation, local fixture loading and runtime context/budget reservations.
+Initial focused tests and a retained two-call mock investigation verified exact
+bytes without cloud calls. The run ledger begins at `docs/runs/ledger.jsonl`.
+Full regression and CI are pending at this checkpoint. This engine change
+invalidates v4 for further frozen grading; existing freeze artifacts and receipts
+remain unchanged. No new freeze or domain will be published before the ordered
+offline gates pass. See [recording evidence](planner-call-recordings.md).

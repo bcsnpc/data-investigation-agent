@@ -197,7 +197,15 @@ class AdaptiveRuntime:
         proposal_received=False
         if self.planner_profile.get('adapter')=='azure':payload['generation_options']=self.generation_options
         try:
-            proposal,usage=self.planner(payload)
+            from .planner_recording import recording
+            with recording({'session_id':identity,'planner_call':state['planner_calls'],
+                    'context_version':state.get('discovery_version',state['context_hash']),
+                    'state':{k:v for k,v in state.items() if k!='token'},'payload':payload,
+                    'reservation':{'key':'planner:'+str(state['planner_calls']),
+                        'input_characters':size,'output_tokens':self.generation_options['max_output_tokens'],
+                        'governed':self.governor is not None},
+                    'budget':self.governor.snapshot() if self.governor else {'limits':limits}}):
+                proposal,usage=self.planner(payload)
             proposal_received=True
             if dynamic:
                 from .dynamic_reasoning import validate as validate_dynamic
