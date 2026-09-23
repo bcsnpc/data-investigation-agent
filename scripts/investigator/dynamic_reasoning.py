@@ -441,46 +441,13 @@ def candidate(store,config,state,proposal):
     if proposal['tool']=='bounded_sql':
         missing=set(compiled['asset_ids'])-retrieved_sources(state['observations'])
         if missing:raise MissingSourceContext(missing)
-    if proposal['tool']=='bounded_dax':
-        requested=scalar_read_keys(proposal['text'])
-        seen=set()
-        if requested:
-            with store.connect() as db:
-                for observation in state['observations']:
-                    if observation['tool']!='bounded_dax' or observation['status']!='COMPLETED' or observation['completeness']!='COMPLETE_RESPONSE':continue
-                    from .receipt_integrity import verify
-                    if verify(db,'bounded_dax',observation['id'])['state']!='SEALED':continue
-                    row=db.execute('SELECT request FROM flexible_diagnostics WHERE id=?',(observation['id'],)).fetchone()
-                    if not row:continue
-                    previous=json.loads(row['request'])
-                    if previous.get('context_hash')!=compiled['context_hash'] or previous.get('policy_hash')!=compiled['policy_hash']:continue
-                    seen.update(scalar_read_keys(previous['plan']['query']))
-            if requested<=seen:
-                raise ValueError('Scalar diagnostics already observed in this run; use their receipts or retrieve context and test a different scope or expression')
+    from .read_redundancy import check
+    check(store,state,proposal['tool'],plan,compiled)
     identity=digest({'tool':proposal['tool'],'request':compiled})
     if identity in state['attempted']:raise ValueError('Proposed test was already attempted')
     return {'id':identity,'tool':proposal['tool'],'plan':plan,'measure_id':state['envelope']['measure_id'],
-            'dimension_id':None,'depth':0,'parent':None,'compiled_hash':digest(compiled)}
-
-
-def scalar_read_keys(query):
-    """Conservative syntactic ROW comparison; no calculation/equivalence inference."""
-    from .semantic_graph import tokenize
-    tokens,gaps=tokenize(query)
-    if gaps or len(tokens)<6 or [v.upper() for _,v in tokens[:3]]!=['EVALUATE','ROW','('] or tokens[-1][1]!=')':return set()
-    if any(k=='name' and v.upper() in ('NOW','TODAY') for k,v in tokens):return set()
-    args=[];current=[];depth=0
-    for token in tokens[3:-1]:
-        value=token[1]
-        if value==',' and depth==0:args.append(current);current=[];continue
-        current.append(token)
-        if value in ('(','{'):depth+=1
-        elif value in (')','}'):depth-=1
-        if depth<0:return set()
-    args.append(current)
-    if depth or len(args)%2:return set()
-    if any(len(a)!=1 or a[0][0]!='string' for a in args[::2]):return set()
-    return {digest([(k,v if k=='string' else v.casefold()) for k,v in a]) for a in args[1::2] if a}
+            'dimension_id':None,'depth':0,'parent':None,'compiled_hash':digest(compiled),
+            'read_context_version':state.get('discovery_version'),'read_scope_hash':state.get('scope_hash')}
 
 
 def outcome(state,base):

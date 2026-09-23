@@ -61,14 +61,18 @@ tests cover complete replay, malformed proposals at each step, prerequisite
 rejections, recorded timeouts and input/configuration safeguards. Saved completed
 query receipts are reused; no fresh SQL/DAX execution or business correctness is
 claimed. All 973 local regression tests passed. See [replay evidence](docs/offline-session-replay.md).
-Current work is item 4 ([PR #212](https://github.com/bcsnpc/data-investigation-agent/pull/212)): identical duplicate updates and descriptive text bounds
+Item 4 merged in [PR #212](https://github.com/bcsnpc/data-investigation-agent/pull/212): identical duplicate updates and descriptive text bounds
 are repaired locally; missing approved SQL schemas are fetched before dispatch.
 Repairs have separate events and do not change executable query text or authority.
 Six repair and five replay tests passed; all 979 regression tests passed. See
 [local repair evidence](docs/local-proposal-repairs.md).
+Current work is item 5: strict SQL/DAX text-and-scope repeats reuse sealed receipts
+without another data read. Six focused tests passed; all 985 regression tests passed.
+The original F-paced queries are not identical, so its failure remains unresolved
+under this conservative rule. See [redundancy evidence](docs/conservative-read-redundancy.md).
 This engine change invalidates v4 for further frozen grading. Its publication and
 automatic-discovery evidence remain historical. No new freeze or variant will be
-created until the offline work is green. Conservative redundancy checks, budget separation, intake regression
+created until the offline work is green. Budget separation, intake regression
 and capacity evaluation remain pending. See [current status](docs/current-delivery-status.md).
 
 Current reliability work makes conclusion support explicit: a proposed mechanism,

@@ -117,6 +117,7 @@ jobs:
           python -m unittest discover -s scripts -p test_planner_projection.py
           python -m unittest discover -s scripts -p test_session_replay.py
           python -m unittest discover -s scripts -p test_proposal_repairs.py
+          python -m unittest discover -s scripts -p test_read_redundancy.py
           python -m unittest discover -s scripts -p test_question_intake.py
           python -m unittest discover -s scripts -p test_screenshot_intake.py
           python -m unittest discover -s scripts -p test_joint_native_capture.py

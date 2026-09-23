@@ -944,3 +944,7 @@ Added recorded-provider full-session replay over disposable SQLite copies, exact
 ## 2026-09-23 UTC - offline reliability item 4
 
 Item 3 merged as PR #211 after all six final-head CI checks passed. Local repairs now deduplicate identical hypothesis updates, bound descriptive fields and fetch missing approved schemas without another planner call. Six repair tests, five replay tests, 36 flexible-query tests and nine goldens passed; the final full regression passed 979 tests. An earlier 978-test run was invalidated by an engine edit during execution and remains recorded. Synthetic replay demonstrates the three-rejection failure shape, not a verbatim historical v2 recording. Fixture failures are preserved in [repair evidence](local-proposal-repairs.md) and the append-only ledger. Engine bytes change; v4 remains invalidated. No live calls or fresh variant.
+
+## 2026-09-23 UTC - offline reliability item 5
+
+Item 4 merged as PR #212 after six final-head CI checks passed. Generated-query repeats now use exact normalized text, scope and version against sealed complete receipts; scalar-subset matching is removed. Six focused tests and all 985 regression tests passed; secret scanning and local links passed. Read-only inspection found F-paced has no identical native queries and an unqualified source proposal, so its original acceptance gate is not claimed. Clarification is pending; [evidence](conservative-read-redundancy.md) preserves that gap. No live calls or new freeze; v4 remains invalidated.

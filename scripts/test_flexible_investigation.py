@@ -85,12 +85,13 @@ class QueryParserTests(unittest.TestCase):
         self.assertEqual(tools([observation]),['bounded_dax'])
 
     def test_scalar_comparison_preserves_expression_and_filter_semantics(self):
-        keys=dynamic_reasoning.scalar_read_keys
-        self.assertEqual(keys('EVALUATE ROW("first",[Ratio])'),keys('evaluate row("renamed", [Ratio])'))
+        from investigator.read_redundancy import normalized
+        keys=lambda query:normalized('bounded_dax',query)
+        self.assertNotEqual(keys('EVALUATE ROW("first",[Ratio])'),keys('EVALUATE ROW("renamed", [Ratio])'))
+        self.assertEqual(keys('EVALUATE ROW("first",[Ratio])'),keys('EVALUATE   ROW ( "first", [Ratio] )'))
         self.assertNotEqual(keys('EVALUATE ROW("v",[Ratio])'),keys('EVALUATE ROW("v",[Ratio]+1)'))
         self.assertNotEqual(keys('EVALUATE ROW("v",CALCULATE([Ratio],Events[Region]="West"))'),keys('EVALUATE ROW("v",CALCULATE([Ratio],Events[Region]="East"))'))
-        self.assertFalse(keys('EVALUATE CALCULATETABLE(ROW("v",[Ratio]))'))
-        self.assertFalse(keys('EVALUATE ROW("v",NOW())'))
+        self.assertNotEqual(keys('EVALUATE ROW("v",[Ratio])'),keys('EVALUATE CALCULATETABLE(ROW("v",[Ratio]))'))
 
     def test_large_context_excerpt_exposes_both_ends_and_marks_omission(self):
         value={'context_version':'revision','content':'START'+('x'*15000)+'END'}
@@ -265,18 +266,18 @@ class DynamicTests(unittest.TestCase):
         envelope.pop('strategy')
         with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
 
-    def test_relabelled_completed_scalar_is_rejected_without_second_query(self):
+    def test_relabelled_scalar_is_a_distinct_read(self):
         calls=[]
         def planner(payload):
             calls.append(payload)
             if len(calls)<=2:
                 return self.decision('QUERY',query={'tool':'bounded_dax','text':'EVALUATE ROW("label'+str(len(calls))+'",[Total])','max_rows':20})
-            self.assertIn('already observed',payload['observations'][-1]['metadata']['reason'])
+            self.assertEqual(payload['observations'][-1]['status'],'COMPLETED')
             return self.decision('ASK',question='What business rule defines the expected amount?')
         agent=AdaptiveRuntime(self.runtime,planner)
         result=agent.run(agent.create(self.envelope,'dedup')['id'])
-        self.assertEqual(result['cloud_calls'],1)
-        self.assertEqual(len(self.native_calls),1)
+        self.assertEqual(result['cloud_calls'],2)
+        self.assertEqual(len(self.native_calls),2)
 
     def setUp(self):
         self.fixture=discovery_fixture.DiscoveryTests();self.fixture.setUp();self.addCleanup(self.fixture.doCleanups)
