@@ -55,7 +55,7 @@ excluded. Transport tests use no live LLM calls. See the
 [recording runbook](docs/planner-call-recordings.md).
 Item 2 merged in PR #210: planner-view goldens, counted omissions, preserved
 links and deterministic fitting; 968 regression tests passed.
-Current work is item 3: a recorded-provider session simulator runs the actual
+Current work is item 3 ([PR #211](https://github.com/bcsnpc/data-investigation-agent/pull/211)): a recorded-provider session simulator runs the actual
 runtime over isolated database copies with network access blocked. Five focused
 tests cover complete replay, malformed proposals at each step, prerequisite
 rejections, recorded timeouts and input/configuration safeguards. Saved completed

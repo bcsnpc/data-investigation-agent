@@ -18,7 +18,7 @@ This is engineering replay, not unfamiliar-domain acceptance or business grading
 Recording now includes runtime profile/policy and return timing; older recordings
 without those fields explicitly cannot bootstrap full-session replay. Engine bytes
 change, so v4 remains invalidated. No new freeze, variant or live LLM call was used.
-See [offline replay evidence](offline-session-replay.md). Next: local repairs.
+See [offline replay evidence](offline-session-replay.md) and [PR #211](https://github.com/bcsnpc/data-investigation-agent/pull/211) for final CI and merge state. Next: local repairs.
 
 ### Previous milestone: item 2: planner-view goldens (merged PR #210)
 
