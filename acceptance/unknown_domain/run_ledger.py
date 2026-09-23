@@ -25,7 +25,11 @@ def row(result, calls, family='engineering'):
                     'complexity' if reason.startswith('Relational complexity budget exceeded') else 'other')
         rejected[category] += 1
     errors = dict.fromkeys(('rate_limit', 'timeout', 'other'), 0)
+    repairs = dict.fromkeys(('hypothesis_id', 'text_bound', 'schema_prefetch', 'other'), 0)
     for event in state.get('events', []):
+        if event.get('kind') == 'PROPOSAL_REPAIRED':
+            category = event.get('detail', {}).get('repair_kind', 'other')
+            repairs[category if category in repairs else 'other'] += 1
         if event.get('kind') == 'PLANNER_ERROR':
             detail = event.get('payload', event.get('detail', {}))
             name = detail.get('error_type', '')
@@ -34,13 +38,13 @@ def row(result, calls, family='engineering'):
     sql = sum(o.get('tool') in ('bounded_sql', 'source', 'source_records') for o in reads)
     dax = sum(o.get('tool') in ('bounded_dax', 'native', 'native_records') for o in reads)
     return dict(session_id=result['replay_id'], date_utc=datetime.now(timezone.utc).isoformat(),
-        mode='replay', family=family, engine_tag='unfrozen-item-3', manifest_sha_short='NONE',
+        mode='replay', family=family, engine_tag='unfrozen-'+state['engine_hash'][:12], manifest_sha_short='NONE',
         model_deployment=json.loads(calls[0]['bodies']['request.body'])['model'],
         settings_hash=state['planner_profile_hash'], planner_calls=count,
         reads_sql=sql, reads_dax=dax, reads_other=len(reads)-sql-dax,
         context_lookups=len(lookups), distinct_context_lookups=len({json.dumps(o['lookup'], sort_keys=True) for o in lookups}),
         retrieval_calls=retrievals, test_calls=tests, retrieval_test_ratio=retrievals/tests if tests else None,
-        rejections=rejected, repairs=dict.fromkeys(('hypothesis_id', 'text_bound', 'schema_prefetch', 'other'), 0),
+        rejections=rejected, repairs=repairs,
         provider_errors=errors, cumulative_input_chars=state.get('input_characters', 0),
         output_tokens_reserved=sum(c['context']['reservation']['output_tokens'] for c in calls[:count]),
         wall_seconds=result['wall_seconds'], stop_reason=state.get('stop_reason') or result['status'],

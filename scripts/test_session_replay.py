@@ -108,7 +108,7 @@ class SessionReplayTests(unittest.TestCase):
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), sha)
 
     def test_malformed_proposal_at_every_step_uses_runtime_rejection_path(self):
-        malformed = {'next': {'kind': 'ASK', 'question': 'x'*501}, 'hypotheses': {}}
+        malformed = {'next': {'kind': 'ASK', 'question': 42}, 'hypotheses': {}}
         for step in range(1, 7):
             with self.subTest(step=step):
                 result = self.replay('injection-'+str(step), inject_at=step, injection=malformed)
@@ -126,14 +126,17 @@ class SessionReplayTests(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             self.replay()
 
-    def test_prerequisite_rejection_is_exercised_by_runtime(self):
+    def test_prerequisite_repair_reuses_only_the_recorded_query_receipt(self):
         first = planner_recording.load_session(self.original['id'], self.recordings)[0]
         source = next(a for a in first['context']['payload']['context_entry_points'] if a['kind'] == 'SqlObject')
         proposal = {'next': {'kind': 'QUERY', 'tool': 'bounded_sql',
                     'text': 'SELECT COUNT(*) AS n FROM '+source['name'], 'max_rows': 20}, 'hypotheses': {}}
         result = self.replay('prerequisite', inject_at=1, injection=proposal)
-        self.assertEqual(result['session']['cloud_calls'], 0)
-        self.assertTrue(result['session']['observations'][-1]['metadata']['recovery_assets'])
+        self.assertTrue(any(e['kind']=='PROPOSAL_REPAIRED' and e['detail']['repair_kind']=='schema_prefetch'
+                            for e in result['session']['events']))
+        self.assertEqual(result['status'],'INJECTION_PROBE')
+        self.assertEqual(result['session']['cloud_calls'],1)
+        self.assertEqual(result['unrecorded_tool_attempts'],0)
 
     def test_recorded_timeout_replays_without_inventing_a_response(self):
         first = planner_recording.load_session(self.original['id'], self.recordings)[0]

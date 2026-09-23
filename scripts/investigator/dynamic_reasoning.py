@@ -65,6 +65,8 @@ Existing IDs must use REFINED or REJECTED; omit unchanged hypotheses.
 Evidence includes metadata receipts, but numeric claims need actual successful query receipts.
 If a proposed query is rejected, use its recorded reason to revise the test within remaining budget.
 When rejection metadata lists recovery_assets, retrieve those exact schemas before retrying.
+The runtime can fetch missing approved object schemas for a valid SQL proposal without another planner call.
+This does not invent object names, columns, joins or business rules; inspect metadata when those are unknown.
 Do not abandon a testable hypothesis merely because its query prerequisites were missing.
 Unsupported SQL feedback names parser constructs; remove or replace them instead of resending the same query.
 Use remaining wall time and dispatch reserves to decide whether another read can fit; otherwise assess the available evidence and its limits.
@@ -112,7 +114,7 @@ SCHEMA['properties'].update({
 SCHEMA['required']+=['lookup','query','assessment']
 
 
-def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,content_handles=None):
+def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,content_handles=None,source_available=False):
     def variant(kind,props):
         properties={'kind':{'type':'string','enum':[kind]},**props}
         return {'type':'object','additionalProperties':False,'properties':properties,'required':list(properties)}
@@ -128,7 +130,7 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
     for key in ('alternatives','limits'):
         assessment['properties'][key].update(minItems=1,maxItems=6)
         assessment['properties'][key]['items'].update(minLength=1,maxLength=500)
-    if not retrieved_sources(observations):query_props['tool']['enum']=['bounded_dax']
+    if not source_available and not retrieved_sources(observations):query_props['tool']['enum']=['bounded_dax']
     lookup_props=SCHEMA['properties']['lookup']['anyOf'][1]['properties']
     choices=[variant('QUERY',query_props),
              variant('LOOKUP',lookup_props),
@@ -212,7 +214,8 @@ def wire_contract(payload):
     wire['lookup_identity_instruction']='Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities.'
     definition_ids={entry['id'] for entry in entries if entry.get('kind')=='DefinitionPart' and 'id' in entry}
     content_handles={handle:identity for handle,identity in mapping.items() if identity in definition_ids}
-    return wire,wire_schema(wire['candidates'],wire['hypotheses'],wire['observations'],mapping,content_handles),mapping
+    source_available=any(a.get('kind')=='SqlObject' for a in payload.get('context_entry_points',[]))
+    return wire,wire_schema(wire['candidates'],wire['hypotheses'],wire['observations'],mapping,content_handles,source_available),mapping
 
 
 def from_wire(value,asset_handles=None):
@@ -423,7 +426,7 @@ def enrich(store,state,payload):
                    context_entry_points=entry_points,
                    context_directory_truncated=bool(discovered and len(entry_points)<len(roots)),
                    source_query_context={'retrieved_object_ids':sorted(retrieved_sources(state['observations'])),
-                       'next_step':'LOOKUP asset on a SqlObject to inspect its exact schema before proposing SQL; use search to find more objects. Names do not prove lineage.'},
+                       'next_step':'Inspect exact schemas when needed to form SQL; approved missing referenced schemas are fetched locally before dispatch. Use search to find unknown objects. Names do not prove lineage.'},
                    context_truncated=len(used)!=len(context),
                    starting_measure_id=state['envelope']['measure_id'],dimension_ids=state['envelope']['dimension_ids'],
                    limitation='Observations are real; LLM assessments remain qualified interpretations, not verified causes.')
