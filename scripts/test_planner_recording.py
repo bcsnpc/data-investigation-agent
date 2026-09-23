@@ -64,11 +64,11 @@ class RecordingTests(unittest.TestCase):
         self.assertEqual(self.calls()[0]['bodies']['response.body'], self.body)
         self.assertEqual(json.loads(self.calls()[0]['bodies']['response-status.json'])['status_code'], 429)
 
-    def test_secret_in_request_is_blocked_before_transport(self):
+    def test_secret_in_request_is_withheld_without_blocking_transport(self):
         with self.assertRaises(Exception):
             with recording.recording({'session_id': 'session'}):
                 azure_generate({'content': 'synthetic-private-credential'})
-        self.assertEqual(self.sent, [])
+        self.assertEqual(len(self.sent), 1)
         self.assertFalse(self.calls()[0]['manifest']['request_captured'])
 
     def test_secret_in_response_is_withheld_explicitly(self):
@@ -78,6 +78,29 @@ class RecordingTests(unittest.TestCase):
         self.assertFalse(self.calls()[0]['manifest']['response_captured'])
         self.assertEqual(self.calls()[0]['manifest']['exclusion'], 'SECRET_DETECTED')
         self.assertFalse(any(p.name == 'response.body' for p in self.root.rglob('*')))
+
+    def test_secret_in_context_does_not_abort_provider(self):
+        with self.assertRaises(ValueError):  # Normal provider decoder, not recording.
+            with recording.recording({'session_id':'session','source':'api_key = examplecredential'}):
+                azure_generate({'content':'ordinary payload'})
+        self.assertEqual(len(self.sent),1)
+        directory=next((self.root / '.local/planner-recordings').iterdir())
+        self.assertFalse((directory/'context.json').exists())
+        self.assertEqual(json.loads((directory/'manifest.json').read_bytes())['exclusion'],'SECRET_DETECTED')
+
+    def test_short_environment_values_do_not_exclude_bodies(self):
+        with patch.dict(os.environ,{'EXAMPLE_KEY':'1','EXAMPLE_TOKEN':'dev'}):
+            recording._safe(b'{"version":1,"deployment":"dev"}')
+
+    def test_recording_write_failure_cannot_mask_provider_error(self):
+        with recording.recording({'session_id':'session'}) as record:
+            with patch.object(record,'write',side_effect=OSError('synthetic disk failure')):
+                with self.assertRaisesRegex(RuntimeError,'provider failure'):
+                    try:
+                        raise RuntimeError('provider failure')
+                    finally:
+                        record.safe_write('runtime-return.json',b'{}')
+        self.assertEqual(self.calls()[0]['manifest']['exclusion'],'RECORDING_IO_ERROR')
 
     def test_timeout_preserves_request_and_marks_response_missing(self):
         def timeout(request):

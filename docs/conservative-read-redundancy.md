@@ -51,3 +51,56 @@ The run ledger retains individual validation invocations. Validation-suite rows
 do not aggregate internal mock trajectories. No live LLM/cloud calls, permission
 changes or SQL-limit changes were made. Engine bytes change, so v4 remains
 invalidated; frozen artifacts and stored historical evidence stay untouched.
+
+## 2026-09-23 clarification and compiled-candidate revision
+
+The user withdrew the F-paced gate. It remains FAILED for test selection/budget
+allocation, not a duplicate-detection tuning target. The replacement gate compares
+compiler output, resolved assets, parameters, immutable scope/context, policy and
+row limits. SQL source/CTE/output aliases are alpha-renamed using bound scopes;
+outer DAX ROW labels and projection order normalize while resolved expressions
+remain intact. Operators, filters, literals, joins and multiplicity remain part
+of identity. No containment, algebraic equivalence or result comparison participates
+in admission. Explicit time-dependent query functions are not reused.
+
+Ten focused tests passed, including actual runtime admission of eight distinct
+read cases with equal mock results, nested SQL aliases and self-join distinctions.
+Thirteen recording tests and 36 flexible-query tests passed. Seven repair tests
+passed after updating the synthetic three-read fixture: its former queries differed
+only in labels, so the revised fixture uses distinct expressions. The first repair
+suite correctly exposed those two obsolete assertions; those failed runs remain
+recorded. The initial focused run exposed a nullable-query metric bug, corrected
+before the passing runs. Full regression is pending for this revision.
+
+Post-hoc telemetry adds result_equality_overlap_reads, schema_prefetch_repairs,
+sql_query_proposals, sql_query_rejections and sql_rejection_rate to scoring and new
+ledger entries. Equality means exactly equal canonical typed result rows (including
+column names/order), across different compiled fingerprints; each later read is
+counted once. Incomplete results and old generated observations without fingerprints are not
+counted. Typed reads use their compiled candidate IDs. SQL rejection rate covers validated SQL proposals rejected during local
+compilation/admission; malformed decisions without a validated tool are excluded.
+These are trend metrics only. Historical ledger lines are not rewritten.
+
+Carry-over fixes share descriptive bounds across repairs, schema and validators.
+Recording withholds secret-like context/request/response bodies, marks
+SECRET_DETECTED and permits the provider call. Environment substring matching
+requires at least 12 characters. Guarded timing/manifest writes cannot mask provider
+errors with a recording secret or filesystem failure. An excluded body is not a
+complete replay tape. No live tape will be captured before item 6 merges, and no
+live investigation, freeze or variant will run before items 5?8 are merged.
+
+A subsequent code review found an output-alias ORDER BY collision in the new SQL
+normalization. A local compiler probe reproduced it; this is a release blocker,
+not a pass. A regression distinguishes sorting by the first versus second output
+and requires equivalent renamed sort aliases to retain the same identity.
+
+The ORDER BY regression initially failed (one test, 0.028 seconds), then passed
+with the correction in the final 11-test focused suite (14.363 seconds). The
+pre-correction full suite passed 993 tests in 222.397 seconds but did not contain
+that regression; it is not the final release check. Final full-suite rerun pending.
+
+Final verification: **994 regression tests passed in 219.467 seconds** on the
+corrected engine. The final run includes the sort-alias regression and all eleven
+redundancy tests. Staged secret scanning found no leaks; 180 local documentation
+links resolved. No live call was made. The ledger remains append-only. Final CI
+and merge are tracked on PR #213; item 6 follows after merge.

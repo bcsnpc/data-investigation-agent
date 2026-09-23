@@ -1,4 +1,5 @@
 """Bounded planner protocol. Metadata and observations never grant tool authority."""
+from . import proposal_limits as limits
 from .onboarding import fields, text, encoded
 
 VERSION = "adaptive-choice-v2"
@@ -40,7 +41,7 @@ def validate(value, payload):
             raise ValueError('Unadmitted or duplicate candidate')
         if value['question'] is not None or value['stop_reason'] is not None:raise ValueError('Conflicting action')
     elif action=='ASK':
-        text(value['question'],500)
+        text(value['question'],limits.QUESTION)
         if value['candidate_id'] is not None or value['stop_reason'] is not None:raise ValueError('Conflicting action')
     elif value['candidate_id'] is not None or value['question'] is not None or value['stop_reason'] not in ('ENOUGH_DIAGNOSTICS','NO_USEFUL_TEST'):
         raise ValueError('Invalid stop')
@@ -49,7 +50,7 @@ def validate(value, payload):
     known={h['id']:h for h in payload['hypotheses']}; seen=set()
     evidence={o['id'] for o in payload['observations']}
     for h in hypotheses:
-        fields(h,['id','claim','status','evidence_ids']); text(h['id'],80);text(h['claim'],400)
+        fields(h,['id','claim','status','evidence_ids']); text(h['id'],80);text(h['claim'],limits.HYPOTHESIS_CLAIM)
         if h['id'] in seen:raise ValueError('Duplicate hypothesis update: include each ID once and merge its updates')
         if h['status'] not in ('OPEN','REFINED','REJECTED'):raise ValueError('Hypothesis status must be OPEN, REFINED or REJECTED')
         seen.add(h['id']); refs=h['evidence_ids']

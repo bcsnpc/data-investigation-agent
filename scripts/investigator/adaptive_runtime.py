@@ -214,7 +214,7 @@ class AdaptiveRuntime:
                     'budget':self.governor.snapshot() if self.governor else {'limits':limits}}) as record:
                 try:proposal,usage=self.planner(payload)
                 finally:
-                    if record:record.write('runtime-return.json',encoded({'clock':self.clock()}).encode('utf-8'))
+                    if record:record.safe_write('runtime-return.json',encoded({'clock':self.clock()}).encode('utf-8'))
             proposal_received=True
             if dynamic:
                 from .proposal_repairs import repair
@@ -293,7 +293,7 @@ class AdaptiveRuntime:
                     except (ValueError,KeyError) as exc:
                         from .read_redundancy import RedundantRead
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
-                              'metadata':{'reason':str(exc)[:500]},'measure_id':None,'dimension_id':None}
+                              'metadata':{'reason':str(exc)[:500],'proposed_tool':decision['query']['tool']},'measure_id':None,'dimension_id':None}
                         if isinstance(exc,MissingSourceContext):item['metadata']['recovery_assets']=exc.recovery_assets
                         if isinstance(exc,RedundantRead):
                             prior=exc.observation

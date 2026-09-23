@@ -1,11 +1,11 @@
-"""Exact token-text reuse within one declared scope and immutable context version."""
+"""Compiled-candidate reuse within one declared scope and immutable context version."""
 import json
 from .onboarding import digest
 
 
 class RedundantRead(ValueError):
     def __init__(self, observation):
-        super().__init__('Identical query and declared scope already observed in this context version; reuse the attached receipt and result')
+        super().__init__('Identical compiled candidate and declared scope already observed in this context version; reuse the attached receipt and result')
         self.observation = observation
 
 
@@ -21,12 +21,15 @@ def normalized(tool, query):
 
 
 def key(tool, plan, request, version, scope_hash=None):
-    tokens = normalized(tool, plan['query'])
-    if tokens is None or version is None:
+    compiled = request.get('compiled_read')
+    if compiled is None or version is None:
         return None
-    return digest({'tool':tool, 'text_tokens':tokens, 'context_version':version,
+    return digest({'tool':tool, 'compiled_read':compiled,
+        'resolved_assets':request.get('asset_ids'), 'parameters':request.get('parameters'),
+        'context_version':version,
         'declared_scope':{k:v for k,v in plan.items() if k!='query'}, 'run_scope_hash':scope_hash,
         'context_hash':request['context_hash'], 'policy_hash':request['policy_hash']})
+
 
 
 def check(store, state, tool, plan, request):

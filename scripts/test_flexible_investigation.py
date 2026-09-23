@@ -266,18 +266,18 @@ class DynamicTests(unittest.TestCase):
         envelope.pop('strategy')
         with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
 
-    def test_relabelled_scalar_is_a_distinct_read(self):
+    def test_relabelled_scalar_reuses_compiled_read(self):
         calls=[]
         def planner(payload):
             calls.append(payload)
             if len(calls)<=2:
                 return self.decision('QUERY',query={'tool':'bounded_dax','text':'EVALUATE ROW("label'+str(len(calls))+'",[Total])','max_rows':20})
-            self.assertEqual(payload['observations'][-1]['status'],'COMPLETED')
+            self.assertEqual(payload['observations'][-1]['status'],'REJECTED')
             return self.decision('ASK',question='What business rule defines the expected amount?')
         agent=AdaptiveRuntime(self.runtime,planner)
         result=agent.run(agent.create(self.envelope,'dedup')['id'])
-        self.assertEqual(result['cloud_calls'],2)
-        self.assertEqual(len(self.native_calls),2)
+        self.assertEqual(result['cloud_calls'],1)
+        self.assertEqual(len(self.native_calls),1)
 
     def setUp(self):
         self.fixture=discovery_fixture.DiscoveryTests();self.fixture.setUp();self.addCleanup(self.fixture.doCleanups)

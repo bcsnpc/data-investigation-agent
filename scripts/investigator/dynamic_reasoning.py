@@ -3,6 +3,7 @@
 Persist concise hypotheses/actions/interpretations, never private chain-of-thought.
 Metadata and LLM interpretations cannot grant query permissions or verified causes.
 """
+from . import proposal_limits as limits
 import copy
 import json
 from uuid import uuid4
@@ -125,16 +126,16 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
     from .assessment_support import SCHEMA as support_schema
     assessment['properties']['support']=copy.deepcopy(support_schema)
     assessment['required'].append('support')
-    assessment['properties']['claim'].update(minLength=1,maxLength=1000)
+    assessment['properties']['claim'].update(minLength=1,maxLength=limits.ASSESSMENT_CLAIM)
     assessment['properties']['evidence_ids']['maxItems']=12
     for key in ('alternatives','limits'):
         assessment['properties'][key].update(minItems=1,maxItems=6)
-        assessment['properties'][key]['items'].update(minLength=1,maxLength=500)
+        assessment['properties'][key]['items'].update(minLength=1,maxLength=limits.ASSESSMENT_DETAIL)
     if not source_available and not retrieved_sources(observations):query_props['tool']['enum']=['bounded_dax']
     lookup_props=SCHEMA['properties']['lookup']['anyOf'][1]['properties']
     choices=[variant('QUERY',query_props),
              variant('LOOKUP',lookup_props),
-             variant('ASK',{'question':{'type':'string','minLength':1,'maxLength':500}}),
+             variant('ASK',{'question':{'type':'string','minLength':1,'maxLength':limits.QUESTION}}),
              variant('STOP',{'assessment':assessment})]
     if candidates:choices.append(variant('RUN',{'candidate_id':{'type':'string','enum':[c['id'] for c in candidates]}}))
     if asset_handles is not None:
@@ -155,7 +156,7 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
                 continue
             item=copy.deepcopy(SCHEMA['properties']['hypotheses']['items'])
             item['properties'].pop('id');item['required'].remove('id')
-            item['properties']['claim'].update(minLength=1,maxLength=400)
+            item['properties']['claim'].update(minLength=1,maxLength=limits.HYPOTHESIS_CLAIM)
             item['properties']['status']['enum']=statuses
             refs=item['properties']['evidence_ids'];refs['maxItems']=10
             if evidence:refs['items']['enum']=evidence
@@ -273,7 +274,7 @@ def validate(proposal,payload):
         if value['tool'] not in ('bounded_sql','bounded_dax') or type(value['max_rows']) is not int or not 1<=value['max_rows']<=250:
             raise ValueError('Invalid proposed query')
     if action=='STOP':
-        a=proposal['assessment'];fields(a,['classification','claim','evidence_ids','alternatives','limits']+(['support'] if 'support' in a else []));text(a['claim'],1000)
+        a=proposal['assessment'];fields(a,['classification','claim','evidence_ids','alternatives','limits']+(['support'] if 'support' in a else []));text(a['claim'],limits.ASSESSMENT_CLAIM)
         allowed=SCHEMA['properties']['assessment']['anyOf'][1]['properties']['classification']['enum']
         if a['classification'] not in allowed:raise ValueError('Unsupported outcome')
         known={o['id']:o for o in payload['observations']}
@@ -284,7 +285,7 @@ def validate(proposal,payload):
             validate_support(a,known)
         for key in ('alternatives','limits'):
             if not isinstance(a[key],list) or not 1<=len(a[key])<=6:raise ValueError('Assessment needs alternatives and limits')
-            for value in a[key]:text(value,500)
+            for value in a[key]:text(value,limits.ASSESSMENT_DETAIL)
         if a['classification'] not in ('UNRESOLVED','UNSUPPORTED','INSUFFICIENT_EVIDENCE','BUSINESS_CONTEXT_REQUIRED'):
             if not any(known[r]['tool']!='context' and known[r]['status']=='COMPLETED' and known[r]['completeness']!='PARTIAL' for r in refs):
                 raise ValueError('Qualified outcome needs complete live query evidence')
@@ -441,12 +442,13 @@ def candidate(store,config,state,proposal):
     if proposal['tool']=='bounded_sql':
         missing=set(compiled['asset_ids'])-retrieved_sources(state['observations'])
         if missing:raise MissingSourceContext(missing)
-    from .read_redundancy import check
+    from .read_redundancy import check,key
     check(store,state,proposal['tool'],plan,compiled)
     identity=digest({'tool':proposal['tool'],'request':compiled})
     if identity in state['attempted']:raise ValueError('Proposed test was already attempted')
     return {'id':identity,'tool':proposal['tool'],'plan':plan,'measure_id':state['envelope']['measure_id'],
             'dimension_id':None,'depth':0,'parent':None,'compiled_hash':digest(compiled),
+            'read_fingerprint':key(proposal['tool'],plan,compiled,state.get('discovery_version'),state.get('scope_hash')),
             'read_context_version':state.get('discovery_version'),'read_scope_hash':state.get('scope_hash')}
 
 

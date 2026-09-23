@@ -31,7 +31,7 @@ def _safe(data):
     except ValueError:
         pass
     for name, secret in os.environ.items():
-        if secret and re.search(r'(?:^|_)(?:API_KEY|ACCESS_TOKEN|REFRESH_TOKEN|TOKEN|SECRET|PASSWORD|CONNECTION_STRING|KEY)$', name, re.I):
+        if len(secret) >= 12 and re.search(r'(?:^|_)(?:API_KEY|ACCESS_TOKEN|REFRESH_TOKEN|TOKEN|SECRET|PASSWORD|CONNECTION_STRING|KEY)$', name, re.I):
             if secret in value:
                 raise RecordingError('RECORDING_SECRET_DETECTED')
     if re.search(r'(?i)(?:Bearer\s+[A-Za-z0-9_.~-]{8,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|'
@@ -45,7 +45,8 @@ class CallRecord:
         self.path = ROOT / '.local' / 'planner-recordings' / str(uuid4())
         self.path.mkdir(parents=True, exist_ok=False)
         self.bodies = {}
-        self.write('context.json', _bytes({'version': 1, 'created_utc': datetime.now(timezone.utc).isoformat(), **metadata}))
+        self.exclusion = None
+        self.safe_write('context.json', _bytes({'version': 1, 'created_utc': datetime.now(timezone.utc).isoformat(), **metadata}))
 
     def write(self, name, data):
         _safe(data)
@@ -56,16 +57,28 @@ class CallRecord:
             os.fsync(stream.fileno())
         self.bodies[name] = {'sha256': hashlib.sha256(data).hexdigest(), 'bytes': len(data)}
 
+    def safe_write(self, name, data):
+        """Recording is observational: withholding a body cannot abort a call."""
+        try:
+            self.write(name, data)
+            return True
+        except RecordingError:
+            self.exclusion = 'SECRET_DETECTED'
+        except OSError:
+            if self.exclusion is None:
+                self.exclusion = 'RECORDING_IO_ERROR'
+        return False
+
     def request(self, request):
-        self.write('request.body', request.read())
+        self.safe_write('request.body', request.read())
 
     def response(self, response):
-        self.write('response-status.json', _bytes({'status_code': response.status_code}))
-        self.write('response.body', response.read())
+        self.safe_write('response-status.json', _bytes({'status_code': response.status_code}))
+        self.safe_write('response.body', response.read())
 
     def finish(self, error=None):
         cause = error
-        exclusion = None
+        exclusion = self.exclusion
         for _ in range(5):
             if cause is None:
                 break
@@ -73,7 +86,7 @@ class CallRecord:
                 exclusion = 'SECRET_DETECTED'
                 break
             cause = cause.__cause__
-        self.write('manifest.json', _bytes({'version': 1, 'files': dict(self.bodies),
+        self.safe_write('manifest.json', _bytes({'version': 1, 'files': dict(self.bodies),
             'error_type': type(error).__name__ if error else None,
             'exclusion': exclusion,
             'request_captured': 'request.body' in self.bodies,

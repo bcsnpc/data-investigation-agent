@@ -169,6 +169,7 @@ def observation(candidate,child):
     data=receipt.get('result') or {}
     return {**({'execution_identity':data['execution_identity']} if data.get('execution_identity') else {}),
             **({'read_context_version':candidate['read_context_version']} if 'read_context_version' in candidate else {}),
+            **({'read_fingerprint':candidate['read_fingerprint']} if 'read_fingerprint' in candidate else {}),
             **({'read_scope_hash':candidate['read_scope_hash']} if 'read_scope_hash' in candidate else {}),
             **({'dependency_context':candidate['dependency_context']} if candidate.get('dependency_context') else {}),
             'id':receipt['id'],'candidate_id':candidate['id'],'run_id':child['id'],

@@ -3,22 +3,23 @@
 Old saved assessments remain readable. The current provider wire contract requires
 this support object; it grants no evidence authority or verified classification.
 """
+from . import proposal_limits as limits
 from .onboarding import fields, text
 
 SCHEMA = {'type':'object','additionalProperties':False,'properties':{
-    'mechanism':{'type':'string','minLength':1,'maxLength':500},
+    'mechanism':{'type':'string','minLength':1,'maxLength':limits.ASSESSMENT_DETAIL},
     'mechanism_evidence_ids':{'type':'array','maxItems':8,'items':{'type':'string'}},
     'intent_dependency':{'type':'string','enum':['NOT_REQUIRED','ESTABLISHED','UNKNOWN']},
-    'intent_basis':{'type':'string','minLength':1,'maxLength':500},
+    'intent_basis':{'type':'string','minLength':1,'maxLength':limits.ASSESSMENT_DETAIL},
     'intent_evidence_ids':{'type':'array','maxItems':8,'items':{'type':'string'}},
-    'remaining_test':{'type':'string','minLength':1,'maxLength':500}},
+    'remaining_test':{'type':'string','minLength':1,'maxLength':limits.ASSESSMENT_DETAIL}},
     'required':['mechanism','mechanism_evidence_ids','intent_dependency','intent_basis',
                 'intent_evidence_ids','remaining_test']}
 
 
 def validate(assessment, observations):
     support=assessment['support'];fields(support,SCHEMA['required'])
-    for key in ('mechanism','intent_basis','remaining_test'):text(support[key],500)
+    for key in ('mechanism','intent_basis','remaining_test'):text(support[key],limits.ASSESSMENT_DETAIL)
     dependency=support['intent_dependency']
     if dependency not in SCHEMA['properties']['intent_dependency']['enum']:
         raise ValueError('Unknown intent dependency')

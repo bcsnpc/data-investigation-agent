@@ -1,23 +1,28 @@
 # Current delivery status
 
-Updated 2026-09-22. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
+Updated 2026-09-23. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
 ## Current milestone
 
 
-**Current milestone: offline reliability, item 5: conservative read redundancy.**
-Generated SQL/DAX repeats compare token text plus declared scope, context version,
-policy and row limits against complete sealed receipts. Matching proposals retain
-prior receipt/results without another data-read reservation. Planner work stays
-charged. The older scalar-subset detector is removed; no semantic containment is
-used. Six focused tests passed; all 985 regression tests passed.
-The original F-paced queries are not text-identical and its source proposal is
-unqualified. It remains a failed trajectory; the requested F-paced gate is not met
-by a strict matcher. Clarification on the exact-duplicate replacement gate is
-pending. [Draft PR #213](https://github.com/bcsnpc/data-investigation-agent/pull/213) holds the implementation pending that decision and final CI. See [redundancy evidence](conservative-read-redundancy.md).
-Engine bytes change; v4 remains invalidated. No live calls or new freeze/variant.
+**Current milestone: offline reliability, item 5: compiled read redundancy.**
+The user clarified the acceptance gate: compiled candidates, not semantic
+containment. SQL/DAX compiler identities now normalize bound aliases while
+preserving calculations, filters, parameters, scope and limits. Repeats reuse sealed
+receipts without another data-read reservation. Distinct equal-result reads remain
+admitted; equality is reported only afterward, alongside schema-prefetch repairs
+and SQL rejection rate. F-paced remains FAILED and is not this item's gate.
+Eleven focused checks, 13 recording checks, 36 flexible-query checks and seven repair
+checks passed. All 994 regression tests passed after the sort-alias correction;
+secret scanning and local links passed. Final CI and merge are tracked on
+[PR #213](https://github.com/bcsnpc/data-investigation-agent/pull/213).
+Shared text bounds and nonfatal secret-excluding recording address the carry-over
+review. See [redundancy evidence](conservative-read-redundancy.md).
+Next, in separate PRs: retrieval/test budgets (6), intake regressions (7), capacity
+report (8). No live run/tape, new freeze or variant before these are merged.
+Engine bytes change; v4 remains invalidated. No acceptance pass is claimed.
 
 ### Previous milestone: item 4 - local proposal repairs (merged PR #212)
 
