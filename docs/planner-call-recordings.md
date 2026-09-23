@@ -57,11 +57,11 @@ block credential-bearing requests before transport, withhold credential-bearing
 responses, exercise default-off behavior and verify fixture integrity. A complete
 runtime STOP session verifies the saved context version, charged reservation and
 pre-response session state. No Azure, SQL, Power BI or paid LLM call was made.
-The initial full regression passed 957 tests. Final focused validation passed ten
+The final full regression passed 959 tests (293.456 seconds). Focused validation passed ten
 recording tests and 31 runtime-governance tests, including timeout capture,
 standalone-call capture and zero metadata collection when the flag is disabled.
 PowerShell syntax, six portal tests and the production build passed. Six CI checks
-passed on the initial implementation; the final revision is checked before merge.
+passed on the implementation head; PR #209 records final-head checks and merge state.
 
 An additional retained offline investigation, session
 `d883f3f6-fac2-4b8f-bcac-4e1482e46820`, completed two mocked planner calls and one

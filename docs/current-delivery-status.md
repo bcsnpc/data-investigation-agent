@@ -15,9 +15,9 @@ mock transport, including failures and credential exclusion. This engine change
 invalidates v4 for further frozen grading; frozen artifacts and previous receipts
 remain untouched. No new variant, freeze, permission grant or live LLM call is part
 of this item. See [recording runbook and verification](planner-call-recordings.md).
-Initial verification: 957 regression tests, ten final focused recording tests,
+Verification: 959 regression tests, ten focused recording tests,
 31 runtime-governance tests, PowerShell syntax, six portal tests and build passed.
-The initial implementation has six green CI checks; final-head verification and
+The implementation has six green CI checks; final-head verification and
 merge state are recorded in [PR #209](https://github.com/bcsnpc/data-investigation-agent/pull/209).
 
 The required order is one item per PR: recordings; projected-context golden tests;
@@ -245,7 +245,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **offline reliability work before a fresh freeze; item 1 in validation**. Prior
+Current: **item 1 implemented and verified; projected-context golden tests are next**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

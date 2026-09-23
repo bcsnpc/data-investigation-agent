@@ -911,3 +911,9 @@ Full regression and CI are pending at this checkpoint. This engine change
 invalidates v4 for further frozen grading; existing freeze artifacts and receipts
 remain unchanged. No new freeze or domain will be published before the ordered
 offline gates pass. See [recording evidence](planner-call-recordings.md).
+
+Item 1 final verification: 959 regression tests passed, plus ten focused recording
+and 31 governance tests; six CI checks passed on the implementation head.
+PowerShell syntax, six portal tests and build passed. PR #209 tracks final-head
+checks. The ledger preserves every recorded evaluation outcome as NOT_GRADED.
+No live provider calls or new freeze were used.
