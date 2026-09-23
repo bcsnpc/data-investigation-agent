@@ -7,7 +7,21 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Current milestone: offline reliability, item 5: compiled read redundancy.**
+**Current milestone: offline reliability, item 6: retrieval/test budgets.**
+New dynamic sessions reserve two planning turns for tests inside the existing total;
+LOOKUP has a separate cap and is removed from the wire schema when exhausted.
+Local validation independently enforces it. Every session reports successful reads,
+retrieval/test proposals and their ratio. No cloud/daily/token limit increased.
+Five focused tests passed, including a recorded mock-provider run with four
+lookups and two reads in six calls, followed by exact offline replay. Material
+ambiguity/deadline holds still permit zero reads; the reserve does not manufacture
+successful tests. All 999 regression tests passed; final CI/merge remain pending.
+See [budget evidence](retrieval-test-budgets.md). Next: intake regressions (7), then
+capacity report (8), each separately. No live run/tape, freeze or new variant.
+
+### Previous milestone: item 5 ? compiled read reuse (merged PR #213)
+
+**Completed item 5: compiled read redundancy.**
 The user clarified the acceptance gate: compiled candidates, not semantic
 containment. SQL/DAX compiler identities now normalize bound aliases while
 preserving calculations, filters, parameters, scope and limits. Repeats reuse sealed
@@ -16,11 +30,11 @@ admitted; equality is reported only afterward, alongside schema-prefetch repairs
 and SQL rejection rate. F-paced remains FAILED and is not this item's gate.
 Eleven focused checks, 13 recording checks, 36 flexible-query checks and seven repair
 checks passed. All 994 regression tests passed after the sort-alias correction;
-secret scanning and local links passed. Final CI and merge are tracked on
+secret scanning and local links passed. Six CI checks passed; merged in
 [PR #213](https://github.com/bcsnpc/data-investigation-agent/pull/213).
 Shared text bounds and nonfatal secret-excluding recording address the carry-over
 review. See [redundancy evidence](conservative-read-redundancy.md).
-Next, in separate PRs: retrieval/test budgets (6), intake regressions (7), capacity
+Follow-up, in separate PRs: retrieval/test budgets (6), intake regressions (7), capacity
 report (8). No live run/tape, new freeze or variant before these are merged.
 Engine bytes change; v4 remains invalidated. No acceptance pass is claimed.
 

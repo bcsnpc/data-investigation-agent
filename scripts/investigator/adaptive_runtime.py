@@ -102,6 +102,7 @@ class AdaptiveRuntime:
             context=latest(self.store)
             if context is None:raise Conflict('Dynamic investigation needs discovered context')
             state['discovery_version']=context['version']
+            state['action_budget_version']=1
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE')
             row=db.execute('SELECT id,request_hash FROM adaptive_sessions WHERE model_id=? AND request_key=?',
@@ -120,6 +121,9 @@ class AdaptiveRuntime:
             events=[{'kind':r['kind'],'detail':json.loads(r['detail']),'created':r['created']} for r in
                     db.execute('SELECT kind,detail,created FROM adaptive_events WHERE session_id=? ORDER BY id',(identity,))]
         state.pop('token');state['outcome']=outcome(state);state['events']=events
+        from .action_budget import summary,allocation
+        state['trajectory_metrics']=summary(state)
+        if state.get('action_budget_version')==1:state['action_budget']=allocation(state)
         return state
 
     def payload(self,state,candidates):
@@ -159,6 +163,8 @@ class AdaptiveRuntime:
             from .dynamic_reasoning import enrich
             from .flexible_tools import capabilities
             result['tool_capabilities']=capabilities(self.store,model,self.config)
+            from .action_budget import allocation
+            if state.get('action_budget_version')==1:result['action_budget']=allocation(state)
             return enrich(self.store,state,result)
         return result
 
@@ -234,6 +240,10 @@ class AdaptiveRuntime:
                     if dynamic and proposal_received and isinstance(exc,ValueError):
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
                               'metadata':{'reason':'Decision contract rejected: '+str(exc)[:400]},'measure_id':None,'dimension_id':None}
+                        from .action_budget import RetrievalBudgetExceeded
+                        if isinstance(exc,RetrievalBudgetExceeded):
+                            item['metadata']['reason_code']='RETRIEVAL_BUDGET_EXHAUSTED'
+                            self.save(db,state,'RETRIEVAL_BUDGET_REJECTED',{'observation_id':item['id']})
                         state['observations'].append(item);state.update(status='READY',token=None,no_progress=state.get('no_progress',0)+1)
                         self.save(db,state,'PROPOSAL_REJECTED',{'observation_id':item['id']})
                     else:

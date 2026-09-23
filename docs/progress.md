@@ -963,3 +963,17 @@ Item 5 final validation: 994 tests passed in 219.467 seconds after an offline
 ORDER BY alias collision was found and corrected. The initial failing regression
 and pre-correction suite remain recorded. Secret scanning and 180 local links
 passed. PR #213 tracks final CI/merge; no live LLM/data reads were made.
+
+### 2026-09-23 ? item 5 merged; item 6 budget partition under verification
+
+PR #213 merged at 2e482352c2b2544a7161c2919f78b2dd045c8575 after six green checks.
+Item 6 partitions existing planner turns, exposes retrieval/test/read metrics and
+preserves material ambiguity and deadline holds. Five focused checks passed,
+including recorded mock-provider pressure and exact replay. Full regression is
+running; no live provider/data call, freeze or new variant.
+See [budget evidence](retrieval-test-budgets.md).
+
+Item 6 final local validation: 999 regression tests passed in 236.111 seconds.
+The retained recorded-provider pressure replay MATCHED in 2.075 seconds with zero
+network/uncached-tool calls. Its actual counts have a separate append-only ledger
+row. No live recording, investigation, freeze or variant was made.
