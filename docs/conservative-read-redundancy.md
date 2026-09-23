@@ -87,7 +87,7 @@ SECRET_DETECTED and permits the provider call. Environment substring matching
 requires at least 12 characters. Guarded timing/manifest writes cannot mask provider
 errors with a recording secret or filesystem failure. An excluded body is not a
 complete replay tape. No live tape will be captured before item 6 merges, and no
-live investigation, freeze or variant will run before items 5?8 are merged.
+live investigation, freeze or variant will run before items 5-8 are merged.
 
 A subsequent code review found an output-alias ORDER BY collision in the new SQL
 normalization. A local compiler probe reproduced it; this is a release blocker,
