@@ -977,3 +977,18 @@ Item 6 final local validation: 999 regression tests passed in 236.111 seconds.
 The retained recorded-provider pressure replay MATCHED in 2.075 seconds with zero
 network/uncached-tool calls. Its actual counts have a separate append-only ledger
 row. No live recording, investigation, freeze or variant was made.
+
+### 2026-09-23 ? item 6 merged; nine-family intake regression coverage
+
+PR #214 merged after six green CI checks. Item 7 adds fixed synthetic intake
+request/response fixtures, all-nine reviewed-start/read checks and explicit
+material-fact negative grading. Four tests passed, and nine retained local flow
+sessions are recorded separately in the ledger. A failed dummy-endpoint capture
+setup is preserved; corrected capture/tests block DNS and socket connections.
+No investigator runtime behavior changed; full regression and CI are pending.
+See [intake evidence](intake-family-regressions.md).
+
+Item 7 final local verification: 1,003 regression tests passed in 231.426 seconds.
+The stale status footer referring to unresolved item-5 clarification is corrected.
+No runtime changes, live LLM/data calls or acceptance claims accompany this fixture
+coverage. Final CI/merge precede the separate capacity report.
