@@ -198,7 +198,7 @@ class AdaptiveRuntime:
         if self.planner_profile.get('adapter')=='azure':payload['generation_options']=self.generation_options
         try:
             from .planner_recording import recording
-            with recording({'session_id':identity,'planner_call':state['planner_calls'],
+            with recording(lambda: {'session_id':identity,'planner_call':state['planner_calls'],
                     'context_version':state.get('discovery_version',state['context_hash']),
                     'state':{k:v for k,v in state.items() if k!='token'},'payload':payload,
                     'reservation':{'key':'planner:'+str(state['planner_calls']),

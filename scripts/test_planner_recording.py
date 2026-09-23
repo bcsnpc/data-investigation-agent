@@ -99,6 +99,22 @@ class RecordingTests(unittest.TestCase):
             self.assertEqual(recording.http_options(), {})
         self.assertFalse((self.root / '.local').exists())
         self.assertIsNone(recording.ACTIVE.get())
+        def must_not_collect():
+            raise AssertionError('Disabled recording must not collect budget/state')
+        with recording.recording(must_not_collect):
+            pass
+
+    def test_standalone_generation_is_captured_with_unknown_context_labelled(self):
+        with self.assertRaises(ValueError):
+            azure_generate({'content': 'standalone'})
+        contexts = list((self.root / '.local/planner-recordings').glob('*/context.json'))
+        self.assertEqual(len(contexts), 1)
+        context = json.loads(contexts[0].read_bytes())
+        self.assertTrue(context['session_id'].startswith('standalone:'))
+        self.assertIsNone(context['reservation'])
+        self.assertIsNone(context['context_version'])
+        calls = recording.load_session(context['session_id'], self.root / '.local/planner-recordings')
+        self.assertEqual(calls[0]['bodies']['request.body'], self.sent[0])
 
     def test_loader_detects_tampering_and_interruption(self):
         with self.assertRaises(ValueError):

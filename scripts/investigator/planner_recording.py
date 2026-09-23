@@ -86,7 +86,7 @@ def recording(metadata):
     if os.environ.get(FLAG) != '1' or ACTIVE.get() is not None:
         yield ACTIVE.get()
         return
-    record = CallRecord(metadata)
+    record = CallRecord(metadata() if callable(metadata) else metadata)
     token = ACTIVE.set(record)
     error = None
     try:
