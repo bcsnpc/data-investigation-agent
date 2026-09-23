@@ -70,3 +70,12 @@ so the missing-date question has a concrete ticket basis. All five focused tests
 passed again in 5.853 seconds; engine code did not change after the full suite.
 [PR #214](https://github.com/bcsnpc/data-investigation-agent/pull/214) tracks final CI
 and merge. Secret scanning and 183 local documentation links passed.
+
+## Baseline review decision (2026-09-23)
+
+Keep the reserve based on proposed test turns, including locally rejected proposals.
+This deliberately protects opportunities to test rather than guaranteeing admitted
+reads. Counting only admitted proposals would let repeated invalid proposals retain
+protected turns until a separate no-progress limit intervenes. Every proposal still
+spends a planner call; successful reads and rejection counts are reported separately.
+A zero-read run remains visible as a failure or hold, never an allocation success.

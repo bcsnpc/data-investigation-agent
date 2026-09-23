@@ -4,22 +4,13 @@ import sys
 from pathlib import Path
 import test_flexible_investigation as fixture
 from investigator.adaptive_runtime import AdaptiveRuntime
-from investigator.read_redundancy import normalized, key
+from investigator.read_redundancy import key
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'acceptance/unknown_domain'))
 from score_run import score
 import test_session_replay as replay_fixture
 
 
 class ReadRedundancyTests(unittest.TestCase):
-    def test_normalization_preserves_labels_literals_and_lexical_types(self):
-        sql=lambda text:normalized('bounded_sql',text)
-        self.assertEqual(sql('SELECT 1 AS n'),sql('SELECT  1  AS n -- comment'))
-        self.assertNotEqual(sql("SELECT N'abc'"),sql("SELECT N 'abc'"))
-        self.assertNotEqual(sql("SELECT 'a b'"),sql("SELECT 'a  b'"))
-        dax=lambda text:normalized('bounded_dax',text)
-        self.assertNotEqual(dax('EVALUATE ROW("a",[X],"b",[Y])'),dax('EVALUATE ROW("b",[Y],"a",[X])'))
-        self.assertNotEqual(dax('EVALUATE ROW("a",[X])'),dax('EVALUATE ROW("a",[X],"b",[Y])'))
-
     def test_scope_context_policy_and_limits_are_part_of_identity(self):
         plan={'model_id':'model','revision':1,'context_id':'context','query':'EVALUATE ROW("n",1)','max_rows':20}
         request={'context_hash':'hash','policy_hash':'policy','compiled_read':'ROW(1)'}

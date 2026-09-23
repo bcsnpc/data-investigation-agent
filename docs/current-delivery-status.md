@@ -7,17 +7,34 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Current milestone: item 8 operator capacity report; live work remains pending.**
-Items 5-7 merged in PRs #213, #214 and #215 with six green checks each. The latest
-local full suite passed 1,003 tests. Read-only Azure inspection confirms the GPT-5.4
-evaluation deployment is still 10,000 TPM / 100 RPM, with regional quota available.
-The report proposes capacity 10 to 100 (100,000 TPM; expected 1,000 RPM), one request
-in flight and 65-second start spacing. This is proposed, not applied or live-tested.
-See [capacity report](provider-capacity-readiness.md) for the exact scope, evidence
-and per-trial capacity fields. SQL/free-tier settings and the default mini remain
-unchanged. No live run/tape, freeze or new variant was made. Operator approval and
-application, followed by the fresh frozen matrix, remain pending. F-paced remains
-FAILED; unfamiliar-domain acceptance has not passed.
+**Current milestone: known-domain baseline stopped on SQL permission failure.**
+The authorized investigator-quality-54 capacity increase is applied and read back:
+10 to 100 units, 10,000 to 100,000 TPM and 100 to 1,000 RPM. Model gpt-5.4 version
+2026-03-05 and GlobalStandard SKU were preserved. No other Azure settings changed.
+Two metered, serial provider probes succeeded at 65-second spacing. Five baseline
+families then ran with the intended profile: 25 planner calls, seven successful
+native reads, no successful SQL reads, nine retrievals and twelve test proposals.
+No LLM provider errors occurred. One complete eleven-call live tape replayed
+byte-exact offline, without engine drift, network or unrecorded tool execution.
+
+B/C/D gave useful scoped explanations; F ended UNRESOLVED / NO_PROGRESS after
+four rejected proposals. E's SQL read first encountered AutoPause error 40613;
+the existing bounded retry reached query execution and failed with permission
+error 229 on app.dataset_runs. The batch stopped. A/G/H/I were not run. No SQL
+tier, AutoPause, firewall, connections or permissions were changed to rescue it.
+The original usage policy and all counters were preserved. No freeze or new
+variant: this incomplete baseline does not justify publication. F-paced remains
+FAILED and unfamiliar-domain acceptance remains unproven. See the full per-family
+metrics, prior-session comparison, capacity receipt and next decision in
+[baseline evidence](known-domain-baseline.md).
+
+Removed unused lexical normalization; compiler identity tests remain. Proposed
+rather than admitted test turns deliberately consume protected opportunities.
+The initial suite exposed one stale test import, corrected to test compiler
+identity directly; all 1,002 regression tests then passed. The one-test decrease
+removes an obsolete helper-only test. The final document audit resolved 195 local links; all 96 ledger IDs are unique
+and the historical prefix is unchanged. Staged secret scanning passed. PR CI
+tracks this milestone's delivery.
 
 ### Previous milestone: item 7 - intake regressions (merged PR #215)
 
@@ -346,12 +363,12 @@ returned rows, not work scanned.
 | 3 Automatic context graph | Merged #196; independent context, graph/search and ticket visibility |
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
-| 6 General engine freeze | v4 invalidated by recording changes; fresh freeze waits for offline gates |
-| 7 Unknown Domain Challenge | v4 publication/discovery preserved; offline reliability work precedes a fresh variant |
+| 6 General engine freeze | v4 invalidated by recording changes; fresh freeze blocked by incomplete baseline and transformation failures |
+| 7 Unknown Domain Challenge | v4 discovery preserved; partial known-domain baseline blocked, fresh variant not started |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **items 5-7 merged; capacity report ready, operator change and live gates pending**. Prior
+Current: **capacity applied; partial known-domain baseline stopped on SQL permission 229; no freeze**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

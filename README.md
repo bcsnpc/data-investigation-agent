@@ -48,6 +48,14 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
+The authorized quality-deployment capacity is now 100,000 TPM / 1,000 RPM.
+Two paced provider probes passed. Five recorded known-domain families produced
+seven native reads and no LLM provider errors; one full session replayed byte-exact
+offline. B/C/D gave useful scoped answers, F remained unresolved, and E stopped on
+SQL permission 229 after the existing AutoPause retry. A/G/H/I were not run.
+No other Azure settings changed, no usage reset, and no new freeze or variant.
+All 1,002 regression tests passed. See [baseline evidence](docs/known-domain-baseline.md).
+
 Item 1 of the ordered offline reliability plan merged in PR #209: opt-in exact
 planner request/response recordings and loadable local fixtures. Recordings include
 runtime context, budget and reservation metadata; credentials and headers are
@@ -83,11 +91,10 @@ and three specific missing user facts. All nine reach reviewed investigation and
 a mock read; negative probes reject unnecessary metadata clarification. Four tests
 passed; all 1,003 regression tests and six CI checks passed. This checks admission and replay of
 controlled responses, not live LLM judgment. See [intake evidence](docs/intake-family-regressions.md).
-Item 8's [capacity report](docs/provider-capacity-readiness.md) confirms 10,000 TPM /
-100 RPM and proposes 100,000 TPM with one request in flight and 65-second spacing.
-The change is not applied; operator approval and the live rate-limit gate remain.
-V4 remains invalidated. No live run, recording, freeze or variant before the
-ordered PRs are merged and operator prerequisites are satisfied. See [current status](docs/current-delivery-status.md).
+Item 8's [capacity report](docs/provider-capacity-readiness.md) recorded the original
+10,000 TPM / 100 RPM allocation. The approved increase now reads back as 100,000 TPM
+and 1,000 RPM. The known-domain baseline gate precedes any freeze or publication.
+V4 remains invalidated. See [current status](docs/current-delivery-status.md).
 
 Current reliability work makes conclusion support explicit: a proposed mechanism,
 its evidence, dependency on business intent, and remaining useful tests. The
