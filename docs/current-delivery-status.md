@@ -7,6 +7,16 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
+**Active milestone: revert rejected per-entry ownership, then controlled repeats.**
+The #219 labels are removed; compiler binding and actionable SQL feedback stay.
+Recorded F call 1 returns to **28 directory entries / 11 SQL objects**, from 11/3.
+Pre-wire size is 14,538 characters and request size 28,217 bytes. A coverage golden
+now guards this boundary. Full tests precede E/F/G/I plus two extra G trials under
+unchanged settings. Compact ownership and token increases are proposal-only after
+the results. See [revert evidence](ownership-revert-evaluation.md).
+
+### Previous milestone: #219 compiler/context evaluation
+
 **Completed milestone: compiler binding, physical context and six-run re-baseline.**
 The stopping-contract proposal is **evaluated and not adopted**; its negative result
 remains in [the review record](stopping-criteria-review.md). Repeated typed SQL

@@ -48,6 +48,12 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
+The per-entry ownership labels from #219 were rejected after reducing directory
+coverage. They are reverted while the SQL compiler and actionable rejection fixes
+remain. Offline F coverage returns to 28 entries / 11 SQL objects. Controlled
+known-domain repeats are next, followed only by proposals for compact ownership
+and token budgets. See [current revert evaluation](docs/ownership-revert-evaluation.md).
+
 Repeated-literal SQL bindings now preserve matching SELECT/GROUP BY expressions;
 rejections report measured complexity and physical catalog targets. Context exposes
 owning connections and schemas. The saved G compiler defect is fixed offline and

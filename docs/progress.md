@@ -1097,3 +1097,12 @@ See [full results, variance and audit](physical-binding-reliability.md).
 Final evidence checks: 204 local links, diff whitespace and staged secret scan pass.
 [PR #219](https://github.com/bcsnpc/data-investigation-agent/pull/219) contains the grouped
 compiler/context change and all six evaluation receipts; CI/merge state is on the PR.
+
+
+## 2026-09-23: ownership representation revert
+
+Removed #219 per-entry physical labels while retaining compiler binding and actionable
+rejection feedback. Recorded F call 1 coverage restored from 11/3 to 28/11 directory/SQL
+entries. All 1,009 local regression tests passed. Controlled E/F/G/I and two further G
+repeats are next; token and compact-ownership changes remain proposal-only. See
+[revert evaluation](ownership-revert-evaluation.md).
