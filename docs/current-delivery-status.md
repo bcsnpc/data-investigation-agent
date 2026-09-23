@@ -7,7 +7,20 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Current milestone: offline reliability, item 6: retrieval/test budgets.**
+**Current milestone: offline reliability, item 7: intake family regressions.**
+Twelve fixed synthetic captures cover all nine ticket families and three material
+scope questions. All nine proceed through real scope-review/start admission and
+one mock native read. Negative grading probes reject unnecessary metadata
+clarification and missing-fact questions for facts already supplied. Four focused
+tests passed, plus a retained nine-case flow proof. These controlled responses do
+not establish live LLM judgment or nine solved investigations. All 1,003 regression
+tests passed; final CI/merge remain pending. See [intake evidence](intake-family-regressions.md).
+No investigator runtime behavior changed. Next: item 8 capacity report; no live
+run/tape, freeze or new variant before all ordered items are merged.
+
+### Previous milestone: item 6 ? retrieval/test budgets (merged PR #214)
+
+**Completed item 6: retrieval/test budgets.**
 New dynamic sessions reserve two planning turns for tests inside the existing total;
 LOOKUP has a separate cap and is removed from the wire schema when exhausted.
 Local validation independently enforces it. Every session reports successful reads,
@@ -16,7 +29,7 @@ Five focused tests passed, including a recorded mock-provider run with four
 lookups and two reads in six calls, followed by exact offline replay. Material
 ambiguity/deadline holds still permit zero reads; the reserve does not manufacture
 successful tests. All 999 regression tests passed; five focused tests passed again
-after clarifying the missing-date fixture. Final CI/merge are tracked in
+after clarifying the missing-date fixture. Six CI checks passed and the change merged in
 [PR #214](https://github.com/bcsnpc/data-investigation-agent/pull/214).
 See [budget evidence](retrieval-test-budgets.md). Next: intake regressions (7), then
 capacity report (8), each separately. No live run/tape, freeze or new variant.
@@ -324,7 +337,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **item 5 in validation; F-paced gate clarification pending, then budget separation**. Prior
+Current: **items 5?6 merged; intake regression CI/merge, then the capacity report**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.
