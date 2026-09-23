@@ -9,14 +9,22 @@ from sqlglot.errors import OptimizeError
 from sqlglot.optimizer.qualify import qualify
 from sqlglot.optimizer.scope import traverse_scope
 
-VERSION = 'bounded-tsql-v2'
+VERSION = 'bounded-tsql-v3'
 NODES = set('Select From Table Identifier TableAlias Column Alias Star Where Group Having Order Ordered Limit Join With CTE Subquery Paren And Or Not EQ NEQ GT GTE LT LTE Is In Between Like ILike Add Sub Mul Div Mod Neg Literal Null Boolean Parameter Var Distinct Case If Cast TryCast DataType DataTypeParam Count Sum Avg Min Max Coalesce Nullif Abs Round Floor Ceil DateAdd DateDiff CurrentDate CurrentTimestamp Extract Window RowNumber Partition Offset'.split())
+MAX_JOINS=4
+MAX_SELECTS=8
+
+
+class QueryRejection(ValueError):
+    def __init__(self, message, **feedback):
+        super().__init__(message)
+        self.feedback=feedback
 
 
 def capabilities():
     return {'tool':'bounded_sql','validator_version':VERSION,'mode':'READ_ONLY_SELECT',
             'supported_ast_nodes':sorted(NODES-{'Offset','Parameter'}),
-            'max_joins':4,'max_selects':8,'max_result_columns':16,'max_result_rows':250,
+            'max_joins':MAX_JOINS,'max_selects':MAX_SELECTS,'max_result_columns':16,'max_result_rows':250,
             'prerequisites':['Approved USER_TABLE catalog','Retrieved exact source schemas','Isolated reader permission check'],
             'unsupported':['Views','Computed columns','External access','Recursive CTE','Writes'],
             'experiments':['Uniqueness and nulls','Composite grain','Functional dependency counterexamples',
@@ -98,7 +106,11 @@ def compile_query(query, objects, *, max_rows=250):
     unsupported=sorted({type(n).__name__ for n in tree.walk()}-NODES)
     if unsupported:raise ValueError('Unsupported SQL syntax or function nodes: '+', '.join(unsupported[:8])+'. Remove these constructs or choose a supported diagnostic; no query executed.')
     if any(n.args.get('recursive') for n in tree.find_all(exp.With)):raise ValueError('Recursive CTE unsupported')
-    if len(list(tree.find_all(exp.Join)))>4 or len(list(tree.find_all(exp.Select)))>8:raise ValueError('Relational complexity budget exceeded')
+    joins=len(list(tree.find_all(exp.Join)));selects=len(list(tree.find_all(exp.Select)))
+    if joins>MAX_JOINS or selects>MAX_SELECTS:
+        raise QueryRejection(f'Relational complexity budget exceeded: SELECT nodes {selects}/{MAX_SELECTS}, joins {joins}/{MAX_JOINS}. Propose a smaller diagnostic; no query executed.',
+                             reason_code='SQL_COMPLEXITY',measured={'selects':selects,'joins':joins},
+                             caps={'selects':MAX_SELECTS,'joins':MAX_JOINS})
     if any(n.args.get('offset') for n in tree.find_all(exp.Select)):raise ValueError('Offset is unsupported')
     if any(True for _ in tree.find_all(exp.Parameter)):raise ValueError('Use literal values; compiler parameterizes them')
     index={};schema={}
@@ -114,7 +126,9 @@ def compile_query(query, objects, *, max_rows=250):
             if not isinstance(source,exp.Table):continue
             if source.catalog or not source.db or not isinstance(source.this,exp.Identifier):raise ValueError('Qualified approved schema/table required')
             asset=index.get((source.db.casefold(),source.name.casefold()))
-            if asset is None or asset['metadata']['type_desc']!='USER_TABLE':raise ValueError('SQL object unavailable or view dependencies not validated')
+            if asset is None or asset['metadata']['type_desc']!='USER_TABLE':
+                raise QueryRejection('SQL object unavailable or view dependencies not validated',
+                                     reason_code='SQL_OBJECT_UNAVAILABLE',object_name=source.name,requested_schema=source.db)
             # Never allow hints, temporal/version modifiers or schema-qualified functions.
             if any(v for k,v in source.args.items() if k not in ('this','db','catalog','alias')):raise ValueError('Unsupported table modifier')
             referenced.append(asset['id'])
@@ -147,13 +161,21 @@ def compile_query(query, objects, *, max_rows=250):
         if requested<1:raise ValueError('Positive TOP required')
     effective=min(requested,max_rows+1) if requested else max_rows+1
     qualified.set('limit',exp.Limit(expression=exp.Literal.number(effective)))
-    parameters=[]
+    parameters=[];bindings={};literal_count=0
     for literal in list(qualified.find_all(exp.Literal)):
         # Structural integers in TOP/type precision are syntax, not data values.
         if isinstance(literal.parent,(exp.Limit,exp.DataTypeParam)):continue
+        literal_count+=1
+        if literal_count>60:raise ValueError('Parameter budget exceeded')
         if len(literal.this)>200:raise ValueError('Parameter value budget exceeded')
-        name='p'+str(len(parameters))
-        parameters.append({'name':'@'+name,'value':literal.this})
+        # Repeated typed literals must bind identically, including in GROUP BY.
+        # Keep text/integer/decimal distinct; do not normalize values or expressions.
+        kind='text' if literal.is_string else 'decimal' if '.' in literal.this else 'integer'
+        key=(kind,literal.this)
+        if key not in bindings:
+            bindings[key]='p'+str(len(parameters))
+            parameters.append({'name':'@'+bindings[key],'value':literal.this})
+        name=bindings[key]
         replacement=exp.Parameter(this=exp.Var(this=name))
         # NVarChar parameters preserve text; explicit casts preserve numeric
         # literal arithmetic instead of accidentally concatenating strings.

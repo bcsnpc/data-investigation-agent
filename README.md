@@ -48,18 +48,17 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-The complete recorded known-domain baseline has 51 planner calls, 14 successful
-reads (3 SQL / 11 native), and zero LLM provider errors at 100,000 TPM / 1,000 RPM.
-G reached source SQL; A stopped early, F remains failed, and E/G/I exposed distinct
-selection, compiler or budget failures. Relevant processing history was already
-readable for E, so no grant was applied. A stopping-contract revision was tested
-with eight controlled next-action calls: D stayed valid, revised C failed intent
-consistency, and F still proposed inadmissible queries. No reliability gain was
-demonstrated and no runtime implementation was made. The proposal awaits review.
-No settings, permissions or deadlines changed; usage was not reset or refunded. No new freeze or
-variant. The prior engine passed 1,002 tests; two generator tests passed for this
-review. See [baseline completion and proposal](docs/stopping-criteria-review.md)
-and [exact SQL audit](docs/baseline-sql-proposals.md).
+The nine-family known-domain baseline recorded 51 planner calls and 14 successful
+reads (3 SQL / 11 native), with no provider errors. The proposed stopping-contract
+change was evaluated and **not adopted**: its eight comparisons showed no gain.
+The current work corrects repeated-literal SQL binding, makes rejections actionable
+and labels physical ownership in context without rewriting queries or adding a
+cross-system adapter. Offline G recompilation preserves identical GROUP BY bindings.
+All 1,008 regression tests passed before E/F/G/I re-baselining and three total
+G trials. No settings, permissions, caps or stopping rules change. No freeze or new
+variant. See [binding reliability](docs/physical-binding-reliability.md),
+[negative stopping result](docs/stopping-criteria-review.md) and
+[original SQL audit](docs/baseline-sql-proposals.md).
 
 Item 1 of the ordered offline reliability plan merged in PR #209: opt-in exact
 planner request/response recordings and loadable local fixtures. Recordings include

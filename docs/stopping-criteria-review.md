@@ -134,7 +134,7 @@ justify granting access to the application registry. The original E failure is
 preserved. No E rerun was needed under (a); the authorized grant/rerun branch (b)
 was not triggered.
 
-## Proposed completion contract (NOT IMPLEMENTED)
+## Evaluated and not adopted: completion contract
 
 Extend #207's existing support object by two bounded fields, retaining mechanism,
 mechanism receipts, intent dependency/basis/receipts and remaining_test:
@@ -234,7 +234,18 @@ request/response bytes. The initial preflight failure remains in the unsuffixed
 directory. Production engine fingerprint remains
 `049c33cb55b85ecd6324d623fdf6e3acc6c83815dbc19fca1a60738c50768531`.
 
-## Review boundary
+## Review decision: rejected
+
+The user rejected this stopping-criteria hypothesis after reviewing PR #218.
+G escalated to source reads without this contract; the eight comparisons showed
+no reliability gain, revised C regressed on intent consistency, and F still
+proposed inadmissible queries. B/C/D stopping was plausibly appropriate for their
+scoped requests. The proposed fields and instruction addition below are retained
+only as a negative experimental result. They are not adopted and must not be
+carried into other work. The implementation now targets compiler correctness
+and physical binding context/feedback instead.
+
+## Historical review boundary
 
 No stopping-contract runtime change, compiler fix, freeze or publication is made.
 The proposed contract and failed/partial evaluation are ready for review. Separate

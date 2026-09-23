@@ -1048,3 +1048,20 @@ recorded append-only. The two completion-support fields remain a proposal only;
 no runtime implementation, freeze, variant or unfamiliar acceptance claim.
 See [full baseline and stopping review](stopping-criteria-review.md).
 The two required generator tests passed; prior full-suite evidence remains 1,002.
+
+## 2026-09-23 - Compiler binding correction and physical query context
+
+The user rejected the stopping-contract experiment; its method and negative result
+remain explicitly evaluated and not adopted. Identical typed SQL literals now share
+bindings, and offline recompilation of the saved G candidate preserves matching
+SELECT/GROUP BY CASE expressions. Complexity feedback reports measured counts and
+unchanged caps; unavailable objects identify the approved connection/schema and
+scoped retrieval hints. Physical ownership is explicit in planner context. No
+query rewrite, scope expansion, permission change or cross-system adapter.
+
+The first full suite exposed a missing-config capability-label error, corrected
+before live work. The final 1,008 regression tests passed, plus the required two
+generator tests; 63 local documentation links and staged secret scanning passed.
+Next is the authorized E/F/G/I re-baseline plus two additional G trials with the
+unchanged profile, policy, deployment and serial pacing. No freeze or new variant.
+See [binding evidence](physical-binding-reliability.md).
