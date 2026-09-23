@@ -55,7 +55,8 @@ excluded. Transport tests use no live LLM calls. See the
 [recording runbook](docs/planner-call-recordings.md).
 Current work is item 2: exact planner-view golden tests, counted context omissions,
 preserved definition links and deterministic fitting before the per-call ceiling.
-The focused offline tests pass; full validation and CI are pending. See
+The full offline regression passed 968 tests, and six implementation CI checks
+passed; PR #210 tracks final-head checks and merge state. See
 [projection evidence](docs/planner-view-goldens.md).
 This engine change invalidates v4 for further frozen grading. Its publication and
 automatic-discovery evidence remain historical. No new freeze or variant will be

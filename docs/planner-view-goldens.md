@@ -52,7 +52,9 @@ projection and 31,851 after fitting, under its 32,000-character ceiling. Its
 cumulative remaining allowance models the historical 69%-consumed case, so it
 specifically exercises the per-call boundary. Exact expected views and independent
 invariant assertions both gate changes; removing the corresponding projection
-logic makes the assertions fail. Full regression and CI are pending.
+logic makes the assertions fail. Full regression passed 968 tests in 281.688
+seconds. Six CI checks passed on the implementation head; PR #210 records the
+final documentation-head checks and merge state.
 
 The [append-only ledger](runs/ledger.jsonl) preserves the failed and successful
 offline checks. Validation-suite rows count no real provider or cloud calls;

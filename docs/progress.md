@@ -930,3 +930,9 @@ the correction, with nine profile, nine navigation and 36 flexible-runtime tests
 Full regression/CI are pending. No live LLM call, new freeze or variant was used.
 V4 remains invalidated; its artifacts and receipts are untouched.
 See [projection evidence](planner-view-goldens.md).
+
+Item 2 final validation: 968 regression tests passed, including nine projection
+tests that compare four recorded mock-SDK inputs with exact wire goldens. Six
+implementation CI checks passed; PR #210 tracks final-head checks. The second
+offline failure (a directory exhausting definition handles) is recorded alongside
+its generic priority/counting correction. No new freeze or live call was used.

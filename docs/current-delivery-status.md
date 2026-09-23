@@ -13,8 +13,10 @@ paged older content and assembled input exceeding the per-call ceiling. Omission
 are counted and distinguished from catalog removal. Deterministic fitting occurs
 before reservation/dispatch; protected scope and schemas remain admitted or fail
 closed. A realistic offline fixture exposed compaction that enlarged metadata;
-the correction avoids that inflation. Nine focused projection tests passed;
-full regression and CI are pending. See [projection evidence](planner-view-goldens.md).
+the correction avoids that inflation. Nine focused projection tests and 968 full
+regression tests passed, with six green implementation CI checks. Final-head checks
+and merge state are in [PR #210](https://github.com/bcsnpc/data-investigation-agent/pull/210).
+See [projection evidence](planner-view-goldens.md).
 No live LLM call, new freeze or new variant was used. Engine bytes change, so v4
 remains invalidated for further frozen grading. Next: item 3 session simulation.
 
