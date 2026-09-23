@@ -1048,3 +1048,52 @@ recorded append-only. The two completion-support fields remain a proposal only;
 no runtime implementation, freeze, variant or unfamiliar acceptance claim.
 See [full baseline and stopping review](stopping-criteria-review.md).
 The two required generator tests passed; prior full-suite evidence remains 1,002.
+
+## 2026-09-23 - Compiler binding correction and physical query context
+
+The user rejected the stopping-contract experiment; its method and negative result
+remain explicitly evaluated and not adopted. Identical typed SQL literals now share
+bindings, and offline recompilation of the saved G candidate preserves matching
+SELECT/GROUP BY CASE expressions. Complexity feedback reports measured counts and
+unchanged caps; unavailable objects identify the approved connection/schema and
+scoped retrieval hints. Physical ownership is explicit in planner context. No
+query rewrite, scope expansion, permission change or cross-system adapter.
+
+The first full suite exposed a missing-config capability-label error, corrected
+before live work. The final 1,008 regression tests passed, plus the required two
+generator tests; 63 local documentation links and staged secret scanning passed.
+Next is the authorized E/F/G/I re-baseline plus two additional G trials with the
+unchanged profile, policy, deployment and serial pacing. No freeze or new variant.
+See [binding evidence](physical-binding-reliability.md).
+
+## 2026-09-23 - Six affected-family trials complete; source improvement not demonstrated
+
+E/F/G/I and two extra G trials ran under unchanged engine/profile/policy and serial
+65-second pacing with local recordings. Total: 53 planner calls, seven native reads,
+zero successful SQL reads, ten DAX member rejections, zero repairs/refusals/overlap.
+E again failed SQL 229 after the existing cold-start retry. F did not establish its
+source mechanism. G made 1/2/0 reads in 12/10/5 calls, with 4/1/2 rejections; two
+budget stops and one no-progress stop all remained unresolved. I reached a qualified
+BUSINESS_CONTEXT_REQUIRED answer, with one metered connection recovery. An unexplained
+782-second wait during I is retained in wall time; no deadline adjustment or rerun.
+
+The matched baseline four families had 34 calls and 3 SQL / 4 native reads; the new
+first four had 38 calls and 0 SQL / 5 native reads. The full #218 nine-family baseline
+remains 51 calls and 3 SQL / 11 native reads. Offline DAX audit identifies unsupported
+virtual-column references. Physical labels reduce the initial F directory from 28
+to 11 entries (SQL objects 11 to 3); this cost is measured, but its causal influence
+on decisions is not established. No further engine change was made to rescue results.
+
+All 53 recordings load; six rows append to the unchanged 111-row ledger. Usage records
+increase 399 to 466, with no active reservation or violation. Final reservations are
+129 planner / 24 cloud calls and 3,856,655 input characters / 934,500 output tokens;
+existing limits remain unchanged. Before/after Azure deployment reads match
+GlobalStandard 100, 100,000 TPM / 1,000 RPM, GPT-5.4 2026-03-05. No permission or
+configuration changes, refunds, freeze, variant or unfamiliar acceptance claim.
+README/status updated; original F-paced and baseline F failures preserved. The
+stopping experiment stays evaluated and not adopted. Stop at this requested report.
+See [full results, variance and audit](physical-binding-reliability.md).
+
+Final evidence checks: 204 local links, diff whitespace and staged secret scan pass.
+[PR #219](https://github.com/bcsnpc/data-investigation-agent/pull/219) contains the grouped
+compiler/context change and all six evaluation receipts; CI/merge state is on the PR.

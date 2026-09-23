@@ -16,6 +16,10 @@ TABLE='flexible_diagnostics'
 def capabilities(store,model,config):
     """Local eligibility only; advertising a tool never grants execution rights."""
     sql=query_sql.capabilities();dax=query_dax.capabilities()
+    source=config.get('sql',{})
+    sql.update(connection=('sql://'+source['server']+'/'+source['database'])
+               if source.get('server') and source.get('database') else None,
+               approved_schema=source.get('visibility_schema'))
     reader=config['fabric'].get('native_reader')
     dax['eligibility']='ELIGIBLE_FOR_VALIDATION' if model['enabled'] and reader and allows(reader,model['workspace'],model['native_id']) else 'UNAVAILABLE'
     try:
@@ -45,6 +49,13 @@ def build(store,plan,config,tool):
         objects,_=snapshot(store,model,config)
         from sqlglot.errors import SqlglotError, OptimizeError
         try:compiled=query_sql.compile_query(plan['query'],list(objects.values()),max_rows=plan['max_rows'])
+        except query_sql.QueryRejection as exc:
+            if exc.feedback.get('reason_code')=='SQL_OBJECT_UNAVAILABLE':
+                from .physical_binding import object_feedback
+                feedback=object_feedback(store,config,objects,exc)
+                raise query_sql.QueryRejection(str(exc)+'. Searched '+feedback['searched_connection']+
+                    '; approved schema '+feedback['approved_schema']+'. '+feedback['binding_notice'],**feedback) from exc
+            raise
         except OptimizeError as exc:
             raise ValueError('SQL column binding failed. Use only columns present in the retrieved source schemas and qualify ambiguous columns with table aliases. A semantic or derived field is not automatically a source column; retrieve transformation context before using it.') from exc
         except SqlglotError as exc:raise ValueError('SQL syntax or catalog binding unsupported') from exc

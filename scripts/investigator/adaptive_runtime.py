@@ -305,6 +305,8 @@ class AdaptiveRuntime:
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
                               'metadata':{'reason':str(exc)[:500],'proposed_tool':decision['query']['tool']},'measure_id':None,'dimension_id':None}
                         if isinstance(exc,MissingSourceContext):item['metadata']['recovery_assets']=exc.recovery_assets
+                        from .query_sql import QueryRejection
+                        if isinstance(exc,QueryRejection):item['metadata'].update(exc.feedback)
                         if isinstance(exc,RedundantRead):
                             prior=exc.observation
                             item.update(duplicate_of=prior['id'],values=prior['values'])

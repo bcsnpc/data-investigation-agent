@@ -1,0 +1,21 @@
+{
+  "source_session": "39503ca8-e318-493f-a6d1-201563c0b444",
+  "planner_call": 10,
+  "query": "WITH movement_adjustment_rows AS (\n    SELECT sm.movement_id AS movement_id,\n           sm.warehouse_id AS warehouse_id,\n           sm.product_id AS product_id,\n           sm.event_day AS event_day,\n           sm.movement_type AS movement_type,\n           sm.units AS stock_units,\n           ia.adjustment_id AS adjustment_id,\n           ia.units AS adjustment_units,\n           ia.reason_code AS reason_code\n    FROM app.stock_movements_e1b8e1 AS sm\n    INNER JOIN app.inventory_adjustments_e1b8e1 AS ia\n        ON sm.movement_id = ia.movement_id\n)\nSELECT mar.movement_type AS movement_type,\n       mar.reason_code AS reason_code,\n       CASE WHEN mar.adjustment_units > 0 THEN 'POSITIVE'\n            WHEN mar.adjustment_units < 0 THEN 'NEGATIVE'\n            ELSE 'ZERO' END AS adjustment_sign,\n       COUNT(*) AS adjustment_row_count,\n       COUNT(DISTINCT mar.movement_id) AS adjusted_movement_count,\n       COUNT(DISTINCT mar.product_id) AS adjusted_product_count,\n       COUNT(DISTINCT mar.warehouse_id) AS adjusted_warehouse_count,\n       MIN(mar.event_day) AS first_event_day,\n       MAX(mar.event_day) AS last_event_day\nFROM movement_adjustment_rows AS mar\nGROUP BY mar.movement_type,\n         mar.reason_code,\n         CASE WHEN mar.adjustment_units > 0 THEN 'POSITIVE'\n              WHEN mar.adjustment_units < 0 THEN 'NEGATIVE'\n              ELSE 'ZERO' END\nORDER BY adjusted_movement_count DESC,\n         mar.movement_type ASC,\n         mar.reason_code ASC,\n         adjustment_sign ASC;",
+  "tables": {
+    "stock_movements_e1b8e1": [
+      "movement_id",
+      "warehouse_id",
+      "product_id",
+      "event_day",
+      "movement_type",
+      "units"
+    ],
+    "inventory_adjustments_e1b8e1": [
+      "adjustment_id",
+      "movement_id",
+      "units",
+      "reason_code"
+    ]
+  }
+}

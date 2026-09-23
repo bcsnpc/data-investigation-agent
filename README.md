@@ -48,18 +48,26 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-The complete recorded known-domain baseline has 51 planner calls, 14 successful
-reads (3 SQL / 11 native), and zero LLM provider errors at 100,000 TPM / 1,000 RPM.
-G reached source SQL; A stopped early, F remains failed, and E/G/I exposed distinct
-selection, compiler or budget failures. Relevant processing history was already
-readable for E, so no grant was applied. A stopping-contract revision was tested
-with eight controlled next-action calls: D stayed valid, revised C failed intent
-consistency, and F still proposed inadmissible queries. No reliability gain was
-demonstrated and no runtime implementation was made. The proposal awaits review.
-No settings, permissions or deadlines changed; usage was not reset or refunded. No new freeze or
-variant. The prior engine passed 1,002 tests; two generator tests passed for this
-review. See [baseline completion and proposal](docs/stopping-criteria-review.md)
-and [exact SQL audit](docs/baseline-sql-proposals.md).
+Repeated-literal SQL bindings now preserve matching SELECT/GROUP BY expressions;
+rejections report measured complexity and physical catalog targets. Context exposes
+owning connections and schemas. The saved G compiler defect is fixed offline and
+**1,008 regression tests passed**. The stopping-contract proposal was evaluated and
+**not adopted**; no experimental stopping rules were added.
+
+The six requested known-domain trials used 53 planner calls for **seven native
+reads and zero successful SQL reads**. F still did not establish its mechanism.
+G's three trials varied from 0-2 reads and 5-12 calls, all unresolved. I preserved
+unknown business meaning in a qualified answer. Ten DAX member rejections exposed
+virtual-column binding limits; physical labels reduced initial directory coverage
+under the fixed size cap. These results do **not** show better source investigation.
+The matched baseline four families had 3 SQL / 4 native reads in 34 calls; the
+new first four had 0 SQL / 5 native reads in 38 calls.
+
+Profile, deployment, permissions, daily limits, pacing and deadlines stayed unchanged.
+The requested evaluation is complete and work stops at the report, with no freeze
+or new variant. See [binding results and G variance](docs/physical-binding-reliability.md),
+[negative stopping result](docs/stopping-criteria-review.md) and
+[original nine-family SQL audit](docs/baseline-sql-proposals.md).
 
 Item 1 of the ordered offline reliability plan merged in PR #209: opt-in exact
 planner request/response recordings and loadable local fixtures. Recordings include
@@ -111,7 +119,7 @@ The previous [provider response milestone](docs/provider-response-reliability.md
 added safe failure categories, retained numeric usage and aggregate-query admission
 checks; its 943 regression tests passed. Default model settings remain unchanged.
 
-The current reliability work adds automatic structural hypotheses to discovered
+Structural-discovery work added automatic structural hypotheses to discovered
 model context, SQL/DAX capability descriptions from the validators, and autonomous
 structural experiments during relevant tickets. Keys, grain, join behavior,
 functional dependencies and freshness can be tested through the existing bounded
@@ -153,7 +161,7 @@ catalog retains its review gates. Runtime report filters/RLS and cross-system
 comparability remain explicit limits. V2 is local and single-operator; enterprise
 hosting/authentication is pending. The earlier context/query recovery revision passed
 920 local regression tests and 10 dynamic browser checks. The structural-discovery
-revision now passes 929 regression tests; its ten browser checks preceded the final
+revision passed 929 regression tests; its ten browser checks preceded the final
 profile projection correction. Structured definitions, parent-qualified asset search, missing-schema
 recovery, actionable query feedback and remaining-time context are implemented.
 
