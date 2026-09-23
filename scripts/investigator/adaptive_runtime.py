@@ -182,7 +182,11 @@ class AdaptiveRuntime:
             elif state['planner_calls']>=limits['planner_calls'] or state['cloud_calls']>=limits['cloud_calls']:reason='BUDGET_LIMIT'
             elif state.get('no_progress',0)>=(self.governor.policy['no_progress_limit'] if self.governor else 2):reason='NO_PROGRESS'
             elif not choices and not dynamic:reason='NO_ADMITTED_TEST'
-            payload=self.payload(state,choices);size=len(encoded(payload))
+            payload=self.payload(state,choices)
+            if dynamic:
+                from .planner_projection import fit
+                payload=fit(payload,self.generation_options['max_payload_characters'])
+            size=len(encoded(payload))
             if size>self.generation_options['max_payload_characters'] or state['input_characters']+size>limits['input_characters']:reason='BUDGET_LIMIT'
             if reason:
                 self.stop(db,state,reason);return self.project_after_commit(db,state)

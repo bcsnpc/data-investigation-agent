@@ -917,3 +917,16 @@ and 31 governance tests; six CI checks passed on the implementation head.
 PowerShell syntax, six portal tests and build passed. PR #209 tracks final-head
 checks. The ledger preserves every recorded evaluation outcome as NOT_GRADED.
 No live provider calls or new freeze were used.
+
+
+## 2026-09-22 ? offline reliability item 2: planner-view goldens
+
+Item 1 merged as PR #209 with six final CI checks green. Item 2 adds four
+synthetic golden input/output shapes, counted omissions, preserved definition
+links and deterministic context fitting before dispatch. A realistic assembly
+failed offline because compaction enlarged bounded schemas; the generic fix
+keeps the original metadata in that case. Eight projection tests passed after
+the correction, with nine profile, nine navigation and 36 flexible-runtime tests.
+Full regression/CI are pending. No live LLM call, new freeze or variant was used.
+V4 remains invalidated; its artifacts and receipts are untouched.
+See [projection evidence](planner-view-goldens.md).

@@ -10,7 +10,7 @@ from .onboarding import fields,text,digest,encoded,Conflict
 from . import context_search
 from .model_context import assets
 
-VERSION='dynamic-investigation-v7'
+VERSION='dynamic-investigation-v8'
 INSTRUCTIONS='''Choose ONE next action: RUN a preferred typed candidate, LOOKUP context,
 QUERY a bounded SQL/DAX diagnostic, ASK a material clarification, or STOP with an assessment.
 No fixed layer/test order. Use actual observations to revise failed hypotheses.
@@ -179,6 +179,12 @@ def wire_contract(payload):
     identities=[]
     # Recovery targets take priority over a large catalog's optional directory.
     entries=[a for o in payload['observations'] for a in o.get('metadata',{}).get('recovery_assets',[])]
+    # A retained definition link must remain usable after directory handle limits.
+    for observation in payload['observations']:
+        metadata=observation.get('metadata',{})
+        observed=metadata.get('children',[])+metadata.get('assets',[])
+        if metadata.get('asset'):observed=observed+[metadata['asset']]
+        entries += [a for a in observed if a.get('kind')=='DefinitionPart']
     entries+=list(payload.get('context',[]))+list(payload.get('context_entry_points',[]))
     entries+=[{'id':t['asset_id'],'kind':'SemanticTable'} for t in payload.get('domain_profile',{}).get('tables',[])]
     for observation in payload['observations']:
@@ -199,6 +205,10 @@ def wire_contract(payload):
         if isinstance(value,dict):return {k:replace(v) for k,v in value.items()}
         return value
     wire=replace(payload)
+    if len(identities)>len(mapping):
+        wire['lookup_handle_projection']={'available_identities':len(identities),
+            'retained_handles':len(mapping),'omitted_handles':len(identities)-len(mapping),
+            'reason':'WIRE_HANDLE_LIMIT','catalog_removal':False}
     wire['lookup_identity_instruction']='Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities.'
     definition_ids={entry['id'] for entry in entries if entry.get('kind')=='DefinitionPart' and 'id' in entry}
     content_handles={handle:identity for handle,identity in mapping.items() if identity in definition_ids}
@@ -311,6 +321,7 @@ def lookup(store,request):
 
 
 def compact_context(payload):
+    from .planner_projection import content_projection,omitted_values
     # Retain recent source evidence across later lookups/rejections without growing context unboundedly.
     remaining_content=2500
     context_positions=[i for i,o in enumerate(payload['observations']) if o['tool']=='context']
@@ -324,6 +335,10 @@ def compact_context(payload):
             compact.update(content=retained,planner_context_compacted=True,
                            planner_content_truncated=len(retained)<len(content),
                            retained_end_offset=metadata.get('offset',0)+len(retained))
+            content_projection(compact,len(content),len(retained))
+            compact['planner_omitted_fields']=sorted(set(metadata)-set(compact))
+            compact['planner_omitted_field_count']=len(compact['planner_omitted_fields'])
+            compact['planner_metadata_omitted_values']=omitted_values(metadata,compact)
             observation['metadata']=compact
             observation['planner_sample_truncated']=len(retained)<len(content)
             continue
@@ -332,8 +347,13 @@ def compact_context(payload):
         compact={'context_version':metadata.get('context_version'),'planner_context_compacted':True,
                  'limitation':'Earlier metadata is summarized; original receipt is retained. Retrieve only missing details needed for a new test.'}
         if metadata.get('children'):
-            compact['children']=metadata['children'][:10]
-            compact['children_truncated']=metadata.get('children_truncated',False) or len(metadata['children'])>10
+            children=metadata['children']
+            definitions=[child for child in children if child.get('kind')=='DefinitionPart']
+            others=[child for child in children if child.get('kind')!='DefinitionPart']
+            compact['children']=[{k:child[k] for k in ('id','name','kind','parent_id') if k in child}
+                                 for child in definitions+others[:10]]
+            compact['children_truncated']=metadata.get('children_truncated',False) or len(compact['children'])<len(children)
+            compact['planner_children_omitted']=len(children)-len(compact['children'])
         if asset:
             compact['asset']={k:asset[k] for k in ('id','parent_id','name','kind','availability') if k in asset}
             if asset.get('metadata',{}).get('columns'):
@@ -346,6 +366,12 @@ def compact_context(payload):
             compact.update({k:metadata[k] for k in ('reason','recovery_assets') if k in metadata})
         elif metadata.get('assets'):
             compact['assets']=metadata['assets'][:4]
+            compact['planner_assets_omitted']=len(metadata['assets'])-len(compact['assets'])
+        compact['planner_omitted_fields']=sorted(set(metadata)-set(compact))
+        compact['planner_omitted_field_count']=len(compact['planner_omitted_fields'])
+        compact['planner_metadata_omitted_values']=omitted_values(metadata,compact)
+        compact['planner_projection_reason']='CONTEXT_COMPACTION_NOT_CATALOG_REMOVAL'
+        if len(encoded(compact))>=len(encoded(metadata)):continue
         observation['metadata']=compact
         observation['planner_sample_truncated']=True
 
