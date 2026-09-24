@@ -1193,3 +1193,31 @@ Offline grading of the original three and the first added repeats is recorded in
 [calibration](synthesis-calibration.md). Six additional G trials are in progress,
 with no resets, refunds, engine changes, freeze or new-domain claim. Microsoft
 capability research is proposal-only; own-estate probes remain pending.
+
+
+## 2026-09-24 - Nine-run synthesis calibration completed
+
+**Completed: synthesis calibration and Microsoft capability evaluation ([PR #223](https://github.com/bcsnpc/data-investigation-agent/pull/223)).**
+Nine corrected known-domain G trials yielded **6/9 accepted synthesis outputs**,
+**5/9 receipt-grounded qualified outputs** including historical clipping, and
+**3/9 intact receipt-grounded synthesis outputs**. Three new syntheses failed a
+citation-subset check; one retained its prior investigation assessment. One accepted
+answer overstated a comparison; another lost useful negative evidence in the digest.
+The original three were correctly uncertain about a source defect from the evidence
+they actually obtained. No support guard demonstrably suppressed a supported cause.
+The remaining gap is test selection and faithful evidence transfer, not a reason
+to relax intent requirements. Support repair no longer silently truncates text.
+
+**1,027 local tests passed.** All 62 new tapes verified, failures preserved, six
+ledger rows appended, and original daily limits restored without resetting usage.
+Eighteen bounded Microsoft probes found useful typed item relations, job history
+and Delta commit metadata; reader INFO/refresh and SQL dependency catalog access
+were unavailable. Time-travel/Query Insights execution remains untested without an
+approved Fabric reader connection. No write grant or adapter was added.
+
+Next proposal only: preserve query predicates in synthesis and compose citation
+lists consistently; measured full-query digests fit the existing limit. Optional
+native metadata feeds can supplement derived lineage. Stop for review before any
+dependency map, parallel synthesis or Microsoft adapter. No freeze/new variant or
+unfamiliar-domain acceptance claim. See [calibration](synthesis-calibration.md) and
+[Microsoft capability review](microsoft-native-capability-review.md).

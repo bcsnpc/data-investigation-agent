@@ -9,7 +9,7 @@ target is to discover an approved environment and investigate business questions
 with an LLM, bounded read-only queries and saved evidence.
 This is an FDE integration with one enterprise environment.
 
-Current follow-up: [support preservation, offline calibration and six additional G trials](docs/synthesis-calibration.md). Microsoft-native capabilities are being evaluated only; parallel synthesis and dependency-map implementation are deferred.
+Current follow-up completed: [nine-run synthesis calibration](docs/synthesis-calibration.md) found 6/9 accepted outputs, but only 3/9 intact receipt-grounded synthesis outputs. Three citation failures and one overstated comparison remain recorded. [Microsoft capability probes](docs/microsoft-native-capability-review.md) support optional metadata proposals only. Next: evidence fidelity and citation consistency, pending review; no dependency-map or parallel-synthesis implementation.
 
 ## What works today
 
@@ -50,7 +50,9 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-The initial separated-synthesis experiment is complete ([PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222)).
+Latest validation: **1,027 local regression tests passed** after the support-preservation fix. The nine-run report above supersedes the initial reliability sample; no unfamiliar-domain acceptance pass is claimed.
+
+The previous separated-synthesis experiment is complete ([PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222)).
 Three corrected known-domain G trials produced **3/3 receipt-supported uncertainty
 assessments**, versus 0/3 in #221 arm A; one already had an assessment before
 synthesis. No cause was verified. Two support fields were clipped, so explanation

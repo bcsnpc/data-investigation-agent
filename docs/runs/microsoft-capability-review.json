@@ -1,0 +1,235 @@
+{
+  "date": "2026-09-24",
+  "http_probes": [
+    {
+      "label": "model_upstream",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": 2,
+      "seconds": 6.072
+    },
+    {
+      "label": "model_downstream",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": 2,
+      "seconds": 0.985
+    },
+    {
+      "label": "report_upstream",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": 3,
+      "seconds": 1.677
+    },
+    {
+      "label": "report_downstream",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": 0,
+      "seconds": 1.177
+    },
+    {
+      "label": "notebook_upstream",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": 1,
+      "seconds": 1.143
+    },
+    {
+      "label": "notebook_downstream",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": 0,
+      "seconds": 1.228
+    },
+    {
+      "label": "gold_upstream",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": 0,
+      "seconds": 1.117
+    },
+    {
+      "label": "gold_downstream",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": 5,
+      "seconds": 0.968
+    },
+    {
+      "label": "notebook_jobs",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": 0,
+      "seconds": 4.652
+    },
+    {
+      "label": "reader_refresh",
+      "identity": "reader",
+      "http_status": 403,
+      "gap": "HTTP_DENIED_OR_UNSUPPORTED",
+      "relation_count": null,
+      "seconds": 1.515
+    },
+    {
+      "label": "reader_calcdependency",
+      "identity": "reader",
+      "http_status": 400,
+      "gap": "HTTP_DENIED_OR_UNSUPPORTED",
+      "relation_count": null,
+      "seconds": 12.622
+    },
+    {
+      "label": "delta_log_listing",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": 0,
+      "seconds": 7.272
+    },
+    {
+      "label": "delta_commit",
+      "identity": "metadata",
+      "http_status": 200,
+      "gap": null,
+      "relation_count": null,
+      "seconds": 2.906
+    },
+    {
+      "label": "delta_commits_listing",
+      "identity": "metadata",
+      "http_status": 200,
+      "paths": [],
+      "continuation": null,
+      "seconds": 5.385
+    }
+  ],
+  "sql": {
+    "server": "tcp:sql-orderops-9696025.database.windows.net,1433",
+    "database": "ordersops",
+    "collected_at_utc": "2026-09-24T07:25:00.6564101Z",
+    "visibility_schema": "app",
+    "permissions": [
+      {
+        "database_view_definition": 0,
+        "schema_view_definition": 1,
+        "reader_name": "orderops_investigator"
+      }
+    ],
+    "dependencies": {
+      "status": "FAILED",
+      "sql_error_number": 229
+    },
+    "view_column_usage": [],
+    "visible_types": [
+      {
+        "type_desc": "CHECK_CONSTRAINT",
+        "object_count": 7
+      },
+      {
+        "type_desc": "DEFAULT_CONSTRAINT",
+        "object_count": 15
+      },
+      {
+        "type_desc": "FOREIGN_KEY_CONSTRAINT",
+        "object_count": 29
+      },
+      {
+        "type_desc": "PRIMARY_KEY_CONSTRAINT",
+        "object_count": 29
+      },
+      {
+        "type_desc": "UNIQUE_CONSTRAINT",
+        "object_count": 1
+      },
+      {
+        "type_desc": "USER_TABLE",
+        "object_count": 35
+      }
+    ]
+  },
+  "edge_comparison": {
+    "native_edges": [
+      [
+        "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "77c49180-2ef9-4558-837c-f50fdb1df8de",
+        "Association"
+      ],
+      [
+        "692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+        "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "Association"
+      ],
+      [
+        "77c49180-2ef9-4558-837c-f50fdb1df8de",
+        "b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+        "CascadeDelete"
+      ],
+      [
+        "7826f034-ab61-4d8f-8125-27c1d60a73a5",
+        "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "Association"
+      ],
+      [
+        "7ccafe59-0460-4c8a-a691-bfdfa75a2b25",
+        "b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+        "Datasource"
+      ]
+    ],
+    "matching_pairs": [
+      {
+        "source": "77c49180-2ef9-4558-837c-f50fdb1df8de",
+        "target": "b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+        "derived": []
+      },
+      {
+        "source": "7826f034-ab61-4d8f-8125-27c1d60a73a5",
+        "target": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "derived": [
+          [
+            "USES",
+            11
+          ]
+        ]
+      },
+      {
+        "source": "692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+        "target": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "derived": [
+          [
+            "USES",
+            11
+          ]
+        ]
+      },
+      {
+        "source": "7ccafe59-0460-4c8a-a691-bfdfa75a2b25",
+        "target": "b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+        "derived": [
+          [
+            "WRITES",
+            5
+          ]
+        ]
+      },
+      {
+        "source": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "target": "77c49180-2ef9-4558-837c-f50fdb1df8de",
+        "derived": []
+      }
+    ]
+  },
+  "runtime_adoption": false,
+  "permission_changes": false,
+  "operation_count": 18
+}

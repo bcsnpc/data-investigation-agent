@@ -1,6 +1,6 @@
-﻿# Microsoft-native capability review — documentation research only
+# Microsoft-native capability review
 
-Checked 2026-09-24 against official Microsoft documentation. No cloud endpoint, SQL query, permission change, capacity change, or implementation was performed for this draft. Every estate-specific outcome remains **NOT PROBED BY THIS RESEARCH**; documentation describes capabilities, not availability or completeness in our workspace.
+Checked 2026-09-24 against official Microsoft documentation and 18 bounded own-estate read probes. No permissions, capacity or runtime adapters changed. Documentation and observed estate results are distinguished below. Existing metadata credentials remained isolated from the Power BI and SQL execution readers.
 
 ## 1. Fabric item relations
 
@@ -62,12 +62,97 @@ Current official concept docs say GA, paid F2+ or P1+ capacity, tenant AI settin
 
 **Recommendation:** reject as diagnostic executor. Conversational/summarized outputs are not our complete, sealed query receipts. However, 25x25 alone does not make all reconciliation impossible: small scalar aggregates can fit. The current primary pages reviewed did **not** establish the blanket no-cross-source-joins assertion, so record it as unverified rather than repeat it as fact. No need to rely on it for rejection. A future NL-to-DAX suggestion-only experiment would need a supported generation-without-execution API, independently compiled/validated and executed by our reader; such a standalone contract was **not verified** here. Do not assume invoking Data Agent yields generation only. Existing permission/capacity/tenant prerequisites remain, even for a fallback.
 
-## Estate probe checklist for the parent task
+## Own-estate results, 2026-09-24
 
-1. Capture identity and approved scope, then bounded relation GETs with edge counts and exact-ID comparisons to existing graph.
-2. Reader-only calculation dependency attempt: label Execute Queries INFO transport restriction separately from permission denial. No Write grant.
-3. Reader SQL metadata query: capture effective VIEW DEFINITION and accessible view count, dependency/column-usage row counts and redacted identifiers. No new grants.
-4. Existing lakehouse/warehouse connection: inspect whether history/time travel and queryinsights are exposed; do not invent a new trusted endpoint or silently use publisher execution.
-5. Bounded GET job/refresh histories: retain denied/empty/unsupported outcomes, last observed completion/commit timestamps, and coverage limits.
+The e1b8e1 workspace/model/notebook/Gold targets were already in approved scope.
+Metadata GETs used the existing metadata identity; Power BI tests used only
+investigator-reader, and SQL used orderops_investigator. No grant, deployment,
+refresh trigger or notebook execution was performed. Eighteen operations were
+reserved in the same retained usage catalog before probing; all 18 completed with
+responses, including denials. They are separate from investigation trial receipts
+and were not added to planner context. Probes overlapped the end of S7/start of S8;
+wall times are therefore not a controlled performance comparison.
 
-Build-versus-adopt result: adopt existing native metadata/evidence behind capability interfaces where already authorized; keep local deterministic normalization/traversal and definition parsing for unsupported or permission-constrained gaps. No provider eliminates the entire report -> model -> Gold -> transformation -> source chain under the current read-only contract.
+### Relations versus our derived graph
+
+All eight relation requests returned HTTP 200. Returned edge counts:
+
+| Item | Upstream | Downstream |
+| --- | ---: | ---: |
+| Semantic model | 2 | 2 |
+| Inventory Health report | 3 | 0 |
+| Valuation notebook | 1 | 0 |
+| Gold lakehouse | 0 | 5 |
+
+Deduplicated responses contain **five typed pairs**, all in the same workspace:
+
+- Both reports -> model: `Association`. These pairs already appear as `USES` in
+  our graph (11 report/sub-item references each when collapsed to item IDs).
+- Model -> SQL analytics endpoint: `Association`. This pair is absent from the
+  current derived projection and helps resolve the model's physical endpoint.
+- Endpoint -> Gold lakehouse: `CascadeDelete`. This pair is also absent from the
+  projection; it is lifecycle/ownership topology, **not a data-flow edge**.
+- Notebook -> Gold: `Datasource`. Our definition-derived graph has five `WRITES`
+  edges collapsing to this pair. The native association does not independently
+  prove those writes or replace their transformation evidence.
+
+The derived graph additionally has six notebook -> Silver `READS` and six
+Gold -> Silver `DERIVED_FROM` edges, plus semantic member dependencies. None of
+those transformation/column details is supplied by these item API responses.
+The API did not expose the upstream Azure SQL application path. No cross-workspace
+case or service-principal identity was exercised; those remain documentation claims.
+
+**Proposal:** a capability-gated, replaceable metadata adapter for typed native
+relations, preserving scope, identity, timestamp, coverage and relation type.
+Keep definition-derived graph fallback. Use Association/lifecycle links for
+navigation; never turn every native relation into READS/WRITES or causal lineage.
+This can reduce endpoint/item resolution work, not the whole dependency-map build.
+No adapter was implemented.
+
+### Reader capability probes
+
+| Probe | Actual result | Consequence |
+| --- | --- | --- |
+| INFO.CALCDEPENDENCY through reader Execute Queries | HTTP 400, DatasetExecuteQueriesError, AnalysisServicesErrorCode 3239575574 | Query failed. This endpoint's documented INFO restriction means the result does not isolate Write permission as the cause. Documentation independently requires Write; no Write grant was made. |
+| Reader Power BI refresh history, top 1 | HTTP 403 Unauthorized, insufficient privileges | Unavailable through the existing reader; preserve the gap. |
+| SQL metadata permissions | Database VIEW DEFINITION 0; app schema VIEW DEFINITION 1 | Existing table/schema access is not database dependency-catalog access. |
+| sys.sql_expression_dependencies filtered to app | SQL error 229 | Unavailable through the existing SQL reader. No new grant. |
+| INFORMATION_SCHEMA.VIEW_COLUMN_USAGE filtered to app | Successful empty result | Visible app objects include 35 USER_TABLEs and constraints, no views; this does not imply absent Spark or external dependencies. |
+| Fabric notebook job instances | HTTP 200; one completed RunNotebook | Started 2026-09-18 18:12:02 UTC, ended 18:13:23 UTC. Useful execution-time evidence, not an SLA or full downstream freshness proof. |
+| OneLake Delta log listing and commit metadata | HTTP 200; one version-0 JSON log, no continuation; WRITE/ErrorIfExists, 406 output rows, one file | Commit metadata is available through the isolated metadata identity. It is not a successful reader DESCRIBE HISTORY or time-travel execution. |
+
+The Delta commit timestamp is 2026-09-18T18:13:02.943000+00:00.
+The bounded root listing showed version 0 and an `_commits` subdirectory, whose follow-up
+listing returned HTTP 200 with no entries or continuation. Both listings were
+complete for the observed paths; no second retained version was demonstrated. No new write/version was created for the probe. Commit row counts are operation metadata, not an independent
+row-level reconciliation. Table-event freshness and business SLA remain distinct.
+
+`DESCRIBE HISTORY`, VERSION/TIMESTAMP AS OF, and Query Insights SQL were **not
+executed**: this investigator profile has an Azure SQL reader and a Power BI reader,
+not an approved Fabric SQL/Spark execution connection. Do not silently use publisher
+execution to fill that gap. Query Insights' documented Contributor+ access is also
+in tension with the read-only reader contract. An optional customer-authorized
+metadata feed or narrowly approved endpoint would need its own access decision.
+No licensing upgrade or tenant-admin consent was requested.
+
+### Build-versus-adopt decision
+
+1. Native typed item relations and permitted job history are the most immediately
+   useful optional metadata sources. Their successful probes justify a proposal,
+   not a claim of production readiness for the beta API.
+2. Delta commit metadata can improve freshness context now; historical comparisons
+   need an authorized reader execution surface and retained versions. Build bounded
+   evidence normalization, not a replacement storage/history service.
+3. SQL view lineage is worth using where present and visible, but our current base
+   table fixture plus denied dependency catalog offers no automatic transformation
+   map. Keep parser/definition fallback and explicit permission gaps.
+4. Do not make Write-only INFO/refresh access or Contributor-only Query Insights
+   prerequisites for investigation. A separately authorized metadata collector is
+   a possible optional route; never elevate the execution reader silently.
+5. Keep Purview and Fabric Data Agent out of the required lineage/execution path
+   for the reasons and corrected limitations above. Neither was provisioned or
+   invoked merely to validate a rejected architecture choice.
+
+No proposed Microsoft adapter, dependency-map layer or parallel synthesis was
+implemented. Local probe artifacts are under `.local/calibration-review/`; the
+portable summary is [recorded separately](runs/microsoft-capability-review.json).
