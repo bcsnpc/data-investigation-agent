@@ -2,6 +2,7 @@
 from datetime import datetime,timezone
 import json
 from .onboarding import fields,digest,encoded,Conflict
+from .generation_policy import MAX_OUTPUT_TOKENS
 
 KEYS=('planner_calls','cloud_calls','input_characters','output_tokens')
 
@@ -35,7 +36,7 @@ class UsageGovernor:
         # Caller holds BEGIN IMMEDIATE; budget and session transition commit together.
         if kind not in ('planner','cloud'):raise ValueError('Unknown usage kind')
         amount=dict.fromkeys(KEYS,0)
-        if type(output_tokens) is not int or not 500<=output_tokens<=8000:raise ValueError('Invalid output reservation')
+        if type(output_tokens) is not int or not 500<=output_tokens<=MAX_OUTPUT_TOKENS:raise ValueError('Invalid output reservation')
         if kind=='planner':amount.update(planner_calls=1,input_characters=characters,output_tokens=output_tokens)
         else:amount['cloud_calls']=1
         prior=db.execute('SELECT reserved,kind FROM adaptive_usage WHERE environment=? AND session_id=? AND reservation_key=?',

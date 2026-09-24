@@ -40,6 +40,17 @@ class GovernanceTests(unittest.TestCase):
         self.policy['daily_limits']['output_tokens']=1499;self.reset_agent()
         self.assertEqual(self.agent.run(self.create())['stop_reason'],'USAGE_LIMIT');self.planner.assert_not_called()
 
+    def test_high_profile_reserves_full_16000_without_refund(self):
+        self.agent=AdaptiveRuntime(self.runtime,self.planner,self.clock,
+            planner_profile={'generation_options':{'max_output_tokens':16000,'reasoning_effort':'high'}},usage_policy=self.policy)
+        self.planner.return_value=(fixture.decision(),{'usage':{'output_tokens':700}})
+        self.agent.run(self.create('high'))
+        self.assertEqual(self.agent.governor.snapshot()['reserved_today']['output_tokens'],16000)
+        self.assertEqual(self.agent.run(self.create('next'))['stop_reason'],'USAGE_LIMIT')
+        self.assertEqual(self.planner.call_count,1)
+        from investigator.generation_policy import validate
+        with self.assertRaises(ValueError):validate({'max_output_tokens':16001})
+
     def test_payload_character_limit_shared(self):
         self.policy['daily_limits']['input_characters']=1;self.reset_agent()
         self.assertEqual(self.agent.run(self.create())['stop_reason'],'USAGE_LIMIT');self.planner.assert_not_called()

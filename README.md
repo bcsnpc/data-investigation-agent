@@ -48,28 +48,28 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-The rejected #219 per-entry ownership labels are reverted; compiler binding and
-all actionable SQL rejection feedback remain. Recorded F call 1 coverage returns
-to **28 directory entries / 11 SQL objects**. A golden coverage test and contribution
-rule require before/after directory, SQL-object and context-size measurements.
-**1,009 local regression tests passed.** [PR #220](https://github.com/bcsnpc/data-investigation-agent/pull/220)
-contains the revert and recorded evaluation.
+The controlled twelve-run G experiment is complete. The
+[offline trajectory audit](docs/g-trajectory-audit.md) showed genuine hypothesis
+revision, with read admission preventing a final synthesis turn in prior G2/G3.
+A once-per-connection registry preserves all 53 historical directory views:
+F stays at **28 entries / 11 SQL objects**, with **477 added pre-wire characters**.
+Saturated prompts omit the optional registry without evicting evidence. Dynamic
+runs default to 15 reads; the experiment compared 6/15 reads and medium 8,000/high
+16,000 output profiles while keeping other run limits fixed.
 
-Matched E/F/G/I produced **7 SQL + 4 native reads in 31 calls**, versus #218's
-3 + 4 in 34 and #219's 0 + 5 in 38. G repeats produced **5/6/5 SQL reads** in
-10/11/11 calls, with 0/1/0 rejections. G1 reached BUSINESS_CONTEXT_REQUIRED;
-G2/G3 exhausted six cloud reads without final assessments. F measured source join
-fanout reproducing 57,043, but intended valuation and corrected total remain unknown.
-E remained permission-blocked; I asked for Q49 business meaning after inspecting
-available context. Source access recovered; reliable completed conclusions remain
-unproven. See [full comparison and receipts](docs/ownership-revert-evaluation.md).
+All twelve known-domain runs ended UNRESOLVED: **124 planner calls, 62 SQL + four
+native reads, eight query rejections, zero provider errors and no qualified final
+assessment**. Input admission stopped every higher-read run; two also exceeded the
+per-call protected-context limit. No arm establishes improved conclusion
+reliability. Reference-priced planner tokens cost **USD 8.86**, excluding intake
+and cloud costs; this is not Azure billing. Original daily policy was restored
+without resetting usage. SQL free-tier settings and provider capacity are unchanged.
 
-All six trials preserved settings, policy, deadlines, recordings and usage; no
-provider error occurred. The stopping contract remains **evaluated and not adopted**.
-Work stops at the [compact ownership and reasoning-budget proposal](docs/ownership-and-reasoning-proposal.md):
-a once-per-connection registry with fixed-length handle prefixes and a coverage guard,
-plus a controlled medium/high reasoning comparison. Neither proposal is implemented.
-No token increase, freeze, fresh variant or unfamiliar-domain claim follows.
+Validation: **1,016 local regression tests and six implementation CI checks passed**.
+See [results, context limits and concurrency proposal](docs/g-read-reasoning-experiment.md)
+and [PR #221](https://github.com/bcsnpc/data-investigation-agent/pull/221) for final CI.
+Input-budget changes and two-process concurrency remain proposals only. The stopping
+contract remains evaluated and not adopted. No freeze, new variant or unfamiliar-domain claim.
 [Original #219 results](docs/physical-binding-reliability.md),
 [negative stopping result](docs/stopping-criteria-review.md) and
 [original nine-family SQL audit](docs/baseline-sql-proposals.md) remain historical evidence.

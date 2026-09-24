@@ -25,13 +25,13 @@ def catalog(store,config,envelope):
     text(envelope['symptom'],2000)
     limits=envelope['limits'];fields(limits,['cloud_calls','planner_calls','wall_seconds','input_characters','max_depth'])
     dynamic='strategy' in envelope
-    for name,low,high in [('cloud_calls',1,10),('planner_calls',1,12 if dynamic else 6),('wall_seconds',60,1800),('input_characters',1000,384000 if dynamic else 80000),('max_depth',0,4)]:
+    for name,low,high in [('cloud_calls',1,15 if dynamic else 10),('planner_calls',1,12 if dynamic else 6),('wall_seconds',60,1800),('input_characters',1000,384000 if dynamic else 80000),('max_depth',0,4)]:
         if type(limits[name]) is not int or not low<=limits[name]<=high:raise ValueError('Invalid budget')
     if dynamic and envelope['filters']:
         # Candidate construction does not consume planner/input budgets. Preserve
         # legacy admission limits while the outer dynamic run owns its budget.
         legacy={k:v for k,v in envelope.items() if k!='strategy'}
-        legacy['limits']={**limits,'planner_calls':min(limits['planner_calls'],6),'input_characters':min(limits['input_characters'],80000)}
+        legacy['limits']={**limits,'cloud_calls':min(limits['cloud_calls'],10),'planner_calls':min(limits['planner_calls'],6),'input_characters':min(limits['input_characters'],80000)}
         return catalog(store,config,legacy)
     model=store.get(envelope['model_id'])
     reader=config.get('fabric',{}).get('native_reader')

@@ -192,6 +192,9 @@ class AdaptiveRuntime:
             if dynamic:
                 from .planner_projection import fit
                 payload=fit(payload,self.generation_options['max_payload_characters'])
+                from .connection_registry import attach
+                payload=attach(payload,self.config,min(self.generation_options['max_payload_characters'],
+                    limits['input_characters']-state['input_characters']))
             size=len(encoded(payload))
             if size>self.generation_options['max_payload_characters'] or state['input_characters']+size>limits['input_characters']:reason='BUDGET_LIMIT'
             if reason:
