@@ -60,7 +60,7 @@ runs default to 15 reads; the experiment compared 6/15 reads and medium 8,000/hi
 All twelve known-domain runs ended UNRESOLVED: **124 planner calls, 62 SQL + four
 native reads, eight query rejections, zero provider errors and no qualified final
 assessment**. Input admission stopped every higher-read run; two also exceeded the
-per-call protected-context limit. Neither arm establishes improved conclusion
+per-call protected-context limit. No arm establishes improved conclusion
 reliability. Reference-priced planner tokens cost **USD 8.86**, excluding intake
 and cloud costs; this is not Azure billing. Original daily policy was restored
 without resetting usage. SQL free-tier settings and provider capacity are unchanged.
