@@ -7,19 +7,22 @@ from . import proposal_limits as limits
 from .onboarding import fields, text
 
 SCHEMA = {'type':'object','additionalProperties':False,'properties':{
-    'mechanism':{'type':'string','minLength':1,'maxLength':limits.ASSESSMENT_DETAIL},
+    'mechanism':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
     'mechanism_evidence_ids':{'type':'array','maxItems':8,'items':{'type':'string'}},
     'intent_dependency':{'type':'string','enum':['NOT_REQUIRED','ESTABLISHED','UNKNOWN']},
-    'intent_basis':{'type':'string','minLength':1,'maxLength':limits.ASSESSMENT_DETAIL},
+    'intent_basis':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
     'intent_evidence_ids':{'type':'array','maxItems':8,'items':{'type':'string'}},
-    'remaining_test':{'type':'string','minLength':1,'maxLength':limits.ASSESSMENT_DETAIL}},
+    'remaining_test':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'}},
     'required':['mechanism','mechanism_evidence_ids','intent_dependency','intent_basis',
                 'intent_evidence_ids','remaining_test']}
 
 
 def validate(assessment, observations):
     support=assessment['support'];fields(support,SCHEMA['required'])
-    for key in ('mechanism','intent_basis','remaining_test'):text(support[key],limits.ASSESSMENT_DETAIL)
+    for key in ('mechanism','intent_basis','remaining_test'):
+        if isinstance(support[key],str) and len(support[key])>limits.ASSESSMENT_DETAIL:
+            raise ValueError(f'Support {key} exceeds {limits.ASSESSMENT_DETAIL} characters; rewrite concisely without dropping the premise or cutting text')
+        text(support[key],limits.ASSESSMENT_DETAIL)
     dependency=support['intent_dependency']
     if dependency not in SCHEMA['properties']['intent_dependency']['enum']:
         raise ValueError('Unknown intent dependency')

@@ -41,10 +41,8 @@ def repair(proposal):
                     holder = {'text': text}
                     bound(holder, 'text', limits.ASSESSMENT_DETAIL, f'assessment.{key}[{index}]')
                     assessment[key][index] = holder['text']
-        support = assessment.get('support')
-        if isinstance(support, dict):
-            for key in ('mechanism', 'intent_basis', 'remaining_test'):
-                bound(support, key, limits.ASSESSMENT_DETAIL, 'assessment.support.'+key)
+        # Support is evidence-bearing: preserve it verbatim and reject excess
+        # length in assessment_support.validate instead of truncating it.
     return value, events
 
 
