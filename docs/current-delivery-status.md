@@ -6,6 +6,17 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Active: synthesis calibration and six additional known-domain G trials.**
+Support text now remains unmodified, with explicit local length rejection instead
+of repair truncation; provider support fields no longer have hard decoding length
+bounds. Offline review of the original three finds uncertainty appropriate about
+a source defect, while test selection and evidence transfer remain incomplete.
+Six additional trials are running. Microsoft capability research is proposal-only;
+no dependency map, parallel synthesis, new freeze or new domain is authorized here.
+See [calibration report](synthesis-calibration.md).
+
+### Previous milestone
+
 **Completed milestone: separated evidence synthesis and input controls.**
 [PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222) adds opt-in,
 independently metered synthesis over a deterministic frozen receipt digest.
@@ -36,8 +47,7 @@ Azure capacity/SQL free-tier settings read back unchanged.
 
 Validation: **1,026 final local tests and six corrected implementation CI checks
 passed**. See [per-run comparison, support review and costs](separated-evidence-synthesis.md).
-The next proposal is three independent syntheses over identical frozen evidence,
-comparing named mechanisms and cited IDs and reporting disagreement without voting.
+Parallel synthesis is deferred pending calibration and the nine-run evaluation.
 It is **not implemented or authorized for live execution here**. Support-text
 clipping needs an offline correction before further trials. Typed dependency
 traversal remains a later candidate only. Larger input is not adopted as a default;

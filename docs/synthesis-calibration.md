@@ -54,3 +54,67 @@ are not clean complete-support successes. The new six will be reported separatel
 and combined transparently, without rewriting historical results.
 
 Wire-cost check on recorded S1 synthesis: compact request 19,570 -> 19,837 characters. Input payload is unchanged, as are all investigation directory and SQL-object entries; only the response schema changes. No directory is present in the synthesis payload.
+
+## Additional trials (in progress)
+
+S4 (`21070f54-28bc-4a18-a008-0b698bdd3e45`) is **MIXED**. Eight planning
+calls, four SQL reads, six context lookups, zero rejections; NO_PROGRESS after
+closely related empty exception reads. Synthesis completed INSUFFICIENT_EVIDENCE
+with intact support. Receipts `2efc26e4-bfda-47c9-b9fb-bfbec86ac531`,
+`a3e283a0-ce77-48ff-9566-563273257e1f` and
+`3f713755-39a6-457a-8db2-e0cf212be110` have explicit predicates testing missing,
+non-single or conflicting stock matches for adjustment-linked IDs, with no returned
+exceptions. Those scoped negative findings are useful, but the digest omits the
+predicates after its 400-character query prefix. Synthesis explicitly says it
+cannot tell what was tested. Uncertainty about a defect is justified; loss of this
+negative evidence is not a support-contract rejection. No hidden truth was needed
+to identify this loss. A source-to-measure contribution and authoritative intended
+treatment remain unestablished. Do not fix the digest during this batch.
+
+Coverage check: old S1 and new S4 call 1 both retain **28 directory entries,
+11 SQL objects and 15,067 payload characters**. All four golden projected/wire
+payloads and handles remain identical; only response-schema hashes changed.
+
+### Evaluation limits
+
+G's wording is a suspected-source-entry question, not an authoritative statement
+that adjustments cancel their linked movements. The evaluator fixture does not
+supply such a rule. This nine-run series can measure repeatability, evidence use
+and refusal to invent intent; it cannot alone demonstrate calibrated identification
+of likely causes across tickets with known authoritative contracts. Preserve that
+limit even if all nine produce supported uncertainty. Original S1/S3 remain
+clipped historical responses; pooling them does not retroactively fix support.
+
+Run conditions remain medium reasoning, 8,000 output tokens, 48,000 per-call /
+384,000 cumulative input characters, six data reads, twelve investigation planner
+calls, 120-second call timeout and 65-second pacing. Only the support-preservation
+response contract differs from the original three. Temporary daily reservations
+are 315 planner calls, 160 cloud calls, 10,000,000 input characters and 2,824,500
+output tokens, including retained prior usage. No counter reset or refund occurs.
+Full offline tests ran concurrently with S4/S5; wall times are not a controlled
+throughput comparison. Policy restoration and final counts remain pending.
+
+S5 (`e9d4876b-cdab-4925-88ac-9473f331dcc9`) is **MIXED**. Nine planning
+calls, six SQL reads, three lookups and zero rejections; read-limit stop. The
+BUSINESS_CONTEXT_REQUIRED assessment preserves unknown intent and observes
+unadjusted duplicate non-key signatures (`c8ab57e3-7f05-440a-b453-24320a2e2779`).
+These are not duplicate movement IDs and do not establish erroneous events.
+However, its mechanism says zero cases where net **or absolute** adjustments
+"meet or exceed" movement units. Receipt `7c1ce53c-03a4-40c0-9338-3195ecbbad8a`
+tests ABS(net) >= ABS(movement), but SUM(ABS(adjustments)) **>**, not >=.
+The latter equality case is not ruled out by that receipt. Do not count the whole
+assessment as fully supported. Support is intact; the error is interpretation,
+not truncation or a validator-forced hedge. Six reads were spent on adjustment
+profiles and duplicate non-key signatures without testing downstream contribution.
+
+S6 (`cf858f67-a33c-4b0a-bbd5-37093db8db55`) is **CORRECTLY_UNCERTAIN**
+about the ticket cause. Eleven calls, five SQL reads, five lookups and one complexity
+rejection; budget stop. Receipt `69c5fa91-afe5-4bc5-be7a-a4a3b3164bbd` establishes
+360 unique movement IDs, 29 adjustment-linked groups and 361 rows in the tested
+naive adjustment join. Synthesis names this fanout as a risk, without claiming
+that the actual measure uses the join. `4e9d109e-8429-42d6-b1af-5380b3b4f037`
+returned no duplicate signatures in the tested linked population. The missing
+steps are actual measure-path validation and authoritative intended treatment.
+Its suggestion that one rule alone would settle the matter is incomplete: the
+production inclusion path still needs establishing. No contract rejection blocked
+a supported production-cause claim, and support text is intact.

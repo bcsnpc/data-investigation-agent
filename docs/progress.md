@@ -1181,3 +1181,15 @@ remain without refunds. Original daily policy restored; provider/SQL settings un
 1,026 final local tests and six corrected implementation CI checks passed.
 See [comparison and proposal](separated-evidence-synthesis.md). Parallel synthesis
 is proposal-only; dependency traversal was not started. No unfamiliar-domain claim.
+
+
+## 2026-09-24 - Support preservation and synthesis calibration in progress
+
+Removed hard support-string decoding bounds while retaining explicit local length
+rejection; proposal repairs no longer truncate support. Raw #222 responses already
+contained the clipped strings. All golden context/wire payloads remain unchanged;
+only response-schema hashes changed. Final local regression: 1,027 tests passed.
+Offline grading of the original three and the first added repeats is recorded in
+[calibration](synthesis-calibration.md). Six additional G trials are in progress,
+with no resets, refunds, engine changes, freeze or new-domain claim. Microsoft
+capability research is proposal-only; own-estate probes remain pending.
