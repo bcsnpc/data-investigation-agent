@@ -1,42 +1,35 @@
 # Current delivery status
 
-Updated 2026-09-23. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
+Updated 2026-09-24. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
 ## Current milestone
 
 
-**Completed milestone: ownership revert and controlled source-read recovery.**
-[PR #220](https://github.com/bcsnpc/data-investigation-agent/pull/220) removes per-entry
-ownership labels while retaining the SQL compiler fix and all actionable feedback.
-F call 1 returns to **28 directory / 11 SQL entries**, 14,538 pre-wire characters
-and 28,217 request bytes. A synthetic golden and contribution rule guard coverage.
-**1,009 local regression tests passed**; six CI checks passed on the implementation
-commit, with final documentation checks tracked on the PR.
+**Active milestone: guarded ownership registry and four-arm G evaluation.**
+The [offline G1/G2/G3 audit](g-trajectory-audit.md) is complete. Both nonconcluding
+runs revised hypotheses, but the sixth read prevented a subsequent synthesis turn.
+Test selection/order interacts with admission; final-synthesis failure is unproven.
 
-Matched E/F/G/I produced **7 SQL + 4 native reads in 31 calls**, compared with
-#218's 3 + 4 in 34 and #219's 0 + 5 in 38. All six new trials used 53 calls for
-18 SQL + 5 native reads, with three local rejections and no provider errors. G's
-three trials made **5/6/5 SQL reads**, 0/0/1 native reads, 10/11/11 planning calls
-and 0/1/0 rejections. G1 concluded BUSINESS_CONTEXT_REQUIRED; G2/G3 exhausted six
-cloud reads and remained UNRESOLVED. F measured join fanout reproducing 57,043,
-but its overstatement wording still requires an unknown intended valuation rule.
-E remained SQL-permission blocked; I asked for Q49 meaning and intended treatment.
-The retained compiler fix was exercised by a successful repeated-CASE grouped query.
+The approved connection registry preserves directory coverage across all 53
+recorded calls (five saturated headers omitted). F remains 28 entries / 11 SQL
+objects, with +477 pre-wire characters. Permanent coverage tests protect this.
+Dynamic runs default to 15 reads, with explicit six-read controls for arms A/C.
+The high experimental profile allows 16,000 output tokens; defaults are unchanged.
+The batch temporarily uses 2,000,000 daily output reservations and the separately
+approved 126 daily reads, keeping full conservative reservations and all history.
 
-Source reading is reproducible after the revert, while completed-answer quality
-and generality remain unproven. All 53 recordings verify, settings/policy and
-control-plane readbacks match, usage grows 466 -> 549 without reset/refund, and
-exactly six ledger rows are added without changing the prior 117. No grants,
-deadlines or limits changed. See [full metrics and limits](ownership-revert-evaluation.md).
+Twelve sequential known-domain G trials are next: medium/6, medium/15, high/6 and
+high/15, three per arm. Planner/input/time limits remain unchanged. High also
+changes output allowance, so this comparison cannot isolate effort alone. The
+12-call planner ceiling may bind before the 15-read ceiling. Live results are
+pending; no correctness or generality claim. See [experiment and concurrency proposal](g-read-reasoning-experiment.md).
 
-Work stops at the [ownership and reasoning proposal](ownership-and-reasoning-proposal.md).
-The proposed registry adds fixed context cost, with an explicit fallback when it
-cannot fit without reducing coverage. Proposed medium/high reasoning trials use
-16,000 output tokens in both arms; no generation setting or token allowance has
-changed. No freeze or new variant. The stopping contract stays evaluated and not
-adopted; all prior failures retain their recorded outcomes.
+Previous #220 evidence remains in [ownership revert evaluation](ownership-revert-evaluation.md):
+7 SQL + 4 native reads in 31 matched-family calls; G source reading reproduced.
+All old failed/partial/blocked results remain. No freeze, new variant or concurrent
+execution. The stopping contract stays evaluated and not adopted.
 
 ### Previous milestone: #219 compiler/context evaluation
 
@@ -408,12 +401,12 @@ returned rows, not work scanned.
 | 3 Automatic context graph | Merged #196; independent context, graph/search and ticket visibility |
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
-| 6 General engine freeze | v4 invalidated; ownership revert/repeats complete; proposals only; no new freeze authorized |
+| 6 General engine freeze | v4 invalidated; four-arm G evaluation pending; no new freeze authorized |
 | 7 Unknown Domain Challenge | v4 discovery preserved; source reads recovered in known-domain repeats; conclusion reliability pending; no fresh variant |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **ownership revert and repeats complete; source access recovered; conclusion reliability pending; stopped at proposals; no freeze**. Prior
+Current: **guarded registry implemented; controlled G read/reasoning evaluation pending; no freeze**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

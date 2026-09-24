@@ -257,8 +257,11 @@ class DynamicTests(unittest.TestCase):
     def test_dynamic_budget_admission_keeps_cloud_and_legacy_bounds(self):
         from investigator.adaptive_candidates import catalog
         envelope=copy.deepcopy(self.envelope)
-        envelope['limits'].update(planner_calls=12,input_characters=384000)
+        envelope['limits'].update(cloud_calls=15,planner_calls=12,input_characters=384000)
         catalog(self.store,self.config,envelope)
+        envelope['limits']['cloud_calls']=16
+        with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
+        envelope['limits']['cloud_calls']=15
         envelope['limits']['input_characters']=384001
         with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
         envelope['limits']['input_characters']=384000

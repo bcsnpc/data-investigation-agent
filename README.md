@@ -48,28 +48,23 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-The rejected #219 per-entry ownership labels are reverted; compiler binding and
-all actionable SQL rejection feedback remain. Recorded F call 1 coverage returns
-to **28 directory entries / 11 SQL objects**. A golden coverage test and contribution
-rule require before/after directory, SQL-object and context-size measurements.
-**1,009 local regression tests passed.** [PR #220](https://github.com/bcsnpc/data-investigation-agent/pull/220)
-contains the revert and recorded evaluation.
+Current work is a controlled, twelve-run G experiment after accepted PR #220.
+The [offline trajectory audit](docs/g-trajectory-audit.md) found that G2/G3 revised
+hypotheses but hit the six-read ceiling before another synthesis turn. G1 stopped
+with qualified business-context limits. This does not establish a synthesis failure.
 
-Matched E/F/G/I produced **7 SQL + 4 native reads in 31 calls**, versus #218's
-3 + 4 in 34 and #219's 0 + 5 in 38. G repeats produced **5/6/5 SQL reads** in
-10/11/11 calls, with 0/1/0 rejections. G1 reached BUSINESS_CONTEXT_REQUIRED;
-G2/G3 exhausted six cloud reads without final assessments. F measured source join
-fanout reproducing 57,043, but intended valuation and corrected total remain unknown.
-E remained permission-blocked; I asked for Q49 business meaning after inspecting
-available context. Source access recovered; reliable completed conclusions remain
-unproven. See [full comparison and receipts](docs/ownership-revert-evaluation.md).
+A once-per-connection ownership registry now preserves all 53 historical directory
+views; F stays at **28 entries / 11 SQL objects**, with **477 added pre-wire characters**.
+Saturated prompts omit the optional registry without evicting evidence. Dynamic
+runs default to 15 reads; the four experimental arms compare 6/15 reads and medium
+8,000/high 16,000 output profiles. Other run controls remain fixed, including 12
+planner calls. The approved experiment temporarily raises daily output reservations
+to 2,000,000 and daily reads to 126, with no resets or refunds. Default mini and
+medium generation settings remain unchanged.
 
-All six trials preserved settings, policy, deadlines, recordings and usage; no
-provider error occurred. The stopping contract remains **evaluated and not adopted**.
-Work stops at the [compact ownership and reasoning-budget proposal](docs/ownership-and-reasoning-proposal.md):
-a once-per-connection registry with fixed-length handle prefixes and a coverage guard,
-plus a controlled medium/high reasoning comparison. Neither proposal is implemented.
-No token increase, freeze, fresh variant or unfamiliar-domain claim follows.
+Live results are pending. See [design, coverage and concurrency proposal](docs/g-read-reasoning-experiment.md).
+Concurrency is proposed only; execution remains serial. The stopping contract
+remains evaluated and not adopted. No freeze, new variant or unfamiliar-domain claim.
 [Original #219 results](docs/physical-binding-reliability.md),
 [negative stopping result](docs/stopping-criteria-review.md) and
 [original nine-family SQL audit](docs/baseline-sql-proposals.md) remain historical evidence.

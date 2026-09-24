@@ -1126,3 +1126,12 @@ ownership measurement exposed saturated-prompt coverage loss even with a fixed
 header; the proposal includes a coverage-preserving omission guard. Token/effort
 comparison remains proposal-only. Work stops with
 [results](ownership-revert-evaluation.md) and [proposals](ownership-and-reasoning-proposal.md).
+
+
+## 2026-09-24 — G trajectory audit and guarded ownership
+
+Completed the free [G trajectory audit](g-trajectory-audit.md) before engine changes.
+Implemented the approved constant-per-connection registry with coverage guard; all
+53 recorded directories are unchanged, F remains 28/11 and the header adds 477
+characters. Prepared the authorized 6/15-read and medium/high four-arm experiment.
+Live results remain pending; see [controls and limits](g-read-reasoning-experiment.md).

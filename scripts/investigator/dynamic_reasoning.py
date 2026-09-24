@@ -209,7 +209,9 @@ def wire_contract(payload):
         for key in ('id','parent_id','source','target'):
             value=entry.get(key)
             if isinstance(value,str) and value not in identities:identities.append(value)
-    mapping={f'a{i}':identity for i,identity in enumerate(identities[:120])}
+    from .connection_registry import prefix
+    registry=payload.get('connections',{})
+    mapping={f'{prefix(identity,registry)}{i}':identity for i,identity in enumerate(identities[:120])}
     reverse={identity:handle for handle,identity in mapping.items()}
     def replace(value):
         if isinstance(value,str):return reverse.get(value,value)
@@ -217,11 +219,16 @@ def wire_contract(payload):
         if isinstance(value,dict):return {k:replace(v) for k,v in value.items()}
         return value
     wire=replace(payload)
+    # Connection roots remain literal; replacing them with their own handles
+    # would make the registry self-referential when a root is also an asset.
+    if registry:wire['connections']=registry
     if len(identities)>len(mapping):
         wire['lookup_handle_projection']={'available_identities':len(identities),
             'retained_handles':len(mapping),'omitted_handles':len(identities)-len(mapping),
             'reason':'WIRE_HANDLE_LIMIT','catalog_removal':False}
     wire['lookup_identity_instruction']='Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities.'
+    if registry:
+        wire['lookup_identity_instruction']='Handle prefix selects connections; suffix identifies asset. Use supplied handles; search for other targets. No cross-connection SQL.'
     definition_ids={entry['id'] for entry in entries if entry.get('kind')=='DefinitionPart' and 'id' in entry}
     content_handles={handle:identity for handle,identity in mapping.items() if identity in definition_ids}
     source_available=any(a.get('kind')=='SqlObject' for a in payload.get('context_entry_points',[]))

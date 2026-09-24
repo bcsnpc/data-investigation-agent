@@ -39,6 +39,8 @@ def main():
     p.add_argument('--key',required=True)
     p.add_argument('--azure-settings',type=Path,default=ROOT/'infra/llm/development.json')
     p.add_argument('--execute-reviewed-scope',action='store_true')
+    p.add_argument('--read-limit',type=int,default=15,choices=range(1,16),
+                   help='Operator-selected per-run dynamic read ceiling, fixed before scope review')
     p.add_argument('--known-domain-regression',action='store_true',
                    help='Explicitly test changed code against an already known domain; never unknown-domain acceptance')
     p.add_argument('--minimum-llm-interval',type=int,default=0,
@@ -69,7 +71,7 @@ def main():
         # Evaluator-side observation only; returns the exact unmodified proposal.
         (folder/('intake-proposal-'+args.key+'.json')).write_text(json.dumps(response,indent=2))
         return response
-    ws=Workspace(agent,execution_enabled=True,question_resolver=resolve)
+    ws=Workspace(agent,execution_enabled=True,question_resolver=resolve,dynamic_read_limit=args.read_limit)
     with local_azure_key(args.azure_settings):
         intake=ws.intake.resolve({'text':args.ticket.read_text(encoding='utf-8'),'request_key':args.key,'parent_id':None})
         output={'freeze_commit':None if args.known_domain_regression else freeze['commit'],
@@ -77,6 +79,7 @@ def main():
                 'planner_deployment':settings['deployment'],
                 'generation_options':settings.get('generation_options'),
                 'max_planner_recoveries':settings.get('max_planner_recoveries',0),
+                'read_limit':args.read_limit,
                 'minimum_llm_interval':args.minimum_llm_interval,'intake':intake}
         if intake['status']=='PROPOSED':
             proposal=intake['proposal'];request={k:proposal[k] for k in ('model_id','measure_id','filters','dimension_ids')}
