@@ -48,26 +48,31 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-Repeated-literal SQL bindings now preserve matching SELECT/GROUP BY expressions;
-rejections report measured complexity and physical catalog targets. Context exposes
-owning connections and schemas. The saved G compiler defect is fixed offline and
-**1,008 regression tests passed**. The stopping-contract proposal was evaluated and
-**not adopted**; no experimental stopping rules were added.
+The rejected #219 per-entry ownership labels are reverted; compiler binding and
+all actionable SQL rejection feedback remain. Recorded F call 1 coverage returns
+to **28 directory entries / 11 SQL objects**. A golden coverage test and contribution
+rule require before/after directory, SQL-object and context-size measurements.
+**1,009 local regression tests passed.** [PR #220](https://github.com/bcsnpc/data-investigation-agent/pull/220)
+contains the revert and recorded evaluation.
 
-The six requested known-domain trials used 53 planner calls for **seven native
-reads and zero successful SQL reads**. F still did not establish its mechanism.
-G's three trials varied from 0-2 reads and 5-12 calls, all unresolved. I preserved
-unknown business meaning in a qualified answer. Ten DAX member rejections exposed
-virtual-column binding limits; physical labels reduced initial directory coverage
-under the fixed size cap. These results do **not** show better source investigation.
-The matched baseline four families had 3 SQL / 4 native reads in 34 calls; the
-new first four had 0 SQL / 5 native reads in 38 calls.
+Matched E/F/G/I produced **7 SQL + 4 native reads in 31 calls**, versus #218's
+3 + 4 in 34 and #219's 0 + 5 in 38. G repeats produced **5/6/5 SQL reads** in
+10/11/11 calls, with 0/1/0 rejections. G1 reached BUSINESS_CONTEXT_REQUIRED;
+G2/G3 exhausted six cloud reads without final assessments. F measured source join
+fanout reproducing 57,043, but intended valuation and corrected total remain unknown.
+E remained permission-blocked; I asked for Q49 business meaning after inspecting
+available context. Source access recovered; reliable completed conclusions remain
+unproven. See [full comparison and receipts](docs/ownership-revert-evaluation.md).
 
-Profile, deployment, permissions, daily limits, pacing and deadlines stayed unchanged.
-The requested evaluation is complete and work stops at the report, with no freeze
-or new variant. See [binding results and G variance](docs/physical-binding-reliability.md),
+All six trials preserved settings, policy, deadlines, recordings and usage; no
+provider error occurred. The stopping contract remains **evaluated and not adopted**.
+Work stops at the [compact ownership and reasoning-budget proposal](docs/ownership-and-reasoning-proposal.md):
+a once-per-connection registry with fixed-length handle prefixes and a coverage guard,
+plus a controlled medium/high reasoning comparison. Neither proposal is implemented.
+No token increase, freeze, fresh variant or unfamiliar-domain claim follows.
+[Original #219 results](docs/physical-binding-reliability.md),
 [negative stopping result](docs/stopping-criteria-review.md) and
-[original nine-family SQL audit](docs/baseline-sql-proposals.md).
+[original nine-family SQL audit](docs/baseline-sql-proposals.md) remain historical evidence.
 
 Item 1 of the ordered offline reliability plan merged in PR #209: opt-in exact
 planner request/response recordings and loadable local fixtures. Recordings include

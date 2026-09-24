@@ -26,6 +26,23 @@ def project(case):
 
 
 class PlannerProjectionTests(unittest.TestCase):
+    def test_directory_coverage_survives_context_projection(self):
+        from types import SimpleNamespace
+        case=json.loads((FIXTURES/'directory-coverage.json').read_text(encoding='utf-8'))
+        store=SimpleNamespace(get=lambda _: {'context':{'model_assets':[]}})
+        state={'model_id':'model','observations':[], 'decisions':[],
+               'discovery_version':'synthetic','planner_calls':0,'input_characters':0,
+               'envelope':{'measure_id':'measure','dimension_ids':[],
+                           'limits':{'planner_calls':12,'input_characters':384000}}}
+        with patch.object(dynamic_reasoning.context_search,'latest',return_value=case):
+            payload=dynamic_reasoning.enrich(store,state,{'observations':[]})
+        entries=payload['context_entry_points']
+        self.assertEqual(len(entries),case['expected_entries'])
+        self.assertEqual(sum(e['kind']=='SqlObject' for e in entries),case['expected_sql_objects'])
+        self.assertTrue(payload['context_directory_truncated'])
+        self.assertTrue(all(set(e)=={'id','kind','name'} for e in entries))
+        self.assertLessEqual(sum(len(encoded(e)) for e in entries),4000)
+
     def setUp(self):
         self.inputs = json.loads((FIXTURES / 'inputs.json').read_text(encoding='utf-8'))
         self.golden = json.loads((FIXTURES / 'expected.json').read_text(encoding='utf-8'))

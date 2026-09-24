@@ -26,3 +26,8 @@ milestone documents. Current status belongs in the delivery-status page; retain
 historical evidence without treating old next-step paragraphs as the current plan.
 Behavior on assets introduced after engine freeze is the primary acceptance signal;
 new supported assets must not require investigator-specific Python branches.
+
+Every change that adds planner context must report directory entry count, SQL-object
+count and payload characters before and after in its PR. Golden-view coverage tests
+must assert that directory coverage did not fall. Run these offline before live
+evaluation; increasing a context limit is not a substitute for reporting the cost.

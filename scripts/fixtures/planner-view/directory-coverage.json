@@ -1,0 +1,319 @@
+{
+  "description": "Synthetic names and identities retaining recorded directory shape and lengths; no business content.",
+  "assets": [
+    {
+      "id": "asset:0000:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0000nnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0001:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0001nnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0002:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0002nnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0003:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0003nnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0004:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0004nnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0005:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0005nnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0006:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0006nnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0007:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0007nnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0008:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0008nnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0009:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0009nnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0010:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0010nnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0011:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Lakehouse",
+      "name": "0011nnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0012:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Notebook",
+      "name": "0012nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0013:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Notebook",
+      "name": "0013nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0014:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Notebook",
+      "name": "0014nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0015:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "Notebook",
+      "name": "0015nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0016:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlDatabase",
+      "name": "0016nnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0017:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0017nnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0018:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0018nnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0019:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0019nnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0020:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0020nnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0021:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0021nnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0022:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0022nnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0023:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0023nnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0024:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0024nnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0025:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0025nnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0026:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0026nnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0027:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0027nnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0028:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0028nnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0029:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0029nnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0030:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0030nnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0031:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0031nnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0032:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0032nnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0033:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0033nnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0034:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0034nnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0035:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0035nnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0036:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0036nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0037:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0037nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0038:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0038nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0039:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0039nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0040:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0040nnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0041:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0041nnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0042:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0042nnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0043:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0043nnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0044:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0044nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0045:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0045nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0046:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0046nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0047:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0047nnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0048:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0048nnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0049:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0049nnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0050:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0050nnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    },
+    {
+      "id": "asset:0051:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "kind": "SqlObject",
+      "name": "0051nnnnnnnnnnnnnnnnnnnnnnnnnn",
+      "availability": "CURRENT"
+    }
+  ],
+  "expected_entries": 28,
+  "expected_sql_objects": 11
+}
