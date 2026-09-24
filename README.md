@@ -48,6 +48,30 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
+The separated-synthesis experiment is complete ([PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222)).
+Three corrected known-domain G trials produced **3/3 receipt-supported uncertainty
+assessments**, versus 0/3 in #221 arm A; one already had an assessment before
+synthesis. No cause was verified. Two support fields were clipped, so explanation
+quality remains incomplete. Three larger-input controls produced **0/3 assessments**:
+two hit the planner-call limit and one stopped for no progress, with input available.
+This small sample does not establish general reliability or rule out other bounds.
+
+Synthesis uses one independently metered call over a deterministic frozen digest,
+without the trajectory, directory or raw query-result rows. An initial metadata
+excerpt defect was fixed; both initial completed attempts and the cancelled third
+attempt remain recorded. Final validation: **1,026 local tests and six corrected
+implementation CI checks passed**. The corrected batch's reference token cost was
+**USD 4.08**, excluding intake/cloud costs; original daily policy was restored
+without refunds. See [results, limitations and proposal](docs/separated-evidence-synthesis.md).
+
+The earlier pooled G result remains **1 qualified conclusion in 15 runs** across
+#220/#221, not a reliability foothold. Three independent synthesis passes are
+**proposed only**; clipped support text needs correction before further evaluation.
+Typed dependency traversal remains a later candidate, not implemented. Larger input
+is an experimental control, not a new default. No freeze or unfamiliar-domain claim.
+
+The following describes the completed #221 milestone:
+
 The controlled twelve-run G experiment is complete. The
 [offline trajectory audit](docs/g-trajectory-audit.md) showed genuine hypothesis
 revision, with read admission preventing a final synthesis turn in prior G2/G3.
@@ -68,7 +92,8 @@ without resetting usage. SQL free-tier settings and provider capacity are unchan
 Validation: **1,016 local regression tests and six implementation CI checks passed**.
 See [results, context limits and concurrency proposal](docs/g-read-reasoning-experiment.md)
 and [PR #221](https://github.com/bcsnpc/data-investigation-agent/pull/221) for final CI.
-Input-budget changes and two-process concurrency remain proposals only. The stopping
+That milestone's input-sizing proposal has since been tested as a temporary control;
+two-process investigation concurrency remains proposed only. The stopping
 contract remains evaluated and not adopted. No freeze, new variant or unfamiliar-domain claim.
 [Original #219 results](docs/physical-binding-reliability.md),
 [negative stopping result](docs/stopping-criteria-review.md) and

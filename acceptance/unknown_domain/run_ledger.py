@@ -50,7 +50,7 @@ def row(result, calls, family='engineering'):
         output_tokens_reserved=sum(c['context']['reservation']['output_tokens'] for c in calls[:count]),
         wall_seconds=result['wall_seconds'], stop_reason=state.get('stop_reason') or result['status'],
         outcome_label=state.get('outcome', {}).get('classification', 'NOT_GRADED'),
-        intent_unknown=state.get('assessment', {}).get('support', {}).get('intent_dependency', 'UNKNOWN') == 'UNKNOWN',
+        intent_unknown=(state.get('outcome', {}).get('assessment') or state.get('assessment') or {}).get('support', {}).get('intent_dependency', 'UNKNOWN') == 'UNKNOWN',
         graded='NOT_GRADED', notes_doc='docs/offline-session-replay.md')
 
 

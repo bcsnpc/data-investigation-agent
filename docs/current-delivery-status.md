@@ -6,6 +6,45 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Completed milestone: separated evidence synthesis and input controls.**
+[PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222) adds opt-in,
+independently metered synthesis over a deterministic frozen receipt digest.
+Investigation context is unchanged: 28 initial directory entries / 11 SQL objects /
+15,067 recorded payload characters. No trajectory, directory or raw query-result
+rows enter synthesis. Unstructured metadata is omitted after an initial notebook
+excerpt exposed embedded rows; two completed attempts and one interrupted attempt
+remain preserved separately from the corrected comparison.
+
+Corrected arm-A trials produced **3/3 receipt-supported uncertainty assessments**,
+not verified causes. Two gained an assessment after their budget stop; the third
+already concluded before synthesis. S1/S3 support text was clipped at the existing
+bound, so only one answer had no observed support-text clipping. The three
+larger-input arm-B controls produced **0/3 assessments**, stopping at twelve planner
+calls twice and NO_PROGRESS once, with input still available. More input alone did
+not solve these trials; the remaining call cap prevents claiming that every
+resource constraint has been ruled out. The historical #220/#221 pooled result
+remains 1/15 under different protocols, not a reliability foothold.
+
+Corrected totals: 62 investigation calls, three synthesis calls, 35 SQL reads,
+zero native reads, four query rejections and zero provider errors. Live synthesis
+digests measured 14,590-15,488 characters. Reference token cost was USD 4.077090,
+including USD 0.148939 for synthesis; intake/cloud costs are excluded and this is
+not Azure billing. All 65 corrected tapes verified. Nine ledger rows preserve all
+initial/corrected attempts; usage history grew 751 -> 787 -> 893 without reset or
+refund. Original daily policy is restored, no active reservations remain, and
+Azure capacity/SQL free-tier settings read back unchanged.
+
+Validation: **1,026 final local tests and six corrected implementation CI checks
+passed**. See [per-run comparison, support review and costs](separated-evidence-synthesis.md).
+The next proposal is three independent syntheses over identical frozen evidence,
+comparing named mechanisms and cited IDs and reporting disagreement without voting.
+It is **not implemented or authorized for live execution here**. Support-text
+clipping needs an offline correction before further trials. Typed dependency
+traversal remains a later candidate only. Larger input is not adopted as a default;
+the stopping contract remains unadopted. No freeze, fresh variant or unfamiliar-domain claim.
+
+### Previous milestone: guarded registry and four-arm experiment
+
 
 **Completed milestone: guarded ownership registry and twelve-run G evaluation.**
 The [offline G1/G2/G3 audit](g-trajectory-audit.md) found genuine hypothesis revision,
@@ -33,11 +72,12 @@ Validation: **1,016 local regression tests and six implementation CI checks pass
 [PR #221](https://github.com/bcsnpc/data-investigation-agent/pull/221) contains the
 implementation and final results; its checks track the documentation head.
 See [per-arm results, stop audit, costs and proposals](g-read-reasoning-experiment.md).
-Input admission is the next measured constraint. Input-budget changes and a
-two-process concurrency design are proposals only; execution remains serial.
+This milestone's input-sizing proposal was subsequently evaluated as the temporary
+control above. Two-process investigation concurrency remains proposed only.
 
 Previous #220 evidence remains in [ownership revert evaluation](ownership-revert-evaluation.md),
-including its one qualified G conclusion. This batch did not reproduce that outcome.
+including its one qualified G conclusion. Pooled with #221, that is 1/15;
+it is not a reliability foothold.
 All failed/partial/blocked results remain. No freeze, new variant or unfamiliar-domain
 claim. The stopping contract stays evaluated and not adopted.
 
@@ -411,12 +451,12 @@ returned rows, not work scanned.
 | 3 Automatic context graph | Merged #196; independent context, graph/search and ticket visibility |
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
-| 6 General engine freeze | v4 invalidated; four-arm G evaluation complete without conclusions; no new freeze authorized |
+| 6 General engine freeze | v4 invalidated; synthesis comparison complete; no new freeze authorized |
 | 7 Unknown Domain Challenge | v4 discovery preserved; source reads recovered in known-domain repeats; conclusion reliability pending; no fresh variant |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **G evaluation complete; input admission and conclusion reliability unresolved; no freeze**. Prior
+Current: **synthesis comparison complete; parallel synthesis proposed only; no freeze**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

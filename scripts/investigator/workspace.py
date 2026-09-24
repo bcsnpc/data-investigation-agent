@@ -27,9 +27,12 @@ PHASES.update(CONTEXT_OBSERVED='Reading definitions and relationships',PROPOSAL_
 
 
 class Workspace:
-    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15):
+    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000):
         if type(dynamic_read_limit) is not int or not 1<=dynamic_read_limit<=15:
             raise ValueError('Dynamic read limit must be 1–15')
+        if type(dynamic_input_limit) is not int or not 1000<=dynamic_input_limit<=1536000:
+            raise ValueError("Invalid dynamic input limit")
+        self.dynamic_input_limit=dynamic_input_limit
         self.dynamic_read_limit=dynamic_read_limit
         self.agent, self.store, self.clock = agent, agent.store, clock
         self.execution_enabled = execution_enabled
@@ -90,7 +93,7 @@ class Workspace:
         if model.get('discovery'):
             from .dynamic_reasoning import VERSION
             envelope['strategy']=VERSION
-            envelope['limits'].update(cloud_calls=self.dynamic_read_limit,planner_calls=12,input_characters=384000,wall_seconds=1800)
+            envelope['limits'].update(cloud_calls=self.dynamic_read_limit,planner_calls=12,input_characters=self.dynamic_input_limit,wall_seconds=1800)
         candidates, gaps = catalog(self.store, self.agent.config, envelope)
         metadata = self.model(model['id'])
         labels = {m['id']: m['name'] for m in metadata['measures']}

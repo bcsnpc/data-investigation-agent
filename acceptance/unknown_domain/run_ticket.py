@@ -39,6 +39,9 @@ def main():
     p.add_argument('--key',required=True)
     p.add_argument('--azure-settings',type=Path,default=ROOT/'infra/llm/development.json')
     p.add_argument('--execute-reviewed-scope',action='store_true')
+    p.add_argument('--synthesis',action='store_true',help='One independently metered conclusion call after investigation')
+    p.add_argument('--input-limit',type=int,default=384000,
+                   help='Experimental cumulative investigation input; does not change workspace defaults')
     p.add_argument('--read-limit',type=int,default=15,choices=range(1,16),
                    help='Operator-selected per-run dynamic read ceiling, fixed before scope review')
     p.add_argument('--known-domain-regression',action='store_true',
@@ -46,6 +49,7 @@ def main():
     p.add_argument('--minimum-llm-interval',type=int,default=0,
                    help='Evaluator-side pacing in seconds; does not retry failed calls or change prompts')
     args=p.parse_args();folder=args.folder
+    if not 1000<=args.input_limit<=1536000:p.error('Input limit must be 1000 through 1536000 characters')
     if not 0<=args.minimum_llm_interval<=120:p.error('LLM interval must be 0–120 seconds')
     freeze=json.loads((folder/'freeze.json').read_text())
     if not args.known_domain_regression:
@@ -71,7 +75,7 @@ def main():
         # Evaluator-side observation only; returns the exact unmodified proposal.
         (folder/('intake-proposal-'+args.key+'.json')).write_text(json.dumps(response,indent=2))
         return response
-    ws=Workspace(agent,execution_enabled=True,question_resolver=resolve,dynamic_read_limit=args.read_limit)
+    ws=Workspace(agent,execution_enabled=True,question_resolver=resolve,dynamic_read_limit=args.read_limit,dynamic_input_limit=args.input_limit)
     with local_azure_key(args.azure_settings):
         intake=ws.intake.resolve({'text':args.ticket.read_text(encoding='utf-8'),'request_key':args.key,'parent_id':None})
         output={'freeze_commit':None if args.known_domain_regression else freeze['commit'],
@@ -79,7 +83,7 @@ def main():
                 'planner_deployment':settings['deployment'],
                 'generation_options':settings.get('generation_options'),
                 'max_planner_recoveries':settings.get('max_planner_recoveries',0),
-                'read_limit':args.read_limit,
+                'read_limit':args.read_limit,'input_limit':args.input_limit,'synthesis_enabled':args.synthesis,
                 'minimum_llm_interval':args.minimum_llm_interval,'intake':intake}
         if intake['status']=='PROPOSED':
             proposal=intake['proposal'];request={k:proposal[k] for k in ('model_id','measure_id','filters','dimension_ids')}
@@ -89,6 +93,9 @@ def main():
                 state=agent.create(preview['envelope'],'challenge:'+args.key)
                 print('SESSION '+state['id'],flush=True)
                 output['session']=agent.run(state['id'])
+                if args.synthesis and output['session']['status'] in ('COMPLETED','NEEDS_INPUT'):
+                    # Pacing precedes the separate call's deadline and reservation.
+                    output['session']=paced(lambda _:agent.synthesize(state['id']),None)
     if not args.known_domain_regression:verify(freeze)
     destination=folder/'runs';destination.mkdir(exist_ok=True)
     # Key is not a path supplied to the investigator.

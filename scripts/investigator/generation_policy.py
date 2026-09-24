@@ -8,7 +8,7 @@ def validate(value=None):
     if not isinstance(value,dict) or set(value)-{'timeout_seconds','max_output_tokens','reasoning_effort','max_payload_characters'}:
         raise ValueError('Unknown generation settings')
     result={'timeout_seconds':45,'max_output_tokens':1500,'max_payload_characters':32000,**value}
-    for name,lower,upper in [('timeout_seconds',10,120),('max_output_tokens',500,MAX_OUTPUT_TOKENS),('max_payload_characters',8000,64000)]:
+    for name,lower,upper in [('timeout_seconds',10,120),('max_output_tokens',500,MAX_OUTPUT_TOKENS),('max_payload_characters',8000,128000)]:
         if type(result[name]) is not int or not lower<=result[name]<=upper:
             raise ValueError('Invalid generation limit: '+name)
     if 'reasoning_effort' in result and result['reasoning_effort'] not in ('none','low','medium','high'):

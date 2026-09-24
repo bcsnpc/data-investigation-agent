@@ -1158,3 +1158,26 @@ README/current status reviewed. [Full results and proposals](g-read-reasoning-ex
 report arm spreads, rejections, measured usage and overlapping stop limits.
 Concurrency and further input-budget changes are proposed only. No stopping-contract
 adoption, freeze, fresh variant or unfamiliar-domain claim.
+
+### 2026-09-24 - Separate evidence synthesis implementation
+
+Measured a deterministic digest on twelve #221 sessions before implementation.
+Added one independently metered, receipt-verified conclusion call and experimental
+input-control settings; investigation context remains unchanged. 1,024 full local
+tests passed; nine focused synthesis tests passed after the final usage guard.
+Six known-domain trials remain pending; no freeze or unfamiliar-domain claim.
+See [evidence and proposal](separated-evidence-synthesis.md).
+
+### 2026-09-24 - Separated synthesis comparison completed (#222)
+
+Preserved an initial metadata raw-row exclusion failure and cancelled third attempt;
+corrected the projection before starting a separate fixed-engine six-run batch.
+Three synthesis trials produced receipt-supported uncertainty (one already assessed
+before synthesis, two with clipped support text); three larger-input controls
+produced no assessment, stopping on planner calls twice and no progress once.
+The corrected batch made 62 investigation / three synthesis calls and 35 SQL reads.
+All 65 tapes verified, nine ledger rows retain every attempt, and 893 usage records
+remain without refunds. Original daily policy restored; provider/SQL settings unchanged.
+1,026 final local tests and six corrected implementation CI checks passed.
+See [comparison and proposal](separated-evidence-synthesis.md). Parallel synthesis
+is proposal-only; dependency traversal was not started. No unfamiliar-domain claim.
