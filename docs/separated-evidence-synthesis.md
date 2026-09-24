@@ -76,3 +76,25 @@ The full local suite passed 1,024 tests. A subsequent usage-overrun guard and CL
 argument validation were followed by nine synthesis tests, all passing.
 Live trials are pending. Input controls use 128,000 per call / 1,536,000 cumulative
 characters with synthesis disabled; defaults remain unchanged.
+
+## Initial batch interrupted: metadata projection defect
+
+At commit 383e708, S1 and S2 produced BUSINESS_CONTEXT_REQUIRED after six SQL
+reads each (eight/ten planner calls). S2 exposed embedded source rows inside a
+notebook excerpt. This violated the raw-row exclusion contract; it is not a valid
+clean-context result. S1's main uncertainty claim matched displayed aggregates,
+but its mechanism field was cut off at the existing text bound. Neither result
+is adopted as the corrected comparison.
+
+S3 was cancelled during its first planner call after discovery of this defect.
+Its recording is interrupted, completion uncertain, and the full reservation is
+retained. Exactly three initial ledger rows preserve these attempts. No control
+trial was started. The original daily policy was restored before correction.
+
+The correction excludes all unstructured metadata excerpts, including notebook
+content, find matches and free-text expressions. Asset identity/kind, lookup count
+and provenance remain; omission is explicit. This trades metadata detail for a
+fail-closed no-raw-rows boundary and may limit conclusions about transformations.
+A regression inserts embedded rows through all three metadata paths and confirms
+none reach synthesis. Ten focused synthesis tests passed. A new, separately
+labelled batch will use the corrected engine throughout; old results stay intact.

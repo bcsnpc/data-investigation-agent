@@ -102,6 +102,18 @@ class SynthesisTests(unittest.TestCase):
             return self.answer(p),{}
         self.assertEqual(agent.synthesize(state['id'],provider)['synthesis']['status'],'FAILED')
 
+    def test_metadata_cannot_smuggle_embedded_records_into_digest(self):
+        agent,state=self.stopped()
+        state['observations']=[{'id':'metadata','tool':'context','status':'COMPLETED',
+          'completeness':'COMPLETE_RESPONSE','lookup':{'operation':'find','value':'notebook'},
+          'metadata':{'content':'rows = [[123, "raw-secret-record"]]',
+                      'matches':[{'excerpt':'rows = [[456, "raw-secret-record"]]'}],
+                      'asset':{'kind':'Notebook','name':'Transform','metadata':{'expression':'raw-secret-record'}}}}]
+        with self.f.store.connect() as db:payload=synthesis_digest.build(state,db)
+        self.assertNotIn('raw-secret-record',encoded(payload))
+        self.assertTrue(payload['evidence'][0]['result']['unstructured_metadata_omitted'])
+        self.assertEqual(payload['evidence'][0]['result']['asset_name'],'Transform')
+
     def test_raw_records_are_omitted_and_aggregate_alias_lineage_selected(self):
         # Isolate deterministic projection with a synthetic sealed receipt adapter.
         agent,state=self.stopped();o=state['observations'][0]

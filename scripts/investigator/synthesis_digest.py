@@ -17,10 +17,8 @@ def build(state,db):
   item={'id':o['id'],'tool':o['tool'],'completeness':o['completeness']}
   if o['tool']=='context':
    m=o['metadata'];item['asked']=o.get('lookup');a=m.get('asset',{})
-   snippets=m.get('content') or '\n'.join(x.get('excerpt','') for x in m.get('matches',[]))
-   definition=a.get('metadata',{}).get('expression')
    item['result']={'asset_name':a.get('name'),'asset_kind':a.get('kind'),'matching_assets':m.get('total'),
-    'excerpt':(snippets or definition or '')[:400],'excerpt_truncated':len(snippets or definition or '')>400,
+    'unstructured_metadata_omitted':True,
     'directory_and_schema_omitted':True}
    item['provenance']={'hash':digest(o),'context_version':m.get('context_version')}
   else:
@@ -51,4 +49,4 @@ def build(state,db):
    item['provenance']={'request_hash':o['request_hash'],'result_hash':digest(result),'receipt_seal':sealed['hash']}
   entries.append(item)
  return {'version':1,'question':state['envelope']['symptom'],'scope':{k:state['envelope'][k] for k in ('model_id','context_id','measure_id','filters','dimension_ids')},
- 'digest_limits':'Only exact aggregate outputs are copied; at most four returned groups per output. Group keys and raw record rows are omitted and cannot support claims. Metadata excerpts and queries can be truncated. Hypotheses are unverified, not evidence.', 'evidence':entries,'hypotheses':[{'id':h['id'],'claim':h['claim'][:300],'claim_truncated':len(h['claim'])>300,'status':h['status'],'evidence_ids':h['evidence_ids'],'authority':'UNVERIFIED_HYPOTHESIS'} for h in state['hypotheses']]}
+ 'digest_limits':'Only exact aggregate outputs are copied; at most four returned groups per output. Group keys and raw record rows are omitted and cannot support claims. Unstructured metadata is omitted; queries can be truncated. Hypotheses are unverified, not evidence.', 'evidence':entries,'hypotheses':[{'id':h['id'],'claim':h['claim'][:300],'claim_truncated':len(h['claim'])>300,'status':h['status'],'evidence_ids':h['evidence_ids'],'authority':'UNVERIFIED_HYPOTHESIS'} for h in state['hypotheses']]}
