@@ -1158,3 +1158,12 @@ README/current status reviewed. [Full results and proposals](g-read-reasoning-ex
 report arm spreads, rejections, measured usage and overlapping stop limits.
 Concurrency and further input-budget changes are proposed only. No stopping-contract
 adoption, freeze, fresh variant or unfamiliar-domain claim.
+
+### 2026-09-24 - Separate evidence synthesis implementation
+
+Measured a deterministic digest on twelve #221 sessions before implementation.
+Added one independently metered, receipt-verified conclusion call and experimental
+input-control settings; investigation context remains unchanged. 1,024 full local
+tests passed; nine focused synthesis tests passed after the final usage guard.
+Six known-domain trials remain pending; no freeze or unfamiliar-domain claim.
+See [evidence and proposal](separated-evidence-synthesis.md).

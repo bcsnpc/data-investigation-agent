@@ -262,7 +262,9 @@ class DynamicTests(unittest.TestCase):
         envelope['limits']['cloud_calls']=16
         with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
         envelope['limits']['cloud_calls']=15
-        envelope['limits']['input_characters']=384001
+        envelope['limits']['input_characters']=1536000
+        catalog(self.store,self.config,envelope)
+        envelope['limits']['input_characters']=1536001
         with self.assertRaises(ValueError):catalog(self.store,self.config,envelope)
         envelope['limits']['input_characters']=384000
         envelope['limits']['planner_calls']=13

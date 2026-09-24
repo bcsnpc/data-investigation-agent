@@ -1,0 +1,19 @@
+{
+  "subscription_id": "d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9",
+  "resource_group": "rg-investigator-dev",
+  "account": "aoai-investigator-9696025",
+  "location": "eastus2",
+  "endpoint": "https://aoai-investigator-9696025.openai.azure.com",
+  "deployment": "investigator-quality-54",
+  "model": "gpt-5.4",
+  "model_version": "2026-03-05",
+  "deployment_type": "GlobalStandard",
+  "capacity": 100,
+  "generation_options": {
+    "reasoning_effort": "medium",
+    "max_output_tokens": 8000,
+    "timeout_seconds": 120,
+    "max_payload_characters": 128000
+  },
+  "max_planner_recoveries": 1
+}

@@ -118,9 +118,18 @@ class AdaptiveRuntime:
     def get(self,identity):
         with self.runtime.db() as db:
             state=self.load(db,identity)
+            from .evidence_synthesis import read as read_synthesis
+            synthesis=read_synthesis(db,identity)
             events=[{'kind':r['kind'],'detail':json.loads(r['detail']),'created':r['created']} for r in
                     db.execute('SELECT kind,detail,created FROM adaptive_events WHERE session_id=? ORDER BY id',(identity,))]
         state.pop('token');state['outcome']=outcome(state);state['events']=events
+        if synthesis:
+            state['synthesis']=synthesis
+            if synthesis['status']=='COMPLETED':
+                state['investigation_outcome']=state['outcome']
+                assessment=synthesis['assessment']
+                state['outcome']={**state['outcome'],'classification':assessment['classification'],
+                                  'assessment':assessment,'assessment_phase':'SYNTHESIS'}
         from .action_budget import summary,allocation
         state['trajectory_metrics']=summary(state)
         if state.get('action_budget_version')==1:state['action_budget']=allocation(state)
@@ -389,6 +398,11 @@ class AdaptiveRuntime:
             result=self.step(identity)
             if result['status']!='READY':return result
 
+    def synthesize(self,identity,provider=None):
+        from .evidence_synthesis import run,azure_synthesize
+        run(self,identity,provider or azure_synthesize)
+        return self.get(identity)
+
     def recover(self,identity):
         token=str(uuid4())
         with self.runtime.db() as db:
@@ -438,6 +452,8 @@ class AdaptiveRuntime:
     def cancel(self,identity):
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
+            from .evidence_synthesis import cancel as cancel_synthesis
+            if cancel_synthesis(self,db,identity):return self.project_after_commit(db,state)
             if state['status'] in ('COMPLETED','CANCELLED'):return self.get(identity)
             pending=state['pending']
             if pending:

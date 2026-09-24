@@ -6,6 +6,22 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Active milestone: separated evidence synthesis.** The accepted #221 negative
+result leaves a pooled G outcome of **1 qualified conclusion in 15 runs**, across
+differing #220/#221 conditions. It is not a reliability foothold. At 15 reads,
+high/16,000 returned fewer SQL reads (2/6/4) than medium/8,000 (6/8/5); the records
+do not establish that reasoning tokens directly displaced reads. Input admission
+stopped every higher-read run; treat evidence accumulation as the structural finding.
+
+A deterministic, sealed-receipt digest and one independent synthesis call are under
+validation. Investigation context and defaults remain unchanged. Three arm-A
+synthesis trials and three arm-B larger-input controls (synthesis disabled) are
+pending. No new conclusion-quality result is claimed. See [proposal, measurements
+and acceptance plan](separated-evidence-synthesis.md). Parallel synthesis and a
+future typed dependency traversal are proposals/candidates only.
+
+### Previous milestone: guarded registry and four-arm experiment
+
 
 **Completed milestone: guarded ownership registry and twelve-run G evaluation.**
 The [offline G1/G2/G3 audit](g-trajectory-audit.md) found genuine hypothesis revision,
@@ -37,7 +53,8 @@ Input admission is the next measured constraint. Input-budget changes and a
 two-process concurrency design are proposals only; execution remains serial.
 
 Previous #220 evidence remains in [ownership revert evaluation](ownership-revert-evaluation.md),
-including its one qualified G conclusion. This batch did not reproduce that outcome.
+including its one qualified G conclusion. Pooled with #221, that is 1/15;
+it is not a reliability foothold.
 All failed/partial/blocked results remain. No freeze, new variant or unfamiliar-domain
 claim. The stopping contract stays evaluated and not adopted.
 

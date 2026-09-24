@@ -117,7 +117,8 @@ cannot establish that high effort helps or harms final synthesis, or that more
 reads are intrinsically ineffective. Spreads overlap; n=3 per arm and the bundled
 high/16,000 change do not support selecting a superior reasoning setting.
 
-The prior #220 G1 conclusion remains recorded; this batch did not reproduce it.
+The prior #220 G1 conclusion remains recorded; the pooled rate is 1/15 across
+differing conditions. It is not a reliability foothold; this batch did not reproduce it.
 All four arms contain the registry, so this experiment does not isolate its
 behavioral effect. The 53-view audit proves preserved directory coverage, not
 unchanged LLM decisions. No stopping-contract change was adopted.
@@ -268,7 +269,7 @@ reads independently (initially one) to protect SQL free-tier compute and avoid
 time-varying data/context confounds. Two is a proposed initial test ceiling, not a
 measured safe throughput claim. No concurrency setting or implementation is changed.
 
-## Next constraint: proposal only
+## Historical input-sizing proposal (superseded by structural synthesis review)
 
 Input admission needs a separate controlled evaluation before attributing missing
 conclusions to model reasoning. A 576,000 cumulative-character allowance would
@@ -281,3 +282,5 @@ observation projection offline and preserve directory coverage; then choose a
 separate input-budget experiment instead of changing projection, reasoning and
 ceilings together. No input limit, planner-call limit, stopping contract or
 concurrency behavior is changed by this report.
+
+The subsequent review stops settings optimization: [separated synthesis](separated-evidence-synthesis.md) is next. Larger input is authorized only as an experimental control.

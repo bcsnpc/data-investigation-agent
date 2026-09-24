@@ -48,6 +48,17 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
+Current work separates conclusion synthesis from investigation after the accepted
+negative #221 experiment. The pooled historical G result is **1 qualified
+conclusion in 15 runs** (#220 plus #221, differing conditions), not a reliability
+foothold. Evidence gathering works; conclusion formation remains unreliable.
+A deterministic frozen digest and one separately metered conclusion call are under
+validation. Three arm-A synthesis runs and three larger-input arm-B controls are
+pending; the controls keep synthesis disabled. No new success is claimed.
+See [proposal and measurements](docs/separated-evidence-synthesis.md).
+
+The following describes the completed #221 milestone:
+
 The controlled twelve-run G experiment is complete. The
 [offline trajectory audit](docs/g-trajectory-audit.md) showed genuine hypothesis
 revision, with read admission preventing a final synthesis turn in prior G2/G3.
