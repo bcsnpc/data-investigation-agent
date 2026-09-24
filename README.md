@@ -48,23 +48,28 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-Current work is a controlled, twelve-run G experiment after accepted PR #220.
-The [offline trajectory audit](docs/g-trajectory-audit.md) found that G2/G3 revised
-hypotheses but hit the six-read ceiling before another synthesis turn. G1 stopped
-with qualified business-context limits. This does not establish a synthesis failure.
-
-A once-per-connection ownership registry now preserves all 53 historical directory
-views; F stays at **28 entries / 11 SQL objects**, with **477 added pre-wire characters**.
+The controlled twelve-run G experiment is complete. The
+[offline trajectory audit](docs/g-trajectory-audit.md) showed genuine hypothesis
+revision, with read admission preventing a final synthesis turn in prior G2/G3.
+A once-per-connection registry preserves all 53 historical directory views:
+F stays at **28 entries / 11 SQL objects**, with **477 added pre-wire characters**.
 Saturated prompts omit the optional registry without evicting evidence. Dynamic
-runs default to 15 reads; the four experimental arms compare 6/15 reads and medium
-8,000/high 16,000 output profiles. Other run controls remain fixed, including 12
-planner calls. The approved experiment temporarily raises daily output reservations
-to 2,000,000 and daily reads to 126, with no resets or refunds. Default mini and
-medium generation settings remain unchanged.
+runs default to 15 reads; the experiment compared 6/15 reads and medium 8,000/high
+16,000 output profiles while keeping other run limits fixed.
 
-Live results are pending. See [design, coverage and concurrency proposal](docs/g-read-reasoning-experiment.md).
-Concurrency is proposed only; execution remains serial. The stopping contract
-remains evaluated and not adopted. No freeze, new variant or unfamiliar-domain claim.
+All twelve known-domain runs ended UNRESOLVED: **124 planner calls, 62 SQL + four
+native reads, eight query rejections, zero provider errors and no qualified final
+assessment**. Input admission stopped every higher-read run; two also exceeded the
+per-call protected-context limit. Neither arm establishes improved conclusion
+reliability. Reference-priced planner tokens cost **USD 8.86**, excluding intake
+and cloud costs; this is not Azure billing. Original daily policy was restored
+without resetting usage. SQL free-tier settings and provider capacity are unchanged.
+
+Validation: **1,016 local regression tests and six implementation CI checks passed**.
+See [results, context limits and concurrency proposal](docs/g-read-reasoning-experiment.md)
+and [PR #221](https://github.com/bcsnpc/data-investigation-agent/pull/221) for final CI.
+Input-budget changes and two-process concurrency remain proposals only. The stopping
+contract remains evaluated and not adopted. No freeze, new variant or unfamiliar-domain claim.
 [Original #219 results](docs/physical-binding-reliability.md),
 [negative stopping result](docs/stopping-criteria-review.md) and
 [original nine-family SQL audit](docs/baseline-sql-proposals.md) remain historical evidence.

@@ -7,29 +7,39 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Active milestone: guarded ownership registry and four-arm G evaluation.**
-The [offline G1/G2/G3 audit](g-trajectory-audit.md) is complete. Both nonconcluding
-runs revised hypotheses, but the sixth read prevented a subsequent synthesis turn.
-Test selection/order interacts with admission; final-synthesis failure is unproven.
+**Completed milestone: guarded ownership registry and twelve-run G evaluation.**
+The [offline G1/G2/G3 audit](g-trajectory-audit.md) found genuine hypothesis revision,
+with the sixth read preventing another synthesis turn in G2/G3. The approved
+connection registry preserves all 53 recorded directories: F remains 28 entries /
+11 SQL objects at +477 pre-wire characters. Saturated prompts omit the registry.
+Dynamic runs now default to 15 reads; six-read controls and a separate high/16,000
+experimental profile support the comparison. Default generation settings remain.
 
-The approved connection registry preserves directory coverage across all 53
-recorded calls (five saturated headers omitted). F remains 28 entries / 11 SQL
-objects, with +477 pre-wire characters. Permanent coverage tests protect this.
-Dynamic runs default to 15 reads, with explicit six-read controls for arms A/C.
-The high experimental profile allows 16,000 output tokens; defaults are unchanged.
-The batch temporarily uses 2,000,000 daily output reservations and the separately
-approved 126 daily reads, keeping full conservative reservations and all history.
+The twelve recorded known-domain trials completed with **124 planner calls,
+62 SQL + 4 native reads, eight local query rejections, zero provider errors and
+zero qualified final assessments**. Every run ended UNRESOLVED / BUDGET_LIMIT.
+Neither raised reads nor high effort/output converted evidence into a conclusion
+under these controls. Input admission censored all higher-read runs; D2/D3 also
+exceeded the per-call protected-context limit. Small overlapping samples and the
+combined effort/output change do not establish a superior model setting.
 
-Twelve sequential known-domain G trials are next: medium/6, medium/15, high/6 and
-high/15, three per arm. Planner/input/time limits remain unchanged. High also
-changes output allowance, so this comparison cannot isolate effort alone. The
-12-call planner ceiling may bind before the 15-read ceiling. Live results are
-pending; no correctness or generality claim. See [experiment and concurrency proposal](g-read-reasoning-experiment.md).
+Measured planner-token reference cost was **USD 8.86**, excluding intake/cloud
+costs and not an Azure invoice. All 124 tapes verified, twelve ledger rows were
+appended, and usage history grew 549 → 751 without reset/refund. The temporary
+126-read / 2,000,000-output daily policy was restored to its original limits;
+Azure capacity, SQL free limit and AutoPause read back unchanged.
 
-Previous #220 evidence remains in [ownership revert evaluation](ownership-revert-evaluation.md):
-7 SQL + 4 native reads in 31 matched-family calls; G source reading reproduced.
-All old failed/partial/blocked results remain. No freeze, new variant or concurrent
-execution. The stopping contract stays evaluated and not adopted.
+Validation: **1,016 local regression tests and six implementation CI checks passed**.
+[PR #221](https://github.com/bcsnpc/data-investigation-agent/pull/221) contains the
+implementation and final results; its checks track the documentation head.
+See [per-arm results, stop audit, costs and proposals](g-read-reasoning-experiment.md).
+Input admission is the next measured constraint. Input-budget changes and a
+two-process concurrency design are proposals only; execution remains serial.
+
+Previous #220 evidence remains in [ownership revert evaluation](ownership-revert-evaluation.md),
+including its one qualified G conclusion. This batch did not reproduce that outcome.
+All failed/partial/blocked results remain. No freeze, new variant or unfamiliar-domain
+claim. The stopping contract stays evaluated and not adopted.
 
 ### Previous milestone: #219 compiler/context evaluation
 
@@ -401,12 +411,12 @@ returned rows, not work scanned.
 | 3 Automatic context graph | Merged #196; independent context, graph/search and ticket visibility |
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
-| 6 General engine freeze | v4 invalidated; four-arm G evaluation pending; no new freeze authorized |
+| 6 General engine freeze | v4 invalidated; four-arm G evaluation complete without conclusions; no new freeze authorized |
 | 7 Unknown Domain Challenge | v4 discovery preserved; source reads recovered in known-domain repeats; conclusion reliability pending; no fresh variant |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **guarded registry implemented; controlled G read/reasoning evaluation pending; no freeze**. Prior
+Current: **G evaluation complete; input admission and conclusion reliability unresolved; no freeze**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

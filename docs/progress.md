@@ -1135,3 +1135,26 @@ Implemented the approved constant-per-connection registry with coverage guard; a
 53 recorded directories are unchanged, F remains 28/11 and the header adds 477
 characters. Prepared the authorized 6/15-read and medium/high four-arm experiment.
 Live results remain pending; see [controls and limits](g-read-reasoning-experiment.md).
+
+
+## 2026-09-24: twelve-run read/reasoning experiment complete
+
+[PR #221](https://github.com/bcsnpc/data-investigation-agent/pull/221) combines the
+trajectory audit, coverage-preserving registry, dynamic 15-read ceiling and
+controlled A/B/C/D evaluation. 1,016 local regression tests and six implementation
+CI checks passed. All 53 prior directories preserve exact coverage; F remains
+28/11 at +477 core characters, with five saturated headers omitted.
+
+Twelve sequential KNOWN_DOMAIN_REGRESSION trials: 124 planner calls, 62 SQL + four
+native reads, eight query rejections, no provider failures and no final assessments.
+All ended UNRESOLVED / BUDGET_LIMIT. Input admission censored the higher-read arms;
+D2/D3's protected context exceeded 48,000 per call. USD 8.863119 reference-priced
+planner usage is not Azure billing and excludes intake/cloud costs. All 124 tapes
+and twelve appended ledger rows verify; usage 549 → 751, zero active reservations
+or violations. Original daily policy restored without reset/refund; Azure capacity
+and SQL free-limit/AutoPause unchanged in after-batch control reads.
+
+README/current status reviewed. [Full results and proposals](g-read-reasoning-experiment.md)
+report arm spreads, rejections, measured usage and overlapping stop limits.
+Concurrency and further input-budget changes are proposed only. No stopping-contract
+adoption, freeze, fresh variant or unfamiliar-domain claim.
