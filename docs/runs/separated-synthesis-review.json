@@ -1,0 +1,62 @@
+{
+  "scope": "KNOWN_DOMAIN_REGRESSION",
+  "corrected_commit": "175b165",
+  "qualified_uncertainty_count": 3,
+  "verified_causes": 0,
+  "runs": [
+    {
+      "trial": "S1",
+      "session_id": "c7c72f67-aae9-468c-a32c-00e0bbed620c",
+      "review": "SUPPORTED_UNCERTAINTY",
+      "classification": "BUSINESS_CONTEXT_REQUIRED",
+      "pre_synthesis_assessment": "UNRESOLVED",
+      "mechanism_text_cut_off": true,
+      "review_type": "assistant review against frozen digest and stored receipt values; not independent domain certification"
+    },
+    {
+      "trial": "S2",
+      "session_id": "01935d32-2449-4b3b-a852-68c775469604",
+      "review": "SUPPORTED_UNCERTAINTY",
+      "classification": "UNRESOLVED",
+      "pre_synthesis_assessment": "UNRESOLVED",
+      "mechanism_text_cut_off": false,
+      "review_type": "assistant review against frozen digest and stored receipt values; not independent domain certification"
+    },
+    {
+      "trial": "S3",
+      "session_id": "860dc8f6-45f0-406a-9acc-0adbe84af2fd",
+      "review": "SUPPORTED_UNCERTAINTY",
+      "classification": "BUSINESS_CONTEXT_REQUIRED",
+      "pre_synthesis_assessment": "BUSINESS_CONTEXT_REQUIRED",
+      "mechanism_text_cut_off": true,
+      "review_type": "assistant review against frozen digest and stored receipt values; not independent domain certification"
+    },
+    {
+      "trial": "I1",
+      "session_id": "5c7d1110-42af-4e26-9e59-88300deb9cc5",
+      "review": "NO_FINAL_ASSESSMENT",
+      "classification": "UNRESOLVED",
+      "pre_synthesis_assessment": null,
+      "mechanism_text_cut_off": false,
+      "review_type": "assistant review against frozen digest and stored receipt values; not independent domain certification"
+    },
+    {
+      "trial": "I2",
+      "session_id": "859cf73c-2cbc-4c3c-ae7d-793c326321e8",
+      "review": "NO_FINAL_ASSESSMENT",
+      "classification": "UNRESOLVED",
+      "pre_synthesis_assessment": null,
+      "mechanism_text_cut_off": false,
+      "review_type": "assistant review against frozen digest and stored receipt values; not independent domain certification"
+    },
+    {
+      "trial": "I3",
+      "session_id": "ca04b07e-4ed9-41d3-a223-7f298bf653d4",
+      "review": "NO_FINAL_ASSESSMENT",
+      "classification": "UNRESOLVED",
+      "pre_synthesis_assessment": null,
+      "mechanism_text_cut_off": false,
+      "review_type": "assistant review against frozen digest and stored receipt values; not independent domain certification"
+    }
+  ]
+}
