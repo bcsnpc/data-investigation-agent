@@ -63,9 +63,9 @@ Azure capacity/SQL free-tier settings read back unchanged.
 
 Validation: **1,026 final local tests and six corrected implementation CI checks
 passed**. See [per-run comparison, support review and costs](separated-evidence-synthesis.md).
-Parallel synthesis is deferred pending calibration and the nine-run evaluation.
-It is **not implemented or authorized for live execution here**. Support-text
-clipping needs an offline correction before further trials. Typed dependency
+At that milestone, parallel synthesis was deferred pending calibration and the
+nine-run evaluation, now completed above. It remains **not implemented or
+authorized for live execution here**. The support-text correction is delivered above. Typed dependency
 traversal remains a later candidate only. Larger input is not adopted as a default;
 the stopping contract remains unadopted. No freeze, fresh variant or unfamiliar-domain claim.
 

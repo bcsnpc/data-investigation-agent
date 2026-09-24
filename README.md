@@ -70,8 +70,8 @@ without refunds. See [results, limitations and proposal](docs/separated-evidence
 
 The earlier pooled G result remains **1 qualified conclusion in 15 runs** across
 #220/#221, not a reliability foothold. Three independent synthesis passes were
-**proposed only** and are deferred. Support preservation is fixed locally;
-calibration and six additional trials are in progress.
+**proposed only** and are deferred. Support preservation and the
+nine-run calibration are complete; the next proposals await review.
 Typed dependency traversal remains a later candidate, not implemented. Larger input
 is an experimental control, not a new default. No freeze or unfamiliar-domain claim.
 
