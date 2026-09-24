@@ -1,0 +1,337 @@
+{
+  "status": "COMPLETED_KNOWN_DOMAIN_REGRESSION",
+  "grades": [
+    {
+      "trial": "S1",
+      "session_id": "c7c72f67-aae9-468c-a32c-00e0bbed620c",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "calibration_target": "source/application defect with an intended-rule premise",
+      "evidence_ids": [
+        "199ada7d-ab6d-4271-b8df-8df93a3205fe",
+        "5f4d5cfc-e542-466f-b102-93dc6bf51008"
+      ],
+      "mechanism_established_from_seen_evidence": false,
+      "contract_blocked_supported_claim": false,
+      "support_clipped_in_original": true,
+      "missing_test": "Trace contribution through measure and transformation; obtain independent authoritative adjustment intent before calling retained movements erroneous.",
+      "selection_evidence": "Mismatch drilldown consumed context; next call exceeded per-call and remaining input.",
+      "grading_basis": "Offline recorded observations, decisions and synthesis digest; publisher truth used only to audit grading, never supplied to investigator."
+    },
+    {
+      "trial": "S2",
+      "session_id": "01935d32-2449-4b3b-a852-68c775469604",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "calibration_target": "source/application defect with an intended-rule premise",
+      "evidence_ids": [
+        "377e8380-ff42-4620-8b63-50bf14191b96",
+        "29270acc-4d68-4bf4-bc0c-aa01deac56eb"
+      ],
+      "mechanism_established_from_seen_evidence": false,
+      "contract_blocked_supported_claim": false,
+      "support_clipped_in_original": false,
+      "missing_test": "Trace contribution through measure and transformation; obtain independent authoritative adjustment intent before calling retained movements erroneous.",
+      "selection_evidence": "Six reads consumed by adjustment profiling and drilldown.",
+      "grading_basis": "Offline recorded observations, decisions and synthesis digest; publisher truth used only to audit grading, never supplied to investigator."
+    },
+    {
+      "trial": "S3",
+      "session_id": "860dc8f6-45f0-406a-9acc-0adbe84af2fd",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "calibration_target": "source/application defect with an intended-rule premise",
+      "evidence_ids": [
+        "3a41d2ac-7724-42c3-8870-23cd8ec62f8c",
+        "244e4f49-7d05-405f-8e92-a3597d787a7f"
+      ],
+      "mechanism_established_from_seen_evidence": false,
+      "contract_blocked_supported_claim": false,
+      "support_clipped_in_original": true,
+      "missing_test": "Trace contribution through measure and transformation; obtain independent authoritative adjustment intent before calling retained movements erroneous.",
+      "selection_evidence": "Voluntary ENOUGH_DIAGNOSTICS after ruling out duplicate/conflicting source entries.",
+      "grading_basis": "Offline recorded observations, decisions and synthesis digest; publisher truth used only to audit grading, never supplied to investigator."
+    },
+    {
+      "trial": "S4",
+      "session_id": "21070f54-28bc-4a18-a008-0b698bdd3e45",
+      "calibration": "MIXED",
+      "evidence_ids": [
+        "2efc26e4-bfda-47c9-b9fb-bfbec86ac531",
+        "a3e283a0-ce77-48ff-9566-563273257e1f",
+        "3f713755-39a6-457a-8db2-e0cf212be110"
+      ],
+      "established": "Complete exception queries returned no missing/non-single/conflicting stock matches for adjustment-linked movement IDs under their explicit predicates.",
+      "mechanism_established_from_seen_evidence": false,
+      "contract_blocked_supported_claim": false,
+      "support_clipped_in_original": false,
+      "missing_test": "Actual measure contribution and authoritative adjustment treatment remain unestablished.",
+      "selection_evidence": "Three closely related empty exception reads triggered NO_PROGRESS.",
+      "underclaim_origin": "Digest truncates query before predicates; synthesis expressly declines scoped negative finding. Appropriate uncertainty about defect, incomplete reporting of acquired negative evidence."
+    },
+    {
+      "trial": "S5",
+      "session_id": "e9d4876b-cdab-4925-88ac-9473f331dcc9",
+      "calibration": "MIXED",
+      "evidence_ids": [
+        "fd1521ec-a437-4360-bd99-e24ddcb22cae",
+        "7c1ce53c-03a4-40c0-9338-3195ecbbad8a",
+        "c8ab57e3-7f05-440a-b453-24320a2e2779"
+      ],
+      "established": "Linked-adjustment aggregate groups had zero unmatched movements; duplicate non-key movement signatures were observed in unadjusted groups.",
+      "mechanism_established_from_seen_evidence": false,
+      "contract_blocked_supported_claim": false,
+      "support_clipped_in_original": false,
+      "fully_supported_assessment": false,
+      "support_error": "Mechanism says net or absolute adjustment units meet or exceed linked units. Receipt tests ABS(net)>=ABS(movement), but sum(abs(adjustments))>ABS(movement), not >=. Equality for the latter was not ruled out.",
+      "missing_test": "Trace actual measure contribution and establish the authoritative adjustment/duplicate-entry rule.",
+      "selection_evidence": "Six reads consumed on adjustment profiles and duplicate non-key signatures, without downstream contribution test.",
+      "grading_basis": "Observed receipts and full compiled query, not hidden fixture values."
+    },
+    {
+      "trial": "S6",
+      "session_id": "cf858f67-a33c-4b0a-bbd5-37093db8db55",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "evidence_ids": [
+        "69c5fa91-afe5-4bc5-be7a-a4a3b3164bbd",
+        "6f441c52-4f6f-460c-afc9-df85fa906659",
+        "4e9d109e-8429-42d6-b1af-5380b3b4f037"
+      ],
+      "established": "360 unique stock movement IDs; 29 adjustment-linked groups; naive adjustment join produces 361 rows, one extra. No duplicate signatures in the tested linked population.",
+      "mechanism_established_from_seen_evidence": "Naive adjustment-join fanout is established; use of that join by the actual measure is not.",
+      "contract_blocked_supported_claim": false,
+      "support_clipped_in_original": false,
+      "fully_supported_assessment": true,
+      "missing_test": "Establish actual measure/transform inclusion path, then compare it against an authoritative adjustment rule.",
+      "selection_evidence": "Five reads profiled adjustment ratios, fanout and linked duplicates; one complexity rejection, then budget stop.",
+      "remaining_test_limitation": "The suggested single business-rule check alone would not prove that the production measure uses the tested naive join."
+    },
+    {
+      "trial": "S7",
+      "session_id": "be7cce38-4a69-440f-98d1-63c440ce8175",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "calibration_applies_to": "Rejected provider proposal only; no delivered assessment",
+      "delivered_assessment": false,
+      "evidence_ids": [
+        "7aeca75e-5f56-4834-8eed-919f0264da79",
+        "0cd0119a-9229-47f9-8439-ae7cd5faf0b8",
+        "bb3fb77a-b54f-42e3-bf4a-7578df1c7b30"
+      ],
+      "established": "One shown group has 23 linked adjustment rows across 22 movements with adjustments; multi-adjustment source cases exist. A tested duplicate-signature query returned no rows.",
+      "mechanism_established_from_seen_evidence": "Potential fanout in a hypothetical movement-to-adjustment join, not proven production use.",
+      "contract_blocked_supported_claim": "Proposal rejected because support IDs were missing from assessment.evidence_ids; not the unknown-intent classification guard.",
+      "support_clipped_in_original": false,
+      "fully_supported_assessment": false,
+      "missing_test": "Compare actual measure grain against multi-adjustment case and establish intended treatment.",
+      "selection_evidence": "Two SQL proposal rejections (complexity and other) and three reads; NO_PROGRESS before that measure-path test."
+    },
+    {
+      "trial": "S8",
+      "session_id": "f0be3674-5d48-4ff4-872c-38ed3e01a8fb",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "calibration_applies_to": "Rejected provider proposal only; no delivered assessment",
+      "delivered_assessment": false,
+      "evidence_ids": [
+        "8cc588ee-de1b-415b-8831-9cc551aee811",
+        "d2f9fc34-7a92-40d4-bdd5-0d809969ecdc",
+        "896da39f-39d5-4b59-ba56-87ecfcfc6257"
+      ],
+      "established": "30 distinct adjustments on 29 movement IDs, net units 19; displayed linked groups differ from movement units and include a multi-reason case.",
+      "mechanism_established_from_seen_evidence": false,
+      "contract_blocked_supported_claim": "Support references completed receipt 896da39f-39d5-4b59-ba56-87ecfcfc6257 but outer evidence_ids omits it. Structural citation failure, not unknown-intent guard.",
+      "support_clipped_in_original": false,
+      "fully_supported_assessment": false,
+      "missing_test": "Validate production measure contribution and authoritative intended adjustment treatment.",
+      "selection_evidence": "Six reads consumed on linked-unit mismatch drilldowns and adjustment summaries, with no measure-path test."
+    },
+    {
+      "trial": "S9",
+      "session_id": "99ec6c13-3e95-4012-a0e8-157d6539ea32",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "calibration_target": "Preserved investigation assessment and rejected synthesis proposal; no synthesis success",
+      "evidence_ids": [
+        "8c52ff69-3d21-42b2-b763-5745d7468c9b",
+        "73b82092-d27b-43b8-b506-1304aa679ad6"
+      ],
+      "mechanism_established_from_seen_evidence": false,
+      "contract_blocked_supported_claim": false,
+      "support_clipped_in_original": false,
+      "missing_test": "Establish actual measure/notebook contribution and independent intended adjustment treatment.",
+      "selection_evidence": "Voluntary ENOUGH_DIAGNOSTICS after mismatch and linked-grain profiling; prior assessment remains after citation-subset rejection.",
+      "synthesis_status": "FAILED",
+      "grading_basis": "Offline recorded observations and proposal only; grading separate from runtime evidence."
+    }
+  ],
+  "metrics": {
+    "runs": 9,
+    "accepted_synthesis_outputs": 6,
+    "receipt_grounded_qualified_synthesis_outputs_including_historical_clipping": 5,
+    "intact_receipt_grounded_synthesis_outputs": 3,
+    "final_assessments_including_prior_fallback": 7,
+    "newly_gained_assessments": 5,
+    "citation_subset_failures": 3,
+    "query_rejections": 4,
+    "planner_calls": 86,
+    "synthesis_calls": 9,
+    "sql_reads": 44,
+    "native_reads": 0,
+    "context_lookups": 46,
+    "reference_cost_usd": 5.33454,
+    "synthesis_reference_cost_usd": 0.432381
+  },
+  "proposed_full_query_cost": [
+    {
+      "trial": "S1",
+      "original_digest_characters": 14590,
+      "proposed_full_query_characters": 21606,
+      "per_call_limit": 48000,
+      "fits": true,
+      "directory_entries_before": 0,
+      "directory_entries_after": 0,
+      "sql_directory_objects_before": 0,
+      "sql_directory_objects_after": 0
+    },
+    {
+      "trial": "S2",
+      "original_digest_characters": 15166,
+      "proposed_full_query_characters": 21753,
+      "per_call_limit": 48000,
+      "fits": true,
+      "directory_entries_before": 0,
+      "directory_entries_after": 0,
+      "sql_directory_objects_before": 0,
+      "sql_directory_objects_after": 0
+    },
+    {
+      "trial": "S3",
+      "original_digest_characters": 15488,
+      "proposed_full_query_characters": 21482,
+      "per_call_limit": 48000,
+      "fits": true,
+      "directory_entries_before": 0,
+      "directory_entries_after": 0,
+      "sql_directory_objects_before": 0,
+      "sql_directory_objects_after": 0
+    },
+    {
+      "trial": "S4",
+      "original_digest_characters": 12216,
+      "proposed_full_query_characters": 19496,
+      "per_call_limit": 48000,
+      "fits": true,
+      "directory_entries_before": 0,
+      "directory_entries_after": 0,
+      "sql_directory_objects_before": 0,
+      "sql_directory_objects_after": 0
+    },
+    {
+      "trial": "S5",
+      "original_digest_characters": 13472,
+      "proposed_full_query_characters": 20610,
+      "per_call_limit": 48000,
+      "fits": true,
+      "directory_entries_before": 0,
+      "directory_entries_after": 0,
+      "sql_directory_objects_before": 0,
+      "sql_directory_objects_after": 0
+    },
+    {
+      "trial": "S6",
+      "original_digest_characters": 14288,
+      "proposed_full_query_characters": 22718,
+      "per_call_limit": 48000,
+      "fits": true,
+      "directory_entries_before": 0,
+      "directory_entries_after": 0,
+      "sql_directory_objects_before": 0,
+      "sql_directory_objects_after": 0
+    },
+    {
+      "trial": "S7",
+      "original_digest_characters": 10618,
+      "proposed_full_query_characters": 12144,
+      "per_call_limit": 48000,
+      "fits": true,
+      "directory_entries_before": 0,
+      "directory_entries_after": 0,
+      "sql_directory_objects_before": 0,
+      "sql_directory_objects_after": 0
+    },
+    {
+      "trial": "S8",
+      "original_digest_characters": 12515,
+      "proposed_full_query_characters": 19153,
+      "per_call_limit": 48000,
+      "fits": true,
+      "directory_entries_before": 0,
+      "directory_entries_after": 0,
+      "sql_directory_objects_before": 0,
+      "sql_directory_objects_after": 0
+    },
+    {
+      "trial": "S9",
+      "original_digest_characters": 12024,
+      "proposed_full_query_characters": 17182,
+      "per_call_limit": 48000,
+      "fits": true,
+      "directory_entries_before": 0,
+      "directory_entries_after": 0,
+      "sql_directory_objects_before": 0,
+      "sql_directory_objects_after": 0
+    }
+  ],
+  "initial_context_coverage": [
+    {
+      "trial": "S1",
+      "entries": 28,
+      "sql_objects": 11,
+      "payload_characters": 15067
+    },
+    {
+      "trial": "S2",
+      "entries": 28,
+      "sql_objects": 11,
+      "payload_characters": 15067
+    },
+    {
+      "trial": "S3",
+      "entries": 28,
+      "sql_objects": 11,
+      "payload_characters": 15067
+    },
+    {
+      "trial": "S4",
+      "entries": 28,
+      "sql_objects": 11,
+      "payload_characters": 15067
+    },
+    {
+      "trial": "S5",
+      "entries": 28,
+      "sql_objects": 11,
+      "payload_characters": 15067
+    },
+    {
+      "trial": "S6",
+      "entries": 28,
+      "sql_objects": 11,
+      "payload_characters": 15067
+    },
+    {
+      "trial": "S7",
+      "entries": 28,
+      "sql_objects": 11,
+      "payload_characters": 15067
+    },
+    {
+      "trial": "S8",
+      "entries": 28,
+      "sql_objects": 11,
+      "payload_characters": 15067
+    },
+    {
+      "trial": "S9",
+      "entries": 28,
+      "sql_objects": 11,
+      "payload_characters": 15067
+    }
+  ],
+  "identical_envelopes": true
+}

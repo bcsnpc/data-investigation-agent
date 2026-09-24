@@ -25,6 +25,24 @@ class SynthesisTests(unittest.TestCase):
           'support':{'mechanism':'A scoped value was observed.','mechanism_evidence_ids':ids,'intent_dependency':'UNKNOWN',
                      'intent_basis':'Intent is not established.','intent_evidence_ids':[],'remaining_test':'Obtain the intended rule.'}}
 
+    def test_support_is_never_clipped_by_repair_or_wire_bound(self):
+        from investigator.proposal_repairs import repair
+        from investigator.assessment_support import validate, SCHEMA
+        from investigator import proposal_limits
+        for field in ('mechanism','intent_basis','remaining_test'):
+            with self.subTest(field=field):
+                answer=self.answer({'evidence':[]})
+                answer['support'][field]='x'*(proposal_limits.ASSESSMENT_DETAIL+1)+' Complete ending.'
+                original=copy.deepcopy(answer)
+                repaired,events=repair({'assessment':answer})
+                self.assertEqual(repaired['assessment']['support'],original['support'])
+                self.assertFalse(events)
+                with self.assertRaisesRegex(ValueError,'Support '+field+' exceeds'):
+                    validate(repaired['assessment'],{})
+                self.assertEqual(repaired['assessment'],original)
+                self.assertNotIn('maxLength',SCHEMA['properties'][field])
+                self.assertNotIn('maxLength',synthesis.schema()['properties']['support']['properties'][field])
+
     def test_independent_call_no_trajectory_or_raw_rows_full_reservation_idempotent(self):
         agent,state=self.stopped();calls=[]
         def provider(payload,options):

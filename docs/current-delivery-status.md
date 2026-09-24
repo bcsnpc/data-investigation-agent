@@ -6,6 +6,33 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Completed: synthesis calibration and Microsoft capability evaluation ([PR #223](https://github.com/bcsnpc/data-investigation-agent/pull/223)).**
+Nine corrected known-domain G trials yielded **6/9 accepted synthesis outputs**,
+**5/9 receipt-grounded qualified outputs** including historical clipping, and
+**3/9 intact receipt-grounded synthesis outputs**. Three new syntheses failed a
+citation-subset check; one retained its prior investigation assessment. One accepted
+answer overstated a comparison; another lost useful negative evidence in the digest.
+The original three were correctly uncertain about a source defect from the evidence
+they actually obtained. No support guard demonstrably suppressed a supported cause.
+The remaining gap is test selection and faithful evidence transfer, not a reason
+to relax intent requirements. Support repair no longer silently truncates text.
+
+**1,027 local tests passed.** All 62 new tapes verified, failures preserved, six
+ledger rows appended, and original daily limits restored without resetting usage.
+Eighteen bounded Microsoft probes found useful typed item relations, job history
+and Delta commit metadata; reader INFO/refresh and SQL dependency catalog access
+were unavailable. Time-travel/Query Insights execution remains untested without an
+approved Fabric reader connection. No write grant or adapter was added.
+
+Next proposal only: preserve query predicates in synthesis and compose citation
+lists consistently; measured full-query digests fit the existing limit. Optional
+native metadata feeds can supplement derived lineage. Stop for review before any
+dependency map, parallel synthesis or Microsoft adapter. No freeze/new variant or
+unfamiliar-domain acceptance claim. See [calibration](synthesis-calibration.md) and
+[Microsoft capability review](microsoft-native-capability-review.md).
+
+### Previous milestone
+
 **Completed milestone: separated evidence synthesis and input controls.**
 [PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222) adds opt-in,
 independently metered synthesis over a deterministic frozen receipt digest.
@@ -36,10 +63,9 @@ Azure capacity/SQL free-tier settings read back unchanged.
 
 Validation: **1,026 final local tests and six corrected implementation CI checks
 passed**. See [per-run comparison, support review and costs](separated-evidence-synthesis.md).
-The next proposal is three independent syntheses over identical frozen evidence,
-comparing named mechanisms and cited IDs and reporting disagreement without voting.
-It is **not implemented or authorized for live execution here**. Support-text
-clipping needs an offline correction before further trials. Typed dependency
+At that milestone, parallel synthesis was deferred pending calibration and the
+nine-run evaluation, now completed above. It remains **not implemented or
+authorized for live execution here**. The support-text correction is delivered above. Typed dependency
 traversal remains a later candidate only. Larger input is not adopted as a default;
 the stopping contract remains unadopted. No freeze, fresh variant or unfamiliar-domain claim.
 
