@@ -1106,3 +1106,23 @@ rejection feedback. Recorded F call 1 coverage restored from 11/3 to 28/11 direc
 entries. All 1,009 local regression tests passed. Controlled E/F/G/I and two further G
 repeats are next; token and compact-ownership changes remain proposal-only. See
 [revert evaluation](ownership-revert-evaluation.md).
+
+
+## 2026-09-23: ownership-revert six-run evaluation complete
+
+[PR #220](https://github.com/bcsnpc/data-investigation-agent/pull/220) restores F's
+28/11 directory/SQL coverage, preserving compiler and rejection fixes. Matched
+E/F/G/I: 31 calls, 7 SQL + 4 native reads (baseline 34, 3 + 4; #219 38, 0 + 5).
+G source reads repeat at 5/6/5 in 10/11/11 calls; two trials still exhaust six
+cloud reads without a final assessment. All six total 53 calls, 18 SQL + 5 native,
+three local rejections, zero provider errors. The repeated-CASE compiler fix was
+exercised in a successful live query. No unfamiliar acceptance is claimed.
+
+All 53 recordings verify; six append-only ledger rows preserve every result.
+Usage 466 -> 549, same policy/profile/capacity and no reset/refund/deadline change.
+1,009 regression tests and generator tests passed before live; six implementation
+CI checks passed. README/current status reviewed and updated. Offline compact
+ownership measurement exposed saturated-prompt coverage loss even with a fixed
+header; the proposal includes a coverage-preserving omission guard. Token/effort
+comparison remains proposal-only. Work stops with
+[results](ownership-revert-evaluation.md) and [proposals](ownership-and-reasoning-proposal.md).

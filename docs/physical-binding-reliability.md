@@ -3,6 +3,11 @@
 2026-09-23. Issue #199; follows accepted #218. Known-domain work only.
 Implementation and evidence: [PR #219](https://github.com/bcsnpc/data-investigation-agent/pull/219).
 
+The per-entry ownership representation below was subsequently rejected and reverted.
+Its compiler correction and rejection feedback remain. See the
+[revert and repeated evaluation](ownership-revert-evaluation.md); the original results
+below are unchanged historical evidence.
+
 ## Decision and scope
 
 The stopping-contract hypothesis was evaluated and rejected. Its proposed fields,

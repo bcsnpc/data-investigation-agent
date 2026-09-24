@@ -7,13 +7,36 @@ This is the authoritative current status; milestone pages retain historical evid
 ## Current milestone
 
 
-**Active milestone: revert rejected per-entry ownership, then controlled repeats.**
-The #219 labels are removed; compiler binding and actionable SQL feedback stay.
-Recorded F call 1 returns to **28 directory entries / 11 SQL objects**, from 11/3.
-Pre-wire size is 14,538 characters and request size 28,217 bytes. A coverage golden
-now guards this boundary. Full tests precede E/F/G/I plus two extra G trials under
-unchanged settings. Compact ownership and token increases are proposal-only after
-the results. See [revert evidence](ownership-revert-evaluation.md).
+**Completed milestone: ownership revert and controlled source-read recovery.**
+[PR #220](https://github.com/bcsnpc/data-investigation-agent/pull/220) removes per-entry
+ownership labels while retaining the SQL compiler fix and all actionable feedback.
+F call 1 returns to **28 directory / 11 SQL entries**, 14,538 pre-wire characters
+and 28,217 request bytes. A synthetic golden and contribution rule guard coverage.
+**1,009 local regression tests passed**; six CI checks passed on the implementation
+commit, with final documentation checks tracked on the PR.
+
+Matched E/F/G/I produced **7 SQL + 4 native reads in 31 calls**, compared with
+#218's 3 + 4 in 34 and #219's 0 + 5 in 38. All six new trials used 53 calls for
+18 SQL + 5 native reads, with three local rejections and no provider errors. G's
+three trials made **5/6/5 SQL reads**, 0/0/1 native reads, 10/11/11 planning calls
+and 0/1/0 rejections. G1 concluded BUSINESS_CONTEXT_REQUIRED; G2/G3 exhausted six
+cloud reads and remained UNRESOLVED. F measured join fanout reproducing 57,043,
+but its overstatement wording still requires an unknown intended valuation rule.
+E remained SQL-permission blocked; I asked for Q49 meaning and intended treatment.
+The retained compiler fix was exercised by a successful repeated-CASE grouped query.
+
+Source reading is reproducible after the revert, while completed-answer quality
+and generality remain unproven. All 53 recordings verify, settings/policy and
+control-plane readbacks match, usage grows 466 -> 549 without reset/refund, and
+exactly six ledger rows are added without changing the prior 117. No grants,
+deadlines or limits changed. See [full metrics and limits](ownership-revert-evaluation.md).
+
+Work stops at the [ownership and reasoning proposal](ownership-and-reasoning-proposal.md).
+The proposed registry adds fixed context cost, with an explicit fallback when it
+cannot fit without reducing coverage. Proposed medium/high reasoning trials use
+16,000 output tokens in both arms; no generation setting or token allowance has
+changed. No freeze or new variant. The stopping contract stays evaluated and not
+adopted; all prior failures retain their recorded outcomes.
 
 ### Previous milestone: #219 compiler/context evaluation
 
@@ -22,7 +45,7 @@ The stopping-contract proposal is **evaluated and not adopted**; its negative re
 remains in [the review record](stopping-criteria-review.md). Repeated typed SQL
 literals now share bindings, fixing the saved G SELECT/GROUP BY defect offline.
 SQL rejections report measured complexity/caps and approved connection/schema with
-scoped catalog targets. Planner context labels physical ownership. No query rewrite,
+scoped catalog targets. That historical engine labelled physical ownership per entry (now reverted above). No query rewrite,
 permission expansion, cross-system adapter or experimental stopping field was added.
 **All 1,008 regression tests passed.**
 [PR #219](https://github.com/bcsnpc/data-investigation-agent/pull/219) tracks implementation,
@@ -385,12 +408,12 @@ returned rows, not work scanned.
 | 3 Automatic context graph | Merged #196; independent context, graph/search and ticket visibility |
 | 4 Expanded LLM reasoning | Merged #198; dynamic context/tests and qualified assessments |
 | 5 Flexible governed tools | Merged #198; parser-governed SQL/DAX and isolated execution |
-| 6 General engine freeze | v4 invalidated; compiler/binding re-baseline complete with failures; no new freeze authorized |
-| 7 Unknown Domain Challenge | v4 discovery preserved; full known-domain baseline recorded with failures; fresh variant not started |
+| 6 General engine freeze | v4 invalidated; ownership revert/repeats complete; proposals only; no new freeze authorized |
+| 7 Unknown Domain Challenge | v4 discovery preserved; source reads recovered in known-domain repeats; conclusion reliability pending; no fresh variant |
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **six-run re-baseline complete; source reliability unproven; stopped for report; no freeze**. Prior
+Current: **ownership revert and repeats complete; source access recovered; conclusion reliability pending; stopped at proposals; no freeze**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.
