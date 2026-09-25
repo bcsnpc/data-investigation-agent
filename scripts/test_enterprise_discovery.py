@@ -39,12 +39,16 @@ class DiscoveryTests(unittest.TestCase):
         self.sql_objects=[{'object_id':1,'schema_name':'business','name':'events','type_desc':'USER_TABLE'},
                           {'object_id':2,'schema_name':'secret','name':'restricted','type_desc':'USER_TABLE'}]
         self.bindings=[{'id':self.rid,'datasetId':self.mid}]
+        self.relations=[]
 
     def transport(self,endpoint,method='get',audience='fabric'):
         if any(d in endpoint for d in self.denied):raise PermissionError('not authorized')
         if endpoint=='workspaces':body={'value':[{'id':self.ws,'displayName':'Approved'}]}
         elif endpoint.endswith('/items'):body={'value':self.items}
         elif endpoint.endswith('/reports'):body={'value':self.bindings}
+        elif '/relations/upstream' in endpoint:
+            body={'items':[dict(x,workspaceId=self.ws) for x in self.items],'relations':self.relations,
+                  'workspaces':[{'id':self.ws,'displayName':'Approved'}]}
         elif '/getDefinition' in endpoint:
             mid=endpoint.split('/')[3]
             body={'definition':{'parts':[{'path':p,'payloadType':'InlineBase64','payload':base64.b64encode(v.encode()).decode()} for p,v in self.parts[mid].items()]}}
@@ -187,6 +191,17 @@ class DiscoveryTests(unittest.TestCase):
         result=self.scan()['body']
         self.assertFalse(result['report_bindings'])
         self.assertTrue(any(g.get('reason')=='CONFLICTING_EXPLICIT_MODEL_BINDINGS' for g in result['graph']['gaps']))
+
+    def test_native_item_relations_retain_exact_type_and_scoped_identities(self):
+        endpoint=str(uuid4());lakehouse=str(uuid4())
+        self.items.extend([{'id':endpoint,'type':'SQLEndpoint','displayName':'Endpoint'},
+                           {'id':lakehouse,'type':'Lakehouse','displayName':'Lake'}])
+        self.relations=[{'itemId':self.mid,'dependentOnItemId':endpoint,'relationType':'Association'},
+                        {'itemId':endpoint,'dependentOnItemId':lakehouse,'relationType':'CascadeDelete'}]
+        result=self.scan()['body'];edges=result['graph']['edges']
+        self.assertTrue(any(e['source'].endswith(endpoint) and e['target'].endswith(lakehouse)
+                            and e['relation']=='NATIVE_CASCADEDELETE' for e in edges))
+        self.assertEqual(result['coverage']['fabric://'+self.ws+'/'+self.mid+'/relations/upstream']['status'],'COMPLETE')
 
     def test_malformed_binding_does_not_erase_enumerated_model(self):
         self.bindings[0]['datasetId']='invalid'

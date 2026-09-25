@@ -42,7 +42,12 @@ class Graph:
         workspace=url.netloc.split('@')[0] if url.scheme=='abfss' else prefix.strip('/').split('/')[0]
         lakehouse=prefix.strip('/').split('/')[-1]
         parent=f'fabric://{workspace}/{lakehouse}'
-        return self.find('LakehouseTable',unquote(table).replace('/','.'),parent)
+        from investigator.declared_pointer import resolve
+        adapted=[{'id':a['id'],'parent_id':a.get('parent'),'kind':a['kind'],'name':a['name'],
+                  'availability':'CURRENT'} for a in self.assets.values()]
+        result=resolve(adapted,{'scope_ids':[parent],
+            'target_labels':[unquote(table).replace('/','.')],'target_kinds':['LakehouseTable']})
+        return result['asset']['id'] if result['status']=='RESOLVED' else None
     def traverse(self,start,direction='upstream',kinds=None):
         if start not in self.assets: raise ValueError('Unknown asset ID')
         kinds=DEFAULT_KINDS if kinds is None else set(kinds)

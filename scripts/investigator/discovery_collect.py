@@ -97,8 +97,23 @@ class Collector:
         bindings = self.attempt(root+'/report_bindings',report_bindings)
         self.report_bindings = {}
         self.report_bindings.update(bindings or {})
+        self.item_relations=[]
         for item in items:
             aid = root+'/'+item['id']; kind = item['type']
+            if kind == 'SemanticModel':
+                def relations(item=item,aid=aid):
+                    body=self.call(f'workspaces/{workspace}/items/{item["id"]}/relations/upstream?beta=true')['text']
+                    rows=body.get('relations')
+                    if not isinstance(rows,list):raise ValueError('Item relations response differs')
+                    known={str(UUID(x['id'])) for x in body.get('items',[]) if x.get('workspaceId')==workspace}
+                    retained=[]
+                    for row in rows:
+                        source=str(UUID(row['itemId']));target=str(UUID(row['dependentOnItemId']))
+                        if source not in known or target not in known:continue
+                        retained.append({'source':root+'/'+source,'target':root+'/'+target,
+                            'relation_type':str(row['relationType']),'scope':aid,'source_api':'fabric_item_relations_beta'})
+                    self.item_relations.extend(retained)
+                self.attempt(aid+'/relations/upstream',relations)
             if kind in ('SemanticModel', 'Report', 'Notebook', 'DataPipeline', 'CopyJob'):
                 def definition(item=item, aid=aid, kind=kind):
                     parts = (powerbi if kind in ('SemanticModel','Report') else fabric).get_definition(item)
@@ -148,4 +163,5 @@ class Collector:
         self.attempt(sqlroot+'/catalog',sql_catalog)
         return {'assets':list(self.assets.values()),'coverage':self.coverage,
                 'observations':self.observations,'report_bindings':self.report_bindings,
+                'item_relations':self.item_relations,
                 'calls':self.calls,'bytes':self.bytes,'profile_hash':digest(config)}
