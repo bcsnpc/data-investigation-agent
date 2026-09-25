@@ -22,6 +22,12 @@ analytics endpoint (`AADSTS65002`), so the active limit is
 `NO_INDEPENDENT_LOWER_READ`. No permission was changed, and no freeze or unfamiliar-
 domain acceptance pass is claimed.
 
+The required three-run follow-up was launched after PR #235 merged, but all three
+attempts failed before intake because the harness command omitted its required
+`--environment` argument. They opened no sessions, made no provider or data calls,
+and left usage unchanged. The failures are preserved in the
+[checkpoint report](docs/independent-boundary-three.md); no fourth run was launched.
+
 Current follow-up: the [process-debugging redesign](docs/process-debugging-redesign.md)
 replaces open-ended search as the primary path. Intake distinguishes mismatch
 complaints from business questions. A deterministic vertical procedure establishes
