@@ -7,7 +7,7 @@ label and evidence contract that were valid when they were written.
 OUTCOMES = (
     'REFRESH_LATENCY', 'LOAD_LATENCY', 'PRESENTATION_LOGIC',
     'TRANSFORMATION_LOGIC', 'INGESTION_GAP', 'DEFECT',
-    'CONSISTENT_TO_BOUNDARY', 'DEFINITION_DIFFERENCE', 'SCOPE_DIFFERENCE',
+    'CONSISTENT_TO_BOUNDARY', 'NO_COMPARABLE_PATH', 'DEFINITION_DIFFERENCE', 'SCOPE_DIFFERENCE',
     'DIFFERENT_SUBJECT', 'BUSINESS_QUESTION', 'NO_KNOWN_PATTERN')
 
 ACTIONS = {
@@ -18,6 +18,7 @@ ACTIONS = {
     'INGESTION_GAP': 'ROUTE_OPERATIONAL_FIX',
     'DEFECT': 'RAISE_BUG_WITH_EVIDENCE',
     'CONSISTENT_TO_BOUNDARY': 'ASK_UPSTREAM_OWNER',
+    'NO_COMPARABLE_PATH': 'NAME_MISSING_BINDING_OR_ACCESS',
     'DEFINITION_DIFFERENCE': 'DECIDE_BUG_OR_ENHANCEMENT',
     'SCOPE_DIFFERENCE': 'CONFIRM_SCOPE_INTENT',
     'DIFFERENT_SUBJECT': 'INFORMATIONAL',
@@ -32,13 +33,14 @@ REQUIRED_ROLES = {
     'LOAD_LATENCY': ('job_history', 'comparison', 'prior_state'),
     'PRESENTATION_LOGIC': ('presentation_definition', 'comparison'),
     'TRANSFORMATION_LOGIC': ('transformation_definition', 'comparison'),
-    'INGESTION_GAP': ('ingestion', 'flow_consistency'),
+    'INGESTION_GAP': ('ingestion', 'flow_consistency', 'comparison'),
     'DEFECT': ('mechanism', 'comparison', 'definition_absence'),
-    'CONSISTENT_TO_BOUNDARY': ('path', 'flow_consistency'),
+    'CONSISTENT_TO_BOUNDARY': ('path', 'flow_consistency', 'comparison'),
+    'NO_COMPARABLE_PATH': ('path',),
     'DEFINITION_DIFFERENCE': ('left_definition', 'right_definition'),
     'SCOPE_DIFFERENCE': ('left_scope', 'right_scope'),
     'DIFFERENT_SUBJECT': ('left_path', 'right_path'),
-    'BUSINESS_QUESTION': ('flow_consistency',),
+    'BUSINESS_QUESTION': ('flow_consistency', 'comparison'),
     'NO_KNOWN_PATTERN': ('established',),
 }
 
@@ -149,11 +151,25 @@ def validate(assessment, observations):
             raise ValueError('Baseline must cite assessment evidence')
     if baseline['status'] == 'ESTABLISHED':
         checked(baseline['evidence_ids'], 'baseline')
-    if outcome == 'NO_KNOWN_PATTERN' and (not isinstance(process['missing_capability'], str)
-                                           or not process['missing_capability'].strip()):
-        raise ValueError('NO_KNOWN_PATTERN requires a specific missing capability')
-    if outcome != 'NO_KNOWN_PATTERN' and process['missing_capability'] is not None:
-        raise ValueError('Only NO_KNOWN_PATTERN carries a missing capability')
+    gap_outcomes=('NO_KNOWN_PATTERN','NO_COMPARABLE_PATH')
+    if outcome in gap_outcomes and (not isinstance(process['missing_capability'], str)
+                                     or len(process['missing_capability'].strip())<12):
+        raise ValueError(f'{outcome} requires a specific missing capability')
+    if outcome not in gap_outcomes and process['missing_capability'] is not None:
+        raise ValueError('Only capability-gap outcomes carry a missing capability')
+    if outcome == 'NO_COMPARABLE_PATH' and baseline['status']!='ESTABLISHED':
+        raise ValueError('NO_COMPARABLE_PATH requires an established presentation baseline')
+    comparisons=[observations[ref] for ref in groups.get('comparison',[]) if ref in observations]
+    if outcome in ('CONSISTENT_TO_BOUNDARY','INGESTION_GAP','BUSINESS_QUESTION') and not any(
+            comparison.get('values_equal') is True for comparison in comparisons):
+        raise ValueError(f'{outcome} requires at least one successful equal boundary comparison')
+    if outcome in ('REFRESH_LATENCY','LOAD_LATENCY','PRESENTATION_LOGIC','TRANSFORMATION_LOGIC','DEFECT') and not any(
+            comparison.get('values_equal') is False for comparison in comparisons):
+        raise ValueError(f'{outcome} requires an observed divergent boundary comparison')
+    if outcome in BOUNDARY_ATTRIBUTIONS and not any(
+            comparison.get('values_equal') is False and comparison.get('upper_layer')==baseline['layer']
+            for comparison in comparisons):
+        raise ValueError('Boundary attribution baseline must be immediately above the divergent boundary')
     if outcome in ('PRESENTATION_LOGIC','TRANSFORMATION_LOGIC'):
         claim=assessment.get('claim','').lower()
         if any(phrase in claim for phrase in ('is correct','was correct','expected behavior','works as intended')):

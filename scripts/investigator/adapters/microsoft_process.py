@@ -20,9 +20,19 @@ class MicrosoftProcessAdapter:
         result=context_search.measure_path(self.store,self.model,measure_id)
         metadata=result;measure=metadata['measure']
         gaps=metadata.get('gaps',[])
+        partition_gap=next((g for g in gaps if g.get('reason')=='UNRESOLVED_PARTITION_IDENTITY'),None)
+        missing=(partition_gap or next(iter(gaps),None) or {}).get('detail')
+        if partition_gap:
+            table=next((a for a in metadata.get('assets',[]) if a.get('kind')=='SemanticTable'),{})
+            partitions=table.get('metadata',{}).get('partitions',[])
+            source=partitions[0].get('source',{}) if partitions else {}
+            label='.'.join(str(source[k]) for k in ('schemaName','entityName') if source.get(k))
+            missing=(f'The partition source label {label!r} for {table.get("name","the semantic table")!r} '
+                     'has no stable discovered asset binding, so no lower-layer quantity can be compiled under the declared scope.')
         path={'layers':[{'id':measure['parent_id'],'kind':'presentation','measure':measure}],
                 'boundary':measure['parent_id'],
-                'stopped_by':'NO_LINEAGE' if gaps else 'REACHED',
+                'stopped_by':'CAPABILITY_UNAVAILABLE' if gaps else 'REACHED',
+                'missing_comparable_quantity':missing,
                 'evidence':{'id':'path-'+str(uuid4()),'tool':'context','completeness':'PARTIAL' if gaps else 'COMPLETE_RESPONSE',
                             'metadata':metadata}}
         self._paths[measure_id]=path

@@ -19,6 +19,9 @@ was intended. Never call implemented logic correct. Every answer names the deepe
 and what stopped further visibility. Boundary attribution needs a baseline immediately above the
 boundary or a specific reason it could not be established. NO_KNOWN_PATTERN names the missing
 capability and is the fallback when no deterministic branch applies.
+NO_COMPARABLE_PATH requires an established presentation baseline, the attempted
+path resolution and the specific missing adjacent binding or access. It must not
+claim that any lower layer agreed.
 Reference validation does not prove semantic truth. State alternatives and limitations.
 Return the assessment through the required function call; no private reasoning text.'''
 

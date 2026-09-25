@@ -1301,3 +1301,19 @@ passed integrity checks. Usage rose by six planner reservations and three cloud
 reads under the unchanged policy; all 156 records are settled. This validates the
 presentation-boundary branch only, not source debugging or unfamiliar-domain
 generality. See [machine-readable review](runs/process-debugging-smoke.json).
+
+
+## 2026-09-25 - Zero-comparison outcome correction
+
+Review of the accepted three-run smoke found that a presentation baseline was
+incorrectly treated as flow-consistency evidence. Added the closed
+NO_COMPARABLE_PATH outcome and deterministic requirements for equal comparisons
+on consistency/ingestion/business-flow claims and unequal comparisons on boundary
+attributions. The runtime now reports boundary/comparison counts and specific
+NOT_COMPARABLE reasons. Tape and #224 evidence show measure_path was called, but
+asset lineage did not supply a stable, scope-preserving adjacent quantity binding;
+the current partition-label gap is named without a name-based join. Comparable-
+quantity bindings are proposed and remain unimplemented. Investigation planner
+payloads are unchanged. All 1,052 local regression tests pass; CI and exactly three
+corrected G trials remain. No freeze, variant, permission or policy change. See
+[correction and proposal](no-comparable-path-correction.md).
