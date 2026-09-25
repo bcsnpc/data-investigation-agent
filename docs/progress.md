@@ -1261,3 +1261,17 @@ native metadata feeds can supplement derived lineage. Stop for review before any
 dependency map, parallel synthesis or Microsoft adapter. No freeze/new variant or
 unfamiliar-domain acceptance claim. See [calibration](synthesis-calibration.md) and
 [Microsoft capability review](microsoft-native-capability-review.md).
+# 2026-09-25 — Measure-path nine-run evaluation
+
+The nine identical recorded G known-domain regressions completed on commit
+`be2436f`: 97 investigation calls, nine synthesis calls, 25 SQL and seven DAX
+reads, 52 context observations, 13 contribution tests and zero labelled measure
+reproductions. All nine selected `measure_path` first; M1 exercised contribution
+before reproduction. Five syntheses were accepted and receipt-grounded, four with
+intact support. Three responses exceeded the concise mechanism bound and one
+failed the citation-subset contract. All delivered outputs or preserved proposals
+were correctly uncertain; no cause was established. All 106 tapes verified.
+Reference token cost was USD 6.069237, including USD 0.495802 for synthesis.
+Original daily limits remained unchanged; 147 usage records are settled with no
+active reservations. See [evaluation](measure-path-nine-run-evaluation.md). No
+freeze, fresh variant or unfamiliar-domain claim.

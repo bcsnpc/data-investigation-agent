@@ -1,0 +1,106 @@
+{
+  "scope": "KNOWN_DOMAIN_REGRESSION",
+  "commit": "be2436fdfef68bbd4b1d33628498c07084691b7c",
+  "engine_hash": "21aa251ae3c8195be9ff0ef6caa48289a0f9289497498311efeafd2cd84b9d10",
+  "experiment": "MEASURE_PATH_NINE",
+  "accepted_syntheses": 5,
+  "receipt_grounded_syntheses": 5,
+  "intact_receipt_grounded_syntheses": 4,
+  "correctly_uncertain_outputs_or_preserved_proposals": 9,
+  "named_supported_causes": 0,
+  "measure_reproductions": 0,
+  "contribution_tests": 13,
+  "review_type": "assistant review against frozen synthesis digests, stored receipt values and evaluator-only fixture construction; not independent domain certification",
+  "runs": [
+    {
+      "trial": "M1",
+      "session_id": "4d00aecf-bf9f-4cfc-bb86-6717a7c57f97",
+      "synthesis": "ACCEPTED",
+      "classification": "BUSINESS_CONTEXT_REQUIRED",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "receipt_grounded": true,
+      "support_intact": true,
+      "finding": "Two native contribution tests established that 29 adjustment-linked movement IDs contribute 671 to Handled Quantity; the intended adjustment rule remained unknown."
+    },
+    {
+      "trial": "M2",
+      "session_id": "9c6257dd-0899-4c9c-b943-77c2fa84dbd5",
+      "synthesis": "REJECTED_TEXT_BOUND",
+      "classification": null,
+      "calibration": "CORRECTLY_UNCERTAIN_REJECTED_PROPOSAL",
+      "receipt_grounded": false,
+      "support_intact": false,
+      "finding": "No data read completed; the preserved proposal correctly reported insufficient evidence but its mechanism exceeded 500 characters."
+    },
+    {
+      "trial": "M3",
+      "session_id": "b6edd7a4-61db-45d4-ad9c-541c64fb4ffe",
+      "synthesis": "REJECTED_CITATION_SUBSET",
+      "classification": null,
+      "calibration": "CORRECTLY_UNCERTAIN_REJECTED_PROPOSAL",
+      "receipt_grounded": false,
+      "support_intact": false,
+      "finding": "Five SQL contribution tests found linked movement/adjustment mismatches; the proposal preserved unknown intent and measure linkage but omitted support citations from the outer list."
+    },
+    {
+      "trial": "M4",
+      "session_id": "dc98058b-791d-4d7e-a27a-a9467c0c0174",
+      "synthesis": "REJECTED_TEXT_BOUND",
+      "classification": null,
+      "calibration": "CORRECTLY_UNCERTAIN_REJECTED_PROPOSAL",
+      "receipt_grounded": false,
+      "support_intact": false,
+      "finding": "Three SQL contribution tests found no missing, duplicate or conflicting stock keys among 29 adjusted IDs; the proposal remained unresolved but exceeded the mechanism bound."
+    },
+    {
+      "trial": "M5",
+      "session_id": "82562524-2fdb-41e4-b91e-403d5b80c58d",
+      "synthesis": "ACCEPTED",
+      "classification": "UNRESOLVED",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "receipt_grounded": true,
+      "support_intact": false,
+      "finding": "SQL and native contribution tests linked two adjustments totaling -3 to one Activity row of 21 for movement 167; the provider returned a replacement character in remaining-test text."
+    },
+    {
+      "trial": "M6",
+      "session_id": "707797bc-c18c-45ea-a3f0-250e0375225d",
+      "synthesis": "ACCEPTED",
+      "classification": "BUSINESS_CONTEXT_REQUIRED",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "receipt_grounded": true,
+      "support_intact": true,
+      "finding": "General diagnostics reproduced 8,765 and its 6,425/2,340 components and linked two adjusted movements to native contributions, but did not use the explicit reproduction/contribution labels."
+    },
+    {
+      "trial": "M7",
+      "session_id": "d1e767b0-effa-4c2e-b639-cc8d2b15341f",
+      "synthesis": "ACCEPTED",
+      "classification": "UNRESOLVED",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "receipt_grounded": true,
+      "support_intact": true,
+      "finding": "Source diagnostics found 29 adjustment-linked keys and displayed unit mismatches while explicitly leaving measure impact and intended treatment unestablished."
+    },
+    {
+      "trial": "M8",
+      "session_id": "53cfab97-c874-48e4-b697-9fc37c7f1634",
+      "synthesis": "ACCEPTED",
+      "classification": "UNRESOLVED",
+      "calibration": "CORRECTLY_UNCERTAIN",
+      "receipt_grounded": true,
+      "support_intact": true,
+      "finding": "Repeated source diagnostics established a one-stock-to-two-adjustment pattern for movement 167 without asserting that it affects Handled Quantity."
+    },
+    {
+      "trial": "M9",
+      "session_id": "b57527a0-5b07-4400-b3d3-7b8426e47194",
+      "synthesis": "REJECTED_TEXT_BOUND",
+      "classification": null,
+      "calibration": "CORRECTLY_UNCERTAIN_REJECTED_PROPOSAL",
+      "receipt_grounded": false,
+      "support_intact": false,
+      "finding": "One SQL contribution test plus four general reads found adjustment and repeated-signature patterns; the proposal preserved unknown measure linkage but exceeded the mechanism bound."
+    }
+  ]
+}

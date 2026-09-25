@@ -9,7 +9,7 @@ target is to discover an approved environment and investigate business questions
 with an LLM, bounded read-only queries and saved evidence.
 This is an FDE integration with one enterprise environment.
 
-Current follow-up: [measure-path validation is implemented](docs/measure-path-validation.md).
+Current follow-up: [measure-path validation and its nine-run evaluation are complete](docs/measure-path-nine-run-evaluation.md).
 The selected measure has a bounded identity-backed path lookup; SQL/DAX adapters
 advertise generic measure reproduction and contribution tests that still use the
 existing compilers, permissions and receipts. Cause-labelled conclusions must cite
@@ -17,7 +17,13 @@ a mechanism-to-measure connection or name the exact establishment barrier. No
 sequence, fixed query template, domain mapping or name-derived source edge was added.
 The initial G view remains 28 directory entries / 11 SQL objects and grows from
 15,067 to 15,971 characters. Validation: **1,035 local regression tests passed**.
-Nine recorded known-domain G reruns are next; no freeze or unfamiliar-domain claim.
+Nine identical known-domain G trials then made 97 investigation calls, 25 SQL and
+seven DAX reads. They completed 13 contribution tests but **zero labelled measure
+reproductions**. Five syntheses were accepted and receipt-grounded; four had intact
+support. Four synthesis responses failed deterministic validation. Every delivered
+output or preserved proposal remained correctly uncertain, with no supported cause.
+All 106 tapes verified and the unchanged original daily policy was sufficient.
+No freeze or unfamiliar-domain claim follows from this result.
 
 ## What works today
 
@@ -58,7 +64,12 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-Latest validation: **1,035 local regression tests passed** after the measure-path capability change. The earlier nine-run report remains calibration history; the new nine-run evaluation is pending and no unfamiliar-domain acceptance pass is claimed.
+Latest validation: **1,035 local regression tests passed** after the measure-path
+capability change. The subsequent [nine-run evaluation](docs/measure-path-nine-run-evaluation.md)
+found consistent measure-path retrieval and some useful contribution tests, but
+zero explicit reproductions and four synthesis-validation failures. The next work
+is narrow reliability improvement for reproduction selection and contract-valid
+synthesis. No unfamiliar-domain acceptance pass is claimed.
 
 The previous separated-synthesis experiment is complete ([PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222)).
 Three corrected known-domain G trials produced **3/3 receipt-supported uncertainty

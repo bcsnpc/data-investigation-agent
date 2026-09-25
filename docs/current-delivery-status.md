@@ -1,12 +1,13 @@
 # Current delivery status
 
-Updated 2026-09-24. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
+Updated 2026-09-25. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
 ## Current milestone
 
-**Active: measure-path capabilities implemented; nine-run evaluation pending.**
+**Active: measure-path evaluation complete; reproduction selection remains the
+next reliability gap.**
 The reviewed #224 proposal is implemented without a dependency-map layer. A bounded
 `measure_path` lookup composes the selected measure's existing identity-backed
 references, partition definition facts, graph edges and explicit gaps. Governed
@@ -26,9 +27,25 @@ instead of joining similar names. The dependency-map proposal is deferred indefi
 Initial G context remains **28 directory entries / 11 SQL objects** and grows
 **15,067 -> 15,971 characters (+904)**. **1,035 local regression tests passed**,
 including a contribution-before-reproduction regression and a golden coverage
-assertion. See [implementation evidence](measure-path-validation.md). The next
-step is nine identical recorded G trials with separated synthesis. No live rerun,
-freeze, fresh variant or unfamiliar-domain claim has occurred yet.
+assertion. See [implementation evidence](measure-path-validation.md).
+
+Nine identical recorded G trials are now complete. All nine selected
+`measure_path` first; M1 then ran a contribution test before reproduction, so no
+sequence was imposed. Totals were **97 investigation calls, 25 SQL + seven DAX
+reads, 52 context observations, 13 contribution tests and zero labelled measure
+reproductions**. Five syntheses were accepted and receipt-grounded; four had intact
+support. Four synthesis calls failed deterministic validation, with every response
+and charge preserved. Outcomes were two BUSINESS_CONTEXT_REQUIRED and seven
+UNRESOLVED; every delivered output or preserved proposal was correctly uncertain,
+and none established a cause.
+
+All 106 tapes verified. Reference token cost was USD 6.069237, including USD
+0.495802 for synthesis; this is not Azure billing. The original 240 / 60 /
+8,000,000 / 1,500,000 daily policy remained unchanged and all 147 usage records
+are settled. See [the nine-run evaluation](measure-path-nine-run-evaluation.md).
+The next narrow work is reliable concise/citation-valid synthesis and generic
+selection of explicit `REPRODUCE_MEASURE`; no freeze, fresh variant or unfamiliar-
+domain claim is justified.
 
 ### Previous milestone
 
