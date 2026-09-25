@@ -1,0 +1,374 @@
+{
+  "version": 1,
+  "date": "2026-09-25",
+  "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+  "experiment": "CORRECT_CONTEXT_PROCESS_THREE",
+  "engine_commit": "80423ea43be40570e339285b412dd05c66d45de2",
+  "engine_hash": "9ea8138fb75517d9211e287e2e0fee8885cea7e0dab0862eed5f1492c65623f2",
+  "requested_environment": "unknown-domain-v4",
+  "preflight_context_version": "758842ba-a478-4470-a9f2-d7e7a2ec4413",
+  "run_count": 3,
+  "policy_alignment": {
+    "reason": "Align the usage governor with the explicitly selected discovery environment without resetting any reservation.",
+    "rows_preserved": 1181,
+    "from_environment": "development",
+    "to_environment": "unknown-domain-v4",
+    "limits_unchanged": true,
+    "usage_reset": false
+  },
+  "runs": [
+    {
+      "session_id": "G-correct-context-C1-20260925",
+      "date_utc": "2026-09-25T18:15:43.364222+00:00",
+      "mode": "live",
+      "family": "G",
+      "engine_tag": "unfrozen-9ea8138fb755",
+      "manifest_sha_short": "NONE",
+      "model_deployment": "investigator-quality-54",
+      "settings_hash": null,
+      "planner_calls": 0,
+      "reads_sql": 0,
+      "reads_dax": 0,
+      "reads_other": 0,
+      "context_lookups": 0,
+      "cumulative_input_chars": 0,
+      "wall_seconds": 0,
+      "stop_reason": "USAGE_POLICY_ENVIRONMENT_MISMATCH",
+      "outcome_label": "NOT_GRADED",
+      "graded": "INFRASTRUCTURE_FAILURE",
+      "notes_doc": "docs/correct-context-process-three.md",
+      "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+      "experiment": "CORRECT_CONTEXT_PROCESS_THREE",
+      "arm_trial": 1,
+      "process_exit": 1,
+      "discovery_environment": "unknown-domain-v4",
+      "discovery_context_id": null,
+      "preflight_discovery_context_id": "758842ba-a478-4470-a9f2-d7e7a2ec4413",
+      "environment_asserted": false,
+      "binding_status": null,
+      "binding_provenance": null,
+      "binding_asset_id": null,
+      "terminating_step": null,
+      "resolved_boundaries": 0,
+      "comparisons_executed": 0,
+      "not_comparable_boundaries": [],
+      "baseline_established": false,
+      "visibility_boundary": {},
+      "missing_capability": "Usage policy was still bound to development; no investigation session was created.",
+      "capabilities_declared": [],
+      "skipped_steps": [],
+      "business_skipped_steps": [],
+      "technical_skipped_steps": [],
+      "comparisons": [],
+      "synthesis_status": "NOT_REQUESTED",
+      "synthesis_validated": false,
+      "synthesis_calls": 0,
+      "synthesis_input_characters": 0,
+      "evidence_digest_hash": null,
+      "recorded_tape_ids": [],
+      "recorded_tape_count": 0,
+      "measured": {
+        "usage": {
+          "input_tokens": 0,
+          "cached_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0
+        },
+        "phases": [],
+        "reference_cost_usd": 0
+      },
+      "reference_cost_usd": 0,
+      "cost_basis": "No provider or cloud call occurred.",
+      "read_limit": 6,
+      "input_limit": 384000,
+      "reasoning_effort": "medium",
+      "max_output_tokens": 8000,
+      "minimum_llm_interval_seconds": 65
+    },
+    {
+      "session_id": "0837778d-7b4c-4bbc-8f3d-2968128f7e94",
+      "date_utc": "2026-09-25T18:17:21.074329+00:00",
+      "mode": "live",
+      "family": "G",
+      "engine_tag": "unfrozen-9ea8138fb755",
+      "manifest_sha_short": "NONE",
+      "model_deployment": "investigator-quality-54",
+      "settings_hash": "54add2f373fdf936bd4f86060cf771cb13ab87e66c95936574c3fbccd40c78c4",
+      "planner_calls": 0,
+      "reads_sql": 0,
+      "reads_dax": 2,
+      "reads_other": 1,
+      "context_lookups": 2,
+      "cumulative_input_chars": 0,
+      "wall_seconds": 71.736,
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "outcome_label": "CONSISTENT_TO_BOUNDARY",
+      "graded": "PENDING_TRUTH_REVIEW",
+      "notes_doc": "docs/correct-context-process-three.md",
+      "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+      "experiment": "CORRECT_CONTEXT_PROCESS_THREE",
+      "arm_trial": 2,
+      "process_exit": 0,
+      "discovery_environment": "unknown-domain-v4",
+      "discovery_context_id": "758842ba-a478-4470-a9f2-d7e7a2ec4413",
+      "environment_asserted": true,
+      "binding_status": "RESOLVED",
+      "binding_provenance": "DECLARED_BY_DEFINITION",
+      "binding_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "terminating_step": 6,
+      "resolved_boundaries": 1,
+      "comparisons_executed": 1,
+      "not_comparable_boundaries": [],
+      "baseline_established": true,
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+        "evidence_ids": [
+          "boundary-1-comparison",
+          "ingestion-79867247-7e94-4ebd-b554-b1a3a203bf80"
+        ],
+        "stopped_by": "CAPABILITY_UNAVAILABLE"
+      },
+      "missing_capability": null,
+      "capabilities_declared": [
+        "evaluate_scoped_quantity",
+        "ingestion",
+        "job_history",
+        "presentation_context",
+        "resolve_measure_path",
+        "transformation_definition"
+      ],
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "business_skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "technical_skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "comparisons": [
+        {
+          "id": "boundary-1-comparison",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "values_equal": true
+        }
+      ],
+      "synthesis_status": "BLOCKED",
+      "synthesis_validated": false,
+      "synthesis_calls": 0,
+      "synthesis_input_characters": 0,
+      "evidence_digest_hash": null,
+      "recorded_tape_ids": [
+        "0f6ba82a-3763-4520-af8e-a1c2ecfd35e3"
+      ],
+      "recorded_tape_count": 1,
+      "measured": {
+        "usage": {
+          "input_tokens": 13623,
+          "cached_tokens": 0,
+          "output_tokens": 67,
+          "reasoning_tokens": 0
+        },
+        "phases": [
+          "INTAKE"
+        ],
+        "reference_cost_usd": 0.035063
+      },
+      "reference_cost_usd": 0.035063,
+      "cost_basis": "Measured intake/synthesis/judgment tokens at reference rates; not Azure billing; cloud excluded",
+      "read_limit": 6,
+      "input_limit": 384000,
+      "reasoning_effort": "medium",
+      "max_output_tokens": 8000,
+      "minimum_llm_interval_seconds": 65,
+      "declared_connection_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/77c49180-2ef9-4558-837c-f50fdb1df8de",
+      "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim",
+      "relation_cross_check": "AGREES",
+      "external_source_declaration_status": "CAPABILITY_NOT_IMPLEMENTED",
+      "reads_metadata": 1,
+      "derived_process_observations": 1,
+      "comparison_values": [
+        {
+          "evidence_id": "19c20860-51a3-4407-bf54-51ecefaab026",
+          "purpose": "ESTABLISH_BASELINE",
+          "value": "8765"
+        },
+        {
+          "evidence_id": "7c63aae0-c8e2-4f3d-9b02-2918a4ef0a7d",
+          "purpose": "COMPARE_DECLARED_SOURCE",
+          "value": "8765"
+        }
+      ],
+      "synthesis_error_category": "Conflict",
+      "tapes_verified": true
+    },
+    {
+      "session_id": "7086fbda-59db-4091-9cff-5637c18cec16",
+      "date_utc": "2026-09-25T18:19:36.353643+00:00",
+      "mode": "live",
+      "family": "G",
+      "engine_tag": "unfrozen-9ea8138fb755",
+      "manifest_sha_short": "NONE",
+      "model_deployment": "investigator-quality-54",
+      "settings_hash": "54add2f373fdf936bd4f86060cf771cb13ab87e66c95936574c3fbccd40c78c4",
+      "planner_calls": 0,
+      "reads_sql": 0,
+      "reads_dax": 2,
+      "reads_other": 1,
+      "context_lookups": 2,
+      "cumulative_input_chars": 0,
+      "wall_seconds": 69.981,
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "outcome_label": "CONSISTENT_TO_BOUNDARY",
+      "graded": "PENDING_TRUTH_REVIEW",
+      "notes_doc": "docs/correct-context-process-three.md",
+      "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+      "experiment": "CORRECT_CONTEXT_PROCESS_THREE",
+      "arm_trial": 3,
+      "process_exit": 0,
+      "discovery_environment": "unknown-domain-v4",
+      "discovery_context_id": "758842ba-a478-4470-a9f2-d7e7a2ec4413",
+      "environment_asserted": true,
+      "binding_status": "RESOLVED",
+      "binding_provenance": "DECLARED_BY_DEFINITION",
+      "binding_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "terminating_step": 6,
+      "resolved_boundaries": 1,
+      "comparisons_executed": 1,
+      "not_comparable_boundaries": [],
+      "baseline_established": true,
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+        "evidence_ids": [
+          "boundary-1-comparison",
+          "ingestion-a3b8843a-ea0d-4c4d-9b41-5b8746a522fd"
+        ],
+        "stopped_by": "CAPABILITY_UNAVAILABLE"
+      },
+      "missing_capability": null,
+      "capabilities_declared": [
+        "evaluate_scoped_quantity",
+        "ingestion",
+        "job_history",
+        "presentation_context",
+        "resolve_measure_path",
+        "transformation_definition"
+      ],
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "business_skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "technical_skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "comparisons": [
+        {
+          "id": "boundary-1-comparison",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "values_equal": true
+        }
+      ],
+      "synthesis_status": "BLOCKED",
+      "synthesis_validated": false,
+      "synthesis_calls": 0,
+      "synthesis_input_characters": 0,
+      "evidence_digest_hash": null,
+      "recorded_tape_ids": [
+        "5fd4fac0-f4d2-4e6d-92f9-9e44813b1772"
+      ],
+      "recorded_tape_count": 1,
+      "measured": {
+        "usage": {
+          "input_tokens": 13623,
+          "cached_tokens": 13440,
+          "output_tokens": 67,
+          "reasoning_tokens": 0
+        },
+        "phases": [
+          "INTAKE"
+        ],
+        "reference_cost_usd": 0.004823
+      },
+      "reference_cost_usd": 0.004823,
+      "cost_basis": "Measured intake/synthesis/judgment tokens at reference rates; not Azure billing; cloud excluded",
+      "read_limit": 6,
+      "input_limit": 384000,
+      "reasoning_effort": "medium",
+      "max_output_tokens": 8000,
+      "minimum_llm_interval_seconds": 65,
+      "declared_connection_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/77c49180-2ef9-4558-837c-f50fdb1df8de",
+      "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim",
+      "relation_cross_check": "AGREES",
+      "external_source_declaration_status": "CAPABILITY_NOT_IMPLEMENTED",
+      "reads_metadata": 1,
+      "derived_process_observations": 1,
+      "comparison_values": [
+        {
+          "evidence_id": "4e2055c9-70e0-49d5-a561-e3f98a0cbbf8",
+          "purpose": "ESTABLISH_BASELINE",
+          "value": "8765"
+        },
+        {
+          "evidence_id": "6480eaf5-83f6-416f-a690-a3bbcf9d51ae",
+          "purpose": "COMPARE_DECLARED_SOURCE",
+          "value": "8765"
+        }
+      ],
+      "synthesis_error_category": "Conflict",
+      "tapes_verified": true
+    }
+  ],
+  "aggregate": {
+    "completed_sessions": 2,
+    "infrastructure_failures": 1,
+    "real_comparisons": 2,
+    "resolved_boundaries": 2,
+    "dax_reads": 4,
+    "sql_reads": 0,
+    "metadata_reads": 2,
+    "investigation_planner_calls": 0,
+    "provider_tapes": 2,
+    "reference_cost_usd": 0.039886
+  },
+  "acceptance_observation": {
+    "reached_real_comparison": 2,
+    "divergent_comparisons": 0,
+    "transformation_judgments_required": 0,
+    "transformation_judgments_executed": 0,
+    "result": "PARTIAL_BATCH_PASS",
+    "reason": "C2 and C3 reached equal declared-source comparisons; C1 failed before session creation because the usage policy environment was stale."
+  },
+  "limits": [
+    "Known-domain regression only; no freeze or unfamiliar-domain claim.",
+    "The external application-source declaration inspector is not implemented, so visibility stops at the Gold lakehouse table.",
+    "Optional synthesis was explicitly blocked by an unsupported receipt-integrity adapter; the deterministic process assessment remained saved."
+  ]
+}
