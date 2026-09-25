@@ -32,9 +32,16 @@ def verify_model_settings(freeze,path):
         raise ValueError('Azure model settings must be included in the engine freeze or frozen policy files')
 
 
+def model_store(folder,config,environment):
+    """Open the catalog in the same explicit environment used by discovery."""
+    return ModelStore(folder/'catalog.sqlite',config['storage']['database'],environment)
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--folder',type=Path,required=True)
+    p.add_argument('--environment',required=True,
+                   help='Exact discovery environment stored in the catalog')
     p.add_argument('--ticket',type=Path,required=True)
     p.add_argument('--key',required=True)
     p.add_argument('--azure-settings',type=Path,default=ROOT/'infra/llm/development.json')
@@ -55,7 +62,7 @@ def main():
     if not args.known_domain_regression:
         verify(freeze)
         verify_model_settings(freeze,args.azure_settings)
-    c=load_config(folder/'config.json');store=ModelStore(folder/'catalog.sqlite',c['storage']['database'],'development')
+    c=load_config(folder/'config.json');store=model_store(folder,c,args.environment)
     last_call=[0.0]
     def paced(call,payload):
         remaining=args.minimum_llm_interval-(time.monotonic()-last_call[0])

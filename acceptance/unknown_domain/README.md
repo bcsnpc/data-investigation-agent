@@ -23,6 +23,8 @@ definition was submitted only after the first operation reported terminal failur
 After ordinary discovery, `run_ticket.py` uses business-question resolution and the
 same scope preview as the workspace. Without `--execute-reviewed-scope` it only
 resolves/previews; use that flag after the evaluator reviews the proposed scope.
+Pass the exact discovery scope with `--environment`; the harness has no implicit
+environment because a catalog may retain several isolated context histories.
 It loads no expected value or per-model ID. The ticket text may naturally name the
 report/metric the business user is asking about. Its outputs are acceptance receipts,
 not authoritative grading or proof of generality.

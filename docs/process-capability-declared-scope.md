@@ -1,8 +1,8 @@
 # Capability-gated process steps and declared-scope resolution
 
-Updated 2026-09-25. Related to #193 and the process-debugging review. This is an
-implementation checkpoint before the prescribed three-run known-domain evaluation.
-It makes no freeze, variant or unfamiliar-domain claim.
+Updated 2026-09-25. Related to #193 and the process-debugging review. This records
+the implementation and its prescribed three-run known-domain integration
+checkpoint. It makes no freeze, variant or unfamiliar-domain claim.
 
 ## Corrected interpretation of the prior smoke
 
@@ -91,12 +91,44 @@ lineage, runtime, judgment, slicer and Delta-worker coverage. The two required
 generator tests pass, `git diff --check` passes, and 489 local documentation targets
 resolve. No cloud query was made for this implementation checkpoint.
 
-## Next bounded evaluation
+## Three-run integration checkpoint
 
-After merge, run exactly three identical recorded known-domain trials. For each,
-report declared capabilities, skipped steps, resolved boundaries and provenance,
-comparisons, reads by type, investigation planner calls, outcome, terminating step
-and visibility boundary. Equal values satisfy the comparison gate. If values
-diverge, the run must ask the governed model whether the retrieved definition
-explains the observation. Stop after three; do not start a nine-run batch, freeze,
-new variant or unfamiliar-domain acceptance attempt.
+PR #231 merged at `f13f984`. A complete 87-operation discovery refresh published
+context `758842ba-a478-4470-a9f2-d7e7a2ec4413` in environment
+`unknown-domain-v4`. Offline inspection against that exact context resolved
+`dbo.movement_values` inside the declared lakehouse with
+`DECLARED_BY_DEFINITION`; the native `NATIVE_CASCADEDELETE` relation agreed.
+Notebook definitions also declared the Gold-to-Silver inputs. No retained
+definition declared Silver-to-Azure SQL, which correctly remained
+`NO_DECLARATION`.
+
+Exactly three identical recorded G regressions then ran and the batch stopped.
+All three established `[Handled Quantity] = 8,765`, declared the six implemented
+capabilities, and reported `presentation_freshness` as skipped in both outputs.
+Each stopped at step 3 as `NO_COMPARABLE_PATH`: zero resolved boundaries, zero
+comparisons, one DAX read, no SQL/other read and no process-planner call. One
+synthesis completed; two failed validation with `ValueError`. All six intake and
+synthesis tapes passed byte-length and SHA-256 verification without exclusion.
+
+This is a failed integration checkpoint. Every live session used discovery version
+`ffbc0be4-225a-47d9-a280-4c0a456646d6`, the latest `development` snapshot, rather
+than the refreshed `unknown-domain-v4` snapshot. The evaluator harness had silently
+constructed `ModelStore` with the literal `development`. That older snapshot has
+the endpoint, lakehouse and table but lacks the newly collected native relation,
+so the resolver correctly returned `SCOPE_NOT_DISCOVERED` against the wrong
+environment. The repeated result is deterministic harness evidence; it is not an
+estate limitation or a failure of declared-scope matching.
+
+The live and live-comparison replay harnesses now require an explicit
+`--environment` and pass it unchanged to `ModelStore`; a regression opens both
+stores in an isolated non-development environment. No live retest followed this
+fix. Daily reservations moved from 127/38/3,860,454/918,500 to
+133/41/3,998,007/947,000 (planner/cloud/input/output), with no policy, permission
+or capacity change. The corrected checkout passes **1,074 local regression tests**.
+The machine-readable result is
+[declared-scope three-run evidence](runs/declared-scope-process-three.json).
+
+The acceptance bar remains unmet: no run reached a real comparison and therefore
+no divergence could trigger definition judgment. A later reviewed checkpoint must
+use the explicit discovery environment and demonstrate that path before any
+freeze, new variant or unfamiliar-domain claim.

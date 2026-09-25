@@ -1,0 +1,224 @@
+{
+  "version": 1,
+  "date": "2026-09-25",
+  "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+  "experiment": "DECLARED_SCOPE_PROCESS_THREE",
+  "implementation_commit": "f13f98485b1f6270d2c38219bb4f0865129089c8",
+  "engine_hash": "f530d92de8e3c64f1f2ead13d49e1457ac0a9db78f9d8f462dafd6b9a39ccde6",
+  "result": "FAILED_INTEGRATION_CHECKPOINT",
+  "expected_discovery_environment": "unknown-domain-v4",
+  "discovery_context_id": "758842ba-a478-4470-a9f2-d7e7a2ec4413",
+  "runtime_context_id_used": "ffbc0be4-225a-47d9-a280-4c0a456646d6",
+  "root_cause": "The evaluator constructed ModelStore with the hard-coded development environment, so runtime context lookup used an older environment snapshot without the newly collected native endpoint-to-lakehouse relation.",
+  "offline_binding": {
+    "status": "RESOLVED",
+    "provenance": "DECLARED_BY_DEFINITION",
+    "relation_cross_check": "AGREES",
+    "external_source_declaration": "NO_DECLARATION"
+  },
+  "aggregate": {
+    "runs": 3,
+    "baselines_established": 3,
+    "baseline_value": "8765",
+    "comparisons_executed": 0,
+    "resolved_boundaries": 0,
+    "dax_reads": 3,
+    "sql_reads": 0,
+    "other_reads": 0,
+    "process_planner_calls": 0,
+    "syntheses_completed": 1,
+    "syntheses_failed": 2,
+    "recordings": 6,
+    "recordings_verified": 6,
+    "reference_cost_usd": 0.178398,
+    "usage_before": {
+      "day": "2026-09-25",
+      "reserved": {
+        "planner_calls": 127,
+        "cloud_calls": 38,
+        "input_characters": 3860454,
+        "output_tokens": 918500
+      },
+      "states": {
+        "SETTLED": 165
+      }
+    },
+    "usage_after": {
+      "day": "2026-09-25",
+      "reserved": {
+        "planner_calls": 133,
+        "cloud_calls": 41,
+        "input_characters": 3998007,
+        "output_tokens": 947000
+      },
+      "states": {
+        "SETTLED": 174
+      }
+    }
+  },
+  "runs": [
+    {
+      "arm_trial": 1,
+      "session_id": "4fd75ab6-83ea-4f98-8f78-26b32e81d300",
+      "outcome_label": "NO_COMPARABLE_PATH",
+      "terminating_step": 3,
+      "resolved_boundaries": 0,
+      "comparisons_executed": 0,
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 0,
+      "planner_calls": 0,
+      "capabilities_declared": [
+        "evaluate_scoped_quantity",
+        "ingestion",
+        "job_history",
+        "presentation_context",
+        "resolve_measure_path",
+        "transformation_definition"
+      ],
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "evidence_ids": [
+          "path-b96c0f0b-75ed-465a-8ebd-6d1097aff6ba",
+          "27abff6b-3fe5-447e-922a-5f96e75f8f06"
+        ],
+        "stopped_by": "CAPABILITY_UNAVAILABLE"
+      },
+      "synthesis_status": "COMPLETED",
+      "recorded_tape_ids": [
+        "088864f4-eb04-44b6-9f86-929fbbace3f1",
+        "f0465a00-6822-4841-8fc0-6da88455c0b0"
+      ],
+      "reference_cost_usd": 0.073105,
+      "baseline_values": [
+        {
+          "[baseline]": {
+            "type": "decimal",
+            "value": "8765"
+          }
+        }
+      ],
+      "discovery_version_used": "ffbc0be4-225a-47d9-a280-4c0a456646d6",
+      "recording_integrity": "VERIFIED"
+    },
+    {
+      "arm_trial": 2,
+      "session_id": "11d9fe01-695d-453c-8bf7-26c0ed209df2",
+      "outcome_label": "NO_COMPARABLE_PATH",
+      "terminating_step": 3,
+      "resolved_boundaries": 0,
+      "comparisons_executed": 0,
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 0,
+      "planner_calls": 0,
+      "capabilities_declared": [
+        "evaluate_scoped_quantity",
+        "ingestion",
+        "job_history",
+        "presentation_context",
+        "resolve_measure_path",
+        "transformation_definition"
+      ],
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "evidence_ids": [
+          "path-951c83bd-3518-4baa-91e5-4399b9c7b4cd",
+          "4f520739-1c6f-4cc3-b159-8c697fabd85e"
+        ],
+        "stopped_by": "CAPABILITY_UNAVAILABLE"
+      },
+      "synthesis_status": "FAILED",
+      "recorded_tape_ids": [
+        "3850586b-22b6-4a54-8afa-dc907330b555",
+        "63a68930-1c82-496a-93bb-c7b1ee0f09e1"
+      ],
+      "reference_cost_usd": 0.063909,
+      "baseline_values": [
+        {
+          "[baseline]": {
+            "type": "decimal",
+            "value": "8765"
+          }
+        }
+      ],
+      "discovery_version_used": "ffbc0be4-225a-47d9-a280-4c0a456646d6",
+      "recording_integrity": "VERIFIED"
+    },
+    {
+      "arm_trial": 3,
+      "session_id": "2ecd9ebe-9c3a-4361-af93-9ddcdefa876e",
+      "outcome_label": "NO_COMPARABLE_PATH",
+      "terminating_step": 3,
+      "resolved_boundaries": 0,
+      "comparisons_executed": 0,
+      "reads_sql": 0,
+      "reads_dax": 1,
+      "reads_other": 0,
+      "planner_calls": 0,
+      "capabilities_declared": [
+        "evaluate_scoped_quantity",
+        "ingestion",
+        "job_history",
+        "presentation_context",
+        "resolve_measure_path",
+        "transformation_definition"
+      ],
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "evidence_ids": [
+          "path-c68ad842-89d6-44e7-81b6-8dbce3ff62c6",
+          "f768c4dc-076a-4ab7-95ed-291c4125a404"
+        ],
+        "stopped_by": "CAPABILITY_UNAVAILABLE"
+      },
+      "synthesis_status": "FAILED",
+      "recorded_tape_ids": [
+        "0a93719a-b1d2-46e0-b954-839250716ea4",
+        "20e0cbf9-8d41-4495-be3c-8e16f84fc63b"
+      ],
+      "reference_cost_usd": 0.041384,
+      "baseline_values": [
+        {
+          "[baseline]": {
+            "type": "decimal",
+            "value": "8765"
+          }
+        }
+      ],
+      "discovery_version_used": "ffbc0be4-225a-47d9-a280-4c0a456646d6",
+      "recording_integrity": "VERIFIED"
+    }
+  ],
+  "post_batch_fix": {
+    "live_and_replay_harnesses_require_explicit_environment": true,
+    "live_retest_performed": false
+  },
+  "claims": {
+    "real_comparison_reached": false,
+    "definition_judgment_invoked": false,
+    "frozen_acceptance": false,
+    "unfamiliar_domain": false
+  }
+}

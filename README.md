@@ -11,7 +11,7 @@ read-only queries and saved evidence. It reports implemented behavior and never
 decides whether a business rule is correct.
 This is an FDE integration with one enterprise environment.
 
-Current follow-up: [capability-gated process steps and declared-scope resolution](docs/process-capability-declared-scope.md) remove the stub-as-finding defect before any further run. Every procedure step is admitted only when its adapter advertises the named capability; skipped or inconclusive checks appear in both business and technical output. A generic resolver follows a definition-declared source only inside its declared connection scope, fails on ambiguity, and retains `DECLARED_BY_DEFINITION` provenance. The Microsoft adapter now connects semantic partition metadata to discovered Fabric endpoint/lakehouse identities, retrieves static presentation context and transformation definitions, uses retained job history, and reads bounded Delta commit metadata through the separate metadata identity. Power BI refresh history remains explicitly unavailable to the reader, with no elevation. The earlier three-run result measured unfinished wiring rather than an estate limitation. No new live result or unfamiliar-domain claim is attached to this implementation yet.
+Current follow-up: [capability-gated process steps and declared-scope resolution](docs/process-capability-declared-scope.md) remove the stub-as-finding defect. Every procedure step is admitted only when its adapter advertises the named capability; skipped or inconclusive checks appear in both business and technical output. A generic resolver follows a definition-declared source only inside its declared connection scope, fails on ambiguity, and retains `DECLARED_BY_DEFINITION` provenance. The Microsoft adapter connects semantic partition metadata to discovered Fabric endpoint/lakehouse identities, retrieves static presentation context and transformation definitions, uses retained job history, and reads bounded Delta commit metadata through the separate metadata identity. Power BI refresh history remains explicitly unavailable to the reader, with no elevation. The prescribed three live runs then exposed a harness defect: they read the older `development` discovery snapshot instead of `unknown-domain-v4`, so all three stopped before comparison. Both live evaluator paths now require an explicit environment. No post-fix live retest or unfamiliar-domain claim is attached.
 
 Current follow-up: the [process-debugging redesign](docs/process-debugging-redesign.md)
 replaces open-ended search as the primary path. Intake distinguishes mismatch
@@ -84,6 +84,16 @@ divergence localization or model judgment over a transformation definition. No
 unfamiliar-domain acceptance pass is claimed. The corrected engine passes **1,052
 local regression tests**; investigation planner payload content and coverage remain
 unchanged.
+
+The latest capability checkpoint merged with **1,073 tests and six green CI
+checks**; the harness correction passes **1,074 local tests**. Its three recorded
+runs each reproduced 8,765, but all used the wrong
+catalog environment because of a hard-coded evaluator default. They consequently
+made zero comparisons and ended at step 3. All failures remain recorded; one of
+three syntheses completed, two failed validation, and all six tapes verify. The
+harness now requires the exact discovery environment and has an isolation
+regression, but no additional live run was made. Real comparison and definition
+judgment therefore remain pending.
 
 The previous separated-synthesis experiment is complete ([PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222)).
 Three corrected known-domain G trials produced **3/3 receipt-supported uncertainty

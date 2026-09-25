@@ -1347,3 +1347,33 @@ permission or policy change. The next batch must reach an actual divergence befo
 model judgment can be evaluated. See
 [correction and result](no-comparable-path-correction.md) and the
 [machine-readable review](runs/no-comparable-path-corrected-smoke.json).
+
+
+## 2026-09-25 - Declared-scope integration checkpoint
+
+PR #231 merged capability-gated optional process steps, definition-scoped source
+resolution, static presentation context, governed transformation-definition
+judgment, retained Fabric job history and bounded Delta commit metadata. Refresh
+history remains undeclared after reader HTTP 403. Implementation validation was
+1,073 local tests plus six green CI checks; planner context counts and characters
+were unchanged.
+
+A complete 87-operation refresh under `unknown-domain-v4` resolved the semantic
+partition to `movement_values` offline with `DECLARED_BY_DEFINITION`, an agreeing
+native endpoint/lakehouse relation, notebook-declared Gold-to-Silver inputs and no
+declared Silver-to-SQL pointer. Exactly three recorded G regressions then ran and
+stopped. Each reproduced 8,765 but ended `NO_COMPARABLE_PATH` at step 3 with zero
+comparisons, one DAX read and no process-planner call. One synthesis completed and
+two failed validation; all six tapes passed byte/hash verification.
+
+The batch exposed a harness environment defect. The evaluator hard-coded
+`development`, selecting context `ffbc0be4-225a-47d9-a280-4c0a456646d6` instead
+of refreshed context `758842ba-a478-4470-a9f2-d7e7a2ec4413`; the older snapshot
+lacked the newly collected native relation. Live and replay harnesses now require
+an explicit environment, with regression coverage. The corrected checkout passes
+1,074 local tests. No post-fix live retest was run. Reservations moved from
+127/38/3,860,454/918,500 to
+133/41/3,998,007/947,000 under unchanged limits. No real comparison, definition
+judgment, freeze, variant or unfamiliar-domain claim. See
+[checkpoint evidence](process-capability-declared-scope.md) and the
+[machine-readable result](runs/declared-scope-process-three.json).

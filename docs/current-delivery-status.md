@@ -6,7 +6,7 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Active checkpoint: capability-gated process steps and declared-scope source resolution.**
+**Active checkpoint: declared-scope integration failure isolated and harness corrected.**
 The review of the prior smoke found that five adapter methods were constant stubs,
 while the vertical procedure called them and consumed their returns as findings.
 Those runs therefore measured unfinished wiring, not limitations of the Fabric
@@ -37,10 +37,27 @@ boundary and invokes one governed judgment call, consumes retained Fabric job
 history, and reads only the latest bounded Delta commit metadata through the
 separate metadata identity. Presentation refresh history remains undeclared because
 the execution reader receives HTTP 403; no permission elevation is made. **1,073
-local regression tests pass.** The three required known-domain runs remain pending
-until this implementation is merged. No live run, freeze, variant or unfamiliar-
-domain claim has been made. See
+local regression tests passed before the run.** PR #231 merged with six green CI
+checks. See
 [implementation and validation](process-capability-declared-scope.md).
+
+The prescribed three-run known-domain batch is complete and stopped after three.
+All runs reproduced 8,765 with one DAX read, declared six implemented capabilities,
+and listed unavailable presentation refresh in both outputs. All three then ended
+`NO_COMPARABLE_PATH` at step 3 with zero resolved boundaries, zero comparisons,
+no SQL/other read and no process-planner call. One synthesis completed and two
+failed validation. All six tapes passed hash/length verification.
+
+This batch exposed an evaluator integration defect: discovery refreshed
+`unknown-domain-v4`, but `run_ticket.py` opened the catalog with a hard-coded
+`development` environment. The older snapshot lacked the new native
+endpoint-to-lakehouse relation, producing stable `SCOPE_NOT_DISCOVERED` results.
+The live and replay harnesses now require an explicit environment and regression
+coverage proves it is preserved; **1,074 local regression tests pass**. No live
+retest followed the correction. The
+checkpoint therefore **did not reach a real comparison or transformation-definition
+judgment and did not pass**. No freeze, variant or unfamiliar-domain claim was made.
+See the [machine-readable three-run result](runs/declared-scope-process-three.json).
 
 **Completed checkpoint: zero-comparison correction and exactly three G reruns.**
 The accepted first smoke proved baseline establishment, synthesis validation and
