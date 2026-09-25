@@ -123,13 +123,15 @@ estate limitation or a failure of declared-scope matching.
 The live and live-comparison replay harnesses now require an explicit
 `--environment` and pass it unchanged to `ModelStore`; a regression opens both
 stores in an isolated non-development environment. No live retest followed this
-fix. Daily reservations moved from 127/38/3,860,454/918,500 to
+fix within this checkpoint; the later
+[correct-context batch](correct-context-process-three.md) reached equal declared-
+source comparisons in two of three launched runs. Daily reservations moved from 127/38/3,860,454/918,500 to
 133/41/3,998,007/947,000 (planner/cloud/input/output), with no policy, permission
 or capacity change. The corrected checkout passes **1,074 local regression tests**.
 The machine-readable result is
 [declared-scope three-run evidence](runs/declared-scope-process-three.json).
 
-The acceptance bar remains unmet: no run reached a real comparison and therefore
-no divergence could trigger definition judgment. A later reviewed checkpoint must
-use the explicit discovery environment and demonstrate that path before any
-freeze, new variant or unfamiliar-domain claim.
+The acceptance bar was unmet in this historical batch: no run reached a real
+comparison and therefore no divergence could trigger definition judgment. The
+later reviewed checkpoint used the explicit discovery environment and demonstrated
+an equal comparison path; definition judgment remains unexercised.

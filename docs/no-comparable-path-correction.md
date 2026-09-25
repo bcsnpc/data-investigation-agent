@@ -136,3 +136,14 @@ demonstrate that the engine did not widen scope or join similarly named objects.
 Capability gating added later is independently valid. The declared-scope primitive
 remains a sound resolution rule, but whether this boundary needs that primitive is
 open until a run uses the intended discovery environment.
+
+## 2026-09-25 follow-up in the intended context
+
+The pending check is complete. Of exactly three launched known-domain regressions,
+the first failed before intake on a stale usage-policy environment label. After a
+counter-preserving policy alignment, the next two opened `unknown-domain-v4`,
+resolved the semantic-to-Gold source with `DECLARED_BY_DEFINITION`, and each
+executed an equal 8,765 = 8,765 comparison. This confirms that the prior structural
+conclusion was an artifact of the wrong context. It does not test transformation
+judgment because no comparison diverged. See the
+[correct-context record](correct-context-process-three.md).

@@ -1,5 +1,26 @@
 # Project progress
 
+## 2026-09-25 - Correct-context three-run result
+
+PR #233 merged the wrong-context retraction and explicit-failure refinements with
+1,078 local tests and six green CI checks. Exactly three `unknown-domain-v4`
+known-domain evaluator runs followed. C1 failed before intake because the usage
+policy still named `development`; it made zero calls and remains in the ledger.
+The policy environment and all 1,181 historical reservations were aligned together,
+preserving every row, counter and limit.
+
+C2 and C3 asserted discovery context `758842ba-a478-4470-a9f2-d7e7a2ec4413`.
+Both resolved `Activity` to Gold `movement_values` by the retained model definition,
+with the native connection relation agreeing. Each executed one 8,765 = 8,765
+comparison using two DAX reads plus one Delta-metadata read, no SQL, and zero
+investigation-planner calls. Both stopped at step 6 as `CONSISTENT_TO_BOUNDARY`;
+the next application-source declaration check is explicitly unimplemented.
+Presentation freshness remained the only skipped process capability. Optional
+synthesis was explicitly blocked on its unsupported process-receipt adapter.
+The low comparison bar was reached in 2/3 runs; C1 keeps the batch partial. The
+requested stop is complete with no fourth run, freeze, variant or unfamiliar-domain
+claim. See [the full result](correct-context-process-three.md).
+
 ## 2026-09-25 - Wrong-context retraction and silent-fallback audit
 
 The #230 structural conclusion is withdrawn: the three recorded runs opened the
@@ -17,7 +38,8 @@ Silver-to-SQL check was scaffolded rather than implemented, so its prior
 No planner context was added: retained recorded coverage remains 28 directory
 entries / 11 SQL objects / 15,971 characters, and the synthetic golden is unchanged
 at 28 / 11 / 5,744 before and after fitting. All 1,078 local regression tests pass.
-Exactly three recorded `unknown-domain-v4` runs remain next.
+At that checkpoint, exactly three recorded `unknown-domain-v4` runs remained next;
+their later result is recorded above.
 See [the fallback audit](silent-fallback-audit.md) and the appended
 [correction](no-comparable-path-correction.md#2026-09-25-correction-after-232).
 
