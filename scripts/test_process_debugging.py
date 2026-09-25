@@ -14,6 +14,11 @@ class OutcomeContractTests(unittest.TestCase):
             observations['comparison']['values_equal']=outcome in (
                 'CONSISTENT_TO_BOUNDARY','INGESTION_GAP','BUSINESS_QUESTION')
             observations['comparison']['upper_layer']='layer-1'
+            observations['comparison']['comparison_status']='CROSS_SURFACE_VERIFIED'
+            observations['comparison']['upper_execution_surface']={
+                'engine':'upper-engine','connection':'upper-connection','object':'upper-object'}
+            observations['comparison']['lower_execution_surface']={
+                'engine':'lower-engine','connection':'lower-connection','object':'lower-object'}
         refs=list(observations)
         process={'procedure_step':1,'recommended_action':process_outcomes.ACTIONS[outcome],
           'visibility_boundary':{'deepest_layer':'layer-1','stopped_by':'REACHED','evidence_ids':refs[:1]},
@@ -53,6 +58,13 @@ class OutcomeContractTests(unittest.TestCase):
     def test_consistency_requires_a_successful_equal_boundary_comparison(self):
         assessment,observations=self.valid('CONSISTENT_TO_BOUNDARY')
         observations['comparison'].pop('values_equal')
+        with self.assertRaisesRegex(ValueError,'successful equal boundary comparison'):
+            process_outcomes.validate(assessment,observations)
+
+    def test_consistency_rejects_equal_reads_on_one_execution_surface(self):
+        assessment,observations=self.valid('CONSISTENT_TO_BOUNDARY')
+        observations['comparison']['lower_execution_surface']=copy.deepcopy(
+            observations['comparison']['upper_execution_surface'])
         with self.assertRaisesRegex(ValueError,'successful equal boundary comparison'):
             process_outcomes.validate(assessment,observations)
 
@@ -111,7 +123,9 @@ class Adapter:
     def evaluate(self,layer,measure,scope):
         self.evaluated.append(layer['id']);identity=layer['id']
         if identity in self.not_comparable:return Probe('NOT_COMPARABLE',identity,reason='No faithful translation')
-        return Probe('OBSERVED',identity,{'id':'read-'+identity,'tool':'probe'},self.values[identity],query='READ '+identity)
+        return Probe('OBSERVED',identity,{'id':'read-'+identity,'tool':'probe'},self.values[identity],
+                     query='READ '+identity,execution_surface={
+                         'engine':'test','connection':'connection-'+identity,'object':identity})
     def presentation_context(self,boundary,scope):return {'explains':False}
     def transformation_definition(self,boundary):
         return {'explains':bool(self.explain),'explanation':'A retrieved rule accounts for the difference.',
@@ -178,6 +192,21 @@ class VerticalProcedureTests(unittest.TestCase):
         self.assertEqual(result['technical_output']['boundary_summary']['comparisons_executed'],0)
         self.assertEqual(result['technical_output']['visibility_boundary']['deepest_layer'],'only')
         self.assertEqual(adapter.evaluated,['only'])
+
+    def test_single_execution_surface_cannot_satisfy_boundary_consistency(self):
+        adapter=Adapter(['top','lower'],{'top':10,'lower':10})
+        same={'engine':'semantic','connection':'workspace','object':'model'}
+        original=adapter.evaluate
+        def evaluate(layer,measure,scope):
+            probe=original(layer,measure,scope)
+            return Probe(probe.status,probe.layer,probe.evidence,probe.value,probe.reason,probe.query,same)
+        adapter.evaluate=evaluate
+        result=vertical(adapter,'measure',{})
+        self.assertEqual(result['classification'],'NO_COMPARABLE_PATH')
+        summary=result['technical_output']['boundary_summary']
+        self.assertEqual(summary['comparisons_executed'],0)
+        self.assertEqual(summary['within_layer_checks'],1)
+        self.assertEqual(summary['not_comparable'][0]['reason'],'NO_INDEPENDENT_LOWER_READ')
 
     def test_business_question_verifies_flow_then_routes_to_domain_specialist(self):
         result=vertical(Adapter(['top','lower'],{'top':10,'lower':10}),'measure',{'ticket_shape':'BUSINESS_QUESTION'})
@@ -292,6 +321,23 @@ class VerticalProcedureTests(unittest.TestCase):
             result=adapter.resolve_path('measure')
         self.assertEqual(result['evidence']['declared_source_binding']['external_source_declaration']['status'],
                          'CAPABILITY_NOT_IMPLEMENTED')
+
+    def test_declared_source_dax_is_a_definition_check_not_a_boundary_read(self):
+        from investigator.adapters.microsoft_process import MicrosoftProcessAdapter
+        model={'id':'catalog','revision':1,'context_id':'context','workspace':'workspace','native_id':'native',
+               'context':{'model_assets':[{'id':'measure','kind':'Measure','name':'Total'}]}}
+        adapter=MicrosoftProcessAdapter(object(),{},model,None,None)
+        layer={'id':'gold','kind':'declared_source','semantic_table':'Activity','semantic_column':'units'}
+        result={'id':'receipt','status':'COMPLETED','request_hash':'hash',
+                'result':{'rows':[{'baseline':{'type':'decimal','value':'10'}}],
+                          'completeness':'COMPLETE_RESPONSE'}}
+        with patch('investigator.adapters.microsoft_process.assets',return_value=model['context']['model_assets']), \
+             patch('investigator.adapters.microsoft_process.run_query',return_value=result):
+            probe=adapter.evaluate(layer,'measure',{})
+        self.assertEqual(probe.status,'NOT_COMPARABLE')
+        self.assertEqual(probe.reason,'NO_INDEPENDENT_LOWER_READ')
+        self.assertEqual(probe.evidence['test_purpose'],'CHECK_DECLARED_SOURCE_DEFINITION')
+        self.assertEqual(probe.execution_surface['engine'],'POWER_BI_DAX')
 
     def test_presentation_context_reuses_bounded_slicer_parser(self):
         from investigator.adapters.microsoft_process import MicrosoftProcessAdapter

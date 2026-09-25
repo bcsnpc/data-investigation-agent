@@ -23,6 +23,14 @@ class Probe:
     value: object = None
     reason: str | None = None
     query: str | None = None
+    execution_surface: dict | None = None
+
+
+def _surface_key(surface):
+    if not isinstance(surface,dict):return None
+    required=('engine','connection','object')
+    if any(not isinstance(surface.get(key),str) or not surface[key] for key in required):return None
+    return tuple(surface[key] for key in required)
 
 
 class ProcessAdapter(Protocol):
@@ -69,10 +77,13 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
              'baseline_above':baseline,'evidence_by_role':role_refs,
              'missing_capability':missing_capability,'skipped_steps':list(skipped_steps),
              'capabilities_declared':sorted(set(capabilities))}
-    comparisons=[o for o in observations if o.get('tool')=='process' and type(o.get('values_equal')) is bool]
+    comparisons=[o for o in observations if o.get('tool')=='process'
+                 and o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
+    within_layer=[o for o in observations if o.get('tool')=='process'
+                  and o.get('comparison_status')=='WITHIN_LAYER_CHECK']
     not_comparable=[{'upper_layer':o.get('upper_layer'),'lower_layer':o.get('lower_layer'),
                      'reason':o.get('reason')} for o in observations
-                    if o.get('comparison_status')=='NOT_COMPARABLE']
+                    if o.get('comparison_status') in ('NOT_COMPARABLE','WITHIN_LAYER_CHECK')]
     return {'classification':outcome,'terminating_step':step,
             'claim':explanation or outcome.replace('_',' ').title(),
             'evidence_ids':evidence_ids,
@@ -98,6 +109,7 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                                 'capabilities_declared':sorted(set(capabilities)),
                                 'boundary_summary':{'resolved_boundaries':len(comparisons),
                                     'comparisons_executed':len(comparisons),
+                                    'within_layer_checks':len(within_layer),
                                     'not_comparable':not_comparable}}}
 
 
@@ -152,6 +164,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     if top.evidence:
         top_obs=_observation(top.evidence,'baseline','established')
         if top.query:top_obs['query']=top.query
+        top_obs['execution_surface']=top.execution_surface
         observations.append(top_obs)
     baseline={'status':'ESTABLISHED','layer':top.layer,'reason':None,
               'evidence_ids':[top.evidence['id']]} if top.status=='OBSERVED' and top.evidence else {
@@ -176,17 +189,48 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         if lower.evidence:
             obs=_observation(lower.evidence,'baseline','established')
             if lower.query:obs['query']=lower.query
+            obs['execution_surface']=lower.execution_surface
             observations.append(obs)
+        upper_surface=_surface_key(upper.execution_surface);lower_surface=_surface_key(lower.execution_surface)
+        if (lower.reason=='NO_INDEPENDENT_LOWER_READ' and upper.evidence and lower.evidence
+                and upper_surface is not None and upper_surface==lower_surface):
+            marker=_observation({'id':f'boundary-{index}-not-comparable','tool':'process',
+                'upper_layer':upper.layer,'lower_layer':lower.layer,'comparison_status':'WITHIN_LAYER_CHECK',
+                'reason':'NO_INDEPENDENT_LOWER_READ','values_equal':upper.value==lower.value,
+                'upper_evidence_id':upper.evidence['id'],'lower_evidence_id':lower.evidence['id'],
+                'upper_execution_surface':upper.execution_surface,
+                'lower_execution_surface':lower.execution_surface},'definition_check')
+            observations.append(marker);gaps.append(marker);upper=lower;chain_connected=False
+            continue
         if upper.status!='OBSERVED' or lower.status!='OBSERVED':
             reason=lower.reason or upper.reason or 'No faithful comparable quantity was available.'
             marker=_observation({'id':f'boundary-{index}-not-comparable','tool':'process',
                 'upper_layer':upper.layer,'lower_layer':lower.layer,'comparison_status':'NOT_COMPARABLE',
-                'reason':reason})
+                'reason':reason,'upper_evidence_id':upper.evidence.get('id') if upper.evidence else None,
+                'lower_evidence_id':lower.evidence.get('id') if lower.evidence else None,
+                'upper_execution_surface':upper.execution_surface,
+                'lower_execution_surface':lower.execution_surface})
+            observations.append(marker);gaps.append(marker);upper=lower;chain_connected=False
+            continue
+        if upper_surface is None or lower_surface is None or upper_surface==lower_surface:
+            reason='NO_INDEPENDENT_LOWER_READ'
+            marker=_observation({'id':f'boundary-{index}-not-comparable','tool':'process',
+                'upper_layer':upper.layer,'lower_layer':lower.layer,'comparison_status':'WITHIN_LAYER_CHECK',
+                'reason':reason,'values_equal':upper.value==lower.value,
+                'upper_evidence_id':upper.evidence.get('id') if upper.evidence else None,
+                'lower_evidence_id':lower.evidence.get('id') if lower.evidence else None,
+                'upper_execution_surface':upper.execution_surface,
+                'lower_execution_surface':lower.execution_surface},'definition_check')
             observations.append(marker);gaps.append(marker);upper=lower;chain_connected=False
             continue
         comparison=_observation({'id':f'boundary-{index}-comparison','tool':'process',
             'upper_layer':upper.layer,'lower_layer':lower.layer,
-            'values_equal':upper.value==lower.value},'comparison',
+            'comparison_status':'CROSS_SURFACE_VERIFIED',
+            'values_equal':upper.value==lower.value,
+            'upper_evidence_id':upper.evidence.get('id') if upper.evidence else None,
+            'lower_evidence_id':lower.evidence.get('id') if lower.evidence else None,
+            'upper_execution_surface':upper.execution_surface,
+            'lower_execution_surface':lower.execution_surface},'comparison',
             *(['flow_consistency'] if chain_connected and upper.value==lower.value else []))
         observations.append(comparison)
         if upper.value==lower.value:
