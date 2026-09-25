@@ -1289,6 +1289,15 @@ paths cover one, three and four layers, NOT_COMPARABLE continuation and unreacha
 sources; the known-domain injected adapter completes with one native baseline read.
 Planner golden payload entries, SQL-object counts and characters are unchanged.
 Horizontal comparison, recurrence, declared context and known issues remain
-proposal-only. All 1,046 local regression tests passed. PR/CI and exactly three recorded known-domain G
-smoke trials remain. No freeze, variant, unfamiliar-domain claim or permission
+proposal-only. All 1,046 local regression tests passed. PR #227 merged after all
+six CI checks passed. No freeze, variant, unfamiliar-domain claim or permission
 change. See [redesign evidence](process-debugging-redesign.md).
+
+Exactly three recorded known-domain G smoke trials then completed and the batch
+stopped. All three ended at step 6 as CONSISTENT_TO_BOUNDARY with one DAX baseline,
+zero SQL reads, zero investigation-planner calls and a NO_LINEAGE visibility stop
+at the Activity semantic table. All three syntheses validated and all six tapes
+passed integrity checks. Usage rose by six planner reservations and three cloud
+reads under the unchanged policy; all 156 records are settled. This validates the
+presentation-boundary branch only, not source debugging or unfamiliar-domain
+generality. See [machine-readable review](runs/process-debugging-smoke.json).

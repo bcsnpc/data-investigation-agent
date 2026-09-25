@@ -18,8 +18,9 @@ the presentation baseline, walks a discovered path of any length, compares only
 faithfully translatable quantities, stops at the first evidence-bound explanation,
 and always reports its visibility boundary. Twelve closed outcomes bind claims to
 required receipts and recommended actions. The adaptive loop remains the
-`NO_KNOWN_PATTERN` fallback. Three recorded known-domain smoke trials remain before
-this milestone can be called complete. No freeze or unfamiliar-domain claim follows.
+`NO_KNOWN_PATTERN` fallback. Three recorded known-domain G trials each established
+the baseline in one DAX read, stopped at the same `NO_LINEAGE` boundary and produced
+a valid synthesis. No freeze or unfamiliar-domain claim follows.
 
 ## What works today
 
@@ -66,8 +67,11 @@ cover all twelve evidence contracts, arbitrary path length, early exit, explicit
 `NOT_COMPARABLE`, intake triage, an end-to-end known-domain adapter run and all four
 #226 synthesis failures. Planner golden payload content and directory coverage are
 unchanged; only response schemas changed. The required three recorded G smoke
-trials are next after the implementation merges. No unfamiliar-domain acceptance
-pass is claimed.
+trials completed **3/3** with `CONSISTENT_TO_BOUNDARY`, step 6, one DAX read,
+zero SQL reads and zero investigation-planner calls per trial. All three baselines
+and syntheses validated; all six intake/synthesis tapes passed integrity checks.
+This exercises the presentation-boundary branch only. No unfamiliar-domain
+acceptance pass is claimed.
 
 The previous separated-synthesis experiment is complete ([PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222)).
 Three corrected known-domain G trials produced **3/3 receipt-supported uncertainty

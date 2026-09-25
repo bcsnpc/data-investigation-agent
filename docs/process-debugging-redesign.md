@@ -75,7 +75,35 @@ writing the explanation; it does not choose the next layer or exploratory probe.
 The known-domain injected runtime executes the real adapter/receipt path end to
 end with one native baseline read, zero planner calls and a
 `CONSISTENT_TO_BOUNDARY` result. **1,046 local regression tests passed.** Live
-three-run smoke results are recorded below only after implementation and CI merge.
+three-run smoke results follow.
+
+## Three-run known-domain smoke
+
+PR #227 merged as `c52673a` after all six CI checks passed. Exactly three G trials
+then ran under identical known-domain conditions with recording enabled. Each
+ended at procedure step 6 as `CONSISTENT_TO_BOUNDARY`, established the presentation
+baseline with the verbatim query `EVALUATE ROW("baseline", [Handled Quantity])`,
+made one DAX read, no SQL reads and no investigation-planner calls, and reported
+the Activity semantic table as the deepest visible layer with `NO_LINEAGE` below it.
+All three syntheses validated.
+
+| Trial | Outcome / step | Reads SQL / DAX | Baseline | Visibility stop | Synthesis |
+| --- | --- | ---: | --- | --- | --- |
+| P1 | `CONSISTENT_TO_BOUNDARY` / 6 | 0 / 1 | Established | Activity / `NO_LINEAGE` | Valid |
+| P2 | `CONSISTENT_TO_BOUNDARY` / 6 | 0 / 1 | Established | Activity / `NO_LINEAGE` | Valid |
+| P3 | `CONSISTENT_TO_BOUNDARY` / 6 | 0 / 1 | Established | Activity / `NO_LINEAGE` | Valid |
+
+All six intake/synthesis tapes passed hash and length verification with complete
+request and response bodies and no exclusion. Synthesis digests were 3,308
+characters each. The original daily policy remained unchanged and all 156 usage
+records are settled. [Machine-readable results](runs/process-debugging-smoke.json)
+retain the sessions, queries, boundaries and tape IDs.
+
+Compared with #226's nine runs, investigation-planner calls fell from 97 to zero,
+SQL reads from 25 to zero and DAX reads from seven to three. Explicit baseline
+establishment rose from 0/9 to 3/3 and valid syntheses from 5/9 to 3/3. This is a
+smoke test of one branch. It shows reliable baseline and boundary reporting; it
+does not show multi-layer divergence localization or source-mechanism analysis.
 
 ## Planner-context cost
 
@@ -92,7 +120,7 @@ the same directory entries, SQL-object entries and payload characters:
 The existing directory-coverage golden remains 28 entries and 11 SQL objects.
 Only the response schema hash changes. A synthesis-only deterministic finding is
 added after the investigation terminates; its measured live digest cost will be
-reported with the three trials.
+3,308 characters in each of the three trials.
 
 ## Proposal only: horizontal procedure
 
