@@ -91,5 +91,30 @@ payloads remain byte-for-byte equal: 0/0/1,460, 50/0/7,212, 0/0/4,722 and
 schema hashes change for the thirteenth outcome.
 
 **1,052 local regression tests pass**, including process, synthesis, intake,
-planner projection and runtime coverage. CI, followed by exactly three recorded
-known-domain G trials, remains before this checkpoint is complete.
+planner projection and runtime coverage. All six CI checks passed and PR #229
+merged as `5a5909b`.
+
+## Corrected three-run result
+
+Exactly three identical recorded known-domain G trials ran after the merge, and
+the batch stopped. C1, C2 and C3 each reproduced 8,765 with one DAX baseline read,
+made zero SQL reads and zero investigation-planner calls, and terminated at step 3
+as `NO_COMPARABLE_PATH`. Each reported zero resolved boundaries and zero executed
+comparisons. No `NOT_COMPARABLE` event occurred because the first adjacent boundary
+could not be resolved at all; the stop was `CAPABILITY_UNAVAILABLE` with the exact
+missing stable binding for the `dbo.movement_values` partition label.
+
+All three syntheses validated. All six intake/synthesis request-response tapes
+match their recorded byte lengths and SHA-256 hashes, with no exclusions or provider
+errors. Daily reservations moved from 121/35/3,722,694/890,000 to
+127/38/3,860,454/918,500 for planner calls, cloud reads, input characters and output
+tokens. All 165 records are settled. Measured intake/synthesis tokens have a USD
+0.128989 reference cost, excluding cloud reads and not representing Azure billing.
+
+This corrects the first smoke's three invalid consistency labels. It does not
+improve source reach: the same three DAX reads and no SQL reads occurred. It also
+confirms that zero investigation-planner calls are structural here; the deterministic
+adapter stops before a transformation definition or divergence can be judged. The
+next accepted batch must reach a real comparable divergence and invoke that judgment;
+no further run is made at this checkpoint. See the
+[machine-readable result](runs/no-comparable-path-corrected-smoke.json).

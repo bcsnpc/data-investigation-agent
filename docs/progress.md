@@ -1314,6 +1314,15 @@ NOT_COMPARABLE reasons. Tape and #224 evidence show measure_path was called, but
 asset lineage did not supply a stable, scope-preserving adjacent quantity binding;
 the current partition-label gap is named without a name-based join. Comparable-
 quantity bindings are proposed and remain unimplemented. Investigation planner
-payloads are unchanged. All 1,052 local regression tests pass; CI and exactly three
-corrected G trials remain. No freeze, variant, permission or policy change. See
-[correction and proposal](no-comparable-path-correction.md).
+payloads are unchanged. All 1,052 local regression tests pass and all six PR #229
+CI checks passed. Exactly three corrected recorded G trials then stopped at step 3
+as NO_COMPARABLE_PATH: each had one DAX baseline of 8,765, no SQL read, no
+investigation-planner call, zero resolved boundaries and zero comparisons. No
+NOT_COMPARABLE boundary event was possible because the first adjacency was
+unresolved; all three instead named the same CAPABILITY_UNAVAILABLE stable-binding
+gap for `dbo.movement_values`. All three syntheses validated, all six tapes passed
+length/hash checks, and all 165 usage records are settled. No freeze, variant,
+permission or policy change. The next batch must reach an actual divergence before
+model judgment can be evaluated. See
+[correction and result](no-comparable-path-correction.md) and the
+[machine-readable review](runs/no-comparable-path-corrected-smoke.json).

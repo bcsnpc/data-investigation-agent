@@ -16,14 +16,15 @@ replaces open-ended search as the primary path. Intake distinguishes mismatch
 complaints from business questions. A deterministic vertical procedure establishes
 the presentation baseline, walks a discovered path of any length, compares only
 faithfully translatable quantities, stops at the first evidence-bound explanation,
-and always reports its visibility boundary. Twelve closed outcomes bind claims to
+and always reports its visibility boundary. Thirteen closed outcomes bind claims to
 required receipts and recommended actions. The adaptive loop remains the
 `NO_KNOWN_PATTERN` fallback. The first three-run smoke established its baseline
 and synthesis gates, then exposed an overclaim: zero comparisons cannot support
-`CONSISTENT_TO_BOUNDARY`. The [current correction](docs/no-comparable-path-correction.md)
+`CONSISTENT_TO_BOUNDARY`. The [corrected contract](docs/no-comparable-path-correction.md)
 adds `NO_COMPARABLE_PATH`, requires real comparison evidence for verification
 claims and distinguishes asset lineage from comparable-quantity bindings. Three
-corrected reruns remain. No freeze or unfamiliar-domain claim follows.
+corrected runs now consistently stop at the exact missing binding with no false
+consistency claim. No freeze or unfamiliar-domain claim follows.
 
 ## What works today
 
@@ -69,14 +70,18 @@ The redesign implementation passed **1,046 local regression tests**. Focused tes
 cover all thirteen evidence contracts, arbitrary path length, early exit, explicit
 `NOT_COMPARABLE`, intake triage, an end-to-end known-domain adapter run and all four
 #226 synthesis failures. Planner golden payload content and directory coverage are
-unchanged; only response schemas changed. The required three recorded G smoke
-trials completed their baseline and synthesis checks, but their consistency label
-was invalid because no boundary comparison ran. The corrected contract requires
-at least one equal comparison for consistency, ingestion and business-flow claims;
-the current model instead names its missing stable partition binding through
-`NO_COMPARABLE_PATH`. Exactly three corrected reruns are next. No unfamiliar-domain
-acceptance pass is claimed. The corrected engine passes **1,052 local regression
-tests**; investigation planner payload content and coverage remain unchanged.
+unchanged; only response schemas changed. The required three corrected recorded
+G trials completed after PR #229 merged. All three reproduced 8,765, then stopped
+at step 3 as `NO_COMPARABLE_PATH` with zero resolved boundaries, zero comparisons,
+one DAX read, no SQL reads and no investigation-planner calls. Their exact barrier
+is the missing stable binding for the Activity partition label
+`dbo.movement_values`; no `NOT_COMPARABLE` event was emitted because no adjacent
+boundary could be resolved. All syntheses validated and all six tapes passed
+integrity checks. This fixes the false consistency claim but does not yet exercise
+divergence localization or model judgment over a transformation definition. No
+unfamiliar-domain acceptance pass is claimed. The corrected engine passes **1,052
+local regression tests**; investigation planner payload content and coverage remain
+unchanged.
 
 The previous separated-synthesis experiment is complete ([PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222)).
 Three corrected known-domain G trials produced **3/3 receipt-supported uncertainty

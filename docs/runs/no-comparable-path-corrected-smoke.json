@@ -1,0 +1,137 @@
+{
+  "scope": "KNOWN_DOMAIN_REGRESSION",
+  "engine_commit": "5a5909bf42fe56a8d8dc17b20d3b1ce23dcecb68",
+  "engine_hash": "07ef6d182d753bd7730ab654882d193facfabcc12b70a66a66c4374e460d866f",
+  "conditions": {
+    "identical": true,
+    "recording": true,
+    "synthesis": true,
+    "reasoning_effort": "medium",
+    "max_output_tokens": 8000,
+    "read_limit": 6,
+    "input_limit": 384000,
+    "minimum_interval_seconds": 65
+  },
+  "aggregate": {
+    "trials": 3,
+    "completed": 3,
+    "outcomes": { "NO_COMPARABLE_PATH": 3 },
+    "terminating_step_3": 3,
+    "resolved_boundaries": 0,
+    "comparisons_executed": 0,
+    "not_comparable_events": 0,
+    "dax_reads": 3,
+    "sql_reads": 0,
+    "investigation_planner_calls": 0,
+    "baselines_established": 3,
+    "syntheses_validated": 3,
+    "tapes_verified": 6,
+    "provider_errors": 0,
+    "baseline_value_each": "8765",
+    "usage_before": {
+      "planner_calls": 121,
+      "cloud_calls": 35,
+      "input_characters": 3722694,
+      "output_tokens": 890000,
+      "settled_records": 156
+    },
+    "usage_after": {
+      "planner_calls": 127,
+      "cloud_calls": 38,
+      "input_characters": 3860454,
+      "output_tokens": 918500,
+      "settled_records": 165
+    },
+    "measured_reference_token_cost_usd": 0.128989
+  },
+  "comparison_to_first_smoke": {
+    "outcomes": "3 NO_COMPARABLE_PATH vs 3 invalid CONSISTENT_TO_BOUNDARY",
+    "terminating_steps": "3 vs 6",
+    "resolved_boundaries": "0 vs not previously reported",
+    "comparisons_executed": "0 vs not previously reported",
+    "reads": "3 DAX and 0 SQL in both batches",
+    "investigation_planner_calls": "0 in both batches",
+    "visibility_stop": "CAPABILITY_UNAVAILABLE with a specific stable-binding gap vs NO_LINEAGE"
+  },
+  "comparison_to_226": {
+    "trials": "3 vs 9",
+    "investigation_planner_calls": "0 vs 97",
+    "sql_reads": "0 vs 25",
+    "dax_reads": "3 vs 7",
+    "explicit_baselines": "3 vs 0",
+    "validated_syntheses": "3/3 vs 5/9",
+    "supported_causes": "0 vs 0"
+  },
+  "runs": [
+    {
+      "trial": "C1",
+      "session_id": "42f3d00b-2971-40d4-b8c2-ca6b21d9d6f5",
+      "outcome": "NO_COMPARABLE_PATH",
+      "terminating_step": 3,
+      "resolved_boundaries": 0,
+      "comparisons_executed": 0,
+      "not_comparable_reasons": [],
+      "reads": { "dax": 1, "sql": 0, "other": 0 },
+      "investigation_planner_calls": 0,
+      "baseline_established": true,
+      "baseline_value": "8765",
+      "query": "EVALUATE ROW(\"baseline\", [Handled Quantity])",
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "stopped_by": "CAPABILITY_UNAVAILABLE"
+      },
+      "missing_capability": "The partition source label 'dbo.movement_values' for 'Activity' has no stable discovered asset binding, so no lower-layer quantity can be compiled under the declared scope.",
+      "synthesis_validated": true,
+      "recorded_tapes": ["0a8ce12e-5b4e-46f9-a071-394d15e79f06", "7b8fadb4-8e95-408b-a744-5ff70d32585a"]
+    },
+    {
+      "trial": "C2",
+      "session_id": "773e2ad2-7f85-4f97-b41d-4d35803c64c9",
+      "outcome": "NO_COMPARABLE_PATH",
+      "terminating_step": 3,
+      "resolved_boundaries": 0,
+      "comparisons_executed": 0,
+      "not_comparable_reasons": [],
+      "reads": { "dax": 1, "sql": 0, "other": 0 },
+      "investigation_planner_calls": 0,
+      "baseline_established": true,
+      "baseline_value": "8765",
+      "query": "EVALUATE ROW(\"baseline\", [Handled Quantity])",
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "stopped_by": "CAPABILITY_UNAVAILABLE"
+      },
+      "missing_capability": "The partition source label 'dbo.movement_values' for 'Activity' has no stable discovered asset binding, so no lower-layer quantity can be compiled under the declared scope.",
+      "synthesis_validated": true,
+      "recorded_tapes": ["f3634c83-39ef-46f4-99b5-22da3a473e0f", "f7755505-183c-4415-b77e-4aade8ab4c1c"]
+    },
+    {
+      "trial": "C3",
+      "session_id": "8195e410-f40a-454d-96d1-7dfa26f13603",
+      "outcome": "NO_COMPARABLE_PATH",
+      "terminating_step": 3,
+      "resolved_boundaries": 0,
+      "comparisons_executed": 0,
+      "not_comparable_reasons": [],
+      "reads": { "dax": 1, "sql": 0, "other": 0 },
+      "investigation_planner_calls": 0,
+      "baseline_established": true,
+      "baseline_value": "8765",
+      "query": "EVALUATE ROW(\"baseline\", [Handled Quantity])",
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "stopped_by": "CAPABILITY_UNAVAILABLE"
+      },
+      "missing_capability": "The partition source label 'dbo.movement_values' for 'Activity' has no stable discovered asset binding, so no lower-layer quantity can be compiled under the declared scope.",
+      "synthesis_validated": true,
+      "recorded_tapes": ["260de545-acf3-4f3b-a405-876ed198e94a", "d5e3a6c3-5654-42aa-8d7f-0cb48df75a39"]
+    }
+  ],
+  "interpretation": "The corrected contract consistently refuses to claim flow consistency when no boundary comparison can be compiled. The three trials establish only the presentation value and the exact missing stable binding. They do not exercise the investigation planner, transformation-definition judgment or divergence localization.",
+  "limits": [
+    "Known-domain regression only; no frozen unfamiliar-domain acceptance.",
+    "No NOT_COMPARABLE boundary event was emitted because no adjacent boundary could be resolved; CAPABILITY_UNAVAILABLE stopped the path before comparison.",
+    "The comparable-quantity binding remains proposal-only.",
+    "No source mechanism, transformation definition or divergence was tested."
+  ]
+}

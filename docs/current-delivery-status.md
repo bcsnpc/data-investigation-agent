@@ -6,7 +6,7 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Active: correct zero-comparison overclaim, then rerun exactly three G trials.**
+**Completed checkpoint: zero-comparison correction and exactly three G reruns.**
 The accepted first smoke proved baseline establishment, synthesis validation and
 visibility reporting, but also showed that `CONSISTENT_TO_BOUNDARY` was admitted
 after zero comparisons. `NO_COMPARABLE_PATH` now represents an established baseline
@@ -21,8 +21,28 @@ and identity-backed semantic edges. It did not establish a stable binding from t
 quantity across that boundary. The adapter now names that missing binding as
 `CAPABILITY_UNAVAILABLE`; it does not infer a source object by name. The binding
 design is proposal-only. **1,052 local regression tests pass** on the corrected
-engine, with unchanged investigation planner payload content and coverage. See
-[correction and proposal](no-comparable-path-correction.md).
+engine, with unchanged investigation planner payload content and coverage. PR #229
+merged after all six CI checks passed.
+
+Exactly three corrected recorded G trials then completed and the batch stopped.
+Each reproduced 8,765 with one DAX baseline, made no SQL read and used no
+investigation-planner call. Each terminated at step 3 as `NO_COMPARABLE_PATH` with
+zero resolved boundaries and zero comparisons. No `NOT_COMPARABLE` event occurred:
+the first adjacent boundary was unresolved, so the explicit stop was
+`CAPABILITY_UNAVAILABLE` and named the missing stable binding for the
+`dbo.movement_values` partition label. All three syntheses validated and all six
+tapes passed length/hash verification without exclusion or provider error. Daily
+reservations moved from 121/35/3,722,694/890,000 to
+127/38/3,860,454/918,500; all 165 records are settled. No permission, policy or
+capacity changed.
+
+This checkpoint corrects the claim but confirms the remaining structural limit:
+the deterministic path stops before any transformation definition or observed
+divergence reaches the investigation planner. The next accepted batch must reach a
+real comparable divergence and ask the model to judge its definition. No freeze,
+fresh variant or unfamiliar-domain claim follows. See
+[correction, proposal and results](no-comparable-path-correction.md) and the
+[machine-readable review](runs/no-comparable-path-corrected-smoke.json).
 
 ### Previous checkpoint
 
@@ -588,7 +608,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **zero-comparison correction under regression; exactly three corrected G trials next; no freeze**. Prior
+Current: **zero-comparison correction and three-run regression complete; comparable divergence remains unexercised; no freeze**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

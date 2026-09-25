@@ -166,3 +166,18 @@ resolved or version-mismatched issues remain audit history.
 
 No freeze, new variant, unfamiliar-domain claim, permission expansion or execution-
 reader elevation is part of this milestone.
+
+## Corrected zero-comparison follow-up
+
+The first smoke's three `CONSISTENT_TO_BOUNDARY` outcomes were invalid because no
+boundary comparison executed. PR #229 adds `NO_COMPARABLE_PATH` and the stricter
+comparison contracts described in the
+[correction](no-comparable-path-correction.md). Exactly three corrected recorded G
+runs each stopped at step 3 with zero resolved boundaries and comparisons, one DAX
+baseline of 8,765, no SQL read and no investigation-planner call. The specific
+barrier is `CAPABILITY_UNAVAILABLE`: Activity's `dbo.movement_values` partition
+label has no stable discovered asset binding under the declared scope. There was
+no `NOT_COMPARABLE` event because the first adjacent boundary itself was unresolved.
+All three syntheses and all six tapes validated. These results replace no historical
+receipt and make no freeze or unfamiliar-domain claim. See the
+[machine-readable review](runs/no-comparable-path-corrected-smoke.json).
