@@ -1,5 +1,23 @@
 # Project progress
 
+## 2026-09-24 - Bounded measure-path and contribution validation
+
+Implemented the reviewed #224 proposal without a dependency-map layer. The planner
+can request a bounded identity-backed path for the selected measure and can label
+ordinary governed queries as measure reproduction or contribution tests. The same
+SQL/DAX compilers, object binding, read-only dispatch and receipts remain authoritative;
+no test order or fixed query template was added. Cause-labelled support now records
+the mechanism-to-measure connection or a specific establishment barrier. Progress,
+score and ledger counts are observational only.
+
+Existing item-relation evidence has no external Azure SQL relation, and the retained
+notebook contains no Azure SQL load binding, so the runtime exposes the source edge
+as unresolved and does not name-match. Initial G context stays at 28 directory
+entries / 11 SQL objects and grows 15,067 -> 15,971 characters (+904). The golden
+coverage check and all 1,035 local regression tests passed. No permission, live
+cloud call, freeze or unfamiliar-domain claim. Nine recorded G reruns remain next.
+See [measure-path validation](measure-path-validation.md).
+
 ## 2026-09-24 - Evidence fidelity and measure-path reachability review
 
 Synthesis now retains complete validated query text, explicit row/group counts,

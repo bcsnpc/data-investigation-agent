@@ -172,6 +172,8 @@ def observation(candidate,child):
             **({'read_fingerprint':candidate['read_fingerprint']} if 'read_fingerprint' in candidate else {}),
             **({'read_scope_hash':candidate['read_scope_hash']} if 'read_scope_hash' in candidate else {}),
             **({'dependency_context':candidate['dependency_context']} if candidate.get('dependency_context') else {}),
+            **({'test_purpose':candidate['test_purpose']} if candidate.get('test_purpose') else {}),
+            **({'upstream_object_id':candidate['upstream_object_id']} if candidate.get('upstream_object_id') else {}),
             'id':receipt['id'],'candidate_id':candidate['id'],'run_id':child['id'],
             'tool':candidate['tool'],'measure_id':candidate['measure_id'],'dimension_id':candidate['dimension_id'],
             'status':receipt['status'],'values':(data.get('rows',[]) if candidate['tool'] in ('native','native_records','source_records','bounded_dax','bounded_sql') else [data.get('value')]) if receipt['status']=='COMPLETED' else [],

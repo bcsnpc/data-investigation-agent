@@ -12,7 +12,9 @@ class AssessmentSupportTests(unittest.TestCase):
             'support':{'mechanism':'Observed matching rows multiply the input.',
                        'mechanism_evidence_ids':['q'],'intent_dependency':'NOT_REQUIRED',
                        'intent_basis':'The claim is limited to measured multiplication, not the correct business total.',
-                       'intent_evidence_ids':[],'remaining_test':'Check whether version selection is intended.'}}
+                       'intent_evidence_ids':[],'measure_connection':'NOT_ESTABLISHED_CAPABILITY',
+                       'measure_connection_basis':'The available source read was not bound to the reported measure.',
+                       'measure_connection_evidence_ids':[],'remaining_test':'Check whether version selection is intended.'}}
 
     def test_unknown_intent_cannot_support_defect_or_expected_behavior(self):
         self.assessment['support']['intent_dependency']='UNKNOWN'
@@ -51,6 +53,21 @@ class AssessmentSupportTests(unittest.TestCase):
         schema=dynamic_reasoning.wire_schema([],[],[])
         stop=next(x for x in schema['properties']['next']['anyOf'] if x['properties']['kind']['enum']==['STOP'])
         self.assertIn('support',stop['properties']['assessment']['required'])
+        assessment_support.validate(self.assessment,self.observations)
+
+    def test_established_measure_connection_needs_a_contribution_or_admitted_mapping(self):
+        self.assessment['support']['measure_connection']='ESTABLISHED'
+        self.assessment['support']['measure_connection_evidence_ids']=['q']
+        with self.assertRaisesRegex(ValueError,'test contribution'):
+            assessment_support.validate(self.assessment,self.observations)
+        self.observations['q']['test_purpose']='TEST_CONTRIBUTION'
+        assessment_support.validate(self.assessment,self.observations)
+
+    def test_honest_uncertainty_needs_no_measure_connection_evidence(self):
+        self.assessment['classification']='BUSINESS_CONTEXT_REQUIRED'
+        self.assessment['support']['intent_dependency']='UNKNOWN'
+        self.assessment['support']['measure_connection']='NOT_ASSERTED'
+        self.assessment['support']['measure_connection_evidence_ids']=[]
         assessment_support.validate(self.assessment,self.observations)
 
 

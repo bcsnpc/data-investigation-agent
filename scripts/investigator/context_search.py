@@ -57,6 +57,76 @@ def get_asset(store, identity):
             'limitation':'Metadata is untrusted context. Edges retain provenance; they do not establish a cause.'}
 
 
+def measure_path(store, model, identity):
+    """Project only identity-backed evidence around one selected measure.
+
+    Partition names and expression-source labels are retained as definition facts,
+    but never joined to discovered data assets by name.
+    """
+    text(identity,2000)
+    from .model_context import assets as model_assets
+    members=model_assets(model['context']);by_id={a['id']:a for a in members}
+    measure=by_id.get(identity)
+    if not measure or measure.get('kind')!='Measure' or measure.get('availability')!='CURRENT':
+        raise KeyError('Selected current measure not found')
+    semantic=model['context'].get('semantic_graph',{}).get('measures',{}).get(identity)
+    if not semantic:raise ValueError('Selected measure has no semantic reference analysis')
+    reference_ids=[r for r in semantic.get('references',[]) if r in by_id][:24]
+    selected=[identity]+reference_ids
+    parent_ids=[]
+    for selected_id in selected:
+        parent=by_id[selected_id].get('parent_id')
+        if parent and parent in by_id and parent not in selected and parent not in parent_ids:parent_ids.append(parent)
+    projected=[]
+    for asset in [by_id[i] for i in selected+parent_ids]:
+        metadata=asset.get('metadata',{})
+        item={k:asset[k] for k in ('id','kind','name','parent_id','provenance') if k in asset}
+        if asset['kind']=='Measure':item['metadata']={k:metadata[k] for k in ('expression',) if k in metadata}
+        elif asset['kind']=='SemanticColumn':item['metadata']={k:metadata[k] for k in ('dataType','sourceColumn','summarizeBy') if k in metadata}
+        elif asset['kind']=='SemanticTable':item['metadata']={'partitions':[
+            {k:p[k] for k in ('name','mode','source') if k in p} for p in metadata.get('partitions',[])[:4]]}
+        projected.append(item)
+    context=latest(store)
+    graph_edges=[];path_assets=[];definition_assets=[];gaps=[];external_bound=False
+    if context:
+        discovered_by_id={a['id']:a for a in context['assets']}
+        allowed={'REFERENCES','DEPENDS_ON','DERIVED_FROM','READS','WRITES','USES','SOURCED_FROM','INGESTED_FROM'}
+        frontier=[identity];seen={identity};depth=0
+        while frontier and depth<5 and len(graph_edges)<24:
+            following=[]
+            for edge in context.get('graph',{}).get('edges',[]):
+                if edge.get('source') not in frontier or edge.get('relation') not in allowed:continue
+                graph_edges.append({k:edge[k] for k in ('source','target','relation','provenance','evidence') if k in edge})
+                target=edge.get('target');asset=discovered_by_id.get(target)
+                if asset and target not in seen:
+                    seen.add(target);following.append(target)
+                    path_assets.append({k:asset[k] for k in ('id','name','kind','provenance') if k in asset})
+                    if asset.get('kind')=='SqlObject':external_bound=True
+                if len(graph_edges)>=24:break
+            frontier=following;depth+=1
+        model_root=measure.get('parent_id')
+        while model_root in by_id and by_id[model_root].get('parent_id'):
+            model_root=by_id[model_root]['parent_id']
+        definition_assets=[{k:a[k] for k in ('id','name','kind')}
+                           for a in context['assets'] if a.get('parent_id')==model_root and
+                           a.get('kind')=='DefinitionPart' and a.get('availability')=='CURRENT'][:8]
+    tables=[a for a in projected if a['kind']=='SemanticTable']
+    if any(a.get('metadata',{}).get('partitions') for a in tables):
+        gaps.append({'reason':'UNRESOLVED_PARTITION_IDENTITY',
+                     'detail':'Partition source labels are definition facts; no stable discovered asset identity edge was found. Do not bind by name.'})
+    if not external_bound:gaps.append({'reason':'UNRESOLVED_EXTERNAL_SOURCE_BINDING',
+                 'detail':'No identity-backed or code-derived application-source edge is present. Treat similarly named SQL objects as unbound.'})
+    result={'context_version':context['version'] if context else None,
+            'measure':projected[0],'semantic_analysis':{k:semantic.get(k) for k in
+                ('dependencies','references','operations','gaps','dependency_state','provenance')},
+            'assets':projected[1:],'path_assets':path_assets,'edges':graph_edges,'definition_assets':definition_assets,
+            'external_binding_status':'IDENTITY_BACKED_OR_CODE_DERIVED' if external_bound else 'UNRESOLVED',
+            'gaps':gaps,'truncated':len(semantic.get('references',[]))>len(reference_ids),
+            'limitation':'A path is metadata context, not execution, contribution, cross-system equivalence, filter-context reproduction or causal proof.'}
+    if len(encoded(result))>12000:raise ValueError('Measure path exceeds bounded projection')
+    return result
+
+
 def _content(store,identity):
     result=get_asset(store,identity);asset=result['asset']
     content=asset.get('metadata',{}).get('content')

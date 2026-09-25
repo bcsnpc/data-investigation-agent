@@ -15,6 +15,9 @@ Copied aggregate values are not a corrected business total. Row counts describe 
 results, not source populations unless an explicit aggregate establishes that population.
 Use the existing support contract. Unknown intended rules permit BUSINESS_CONTEXT_REQUIRED;
 insufficient evidence and UNRESOLVED are valid. Never invent a cause to finish.
+Cause labels also require a cited connection from the mechanism to the reported measure,
+or an explicit scope/capability/permission/budget/eligibility reason it could not be established.
+Honest uncertainty may mark the connection NOT_ASSERTED.
 Reference validation does not prove semantic truth. State alternatives and limitations.
 Return the assessment through the required function call; no private reasoning text.'''
 

@@ -43,6 +43,25 @@ class PlannerProjectionTests(unittest.TestCase):
         self.assertTrue(all(set(e)=={'id','kind','name'} for e in entries))
         self.assertLessEqual(sum(len(encoded(e)) for e in entries),4000)
 
+    def test_named_capability_context_does_not_reduce_directory_coverage(self):
+        from types import SimpleNamespace
+        from investigator.planner_projection import fit
+        case=json.loads((FIXTURES/'directory-coverage.json').read_text(encoding='utf-8'))
+        store=SimpleNamespace(get=lambda _: {'context':{'model_assets':[]}})
+        state={'model_id':'model','observations':[], 'decisions':[],
+               'discovery_version':'synthetic','planner_calls':0,'input_characters':0,
+               'envelope':{'measure_id':'measure','dimension_ids':[],
+                           'limits':{'planner_calls':12,'input_characters':384000}}}
+        with patch.object(dynamic_reasoning.context_search,'latest',return_value=case):
+            payload=dynamic_reasoning.enrich(store,state,{'observations':[],'tool_capabilities':[
+                {'tool':'bounded_sql','named_capabilities':[{'name':'test_contribution'}]},
+                {'tool':'bounded_dax','named_capabilities':[{'name':'reproduce_measure'},{'name':'test_contribution'}]}]})
+        before=(len(payload['context_entry_points']),sum(e['kind']=='SqlObject' for e in payload['context_entry_points']))
+        projected=fit(payload,48000)
+        after=(len(projected['context_entry_points']),sum(e['kind']=='SqlObject' for e in projected['context_entry_points']))
+        self.assertEqual(before,after)
+        self.assertEqual(after,(case['expected_entries'],case['expected_sql_objects']))
+
     def setUp(self):
         self.inputs = json.loads((FIXTURES / 'inputs.json').read_text(encoding='utf-8'))
         self.golden = json.loads((FIXTURES / 'expected.json').read_text(encoding='utf-8'))

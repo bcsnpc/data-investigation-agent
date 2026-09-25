@@ -204,6 +204,40 @@ class QueryParserTests(unittest.TestCase):
 
 
 class DynamicTests(unittest.TestCase):
+    def test_measure_path_is_bounded_and_never_name_binds_an_unseen_model(self):
+        result=dynamic_reasoning.lookup(self.store,{'operation':'measure_path','value':self.envelope['measure_id']},self.model)
+        self.assertEqual(result['metadata']['measure']['id'],self.envelope['measure_id'])
+        self.assertTrue(any(g['reason']=='UNRESOLVED_EXTERNAL_SOURCE_BINDING' for g in result['metadata']['gaps']))
+        self.assertIn(result['completeness'],('COMPLETE_RESPONSE','PARTIAL'))
+        self.assertLessEqual(len(dynamic_reasoning.encoded(result['metadata'])),12000)
+
+    def test_contribution_can_run_before_reproduction_and_both_are_observable(self):
+        source=next(a for a in dynamic_reasoning.context_search.latest(self.store)['assets'] if a['kind']=='SqlObject')
+        calls=[]
+        def planner(payload):
+            calls.append(payload)
+            if len(calls)==1:return self.decision('QUERY',query={'tool':'bounded_sql','text':'SELECT COUNT(*) AS n FROM business.events','max_rows':20,
+                'purpose':'TEST_CONTRIBUTION','measure_id':self.envelope['measure_id'],'upstream_object_id':source['id']})
+            if len(calls)==2:
+                self.assertEqual(payload['progress']['contribution_tests'],1)
+                self.assertEqual(payload['progress']['measure_reproductions'],0)
+                return self.decision('QUERY',query={'tool':'bounded_dax','text':'EVALUATE ROW("value",[Double])','max_rows':20,
+                    'purpose':'REPRODUCE_MEASURE','measure_id':self.envelope['measure_id'],'upstream_object_id':None})
+            self.assertEqual(payload['progress']['measure_reproductions'],1)
+            return self.decision('ASK',question='Which business rule defines the expected result?')
+        agent=AdaptiveRuntime(self.runtime,planner)
+        result=agent.run(agent.create(self.envelope,'named-capabilities')['id'])
+        completed=[o for o in result['observations'] if o['status']=='COMPLETED' and o['tool']!='context']
+        self.assertEqual([o['test_purpose'] for o in completed],['TEST_CONTRIBUTION','REPRODUCE_MEASURE'],result)
+
+    def test_contribution_target_must_be_read_by_compiled_candidate(self):
+        source=next(a for a in dynamic_reasoning.context_search.latest(self.store)['assets'] if a['kind']=='SqlObject')
+        query={'tool':'bounded_dax','text':'EVALUATE ROW("value",[Total])','max_rows':20,
+               'purpose':'TEST_CONTRIBUTION','measure_id':self.envelope['measure_id'],'upstream_object_id':source['id']}
+        state=AdaptiveRuntime(self.runtime,lambda _:None).create(self.envelope,'wrong-contribution-target')
+        with self.assertRaisesRegex(ValueError,'declared upstream object'):
+            dynamic_reasoning.candidate(self.store,self.config,state,query)
+
     def test_compacted_parent_keeps_definition_handles_for_content_tools(self):
         agent=AdaptiveRuntime(self.runtime,lambda _:None)
         state=agent.create(self.envelope,'definition-history')
