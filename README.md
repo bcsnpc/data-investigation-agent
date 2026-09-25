@@ -25,8 +25,9 @@ and synthesis gates, then exposed an overclaim: zero comparisons cannot support
 `CONSISTENT_TO_BOUNDARY`. The [corrected contract](docs/no-comparable-path-correction.md)
 adds `NO_COMPARABLE_PATH`, requires real comparison evidence for verification
 claims and distinguishes asset lineage from comparable-quantity bindings. Three
-corrected runs now consistently stop at the exact missing binding with no false
-consistency claim. No freeze or unfamiliar-domain claim follows.
+corrected runs stopped without a false consistency claim, but #232 later showed
+they read the wrong discovery environment. Their missing-binding and structural-
+limit conclusions are withdrawn. No freeze or unfamiliar-domain claim follows.
 
 ## What works today
 
@@ -75,11 +76,11 @@ cover all thirteen evidence contracts, arbitrary path length, early exit, explic
 unchanged; only response schemas changed. The required three corrected recorded
 G trials completed after PR #229 merged. All three reproduced 8,765, then stopped
 at step 3 as `NO_COMPARABLE_PATH` with zero resolved boundaries, zero comparisons,
-one DAX read, no SQL reads and no investigation-planner calls. Their exact barrier
-is the missing stable binding for the Activity partition label
-`dbo.movement_values`; no `NOT_COMPARABLE` event was emitted because no adjacent
-boundary could be resolved. All syntheses validated and all six tapes passed
-integrity checks. This fixes the false consistency claim but does not yet exercise
+one DAX read, no SQL reads and no investigation-planner calls. #232 later proved
+they opened `development` rather than the intended warehouse discovery context;
+their missing-binding and structural-limit conclusions are withdrawn. All
+syntheses validated and all six tapes passed integrity checks. The runs still
+validate the false-consistency fix and refusal to name-match, but do not exercise
 divergence localization or model judgment over a transformation definition. No
 unfamiliar-domain acceptance pass is claimed. The corrected engine passes **1,052
 local regression tests**; investigation planner payload content and coverage remain

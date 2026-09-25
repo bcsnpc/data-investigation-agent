@@ -98,9 +98,10 @@ context `758842ba-a478-4470-a9f2-d7e7a2ec4413` in environment
 `unknown-domain-v4`. Offline inspection against that exact context resolved
 `dbo.movement_values` inside the declared lakehouse with
 `DECLARED_BY_DEFINITION`; the native `NATIVE_CASCADEDELETE` relation agreed.
-Notebook definitions also declared the Gold-to-Silver inputs. No retained
-definition declared Silver-to-Azure SQL, which correctly remained
-`NO_DECLARATION`.
+Notebook definitions also declared the Gold-to-Silver inputs. A later silent-
+fallback audit found that Silver-to-Azure SQL had been labelled `NO_DECLARATION`
+without an implemented inspection. That label is withdrawn and the adapter now
+reports `CAPABILITY_NOT_IMPLEMENTED`; absence has not been established.
 
 Exactly three identical recorded G regressions then ran and the batch stopped.
 All three established `[Handled Quantity] = 8,765`, declared the six implemented

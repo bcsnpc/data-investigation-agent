@@ -464,20 +464,21 @@ def enrich(store,state,payload):
         if size>7000:break
         used.append(a)
     discovered=context_search.latest(store)
+    if not discovered or discovered['version']!=state['discovery_version']:
+        raise Conflict('Environment context changed before planner projection')
     entry_points=[]
-    if discovered:
-        # Provider identities, not guessed name joins. This is a directory, not lineage proof.
-        roots=[a for a in discovered['assets'] if a['availability']=='CURRENT' and
-               a['kind'] in ('Notebook','DataPipeline','Lakehouse','Warehouse','SqlDatabase','SqlObject')]
-        kinds=sorted({a['kind'] for a in roots})
-        groups=[[a for a in sorted(roots,key=lambda a:(a['name'],a['id'])) if a['kind']==kind] for kind in kinds]
-        roots=[group[index] for index in range(max(map(len,groups),default=0)) for group in groups if index<len(group)]
-        size=0
-        for a in roots:
-            entry={k:a[k] for k in ('id','kind','name')}
-            size+=len(encoded(entry))
-            if size>4000:break
-            entry_points.append(entry)
+    # Provider identities, not guessed name joins. This is a directory, not lineage proof.
+    roots=[a for a in discovered['assets'] if a['availability']=='CURRENT' and
+           a['kind'] in ('Notebook','DataPipeline','Lakehouse','Warehouse','SqlDatabase','SqlObject')]
+    kinds=sorted({a['kind'] for a in roots})
+    groups=[[a for a in sorted(roots,key=lambda a:(a['name'],a['id'])) if a['kind']==kind] for kind in kinds]
+    roots=[group[index] for index in range(max(map(len,groups),default=0)) for group in groups if index<len(group)]
+    size=0
+    for a in roots:
+        entry={k:a[k] for k in ('id','kind','name')}
+        size+=len(encoded(entry))
+        if size>4000:break
+        entry_points.append(entry)
     history=[]
     for item in state.get('decisions',[])[-6:]:
         entry=copy.deepcopy({k:v for k,v in item['decision'].items() if k in ('action','lookup','query') and v is not None})

@@ -165,7 +165,8 @@ class DiscoveryTests(unittest.TestCase):
         report=get_asset(self.store,'fabric://'+self.ws+'/'+self.rid)
         self.assertEqual(report['observations'],[])
         other=ModelStore(self.store.database,self.store.inventory,'another')
-        self.assertEqual(search(other,{'text':'Unfamiliar','limit':10})['total'],0)
+        with self.assertRaisesRegex(Conflict,'No discovered environment context'):
+            search(other,{'text':'Unfamiliar','limit':10})
 
     def test_unchanged_scan_has_no_timestamp_only_change(self):
         self.scan();second=self.scan()['body']

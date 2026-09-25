@@ -5,6 +5,11 @@ from investigator import context_search
 
 
 class ContextNavigationTests(unittest.TestCase):
+    def test_search_without_discovery_context_fails_instead_of_reporting_no_matches(self):
+        with patch.object(context_search,'latest',return_value=None):
+            with self.assertRaisesRegex(context_search.Conflict,'No discovered environment context'):
+                context_search.search(None,{'text':'anything','limit':20})
+
     def test_search_uses_real_parent_identity_without_reading_definition_content(self):
         context=self.context()
         with patch.object(context_search,'latest',return_value=context):

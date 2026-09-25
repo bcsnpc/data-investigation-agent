@@ -67,33 +67,35 @@ whose path cannot be resolved into any adjacent comparable quantity. Consistency
 ingestion and business-flow outcomes require at least one successful equal boundary
 comparison; divergence outcomes require an observed unequal comparison.
 
-Tape and #224 review supports the asset/quantity distinction. `measure_path` was
+Tape and #224 review established the asset/quantity distinction. `measure_path` was
 called and returned Handled Quantity, Activity, `units`, partition source labels
-and identity-backed semantic edges. It did not establish a stable binding from the
-`dbo.movement_values` partition label to a lower asset, nor a scope-preserving
-quantity across that boundary. The adapter now names that missing binding as
-`CAPABILITY_UNAVAILABLE`; it does not infer a source object by name. The binding
-design is proposal-only. **1,052 local regression tests pass** on the corrected
-engine, with unchanged investigation planner payload content and coverage. PR #229
-merged after all six CI checks passed.
+and identity-backed semantic edges. The historical runs did not establish a stable
+binding, but #232 later showed they had opened the wrong discovery environment.
+Their estate-level missing-binding conclusion is withdrawn. It remains true that
+the adapter did not infer a source object by name. The binding design was
+proposal-only. **1,052 local regression tests passed** on that corrected engine,
+with unchanged investigation planner payload content and coverage. PR #229 merged
+after all six CI checks passed.
 
 Exactly three corrected recorded G trials then completed and the batch stopped.
 Each reproduced 8,765 with one DAX baseline, made no SQL read and used no
 investigation-planner call. Each terminated at step 3 as `NO_COMPARABLE_PATH` with
-zero resolved boundaries and zero comparisons. No `NOT_COMPARABLE` event occurred:
-the first adjacent boundary was unresolved, so the explicit stop was
-`CAPABILITY_UNAVAILABLE` and named the missing stable binding for the
-`dbo.movement_values` partition label. All three syntheses validated and all six
+zero resolved boundaries and zero comparisons. No `NOT_COMPARABLE` event occurred.
+The first adjacent boundary appeared unresolved in the wrongly selected context,
+so the explicit stop was `CAPABILITY_UNAVAILABLE`. That is preserved run behavior,
+not a fact about the intended estate. All three syntheses validated and all six
 tapes passed length/hash verification without exclusion or provider error. Daily
 reservations moved from 121/35/3,722,694/890,000 to
 127/38/3,860,454/918,500; all 165 records are settled. No permission, policy or
 capacity changed.
 
-This checkpoint corrects the claim but confirms the remaining structural limit:
-the deterministic path stops before any transformation definition or observed
-divergence reaches the investigation planner. The next accepted batch must reach a
-real comparable divergence and ask the model to judge its definition. No freeze,
-fresh variant or unfamiliar-domain claim follows. See
+This checkpoint corrected the false consistency claim, but its former structural-
+limit conclusion is withdrawn because the runs opened the wrong discovery
+environment. The receipts still prove that zero comparisons cannot support
+consistency and that the engine did not name-match across scope. They do not prove
+the intended estate lacks a binding or that zero planner calls are structural. The
+next accepted batch must use the explicit environment and reach a real comparison.
+No freeze, fresh variant or unfamiliar-domain claim follows. See
 [correction, proposal and results](no-comparable-path-correction.md) and the
 [machine-readable review](runs/no-comparable-path-corrected-smoke.json).
 

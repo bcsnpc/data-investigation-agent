@@ -69,7 +69,7 @@ class RegistryTests(unittest.TestCase):
         state={'model_id':'model','observations':[],'decisions':[],'discovery_version':'synthetic',
                'planner_calls':0,'input_characters':0,'envelope':{'measure_id':self.payload()['starting_measure_id'],
                'dimension_ids':[],'limits':{'planner_calls':12,'input_characters':384000}}}
-        with patch.object(dynamic_reasoning.context_search,'latest',return_value=case):
+        with patch.object(dynamic_reasoning.context_search,'latest',return_value={**case,'version':'synthetic'}):
             payload=dynamic_reasoning.enrich(SimpleNamespace(get=lambda _: {'context':{'model_assets':[]}}),state,{'observations':[]})
         for ceiling in (len(encoded(payload)),48000):
             before=fit(copy.deepcopy(payload),ceiling);after=attach(before,self.config,ceiling)

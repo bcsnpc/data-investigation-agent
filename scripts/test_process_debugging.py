@@ -263,6 +263,36 @@ class VerticalProcedureTests(unittest.TestCase):
             result=adapter._partition_binding(metadata)
         self.assertEqual(result['status'],'ACCESS_DENIED')
 
+    def test_malformed_and_unsupported_partition_definitions_are_not_absence(self):
+        from investigator.adapters.microsoft_process import MicrosoftProcessAdapter
+        ws='00000000-0000-0000-0000-000000000001';model_id='fabric://'+ws+'/model'
+        definition={'id':'definition','parent_id':model_id,'kind':'DefinitionPart','name':'model.bim',
+                    'availability':'CURRENT','metadata':{'content':'not-json'}}
+        context={'version':'scan','assets':[definition],'graph':{'edges':[]},'coverage':{}}
+        model={'context':{'model_assets':[{'id':model_id,'kind':'SemanticModel'}]}}
+        metadata={'assets':[{'kind':'SemanticTable','metadata':{'partitions':[{'source':{
+          'schemaName':'dbo','entityName':'events','expressionSource':'Source'}}]}}]}
+        adapter=MicrosoftProcessAdapter(object(),{'fabric':{'workspace_id':ws}},model,None,None)
+        with patch('investigator.adapters.microsoft_process.context_search.latest',return_value=context):
+            self.assertEqual(adapter._partition_binding(metadata)['status'],'DEFINITION_UNAVAILABLE')
+            definition['metadata']['content']=json.dumps({'model':{'expressions':[{
+                'name':'Source','expression':'Web.Contents("https://example.invalid")'}]}})
+            self.assertEqual(adapter._partition_binding(metadata)['status'],'UNSUPPORTED_DECLARATION')
+
+    def test_external_source_absence_is_not_claimed_without_an_implemented_inspector(self):
+        from investigator.adapters.microsoft_process import MicrosoftProcessAdapter
+        adapter=MicrosoftProcessAdapter(object(),None,None,None,None)
+        adapter._partition_binding=lambda metadata:{'status':'RESOLVED','asset':{'id':'gold','parent_id':'lake','name':'events'},
+            'definition_asset_id':'definition','candidates':[]}
+        metadata={'measure':{'id':'measure','parent_id':'table','metadata':{'expression':'SUM(Activity[units])'}},
+          'assets':[{'kind':'SemanticTable','metadata':{'partitions':[]}},{'kind':'SemanticColumn','name':'units'}],
+          'gaps':[]}
+        with patch('investigator.adapters.microsoft_process.context_search.measure_path',return_value=metadata), \
+             patch('investigator.adapters.microsoft_process.context_search.latest',return_value={'assets':[],'graph':{'edges':[]}}):
+            result=adapter.resolve_path('measure')
+        self.assertEqual(result['evidence']['declared_source_binding']['external_source_declaration']['status'],
+                         'CAPABILITY_NOT_IMPLEMENTED')
+
     def test_presentation_context_reuses_bounded_slicer_parser(self):
         from investigator.adapters.microsoft_process import MicrosoftProcessAdapter
         part={'id':'page','name':'definition/pages/one/page.json','content_hash':'hash',
@@ -295,6 +325,22 @@ class VerticalProcedureTests(unittest.TestCase):
         self.assertEqual(captured[0]['lower_value'],9)
         self.assertEqual([x['needle'] for x in result['evidence']['searches']],
                          ['Handled Quantity','Activity','units','dbo.movement_values'])
+
+    def test_truncated_search_without_a_match_is_inconclusive_and_not_judged(self):
+        from investigator.adapters.microsoft_process import MicrosoftProcessAdapter
+        adapter=MicrosoftProcessAdapter(object(),None,None,None,None,
+            judge_definition=lambda payload:self.fail('incomplete evidence must not be judged'))
+        boundary={'upper':{'measure':{'name':'Handled Quantity'}},
+          'lower':{'definition_asset_id':'definition','semantic_table':'Activity','semantic_column':'units',
+                   'binding':{'asset':{'name':'dbo.movement_values'}}},
+          'upper_probe':Probe('OBSERVED','upper',value=10),'lower_probe':Probe('OBSERVED','lower',value=9)}
+        found={'asset_id':'definition','context_version':'scan','content_hash':'hash','total_characters':10000,
+               'matches':[],'truncated':True,'next_offset':5000}
+        with patch('investigator.adapters.microsoft_process.context_search.find_content',
+                   side_effect=lambda _,__,needle:{**found,'needle':needle}):
+            result=adapter.transformation_definition(boundary)
+        self.assertEqual(result['status'],'UNAVAILABLE');self.assertIsNone(result['explains'])
+        self.assertEqual(result['evidence']['completeness'],'PARTIAL')
 
 
 if __name__=='__main__':unittest.main()
