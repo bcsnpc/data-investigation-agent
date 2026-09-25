@@ -1,5 +1,26 @@
 # Project progress
 
+## 2026-09-25 - Wrong-context retraction and silent-fallback audit
+
+The #230 structural conclusion is withdrawn: the three recorded runs opened the
+older `development` context while discovery refreshed `unknown-domain-v4`. The
+original runs remain preserved. They still validate the false-consistency repair,
+capability gating and refusal to infer a cross-system binding by name; they do not
+establish that the intended environment lacks a declared source path.
+
+Before a correct-context rerun, truncated zero-match transformation searches now
+return explicit unavailable evidence and cannot unlock `DEFECT`. Missing or
+malformed semantic definitions, unsupported declarations, absent discovery context
+and context-version races also fail explicitly. The audit found that the external
+Silver-to-SQL check was scaffolded rather than implemented, so its prior
+`NO_DECLARATION` result is withdrawn and replaced by `CAPABILITY_NOT_IMPLEMENTED`.
+No planner context was added: retained recorded coverage remains 28 directory
+entries / 11 SQL objects / 15,971 characters, and the synthetic golden is unchanged
+at 28 / 11 / 5,744 before and after fitting. All 1,078 local regression tests pass.
+Exactly three recorded `unknown-domain-v4` runs remain next.
+See [the fallback audit](silent-fallback-audit.md) and the appended
+[correction](no-comparable-path-correction.md#2026-09-25-correction-after-232).
+
 ## 2026-09-25 - Capability-gated process steps and declared source resolution
 
 A code review showed that five constant Microsoft adapter stubs were being consumed
@@ -1347,6 +1368,13 @@ permission or policy change. The next batch must reach an actual divergence befo
 model judgment can be evaluated. See
 [correction and result](no-comparable-path-correction.md) and the
 [machine-readable review](runs/no-comparable-path-corrected-smoke.json).
+
+Correction on 2026-09-25 after #232: those three sessions opened the
+`development` discovery environment rather than the warehouse variant's
+`unknown-domain-v4` context. The recorded missing-binding and structural-limit
+conclusions are withdrawn pending a correct-context run. The preserved receipts
+still validate the false-consistency fix and show that no cross-scope name match
+was invented; the original evidence and text are retained above.
 
 
 ## 2026-09-25 - Declared-scope integration checkpoint

@@ -118,3 +118,21 @@ adapter stops before a transformation definition or divergence can be judged. Th
 next accepted batch must reach a real comparable divergence and invoke that judgment;
 no further run is made at this checkpoint. See the
 [machine-readable result](runs/no-comparable-path-corrected-smoke.json).
+
+## 2026-09-25 correction after #232
+
+The structural conclusion above is withdrawn pending a correct-context run. The
+three #229/#230 sessions opened the `development` discovery environment, while the
+warehouse variant had been discovered under `unknown-domain-v4`. The older context
+did not contain the newly collected semantic-endpoint-to-lakehouse relation. Its
+failure to bind `dbo.movement_values` therefore does not establish that the binding
+was absent from the intended estate, and it cannot establish that zero planner
+calls were a structural property of the correct path.
+
+The original runs, receipts, machine-readable result and text remain preserved as
+the historical record. They demonstrate the false-consistency correction: a
+zero-comparison path no longer claims `CONSISTENT_TO_BOUNDARY`. They also
+demonstrate that the engine did not widen scope or join similarly named objects.
+Capability gating added later is independently valid. The declared-scope primitive
+remains a sound resolution rule, but whether this boundary needs that primitive is
+open until a run uses the intended discovery environment.

@@ -23,7 +23,7 @@ def search(store, request):
     query=text(request['text'],200).casefold()
     if type(request['limit']) is not int or not 1<=request['limit']<=50:raise ValueError('Invalid search limit')
     context=latest(store)
-    if context is None:return {'context_version':None,'assets':[],'total':0,'truncated':False}
+    if context is None:raise Conflict('No discovered environment context is available')
     terms=query.split()
     by_id={a['id']:a for a in context['assets']}
     def qualified_name(asset):

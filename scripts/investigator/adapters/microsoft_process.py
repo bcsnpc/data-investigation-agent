@@ -60,16 +60,32 @@ class MicrosoftProcessAdapter:
         if not definition and model_root and denied(model_root+'/definition'):
             return {'status':'ACCESS_DENIED','scope_ids':[model_root],'candidates':[],
                     'reason':'The declared model definition was denied to the metadata identity.'}
-        if not definition or len(partitions)!=1:
+        if not definition:
+            complete=coverage.get(model_root+'/definition',{}).get('status')=='COMPLETE'
+            return {'status':'NO_DECLARATION' if complete else 'DEFINITION_UNAVAILABLE','candidates':[],
+                    'reason':('The complete retained model definition has no model.bim part.' if complete else
+                              'Model definition coverage is incomplete; declaration absence is not established.')}
+        if not partitions:
             return {'status':'NO_DECLARATION','candidates':[]}
+        if len(partitions)!=1:
+            return {'status':'UNSUPPORTED_DECLARATION','candidates':[],
+                    'reason':'Multiple semantic partitions require an explicit partition-selection rule.'}
         source=partitions[0].get('source',{});expression_name=source.get('expressionSource')
         try:document=json.loads(definition['metadata']['content'])['model']
-        except (KeyError,TypeError,ValueError):return {'status':'NO_DECLARATION','candidates':[]}
+        except (KeyError,TypeError,ValueError):
+            return {'status':'DEFINITION_UNAVAILABLE','candidates':[],
+                    'reason':'The retained model definition could not be decoded.'}
+        if not expression_name:return {'status':'NO_DECLARATION','candidates':[]}
         expressions={x.get('name'):x.get('expression') for x in document.get('expressions',[])}
         expression=expressions.get(expression_name)
+        if expression is None:
+            return {'status':'DEFINITION_UNAVAILABLE','candidates':[],
+                    'reason':'The partition references an expression absent from the retained definition.'}
         if isinstance(expression,list):expression='\n'.join(expression)
         match=re.search(r'Sql\.Database\(\s*"([^"]+)"\s*,\s*"([^"]+)"',expression or '')
-        if not match:return {'status':'NO_DECLARATION','candidates':[]}
+        if not match:
+            return {'status':'UNSUPPORTED_DECLARATION','candidates':[],
+                    'reason':'The declared partition connection is outside the supported Sql.Database form.'}
         workspace=self.config['fabric']['workspace_id'];endpoint='fabric://'+workspace+'/'+match.group(2)
         if endpoint not in by_id:return {'status':'SCOPE_NOT_DISCOVERED','scope_ids':[endpoint],'candidates':[]}
         relations=[e for e in context.get('graph',{}).get('edges',[]) if e.get('source')==endpoint
@@ -83,9 +99,11 @@ class MicrosoftProcessAdapter:
         labels=[source.get('schemaName','')+'.'+source.get('entityName',''),source.get('entityName','')]
         labels=[x.lstrip('.') for x in labels if x.strip('.')]
         offset=definition['metadata']['content'].find(str(source.get('entityName','')))
-        resolved=self.resolve_declared_source({'scope_ids':roots,'target_labels':labels,
+        declaration={'scope_ids':roots,'target_labels':labels,
             'target_kinds':['LakehouseTable'],'definition_asset_id':definition['id'],
-            'definition_offset':max(0,offset),'declared_connection_asset_id':endpoint})
+            'declared_connection_asset_id':endpoint}
+        if offset>=0:declaration['definition_offset']=offset
+        resolved=self.resolve_declared_source(declaration)
         resolved['relation_cross_check']={'status':'AGREES' if resolved['status']=='RESOLVED' else 'NO_UNIQUE_AGREEMENT',
             'relations':[{'source':e['source'],'target':e['target'],'relation':e['relation']} for e in relations]}
         return resolved
@@ -122,8 +140,8 @@ class MicrosoftProcessAdapter:
                     'candidates':resolved['candidates'],'provenance':'DECLARED_BY_DEFINITION',
                     'definition_evidence':edge.get('evidence',[])})
             binding['upstream_declarations']=upstream
-            binding['external_source_declaration']={'status':'NO_DECLARATION',
-                'reason':'No retained definition declares an application-source object within the approved SQL connection scope.'}
+            binding['external_source_declaration']={'status':'CAPABILITY_NOT_IMPLEMENTED',
+                'reason':'Application-source declaration inspection is not implemented for this path; absence is not established.'}
         partition_gap=next((g for g in gaps if g.get('reason')=='UNRESOLVED_PARTITION_IDENTITY'),None)
         missing=(partition_gap or next(iter(gaps),None) or {}).get('detail')
         if partition_gap:
@@ -229,6 +247,12 @@ class MicrosoftProcessAdapter:
             searches.append({k:result[k] for k in ('asset_id','context_version','content_hash',
                 'total_characters','needle','matches','truncated','next_offset')})
         excerpts=[{'needle':s['needle'],**match} for s in searches for match in s['matches']][:12]
+        if searches and not excerpts and any(s['truncated'] for s in searches):
+            return {'status':'UNAVAILABLE','explains':None,
+                    'reason':'No relevant definition match was retained and the search result was truncated; absence is not established.',
+                    'evidence':{'id':'transformation-definition-'+str(uuid4()),'tool':'context',
+                      'completeness':'PARTIAL','searches':searches,'excerpts':[],
+                      'truncated':True}}
         if searches:
             receipt={k:searches[0][k] for k in ('asset_id','context_version','content_hash','total_characters')}
         else:

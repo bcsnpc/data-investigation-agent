@@ -16,6 +16,10 @@
     "relation_cross_check": "AGREES",
     "external_source_declaration": "NO_DECLARATION"
   },
+  "offline_binding_correction": {
+    "external_source_declaration": "WITHDRAWN",
+    "reason": "The adapter assigned NO_DECLARATION without implementing application-source declaration inspection; the corrected status is CAPABILITY_NOT_IMPLEMENTED."
+  },
   "aggregate": {
     "runs": 3,
     "baselines_established": 3,
