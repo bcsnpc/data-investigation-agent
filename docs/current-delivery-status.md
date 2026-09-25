@@ -30,10 +30,18 @@ analytics endpoint without a permission change. Its existing MSAL client failed
 at token acquisition with `AADSTS65002` because that client is not preauthorized
 for `database.windows.net`; no connection or data query occurred, so table
 permission remains unestablished. The independent lower read is therefore not
-implemented under the current authentication transport. Exactly three follow-up
-runs remain the next evaluation; no freeze, variant or unfamiliar-domain claim is
-allowed. See [the corrected record](correct-context-process-three.md#2026-09-25-correction-after-review-of-234)
-and [machine result](runs/correct-context-process-three.json).
+implemented under the current authentication transport.
+
+After PR #235 merged with six green CI checks, exactly three follow-up attempts
+were launched and the batch stopped. All three failed before intake because the
+harness command omitted the now-required `--environment` argument. No session,
+provider call, data read, execution surface, comparison or synthesis was produced;
+all usage counters remained unchanged. These are three preserved infrastructure
+failures and provide no runtime acceptance evidence. No fourth run, freeze,
+variant or unfamiliar-domain claim followed. See the
+[three-run checkpoint](independent-boundary-three.md),
+[corrected #234 record](correct-context-process-three.md#2026-09-25-correction-after-review-of-234),
+and [machine results](runs/independent-boundary-three.json).
 
 ### Previous checkpoint: declared-scope integration and harness correction
 

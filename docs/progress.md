@@ -1,6 +1,24 @@
 # Project progress
 
-## 2026-09-25 - Correct-context three-run result
+## 2026-09-25 - Independent-boundary correction and stopped follow-up
+
+Review of #234 found that both apparent semantic-to-Gold values were produced by
+the same Power BI model. The historical records remain intact, but their two
+boundary claims and partial-pass statement are withdrawn. PR #235 records
+engine/connection/object on probes, requires distinct surfaces for boundary
+outcomes, labels same-model aggregates as definition checks, and validates derived
+process evidence before synthesis. It merged after 1,083 local regressions and six
+green CI checks.
+
+The existing reader's Gold SQL endpoint probe stopped before connection with
+`AADSTS65002`; its configured client cannot acquire the SQL audience. No permission
+changed and table access was not inferred. Exactly three follow-up attempts were
+then launched. Each exited before intake because the harness command omitted the
+required `--environment` argument. They opened no sessions, made no provider/data
+calls and left usage unchanged. All three failures remain in the ledger and no
+fourth run followed. See [the checkpoint](independent-boundary-three.md).
+
+## 2026-09-25 - Historical correct-context three-run result (requalified)
 
 PR #233 merged the wrong-context retraction and explicit-failure refinements with
 1,078 local tests and six green CI checks. Exactly three `unknown-domain-v4`
@@ -17,9 +35,10 @@ investigation-planner calls. Both stopped at step 6 as `CONSISTENT_TO_BOUNDARY`;
 the next application-source declaration check is explicitly unimplemented.
 Presentation freshness remained the only skipped process capability. Optional
 synthesis was explicitly blocked on its unsupported process-receipt adapter.
-The low comparison bar was reached in 2/3 runs; C1 keeps the batch partial. The
-requested stop is complete with no fourth run, freeze, variant or unfamiliar-domain
-claim. See [the full result](correct-context-process-three.md).
+The original report said the low comparison bar was reached in 2/3 runs. Review
+later established that both reads used one semantic-model execution surface, so
+that statement and the two boundary claims are withdrawn. See the appended
+[correction](correct-context-process-three.md#2026-09-25-correction-after-review-of-234).
 
 ## 2026-09-25 - Wrong-context retraction and silent-fallback audit
 
