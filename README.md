@@ -1,29 +1,25 @@
 # Self-Discovering Enterprise Data Investigator
 
-An enterprise data investigator for Azure SQL, Microsoft Fabric and Power BI.
+An enterprise process debugger for Azure SQL, Microsoft Fabric and Power BI.
 It has automatically discovered a newly published model and reports and made them
 available for investigation without manual registration. Known-domain trials have
 reached source mechanism evidence while preserving unknown business intent.
 **Reliable investigation of unfamiliar domains has not passed acceptance.** The
-target is to discover an approved environment and investigate business questions
-with an LLM, bounded read-only queries and saved evidence.
+target is to discover an approved environment and debug discrepancies by checking
+whether each reachable process stage preserved a scoped quantity, using bounded
+read-only queries and saved evidence. It reports implemented behavior and never
+decides whether a business rule is correct.
 This is an FDE integration with one enterprise environment.
 
-Current follow-up: [measure-path validation and its nine-run evaluation are complete](docs/measure-path-nine-run-evaluation.md).
-The selected measure has a bounded identity-backed path lookup; SQL/DAX adapters
-advertise generic measure reproduction and contribution tests that still use the
-existing compilers, permissions and receipts. Cause-labelled conclusions must cite
-a mechanism-to-measure connection or name the exact establishment barrier. No
-sequence, fixed query template, domain mapping or name-derived source edge was added.
-The initial G view remains 28 directory entries / 11 SQL objects and grows from
-15,067 to 15,971 characters. Validation: **1,035 local regression tests passed**.
-Nine identical known-domain G trials then made 97 investigation calls, 25 SQL and
-seven DAX reads. They completed 13 contribution tests but **zero labelled measure
-reproductions**. Five syntheses were accepted and receipt-grounded; four had intact
-support. Four synthesis responses failed deterministic validation. Every delivered
-output or preserved proposal remained correctly uncertain, with no supported cause.
-All 106 tapes verified and the unchanged original daily policy was sufficient.
-No freeze or unfamiliar-domain claim follows from this result.
+Current follow-up: the [process-debugging redesign](docs/process-debugging-redesign.md)
+replaces open-ended search as the primary path. Intake distinguishes mismatch
+complaints from business questions. A deterministic vertical procedure establishes
+the presentation baseline, walks a discovered path of any length, compares only
+faithfully translatable quantities, stops at the first evidence-bound explanation,
+and always reports its visibility boundary. Twelve closed outcomes bind claims to
+required receipts and recommended actions. The adaptive loop remains the
+`NO_KNOWN_PATTERN` fallback. Three recorded known-domain smoke trials remain before
+this milestone can be called complete. No freeze or unfamiliar-domain claim follows.
 
 ## What works today
 
@@ -32,9 +28,10 @@ No freeze or unfamiliar-domain claim follows from this result.
 - Environment-owned metadata scans, per-surface coverage, versioned changes and
   evidence-backed context graphs. Supported discovered models/reports enter the
   ticket catalog automatically; manual registration remains a compatibility override.
-- A persisted adaptive loop: the LLM retrieves context, proposes governed SQL/DAX
-  or selects typed diagnostics, sees actual observations and revises hypotheses.
-  Parsed queries run through approved read-only identities and produce receipts.
+- A deterministic vertical process debugger over adapter-provided discovered paths.
+  It establishes a scoped presentation baseline, compares adjacent quantities,
+  retains every query verbatim, exits early on an evidence contract and reports
+  the deepest reachable layer. The adaptive LLM loop remains a bounded fallback.
 - A local workspace with business questions, reviewed screenshot transcription,
   scope review, history, cancellation and shared business/technical evidence.
   Read-only identities, budgets and replay controls remain in place.
@@ -64,12 +61,13 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-Latest validation: **1,035 local regression tests passed** after the measure-path
-capability change. The subsequent [nine-run evaluation](docs/measure-path-nine-run-evaluation.md)
-found consistent measure-path retrieval and some useful contribution tests, but
-zero explicit reproductions and four synthesis-validation failures. The next work
-is narrow reliability improvement for reproduction selection and contract-valid
-synthesis. No unfamiliar-domain acceptance pass is claimed.
+The redesign implementation passed **1,046 local regression tests**. Focused tests
+cover all twelve evidence contracts, arbitrary path length, early exit, explicit
+`NOT_COMPARABLE`, intake triage, an end-to-end known-domain adapter run and all four
+#226 synthesis failures. Planner golden payload content and directory coverage are
+unchanged; only response schemas changed. The required three recorded G smoke
+trials are next after the implementation merges. No unfamiliar-domain acceptance
+pass is claimed.
 
 The previous separated-synthesis experiment is complete ([PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222)).
 Three corrected known-domain G trials produced **3/3 receipt-supported uncertainty

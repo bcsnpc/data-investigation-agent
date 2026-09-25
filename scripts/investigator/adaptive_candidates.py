@@ -7,10 +7,12 @@ CONTEXT_CHANGERS={'FILTERED_MEASURE','TIME_SHIFT','RELATIONSHIP_SWITCH','CONDITI
 
 def catalog(store,config,envelope):
     fields(envelope,['model_id','revision','context_id','measure_id','filters','dimension_ids','source_tests','symptom','limits']+
-           [k for k in ('source_selection','record_tests','record_pairs','record_selection','joint_native_records','strategy') if k in envelope])
+           [k for k in ('source_selection','record_tests','record_pairs','record_selection','joint_native_records','strategy',
+                        'ticket_shape','comparison_mode') if k in envelope])
     if 'strategy' in envelope:
         from .dynamic_reasoning import VERSION
-        if envelope['strategy']!=VERSION:raise ValueError('Unknown investigation strategy')
+        from .process_debugging import VERSION as PROCESS_VERSION
+        if envelope['strategy'] not in (VERSION,PROCESS_VERSION):raise ValueError('Unknown investigation strategy')
         model=store.get(envelope['model_id'])
         if not model.get('discovery') or model['discovery']['policy_hash']!=digest(config):raise Conflict('Dynamic investigation needs current approved discovery policy')
         if not model['enabled'] or model['revision']!=envelope['revision'] or model['context_id']!=envelope['context_id']:

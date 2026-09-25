@@ -93,6 +93,11 @@ class Workspace:
         if model.get('discovery'):
             from .dynamic_reasoning import VERSION
             envelope['strategy']=VERSION
+            if intake is not None and intake['comparison_mode'] in ('VERTICAL','NONE'):
+                from .process_debugging import VERSION as PROCESS_VERSION
+                envelope['strategy']=PROCESS_VERSION
+                envelope['ticket_shape']=intake['ticket_shape']
+                envelope['comparison_mode']=intake['comparison_mode']
             envelope['limits'].update(cloud_calls=self.dynamic_read_limit,planner_calls=12,input_characters=self.dynamic_input_limit,wall_seconds=1800)
         candidates, gaps = catalog(self.store, self.agent.config, envelope)
         metadata = self.model(model['id'])
@@ -114,7 +119,7 @@ class Workspace:
                 'calculation_contexts':list(contexts.values()), 'intake': intake,
                 'scope_note': 'Selected filters supply the starting context. Measures may apply their own filters; component paths are listed below when supported. A screenshot or report selection is not automatically reproduced.'}
         if envelope.get('strategy'):
-            body['scope_note']='These selections describe your question. The investigator may inspect definitions and run bounded read-only checks across the approved environment to test explanations. Each check retains its actual scope. Hidden report selections are not automatically reproduced.'
+            body['scope_note']='These selections describe your question. The process debugger follows the discovered measure path, establishes its own presentation baseline, and runs bounded read-only comparisons under the approved environment. Every result names the deepest layer reached. Hidden report selections are not automatically reproduced.'
         with self.store.connect() as db:
             if intake is not None:
                 self.intake.review(request['intake_id'], request)
@@ -241,7 +246,11 @@ class Workspace:
         elif job['status'] == 'INTERRUPTED' or (not attached and not stopped):
             summary = 'The worker is not attached to this investigation. Cancel it before starting a new review; no check will be silently retried.'
         elif technical['outcome'].get('assessment'):
-            summary='Suggested explanation: '+technical['outcome']['assessment']['claim']+' This is not a verified cause or confirmation of the intended business rule.'
+            boundary=(technical['outcome']['assessment'].get('support',{}).get('process',{})
+                      .get('visibility_boundary'))
+            summary='Process finding: '+technical['outcome']['assessment']['claim']
+            if boundary:
+                summary+=f" Checked through {boundary['deepest_layer']}; stopped because {boundary['stopped_by'].lower().replace('_',' ')}."
         return {'id': identity, 'model_id': job['model_id'], 'model_name': preview['model_name'],
                 'measure_name': preview['measure_name'], 'symptom': preview['envelope']['symptom'],
                 'status': technical['status'], 'job_status': job['status'], 'worker_attached': attached,

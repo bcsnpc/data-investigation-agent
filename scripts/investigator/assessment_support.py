@@ -5,6 +5,7 @@ this support object; it grants no evidence authority or verified classification.
 """
 from . import proposal_limits as limits
 from .onboarding import fields, text
+from .process_outcomes import OUTCOMES, schema as process_schema
 
 SCHEMA = {'type':'object','additionalProperties':False,'properties':{
     'mechanism':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
@@ -16,16 +17,19 @@ SCHEMA = {'type':'object','additionalProperties':False,'properties':{
         'NOT_ESTABLISHED_CAPABILITY','NOT_ESTABLISHED_PERMISSION','NOT_ESTABLISHED_BUDGET','NOT_ESTABLISHED_ELIGIBILITY']},
     'measure_connection_basis':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
     'measure_connection_evidence_ids':{'type':'array','maxItems':8,'items':{'type':'string'}},
-    'remaining_test':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'}},
+    'remaining_test':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
+    'process':process_schema()},
     'required':['mechanism','mechanism_evidence_ids','intent_dependency','intent_basis',
                 'intent_evidence_ids','measure_connection','measure_connection_basis',
-                'measure_connection_evidence_ids','remaining_test']}
+                'measure_connection_evidence_ids','remaining_test','process']}
 
 
 def validate(assessment, observations):
     support=assessment['support']
     legacy=not any(k in support for k in ('measure_connection','measure_connection_basis','measure_connection_evidence_ids'))
-    required=[k for k in SCHEMA['required'] if not legacy or not k.startswith('measure_connection')]
+    current=assessment.get('classification') in OUTCOMES
+    required=[k for k in SCHEMA['required'] if (not legacy or not k.startswith('measure_connection'))
+              and (current or k!='process')]
     fields(support,required)
     for key in ('mechanism','intent_basis','remaining_test')+(() if legacy else ('measure_connection_basis',)):
         if isinstance(support[key],str) and len(support[key])>limits.ASSESSMENT_DETAIL:
@@ -43,6 +47,9 @@ def validate(assessment, observations):
             raise ValueError('Support must cite completed assessment evidence')
     if dependency=='ESTABLISHED' and not support['intent_evidence_ids']:
         raise ValueError('Established intent needs cited evidence; otherwise mark UNKNOWN or justify NOT_REQUIRED')
+    if assessment['classification'] in OUTCOMES:
+        from .process_outcomes import validate as validate_process
+        validate_process(assessment,observations)
     cause=assessment['classification'] in ('LIKELY_TECHNICAL_DEFECT','EXPECTED_BEHAVIOR','SOURCE_OR_APPLICATION_ISSUE','REFRESH_OR_FRESHNESS_ISSUE')
     if cause:
         if dependency=='UNKNOWN':
@@ -59,7 +66,7 @@ def validate(assessment, observations):
     if connection=='ESTABLISHED':
         refs=support['measure_connection_evidence_ids']
         if not refs:raise ValueError('Established measure connection needs cited evidence')
-        if not any(observations[r].get('test_purpose')=='TEST_CONTRIBUTION' or
+        if not any(observations[r].get('test_purpose') in ('TEST_CONTRIBUTION','ESTABLISH_BASELINE','REPRODUCE_MEASURE') or
                    observations[r].get('joint_aggregate') or observations[r].get('reviewed_mapping') or
                    observations[r].get('record_mapping') for r in refs):
             raise ValueError('Measure connection evidence must test contribution or retain an admitted mapping')

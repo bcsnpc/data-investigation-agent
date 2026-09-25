@@ -31,8 +31,8 @@ def capabilities(store,model,config):
         item['execution_permission']='UNKNOWN_UNTIL_DISPATCH'
         item['dispatch_revalidation_required']=True
     dax['named_capabilities']=[{
-        'name':'reproduce_measure','parameters':['selected_measure','declared_ticket_scope'],
-        'behavior':'Submit a bounded DAX query through the normal compiler and reader admission. No fixed measure or query template.'}]
+        'name':'establish_presentation_baseline','parameters':['selected_measure','declared_ticket_scope'],
+        'behavior':'Evaluate the selected presentation measure under the declared scope. This supplies the baseline needed to attribute a later difference to a process boundary rather than to query translation. It does not confirm the ticket number.'}]
     for item in (sql,dax):
         item.setdefault('named_capabilities',[]).append({
             'name':'test_contribution','parameters':['selected_measure','suspected_upstream_object'],

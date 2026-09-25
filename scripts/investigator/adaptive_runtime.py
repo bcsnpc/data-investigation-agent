@@ -394,9 +394,69 @@ class AdaptiveRuntime:
         return self.get(identity)
 
     def run(self,identity):
+        with self.runtime.db() as db:
+            state=self.load(db,identity)
+        from .process_debugging import VERSION as process_version
+        if state['envelope'].get('strategy')==process_version and not state.get('process_started'):
+            return self.run_process(identity)
+        return self.run_open(identity)
+
+    def run_open(self,identity):
         while True:
             result=self.step(identity)
             if result['status']!='READY':return result
+
+    def run_process(self,identity):
+        """Execute the deterministic vertical strategy; open planning is fallback only."""
+        from .adapters.microsoft_process import MicrosoftProcessAdapter
+        from .process_debugging import vertical
+        from .assessment_support import validate as validate_support
+        reservation=None
+        with self.runtime.db() as db:
+            state=self.load(db,identity);self.admit(state)
+            if state['status']!='READY':return self.get(identity)
+        model=self.store.get(state['model_id'])
+        adapter=MicrosoftProcessAdapter(self.store,self.config,model,
+            self.runtime.native_transport,self.runtime.source_transport)
+        path=adapter.resolve_path(state['envelope']['measure_id'])
+        with self.runtime.db() as db:
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)
+            if state['status']!='READY':return self.project_after_commit(db,state)
+            if path.get('layers') and self.governor:
+                reservation='tool:process-baseline'
+                self.governor.reserve(db,identity,reservation,'cloud')
+            state['process_started']=True;state['cloud_calls']+=int(bool(path.get('layers')));state['status']='EXECUTING'
+            self.save(db,state,'PROCESS_STARTED',{'procedure':'VERTICAL','reserved_reads':int(bool(path.get('layers')))})
+        error=None;assessment=None
+        try:
+            assessment=vertical(adapter,state['envelope']['measure_id'],{
+                'filters':state['envelope']['filters'],'dimension_ids':state['envelope']['dimension_ids'],
+                'ticket_shape':state['envelope'].get('ticket_shape')})
+            observations=assessment.pop('_observations',None)
+            if observations is None:
+                observations=getattr(adapter,'observations',None)
+            if observations is None:
+                # Internal technical output alone is insufficient for validation.
+                raise ValueError('Process procedure did not return its evidence chain')
+            validate_support(assessment,{o['id']:o for o in observations})
+        except Exception as exc:
+            error=type(exc).__name__
+        with self.runtime.db() as db:
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
+            if self.governor and reservation:self.governor.settle(db,identity,reservation,uncertain=error is not None)
+            if error:
+                self.stop(db,state,'TOOL_UNAVAILABLE','HELD')
+                state['process_error']=error;self.save(db,state,'PROCESS_FAILED',{'error_type':error})
+                return self.project_after_commit(db,state)
+            state['observations'].extend(observations);state['assessment']=assessment
+            if assessment['classification']=='NO_KNOWN_PATTERN':
+                state['status']='READY';state['token']=None
+                self.save(db,state,'OPEN_INVESTIGATION_FALLBACK',{'fallback_count':1})
+                db.commit();return self.run_open(identity)
+            state.update(status='COMPLETED',stop_reason='ENOUGH_DIAGNOSTICS',token=None,pending=None)
+            self.save(db,state,'PROCESS_STOPPED',{'classification':assessment['classification'],
+                'terminating_step':assessment['terminating_step']})
+            return self.project_after_commit(db,state)
 
     def synthesize(self,identity,provider=None):
         from .evidence_synthesis import run,azure_synthesize

@@ -1,4 +1,5 @@
 import copy,json,unittest
+from pathlib import Path
 from unittest.mock import patch
 from investigator import evidence_synthesis as synthesis
 from investigator import synthesis_digest
@@ -92,6 +93,26 @@ class SynthesisTests(unittest.TestCase):
         repaired=synthesis.assemble_citations(answer)
         self.assertEqual(repaired['evidence_ids'],outer+[missing])
         self.assertEqual(repaired['support']['intent_evidence_ids'],[missing,outer[0],outer[1]])
+
+    def test_all_four_226_recorded_contract_failures_normalize_and_validate(self):
+        fixture=Path(__file__).with_name('fixtures')/'synthesis_failures_226.json'
+        cases=json.loads(fixture.read_text(encoding='utf-8'))
+        self.assertEqual([c['label'] for c in cases],['M2','M3','M4','M9'])
+        for case in cases:
+            with self.subTest(case=case['label']):
+                value=case['assessment'];synthesis.validate(value,case['payload'])
+                for key in ('mechanism','intent_basis','measure_connection_basis','remaining_test'):
+                    self.assertLessEqual(len(value['support'][key]),500)
+                cited=set(value['evidence_ids'])
+                self.assertTrue(set(value['support']['measure_connection_evidence_ids'])<=cited)
+
+    def test_normalization_labels_truncation_and_cannot_supply_missing_support(self):
+        value=self.answer({'evidence':[]});value['support']['mechanism']='x'*501
+        synthesis.normalize(value)
+        self.assertTrue(value['support']['mechanism'].endswith(synthesis.TRUNCATION_LABEL))
+        self.assertEqual(len(value['support']['mechanism']),500)
+        value['support']['mechanism_evidence_ids']=['missing'];value['evidence_ids']=[]
+        with self.assertRaises(ValueError):synthesis.validate(value,{'evidence':[]})
 
     def test_provider_usage_violation_rejects_assessment(self):
         agent,state=self.stopped()

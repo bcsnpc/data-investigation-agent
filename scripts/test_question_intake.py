@@ -13,13 +13,15 @@ import test_investigator_workspace as workspace_fixture
 
 def proposal():
     return {'action': 'PROPOSE', 'model_id': 'model', 'measure_id': 'Unseen ratio', 'metric_quote': 'ratio',
-            'question': None, 'filters': [{'column_id': 'c', 'operator': 'in', 'values': ['USD']}],
+            'question': None, 'ticket_shape':'MISMATCH_COMPLAINT','comparison_mode':'VERTICAL',
+            'filters': [{'column_id': 'c', 'operator': 'in', 'values': ['USD']}],
             'dimension_ids': [], 'scope_quotes': [{'column_id': 'c', 'quote': 'USD'}]}
 
 
 def ask():
     return {'action': 'ASK', 'model_id': None, 'measure_id': None, 'metric_quote': None,
-            'question': 'Which metric and exact filters should be checked?', 'filters': [], 'dimension_ids': [], 'scope_quotes': []}
+            'question': 'Which metric and exact filters should be checked?', 'ticket_shape':None,'comparison_mode':None,
+            'filters': [], 'dimension_ids': [], 'scope_quotes': []}
 
 
 class WireContractTests(unittest.TestCase):
@@ -31,6 +33,7 @@ class WireContractTests(unittest.TestCase):
     def test_opaque_handles_roundtrip_and_filter_quotes_stay_attached(self):
         payload=self.payload();original=copy.deepcopy(payload)
         proposed={'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value','question':None,
+                  'ticket_shape':'MISMATCH_COMPLAINT','comparison_mode':'VERTICAL',
                   'filters':[{'column_id':'m0c0','operator':'in','values':['North'],'quote':'North'}],
                   'dimension_ids':['m0c0']}
         with patch('ticket_planner.azure_generate',return_value=(proposed,{})) as generate:
@@ -45,7 +48,7 @@ class WireContractTests(unittest.TestCase):
 
     def test_global_proposal_cannot_add_detached_scope_quotes(self):
         proposed={'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
-                  'question':None,'filters':[],'dimension_ids':[]}
+                  'question':None,'ticket_shape':'MISMATCH_COMPLAINT','comparison_mode':'VERTICAL','filters':[],'dimension_ids':[]}
         with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
             result,_=azure_resolve(self.payload())
         self.assertEqual(result['scope_quotes'],[])
