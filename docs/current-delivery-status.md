@@ -6,46 +6,50 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Active: measure-path evaluation complete; reproduction selection remains the
-next reliability gap.**
-The reviewed #224 proposal is implemented without a dependency-map layer. A bounded
-`measure_path` lookup composes the selected measure's existing identity-backed
-references, partition definition facts, graph edges and explicit gaps. Governed
-queries can declare generic `REPRODUCE_MEASURE` or `TEST_CONTRIBUTION` purposes;
-the latter is admitted only when the compiled read contains the declared discovered
-upstream object. There is no fixed query, layer order, domain mapping or permission
-grant. Progress, scorer and ledger fields report completed reproduction/contribution
-counts without controlling admission.
+**Active: deterministic process-debugging redesign; three-run smoke pending.**
+The accepted #226 result changed the primary target from open-ended data forensics
+to debugging a discovered data process. The implementation now triages mismatch
+complaints and business questions, establishes a presentation baseline under the
+declared scope, walks adapter-provided paths of arbitrary length, compares only
+faithfully translatable quantities and exits on the first evidence-bound outcome.
+Every technical output retains its queries verbatim and names the deepest layer
+checked plus the access, lineage, comparability or budget boundary that stopped it.
 
-Current conclusion support requires cause labels to cite a mechanism-to-measure
-connection or state the exact scope/capability/permission/budget/eligibility barrier.
-Honest uncertainty remains valid without a connection claim. The retained item-
-relations probes expose no external Azure SQL edge, and the retained notebook has
-no Azure SQL load binding, so the path reports `UNRESOLVED_EXTERNAL_SOURCE_BINDING`
-instead of joining similar names. The dependency-map proposal is deferred indefinitely.
+The current taxonomy is closed at twelve outcomes: REFRESH_LATENCY, LOAD_LATENCY,
+PRESENTATION_LOGIC, TRANSFORMATION_LOGIC, INGESTION_GAP, DEFECT,
+CONSISTENT_TO_BOUNDARY, DEFINITION_DIFFERENCE, SCOPE_DIFFERENCE,
+DIFFERENT_SUBJECT, BUSINESS_QUESTION and NO_KNOWN_PATTERN. Each has a deterministic
+evidence contract and fixed recommended action. All twelve have a negative test.
+Boundary attribution without a baseline above it or a specific establishment
+barrier is rejected. Historical labels remain stored and map forward only on read.
+The adaptive loop remains available solely as the NO_KNOWN_PATTERN fallback.
 
-Initial G context remains **28 directory entries / 11 SQL objects** and grows
-**15,067 -> 15,971 characters (+904)**. **1,035 local regression tests passed**,
-including a contribution-before-reproduction regression and a golden coverage
-assertion. See [implementation evidence](measure-path-validation.md).
+`REPRODUCE_MEASURE` is now presented as `ESTABLISH_BASELINE`: an independent
+presentation read that makes lower-layer differences attributable to the process
+rather than translation error. Legacy observations remain readable. The Microsoft
+adapter is isolated below the platform-neutral engine and uses the existing parser,
+reader, typed scope and receipts. With unresolved external binding it establishes
+the presentation value and reports the real lineage boundary rather than joining
+assets by name.
 
-Nine identical recorded G trials are now complete. All nine selected
-`measure_path` first; M1 then ran a contribution test before reproduction, so no
-sequence was imposed. Totals were **97 investigation calls, 25 SQL + seven DAX
-reads, 52 context observations, 13 contribution tests and zero labelled measure
-reproductions**. Five syntheses were accepted and receipt-grounded; four had intact
-support. Four synthesis calls failed deterministic validation, with every response
-and charge preserved. Outcomes were two BUSINESS_CONTEXT_REQUIRED and seven
-UNRESOLVED; every delivered output or preserved proposal was correctly uncertain,
-and none established a cause.
+The four #226 synthesis failures (M2/M3/M4/M9) now validate in offline regressions.
+All support citation groups are assembled into the outer list and overlong published
+text receives an explicit labelled truncation at the existing bound. Missing support
+still fails. The frozen synthesis digest includes the deterministic process finding,
+and synthesis cannot substitute a different outcome.
 
-All 106 tapes verified. Reference token cost was USD 6.069237, including USD
-0.495802 for synthesis; this is not Azure billing. The original 240 / 60 /
-8,000,000 / 1,500,000 daily policy remained unchanged and all 147 usage records
-are settled. See [the nine-run evaluation](measure-path-nine-run-evaluation.md).
-The next narrow work is reliable concise/citation-valid synthesis and generic
-selection of explicit `REPRODUCE_MEASURE`; no freeze, fresh variant or unfamiliar-
-domain claim is justified.
+Offline behavior covers three layers, a report reading the only reachable layer,
+an unreachable source, and a four-layer path with one NOT_COMPARABLE boundary.
+An injected known-domain runtime completed end to end in one native read and zero
+planner calls. Planner golden payloads retain identical entry counts, SQL-object
+counts and payload characters; the existing initial directory remains 28 / 11.
+Only response schemas changed. **1,046 local regression tests passed.** The required exactly three
+recorded known-domain G trials remain before milestone completion. No freeze, fresh
+variant or unfamiliar-domain claim is authorized. See
+[implementation, contracts and proposals](process-debugging-redesign.md).
+
+Horizontal comparison, the recurrence store, declared business context and a
+known-issues register are designed in that document and remain proposal-only.
 
 ### Previous milestone
 

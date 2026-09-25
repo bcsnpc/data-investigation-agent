@@ -1,0 +1,401 @@
+[
+  {
+    "label": "M2",
+    "assessment": {
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "claim": "Insufficient evidence to determine whether Inventory Health e1b8e1 Handled Quantity includes incorrect source entries: the digest only shows asset/search lookups for Activity, CountAdjustments, and movement_values, not displayed stock-movement rows, adjustment rows, lineage, schema, or a measure definition tying the reported measure to those objects. [17095597-a4ce-4b70-a918-a4036302a91c, 3572cdc8-30ee-405c-a418-7dbb621af21d, 31e40b4c-fcbf-4f49-950d-ddc6cb385d2f, 34f5188b-c6f8-46aa-b12c-1b54d8862be1, e546c474-87d7-4c6f-a2ce-97800c8a0353]",
+      "evidence_ids": [
+        "17095597-a4ce-4b70-a918-a4036302a91c",
+        "3572cdc8-30ee-405c-a418-7dbb621af21d",
+        "31e40b4c-fcbf-4f49-950d-ddc6cb385d2f",
+        "34f5188b-c6f8-46aa-b12c-1b54d8862be1",
+        "e546c474-87d7-4c6f-a2ce-97800c8a0353"
+      ],
+      "alternatives": [
+        "Activity, CountAdjustments, and movement_values may still be the relevant objects, but that linkage is not established by displayed lineage or schema evidence. [31e40b4c-fcbf-4f49-950d-ddc6cb385d2f, 34f5188b-c6f8-46aa-b12c-1b54d8862be1, e546c474-87d7-4c6f-a2ce-97800c8a0353]",
+        "Incorrect handled quantity, if present, could stem from transformation logic or measure logic rather than bad source movement entries; the digest does not show either. [17095597-a4ce-4b70-a918-a4036302a91c, 31e40b4c-fcbf-4f49-950d-ddc6cb385d2f]",
+        "Adjustment records may be related context, but their presence alone cannot prove an error in Handled Quantity without row-level overlap and rule evidence, which are not displayed here. [34f5188b-c6f8-46aa-b12c-1b54d8862be1, 31e40b4c-fcbf-4f49-950d-ddc6cb385d2f]"
+      ],
+      "limits": [
+        "No displayed receipt facts show any stock-movement or adjustment record values, counts, joins, or mismatches. [31e40b4c-fcbf-4f49-950d-ddc6cb385d2f, 34f5188b-c6f8-46aa-b12c-1b54d8862be1, e546c474-87d7-4c6f-a2ce-97800c8a0353]",
+        "The measure_path lookup does not display the Handled Quantity definition or source mapping. [17095597-a4ce-4b70-a918-a4036302a91c]",
+        "The search result only reports 4 matching assets for movement_values; it does not identify which one feeds Handled Quantity. [3572cdc8-30ee-405c-a418-7dbb621af21d]"
+      ],
+      "support": {
+        "mechanism": "The displayed observations establish only object existence/search results: Activity and CountAdjustments are semantic tables, movement_values is a lakehouse table, and a search for movement_values returned 4 matches. They do not display row data, schemas, joins, lineage, or measure logic needed to test whether incorrect source entries flow into Handled Quantity. [3572cdc8-30ee-405c-a418-7dbb621af21d, 31e40b4c-fcbf-4f49-950d-ddc6cb385d2f, 34f5188b-c6f8-46aa-b12c-1b54d8862be1, e546c474-87d7-4c6f-a2ce-97800c8a0353, 17095597-a4ce-4b70-a918-a4036302a91c]",
+        "mechanism_evidence_ids": [
+          "3572cdc8-30ee-405c-a418-7dbb621af21d",
+          "31e40b4c-fcbf-4f49-950d-ddc6cb385d2f",
+          "34f5188b-c6f8-46aa-b12c-1b54d8862be1",
+          "e546c474-87d7-4c6f-a2ce-97800c8a0353",
+          "17095597-a4ce-4b70-a918-a4036302a91c"
+        ],
+        "intent_dependency": "UNKNOWN",
+        "intent_basis": "No displayed definition excerpt or business-rule text states which movements should count toward Handled Quantity or how inventory adjustments should affect it; the provided observations are asset/search lookups only. [17095597-a4ce-4b70-a918-a4036302a91c, 3572cdc8-30ee-405c-a418-7dbb621af21d, 31e40b4c-fcbf-4f49-950d-ddc6cb385d2f, 34f5188b-c6f8-46aa-b12c-1b54d8862be1, e546c474-87d7-4c6f-a2ce-97800c8a0353]",
+        "intent_evidence_ids": [
+          "17095597-a4ce-4b70-a918-a4036302a91c",
+          "3572cdc8-30ee-405c-a418-7dbb621af21d",
+          "31e40b4c-fcbf-4f49-950d-ddc6cb385d2f",
+          "34f5188b-c6f8-46aa-b12c-1b54d8862be1",
+          "e546c474-87d7-4c6f-a2ce-97800c8a0353"
+        ],
+        "measure_connection": "NOT_ASSERTED",
+        "measure_connection_basis": "The digest does not display a definition connecting Handled Quantity to Activity, CountAdjustments, or movement_values, so a causal connection between any suspected source-entry issue and the reported measure cannot be asserted from the shown evidence. [17095597-a4ce-4b70-a918-a4036302a91c, 31e40b4c-fcbf-4f49-950d-ddc6cb385d2f, 34f5188b-c6f8-46aa-b12c-1b54d8862be1, e546c474-87d7-4c6f-a2ce-97800c8a0353]",
+        "measure_connection_evidence_ids": [
+          "17095597-a4ce-4b70-a918-a4036302a91c",
+          "31e40b4c-fcbf-4f49-950d-ddc6cb385d2f",
+          "34f5188b-c6f8-46aa-b12c-1b54d8862be1",
+          "e546c474-87d7-4c6f-a2ce-97800c8a0353"
+        ],
+        "remaining_test": "Need displayed evidence that links Handled Quantity to specific movement objects and shows row-level movement and related adjustment facts for the same keys so any mismatch or fanout can be evaluated without assuming an adjustment row alone proves the business rule. [17095597-a4ce-4b70-a918-a4036302a91c, 31e40b4c-fcbf-4f49-950d-ddc6cb385d2f, 34f5188b-c6f8-46aa-b12c-1b54d8862be1, e546c474-87d7-4c6f-a2ce-97800c8a0353]"
+      }
+    },
+    "payload": {
+      "evidence": [
+        {
+          "id": "17095597-a4ce-4b70-a918-a4036302a91c",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "3572cdc8-30ee-405c-a418-7dbb621af21d",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "31e40b4c-fcbf-4f49-950d-ddc6cb385d2f",
+          "tool": "context",
+          "completeness": "PARTIAL"
+        },
+        {
+          "id": "34f5188b-c6f8-46aa-b12c-1b54d8862be1",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "e546c474-87d7-4c6f-a2ce-97800c8a0353",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        }
+      ]
+    }
+  },
+  {
+    "label": "M3",
+    "assessment": {
+      "classification": "BUSINESS_CONTEXT_REQUIRED",
+      "claim": "Source inspection found linked stock movements and inventory adjustments whose units do not reconcile, but this alone does not establish that Handled Quantity is incorrect. Among displayed movement types, 22 RECEIPT movements and 7 ISSUE movements had linked adjustments, and every such adjusted movement was counted as a unit mismatch in the aggregate query; example mismatches include movement 180 (ISSUE 39 units vs adjustment total -3) and movement 34 (RECEIPT 37 units vs adjustment total 1). The intended business meaning of these adjustments and their connection to Handled Quantity are not evidenced in the digest.",
+      "evidence_ids": [
+        "51fbcb22-d034-4c3c-b48f-6215feda523f",
+        "55945f94-a8f6-45a9-bb66-22e91b4eaea5",
+        "98347cc7-9997-4d1d-85dc-181e37046349"
+      ],
+      "alternatives": [
+        "The adjustment rows may be ancillary corrections or reason-coded subevents that are not supposed to equal the stock movement units.",
+        "The source linkage by movement_id may represent partial, split, or differently signed events rather than duplicates or errors.",
+        "Handled Quantity could still be correct if it is derived from Activity rows using rules not shown in the digest, regardless of these source mismatches."
+      ],
+      "limits": [
+        "No displayed measure definition or lineage connects Handled Quantity to app.stock_movements_e1b8e1 or app.inventory_adjustments_e1b8e1; measure_path lookup returned no asset details.",
+        "Business rules for whether adjustment units should equal, offset, or supplement movement units are not shown.",
+        "Only up to 2 rows are displayed for row-level mismatch queries; 27 mismatched rows and 10 joined adjustment rows are omitted from view.",
+        "Displayed row counts describe returned query results, not a proven full source population beyond those aggregates."
+      ],
+      "support": {
+        "mechanism": "The source tables show non-equivalent linked records: the aggregate comparison counted 22 adjusted RECEIPT movements and 7 adjusted ISSUE movements, with unit_mismatch_movements equal to those counts for both types; examples show ISSUE movement 180 at 39 units linked to adjustment total -3 and RECEIPT movement 34 at 37 units linked to adjustment total 1.",
+        "mechanism_evidence_ids": [
+          "51fbcb22-d034-4c3c-b48f-6215feda523f",
+          "55945f94-a8f6-45a9-bb66-22e91b4eaea5",
+          "98347cc7-9997-4d1d-85dc-181e37046349"
+        ],
+        "intent_dependency": "UNKNOWN",
+        "intent_basis": "The digest provides no displayed definition or business rule for Handled Quantity, and no rule stating whether linked inventory adjustments should match movement units or should count toward handled quantity.",
+        "intent_evidence_ids": [
+          "65a94fc4-adbd-4c93-b497-0a465dcb801e"
+        ],
+        "measure_connection": "NOT_ASSERTED",
+        "measure_connection_basis": "Although the question targets Handled Quantity and the source tables were inspected, the displayed evidence does not show lineage or formula tying this measure to these specific source rows, so a source mismatch cannot be attributed to the reported measure from the digest alone.",
+        "measure_connection_evidence_ids": [
+          "65a94fc4-adbd-4c93-b497-0a465dcb801e",
+          "f725d2bc-80e9-40be-ac6d-18b9f9204ef7",
+          "dac4543c-983a-4664-babe-23459b289d15"
+        ],
+        "remaining_test": "The unresolved point is semantic: determine the intended treatment of linked inventory adjustments for handled quantity and whether Activity/Handled Quantity includes these source rows under rules requiring equality, offsetting, or separate treatment."
+      }
+    },
+    "payload": {
+      "evidence": [
+        {
+          "id": "65a94fc4-adbd-4c93-b497-0a465dcb801e",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "1424e6f4-26cb-4528-a801-8f707334fceb",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "62d5704f-c9d6-40d4-a64e-a1d44a0394dc",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "f725d2bc-80e9-40be-ac6d-18b9f9204ef7",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "dac4543c-983a-4664-babe-23459b289d15",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "51fbcb22-d034-4c3c-b48f-6215feda523f",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "55945f94-a8f6-45a9-bb66-22e91b4eaea5",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "d02de7aa-1702-4a73-834d-dbe8c5a12413",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "98347cc7-9997-4d1d-85dc-181e37046349",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "e285ceae-0853-429c-921f-0bf611a8aaf5",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        }
+      ]
+    }
+  },
+  {
+    "label": "M4",
+    "assessment": {
+      "classification": "UNRESOLVED",
+      "claim": "Current digest does not establish that Handled Quantity includes incorrect source stock entries. The notebook excerpt shows movement_values is built from stock_movements_e1b8e1 joined to rates, while inventory_adjustments_e1b8e1 is written as a separate output; and for 29 adjusted movement_ids, adjustment references map to exactly one stock movement row with no missing, duplicate, or conflicting stock keys among those adjusted IDs.",
+      "evidence_ids": [
+        "e78ae96d-1362-4b05-99ba-bc2f0df7c581",
+        "8b13b0cd-ebf0-46c4-967b-db8515b33f88",
+        "1052471d-5f7e-41e8-b1ec-2f27cfd807e7",
+        "8cbd04e2-1320-4ce9-b566-2f0aa69abe9f"
+      ],
+      "alternatives": [
+        "Handled Quantity may still be affected by stock_movements rows that have no related adjustment, which were not profiled here.",
+        "Handled Quantity could be sourced from a different semantic path than the notebook outputs shown, because the measure\u2019s implementation is not displayed.",
+        "Some adjusted movements could still be business-invalid despite having a valid one-to-one movement_id reference."
+      ],
+      "limits": [
+        "The measure definition or lineage connecting Handled Quantity to movement_values or stock_movements is not shown; measure impact cannot be established from the displayed context alone.",
+        "Only 2 of 29 joined adjustment/movement detail rows are displayed in row-level result sets, so detailed sign/reason patterns are not fully visible for all adjusted IDs.",
+        "The notebook content observation is truncated, so absence of additional transformation logic elsewhere in the notebook cannot be proven."
+      ],
+      "support": {
+        "mechanism": "The displayed notebook code reads stock_movements_e1b8e1 into a movements dataframe, joins it to rates, computes movement_value as units*unit_cost, and saves that result to movement_values. A separate save writes inventory_adjustments_e1b8e1 to inventory_adjustments, indicating adjustments are not shown as inputs to movement_values in the displayed excerpt. Separately, the adjusted movement_id profile shows 29 adjusted IDs with 0 missing stock IDs, 0 duplicate stock IDs, and 0 conflicts across warehouse, product, event day, movement type, or units.",
+        "mechanism_evidence_ids": [
+          "e78ae96d-1362-4b05-99ba-bc2f0df7c581",
+          "8b13b0cd-ebf0-46c4-967b-db8515b33f88",
+          "1052471d-5f7e-41e8-b1ec-2f27cfd807e7",
+          "8cbd04e2-1320-4ce9-b566-2f0aa69abe9f"
+        ],
+        "intent_dependency": "UNKNOWN",
+        "intent_basis": "The digest provides no displayed business rule stating whether inventory adjustments should alter Handled Quantity or whether certain movement types, reason codes, or adjusted rows are intended to be included or excluded.",
+        "intent_evidence_ids": [
+          "9433c33f-2ff8-4ccc-b786-d523a7ab84b2",
+          "1052471d-5f7e-41e8-b1ec-2f27cfd807e7"
+        ],
+        "measure_connection": "NOT_ASSERTED",
+        "measure_connection_basis": "The digest does not display the Handled Quantity measure definition or explicit lineage from that measure to movement_values, stock_movements_e1b8e1, or inventory_adjustments_e1b8e1. The measure-path lookup returned no asset details.",
+        "measure_connection_evidence_ids": [
+          "9433c33f-2ff8-4ccc-b786-d523a7ab84b2"
+        ],
+        "remaining_test": "Display the Handled Quantity measure definition or explicit lineage that names its source table/column, so the established source-shape evidence for stock_movements and inventory_adjustments can be connected to the reported measure."
+      }
+    },
+    "payload": {
+      "evidence": [
+        {
+          "id": "9433c33f-2ff8-4ccc-b786-d523a7ab84b2",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "8628aee9-8ac6-4dfe-ab6d-79119689072f",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "fb791247-6346-43d1-a023-f849494ce7de",
+          "tool": "context",
+          "completeness": "PARTIAL"
+        },
+        {
+          "id": "e78ae96d-1362-4b05-99ba-bc2f0df7c581",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "1052471d-5f7e-41e8-b1ec-2f27cfd807e7",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "8b13b0cd-ebf0-46c4-967b-db8515b33f88",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "7ecec9b7-0a54-4c8c-8c46-d27e2b350dfd",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "bbf78455-17d9-4fbb-926c-5daf91dcbbb6",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "9f9c3bad-d797-4f4a-86d3-0e977a258f42",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "9680548d-3183-411a-902c-ca2d5a689d3f",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "4f152469-e448-4b2d-8dd7-f2f5b0943d6d",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "8cbd04e2-1320-4ce9-b566-2f0aa69abe9f",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "b5216903-fff3-423a-9a5c-a712365f1e9f",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        }
+      ]
+    }
+  },
+  {
+    "label": "M9",
+    "assessment": {
+      "classification": "UNRESOLVED",
+      "claim": "Source evidence shows some stock movements have irregular relationships to inventory adjustments and some stock rows repeat across identical warehouse/day/type/product/units groups, but the digest does not establish that these are incorrect source entries or that they drive the Handled Quantity measure.",
+      "evidence_ids": [
+        "292489c6-80c3-4be8-97f2-1c65b6d1f3e6",
+        "c0b0ebc9-b7e0-465b-8790-7221187a05fc",
+        "8f190552-83a1-4bd1-80c1-a7014de81966",
+        "97127552-8e69-4316-9950-821b22dd1cbb",
+        "bb367a25-a0b1-484e-95f9-3b173471caba",
+        "95becf16-9e49-4a5b-833e-63d5026f8cb5"
+      ],
+      "alternatives": [
+        "These movement/adjustment patterns may reflect valid partial, split, or compensating adjustments rather than bad source rows.",
+        "Repeated stock rows across the same warehouse/day/type/product/units groups may be legitimate separate movements because the displayed groups have different movement_ids.",
+        "Handled Quantity may be derived from another table or transformation; the digest does not show the measure definition or lineage to app.stock_movements_e1b8e1."
+      ],
+      "limits": [
+        "The measure path lookup did not return definition or lineage details, so connection to Handled Quantity is unproven (51e7ec42-ef1f-4d00-b02e-ee022e9049b1).",
+        "Displayed query receipts show at most two example rows per observation; undisplayed rows cannot be characterized beyond the explicit returned-row counts.",
+        "Adjustment records alone do not establish the intended business rule, and the digest contains no policy stating how adjustments should affect handled units."
+      ],
+      "support": {
+        "mechanism": "The source tables exist as app.stock_movements_e1b8e1 and app.inventory_adjustments_e1b8e1. One grouped query returned 29 flagged movement_ids where stock rows were duplicated, adjustment counts exceeded one, or adjustment totals differed from stock units; displayed examples include movement 167 with one stock row of 21 units and two adjustments totaling -3, and movement 16 with stock 28 and adjustment 2. Separate grouped queries returned 6 repeated stock groups with duplicate rows across identical warehouse/day/type/product/units keys; displayed examples show two distinct movement_ids in each repeated group and no related adjustments.",
+        "mechanism_evidence_ids": [
+          "292489c6-80c3-4be8-97f2-1c65b6d1f3e6",
+          "c0b0ebc9-b7e0-465b-8790-7221187a05fc",
+          "8f190552-83a1-4bd1-80c1-a7014de81966",
+          "bb367a25-a0b1-484e-95f9-3b173471caba",
+          "95becf16-9e49-4a5b-833e-63d5026f8cb5"
+        ],
+        "intent_dependency": "UNKNOWN",
+        "intent_basis": "The question warns not to assume an adjustment record proves the intended business rule, and the digest provides no documented rule for whether adjustments should offset, match, or be ignored for handled quantity.",
+        "intent_evidence_ids": [
+          "8f190552-83a1-4bd1-80c1-a7014de81966",
+          "97127552-8e69-4316-9950-821b22dd1cbb",
+          "aaa5dc3e-abea-4768-819d-def2c7390daa"
+        ],
+        "measure_connection": "NOT_ASSERTED",
+        "measure_connection_basis": "The digest does not show the Handled Quantity definition or lineage from the measure to app.stock_movements_e1b8e1 or app.inventory_adjustments_e1b8e1. Therefore impact on the reported measure is not established.",
+        "measure_connection_evidence_ids": [
+          "51e7ec42-ef1f-4d00-b02e-ee022e9049b1"
+        ],
+        "remaining_test": "Validate the exact source-to-measure mapping for Handled Quantity, then compare measure-contributing rows against the flagged movement_ids and repeated stock groups already identified to determine whether those rows are actually included and whether their inclusion violates the intended rule."
+      }
+    },
+    "payload": {
+      "evidence": [
+        {
+          "id": "51e7ec42-ef1f-4d00-b02e-ee022e9049b1",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "f33c1f05-91e5-482a-8357-36f182177915",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "402689d6-ed41-4266-b9f5-ec25673a3f3f",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "703fb07a-b534-44a7-b47d-3cd3cada1c5e",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "292489c6-80c3-4be8-97f2-1c65b6d1f3e6",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "c0b0ebc9-b7e0-465b-8790-7221187a05fc",
+          "tool": "context",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "8f190552-83a1-4bd1-80c1-a7014de81966",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "97127552-8e69-4316-9950-821b22dd1cbb",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "aaa5dc3e-abea-4768-819d-def2c7390daa",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "bb367a25-a0b1-484e-95f9-3b173471caba",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        },
+        {
+          "id": "95becf16-9e49-4a5b-833e-63d5026f8cb5",
+          "tool": "bounded_sql",
+          "completeness": "COMPLETE_RESPONSE"
+        }
+      ]
+    }
+  }
+]

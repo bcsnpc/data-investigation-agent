@@ -1275,3 +1275,20 @@ Reference token cost was USD 6.069237, including USD 0.495802 for synthesis.
 Original daily limits remained unchanged; 147 usage records are settled with no
 active reservations. See [evaluation](measure-path-nine-run-evaluation.md). No
 freeze, fresh variant or unfamiliar-domain claim.
+
+
+## 2026-09-25 - Process-debugging redesign implementation
+
+Accepted #226 reframed the product as a technical debugger of process stages.
+Implemented intake triage, a platform-neutral deterministic vertical procedure,
+closed twelve-outcome evidence contracts, baseline establishment, mandatory
+visibility boundaries, verbatim query output and NO_KNOWN_PATTERN adaptive fallback.
+Synthesis now repairs all four #226 mechanical failures without accepting missing
+support. Historical labels remain readable without rewriting records. Synthetic
+paths cover one, three and four layers, NOT_COMPARABLE continuation and unreachable
+sources; the known-domain injected adapter completes with one native baseline read.
+Planner golden payload entries, SQL-object counts and characters are unchanged.
+Horizontal comparison, recurrence, declared context and known issues remain
+proposal-only. All 1,046 local regression tests passed. PR/CI and exactly three recorded known-domain G
+smoke trials remain. No freeze, variant, unfamiliar-domain claim or permission
+change. See [redesign evidence](process-debugging-redesign.md).

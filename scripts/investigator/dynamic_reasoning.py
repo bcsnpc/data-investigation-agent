@@ -10,10 +10,15 @@ from uuid import uuid4
 from .onboarding import fields,text,digest,encoded,Conflict
 from . import context_search
 from .model_context import assets
+from .process_outcomes import OUTCOMES
 
-VERSION='dynamic-investigation-v8'
+VERSION='dynamic-investigation-v9'
 INSTRUCTIONS='''Choose ONE next action: RUN a preferred typed candidate, LOOKUP context,
 QUERY a bounded SQL/DAX diagnostic, ASK a material clarification, or STOP with an assessment.
+This planner is the open-investigation fallback. It may terminate only as
+NO_KNOWN_PATTERN, naming what was established, the visibility boundary and the
+specific missing capability. Deterministic process outcomes are assigned by the
+process procedure, not invented here.
 No fixed layer/test order. Use actual observations to revise failed hypotheses.
 Read tool_capabilities before choosing a test; advertised eligibility is not permission or proof that execution succeeds.
 Use domain_profile as tentative structural context, never established semantics.
@@ -99,7 +104,10 @@ Return {next: {kind: ..., action-specific fields}, hypotheses: {provided_id: upd
 Set unchanged/unused hypothesis slots to null. Supply at most eight non-null updates.
 RUN selects an existing candidate_id verbatim. QUERY supplies tool, text, max_rows, purpose,
 the selected measure and (only for TEST_CONTRIBUTION) a suspected upstream object.
-REPRODUCE_MEASURE and TEST_CONTRIBUTION are labels on ordinary governed queries, not templates or an ordered workflow.
+ESTABLISH_BASELINE evaluates the selected presentation measure under the declared scope so
+later boundary differences can be attributed to the process rather than query translation.
+It is not confirmation of a number reported in the ticket and is not forced by action order.
+ESTABLISH_BASELINE and TEST_CONTRIBUTION are labels on governed queries, not authorization.
 LOOKUP supplies operation and value. ASK supplies question. STOP supplies assessment.
 Never invent candidate IDs. Do not combine multiple action types in one response.
 Use EVALUATE ROW("label",[measure],"another label",[another measure]) for scalar diagnostics.
@@ -121,11 +129,11 @@ SCHEMA['properties'].update({
      'operation':{'type':'string','enum':['search','asset']},'value':{'type':'string'}},'required':['operation','value']}]},
  'query':{'anyOf':[{'type':'null'},{'type':'object','additionalProperties':False,'properties':{
      'tool':{'type':'string','enum':['bounded_sql','bounded_dax']},'text':{'type':'string'},
-     'max_rows':{'type':'integer'},'purpose':{'type':'string','enum':['GENERAL_DIAGNOSTIC','REPRODUCE_MEASURE','TEST_CONTRIBUTION']},
+     'max_rows':{'type':'integer'},'purpose':{'type':'string','enum':['GENERAL_DIAGNOSTIC','ESTABLISH_BASELINE','TEST_CONTRIBUTION']},
      'measure_id':{'type':'string'},'upstream_object_id':{}},
      'required':['tool','text','max_rows']}]},
  'assessment':{'anyOf':[{'type':'null'},{'type':'object','additionalProperties':False,'properties':{
-     'classification':{'type':'string','enum':['EXPECTED_BEHAVIOR','LIKELY_TECHNICAL_DEFECT','SOURCE_OR_APPLICATION_ISSUE','REFRESH_OR_FRESHNESS_ISSUE','BUSINESS_CONTEXT_REQUIRED','INSUFFICIENT_EVIDENCE','UNSUPPORTED','UNRESOLVED']},
+     'classification':{'type':'string','enum':list(OUTCOMES)},
      'claim':{'type':'string'},'evidence_ids':{'type':'array','items':{'type':'string'}},
      'alternatives':{'type':'array','items':{'type':'string'}},'limits':{'type':'array','items':{'type':'string'}}},
      'required':['classification','claim','evidence_ids','alternatives','limits']}]}})
@@ -139,12 +147,13 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
     query_props=copy.deepcopy(SCHEMA['properties']['query']['anyOf'][1]['properties'])
     query_props['text'].update(minLength=1,maxLength=16000)
     query_props['max_rows'].update(minimum=1,maximum=250)
-    query_props['purpose']={'type':'string','enum':['GENERAL_DIAGNOSTIC','REPRODUCE_MEASURE','TEST_CONTRIBUTION']}
+    query_props['purpose']={'type':'string','enum':['GENERAL_DIAGNOSTIC','ESTABLISH_BASELINE','TEST_CONTRIBUTION']}
     measure_handle=next((h for h,i in (asset_handles or {}).items() if i==selected_measure),selected_measure)
     query_props['measure_id']={'type':'string',**({'enum':[measure_handle]} if measure_handle else {})}
     upstream=[h for h,i in (asset_handles or {}).items() if i!=selected_measure]
     query_props['upstream_object_id']={'anyOf':[{'type':'null'},{'type':'string',**({'enum':upstream} if upstream else {})}]}
     assessment=copy.deepcopy(SCHEMA['properties']['assessment']['anyOf'][1])
+    assessment['properties']['classification']['enum']=['NO_KNOWN_PATTERN']
     from .assessment_support import SCHEMA as support_schema
     assessment['properties']['support']=copy.deepcopy(support_schema)
     assessment['required'].append('support')
@@ -320,16 +329,16 @@ def validate(proposal,payload):
         if value['tool'] not in ('bounded_sql','bounded_dax') or type(value['max_rows']) is not int or not 1<=value['max_rows']<=250:
             raise ValueError('Invalid proposed query')
         purpose=value.get('purpose','GENERAL_DIAGNOSTIC')
-        if purpose not in ('GENERAL_DIAGNOSTIC','REPRODUCE_MEASURE','TEST_CONTRIBUTION'):raise ValueError('Unknown query purpose')
+        if purpose not in ('GENERAL_DIAGNOSTIC','ESTABLISH_BASELINE','REPRODUCE_MEASURE','TEST_CONTRIBUTION'):raise ValueError('Unknown query purpose')
         if (value.get('measure_id') or payload.get('starting_measure_id'))!=payload.get('starting_measure_id'):raise ValueError('Query purpose crosses selected measure')
         upstream=value.get('upstream_object_id')
-        if purpose=='REPRODUCE_MEASURE' and (value['tool']!='bounded_dax' or upstream is not None):raise ValueError('Measure reproduction requires bounded DAX and no upstream object')
+        if purpose in ('ESTABLISH_BASELINE','REPRODUCE_MEASURE') and (value['tool']!='bounded_dax' or upstream is not None):raise ValueError('Baseline establishment requires bounded DAX and no upstream object')
         if purpose=='TEST_CONTRIBUTION' and not isinstance(upstream,str):raise ValueError('Contribution test requires a suspected upstream object')
         if purpose=='GENERAL_DIAGNOSTIC' and upstream is not None:raise ValueError('General diagnostic cannot claim an upstream contribution target')
     if action=='STOP':
         a=proposal['assessment'];fields(a,['classification','claim','evidence_ids','alternatives','limits']+(['support'] if 'support' in a else []));text(a['claim'],limits.ASSESSMENT_CLAIM)
-        allowed=SCHEMA['properties']['assessment']['anyOf'][1]['properties']['classification']['enum']
-        if a['classification'] not in allowed:raise ValueError('Unsupported outcome')
+        from .process_outcomes import OUTCOMES,OLD_TO_CURRENT
+        if a['classification'] not in OUTCOMES and a['classification'] not in OLD_TO_CURRENT:raise ValueError('Unsupported outcome')
         known={o['id']:o for o in payload['observations']}
         refs=a['evidence_ids']
         if not isinstance(refs,list) or len(refs)>12 or any(r not in known for r in refs):raise ValueError('Unknown assessment evidence')
@@ -339,7 +348,7 @@ def validate(proposal,payload):
         for key in ('alternatives','limits'):
             if not isinstance(a[key],list) or not 1<=len(a[key])<=6:raise ValueError('Assessment needs alternatives and limits')
             for value in a[key]:text(value,limits.ASSESSMENT_DETAIL)
-        if a['classification'] not in ('UNRESOLVED','UNSUPPORTED','INSUFFICIENT_EVIDENCE','BUSINESS_CONTEXT_REQUIRED'):
+        if a['classification'] not in ('UNRESOLVED','UNSUPPORTED','INSUFFICIENT_EVIDENCE','BUSINESS_CONTEXT_REQUIRED','NO_KNOWN_PATTERN'):
             if not any(known[r]['tool']!='context' and known[r]['status']=='COMPLETED' and known[r]['completeness']!='PARTIAL' for r in refs):
                 raise ValueError('Qualified outcome needs complete live query evidence')
     return proposal
@@ -477,12 +486,13 @@ def enrich(store,state,payload):
             entry['query_excerpt_truncated']=True
         history.append(entry)
     reproduced=sum(o.get('status')=='COMPLETED' and
-                   (o.get('test_purpose')=='REPRODUCE_MEASURE' or
+                   (o.get('test_purpose') in ('ESTABLISH_BASELINE','REPRODUCE_MEASURE') or
                     (o.get('tool')=='native' and o.get('measure_id')==state['envelope']['measure_id'] and o.get('dimension_id') is None))
                    for o in state['observations'])
     payload.update(strategy=VERSION,context_version=state['discovery_version'],context=used,domain_profile=profile,
                    action_history=history,
                    progress={'consecutive_uninformative_actions':state.get('no_progress',0),
+                             'presentation_baselines':reproduced,
                              'measure_reproductions':reproduced,
                              'contribution_tests':sum(o.get('status')=='COMPLETED' and o.get('test_purpose')=='TEST_CONTRIBUTION' for o in state['observations']),
                              'remaining_planner_calls':state['envelope']['limits']['planner_calls']-state['planner_calls'],
@@ -507,9 +517,9 @@ def candidate(store,config,state,proposal):
     purpose=proposal.get('purpose','GENERAL_DIAGNOSTIC');upstream=proposal.get('upstream_object_id')
     if (proposal.get('measure_id') or state['envelope']['measure_id'])!=state['envelope']['measure_id']:
         raise ValueError('Query purpose crosses selected measure')
-    if purpose=='REPRODUCE_MEASURE':
-        if proposal['tool']!='bounded_dax' or upstream is not None:raise ValueError('Measure reproduction requires bounded DAX and no upstream object')
-        if state['envelope']['measure_id'] not in compiled.get('asset_ids',[]):raise ValueError('Measure reproduction query must read the selected measure')
+    if purpose in ('ESTABLISH_BASELINE','REPRODUCE_MEASURE'):
+        if proposal['tool']!='bounded_dax' or upstream is not None:raise ValueError('Baseline establishment requires bounded DAX and no upstream object')
+        if state['envelope']['measure_id'] not in compiled.get('asset_ids',[]):raise ValueError('Baseline query must read the selected measure')
     elif purpose=='TEST_CONTRIBUTION':
         if not isinstance(upstream,str) or upstream not in compiled.get('asset_ids',[]):
             raise ValueError('Contribution query must read the declared upstream object')
@@ -531,7 +541,8 @@ def candidate(store,config,state,proposal):
 def outcome(state,base):
     a=state.get('assessment')
     if not a:return base
-    return dict(base,classification=a['classification'],assessment={**a,'provenance':'LLM_INFERRED',
+    from .process_outcomes import read_label
+    return dict(base,classification=a['classification'],mapped_classification=read_label(a['classification']),assessment={**a,'provenance':'LLM_INFERRED',
                 'business_intent_confirmed':False,
                 'strength':'INSUFFICIENT_EVIDENCE' if a['classification'] in ('UNSUPPORTED','UNRESOLVED','INSUFFICIENT_EVIDENCE','BUSINESS_CONTEXT_REQUIRED') else 'OBSERVED'},
                 gaps=state['gaps'],outcome_version=VERSION,cause_verified=False,delivery_eligible=False)

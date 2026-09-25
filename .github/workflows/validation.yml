@@ -38,6 +38,8 @@ jobs:
           python -m unittest discover -s scripts -p test_domain_profile.py
           python -m unittest discover -s scripts -p test_context_navigation.py
           python -m unittest discover -s scripts -p test_flexible_investigation.py
+          python -m unittest discover -s scripts -p test_evidence_synthesis.py
+          python -m unittest discover -s scripts -p test_process_debugging.py
           python -m unittest discover -s scripts -p test_physical_binding.py
           python -m unittest discover -s scripts -p test_lineage.py
           python -m unittest discover -s scripts -p test_lineage_audit.py

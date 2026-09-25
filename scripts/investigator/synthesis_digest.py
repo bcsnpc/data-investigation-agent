@@ -60,6 +60,8 @@ def build(state,db):
  for o in state['observations']:
   if o['status']!='COMPLETED':continue
   item={'id':o['id'],'tool':o['tool'],'completeness':o['completeness']}
+  if o.get('process_roles'):item['process_roles']=o['process_roles']
+  if o.get('test_purpose'):item['test_purpose']=o['test_purpose']
   if o['tool']=='context':
    m=o['metadata'];item['asked']=o.get('lookup')
    item['result']=_definition_evidence(o)
@@ -81,5 +83,14 @@ def build(state,db):
    item['result']=_query_evidence(o['tool'],q,rows)
    item['provenance']={'request_hash':o['request_hash'],'result_hash':digest(result),'receipt_seal':sealed['hash']}
   entries.append(item)
- return {'version':1,'question':state['envelope']['symptom'],'scope':{k:state['envelope'][k] for k in ('model_id','context_id','measure_id','filters','dimension_ids')},
+ result={'version':1,'question':state['envelope']['symptom'],'scope':{k:state['envelope'][k] for k in ('model_id','context_id','measure_id','filters','dimension_ids')},
  'digest_limits':f'Complete validated queries are retained. At most {DISPLAY_ROWS} returned rows and their group keys are displayed per observation, with explicit omitted counts. Explicit definition content/find lookups retain at most {EXCERPT_CHARACTERS} excerpt characters per observation with truncation labels; arbitrary metadata remains omitted. Hypotheses are unverified, not evidence.', 'evidence':entries,'hypotheses':[{'id':h['id'],'claim':h['claim'][:300],'claim_truncated':len(h['claim'])>300,'status':h['status'],'evidence_ids':h['evidence_ids'],'authority':'UNVERIFIED_HYPOTHESIS'} for h in state['hypotheses']]}
+ assessment=state.get('assessment') or {}
+ process=assessment.get('support',{}).get('process') if isinstance(assessment,dict) else None
+ if isinstance(process,dict):
+  result['deterministic_process_finding']={'classification':assessment['classification'],
+    'terminating_step':assessment.get('terminating_step'),
+    'visibility_boundary':process['visibility_boundary'],'baseline_above':process['baseline_above'],
+    'recommended_action':process['recommended_action'],'evidence_by_role':process['evidence_by_role'],
+    'missing_capability':process['missing_capability']}
+ return result
