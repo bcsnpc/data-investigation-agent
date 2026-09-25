@@ -20,9 +20,11 @@ class QualityEvaluationTests(unittest.TestCase):
             with self.assertRaises(ValueError):verify_model_settings({'files':{},'policy_files':{}},path)
 
     def test_successful_read_is_not_graded_as_correct_answer(self):
-        result=score({'session':{'observations':[{'status':'COMPLETED','tool':'bounded_sql'}],
+        result=score({'session':{'observations':[{'status':'COMPLETED','tool':'bounded_sql','test_purpose':'TEST_CONTRIBUTION'},
+                                                 {'status':'COMPLETED','tool':'bounded_dax','test_purpose':'REPRODUCE_MEASURE'}],
                               'outcome':{'classification':'LIKELY_TECHNICAL_DEFECT'}}})
-        self.assertEqual(result['completed_reads'],1)
+        self.assertEqual(result['completed_reads'],2)
+        self.assertEqual((result['measure_reproductions'],result['contribution_tests']),(1,1))
         self.assertEqual(result['business_correctness'],'NOT_GRADED')
 
 

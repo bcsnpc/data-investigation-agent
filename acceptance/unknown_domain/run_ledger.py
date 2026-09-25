@@ -45,6 +45,10 @@ def row(result, calls, family='engineering'):
         reads_sql=sql, reads_dax=dax, reads_other=len(reads)-sql-dax,
         context_lookups=len(lookups), distinct_context_lookups=len({json.dumps(o['lookup'], sort_keys=True) for o in lookups}),
         retrieval_calls=retrievals, test_calls=tests, retrieval_test_ratio=retrievals/tests if tests else None,
+        measure_reproductions=sum(o.get('test_purpose')=='REPRODUCE_MEASURE' or
+            (o.get('tool')=='native' and o.get('dimension_id') is None and
+             o.get('measure_id')==state.get('envelope',{}).get('measure_id')) for o in reads),
+        contribution_tests=sum(o.get('test_purpose')=='TEST_CONTRIBUTION' for o in reads),
         rejections=rejected, repairs=repairs,
         provider_errors=errors, cumulative_input_chars=state.get('input_characters', 0),
         output_tokens_reserved=sum(c['context']['reservation']['output_tokens'] for c in calls[:count]),
@@ -68,7 +72,7 @@ def failed(error_type, wall_seconds):
         manifest_sha_short='NONE', model_deployment='NOT_RECONSTRUCTED',
         settings_hash='NOT_RECONSTRUCTED', planner_calls=0, reads_sql=0, reads_dax=0,
         reads_other=0, context_lookups=0, distinct_context_lookups=0, retrieval_calls=0,
-        test_calls=0, retrieval_test_ratio=None,
+        test_calls=0, retrieval_test_ratio=None, measure_reproductions=0, contribution_tests=0,
         rejections=dict.fromkeys(('schema', 'prerequisite', 'redundancy', 'complexity', 'other'), 0),
         repairs=dict.fromkeys(('hypothesis_id', 'text_bound', 'schema_prefetch', 'other'), 0),
         provider_errors=dict.fromkeys(('rate_limit', 'timeout', 'other'), 0),

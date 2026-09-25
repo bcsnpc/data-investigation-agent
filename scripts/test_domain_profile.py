@@ -44,6 +44,8 @@ class DomainProfileTests(unittest.TestCase):
             tools=capabilities(None,{'enabled':True,'workspace':'w','native_id':'m'},{'fabric':{}})
         self.assertTrue(all(t['eligibility']=='UNAVAILABLE' for t in tools))
         self.assertTrue(all(t['execution_permission']=='UNKNOWN_UNTIL_DISPATCH' for t in tools))
+        self.assertTrue(all(any(c['name']=='test_contribution' for c in t['named_capabilities']) for t in tools))
+        self.assertTrue(any(c['name']=='reproduce_measure' for c in tools[1]['named_capabilities']))
 
     def test_large_identifiers_have_a_profile_byte_bound(self):
         from investigator.onboarding import encoded

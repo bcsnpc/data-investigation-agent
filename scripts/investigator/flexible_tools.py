@@ -30,6 +30,13 @@ def capabilities(store,model,config):
     for item in (sql,dax):
         item['execution_permission']='UNKNOWN_UNTIL_DISPATCH'
         item['dispatch_revalidation_required']=True
+    dax['named_capabilities']=[{
+        'name':'reproduce_measure','parameters':['selected_measure','declared_ticket_scope'],
+        'behavior':'Submit a bounded DAX query through the normal compiler and reader admission. No fixed measure or query template.'}]
+    for item in (sql,dax):
+        item.setdefault('named_capabilities',[]).append({
+            'name':'test_contribution','parameters':['selected_measure','suspected_upstream_object'],
+            'behavior':'Submit a planner-authored bounded query through the same compiler and admission path; the named upstream object must be read by the compiled query. This does not prove cross-system equivalence.'})
     return [sql,dax]
 
 

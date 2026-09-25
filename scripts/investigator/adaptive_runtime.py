@@ -291,7 +291,7 @@ class AdaptiveRuntime:
                 self.stop(db,state,decision['stop_reason'])
             elif decision['action']=='LOOKUP':
                 from .dynamic_reasoning import lookup
-                try:item=lookup(self.store,decision['lookup'])
+                try:item=lookup(self.store,decision['lookup'],self.store.get(state['model_id']))
                 except (ValueError,KeyError):
                     item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE',
                           'values':[],'metadata':{'reason':'Context lookup unavailable or outside scope'},'measure_id':None,'dimension_id':None}

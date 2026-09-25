@@ -31,6 +31,10 @@ def score(record):
             'read_tools':dict(Counter(o['tool'] for o in reads)),
             'rejected_actions':len(rejected),'read_after_rejection':recovered,
             'redundant_reads_blocked':sum(o.get('metadata',{}).get('reason_code')=='READ_ALREADY_OBSERVED' for o in rejected),
+            'measure_reproductions':sum(o.get('test_purpose')=='REPRODUCE_MEASURE' or
+                (o.get('tool')=='native' and o.get('dimension_id') is None and
+                 o.get('measure_id')==state.get('envelope',{}).get('measure_id')) for o in reads),
+            'contribution_tests':sum(o.get('test_purpose')=='TEST_CONTRIBUTION' for o in reads),
             'completed_lookups':len(lookups),'distinct_lookup_requests':len(set(keys)),
             'repeated_lookup_requests':len(keys)-len(set(keys)),
             'partial_observations':sum(o.get('completeness')=='PARTIAL' for o in observations),

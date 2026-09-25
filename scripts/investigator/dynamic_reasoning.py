@@ -39,6 +39,8 @@ Inspect unfamiliar notebook/pipeline/definition context before assigning a trans
 A diagnostic may broaden the starting filters to distinguish hypotheses, but label that
 scope difference. Never present it as the captured visual/RLS context. Hidden context is unknown.
 LOOKUP search finds assets by name/kind and parent names; asset returns bounded metadata and adjacent lineage.
+LOOKUP measure_path returns a bounded identity-backed view for the selected measure, its parsed references,
+partition definition facts and explicit unresolved bindings. It never binds assets by similar names.
 Search matches all space-separated terms literally; it has no OR operator or wildcard syntax.
 To locate a named database object and its schema, use search then asset. find searches source text, not the object catalog.
 Asset lookup includes labelled children. Notebook/pipeline source text is in DefinitionPart
@@ -84,6 +86,9 @@ and limits. Equality alone does not prove expected behavior; difference alone do
 STOP support separates the observed mechanism from its business premise. Cite successful query receipts
 that actually test the mechanism, not just the symptom. State the best remaining discriminating test,
 or why none would help. This is a concise auditable decision summary, not private reasoning.
+For a cause-asserting classification, measure_connection must cite evidence connecting the mechanism to
+the reported measure, or name the specific scope, capability, permission, budget or eligibility barrier.
+Honest uncertainty may use NOT_ASSERTED. A named query purpose is observability, never proof by itself.
 intent_dependency is UNKNOWN when the classification depends on an intended rule not established by
 retrieved authority. Names, signs, data types and implementation alone do not establish intended semantics.
 Use BUSINESS_CONTEXT_REQUIRED or a narrower unresolved observation if that missing rule is essential.
@@ -92,7 +97,9 @@ stands without assuming an unknown rule. Do not use NOT_REQUIRED merely to bypas
 Never fabricate evidence or claim unsupported tests ran. Numeric facts are projected from receipts.
 Return {next: {kind: ..., action-specific fields}, hypotheses: {provided_id: update_or_null}}.
 Set unchanged/unused hypothesis slots to null. Supply at most eight non-null updates.
-RUN selects an existing candidate_id verbatim. QUERY supplies tool, text and max_rows.
+RUN selects an existing candidate_id verbatim. QUERY supplies tool, text, max_rows, purpose,
+the selected measure and (only for TEST_CONTRIBUTION) a suspected upstream object.
+REPRODUCE_MEASURE and TEST_CONTRIBUTION are labels on ordinary governed queries, not templates or an ordered workflow.
 LOOKUP supplies operation and value. ASK supplies question. STOP supplies assessment.
 Never invent candidate IDs. Do not combine multiple action types in one response.
 Use EVALUATE ROW("label",[measure],"another label",[another measure]) for scalar diagnostics.
@@ -114,7 +121,9 @@ SCHEMA['properties'].update({
      'operation':{'type':'string','enum':['search','asset']},'value':{'type':'string'}},'required':['operation','value']}]},
  'query':{'anyOf':[{'type':'null'},{'type':'object','additionalProperties':False,'properties':{
      'tool':{'type':'string','enum':['bounded_sql','bounded_dax']},'text':{'type':'string'},
-     'max_rows':{'type':'integer'}},'required':['tool','text','max_rows']}]},
+     'max_rows':{'type':'integer'},'purpose':{'type':'string','enum':['GENERAL_DIAGNOSTIC','REPRODUCE_MEASURE','TEST_CONTRIBUTION']},
+     'measure_id':{'type':'string'},'upstream_object_id':{}},
+     'required':['tool','text','max_rows']}]},
  'assessment':{'anyOf':[{'type':'null'},{'type':'object','additionalProperties':False,'properties':{
      'classification':{'type':'string','enum':['EXPECTED_BEHAVIOR','LIKELY_TECHNICAL_DEFECT','SOURCE_OR_APPLICATION_ISSUE','REFRESH_OR_FRESHNESS_ISSUE','BUSINESS_CONTEXT_REQUIRED','INSUFFICIENT_EVIDENCE','UNSUPPORTED','UNRESOLVED']},
      'claim':{'type':'string'},'evidence_ids':{'type':'array','items':{'type':'string'}},
@@ -123,13 +132,18 @@ SCHEMA['properties'].update({
 SCHEMA['required']+=['lookup','query','assessment']
 
 
-def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,content_handles=None,source_available=False,retrieval_available=True):
+def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,content_handles=None,source_available=False,retrieval_available=True,selected_measure=None):
     def variant(kind,props):
         properties={'kind':{'type':'string','enum':[kind]},**props}
         return {'type':'object','additionalProperties':False,'properties':properties,'required':list(properties)}
     query_props=copy.deepcopy(SCHEMA['properties']['query']['anyOf'][1]['properties'])
     query_props['text'].update(minLength=1,maxLength=16000)
     query_props['max_rows'].update(minimum=1,maximum=250)
+    query_props['purpose']={'type':'string','enum':['GENERAL_DIAGNOSTIC','REPRODUCE_MEASURE','TEST_CONTRIBUTION']}
+    measure_handle=next((h for h,i in (asset_handles or {}).items() if i==selected_measure),selected_measure)
+    query_props['measure_id']={'type':'string',**({'enum':[measure_handle]} if measure_handle else {})}
+    upstream=[h for h,i in (asset_handles or {}).items() if i!=selected_measure]
+    query_props['upstream_object_id']={'anyOf':[{'type':'null'},{'type':'string',**({'enum':upstream} if upstream else {})}]}
     assessment=copy.deepcopy(SCHEMA['properties']['assessment']['anyOf'][1])
     from .assessment_support import SCHEMA as support_schema
     assessment['properties']['support']=copy.deepcopy(support_schema)
@@ -149,6 +163,7 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
     if asset_handles is not None:
         choices[1]=variant('LOOKUP',{'operation':{'type':'string','enum':['search']},'value':{'type':'string'}})
         if asset_handles:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':['asset']},'value':{'type':'string','enum':list(asset_handles)}}))
+        if measure_handle:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':['measure_path']},'value':{'type':'string','enum':[measure_handle]}}))
         for operation,extra in [('content',{'offset':{'type':'integer','minimum':0,'maximum':1000000}}),
                                 ('find',{'needle':{'type':'string','minLength':1,'maxLength':200}})]:
             if content_handles:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':[operation]},
@@ -232,7 +247,7 @@ def wire_contract(payload):
     definition_ids={entry['id'] for entry in entries if entry.get('kind')=='DefinitionPart' and 'id' in entry}
     content_handles={handle:identity for handle,identity in mapping.items() if identity in definition_ids}
     source_available=any(a.get('kind')=='SqlObject' for a in payload.get('context_entry_points',[]))
-    return wire,wire_schema(wire['candidates'],wire['hypotheses'],wire['observations'],mapping,content_handles,source_available,payload.get('action_budget',{}).get('retrieval_remaining',1)>0),mapping
+    return wire,wire_schema(wire['candidates'],wire['hypotheses'],wire['observations'],mapping,content_handles,source_available,payload.get('action_budget',{}).get('retrieval_remaining',1)>0,wire.get('starting_measure_id')),mapping
 
 
 def from_wire(value,asset_handles=None):
@@ -242,7 +257,7 @@ def from_wire(value,asset_handles=None):
     if kind=='LOOKUP' and action.get('operation') in ('content','find'):
         keys['LOOKUP']+=['offset' if action['operation']=='content' else 'needle']
     if kind not in keys:raise ValueError('Unknown action kind')
-    fields(action,['kind']+keys[kind])
+    if kind!='QUERY':fields(action,['kind']+keys[kind])
     hypotheses=value['hypotheses']
     if isinstance(hypotheses,dict):
         converted=[]
@@ -253,10 +268,21 @@ def from_wire(value,asset_handles=None):
         hypotheses=converted
     result=dict(action=kind,candidate_id=None,question=None,stop_reason=None,
                 hypotheses=hypotheses,lookup=None,query=None,assessment=None)
-    if kind=='QUERY':result['query']={k:action[k] for k in keys[kind]}
+    if kind=='QUERY':
+        optional=['purpose','measure_id','upstream_object_id']
+        fields(action,['kind']+keys[kind]+[k for k in optional if k in action])
+        result['query']={k:action[k] for k in keys[kind]}
+        result['query'].update(purpose=action.get('purpose','GENERAL_DIAGNOSTIC'),
+                               measure_id=action.get('measure_id'),upstream_object_id=action.get('upstream_object_id'))
+        if asset_handles is not None:
+            for key in ('measure_id','upstream_object_id'):
+                selected=result['query'][key]
+                if selected is not None:
+                    if selected not in asset_handles:raise ValueError('Unknown query asset handle')
+                    result['query'][key]=asset_handles[selected]
     elif kind=='LOOKUP':
         result['lookup']={k:action[k] for k in keys[kind]}
-        if action['operation'] in ('asset','content','find') and asset_handles is not None:
+        if action['operation'] in ('asset','content','find','measure_path') and asset_handles is not None:
             if action['value'] not in asset_handles:raise ValueError('Unknown lookup handle')
             result['lookup']['value']=asset_handles[action['value']]
     elif kind=='STOP':
@@ -285,13 +311,21 @@ def validate(proposal,payload):
         value=proposal['lookup'];operation=value.get('operation')
         extra=['offset'] if operation=='content' else ['needle'] if operation=='find' else []
         fields(value,['operation','value']+extra);text(value['value'],2000)
-        if operation not in ('search','asset','content','find'):raise ValueError('Unknown context lookup')
+        if operation not in ('search','asset','content','find','measure_path'):raise ValueError('Unknown context lookup')
         if operation=='content' and (type(value['offset']) is not int or not 0<=value['offset']<=1000000):raise ValueError('Invalid content offset')
         if operation=='find':text(value['needle'],200)
     if action=='QUERY':
-        value=proposal['query'];fields(value,['tool','text','max_rows']);text(value['text'],16000)
+        value=proposal['query'];required=['tool','text','max_rows'];optional=['purpose','measure_id','upstream_object_id']
+        fields(value,required+[k for k in optional if k in value]);text(value['text'],16000)
         if value['tool'] not in ('bounded_sql','bounded_dax') or type(value['max_rows']) is not int or not 1<=value['max_rows']<=250:
             raise ValueError('Invalid proposed query')
+        purpose=value.get('purpose','GENERAL_DIAGNOSTIC')
+        if purpose not in ('GENERAL_DIAGNOSTIC','REPRODUCE_MEASURE','TEST_CONTRIBUTION'):raise ValueError('Unknown query purpose')
+        if (value.get('measure_id') or payload.get('starting_measure_id'))!=payload.get('starting_measure_id'):raise ValueError('Query purpose crosses selected measure')
+        upstream=value.get('upstream_object_id')
+        if purpose=='REPRODUCE_MEASURE' and (value['tool']!='bounded_dax' or upstream is not None):raise ValueError('Measure reproduction requires bounded DAX and no upstream object')
+        if purpose=='TEST_CONTRIBUTION' and not isinstance(upstream,str):raise ValueError('Contribution test requires a suspected upstream object')
+        if purpose=='GENERAL_DIAGNOSTIC' and upstream is not None:raise ValueError('General diagnostic cannot claim an upstream contribution target')
     if action=='STOP':
         a=proposal['assessment'];fields(a,['classification','claim','evidence_ids','alternatives','limits']+(['support'] if 'support' in a else []));text(a['claim'],limits.ASSESSMENT_CLAIM)
         allowed=SCHEMA['properties']['assessment']['anyOf'][1]['properties']['classification']['enum']
@@ -311,12 +345,15 @@ def validate(proposal,payload):
     return proposal
 
 
-def lookup(store,request):
+def lookup(store,request,model=None):
     operation=request['operation']
     if operation=='search':result=context_search.search(store,{'text':request['value'],'limit':20})
     elif operation=='asset':result=context_search.get_asset(store,request['value'])
     elif operation=='content':result=context_search.read_content(store,request['value'],offset=request['offset'])
     elif operation=='find':result=context_search.find_content(store,request['value'],request['needle'])
+    elif operation=='measure_path':
+        if model is None:raise ValueError('Measure path requires selected model context')
+        result=context_search.measure_path(store,model,request['value'])
     else:raise ValueError('Unknown context lookup')
     raw=encoded(result)
     if operation=='asset' and 'asset' in result and len(raw)>12000:
@@ -439,9 +476,15 @@ def enrich(store,state,payload):
             entry['query']['text']=entry['query']['text'][:1200]
             entry['query_excerpt_truncated']=True
         history.append(entry)
+    reproduced=sum(o.get('status')=='COMPLETED' and
+                   (o.get('test_purpose')=='REPRODUCE_MEASURE' or
+                    (o.get('tool')=='native' and o.get('measure_id')==state['envelope']['measure_id'] and o.get('dimension_id') is None))
+                   for o in state['observations'])
     payload.update(strategy=VERSION,context_version=state['discovery_version'],context=used,domain_profile=profile,
                    action_history=history,
                    progress={'consecutive_uninformative_actions':state.get('no_progress',0),
+                             'measure_reproductions':reproduced,
+                             'contribution_tests':sum(o.get('status')=='COMPLETED' and o.get('test_purpose')=='TEST_CONTRIBUTION' for o in state['observations']),
                              'remaining_planner_calls':state['envelope']['limits']['planner_calls']-state['planner_calls'],
                              'remaining_input_characters':state['envelope']['limits']['input_characters']-state['input_characters'],
                              'remaining_wall_seconds':payload.get('remaining_wall_seconds'),
@@ -461,6 +504,16 @@ def candidate(store,config,state,proposal):
     plan={k:state['envelope'][k] for k in ('model_id','revision','context_id')}
     plan.update(query=proposal['text'],max_rows=proposal['max_rows'])
     compiled=build(store,plan,config,proposal['tool'])
+    purpose=proposal.get('purpose','GENERAL_DIAGNOSTIC');upstream=proposal.get('upstream_object_id')
+    if (proposal.get('measure_id') or state['envelope']['measure_id'])!=state['envelope']['measure_id']:
+        raise ValueError('Query purpose crosses selected measure')
+    if purpose=='REPRODUCE_MEASURE':
+        if proposal['tool']!='bounded_dax' or upstream is not None:raise ValueError('Measure reproduction requires bounded DAX and no upstream object')
+        if state['envelope']['measure_id'] not in compiled.get('asset_ids',[]):raise ValueError('Measure reproduction query must read the selected measure')
+    elif purpose=='TEST_CONTRIBUTION':
+        if not isinstance(upstream,str) or upstream not in compiled.get('asset_ids',[]):
+            raise ValueError('Contribution query must read the declared upstream object')
+    elif purpose!='GENERAL_DIAGNOSTIC' or upstream is not None:raise ValueError('Invalid query purpose parameters')
     if proposal['tool']=='bounded_sql':
         missing=set(compiled['asset_ids'])-retrieved_sources(state['observations'])
         if missing:raise MissingSourceContext(missing)
@@ -469,6 +522,7 @@ def candidate(store,config,state,proposal):
     identity=digest({'tool':proposal['tool'],'request':compiled})
     if identity in state['attempted']:raise ValueError('Proposed test was already attempted')
     return {'id':identity,'tool':proposal['tool'],'plan':plan,'measure_id':state['envelope']['measure_id'],
+            'test_purpose':purpose,'upstream_object_id':upstream,
             'dimension_id':None,'depth':0,'parent':None,'compiled_hash':digest(compiled),
             'read_fingerprint':key(proposal['tool'],plan,compiled,state.get('discovery_version'),state.get('scope_hash')),
             'read_context_version':state.get('discovery_version'),'read_scope_hash':state.get('scope_hash')}

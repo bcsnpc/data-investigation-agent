@@ -6,7 +6,33 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Active: faithful evidence transfer complete; measure-path proposal awaiting review.**
+**Active: measure-path capabilities implemented; nine-run evaluation pending.**
+The reviewed #224 proposal is implemented without a dependency-map layer. A bounded
+`measure_path` lookup composes the selected measure's existing identity-backed
+references, partition definition facts, graph edges and explicit gaps. Governed
+queries can declare generic `REPRODUCE_MEASURE` or `TEST_CONTRIBUTION` purposes;
+the latter is admitted only when the compiled read contains the declared discovered
+upstream object. There is no fixed query, layer order, domain mapping or permission
+grant. Progress, scorer and ledger fields report completed reproduction/contribution
+counts without controlling admission.
+
+Current conclusion support requires cause labels to cite a mechanism-to-measure
+connection or state the exact scope/capability/permission/budget/eligibility barrier.
+Honest uncertainty remains valid without a connection claim. The retained item-
+relations probes expose no external Azure SQL edge, and the retained notebook has
+no Azure SQL load binding, so the path reports `UNRESOLVED_EXTERNAL_SOURCE_BINDING`
+instead of joining similar names. The dependency-map proposal is deferred indefinitely.
+
+Initial G context remains **28 directory entries / 11 SQL objects** and grows
+**15,067 -> 15,971 characters (+904)**. **1,035 local regression tests passed**,
+including a contribution-before-reproduction regression and a golden coverage
+assertion. See [implementation evidence](measure-path-validation.md). The next
+step is nine identical recorded G trials with separated synthesis. No live rerun,
+freeze, fresh variant or unfamiliar-domain claim has occurred yet.
+
+### Previous milestone
+
+**Faithful evidence transfer and measure-path audit.**
 Post-#223 work preserves full validated query text, two explicitly bounded result
 rows, group keys/counts and explicit definition excerpts in synthesis. Citation
 assembly now includes valid support citations in the outer assessment list before
@@ -507,7 +533,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **synthesis comparison complete; parallel synthesis proposed only; no freeze**. Prior
+Current: **measure-path capabilities implemented; recorded nine-run G evaluation pending; no freeze**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.
