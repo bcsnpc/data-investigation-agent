@@ -26,11 +26,18 @@ def no_execution(*args):
     raise RuntimeError('Replay evaluation cannot execute data tools')
 
 
+def model_store(folder,config,environment):
+    """Open the catalog in the same explicit environment used by discovery."""
+    return ModelStore(folder/'catalog.sqlite',config['storage']['database'],environment)
+
+
 def main():
     if '--offline-session' in sys.argv:
         return offline_main()
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--folder',type=Path,required=True)
+    p.add_argument('--environment',required=True,
+                   help='Exact discovery environment stored in the catalog')
     p.add_argument('--payload',type=Path,required=True)
     p.add_argument('--azure-settings',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True)
@@ -44,7 +51,7 @@ def main():
     payload=json.loads(args.payload.read_text(encoding='utf-8'))
     if 'generation_options' in payload:raise ValueError('Provider settings are evaluator-owned')
     config=load_config(args.folder/'config.json')
-    store=ModelStore(args.folder/'catalog.sqlite',config['storage']['database'],'development')
+    store=model_store(args.folder,config,args.environment)
     runtime=Runtime(store,config,no_execution,no_execution)
     governor=UsageGovernor(runtime,json.loads((args.folder/'usage-policy.json').read_text()),time.time)
     identity='planner-replay:'+str(uuid4());rows=[];last=0
