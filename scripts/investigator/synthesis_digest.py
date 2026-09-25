@@ -10,16 +10,59 @@ from sqlglot.errors import SqlglotError
 from .onboarding import digest,encoded,Conflict
 from .receipt_integrity import verify,TABLES
 
+DISPLAY_ROWS = 2
+EXCERPT_CHARACTERS = 2400
+
+
+def _definition_evidence(observation):
+ m=observation['metadata'];lookup=observation.get('lookup') or {}
+ result={'asset_name':m.get('asset',{}).get('name'),'asset_kind':m.get('asset',{}).get('kind'),
+         'matching_assets':m.get('total'),'directory_and_schema_omitted':True}
+ operation=lookup.get('operation')
+ if operation=='content' and m.get('asset_id')==lookup.get('value') and isinstance(m.get('content_hash'),str) and isinstance(m.get('content'),str):
+  content=m['content'];shown=content[:EXCERPT_CHARACTERS]
+  result['transformation_excerpt']={'text':shown,'source_offset':m.get('offset',0),
+      'total_characters':m.get('total_characters',len(content)),
+      'displayed_characters':len(shown),'truncated':len(shown)<len(content) or bool(m.get('truncated'))}
+ elif operation=='find' and m.get('asset_id')==lookup.get('value') and m.get('needle')==lookup.get('needle') and isinstance(m.get('matches'),list):
+  remaining=EXCERPT_CHARACTERS;matches=[]
+  for match in m['matches']:
+   excerpt=match.get('excerpt')
+   if not isinstance(excerpt,str) or remaining<=0:continue
+   shown=excerpt[:remaining];remaining-=len(shown)
+   matches.append({'source_offset':match.get('offset'),'text':shown,
+                   'displayed_characters':len(shown),'truncated':len(shown)<len(excerpt)})
+  result['transformation_matches']={'matches':matches,'displayed_matches':len(matches),
+      'returned_matches':len(m['matches']),'truncated':len(matches)<len(m['matches']) or
+      any(x['truncated'] for x in matches) or bool(m.get('truncated'))}
+ else:result['unstructured_metadata_omitted']=True
+ return result
+
+
+def _query_evidence(tool,query,rows):
+ facts={};groups={}
+ if tool=='bounded_sql':
+  for name in (rows[0] if rows else {}):
+   try:
+    nodes=list(lineage(name,query,dialect='tsql').walk())
+    target=facts if any(n.expression.find(exp.AggFunc) is not None for n in nodes) else groups
+    target[name]={'type':rows[0][name]['type'],'values':[r[name].get('value') for r in rows[:DISPLAY_ROWS]]}
+   except (ValueError,TypeError,KeyError,AttributeError,SqlglotError):pass
+ elif tool=='bounded_dax' and re.match(r'\s*EVALUATE\s+ROW\s*\(',query,re.I) and len(rows)==1:
+  facts={k:{'type':v['type'],'values':[v.get('value')]} for k,v in rows[0].items()}
+ displayed=rows[:DISPLAY_ROWS]
+ return {'returned_rows':len(rows),'displayed_row_count':len(displayed),'displayed_rows':displayed,
+         'rows_truncated':len(displayed)<len(rows),'omitted_row_count':max(0,len(rows)-len(displayed)),
+         'aggregate_outputs':facts,'group_keys':groups,'group_keys_truncated':False}
+
 def build(state,db):
  entries=[]
  for o in state['observations']:
   if o['status']!='COMPLETED':continue
   item={'id':o['id'],'tool':o['tool'],'completeness':o['completeness']}
   if o['tool']=='context':
-   m=o['metadata'];item['asked']=o.get('lookup');a=m.get('asset',{})
-   item['result']={'asset_name':a.get('name'),'asset_kind':a.get('kind'),'matching_assets':m.get('total'),
-    'unstructured_metadata_omitted':True,
-    'directory_and_schema_omitted':True}
+   m=o['metadata'];item['asked']=o.get('lookup')
+   item['result']=_definition_evidence(o)
    item['provenance']={'hash':digest(o),'context_version':m.get('context_version')}
   else:
    if o['tool'] not in TABLES:raise Conflict('Unsupported receipt integrity adapter')
@@ -33,20 +76,10 @@ def build(state,db):
    if digest(expected)!=digest(o['values']) or digest(compiled)!=o['request_hash']:
     raise Conflict('Synthesis observation differs from sealed receipt')
    q=request.get('plan',{}).get('query',request.get('query',''))
-   rows=o['values'];facts={}
-   if o['tool']=='bounded_sql':
-    for name in (rows[0] if rows else {}):
-     try:
-      nodes=lineage(name,q,dialect='tsql').walk()
-      if any(n.expression.find(exp.AggFunc) is not None for n in nodes):facts[name]={'type':rows[0][name]['type'],'values':[r[name].get('value') for r in rows[:4]]}
-     except (ValueError,TypeError,KeyError,AttributeError,SqlglotError):pass
-   elif o['tool']=='bounded_dax' and re.match(r'\s*EVALUATE\s+ROW\s*\(',q,re.I) and len(rows)==1:
-    facts={k:{'type':v['type'],'values':[v.get('value')]} for k,v in rows[0].items()}
-   item['asked']={'query':q[:400],'truncated':len(q)>400}
-   item['result']={'returned_rows':len(rows),'record_rows_omitted':True,
-    'aggregate_outputs':facts,'outputs_truncated':len(rows)>4,
-    'group_keys_omitted':len(rows)>1}
+   rows=o['values']
+   item['asked']={'query':q,'query_characters':len(q),'truncated':False}
+   item['result']=_query_evidence(o['tool'],q,rows)
    item['provenance']={'request_hash':o['request_hash'],'result_hash':digest(result),'receipt_seal':sealed['hash']}
   entries.append(item)
  return {'version':1,'question':state['envelope']['symptom'],'scope':{k:state['envelope'][k] for k in ('model_id','context_id','measure_id','filters','dimension_ids')},
- 'digest_limits':'Only exact aggregate outputs are copied; at most four returned groups per output. Group keys and raw record rows are omitted and cannot support claims. Unstructured metadata is omitted; queries can be truncated. Hypotheses are unverified, not evidence.', 'evidence':entries,'hypotheses':[{'id':h['id'],'claim':h['claim'][:300],'claim_truncated':len(h['claim'])>300,'status':h['status'],'evidence_ids':h['evidence_ids'],'authority':'UNVERIFIED_HYPOTHESIS'} for h in state['hypotheses']]}
+ 'digest_limits':f'Complete validated queries are retained. At most {DISPLAY_ROWS} returned rows and their group keys are displayed per observation, with explicit omitted counts. Explicit definition content/find lookups retain at most {EXCERPT_CHARACTERS} excerpt characters per observation with truncation labels; arbitrary metadata remains omitted. Hypotheses are unverified, not evidence.', 'evidence':entries,'hypotheses':[{'id':h['id'],'claim':h['claim'][:300],'claim_truncated':len(h['claim'])>300,'status':h['status'],'evidence_ids':h['evidence_ids'],'authority':'UNVERIFIED_HYPOTHESIS'} for h in state['hypotheses']]}

@@ -6,6 +6,31 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Active: faithful evidence transfer complete; measure-path proposal awaiting review.**
+Post-#223 work preserves full validated query text, two explicitly bounded result
+rows, group keys/counts and explicit definition excerpts in synthesis. Citation
+assembly now includes valid support citations in the outer assessment list before
+the unchanged validators run. Offline rebuilds of all nine G digests use
+17,571-29,230 of the 48,000-character cap (36.6-60.9%); none silently clips.
+Initial investigation coverage remains 28 directory entries, 11 SQL objects and
+15,067 characters.
+
+The e1b8e1 audit finds Handled Quantity's DAX in initial planner context; existing
+semantic graph and asset/content tools reach Activity[units], its Direct Lake Gold
+partition, notebook and Silver inputs. The Silver-to-Azure-SQL identity-backed edge
+is absent and must not be guessed by name. A compact `measure_path` lookup,
+`reproduce_measure`/`test_contribution` capabilities and progress signals are
+proposed only. The previously completed eight item-relation probes are compared
+against derived lineage, and separate metadata-collector options preserve execution
+reader isolation. No Write grant, runtime measure-path change, adapter, dependency
+map, live run, freeze or unfamiliar-domain claim. See
+[the review](measure-path-and-metadata-collector-review.md).
+Validation: **1,029 local regression tests**, two required generator tests and the
+local documentation-link audit passed. Exact offline replay of S7's recorded
+response now validates with its omitted support citation assembled into the outer list.
+
+### Previous milestone
+
 **Completed: synthesis calibration and Microsoft capability evaluation ([PR #223](https://github.com/bcsnpc/data-investigation-agent/pull/223)).**
 Nine corrected known-domain G trials yielded **6/9 accepted synthesis outputs**,
 **5/9 receipt-grounded qualified outputs** including historical clipping, and
@@ -24,11 +49,11 @@ and Delta commit metadata; reader INFO/refresh and SQL dependency catalog access
 were unavailable. Time-travel/Query Insights execution remains untested without an
 approved Fabric reader connection. No write grant or adapter was added.
 
-Next proposal only: preserve query predicates in synthesis and compose citation
-lists consistently; measured full-query digests fit the existing limit. Optional
-native metadata feeds can supplement derived lineage. Stop for review before any
-dependency map, parallel synthesis or Microsoft adapter. No freeze/new variant or
-unfamiliar-domain acceptance claim. See [calibration](synthesis-calibration.md) and
+That report proposed preserving query predicates and composing citation lists
+consistently; those two items are delivered in the active milestone above. Optional
+native metadata feeds remained proposal-only. No dependency map, parallel synthesis,
+Microsoft adapter, freeze/new variant or unfamiliar-domain acceptance claim. See
+[calibration](synthesis-calibration.md) and
 [Microsoft capability review](microsoft-native-capability-review.md).
 
 ### Previous milestone
