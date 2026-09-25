@@ -1,0 +1,136 @@
+{
+  "scope": "KNOWN_DOMAIN_REGRESSION",
+  "engine_commit": "c52673a3320ad85fcaf0cdcaf3be4fbb30d9e722",
+  "engine_hash": "457765ec991239fb2038223f34a3f340aa260016f4461c094e15d76a358c1036",
+  "conditions": {
+    "identical": true,
+    "recording": true,
+    "reasoning_effort": "medium",
+    "max_output_tokens": 8000,
+    "read_limit": 6,
+    "input_limit": 384000,
+    "minimum_interval_seconds": 65
+  },
+  "aggregate": {
+    "trials": 3,
+    "completed": 3,
+    "outcomes": {
+      "CONSISTENT_TO_BOUNDARY": 3
+    },
+    "terminating_step_6": 3,
+    "dax_reads": 3,
+    "sql_reads": 0,
+    "investigation_planner_calls": 0,
+    "baselines_established": 3,
+    "syntheses_validated": 3,
+    "tapes_verified": 6,
+    "synthesis_digest_characters_each": 3308,
+    "usage_before": {
+      "planner_calls": 115,
+      "cloud_calls": 32,
+      "input_characters": 3585333,
+      "output_tokens": 861500
+    },
+    "usage_after": {
+      "planner_calls": 121,
+      "cloud_calls": 35,
+      "input_characters": 3722694,
+      "output_tokens": 890000
+    }
+  },
+  "comparison_to_226": {
+    "trials": "3 vs 9",
+    "investigation_planner_calls": "0 vs 97",
+    "sql_reads": "0 vs 25",
+    "dax_reads": "3 vs 7",
+    "explicit_baselines": "3 vs 0",
+    "validated_syntheses": "3/3 vs 5/9",
+    "supported_causes": "0 vs 0",
+    "interpretation": "The redesign consistently established and reported the presentation baseline, then stopped at the real NO_LINEAGE boundary. It did not investigate the requested source mechanism because discovery exposes no identity-backed path below the semantic table."
+  },
+  "runs": [
+    {
+      "trial": "P1",
+      "session_id": "4dd951b4-9306-45bf-b711-e672a7e94f82",
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "terminating_step": 6,
+      "reads": {
+        "dax": 1,
+        "sql": 0,
+        "other": 0
+      },
+      "investigation_planner_calls": 0,
+      "baseline_established": true,
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "stopped_by": "NO_LINEAGE"
+      },
+      "queries": [
+        "EVALUATE ROW(\"baseline\", [Handled Quantity])"
+      ],
+      "synthesis_validated": true,
+      "synthesis_digest_characters": 3308,
+      "recorded_tapes": [
+        "3c547406-f95c-42c4-90f5-d719e88afeed",
+        "499fb13b-5b98-42f8-b15e-6d417fa20920"
+      ]
+    },
+    {
+      "trial": "P2",
+      "session_id": "05b8704a-f09c-41ab-8b21-2925af645a23",
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "terminating_step": 6,
+      "reads": {
+        "dax": 1,
+        "sql": 0,
+        "other": 0
+      },
+      "investigation_planner_calls": 0,
+      "baseline_established": true,
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "stopped_by": "NO_LINEAGE"
+      },
+      "queries": [
+        "EVALUATE ROW(\"baseline\", [Handled Quantity])"
+      ],
+      "synthesis_validated": true,
+      "synthesis_digest_characters": 3308,
+      "recorded_tapes": [
+        "225992bb-1d0c-423d-a15b-1f9e7a7c19ff",
+        "71f7489e-1d77-491b-a64e-d85786ec0208"
+      ]
+    },
+    {
+      "trial": "P3",
+      "session_id": "100a0ebb-37bf-4b93-af8a-d1bd843fd71c",
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "terminating_step": 6,
+      "reads": {
+        "dax": 1,
+        "sql": 0,
+        "other": 0
+      },
+      "investigation_planner_calls": 0,
+      "baseline_established": true,
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "stopped_by": "NO_LINEAGE"
+      },
+      "queries": [
+        "EVALUATE ROW(\"baseline\", [Handled Quantity])"
+      ],
+      "synthesis_validated": true,
+      "synthesis_digest_characters": 3308,
+      "recorded_tapes": [
+        "03a17523-dd79-4f84-be8d-da22a7ee756f",
+        "61add5e9-4e3d-473e-ada5-b8ae9b83c1f4"
+      ]
+    }
+  ],
+  "limits": [
+    "Known-domain smoke only; no frozen unfamiliar-domain acceptance.",
+    "The three trials exercise the presentation-baseline and visibility-boundary branch, not multi-layer divergence localization.",
+    "No source binding was inferred from similar names."
+  ]
+}

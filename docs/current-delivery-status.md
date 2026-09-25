@@ -6,7 +6,7 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Active: deterministic process-debugging redesign; three-run smoke pending.**
+**Complete checkpoint: deterministic process-debugging redesign and three-run smoke.**
 The accepted #226 result changed the primary target from open-ended data forensics
 to debugging a discovered data process. The implementation now triages mismatch
 complaints and business questions, establishes a presentation baseline under the
@@ -43,9 +43,23 @@ an unreachable source, and a four-layer path with one NOT_COMPARABLE boundary.
 An injected known-domain runtime completed end to end in one native read and zero
 planner calls. Planner golden payloads retain identical entry counts, SQL-object
 counts and payload characters; the existing initial directory remains 28 / 11.
-Only response schemas changed. **1,046 local regression tests passed.** The required exactly three
-recorded known-domain G trials remain before milestone completion. No freeze, fresh
-variant or unfamiliar-domain claim is authorized. See
+Only response schemas changed. **1,046 local regression tests passed**, and all six
+CI checks passed before PR #227 merged as `c52673a`.
+
+Exactly three recorded known-domain G trials then completed. Each terminated at
+step 6 as `CONSISTENT_TO_BOUNDARY`, established the presentation baseline with one
+DAX read, made zero SQL reads and zero investigation-planner calls, and named the
+Activity semantic table as the deepest checked layer with `NO_LINEAGE` below it.
+All three syntheses validated; their deterministic digests were 3,308 characters
+each. All six intake/synthesis tapes passed integrity checks. Daily reservations
+moved from 115/32/3,585,333/861,500 to 121/35/3,722,694/890,000 for planner calls,
+cloud reads, input characters and output tokens; all 156 records are settled.
+No policy, permission or reader setting changed. Compared with #226's nine runs,
+this smoke used 0 versus 97 investigation calls, 0 versus 25 SQL reads, 3 versus
+7 DAX reads, established 3 versus 0 explicit baselines, and validated 3/3 versus
+5/9 syntheses. It did not test a source mechanism because discovery exposes no
+identity-backed lineage below the semantic table. No freeze, fresh variant or
+unfamiliar-domain claim is authorized. See
 [implementation, contracts and proposals](process-debugging-redesign.md).
 
 Horizontal comparison, the recurrence store, declared business context and a
@@ -554,7 +568,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **measure-path capabilities implemented; recorded nine-run G evaluation pending; no freeze**. Prior
+Current: **process-debugging checkpoint complete; stopped after the authorized three-run smoke; no freeze**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.
