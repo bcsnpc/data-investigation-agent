@@ -95,7 +95,7 @@
       "strategy": "dynamic-investigation-v8",
       "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
     },
-    "schema_hash": "351a4539f4a629511db20b208cb30296f028fbacd24d2676c576b09fc990c7d3",
+    "schema_hash": "c568be76c15444e0f3107664da732b3611451d250b7848963178610c3b6644c9",
     "handles": {
       "a0": "workspace/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/model/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/table/Neutral"
     }
@@ -1505,7 +1505,7 @@
       },
       "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
     },
-    "schema_hash": "718fbc4fe7ea5b073d95975a34aabb6c7c2e33022abf9c89d483f9cf5b5a6e6c",
+    "schema_hash": "602657e07e49b1bf21fe72bc376b1e2a518d9649ae66a29fa29ad000183fb443",
     "handles": {
       "a0": "definition:part",
       "a1": "metric:0",
@@ -1847,7 +1847,7 @@
       "strategy": "dynamic-investigation-v8",
       "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
     },
-    "schema_hash": "0b3c4760822e60207ab9d4487b7d9713154b130d0cdb760f6bcfa0a60ddc07be",
+    "schema_hash": "f5951f1040cea74516859ac9751da3923c18d74fee7d9ca53935daaea0c0ff46",
     "handles": {}
   },
   "per-call-ceiling": {
@@ -5170,7 +5170,7 @@
       "context_truncated": true,
       "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
     },
-    "schema_hash": "7dc7c20c16f3d6acbd76735f266e0c12f3bfdc87151d2a511e592c21363ffff1",
+    "schema_hash": "e3d9ee306762492520ae0d252169c2380af38f5d46a7eab5427c039789475979",
     "handles": {
       "a0": "object:0",
       "a1": "object:1",

@@ -38,9 +38,9 @@ def outcome(state):
 
 
 class AdaptiveRuntime:
-    def __init__(self,runtime,planner,clock=time.time,planner_profile=None,usage_policy=None):
+    def __init__(self,runtime,planner,clock=time.time,planner_profile=None,usage_policy=None,process_judge=None):
         self.runtime=runtime;self.store=runtime.store;self.config=runtime.config
-        self.planner=planner;self.clock=clock
+        self.planner=planner;self.clock=clock;self.process_judge=process_judge
         self.planner_profile=planner_profile or {"adapter":"injected"}
         from .generation_policy import validate as generation_policy
         self.generation_options=generation_policy(self.planner_profile.get('generation_options'))
@@ -411,22 +411,88 @@ class AdaptiveRuntime:
         from .adapters.microsoft_process import MicrosoftProcessAdapter
         from .process_debugging import vertical
         from .assessment_support import validate as validate_support
-        reservation=None
         with self.runtime.db() as db:
             state=self.load(db,identity);self.admit(state)
             if state['status']!='READY':return self.get(identity)
         model=self.store.get(state['model_id'])
+
+        def meter_read(tool,execute):
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                if current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
+                    raise UsageHold('Investigation cloud-read limit')
+                number=current['cloud_calls']+1;key='tool:process:'+str(number)
+                if self.governor:self.governor.reserve(db,identity,key,'cloud')
+                current['cloud_calls']=number
+                self.save(db,current,'PROCESS_READ_RESERVED',{'tool':tool,'cloud_calls':number})
+            uncertain=False
+            try:return execute()
+            except Exception:
+                uncertain=True;raise
+            finally:
+                if self.governor:
+                    with self.runtime.db() as db:
+                        db.execute('BEGIN IMMEDIATE');self.governor.settle(db,identity,key,uncertain=uncertain)
+
+        provider=self.process_judge
+        if provider is None and self.planner_profile.get('adapter')=='azure':
+            from .transformation_judgment import azure_judge
+            provider=azure_judge
+
+        def judge(payload):
+            size=len(encoded(payload))
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                if current['planner_calls']>=current['envelope']['limits']['planner_calls']:
+                    return {'status':'UNAVAILABLE','explains':None,'reason':'Investigation planner-call limit reached.'}
+                if current['input_characters']+size>current['envelope']['limits']['input_characters']:
+                    return {'status':'UNAVAILABLE','explains':None,'reason':'Investigation input-character limit reached.'}
+                number=current['planner_calls']+1;key='process-judgment:'+str(number)
+                output=self.generation_options['max_output_tokens']
+                if self.governor:self.governor.reserve(db,identity,key,'planner',size,output_tokens=output)
+                current['planner_calls']=number;current['input_characters']+=size
+                self.save(db,current,'PROCESS_JUDGMENT_RESERVED',{'planner_calls':number,'input_characters':size})
+            metadata=None;received=False
+            try:
+                from .planner_recording import recording
+                with recording({'session_id':identity,'phase':'PROCESS_JUDGMENT','planner_call':number,
+                    'context_version':current.get('discovery_version'),'payload':payload,
+                    'planner_profile':self.planner_profile,'usage_policy':self.governor.policy if self.governor else None,
+                    'reservation':{'key':key,'input_characters':size,'output_tokens':output}}):
+                    result,metadata=provider(payload,dict(self.generation_options));received=True
+                return result
+            except Exception as exc:
+                return {'status':'UNAVAILABLE','explains':None,
+                        'reason':'Definition judgment unavailable: '+type(exc).__name__+'.'}
+            finally:
+                if self.governor:
+                    usage=metadata.get('usage') if isinstance(metadata,dict) else None
+                    with self.runtime.db() as db:
+                        db.execute('BEGIN IMMEDIATE')
+                        self.governor.settle(db,identity,key,usage,uncertain=not received and not usage)
+
+        def read_ingestion(request):
+            def execute():
+                import subprocess
+                from metadata_config import ROOT
+                completed=subprocess.run([self.config['fabric']['auth']['python'],
+                    str(ROOT/'scripts/read_onelake_commit.py')],input=encoded(request),capture_output=True,
+                    text=True,encoding='utf-8',timeout=90)
+                try:result=json.loads(completed.stdout)
+                except (ValueError,TypeError):return {'status':'UNAVAILABLE','error_type':'InvalidResponse'}
+                return result if not completed.returncode else {'status':'UNAVAILABLE','error_type':result.get('error_type','TransportError')}
+            return meter_read('onelake_commit',execute)
+
         adapter=MicrosoftProcessAdapter(self.store,self.config,model,
-            self.runtime.native_transport,self.runtime.source_transport)
+            self.runtime.native_transport,self.runtime.source_transport,
+            judge_definition=judge if provider is not None else None,meter_read=meter_read,
+            read_ingestion=read_ingestion)
         path=adapter.resolve_path(state['envelope']['measure_id'])
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)
             if state['status']!='READY':return self.project_after_commit(db,state)
-            if path.get('layers') and self.governor:
-                reservation='tool:process-baseline'
-                self.governor.reserve(db,identity,reservation,'cloud')
-            state['process_started']=True;state['cloud_calls']+=int(bool(path.get('layers')));state['status']='EXECUTING'
-            self.save(db,state,'PROCESS_STARTED',{'procedure':'VERTICAL','reserved_reads':int(bool(path.get('layers')))})
+            state['process_started']=True;state['status']='EXECUTING'
+            self.save(db,state,'PROCESS_STARTED',{'procedure':'VERTICAL','reserved_reads':0})
         error=None;assessment=None
         try:
             assessment=vertical(adapter,state['envelope']['measure_id'],{
@@ -443,13 +509,12 @@ class AdaptiveRuntime:
             error=type(exc).__name__
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
-            if self.governor and reservation:self.governor.settle(db,identity,reservation,uncertain=error is not None)
             if error:
                 self.stop(db,state,'TOOL_UNAVAILABLE','HELD')
                 state['process_error']=error;self.save(db,state,'PROCESS_FAILED',{'error_type':error})
                 return self.project_after_commit(db,state)
             state['observations'].extend(observations);state['assessment']=assessment
-            if assessment['classification']=='NO_KNOWN_PATTERN':
+            if assessment['classification']=='NO_KNOWN_PATTERN' and assessment['terminating_step']==0:
                 state['status']='READY';state['token']=None
                 self.save(db,state,'OPEN_INVESTIGATION_FALLBACK',{'fallback_count':1})
                 db.commit();return self.run_open(identity)

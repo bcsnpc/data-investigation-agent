@@ -60,7 +60,7 @@ OLD_TO_CURRENT = {
 }
 
 STOP_REASONS = ('REACHED', 'NO_ACCESS', 'NO_LINEAGE', 'NOT_COMPARABLE',
-                'BUDGET_EXHAUSTED', 'CAPABILITY_UNAVAILABLE')
+                'BUDGET_EXHAUSTED', 'CAPABILITY_UNAVAILABLE', 'CAPABILITY_NOT_IMPLEMENTED')
 BASELINE_STATUSES = ('ESTABLISHED', 'NOT_ESTABLISHED')
 EVIDENCE_ROLES = tuple(sorted({role for roles in REQUIRED_ROLES.values() for role in roles}))
 
@@ -92,8 +92,17 @@ def schema():
             'properties': {role: refs for role in EVIDENCE_ROLES},
             'required': list(EVIDENCE_ROLES)},
         'missing_capability': {'type': ['string', 'null'], 'maxLength': 500},
+        'skipped_steps': {'type':'array','maxItems':5,'items':{
+            'type':'object','additionalProperties':False,'properties':{
+                'step':{'type':'integer','minimum':1,'maximum':6},
+                'capability':{'type':'string','minLength':1,'maxLength':80},
+                'reason':{'type':'string','minLength':1,'maxLength':300}},
+            'required':['step','capability','reason']}},
+        'capabilities_declared': {'type':'array','maxItems':20,'items':{
+            'type':'string','minLength':1,'maxLength':80}},
     }, 'required': ['procedure_step', 'recommended_action', 'visibility_boundary',
-                    'baseline_above', 'evidence_by_role', 'missing_capability']}
+                    'baseline_above', 'evidence_by_role', 'missing_capability','skipped_steps',
+                    'capabilities_declared']}
 
 
 def validate(assessment, observations):
@@ -107,6 +116,27 @@ def validate(assessment, observations):
     expected = set(schema()['required'])
     if set(process) != expected:
         raise ValueError('Process support fields differ')
+    skipped=process['skipped_steps']
+    if not isinstance(skipped,list) or len(skipped)>5 or any(
+            not isinstance(x,dict) or set(x)!={'step','capability','reason'}
+            or type(x['step']) is not int or not 1<=x['step']<=6
+            or not isinstance(x['capability'],str) or not 1<=len(x['capability'])<=80
+            or not isinstance(x['reason'],str) or not 1<=len(x['reason'])<=300 for x in skipped):
+        raise ValueError('Skipped procedure steps differ')
+    capabilities=process['capabilities_declared']
+    if (not isinstance(capabilities,list) or len(capabilities)>20
+            or capabilities!=sorted(set(capabilities))
+            or any(not isinstance(x,str) or not 1<=len(x)<=80 for x in capabilities)):
+        raise ValueError('Declared capabilities must be a sorted unique list')
+    required_capability={'REFRESH_LATENCY':'presentation_freshness','LOAD_LATENCY':'job_history',
+        'PRESENTATION_LOGIC':'presentation_context','TRANSFORMATION_LOGIC':'transformation_definition',
+        'INGESTION_GAP':'ingestion'}
+    needed=required_capability.get(outcome)
+    if needed and needed not in capabilities:
+        raise ValueError(f'{outcome} requires declared {needed} capability')
+    if outcome=='DEFECT' and ({'transformation_definition','job_history'}-set(capabilities)
+            or any(x['step'] in (3,5) for x in skipped)):
+        raise ValueError('DEFECT requires every competing definition/context and job check to execute')
     if process['recommended_action'] != ACTIONS[outcome]:
         raise ValueError('Recommended action does not match outcome')
     boundary = process['visibility_boundary']

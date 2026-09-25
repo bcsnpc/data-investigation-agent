@@ -1,5 +1,26 @@
 # Project progress
 
+## 2026-09-25 - Capability-gated process steps and declared source resolution
+
+A code review showed that five constant Microsoft adapter stubs were being consumed
+as negative findings. The neutral process engine now checks a named capability before
+each optional step, records skipped/inconclusive checks in business and technical
+output, and prevents specialized outcomes or `DEFECT` without the checks that could
+provide competing explanations. The earlier three-run result remains preserved but
+is reclassified as evidence about unfinished wiring rather than the Fabric estate.
+
+A generic declared-pointer primitive resolves exact definition names only below the
+definition-declared connection scope, rejects ambiguity, and retains definition,
+offset, connection and asset provenance. The Microsoft adapter wires retained report
+slicer context, relevant definition search plus governed judgment, Fabric job history,
+latest bounded Delta commit metadata and native item-relation topology. Refresh history
+remains undeclared after the reader's prior HTTP 403; no elevation was made. Gold-to-
+Silver pointers remain non-equivalent context and Silver-to-Azure SQL remains
+undeclared. Exact planner payload content stays unchanged at 28 initial directory
+entries, 11 SQL objects and 15,971 characters. All 1,073 local regression tests pass.
+The exactly-three recorded known-domain evaluation waits for merge. See
+[capability and declared-scope evidence](process-capability-declared-scope.md).
+
 ## 2026-09-24 - Bounded measure-path and contribution validation
 
 Implemented the reviewed #224 proposal without a dependency-map layer. The planner

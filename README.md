@@ -11,6 +11,8 @@ read-only queries and saved evidence. It reports implemented behavior and never
 decides whether a business rule is correct.
 This is an FDE integration with one enterprise environment.
 
+Current follow-up: [capability-gated process steps and declared-scope resolution](docs/process-capability-declared-scope.md) remove the stub-as-finding defect before any further run. Every procedure step is admitted only when its adapter advertises the named capability; skipped or inconclusive checks appear in both business and technical output. A generic resolver follows a definition-declared source only inside its declared connection scope, fails on ambiguity, and retains `DECLARED_BY_DEFINITION` provenance. The Microsoft adapter now connects semantic partition metadata to discovered Fabric endpoint/lakehouse identities, retrieves static presentation context and transformation definitions, uses retained job history, and reads bounded Delta commit metadata through the separate metadata identity. Power BI refresh history remains explicitly unavailable to the reader, with no elevation. The earlier three-run result measured unfinished wiring rather than an estate limitation. No new live result or unfamiliar-domain claim is attached to this implementation yet.
+
 Current follow-up: the [process-debugging redesign](docs/process-debugging-redesign.md)
 replaces open-ended search as the primary path. Intake distinguishes mismatch
 complaints from business questions. A deterministic vertical procedure establishes

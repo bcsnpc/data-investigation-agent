@@ -6,6 +6,42 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Active checkpoint: capability-gated process steps and declared-scope source resolution.**
+The review of the prior smoke found that five adapter methods were constant stubs,
+while the vertical procedure called them and consumed their returns as findings.
+Those runs therefore measured unfinished wiring, not limitations of the Fabric
+environment. They remain preserved, but their zero-planner-call result cannot
+support a conclusion about available platform evidence.
+
+Every procedure step now has a named adapter capability. Undeclared methods are
+never called; the answer records `CAPABILITY_NOT_IMPLEMENTED` and names skipped
+steps in both business and technical output. Outcome validation makes
+`REFRESH_LATENCY`, `PRESENTATION_LOGIC`, `TRANSFORMATION_LOGIC`, `LOAD_LATENCY`,
+`INGESTION_GAP` and `DEFECT` unreachable without their declared checks. A minimal
+path/evaluation adapter is covered by a negative outcome regression.
+
+A platform-neutral declared-pointer resolver now accepts an exact name and stable
+connection scope from a retained definition. It searches only descendants of that
+scope, never widens by name, rejects ambiguity with all candidates, distinguishes
+missing scope, no in-scope match and access denial, and retains
+`DECLARED_BY_DEFINITION` with definition, offset and connection identities. The
+Microsoft adapter applies it to semantic partition metadata and cross-checks the
+model endpoint/lakehouse scope against the exact beta Fabric item-relation type.
+Gold-to-Silver definition edges are retained as declared pointers; no quantity
+equivalence is invented. Silver-to-Azure SQL remains `NO_DECLARATION` where no
+retained definition declares that boundary.
+
+The adapter now retrieves static report/filter/slicer context with its runtime
+selection/RLS limitation, retrieves the exact retained definition at a divergent
+boundary and invokes one governed judgment call, consumes retained Fabric job
+history, and reads only the latest bounded Delta commit metadata through the
+separate metadata identity. Presentation refresh history remains undeclared because
+the execution reader receives HTTP 403; no permission elevation is made. **1,073
+local regression tests pass.** The three required known-domain runs remain pending
+until this implementation is merged. No live run, freeze, variant or unfamiliar-
+domain claim has been made. See
+[implementation and validation](process-capability-declared-scope.md).
+
 **Completed checkpoint: zero-comparison correction and exactly three G reruns.**
 The accepted first smoke proved baseline establishment, synthesis validation and
 visibility reporting, but also showed that `CONSISTENT_TO_BOUNDARY` was admitted

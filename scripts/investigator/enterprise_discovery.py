@@ -28,7 +28,7 @@ def descendants(assets, root):
     return [assets[k] for k in sorted(selected) if k in assets]
 
 
-def graph(assets, bindings):
+def graph(assets, bindings, item_relations=()):
     edges=[]; gaps=[]
     def edge(source,target,relation,evidence,provenance='DISCOVERED'):
         if source in assets and target in assets:
@@ -37,6 +37,9 @@ def graph(assets, bindings):
     for a in assets.values():
         if a['parent_id']:edge(a['parent_id'],a['id'],'CONTAINS',[a['id']])
     for report,model in bindings.items():edge(report,model,'USES',[report])
+    for relation in item_relations:
+        edge(relation['source'],relation['target'],'NATIVE_'+relation['relation_type'].upper(),
+             [{'scope':relation['scope'],'source_api':relation['source_api']}])
     for model in (a for a in assets.values() if a['kind']=='SemanticModel'):
         semantic=analyze(descendants(assets,model['id']))
         for node in semantic['measures'].values():
@@ -177,7 +180,7 @@ class Discovery:
                             continue
                         bindings[a['parent_id']]=mid
             bindings={r:m for r,m in bindings.items() if r in current and m in current}
-            context_graph=graph(current,bindings)
+            context_graph=graph(current,bindings,batch.get('item_relations',[]))
             context_graph['gaps'].extend(binding_gaps)
             result={**batch,'assets':list(current.values()),'changes':changes,'graph':context_graph,
                     'inventory_scan_id':scan,'report_bindings':bindings,'created':utc()}
