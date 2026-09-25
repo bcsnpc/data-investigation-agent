@@ -23,7 +23,7 @@ walk stopped.
 
 The closed outcomes are `REFRESH_LATENCY`, `LOAD_LATENCY`, `PRESENTATION_LOGIC`,
 `TRANSFORMATION_LOGIC`, `INGESTION_GAP`, `DEFECT`, `CONSISTENT_TO_BOUNDARY`,
-`DEFINITION_DIFFERENCE`, `SCOPE_DIFFERENCE`, `DIFFERENT_SUBJECT`,
+`NO_COMPARABLE_PATH`, `DEFINITION_DIFFERENCE`, `SCOPE_DIFFERENCE`, `DIFFERENT_SUBJECT`,
 `BUSINESS_QUESTION` and `NO_KNOWN_PATTERN`. Each label has a fixed recommended
 action and required deterministic evidence roles. A test removes one required
 role from every outcome and confirms rejection. Boundary attribution requires a
@@ -104,6 +104,10 @@ SQL reads from 25 to zero and DAX reads from seven to three. Explicit baseline
 establishment rose from 0/9 to 3/3 and valid syntheses from 5/9 to 3/3. This is a
 smoke test of one branch. It shows reliable baseline and boundary reporting; it
 does not show multi-layer divergence localization or source-mechanism analysis.
+The subsequent review found that the three `CONSISTENT_TO_BOUNDARY` labels were
+invalid because no comparison executed. Their receipts remain historical evidence;
+the corrected contract and binding analysis are in
+[no-comparable-path correction](no-comparable-path-correction.md).
 
 ## Planner-context cost
 

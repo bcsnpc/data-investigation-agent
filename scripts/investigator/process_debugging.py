@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from typing import Protocol
 from .process_outcomes import ACTIONS,EVIDENCE_ROLES
 
-VERSION='process-debugging-v1'
+VERSION='process-debugging-v2'
 REQUIRED_CAPABILITIES=frozenset(('resolve_measure_path','evaluate_scoped_quantity'))
 
 
@@ -65,6 +65,10 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                                     'evidence_ids':evidence_ids[-2:]},
              'baseline_above':baseline,'evidence_by_role':role_refs,
              'missing_capability':missing_capability}
+    comparisons=[o for o in observations if o.get('tool')=='process' and type(o.get('values_equal')) is bool]
+    not_comparable=[{'upper_layer':o.get('upper_layer'),'lower_layer':o.get('lower_layer'),
+                     'reason':o.get('reason')} for o in observations
+                    if o.get('comparison_status')=='NOT_COMPARABLE']
     return {'classification':outcome,'terminating_step':step,
             'claim':explanation or outcome.replace('_',' ').title(),
             'evidence_ids':evidence_ids,
@@ -83,7 +87,10 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
             '_observations':observations,
             'technical_output':{'queries':[{'evidence_id':o['id'],'query':o['query']}
                                for o in observations if o.get('query')],
-                                'visibility_boundary':process['visibility_boundary']}}
+                                'visibility_boundary':process['visibility_boundary'],
+                                'boundary_summary':{'resolved_boundaries':len(comparisons),
+                                    'comparisons_executed':len(comparisons),
+                                    'not_comparable':not_comparable}}}
 
 
 def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=None):
@@ -111,7 +118,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     fresh_obs=_observation(freshness.get('evidence'),'freshness') if freshness else None
     if fresh_obs:observations.append(fresh_obs)
     if freshness and freshness.get('status')=='LATENT':
-        comparison=_observation(freshness.get('comparison_evidence'),'comparison')
+        comparison=_observation(freshness.get('comparison_evidence'),'comparison','baseline')
         if comparison:observations.append(comparison)
         baseline={'status':'ESTABLISHED','layer':layers[0]['id'],'reason':None,
                   'evidence_ids':[comparison['id']] if comparison else []}
@@ -123,7 +130,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     # stated number. Failure is explicit and later boundary claims retain it.
     top=adapter.evaluate(layers[0],measure_id,scope)
     if top.evidence:
-        top_obs=_observation(top.evidence,'baseline','flow_consistency','established')
+        top_obs=_observation(top.evidence,'baseline','established')
         if top.query:top_obs['query']=top.query
         observations.append(top_obs)
     baseline={'status':'ESTABLISHED','layer':top.layer,'reason':None,
@@ -131,67 +138,87 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
               'status':'NOT_ESTABLISHED','layer':top.layer,'reason':top.reason or 'Presentation quantity was not comparable.',
               'evidence_ids':[]}
 
+    if len(layers)<2:
+        reason=path.get('missing_comparable_quantity') or 'No adjacent layer has a faithfully bound quantity for comparison.'
+        if baseline['status']!='ESTABLISHED':
+            return _answer('NO_KNOWN_PATTERN',2,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
+                roles=('established',),missing_capability=baseline['reason'])
+        return _answer('NO_COMPARABLE_PATH',3,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
+            roles=('path',),missing_capability=reason,
+            explanation='The presentation baseline was established, but no adjacent comparable quantity could be resolved. '+reason)
+
     # Steps 3-5: compare adjacent reachable layers. NOT_COMPARABLE is recorded
     # and skipped; equality is exact on adapter-normalized values.
-    upper=top
+    upper=top;verified_boundaries=0;last_verified=top.layer;chain_connected=top.status=='OBSERVED';gaps=[]
     for index,lower_layer in enumerate(layers[1:],start=1):
         lower=adapter.evaluate(lower_layer,measure_id,scope)
         if lower.evidence:
-            obs=_observation(lower.evidence,'flow_consistency','established')
+            obs=_observation(lower.evidence,'baseline','established')
             if lower.query:obs['query']=lower.query
             observations.append(obs)
         if upper.status!='OBSERVED' or lower.status!='OBSERVED':
+            reason=lower.reason or upper.reason or 'No faithful comparable quantity was available.'
             marker=_observation({'id':f'boundary-{index}-not-comparable','tool':'process',
-                'reason':lower.reason or upper.reason},'comparison')
-            observations.append(marker);upper=lower
+                'upper_layer':upper.layer,'lower_layer':lower.layer,'comparison_status':'NOT_COMPARABLE',
+                'reason':reason})
+            observations.append(marker);gaps.append(marker);upper=lower;chain_connected=False
             continue
         comparison=_observation({'id':f'boundary-{index}-comparison','tool':'process',
             'upper_layer':upper.layer,'lower_layer':lower.layer,
-            'values_equal':upper.value==lower.value},'comparison')
+            'values_equal':upper.value==lower.value},'comparison',
+            *(['flow_consistency'] if chain_connected and upper.value==lower.value else []))
         observations.append(comparison)
         if upper.value==lower.value:
+            if chain_connected:verified_boundaries+=1;last_verified=lower.layer
             upper=lower;continue
+        boundary_baseline={'status':'ESTABLISHED','layer':upper.layer,'reason':None,
+                           'evidence_ids':[upper.evidence['id']] if upper.evidence else []}
         boundary={'upper':layers[index-1],'lower':lower_layer,'index':index}
         if index==1:
             context=adapter.presentation_context(boundary,scope)
             context_obs=_observation(context.get('evidence'),'presentation_definition') if context else None
             if context_obs:observations.append(context_obs)
             if context and context.get('explains') is True:
-                return _answer('PRESENTATION_LOGIC',3,observations,lower.layer,baseline=baseline,
+                return _answer('PRESENTATION_LOGIC',3,observations,lower.layer,baseline=boundary_baseline,
                     roles=('presentation_definition','comparison'),
                     explanation=context.get('explanation'))
         definition=adapter.transformation_definition(boundary)
         definition_obs=_observation(definition.get('evidence'),'transformation_definition') if definition else None
         if definition_obs:observations.append(definition_obs)
         if definition and definition.get('explains') is True:
-            return _answer('TRANSFORMATION_LOGIC',5,observations,lower.layer,baseline=baseline,
+            return _answer('TRANSFORMATION_LOGIC',5,observations,lower.layer,baseline=boundary_baseline,
                 roles=('transformation_definition','comparison'),explanation=definition.get('explanation'))
         job=adapter.job_history(boundary)
         job_obs=_observation(job.get('evidence'),'job_history','prior_state') if job else None
         if job_obs:observations.append(job_obs)
         if job and job.get('status')=='LATENT':
-            return _answer('LOAD_LATENCY',5,observations,lower.layer,baseline=baseline,
+            return _answer('LOAD_LATENCY',5,observations,lower.layer,baseline=boundary_baseline,
                 roles=('job_history','prior_state','comparison'),explanation=job.get('explanation'))
         absence=_observation({'id':f'boundary-{index}-definition-absence','tool':'process'},'definition_absence','mechanism')
         observations.append(absence)
-        return _answer('DEFECT',5,observations,lower.layer,baseline=baseline,
+        return _answer('DEFECT',5,observations,lower.layer,baseline=boundary_baseline,
             roles=('mechanism','comparison','definition_absence'),
             explanation='The observed boundary change is not accounted for by a retrieved definition.')
 
     # Step 6: no comparable boundary diverged. Check capture/delivery evidence;
     # otherwise name the deepest layer actually reached.
-    ingestion=adapter.ingestion(path,scope)
+    if verified_boundaries==0:
+        reason=(gaps[0]['reason'] if gaps else path.get('missing_comparable_quantity')) or 'No successful boundary comparison connected the baseline to a lower layer.'
+        return _answer('NO_COMPARABLE_PATH',3,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
+            roles=('path',),missing_capability=reason,
+            explanation='The presentation baseline was established, but no boundary below it could be compared faithfully. '+reason)
+    ingestion=adapter.ingestion(path,scope) if chain_connected else {'status':'UNAVAILABLE'}
     ingestion_obs=_observation(ingestion.get('evidence'),'ingestion') if ingestion else None
     if ingestion_obs:observations.append(ingestion_obs)
     if ingestion and ingestion.get('status')=='GAP':
         return _answer('INGESTION_GAP',6,observations,upper.layer,baseline=baseline,
-            roles=('ingestion','flow_consistency'),explanation=ingestion.get('explanation'))
-    deepest=upper.layer if upper.status=='OBSERVED' else layers[0]['id']
-    stopped=path.get('stopped_by','REACHED')
+            roles=('ingestion','flow_consistency','comparison'),explanation=ingestion.get('explanation'))
+    deepest=last_verified
+    stopped='NOT_COMPARABLE' if gaps else path.get('stopped_by','REACHED')
     if scope.get('ticket_shape')=='BUSINESS_QUESTION':
         return _answer('BUSINESS_QUESTION',6,observations,deepest,stopped,baseline,
-            roles=('flow_consistency',),
+            roles=('flow_consistency','comparison'),
             explanation=f'The reachable process flow is consistent through {deepest}; the remaining question is business interpretation.')
     return _answer('CONSISTENT_TO_BOUNDARY',6,observations,deepest,stopped,baseline,
-        roles=('path','flow_consistency'),
+        roles=('path','flow_consistency','comparison'),
         explanation=f'Every comparable reachable layer agreed through {deepest}.')

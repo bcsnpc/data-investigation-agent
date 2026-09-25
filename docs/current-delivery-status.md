@@ -6,7 +6,27 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Complete checkpoint: deterministic process-debugging redesign and three-run smoke.**
+**Active: correct zero-comparison overclaim, then rerun exactly three G trials.**
+The accepted first smoke proved baseline establishment, synthesis validation and
+visibility reporting, but also showed that `CONSISTENT_TO_BOUNDARY` was admitted
+after zero comparisons. `NO_COMPARABLE_PATH` now represents an established baseline
+whose path cannot be resolved into any adjacent comparable quantity. Consistency,
+ingestion and business-flow outcomes require at least one successful equal boundary
+comparison; divergence outcomes require an observed unequal comparison.
+
+Tape and #224 review supports the asset/quantity distinction. `measure_path` was
+called and returned Handled Quantity, Activity, `units`, partition source labels
+and identity-backed semantic edges. It did not establish a stable binding from the
+`dbo.movement_values` partition label to a lower asset, nor a scope-preserving
+quantity across that boundary. The adapter now names that missing binding as
+`CAPABILITY_UNAVAILABLE`; it does not infer a source object by name. The binding
+design is proposal-only. **1,052 local regression tests pass** on the corrected
+engine, with unchanged investigation planner payload content and coverage. See
+[correction and proposal](no-comparable-path-correction.md).
+
+### Previous checkpoint
+
+**Deterministic process-debugging redesign and first three-run smoke.**
 The accepted #226 result changed the primary target from open-ended data forensics
 to debugging a discovered data process. The implementation now triages mismatch
 complaints and business questions, establishes a presentation baseline under the
@@ -15,11 +35,11 @@ faithfully translatable quantities and exits on the first evidence-bound outcome
 Every technical output retains its queries verbatim and names the deepest layer
 checked plus the access, lineage, comparability or budget boundary that stopped it.
 
-The current taxonomy is closed at twelve outcomes: REFRESH_LATENCY, LOAD_LATENCY,
+The current taxonomy is closed at thirteen outcomes: REFRESH_LATENCY, LOAD_LATENCY,
 PRESENTATION_LOGIC, TRANSFORMATION_LOGIC, INGESTION_GAP, DEFECT,
-CONSISTENT_TO_BOUNDARY, DEFINITION_DIFFERENCE, SCOPE_DIFFERENCE,
+CONSISTENT_TO_BOUNDARY, NO_COMPARABLE_PATH, DEFINITION_DIFFERENCE, SCOPE_DIFFERENCE,
 DIFFERENT_SUBJECT, BUSINESS_QUESTION and NO_KNOWN_PATTERN. Each has a deterministic
-evidence contract and fixed recommended action. All twelve have a negative test.
+evidence contract and fixed recommended action. All thirteen have a negative test.
 Boundary attribution without a baseline above it or a specific establishment
 barrier is rejected. Historical labels remain stored and map forward only on read.
 The adaptive loop remains available solely as the NO_KNOWN_PATTERN fallback.
@@ -568,7 +588,7 @@ returned rows, not work scanned.
 | 8 UX consolidation | Dynamic local flow works; broader effective-context and hosted delivery remain |
 | 9 Support-engine-ready core/handoff | Generic boundaries partly established; integrated v2 impact/ownership/triage remains |
 
-Current: **process-debugging checkpoint complete; stopped after the authorized three-run smoke; no freeze**. Prior
+Current: **zero-comparison correction under regression; exactly three corrected G trials next; no freeze**. Prior
 attempts froze the engine before publication; changed code cannot reuse their acceptance. See [live acceptance evidence](unknown-domain-challenge.md). Keep evaluator truth
 outside runtime context. Record failed/partial/blocked outcomes, and invalidate and
 repeat the freeze with a fresh variant if engine behavior must change.

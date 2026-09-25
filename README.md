@@ -18,9 +18,12 @@ the presentation baseline, walks a discovered path of any length, compares only
 faithfully translatable quantities, stops at the first evidence-bound explanation,
 and always reports its visibility boundary. Twelve closed outcomes bind claims to
 required receipts and recommended actions. The adaptive loop remains the
-`NO_KNOWN_PATTERN` fallback. Three recorded known-domain G trials each established
-the baseline in one DAX read, stopped at the same `NO_LINEAGE` boundary and produced
-a valid synthesis. No freeze or unfamiliar-domain claim follows.
+`NO_KNOWN_PATTERN` fallback. The first three-run smoke established its baseline
+and synthesis gates, then exposed an overclaim: zero comparisons cannot support
+`CONSISTENT_TO_BOUNDARY`. The [current correction](docs/no-comparable-path-correction.md)
+adds `NO_COMPARABLE_PATH`, requires real comparison evidence for verification
+claims and distinguishes asset lineage from comparable-quantity bindings. Three
+corrected reruns remain. No freeze or unfamiliar-domain claim follows.
 
 ## What works today
 
@@ -63,15 +66,17 @@ not investigator-specific code changes.
 ## Current milestone and limitations
 
 The redesign implementation passed **1,046 local regression tests**. Focused tests
-cover all twelve evidence contracts, arbitrary path length, early exit, explicit
+cover all thirteen evidence contracts, arbitrary path length, early exit, explicit
 `NOT_COMPARABLE`, intake triage, an end-to-end known-domain adapter run and all four
 #226 synthesis failures. Planner golden payload content and directory coverage are
 unchanged; only response schemas changed. The required three recorded G smoke
-trials completed **3/3** with `CONSISTENT_TO_BOUNDARY`, step 6, one DAX read,
-zero SQL reads and zero investigation-planner calls per trial. All three baselines
-and syntheses validated; all six intake/synthesis tapes passed integrity checks.
-This exercises the presentation-boundary branch only. No unfamiliar-domain
-acceptance pass is claimed.
+trials completed their baseline and synthesis checks, but their consistency label
+was invalid because no boundary comparison ran. The corrected contract requires
+at least one equal comparison for consistency, ingestion and business-flow claims;
+the current model instead names its missing stable partition binding through
+`NO_COMPARABLE_PATH`. Exactly three corrected reruns are next. No unfamiliar-domain
+acceptance pass is claimed. The corrected engine passes **1,052 local regression
+tests**; investigation planner payload content and coverage remain unchanged.
 
 The previous separated-synthesis experiment is complete ([PR #222](https://github.com/bcsnpc/data-investigation-agent/pull/222)).
 Three corrected known-domain G trials produced **3/3 receipt-supported uncertainty
