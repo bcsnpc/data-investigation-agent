@@ -1,5 +1,27 @@
 # Project progress
 
+## 2026-09-24 - Evidence fidelity and measure-path reachability review
+
+Synthesis now retains complete validated query text, explicit row/group counts,
+two labelled result rows and bounded explicit definition excerpts. Citation
+assembly deterministically includes support references in the outer list; existing
+evidence validation and intent gates remain. The exact S7 missing receipt IDs are
+covered by regression. Offline rebuilds of all nine G digests fit the existing
+48,000-character cap at 36.6-60.9%; no input limit changed. Investigation context
+remains 28 directory entries, 11 SQL objects and 15,067 characters.
+
+The retained estate shows the G measure expression and semantic references are
+already available, and current tools can reach its Gold partition, notebook and
+Silver inputs. The Silver-to-Azure-SQL binding is absent as a proven edge. A
+first-class measure-path/contribution-test composition is proposed for review,
+not implemented. The eight completed item-relation probes are explicitly compared
+with derived lineage, and three isolated metadata-collector options are documented.
+No permissions, cloud calls, dependency map, Microsoft adapter, live investigation,
+freeze or acceptance claim. See [measure-path and collector review](measure-path-and-metadata-collector-review.md).
+Validation: 1,029 regression tests and the two required generator tests passed;
+the exact retained S7 response now passes offline citation validation. All 223
+audited local documentation links resolve.
+
 ## 2026-09-18 ? Second frozen variant and publisher repair
 
 Engine v2 was frozen at `3d95859` before the fresh e1b8e1 variant. Discovery

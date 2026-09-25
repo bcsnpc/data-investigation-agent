@@ -9,7 +9,16 @@ target is to discover an approved environment and investigate business questions
 with an LLM, bounded read-only queries and saved evidence.
 This is an FDE integration with one enterprise environment.
 
-Current follow-up completed: [nine-run synthesis calibration](docs/synthesis-calibration.md) found 6/9 accepted outputs, but only 3/9 intact receipt-grounded synthesis outputs. Three citation failures and one overstated comparison remain recorded. [Microsoft capability probes](docs/microsoft-native-capability-review.md) support optional metadata proposals only. Next: evidence fidelity and citation consistency, pending review; no dependency-map or parallel-synthesis implementation.
+Current follow-up: [evidence fidelity is implemented and the existing measure path
+is audited](docs/measure-path-and-metadata-collector-review.md). Synthesis retains
+complete validated queries, bounded labelled rows/group keys and explicit
+transformation excerpts; support citations are assembled consistently before the
+unchanged evidence validators run. The G measure path is mostly reachable with
+existing context/tools. A first-class path/contribution test and three metadata
+collector options are proposed for review, not implemented. Nine reruns wait for
+that review; no dependency-map or parallel-synthesis implementation.
+Validation: **1,029 local regression tests passed**; the exact retained S7
+response now passes offline citation validation. No live-cloud run was performed.
 
 ## What works today
 

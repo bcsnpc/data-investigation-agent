@@ -79,6 +79,20 @@ class SynthesisTests(unittest.TestCase):
         self.assertEqual(r['synthesis']['status'],'FAILED');self.assertIsNone(r['synthesis']['assessment'])
         self.assertEqual(agent.governor.snapshot()['reserved_today']['planner_calls'],2)
 
+    def test_s7_support_citations_are_assembled_into_outer_list(self):
+        # Recorded S7 omitted valid support receipt 0dd from the outer list.
+        outer=['bcb2f0ac-61d2-4926-8384-23eb58230634',
+               '91b223d0-4fcf-43b2-9085-3f449287daba',
+               '7aeca75e-5f56-4834-8eed-919f0264da79',
+               '0cd0119a-9229-47f9-8439-ae7cd5faf0b8']
+        missing='0dd49072-a9ed-4acb-8f82-7755cd446d6a'
+        answer={'evidence_ids':outer.copy(),'support':{
+            'mechanism_evidence_ids':outer.copy(),
+            'intent_evidence_ids':[missing,outer[0],outer[1]]}}
+        repaired=synthesis.assemble_citations(answer)
+        self.assertEqual(repaired['evidence_ids'],outer+[missing])
+        self.assertEqual(repaired['support']['intent_evidence_ids'],[missing,outer[0],outer[1]])
+
     def test_provider_usage_violation_rejects_assessment(self):
         agent,state=self.stopped()
         r=agent.synthesize(state['id'],lambda p,o:(self.answer(p),{'usage':{'output_tokens':1501}}))
@@ -120,7 +134,7 @@ class SynthesisTests(unittest.TestCase):
             return self.answer(p),{}
         self.assertEqual(agent.synthesize(state['id'],provider)['synthesis']['status'],'FAILED')
 
-    def test_metadata_cannot_smuggle_embedded_records_into_digest(self):
+    def test_arbitrary_asset_metadata_cannot_smuggle_embedded_records_into_digest(self):
         agent,state=self.stopped()
         state['observations']=[{'id':'metadata','tool':'context','status':'COMPLETED',
           'completeness':'COMPLETE_RESPONSE','lookup':{'operation':'find','value':'notebook'},
@@ -132,7 +146,18 @@ class SynthesisTests(unittest.TestCase):
         self.assertTrue(payload['evidence'][0]['result']['unstructured_metadata_omitted'])
         self.assertEqual(payload['evidence'][0]['result']['asset_name'],'Transform')
 
-    def test_raw_records_are_omitted_and_aggregate_alias_lineage_selected(self):
+    def test_explicit_definition_excerpt_is_bounded_and_labelled(self):
+        agent,state=self.stopped();content='SELECT movement_id, units FROM source '+('x'*3000)
+        state['observations']=[{'id':'metadata','tool':'context','status':'COMPLETED',
+          'completeness':'PARTIAL','lookup':{'operation':'content','value':'part','offset':0},
+          'metadata':{'asset_id':'part','content_hash':digest(content),'content':content,'offset':0,
+                      'total_characters':len(content),'truncated':True}}]
+        with self.f.store.connect() as db:payload=synthesis_digest.build(state,db)
+        excerpt=payload['evidence'][0]['result']['transformation_excerpt']
+        self.assertIn('movement_id',excerpt['text']);self.assertTrue(excerpt['truncated'])
+        self.assertEqual(excerpt['displayed_characters'],synthesis_digest.EXCERPT_CHARACTERS)
+
+    def test_bounded_rows_group_keys_and_aggregate_lineage_are_explicit(self):
         # Isolate deterministic projection with a synthetic sealed receipt adapter.
         agent,state=self.stopped();o=state['observations'][0]
         o.update(tool='bounded_sql',values=[{'id':{'type':'decimal','value':'123'},'n':{'type':'decimal','value':'2'}}])
@@ -145,6 +170,10 @@ class SynthesisTests(unittest.TestCase):
             payload=synthesis_digest.build(state,DB())
         facts=payload['evidence'][0]['result']['aggregate_outputs']
         self.assertEqual(set(facts),{'n'});self.assertEqual(facts['n']['values'],['2'])
-        self.assertNotIn('123',encoded(payload))
+        result=payload['evidence'][0]['result']
+        self.assertEqual(result['group_keys']['id']['values'],['123'])
+        self.assertEqual(result['displayed_rows'],o['values'])
+        self.assertEqual(payload['evidence'][0]['asked']['query'],q)
+        self.assertFalse(result['rows_truncated'])
 
 if __name__=='__main__':unittest.main()
