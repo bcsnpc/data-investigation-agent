@@ -190,11 +190,19 @@ def validate(assessment, observations):
     if outcome == 'NO_COMPARABLE_PATH' and baseline['status']!='ESTABLISHED':
         raise ValueError('NO_COMPARABLE_PATH requires an established presentation baseline')
     comparisons=[observations[ref] for ref in groups.get('comparison',[]) if ref in observations]
+    def cross_surface(comparison):
+        upper=comparison.get('upper_execution_surface');lower=comparison.get('lower_execution_surface')
+        return (comparison.get('comparison_status')=='CROSS_SURFACE_VERIFIED'
+            and isinstance(upper,dict) and isinstance(lower,dict)
+            and all(isinstance(x.get(k),str) and x[k] for x in (upper,lower)
+                    for k in ('engine','connection','object'))
+            and tuple(upper[k] for k in ('engine','connection','object'))
+                != tuple(lower[k] for k in ('engine','connection','object')))
     if outcome in ('CONSISTENT_TO_BOUNDARY','INGESTION_GAP','BUSINESS_QUESTION') and not any(
-            comparison.get('values_equal') is True for comparison in comparisons):
+            comparison.get('values_equal') is True and cross_surface(comparison) for comparison in comparisons):
         raise ValueError(f'{outcome} requires at least one successful equal boundary comparison')
     if outcome in ('REFRESH_LATENCY','LOAD_LATENCY','PRESENTATION_LOGIC','TRANSFORMATION_LOGIC','DEFECT') and not any(
-            comparison.get('values_equal') is False for comparison in comparisons):
+            comparison.get('values_equal') is False and cross_surface(comparison) for comparison in comparisons):
         raise ValueError(f'{outcome} requires an observed divergent boundary comparison')
     if outcome in BOUNDARY_ATTRIBUTIONS and not any(
             comparison.get('values_equal') is False and comparison.get('upper_layer')==baseline['layer']

@@ -11,17 +11,16 @@ read-only queries and saved evidence. It reports implemented behavior and never
 decides whether a business rule is correct.
 This is an FDE integration with one enterprise environment.
 
-Current result: the [correct-context three-run check](docs/correct-context-process-three.md)
-launched exactly three `unknown-domain-v4` known-domain regressions. The first failed
-before intake on a stale usage-policy environment label and remains recorded with
-zero calls. After preserving and relabeling all historical reservations, the next
-two asserted the intended context, resolved the semantic-to-Gold pointer as
-`DECLARED_BY_DEFINITION`, and compared 8,765 with 8,765 using two DAX reads and one
-Delta-metadata read each. Both completed `CONSISTENT_TO_BOUNDARY` at step 6 with
-zero investigation-planner calls because no divergence required transformation
-judgment. Visibility stops at the unimplemented application-source declaration
-inspection. This is a partial known-domain checkpoint, not a freeze or unfamiliar-
-domain acceptance pass.
+Current result: review of the [correct-context three-run check](docs/correct-context-process-three.md)
+found that both apparent semantic-to-Gold comparisons executed inside the same
+Power BI model. They are requalified as within-model definition checks; the two
+boundary claims and partial-pass statement are withdrawn without rewriting their
+historical receipts. Probes now identify their engine, connection and object, and
+consistency requires an equal comparison across distinct execution surfaces.
+The existing reader cannot currently acquire a SQL-audience token for the Gold
+analytics endpoint (`AADSTS65002`), so the active limit is
+`NO_INDEPENDENT_LOWER_READ`. No permission was changed, and no freeze or unfamiliar-
+domain acceptance pass is claimed.
 
 Current follow-up: the [process-debugging redesign](docs/process-debugging-redesign.md)
 replaces open-ended search as the primary path. Intake distinguishes mismatch

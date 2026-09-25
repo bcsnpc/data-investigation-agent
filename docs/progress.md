@@ -1327,6 +1327,20 @@ unfamiliar-domain acceptance claim. See [calibration](synthesis-calibration.md) 
 [Microsoft capability review](microsoft-native-capability-review.md).
 # 2026-09-25 — Measure-path nine-run evaluation
 
+## 2026-09-25 - Independent-boundary evidence correction
+
+Review of #234 found that its apparent semantic-to-Gold comparison executed both
+aggregates in the same Power BI model. The historical records remain intact, but
+the two boundary claims and partial-pass statement are withdrawn. Process probes
+now carry engine/connection/object surfaces, and equal values can establish
+consistency only across distinct surfaces. Same-model aggregates remain visible as
+definition checks and end with `NO_INDEPENDENT_LOWER_READ`. The existing reader's
+Gold SQL endpoint probe stopped before connection with `AADSTS65002` because its
+configured client cannot acquire the SQL audience; no permission was changed and
+table access was not inferred. Derived process evidence now has a synthesis digest
+shape that validates its referenced observations. See
+[the corrected record](correct-context-process-three.md#2026-09-25-correction-after-review-of-234).
+
 The nine identical recorded G known-domain regressions completed on commit
 `be2436f`: 97 investigation calls, nine synthesis calls, 25 SQL and seven DAX
 reads, 52 context observations, 13 contribution tests and zero labelled measure

@@ -166,6 +166,8 @@ class MicrosoftProcessAdapter:
 
     def evaluate(self,layer,measure_id,scope):
         measure=next(a for a in assets(self.model['context']) if a['id']==measure_id)
+        semantic_surface={'engine':'POWER_BI_DAX','connection':self.model['workspace'],
+                          'object':self.model['native_id']}
         name=measure['name'].replace(']',']]')
         query=f'EVALUATE ROW("baseline", [{name}])'
         if layer.get('kind')=='declared_source':
@@ -184,14 +186,18 @@ class MicrosoftProcessAdapter:
         execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
         result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
         if result['status']!='COMPLETED':
-            return Probe('UNAVAILABLE',layer['id'],reason='The presentation reader could not establish a baseline.',query=query)
+            return Probe('UNAVAILABLE',layer['id'],reason='The presentation reader could not establish a baseline.',
+                         query=query,execution_surface=semantic_surface)
         rows=result['result']['rows'];value=rows[0] if len(rows)==1 else rows
-        return Probe('OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
+        definition_check=layer.get('kind')=='declared_source'
+        return Probe('NOT_COMPARABLE' if definition_check else 'OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
             'completeness':result['result']['completeness'],'values':rows,
             'request_hash':result['request_hash'],
             'measure_id':measure_id,'dimension_id':None,
-            'test_purpose':'ESTABLISH_BASELINE' if layer.get('kind')=='presentation' else 'COMPARE_DECLARED_SOURCE'},
-            value=value,query=query)
+            'test_purpose':'CHECK_DECLARED_SOURCE_DEFINITION' if definition_check else 'ESTABLISH_BASELINE'},
+            value=value,query=query,
+            reason='NO_INDEPENDENT_LOWER_READ' if definition_check else None,
+            execution_surface=semantic_surface)
 
     def presentation_context(self,boundary,scope):
         from report_slicer_context import assess as assess_slicers

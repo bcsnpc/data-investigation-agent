@@ -55,8 +55,32 @@ def _query_evidence(tool,query,rows):
          'rows_truncated':len(displayed)<len(rows),'omitted_row_count':max(0,len(rows)-len(displayed)),
          'aggregate_outputs':facts,'group_keys':groups,'group_keys_truncated':False}
 
+def _process_evidence(observation,by_id):
+ status=observation.get('comparison_status')
+ if status not in ('CROSS_SURFACE_VERIFIED','NOT_COMPARABLE','WITHIN_LAYER_CHECK'):
+  raise Conflict('Unsupported process receipt shape')
+ refs=[observation.get('upper_evidence_id'),observation.get('lower_evidence_id')]
+ referenced=[by_id.get(ref) for ref in refs if ref]
+ if any(item is None or item.get('status')!='COMPLETED' for item in referenced):
+  raise Conflict('Process receipt references unavailable evidence')
+ upper=observation.get('upper_execution_surface');lower=observation.get('lower_execution_surface')
+ for surface in (upper,lower):
+  if surface is not None and (not isinstance(surface,dict) or set(surface)!=set(('engine','connection','object'))
+      or any(not isinstance(surface[k],str) or not surface[k] for k in surface)):
+   raise Conflict('Process execution surface differs')
+ if status=='CROSS_SURFACE_VERIFIED':
+  if len(referenced)!=2 or upper==lower or type(observation.get('values_equal')) is not bool:
+   raise Conflict('Cross-surface process receipt differs')
+  if (digest(referenced[0].get('values'))==digest(referenced[1].get('values'))) != observation['values_equal']:
+   raise Conflict('Process comparison differs from referenced observations')
+ return {'comparison_status':status,'upper_layer':observation.get('upper_layer'),
+         'lower_layer':observation.get('lower_layer'),'reason':observation.get('reason'),
+         'values_equal':observation.get('values_equal'),'upper_execution_surface':upper,
+         'lower_execution_surface':lower,'referenced_evidence_ids':[ref for ref in refs if ref],
+         'derived_from_referenced_observations':True}
+
 def build(state,db):
- entries=[]
+ entries=[];by_id={o['id']:o for o in state['observations'] if isinstance(o,dict) and o.get('id')}
  for o in state['observations']:
   if o['status']!='COMPLETED':continue
   item={'id':o['id'],'tool':o['tool'],'completeness':o['completeness']}
@@ -66,6 +90,9 @@ def build(state,db):
    m=o['metadata'];item['asked']=o.get('lookup')
    item['result']=_definition_evidence(o)
    item['provenance']={'hash':digest(o),'context_version':m.get('context_version')}
+  elif o['tool']=='process':
+   item['result']=_process_evidence(o,by_id)
+   item['provenance']={'hash':digest(o),'derivation':'PROCESS_COMPARISON_FROM_REFERENCED_OBSERVATIONS'}
   else:
    if o['tool'] not in TABLES:raise Conflict('Unsupported receipt integrity adapter')
    sealed=verify(db,o['tool'],o['id'])

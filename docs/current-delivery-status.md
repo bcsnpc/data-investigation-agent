@@ -6,31 +6,34 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Current checkpoint: correct-context comparison reached; three-run batch stopped.**
+**Current checkpoint: same-surface boundary claim retracted; independent read unavailable.**
 PR #233 merged the #230 retraction, incomplete-definition guard and silent-fallback
 fixes after 1,078 local tests and six green CI checks. No planner context was added:
 recorded coverage remains 28 directory entries / 11 SQL objects / 15,971 characters.
 
-Exactly three `unknown-domain-v4` known-domain regressions were launched. C1 failed
-before intake because the usage policy still named `development`; it used no model
-or data call and remains a separate ledger row. The policy label and all 1,181
-historical reservations were then moved together to `unknown-domain-v4`, preserving
-every counter and limit. C2 and C3 asserted discovery context
-`758842ba-a478-4470-a9f2-d7e7a2ec4413`, resolved the semantic-to-Gold boundary by
-the model's declared source, and each compared 8,765 with 8,765. Each used two DAX
-reads, one Delta-metadata read, no SQL read and zero investigation-planner calls,
-then completed `CONSISTENT_TO_BOUNDARY` at step 6. A model judgment was not required
-because neither comparison diverged.
+Exactly three `unknown-domain-v4` regressions remain preserved. C1 failed before
+intake. C2 and C3 each executed two DAX queries against the same semantic model,
+plus one Delta-metadata read and no SQL read. Their 8,765 = 8,765 result checked the
+measure definition within one execution surface; it did not cross into Gold. The
+two `CONSISTENT_TO_BOUNDARY` claims, resolved-boundary counts and partial-pass
+statement are retracted in an appended correction and machine-readable
+qualification. Historical sessions, ledger rows and receipts are unchanged.
 
-Both successful sessions reported the same visibility limit: Gold
-`movement_values`, followed by an unimplemented external source-declaration check.
-Presentation freshness remained the only skipped process capability. Optional
-synthesis was explicitly blocked by its unsupported process-receipt integrity
-adapter; the deterministic assessments remain saved. The low comparison acceptance
-bar was reached in 2/3 runs, while the batch remains partial because C1 failed.
-The requested stop is in effect: no fourth run, freeze, variant or unfamiliar-domain
-claim. See [the three-run record](correct-context-process-three.md) and
-[machine result](runs/correct-context-process-three.json).
+Every process probe now records engine, connection and object. A verified boundary
+requires distinct execution surfaces, and consistency requires at least one such
+equal comparison. Same-surface checks are retained as `WITHIN_LAYER_CHECK` and
+report `NO_INDEPENDENT_LOWER_READ`. Derived process observations now have a bounded
+synthesis receipt shape whose references, equality and surfaces are validated.
+
+The configured investigator reader was probed against the discovered Gold SQL
+analytics endpoint without a permission change. Its existing MSAL client failed
+at token acquisition with `AADSTS65002` because that client is not preauthorized
+for `database.windows.net`; no connection or data query occurred, so table
+permission remains unestablished. The independent lower read is therefore not
+implemented under the current authentication transport. Exactly three follow-up
+runs remain the next evaluation; no freeze, variant or unfamiliar-domain claim is
+allowed. See [the corrected record](correct-context-process-three.md#2026-09-25-correction-after-review-of-234)
+and [machine result](runs/correct-context-process-three.json).
 
 ### Previous checkpoint: declared-scope integration and harness correction
 

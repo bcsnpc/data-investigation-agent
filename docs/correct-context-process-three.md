@@ -51,3 +51,31 @@ run, nine-run batch, freeze, variant or unfamiliar-domain claim follows.
 See the [machine-readable result](runs/correct-context-process-three.json), the
 [fallback audit](silent-fallback-audit.md), and the preserved
 [wrong-context correction](no-comparable-path-correction.md#2026-09-25-correction-after-232).
+
+## 2026-09-25 correction after review of #234
+
+The C2/C3 boundary claim above is withdrawn. Both values were produced by DAX
+against the same Power BI semantic model: `[Handled Quantity]` and
+`SUM('Activity'[units])`. The second query checked the measure definition within
+that model; it did not execute against the Gold lakehouse. The recorded zero SQL
+reads confirm that no independent lower-layer read occurred. The original session,
+ledger and receipt records remain unchanged as historical evidence.
+
+The engine now records `engine`, `connection` and `object` for every probe.
+`CONSISTENT_TO_BOUNDARY` requires at least one equal comparison across distinct
+execution surfaces. A same-surface check is retained as `WITHIN_LAYER_CHECK` and
+cannot verify a boundary; the missing independent read is reported as
+`NO_INDEPENDENT_LOWER_READ`.
+
+The existing reader was probed for the Gold SQL analytics endpoint without changing
+permissions. Token acquisition failed before connection with `AADSTS65002`: the
+configured Microsoft client is not preauthorized for the
+`database.windows.net` resource. No SQL connection or data query was attempted, so
+this does not establish a table-permission denial. The independent Gold execution
+capability remains unavailable under the current authentication transport.
+
+Accordingly, C2 and C3 are requalified as **within-model definition checks**, not
+real boundary comparisons. The earlier `PARTIAL_BATCH_PASS`, two real comparisons,
+two resolved boundaries and low-bar acceptance statements are retracted. Synthesis
+support for derived process observations has since been added with reference and
+cross-surface validation; that capability is evaluated in the follow-up runs.

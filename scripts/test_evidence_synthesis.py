@@ -197,4 +197,30 @@ class SynthesisTests(unittest.TestCase):
         self.assertEqual(payload['evidence'][0]['asked']['query'],q)
         self.assertFalse(result['rows_truncated'])
 
+    def test_process_comparison_is_derived_from_two_receipt_backed_observations(self):
+        agent,state=self.stopped();query=state['observations'][0]
+        lower=copy.deepcopy(query);lower['id']='lower-receipt'
+        upper_surface={'engine':'POWER_BI_DAX','connection':'workspace','object':'model'}
+        lower_surface={'engine':'FABRIC_SQL','connection':'endpoint','object':'table'}
+        query['execution_surface']=upper_surface;lower['execution_surface']=lower_surface
+        process={'id':'comparison','tool':'process','status':'COMPLETED','completeness':'COMPLETE_RESPONSE',
+          'comparison_status':'CROSS_SURFACE_VERIFIED','upper_layer':'semantic','lower_layer':'gold',
+          'values_equal':True,'upper_evidence_id':query['id'],'lower_evidence_id':lower['id'],
+          'upper_execution_surface':upper_surface,'lower_execution_surface':lower_surface}
+        state['observations']=[query,lower,process]
+        derived=synthesis_digest._process_evidence(process,{x['id']:x for x in state['observations']})
+        self.assertEqual(derived['comparison_status'],'CROSS_SURFACE_VERIFIED')
+        self.assertEqual(derived['referenced_evidence_ids'],[query['id'],lower['id']])
+
+    def test_process_comparison_rejects_same_surface_or_value_mismatch(self):
+        observation={'id':'comparison','tool':'process','status':'COMPLETED','completeness':'COMPLETE_RESPONSE',
+          'comparison_status':'CROSS_SURFACE_VERIFIED','upper_layer':'semantic','lower_layer':'gold',
+          'values_equal':True,'upper_evidence_id':'upper','lower_evidence_id':'lower',
+          'upper_execution_surface':{'engine':'x','connection':'x','object':'x'},
+          'lower_execution_surface':{'engine':'x','connection':'x','object':'x'}}
+        state={'observations':[{'id':'upper','status':'COMPLETED','values':[1]},
+              {'id':'lower','status':'COMPLETED','values':[1]},observation]}
+        with self.assertRaisesRegex(Conflict,'Cross-surface'):
+            synthesis_digest._process_evidence(observation,{x['id']:x for x in state['observations']})
+
 if __name__=='__main__':unittest.main()

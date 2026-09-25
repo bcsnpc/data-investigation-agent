@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "date": "2026-09-25",
   "trial_kind": "KNOWN_DOMAIN_REGRESSION",
   "experiment": "CORRECT_CONTEXT_PROCESS_THREE",
@@ -370,5 +370,31 @@
     "Known-domain regression only; no freeze or unfamiliar-domain claim.",
     "The external application-source declaration inspector is not implemented, so visibility stops at the Gold lakehouse table.",
     "Optional synthesis was explicitly blocked by an unsupported receipt-integrity adapter; the deterministic process assessment remained saved."
-  ]
+  ],
+  "current_qualification": {
+    "corrected_at": "2026-09-25",
+    "status": "RETRACTED_BOUNDARY_CLAIM",
+    "preserved_run_records": true,
+    "withdrawn_claims": [
+      "C2 and C3 were real cross-surface comparisons",
+      "Two boundaries were resolved",
+      "The low comparison acceptance bar passed"
+    ],
+    "requalified_runs": [
+      "0837778d-7b4c-4bbc-8f3d-2968128f7e94",
+      "7086fbda-59db-4091-9cff-5637c18cec16"
+    ],
+    "requalification": "WITHIN_MODEL_DEFINITION_CHECK",
+    "reason": "Both values were evaluated by DAX on the same Power BI semantic model; zero SQL reads occurred.",
+    "required_gap": "NO_INDEPENDENT_LOWER_READ",
+    "reader_endpoint_probe": {
+      "status": "UNAVAILABLE",
+      "stage": "TOKEN_ACQUISITION",
+      "error_code": "AADSTS65002",
+      "connection_attempted": false,
+      "data_query_attempted": false,
+      "permission_changed": false,
+      "limitation": "The configured reader client could not acquire a database.windows.net token; table permission was not established."
+    }
+  }
 }
