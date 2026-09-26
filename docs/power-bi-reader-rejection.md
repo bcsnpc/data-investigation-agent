@@ -83,3 +83,122 @@ indicated. The trial end date itself is not exposed by these APIs.
 Until the reader can query this model again, every live DAX baseline as the
 reader is `UNAVAILABLE`, and investigations stop at step 2. That is the correct
 behaviour: the engine does not fall back to the administrator.
+
+## Update 2026-09-26: model scope, identity mode, a permission grant and the revoked grant
+
+The sections above are kept as written. Each finding below is dated, and marked
+where it corrects an earlier one.
+
+### What the three checks found (21:47–21:50 UTC)
+
+- **Direct Lake refuses the reader; Import serves it.** At 21:47 UTC, the
+  reader's constant `ROW("x",1)` failed with HTTP 400 `0xC1450012` on a second
+  Direct Lake model (`f28cf2`), and succeeded with HTTP 200 on the Import model
+  (`5f2afb96`). Same identity, same cached token, one minute apart.
+- **The admin succeeds on the same model** (21:34–21:35 UTC, above).
+- **This is model load, not table permissions.** The reader fails even on a
+  constant expression that reads no data.
+- **The warm-model theory is disproved.** The admin's queries at 21:34 UTC
+  loaded the model, and the reader still failed at 21:36 and 21:47 UTC.
+- **The models run as the caller.** Both Direct Lake models report a single
+  `Sql` data source and **zero bound connections**
+  (`GetBoundGatewayDataSources`). No shareable connection references the
+  workspace. So the models use the caller's identity, not a fixed identity.
+  This is inferred from the absence of a binding, not read from an explicit
+  flag.
+- **OneLake access on the Gold lakehouse.** Its `DefaultReader` role permits
+  `Read` on path `*` for the item's `ReadAll` holders. The reader was not a
+  member; its only workspace role is `Viewer`.
+- **The timing stayed unexplained at the time of these checks.** Nothing
+  readable showed a change between the 01:25 UTC success and the 21:01 UTC
+  failures. The remaining evidence was in tenant audit and sign-in logs, which
+  these identities cannot read.
+
+### The authorised permission change (21:52:38–21:52:42 UTC)
+
+One change, authorised explicitly: the reader
+(`investigator-reader@skynwhy.com`, object `8a582d2a…`) was added as the only
+Microsoft Entra member of the Gold lakehouse's (`b0ab76f7…`) `DefaultReader`
+OneLake data access role. The role API replaces all roles, so the single
+existing role was resent exactly as read, with `If-Match` on its ETag. A
+`dryRun` returned 200 first.
+
+| | Before | After |
+| --- | --- | --- |
+| Roles | `DefaultReader` only | `DefaultReader` only |
+| Decision rules | Permit `Read` on `*` | unchanged |
+| Item members | `ReadAll` holders of the lakehouse | unchanged |
+| Entra members | none | the reader only |
+| Workspace roles | admin `Admin`, reader `Viewer` | unchanged |
+
+Before and after snapshots are kept locally, with SHA-256 `3e64209404b31e26…` and
+`0a0a58e3a934e7d4…`. No workspace role, tenant setting or other identity was changed.
+
+### The re-run did not test the grant (21:52:56 UTC)
+
+The reader's constant query never reached Power BI. Token renewal failed first.
+Its reservation was settled as uncertain, because no HTTP status came back.
+
+### The reader's grant was revoked, which probably explains the whole failure
+
+- **The cache:** the reader's MSAL cache (`.local/fixture-reader-auth`) holds
+  one access token, cached at **20:32:26 UTC** and expiring at 21:55:22 UTC,
+  plus one refresh token.
+- **The renewal error:** a forced renewal returned `invalid_grant`,
+  **`AADSTS50173`**: "The provided grant has expired due to it being revoked …
+  The user might have changed or reset their password."
+- **Correction:** the earlier conclusion that the token was valid and the
+  session not revoked (reported in conversation, not committed) was wrong. The
+  cached access token was still valid; the session behind it had been revoked.
+
+The best-supported explanation, which is not verified against audit logs, is:
+- The reader's password was changed or reset at about the 20:40 UTC interactive
+  sign-in, revoking the reader's existing grants.
+- Every reader query afterwards used the access token issued at 20:32, before
+  that change. An Import query needs only that token, so it was served.
+- A Direct Lake model runs as the caller and must obtain further tokens from
+  the caller's session to read storage. That session was revoked, so the model
+  could not load for the reader (`0xC1450012`).
+- The admin's session was unaffected.
+- This fits the 01:25 success, the 21:01 onset, the Direct Lake-only failure,
+  and the constant-query failure.
+
+### What remains open
+
+- **The grant's effect is untested.** The reader needs a fresh interactive
+  sign-in (`scripts/connect_fixture_reader.py --sign-in`) before any reader
+  query can run. That is an action for the account holder.
+- **The grant may be unnecessary.** If the revoked session was the whole cause,
+  the `DefaultReader` membership was not needed. Removing it would be a separate
+  permission change, requiring separate authorisation.
+- **The password change is not confirmed.** Only the tenant audit log can
+  confirm it; these identities cannot read that log.
+
+## Correction 2026-09-26 (21:58 UTC): the revoked grant does not explain the refusal
+
+The update above says the revoked grant "probably explains the whole failure".
+**That explanation is withdrawn.** The observations it rests on are kept.
+
+- **21:57:54 UTC:** the account holder signed the reader in again, through
+  `connect_fixture_reader.py --sign-in`. Its built-in check passed on the Import
+  model: HTTP 200, identity matched, and refresh history refused with 403, as
+  intended.
+- **21:58:39 UTC:** with that fresh session **and** the `DefaultReader` OneLake
+  grant in place, the reader's constant `ROW("x",1)` against the Direct Lake
+  model still failed: HTTP 400 `DatasetExecuteQueriesError`, Analysis Services
+  `0xC1450012`.
+
+So neither a revoked session nor missing OneLake read access explains why Direct
+Lake refuses the reader. `AADSTS50173` did occur: the reader's earlier grant was
+revoked. But it is not the cause of this failure.
+
+- **Password change:** whether the 21:57 sign-in prompted a password change was
+  not observable from here. The account holder can confirm.
+- **Propagation delay:** OneLake data access role changes can take time to
+  propagate, so a delay is not excluded. It was not tested further.
+
+Per the instruction, the experiment stopped at this failure. No further
+permission was added, and the `DefaultReader` grant **remains in place**:
+removing it was authorised only if this query succeeded. The cause of the
+Direct Lake refusal is **not established**. The change between 01:25 and 21:01
+UTC is unexplained.
