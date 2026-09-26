@@ -1,0 +1,320 @@
+{
+ "version": 1,
+ "date": "2026-09-26",
+ "experiment": "EXECUTION_SURFACE_INVENTORY",
+ "work_item": 1,
+ "engine_commit": "1e702289a3204af0275d576a4b6e1e15f2b70a44",
+ "engine_tag": "unfrozen-e3b2724a5c50",
+ "engine_bytes_changed": false,
+ "environment": "unknown-domain-v4",
+ "premise": {
+  "claim": "MicrosoftProcessAdapter.execute_source is never called",
+  "verified": true,
+  "evidence": "Only the constructor parameter and the assignment at scripts/investigator/adapters/microsoft_process.py:17 reference it."
+ },
+ "attempts": [
+  {
+   "attempt": "pre-recorded",
+   "date_utc": "2026-09-26T00:01:10.424180+00:00",
+   "graded": "SURFACE_PROBE",
+   "note": "Run by an earlier session from an uncommitted .local script; not ledgered at the time; recorded retroactively by this PR.",
+   "cloud_reservations": 2,
+   "receipts": [
+    {
+     "probe": "table-file-listing",
+     "identity_role": "ISOLATED_METADATA",
+     "audience": "https://storage.azure.com",
+     "http_status": 200,
+     "bytes_read": 990,
+     "parquet_magic_matches": null,
+     "limitation": null,
+     "failure": null
+    },
+    {
+     "probe": "parquet-data-header",
+     "identity_role": "ISOLATED_METADATA",
+     "audience": "https://storage.azure.com",
+     "http_status": 206,
+     "bytes_read": 4,
+     "parquet_magic_matches": true,
+     "limitation": "Four-byte data-file probe only; no aggregate or complete Delta snapshot read.",
+     "failure": null
+    }
+   ]
+  },
+  {
+   "attempt": "1",
+   "probe_session": "execution-surface-probe-20260926T012154Z",
+   "graded": "INFRASTRUCTURE_FAILURE_PARTIAL",
+   "note": "Table-data probe failed before any network call with ModuleNotFoundError: token acquisition imported fabric_cli outside the isolated identity environment. Harness defect, not a surface result.",
+   "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+   "model_revision": 2,
+   "context_id": "3136c3b6-91d4-4e9c-8ebc-ad42b448cabd",
+   "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+   "resolved_layers": [
+    {
+     "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+     "kind": "presentation"
+    },
+    {
+     "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+     "kind": "declared_source"
+    }
+   ],
+   "path_stopped_by": "CAPABILITY_UNAVAILABLE",
+   "receipts": [
+    {
+     "probe": "semantic_dax",
+     "execution_surface": {
+      "engine": "POWER_BI_DAX",
+      "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+      "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+     },
+     "identity_role": "NATIVE_READER",
+     "started_utc": "2026-09-26T01:21:55.470730+00:00",
+     "finished_utc": "2026-09-26T01:22:37.870105+00:00",
+     "status": "REACHABLE",
+     "stage": "complete",
+     "probe_status": "OBSERVED",
+     "reason": null,
+     "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+     "tool": "bounded_dax",
+     "receipt_id": "1679f8b0-e718-4ac5-bdc3-19817602a86d",
+     "request_hash": "0be35ae9e9313c6f6f71b766e91d437d5e5205cb85c901560a863bdd62d646e9",
+     "completeness": "COMPLETE_RESPONSE",
+     "returned_rows": 1
+    },
+    {
+     "probe": "source_sql",
+     "execution_surface": {
+      "engine": "AZURE_SQL",
+      "connection": "sql://sql-orderops-9696025.database.windows.net/ordersops",
+      "object": "app.inventory_products_e1b8e1"
+     },
+     "identity_role": "SOURCE_READER",
+     "started_utc": "2026-09-26T01:22:37.870174+00:00",
+     "finished_utc": "2026-09-26T01:23:37.558654+00:00",
+     "status": "REACHABLE",
+     "stage": "complete",
+     "tool": "bounded_sql",
+     "object_asset_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1010102639",
+     "receipt_id": "1bc9c6b2-7018-4301-8425-86ab15d2a131",
+     "request_hash": "ad721fe09769bba8230bad4e009f929784a748670bab02775e80857abb62aa9e",
+     "read_status": "COMPLETED",
+     "error_type": null,
+     "sql_error_number": null,
+     "principal": "orderops_investigator",
+     "completeness": "COMPLETE_RESPONSE",
+     "returned_rows": 1,
+     "limitation": "Proves reader, transport and object permission only; no layer quantity was compiled."
+    },
+    {
+     "probe": "onelake_commit_metadata",
+     "execution_surface": {
+      "engine": "ONELAKE_DELTA_LOG",
+      "connection": "onelake://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "object": "movement_values"
+     },
+     "identity_role": "ISOLATED_METADATA",
+     "started_utc": "2026-09-26T01:23:37.559127+00:00",
+     "finished_utc": "2026-09-26T01:23:49.079706+00:00",
+     "status": "REACHABLE",
+     "stage": "complete",
+     "read_status": "AVAILABLE",
+     "error_type": null,
+     "latest_commit": "b0ab76f7-20c7-410e-90e4-2c4eb104059a/Tables/movement_values/_delta_log/00000000000000000000.json",
+     "operation": "WRITE",
+     "limitation": "Commit metadata only; no table data was read."
+    },
+    {
+     "probe": "onelake_table_data",
+     "execution_surface": {
+      "engine": "ONELAKE_DFS",
+      "connection": "onelake://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "object": "movement_values"
+     },
+     "identity_role": "ISOLATED_METADATA",
+     "started_utc": "2026-09-26T01:23:49.079789+00:00",
+     "finished_utc": "2026-09-26T01:23:49.081004+00:00",
+     "status": "UNAVAILABLE",
+     "stage": "listing",
+     "error_type": "ModuleNotFoundError",
+     "http_status": null
+    }
+   ],
+   "reachable": 3,
+   "distinct_reachable_surfaces": 3,
+   "cloud_reservations": 3,
+   "wall_seconds": 113.61,
+   "not_probed": [
+    {
+     "surface": "FABRIC_SQL_ANALYTICS_ENDPOINT",
+     "reason": "Out of scope: AADSTS65002 is an app-registration decision; see the recorded 2026-09-25 receipt."
+    }
+   ]
+  },
+  {
+   "attempt": "2",
+   "probe_session": "execution-surface-probe-20260926T012516Z",
+   "graded": "SURFACE_PROBE",
+   "note": "Table-data probe moved into an isolated subprocess reader; all four probes reachable.",
+   "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+   "model_revision": 2,
+   "context_id": "3136c3b6-91d4-4e9c-8ebc-ad42b448cabd",
+   "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+   "resolved_layers": [
+    {
+     "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+     "kind": "presentation"
+    },
+    {
+     "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+     "kind": "declared_source"
+    }
+   ],
+   "path_stopped_by": "CAPABILITY_UNAVAILABLE",
+   "receipts": [
+    {
+     "probe": "semantic_dax",
+     "execution_surface": {
+      "engine": "POWER_BI_DAX",
+      "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+      "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+     },
+     "identity_role": "NATIVE_READER",
+     "started_utc": "2026-09-26T01:25:17.385245+00:00",
+     "finished_utc": "2026-09-26T01:25:28.288967+00:00",
+     "status": "REACHABLE",
+     "stage": "complete",
+     "probe_status": "OBSERVED",
+     "reason": null,
+     "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+     "tool": "bounded_dax",
+     "receipt_id": "bd002032-26a5-47f0-847e-aa04ca187fbe",
+     "request_hash": "0be35ae9e9313c6f6f71b766e91d437d5e5205cb85c901560a863bdd62d646e9",
+     "completeness": "COMPLETE_RESPONSE",
+     "returned_rows": 1
+    },
+    {
+     "probe": "source_sql",
+     "execution_surface": {
+      "engine": "AZURE_SQL",
+      "connection": "sql://sql-orderops-9696025.database.windows.net/ordersops",
+      "object": "app.inventory_products_e1b8e1"
+     },
+     "identity_role": "SOURCE_READER",
+     "started_utc": "2026-09-26T01:25:28.289045+00:00",
+     "finished_utc": "2026-09-26T01:25:31.834296+00:00",
+     "status": "REACHABLE",
+     "stage": "complete",
+     "tool": "bounded_sql",
+     "object_asset_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1010102639",
+     "receipt_id": "d31938dd-81b7-434a-ad10-ba1e7a60760d",
+     "request_hash": "ad721fe09769bba8230bad4e009f929784a748670bab02775e80857abb62aa9e",
+     "read_status": "COMPLETED",
+     "error_type": null,
+     "sql_error_number": null,
+     "principal": "orderops_investigator",
+     "completeness": "COMPLETE_RESPONSE",
+     "returned_rows": 1,
+     "limitation": "Proves reader, transport and object permission only; no layer quantity was compiled."
+    },
+    {
+     "probe": "onelake_commit_metadata",
+     "execution_surface": {
+      "engine": "ONELAKE_DELTA_LOG",
+      "connection": "onelake://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "object": "movement_values"
+     },
+     "identity_role": "ISOLATED_METADATA",
+     "started_utc": "2026-09-26T01:25:31.834681+00:00",
+     "finished_utc": "2026-09-26T01:25:39.967448+00:00",
+     "status": "REACHABLE",
+     "stage": "complete",
+     "read_status": "AVAILABLE",
+     "error_type": null,
+     "latest_commit": "b0ab76f7-20c7-410e-90e4-2c4eb104059a/Tables/movement_values/_delta_log/00000000000000000000.json",
+     "operation": "WRITE",
+     "limitation": "Commit metadata only; no table data was read."
+    },
+    {
+     "probe": "onelake_table_data",
+     "execution_surface": {
+      "engine": "ONELAKE_DFS",
+      "connection": "onelake://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "object": "movement_values"
+     },
+     "identity_role": "ISOLATED_METADATA",
+     "started_utc": "2026-09-26T01:25:39.967507+00:00",
+     "finished_utc": "2026-09-26T01:25:51.821909+00:00",
+     "status": "REACHABLE",
+     "stage": "complete",
+     "listing_http_status": 200,
+     "data_files_listed": 1,
+     "header_http_status": 206,
+     "header_bytes_read": 4,
+     "parquet_magic_matches": true,
+     "limitation": "Data-file header only. No Delta snapshot was reconstructed, no row was decoded and no aggregate was computed; the listing is not the active file set."
+    }
+   ],
+   "reachable": 4,
+   "distinct_reachable_surfaces": 4,
+   "cloud_reservations": 5,
+   "wall_seconds": 34.437,
+   "not_probed": [
+    {
+     "surface": "FABRIC_SQL_ANALYTICS_ENDPOINT",
+     "reason": "Out of scope: AADSTS65002 is an app-registration decision; see the recorded 2026-09-25 receipt."
+    }
+   ]
+  }
+ ],
+ "inventory": [
+  {
+   "surface": "POWER_BI_DAX",
+   "status": "REACHABLE",
+   "evidence": "attempt 2 semantic_dax; also #234 sessions"
+  },
+  {
+   "surface": "AZURE_SQL app",
+   "status": "REACHABLE",
+   "evidence": "attempt 2 source_sql; #226 25 COMPLETED bounded_sql reads"
+  },
+  {
+   "surface": "ONELAKE_DELTA_LOG",
+   "status": "REACHABLE",
+   "evidence": "attempt 2 onelake_commit_metadata; #234 sessions 0837778d/7086fbda delta_commit AVAILABLE"
+  },
+  {
+   "surface": "FABRIC_SQL_ANALYTICS_ENDPOINT",
+   "status": "UNAVAILABLE",
+   "stage": "TOKEN_ACQUISITION",
+   "error_code": "AADSTS65002",
+   "evidence": "Recorded 2026-09-25T18:36:51Z receipt; deliberately not re-probed.",
+   "table_permission_established": false
+  },
+  {
+   "surface": "ONELAKE_DFS table data",
+   "status": "FILE_BYTES_REACHABLE",
+   "table_read_established": false,
+   "evidence": "attempt 2 onelake_table_data and pre-recorded probe: listing 200, 4-byte header 206 PAR1."
+  }
+ ],
+ "semantic_storage_mode": {
+  "all_partitions": "directLake",
+  "expression": "WarehouseSource",
+  "source": "retained model metadata, offline"
+ },
+ "usage_2026_09_26": {
+  "cloud_calls": 10,
+  "planner_calls": 0,
+  "input_characters": 0,
+  "all_settled": true
+ },
+ "not_established": [
+  "No lower-layer quantity compiled or compared.",
+  "SQL reader serves only Azure SQL app USER_TABLEs; the resolved declared_source layer is a lakehouse table.",
+  "OneLake table data not read as a table: no Delta log replay, no row decoded, no aggregate.",
+  "Fabric SQL endpoint table permission unknown."
+ ]
+}

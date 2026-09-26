@@ -22,6 +22,18 @@ analytics endpoint (`AADSTS65002`), so the active limit is
 `NO_INDEPENDENT_LOWER_READ`. No permission was changed, and no freeze or unfamiliar-
 domain acceptance pass is claimed.
 
+An [execution-surface inventory](docs/execution-surface-inventory.md) then probed
+which surfaces answer today, without changing the engine or any permission. Four
+distinct surfaces responded: the Power BI semantic model via DAX, Azure SQL `app`
+via the existing SQL reader, OneLake Delta commit metadata, and the first four
+bytes of a OneLake data file. The Fabric SQL endpoint was not re-probed. No
+lower-layer quantity was compiled or compared. The adapter's SQL reader
+(`execute_source`) is still never called, and it can reach only Azure SQL
+`app`, not the lakehouse table the process path resolves. The semantic model
+is Direct Lake over that lakehouse. Whether a OneLake-file read would count as
+independent, and whether the metadata identity may read rows, are open human
+decisions.
+
 The required three-run follow-up was launched after PR #235 merged, but all three
 attempts failed before intake because the harness command omitted its required
 `--environment` argument. They opened no sessions, made no provider or data calls,
