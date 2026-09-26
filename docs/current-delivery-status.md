@@ -6,6 +6,28 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Correction, 2026-09-26: the Fabric SQL endpoint is reachable.** Earlier text
+on this page says the endpoint is blocked on `AADSTS65002` and that the
+independent lower read is unavailable under the current authentication
+transport. That text is kept as written, but the blocker it describes no longer
+holds.
+- **What was established:** a SQL-audience token was issued through the
+  isolated Azure CLI profile that `scripts/fabric_sql_auth.py` uses, with no app
+  registration. The `gold_sql_endpoint` host accepted it and `SELECT 1` returned
+  1. `AADSTS65002` is specific to the Fabric CLI's MSAL client.
+- **Identity:** this was established only as tenant administrator
+  `admin@skynwhy.com`, not as a least-privilege reader. No table permission is
+  established.
+- **Database:** a connection naming no database opened `lh_investigator_bronze`,
+  not Gold.
+- **Endpoint IDs:** `701ab1fc…` and `77c49180…` remain unreconciled, and neither
+  has been reconciled with the earlier endpoint-comparison run `1cae5e66…`.
+
+**The open question is now which identity should hold this access, not whether
+the endpoint is reachable.** No engine change, permission change or new probe
+set followed. See the
+[inventory correction](execution-surface-inventory.md#correction-2026-09-26-fabric-sql-endpoint-reachable).
+
 **Current checkpoint: execution-surface inventory (work item 1).** Updated
 2026-09-26. The adapter stores `execute_source` but never calls it; this is
 confirmed from the code. A committed probe set

@@ -123,3 +123,41 @@ exercised. Both are human decisions under non-negotiable 8.
   `.local/execution-surface-inventory-20260925-attempt-2/` and
   `.local/reachable-boundary-20260925/`. The sealed DAX and SQL receipts are in
   the `flexible_diagnostics` table of the `unknown-domain-v4` catalog.
+
+## Correction 2026-09-26: Fabric SQL endpoint reachable
+
+The sections above say the Fabric SQL analytics endpoint is "Not reachable". They
+also say that resolving `AADSTS65002` needs a client-registration or consent
+change. Both statements are superseded; the original text is kept unchanged.
+
+What was established on 2026-09-26, with no app registration, identity or
+permission change:
+- **Token:** `az account get-access-token` for the `database.windows.net`
+  audience succeeded. It ran through the local Azure CLI with the isolated
+  profile `.local/azure-fabric-sql`, the one `scripts/fabric_sql_auth.py` uses,
+  signed in to the Fabric tenant `dff91047…`. `AADSTS65002` did not occur. That
+  error belongs to the Fabric CLI's MSAL client, not to the endpoint.
+- **Endpoint:** the `gold_sql_endpoint` host in `infra/fabric/environment.json`
+  accepted that token over an encrypted, read-only-intent connection, and
+  `SELECT 1` returned 1. The token was never printed or stored.
+
+What this does not establish:
+- **Identity:** it was established only as tenant administrator
+  `admin@skynwhy.com`, not as a least-privilege reader. No reader identity was
+  tested, and no table permission is established.
+- **Database:** the connection named no database and opened
+  `lh_investigator_bronze`, not the Gold lakehouse. Nothing was read from Gold.
+- **Endpoint IDs:** `701ab1fc…` (`environment.json`) and `77c49180…` (the
+  recorded failed probe, and the #234 declared connection) are unreconciled.
+  Neither has been reconciled with the earlier endpoint-comparison run
+  `1cae5e66…` (`docs/cross-layer-queries.md`), which is a run identifier, not an
+  endpoint.
+
+**The open question is now which identity should hold this access, not whether
+the endpoint is reachable.** That decision is for a human, under non-negotiable 8.
+
+An earlier token check that day ran against the default Azure CLI profile. That
+profile was signed in to a different tenant (`aeb4d0a9…`) with an account
+unrelated to this environment. A token was issued, but the endpoint was
+deliberately not contacted with it. Both checks have ledger rows. Their exact
+start times were not captured.

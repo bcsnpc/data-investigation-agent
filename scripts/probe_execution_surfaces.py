@@ -10,6 +10,13 @@ quantity or compares values.
 
 The Fabric SQL analytics endpoint is deliberately not probed (AADSTS65002 is an
 app-registration decision outside this probe set).
+
+Correction, 2026-09-26: the parenthetical above no longer holds. The endpoint
+accepted a SQL-audience token issued through the isolated Azure CLI profile,
+with no app registration. That was established only as the tenant administrator,
+not as a least-privilege reader. It remains outside this probe set until a human
+decides which identity should hold that access. See
+docs/execution-surface-inventory.md.
 """
 import argparse
 from contextlib import contextmanager
@@ -229,7 +236,7 @@ def main():
             'distinct_reachable_surfaces':len({json.dumps(s,sort_keys=True) for s in surfaces}),
             'cloud_reservations':counter[0],'usage_before':before,'usage_after':governor.snapshot(),
             'not_probed':[{'surface':'FABRIC_SQL_ANALYTICS_ENDPOINT',
-                           'reason':'Out of scope: AADSTS65002 is an app-registration decision; see the recorded 2026-09-25 receipt.'}]}
+                           'reason':'Out of scope: which identity may read the endpoint is an open human decision; see docs/execution-surface-inventory.md.'}]}
     (args.out/'surface-probe.json').write_text(json.dumps(record,indent=2),encoding='utf-8')
     print(json.dumps({'probe_session':identity,'reachable':record['reachable'],'cloud_reservations':counter[0],
                       'statuses':{r['probe']:r['status'] for r in receipts}}))

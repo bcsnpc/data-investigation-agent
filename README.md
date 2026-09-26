@@ -34,6 +34,24 @@ is Direct Lake over that lakehouse. Whether a OneLake-file read would count as
 independent, and whether the metadata identity may read rows, are open human
 decisions.
 
+**Correction, 2026-09-26.** Two statements above no longer hold: that the
+endpoint is blocked on `AADSTS65002`, and that `NO_INDEPENDENT_LOWER_READ` is the
+active limit for want of a token. The originals are kept as written. A
+SQL-audience token was issued through the isolated Azure CLI profile (the one
+`scripts/fabric_sql_auth.py` uses), with no app registration. The
+`gold_sql_endpoint` host accepted it and `SELECT 1` returned 1.
+- **Identity:** this was established only as tenant administrator
+  `admin@skynwhy.com`, not as a least-privilege reader. No table permission is
+  established.
+- **Database:** a connection naming no database opened `lh_investigator_bronze`,
+  not Gold.
+- **Endpoint IDs:** `701ab1fc…` and `77c49180…` remain unreconciled, and neither
+  has been reconciled with the earlier endpoint-comparison run `1cae5e66…`.
+
+The open question is now which identity should hold this access, not whether
+the endpoint is reachable. See the
+[inventory correction](docs/execution-surface-inventory.md#correction-2026-09-26-fabric-sql-endpoint-reachable).
+
 The required three-run follow-up was launched after PR #235 merged, but all three
 attempts failed before intake because the harness command omitted its required
 `--environment` argument. They opened no sessions, made no provider or data calls,
