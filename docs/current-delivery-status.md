@@ -6,7 +6,34 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Current checkpoint: same-surface boundary claim retracted; independent read unavailable.**
+**Current checkpoint: execution-surface inventory (work item 1).** Updated
+2026-09-26. The adapter stores `execute_source` but never calls it; this is
+confirmed from the code. A committed probe set
+(`scripts/probe_execution_surfaces.py`, `scripts/read_onelake_header.py`) found
+four distinct reachable surfaces:
+- Power BI DAX, through the adapter's own `evaluate()`.
+- Azure SQL `app`, through `bounded_sql` admission and the source transport.
+- OneLake Delta commit metadata, through the adapter's own `ingestion()`.
+- A 4-byte OneLake data-file header, read with the isolated metadata identity.
+
+The Fabric SQL endpoint was not re-probed; its recorded `AADSTS65002` stands.
+The first committed attempt failed on a harness defect (`ModuleNotFoundError`
+before any network call) and is preserved. An earlier unledgered OneLake probe
+is now recorded with its original timestamp.
+
+**Not established:** no lower-layer quantity was compiled or compared. The SQL
+reader serves only Azure SQL `app` user tables, while the resolved
+`declared_source` layer is a lakehouse table. OneLake table data was not read as
+a table: no Delta log replay, no decoded row, no aggregate. The semantic model is
+`directLake` over that lakehouse.
+
+Engine bytes unchanged (`unfrozen-e3b2724a5c50`); no freeze is invalidated. Usage:
+10 cloud reservations, 0 planner calls. See the
+[inventory](execution-surface-inventory.md) and
+[machine result](runs/execution-surface-inventory.json).
+
+### Previous checkpoint: same-surface boundary claim retracted; independent read unavailable
+
 PR #233 merged the #230 retraction, incomplete-definition guard and silent-fallback
 fixes after 1,078 local tests and six green CI checks. No planner context was added:
 recorded coverage remains 28 directory entries / 11 SQL objects / 15,971 characters.
