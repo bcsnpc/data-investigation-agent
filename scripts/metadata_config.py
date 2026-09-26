@@ -31,7 +31,7 @@ def load_config(path):
     keys(sql['auth'], ['mode', 'credential_file'])
     if sql['auth']['mode'] != 'dpapi_file':
         raise ValueError('Unsupported SQL authentication mode')
-    optional = [k for k in ('native_reader', 'sql_session', 'sql_reader') if k in fabric]
+    optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client') if k in fabric]
     keys(fabric, ['workspace_id', 'auth'] + optional)
     fabric['workspace_id'] = str(UUID(text(fabric['workspace_id'])))
     keys(fabric['auth'], ['mode', 'tenant_id', 'python'])
@@ -43,6 +43,13 @@ def load_config(path):
         profile(fabric['native_reader'])
         if fabric['native_reader']['tenant_id'] != fabric['auth']['tenant_id']:
             raise ValueError('Native reader and metadata tenant differ')
+    if 'xmla_client' in fabric:
+        # A second interface to the semantic surface, for specific failures only.
+        keys(fabric['xmla_client'], ['library'])
+        from fabric_sql_auth import profile_path
+        profile_path(fabric['xmla_client']['library'])
+        if 'native_reader' not in fabric:
+            raise ValueError('XMLA failure detail requires the native reader identity')
     for name in ('sql_session', 'sql_reader'):
         # Azure CLI SQL sessions: one account per isolated profile under .local/.
         if name in fabric:

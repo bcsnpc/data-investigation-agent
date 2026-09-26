@@ -5,14 +5,14 @@ layer, query, or next hop: it follows the returned path in order and stops on
 the first evidence-bound outcome. Values are compared only when an adapter says
 both quantities are comparable under the same declared scope.
 """
-from dataclasses import dataclass
+from dataclasses import dataclass,replace
 from typing import Protocol
 from .process_outcomes import ACTIONS,EVIDENCE_ROLES
 
 VERSION='process-debugging-v2'
 REQUIRED_CAPABILITIES=frozenset(('resolve_measure_path','evaluate_scoped_quantity'))
 OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','presentation_context',
-    'transformation_definition','job_history','ingestion','independent_lower_surface'))
+    'transformation_definition','job_history','ingestion','independent_lower_surface','failure_detail'))
 
 
 @dataclass(frozen=True)
@@ -26,6 +26,7 @@ class Probe:
     execution_surface: dict | None = None
     surface_report: dict | None = None   # the surface's own answer, never the client's belief
     surface_reportable: tuple = ()        # declared fields this surface is able to report
+    failure: dict | None = None           # why the probe is UNAVAILABLE, as specifically as known
 
 
 # An execution surface is established by the surface's own answer. The adapter
@@ -90,6 +91,42 @@ def surface_limit(entry):
     return 'Unattested surface field '+entry['field']+' on '+str(entry['layer'])+': the surface did not report it.'
 
 
+def refine_failure(adapter, available, layer, probe):
+    """Prefer the most specific failure the surface can give.
+
+    A surface may report a failure only generically through the interface that
+    was read. When the adapter marks a failure GENERIC and declares
+    `failure_detail`, the engine asks it for a more specific failure from
+    another interface to the same surface. Refinement never changes the status:
+    an UNAVAILABLE probe stays UNAVAILABLE. It only replaces a generic reason
+    with the most specific one obtained, and keeps both.
+    """
+    failure=probe.failure
+    if probe.status!='UNAVAILABLE' or not isinstance(failure,dict) or failure.get('specificity')!='GENERIC':
+        return probe
+    if 'failure_detail' not in available:
+        return replace(probe,failure=dict(failure,refinement='NOT_DECLARED'))
+    try:
+        detail=adapter.failure_detail(layer,probe)
+    except Exception as exc:
+        return replace(probe,failure=dict(failure,refinement='FAILED',refinement_error_type=type(exc).__name__))
+    if not isinstance(detail,dict) or detail.get('specificity')!='SPECIFIC' or not detail.get('codes'):
+        return replace(probe,failure=dict(failure,refinement='NO_SPECIFIC_FAILURE',
+                                          refinement_detail=detail if isinstance(detail,dict) else None))
+    specific=', '.join(str(c) for c in detail['codes'])
+    reason=(probe.reason or 'The surface reported a generic failure.')+' Most specific failure via '+str(
+        detail.get('interface') or 'another interface')+': '+specific+'.'
+    return replace(probe,reason=reason,failure=dict(failure,refinement='OBTAINED',most_specific=detail))
+
+
+def _failure_entry(probe):
+    failure=probe.failure or {}
+    specific=failure.get('most_specific') or {}
+    return {'layer':probe.layer,'reason':probe.reason,'interface':failure.get('interface'),
+            'generic_codes':failure.get('codes',[]),'refinement':failure.get('refinement'),
+            'specific_interface':specific.get('interface'),'specific_codes':specific.get('codes',[])}
+
+
 def _surface_key(surface):
     if not isinstance(surface,dict):return None
     required=('engine','connection','object')
@@ -127,7 +164,7 @@ def _observation(item, *roles):
 
 
 def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline=None,
-            roles=None, missing_capability=None, explanation=None, skipped_steps=(),capabilities=()):
+            roles=None, missing_capability=None, explanation=None, skipped_steps=(),capabilities=(),failures=()):
     evidence_ids=[o['id'] for o in observations if o.get('id')]
     role_refs={role:[] for role in EVIDENCE_ROLES}
     for role in roles or ():
@@ -167,9 +204,11 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                 'process':process},
             '_observations':observations,
             'business_output':{'conclusion':explanation or outcome.replace('_',' ').title(),
+                               'failures':list(failures),
                                'unattested_surface_fields':unattested,
                                'skipped_steps':list(skipped_steps)},
-            'technical_output':{'queries':[{'evidence_id':o['id'],'query':o['query']}
+            'technical_output':{'failures':list(failures),
+                                'queries':[{'evidence_id':o['id'],'query':o['query']}
                                for o in observations if o.get('query')],
                                 'visibility_boundary':process['visibility_boundary'],
                                 'unattested_surface_fields':unattested,
@@ -184,7 +223,12 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
 def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=None):
     """Run the vertical procedure over any discovered path length."""
     available=frozenset(adapter.capabilities())
-    def answer(*args,**kwargs):return _answer(*args,capabilities=available,**kwargs)
+    failures=[]
+    def answer(*args,**kwargs):return _answer(*args,capabilities=available,failures=failures,**kwargs)
+    def read(layer):
+        probe=refine_failure(adapter,available,layer,attest(adapter.evaluate(layer,measure_id,scope)))
+        if probe.status=='UNAVAILABLE' and probe.failure:failures.append(_failure_entry(probe))
+        return probe
     eligible=applicability(adapter)
     if not eligible['eligible']:
         evidence=_observation({'id':'process-capability-gap','tool':'capability',
@@ -228,7 +272,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
 
     # Step 2: establish our presentation baseline, independent of the ticket's
     # stated number. Failure is explicit and later boundary claims retain it.
-    top=attest(adapter.evaluate(layers[0],measure_id,scope))
+    top=read(layers[0])
     if top.evidence:
         top_obs=_observation(top.evidence,'baseline','established')
         if top.query:top_obs['query']=top.query
@@ -253,7 +297,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     # and skipped; equality is exact on adapter-normalized values.
     upper=top;verified_boundaries=0;last_verified=top.layer;chain_connected=top.status=='OBSERVED';gaps=[]
     for index,lower_layer in enumerate(layers[1:],start=1):
-        lower=attest(adapter.evaluate(lower_layer,measure_id,scope))
+        lower=read(lower_layer)
         if lower.evidence:
             obs=_observation(lower.evidence,'baseline','established')
             if lower.query:obs['query']=lower.query

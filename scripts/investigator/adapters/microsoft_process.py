@@ -11,11 +11,14 @@ from ..process_debugging import Probe
 
 
 SURFACE_IDENTITY='surface_identity'
+# Service errors this surface reports only generically through Execute Queries.
+# The same model's XMLA interface can expose the underlying failure.
+GENERIC_SERVICE_ERRORS=frozenset(('DatasetExecuteQueriesError',))
 
 
 class MicrosoftProcessAdapter:
     def __init__(self,store,config,model,execute_native,execute_source,judge_definition=None,meter_read=None,
-                 read_ingestion=None,lower_surface=None):
+                 read_ingestion=None,lower_surface=None,read_failure_detail=None):
         self.store,self.config,self.model=store,config,model
         self.execute_native,self.execute_source=execute_native,execute_source
         self.judge_definition=judge_definition
@@ -24,6 +27,9 @@ class MicrosoftProcessAdapter:
         # Session state of an independent lower surface, established by the
         # caller before the run. Absent or not READY means undeclared.
         self.lower_surface=lower_surface
+        # Another interface to the semantic surface, used only to obtain a more
+        # specific failure than Execute Queries reports. Absent means undeclared.
+        self.read_failure_detail=read_failure_detail
         self._paths={}
 
     def capabilities(self):
@@ -31,6 +37,7 @@ class MicrosoftProcessAdapter:
         if self.judge_definition is not None:result.add('transformation_definition')
         if self.read_ingestion is not None:result.add('ingestion')
         if (self.lower_surface or {}).get('status')=='READY':result.add('independent_lower_surface')
+        if self.read_failure_detail is not None:result.add('failure_detail')
         return result
 
     def capability_gaps(self):
@@ -40,6 +47,8 @@ class MicrosoftProcessAdapter:
             result['ingestion']='No isolated metadata transport is configured for ingestion history.'
         if self.judge_definition is None:
             result['transformation_definition']='No governed definition-judgment provider is configured.'
+        if self.read_failure_detail is None:
+            result['failure_detail']='No second interface to the semantic surface is configured for failure detail.'
         surface=self.lower_surface or {}
         if surface.get('status')!='READY':
             result['independent_lower_surface']=(
@@ -209,8 +218,14 @@ class MicrosoftProcessAdapter:
         execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
         result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
         if result['status']!='COMPLETED':
+            body=result.get('result') or {};code=body.get('service_error_code')
+            failure={'interface':'EXECUTE_QUERIES','receipt_id':result.get('id'),'read_status':result['status'],
+                     'error_type':body.get('error_type'),'http_status':body.get('http_status'),
+                     'codes':[code] if isinstance(code,str) else [],
+                     'specificity':('GENERIC' if code in GENERIC_SERVICE_ERRORS else
+                                    'UNCERTAIN' if result['status']=='INTERRUPTED' else 'SPECIFIC')}
             return Probe('UNAVAILABLE',layer['id'],reason='The presentation reader could not establish a baseline.',
-                         query=query,execution_surface=semantic_surface)
+                         query=query,execution_surface=semantic_surface,failure=failure)
         rows=result['result']['rows'];value=rows[0] if len(rows)==1 else rows
         report=result['result'].get('surface_report')
         definition_check=layer.get('kind')=='declared_source'
@@ -222,6 +237,20 @@ class MicrosoftProcessAdapter:
             value=value,query=query,
             reason='NO_INDEPENDENT_LOWER_READ' if definition_check else None,
             execution_surface=semantic_surface,surface_report=report,surface_reportable=('identity',))
+
+    def failure_detail(self,layer,probe):
+        """Re-issue the failed query through XMLA to obtain the surface's specific error."""
+        context=context_search.latest(self.store) or {}
+        workspace=next((a['name'] for a in context.get('assets',[])
+                        if a.get('kind')=='Workspace' and a.get('id')=='fabric://'+self.model['workspace']),None)
+        if not workspace or not probe.query:
+            return {'interface':'XMLA','specificity':'GENERIC','codes':[],'status':'NOT_ADDRESSABLE'}
+        request={'workspace_name':workspace,'model_name':self.model['name'],'query':probe.query}
+        execute=lambda:self.read_failure_detail(request)
+        result=self.meter_read('xmla_failure',execute) if self.meter_read else execute()
+        codes=[c for c in (result.get('codes') or []) if isinstance(c,str)]
+        return {'interface':'XMLA','status':result.get('status'),'codes':codes,
+                'specificity':'SPECIFIC' if codes else 'GENERIC','error_type':result.get('error_type')}
 
     def presentation_context(self,boundary,scope):
         from report_slicer_context import assess as assess_slicers

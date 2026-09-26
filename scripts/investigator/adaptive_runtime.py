@@ -483,10 +483,24 @@ class AdaptiveRuntime:
                 return result if not completed.returncode else {'status':'UNAVAILABLE','error_type':result.get('error_type','TransportError')}
             return meter_read('onelake_commit',execute)
 
+        def read_failure_detail(request):
+            def execute():
+                import subprocess
+                from metadata_config import ROOT
+                fabric=self.config['fabric']
+                payload=dict(request,tenant=fabric['auth']['tenant_id'],account=fabric['native_reader']['account'],
+                             library=fabric['xmla_client']['library'])
+                completed=subprocess.run([fabric['auth']['python'],str(ROOT/'scripts/read_xmla_failure.py')],
+                    input=encoded(payload),capture_output=True,text=True,encoding='utf-8',timeout=180)
+                try:return json.loads(completed.stdout)
+                except (ValueError,TypeError):return {'status':'UNAVAILABLE','error_type':'InvalidResponse','codes':[]}
+            return execute()
+
         adapter=MicrosoftProcessAdapter(self.store,self.config,model,
             self.runtime.native_transport,self.runtime.source_transport,
             judge_definition=judge if provider is not None else None,meter_read=meter_read,
-            read_ingestion=read_ingestion)
+            read_ingestion=read_ingestion,
+            read_failure_detail=read_failure_detail if self.config['fabric'].get('xmla_client') else None)
         path=adapter.resolve_path(state['envelope']['measure_id'])
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)
