@@ -6,6 +6,12 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: the OneLake grant was reverted.** Updated 2026-09-26 22:06
+UTC. The reader's `DefaultReader` membership on the Gold lakehouse was tried. It
+did not resolve the Direct Lake refusal, and it was removed, restoring the role
+exactly to its prior state. Nothing else changed. The refusal remains
+unexplained. See [Power BI reader rejection](power-bi-reader-rejection.md).
+
 **Current checkpoint: the Direct Lake refusal of the reader is unexplained.**
 Updated 2026-09-26 21:58 UTC.
 - **The test:** after a fresh reader sign-in (21:57:54 UTC), with the

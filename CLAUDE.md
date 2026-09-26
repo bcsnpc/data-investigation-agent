@@ -138,8 +138,8 @@ A PR that changes behaviour and does not update these is incomplete.
   it and the admin succeeds on the same models. Onset was between 01:25 and
   21:01 UTC on 2026-09-26, and the cause is not established. A fresh reader
   sign-in plus membership of the Gold lakehouse's `DefaultReader` OneLake role
-  (a single authorised grant, still in place) did not fix it. So live DAX
-  baselines as the reader are `UNAVAILABLE`.
+  did not fix it. That grant was reverted at 22:06 UTC, so the reader holds no
+  OneLake role membership. Live DAX baselines as the reader are `UNAVAILABLE`.
 - **No investigation has yet completed end to end.** The model's
   `judge_definition` call has never been invoked in a live run.
 - The Gold Fabric SQL analytics endpoint the process path needs (`77c49180…`,
