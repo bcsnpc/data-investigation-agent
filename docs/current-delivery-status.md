@@ -18,6 +18,21 @@ This is the authoritative current status; milestone pages retain historical evid
 
 See [specific failure](specific-failure.md).
 
+**Current checkpoint: the Direct Lake refusal has a reported root cause.** Updated
+2026-09-26. An independent XMLA investigation, reported by the account holder
+and not re-verified here, found the following:
+- **The cause:** the reader's password was reset at 20:42:20 UTC. Power BI's
+  service-side Direct Lake path still presents a grant for the reader issued on
+  2026-09-16, which fails with `AADSTS50173`.
+- **Why it looked generic:** `executeQueries` masks this as `0xC1450012`.
+- **Why re-signing did not help:** a fresh client sign-in does not replace the
+  stored grant.
+
+Corrected hypotheses: capacity, client session, and OneLake access were each
+wrong, and the dismissal of `AADSTS50173` was wrong. The service-side grant has
+not been renewed, so live DAX baselines as the reader remain `UNAVAILABLE`. See
+[Power BI reader rejection](power-bi-reader-rejection.md#root-cause-2026-09-26-a-stored-service-side-grant-invalidated-by-a-password-reset).
+
 **Current checkpoint: the OneLake grant was reverted.** Updated 2026-09-26 22:06
 UTC. The reader's `DefaultReader` membership on the Gold lakehouse was tried. It
 did not resolve the Direct Lake refusal, and it was removed, restoring the role
