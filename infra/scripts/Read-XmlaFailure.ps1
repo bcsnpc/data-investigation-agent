@@ -13,10 +13,13 @@ try {
     if ([string]::IsNullOrWhiteSpace($request.$field)) { throw "$field required" }
   }
   $stage='library'
-  Add-Type -Path $request.library
+  # Load lazily: eager Add-Type resolves every type, including ones that need
+  # optional dependencies this read never uses.
+  $assembly=[System.Reflection.Assembly]::LoadFrom($request.library)
+  $connectionType=$assembly.GetType('Microsoft.AnalysisServices.AdomdClient.AdomdConnection',$true)
   $stage='connect'
   $source='powerbi://api.powerbi.com/v1.0/myorg/'+$request.workspace_name
-  $connection=New-Object Microsoft.AnalysisServices.AdomdClient.AdomdConnection
+  $connection=[Activator]::CreateInstance($connectionType)
   $connection.ConnectionString="Data Source=$source;Initial Catalog=$($request.model_name);User ID=;Password=$($request.access_token)"
   $connection.Open()
   $stage='query'
@@ -27,8 +30,15 @@ try {
   $reader.Close()
   @{status='NO_ERROR';stage='complete'} | ConvertTo-Json -Compress
 } catch {
-  $messages=@(); $e=$_.Exception
-  while ($e) { $messages+=$e.Message; $e=$e.InnerException }
+  $messages=@(); $e=$_.Exception; $clientFailure=$false
+  while ($e) {
+    $messages+=$e.Message
+    # A client library that cannot load is not the surface's error.
+    if ($e -is [System.IO.FileNotFoundException] -or $e -is [System.IO.FileLoadException] -or
+        $e -is [System.Reflection.ReflectionTypeLoadException] -or $e -is [System.TypeLoadException]) { $clientFailure=$true }
+    $e=$e.InnerException
+  }
+  if ($clientFailure) { $stage='client' }
   $text=($messages -join ' | ')
   if ($text.Length -gt 8000) { $text=$text.Substring(0,8000) }
   @{status=if($stage -in 'connect','query'){'ERROR_CAPTURED'}else{'UNAVAILABLE'};stage=$stage;

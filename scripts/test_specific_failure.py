@@ -169,6 +169,13 @@ class XmlaTransportTests(unittest.TestCase):
         self.assertIn('Initial Catalog=', source)
         self.assertIn("'workspace_name','model_name','query','library'", source)
 
+    def test_library_is_loaded_lazily_and_client_failures_are_not_surface_errors(self):
+        source = (ROOT/'infra/scripts/Read-XmlaFailure.ps1').read_text(encoding='utf-8-sig')
+        self.assertNotIn('Add-Type -Path', source)
+        self.assertIn('Assembly]::LoadFrom', source)
+        self.assertIn("$stage='client'", source)
+        self.assertIn("{'ERROR_CAPTURED'}else{'UNAVAILABLE'}", source)
+
 
 if __name__ == '__main__':
     unittest.main()
