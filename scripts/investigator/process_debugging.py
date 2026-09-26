@@ -25,6 +25,7 @@ class Probe:
     query: str | None = None
     execution_surface: dict | None = None
     surface_report: dict | None = None   # the surface's own answer, never the client's belief
+    surface_reportable: tuple = ()        # declared fields this surface is able to report
 
 
 # An execution surface is established by the surface's own answer. The adapter
@@ -33,20 +34,25 @@ class Probe:
 SURFACE_REPORT_REQUIRED=('identity',)
 
 
-def attest_surface(declared, report):
-    """Compare a declared execution surface with the surface's self-report."""
+def attest_surface(declared, report, reportable=()):
+    """Compare a declared execution surface with the surface's self-report.
+
+    Every field the surface is able to report must be reported; a field it
+    cannot report stays unattested and is carried into every claim's limits.
+    """
+    required=sorted(set(SURFACE_REPORT_REQUIRED)|set(reportable or ()))
     if not isinstance(declared,dict) or not isinstance(declared.get('identity'),str) or not declared['identity']:
-        return {'status':'IDENTITY_NOT_DECLARED','reason':'SURFACE_IDENTITY_NOT_DECLARED',
+        return {'status':'IDENTITY_NOT_DECLARED','reason':'SURFACE_IDENTITY_NOT_DECLARED','required_fields':required,
                 'contradictions':[],'attested_fields':[],'unattested_fields':[]}
     if (not isinstance(report,dict) or not report
             or any(not isinstance(k,str) or not isinstance(v,str) or not v for k,v in report.items())
-            or any(k not in report for k in SURFACE_REPORT_REQUIRED)):
-        return {'status':'MISSING','reason':'SURFACE_SELF_REPORT_MISSING',
+            or any(k not in report for k in required)):
+        return {'status':'MISSING','reason':'SURFACE_SELF_REPORT_MISSING','required_fields':required,
                 'contradictions':[],'attested_fields':[],'unattested_fields':sorted(declared)}
     contradictions=[{'field':k,'declared':declared.get(k),'reported':v} for k,v in sorted(report.items())
                     if not isinstance(declared.get(k),str) or declared[k].casefold()!=v.casefold()]
     return {'status':'CONTRADICTED' if contradictions else 'MATCHED',
-            'reason':'SURFACE_SELF_REPORT_CONTRADICTS_DECLARED' if contradictions else None,
+            'reason':'SURFACE_SELF_REPORT_CONTRADICTS_DECLARED' if contradictions else None,'required_fields':required,
             'contradictions':contradictions,'attested_fields':sorted(set(report)&set(declared)),
             'unattested_fields':sorted(set(declared)-set(report))}
 
@@ -54,13 +60,34 @@ def attest_surface(declared, report):
 def attest(probe):
     """A probe that claims a surface is observed only if the surface agrees."""
     if probe.evidence is None or probe.status=='UNAVAILABLE':return probe
-    result=attest_surface(probe.execution_surface,probe.surface_report)
+    result=attest_surface(probe.execution_surface,probe.surface_report,probe.surface_reportable)
     evidence=dict(probe.evidence,surface_report=probe.surface_report,surface_attestation=result)
     if result['status']=='MATCHED':
         return Probe(probe.status,probe.layer,evidence,probe.value,probe.reason,probe.query,
-                     probe.execution_surface,probe.surface_report)
+                     probe.execution_surface,probe.surface_report,probe.surface_reportable)
+    # Deliberate: a failed attestation outranks every other status. A probe that
+    # was NOT_COMPARABLE and also untrusted is reported as untrusted, and its
+    # prior status is kept in the evidence so the distinction is not lost.
+    evidence['status_before_attestation']=probe.status
     return Probe('UNAVAILABLE',probe.layer,evidence,None,result['reason'],probe.query,
-                 probe.execution_surface,probe.surface_report)
+                 probe.execution_surface,probe.surface_report,probe.surface_reportable)
+
+
+def unattested_surface_fields(observations):
+    """Every field of a compared surface that its surface did not report."""
+    result=[]
+    for o in observations:
+        if o.get('tool')!='process' or o.get('comparison_status')!='CROSS_SURFACE_VERIFIED':continue
+        for side in ('upper','lower'):
+            attestation=o.get(side+'_surface_attestation') or {}
+            for field in attestation.get('unattested_fields',[]):
+                entry={'layer':o.get(side+'_layer'),'field':field,'evidence_id':o.get(side+'_evidence_id')}
+                if entry not in result:result.append(entry)
+    return result
+
+
+def surface_limit(entry):
+    return 'Unattested surface field '+entry['field']+' on '+str(entry['layer'])+': the surface did not report it.'
 
 
 def _surface_key(surface):
@@ -121,11 +148,13 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
     not_comparable=[{'upper_layer':o.get('upper_layer'),'lower_layer':o.get('lower_layer'),
                      'reason':o.get('reason')} for o in observations
                     if o.get('comparison_status') in ('NOT_COMPARABLE','WITHIN_LAYER_CHECK')]
+    unattested=unattested_surface_fields(observations)
     return {'classification':outcome,'terminating_step':step,
             'claim':explanation or outcome.replace('_',' ').title(),
             'evidence_ids':evidence_ids,
             'alternatives':['A different declared scope could change the comparison.'],
-            'limits':[f'Checked through {deepest}; stopped because {stopped_by.lower().replace("_"," ")}.'],
+            'limits':[f'Checked through {deepest}; stopped because {stopped_by.lower().replace("_"," ")}.']
+                     +[surface_limit(u) for u in unattested],
             'support':{'mechanism':explanation or 'The deterministic process procedure matched this outcome.',
                 'mechanism_evidence_ids':evidence_ids[-2:],
                 'intent_dependency':'NOT_REQUIRED',
@@ -138,10 +167,12 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                 'process':process},
             '_observations':observations,
             'business_output':{'conclusion':explanation or outcome.replace('_',' ').title(),
+                               'unattested_surface_fields':unattested,
                                'skipped_steps':list(skipped_steps)},
             'technical_output':{'queries':[{'evidence_id':o['id'],'query':o['query']}
                                for o in observations if o.get('query')],
                                 'visibility_boundary':process['visibility_boundary'],
+                                'unattested_surface_fields':unattested,
                                 'skipped_steps':list(skipped_steps),
                                 'capabilities_declared':sorted(set(capabilities)),
                                 'boundary_summary':{'resolved_boundaries':len(comparisons),
@@ -267,7 +298,9 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             'upper_evidence_id':upper.evidence.get('id') if upper.evidence else None,
             'lower_evidence_id':lower.evidence.get('id') if lower.evidence else None,
             'upper_execution_surface':upper.execution_surface,
-            'lower_execution_surface':lower.execution_surface},'comparison',
+            'lower_execution_surface':lower.execution_surface,
+            'upper_surface_attestation':(upper.evidence or {}).get('surface_attestation'),
+            'lower_surface_attestation':(lower.evidence or {}).get('surface_attestation')},'comparison',
             *(['flow_consistency'] if chain_connected and upper.value==lower.value else []))
         observations.append(comparison)
         if upper.value==lower.value:

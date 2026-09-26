@@ -43,7 +43,8 @@ class MicrosoftProcessAdapter:
         surface=self.lower_surface or {}
         if surface.get('status')!='READY':
             result['independent_lower_surface']=(
-                'Sign-in required for '+surface['account']+' in profile '+surface['profile']+'.'
+                'Sign-in required for '+str(surface.get('account') or 'the configured account')
+                +' in profile '+str(surface.get('profile') or 'the configured profile')+'.'
                 if surface.get('status')=='SIGN_IN_REQUIRED' else
                 'The configured lower-surface profile holds a different account or tenant.'
                 if surface.get('status')=='ACCOUNT_MISMATCH' else
@@ -220,7 +221,7 @@ class MicrosoftProcessAdapter:
             'test_purpose':'CHECK_DECLARED_SOURCE_DEFINITION' if definition_check else 'ESTABLISH_BASELINE'},
             value=value,query=query,
             reason='NO_INDEPENDENT_LOWER_READ' if definition_check else None,
-            execution_surface=semantic_surface,surface_report=report)
+            execution_surface=semantic_surface,surface_report=report,surface_reportable=('identity',))
 
     def presentation_context(self,boundary,scope):
         from report_slicer_context import assess as assess_slicers
