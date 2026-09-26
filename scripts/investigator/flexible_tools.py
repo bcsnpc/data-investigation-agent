@@ -160,6 +160,9 @@ def run(store,plan,config,tool,execute,*,receipt_id=None):
     except Exception as exc:
         status='HELD' if isinstance(exc,Conflict) else 'INTERRUPTED' if isinstance(exc,(TimeoutError,subprocess.TimeoutExpired)) else 'FAILED'
         result={'error_type':type(exc).__name__,'cause_verified':False}
+        # A service rejection carries its HTTP status and error code, never its body.
+        if type(getattr(exc,'http_status',None)) is int:result['http_status']=exc.http_status
+        if isinstance(getattr(exc,'service_error_code',None),str):result['service_error_code']=exc.service_error_code
         if tool=='bounded_sql':
             from .source_diagnostics import connection_attempts
             if type(getattr(exc,'error_number',None)) is int:result['error_number']=exc.error_number

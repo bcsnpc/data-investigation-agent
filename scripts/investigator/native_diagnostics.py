@@ -164,6 +164,9 @@ def run(store,plan,execute,*,receipt_id=None):
         status=('HELD' if isinstance(exc,Conflict) else
                 'INTERRUPTED' if isinstance(exc,(TimeoutError,subprocess.TimeoutExpired)) else 'FAILED')
         result={'error_type':type(exc).__name__,'snapshot_comparable':False,'root_cause_verified':False}
+        # A service rejection carries its HTTP status and error code, never its body.
+        if type(getattr(exc,'http_status',None)) is int:result['http_status']=exc.http_status
+        if isinstance(getattr(exc,'service_error_code',None),str):result['service_error_code']=exc.service_error_code
     with store.connect() as db:
         db.execute('UPDATE native_diagnostics SET status=?,result=? WHERE id=?',(status,encoded(result),identity))
         from .receipt_integrity import seal

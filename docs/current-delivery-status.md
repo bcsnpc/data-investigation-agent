@@ -6,6 +6,17 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: native service rejections are deterministic.** Updated
+2026-09-26.
+- **4xx:** a Power BI HTTP 4xx is recorded as `FAILED`, with its HTTP status
+  and service error code. It is not `INTERRUPTED`/`TimeoutError`, and it is not
+  metered as possibly consumed.
+- **Still uncertain:** a 5xx, a transport failure or a timeout.
+
+Engine bytes changed: `unfrozen-6c12396db7d5`, from `main` at `eea80b2`. No run
+was performed. See
+[surface self-report](surface-self-report.md#update-2026-09-26-a-service-rejection-is-no-longer-reported-as-uncertain).
+
 **Current checkpoint: surface self-report (item 2a).** Updated 2026-09-26.
 **Engine bytes changed:** `unfrozen-e3b2724a5c50` becomes `unfrozen-a841e4860b0a`.
 No freeze existed.
