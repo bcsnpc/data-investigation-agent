@@ -186,6 +186,12 @@ class CapabilityTests(unittest.TestCase):
         gap = self.adapter({'status': 'SIGN_IN_REQUIRED', 'account': 'a@b.c', 'profile': '.local/p'}).capability_gaps()
         self.assertIn('a@b.c', gap['independent_lower_surface'])
 
+    def test_gap_report_never_crashes_on_a_partial_session_status(self):
+        for surface in ({'status': 'SIGN_IN_REQUIRED'}, {'status': 'SIGN_IN_REQUIRED', 'account': 'a@b.c'},
+                        {'status': 'SIGN_IN_REQUIRED', 'profile': '.local/p'}):
+            gap = self.adapter(surface).capability_gaps()['independent_lower_surface']
+            self.assertIn('Sign-in required', gap)
+
 
 class ConfigTests(unittest.TestCase):
     def test_reader_and_session_profiles_must_differ(self):

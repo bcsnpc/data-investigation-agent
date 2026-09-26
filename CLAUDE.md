@@ -150,10 +150,16 @@ A PR that changes behaviour and does not update these is incomplete.
   persists for that reason, not because of authentication. The Fabric CLI client
   still fails with `AADSTS65002`. The "isolated metadata identity" is the tenant
   administrator (`admin@skynwhy.com`), so its receipts are admin receipts.
-- **Surface self-report is enforced** (`process_debugging.attest()`, item 2a). A
-  probe that claims a surface is `OBSERVED` only if the surface's own answer
-  includes an identity and contradicts nothing declared. Otherwise it is
-  `UNAVAILABLE`, with the missing report or the contradiction recorded.
+- **Surface self-report is enforced and consumed** (`process_debugging.attest()`).
+  - **Attestation:** a probe that claims a surface is `OBSERVED` only if the
+    surface's own answer includes an identity, reports every field the probe
+    declares it is able to report, and contradicts nothing declared. Otherwise
+    it is `UNAVAILABLE`, with the missing report or the contradiction recorded
+    and its prior status kept.
+  - **Consumption:** every field a compared surface could not report is named
+    in the claim's limits and in both outputs (`unattested_surface_fields`).
+    Outcome validation refuses a comparison without a `MATCHED` attestation on
+    both sides, or a claim that omits an unattested field.
   - **Fabric SQL:** answers with `SUSER_SNAME()`/`DB_NAME()`. Verified live
     once, as the reader, on `warehouse_gold_e1b8e1`.
   - **DAX:** answers identity only, via `USERPRINCIPALNAME()`; the model object
