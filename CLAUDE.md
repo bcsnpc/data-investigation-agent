@@ -135,13 +135,15 @@ A PR that changes behaviour and does not update these is incomplete.
   blocks network at socket level and matches requests byte-exactly.
 - **No investigation has yet completed end to end.** The model's
   `judge_definition` call has never been invoked in a live run.
-- The Fabric SQL analytics endpoint is reachable through the isolated Azure CLI
-  profile (`.local/azure-fabric-sql`, used by `scripts/fabric_sql_auth.py`). No
-  app registration is required. This was established only as the tenant
-  administrator, with a trivial `SELECT 1`. **Which identity should hold this
-  access is an open human decision.** No least-privilege reader has been tested,
-  and no table permission is established. The Fabric CLI client still fails with
-  `AADSTS65002`. The endpoint IDs `701ab1fc…` and `77c49180…` are unreconciled.
+- The Fabric SQL analytics endpoint the process path needs (`77c49180…`,
+  `warehouse_gold_e1b8e1` in workspace `149f8d99…`) has **not** been reached
+  over SQL by any identity. The Fabric CLI client fails with `AADSTS65002`. The
+  isolated Azure CLI profile (`.local/azure-fabric-sql`) got a token accepted
+  only by the *dev* workspace's endpoint (`701ab1fc…` in `09cea7db…`), and only
+  as the tenant administrator. The reader is `Viewer` in `149f8d99…` but
+  untested. Which identity should hold this access is an open human decision.
+  The "isolated metadata identity" is the tenant administrator
+  (`admin@skynwhy.com`), so its receipts are admin receipts.
 - Horizontal comparison, recurrence learning, declared business context and the
   known-issues register are **proposal-only**. Do not implement them
   opportunistically.

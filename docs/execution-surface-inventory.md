@@ -124,40 +124,59 @@ exercised. Both are human decisions under non-negotiable 8.
   `.local/reachable-boundary-20260925/`. The sealed DAX and SQL receipts are in
   the `flexible_diagnostics` table of the `unknown-domain-v4` catalog.
 
-## Correction 2026-09-26: Fabric SQL endpoint reachable
+## Correction 2026-09-26: Fabric SQL endpoint
 
-The sections above say the Fabric SQL analytics endpoint is "Not reachable". They
-also say that resolving `AADSTS65002` needs a client-registration or consent
-change. Both statements are superseded; the original text is kept unchanged.
+The sections above say the Fabric SQL analytics endpoint is "Not reachable", and
+that resolving `AADSTS65002` needs a client-registration or consent change. That
+text is kept unchanged. `AADSTS65002` belongs to the Fabric CLI's client
+(`5814bfb4…`), not to the endpoint.
 
-What was established on 2026-09-26, with no app registration, identity or
+**What was established on 2026-09-26,** with no app registration, identity or
 permission change:
 - **Token:** `az account get-access-token` for the `database.windows.net`
-  audience succeeded. It ran through the local Azure CLI with the isolated
-  profile `.local/azure-fabric-sql`, the one `scripts/fabric_sql_auth.py` uses,
-  signed in to the Fabric tenant `dff91047…`. `AADSTS65002` did not occur. That
-  error belongs to the Fabric CLI's MSAL client, not to the endpoint.
+  audience succeeded. It ran through the Azure CLI client (`04b07795…`) with the
+  isolated profile `.local/azure-fabric-sql`, the one `scripts/fabric_sql_auth.py`
+  uses, as tenant administrator `admin@skynwhy.com` in tenant `dff91047…`. The
+  token was never printed or stored.
 - **Endpoint:** the `gold_sql_endpoint` host in `infra/fabric/environment.json`
-  accepted that token over an encrypted, read-only-intent connection, and
-  `SELECT 1` returned 1. The token was never printed or stored.
+  accepted it, and `SELECT 1` returned 1. That host
+  (`…-3ot44cpmmpyedhhqq4vg3rogdu…`) belongs to the dev workspace
+  `ws-investigator-dev` (`09cea7db…`). A connection naming no database opened
+  that workspace's `lh_investigator_bronze`.
 
-What this does not establish:
-- **Identity:** it was established only as tenant administrator
-  `admin@skynwhy.com`, not as a least-privilege reader. No reader identity was
-  tested, and no table permission is established.
-- **Database:** the connection named no database and opened
-  `lh_investigator_bronze`, not the Gold lakehouse. Nothing was read from Gold.
-- **Endpoint IDs:** `701ab1fc…` (`environment.json`) and `77c49180…` (the
-  recorded failed probe, and the #234 declared connection) are unreconciled.
-  Neither has been reconciled with the earlier endpoint-comparison run
-  `1cae5e66…` (`docs/cross-layer-queries.md`), which is a run identifier, not an
-  endpoint.
+That establishes only this: **admin can reach the dev workspace's SQL
+endpoint.** It establishes nothing about the endpoint the process path needs.
 
-**The open question is now which identity should hold this access, not whether
-the endpoint is reachable.** That decision is for a human, under non-negotiable 8.
+**Endpoint IDs**, resolved against the Fabric REST API on 2026-09-26:
+
+| ID | What it is |
+| --- | --- |
+| `77c49180…` | SQL analytics endpoint of `warehouse_gold_e1b8e1` in the investigation workspace `investigator-fixture-83139e71cbdf6a50` (`149f8d99…`). This is the Gold lakehouse the G path's `declared_source` resolves to. Host `i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com`, database `warehouse_gold_e1b8e1`. **No identity has reached it over SQL.** |
+| `701ab1fc…` | SQL analytics endpoint of `lh_investigator_gold` in `ws-investigator-dev` (`09cea7db…`), the endpoint named in `environment.json`. The accepted `SELECT 1` ran on this workspace's host. |
+| `1cae5e66…` | **Not a Fabric item** (the API returns 404). It is a run ID: `docs/cross-layer-queries.md` records endpoint-comparison evidence persisted in that run. |
+
+**Still open:**
+- **Reader access:** the reader `investigator-reader@skynwhy.com` (a user
+  account) is `Viewer` in `149f8d99…` and has no role in `09cea7db…`. Microsoft
+  documents that Viewer grants CONNECT and ReadData on every SQL endpoint in the
+  workspace. Whether the reader can actually reach `77c49180…` is untested, and
+  no explicit T-SQL `DENY` has been checked.
+- **Identity:** which identity should hold this access is a human decision,
+  under non-negotiable 8.
 
 An earlier token check that day ran against the default Azure CLI profile. That
-profile was signed in to a different tenant (`aeb4d0a9…`) with an account
-unrelated to this environment. A token was issued, but the endpoint was
-deliberately not contacted with it. Both checks have ledger rows. Their exact
-start times were not captured.
+profile was signed in to an unrelated tenant (`aeb4d0a9…`), and the endpoint was
+not contacted. Both checks have ledger rows; their exact start times were not
+captured.
+
+## Note 2026-09-26: the "isolated metadata identity" is the tenant administrator
+
+The sections above, merged in #237, are kept as written. They call the identity
+behind the OneLake commit-metadata and data-header receipts the "isolated
+metadata identity". That identity is `admin@skynwhy.com`: principal `23de217f…`,
+which holds the Admin role in workspace `149f8d99…`. It is the same account as
+the Fabric CLI session. Those receipts are therefore admin receipts. **The
+isolation the name implies is not established,** and the probe receipts'
+`identity_role: ISOLATED_METADATA` label should be read that way. The same
+applies to the earlier pre-recorded OneLake data probe and to the #234 Delta-
+metadata reads.

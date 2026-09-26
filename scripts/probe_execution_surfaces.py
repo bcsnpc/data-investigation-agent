@@ -11,12 +11,12 @@ quantity or compares values.
 The Fabric SQL analytics endpoint is deliberately not probed (AADSTS65002 is an
 app-registration decision outside this probe set).
 
-Correction, 2026-09-26: the parenthetical above no longer holds. The endpoint
-accepted a SQL-audience token issued through the isolated Azure CLI profile,
-with no app registration. That was established only as the tenant administrator,
-not as a least-privilege reader. It remains outside this probe set until a human
-decides which identity should hold that access. See
-docs/execution-surface-inventory.md.
+Correction, 2026-09-26: the parenthetical above describes the Fabric CLI client,
+not the endpoint. A tenant administrator's Azure CLI token was accepted only by
+the dev workspace's SQL endpoint. The investigation workspace's Gold endpoint is
+untested, and it remains outside this probe set until a human decides which
+identity should hold that access. The "isolated metadata identity" used below is
+the tenant administrator. See docs/execution-surface-inventory.md.
 """
 import argparse
 from contextlib import contextmanager

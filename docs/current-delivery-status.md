@@ -6,27 +6,34 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
-**Correction, 2026-09-26: the Fabric SQL endpoint is reachable.** Earlier text
-on this page says the endpoint is blocked on `AADSTS65002` and that the
-independent lower read is unavailable under the current authentication
-transport. That text is kept as written, but the blocker it describes no longer
-holds.
-- **What was established:** a SQL-audience token was issued through the
-  isolated Azure CLI profile that `scripts/fabric_sql_auth.py` uses, with no app
-  registration. The `gold_sql_endpoint` host accepted it and `SELECT 1` returned
-  1. `AADSTS65002` is specific to the Fabric CLI's MSAL client.
-- **Identity:** this was established only as tenant administrator
-  `admin@skynwhy.com`, not as a least-privilege reader. No table permission is
-  established.
-- **Database:** a connection naming no database opened `lh_investigator_bronze`,
-  not Gold.
-- **Endpoint IDs:** `701ab1fc…` and `77c49180…` remain unreconciled, and neither
-  has been reconciled with the earlier endpoint-comparison run `1cae5e66…`.
+**Correction, 2026-09-26: Fabric SQL endpoint.** Earlier text on this page says
+the endpoint is blocked on `AADSTS65002`. That text is kept as written; it
+describes the Fabric CLI client, not the endpoint.
+- **What was established:** a SQL-audience token was issued for tenant
+  administrator `admin@skynwhy.com` through the isolated Azure CLI profile, with
+  no app registration. The `infra/fabric/environment.json` endpoint accepted it.
+  That endpoint is `701ab1fc…` in the dev workspace `ws-investigator-dev`
+  (`09cea7db…`), and a connection naming no database opened
+  `lh_investigator_bronze`. So only admin reaching the dev workspace's SQL
+  endpoint is established.
+- **Not established:** nothing about `77c49180…`, the Gold endpoint
+  (`warehouse_gold_e1b8e1`) in investigation workspace `149f8d99…` that the
+  process path needs. No identity has reached it over SQL.
+- **Resolved IDs (Fabric REST, 2026-09-26):** `77c49180…` is the
+  `warehouse_gold_e1b8e1` endpoint in `149f8d99…`; `701ab1fc…` is the
+  `lh_investigator_gold` endpoint in `09cea7db…`; `1cae5e66…` is not a Fabric
+  item, but a run ID.
+- **Open:** whether the reader (`Viewer` in `149f8d99…`) can reach `77c49180…`,
+  and which identity should hold that access.
 
-**The open question is now which identity should hold this access, not whether
-the endpoint is reachable.** No engine change, permission change or new probe
-set followed. See the
-[inventory correction](execution-surface-inventory.md#correction-2026-09-26-fabric-sql-endpoint-reachable).
+See the
+[inventory correction](execution-surface-inventory.md#correction-2026-09-26-fabric-sql-endpoint).
+
+**Note, 2026-09-26: #237's "isolated metadata identity" is the tenant administrator.**
+The checkpoint below is kept as written. The identity behind its OneLake
+commit-metadata and data-header receipts is `admin@skynwhy.com` (principal
+`23de217f…`, workspace Admin), the same account as the Fabric CLI session.
+Those are admin receipts, and the isolation the name implies is not established.
 
 **Current checkpoint: execution-surface inventory (work item 1).** Updated
 2026-09-26. The adapter stores `execute_source` but never calls it; this is
