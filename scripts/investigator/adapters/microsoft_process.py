@@ -10,20 +10,27 @@ from ..model_context import assets
 from ..process_debugging import Probe
 
 
+SURFACE_IDENTITY='surface_identity'
+
+
 class MicrosoftProcessAdapter:
     def __init__(self,store,config,model,execute_native,execute_source,judge_definition=None,meter_read=None,
-                 read_ingestion=None):
+                 read_ingestion=None,lower_surface=None):
         self.store,self.config,self.model=store,config,model
         self.execute_native,self.execute_source=execute_native,execute_source
         self.judge_definition=judge_definition
         self.meter_read=meter_read
         self.read_ingestion=read_ingestion
+        # Session state of an independent lower surface, established by the
+        # caller before the run. Absent or not READY means undeclared.
+        self.lower_surface=lower_surface
         self._paths={}
 
     def capabilities(self):
         result={'resolve_measure_path','evaluate_scoped_quantity','presentation_context','job_history'}
         if self.judge_definition is not None:result.add('transformation_definition')
         if self.read_ingestion is not None:result.add('ingestion')
+        if (self.lower_surface or {}).get('status')=='READY':result.add('independent_lower_surface')
         return result
 
     def capability_gaps(self):
@@ -33,6 +40,14 @@ class MicrosoftProcessAdapter:
             result['ingestion']='No isolated metadata transport is configured for ingestion history.'
         if self.judge_definition is None:
             result['transformation_definition']='No governed definition-judgment provider is configured.'
+        surface=self.lower_surface or {}
+        if surface.get('status')!='READY':
+            result['independent_lower_surface']=(
+                'Sign-in required for '+surface['account']+' in profile '+surface['profile']+'.'
+                if surface.get('status')=='SIGN_IN_REQUIRED' else
+                'The configured lower-surface profile holds a different account or tenant.'
+                if surface.get('status')=='ACCOUNT_MISMATCH' else
+                'No independent lower surface is configured.')
         return result
 
     def resolve_declared_source(self,declaration):
@@ -166,29 +181,37 @@ class MicrosoftProcessAdapter:
 
     def evaluate(self,layer,measure_id,scope):
         measure=next(a for a in assets(self.model['context']) if a['id']==measure_id)
+        reader=((self.config or {}).get('fabric') or {}).get('native_reader') or {}
+        # The declared identity is what we intend to connect as; the surface's
+        # own USERPRINCIPALNAME() answer is what establishes it. Power BI does
+        # not report which model it served, so the object stays unattested.
         semantic_surface={'engine':'POWER_BI_DAX','connection':self.model['workspace'],
-                          'object':self.model['native_id']}
+                          'object':self.model['native_id'],'identity':reader.get('account')}
         name=measure['name'].replace(']',']]')
-        query=f'EVALUATE ROW("baseline", [{name}])'
+        identity=f',"{SURFACE_IDENTITY}",USERPRINCIPALNAME()'
+        query=f'EVALUATE ROW("baseline", [{name}]{identity})'
         if layer.get('kind')=='declared_source':
             if scope.get('filters'):
                 return Probe('NOT_COMPARABLE',layer['id'],reason='Declared source comparison does not yet translate filtered scope faithfully.')
             table=layer['semantic_table'].replace("'","''");column=layer['semantic_column'].replace(']',']]')
-            query=f'EVALUATE ROW("baseline", SUM(\'{table}\'[{column}]))'
+            query=f'EVALUATE ROW("baseline", SUM(\'{table}\'[{column}]){identity})'
         if scope.get('filters'):
             from ..native_diagnostics import build as build_native
             native_plan={'model_id':self.model['id'],'revision':self.model['revision'],
                 'context_id':self.model['context_id'],'measure_ids':[measure_id],
                 'filters':scope['filters'],'dimension_id':None,'include_dependencies':False}
-            query=build_native(self.model,native_plan)['query']
+            native=build_native(self.model,native_plan)['query'].removeprefix('EVALUATE ')
+            query='EVALUATE ADDCOLUMNS('+native+identity+')'
         plan={'model_id':self.model['id'],'revision':self.model['revision'],
-              'context_id':self.model['context_id'],'query':query,'max_rows':20}
+              'context_id':self.model['context_id'],'query':query,'max_rows':20,
+              'surface_report':{'identity':SURFACE_IDENTITY}}
         execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
         result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
         if result['status']!='COMPLETED':
             return Probe('UNAVAILABLE',layer['id'],reason='The presentation reader could not establish a baseline.',
                          query=query,execution_surface=semantic_surface)
         rows=result['result']['rows'];value=rows[0] if len(rows)==1 else rows
+        report=result['result'].get('surface_report')
         definition_check=layer.get('kind')=='declared_source'
         return Probe('NOT_COMPARABLE' if definition_check else 'OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
             'completeness':result['result']['completeness'],'values':rows,
@@ -197,7 +220,7 @@ class MicrosoftProcessAdapter:
             'test_purpose':'CHECK_DECLARED_SOURCE_DEFINITION' if definition_check else 'ESTABLISH_BASELINE'},
             value=value,query=query,
             reason='NO_INDEPENDENT_LOWER_READ' if definition_check else None,
-            execution_surface=semantic_surface)
+            execution_surface=semantic_surface,surface_report=report)
 
     def presentation_context(self,boundary,scope):
         from report_slicer_context import assess as assess_slicers

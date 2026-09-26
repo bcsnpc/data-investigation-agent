@@ -145,12 +145,24 @@ A PR that changes behaviour and does not update these is incomplete.
   - No table has been read.
   - No explicit `DENY` has been checked.
   - Viewer is broader than needed.
-  - `scripts/fabric_sql_auth.py` still hardcodes the admin account and profile.
 
   `evaluate()` still has no path to this endpoint, so `NO_INDEPENDENT_LOWER_READ`
   persists for that reason, not because of authentication. The Fabric CLI client
   still fails with `AADSTS65002`. The "isolated metadata identity" is the tenant
   administrator (`admin@skynwhy.com`), so its receipts are admin receipts.
+- **Surface self-report is enforced** (`process_debugging.attest()`, item 2a). A
+  probe that claims a surface is `OBSERVED` only if the surface's own answer
+  includes an identity and contradicts nothing declared. Otherwise it is
+  `UNAVAILABLE`, with the missing report or the contradiction recorded.
+  - **Fabric SQL:** answers with `SUSER_SNAME()`/`DB_NAME()`. Verified live
+    once, as the reader, on `warehouse_gold_e1b8e1`.
+  - **DAX:** answers identity only, via `USERPRINCIPALNAME()`; the model object
+    is not attested. Not yet verified live: on 2026-09-26 the Power BI surface
+    rejected even the unchanged baseline query (HTTP 400, Analysis Services
+    `0xC1450012`), so every DAX baseline is currently `UNAVAILABLE`.
+  - **SQL sessions:** `scripts/fabric_sql_auth.py` takes its account and profile
+    from configuration (`fabric.sql_session`, `fabric.sql_reader`) and never
+    falls back between them.
 - Horizontal comparison, recurrence learning, declared business context and the
   known-issues register are **proposal-only**. Do not implement them
   opportunistically.

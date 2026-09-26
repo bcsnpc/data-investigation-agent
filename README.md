@@ -78,6 +78,25 @@ Still not established:
 - **Admin still hardcoded:** `scripts/fabric_sql_auth.py` still hardcodes the
   admin account and profile. No code path uses the reader's token.
 
+**Correction, 2026-09-26 (item 2a).** The statement above that
+`scripts/fabric_sql_auth.py` hardcodes the admin account and profile is
+superseded; the original is kept. Both now come from configuration
+(`fabric.sql_session`, `fabric.sql_reader`). See
+[surface self-report](docs/surface-self-report.md).
+
+Item 2a adds an engine invariant: **an execution surface is established by the
+surface's own answer.** A probe whose surface does not report on itself, or whose
+report contradicts the declared surface, is `UNAVAILABLE`, never `OBSERVED`.
+- **Fabric SQL:** the Gold endpoint, as the least-privilege reader, reported
+  identity and database matching the declaration.
+- **DAX:** the DAX self-report (`USERPRINCIPALNAME()`) is verified only in
+  tests. During the probe, Power BI rejected even the unchanged baseline query
+  (HTTP 400, Analysis Services `0xC1450012`), so live DAX baselines are
+  currently `UNAVAILABLE`.
+
+No lower-layer quantity is compiled yet; that is item 2b. See the
+[surface self-report record](docs/surface-self-report.md).
+
 The required three-run follow-up was launched after PR #235 merged, but all three
 attempts failed before intake because the harness command omitted its required
 `--environment` argument. They opened no sessions, made no provider or data calls,
@@ -101,6 +120,10 @@ they read the wrong discovery environment. Their missing-binding and structural-
 limit conclusions are withdrawn. No freeze or unfamiliar-domain claim follows.
 
 ## What works today
+
+- Execution-surface self-report is enforced for every process probe. The Fabric
+  SQL analytics endpoint's self-report has been verified live once, as the
+  least-privilege reader. The DAX self-report is verified only in tests.
 
 - Related 100,000-order application data, Azure SQL source, deployed order portal,
   Fabric Bronze/Silver/Gold processing and native Power BI model/reports.

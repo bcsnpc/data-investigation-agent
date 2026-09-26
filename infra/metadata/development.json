@@ -15,6 +15,10 @@
       "mode": "fabric_cli",
       "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
       "python": ".local/fabric-cli-env/Scripts/python.exe"
+    },
+    "sql_session": {
+      "account": "admin@skynwhy.com",
+      "profile": ".local/azure-fabric-sql"
     }
   },
   "storage": { "database": ".local/metadata/inventory.sqlite" }
