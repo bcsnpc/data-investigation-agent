@@ -6,6 +6,35 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Correction, 2026-09-26: Fabric SQL endpoint.** Earlier text on this page says
+the endpoint is blocked on `AADSTS65002`. That text is kept as written; it
+describes the Fabric CLI client, not the endpoint.
+- **What was established:** a SQL-audience token was issued for tenant
+  administrator `admin@skynwhy.com` through the isolated Azure CLI profile, with
+  no app registration. The `infra/fabric/environment.json` endpoint accepted it.
+  That endpoint is `701ab1fc…` in the dev workspace `ws-investigator-dev`
+  (`09cea7db…`), and a connection naming no database opened
+  `lh_investigator_bronze`. So only admin reaching the dev workspace's SQL
+  endpoint is established.
+- **Not established:** nothing about `77c49180…`, the Gold endpoint
+  (`warehouse_gold_e1b8e1`) in investigation workspace `149f8d99…` that the
+  process path needs. No identity has reached it over SQL.
+- **Resolved IDs (Fabric REST, 2026-09-26):** `77c49180…` is the
+  `warehouse_gold_e1b8e1` endpoint in `149f8d99…`; `701ab1fc…` is the
+  `lh_investigator_gold` endpoint in `09cea7db…`; `1cae5e66…` is not a Fabric
+  item, but a run ID.
+- **Open:** whether the reader (`Viewer` in `149f8d99…`) can reach `77c49180…`,
+  and which identity should hold that access.
+
+See the
+[inventory correction](execution-surface-inventory.md#correction-2026-09-26-fabric-sql-endpoint).
+
+**Note, 2026-09-26: #237's "isolated metadata identity" is the tenant administrator.**
+The checkpoint below is kept as written. The identity behind its OneLake
+commit-metadata and data-header receipts is `admin@skynwhy.com` (principal
+`23de217f…`, workspace Admin), the same account as the Fabric CLI session.
+Those are admin receipts, and the isolation the name implies is not established.
+
 **Current checkpoint: execution-surface inventory (work item 1).** Updated
 2026-09-26. The adapter stores `execute_source` but never calls it; this is
 confirmed from the code. A committed probe set
