@@ -329,7 +329,11 @@ class DynamicTests(unittest.TestCase):
         self.model=self.store.list(True)[0];self.native_calls=[];self.sql_calls=[]
         def native(request):
             self.native_calls.append(request)
-            response={'results':[{'tables':[{'rows':[{'[value]':12}]}]}]}
+            row={'[value]':12}
+            if 'USERPRINCIPALNAME()' in request['query']:
+                # The surface answers who it served: the configured reader.
+                row['[surface_identity]']=self.config['fabric']['native_reader']['account']
+            response={'results':[{'tables':[{'rows':[row]}]}]}
             return dict(response,**{KEY:make(response,request,self.config['fabric']['native_reader'])})
         def source(request):
             self.sql_calls.append(request)

@@ -12,7 +12,7 @@ from .process_outcomes import ACTIONS,EVIDENCE_ROLES
 VERSION='process-debugging-v2'
 REQUIRED_CAPABILITIES=frozenset(('resolve_measure_path','evaluate_scoped_quantity'))
 OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','presentation_context',
-    'transformation_definition','job_history','ingestion'))
+    'transformation_definition','job_history','ingestion','independent_lower_surface'))
 
 
 @dataclass(frozen=True)
@@ -24,6 +24,43 @@ class Probe:
     reason: str | None = None
     query: str | None = None
     execution_surface: dict | None = None
+    surface_report: dict | None = None   # the surface's own answer, never the client's belief
+
+
+# An execution surface is established by the surface's own answer. The adapter
+# declares what it intended to reach; the surface reports who connected and to
+# what. How a surface answers is the adapter's concern; the engine only compares.
+SURFACE_REPORT_REQUIRED=('identity',)
+
+
+def attest_surface(declared, report):
+    """Compare a declared execution surface with the surface's self-report."""
+    if not isinstance(declared,dict) or not isinstance(declared.get('identity'),str) or not declared['identity']:
+        return {'status':'IDENTITY_NOT_DECLARED','reason':'SURFACE_IDENTITY_NOT_DECLARED',
+                'contradictions':[],'attested_fields':[],'unattested_fields':[]}
+    if (not isinstance(report,dict) or not report
+            or any(not isinstance(k,str) or not isinstance(v,str) or not v for k,v in report.items())
+            or any(k not in report for k in SURFACE_REPORT_REQUIRED)):
+        return {'status':'MISSING','reason':'SURFACE_SELF_REPORT_MISSING',
+                'contradictions':[],'attested_fields':[],'unattested_fields':sorted(declared)}
+    contradictions=[{'field':k,'declared':declared.get(k),'reported':v} for k,v in sorted(report.items())
+                    if not isinstance(declared.get(k),str) or declared[k].casefold()!=v.casefold()]
+    return {'status':'CONTRADICTED' if contradictions else 'MATCHED',
+            'reason':'SURFACE_SELF_REPORT_CONTRADICTS_DECLARED' if contradictions else None,
+            'contradictions':contradictions,'attested_fields':sorted(set(report)&set(declared)),
+            'unattested_fields':sorted(set(declared)-set(report))}
+
+
+def attest(probe):
+    """A probe that claims a surface is observed only if the surface agrees."""
+    if probe.evidence is None or probe.status=='UNAVAILABLE':return probe
+    result=attest_surface(probe.execution_surface,probe.surface_report)
+    evidence=dict(probe.evidence,surface_report=probe.surface_report,surface_attestation=result)
+    if result['status']=='MATCHED':
+        return Probe(probe.status,probe.layer,evidence,probe.value,probe.reason,probe.query,
+                     probe.execution_surface,probe.surface_report)
+    return Probe('UNAVAILABLE',probe.layer,evidence,None,result['reason'],probe.query,
+                 probe.execution_surface,probe.surface_report)
 
 
 def _surface_key(surface):
@@ -160,7 +197,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
 
     # Step 2: establish our presentation baseline, independent of the ticket's
     # stated number. Failure is explicit and later boundary claims retain it.
-    top=adapter.evaluate(layers[0],measure_id,scope)
+    top=attest(adapter.evaluate(layers[0],measure_id,scope))
     if top.evidence:
         top_obs=_observation(top.evidence,'baseline','established')
         if top.query:top_obs['query']=top.query
@@ -185,7 +222,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     # and skipped; equality is exact on adapter-normalized values.
     upper=top;verified_boundaries=0;last_verified=top.layer;chain_connected=top.status=='OBSERVED';gaps=[]
     for index,lower_layer in enumerate(layers[1:],start=1):
-        lower=adapter.evaluate(lower_layer,measure_id,scope)
+        lower=attest(adapter.evaluate(lower_layer,measure_id,scope))
         if lower.evidence:
             obs=_observation(lower.evidence,'baseline','established')
             if lower.query:obs['query']=lower.query

@@ -111,10 +111,10 @@ class OutcomeContractTests(unittest.TestCase):
 
 
 class Adapter:
-    def __init__(self,layers,values,*,not_comparable=(),explain=None,stopped='REACHED'):
+    def __init__(self,layers,values,*,not_comparable=(),explain=None,stopped='REACHED',reports=None):
         self.layers=[{'id':x} for x in layers];self.values=values
         self.not_comparable=set(not_comparable);self.explain=explain;self.stopped=stopped
-        self.evaluated=[]
+        self.evaluated=[];self.reports=reports or {}
     def capabilities(self):return {'resolve_measure_path','evaluate_scoped_quantity','presentation_freshness',
       'presentation_context','transformation_definition','job_history','ingestion'}
     def resolve_path(self,measure):return {'layers':self.layers,'stopped_by':self.stopped,
@@ -123,15 +123,61 @@ class Adapter:
     def evaluate(self,layer,measure,scope):
         self.evaluated.append(layer['id']);identity=layer['id']
         if identity in self.not_comparable:return Probe('NOT_COMPARABLE',identity,reason='No faithful translation')
+        report=self.reports.get(identity,{'identity':'reader','object':identity})
         return Probe('OBSERVED',identity,{'id':'read-'+identity,'tool':'probe'},self.values[identity],
                      query='READ '+identity,execution_surface={
-                         'engine':'test','connection':'connection-'+identity,'object':identity})
+                         'engine':'test','connection':'connection-'+identity,'object':identity,'identity':'reader'},
+                     surface_report=report)
     def presentation_context(self,boundary,scope):return {'explains':False}
     def transformation_definition(self,boundary):
         return {'explains':bool(self.explain),'explanation':'A retrieved rule accounts for the difference.',
                 'evidence':{'id':'definition','tool':'context'}} if self.explain else {'explains':False}
     def job_history(self,boundary):return {'status':'CURRENT'}
     def ingestion(self,path,scope):return {'status':'CURRENT'}
+
+
+class SurfaceSelfReportTests(unittest.TestCase):
+    """An execution surface is established by the surface's own answer."""
+    def test_missing_self_report_is_unavailable_not_observed(self):
+        adapter=Adapter(['top'],{'top':10},reports={'top':None})
+        result=vertical(adapter,'measure',{})
+        self.assertEqual(result['support']['process']['baseline_above']['status'],'NOT_ESTABLISHED')
+        self.assertEqual(result['support']['process']['baseline_above']['reason'],'SURFACE_SELF_REPORT_MISSING')
+
+    def test_contradicting_self_report_is_recorded_and_refused(self):
+        adapter=Adapter(['top','lower'],{'top':10,'lower':10},reports={'lower':{'identity':'administrator','object':'lower'}})
+        result=vertical(adapter,'measure',{})
+        self.assertNotEqual(result['classification'],'CONSISTENT_TO_BOUNDARY')
+        lower=next(o for o in result['_observations'] if o.get('id')=='read-lower')
+        self.assertEqual(lower['surface_attestation']['status'],'CONTRADICTED')
+        self.assertEqual(lower['surface_attestation']['contradictions'],
+                         [{'field':'identity','declared':'reader','reported':'administrator'}])
+        self.assertFalse(any(o.get('comparison_status')=='CROSS_SURFACE_VERIFIED' for o in result['_observations']))
+
+    def test_reported_object_must_match_the_declared_object(self):
+        adapter=Adapter(['top','lower'],{'top':10,'lower':10},reports={'lower':{'identity':'reader','object':'another-database'}})
+        result=vertical(adapter,'measure',{})
+        self.assertFalse(any(o.get('comparison_status')=='CROSS_SURFACE_VERIFIED' for o in result['_observations']))
+
+    def test_matching_self_report_keeps_the_probe_and_names_unattested_fields(self):
+        adapter=Adapter(['top','lower'],{'top':10,'lower':10})
+        result=vertical(adapter,'measure',{})
+        self.assertEqual(result['classification'],'CONSISTENT_TO_BOUNDARY')
+        top=next(o for o in result['_observations'] if o.get('id')=='read-top')
+        self.assertEqual(top['surface_attestation']['status'],'MATCHED')
+        self.assertEqual(top['surface_attestation']['unattested_fields'],['connection','engine'])
+
+    def test_undeclared_identity_cannot_be_attested(self):
+        from investigator.process_debugging import attest
+        probe=attest(Probe('OBSERVED','x',{'id':'e'},1,execution_surface={'engine':'e','connection':'c','object':'o'},
+                           surface_report={'identity':'reader'}))
+        self.assertEqual((probe.status,probe.reason),('UNAVAILABLE','SURFACE_IDENTITY_NOT_DECLARED'))
+        self.assertIsNone(probe.value)
+
+    def test_unavailable_and_evidence_free_probes_pass_through_unchanged(self):
+        from investigator.process_debugging import attest
+        for probe in (Probe('UNAVAILABLE','x',reason='r'),Probe('NOT_COMPARABLE','x',reason='r')):
+            self.assertIs(attest(probe),probe)
 
 
 class VerticalProcedureTests(unittest.TestCase):
@@ -195,11 +241,12 @@ class VerticalProcedureTests(unittest.TestCase):
 
     def test_single_execution_surface_cannot_satisfy_boundary_consistency(self):
         adapter=Adapter(['top','lower'],{'top':10,'lower':10})
-        same={'engine':'semantic','connection':'workspace','object':'model'}
+        same={'engine':'semantic','connection':'workspace','object':'model','identity':'reader'}
         original=adapter.evaluate
         def evaluate(layer,measure,scope):
             probe=original(layer,measure,scope)
-            return Probe(probe.status,probe.layer,probe.evidence,probe.value,probe.reason,probe.query,same)
+            return Probe(probe.status,probe.layer,probe.evidence,probe.value,probe.reason,probe.query,same,
+                         {'identity':'reader','object':'model'})
         adapter.evaluate=evaluate
         result=vertical(adapter,'measure',{})
         self.assertEqual(result['classification'],'NO_COMPARABLE_PATH')

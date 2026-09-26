@@ -105,8 +105,10 @@ def asset_path(graph, config, estate, metric):
 
 def worker(config, request):
     auth = config['fabric']['auth']
+    session = config['fabric'].get('sql_session') or {}
     result = subprocess.run([auth['python'], str(ROOT/'scripts/investigation_query_worker.py')],
-                            input=json.dumps(dict(request, tenant=auth['tenant_id'])),
+                            input=json.dumps(dict(request, tenant=auth['tenant_id'],
+                                                  sql_account=session.get('account'), sql_profile=session.get('profile'))),
                               text=True, capture_output=True, timeout=510 if request['layer']=='sql' else 180)
     if result.returncode:
         # Worker emits only fixed status and an exception class, never error bodies.

@@ -2,6 +2,7 @@
 from datetime import datetime,timezone
 from decimal import Decimal
 import json
+import re
 import subprocess
 from uuid import uuid4
 from .onboarding import fields,digest,encoded,Conflict
@@ -40,8 +41,19 @@ def capabilities(store,model,config):
     return [sql,dax]
 
 
+def surface_columns(report):
+    """Validate a request for the surface's own self-report, carried as result columns."""
+    if (not isinstance(report,dict) or not 1<=len(report)<=4
+            or any(not isinstance(k,str) or not re.fullmatch(r'[a-z_]{1,32}',k) for k in report)
+            or any(not isinstance(v,str) or not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}',v) for v in report.values())
+            or len(set(report.values()))!=len(report)):
+        raise ValueError('Invalid surface self-report request')
+    return dict(report)
+
+
 def build(store,plan,config,tool):
-    fields(plan,['model_id','revision','context_id','query','max_rows'])
+    fields(plan,['model_id','revision','context_id','query','max_rows']+(['surface_report'] if 'surface_report' in plan else []))
+    report=surface_columns(plan['surface_report']) if 'surface_report' in plan else None
     model=store.get(plan['model_id'])
     if not model['enabled'] or plan['revision']!=model['revision'] or plan['context_id']!=model['context_id']:
         raise Conflict('Proposed query context changed or disabled')
@@ -70,6 +82,7 @@ def build(store,plan,config,tool):
         compiled['read_only_objects']=[quote(objects[k]['metadata']['schema_name'])+'.'+quote(objects[k]['metadata']['name']) for k in compiled['asset_ids']]
         compiled['require_read_only']=True
     else:raise ValueError('Unsupported proposed query tool')
+    if report is not None:compiled['surface_report_columns']=report
     return dict(compiled,tool=tool,context_id=model['context_id'],context_hash=digest(model['context']),
                 policy_hash=digest(config),scope_hash=digest(plan))
 
@@ -84,6 +97,11 @@ def extract(response,request):
         rows=tables[0].get('rows');identity=response.get('_native_execution')
     else:rows=response.get('rows');identity=response.get('execution_identity')
     if not isinstance(rows,list) or len(encoded(canonical(rows)))>2*1024*1024:raise ValueError('Query result byte budget exceeded')
+    report=None
+    if request.get('surface_report_columns'):
+        # The surface's answer about itself is separated from the values it
+        # returned. It is kept only when every row carries one consistent answer.
+        rows,report=_split_surface_report(rows,request['surface_report_columns'])
     values=[];columns=set()
     for row in rows[:request['max_rows']]:
         if not isinstance(row,dict) or len(row)>16 or any(not isinstance(k,str) or len(k)>300 for k in row):raise ValueError('Query column budget exceeded')
@@ -104,7 +122,22 @@ def extract(response,request):
             'completeness':'PARTIAL' if len(rows)>=request['max_rows'] else 'COMPLETE_RESPONSE',
             'execution_identity':identity,'columns':sorted(columns),
             'caller_limit':request.get('caller_limit'),'interpretation':'OBSERVED',
-            'limitation':request['limitation'],'cause_verified':False}
+            'limitation':request['limitation'],'cause_verified':False,
+            **({'surface_report':report} if request.get('surface_report_columns') else {})}
+
+
+def _split_surface_report(rows,columns):
+    report={};stripped=[dict(r) if isinstance(r,dict) else r for r in rows]
+    for field,label in columns.items():
+        labels={label,'['+label+']'};answers=set()
+        for row in stripped:
+            if not isinstance(row,dict):return rows,None
+            present=[k for k in row if k in labels]
+            if len(present)!=1:answers.add(None);continue
+            answers.add(row.pop(present[0]))
+        answer=next(iter(answers)) if len(answers)==1 else None
+        report[field]=answer if isinstance(answer,str) and answer else None
+    return stripped,(report if all(report.values()) else None)
 
 
 def run(store,plan,config,tool,execute,*,receipt_id=None):

@@ -6,6 +6,39 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: surface self-report (item 2a).** Updated 2026-09-26.
+**Engine bytes changed:** `unfrozen-e3b2724a5c50` becomes `unfrozen-a841e4860b0a`.
+No freeze existed.
+
+What changed:
+- **Engine invariant:** `vertical()` attests every probe. A probe that claims a
+  surface must carry the surface's own report, including identity, and nothing
+  it reports may contradict the declaration. Otherwise it is `UNAVAILABLE`,
+  with the missing report or the contradiction recorded.
+- **Admission path:** self-report columns are separated from values and sealed
+  into the receipt.
+- **Configuration:** `fabric_sql_auth.py` takes its account and profile from
+  configuration, and a missing session is an explicit `SignInRequired`.
+- **Fabric SQL transport:** asks only for the surface's self-report, and always
+  names the database.
+
+Probe at 21:01 UTC, two cloud reads:
+- **Fabric SQL:** as the reader, `warehouse_gold_e1b8e1` self-reported and
+  `MATCHED`.
+- **DAX:** the read failed. Power BI rejected even the unchanged baseline query
+  (three diagnostic reads: HTTP 400 `DatasetExecuteQueriesError`, Analysis
+  Services `0xC1450012`), so the live DAX self-report is not established and
+  live DAX baselines are currently `UNAVAILABLE`.
+
+No quantity was compiled and no table was read. See
+[surface self-report](surface-self-report.md).
+
+**Correction, 2026-09-26 (item 2a).** The statement above that
+`scripts/fabric_sql_auth.py` hardcodes the admin account and profile is
+superseded; the original is kept. Both now come from configuration
+(`fabric.sql_session`, `fabric.sql_reader`). See
+[surface self-report](surface-self-report.md).
+
 **Correction, 2026-09-26 (read at 20:43 UTC): the reader reached the Gold
 endpoint.** The correction below says no identity has reached `77c49180…`; it is
 kept as written. In a single read at 20:43:40–20:43:54 UTC, the least-privilege reader `investigator-reader@skynwhy.com` (workspace

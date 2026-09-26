@@ -75,7 +75,7 @@ def execute(request):
     payload = {key: request.get(key) for key in ('layer', 'currency', 'order_id', 'server', 'database', 'credential_file')}
     if layer=='bronze':payload['bronze_schema']=schema
     if layer != 'sql':
-        payload['access_token'] = get_sql_token(request['tenant'])
+        payload['access_token'] = get_sql_token(request['tenant'], request['sql_account'], request['sql_profile'])
     def read():
         result = subprocess.run(['powershell', '-NoProfile', '-File', str(ROOT/'infra/scripts/Read-InvestigationMetric.ps1')],
                                 input=json.dumps(payload), text=True, capture_output=True, timeout=150)
