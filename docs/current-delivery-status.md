@@ -6,6 +6,20 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: Power BI rejects the reader, not the capacity.** Updated
+2026-09-26. Read-only diagnosis:
+- **The capacity is healthy:** the trial capacity `ec15bc07…` (`FTL4`) is
+  `Active`, and workspace assignment is complete.
+- **The admin succeeds:** at 21:34–21:35 UTC the administrator's direct queries
+  to the failing model succeed, including a Direct Lake data read.
+- **The reader fails:** at 21:36 UTC the reader's queries fail with HTTP 400,
+  Analysis Services `0xC1450012`, even a constant expression that reads no data.
+
+So the rejection is specific to the reader identity. The capacity explanation is
+not supported, and the cause is not established. Nothing was changed. Live DAX
+baselines as the reader stay `UNAVAILABLE`. See
+[Power BI reader rejection](power-bi-reader-rejection.md).
+
 **Current checkpoint: native service rejections are deterministic.** Updated
 2026-09-26.
 - **4xx:** a Power BI HTTP 4xx is recorded as `FAILED`, with its HTTP status
