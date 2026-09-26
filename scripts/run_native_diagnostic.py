@@ -7,7 +7,8 @@ import subprocess
 import sys
 import tempfile
 from urllib.request import Request, build_opener
-from urllib.error import URLError
+import re
+from urllib.error import HTTPError, URLError
 from uuid import UUID
 
 from investigator.onboarding import ModelStore
@@ -15,6 +16,35 @@ from investigator.native_diagnostics import run
 from metadata_auth import FabricCliTokens, NoRedirect
 from metadata_config import load_config, ROOT
 from investigator.native_identity import KEY, profile, make, require, allows
+
+
+class NativeRejected(RuntimeError):
+    """The service answered and refused the query: deterministic, not uncertain."""
+    def __init__(self,http_status,service_error_code=None):
+        super().__init__('Native service rejected the query')
+        self.http_status=http_status if type(http_status) is int else None
+        self.service_error_code=service_error_code if isinstance(service_error_code,str) else None
+
+
+def worker_failure(exc):
+    """Classify a worker failure. Only genuinely uncertain completion is reported
+    as uncertain. A 4xx is an answer from the service, not a lost request; a 5xx
+    or a transport-level failure may hide a query that ran, so it stays uncertain."""
+    failure={'error':type(exc).__name__}
+    if isinstance(exc,HTTPError):
+        failure['http_status']=exc.code if type(exc.code) is int else None
+        code=None
+        try:
+            body=json.loads(exc.read(20001)[:20000])
+            code=(body.get('error') or {}).get('code')
+        except Exception:
+            pass
+        if isinstance(code,str) and re.fullmatch(r'[A-Za-z0-9_.]{1,80}',code):
+            failure['service_error_code']=code
+        failure['completion_uncertain']=not (type(exc.code) is int and 400<=exc.code<500)
+    else:
+        failure['completion_uncertain']=isinstance(exc,(TimeoutError,URLError))
+    return failure
 
 
 def execute(request,tenant,reader=None):
@@ -70,6 +100,8 @@ def transport(config, request):
         except (ValueError,TypeError):failure={}
         if isinstance(failure,dict) and failure.get('completion_uncertain') is True:
             raise TimeoutError('Native completion is uncertain')
+        if isinstance(failure,dict) and failure.get('error')=='HTTPError' and failure.get('completion_uncertain') is False:
+            raise NativeRejected(failure.get('http_status'),failure.get('service_error_code'))
         raise RuntimeError('Native transport unavailable')
     response=json.loads(p.stdout,parse_float=Decimal)
     return require(response,request,reader) if reader is not None else response
@@ -90,8 +122,7 @@ if __name__=='__main__':
             if request['workspace']!=config['fabric']['workspace_id']:raise ValueError('Workspace differs')
             print(execute(request,config['fabric']['auth']['tenant_id'],config['fabric'].get('native_reader')))
         except Exception as exc:
-            print(json.dumps({'error':type(exc).__name__,
-                              'completion_uncertain':isinstance(exc,(TimeoutError,URLError))}));raise SystemExit(1)
+            print(json.dumps(worker_failure(exc)));raise SystemExit(1)
     else:
         if not args.approve or not args.plan or not args.database or not args.environment:
             parser.error('Explicit --approve, --plan, --database and --environment required')

@@ -152,3 +152,24 @@ What changed:
 
 Engine bytes changed: `unfrozen-a841e4860b0a` becomes `unfrozen-ba201bbc0cd9`.
 No run was performed for this change.
+
+## Update 2026-09-26: a service rejection is no longer reported as uncertain
+
+The probe section above records that the native worker labelled Power BI's HTTP
+400 as "completion uncertain" and raised `TimeoutError`. That behaviour is now
+fixed; the record above is kept as written.
+
+What changed:
+- **4xx is deterministic.** An HTTP 4xx is the service refusing the query, not
+  a lost request. The worker reports it with `completion_uncertain: false`,
+  its HTTP status, and the service error code (validated, never the body). The
+  transport raises `NativeRejected`, and the receipt is `FAILED` with
+  `http_status` and `service_error_code`. It is not `INTERRUPTED`, so the
+  open-planner path no longer settles the reservation as uncertain or holds
+  for reconciliation.
+- **Genuine uncertainty is kept.** An HTTP 5xx, a transport-level `URLError`,
+  or a timeout can hide a query that actually ran, so those remain uncertain
+  and still become `TimeoutError`.
+
+Engine bytes changed from `main` at `eea80b2`: the fingerprint becomes
+`unfrozen-6c12396db7d5`. No run was performed for this change.

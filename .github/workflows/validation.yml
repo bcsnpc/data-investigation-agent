@@ -42,6 +42,7 @@ jobs:
           python -m unittest discover -s scripts -p test_process_debugging.py
           python -m unittest discover -s scripts -p test_probe_execution_surfaces.py
           python -m unittest discover -s scripts -p test_surface_self_report.py
+          python -m unittest discover -s scripts -p test_native_rejection.py
           python -m unittest discover -s scripts -p test_physical_binding.py
           python -m unittest discover -s scripts -p test_lineage.py
           python -m unittest discover -s scripts -p test_lineage_audit.py
