@@ -6,6 +6,18 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: prefer the most specific failure.** Updated 2026-09-26.
+**Engine bytes changed:** `unfrozen-789b25653c0c`.
+- **Engine:** an `UNAVAILABLE` probe whose adapter marks its failure `GENERIC`
+  is refined through the adapter's other interface to the same surface. The
+  specific failure is carried into the reason and into both outputs; the status
+  never changes.
+- **Microsoft adapter:** Execute Queries' `DatasetExecuteQueriesError` is
+  generic. XMLA to the same model supplies the specific error, reduced to codes.
+- **Not verified live:** no ADOMD.NET client library is installed here.
+
+See [specific failure](specific-failure.md).
+
 **Current checkpoint: the Direct Lake refusal has a reported root cause.** Updated
 2026-09-26. An independent XMLA investigation, reported by the account holder
 and not re-verified here, found the following:

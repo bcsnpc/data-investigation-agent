@@ -183,6 +183,12 @@ A PR that changes behaviour and does not update these is incomplete.
 
 ## Known past failures — do not reintroduce
 
+- A surface reported a failure only generically (Execute Queries:
+  `DatasetExecuteQueriesError` / `0xC1450012`). A full day went into wrong
+  hypotheses while the specific error (`AADSTS50173`) was available from XMLA.
+  Fixed by `refine_failure()`: a generic failure is refined through another
+  interface to the same surface before it is reported, and the status is never
+  upgraded.
 - Stubbed adapter methods were consumed as findings, making a false `DEFECT`
   reachable. Fixed by capability gating (#231).
 - Same-engine aggregates were presented as cross-boundary comparisons. Fixed by
