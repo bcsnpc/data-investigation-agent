@@ -75,3 +75,66 @@ business.
   - Whether the reader's XMLA error carries the codes as the independent
     investigation reported.
 - **Metering:** the XMLA re-issue is metered as a cloud read.
+
+## Live verification, 2026-09-26 22:40 UTC: a real masked failure, unmasked by the engine
+
+The "Not established" section above is kept as written. This section records
+what has since been established.
+
+### What was installed and configured (authorised)
+
+- **Package:** Microsoft's NuGet package `Microsoft.AnalysisServices.AdomdClient`
+  **19.117.0**, the latest stable release, from nuget.org.
+  - Authors: Microsoft.
+  - `.nupkg` SHA-256: `94b2455d57447c72…`.
+  - Extracted under `.local/adomd-client/19.117.0/`, which is not committed.
+- **Assembly used:** `lib/net472/Microsoft.AnalysisServices.AdomdClient.dll`,
+  because Windows PowerShell 5.1 runs on .NET Framework.
+  - File version 17.0.91.17.
+  - Authenticode signature valid, from Microsoft Corporation.
+  - SHA-256: `1e75c2fd6b7a4f19…`.
+- **Undeclared dependency not installed:** the package declares a dependency on
+  `Microsoft.Identity.Client` (MSAL.NET). It is not needed for token
+  authentication, and it was not installed.
+- **Configuration:** `.local/unknown-domain-v4/config.json` gained
+  `fabric.xmla_client.library`, pointing at that DLL. SHA-256 before
+  `f45b3efa…`, after `4362a6c7…`; the prior file is kept locally.
+- **Defect found and fixed during installation:** `Add-Type -Path` fails on this
+  library with `ReflectionTypeLoadException`, because it eagerly resolves types
+  that need MSAL. The script now loads the assembly lazily, and a client that
+  cannot load is reported `UNAVAILABLE` at stage `client`, never as a captured
+  surface error. This was fixed in #247 before it merged.
+
+### The run
+
+Session `specific-failure-verification-20260926T224029Z`, 22:40:29–22:40:47 UTC.
+It ran as the reader, against the failing Direct Lake model (`3484a2bc…`, the
+G presentation layer), through the engine's per-probe path: `evaluate()`, then
+`attest()`, then `refine_failure()`, exactly as `vertical()` applies them. Two
+metered reads, both settled as certain.
+
+| | Result |
+| --- | --- |
+| Execute Queries | HTTP 400, `DatasetExecuteQueriesError`. Classified `GENERIC` by the adapter. |
+| Sealed receipt `46cee4f7…` | `FAILED`, `error_type: NativeRejected`, `http_status: 400`, `service_error_code: DatasetExecuteQueriesError`. After #242, this is no longer `INTERRUPTED`/`TimeoutError`. |
+| Refinement via XMLA | `OBTAINED`: `ERROR_CAPTURED`, codes **`AdalGrantHasExpiredDueToPasswordChangeErrorCode`, `AADSTS50173`** |
+| Probe | Still `UNAVAILABLE`. Reason: "The presentation reader could not establish a baseline. Most specific failure via XMLA: AdalGrantHasExpiredDueToPasswordChangeErrorCode, AADSTS50173." |
+| Output entry (`failures`) | Generic `DatasetExecuteQueriesError`; specific via XMLA: `AdalGrantHasExpiredDueToPasswordChangeErrorCode`, `AADSTS50173` |
+
+The engine obtained the same error that the independent investigation had
+found by hand, without a human in the loop.
+
+### What is established, and what is not
+
+- **Established:** a real failure that one interface masked was unmasked by the
+  engine, through the adapter's second interface to the same surface. The
+  specific codes reach the probe reason, the failure record and both outputs.
+  Only codes were extracted; no message text was stored.
+- **Not established: the specific error in a sealed receipt.** The sealed
+  receipt is the Execute Queries one, and it carries only the generic error.
+  The XMLA result is not itself sealed as a receipt. The specific codes live in
+  the probe's failure record and outputs, which are derived evidence. Sealing
+  the refinement as its own receipt would close this.
+- **Not verified here:** the rest of `vertical()` beyond the per-probe path.
+  That path was exercised through the same functions, not as a full
+  investigation.
