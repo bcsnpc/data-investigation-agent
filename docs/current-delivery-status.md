@@ -6,6 +6,16 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: the Direct Lake refusal of the reader is unexplained.**
+Updated 2026-09-26 21:58 UTC.
+- **The test:** after a fresh reader sign-in (21:57:54 UTC), with the
+  `DefaultReader` OneLake grant in place, the reader's constant query on the
+  Direct Lake model still fails with `0xC1450012`.
+- **Withdrawn:** the revoked-grant explanation in the checkpoint below.
+- **Not the cause either:** missing OneLake read access.
+- **Unchanged:** the grant remains. Live DAX baselines as the reader remain
+  `UNAVAILABLE`.
+
 **Current checkpoint: the reader's grant was revoked; one OneLake permission
 was added.** Updated 2026-09-26.
 - **The pattern:** Direct Lake models refuse the reader while the Import model

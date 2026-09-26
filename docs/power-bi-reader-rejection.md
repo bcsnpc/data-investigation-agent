@@ -173,3 +173,32 @@ The best-supported explanation, which is not verified against audit logs, is:
   permission change, requiring separate authorisation.
 - **The password change is not confirmed.** Only the tenant audit log can
   confirm it; these identities cannot read that log.
+
+## Correction 2026-09-26 (21:58 UTC): the revoked grant does not explain the refusal
+
+The update above says the revoked grant "probably explains the whole failure".
+**That explanation is withdrawn.** The observations it rests on are kept.
+
+- **21:57:54 UTC:** the account holder signed the reader in again, through
+  `connect_fixture_reader.py --sign-in`. Its built-in check passed on the Import
+  model: HTTP 200, identity matched, and refresh history refused with 403, as
+  intended.
+- **21:58:39 UTC:** with that fresh session **and** the `DefaultReader` OneLake
+  grant in place, the reader's constant `ROW("x",1)` against the Direct Lake
+  model still failed: HTTP 400 `DatasetExecuteQueriesError`, Analysis Services
+  `0xC1450012`.
+
+So neither a revoked session nor missing OneLake read access explains why Direct
+Lake refuses the reader. `AADSTS50173` did occur: the reader's earlier grant was
+revoked. But it is not the cause of this failure.
+
+- **Password change:** whether the 21:57 sign-in prompted a password change was
+  not observable from here. The account holder can confirm.
+- **Propagation delay:** OneLake data access role changes can take time to
+  propagate, so a delay is not excluded. It was not tested further.
+
+Per the instruction, the experiment stopped at this failure. No further
+permission was added, and the `DefaultReader` grant **remains in place**:
+removing it was authorised only if this query succeeded. The cause of the
+Direct Lake refusal is **not established**. The change between 01:25 and 21:01
+UTC is unexplained.
