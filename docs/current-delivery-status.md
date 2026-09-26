@@ -34,7 +34,6 @@ Engine bytes unchanged (`unfrozen-e3b2724a5c50`); no freeze is invalidated. Usag
 
 ### Previous checkpoint: same-surface boundary claim retracted; independent read unavailable
 
-**Historical checkpoint: same-surface boundary claim retracted; independent read unavailable.**
 PR #233 merged the #230 retraction, incomplete-definition guard and silent-fallback
 fixes after 1,078 local tests and six green CI checks. No planner context was added:
 recorded coverage remains 28 directory entries / 11 SQL objects / 15,971 characters.

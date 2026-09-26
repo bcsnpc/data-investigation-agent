@@ -146,11 +146,20 @@ class HeaderReaderTests(unittest.TestCase):
 
 
 class ScopeTests(unittest.TestCase):
+    def sources(self):
+        return [Path(module.__file__).read_text(encoding='utf-8').lower() for module in (probes,reader)]
+
     def test_fabric_sql_endpoint_is_not_probed(self):
-        for module in (probes,reader):
-            self.assertNotIn('database.windows.net',Path(module.__file__).read_text(encoding='utf-8'))
+        # Fabric SQL analytics endpoints are served from *.datawarehouse.fabric.microsoft.com.
+        for source in self.sources():
+            self.assertNotIn('datawarehouse.fabric.microsoft.com',source)
+            self.assertNotIn('datawarehouse.pbidedicated.windows.net',source)
         self.assertEqual(probes.PROBES,('semantic_dax','source_sql','onelake_commit_metadata','onelake_table_data'))
 
+    def test_no_sql_host_or_audience_is_hardcoded(self):
+        # The SQL probe takes its server from configuration; neither module names a SQL host or token audience.
+        for source in self.sources():
+            self.assertNotIn('database.windows.net',source)
 
 if __name__=='__main__':
     unittest.main()

@@ -1,4 +1,7 @@
-"""Operator probe of which execution surfaces are reachable; receipts carry hashes, never values.
+"""Operator probe of which execution surfaces are reachable.
+
+Receipts record a SHA-256 of each result as a comparison fingerprint, not the value
+itself. The fingerprint is not confidential: a hash of a scalar is brute-forceable.
 
 Each probe reports REACHABLE, UNAVAILABLE or NOT_APPLICABLE with the stage and error
 type where it failed. A failed probe never stops the others and is never replaced by
