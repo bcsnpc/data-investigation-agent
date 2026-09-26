@@ -17,6 +17,19 @@ Engine bytes changed: `unfrozen-6c12396db7d5`, from `main` at `eea80b2`. No run
 was performed. See
 [surface self-report](surface-self-report.md#update-2026-09-26-a-service-rejection-is-no-longer-reported-as-uncertain).
 
+**Current checkpoint: surface attestation is consumed.** Updated 2026-09-26.
+Attestation no longer only records `unattested_fields`; it now shapes claims.
+- **Required fields:** every field a surface is able to report must be reported,
+  or the probe is `UNAVAILABLE`.
+- **Named in claims:** every field a compared surface could not report is named
+  in the limits and in both outputs.
+- **Enforced:** outcome validation refuses comparisons without matched
+  attestation on both sides, and claims that omit an unattested field.
+
+Engine bytes changed: `unfrozen-a841e4860b0a` becomes `unfrozen-ba201bbc0cd9`.
+No run was performed. See
+[surface self-report](surface-self-report.md#update-2026-09-26-attestation-is-consumed-not-only-recorded).
+
 **Current checkpoint: surface self-report (item 2a).** Updated 2026-09-26.
 **Engine bytes changed:** `unfrozen-e3b2724a5c50` becomes `unfrozen-a841e4860b0a`.
 No freeze existed.
