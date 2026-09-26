@@ -226,3 +226,55 @@ reverted. The sections above are kept as written.
 
 The Direct Lake refusal of the reader remains, and its cause is not
 established.
+
+## Root cause, 2026-09-26: a stored service-side grant invalidated by a password reset
+
+**Provenance.** This section records the findings of an independent
+investigation reported by the account holder, which used XMLA against the same
+model. This session did not perform that investigation and has not re-verified
+its findings. It records them as reported. The sections above are kept as
+written.
+
+**Reported cause:**
+- **The reset:** the reader's password was reset at **2026-09-26T20:42:20Z**,
+  which advanced the account's `TokensValidFrom`.
+- **The stale grant:** Power BI's service-side Direct Lake path still presents a
+  grant for the reader issued on **2026-09-16**. It now fails with
+  **`AADSTS50173`** (`AdalGrantHasExpiredDueToPasswordChangeErrorCode`).
+- **Why re-signing did not help:** a fresh client-side sign-in does not replace
+  that stored service-side grant. That is why the reader's re-sign-in at
+  21:57:54 UTC did not help.
+- **Why it looked generic:** XMLA exposes this real error. `executeQueries`
+  masks it as the generic `DatasetExecuteQueriesError`, Analysis Services
+  `0xC1450012`.
+
+**Consistent with the observations above:**
+- The admin succeeds on the same model; that grant is unaffected.
+- The Import model serves the same reader; it needs no stored downstream grant.
+- The reader's SQL endpoint reads succeed.
+- The onset lies between the 01:25 UTC success and the 21:01 UTC failures; the
+  reset was at 20:42:20 UTC.
+- A constant query fails, because the model cannot load for that principal.
+- Neither OneLake role membership nor the workspace role is involved. Both were
+  tested; the OneLake grant was added and then reverted.
+
+### Corrections, dated 2026-09-26
+
+Each earlier hypothesis is corrected here. The original text is kept above.
+- **Capacity (paused, throttled or expired): wrong.** The capacity was
+  `Active`, and it served the admin in the same minute.
+- **Session: wrong as framed, and wrongly dismissed.**
+  - This session recorded that the reader's revoked client session "probably
+    explains the whole failure". It then withdrew that explanation when a fresh
+    sign-in did not help.
+  - The password reset and `AADSTS50173` were in fact the cause. The failing
+    grant is the stored service-side one, not the client's session.
+  - So the original claim wrongly located the grant, and the withdrawal wrongly
+    concluded that `AADSTS50173` "is not the cause of this failure".
+- **OneLake read access: wrong.** Adding `DefaultReader` membership did not
+  help, and it was reverted.
+- **"Cause not established": superseded** by the reported cause above.
+- **Timing "unexplained": superseded.** The reset at 20:42:20 UTC explains it.
+
+**Still not done:** nothing has been changed to renew the service-side grant.
+Live DAX baselines as the reader remain `UNAVAILABLE` until it is renewed.
