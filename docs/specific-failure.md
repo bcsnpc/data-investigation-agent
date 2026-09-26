@@ -93,7 +93,7 @@ what has since been established.
   - File version 17.0.91.17.
   - Authenticode signature valid, from Microsoft Corporation.
   - SHA-256: `1e75c2fd6b7a4f19…`.
-- **Undeclared dependency not installed:** the package declares a dependency on
+- **Declared dependency not installed:** the package declares a dependency on
   `Microsoft.Identity.Client` (MSAL.NET). It is not needed for token
   authentication, and it was not installed.
 - **Configuration:** `.local/unknown-domain-v4/config.json` gained
