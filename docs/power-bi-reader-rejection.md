@@ -202,3 +202,27 @@ permission was added, and the `DefaultReader` grant **remains in place**:
 removing it was authorised only if this query succeeded. The cause of the
 Direct Lake refusal is **not established**. The change between 01:25 and 21:01
 UTC is unexplained.
+
+## Update 2026-09-26 (22:06 UTC): the OneLake grant was reverted
+
+The reader's `DefaultReader` OneLake membership was tried at 21:52 UTC. It did
+not resolve the Direct Lake refusal (21:58 UTC, above), and it has been
+reverted. The sections above are kept as written.
+
+**The revert** was the single change authorised for it:
+- **22:06:06–22:06:10 UTC:** the reader was removed from the Gold lakehouse's
+  `DefaultReader` role.
+- **Guard:** the role's state immediately before the revert was confirmed to be
+  exactly the post-grant state (snapshot SHA-256 `0a0a58e3a934e7d4…`,
+  identical to the post-grant snapshot). A `dryRun` returned 200. The update
+  carried `If-Match` on the ETag just read.
+- **Result:** the role is again exactly as it was before the grant. Rules
+  (permit `Read` on `*`) and item members (lakehouse `ReadAll` holders) are
+  unchanged, and there are no Entra members. Post-revert snapshot SHA-256 is
+  `1f21444d2e027462…`; it differs from the original snapshot only
+  by ETag.
+- **Unchanged:** no workspace role, tenant setting or other identity was
+  changed.
+
+The Direct Lake refusal of the reader remains, and its cause is not
+established.
