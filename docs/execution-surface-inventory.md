@@ -180,3 +180,36 @@ isolation the name implies is not established,** and the probe receipts'
 `identity_role: ISOLATED_METADATA` label should be read that way. The same
 applies to the earlier pre-recorded OneLake data probe and to the #234 Delta-
 metadata reads.
+
+## Correction 2026-09-26 (read at 20:43 UTC): reader reached the Gold endpoint
+
+The earlier correction says that no identity has reached `77c49180…` and that
+the reader is untested. Both statements are superseded; the text above is kept
+unchanged.
+
+In a single read at 20:43:40–20:43:54 UTC, the least-privilege reader `investigator-reader@skynwhy.com` (workspace
+`Viewer` in `149f8d99…`) obtained a `database.windows.net` token through the
+Azure CLI client (`04b07795…`), from its own isolated profile
+`.local/azure-reader-sql`. No new permission was granted and no app registration
+was created. The Gold endpoint `77c49180…` accepted it, with database
+`warehouse_gold_e1b8e1` named explicitly. `SUSER_SNAME()` returned
+`investigator-reader@skynwhy.com` and `DB_NAME()` returned
+`warehouse_gold_e1b8e1`, so the server, not the client, confirms both identity
+and database.
+
+The reader profile was created by an interactive `az login` that the account
+holder performed. The admin profile `.local/azure-fabric-sql` was left
+unchanged. The token was never printed or stored; only its non-secret claims
+(upn, tenant, audience, client ID) were displayed.
+
+`NO_INDEPENDENT_LOWER_READ` is therefore no longer forced by authentication.
+The engine still reports it, because `evaluate()` has no path that reads this
+endpoint.
+
+Still not established:
+- **No table read:** only `SUSER_SNAME()` and `DB_NAME()` were queried.
+- **No `DENY` check:** no explicit T-SQL `DENY` has been checked.
+- **Viewer is broader than needed:** it grants ReadData on all 12 SQL endpoints
+  in the workspace, including every fixture's Bronze and Silver.
+- **Admin still hardcoded:** `scripts/fabric_sql_auth.py` still hardcodes the
+  admin account and profile. No code path uses the reader's token.
