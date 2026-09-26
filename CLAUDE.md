@@ -135,15 +135,22 @@ A PR that changes behaviour and does not update these is incomplete.
   blocks network at socket level and matches requests byte-exactly.
 - **No investigation has yet completed end to end.** The model's
   `judge_definition` call has never been invoked in a live run.
-- The Fabric SQL analytics endpoint the process path needs (`77c49180…`,
-  `warehouse_gold_e1b8e1` in workspace `149f8d99…`) has **not** been reached
-  over SQL by any identity. The Fabric CLI client fails with `AADSTS65002`. The
-  isolated Azure CLI profile (`.local/azure-fabric-sql`) got a token accepted
-  only by the *dev* workspace's endpoint (`701ab1fc…` in `09cea7db…`), and only
-  as the tenant administrator. The reader is `Viewer` in `149f8d99…` but
-  untested. Which identity should hold this access is an open human decision.
-  The "isolated metadata identity" is the tenant administrator
-  (`admin@skynwhy.com`), so its receipts are admin receipts.
+- The Gold Fabric SQL analytics endpoint the process path needs (`77c49180…`,
+  `warehouse_gold_e1b8e1` in workspace `149f8d99…`) is reachable by the
+  least-privilege reader `investigator-reader@skynwhy.com` (workspace `Viewer`).
+  The reader signs in through its own isolated Azure CLI profile
+  (`.local/azure-reader-sql`), with no new permission and no app registration.
+  The server confirmed the identity and the database (2026-09-26). Not yet
+  established:
+  - No table has been read.
+  - No explicit `DENY` has been checked.
+  - Viewer is broader than needed.
+  - `scripts/fabric_sql_auth.py` still hardcodes the admin account and profile.
+
+  `evaluate()` still has no path to this endpoint, so `NO_INDEPENDENT_LOWER_READ`
+  persists for that reason, not because of authentication. The Fabric CLI client
+  still fails with `AADSTS65002`. The "isolated metadata identity" is the tenant
+  administrator (`admin@skynwhy.com`), so its receipts are admin receipts.
 - Horizontal comparison, recurrence learning, declared business context and the
   known-issues register are **proposal-only**. Do not implement them
   opportunistically.

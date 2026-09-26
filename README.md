@@ -54,6 +54,30 @@ See the
 [inventory correction](docs/execution-surface-inventory.md#correction-2026-09-26-fabric-sql-endpoint)
 for the three resolved IDs.
 
+**Correction, 2026-09-26 (read at 20:43 UTC).** The statement above that no
+identity has reached `77c49180…` is superseded; the original is kept. In a
+single read at 20:43:40–20:43:54 UTC, the least-privilege reader `investigator-reader@skynwhy.com` (workspace
+`Viewer` in `149f8d99…`) obtained a `database.windows.net` token through the
+Azure CLI client (`04b07795…`), from its own isolated profile
+`.local/azure-reader-sql`. No new permission was granted and no app registration
+was created. The Gold endpoint `77c49180…` accepted it, with database
+`warehouse_gold_e1b8e1` named explicitly. `SUSER_SNAME()` returned
+`investigator-reader@skynwhy.com` and `DB_NAME()` returned
+`warehouse_gold_e1b8e1`, so the server, not the client, confirms both identity
+and database.
+
+`NO_INDEPENDENT_LOWER_READ` is therefore no longer forced by authentication.
+The engine still reports it, because `evaluate()` has no path that reads this
+endpoint.
+
+Still not established:
+- **No table read:** only `SUSER_SNAME()` and `DB_NAME()` were queried.
+- **No `DENY` check:** no explicit T-SQL `DENY` has been checked.
+- **Viewer is broader than needed:** it grants ReadData on all 12 SQL endpoints
+  in the workspace, including every fixture's Bronze and Silver.
+- **Admin still hardcoded:** `scripts/fabric_sql_auth.py` still hardcodes the
+  admin account and profile. No code path uses the reader's token.
+
 The required three-run follow-up was launched after PR #235 merged, but all three
 attempts failed before intake because the harness command omitted its required
 `--environment` argument. They opened no sessions, made no provider or data calls,

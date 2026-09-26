@@ -17,6 +17,12 @@ the dev workspace's SQL endpoint. The investigation workspace's Gold endpoint is
 untested, and it remains outside this probe set until a human decides which
 identity should hold that access. The "isolated metadata identity" used below is
 the tenant administrator. See docs/execution-surface-inventory.md.
+
+Correction, 2026-09-26 (read at 20:43 UTC): the investigation workspace's Gold
+endpoint is no longer untested. The least-privilege reader reached it with its
+own Azure CLI token and no new permission, and the server confirmed the reader
+identity and the Gold database. No table has been read, and this probe set still
+does not probe it.
 """
 import argparse
 from contextlib import contextmanager
