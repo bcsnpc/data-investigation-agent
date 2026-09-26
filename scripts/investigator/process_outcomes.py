@@ -198,6 +198,24 @@ def validate(assessment, observations):
                     for k in ('engine','connection','object'))
             and tuple(upper[k] for k in ('engine','connection','object'))
                 != tuple(lower[k] for k in ('engine','connection','object')))
+    for comparison in comparisons:
+        if comparison.get('comparison_status')!='CROSS_SURFACE_VERIFIED':continue
+        # A comparison is only as trustworthy as both surfaces' own reports, and
+        # whatever a surface could not report must travel with the claim.
+        for side in ('upper','lower'):
+            attestation=comparison.get(side+'_surface_attestation')
+            if not isinstance(attestation,dict) or attestation.get('status')!='MATCHED':
+                raise ValueError('A boundary comparison requires both surfaces to be attested')
+            layer=comparison.get(side+'_layer')
+            for field in attestation.get('unattested_fields',[]):
+                if not any(isinstance(limit,str) and field in limit and str(layer) in limit
+                           for limit in assessment.get('limits',[])):
+                    raise ValueError('Every unattested surface field of a compared surface must be named in the limits')
+                for output in ('business_output','technical_output'):
+                    if output in assessment and not any(
+                            u.get('field')==field and u.get('layer')==layer
+                            for u in assessment[output].get('unattested_surface_fields',[])):
+                        raise ValueError('Every unattested surface field must be named in both outputs')
     if outcome in ('CONSISTENT_TO_BOUNDARY','INGESTION_GAP','BUSINESS_QUESTION') and not any(
             comparison.get('values_equal') is True and cross_surface(comparison) for comparison in comparisons):
         raise ValueError(f'{outcome} requires at least one successful equal boundary comparison')

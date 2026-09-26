@@ -123,3 +123,53 @@ only HTTP status and error codes, showed the following:
 account, `.local/azure-reader-sql`, and the `…-tggz6fdg…` host. Nothing else
 changed. SHA-256 before `1476f125…`, after `f45b3efa…`. The prior file is kept
 locally as `config.before-sql-reader-20260926.json`.
+
+## Update 2026-09-26: attestation is consumed, not only recorded
+
+Review of #240 found that `unattested_fields` was written into each receipt and
+read by nothing. A probe could therefore be `MATCHED` on identity alone while its
+database went unattested and unremarked. That is the Bronze-instead-of-Gold
+failure with a green light on it. The sections above are kept as written.
+
+What changed:
+- **Reportable fields must be reported.** A probe declares which surface fields
+  it is able to report (`Probe.surface_reportable`), and `attest()` requires
+  every one of them. The Fabric SQL surface can report `identity` and `object`;
+  the DAX surface can report only `identity`. So a lower surface that could name
+  its database and did not is `UNAVAILABLE`, not `MATCHED`. `object` is not
+  required globally, because Power BI cannot report which model served a query.
+- **Unattested fields travel with the claim.** Every field of a compared surface
+  that its surface did not report is named in the claim's limits and in both
+  outputs as `unattested_surface_fields`.
+- **Validation backstop.** Outcome validation refuses a boundary comparison
+  without a `MATCHED` attestation on both sides. It also refuses a claim whose
+  limits or outputs omit an unattested field.
+- **Status history kept.** A failed attestation still turns a `NOT_COMPARABLE`
+  probe into `UNAVAILABLE`, deliberately: untrusted outranks incomparable. The
+  prior status is kept as `status_before_attestation`.
+- **Gap report fixed.** `capability_gaps()` no longer raises `KeyError` on a
+  sign-in-required status that lacks an account or profile.
+
+Engine bytes changed: `unfrozen-a841e4860b0a` becomes `unfrozen-ba201bbc0cd9`.
+No run was performed for this change.
+
+## Update 2026-09-26: a service rejection is no longer reported as uncertain
+
+The probe section above records that the native worker labelled Power BI's HTTP
+400 as "completion uncertain" and raised `TimeoutError`. That behaviour is now
+fixed; the record above is kept as written.
+
+What changed:
+- **4xx is deterministic.** An HTTP 4xx is the service refusing the query, not
+  a lost request. The worker reports it with `completion_uncertain: false`,
+  its HTTP status, and the service error code (validated, never the body). The
+  transport raises `NativeRejected`, and the receipt is `FAILED` with
+  `http_status` and `service_error_code`. It is not `INTERRUPTED`, so the
+  open-planner path no longer settles the reservation as uncertain or holds
+  for reconciliation.
+- **Genuine uncertainty is kept.** An HTTP 5xx, a transport-level `URLError`,
+  or a timeout can hide a query that actually ran, so those remain uncertain
+  and still become `TimeoutError`.
+
+Engine bytes changed from `main` at `eea80b2`: the fingerprint becomes
+`unfrozen-6c12396db7d5`. No run was performed for this change.
