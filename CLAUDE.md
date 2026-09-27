@@ -133,14 +133,16 @@ A PR that changes behaviour and does not update these is incomplete.
   refuses a defect claim when competing explanations were not checked.
 - The offline replay harness (`acceptance/unknown_domain/session_replay.py`)
   blocks network at socket level and matches requests byte-exactly.
-- **Power BI Direct Lake models refuse the reader** (HTTP 400, masked by
-  `executeQueries` as `0xC1450012`). An independent XMLA investigation reports
-  the cause: the reader's password reset at 2026-09-26T20:42:20Z invalidated a
-  stored **service-side** grant issued 2026-09-16 (`AADSTS50173`). A client
-  sign-in does not replace that grant. The admin, Import models and SQL endpoint
-  reads are unaffected. The reader holds no OneLake role membership; a trial
-  grant was reverted. Until the service-side grant is renewed, live DAX
-  baselines as the reader are `UNAVAILABLE`.
+- **The reader's Direct Lake access is restored** (2026-09-27 00:33 UTC).
+  - **The fault:** the password reset at 2026-09-26T20:42:20Z left a stale
+    service-side grant (`AADSTS50173`), masked by Execute Queries as
+    `0xC1450012`.
+  - **The fix:** it was cleared only by an interactive sign-in to the Power BI
+    portal as the reader. A client MSAL sign-in and OneLake role membership did
+    not clear it. No API exposed the remedy.
+  - **Current state:** live DAX baselines as the reader are `OBSERVED` again,
+    and the DAX self-report attests the reader's identity live. The reader holds
+    no OneLake role membership.
 - **No investigation has yet completed end to end.** The model's
   `judge_definition` call has never been invoked in a live run.
 - The Gold Fabric SQL analytics endpoint the process path needs (`77c49180…`,
