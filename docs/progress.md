@@ -1639,3 +1639,7 @@ requirements. No estate or pipeline build; stop for design review.
 2026-09-27: Two repeats 4f263d32 and 74da03d4 completed TRANSFORMATION_LOGIC with validated complete prose, but both vocabulary outputs fell back due to a global catalog homonym filter. Original outputs preserved; appended quality corrections. Scoped exclusion and unrelated-name regression now pass 26 focused tests and the real-catalog offline path check. Policy restored to 60 with 62 used; no counters reset. Full regressions running, additional live validation requires separate approval.
 
 2026-09-27: Scoped vocabulary correction f08c2d0 passed all 1,245 local regressions and six CI checks. Both recorded judge requests match after excluding their generated receipt IDs, and both explanations completed within their bounds. Corrected live vocabulary validation remains pending the separately requested read allowance; no additional live call has been made.
+
+2026-09-27: Merged #271 after six green checks. Implemented identifier-form vocabulary checks and one recorded incomplete-judge retry. Sixteen focused tests pass; full suite running. Appended annotations preserving temporary68 approval and standing60 crossing to62. Current ceiling60; no new live run.
+
+2026-09-27: All 1,253 regression tests passed in 399.188 seconds. Offline fixture context remains 11 directory entries, 11 SQL objects and 2,408 characters. Live batch remains unstarted under ceiling60/usage62.

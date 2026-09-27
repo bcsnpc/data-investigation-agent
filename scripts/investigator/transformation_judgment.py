@@ -36,4 +36,8 @@ def azure_judge(payload,options):
     from ticket_planner import _azure_generate
     value,metadata=_azure_generate(payload,instructions=INSTRUCTIONS,schema=SCHEMA,
         name='transformation_definition_judgment',generation_options=options)
-    return validate(value),metadata
+    try:return validate(value),metadata
+    except evidence_prose.IncompleteProse as exc:
+        # The response arrived. Retain metering even when its prose is rejected.
+        exc.provider_metadata=metadata
+        raise

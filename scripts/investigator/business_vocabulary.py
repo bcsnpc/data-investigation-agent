@@ -8,7 +8,8 @@ ABSTRACTIONS=('other information','the information before the last check','earli
               'available information','checked information','information feeding','matching records')
 
 def safe_term(term):
-    return isinstance(term,str) and re.fullmatch(r'[a-z]{3,32}',term) is not None and term not in UNUSABLE
+    return (isinstance(term,str) and re.fullmatch(r'[A-Za-z]{3,32}(?: [A-Za-z]{3,32}){0,3}',term) is not None
+            and all(word.casefold() not in UNUSABLE for word in term.split()))
 
 def validate_terms(terms,contract):
     if not terms:return {}
@@ -25,11 +26,6 @@ def validate_terms(terms,contract):
             raise ValueError('Business vocabulary has no exact definition span')
         if (start and (expression[start-1].isalnum() or expression[start-1]=='_')) or (end<len(expression) and (expression[end].isalnum() or expression[end]=='_')):
             raise ValueError('Business vocabulary is part of a technical identifier')
-        forbidden={contract.get('column','')}
-        for op in operations:
-            forbidden.update(op.get('keys',[]));forbidden.add(op.get('column',''))
-            forbidden.update(p.rsplit('/',1)[-1] for p in op.get('inputs',[]))
-        if value['text'] in forbidden:raise ValueError('Business vocabulary names a physical field or table')
     if terms['subject']['text']==terms['matched']['text']:raise ValueError('Business vocabulary roles are ambiguous')
     return terms
 
@@ -39,6 +35,6 @@ def validate_text(text,expected):
     # are fixed contract language; all interpolated domain labels are grounded.
     if text!=expected:raise ValueError('Business wording differs from evidence-backed composition')
     if any(p in text.casefold() for p in ABSTRACTIONS):raise ValueError('Unintelligible business abstraction')
-    if re.search(r'\b(?:silver|gold|bronze|sql|dax|schema|receipt)\b|[A-Za-z]+_[A-Za-z0-9_]+|://',text,re.I):
+    if re.search(r'\b(?:silver|gold|bronze|sql|dax|schema|receipt)\b|[A-Za-z]+_[A-Za-z0-9_]+|[A-Za-z0-9.]+[\\/][A-Za-z0-9_.-]+|://|\[[^\]]+\]|\b[A-Za-z]+\.[A-Za-z]+\b|[A-Za-z]:[\\/]|\b[0-9a-f]{8}-[0-9a-f-]{27,}\b|\b[A-Za-z]+[-_][0-9a-f]{6,}\b',text,re.I):
         raise ValueError('Technical identifier in business explanation')
     return text

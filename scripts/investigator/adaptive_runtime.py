@@ -451,10 +451,19 @@ class AdaptiveRuntime:
             from .transformation_judgment import azure_judge
             provider=azure_judge
 
-        def judge(payload):
+        from .evidence_prose import IncompleteProse
+
+        def judgment_event(kind,detail):
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                self.save(db,current,kind,detail)
+
+        def judge_once(payload,attempt):
             size=len(encoded(payload))
             with self.runtime.db() as db:
                 db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                if current['status']!='EXECUTING' or self.clock()+self.generation_options['timeout_seconds']>current['deadline']:
+                    return {'status':'UNAVAILABLE','explains':None,'reason':'Judgment cancelled or deadline exhausted.'}
                 if current['planner_calls']>=current['envelope']['limits']['planner_calls']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Investigation planner-call limit reached.'}
                 if current['input_characters']+size>current['envelope']['limits']['input_characters']:
@@ -463,16 +472,22 @@ class AdaptiveRuntime:
                 output=self.generation_options['max_output_tokens']
                 if self.governor:self.governor.reserve(db,identity,key,'planner',size,output_tokens=output)
                 current['planner_calls']=number;current['input_characters']+=size
-                self.save(db,current,'PROCESS_JUDGMENT_RESERVED',{'planner_calls':number,'input_characters':size})
+                self.save(db,current,'PROCESS_JUDGMENT_RESERVED',{'planner_calls':number,'input_characters':size,'attempt':attempt})
             metadata=None;received=False
             try:
                 from .planner_recording import recording
                 with recording({'session_id':identity,'phase':'PROCESS_JUDGMENT','planner_call':number,
+                    'attempt':attempt,'retry_reason':'INCOMPLETE_PROSE' if attempt==2 else None,
                     'context_version':current.get('discovery_version'),'payload':payload,
                     'planner_profile':self.planner_profile,'usage_policy':self.governor.policy if self.governor else None,
                     'reservation':{'key':key,'input_characters':size,'output_tokens':output}}):
                     result,metadata=provider(payload,dict(self.generation_options));received=True
+                judgment_event('PROCESS_JUDGMENT_COMPLETED',{'planner_call':number,'attempt':attempt,'retried':attempt==2})
                 return result
+            except IncompleteProse as exc:
+                metadata=getattr(exc,'provider_metadata',None);received=True
+                judgment_event('PROCESS_JUDGMENT_REJECTED',{'planner_call':number,'attempt':attempt,'reason_code':'INCOMPLETE_PROSE'})
+                raise
             except Exception as exc:
                 return {'status':'UNAVAILABLE','explains':None,
                         'reason':'Definition judgment unavailable: '+type(exc).__name__+'.'}
@@ -482,6 +497,22 @@ class AdaptiveRuntime:
                     with self.runtime.db() as db:
                         db.execute('BEGIN IMMEDIATE')
                         self.governor.settle(db,identity,key,usage,uncertain=not received and not usage)
+
+        def judge(payload):
+            for attempt in (1,2):
+                try:
+                    result=judge_once(payload,attempt)
+                    if attempt==2 and result.get('status')=='UNAVAILABLE':
+                        raise RuntimeError('Judgment retry unavailable')
+                    return result
+                except IncompleteProse:
+                    if attempt==2:
+                        judgment_event('PROCESS_JUDGMENT_RETRY_EXHAUSTED',{'attempts':2,'reason_code':'INCOMPLETE_PROSE'})
+                        raise
+                    judgment_event('PROCESS_JUDGMENT_RETRY',{'previous_attempt':1,'next_attempt':2,'reason_code':'INCOMPLETE_PROSE'})
+                except Exception:
+                    if attempt==2:judgment_event('PROCESS_JUDGMENT_RETRY_EXHAUSTED',{'attempts':2,'reason_code':'RETRY_UNAVAILABLE'})
+                    raise
 
         def read_ingestion(request):
             def execute():
