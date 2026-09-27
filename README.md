@@ -1,5 +1,11 @@
 # Self-Discovering Enterprise Data Investigator
 
+**Latest intake result, 2026-09-27:** a single valid-pair schema replaces
+independent shape/mode choices. Five same-ticket intake/preview attempts all chose
+`MISMATCH_COMPLAINT:VERTICAL` and passed preview, with identical parsed decisions.
+No retries or data reads. This is intake consistency in five trials, not an
+end-to-end investigation pass. [Five-run evidence](docs/intake-valid-pairs-five.md).
+
 An enterprise process debugger for Azure SQL, Microsoft Fabric and Power BI.
 It has automatically discovered a newly published model and reports and made them
 available for investigation without manual registration. Known-domain trials have

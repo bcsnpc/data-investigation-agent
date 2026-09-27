@@ -1,0 +1,338 @@
+{
+  "context_cost": {
+    "before": {
+      "models": 5,
+      "measures": 37,
+      "columns": 91,
+      "directory_entries": 0,
+      "sql_object_entries": 0,
+      "payload_characters": 28658
+    },
+    "after": {
+      "models": 5,
+      "measures": 37,
+      "columns": 91,
+      "directory_entries": 0,
+      "sql_object_entries": 0,
+      "payload_characters": 28658
+    },
+    "input_bytes_unchanged": true,
+    "request_bytes_before": 38020,
+    "request_bytes_after": 37993,
+    "note": "Intake catalog has no investigation asset directory or SQL object entries. Twelve synthetic golden requests also assert unchanged input and non-schema settings."
+  },
+  "manifest": {
+    "engine_hash": "db74f9946a64e9c52efe5bcd9962f0ed2e717219433a764b0e3e50f3924b162e",
+    "commit": "da5184d88b789714221854c9bfaf97dfec73acd5",
+    "policy": {
+      "environment": "unknown-domain-v4",
+      "daily_limits": {
+        "planner_calls": 240,
+        "cloud_calls": 60,
+        "input_characters": 8000000,
+        "output_tokens": 1500000
+      },
+      "max_inflight_planners": 1,
+      "no_progress_limit": 3
+    },
+    "usage_before": {
+      "day": "2026-09-27",
+      "reserved": {
+        "planner_calls": 7,
+        "cloud_calls": 7,
+        "input_characters": 297353,
+        "output_tokens": 10500
+      },
+      "states": {
+        "SETTLED": 14
+      }
+    },
+    "profile": {
+      "subscription_id": "d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9",
+      "resource_group": "rg-investigator-dev",
+      "account": "aoai-investigator-9696025",
+      "location": "eastus2",
+      "endpoint": "https://aoai-investigator-9696025.openai.azure.com",
+      "deployment": "investigator-quality-54",
+      "model": "gpt-5.4",
+      "model_version": "2026-03-05",
+      "deployment_type": "GlobalStandard",
+      "capacity": 100,
+      "generation_options": {
+        "reasoning_effort": "medium",
+        "max_output_tokens": 8000,
+        "timeout_seconds": 120,
+        "max_payload_characters": 48000
+      },
+      "max_planner_recoveries": 1
+    },
+    "config_hash": "4362a6c7d6bb3ed7ebd58aa78e9bb0159790b42edd76c6ae30320c4beb0e4c5e",
+    "ticket_hash": "e22ce27faa9ef38cad5f6e958ba9d0947cc44158ab0a4d6d66f11a2c07564ff9",
+    "order": [
+      "I1",
+      "I2",
+      "I3",
+      "I4",
+      "I5"
+    ],
+    "started": "2026-09-27T04:27:48.063452+00:00",
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "conditions": {
+      "read_limit": 6,
+      "input_limit": 384000,
+      "max_output_tokens": 8000,
+      "reasoning_effort": "medium",
+      "provider_timeout": 120,
+      "minimum_interval": 65,
+      "recording": true,
+      "synthesis": false,
+      "intake_and_preview_only": true
+    },
+    "discovery_reapproval": "3db5fbeb-9162-465b-8bf6-e7877a7444af",
+    "approved_config_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+    "ended": "2026-09-27T04:33:08.132793+00:00",
+    "usage_after": {
+      "day": "2026-09-27",
+      "reserved": {
+        "planner_calls": 12,
+        "cloud_calls": 7,
+        "input_characters": 509748,
+        "output_tokens": 18000
+      },
+      "states": {
+        "SETTLED": 19
+      }
+    }
+  },
+  "audits": [
+    {
+      "trial": 1,
+      "tape_id": "8d9a6f62-e7a8-4fee-a3fe-5d854dcd4dcb",
+      "integrity_verified": true,
+      "wire_schema_valid": true,
+      "request_sha256": "70d48c17435ad07ed20f162f583beb78becf38d0796efcb2c7b422b3bd102938",
+      "request_bytes": 37993,
+      "decision": {
+        "action": "PROPOSE",
+        "model_id": "m2",
+        "measure_id": "m2v3",
+        "metric_quote": "Handled Quantity",
+        "question": null,
+        "filters": [],
+        "dimension_ids": [],
+        "triage": "MISMATCH_COMPLAINT:VERTICAL"
+      },
+      "provider_status": "completed",
+      "usage": {
+        "input_tokens": 13629,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 64,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 13693
+      },
+      "reported_settings": {
+        "model": "investigator-quality-54",
+        "reasoning": {
+          "context": "current_turn",
+          "effort": "none",
+          "mode": "standard",
+          "summary": null
+        },
+        "temperature": 1.0,
+        "top_p": 0.98,
+        "max_output_tokens": 1500
+      }
+    },
+    {
+      "trial": 2,
+      "tape_id": "aaebcbf5-ab9a-428f-9a72-c50c8048827b",
+      "integrity_verified": true,
+      "wire_schema_valid": true,
+      "request_sha256": "70d48c17435ad07ed20f162f583beb78becf38d0796efcb2c7b422b3bd102938",
+      "request_bytes": 37993,
+      "decision": {
+        "action": "PROPOSE",
+        "model_id": "m2",
+        "measure_id": "m2v3",
+        "metric_quote": "Handled Quantity",
+        "question": null,
+        "filters": [],
+        "dimension_ids": [],
+        "triage": "MISMATCH_COMPLAINT:VERTICAL"
+      },
+      "provider_status": "completed",
+      "usage": {
+        "input_tokens": 13629,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 13440
+        },
+        "output_tokens": 64,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 13693
+      },
+      "reported_settings": {
+        "model": "investigator-quality-54",
+        "reasoning": {
+          "context": "current_turn",
+          "effort": "none",
+          "mode": "standard",
+          "summary": null
+        },
+        "temperature": 1.0,
+        "top_p": 0.98,
+        "max_output_tokens": 1500
+      }
+    },
+    {
+      "trial": 3,
+      "tape_id": "de0309f8-eb5d-4ee4-8d0d-932bcf7f8b8e",
+      "integrity_verified": true,
+      "wire_schema_valid": true,
+      "request_sha256": "70d48c17435ad07ed20f162f583beb78becf38d0796efcb2c7b422b3bd102938",
+      "request_bytes": 37993,
+      "decision": {
+        "action": "PROPOSE",
+        "model_id": "m2",
+        "measure_id": "m2v3",
+        "metric_quote": "Handled Quantity",
+        "question": null,
+        "filters": [],
+        "dimension_ids": [],
+        "triage": "MISMATCH_COMPLAINT:VERTICAL"
+      },
+      "provider_status": "completed",
+      "usage": {
+        "input_tokens": 13629,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 13440
+        },
+        "output_tokens": 64,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 13693
+      },
+      "reported_settings": {
+        "model": "investigator-quality-54",
+        "reasoning": {
+          "context": "current_turn",
+          "effort": "none",
+          "mode": "standard",
+          "summary": null
+        },
+        "temperature": 1.0,
+        "top_p": 0.98,
+        "max_output_tokens": 1500
+      }
+    },
+    {
+      "trial": 4,
+      "tape_id": "3a56616f-779f-4ced-855b-aa4caa0716e8",
+      "integrity_verified": true,
+      "wire_schema_valid": true,
+      "request_sha256": "70d48c17435ad07ed20f162f583beb78becf38d0796efcb2c7b422b3bd102938",
+      "request_bytes": 37993,
+      "decision": {
+        "action": "PROPOSE",
+        "model_id": "m2",
+        "measure_id": "m2v3",
+        "metric_quote": "Handled Quantity",
+        "question": null,
+        "filters": [],
+        "dimension_ids": [],
+        "triage": "MISMATCH_COMPLAINT:VERTICAL"
+      },
+      "provider_status": "completed",
+      "usage": {
+        "input_tokens": 13629,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 13440
+        },
+        "output_tokens": 64,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 13693
+      },
+      "reported_settings": {
+        "model": "investigator-quality-54",
+        "reasoning": {
+          "context": "current_turn",
+          "effort": "none",
+          "mode": "standard",
+          "summary": null
+        },
+        "temperature": 1.0,
+        "top_p": 0.98,
+        "max_output_tokens": 1500
+      }
+    },
+    {
+      "trial": 5,
+      "tape_id": "15cd56b5-6e75-4060-a449-a6e897f5ab0d",
+      "integrity_verified": true,
+      "wire_schema_valid": true,
+      "request_sha256": "70d48c17435ad07ed20f162f583beb78becf38d0796efcb2c7b422b3bd102938",
+      "request_bytes": 37993,
+      "decision": {
+        "action": "PROPOSE",
+        "model_id": "m2",
+        "measure_id": "m2v3",
+        "metric_quote": "Handled Quantity",
+        "question": null,
+        "filters": [],
+        "dimension_ids": [],
+        "triage": "MISMATCH_COMPLAINT:VERTICAL"
+      },
+      "provider_status": "completed",
+      "usage": {
+        "input_tokens": 13629,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 13440
+        },
+        "output_tokens": 64,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 13693
+      },
+      "reported_settings": {
+        "model": "investigator-quality-54",
+        "reasoning": {
+          "context": "current_turn",
+          "effort": "none",
+          "mode": "standard",
+          "summary": null
+        },
+        "temperature": 1.0,
+        "top_p": 0.98,
+        "max_output_tokens": 1500
+      }
+    }
+  ],
+  "usage_delta": {
+    "planner_calls": 5,
+    "cloud_calls": 0,
+    "input_characters": 212395,
+    "output_tokens": 7500
+  },
+  "reference_token_cost_usd": 0.054201,
+  "distinct_request_bodies": 1,
+  "distinct_wire_decisions": 1,
+  "regression": {
+    "tests": 1190,
+    "seconds": 258.926,
+    "python_exit_code": 0
+  }
+}

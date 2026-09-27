@@ -4,6 +4,15 @@ Updated 2026-09-27. Tracking: [#193](https://github.com/bcsnpc/data-investigatio
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
+**Intake schema follow-up, 2026-09-27:** one enum now encodes the three valid
+shape/mode pairs. Five recorded same-ticket attempts all selected
+`MISMATCH_COMPLAINT:VERTICAL`, with identical parsed decisions, and passed preview.
+No retry, permission/setting change or data read. 1,190 tests passed (exit 0).
+This does not establish general determinism or end-to-end synthesis completion.
+Normalization remains a separate PR #257: saved-R2 quantities validate offline,
+but synthesis then fails on the ingestion `metadata` contract.
+[Five-run evidence](intake-valid-pairs-five.md). Both requested fixes await review.
+
 ## Current milestone
 
 **Latest: synthesis surface-key fix; intake audit complete, stopped for review.**

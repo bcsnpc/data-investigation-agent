@@ -1492,3 +1492,14 @@ retry, freeze or acceptance claim. [Report](synthesis-surface-key-intake-audit.m
 Full unittest discovery: 1,189 tests OK in 248.124 seconds. ResourceWarnings and
 PowerShell wrapper exit 1 are retained separately; see the report. Fix/audit PR #255
 is stacked on unchanged-evidence PR #254.
+
+
+## 2026-09-27 ? valid-pair intake schema and five trials
+
+The wire schema now encodes the three valid shape/mode pairs in one enum; the
+historical internal fields remain readable. Five recorded intake/preview trials
+all proposed MISMATCH_COMPLAINT:VERTICAL and passed preview with identical parsed
+decisions. No retries or data reads, no quota/policy change. Five ledger rows added;
+213 prior rows preserved. 47 focused tests and 1,190 full regression tests passed
+(Python exit 0). [Report](intake-valid-pairs-five.md). No intake refusal moved to
+another route in this sample; broader determinism remains unproven.
