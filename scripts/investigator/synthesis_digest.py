@@ -16,6 +16,20 @@ DISPLAY_ROWS = 2
 EXCERPT_CHARACTERS = 2400
 
 
+def _context_evidence(observation):
+ roles=observation.get('process_roles',[])
+ if isinstance(roles,list) and 'ingestion' in roles:
+  from .adapters.microsoft_context_evidence import ingestion_evidence
+  result=ingestion_evidence(observation)
+  return {'asked':{'operation':'ingestion','asset_id':result['asset_id']},
+          'result':result,
+          'provenance':{'hash':digest(observation),'derivation':'PROCESS_ADAPTER_INGESTION_RECEIPT'}}
+ if not isinstance(observation.get('metadata'),dict):
+  raise Conflict('Context lookup/path receipt requires metadata; unsupported context receipt shape')
+ return {'asked':observation.get('lookup'),'result':_definition_evidence(observation),
+         'provenance':{'hash':digest(observation),'context_version':observation['metadata'].get('context_version')}}
+
+
 def _definition_evidence(observation):
  m=observation['metadata'];lookup=observation.get('lookup') or {}
  result={'asset_name':m.get('asset',{}).get('name'),'asset_kind':m.get('asset',{}).get('kind'),
@@ -92,9 +106,7 @@ def build(state,db):
   if o.get('process_roles'):item['process_roles']=o['process_roles']
   if o.get('test_purpose'):item['test_purpose']=o['test_purpose']
   if o['tool']=='context':
-   m=o['metadata'];item['asked']=o.get('lookup')
-   item['result']=_definition_evidence(o)
-   item['provenance']={'hash':digest(o),'context_version':m.get('context_version')}
+   item.update(_context_evidence(o))
   elif o['tool']=='process':
    pending.append((item,o))
    item['provenance']={'hash':digest(o),'derivation':'PROCESS_COMPARISON_FROM_REFERENCED_OBSERVATIONS'}

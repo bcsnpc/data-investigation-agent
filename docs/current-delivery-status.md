@@ -13,6 +13,15 @@ Normalization remains a separate PR #257: saved-R2 quantities validate offline,
 but synthesis then fails on the ingestion `metadata` contract.
 [Five-run evidence](intake-valid-pairs-five.md). Both requested fixes await review.
 
+**Latest synthesis follow-up, 2026-09-27:** #257 and #258 are merged after green
+checks. Synthesis's assumption that all context observations contain `metadata`
+was wrong; explicit ingestion projection now preserves and validates its actual
+report. Saved R2's digest builds (6,298 characters), but synthesis validation loses
+the comparison fields and rejects the supported consistency assessment. No live
+run: the offline-completion condition remains unmet. 37 focused tests and
+1,195 full regression tests passed (Python exit 0). Fix and report: PR #259.
+[Contract decision and next blocker](synthesis-ingestion-contract.md).
+
 ## Current milestone
 
 **Normalization follow-up:** shared adapter/synthesis quantity projection excludes
