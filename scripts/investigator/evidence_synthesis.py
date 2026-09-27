@@ -101,6 +101,21 @@ def validate(value,payload,*,source_state):
     return value
 
 
+def declare_capabilities(value):
+    """Canonicalize the provider's declaration before it becomes a record.
+
+    Missing or malformed support is left for strict validation, never defaulted.
+    This changes ordering/multiplicity only; names and evidence remain untouched.
+    """
+    from .process_debugging import capability_declaration
+    if not isinstance(value,dict):return value
+    support=value.get('support')
+    process=support.get('process') if isinstance(support,dict) else None
+    if isinstance(process,dict) and 'capabilities_declared' in process:
+        process['capabilities_declared']=capability_declaration(process['capabilities_declared'])
+    return value
+
+
 def assemble_citations(value):
     """Make the outer evidence list cover every support citation."""
     support=value.get('support') if isinstance(value,dict) else None
@@ -188,6 +203,7 @@ def run(agent,identity,provider):
             finally:
                 if tape:tape.safe_write('runtime-return.json',encoded({'clock':agent.clock()}).encode())
         if digest(payload)!=record['payload_hash']:raise Conflict('Provider changed frozen digest')
+        declare_capabilities(assessment)
         normalize(assessment)
         validate(assessment,payload,source_state=state)
     except Exception as exc:
