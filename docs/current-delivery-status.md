@@ -9,7 +9,9 @@ This is the authoritative current status; milestone pages retain historical evid
 **Latest: synthesis surface-key fix; intake audit complete, stopped for review.**
 PR #253 merged after six green checks; unchanged evidence commit `7fea46f` is in
 PR #254. Synthesis surface equality now uses engine/connection/object, retaining
-identity as evidence. 18 synthesis tests and two generator tests passed.
+identity as evidence. 18 synthesis tests and two generator tests passed. Full
+unittest discovery reports 1,189 tests OK; its PowerShell wrapper returned 1
+with ResourceWarnings retained in the log (see report).
 One requested same-condition R2 scenario repeat held at intake: no probes or
 synthesis calls. Offline saved-R2 validation clears the identity rejection and
 exposes raw-result alias mismatch (`[baseline]` versus `quantity`) despite equal

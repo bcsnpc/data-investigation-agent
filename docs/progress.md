@@ -1488,3 +1488,7 @@ validation exposed a separate raw-row alias mismatch. Original three intake tape
 have identical request bytes and schema-valid responses, with differing route
 modes rejected by the application pairing rule. No intake change, policy change,
 retry, freeze or acceptance claim. [Report](synthesis-surface-key-intake-audit.md).
+
+Full unittest discovery: 1,189 tests OK in 248.124 seconds. ResourceWarnings and
+PowerShell wrapper exit 1 are retained separately; see the report. Fix/audit PR #255
+is stacked on unchanged-evidence PR #254.

@@ -101,8 +101,12 @@ No intake implementation, schema, prompt or setting was changed. Audit stops her
 
 ## Validation and artifacts
 
-18 synthesis tests and two generator tests passed. Full regression result is
-recorded in the PR and current status after completion. No investigation planner
+18 synthesis tests and two generator tests passed. Full discovery reports
+**1,189 tests passed** in 248.124 seconds. The captured log ends in `OK`; it
+also contains unclosed-SQLite ResourceWarnings. The PowerShell redirection wrapper
+reported exit 1, so the unittest result and wrapper status are recorded separately
+rather than presenting a clean command exit. Four recording manifests verified,
+284 local document targets resolved, and `git diff --check` passed. No investigation planner
 payload is shaped by this change: directory and SQL-object coverage are unchanged.
 The live intake request hash also verifies unchanged intake context. Synthesis
 retains its existing surface evidence; this change only admits identity-bearing
