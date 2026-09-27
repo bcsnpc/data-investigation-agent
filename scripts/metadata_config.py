@@ -31,7 +31,7 @@ def load_config(path):
     keys(sql['auth'], ['mode', 'credential_file'])
     if sql['auth']['mode'] != 'dpapi_file':
         raise ValueError('Unsupported SQL authentication mode')
-    optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client') if k in fabric]
+    optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'refresh_timing_reader') if k in fabric]
     keys(fabric, ['workspace_id', 'auth'] + optional)
     fabric['workspace_id'] = str(UUID(text(fabric['workspace_id'])))
     keys(fabric['auth'], ['mode', 'tenant_id', 'python'])
@@ -50,6 +50,15 @@ def load_config(path):
         profile_path(fabric['xmla_client']['library'])
         if 'native_reader' not in fabric:
             raise ValueError('XMLA failure detail requires the native reader identity')
+    if 'refresh_timing_reader' in fabric:
+        from fabric_sql_auth import account_name,profile_path
+        timing=fabric['refresh_timing_reader']
+        keys(timing,['account','profile'])
+        account_name(timing['account']);profile_path(timing['profile'])
+        if any(timing['account'].casefold()==fabric.get(k,{}).get('account','').casefold() for k in ('native_reader','sql_reader')):
+            raise ValueError('Optional refresh metadata identity must be distinct from the execution reader')
+        if any(timing['profile']==fabric.get(k,{}).get('profile') for k in ('sql_reader','sql_session')):
+            raise ValueError('Refresh metadata must use a separate identity profile')
     for name in ('sql_session', 'sql_reader'):
         # Azure CLI SQL sessions: one account per isolated profile under .local/.
         if name in fabric:

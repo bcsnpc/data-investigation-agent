@@ -67,6 +67,12 @@ def business_text(outcome, payload=None):
     by_id={e['id']:e for e in entries}
     lower=(number_from(by_id.get(divergence['referenced_evidence_ids'][1]))
            if divergence and len(divergence.get('referenced_evidence_ids',[]))==2 else None)
+    if outcome=='REFRESH_LATENCY' and immediate is not None and number is not None and lower is not None:
+        return ' '.join((f'The report showed {number}, while its direct input totaled {lower}.',
+            'No processing changes the compared quantity between them, so the report is serving a different data state.',
+            'The refresh time was unavailable to the diagnostic account because its read access does not permit refresh history.',
+            'The checks do not establish how long the difference has existed, which state is newer, or whether the original entries are correct.',
+            'Recommended action: '+action(outcome)['text']))
     if immediate is not None and number is not None and lower is not None:
         terms=_business_terms(entries)
         subject=terms.get('subject',{}).get('text');matched=terms.get('matched',{}).get('text')

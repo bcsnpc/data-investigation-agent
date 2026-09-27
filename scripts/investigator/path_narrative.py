@@ -33,6 +33,14 @@ def facts(payload):
 
 
 def summary(payload):
+    if payload.get('deterministic_process_finding',{}).get('classification')=='REFRESH_LATENCY':
+        reason=next((e['result']['reader_timing_unavailable'] for e in payload.get('evidence',[])
+                     if 'reader_timing_unavailable' in e.get('result',{})),
+                    'Refresh timing was unavailable to the diagnostic identity.')
+        return ('Independent reads disagree at the presentation and its unchanged declared source. '
+                'This establishes a serving-state freshness discrepancy, not a measured delay. '
+                +reason+' '+
+                'The reads are not a shared snapshot; elapsed delay and which state is newer are unestablished.')
     count=len(facts(payload))
     mechanism=_business_mechanism(payload.get('evidence',[]))
     return (f'The procedure recorded {count} independently compared boundaries. '
