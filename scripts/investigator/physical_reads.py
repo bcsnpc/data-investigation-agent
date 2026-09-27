@@ -1,4 +1,4 @@
-"""Meter additional physical requests inside an already reserved logical dispatch.
+"""Meter physical requests inside an admitted diagnostic operation.
 
 The first slot is conservatively reserved before transport preparation. Each
 subsequent SQL command/HTTP request needs admission before the child may send it.
@@ -7,10 +7,23 @@ Authentication and connection handshakes are not data/metadata read requests.
 from contextlib import contextmanager
 from contextvars import ContextVar
 import json
+from hashlib import sha256
+from uuid import uuid4
+from pathlib import Path
 import subprocess
 from threading import Timer
 
 _scope=ContextVar('physical_read_scope',default=None)
+_guards=ContextVar('run_guard_cache',default=None)
+
+
+@contextmanager
+def guard_scope(record):
+    # Never persisted or shared between runs; a restart establishes guards anew.
+    token=_guards.set({'cache':{},'record':record})
+    try: yield
+    finally: _guards.reset(token)
+
 
 
 @contextmanager
@@ -25,6 +38,13 @@ def run(command, *, input, timeout, fallback=None, **kwargs):
     state=_scope.get()
     if state is None: return (fallback or subprocess.run)(command,input=input,timeout=timeout,**kwargs)
     command=list(command)+(['-Metered'] if any(str(c).endswith('.ps1') for c in command) else ['--metered'])
+    payload=json.loads(input)
+    # Credential fingerprint stays in memory only, never in receipts.
+    credential=payload.get('access_token','')
+    if payload.get('credential_file'):
+        credential=Path(payload['credential_file']).read_bytes().hex()
+    connection=sha256(json.dumps([command,payload.get('server'),payload.get('database'),credential],sort_keys=True).encode()).hexdigest()
+    guards=_guards.get()
     child=subprocess.Popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
                            text=True,encoding='utf-8')
     timer=Timer(timeout,child.kill);timer.daemon=True;timer.start()
@@ -44,8 +64,18 @@ def run(command, *, input, timeout, fallback=None, **kwargs):
             if kind not in ('sql_identity','sql_database_permissions','sql_object_permissions',
                             'sql_quantity','onelake_listing','onelake_commit'):
                 raise ValueError('Unknown physical request')
+            cache_key=(connection,kind,message.get('object'))
+            cacheable=kind in ('sql_database_permissions','sql_object_permissions') and message.get('cache_guard') is True
+            if cacheable and kind=='sql_object_permissions' and message.get('object') not in payload.get('read_only_objects',[]):
+                raise ValueError('Guard object outside admitted request')
+            if cacheable and guards and cache_key in guards['cache']:
+                guards['record']({'status':'REUSED','kind':kind,'established_receipt':guards['cache'][cache_key],
+                                  'server':payload.get('server'),'database':payload.get('database'),'object':message.get('object')})
+                child.stdin.write('REUSE\n');child.stdin.flush()
+                continue
+            established=None
             def send():
-                nonlocal final
+                nonlocal final,established
                 child.stdin.write('ALLOW\n');child.stdin.flush()
                 raw_done=line();done=json.loads(raw_done)
                 if done.get('physical_read')!='DONE' or done.get('kind')!=kind:
@@ -54,12 +84,19 @@ def run(command, *, input, timeout, fallback=None, **kwargs):
                         return {'status':'UNAVAILABLE','request_kind':kind}
                     raise RuntimeError('Physical request completion unavailable')
                 if done.get('status')!='AVAILABLE': raise RuntimeError('Physical request failed')
-                return {'status':'AVAILABLE','request_kind':kind}
+                if cacheable:
+                    if done.get('guard_passed') is not True:raise RuntimeError('Guard success not established')
+                    established=str(uuid4())
+                return {'status':'AVAILABLE','request_kind':kind,'guard_receipt':established}
             if state['first']:
                 state['first']=False
                 state['first_report']={'status':'UNCERTAIN','request_kind':kind}
                 state['first_report']=send()
             else: state['meter'](kind,send)
+            if established and guards:
+                guards['record']({'status':'ESTABLISHED','kind':kind,'established_receipt':established,
+                                  'server':payload.get('server'),'database':payload.get('database'),'object':message.get('object')})
+                guards['cache'][cache_key]=established
             if final is not None:
                 child.wait(timeout=5)
                 return subprocess.CompletedProcess(command,child.returncode,final,'')
