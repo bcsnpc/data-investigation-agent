@@ -1709,3 +1709,11 @@ effective-permission checks; no guard change. Implemented deterministic technica
 facts and schema-derived vocabulary supply, removing false prose enums. Full
 validation and the approved live pair pending. Engine freezes invalidated.
 [Evidence and contract audit](rendered-synthesis-contract.md).
+
+
+## 2026-09-27: rendered synthesis validated twice
+
+1,307 tests passed. Both live repeats completed TRANSFORMATION_LOGIC with validated
+synthesis: four diagnostics, ten physical requests, six guards and zero reuses
+each. All twenty approved credits charged with explicit expiries, caps unchanged.
+No engine change during the batch. [Both full outputs and accounting](rendered-synthesis-live-pair.md).

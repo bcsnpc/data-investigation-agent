@@ -77,3 +77,12 @@ Focused vocabulary, synthesis, path, prose, bounds and freshness tests pass.
 Full regression and two authorized live repeats are pending. The user approved
 20 new batch credits, ten per run with two-hour expiry. Diagnostic cap remains
 four; ordinary allowance remains 60. Each grant, use and expiry will be recorded.
+
+## Completed verification
+
+The full suite passed 1,307 tests. Both approved live runs completed
+TRANSFORMATION_LOGIC with validated synthesis at unchanged four diagnostics and
+ten physical requests each. Six guards, zero reuses per run; all twenty credits
+charged with recorded two-hour expiries. [Complete report and both outputs
+verbatim](rendered-synthesis-live-pair.md) supersede the pending status above.
+No engine or cap was changed between runs; prior failures remain unchanged.
