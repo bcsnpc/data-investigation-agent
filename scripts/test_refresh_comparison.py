@@ -50,6 +50,9 @@ class RefreshComparisonTests(unittest.TestCase):
             if e['id']=='read-top':e['test_purpose']='ESTABLISH_BASELINE'
             if e['id']=='boundary-1-comparison':e['result']={'comparison_status':'CROSS_SURFACE_VERIFIED','upper_layer':'top','lower_layer':'lower','values_equal':False,'referenced_evidence_ids':['read-top','read-lower']}
             if e['id']=='declared-source-freshness':e.update(_context_evidence(next(o for o in observations if o['id']==e['id'])))
+        for e in entries:
+            original=next(o for o in observations if o['id']==e['id'])
+            if 'snapshot_attestation' in original:e.setdefault('result',{})['snapshot_attestation']=original['snapshot_attestation']
         payload={'evidence':entries,'deterministic_process_finding':{'classification':r['classification']}}
         refs=[e['id'] for e in entries]
         response={'business_output':{'text':narrative.business_text(r['classification'],payload),'evidence_ids':refs},

@@ -110,6 +110,14 @@ def validate(assessment, observations):
     outcome = assessment['classification']
     if outcome not in OUTCOMES:
         raise ValueError('Unsupported process-debugging outcome')
+    from .snapshot_attestation import checked,limitation
+    comparisons=[o for o in observations.values() if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
+    for ordinal,o in enumerate(comparisons,1):
+        if 'snapshot_attestation' not in o:continue # historical contract
+        checked(o)
+        required=limitation(o,ordinal)
+        if required and required not in assessment.get('limits',[]):
+            raise ValueError('Snapshot-unverified comparison requires its specific limitation')
     process = assessment.get('support', {}).get('process')
     if not isinstance(process, dict):
         raise ValueError('Process outcome requires process support')

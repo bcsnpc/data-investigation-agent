@@ -11,7 +11,7 @@ from .process_outcomes import ACTIONS,EVIDENCE_ROLES
 
 VERSION='process-debugging-v2'
 REQUIRED_CAPABILITIES=frozenset(('resolve_measure_path','evaluate_scoped_quantity'))
-OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','refresh_timing','declared_source_comparison','presentation_context',
+OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','refresh_timing','snapshot_identity','declared_source_comparison','presentation_context',
     'transformation_definition','job_history','ingestion','independent_lower_surface','failure_detail'))
 
 
@@ -141,6 +141,7 @@ class ProcessAdapter(Protocol):
     def resolve_path(self, measure_id: str) -> dict: ...
     def direct_source_comparison(self, boundary: dict, scope: dict) -> dict | None: ...
     def refresh_timing(self, path: dict) -> dict: ...
+    def snapshot_identity(self, probe: Probe) -> dict: ...
     def evaluate(self, layer: dict, measure_id: str, scope: dict) -> Probe: ...
     def presentation_context(self, boundary: dict, scope: dict) -> dict: ...
     def transformation_definition(self, boundary: dict) -> dict: ...
@@ -244,6 +245,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     failures=[]
     path={}
     measure_baseline=None
+    snapshot_probes={}
     def answer(*args,**kwargs):
         result=_answer(*args,capabilities=available,failures=failures,**kwargs)
         # The baseline above a divergent internal boundary is not the selected
@@ -252,6 +254,14 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             result['support']['measure_connection']='ESTABLISHED' if measure_baseline['status']=='ESTABLISHED' else 'NOT_ESTABLISHED_CAPABILITY'
             result['support']['measure_connection_evidence_ids']=list(measure_baseline['evidence_ids'])
         all_layers=path.get('layers',[]);observed=result['_observations']
+        from . import snapshot_attestation
+        snapshot_attestation.enrich(observed,snapshot_probes,adapter,available)
+        snapshot_comparisons=[o for o in observed if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
+        for ordinal,o in enumerate(snapshot_comparisons,1):
+            limit=snapshot_attestation.limitation(o,ordinal)
+            if limit:result['limits'].append(limit)
+        for key in ('business_output','technical_output'):
+            result[key]['snapshot_attestations']=[{'comparison_id':o['id'],**o['snapshot_attestation']} for o in snapshot_comparisons]
         compared={(o.get('upper_layer'),o.get('lower_layer')) for o in observed if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED'}
         attempted={(o.get('upper_layer'),o.get('lower_layer')):o for o in observed if o.get('comparison_status')}
         ceiling=path.get('max_boundaries',len(all_layers));unchecked=[]
@@ -268,9 +278,9 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             if observation.get('direct_source_proof'):
                 from .refresh_comparison import LIMIT
                 result['limits'].extend([LIMIT,observation['reader_timing_unavailable'],
-                    'The reads are not a shared snapshot; elapsed delay and which state is newer are not established.'])
+                    'Elapsed delay and which state is newer are not established by the value comparison.'])
         contracts=path.get('quantity_contracts',[])
-        if contracts:result['limits'].append('Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness, intended grain and a shared snapshot are not established.')
+        if contracts:result['limits'].append('Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.')
         for observation in observed:
             limitation=(observation.get('judgment') or {}).get('limitation')
             if limitation:result['limits'].append(limitation)
@@ -282,6 +292,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         return result
     def read(layer):
         probe=refine_failure(adapter,available,layer,attest(adapter.evaluate(layer,measure_id,scope)))
+        if probe.evidence:snapshot_probes[probe.evidence['id']]=probe
         if probe.status=='UNAVAILABLE' and probe.failure:failures.append(_failure_entry(probe))
         return probe
     eligible=applicability(adapter)

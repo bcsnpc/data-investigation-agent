@@ -1,0 +1,22 @@
+{
+  "kind": "OFFLINE_SYNTHESIS_VIEW",
+  "engine_hash": "22067e6b0a139794a80bbe347a81381c2ad7cda2896dc1794828fbc4ad35eadf",
+  "before": {
+    "directory_entries": 0,
+    "sql_object_entries": 0,
+    "evidence_entries": 1,
+    "payload_characters": 440
+  },
+  "after": {
+    "directory_entries": 0,
+    "sql_object_entries": 0,
+    "evidence_entries": 1,
+    "payload_characters": 610
+  },
+  "investigation_planner_payload_changed": false,
+  "cloud_reads": 0,
+  "llm_calls": 0,
+  "final_engine_hash": "22067e6b0a139794a80bbe347a81381c2ad7cda2896dc1794828fbc4ad35eadf",
+  "regression_tests": 1286,
+  "regression_exit_code": 0
+}

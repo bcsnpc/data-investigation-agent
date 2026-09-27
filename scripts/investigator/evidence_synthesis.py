@@ -85,6 +85,12 @@ def validate(value,payload,*,source_state):
         raise Conflict('Synthesis evidence identities are not unique')
     if any(identity not in by_id or by_id[identity]['status']!='COMPLETED' for identity in visible):
         raise Conflict('Synthesis digest references unavailable original evidence')
+    from .snapshot_attestation import checked
+    for entry in payload['evidence']:
+        original_entry=by_id[entry['id']]
+        if 'snapshot_attestation' in original_entry:
+            if entry.get('result',{}).get('snapshot_attestation')!=checked(original_entry):
+                raise Conflict('Synthesis projection dropped or changed snapshot attestation')
     # Copy whole records, including future nested fields. No field allowlist.
     observations=copy.deepcopy([by_id[identity] for identity in visible])
     existing(dict(action='STOP',candidate_id=None,question=None,stop_reason='ENOUGH_DIAGNOSTICS',

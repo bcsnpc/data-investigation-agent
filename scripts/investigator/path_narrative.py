@@ -40,13 +40,13 @@ def summary(payload):
         return ('Independent reads disagree at the presentation and its unchanged declared source. '
                 'This establishes a serving-state freshness discrepancy, not a measured delay. '
                 +reason+' '+
-                'The reads are not a shared snapshot; elapsed delay and which state is newer are unestablished.')
+                'Snapshot alignment is reported separately; elapsed delay and which state is newer are unestablished.')
     count=len(facts(payload))
     mechanism=_business_mechanism(payload.get('evidence',[]))
     return (f'The procedure recorded {count} independently compared boundaries. '
             'The fixed boundary account states input-to-output ordering and observed quantities. '
             +(mechanism+' ' if mechanism else '')+
-            'A compatible definition does not prove actual repeated matches, a shared snapshot, source correctness or business intent.')
+            'A compatible definition does not prove actual repeated matches, source correctness or business intent.')
 
 
 def render(payload):

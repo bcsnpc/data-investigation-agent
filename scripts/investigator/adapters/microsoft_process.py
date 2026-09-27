@@ -20,7 +20,7 @@ GENERIC_SERVICE_ERRORS=frozenset(('DatasetExecuteQueriesError',))
 class MicrosoftProcessAdapter:
     def __init__(self,store,config,model,execute_native,execute_source,judge_definition=None,meter_read=None,
                  read_ingestion=None,lower_surface=None,read_failure_detail=None,execute_lower=None,
-                 max_boundaries=1,read_endpoint=None,read_refresh_timing=None):
+                 max_boundaries=1,read_endpoint=None,read_refresh_timing=None,read_snapshot_identity=None):
         self.store,self.config,self.model=store,config,model
         self.execute_native,self.execute_source=execute_native,execute_source
         self.judge_definition=judge_definition
@@ -37,6 +37,7 @@ class MicrosoftProcessAdapter:
         if type(max_boundaries) is not int or not 0<=max_boundaries<=32:raise ValueError('Boundary ceiling must be 0 through 32')
         self.max_boundaries=max_boundaries;self.read_endpoint=read_endpoint
         self.read_refresh_timing=read_refresh_timing
+        self.read_snapshot_identity=read_snapshot_identity
         self._paths={}
 
     def capabilities(self):
@@ -47,6 +48,7 @@ class MicrosoftProcessAdapter:
             result.add('independent_lower_surface')
         if self.read_failure_detail is not None:result.add('failure_detail')
         if self.read_refresh_timing is not None:result.add('refresh_timing')
+        if self.read_snapshot_identity is not None:result.add('snapshot_identity')
         return result
 
     def capability_gaps(self):
@@ -223,6 +225,18 @@ class MicrosoftProcessAdapter:
         path['max_boundaries']=self.max_boundaries
         self._paths[measure_id]=path
         return path
+
+    def snapshot_identity(self,probe):
+        if self.read_snapshot_identity is None:return {'status':'UNAVAILABLE','reason':'NOT_CONFIGURED'}
+        context=context_search.latest(self.store) or {}
+        workspace=next((a['name'] for a in context.get('assets',[])
+                        if a.get('kind')=='Workspace' and a.get('id')=='fabric://'+self.model['workspace']),None)
+        try:return self.read_snapshot_identity(probe,workspace)
+        except Exception as exc:
+            profile=self.config['fabric'].get('snapshot_identity_reader',{})
+            return {'status':'UNAVAILABLE','reason':'OPTIONAL_METADATA_FAILED','error_type':type(exc).__name__,
+                    'identity_provenance':{'account':profile.get('account'),'profile':profile.get('profile'),
+                                           'execution_reader':False,'purpose':'OPTIONAL_SNAPSHOT_IDENTITY_ONLY'}}
 
     def refresh_timing(self,path):
         if self.read_refresh_timing is None:return {'status':'UNAVAILABLE','reason':'No optional metadata identity configured.'}

@@ -97,6 +97,15 @@ def assemble(response,payload,state):
         if timing and timing.get('status')=='AVAILABLE':
             import json
             technical['text']+='\n\nOptional refresh metadata (separate identity; not classification evidence): '+json.dumps(timing,sort_keys=True)
+    from .snapshot_attestation import payload_comparisons,business_limit
+    snapshot_rows=payload_comparisons(payload)
+    import json
+    for key in ('business_output','technical_output'):
+        outputs[key]['snapshot_attestations']=[e.get('snapshot_attestation',{'status':'SNAPSHOT_UNVERIFIED'}) for e in snapshot_rows]
+    fixed_limit=business_limit(payload)
+    if fixed_limit:outputs['business_output']['explanation']['text']+=' '+fixed_limit
+    if fixed_limit:technical['text']+='\n\n'+fixed_limit
+    technical['text']+='\n\nSnapshot attestation:\n'+json.dumps(outputs['technical_output']['snapshot_attestations'],sort_keys=True)
     technical['text']+='\n\nRecommended action: '+recommended['text']
     outputs['business_output']['provenance']='DETERMINISTIC_OUTCOME_RENDERING'
     outputs['business_output']['vocabulary_evidence']=[
