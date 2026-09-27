@@ -6,6 +6,21 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: independent lower-layer read (item 2b).** Updated
+2026-09-27.
+- **What changed:** `evaluate()` reads a `declared_source` layer on the Fabric
+  SQL endpoint as the reader. The quantity is compiled only from declarations
+  through the admission path; unfaithful mappings and filtered scope are
+  refused; `WITHIN_LAYER_CHECK` remains reachable.
+- **`DEFECT`:** a test confirms that divergence cannot become `DEFECT`.
+- **Live check:** one transport check returned `OBSERVED`, attested `MATCHED`,
+  after one refusal caused by an adapter bug (since fixed).
+- **Not yet run:** no comparison run (item 3).
+- **Engine tag:** `unfrozen-a909b4d9785e`. The fingerprint does not cover
+  adapters.
+
+See [independent lower read](independent-lower-read.md).
+
 **Current checkpoint: the reader's Direct Lake access is restored.** Updated
 2026-09-27 00:33 UTC.
 - **The remedy:** after an interactive portal sign-in as the reader, the stale
@@ -176,6 +191,11 @@ and database.
 `NO_INDEPENDENT_LOWER_READ` is therefore no longer forced by authentication.
 The engine still reports it, because `evaluate()` has no path that reads this
 endpoint.
+
+**Update 2026-09-27 (item 2b).** The statement above, that `evaluate()` has no
+path that reads the endpoint, is superseded; the original is kept. `evaluate()`
+now reads a faithfully declared `declared_source` layer on the Fabric SQL
+endpoint as the reader. See [independent lower read](independent-lower-read.md).
 
 Still not established:
 - **No table read:** only `SUSER_SNAME()` and `DB_NAME()` were queried.

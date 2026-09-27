@@ -156,8 +156,9 @@ A PR that changes behaviour and does not update these is incomplete.
   - No explicit `DENY` has been checked.
   - Viewer is broader than needed.
 
-  `evaluate()` still has no path to this endpoint, so `NO_INDEPENDENT_LOWER_READ`
-  persists for that reason, not because of authentication. The Fabric CLI client
+  `evaluate()` reads a faithfully declared `declared_source` layer on this
+  endpoint as the reader (item 2b). Otherwise `NO_INDEPENDENT_LOWER_READ` still
+  applies. No comparison run has been performed yet. The Fabric CLI client
   still fails with `AADSTS65002`. The "isolated metadata identity" is the tenant
   administrator (`admin@skynwhy.com`), so its receipts are admin receipts.
 - **Surface self-report is enforced and consumed** (`process_debugging.attest()`).

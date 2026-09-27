@@ -59,3 +59,47 @@ def self_report(config, database, *, token=get_sql_token, run=subprocess.run):
     report = {'identity': answer.get('login_name'), 'object': answer.get('database_name')}
     return {'status': 'REACHABLE', 'reason': None, 'execution_surface': surface,
             'surface_report': report if all(isinstance(v, str) and v for v in report.values()) else None}
+
+
+READ_SCRIPT = ROOT/'infra/scripts/Read-FabricSqlAggregate.ps1'
+
+
+class LowerReadError(RuntimeError):
+    """A failed compiled read. Carries no exception text."""
+    def __init__(self, stage=None, number=None, kind=None):
+        super().__init__('Fabric SQL read unavailable')
+        self.stage = stage if stage in ('setup', 'connect', 'query', 'token', 'response') else None
+        self.error_number = number if type(number) is int else None
+        self.error_kind = kind if kind in ('SqlException', 'InvalidOperationException', 'MethodException', 'ArgumentException') else 'TransportError'
+
+
+def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
+    """Execute one compiled, admitted request as the configured reader.
+
+    The request comes from the admission path. This function adds only the
+    connection: the reader's token, the endpoint, and the always-named database.
+    """
+    database = database_name(database)
+    reader = config['fabric'].get('sql_reader')
+    if reader is None:
+        raise LowerReadError('setup')
+    try:
+        access = token(config['fabric']['auth']['tenant_id'], reader['account'], reader['profile'])
+    except SignInRequired:
+        raise LowerReadError('token') from None
+    payload = json.dumps({'server': reader['server'], 'database': database, 'access_token': access,
+                          'query': request['query'], 'parameters': request.get('parameters', []),
+                          'read_only_objects': request['read_only_objects'], 'max_rows': request['max_rows'],
+                          'result_columns': request['result_columns']})
+    access = None
+    completed = run(['powershell', '-NoProfile', '-NonInteractive', '-File', str(READ_SCRIPT)], input=payload,
+                    capture_output=True, text=True, encoding='utf-8', timeout=150)
+    try:
+        answer = json.loads(completed.stdout)
+    except (TypeError, ValueError):
+        raise LowerReadError('response') from None
+    if completed.returncode or not isinstance(answer, dict) or answer.get('error'):
+        raise LowerReadError(answer.get('stage') if isinstance(answer, dict) else None,
+                             answer.get('error_number') if isinstance(answer, dict) else None,
+                             answer.get('error_kind') if isinstance(answer, dict) else None)
+    return answer

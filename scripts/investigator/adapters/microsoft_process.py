@@ -16,9 +16,22 @@ SURFACE_IDENTITY='surface_identity'
 GENERIC_SERVICE_ERRORS=frozenset(('DatasetExecuteQueriesError',))
 
 
+def _quantity(rows):
+    """One scalar from a one-row, one-column result, normalised so that equal
+    numbers from different engines compare equal. Anything else is kept as is."""
+    from decimal import Decimal,InvalidOperation
+    if not isinstance(rows,list) or len(rows)!=1 or not isinstance(rows[0],dict) or len(rows[0])!=1:return rows
+    cell=next(iter(rows[0].values()))
+    value=cell.get('value') if isinstance(cell,dict) else cell
+    if value is None:return {'quantity':None}
+    try:number=Decimal(str(value))
+    except (InvalidOperation,ValueError):return {'quantity':str(value)}
+    return {'quantity':format(number.normalize(),'f') if number!=0 else '0'}
+
+
 class MicrosoftProcessAdapter:
     def __init__(self,store,config,model,execute_native,execute_source,judge_definition=None,meter_read=None,
-                 read_ingestion=None,lower_surface=None,read_failure_detail=None):
+                 read_ingestion=None,lower_surface=None,read_failure_detail=None,execute_lower=None):
         self.store,self.config,self.model=store,config,model
         self.execute_native,self.execute_source=execute_native,execute_source
         self.judge_definition=judge_definition
@@ -30,13 +43,16 @@ class MicrosoftProcessAdapter:
         # Another interface to the semantic surface, used only to obtain a more
         # specific failure than Execute Queries reports. Absent means undeclared.
         self.read_failure_detail=read_failure_detail
+        # Executes an admitted request on the independent lower surface.
+        self.execute_lower=execute_lower
         self._paths={}
 
     def capabilities(self):
         result={'resolve_measure_path','evaluate_scoped_quantity','presentation_context','job_history'}
         if self.judge_definition is not None:result.add('transformation_definition')
         if self.read_ingestion is not None:result.add('ingestion')
-        if (self.lower_surface or {}).get('status')=='READY':result.add('independent_lower_surface')
+        if (self.lower_surface or {}).get('status')=='READY' and self.execute_lower is not None:
+            result.add('independent_lower_surface')
         if self.read_failure_detail is not None:result.add('failure_detail')
         return result
 
@@ -50,7 +66,9 @@ class MicrosoftProcessAdapter:
         if self.read_failure_detail is None:
             result['failure_detail']='No second interface to the semantic surface is configured for failure detail.'
         surface=self.lower_surface or {}
-        if surface.get('status')!='READY':
+        if surface.get('status')=='READY' and self.execute_lower is None:
+            result['independent_lower_surface']='The lower-surface session is ready, but no reader transport is configured.'
+        elif surface.get('status')!='READY':
             result['independent_lower_surface']=(
                 'Sign-in required for '+str(surface.get('account') or 'the configured account')
                 +' in profile '+str(surface.get('profile') or 'the configured profile')+'.'
@@ -129,6 +147,11 @@ class MicrosoftProcessAdapter:
             'declared_connection_asset_id':endpoint}
         if offset>=0:declaration['definition_offset']=offset
         resolved=self.resolve_declared_source(declaration)
+        # What the definition declares about the source partition and security.
+        # A lower-layer quantity is compiled from these declarations only.
+        resolved['declared_partition']={'schema_name':source.get('schemaName'),'entity_name':source.get('entityName'),
+            'source_type':source.get('type'),'mode':partitions[0].get('mode'),'partition_count':len(partitions)}
+        resolved['declared_role_count']=len(document.get('roles') or [])
         resolved['relation_cross_check']={'status':'AGREES' if resolved['status']=='RESOLVED' else 'NO_UNIQUE_AGREEMENT',
             'relations':[{'source':e['source'],'target':e['target'],'relation':e['relation']} for e in relations]}
         return resolved
@@ -149,8 +172,12 @@ class MicrosoftProcessAdapter:
                 table_name=(simple.group(1) or simple.group(2)).replace("''", "'")
                 column_name=simple.group(3).replace(']]',']')
                 column=next((a for a in referenced_columns if a.get('name')==column_name),None)
+                # Column declarations travel on the referenced SemanticColumn
+                # assets (name, sourceColumn, dataType), as the definition states them.
+                declared=[dict(a.get('metadata',{}),name=a.get('name')) for a in referenced_columns]
                 layers.append({'id':binding['asset']['id'],'kind':'declared_source','measure':measure,
                     'semantic_table':table_name,'semantic_column':column_name,
+                    'declared_columns':declared,
                     'binding':binding,'definition_asset_id':binding['definition_asset_id']})
                 gaps=[g for g in gaps if g.get('reason')!='UNRESOLVED_PARTITION_IDENTITY']
             context=context_search.latest(self.store);edges=(context or {}).get('graph',{}).get('edges',[])
@@ -203,6 +230,10 @@ class MicrosoftProcessAdapter:
         if layer.get('kind')=='declared_source':
             if scope.get('filters'):
                 return Probe('NOT_COMPARABLE',layer['id'],reason='Declared source comparison does not yet translate filtered scope faithfully.')
+            if 'independent_lower_surface' in self.capabilities():
+                compiled,refusal=self._lower_quantity(layer,scope)
+                if compiled:return self._evaluate_lower(layer,measure_id,compiled)
+                layer=dict(layer,lower_refusal=refusal)
             table=layer['semantic_table'].replace("'","''");column=layer['semantic_column'].replace(']',']]')
             query=f'EVALUATE ROW("baseline", SUM(\'{table}\'[{column}]){identity})'
         if scope.get('filters'):
@@ -226,17 +257,84 @@ class MicrosoftProcessAdapter:
                                     'UNCERTAIN' if result['status']=='INTERRUPTED' else 'SPECIFIC')}
             return Probe('UNAVAILABLE',layer['id'],reason='The presentation reader could not establish a baseline.',
                          query=query,execution_surface=semantic_surface,failure=failure)
-        rows=result['result']['rows'];value=rows[0] if len(rows)==1 else rows
+        rows=result['result']['rows'];value=_quantity(rows)
         report=result['result'].get('surface_report')
         definition_check=layer.get('kind')=='declared_source'
         return Probe('NOT_COMPARABLE' if definition_check else 'OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
             'completeness':result['result']['completeness'],'values':rows,
             'request_hash':result['request_hash'],
             'measure_id':measure_id,'dimension_id':None,
-            'test_purpose':'CHECK_DECLARED_SOURCE_DEFINITION' if definition_check else 'ESTABLISH_BASELINE'},
+            'test_purpose':'CHECK_DECLARED_SOURCE_DEFINITION' if definition_check else 'ESTABLISH_BASELINE',
+            **({'binding_provenance':(layer.get('binding') or {}).get('provenance'),
+                'independent_read_refused':layer.get('lower_refusal')} if definition_check else {})},
             value=value,query=query,
             reason='NO_INDEPENDENT_LOWER_READ' if definition_check else None,
             execution_surface=semantic_surface,surface_report=report,surface_reportable=('identity',))
+
+    def _lower_quantity(self,layer,scope):
+        """Compile the declared-source quantity for an independent surface, or say why not.
+
+        Faithful equivalence only: the measure is a plain SUM over one semantic
+        column (checked when the layer was resolved). The partition is a single
+        whole-entity partition. The column declares a source column. The model
+        declares no security roles that could filter one side and not the other.
+        The SQL endpoint is declared by the binding. Anything else is refused;
+        nothing is approximated or matched by name.
+        """
+        if scope.get('filters'):
+            return None,'Declared source comparison does not yet translate filtered scope faithfully.'
+        binding=layer.get('binding') or {}
+        partition=binding.get('declared_partition') or {}
+        if binding.get('status')!='RESOLVED':return None,'The declared source binding is not resolved.'
+        if partition.get('partition_count')!=1 or partition.get('source_type') not in (None,'entity'):
+            return None,'The source partition is not a single whole-entity partition.'
+        if not partition.get('schema_name') or not partition.get('entity_name'):
+            return None,'The partition does not declare its source schema and entity.'
+        if binding.get('declared_role_count',1)!=0:
+            return None,'The model declares security roles that could filter one surface and not the other.'
+        column=next((c for c in layer.get('declared_columns',[]) if c.get('name')==layer.get('semantic_column')),None)
+        if not column or not column.get('sourceColumn') or column.get('type')=='calculated' or column.get('expression'):
+            return None,'The measured column does not declare a physical source column.'
+        context=context_search.latest(self.store) or {}
+        endpoint=next((a for a in context.get('assets',[]) if a.get('id')==binding.get('declared_connection_asset_id')
+                       and a.get('kind')=='SQLEndpoint'),None)
+        if not endpoint:return None,'The binding declares no SQL endpoint for the source.'
+        from ..source_diagnostics import quote
+        types={'int64':'bigint','double':'float','decimal':'decimal','string':'nvarchar','boolean':'bit','dateTime':'datetime2'}
+        columns=[{'name':c['sourceColumn'],'data_type':types.get(c.get('dataType'),'sql_variant')}
+                 for c in layer.get('declared_columns',[]) if c.get('sourceColumn') and c.get('type')!='calculated']
+        catalog=[{'id':layer['id'],'provenance':'DECLARED_BY_DEFINITION',
+                  'metadata':{'schema_name':partition['schema_name'],'name':partition['entity_name'],
+                              'type_desc':'USER_TABLE','columns':columns}}]
+        query=('SELECT SUM('+quote(column['sourceColumn'])+') AS '+quote('quantity')+' FROM '
+               +quote(partition['schema_name'])+'.'+quote(partition['entity_name']))
+        return {'catalog':catalog,'query':query,'database':endpoint['name'],'source_column':column['sourceColumn']},None
+
+    def _evaluate_lower(self,layer,measure_id,compiled):
+        reader=((self.config or {}).get('fabric') or {}).get('sql_reader') or {}
+        surface={'engine':'FABRIC_SQL','connection':'sql://'+str(reader.get('server')),'object':compiled['database'],
+                 'identity':reader.get('account')}
+        plan={'model_id':self.model['id'],'revision':self.model['revision'],'context_id':self.model['context_id'],
+              'query':compiled['query'],'max_rows':20}
+        execute=lambda:run_query(self.store,plan,self.config,'bounded_fabric_sql',
+            lambda request:self.execute_lower(compiled['database'],request),catalog=compiled['catalog'])
+        result=self.meter_read('bounded_fabric_sql',execute) if self.meter_read else execute()
+        provenance=(layer.get('binding') or {}).get('provenance')
+        if result['status']!='COMPLETED':
+            body=result.get('result') or {}
+            return Probe('UNAVAILABLE',layer['id'],reason='The independent lower-layer read did not complete.',
+                query=compiled['query'],execution_surface=surface,
+                failure={'interface':'FABRIC_SQL','receipt_id':result.get('id'),'read_status':result['status'],
+                         'error_type':body.get('error_type'),'codes':[],
+                         'specificity':'UNCERTAIN' if result['status']=='INTERRUPTED' else 'SPECIFIC'})
+        rows=result['result']['rows']
+        return Probe('OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_fabric_sql',
+            'completeness':result['result']['completeness'],'values':rows,'request_hash':result['request_hash'],
+            'measure_id':measure_id,'dimension_id':None,'test_purpose':'COMPARE_DECLARED_SOURCE',
+            'binding_provenance':provenance,'lower_quantity':{'source_column':compiled['source_column'],
+                'catalog_provenance':'DECLARED_BY_DEFINITION'}},
+            value=_quantity(rows),query=compiled['query'],execution_surface=surface,
+            surface_report=result['result'].get('surface_report'),surface_reportable=('identity','object'))
 
     def failure_detail(self,layer,probe):
         """Re-issue the failed query through XMLA to obtain the surface's specific error."""

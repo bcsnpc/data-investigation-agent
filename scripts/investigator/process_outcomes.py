@@ -200,6 +200,15 @@ def validate(assessment, observations):
                 != tuple(lower[k] for k in ('engine','connection','object')))
     for comparison in comparisons:
         if comparison.get('comparison_status')!='CROSS_SURFACE_VERIFIED':continue
+        if comparison.get('lower_binding_provenance')=='INFERRED_FROM_CODE':
+            if not any(isinstance(l,str) and 'INFERRED_FROM_CODE' in l and str(comparison.get('lower_layer')) in l
+                       for l in assessment.get('limits',[])):
+                raise ValueError('A comparison resting on an inferred binding must say so in the limits')
+            for output in ('business_output','technical_output'):
+                if output in assessment and not any(b.get('provenance')=='INFERRED_FROM_CODE'
+                        and b.get('lower_layer')==comparison.get('lower_layer')
+                        for b in assessment[output].get('compared_bindings',[])):
+                    raise ValueError('A comparison resting on an inferred binding must say so in both outputs')
         # A comparison is only as trustworthy as both surfaces' own reports, and
         # whatever a surface could not report must travel with the claim.
         for side in ('upper','lower'):

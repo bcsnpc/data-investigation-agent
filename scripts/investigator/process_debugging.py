@@ -186,12 +186,18 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                      'reason':o.get('reason')} for o in observations
                     if o.get('comparison_status') in ('NOT_COMPARABLE','WITHIN_LAYER_CHECK')]
     unattested=unattested_surface_fields(observations)
+    # Which kind of binding each compared lower layer rests on stays visible;
+    # an inferred binding is a hypothesis about the estate, not a fact.
+    bindings=[{'upper_layer':o.get('upper_layer'),'lower_layer':o.get('lower_layer'),
+               'provenance':o.get('lower_binding_provenance')} for o in comparisons]
+    inferred=[b for b in bindings if b['provenance']=='INFERRED_FROM_CODE']
     return {'classification':outcome,'terminating_step':step,
             'claim':explanation or outcome.replace('_',' ').title(),
             'evidence_ids':evidence_ids,
             'alternatives':['A different declared scope could change the comparison.'],
             'limits':[f'Checked through {deepest}; stopped because {stopped_by.lower().replace("_"," ")}.']
-                     +[surface_limit(u) for u in unattested],
+                     +[surface_limit(u) for u in unattested]
+                     +[f"The comparison {b['upper_layer']} -> {b['lower_layer']} rests on a binding INFERRED_FROM_CODE, not declared or discovered." for b in inferred],
             'support':{'mechanism':explanation or 'The deterministic process procedure matched this outcome.',
                 'mechanism_evidence_ids':evidence_ids[-2:],
                 'intent_dependency':'NOT_REQUIRED',
@@ -206,12 +212,14 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
             'business_output':{'conclusion':explanation or outcome.replace('_',' ').title(),
                                'failures':list(failures),
                                'unattested_surface_fields':unattested,
+                               'compared_bindings':bindings,
                                'skipped_steps':list(skipped_steps)},
             'technical_output':{'failures':list(failures),
                                 'queries':[{'evidence_id':o['id'],'query':o['query']}
                                for o in observations if o.get('query')],
                                 'visibility_boundary':process['visibility_boundary'],
                                 'unattested_surface_fields':unattested,
+                                'compared_bindings':bindings,
                                 'skipped_steps':list(skipped_steps),
                                 'capabilities_declared':sorted(set(capabilities)),
                                 'boundary_summary':{'resolved_boundaries':len(comparisons),
@@ -344,7 +352,8 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             'upper_execution_surface':upper.execution_surface,
             'lower_execution_surface':lower.execution_surface,
             'upper_surface_attestation':(upper.evidence or {}).get('surface_attestation'),
-            'lower_surface_attestation':(lower.evidence or {}).get('surface_attestation')},'comparison',
+            'lower_surface_attestation':(lower.evidence or {}).get('surface_attestation'),
+            'lower_binding_provenance':(lower.evidence or {}).get('binding_provenance')},'comparison',
             *(['flow_consistency'] if chain_connected and upper.value==lower.value else []))
         observations.append(comparison)
         if upper.value==lower.value:
