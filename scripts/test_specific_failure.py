@@ -1,7 +1,10 @@
 """Prefer the most specific failure the surface can give; never upgrade a failure."""
 import json
+import os
 from pathlib import Path
+import sqlite3
 import subprocess
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -84,12 +87,21 @@ class ProcedureTests(unittest.TestCase):
             self.assertEqual(result[output]['failures'][0]['generic_codes'], ['GenericError'])
 
 
+class Store:
+    """A real file-backed SQLite store, as receipts need."""
+    def __init__(self):
+        self.path = os.path.join(tempfile.mkdtemp(), 'receipts.sqlite')
+
+    def connect(self):
+        return sqlite3.connect(self.path)
+
+
 class AdapterTests(unittest.TestCase):
-    def adapter(self, detail=None):
+    def adapter(self, detail=None, store=None):
         from investigator.adapters.microsoft_process import MicrosoftProcessAdapter
         model = {'id': 'm', 'revision': 1, 'context_id': 'c', 'workspace': 'ws', 'native_id': 'n', 'name': 'Model',
                  'context': {}}
-        return MicrosoftProcessAdapter(object(), {'fabric': {}}, model, None, None, read_failure_detail=detail)
+        return MicrosoftProcessAdapter(store or Store(), {'fabric': {}}, model, None, None, read_failure_detail=detail)
 
     def evaluate(self, result):
         adapter = self.adapter()
@@ -126,11 +138,77 @@ class AdapterTests(unittest.TestCase):
             detail = adapter.failure_detail({'id': 'top'}, failed())
         self.assertEqual(seen, {'workspace_name': 'Workspace Name', 'model_name': 'Model', 'query': 'Q'})
         self.assertEqual((detail['interface'], detail['specificity'], detail['codes']), ('XMLA', 'SPECIFIC', ['AADSTS50173']))
+        self.assertTrue(detail['receipt_id'])
 
     def test_unaddressable_model_is_not_a_refinement(self):
         adapter = self.adapter(lambda r: self.fail('no call expected'))
         with patch('investigator.adapters.microsoft_process.context_search.latest', return_value={'assets': []}):
             self.assertEqual(adapter.failure_detail({'id': 'top'}, failed())['specificity'], 'GENERIC')
+
+
+class SealingTests(unittest.TestCase):
+    """Specific codes are evidence from the interface that reported them: a sealed receipt."""
+    CONTEXT = {'assets': [{'kind': 'Workspace', 'id': 'fabric://ws', 'name': 'Workspace Name'}]}
+
+    def detail(self, read, store):
+        adapter = AdapterTests().adapter(read, store)
+        with patch('investigator.adapters.microsoft_process.context_search.latest', return_value=self.CONTEXT):
+            return adapter.failure_detail({'id': 'top'}, failed(dict(GENERIC, receipt_id='generic-receipt')))
+
+    def row(self, store, identity):
+        with store.connect() as db:
+            status, request, result = db.execute('SELECT status,request,result FROM failure_details WHERE id=?',
+                                                 (identity,)).fetchone()
+        return status, json.loads(request), json.loads(result)
+
+    def test_specific_codes_are_sealed_in_their_own_receipt(self):
+        from investigator.receipt_integrity import verify
+        store = Store()
+        detail = self.detail(lambda r: {'status': 'ERROR_CAPTURED', 'stage': 'connect', 'codes': ['AADSTS50173'],
+                                        'message': 'must never be stored'}, store)
+        status, request, result = self.row(store, detail['receipt_id'])
+        self.assertEqual(status, 'COMPLETED')
+        self.assertEqual(result['codes'], ['AADSTS50173'])
+        self.assertNotIn('must never be stored', json.dumps(result))
+        self.assertEqual((request['interface'], request['refines_receipt_id']), ('XMLA', 'generic-receipt'))
+        with store.connect() as db:
+            self.assertEqual(verify(db, 'failure_detail', detail['receipt_id'])['state'], 'SEALED')
+
+    def test_tampering_with_the_sealed_codes_is_detected(self):
+        from investigator.receipt_integrity import verify
+        from investigator.onboarding import Conflict
+        store = Store()
+        detail = self.detail(lambda r: {'status': 'ERROR_CAPTURED', 'codes': ['AADSTS50173']}, store)
+        with store.connect() as db:
+            db.execute('UPDATE failure_details SET result=? WHERE id=?',
+                       (json.dumps({'codes': ['SomethingElse']}), detail['receipt_id']))
+        with store.connect() as db, self.assertRaises(Conflict):
+            verify(db, 'failure_detail', detail['receipt_id'])
+
+    def test_unavailable_interface_still_leaves_a_sealed_failed_receipt(self):
+        from investigator.receipt_integrity import verify
+        store = Store()
+        def read(request):
+            raise RuntimeError('client missing')
+        detail = self.detail(read, store)
+        status, _, result = self.row(store, detail['receipt_id'])
+        self.assertEqual((status, result['error_type'], detail['specificity']), ('FAILED', 'RuntimeError', 'GENERIC'))
+        with store.connect() as db:
+            self.assertEqual(verify(db, 'failure_detail', detail['receipt_id'])['state'], 'SEALED')
+
+    def test_request_is_recorded_before_the_interface_is_called(self):
+        store = Store()
+        def read(request):
+            with store.connect() as db:
+                self.assertEqual(db.execute("SELECT status FROM failure_details").fetchone()[0], 'RUNNING')
+            return {'status': 'NO_ERROR', 'codes': []}
+        self.detail(read, store)
+
+    def test_output_entry_points_at_the_sealed_receipt(self):
+        from investigator.process_debugging import _failure_entry
+        probe = refine_failure(Detail({'interface': 'XMLA', 'specificity': 'SPECIFIC', 'codes': ['AADSTS50173'],
+                                       'receipt_id': 'sealed-1'}), {'failure_detail'}, {}, failed())
+        self.assertEqual(_failure_entry(probe)['specific_receipt_id'], 'sealed-1')
 
 
 class XmlaTransportTests(unittest.TestCase):

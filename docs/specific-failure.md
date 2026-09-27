@@ -138,3 +138,30 @@ found by hand, without a human in the loop.
 - **Not verified here:** the rest of `vertical()` beyond the per-probe path.
   That path was exercised through the same functions, not as a full
   investigation.
+
+## Update 2026-09-27: the refinement is sealed as its own receipt
+
+The gap recorded above was that the specific codes lived only in a derived
+failure record. It is now closed in code. The sections above are kept as
+written.
+
+- **A receipt per call:** each call to a second interface for failure detail
+  is recorded as its own receipt, of kind `failure_detail`, in table
+  `failure_details`.
+  - **Request:** the interface, the discovered workspace and model names, the
+    query, and the ID of the generic receipt it refines.
+  - **Result:** the interface status, stage, error type and **codes only**.
+    Message text is never stored.
+- **Written before, sealed after:** the request row is written as `RUNNING`
+  before the call. The result is written afterwards and sealed through the same
+  `receipt_integrity` mechanism as every other read, so tampering is detected.
+- **Status:** a captured error is `COMPLETED`, because the interface answered.
+  An unavailable interface still leaves a sealed `FAILED` receipt.
+- **Referenced from the claim:** the probe's refinement, and both outputs'
+  `failures` entries, carry the sealed receipt's ID (`specific_receipt_id`).
+
+**Tests only. Not verified live:** the fault cleared at 00:32 UTC on
+2026-09-27, before this change existed. The next masked failure will exercise
+it.
+
+Engine bytes changed: `unfrozen-6e9ac8b9a6a0`.
