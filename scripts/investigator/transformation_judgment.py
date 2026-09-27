@@ -34,7 +34,8 @@ def validate(value):
 def azure_judge(payload,options):
     if len(encoded(payload))>48000:raise ValueError('Definition judgment payload exceeds cap')
     from ticket_planner import _azure_generate
-    value,metadata=_azure_generate(payload,instructions=INSTRUCTIONS,schema=SCHEMA,
+    from .contract_vocabulary import instructions
+    value,metadata=_azure_generate(payload,instructions=instructions(INSTRUCTIONS,SCHEMA),schema=SCHEMA,
         name='transformation_definition_judgment',generation_options=options)
     try:return validate(value),metadata
     except evidence_prose.IncompleteProse as exc:

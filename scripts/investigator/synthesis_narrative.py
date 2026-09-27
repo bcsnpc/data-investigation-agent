@@ -18,8 +18,13 @@ conclusion. Cite only displayed evidence IDs; citations do not prove semantics.
 Distinguish observed aggregate agreement from source correctness or business intent.
 Describe implemented logic neutrally; never call it correct or intended without
 independent evidence. Preserve the checked boundary and attestation limitations.
-Business wording, technical facts and the additional limitation are fixed schema terms.
-Copy them exactly; the engine renders path ordering from the original comparisons.
+Copy the business wording from its exact allowed vocabulary.
+Technical prose explains only the mechanism and its limits. The engine itself inserts
+the measure, quantities, layers and direction. Do not restate them or refer to a
+fixed account or spine. Do not use digits or the ordering words input, output,
+upstream, downstream or feeds in technical commentary or additional limitations.
+Additional limitations are free prose, not a closed vocabulary; mandatory limits
+are rendered by the engine and must not be paraphrased into this field.
 Return business and technical explanations plus limitations. Do not invent reads,
 undisplayed values, capabilities, role tags or corrected totals. No private reasoning.
 Fit each complete explanation within its schema bound. Use the evidence_ids field
@@ -49,9 +54,9 @@ def schema(payload):
     for text in texts:validate_text(text,text)
     business['properties']['text']={'type':'string','enum':texts}
     technical=statement(limits.ASSESSMENT_CLAIM)
-    technical['properties']['text']['enum']=[path_narrative.summary(payload)]
+    technical['properties']['text']=path_narrative.commentary_schema(limits.ASSESSMENT_CLAIM)
     limitation=statement(limits.ASSESSMENT_DETAIL)
-    limitation['properties']['text']['enum']=[path_narrative.LIMITATION]
+    limitation['properties']['text']=path_narrative.commentary_schema(limits.ASSESSMENT_DETAIL)
     return {'type':'object','additionalProperties':False,'properties':{
         'business_output':business,
         'technical_output':technical,
@@ -66,8 +71,10 @@ def assemble(response,payload,state):
     value=copy.deepcopy(response.narrative)
     Draft202012Validator(schema(payload)).validate(value)
     evidence_prose.validate(value['technical_output']['text'],limits.ASSESSMENT_CLAIM)
+    path_narrative.validate_commentary(value['technical_output']['text'])
     for limitation in value['limitations']:
         evidence_prose.validate(limitation['text'],limits.ASSESSMENT_DETAIL)
+        path_narrative.validate_commentary(limitation['text'])
     source=state['assessment']
     if value['business_output']['text']!=business_text(source['classification'],payload):
         raise ValueError('Business wording differs from the fixed outcome')
@@ -87,7 +94,8 @@ def assemble(response,payload,state):
                       'recommended_action':copy.deepcopy(recommended)}
     outputs['technical_output']['path_order']=path_narrative.facts(payload)
     technical=outputs['technical_output']['explanation']
-    technical['text']+='\n\nFixed boundary account:\n'+path_narrative.render(payload)
+    technical['text']=path_narrative.render(payload)+'\n\n'+technical['text']
+    technical['text']+='\n\nClaim limits:\n'+'\n'.join(source['limits'])
     unattested=source.get('technical_output',{}).get('unattested_surface_fields',[])
     technical['text']+='\n\nSurface attestation limits:\n'+('\n'.join(
         f"- Unattested {u['field']} on {u['layer']} (receipt {u['evidence_id']})." for u in unattested)

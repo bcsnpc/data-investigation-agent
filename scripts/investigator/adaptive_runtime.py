@@ -101,6 +101,7 @@ class AdaptiveRuntime:
                'usage_policy_hash':self.governor.hash if self.governor else None,'no_progress':0,
                 'input_characters':0,'attempted':[],'observations':[],'record_comparisons':[],'hypotheses':[],'decisions':[],
                'question':None,'stop_reason':None,'pending':None,'predecessor':predecessor,'gaps':gaps}
+        state['measure_display_name']=next((a.get('name') for a in model_assets(model['context']) if a['id']==envelope['measure_id']),None)
         if envelope.get('strategy'):
             from .context_search import latest
             context=latest(self.store)

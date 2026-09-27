@@ -1,0 +1,40 @@
+Measure: Handled Quantity.
+Boundary B1 agrees: L1 (fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values, upstream input) -> L0 (fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity, downstream output). Observed input 8,765; observed output 8,765. Values agree.
+Boundary B2 diverges: L2 (fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1, upstream input) -> L1 (fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values, downstream output). Observed input 7,661; observed output 8,765. Values differ.
+L0 = fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity
+L1 = fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values
+L2 = fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1
+
+The implemented logic carries the movement quantity through a left join from movements to rates by product key, then derives value from quantity and cost. If more than one rate row matches a movement row, the same quantity is repeated across matches and the aggregate can rise at that step. The definition shows a possible mechanism, but it does not confirm repeated matches in the data, shared timing across checks, or business intent.
+
+Claim limits:
+Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1; stopped because reached.
+Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.
+Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.
+Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.
+Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.
+Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.
+Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: the surface did not report it.
+Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: the surface did not report it.
+Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; agreement does not establish that either value is current.
+Comparison 2: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; different update timing was not excluded as a cause of the difference.
+Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1: Investigation terminated before this boundary.
+Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).
+Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.
+The definition shows a mechanism that can produce the higher total, but it does not show the actual match cardinalities or establish that duplicate join matches are present in this specific data.
+
+Surface attestation limits:
+- Unattested connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity (receipt 7b43399f-505a-468b-b830-6f9110cf010b).
+- Unattested engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity (receipt 7b43399f-505a-468b-b830-6f9110cf010b).
+- Unattested object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity (receipt 7b43399f-505a-468b-b830-6f9110cf010b).
+- Unattested connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values (receipt 9ec03ffd-ab10-4522-bd8c-ca1d109cbb01).
+- Unattested engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values (receipt 9ec03ffd-ab10-4522-bd8c-ca1d109cbb01).
+- Unattested connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 (receipt 1a693090-31bf-4470-b467-218167841df9).
+- Unattested engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 (receipt 1a693090-31bf-4470-b467-218167841df9).
+
+Comparison 1 lacks a verified data version for the check nearer the report and the check further back. Agreement does not establish that either value is up to date. Comparison 2 lacks a verified data version for the check nearer the report and the check further back. Different update timing was not excluded as a cause of this difference.
+
+Snapshot attestation:
+[{"lower": null, "reason": "QUERY_BOUND_VERSION_MISSING", "status": "SNAPSHOT_UNVERIFIED", "unverified_sides": ["upper", "lower"], "upper": null, "version": 1}, {"lower": null, "reason": "QUERY_BOUND_VERSION_MISSING", "status": "SNAPSHOT_UNVERIFIED", "unverified_sides": ["upper", "lower"], "upper": null, "version": 1}]
+
+Recommended action: Ask the responsible business owner whether this behavior is intended; request a change if it is not.

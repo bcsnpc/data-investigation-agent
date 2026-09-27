@@ -1700,3 +1700,20 @@ reuses each. Both synthesis calls failed ValidationError; no end-to-end pass.
 All twenty credits charged; expiry/approval/readbacks and verbatim rejected drafts
 recorded. No cap, ordinary allowance or engine change.
 [Evidence](diagnostic-budget-live-pair.md).
+
+
+## 2026-09-27: rendered synthesis contract
+
+#282 merged after six green checks. Guard audit confirms distinct database/object
+effective-permission checks; no guard change. Implemented deterministic technical
+facts and schema-derived vocabulary supply, removing false prose enums. Full
+validation and the approved live pair pending. Engine freezes invalidated.
+[Evidence and contract audit](rendered-synthesis-contract.md).
+
+
+## 2026-09-27: rendered synthesis validated twice
+
+1,307 tests passed. Both live repeats completed TRANSFORMATION_LOGIC with validated
+synthesis: four diagnostics, ten physical requests, six guards and zero reuses
+each. All twenty approved credits charged with explicit expiries, caps unchanged.
+No engine change during the batch. [Both full outputs and accounting](rendered-synthesis-live-pair.md).
