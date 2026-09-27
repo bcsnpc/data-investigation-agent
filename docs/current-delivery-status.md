@@ -1,6 +1,6 @@
 # Current delivery status
 
-Current follow-up: [complete evidence prose and business substance](complete-evidence-prose.md). Producer and consumer reject incomplete or oversized prose without cutting it; business output retains both verified quantities and a qualified plain-language mechanism. Full validation is running; one live repeat follows.
+Current follow-up: [complete evidence prose and business substance](complete-evidence-prose.md). Producer and consumer reject incomplete or oversized prose without cutting it; business output retains both verified quantities and a qualified plain-language mechanism. The first live repeat exposed a judge fragment that passed punctuation validation; it remains a recorded quality failure. Stronger unfinished-prose checks pass focused tests, with full validation and a second repeat pending.
 
 Prior result: [contract/accounting/output repeat](contract-ledger-output-rerun.md) `3d2c5bf0` completed TRANSFORMATION_LOGIC with validated synthesis after two real cross-surface comparisons (8,765 = 8,765; 8,765 != 7,661). All four reads are retained. The judge explains a possible join-multiplication mechanism, not proven duplicate matches or intended semantics. Business output now carries the verified number, comparison, limits and action. Technical prose still ends mid-sentence at its bound; it is preserved verbatim. One known-domain ticket, no source-ingestion build or unfamiliar-domain claim. Final local validation: 1,231 tests passed.
 

@@ -30,6 +30,15 @@ class EvidenceProseTests(unittest.TestCase):
                 synthesis_narrative.assemble(synthesis_narrative.Response(value),payload,state)
             self.assertEqual(value,original)
 
+    def test_period_does_not_make_unfinished_markup_or_clause_complete(self):
+        for bad in ('If some records match multiple entries, `y.',
+                    'If some records match multiple entries, y.',
+                    'The records can.', 'The value (before correction.',
+                    'The evidence is "incomplete.'):
+            with self.subTest(bad=bad),self.assertRaises(ValueError):
+                evidence_prose.validate(bad,500)
+        evidence_prose.validate('If one record matches several entries, its amount can be counted more than once.',500)
+
     def test_immediate_divergence_also_shows_both_verified_numbers(self):
         p=business_fixture.BusinessFactsTests().payload()
         p['evidence'].append({'id':'input','provenance':{'receipt_seal':'sealed'},'verified_quantity':{'quantity':'8200'}})

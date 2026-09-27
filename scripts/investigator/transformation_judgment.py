@@ -9,7 +9,10 @@ boundary. Do not decide whether the implementation is correct or intended. EXPLA
 a concrete mechanism visible in the supplied definition and compatible with the two observed
 values. DOES_NOT_EXPLAIN means the supplied definition was checked and contains no mechanism
 that accounts for the difference. Use INDETERMINATE when context, scope, or definition coverage
-is insufficient. Cite no facts outside the payload. Return only the requested schema.'''
+is insufficient. Cite no facts outside the payload. Explain the mechanism concisely;
+do not spend the explanation repeating long object names or the entire contract.
+Use plain text without backticks and complete sentences within each field bound.
+Return only the requested schema.'''
 
 SCHEMA={'type':'object','additionalProperties':False,'properties':{
   'judgment':{'type':'string','enum':['EXPLAINS','DOES_NOT_EXPLAIN','INDETERMINATE']},

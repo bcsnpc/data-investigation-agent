@@ -1629,3 +1629,5 @@ requirements. No estate or pipeline build; stop for design review.
 2026-09-27: Final full local regression run passed all 1,231 tests in 373.894 seconds after the test-only intake schema migration. Six implementation CI checks passed on each of #267, #268 and #269. No engine changes or additional live run after 3d2c5bf0.
 
 2026-09-27: Merged #267-269 after six green checks each. Implemented sentence-complete producer/consumer prose guards, removed prose cutting, and restored the earlier verified quantity and declared-operation explanation to business output. Focused tests passed; full validation and one live repeat pending.
+
+2026-09-27: Run 529249ef completed with four reads and validated synthesis but failed prose quality: the judge ended with an unfinished marked-up fragment plus a period. Preserved original run and appended quality annotation. Stronger generic prose validation rejects it unchanged; 22 focused tests passed, final full suite and repeat pending.
