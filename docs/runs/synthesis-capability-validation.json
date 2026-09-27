@@ -1,0 +1,22 @@
+{
+  "source_tape": "76b2bd6f-5b09-475c-80a9-e3d109f3b91b",
+  "original_capabilities": [
+    "POWER_BI_DAX baseline query",
+    "FABRIC_SQL aggregate query",
+    "process comparison receipt",
+    "ingestion metadata receipt"
+  ],
+  "canonical_capabilities": [
+    "FABRIC_SQL aggregate query",
+    "POWER_BI_DAX baseline query",
+    "ingestion metadata receipt",
+    "process comparison receipt"
+  ],
+  "provider_claim": "[Handled Quantity] matches the displayed aggregate from warehouse table [movement_values] at 8765, so the measure is consistent through that checked layer; the investigation stops there because the digest only shows ingestion metadata for [movement_values] and no lower-level stock movement or inventory adjustment records were displayed for inspection.",
+  "network_calls": 0,
+  "validation": "FAILED",
+  "error_type": "ValueError",
+  "message": "Only capability-gap outcomes carry a missing capability",
+  "classification": "CONSISTENT_TO_BOUNDARY",
+  "missing_capability": "No displayed capability or receipt exposes the lower-level stock movement and related inventory adjustment records beneath [movement_values] for direct inspection in this digest."
+}

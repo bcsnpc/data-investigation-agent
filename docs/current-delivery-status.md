@@ -4,7 +4,27 @@ Updated 2026-09-27. Tracking: [#193](https://github.com/bcsnpc/data-investigatio
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
-**Current checkpoint, 2026-09-27: original-evidence synthesis validation.**
+**Current checkpoint, 2026-09-27: canonical capability declarations.**
+PR #260 merged with six green checks. Capability names now sort/deduplicate at
+synthesis response admission, using the deterministic producer's shared helper;
+the strict validator is unchanged. The prior unordered list came from the model,
+not from the adapter set, which was already sorted when declared.
+
+One same-ticket live attempt compared Power BI and Fabric SQL at 8,765 each:
+one verified cross-surface comparison, zero within-layer checks; one DAX read,
+one Fabric SQL read, one OneLake metadata invocation; zero investigation planner
+calls, one intake call and one synthesis call. Synthesis ran, then failed with
+`Only capability-gap outcomes carry a missing capability`. The model selected
+CONSISTENT_TO_BOUNDARY and also populated missing_capability. No retry or next fix.
+The business/technical outputs remain deterministic: aggregate agreement through
+Gold, five unattested surface fields, freshness skipped, deeper capability
+unavailable. No validated synthesis or end-to-end pass.
+Validation: **1,201 regression tests passed**, Python exit 0.
+[Full run, actual outputs and preserved failure](synthesis-capability-declaration.md).
+
+The checkpoints below preserve preceding results.
+
+**Previous checkpoint, 2026-09-27: original-evidence synthesis validation.**
 PR #259 merged after six green checks. Synthesis now validates complete original
 observations, with the digest controlling citation visibility only. This removes
 the field-by-field reconstruction that dropped comparison evidence; a future-field

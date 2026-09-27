@@ -147,6 +147,13 @@ class ProcessAdapter(Protocol):
     def ingestion(self, path: dict, scope: dict) -> dict: ...
 
 
+def capability_declaration(values):
+    """Emit a canonical declaration without changing capability names."""
+    if not isinstance(values,(list,tuple,set,frozenset)) or any(not isinstance(v,str) for v in values):
+        raise ValueError('Capability declaration requires string names')
+    return sorted(set(values))
+
+
 def applicability(adapter: ProcessAdapter):
     """Compute eligibility from advertised adapter capabilities."""
     available=frozenset(adapter.capabilities())
@@ -178,7 +185,7 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                                     'evidence_ids':evidence_ids[-2:]},
              'baseline_above':baseline,'evidence_by_role':role_refs,
              'missing_capability':missing_capability,'skipped_steps':list(skipped_steps),
-             'capabilities_declared':sorted(set(capabilities))}
+             'capabilities_declared':capability_declaration(capabilities)}
     comparisons=[o for o in observations if o.get('tool')=='process'
                  and o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
     within_layer=[o for o in observations if o.get('tool')=='process'
@@ -222,7 +229,7 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                                 'unattested_surface_fields':unattested,
                                 'compared_bindings':bindings,
                                 'skipped_steps':list(skipped_steps),
-                                'capabilities_declared':sorted(set(capabilities)),
+                                'capabilities_declared':capability_declaration(capabilities),
                                 'boundary_summary':{'resolved_boundaries':len(comparisons),
                                     'comparisons_executed':len(comparisons),
                                     'within_layer_checks':len(within_layer),

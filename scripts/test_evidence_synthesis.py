@@ -26,6 +26,36 @@ class SynthesisTests(unittest.TestCase):
           'support':{'mechanism':'A scoped value was observed.','mechanism_evidence_ids':ids,'intent_dependency':'UNKNOWN',
                      'intent_basis':'Intent is not established.','intent_evidence_ids':[],'remaining_test':'Obtain the intended rule.'}}
 
+    def test_capability_declaration_is_canonical_at_both_producers(self):
+        from investigator.process_debugging import capability_declaration,_answer
+        for names in (['zeta','alpha','zeta'],['alpha','zeta'],{'zeta','alpha'},frozenset(('zeta','alpha'))):
+            self.assertEqual(capability_declaration(names),['alpha','zeta'])
+            record=_answer('NO_KNOWN_PATTERN',0,[],'layer',capabilities=names)
+            self.assertEqual(record['support']['process']['capabilities_declared'],['alpha','zeta'])
+            self.assertEqual(record['technical_output']['capabilities_declared'],['alpha','zeta'])
+        agent,state=self.stopped();answer=self.answer({ 'evidence':[{'id':state['observations'][0]['id']}]})
+        answer['support']['process']={'capabilities_declared':['zeta','alpha','zeta']}
+        expected=copy.deepcopy(answer);expected['support']['process']['capabilities_declared']=['alpha','zeta']
+        def validate(value,payload,*,source_state):self.assertEqual(value,expected)
+        with patch.object(synthesis,'validate',side_effect=validate) as check:
+            result=agent.synthesize(state['id'],lambda p,o:(answer,{}))
+        check.assert_called_once()
+        self.assertEqual(result['synthesis']['status'],'COMPLETED')
+        self.assertEqual(result['synthesis']['assessment']['support']['process']['capabilities_declared'],['alpha','zeta'])
+
+    def test_capability_canonicalization_does_not_weaken_validator_or_fill_missing_fields(self):
+        from test_process_debugging import OutcomeContractTests
+        from investigator.process_outcomes import validate
+        assessment,observations=OutcomeContractTests().valid('CONSISTENT_TO_BOUNDARY')
+        assessment['support']['process']['capabilities_declared']=['zeta','alpha','zeta']
+        with self.assertRaisesRegex(ValueError,'sorted unique'):validate(assessment,observations)
+        synthesis.declare_capabilities(assessment)
+        validate(assessment,observations)
+        for names in (None,'alpha',[1],['alpha',{}]):
+            with self.assertRaises(ValueError):synthesis.declare_capabilities({'support':{'process':{'capabilities_declared':names}}})
+        missing={'support':{'process':{}}};synthesis.declare_capabilities(missing)
+        self.assertEqual(missing,{'support':{'process':{}}})
+
     def test_ingestion_context_preserves_report_without_inventing_metadata(self):
         agent,state=self.stopped()
         observation={'id':'ingestion-receipt','tool':'context','status':'COMPLETED',
