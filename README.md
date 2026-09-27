@@ -1,5 +1,11 @@
 # Self-Discovering Enterprise Data Investigator
 
+**Latest synthesis check, 2026-09-27:** the consumer now handles ingestion's
+explicit process-evidence contract instead of assuming a metadata-lookup shape.
+Saved R2's digest builds with the full ingestion report. Response validation still
+fails because synthesis drops comparison fields when rebuilding observations.
+No live run followed. [Contract decision and offline result](docs/synthesis-ingestion-contract.md).
+
 **Latest intake result, 2026-09-27:** a single valid-pair schema replaces
 independent shape/mode choices. Five same-ticket intake/preview attempts all chose
 `MISMATCH_COMPLAINT:VERTICAL` and passed preview, with identical parsed decisions.

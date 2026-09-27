@@ -1510,3 +1510,13 @@ another route in this sample; broader determinism remains unproven.
 63 focused tests passed. Saved R2 comparison validates offline after sealed-receipt
 verification; synthesis still blocks on missing ingestion `metadata`. No live calls
 or original artifact changes. [Evidence](quantity-normalization-offline.md).
+
+
+## 2026-09-27 ? synthesis ingestion contract
+
+Merged #257 and #258 after green checks, preserving both progress records through
+a documentation conflict. Corrected the synthesis consumer's metadata-shape
+assumption with strict ingestion-report projection; producer and original receipts
+are unchanged. Saved R2 builds its digest, then validation rejects the equal-boundary
+assessment because comparison fields are dropped. No live run; 37 focused tests
+passed. [Decision and evidence](synthesis-ingestion-contract.md).

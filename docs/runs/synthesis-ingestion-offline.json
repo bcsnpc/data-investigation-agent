@@ -1,0 +1,23 @@
+{
+  "source_session": "54509912-5e30-4850-afd7-ed26b5bc56aa",
+  "source_file_sha256": "f0496e037560e17ed9f0a9e375aad1d058251675b4bad8e542e1faa063a4c039",
+  "network_calls": 0,
+  "provider_calls": 0,
+  "digest_completed": true,
+  "validation_completed": false,
+  "synthesis_completed": false,
+  "validation_candidate": "Original deterministic assessment projected to the synthesis response schema; not a recorded LLM response.",
+  "digest_hash": "219639d7b982e51bc34c4643fba54036cdad2c8ddc70e5f0aba5f466b956aa61",
+  "digest_characters": 6298,
+  "evidence_count": 5,
+  "ingestion_report_preserved": true,
+  "ingestion_projection_characters": 947,
+  "ingestion_provenance_hash_matches": true,
+  "original_observation_validation": "PASSED",
+  "next_failure": {
+    "stage": "SYNTHESIS_ASSESSMENT_VALIDATION",
+    "type": "ValueError",
+    "message": "CONSISTENT_TO_BOUNDARY requires at least one successful equal boundary comparison"
+  },
+  "source_file_unchanged": true
+}

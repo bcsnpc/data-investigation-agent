@@ -26,6 +26,46 @@ class SynthesisTests(unittest.TestCase):
           'support':{'mechanism':'A scoped value was observed.','mechanism_evidence_ids':ids,'intent_dependency':'UNKNOWN',
                      'intent_basis':'Intent is not established.','intent_evidence_ids':[],'remaining_test':'Obtain the intended rule.'}}
 
+    def test_ingestion_context_preserves_report_without_inventing_metadata(self):
+        agent,state=self.stopped()
+        observation={'id':'ingestion-receipt','tool':'context','status':'COMPLETED',
+            'completeness':'COMPLETE_RESPONSE','process_roles':['ingestion'],'asset_id':'asset://table',
+            'delta_commit':{'status':'AVAILABLE','latest_commit':'table/log/000.json',
+                'commit_info':{'timestamp':123,'operation':'WRITE','operationMetrics':{'rows':'7'}}}}
+        original=copy.deepcopy(observation);state['observations'].append(observation)
+        with agent.runtime.db() as db:payload=synthesis_digest.build(state,db)
+        entry=payload['evidence'][-1]
+        self.assertEqual(entry['result']['delta_commit'],original['delta_commit'])
+        self.assertEqual(entry['result']['asset_id'],original['asset_id'])
+        self.assertEqual(entry['provenance']['hash'],digest(original))
+        self.assertEqual(entry['process_roles'],['ingestion'])
+        entry['result']['delta_commit']['commit_info']['timestamp']=456
+        self.assertEqual(observation,original)
+        self.assertNotIn('metadata',observation)
+
+    def test_ingestion_missing_fields_and_unknown_context_fail_loudly(self):
+        base={'process_roles':['ingestion'],'asset_id':'asset://table',
+              'delta_commit':{'status':'AVAILABLE','latest_commit':'log','commit_info':{}}}
+        bad=[]
+        for field in ('asset_id','delta_commit'):
+            item=copy.deepcopy(base);del item[field];bad.append(item)
+        for field in ('status','latest_commit','commit_info'):
+            item=copy.deepcopy(base);del item['delta_commit'][field];bad.append(item)
+        bad.extend([{'lookup':{'operation':'content'}}, {'process_roles':['unknown']},
+                    {**base,'metadata':{}}, {**base,'delta_commit':{}}])
+        for observation in bad:
+            with self.subTest(observation=observation),self.assertRaises(Conflict):
+                synthesis_digest._context_evidence(observation)
+
+    def test_ingestion_empty_and_unavailable_remain_explicit(self):
+        for report in ({'status':'EMPTY_RESPONSE','latest_commit':None},
+                       {'status':'EMPTY_RESPONSE','latest_commit':'log'},
+                       {'status':'UNAVAILABLE','error_type':'TimeoutError'}):
+            observation={'process_roles':['ingestion'],'asset_id':'asset://table','delta_commit':report}
+            result=synthesis_digest._context_evidence(observation)
+            self.assertEqual(result['result']['delta_commit'],report)
+            self.assertNotIn('commit_info',result['result']['delta_commit'])
+
     def test_support_is_never_clipped_by_repair_or_wire_bound(self):
         from investigator.proposal_repairs import repair
         from investigator.assessment_support import validate, SCHEMA
