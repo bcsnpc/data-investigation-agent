@@ -1503,3 +1503,10 @@ decisions. No retries or data reads, no quota/policy change. Five ledger rows ad
 213 prior rows preserved. 47 focused tests and 1,190 full regression tests passed
 (Python exit 0). [Report](intake-valid-pairs-five.md). No intake refusal moved to
 another route in this sample; broader determinism remains unproven.
+
+
+## 2026-09-27 ? shared quantity normalization
+
+63 focused tests passed. Saved R2 comparison validates offline after sealed-receipt
+verification; synthesis still blocks on missing ingestion `metadata`. No live calls
+or original artifact changes. [Evidence](quantity-normalization-offline.md).

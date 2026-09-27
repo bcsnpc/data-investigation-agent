@@ -15,6 +15,13 @@ but synthesis then fails on the ingestion `metadata` contract.
 
 ## Current milestone
 
+**Normalization follow-up:** shared adapter/synthesis quantity projection excludes
+only declared surface-report columns. Saved R2's equal comparison validates after
+receipt verification, but digest construction still fails on ingestion context's
+missing `metadata` wrapper. 63 focused tests passed. No cloud/model calls or
+artifact rewrites. [Evidence](quantity-normalization-offline.md).
+
+
 **Latest: synthesis surface-key fix; intake audit complete, stopped for review.**
 PR #253 merged after six green checks; unchanged evidence commit `7fea46f` is in
 PR #254. Synthesis surface equality now uses engine/connection/object, retaining
