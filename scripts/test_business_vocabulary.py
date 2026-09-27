@@ -57,17 +57,17 @@ class VocabularyTests(unittest.TestCase):
     def test_physical_names_and_multiple_operation_aliases_are_not_promoted(self):
         context,layers=chain_fixture.QuantityTraceTests().context()
         planned,_,_=extend(context,layers)
-        self.assertEqual(planned[2]['business_vocabulary'],{}) # events is the physical table name
+        self.assertEqual(planned[2]['business_vocabulary'],{}) # lookup is an unusable generic label
         _,_,_,code=self.fixture();frames=DeclaredQuantities(code).writes
         self.assertEqual(frames['served/output'].vocabulary['amount']['subject']['text'],'deliveries')
         self.assertEqual(frames['served/output'].vocabulary['rate']['subject']['text'],'tariffs')
 
-    def test_schema_names_are_not_business_terms(self):
+    def test_plain_word_is_allowed_even_when_a_schema_shares_it(self):
         context,layers=chain_fixture.QuantityTraceTests().context()
         _,_,_,code=self.fixture();context['assets'][-1]['metadata']['content']=code
         next(a for a in context['assets'] if a['id']=='clean/events')['name']='deliveries.actual'
         planned,_,_=extend(context,layers)
-        self.assertEqual(planned[2]['business_vocabulary'],{})
+        self.assertEqual(planned[2]['business_vocabulary']['subject']['text'],'deliveries')
 
     def test_unrelated_table_or_schema_homonym_cannot_erase_declared_vocabulary(self):
         context,layers=chain_fixture.QuantityTraceTests().context()
@@ -105,3 +105,23 @@ class VocabularyTests(unittest.TestCase):
         self.assertNotIn('business_vocabulary',calls[0]['definition'])
         self.assertEqual(receipt['business_vocabulary'],terms)
 
+
+    def test_sales_customers_table_names_remain_business_vocabulary(self):
+        context,layers=chain_fixture.QuantityTraceTests().context()
+        import json
+        context=json.loads(json.dumps(context).replace('events','Sales').replace('lookup','Customers'))
+        planned,_,_=extend(context,layers)
+        terms=planned[2]['business_vocabulary'];contract=planned[2]['quantity_contract']
+        self.assertEqual({v['text'] for v in terms.values()},{'Sales','Customers'})
+        validate_terms(terms,contract)
+        p=business_fixture.BusinessFactsTests().payload()
+        p['evidence'][2]['result'].update(quantity_contract=contract,business_vocabulary=terms)
+        text=business_text('TRANSFORMATION_LOGIC',p)
+        self.assertIn('Sales',text);self.assertIn('Customers',text);validate_text(text,text)
+
+    def test_identifier_forms_are_rejected_without_catalog_name_matching(self):
+        for text in ('app.Sales','Sales_units','Sales_abcdef12','Sales-abcdef12',
+                     '[Sales]','receipt-123','C:/data/file','data/file.json',
+                     '163ce520-ec47-4824-975c-96f5c749205f'):
+            with self.subTest(text=text),self.assertRaises(ValueError):validate_text(text,text)
+        for text in ('Sales','Customers','Inventory','Orders','The total is 8,765.'):validate_text(text,text)
