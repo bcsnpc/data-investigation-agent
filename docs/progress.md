@@ -1610,3 +1610,10 @@ receipts survive although failed-process observations were not persisted; a
 separate audit explains the automatic ledger's misleading zero counts without
 rewriting it. Cloud reservations 38 -> 42; no daily policy/grant/config change.
 [Depth evidence and follow-ups](declared-chain-depth.md).
+
+## 2026-09-27 - source ingestion proposal only
+
+Recorded a [declared source-ingestion plan](source-application-ingestion-plan.md)
+with official Fabric references, native-relations uncertainty, exact connection
+provenance, engine work, re-approval/fixture costs and unimplemented LATENT/GAP
+requirements. No estate or pipeline build; stop for design review.
