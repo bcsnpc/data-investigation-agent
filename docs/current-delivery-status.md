@@ -1,5 +1,14 @@
 # Current delivery status
 
+**Current depth milestone:** [declared Silver/Bronze quantity paths](declared-chain-depth.md)
+and configurable attested depth are implemented. One live run `0154df11` read
+Power BI/Gold/Silver (8,765 / 8,765 / 7,661) and invoked the definition judge on
+the real divergence. It then held: a 528-character judge explanation exceeded
+the downstream 500-character support bound. No synthesis, Bronze read or pass.
+Sealed receipts survive; failed-session observation persistence loses the summary,
+so the separate receipt audit corrects the interpretation of extracted zero counts.
+No further live run or source-ingestion build was performed.
+
 **Active output milestone:** schema-enforced business explanations, mandatory
 outcome-derived actions and technical attestation details completed one live run with validated synthesis (BUSINESS_QUESTION); earlier freezes remain invalidated.
 [Output contract](enforced-dual-outputs.md).
@@ -8,7 +17,7 @@ Updated 2026-09-27. Tracking: [#193](https://github.com/bcsnpc/data-investigatio
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
-**Current checkpoint, 2026-09-27: first completion recorded; whole-chain audit only.**
+**Historical checkpoint, 2026-09-27: first completion recorded; whole-chain audit only.**
 Merged #262 after six green checks (`542ab0b`). First completed run `c2658c88`
 validated synthesis after one equal Power BI/Fabric SQL comparison at 8,765.
 One ticket, one known domain, **one of four intended boundaries** checked;

@@ -241,7 +241,39 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     """Run the vertical procedure over any discovered path length."""
     available=frozenset(adapter.capabilities())
     failures=[]
-    def answer(*args,**kwargs):return _answer(*args,capabilities=available,failures=failures,**kwargs)
+    path={}
+    measure_baseline=None
+    def answer(*args,**kwargs):
+        result=_answer(*args,capabilities=available,failures=failures,**kwargs)
+        # The baseline above a divergent internal boundary is not the selected
+        # report measure. Keep its evidence separate from the presentation read.
+        if measure_baseline is not None:
+            result['support']['measure_connection']='ESTABLISHED' if measure_baseline['status']=='ESTABLISHED' else 'NOT_ESTABLISHED_CAPABILITY'
+            result['support']['measure_connection_evidence_ids']=list(measure_baseline['evidence_ids'])
+        all_layers=path.get('layers',[]);observed=result['_observations']
+        compared={(o.get('upper_layer'),o.get('lower_layer')) for o in observed if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED'}
+        attempted={(o.get('upper_layer'),o.get('lower_layer')):o for o in observed if o.get('comparison_status')}
+        ceiling=path.get('max_boundaries',len(all_layers));unchecked=[]
+        for index,(upper,lower) in enumerate(zip(all_layers,all_layers[1:]),1):
+            pair=(upper['id'],lower['id'])
+            if pair in compared:continue
+            reason=(attempted.get(pair) or {}).get('reason') or (
+                'Configured boundary ceiling' if index>ceiling else 'Investigation terminated before this boundary')
+            unchecked.append({'upper_layer':pair[0],'lower_layer':pair[1],'reason':reason})
+        if path.get('unresolved_boundary'):unchecked.append(path['unresolved_boundary'])
+        for row in unchecked:
+            result['limits'].append(f"Unchecked {row['upper_layer']} -> {row['lower_layer']}: {row['reason']}.")
+        contracts=path.get('quantity_contracts',[])
+        if contracts:result['limits'].append('Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness, intended grain and a shared snapshot are not established.')
+        for observation in observed:
+            limitation=(observation.get('judgment') or {}).get('limitation')
+            if limitation:result['limits'].append(limitation)
+        for key in ('business_output','technical_output'):
+            result[key]['unverified_boundaries']=unchecked
+            result[key]['depth_ceiling']=ceiling
+            result[key]['checked_depth']=result['support']['process']['visibility_boundary']['deepest_layer']
+            result[key]['mandatory_limits']=list(result['limits'])
+        return result
     def read(layer):
         probe=refine_failure(adapter,available,layer,attest(adapter.evaluate(layer,measure_id,scope)))
         if probe.status=='UNAVAILABLE' and probe.failure:failures.append(_failure_entry(probe))
@@ -262,6 +294,10 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         if not any(x['step']==step and x['capability']==capability for x in skipped):
             skipped.append({'step':step,'capability':capability,'reason':reason})
     layers=path.get('layers') or []
+    ceiling=path.get('max_boundaries',len(layers))
+    if type(ceiling) is not int or ceiling<0:raise ValueError('Invalid boundary ceiling')
+    if len(layers)>ceiling+1:
+        layers=layers[:ceiling+1];path['stopped_by']='CAPABILITY_UNAVAILABLE'
     if not layers:
         if fallback:return fallback(path,scope)
         evidence=_observation(path.get('evidence') or {'id':'unresolved-path','tool':'context'},'established')
@@ -299,6 +335,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
               'evidence_ids':[top.evidence['id']]} if top.status=='OBSERVED' and top.evidence else {
               'status':'NOT_ESTABLISHED','layer':top.layer,'reason':top.reason or 'Presentation quantity was not comparable.',
               'evidence_ids':[]}
+    measure_baseline=baseline
 
     if len(layers)<2:
         reason=path.get('missing_comparable_quantity') or 'No adjacent layer has a faithfully bound quantity for comparison.'
@@ -391,7 +428,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             return answer('TRANSFORMATION_LOGIC',5,observations,lower.layer,baseline=boundary_baseline,
                 roles=('transformation_definition','comparison'),explanation=definition.get('explanation'),
                 skipped_steps=skipped)
-        if definition and definition.get('status') not in (None,'COMPLETED'):
+        if definition and (definition.get('status') not in (None,'COMPLETED') or definition.get('explains') is None):
             unavailable(5,'transformation_definition',definition.get('reason') or 'Transformation-definition check was inconclusive.')
         if 'job_history' in available:job=adapter.job_history(boundary)
         else:job=None;skip(5,'job_history')

@@ -341,12 +341,14 @@ def validate(proposal,payload):
         if a['classification'] not in OUTCOMES and a['classification'] not in OLD_TO_CURRENT:raise ValueError('Unsupported outcome')
         known={o['id']:o for o in payload['observations']}
         refs=a['evidence_ids']
-        if not isinstance(refs,list) or len(refs)>12 or any(r not in known for r in refs):raise ValueError('Unknown assessment evidence')
+        process=isinstance(a.get('support',{}).get('process'),dict)
+        if not isinstance(refs,list) or len(refs)>(limits.PROCESS_EVIDENCE_ITEMS if process else 12) or any(r not in known for r in refs):raise ValueError('Unknown assessment evidence')
         if 'support' in a:
             from .assessment_support import validate as validate_support
             validate_support(a,known)
         for key in ('alternatives','limits'):
-            if not isinstance(a[key],list) or not 1<=len(a[key])<=6:raise ValueError('Assessment needs alternatives and limits')
+            maximum=limits.PROCESS_EVIDENCE_ITEMS if key=='limits' and process else 6
+            if not isinstance(a[key],list) or not 1<=len(a[key])<=maximum:raise ValueError('Assessment needs alternatives and limits')
             for value in a[key]:text(value,limits.ASSESSMENT_DETAIL)
         if a['classification'] not in ('UNRESOLVED','UNSUPPORTED','INSUFFICIENT_EVIDENCE','BUSINESS_CONTEXT_REQUIRED','NO_KNOWN_PATTERN'):
             if not any(known[r]['tool']!='context' and known[r]['status']=='COMPLETED' and known[r]['completeness']!='PARTIAL' for r in refs):

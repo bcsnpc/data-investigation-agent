@@ -19,7 +19,8 @@ GENERIC_SERVICE_ERRORS=frozenset(('DatasetExecuteQueriesError',))
 
 class MicrosoftProcessAdapter:
     def __init__(self,store,config,model,execute_native,execute_source,judge_definition=None,meter_read=None,
-                 read_ingestion=None,lower_surface=None,read_failure_detail=None,execute_lower=None):
+                 read_ingestion=None,lower_surface=None,read_failure_detail=None,execute_lower=None,
+                 max_boundaries=1,read_endpoint=None):
         self.store,self.config,self.model=store,config,model
         self.execute_native,self.execute_source=execute_native,execute_source
         self.judge_definition=judge_definition
@@ -33,6 +34,8 @@ class MicrosoftProcessAdapter:
         self.read_failure_detail=read_failure_detail
         # Executes an admitted request on the independent lower surface.
         self.execute_lower=execute_lower
+        if type(max_boundaries) is not int or not 0<=max_boundaries<=32:raise ValueError('Boundary ceiling must be 0 through 32')
+        self.max_boundaries=max_boundaries;self.read_endpoint=read_endpoint
         self._paths={}
 
     def capabilities(self):
@@ -201,10 +204,41 @@ class MicrosoftProcessAdapter:
                 'missing_comparable_quantity':missing,
                 'evidence':{'id':'path-'+str(uuid4()),'tool':'context','completeness':'PARTIAL' if gaps else 'COMPLETE_RESPONSE',
                             'metadata':metadata,'declared_source_binding':binding}}
+        if self.max_boundaries>1 and len(layers)>1:
+            from .declared_chain import extend
+            path['layers'],contracts,gap=extend(context_search.latest(self.store) or {},layers)
+            path['quantity_contracts']=contracts
+            path['unresolved_boundary']=gap
+            path['evidence']['quantity_contracts']=contracts
+            path['evidence']['unresolved_boundary']=gap
+            if gap:path['stopped_by']='NO_LINEAGE'
+        path['max_boundaries']=self.max_boundaries
         self._paths[measure_id]=path
         return path
 
     def evaluate(self,layer,measure_id,scope):
+        if layer.get('kind')=='declared_quantity':
+            if scope.get('filters') or scope.get('dimension_ids'):
+                return Probe('NOT_COMPARABLE',layer['id'],reason='Declared quantity trace supports only whole-entity scope without filters or grouping.')
+            if 'independent_lower_surface' not in self.capabilities() or self.read_endpoint is None:
+                return Probe('UNAVAILABLE',layer['id'],reason='Independent endpoint lookup or reader unavailable.')
+            parent=layer['binding']['asset']['parent_id'];parts=parent.removeprefix('fabric://').split('/')
+            if len(parts)!=2 or parts[0]!=self.config['fabric']['workspace_id']:
+                return Probe('UNAVAILABLE',layer['id'],reason='Declared input leaves the approved workspace.')
+            endpoint=self.read_endpoint({'workspace':parts[0],'lakehouse':parts[1]})
+            props=endpoint.get('properties',{}).get('sqlEndpointProperties',{})
+            context=context_search.latest(self.store) or {}
+            matches=[a for a in context.get('assets',[]) if a.get('kind')=='SQLEndpoint'
+                     and a.get('availability')=='CURRENT' and a['id']==parent.rsplit('/',1)[0]+'/'+str(props.get('id'))]
+            reader=self.config['fabric']['sql_reader']
+            if (endpoint.get('id')!=parts[1] or props.get('connectionString')!=reader['server'] or len(matches)!=1):
+                return Probe('UNAVAILABLE',layer['id'],reason='Endpoint declaration does not match the approved server and discovered object.')
+            from ..source_diagnostics import quote
+            compiled=dict(layer['compiled'],database=matches[0]['name'])
+            compiled['query']='SELECT SUM('+quote(compiled['source_column'])+') AS [quantity] FROM '+quote(compiled['schema'])+'.'+quote(compiled['table'])
+            layer['binding']['declared_connection_asset_id']=matches[0]['id']
+            layer['endpoint_evidence']={'lakehouse':parent,'endpoint_id':props['id'],'server':props['connectionString']}
+            return self._evaluate_lower(layer,measure_id,compiled)
         measure=next(a for a in assets(self.model['context']) if a['id']==measure_id)
         reader=((self.config or {}).get('fabric') or {}).get('native_reader') or {}
         # The declared identity is what we intend to connect as; the surface's
@@ -269,7 +303,7 @@ class MicrosoftProcessAdapter:
         The SQL endpoint is declared by the binding. Anything else is refused;
         nothing is approximated or matched by name.
         """
-        if scope.get('filters'):
+        if scope.get('filters') or scope.get('dimension_ids'):
             return None,'Declared source comparison does not yet translate filtered scope faithfully.'
         binding=layer.get('binding') or {}
         partition=binding.get('declared_partition') or {}
@@ -320,7 +354,9 @@ class MicrosoftProcessAdapter:
             'completeness':result['result']['completeness'],'values':rows,'request_hash':result['request_hash'],
             'measure_id':measure_id,'dimension_id':None,'test_purpose':'COMPARE_DECLARED_SOURCE',
             'binding_provenance':provenance,'lower_quantity':{'source_column':compiled['source_column'],
-                'catalog_provenance':'DECLARED_BY_DEFINITION'}},
+                'catalog_provenance':'DECLARED_BY_DEFINITION'},
+            **({'quantity_contract':layer['quantity_contract'],'endpoint_declaration':layer.get('endpoint_evidence')}
+               if 'quantity_contract' in layer else {})},
             value=_quantity(rows),query=compiled['query'],execution_surface=surface,
             surface_report=result['result'].get('surface_report'),surface_reportable=('identity','object'))
 
@@ -379,6 +415,17 @@ class MicrosoftProcessAdapter:
             'limitation':'Static definitions do not establish active bookmarks, selections or RLS.'}}
 
     def transformation_definition(self,boundary):
+        contract=boundary['lower'].get('quantity_contract')
+        if contract:
+            definition={'id':'transformation-definition-'+str(uuid4()),'tool':'context','completeness':'COMPLETE_RESPONSE',
+                'asset_id':contract['definition_asset_id'],'content_hash':contract['definition_hash'],
+                'operations':contract['operations'],'quantity_contract':contract,
+                'limitation':'Only the supported operations on this declared quantity path are included; other business rules and a shared snapshot are not established.'}
+            judgment=self.judge_definition({'upper_value':boundary['upper_probe'].value,
+                'lower_value':boundary['lower_probe'].value,
+                'boundary':{'upper':boundary['upper']['id'],'lower':boundary['lower']['id']},'definition':definition})
+            definition['judgment']=dict(judgment)
+            return {**judgment,'evidence':definition}
         identity=boundary['lower'].get('definition_asset_id')
         if not identity:
             return {'status':'UNAVAILABLE','explains':None,

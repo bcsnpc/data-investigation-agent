@@ -61,8 +61,8 @@ The original structured conclusions and limits remain attached.
 
 Validation: seven output-contract tests passed. Full suite ran 1,210 tests with
 one failure: an injected synthesis response still used free business prose. The
-fixture was updated to the enforced wire contract; no production code changed
-after the live run. Focused synthesis tests are rerun; CI checks the final head.
+fixture was updated to the enforced wire contract. A later compatibility correction
+is described below; CI checks the final head.
 Initial full-suite failure remains in the local validation log. The focused rerun
 also exposed a legacy adaptive outcome (`BUSINESS_CONTEXT_REQUIRED`) in that
 fixture. Compatibility now uses the existing historical-outcome mapping for
