@@ -1649,3 +1649,18 @@ requirements. No estate or pipeline build; stop for design review.
 2026-09-27: Merged #272 after six green checks. Implemented retained completion classification and schema-fixed technical path account, with24 focused tests passing. Exactly one reader XMLA partition-timing query failed at ExecuteReader with administrator-required metadata error; one REST refresh-history request returned403. Both audits appended; no grants/budget changes or latency implementation. Full suite running.
 
 2026-09-27: All 1,260 local regression tests passed in403.575 seconds. Saved R2 renderer validation passed offline with original session unchanged. No new live investigation or additional probe was run.
+
+
+## 2026-09-27 ? rolling read allowance and expiring batch credits
+
+Merged #278 after all six checks passed (`02da5fd`). Added the explicit Microsoft
+SNAPSHOT_VERIFIED reachability limit to CLAUDE.md, preserving the distinction
+between administrator refusals and the empty SQL metadata result.
+
+Implemented rolling 24-hour ordinary read admission, immutable expiring approvals
+for named runs, and separately earmarked restoration read capacity. OneLake GETs
+and SQL identity/permission/quantity commands now require separate admission;
+receipts survive later validation failure. Per-run limits and policy values were
+not increased. Replay allocation reconstruction operates only on disposable copies.
+No live cloud reads, batch grant or freshness fixture. Prior freezes invalidated.
+Validation details and historical failed checks: [read-budget evidence](rolling-read-budget.md).

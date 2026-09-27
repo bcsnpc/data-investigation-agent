@@ -121,6 +121,14 @@ def replay(session_id, recordings, database, inventory, config, output, *, injec
             db.execute('DELETE FROM adaptive_usage WHERE session_id=?', (session_id,))
             cutoff = datetime.fromisoformat(first['created_utc']).timestamp()
             db.execute('DELETE FROM adaptive_usage WHERE created>?', (cutoff,))
+            # Allocation links must follow the same rewind in this disposable
+            # copy; leaving them behind makes a replay collide with spent keys.
+            db.execute('DELETE FROM read_allocations WHERE NOT EXISTS (SELECT 1 FROM adaptive_usage u WHERE '
+                       'u.environment=read_allocations.environment AND u.session_id=read_allocations.session_id '
+                       'AND u.reservation_key=read_allocations.reservation_key)')
+            db.execute('DELETE FROM read_batch_runs WHERE EXISTS (SELECT 1 FROM read_batches b WHERE '
+                       'b.environment=read_batch_runs.environment AND b.batch_id=read_batch_runs.batch_id AND b.issued>?)',(cutoff,))
+            db.execute('DELETE FROM read_batches WHERE issued>?',(cutoff,))
     if agent.governor:
         expected_usage = dict(first['budget']['reserved_today'])
         expected_usage['planner_calls'] -= 1

@@ -9,6 +9,19 @@ from uuid import UUID
 from metadata_auth import NoRedirect
 
 
+_metered = False
+
+
+def request_read(kind, execute):
+    import sys
+    if _metered:
+        print(json.dumps({'physical_read':'REQUEST','kind':kind}),flush=True)
+        if sys.stdin.readline().strip()!='ALLOW': raise RuntimeError('Read admission refused')
+    result=execute()
+    if _metered: print(json.dumps({'physical_read':'DONE','kind':kind,'status':'AVAILABLE'}),flush=True)
+    return result
+
+
 def read(request):
     workspace=str(UUID(request['workspace']));lakehouse=str(UUID(request['lakehouse']))
     table=request['table']
@@ -21,13 +34,17 @@ def read(request):
     url=(f'https://onelake.dfs.fabric.microsoft.com/{workspace}?resource=filesystem&directory='
          +quote(directory,safe='/')+'&recursive=false&maxResults=100')
     headers={'Authorization':'Bearer '+token}
-    with build_opener(NoRedirect()).open(Request(url,headers=headers),timeout=60) as response:
-        listing=json.load(response)
+    def listing_get():
+        with build_opener(NoRedirect()).open(Request(url,headers=headers),timeout=60) as response:
+            return json.load(response)
+    listing=request_read('onelake_listing',listing_get)
     commits=sorted(x['name'] for x in listing.get('paths',[]) if re.search(r'/[0-9]{20}\.json$',x.get('name','')))
     if not commits:return {'status':'EMPTY_RESPONSE','latest_commit':None}
     target='https://onelake.dfs.fabric.microsoft.com/'+workspace+'/'+quote(commits[-1],safe='/')
-    with build_opener(NoRedirect()).open(Request(target,headers=headers),timeout=60) as response:
-        raw=response.read(1_000_001)
+    def commit_get():
+        with build_opener(NoRedirect()).open(Request(target,headers=headers),timeout=60) as response:
+            return response.read(1_000_001)
+    raw=request_read('onelake_commit',commit_get)
     if len(raw)>1_000_000:raise ValueError('Delta commit metadata exceeds cap')
     actions=[json.loads(line) for line in raw.decode().splitlines() if line.strip()]
     info=next((x['commitInfo'] for x in actions if isinstance(x,dict) and isinstance(x.get('commitInfo'),dict)),None)
@@ -38,6 +55,7 @@ def read(request):
 
 if __name__=='__main__':
     import sys
-    try:print(json.dumps(read(json.load(sys.stdin))))
+    _metered='--metered' in sys.argv
+    try:print(json.dumps(read(json.loads(sys.stdin.readline()) if _metered else json.load(sys.stdin))))
     except Exception as exc:
         print(json.dumps({'status':'UNAVAILABLE','error_type':type(exc).__name__}));raise SystemExit(1)

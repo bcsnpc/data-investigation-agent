@@ -44,6 +44,7 @@ jobs:
           python -m unittest discover -s scripts -p test_business_vocabulary.py
           python -m unittest discover -s scripts -p test_process_debugging.py
           python -m unittest discover -s scripts -p test_snapshot_attestation.py
+          python -m unittest discover -s scripts -p test_read_budget.py
           python -m unittest discover -s scripts -p test_probe_execution_surfaces.py
           python -m unittest discover -s scripts -p test_surface_self_report.py
           python -m unittest discover -s scripts -p test_native_rejection.py

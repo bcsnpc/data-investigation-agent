@@ -92,7 +92,8 @@ def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
                           'read_only_objects': request['read_only_objects'], 'max_rows': request['max_rows'],
                           'result_columns': request['result_columns']})
     access = None
-    completed = run(['powershell', '-NoProfile', '-NonInteractive', '-File', str(READ_SCRIPT)], input=payload,
+    from investigator.physical_reads import run as physical_run
+    completed = physical_run(['powershell', '-NoProfile', '-NonInteractive', '-File', str(READ_SCRIPT)], fallback=run, input=payload,
                     capture_output=True, text=True, encoding='utf-8', timeout=150)
     try:
         answer = json.loads(completed.stdout)

@@ -1,8 +1,9 @@
-"""Durable daily reservations shared by adaptive sessions in one catalog/estate."""
+"""Durable planner-day and rolling read reservations shared by adaptive sessions in one catalog/estate."""
 from datetime import datetime,timezone
 import json
 from .onboarding import fields,digest,encoded,Conflict
 from .generation_policy import MAX_OUTPUT_TOKENS
+from . import read_allowance
 
 KEYS=('planner_calls','cloud_calls','input_characters','output_tokens')
 
@@ -30,11 +31,49 @@ class UsageGovernor:
               PRIMARY KEY(environment,session_id,reservation_key));
             """)
 
+            read_allowance.initialize(db)
+
+    def grant_batch(self, approval):
+        with self.runtime.db() as db:
+            db.execute("BEGIN IMMEDIATE")
+            read_allowance.grant(db,self.environment,approval,self.clock())
+
+    def restoration_read(self,session_id,key,execute):
+        return self.metered_read(session_id,key,execute,purpose='RESTORATION')
+
+    def metered_read(self,session_id,key,execute,*,purpose='INVESTIGATION'):
+        """Operator read/verification; restoration requires preassigned earmarked credits.
+
+        execute is a trusted single-read transport, not model-supplied code.
+        This does not authorize mutation. Failed or uncertain work stays charged.
+        """
+        def metered(slot,call):
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE')
+                if db.execute('SELECT 1 FROM adaptive_usage WHERE environment=? AND session_id=? AND reservation_key=?',
+                              (self.environment,session_id,slot)).fetchone():
+                    raise UsageHold('Operator request already admitted; never replay')
+                self.reserve(db,session_id,slot,'cloud',purpose=purpose)
+            uncertain=True
+            try:
+                result=call();uncertain=False;return result
+            finally:
+                with self.runtime.db() as db:
+                    db.execute('BEGIN IMMEDIATE');self.settle(db,session_id,slot,uncertain=uncertain)
+        number=0
+        def extra(tool,call):
+            nonlocal number
+            number+=1
+            return metered(key+':physical:'+str(number),call)
+        from .physical_reads import scope
+        with scope(extra):return metered(key,execute)
+
     def day(self):return datetime.fromtimestamp(self.clock(),timezone.utc).date().isoformat()
 
-    def reserve(self,db,session_id,key,kind,characters=0,*,output_tokens=1500):
+    def reserve(self,db,session_id,key,kind,characters=0,*,output_tokens=1500,purpose="INVESTIGATION"):
         # Caller holds BEGIN IMMEDIATE; budget and session transition commit together.
         if kind not in ('planner','cloud'):raise ValueError('Unknown usage kind')
+        if kind=='planner' and purpose!='INVESTIGATION':raise ValueError('Restoration credits are read-only')
         amount=dict.fromkeys(KEYS,0)
         if type(output_tokens) is not int or not 500<=output_tokens<=MAX_OUTPUT_TOKENS:raise ValueError('Invalid output reservation')
         if kind=='planner':amount.update(planner_calls=1,input_characters=characters,output_tokens=output_tokens)
@@ -42,6 +81,9 @@ class UsageGovernor:
         prior=db.execute('SELECT reserved,kind FROM adaptive_usage WHERE environment=? AND session_id=? AND reservation_key=?',
                          (self.environment,session_id,key)).fetchone()
         if prior:
+            if kind=='cloud':
+                allocation=db.execute('SELECT purpose FROM read_allocations WHERE environment=? AND session_id=? AND reservation_key=?', (self.environment,session_id,key)).fetchone()
+                if allocation and allocation['purpose']!=purpose:raise UsageHold('Reservation purpose differs')
             if json.loads(prior['reserved'])!=amount or prior['kind']!=kind:raise UsageHold('Reservation key differs')
             return
         if kind=='planner':
@@ -50,9 +92,12 @@ class UsageGovernor:
         total=dict.fromkeys(KEYS,0)
         for row in db.execute('SELECT reserved FROM adaptive_usage WHERE environment=? AND day=?',(self.environment,self.day())):
             for k,v in json.loads(row[0]).items():total[k]+=v
-        if any(total[k]+amount[k]>self.policy['daily_limits'][k] for k in KEYS):raise UsageHold('Daily usage limit')
-        if db.execute("SELECT 1 FROM adaptive_usage WHERE environment=? AND day=? AND status='VIOLATION' LIMIT 1",(self.environment,self.day())).fetchone():
+        if any(amount[k] and total[k]+amount[k]>self.policy['daily_limits'][k] for k in KEYS if k!='cloud_calls'):raise UsageHold('Daily usage limit')
+        if purpose!='RESTORATION' and db.execute("SELECT 1 FROM adaptive_usage WHERE environment=? AND day=? AND status='VIOLATION' LIMIT 1",(self.environment,self.day())).fetchone():
             raise UsageHold('Provider usage exceeded reservation')
+        if kind=='cloud':
+            read_allowance.allocate(db,self.environment,session_id,key,self.clock(),
+                self.policy['daily_limits']['cloud_calls'],purpose,UsageHold)
         db.execute('INSERT INTO adaptive_usage VALUES(?,?,?,?,?,?,NULL,?,?,?)',
                    (self.environment,session_id,key,self.day(),kind,encoded(amount),'RESERVED',self.hash,self.clock()))
 
@@ -71,6 +116,7 @@ class UsageGovernor:
 
     def snapshot(self):
         with self.runtime.db() as db:
+            reads=read_allowance.snapshot(db,self.environment,self.clock(),self.policy['daily_limits']['cloud_calls'])
             rows=db.execute('SELECT day,kind,reserved,actual,status FROM adaptive_usage WHERE environment=? ORDER BY created',
                             (self.environment,)).fetchall()
         total=dict.fromkeys(KEYS,0);states={}
@@ -80,4 +126,5 @@ class UsageGovernor:
             states[r['status']]=states.get(r['status'],0)+1
         return {'environment':self.environment,'day':self.day(),'policy_hash':self.hash,
                 'limits':self.policy['daily_limits'],'reserved_today':total,'reservation_states':states,
-                'billing_cap_verified':False,'limitation':'Initiated UTC-day reservations in this catalog only; no provider spend or SQL compute guarantee.'}
+                'read_allowance':reads,'billing_cap_verified':False,
+                'limitation':'Planner reservations use UTC days; ordinary reads use rolling 24 hours, with separate expiring run credits. Initiated requests in this catalog only, not provider spend or SQL compute.'}

@@ -29,7 +29,7 @@ def score(record):
             'classification':state.get('outcome',{}).get('classification'),
             'stop_reason':state.get('stop_reason'),'planner_calls':state.get('planner_calls',0),
             'cloud_calls':state.get('cloud_calls',0),**accounting(state),'completed_reads':accounting(state)['reads_completed'],
-            'read_tools':dict(Counter(o['tool'] for o in state.get('process_read_receipts',reads))),
+            'read_tools':dict(Counter(o['tool'] for o in state.get('physical_read_receipts',state.get('process_read_receipts',reads)))),
             'rejected_actions':len(rejected),'read_after_rejection':recovered,
             'redundant_reads_blocked':sum(o.get('metadata',{}).get('reason_code')=='READ_ALREADY_OBSERVED' for o in rejected),
             'measure_reproductions':sum(o.get('test_purpose')=='REPRODUCE_MEASURE' or
