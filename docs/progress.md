@@ -1494,6 +1494,17 @@ PowerShell wrapper exit 1 are retained separately; see the report. Fix/audit PR 
 is stacked on unchanged-evidence PR #254.
 
 
+## 2026-09-27 ? valid-pair intake schema and five trials
+
+The wire schema now encodes the three valid shape/mode pairs in one enum; the
+historical internal fields remain readable. Five recorded intake/preview trials
+all proposed MISMATCH_COMPLAINT:VERTICAL and passed preview with identical parsed
+decisions. No retries or data reads, no quota/policy change. Five ledger rows added;
+213 prior rows preserved. 47 focused tests and 1,190 full regression tests passed
+(Python exit 0). [Report](intake-valid-pairs-five.md). No intake refusal moved to
+another route in this sample; broader determinism remains unproven.
+
+
 ## 2026-09-27 ? shared quantity normalization
 
 63 focused tests passed. Saved R2 comparison validates offline after sealed-receipt

@@ -33,7 +33,7 @@ class WireContractTests(unittest.TestCase):
     def test_opaque_handles_roundtrip_and_filter_quotes_stay_attached(self):
         payload=self.payload();original=copy.deepcopy(payload)
         proposed={'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value','question':None,
-                  'ticket_shape':'MISMATCH_COMPLAINT','comparison_mode':'VERTICAL',
+                  'triage':'MISMATCH_COMPLAINT:VERTICAL',
                   'filters':[{'column_id':'m0c0','operator':'in','values':['North'],'quote':'North'}],
                   'dimension_ids':['m0c0']}
         with patch('ticket_planner.azure_generate',return_value=(proposed,{})) as generate:
@@ -48,13 +48,36 @@ class WireContractTests(unittest.TestCase):
 
     def test_global_proposal_cannot_add_detached_scope_quotes(self):
         proposed={'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
-                  'question':None,'ticket_shape':'MISMATCH_COMPLAINT','comparison_mode':'VERTICAL','filters':[],'dimension_ids':[]}
+                  'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[]}
         with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
             result,_=azure_resolve(self.payload())
         self.assertEqual(result['scope_quotes'],[])
         proposed['measure_id']='fabric://a/measure/Unfamiliar value'
         with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
             with self.assertRaises(ValueError):azure_resolve(self.payload())
+
+
+    def test_wire_triage_can_express_only_the_three_legitimate_pairs(self):
+        from investigator.question_intake import TRIAGE_PAIRS
+        _,schema,_=wire_contract(self.payload())
+        self.assertNotIn('ticket_shape',schema['properties'])
+        self.assertNotIn('comparison_mode',schema['properties'])
+        self.assertFalse(schema['additionalProperties'])
+        self.assertEqual(set(schema['properties']['triage']['enum']),set(TRIAGE_PAIRS)|{None})
+        self.assertEqual(set(TRIAGE_PAIRS.values()),{('MISMATCH_COMPLAINT','VERTICAL'),
+            ('MISMATCH_COMPLAINT','HORIZONTAL'),('BUSINESS_QUESTION','NONE')})
+        for encoded_pair,pair in list(TRIAGE_PAIRS.items())+[(None,(None,None))]:
+            value={'action':'PROPOSE' if encoded_pair else 'ASK','model_id':'m0' if encoded_pair else None,
+                'measure_id':'m0v0' if encoded_pair else None,'metric_quote':'unfamiliar value' if encoded_pair else None,
+                'question':None if encoded_pair else 'Which metric?', 'triage':encoded_pair,'filters':[],'dimension_ids':[]}
+            with patch('ticket_planner.azure_generate',return_value=(value,{})):
+                decoded,_=azure_resolve(self.payload())
+            self.assertEqual((decoded['ticket_shape'],decoded['comparison_mode']),pair)
+        for forbidden in ('MISMATCH_COMPLAINT:NONE','BUSINESS_QUESTION:VERTICAL','BUSINESS_QUESTION:HORIZONTAL'):
+            self.assertNotIn(forbidden,schema['properties']['triage']['enum'])
+            value['triage']=forbidden
+            with patch('ticket_planner.azure_generate',return_value=(value,{})):
+                with self.assertRaisesRegex(ValueError,'triage pair'):azure_resolve(self.payload())
 
 
 class IntakeTests(unittest.TestCase):

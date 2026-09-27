@@ -33,7 +33,16 @@ class IntakeFamilyTests(unittest.TestCase):
     def provider(self,case,requests):
         def transport(request):
             requests.append(json.loads(request.content))
-            return httpx.Response(200,json=case['response'])
+            # Synthetic v1 fixtures remain immutable; adapt only the test response
+            # serialization to v2. Historical live tapes are never rewritten.
+            response=copy.deepcopy(case['response'])
+            for output in response.get('output',[]):
+                if output.get('type')!='function_call':continue
+                value=json.loads(output['arguments'])
+                shape=value.pop('ticket_shape');mode=value.pop('comparison_mode')
+                value['triage']=shape+':'+mode if shape is not None else None
+                output['arguments']=json.dumps(value)
+            return httpx.Response(200,json=response)
         return patch('openai.DefaultHttpxClient',side_effect=lambda **kw:DefaultHttpxClient(transport=httpx.MockTransport(transport),**kw))
 
     def test_twelve_recorded_payloads_and_responses_roundtrip(self):
@@ -43,7 +52,21 @@ class IntakeFamilyTests(unittest.TestCase):
                 requests=[]
                 with self.provider(case,requests):decision,_=azure_resolve(copy.deepcopy(case['payload']))
                 validate(decision,case['payload'])
-                self.assertEqual(requests,[case['request']])
+                self.assertEqual(len(requests),1)
+                # Golden context and all other request settings stay byte-exact.
+                # Only wire triage serialization and its field-name instructions change.
+                expected=copy.deepcopy(case['request'])
+                expected['instructions']=expected['instructions'].replace(
+                    'ticket_shape and comparison_mode are null','triage is null').replace(
+                    'both triage fields are required','triage is required')
+                schema=expected['tools'][0]['parameters']
+                for key in ('ticket_shape','comparison_mode'):
+                    schema['properties'].pop(key);schema['required'].remove(key)
+                schema['properties']['triage']={'type':['string','null'],
+                    'enum':['MISMATCH_COMPLAINT:VERTICAL','MISMATCH_COMPLAINT:HORIZONTAL','BUSINESS_QUESTION:NONE',None],
+                    'description':'Ticket shape and comparison mode as one valid pair; null only for ASK.'}
+                schema['required'].append('triage')
+                self.assertEqual(requests,[expected])
                 self.assertEqual(decision,case['decision'])
                 self.assertTrue(score(case,decision)['passed'])
 
