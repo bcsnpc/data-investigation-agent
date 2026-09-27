@@ -81,10 +81,10 @@ class SynthesisTests(unittest.TestCase):
             source=agent.load(db,state['id']);payload=synthesis_digest.build(source,db)
             source['assessment']=self.answer(payload)
             agent.save(db,source,'TEST_ASSESSMENT',{})
-        statement={'text':'The observed value does not prove intended business rules.',
+        statement={'text':narrative.path_narrative.LIMITATION,
                    'evidence_ids':[source['observations'][0]['id']]}
         business={**statement,'text':narrative.business_text(source['assessment']['classification'])}
-        wire={'business_output':business,'technical_output':statement,'limitations':[statement]}
+        wire={'business_output':business,'technical_output':{**statement,'text':narrative.path_narrative.summary(payload)},'limitations':[statement]}
         with patch('ticket_planner.azure_generate',return_value=(wire,{})):
             result=agent.synthesize(state['id'],synthesis.azure_synthesize)
         self.assertEqual(result['synthesis']['status'],'COMPLETED')

@@ -53,8 +53,12 @@ class BoundsTests(unittest.TestCase):
         self.assert_text(wire['properties']['filters']['items']['properties']['quote'],L.INTAKE_QUOTE,lambda v:text(v,L.INTAKE_QUOTE))
         self.assertEqual(wire['properties']['filters']['items']['properties']['values']['maxItems'],L.FILTER_VALUES)
         n=narrative.schema({'evidence':[]})
-        self.assert_text(n['properties']['technical_output']['properties']['text'],L.ASSESSMENT_CLAIM,lambda v:text(v,L.ASSESSMENT_CLAIM))
-        self.assert_text(n['properties']['limitations']['items']['properties']['text'],L.ASSESSMENT_DETAIL,lambda v:text(v,L.ASSESSMENT_DETAIL))
+        wire=n['properties']['technical_output']['properties']['text']
+        self.assertEqual(wire['maxLength'],L.ASSESSMENT_CLAIM)
+        for v in wire['enum']:Draft202012Validator(wire).validate(v);text(v,L.ASSESSMENT_CLAIM)
+        wire=n['properties']['limitations']['items']['properties']['text']
+        self.assertEqual(wire['maxLength'],L.ASSESSMENT_DETAIL)
+        for v in wire['enum']:Draft202012Validator(wire).validate(v);text(v,L.ASSESSMENT_DETAIL)
         self.assertEqual(n['properties']['limitations']['maxItems'],L.ASSESSMENT_LIST)
 
     def test_filling_all_offered_keyed_hypotheses_cannot_exceed_consumer(self):
