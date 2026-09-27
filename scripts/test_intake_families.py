@@ -66,6 +66,16 @@ class IntakeFamilyTests(unittest.TestCase):
                     'enum':['MISMATCH_COMPLAINT:VERTICAL','MISMATCH_COMPLAINT:HORIZONTAL','BUSINESS_QUESTION:NONE',None],
                     'description':'Ticket shape and comparison mode as one valid pair; null only for ASK.'}
                 schema['required'].append('triage')
+                # Migrate only producer field bounds from the immutable v1 tape.
+                from investigator import proposal_limits as limits
+                for key,bound in (('metric_quote',limits.INTAKE_QUOTE),('question',limits.QUESTION)):
+                    schema['properties'][key].update(minLength=1,maxLength=bound)
+                item=schema['properties']['filters']['items']['properties']
+                item['quote'].update(minLength=1,maxLength=limits.INTAKE_QUOTE)
+                item['values'].update(minItems=1,maxItems=limits.FILTER_VALUES)
+                scalar=item['values']['items']['anyOf']
+                next(x for x in scalar if x['type']=='string')['maxLength']=limits.FILTER_STRING
+                next(x for x in scalar if x['type']=='integer').update(minimum=-limits.EXACT_INTEGER,maximum=limits.EXACT_INTEGER)
                 self.assertEqual(requests,[expected])
                 self.assertEqual(decision,case['decision'])
                 self.assertTrue(score(case,decision)['passed'])
