@@ -278,3 +278,38 @@ Each earlier hypothesis is corrected here. The original text is kept above.
 
 **Still not done:** nothing has been changed to renew the service-side grant.
 Live DAX baselines as the reader remain `UNAVAILABLE` until it is renewed.
+
+## Remedy, 2026-09-27 00:32 UTC: an interactive portal sign-in cleared the stale grant
+
+The sections above are kept as written.
+
+**The action:** the account holder signed in to app.powerbi.com as
+`investigator-reader@skynwhy.com`, in a private window, and opened a report on
+the Direct Lake model. This should make Power BI mint a fresh delegated grant
+for that user.
+
+Afterwards, as the reader:
+- **00:32:37 UTC, constant query:** `ROW("x",1)` on the Direct Lake model
+  (`3484a2bc…`) returned **HTTP 200**, 1 row. Before, it failed with
+  `0xC1450012`.
+- **00:33:02–00:33:29 UTC, baseline measure query:** run through the engine's
+  per-probe path (`evaluate()`, then `attest()`, then `refine_failure()`). It
+  returned **`OBSERVED`**, `COMPLETE_RESPONSE`, sealed receipt `058ea31a…`.
+  - The value's fingerprint equals item 1's reader baseline from 01:25 UTC on
+    2026-09-26, so it is the same value.
+  - **The first live DAX self-report:** Power BI answered
+    `USERPRINCIPALNAME()` with `investigator-reader@skynwhy.com`. Attestation is
+    `MATCHED`, with `object`, `engine` and `connection` unattested. The
+    self-report is sealed inside the receipt.
+
+**What this establishes:**
+- **The remedy:** an interactive portal sign-in cleared the stale service-side
+  grant (`AADSTS50173`).
+- **Not an API remedy:** nothing in the APIs exposed this. A fresh client-side
+  MSAL sign-in did not clear it at 21:57 UTC, and neither did OneLake role
+  membership.
+- **Recovery:** a live DAX baseline as the reader can be established again.
+
+**Not established:** why the portal sign-in, and not the client sign-in,
+refreshed the grant. The account holder did not renew the data source
+credential separately, so the portal sign-in is the only recorded action.

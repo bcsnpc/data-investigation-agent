@@ -6,6 +6,31 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: the reader's Direct Lake access is restored.** Updated
+2026-09-27 00:33 UTC.
+- **The remedy:** after an interactive portal sign-in as the reader, the stale
+  service-side grant cleared. The reader's constant query returns HTTP 200.
+- **The baseline:** the baseline measure query is `OBSERVED`, with the same value
+  fingerprint as item 1.
+- **Self-report:** the DAX self-report is `MATCHED` live, for the first time.
+- **Why it matters:** nothing in the APIs exposed this remedy.
+
+See [Power BI reader rejection](power-bi-reader-rejection.md).
+
+**Current checkpoint: a masked failure unmasked by the engine, live.** Updated
+2026-09-26 22:40 UTC.
+- **The run:** as the reader, against the failing Direct Lake model, Execute
+  Queries returned the generic `DatasetExecuteQueriesError`. The engine's
+  `refine_failure()` re-issued the query through XMLA and obtained
+  `AdalGrantHasExpiredDueToPasswordChangeErrorCode` and `AADSTS50173`.
+- **Where it lands:** the codes reach the probe reason and both outputs; the
+  status stays `UNAVAILABLE`.
+- **Gap:** the sealed receipt carries only the generic error, because the XMLA
+  result is not sealed separately.
+- **Installed:** ADOMD.NET 19.117.0 (Microsoft), under `.local/`.
+
+See [specific failure](specific-failure.md#live-verification-2026-09-26-2240-utc-a-real-masked-failure-unmasked-by-the-engine).
+
 **Current checkpoint: prefer the most specific failure.** Updated 2026-09-26.
 **Engine bytes changed:** `unfrozen-789b25653c0c`.
 - **Engine:** an `UNAVAILABLE` probe whose adapter marks its failure `GENERIC`
