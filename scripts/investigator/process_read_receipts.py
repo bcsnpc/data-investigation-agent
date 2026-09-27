@@ -2,6 +2,7 @@
 from .onboarding import digest
 
 SQL = {'bounded_sql', 'bounded_fabric_sql', 'source', 'source_records'}
+SQL.update({'sql_identity','sql_database_permissions','sql_object_permissions','sql_quantity'})
 DAX = {'bounded_dax', 'native', 'native_records'}
 
 
@@ -21,7 +22,7 @@ def receipt(sequence, tool, result, error_type=None):
 
 def accounting(state):
     """Count completed/failed attempts; never turn an unreturned read into success."""
-    entries = state.get('process_read_receipts')
+    entries = state.get('physical_read_receipts',state.get('process_read_receipts'))
     if entries is None:
         entries = [o for o in state.get('observations', [])
                    if o.get('tool') in SQL | DAX and o.get('status') == 'COMPLETED']
@@ -31,4 +32,4 @@ def accounting(state):
             'reads_total': len(entries),
             'reads_completed': sum(e['status'] in ('COMPLETED', 'AVAILABLE') for e in entries),
             'reads_unsuccessful_or_uncertain': sum(e['status'] not in ('COMPLETED', 'AVAILABLE') for e in entries),
-            'read_accounting_source': 'PROCESS_READ_RECEIPTS' if 'process_read_receipts' in state else 'LEGACY_OBSERVATIONS'}
+            'read_accounting_source': 'PHYSICAL_READ_RECEIPTS' if 'physical_read_receipts' in state else 'PROCESS_READ_RECEIPTS' if 'process_read_receipts' in state else 'LEGACY_OBSERVATIONS'}

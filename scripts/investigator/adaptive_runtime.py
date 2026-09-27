@@ -343,7 +343,7 @@ class AdaptiveRuntime:
                         except UsageHold:
                             self.stop(db,state,'USAGE_LIMIT','HELD');return self.project_after_commit(db,state)
                     state['cloud_calls']+=1;state['attempted'].append(candidate['id'])
-                    state.update(status='EXECUTING',pending={'candidate':candidate,'key':identity+':'+str(state['cloud_calls']),'run_id':None})
+                    state.update(status='EXECUTING',pending={'candidate':candidate,'key':identity+':'+str(state['cloud_calls']),'run_id':None,'reservation_key':'tool:'+str(state['cloud_calls'])})
                     self.save(db,state,'TOOL_RESERVED',{'candidate_id':candidate['id'],'cloud_calls':state['cloud_calls']})
         if self.get(identity)['status']=='EXECUTING':return self.dispatch(identity,token)
         return self.get(identity)
@@ -370,10 +370,48 @@ class AdaptiveRuntime:
                 self.runtime.cancel_in_transaction(db,child['id']);db.commit();return self.get(identity)
             if state['token']!=token or state['status']!='EXECUTING':raise Conflict('Dispatcher fenced')
             state['pending']['run_id']=child['id'];self.save(db,state,'CHILD_LINKED',{'run_id':child['id']})
-        try:result=self.runtime.execute(child['id'])
+        def additional_read(tool,execute):
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                if current['status']!='EXECUTING' or current['token']!=token: raise Conflict('Dispatcher fenced')
+                if current['status']!='EXECUTING' or self.clock()>=current['deadline']:raise UsageHold('Read cancelled or deadline exhausted')
+                if current['cloud_calls']>=current['envelope']['limits']['cloud_calls']: raise UsageHold('Investigation cloud-read limit')
+                number=current['cloud_calls']+1;key='physical:'+str(number)
+                if self.governor:self.governor.reserve(db,identity,key,'cloud')
+                current['cloud_calls']=number;self.save(db,current,'PHYSICAL_READ_RESERVED',{'tool':tool,'number':number})
+            result=None;error=None
+            try:
+                result=execute();return result
+            except Exception as exc:
+                error=type(exc).__name__;raise
+            finally:
+                from .process_read_receipts import receipt
+                entry=receipt(number,tool,result,error)
+                with self.runtime.db() as db:
+                    db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                    current.setdefault('physical_read_receipts',[]).append(entry)
+                    self.save(db,current,'PHYSICAL_READ_RECORDED',entry)
+                    if self.governor:self.governor.settle(db,identity,key,uncertain=error is not None)
+        result=None;physical=None;dispatch_error=None
+        try:
+            from .physical_reads import scope
+            with scope(additional_read) as physical:result=self.runtime.execute(child['id'])
         except Conflict:
+            dispatch_error='Conflict'
             if self.get(identity)['status']=='CANCELLED':return self.get(identity)
             raise
+        finally:
+            from .process_read_receipts import receipt
+            first=physical.get('first_report') if physical else None
+            number=int(pending.get('reservation_key','tool:'+str(state['cloud_calls'])).split(':')[-1])
+            body=first or ({'status':result['status']} if result else None)
+            entry=receipt(number,first['request_kind'] if first else candidate['tool'],body,dispatch_error)
+            if first:entry['logical_tool']=candidate['tool']
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                entries=current.setdefault('physical_read_receipts',[])
+                if not any(e['sequence']==number for e in entries):
+                    entries.append(entry);self.save(db,current,'PHYSICAL_READ_RECORDED',entry)
         return self.consume(identity,token,result)
 
     def consume(self,identity,token,child):
@@ -386,7 +424,7 @@ class AdaptiveRuntime:
             if item and item['id'] not in {o['id'] for o in state['observations']}:state['observations'].append(item)
             state['record_comparisons']=record_pairs(state['envelope'],state['observations'])
             state['aggregate_reconciliations']=reconcile_aggregates(self.store,state['model_id'],state['observations'])
-            if self.governor:self.governor.settle(db,identity,'tool:'+str(state['cloud_calls']),uncertain=child['status'] not in ('COMPLETED','CANCELLED') and not any(s['status']=='FAILED' for s in child['steps']))
+            if self.governor:self.governor.settle(db,identity,state['pending'].get('reservation_key','tool:'+str(state['cloud_calls'])),uncertain=child['status'] not in ('COMPLETED','CANCELLED') and not any(s['status']=='FAILED' for s in child['steps']))
             if child['status']!='COMPLETED':self.stop(db,state,'TOOL_UNAVAILABLE','HELD')
             else:
                 try:self.admit(state)
@@ -424,22 +462,29 @@ class AdaptiveRuntime:
         def meter_read(tool,execute):
             with self.runtime.db() as db:
                 db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                if current['status']!='EXECUTING' or self.clock()>=current['deadline']:raise UsageHold('Read cancelled or deadline exhausted')
                 if current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
                     raise UsageHold('Investigation cloud-read limit')
                 number=current['cloud_calls']+1;key='tool:process:'+str(number)
                 if self.governor:self.governor.reserve(db,identity,key,'cloud')
                 current['cloud_calls']=number
                 self.save(db,current,'PROCESS_READ_RESERVED',{'tool':tool,'cloud_calls':number})
-            uncertain=False;result=None;error_type=None
+            uncertain=False;result=None;error_type=None;physical=None
             try:
-                result=execute()
+                from .physical_reads import scope
+                with scope(meter_read) as physical: result=execute()
                 return result
             except Exception as exc:
                 uncertain=True;error_type=type(exc).__name__;raise
             finally:
                 # Persist the read independently of interpretation and support validation.
                 from .process_read_receipts import receipt
-                entry=receipt(number,tool,result,error_type)
+                first=physical.get('first_report') if physical else None
+                entry=receipt(number,first['request_kind'] if first else tool,first or result,
+                              error_type if not first or first['status']=='UNCERTAIN' else None)
+                if first:
+                    entry['logical_tool']=tool
+                    entry['logical_receipt']=receipt(number,tool,result,error_type)
                 with self.runtime.db() as db:
                     db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
                     current.setdefault('process_read_receipts',[]).append(entry)
@@ -518,7 +563,8 @@ class AdaptiveRuntime:
             def execute():
                 import subprocess
                 from metadata_config import ROOT
-                completed=subprocess.run([self.config['fabric']['auth']['python'],
+                from .physical_reads import run as physical_run
+                completed=physical_run([self.config['fabric']['auth']['python'],
                     str(ROOT/'scripts/read_onelake_commit.py')],input=encoded(request),capture_output=True,
                     text=True,encoding='utf-8',timeout=90)
                 try:result=json.loads(completed.stdout)
@@ -549,8 +595,10 @@ class AdaptiveRuntime:
                 workspace=str(UUID(request['workspace']));lakehouse=str(UUID(request['lakehouse']))
                 endpoint=f'workspaces/{workspace}/lakehouses/{lakehouse}'
                 try:
-                    result=subprocess.run([str(ROOT/'.local/fabric-cli-env/Scripts/fab.exe'),'api',endpoint,
-                        '-X','get','-A','fabric','--show_headers'],capture_output=True,text=True,encoding='utf-8',timeout=90)
+                    payload={'operation':'request','endpoint':endpoint,'method':'get','audience':'fabric',
+                             'tenant':self.config['fabric']['auth']['tenant_id']}
+                    result=subprocess.run([self.config['fabric']['auth']['python'],str(ROOT/'scripts/metadata_worker.py')],
+                        input=encoded(payload),capture_output=True,text=True,encoding='utf-8',timeout=90)
                     response=json.loads(result.stdout)
                     if response.get('status_code')!=200:return {'status':'UNAVAILABLE','http_status':response.get('status_code')}
                     body=response['text'];properties=body.get('properties',{}).get('sqlEndpointProperties',{})
@@ -661,7 +709,7 @@ class AdaptiveRuntime:
                 state=self.load(db,identity);self.admit(state)
                 if self.clock()+(300 if pending['candidate']['tool'] in ('source','source_records','bounded_sql') else 120)>state['deadline']:
                     self.stop(db,state,'DEADLINE','HELD');return self.project_after_commit(db,state)
-            child=self.runtime.execute(child['id'])
+            return self.dispatch(identity,token)
         return self.consume(identity,token,child)
 
     def revise(self,identity,envelope,key):
@@ -681,7 +729,7 @@ class AdaptiveRuntime:
             if pending:
                 child=db.execute('SELECT id FROM v2_runs WHERE model_id=? AND request_key=?',(state['model_id'],pending['key'])).fetchone()
                 if child:self.runtime.cancel_in_transaction(db,child['id'])
-                if self.governor:self.governor.settle(db,identity,'tool:'+str(state['cloud_calls']),uncertain=bool(child))
+                if self.governor:self.governor.settle(db,identity,state['pending'].get('reservation_key','tool:'+str(state['cloud_calls'])),uncertain=bool(child))
             elif state['status']=='PLANNING' and self.governor:
                 self.governor.settle(db,identity,'planner:'+str(state['planner_calls']),uncertain=True)
             if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='adaptive_usage'").fetchone():

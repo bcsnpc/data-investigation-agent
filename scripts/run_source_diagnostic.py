@@ -33,7 +33,8 @@ def read_once(config, request):
         payload.update(response_mode='records',max_rows=request['max_rows'],result_columns=request['result_columns'])
     if request.get('require_read_only'):
         payload.update(require_read_only=True,read_only_objects=request['read_only_objects'])
-    completed = subprocess.run(['powershell', '-NoProfile', '-NonInteractive', '-File',
+    from investigator.physical_reads import run as physical_run
+    completed = physical_run(['powershell', '-NoProfile', '-NonInteractive', '-File',
         str(ROOT / 'infra/scripts/Read-CatalogAggregate.ps1')],
         input=json.dumps(payload), capture_output=True, text=True, encoding='utf-8', timeout=90)
     if len(completed.stdout) > (2*1024*1024 if request.get('response_mode')=='records' else 8192):

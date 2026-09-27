@@ -1,7 +1,22 @@
+param([switch]$Metered)
 # Internal transport for the catalog compiler, not a public arbitrary-SQL API.
+function Begin-PhysicalRead([string]$Kind) {
+    if ($Metered) {
+        [Console]::Out.WriteLine((@{physical_read='REQUEST';kind=$Kind} | ConvertTo-Json -Compress))
+        [Console]::Out.Flush()
+        if ([Console]::In.ReadLine() -cne 'ALLOW') { throw 'Read admission refused' }
+    }
+}
+function End-PhysicalRead([string]$Kind) {
+    if ($Metered) {
+        [Console]::Out.WriteLine((@{physical_read='DONE';kind=$Kind;status='AVAILABLE'} | ConvertTo-Json -Compress))
+        [Console]::Out.Flush()
+    }
+}
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Data
-$request = [Console]::In.ReadToEnd() | ConvertFrom-Json
+$rawRequest = if ($Metered) { [Console]::In.ReadLine() } else { [Console]::In.ReadToEnd() }
+$request = $rawRequest | ConvertFrom-Json
 $connection = $null
 $command = $null
 $reader = $null
@@ -27,18 +42,26 @@ try {
         try {
             $guard.CommandTimeout = 15
             $guard.CommandText = "SELECT COUNT(*) FROM sys.fn_my_permissions(NULL,'DATABASE') WHERE permission_name NOT IN ('CONNECT','SELECT','VIEW DEFINITION','VIEW DATABASE STATE','VIEW DATABASE PERFORMANCE STATE','VIEW DATABASE SECURITY STATE')"
-            if ([int]$guard.ExecuteScalar() -ne 0) { throw 'Proposed SQL requires a read-only principal' }
+            Begin-PhysicalRead 'sql_database_permissions'
+            $permissionCount = [int]$guard.ExecuteScalar()
+            End-PhysicalRead 'sql_database_permissions'
+            if ($permissionCount -ne 0) { throw 'Proposed SQL requires a read-only principal' }
             $objects = @($request.read_only_objects)
             if ($objects.Count -lt 1 -or $objects.Count -gt 24) { throw 'Invalid object permission scope' }
             $guard.CommandText = "SELECT COUNT(*) FROM sys.fn_my_permissions(@object,'OBJECT') WHERE permission_name NOT IN ('SELECT','VIEW DEFINITION')"
             $null = $guard.Parameters.Add('@object', [System.Data.SqlDbType]::NVarChar, 300)
             foreach ($objectName in $objects) {
                 $guard.Parameters['@object'].Value = $objectName
-                if ([int]$guard.ExecuteScalar() -ne 0) { throw 'Proposed SQL object is not read-only' }
+                Begin-PhysicalRead 'sql_object_permissions'
+                $permissionCount = [int]$guard.ExecuteScalar()
+                End-PhysicalRead 'sql_object_permissions'
+                if ($permissionCount -ne 0) { throw 'Proposed SQL object is not read-only' }
             }
             $guard.Parameters.Clear()
             $guard.CommandText = 'SELECT CURRENT_USER'
+            Begin-PhysicalRead 'sql_identity'
             $sourcePrincipal = [string]$guard.ExecuteScalar()
+            End-PhysicalRead 'sql_identity'
         } finally { $guard.Dispose() }
     }
     $command = $connection.CreateCommand()
@@ -48,7 +71,9 @@ try {
         $null = $command.Parameters.Add($parameter.name, [System.Data.SqlDbType]::NVarChar, 200)
         $command.Parameters[$parameter.name].Value = $parameter.value
     }
+    Begin-PhysicalRead 'sql_quantity'
     $reader = $command.ExecuteReader()
+    End-PhysicalRead 'sql_quantity'
     if ($request.response_mode -eq 'records') {
         if ($request.max_rows -lt 2 -or $request.max_rows -gt 251) { throw 'Invalid record budget' }
         $columns = @($request.result_columns)

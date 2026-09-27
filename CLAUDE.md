@@ -98,6 +98,8 @@ query does not attest which version a quantity read served. Only genuinely
 query-bound, aligned reports can produce SNAPSHOT_VERIFIED. No live verification
 or freshness-fixture success is implied.
 
+SNAPSHOT_VERIFIED is expected to be unreachable on the Microsoft adapter: neither metadata route binds its version to the value query (DAX is admin-gated; SQL returned no rows for the reader); other platforms can satisfy the contract by returning value and version in one statement.
+
 ## Refresh timing permission finding (2026-09-27)
 
 The least-privilege reader was tested and refused by both routes: Power BI REST

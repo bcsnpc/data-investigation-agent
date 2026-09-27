@@ -1,0 +1,40 @@
+{
+  "session_id": "rolling-read-budget-release-regression",
+  "date_utc": "2026-09-27T20:41:35.107798+00:00",
+  "mode": "offline",
+  "family": "engineering",
+  "trial_kind": "LOCAL_REGRESSION",
+  "planner_calls": 0,
+  "reads_sql": 0,
+  "reads_dax": 0,
+  "reads_other": 0,
+  "reads_total": 0,
+  "outcome_label": "PASSED",
+  "stop_reason": "RELEASE_REGRESSION_COMPLETE",
+  "tests_run": 1302,
+  "failures": 0,
+  "errors": 0,
+  "notes_doc": "docs/rolling-read-budget.md",
+  "engine_hash": "988034c43bbf77e76d3afea404f84285871f1b31459b840fc799fb83da98a319",
+  "log_sha256": "c8cdfb529f298f334c895c130594a492ef60f2acb14eb58a8fd6e02c1be470f0",
+  "implementation_commit": "bd6d7d6",
+  "focused_tests": 16,
+  "powershell_syntax": "PASSED",
+  "implementation_ci_checks": 6,
+  "context_cost": {
+    "before": {
+      "directory_entries": 2,
+      "sql_objects": 1,
+      "payload_characters": 7540
+    },
+    "after": {
+      "directory_entries": 2,
+      "sql_objects": 1,
+      "payload_characters": 7540
+    },
+    "basis": "Fixture payload unchanged by allowance reporting; equality asserted in test_read_budget."
+  },
+  "live_credits_granted": 0,
+  "live_policy_changes": 0,
+  "fixture_runs": 0
+}
