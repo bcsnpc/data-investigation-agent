@@ -1597,3 +1597,16 @@ technical attestation text. One live run cbb9c17f completed validated synthesis,
 BUSINESS_QUESTION, one equal boundary, zero planner calls. Intake interpretation
 differed from c2658c88 and is preserved. Earlier freezes invalidated. No policy or
 permission change. [Verbatim outputs and evidence](enforced-dual-outputs.md).
+
+## 2026-09-27 - declared depth and one held divergence trial
+
+Added supported static quantity tracing, metered endpoint resolution and a pinned
+depth ceiling; CLAUDE.md records the estate-depth principle. The stable broad suite
+passed 1,220 tests; a final measure/boundary-baseline correction passed 52 focused
+checks. Earlier test failures remain recorded. One live run `0154df11` reached
+Gold/Silver divergence and a real definition judgment, then held on the 700/500
+character contract mismatch. No synthesis or Bronze read. Three sealed quantity
+receipts survive although failed-process observations were not persisted; a
+separate audit explains the automatic ledger's misleading zero counts without
+rewriting it. Cloud reservations 38 -> 42; no daily policy/grant/config change.
+[Depth evidence and follow-ups](declared-chain-depth.md).

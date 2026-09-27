@@ -1,5 +1,12 @@
 # Self-Discovering Enterprise Data Investigator
 
+**Current depth checkpoint:** declared Silver/Bronze quantity tracing and a
+configurable, attested depth ceiling are implemented. One live run compared
+Power BI/Gold/Silver at 8,765 / 8,765 / 7,661 and invoked the definition judge.
+It then held on a judge/support text-bound mismatch; synthesis did not run and
+Bronze was not read. This is divergence evidence, not an end-to-end pass.
+[Depth, limits and failed-run evidence](docs/declared-chain-depth.md).
+
 **Active output milestone:** schema-enforced plain business explanations, mandatory
 outcome-derived actions, and technical attestation details are implemented and
 validated in one live run (BUSINESS_QUESTION). Earlier freezes remain invalidated.
@@ -14,13 +21,13 @@ correctness or unfamiliar-domain reliability. Five surface fields remain
 unattested; freshness was skipped. The original output defects are preserved.
 [Milestone and verbatim outputs](docs/first-completed-investigation.md).
 
-The [whole-chain audit](docs/whole-chain-investigation.md) found that the engine
+The historical [whole-chain audit](docs/whole-chain-investigation.md) found that the engine
 already descends on equality, but its adapter emits only presentation and Gold.
 Two Silver dependencies are resolved metadata; the Bronze loop is unresolved by
 the collector. The deployed notebook seeds Bronze from literals, with no declared
 Azure SQL ingestion. Silver/Bronze reader table access passed; the source probe
-failed at connection. This is a report-only checkpoint, with chain/output changes
-and a new live run pending review.
+failed at connection. The later output and depth milestones above supersede its
+then-pending implementation work; its original evidence remains unchanged.
 
 The valid-pair intake schema also passed five earlier same-ticket intake/preview
 trials. [Intake evidence](docs/intake-valid-pairs-five.md).

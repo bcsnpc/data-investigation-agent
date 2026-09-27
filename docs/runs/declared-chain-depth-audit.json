@@ -1,0 +1,170 @@
+{
+  "session_id": "0154df11-48b6-48ab-a193-f401041bd25a",
+  "kind": "POST_RUN_RECEIPT_AUDIT_NOT_ANOTHER_RUN",
+  "live_status": "HELD",
+  "live_synthesis": "NOT_REQUESTED",
+  "live_assessment_persisted": false,
+  "receipts": [
+    {
+      "id": "473e7576-f7e7-4dc6-95b7-3a1a4c7f7d1e",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "created": "2026-09-27T06:31:43.301583+00:00",
+      "query": "EVALUATE TOPN(21,ROW(\"baseline\",[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()))",
+      "values": [
+        {
+          "[baseline]": {
+            "type": "decimal",
+            "value": "8765"
+          }
+        }
+      ],
+      "surface_report": {
+        "identity": "investigator-reader@skynwhy.com"
+      },
+      "receipt_seal": "13ea9d94462a0ff37b5314d246f563c253e7b866bdc5ee03c5adf14cfbfaabe5"
+    },
+    {
+      "id": "2dc1e574-9dd9-4eaa-899b-cb2f0f42923a",
+      "tool": "bounded_fabric_sql",
+      "status": "COMPLETED",
+      "created": "2026-09-27T06:32:15.274722+00:00",
+      "query": "SELECT TOP 21 SUM([movement_values].[units]) AS [quantity] FROM [dbo].[movement_values] AS [movement_values]",
+      "values": [
+        {
+          "quantity": {
+            "type": "decimal",
+            "value": "8765"
+          }
+        }
+      ],
+      "surface_report": {
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "warehouse_gold_e1b8e1"
+      },
+      "receipt_seal": "c15543c9002842ce3bd6a4a2cb5371b687c9328a49351646a344fd795ea2b543"
+    },
+    {
+      "id": "dcece5f5-6427-435a-97a0-dc0c298fbc84",
+      "tool": "bounded_fabric_sql",
+      "status": "COMPLETED",
+      "created": "2026-09-27T06:32:36.479778+00:00",
+      "query": "SELECT TOP 21 SUM([stock_movements_e1b8e1].[units]) AS [quantity] FROM [dbo].[stock_movements_e1b8e1] AS [stock_movements_e1b8e1]",
+      "values": [
+        {
+          "quantity": {
+            "type": "decimal",
+            "value": "7661"
+          }
+        }
+      ],
+      "surface_report": {
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "warehouse_silver_e1b8e1"
+      },
+      "receipt_seal": "eac91e833e79327f0c13d1e132e6f61941ae19e8ff9994598d24db9b4d7b3758"
+    }
+  ],
+  "quantity_reads": {
+    "POWER_BI_DAX": 1,
+    "FABRIC_SQL": 2
+  },
+  "metadata_reads": {
+    "fabric_endpoint_metadata": 1
+  },
+  "investigation_planner_calls": 1,
+  "judgment_tape": "6ead67e8-ee89-43a0-9f1f-7e93ed512a0d",
+  "judgment_payload": {
+    "upper_value": {
+      "quantity": "8765"
+    },
+    "lower_value": {
+      "quantity": "7661"
+    },
+    "boundary": {
+      "upper": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "lower": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+    },
+    "definition": {
+      "id": "transformation-definition-0d990e47-5d03-4eb5-b563-09a30c40ede6",
+      "tool": "context",
+      "completeness": "COMPLETE_RESPONSE",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+      "content_hash": "3a980c4bd1920343202174c26b357be6233c6db267409d226d6a95fca4694273",
+      "operations": [
+        {
+          "operation": "JOIN",
+          "how": "left",
+          "keys": [
+            "product_id"
+          ],
+          "inputs": [
+            "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/product_rates_e1b8e1",
+            "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/stock_movements_e1b8e1"
+          ],
+          "grain": "matching rows may multiply; uniqueness is not assumed",
+          "line": 28,
+          "expression": "movements.join(rates, ['product_id'], 'left')"
+        },
+        {
+          "operation": "DERIVED_COLUMN",
+          "column": "movement_value",
+          "expression": "movements.join(rates, ['product_id'], 'left').withColumn('movement_value', F.col('units')*F.col('unit_cost'))",
+          "line": 28
+        }
+      ],
+      "quantity_contract": {
+        "kind": "UNCHANGED_ADDITIVE_COLUMN",
+        "column": "units",
+        "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+        "definition_hash": "3a980c4bd1920343202174c26b357be6233c6db267409d226d6a95fca4694273",
+        "operations": [
+          {
+            "operation": "JOIN",
+            "how": "left",
+            "keys": [
+              "product_id"
+            ],
+            "inputs": [
+              "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/product_rates_e1b8e1",
+              "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/stock_movements_e1b8e1"
+            ],
+            "grain": "matching rows may multiply; uniqueness is not assumed",
+            "line": 28,
+            "expression": "movements.join(rates, ['product_id'], 'left')"
+          },
+          {
+            "operation": "DERIVED_COLUMN",
+            "column": "movement_value",
+            "expression": "movements.join(rates, ['product_id'], 'left').withColumn('movement_value', F.col('units')*F.col('unit_cost'))",
+            "line": 28
+          }
+        ],
+        "scope": "whole entity, no filters or grouping",
+        "limitation": "Row multiplicity and whole-row deduplication may change the total; agreement does not establish intended grain, key uniqueness or a common snapshot."
+      },
+      "limitation": "Only the supported operations on this declared quantity path are included; other business rules and a shared snapshot are not established."
+    }
+  },
+  "judgment": {
+    "judgment": "EXPLAINS",
+    "explanation": "The definition contains a concrete mechanism that can increase the whole-entity quantity across this boundary: a left join on `product_id` from `stock_movements_e1b8e1` to `product_rates_e1b8e1`, with the stated grain that matching rows may multiply and uniqueness is not assumed. The contract also says `units` is otherwise unchanged, so if some movement rows match multiple rate rows, those rows and their `units` can be duplicated in `movement_values`, making an upper total like 8765 compatible with a lower total like 7661.",
+    "limitation": "This explains the possibility of the increase via join multiplicity, but the definition alone does not establish actual key uniqueness, the exact duplicated rows, or a shared snapshot, so it cannot prove that this specific difference was caused by that mechanism."
+  },
+  "explanation_characters": 528,
+  "downstream_support_limit": 500,
+  "offline_reproduced_error": "Support mechanism exceeds 500 characters; rewrite concisely without dropping the premise or cutting text",
+  "ledger_extraction_limit": "The append-only ledger row extracted zero reads/comparisons from the failed session empty observations. Sealed receipts and judgment tape establish the three reads and compared values here. The row and raw run remain unchanged.",
+  "unreached_boundaries": [
+    {
+      "upper": "Silver",
+      "lower": "Bronze",
+      "reason": "Procedure stopped at Gold/Silver divergence and then failed assessment validation."
+    },
+    {
+      "upper": "Bronze",
+      "lower": "application",
+      "reason": "No declared application ingestion; literal-seeded Bronze."
+    }
+  ]
+}
