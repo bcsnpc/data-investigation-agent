@@ -1567,3 +1567,24 @@ unchanged; one appended. No repeat, quota change or unfamiliar-domain claim.
 
 Full schema-separation regression: 1,208 tests passed in 257.185 seconds, Python
 exit 0. All 299 local document targets resolved; diff check passed.
+
+## 2026-09-27 - first completion recorded and whole-chain audit
+
+Merged #262 after six green checks, commit `542ab0b`. Recorded first completed
+run c2658c88 with verbatim outputs, one of four intended boundaries, equal values,
+no divergence/judge_definition, zero investigation planner calls, and explicit
+attestation/semantic limits. Historical outputs and failures are unchanged.
+
+Part 2 investigation only: existing loop already descends; adapter supplies only
+presentation/Gold. Gold-to-Silver declarations exist, Bronze loop is unresolved,
+and the deployed notebook seeds Bronze from literals rather than Azure SQL.
+Current relations expose no application binding. Silver/Bronze zero-row reader
+probes passed; one source probe failed 40613. All 19 cloud reservations retained,
+including six discarded-body local audit failures followed by corrected requests;
+usage 16 -> 35 of 60, no LLM calls or resets. No implementation or live investigation.
+[Milestone](first-completed-investigation.md), [audit and proposed work](whole-chain-investigation.md).
+Part 3 remains queued at the explicit report-and-stop checkpoint.
+
+Documentation validation: two generator tests passed, 312 local links resolved,
+verbatim explanations and the 19-read reservation delta checked, diff check passed.
+No runtime suite rerun and no planner payload change.

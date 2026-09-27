@@ -1,0 +1,198 @@
+{
+  "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+  "layers": [
+    {
+      "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "kind": "presentation"
+    },
+    {
+      "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "kind": "declared_source",
+      "semantic_column": "units",
+      "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim"
+    }
+  ],
+  "binding": {
+    "status": "RESOLVED",
+    "scope_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a"
+    ],
+    "asset": {
+      "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "kind": "LakehouseTable",
+      "name": "movement_values"
+    },
+    "candidates": [
+      {
+        "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+        "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+        "kind": "LakehouseTable",
+        "name": "movement_values"
+      }
+    ],
+    "provenance": "DECLARED_BY_DEFINITION",
+    "definition_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/part/model.bim",
+    "definition_offset": 3708,
+    "declared_connection_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/77c49180-2ef9-4558-837c-f50fdb1df8de",
+    "declared_partition": {
+      "schema_name": "dbo",
+      "entity_name": "movement_values",
+      "source_type": "entity",
+      "mode": "directLake",
+      "partition_count": 1
+    },
+    "declared_role_count": 0,
+    "relation_cross_check": {
+      "status": "AGREES",
+      "relations": [
+        {
+          "source": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/77c49180-2ef9-4558-837c-f50fdb1df8de",
+          "target": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+          "relation": "NATIVE_CASCADEDELETE"
+        }
+      ]
+    },
+    "upstream_declarations": [
+      {
+        "status": "RESOLVED",
+        "asset": {
+          "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/product_rates_e1b8e1",
+          "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+          "kind": "LakehouseTable",
+          "name": "product_rates_e1b8e1"
+        },
+        "candidates": [
+          {
+            "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/product_rates_e1b8e1",
+            "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+            "kind": "LakehouseTable",
+            "name": "product_rates_e1b8e1"
+          }
+        ],
+        "provenance": "DECLARED_BY_DEFINITION",
+        "definition_evidence": [
+          {
+            "asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+            "detail": {
+              "destination": "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/b0ab76f7-20c7-410e-90e4-2c4eb104059a/Tables/movement_values",
+              "line": 29,
+              "proofs": [
+                {
+                  "expression": "movements.join(rates, ['product_id'], 'left').withColumn('movement_value', F.col('units')*F.col('unit_cost'))",
+                  "line": 28
+                },
+                {
+                  "expression": "movements.join(rates, ['product_id'], 'left')",
+                  "line": 28
+                }
+              ],
+              "sources": [
+                "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/product_rates_e1b8e1",
+                "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/stock_movements_e1b8e1"
+              ]
+            },
+            "hash": "6ea936a1c716c0a53d0c7ed9b734a45ed68510c2fe48a7f8d9faaac4974fe398"
+          }
+        ]
+      },
+      {
+        "status": "RESOLVED",
+        "asset": {
+          "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+          "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+          "kind": "LakehouseTable",
+          "name": "stock_movements_e1b8e1"
+        },
+        "candidates": [
+          {
+            "id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+            "parent_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+            "kind": "LakehouseTable",
+            "name": "stock_movements_e1b8e1"
+          }
+        ],
+        "provenance": "DECLARED_BY_DEFINITION",
+        "definition_evidence": [
+          {
+            "asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+            "detail": {
+              "destination": "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/b0ab76f7-20c7-410e-90e4-2c4eb104059a/Tables/movement_values",
+              "line": 29,
+              "proofs": [
+                {
+                  "expression": "movements.join(rates, ['product_id'], 'left').withColumn('movement_value', F.col('units')*F.col('unit_cost'))",
+                  "line": 28
+                },
+                {
+                  "expression": "movements.join(rates, ['product_id'], 'left')",
+                  "line": 28
+                }
+              ],
+              "sources": [
+                "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/product_rates_e1b8e1",
+                "abfss://149f8d99-1c66-4a0a-9624-759be002bb60@onelake.dfs.fabric.microsoft.com/ba24d52c-fcf9-4f1f-a377-f4d38547d887/Tables/stock_movements_e1b8e1"
+              ]
+            },
+            "hash": "6ea936a1c716c0a53d0c7ed9b734a45ed68510c2fe48a7f8d9faaac4974fe398"
+          }
+        ]
+      }
+    ],
+    "external_source_declaration": {
+      "status": "CAPABILITY_NOT_IMPLEMENTED",
+      "reason": "Application-source declaration inspection is not implemented for this path; absence is not established."
+    }
+  },
+  "silver_derived_edges": [],
+  "bronze_derived_edges": [],
+  "relevant_gaps": [
+    {
+      "asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25",
+      "detail": {
+        "line": 21
+      },
+      "reason": "Unresolved loop containing write"
+    },
+    {
+      "asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "detail": {
+        "line": 21,
+        "notebook": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25"
+      },
+      "reason": "Unresolved loop containing write"
+    },
+    {
+      "asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/warehouse_locations",
+      "detail": {
+        "line": 21,
+        "notebook": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25"
+      },
+      "reason": "Unresolved loop containing write"
+    },
+    {
+      "asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/inventory_products",
+      "detail": {
+        "line": 21,
+        "notebook": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25"
+      },
+      "reason": "Unresolved loop containing write"
+    },
+    {
+      "asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/purchase_orders",
+      "detail": {
+        "line": 21,
+        "notebook": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25"
+      },
+      "reason": "Unresolved loop containing write"
+    },
+    {
+      "asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/inventory_adjustments",
+      "detail": {
+        "line": 21,
+        "notebook": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25"
+      },
+      "reason": "Unresolved loop containing write"
+    }
+  ]
+}

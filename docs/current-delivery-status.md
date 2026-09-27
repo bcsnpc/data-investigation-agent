@@ -4,7 +4,32 @@ Updated 2026-09-27. Tracking: [#193](https://github.com/bcsnpc/data-investigatio
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
-**Current checkpoint, 2026-09-27: separated conclusion contract and narrative.**
+**Current checkpoint, 2026-09-27: first completion recorded; whole-chain audit only.**
+Merged #262 after six green checks (`542ab0b`). First completed run `c2658c88`
+validated synthesis after one equal Power BI/Fabric SQL comparison at 8,765.
+One ticket, one known domain, **one of four intended boundaries** checked;
+no divergence path, `judge_definition` still never invoked, **0 investigation
+planner calls**. This is not full-chain correctness or unfamiliar-domain acceptance.
+[Milestone with unchanged verbatim outputs](first-completed-investigation.md).
+
+The [report-only whole-chain audit](whole-chain-investigation.md) confirms equality
+already advances the neutral engine. The adapter emits only two executable layers;
+Gold's two Silver inputs are resolved declarations, not lower probes. The notebook
+explicitly deduplicates Bronze into Silver, but its literal-driven loop is outside
+the collector's current resolution. Bronze is seeded from literal data: native
+relations and the current definition expose no Azure SQL ingestion binding.
+Silver/Bronze reader access to the units column passed zero-row probes; the single
+Azure SQL probe failed at connection with 40613. Nineteen metered audit reads
+(including six discarded-body local audit failures followed by corrected requests)
+moved cloud usage 16 to 35 of 60. No LLM call or new investigation/context.
+No engine, permission, configuration or budget change.
+
+Part 2 is reported and stopped. Part 3 remains pending: enforce a plain business
+explanation, require outcome-derived actions in both outputs, include all five
+unattested fields in the technical narrative, then one live run. No output fix or
+proposed chain extension was implemented here.
+
+**Previous checkpoint, 2026-09-27: separated conclusion contract and narrative.**
 PR #261 merged after six green checks. The schema conflated conclusion blockers
 with limitations and redundantly asked synthesis to regenerate dependent control
 fields. The new wire permits only cited business/technical explanations and
