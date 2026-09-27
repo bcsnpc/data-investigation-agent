@@ -3,6 +3,7 @@
 SQLGlot owns syntax/CTE/alias qualification. An explicit AST allowlist is the
 security boundary, not a keyword regex. Native SQL remains the calculation engine.
 """
+from . import proposal_limits as limits
 import re
 from sqlglot import parse, exp
 from sqlglot.errors import OptimizeError
@@ -96,9 +97,9 @@ def compiled_identity(qualified):
     return tree
 
 
-def compile_query(query, objects, *, max_rows=250):
-    if not isinstance(query,str) or not 1<=len(query)<=16000:raise ValueError('SQL text budget exceeded')
-    if type(max_rows) is not int or not 1<=max_rows<=250:raise ValueError('Invalid row budget')
+def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS):
+    if not isinstance(query,str) or not 1<=len(query)<=limits.QUERY_TEXT:raise ValueError('SQL text budget exceeded')
+    if type(max_rows) is not int or not 1<=max_rows<=limits.QUERY_ROWS:raise ValueError('Invalid row budget')
     statements=parse(query,read='tsql')
     if len(statements)!=1 or not isinstance(statements[0],exp.Select):raise ValueError('One SELECT/CTE query required')
     tree=statements[0]

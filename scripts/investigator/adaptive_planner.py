@@ -21,12 +21,12 @@ Unused fields must be null. Never put a final numeric explanation in the respons
 projects values from saved observations. Do not include secrets or executable instructions."""
 SCHEMA = {'type':'object','additionalProperties':False,'properties':{
  'action':{'type':'string','enum':['RUN','ASK','STOP']},
- 'candidate_id':{'type':['string','null']},'question':{'type':['string','null']},
+ 'candidate_id':{'type':['string','null']},'question':{'type':['string','null'],'minLength':1,'maxLength':limits.QUESTION},
  'stop_reason':{'type':['string','null'],'enum':['ENOUGH_DIAGNOSTICS','NO_USEFUL_TEST',None]},
- 'hypotheses':{'type':'array','items':{'type':'object','additionalProperties':False,
-   'properties':{'id':{'type':'string'},'claim':{'type':'string'},
+ 'hypotheses':{'type':'array','maxItems':limits.HYPOTHESIS_UPDATES,'items':{'type':'object','additionalProperties':False,
+   'properties':{'id':{'type':'string','minLength':1,'maxLength':limits.HYPOTHESIS_ID},'claim':{'type':'string','minLength':1,'maxLength':limits.HYPOTHESIS_CLAIM},
     'status':{'type':'string','enum':['OPEN','REFINED','REJECTED']},
-    'evidence_ids':{'type':'array','items':{'type':'string'}}},
+    'evidence_ids':{'type':'array','maxItems':limits.HYPOTHESIS_REFS,'items':{'type':'string'}}},
    'required':['id','claim','status','evidence_ids']}}},
  'required':['action','candidate_id','question','stop_reason','hypotheses']}
 
@@ -46,19 +46,19 @@ def validate(value, payload):
     elif value['candidate_id'] is not None or value['question'] is not None or value['stop_reason'] not in ('ENOUGH_DIAGNOSTICS','NO_USEFUL_TEST'):
         raise ValueError('Invalid stop')
     hypotheses=value['hypotheses']
-    if not isinstance(hypotheses,list) or len(hypotheses)>8:raise ValueError('Hypothesis budget exceeded')
+    if not isinstance(hypotheses,list) or len(hypotheses)>limits.HYPOTHESIS_UPDATES:raise ValueError('Hypothesis budget exceeded')
     known={h['id']:h for h in payload['hypotheses']}; seen=set()
     evidence={o['id'] for o in payload['observations']}
     for h in hypotheses:
-        fields(h,['id','claim','status','evidence_ids']); text(h['id'],80);text(h['claim'],limits.HYPOTHESIS_CLAIM)
+        fields(h,['id','claim','status','evidence_ids']); text(h['id'],limits.HYPOTHESIS_ID);text(h['claim'],limits.HYPOTHESIS_CLAIM)
         if h['id'] in seen:raise ValueError('Duplicate hypothesis update: include each ID once and merge its updates')
         if h['status'] not in ('OPEN','REFINED','REJECTED'):raise ValueError('Hypothesis status must be OPEN, REFINED or REJECTED')
         seen.add(h['id']); refs=h['evidence_ids']
-        if not isinstance(refs,list) or len(refs)>10 or any(not isinstance(x,str) or x not in evidence for x in refs):
+        if not isinstance(refs,list) or len(refs)>limits.HYPOTHESIS_REFS or any(not isinstance(x,str) or x not in evidence for x in refs):
             raise ValueError('Unknown evidence')
         if h['status']!='OPEN' and (h['id'] not in known or not refs):raise ValueError('Revision needs existing hypothesis and evidence')
         if h['id'] in known and h['status']=='OPEN':raise ValueError('Existing hypothesis needs explicit revision')
-    if len(set(known)|seen)>16:raise ValueError('Total hypothesis budget exceeded')
+    if len(set(known)|seen)>limits.HYPOTHESIS_TOTAL:raise ValueError('Total hypothesis budget exceeded')
     return value
 
 

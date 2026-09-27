@@ -8,16 +8,16 @@ from .onboarding import fields, text
 from .process_outcomes import OUTCOMES, schema as process_schema
 
 SCHEMA = {'type':'object','additionalProperties':False,'properties':{
-    'mechanism':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
-    'mechanism_evidence_ids':{'type':'array','maxItems':8,'items':{'type':'string'}},
+    'mechanism':{'type':'string',**limits.text_bound(limits.ASSESSMENT_DETAIL),'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
+    'mechanism_evidence_ids':{'type':'array','maxItems':limits.SUPPORT_REFS,'items':{'type':'string'}},
     'intent_dependency':{'type':'string','enum':['NOT_REQUIRED','ESTABLISHED','UNKNOWN']},
-    'intent_basis':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
-    'intent_evidence_ids':{'type':'array','maxItems':8,'items':{'type':'string'}},
+    'intent_basis':{'type':'string',**limits.text_bound(limits.ASSESSMENT_DETAIL),'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
+    'intent_evidence_ids':{'type':'array','maxItems':limits.SUPPORT_REFS,'items':{'type':'string'}},
     'measure_connection':{'type':'string','enum':['ESTABLISHED','NOT_ASSERTED','NOT_ESTABLISHED_SCOPE',
         'NOT_ESTABLISHED_CAPABILITY','NOT_ESTABLISHED_PERMISSION','NOT_ESTABLISHED_BUDGET','NOT_ESTABLISHED_ELIGIBILITY']},
-    'measure_connection_basis':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
-    'measure_connection_evidence_ids':{'type':'array','maxItems':8,'items':{'type':'string'}},
-    'remaining_test':{'type':'string','minLength':1,'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
+    'measure_connection_basis':{'type':'string',**limits.text_bound(limits.ASSESSMENT_DETAIL),'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
+    'measure_connection_evidence_ids':{'type':'array','maxItems':limits.SUPPORT_REFS,'items':{'type':'string'}},
+    'remaining_test':{'type':'string',**limits.text_bound(limits.ASSESSMENT_DETAIL),'description':f'Complete concise text, at most {limits.ASSESSMENT_DETAIL} characters. Never cut a sentence or reference to fit.'},
     'process':process_schema()},
     'required':['mechanism','mechanism_evidence_ids','intent_dependency','intent_basis',
                 'intent_evidence_ids','measure_connection','measure_connection_basis',
@@ -40,7 +40,7 @@ def validate(assessment, observations):
         raise ValueError('Unknown intent dependency')
     for key in ('mechanism_evidence_ids','intent_evidence_ids')+(() if legacy else ('measure_connection_evidence_ids',)):
         refs=support[key]
-        if not isinstance(refs,list) or len(refs)>8 or any(
+        if not isinstance(refs,list) or len(refs)>limits.SUPPORT_REFS or any(
                 not isinstance(r,str) or r not in assessment['evidence_ids'] or
                 r not in observations or observations[r].get('status')!='COMPLETED'
                 for r in refs):

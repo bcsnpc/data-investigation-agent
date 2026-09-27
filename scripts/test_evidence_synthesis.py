@@ -147,8 +147,8 @@ class SynthesisTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'Support '+field+' exceeds'):
                     validate(repaired['assessment'],{})
                 self.assertEqual(repaired['assessment'],original)
-                self.assertNotIn('maxLength',SCHEMA['properties'][field])
-                self.assertNotIn('maxLength',synthesis.schema()['properties']['support']['properties'][field])
+                self.assertEqual(SCHEMA['properties'][field]['maxLength'],proposal_limits.ASSESSMENT_DETAIL)
+                self.assertEqual(synthesis.schema()['properties']['support']['properties'][field]['maxLength'],proposal_limits.ASSESSMENT_DETAIL)
 
     def test_independent_call_no_trajectory_or_raw_rows_full_reservation_idempotent(self):
         agent,state=self.stopped();calls=[]

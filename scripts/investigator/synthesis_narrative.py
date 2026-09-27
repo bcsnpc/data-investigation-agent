@@ -28,7 +28,7 @@ class Response:
 
 def schema(payload):
     ids=sorted({e['id'] for e in payload['evidence']})
-    refs={'type':'array','minItems':1 if ids else 0,'maxItems':12 if ids else 0,
+    refs={'type':'array','minItems':1 if ids else 0,'maxItems':limits.ASSESSMENT_REFS if ids else 0,
           'items':{'type':'string',**({'enum':ids} if ids else {})}}
     def statement(length):
         return {'type':'object','additionalProperties':False,'properties':{
@@ -42,7 +42,7 @@ def schema(payload):
     return {'type':'object','additionalProperties':False,'properties':{
         'business_output':business,
         'technical_output':statement(limits.ASSESSMENT_CLAIM),
-        'limitations':{'type':'array','minItems':1,'maxItems':6,
+        'limitations':{'type':'array','minItems':1,'maxItems':limits.ASSESSMENT_LIST,
                       'items':statement(limits.ASSESSMENT_DETAIL)}},
         'required':['business_output','technical_output','limitations']}
 

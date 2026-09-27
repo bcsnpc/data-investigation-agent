@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from .onboarding import fields, text, digest, encoded, Conflict
 from .runtime import fingerprint
+from . import proposal_limits as limits
 
 MAX_BYTES = 1024 * 1024
 MAX_PIXELS = 8_000_000
@@ -21,8 +22,9 @@ Keep visible_text concise, at most 1600 characters. List up to four uncertaintie
 each) for unreadable or ambiguous details. readable=false if the reporting content cannot be read.
 This is a transcription for human correction, not catalog resolution or an investigation.'''
 SCHEMA = {'type': 'object', 'additionalProperties': False,
-          'properties': {'visible_text': {'type': 'string'}, 'readable': {'type': 'boolean'},
-                         'uncertainties': {'type': 'array', 'items': {'type': 'string'}}},
+          'properties': {'visible_text': {'type': 'string','maxLength':limits.SCREENSHOT_TEXT}, 'readable': {'type': 'boolean'},
+                         'uncertainties': {'type': 'array','maxItems':limits.SCREENSHOT_UNCERTAINTIES,
+                            'items': {'type': 'string','minLength':1,'maxLength':limits.SCREENSHOT_UNCERTAINTY}}},
           'required': ['visible_text', 'readable', 'uncertainties']}
 
 
@@ -52,11 +54,11 @@ def azure_extract(data_url):
 
 def validate(value):
     fields(value, SCHEMA['required'])
-    if type(value['readable']) is not bool or not isinstance(value['visible_text'], str) or len(value['visible_text']) > 1600 or '\x00' in value['visible_text']:
+    if type(value['readable']) is not bool or not isinstance(value['visible_text'], str) or len(value['visible_text']) > limits.SCREENSHOT_TEXT or '\x00' in value['visible_text']:
         raise ValueError('Invalid visible text')
-    if value['readable']: text(value['visible_text'], 1600)
-    if not isinstance(value['uncertainties'], list) or len(value['uncertainties']) > 4: raise ValueError('Invalid uncertainties')
-    for item in value['uncertainties']: text(item, 200)
+    if value['readable']: text(value['visible_text'], limits.SCREENSHOT_TEXT)
+    if not isinstance(value['uncertainties'], list) or len(value['uncertainties']) > limits.SCREENSHOT_UNCERTAINTIES: raise ValueError('Invalid uncertainties')
+    for item in value['uncertainties']: text(item, limits.SCREENSHOT_UNCERTAINTY)
     return value
 
 

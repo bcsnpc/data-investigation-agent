@@ -3,6 +3,7 @@ import json
 import copy
 from uuid import uuid4
 
+from . import proposal_limits as limits
 from .onboarding import fields, text, digest, encoded, Conflict
 from .runtime import fingerprint
 from .filter_scope import compile_filter
@@ -47,16 +48,16 @@ not proof of interpretation. The user must review all proposed scope before exec
 For ASK: model_id, measure_id, metric_quote, ticket_shape and comparison_mode are null;
 filters, dimension_ids and scope_quotes are empty; question is a short clarification.
 For PROPOSE question is null and both triage fields are required. No extra fields.'''
-SCALAR = {'anyOf': [{'type': 'string'}, {'type': 'integer'}, {'type': 'boolean'}, {'type': 'null'}]}
+SCALAR = {'anyOf': [{'type': 'string','maxLength':limits.FILTER_STRING}, {'type': 'integer','minimum':-limits.EXACT_INTEGER,'maximum':limits.EXACT_INTEGER}, {'type': 'boolean'}, {'type': 'null'}]}
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'action': {'type': 'string', 'enum': ['ASK', 'PROPOSE']},
     'model_id': {'type': ['string', 'null']}, 'measure_id': {'type': ['string', 'null']},
-    'metric_quote': {'type': ['string', 'null']}, 'question': {'type': ['string', 'null']},
+    'metric_quote': {'type': ['string', 'null'], 'minLength':1, 'maxLength':limits.INTAKE_QUOTE}, 'question': {'type': ['string', 'null'], 'minLength':1, 'maxLength':limits.QUESTION},
     'ticket_shape': {'type': ['string', 'null'], 'enum': ['MISMATCH_COMPLAINT', 'BUSINESS_QUESTION', None]},
     'comparison_mode': {'type': ['string', 'null'], 'enum': ['VERTICAL', 'HORIZONTAL', 'NONE', None]},
     'filters': {'type': 'array', 'items': {'type': 'object', 'additionalProperties': False,
         'properties': {'column_id': {'type': 'string'}, 'operator': {'type': 'string', 'enum': ['in', 'range']},
-                       'values': {'type': 'array', 'items': SCALAR}}, 'required': ['column_id', 'operator', 'values']}},
+                       'values': {'type': 'array', 'minItems':1, 'maxItems':limits.FILTER_VALUES, 'items': SCALAR}}, 'required': ['column_id', 'operator', 'values']}},
     'dimension_ids': {'type': 'array', 'items': {'type': 'string'}},
     'scope_quotes': {'type': 'array', 'items': {'type': 'object', 'additionalProperties': False,
         'properties': {'column_id': {'type': 'string'}, 'quote': {'type': 'string'}}, 'required': ['column_id', 'quote']}}
@@ -110,11 +111,11 @@ def wire_contract(payload):
     schema['properties']['model_id']['enum']=models+[None]
     schema['properties']['measure_id']['enum']=measures+[None]
     schema['properties']['dimension_ids']['items']['enum']=columns or ['NO_COLUMN']
-    schema['properties']['dimension_ids']['maxItems']=1
-    schema['properties']['filters']['maxItems']=6
+    schema['properties']['dimension_ids']['maxItems']=limits.INTAKE_DIMENSIONS
+    schema['properties']['filters']['maxItems']=limits.INTAKE_FILTERS
     item=schema['properties']['filters']['items']
     item['properties']['column_id']['enum']=columns or ['NO_COLUMN']
-    item['properties']['quote']={'type':'string'};item['required'].append('quote')
+    item['properties']['quote']={'type':'string','minLength':1,'maxLength':limits.INTAKE_QUOTE};item['required'].append('quote')
     return wire,schema,handles
 
 
@@ -146,7 +147,7 @@ def validate(value, payload):
     fields(value, SCHEMA['required'])
     if len(encoded(value)) > 12000: raise ValueError('Intake response exceeds budget')
     if value['action'] == 'ASK':
-        text(value['question'], 500)
+        text(value['question'], limits.QUESTION)
         if any(value[k] is not None for k in ('model_id', 'measure_id', 'metric_quote', 'ticket_shape', 'comparison_mode')) or any(value[k] != [] for k in ('filters', 'dimension_ids', 'scope_quotes')):
             raise ValueError('Clarification cannot also select scope')
         return value
@@ -156,13 +157,13 @@ def validate(value, payload):
     if value['ticket_shape'] not in ('MISMATCH_COMPLAINT','BUSINESS_QUESTION'): raise ValueError('Unknown ticket shape')
     if (value['ticket_shape'],value['comparison_mode']) not in TRIAGE_PAIRS.values(): raise ValueError('Comparison mode conflicts with ticket shape')
     def quote(q):
-        text(q, 500)
+        text(q, limits.INTAKE_QUOTE)
         if q not in payload['text']: raise ValueError('Quote is not in the submitted question')
     quote(value['metric_quote'])
     columns = {c['column_id']: c for c in model['columns']}
     filters = value['filters']; dimensions = value['dimension_ids']; quotes = value['scope_quotes']
-    if not isinstance(filters, list) or not (0 if model.get('dynamic_investigation') else 1) <= len(filters) <= 6: raise ValueError('Bounded filters required')
-    if not isinstance(dimensions, list) or len(dimensions) > 1 or any(not isinstance(c, str) or c not in columns for c in dimensions):
+    if not isinstance(filters, list) or not (0 if model.get('dynamic_investigation') else 1) <= len(filters) <= limits.INTAKE_FILTERS: raise ValueError('Bounded filters required')
+    if not isinstance(dimensions, list) or len(dimensions) > limits.INTAKE_DIMENSIONS or any(not isinstance(c, str) or c not in columns for c in dimensions):
         raise ValueError('Unknown breakdown')
     selected = set()
     for f in filters:

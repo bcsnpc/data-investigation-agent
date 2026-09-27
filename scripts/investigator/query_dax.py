@@ -3,6 +3,7 @@
 Only one EVALUATE expression is admitted. Unknown syntax/functions fail closed.
 The AST is serialized from parsed tokens, so comments never become instructions.
 """
+from . import proposal_limits as limits
 from .semantic_graph import tokenize
 
 VERSION='bounded-dax-v1'
@@ -29,7 +30,7 @@ def capabilities():
 class Parser:
     def __init__(self,query,assets,*,identity=False):
         self.identity=identity;self.volatile=False
-        if not isinstance(query,str) or not 1<=len(query)<=16000:raise ValueError('DAX text budget exceeded')
+        if not isinstance(query,str) or not 1<=len(query)<=limits.QUERY_TEXT:raise ValueError('DAX text budget exceeded')
         tokens,gaps=tokenize(query)
         if gaps or not tokens or len(tokens)>1600:raise ValueError('Unsupported DAX token or syntax budget')
         # The shared metadata lexer produces single-character operators.
@@ -128,8 +129,8 @@ class Parser:
         return expression
 
 
-def compile_query(query,assets,*,max_rows=250):
-    if type(max_rows) is not int or not 1<=max_rows<=250:raise ValueError('Invalid row budget')
+def compile_query(query,assets,*,max_rows=limits.QUERY_ROWS):
+    if type(max_rows) is not int or not 1<=max_rows<=limits.QUERY_ROWS:raise ValueError('Invalid row budget')
     parser=Parser(query,assets);expression=parser.parse()
     identity=Parser(query,assets,identity=True);bound=identity.parse()
     return {'query':'EVALUATE TOPN('+str(max_rows+1)+','+expression+')',

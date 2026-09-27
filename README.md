@@ -1,5 +1,7 @@
 # Self-Discovering Enterprise Data Investigator
 
+Current follow-up: [shared producer/consumer bounds](docs/producer-consumer-contracts.md). Read accounting and substantive business output are next; no new live result yet.
+
 **Current depth checkpoint:** declared Silver/Bronze quantity tracing and a
 configurable, attested depth ceiling are implemented. One live run compared
 Power BI/Gold/Silver at 8,765 / 8,765 / 7,661 and invoked the definition judge.

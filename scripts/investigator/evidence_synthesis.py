@@ -63,9 +63,9 @@ def schema():
     value=copy.deepcopy(SCHEMA['properties']['assessment']['anyOf'][1])
     value['properties']['support']=copy.deepcopy(support);value['required'].append('support')
     value['properties']['claim'].update(minLength=1,maxLength=limits.ASSESSMENT_CLAIM)
-    value['properties']['evidence_ids']['maxItems']=12
+    value['properties']['evidence_ids']['maxItems']=limits.ASSESSMENT_REFS
     for key in ('alternatives','limits'):
-        value['properties'][key].update(minItems=1,maxItems=6)
+        value['properties'][key].update(minItems=1,maxItems=limits.ASSESSMENT_LIST)
         value['properties'][key]['items'].update(minLength=1,maxLength=limits.ASSESSMENT_DETAIL)
     return value
 
