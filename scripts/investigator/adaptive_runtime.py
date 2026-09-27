@@ -429,14 +429,21 @@ class AdaptiveRuntime:
                 if self.governor:self.governor.reserve(db,identity,key,'cloud')
                 current['cloud_calls']=number
                 self.save(db,current,'PROCESS_READ_RESERVED',{'tool':tool,'cloud_calls':number})
-            uncertain=False
-            try:return execute()
-            except Exception:
-                uncertain=True;raise
+            uncertain=False;result=None;error_type=None
+            try:
+                result=execute()
+                return result
+            except Exception as exc:
+                uncertain=True;error_type=type(exc).__name__;raise
             finally:
-                if self.governor:
-                    with self.runtime.db() as db:
-                        db.execute('BEGIN IMMEDIATE');self.governor.settle(db,identity,key,uncertain=uncertain)
+                # Persist the read independently of interpretation and support validation.
+                from .process_read_receipts import receipt
+                entry=receipt(number,tool,result,error_type)
+                with self.runtime.db() as db:
+                    db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                    current.setdefault('process_read_receipts',[]).append(entry)
+                    self.save(db,current,'PROCESS_READ_RECORDED',entry)
+                    if self.governor:self.governor.settle(db,identity,key,uncertain=uncertain)
 
         provider=self.process_judge
         if provider is None and self.planner_profile.get('adapter')=='azure':
@@ -542,7 +549,7 @@ class AdaptiveRuntime:
             if state['status']!='READY':return self.project_after_commit(db,state)
             state['process_started']=True;state['status']='EXECUTING'
             self.save(db,state,'PROCESS_STARTED',{'procedure':'VERTICAL','reserved_reads':0})
-        error=None;assessment=None
+        error=None;assessment=None;observations=[]
         try:
             assessment=vertical(adapter,state['envelope']['measure_id'],{
                 'filters':state['envelope']['filters'],'dimension_ids':state['envelope']['dimension_ids'],
@@ -559,6 +566,7 @@ class AdaptiveRuntime:
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
             if error:
+                state['observations'].extend(observations or [])
                 self.stop(db,state,'TOOL_UNAVAILABLE','HELD')
                 state['process_error']=error;self.save(db,state,'PROCESS_FAILED',{'error_type':error})
                 return self.project_after_commit(db,state)

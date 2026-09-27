@@ -1619,3 +1619,5 @@ provenance, engine work, re-approval/fixture costs and unimplemented LATENT/GAP
 requirements. No estate or pipeline build; stop for design review.
 
 2026-09-27: Merged #264, #265 and #266 after six green checks each. Shared producer/consumer bounds audit and offline boundary tests: see producer-consumer-contracts.md. No new live run yet.
+
+2026-09-27: Receipt-first process accounting implemented; three focused tests passed. Appended correction for 0154df11, preserving 223 original rows and failed outcome.

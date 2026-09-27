@@ -4,6 +4,7 @@ import json
 from trajectory_metrics import metrics
 from pathlib import Path
 from uuid import uuid4
+from investigator.process_read_receipts import accounting
 
 
 def row(result, calls, family='engineering'):
@@ -42,7 +43,7 @@ def row(result, calls, family='engineering'):
         mode='replay', family=family, engine_tag='unfrozen-'+state['engine_hash'][:12], manifest_sha_short='NONE',
         model_deployment=json.loads(calls[0]['bodies']['request.body'])['model'],
         settings_hash=state['planner_profile_hash'], planner_calls=count,
-        reads_sql=sql, reads_dax=dax, reads_other=len(reads)-sql-dax,
+        **accounting(state),
         context_lookups=len(lookups), distinct_context_lookups=len({json.dumps(o['lookup'], sort_keys=True) for o in lookups}),
         retrieval_calls=retrievals, test_calls=tests, retrieval_test_ratio=retrievals/tests if tests else None,
         measure_reproductions=sum(o.get('test_purpose')=='REPRODUCE_MEASURE' or
@@ -79,3 +80,20 @@ def failed(error_type, wall_seconds):
         cumulative_input_chars=0, output_tokens_reserved=0, wall_seconds=wall_seconds,
         stop_reason='REPLAY_PREFLIGHT_'+error_type, outcome_label='NOT_GRADED',
         intent_unknown=True, graded='NOT_GRADED', notes_doc='docs/offline-session-replay.md')
+
+
+def effective_rows(path):
+    """Fold explicit corrections without rewriting history or counting a new run."""
+    from hashlib import sha256
+    rows=[];by_id={};hashes={}
+    for line in Path(path).read_bytes().splitlines():
+        item=json.loads(line)
+        if item.get('record_type')=='CORRECTION':
+            identity=item['corrects_session_id']
+            if identity not in by_id or hashes[identity]!=item['original_row_sha256']:
+                raise ValueError('Ledger correction does not reference the original row')
+            by_id[identity].update(item['corrected_fields'])
+        else:
+            rows.append(item);by_id[item['session_id']]=item
+            hashes[item['session_id']]=sha256(line).hexdigest()
+    return rows

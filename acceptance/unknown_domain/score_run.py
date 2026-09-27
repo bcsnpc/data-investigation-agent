@@ -7,6 +7,7 @@ from collections import Counter
 import json
 from trajectory_metrics import metrics
 from pathlib import Path
+from investigator.process_read_receipts import accounting
 
 
 def score(record):
@@ -27,8 +28,8 @@ def score(record):
             'deployment':record.get('planner_deployment'),'status':state.get('status'),
             'classification':state.get('outcome',{}).get('classification'),
             'stop_reason':state.get('stop_reason'),'planner_calls':state.get('planner_calls',0),
-            'cloud_calls':state.get('cloud_calls',0),'completed_reads':len(reads),
-            'read_tools':dict(Counter(o['tool'] for o in reads)),
+            'cloud_calls':state.get('cloud_calls',0),**accounting(state),'completed_reads':accounting(state)['reads_completed'],
+            'read_tools':dict(Counter(o['tool'] for o in state.get('process_read_receipts',reads))),
             'rejected_actions':len(rejected),'read_after_rejection':recovered,
             'redundant_reads_blocked':sum(o.get('metadata',{}).get('reason_code')=='READ_ALREADY_OBSERVED' for o in rejected),
             'measure_reproductions':sum(o.get('test_purpose')=='REPRODUCE_MEASURE' or
