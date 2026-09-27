@@ -7,6 +7,11 @@ It then held on a judge/support text-bound mismatch; synthesis did not run and
 Bronze was not read. This is divergence evidence, not an end-to-end pass.
 [Depth, limits and failed-run evidence](docs/declared-chain-depth.md).
 
+[Source-application ingestion design](docs/source-application-ingestion-plan.md)
+is ready for review only: a declared managed connection/copy mapping, new isolated
+fixture and current discovery context, plus separate latency/gap evidence work.
+No pipeline, Copy Job, connection or ingestion fixture has been built.
+
 **Active output milestone:** schema-enforced plain business explanations, mandatory
 outcome-derived actions, and technical attestation details are implemented and
 validated in one live run (BUSINESS_QUESTION). Earlier freezes remain invalidated.

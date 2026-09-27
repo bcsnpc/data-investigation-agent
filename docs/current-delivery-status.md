@@ -9,6 +9,12 @@ Sealed receipts survive; failed-session observation persistence loses the summar
 so the separate receipt audit corrects the interpretation of extracted zero counts.
 No further live run or source-ingestion build was performed.
 
+**Design-only next estate step:** [source-application ingestion plan](source-application-ingestion-plan.md).
+It distinguishes native Datasource relations from definition-backed connection
+mappings, budgets estate/discovery work and fixture invalidation, and explains why
+LOAD_LATENCY/INGESTION_GAP still require implemented evidence checks. Awaiting
+review; no pipeline/job/connection/grant/schedule was created.
+
 **Active output milestone:** schema-enforced business explanations, mandatory
 outcome-derived actions and technical attestation details completed one live run with validated synthesis (BUSINESS_QUESTION); earlier freezes remain invalidated.
 [Output contract](enforced-dual-outputs.md).
