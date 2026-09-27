@@ -223,4 +223,24 @@ class SynthesisTests(unittest.TestCase):
         with self.assertRaisesRegex(Conflict,'Cross-surface'):
             synthesis_digest._process_evidence(observation,{x['id']:x for x in state['observations']})
 
+    def test_process_surface_identity_is_evidence_never_surface_equality(self):
+        receipts={key:{'id':key,'status':'COMPLETED','values':[1]} for key in ('upper','lower')}
+        for identity in (None,'same-reader','different-reader'):
+            with self.subTest(identity=identity):
+                upper={'engine':'engine','connection':'connection','object':'object','identity':'same-reader'}
+                lower={**upper}
+                if identity is None:lower.pop('identity')
+                else:lower['identity']=identity
+                observation={'comparison_status':'CROSS_SURFACE_VERIFIED','values_equal':True,
+                    'upper_evidence_id':'upper','lower_evidence_id':'lower',
+                    'upper_execution_surface':upper,'lower_execution_surface':lower}
+                with self.assertRaisesRegex(Conflict,'Cross-surface'):
+                    synthesis_digest._process_evidence(observation,receipts)
+                for field in ('engine','connection','object'):
+                    distinct={**lower,field:'other'}
+                    observation['lower_execution_surface']=distinct
+                    result=synthesis_digest._process_evidence(observation,receipts)
+                    self.assertEqual(result['upper_execution_surface'],upper)
+                    self.assertEqual(result['lower_execution_surface'],distinct)
+
 if __name__=='__main__':unittest.main()

@@ -1476,3 +1476,19 @@ invocation occurred; no investigation planner or synthesis provider calls.
 No engine/config change, additional trial, reset or acceptance claim. Two required
 generator tests passed. See [report](discovery-reapproval-three.md) and
 [machine evidence](runs/discovery-reapproval-three.json).
+
+
+## 2026-09-27 ? synthesis surface equality and intake audit
+
+Published unchanged `7fea46f` in PR #254 and merged #253 after six green checks.
+Implemented triple-based synthesis surface equality with identity retained as
+evidence (18 focused synthesis tests and two generator tests passed).
+One R2 scenario rerun held at intake; no synthesis completed. Offline saved-R2
+validation exposed a separate raw-row alias mismatch. Original three intake tapes
+have identical request bytes and schema-valid responses, with differing route
+modes rejected by the application pairing rule. No intake change, policy change,
+retry, freeze or acceptance claim. [Report](synthesis-surface-key-intake-audit.md).
+
+Full unittest discovery: 1,189 tests OK in 248.124 seconds. ResourceWarnings and
+PowerShell wrapper exit 1 are retained separately; see the report. Fix/audit PR #255
+is stacked on unchanged-evidence PR #254.

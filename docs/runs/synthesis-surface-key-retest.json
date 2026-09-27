@@ -1,0 +1,79 @@
+[
+  {
+    "session_id": "G-surface-key-R2-repeat-20260927",
+    "date_utc": "2026-09-27T04:12:08.832552+00:00",
+    "mode": "live",
+    "family": "G",
+    "engine_tag": "unfrozen-6c845e2eb159",
+    "manifest_sha_short": "NONE",
+    "model_deployment": "investigator-quality-54",
+    "settings_hash": null,
+    "planner_calls": 0,
+    "reads_sql": 0,
+    "reads_dax": 0,
+    "reads_other": 0,
+    "context_lookups": 0,
+    "cumulative_input_chars": 0,
+    "wall_seconds": 8.584,
+    "stop_reason": "INTAKE_FAILED",
+    "outcome_label": "NOT_GRADED",
+    "graded": "PENDING_TRUTH_REVIEW",
+    "notes_doc": "docs/synthesis-surface-key-intake-audit.md",
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "experiment": "SYNTHESIS_SURFACE_KEY_RETEST",
+    "arm_trial": 1,
+    "process_exit": 0,
+    "terminating_step": null,
+    "resolved_boundaries": 0,
+    "comparisons_executed": 0,
+    "within_layer_checks": 0,
+    "not_comparable_boundaries": [],
+    "boundary_observations": [],
+    "probe_surfaces": [],
+    "reads_by_surface": {},
+    "limits": null,
+    "failures": null,
+    "compared_bindings": null,
+    "unattested_surface_fields": null,
+    "definition_judgment": [],
+    "phases_recorded": [
+      "INTAKE"
+    ],
+    "skipped_steps": [],
+    "unverified_boundaries": [],
+    "baseline_established": false,
+    "visibility_boundary": {},
+    "missing_capability": null,
+    "synthesis_status": "NOT_REQUESTED",
+    "synthesis_error": null,
+    "cloud_calls_reserved": 0,
+    "reserved_reads_by_tool": {},
+    "synthesis_validated": false,
+    "synthesis_calls": 0,
+    "synthesis_input_characters": 0,
+    "evidence_digest_hash": null,
+    "recorded_tape_ids": [
+      "1aa569a5-9d32-41ad-9e6e-99c3ec2853f3"
+    ],
+    "recorded_tape_count": 1,
+    "measured": {
+      "usage": {
+        "input_tokens": 13621,
+        "cached_tokens": 13440,
+        "output_tokens": 66,
+        "reasoning_tokens": 0
+      },
+      "phases": [
+        "INTAKE"
+      ],
+      "reference_cost_usd": 0.004803
+    },
+    "reference_cost_usd": 0.004803,
+    "cost_basis": "Measured intake/synthesis tokens at reference rates; not Azure billing; cloud excluded",
+    "read_limit": 6,
+    "input_limit": 384000,
+    "reasoning_effort": "medium",
+    "max_output_tokens": 8000,
+    "minimum_llm_interval_seconds": 65
+  }
+]

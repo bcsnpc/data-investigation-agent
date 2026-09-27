@@ -11,6 +11,17 @@ read-only queries and saved evidence. It reports implemented behavior and never
 decides whether a business rule is correct.
 This is an FDE integration with one enterprise environment.
 
+**Latest checkpoint, 2026-09-27:** synthesis now compares execution surfaces by
+engine, connection and object while retaining identity as evidence. The requested
+R2 scenario rerun was held at intake; synthesis did not run. Offline saved-R2
+validation exposes a second blocker: raw result aliases differ despite equal
+normalized quantities. An audit proves the original three intake requests were
+byte-identical; independent schema enums allowed the model's incompatible
+`MISMATCH_COMPLAINT` + `NONE` responses. Intake is unchanged pending review.
+See [surface fix and intake audit](docs/synthesis-surface-key-intake-audit.md).
+
+The following checkpoint is preserved as the preceding result.
+
 **Current checkpoint, 2026-09-27:** discovery was re-approved under the unchanged
 current config (88 metadata/catalog operations). Of exactly three new attempts,
 two were held for an invalid intake pairing; one reached a real, equal Power BI
@@ -144,12 +155,12 @@ limit conclusions are withdrawn. No freeze or unfamiliar-domain claim follows.
 - An independent lower-layer read. For a faithfully declared `declared_source`
   layer, the engine compiles the equivalent quantity from the model's
   declarations and reads it on the Fabric SQL endpoint as the least-privilege
-  reader, with read-only guard and self-report. It has been verified by one
-  transport check. No comparison run has been performed yet.
+  reader, with read-only guard and self-report. Original R2 completed one equal
+  DAX-to-Fabric-SQL comparison; synthesis remains blocked as described above.
 
 - Execution-surface self-report is enforced for every process probe. The Fabric
-  SQL analytics endpoint's self-report has been verified live once, as the
-  least-privilege reader. The DAX self-report is verified only in tests.
+  SQL analytics endpoint and DAX self-reports were verified live in original R2,
+  as the least-privilege reader. Unattested surface fields remain explicit limits.
 
 - Related 100,000-order application data, Azure SQL source, deployed order portal,
   Fabric Bronze/Silver/Gold processing and native Power BI model/reports.
