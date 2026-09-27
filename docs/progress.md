@@ -1664,3 +1664,7 @@ receipts survive later validation failure. Per-run limits and policy values were
 not increased. Replay allocation reconstruction operates only on disposable copies.
 No live cloud reads, batch grant or freshness fixture. Prior freezes invalidated.
 Validation details and historical failed checks: [read-budget evidence](rolling-read-budget.md).
+
+Final read-budget validation: 1,302 regressions passed after receipt retention,
+16 focused budget tests, PowerShell syntax and six implementation CI checks passed.
+[PR #279](https://github.com/bcsnpc/data-investigation-agent/pull/279) contains the implementation; no live run is claimed.
