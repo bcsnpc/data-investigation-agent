@@ -11,6 +11,11 @@ read-only queries and saved evidence. It reports implemented behavior and never
 decides whether a business rule is correct.
 This is an FDE integration with one enterprise environment.
 
+**Latest follow-up:** shared quantity normalization now excludes only declared
+surface-report columns. Saved R2's normalized comparison validates offline;
+synthesis then stops on an ingestion-context `metadata` contract gap. No live
+run or synthesis success is claimed. [Normalization evidence](docs/quantity-normalization-offline.md).
+
 **Latest checkpoint, 2026-09-27:** synthesis now compares execution surfaces by
 engine, connection and object while retaining identity as evidence. The requested
 R2 scenario rerun was held at intake; synthesis did not run. Offline saved-R2

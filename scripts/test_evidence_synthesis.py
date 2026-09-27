@@ -243,4 +243,23 @@ class SynthesisTests(unittest.TestCase):
                     self.assertEqual(result['upper_execution_surface'],upper)
                     self.assertEqual(result['lower_execution_surface'],distinct)
 
+    def test_process_comparison_normalizes_aliases_but_rejects_different_quantity(self):
+        from investigator.process_quantity import quantity
+        upper={'id':'upper','status':'COMPLETED','values':[{'[baseline]':{'value':'12.00'},
+              '[surface_identity]':{'value':'reader'}}]}
+        lower={'id':'lower','status':'COMPLETED','values':[{'quantity':{'value':'12'}}]}
+        refs={'upper':upper,'lower':lower}
+        observation={'comparison_status':'CROSS_SURFACE_VERIFIED','values_equal':True,
+            'upper_evidence_id':'upper','lower_evidence_id':'lower',
+            'upper_execution_surface':{'engine':'a','connection':'a','object':'a','identity':'reader'},
+            'lower_execution_surface':{'engine':'b','connection':'b','object':'b','identity':'reader'}}
+        quantities={'upper':quantity(upper['values'],{'identity':'surface_identity'}),
+                    'lower':quantity(lower['values'])}
+        self.assertTrue(synthesis_digest._process_evidence(observation,refs,quantities)['values_equal'])
+        quantities['lower']={'quantity':'13'}
+        with self.assertRaisesRegex(Conflict,'differs from referenced'):
+            synthesis_digest._process_evidence(observation,refs,quantities)
+        with self.assertRaisesRegex(Conflict,'verified quantity receipts'):
+            synthesis_digest._process_evidence(observation,refs,{})
+
 if __name__=='__main__':unittest.main()

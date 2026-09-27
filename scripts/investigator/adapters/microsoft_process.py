@@ -8,25 +8,13 @@ from ..declared_pointer import resolve as resolve_declared
 from ..flexible_tools import run as run_query
 from ..model_context import assets
 from ..process_debugging import Probe
+from ..process_quantity import quantity as _quantity
 
 
 SURFACE_IDENTITY='surface_identity'
 # Service errors this surface reports only generically through Execute Queries.
 # The same model's XMLA interface can expose the underlying failure.
 GENERIC_SERVICE_ERRORS=frozenset(('DatasetExecuteQueriesError',))
-
-
-def _quantity(rows):
-    """One scalar from a one-row, one-column result, normalised so that equal
-    numbers from different engines compare equal. Anything else is kept as is."""
-    from decimal import Decimal,InvalidOperation
-    if not isinstance(rows,list) or len(rows)!=1 or not isinstance(rows[0],dict) or len(rows[0])!=1:return rows
-    cell=next(iter(rows[0].values()))
-    value=cell.get('value') if isinstance(cell,dict) else cell
-    if value is None:return {'quantity':None}
-    try:number=Decimal(str(value))
-    except (InvalidOperation,ValueError):return {'quantity':str(value)}
-    return {'quantity':format(number.normalize(),'f') if number!=0 else '0'}
 
 
 class MicrosoftProcessAdapter:
@@ -257,7 +245,7 @@ class MicrosoftProcessAdapter:
                                     'UNCERTAIN' if result['status']=='INTERRUPTED' else 'SPECIFIC')}
             return Probe('UNAVAILABLE',layer['id'],reason='The presentation reader could not establish a baseline.',
                          query=query,execution_surface=semantic_surface,failure=failure)
-        rows=result['result']['rows'];value=_quantity(rows)
+        rows=result['result']['rows'];value=_quantity(rows,plan['surface_report'])
         report=result['result'].get('surface_report')
         definition_check=layer.get('kind')=='declared_source'
         return Probe('NOT_COMPARABLE' if definition_check else 'OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',

@@ -10,6 +10,7 @@ from sqlglot.errors import SqlglotError
 from .onboarding import digest,encoded,Conflict
 from .receipt_integrity import verify,TABLES
 from .process_debugging import _surface_key
+from .process_quantity import quantity
 
 DISPLAY_ROWS = 2
 EXCERPT_CHARACTERS = 2400
@@ -56,7 +57,7 @@ def _query_evidence(tool,query,rows):
          'rows_truncated':len(displayed)<len(rows),'omitted_row_count':max(0,len(rows)-len(displayed)),
          'aggregate_outputs':facts,'group_keys':groups,'group_keys_truncated':False}
 
-def _process_evidence(observation,by_id):
+def _process_evidence(observation,by_id,quantities=None):
  status=observation.get('comparison_status')
  if status not in ('CROSS_SURFACE_VERIFIED','NOT_COMPARABLE','WITHIN_LAYER_CHECK'):
   raise Conflict('Unsupported process receipt shape')
@@ -72,7 +73,10 @@ def _process_evidence(observation,by_id):
   if (len(referenced)!=2 or _surface_key(upper) is None or _surface_key(lower) is None
       or _surface_key(upper)==_surface_key(lower) or type(observation.get('values_equal')) is not bool):
    raise Conflict('Cross-surface process receipt differs')
-  if (digest(referenced[0].get('values'))==digest(referenced[1].get('values'))) != observation['values_equal']:
+  if quantities is not None and any(ref not in quantities for ref in refs):
+   raise Conflict('Process comparison requires verified quantity receipts')
+  compared=[quantities[ref] for ref in refs] if quantities is not None else [quantity(item.get('values')) for item in referenced]
+  if (digest(compared[0])==digest(compared[1])) != observation['values_equal']:
    raise Conflict('Process comparison differs from referenced observations')
  return {'comparison_status':status,'upper_layer':observation.get('upper_layer'),
          'lower_layer':observation.get('lower_layer'),'reason':observation.get('reason'),
@@ -81,7 +85,7 @@ def _process_evidence(observation,by_id):
          'derived_from_referenced_observations':True}
 
 def build(state,db):
- entries=[];by_id={o['id']:o for o in state['observations'] if isinstance(o,dict) and o.get('id')}
+ entries=[];quantities={};pending=[];by_id={o['id']:o for o in state['observations'] if isinstance(o,dict) and o.get('id')}
  for o in state['observations']:
   if o['status']!='COMPLETED':continue
   item={'id':o['id'],'tool':o['tool'],'completeness':o['completeness']}
@@ -92,7 +96,7 @@ def build(state,db):
    item['result']=_definition_evidence(o)
    item['provenance']={'hash':digest(o),'context_version':m.get('context_version')}
   elif o['tool']=='process':
-   item['result']=_process_evidence(o,by_id)
+   pending.append((item,o))
    item['provenance']={'hash':digest(o),'derivation':'PROCESS_COMPARISON_FROM_REFERENCED_OBSERVATIONS'}
   else:
    if o['tool'] not in TABLES:raise Conflict('Unsupported receipt integrity adapter')
@@ -107,10 +111,12 @@ def build(state,db):
     raise Conflict('Synthesis observation differs from sealed receipt')
    q=request.get('plan',{}).get('query',request.get('query',''))
    rows=o['values']
+   quantities[o['id']]=quantity(rows,request.get('surface_report_columns'))
    item['asked']={'query':q,'query_characters':len(q),'truncated':False}
    item['result']=_query_evidence(o['tool'],q,rows)
    item['provenance']={'request_hash':o['request_hash'],'result_hash':digest(result),'receipt_seal':sealed['hash']}
   entries.append(item)
+ for item,o in pending:item['result']=_process_evidence(o,by_id,quantities)
  result={'version':1,'question':state['envelope']['symptom'],'scope':{k:state['envelope'][k] for k in ('model_id','context_id','measure_id','filters','dimension_ids')},
  'digest_limits':f'Complete validated queries are retained. At most {DISPLAY_ROWS} returned rows and their group keys are displayed per observation, with explicit omitted counts. Explicit definition content/find lookups retain at most {EXCERPT_CHARACTERS} excerpt characters per observation with truncation labels; arbitrary metadata remains omitted. Hypotheses are unverified, not evidence.', 'evidence':entries,'hypotheses':[{'id':h['id'],'claim':h['claim'][:300],'claim_truncated':len(h['claim'])>300,'status':h['status'],'evidence_ids':h['evidence_ids'],'authority':'UNVERIFIED_HYPOTHESIS'} for h in state['hypotheses']]}
  assessment=state.get('assessment') or {}
