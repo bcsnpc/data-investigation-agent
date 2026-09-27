@@ -1,0 +1,32 @@
+{
+  "before_characters": 6298,
+  "after_characters": 7839,
+  "before_evidence_entries": 5,
+  "after_evidence_entries": 5,
+  "evidence_identical": true,
+  "directory_entries_before": 0,
+  "directory_entries_after": 0,
+  "sql_object_directory_entries_before": 0,
+  "sql_object_directory_entries_after": 0,
+  "classification": "CONSISTENT_TO_BOUNDARY",
+  "conclusion_blocker": null,
+  "capability_limitations": {
+    "visibility_boundary": {
+      "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "evidence_ids": [
+        "boundary-1-comparison",
+        "ingestion-86ce8ea3-4dee-43b4-b4b1-28a1ab08bb7f"
+      ],
+      "stopped_by": "CAPABILITY_UNAVAILABLE"
+    },
+    "skipped_checks": [
+      {
+        "capability": "presentation_freshness",
+        "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+        "step": 1
+      }
+    ]
+  },
+  "offline_contract_validation": "PASSED",
+  "network_calls": 0
+}
