@@ -6,6 +6,18 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: item 3 blocked before intake.** Updated 2026-09-27.
+- **What happened:** three runs at `a63bfa5` (`unfrozen-a9e32c819240`) each
+  failed in 2–3 s, before opening a session. The Azure OpenAI key could not be
+  fetched, because the key-owning Azure CLI profile now requires MFA
+  (`AADSTS50076`).
+- **Not tested:** no read, probe, comparison, planner call or synthesis
+  occurred, so the acceptance bar is untested.
+- **Next:** an interactive `az login` with MFA by the account holder is
+  required.
+
+See [item 3 runs](item3-three-runs.md).
+
 **Current checkpoint: the engine fingerprint covers adapters and transports.**
 Updated 2026-09-27.
 - **What changed:** the fingerprint now hashes the whole engine package
