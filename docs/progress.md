@@ -1551,3 +1551,19 @@ rows preserved; one new row. 82 focused tests passed.
 
 Full capability-declaration regression: 1,201 tests passed in 255.708 seconds,
 Python exit 0; 297 local document targets resolved and diff check passed.
+
+
+## 2026-09-27 - synthesis contract separation and completed run
+
+Merged #261 after six green checks. Audited the whole synthesis response and
+removed independently generated control fields already fixed by the investigation.
+The wire now carries cited narratives and all-outcome limitations; conclusion
+blockers and mandatory facts remain distinct and validated. One live run completed
+through synthesis: equal 8,765 DAX/Fabric-SQL comparison, zero within-layer checks,
+one intake and one synthesis call, zero investigation planner calls. Gold boundary,
+freshness and five attestation limitations preserved. All 220 prior ledger rows
+unchanged; one appended. No repeat, quota change or unfamiliar-domain claim.
+[Audit, full evidence and verbatim outputs](synthesis-narrative-contract.md).
+
+Full schema-separation regression: 1,208 tests passed in 257.185 seconds, Python
+exit 0. All 299 local document targets resolved; diff check passed.

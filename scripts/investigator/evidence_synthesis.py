@@ -139,8 +139,10 @@ def assemble_citations(value):
 
 def azure_synthesize(payload,options):
     from ticket_planner import azure_generate
-    return azure_generate(payload,instructions=INSTRUCTIONS,schema=schema(),name='evidence_assessment',
-                          decision_tool=True,generation_options=options)
+    from . import synthesis_narrative as narrative
+    value,usage=azure_generate(payload,instructions=narrative.INSTRUCTIONS,schema=narrative.schema(payload),
+                               name='evidence_narrative',decision_tool=True,generation_options=options)
+    return narrative.Response(value),usage
 
 
 def read(db,identity,*,full=False):
@@ -179,6 +181,9 @@ def run(agent,identity,provider):
             agent.admit(state)
             payload=build(state,db);size=len(encoded(payload))
             record.update(payload=payload,payload_hash=digest(payload),input_characters=size)
+            if provider is azure_synthesize:
+                original={k:copy.deepcopy(state['assessment'][k]) for k in schema()['required']}
+                validate(original,payload,source_state=state)
             if size>agent.generation_options['max_payload_characters']:raise ValueError('Synthesis digest exceeds input cap')
             if agent.governor:
                 agent.governor.reserve(db,identity,'synthesis:1','planner',size,
@@ -191,7 +196,7 @@ def run(agent,identity,provider):
             record['error']=error_summary(exc)
         save(db,identity,record)
     if record['status']!='RUNNING':return read_result(agent,identity)
-    usage=None;assessment=None;error=None;received=False
+    usage=None;assessment=None;error=None;received=False;outputs=None
     try:
         from .planner_recording import recording
         with recording({'session_id':identity+':synthesis','phase':'SYNTHESIS','planner_call':1,
@@ -203,7 +208,13 @@ def run(agent,identity,provider):
             finally:
                 if tape:tape.safe_write('runtime-return.json',encoded({'clock':agent.clock()}).encode())
         if digest(payload)!=record['payload_hash']:raise Conflict('Provider changed frozen digest')
-        declare_capabilities(assessment)
+        from .synthesis_narrative import Response,assemble
+        if isinstance(assessment,Response):
+            assessment,outputs=assemble(assessment,payload,state)
+        else:
+            # Historical injected providers retain the old local interface;
+            # the live Azure wire exposes only the narrative schema.
+            declare_capabilities(assessment)
         normalize(assessment)
         validate(assessment,payload,source_state=state)
     except Exception as exc:
@@ -226,6 +237,7 @@ def run(agent,identity,provider):
         except (ValueError,KeyError) as exc:error=error_summary(exc)
         current.update(status='FAILED' if error else 'COMPLETED',error=error,
                        assessment=None if error else {**assessment,'provenance':'LLM_INFERRED','cause_verified':False})
+        if outputs is not None and not error:current['outputs']=outputs
         save(db,identity,current)
     return read_result(agent,identity)
 

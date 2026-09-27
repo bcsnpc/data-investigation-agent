@@ -4,7 +4,29 @@ Updated 2026-09-27. Tracking: [#193](https://github.com/bcsnpc/data-investigatio
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
-**Current checkpoint, 2026-09-27: canonical capability declarations.**
+**Current checkpoint, 2026-09-27: separated conclusion contract and narrative.**
+PR #261 merged after six green checks. The schema conflated conclusion blockers
+with limitations and redundantly asked synthesis to regenerate dependent control
+fields. The new wire permits only cited business/technical explanations and
+limitations; original validated classification, support, mandatory limits and
+business/technical facts remain fixed. Capability limitations can accompany any
+outcome. The full audit covers action/outcome, baseline, role/citation, capability,
+intent, measure-connection and attestation dependencies.
+
+One live same-ticket run completed through synthesis validation: one genuine
+Power BI/Fabric-SQL comparison, 8,765 on each side; zero within-layer checks.
+Reads: one DAX, one Fabric SQL, one OneLake metadata invocation. Calls: one intake,
+zero investigation planner, one synthesis. CONSISTENT_TO_BOUNDARY through Gold;
+five unattested surface fields, unavailable deeper capability and skipped freshness
+remain explicit. Both narratives state that individual movements/adjustments and
+business intent were not established. No retry or permission/quota change.
+This is a completed known-domain run, not unfamiliar-domain acceptance or proof of
+source correctness. **1,208 regression tests passed**, Python exit 0.
+[Audit and verbatim outputs](synthesis-narrative-contract.md).
+
+The following checkpoints preserve the failures as they occurred.
+
+**Previous checkpoint, 2026-09-27: canonical capability declarations.**
 PR #260 merged with six green checks. Capability names now sort/deduplicate at
 synthesis response admission, using the deterministic producer's shared helper;
 the strict validator is unchanged. The prior unordered list came from the model,

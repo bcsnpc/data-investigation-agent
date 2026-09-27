@@ -34,11 +34,13 @@ jobs:
       - name: Test static lineage and graph traversal
         run: |
           pip install -r scripts/requirements-lineage.txt
+          pip install -r scripts/requirements-llm.txt
           python -m unittest discover -s scripts -p test_enterprise_discovery.py
           python -m unittest discover -s scripts -p test_domain_profile.py
           python -m unittest discover -s scripts -p test_context_navigation.py
           python -m unittest discover -s scripts -p test_flexible_investigation.py
           python -m unittest discover -s scripts -p test_evidence_synthesis.py
+          python -m unittest discover -s scripts -p test_synthesis_narrative.py
           python -m unittest discover -s scripts -p test_process_debugging.py
           python -m unittest discover -s scripts -p test_probe_execution_surfaces.py
           python -m unittest discover -s scripts -p test_surface_self_report.py
@@ -121,7 +123,6 @@ jobs:
           python -m unittest discover -s scripts -p test_dependency_context.py
           python -m unittest discover -s scripts -p test_context_runtime.py
           pip install -r scripts/requirements-workspace.txt
-          pip install -r scripts/requirements-llm.txt
           python -m unittest discover -s scripts -p test_planner_recording.py
           python -m unittest discover -s scripts -p test_acceptance_environment.py
           python -m unittest discover -s scripts -p test_planner_projection.py

@@ -1,0 +1,238 @@
+{
+  "business_output": {
+    "additional_limitations": [
+      {
+        "evidence_ids": [
+          "boundary-1-comparison",
+          "ingestion-0bb9d291-2d48-463f-8e5a-e254b15e9c1f"
+        ],
+        "text": "The check stops at movement_values. The displayed evidence does not extend further upstream into source stock movement systems or related inventory adjustment sources because visibility ended at that boundary."
+      },
+      {
+        "evidence_ids": [
+          "boundary-1-comparison"
+        ],
+        "text": "Presentation refresh history was not available to the isolated execution reader, so freshness was not checked in the displayed investigation."
+      },
+      {
+        "evidence_ids": [
+          "25182d69-3f7c-47dc-9dbe-419c70a78852",
+          "a44a4c48-87a2-4f21-abc6-2147573dd02e"
+        ],
+        "text": "The displayed evidence is aggregate-only for the checked source table. It does not show individual movement rows, individual adjustment rows, or row-level reconciliation that could evidence incorrect source entries."
+      },
+      {
+        "evidence_ids": [
+          "path-80464f05-20bb-47d1-84d0-bbb2da485fcd"
+        ],
+        "text": "Context/path metadata is partial and omits directory, schema, and unstructured metadata, so lineage detail outside the displayed path is limited."
+      },
+      {
+        "evidence_ids": [
+          "boundary-1-comparison",
+          "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+          "25182d69-3f7c-47dc-9dbe-419c70a78852"
+        ],
+        "text": "Some surface identity fields are unattested in the displayed record for the checked surfaces, including missing reported connection/engine/object fields noted for Activity and missing reported connection/engine fields noted for movement_values."
+      }
+    ],
+    "conclusion": {
+      "compared_bindings": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        }
+      ],
+      "conclusion": "Every comparable reachable layer agreed through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values.",
+      "failures": [],
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "unattested_surface_fields": [
+        {
+          "evidence_id": "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+          "field": "connection",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        },
+        {
+          "evidence_id": "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+          "field": "engine",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        },
+        {
+          "evidence_id": "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+          "field": "object",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        },
+        {
+          "evidence_id": "25182d69-3f7c-47dc-9dbe-419c70a78852",
+          "field": "connection",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+        },
+        {
+          "evidence_id": "25182d69-3f7c-47dc-9dbe-419c70a78852",
+          "field": "engine",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+        }
+      ]
+    },
+    "explanation": {
+      "evidence_ids": [
+        "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+        "25182d69-3f7c-47dc-9dbe-419c70a78852",
+        "boundary-1-comparison",
+        "ingestion-0bb9d291-2d48-463f-8e5a-e254b15e9c1f"
+      ],
+      "text": "The displayed measure total and the displayed warehouse total agree at the checked aggregate level: the Activity measure shows 8765, and the SQL sum of units in movement_values also shows 8765. That means the investigation found agreement between the reported Handled Quantity total and the summed source-table total that was actually checked. The available ingestion metadata also shows movement_values as an available written table with 406 output rows in its recorded write. This supports aggregate agreement across the checked boundary, but it does not show whether any individual stock movement or inventory adjustment entry is correct, complete, or aligned with the intended business rule. No displayed evidence inspects individual movement rows or related adjustment rows."
+    },
+    "mandatory_limits": [
+      "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values; stopped because capability unavailable.",
+      "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+      "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+      "Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+      "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+      "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it."
+    ]
+  },
+  "provenance": "LLM_INFERRED",
+  "source_assessment_hash": "68402025a53235309068e6a60dd6f076e0f549dba31ce91cbe7d710be5d02f15",
+  "technical_output": {
+    "additional_limitations": [
+      {
+        "evidence_ids": [
+          "boundary-1-comparison",
+          "ingestion-0bb9d291-2d48-463f-8e5a-e254b15e9c1f"
+        ],
+        "text": "The check stops at movement_values. The displayed evidence does not extend further upstream into source stock movement systems or related inventory adjustment sources because visibility ended at that boundary."
+      },
+      {
+        "evidence_ids": [
+          "boundary-1-comparison"
+        ],
+        "text": "Presentation refresh history was not available to the isolated execution reader, so freshness was not checked in the displayed investigation."
+      },
+      {
+        "evidence_ids": [
+          "25182d69-3f7c-47dc-9dbe-419c70a78852",
+          "a44a4c48-87a2-4f21-abc6-2147573dd02e"
+        ],
+        "text": "The displayed evidence is aggregate-only for the checked source table. It does not show individual movement rows, individual adjustment rows, or row-level reconciliation that could evidence incorrect source entries."
+      },
+      {
+        "evidence_ids": [
+          "path-80464f05-20bb-47d1-84d0-bbb2da485fcd"
+        ],
+        "text": "Context/path metadata is partial and omits directory, schema, and unstructured metadata, so lineage detail outside the displayed path is limited."
+      },
+      {
+        "evidence_ids": [
+          "boundary-1-comparison",
+          "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+          "25182d69-3f7c-47dc-9dbe-419c70a78852"
+        ],
+        "text": "Some surface identity fields are unattested in the displayed record for the checked surfaces, including missing reported connection/engine/object fields noted for Activity and missing reported connection/engine fields noted for movement_values."
+      }
+    ],
+    "conclusion": {
+      "boundary_summary": {
+        "comparisons_executed": 1,
+        "not_comparable": [],
+        "resolved_boundaries": 1,
+        "within_layer_checks": 0
+      },
+      "capabilities_declared": [
+        "evaluate_scoped_quantity",
+        "failure_detail",
+        "independent_lower_surface",
+        "ingestion",
+        "job_history",
+        "presentation_context",
+        "resolve_measure_path",
+        "transformation_definition"
+      ],
+      "compared_bindings": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        }
+      ],
+      "failures": [],
+      "queries": [
+        {
+          "evidence_id": "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+          "query": "EVALUATE ROW(\"baseline\", [Handled Quantity],\"surface_identity\",USERPRINCIPALNAME())"
+        },
+        {
+          "evidence_id": "25182d69-3f7c-47dc-9dbe-419c70a78852",
+          "query": "SELECT SUM([units]) AS [quantity] FROM [dbo].[movement_values]"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+          "step": 1
+        }
+      ],
+      "unattested_surface_fields": [
+        {
+          "evidence_id": "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+          "field": "connection",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        },
+        {
+          "evidence_id": "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+          "field": "engine",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        },
+        {
+          "evidence_id": "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+          "field": "object",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        },
+        {
+          "evidence_id": "25182d69-3f7c-47dc-9dbe-419c70a78852",
+          "field": "connection",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+        },
+        {
+          "evidence_id": "25182d69-3f7c-47dc-9dbe-419c70a78852",
+          "field": "engine",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+        }
+      ],
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+        "evidence_ids": [
+          "boundary-1-comparison",
+          "ingestion-0bb9d291-2d48-463f-8e5a-e254b15e9c1f"
+        ],
+        "stopped_by": "CAPABILITY_UNAVAILABLE"
+      }
+    },
+    "explanation": {
+      "evidence_ids": [
+        "a44a4c48-87a2-4f21-abc6-2147573dd02e",
+        "25182d69-3f7c-47dc-9dbe-419c70a78852",
+        "boundary-1-comparison",
+        "ingestion-0bb9d291-2d48-463f-8e5a-e254b15e9c1f"
+      ],
+      "text": "At the presentation surface, a bounded DAX query returned [Handled Quantity] = 8765. At the lower checked layer, a bounded SQL query returned SUM([units]) = 8765 from [dbo].[movement_values]. The comparison artifact reports these values as equal between the Activity surface and movement_values. Ingestion metadata for movement_values shows an available Delta commit for a WRITE operation with numOutputRows = 406. The displayed evidence therefore shows aggregate consistency from the Activity measure down to movement_values. It does not display row-level stock movement records, inventory adjustment tables, transformation definitions, or logic proving how adjustments should be included or excluded, so source correctness and business intent remain unverified by the shown evidence."
+    },
+    "mandatory_limits": [
+      "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values; stopped because capability unavailable.",
+      "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+      "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+      "Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+      "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+      "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it."
+    ]
+  },
+  "version": 2
+}

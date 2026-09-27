@@ -1,12 +1,14 @@
 # Self-Discovering Enterprise Data Investigator
 
-**Latest synthesis result, 2026-09-27:** capability declarations are canonicalized
-at the producer boundary; the validator remains strict. The deterministic producer
-was already sorted; the unordered declaration came from the synthesis response.
-One live repeat again compared Power BI and Fabric SQL at 8,765 each. Synthesis
-passed declaration ordering, then failed because CONSISTENT_TO_BOUNDARY carried
-a missing_capability field reserved for capability-gap outcomes. No retry or
-end-to-end pass. [Fix, full run and actual outputs](docs/synthesis-capability-declaration.md).
+**Latest synthesis result, 2026-09-27:** one known-domain run completed through
+validated synthesis. Power BI and Fabric SQL both returned 8,765 across the
+checked boundary. The response schema now contains cited business/technical
+narrative and limitations; the already-validated conclusion/support stays fixed.
+Conclusion blockers are separate from capability limitations, which can accompany
+any outcome. The run stops at Gold, preserves five unattested surface fields and
+unavailable freshness, and does not establish source-row correctness or business
+intent. [Whole-schema audit, full run and verbatim outputs](docs/synthesis-narrative-contract.md).
+This single completed run does not establish unfamiliar-domain reliability.
 
 The valid-pair intake schema also passed five earlier same-ticket intake/preview
 trials. [Intake evidence](docs/intake-valid-pairs-five.md).
