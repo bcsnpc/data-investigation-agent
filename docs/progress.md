@@ -1623,3 +1623,5 @@ requirements. No estate or pipeline build; stop for design review.
 2026-09-27: Receipt-first process accounting implemented; three focused tests passed. Appended correction for 0154df11, preserving 223 original rows and failed outcome.
 
 2026-09-27: Five-sentence business rendering restores verified quantity, comparisons, scoped exclusions, remaining uncertainty and action. Three renderer and seven narrative tests passed; full suite in progress. No new live run yet.
+
+2026-09-27: One authorized known-domain repeat 3d2c5bf0 completed TRANSFORMATION_LOGIC with validated synthesis: report/Gold 8765, Silver 7661, two cross-surface comparisons, four receipted reads, one judge call. Verbatim outputs and limits in contract-ledger-output-rerun.md. Technical prose ends mid-sentence at the provider bound; preserved, not repaired after the run.

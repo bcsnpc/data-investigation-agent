@@ -1,8 +1,8 @@
 # Current delivery status
 
-Current follow-up: [shared producer/consumer bounds](producer-consumer-contracts.md). [Receipt-first read accounting](receipt-first-read-accounting.md) now preserves reads across validation failure and appends the historical correction. [Substantive business output](substantive-business-output.md) is implemented; full validation and one live rerun remain.
+Current result: [contract/accounting/output repeat](contract-ledger-output-rerun.md) `3d2c5bf0` completed TRANSFORMATION_LOGIC with validated synthesis after two real cross-surface comparisons (8,765 = 8,765; 8,765 != 7,661). All four reads are retained. The judge explains a possible join-multiplication mechanism, not proven duplicate matches or intended semantics. Business output now carries the verified number, comparison, limits and action. Technical prose still ends mid-sentence at its bound; it is preserved verbatim. One known-domain ticket, no source-ingestion build or unfamiliar-domain claim.
 
-**Current depth milestone:** [declared Silver/Bronze quantity paths](declared-chain-depth.md)
+**Prior depth milestone:** [declared Silver/Bronze quantity paths](declared-chain-depth.md)
 and configurable attested depth are implemented. One live run `0154df11` read
 Power BI/Gold/Silver (8,765 / 8,765 / 7,661) and invoked the definition judge on
 the real divergence. It then held: a 528-character judge explanation exceeded
@@ -17,7 +17,7 @@ mappings, budgets estate/discovery work and fixture invalidation, and explains w
 LOAD_LATENCY/INGESTION_GAP still require implemented evidence checks. Awaiting
 review; no pipeline/job/connection/grant/schedule was created.
 
-**Active output milestone:** schema-enforced business explanations, mandatory
+**Prior output milestone:** schema-enforced business explanations, mandatory
 outcome-derived actions and technical attestation details completed one live run with validated synthesis (BUSINESS_QUESTION); earlier freezes remain invalidated.
 [Output contract](enforced-dual-outputs.md).
 
