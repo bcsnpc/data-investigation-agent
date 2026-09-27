@@ -1621,3 +1621,5 @@ requirements. No estate or pipeline build; stop for design review.
 2026-09-27: Merged #264, #265 and #266 after six green checks each. Shared producer/consumer bounds audit and offline boundary tests: see producer-consumer-contracts.md. No new live run yet.
 
 2026-09-27: Receipt-first process accounting implemented; three focused tests passed. Appended correction for 0154df11, preserving 223 original rows and failed outcome.
+
+2026-09-27: Five-sentence business rendering restores verified quantity, comparisons, scoped exclusions, remaining uncertainty and action. Three renderer and seven narrative tests passed; full suite in progress. No new live run yet.

@@ -140,6 +140,8 @@ def build(state,db):
    q=request.get('plan',{}).get('query',request.get('query',''))
    rows=o['values']
    quantities[o['id']]=quantity(rows,request.get('surface_report_columns'))
+   if o.get('test_purpose')=='ESTABLISH_BASELINE' and isinstance(quantities[o['id']],dict):
+    item['verified_quantity']=quantities[o['id']]
    item['asked']={'query':q,'query_characters':len(q),'truncated':False}
    item['result']=_query_evidence(o['tool'],q,rows)
    item['provenance']={'request_hash':o['request_hash'],'result_hash':digest(result),'receipt_seal':sealed['hash']}

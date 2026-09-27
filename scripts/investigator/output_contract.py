@@ -38,5 +38,40 @@ def action(outcome):
     code = ACTIONS[canonical(outcome)]
     return {'code': code, 'text': ACTION_TEXT[code]}
 
-def business_text(outcome):
-    return BUSINESS[canonical(outcome)] + ' Recommended action: ' + action(outcome)['text']
+def business_text(outcome, payload=None):
+    """Five sentences from sealed quantity/comparison facts, never asset prose."""
+    from decimal import Decimal, InvalidOperation
+    outcome=canonical(outcome)
+    entries=(payload or {}).get('evidence',[])
+    baseline=next((e for e in entries if e.get('test_purpose')=='ESTABLISH_BASELINE'
+                   and e.get('provenance',{}).get('receipt_seal')),None)
+    number=None
+    raw=(baseline or {}).get('verified_quantity',{}).get('quantity')
+    if isinstance(raw,str) and len(raw)<=100:
+        try:
+            value=Decimal(raw)
+            if value.is_finite() and abs(value.adjusted())<=100:
+                number=format(value,',f')
+        except InvalidOperation:pass
+    first=('The checked report value was '+number+'.' if number is not None else
+           'A single report value could not be established from the available verified evidence.')
+    comparisons=[e['result'] for e in entries if e.get('tool')=='process'
+                 and e.get('result',{}).get('comparison_status')=='CROSS_SURFACE_VERIFIED']
+    immediate=next((c for c in comparisons if baseline and
+                    c.get('referenced_evidence_ids',[None])[0]==baseline['id']),None)
+    agrees=immediate is not None and immediate['values_equal'] is True
+    differs=any(c['values_equal'] is False for c in comparisons)
+    if agrees:
+        compared=('An independent check of the information feeding the report agreed'+
+                  (', but a comparison further back found a different total.' if differs else '.'))
+        ruled_out='This rules out a report-to-input difference within these checks, but does not prove the original records are correct.'
+    elif immediate is not None:
+        compared='An independent check of the information feeding the report found a different total.'
+        ruled_out='These checks establish a difference, but do not by themselves establish which information is correct.'
+    else:
+        compared='The available evidence did not establish an independent comparison with the information feeding the report.'
+        ruled_out='A difference between the report and its input therefore remains possible.'
+    remaining=('A documented processing rule can explain the difference, but its intended meaning, earlier information and update timing remain unverified.'
+               if outcome=='TRANSFORMATION_LOGIC' else
+               'Earlier information, unchecked selections, update timing and intended business rules remain outside what these comparisons establish.')
+    return ' '.join((first,compared,ruled_out,remaining,'Recommended action: '+action(outcome)['text']))

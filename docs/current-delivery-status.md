@@ -1,6 +1,6 @@
 # Current delivery status
 
-Current follow-up: [shared producer/consumer bounds](producer-consumer-contracts.md). [Receipt-first read accounting](receipt-first-read-accounting.md) now preserves reads across validation failure and appends the historical correction. Substantive business output and one live rerun remain.
+Current follow-up: [shared producer/consumer bounds](producer-consumer-contracts.md). [Receipt-first read accounting](receipt-first-read-accounting.md) now preserves reads across validation failure and appends the historical correction. [Substantive business output](substantive-business-output.md) is implemented; full validation and one live rerun remain.
 
 **Current depth milestone:** [declared Silver/Bronze quantity paths](declared-chain-depth.md)
 and configurable attested depth are implemented. One live run `0154df11` read

@@ -1,0 +1,7 @@
+# Substantive business explanation
+
+The business explanation is a five-sentence closed renderer over sealed scalar baseline evidence and validated cross-surface comparisons. Only the verified requested value is interpolated; no asset names, query text, free-form metadata, or unrelated row counts enter its prose. It names the comparison in plain language, distinguishes a matching immediate input from a deeper difference, scopes what agreement rules out, states what remains unverified, and ends with the taxonomy-owned action. Without verified scalar evidence or an independent comparison it says so instead of inventing a number or agreement.
+
+The wire schema permits only that rendered explanation and assembly enforces it again. Technical narrative retains its receipts, all unattested surface fields, mandatory limits and outcome-derived action. The underlying structured evidence remains available separately.
+
+Three new renderer tests and seven synthesis narrative tests pass. In the saved successful run's synthesis digest, adding the normalized verified baseline quantity costs 40 characters (7,794 to 7,834). The synthesis directory has zero entries/zero SQL objects before and after; the investigation directory remains at its golden coverage. The new scalar is obtained from the sealed compiled request with declared surface-report columns excluded, not guessed column names. No live rerun yet; full regression validation is in progress.
