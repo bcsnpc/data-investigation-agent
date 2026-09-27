@@ -1,6 +1,8 @@
 # Self-Discovering Enterprise Data Investigator
 
-Current result: [contract/accounting/output repeat](docs/contract-ledger-output-rerun.md) `3d2c5bf0` completed TRANSFORMATION_LOGIC with validated synthesis after two real cross-surface comparisons (8,765 = 8,765; 8,765 != 7,661). All four reads are retained. The judge explains a possible join-multiplication mechanism, not proven duplicate matches or intended semantics. Business output now carries the verified number, comparison, limits and action. Technical prose still ends mid-sentence at its bound; it is preserved verbatim. One known-domain ticket, no source-ingestion build or unfamiliar-domain claim.
+Current follow-up: [complete evidence prose and business substance](docs/complete-evidence-prose.md). Producer and consumer reject incomplete or oversized prose without cutting it; business output retains both verified quantities and a qualified plain-language mechanism. Full validation is running; one live repeat follows.
+
+Prior result: [contract/accounting/output repeat](docs/contract-ledger-output-rerun.md) `3d2c5bf0` completed TRANSFORMATION_LOGIC with validated synthesis after two real cross-surface comparisons (8,765 = 8,765; 8,765 != 7,661). All four reads are retained. The judge explains a possible join-multiplication mechanism, not proven duplicate matches or intended semantics. Business output now carries the verified number, comparison, limits and action. Technical prose still ends mid-sentence at its bound; it is preserved verbatim. One known-domain ticket, no source-ingestion build or unfamiliar-domain claim.
 
 **Prior depth checkpoint:** declared Silver/Bronze quantity tracing and a
 configurable, attested depth ceiling are implemented. One live run compared

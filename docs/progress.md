@@ -1627,3 +1627,5 @@ requirements. No estate or pipeline build; stop for design review.
 2026-09-27: One authorized known-domain repeat 3d2c5bf0 completed TRANSFORMATION_LOGIC with validated synthesis: report/Gold 8765, Silver 7661, two cross-surface comparisons, four receipted reads, one judge call. Verbatim outputs and limits in contract-ledger-output-rerun.md. Technical prose ends mid-sentence at the provider bound; preserved, not repaired after the run.
 
 2026-09-27: Final full local regression run passed all 1,231 tests in 373.894 seconds after the test-only intake schema migration. Six implementation CI checks passed on each of #267, #268 and #269. No engine changes or additional live run after 3d2c5bf0.
+
+2026-09-27: Merged #267-269 after six green checks each. Implemented sentence-complete producer/consumer prose guards, removed prose cutting, and restored the earlier verified quantity and declared-operation explanation to business output. Focused tests passed; full validation and one live repeat pending.

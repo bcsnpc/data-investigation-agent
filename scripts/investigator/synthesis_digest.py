@@ -140,7 +140,7 @@ def build(state,db):
    q=request.get('plan',{}).get('query',request.get('query',''))
    rows=o['values']
    quantities[o['id']]=quantity(rows,request.get('surface_report_columns'))
-   if o.get('test_purpose')=='ESTABLISH_BASELINE' and isinstance(quantities[o['id']],dict):
+   if isinstance(quantities[o['id']],dict):
     item['verified_quantity']=quantities[o['id']]
    item['asked']={'query':q,'query_characters':len(q),'truncated':False}
    item['result']=_query_evidence(o['tool'],q,rows)
@@ -148,7 +148,7 @@ def build(state,db):
   entries.append(item)
  for item,o in pending:item['result']=_process_evidence(o,by_id,quantities)
  result={'version':1,'question':state['envelope']['symptom'],'scope':{k:state['envelope'][k] for k in ('model_id','context_id','measure_id','filters','dimension_ids')},
- 'digest_limits':f'Complete validated queries are retained. At most {DISPLAY_ROWS} returned rows and their group keys are displayed per observation, with explicit omitted counts. Explicit definition content/find lookups retain at most {EXCERPT_CHARACTERS} excerpt characters per observation with truncation labels; arbitrary metadata remains omitted. Hypotheses are unverified, not evidence.', 'evidence':entries,'hypotheses':[{'id':h['id'],'claim':h['claim'][:300],'claim_truncated':len(h['claim'])>300,'status':h['status'],'evidence_ids':h['evidence_ids'],'authority':'UNVERIFIED_HYPOTHESIS'} for h in state['hypotheses']]}
+ 'digest_limits':f'Complete validated queries are retained. At most {DISPLAY_ROWS} returned rows and their group keys are displayed per observation, with explicit omitted counts. Explicit definition content/find lookups retain at most {EXCERPT_CHARACTERS} excerpt characters per observation with truncation labels; arbitrary metadata remains omitted. Hypotheses are unverified, not evidence.', 'evidence':entries,'hypotheses':[{'id':h['id'],'claim':h['claim'],'claim_truncated':False,'status':h['status'],'evidence_ids':h['evidence_ids'],'authority':'UNVERIFIED_HYPOTHESIS'} for h in state['hypotheses']]}
  assessment=state.get('assessment') or {}
  process=assessment.get('support',{}).get('process') if isinstance(assessment,dict) else None
  if isinstance(process,dict):

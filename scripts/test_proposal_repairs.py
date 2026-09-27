@@ -22,12 +22,12 @@ class LocalRepairTests(unittest.TestCase):
                   'hypotheses':[h,copy.deepcopy(h)],'lookup':None,'query':None,'assessment':None}
         original=copy.deepcopy(proposal)
         fixed,events=repair(proposal)
-        validate(fixed,{'candidates':[],'observations':[],'hypotheses':[]})
+        with self.assertRaises(ValueError):validate(fixed,{'candidates':[],'observations':[],'hypotheses':[]})
         self.assertEqual(proposal,original)
         self.assertEqual(len(fixed['hypotheses']),1)
-        self.assertEqual({e['repair_kind'] for e in events},{'hypothesis_id','text_bound'})
-        self.assertEqual(len(fixed['question']),500)
-        self.assertEqual(len(fixed['hypotheses'][0]['claim']),400)
+        self.assertEqual({e['repair_kind'] for e in events},{'hypothesis_id'})
+        self.assertEqual(len(fixed['question']),501)
+        self.assertEqual(len(fixed['hypotheses'][0]['claim']),401)
 
     def test_repair_schema_and_validator_share_changed_bounds(self):
         from investigator import proposal_limits,dynamic_reasoning
@@ -36,9 +36,9 @@ class LocalRepairTests(unittest.TestCase):
                 'hypotheses':[{'id':'h1','claim':'c'*100,'status':'OPEN','evidence_ids':[]}],
                 'lookup':None,'query':None,'assessment':None}
             fixed,_=repair(proposal)
-            validate(fixed,{'candidates':[],'observations':[],'hypotheses':[]})
-            self.assertEqual(len(fixed['question']),37)
-            self.assertEqual(len(fixed['hypotheses'][0]['claim']),29)
+            with self.assertRaises(ValueError):validate(fixed,{'candidates':[],'observations':[],'hypotheses':[]})
+            self.assertEqual(len(fixed['question']),100)
+            self.assertEqual(len(fixed['hypotheses'][0]['claim']),100)
             schema=dynamic_reasoning.wire_schema([])
             ask=next(v for v in schema['properties']['next']['anyOf'] if v['properties']['kind']['enum']==['ASK'])
             self.assertEqual(ask['properties']['question']['maxLength'],37)
@@ -88,7 +88,7 @@ class LocalRepairTests(unittest.TestCase):
         clock=[1000]
         def planner(payload):
             clock[0]=2000
-            return helper.decision('ASK',question='q'*501)
+            return helper.decision('ASK',question='Which scope?',hypotheses=[{'id':'h1','claim':'A hypothesis.','status':'OPEN','evidence_ids':[]}]*2)
         agent=AdaptiveRuntime(helper.runtime,planner,clock=lambda:clock[0])
         result=agent.run(agent.create(helper.envelope,'repair-deadline')['id'])
         self.assertEqual(result['stop_reason'],'DEADLINE')
@@ -101,12 +101,12 @@ class LocalRepairTests(unittest.TestCase):
         def provider(request):
             calls.append(request)
             if len(calls)<=3:
-                h={'id':'h'+str(len(calls)),'claim':'c'*401,'status':'OPEN','evidence_ids':[]}
+                h={'id':'h'+str(len(calls)),'claim':'c'*400,'status':'OPEN','evidence_ids':[]}
                 action={'kind':'QUERY','tool':'bounded_sql',
                         'text':f'SELECT COUNT(*)+{len(calls)} AS n{len(calls)} FROM business.events','max_rows':20}
                 hypotheses=[h,dict(h)]
             else:
-                action={'kind':'ASK','question':'q'*501};hypotheses=[]
+                action={'kind':'ASK','question':'Which scope?'};hypotheses=[]
             return httpx.Response(200,json={'id':'offline','object':'response','model':'offline-fixture',
                 'status':'completed','usage':None,'output':[{'type':'function_call','call_id':'offline',
                 'name':'dynamic_investigation_action','arguments':json.dumps({'next':action,'hypotheses':hypotheses})}]})
@@ -123,7 +123,7 @@ class LocalRepairTests(unittest.TestCase):
         self.assertEqual(result['session']['cloud_calls'],3)
         kinds=[e['detail']['repair_kind'] for e in result['session']['events'] if e['kind']=='PROPOSAL_REPAIRED']
         self.assertEqual(kinds.count('hypothesis_id'),3)
-        self.assertEqual(kinds.count('text_bound'),4)
+        self.assertEqual(kinds.count('text_bound'),0)
         self.assertEqual(kinds.count('schema_prefetch'),1)
 
 

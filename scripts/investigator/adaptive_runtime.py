@@ -3,6 +3,7 @@
 Planner suggestions are unverified. This module owns scope, budgets, facts and stops.
 """
 from .model_context import assets as model_assets
+from .evidence_prose import diagnostic_detail
 from datetime import datetime, timezone
 import json
 import time
@@ -255,7 +256,7 @@ class AdaptiveRuntime:
                     for detail in repairs:self.save(db,state,'PROPOSAL_REPAIRED',detail)
                     if dynamic and proposal_received and isinstance(exc,ValueError):
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
-                              'metadata':{'reason':'Decision contract rejected: '+str(exc)[:400]},'measure_id':None,'dimension_id':None}
+                              'metadata':{'reason':'Decision contract rejected: '+diagnostic_detail(exc,400)},'measure_id':None,'dimension_id':None}
                         from .action_budget import RetrievalBudgetExceeded
                         if isinstance(exc,RetrievalBudgetExceeded):
                             item['metadata']['reason_code']='RETRIEVAL_BUDGET_EXHAUSTED'
@@ -319,7 +320,7 @@ class AdaptiveRuntime:
                     except (ValueError,KeyError) as exc:
                         from .read_redundancy import RedundantRead
                         item={'id':str(uuid4()),'tool':'context','status':'REJECTED','completeness':'UNAVAILABLE','values':[],
-                              'metadata':{'reason':str(exc)[:500],'proposed_tool':decision['query']['tool']},'measure_id':None,'dimension_id':None}
+                              'metadata':{'reason':diagnostic_detail(exc,500),'proposed_tool':decision['query']['tool']},'measure_id':None,'dimension_id':None}
                         if isinstance(exc,MissingSourceContext):item['metadata']['recovery_assets']=exc.recovery_assets
                         from .query_sql import QueryRejection
                         if isinstance(exc,QueryRejection):item['metadata'].update(exc.feedback)
