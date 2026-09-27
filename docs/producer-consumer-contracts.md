@@ -1,0 +1,9 @@
+# Producer and consumer bounds
+
+The judge was wrong to advertise 700 characters when its downstream support field accepts 500. The consumer is unchanged. Both judge fields, support fields, planner text and arrays, query envelopes, intake quotes and filter values, screenshot extraction, and the legacy draft envelope now derive limits from consumer-owned constants in `proposal_limits.py`. Validators and repair code use those constants too. No clipping is used to make the new judge response acceptable.
+
+The audit also found sixteen possible keyed hypothesis updates against an eight-update consumer. The producer now offers at most eight editable slots, rotating over retained hypotheses as observations arrive. All sixteen retained hypotheses remain visible. Historical synthesis normalization remains a labelled compatibility reader, not the current producer contract.
+
+This is a field-bound guarantee, not permission to execute arbitrary schema-valid proposals: reference existence, scope, evidence support, SQL grammar, and cumulative request budgets remain independent admission checks. Process support is deterministically produced and its wire shape comes from its consumer schema; synthesis carries that validated source rather than reconstructing it.
+
+Offline boundary tests exercise exact maxima and one-over rejection, including a judge response through the real vertical procedure and support validator, and all simultaneously offered hypothesis updates through the consumer. Thirty synthesis tests pass. Planner projected and wire contexts are byte-identical to their prior goldens; only response-schema hashes change. Projected characters remain 1,460 / 7,212 / 4,722 / 31,851 across the four fixtures. The directory coverage assertion retains 28 entries and 11 SQL objects. No new live run has occurred for this change.

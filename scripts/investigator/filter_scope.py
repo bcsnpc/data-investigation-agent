@@ -4,6 +4,7 @@ from datetime import datetime
 from decimal import Decimal
 import re
 
+from . import proposal_limits as limits
 from .onboarding import fields
 
 VERSION = 'typed-scope-v1'
@@ -18,7 +19,7 @@ def scalar(value, kind, allow_blank=True):
             raise ValueError('BLANK is not a range endpoint')
         return 'BLANK()', None
     if kind == 'string':
-        if not isinstance(value, str) or len(value) > 200 or any(ord(c) < 32 for c in value):
+        if not isinstance(value, str) or len(value) > limits.FILTER_STRING or any(ord(c) < 32 for c in value):
             raise ValueError('Expected bounded string')
         return '"' + value.replace('"', '""') + '"', value
     if kind == 'boolean':
@@ -26,7 +27,7 @@ def scalar(value, kind, allow_blank=True):
             raise ValueError('Expected JSON boolean')
         return 'TRUE()' if value else 'FALSE()', value
     if kind == 'int64':
-        if type(value) is not int or abs(value) > 2**53 - 1:
+        if type(value) is not int or abs(value) > limits.EXACT_INTEGER:
             raise ValueError('Integer exceeds exact diagnostic literal budget')
         return str(value), value
     if kind == 'decimal':
@@ -55,7 +56,7 @@ def compile_filter(spec, metadata, reference):
     fields(spec, ['column_id', 'operator', 'values'])
     kind = metadata.get('dataType')
     values = spec['values']
-    if not isinstance(values, list) or not 1 <= len(values) <= 50:
+    if not isinstance(values, list) or not 1 <= len(values) <= limits.FILTER_VALUES:
         raise ValueError('Filter values outside budget')
     operator = spec['operator']
     if operator == 'in':

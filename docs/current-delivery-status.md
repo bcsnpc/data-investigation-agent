@@ -1,5 +1,7 @@
 # Current delivery status
 
+Current follow-up: [shared producer/consumer bounds](producer-consumer-contracts.md). Read accounting and substantive business output are next; no new live result yet.
+
 **Current depth milestone:** [declared Silver/Bronze quantity paths](declared-chain-depth.md)
 and configurable attested depth are implemented. One live run `0154df11` read
 Power BI/Gold/Silver (8,765 / 8,765 / 7,661) and invoked the definition judge on

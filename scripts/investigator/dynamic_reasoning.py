@@ -145,8 +145,8 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
         properties={'kind':{'type':'string','enum':[kind]},**props}
         return {'type':'object','additionalProperties':False,'properties':properties,'required':list(properties)}
     query_props=copy.deepcopy(SCHEMA['properties']['query']['anyOf'][1]['properties'])
-    query_props['text'].update(minLength=1,maxLength=16000)
-    query_props['max_rows'].update(minimum=1,maximum=250)
+    query_props['text'].update(minLength=1,maxLength=limits.QUERY_TEXT)
+    query_props['max_rows'].update(minimum=1,maximum=limits.QUERY_ROWS)
     query_props['purpose']={'type':'string','enum':['GENERAL_DIAGNOSTIC','ESTABLISH_BASELINE','TEST_CONTRIBUTION']}
     measure_handle=next((h for h,i in (asset_handles or {}).items() if i==selected_measure),selected_measure)
     query_props['measure_id']={'type':'string',**({'enum':[measure_handle]} if measure_handle else {})}
@@ -158,29 +158,30 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
     assessment['properties']['support']=copy.deepcopy(support_schema)
     assessment['required'].append('support')
     assessment['properties']['claim'].update(minLength=1,maxLength=limits.ASSESSMENT_CLAIM)
-    assessment['properties']['evidence_ids']['maxItems']=12
+    assessment['properties']['evidence_ids']['maxItems']=limits.ASSESSMENT_REFS
     for key in ('alternatives','limits'):
-        assessment['properties'][key].update(minItems=1,maxItems=6)
+        assessment['properties'][key].update(minItems=1,maxItems=limits.ASSESSMENT_LIST)
         assessment['properties'][key]['items'].update(minLength=1,maxLength=limits.ASSESSMENT_DETAIL)
     if not source_available and not retrieved_sources(observations):query_props['tool']['enum']=['bounded_dax']
-    lookup_props=SCHEMA['properties']['lookup']['anyOf'][1]['properties']
+    lookup_props=copy.deepcopy(SCHEMA['properties']['lookup']['anyOf'][1]['properties'])
+    lookup_props['value'].update(limits.text_bound(limits.CONTEXT_TEXT))
     choices=[variant('QUERY',query_props),
              variant('LOOKUP',lookup_props),
              variant('ASK',{'question':{'type':'string','minLength':1,'maxLength':limits.QUESTION}}),
              variant('STOP',{'assessment':assessment})]
     if candidates:choices.append(variant('RUN',{'candidate_id':{'type':'string','enum':[c['id'] for c in candidates]}}))
     if asset_handles is not None:
-        choices[1]=variant('LOOKUP',{'operation':{'type':'string','enum':['search']},'value':{'type':'string'}})
+        choices[1]=variant('LOOKUP',{'operation':{'type':'string','enum':['search']},'value':{'type':'string','minLength':1,'maxLength':limits.CONTEXT_TEXT}})
         if asset_handles:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':['asset']},'value':{'type':'string','enum':list(asset_handles)}}))
         if measure_handle:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':['measure_path']},'value':{'type':'string','enum':[measure_handle]}}))
-        for operation,extra in [('content',{'offset':{'type':'integer','minimum':0,'maximum':1000000}}),
-                                ('find',{'needle':{'type':'string','minLength':1,'maxLength':200}})]:
+        for operation,extra in [('content',{'offset':{'type':'integer','minimum':0,'maximum':limits.CONTENT_OFFSET}}),
+                                ('find',{'needle':{'type':'string','minLength':1,'maxLength':limits.CONTEXT_TEXT}})]:
             if content_handles:choices.append(variant('LOOKUP',{'operation':{'type':'string','enum':[operation]},
                 'value':{'type':'string','enum':list(content_handles)},**extra}))
     if not retrieval_available:choices=[v for v in choices if v['properties']['kind']['enum']!=['LOOKUP']]
     known={h['id'] for h in hypotheses}
     evidence=[o['id'] for o in observations]
-    new_ids=[f'h{i}' for i in range(1,33) if f'h{i}' not in known][:max(0,16-len(known))]
+    new_ids=[f'h{i}' for i in range(1,2*limits.HYPOTHESIS_TOTAL+1) if f'h{i}' not in known][:max(0,limits.HYPOTHESIS_TOTAL-len(known))]
     slots={}
     for ids,statuses in [(new_ids,['OPEN']),(sorted(known),['REFINED','REJECTED'])]:
         for identity in ids:
@@ -191,11 +192,17 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
             item['properties'].pop('id');item['required'].remove('id')
             item['properties']['claim'].update(minLength=1,maxLength=limits.HYPOTHESIS_CLAIM)
             item['properties']['status']['enum']=statuses
-            refs=item['properties']['evidence_ids'];refs['maxItems']=10
+            refs=item['properties']['evidence_ids'];refs['maxItems']=limits.HYPOTHESIS_REFS
             if evidence:refs['items']['enum']=evidence
             else:refs['maxItems']=0
             if statuses!=['OPEN']:refs['minItems']=1
             slots[identity]={'anyOf':[{'type':'null'},item]}
+    # Keyed updates forbid duplicate IDs. Offer a bounded rotating window so
+    # filling every offered slot still satisfies the consumer's update bound;
+    # all hypotheses remain in context and the retained-state bound is unchanged.
+    keys=list(slots);offset=len(observations)%len(keys) if keys else 0
+    keys=(keys[offset:]+keys[:offset])[:limits.HYPOTHESIS_UPDATES]
+    slots={key:slots[key] for key in keys}
     updates={'type':'object','additionalProperties':False,'properties':slots,'required':list(slots)}
     return {'type':'object','additionalProperties':False,'properties':{
         'next':{'anyOf':choices},'hypotheses':updates},'required':['next','hypotheses']}
@@ -319,14 +326,14 @@ def validate(proposal,payload):
     if action=='LOOKUP':
         value=proposal['lookup'];operation=value.get('operation')
         extra=['offset'] if operation=='content' else ['needle'] if operation=='find' else []
-        fields(value,['operation','value']+extra);text(value['value'],2000)
+        fields(value,['operation','value']+extra);text(value['value'],limits.CONTEXT_TEXT if operation=='search' else limits.CONTEXT_ID)
         if operation not in ('search','asset','content','find','measure_path'):raise ValueError('Unknown context lookup')
-        if operation=='content' and (type(value['offset']) is not int or not 0<=value['offset']<=1000000):raise ValueError('Invalid content offset')
-        if operation=='find':text(value['needle'],200)
+        if operation=='content' and (type(value['offset']) is not int or not 0<=value['offset']<=limits.CONTENT_OFFSET):raise ValueError('Invalid content offset')
+        if operation=='find':text(value['needle'],limits.CONTEXT_TEXT)
     if action=='QUERY':
         value=proposal['query'];required=['tool','text','max_rows'];optional=['purpose','measure_id','upstream_object_id']
-        fields(value,required+[k for k in optional if k in value]);text(value['text'],16000)
-        if value['tool'] not in ('bounded_sql','bounded_dax') or type(value['max_rows']) is not int or not 1<=value['max_rows']<=250:
+        fields(value,required+[k for k in optional if k in value]);text(value['text'],limits.QUERY_TEXT)
+        if value['tool'] not in ('bounded_sql','bounded_dax') or type(value['max_rows']) is not int or not 1<=value['max_rows']<=limits.QUERY_ROWS:
             raise ValueError('Invalid proposed query')
         purpose=value.get('purpose','GENERAL_DIAGNOSTIC')
         if purpose not in ('GENERAL_DIAGNOSTIC','ESTABLISH_BASELINE','REPRODUCE_MEASURE','TEST_CONTRIBUTION'):raise ValueError('Unknown query purpose')
@@ -342,12 +349,12 @@ def validate(proposal,payload):
         known={o['id']:o for o in payload['observations']}
         refs=a['evidence_ids']
         process=isinstance(a.get('support',{}).get('process'),dict)
-        if not isinstance(refs,list) or len(refs)>(limits.PROCESS_EVIDENCE_ITEMS if process else 12) or any(r not in known for r in refs):raise ValueError('Unknown assessment evidence')
+        if not isinstance(refs,list) or len(refs)>(limits.PROCESS_EVIDENCE_ITEMS if process else limits.ASSESSMENT_REFS) or any(r not in known for r in refs):raise ValueError('Unknown assessment evidence')
         if 'support' in a:
             from .assessment_support import validate as validate_support
             validate_support(a,known)
         for key in ('alternatives','limits'):
-            maximum=limits.PROCESS_EVIDENCE_ITEMS if key=='limits' and process else 6
+            maximum=limits.PROCESS_EVIDENCE_ITEMS if key=='limits' and process else limits.ASSESSMENT_LIST
             if not isinstance(a[key],list) or not 1<=len(a[key])<=maximum:raise ValueError('Assessment needs alternatives and limits')
             for value in a[key]:text(value,limits.ASSESSMENT_DETAIL)
         if a['classification'] not in ('UNRESOLVED','UNSUPPORTED','INSUFFICIENT_EVIDENCE','BUSINESS_CONTEXT_REQUIRED','NO_KNOWN_PATTERN'):

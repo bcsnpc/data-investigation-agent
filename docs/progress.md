@@ -1617,3 +1617,5 @@ Recorded a [declared source-ingestion plan](source-application-ingestion-plan.md
 with official Fabric references, native-relations uncertainty, exact connection
 provenance, engine work, re-approval/fixture costs and unimplemented LATENT/GAP
 requirements. No estate or pipeline build; stop for design review.
+
+2026-09-27: Merged #264, #265 and #266 after six green checks each. Shared producer/consumer bounds audit and offline boundary tests: see producer-consumer-contracts.md. No new live run yet.
