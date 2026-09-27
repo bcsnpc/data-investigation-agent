@@ -1,6 +1,6 @@
 # Self-Discovering Enterprise Data Investigator
 
-Current implementation: [rolling read allowance and expiring credits](docs/rolling-read-budget.md). #278 merged after six green checks. Ordinary read admission now uses a rolling 24-hour window; explicit batch approvals allocate expiring credits to named runs, with restoration credits isolated from investigations. OneLake GETs and SQL self-report/permission/quantity commands are separately admitted and receipted. Existing per-run limits remain. No live grant, policy increase, read or fixture run; prior freezes are invalidated. Validation is offline; see the evidence document for results and accounting limits.
+Current implementation: [rolling read allowance and expiring credits](docs/rolling-read-budget.md). #278 merged after six green checks. Ordinary read admission now uses a rolling 24-hour window; explicit batch approvals allocate expiring credits to named runs, with restoration credits isolated from investigations. OneLake GETs and SQL self-report/permission/quantity commands are separately admitted and receipted. Existing per-run limits remain. No live grant, policy increase, read or fixture run; prior freezes are invalidated. Validation: 1,302 final local regression tests passed; six implementation CI checks passed. See the evidence document for results and accounting limits.
 
 Previous implementation: [optional snapshot attestation](docs/snapshot-attestation.md). #277 merged. Comparisons default to SNAPSHOT_UNVERIFIED with specific agreement/divergence limits in both outputs. Only query-bound reports for the same dataset/version can verify alignment; separately authenticated Microsoft metadata remains METADATA_ONLY. Snapshot evidence never selects an outcome. At that checkpoint no live identity, cloud read or fixture run was added; budget redesign was pending. Engine changes invalidate prior freezes. Validation: 1,286 regression tests and PowerShell syntax passed; no live or browser run.
 
@@ -131,12 +131,12 @@ written. A SQL-audience token was issued for tenant administrator
 `scripts/fabric_sql_auth.py` uses), with no app registration.
 - **Which endpoint was reached:** the `gold_sql_endpoint` host in
   `infra/fabric/environment.json` accepted the token, and `SELECT 1` returned 1.
-  That host belongs to the dev workspace `ws-investigator-dev` (`09cea7db…`),
-  endpoint `701ab1fc…`. It is not the workspace investigations run against
-  (`149f8d99…`). A connection naming no database opened that workspace's
+  That host belongs to the dev workspace `ws-investigator-dev` (`09cea7dbâ€¦`),
+  endpoint `701ab1fcâ€¦`. It is not the workspace investigations run against
+  (`149f8d99â€¦`). A connection naming no database opened that workspace's
   `lh_investigator_bronze`.
 - **What that establishes:** only that admin can reach the dev workspace's SQL
-  endpoint. It says nothing about `77c49180…` (`warehouse_gold_e1b8e1`), the Gold
+  endpoint. It says nothing about `77c49180â€¦` (`warehouse_gold_e1b8e1`), the Gold
   endpoint the process path needs. No identity has reached that endpoint over
   SQL, so `NO_INDEPENDENT_LOWER_READ` still stands.
 
@@ -145,12 +145,12 @@ See the
 for the three resolved IDs.
 
 **Correction, 2026-09-26 (read at 20:43 UTC).** The statement above that no
-identity has reached `77c49180…` is superseded; the original is kept. In a
-single read at 20:43:40–20:43:54 UTC, the least-privilege reader `investigator-reader@skynwhy.com` (workspace
-`Viewer` in `149f8d99…`) obtained a `database.windows.net` token through the
-Azure CLI client (`04b07795…`), from its own isolated profile
+identity has reached `77c49180â€¦` is superseded; the original is kept. In a
+single read at 20:43:40â€“20:43:54 UTC, the least-privilege reader `investigator-reader@skynwhy.com` (workspace
+`Viewer` in `149f8d99â€¦`) obtained a `database.windows.net` token through the
+Azure CLI client (`04b07795â€¦`), from its own isolated profile
 `.local/azure-reader-sql`. No new permission was granted and no app registration
-was created. The Gold endpoint `77c49180…` accepted it, with database
+was created. The Gold endpoint `77c49180â€¦` accepted it, with database
 `warehouse_gold_e1b8e1` named explicitly. `SUSER_SNAME()` returned
 `investigator-reader@skynwhy.com` and `DB_NAME()` returned
 `warehouse_gold_e1b8e1`, so the server, not the client, confirms both identity
@@ -428,14 +428,14 @@ while the default model asked an unnecessary clarification. General reliability
 and unfamiliar-domain acceptance remain unproven.
 
 
-**Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and
-governed tools (Stages 4–5)** merged in PR #198. The v4 attempt remains historical discovery evidence. The preceding v3 attempt discovered its new model
+**Discovery-to-ticket (Stages 2â€“3)** merged in PR #196. **Dynamic reasoning and
+governed tools (Stages 4â€“5)** merged in PR #198. The v4 attempt remains historical discovery evidence. The preceding v3 attempt discovered its new model
 and reports automatically, then exposed excessive planner-profile truncation.
 The generic correction required a fresh freeze and variant. The first nine-family trial recorded partial reads,
 reasoning failures and provider rate-limit blocks; it has **not passed**.
 [Challenge acceptance](docs/unknown-domain-challenge.md) remains in progress.
 [Current delivery status](docs/current-delivery-status.md) owns
-implementation and verification claims; [stages 1–9](docs/architecture/phases-and-acceptance.md)
+implementation and verification claims; [stages 1â€“9](docs/architecture/phases-and-acceptance.md)
 define remaining work.
 
 Discovery currently uses one approved workspace and SQL database/schema per profile.

@@ -123,7 +123,9 @@ per-run ceilings, SQL command gating and unchanged planner directory coverage.
 All five offline session-replay tests pass after allocation reconstruction was
 added. A 1,302-test full regression passed before the final receipt-retention and
 cleanup adjustment; all sixteen focused tests pass after it. The final full suite
-is in progress. Physical receipts retain the original logical receipt reference
+also passed: **1,302 tests**, 273.534 seconds, zero failures/errors. PowerShell
+syntax, all six implementation CI checks and 337 local documentation links passed.
+[Release validation receipt](runs/rolling-read-budget-offline.json). Physical receipts retain the original logical receipt reference
 or bounded metadata body, rather than replacing it with request counters.
 
 The initial 1,298-test run failed (10 failures, 2 errors). It exposed a captured
