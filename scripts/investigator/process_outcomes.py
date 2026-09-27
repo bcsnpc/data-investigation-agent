@@ -132,6 +132,7 @@ def validate(assessment, observations):
         'PRESENTATION_LOGIC':'presentation_context','TRANSFORMATION_LOGIC':'transformation_definition',
         'INGESTION_GAP':'ingestion'}
     needed=required_capability.get(outcome)
+    if outcome=='REFRESH_LATENCY' and 'declared_source_comparison' in capabilities:needed='declared_source_comparison'
     if needed and needed not in capabilities:
         raise ValueError(f'{outcome} requires declared {needed} capability')
     if outcome=='DEFECT' and ({'transformation_definition','job_history'}-set(capabilities)
@@ -235,6 +236,15 @@ def validate(assessment, observations):
             comparison.get('values_equal') is False and comparison.get('upper_layer')==baseline['layer']
             for comparison in comparisons):
         raise ValueError('Boundary attribution baseline must be immediately above the divergent boundary')
+    if outcome=='REFRESH_LATENCY' and 'declared_source_comparison' in capabilities:
+        from .refresh_comparison import valid_proof,LIMIT
+        proofs=[observations[r] for r in groups['freshness']]
+        if not any(valid_proof(p.get('direct_source_proof'),c.get('upper_layer'),c.get('lower_layer'))
+                   and p.get('comparison_id')==c['id'] and c.get('values_equal') is False
+                   and p.get('reader_timing_unavailable') in assessment.get('limits',[])
+                   for p in proofs for c in comparisons):
+            raise ValueError('Freshness requires an unchanged declared-source proof and its timing limitation')
+        if LIMIT not in assessment.get('limits',[]):raise ValueError('Freshness requires missing-timestamp limitation')
     if outcome in ('PRESENTATION_LOGIC','TRANSFORMATION_LOGIC'):
         claim=assessment.get('claim','').lower()
         if any(phrase in claim for phrase in ('is correct','was correct','expected behavior','works as intended')):

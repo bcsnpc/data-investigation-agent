@@ -37,6 +37,10 @@ def _context_evidence(observation):
   return {'asked':{'operation':'ingestion','asset_id':result['asset_id']},
           'result':result,
           'provenance':{'hash':digest(observation),'derivation':'PROCESS_ADAPTER_INGESTION_RECEIPT'}}
+ if 'freshness' in roles and 'direct_source_proof' in observation:
+  return {'asked':{'operation':'declared_source_comparison'},
+          'result':{k:observation[k] for k in ('direct_source_proof','comparison_id','reader_timing_unavailable','refresh_timing')},
+          'provenance':{'hash':digest(observation),'derivation':'DECLARED_SOURCE_COMPARISON'}}
  if 'job_history' in roles:
   runs=observation.get('runs')
   if not isinstance(runs,list) or not runs or any(not isinstance(r,dict) for r in runs):

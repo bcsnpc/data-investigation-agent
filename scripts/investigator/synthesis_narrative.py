@@ -92,6 +92,11 @@ def assemble(response,payload,state):
     technical['text']+='\n\nSurface attestation limits:\n'+('\n'.join(
         f"- Unattested {u['field']} on {u['layer']} (receipt {u['evidence_id']})." for u in unattested)
         if unattested else 'No unattested surface fields were recorded.')
+    for entry in payload.get('evidence',[]):
+        timing=entry.get('result',{}).get('refresh_timing')
+        if timing and timing.get('status')=='AVAILABLE':
+            import json
+            technical['text']+='\n\nOptional refresh metadata (separate identity; not classification evidence): '+json.dumps(timing,sort_keys=True)
     technical['text']+='\n\nRecommended action: '+recommended['text']
     outputs['business_output']['provenance']='DETERMINISTIC_OUTCOME_RENDERING'
     outputs['business_output']['vocabulary_evidence']=[

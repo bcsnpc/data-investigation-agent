@@ -64,6 +64,19 @@ answerable from pipeline evidence.
    audience or scope, without an explicit human decision.** Report what would be
    required and stop.
 
+## Refresh timing permission finding (2026-09-27)
+
+The least-privilege reader was tested and refused by both routes: Power BI REST
+refresh history requires dataset Write, and XMLA TMSCHEMA partition metadata
+requires administrator. See docs/job-history-path-and-refresh-probes.md for exact
+receipts. Do not elevate the execution reader or keep probing these routes.
+The engine does not rely on refresh timestamps. A positively established unchanged
+declared-source boundary may support comparison-based REFRESH_LATENCY after two
+independent, attested quantities diverge. Missing timestamps and non-shared read
+snapshots limit that claim. Optional estate-configured metadata timing uses its own
+explicit identity provenance, never substitutes for quantity-reader evidence and
+never selects an outcome.
+
 ## Evidence discipline
 
 Reachable depth is a property of the estate, not the engine. The operator's

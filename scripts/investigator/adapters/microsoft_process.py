@@ -20,7 +20,7 @@ GENERIC_SERVICE_ERRORS=frozenset(('DatasetExecuteQueriesError',))
 class MicrosoftProcessAdapter:
     def __init__(self,store,config,model,execute_native,execute_source,judge_definition=None,meter_read=None,
                  read_ingestion=None,lower_surface=None,read_failure_detail=None,execute_lower=None,
-                 max_boundaries=1,read_endpoint=None):
+                 max_boundaries=1,read_endpoint=None,read_refresh_timing=None):
         self.store,self.config,self.model=store,config,model
         self.execute_native,self.execute_source=execute_native,execute_source
         self.judge_definition=judge_definition
@@ -36,20 +36,22 @@ class MicrosoftProcessAdapter:
         self.execute_lower=execute_lower
         if type(max_boundaries) is not int or not 0<=max_boundaries<=32:raise ValueError('Boundary ceiling must be 0 through 32')
         self.max_boundaries=max_boundaries;self.read_endpoint=read_endpoint
+        self.read_refresh_timing=read_refresh_timing
         self._paths={}
 
     def capabilities(self):
-        result={'resolve_measure_path','evaluate_scoped_quantity','presentation_context','job_history'}
+        result={'resolve_measure_path','evaluate_scoped_quantity','presentation_context','job_history','declared_source_comparison'}
         if self.judge_definition is not None:result.add('transformation_definition')
         if self.read_ingestion is not None:result.add('ingestion')
         if (self.lower_surface or {}).get('status')=='READY' and self.execute_lower is not None:
             result.add('independent_lower_surface')
         if self.read_failure_detail is not None:result.add('failure_detail')
+        if self.read_refresh_timing is not None:result.add('refresh_timing')
         return result
 
     def capability_gaps(self):
         result={'presentation_freshness':
-          'Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.'}
+          'Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.'}
         if self.read_ingestion is None:
             result['ingestion']='No isolated metadata transport is configured for ingestion history.'
         if self.judge_definition is None:
@@ -142,6 +144,10 @@ class MicrosoftProcessAdapter:
         # A lower-layer quantity is compiled from these declarations only.
         resolved['declared_partition']={'schema_name':source.get('schemaName'),'entity_name':source.get('entityName'),
             'source_type':source.get('type'),'mode':partitions[0].get('mode'),'partition_count':len(partitions)}
+        from .direct_source import connection_proof
+        resolved['unchanged_connection']=connection_proof(document,expression,source,partitions[0],definition)
+        if resolved['unchanged_connection'] is not None:
+            resolved['unchanged_connection']['semantic_table_id']=table['id']
         resolved['declared_role_count']=len(document.get('roles') or [])
         resolved['relation_cross_check']={'status':'AGREES' if resolved['status']=='RESOLVED' else 'NO_UNIQUE_AGREEMENT',
             'relations':[{'source':e['source'],'target':e['target'],'relation':e['relation']} for e in relations]}
@@ -170,6 +176,8 @@ class MicrosoftProcessAdapter:
                     'semantic_table':table_name,'semantic_column':column_name,
                     'declared_columns':declared,
                     'binding':binding,'definition_asset_id':binding['definition_asset_id']})
+                from .direct_source import quantity_proof
+                layers[-1]['direct_source_proof']=quantity_proof(metadata,layers[-1],self.config)
                 gaps=[g for g in gaps if g.get('reason')!='UNRESOLVED_PARTITION_IDENTITY']
             context=context_search.latest(self.store);edges=(context or {}).get('graph',{}).get('edges',[])
             upstream=[]
@@ -215,6 +223,26 @@ class MicrosoftProcessAdapter:
         path['max_boundaries']=self.max_boundaries
         self._paths[measure_id]=path
         return path
+
+    def refresh_timing(self,path):
+        if self.read_refresh_timing is None:return {'status':'UNAVAILABLE','reason':'No optional metadata identity configured.'}
+        try:return self.read_refresh_timing()
+        except Exception as exc:
+            profile=self.config['fabric'].get('refresh_timing_reader',{})
+            return {'status':'UNAVAILABLE','error_type':type(exc).__name__,
+                    'reason':'Optional metadata timing could not be obtained; the comparison remains authoritative.',
+                    'identity_provenance':{'purpose':'OPTIONAL_REFRESH_TIMING_ONLY',
+                        'account':profile.get('account'),'profile':profile.get('profile'),
+                        'execution_reader':False,'authentication_established':False}}
+
+    def direct_source_comparison(self,boundary,scope):
+        if scope.get('filters') or scope.get('dimension_ids'):return None
+        layer=boundary['lower']
+        if layer.get('kind')!='declared_source':return None
+        compiled,_=self._lower_quantity(layer,scope)
+        proof=layer.get('direct_source_proof')
+        if not compiled or not proof or compiled['source_column']!=proof['source_column']:return None
+        return dict(proof)
 
     def evaluate(self,layer,measure_id,scope):
         if layer.get('kind')=='declared_quantity':

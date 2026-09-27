@@ -11,7 +11,7 @@ from .process_outcomes import ACTIONS,EVIDENCE_ROLES
 
 VERSION='process-debugging-v2'
 REQUIRED_CAPABILITIES=frozenset(('resolve_measure_path','evaluate_scoped_quantity'))
-OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','presentation_context',
+OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','refresh_timing','declared_source_comparison','presentation_context',
     'transformation_definition','job_history','ingestion','independent_lower_surface','failure_detail'))
 
 
@@ -139,7 +139,8 @@ class ProcessAdapter(Protocol):
     def capabilities(self) -> set[str]: ...
     def resolve_declared_source(self, declaration: dict) -> dict: ...
     def resolve_path(self, measure_id: str) -> dict: ...
-    def presentation_freshness(self, path: dict, scope: dict) -> dict: ...
+    def direct_source_comparison(self, boundary: dict, scope: dict) -> dict | None: ...
+    def refresh_timing(self, path: dict) -> dict: ...
     def evaluate(self, layer: dict, measure_id: str, scope: dict) -> Probe: ...
     def presentation_context(self, boundary: dict, scope: dict) -> dict: ...
     def transformation_definition(self, boundary: dict) -> dict: ...
@@ -263,6 +264,11 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         if path.get('unresolved_boundary'):unchecked.append(path['unresolved_boundary'])
         for row in unchecked:
             result['limits'].append(f"Unchecked {row['upper_layer']} -> {row['lower_layer']}: {row['reason']}.")
+        for observation in observed:
+            if observation.get('direct_source_proof'):
+                from .refresh_comparison import LIMIT
+                result['limits'].extend([LIMIT,observation['reader_timing_unavailable'],
+                    'The reads are not a shared snapshot; elapsed delay and which state is newer are not established.'])
         contracts=path.get('quantity_contracts',[])
         if contracts:result['limits'].append('Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness, intended grain and a shared snapshot are not established.')
         for observation in observed:
@@ -307,21 +313,9 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     path_obs=_observation(path.get('evidence'),'path','established')
     if path_obs:observations.append(path_obs)
 
-    # Step 1: freshness may terminate, but an unavailable check does not block
-    # the baseline or the remaining reachable path.
-    if 'presentation_freshness' in available:freshness=adapter.presentation_freshness(path,scope)
-    else:freshness=None;skip(1,'presentation_freshness')
-    fresh_obs=_observation(freshness.get('evidence'),'freshness') if freshness else None
-    if fresh_obs:observations.append(fresh_obs)
-    if freshness and freshness.get('status')=='LATENT':
-        comparison=_observation(freshness.get('comparison_evidence'),'comparison','baseline')
-        if comparison:observations.append(comparison)
-        baseline={'status':'ESTABLISHED','layer':layers[0]['id'],'reason':None,
-                  'evidence_ids':[comparison['id']] if comparison else []}
-        return answer('REFRESH_LATENCY',1,observations,layers[0]['id'],baseline=baseline,
-                       roles=('freshness','comparison'),
-                       explanation='The presentation refresh has not caught up with the matching value below.',
-                       skipped_steps=skipped)
+    # Timing is optional enrichment, never a reason to terminate or classify.
+    # Keep the missing-capability record for readers of existing run summaries.
+    if 'refresh_timing' not in available:skip(1,'presentation_freshness')
 
     # Step 2: establish our presentation baseline, independent of the ticket's
     # stated number. Failure is explicit and later boundary claims retain it.
@@ -409,6 +403,23 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                            'evidence_ids':[upper.evidence['id']] if upper.evidence else []}
         boundary={'upper':layers[index-1],'lower':lower_layer,'index':index,
                   'upper_probe':upper,'lower_probe':lower}
+        if index==1 and 'declared_source_comparison' in available:
+            from .refresh_comparison import valid_proof
+            proof=adapter.direct_source_comparison(boundary,scope)
+            if valid_proof(proof,upper.layer,lower.layer,measure_id):
+                reason=gap_reasons.get('presentation_freshness','Refresh timestamps are unavailable to the diagnostic reader under its approved permissions.')
+                timing={'status':'UNAVAILABLE','reason':reason}
+                if 'refresh_timing' in available:
+                    # Optional metadata failures must not erase completed reads or
+                    # change a conclusion already established by their comparison.
+                    try:timing=adapter.refresh_timing(path)
+                    except Exception as exc:timing={'status':'UNAVAILABLE','error_type':type(exc).__name__,'reason':reason}
+                observations.append(_observation({'id':'declared-source-freshness','tool':'context',
+                    'direct_source_proof':proof,'comparison_id':comparison['id'],
+                    'reader_timing_unavailable':reason,'refresh_timing':timing},'freshness'))
+                return answer('REFRESH_LATENCY',3,observations,lower.layer,baseline=boundary_baseline,
+                    roles=('freshness','comparison'),explanation='The presentation differs from its unchanged declared source; it serves a different data state.',
+                    skipped_steps=skipped)
         if index==1:
             if 'presentation_context' in available:context=adapter.presentation_context(boundary,scope)
             else:context=None;skip(3,'presentation_context')
