@@ -1,0 +1,127 @@
+{
+  "business_output": {
+    "compared_bindings": [
+      {
+        "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+        "provenance": "DECLARED_BY_DEFINITION",
+        "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      }
+    ],
+    "conclusion": "Every comparable reachable layer agreed through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values.",
+    "failures": [],
+    "skipped_steps": [
+      {
+        "capability": "presentation_freshness",
+        "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+        "step": 1
+      }
+    ],
+    "unattested_surface_fields": [
+      {
+        "evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "field": "connection",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      },
+      {
+        "evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "field": "engine",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      },
+      {
+        "evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "field": "object",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      },
+      {
+        "evidence_id": "1b9947bb-5497-41e9-b927-ab6405cc856a",
+        "field": "connection",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+      },
+      {
+        "evidence_id": "1b9947bb-5497-41e9-b927-ab6405cc856a",
+        "field": "engine",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+      }
+    ]
+  },
+  "technical_output": {
+    "boundary_summary": {
+      "comparisons_executed": 1,
+      "not_comparable": [],
+      "resolved_boundaries": 1,
+      "within_layer_checks": 0
+    },
+    "capabilities_declared": [
+      "evaluate_scoped_quantity",
+      "failure_detail",
+      "independent_lower_surface",
+      "ingestion",
+      "job_history",
+      "presentation_context",
+      "resolve_measure_path",
+      "transformation_definition"
+    ],
+    "compared_bindings": [
+      {
+        "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+        "provenance": "DECLARED_BY_DEFINITION",
+        "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      }
+    ],
+    "failures": [],
+    "queries": [
+      {
+        "evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "query": "EVALUATE ROW(\"baseline\", [Handled Quantity],\"surface_identity\",USERPRINCIPALNAME())"
+      },
+      {
+        "evidence_id": "1b9947bb-5497-41e9-b927-ab6405cc856a",
+        "query": "SELECT SUM([units]) AS [quantity] FROM [dbo].[movement_values]"
+      }
+    ],
+    "skipped_steps": [
+      {
+        "capability": "presentation_freshness",
+        "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+        "step": 1
+      }
+    ],
+    "unattested_surface_fields": [
+      {
+        "evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "field": "connection",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      },
+      {
+        "evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "field": "engine",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      },
+      {
+        "evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "field": "object",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      },
+      {
+        "evidence_id": "1b9947bb-5497-41e9-b927-ab6405cc856a",
+        "field": "connection",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+      },
+      {
+        "evidence_id": "1b9947bb-5497-41e9-b927-ab6405cc856a",
+        "field": "engine",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+      }
+    ],
+    "visibility_boundary": {
+      "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "evidence_ids": [
+        "boundary-1-comparison",
+        "ingestion-86ce8ea3-4dee-43b4-b4b1-28a1ab08bb7f"
+      ],
+      "stopped_by": "CAPABILITY_UNAVAILABLE"
+    }
+  },
+  "session_id": "27b56ba4-d762-4bec-9e3a-01b524a54ed8",
+  "synthesis_status": "FAILED"
+}

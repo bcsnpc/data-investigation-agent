@@ -1,0 +1,216 @@
+[
+  {
+    "session_id": "27b56ba4-d762-4bec-9e3a-01b524a54ed8",
+    "date_utc": "2026-09-27T05:08:41.858131+00:00",
+    "mode": "live",
+    "family": "G",
+    "engine_tag": "unfrozen-ca418d5a37b6",
+    "manifest_sha_short": "NONE",
+    "model_deployment": "investigator-quality-54",
+    "settings_hash": "54add2f373fdf936bd4f86060cf771cb13ab87e66c95936574c3fbccd40c78c4",
+    "planner_calls": 0,
+    "reads_sql": 1,
+    "reads_dax": 1,
+    "reads_other": 0,
+    "context_lookups": 2,
+    "cumulative_input_chars": 0,
+    "wall_seconds": 112.052,
+    "stop_reason": "ENOUGH_DIAGNOSTICS",
+    "outcome_label": "CONSISTENT_TO_BOUNDARY",
+    "graded": "PENDING_TRUTH_REVIEW",
+    "notes_doc": "docs/synthesis-capability-declaration.md",
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "experiment": "SYNTHESIS_CAPABILITY_DECLARATION_RETEST",
+    "arm_trial": 1,
+    "process_exit": 0,
+    "terminating_step": 6,
+    "resolved_boundaries": 1,
+    "comparisons_executed": 1,
+    "within_layer_checks": 0,
+    "not_comparable_boundaries": [],
+    "boundary_observations": [
+      {
+        "id": "boundary-1-comparison",
+        "comparison_status": "CROSS_SURFACE_VERIFIED",
+        "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+        "values_equal": true,
+        "reason": null,
+        "upper_execution_surface": {
+          "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+          "engine": "POWER_BI_DAX",
+          "identity": "investigator-reader@skynwhy.com",
+          "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+        },
+        "lower_execution_surface": {
+          "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "engine": "FABRIC_SQL",
+          "identity": "investigator-reader@skynwhy.com",
+          "object": "warehouse_gold_e1b8e1"
+        },
+        "upper_evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "lower_evidence_id": "1b9947bb-5497-41e9-b927-ab6405cc856a",
+        "non_adjacent": null,
+        "skipped_boundaries": null
+      }
+    ],
+    "probe_surfaces": [
+      {
+        "id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "tool": "bounded_dax",
+        "status": "COMPLETED",
+        "execution_surface": {
+          "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+          "engine": "POWER_BI_DAX",
+          "identity": "investigator-reader@skynwhy.com",
+          "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+        },
+        "attestation": "MATCHED",
+        "attested_fields": [
+          "identity"
+        ],
+        "unattested_fields": [
+          "connection",
+          "engine",
+          "object"
+        ],
+        "test_purpose": "ESTABLISH_BASELINE",
+        "binding_provenance": null,
+        "independent_read_refused": null
+      },
+      {
+        "id": "1b9947bb-5497-41e9-b927-ab6405cc856a",
+        "tool": "bounded_fabric_sql",
+        "status": "COMPLETED",
+        "execution_surface": {
+          "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "engine": "FABRIC_SQL",
+          "identity": "investigator-reader@skynwhy.com",
+          "object": "warehouse_gold_e1b8e1"
+        },
+        "attestation": "MATCHED",
+        "attested_fields": [
+          "identity",
+          "object"
+        ],
+        "unattested_fields": [
+          "connection",
+          "engine"
+        ],
+        "test_purpose": "COMPARE_DECLARED_SOURCE",
+        "binding_provenance": "DECLARED_BY_DEFINITION",
+        "independent_read_refused": null
+      }
+    ],
+    "reads_by_surface": {
+      "FABRIC_SQL": 1,
+      "POWER_BI_DAX": 1
+    },
+    "limits": [
+      "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values; stopped because capability unavailable.",
+      "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+      "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+      "Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+      "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+      "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it."
+    ],
+    "failures": [],
+    "compared_bindings": [
+      {
+        "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+        "provenance": "DECLARED_BY_DEFINITION",
+        "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      }
+    ],
+    "unattested_surface_fields": [
+      {
+        "evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "field": "connection",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      },
+      {
+        "evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "field": "engine",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      },
+      {
+        "evidence_id": "34f204d8-3935-4f76-b94c-0003c3e2029a",
+        "field": "object",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      },
+      {
+        "evidence_id": "1b9947bb-5497-41e9-b927-ab6405cc856a",
+        "field": "connection",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+      },
+      {
+        "evidence_id": "1b9947bb-5497-41e9-b927-ab6405cc856a",
+        "field": "engine",
+        "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+      }
+    ],
+    "definition_judgment": [],
+    "phases_recorded": [
+      "SYNTHESIS",
+      "INTAKE"
+    ],
+    "skipped_steps": [
+      {
+        "capability": "presentation_freshness",
+        "reason": "Presentation refresh history is unavailable to the isolated execution reader; it is not elevated for metadata access.",
+        "step": 1
+      }
+    ],
+    "unverified_boundaries": [],
+    "baseline_established": true,
+    "visibility_boundary": {
+      "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "evidence_ids": [
+        "boundary-1-comparison",
+        "ingestion-86ce8ea3-4dee-43b4-b4b1-28a1ab08bb7f"
+      ],
+      "stopped_by": "CAPABILITY_UNAVAILABLE"
+    },
+    "missing_capability": null,
+    "synthesis_status": "FAILED",
+    "synthesis_error": {
+      "cause_types": [],
+      "error_type": "ValueError"
+    },
+    "cloud_calls_reserved": 3,
+    "reserved_reads_by_tool": {
+      "bounded_dax": 1,
+      "bounded_fabric_sql": 1,
+      "onelake_commit": 1
+    },
+    "synthesis_validated": false,
+    "synthesis_calls": 1,
+    "synthesis_input_characters": 6298,
+    "evidence_digest_hash": "8b640dcd684f2e2578aa8d68cbfc3774f42c16503af3b4167833ad964603e612",
+    "recorded_tape_ids": [
+      "76b2bd6f-5b09-475c-80a9-e3d109f3b91b",
+      "ab129f27-b26c-4bfb-8a29-afef0802e828"
+    ],
+    "recorded_tape_count": 2,
+    "measured": {
+      "usage": {
+        "input_tokens": 17456,
+        "cached_tokens": 14848,
+        "output_tokens": 1924,
+        "reasoning_tokens": 516
+      },
+      "phases": [
+        "SYNTHESIS",
+        "INTAKE"
+      ],
+      "reference_cost_usd": 0.039092
+    },
+    "reference_cost_usd": 0.039092,
+    "cost_basis": "Measured intake/synthesis tokens at reference rates; not Azure billing; cloud excluded",
+    "read_limit": 6,
+    "input_limit": 384000,
+    "reasoning_effort": "medium",
+    "max_output_tokens": 8000,
+    "minimum_llm_interval_seconds": 65
+  }
+]

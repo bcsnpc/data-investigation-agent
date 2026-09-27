@@ -1537,3 +1537,17 @@ tests passed. [Structural decision and full evidence](synthesis-original-evidenc
 
 Full regression for the original-evidence fix: 1,199 tests passed in 257.343 seconds,
 Python exit 0. All 295 local document targets resolved; diff check passed.
+
+
+## 2026-09-27 - canonical capability declaration
+
+Merged #260 after six green checks. The deterministic declaration was already
+sorted; the model response was not. Shared producer-side canonicalization now
+sorts/deduplicates without changing names or weakening validation. One live repeat
+made the equal 8,765 DAX/Fabric-SQL comparison, then failed synthesis's separate
+missing-capability/outcome rule. No retry or further fix. All 219 prior ledger
+rows preserved; one new row. 82 focused tests passed.
+[Full run and actual business/technical outputs](synthesis-capability-declaration.md).
+
+Full capability-declaration regression: 1,201 tests passed in 255.708 seconds,
+Python exit 0; 297 local document targets resolved and diff check passed.

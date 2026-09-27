@@ -1,11 +1,12 @@
 # Self-Discovering Enterprise Data Investigator
 
-**Latest synthesis result, 2026-09-27:** validation now uses complete original
-observations instead of reconstructing them from a lossy digest. Saved R2 passes
-offline validation with the unchanged 6,298-character digest. One live repeat made
-a real equal Power BI-to-Fabric-SQL comparison (8,765 on both sides), then called
-synthesis. Its response failed validation because declared capabilities were not
-sorted. No retry or end-to-end pass. [Structural fix and full run report](docs/synthesis-original-evidence.md).
+**Latest synthesis result, 2026-09-27:** capability declarations are canonicalized
+at the producer boundary; the validator remains strict. The deterministic producer
+was already sorted; the unordered declaration came from the synthesis response.
+One live repeat again compared Power BI and Fabric SQL at 8,765 each. Synthesis
+passed declaration ordering, then failed because CONSISTENT_TO_BOUNDARY carried
+a missing_capability field reserved for capability-gap outcomes. No retry or
+end-to-end pass. [Fix, full run and actual outputs](docs/synthesis-capability-declaration.md).
 
 The valid-pair intake schema also passed five earlier same-ticket intake/preview
 trials. [Intake evidence](docs/intake-valid-pairs-five.md).
