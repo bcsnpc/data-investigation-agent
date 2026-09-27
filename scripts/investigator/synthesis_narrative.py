@@ -35,8 +35,10 @@ def schema(payload):
             'text':{'type':'string','minLength':1,'maxLength':length},
             'evidence_ids':copy.deepcopy(refs)},'required':['text','evidence_ids']}
     business=statement(limits.ASSESSMENT_CLAIM)
-    business['properties']['text']={'type':'string','enum':[
-        business_text(payload['deterministic_process_finding']['classification'])]}
+    from .output_contract import BUSINESS
+    finding=payload.get('deterministic_process_finding')
+    outcomes=[finding['classification']] if finding else list(BUSINESS)
+    business['properties']['text']={'type':'string','enum':[business_text(o) for o in outcomes]}
     return {'type':'object','additionalProperties':False,'properties':{
         'business_output':business,
         'technical_output':statement(limits.ASSESSMENT_CLAIM),
@@ -51,6 +53,8 @@ def assemble(response,payload,state):
     value=copy.deepcopy(response.narrative)
     Draft202012Validator(schema(payload)).validate(value)
     source=state['assessment']
+    if value['business_output']['text']!=business_text(source['classification']):
+        raise ValueError('Business wording differs from the fixed outcome')
     assessment={k:copy.deepcopy(source[k]) for k in assessment_schema()['required']}
     validate(copy.deepcopy(assessment),payload,source_state=state)
     # The explanation is explicitly additional to, not a replacement for, the

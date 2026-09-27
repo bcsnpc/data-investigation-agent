@@ -1,5 +1,8 @@
 """Closed business language and outcome-owned actions; no free-text interpolation."""
-from .process_outcomes import ACTIONS
+from .process_outcomes import ACTIONS, OLD_TO_CURRENT
+
+def canonical(outcome):
+    return OLD_TO_CURRENT.get(outcome, outcome)
 
 BUSINESS = {
     'REFRESH_LATENCY': 'The reported number has not yet caught up with the latest available information.',
@@ -32,8 +35,8 @@ ACTION_TEXT = {
 }
 
 def action(outcome):
-    code = ACTIONS[outcome]
+    code = ACTIONS[canonical(outcome)]
     return {'code': code, 'text': ACTION_TEXT[code]}
 
 def business_text(outcome):
-    return BUSINESS[outcome] + ' Recommended action: ' + action(outcome)['text']
+    return BUSINESS[canonical(outcome)] + ' Recommended action: ' + action(outcome)['text']
