@@ -1,6 +1,8 @@
 # Self-Discovering Enterprise Data Investigator
 
-Current result: [contract/accounting/output repeat](docs/contract-ledger-output-rerun.md) `3d2c5bf0` completed TRANSFORMATION_LOGIC with validated synthesis after two real cross-surface comparisons (8,765 = 8,765; 8,765 != 7,661). All four reads are retained. The judge explains a possible join-multiplication mechanism, not proven duplicate matches or intended semantics. Business output now carries the verified number, comparison, limits and action. Technical prose still ends mid-sentence at its bound; it is preserved verbatim. One known-domain ticket, no source-ingestion build or unfamiliar-domain claim.
+Current result: [complete evidence prose and business substance](docs/complete-evidence-prose.md). Run `f7a016d9` completed TRANSFORMATION_LOGIC with validated synthesis: 8,765 in the report and immediate input, 7,661 earlier, four reads and one definition-judge call. The complete 767-character technical paragraph and business explanation retain both numbers, a possible matching-record mechanism, unknowns and the action. Oversized prose is rejected intact; syntactic completion guards reject unfinished endings without silently cutting them. The first repeat `529249ef` remains a recorded prose-quality failure. Final validation: 1,237 local tests and six implementation CI checks passed. This is one known-domain ticket, not proof of actual duplicate matches, intended behavior or unfamiliar-domain reliability.
+
+Prior result: [contract/accounting/output repeat](docs/contract-ledger-output-rerun.md) `3d2c5bf0` completed TRANSFORMATION_LOGIC with validated synthesis after two real cross-surface comparisons (8,765 = 8,765; 8,765 != 7,661). All four reads are retained. The judge explains a possible join-multiplication mechanism, not proven duplicate matches or intended semantics. Business output now carries the verified number, comparison, limits and action. Technical prose still ends mid-sentence at its bound; it is preserved verbatim. One known-domain ticket, no source-ingestion build or unfamiliar-domain claim.
 
 **Prior depth checkpoint:** declared Silver/Bronze quantity tracing and a
 configurable, attested depth ceiling are implemented. One live run compared
@@ -201,7 +203,9 @@ limit conclusions are withdrawn. No freeze or unfamiliar-domain claim follows.
   declarations and reads it on the Fabric SQL endpoint as the least-privilege
   reader, with read-only guard and self-report. Original R2 completed one equal
   DAX-to-Fabric-SQL comparison. Run c2658c88 subsequently completed synthesis;
-  the adapter still supplies only that one executable boundary.
+  declared Silver/Bronze quantity paths are now supported. The latest run
+  compared two boundaries and stopped at the Gold-to-Silver divergence;
+  Bronze was not read and no application ingestion binding exists.
 
 - Execution-surface self-report is enforced for every process probe. The Fabric
   SQL analytics endpoint and DAX self-reports were verified live in original R2,
@@ -245,9 +249,10 @@ not investigator-specific code changes.
 
 ## Current milestone and limitations
 
-The first completed run and report-only chain audit are recorded above. Extending
-the declared executable path, faithful quantities and outcome evidence remains
-proposed work. Output enforcement and a new live run remain queued after review.
+The declared path extension and divergence repeat are recorded above. Complete
+prose guards and substantive business output passed the latest known-domain
+repeat. Source-application ingestion remains design-only; actual join multiplicity,
+common snapshot and business intent have not been established by that run.
 See [current status](docs/current-delivery-status.md) for the active checkpoint.
 
 ### Historical milestone evidence

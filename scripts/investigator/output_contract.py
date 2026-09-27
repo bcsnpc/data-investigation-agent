@@ -45,14 +45,16 @@ def business_text(outcome, payload=None):
     entries=(payload or {}).get('evidence',[])
     baseline=next((e for e in entries if e.get('test_purpose')=='ESTABLISH_BASELINE'
                    and e.get('provenance',{}).get('receipt_seal')),None)
-    number=None
-    raw=(baseline or {}).get('verified_quantity',{}).get('quantity')
-    if isinstance(raw,str) and len(raw)<=100:
-        try:
-            value=Decimal(raw)
-            if value.is_finite() and abs(value.adjusted())<=100:
-                number=format(value,',f')
-        except InvalidOperation:pass
+    def number_from(entry):
+        if not (entry or {}).get('provenance',{}).get('receipt_seal'):return None
+        raw=entry.get('verified_quantity',{}).get('quantity')
+        if isinstance(raw,str) and len(raw)<=100:
+            try:
+                value=Decimal(raw)
+                if value.is_finite() and abs(value.adjusted())<=100:return format(value,',f')
+            except InvalidOperation:pass
+        return None
+    number=number_from(baseline)
     first=('The checked report value was '+number+'.' if number is not None else
            'A single report value could not be established from the available verified evidence.')
     comparisons=[e['result'] for e in entries if e.get('tool')=='process'
@@ -61,6 +63,18 @@ def business_text(outcome, payload=None):
                     c.get('referenced_evidence_ids',[None])[0]==baseline['id']),None)
     agrees=immediate is not None and immediate['values_equal'] is True
     differs=any(c['values_equal'] is False for c in comparisons)
+    divergence=next((c for c in comparisons if c['values_equal'] is False),None)
+    by_id={e['id']:e for e in entries}
+    lower=(number_from(by_id.get(divergence['referenced_evidence_ids'][1]))
+           if divergence and len(divergence.get('referenced_evidence_ids',[]))==2 else None)
+    if immediate is not None and number is not None and lower is not None:
+        first=(f'The report showed {number}, matching the information feeding it.' if agrees else f'The report showed {number}.')
+        compared=(f'Earlier records totalled {lower}, placing the difference in the processing that prepares those records for the report.' if agrees else
+                  f'The information feeding the report totalled {lower}, placing the difference between the report and the information it reads.')
+        mechanism=_business_mechanism(entries) if outcome=='TRANSFORMATION_LOGIC' else None
+        mechanism=mechanism or 'The checks locate the difference but do not establish a specific explanation for it.'
+        remaining='We have not confirmed which records caused the difference, whether the checks reflect the same moment, whether this behavior is intended, or the information before the last check.'
+        return ' '.join((first,compared,mechanism,remaining,'Recommended action: '+action(outcome)['text']))
     if agrees:
         compared=('An independent check of the information feeding the report agreed'+
                   (', but a comparison further back found a different total.' if differs else '.'))
@@ -75,3 +89,19 @@ def business_text(outcome, payload=None):
                if outcome=='TRANSFORMATION_LOGIC' else
                'Earlier information, unchecked selections, update timing and intended business rules remain outside what these comparisons establish.')
     return ' '.join((first,compared,ruled_out,remaining,'Recommended action: '+action(outcome)['text']))
+
+
+def _business_mechanism(entries):
+    """Translate unambiguous declared operations, never names or model prose."""
+    for e in entries:
+        if 'transformation_definition' not in e.get('process_roles',[]):continue
+        result=e.get('result',{});contract=result.get('quantity_contract',{})
+        judgment=result.get('judgment',{})
+        if judgment.get('judgment')!='EXPLAINS' or contract.get('kind')!='UNCHANGED_ADDITIVE_COLUMN':continue
+        operations=contract.get('operations',[])
+        kinds={o.get('operation') for o in operations}-{'DERIVED_COLUMN'}
+        if kinds=={'JOIN'} and all(o.get('how') in ('left','right','inner','outer','full','cross')
+                                  for o in operations if o.get('operation')=='JOIN'):
+            return 'Matching records with other information can give one record several matches, causing its amount to be counted more than once.'
+        # Ambiguous/mixed or unsupported mechanisms are not guessed from prose.
+    return None

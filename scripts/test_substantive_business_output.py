@@ -11,6 +11,8 @@ class BusinessFactsTests(unittest.TestCase):
             {'id':'report','test_purpose':'ESTABLISH_BASELINE','provenance':{'receipt_seal':'sealed'},
              'verified_quantity':{'quantity':'8765'},'result':{'returned_rows':406},
              'asset_name':'movement_values SQL Gold Delta commit'},
+            {'id':'earlier','provenance':{'receipt_seal':'sealed-lower'},'verified_quantity':{'quantity':'7661'}},
+            {'id':'definition','process_roles':['transformation_definition'],'result':{'judgment':{'judgment':'EXPLAINS'},'quantity_contract':{'kind':'UNCHANGED_ADDITIVE_COLUMN','operations':[{'operation':'JOIN','how':'left'}]}}},
             {'id':'a','tool':'process','result':{'comparison_status':'CROSS_SURFACE_VERIFIED',
               'values_equal':True,'referenced_evidence_ids':['report','input']}},
             {'id':'b','tool':'process','result':{'comparison_status':'CROSS_SURFACE_VERIFIED',
@@ -18,9 +20,9 @@ class BusinessFactsTests(unittest.TestCase):
 
     def test_five_sentences_keep_quantity_comparison_limits_action_without_jargon(self):
         payload=self.payload();text=business_text('TRANSFORMATION_LOGIC',payload)
-        self.assertIn('8,765',text);self.assertIn('further back found a different total',text)
-        self.assertIn('rules out a report-to-input difference',text)
-        self.assertIn('earlier information',text);self.assertIn(action('TRANSFORMATION_LOGIC')['text'],text)
+        self.assertIn('8,765',text);self.assertIn('7,661',text)
+        self.assertIn('one record several matches',text)
+        self.assertIn('information before the last check',text);self.assertIn(action('TRANSFORMATION_LOGIC')['text'],text)
         self.assertEqual(len(text.rstrip('.').split('. ')),5)
         for forbidden in ('406','movement_values','SQL','Gold','Silver','Bronze','Delta','aggregate','ingestion','report-id'):
             self.assertNotIn(forbidden,text)
@@ -33,7 +35,7 @@ class BusinessFactsTests(unittest.TestCase):
             p=self.payload()
             if edit=='seal':p['evidence'][0]['provenance']={}
             if edit=='quantity':p['evidence'][0]['verified_quantity']={'quantity':'asset SQL 8765'}
-            if edit=='comparison':p['evidence'][1]['result']['comparison_status']='WITHIN_LAYER_CHECK'
+            if edit=='comparison':p['evidence'][3]['result']['comparison_status']='WITHIN_LAYER_CHECK'
             text=business_text('NO_KNOWN_PATTERN',p)
             if edit!='comparison':self.assertNotIn('8,765',text)
             if edit!='quantity':self.assertNotIn('rules out',text)

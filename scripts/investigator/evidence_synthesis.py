@@ -25,20 +25,18 @@ claim that any lower layer agreed.
 Reference validation does not prove semantic truth. State alternatives and limitations.
 Return the assessment through the required function call; no private reasoning text.'''
 
-TRUNCATION_LABEL=' [TRUNCATED_TO_PUBLISHED_LIMIT]'
 
 
 def _bounded(value,limit):
     if not isinstance(value,str) or len(value)<=limit:return value
-    keep=limit-len(TRUNCATION_LABEL)
-    return value[:keep].rstrip()+TRUNCATION_LABEL
+    raise ValueError('Evidence prose exceeds consumer bound; shortening is not permitted')
 
 
 def normalize(value):
-    """Apply mechanical response-shape repairs before semantic validation."""
+    """Check prose unchanged and assemble citations before semantic validation."""
     if not isinstance(value,dict):return value
     from . import proposal_limits as limits
-    value['claim']=_bounded(value.get('claim'),limits.ASSESSMENT_CLAIM)
+    if 'claim' in value:value['claim']=_bounded(value['claim'],limits.ASSESSMENT_CLAIM)
     for key in ('alternatives','limits'):
         if isinstance(value.get(key),list):
             value[key]=[_bounded(item,limits.ASSESSMENT_DETAIL) for item in value[key]]

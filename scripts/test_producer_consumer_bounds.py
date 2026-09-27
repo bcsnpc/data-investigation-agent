@@ -10,7 +10,7 @@ from investigator.onboarding import text
 class BoundsTests(unittest.TestCase):
     def assert_text(self,schema,bound,consumer):
         self.assertEqual(schema['maxLength'],bound)
-        value='x'*bound
+        value='x'*(bound-1)+'.'
         Draft202012Validator(schema).validate(value);consumer(value)
         self.assertFalse(Draft202012Validator(schema).is_valid(value+'x'))
         with self.assertRaises(ValueError):consumer(value+'x')
@@ -20,7 +20,7 @@ class BoundsTests(unittest.TestCase):
         from investigator.process_debugging import vertical
         for field in ('explanation','limitation'):
             value={'judgment':'EXPLAINS','explanation':'A declared rule explains the difference.', 'limitation':'Intent unknown.'}
-            value[field]='x'*L.ASSESSMENT_DETAIL
+            value[field]='x'*(L.ASSESSMENT_DETAIL-1)+'.'
             Draft202012Validator(judge.SCHEMA).validate(value);decoded=judge.validate(value)
             a=Adapter(['report','input'],dict(report=5,input=4),explain=True)
             original=a.evaluate

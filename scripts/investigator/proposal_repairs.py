@@ -9,15 +9,6 @@ def repair(proposal):
     if not isinstance(value, dict):
         return value, events
 
-    def bound(container, key, limit, path):
-        text = container.get(key)
-        if isinstance(text, str) and len(text) > limit:
-            container[key] = text[:limit-1]+'…'
-            events.append({'repair_kind': 'text_bound', 'field': path,
-                           'original_characters': len(text), 'retained_characters': limit,
-                           'omitted_characters': len(text)-(limit-1)})
-
-    bound(value, 'question', limits.QUESTION, 'question')
     hypotheses = value.get('hypotheses')
     if isinstance(hypotheses, list):
         unique = []
@@ -29,20 +20,6 @@ def repair(proposal):
                 continue
             unique.append(hypothesis)
         value['hypotheses'] = unique
-        for index, hypothesis in enumerate(unique):
-            if isinstance(hypothesis, dict):
-                bound(hypothesis, 'claim', limits.HYPOTHESIS_CLAIM, f'hypotheses[{index}].claim')
-    assessment = value.get('assessment')
-    if isinstance(assessment, dict):
-        bound(assessment, 'claim', limits.ASSESSMENT_CLAIM, 'assessment.claim')
-        for key in ('alternatives', 'limits'):
-            if isinstance(assessment.get(key), list):
-                for index, text in enumerate(assessment[key]):
-                    holder = {'text': text}
-                    bound(holder, 'text', limits.ASSESSMENT_DETAIL, f'assessment.{key}[{index}]')
-                    assessment[key][index] = holder['text']
-        # Support is evidence-bearing: preserve it verbatim and reject excess
-        # length in assessment_support.validate instead of truncating it.
     return value, events
 
 
