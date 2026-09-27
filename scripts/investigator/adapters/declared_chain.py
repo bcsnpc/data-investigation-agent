@@ -52,9 +52,12 @@ def extend(context, layers):
             'limitation':'Row multiplicity and whole-row deduplication may change the total; agreement does not establish intended grain, key uniqueness or a common snapshot.'}
         vocabulary=copy.deepcopy(frame.vocabulary.get(column,{}))
         identifiers={c.casefold() for c in frame.columns}
-        identifiers.update(a['name'].casefold() for a in assets if isinstance(a.get('name'),str))
-        identifiers.update(a['name'].rsplit('.',1)[-1].casefold() for a in assets if isinstance(a.get('name'),str))
-        identifiers.update(piece.casefold() for a in assets if isinstance(a.get('name'),str)
+        # Only identifiers in this definition's quantity scope can exclude a
+        # label. A homonym elsewhere in the estate cannot rename this subject.
+        paths={path,source_path}|{p for op in frame.operations for p in op.get('inputs',[])}
+        scoped_assets=[a for a in assets if a.get('metadata',{}).get('location') in paths]
+        identifiers.update(a['name'].casefold() for a in scoped_assets if isinstance(a.get('name'),str))
+        identifiers.update(piece.casefold() for a in scoped_assets if isinstance(a.get('name'),str)
                            for piece in a['name'].split('.'))
         from ..business_vocabulary import safe_term
         if any(not safe_term(v['text']) or v['text'].casefold() in identifiers for v in vocabulary.values()):vocabulary={}

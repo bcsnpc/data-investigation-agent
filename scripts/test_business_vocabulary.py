@@ -65,10 +65,20 @@ class VocabularyTests(unittest.TestCase):
     def test_schema_names_are_not_business_terms(self):
         context,layers=chain_fixture.QuantityTraceTests().context()
         _,_,_,code=self.fixture();context['assets'][-1]['metadata']['content']=code
-        context['assets'].append({'id':'unrelated','kind':'SqlObject','name':'deliveries.actual',
-                                  'availability':'CURRENT','metadata':{}})
+        next(a for a in context['assets'] if a['id']=='clean/events')['name']='deliveries.actual'
         planned,_,_=extend(context,layers)
         self.assertEqual(planned[2]['business_vocabulary'],{})
+
+    def test_unrelated_table_or_schema_homonym_cannot_erase_declared_vocabulary(self):
+        context,layers=chain_fixture.QuantityTraceTests().context()
+        _,_,_,code=self.fixture();context['assets'][-1]['metadata']['content']=code
+        before,_,_=extend(context,layers)
+        for name in ('Deliveries','tariffs.other'):
+            context['assets'].append({'id':name,'kind':'SemanticTable','name':name,
+                                      'availability':'CURRENT','metadata':{}})
+        after,_,_=extend(context,layers)
+        self.assertEqual(after[2]['business_vocabulary'],before[2]['business_vocabulary'])
+        self.assertEqual(after[2]['business_vocabulary']['subject']['text'],'deliveries')
 
     def test_digest_preserves_validated_spans_without_evicting_directory(self):
         p,contract,terms,_=self.fixture()
