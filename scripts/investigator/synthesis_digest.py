@@ -24,9 +24,12 @@ def _context_evidence(observation):
       or observation.get('content_hash')!=contract.get('definition_hash')
       or not isinstance(observation.get('operations'),list)):
    raise Conflict('Declared quantity definition receipt differs')
+  from .business_vocabulary import validate_terms
+  vocabulary=validate_terms(observation.get('business_vocabulary',{}),contract)
   return {'asked':{'operation':'transformation_definition','asset_id':observation['asset_id']},
           'result':{'operations':observation['operations'],'quantity_contract':contract,
-                    'limitation':observation['limitation'],'judgment':observation['judgment']},
+                    'limitation':observation['limitation'],'judgment':observation['judgment'],
+                    **({'business_vocabulary':vocabulary} if vocabulary else {})},
           'provenance':{'hash':digest(observation),'content_hash':observation['content_hash']}}
  if isinstance(roles,list) and 'ingestion' in roles:
   from .adapters.microsoft_context_evidence import ingestion_evidence
