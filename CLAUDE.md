@@ -64,6 +64,37 @@ answerable from pipeline evidence.
    audience or scope, without an explicit human decision.** Report what would be
    required and stop.
 
+## Known platform limits: served-snapshot metadata (2026-09-27)
+
+These are tested limits of the current least-privilege Fabric/Power BI reader,
+not a to-do to acquire elevated execution permissions. The reader can read
+values but cannot establish which data version those reads served through the
+tested routes.
+
+| Route | Tested reader result | Constraint |
+| --- | --- | --- |
+| Power BI REST refresh history | HTTP403 | Requires dataset Write. |
+| XMLA TMSCHEMA partition refresh metadata | Refused | Requires administrator metadata access. |
+| DAX `INFO.DELTATABLEMETADATASTORAGES()` | Refused | Requires administrator; no framed Delta version returned. |
+| DAX `TABLETRAITS()` | Refused | Requires administrator; no fallback-mode indicator returned. |
+| Fabric SQL `sys.dm_db_external_tables_log_status` filtered to the source table | Accepted, zero rows | No Delta version returned. Empty results do not establish a permission denial or identify why the row was absent. |
+
+Evidence: [refresh-history/partition probes](docs/job-history-path-and-refresh-probes.md)
+and [snapshot-version/fallback probes](docs/snapshot-alignment-audit.md), including
+exact requests, responses and identity provenance. These results constrain the
+current reader; they do not assert that every identity or estate lacks the APIs.
+
+Do not elevate the execution reader or keep retrying these routes to make a
+comparison appear verified. Distinct execution surfaces do not establish aligned
+snapshots. Equal values do not establish currency; different values do not exclude
+timing as the reason for the difference. A latest OneLake commit observed by the
+separate metadata/fixture-owner identity is not the version served by a SQL or DAX
+quantity read and must never be represented as reader attestation.
+
+Snapshot attestation and an optional, separately attributed snapshot-metadata
+capability are pending implementation; recording this known limit does not deliver
+them. No freshness fixture is to be repeated until those capabilities exist.
+
 ## Refresh timing permission finding (2026-09-27)
 
 The least-privilege reader was tested and refused by both routes: Power BI REST
