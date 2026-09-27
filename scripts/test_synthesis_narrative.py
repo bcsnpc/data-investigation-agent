@@ -1,0 +1,77 @@
+import copy,unittest
+from unittest.mock import patch
+from jsonschema import Draft202012Validator,ValidationError
+from investigator import synthesis_narrative as narrative,evidence_synthesis as synthesis
+from investigator import process_outcomes,assessment_support
+import test_process_debugging as contract_fixtures
+
+class NarrativeContractTests(unittest.TestCase):
+    def source(self,outcome):
+        value,observations=contract_fixtures.OutcomeContractTests().valid(outcome)
+        for role,o in observations.items():
+            o.update(tool='process' if role=='comparison' else 'bounded_dax',completeness='COMPLETE_RESPONSE')
+        observations['baseline']['test_purpose']='ESTABLISH_BASELINE'
+        value.update(claim='An observed scoped result.',alternatives=['Other scopes remain untested.'],limits=['Only the stated scope was checked.'])
+        value['support'].update(mechanism='Observed evidence.',mechanism_evidence_ids=list(observations),
+            intent_dependency='NOT_REQUIRED',intent_basis='Implemented behavior only.',intent_evidence_ids=[],
+            measure_connection='ESTABLISHED',measure_connection_basis='A baseline was read.',
+            measure_connection_evidence_ids=['baseline'],remaining_test='Obtain intended rules.')
+        return {'assessment':value,'observations':list(observations.values())},{'evidence':[{'id':i} for i in observations]}
+
+    def response(self,payload):
+        statement={'text':'Observed results are limited by available upstream access.',
+                   'evidence_ids':[payload['evidence'][0]['id']]}
+        return {'business_output':copy.deepcopy(statement),'technical_output':copy.deepcopy(statement),
+                'limitations':[copy.deepcopy(statement)]}
+
+    def test_every_outcome_preserves_complete_contract_and_allows_limitations(self):
+        for outcome in process_outcomes.OUTCOMES:
+            with self.subTest(outcome=outcome):
+                state,payload=self.source(outcome);original=copy.deepcopy(state)
+                assessment,outputs=narrative.assemble(narrative.Response(self.response(payload)),payload,state)
+                self.assertEqual(assessment,state['assessment'])
+                self.assertEqual(state,original)
+                self.assertTrue(outputs['business_output']['additional_limitations'])
+                expected=outcome in ('NO_KNOWN_PATTERN','NO_COMPARABLE_PATH')
+                self.assertEqual(assessment['support']['process']['missing_capability'] is not None,expected)
+                self.assertEqual(outputs['technical_output']['mandatory_limits'],state['assessment']['limits'])
+
+    def test_all_dependent_control_fields_are_unrepresentable(self):
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY');validator=Draft202012Validator(narrative.schema(payload))
+        fields=set(synthesis.schema()['properties'])|set(assessment_support.SCHEMA['properties'])|set(process_outcomes.schema()['properties'])
+        fields.discard('evidence_ids')
+        fields.update(('status','layer','reason','stopped_by','deepest_layer','intent_dependency','measure_connection'))
+        for field in fields:
+            for location in ('root','business_output','technical_output','limitation'):
+                value=self.response(payload)
+                target=value if location=='root' else value['limitations'][0] if location=='limitation' else value[location]
+                target[field]='contradictory'
+                with self.subTest(field=field,location=location),self.assertRaises(ValidationError):validator.validate(value)
+
+    def test_unknown_receipts_and_missing_citations_are_unrepresentable(self):
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY');validator=Draft202012Validator(narrative.schema(payload))
+        for refs in ([],['not-displayed']):
+            value=self.response(payload);value['business_output']['evidence_ids']=refs
+            with self.assertRaises(ValidationError):validator.validate(value)
+
+    def test_invalid_fixed_evidence_still_fails(self):
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY')
+        state['assessment']['support']['process']['missing_capability']='A conclusion-preventing gap.'
+        with self.assertRaisesRegex(ValueError,'Only capability-gap'):
+            narrative.assemble(narrative.Response(self.response(payload)),payload,state)
+        state['assessment']['support']['process']['missing_capability']=None
+        next(o for o in state['observations'] if o['id']=='comparison')['values_equal']=False
+        with self.assertRaisesRegex(ValueError,'successful equal boundary'):
+            narrative.assemble(narrative.Response(self.response(payload)),payload,state)
+
+    def test_production_provider_uses_only_narrative_wire_schema(self):
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY');answer=self.response(payload)
+        with patch('ticket_planner.azure_generate',return_value=(answer,{})) as provider:
+            response,usage=synthesis.azure_synthesize(payload,{})
+        self.assertIsInstance(response,narrative.Response)
+        sent=provider.call_args.kwargs['schema']
+        self.assertEqual(set(sent['properties']),{'business_output','technical_output','limitations'})
+        self.assertFalse(sent['additionalProperties'])
+        Draft202012Validator(sent).validate(answer)
+
+if __name__=='__main__':unittest.main()

@@ -138,5 +138,8 @@ def build(state,db):
     'terminating_step':assessment.get('terminating_step'),
     'visibility_boundary':process['visibility_boundary'],'baseline_above':process['baseline_above'],
     'recommended_action':process['recommended_action'],'evidence_by_role':process['evidence_by_role'],
-    'missing_capability':process['missing_capability']}
+    'conclusion_blocker':process['missing_capability'],
+    'capability_limitations':{'visibility_boundary':process['visibility_boundary'],
+                              'skipped_checks':process['skipped_steps']},
+    'mandatory_limits':assessment['limits']}
  return result

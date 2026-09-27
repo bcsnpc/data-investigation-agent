@@ -56,6 +56,41 @@ class SynthesisTests(unittest.TestCase):
         missing={'support':{'process':{}}};synthesis.declare_capabilities(missing)
         self.assertEqual(missing,{'support':{'process':{}}})
 
+    def test_conclusion_context_never_reduces_evidence_or_directory_coverage(self):
+        from test_process_debugging import OutcomeContractTests
+        agent,state=self.stopped()
+        with agent.runtime.db() as db:before=synthesis_digest.build(state,db)
+        assessment,_=OutcomeContractTests().valid('CONSISTENT_TO_BOUNDARY')
+        assessment['limits']=['The checked boundary does not prove upstream correctness.']
+        assessment['support']['process']['skipped_steps']=[{'step':1,'capability':'presentation_freshness','reason':'Reader cannot read refresh history.'}]
+        state['assessment']=assessment
+        with agent.runtime.db() as db:after=synthesis_digest.build(state,db)
+        self.assertEqual(before['evidence'],after['evidence'])
+        self.assertEqual(before['scope'],after['scope'])
+        self.assertEqual(before.get('context_entry_points'),after.get('context_entry_points'))
+        finding=after['deterministic_process_finding']
+        self.assertIsNone(finding['conclusion_blocker'])
+        self.assertEqual(finding['capability_limitations']['skipped_checks'],assessment['support']['process']['skipped_steps'])
+        self.assertEqual(finding['mandatory_limits'],assessment['limits'])
+        self.assertGreater(len(encoded(after)),len(encoded(before)))
+
+    def test_narrative_provider_runtime_retains_fixed_contract_and_exposes_outputs(self):
+        from investigator import synthesis_narrative as narrative
+        agent,state=self.stopped()
+        with agent.runtime.db() as db:
+            source=agent.load(db,state['id']);payload=synthesis_digest.build(source,db)
+            source['assessment']=self.answer(payload)
+            agent.save(db,source,'TEST_ASSESSMENT',{})
+        statement={'text':'The observed value does not prove intended business rules.',
+                   'evidence_ids':[source['observations'][0]['id']]}
+        wire={'business_output':statement,'technical_output':statement,'limitations':[statement]}
+        with patch('ticket_planner.azure_generate',return_value=(wire,{})):
+            result=agent.synthesize(state['id'],synthesis.azure_synthesize)
+        self.assertEqual(result['synthesis']['status'],'COMPLETED')
+        self.assertEqual(result['synthesis']['assessment']['support'],source['assessment']['support'])
+        self.assertEqual(result['outcome']['synthesis_outputs']['business_output']['explanation'],statement)
+        self.assertEqual(result['outcome']['synthesis_outputs']['technical_output']['mandatory_limits'],source['assessment']['limits'])
+
     def test_ingestion_context_preserves_report_without_inventing_metadata(self):
         agent,state=self.stopped()
         observation={'id':'ingestion-receipt','tool':'context','status':'COMPLETED',

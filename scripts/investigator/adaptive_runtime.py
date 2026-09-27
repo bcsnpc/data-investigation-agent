@@ -130,6 +130,7 @@ class AdaptiveRuntime:
                 assessment=synthesis['assessment']
                 state['outcome']={**state['outcome'],'classification':assessment['classification'],
                                   'assessment':assessment,'assessment_phase':'SYNTHESIS'}
+                if 'outputs' in synthesis:state['outcome']['synthesis_outputs']=synthesis['outputs']
         from .action_budget import summary,allocation
         state['trajectory_metrics']=summary(state)
         if state.get('action_budget_version')==1:state['action_budget']=allocation(state)
