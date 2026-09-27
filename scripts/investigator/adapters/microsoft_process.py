@@ -469,9 +469,11 @@ class MicrosoftProcessAdapter:
         context=context_search.latest(self.store);target=boundary['lower'].get('transformation_asset_id')
         rows=[o for o in (context or {}).get('observations',[]) if o.get('asset_id')==target and o.get('capability')=='run_history']
         if not target:return {'status':'NOT_APPLICABLE'}
-        return {'status':'CURRENT' if rows and any(r.get('detail') for r in rows) else 'UNAVAILABLE',
-                'reason':None if rows else 'No retained job-history response covers this transformation asset.',
-                'evidence':({'id':'job-history-'+str(uuid4()),'tool':'context','completeness':'COMPLETE_RESPONSE','runs':rows}
+        from .job_history import classify
+        return {**classify(rows),
+                'evidence':({'id':'job-history-'+str(uuid4()),'tool':'context',
+                             'completeness':'COMPLETE_RESPONSE','runs':rows,
+                             'context_version':(context or {}).get('version')}
                             if rows else None)}
 
     def ingestion(self,path,scope):

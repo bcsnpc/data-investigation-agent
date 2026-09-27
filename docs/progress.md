@@ -1645,3 +1645,7 @@ requirements. No estate or pipeline build; stop for design review.
 2026-09-27: All 1,253 regression tests passed in 399.188 seconds. Offline fixture context remains 11 directory entries, 11 SQL objects and 2,408 characters. Live batch remains unstarted under ceiling60/usage62.
 
 2026-09-27: Recorded explicit eight-read approval; live ce27fd08 and c697f79f both completed TRANSFORMATION_LOGIC with validated synthesis, four reads, two cross-surface comparisons and one first-attempt judge each. Usage62 ->70; restored ceiling60 immediately with counters preserved. Separate single refresh-history GET as isolated reader returned403 Unauthorized (request ab623583-499c-4643-bfa4-e202eb43c7a7). Read-only audit documents retained job/Delta timestamps, identity distinction and missing lateness comparisons; no engine change. Full unchanged outputs: vocabulary-form-live-and-latency-audit.md.
+
+2026-09-27: Merged #272 after six green checks. Implemented retained completion classification and schema-fixed technical path account, with24 focused tests passing. Exactly one reader XMLA partition-timing query failed at ExecuteReader with administrator-required metadata error; one REST refresh-history request returned403. Both audits appended; no grants/budget changes or latency implementation. Full suite running.
+
+2026-09-27: All 1,260 local regression tests passed in403.575 seconds. Saved R2 renderer validation passed offline with original session unchanged. No new live investigation or additional probe was run.

@@ -20,11 +20,11 @@ class NarrativeContractTests(unittest.TestCase):
             'deterministic_process_finding':{'classification':outcome}}
 
     def response(self,payload):
-        statement={'text':'Observed results are limited by available upstream access.',
+        statement={'text':narrative.path_narrative.LIMITATION,
                    'evidence_ids':[payload['evidence'][0]['id']]}
         business=copy.deepcopy(statement)
         business['text']=narrative.business_text(payload['deterministic_process_finding']['classification'])
-        return {'business_output':business,'technical_output':copy.deepcopy(statement),'limitations':[copy.deepcopy(statement)]}
+        return {'business_output':business,'technical_output':{**statement,'text':narrative.path_narrative.summary(payload)},'limitations':[copy.deepcopy(statement)]}
 
     def test_business_cannot_include_free_prose_assets_queries_or_extra_numbers(self):
         from investigator.output_contract import BUSINESS

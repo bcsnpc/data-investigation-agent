@@ -1,0 +1,97 @@
+{
+  "xmla": {
+    "kind": "EXPLICITLY_AUTHORIZED_READ_ONLY_AUDIT",
+    "identity": {
+      "oid": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+      "upn": "investigator-reader@skynwhy.com",
+      "tid": "dff91047-ebc2-4657-8dbe-5af328d57780",
+      "aud": "https://analysis.windows.net/powerbi/api"
+    },
+    "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60",
+    "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+    "started": "2026-09-27T18:36:30.699419+00:00",
+    "request": {
+      "library": "D:\\data_investigation_agent\\.local\\adomd-client\\19.117.0\\lib\\net472\\Microsoft.AnalysisServices.AdomdClient.dll",
+      "workspace_name": "investigator-fixture-83139e71cbdf6a50",
+      "model_name": "Warehouse Operations e1b8e1",
+      "query": "SELECT [TableID], [Name], [ModifiedTime], [RefreshedTime], [State] FROM $SYSTEM.TMSCHEMA_PARTITIONS"
+    },
+    "queries": 1,
+    "automatic_retries": 0,
+    "ended": "2026-09-27T18:36:41.219666+00:00",
+    "process_exit": 0,
+    "response": {
+      "status": "REFUSED_OR_FAILED",
+      "messages": [
+        "Exception calling \"ExecuteReader\" with \"0\" argument(s): \"User '<euii>investigator-reader@skynwhy.com</euii>' needs to be an administrator to read the metadata of the database '3484a2bc-98c5-4cef-be5c-a6215484075e'.\r\n\r\nTechnical Details:\r\nRootActivityId: cb7aaeeb-1ee3-424c-b04f-92e7074f1a50\r\nDate (UTC): 9/27/2026 6:36:40 PM\"",
+        "User '<euii>investigator-reader@skynwhy.com</euii>' needs to be an administrator to read the metadata of the database '3484a2bc-98c5-4cef-be5c-a6215484075e'.\r\n\r\nTechnical Details:\r\nRootActivityId: cb7aaeeb-1ee3-424c-b04f-92e7074f1a50\r\nDate (UTC): 9/27/2026 6:36:40 PM"
+      ],
+      "stage": "query",
+      "error_type": "MethodInvocationException"
+    }
+  },
+  "rest": {
+    "kind": "EXPLICITLY_AUTHORIZED_READ_ONLY_AUDIT",
+    "identity": {
+      "oid": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+      "upn": "investigator-reader@skynwhy.com",
+      "tid": "dff91047-ebc2-4657-8dbe-5af328d57780",
+      "aud": "https://analysis.windows.net/powerbi/api"
+    },
+    "started": "2026-09-27T18:36:41.221117+00:00",
+    "url": "https://api.powerbi.com/v1.0/myorg/groups/149f8d99-1c66-4a0a-9624-759be002bb60/datasets/3484a2bc-98c5-4cef-be5c-a6215484075e/refreshes?$top=1",
+    "method": "GET",
+    "resource_calls": 1,
+    "automatic_retries": 0,
+    "http_status": 403,
+    "request_id": "18fefbfc-e00b-48dd-b9a1-231bad466158",
+    "ended": "2026-09-27T18:36:41.886398+00:00",
+    "response_body": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Api accessed by user <eupi>8a582d2a-ecb4-4320-bf72-75a529a0d382</eupi> with insufficient privileges. request is unauthorized, identity None.\"}}",
+    "response_sha256": "e65386e52ed580d7f6334558af69d01a43d318f1ec7c84d8154f95d5cda97a9f"
+  },
+  "context_measurement": {
+    "kind": "OFFLINE_CONTEXT_MEASUREMENT_NOT_INVESTIGATION",
+    "source_run": "c697f79f-75a8-4bf1-a2d7-45df7b837f47",
+    "directory_entries_before": 0,
+    "directory_entries_after": 0,
+    "sql_objects_before": 0,
+    "sql_objects_after": 0,
+    "payload_characters_before": 14386,
+    "payload_characters_after": 14386,
+    "schema_characters_before": 2782,
+    "schema_characters_after": 3234,
+    "path_facts": [
+      {
+        "comparison_id": "boundary-1-comparison",
+        "input": {
+          "term": "L1",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "quantity": "8,765"
+        },
+        "output": {
+          "term": "L0",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+          "quantity": "8,765"
+        },
+        "values_equal": true,
+        "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT"
+      },
+      {
+        "comparison_id": "boundary-2-comparison",
+        "input": {
+          "term": "L2",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+          "quantity": "7,661"
+        },
+        "output": {
+          "term": "L1",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "quantity": "8,765"
+        },
+        "values_equal": false,
+        "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT"
+      }
+    ],
+    "rendered_path": "Boundary B1: L1 (upstream input) -> L0 (downstream output). Observed input 8,765; observed output 8,765. Values agree.\nBoundary B2: L2 (upstream input) -> L1 (downstream output). Observed input 7,661; observed output 8,765. Values differ.\nL0 = fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity\nL1 = fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values\nL2 = fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+  }
+}
