@@ -11,6 +11,21 @@ read-only queries and saved evidence. It reports implemented behavior and never
 decides whether a business rule is correct.
 This is an FDE integration with one enterprise environment.
 
+**Current checkpoint, 2026-09-27:** discovery was re-approved under the unchanged
+current config (88 metadata/catalog operations). Of exactly three new attempts,
+two were held for an invalid intake pairing; one reached a real, equal Power BI
+DAX-to-Fabric-SQL comparison with the reader identity attested on both sides.
+That run returned deterministic `CONSISTENT_TO_BOUNDARY` with incomplete surface
+attestation explicitly limited, then **synthesis blocked before its model call**
+because the evidence validator rejects the probes' identity field. No engine
+change was made and no end-to-end or unfamiliar-domain pass is claimed.
+See [re-approval and three-run evidence](docs/discovery-reapproval-three.md).
+
+The earlier checkpoint narrative below is retained as historical evidence.
+Statements that no table/comparison read had occurred, or that DAX self-report
+was only tested offline, are superseded by this checkpoint; all earlier failed
+runs and their original claims remain preserved.
+
 Current result: review of the [correct-context three-run check](docs/correct-context-process-three.md)
 found that both apparent semantic-to-Gold comparisons executed inside the same
 Power BI model. They are requalified as within-model definition checks; the two
