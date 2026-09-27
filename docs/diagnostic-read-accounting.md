@@ -53,6 +53,9 @@ receipt ID. Admission still rechecks engine/config/context/policy invariants.
 Focused offline checks cover cap separation, per-request admission, receipt-first
 failure accounting, same-run reuse, different objects/databases/credentials,
 cross-run isolation and refusing unsuccessful guard evidence. PowerShell syntax
-passes. Full regression results and the two requested live repeats are pending.
+passes. The full local suite passed 1,303 tests; the final focused suite passed
+18 tests, including the reporting assertion added while the full suite ran.
+The full run emitted SQLite ResourceWarnings but no failures. The two requested
+live repeats remain pending.
 The prior batch credits were scoped to the old sessions; a separate bounded grant
 for the new pair has been requested. No new live run has started.
