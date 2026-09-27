@@ -1588,3 +1588,12 @@ Part 3 remains queued at the explicit report-and-stop checkpoint.
 Documentation validation: two generator tests passed, 312 local links resolved,
 verbatim explanations and the 19-read reservation delta checked, diff check passed.
 No runtime suite rerun and no planner payload change.
+
+
+## 2026-09-27 - enforced dual outputs
+
+Implemented schema-closed business wording, mandatory taxonomy actions and complete
+technical attestation text. One live run cbb9c17f completed validated synthesis,
+BUSINESS_QUESTION, one equal boundary, zero planner calls. Intake interpretation
+differed from c2658c88 and is preserved. Earlier freezes invalidated. No policy or
+permission change. [Verbatim outputs and evidence](enforced-dual-outputs.md).

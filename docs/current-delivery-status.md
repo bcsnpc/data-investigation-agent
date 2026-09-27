@@ -1,8 +1,7 @@
 # Current delivery status
 
 **Active output milestone:** schema-enforced business explanations, mandatory
-outcome-derived actions and technical attestation details are under validation.
-One live run pending; earlier freezes remain invalidated.
+outcome-derived actions and technical attestation details completed one live run with validated synthesis (BUSINESS_QUESTION); earlier freezes remain invalidated.
 [Output contract](enforced-dual-outputs.md).
 
 Updated 2026-09-27. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).

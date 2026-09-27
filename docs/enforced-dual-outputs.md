@@ -27,3 +27,40 @@ more restrictive.
 
 Live evidence and final validation follow below. No success is claimed before the
 single requested live run.
+
+## One live run
+
+Run `cbb9c17f-b720-436a-b72a-474a10e94aee` completed with validated synthesis. Intake classified
+the unchanged ticket as BUSINESS_QUESTION, a different valid interpretation from
+c2658c88; no retry or claim that schema closure removes interpretation variance.
+One equal independent boundary, one DAX read, one Fabric SQL read, one OneLake
+metadata invocation; one intake and one synthesis call, zero investigation
+planner calls. Stopped at Gold; deeper capability and freshness unavailable.
+Five surface fields remain unattested. No permission, config or policy change.
+One ledger row appended; historical rows untouched.
+
+## Business explanation ? verbatim
+
+The checked information agrees. The remaining question requires business knowledge that this investigation cannot establish. Recommended action: Ask a business specialist to explain the intended rule.
+
+## Technical explanation ? verbatim
+
+The measure returned 8765 on the Activity surface, and a direct SQL aggregation of movement_values.units also returned 8765. The process comparison recorded those aggregates as equal across the two execution surfaces. Ingestion metadata shows movement_values was written once with 406 output rows. The investigation did not reach deeper stock-movement or adjustment sources, so it cannot determine whether any source entries reflect the intended business rule.
+
+Surface attestation limits:
+- Unattested connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity (receipt 1d288186-c597-46ff-ade0-0e44420d019d).
+- Unattested engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity (receipt 1d288186-c597-46ff-ade0-0e44420d019d).
+- Unattested object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity (receipt 1d288186-c597-46ff-ade0-0e44420d019d).
+- Unattested connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values (receipt ee8c50df-af1b-4951-8117-94a2bee78d79).
+- Unattested engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values (receipt ee8c50df-af1b-4951-8117-94a2bee78d79).
+
+Recommended action: Ask a business specialist to explain the intended rule.
+
+The original structured conclusions and limits remain attached.
+[Full output records](runs/enforced-dual-outputs.json), [per-run metrics](runs/enforced-dual-outputs-live.json).
+
+Validation: seven output-contract tests passed. Full suite ran 1,210 tests with
+one failure: an injected synthesis response still used free business prose. The
+fixture was updated to the enforced wire contract; no production code changed
+after the live run. Focused synthesis tests are rerun; CI checks the final head.
+Initial full-suite failure remains in the local validation log.
