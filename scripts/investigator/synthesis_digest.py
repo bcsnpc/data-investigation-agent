@@ -9,6 +9,7 @@ from sqlglot.lineage import lineage
 from sqlglot.errors import SqlglotError
 from .onboarding import digest,encoded,Conflict
 from .receipt_integrity import verify,TABLES
+from .process_debugging import _surface_key
 
 DISPLAY_ROWS = 2
 EXCERPT_CHARACTERS = 2400
@@ -65,11 +66,11 @@ def _process_evidence(observation,by_id):
   raise Conflict('Process receipt references unavailable evidence')
  upper=observation.get('upper_execution_surface');lower=observation.get('lower_execution_surface')
  for surface in (upper,lower):
-  if surface is not None and (not isinstance(surface,dict) or set(surface)!=set(('engine','connection','object'))
-      or any(not isinstance(surface[k],str) or not surface[k] for k in surface)):
+  if surface is not None and _surface_key(surface) is None:
    raise Conflict('Process execution surface differs')
  if status=='CROSS_SURFACE_VERIFIED':
-  if len(referenced)!=2 or upper==lower or type(observation.get('values_equal')) is not bool:
+  if (len(referenced)!=2 or _surface_key(upper) is None or _surface_key(lower) is None
+      or _surface_key(upper)==_surface_key(lower) or type(observation.get('values_equal')) is not bool):
    raise Conflict('Cross-surface process receipt differs')
   if (digest(referenced[0].get('values'))==digest(referenced[1].get('values'))) != observation['values_equal']:
    raise Conflict('Process comparison differs from referenced observations')
