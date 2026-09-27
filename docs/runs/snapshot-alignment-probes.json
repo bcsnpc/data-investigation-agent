@@ -1,0 +1,96 @@
+{
+  "audit": "SNAPSHOT_ALIGNMENT_READER_PROBES",
+  "results": [
+    {
+      "id": "sql_delta_version",
+      "surface": "Fabric SQL analytics endpoint",
+      "identity": {
+        "oid": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+        "upn": "investigator-reader@skynwhy.com",
+        "tid": "dff91047-ebc2-4657-8dbe-5af328d57780",
+        "aud": "https://database.windows.net/"
+      },
+      "request": {
+        "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+        "database": "warehouse_gold_e1b8e1",
+        "query": "SELECT TOP (20) object_id, latest_log_version, latest_checkpoint_version, last_update_time_utc, is_blocked, SUSER_SNAME() AS reader_identity, DB_NAME() AS database_name FROM sys.dm_db_external_tables_log_status WHERE object_id = OBJECT_ID(N'dbo.movement_values')"
+      },
+      "started": "2026-09-27T19:41:29.569481+00:00",
+      "automatic_retries": 0,
+      "process_exit": 0,
+      "response": {
+        "status": "SERVED",
+        "rows": [],
+        "stage": "complete"
+      },
+      "response_sha256": "d211be3c616b80c337720f446c34acc50b51faff4ebdbf42f7f4626a433dd98a",
+      "ended": "2026-09-27T19:41:40.245842+00:00"
+    },
+    {
+      "id": "dax_delta_version",
+      "surface": "XMLA DAX",
+      "identity": {
+        "oid": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+        "upn": "investigator-reader@skynwhy.com",
+        "tid": "dff91047-ebc2-4657-8dbe-5af328d57780",
+        "aud": "https://analysis.windows.net/powerbi/api"
+      },
+      "request": {
+        "library": "D:\\data_investigation_agent\\.local\\adomd-client\\19.117.0\\lib\\net472\\Microsoft.AnalysisServices.AdomdClient.dll",
+        "workspace_name": "investigator-fixture-83139e71cbdf6a50",
+        "model_name": "Warehouse Operations e1b8e1",
+        "query": "EVALUATE TOPN(20, INFO.DELTATABLEMETADATASTORAGES())"
+      },
+      "started": "2026-09-27T19:41:40.254718+00:00",
+      "automatic_retries": 0,
+      "process_exit": 0,
+      "response": {
+        "status": "REFUSED_OR_FAILED",
+        "messages": [
+          "Exception calling \"ExecuteReader\" with \"0\" argument(s): \"User '<euii>investigator-reader@skynwhy.com</euii>' needs to be an administrator to read the metadata of the database '3484a2bc-98c5-4cef-be5c-a6215484075e'.\r\n\r\nTechnical Details:\r\nRootActivityId: 90dfd72c-edf4-46e6-983f-ba757f2960de\r\nDate (UTC): 9/27/2026 7:41:48 PM\"",
+          "User '<euii>investigator-reader@skynwhy.com</euii>' needs to be an administrator to read the metadata of the database '3484a2bc-98c5-4cef-be5c-a6215484075e'.\r\n\r\nTechnical Details:\r\nRootActivityId: 90dfd72c-edf4-46e6-983f-ba757f2960de\r\nDate (UTC): 9/27/2026 7:41:48 PM"
+        ],
+        "stage": "query",
+        "error_type": "MethodInvocationException"
+      },
+      "response_sha256": "05c5e727a0146f900c382f77de2a4313871d4db64e09997047c958c7e823f675",
+      "ended": "2026-09-27T19:41:50.840996+00:00"
+    },
+    {
+      "id": "dax_execution_mode",
+      "surface": "XMLA DAX",
+      "identity": {
+        "oid": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+        "upn": "investigator-reader@skynwhy.com",
+        "tid": "dff91047-ebc2-4657-8dbe-5af328d57780",
+        "aud": "https://analysis.windows.net/powerbi/api"
+      },
+      "request": {
+        "library": "D:\\data_investigation_agent\\.local\\adomd-client\\19.117.0\\lib\\net472\\Microsoft.AnalysisServices.AdomdClient.dll",
+        "workspace_name": "investigator-fixture-83139e71cbdf6a50",
+        "model_name": "Warehouse Operations e1b8e1",
+        "query": "EVALUATE TOPN(20, TABLETRAITS())"
+      },
+      "started": "2026-09-27T19:41:50.853792+00:00",
+      "automatic_retries": 0,
+      "process_exit": 0,
+      "response": {
+        "status": "REFUSED_OR_FAILED",
+        "messages": [
+          "Exception calling \"ExecuteReader\" with \"0\" argument(s): \"TABLETRAITS function can be executed only by the user with administrator permissions on the database.\r\n\r\nTechnical Details:\r\nRootActivityId: aa1bb63e-c7b3-4871-a196-8670fe12a109\r\nDate (UTC): 9/27/2026 7:41:55 PM\"",
+          "TABLETRAITS function can be executed only by the user with administrator permissions on the database.\r\n\r\nTechnical Details:\r\nRootActivityId: aa1bb63e-c7b3-4871-a196-8670fe12a109\r\nDate (UTC): 9/27/2026 7:41:55 PM"
+        ],
+        "stage": "query",
+        "error_type": "MethodInvocationException"
+      },
+      "response_sha256": "584887c97e0f166eec96122f0d2dd02c06c33409434de1bfe2fac915003f18c5",
+      "ended": "2026-09-27T19:41:56.210282+00:00"
+    }
+  ],
+  "usage_before": 78,
+  "usage_after": 81,
+  "temporary_ceiling": 81,
+  "restored_ceiling": 60,
+  "engine_unchanged": true,
+  "retries": 0
+}
