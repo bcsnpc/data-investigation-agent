@@ -1668,3 +1668,12 @@ Validation details and historical failed checks: [read-budget evidence](rolling-
 Final read-budget validation: 1,302 regressions passed after receipt retention,
 16 focused budget tests, PowerShell syntax and six implementation CI checks passed.
 [PR #279](https://github.com/bcsnpc/data-investigation-agent/pull/279) contains the implementation; no live run is claimed.
+
+
+## 2026-09-27: live budget regression, both runs HELD
+
+Merged #279 after six green checks. Two matched known-domain divergence runs each
+used four physical requests and refused the fifth, the first SQL quantity query,
+at the unchanged per-run cap. Both HELD; no comparison or synthesis outputs.
+Recorded twenty expiring credits, eight used, twelve unused. No policy/cap change,
+reset, refund, engine fix or retry. [Full report](read-budget-live-regression.md).
