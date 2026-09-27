@@ -1,8 +1,8 @@
 # Self-Discovering Enterprise Data Investigator
 
-Current follow-up: [shared producer/consumer bounds](docs/producer-consumer-contracts.md). [Receipt-first read accounting](docs/receipt-first-read-accounting.md) now preserves reads across validation failure and appends the historical correction. Substantive business output and one live rerun remain.
+Current result: [contract/accounting/output repeat](docs/contract-ledger-output-rerun.md) `3d2c5bf0` completed TRANSFORMATION_LOGIC with validated synthesis after two real cross-surface comparisons (8,765 = 8,765; 8,765 != 7,661). All four reads are retained. The judge explains a possible join-multiplication mechanism, not proven duplicate matches or intended semantics. Business output now carries the verified number, comparison, limits and action. Technical prose still ends mid-sentence at its bound; it is preserved verbatim. One known-domain ticket, no source-ingestion build or unfamiliar-domain claim.
 
-**Current depth checkpoint:** declared Silver/Bronze quantity tracing and a
+**Prior depth checkpoint:** declared Silver/Bronze quantity tracing and a
 configurable, attested depth ceiling are implemented. One live run compared
 Power BI/Gold/Silver at 8,765 / 8,765 / 7,661 and invoked the definition judge.
 It then held on a judge/support text-bound mismatch; synthesis did not run and
@@ -14,7 +14,7 @@ is ready for review only: a declared managed connection/copy mapping, new isolat
 fixture and current discovery context, plus separate latency/gap evidence work.
 No pipeline, Copy Job, connection or ingestion fixture has been built.
 
-**Active output milestone:** schema-enforced plain business explanations, mandatory
+**Prior output milestone:** schema-enforced plain business explanations, mandatory
 outcome-derived actions, and technical attestation details are implemented and
 validated in one live run (BUSINESS_QUESTION). Earlier freezes remain invalidated.
 [Output contract](docs/enforced-dual-outputs.md).
