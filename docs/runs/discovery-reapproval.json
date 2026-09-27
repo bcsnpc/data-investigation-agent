@@ -1,0 +1,74 @@
+{
+  "started": "2026-09-27T03:47:01.990700+00:00",
+  "ended": "2026-09-27T03:54:31.262720+00:00",
+  "engine_hash": "a9e32c8192401ba23c353a9c5955312142b8e70725bd832861ce69060a373830",
+  "engine_hash_after": "a9e32c8192401ba23c353a9c5955312142b8e70725bd832861ce69060a373830",
+  "approved_config_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+  "config_hash_after": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+  "scan_id": "3db5fbeb-9162-465b-8bf6-e7877a7444af",
+  "scan_status": "COMPLETE",
+  "inventory_scan_id": "b028a5e7-51f2-4413-892d-c562dac67ba5",
+  "calls": 88,
+  "metadata_api_operations": 87,
+  "sql_catalog_batches": 1,
+  "contexts": [
+    {
+      "id": "0c46f786-9901-402e-b895-47876fbabeeb",
+      "native_id": "5f2afb96-157e-46ab-9fcb-b56a2bb37fba",
+      "revision": 3,
+      "context_id": "7f96a746-5d29-41a4-8caf-a468e26f5246",
+      "enabled": true,
+      "discovery": {
+        "denied": 0,
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6"
+      }
+    },
+    {
+      "id": "68ab1abe-ba8c-4109-82aa-6534f85c19db",
+      "native_id": "8e434350-7100-47b7-a0de-2c5732385dbb",
+      "revision": 3,
+      "context_id": "804d1ca8-a5ab-4aeb-ae27-d3f46b90df71",
+      "enabled": true,
+      "discovery": {
+        "denied": 0,
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6"
+      }
+    },
+    {
+      "id": "7cc0f51d-9337-4090-a28c-2d2eb551da7e",
+      "native_id": "163ce520-ec47-4824-975c-96f5c749205f",
+      "revision": 3,
+      "context_id": "e93ac062-5885-41cc-806e-9c01daf5bbe8",
+      "enabled": true,
+      "discovery": {
+        "denied": 0,
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6"
+      }
+    },
+    {
+      "id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+      "native_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+      "revision": 3,
+      "context_id": "1570dd54-5f55-4440-a7a0-9d2f74f1ef80",
+      "enabled": true,
+      "discovery": {
+        "denied": 0,
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6"
+      }
+    },
+    {
+      "id": "516040e0-50d5-44ec-bb1a-67f5200fb3f6",
+      "native_id": "c463921e-64b2-488e-b8b1-e0239980c79c",
+      "revision": 3,
+      "context_id": "85515a50-98b7-410c-a50d-4673cbdf279b",
+      "enabled": true,
+      "discovery": {
+        "denied": 0,
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6"
+      }
+    }
+  ],
+  "coverage_counts": {
+    "COMPLETE": 47
+  }
+}

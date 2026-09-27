@@ -6,6 +6,35 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: re-approval cleared the policy gate; one real comparison,
+no end-to-end completion.** Updated 2026-09-27 UTC.
+
+- The whole validated-config approval is an execution-policy boundary, not a raw
+  file hash. The added SQL reader is a material execution-path change. The user
+  authorized a normal discovery refresh; no hash narrowing or engine edit occurred.
+- Discovery completed **88 operations** (87 metadata API calls and one SQL catalog
+  batch), all 47 coverage surfaces complete. Approval pins `19e2ef0b?`; target
+  context is `1570dd54-5f55-4440-a7a0-9d2f74f1ef80`, revision 3.
+- Exactly three unchanged-condition G attempts: R1/R3 held at intake for
+  `MISMATCH_COMPLAINT` + `NONE`; R2 passed preview and compared a DAX baseline to
+  the declared Gold table through Fabric SQL. Both sealed quantities agreed.
+- R2: **1 verified cross-surface comparison, 0 within-layer checks**, one DAX read,
+  one Fabric SQL read, one OneLake commit-metadata invocation, zero investigation
+  planner calls. DAX attested identity; SQL attested identity and database. Five
+  unattested fields are retained in limits and both deterministic outputs.
+- R2's deterministic outcome was `CONSISTENT_TO_BOUNDARY`; synthesis was
+  **BLOCKED**, zero provider calls, no validated synthesis. Offline reproduction:
+  `Process execution surface differs` because the digest accepts three surface
+  fields while probes also carry `identity`. No repair or fourth run followed.
+- No divergence occurred, so definition judgment remains untested by this batch.
+  Deeper boundaries and presentation freshness remain unchecked. Engine fingerprint
+  `a9e32c819240?`, config and limits stayed unchanged; all failures are preserved.
+
+See [full report](discovery-reapproval-three.md),
+[discovery receipt](runs/discovery-reapproval.json), and
+[three-run results](runs/discovery-reapproval-three.json). The historical
+checkpoints below remain as originally recorded.
+
 **Current checkpoint: item 3 blocked at the discovery-policy check.** Updated
 2026-09-27.
 - **What happened:** after the MFA sign-in, a fresh three-run batch at

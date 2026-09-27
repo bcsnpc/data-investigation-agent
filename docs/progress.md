@@ -1460,3 +1460,19 @@ an explicit environment, with regression coverage. The corrected checkout passes
 judgment, freeze, variant or unfamiliar-domain claim. See
 [checkpoint evidence](process-capability-declared-scope.md) and the
 [machine-readable result](runs/declared-scope-process-three.json).
+
+
+## 2026-09-27 ? Current-config discovery re-approval and three unchanged-engine trials
+
+The user authorized re-approval after the whole validated-config hash changed
+with the SQL reader and XMLA failure client. An 88-operation scan completed all
+47 coverage surfaces and published target context
+`1570dd54-5f55-4440-a7a0-9d2f74f1ef80` at revision 3, pinned to `19e2ef0b?`.
+Exactly three G attempts followed: R1 and R3 were held on the incompatible intake
+pairing `MISMATCH_COMPLAINT` / `NONE`; R2 made one equal DAX-to-Fabric-SQL comparison
+with matched required self-report fields, then blocked before synthesis with
+`Process execution surface differs`. Two sealed data reads and one metadata tool
+invocation occurred; no investigation planner or synthesis provider calls.
+No engine/config change, additional trial, reset or acceptance claim. Two required
+generator tests passed. See [report](discovery-reapproval-three.md) and
+[machine evidence](runs/discovery-reapproval-three.json).
