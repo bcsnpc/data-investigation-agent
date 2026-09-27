@@ -1,6 +1,6 @@
 # Self-Discovering Enterprise Data Investigator
 
-Current follow-up: [shared producer/consumer bounds](docs/producer-consumer-contracts.md). Read accounting and substantive business output are next; no new live result yet.
+Current follow-up: [shared producer/consumer bounds](docs/producer-consumer-contracts.md). [Receipt-first read accounting](docs/receipt-first-read-accounting.md) now preserves reads across validation failure and appends the historical correction. Substantive business output and one live rerun remain.
 
 **Current depth checkpoint:** declared Silver/Bronze quantity tracing and a
 configurable, attested depth ceiling are implemented. One live run compared
