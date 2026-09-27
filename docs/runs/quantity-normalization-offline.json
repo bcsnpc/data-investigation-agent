@@ -1,0 +1,36 @@
+{
+  "original_session_id": "54509912-5e30-4850-afd7-ed26b5bc56aa",
+  "network_calls": 0,
+  "synthesis_model_calls": 0,
+  "sealed_receipts_verified": [
+    {
+      "tool": "bounded_dax",
+      "receipt": "dd7f4085-e7f7-4f54-bafa-4a50be117085",
+      "seal": "e79d415f3e605c56508e42e87036833be0f438de7f4c1579103ab3aed23f945e",
+      "declared_surface_report_columns": {
+        "identity": "surface_identity"
+      },
+      "value_columns": [
+        "[baseline]"
+      ],
+      "surface_report_retained": true
+    },
+    {
+      "tool": "bounded_fabric_sql",
+      "receipt": "ecd4aeec-db95-4124-b343-4cf84a46f372",
+      "seal": "875efcc6c28414dc365ac9e2dcc729bdae22be23f843567bf9633cad9d08c356",
+      "declared_surface_report_columns": null,
+      "value_columns": [
+        "quantity"
+      ],
+      "surface_report_retained": true
+    }
+  ],
+  "normalized_comparison_validated": true,
+  "digest_error": {
+    "type": "KeyError",
+    "message": "'metadata'"
+  },
+  "synthesis_completed": false,
+  "original_artifacts_unchanged": true
+}

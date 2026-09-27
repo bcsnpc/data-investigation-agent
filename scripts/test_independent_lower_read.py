@@ -161,6 +161,21 @@ class CompileTests(unittest.TestCase):
             for name in ('movement_values', 'warehouse_gold', 'handled quantity', "'activity'", 'e1b8e1'):
                 self.assertNotIn(name, source, path)
 
+    def test_declared_surface_columns_never_enter_compared_quantity(self):
+        from investigator.adapters.microsoft_process import _quantity
+        import copy
+        for label in ('surface_identity','arbitrary_report_label'):
+            for column in (label,'['+label+']'):
+                rows=[{'[baseline]':{'type':'decimal','value':'12.00'},
+                       column:{'type':'string','value':'reader@example.com'}}]
+                original=copy.deepcopy(rows)
+                self.assertEqual(_quantity(rows,{'identity':label}),{'quantity':'12'})
+                self.assertEqual(rows,original)  # receipt/attestation untouched
+                self.assertEqual(_quantity(rows),original)  # no name-based stripping
+                rows[0]['other_measure']={'type':'decimal','value':'5'}
+                projected=_quantity(rows,{'identity':label})
+                self.assertEqual(set(projected[0]),{'[baseline]','other_measure'})
+
     def test_the_fabric_sql_tool_requires_a_declared_catalog_and_is_not_offered_to_planners(self):
         h = Harness()
         plan = {'model_id': 'm', 'revision': 1, 'context_id': 'c', 'query': 'SELECT 1 AS x', 'max_rows': 20}
