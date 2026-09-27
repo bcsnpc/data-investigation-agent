@@ -38,7 +38,7 @@ No field is added to the open investigation planner's initial context/directory.
 The golden projected payloads remain byte-identical before/after: dense profile
 1,460 characters; definition children 7,212 (50 directory entries); paged content
 4,722; per-call ceiling 31,851. The separate directory-coverage golden also
-asserts unchanged entry/SQL-object counts. New definition-judge context includes
+asserts unchanged 28-entry/11-SQL-object counts. New definition-judge context includes
 the measured pair and retained operation contract; its existing 48,000-character
 cap remains. Synthesis retains this contract and judgment limitations.
 
@@ -46,10 +46,16 @@ Deterministic assessments have a separate bounded allowance for per-boundary
 references and limits, so additional attestation/depth evidence is not truncated
 to the open planner's twelve-reference/six-limit allowance. The latter is unchanged.
 
-Nine focused tests cover exact declared tracing, unsupported/shadowed code,
+Eleven focused tests cover exact declared tracing, unsupported/shadowed code,
 ambiguous catalog targets, changed quantities, endpoint scope, ceilings, descent,
-unchecked boundaries and definition-receipt retention. The required two generator
-tests pass. Full regression and live results are recorded below when complete.
+unchecked boundaries, inconclusive judgments, definition-receipt retention and
+separation of the selected report baseline from an internal boundary baseline.
+The required two generator tests pass. The first broad run had one engine-change
+fence error while edits were underway; it is preserved. The stable-engine repeat
+passed 1,220 tests. A subsequent offline divergence regression exposed the separate
+baseline references; after that correction all 52 depth/process checks passed,
+including the original support validator. Seven narrative, 30 synthesis and 11
+planner-projection checks also passed during this milestone. No browser run.
 
 ## Live trial
 

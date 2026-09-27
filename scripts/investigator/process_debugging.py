@@ -242,8 +242,14 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     available=frozenset(adapter.capabilities())
     failures=[]
     path={}
+    measure_baseline=None
     def answer(*args,**kwargs):
         result=_answer(*args,capabilities=available,failures=failures,**kwargs)
+        # The baseline above a divergent internal boundary is not the selected
+        # report measure. Keep its evidence separate from the presentation read.
+        if measure_baseline is not None:
+            result['support']['measure_connection']='ESTABLISHED' if measure_baseline['status']=='ESTABLISHED' else 'NOT_ESTABLISHED_CAPABILITY'
+            result['support']['measure_connection_evidence_ids']=list(measure_baseline['evidence_ids'])
         all_layers=path.get('layers',[]);observed=result['_observations']
         compared={(o.get('upper_layer'),o.get('lower_layer')) for o in observed if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED'}
         attempted={(o.get('upper_layer'),o.get('lower_layer')):o for o in observed if o.get('comparison_status')}
@@ -329,6 +335,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
               'evidence_ids':[top.evidence['id']]} if top.status=='OBSERVED' and top.evidence else {
               'status':'NOT_ESTABLISHED','layer':top.layer,'reason':top.reason or 'Presentation quantity was not comparable.',
               'evidence_ids':[]}
+    measure_baseline=baseline
 
     if len(layers)<2:
         reason=path.get('missing_comparable_quantity') or 'No adjacent layer has a faithfully bound quantity for comparison.'

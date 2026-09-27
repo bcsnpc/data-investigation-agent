@@ -73,6 +73,21 @@ class QuantityTraceTests(unittest.TestCase):
         self.assertEqual(len(path),2);self.assertIn('derived/unsupported',gap['reason'])
 
 class DepthTests(unittest.TestCase):
+    def test_deeper_boundary_keeps_measure_baseline_separate_from_boundary_baseline(self):
+        from test_process_debugging import Adapter
+        from investigator.assessment_support import validate
+        a=Adapter(['report','served','clean'],dict(report=10,served=10,clean=8),explain=True)
+        original=a.evaluate
+        def evaluate(layer,measure,scope):
+            p=original(layer,measure,scope)
+            p.evidence['test_purpose']='REPRODUCE_MEASURE' if layer['id']=='report' else 'COMPARE_DECLARED_SOURCE'
+            return p
+        a.evaluate=evaluate
+        result=vertical(a,'measure',{})
+        self.assertEqual(result['support']['process']['baseline_above']['layer'],'served')
+        self.assertEqual(result['support']['measure_connection_evidence_ids'],['read-report'])
+        validate(result,{o['id']:o for o in result['_observations']})
+
     def test_inconclusive_definition_does_not_turn_into_defect(self):
         from test_process_debugging import Adapter
         a=Adapter(['report','served','clean'],dict(report=10,served=10,clean=8))
