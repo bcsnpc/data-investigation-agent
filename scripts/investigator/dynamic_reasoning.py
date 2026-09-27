@@ -200,8 +200,12 @@ def wire_schema(candidates,hypotheses=(),observations=(),asset_handles=None,cont
     # Keyed updates forbid duplicate IDs. Offer a bounded rotating window so
     # filling every offered slot still satisfies the consumer's update bound;
     # all hypotheses remain in context and the retained-state bound is unchanged.
-    keys=list(slots);offset=len(observations)%len(keys) if keys else 0
-    keys=(keys[offset:]+keys[:offset])[:limits.HYPOTHESIS_UPDATES]
+    retained=[h['id'] for h in hypotheses]
+    capacity=limits.HYPOTHESIS_UPDATES-(1 if new_ids and retained else 0)
+    if len(retained)>capacity:
+        offset=len(observations)%len(retained)
+        retained=(retained[offset:]+retained[:offset])[:capacity]
+    keys=(retained+new_ids)[:limits.HYPOTHESIS_UPDATES]
     slots={key:slots[key] for key in keys}
     updates={'type':'object','additionalProperties':False,'properties':slots,'required':list(slots)}
     return {'type':'object','additionalProperties':False,'properties':{
