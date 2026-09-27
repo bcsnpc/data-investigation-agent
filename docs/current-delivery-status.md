@@ -6,6 +6,22 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: item 3 blocked at the discovery-policy check.** Updated
+2026-09-27.
+- **What happened:** after the MFA sign-in, a fresh three-run batch at
+  `24a23be` got through intake, then each run was refused at preview:
+  `Dynamic investigation needs current approved discovery policy`.
+- **Why:** discovery approval pins the digest of the whole config.
+  `fabric.sql_reader` and `fabric.xmla_client`, added by this session, changed
+  that digest, so every catalog-mediated investigation has been refused since
+  2026-09-26.
+- **Not tested:** no investigation read, comparison or synthesis occurred, so
+  the acceptance bar is untested.
+- **Next:** a decision is needed, either to re-approve discovery or to narrow
+  the policy hash.
+
+See [item 3 runs](item3-three-runs.md#second-batch-2026-09-27-0338-utc-stopped-at-the-discovery-policy-check).
+
 **Current checkpoint: item 3 blocked before intake.** Updated 2026-09-27.
 - **What happened:** three runs at `a63bfa5` (`unfrozen-a9e32c819240`) each
   failed in 2–3 s, before opening a session. The Azure OpenAI key could not be

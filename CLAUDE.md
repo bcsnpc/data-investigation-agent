@@ -186,6 +186,11 @@ A PR that changes behaviour and does not update these is incomplete.
 
 ## Known past failures — do not reintroduce
 
+- Adding reader and transport sections to an environment's config changed the
+  whole-config digest that discovery approval pins, so every catalog-mediated
+  investigation was refused (2026-09-26 onward). Checks that call the adapter
+  directly did not notice. After any config change, confirm discovery approval
+  still matches before running.
 - The engine fingerprint hashed only `scripts/investigator/*.py`, so adapter- and
   transport-only changes left the tag unchanged, and a freeze could certify
   changed behaviour. Fixed: it now covers the package recursively and every
