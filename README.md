@@ -1,5 +1,10 @@
 # Self-Discovering Enterprise Data Investigator
 
+**Active output milestone:** schema-enforced plain business explanations, mandatory
+outcome-derived actions, and technical attestation details are implemented and
+under validation. One live run is pending. Earlier freezes remain invalidated.
+[Output contract](docs/enforced-dual-outputs.md).
+
 **First completed end-to-end investigation, 2026-09-27:** run `c2658c88`
 completed intake, one genuine Power BI/Fabric SQL comparison, and validated
 synthesis. Both values were 8,765. This is one ticket in one known domain,

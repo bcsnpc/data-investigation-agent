@@ -218,11 +218,12 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                 'process':process},
             '_observations':observations,
             'business_output':{'conclusion':explanation or outcome.replace('_',' ').title(),
+                               'recommended_action':ACTIONS[outcome],
                                'failures':list(failures),
                                'unattested_surface_fields':unattested,
                                'compared_bindings':bindings,
                                'skipped_steps':list(skipped_steps)},
-            'technical_output':{'failures':list(failures),
+            'technical_output':{'failures':list(failures),'recommended_action':ACTIONS[outcome],
                                 'queries':[{'evidence_id':o['id'],'query':o['query']}
                                for o in observations if o.get('query')],
                                 'visibility_boundary':process['visibility_boundary'],
