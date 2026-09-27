@@ -66,6 +66,14 @@ answerable from pipeline evidence.
 
 ## Evidence discipline
 
+Reachable depth is a property of the estate, not the engine. The operator's
+configured boundary depth is a CEILING, never a reachability or completeness
+claim. Every lower layer still needs a declared binding, faithful quantity,
+successful isolated read and surface attestation. Most estates will not expose
+their source application. Early termination is a conclusion scoped to the named
+verified depth, with every unchecked boundary and its reason in the limits of
+both outputs. Never approximate a quantity to meet the configured depth.
+
 - Preserve every failed, partial, interrupted and rejected run exactly as it
   happened. Never edit a frozen artifact, a stored receipt or recorded run
   evidence to make something pass.
@@ -125,6 +133,12 @@ A PR that changes behaviour and does not update these is incomplete.
 - [ ] Freeze invalidation stated if engine bytes changed
 
 ## Current state (update this section as it changes)
+
+Dated correction, 2026-09-27: the historical statements below about no completed
+investigation and no table read are superseded by run c2658c88, the first completed
+known-domain investigation through one independently compared boundary and
+validated synthesis. It did not exercise divergence or definition judgment.
+See docs/current-delivery-status.md for subsequent work and current evidence.
 
 - The outcome taxonomy and the vertical procedure are implemented in
   `scripts/investigator/process_debugging.py`.

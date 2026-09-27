@@ -42,6 +42,9 @@ class AdaptiveRuntime:
         self.runtime=runtime;self.store=runtime.store;self.config=runtime.config
         self.planner=planner;self.clock=clock;self.process_judge=process_judge
         self.planner_profile=planner_profile or {"adapter":"injected"}
+        self.process_max_boundaries=self.planner_profile.get('process_max_boundaries',1)
+        if type(self.process_max_boundaries) is not int or not 0<=self.process_max_boundaries<=32:
+            raise ValueError('Process boundary ceiling must be 0 through 32')
         from .generation_policy import validate as generation_policy
         self.generation_options=generation_policy(self.planner_profile.get('generation_options'))
         self.max_planner_recoveries=self.planner_profile.get('max_planner_recoveries',0)
@@ -497,6 +500,26 @@ class AdaptiveRuntime:
                 except (ValueError,TypeError):return {'status':'UNAVAILABLE','error_type':'InvalidResponse','codes':[]}
             return execute()
 
+        def read_endpoint(request):
+            def execute():
+                import subprocess
+                from metadata_config import ROOT
+                from uuid import UUID
+                if request['workspace']!=self.config['fabric']['workspace_id']:
+                    raise ValueError('Endpoint lookup leaves approved workspace')
+                workspace=str(UUID(request['workspace']));lakehouse=str(UUID(request['lakehouse']))
+                endpoint=f'workspaces/{workspace}/lakehouses/{lakehouse}'
+                try:
+                    result=subprocess.run([str(ROOT/'.local/fabric-cli-env/Scripts/fab.exe'),'api',endpoint,
+                        '-X','get','-A','fabric','--show_headers'],capture_output=True,text=True,encoding='utf-8',timeout=90)
+                    response=json.loads(result.stdout)
+                    if response.get('status_code')!=200:return {'status':'UNAVAILABLE','http_status':response.get('status_code')}
+                    body=response['text'];properties=body.get('properties',{}).get('sqlEndpointProperties',{})
+                    return {'id':body['id'],'properties':{'sqlEndpointProperties':{
+                        k:properties[k] for k in ('id','connectionString') if k in properties}}}
+                except (ValueError,KeyError,subprocess.TimeoutExpired):return {'status':'UNAVAILABLE'}
+            return meter_read('fabric_endpoint_metadata',execute)
+
         # The independent lower surface: declared only when the reader's own
         # session is present (a local check, no token request).
         lower_surface=None;execute_lower=None
@@ -511,7 +534,8 @@ class AdaptiveRuntime:
             judge_definition=judge if provider is not None else None,meter_read=meter_read,
             read_ingestion=read_ingestion,
             read_failure_detail=read_failure_detail if self.config['fabric'].get('xmla_client') else None,
-            lower_surface=lower_surface,execute_lower=execute_lower)
+            lower_surface=lower_surface,execute_lower=execute_lower,
+            max_boundaries=self.process_max_boundaries,read_endpoint=read_endpoint)
         path=adapter.resolve_path(state['envelope']['measure_id'])
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)

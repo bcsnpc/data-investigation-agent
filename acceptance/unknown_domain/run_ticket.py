@@ -47,6 +47,8 @@ def main():
     p.add_argument('--azure-settings',type=Path,default=ROOT/'infra/llm/development.json')
     p.add_argument('--execute-reviewed-scope',action='store_true')
     p.add_argument('--synthesis',action='store_true',help='One independently metered conclusion call after investigation')
+    p.add_argument('--max-boundaries',type=int,default=1,choices=range(33),
+                   help='Operator ceiling on process comparisons; not a reachability claim')
     p.add_argument('--input-limit',type=int,default=384000,
                    help='Experimental cumulative investigation input; does not change workspace defaults')
     p.add_argument('--read-limit',type=int,default=15,choices=range(1,16),
@@ -74,6 +76,7 @@ def main():
     settings=json.loads(args.azure_settings.read_text(encoding='utf-8-sig'))
     agent=AdaptiveRuntime(Runtime(store,c,lambda r:native(c,r),lambda r:source(c,r)),lambda payload:paced(azure_plan,payload),
           planner_profile={'adapter':'azure','deployment':settings['deployment'],
+                           'process_max_boundaries':args.max_boundaries,
                            **({'max_planner_recoveries':settings['max_planner_recoveries']} if 'max_planner_recoveries' in settings else {}),
                            **({'generation_options':settings['generation_options']} if 'generation_options' in settings else {})},
           usage_policy=json.loads((folder/'usage-policy.json').read_text()))
@@ -90,7 +93,7 @@ def main():
                 'planner_deployment':settings['deployment'],
                 'generation_options':settings.get('generation_options'),
                 'max_planner_recoveries':settings.get('max_planner_recoveries',0),
-                'read_limit':args.read_limit,'input_limit':args.input_limit,'synthesis_enabled':args.synthesis,
+                'read_limit':args.read_limit,'input_limit':args.input_limit,'max_boundaries':args.max_boundaries,'synthesis_enabled':args.synthesis,
                 'minimum_llm_interval':args.minimum_llm_interval,'intake':intake}
         if intake['status']=='PROPOSED':
             proposal=intake['proposal'];request={k:proposal[k] for k in ('model_id','measure_id','filters','dimension_ids')}

@@ -18,12 +18,28 @@ EXCERPT_CHARACTERS = 2400
 
 def _context_evidence(observation):
  roles=observation.get('process_roles',[])
+ if 'transformation_definition' in roles and isinstance(observation.get('quantity_contract'),dict):
+  contract=observation['quantity_contract']
+  if (observation.get('asset_id')!=contract.get('definition_asset_id')
+      or observation.get('content_hash')!=contract.get('definition_hash')
+      or not isinstance(observation.get('operations'),list)):
+   raise Conflict('Declared quantity definition receipt differs')
+  return {'asked':{'operation':'transformation_definition','asset_id':observation['asset_id']},
+          'result':{'operations':observation['operations'],'quantity_contract':contract,
+                    'limitation':observation['limitation'],'judgment':observation['judgment']},
+          'provenance':{'hash':digest(observation),'content_hash':observation['content_hash']}}
  if isinstance(roles,list) and 'ingestion' in roles:
   from .adapters.microsoft_context_evidence import ingestion_evidence
   result=ingestion_evidence(observation)
   return {'asked':{'operation':'ingestion','asset_id':result['asset_id']},
           'result':result,
           'provenance':{'hash':digest(observation),'derivation':'PROCESS_ADAPTER_INGESTION_RECEIPT'}}
+ if 'job_history' in roles:
+  runs=observation.get('runs')
+  if not isinstance(runs,list) or not runs or any(not isinstance(r,dict) for r in runs):
+   raise Conflict('Job-history receipt requires retained run observations')
+  return {'asked':{'operation':'job_history'},'result':{'runs':runs},
+          'provenance':{'hash':digest(observation),'derivation':'RETAINED_DISCOVERY_JOB_HISTORY'}}
  if not isinstance(observation.get('metadata'),dict):
   raise Conflict('Context lookup/path receipt requires metadata; unsupported context receipt shape')
  return {'asked':observation.get('lookup'),'result':_definition_evidence(observation),
