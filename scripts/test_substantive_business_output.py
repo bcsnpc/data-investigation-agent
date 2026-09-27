@@ -21,8 +21,8 @@ class BusinessFactsTests(unittest.TestCase):
     def test_five_sentences_keep_quantity_comparison_limits_action_without_jargon(self):
         payload=self.payload();text=business_text('TRANSFORMATION_LOGIC',payload)
         self.assertIn('8,765',text);self.assertIn('7,661',text)
-        self.assertIn('one record several matches',text)
-        self.assertIn('information before the last check',text);self.assertIn(action('TRANSFORMATION_LOGIC')['text'],text)
+        self.assertIn('matching step can count an entry more than once',text)
+        self.assertIn('no usable business names',text);self.assertIn(action('TRANSFORMATION_LOGIC')['text'],text)
         self.assertEqual(len(text.rstrip('.').split('. ')),5)
         for forbidden in ('406','movement_values','SQL','Gold','Silver','Bronze','Delta','aggregate','ingestion','report-id'):
             self.assertNotIn(forbidden,text)

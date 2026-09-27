@@ -425,6 +425,8 @@ class MicrosoftProcessAdapter:
                 'lower_value':boundary['lower_probe'].value,
                 'boundary':{'upper':boundary['upper']['id'],'lower':boundary['lower']['id']},'definition':definition})
             definition['judgment']=dict(judgment)
+            # Naming evidence is for output rendering, not a change to judge input.
+            definition['business_vocabulary']=boundary['lower'].get('business_vocabulary',{})
             return {**judgment,'evidence':definition}
         identity=boundary['lower'].get('definition_asset_id')
         if not identity:

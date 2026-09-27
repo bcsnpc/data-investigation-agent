@@ -14,6 +14,7 @@ class Frame:
     columns: dict
     origins: dict
     operations: list = field(default_factory=list)
+    vocabulary: dict = field(default_factory=dict)
 
 class Unsupported(ValueError):
     pass
@@ -124,6 +125,21 @@ class DeclaredQuantities:
             if any(k not in base.columns or k not in other.columns or base.columns[k]!=other.columns[k] for k in keys):return None
             # Duplicate non-key columns are ambiguous; never choose a side.
             if (set(base.columns)&set(other.columns))-set(keys):return None
+            # Keep lexical source spans separate from the executable contract.
+            # These are names declared in the definition, not inferred semantics.
+            expression=ast.get_source_segment(self.code,n)
+            def term(node):
+                if not isinstance(node,ast.Name):return None
+                start=node.col_offset-n.col_offset
+                if node.lineno!=n.lineno or expression[start:start+len(node.id)]!=node.id:return None
+                return {'text':node.id,'source_start':start,'source_end':start+len(node.id),
+                        'operation_index':len(base.operations)}
+            left,right=term(n.func.value),term(n.args[0])
+            vocabulary={}
+            if left and right and not base.operations and not other.operations:
+                for c in base.columns:vocabulary[c]={'subject':left,'matched':right}
+                for c in other.columns:
+                    if c not in base.columns:vocabulary[c]={'subject':right,'matched':left}
             for c in other.columns:
                 if c not in keys:
                     base.columns[c]=other.columns[c]
@@ -132,6 +148,7 @@ class DeclaredQuantities:
                 'inputs':sorted({x[0] for x in list(base.origins.values())+list(other.origins.values())}),
                 'grain':'matching rows may multiply; uniqueness is not assumed',
                 'line':n.lineno,'expression':ast.get_source_segment(self.code,n)})
+            base.vocabulary=vocabulary
             return base
         if name=='withColumn':
             if len(n.args)!=2 or n.keywords:return None

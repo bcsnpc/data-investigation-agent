@@ -45,7 +45,7 @@ class EvidenceProseTests(unittest.TestCase):
         p['evidence'][3]['result']['values_equal']=False
         value=business_text('NO_KNOWN_PATTERN',p)
         self.assertIn('8,765',value);self.assertIn('8,200',value)
-        self.assertIn('between the report and the information it reads',value)
+        self.assertIn('between that total and the displayed number',value)
         self.assertNotIn('7,661',value)
 
     def test_all_former_prose_cutters_preserve_and_reject(self):
@@ -70,4 +70,4 @@ class EvidenceProseTests(unittest.TestCase):
             if edit=='judgment':result['judgment']['judgment']='INDETERMINATE'
             if edit=='operation':result['quantity_contract']['operations'].append({'operation':'FILTER'})
             if edit=='join_kind':result['quantity_contract']['operations'][0]['how']='anti'
-            self.assertNotIn('counted more than once',business_text('TRANSFORMATION_LOGIC',p))
+            self.assertNotIn('entry more than once',business_text('TRANSFORMATION_LOGIC',p))

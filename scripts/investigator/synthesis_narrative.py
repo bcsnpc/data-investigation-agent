@@ -42,7 +42,10 @@ def schema(payload):
     from .output_contract import BUSINESS
     finding=payload.get('deterministic_process_finding')
     outcomes=[finding['classification']] if finding else list(BUSINESS)
-    business['properties']['text']={'type':'string','enum':[business_text(o,payload) for o in outcomes]}
+    from .business_vocabulary import validate_text
+    texts=[business_text(o,payload) for o in outcomes]
+    for text in texts:validate_text(text,text)
+    business['properties']['text']={'type':'string','enum':texts}
     return {'type':'object','additionalProperties':False,'properties':{
         'business_output':business,
         'technical_output':statement(limits.ASSESSMENT_CLAIM),
@@ -62,6 +65,8 @@ def assemble(response,payload,state):
     source=state['assessment']
     if value['business_output']['text']!=business_text(source['classification'],payload):
         raise ValueError('Business wording differs from the fixed outcome')
+    from .business_vocabulary import validate_text
+    validate_text(value['business_output']['text'],business_text(source['classification'],payload))
     assessment={k:copy.deepcopy(source[k]) for k in assessment_schema()['required']}
     validate(copy.deepcopy(assessment),payload,source_state=state)
     # The explanation is explicitly additional to, not a replacement for, the
@@ -81,5 +86,8 @@ def assemble(response,payload,state):
         if unattested else 'No unattested surface fields were recorded.')
     technical['text']+='\n\nRecommended action: '+recommended['text']
     outputs['business_output']['provenance']='DETERMINISTIC_OUTCOME_RENDERING'
+    outputs['business_output']['vocabulary_evidence']=[
+        {'evidence_id':e['id'],'terms':copy.deepcopy(e['result']['business_vocabulary'])}
+        for e in payload['evidence'] if e.get('result',{}).get('business_vocabulary')]
     return assessment,{'version':3,'provenance':'LLM_INFERRED',
                        'source_assessment_hash':digest(source),**outputs}

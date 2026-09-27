@@ -1,5 +1,6 @@
 """Scoped, definition-backed additive quantity paths for the Microsoft adapter."""
 import hashlib
+import copy
 from .notebook_quantities import DeclaredQuantities
 
 TYPES={'long':'bigint','bigint':'bigint','int':'int','string':'nvarchar','double':'float','boolean':'bit'}
@@ -49,6 +50,16 @@ def extend(context, layers):
             'definition_asset_id':part['id'],'definition_hash':definition_hash,
             'operations':frame.operations,'scope':'whole entity, no filters or grouping',
             'limitation':'Row multiplicity and whole-row deduplication may change the total; agreement does not establish intended grain, key uniqueness or a common snapshot.'}
+        vocabulary=copy.deepcopy(frame.vocabulary.get(column,{}))
+        identifiers={c.casefold() for c in frame.columns}
+        identifiers.update(a['name'].casefold() for a in assets if isinstance(a.get('name'),str))
+        identifiers.update(a['name'].rsplit('.',1)[-1].casefold() for a in assets if isinstance(a.get('name'),str))
+        identifiers.update(piece.casefold() for a in assets if isinstance(a.get('name'),str)
+                           for piece in a['name'].split('.'))
+        from ..business_vocabulary import safe_term
+        if any(not safe_term(v['text']) or v['text'].casefold() in identifiers for v in vocabulary.values()):vocabulary={}
+        for v in vocabulary.values():
+            v.update(definition_asset_id=part['id'],definition_hash=definition_hash)
         planned.append({'id':target['id'],'kind':'declared_quantity','source_column':source_column,
             'definition_asset_id':part['id'],'transformation_asset_id':part['parent_id'],
             'measure':upper['measure'],'semantic_column':source_column,'semantic_table':name,
@@ -58,7 +69,7 @@ def extend(context, layers):
                 'schema':schema,'table':table,'catalog':[{'id':target['id'],'provenance':'DECLARED_BY_DEFINITION',
                     'metadata':{'schema_name':schema,'name':table,'type_desc':'USER_TABLE','columns':[
                         {'name':c,'data_type':TYPES.get(t,'sql_variant')} for c,t in source_frame.columns.items()]}}]},
-            'quantity_contract':contract})
+            'quantity_contract':contract,'business_vocabulary':vocabulary})
         notes.append({'upper_layer':upper['id'],'lower_layer':target['id'],**contract})
         seen.add(target['id']);column=source_column
     else:gap={'upper_layer':planned[-1]['id'],'lower_layer':'unresolved upstream','reason':'Metadata path-depth bound reached'}
