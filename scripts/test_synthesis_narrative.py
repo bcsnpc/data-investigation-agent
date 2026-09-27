@@ -46,7 +46,9 @@ class NarrativeContractTests(unittest.TestCase):
             for key in ('business_output','technical_output'):
                 self.assertEqual(outputs[key]['recommended_action']['code'],process_outcomes.ACTIONS[outcome])
                 self.assertIn(outputs[key]['recommended_action']['text'],outputs[key]['explanation']['text'])
-            for u in fields:self.assertIn('Unattested '+u['field']+' on '+u['layer'],outputs['technical_output']['explanation']['text'])
+            text=outputs['technical_output']['explanation']['text']
+            self.assertEqual(text.count('Unattested connection, engine, object on report (receipt baseline).'),1)
+            self.assertEqual(text.count('Unattested connection, engine on data (receipt baseline).'),1)
 
     def test_every_outcome_preserves_complete_contract_and_allows_limitations(self):
         for outcome in process_outcomes.OUTCOMES:
