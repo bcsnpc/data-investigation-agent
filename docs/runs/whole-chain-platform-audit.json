@@ -1,0 +1,559 @@
+{
+  "kind": "OPERATOR_METADATA_AND_REACHABILITY_AUDIT_NOT_INVESTIGATION",
+  "engine_commit": "542ab0bf354d47eaac544681ce9e0c41a6b878d4",
+  "context_id": "3db5fbeb-9162-465b-8bf6-e7877a7444af",
+  "notes": [
+    "First six relation requests succeeded but the local probe read body instead of text, discarding bodies; their projected receipts and charges are preserved. No relation absence is inferred from them. Six corrected requests follow.",
+    "Notebook getDefinition initially returned 202; operation result fetched once after retry interval elapsed. The original headers/body are local; public evidence carries content hashes, not embedded table rows.",
+    "Two self-reports and two zero-row Fabric SQL permission queries; one Azure SQL connection failure 40613, no retry. No quantity read/comparison, investigation, synthesis, config change, policy increase or refund."
+  ],
+  "batches": [
+    {
+      "session": "whole-chain-audit-20260927T053942Z",
+      "purpose": "OPERATOR_METADATA_AND_REACHABILITY_AUDIT_NOT_INVESTIGATION",
+      "usage_before": {
+        "environment": "unknown-domain-v4",
+        "day": "2026-09-27",
+        "policy_hash": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+        "limits": {
+          "cloud_calls": 60,
+          "input_characters": 8000000,
+          "output_tokens": 1500000,
+          "planner_calls": 240
+        },
+        "reserved_today": {
+          "planner_calls": 18,
+          "cloud_calls": 16,
+          "input_characters": 657620,
+          "output_tokens": 46500
+        },
+        "reservation_states": {
+          "SETTLED": 1233,
+          "UNCERTAIN": 17
+        },
+        "billing_cap_verified": false,
+        "limitation": "Initiated UTC-day reservations in this catalog only; no provider spend or SQL compute guarantee."
+      },
+      "receipts": [
+        {
+          "probe": "silver_upstream",
+          "started_utc": "2026-09-27T05:39:42.588498+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {},
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:39:47.673489+00:00"
+        },
+        {
+          "probe": "silver_downstream",
+          "started_utc": "2026-09-27T05:39:47.693785+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {},
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:39:50.776958+00:00"
+        },
+        {
+          "probe": "bronze_upstream",
+          "started_utc": "2026-09-27T05:39:50.803096+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {},
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:39:53.840257+00:00"
+        },
+        {
+          "probe": "bronze_downstream",
+          "started_utc": "2026-09-27T05:39:53.859374+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {},
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:39:57.052312+00:00"
+        },
+        {
+          "probe": "notebook_upstream",
+          "started_utc": "2026-09-27T05:39:57.071033+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {},
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:40:00.586115+00:00"
+        },
+        {
+          "probe": "notebook_downstream",
+          "started_utc": "2026-09-27T05:40:00.616445+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {},
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:40:03.283388+00:00"
+        },
+        {
+          "probe": "notebook_definition",
+          "started_utc": "2026-09-27T05:40:03.305745+00:00",
+          "answer": {
+            "status_code": 202,
+            "body": {
+              "parts": [],
+              "response_keys": []
+            },
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:40:07.416343+00:00"
+        },
+        {
+          "probe": "silver_reader_self_report",
+          "started_utc": "2026-09-27T05:40:07.440008+00:00",
+          "answer": {
+            "status": "REACHABLE",
+            "reason": null,
+            "execution_surface": {
+              "engine": "FABRIC_SQL",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+              "object": "warehouse_silver_e1b8e1",
+              "identity": "investigator-reader@skynwhy.com"
+            },
+            "surface_report": {
+              "identity": "investigator-reader@skynwhy.com",
+              "object": "warehouse_silver_e1b8e1"
+            }
+          },
+          "finished_utc": "2026-09-27T05:40:19.032808+00:00"
+        },
+        {
+          "probe": "bronze_reader_self_report",
+          "started_utc": "2026-09-27T05:40:19.057974+00:00",
+          "answer": {
+            "status": "REACHABLE",
+            "reason": null,
+            "execution_surface": {
+              "engine": "FABRIC_SQL",
+              "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+              "object": "warehouse_bronze_e1b8e1",
+              "identity": "investigator-reader@skynwhy.com"
+            },
+            "surface_report": {
+              "identity": "investigator-reader@skynwhy.com",
+              "object": "warehouse_bronze_e1b8e1"
+            }
+          },
+          "finished_utc": "2026-09-27T05:40:23.958331+00:00"
+        }
+      ],
+      "usage_after": {
+        "environment": "unknown-domain-v4",
+        "day": "2026-09-27",
+        "policy_hash": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+        "limits": {
+          "cloud_calls": 60,
+          "input_characters": 8000000,
+          "output_tokens": 1500000,
+          "planner_calls": 240
+        },
+        "reserved_today": {
+          "planner_calls": 18,
+          "cloud_calls": 25,
+          "input_characters": 657620,
+          "output_tokens": 46500
+        },
+        "reservation_states": {
+          "SETTLED": 1242,
+          "UNCERTAIN": 17
+        },
+        "billing_cap_verified": false,
+        "limitation": "Initiated UTC-day reservations in this catalog only; no provider spend or SQL compute guarantee."
+      }
+    },
+    {
+      "session": "whole-chain-audit-20260927T054049Z",
+      "purpose": "OPERATOR_METADATA_AND_REACHABILITY_AUDIT_NOT_INVESTIGATION",
+      "usage_before": {
+        "environment": "unknown-domain-v4",
+        "day": "2026-09-27",
+        "policy_hash": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+        "limits": {
+          "cloud_calls": 60,
+          "input_characters": 8000000,
+          "output_tokens": 1500000,
+          "planner_calls": 240
+        },
+        "reserved_today": {
+          "planner_calls": 18,
+          "cloud_calls": 25,
+          "input_characters": 657620,
+          "output_tokens": 46500
+        },
+        "reservation_states": {
+          "SETTLED": 1242,
+          "UNCERTAIN": 17
+        },
+        "billing_cap_verified": false,
+        "limitation": "Initiated UTC-day reservations in this catalog only; no provider spend or SQL compute guarantee."
+      },
+      "receipts": [
+        {
+          "probe": "silver_upstream",
+          "started_utc": "2026-09-27T05:40:49.483280+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {
+              "items": [
+                {
+                  "id": "ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+                  "type": "Lakehouse",
+                  "displayName": "warehouse_silver_e1b8e1",
+                  "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ],
+              "relations": [],
+              "workspaces": [
+                {
+                  "displayName": "investigator-fixture-83139e71cbdf6a50",
+                  "id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ]
+            },
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:40:52.656099+00:00"
+        },
+        {
+          "probe": "silver_downstream",
+          "started_utc": "2026-09-27T05:40:52.675031+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {
+              "items": [
+                {
+                  "id": "6cabd22c-26ec-4c98-8318-834011c1e0b3",
+                  "type": "SqlAnalyticsEndpoint",
+                  "displayName": "warehouse_silver_e1b8e1",
+                  "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                },
+                {
+                  "id": "ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+                  "type": "Lakehouse",
+                  "displayName": "warehouse_silver_e1b8e1",
+                  "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ],
+              "relations": [
+                {
+                  "itemId": "6cabd22c-26ec-4c98-8318-834011c1e0b3",
+                  "dependentOnItemId": "ba24d52c-fcf9-4f1f-a377-f4d38547d887",
+                  "relationType": "CascadeDelete"
+                }
+              ],
+              "workspaces": [
+                {
+                  "displayName": "investigator-fixture-83139e71cbdf6a50",
+                  "id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ]
+            },
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:40:55.690942+00:00"
+        },
+        {
+          "probe": "bronze_upstream",
+          "started_utc": "2026-09-27T05:40:55.713063+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {
+              "items": [
+                {
+                  "id": "09ba0ef9-7342-4179-a49e-1fc8adf48d82",
+                  "type": "Lakehouse",
+                  "displayName": "warehouse_bronze_e1b8e1",
+                  "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ],
+              "relations": [],
+              "workspaces": [
+                {
+                  "displayName": "investigator-fixture-83139e71cbdf6a50",
+                  "id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ]
+            },
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:40:58.725511+00:00"
+        },
+        {
+          "probe": "bronze_downstream",
+          "started_utc": "2026-09-27T05:40:58.745028+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {
+              "items": [
+                {
+                  "id": "09ba0ef9-7342-4179-a49e-1fc8adf48d82",
+                  "type": "Lakehouse",
+                  "displayName": "warehouse_bronze_e1b8e1",
+                  "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                },
+                {
+                  "id": "7050f705-e595-4708-b62b-1836dac30741",
+                  "type": "SqlAnalyticsEndpoint",
+                  "displayName": "warehouse_bronze_e1b8e1",
+                  "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ],
+              "relations": [
+                {
+                  "itemId": "7050f705-e595-4708-b62b-1836dac30741",
+                  "dependentOnItemId": "09ba0ef9-7342-4179-a49e-1fc8adf48d82",
+                  "relationType": "CascadeDelete"
+                }
+              ],
+              "workspaces": [
+                {
+                  "displayName": "investigator-fixture-83139e71cbdf6a50",
+                  "id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ]
+            },
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:41:01.845245+00:00"
+        },
+        {
+          "probe": "notebook_upstream",
+          "started_utc": "2026-09-27T05:41:01.863713+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {
+              "items": [
+                {
+                  "id": "7ccafe59-0460-4c8a-a691-bfdfa75a2b25",
+                  "type": "SynapseNotebook",
+                  "displayName": "Warehouse valuation e1b8e1",
+                  "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                },
+                {
+                  "id": "b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+                  "type": "Lakehouse",
+                  "displayName": "warehouse_gold_e1b8e1",
+                  "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ],
+              "relations": [
+                {
+                  "itemId": "7ccafe59-0460-4c8a-a691-bfdfa75a2b25",
+                  "dependentOnItemId": "b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+                  "relationType": "Datasource"
+                }
+              ],
+              "workspaces": [
+                {
+                  "displayName": "investigator-fixture-83139e71cbdf6a50",
+                  "id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ]
+            },
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:41:04.524587+00:00"
+        },
+        {
+          "probe": "notebook_downstream",
+          "started_utc": "2026-09-27T05:41:04.544178+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {
+              "items": [
+                {
+                  "id": "7ccafe59-0460-4c8a-a691-bfdfa75a2b25",
+                  "type": "SynapseNotebook",
+                  "displayName": "Warehouse valuation e1b8e1",
+                  "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ],
+              "relations": [],
+              "workspaces": [
+                {
+                  "displayName": "investigator-fixture-83139e71cbdf6a50",
+                  "id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+                }
+              ]
+            },
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:41:07.587517+00:00"
+        },
+        {
+          "probe": "notebook_definition",
+          "started_utc": "2026-09-27T05:41:07.607099+00:00",
+          "answer": {
+            "status_code": 200,
+            "body": {
+              "parts": [
+                {
+                  "path": "notebook-content.py",
+                  "sha256": "3a980c4bd1920343202174c26b357be6233c6db267409d226d6a95fca4694273",
+                  "bytes": 20528
+                },
+                {
+                  "path": ".platform",
+                  "sha256": "eaa125159f007e0c73ba73b5d9baedffe9d0f23bd6602ba0915cae7277465ef3",
+                  "bytes": 312
+                }
+              ],
+              "response_keys": [
+                "definition"
+              ]
+            },
+            "returncode": 0
+          },
+          "finished_utc": "2026-09-27T05:41:10.898975+00:00"
+        }
+      ],
+      "usage_after": {
+        "environment": "unknown-domain-v4",
+        "day": "2026-09-27",
+        "policy_hash": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+        "limits": {
+          "cloud_calls": 60,
+          "input_characters": 8000000,
+          "output_tokens": 1500000,
+          "planner_calls": 240
+        },
+        "reserved_today": {
+          "planner_calls": 18,
+          "cloud_calls": 32,
+          "input_characters": 657620,
+          "output_tokens": 46500
+        },
+        "reservation_states": {
+          "SETTLED": 1249,
+          "UNCERTAIN": 17
+        },
+        "billing_cap_verified": false,
+        "limitation": "Initiated UTC-day reservations in this catalog only; no provider spend or SQL compute guarantee."
+      }
+    },
+    {
+      "session": "whole-chain-audit-20260927T054131Z",
+      "purpose": "OPERATOR_METADATA_AND_REACHABILITY_AUDIT_NOT_INVESTIGATION",
+      "usage_before": {
+        "environment": "unknown-domain-v4",
+        "day": "2026-09-27",
+        "policy_hash": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+        "limits": {
+          "cloud_calls": 60,
+          "input_characters": 8000000,
+          "output_tokens": 1500000,
+          "planner_calls": 240
+        },
+        "reserved_today": {
+          "planner_calls": 18,
+          "cloud_calls": 32,
+          "input_characters": 657620,
+          "output_tokens": 46500
+        },
+        "reservation_states": {
+          "SETTLED": 1249,
+          "UNCERTAIN": 17
+        },
+        "billing_cap_verified": false,
+        "limitation": "Initiated UTC-day reservations in this catalog only; no provider spend or SQL compute guarantee."
+      },
+      "receipts": [
+        {
+          "probe": "silver_table_permission",
+          "started_utc": "2026-09-27T05:41:31.404825+00:00",
+          "answer": {
+            "surface_report": {
+              "object": "warehouse_silver_e1b8e1",
+              "identity": "investigator-reader@skynwhy.com"
+            },
+            "column_types": {
+              "units": "Int64"
+            },
+            "execution_identity": {
+              "provenance": "SURFACE_SELF_REPORT",
+              "principal": "investigator-reader@skynwhy.com",
+              "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+              "database": "warehouse_silver_e1b8e1"
+            },
+            "rows": [],
+            "read_only_verified": true
+          },
+          "finished_utc": "2026-09-27T05:41:48.401364+00:00"
+        },
+        {
+          "probe": "bronze_table_permission",
+          "started_utc": "2026-09-27T05:41:48.423613+00:00",
+          "answer": {
+            "surface_report": {
+              "object": "warehouse_bronze_e1b8e1",
+              "identity": "investigator-reader@skynwhy.com"
+            },
+            "column_types": {
+              "units": "Int64"
+            },
+            "execution_identity": {
+              "provenance": "SURFACE_SELF_REPORT",
+              "principal": "investigator-reader@skynwhy.com",
+              "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+              "database": "warehouse_bronze_e1b8e1"
+            },
+            "rows": [],
+            "read_only_verified": true
+          },
+          "finished_utc": "2026-09-27T05:42:02.109572+00:00"
+        },
+        {
+          "probe": "azure_sql_table_permission",
+          "started_utc": "2026-09-27T05:42:02.129559+00:00",
+          "answer": {
+            "error": "SQL_READ_FAILED",
+            "stage": "connect",
+            "sql_error_number": 40613,
+            "error_kind": "SqlException"
+          },
+          "finished_utc": "2026-09-27T05:42:47.429493+00:00"
+        }
+      ],
+      "usage_after": {
+        "environment": "unknown-domain-v4",
+        "day": "2026-09-27",
+        "policy_hash": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+        "limits": {
+          "cloud_calls": 60,
+          "input_characters": 8000000,
+          "output_tokens": 1500000,
+          "planner_calls": 240
+        },
+        "reserved_today": {
+          "planner_calls": 18,
+          "cloud_calls": 35,
+          "input_characters": 657620,
+          "output_tokens": 46500
+        },
+        "reservation_states": {
+          "SETTLED": 1252,
+          "UNCERTAIN": 17
+        },
+        "billing_cap_verified": false,
+        "limitation": "Initiated UTC-day reservations in this catalog only; no provider spend or SQL compute guarantee."
+      }
+    }
+  ],
+  "queries": {
+    "silver_table_permission": "SELECT TOP (0) [units] AS [units] FROM [dbo].[stock_movements_e1b8e1]",
+    "bronze_table_permission": "SELECT TOP (0) [units] AS [units] FROM [dbo].[stock_movements_e1b8e1]",
+    "azure_sql_table_permission": "SELECT TOP (0) [units] AS [units] FROM [app].[stock_movements_e1b8e1]"
+  },
+  "cloud_reservations": 19,
+  "llm_calls": 0
+}

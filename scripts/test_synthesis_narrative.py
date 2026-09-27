@@ -16,13 +16,37 @@ class NarrativeContractTests(unittest.TestCase):
             intent_dependency='NOT_REQUIRED',intent_basis='Implemented behavior only.',intent_evidence_ids=[],
             measure_connection='ESTABLISHED',measure_connection_basis='A baseline was read.',
             measure_connection_evidence_ids=['baseline'],remaining_test='Obtain intended rules.')
-        return {'assessment':value,'observations':list(observations.values())},{'evidence':[{'id':i} for i in observations]}
+        return {'assessment':value,'observations':list(observations.values())},{'evidence':[{'id':i} for i in observations],
+            'deterministic_process_finding':{'classification':outcome}}
 
     def response(self,payload):
         statement={'text':'Observed results are limited by available upstream access.',
                    'evidence_ids':[payload['evidence'][0]['id']]}
-        return {'business_output':copy.deepcopy(statement),'technical_output':copy.deepcopy(statement),
-                'limitations':[copy.deepcopy(statement)]}
+        business=copy.deepcopy(statement)
+        business['text']=narrative.business_text(payload['deterministic_process_finding']['classification'])
+        return {'business_output':business,'technical_output':copy.deepcopy(statement),'limitations':[copy.deepcopy(statement)]}
+
+    def test_business_cannot_include_free_prose_assets_queries_or_extra_numbers(self):
+        from investigator.output_contract import BUSINESS
+        for outcome in process_outcomes.OUTCOMES:
+            state,payload=self.source(outcome)
+            for text in ['movement_values','SQL sum of units','aggregate level','Delta commit','406 output rows','other_asset_xyz']:
+                value=self.response(payload);value['business_output']['text']+=' '+text
+                with self.subTest(outcome=outcome,text=text),self.assertRaises(ValidationError):
+                    narrative.assemble(narrative.Response(value),payload,state)
+            self.assertFalse(any(c.isdigit() for c in BUSINESS[outcome]))
+
+    def test_actions_are_derived_and_technical_attestation_cannot_be_omitted(self):
+        for outcome in process_outcomes.OUTCOMES:
+            state,payload=self.source(outcome)
+            fields=[{'field':field,'layer':layer,'evidence_id':'baseline'} for layer,field in
+                    [('report','connection'),('report','engine'),('report','object'),('data','connection'),('data','engine')]]
+            state['assessment']['technical_output']={'unattested_surface_fields':fields}
+            _,outputs=narrative.assemble(narrative.Response(self.response(payload)),payload,state)
+            for key in ('business_output','technical_output'):
+                self.assertEqual(outputs[key]['recommended_action']['code'],process_outcomes.ACTIONS[outcome])
+                self.assertIn(outputs[key]['recommended_action']['text'],outputs[key]['explanation']['text'])
+            for u in fields:self.assertIn('Unattested '+u['field']+' on '+u['layer'],outputs['technical_output']['explanation']['text'])
 
     def test_every_outcome_preserves_complete_contract_and_allows_limitations(self):
         for outcome in process_outcomes.OUTCOMES:

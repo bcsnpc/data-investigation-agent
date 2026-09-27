@@ -83,12 +83,13 @@ class SynthesisTests(unittest.TestCase):
             agent.save(db,source,'TEST_ASSESSMENT',{})
         statement={'text':'The observed value does not prove intended business rules.',
                    'evidence_ids':[source['observations'][0]['id']]}
-        wire={'business_output':statement,'technical_output':statement,'limitations':[statement]}
+        business={**statement,'text':narrative.business_text(source['assessment']['classification'])}
+        wire={'business_output':business,'technical_output':statement,'limitations':[statement]}
         with patch('ticket_planner.azure_generate',return_value=(wire,{})):
             result=agent.synthesize(state['id'],synthesis.azure_synthesize)
         self.assertEqual(result['synthesis']['status'],'COMPLETED')
         self.assertEqual(result['synthesis']['assessment']['support'],source['assessment']['support'])
-        self.assertEqual(result['outcome']['synthesis_outputs']['business_output']['explanation'],statement)
+        self.assertEqual(result['outcome']['synthesis_outputs']['business_output']['explanation'],business)
         self.assertEqual(result['outcome']['synthesis_outputs']['technical_output']['mandatory_limits'],source['assessment']['limits'])
 
     def test_ingestion_context_preserves_report_without_inventing_metadata(self):

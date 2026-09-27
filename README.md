@@ -1,14 +1,26 @@
 # Self-Discovering Enterprise Data Investigator
 
-**Latest synthesis result, 2026-09-27:** one known-domain run completed through
-validated synthesis. Power BI and Fabric SQL both returned 8,765 across the
-checked boundary. The response schema now contains cited business/technical
-narrative and limitations; the already-validated conclusion/support stays fixed.
-Conclusion blockers are separate from capability limitations, which can accompany
-any outcome. The run stops at Gold, preserves five unattested surface fields and
-unavailable freshness, and does not establish source-row correctness or business
-intent. [Whole-schema audit, full run and verbatim outputs](docs/synthesis-narrative-contract.md).
-This single completed run does not establish unfamiliar-domain reliability.
+**Active output milestone:** schema-enforced plain business explanations, mandatory
+outcome-derived actions, and technical attestation details are implemented and
+validated in one live run (BUSINESS_QUESTION). Earlier freezes remain invalidated.
+[Output contract](docs/enforced-dual-outputs.md).
+
+**First completed end-to-end investigation, 2026-09-27:** run `c2658c88`
+completed intake, one genuine Power BI/Fabric SQL comparison, and validated
+synthesis. Both values were 8,765. This is one ticket in one known domain,
+**one of four intended boundaries**, no divergence path, no `judge_definition`
+invocation, and **0 investigation planner calls**. It does not establish full-chain
+correctness or unfamiliar-domain reliability. Five surface fields remain
+unattested; freshness was skipped. The original output defects are preserved.
+[Milestone and verbatim outputs](docs/first-completed-investigation.md).
+
+The [whole-chain audit](docs/whole-chain-investigation.md) found that the engine
+already descends on equality, but its adapter emits only presentation and Gold.
+Two Silver dependencies are resolved metadata; the Bronze loop is unresolved by
+the collector. The deployed notebook seeds Bronze from literals, with no declared
+Azure SQL ingestion. Silver/Bronze reader table access passed; the source probe
+failed at connection. This is a report-only checkpoint, with chain/output changes
+and a new live run pending review.
 
 The valid-pair intake schema also passed five earlier same-ticket intake/preview
 trials. [Intake evidence](docs/intake-valid-pairs-five.md).
@@ -152,7 +164,7 @@ attempts failed before intake because the harness command omitted its required
 and left usage unchanged. The failures are preserved in the
 [checkpoint report](docs/independent-boundary-three.md); no fourth run was launched.
 
-Current follow-up: the [process-debugging redesign](docs/process-debugging-redesign.md)
+The [process-debugging redesign](docs/process-debugging-redesign.md)
 replaces open-ended search as the primary path. Intake distinguishes mismatch
 complaints from business questions. A deterministic vertical procedure establishes
 the presentation baseline, walks a discovered path of any length, compares only
@@ -174,7 +186,8 @@ limit conclusions are withdrawn. No freeze or unfamiliar-domain claim follows.
   layer, the engine compiles the equivalent quantity from the model's
   declarations and reads it on the Fabric SQL endpoint as the least-privilege
   reader, with read-only guard and self-report. Original R2 completed one equal
-  DAX-to-Fabric-SQL comparison; synthesis remains blocked as described above.
+  DAX-to-Fabric-SQL comparison. Run c2658c88 subsequently completed synthesis;
+  the adapter still supplies only that one executable boundary.
 
 - Execution-surface self-report is enforced for every process probe. The Fabric
   SQL analytics endpoint and DAX self-reports were verified live in original R2,
@@ -217,6 +230,16 @@ deterministic tools supply facts. New supported assets should require discovery,
 not investigator-specific code changes.
 
 ## Current milestone and limitations
+
+The first completed run and report-only chain audit are recorded above. Extending
+the declared executable path, faithful quantities and outcome evidence remains
+proposed work. Output enforcement and a new live run remain queued after review.
+See [current status](docs/current-delivery-status.md) for the active checkpoint.
+
+### Historical milestone evidence
+
+The following release-specific results and proposals preserve their original
+checkpoints; their next-step statements are not the current work order.
 
 The redesign implementation passed **1,046 local regression tests**. Focused tests
 cover all thirteen evidence contracts, arbitrary path length, early exit, explicit
