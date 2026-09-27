@@ -1505,7 +1505,7 @@
       },
       "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
     },
-    "schema_hash": "bb65996b161735be36d613db586133d9f524d889c2da5bf326e95ad4e8b6c538",
+    "schema_hash": "ec9b5cf14a016c28508bac577f2eb215730110aa199238d654e400ca0cfffd94",
     "handles": {
       "a0": "definition:part",
       "a1": "metric:0",
@@ -1847,7 +1847,7 @@
       "strategy": "dynamic-investigation-v8",
       "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
     },
-    "schema_hash": "f35f4e6966fe7984b7c7ccee8c70da9ecad379843c4fd0c95d8fa95da870260b",
+    "schema_hash": "5b1a51d075d23d83728d12c28cb4b00c3852724189575d0535233ef2dfe33d5d",
     "handles": {}
   },
   "per-call-ceiling": {
@@ -5170,7 +5170,7 @@
       "context_truncated": true,
       "lookup_identity_instruction": "Use the provided a-number asset handles for LOOKUP asset; search by name/kind to discover other targets. Do not construct identities."
     },
-    "schema_hash": "06f03688d5abe2ea9bd336582623cf56c7f3b340bef878a7f924be1c3c866592",
+    "schema_hash": "a1f29504f01aff61e808af8cf50bfccf84f6427b2a437412cc1eb218323c6ea2",
     "handles": {
       "a0": "object:0",
       "a1": "object:1",
