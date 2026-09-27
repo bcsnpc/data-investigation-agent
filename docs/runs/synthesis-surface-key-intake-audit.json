@@ -1,0 +1,297 @@
+{
+  "original_intake_audit": {
+    "runs": [
+      {
+        "run": "R1",
+        "tape_id": "755d549b-3642-4971-aa99-bc5cbc8326b9",
+        "integrity_verified": true,
+        "request_bytes": 38020,
+        "request_sha256": "715a29b4cdcf2223e42ccbf4a96792407b03743a248b6510fa4a7957872d58d4",
+        "decision": {
+          "action": "PROPOSE",
+          "model_id": "m2",
+          "measure_id": "m2v3",
+          "metric_quote": "Handled Quantity may include incorrect source entries",
+          "question": null,
+          "ticket_shape": "MISMATCH_COMPLAINT",
+          "comparison_mode": "NONE",
+          "filters": [],
+          "dimension_ids": []
+        },
+        "wire_schema_validation": "VALID",
+        "application_validation": "Comparison mode conflicts with ticket shape",
+        "provider_status": "completed",
+        "incomplete_details": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 13621,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 2176
+          },
+          "output_tokens": 71,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 13692
+        },
+        "provider_settings": {
+          "model": "investigator-quality-54",
+          "temperature": 1.0,
+          "top_p": 0.98,
+          "reasoning": {
+            "context": "current_turn",
+            "effort": "none",
+            "mode": "standard",
+            "summary": null
+          },
+          "max_output_tokens": 1500
+        },
+        "catalog_characters": 28658
+      },
+      {
+        "run": "R2",
+        "tape_id": "786d430a-15ce-4eb0-b149-bc9b22ea26da",
+        "integrity_verified": true,
+        "request_bytes": 38020,
+        "request_sha256": "715a29b4cdcf2223e42ccbf4a96792407b03743a248b6510fa4a7957872d58d4",
+        "decision": {
+          "action": "PROPOSE",
+          "model_id": "m2",
+          "measure_id": "m2v3",
+          "metric_quote": "Handled Quantity",
+          "question": null,
+          "ticket_shape": "MISMATCH_COMPLAINT",
+          "comparison_mode": "VERTICAL",
+          "filters": [],
+          "dimension_ids": []
+        },
+        "wire_schema_validation": "VALID",
+        "application_validation": "VALID",
+        "provider_status": "completed",
+        "incomplete_details": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 13621,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 13440
+          },
+          "output_tokens": 67,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 13688
+        },
+        "provider_settings": {
+          "model": "investigator-quality-54",
+          "temperature": 1.0,
+          "top_p": 0.98,
+          "reasoning": {
+            "context": "current_turn",
+            "effort": "none",
+            "mode": "standard",
+            "summary": null
+          },
+          "max_output_tokens": 1500
+        },
+        "catalog_characters": 28658
+      },
+      {
+        "run": "R3",
+        "tape_id": "115a6f57-2bf6-4ccf-9277-125ea301fa30",
+        "integrity_verified": true,
+        "request_bytes": 38020,
+        "request_sha256": "715a29b4cdcf2223e42ccbf4a96792407b03743a248b6510fa4a7957872d58d4",
+        "decision": {
+          "action": "PROPOSE",
+          "model_id": "m2",
+          "measure_id": "m2v3",
+          "metric_quote": "Handled Quantity",
+          "question": null,
+          "ticket_shape": "MISMATCH_COMPLAINT",
+          "comparison_mode": "NONE",
+          "filters": [],
+          "dimension_ids": []
+        },
+        "wire_schema_validation": "VALID",
+        "application_validation": "Comparison mode conflicts with ticket shape",
+        "provider_status": "completed",
+        "incomplete_details": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 13621,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 13440
+          },
+          "output_tokens": 66,
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          },
+          "total_tokens": 13687
+        },
+        "provider_settings": {
+          "model": "investigator-quality-54",
+          "temperature": 1.0,
+          "top_p": 0.98,
+          "reasoning": {
+            "context": "current_turn",
+            "effort": "none",
+            "mode": "standard",
+            "summary": null
+          },
+          "max_output_tokens": 1500
+        },
+        "catalog_characters": 28658
+      }
+    ],
+    "request_json_differences": {
+      "R2_vs_R1": [],
+      "R3_vs_R1": []
+    },
+    "response_top_level_differences": {
+      "R2_vs_R1": [
+        "output",
+        "created_at",
+        "completed_at",
+        "content_filters",
+        "id",
+        "usage"
+      ],
+      "R3_vs_R1": [
+        "output",
+        "created_at",
+        "completed_at",
+        "content_filters",
+        "id",
+        "usage"
+      ]
+    },
+    "schema_strict": true,
+    "schema_triage": {
+      "ticket_shape": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          "MISMATCH_COMPLAINT",
+          "BUSINESS_QUESTION",
+          null
+        ]
+      },
+      "comparison_mode": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "enum": [
+          "VERTICAL",
+          "HORIZONTAL",
+          "NONE",
+          null
+        ]
+      }
+    },
+    "network_calls": 0
+  },
+  "saved_R2_diagnosis": {
+    "session_id": "54509912-5e30-4850-afd7-ed26b5bc56aa",
+    "network_calls": 0,
+    "surface_fix_applied": true,
+    "digest_error": {
+      "type": "Conflict",
+      "message": "Process comparison differs from referenced observations"
+    },
+    "upper_columns": [
+      "[baseline]"
+    ],
+    "lower_columns": [
+      "quantity"
+    ],
+    "raw_rows_equal": false,
+    "adapter_quantities_equal": true,
+    "recorded_values_equal": true,
+    "original_session_unchanged": true
+  },
+  "retest_manifest": {
+    "engine_hash": "6c845e2eb1590e4c5f098a472886c8571b979e67686f92cbac3c276eb12629d1",
+    "commit": "f23d1694d7050afd2546f4a51f08a94ae127c605",
+    "policy": {
+      "environment": "unknown-domain-v4",
+      "daily_limits": {
+        "planner_calls": 240,
+        "cloud_calls": 60,
+        "input_characters": 8000000,
+        "output_tokens": 1500000
+      },
+      "max_inflight_planners": 1,
+      "no_progress_limit": 3
+    },
+    "usage_before": {
+      "day": "2026-09-27",
+      "reserved": {
+        "planner_calls": 6,
+        "cloud_calls": 7,
+        "input_characters": 254874,
+        "output_tokens": 9000
+      },
+      "states": {
+        "SETTLED": 13
+      }
+    },
+    "profile": {
+      "subscription_id": "d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9",
+      "resource_group": "rg-investigator-dev",
+      "account": "aoai-investigator-9696025",
+      "location": "eastus2",
+      "endpoint": "https://aoai-investigator-9696025.openai.azure.com",
+      "deployment": "investigator-quality-54",
+      "model": "gpt-5.4",
+      "model_version": "2026-03-05",
+      "deployment_type": "GlobalStandard",
+      "capacity": 100,
+      "generation_options": {
+        "reasoning_effort": "medium",
+        "max_output_tokens": 8000,
+        "timeout_seconds": 120,
+        "max_payload_characters": 48000
+      },
+      "max_planner_recoveries": 1
+    },
+    "config_hash": "4362a6c7d6bb3ed7ebd58aa78e9bb0159790b42edd76c6ae30320c4beb0e4c5e",
+    "ticket_hash": "e22ce27faa9ef38cad5f6e958ba9d0947cc44158ab0a4d6d66f11a2c07564ff9",
+    "order": [
+      "R2-repeat"
+    ],
+    "started": "2026-09-27T04:12:00.108888+00:00",
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "conditions": {
+      "read_limit": 6,
+      "input_limit": 384000,
+      "max_output_tokens": 8000,
+      "reasoning_effort": "medium",
+      "provider_timeout": 120,
+      "minimum_interval": 65,
+      "recording": true,
+      "synthesis": true
+    },
+    "discovery_reapproval": "3db5fbeb-9162-465b-8bf6-e7877a7444af",
+    "approved_config_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+    "ended": "2026-09-27T04:12:08.833883+00:00",
+    "usage_after": {
+      "day": "2026-09-27",
+      "reserved": {
+        "planner_calls": 7,
+        "cloud_calls": 7,
+        "input_characters": 297353,
+        "output_tokens": 10500
+      },
+      "states": {
+        "SETTLED": 14
+      }
+    }
+  },
+  "retest_request_sha256": "715a29b4cdcf2223e42ccbf4a96792407b03743a248b6510fa4a7957872d58d4"
+}

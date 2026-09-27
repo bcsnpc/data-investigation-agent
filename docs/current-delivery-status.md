@@ -1,10 +1,25 @@
 # Current delivery status
 
-Updated 2026-09-25. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
+Updated 2026-09-27. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193).
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
 ## Current milestone
+
+**Latest: synthesis surface-key fix; intake audit complete, stopped for review.**
+PR #253 merged after six green checks; unchanged evidence commit `7fea46f` is in
+PR #254. Synthesis surface equality now uses engine/connection/object, retaining
+identity as evidence. 18 synthesis tests and two generator tests passed.
+One requested same-condition R2 scenario repeat held at intake: no probes or
+synthesis calls. Offline saved-R2 validation clears the identity rejection and
+exposes raw-result alias mismatch (`[baseline]` versus `quantity`) despite equal
+adapter-normalized quantities. That second blocker is recorded, not fixed.
+Original R1/R2/R3 requests are byte-identical. All outputs satisfy independent
+wire-schema enums; R1/R3 violate the application shape/mode pairing. The prompt
+already describes the valid pairing. Intake code and settings remain unchanged.
+No end-to-end pass. See [report and remaining blockers](synthesis-surface-key-intake-audit.md).
+
+The preceding checkpoints below retain their original results.
 
 **Current checkpoint: re-approval cleared the policy gate; one real comparison,
 no end-to-end completion.** Updated 2026-09-27 UTC.
