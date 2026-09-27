@@ -55,10 +55,10 @@ class BoundsTests(unittest.TestCase):
         n=narrative.schema({'evidence':[]})
         wire=n['properties']['technical_output']['properties']['text']
         self.assertEqual(wire['maxLength'],L.ASSESSMENT_CLAIM)
-        for v in wire['enum']:Draft202012Validator(wire).validate(v);text(v,L.ASSESSMENT_CLAIM)
+        for v in ('The definition may multiply matching rows.',):Draft202012Validator(wire).validate(v);text(v,L.ASSESSMENT_CLAIM)
         wire=n['properties']['limitations']['items']['properties']['text']
         self.assertEqual(wire['maxLength'],L.ASSESSMENT_DETAIL)
-        for v in wire['enum']:Draft202012Validator(wire).validate(v);text(v,L.ASSESSMENT_DETAIL)
+        for v in ('Intended semantics remain unconfirmed.',):Draft202012Validator(wire).validate(v);text(v,L.ASSESSMENT_DETAIL)
         self.assertEqual(n['properties']['limitations']['maxItems'],L.ASSESSMENT_LIST)
 
     def test_filling_all_offered_keyed_hypotheses_cannot_exceed_consumer(self):

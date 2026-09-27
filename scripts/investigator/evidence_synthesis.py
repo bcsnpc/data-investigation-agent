@@ -144,7 +144,9 @@ def assemble_citations(value):
 def azure_synthesize(payload,options):
     from ticket_planner import azure_generate
     from . import synthesis_narrative as narrative
-    value,usage=azure_generate(payload,instructions=narrative.INSTRUCTIONS,schema=narrative.schema(payload),
+    from .contract_vocabulary import instructions
+    wire=narrative.schema(payload)
+    value,usage=azure_generate(payload,instructions=instructions(narrative.INSTRUCTIONS,wire),schema=wire,
                                name='evidence_narrative',decision_tool=True,generation_options=options)
     return narrative.Response(value),usage
 

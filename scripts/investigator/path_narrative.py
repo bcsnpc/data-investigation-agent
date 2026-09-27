@@ -33,32 +33,48 @@ def facts(payload):
 
 
 def summary(payload):
+    """Default commentary for offline callers; path facts are rendered separately."""
     if payload.get('deterministic_process_finding',{}).get('classification')=='REFRESH_LATENCY':
-        reason=next((e['result']['reader_timing_unavailable'] for e in payload.get('evidence',[])
-                     if 'reader_timing_unavailable' in e.get('result',{})),
-                    'Refresh timing was unavailable to the diagnostic identity.')
-        return ('Independent reads disagree at the presentation and its unchanged declared source. '
-                'This establishes a serving-state freshness discrepancy, not a measured delay. '
-                +reason+' '+
-                'Snapshot alignment is reported separately; elapsed delay and which state is newer are unestablished.')
-    count=len(facts(payload))
+        return 'Refresh timing was unavailable to the diagnostic reader; elapsed delay and which state is newer remain unestablished.'
     mechanism=_business_mechanism(payload.get('evidence',[]))
-    return (f'The procedure recorded {count} independently compared boundaries. '
-            'The fixed boundary account states input-to-output ordering and observed quantities. '
-            +(mechanism+' ' if mechanism else '')+
+    return ((mechanism+' ' if mechanism else '')+
             'A compatible definition does not prove actual repeated matches, source correctness or business intent.')
+
+
+def _casefold(term):
+    return ''.join('['+c.lower()+c.upper()+']' if c.isalpha() else r'\s+' if c==' ' else c for c in term)
+
+
+COMMENTARY_FORBIDDEN=(r'\d|\b(?:'+'|'.join(_casefold(w) for w in
+    ('upstream','downstream','input','output','feeds','fixed boundary account',
+     'fixed account','boundary account','path facts','rendered facts','rendered spine',
+     'fixed spine','account states','account shows','account describes','see the table'))+r')\b')
+
+
+def commentary_schema(bound):
+    from . import evidence_prose
+    value=evidence_prose.schema(bound)
+    value['pattern']='^(?![\\s\\S]*(?:'+COMMENTARY_FORBIDDEN+'))'+value['pattern'][1:]
+    return value
+
+
+def validate_commentary(text):
+    import re
+    if re.search(COMMENTARY_FORBIDDEN,text):
+        raise ValueError('Narrative redeclares path facts or refers to the account instead of explaining the mechanism')
 
 
 def render(payload):
     rows=facts(payload)
     if not rows:return 'No independently compared boundary ordering was established.'
-    text=[];labels={}
+    measure=payload.get('scope',{}).get('measure_name') or payload.get('scope',{}).get('measure_id') or 'unnamed measure'
+    text=[f'Measure: {measure}.'];labels={}
     for i,row in enumerate(rows,1):
         lower,upper=row['input'],row['output']
         for node in (upper,lower):labels[node['term']]=node['layer']
         quantities=(f" Observed input {lower['quantity']}; observed output {upper['quantity']}."
                     if lower['quantity'] is not None and upper['quantity'] is not None else '')
-        text.append(f"Boundary B{i}: {lower['term']} (upstream input) -> {upper['term']} (downstream output)."+
+        text.append(f"Boundary B{i} {'agrees' if row['values_equal'] else 'diverges'}: {lower['term']} ({lower['layer']}, upstream input) -> {upper['term']} ({upper['layer']}, downstream output)."+
                     quantities+(' Values agree.' if row['values_equal'] else ' Values differ.'))
     text.extend(term+' = '+identity for term,identity in labels.items())
     return '\n'.join(text)
