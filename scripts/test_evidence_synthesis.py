@@ -120,6 +120,79 @@ class SynthesisTests(unittest.TestCase):
         self.assertEqual(r['synthesis']['status'],'FAILED');self.assertIsNone(r['synthesis']['assessment'])
         self.assertEqual(agent.governor.snapshot()['reserved_today']['planner_calls'],2)
 
+    def test_runtime_validation_retains_every_original_field_including_future_fields(self):
+        agent,state=self.stopped()
+        with agent.runtime.db() as db:
+            source=agent.load(db,state['id'])
+            source['observations'][0]['future_validation_fact']={'nested':[{'required':'kept'}]}
+            agent.save(db,source,'TEST_SOURCE_EXTENSION',{})
+        originals=copy.deepcopy(source['observations'])
+        from investigator.dynamic_reasoning import validate as existing
+        seen=[]
+        def downstream(proposal,context):
+            self.assertEqual(context['observations'],originals)
+            self.assertEqual(context['observations'][0]['future_validation_fact']['nested'][0]['required'],'kept')
+            seen.append(True)
+            result=existing(proposal,context)
+            context['observations'][0]['future_validation_fact']['nested'].clear()
+            return result
+        def provider(payload,options):
+            self.assertNotIn('future_validation_fact',encoded(payload))
+            return self.answer(payload),{}
+        with patch('investigator.dynamic_reasoning.validate',side_effect=downstream):
+            result=agent.synthesize(state['id'],provider)
+        self.assertEqual(result['synthesis']['status'],'COMPLETED')
+        self.assertEqual(seen,[True])
+        with agent.runtime.db() as db:self.assertEqual(agent.load(db,state['id'])['observations'],originals)
+
+    def test_changed_original_source_is_fenced_even_when_digest_omits_changed_field(self):
+        agent,state=self.stopped()
+        def provider(payload,options):
+            with agent.runtime.db() as db:
+                changed=agent.load(db,state['id'])
+                changed['observations'][0]['future_validation_fact']={'new':'value'}
+                agent.save(db,changed,'TEST_SOURCE_CHANGED',{})
+            return self.answer(payload),{}
+        result=agent.synthesize(state['id'],provider)
+        self.assertEqual(result['synthesis']['status'],'FAILED')
+        self.assertIsNone(result['synthesis']['assessment'])
+
+    def test_original_evidence_cannot_expand_citation_visibility_or_be_omitted(self):
+        payload={'evidence':[{'id':'visible'}]}
+        source={'observations':[{'id':key,'tool':'context','status':'COMPLETED','completeness':'COMPLETE_RESPONSE'}
+                                for key in ('visible','hidden')]}
+        value=self.answer({'evidence':[{'id':'hidden'}]})
+        with self.assertRaisesRegex(ValueError,'Unknown assessment evidence'):
+            synthesis.validate(value,payload,source_state=source)
+        with self.assertRaises(TypeError):synthesis.validate(value,payload)
+        for invalid in ({'observations':[]}, {'observations':[dict(source['observations'][0],status='FAILED')]},
+                        {'observations':[source['observations'][0]]*2}):
+            with self.assertRaises(Conflict):synthesis.validate(value,payload,source_state=invalid)
+
+    def test_process_contract_uses_original_fields_not_digest_rendering(self):
+        from test_process_debugging import OutcomeContractTests
+        base,observations=OutcomeContractTests().valid('CONSISTENT_TO_BOUNDARY')
+        for role,o in observations.items():
+            o.update(tool='process' if role=='comparison' else 'bounded_dax',completeness='COMPLETE_RESPONSE')
+        observations['baseline']['test_purpose']='ESTABLISH_BASELINE'
+        payload={'evidence':[{'id':key} for key in observations]}
+        value=self.answer(payload)
+        value['classification']='CONSISTENT_TO_BOUNDARY'
+        value['support'].update(intent_dependency='NOT_REQUIRED',measure_connection='ESTABLISHED',
+            measure_connection_basis='A scoped baseline was observed.',measure_connection_evidence_ids=['baseline'],
+            process=base['support']['process'])
+        source={'observations':list(observations.values()),'assessment':copy.deepcopy(value)}
+        synthesis.validate(copy.deepcopy(value),payload,source_state=source)
+        # The renderer may drop or contradict fields; it is not validation authority.
+        for e in payload['evidence']:e.update(comparison_status='WITHIN_LAYER_CHECK',values_equal=False)
+        synthesis.validate(copy.deepcopy(value),payload,source_state=source)
+        changed=copy.deepcopy(source);next(o for o in changed['observations'] if o['id']=='comparison')['values_equal']=False
+        with self.assertRaisesRegex(ValueError,'successful equal boundary'):
+            synthesis.validate(copy.deepcopy(value),payload,source_state=changed)
+        changed=copy.deepcopy(source);del next(o for o in changed['observations'] if o['id']=='comparison')['upper_surface_attestation']
+        with self.assertRaisesRegex(ValueError,'both surfaces to be attested'):
+            synthesis.validate(copy.deepcopy(value),payload,source_state=changed)
+
     def test_s7_support_citations_are_assembled_into_outer_list(self):
         # Recorded S7 omitted valid support receipt 0dd from the outer list.
         outer=['bcb2f0ac-61d2-4926-8384-23eb58230634',
@@ -140,7 +213,10 @@ class SynthesisTests(unittest.TestCase):
         self.assertEqual([c['label'] for c in cases],['M2','M3','M4','M9'])
         for case in cases:
             with self.subTest(case=case['label']):
-                value=case['assessment'];synthesis.validate(value,case['payload'])
+                # These historical response-shape fixtures have no full source
+                # tape. Supply an explicit synthetic source for that narrow test.
+                source={'observations':[{**e,'status':'COMPLETED'} for e in case['payload']['evidence']]}
+                value=case['assessment'];synthesis.validate(value,case['payload'],source_state=source)
                 for key in ('mechanism','intent_basis','measure_connection_basis','remaining_test'):
                     self.assertLessEqual(len(value['support'][key]),500)
                 cited=set(value['evidence_ids'])
@@ -152,7 +228,7 @@ class SynthesisTests(unittest.TestCase):
         self.assertTrue(value['support']['mechanism'].endswith(synthesis.TRUNCATION_LABEL))
         self.assertEqual(len(value['support']['mechanism']),500)
         value['support']['mechanism_evidence_ids']=['missing'];value['evidence_ids']=[]
-        with self.assertRaises(ValueError):synthesis.validate(value,{'evidence':[]})
+        with self.assertRaises(ValueError):synthesis.validate(value,{'evidence':[]},source_state={'observations':[]})
 
     def test_provider_usage_violation_rejects_assessment(self):
         agent,state=self.stopped()

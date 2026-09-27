@@ -70,18 +70,31 @@ def schema():
     return value
 
 
-def validate(value,payload):
+def validate(value,payload,*,source_state):
+    """Validate complete original evidence, never a rendering of that evidence.
+
+    The provider digest controls citation visibility only. It cannot supply or
+    erase validation facts. The caller retains the frozen source locally and
+    rechecks its hash before committing the response.
+    """
     from .dynamic_reasoning import validate as existing
     normalize(value)
     fields(value,schema()['required'])
-    observations=[dict(id=e['id'],tool=e['tool'],status='COMPLETED',completeness=e['completeness'],
-                       process_roles=e.get('process_roles',[]),test_purpose=e.get('test_purpose'))
-                  for e in payload['evidence']]
+    original=source_state['observations']
+    by_id={o['id']:o for o in original}
+    visible=[e['id'] for e in payload['evidence']]
+    if len(by_id)!=len(original) or len(set(visible))!=len(visible):
+        raise Conflict('Synthesis evidence identities are not unique')
+    if any(identity not in by_id or by_id[identity]['status']!='COMPLETED' for identity in visible):
+        raise Conflict('Synthesis digest references unavailable original evidence')
+    # Copy whole records, including future nested fields. No field allowlist.
+    observations=copy.deepcopy([by_id[identity] for identity in visible])
     existing(dict(action='STOP',candidate_id=None,question=None,stop_reason='ENOUGH_DIAGNOSTICS',
                   hypotheses=[],lookup=None,query=None,assessment=value),
              dict(observations=observations,hypotheses=[],candidates=[]))
-    finding=payload.get('deterministic_process_finding')
-    if finding and value['classification']!=finding['classification']:
+    finding=source_state.get('assessment')
+    if (isinstance(finding,dict) and isinstance(finding.get('support',{}).get('process'),dict)
+            and value['classification']!=finding['classification']):
         raise ValueError('Synthesis cannot replace the deterministic process outcome')
     if payload['evidence'] and not value['evidence_ids']:
         raise ValueError('Synthesis must cite its evidence or the observed limitations')
@@ -176,7 +189,7 @@ def run(agent,identity,provider):
                 if tape:tape.safe_write('runtime-return.json',encoded({'clock':agent.clock()}).encode())
         if digest(payload)!=record['payload_hash']:raise Conflict('Provider changed frozen digest')
         normalize(assessment)
-        validate(assessment,payload)
+        validate(assessment,payload,source_state=state)
     except Exception as exc:
         error=error_summary(exc)
         if not received:usage={'usage':failure_usage(exc)}

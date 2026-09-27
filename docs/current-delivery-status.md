@@ -4,6 +4,26 @@ Updated 2026-09-27. Tracking: [#193](https://github.com/bcsnpc/data-investigatio
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
+**Current checkpoint, 2026-09-27: original-evidence synthesis validation.**
+PR #259 merged after six green checks. Synthesis now validates complete original
+observations, with the digest controlling citation visibility only. This removes
+the field-by-field reconstruction that dropped comparison evidence; a future-field
+regression test protects the entire record. Saved R2 passes offline construction
+and response validation with an unchanged digest (five entries, 6,298 characters).
+
+Exactly one live same-ticket repeat reached an equal, genuinely cross-surface
+Power BI/Fabric SQL comparison: 8,765 on each side. It used one DAX read, one Fabric
+SQL read and one OneLake metadata invocation, zero investigation planner calls,
+one intake call and one synthesis call. Synthesis returned but failed validation:
+`Declared capabilities must be a sorted unique list`. The deterministic outcome
+is CONSISTENT_TO_BOUNDARY through Gold with incomplete surface attestation;
+there is no validated synthesis or end-to-end acceptance pass. No retry, setting
+change or further fix. Validation: **1,199 regression tests passed**, Python exit 0.
+[Structural decision and full run evidence](synthesis-original-evidence.md).
+
+The following checkpoints preserve their historical findings; the projection
+blocker described below is fixed, and the live response failure above is current.
+
 **Intake schema follow-up, 2026-09-27:** one enum now encodes the three valid
 shape/mode pairs. Five recorded same-ticket attempts all selected
 `MISMATCH_COMPLAINT:VERTICAL`, with identical parsed decisions, and passed preview.
@@ -11,7 +31,7 @@ No retry, permission/setting change or data read. 1,190 tests passed (exit 0).
 This does not establish general determinism or end-to-end synthesis completion.
 Normalization remains a separate PR #257: saved-R2 quantities validate offline,
 but synthesis then fails on the ingestion `metadata` contract.
-[Five-run evidence](intake-valid-pairs-five.md). Both requested fixes await review.
+[Five-run evidence](intake-valid-pairs-five.md). Both requested fixes subsequently merged as #257 and #258.
 
 **Latest synthesis follow-up, 2026-09-27:** #257 and #258 are merged after green
 checks. Synthesis's assumption that all context observations contain `metadata`
@@ -95,7 +115,7 @@ See [item 3 runs](item3-three-runs.md#second-batch-2026-09-27-0338-utc-stopped-a
 
 **Current checkpoint: item 3 blocked before intake.** Updated 2026-09-27.
 - **What happened:** three runs at `a63bfa5` (`unfrozen-a9e32c819240`) each
-  failed in 2–3 s, before opening a session. The Azure OpenAI key could not be
+  failed in 2â€“3 s, before opening a session. The Azure OpenAI key could not be
   fetched, because the key-owning Azure CLI profile now requires MFA
   (`AADSTS50076`).
 - **Not tested:** no read, probe, comparison, planner call or synthesis
@@ -224,9 +244,9 @@ See [Power BI reader rejection](power-bi-reader-rejection.md).
 
 **Current checkpoint: Power BI rejects the reader, not the capacity.** Updated
 2026-09-26. Read-only diagnosis:
-- **The capacity is healthy:** the trial capacity `ec15bc07…` (`FTL4`) is
+- **The capacity is healthy:** the trial capacity `ec15bc07â€¦` (`FTL4`) is
   `Active`, and workspace assignment is complete.
-- **The admin succeeds:** at 21:34–21:35 UTC the administrator's direct queries
+- **The admin succeeds:** at 21:34â€“21:35 UTC the administrator's direct queries
   to the failing model succeed, including a Direct Lake data read.
 - **The reader fails:** at 21:36 UTC the reader's queries fail with HTTP 400,
   Analysis Services `0xC1450012`, even a constant expression that reads no data.
@@ -294,12 +314,12 @@ superseded; the original is kept. Both now come from configuration
 [surface self-report](surface-self-report.md).
 
 **Correction, 2026-09-26 (read at 20:43 UTC): the reader reached the Gold
-endpoint.** The correction below says no identity has reached `77c49180…`; it is
-kept as written. In a single read at 20:43:40–20:43:54 UTC, the least-privilege reader `investigator-reader@skynwhy.com` (workspace
-`Viewer` in `149f8d99…`) obtained a `database.windows.net` token through the
-Azure CLI client (`04b07795…`), from its own isolated profile
+endpoint.** The correction below says no identity has reached `77c49180â€¦`; it is
+kept as written. In a single read at 20:43:40â€“20:43:54 UTC, the least-privilege reader `investigator-reader@skynwhy.com` (workspace
+`Viewer` in `149f8d99â€¦`) obtained a `database.windows.net` token through the
+Azure CLI client (`04b07795â€¦`), from its own isolated profile
 `.local/azure-reader-sql`. No new permission was granted and no app registration
-was created. The Gold endpoint `77c49180…` accepted it, with database
+was created. The Gold endpoint `77c49180â€¦` accepted it, with database
 `warehouse_gold_e1b8e1` named explicitly. `SUSER_SNAME()` returned
 `investigator-reader@skynwhy.com` and `DB_NAME()` returned
 `warehouse_gold_e1b8e1`, so the server, not the client, confirms both identity
@@ -328,18 +348,18 @@ describes the Fabric CLI client, not the endpoint.
 - **What was established:** a SQL-audience token was issued for tenant
   administrator `admin@skynwhy.com` through the isolated Azure CLI profile, with
   no app registration. The `infra/fabric/environment.json` endpoint accepted it.
-  That endpoint is `701ab1fc…` in the dev workspace `ws-investigator-dev`
-  (`09cea7db…`), and a connection naming no database opened
+  That endpoint is `701ab1fcâ€¦` in the dev workspace `ws-investigator-dev`
+  (`09cea7dbâ€¦`), and a connection naming no database opened
   `lh_investigator_bronze`. So only admin reaching the dev workspace's SQL
   endpoint is established.
-- **Not established:** nothing about `77c49180…`, the Gold endpoint
-  (`warehouse_gold_e1b8e1`) in investigation workspace `149f8d99…` that the
+- **Not established:** nothing about `77c49180â€¦`, the Gold endpoint
+  (`warehouse_gold_e1b8e1`) in investigation workspace `149f8d99â€¦` that the
   process path needs. No identity has reached it over SQL.
-- **Resolved IDs (Fabric REST, 2026-09-26):** `77c49180…` is the
-  `warehouse_gold_e1b8e1` endpoint in `149f8d99…`; `701ab1fc…` is the
-  `lh_investigator_gold` endpoint in `09cea7db…`; `1cae5e66…` is not a Fabric
+- **Resolved IDs (Fabric REST, 2026-09-26):** `77c49180â€¦` is the
+  `warehouse_gold_e1b8e1` endpoint in `149f8d99â€¦`; `701ab1fcâ€¦` is the
+  `lh_investigator_gold` endpoint in `09cea7dbâ€¦`; `1cae5e66â€¦` is not a Fabric
   item, but a run ID.
-- **Open:** whether the reader (`Viewer` in `149f8d99…`) can reach `77c49180…`,
+- **Open:** whether the reader (`Viewer` in `149f8d99â€¦`) can reach `77c49180â€¦`,
   and which identity should hold that access.
 
 See the
@@ -348,7 +368,7 @@ See the
 **Note, 2026-09-26: #237's "isolated metadata identity" is the tenant administrator.**
 The checkpoint below is kept as written. The identity behind its OneLake
 commit-metadata and data-header receipts is `admin@skynwhy.com` (principal
-`23de217f…`, workspace Admin), the same account as the Fabric CLI session.
+`23de217fâ€¦`, workspace Admin), the same account as the Fabric CLI session.
 Those are admin receipts, and the isolation the name implies is not established.
 
 **Current checkpoint: execution-surface inventory (work item 1).** Updated
@@ -682,7 +702,7 @@ combined effort/output change do not establish a superior model setting.
 
 Measured planner-token reference cost was **USD 8.86**, excluding intake/cloud
 costs and not an Azure invoice. All 124 tapes verified, twelve ledger rows were
-appended, and usage history grew 549 → 751 without reset/refund. The temporary
+appended, and usage history grew 549 â†’ 751 without reset/refund. The temporary
 126-read / 2,000,000-output daily policy was restored to its original limits;
 Azure capacity, SQL free limit and AutoPause read back unchanged.
 
@@ -822,7 +842,7 @@ See [offline replay evidence](offline-session-replay.md) and [PR #211](https://g
 
 ### Previous milestone: item 2: planner-view goldens (merged PR #210)
 
-**Completed milestone: offline reliability, item 2 — planner-view golden tests.**
+**Completed milestone: offline reliability, item 2 â€” planner-view golden tests.**
 Exact synthetic projected/wire snapshots cover dense profiles, definition children,
 paged older content and assembled input exceeding the per-call ceiling. Omissions
 are counted and distinguished from catalog removal. Deterministic fitting occurs
@@ -835,7 +855,7 @@ See [projection evidence](planner-view-goldens.md).
 No live LLM call, new freeze or new variant was used. Engine bytes change, so v4
 remains invalidated for further frozen grading. Item 3 follows above.
 
-### Previous milestone: item 1 — exact planner recordings (merged PR #209)
+### Previous milestone: item 1 â€” exact planner recordings (merged PR #209)
 
 Operator-enabled recording captures HTTP request bodies after wire conversion,
 raw response bodies before decoding, context version, state, budget and reservation.
