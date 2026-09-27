@@ -496,11 +496,21 @@ class AdaptiveRuntime:
                 except (ValueError,TypeError):return {'status':'UNAVAILABLE','error_type':'InvalidResponse','codes':[]}
             return execute()
 
+        # The independent lower surface: declared only when the reader's own
+        # session is present (a local check, no token request).
+        lower_surface=None;execute_lower=None
+        sql_reader=self.config['fabric'].get('sql_reader')
+        if sql_reader:
+            from fabric_sql_auth import session_status
+            from fabric_sql_surface import read as read_lower
+            lower_surface=session_status(self.config['fabric']['auth']['tenant_id'],sql_reader['account'],sql_reader['profile'])
+            execute_lower=lambda database,request:read_lower(self.config,database,request)
         adapter=MicrosoftProcessAdapter(self.store,self.config,model,
             self.runtime.native_transport,self.runtime.source_transport,
             judge_definition=judge if provider is not None else None,meter_read=meter_read,
             read_ingestion=read_ingestion,
-            read_failure_detail=read_failure_detail if self.config['fabric'].get('xmla_client') else None)
+            read_failure_detail=read_failure_detail if self.config['fabric'].get('xmla_client') else None,
+            lower_surface=lower_surface,execute_lower=execute_lower)
         path=adapter.resolve_path(state['envelope']['measure_id'])
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)

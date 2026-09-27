@@ -51,7 +51,10 @@ def surface_columns(report):
     return dict(report)
 
 
-def build(store,plan,config,tool):
+SQL_TOOLS=('bounded_sql','bounded_fabric_sql')
+
+
+def build(store,plan,config,tool,*,catalog=None):
     fields(plan,['model_id','revision','context_id','query','max_rows']+(['surface_report'] if 'surface_report' in plan else []))
     report=surface_columns(plan['surface_report']) if 'surface_report' in plan else None
     model=store.get(plan['model_id'])
@@ -81,6 +84,21 @@ def build(store,plan,config,tool):
         from .source_diagnostics import quote
         compiled['read_only_objects']=[quote(objects[k]['metadata']['schema_name'])+'.'+quote(objects[k]['metadata']['name']) for k in compiled['asset_ids']]
         compiled['require_read_only']=True
+    elif tool=='bounded_fabric_sql':
+        # The lower-layer surface is compiled only against a catalog the adapter
+        # derived from declarations. It is never offered to a planner, and there
+        # is no default catalog.
+        if not isinstance(catalog,list) or not catalog:raise Conflict('Declared lower-layer catalog required')
+        from sqlglot.errors import SqlglotError, OptimizeError
+        try:compiled=query_sql.compile_query(plan['query'],catalog,max_rows=plan['max_rows'])
+        except OptimizeError as exc:raise ValueError('SQL column binding failed against the declared catalog') from exc
+        except SqlglotError as exc:raise ValueError('SQL syntax or catalog binding unsupported') from exc
+        from .source_diagnostics import quote
+        index={a['id']:a for a in catalog}
+        compiled['read_only_objects']=[quote(index[k]['metadata']['schema_name'])+'.'+quote(index[k]['metadata']['name'])
+                                       for k in compiled['asset_ids']]
+        compiled['require_read_only']=True
+        compiled['catalog_hash']=digest(catalog)
     else:raise ValueError('Unsupported proposed query tool')
     if report is not None:compiled['surface_report_columns']=report
     return dict(compiled,tool=tool,context_id=model['context_id'],context_hash=digest(model['context']),
@@ -108,7 +126,7 @@ def extract(response,request):
         columns.update(row)
         normalized={}
         for k,v in row.items():
-            if request['tool']=='bounded_sql' and v is not None:
+            if request['tool'] in SQL_TOOLS and v is not None:
                 kind=response.get('column_types',{}).get(k)
                 if kind in ('Byte','Int16','Int32','Int64','Decimal'):v=Decimal(v)
                 elif kind=='Boolean':
@@ -123,7 +141,17 @@ def extract(response,request):
             'execution_identity':identity,'columns':sorted(columns),
             'caller_limit':request.get('caller_limit'),'interpretation':'OBSERVED',
             'limitation':request['limitation'],'cause_verified':False,
-            **({'surface_report':report} if request.get('surface_report_columns') else {})}
+            **({'surface_report':report} if request.get('surface_report_columns') else {}),
+            **({'surface_report':_transport_report(response.get('surface_report'))}
+               if request['tool']=='bounded_fabric_sql' else {})}
+
+
+def _transport_report(report):
+    """A same-connection self-report from the transport, kept only if well formed."""
+    if (not isinstance(report,dict) or not 1<=len(report)<=4
+            or any(not isinstance(k,str) or not isinstance(v,str) or not v or len(v)>300 for k,v in report.items())):
+        return None
+    return dict(report)
 
 
 def _split_surface_report(rows,columns):
@@ -140,13 +168,13 @@ def _split_surface_report(rows,columns):
     return stripped,(report if all(report.values()) else None)
 
 
-def run(store,plan,config,tool,execute,*,receipt_id=None):
-    request=build(store,plan,config,tool);identity=receipt_id or str(uuid4())
+def run(store,plan,config,tool,execute,*,receipt_id=None,catalog=None):
+    request=build(store,plan,config,tool,catalog=catalog);identity=receipt_id or str(uuid4())
     with store.connect() as db:
         db.execute('CREATE TABLE IF NOT EXISTS '+TABLE+'(id TEXT PRIMARY KEY,model_id TEXT,created TEXT,status TEXT,request TEXT,result TEXT)')
         db.execute('INSERT INTO '+TABLE+' VALUES(?,?,?,?,?,NULL)',(identity,plan['model_id'],datetime.now(timezone.utc).isoformat(),'RUNNING',encoded({'plan':plan,**request})))
     try:
-        if build(store,plan,config,tool)!=request:raise Conflict('Context changed before query')
+        if build(store,plan,config,tool,catalog=catalog)!=request:raise Conflict('Context changed before query')
         response=execute(request)
         if tool=='bounded_dax':require(response,request,config['fabric']['native_reader'])
         elif not response.get('read_only_verified'):raise ValueError('Source read-only permission check missing')
@@ -155,7 +183,7 @@ def run(store,plan,config,tool,execute,*,receipt_id=None):
             from .source_diagnostics import connection_attempts
             attempts=connection_attempts(response.get('connection_attempts'))
             if attempts is not None:result['connection_attempts']=attempts
-        if build(store,plan,config,tool)!=request:raise Conflict('Context changed during query')
+        if build(store,plan,config,tool,catalog=catalog)!=request:raise Conflict('Context changed during query')
         status='COMPLETED'
     except Exception as exc:
         status='HELD' if isinstance(exc,Conflict) else 'INTERRUPTED' if isinstance(exc,(TimeoutError,subprocess.TimeoutExpired)) else 'FAILED'
@@ -163,7 +191,7 @@ def run(store,plan,config,tool,execute,*,receipt_id=None):
         # A service rejection carries its HTTP status and error code, never its body.
         if type(getattr(exc,'http_status',None)) is int:result['http_status']=exc.http_status
         if isinstance(getattr(exc,'service_error_code',None),str):result['service_error_code']=exc.service_error_code
-        if tool=='bounded_sql':
+        if tool in SQL_TOOLS:
             from .source_diagnostics import connection_attempts
             if type(getattr(exc,'error_number',None)) is int:result['error_number']=exc.error_number
             if getattr(exc,'error_kind',None) in ('SqlException','InvalidOperationException','MethodException','ArgumentException','TransportError'):

@@ -70,6 +70,11 @@ and database.
 The engine still reports it, because `evaluate()` has no path that reads this
 endpoint.
 
+**Update 2026-09-27 (item 2b).** The statement above, that `evaluate()` has no
+path that reads the endpoint, is superseded; the original is kept. `evaluate()`
+now reads a faithfully declared `declared_source` layer on the Fabric SQL
+endpoint as the reader. See [independent lower read](docs/independent-lower-read.md).
+
 Still not established:
 - **No table read:** only `SUSER_SNAME()` and `DB_NAME()` were queried.
 - **No `DENY` check:** no explicit T-SQL `DENY` has been checked.
@@ -120,6 +125,12 @@ they read the wrong discovery environment. Their missing-binding and structural-
 limit conclusions are withdrawn. No freeze or unfamiliar-domain claim follows.
 
 ## What works today
+
+- An independent lower-layer read. For a faithfully declared `declared_source`
+  layer, the engine compiles the equivalent quantity from the model's
+  declarations and reads it on the Fabric SQL endpoint as the least-privilege
+  reader, with read-only guard and self-report. It has been verified by one
+  transport check. No comparison run has been performed yet.
 
 - Execution-surface self-report is enforced for every process probe. The Fabric
   SQL analytics endpoint's self-report has been verified live once, as the

@@ -172,12 +172,16 @@ class ConnectionScriptTests(unittest.TestCase):
 
 
 class CapabilityTests(unittest.TestCase):
-    def adapter(self, surface):
+    def adapter(self, surface, execute_lower=lambda database, request: {}):
         from investigator.adapters.microsoft_process import MicrosoftProcessAdapter
-        return MicrosoftProcessAdapter(None, None, None, None, None, lower_surface=surface)
+        return MicrosoftProcessAdapter(None, None, None, None, None, lower_surface=surface, execute_lower=execute_lower)
 
     def test_lower_surface_is_declared_only_when_the_session_is_ready(self):
         self.assertIn('independent_lower_surface', self.adapter({'status': 'READY'}).capabilities())
+        # A ready session without a transport cannot read; it is not declared.
+        without = self.adapter({'status': 'READY'}, execute_lower=None)
+        self.assertNotIn('independent_lower_surface', without.capabilities())
+        self.assertIn('no reader transport', without.capability_gaps()['independent_lower_surface'])
         for surface in (None, {'status': 'SIGN_IN_REQUIRED', 'account': 'a@b.c', 'profile': '.local/p'},
                         {'status': 'ACCOUNT_MISMATCH'}):
             adapter = self.adapter(surface)
