@@ -6,6 +6,15 @@ This is the authoritative current status; milestone pages retain historical evid
 
 ## Current milestone
 
+**Current checkpoint: the engine fingerprint covers adapters and transports.**
+Updated 2026-09-27.
+- **What changed:** the fingerprint now hashes the whole engine package
+  (adapters included) and every transport.
+- **Invalidated:** every earlier engine tag and stored `engine_hash`.
+- **New tag:** `unfrozen-a9e32c819240`.
+
+See [engine fingerprint](engine-fingerprint.md).
+
 **Current checkpoint: independent lower-layer read (item 2b).** Updated
 2026-09-27.
 - **What changed:** `evaluate()` reads a `declared_source` layer on the Fabric

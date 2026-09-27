@@ -14,12 +14,26 @@ from . import record_readback, record_comparison, record_aggregate
 from .tool_registry import TOOLS, normalize, compile_actions
 
 
-def fingerprint():
-    root = Path(__file__).resolve().parents[2]
-    files = sorted((root / 'scripts/investigator').glob('*.py'))
-    files += [root / name for name in ('scripts/run_native_diagnostic.py', 'scripts/run_source_diagnostic.py','scripts/run_investigation_v2.py',
-               'scripts/run_adaptive_investigation.py', 'scripts/serve_investigator_workspace.py', 'scripts/connect_fixture_reader.py', 'scripts/ticket_planner.py', 'scripts/requirements-workspace.txt', 'scripts/metadata_auth.py', 'scripts/metadata_config.py', 'scripts/sql_connect_retry.py', 'infra/scripts/Read-CatalogAggregate.ps1')]
-    return digest({'python': sys.version, 'files': {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}})
+# Everything whose bytes can change what a run observes or concludes: the whole
+# engine package (adapters included, recursively) and the transports that
+# execute its reads. A freeze certifies these files, so none may be left out.
+FINGERPRINT_TRANSPORTS = ('scripts/run_native_diagnostic.py', 'scripts/run_source_diagnostic.py', 'scripts/run_investigation_v2.py',
+    'scripts/run_adaptive_investigation.py', 'scripts/serve_investigator_workspace.py', 'scripts/connect_fixture_reader.py',
+    'scripts/ticket_planner.py', 'scripts/requirements-workspace.txt', 'scripts/metadata_auth.py', 'scripts/metadata_config.py',
+    'scripts/sql_connect_retry.py', 'scripts/fabric_sql_auth.py', 'scripts/fabric_sql_surface.py', 'scripts/read_xmla_failure.py',
+    'scripts/read_onelake_commit.py', 'infra/scripts/Read-CatalogAggregate.ps1', 'infra/scripts/Read-FabricSqlAggregate.ps1',
+    'infra/scripts/Read-FabricSqlSurface.ps1', 'infra/scripts/Read-XmlaFailure.ps1')
+
+
+def fingerprint_files(root=None):
+    root = Path(root) if root is not None else Path(__file__).resolve().parents[2]
+    files = sorted(p for p in (root / 'scripts/investigator').rglob('*.py') if '__pycache__' not in p.parts)
+    return root, files + [root / name for name in FINGERPRINT_TRANSPORTS]
+
+
+def fingerprint(root=None):
+    root, files = fingerprint_files(root)
+    return digest({'python': sys.version, 'files': {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}})
 
 
 def project(row, steps, events):

@@ -186,6 +186,10 @@ A PR that changes behaviour and does not update these is incomplete.
 
 ## Known past failures — do not reintroduce
 
+- The engine fingerprint hashed only `scripts/investigator/*.py`, so adapter- and
+  transport-only changes left the tag unchanged, and a freeze could certify
+  changed behaviour. Fixed: it now covers the package recursively and every
+  transport. Every earlier tag is invalidated.
 - A surface reported a failure only generically (Execute Queries:
   `DatasetExecuteQueriesError` / `0xC1450012`). A full day went into wrong
   hypotheses while the specific error (`AADSTS50173`) was available from XMLA.
