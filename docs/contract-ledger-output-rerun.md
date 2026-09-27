@@ -52,7 +52,7 @@ The definition shows a mechanism that can cause the increase, but it does not es
 
 ## Validation and retained history
 
-The full local run executed 1,231 tests; its only failures were twelve intake golden subcases whose old schemas lacked the newly required bounds. The test-only schema migration was then updated without editing fixtures or tapes; all four intake regression tests passed. A final full rerun is in progress. The two required generator tests also passed.
+The full local run executed 1,231 tests; its only failures were twelve intake golden subcases whose old schemas lacked the newly required bounds. The test-only schema migration was then updated without editing fixtures or tapes; all four intake regression tests passed. The final full rerun passed all 1,231 tests in 373.894 seconds. The two required generator tests also passed.
 
 The original 223 ledger rows are unchanged. One explicit correction reconciles the failed `0154df11` run to four reads while keeping its failure. This live repeat adds one new run, with receipt-first counts. No previous failure was relabelled as successful.
 
