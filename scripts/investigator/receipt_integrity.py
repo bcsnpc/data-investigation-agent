@@ -3,7 +3,7 @@ from .onboarding import digest, Conflict
 
 TABLES={'native':'native_diagnostics','source':'source_diagnostics'}
 TABLES.update(bounded_dax='flexible_diagnostics',bounded_sql='flexible_diagnostics',
-              bounded_fabric_sql='flexible_diagnostics')
+              bounded_fabric_sql='flexible_diagnostics',failure_detail='failure_details')
 
 
 def seal(db,kind,identity):

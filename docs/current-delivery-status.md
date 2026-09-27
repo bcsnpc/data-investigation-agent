@@ -21,6 +21,15 @@ This is the authoritative current status; milestone pages retain historical evid
 
 See [independent lower read](independent-lower-read.md).
 
+**Current checkpoint: failure detail is sealed evidence.** Updated 2026-09-27.
+The XMLA failure-detail result is now its own sealed receipt (`failure_detail`),
+and the refinement references it.
+- **Tests only:** the fault cleared before this change, so it is not verified
+  live.
+- **Engine fingerprint:** `unfrozen-6e9ac8b9a6a0`.
+
+See [specific failure](specific-failure.md#update-2026-09-27-the-refinement-is-sealed-as-its-own-receipt).
+
 **Current checkpoint: the reader's Direct Lake access is restored.** Updated
 2026-09-27 00:33 UTC.
 - **The remedy:** after an interactive portal sign-in as the reader, the stale

@@ -124,7 +124,8 @@ def _failure_entry(probe):
     specific=failure.get('most_specific') or {}
     return {'layer':probe.layer,'reason':probe.reason,'interface':failure.get('interface'),
             'generic_codes':failure.get('codes',[]),'refinement':failure.get('refinement'),
-            'specific_interface':specific.get('interface'),'specific_codes':specific.get('codes',[])}
+            'specific_interface':specific.get('interface'),'specific_codes':specific.get('codes',[]),
+            'specific_receipt_id':specific.get('receipt_id')}
 
 
 def _surface_key(surface):

@@ -344,11 +344,14 @@ class MicrosoftProcessAdapter:
         if not workspace or not probe.query:
             return {'interface':'XMLA','specificity':'GENERIC','codes':[],'status':'NOT_ADDRESSABLE'}
         request={'workspace_name':workspace,'model_name':self.model['name'],'query':probe.query}
-        execute=lambda:self.read_failure_detail(request)
-        result=self.meter_read('xmla_failure',execute) if self.meter_read else execute()
-        codes=[c for c in (result.get('codes') or []) if isinstance(c,str)]
-        return {'interface':'XMLA','status':result.get('status'),'codes':codes,
-                'specificity':'SPECIFIC' if codes else 'GENERIC','error_type':result.get('error_type')}
+        from ..failure_detail import record
+        read=lambda:self.read_failure_detail(request)
+        execute=lambda:self.meter_read('xmla_failure',read) if self.meter_read else read()
+        receipt_id,status,result=record(self.store,self.model['id'],
+            dict(request,interface='XMLA',refines_receipt_id=(probe.failure or {}).get('receipt_id')),execute)
+        return {'interface':'XMLA','status':result['interface_status'],'codes':result['codes'],
+                'specificity':'SPECIFIC' if result['codes'] else 'GENERIC','error_type':result['error_type'],
+                'receipt_id':receipt_id,'receipt_status':status}
 
     def presentation_context(self,boundary,scope):
         from report_slicer_context import assess as assess_slicers
