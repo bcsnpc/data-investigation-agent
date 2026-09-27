@@ -59,3 +59,10 @@ The full run emitted SQLite ResourceWarnings but no failures. The two requested
 live repeats remain pending.
 The prior batch credits were scoped to the old sessions; a separate bounded grant
 for the new pair has been requested. No new live run has started.
+
+## Follow-up: live pair after merge
+
+#281 merged after six green checks. The approved pair completed both investigations
+at four diagnostic operations and ten physical requests each, with zero guard
+reuse. Both synthesis calls failed ValidationError. [Full results and rejected
+drafts](diagnostic-budget-live-pair.md) supersede the pending-live status above.

@@ -1690,3 +1690,13 @@ invalidated. Verification and the new live pair are pending.
 Validation update: 1,303 full-suite tests and 18 final focused budget tests passed;
 PowerShell syntax and document links passed. No new live run started; the requested
 pair awaits its own expiring batch approval. Implementation is in PR #281.
+
+
+## 2026-09-27: diagnostic-budget live pair
+
+#281 merged after six green checks. Both procedures completed at unchanged 4/4
+diagnostic slots and approved 10/10 physical credits each; six guards and zero
+reuses each. Both synthesis calls failed ValidationError; no end-to-end pass.
+All twenty credits charged; expiry/approval/readbacks and verbatim rejected drafts
+recorded. No cap, ordinary allowance or engine change.
+[Evidence](diagnostic-budget-live-pair.md).
