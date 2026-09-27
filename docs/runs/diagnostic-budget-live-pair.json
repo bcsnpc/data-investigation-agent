@@ -1,0 +1,564 @@
+{
+  "manifest": {
+    "started": "2026-09-27T21:08:10.037114+00:00",
+    "commit": "a5fb6b0c674e6e664923c7acbed9b141eecd3a48",
+    "engine_hash": "096482dcb8ad2062e2073774bd9aa2e989f2df9579cf9ff388f651f904c11fe4",
+    "hashes": {
+      "policy": "cc093cd11a533b987df20b5b4e274c53416f39088c577a9b4f48f52e9398a85a",
+      "config": "4362a6c7d6bb3ed7ebd58aa78e9bb0159790b42edd76c6ae30320c4beb0e4c5e",
+      "profile": "9807aa8934347ba2cee27d23a24ea4ce4dfdafcfb8944793e245d7d873fdff58",
+      "ticket": "e22ce27faa9ef38cad5f6e958ba9d0947cc44158ab0a4d6d66f11a2c07564ff9"
+    },
+    "read_limit": 4,
+    "max_boundaries": 3,
+    "input_limit": 384000,
+    "batch_credits_per_run": 10,
+    "batch_credits_total": 20,
+    "credit_lifetime_seconds": 7200,
+    "ordinary_policy_changed": false,
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "ended": "2026-09-27T21:12:01.256407+00:00",
+    "hashes_after": {
+      "policy": "cc093cd11a533b987df20b5b4e274c53416f39088c577a9b4f48f52e9398a85a",
+      "config": "4362a6c7d6bb3ed7ebd58aa78e9bb0159790b42edd76c6ae30320c4beb0e4c5e",
+      "profile": "9807aa8934347ba2cee27d23a24ea4ce4dfdafcfb8944793e245d7d873fdff58",
+      "ticket": "e22ce27faa9ef38cad5f6e958ba9d0947cc44158ab0a4d6d66f11a2c07564ff9"
+    }
+  },
+  "credits_granted": 20,
+  "credits_charged": 20,
+  "unused": 0,
+  "runs": [
+    {
+      "ledger_row": {
+        "session_id": "79735d7d-e7cb-4496-8f33-6b6b33cf1d4a",
+        "date_utc": "2026-09-27T21:09:34.793016+00:00",
+        "mode": "live",
+        "family": "G",
+        "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+        "experiment": "DIAGNOSTIC_READ_BUDGET_REGRESSION",
+        "arm_trial": 1,
+        "engine_hash": "096482dcb8ad2062e2073774bd9aa2e989f2df9579cf9ff388f651f904c11fe4",
+        "planner_calls": 1,
+        "cloud_calls_reserved": 4,
+        "read_limit": 4,
+        "batch_credits": 10,
+        "input_limit": 384000,
+        "intake_status": "PROPOSED",
+        "status": "COMPLETED",
+        "stop_reason": "ENOUGH_DIAGNOSTICS",
+        "outcome_label": "TRANSFORMATION_LOGIC",
+        "synthesis_status": "FAILED",
+        "synthesis_calls": 1,
+        "process_exit": 0,
+        "wall_seconds": 84.643,
+        "recorded_tape_ids": [
+          "29ec67f8-4984-43ec-92cc-f6f20664bded",
+          "c8c04c61-a17a-477e-96e1-dd4c8c933835",
+          "d3f59d32-13d4-4765-99b1-d91d43dcd523"
+        ],
+        "notes_doc": "docs/diagnostic-budget-live-pair.md",
+        "reads_sql": 8,
+        "reads_dax": 1,
+        "reads_other": 1,
+        "reads_total": 10,
+        "physical_requests": 10,
+        "guard_requests": 6,
+        "diagnostic_reads": 4,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 4,
+        "reads_completed": 10,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "batch": {
+        "batch_id": "G-diagnostic-budget-R1-20260927-credits",
+        "expires_at": 1790550499.1808727,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "79735d7d-e7cb-4496-8f33-6b6b33cf1d4a",
+            "purpose": "INVESTIGATION",
+            "allowance": 10,
+            "charged": 10,
+            "available": 0
+          }
+        ]
+      },
+      "approval": {
+        "environment": "unknown-domain-v4",
+        "batch_id": "G-diagnostic-budget-R1-20260927-credits",
+        "approved_by": "user, delegated execution to Codex",
+        "approval_reference": "User approval: 10 expiring physical-request credits per run, 20 total, for this batch only. Keep diagnostic cap 4 and ordinary allowance 60.",
+        "expires_at": 1790550499.1808727,
+        "runs": [
+          {
+            "session_id": "79735d7d-e7cb-4496-8f33-6b6b33cf1d4a",
+            "purpose": "INVESTIGATION",
+            "reads": 10
+          }
+        ]
+      },
+      "expires_utc": "2026-09-27T23:08:19.180873+00:00",
+      "ordinary_before": 92,
+      "ordinary_after": 92,
+      "ordinary_limit": 60,
+      "historical_day_before": 89,
+      "historical_day_after": 99,
+      "policy_hash_before": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+      "policy_hash_after": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+      "physical_receipts": [
+        {
+          "sequence": 1,
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "receipt_id": "1e5b3071-7563-4daa-80b6-41c97d585ac7",
+          "guard_receipt": null
+        },
+        {
+          "sequence": 2,
+          "tool": "sql_identity",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": null
+        },
+        {
+          "sequence": 3,
+          "tool": "sql_database_permissions",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": "e9079288-5867-45fa-aeda-fe2d6b180b6f"
+        },
+        {
+          "sequence": 4,
+          "tool": "sql_object_permissions",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": "82a73047-0544-49a3-8ca2-22cedf81d555"
+        },
+        {
+          "sequence": 5,
+          "tool": "sql_quantity",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": null
+        },
+        {
+          "sequence": 6,
+          "tool": "fabric_endpoint_metadata",
+          "status": "COMPLETED",
+          "receipt_id": null,
+          "guard_receipt": null
+        },
+        {
+          "sequence": 7,
+          "tool": "sql_identity",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": null
+        },
+        {
+          "sequence": 8,
+          "tool": "sql_database_permissions",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": "8b0ac09e-73f4-48bf-841a-375e5f8c23ab"
+        },
+        {
+          "sequence": 9,
+          "tool": "sql_object_permissions",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": "61ff2866-d842-4809-bd8f-ee5a2d8f8d54"
+        },
+        {
+          "sequence": 10,
+          "tool": "sql_quantity",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": null
+        }
+      ],
+      "guard_evidence": [
+        {
+          "database": "warehouse_gold_e1b8e1",
+          "established_receipt": "e9079288-5867-45fa-aeda-fe2d6b180b6f",
+          "kind": "sql_database_permissions",
+          "object": "",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "status": "ESTABLISHED"
+        },
+        {
+          "database": "warehouse_gold_e1b8e1",
+          "established_receipt": "82a73047-0544-49a3-8ca2-22cedf81d555",
+          "kind": "sql_object_permissions",
+          "object": "[dbo].[movement_values]",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "status": "ESTABLISHED"
+        },
+        {
+          "database": "warehouse_silver_e1b8e1",
+          "established_receipt": "8b0ac09e-73f4-48bf-841a-375e5f8c23ab",
+          "kind": "sql_database_permissions",
+          "object": "",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "status": "ESTABLISHED"
+        },
+        {
+          "database": "warehouse_silver_e1b8e1",
+          "established_receipt": "61ff2866-d842-4809-bd8f-ee5a2d8f8d54",
+          "kind": "sql_object_permissions",
+          "object": "[dbo].[stock_movements_e1b8e1]",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "status": "ESTABLISHED"
+        }
+      ],
+      "synthesis_error": {
+        "cause_types": [],
+        "error_type": "ValidationError"
+      },
+      "synthesis_wire_schema_errors": [
+        {
+          "path": [
+            "limitations",
+            1,
+            "text"
+          ],
+          "validator": "enum"
+        },
+        {
+          "path": [
+            "limitations",
+            2,
+            "text"
+          ],
+          "validator": "enum"
+        },
+        {
+          "path": [
+            "limitations",
+            3,
+            "text"
+          ],
+          "validator": "enum"
+        },
+        {
+          "path": [
+            "limitations",
+            4,
+            "text"
+          ],
+          "validator": "enum"
+        },
+        {
+          "path": [
+            "limitations",
+            5,
+            "text"
+          ],
+          "validator": "enum"
+        }
+      ],
+      "comparisons": [
+        {
+          "id": "boundary-1-comparison",
+          "comparison_status": "CROSS_SURFACE_VERIFIED",
+          "values_equal": true,
+          "snapshot_attestation": {
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          }
+        },
+        {
+          "id": "boundary-2-comparison",
+          "comparison_status": "CROSS_SURFACE_VERIFIED",
+          "values_equal": false,
+          "snapshot_attestation": {
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          }
+        }
+      ]
+    },
+    {
+      "ledger_row": {
+        "session_id": "43977d8e-aad4-435b-ae5f-f0ee1ca2c071",
+        "date_utc": "2026-09-27T21:12:01.227686+00:00",
+        "mode": "live",
+        "family": "G",
+        "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+        "experiment": "DIAGNOSTIC_READ_BUDGET_REGRESSION",
+        "arm_trial": 2,
+        "engine_hash": "096482dcb8ad2062e2073774bd9aa2e989f2df9579cf9ff388f651f904c11fe4",
+        "planner_calls": 1,
+        "cloud_calls_reserved": 4,
+        "read_limit": 4,
+        "batch_credits": 10,
+        "input_limit": 384000,
+        "intake_status": "PROPOSED",
+        "status": "COMPLETED",
+        "stop_reason": "ENOUGH_DIAGNOSTICS",
+        "outcome_label": "TRANSFORMATION_LOGIC",
+        "synthesis_status": "FAILED",
+        "synthesis_calls": 1,
+        "process_exit": 0,
+        "wall_seconds": 81.385,
+        "recorded_tape_ids": [
+          "2c5034f0-18ee-42d1-ad47-b3b88fd04ea4",
+          "3bb20bae-67ea-4814-86dc-1e11d167b184",
+          "eb24fa06-e926-43d2-a084-41f4399435d2"
+        ],
+        "notes_doc": "docs/diagnostic-budget-live-pair.md",
+        "reads_sql": 8,
+        "reads_dax": 1,
+        "reads_other": 1,
+        "reads_total": 10,
+        "physical_requests": 10,
+        "guard_requests": 6,
+        "diagnostic_reads": 4,
+        "guard_reuses": 0,
+        "diagnostic_read_cap": 4,
+        "reads_completed": 10,
+        "reads_unsuccessful_or_uncertain": 0,
+        "read_accounting_source": "PROCESS_READ_RECEIPTS"
+      },
+      "batch": {
+        "batch_id": "G-diagnostic-budget-R2-20260927-credits",
+        "expires_at": 1790550648.476794,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "43977d8e-aad4-435b-ae5f-f0ee1ca2c071",
+            "purpose": "INVESTIGATION",
+            "allowance": 10,
+            "charged": 10,
+            "available": 0
+          }
+        ]
+      },
+      "approval": {
+        "environment": "unknown-domain-v4",
+        "batch_id": "G-diagnostic-budget-R2-20260927-credits",
+        "approved_by": "user, delegated execution to Codex",
+        "approval_reference": "User approval: 10 expiring physical-request credits per run, 20 total, for this batch only. Keep diagnostic cap 4 and ordinary allowance 60.",
+        "expires_at": 1790550648.476794,
+        "runs": [
+          {
+            "session_id": "43977d8e-aad4-435b-ae5f-f0ee1ca2c071",
+            "purpose": "INVESTIGATION",
+            "reads": 10
+          }
+        ]
+      },
+      "expires_utc": "2026-09-27T23:10:48.476794+00:00",
+      "ordinary_before": 92,
+      "ordinary_after": 92,
+      "ordinary_limit": 60,
+      "historical_day_before": 99,
+      "historical_day_after": 109,
+      "policy_hash_before": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+      "policy_hash_after": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+      "physical_receipts": [
+        {
+          "sequence": 1,
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "receipt_id": "bac69e27-78fb-4742-beeb-2d258ee69c82",
+          "guard_receipt": null
+        },
+        {
+          "sequence": 2,
+          "tool": "sql_identity",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": null
+        },
+        {
+          "sequence": 3,
+          "tool": "sql_database_permissions",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": "7ce86b0a-a25f-4e9c-98da-953bb8a75792"
+        },
+        {
+          "sequence": 4,
+          "tool": "sql_object_permissions",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": "c3f70373-371b-460d-9a19-612bb83d09a4"
+        },
+        {
+          "sequence": 5,
+          "tool": "sql_quantity",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": null
+        },
+        {
+          "sequence": 6,
+          "tool": "fabric_endpoint_metadata",
+          "status": "COMPLETED",
+          "receipt_id": null,
+          "guard_receipt": null
+        },
+        {
+          "sequence": 7,
+          "tool": "sql_identity",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": null
+        },
+        {
+          "sequence": 8,
+          "tool": "sql_database_permissions",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": "3a7bd67c-774d-441e-a027-5329c2c0fea0"
+        },
+        {
+          "sequence": 9,
+          "tool": "sql_object_permissions",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": "f0628b81-aed0-4754-a974-31ccdd1b6018"
+        },
+        {
+          "sequence": 10,
+          "tool": "sql_quantity",
+          "status": "AVAILABLE",
+          "receipt_id": null,
+          "guard_receipt": null
+        }
+      ],
+      "guard_evidence": [
+        {
+          "database": "warehouse_gold_e1b8e1",
+          "established_receipt": "7ce86b0a-a25f-4e9c-98da-953bb8a75792",
+          "kind": "sql_database_permissions",
+          "object": "",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "status": "ESTABLISHED"
+        },
+        {
+          "database": "warehouse_gold_e1b8e1",
+          "established_receipt": "c3f70373-371b-460d-9a19-612bb83d09a4",
+          "kind": "sql_object_permissions",
+          "object": "[dbo].[movement_values]",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "status": "ESTABLISHED"
+        },
+        {
+          "database": "warehouse_silver_e1b8e1",
+          "established_receipt": "3a7bd67c-774d-441e-a027-5329c2c0fea0",
+          "kind": "sql_database_permissions",
+          "object": "",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "status": "ESTABLISHED"
+        },
+        {
+          "database": "warehouse_silver_e1b8e1",
+          "established_receipt": "f0628b81-aed0-4754-a974-31ccdd1b6018",
+          "kind": "sql_object_permissions",
+          "object": "[dbo].[stock_movements_e1b8e1]",
+          "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+          "status": "ESTABLISHED"
+        }
+      ],
+      "synthesis_error": {
+        "cause_types": [],
+        "error_type": "ValidationError"
+      },
+      "synthesis_wire_schema_errors": [
+        {
+          "path": [
+            "limitations",
+            1,
+            "text"
+          ],
+          "validator": "enum"
+        },
+        {
+          "path": [
+            "limitations",
+            2,
+            "text"
+          ],
+          "validator": "enum"
+        },
+        {
+          "path": [
+            "limitations",
+            3,
+            "text"
+          ],
+          "validator": "enum"
+        },
+        {
+          "path": [
+            "limitations",
+            4,
+            "text"
+          ],
+          "validator": "enum"
+        },
+        {
+          "path": [
+            "limitations",
+            5,
+            "text"
+          ],
+          "validator": "enum"
+        }
+      ],
+      "comparisons": [
+        {
+          "id": "boundary-1-comparison",
+          "comparison_status": "CROSS_SURFACE_VERIFIED",
+          "values_equal": true,
+          "snapshot_attestation": {
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          }
+        },
+        {
+          "id": "boundary-2-comparison",
+          "comparison_status": "CROSS_SURFACE_VERIFIED",
+          "values_equal": false,
+          "snapshot_attestation": {
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          }
+        }
+      ]
+    }
+  ],
+  "final_outputs_validated": false
+}
