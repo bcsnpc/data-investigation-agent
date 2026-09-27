@@ -19,5 +19,15 @@
     "type": "ValueError",
     "message": "CONSISTENT_TO_BOUNDARY requires at least one successful equal boundary comparison"
   },
-  "source_file_unchanged": true
+  "source_file_unchanged": true,
+  "engine_commit": "d6b79da",
+  "engine_hash": "4968abe9f54114d564f86ca27ba921b0b6619ff4cc2ef56169167a6c9d025323",
+  "validation": {
+    "focused_tests": 37,
+    "full_tests": 1195,
+    "seconds": 242.019,
+    "python_exit_code": 0,
+    "local_document_targets": 291,
+    "ledger_unchanged": true
+  }
 }

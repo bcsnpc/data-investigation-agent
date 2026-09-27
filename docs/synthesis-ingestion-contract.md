@@ -59,8 +59,9 @@ was not met.
 37 focused tests passed: 22 synthesis, two commit-reader, eleven planner golden
 projection and two generator tests. New regressions preserve the entire ingestion
 report without mutating its source; require missing fields to fail loudly; and
-retain empty/unavailable reports without upgrading them. Full regression is in
-progress; the final result will be recorded before handoff.
+retain empty/unavailable reports without upgrading them. Full regression: **1,195 tests passed** in 242.019 seconds, Python exit 0.
+ResourceWarnings remain in the local log. All 291 local document targets resolved;
+`git diff --check` passed and the investigation ledger is unchanged.
 
 No investigation planner payload changes: its directory entries, SQL-object
 entries and payload characters are identical before/after (the eleven golden

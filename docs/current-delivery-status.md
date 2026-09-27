@@ -18,7 +18,8 @@ checks. Synthesis's assumption that all context observations contain `metadata`
 was wrong; explicit ingestion projection now preserves and validates its actual
 report. Saved R2's digest builds (6,298 characters), but synthesis validation loses
 the comparison fields and rejects the supported consistency assessment. No live
-run: the offline-completion condition remains unmet. 37 focused tests passed.
+run: the offline-completion condition remains unmet. 37 focused tests and
+1,195 full regression tests passed (Python exit 0). Fix and report: PR #259.
 [Contract decision and next blocker](synthesis-ingestion-contract.md).
 
 ## Current milestone

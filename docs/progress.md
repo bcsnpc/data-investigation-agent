@@ -1520,3 +1520,6 @@ assumption with strict ingestion-report projection; producer and original receip
 are unchanged. Saved R2 builds its digest, then validation rejects the equal-boundary
 assessment because comparison fields are dropped. No live run; 37 focused tests
 passed. [Decision and evidence](synthesis-ingestion-contract.md).
+
+Full validation for PR #259: 1,195 tests passed in 242.019 seconds, Python exit 0;
+291 local document targets resolved. Ledger unchanged; no live run.
