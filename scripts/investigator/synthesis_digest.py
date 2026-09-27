@@ -115,7 +115,9 @@ def _process_evidence(observation,by_id,quantities=None):
   compared=[quantities[ref] for ref in refs] if quantities is not None else [quantity(item.get('values')) for item in referenced]
   if (digest(compared[0])==digest(compared[1])) != observation['values_equal']:
    raise Conflict('Process comparison differs from referenced observations')
- return {'comparison_status':status,'upper_layer':observation.get('upper_layer'),
+ from .snapshot_attestation import checked
+ snapshot=checked(observation)
+ return {'snapshot_attestation':snapshot,'comparison_status':status,'upper_layer':observation.get('upper_layer'),
          'lower_layer':observation.get('lower_layer'),'reason':observation.get('reason'),
          'values_equal':observation.get('values_equal'),'upper_execution_surface':upper,
          'lower_execution_surface':lower,'referenced_evidence_ids':[ref for ref in refs if ref],

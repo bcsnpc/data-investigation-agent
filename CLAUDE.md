@@ -91,9 +91,12 @@ timing as the reason for the difference. A latest OneLake commit observed by the
 separate metadata/fixture-owner identity is not the version served by a SQL or DAX
 quantity read and must never be represented as reader attestation.
 
-Snapshot attestation and an optional, separately attributed snapshot-metadata
-capability are pending implementation; recording this known limit does not deliver
-them. No freshness fixture is to be repeated until those capabilities exist.
+Snapshot attestation now defaults to SNAPSHOT_UNVERIFIED; see
+[the implementation and limits](docs/snapshot-attestation.md). A separately
+configured metadata identity may enrich the record, but a standalone metadata
+query does not attest which version a quantity read served. Only genuinely
+query-bound, aligned reports can produce SNAPSHOT_VERIFIED. No live verification
+or freshness-fixture success is implied.
 
 ## Refresh timing permission finding (2026-09-27)
 

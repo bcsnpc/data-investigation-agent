@@ -571,6 +571,9 @@ class AdaptiveRuntime:
         def read_refresh_timing():
             from refresh_timing_reader import read
             return meter_read('optional_refresh_timing',lambda:read(self.config,model))
+        def read_snapshot_identity(probe,workspace_name):
+            from snapshot_identity_reader import read
+            return meter_read('optional_snapshot_identity',lambda:read(self.config,model,probe,workspace_name))
         adapter=MicrosoftProcessAdapter(self.store,self.config,model,
             self.runtime.native_transport,self.runtime.source_transport,
             judge_definition=judge if provider is not None else None,meter_read=meter_read,
@@ -578,7 +581,8 @@ class AdaptiveRuntime:
             read_failure_detail=read_failure_detail if self.config['fabric'].get('xmla_client') else None,
             lower_surface=lower_surface,execute_lower=execute_lower,
             max_boundaries=self.process_max_boundaries,read_endpoint=read_endpoint,
-            read_refresh_timing=read_refresh_timing if self.config['fabric'].get('refresh_timing_reader') else None)
+            read_refresh_timing=read_refresh_timing if self.config['fabric'].get('refresh_timing_reader') else None,
+            read_snapshot_identity=read_snapshot_identity if self.config['fabric'].get('snapshot_identity_reader') else None)
         path=adapter.resolve_path(state['envelope']['measure_id'])
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)
