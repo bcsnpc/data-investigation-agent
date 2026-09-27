@@ -1,16 +1,14 @@
 # Self-Discovering Enterprise Data Investigator
 
-**Latest synthesis check, 2026-09-27:** the consumer now handles ingestion's
-explicit process-evidence contract instead of assuming a metadata-lookup shape.
-Saved R2's digest builds with the full ingestion report. Response validation still
-fails because synthesis drops comparison fields when rebuilding observations.
-No live run followed. [Contract decision and offline result](docs/synthesis-ingestion-contract.md).
+**Latest synthesis result, 2026-09-27:** validation now uses complete original
+observations instead of reconstructing them from a lossy digest. Saved R2 passes
+offline validation with the unchanged 6,298-character digest. One live repeat made
+a real equal Power BI-to-Fabric-SQL comparison (8,765 on both sides), then called
+synthesis. Its response failed validation because declared capabilities were not
+sorted. No retry or end-to-end pass. [Structural fix and full run report](docs/synthesis-original-evidence.md).
 
-**Latest intake result, 2026-09-27:** a single valid-pair schema replaces
-independent shape/mode choices. Five same-ticket intake/preview attempts all chose
-`MISMATCH_COMPLAINT:VERTICAL` and passed preview, with identical parsed decisions.
-No retries or data reads. This is intake consistency in five trials, not an
-end-to-end investigation pass. [Five-run evidence](docs/intake-valid-pairs-five.md).
+The valid-pair intake schema also passed five earlier same-ticket intake/preview
+trials. [Intake evidence](docs/intake-valid-pairs-five.md).
 
 An enterprise process debugger for Azure SQL, Microsoft Fabric and Power BI.
 It has automatically discovered a newly published model and reports and made them
@@ -23,12 +21,12 @@ read-only queries and saved evidence. It reports implemented behavior and never
 decides whether a business rule is correct.
 This is an FDE integration with one enterprise environment.
 
-**Latest follow-up:** shared quantity normalization now excludes only declared
+**Historical normalization checkpoint:** shared quantity normalization now excludes only declared
 surface-report columns. Saved R2's normalized comparison validates offline;
 synthesis then stops on an ingestion-context `metadata` contract gap. No live
 run or synthesis success is claimed. [Normalization evidence](docs/quantity-normalization-offline.md).
 
-**Latest checkpoint, 2026-09-27:** synthesis now compares execution surfaces by
+**Historical surface-key checkpoint, 2026-09-27:** synthesis now compares execution surfaces by
 engine, connection and object while retaining identity as evidence. The requested
 R2 scenario rerun was held at intake; synthesis did not run. Offline saved-R2
 validation exposes a second blocker: raw result aliases differ despite equal
@@ -39,7 +37,7 @@ See [surface fix and intake audit](docs/synthesis-surface-key-intake-audit.md).
 
 The following checkpoint is preserved as the preceding result.
 
-**Current checkpoint, 2026-09-27:** discovery was re-approved under the unchanged
+**Historical re-approval checkpoint, 2026-09-27:** discovery was re-approved under the unchanged
 current config (88 metadata/catalog operations). Of exactly three new attempts,
 two were held for an invalid intake pairing; one reached a real, equal Power BI
 DAX-to-Fabric-SQL comparison with the reader identity attested on both sides.
@@ -54,7 +52,7 @@ Statements that no table/comparison read had occurred, or that DAX self-report
 was only tested offline, are superseded by this checkpoint; all earlier failed
 runs and their original claims remain preserved.
 
-Current result: review of the [correct-context three-run check](docs/correct-context-process-three.md)
+Earlier boundary audit: review of the [correct-context three-run check](docs/correct-context-process-three.md)
 found that both apparent semantic-to-Gold comparisons executed inside the same
 Power BI model. They are requalified as within-model definition checks; the two
 boundary claims and partial-pass statement are withdrawn without rewriting their

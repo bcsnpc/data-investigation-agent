@@ -1,0 +1,6 @@
+{
+  "session_id": "3f8a7318-edfa-4bee-9760-76e183ac04e7",
+  "diagnostic": "Offline validation of unmodified recorded synthesis response; zero provider calls",
+  "error_type": "ValueError",
+  "message": "Declared capabilities must be a sorted unique list"
+}

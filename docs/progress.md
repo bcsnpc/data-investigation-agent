@@ -142,7 +142,7 @@ remain generic and require a new freeze for acceptance. Engine files/prompts rem
 frozen; no permissions or SQL quota were
 changed by this repair. See [challenge evidence](unknown-domain-challenge.md).
 
-## 2026-09-18 — First frozen unfamiliar-domain attempt and intake correction
+## 2026-09-18 â€” First frozen unfamiliar-domain attempt and intake correction
 
 PR #198 merged with all six CI checks green. Engine tag unknown-domain-engine-v1
 preceded publication of six SQL tables, three lakehouses, a transformation notebook,
@@ -159,7 +159,7 @@ errors; context lookup now includes collected history. No domain-specific names
 or answers were added to runtime logic. The 894-test suite passed; focused intake
 tests passed after tightening schema array limits. Fresh freeze/variant follows.
 
-## 2026-09-18 — Dynamic reasoning and governed diagnostics
+## 2026-09-18 â€” Dynamic reasoning and governed diagnostics
 
 Discovery PR #196 merged at `af6a0523db3d2e9e6c308f98b01d1e5a3745fcf4`.
 Grouped issue #197 adds dynamic context lookup, proposed parser-governed SQL/DAX,
@@ -213,7 +213,7 @@ Merged: [PR #174](https://github.com/bcsnpc/data-investigation-agent/pull/174).
 
 **Previous milestone:** PR #182 merged. [Reader-bound native execution](reader-bound-execution-milestone.md), tracked by [#183](https://github.com/bcsnpc/data-investigation-agent/issues/183), connects the dedicated reader to the actual native worker and durable runtime with account/tenant/object/model binding and sealed identity evidence. All 775 regression tests passed, including 29 focused tests. Three live native calls captured scalar/breakdown/record evidence; ten projected rows matched, and replay made zero cloud calls. General causal proof, Phase H acceptance and hosted v2 delivery remain open.
 
-Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“100.
+Updated: 2026-09-14 (planning revision; historical work retained). Original source plan: [POC specification](../cross_system_data_investigator_poc.md), sections 90ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ100.
 
 Approved scope extension: [Ticket experience and defect lab](../DATA_INVESTIGATOR_TICKET_AND_DEFECT_LAB_SCOPE.md). This extension governs the investigation experience and scope boundary alongside the original plan. Integration decisions and dependencies are recorded in [scope alignment](scope-alignment.md).
 
@@ -1251,7 +1251,7 @@ comparison remains proposal-only. Work stops with
 [results](ownership-revert-evaluation.md) and [proposals](ownership-and-reasoning-proposal.md).
 
 
-## 2026-09-24 — G trajectory audit and guarded ownership
+## 2026-09-24 â€” G trajectory audit and guarded ownership
 
 Completed the free [G trajectory audit](g-trajectory-audit.md) before engine changes.
 Implemented the approved constant-per-connection registry with coverage guard; all
@@ -1273,7 +1273,7 @@ native reads, eight query rejections, no provider failures and no final assessme
 All ended UNRESOLVED / BUDGET_LIMIT. Input admission censored the higher-read arms;
 D2/D3's protected context exceeded 48,000 per call. USD 8.863119 reference-priced
 planner usage is not Azure billing and excludes intake/cloud costs. All 124 tapes
-and twelve appended ledger rows verify; usage 549 → 751, zero active reservations
+and twelve appended ledger rows verify; usage 549 â†’ 751, zero active reservations
 or violations. Original daily policy restored without reset/refund; Azure capacity
 and SQL free-limit/AutoPause unchanged in after-batch control reads.
 
@@ -1344,7 +1344,7 @@ native metadata feeds can supplement derived lineage. Stop for review before any
 dependency map, parallel synthesis or Microsoft adapter. No freeze/new variant or
 unfamiliar-domain acceptance claim. See [calibration](synthesis-calibration.md) and
 [Microsoft capability review](microsoft-native-capability-review.md).
-# 2026-09-25 — Measure-path nine-run evaluation
+# 2026-09-25 â€” Measure-path nine-run evaluation
 
 ## 2026-09-25 - Independent-boundary evidence correction
 
@@ -1523,3 +1523,17 @@ passed. [Decision and evidence](synthesis-ingestion-contract.md).
 
 Full validation for PR #259: 1,195 tests passed in 242.019 seconds, Python exit 0;
 291 local document targets resolved. Ledger unchanged; no live run.
+
+
+## 2026-09-27 ? original-evidence synthesis validation
+
+Merged #259 after six green checks. Synthesis validation now reads complete
+original observations, bounded by digest-visible citation IDs, rather than a
+field allowlist. Saved R2 passes offline with the identical digest. One live run
+made one equal DAX/Fabric-SQL comparison at 8,765, then failed synthesis response
+validation because capabilities were unsorted. No retry or additional fix; all
+218 previous ledger rows preserved and one live row appended. Eighty focused
+tests passed. [Structural decision and full evidence](synthesis-original-evidence.md).
+
+Full regression for the original-evidence fix: 1,199 tests passed in 257.343 seconds,
+Python exit 0. All 295 local document targets resolved; diff check passed.
