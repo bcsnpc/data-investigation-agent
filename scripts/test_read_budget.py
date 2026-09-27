@@ -153,14 +153,15 @@ print(json.dumps({'status':'AVAILABLE'}),flush=True)
         with patch('investigator.assessment_support.validate',side_effect=ValueError('later failure')):
             state=agent.run(identity)
         self.assertEqual(state['status'],'HELD')
-        self.assertEqual(state['cloud_calls'],2)
+        self.assertEqual(state['cloud_calls'],1)
+        self.assertEqual(state['physical_calls'],2)
         self.assertEqual(accounting(state)['reads_total'],2)
         self.assertEqual(accounting(state)['reads_completed'],2)
         self.assertEqual(accounting(agent.get(identity)),accounting(state))
         primary=next(e for e in state['process_read_receipts'] if e.get('logical_tool')=='bounded_dax')
         self.assertTrue(primary.get('logical_receipt',{}).get('receipt_id'))
 
-    def test_existing_run_limit_still_binds_physical_reads(self):
+    def test_run_cap_bounds_diagnostics_while_physical_requests_remain_counted(self):
         import test_adaptive_investigation as fixture
         from investigator.adaptive_runtime import AdaptiveRuntime
         h=fixture.AdaptiveTests();h.setUp();self.addCleanup(h.doCleanups)
@@ -176,9 +177,62 @@ print(json.dumps({'status':'AVAILABLE'}),flush=True)
         state=agent.run(agent.create(h.envelope,'limited')['id'])
         self.assertEqual(state['cloud_calls'],1)
         from investigator.process_read_receipts import accounting
-        self.assertEqual(accounting(state)['reads_total'],1)
-        self.assertEqual(state['status'],'HELD')
-        self.assertEqual(len((self.folder/'sent.txt').read_text().splitlines()),1)
+        self.assertEqual(accounting(state)['reads_total'],2)
+        self.assertEqual(accounting(state)['diagnostic_reads'],1)
+        self.assertEqual(state['stop_reason'],'BUDGET_LIMIT')
+        self.assertEqual(len((self.folder/'sent.txt').read_text().splitlines()),2)
+
+    def test_report_separates_guard_load_from_diagnostic_cap(self):
+        from investigator.process_read_receipts import accounting
+        state={'read_accounting_version':'diagnostic-operations-v1','cloud_calls':1,
+               'envelope':{'limits':{'cloud_calls':4}},
+               'process_read_receipts':[{'tool':k,'status':'AVAILABLE'} for k in
+                   ('sql_identity','sql_database_permissions','sql_object_permissions','sql_quantity')],
+               'guard_evidence':[{'status':'ESTABLISHED'},{'status':'REUSED'}]}
+        report=accounting(state)
+        self.assertEqual((report['physical_requests'],report['diagnostic_reads'],report['guard_requests']), (4,1,3))
+        self.assertEqual(report['diagnostic_read_cap'],4)
+        self.assertEqual(report['guard_reuses'],1)
+
+    def test_guard_cache_scoped_reused_and_failed_guards_never_cached(self):
+        from investigator.physical_reads import guard_scope
+        path=self.folder/'guard_transport.py'
+        path.write_text("""import json,sys
+p=json.loads(sys.stdin.readline())
+print(json.dumps({'physical_read':'REQUEST','kind':'sql_identity'}),flush=True)
+assert sys.stdin.readline().strip()=='ALLOW'
+print(json.dumps({'physical_read':'DONE','kind':'sql_identity','status':'AVAILABLE'}),flush=True)
+for kind,obj in [('sql_database_permissions',''),('sql_object_permissions',p['read_only_objects'][0])]:
+ print(json.dumps({'physical_read':'REQUEST','kind':kind,'cache_guard':True,'object':obj}),flush=True)
+ answer=sys.stdin.readline().strip()
+ if answer=='REUSE':continue
+ assert answer=='ALLOW'
+ print(json.dumps({'physical_read':'DONE','kind':kind,'status':'AVAILABLE','guard_passed':not p.get('fail')}),flush=True)
+print(json.dumps({'physical_read':'REQUEST','kind':'sql_quantity'}),flush=True)
+assert sys.stdin.readline().strip()=='ALLOW'
+print(json.dumps({'physical_read':'DONE','kind':'sql_quantity','status':'AVAILABLE'}),flush=True)
+print(json.dumps({'status':'AVAILABLE'}),flush=True)
+""")
+        command=[sys.executable,str(path)];events=[];physical=[]
+        def call(database='db',obj='s.a',token='identity-one',fail=False):
+            def meter(kind,execute):physical.append(kind);return execute()
+            with scope(meter):
+                return run(command,input=json.dumps({'server':'host','database':database,'access_token':token,
+                           'read_only_objects':[obj],'fail':fail}),timeout=5)
+        with guard_scope(events.append):
+            call();self.assertEqual(len(physical),3)
+            call();self.assertEqual(len(physical),4) # only quantity beyond fresh identity
+            self.assertEqual([e['status'] for e in events],['ESTABLISHED','ESTABLISHED','REUSED','REUSED'])
+            for e in events[2:]:self.assertIn(e['established_receipt'],[p['established_receipt'] for p in events[:2]])
+            call(obj='s.b');self.assertEqual(len(physical),6) # new object checked
+            call(database='other');self.assertEqual(len(physical),9)
+            call(token='identity-two');self.assertEqual(len(physical),12)
+        with guard_scope(events.append):
+            call();self.assertEqual(len(physical),15) # no cross-run cache
+        with guard_scope(events.append):
+            for _ in range(2):
+                with self.assertRaisesRegex(RuntimeError,'Guard success'):call(fail=True)
+        self.assertEqual(len(physical),17) # failed guard was sent twice, no cached success
 
     def test_sql_requests_have_mandatory_admission_before_each_execute(self):
         root=Path(__file__).resolve().parents[1]
@@ -187,7 +241,7 @@ print(json.dumps({'status':'AVAILABLE'}),flush=True)
             lines=source.splitlines()
             executions=[i for i,l in enumerate(lines) if '.ExecuteReader()' in l or '.ExecuteScalar()' in l]
             self.assertGreater(len(executions),2)
-            for i in executions:self.assertIn('Begin-PhysicalRead',lines[i-1],(name,lines[i]))
+            for i in executions:self.assertTrue('Begin-PhysicalRead' in lines[i-1] or 'Begin-Guard' in lines[i-1],(name,lines[i]))
 
     def test_allowance_reporting_does_not_change_planner_directory_or_payload(self):
         import test_flexible_investigation as fixture

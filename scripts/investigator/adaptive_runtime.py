@@ -342,7 +342,7 @@ class AdaptiveRuntime:
                         try:self.governor.reserve(db,identity,'tool:'+str(state['cloud_calls']+1),'cloud')
                         except UsageHold:
                             self.stop(db,state,'USAGE_LIMIT','HELD');return self.project_after_commit(db,state)
-                    state['cloud_calls']+=1;state['attempted'].append(candidate['id'])
+                    state['cloud_calls']+=1;state['physical_calls']=state.get('physical_calls',state['cloud_calls']-1)+1;state['read_accounting_version']='diagnostic-operations-v1';state['attempted'].append(candidate['id'])
                     state.update(status='EXECUTING',pending={'candidate':candidate,'key':identity+':'+str(state['cloud_calls']),'run_id':None,'reservation_key':'tool:'+str(state['cloud_calls'])})
                     self.save(db,state,'TOOL_RESERVED',{'candidate_id':candidate['id'],'cloud_calls':state['cloud_calls']})
         if self.get(identity)['status']=='EXECUTING':return self.dispatch(identity,token)
@@ -375,10 +375,9 @@ class AdaptiveRuntime:
                 db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
                 if current['status']!='EXECUTING' or current['token']!=token: raise Conflict('Dispatcher fenced')
                 if current['status']!='EXECUTING' or self.clock()>=current['deadline']:raise UsageHold('Read cancelled or deadline exhausted')
-                if current['cloud_calls']>=current['envelope']['limits']['cloud_calls']: raise UsageHold('Investigation cloud-read limit')
-                number=current['cloud_calls']+1;key='physical:'+str(number)
+                number=current.get('physical_calls',current['cloud_calls'])+1;key='physical:'+str(number)
                 if self.governor:self.governor.reserve(db,identity,key,'cloud')
-                current['cloud_calls']=number;self.save(db,current,'PHYSICAL_READ_RESERVED',{'tool':tool,'number':number})
+                current['physical_calls']=number;self.save(db,current,'PHYSICAL_READ_RESERVED',{'tool':tool,'number':number})
             result=None;error=None
             try:
                 result=execute();return result
@@ -403,7 +402,7 @@ class AdaptiveRuntime:
         finally:
             from .process_read_receipts import receipt
             first=physical.get('first_report') if physical else None
-            number=int(pending.get('reservation_key','tool:'+str(state['cloud_calls'])).split(':')[-1])
+            number=state.get('physical_calls',state['cloud_calls'])
             body=first or ({'status':result['status']} if result else None)
             entry=receipt(number,first['request_kind'] if first else candidate['tool'],body,dispatch_error)
             if first:entry['logical_tool']=candidate['tool']
@@ -437,6 +436,16 @@ class AdaptiveRuntime:
         return self.get(identity)
 
     def run(self,identity):
+        from .physical_reads import guard_scope
+        def record_guard(event):
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)
+                state.setdefault('guard_evidence',[]).append(event)
+                self.save(db,state,'SQL_GUARD_'+event['status'],event)
+        with guard_scope(record_guard):
+            return self._run(identity)
+
+    def _run(self,identity):
         with self.runtime.db() as db:
             state=self.load(db,identity)
         from .process_debugging import VERSION as process_version
@@ -459,20 +468,22 @@ class AdaptiveRuntime:
             if state['status']!='READY':return self.get(identity)
         model=self.store.get(state['model_id'])
 
-        def meter_read(tool,execute):
+        def meter_read(tool,execute,physical_only=False):
             with self.runtime.db() as db:
                 db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
                 if current['status']!='EXECUTING' or self.clock()>=current['deadline']:raise UsageHold('Read cancelled or deadline exhausted')
-                if current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
-                    raise UsageHold('Investigation cloud-read limit')
-                number=current['cloud_calls']+1;key='tool:process:'+str(number)
+                if not physical_only and current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
+                    raise UsageHold('Investigation diagnostic-read limit')
+                number=current.get('physical_calls',current['cloud_calls'])+1;key='tool:process:'+str(number)
                 if self.governor:self.governor.reserve(db,identity,key,'cloud')
-                current['cloud_calls']=number
-                self.save(db,current,'PROCESS_READ_RESERVED',{'tool':tool,'cloud_calls':number})
+                current['physical_calls']=number
+                if not physical_only:current['cloud_calls']+=1
+                current['read_accounting_version']='diagnostic-operations-v1'
+                self.save(db,current,'PROCESS_READ_RESERVED',{'tool':tool,'physical_calls':number,'diagnostic_reads':current['cloud_calls'],'physical_only':physical_only})
             uncertain=False;result=None;error_type=None;physical=None
             try:
                 from .physical_reads import scope
-                with scope(meter_read) as physical: result=execute()
+                with scope(lambda kind,call:meter_read(kind,call,True)) as physical: result=execute()
                 return result
             except Exception as exc:
                 uncertain=True;error_type=type(exc).__name__;raise

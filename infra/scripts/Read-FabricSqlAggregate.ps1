@@ -11,9 +11,18 @@ function Begin-PhysicalRead([string]$Kind) {
         if ([Console]::In.ReadLine() -cne 'ALLOW') { throw 'Read admission refused' }
     }
 }
-function End-PhysicalRead([string]$Kind) {
+function Begin-Guard([string]$Kind, [string]$ObjectName = '') {
+    if (-not $Metered) { return $true }
+    [Console]::Out.WriteLine((@{physical_read='REQUEST';kind=$Kind;cache_guard=$true;object=$ObjectName} | ConvertTo-Json -Compress))
+    [Console]::Out.Flush()
+    $answer = [Console]::In.ReadLine()
+    if ($answer -ceq 'REUSE') { return $false }
+    if ($answer -cne 'ALLOW') { throw 'Guard admission refused' }
+    return $true
+}
+function End-PhysicalRead([string]$Kind, [bool]$GuardPassed = $false) {
     if ($Metered) {
-        [Console]::Out.WriteLine((@{physical_read='DONE';kind=$Kind;status='AVAILABLE'} | ConvertTo-Json -Compress))
+        [Console]::Out.WriteLine((@{physical_read='DONE';kind=$Kind;status='AVAILABLE';guard_passed=$GuardPassed} | ConvertTo-Json -Compress))
         [Console]::Out.Flush()
     }
 }
@@ -53,20 +62,22 @@ try {
         $self.Close()
         End-PhysicalRead 'sql_identity'
         $guard.CommandText = "SELECT COUNT(*) FROM sys.fn_my_permissions(NULL,'DATABASE') WHERE permission_name NOT IN ('CONNECT','SELECT','VIEW DEFINITION','VIEW DATABASE STATE','VIEW DATABASE PERFORMANCE STATE','VIEW DATABASE SECURITY STATE')"
-        Begin-PhysicalRead 'sql_database_permissions'
-        $permissionCount = [int]$guard.ExecuteScalar()
-        End-PhysicalRead 'sql_database_permissions'
-        if ($permissionCount -ne 0) { throw 'Proposed SQL requires a read-only principal' }
+        if (Begin-Guard 'sql_database_permissions') {
+            $permissionCount = [int]$guard.ExecuteScalar()
+            if ($permissionCount -ne 0) { throw 'Proposed SQL requires a read-only principal' }
+            End-PhysicalRead 'sql_database_permissions' $true
+        }
         $objects = @($request.read_only_objects)
         if ($objects.Count -lt 1 -or $objects.Count -gt 24) { throw 'Invalid object permission scope' }
         $guard.CommandText = "SELECT COUNT(*) FROM sys.fn_my_permissions(@object,'OBJECT') WHERE permission_name NOT IN ('SELECT','VIEW DEFINITION')"
         $null = $guard.Parameters.Add('@object', [System.Data.SqlDbType]::NVarChar, 300)
         foreach ($objectName in $objects) {
             $guard.Parameters['@object'].Value = $objectName
-            Begin-PhysicalRead 'sql_object_permissions'
-            $permissionCount = [int]$guard.ExecuteScalar()
-            End-PhysicalRead 'sql_object_permissions'
-            if ($permissionCount -ne 0) { throw 'Proposed SQL object is not read-only' }
+            if (Begin-Guard 'sql_object_permissions' $objectName) {
+                $permissionCount = [int]$guard.ExecuteScalar()
+                if ($permissionCount -ne 0) { throw 'Proposed SQL object is not read-only' }
+                End-PhysicalRead 'sql_object_permissions' $true
+            }
         }
     } finally { $guard.Dispose() }
     $command = $connection.CreateCommand()

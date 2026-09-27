@@ -1677,3 +1677,16 @@ used four physical requests and refused the fifth, the first SQL quantity query,
 at the unchanged per-run cap. Both HELD; no comparison or synthesis outputs.
 Recorded twenty expiring credits, eight used, twelve unused. No policy/cap change,
 reset, refund, engine fix or retry. [Full report](read-budget-live-regression.md).
+
+
+## 2026-09-27: diagnostic accounting and guard reuse
+
+#280 merged with six green checks. Implemented separate diagnostic/physical
+accounting and run-scoped receipted permission reuse, retaining live connection
+identity checks and all permission predicates. No cap increase; engine freezes
+invalidated. Verification and the new live pair are pending.
+[Work and limits](diagnostic-read-accounting.md).
+
+Validation update: 1,303 full-suite tests and 18 final focused budget tests passed;
+PowerShell syntax and document links passed. No new live run started; the requested
+pair awaits its own expiring batch approval. Implementation is in PR #281.
