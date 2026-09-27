@@ -41,3 +41,5 @@ and call/daily/deadline limits. All 1,253 local regression tests passed in 399.1
 shaping was added. Live outputs and live retry reliability remain untested.
 
 Offline fixture context check (not a live tape): directory entries 11 -> 11, SQL objects 11 -> 11, payload characters 2,408 -> 2,408 through output-schema construction. The coverage-preservation test passes.
+
+2026-09-27 subsequent result: the user approved exactly eight additional reads, four per run. Both live repeats completed with validated synthesis and first-attempt judges. Usage62 ->70; ceiling restored60 immediately. A separately authorized one-call reader freshness audit returned403. See [full report and verbatim outputs](vocabulary-form-live-and-latency-audit.md). Earlier pending statements describe the pre-approval checkpoint.
