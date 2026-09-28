@@ -1,0 +1,1780 @@
+{
+  "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+  "manifest": {
+    "started": "2026-09-28T03:50:24.348541+00:00",
+    "expires_at": 1790589024.3486154,
+    "commit": "8d5e000af85f41296a6536bd958303a0a50f8efe",
+    "engine_hash": "58df502e8f157a314ea05c533209fad1124516a8d6d25071fa5732e79a6adbbe",
+    "hashes": {
+      "policy": "cc093cd11a533b987df20b5b4e274c53416f39088c577a9b4f48f52e9398a85a",
+      "config": "4362a6c7d6bb3ed7ebd58aa78e9bb0159790b42edd76c6ae30320c4beb0e4c5e",
+      "profile": "9807aa8934347ba2cee27d23a24ea4ce4dfdafcfb8944793e245d7d873fdff58",
+      "ticket_A": "19fa8e2caa40cbd25bca3863fb8caf08154b040a16dfe97cc622053a1e31b25b",
+      "ticket_B": "6af480b3a8a130bfce896c189fd76b5c26fe266440a0e6da566238eeb2f491b0",
+      "ticket_C": "3c5cd8dfb8a97179e75e25be15f24958b46664317ab812a3a18e110d54e33423",
+      "ticket_D": "af4602acdd2a6c8bdb74892a86c4346ac957ba2ed158aeb108412f1952959e84",
+      "ticket_E": "8fb9f7ea04d099caa86080f0fb3de4670b6f91732a69055179baa3129c2949a6",
+      "ticket_F": "2fa4e216915f6d27a8bb3c7f5bc49695f6c28f363519f56c526c8e10780ee2ce",
+      "ticket_G": "e22ce27faa9ef38cad5f6e958ba9d0947cc44158ab0a4d6d66f11a2c07564ff9",
+      "ticket_H": "f4901cdd1d27e393f20162444b58249c23565aebd9afd7800925b2607e5d79ea",
+      "ticket_I": "a09350877c9071146d09c8b1cca86e23de497eb2a02c9e6614e75956244d55c0"
+    },
+    "read_limit": 4,
+    "max_boundaries": 3,
+    "input_limit": 384000,
+    "batch_credits_per_session": 16,
+    "approved_total": 144,
+    "ordinary_allowance": 60,
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "approval": "User approved 16 expiring physical credits per session, 144 total, six-hour expiry, one attempt per family. Diagnostic cap four and ordinary allowance sixty unchanged. No replacement runs or refills. H stops before either physical requests or model calls exceeds the actual combined cost of any two earlier families; partial map retained.",
+    "ended": "2026-09-28T04:10:13.109543+00:00",
+    "hashes_after": {
+      "policy": "cc093cd11a533b987df20b5b4e274c53416f39088c577a9b4f48f52e9398a85a",
+      "config": "4362a6c7d6bb3ed7ebd58aa78e9bb0159790b42edd76c6ae30320c4beb0e4c5e",
+      "profile": "9807aa8934347ba2cee27d23a24ea4ce4dfdafcfb8944793e245d7d873fdff58",
+      "ticket_A": "19fa8e2caa40cbd25bca3863fb8caf08154b040a16dfe97cc622053a1e31b25b",
+      "ticket_B": "6af480b3a8a130bfce896c189fd76b5c26fe266440a0e6da566238eeb2f491b0",
+      "ticket_C": "3c5cd8dfb8a97179e75e25be15f24958b46664317ab812a3a18e110d54e33423",
+      "ticket_D": "af4602acdd2a6c8bdb74892a86c4346ac957ba2ed158aeb108412f1952959e84",
+      "ticket_E": "8fb9f7ea04d099caa86080f0fb3de4670b6f91732a69055179baa3129c2949a6",
+      "ticket_F": "2fa4e216915f6d27a8bb3c7f5bc49695f6c28f363519f56c526c8e10780ee2ce",
+      "ticket_G": "e22ce27faa9ef38cad5f6e958ba9d0947cc44158ab0a4d6d66f11a2c07564ff9",
+      "ticket_H": "f4901cdd1d27e393f20162444b58249c23565aebd9afd7800925b2607e5d79ea",
+      "ticket_I": "a09350877c9071146d09c8b1cca86e23de497eb2a02c9e6614e75956244d55c0"
+    },
+    "engine_hash_after": "58df502e8f157a314ea05c533209fad1124516a8d6d25071fa5732e79a6adbbe",
+    "attempted": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I"
+    ],
+    "credits_granted": 144,
+    "physical_requests": 36
+  },
+  "h_guard": {
+    "physical_requests": {
+      "limit": 1,
+      "reference_families": [
+        "B",
+        "C"
+      ],
+      "reference_costs": [
+        1,
+        0
+      ]
+    },
+    "model_calls": {
+      "limit": 3,
+      "reference_families": [
+        "B",
+        "C"
+      ],
+      "reference_costs": [
+        2,
+        1
+      ]
+    }
+  },
+  "h_refusal": [
+    {
+      "event": "H_COST_GUARD_REFUSED",
+      "kind": "cloud",
+      "used": 1,
+      "next_cost": 1,
+      "limit": 1,
+      "reservation_key": "tool:2",
+      "at": 1790568532.368463
+    }
+  ],
+  "families": [
+    {
+      "family": "A",
+      "session_id": "c7dcc655-f2f9-4ae2-9b6c-5bd2a045e8b0",
+      "route": {
+        "shape": "MISMATCH_COMPLAINT",
+        "mode": "HORIZONTAL",
+        "measure": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+      },
+      "error": null,
+      "runtime_outcome": "UNRESOLVED",
+      "assessment": null,
+      "synthesis_status": "BLOCKED",
+      "synthesis_error": {
+        "cause_types": [],
+        "error_type": "KeyError"
+      },
+      "boundary_summary": null,
+      "compared": null,
+      "unchecked": null,
+      "skipped": null,
+      "limits": null,
+      "model_call_audit": [
+        {
+          "id": "2bb07523-ada4-479e-bbb1-35dace6a5089",
+          "role": "investigation_planner",
+          "wire_request": true
+        },
+        {
+          "id": "4a2a6d9e-6045-43fa-b730-10fc88923ebf",
+          "role": "investigation_planner",
+          "wire_request": true
+        },
+        {
+          "id": "7bb4b2e9-25de-4899-a836-dc323202d637",
+          "role": "investigation_planner",
+          "wire_request": true
+        },
+        {
+          "id": "8a6ca769-5c12-497d-8924-ef4774416053",
+          "role": "investigation_planner",
+          "wire_request": true
+        },
+        {
+          "id": "e5616bac-5ce2-482d-8fef-a797015355a6",
+          "role": "investigation_planner",
+          "wire_request": true
+        },
+        {
+          "id": "ed3b03a4-806c-45f8-a698-778c5348d786",
+          "role": "investigation_planner",
+          "wire_request": true
+        },
+        {
+          "id": "eeb3d080-7cba-4030-b41c-c6d6b6f2ba87",
+          "role": "intake",
+          "wire_request": true
+        },
+        {
+          "id": "f5318f06-89df-41b0-a1dc-63542ffda570",
+          "role": "investigation_planner",
+          "wire_request": true
+        }
+      ],
+      "accounting": {
+        "physical_requests": 4,
+        "diagnostic_reads": 4,
+        "guard_requests": 0,
+        "model_calls": 8,
+        "planner_calls": 7,
+        "synthesis_calls": 0,
+        "reads_dax": 4,
+        "reads_sql": 0,
+        "reads_other": 0
+      },
+      "observed_probes": [
+        {
+          "id": "da3c6a9a-c6c8-41ba-b231-f8582a68e347",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "values": [
+            {
+              "[Handled Quantity]": {
+                "type": "decimal",
+                "value": "8765"
+              }
+            }
+          ]
+        },
+        {
+          "id": "b52f79ae-feb3-4bb0-a407-fdb8fc3d47d9",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "values": [
+            {
+              "[Activity Entries]": {
+                "type": "decimal",
+                "value": "406"
+              },
+              "[Handled Quantity]": {
+                "type": "decimal",
+                "value": "8765"
+              },
+              "[Inbound Quantity]": {
+                "type": "decimal",
+                "value": "6425"
+              },
+              "[Outbound Quantity]": {
+                "type": "decimal",
+                "value": "2340"
+              },
+              "[Quantity Balance]": {
+                "type": "decimal",
+                "value": "4085"
+              }
+            }
+          ]
+        },
+        {
+          "id": "62ba6d94-e736-42cc-8a9d-3b38e6654648",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "values": [
+            {
+              "Activity[movement_type]": {
+                "type": "string",
+                "value": "RECEIPT"
+              },
+              "[Activity Entries]": {
+                "type": "decimal",
+                "value": "298"
+              },
+              "[Handled Quantity]": {
+                "type": "decimal",
+                "value": "6425"
+              },
+              "[Inbound Quantity]": {
+                "type": "decimal",
+                "value": "6425"
+              },
+              "[Outbound Quantity]": {
+                "type": "decimal",
+                "value": "2340"
+              },
+              "[Quantity Balance]": {
+                "type": "decimal",
+                "value": "4085"
+              }
+            },
+            {
+              "Activity[movement_type]": {
+                "type": "string",
+                "value": "ISSUE"
+              },
+              "[Activity Entries]": {
+                "type": "decimal",
+                "value": "108"
+              },
+              "[Handled Quantity]": {
+                "type": "decimal",
+                "value": "2340"
+              },
+              "[Inbound Quantity]": {
+                "type": "decimal",
+                "value": "6425"
+              },
+              "[Outbound Quantity]": {
+                "type": "decimal",
+                "value": "2340"
+              },
+              "[Quantity Balance]": {
+                "type": "decimal",
+                "value": "4085"
+              }
+            }
+          ]
+        },
+        {
+          "id": "1235c925-3a32-4e78-b864-ab628c47d18d",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "values": [
+            {
+              "Activity[movement_type]": {
+                "type": "string",
+                "value": "RECEIPT"
+              },
+              "[Activity Entries]": {
+                "type": "decimal",
+                "value": "298"
+              },
+              "[Max Units]": {
+                "type": "decimal",
+                "value": "40"
+              },
+              "[Min Units]": {
+                "type": "decimal",
+                "value": "2"
+              },
+              "[Sum Units]": {
+                "type": "decimal",
+                "value": "6425"
+              }
+            },
+            {
+              "Activity[movement_type]": {
+                "type": "string",
+                "value": "ISSUE"
+              },
+              "[Activity Entries]": {
+                "type": "decimal",
+                "value": "108"
+              },
+              "[Max Units]": {
+                "type": "decimal",
+                "value": "40"
+              },
+              "[Min Units]": {
+                "type": "decimal",
+                "value": "2"
+              },
+              "[Sum Units]": {
+                "type": "decimal",
+                "value": "2340"
+              }
+            }
+          ]
+        }
+      ],
+      "credit_grant": {
+        "batch_id": "A-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "c7dcc655-f2f9-4ae2-9b6c-5bd2a045e8b0",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 4,
+            "available": 12
+          }
+        ]
+      }
+    },
+    {
+      "family": "B",
+      "session_id": "9a0eb374-247f-4380-8453-b3b77c63a1e3",
+      "route": {
+        "shape": "MISMATCH_COMPLAINT",
+        "mode": "VERTICAL",
+        "measure": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Inbound%20Fraction"
+      },
+      "error": null,
+      "runtime_outcome": "NO_COMPARABLE_PATH",
+      "assessment": "NO_COMPARABLE_PATH",
+      "synthesis_status": "COMPLETED",
+      "synthesis_error": null,
+      "boundary_summary": {
+        "comparisons_executed": 0,
+        "not_comparable": [],
+        "resolved_boundaries": 0,
+        "within_layer_checks": 0
+      },
+      "compared": [],
+      "unchecked": [],
+      "skipped": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+          "step": 1
+        }
+      ],
+      "limits": [
+        "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity; stopped because capability unavailable."
+      ],
+      "model_call_audit": [
+        {
+          "id": "295e1884-9da6-4389-bcc9-bb8ad0e3555c",
+          "role": "synthesis",
+          "wire_request": true
+        },
+        {
+          "id": "2e29f74d-5eaf-4c95-8376-2b9df92abb26",
+          "role": "intake",
+          "wire_request": true
+        }
+      ],
+      "business_output": "docs\\runs\\nine-family-B-business.txt",
+      "technical_output": "docs\\runs\\nine-family-B-technical.txt",
+      "accounting": {
+        "physical_requests": 1,
+        "diagnostic_reads": 1,
+        "guard_requests": 0,
+        "model_calls": 2,
+        "planner_calls": 0,
+        "synthesis_calls": 1,
+        "reads_dax": 1,
+        "reads_sql": 0,
+        "reads_other": 0
+      },
+      "observed_probes": [
+        {
+          "id": "49628701-fac4-4e36-a5d1-3fc986b1d4aa",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+            "engine": "POWER_BI_DAX",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine",
+              "object"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com"
+          },
+          "values": [
+            {
+              "[baseline]": {
+                "type": "decimal",
+                "value": "0.733029092983457"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        }
+      ],
+      "credit_grant": {
+        "batch_id": "B-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "9a0eb374-247f-4380-8453-b3b77c63a1e3",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 1,
+            "available": 15
+          }
+        ]
+      }
+    },
+    {
+      "family": "C",
+      "session_id": "e8dcb0d9-0fcd-400b-8bb8-788597667c40",
+      "route": {
+        "shape": "MISMATCH_COMPLAINT",
+        "mode": "VERTICAL",
+        "measure": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Quantity%20Balance"
+      },
+      "error": "Measure path exceeds bounded projection",
+      "runtime_outcome": "INSUFFICIENT_EVIDENCE",
+      "assessment": null,
+      "synthesis_status": null,
+      "synthesis_error": null,
+      "boundary_summary": null,
+      "compared": null,
+      "unchecked": null,
+      "skipped": null,
+      "limits": null,
+      "model_call_audit": [
+        {
+          "id": "7b2bd333-b7a3-4aac-9b2b-5e86ef08b54a",
+          "role": "intake",
+          "wire_request": true
+        }
+      ],
+      "accounting": {
+        "physical_requests": 0,
+        "diagnostic_reads": null,
+        "guard_requests": 0,
+        "model_calls": 1,
+        "planner_calls": 0,
+        "synthesis_calls": 0,
+        "reads_dax": 0,
+        "reads_sql": 0,
+        "reads_other": 0
+      },
+      "observed_probes": [],
+      "credit_grant": {
+        "batch_id": "C-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "e8dcb0d9-0fcd-400b-8bb8-788597667c40",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 0,
+            "available": 16
+          }
+        ]
+      }
+    },
+    {
+      "family": "D",
+      "session_id": "c2e2e7c9-0cdc-482c-abc3-c3cdab729dee",
+      "route": {
+        "shape": "MISMATCH_COMPLAINT",
+        "mode": "VERTICAL",
+        "measure": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+      },
+      "error": null,
+      "runtime_outcome": "NO_COMPARABLE_PATH",
+      "assessment": "NO_COMPARABLE_PATH",
+      "synthesis_status": "COMPLETED",
+      "synthesis_error": null,
+      "boundary_summary": {
+        "comparisons_executed": 0,
+        "not_comparable": [
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "reason": "Declared source comparison does not yet translate filtered scope faithfully.",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+          },
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+            "reason": "Declared quantity trace supports only whole-entity scope without filters or grouping.",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+          },
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+            "reason": "Declared quantity trace supports only whole-entity scope without filters or grouping.",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+          }
+        ],
+        "resolved_boundaries": 0,
+        "within_layer_checks": 0
+      },
+      "compared": [],
+      "unchecked": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "reason": "Declared source comparison does not yet translate filtered scope faithfully.",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        },
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+          "reason": "Declared quantity trace supports only whole-entity scope without filters or grouping.",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+        },
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+          "reason": "Declared quantity trace supports only whole-entity scope without filters or grouping.",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+        },
+        {
+          "lower_layer": "unresolved upstream",
+          "reason": "No declared upstream read for this quantity (literal initialization or derived/unsupported column)",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1"
+        }
+      ],
+      "skipped": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+          "step": 1
+        }
+      ],
+      "limits": [
+        "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity; stopped because capability unavailable.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: Declared source comparison does not yet translate filtered scope faithfully..",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: Declared quantity trace supports only whole-entity scope without filters or grouping..",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1: Declared quantity trace supports only whole-entity scope without filters or grouping..",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).",
+        "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established."
+      ],
+      "model_call_audit": [
+        {
+          "id": "143d1afa-9830-489e-8e22-42f5a04161b1",
+          "role": "intake",
+          "wire_request": true
+        },
+        {
+          "id": "de4a94b0-efe3-4b25-842d-1688122ece70",
+          "role": "synthesis",
+          "wire_request": true
+        }
+      ],
+      "business_output": "docs\\runs\\nine-family-D-business.txt",
+      "technical_output": "docs\\runs\\nine-family-D-technical.txt",
+      "accounting": {
+        "physical_requests": 1,
+        "diagnostic_reads": 1,
+        "guard_requests": 0,
+        "model_calls": 2,
+        "planner_calls": 0,
+        "synthesis_calls": 1,
+        "reads_dax": 1,
+        "reads_sql": 0,
+        "reads_other": 0
+      },
+      "observed_probes": [
+        {
+          "id": "9ce0d72b-b8ef-4123-ad58-2b31bbb596c3",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+            "engine": "POWER_BI_DAX",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine",
+              "object"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com"
+          },
+          "values": [
+            {
+              "[m0]": {
+                "type": "decimal",
+                "value": "3359"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        }
+      ],
+      "credit_grant": {
+        "batch_id": "D-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "c2e2e7c9-0cdc-482c-abc3-c3cdab729dee",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 1,
+            "available": 15
+          }
+        ]
+      }
+    },
+    {
+      "family": "E",
+      "session_id": "c274890f-e041-4261-b364-c4c3d6c2bcc8",
+      "route": {
+        "shape": "BUSINESS_QUESTION",
+        "mode": "NONE",
+        "measure": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+      },
+      "error": null,
+      "runtime_outcome": "TRANSFORMATION_LOGIC",
+      "assessment": "TRANSFORMATION_LOGIC",
+      "synthesis_status": "COMPLETED",
+      "synthesis_error": null,
+      "boundary_summary": {
+        "comparisons_executed": 2,
+        "not_comparable": [],
+        "resolved_boundaries": 2,
+        "within_layer_checks": 0
+      },
+      "compared": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        },
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+        }
+      ],
+      "unchecked": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+          "reason": "Investigation terminated before this boundary",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+        },
+        {
+          "lower_layer": "unresolved upstream",
+          "reason": "No declared upstream read for this quantity (literal initialization or derived/unsupported column)",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1"
+        }
+      ],
+      "skipped": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+          "step": 1
+        }
+      ],
+      "limits": [
+        "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1; stopped because reached.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+        "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: the surface did not report it.",
+        "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: the surface did not report it.",
+        "Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; agreement does not establish that either value is current.",
+        "Comparison 2: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; different update timing was not excluded as a cause of the difference.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1: Investigation terminated before this boundary.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).",
+        "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.",
+        "This only shows a mechanism that can increase the total; it does not establish that duplicate matches actually occurred here, nor that both sides use the same snapshot."
+      ],
+      "model_call_audit": [
+        {
+          "id": "1a72f067-06b7-42c9-bddf-92cddf99ca6e",
+          "role": "definition_judge",
+          "wire_request": true
+        },
+        {
+          "id": "d02c521f-f1ec-470c-be8c-b8e64b26296e",
+          "role": "intake",
+          "wire_request": true
+        },
+        {
+          "id": "e4733582-f88d-4ade-b397-7c407f8e4318",
+          "role": "synthesis",
+          "wire_request": true
+        }
+      ],
+      "business_output": "docs\\runs\\nine-family-E-business.txt",
+      "technical_output": "docs\\runs\\nine-family-E-technical.txt",
+      "accounting": {
+        "physical_requests": 10,
+        "diagnostic_reads": 4,
+        "guard_requests": 6,
+        "model_calls": 3,
+        "planner_calls": 1,
+        "synthesis_calls": 1,
+        "reads_dax": 1,
+        "reads_sql": 8,
+        "reads_other": 1
+      },
+      "observed_probes": [
+        {
+          "id": "752980ab-0a96-4872-8c82-f06b380accc3",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+            "engine": "POWER_BI_DAX",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine",
+              "object"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com"
+          },
+          "values": [
+            {
+              "[baseline]": {
+                "type": "decimal",
+                "value": "8765"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        },
+        {
+          "id": "ff2e90ba-a3f2-49d4-86cc-0dc12828e4d5",
+          "tool": "bounded_fabric_sql",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+            "engine": "FABRIC_SQL",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "warehouse_gold_e1b8e1"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity",
+              "object"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity",
+              "object"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "warehouse_gold_e1b8e1"
+          },
+          "values": [
+            {
+              "quantity": {
+                "type": "decimal",
+                "value": "8765"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        },
+        {
+          "id": "boundary-1-comparison",
+          "tool": "process",
+          "status": "COMPLETED",
+          "snapshot_attestation": {
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          },
+          "process_roles": [
+            "comparison",
+            "flow_consistency"
+          ]
+        },
+        {
+          "id": "8dc46847-604a-4453-bd70-0f29e54db928",
+          "tool": "bounded_fabric_sql",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+            "engine": "FABRIC_SQL",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "warehouse_silver_e1b8e1"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity",
+              "object"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity",
+              "object"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "warehouse_silver_e1b8e1"
+          },
+          "values": [
+            {
+              "quantity": {
+                "type": "decimal",
+                "value": "7661"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        },
+        {
+          "id": "boundary-2-comparison",
+          "tool": "process",
+          "status": "COMPLETED",
+          "snapshot_attestation": {
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          },
+          "process_roles": [
+            "comparison"
+          ]
+        }
+      ],
+      "credit_grant": {
+        "batch_id": "E-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "c274890f-e041-4261-b364-c4c3d6c2bcc8",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 10,
+            "available": 6
+          }
+        ]
+      }
+    },
+    {
+      "family": "F",
+      "session_id": "6860ae26-d855-4bb2-ac03-8e10c1e01cf1",
+      "route": {
+        "shape": "MISMATCH_COMPLAINT",
+        "mode": "VERTICAL",
+        "measure": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Extended%20Value"
+      },
+      "error": null,
+      "runtime_outcome": "CONSISTENT_TO_BOUNDARY",
+      "assessment": "CONSISTENT_TO_BOUNDARY",
+      "synthesis_status": "COMPLETED",
+      "synthesis_error": null,
+      "boundary_summary": {
+        "comparisons_executed": 1,
+        "not_comparable": [],
+        "resolved_boundaries": 1,
+        "within_layer_checks": 0
+      },
+      "compared": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        }
+      ],
+      "unchecked": [
+        {
+          "lower_layer": "unresolved upstream",
+          "reason": "No declared upstream read for this quantity (literal initialization or derived/unsupported column)",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+        }
+      ],
+      "skipped": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+          "step": 1
+        }
+      ],
+      "limits": [
+        "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values; stopped because no lineage.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+        "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+        "Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; agreement does not establish that either value is current.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column)."
+      ],
+      "model_call_audit": [
+        {
+          "id": "3978abe4-f56d-4332-9aa4-56afcb2b942c",
+          "role": "intake",
+          "wire_request": true
+        },
+        {
+          "id": "57be9981-192f-45d4-ab94-665dba8792b0",
+          "role": "synthesis",
+          "wire_request": true
+        }
+      ],
+      "business_output": "docs\\runs\\nine-family-F-business.txt",
+      "technical_output": "docs\\runs\\nine-family-F-technical.txt",
+      "accounting": {
+        "physical_requests": 7,
+        "diagnostic_reads": 3,
+        "guard_requests": 3,
+        "model_calls": 2,
+        "planner_calls": 0,
+        "synthesis_calls": 1,
+        "reads_dax": 1,
+        "reads_sql": 4,
+        "reads_other": 2
+      },
+      "observed_probes": [
+        {
+          "id": "449c7cc7-ec71-471f-a758-a7cf1ea3ff61",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+            "engine": "POWER_BI_DAX",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine",
+              "object"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com"
+          },
+          "values": [
+            {
+              "[baseline]": {
+                "type": "decimal",
+                "value": "57043"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        },
+        {
+          "id": "c2ff2f50-cc27-46c1-b07c-fc89aa8a0fc0",
+          "tool": "bounded_fabric_sql",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+            "engine": "FABRIC_SQL",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "warehouse_gold_e1b8e1"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity",
+              "object"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity",
+              "object"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "warehouse_gold_e1b8e1"
+          },
+          "values": [
+            {
+              "quantity": {
+                "type": "decimal",
+                "value": "57043"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        },
+        {
+          "id": "boundary-1-comparison",
+          "tool": "process",
+          "status": "COMPLETED",
+          "snapshot_attestation": {
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          },
+          "process_roles": [
+            "comparison",
+            "flow_consistency"
+          ]
+        }
+      ],
+      "credit_grant": {
+        "batch_id": "F-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "6860ae26-d855-4bb2-ac03-8e10c1e01cf1",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 7,
+            "available": 9
+          }
+        ]
+      }
+    },
+    {
+      "family": "G",
+      "session_id": "cd2ffbff-f75b-4999-a0fe-a5fee18ee5f9",
+      "route": {
+        "shape": "MISMATCH_COMPLAINT",
+        "mode": "VERTICAL",
+        "measure": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+      },
+      "error": null,
+      "runtime_outcome": "TRANSFORMATION_LOGIC",
+      "assessment": "TRANSFORMATION_LOGIC",
+      "synthesis_status": "COMPLETED",
+      "synthesis_error": null,
+      "boundary_summary": {
+        "comparisons_executed": 2,
+        "not_comparable": [],
+        "resolved_boundaries": 2,
+        "within_layer_checks": 0
+      },
+      "compared": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        },
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+        }
+      ],
+      "unchecked": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+          "reason": "Investigation terminated before this boundary",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+        },
+        {
+          "lower_layer": "unresolved upstream",
+          "reason": "No declared upstream read for this quantity (literal initialization or derived/unsupported column)",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1"
+        }
+      ],
+      "skipped": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+          "step": 1
+        }
+      ],
+      "limits": [
+        "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1; stopped because reached.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field object on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+        "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: the surface did not report it.",
+        "Unattested surface field engine on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: the surface did not report it.",
+        "Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; agreement does not establish that either value is current.",
+        "Comparison 2: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; different update timing was not excluded as a cause of the difference.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1: Investigation terminated before this boundary.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).",
+        "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.",
+        "This shows a concrete mechanism in the definition, but it does not establish that duplicate matches actually occurred in the data or that both values come from the same snapshot."
+      ],
+      "model_call_audit": [
+        {
+          "id": "35df53c4-73ca-4428-96df-6fe12c1ee5b3",
+          "role": "definition_judge",
+          "wire_request": true
+        },
+        {
+          "id": "7e429ae7-26de-4638-9a36-020d722fea7a",
+          "role": "synthesis",
+          "wire_request": true
+        },
+        {
+          "id": "ebd4de3b-9b89-4b4a-ae8e-9eadab351e99",
+          "role": "intake",
+          "wire_request": true
+        }
+      ],
+      "business_output": "docs\\runs\\nine-family-G-business.txt",
+      "technical_output": "docs\\runs\\nine-family-G-technical.txt",
+      "accounting": {
+        "physical_requests": 10,
+        "diagnostic_reads": 4,
+        "guard_requests": 6,
+        "model_calls": 3,
+        "planner_calls": 1,
+        "synthesis_calls": 1,
+        "reads_dax": 1,
+        "reads_sql": 8,
+        "reads_other": 1
+      },
+      "observed_probes": [
+        {
+          "id": "bc276818-d07f-40e6-a703-189deac0f17b",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+            "engine": "POWER_BI_DAX",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine",
+              "object"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com"
+          },
+          "values": [
+            {
+              "[baseline]": {
+                "type": "decimal",
+                "value": "8765"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        },
+        {
+          "id": "76bc2b08-952e-4315-8d14-4c3b1d1edff4",
+          "tool": "bounded_fabric_sql",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+            "engine": "FABRIC_SQL",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "warehouse_gold_e1b8e1"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity",
+              "object"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity",
+              "object"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "warehouse_gold_e1b8e1"
+          },
+          "values": [
+            {
+              "quantity": {
+                "type": "decimal",
+                "value": "8765"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        },
+        {
+          "id": "boundary-1-comparison",
+          "tool": "process",
+          "status": "COMPLETED",
+          "snapshot_attestation": {
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          },
+          "process_roles": [
+            "comparison",
+            "flow_consistency"
+          ]
+        },
+        {
+          "id": "1a0f12b4-e0d2-4ae9-a34b-4528eb311ee0",
+          "tool": "bounded_fabric_sql",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+            "engine": "FABRIC_SQL",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "warehouse_silver_e1b8e1"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity",
+              "object"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity",
+              "object"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "warehouse_silver_e1b8e1"
+          },
+          "values": [
+            {
+              "quantity": {
+                "type": "decimal",
+                "value": "7661"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        },
+        {
+          "id": "boundary-2-comparison",
+          "tool": "process",
+          "status": "COMPLETED",
+          "snapshot_attestation": {
+            "lower": null,
+            "reason": "QUERY_BOUND_VERSION_MISSING",
+            "status": "SNAPSHOT_UNVERIFIED",
+            "unverified_sides": [
+              "upper",
+              "lower"
+            ],
+            "upper": null,
+            "version": 1
+          },
+          "process_roles": [
+            "comparison"
+          ]
+        }
+      ],
+      "credit_grant": {
+        "batch_id": "G-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "cd2ffbff-f75b-4999-a0fe-a5fee18ee5f9",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 10,
+            "available": 6
+          }
+        ]
+      }
+    },
+    {
+      "family": "H",
+      "session_id": "e68af7b8-4a7c-47a8-8303-8116278a15be",
+      "route": {
+        "shape": "MISMATCH_COMPLAINT",
+        "mode": "HORIZONTAL",
+        "measure": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Inbound%20Quantity"
+      },
+      "error": null,
+      "runtime_outcome": "UNRESOLVED",
+      "assessment": null,
+      "synthesis_status": null,
+      "synthesis_error": null,
+      "boundary_summary": null,
+      "compared": null,
+      "unchecked": null,
+      "skipped": null,
+      "limits": null,
+      "model_call_audit": [
+        {
+          "id": "9572b9b7-2e31-4645-9059-c4f8b3736d30",
+          "role": "intake",
+          "wire_request": true
+        },
+        {
+          "id": "96205b44-7752-476d-b27e-c28533f4f017",
+          "role": "investigation_planner",
+          "wire_request": true
+        },
+        {
+          "id": "b49f9905-e653-4540-b0e4-66bb2b4ff693",
+          "role": "investigation_planner",
+          "wire_request": true
+        }
+      ],
+      "accounting": {
+        "physical_requests": 1,
+        "diagnostic_reads": 1,
+        "guard_requests": 0,
+        "model_calls": 3,
+        "planner_calls": 2,
+        "synthesis_calls": 0,
+        "reads_dax": 1,
+        "reads_sql": 0,
+        "reads_other": 0
+      },
+      "observed_probes": [
+        {
+          "id": "3ae426f1-90fb-402a-b416-638eccd76278",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "values": [
+            {
+              "[Handled Quantity]": {
+                "type": "decimal",
+                "value": "8765"
+              },
+              "[Inbound Quantity]": {
+                "type": "decimal",
+                "value": "6425"
+              },
+              "[Outbound Quantity]": {
+                "type": "decimal",
+                "value": "2340"
+              },
+              "[Quantity Balance]": {
+                "type": "decimal",
+                "value": "4085"
+              }
+            }
+          ]
+        }
+      ],
+      "credit_grant": {
+        "batch_id": "H-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "e68af7b8-4a7c-47a8-8303-8116278a15be",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 1,
+            "available": 15
+          }
+        ]
+      }
+    },
+    {
+      "family": "I",
+      "session_id": "0d049414-87b8-4a7a-a034-9649f6840f53",
+      "route": {
+        "shape": "BUSINESS_QUESTION",
+        "mode": "NONE",
+        "measure": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+      },
+      "error": null,
+      "runtime_outcome": "NO_COMPARABLE_PATH",
+      "assessment": "NO_COMPARABLE_PATH",
+      "synthesis_status": "COMPLETED",
+      "synthesis_error": null,
+      "boundary_summary": {
+        "comparisons_executed": 0,
+        "not_comparable": [
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "reason": "NO_INDEPENDENT_LOWER_READ",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+          },
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+            "reason": "Declared quantity trace supports only whole-entity scope without filters or grouping.",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+          },
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+            "reason": "Declared quantity trace supports only whole-entity scope without filters or grouping.",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+          }
+        ],
+        "resolved_boundaries": 0,
+        "within_layer_checks": 1
+      },
+      "compared": [],
+      "unchecked": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+          "reason": "NO_INDEPENDENT_LOWER_READ",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+        },
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+          "reason": "Declared quantity trace supports only whole-entity scope without filters or grouping.",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+        },
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+          "reason": "Declared quantity trace supports only whole-entity scope without filters or grouping.",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+        },
+        {
+          "lower_layer": "unresolved upstream",
+          "reason": "No declared upstream read for this quantity (literal initialization or derived/unsupported column)",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1"
+        }
+      ],
+      "skipped": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+          "step": 1
+        }
+      ],
+      "limits": [
+        "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity; stopped because capability unavailable.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values: NO_INDEPENDENT_LOWER_READ.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1: Declared quantity trace supports only whole-entity scope without filters or grouping..",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1 -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1: Declared quantity trace supports only whole-entity scope without filters or grouping..",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).",
+        "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established."
+      ],
+      "model_call_audit": [
+        {
+          "id": "bd19d69b-855f-4296-8851-5079c00762ca",
+          "role": "intake",
+          "wire_request": true
+        },
+        {
+          "id": "fa774bb8-0b07-4095-baec-84e6ea0e7ac2",
+          "role": "synthesis",
+          "wire_request": true
+        }
+      ],
+      "business_output": "docs\\runs\\nine-family-I-business.txt",
+      "technical_output": "docs\\runs\\nine-family-I-technical.txt",
+      "accounting": {
+        "physical_requests": 2,
+        "diagnostic_reads": 2,
+        "guard_requests": 0,
+        "model_calls": 2,
+        "planner_calls": 0,
+        "synthesis_calls": 1,
+        "reads_dax": 2,
+        "reads_sql": 0,
+        "reads_other": 0
+      },
+      "observed_probes": [
+        {
+          "id": "1750c7de-f9bd-4b6e-b0ab-4fc0540733e3",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+            "engine": "POWER_BI_DAX",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine",
+              "object"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com"
+          },
+          "values": [
+            {
+              "[baseline]": {
+                "type": "decimal",
+                "value": "8765"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        },
+        {
+          "id": "aa4a0b93-0552-4185-b2fc-c54382abba43",
+          "tool": "bounded_dax",
+          "status": "COMPLETED",
+          "execution_surface": {
+            "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+            "engine": "POWER_BI_DAX",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+          },
+          "surface_attestation": {
+            "attested_fields": [
+              "identity"
+            ],
+            "contradictions": [],
+            "reason": null,
+            "required_fields": [
+              "identity"
+            ],
+            "status": "MATCHED",
+            "unattested_fields": [
+              "connection",
+              "engine",
+              "object"
+            ]
+          },
+          "surface_report": {
+            "identity": "investigator-reader@skynwhy.com"
+          },
+          "values": [
+            {
+              "[baseline]": {
+                "type": "decimal",
+                "value": "8765"
+              }
+            }
+          ],
+          "process_roles": [
+            "baseline",
+            "established"
+          ]
+        }
+      ],
+      "credit_grant": {
+        "batch_id": "I-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": false,
+        "runs": [
+          {
+            "session_id": "0d049414-87b8-4a7a-a034-9649f6840f53",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 2,
+            "available": 14
+          }
+        ]
+      }
+    }
+  ],
+  "artifact_hashes": {
+    "A-after.json": "049ba60e8231dd4f05d8aba4779b1eb52b551074efd9097f464ad41d46ae333f",
+    "A-approval.json": "60280399e2d8433ebc2a48442fbc79a7a07973eb499ec0147f89aaee52e1e207",
+    "A-before.json": "7373140543d10b278362891244288b0e4c25f1192497fc681ce3a482bf199d6c",
+    "A-granted.json": "6c958a14e59803689430480bc2206c03ebc2d3be07d82fbe3ab989a4e90d41e0",
+    "A-intake-proposal.json": "35c4cfaf2ef1cac208ac8d508ec7af341f0af95e2afa95c011d6f3af494d612c",
+    "A.json": "2048f20506cbd7b9423f2ac178f43ae849ecf0de4a7787a9aa7790d9f9745c55",
+    "B-after.json": "6ff444341021d9c8b66bc0c6415dfb9e97bc9389b043bd310c19ae4eaaea76e7",
+    "B-approval.json": "8333aefe78284c10ecd8d4c199a134e80fbdfea21620203bef76930f758ab832",
+    "B-before.json": "049ba60e8231dd4f05d8aba4779b1eb52b551074efd9097f464ad41d46ae333f",
+    "B-granted.json": "51827006224243f475713cb20145dfc92495365785690b240a4ee038f6b7192e",
+    "B-intake-proposal.json": "fc4ba6a96b86fa2e5cf3cb8728fb6b8afbe74914a4469af7cba6bbbea33719a3",
+    "B.json": "f2aaeb3e4ed846760e3c1231a563eae722447119d859a57bacb539cc7332f807",
+    "build-report.py": "38435bdb45c38a3bd737185f0ce2fa34b5104e00019fc162f7e66cceca390548",
+    "C-after.json": "8159e0587a4adf2d3e61bd39831c78ad69efbaa56f7debd803be291a936b8f5a",
+    "C-approval.json": "276ff82e134bd036882996a9942baa166aa3247c182dfa47bc5d03124827fefe",
+    "C-before.json": "6ff444341021d9c8b66bc0c6415dfb9e97bc9389b043bd310c19ae4eaaea76e7",
+    "C-granted.json": "8159e0587a4adf2d3e61bd39831c78ad69efbaa56f7debd803be291a936b8f5a",
+    "C-intake-proposal.json": "9b6b421d442e8f7d3285c32c62c1e53211ee7fe5b53ae06db33ad6a624ae3e6d",
+    "C.json": "a9039fc02c75b529bd3ed7d5a385c1f797b1dc356d9c32ff69d554d2b82c3d19",
+    "D-after.json": "7681b00f98b5d56b75c31ad29a9ee57d79a5cb4e0c545f5b5ea3f864d6d4318f",
+    "D-approval.json": "246ad9279d8c5f996d393f8932e36d5abd23adeca415461134dec2fcee8f8048",
+    "D-before.json": "8159e0587a4adf2d3e61bd39831c78ad69efbaa56f7debd803be291a936b8f5a",
+    "D-granted.json": "8b7daad7a1f73c4a0ee2b7feeb84948302540f69861c5e2246db7f84d8f175c1",
+    "D-intake-proposal.json": "80327cfdd00b8b66548b18227482f06bbbbfe1d06270f9370bbaf2513c7b5480",
+    "D.json": "497aef2e4ff8d72b5fdb6dc7b6d4c93ef2578b19083977018272571bb7b1fb51",
+    "detail-map.json": "22b41593598fd58699a5afbc2744d44af27f8c9506e75a1e121f7b4a3838c3de",
+    "E-after.json": "9de8d5146066861b0dd28b292cf7c09f8fa20a10bd3bc27c81654aff0bfada2f",
+    "E-approval.json": "e2dc4df0bdf05c55ee0d51b36799f15cb872acdf12804a82e90156cd06fa0f15",
+    "E-before.json": "7681b00f98b5d56b75c31ad29a9ee57d79a5cb4e0c545f5b5ea3f864d6d4318f",
+    "E-granted.json": "681c3d73f9fc4fbc981c5aec3b97dc4003153f3b8c351adcc873d10ff23c24a5",
+    "E-intake-proposal.json": "539e185b48f331e23a1f1ae18cd597fa5fdfc41c4235c8e774cea268271708c1",
+    "E.json": "9f46f06f293e5686702594da5944106593e531fceaaa4d77c5f7b345e83b09ae",
+    "extract-map.py": "b62f9b7a5080977a4c32a581be0485aa5aaad82a4b694058d52e80af1f752fbc",
+    "F-after.json": "28ee7343399d5f8ed08b929d1c1b35e1934d33cd3602104638cbf290f4a4ac4c",
+    "F-approval.json": "e68b1a80961782c4304d8bbd47312b1285b9743ad82f046e6fc6a5afaf6c1323",
+    "F-before.json": "9de8d5146066861b0dd28b292cf7c09f8fa20a10bd3bc27c81654aff0bfada2f",
+    "F-granted.json": "dfd530607944939e94b463f3850b76ae60d85a58c5b73890a1ea4c6624985259",
+    "F-intake-proposal.json": "4c7cd7266f65c6436af38171bd88abfa8ee87ade18eea11cb050da472449fa73",
+    "F.json": "e9c6ed764f622490802cd5a2fdb9bd3e80919881e19bcfd1c0ec7ad5cc73160b",
+    "G-after.json": "bce73f26f6b22e5f6f47ec31e1e59e801a87a67fcd0ef6446d775292836fae98",
+    "G-approval.json": "2d7bb0180407bd9a0f936ad4038dee72866f7151827c92ccd15614a03ca79f87",
+    "G-before.json": "28ee7343399d5f8ed08b929d1c1b35e1934d33cd3602104638cbf290f4a4ac4c",
+    "G-granted.json": "da71b9475a67cb2a402271b590e52f025b632f7c982b3f5acf55189d8cc0fd5b",
+    "G-intake-proposal.json": "8bcf5ce71c34d73956316ad0a07660e9b3f55d694a29a6a8537253139866fbe8",
+    "G.json": "ce78cca1b4990a9a0d22f00c78fae89bf36e1381bc184f5d9f0a1086e936041a",
+    "H-after.json": "22090c42888c95c54ddff62f09b3be650d714f525abb5f423c7af52264a76c59",
+    "H-approval.json": "0bee9fd6d2acc28c2909ca5be4a8a7d1061befe4c96c2c38398048e1019b9bd7",
+    "H-before.json": "bce73f26f6b22e5f6f47ec31e1e59e801a87a67fcd0ef6446d775292836fae98",
+    "H-granted.json": "e16a658296c11419761cfb05e40b4a955a89fd1af829c3a93c8fe25025d46a31",
+    "H-guard-events.json": "6554c395c35db28b8087f71dafc04abee55adaf34c60b8583747747862a85178",
+    "H-intake-proposal.json": "7ee8b73df711e8a2bd9de9dd283f5c6d058bc7587a26adb77161cb4a2f10cd97",
+    "H-thresholds.json": "9423dc82691d9f4de9fef0633d8fae839eea7ddfa83568f02f037c9680246741",
+    "H.json": "13b33338765a234f427aa6fc6c73d246f39b7ce224159be7286ea932afc9c244",
+    "I-after.json": "d837eb98f3d158f2510f436e975b2c19d0352f38737f3ef2ce28b6099c33bfd2",
+    "I-approval.json": "577df3867d35ea7020d28242250ce6593d4abcd7565bebd36aa734d9aca36cf7",
+    "I-before.json": "22090c42888c95c54ddff62f09b3be650d714f525abb5f423c7af52264a76c59",
+    "I-granted.json": "9ef2efe31c4760cfd7784e6fb5a4fc229a572034653ba4306a5daa8dbb23eb12",
+    "I-intake-proposal.json": "46d1fdaf118e5d6edb280218849c08eb60c0c3044878c71738e2c5c16a6ac9df",
+    "I.json": "15ce160f325981a15c651a6d07ca5ea7d236ba8ab0fd3ef47c02e12030d07650",
+    "inspect-results.py": "3a2fc434adb804a6e7813694d96205773bd798ee671a8e9b245863fd7f7a03dc",
+    "manifest.json": "a7b8dd86e214ef63e6a08e210ef46d305b5acbc3bffdb7960a74a00a88d0a4a3",
+    "progress.py": "97b81f5662bed0e516be5a12fcb613d1db69428f4d02eacbccaaf9afec7a09ae",
+    "run-batch.py": "2fa8266401b7783267618ff262754083065f5cd3938d2997f5f4d7e7db112370",
+    "run-family.py": "cd0c861f15491f30018a0506ae11205fe3311277a6eadb964a00791a5782956b",
+    "summary.json": "8564f2d86fdcc7ba4b805223171e3283dc8a1f5aa4b9c62ed6e059aadc1cade2"
+  }
+}

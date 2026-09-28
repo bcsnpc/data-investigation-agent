@@ -1,0 +1,24 @@
+Measure: Handled Quantity.
+B2 diverges: L2 (stock movements e1b8e1 in warehouse silver e1b8e1, upstream input) 7,661 -> L1 (movement values in warehouse gold e1b8e1, downstream output) 8,765.
+B1 agrees: L1 (movement values in warehouse gold e1b8e1, upstream input) 8,765 -> L0 (Activity in Warehouse Operations e1b8e1, downstream output) 8,765.
+
+A left join matches movements to rates by product_id before the value relation is produced. When more than one rate row matches the same product_id, the joined result contains multiple rows for that movement, so the carried units can be counted more than once in the later sum.
+
+Layers:
+L0 - Activity in Warehouse Operations e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity
+L1 - movement values in warehouse gold e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values
+L2 - stock movements e1b8e1 in warehouse silver e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1
+L3 - stock movements e1b8e1 in warehouse bronze e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1
+
+Limits:
+- Unattested connection, engine, object on L0 (receipt bc276818-d07f-40e6-a703-189deac0f17b).
+- Unattested connection, engine on L1 (receipt 76bc2b08-952e-4315-8d14-4c3b1d1edff4).
+- Unattested connection, engine on L2 (receipt 1a0f12b4-e0d2-4ae9-a34b-4528eb311ee0).
+- SNAPSHOT_UNVERIFIED for B1, B2: the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.
+- Checked through L2; stopped because reached.
+- Unchecked L2 -> L3: Investigation terminated before this boundary.
+- Unchecked L3 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).
+- Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.
+- This shows a concrete mechanism in the definition, but it does not establish that duplicate matches actually occurred in the data or that both values come from the same snapshot.
+
+Recommended action: Ask the responsible business owner whether this behavior is intended; request a change if it is not.
