@@ -8,6 +8,17 @@ from . import proposal_limits as limits
 from .onboarding import digest, fields, text, encoded, Conflict
 
 
+MEASURE_PATH_LIMIT=12000
+
+
+class MeasurePathLimit(ValueError):
+    """A bounded context refusal, not missing lineage or a malformed asset."""
+    def __init__(self,characters):
+        self.characters=characters
+        self.limit=MEASURE_PATH_LIMIT
+        super().__init__(f'Measure path needs {characters} characters; bounded projection limit is {self.limit}.')
+
+
 def latest(store):
     with store.connect() as db:
         if not db.execute("SELECT 1 FROM sqlite_master WHERE name='enterprise_scans'").fetchone():
@@ -124,7 +135,8 @@ def measure_path(store, model, identity):
             'external_binding_status':'IDENTITY_BACKED_OR_CODE_DERIVED' if external_bound else 'UNRESOLVED',
             'gaps':gaps,'truncated':len(semantic.get('references',[]))>len(reference_ids),
             'limitation':'A path is metadata context, not execution, contribution, cross-system equivalence, filter-context reproduction or causal proof.'}
-    if len(encoded(result))>12000:raise ValueError('Measure path exceeds bounded projection')
+    size=len(encoded(result))
+    if size>MEASURE_PATH_LIMIT:raise MeasurePathLimit(size)
     return result
 
 

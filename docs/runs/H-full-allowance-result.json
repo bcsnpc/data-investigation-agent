@@ -1,0 +1,285 @@
+{
+  "manifest": {
+    "started": "2026-09-28T04:29:25.031044+00:00",
+    "expires_at": 1790591365.031124,
+    "commit": "c4cd6a890f2907a92a38ac1418046aace215011c",
+    "engine_hash": "a7cba971e9ea895daf43d52fa3dce68f2d8592af18c7a635305d5e8dbd612530",
+    "hashes": {
+      "policy": "cc093cd11a533b987df20b5b4e274c53416f39088c577a9b4f48f52e9398a85a",
+      "config": "4362a6c7d6bb3ed7ebd58aa78e9bb0159790b42edd76c6ae30320c4beb0e4c5e",
+      "profile": "9807aa8934347ba2cee27d23a24ea4ce4dfdafcfb8944793e245d7d873fdff58",
+      "ticket_A": "19fa8e2caa40cbd25bca3863fb8caf08154b040a16dfe97cc622053a1e31b25b",
+      "ticket_B": "6af480b3a8a130bfce896c189fd76b5c26fe266440a0e6da566238eeb2f491b0",
+      "ticket_C": "3c5cd8dfb8a97179e75e25be15f24958b46664317ab812a3a18e110d54e33423",
+      "ticket_D": "af4602acdd2a6c8bdb74892a86c4346ac957ba2ed158aeb108412f1952959e84",
+      "ticket_E": "8fb9f7ea04d099caa86080f0fb3de4670b6f91732a69055179baa3129c2949a6",
+      "ticket_F": "2fa4e216915f6d27a8bb3c7f5bc49695f6c28f363519f56c526c8e10780ee2ce",
+      "ticket_G": "e22ce27faa9ef38cad5f6e958ba9d0947cc44158ab0a4d6d66f11a2c07564ff9",
+      "ticket_H": "f4901cdd1d27e393f20162444b58249c23565aebd9afd7800925b2607e5d79ea",
+      "ticket_I": "a09350877c9071146d09c8b1cca86e23de497eb2a02c9e6614e75956244d55c0"
+    },
+    "read_limit": 4,
+    "max_boundaries": 3,
+    "input_limit": 384000,
+    "batch_credits_per_session": 16,
+    "approved_total": 16,
+    "ordinary_allowance": 60,
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "approval": "User authorized one new H attempt with the same allowance as A, E or G and withdrew the relative-cost guard: 16 session-scoped physical credits with six-hour expiry, diagnostic cap four, existing 12 investigation-call ceiling and ordinary allowance sixty unchanged. No automatic replacement or refill.",
+    "ended": "2026-09-28T04:38:12.125604+00:00",
+    "hashes_after": {
+      "policy": "cc093cd11a533b987df20b5b4e274c53416f39088c577a9b4f48f52e9398a85a",
+      "config": "4362a6c7d6bb3ed7ebd58aa78e9bb0159790b42edd76c6ae30320c4beb0e4c5e",
+      "profile": "9807aa8934347ba2cee27d23a24ea4ce4dfdafcfb8944793e245d7d873fdff58",
+      "ticket_A": "19fa8e2caa40cbd25bca3863fb8caf08154b040a16dfe97cc622053a1e31b25b",
+      "ticket_B": "6af480b3a8a130bfce896c189fd76b5c26fe266440a0e6da566238eeb2f491b0",
+      "ticket_C": "3c5cd8dfb8a97179e75e25be15f24958b46664317ab812a3a18e110d54e33423",
+      "ticket_D": "af4602acdd2a6c8bdb74892a86c4346ac957ba2ed158aeb108412f1952959e84",
+      "ticket_E": "8fb9f7ea04d099caa86080f0fb3de4670b6f91732a69055179baa3129c2949a6",
+      "ticket_F": "2fa4e216915f6d27a8bb3c7f5bc49695f6c28f363519f56c526c8e10780ee2ce",
+      "ticket_G": "e22ce27faa9ef38cad5f6e958ba9d0947cc44158ab0a4d6d66f11a2c07564ff9",
+      "ticket_H": "f4901cdd1d27e393f20162444b58249c23565aebd9afd7800925b2607e5d79ea",
+      "ticket_I": "a09350877c9071146d09c8b1cca86e23de497eb2a02c9e6614e75956244d55c0"
+    },
+    "engine_hash_after": "a7cba971e9ea895daf43d52fa3dce68f2d8592af18c7a635305d5e8dbd612530",
+    "attempted": [
+      "H"
+    ],
+    "credits_granted": 16,
+    "physical_requests": 2
+  },
+  "run_summary": {
+    "session_id": "7a591ed4-8516-4633-901a-7d48a5eb7459",
+    "date_utc": "2026-09-28T04:38:12.123898+00:00",
+    "mode": "live",
+    "family": "H",
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "experiment": "H_FULL_ALLOWANCE",
+    "engine_hash": "a7cba971e9ea895daf43d52fa3dce68f2d8592af18c7a635305d5e8dbd612530",
+    "planner_calls": 7,
+    "model_calls": 8,
+    "recorded_wire_requests": 8,
+    "recording_phases": {
+      "investigation": 8
+    },
+    "excluded_contexts": 0,
+    "cloud_calls_reserved": 2,
+    "read_limit": 4,
+    "batch_credits": 16,
+    "credits_expire_at": 1790591365.031124,
+    "input_limit": 384000,
+    "intake_status": "PROPOSED",
+    "status": "COMPLETED",
+    "stop_reason": "NO_PROGRESS",
+    "outcome_label": "NOT_GRADED",
+    "synthesis_status": "BLOCKED",
+    "synthesis_calls": 0,
+    "process_exit": 0,
+    "wall_seconds": 526.838,
+    "recorded_tape_ids": [
+      "37329633-2bbd-4d49-88b5-446f7b532051",
+      "553fa16e-5b32-4d07-acc2-a79a4e100281",
+      "5fa55437-d0a3-4e90-890d-87f4e73e24c6",
+      "5fb4265a-d8b6-4f8d-9c43-4a4247966730",
+      "771c5976-4e7c-4960-ba96-6aeddb363613",
+      "81d5eaf6-6310-48ad-9d0b-b9dac84786fb",
+      "869bd931-597c-4352-aaba-f3a8c398542a",
+      "a98f35be-cf77-413c-9bfb-880e69e31d79"
+    ],
+    "notes_doc": "docs/batch-crash-and-intent-review.md",
+    "reads_sql": 0,
+    "reads_dax": 2,
+    "reads_other": 0,
+    "reads_total": 2,
+    "physical_requests": 2,
+    "guard_requests": 0,
+    "diagnostic_reads": 2,
+    "guard_reuses": 0,
+    "diagnostic_read_cap": 4,
+    "reads_completed": 2,
+    "reads_unsuccessful_or_uncertain": 0,
+    "read_accounting_source": "PHYSICAL_READ_RECEIPTS"
+  },
+  "grant": {
+    "batch_id": "H-full-allowance-20260928-credits",
+    "expires_at": 1790591365.031124,
+    "expired": false,
+    "runs": [
+      {
+        "session_id": "7a591ed4-8516-4633-901a-7d48a5eb7459",
+        "purpose": "INVESTIGATION",
+        "allowance": 16,
+        "charged": 2,
+        "available": 14
+      }
+    ]
+  },
+  "synthesis": {
+    "assessment": null,
+    "calls": 0,
+    "error": {
+      "cause_types": [],
+      "error_type": "Conflict"
+    },
+    "input_characters": 4764,
+    "limitation": "SYNTHESIS_ASSESSMENT_UNAVAILABLE: investigation has no complete supported assessment; narrative synthesis cannot classify unfinished evidence.",
+    "payload_hash": "0695ed401bf033b8789ff589226c0934bac5853dc7bdb532fba88c12c07c3748",
+    "reason": "SYNTHESIS_ASSESSMENT_UNAVAILABLE",
+    "recording_session_id": "7a591ed4-8516-4633-901a-7d48a5eb7459:synthesis",
+    "source_hash": "6daebd9ad8623ea24ca44ea24ade6d2c2c0bb4d61c1240ab6768dcaf55dd335a",
+    "status": "BLOCKED",
+    "version": 1
+  },
+  "rejections": [
+    {
+      "reason": "Decision contract rejected: Unknown assessment evidence"
+    },
+    {
+      "proposed_tool": "bounded_dax",
+      "reason": "Contribution query must read the declared upstream object"
+    },
+    {
+      "reason": "Decision contract rejected: Unknown assessment evidence"
+    },
+    {
+      "reason": "Decision contract rejected: Recommended action does not match outcome"
+    },
+    {
+      "reason": "Decision contract rejected: Unknown assessment evidence"
+    }
+  ],
+  "reads": [
+    {
+      "candidate_id": "9419d9691c3747a279b198f5c0cf758781e36c9678ea51bd47e9063d2e0b400e",
+      "completeness": "COMPLETE_RESPONSE",
+      "dimension_id": null,
+      "execution_identity": {
+        "account": "investigator-reader@skynwhy.com",
+        "captured_at": "2026-09-28T04:31:19.744231+00:00",
+        "mode": "isolated_reader",
+        "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+        "query_hash": "8972c598aacffcdcb747e04476d3eed623c7b8e2d0b673991a856dedd69385d7",
+        "response_hash": "62e87f5d5cbd6019eaba41f92d8b52985db9bdf90f52b88d169707d3ae4a3354",
+        "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+        "version": "native-reader-execution-v1",
+        "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "freshness": null,
+      "id": "a4a71520-7617-4161-b2c0-85cd3757b231",
+      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Inbound%20Quantity",
+      "proof_eligible": false,
+      "read_context_version": "3db5fbeb-9162-465b-8bf6-e7877a7444af",
+      "read_fingerprint": "416fe646f5e4681ec2c0fc0c9f96415da5904b952ff755a705d09d1e1e2f67a3",
+      "read_scope_hash": "b2af4d196b5474b508b72bd1d96eb6b4e686a6d6e19708acaab4a7a20ce39772",
+      "record_mapping": null,
+      "record_readback": null,
+      "request_hash": "fb09b656ac091a6e8612ca3c9083350dc88196d66e613e0d44eacda4ec3cf73b",
+      "reviewed_mapping": null,
+      "run_id": "6a4894a4-7325-40d1-8ff5-b8a8798a48e8",
+      "source_operation": null,
+      "status": "COMPLETED",
+      "test_purpose": "ESTABLISH_BASELINE",
+      "tool": "bounded_dax",
+      "values": [
+        {
+          "[Handled Quantity]": {
+            "type": "decimal",
+            "value": "8765"
+          },
+          "[Inbound Quantity]": {
+            "type": "decimal",
+            "value": "6425"
+          },
+          "[Outbound Quantity]": {
+            "type": "decimal",
+            "value": "2340"
+          },
+          "[Quantity Balance]": {
+            "type": "decimal",
+            "value": "4085"
+          }
+        }
+      ]
+    },
+    {
+      "candidate_id": "8d83b9e090e7c25cd933e975ca7d08ba65e62503f8bd230f3c513b63db84e610",
+      "completeness": "COMPLETE_RESPONSE",
+      "dimension_id": null,
+      "execution_identity": {
+        "account": "investigator-reader@skynwhy.com",
+        "captured_at": "2026-09-28T04:34:12.222680+00:00",
+        "mode": "isolated_reader",
+        "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+        "query_hash": "628397fed1b08fca705a71ef4a9855f2b361adbe952a9afdedc12c2fc275f84d",
+        "response_hash": "4b959caa954cfb235de963feb5007056deae1fa610d1ad0f3938b2d6b9357e2d",
+        "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+        "version": "native-reader-execution-v1",
+        "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "freshness": null,
+      "id": "871d5650-7c0e-44d4-828b-27fef1149813",
+      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Inbound%20Quantity",
+      "proof_eligible": false,
+      "read_context_version": "3db5fbeb-9162-465b-8bf6-e7877a7444af",
+      "read_fingerprint": "85080c241db6fa236270b37dba736f70469edc8a16981970b20f5f089e4ebe54",
+      "read_scope_hash": "b2af4d196b5474b508b72bd1d96eb6b4e686a6d6e19708acaab4a7a20ce39772",
+      "record_mapping": null,
+      "record_readback": null,
+      "request_hash": "90fe9e0d9c917aecdb80e14ef3e615fb52b4384f98de0a8528824f2b4932cf43",
+      "reviewed_mapping": null,
+      "run_id": "d4a92180-312b-4adb-9594-4b45f79ab0a8",
+      "source_operation": null,
+      "status": "COMPLETED",
+      "test_purpose": "GENERAL_DIAGNOSTIC",
+      "tool": "bounded_dax",
+      "values": [
+        {
+          "Activity[movement_type]": {
+            "type": "string",
+            "value": "RECEIPT"
+          },
+          "[Handled Quantity]": {
+            "type": "decimal",
+            "value": "6425"
+          },
+          "[Inbound Quantity]": {
+            "type": "decimal",
+            "value": "6425"
+          },
+          "[Outbound Quantity]": {
+            "type": "decimal",
+            "value": "2340"
+          },
+          "[Quantity Balance]": {
+            "type": "decimal",
+            "value": "4085"
+          }
+        },
+        {
+          "Activity[movement_type]": {
+            "type": "string",
+            "value": "ISSUE"
+          },
+          "[Handled Quantity]": {
+            "type": "decimal",
+            "value": "2340"
+          },
+          "[Inbound Quantity]": {
+            "type": "decimal",
+            "value": "6425"
+          },
+          "[Outbound Quantity]": {
+            "type": "decimal",
+            "value": "2340"
+          },
+          "[Quantity Balance]": {
+            "type": "decimal",
+            "value": "4085"
+          }
+        }
+      ]
+    }
+  ]
+}

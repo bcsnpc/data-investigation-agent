@@ -343,11 +343,19 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
               'evidence_ids':[]}
     measure_baseline=baseline
 
+    def unverified_business_flow(reason):
+        return answer('NO_KNOWN_PATTERN',6,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
+            roles=('established',),
+            missing_capability='Verified flow consistency before business-interpretation handoff: '+reason,
+            explanation='This is a business-interpretation question, but the reachable flow could not be verified. Business meaning and intended treatment remain unknown.',
+            skipped_steps=skipped)
+
     if len(layers)<2:
         reason=path.get('missing_comparable_quantity') or 'No adjacent layer has a faithfully bound quantity for comparison.'
         if baseline['status']!='ESTABLISHED':
             return answer('NO_KNOWN_PATTERN',2,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
                 roles=('established',),missing_capability=baseline['reason'],skipped_steps=skipped)
+        if scope.get('ticket_shape')=='BUSINESS_QUESTION':return unverified_business_flow(reason)
         return answer('NO_COMPARABLE_PATH',3,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
             roles=('path',),missing_capability=reason,
             explanation='The presentation baseline was established, but no adjacent comparable quantity could be resolved. '+reason,
@@ -480,6 +488,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     # otherwise name the deepest layer actually reached.
     if verified_boundaries==0:
         reason=(gaps[0]['reason'] if gaps else path.get('missing_comparable_quantity')) or 'No successful boundary comparison connected the baseline to a lower layer.'
+        if scope.get('ticket_shape')=='BUSINESS_QUESTION':return unverified_business_flow(reason)
         return answer('NO_COMPARABLE_PATH',3,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
             roles=('path',),missing_capability=reason,
             explanation='The presentation baseline was established, but no boundary below it could be compared faithfully. '+reason,
