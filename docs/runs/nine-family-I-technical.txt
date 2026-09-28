@@ -1,0 +1,20 @@
+Measure: Handled Quantity.
+No independently compared boundary was established.
+
+One query evaluated the report measure, and another query evaluated a direct sum over the activity units column. Both returned the baseline value, so the mechanism links the report calculation to that aggregation at the visible layer.
+
+Layers:
+L0 - Activity in Warehouse Operations e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity
+L1 - movement values in warehouse gold e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values
+L2 - stock movements e1b8e1 in warehouse silver e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1
+L3 - stock movements e1b8e1 in warehouse bronze e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1
+
+Limits:
+- Checked through L0; stopped because capability unavailable.
+- Unchecked L0 -> L1: NO_INDEPENDENT_LOWER_READ.
+- Unchecked L1 -> L2: Declared quantity trace supports only whole-entity scope without filters or grouping..
+- Unchecked L2 -> L3: Declared quantity trace supports only whole-entity scope without filters or grouping..
+- Unchecked L3 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).
+- Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.
+
+Recommended action: Ask the system owner to provide the missing connection information or read access identified in the limits.

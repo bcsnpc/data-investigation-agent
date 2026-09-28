@@ -1,0 +1,17 @@
+Measure: Extended Value.
+B1 agrees: L1 (movement values in warehouse gold e1b8e1, upstream input) 57,043 -> L0 (Activity in Warehouse Operations e1b8e1, downstream output) 57,043.
+
+The report calculation matched the summed value read from the declared source table, and the process comparison recorded equality across the checked boundary.
+
+Layers:
+L0 - Activity in Warehouse Operations e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity
+L1 - movement values in warehouse gold e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values
+
+Limits:
+- Unattested connection, engine, object on L0 (receipt 449c7cc7-ec71-471f-a758-a7cf1ea3ff61).
+- Unattested connection, engine on L1 (receipt c2ff2f50-cc27-46c1-b07c-fc89aa8a0fc0).
+- SNAPSHOT_UNVERIFIED for B1: the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.
+- Checked through L1; stopped because no lineage.
+- Unchecked L1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).
+
+Recommended action: Ask the owner of the unchecked part of the process to investigate the remaining gap.

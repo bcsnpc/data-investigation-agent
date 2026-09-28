@@ -1744,3 +1744,8 @@ mechanism/schema guards and discovered-parent display labels have offline tests.
 No live run or grant. All 1,316 final regression tests passed.
 [Implementation](mechanism-only-and-container-labels.md);
 [nine-family estimate and ungranted batch proposal](nine-family-batch-cost.md).
+
+
+## 2026-09-28 - Nine-family known-domain live map
+
+[Nine-family known-domain live map](nine-family-live-map.md). #286 merged after six green checks. All nine families were attempted once: 20 diagnostic reads, 36 physical requests (15 guards), and 26 model calls. Six syntheses validated, but ticket coverage remains partial: A exhausted its read cap and synthesis blocked with KeyError; C failed the resolver size bound before reading; H stopped at its relative-cost guard. B/D/I returned NO_COMPARABLE_PATH, E/G TRANSFORMATION_LOGIC, and F CONSISTENT_TO_BOUNDARY. All five cross-surface comparisons remain SNAPSHOT_UNVERIFIED. The nine 16-credit grants totalled 144; 36 charged and 108 unused, expiring 2026-09-28 09:50:24 UTC. Diagnostic cap four and ordinary allowance 60 stayed unchanged. No engine changes, retries, refills, new domain or acceptance claim.

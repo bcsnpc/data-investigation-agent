@@ -1,0 +1,9 @@
+Measure: Inbound Fraction.
+No independently compared boundary was established.
+
+A direct evaluation returned the measure value at the Activity table layer for the current global context, and the context evidence places the measure on that table.
+
+Limits:
+- Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity; stopped because capability unavailable.
+
+Recommended action: Ask the system owner to provide the missing connection information or read access identified in the limits.
