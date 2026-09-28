@@ -1,2 +1,4 @@
 
 docs/runs/rendered-synthesis-*.txt -text
+
+docs/runs/narrative-form-*.txt -text
