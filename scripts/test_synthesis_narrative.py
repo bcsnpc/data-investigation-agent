@@ -16,7 +16,7 @@ class NarrativeContractTests(unittest.TestCase):
             intent_dependency='NOT_REQUIRED',intent_basis='Implemented behavior only.',intent_evidence_ids=[],
             measure_connection='ESTABLISHED',measure_connection_basis='A baseline was read.',
             measure_connection_evidence_ids=['baseline'],remaining_test='Obtain intended rules.')
-        return {'assessment':value,'observations':list(observations.values())},{'evidence':[{'id':i} for i in observations],
+        return {'envelope':{'symptom':'Explain the observed difference.'},'assessment':value,'observations':list(observations.values())},{'evidence':[{'id':i} for i in observations],
             'deterministic_process_finding':{'classification':outcome}}
 
     def response(self,payload):

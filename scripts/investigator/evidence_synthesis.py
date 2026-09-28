@@ -235,6 +235,9 @@ def run(agent,identity,provider):
             declare_capabilities(assessment)
         normalize(assessment)
         validate(assessment,payload,source_state=state)
+        if outputs is not None:
+            from .question_account import validate as validate_question_account
+            validate_question_account(outputs,state)
     except Exception as exc:
         error=error_summary(exc)
         if not received:usage={'usage':failure_usage(exc)}

@@ -1754,3 +1754,8 @@ No live run or grant. All 1,316 final regression tests passed.
 ## 2026-09-28 - Batch crash refusals and H without the relative-cost guard
 
 [Batch crash fixes, intent review and full-allowance H](batch-crash-and-intent-review.md). #287 merged after six green checks. Missing synthesis assessments now produce a named refusal; oversized resolver context records HELD / PATH_CONTEXT_LIMIT before reads (saved C: 14,813 characters against 12,000). Business-shaped questions with unverified flow now name that missing prerequisite through NO_KNOWN_PATTERN; BUSINESS_QUESTION still requires equal independent flow evidence. D's filtered refusal is unchanged. All 1,319 unittest tests passed. New H run 7a591ed4 used two diagnostics/physical requests and eight model calls, then stopped NO_PROGRESS after five rejected steps; synthesis explicitly blocked without a KeyError. Two of sixteen credits charged; fourteen unused, expiring 2026-09-28 10:29:25 UTC. No cap increase or additional run. Engine changes invalidate earlier freezes.
+
+
+## 2026-09-28 - Engine-rendered question coverage
+
+Engine-rendered question coverage now precedes both outputs. Saved freshness ticket E explicitly says NOT_ANSWERED, names unavailable refresh history and unassessed processing history, then reports the unchanged TRANSFORMATION_LOGIC finding. Offline production assembly validated with original evidence and payload unchanged (15,405 characters), zero reads and zero model calls. Explicit text recognition is conservative: full question completion is not inferred from an outcome label. All 1,324 final regression tests passed. #288 merged after six green checks. See [report](question-answer-account.md).
