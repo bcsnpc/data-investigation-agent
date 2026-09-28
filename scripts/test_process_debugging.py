@@ -334,6 +334,34 @@ class VerticalProcedureTests(unittest.TestCase):
         self.assertEqual(result['technical_output']['visibility_boundary']['deepest_layer'],'middle')
         self.assertEqual(result['technical_output']['visibility_boundary']['stopped_by'],'NOT_COMPARABLE')
 
+    def test_business_meaning_requires_verified_flow_before_specialist_handoff(self):
+        for layers,blocked in ((['top'],set()),(['top','middle'],{'middle'})):
+            adapter=Adapter(layers,{layer:10 for layer in layers},not_comparable=blocked)
+            result=vertical(adapter,'measure',{'ticket_shape':'BUSINESS_QUESTION'})
+            self.assertEqual(result['classification'],'NO_KNOWN_PATTERN')
+            self.assertIn('Verified flow consistency',result['support']['process']['missing_capability'])
+            self.assertIn('Business meaning',result['claim'])
+        adapter=Adapter(['top','middle'],{'top':10,'middle':10})
+        self.assertEqual(vertical(adapter,'measure',{'ticket_shape':'BUSINESS_QUESTION'})['classification'],'BUSINESS_QUESTION')
+        adapter=Adapter(['top','middle'],{'top':10,'middle':10},not_comparable={'middle'})
+        self.assertEqual(vertical(adapter,'measure',{'ticket_shape':'MISMATCH_COMPLAINT'})['classification'],'NO_COMPARABLE_PATH')
+
+    def test_oversized_measure_path_is_a_recorded_refusal_before_reads(self):
+        from investigator.context_search import MeasurePathLimit
+        fixture=flexible_fixture.DynamicTests();fixture.setUp();self.addCleanup(fixture.doCleanups)
+        envelope=copy.deepcopy(fixture.envelope);envelope['strategy']=VERSION
+        agent=AdaptiveRuntime(fixture.runtime,lambda _:self.fail('No planner fallback for a context budget refusal'))
+        state=agent.create(envelope,'oversized-path')
+        with patch('investigator.adapters.microsoft_process.context_search.measure_path',side_effect=MeasurePathLimit(13001)):
+            result=agent.run(state['id'])
+        self.assertEqual(result['status'],'HELD')
+        self.assertEqual(result['stop_reason'],'PATH_CONTEXT_LIMIT')
+        self.assertEqual(result['cloud_calls'],0)
+        self.assertEqual(result['planner_calls'],0)
+        self.assertEqual(fixture.native_calls,[])
+        events=[e for e in result['events'] if e['kind']=='PROCESS_PATH_REFUSED']
+        self.assertEqual(len(events),1)
+
     def test_known_runtime_adapter_runs_end_to_end_to_visible_boundary(self):
         fixture=flexible_fixture.DynamicTests();fixture.setUp();self.addCleanup(fixture.doCleanups)
         envelope=copy.deepcopy(fixture.envelope);envelope['strategy']=VERSION

@@ -643,7 +643,19 @@ class AdaptiveRuntime:
             max_boundaries=self.process_max_boundaries,read_endpoint=read_endpoint,
             read_refresh_timing=read_refresh_timing if self.config['fabric'].get('refresh_timing_reader') else None,
             read_snapshot_identity=read_snapshot_identity if self.config['fabric'].get('snapshot_identity_reader') else None)
-        path=adapter.resolve_path(state['envelope']['measure_id'])
+        from .context_search import MeasurePathLimit
+        try:
+            path=adapter.resolve_path(state['envelope']['measure_id'])
+        except MeasurePathLimit as exc:
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                if current['status']!='READY':return self.project_after_commit(db,current)
+                self.stop(db,current,'PATH_CONTEXT_LIMIT','HELD')
+                current['process_error']='PATH_CONTEXT_LIMIT'
+                self.save(db,current,'PROCESS_PATH_REFUSED',{'reason':'PATH_CONTEXT_LIMIT',
+                    'characters':exc.characters,'limit':exc.limit,
+                    'limitation':'The complete measure path exceeds the context bound; no evidence was truncated and no data read was attempted.'})
+                return self.project_after_commit(db,current)
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)
             if state['status']!='READY':return self.project_after_commit(db,state)

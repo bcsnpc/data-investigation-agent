@@ -19,6 +19,20 @@ class SynthesisTests(unittest.TestCase):
         self.assertEqual(state['stop_reason'],'BUDGET_LIMIT')
         return agent,state
 
+    def test_budget_stop_without_assessment_refuses_live_narrative_before_provider(self):
+        agent,state=self.stopped()
+        with patch('ticket_planner.azure_generate',side_effect=AssertionError('No provider call')):
+            result=agent.synthesize(state['id'],synthesis.azure_synthesize)
+        record=result['synthesis']
+        self.assertEqual(record['status'],'BLOCKED')
+        self.assertEqual(record['reason'],'SYNTHESIS_ASSESSMENT_UNAVAILABLE')
+        self.assertEqual(record['calls'],0)
+        self.assertNotEqual(record['error']['error_type'],'KeyError')
+        self.assertEqual(result['observations'],state['observations'])
+        for source in (None,{}, {'classification':'UNRESOLVED'}):
+            with self.assertRaisesRegex(Conflict,'SYNTHESIS_ASSESSMENT_UNAVAILABLE'):
+                synthesis.narrative_source({'assessment':source})
+
     def answer(self,payload):
         ids=[e['id'] for e in payload['evidence']]
         return {'classification':'BUSINESS_CONTEXT_REQUIRED','claim':'The observed value alone does not establish the intended rule.',

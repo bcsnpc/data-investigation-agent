@@ -172,6 +172,15 @@ def cancel(agent,db,identity):
     return True
 
 
+def narrative_source(state):
+    """Require an actual assessment; a budget stop is not a conclusion."""
+    source=state.get('assessment')
+    required=schema()['required']
+    if not isinstance(source,dict) or any(key not in source for key in required):
+        raise Conflict('SYNTHESIS_ASSESSMENT_UNAVAILABLE: investigation has no complete supported assessment; narrative synthesis cannot classify unfinished evidence.')
+    return {key:copy.deepcopy(source[key]) for key in required}
+
+
 def run(agent,identity,provider):
     with agent.runtime.db() as db:
         db.execute('CREATE TABLE IF NOT EXISTS adaptive_syntheses(session_id TEXT PRIMARY KEY,body TEXT NOT NULL,hash TEXT NOT NULL)')
@@ -188,7 +197,7 @@ def run(agent,identity,provider):
             payload=build(state,db);size=len(encoded(payload))
             record.update(payload=payload,payload_hash=digest(payload),input_characters=size)
             if provider is azure_synthesize:
-                original={k:copy.deepcopy(state['assessment'][k]) for k in schema()['required']}
+                original=narrative_source(state)
                 validate(original,payload,source_state=state)
             if size>agent.generation_options['max_payload_characters']:raise ValueError('Synthesis digest exceeds input cap')
             if agent.governor:
@@ -200,6 +209,9 @@ def run(agent,identity,provider):
                           output_tokens_reserved=agent.generation_options['max_output_tokens'])
         except (ValueError,KeyError) as exc:
             record['error']=error_summary(exc)
+            if str(exc).startswith('SYNTHESIS_ASSESSMENT_UNAVAILABLE:'):
+                record['reason']='SYNTHESIS_ASSESSMENT_UNAVAILABLE'
+                record['limitation']=str(exc)
         save(db,identity,record)
     if record['status']!='RUNNING':return read_result(agent,identity)
     usage=None;assessment=None;error=None;received=False;outputs=None
