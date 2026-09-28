@@ -31,9 +31,11 @@ class ContractVocabularyTests(unittest.TestCase):
             judge.azure_judge({}, {})
             self.assertEqual(provider.call_args.kwargs['instructions'],vocabulary.instructions(judge.INSTRUCTIONS,provider.call_args.kwargs['schema']))
 
-    def test_additional_limits_are_not_a_false_closed_vocabulary(self):
-        wire=narrative.schema({'evidence':[]})['properties']['limitations']['items']['properties']['text']
+    def test_synthesis_has_no_limitations_channel_and_judge_limits_remain_prose(self):
+        self.assertNotIn('limitations',narrative.schema({'evidence':[]})['properties'])
+        wire=judge.SCHEMA['properties']['limitation']
         self.assertNotIn('enum',wire)
         for text in ('Actual repeated matches have not been established.','Intended business semantics are not confirmed.'):
             Draft202012Validator(wire).validate(text)
-        with self.assertRaises(Exception):Draft202012Validator(wire).validate('The fixed boundary account states the results.')
+        mechanism=narrative.schema({'evidence':[]})['properties']['technical_output']['properties']['text']
+        with self.assertRaises(Exception):Draft202012Validator(mechanism).validate('The fixed boundary account states the results.')

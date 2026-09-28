@@ -69,5 +69,54 @@ class NarrativeFormTests(unittest.TestCase):
         self.assertNotIn('{',text)
         self.assertEqual(before,payload)
 
+    def test_discovered_containers_distinguish_same_named_layers(self):
+        from investigator.layer_display import discovered_labels
+        payload,source,names=self.fixture()
+        assets=[{'id':names['prepared'],'name':'Sales','parent_id':'container-a'},
+                {'id':names['original'],'name':'Sales','parent_id':'container-b'},
+                {'id':'container-a','name':'Regional reporting'},
+                {'id':'container-b','name':'Operational capture'}]
+        labels=discovered_labels(assets,[{'id':i} for i in names.values()])
+        source['technical_output']['layer_labels']=labels
+        registry=form.layers(payload,source)
+        self.assertEqual(registry[names['prepared']]['name'],'Sales in Regional reporting')
+        self.assertEqual(registry[names['original']]['name'],'Sales in Operational capture')
+        self.assertEqual(labels[names['original']]['container_id'],'container-b')
+        self.assertEqual(labels[names['original']]['provenance'],'DISCOVERED_PARENT_ID')
+
+    def test_mechanism_cannot_repeat_limits_even_when_model_paraphrases(self):
+        from investigator import path_narrative
+        from jsonschema import Draft202012Validator
+        payload,source,_=self.fixture()
+        wire=Draft202012Validator(path_narrative.mechanism_schema(1000))
+        for caveat in ('Actual duplicate matches are unconfirmed.',
+                       'This does not establish actual repeated matches.',
+                       'Both reads might reflect a different snapshot.',
+                       'Business intent is unknown.',
+                       'We have not confirmed the repeated matches.'):
+            text='A left join can multiply rows. '+caveat
+            with self.subTest(caveat=caveat):
+                self.assertFalse(wire.is_valid(text))
+                with self.assertRaisesRegex(ValueError,'limitation'):
+                    form.technical(text,payload,source,action('TRANSFORMATION_LOGIC'))
+        with self.assertRaisesRegex(ValueError,'limitation'):
+            form.technical('A left join can multiply rows. Intended grain is not established.',payload,source,action('TRANSFORMATION_LOGIC'))
+        self.assertTrue(wire.is_valid('A left join can multiply rows when several entries match the same key.'))
+
+    def test_retained_judge_clause_coalesces_without_losing_other_limits(self):
+        payload,source,_=self.fixture()
+        original='The definition does not establish whether duplicate matches occurred or whether both sides use the same snapshot.'
+        source['limits'].append(original);before=copy.deepcopy(source)
+        text=form.technical('A left join can multiply rows.',payload,source,action('TRANSFORMATION_LOGIC'))
+        self.assertIn('The definition does not establish whether duplicate matches occurred.',text)
+        self.assertNotIn('both sides use the same snapshot',text)
+        self.assertEqual(text.count('SNAPSHOT_UNVERIFIED'),1)
+        self.assertEqual(source,before)
+        self.assertEqual(form.retained_limit(original,False),original)
+        other='The definition does not establish whether duplicate matches occurred or whether a separate audit is complete.'
+        self.assertEqual(form.retained_limit(other,True),other)
+        assertion='The definition establishes that both sides use the same snapshot.'
+        self.assertEqual(form.retained_limit(assertion,True),assertion)
+
 
 if __name__=='__main__':unittest.main()

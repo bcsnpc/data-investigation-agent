@@ -254,6 +254,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             result['support']['measure_connection']='ESTABLISHED' if measure_baseline['status']=='ESTABLISHED' else 'NOT_ESTABLISHED_CAPABILITY'
             result['support']['measure_connection_evidence_ids']=list(measure_baseline['evidence_ids'])
         all_layers=path.get('layers',[]);observed=result['_observations']
+        result['technical_output']['layer_labels']=path.get('layer_labels',{})
         from . import snapshot_attestation
         snapshot_attestation.enrich(observed,snapshot_probes,adapter,available)
         snapshot_comparisons=[o for o in observed if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']

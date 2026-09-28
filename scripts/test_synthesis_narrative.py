@@ -24,7 +24,7 @@ class NarrativeContractTests(unittest.TestCase):
                    'evidence_ids':[payload['evidence'][0]['id']]}
         business=copy.deepcopy(statement)
         business['text']=narrative.business_text(payload['deterministic_process_finding']['classification'])
-        return {'business_output':business,'technical_output':{**statement,'text':narrative.path_narrative.summary(payload)},'limitations':[copy.deepcopy(statement)]}
+        return {'business_output':business,'technical_output':{**statement,'text':narrative.path_narrative.summary(payload)}}
 
     def test_business_cannot_include_free_prose_assets_queries_or_extra_numbers(self):
         from investigator.output_contract import BUSINESS
@@ -57,7 +57,7 @@ class NarrativeContractTests(unittest.TestCase):
                 assessment,outputs=narrative.assemble(narrative.Response(self.response(payload)),payload,state)
                 self.assertEqual(assessment,state['assessment'])
                 self.assertEqual(state,original)
-                self.assertTrue(outputs['business_output']['additional_limitations'])
+                self.assertEqual(outputs['business_output']['additional_limitations'],[])
                 expected=outcome in ('NO_KNOWN_PATTERN','NO_COMPARABLE_PATH')
                 self.assertEqual(assessment['support']['process']['missing_capability'] is not None,expected)
                 self.assertEqual(outputs['technical_output']['mandatory_limits'],state['assessment']['limits'])
@@ -68,9 +68,9 @@ class NarrativeContractTests(unittest.TestCase):
         fields.discard('evidence_ids')
         fields.update(('status','layer','reason','stopped_by','deepest_layer','intent_dependency','measure_connection'))
         for field in fields:
-            for location in ('root','business_output','technical_output','limitation'):
+            for location in ('root','business_output','technical_output'):
                 value=self.response(payload)
-                target=value if location=='root' else value['limitations'][0] if location=='limitation' else value[location]
+                target=value if location=='root' else value[location]
                 target[field]='contradictory'
                 with self.subTest(field=field,location=location),self.assertRaises(ValidationError):validator.validate(value)
 
@@ -79,6 +79,13 @@ class NarrativeContractTests(unittest.TestCase):
         for refs in ([],['not-displayed']):
             value=self.response(payload);value['business_output']['evidence_ids']=refs
             with self.assertRaises(ValidationError):validator.validate(value)
+
+    def test_model_has_no_limitations_channel(self):
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY')
+        value=self.response(payload)
+        value['limitations']=[{'text':'Intended semantics remain unconfirmed.','evidence_ids':['baseline']}]
+        with self.assertRaises(ValidationError):
+            narrative.assemble(narrative.Response(value),payload,state)
 
     def test_invalid_fixed_evidence_still_fails(self):
         state,payload=self.source('CONSISTENT_TO_BOUNDARY')
@@ -96,7 +103,7 @@ class NarrativeContractTests(unittest.TestCase):
             response,usage=synthesis.azure_synthesize(payload,{})
         self.assertIsInstance(response,narrative.Response)
         sent=provider.call_args.kwargs['schema']
-        self.assertEqual(set(sent['properties']),{'business_output','technical_output','limitations'})
+        self.assertEqual(set(sent['properties']),{'business_output','technical_output'})
         self.assertFalse(sent['additionalProperties'])
         Draft202012Validator(sent).validate(answer)
 

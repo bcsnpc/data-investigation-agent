@@ -24,8 +24,7 @@ class PathNarrativeTests(unittest.TestCase):
         self.assertTrue(v.is_valid(path.summary(p)))
         for bad in ('The higher upstream total is 8765.','prepared feeds original.','L1 is upstream of L2.','Input is 8765 and output is 7661.','The fixed boundary account states input-to-output ordering and observed quantities.','The boundary account describes the comparison.'):
             with self.subTest(bad=bad):self.assertFalse(v.is_valid(bad));self.assertFalse(v.is_valid(path.summary(p)+' '+bad))
-        limitation=narrative.schema(p)['properties']['limitations']['items']['properties']['text']
-        self.assertFalse(Draft202012Validator(limitation).is_valid('The higher upstream total is 8765.'))
+        self.assertNotIn('limitations',narrative.schema(p)['properties'])
     def test_no_payload_directory_loss(self):
         p=self.payload();p['context_entry_points']=[{'id':str(i),'kind':'SqlObject'} for i in range(28)];before=copy.deepcopy(p)
         narrative.schema(p);path.render(p);self.assertEqual(p,before)

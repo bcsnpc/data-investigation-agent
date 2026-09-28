@@ -19,11 +19,11 @@ class EvidenceProseTests(unittest.TestCase):
                 with self.subTest(bad=bad[-30:]),self.assertRaises(ValueError):
                     evidence_prose.validate(bad,size)
 
-    def test_assembly_rejects_partial_technical_text_and_partial_limitations(self):
+    def test_assembly_rejects_partial_technical_text(self):
         helper=narrative_fixture.NarrativeContractTests();state,payload=helper.source('CONSISTENT_TO_BOUNDARY')
-        for location in ('technical_output','limitation'):
+        for location in ('technical_output',):
             value=helper.response(payload)
-            target=value['limitations'][0] if location=='limitation' else value[location]
+            target=value[location]
             target['text']='Observed agreement does not establish source-record correctness, duplicate-row,'
             original=copy.deepcopy(value)
             with self.assertRaises((ValueError,ValidationError)):

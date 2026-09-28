@@ -34,11 +34,8 @@ def facts(payload):
 
 def summary(payload):
     """Default commentary for offline callers; path facts are rendered separately."""
-    if payload.get('deterministic_process_finding',{}).get('classification')=='REFRESH_LATENCY':
-        return 'Refresh timing was unavailable to the diagnostic reader; elapsed delay and which state is newer remain unestablished.'
     mechanism=_business_mechanism(payload.get('evidence',[]))
-    return ((mechanism+' ' if mechanism else '')+
-            'A compatible definition does not prove actual repeated matches, source correctness or business intent.')
+    return mechanism or 'The procedure compared the declared quantity along its resolved path.'
 
 
 def _casefold(term):
@@ -78,3 +75,36 @@ def render(payload):
                     quantities+(' Values agree.' if row['values_equal'] else ' Values differ.'))
     text.extend(term+' = '+identity for term,identity in labels.items())
     return '\n'.join(text)
+
+
+# One shared producer/consumer rule: mechanism prose cannot carry evidence caveats.
+# This is syntactic enforcement, not a claim of exhaustive semantic entailment.
+MECHANISM_LIMIT_TERMS=(
+    'snapshot', 'attestation', 'unattested', 'unverified', 'unconfirmed', 'unproved',
+    'unproven', 'unknown', 'unchecked', 'unavailable', 'not established',
+    'not confirmed', 'not verified', 'does not establish', 'does not prove',
+    'does not show', 'does not confirm', 'cannot establish', 'cannot confirm',
+    'have not confirmed', 'has not been', 'remain unestablished',
+    'business intent', 'business rule', 'business correctness', 'intended grain',
+    'permission', 'access limitation', 'same moment', 'update timing',
+    'limitation', 'caveat')
+MECHANISM_FORBIDDEN=r'\b(?:'+'|'.join(_casefold(t) for t in MECHANISM_LIMIT_TERMS)+r')\b'
+
+
+def mechanism_schema(bound):
+    value=commentary_schema(bound)
+    value['pattern']='^(?![\\s\\S]*(?:'+MECHANISM_FORBIDDEN+'))'+value['pattern'][1:]
+    return value
+
+
+def validate_mechanism(text,limits=()):
+    import re
+    validate_commentary(text)
+    if re.search(MECHANISM_FORBIDDEN,text):
+        raise ValueError('Mechanism contains an engine-owned limitation')
+    normalized=' '.join(text.casefold().split())
+    for limit in limits:
+        for sentence in re.split(r'(?<=[.!?])\s+',limit):
+            phrase=' '.join(sentence.casefold().split()).strip(' .;')
+            if phrase and phrase in normalized:
+                raise ValueError('Mechanism repeats a retained limitation')

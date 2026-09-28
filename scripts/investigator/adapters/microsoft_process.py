@@ -223,6 +223,9 @@ class MicrosoftProcessAdapter:
             path['evidence']['unresolved_boundary']=gap
             if gap:path['stopped_by']='NO_LINEAGE'
         path['max_boundaries']=self.max_boundaries
+        context=context_search.latest(self.store) if self.store is not None else None
+        from ..layer_display import discovered_labels
+        path['layer_labels']=discovered_labels((context or {}).get('assets',[]),path['layers'])
         self._paths[measure_id]=path
         return path
 

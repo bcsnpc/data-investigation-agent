@@ -5,16 +5,38 @@ from . import path_narrative
 from .snapshot_attestation import payload_comparisons,VERIFIED
 
 
+def retained_limit(text,all_snapshots_unverified):
+    """Coalesce only an explicit repeated trailing snapshot clause in display.
+
+    The original statement stays in mandatory_limits and its judge receipt.
+    Unrecognized wording and other uncertainties are never removed.
+    """
+    if all_snapshots_unverified and re.search(r'\bdoes not (?:establish|prove|confirm)\b',text,re.I):
+        repeated=r',?\s+(?:or whether|nor that|or that|and whether|and that) both (?:sides|reads) (?:use|reflect) the same (?:snapshot|data version)\.$'
+        return re.sub(repeated,'.',text,flags=re.I)
+    return text
+
+
 def layers(payload,source):
     result={}
+    labels=source.get('technical_output',{}).get('layer_labels',{})
     def add(identity):
         if identity and identity!='unresolved upstream' and identity not in result:
-            name=unquote(identity.rstrip('/').rsplit('/',1)[-1]).replace('_',' ')
+            label=labels.get(identity,{})
+            name=label.get('name') or unquote(identity.rstrip('/').rsplit('/',1)[-1])
+            name=name.replace('_',' ')
+            if label.get('container_name'):
+                name+=' in '+label['container_name'].replace('_',' ')
             result[identity]={'term':'L'+str(len(result)),'name':name,'identifier':identity}
     for row in path_narrative.facts(payload):
         add(row['output']['layer']);add(row['input']['layer'])
     for boundary in source.get('technical_output',{}).get('unverified_boundaries',[]):
         add(boundary['upper_layer']);add(boundary['lower_layer'])
+    # A missing/nonunique human label never makes distinct objects look identical.
+    for item in result.values():
+        if sum(other['name']==item['name'] for other in result.values())>1:
+            same=[other for other in result.values() if other['name']==item['name']]
+            for other in same:other['name']+=' ('+other['term']+'; container name unavailable or nonunique)'
     return result
 
 
@@ -39,6 +61,7 @@ def business(text,payload):
 
 
 def technical(commentary,payload,source,recommended):
+    path_narrative.validate_mechanism(commentary,source['limits'])
     registry=layers(payload,source)
     def short(text):
         for identity,item in sorted(registry.items(),key=lambda pair:len(pair[0]),reverse=True):text=text.replace(identity,item['term'])
@@ -74,7 +97,7 @@ def technical(commentary,payload,source,recommended):
     for text in source['limits']:
         if text.startswith('Unattested surface field ') and grouped:continue
         if re.match(r'Comparison \d+: SNAPSHOT_UNVERIFIED;',text) and unknown:continue
-        add(('other',text),text)
+        add(('other',text),retained_limit(text,bool(rows) and len(unknown)==len(rows)))
     if limits:paragraphs.append('Limits:\n'+'\n'.join('- '+line for line in limits))
     for entry in payload.get('evidence',[]):
         timing=entry.get('result',{}).get('refresh_timing')
