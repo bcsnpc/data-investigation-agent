@@ -1725,3 +1725,13 @@ No engine change during the batch. [Both full outputs and accounting](rendered-s
 divergent finding leads the technical output and business timing remains integrated.
 All 1,311 local regression tests passed; the live run awaits new scoped credit approval.
 [Implementation and validation](narrative-output-form.md).
+
+
+## 2026-09-28: single narrative-form live run
+
+#284 merged after six green checks. Run 778bcd6f completed through validated
+synthesis: four diagnostics, ten physical requests, six guards, zero reuse. All
+ten approved credits charged, expiry 05:15:42 UTC; no cap or policy change.
+Technical free prose still repeats snapshot/duplicate-match caveats; preserved as
+a presentation defect, not a full quality pass.
+[Verbatim outputs and accounting](narrative-form-live-result.md).

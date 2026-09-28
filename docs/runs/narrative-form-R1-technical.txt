@@ -1,0 +1,24 @@
+Measure: Handled Quantity.
+B2 diverges: L2 (stock movements e1b8e1, upstream input) 7,661 -> L1 (movement values, downstream output) 8,765.
+B1 agrees: L1 (movement values, upstream input) 8,765 -> L0 (Activity, downstream output) 8,765.
+
+The implemented logic joins movements with rates by product_id before deriving movement_value from units and unit_cost. Because uniqueness on that key is not assumed, one movement can match several rates and its units can be repeated in the joined result, which can raise the summed quantity. This explains the aggregate gap between the compared layers, but it does not show that repeated matches occurred in the checked data, that both reads reflect the same snapshot, or that this rule matches business intent.
+
+Layers:
+L0 - Activity: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity
+L1 - movement values: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values
+L2 - stock movements e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1
+L3 - stock movements e1b8e1: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1
+
+Limits:
+- Unattested connection, engine, object on L0 (receipt 69ee4e50-d281-4df6-b752-d1cd0d1b8741).
+- Unattested connection, engine on L1 (receipt 81755b52-3393-4e38-afb5-70e431bb6ea6).
+- Unattested connection, engine on L2 (receipt b89ea49f-fa67-4e4f-9d2b-9a194abe2f43).
+- SNAPSHOT_UNVERIFIED for B1, B2: the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.
+- Checked through L2; stopped because reached.
+- Unchecked L2 -> L3: Investigation terminated before this boundary.
+- Unchecked L3 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).
+- Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.
+- This explanation depends on duplicate matches on the join key in the joined input. The definition shows multiplication is possible, but it does not establish whether such duplicate matches actually occurred in the compared data or whether both sides use the same snapshot.
+
+Recommended action: Ask the responsible business owner whether this behavior is intended; request a change if it is not.

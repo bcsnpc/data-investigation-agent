@@ -39,3 +39,11 @@ pending: ten physical credits, two-hour expiry. The previous batch consumed all
 twenty of its credits. A local read-only usage check found 85 ordinary requests still charged in the
 rolling window, zero available. No new grant or cloud read has been made. Diagnostic cap
 four and the ordinary rolling allowance of sixty remain unchanged.
+
+
+## 2026-09-28 live follow-up
+
+The pending approval above was granted. The single live run completed, but free
+prose still repeated semantic limitations that generated-block tests did not
+cover. See [the full result, credit usage and verbatim outputs](narrative-form-live-result.md).
+No follow-up code fix or second run was attempted.
