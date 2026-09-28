@@ -1717,3 +1717,11 @@ validation and the approved live pair pending. Engine freezes invalidated.
 synthesis: four diagnostics, ten physical requests, six guards and zero reuses
 each. All twenty approved credits charged with explicit expiries, caps unchanged.
 No engine change during the batch. [Both full outputs and accounting](rendered-synthesis-live-pair.md).
+
+
+## 2026-09-27: narrative output presentation
+
+#283 merged. Consolidated typed limitations and removed serialized prose; the
+divergent finding leads the technical output and business timing remains integrated.
+All 1,311 local regression tests passed; the live run awaits new scoped credit approval.
+[Implementation and validation](narrative-output-form.md).

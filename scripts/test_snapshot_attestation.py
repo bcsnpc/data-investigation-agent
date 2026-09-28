@@ -90,7 +90,12 @@ class SnapshotTests(unittest.TestCase):
             _,outputs=narrative.assemble(narrative.Response(helper.response(payload)),payload,state)
             for key in ('business_output','technical_output'):
                 self.assertEqual(outputs[key]['snapshot_attestations'][0]['status'],snapshot.UNVERIFIED)
-                self.assertIn('up to date' if original['values_equal'] else 'timing was not excluded',outputs[key]['explanation']['text'])
+            technical=outputs['technical_output']['explanation']['text']
+            self.assertIn('agreement does not prove currency',technical)
+            self.assertIn('timing was not excluded',technical)
+            business=outputs['business_output']['explanation']['text']
+            self.assertTrue(any(t in business for t in ('update timing','different update times')))
+            self.assertNotIn('Comparison 1',business)
             for field in original['snapshot_attestation']:
                 changed=copy.deepcopy(payload)
                 next(e for e in changed['evidence'] if e['id']=='comparison')['result']['snapshot_attestation'].pop(field)

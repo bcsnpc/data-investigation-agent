@@ -93,28 +93,12 @@ def assemble(response,payload,state):
                       'additional_limitations':copy.deepcopy(value['limitations']),
                       'recommended_action':copy.deepcopy(recommended)}
     outputs['technical_output']['path_order']=path_narrative.facts(payload)
-    technical=outputs['technical_output']['explanation']
-    technical['text']=path_narrative.render(payload)+'\n\n'+technical['text']
-    technical['text']+='\n\nClaim limits:\n'+'\n'.join(source['limits'])
-    unattested=source.get('technical_output',{}).get('unattested_surface_fields',[])
-    technical['text']+='\n\nSurface attestation limits:\n'+('\n'.join(
-        f"- Unattested {u['field']} on {u['layer']} (receipt {u['evidence_id']})." for u in unattested)
-        if unattested else 'No unattested surface fields were recorded.')
-    for entry in payload.get('evidence',[]):
-        timing=entry.get('result',{}).get('refresh_timing')
-        if timing and timing.get('status')=='AVAILABLE':
-            import json
-            technical['text']+='\n\nOptional refresh metadata (separate identity; not classification evidence): '+json.dumps(timing,sort_keys=True)
-    from .snapshot_attestation import payload_comparisons,business_limit
-    snapshot_rows=payload_comparisons(payload)
-    import json
+    from . import narrative_form
+    from .snapshot_attestation import payload_comparisons
     for key in ('business_output','technical_output'):
-        outputs[key]['snapshot_attestations']=[e.get('snapshot_attestation',{'status':'SNAPSHOT_UNVERIFIED'}) for e in snapshot_rows]
-    fixed_limit=business_limit(payload)
-    if fixed_limit:outputs['business_output']['explanation']['text']+=' '+fixed_limit
-    if fixed_limit:technical['text']+='\n\n'+fixed_limit
-    technical['text']+='\n\nSnapshot attestation:\n'+json.dumps(outputs['technical_output']['snapshot_attestations'],sort_keys=True)
-    technical['text']+='\n\nRecommended action: '+recommended['text']
+        outputs[key]['snapshot_attestations']=[e.get('snapshot_attestation',{'status':'SNAPSHOT_UNVERIFIED'}) for e in payload_comparisons(payload)]
+    outputs['technical_output']['explanation']['text']=narrative_form.technical(value['technical_output']['text'],payload,source,recommended)
+    outputs['business_output']['explanation']['text']=narrative_form.business(value['business_output']['text'],payload)
     outputs['business_output']['provenance']='DETERMINISTIC_OUTCOME_RENDERING'
     outputs['business_output']['vocabulary_evidence']=[
         {'evidence_id':e['id'],'terms':copy.deepcopy(e['result']['business_vocabulary'])}
