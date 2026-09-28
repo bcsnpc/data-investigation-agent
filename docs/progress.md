@@ -1735,3 +1735,12 @@ ten approved credits charged, expiry 05:15:42 UTC; no cap or policy change.
 Technical free prose still repeats snapshot/duplicate-match caveats; preserved as
 a presentation defect, not a full quality pass.
 [Verbatim outputs and accounting](narrative-form-live-result.md).
+
+
+## 2026-09-28: mechanism ownership and container labels
+
+#285 merged with six green checks. Removed model-written synthesis limitations;
+mechanism/schema guards and discovered-parent display labels have offline tests.
+No live run or grant. All 1,316 final regression tests passed.
+[Implementation](mechanism-only-and-container-labels.md);
+[nine-family estimate and ungranted batch proposal](nine-family-batch-cost.md).

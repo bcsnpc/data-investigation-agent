@@ -56,8 +56,7 @@ class RefreshComparisonTests(unittest.TestCase):
         payload={'evidence':entries,'deterministic_process_finding':{'classification':r['classification']}}
         refs=[e['id'] for e in entries]
         response={'business_output':{'text':narrative.business_text(r['classification'],payload),'evidence_ids':refs},
-                  'technical_output':{'text':narrative.path_narrative.summary(payload),'evidence_ids':refs},
-                  'limitations':[{'text':narrative.path_narrative.LIMITATION,'evidence_ids':refs}]}
+                  'technical_output':{'text':narrative.path_narrative.summary(payload),'evidence_ids':refs}}
         _,outputs=narrative.assemble(narrative.Response(response),payload,{'assessment':r,'observations':observations})
         for key in ('business_output','technical_output'):
             self.assertIn(refresh_comparison.LIMIT,outputs[key]['mandatory_limits'])
@@ -115,7 +114,7 @@ class RefreshComparisonTests(unittest.TestCase):
         text=business_text('REFRESH_LATENCY',payload);validate_text(text,text)
         for fragment in ('10','11','No processing','refresh time','read access','Recommended action'):
             self.assertIn(fragment,text)
-        self.assertIn('unavailable',summary(payload))
+        self.assertNotIn('unavailable',summary(payload))  # Timing belongs to engine-rendered limits.
 
 class OptionalTimingTests(unittest.TestCase):
     def config(self):

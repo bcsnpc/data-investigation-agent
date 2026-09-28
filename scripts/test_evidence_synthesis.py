@@ -84,13 +84,23 @@ class SynthesisTests(unittest.TestCase):
         statement={'text':narrative.path_narrative.LIMITATION,
                    'evidence_ids':[source['observations'][0]['id']]}
         business={**statement,'text':narrative.business_text(source['assessment']['classification'])}
-        wire={'business_output':business,'technical_output':{**statement,'text':narrative.path_narrative.summary(payload)},'limitations':[statement]}
+        wire={'business_output':business,'technical_output':{**statement,'text':narrative.path_narrative.summary(payload)}}
         with patch('ticket_planner.azure_generate',return_value=(wire,{})):
             result=agent.synthesize(state['id'],synthesis.azure_synthesize)
         self.assertEqual(result['synthesis']['status'],'COMPLETED')
         self.assertEqual(result['synthesis']['assessment']['support'],source['assessment']['support'])
         self.assertEqual(result['outcome']['synthesis_outputs']['business_output']['explanation'],business)
         self.assertEqual(result['outcome']['synthesis_outputs']['technical_output']['mandatory_limits'],source['assessment']['limits'])
+
+    def test_container_display_labels_do_not_change_model_payload_or_coverage(self):
+        agent,state=self.stopped()
+        with agent.runtime.db() as db:before=synthesis_digest.build(state,db)
+        state['assessment']={'technical_output':{'layer_labels':{
+            'table-a':{'name':'Sales','container_name':'Reporting','container_id':'container-a'},
+            'table-b':{'name':'Sales','container_name':'Capture','container_id':'container-b'}}}}
+        with agent.runtime.db() as db:after=synthesis_digest.build(state,db)
+        self.assertEqual(encoded(before),encoded(after))
+        self.assertEqual(before.get('context_entry_points'),after.get('context_entry_points'))
 
     def test_ingestion_context_preserves_report_without_inventing_metadata(self):
         agent,state=self.stopped()

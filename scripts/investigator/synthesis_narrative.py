@@ -13,23 +13,21 @@ The conclusion contract is fixed evidence, not a classification task. Do not
 redeclare outcome, actions, baseline status, capabilities or evidence roles.
 A conclusion_blocker prevents a supported conclusion. Capability limitations
 restrict an otherwise supported conclusion and may accompany ANY outcome.
-Explain missing access and skipped checks in limitations without changing the
-conclusion. Cite only displayed evidence IDs; citations do not prove semantics.
-Distinguish observed aggregate agreement from source correctness or business intent.
+Cite only displayed evidence IDs; citations do not prove semantics.
 Describe implemented logic neutrally; never call it correct or intended without
-independent evidence. Preserve the checked boundary and attestation limitations.
+independent evidence. The engine preserves checked boundaries and all limitations.
 Copy the business wording from its exact allowed vocabulary.
-Technical prose explains only the mechanism and its limits. The engine itself inserts
+Technical prose explains only the mechanism. Limitations belong exclusively to the engine-rendered limits block. The engine itself inserts
 the measure, quantities, layers and direction. Do not restate them or refer to a
 fixed account or spine. Do not use digits or the ordering words input, output,
-upstream, downstream or feeds in technical commentary or additional limitations.
-Additional limitations are free prose, not a closed vocabulary; mandatory limits
-are rendered by the engine and must not be paraphrased into this field.
-Return business and technical explanations plus limitations. Do not invent reads,
+upstream, downstream or feeds in technical commentary.
+There is no model-written limitations field. Do not place caveats about proof,
+snapshots, access, unchecked conditions or business intent in the mechanism.
+Return the business explanation and technical mechanism. Do not invent reads,
 undisplayed values, capabilities, role tags or corrected totals. No private reasoning.
 Fit each complete explanation within its schema bound. Use the evidence_ids field
 for citations instead of spending prose space repeating IDs. End every explanation
-and limitation in a complete sentence; shorten the wording, never cut the sentence.
+in a complete sentence; shorten the wording, never cut the sentence.
 """
 
 @dataclass(frozen=True)
@@ -54,15 +52,11 @@ def schema(payload):
     for text in texts:validate_text(text,text)
     business['properties']['text']={'type':'string','enum':texts}
     technical=statement(limits.ASSESSMENT_CLAIM)
-    technical['properties']['text']=path_narrative.commentary_schema(limits.ASSESSMENT_CLAIM)
-    limitation=statement(limits.ASSESSMENT_DETAIL)
-    limitation['properties']['text']=path_narrative.commentary_schema(limits.ASSESSMENT_DETAIL)
+    technical['properties']['text']=path_narrative.mechanism_schema(limits.ASSESSMENT_CLAIM)
     return {'type':'object','additionalProperties':False,'properties':{
         'business_output':business,
-        'technical_output':technical,
-        'limitations':{'type':'array','minItems':1,'maxItems':limits.ASSESSMENT_LIST,
-                      'items':limitation}},
-        'required':['business_output','technical_output','limitations']}
+        'technical_output':technical},
+        'required':['business_output','technical_output']}
 
 
 def assemble(response,payload,state):
@@ -71,10 +65,7 @@ def assemble(response,payload,state):
     value=copy.deepcopy(response.narrative)
     Draft202012Validator(schema(payload)).validate(value)
     evidence_prose.validate(value['technical_output']['text'],limits.ASSESSMENT_CLAIM)
-    path_narrative.validate_commentary(value['technical_output']['text'])
-    for limitation in value['limitations']:
-        evidence_prose.validate(limitation['text'],limits.ASSESSMENT_DETAIL)
-        path_narrative.validate_commentary(limitation['text'])
+    path_narrative.validate_mechanism(value['technical_output']['text'],state['assessment']['limits'])
     source=state['assessment']
     if value['business_output']['text']!=business_text(source['classification'],payload):
         raise ValueError('Business wording differs from the fixed outcome')
@@ -90,7 +81,7 @@ def assemble(response,payload,state):
         outputs[key]={'explanation':value[key],
                       'conclusion':copy.deepcopy(source.get(key,{})),
                       'mandatory_limits':copy.deepcopy(source['limits']),
-                      'additional_limitations':copy.deepcopy(value['limitations']),
+                      'additional_limitations':[],
                       'recommended_action':copy.deepcopy(recommended)}
     outputs['technical_output']['path_order']=path_narrative.facts(payload)
     from . import narrative_form
@@ -103,5 +94,5 @@ def assemble(response,payload,state):
     outputs['business_output']['vocabulary_evidence']=[
         {'evidence_id':e['id'],'terms':copy.deepcopy(e['result']['business_vocabulary'])}
         for e in payload['evidence'] if e.get('result',{}).get('business_vocabulary')]
-    return assessment,{'version':3,'provenance':'LLM_INFERRED',
+    return assessment,{'version':4,'provenance':'LLM_INFERRED',
                        'source_assessment_hash':digest(source),**outputs}
