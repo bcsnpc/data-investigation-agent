@@ -22,6 +22,10 @@ class Direct(Adapter):
         return (super().capabilities()-{'presentation_freshness'})|{'declared_source_comparison'}|({'refresh_timing'} if self.timing else set())
     def direct_source_comparison(self,boundary,scope):
         return None if self.transforms else proof()
+    def evaluate(self,layer,measure,scope):
+        probe=super().evaluate(layer,measure,scope)
+        if probe.evidence:probe.evidence['declared_context']=refresh_comparison.whole_entity_context()
+        return probe
     def refresh_timing(self,path):
         if isinstance(self.timing,Exception):raise self.timing
         return self.timing
@@ -61,6 +65,28 @@ class RefreshComparisonTests(unittest.TestCase):
         for key in ('business_output','technical_output'):
             self.assertIn(refresh_comparison.LIMIT,outputs[key]['mandatory_limits'])
             self.assertIn('unavailable',outputs[key]['explanation']['text'])
+
+    def test_differing_missing_or_filtered_read_contexts_never_fire(self):
+        from dataclasses import replace
+        for context in (None,{'version':1,'scope':'FILTERED','filters':[{'column':'Region','values':['North']}],'dimension_ids':[]},
+                        dict(refresh_comparison.whole_entity_context(),dimension_ids=['Region'])):
+            a=Direct();evaluate=a.evaluate
+            def read(layer,measure,scope):
+                probe=evaluate(layer,measure,scope)
+                if layer['id']=='top':probe.evidence['declared_context']=context
+                return probe
+            a.evaluate=read
+            self.assertNotEqual(vertical(a,'measure',{})['classification'],'REFRESH_LATENCY')
+        # An adapter declaration cannot override the requested scoped read.
+        self.assertNotEqual(vertical(Direct(),'measure',{'filters':[{'column':'Region','values':['North']} ]})['classification'],'REFRESH_LATENCY')
+
+    def test_final_validation_rechecks_contexts_against_original_reads(self):
+        for target in ('read-top','read-lower','boundary-1-comparison'):
+            r=vertical(Direct(),'measure',{});observations={o['id']:o for o in r['_observations']}
+            if target=='boundary-1-comparison':observations[target]['upper_declared_context']=None
+            else:observations[target]['declared_context']=None
+            with self.assertRaisesRegex(ValueError,'equivalent declared contexts'):
+                process_outcomes.validate(r,observations)
 
     def test_transformation_never_reclassified_as_freshness(self):
         self.assertEqual(vertical(Direct(transforms=True),'measure',{})['classification'],'TRANSFORMATION_LOGIC')

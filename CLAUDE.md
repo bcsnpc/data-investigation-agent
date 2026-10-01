@@ -113,6 +113,16 @@ snapshots limit that claim. Optional estate-configured metadata timing uses its 
 explicit identity provenance, never substitutes for quantity-reader evidence and
 never selects an outcome.
 
+## Comparison-based freshness context (2026-10-01)
+
+An unchanged declared source expression does not establish equivalent read context.
+Comparison-based REFRESH_LATENCY requires explicit matching whole-entity context
+on both completed observations, rechecked against the originals at validation.
+Missing context is unknown; filtered/grouped scope is unsupported by this narrow
+rule. Never infer empty context from an absent field or use differently scoped
+quantities as freshness evidence. This states query scope, not the user's active
+report selection. See docs/freshness-context-and-filter-fixture-plan.md.
+
 ## Evidence discipline
 
 Reachable depth is a property of the estate, not the engine. The operator's

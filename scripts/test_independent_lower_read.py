@@ -104,6 +104,13 @@ class CompileTests(unittest.TestCase):
         self.assertEqual(probe.surface_reportable, ('identity', 'object'))
         self.assertEqual(probe.evidence['binding_provenance'], 'DECLARED_BY_DEFINITION')
 
+    def test_compiled_presentation_and_source_reads_record_context_explicitly(self):
+        from investigator.refresh_comparison import whole_entity_context
+        h=Harness()
+        self.assertEqual(h.evaluate({'id':'top'}).evidence['declared_context'],whole_entity_context())
+        self.assertEqual(h.evaluate(declared_layer()).evidence['declared_context'],whole_entity_context())
+        self.assertIsNone(h.evaluate({'id':'top'},scope={'dimension_ids':['unknown']}).evidence['declared_context'])
+
     def test_the_read_leaves_a_sealed_receipt(self):
         from investigator.receipt_integrity import verify
         h = Harness(); probe = h.evaluate(declared_layer())

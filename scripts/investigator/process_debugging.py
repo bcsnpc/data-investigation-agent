@@ -413,7 +413,9 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             'lower_execution_surface':lower.execution_surface,
             'upper_surface_attestation':(upper.evidence or {}).get('surface_attestation'),
             'lower_surface_attestation':(lower.evidence or {}).get('surface_attestation'),
-            'lower_binding_provenance':(lower.evidence or {}).get('binding_provenance')},'comparison',
+            'lower_binding_provenance':(lower.evidence or {}).get('binding_provenance'),
+            'upper_declared_context':(upper.evidence or {}).get('declared_context'),
+            'lower_declared_context':(lower.evidence or {}).get('declared_context')},'comparison',
             *(['flow_consistency'] if chain_connected and upper.value==lower.value else []))
         observations.append(comparison)
         if upper.value==lower.value:
@@ -424,9 +426,11 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         boundary={'upper':layers[index-1],'lower':lower_layer,'index':index,
                   'upper_probe':upper,'lower_probe':lower}
         if index==1 and 'declared_source_comparison' in available:
-            from .refresh_comparison import valid_proof
+            from .refresh_comparison import valid_proof,equivalent_context
             proof=adapter.direct_source_comparison(boundary,scope)
-            if valid_proof(proof,upper.layer,lower.layer,measure_id):
+            if (valid_proof(proof,upper.layer,lower.layer,measure_id)
+                and not scope.get('filters') and not scope.get('dimension_ids')
+                and equivalent_context(comparison)):
                 reason=gap_reasons.get('presentation_freshness','Refresh timestamps are unavailable to the diagnostic reader under its approved permissions.')
                 timing={'status':'UNAVAILABLE','reason':reason}
                 if 'refresh_timing' in available:
