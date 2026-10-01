@@ -1769,3 +1769,8 @@ Engine-rendered question coverage now precedes both outputs. Saved freshness tic
 ## 2026-10-01 - Freshness context precondition and fixture plan
 
 #290 merged after six green checks. Comparison-based REFRESH_LATENCY now requires matching explicit whole-entity contexts on both completed reads; final validation rechecks the original observations. Missing/filtered/grouped context cannot select that rule. All 1,327 regression tests passed. A separate predicate-carrying report is proposed for the fixture, with discovery/context and approval effects documented; no estate item was published. See [report](freshness-context-and-filter-fixture-plan.md).
+
+
+## 2026-10-01 - Published predicate fixture
+
+Current result (2026-10-01): [Published predicate fixture](report-filter-fixture-publication.md). #291 merged after six green checks. A separate report bound to the existing model was published by admin@skynwhy.com. The served definition retains real predicates in both saved slicer selections, the page filter, visual filter and Data-enabled bookmark; all 14 submitted JSON report parts are structurally unchanged. Reader baseline before/after is 8,765 / 8,765. Seven reads and one create request; no model calls, credits, permission or policy changes. This establishes retained predicates, not visual rendering or investigator reproduction. No rescan, re-approval or filter capability work.
