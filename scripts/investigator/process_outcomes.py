@@ -245,13 +245,14 @@ def validate(assessment, observations):
             for comparison in comparisons):
         raise ValueError('Boundary attribution baseline must be immediately above the divergent boundary')
     if outcome=='REFRESH_LATENCY' and 'declared_source_comparison' in capabilities:
-        from .refresh_comparison import valid_proof,LIMIT
+        from .refresh_comparison import valid_proof,equivalent_context,LIMIT
         proofs=[observations[r] for r in groups['freshness']]
         if not any(valid_proof(p.get('direct_source_proof'),c.get('upper_layer'),c.get('lower_layer'))
+                   and equivalent_context(c,observations)
                    and p.get('comparison_id')==c['id'] and c.get('values_equal') is False
                    and p.get('reader_timing_unavailable') in assessment.get('limits',[])
                    for p in proofs for c in comparisons):
-            raise ValueError('Freshness requires an unchanged declared-source proof and its timing limitation')
+            raise ValueError('Freshness requires an unchanged declared-source proof, equivalent declared contexts and its timing limitation')
         if LIMIT not in assessment.get('limits',[]):raise ValueError('Freshness requires missing-timestamp limitation')
     if outcome in ('PRESENTATION_LOGIC','TRANSFORMATION_LOGIC'):
         claim=assessment.get('claim','').lower()

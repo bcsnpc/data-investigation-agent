@@ -1764,3 +1764,8 @@ Engine-rendered question coverage now precedes both outputs. Saved freshness tic
 ## 2026-10-01 - Report-filter design audit
 
 #289 merged after six green checks. Report-filter capability was audited against retained code, historical metadata and Microsoft schemas/APIs. A faithful declared-context reproduction is feasible within the semantic model, but no parser/test/support contract exists yet; it would establish context sufficiency, not actual user selections. Family D also needs separate filtered lower-scope equivalence for its vertical walk. No engine implementation, estate reads or model calls. See [design](report-filter-capability-design.md).
+
+
+## 2026-10-01 - Freshness context precondition and fixture plan
+
+#290 merged after six green checks. Comparison-based REFRESH_LATENCY now requires matching explicit whole-entity contexts on both completed reads; final validation rechecks the original observations. Missing/filtered/grouped context cannot select that rule. All 1,327 regression tests passed. A separate predicate-carrying report is proposed for the fixture, with discovery/context and approval effects documented; no estate item was published. See [report](freshness-context-and-filter-fixture-plan.md).

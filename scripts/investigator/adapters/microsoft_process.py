@@ -9,6 +9,7 @@ from ..flexible_tools import run as run_query
 from ..model_context import assets
 from ..process_debugging import Probe
 from ..process_quantity import quantity as _quantity
+from ..refresh_comparison import whole_entity_context
 
 
 SURFACE_IDENTITY='surface_identity'
@@ -330,6 +331,7 @@ class MicrosoftProcessAdapter:
         return Probe('NOT_COMPARABLE' if definition_check else 'OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
             'completeness':result['result']['completeness'],'values':rows,
             'request_hash':result['request_hash'],
+            'declared_context':(whole_entity_context() if not scope.get('filters') and not scope.get('dimension_ids') else None),
             'measure_id':measure_id,'dimension_id':None,
             'test_purpose':'CHECK_DECLARED_SOURCE_DEFINITION' if definition_check else 'ESTABLISH_BASELINE',
             **({'binding_provenance':(layer.get('binding') or {}).get('provenance'),
@@ -400,6 +402,7 @@ class MicrosoftProcessAdapter:
             'measure_id':measure_id,'dimension_id':None,'test_purpose':'COMPARE_DECLARED_SOURCE',
             'binding_provenance':provenance,'lower_quantity':{'source_column':compiled['source_column'],
                 'catalog_provenance':'DECLARED_BY_DEFINITION'},
+            'declared_context':whole_entity_context(),
             **({'quantity_contract':layer['quantity_contract'],'endpoint_declaration':layer.get('endpoint_evidence')}
                if 'quantity_contract' in layer else {})},
             value=_quantity(rows),query=compiled['query'],execution_surface=surface,
