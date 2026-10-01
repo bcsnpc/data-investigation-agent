@@ -1759,3 +1759,8 @@ No live run or grant. All 1,316 final regression tests passed.
 ## 2026-09-28 - Engine-rendered question coverage
 
 Engine-rendered question coverage now precedes both outputs. Saved freshness ticket E explicitly says NOT_ANSWERED, names unavailable refresh history and unassessed processing history, then reports the unchanged TRANSFORMATION_LOGIC finding. Offline production assembly validated with original evidence and payload unchanged (15,405 characters), zero reads and zero model calls. Explicit text recognition is conservative: full question completion is not inferred from an outcome label. All 1,324 final regression tests passed. #288 merged after six green checks. See [report](question-answer-account.md).
+
+
+## 2026-10-01 - Report-filter design audit
+
+#289 merged after six green checks. Report-filter capability was audited against retained code, historical metadata and Microsoft schemas/APIs. A faithful declared-context reproduction is feasible within the semantic model, but no parser/test/support contract exists yet; it would establish context sufficiency, not actual user selections. Family D also needs separate filtered lower-scope equivalence for its vertical walk. No engine implementation, estate reads or model calls. See [design](report-filter-capability-design.md).
