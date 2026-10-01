@@ -103,7 +103,9 @@ class SynthesisTests(unittest.TestCase):
             result=agent.synthesize(state['id'],synthesis.azure_synthesize)
         self.assertEqual(result['synthesis']['status'],'COMPLETED')
         self.assertEqual(result['synthesis']['assessment']['support'],source['assessment']['support'])
-        self.assertEqual(result['outcome']['synthesis_outputs']['business_output']['explanation'],business)
+        self.assertTrue(result['outcome']['synthesis_outputs']['business_output']['explanation']['text'].endswith(business['text']))
+        from investigator.question_account import validate as validate_account
+        validate_account(result['outcome']['synthesis_outputs'],source)
         self.assertEqual(result['outcome']['synthesis_outputs']['technical_output']['mandatory_limits'],source['assessment']['limits'])
 
     def test_container_display_labels_do_not_change_model_payload_or_coverage(self):

@@ -65,6 +65,9 @@ def assemble(response,payload,state):
     value=copy.deepcopy(response.narrative)
     Draft202012Validator(schema(payload)).validate(value)
     evidence_prose.validate(value['technical_output']['text'],limits.ASSESSMENT_CLAIM)
+    import re
+    if re.search(r'\b(?:you asked|answer to your question|partly answered|not answered)\b',value['technical_output']['text'],re.I):
+        raise ValueError('Question coverage belongs to the engine, not model commentary')
     path_narrative.validate_mechanism(value['technical_output']['text'],state['assessment']['limits'])
     source=state['assessment']
     if value['business_output']['text']!=business_text(source['classification'],payload):
@@ -94,5 +97,7 @@ def assemble(response,payload,state):
     outputs['business_output']['vocabulary_evidence']=[
         {'evidence_id':e['id'],'terms':copy.deepcopy(e['result']['business_vocabulary'])}
         for e in payload['evidence'] if e.get('result',{}).get('business_vocabulary')]
-    return assessment,{'version':4,'provenance':'LLM_INFERRED',
+    from .question_account import attach
+    attach(outputs,state)
+    return assessment,{'version':5,'provenance':'LLM_INFERRED',
                        'source_assessment_hash':digest(source),**outputs}

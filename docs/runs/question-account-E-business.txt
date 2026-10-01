@@ -1,0 +1,6 @@
+You asked: Inventory Health e1b8e1 Handled Quantity may be stale. Inspect the available refresh and processing history and explain whether freshness can be established. I have not supplied a freshness SLA.
+Answer to your question: Not answered.
+Regarding whether the reported information is current: No completed currency check establishes whether the reported information is current. Refresh history was unavailable to the diagnostic reader. Processing history was not assessed before the investigation stopped.
+What was found instead:
+
+The report showed 8,765 for movements, matching the total used to prepare it. An earlier check of movements returned 7,661; the difference appears in the step that matches movements with rates. Several matching rates can cause an entry to contribute more than once. We have not confirmed the repeated matches, whether the checks describe the same moment, whether this matching rule is intended, or how movements were first entered. Recommended action: Ask the responsible business owner whether this behavior is intended; request a change if it is not.

@@ -57,7 +57,7 @@ class RefreshComparisonTests(unittest.TestCase):
         refs=[e['id'] for e in entries]
         response={'business_output':{'text':narrative.business_text(r['classification'],payload),'evidence_ids':refs},
                   'technical_output':{'text':narrative.path_narrative.summary(payload),'evidence_ids':refs}}
-        _,outputs=narrative.assemble(narrative.Response(response),payload,{'assessment':r,'observations':observations})
+        _,outputs=narrative.assemble(narrative.Response(response),payload,{'envelope':{'symptom':'Is the report stale?'},'assessment':r,'observations':observations})
         for key in ('business_output','technical_output'):
             self.assertIn(refresh_comparison.LIMIT,outputs[key]['mandatory_limits'])
             self.assertIn('unavailable',outputs[key]['explanation']['text'])
