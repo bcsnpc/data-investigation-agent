@@ -20,10 +20,20 @@ class OutcomeContractTests(unittest.TestCase):
             observations['comparison']['lower_execution_surface']={
                 'engine':'lower-engine','connection':'lower-connection','object':'lower-object'}
             observations['comparison']['lower_layer']='layer-2'
+            from investigator.process_debugging import attest_surface
+            from investigator.surface_difference import grade
+            originals=[]
             for side in ('upper','lower'):
-                observations['comparison'][side+'_surface_attestation']={'status':'MATCHED',
-                    'consistency':'MATCHED','coverage':'FULL',
-                    'attested_fields':['identity','object'],'unattested_fields':[]}
+                surface=dict(observations['comparison'][side+'_execution_surface'],identity='reader')
+                observations['comparison'][side+'_execution_surface']=surface
+                receipt={'id':side+'-quantity','status':'COMPLETED','execution_surface':surface,
+                    'surface_report':dict(surface),'surface_report_types':{k:('ENGINE_PRODUCT' if k=='engine' else 'TEST_'+k) for k in surface},
+                    'surface_report_binding':'VALUE_QUERY','surface_report_receipt_id':side+'-quantity',
+                    'surface_attestation':attest_surface(surface,surface)}
+                observations[receipt['id']]=receipt;originals.append(receipt)
+                observations['comparison'][side+'_surface_attestation']=receipt['surface_attestation']
+                observations['comparison'][side+'_evidence_id']=receipt['id']
+            observations['comparison']['surface_difference']=grade(*originals)
         refs=list(observations)
         process={'procedure_step':1,'recommended_action':process_outcomes.ACTIONS[outcome],
           'visibility_boundary':{'deepest_layer':'layer-1','stopped_by':'REACHED','evidence_ids':refs[:1]},
@@ -70,7 +80,7 @@ class OutcomeContractTests(unittest.TestCase):
         assessment,observations=self.valid('CONSISTENT_TO_BOUNDARY')
         observations['comparison']['lower_execution_surface']=copy.deepcopy(
             observations['comparison']['upper_execution_surface'])
-        with self.assertRaisesRegex(ValueError,'successful equal boundary comparison'):
+        with self.assertRaisesRegex(ValueError,'both surfaces to be attested'):
             process_outcomes.validate(assessment,observations)
 
     def test_every_verification_claim_requires_the_matching_comparison_result(self):
@@ -132,7 +142,8 @@ class Adapter:
         return Probe('OBSERVED',identity,{'id':'read-'+identity,'tool':'probe'},self.values[identity],
                      query='READ '+identity,execution_surface={
                          'engine':'test','connection':'connection-'+identity,'object':identity,'identity':'reader'},
-                     surface_report=report,surface_reportable=self.reportable.get(identity,('identity','object')))
+                     surface_report=report,surface_reportable=self.reportable.get(identity,('identity','object')),
+                     surface_report_types={k:('ENGINE_PRODUCT' if k=='engine' else 'TEST_'+k) for k in (report or {})},surface_report_binding='VALUE_QUERY')
     def presentation_context(self,boundary,scope):return {'status':'COMPLETED','explains':False,'evidence':{'id':'presentation-definition','tool':'context'}}
     def transformation_definition(self,boundary):
         return {'status':'COMPLETED','explains':bool(self.explain),'explanation':'A retrieved rule accounts for the difference.',
@@ -306,7 +317,7 @@ class VerticalProcedureTests(unittest.TestCase):
         def evaluate(layer,measure,scope):
             probe=original(layer,measure,scope)
             return Probe(probe.status,probe.layer,probe.evidence,probe.value,probe.reason,probe.query,same,
-                         {'identity':'reader','object':'model'})
+                         {'identity':'reader','object':'model'},surface_report_types={'object':'TEST_object'},surface_report_binding='VALUE_QUERY')
         adapter.evaluate=evaluate
         result=vertical(adapter,'measure',{})
         self.assertEqual(result['classification'],'NO_COMPARABLE_PATH')
@@ -472,7 +483,7 @@ class VerticalProcedureTests(unittest.TestCase):
         self.assertEqual(probe.status,'NOT_COMPARABLE')
         self.assertEqual(probe.reason,'NO_INDEPENDENT_LOWER_READ')
         self.assertEqual(probe.evidence['test_purpose'],'CHECK_DECLARED_SOURCE_DEFINITION')
-        self.assertEqual(probe.execution_surface['engine'],'POWER_BI_DAX')
+        self.assertEqual(probe.execution_surface['engine'],'OLAP Server')
 
     def test_presentation_context_reuses_bounded_slicer_parser(self):
         from investigator.adapters.microsoft_process import MicrosoftProcessAdapter

@@ -7,6 +7,23 @@ from investigator.onboarding import digest,encoded,Conflict
 from investigator.adaptive_runtime import AdaptiveRuntime
 import test_flexible_investigation as fixture
 
+def attested_comparison(observation,receipts):
+    from investigator.process_debugging import attest_surface
+    from investigator.surface_difference import grade
+    originals=[]
+    for side in ('upper','lower'):
+        surface=dict(observation[side+'_execution_surface'])
+        surface.setdefault('identity','reader')
+        observation[side+'_execution_surface']=surface
+        o=receipts[observation[side+'_evidence_id']]
+        o.update(execution_surface=surface,surface_report=dict(surface),
+                 surface_report_types={k:('ENGINE_PRODUCT' if k=='engine' else 'TEST_'+k) for k in surface},surface_report_binding='VALUE_QUERY',
+                 surface_report_receipt_id=o['id'],surface_attestation=attest_surface(surface,surface))
+        observation[side+'_surface_attestation']=o['surface_attestation'];originals.append(o)
+    observation['surface_difference']=grade(*originals)
+    return observation
+
+
 class SynthesisTests(unittest.TestCase):
     def setUp(self):
         self.f=fixture.DynamicTests();self.f.setUp();self.addCleanup(self.f.doCleanups)
@@ -204,6 +221,19 @@ class SynthesisTests(unittest.TestCase):
         self.assertEqual(result['synthesis']['status'],'BLOCKED')
         self.assertEqual(result['synthesis']['calls'],0)
 
+    def test_quantity_report_cannot_be_borrowed_from_detached_metadata(self):
+        agent,state=self.stopped()
+        with agent.runtime.db() as db:
+            source=agent.load(db,state['id'])
+            # The query's actual sealed result has no self-report. A complete
+            # client-authored metadata report cannot fill that absence.
+            source['observations'][0].update(surface_report_binding='VALUE_QUERY',
+                surface_report={'identity':'reader','engine':'other','object':'other'})
+            agent.save(db,source,'TEST_HOSTILE_REPORT',{})
+        result=agent.synthesize(state['id'],lambda *_:self.fail('detached report dispatched'))
+        self.assertEqual(result['synthesis']['status'],'BLOCKED')
+        self.assertEqual(result['synthesis']['calls'],0)
+
     def test_invalid_citation_fails_without_refund(self):
         agent,state=self.stopped()
         def provider(p,o):
@@ -267,7 +297,8 @@ class SynthesisTests(unittest.TestCase):
         for role,o in observations.items():
             o.update(tool='process' if role=='comparison' else 'bounded_dax',completeness='COMPLETE_RESPONSE')
         observations['baseline']['test_purpose']='ESTABLISH_BASELINE'
-        payload={'evidence':[{'id':key} for key in observations]}
+        payload={'evidence':[{'id':key,**({'result':{'surface_difference':copy.deepcopy(o['surface_difference'])}}
+            if 'surface_difference' in o else {})} for key,o in observations.items()]}
         value=self.answer(payload)
         value['classification']='CONSISTENT_TO_BOUNDARY'
         value['support'].update(intent_dependency='NOT_REQUIRED',measure_connection='ESTABLISHED',
@@ -412,6 +443,7 @@ class SynthesisTests(unittest.TestCase):
           'values_equal':True,'upper_evidence_id':query['id'],'lower_evidence_id':lower['id'],
           'upper_execution_surface':upper_surface,'lower_execution_surface':lower_surface}
         state['observations']=[query,lower,process]
+        attested_comparison(process,{x['id']:x for x in state['observations']})
         derived=synthesis_digest._process_evidence(process,{x['id']:x for x in state['observations']})
         self.assertEqual(derived['comparison_status'],'CROSS_SURFACE_VERIFIED')
         self.assertEqual(derived['referenced_evidence_ids'],[query['id'],lower['id']])
@@ -428,24 +460,22 @@ class SynthesisTests(unittest.TestCase):
             synthesis_digest._process_evidence(observation,{x['id']:x for x in state['observations']})
 
     def test_process_surface_identity_is_evidence_never_surface_equality(self):
-        receipts={key:{'id':key,'status':'COMPLETED','values':[1]} for key in ('upper','lower')}
-        for identity in (None,'same-reader','different-reader'):
-            with self.subTest(identity=identity):
-                upper={'engine':'engine','connection':'connection','object':'object','identity':'same-reader'}
-                lower={**upper}
-                if identity is None:lower.pop('identity')
-                else:lower['identity']=identity
-                observation={'comparison_status':'CROSS_SURFACE_VERIFIED','values_equal':True,
-                    'upper_evidence_id':'upper','lower_evidence_id':'lower',
-                    'upper_execution_surface':upper,'lower_execution_surface':lower}
-                with self.assertRaisesRegex(Conflict,'Cross-surface'):
-                    synthesis_digest._process_evidence(observation,receipts)
-                for field in ('engine','connection','object'):
-                    distinct={**lower,field:'other'}
-                    observation['lower_execution_surface']=distinct
-                    result=synthesis_digest._process_evidence(observation,receipts)
-                    self.assertEqual(result['upper_execution_surface'],upper)
-                    self.assertEqual(result['lower_execution_surface'],distinct)
+        for identity in ('same-reader','different-reader'):
+            for field in ('identity','connection','engine','object'):
+                with self.subTest(identity=identity,field=field):
+                    receipts={key:{'id':key,'status':'COMPLETED','values':[1]} for key in ('upper','lower')}
+                    upper={'engine':'engine','connection':'connection','object':'object','identity':'same-reader'}
+                    lower={**upper,'identity':identity,field:'other'}
+                    observation={'comparison_status':'CROSS_SURFACE_VERIFIED','values_equal':True,
+                        'upper_evidence_id':'upper','lower_evidence_id':'lower',
+                        'upper_execution_surface':upper,'lower_execution_surface':lower}
+                    attested_comparison(observation,receipts)
+                    if field in ('engine','object'):
+                        result=synthesis_digest._process_evidence(observation,receipts)
+                        self.assertEqual(result['surface_difference']['differing_field'],field)
+                    else:
+                        with self.assertRaisesRegex(Conflict,'Cross-surface'):
+                            synthesis_digest._process_evidence(observation,receipts)
 
     def test_process_comparison_normalizes_aliases_but_rejects_different_quantity(self):
         from investigator.process_quantity import quantity
@@ -457,6 +487,7 @@ class SynthesisTests(unittest.TestCase):
             'upper_evidence_id':'upper','lower_evidence_id':'lower',
             'upper_execution_surface':{'engine':'a','connection':'a','object':'a','identity':'reader'},
             'lower_execution_surface':{'engine':'b','connection':'b','object':'b','identity':'reader'}}
+        attested_comparison(observation,refs)
         quantities={'upper':quantity(upper['values'],{'identity':'surface_identity'}),
                     'lower':quantity(lower['values'])}
         self.assertTrue(synthesis_digest._process_evidence(observation,refs,quantities)['values_equal'])

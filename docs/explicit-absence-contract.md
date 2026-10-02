@@ -170,3 +170,21 @@ proposes demonstrated difference on comparable query-bound self-reported
 fields with explicit omissions; this is a proposal, not an implemented
 standard or a requalification of any historical outcome. Intake and wiring
 remain queued; draft #297 and Family D evidence remain unchanged.
+
+
+## Dated ruling: graded quantity-bound surfaces (2026-10-02)
+
+The user's ruling supersedes #299's FULL-coverage boundary gate. Coverage remains
+recorded; comparable quantity-bound self-report differences now grade as
+ENGINE_INDEPENDENT or OBJECT_DISTINCT. Connection-only difference is within-layer;
+identity/version-only and incompatible report kinds cannot establish a boundary.
+The engine recomputes grades from original quantity observations and renders the
+stronger/weaker wording into both outputs. Missing fields stay explicit and
+SNAPSHOT_UNVERIFIED is unchanged. The Microsoft adapter's combined quantity and
+self-description queries are regression-tested, not yet live-verified.
+
+See [implementation and historical counterfactual](graded-surface-attestation.md). Probe PR #301
+merged at 56a1545 with six green checks. Prior runs, corrections and ledger rows
+remain unchanged; no investigation run or ledger row here. Engine bytes changed,
+invalidating prior freezes. Intake evidence resolution and target/figure wiring
+remain next; draft #297 remains open.

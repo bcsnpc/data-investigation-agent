@@ -86,7 +86,7 @@ class SnapshotTests(unittest.TestCase):
             state['assessment']['limits'].append(snapshot.limitation(original,1))
             entry=next(e for e in payload['evidence'] if e['id']=='comparison')
             entry.update(tool='process',result={'comparison_status':'CROSS_SURFACE_VERIFIED',
-                'values_equal':original['values_equal'],'snapshot_attestation':copy.deepcopy(original['snapshot_attestation'])})
+                'values_equal':original['values_equal'],'surface_difference':copy.deepcopy(original['surface_difference']),'snapshot_attestation':copy.deepcopy(original['snapshot_attestation'])})
             _,outputs=narrative.assemble(narrative.Response(helper.response(payload)),payload,state)
             for key in ('business_output','technical_output'):
                 self.assertEqual(outputs[key]['snapshot_attestations'][0]['status'],snapshot.UNVERIFIED)

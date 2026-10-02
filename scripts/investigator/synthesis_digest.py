@@ -124,8 +124,10 @@ def _process_evidence(observation,by_id,quantities=None):
   if surface is not None and _surface_key(surface) is None:
    raise Conflict('Process execution surface differs')
  if status=='CROSS_SURFACE_VERIFIED':
-  if (len(referenced)!=2 or _surface_key(upper) is None or _surface_key(lower) is None
-      or _surface_key(upper)==_surface_key(lower) or type(observation.get('values_equal')) is not bool):
+  from .surface_difference import validate
+  try:validate(observation,by_id)
+  except ValueError as exc:raise Conflict('Cross-surface process receipt differs: '+str(exc)) from exc
+  if (len(referenced)!=2 or type(observation.get('values_equal')) is not bool):
    raise Conflict('Cross-surface process receipt differs')
   if quantities is not None and any(ref not in quantities for ref in refs):
    raise Conflict('Process comparison requires verified quantity receipts')
@@ -134,7 +136,7 @@ def _process_evidence(observation,by_id,quantities=None):
    raise Conflict('Process comparison differs from referenced observations')
  from .snapshot_attestation import checked
  snapshot=checked(observation)
- return {'snapshot_attestation':snapshot,'comparison_status':status,'upper_layer':observation.get('upper_layer'),
+ return {'surface_difference':observation.get('surface_difference'),'snapshot_attestation':snapshot,'comparison_status':status,'upper_layer':observation.get('upper_layer'),
          'lower_layer':observation.get('lower_layer'),'reason':observation.get('reason'),
          'values_equal':observation.get('values_equal'),'upper_execution_surface':upper,
          'lower_execution_surface':lower,'referenced_evidence_ids':[ref for ref in refs if ref],
@@ -163,6 +165,10 @@ def build(state,db):
    compiled={k:v for k,v in request.items() if k!='plan'}
    if digest(expected)!=digest(o['values']) or digest(compiled)!=o['request_hash']:
     raise Conflict('Synthesis observation differs from sealed receipt')
+   if o.get('surface_report_binding')=='VALUE_QUERY':
+    if (o.get('surface_report')!=result.get('surface_report')
+        or result.get('surface_report_binding')!='VALUE_QUERY'):
+     raise Conflict('Quantity-bound surface report differs from sealed value receipt')
    q=request.get('plan',{}).get('query',request.get('query',''))
    rows=o['values']
    quantities[o['id']]=quantity(rows,request.get('surface_report_columns'))

@@ -9,7 +9,7 @@ from dataclasses import dataclass,replace,field
 from typing import Protocol
 from .process_outcomes import ACTIONS,EVIDENCE_ROLES
 
-VERSION='process-debugging-v2'
+VERSION='process-debugging-v3-graded-surfaces'
 REQUIRED_CAPABILITIES=frozenset(('resolve_measure_path','evaluate_scoped_quantity'))
 OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','refresh_timing','snapshot_identity','declared_source_comparison','presentation_context',
     'transformation_definition','job_history','ingestion','independent_lower_surface','failure_detail',
@@ -38,6 +38,9 @@ class Probe:
     surface_report: dict | None = None   # the surface's own answer, never the client's belief
     surface_reportable: tuple = ()        # declared fields this surface is able to report
     failure: dict | None = None           # why the probe is UNAVAILABLE, as specifically as known
+
+    surface_report_types: dict | None = None
+    surface_report_binding: str | None = None
 
     def __post_init__(self):
         if self.status not in ('OBSERVED','NOT_COMPARABLE','UNAVAILABLE'):
@@ -93,23 +96,23 @@ def attest(probe):
     """A probe that claims a surface is observed only if the surface agrees."""
     if probe.evidence is None or probe.status=='UNAVAILABLE':return probe
     result=attest_surface(probe.execution_surface,probe.surface_report,probe.surface_reportable)
-    evidence=dict(probe.evidence,value_state=probe.value_state,surface_report=probe.surface_report,surface_attestation=result)
+    evidence=dict(probe.evidence,value_state=probe.value_state,surface_report=probe.surface_report,surface_attestation=result,
+                  surface_report_types=probe.surface_report_types,surface_report_binding=probe.surface_report_binding,
+                  surface_report_receipt_id=probe.evidence['id'] if probe.surface_report_binding=='VALUE_QUERY' else None)
     if result['status'] in ('MATCHED','PARTIAL'):
-        return Probe(probe.status,probe.layer,evidence,probe.value,probe.reason,probe.query,
-                     probe.execution_surface,probe.surface_report,probe.surface_reportable)
+        return replace(probe,evidence=evidence)
     # Deliberate: a failed attestation outranks every other status. A probe that
     # was NOT_COMPARABLE and also untrusted is reported as untrusted, and its
     # prior status is kept in the evidence so the distinction is not lost.
     evidence['status_before_attestation']=probe.status
-    return Probe('UNAVAILABLE',probe.layer,evidence,NoValue('FAILED'),result['reason'],probe.query,
-                 probe.execution_surface,probe.surface_report,probe.surface_reportable)
+    return replace(probe,status='UNAVAILABLE',evidence=evidence,value=NoValue('FAILED'),reason=result['reason'])
 
 
 def unattested_surface_fields(observations):
     """Every field of a compared surface that its surface did not report."""
     result=[]
     for o in observations:
-        if o.get('tool')!='process' or (o.get('comparison_status') not in ('CROSS_SURFACE_VERIFIED','NOT_COMPARABLE')
+        if o.get('tool')!='process' or (o.get('comparison_status') not in ('CROSS_SURFACE_VERIFIED','NOT_COMPARABLE','WITHIN_LAYER_CHECK')
                 and o.get('check_kind')!='DECLARED_CONTEXT_REPRODUCTION'):continue
         for side in ('upper','lower'):
             attestation=o.get(side+'_surface_attestation') or {}
@@ -236,6 +239,7 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
     bindings=[{'upper_layer':o.get('upper_layer'),'lower_layer':o.get('lower_layer'),
                'provenance':o.get('lower_binding_provenance')} for o in comparisons]
     inferred=[b for b in bindings if b['provenance']=='INFERRED_FROM_CODE']
+    grades=[{'comparison_id':o['id'],**o['surface_difference']} for o in comparisons]
     return {'classification':outcome,'terminating_step':step,
             'claim':explanation or outcome.replace('_',' ').title(),
             'evidence_ids':evidence_ids,
@@ -258,14 +262,14 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                                'recommended_action':ACTIONS[outcome],
                                'failures':list(failures),
                                'unattested_surface_fields':unattested,
-                               'compared_bindings':bindings,
+                               'compared_bindings':bindings,'surface_difference_grades':grades,
                                'skipped_steps':list(skipped_steps)},
             'technical_output':{'failures':list(failures),'recommended_action':ACTIONS[outcome],
                                 'queries':[{'evidence_id':o['id'],'query':o['query']}
                                for o in observations if o.get('query')],
                                 'visibility_boundary':process['visibility_boundary'],
                                 'unattested_surface_fields':unattested,
-                                'compared_bindings':bindings,
+                                'compared_bindings':bindings,'surface_difference_grades':grades,
                                 'skipped_steps':list(skipped_steps),
                                 'capabilities_declared':capability_declaration(capabilities),
                                 'boundary_summary':{'resolved_boundaries':len(comparisons),
@@ -446,30 +450,23 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                 'lower_execution_surface':lower.execution_surface})
             observations.append(marker);gaps.append(marker);upper=lower;chain_connected=False
             continue
-        if upper_surface != lower_surface and any((p.evidence or {}).get('surface_attestation',{}).get('status')!='MATCHED' for p in (upper,lower)):
-            marker=_observation({'id':f'boundary-{index}-partial-attestation','tool':'process',
-                'upper_layer':upper.layer,'lower_layer':lower.layer,'comparison_status':'NOT_COMPARABLE',
-                'reason':'SURFACE_COVERAGE_INSUFFICIENT_FOR_CROSS_SURFACE_COMPARISON',
+        from .surface_difference import grade,BOUNDARY_GRADES,WITHIN_LAYER
+        difference=grade(upper.evidence,lower.evidence)
+        if difference['grade'] not in BOUNDARY_GRADES:
+            marker=_observation({'id':f'boundary-{index}-surface-difference','tool':'process',
+                'upper_layer':upper.layer,'lower_layer':lower.layer,
+                'comparison_status':'WITHIN_LAYER_CHECK' if difference['grade']==WITHIN_LAYER else 'NOT_COMPARABLE',
+                'reason':difference['reason'],'surface_difference':difference,
+                'values_equal':upper.value==lower.value,
                 'upper_evidence_id':upper.evidence['id'],'lower_evidence_id':lower.evidence['id'],
                 'upper_execution_surface':upper.execution_surface,'lower_execution_surface':lower.execution_surface,
                 'upper_surface_attestation':upper.evidence.get('surface_attestation'),
-                'lower_surface_attestation':lower.evidence.get('surface_attestation')})
-            observations.append(marker);gaps.append(marker);upper=lower;chain_connected=False
-            continue
-        if upper_surface is None or lower_surface is None or upper_surface==lower_surface:
-            reason='NO_INDEPENDENT_LOWER_READ'
-            marker=_observation({'id':f'boundary-{index}-not-comparable','tool':'process',
-                'upper_layer':upper.layer,'lower_layer':lower.layer,'comparison_status':'WITHIN_LAYER_CHECK',
-                'reason':reason,'values_equal':upper.value==lower.value,
-                'upper_evidence_id':upper.evidence.get('id') if upper.evidence else None,
-                'lower_evidence_id':lower.evidence.get('id') if lower.evidence else None,
-                'upper_execution_surface':upper.execution_surface,
-                'lower_execution_surface':lower.execution_surface},'definition_check')
+                'lower_surface_attestation':lower.evidence.get('surface_attestation')},'definition_check')
             observations.append(marker);gaps.append(marker);upper=lower;chain_connected=False
             continue
         comparison=_observation({'id':f'boundary-{index}-comparison','tool':'process',
             'upper_layer':upper.layer,'lower_layer':lower.layer,
-            'comparison_status':'CROSS_SURFACE_VERIFIED',
+            'comparison_status':'CROSS_SURFACE_VERIFIED','surface_difference':difference,
             'values_equal':upper.value==lower.value,
             'upper_evidence_id':upper.evidence.get('id') if upper.evidence else None,
             'lower_evidence_id':lower.evidence.get('id') if lower.evidence else None,

@@ -43,7 +43,7 @@ def _casefold(term):
 
 
 COMMENTARY_FORBIDDEN=(r'\d|\b(?:'+'|'.join(_casefold(w) for w in
-    ('upstream','downstream','input','output','feeds','fixed boundary account',
+    ('independent','independence','upstream','downstream','input','output','feeds','fixed boundary account',
      'fixed account','boundary account','path facts','rendered facts','rendered spine',
      'fixed spine','account states','account shows','account describes','see the table'))+r')\b')
 

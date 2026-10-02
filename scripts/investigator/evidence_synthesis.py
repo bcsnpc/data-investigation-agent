@@ -88,6 +88,9 @@ def validate(value,payload,*,source_state):
     from .snapshot_attestation import checked
     for entry in payload['evidence']:
         original_entry=by_id[entry['id']]
+        if 'surface_difference' in original_entry:
+            if entry.get('result',{}).get('surface_difference')!=original_entry['surface_difference']:
+                raise Conflict('Synthesis projection dropped or changed surface difference grade')
         if 'snapshot_attestation' in original_entry:
             if entry.get('result',{}).get('snapshot_attestation')!=checked(original_entry):
                 raise Conflict('Synthesis projection dropped or changed snapshot attestation')

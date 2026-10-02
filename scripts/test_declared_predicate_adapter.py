@@ -92,7 +92,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         def execute(request):
             self.requests.append(copy.deepcopy(request))
             response = {'results': [{'tables': [{'rows': [{'quantity': 3,
-                'surface_identity': self.reader['account']}]}]}]}
+                'surface_identity': self.reader['account'],'surface_engine':'OLAP Server','surface_object':self.model['native_id']}]}]}]}
             response[native_identity.KEY] = native_identity.make(response, request, self.reader)
             return response
         def meter(tool, read): self.meters.append(tool); return read()
@@ -287,6 +287,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
                     self.requests.append(request)
                     row = {'quantity': 3}
                     if len(self.requests) != fail_at: row['surface_identity'] = self.reader['account']
+                    row.update(surface_engine='OLAP Server',surface_object=self.model['native_id'])
                     response = {'results': [{'tables': [{'rows': [row]}]}]}
                     response[native_identity.KEY] = native_identity.make(response, request, self.reader)
                     return response

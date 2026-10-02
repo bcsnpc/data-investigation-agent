@@ -56,6 +56,7 @@ class RefreshComparisonTests(unittest.TestCase):
             if e['id']=='declared-source-freshness':e.update(_context_evidence(next(o for o in observations if o['id']==e['id'])))
         for e in entries:
             original=next(o for o in observations if o['id']==e['id'])
+            if 'surface_difference' in original:e.setdefault('result',{})['surface_difference']=original['surface_difference']
             if 'snapshot_attestation' in original:e.setdefault('result',{})['snapshot_attestation']=original['snapshot_attestation']
         payload={'evidence':entries,'deterministic_process_finding':{'classification':r['classification']}}
         refs=[e['id'] for e in entries]

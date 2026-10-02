@@ -89,14 +89,14 @@ def business_text(outcome, payload=None):
                    'The retrieved definition supplies no usable business names for the compared entries; their origin, update timing and intended treatment remain unconfirmed.')
         return ' '.join((first,compared,mechanism,remaining,'Recommended action: '+action(outcome)['text']))
     if agrees:
-        compared=('An independent check of the total used to prepare the report agreed'+
+        compared=('A separate check of the total used to prepare the report agreed'+
                   (', but a comparison further back found a different total.' if differs else '.'))
         ruled_out='This rules out a report-to-input difference within these checks, but does not prove the original records are correct.'
     elif immediate is not None:
-        compared='An independent check of the total used to prepare the report found a different total.'
+        compared='A separate check of the total used to prepare the report found a different total.'
         ruled_out='These checks establish a difference, but do not by themselves establish which total is correct.'
     else:
-        compared='The available evidence did not establish an independent comparison with the total used to prepare the report.'
+        compared='The available evidence did not establish a boundary comparison with the total used to prepare the report.'
         ruled_out='A difference between the report and its input therefore remains possible.'
     remaining=('A documented processing rule can explain the difference, but its intended meaning, the original entries and update timing remain unverified.'
                if outcome=='TRANSFORMATION_LOGIC' else

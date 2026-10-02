@@ -71,6 +71,18 @@ class Parser:
         return result
 
     def atom(self):
+        # Narrow scalar self-description, not general INFO-table access or a
+        # bypass of catalog binding. Exact token grammar keeps synthetic rowset
+        # columns out of model-member resolution everywhere else.
+        for property_name in ('ProviderName','Catalog'):
+            expression='MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]="'+property_name+'"),[Value])'
+            expected,_=tokenize(expression)
+            candidate=self.tokens[self.i:self.i+len(expected)]
+            if [(k,v.upper() if k=='name' else v) for k,v in candidate]==[(k,v.upper() if k=='name' else v) for k,v in expected]:
+                self.i+=len(expected)
+                # Preserve the expression in the compiled fingerprint rather
+                # than erasing it or disabling existing scope deduplication.
+                return expression,'scalar'
         kind,value=self.take()
         if value in ('+','-') or value.upper()=='NOT':
             child,_=self.atom();return value+' '+child,'scalar'
