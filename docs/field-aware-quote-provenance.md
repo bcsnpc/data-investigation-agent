@@ -15,3 +15,7 @@ Twelve quote tests and five admission/retry tests pass. They cover repeated enti
 All twelve first-attempt intake payloads remain byte-identical (1,050?1,952 characters); their catalogs and wire schemas are unchanged. Instruction constants change 4,442 -> 4,513 characters. Golden directory coverage remains 28 -> 28 entries and 11 -> 11 SQL objects. The second call adds bounded consumer-generated quote-repair context and is reserved independently. No directory compaction budget changes.
 
 No investigation run, ledger row, provider/estate read, fixture mutation, permission, credit grant or policy change occurs in this PR. Engine bytes changed, invalidating all prior freezes. Three exact saved tickets run only after this PR merges; their prior failures remain unchanged. The date-predicate fixture change remains deferred.
+
+## Dated completion (2026-10-02)
+
+PR #310 merged as `73cfe44` after six exact-head green checks. The separate resumed full suite passed all 1,558 tests in 451.705 seconds; the interrupted log remains preserved. The three subsequent [live reruns](report-scoped-reruns.md) passed quote admission but did not reach reproduction or synthesis output. The repeated measure occurrences were recorded; no figure-quote retry was needed. No fixture or policy changed.
