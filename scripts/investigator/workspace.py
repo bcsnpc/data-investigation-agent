@@ -137,6 +137,11 @@ class Workspace:
             db.execute('INSERT INTO workspace_previews VALUES (?,?,?,?)', (body['id'], model['id'], encoded(body), digest(body)))
         return body
 
+    def target_options(self,model_id,measure_id):
+        """Composition root delegates retained native extraction to the adapter."""
+        from .adapters.report_predicates import targets
+        return targets(self.store.get(model_id),measure_id)
+
     def read_preview(self, identity):
         with self.store.connect() as db:
             row = db.execute('SELECT body,hash,model_id FROM workspace_previews WHERE id=?', (identity,)).fetchone()

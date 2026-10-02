@@ -57,7 +57,10 @@ def business(text,payload):
         if finding.get('check_kind')==KIND:
             text=render(finding,business=True)+' '+text
         elif finding.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
-            text='The declared selections could not be tested with the available evidence. '+text
+            from .declared_reproduction import NO_FIGURE
+            text=('You did not provide the number shown in the report, so its saved selections could not be tested against your figure. '
+                  if finding['reason']==NO_FIGURE else
+                  'The declared selections could not be tested with the available evidence. ')+text
     from .surface_difference import wording
     statements=[]
     for entry in payload.get('evidence',[]):

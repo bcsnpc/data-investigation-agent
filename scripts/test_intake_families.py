@@ -41,6 +41,7 @@ class IntakeFamilyTests(unittest.TestCase):
                 value=json.loads(output['arguments'])
                 shape=value.pop('ticket_shape');mode=value.pop('comparison_mode')
                 value['triage']=shape+':'+mode if shape is not None else None
+                value['target_request']=None
                 value['reported_candidates']=[] # Explicit new synthetic response; the v1 fixture is unchanged.
                 output['arguments']=json.dumps(value)
             return httpx.Response(200,json=response)
@@ -60,8 +61,8 @@ class IntakeFamilyTests(unittest.TestCase):
                 expected['instructions']=expected['instructions'].replace(
                     'ticket_shape and comparison_mode are null','triage is null').replace(
                     'both triage fields are required','triage is required')
-                from investigator.question_intake import FIGURE_INSTRUCTIONS
-                expected['instructions']+=FIGURE_INSTRUCTIONS
+                from investigator.question_intake import FIGURE_INSTRUCTIONS,TARGET_INSTRUCTIONS
+                expected['instructions']+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS
                 schema=expected['tools'][0]['parameters']
                 for key in ('ticket_shape','comparison_mode'):
                     schema['properties'].pop(key);schema['required'].remove(key)
@@ -72,6 +73,10 @@ class IntakeFamilyTests(unittest.TestCase):
                 from investigator.reported_figure import SPAN_SCHEMA
                 schema['properties']['reported_candidates']={'type':'array','maxItems':8,'items':SPAN_SCHEMA}
                 schema['required'].insert(schema['required'].index('triage'),'reported_candidates')
+                from investigator.definition_target import REQUEST_SCHEMA
+                schema['properties']['target_request']=copy.deepcopy(REQUEST_SCHEMA)
+                schema['properties']['target_request']['anyOf'][2]['properties']['column_id']['enum']=schema['properties']['dimension_ids']['items']['enum']
+                schema['required'].insert(schema['required'].index('reported_candidates'),'target_request')
                 # Migrate only producer field bounds from the immutable v1 tape.
                 from investigator import proposal_limits as limits
                 for key,bound in (('metric_quote',limits.INTAKE_QUOTE),('question',limits.QUESTION)):

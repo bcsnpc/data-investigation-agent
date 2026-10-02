@@ -12,6 +12,7 @@ from . import definition_target as target
 
 VERSION = 'process-debugging-intake-v2'
 FIGURE_INSTRUCTIONS='\nSupply reported_candidates: every plausible reported-figure span, not dates, identifiers, thresholds or unrelated quantities. Each span has exact start/end/quote provenance. Do not choose between candidates. No candidates means UNSPECIFIED; an explicitly empty visual is a candidate too. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
+TARGET_INSTRUCTIONS='\nSupply target_request or null. For a stated selection whose column is unclear, extract its exact value span into {source}; do not guess a column or ASK about its identifier before the consumer checks retained ACTIVE declarations. Anchor a PROPOSE to the named measure, leave that unresolved selection out of filters, and let the consumer bind it or refuse. For an explicitly named column use {column_id,source}, with source quoting the column name itself. Other requested filters must still be preserved. A target request is translation, never an EVIDENCE resolution. ASK about real metric/model/date ambiguity still applies; ASK has target_request=null.'
 # Wire v2 encodes the relationship; persisted proposals keep their historical fields.
 TRIAGE_PAIRS = {
     'MISMATCH_COMPLAINT:VERTICAL': ('MISMATCH_COMPLAINT','VERTICAL'),
@@ -76,10 +77,11 @@ def azure_resolve(payload):
     instructions=INSTRUCTIONS.replace('scope_quotes','filter quote fields').replace(
         'ticket_shape and comparison_mode are null','triage is null').replace(
         'both triage fields are required','triage is required')+'\nUse catalog handles verbatim. Put each filter quote inside that filter object. No separate quote list.'
-    instructions+=FIGURE_INSTRUCTIONS
+    instructions+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS
     result,usage=azure_generate(wire, instructions=instructions, schema=schema, name='resolve_business_question', decision_tool=True)
     fields(result,schema['required'])
     value=copy.deepcopy(result)
+    requested=value.pop('target_request')
     try:value['reported_figure']=figure.from_candidates(value.pop('reported_candidates'),payload['text'])
     except (figure.AmbiguousFigure,figure.UnavailablePrecision) as exc:
         exc.provider_metadata=usage
@@ -93,6 +95,12 @@ def azure_resolve(payload):
         if handle not in handles:raise ValueError('Unknown catalog handle')
         return handles[handle]
     value['model_id']=actual(value['model_id']);value['measure_id']=actual(value['measure_id'])
+    if requested is not None:
+        fields(requested,['source']+(['column_id'] if 'column_id' in requested else []))
+        figure.span(requested['source'],payload['text'])
+        if 'column_id' in requested:requested['column_id']=actual(requested['column_id'])
+        if value['action']!='PROPOSE':raise ValueError('ASK cannot also request target resolution')
+        value['target_request']=requested
     value['dimension_ids']=[actual(c) for c in value['dimension_ids']]
     value['scope_quotes']=[]
     for f in value['filters']:
@@ -115,6 +123,9 @@ def wire_contract(payload):
     # Resolution is consumer-owned. The model cannot emit EVIDENCE (or any
     # target record); PR B supplies the separate stated-value extraction input.
     schema['properties'].pop('definition_target')
+    schema['properties']['target_request']=copy.deepcopy(target.REQUEST_SCHEMA)
+    schema['properties']['target_request']['anyOf'][2]['properties']['column_id']['enum']=columns or ['NO_COLUMN']
+    schema['required'].append('target_request')
     schema['properties'].pop('reported_figure');schema['required'].remove('reported_figure')
     schema['properties']['reported_candidates']={'type':'array','maxItems':figure.CANDIDATE_LIMIT,'items':figure.SPAN_SCHEMA}
     schema['required'].append('reported_candidates')
@@ -269,7 +280,22 @@ class Intake:
         usage = None; uncertain = True
         try:
             decision, usage = self.resolver(payload); uncertain = False
-            decision = validate(decision, payload)
+            validation_payload=payload
+            if 'target_request' in decision:
+                decision=copy.deepcopy(decision);requested=decision.pop('target_request')
+                if decision['action']!='PROPOSE':raise ValueError('ASK cannot also request target resolution')
+                model=next((m for m in payload['models'] if m['id']==decision['model_id']),None)
+                if not model or decision['measure_id'] not in {m['id'] for m in model['measures']}:raise ValueError('Unknown target anchor')
+                resolution,audit,proof=target.lookup(requested,ticket=combined,
+                    options=self.workspace.target_options(decision['model_id'],decision['measure_id']),columns=model['columns'])
+                decision['definition_target']=resolution;body['target_resolution']=audit
+                if proof is not None:
+                    validation_payload={**payload,**proof}
+                    if any(f['column_id']==resolution['column_id'] for f in decision['filters']):
+                        raise ValueError('Unresolved selection must not also carry a guessed filter')
+                    decision['filters'].append({'column_id':resolution['column_id'],'operator':'in','values':[proof['resolved_value']]})
+                    decision['scope_quotes'].append({'column_id':resolution['column_id'],'quote':requested['source']['quote']})
+            decision = validate(decision, validation_payload)
             if (digest(snapshot(self.workspace)) != body['catalog_hash'] or fingerprint() != body['engine_hash']
                     or digest(self.workspace.agent.config) != body['config_hash']):
                 raise Conflict('Question context changed during resolution')
@@ -278,6 +304,9 @@ class Intake:
         except figure.AmbiguousFigure as exc:
             usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
             body.update(status='NEEDS_INPUT',question='More than one ticket span could be the reported figure. Which figure should be compared?',error=None)
+        except target.ResolutionRefused as exc:
+            body.update(status='NEEDS_INPUT',question=str(exc),error=None,
+                        definition_target=exc.record,target_resolution=exc.audit)
         except figure.UnavailablePrecision as exc:
             usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
             body.update(status='NEEDS_INPUT',question='The stated precision of the reported figure is unclear. At what precision should it be compared?',error=None)
