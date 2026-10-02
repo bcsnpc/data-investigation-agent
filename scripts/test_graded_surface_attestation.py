@@ -96,9 +96,23 @@ class GradingTests(unittest.TestCase):
         c['surface_difference']['grade']=difference.ENGINE_INDEPENDENT
         with self.assertRaisesRegex(ValueError,'grade differs'):
             difference.validate(c,{'a':a,'b':b})
+
         c=comparison(a,b);a['surface_attestation']['attested_fields']=[]
         with self.assertRaisesRegex(ValueError,'Original quantity surface attestation'):
             difference.validate(c,{'a':a,'b':b})
+
+    def test_synthesis_projection_cannot_drop_or_change_a_validated_grade(self):
+        from investigator import evidence_synthesis
+        from investigator.onboarding import Conflict
+        from test_process_debugging import OutcomeContractTests
+        assessment,observations=OutcomeContractTests().valid('CONSISTENT_TO_BOUNDARY')
+        assessment.update(claim='The compared values agree.',alternatives=['Earlier states remain possible.'],limits=['Snapshot alignment is unknown.'])
+        source={'observations':list(observations.values())}
+        original=observations['comparison']
+        for projected in ({}, {'surface_difference':{'grade':difference.ENGINE_INDEPENDENT}}):
+            payload={'evidence':[{'id':original['id'],'result':projected}]}
+            with self.subTest(projected=projected),self.assertRaisesRegex(Conflict,'dropped or changed surface difference'):
+                evidence_synthesis.validate(copy.deepcopy(assessment),payload,source_state=source)
 
     def test_vertical_carries_grade_and_partial_omissions_into_both_outputs(self):
         adapter=Adapter(['top','lower'],{'top':1,'lower':1})

@@ -297,7 +297,8 @@ class SynthesisTests(unittest.TestCase):
         for role,o in observations.items():
             o.update(tool='process' if role=='comparison' else 'bounded_dax',completeness='COMPLETE_RESPONSE')
         observations['baseline']['test_purpose']='ESTABLISH_BASELINE'
-        payload={'evidence':[{'id':key} for key in observations]}
+        payload={'evidence':[{'id':key,**({'result':{'surface_difference':copy.deepcopy(o['surface_difference'])}}
+            if 'surface_difference' in o else {})} for key,o in observations.items()]}
         value=self.answer(payload)
         value['classification']='CONSISTENT_TO_BOUNDARY'
         value['support'].update(intent_dependency='NOT_REQUIRED',measure_connection='ESTABLISHED',
