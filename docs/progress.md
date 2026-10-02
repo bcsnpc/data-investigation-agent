@@ -1808,3 +1808,8 @@ defaults; no reads or ticket. PR3 must include those defaults in its authored
 figure. [Full correction and limits](declared-context-reproduction-adapter.md).
 README/status updated, original audit retained, freeze invalidation explicit.
 No investigation run, so no ledger row.
+
+
+## 2026-10-02 UTC - Partial PR3 estate attempt
+
+Current partial PR3 result (2026-10-02 UTC): [First declared-context estate attempt](declared-context-first-estate-attempt.md). The unchanged family D run completed NO_COMPARABLE_PATH with validated synthesis, one attested DAX baseline, no reproduction probes and no reported-figure verdict. Target ambiguity was masked by a missing-inventory refusal; runtime target/figure propagation is absent. Independent seeded-row arithmetic also found that the fixture's full active set selects no rows, so its SUM measure is expected to be BLANK: a numeric reproduction figure cannot honestly be authored. Ticket 1 and Ticket 2 were not run. No reproduction success, general capability or user-number verification is claimed. One run/ledger row preserved; no engine, adapter, fixture, budget or credit change. Earlier freezes remain invalidated. The two blockers need resolution before PR3 can be completed.
