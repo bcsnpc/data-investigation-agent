@@ -62,6 +62,7 @@ class IntakeFamilyTests(unittest.TestCase):
                     'ticket_shape and comparison_mode are null','triage is null').replace(
                     'both triage fields are required','triage is required')
                 from investigator.question_intake import FIGURE_INSTRUCTIONS,TARGET_INSTRUCTIONS
+                expected['instructions']=expected['instructions'].replace('Quotes are provenance,','Every provenance quote must occur exactly once, including metric_quote and filter quotes; a longer unique quote is allowed. Never emit offsets. Quotes are provenance,')
                 expected['instructions']+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS
                 schema=expected['tools'][0]['parameters']
                 for key in ('ticket_shape','comparison_mode'):
@@ -70,11 +71,12 @@ class IntakeFamilyTests(unittest.TestCase):
                     'enum':['MISMATCH_COMPLAINT:VERTICAL','MISMATCH_COMPLAINT:HORIZONTAL','BUSINESS_QUESTION:NONE',None],
                     'description':'Ticket shape and comparison mode as one valid pair; null only for ASK.'}
                 schema['required'].append('triage')
-                from investigator.reported_figure import SPAN_SCHEMA
-                schema['properties']['reported_candidates']={'type':'array','maxItems':8,'items':SPAN_SCHEMA}
+                from investigator.question_intake import QUOTE_SCHEMA
+                schema['properties']['reported_candidates']={'type':'array','maxItems':8,'items':QUOTE_SCHEMA}
                 schema['required'].insert(schema['required'].index('triage'),'reported_candidates')
                 from investigator.definition_target import REQUEST_SCHEMA
                 schema['properties']['target_request']=copy.deepcopy(REQUEST_SCHEMA)
+                for spec in schema['properties']['target_request']['anyOf'][1:]:spec['properties']['source']=QUOTE_SCHEMA
                 schema['properties']['target_request']['anyOf'][2]['properties']['column_id']['enum']=schema['properties']['dimension_ids']['items']['enum']
                 schema['required'].insert(schema['required'].index('reported_candidates'),'target_request')
                 # Migrate only producer field bounds from the immutable v1 tape.

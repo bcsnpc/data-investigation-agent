@@ -11,8 +11,8 @@ from . import reported_figure as figure
 from . import definition_target as target
 
 VERSION = 'process-debugging-intake-v2'
-FIGURE_INSTRUCTIONS='\nSupply reported_candidates: every plausible reported-figure span, not dates, identifiers, thresholds or unrelated quantities. Each span has exact start/end/quote provenance. Do not choose between candidates. No candidates means UNSPECIFIED; an explicitly empty visual is a candidate too. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
-TARGET_INSTRUCTIONS='\nSupply target_request or null. For a stated selection whose column is unclear, extract its exact value span into {source}; do not guess a column or ASK about its identifier before the consumer checks retained ACTIVE declarations. Anchor a PROPOSE to the named measure, leave that unresolved selection out of filters, and let the consumer bind it or refuse. For an explicitly named column use {column_id,source}, with source quoting the column name itself. Other requested filters must still be preserved. A target request is translation, never an EVIDENCE resolution. ASK about real metric/model/date ambiguity still applies; ASK has target_request=null.'
+FIGURE_INSTRUCTIONS='\nSupply reported_candidates: every plausible reported-figure quote, not dates, identifiers, thresholds or unrelated quantities. Each candidate contains only {quote}, copied verbatim from the ticket. Never emit offsets; the consumer computes them. Quotes must occur exactly once; include longer context if necessary. Do not choose between candidates. No candidates means UNSPECIFIED; an explicitly empty visual is a candidate too. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
+TARGET_INSTRUCTIONS='\nSupply target_request or null. For a stated selection whose column is unclear, extract its exact value quote into {source:{quote}}; do not guess a column or ASK about its identifier before the consumer checks retained ACTIVE declarations. Anchor a PROPOSE to the named measure, leave that unresolved selection out of filters, and let the consumer bind it or refuse. For an explicitly named column use {column_id,source}, with source quoting the column name itself. Other requested filters must still be preserved. No offsets anywhere. A target request is translation, never an EVIDENCE resolution. ASK about real metric/model/date ambiguity still applies; ASK has target_request=null.'
 # Wire v2 encodes the relationship; persisted proposals keep their historical fields.
 TRIAGE_PAIRS = {
     'MISMATCH_COMPLAINT:VERTICAL': ('MISMATCH_COMPLAINT','VERTICAL'),
@@ -47,7 +47,7 @@ Never omit a requested date/filter merely to use global scope. Use typed JSON:
 integer for int64, boolean for boolean, string for decimal/dateTime/string, null for blank.
 Ranges use explicit model-local ISO endpoints: lower inclusive, upper exclusive. Never convert
 an inclusive end or relative date silently. Each filter needs a verbatim quote from the user's
-question supporting that restriction. metric_quote must also be verbatim. Quotes are provenance,
+question supporting that restriction. metric_quote must also be verbatim. Every provenance quote must occur exactly once, including metric_quote and filter quotes; a longer unique quote is allowed. Never emit offsets. Quotes are provenance,
 not proof of interpretation. The user must review all proposed scope before execution.
 For ASK: model_id, measure_id, metric_quote, ticket_shape and comparison_mode are null;
 filters, dimension_ids and scope_quotes are empty; question is a short clarification.
@@ -71,6 +71,27 @@ SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
                 'comparison_mode', 'filters', 'dimension_ids', 'scope_quotes']}
 
 
+QUOTE_SCHEMA={'type':'object','additionalProperties':False,'properties':{
+    'quote':{'type':'string','minLength':1,'maxLength':limits.INTAKE_QUOTE}},'required':['quote']}
+
+class QuoteRefused(ValueError):
+    """Exact provenance cannot be located uniquely; never choose an occurrence."""
+
+
+def locate(source,ticket):
+    fields(source,['quote'])
+    text(source['quote'],limits.INTAKE_QUOTE)
+    quote=source['quote'];positions=[];start=0
+    while True:
+        position=ticket.find(quote,start)
+        if position<0:break
+        positions.append(position);start=position+1
+    if not positions:raise QuoteRefused('Provenance quote not found verbatim in the ticket.')
+    if len(positions)!=1:
+        raise QuoteRefused(f'Provenance quote occurs {len(positions)} times in the ticket; supply a longer unique quote.')
+    return {'start':positions[0],'end':positions[0]+len(quote),'quote':quote}
+
+
 def azure_resolve(payload):
     from ticket_planner import azure_generate
     wire,schema,handles=wire_contract(payload)
@@ -82,8 +103,15 @@ def azure_resolve(payload):
     fields(result,schema['required'])
     value=copy.deepcopy(result)
     requested=value.pop('target_request')
-    try:value['reported_figure']=figure.from_candidates(value.pop('reported_candidates'),payload['text'])
-    except (figure.AmbiguousFigure,figure.UnavailablePrecision) as exc:
+    try:
+        candidates=[locate(source,payload['text']) for source in value.pop('reported_candidates')]
+        if requested is not None:
+            fields(requested,['source']+(['column_id'] if 'column_id' in requested else []))
+            requested['source']=locate(requested['source'],payload['text'])
+        if value['metric_quote'] is not None:locate({'quote':value['metric_quote']},payload['text'])
+        for f in value['filters']:locate({'quote':f['quote']},payload['text'])
+        value['reported_figure']=figure.from_candidates(candidates,payload['text'])
+    except (QuoteRefused,figure.AmbiguousFigure,figure.UnavailablePrecision) as exc:
         exc.provider_metadata=usage
         raise
     triage=value.pop('triage')
@@ -124,10 +152,11 @@ def wire_contract(payload):
     # target record); PR B supplies the separate stated-value extraction input.
     schema['properties'].pop('definition_target')
     schema['properties']['target_request']=copy.deepcopy(target.REQUEST_SCHEMA)
+    for spec in schema['properties']['target_request']['anyOf'][1:]:spec['properties']['source']=QUOTE_SCHEMA
     schema['properties']['target_request']['anyOf'][2]['properties']['column_id']['enum']=columns or ['NO_COLUMN']
     schema['required'].append('target_request')
     schema['properties'].pop('reported_figure');schema['required'].remove('reported_figure')
-    schema['properties']['reported_candidates']={'type':'array','maxItems':figure.CANDIDATE_LIMIT,'items':figure.SPAN_SCHEMA}
+    schema['properties']['reported_candidates']={'type':'array','maxItems':figure.CANDIDATE_LIMIT,'items':QUOTE_SCHEMA}
     schema['required'].append('reported_candidates')
     schema['properties'].pop('scope_quotes');schema['required'].remove('scope_quotes')
     for field in ('ticket_shape','comparison_mode'):
@@ -304,6 +333,9 @@ class Intake:
         except figure.AmbiguousFigure as exc:
             usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
             body.update(status='NEEDS_INPUT',question='More than one ticket span could be the reported figure. Which figure should be compared?',error=None)
+        except QuoteRefused as exc:
+            usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
+            body.update(status='NEEDS_INPUT',question=str(exc),error=None)
         except target.ResolutionRefused as exc:
             body.update(status='NEEDS_INPUT',question=str(exc),error=None,
                         definition_target=exc.record,target_resolution=exc.audit)
