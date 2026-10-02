@@ -19,9 +19,16 @@ TIMING_LIMIT = 'The within-layer reads are not bound to a shared served data ver
 OPEN_LIMIT = 'An undeclared selection, security context, cross-filtering or a deeper divergence may account for the reported figure; none was excluded.'
 
 
+class UnsupportedRestriction(ValueError):
+    """The whole declaration is incomplete, never a partially usable scope."""
+    def __init__(self, form):
+        self.form = form
+        super().__init__(f'Unsupported declared restriction form {form}; faithful translation required.')
+
+
 def _typed(value):
     if value is not None and type(value) not in (str, int, float, bool):
-        raise ValueError('Unsupported restriction value type')
+        raise UnsupportedRestriction('NON_SCALAR_IN_VALUE')
     if (type(value) is str and len(value)>limits.FILTER_STRING
             or type(value) is int and abs(value)>limits.EXACT_INTEGER):
         raise ValueError('Restriction value exceeds the consumer bound')
@@ -34,12 +41,21 @@ def compose(restrictions):
         raise ValueError('Declared restrictions require a bounded nonempty list')
     fields = {}
     for restriction in restrictions:
+        if isinstance(restriction, dict) and restriction.get('operator') != 'IN':
+            operator = restriction.get('operator')
+            # Name bounded neutral form labels, not arbitrary native definition text.
+            form = operator if (isinstance(operator, str) and 1 <= len(operator) <= 64
+                                and all(c.isascii() and (c.isalnum() or c == '_') for c in operator)) else 'UNKNOWN_OPERATOR'
+            raise UnsupportedRestriction(form)
+        if isinstance(restriction, dict) and set(restriction) != {'field_id', 'operator', 'values'}:
+            raise UnsupportedRestriction('NON_ENUMERATED_RESTRICTION_SHAPE')
         if (not isinstance(restriction, dict) or set(restriction) != {'field_id', 'operator', 'values'}
                 or not isinstance(restriction['field_id'], str) or not 1<=len(restriction['field_id'])<=limits.CONTEXT_ID
                 or restriction['operator'] != 'IN' or not isinstance(restriction['values'], list)
                 or len(restriction['values']) > limits.FILTER_VALUES):
             raise ValueError('Unsupported declared restriction; faithful translation required')
         values = {_typed(value): value for value in restriction['values']}
+        # Opaque, fully resolved catalog column identity; never its display name.
         field = restriction['field_id']
         fields[field] = ({key: value for key, value in fields[field].items() if key in values}
                          if field in fields else values)
@@ -108,7 +124,11 @@ def run(adapter, layer, measure_id, scope):
     if declaration.get('status') != 'DECLARED':
         return {'status': declaration.get('status', 'UNDECLARED'),
                 'reason': declaration.get('reason') or 'Declared scope evidence is unavailable.', 'observations': []}
-    restrictions = compose(declaration['restrictions'])
+    try:
+        restrictions = compose(declaration['restrictions'])
+    except UnsupportedRestriction as exc:
+        return {'status': 'UNDECLARED', 'reason': str(exc), 'unsupported_form': exc.form,
+                'observations': []}
     if not applicable(restrictions, scope):
         return {'status': 'UNDECLARED', 'reason': 'No declared predicate bears on the resolved ticket scope.', 'observations': []}
     definition = _observation(declaration['evidence'], 'declared_context_definition')

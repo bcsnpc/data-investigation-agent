@@ -108,7 +108,7 @@ def _process_evidence(observation,by_id,quantities=None):
   # Preserve the complete validated original, not a reconstructed projection.
   return copy.deepcopy(validate(observation,by_id,quantities))
  if observation.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
-  return {'check_kind':observation['check_kind'],'reason':observation['reason']}
+  return copy.deepcopy(observation)
  status=observation.get('comparison_status')
  if status not in ('CROSS_SURFACE_VERIFIED','NOT_COMPARABLE','WITHIN_LAYER_CHECK'):
   raise Conflict('Unsupported process receipt shape')

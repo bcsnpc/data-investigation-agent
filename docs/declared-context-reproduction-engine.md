@@ -106,3 +106,45 @@ Engine bytes changed: all prior freezes are invalidated. No fresh freeze, domain
 or acceptance claim is made. The next PR is the adapter implementation, followed
 by a separately authored numeric fixture ticket and unchanged family D. No live
 run is authorised or attempted as part of this PR.
+
+
+## Dated amendment: pre-intersection checks (2026-10-01)
+
+The user's audit question 2 is withdrawn and the existing intersection design is
+accepted: execution receives one intersected restriction per column, while the
+original declarations remain in definition evidence. Passing originals separately
+would reintroduce same-column replacement. The original audit comment is unchanged;
+a dated correction was appended on PR #294.
+
+An empty intersection is represented as a restriction with `values: []`, unlike
+an undeclared scope's empty restriction list. A scope-evaluating synthetic adapter
+test returns zero only when that empty restriction actually reaches evaluation;
+the separate blank-result test preserves native blank without converting it to zero.
+
+The engine type represents only bounded `IN` sets of typed scalar values, including
+empty sets. Range, negation, relative date, measure condition and Top N are not
+representable or intersectable by this type. Any such operator refuses the entire
+declaration as UNDECLARED before reproduction reads, naming the form; valid IN
+members before or after it are never executed alone. Extra semantic fields and
+structured IN values also refuse rather than being coerced. Bounds still fail
+closed. The vertical procedure and synthesis retain the named refusal. Native
+extraction/rendering refusals remain the adapter's responsibility in PR2.
+
+The intersection key is the exact opaque `field_id` of a fully resolved catalog
+column, never its display name or a shortened path. Resolution belongs to the
+adapter, not native-syntax validation in the engine. A same-named-column test uses
+distinct resolved table/column identities and verifies both restrictions reach
+execution separately, even when their sets are disjoint.
+
+The amended 34 reproduction tests pass. A first test attempt exposed mutation of
+a frozen synthetic Probe; the fixture now uses dataclass replacement. No production
+read occurred. Full regression validation follows below. Planner shaping, native
+adapter, discovery approval, lower filtered-scope refusal and recorded runs are
+unchanged. Engine changes invalidate prior freezes; no end-to-end claim is made.
+
+
+Final amended-engine validation: all 1,361 local regression tests passed in
+404.778 seconds, including the 34 reproduction tests. Two required generator
+tests passed separately; 732 local documentation link targets resolved and
+`git diff --check` passed. The full suite emitted SQLite resource warnings but
+no test failures. Final amended-head CI and merge state are tracked on PR #294.

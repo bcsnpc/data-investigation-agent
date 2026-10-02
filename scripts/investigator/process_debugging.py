@@ -360,10 +360,12 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         from .declared_reproduction import run
         reproduction=run(adapter,layers[0],measure_id,scope)
         observations.extend(reproduction['observations'])
-        if reproduction['status']=='UNAVAILABLE':
+        if reproduction['status']=='UNAVAILABLE' or reproduction.get('unsupported_form'):
             observations.append(_observation({'id':'declared-reproduction-unavailable','tool':'process',
                 'check_kind':'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE',
-                'reason':reproduction['reason']},'established'))
+                'reason':reproduction['reason'],
+                'capability_status':reproduction['status'],
+                **({'unsupported_form':reproduction['unsupported_form']} if reproduction.get('unsupported_form') else {})},'established'))
 
     def unverified_business_flow(reason):
         return answer('NO_KNOWN_PATTERN',6,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,

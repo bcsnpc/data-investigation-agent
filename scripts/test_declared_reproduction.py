@@ -80,6 +80,37 @@ class ReproductionTests(unittest.TestCase):
                         {'field_id': 'f', 'operator': 'IN', 'values': [1]}]
         self.assertEqual(reproduction.compose(restrictions), [{'field_id': 'f', 'operator': 'IN', 'values': []}])
 
+    def test_empty_restriction_reaches_evaluation_and_returns_empty_result(self):
+        class ScopeEvaluatingAdapter(NeutralAdapter):
+            def evaluate_declared_context(self, layer, measure_id, scope):
+                probe = super().evaluate_declared_context(layer, measure_id, scope)
+                # Calculate from the applied restriction, not the call ordinal.
+                from dataclasses import replace
+                return replace(probe, value={'quantity': 0 if scope['restrictions'] and
+                               any(r['values'] == [] for r in scope['restrictions']) else 8})
+        adapter = ScopeEvaluatingAdapter()
+        adapter.restrictions[0]['values'] = ['x']; adapter.restrictions[1]['values'] = ['y']
+        result = self.run_check(adapter, {**SCOPE, 'reported_figure': 0})
+        empty = [{'field_id': 'field-a', 'operator': 'IN', 'values': []}]
+        self.assertEqual(adapter.read_scopes[0]['restrictions'], [])
+        self.assertEqual(adapter.read_scopes[1]['restrictions'], empty)
+        self.assertEqual(result['observations'][2]['applied_restrictions'], empty)
+        self.assertEqual(result['finding']['undeclared_context_value'], '8')
+        self.assertEqual(result['finding']['reproduced_value'], '0')
+        self.assertEqual(result['finding']['label'], 'REPRODUCED')
+
+    def test_same_named_columns_in_distinct_tables_keep_distinct_resolved_identities(self):
+        columns = [{'id': 'catalog/table-one/column-code', 'name': 'Code'},
+                   {'id': 'catalog/table-two/column-code', 'name': 'Code'}]
+        adapter = NeutralAdapter()
+        adapter.restrictions = [
+            {'field_id': columns[0]['id'], 'operator': 'IN', 'values': ['x']},
+            {'field_id': columns[1]['id'], 'operator': 'IN', 'values': ['y']}]
+        result = self.run_check(adapter, {'dimension_ids': [c['id'] for c in columns]})
+        self.assertEqual(len(result['finding']['composed_restrictions']), 2)
+        self.assertEqual(adapter.read_scopes[1]['restrictions'], adapter.restrictions)
+        self.assertTrue(all(r['values'] for r in adapter.read_scopes[1]['restrictions']))
+
     def test_empty_intersection_can_return_native_blank_without_becoming_zero(self):
         adapter=NeutralAdapter(None)
         adapter.restrictions[0]['values']=['x'];adapter.restrictions[1]['values']=['y']
@@ -124,9 +155,30 @@ class ReproductionTests(unittest.TestCase):
 
     def test_unsupported_operator_fails_before_any_read(self):
         adapter = NeutralAdapter(); adapter.restrictions[0]['operator'] = 'UNKNOWN'
-        with self.assertRaisesRegex(ValueError, 'faithful'):
-            self.run_check(adapter)
+        result = self.run_check(adapter)
+        self.assertEqual(result['status'], 'UNDECLARED')
+        self.assertEqual(result['unsupported_form'], 'UNKNOWN')
         self.assertEqual(adapter.read_scopes, [])
+
+    def test_non_enumerable_forms_refuse_whole_set_in_either_order(self):
+        for form in ('RANGE', 'NEGATION', 'RELATIVE_DATE', 'MEASURE_CONDITION', 'TOP_N'):
+            for index in (0, 1):
+                with self.subTest(form=form, index=index):
+                    adapter = NeutralAdapter(); adapter.restrictions[index]['operator'] = form
+                    result = self.run_check(adapter)
+                    self.assertEqual(result['status'], 'UNDECLARED')
+                    self.assertEqual(result['unsupported_form'], form)
+                    self.assertIn(form, result['reason'])
+                    self.assertNotIn('finding', result)
+                    self.assertEqual(adapter.read_scopes, [])
+
+    def test_disguised_non_enumerated_forms_are_not_coerced(self):
+        for change in ({'negated': True}, {'values': [{'range': [1, 3]}]}):
+            adapter = NeutralAdapter(); adapter.restrictions[0].update(change)
+            result = self.run_check(adapter)
+            self.assertEqual(result['status'], 'UNDECLARED')
+            self.assertIn('form', result['reason'])
+            self.assertEqual(adapter.read_scopes, [])
 
     def test_surface_or_identity_change_is_unavailable(self):
         for field in ('identity', 'object'):
@@ -207,6 +259,21 @@ class ReproductionTests(unittest.TestCase):
 
 
 class PlacementAndGatingTests(unittest.TestCase):
+    def test_named_unsupported_refusal_survives_vertical_and_synthesis(self):
+        adapter = NeutralAdapter(not_comparable=['lower'])
+        adapter.restrictions[1]['operator'] = 'RELATIVE_DATE'
+        result = vertical(adapter, 'measure', copy.deepcopy(SCOPE))
+        refusal = next(o for o in result['_observations']
+                       if o.get('check_kind') == 'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE')
+        self.assertEqual(refusal['capability_status'], 'UNDECLARED')
+        self.assertEqual(refusal['unsupported_form'], 'RELATIVE_DATE')
+        self.assertEqual(adapter.read_scopes, [])
+        self.assertEqual(result['classification'], 'NO_COMPARABLE_PATH')
+        projected = _process_evidence(refusal, {})
+        self.assertEqual(projected, refusal)
+        projected['unsupported_form'] = 'changed'
+        self.assertEqual(refusal['unsupported_form'], 'RELATIVE_DATE')
+
     def test_reproduction_is_callable_when_no_lower_layer_is_executable(self):
         adapter=NeutralAdapter();adapter.layers=[{'id':'top'}]
         result=vertical(adapter,'measure',copy.deepcopy(SCOPE))
