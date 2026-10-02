@@ -142,6 +142,13 @@ class ReportScopeTests(unittest.TestCase):
                 observations = {a['id']: a} if mode == 'second absent' else {a['id']: a, changed['id']: changed}
                 with self.assertRaises(ValueError): self.validate(target, grouping_columns=['column-a', 'column-b'], observations=observations)
 
+    def test_observed_cannot_assert_no_filter_with_an_unsupported_declaration(self):
+        target = self.observed()
+        self.entry.update(disposition='UNSUPPORTED', effect='EXCLUDED', volatility='UNKNOWN', assumption='APPLICABILITY_UNKNOWN')
+        receipt = self.receipt()
+        with self.assertRaisesRegex(ValueError, 'supported declaration coverage'):
+            self.validate(target, grouping_columns=['column-a'], observations={receipt['id']: receipt})
+
     def test_observed_cannot_replace_declared_filter_evidence(self):
         target = {**self.target, 'resolution_kind': 'OBSERVED', 'receipt_id': 'receipt-column-a'}
         del target['inventory_entry_id']

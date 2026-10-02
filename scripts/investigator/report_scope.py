@@ -199,6 +199,8 @@ def validate_target(target, *, reports, ticket=None, inventory=None, active=None
             raise ValueError('Evidence target requires exactly one matching ACTIVE entry in the stated report')
     elif target['resolution_kind'] == 'OBSERVED':
         entries = validate_inventory(inventory, active, binding=target['report_binding'], reports=reports, ticket=ticket)
+        if any(entry['disposition'] == 'UNSUPPORTED' for entry in entries):
+            raise ValueError('Observed no-declaration resolution requires complete supported declaration coverage')
         if any(definition_target.literal_text(v) == quote for e in entries if e['disposition'] == 'ACTIVE' for r in e['restrictions'] for v in r['values']):
             raise ValueError('Observed lookup cannot replace existing declaration evidence')
         if not isinstance(grouping_columns, list) or not grouping_columns or grouping_columns != sorted(set(grouping_columns)):

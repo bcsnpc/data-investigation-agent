@@ -49,8 +49,8 @@ Selection resolutions remain different facts:
   literal, proved by the conserved inventory entry.
 - OBSERVED: no ACTIVE declaration carries the literal; every scoped candidate
   grouping column has a complete value-existence receipt, and exactly one column
-  contains it. The target references that successful receipt. Missing/failed,
-  foreign-report or truncated checks cannot establish unique membership. Each
+  contains it. The target references that successful receipt. An UNSUPPORTED declaration prevents asserting that no declared filter carries
+  the value. Missing/failed, foreign-report or truncated checks cannot establish unique membership. Each
   receipt requires query-bound reader self-description, with PARTIAL coverage
   retained rather than upgraded.
 - STATED: the ticket exactly names the column; the separate literal lookup audit
@@ -92,7 +92,7 @@ rewritten in any old observation.
 
 ## Validation and context cost
 
-The full local suite passed 1,519 tests. A subsequent closed-schema amendment separates unresolved-report refusals from value refusals; all 21 focused contract tests and the required two generator tests pass on the final engine. Six final-head CI checks are recorded on the PR. Existing intake/planner payload code and their goldens
+The full local suite passed 1,519 tests. A subsequent closed-schema amendment separates unresolved-report refusals from value refusals; all 22 focused contract tests and the required two generator tests pass on the final engine. Six final-head CI checks are recorded on the PR. Existing intake/planner payload code and their goldens
 are unchanged: 28 directory entries and 11 SQL objects; twelve intake fixtures
 retain their catalog coverage and payloads (1,050?1,952 characters, Family D
 1,103). The additive contract is not attached to a live model request in PR A,
