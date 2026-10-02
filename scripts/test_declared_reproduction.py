@@ -64,6 +64,50 @@ SCOPE = {'filters': [{'column_id': 'field-a', 'values': ['y']}], 'reported_figur
 
 
 class ReproductionTests(unittest.TestCase):
+    def test_upstream_refusal_owns_reason_without_inventory_validation(self):
+        from unittest.mock import patch
+        from investigator import declaration_inventory
+        for status in ('UNDECLARED', 'UNAVAILABLE'):
+            for unused in (None, {'broken': 'unused input'}):
+                class Refused(NeutralAdapter):
+                    def declared_context(inner, *args):
+                        return {'status': status, 'reason': 'Ambiguous definition target: first, second',
+                                'unsupported_form': 'TARGET_AMBIGUITY', 'inventory': unused}
+                adapter = Refused()
+                with patch.object(declaration_inventory, 'validate', side_effect=AssertionError('Validated refused input')):
+                    result = self.run_check(adapter)
+                self.assertEqual(result['reason'], 'Ambiguous definition target: first, second')
+                self.assertEqual(result['status'], status)
+                self.assertEqual(result['unsupported_form'], 'TARGET_AMBIGUITY')
+                self.assertEqual(adapter.read_scopes, [])
+
+    def test_malformed_inventory_is_not_mistaken_for_upstream_refusal(self):
+        class Malformed(NeutralAdapter):
+            def declared_context(inner, *args):
+                d = super().declared_context(*args); d['inventory'] = {'broken': 'inventory'}
+                return d
+        adapter = Malformed(); result = self.run_check(adapter)
+        self.assertEqual(result['reason'], 'Declaration inventory is malformed')
+        self.assertEqual(result['unsupported_form'], 'DECLARATION_INVENTORY_CONTRACT')
+        self.assertEqual(adapter.read_scopes, [])
+
+    def test_absent_inventory_is_not_reported_as_malformed(self):
+        class Absent(NeutralAdapter):
+            def declared_context(inner, *args):
+                d = super().declared_context(*args); d.pop('inventory'); return d
+        adapter = Absent(); result = self.run_check(adapter)
+        self.assertEqual(result['reason'], 'Required declaration inventory was not supplied')
+        self.assertEqual(result['unsupported_form'], 'DECLARATION_INVENTORY_ABSENT')
+        self.assertEqual(adapter.read_scopes, [])
+
+    def test_invalid_declaration_or_refusal_state_is_not_an_inventory_error(self):
+        for response in (None, {}, {'status': 'DECLARED_UNKNOWN'}, {'status': 'UNDECLARED', 'reason': ''}):
+            class Invalid(NeutralAdapter):
+                def declared_context(inner, *args): return response
+            adapter = Invalid(); result = self.run_check(adapter)
+            self.assertEqual(result['unsupported_form'], 'DECLARATION_RESPONSE_CONTRACT')
+            self.assertEqual(adapter.read_scopes, [])
+
     def run_check(self, adapter=None, scope=None):
         return reproduction.run(adapter or NeutralAdapter(), {'id': 'top'}, 'measure',
                                 copy.deepcopy(SCOPE if scope is None else scope))

@@ -1808,3 +1808,7 @@ defaults; no reads or ticket. PR3 must include those defaults in its authored
 figure. [Full correction and limits](declared-context-reproduction-adapter.md).
 README/status updated, original audit retained, freeze invalidation explicit.
 No investigation run, so no ledger row.
+
+## 2026-10-02 UTC - Declaration refusal attribution correction
+
+Current correction (2026-10-02 UTC): [Declaration refusal attribution](declaration-refusal-attribution.md). The earliest upstream refusal now retains its status and reason before any inventory validation. Absent inventory and supplied malformed inventory are distinct failure states; declared inventories still require conservation and ACTIVE coverage. The hostile producer tests pass with zero reads. All 1,436 regression tests passed. Family D 6582f4a1 and its ledger/output evidence remain unchanged in open draft #297. No runs or fixture/budget changes; engine changes invalidate prior freezes. Target/figure wiring and the three pre-run questions remain separate subsequent work.

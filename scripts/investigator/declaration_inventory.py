@@ -11,6 +11,10 @@ SCHEMA = {
 }
 
 
+class MissingInventory(ValueError):
+    """The producer supplied no inventory; no inventory content was validated."""
+
+
 def identity(source):
     if (not isinstance(source, dict) or set(source) != {'location', 'content_hash'}
             or not isinstance(source['location'], str) or not 1 <= len(source['location']) <= 4000
@@ -22,8 +26,10 @@ def identity(source):
 
 def validate(inventory, active):
     from .declared_reproduction import compose
+    if inventory is None:
+        raise MissingInventory('Required declaration inventory was not supplied')
     if not isinstance(inventory, dict) or set(inventory) != {'discovered', 'entries'}:
-        raise ValueError('Required declaration inventory missing or malformed')
+        raise ValueError('Declaration inventory is malformed')
     discovered, entries = inventory['discovered'], inventory['entries']
     if not isinstance(discovered, list) or not 1 <= len(discovered) <= 512 or not isinstance(entries, list):
         raise ValueError('Declaration inventory requires bounded discovered entries')
