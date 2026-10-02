@@ -22,6 +22,7 @@ class OutcomeContractTests(unittest.TestCase):
             observations['comparison']['lower_layer']='layer-2'
             for side in ('upper','lower'):
                 observations['comparison'][side+'_surface_attestation']={'status':'MATCHED',
+                    'consistency':'MATCHED','coverage':'FULL',
                     'attested_fields':['identity','object'],'unattested_fields':[]}
         refs=list(observations)
         process={'procedure_step':1,'recommended_action':process_outcomes.ACTIONS[outcome],
@@ -127,16 +128,16 @@ class Adapter:
     def evaluate(self,layer,measure,scope):
         self.evaluated.append(layer['id']);identity=layer['id']
         if identity in self.not_comparable:return Probe('NOT_COMPARABLE',identity,reason='No faithful translation')
-        report=self.reports.get(identity,{'identity':'reader','object':identity})
+        report=self.reports.get(identity,{'engine':'test','connection':'connection-'+identity,'identity':'reader','object':identity})
         return Probe('OBSERVED',identity,{'id':'read-'+identity,'tool':'probe'},self.values[identity],
                      query='READ '+identity,execution_surface={
                          'engine':'test','connection':'connection-'+identity,'object':identity,'identity':'reader'},
                      surface_report=report,surface_reportable=self.reportable.get(identity,('identity','object')))
-    def presentation_context(self,boundary,scope):return {'explains':False}
+    def presentation_context(self,boundary,scope):return {'status':'COMPLETED','explains':False,'evidence':{'id':'presentation-definition','tool':'context'}}
     def transformation_definition(self,boundary):
-        return {'explains':bool(self.explain),'explanation':'A retrieved rule accounts for the difference.',
-                'evidence':{'id':'definition','tool':'context'}} if self.explain else {'explains':False}
-    def job_history(self,boundary):return {'status':'CURRENT'}
+        return {'status':'COMPLETED','explains':bool(self.explain),'explanation':'A retrieved rule accounts for the difference.',
+                'evidence':{'id':'definition','tool':'context'}}
+    def job_history(self,boundary):return {'status':'CURRENT','evidence':{'id':'job-history','tool':'context'}}
     def ingestion(self,path,scope):return {'status':'CURRENT'}
 
 
@@ -169,14 +170,14 @@ class SurfaceSelfReportTests(unittest.TestCase):
         self.assertEqual(result['classification'],'CONSISTENT_TO_BOUNDARY')
         top=next(o for o in result['_observations'] if o.get('id')=='read-top')
         self.assertEqual(top['surface_attestation']['status'],'MATCHED')
-        self.assertEqual(top['surface_attestation']['unattested_fields'],['connection','engine'])
+        self.assertEqual(top['surface_attestation']['unattested_fields'],[])
 
     def test_undeclared_identity_cannot_be_attested(self):
         from investigator.process_debugging import attest
         probe=attest(Probe('OBSERVED','x',{'id':'e'},1,execution_surface={'engine':'e','connection':'c','object':'o'},
                            surface_report={'identity':'reader'}))
         self.assertEqual((probe.status,probe.reason),('UNAVAILABLE','SURFACE_IDENTITY_NOT_DECLARED'))
-        self.assertIsNone(probe.value)
+        self.assertEqual(probe.value_state,'FAILED')
 
     def test_unavailable_and_evidence_free_probes_pass_through_unchanged(self):
         from investigator.process_debugging import attest
@@ -201,7 +202,7 @@ class AttestationConsumptionTests(unittest.TestCase):
         adapter=Adapter(['top','lower'],{'top':10,'lower':10},reportable={'top':('identity',)},
                         reports={'top':{'identity':'reader'}})
         result=vertical(adapter,'measure',{})
-        self.assertEqual(result['classification'],'CONSISTENT_TO_BOUNDARY')
+        self.assertEqual(result['classification'],'NO_COMPARABLE_PATH')
         named={(u['layer'],u['field']) for u in result['business_output']['unattested_surface_fields']}
         self.assertIn(('top','object'),named)
         self.assertEqual(result['business_output']['unattested_surface_fields'],
@@ -496,7 +497,7 @@ class VerticalProcedureTests(unittest.TestCase):
         boundary={'upper':{'measure':{'name':'Handled Quantity'}},
             'lower':{'definition_asset_id':'definition','semantic_table':'Activity','semantic_column':'units',
                      'binding':{'asset':{'name':'dbo.movement_values'}}},
-            'upper_probe':Probe('OBSERVED','upper',value=10),'lower_probe':Probe('OBSERVED','lower',value=9)}
+            'upper_probe':Probe('OBSERVED','upper',evidence={'id':'upper'},value=10),'lower_probe':Probe('OBSERVED','lower',evidence={'id':'lower'},value=9)}
         found={'asset_id':'definition','context_version':'scan','content_hash':'hash','total_characters':100,
                'matches':[{'offset':5,'excerpt':'relevant'}],'truncated':False,'next_offset':None}
         with patch('investigator.adapters.microsoft_process.context_search.find_content',side_effect=lambda _,__,needle:{**found,'needle':needle}):
@@ -513,7 +514,7 @@ class VerticalProcedureTests(unittest.TestCase):
         boundary={'upper':{'measure':{'name':'Handled Quantity'}},
           'lower':{'definition_asset_id':'definition','semantic_table':'Activity','semantic_column':'units',
                    'binding':{'asset':{'name':'dbo.movement_values'}}},
-          'upper_probe':Probe('OBSERVED','upper',value=10),'lower_probe':Probe('OBSERVED','lower',value=9)}
+          'upper_probe':Probe('OBSERVED','upper',evidence={'id':'upper'},value=10),'lower_probe':Probe('OBSERVED','lower',evidence={'id':'lower'},value=9)}
         found={'asset_id':'definition','context_version':'scan','content_hash':'hash','total_characters':10000,
                'matches':[],'truncated':True,'next_offset':5000}
         with patch('investigator.adapters.microsoft_process.context_search.find_content',

@@ -7,8 +7,10 @@ from . import proposal_limits as limits
 from .onboarding import fields, text, digest, encoded, Conflict
 from .runtime import fingerprint
 from .filter_scope import compile_filter
+from . import reported_figure as figure
 
-VERSION = 'process-debugging-intake-v1'
+VERSION = 'process-debugging-intake-v2'
+FIGURE_INSTRUCTIONS='\nSupply reported_candidates: every plausible reported-figure span, not dates, identifiers, thresholds or unrelated quantities. Each span has exact start/end/quote provenance. Do not choose between candidates. No candidates means UNSPECIFIED; an explicitly empty visual is a candidate too. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
 # Wire v2 encodes the relationship; persisted proposals keep their historical fields.
 TRIAGE_PAIRS = {
     'MISMATCH_COMPLAINT:VERTICAL': ('MISMATCH_COMPLAINT','VERTICAL'),
@@ -50,6 +52,7 @@ filters, dimension_ids and scope_quotes are empty; question is a short clarifica
 For PROPOSE question is null and both triage fields are required. No extra fields.'''
 SCALAR = {'anyOf': [{'type': 'string','maxLength':limits.FILTER_STRING}, {'type': 'integer','minimum':-limits.EXACT_INTEGER,'maximum':limits.EXACT_INTEGER}, {'type': 'boolean'}, {'type': 'null'}]}
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
+    'reported_figure': figure.SCHEMA,
     'action': {'type': 'string', 'enum': ['ASK', 'PROPOSE']},
     'model_id': {'type': ['string', 'null']}, 'measure_id': {'type': ['string', 'null']},
     'metric_quote': {'type': ['string', 'null'], 'minLength':1, 'maxLength':limits.INTAKE_QUOTE}, 'question': {'type': ['string', 'null'], 'minLength':1, 'maxLength':limits.QUESTION},
@@ -61,7 +64,7 @@ SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'dimension_ids': {'type': 'array', 'items': {'type': 'string'}},
     'scope_quotes': {'type': 'array', 'items': {'type': 'object', 'additionalProperties': False,
         'properties': {'column_id': {'type': 'string'}, 'quote': {'type': 'string'}}, 'required': ['column_id', 'quote']}}
-}, 'required': ['action', 'model_id', 'measure_id', 'metric_quote', 'question', 'ticket_shape',
+}, 'required': ['reported_figure','action', 'model_id', 'measure_id', 'metric_quote', 'question', 'ticket_shape',
                 'comparison_mode', 'filters', 'dimension_ids', 'scope_quotes']}
 
 
@@ -71,9 +74,14 @@ def azure_resolve(payload):
     instructions=INSTRUCTIONS.replace('scope_quotes','filter quote fields').replace(
         'ticket_shape and comparison_mode are null','triage is null').replace(
         'both triage fields are required','triage is required')+'\nUse catalog handles verbatim. Put each filter quote inside that filter object. No separate quote list.'
+    instructions+=FIGURE_INSTRUCTIONS
     result,usage=azure_generate(wire, instructions=instructions, schema=schema, name='resolve_business_question', decision_tool=True)
     fields(result,schema['required'])
     value=copy.deepcopy(result)
+    try:value['reported_figure']=figure.from_candidates(value.pop('reported_candidates'),payload['text'])
+    except (figure.AmbiguousFigure,figure.UnavailablePrecision) as exc:
+        exc.provider_metadata=usage
+        raise
     triage=value.pop('triage')
     if triage is not None and (not isinstance(triage,str) or triage not in TRIAGE_PAIRS):
         raise ValueError('Unknown intake triage pair')
@@ -102,6 +110,9 @@ def wire_contract(payload):
         for j,column in enumerate(m['columns']):
             handle=key+'c'+str(j);handles[handle]=column['column_id'];column['column_id']=handle;columns.append(handle)
     schema=copy.deepcopy(SCHEMA)
+    schema['properties'].pop('reported_figure');schema['required'].remove('reported_figure')
+    schema['properties']['reported_candidates']={'type':'array','maxItems':figure.CANDIDATE_LIMIT,'items':figure.SPAN_SCHEMA}
+    schema['required'].append('reported_candidates')
     schema['properties'].pop('scope_quotes');schema['required'].remove('scope_quotes')
     for field in ('ticket_shape','comparison_mode'):
         schema['properties'].pop(field);schema['required'].remove(field)
@@ -145,8 +156,10 @@ def snapshot(workspace):
 
 def validate(value, payload):
     fields(value, SCHEMA['required'])
+    figure.validate(value['reported_figure'],payload['text'])
     if len(encoded(value)) > 12000: raise ValueError('Intake response exceeds budget')
     if value['action'] == 'ASK':
+        if value['reported_figure']['state']!='UNSPECIFIED':raise ValueError('Clarification cannot select a reported figure')
         text(value['question'], limits.QUESTION)
         if any(value[k] is not None for k in ('model_id', 'measure_id', 'metric_quote', 'ticket_shape', 'comparison_mode')) or any(value[k] != [] for k in ('filters', 'dimension_ids', 'scope_quotes')):
             raise ValueError('Clarification cannot also select scope')
@@ -253,6 +266,12 @@ class Intake:
                 raise Conflict('Question context changed during resolution')
             body.update(status='NEEDS_INPUT' if decision['action'] == 'ASK' else 'PROPOSED',
                         proposal=decision if decision['action'] == 'PROPOSE' else None, question=decision['question'])
+        except figure.AmbiguousFigure as exc:
+            usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
+            body.update(status='NEEDS_INPUT',question='More than one ticket span could be the reported figure. Which figure should be compared?',error=None)
+        except figure.UnavailablePrecision as exc:
+            usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
+            body.update(status='NEEDS_INPUT',question='The stated precision of the reported figure is unclear. At what precision should it be compared?',error=None)
         except Exception:
             body.update(status='HELD', error='RESOLUTION_UNCERTAIN' if uncertain else 'INVALID_OR_STALE_PROPOSAL')
         with self.store.connect() as db:
@@ -295,6 +314,7 @@ class Intake:
         if any(request[k] != proposal[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids')) or request['symptom'] != saved['text'] or request['predecessor'] is not None:
             raise Conflict('Reviewed question scope differs from the saved proposal')
         return {'id': saved['id'], 'text': saved['text'], 'metric_quote': proposal['metric_quote'],
+                'reported_figure':proposal['reported_figure'],
                 'ticket_shape':proposal['ticket_shape'],'comparison_mode':proposal['comparison_mode'],
                 'screenshot_review': saved.get('screenshot_review'),
                 'scope_quotes': proposal['scope_quotes'], 'provenance': 'SAVED_LLM_SCOPE_PROPOSAL',

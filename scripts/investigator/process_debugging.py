@@ -5,7 +5,7 @@ layer, query, or next hop: it follows the returned path in order and stops on
 the first evidence-bound outcome. Values are compared only when an adapter says
 both quantities are comparable under the same declared scope.
 """
-from dataclasses import dataclass,replace
+from dataclasses import dataclass,replace,field
 from typing import Protocol
 from .process_outcomes import ACTIONS,EVIDENCE_ROLES
 
@@ -17,17 +17,45 @@ OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','refresh_timing','snap
 
 
 @dataclass(frozen=True)
+class NoValue:
+    """Explicit absence, never equal to a measured BLANK (None) or zero."""
+    state: str = 'NOT_OBTAINED'
+
+    def __post_init__(self):
+        if self.state not in ('NOT_OBTAINED', 'FAILED'):
+            raise ValueError('Unknown absent probe value state')
+
+
+@dataclass(frozen=True)
 class Probe:
     status: str                 # OBSERVED, NOT_COMPARABLE, UNAVAILABLE
     layer: str
     evidence: dict | None = None
-    value: object = None
+    value: object = field(default_factory=NoValue)
     reason: str | None = None
     query: str | None = None
     execution_surface: dict | None = None
     surface_report: dict | None = None   # the surface's own answer, never the client's belief
     surface_reportable: tuple = ()        # declared fields this surface is able to report
     failure: dict | None = None           # why the probe is UNAVAILABLE, as specifically as known
+
+    def __post_init__(self):
+        if self.status not in ('OBSERVED','NOT_COMPARABLE','UNAVAILABLE'):
+            raise ValueError('Unknown probe status')
+        if self.status == 'OBSERVED' and isinstance(self.value, NoValue):
+            raise ValueError('Observed probe requires an explicit measured result, including BLANK')
+        if not isinstance(self.value,NoValue) and (not isinstance(self.evidence,dict) or not self.evidence.get('id')):
+            raise ValueError('Measured probe requires its receipt identity')
+        if self.status == 'UNAVAILABLE':
+            if not isinstance(self.value, NoValue):
+                raise ValueError('Unavailable probe cannot carry a measured result')
+            if self.failure is not None:
+                object.__setattr__(self, 'value', NoValue('FAILED'))
+
+    @property
+    def value_state(self):
+        if isinstance(self.value, NoValue): return self.value.state
+        return 'BLANK' if self.value is None or self.value == {'quantity':None} else 'MEASURED'
 
 
 # An execution surface is established by the surface's own answer. The adapter
@@ -44,16 +72,18 @@ def attest_surface(declared, report, reportable=()):
     """
     required=sorted(set(SURFACE_REPORT_REQUIRED)|set(reportable or ()))
     if not isinstance(declared,dict) or not isinstance(declared.get('identity'),str) or not declared['identity']:
-        return {'status':'IDENTITY_NOT_DECLARED','reason':'SURFACE_IDENTITY_NOT_DECLARED','required_fields':required,
+        return {'status':'IDENTITY_NOT_DECLARED','consistency':'UNKNOWN','coverage':'NONE','reason':'SURFACE_IDENTITY_NOT_DECLARED','required_fields':required,
                 'contradictions':[],'attested_fields':[],'unattested_fields':[]}
     if (not isinstance(report,dict) or not report
             or any(not isinstance(k,str) or not isinstance(v,str) or not v for k,v in report.items())
             or any(k not in report for k in required)):
-        return {'status':'MISSING','reason':'SURFACE_SELF_REPORT_MISSING','required_fields':required,
+        return {'status':'MISSING','consistency':'UNKNOWN','coverage':'NONE','reason':'SURFACE_SELF_REPORT_MISSING','required_fields':required,
                 'contradictions':[],'attested_fields':[],'unattested_fields':sorted(declared)}
     contradictions=[{'field':k,'declared':declared.get(k),'reported':v} for k,v in sorted(report.items())
                     if not isinstance(declared.get(k),str) or declared[k].casefold()!=v.casefold()]
-    return {'status':'CONTRADICTED' if contradictions else 'MATCHED',
+    partial=bool(set(declared)-set(report))
+    return {'status':'CONTRADICTED' if contradictions else ('PARTIAL' if partial else 'MATCHED'),
+            'consistency':'CONTRADICTED' if contradictions else 'MATCHED','coverage':'PARTIAL' if partial else 'FULL',
             'reason':'SURFACE_SELF_REPORT_CONTRADICTS_DECLARED' if contradictions else None,'required_fields':required,
             'contradictions':contradictions,'attested_fields':sorted(set(report)&set(declared)),
             'unattested_fields':sorted(set(declared)-set(report))}
@@ -63,15 +93,15 @@ def attest(probe):
     """A probe that claims a surface is observed only if the surface agrees."""
     if probe.evidence is None or probe.status=='UNAVAILABLE':return probe
     result=attest_surface(probe.execution_surface,probe.surface_report,probe.surface_reportable)
-    evidence=dict(probe.evidence,surface_report=probe.surface_report,surface_attestation=result)
-    if result['status']=='MATCHED':
+    evidence=dict(probe.evidence,value_state=probe.value_state,surface_report=probe.surface_report,surface_attestation=result)
+    if result['status'] in ('MATCHED','PARTIAL'):
         return Probe(probe.status,probe.layer,evidence,probe.value,probe.reason,probe.query,
                      probe.execution_surface,probe.surface_report,probe.surface_reportable)
     # Deliberate: a failed attestation outranks every other status. A probe that
     # was NOT_COMPARABLE and also untrusted is reported as untrusted, and its
     # prior status is kept in the evidence so the distinction is not lost.
     evidence['status_before_attestation']=probe.status
-    return Probe('UNAVAILABLE',probe.layer,evidence,None,result['reason'],probe.query,
+    return Probe('UNAVAILABLE',probe.layer,evidence,NoValue('FAILED'),result['reason'],probe.query,
                  probe.execution_surface,probe.surface_report,probe.surface_reportable)
 
 
@@ -79,7 +109,7 @@ def unattested_surface_fields(observations):
     """Every field of a compared surface that its surface did not report."""
     result=[]
     for o in observations:
-        if o.get('tool')!='process' or (o.get('comparison_status')!='CROSS_SURFACE_VERIFIED'
+        if o.get('tool')!='process' or (o.get('comparison_status') not in ('CROSS_SURFACE_VERIFIED','NOT_COMPARABLE')
                 and o.get('check_kind')!='DECLARED_CONTEXT_REPRODUCTION'):continue
         for side in ('upper','lower'):
             attestation=o.get(side+'_surface_attestation') or {}
@@ -416,6 +446,16 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                 'lower_execution_surface':lower.execution_surface})
             observations.append(marker);gaps.append(marker);upper=lower;chain_connected=False
             continue
+        if upper_surface != lower_surface and any((p.evidence or {}).get('surface_attestation',{}).get('status')!='MATCHED' for p in (upper,lower)):
+            marker=_observation({'id':f'boundary-{index}-partial-attestation','tool':'process',
+                'upper_layer':upper.layer,'lower_layer':lower.layer,'comparison_status':'NOT_COMPARABLE',
+                'reason':'SURFACE_COVERAGE_INSUFFICIENT_FOR_CROSS_SURFACE_COMPARISON',
+                'upper_evidence_id':upper.evidence['id'],'lower_evidence_id':lower.evidence['id'],
+                'upper_execution_surface':upper.execution_surface,'lower_execution_surface':lower.execution_surface,
+                'upper_surface_attestation':upper.evidence.get('surface_attestation'),
+                'lower_surface_attestation':lower.evidence.get('surface_attestation')})
+            observations.append(marker);gaps.append(marker);upper=lower;chain_connected=False
+            continue
         if upper_surface is None or lower_surface is None or upper_surface==lower_surface:
             reason='NO_INDEPENDENT_LOWER_READ'
             marker=_observation({'id':f'boundary-{index}-not-comparable','tool':'process',
@@ -473,22 +513,22 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             else:context=None;skip(3,'presentation_context')
             context_obs=_observation(context.get('evidence'),'presentation_definition') if context else None
             if context_obs:observations.append(context_obs)
-            if context and context.get('explains') is True:
+            if context and context_obs and context.get('status')=='COMPLETED' and context.get('explains') is True:
                 return answer('PRESENTATION_LOGIC',3,observations,lower.layer,baseline=boundary_baseline,
                     roles=('presentation_definition','comparison'),
                     explanation=context.get('explanation'),skipped_steps=skipped)
-            if context and context.get('status') not in (None,'COMPLETED'):
-                unavailable(3,'presentation_context',context.get('reason') or 'Presentation context check was inconclusive.')
+            if not context or not context_obs or context.get('status')!='COMPLETED' or type(context.get('explains')) is not bool:
+                unavailable(3,'presentation_context',(context or {}).get('reason') or 'Presentation context check did not establish a completed judgment.')
         if 'transformation_definition' in available:definition=adapter.transformation_definition(boundary)
         else:definition=None;skip(5,'transformation_definition')
         definition_obs=_observation(definition.get('evidence'),'transformation_definition') if definition else None
         if definition_obs:observations.append(definition_obs)
-        if definition and definition.get('explains') is True:
+        if definition and definition_obs and definition.get('status')=='COMPLETED' and definition.get('explains') is True:
             return answer('TRANSFORMATION_LOGIC',5,observations,lower.layer,baseline=boundary_baseline,
                 roles=('transformation_definition','comparison'),explanation=definition.get('explanation'),
                 skipped_steps=skipped)
-        if definition and (definition.get('status') not in (None,'COMPLETED') or definition.get('explains') is None):
-            unavailable(5,'transformation_definition',definition.get('reason') or 'Transformation-definition check was inconclusive.')
+        if not definition or not definition_obs or definition.get('status')!='COMPLETED' or type(definition.get('explains')) is not bool:
+            unavailable(5,'transformation_definition',(definition or {}).get('reason') or 'Transformation-definition check did not establish a completed judgment.')
         if 'job_history' in available:job=adapter.job_history(boundary)
         else:job=None;skip(5,'job_history')
         job_obs=_observation(job.get('evidence'),'job_history','prior_state') if job else None
@@ -497,8 +537,8 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             return answer('LOAD_LATENCY',5,observations,lower.layer,baseline=boundary_baseline,
                 roles=('job_history','prior_state','comparison'),explanation=job.get('explanation'),
                 skipped_steps=skipped)
-        if job and job.get('status')=='UNAVAILABLE':
-            unavailable(5,'job_history',job.get('reason') or 'Job-history check was unavailable.')
+        if not job or job.get('status') not in ('CURRENT','NOT_APPLICABLE','LATENT') or (job.get('status')=='CURRENT' and not job_obs):
+            unavailable(5,'job_history',(job or {}).get('reason') or 'Job-history completion was not established.')
         missing=[x['capability'] for x in skipped if x['step'] in ((3,5) if index==1 else (5,))]
         if missing:
             reason='Divergence observed, but competing explanations were not checked: '+', '.join(missing)+'.'

@@ -111,6 +111,13 @@ def validate(assessment, observations):
     if outcome not in OUTCOMES:
         raise ValueError('Unsupported process-debugging outcome')
     from .declared_reproduction import KIND, validate as validate_reproduction
+    from .process_debugging import unattested_surface_fields
+    for entry in unattested_surface_fields(observations.values()):
+        if not any(entry['field'] in limit and str(entry['layer']) in limit for limit in assessment.get('limits',[])):
+            raise ValueError('Every unattested surface field must be named in the limits')
+        for output in ('business_output','technical_output'):
+            if output in assessment and entry not in assessment[output].get('unattested_surface_fields',[]):
+                raise ValueError('Every unattested surface field must be named in both outputs')
     for observation in observations.values():
         if observation.get('check_kind')!=KIND:continue
         validate_reproduction(observation,observations)
@@ -238,7 +245,9 @@ def validate(assessment, observations):
         # whatever a surface could not report must travel with the claim.
         for side in ('upper','lower'):
             attestation=comparison.get(side+'_surface_attestation')
-            if not isinstance(attestation,dict) or attestation.get('status')!='MATCHED':
+            if (not isinstance(attestation,dict) or attestation.get('status')!='MATCHED'
+                    or attestation.get('coverage')!='FULL' or attestation.get('consistency')!='MATCHED'
+                    or attestation.get('unattested_fields')):
                 raise ValueError('A boundary comparison requires both surfaces to be attested')
             layer=comparison.get(side+'_layer')
             for field in attestation.get('unattested_fields',[]):

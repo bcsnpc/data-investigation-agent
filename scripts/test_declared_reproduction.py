@@ -1,3 +1,9 @@
+from investigator.reported_figure import from_candidates
+
+def exact(value):
+ text=str(value)
+ return from_candidates([{"start":0,"end":len(text),"quote":text}],text)
+
 import copy
 import unittest
 
@@ -60,7 +66,7 @@ class NeutralAdapter(Adapter):
         return {'status': 'INCONCLUSIVE', 'explains': None, 'reason': 'Active selection unknown.'}
 
 
-SCOPE = {'filters': [{'column_id': 'field-a', 'values': ['y']}], 'reported_figure': 3}
+SCOPE = {'filters': [{'column_id': 'field-a', 'values': ['y']}], 'reported_figure': exact(3)}
 
 
 class ReproductionTests(unittest.TestCase):
@@ -139,7 +145,7 @@ class ReproductionTests(unittest.TestCase):
                                any(r['values'] == [] for r in scope['restrictions']) else 8})
         adapter = ScopeEvaluatingAdapter()
         adapter.restrictions[0]['values'] = ['x']; adapter.restrictions[1]['values'] = ['y']
-        result = self.run_check(adapter, {**SCOPE, 'reported_figure': 0})
+        result = self.run_check(adapter, {**SCOPE, 'reported_figure': exact(0)})
         empty = [{'field_id': 'field-a', 'operator': 'IN', 'values': []}]
         self.assertEqual(adapter.read_scopes[0]['restrictions'], [])
         self.assertEqual(adapter.read_scopes[1]['restrictions'], empty)
@@ -155,7 +161,7 @@ class ReproductionTests(unittest.TestCase):
         adapter.restrictions = [
             {'field_id': columns[0]['id'], 'operator': 'IN', 'values': ['x']},
             {'field_id': columns[1]['id'], 'operator': 'IN', 'values': ['y']}]
-        result = self.run_check(adapter, {'dimension_ids': [c['id'] for c in columns]})
+        result = self.run_check(adapter, {'reported_figure':exact(3),'dimension_ids': [c['id'] for c in columns]})
         self.assertEqual(len(result['finding']['composed_restrictions']), 2)
         self.assertEqual(adapter.read_scopes[1]['restrictions'], adapter.restrictions)
         self.assertTrue(all(r['values'] for r in adapter.read_scopes[1]['restrictions']))
@@ -163,40 +169,40 @@ class ReproductionTests(unittest.TestCase):
     def test_empty_intersection_can_return_native_blank_without_becoming_zero(self):
         adapter=NeutralAdapter(None)
         adapter.restrictions[0]['values']=['x'];adapter.restrictions[1]['values']=['y']
-        result=self.run_check(adapter,{**SCOPE,'reported_figure':0})
+        result=self.run_check(adapter,{**SCOPE,'reported_figure':exact(0)})
         self.assertIsNone(result['finding']['reproduced_value'])
         self.assertEqual(result['finding']['label'],'NOT_REPRODUCED')
         self.assertIn('produced blank',result['business_output'])
         by_id={o['id']:o for o in result['observations']}
         _process_evidence(result['finding'],by_id,{'reproduction-read-1':{'quantity':8},'reproduction-read-2':{'quantity':None}})
 
-    def test_missing_reported_figure_retains_a_native_blank(self):
-        result=self.run_check(NeutralAdapter(None),{'filters':SCOPE['filters']})
+    def test_empty_reported_state_can_reproduce_native_blank(self):
+        result=self.run_check(NeutralAdapter(None),{'filters':SCOPE['filters'],
+            'reported_figure':{'state':'EMPTY','source':{'start':0,'end':5,'quote':'empty'}}})
         self.assertIsNone(result['finding']['reproduced_value'])
-        self.assertIsNone(result['finding']['label'])
-        self.assertEqual(result['finding']['unavailability'],reproduction.NO_FIGURE)
+        self.assertEqual(result['finding']['label'],'REPRODUCED')
 
-    def test_absent_reported_figure_has_value_but_no_verdict(self):
-        result = self.run_check(scope={'filters': SCOPE['filters']})
-        self.assertEqual(result['finding']['reproduced_value'], '3')
-        self.assertIsNone(result['finding']['label'])
-        self.assertEqual(result['finding']['unavailability'], reproduction.NO_FIGURE)
-        for key in ('business_output', 'technical_output'):
-            self.assertIn('No reported figure supplied', result[key])
+    def test_unspecified_figure_refuses_before_target_and_inventory(self):
+        adapter=NeutralAdapter()
+        with unittest.mock.patch.object(adapter,'declared_context',side_effect=AssertionError('Extraction must not run')):
+            result = self.run_check(adapter,scope={'filters': SCOPE['filters'],'reported_figure':{'state':'UNSPECIFIED'}})
+        self.assertEqual(result['reason'],reproduction.NO_FIGURE)
+        self.assertNotIn('finding',result)
+        self.assertEqual(adapter.read_scopes,[])
 
     def test_mismatch_is_possible_and_does_not_certify_cause(self):
-        result = self.run_check(scope={**SCOPE, 'reported_figure': 4})
+        result = self.run_check(scope={**SCOPE, 'reported_figure': exact(4)})
         self.assertEqual(result['finding']['label'], 'NOT_REPRODUCED')
         self.assertIn(reproduction.OPEN_LIMIT, result['finding']['limitations'])
 
     def test_match_does_not_require_difference_from_undeclared_value(self):
-        result = self.run_check(NeutralAdapter(8), {**SCOPE, 'reported_figure': 8})
+        result = self.run_check(NeutralAdapter(8), {**SCOPE, 'reported_figure': exact(8)})
         self.assertEqual(result['finding']['label'], 'REPRODUCED')
         self.assertTrue(result['finding']['values_equal'])
 
     def test_undeclared_or_irrelevant_predicates_issue_no_reads(self):
         adapter = NeutralAdapter()
-        result = self.run_check(adapter, {'filters': [{'column_id': 'other'}]})
+        result = self.run_check(adapter, {'reported_figure':exact(3),'filters': [{'column_id': 'other'}]})
         self.assertEqual(result['status'], 'UNDECLARED'); self.assertEqual(adapter.read_scopes, [])
         with unittest.mock.patch.object(adapter, 'capabilities', return_value=set()):
             with unittest.mock.patch.object(adapter, 'declared_context', side_effect=AssertionError):
@@ -410,8 +416,8 @@ class PlacementAndGatingTests(unittest.TestCase):
 
     def test_question_account_names_missing_figure_without_claiming_an_answer(self):
         from investigator.question_account import build
-        result=reproduction.run(NeutralAdapter(),{'id':'top'},'measure',{'filters':SCOPE['filters']})
-        state={'envelope':{'symptom':'Explain the difference.'},'observations':result['observations'],'assessment':{}}
+        result=vertical(NeutralAdapter(not_comparable=['lower']),'measure',{'filters':SCOPE['filters'],'reported_figure':{'state':'UNSPECIFIED'}})
+        state={'envelope':{'symptom':'Explain the difference.'},'observations':result['_observations'],'assessment':{}}
         account=build(state)
         self.assertEqual(account['status'],'NOT_ANSWERED')
         self.assertIn('no reported figure',account['subjects'][0]['reason'])

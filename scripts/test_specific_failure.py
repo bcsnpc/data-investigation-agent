@@ -46,7 +46,7 @@ class RefinementTests(unittest.TestCase):
         for failure in ({'specificity': 'SPECIFIC', 'codes': ['A']}, {'specificity': 'UNCERTAIN'}, None):
             probe = Probe('UNAVAILABLE', 'top', failure=failure)
             self.assertIs(refine_failure(adapter, {'failure_detail'}, {}, probe), probe)
-        observed = Probe('OBSERVED', 'top', failure=dict(GENERIC))
+        observed = Probe('OBSERVED', 'top', evidence={'id':'observed'},value=0, failure=dict(GENERIC))
         self.assertIs(refine_failure(adapter, {'failure_detail'}, {}, observed), observed)
         self.assertEqual(adapter.calls, 0)
 

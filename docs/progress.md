@@ -1,5 +1,7 @@
 # Project progress
 
+2026-10-02 UTC: [Explicit absence contract](explicit-absence-contract.md). One unchanged Family D attempt stopped at intake, no data reads or synthesis; appended its ledger row without modifying the earlier run. Contract and sweep corrections, hostile-producer tests and partial-attestation eligibility are recorded. No replacement run, fixture change, credit grant or acceptance claim.
+
 ## 2026-09-25 - Independent-boundary correction and stopped follow-up
 
 Review of #234 found that both apparent semantic-to-Gold values were produced by

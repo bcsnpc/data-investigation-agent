@@ -423,7 +423,7 @@ class MicrosoftProcessAdapter:
         binding=layer.get('binding') or {}
         partition=binding.get('declared_partition') or {}
         if binding.get('status')!='RESOLVED':return None,'The declared source binding is not resolved.'
-        if partition.get('partition_count')!=1 or partition.get('source_type') not in (None,'entity'):
+        if partition.get('partition_count')!=1 or partition.get('source_type')!='entity':
             return None,'The source partition is not a single whole-entity partition.'
         if not partition.get('schema_name') or not partition.get('entity_name'):
             return None,'The partition does not declare its source schema and entity.'
@@ -600,6 +600,8 @@ class MicrosoftProcessAdapter:
             'lakehouse':lakehouse,'table':asset['name'].removeprefix('dbo.')})
         evidence={'id':'ingestion-'+str(uuid4()),'tool':'context','completeness':'COMPLETE_RESPONSE',
                   'asset_id':asset['id'],'delta_commit':result}
-        return {'status':'CURRENT' if result.get('status')=='AVAILABLE' else 'UNAVAILABLE',
-                'reason':None if result.get('status')=='AVAILABLE' else 'Delta commit metadata unavailable.',
+        observed=(result.get('status')=='AVAILABLE' and isinstance(result.get('latest_commit'),str)
+                  and bool(result['latest_commit']) and isinstance(result.get('commit_info'),dict))
+        return {'status':'COMMIT_OBSERVED' if observed else 'UNAVAILABLE',
+                'reason':'A commit was observed; source-to-destination completeness and freshness were not established.' if observed else 'Delta commit metadata unavailable or incomplete.',
                 'evidence':evidence}

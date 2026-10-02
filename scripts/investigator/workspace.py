@@ -77,7 +77,7 @@ class Workspace:
 
     def preview(self, request):
         fields(request, ['model_id', 'measure_id', 'filters', 'dimension_ids', 'symptom', 'predecessor'] +
-               (['intake_id'] if 'intake_id' in request else []))
+               [k for k in ('intake_id','reported_figure') if k in request])
         intake = self.intake.review(request['intake_id'], request) if 'intake_id' in request else None
         model = self.store.get(request['model_id'])
         if not model['enabled']:
@@ -88,6 +88,12 @@ class Workspace:
             if previous['model_id'] != model['id'] or previous['status'] != 'NEEDS_INPUT':
                 raise Conflict('Clarification must continue a waiting investigation in the same model')
         envelope = {k: request[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids', 'symptom')}
+        if 'reported_figure' in request:
+            from .reported_figure import validate
+            validate(request['reported_figure'],request['symptom'])
+            if intake is None or request['reported_figure']!=intake['reported_figure']:
+                raise Conflict('Reported figure must match the reviewed intake evidence')
+            envelope['reported_figure']=request['reported_figure']
         envelope.update(revision=model['revision'], context_id=model['context_id'], source_tests=[],
                         source_selection='reviewed_mappings', record_selection='reviewed_mappings', joint_native_records=True, limits=dict(LIMITS))
         if model.get('discovery'):

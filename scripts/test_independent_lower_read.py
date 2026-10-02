@@ -125,6 +125,7 @@ class CompileTests(unittest.TestCase):
 
     def test_unfaithful_mappings_are_refused_and_fall_back_to_the_within_layer_check(self):
         cases = {'roles': declared_layer(declared_role_count=1),
+                 'omitted source type': declared_layer(declared_partition={'schema_name':'sch','entity_name':'ent','partition_count':1}),
                  'partitions': declared_layer(declared_partition={'schema_name': 'sch', 'entity_name': 'ent',
                                                                   'source_type': 'entity', 'partition_count': 2}),
                  'query partition': declared_layer(declared_partition={'schema_name': 'sch', 'entity_name': 'ent',
@@ -227,13 +228,13 @@ class ProcedureAdapter:
             return Probe('OBSERVED', 'presentation', {'id': 'dax', 'tool': 'bounded_dax'}, {'quantity': self.upper},
                          execution_surface={'engine': 'POWER_BI_DAX', 'connection': 'ws', 'object': 'model',
                                             'identity': 'reader'},
-                         surface_report={'identity': 'reader'}, surface_reportable=('identity',))
+                         surface_report={'identity': 'reader','engine':'POWER_BI_DAX','connection':'ws','object':'model'}, surface_reportable=('identity',))
         return Probe('OBSERVED', 'declared-source', {'id': 'sql', 'tool': 'bounded_fabric_sql',
                                                      'binding_provenance': self.provenance},
                      {'quantity': self.lower},
                      execution_surface={'engine': 'FABRIC_SQL', 'connection': 'sql://h', 'object': 'db',
                                         'identity': 'reader'},
-                     surface_report={'identity': 'reader', 'object': 'db'}, surface_reportable=('identity', 'object'))
+                     surface_report={'identity': 'reader', 'object': 'db','engine':'FABRIC_SQL','connection':'sql://h'}, surface_reportable=('identity', 'object'))
 
     def presentation_context(self, boundary, scope):
         return {'status': 'INCONCLUSIVE', 'explains': None}
@@ -257,7 +258,7 @@ class ProcedureTests(unittest.TestCase):
         self.assertEqual((comparison['upper_layer'], comparison['lower_layer']), ('presentation', 'declared-source'))
         self.assertNotEqual(comparison['upper_execution_surface']['engine'], comparison['lower_execution_surface']['engine'])
         named = {(u['layer'], u['field']) for u in result['business_output']['unattested_surface_fields']}
-        self.assertIn(('presentation', 'object'), named)
+        self.assertEqual(named,set()) # This synthetic producer self-reports all four fields.
         for output in ('business_output', 'technical_output'):
             self.assertEqual(result[output]['compared_bindings'][0]['provenance'], 'DECLARED_BY_DEFINITION')
         process_outcomes.validate(result, {o['id']: o for o in result['_observations']})
