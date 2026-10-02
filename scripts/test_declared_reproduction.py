@@ -26,7 +26,12 @@ class NeutralAdapter(Adapter):
         return super().capabilities() | {reproduction.CAPABILITY}
 
     def declared_context(self, layer, measure_id, scope):
+        from investigator.declaration_inventory import identity
+        source={'location':'definition/selection','content_hash':'a'*64}
         return {'status': 'DECLARED', 'restrictions': copy.deepcopy(self.restrictions),
+                'inventory':{'discovered':[source], 'entries':[{'id':identity(source),'source':source,
+                    'disposition':'ACTIVE','volatility':'FIXED','assumption':'NONE','opaque_provenance':'opaque',
+                    'restrictions':copy.deepcopy(self.restrictions)}]},
                 'evidence': {'id': 'declaration', 'tool': 'context', 'completeness': 'COMPLETE_RESPONSE',
                     'declaration_provenance': 'DECLARED_BY_DEFINITION',
                     'declared_restrictions': copy.deepcopy(self.restrictions),
@@ -72,7 +77,7 @@ class ReproductionTests(unittest.TestCase):
         self.assertEqual(result['finding']['label'], 'REPRODUCED')
         observations = {o['id']: o for o in result['observations']}
         observations['declaration']['declared_restrictions'].pop(0)
-        with self.assertRaisesRegex(ValueError, 'intersection'):
+        with self.assertRaisesRegex(ValueError, 'coverage|intersection'):
             reproduction.validate(result['finding'], observations)
 
     def test_empty_intersection_is_preserved_not_dropped(self):
@@ -356,7 +361,7 @@ class PlacementAndGatingTests(unittest.TestCase):
         self.assertIn('WITHIN_LAYER_CHECK',outputs['technical_output']['explanation']['text'])
         self.assertEqual(outputs['business_output']['question_account']['status'],'PARTLY_ANSWERED')
         state['observations'][-2]['applied_restrictions']=[]
-        with self.assertRaisesRegex(ValueError,'intersection'):
+        with self.assertRaisesRegex(ValueError,'coverage|intersection'):
             synthesis_narrative.assemble(synthesis_narrative.Response(fixtures.response(payload)),payload,state)
 
     def test_question_account_names_missing_figure_without_claiming_an_answer(self):

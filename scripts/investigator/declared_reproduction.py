@@ -104,10 +104,12 @@ def render(marker, business=False, include_limits=True):
         finding = 'No reported figure supplied; the produced value has no reproduction verdict.'
     limits = ('This does not establish the active selections, business correctness or an unrestricted total. '
               'Different update times, other selections or security restrictions, and a difference further back remain possible.')
+    from .declaration_inventory import qualifications
+    specific = qualifications(marker['declarations'], marker['label'])[4:]
     if business:
-        return first + ' ' + finding + ' ' + limits
+        return first + ' ' + finding + ' ' + limits + (' ' + ' '.join(specific) if specific else '')
     return (f"WITHIN_LAYER_CHECK ({marker['id']}): undeclared-context value {baseline}; declared-context value {declared}. "
-            + finding + (' ' + limits if include_limits else ''))
+            + finding + (' ' + limits + (' ' + ' '.join(specific) if specific else '') if include_limits else ''))
 
 
 def run(adapter, layer, measure_id, scope):
@@ -121,9 +123,22 @@ def run(adapter, layer, measure_id, scope):
     if CAPABILITY not in adapter.capabilities():
         return {'status': 'UNDECLARED', 'observations': []}
     declaration = adapter.declared_context(layer, measure_id, copy.deepcopy(scope))
+    from . import declaration_inventory as inventory
+    try:
+        entries = inventory.validate(declaration.get('inventory'), declaration.get('restrictions', []))
+    except UnsupportedRestriction as exc:
+        return {'status': 'UNDECLARED', 'reason': str(exc), 'unsupported_form': exc.form, 'observations': []}
+    except ValueError as exc:
+        return {'status': 'UNDECLARED', 'reason': str(exc), 'unsupported_form': 'DECLARATION_INVENTORY_CONTRACT', 'observations': []}
+    unsupported = [e for e in entries if e['disposition'] == 'UNSUPPORTED']
+    if unsupported:
+        return {'status': 'UNDECLARED', 'reason': 'Unsupported declarations: ' + ', '.join(e['id'] for e in unsupported),
+                'unsupported_form': 'UNSUPPORTED_DECLARATION', 'inventory': inventory.neutral(entries), 'observations': []}
     if declaration.get('status') != 'DECLARED':
         return {'status': declaration.get('status', 'UNDECLARED'),
                 'reason': declaration.get('reason') or 'Declared scope evidence is unavailable.', 'observations': []}
+    if not declaration['restrictions']:
+        return {'status': 'UNDECLARED', 'reason': 'No active declaration restrictions.', 'observations': []}
     try:
         restrictions = compose(declaration['restrictions'])
     except UnsupportedRestriction as exc:
@@ -132,6 +147,7 @@ def run(adapter, layer, measure_id, scope):
     if not applicable(restrictions, scope):
         return {'status': 'UNDECLARED', 'reason': 'No declared predicate bears on the resolved ticket scope.', 'observations': []}
     definition = _observation(declaration['evidence'], 'declared_context_definition')
+    definition['declaration_inventory'] = copy.deepcopy(declaration['inventory'])
     if (not definition or definition.get('status') != 'COMPLETED'
             or definition.get('completeness') != 'COMPLETE_RESPONSE'
             or definition.get('declaration_provenance') != 'DECLARED_BY_DEFINITION'
@@ -178,7 +194,8 @@ def run(adapter, layer, measure_id, scope):
         'label': _label(reported, observations[-1]['reproduction_quantity']),
         'unavailability': NO_FIGURE if reported is None else None,
         'values_equal': observations[-2]['reproduction_quantity'] == observations[-1]['reproduction_quantity'],
-        'limitations': [BASELINE_LIMIT, ACTIVE_LIMIT, TIMING_LIMIT, OPEN_LIMIT]}, 'declared_context_reproduction')
+        'declarations': inventory.neutral(entries),
+        'limitations': inventory.qualifications(inventory.neutral(entries), _label(reported, observations[-1]['reproduction_quantity']))}, 'declared_context_reproduction')
     observations.append(marker)
     validate(marker, {o['id']: o for o in observations})
     return {'status': 'COMPLETED', 'finding': marker, 'observations': observations,
@@ -203,6 +220,10 @@ def validate(marker, observations, quantities=None):
         raise ValueError('Reproduction requires complete original receipts')
     if definition.get('declaration_provenance') != 'DECLARED_BY_DEFINITION':
         raise ValueError('Reproduction requires declared definition provenance')
+    from . import declaration_inventory as inventory
+    entries = inventory.validate(definition.get('declaration_inventory'), definition['declared_restrictions'])
+    if any(e['disposition'] == 'UNSUPPORTED' for e in entries) or marker.get('declarations') != inventory.neutral(entries):
+        raise ValueError('Reproduction inventory differs or contains unsupported declarations')
     restrictions = compose(definition['declared_restrictions'])
     if marker['composed_restrictions'] != restrictions or a.get('applied_restrictions') != [] or b.get('applied_restrictions') != restrictions:
         raise ValueError('Reproduction scope does not preserve declared intersection')
@@ -228,6 +249,6 @@ def validate(marker, observations, quantities=None):
             or marker['values_equal'] is not (values[0] == values[1])
             or marker['label'] != _label(marker['reported_figure'], values[1])
             or marker['unavailability'] != (NO_FIGURE if marker['reported_figure'] is None else None)
-            or marker['limitations'] != [BASELINE_LIMIT, ACTIVE_LIMIT, TIMING_LIMIT, OPEN_LIMIT]):
+            or marker['limitations'] != inventory.qualifications(inventory.neutral(entries), marker['label'])):
         raise ValueError('Reproduction verdict or mandatory limitations differ')
     return marker
