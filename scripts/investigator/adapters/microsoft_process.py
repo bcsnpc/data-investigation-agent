@@ -40,9 +40,11 @@ class MicrosoftProcessAdapter:
         self.read_refresh_timing=read_refresh_timing
         self.read_snapshot_identity=read_snapshot_identity
         self._paths={}
+        self._declared_checks={}
 
     def capabilities(self):
-        result={'resolve_measure_path','evaluate_scoped_quantity','presentation_context','job_history','declared_source_comparison'}
+        result={'resolve_measure_path','evaluate_scoped_quantity','presentation_context','job_history','declared_source_comparison',
+                'declared_context_reproduction'}
         if self.judge_definition is not None:result.add('transformation_definition')
         if self.read_ingestion is not None:result.add('ingestion')
         if (self.lower_surface or {}).get('status')=='READY' and self.execute_lower is not None:
@@ -73,6 +75,72 @@ class MicrosoftProcessAdapter:
                 if surface.get('status')=='ACCOUNT_MISMATCH' else
                 'No independent lower surface is configured.')
         return result
+
+    def declared_context(self,layer,measure_id,scope):
+        from .report_predicates import pinned, extract, quantity_query, Refusal
+        from ..declared_reproduction import compose, UnsupportedRestriction
+        from ..flexible_tools import build as admit_query
+        self._declared_checks.pop(measure_id,None)
+        if layer.get('kind')!='presentation':
+            return {'status':'UNDECLARED','reason':'Declared reproduction requires a presentation layer.'}
+        try:
+            model=pinned(self)
+            declaration=extract(model,measure_id,scope)
+            # Collection status is not capability eligibility. Return the complete
+            # inventory for the engine's UNSUPPORTED gate; do not cache partial reads.
+            if any(e['disposition']=='UNSUPPORTED' for e in declaration['inventory']['entries']):
+                return declaration
+            # Leave invalid inventories to the consumer gate, including combined
+            # bounds, before preflight can attempt to compose an inadmissible set.
+            from ..declaration_inventory import validate as validate_inventory
+            try: validate_inventory(declaration['inventory'], declaration['restrictions'])
+            except ValueError: return declaration
+            # Preflight both queries, so an unsupported rendering cannot consume a baseline read.
+            for applied in (([],compose(declaration['restrictions'])) if declaration['restrictions'] else ()):
+                query=quantity_query(model,measure_id,applied)
+                admit_query(self.store,{'model_id':model['id'],'revision':model['revision'],
+                    'context_id':model['context_id'],'query':query,'max_rows':20,
+                    'surface_report':{'identity':SURFACE_IDENTITY}},self.config,'bounded_dax')
+        except (Refusal,UnsupportedRestriction) as exc:
+            return {'status':'UNDECLARED','reason':str(exc),'unsupported_form':exc.form}
+        self._declared_checks[measure_id]=declaration
+        return declaration
+
+    def evaluate_declared_context(self,layer,measure_id,scope):
+        import copy
+        from .report_predicates import pinned, quantity_query
+        from ..declared_reproduction import compose
+        from ..onboarding import Conflict
+        model=pinned(self)
+        declaration=getattr(self,'_declared_checks',{}).get(measure_id)
+        if not declaration:raise Conflict('No complete pinned declaration admitted for reproduction')
+        applied=scope.get('restrictions')
+        if (set(scope)!={'restrictions','dimension_ids'} or scope['dimension_ids']!=[]
+                or not isinstance(applied,list) or applied not in ([],compose(declaration['restrictions']))):
+            raise Conflict('Reproduction scope differs from the pinned composed declaration')
+        measure=next(a for a in assets(model['context']) if a['id']==measure_id)
+        if layer.get('kind')!='presentation' or layer['id']!=measure['parent_id']:
+            raise Conflict('Reproduction layer differs from the resolved measure layer')
+        query=quantity_query(model,measure_id,applied)
+        plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],
+              'query':query,'max_rows':20,'surface_report':{'identity':SURFACE_IDENTITY}}
+        execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
+        result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
+        reader=self.config['fabric']['native_reader']
+        surface={'engine':'POWER_BI_DAX','connection':model['workspace'],
+                 'object':model['native_id'],'identity':reader['account']}
+        if result['status']!='COMPLETED':
+            return Probe('UNAVAILABLE',layer['id'],reason='Declared reproduction read did not complete.',
+                         query=query,execution_surface=surface)
+        body=result['result'];rows=body['rows']
+        return Probe('OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
+            'completeness':body['completeness'],'values':rows,'request_hash':result['request_hash'],
+            'measure_id':measure_id,'applied_restrictions':copy.deepcopy(applied),
+            'context_id':model['context_id'],'model_revision':model['revision'],
+            'definition_evidence_id':declaration['evidence']['id'],
+            'conditional_declarations':copy.deepcopy(declaration['evidence']['conditional_declarations'])},
+            value=_quantity(rows,plan['surface_report']),query=query,execution_surface=surface,
+            surface_report=body.get('surface_report'),surface_reportable=('identity',))
 
     def resolve_declared_source(self,declaration):
         context=context_search.latest(self.store)

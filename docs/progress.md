@@ -1789,3 +1789,22 @@ Current implementation (2026-10-01): [Declared-context reproduction engine](decl
 Amendment (2026-10-01): PR #294 retains the accepted pre-intersection design. Empty intersections reach evaluation as explicit empty restrictions; same-named columns use distinct fully resolved catalog identities. Unsupported range, negation, relative-date, measure-condition and Top N forms refuse the whole reproduction declaration as UNDECLARED, naming the form without issuing reproduction reads. All 1,361 local regression tests pass, including 34 reproduction tests; the two required generator tests also pass. All 732 local documentation targets resolve and git diff --check passes. Final amended-head CI is tracked on #294. No adapter, live run, discovery or policy change; prior freezes remain invalidated.
 
 Dated correction, 2026-10-01: #294's contract was insufficient for exhaustive declaration dispositions and saved-default qualifications. [PR A](declaration-inventory-contract.md) extends the neutral engine contract; all 1,386 final regression tests passed, including 25 inventory tests. CI is tracked on PR A. Original claims remain preserved. #295 stays unmerged pending its separate adapter update. Prior freezes invalidated. No investigation run or ledger row.
+
+
+Current implementation (2026-10-01): [Declared-predicate adapter](declared-context-reproduction-adapter.md). #294 merged as 25e2aa8. The native adapter reads only pinned report parts, excludes stored bookmarks, and compiles intersected default predicates through existing DAX admission and receipted reader execution. Ambiguous target visuals or unknown predicate/applicability forms refuse before reproduction reads. Empty sets remain explicit empty-relation filters. Both probes require surface attestation and remain within-layer; the lower filtered-scope refusal is unchanged. Validation: 1,393 regression tests passed, including 32 adapter tests. No live reproduction or production ticket integration is claimed. Planner coverage is unchanged; prior freezes are invalidated.
+
+
+## 2026-10-01 - PR B inventory-producing adapter correction
+
+#295 rebased onto merged #296 (`7ec4a40`). The post-#296 contract already contains
+all four required features; no second engine extension is needed or implemented.
+The adapter derives its active set solely from its exhaustive disposition
+inventory. Unknown native forms remain UNSUPPORTED and reach the engine gate;
+bookmarks are CONDITIONAL, saved slicer defaults ACTIVE and volatile. Forty-six
+adapter tests pass, including hostile producer validation and the permanent
+unfamiliar visual. All 1,432 final regression tests passed. Extraction-only fixture
+verification found four ACTIVE and five CONDITIONAL entries, including both saved
+defaults; no reads or ticket. PR3 must include those defaults in its authored
+figure. [Full correction and limits](declared-context-reproduction-adapter.md).
+README/status updated, original audit retained, freeze invalidation explicit.
+No investigation run, so no ledger row.
