@@ -1,3 +1,9 @@
+from investigator.reported_figure import from_candidates
+
+def exact(value):
+ text=str(value)
+ return from_candidates([{"start":0,"end":len(text),"quote":text}],text)
+
 """Adapter/compiler contracts with synthetic pinned metadata and injected transport."""
 import copy
 from contextlib import contextmanager
@@ -92,7 +98,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         def meter(tool, read): self.meters.append(tool); return read()
         self.adapter = MicrosoftProcessAdapter(self.store, self.config, self.model, execute, self.fail, meter_read=meter)
         self.layer = {'id': self.table['id'], 'kind': 'presentation'}
-        self.scope = {'filters': [{'column_id': self.column['id'], 'values': ['North']}], 'reported_figure': 3}
+        self.scope = {'filters': [{'column_id': self.column['id'], 'values': ['North']}], 'reported_figure': exact(3)}
 
     def test_combined_inventory_bound_is_refused_by_engine_before_compilation(self):
         self.modify(self.page, lambda d: d['filterConfig'].update(
@@ -162,7 +168,8 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
             self.assertEqual(request['requires_native_reader'], True)
             self.assertIn('USERPRINCIPALNAME()', request['query'])
         for observation in result['observations'][1:3]:
-            self.assertEqual(observation['surface_attestation']['status'], 'MATCHED')
+            self.assertEqual(observation['surface_attestation']['status'], 'PARTIAL')
+            self.assertEqual(observation['surface_attestation']['consistency'], 'MATCHED')
             self.assertEqual(observation['context_id'], self.model['context_id'])
             self.assertEqual(observation['model_revision'], 4)
             self.assertTrue(observation['conditional_declarations'])
@@ -445,7 +452,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         for output in ('business_output','technical_output'):
             self.assertIn('assumes saved default',result[output])
             self.assertNotIn('confirmed',result[output].lower())
-        self.scope['reported_figure']=4
+        self.scope['reported_figure']=exact(4)
         result=self.run_check()
         self.assertEqual(result['finding']['label'],'NOT_REPRODUCED')
         for output in ('business_output','technical_output'):

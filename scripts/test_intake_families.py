@@ -41,6 +41,7 @@ class IntakeFamilyTests(unittest.TestCase):
                 value=json.loads(output['arguments'])
                 shape=value.pop('ticket_shape');mode=value.pop('comparison_mode')
                 value['triage']=shape+':'+mode if shape is not None else None
+                value['reported_candidates']=[] # Explicit new synthetic response; the v1 fixture is unchanged.
                 output['arguments']=json.dumps(value)
             return httpx.Response(200,json=response)
         return patch('openai.DefaultHttpxClient',side_effect=lambda **kw:DefaultHttpxClient(transport=httpx.MockTransport(transport),**kw))
@@ -59,6 +60,8 @@ class IntakeFamilyTests(unittest.TestCase):
                 expected['instructions']=expected['instructions'].replace(
                     'ticket_shape and comparison_mode are null','triage is null').replace(
                     'both triage fields are required','triage is required')
+                from investigator.question_intake import FIGURE_INSTRUCTIONS
+                expected['instructions']+=FIGURE_INSTRUCTIONS
                 schema=expected['tools'][0]['parameters']
                 for key in ('ticket_shape','comparison_mode'):
                     schema['properties'].pop(key);schema['required'].remove(key)
@@ -66,6 +69,9 @@ class IntakeFamilyTests(unittest.TestCase):
                     'enum':['MISMATCH_COMPLAINT:VERTICAL','MISMATCH_COMPLAINT:HORIZONTAL','BUSINESS_QUESTION:NONE',None],
                     'description':'Ticket shape and comparison mode as one valid pair; null only for ASK.'}
                 schema['required'].append('triage')
+                from investigator.reported_figure import SPAN_SCHEMA
+                schema['properties']['reported_candidates']={'type':'array','maxItems':8,'items':SPAN_SCHEMA}
+                schema['required'].insert(schema['required'].index('triage'),'reported_candidates')
                 # Migrate only producer field bounds from the immutable v1 tape.
                 from investigator import proposal_limits as limits
                 for key,bound in (('metric_quote',limits.INTAKE_QUOTE),('question',limits.QUESTION)):
@@ -77,7 +83,7 @@ class IntakeFamilyTests(unittest.TestCase):
                 next(x for x in scalar if x['type']=='string')['maxLength']=limits.FILTER_STRING
                 next(x for x in scalar if x['type']=='integer').update(minimum=-limits.EXACT_INTEGER,maximum=limits.EXACT_INTEGER)
                 self.assertEqual(requests,[expected])
-                self.assertEqual(decision,case['decision'])
+                self.assertEqual(decision,{**case['decision'],'reported_figure':{'state':'UNSPECIFIED'}})
                 self.assertTrue(score(case,decision)['passed'])
 
     def test_all_nine_families_reach_reviewed_investigation_and_a_read(self):

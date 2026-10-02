@@ -63,7 +63,13 @@ def build(state):
                 elif reproductions:
                     refs=[o['id'] for o in reproductions]
                     reason='Declared selections were evaluated, but no reported figure was supplied; no reproduction verdict or independent comparison was established.'
-                else:reason='No independent comparison established an answer to the requested difference.'
+                else:
+                    from .declared_reproduction import NO_FIGURE
+                    refusals=[o for o in observations if o.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE']
+                    if any(o.get('reason')==NO_FIGURE for o in refusals):
+                        refs=[o['id'] for o in refusals if o.get('reason')==NO_FIGURE]
+                        reason='There is no reported figure to compare; no reproduction verdict was established.'
+                    else:reason='No independent comparison established an answer to the requested difference.'
         checks.append({'subject':subject,'status':status,'reason':reason,'evidence_ids':refs})
     states=[c['status'] for c in checks]
     status=('ANSWERED' if all(s=='ANSWERED' for s in states) else

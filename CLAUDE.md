@@ -115,6 +115,19 @@ never selects an outcome.
 
 ## Comparison-based freshness context (2026-10-01)
 
+Dated correction, 2026-10-02: surface consistency and coverage are separate.
+MATCHED now means full coverage; PARTIAL means the reported fields match but
+other declared fields remain unattested. Identity-only partial evidence may
+support a qualified within-layer reproduction on the same declared route and
+account, never verified cross-surface boundary evidence. Both sides of a verified
+boundary must report the complete declared surface. The current Microsoft
+Execute Queries route is permanently partial under its documented response
+contract: USERPRINCIPALNAME reports identity; engine, workspace connection and
+model object are not self-reported, and INFO/DMV queries are unsupported on that
+route. This is a limit of the adapter/route, not every possible future platform
+interface. Prior recorded MATCHED labels are preserved unchanged and do not
+retroactively establish full coverage. See docs/explicit-absence-contract.md.
+
 An unchanged declared source expression does not establish equivalent read context.
 Comparison-based REFRESH_LATENCY requires explicit matching whole-entity context
 on both completed observations, rechecked against the originals at validation.

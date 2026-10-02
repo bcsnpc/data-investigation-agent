@@ -147,7 +147,7 @@ class OptionalReaderTests(unittest.TestCase):
                          'snapshot_identity_reader':{'account':'metadata@example.com','profile':'.local/snapshot-reader'}}}
     def probe(self):
         from investigator.process_debugging import Probe
-        return Probe('OBSERVED','layer',{'id':'quantity-1'},execution_surface={'engine':'FABRIC_SQL','connection':'sql://host','object':'db'})
+        return Probe('OBSERVED','layer',{'id':'quantity-1'},value=0,execution_surface={'engine':'FABRIC_SQL','connection':'sql://host','object':'db'})
     def test_no_identity_fallback(self):
         import snapshot_identity_reader as reader
         with patch.object(reader,'session_status',return_value={'status':'SIGN_IN_REQUIRED'}),patch.object(reader,'cli') as cli:

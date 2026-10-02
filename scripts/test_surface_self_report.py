@@ -22,7 +22,8 @@ class AttestationTests(unittest.TestCase):
 
     def test_matching_report_names_attested_and_unattested_fields(self):
         result = attest_surface(self.DECLARED, {'identity': 'READER@example.com', 'object': 'gold'})
-        self.assertEqual(result['status'], 'MATCHED')
+        self.assertEqual(result['status'], 'PARTIAL')
+        self.assertEqual(result['consistency'], 'MATCHED')
         self.assertEqual(result['attested_fields'], ['identity', 'object'])
         self.assertEqual(result['unattested_fields'], ['connection', 'engine'])
 
@@ -136,7 +137,7 @@ class SurfaceTransportTests(unittest.TestCase):
         self.assertEqual(seen['database'], 'gold')
         self.assertEqual(result['surface_report'], {'identity': 'reader@example.com', 'object': 'gold'})
         self.assertEqual(result['execution_surface']['identity'], READER['account'])
-        self.assertEqual(attest_surface(result['execution_surface'], result['surface_report'])['status'], 'MATCHED')
+        self.assertEqual(attest_surface(result['execution_surface'], result['surface_report'])['status'], 'PARTIAL')
 
     def test_endpoint_default_database_is_caught_by_attestation(self):
         def run(command, input, **kwargs):

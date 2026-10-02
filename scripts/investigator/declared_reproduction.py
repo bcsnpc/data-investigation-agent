@@ -8,6 +8,7 @@ import copy
 import json
 from decimal import Decimal, InvalidOperation
 from . import proposal_limits as limits
+from . import reported_figure as figure
 
 CAPABILITY = 'declared_context_reproduction'
 KIND = 'DECLARED_CONTEXT_REPRODUCTION'
@@ -87,7 +88,7 @@ def number(value, *, allow_blank=False):
 
 
 def _label(reported, reproduced):
-    return None if reported is None else ('REPRODUCED' if reported == reproduced else 'NOT_REPRODUCED')
+    return figure.label(reported,reproduced)
 
 
 def render(marker, business=False, include_limits=True):
@@ -97,15 +98,16 @@ def render(marker, business=False, include_limits=True):
     declared = 'blank' if declared is None else declared
     first = f'Within-layer check: the same calculation service and account returned an undeclared-context value of {baseline}, and the declared selections produced {declared}.'
     if marker['label'] == 'REPRODUCED':
-        finding = f"The declared selections reproduce the reported figure of {marker['reported_figure']}; they account for that figure without requiring a difference further back."
+        qualified=' at its stated precision' if figure.qualification(marker['reported_figure']) else ''
+        finding = f"The declared selections reproduce the reported figure of {figure.display(marker['reported_figure'])}{qualified}; they account for that figure without requiring a difference further back."
     elif marker['label'] == 'NOT_REPRODUCED':
-        finding = f"The declared selections do not reproduce the reported figure of {marker['reported_figure']}."
+        finding = f"The declared selections do not reproduce the reported figure of {figure.display(marker['reported_figure'])}."
     else:
         finding = 'No reported figure supplied; the produced value has no reproduction verdict.'
     limits = ('This does not establish the active selections, business correctness or an unrestricted total. '
               'Different update times, other selections or security restrictions, and a difference further back remain possible.')
     from .declaration_inventory import qualifications
-    specific = qualifications(marker['declarations'], marker['label'])[4:]
+    specific = qualifications(marker['declarations'], marker['label'])[4:] + figure.qualification(marker['reported_figure'])
     if business:
         return first + ' ' + finding + ' ' + limits + (' ' + ' '.join(specific) if specific else '')
     return (f"WITHIN_LAYER_CHECK ({marker['id']}): undeclared-context value {baseline}; declared-context value {declared}. "
@@ -122,6 +124,11 @@ def run(adapter, layer, measure_id, scope):
     from .process_debugging import attest, _observation, _surface_key
     if CAPABILITY not in adapter.capabilities():
         return {'status': 'UNDECLARED', 'observations': []}
+    if 'reported_figure' not in scope:
+        return {'status':'UNAVAILABLE','reason':'Reported figure state was not supplied.','observations':[]}
+    reported = figure.validate(scope['reported_figure'])
+    if reported['state']=='UNSPECIFIED':
+        return {'status':'UNAVAILABLE','reason':NO_FIGURE,'observations':[]}
     declaration = adapter.declared_context(layer, measure_id, copy.deepcopy(scope))
     from . import declaration_inventory as inventory
     # Status is the existing declaration/refusal discriminant. An upstream
@@ -137,7 +144,7 @@ def run(adapter, layer, measure_id, scope):
                 **({'unsupported_form': declaration['unsupported_form']} if 'unsupported_form' in declaration else {}),
                 'observations': []}
     try:
-        entries = inventory.validate(declaration.get('inventory'), declaration.get('restrictions', []))
+        entries = inventory.validate(declaration.get('inventory'), declaration.get('restrictions'))
     except inventory.MissingInventory as exc:
         return {'status': 'UNDECLARED', 'reason': str(exc), 'unsupported_form': 'DECLARATION_INVENTORY_ABSENT', 'observations': []}
     except UnsupportedRestriction as exc:
@@ -164,8 +171,6 @@ def run(adapter, layer, measure_id, scope):
             or definition.get('declaration_provenance') != 'DECLARED_BY_DEFINITION'
             or definition.get('declared_restrictions') != declaration['restrictions']):
         raise ValueError('Declared scope requires retained definition evidence and provenance')
-    reported = scope.get('reported_figure')
-    reported = number(reported) if reported is not None else None
     observations = [definition]
     probes = []
     for purpose, applied in (('UNDECLARED_CONTEXT', []), ('DECLARED_CONTEXT', restrictions)):
@@ -203,10 +208,10 @@ def run(adapter, layer, measure_id, scope):
         'undeclared_context_value': observations[-2]['reproduction_quantity'],
         'reproduced_value': observations[-1]['reproduction_quantity'], 'reported_figure': reported,
         'label': _label(reported, observations[-1]['reproduction_quantity']),
-        'unavailability': NO_FIGURE if reported is None else None,
+        'unavailability': None,
         'values_equal': observations[-2]['reproduction_quantity'] == observations[-1]['reproduction_quantity'],
         'declarations': inventory.neutral(entries),
-        'limitations': inventory.qualifications(inventory.neutral(entries), _label(reported, observations[-1]['reproduction_quantity']))}, 'declared_context_reproduction')
+        'limitations': inventory.qualifications(inventory.neutral(entries), _label(reported, observations[-1]['reproduction_quantity'])) + figure.qualification(reported)}, 'declared_context_reproduction')
     observations.append(marker)
     validate(marker, {o['id']: o for o in observations})
     return {'status': 'COMPLETED', 'finding': marker, 'observations': observations,
@@ -248,7 +253,7 @@ def validate(marker, observations, quantities=None):
         attestation = observation.get('surface_attestation') or {}
         recomputed = attest_surface(observation['execution_surface'], observation.get('surface_report'),
                                    attestation.get('required_fields', ()))
-        if (recomputed != attestation or attestation.get('status') != 'MATCHED'
+        if (recomputed != attestation or attestation.get('status') not in ('MATCHED','PARTIAL')
                 or marker[side + '_surface_attestation'] != attestation
                 or marker[side + '_execution_surface'] != observation['execution_surface']
                 or observation.get('measure_id') != marker['measure_id']):
@@ -259,7 +264,7 @@ def validate(marker, observations, quantities=None):
     if (marker['undeclared_context_value'] != values[0] or marker['reproduced_value'] != values[1]
             or marker['values_equal'] is not (values[0] == values[1])
             or marker['label'] != _label(marker['reported_figure'], values[1])
-            or marker['unavailability'] != (NO_FIGURE if marker['reported_figure'] is None else None)
-            or marker['limitations'] != inventory.qualifications(inventory.neutral(entries), marker['label'])):
+            or marker['unavailability'] is not None
+            or marker['limitations'] != inventory.qualifications(inventory.neutral(entries), marker['label']) + figure.qualification(marker['reported_figure'])):
         raise ValueError('Reproduction verdict or mandatory limitations differ')
     return marker
