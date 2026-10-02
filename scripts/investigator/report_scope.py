@@ -45,6 +45,10 @@ LOOKUP_SCHEMA = {'anyOf': [variant('status', state, {'receipt_ids': {
 REQUEST_SCHEMA = variant('state', 'REQUESTED', {
     'report_binding': STATED_REPORT_SCHEMA, 'value_source': reported_figure.SPAN_SCHEMA,
     'column_source': {'anyOf': [{'type': 'null'}, reported_figure.SPAN_SCHEMA]}})
+from .selection_descriptor import SCHEMA as DESCRIPTOR_SCHEMA
+# Historical requests have no descriptor field. New intake's wire requires it;
+# it is part of this contract, never passed alongside the envelope.
+REQUEST_SCHEMA['properties']['descriptor']=DESCRIPTOR_SCHEMA
 
 SCHEMA = {'anyOf': [
     variant('resolution_kind', 'EVIDENCE', {'report_binding': STATED_REPORT_SCHEMA, 'column_id': ID,
@@ -248,9 +252,12 @@ def render(target, business=False):
 
 
 def validate_request(request, *, reports, ticket=None):
-    fields(request, REQUEST_SCHEMA['required'])
+    fields(request, REQUEST_SCHEMA['required']+(['descriptor'] if 'descriptor' in request else []))
     if request['state'] != 'REQUESTED': raise ValueError('Selection request is not a resolution')
     report_binding(request['report_binding'], reports=reports, ticket=ticket)
+    if 'descriptor' in request:
+        from .selection_descriptor import validate
+        validate(request['descriptor'],request['value_source'],ticket=ticket)
     reported_figure.span(request['value_source'], ticket)
     if request['column_source'] is not None: reported_figure.span(request['column_source'], ticket)
     return request

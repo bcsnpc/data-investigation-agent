@@ -64,9 +64,9 @@ class IntakeFamilyTests(unittest.TestCase):
                 expected['instructions']=expected['instructions'].replace(
                     'ticket_shape and comparison_mode are null','triage is null').replace(
                     'both triage fields are required','triage is required')
-                from investigator.question_intake import FIGURE_INSTRUCTIONS,TARGET_INSTRUCTIONS,REPORT_INSTRUCTIONS
+                from investigator.question_intake import FIGURE_INSTRUCTIONS,TARGET_INSTRUCTIONS,REPORT_INSTRUCTIONS,DESCRIPTOR_INSTRUCTIONS
                 expected['instructions']=expected['instructions'].replace('Quotes are provenance,','Repeated measure, column and selection quotes identify the same referent; every occurrence is retained. Reported-figure quotes alone must be unique; include longer verbatim context if necessary. Never emit offsets. Quotes are provenance,')
-                expected['instructions']+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS
+                expected['instructions']+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS+DESCRIPTOR_INSTRUCTIONS
                 schema=expected['tools'][0]['parameters']
                 for key in ('ticket_shape','comparison_mode'):
                     schema['properties'].pop(key);schema['required'].remove(key)
@@ -75,11 +75,13 @@ class IntakeFamilyTests(unittest.TestCase):
                     'description':'Ticket shape and comparison mode as one valid pair; null only for ASK.'}
                 schema['required'].append('triage')
                 from investigator.question_intake import QUOTE_SCHEMA
+                from investigator.selection_descriptor import schema as descriptor_schema
                 schema['properties']['reported_candidates']={'type':'array','maxItems':8,'items':QUOTE_SCHEMA}
                 schema['required'].insert(schema['required'].index('triage'),'reported_candidates')
                 schema['properties']['target_request']={'anyOf':[{'type':'null'},
                     {'type':'object','additionalProperties':False,'properties':{'value_source':QUOTE_SCHEMA,
-                     'column_source':{'anyOf':[{'type':'null'},QUOTE_SCHEMA]}},'required':['value_source','column_source']}]}
+                     'column_source':{'anyOf':[{'type':'null'},QUOTE_SCHEMA]},
+                     'descriptor':descriptor_schema(QUOTE_SCHEMA)},'required':['value_source','column_source','descriptor']}]}
                 from investigator import proposal_limits as limits
                 schema['properties']['report_quote']={'type':['string','null'],'minLength':1,'maxLength':limits.INTAKE_QUOTE}
                 index=schema['required'].index('reported_candidates')

@@ -10,10 +10,12 @@ from .filter_scope import compile_filter
 from . import reported_figure as figure
 from . import definition_target as target
 from . import report_scope
+from . import selection_descriptor
 
 VERSION = 'process-debugging-intake-v2'
 FIGURE_INSTRUCTIONS='\nSupply reported_candidates: every plausible reported-figure quote, not dates, identifiers, thresholds or unrelated quantities. Each candidate contains only {quote}, copied verbatim from the ticket. Never emit offsets; the consumer computes them. Quotes must occur exactly once; include longer context if necessary. Do not choose between candidates. No candidates means UNSPECIFIED; an explicitly empty visual is a candidate too. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
 TARGET_INSTRUCTIONS='\nSupply target_request or null. For a stated selection extract its exact value as value_source:{quote}, and column_source:{quote} only if the ticket states the catalog column name exactly; otherwise column_source:null. Do not guess a column or ASK for its identifier. Anchor PROPOSE to the measure and named report, leave that unresolved selection out of filters, and let the consumer resolve it inside the procedure. Other requested filters are preserved. No offsets. ASK has target_request=null.'
+DESCRIPTOR_INSTRUCTIONS='\nSeparate the selected VALUE from the user\'s DESCRIPTOR: in a phrase such as region East, value_source quotes East and descriptor has state SEPARATED and source:{quote:region}, each verbatim and non-overlapping. The descriptor is only a hint and must never select or guess a catalog column. A bare value has descriptor:{state:VALUE_ONLY,source:null}. If you cannot separate the phrase, say descriptor:{state:UNSEPARATED,source:null} and quote the whole phrase as value_source. Never silently treat a descriptor as part of a separated value.'
 REPORT_INSTRUCTIONS='\nSupply report_quote as a verbatim quote of the complete report name, or null if none is named. Do not use a page or visual name as the report. For target_request supply value_source quoting the selected value and column_source quoting an explicitly stated catalog column name, or null; never infer a column name.'
 # Wire v2 encodes the relationship; persisted proposals keep their historical fields.
 TRIAGE_PAIRS = {
@@ -90,7 +92,7 @@ class FigureQuoteAmbiguous(QuoteRefused):
 
 
 def locate(source,ticket,*,field='reported_figure',audit=None):
-    if field not in ('reported_figure','measure','column','selection','report'):
+    if field not in ('reported_figure','measure','column','selection','report','descriptor'):
         raise ValueError('Unknown provenance field')
     fields(source,['quote'])
     text(source['quote'],limits.INTAKE_QUOTE)
@@ -113,7 +115,7 @@ def azure_resolve(payload):
     instructions=INSTRUCTIONS.replace('scope_quotes','filter quote fields').replace(
         'ticket_shape and comparison_mode are null','triage is null').replace(
         'both triage fields are required','triage is required')+'\nUse catalog handles verbatim. Put each filter quote inside that filter object. No separate quote list.'
-    instructions+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS
+    instructions+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS+DESCRIPTOR_INSTRUCTIONS
     repair=payload.get('_figure_quote_repair')
     if repair is not None:
         wire.pop('_figure_quote_repair',None)
@@ -138,9 +140,19 @@ def azure_resolve(payload):
     try:
         candidates=[locate(source,payload['text'],audit=quote_audit) for source in value.pop('reported_candidates')]
         if requested is not None:
-            fields(requested,['value_source','column_source'])
+            if 'descriptor' not in requested:
+                raise QuoteRefused('Selection descriptor is missing from the current producer response.')
+            fields(requested,['value_source','column_source','descriptor'])
             requested['value_source']=locate(requested['value_source'],payload['text'],field='selection',audit=quote_audit)
             if requested['column_source'] is not None: requested['column_source']=locate(requested['column_source'],payload['text'],field='column',audit=quote_audit)
+            if 'descriptor' in requested:
+                from .selection_descriptor import schema as descriptor_schema,validate as validate_descriptor
+                from jsonschema import Draft202012Validator
+                Draft202012Validator(descriptor_schema(QUOTE_SCHEMA)).validate(requested['descriptor'])
+                if requested['descriptor']['source'] is not None:
+                    requested['descriptor']['source']=locate(requested['descriptor']['source'],payload['text'],field='descriptor',audit=quote_audit)
+                try:validate_descriptor(requested['descriptor'],requested['value_source'],ticket=payload['text'])
+                except ValueError as exc:raise QuoteRefused(str(exc)) from exc
         if value['metric_quote'] is not None:locate({'quote':value['metric_quote']},payload['text'],field='measure',audit=quote_audit)
         for f in value['filters']:locate({'quote':f['quote']},payload['text'],field='selection',audit=quote_audit)
         value['reported_figure']=figure.from_candidates(candidates,payload['text'])
@@ -189,8 +201,9 @@ def wire_contract(payload):
     schema['properties'].pop('definition_target')
     schema['properties']['target_request']={'anyOf':[{'type':'null'},
         {'type':'object','additionalProperties':False,'properties':{
-            'value_source':QUOTE_SCHEMA,'column_source':{'anyOf':[{'type':'null'},QUOTE_SCHEMA]}},
-         'required':['value_source','column_source']}]}
+            'value_source':QUOTE_SCHEMA,'column_source':{'anyOf':[{'type':'null'},QUOTE_SCHEMA]},
+            'descriptor':selection_descriptor.schema(QUOTE_SCHEMA)},
+         'required':['value_source','column_source','descriptor']}]}
     schema['properties']['report_quote']={'type':['string','null'],'minLength':1,'maxLength':limits.INTAKE_QUOTE}
     schema['required'].append('report_quote')
     schema['required'].append('target_request')

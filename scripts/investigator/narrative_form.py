@@ -51,6 +51,12 @@ def validate(text,business=False):
 
 
 def business(text,payload):
+    from .selection_descriptor import render as render_descriptor
+    for entry in payload.get('evidence',[]):
+        hint=entry.get('result',{}).get('descriptor_hint')
+        if hint:
+            wording=render_descriptor(hint,business=True)
+            if wording:text=wording+' '+text
     from .declared_reproduction import KIND,render
     for entry in payload.get('evidence',[]):
         finding=entry.get('result',{})
@@ -89,6 +95,12 @@ def technical(commentary,payload,source,recommended):
     measure=payload.get('scope',{}).get('measure_name') or payload.get('scope',{}).get('measure_id') or 'unnamed measure'
     # Put the actual finding first. Identifiers have one dedicated legend below.
     finding=['Measure: '+measure+'.']
+    from .selection_descriptor import render as render_descriptor
+    for entry in payload.get('evidence',[]):
+        hint=entry.get('result',{}).get('descriptor_hint')
+        if hint:
+            wording=render_descriptor(hint)
+            if wording:finding.append(wording)
     for i,row in sorted(enumerate(facts,1),key=lambda pair:pair[1]['values_equal']):
         lower,upper=row['input'],row['output'];a=registry[lower['layer']];b=registry[upper['layer']]
         finding.append(f"B{i} {'agrees' if row['values_equal'] else 'diverges'}: {a['term']} ({a['name']}, upstream input) {lower['quantity'] or 'unestablished'} -> {b['term']} ({b['name']}, downstream output) {upper['quantity'] or 'unestablished'}.")
