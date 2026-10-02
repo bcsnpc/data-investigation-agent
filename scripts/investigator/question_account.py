@@ -54,9 +54,9 @@ def build(state):
                 # Text recognition is not a complete intent/obligation contract.
                 # Do not promote it to ANSWERED even when a comparison is aligned.
             else:
-                from .declared_reproduction import KIND
+                from .declared_reproduction import KIND,LABELS
                 reproductions=[o for o in observations if o.get('check_kind')==KIND]
-                judged=[o for o in reproductions if o.get('label') in ('REPRODUCED','NOT_REPRODUCED')]
+                judged=[o for o in reproductions if o.get('label') in LABELS]
                 if judged:
                     status='PARTLY_ANSWERED';refs=[o['id'] for o in judged]
                     reason='Declared selections were tested against the reported figure within one calculation service. Active selections and independent comparisons further back remain unestablished.'

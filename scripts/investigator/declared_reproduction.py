@@ -56,8 +56,9 @@ def applicable(restrictions, scope):
     return bool(fields & {r['field_id'] for r in restrictions})
 
 
-def number(value):
+def number(value, *, allow_blank=False):
     if isinstance(value, dict) and set(value) == {'quantity'}: value = value['quantity']
+    if value is None and allow_blank:return None
     if value is None or isinstance(value, bool): raise ValueError('A finite scalar quantity is required')
     try:
         result = Decimal(str(value))
@@ -76,6 +77,8 @@ def _label(reported, reproduced):
 def render(marker, business=False, include_limits=True):
     """Facts and qualifications are rendered by the engine, never model prose."""
     baseline = marker['undeclared_context_value']; declared = marker['reproduced_value']
+    baseline = 'blank' if baseline is None else baseline
+    declared = 'blank' if declared is None else declared
     first = f'Within-layer check: the same calculation service and account returned an undeclared-context value of {baseline}, and the declared selections produced {declared}.'
     if marker['label'] == 'REPRODUCED':
         finding = f"The declared selections reproduce the reported figure of {marker['reported_figure']}; they account for that figure without requiring a difference further back."
@@ -134,7 +137,7 @@ def run(adapter, layer, measure_id, scope):
                 or probe.evidence.get('measure_id') != measure_id
                 or probe.evidence.get('completeness') != 'COMPLETE_RESPONSE'):
             raise ValueError('Executed reproduction scope/measure/completeness differs')
-        observations[-1]['reproduction_quantity'] = number(probe.value)
+        observations[-1]['reproduction_quantity'] = number(probe.value,allow_blank=True)
         probes.append(probe)
     a, b = probes
     if (_surface_key(a.execution_surface) is None or _surface_key(a.execution_surface) != _surface_key(b.execution_surface)
@@ -198,8 +201,8 @@ def validate(marker, observations, quantities=None):
                 or marker[side + '_execution_surface'] != observation['execution_surface']
                 or observation.get('measure_id') != marker['measure_id']):
             raise ValueError('Reproduction requires matching original scope and surface attestation')
-    values = [number(o['reproduction_quantity']) for o in (a, b)]
-    if quantities is not None and any(r not in quantities or number(quantities[r]) != value for r, value in zip(refs[1:], values)):
+    values = [number(o['reproduction_quantity'],allow_blank=True) for o in (a, b)]
+    if quantities is not None and any(r not in quantities or number(quantities[r],allow_blank=True) != value for r, value in zip(refs[1:], values)):
         raise ValueError('Reproduction differs from sealed quantity receipts')
     if (marker['undeclared_context_value'] != values[0] or marker['reproduced_value'] != values[1]
             or marker['values_equal'] is not (values[0] == values[1])

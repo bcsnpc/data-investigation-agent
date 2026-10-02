@@ -3,7 +3,7 @@
 No model preprocessing, raw record rows, trajectory, or directory. Missing facts
 remain missing: selection/formatting does not establish semantic truth.
 """
-import json,re
+import copy,json,re
 from sqlglot import exp
 from sqlglot.lineage import lineage
 from sqlglot.errors import SqlglotError
@@ -106,7 +106,7 @@ def _process_evidence(observation,by_id,quantities=None):
  if observation.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION':
   from .declared_reproduction import validate
   # Preserve the complete validated original, not a reconstructed projection.
-  return dict(validate(observation,by_id,quantities))
+  return copy.deepcopy(validate(observation,by_id,quantities))
  if observation.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
   return {'check_kind':observation['check_kind'],'reason':observation['reason']}
  status=observation.get('comparison_status')

@@ -80,6 +80,22 @@ class ReproductionTests(unittest.TestCase):
                         {'field_id': 'f', 'operator': 'IN', 'values': [1]}]
         self.assertEqual(reproduction.compose(restrictions), [{'field_id': 'f', 'operator': 'IN', 'values': []}])
 
+    def test_empty_intersection_can_return_native_blank_without_becoming_zero(self):
+        adapter=NeutralAdapter(None)
+        adapter.restrictions[0]['values']=['x'];adapter.restrictions[1]['values']=['y']
+        result=self.run_check(adapter,{**SCOPE,'reported_figure':0})
+        self.assertIsNone(result['finding']['reproduced_value'])
+        self.assertEqual(result['finding']['label'],'NOT_REPRODUCED')
+        self.assertIn('produced blank',result['business_output'])
+        by_id={o['id']:o for o in result['observations']}
+        _process_evidence(result['finding'],by_id,{'reproduction-read-1':{'quantity':8},'reproduction-read-2':{'quantity':None}})
+
+    def test_missing_reported_figure_retains_a_native_blank(self):
+        result=self.run_check(NeutralAdapter(None),{'filters':SCOPE['filters']})
+        self.assertIsNone(result['finding']['reproduced_value'])
+        self.assertIsNone(result['finding']['label'])
+        self.assertEqual(result['finding']['unavailability'],reproduction.NO_FIGURE)
+
     def test_absent_reported_figure_has_value_but_no_verdict(self):
         result = self.run_check(scope={'filters': SCOPE['filters']})
         self.assertEqual(result['finding']['reproduced_value'], '3')
@@ -144,6 +160,14 @@ class ReproductionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'sealed quantity'):
             _process_evidence(result['finding'], obs, quantities)
 
+    def test_synthesis_preserves_future_fields_without_aliasing_original_evidence(self):
+        result=self.run_check();obs={o['id']:o for o in result['observations']}
+        result['finding']['future_evidence']={'nested':['retained']}
+        projected=_process_evidence(result['finding'],obs)
+        self.assertEqual(projected,result['finding'])
+        projected['future_evidence']['nested'].append('changed')
+        self.assertEqual(result['finding']['future_evidence'],{'nested':['retained']})
+
     def test_reproduction_cannot_be_retagged_as_boundary_support(self):
         result = self.run_check(); obs = {o['id']: o for o in result['observations']}
         result['finding']['process_roles'].append('comparison')
@@ -183,6 +207,13 @@ class ReproductionTests(unittest.TestCase):
 
 
 class PlacementAndGatingTests(unittest.TestCase):
+    def test_reproduction_is_callable_when_no_lower_layer_is_executable(self):
+        adapter=NeutralAdapter();adapter.layers=[{'id':'top'}]
+        result=vertical(adapter,'measure',copy.deepcopy(SCOPE))
+        self.assertEqual(result['classification'],'NO_COMPARABLE_PATH')
+        self.assertEqual(result['business_output']['declared_context_reproductions'][0]['label'],'REPRODUCED')
+        self.assertEqual(adapter.events,['vertical-top','reproduction','reproduction'])
+
     def test_reproduction_precedes_unavailable_lower_read_without_bypassing_it(self):
         adapter = NeutralAdapter(not_comparable=['lower'])
         result = vertical(adapter, 'measure', copy.deepcopy(SCOPE))

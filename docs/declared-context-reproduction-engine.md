@@ -37,7 +37,7 @@ The engine intersects **every** same-field restriction and sends the composed
 neutral scope to `evaluate_declared_context()`; an empty intersection stays empty.
 It performs two distinct governed reads: no declared restrictions, then the
 composed restrictions. The adapter must retain the applied scope and measure in
-each receipt. Both quantities must be complete finite scalar values from the
+each receipt. Both quantities must be complete scalar values (finite when numeric; native blanks stay blank) from the
 same engine/connection/object, same layer and same self-reported identity.
 Value sizes use the existing compiler consumer bounds. Surface attestation
 applies to both. Missing or contradictory self-reports and
@@ -48,7 +48,9 @@ definition and read references, all original attestations, composed restrictions
 the **undeclared-context value**, produced value and independently supplied
 reported figure. Its finding label is `REPRODUCED` or `NOT_REPRODUCED`. With no
 reported figure, it retains the produced value, a null label and explicit
-`No reported figure supplied.` unavailability. It never invents a figure.
+`No reported figure supplied.` unavailability. It never invents a figure. A native
+blank remains blank, including after an empty intersection; it is not coerced
+to zero or treated as an invalid value.
 
 The engine revalidates the originals, not a lossy projection. Synthesis preserves
 the complete finding and verifies the two scalar values against sealed query
@@ -79,13 +81,16 @@ selections. `_lower_quantity()` and its filtered-scope refusal remain unchanged:
 
 ## Validation and context cost
 
-Twenty-five targeted tests cover intersection (including empty/type-distinct
+Twenty-nine targeted tests cover intersection (including empty/type-distinct
 sets), applicability, match/mismatch, missing/invalid figures, attestation,
-receipt/compiled-scope preservation, sealed quantities, production narrative
+receipt/compiled-scope preservation, native blank preservation, sealed quantities, production narrative
 assembly, placement before unavailable lower reads and all existing outcome gates.
-The first full suite passed 1,350 tests; the final 25 targeted tests pass.
-A second full suite and final CI are running after the question-account and
-shared consumer-bound corrections; their final results will be recorded here.
+The second local full suite passed 1,352 tests before the final native-blank
+and deep-copy guards. The final 128 focused tests (including all 29 reproduction
+tests and original outcome/synthesis/question/golden checks) and two required
+generator tests pass. Final full-suite CI is tracked on
+[PR #294](https://github.com/bcsnpc/data-investigation-agent/pull/294); no final
+local full-suite rerun is claimed after those last narrow guards.
 No live or recorded investigation was performed, so no run ledger row is added.
 
 Planner payload shaping is unchanged. Existing exact projected/wire goldens
