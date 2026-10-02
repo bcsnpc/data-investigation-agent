@@ -1,5 +1,8 @@
 # Self-Discovering Enterprise Data Investigator
 
+Current live result, 2026-10-02: [Report-scoped reruns](docs/report-scoped-reruns.md). PRs #308, #309 and #310 merged with six green checks each; the resumed final local suite passed 1,558 tests. All three unchanged tickets passed intake, but all extracted a surrounding phrase as the selection literal. R1 made one DAX existence read and stopped on an unhandled BLANK result; R2/R3 refused before reading because no scoped grouping column could test that literal. Every session stopped with NO_KNOWN_PATTERN, and synthesis BLOCKED before provider dispatch on an unsupported refusal-receipt shape. No reproduction comparison or narrative output was produced. One physical request total, allowance 21/60 to 22/60; no cap, credit, fixture, permission or policy change. Three ledger rows appended; prior failures preserved. No live acceptance or general capability pass. The fixture change remains deferred. Earlier dated entries below retain historical implementation and run evidence.
+
+
 Dated update, 2026-10-02: [Field-aware quote handling](docs/field-aware-quote-provenance.md) follows merged report-scoped cells #309 (`05a63bf`). Repeated entity quotes retain all occurrences; a repeated reported figure gets one separately admitted, recorded longer-quote attempt, then a named refusal if ambiguity remains. Local tests only; the three unchanged live tickets wait for PR C to merge. Prior freezes remain invalid. No fixture, budget, permission or historical run changed.
 
 
