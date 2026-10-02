@@ -58,7 +58,8 @@ class Harness:
         self.store = Store(self.model); self.lower_calls = []
         self.response = response or {'rows': [{'quantity': '10'}], 'column_types': {'quantity': 'Int64'},
                                      'read_only_verified': True,
-                                     'surface_report': {'identity': 'reader@example.com', 'object': 'lower_db'},
+                                     'surface_report': {'identity': 'reader@example.com', 'object': 'lower_db','engine':'Microsoft Azure SQL Data Warehouse'},
+                                     'surface_report_binding':'VALUE_QUERY',
                                      'execution_identity': {'principal': 'reader@example.com'}}
         def execute_lower(database, request):
             self.lower_calls.append((database, request))
@@ -71,7 +72,7 @@ class Harness:
         dax_result = dax or {'id': 'dax-1', 'status': 'COMPLETED', 'request_hash': 'h',
                              'result': {'rows': [{'[baseline]': {'type': 'decimal', 'value': '10'}}],
                                         'completeness': 'COMPLETE_RESPONSE',
-                                        'surface_report': {'identity': 'reader@example.com'}}}
+                                        'surface_report': {'identity': 'reader@example.com','engine':'OLAP Server','object':'n'}}}
         real_run = flexible_tools.run
         def run_query(store, plan, config, tool, execute, **kwargs):
             if tool == 'bounded_dax':
@@ -98,10 +99,10 @@ class CompileTests(unittest.TestCase):
         self.assertEqual(request['read_only_objects'], ['[sch].[ent]'])
         self.assertTrue(request['require_read_only'])
         self.assertEqual(probe.value, {'quantity': '10'})
-        self.assertEqual(probe.execution_surface, {'engine': 'FABRIC_SQL', 'connection': 'sql://lower.example.invalid',
+        self.assertEqual(probe.execution_surface, {'engine': 'Microsoft Azure SQL Data Warehouse', 'connection': 'sql://lower.example.invalid',
                                                    'object': 'lower_db', 'identity': 'reader@example.com'})
-        self.assertEqual(probe.surface_report, {'identity': 'reader@example.com', 'object': 'lower_db'})
-        self.assertEqual(probe.surface_reportable, ('identity', 'object'))
+        self.assertEqual(probe.surface_report, {'identity': 'reader@example.com', 'object': 'lower_db','engine':'Microsoft Azure SQL Data Warehouse'})
+        self.assertEqual(probe.surface_reportable, ('identity','engine','object'))
         self.assertEqual(probe.evidence['binding_provenance'], 'DECLARED_BY_DEFINITION')
 
     def test_compiled_presentation_and_source_reads_record_context_explicitly(self):
@@ -146,7 +147,7 @@ class CompileTests(unittest.TestCase):
         h = Harness(lower_surface=False)
         probe = h.evaluate(declared_layer())
         self.assertEqual((probe.status, probe.reason), ('NOT_COMPARABLE', 'NO_INDEPENDENT_LOWER_READ'))
-        self.assertEqual(probe.execution_surface['engine'], 'POWER_BI_DAX')
+        self.assertEqual(probe.execution_surface['engine'], 'OLAP Server')
         self.assertIn("SUM('T'[c])", h.dax_query)
 
     def test_failed_lower_read_is_unavailable_not_observed(self):
@@ -228,13 +229,13 @@ class ProcedureAdapter:
             return Probe('OBSERVED', 'presentation', {'id': 'dax', 'tool': 'bounded_dax'}, {'quantity': self.upper},
                          execution_surface={'engine': 'POWER_BI_DAX', 'connection': 'ws', 'object': 'model',
                                             'identity': 'reader'},
-                         surface_report={'identity': 'reader','engine':'POWER_BI_DAX','connection':'ws','object':'model'}, surface_reportable=('identity',))
+                         surface_report={'identity': 'reader','engine':'POWER_BI_DAX','connection':'ws','object':'model'}, surface_reportable=('identity',),surface_report_types={'engine':'ENGINE_PRODUCT','object':'DATABASE_CATALOG_NAME'},surface_report_binding='VALUE_QUERY')
         return Probe('OBSERVED', 'declared-source', {'id': 'sql', 'tool': 'bounded_fabric_sql',
                                                      'binding_provenance': self.provenance},
                      {'quantity': self.lower},
                      execution_surface={'engine': 'FABRIC_SQL', 'connection': 'sql://h', 'object': 'db',
                                         'identity': 'reader'},
-                     surface_report={'identity': 'reader', 'object': 'db','engine':'FABRIC_SQL','connection':'sql://h'}, surface_reportable=('identity', 'object'))
+                     surface_report={'identity': 'reader', 'object': 'db','engine':'FABRIC_SQL','connection':'sql://h'}, surface_reportable=('identity', 'object'),surface_report_types={'engine':'ENGINE_PRODUCT','object':'DATABASE_CATALOG_NAME'},surface_report_binding='VALUE_QUERY')
 
     def presentation_context(self, boundary, scope):
         return {'status': 'INCONCLUSIVE', 'explains': None}

@@ -141,8 +141,9 @@ def extract(response,request):
             'execution_identity':identity,'columns':sorted(columns),
             'caller_limit':request.get('caller_limit'),'interpretation':'OBSERVED',
             'limitation':request['limitation'],'cause_verified':False,
-            **({'surface_report':report} if request.get('surface_report_columns') else {}),
-            **({'surface_report':_transport_report(response.get('surface_report'))}
+            **({'surface_report':report,'surface_report_binding':'VALUE_QUERY'} if request.get('surface_report_columns') else {}),
+            **({'surface_report':_transport_report(response.get('surface_report')),
+                'surface_report_binding':response.get('surface_report_binding')}
                if request['tool']=='bounded_fabric_sql' else {})}
 
 

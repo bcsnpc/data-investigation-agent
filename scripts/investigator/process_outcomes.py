@@ -222,14 +222,10 @@ def validate(assessment, observations):
     if outcome == 'NO_COMPARABLE_PATH' and baseline['status']!='ESTABLISHED':
         raise ValueError('NO_COMPARABLE_PATH requires an established presentation baseline')
     comparisons=[observations[ref] for ref in groups.get('comparison',[]) if ref in observations]
+    from .surface_difference import validate as validate_difference,BOUNDARY_GRADES
     def cross_surface(comparison):
-        upper=comparison.get('upper_execution_surface');lower=comparison.get('lower_execution_surface')
         return (comparison.get('comparison_status')=='CROSS_SURFACE_VERIFIED'
-            and isinstance(upper,dict) and isinstance(lower,dict)
-            and all(isinstance(x.get(k),str) and x[k] for x in (upper,lower)
-                    for k in ('engine','connection','object'))
-            and tuple(upper[k] for k in ('engine','connection','object'))
-                != tuple(lower[k] for k in ('engine','connection','object')))
+                and comparison.get('surface_difference',{}).get('grade') in BOUNDARY_GRADES)
     for comparison in comparisons:
         if comparison.get('comparison_status')!='CROSS_SURFACE_VERIFIED':continue
         if comparison.get('lower_binding_provenance')=='INFERRED_FROM_CODE':
@@ -241,13 +237,16 @@ def validate(assessment, observations):
                         and b.get('lower_layer')==comparison.get('lower_layer')
                         for b in assessment[output].get('compared_bindings',[])):
                     raise ValueError('A comparison resting on an inferred binding must say so in both outputs')
+        difference=validate_difference(comparison,observations)
+        for output in ('business_output','technical_output'):
+            if output in assessment and {'comparison_id':comparison['id'],**difference} not in assessment[output].get('surface_difference_grades',[]):
+                raise ValueError('Surface difference grades must be named in both outputs')
         # A comparison is only as trustworthy as both surfaces' own reports, and
         # whatever a surface could not report must travel with the claim.
         for side in ('upper','lower'):
             attestation=comparison.get(side+'_surface_attestation')
-            if (not isinstance(attestation,dict) or attestation.get('status')!='MATCHED'
-                    or attestation.get('coverage')!='FULL' or attestation.get('consistency')!='MATCHED'
-                    or attestation.get('unattested_fields')):
+            if (not isinstance(attestation,dict) or attestation.get('status') not in ('MATCHED','PARTIAL')
+                    or attestation.get('consistency')!='MATCHED'):
                 raise ValueError('A boundary comparison requires both surfaces to be attested')
             layer=comparison.get(side+'_layer')
             for field in attestation.get('unattested_fields',[]):

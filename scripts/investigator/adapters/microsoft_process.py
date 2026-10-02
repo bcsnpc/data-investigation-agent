@@ -13,6 +13,17 @@ from ..refresh_comparison import whole_entity_context
 
 
 SURFACE_IDENTITY='surface_identity'
+SEMANTIC_ENGINE='OLAP Server'
+SQL_ENGINE='Microsoft Azure SQL Data Warehouse'
+SEMANTIC_REPORT={'identity':SURFACE_IDENTITY,'engine':'surface_engine','object':'surface_object'}
+SEMANTIC_TYPES={'identity':'PRINCIPAL_NAME','engine':'ENGINE_PRODUCT','object':'MODEL_CATALOG_ID'}
+SQL_TYPES={'identity':'PRINCIPAL_NAME','engine':'ENGINE_PRODUCT','object':'DATABASE_CATALOG_NAME'}
+
+
+def semantic_self_report(query):
+    expression=query.removeprefix('EVALUATE ')
+    return 'EVALUATE ADDCOLUMNS('+expression+',"surface_engine",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]="ProviderName"),[Value]),"surface_object",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]="Catalog"),[Value]))'
+
 # Service errors this surface reports only generically through Execute Queries.
 # The same model's XMLA interface can expose the underlying failure.
 GENERIC_SERVICE_ERRORS=frozenset(('DatasetExecuteQueriesError',))
@@ -97,10 +108,10 @@ class MicrosoftProcessAdapter:
             except ValueError: return declaration
             # Preflight both queries, so an unsupported rendering cannot consume a baseline read.
             for applied in (([],compose(declaration['restrictions'])) if declaration['restrictions'] else ()):
-                query=quantity_query(model,measure_id,applied)
+                query=semantic_self_report(quantity_query(model,measure_id,applied))
                 admit_query(self.store,{'model_id':model['id'],'revision':model['revision'],
                     'context_id':model['context_id'],'query':query,'max_rows':20,
-                    'surface_report':{'identity':SURFACE_IDENTITY}},self.config,'bounded_dax')
+                    'surface_report':SEMANTIC_REPORT},self.config,'bounded_dax')
         except (Refusal,UnsupportedRestriction) as exc:
             return {'status':'UNDECLARED','reason':str(exc),'unsupported_form':exc.form}
         self._declared_checks[measure_id]=declaration
@@ -121,13 +132,13 @@ class MicrosoftProcessAdapter:
         measure=next(a for a in assets(model['context']) if a['id']==measure_id)
         if layer.get('kind')!='presentation' or layer['id']!=measure['parent_id']:
             raise Conflict('Reproduction layer differs from the resolved measure layer')
-        query=quantity_query(model,measure_id,applied)
+        query=semantic_self_report(quantity_query(model,measure_id,applied))
         plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],
-              'query':query,'max_rows':20,'surface_report':{'identity':SURFACE_IDENTITY}}
+              'query':query,'max_rows':20,'surface_report':SEMANTIC_REPORT}
         execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
         result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
         reader=self.config['fabric']['native_reader']
-        surface={'engine':'POWER_BI_DAX','connection':model['workspace'],
+        surface={'engine':SEMANTIC_ENGINE,'connection':model['workspace'],
                  'object':model['native_id'],'identity':reader['account']}
         if result['status']!='COMPLETED':
             return Probe('UNAVAILABLE',layer['id'],reason='Declared reproduction read did not complete.',
@@ -140,7 +151,8 @@ class MicrosoftProcessAdapter:
             'definition_evidence_id':declaration['evidence']['id'],
             'conditional_declarations':copy.deepcopy(declaration['evidence']['conditional_declarations'])},
             value=_quantity(rows,plan['surface_report']),query=query,execution_surface=surface,
-            surface_report=body.get('surface_report'),surface_reportable=('identity',))
+            surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
+            surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
 
     def resolve_declared_source(self,declaration):
         context=context_search.latest(self.store)
@@ -356,9 +368,9 @@ class MicrosoftProcessAdapter:
         measure=next(a for a in assets(self.model['context']) if a['id']==measure_id)
         reader=((self.config or {}).get('fabric') or {}).get('native_reader') or {}
         # The declared identity is what we intend to connect as; the surface's
-        # own USERPRINCIPALNAME() answer is what establishes it. Power BI does
-        # not report which model it served, so the object stays unattested.
-        semantic_surface={'engine':'POWER_BI_DAX','connection':self.model['workspace'],
+        # quantity query carries its identity, engine product and catalog.
+        # Workspace connection identity remains unattested.
+        semantic_surface={'engine':SEMANTIC_ENGINE,'connection':self.model['workspace'],
                           'object':self.model['native_id'],'identity':reader.get('account')}
         name=measure['name'].replace(']',']]')
         identity=f',"{SURFACE_IDENTITY}",USERPRINCIPALNAME()'
@@ -379,9 +391,10 @@ class MicrosoftProcessAdapter:
                 'filters':scope['filters'],'dimension_id':None,'include_dependencies':False}
             native=build_native(self.model,native_plan)['query'].removeprefix('EVALUATE ')
             query='EVALUATE ADDCOLUMNS('+native+identity+')'
+        query=semantic_self_report(query)
         plan={'model_id':self.model['id'],'revision':self.model['revision'],
               'context_id':self.model['context_id'],'query':query,'max_rows':20,
-              'surface_report':{'identity':SURFACE_IDENTITY}}
+              'surface_report':SEMANTIC_REPORT}
         execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
         result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
         if result['status']!='COMPLETED':
@@ -406,7 +419,8 @@ class MicrosoftProcessAdapter:
                 'independent_read_refused':layer.get('lower_refusal')} if definition_check else {})},
             value=value,query=query,
             reason='NO_INDEPENDENT_LOWER_READ' if definition_check else None,
-            execution_surface=semantic_surface,surface_report=report,surface_reportable=('identity',))
+            execution_surface=semantic_surface,surface_report=report,surface_reportable=('identity','engine','object'),
+            surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
 
     def _lower_quantity(self,layer,scope):
         """Compile the declared-source quantity for an independent surface, or say why not.
@@ -449,7 +463,7 @@ class MicrosoftProcessAdapter:
 
     def _evaluate_lower(self,layer,measure_id,compiled):
         reader=((self.config or {}).get('fabric') or {}).get('sql_reader') or {}
-        surface={'engine':'FABRIC_SQL','connection':'sql://'+str(reader.get('server')),'object':compiled['database'],
+        surface={'engine':SQL_ENGINE,'connection':'sql://'+str(reader.get('server')),'object':compiled['database'],
                  'identity':reader.get('account')}
         plan={'model_id':self.model['id'],'revision':self.model['revision'],'context_id':self.model['context_id'],
               'query':compiled['query'],'max_rows':20}
@@ -474,7 +488,8 @@ class MicrosoftProcessAdapter:
             **({'quantity_contract':layer['quantity_contract'],'endpoint_declaration':layer.get('endpoint_evidence')}
                if 'quantity_contract' in layer else {})},
             value=_quantity(rows),query=compiled['query'],execution_surface=surface,
-            surface_report=result['result'].get('surface_report'),surface_reportable=('identity','object'))
+            surface_report=result['result'].get('surface_report'),surface_reportable=('identity','engine','object'),
+            surface_report_types=SQL_TYPES,surface_report_binding=result['result'].get('surface_report_binding'))
 
     def failure_detail(self,layer,probe):
         """Re-issue the failed query through XMLA to obtain the surface's specific error."""

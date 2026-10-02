@@ -333,6 +333,9 @@ class DynamicTests(unittest.TestCase):
             if 'USERPRINCIPALNAME()' in request['query']:
                 # The surface answers who it served: the configured reader.
                 row['[surface_identity]']=self.config['fabric']['native_reader']['account']
+            if 'INFO.PROPERTIES()' in request['query']:
+                row['[surface_engine]']='OLAP Server'
+                row['[surface_object]']=self.model['native_id']
             response={'results':[{'tables':[{'rows':[row]}]}]}
             return dict(response,**{KEY:make(response,request,self.config['fabric']['native_reader'])})
         def source(request):

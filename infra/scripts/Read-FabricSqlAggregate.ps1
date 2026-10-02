@@ -82,7 +82,9 @@ try {
     } finally { $guard.Dispose() }
     $command = $connection.CreateCommand()
     $command.CommandTimeout = 60
-    $command.CommandText = $request.query
+    # Value and distinguishing evidence are one result, not the earlier guard
+    # query's answer. Guards remain unchanged and metered separately.
+    $command.CommandText = "SELECT q.*, SUSER_SNAME() AS __surface_identity, DB_NAME() AS __surface_object, LEFT(@@VERSION, CHARINDEX(' (', @@VERSION) - 1) AS __surface_engine FROM (" + $request.query + ") AS q"
     foreach ($parameter in $request.parameters) {
         $null = $command.Parameters.Add($parameter.name, [System.Data.SqlDbType]::NVarChar, 200)
         $command.Parameters[$parameter.name].Value = $parameter.value
@@ -92,15 +94,20 @@ try {
     End-PhysicalRead 'sql_quantity'
     if ($request.max_rows -lt 2 -or $request.max_rows -gt 251) { throw 'Invalid record budget' }
     $columns = @($request.result_columns)
-    if ($columns.Count -lt 1 -or $columns.Count -gt 16 -or $reader.FieldCount -ne $columns.Count) { throw 'Invalid record shape' }
+    if ($columns.Count -lt 1 -or $columns.Count -gt 16 -or $reader.FieldCount -ne ($columns.Count + 3)) { throw 'Invalid record shape' }
     $types = @{}
     for ($index = 0; $index -lt $columns.Count; $index++) {
         if ($reader.GetName($index) -cne $columns[$index]) { throw 'Record column differs' }
         $types[$columns[$index]] = $reader.GetFieldType($index).Name
     }
+    $surfaceReport = $null
     $rows = New-Object System.Collections.Generic.List[object]
     while ($reader.Read()) {
         if ($rows.Count -ge $request.max_rows) { throw 'Record response exceeds budget' }
+        if ($reader.GetName($columns.Count) -cne '__surface_identity' -or $reader.GetName($columns.Count + 1) -cne '__surface_object' -or $reader.GetName($columns.Count + 2) -cne '__surface_engine') { throw 'Quantity self-report columns differ' }
+        $current = @{identity=[string]$reader.GetValue($columns.Count); object=[string]$reader.GetValue($columns.Count + 1); engine=[string]$reader.GetValue($columns.Count + 2)}
+        if ($surfaceReport -and ($surfaceReport.identity -cne $current.identity -or $surfaceReport.object -cne $current.object -or $surfaceReport.engine -cne $current.engine)) { throw 'Inconsistent quantity self-report' }
+        $surfaceReport = $current
         $row = [ordered]@{}
         for ($index = 0; $index -lt $columns.Count; $index++) {
             $value = $reader.GetValue($index)
@@ -114,7 +121,7 @@ try {
         $rows.Add($row)
     }
     if ($reader.NextResult()) { throw 'Unexpected extra record result' }
-    @{rows=@($rows.ToArray()); column_types=$types; read_only_verified=$true; surface_report=$surfaceReport;
+    @{rows=@($rows.ToArray()); column_types=$types; read_only_verified=$true; surface_report=$surfaceReport; surface_report_binding='VALUE_QUERY';
       execution_identity=@{principal=$surfaceReport.identity; server=$request.server; database=$request.database;
                            provenance='SURFACE_SELF_REPORT'}} | ConvertTo-Json -Depth 8 -Compress
 } catch {

@@ -58,6 +58,15 @@ def business(text,payload):
             text=render(finding,business=True)+' '+text
         elif finding.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
             text='The declared selections could not be tested with the available evidence. '+text
+    from .surface_difference import wording
+    statements=[]
+    for entry in payload.get('evidence',[]):
+        c=entry.get('result',{})
+        if c.get('comparison_status')=='CROSS_SURFACE_VERIFIED' and c.get('surface_difference'):
+            sentence=wording(c['surface_difference'],business=True)
+            if sentence not in statements:statements.append(sentence)
+    if statements:
+        text=text.replace('Recommended action:',' '.join(statements)+' Recommended action:') if 'Recommended action:' in text else text+' '+' '.join(statements)
     rows=[r for r in payload_comparisons(payload) if r.get('snapshot_attestation',{}).get('status')!=VERIFIED]
     # The deterministic body already qualifies timing in its own register.
     covered=any(phrase in text for phrase in ('whether the checks describe the same moment','update timing','which state is newer'))
@@ -80,6 +89,11 @@ def technical(commentary,payload,source,recommended):
     for i,row in sorted(enumerate(facts,1),key=lambda pair:pair[1]['values_equal']):
         lower,upper=row['input'],row['output'];a=registry[lower['layer']];b=registry[upper['layer']]
         finding.append(f"B{i} {'agrees' if row['values_equal'] else 'diverges'}: {a['term']} ({a['name']}, upstream input) {lower['quantity'] or 'unestablished'} -> {b['term']} ({b['name']}, downstream output) {upper['quantity'] or 'unestablished'}.")
+    from .surface_difference import wording
+    for row in payload.get('evidence',[]):
+        c=row.get('result',{})
+        if c.get('comparison_status')=='CROSS_SURFACE_VERIFIED' and c.get('surface_difference'):
+            finding.append(wording(c['surface_difference'])+' (receipt '+row['id']+').')
     if not facts:finding.append('No independently compared boundary was established.')
     from .declared_reproduction import KIND,render
     for entry in payload.get('evidence',[]):
