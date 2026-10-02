@@ -1,5 +1,9 @@
 # Self-Discovering Enterprise Data Investigator
 
+Dated update, 2026-10-02: [Field-aware quote handling](docs/field-aware-quote-provenance.md) follows merged report-scoped cells #309 (`05a63bf`). Repeated entity quotes retain all occurrences; a repeated reported figure gets one separately admitted, recorded longer-quote attempt, then a named refusal if ambiguity remains. Local tests only; the three unchanged live tickets wait for PR C to merge. Prior freezes remain invalid. No fixture, budget, permission or historical run changed.
+
+
+
 Dated update, 2026-10-02: report-scoping PR A merged as `c109b30` with six green
 checks. PR B now wires exact report provenance and selection requests through
 review, performs bounded receipt-backed value lookup within the stated report,

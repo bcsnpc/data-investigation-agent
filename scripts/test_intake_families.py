@@ -65,7 +65,7 @@ class IntakeFamilyTests(unittest.TestCase):
                     'ticket_shape and comparison_mode are null','triage is null').replace(
                     'both triage fields are required','triage is required')
                 from investigator.question_intake import FIGURE_INSTRUCTIONS,TARGET_INSTRUCTIONS,REPORT_INSTRUCTIONS
-                expected['instructions']=expected['instructions'].replace('Quotes are provenance,','Every provenance quote must occur exactly once, including metric_quote and filter quotes; a longer unique quote is allowed. Never emit offsets. Quotes are provenance,')
+                expected['instructions']=expected['instructions'].replace('Quotes are provenance,','Repeated measure, column and selection quotes identify the same referent; every occurrence is retained. Reported-figure quotes alone must be unique; include longer verbatim context if necessary. Never emit offsets. Quotes are provenance,')
                 expected['instructions']+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS
                 schema=expected['tools'][0]['parameters']
                 for key in ('ticket_shape','comparison_mode'):
