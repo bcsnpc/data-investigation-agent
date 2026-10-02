@@ -1,0 +1,61 @@
+"""Exact consumer-computed spans, with no model arithmetic or normalization."""
+import copy
+import unittest
+from unittest.mock import patch
+from investigator.question_intake import locate,QuoteRefused,azure_resolve,wire_contract
+
+class QuoteProvenanceTests(unittest.TestCase):
+    def test_exact_quote_computes_span(self):
+        self.assertEqual(locate({'quote':'North'},'Pick North.'),{'start':5,'end':10,'quote':'North'})
+    def test_one_character_change_and_case_change_refuse(self):
+        for quote in ('NortX','north'):
+            with self.assertRaisesRegex(QuoteRefused,'not found verbatim'):locate({'quote':quote},'North')
+    def test_repeated_quote_refuses_with_count(self):
+        with self.assertRaisesRegex(QuoteRefused,'occurs 2 times'):locate({'quote':'North'},'North versus North')
+        with self.assertRaisesRegex(QuoteRefused,'occurs 2 times'):locate({'quote':'aa'},'aaa')
+    def test_longer_unique_quote_on_next_extraction_resolves(self):
+        ticket='North versus North'
+        with self.assertRaises(QuoteRefused):locate({'quote':'North'},ticket)
+        self.assertEqual(locate({'quote':'versus North'},ticket),{'start':6,'end':18,'quote':'versus North'})
+    def test_offsets_from_model_are_rejected_not_discarded(self):
+        for key in ('start','end'):
+            with self.assertRaisesRegex(ValueError,'Unexpected fields'):locate({'quote':'North',key:0},'North')
+    def payload(self):
+        return {'text':'Revenue shows 9 for North.','models':[{'id':'model','measures':[{'id':'measure','name':'Revenue'}],'columns':[{'column_id':'column','name':'Region'}]}]}
+    def response(self):
+        return {'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'Revenue','question':None,'filters':[],'dimension_ids':[],
+            'target_request':{'source':{'quote':'North'}},'reported_candidates':[{'quote':'9'}],'triage':'MISMATCH_COMPLAINT:VERTICAL'}
+    def test_quote_wire_computes_original_downstream_shape(self):
+        with patch('ticket_planner.azure_generate',return_value=(self.response(),{})):
+            value,_=azure_resolve(self.payload())
+        self.assertEqual(value['reported_figure']['source'],{'start':14,'end':15,'quote':'9'})
+        self.assertEqual(value['target_request']['source'],{'start':20,'end':25,'quote':'North'})
+    def test_hostile_offset_on_figure_or_target_rejects(self):
+        for kind in ('figure','target'):
+            response=self.response()
+            obj=response['reported_candidates'][0] if kind=='figure' else response['target_request']['source']
+            obj['start']=0
+            with patch('ticket_planner.azure_generate',return_value=(response,{})):
+                with self.assertRaisesRegex(ValueError,'Unexpected fields'):azure_resolve(self.payload())
+    def test_metric_and_filter_quotes_also_must_be_unique(self):
+        payload=self.payload();payload['text']+=' Revenue North'
+        for metric in (True,False):
+            response=self.response();response['reported_candidates']=[];response['target_request']=None
+            if not metric:
+                response['metric_quote']='Revenue shows'
+                response['filters']=[{'column_id':'m0c0','operator':'in','values':['North'],'quote':'North'}]
+            with patch('ticket_planner.azure_generate',return_value=(response,{})):
+                with self.assertRaisesRegex(QuoteRefused,'occurs 2 times'):azure_resolve(payload)
+    def test_model_schema_has_no_offset_fields_and_catalog_coverage_unchanged(self):
+        payload=self.payload();wire,schema,_=wire_contract(payload)
+        def check(value):
+            if isinstance(value,dict):
+                self.assertFalse({'start','end'} & set(value.get('properties',{})))
+                for child in value.values():check(child)
+            elif isinstance(value,list):
+                for child in value:check(child)
+        check(schema)
+        self.assertEqual(len(wire['models']),1);self.assertEqual(len(wire['models'][0]['columns']),1)
+        self.assertEqual(len(wire['models'][0]['measures']),1)
+
+if __name__=='__main__':unittest.main()
