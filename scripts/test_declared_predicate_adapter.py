@@ -374,13 +374,14 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         self.assertEqual(len(declaration['restrictions']), 2)
         self.assertIn('DECLARED_NO_FILTER_INTERACTION', [x['reason'] for x in declaration['evidence']['conditional_declarations']])
 
-    def test_multiple_matching_visuals_require_explicit_definition_target(self):
+    def test_multiple_matching_visuals_remain_real_ambiguity_and_side_channel_refuses(self):
         self.part('definition/pages/p/visuals/other/visual.json', json.loads(self.visual['metadata']['content']))
         result = self.declaration()
         self.assertEqual(result['status'], 'UNDECLARED')
         self.assertIn('AMBIGUOUS_OR_MISSING_DECLARATION_TARGET', result['reason'])
         self.scope['definition_target_id'] = self.visual['id']
-        self.assertEqual(self.declaration()['status'], 'DECLARED')
+        self.assertEqual(self.declaration()['status'], 'UNDECLARED')
+        self.assertIn('LEGACY_SIDE_CHANNEL_TARGET',self.declaration()['reason'])
 
     def test_grouped_visual_is_not_silently_coerced_to_scalar_measure(self):
         self.modify(self.visual, lambda d: d['visual']['query']['queryState'].update(Category={}))

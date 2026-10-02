@@ -239,16 +239,65 @@ class ReportDeclarations:
 
 
 def extract(model, measure_id, scope):
-    try: return _extract(model, measure_id, scope)
+    try:
+        if 'definition_target_id' in scope:raise Refusal('LEGACY_SIDE_CHANNEL_TARGET')
+        target=scope.get('definition_target')
+        if target is None:return _extract(model,measure_id,scope)
+        from .. import definition_target as contract
+        try:contract.shape(target)
+        except ValueError:raise Refusal('TARGET_RESOLUTION_CONTRACT')
+        if target['resolution_kind']=='REFUSED':raise Refusal('Target ambiguity: '+', '.join(target['candidates']))
+        available=targets(model,measure_id)
+        columns=[{'column_id':a['id'],'name':a['name']} for a in assets(model['context']) if a['kind']=='SemanticColumn']
+        request={'source':target['source']}
+        if target['resolution_kind']=='STATED':request['column_id']=target['column_id']
+        try:expected,_,_=contract.lookup(request,ticket=None,options=available,columns=columns)
+        except contract.ResolutionRefused as exc:raise Refusal(str(exc))
+        except ValueError:raise Refusal('TARGET_RESOLUTION_CONTRACT')
+        if expected!=target:raise Refusal('TARGET_RESOLUTION_CHANGED')
+        matching=[]
+        for option in available:
+            entries=declaration_inventory.validate(option['inventory'],option['restrictions'])
+            if target['resolution_kind']=='EVIDENCE':
+                entry=next((e for e in entries if e['id']==target['inventory_entry_id']),None)
+                applies=entry is not None and entry['disposition']=='ACTIVE' and any(r['field_id']==target['column_id'] for r in entry['restrictions'])
+                if applies:contract.validate(target,inventory=option['inventory'],active=option['restrictions'])
+            else:applies=any(e['disposition']=='ACTIVE' and any(r['field_id']==target['column_id'] for r in e['restrictions']) for e in entries)
+            if applies:matching.append(option)
+        if len(matching)!=1:
+            raise Refusal('Target ambiguity: '+('no ACTIVE declaration matches the target column' if not matching else
+                'multiple visual contexts match: '+', '.join(o['target_id'] for o in matching)))
+        result=_extract(model,measure_id,scope,matching[0]['target_id'])
+        result['evidence']['metadata']['target_resolution']=copy.deepcopy(target)
+        return result
     except (Refusal, declared_reproduction.UnsupportedRestriction): raise
     except (KeyError, TypeError, AttributeError): raise Refusal('MALFORMED_NATIVE_DECLARATION')
 
 
-def _extract(model, measure_id, scope):
+def targets(model,measure_id):
+    """Enumerate native candidate visuals locally; never combine their contexts."""
+    candidates=[]
+    for report in model['context'].get('reports',[]):
+        parts=report.get('report_definitions',[])
+        if len(parts)>500 or sum(len(p.get('metadata',{}).get('content','')) for p in parts)>2*1024*1024:
+            raise Refusal('DEFINITION_BOUND')
+        for part in parts:
+            if not re.fullmatch(r'definition/pages/[^/]+/visuals/[^/]+/visual.json',part['name']):continue
+            try:document=json.loads(part['metadata']['content'])
+            except (ValueError,KeyError,TypeError):raise Refusal('MALFORMED_DEFINITION_PART')
+            if not isinstance(document,dict):raise Refusal('DEFINITION_PART_SHAPE')
+            projections=document.get('visual',{}).get('query',{}).get('queryState',{}).get('Values',{}).get('projections',[])
+            if any(isinstance(p,dict) and p.get('field',{}).get('Measure') and member(model,p['field'],'Measure')['id']==measure_id for p in projections):
+                declaration=_extract(model,measure_id,{},part['id'])
+                candidates.append({'target_id':part['id'],'inventory':declaration['inventory'],'restrictions':declaration['restrictions']})
+                if len(candidates)>512:raise Refusal('DEFINITION_TARGET_BOUND')
+    return candidates
+
+def _extract(model, measure_id, scope, selected_target=None):
     """Select a unique declared scalar visual; never combine reports or pages."""
     candidates = []
     exclusions = []
-    target = scope.get('definition_target_id')
+    target = selected_target
     for report in model['context'].get('reports', []):
         if target is not None and not any(p['id'] == target for p in report.get('report_definitions', [])):
             continue

@@ -2,6 +2,7 @@
 import copy
 from . import reported_figure, declaration_inventory
 from .onboarding import fields, text
+from .onboarding import digest
 
 KINDS=('EVIDENCE','STATED','REFUSED')
 ID={'type':'string','minLength':1,'maxLength':4000}
@@ -17,6 +18,60 @@ SCHEMA={'anyOf':[
         {'type':'array','maxItems':0,'items':ID},
         {'type':'array','minItems':2,'maxItems':512,'uniqueItems':True,'items':ID}]},
         'source':reported_figure.SPAN_SCHEMA})]}
+
+# Translation inputs cannot express a resolution or an evidence verdict.
+REQUEST_SCHEMA={'anyOf':[{'type':'null'},
+    {'type':'object','additionalProperties':False,'properties':{'source':reported_figure.SPAN_SCHEMA},'required':['source']},
+    {'type':'object','additionalProperties':False,'properties':{'source':reported_figure.SPAN_SCHEMA,'column_id':ID},'required':['source','column_id']}]}
+
+class ResolutionRefused(ValueError):
+    def __init__(self, record, audit):
+        self.record,self.audit=record,audit
+        super().__init__('Target ambiguity: '+('no ACTIVE declaration matches the stated value.' if not audit['candidates'] else
+            'multiple ACTIVE declaration candidates match: '+', '.join(c['column_id']+' ['+c['entry_id']+']' for c in audit['candidates'])))
+
+def lookup(request, *, ticket, options, columns):
+    """Lookup after translation, over conserved inventories from the pinned adapter."""
+    if not isinstance(request,dict):raise ValueError('Target request requires an exact span')
+    if not isinstance(options,list) or len(options)>512:raise ValueError('Target inventory context exceeds bound')
+    fields(request,['source']+(['column_id'] if 'column_id' in request else []))
+    quote=reported_figure.span(request['source'],ticket)
+    named=request.get('column_id')
+    if named is not None:
+        column=next((c for c in columns if c['column_id']==named),None)
+        if not column or quote!=column['name']:raise ValueError('STATED target must name the selected catalog column verbatim')
+        if sum(c['name']==quote for c in columns)!=1:raise ValueError('Target ambiguity: the stated column name is not unique')
+    matches={}
+    for option in options:
+        entries=declaration_inventory.validate(option['inventory'],option['restrictions'])
+        for entry in entries:
+            if entry['disposition']!='ACTIVE':continue
+            for restriction in entry['restrictions']:
+                matching=[v for v in restriction['values'] if literal_text(v)==quote]
+                if (named==restriction['field_id'] if named is not None else bool(matching)):
+                    key=(entry['id'],restriction['field_id'])
+                    matches.setdefault(key,{'entry_id':entry['id'],'column_id':restriction['field_id'],
+                        'value':matching[0] if matching else None,'option':option})
+    candidates=[{'id':digest({'entry_id':e,'column_id':c}),'entry_id':e,'column_id':c}
+                for e,c in sorted(matches)]
+    if len(candidates)>512:raise ValueError('Target candidates exceed the consumer bound')
+    audit={'match_count':len(candidates),'candidates':candidates,
+           'status':'STATED_NO_ACTIVE_MATCH' if named is not None and not candidates else
+                    'STATED_ACTIVE_MATCH' if named is not None else 'EVIDENCE' if len(candidates)==1 else 'REFUSED'}
+    if named is not None:
+        record={'resolution_kind':'STATED','column_id':named,'source':copy.deepcopy(request['source'])}
+        return shape(record,ticket),audit,None
+    if len(matches)!=1:
+        record={'resolution_kind':'REFUSED','candidates':[c['id'] for c in candidates],'source':copy.deepcopy(request['source'])}
+        raise ResolutionRefused(shape(record,ticket),audit)
+    match=next(iter(matches.values()));option=match['option']
+    record=evidence(match['column_id'],request['source'],match['entry_id'],ticket=ticket,
+                    inventory=option['inventory'],active=option['restrictions'])
+    return record,audit,{'declaration_inventory':option['inventory'],'active_restrictions':option['restrictions'],
+                        'resolved_value':match['value']}
+
+def literal_text(value):
+    return value if isinstance(value,str) else str(value).lower() if type(value) is bool else str(value)
 
 def shape(value, ticket=None):
     """Closed structural validation is usable before trusted inventory lookup."""
@@ -43,7 +98,8 @@ def validate(value, *, ticket=None, inventory=None, active=None):
         entries=declaration_inventory.validate(inventory,active)
         entry=next((e for e in entries if e['id']==value['inventory_entry_id']),None)
         if (entry is None or entry['disposition']!='ACTIVE'
-                or not any(r['field_id']==value['column_id'] for r in entry['restrictions'])):
+                or not any(r['field_id']==value['column_id'] and
+                    any(literal_text(v)==value['source']['quote'] for v in r['values']) for r in entry['restrictions'])):
             raise ValueError('Evidence target requires a matching ACTIVE inventory entry')
     return value
 
