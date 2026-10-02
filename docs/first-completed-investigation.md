@@ -63,3 +63,26 @@ The [whole-chain investigation](whole-chain-investigation.md) establishes the
 shape of further work. It implements nothing. Output enforcement, mandatory
 outcome-derived actions and explicit technical attestation fields remain queued
 under Part 3, after the requested Part 2 report-and-stop checkpoint.
+
+
+## Dated correction: surface verification (2026-10-02, America/Chicago)
+
+The historical claims above about verified cross-surface comparisons must not be
+read as satisfying the full-coverage standard merged in #299 (`955b3fe`). The
+[receipt audit](retrospective-surface-attestation.md) found identity-only DAX self-reports and
+identity/database-only SQL self-reports, with engine/connection (and the DAX
+model object) unattested. Earlier MATCHED/CROSS_SURFACE_VERIFIED labels admitted
+partial coverage; #299 now calls that PARTIAL and refuses verified boundary
+eligibility. Snapshot alignment remains unestablished separately.
+
+Run c2658c88 remains the first completed end-to-end **execution**, with two
+observed values of 8,765 on independently declared routes; it did not establish
+a fully attested verified boundary. Run 3d2c5bf0 observed 8,765, 8,765 and 7,661,
+and invoked a judge that identified a compatible join mechanism; neither its
+DAX/SQL boundary nor its SQL/SQL boundary satisfies #299. These observations
+and the qualified mechanism remain useful, but do not prove actual duplicate
+matches, current snapshots, intended semantics or verified transformation
+attribution. Other historical comparisons using the same partial self-report
+contract are subject to the same qualification. Original prose, outputs,
+receipt bodies, counts and outcome labels are preserved, not retrospectively
+regraded. Ledger corrections are annotations, not replacement runs.

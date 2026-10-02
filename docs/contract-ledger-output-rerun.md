@@ -57,3 +57,26 @@ The full local run executed 1,231 tests; its only failures were twelve intake go
 The original 223 ledger rows are unchanged. One explicit correction reconciles the failed `0154df11` run to four reads while keeping its failure. This live repeat adds one new run, with receipt-first counts. No previous failure was relabelled as successful.
 
 Full output objects, attestations, sealed receipt references, judgment, limits and accounting: [live artifact](runs/contract-ledger-output-live.json).
+
+
+## Dated correction: surface verification (2026-10-02, America/Chicago)
+
+The historical claims above about verified cross-surface comparisons must not be
+read as satisfying the full-coverage standard merged in #299 (`955b3fe`). The
+[receipt audit](retrospective-surface-attestation.md) found identity-only DAX self-reports and
+identity/database-only SQL self-reports, with engine/connection (and the DAX
+model object) unattested. Earlier MATCHED/CROSS_SURFACE_VERIFIED labels admitted
+partial coverage; #299 now calls that PARTIAL and refuses verified boundary
+eligibility. Snapshot alignment remains unestablished separately.
+
+Run c2658c88 remains the first completed end-to-end **execution**, with two
+observed values of 8,765 on independently declared routes; it did not establish
+a fully attested verified boundary. Run 3d2c5bf0 observed 8,765, 8,765 and 7,661,
+and invoked a judge that identified a compatible join mechanism; neither its
+DAX/SQL boundary nor its SQL/SQL boundary satisfies #299. These observations
+and the qualified mechanism remain useful, but do not prove actual duplicate
+matches, current snapshots, intended semantics or verified transformation
+attribution. Other historical comparisons using the same partial self-report
+contract are subject to the same qualification. Original prose, outputs,
+receipt bodies, counts and outcome labels are preserved, not retrospectively
+regraded. Ledger corrections are annotations, not replacement runs.
