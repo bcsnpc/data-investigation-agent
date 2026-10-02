@@ -9,7 +9,7 @@ import re
 from uuid import uuid4
 from ..model_context import assets
 from ..onboarding import Conflict, digest
-from .. import declared_reproduction, query_dax, proposal_limits as limits
+from .. import declared_reproduction, declaration_inventory, query_dax, proposal_limits as limits
 
 
 class Refusal(ValueError):
@@ -130,6 +130,114 @@ def _inverted_selection(value):
     return isinstance(value, list) and any(_inverted_selection(child) for child in value)
 
 
+def _enum(field, value):
+    # Producer values come from the consumer schema, never a private vocabulary.
+    return next(item for item in declaration_inventory.SCHEMA[field]['enum'] if item == value)
+
+
+class ReportDeclarations:
+    """Discover first; unknown units have an explicit UNSUPPORTED disposition.
+
+    Restrictions exist only on inventory entries. A declaration is a native
+    predicate, or an unrecognised/undetermined selection-bearing context.
+    Plain bindings and known non-predicate structural parts are not predicates.
+    """
+    def __init__(self, documents):
+        self.units = {}
+        self.part_units = {}
+        self.native_units = {}
+        self.discovered = []
+        self.documents = {part['id']: document for part, document in documents.values()}
+        for path, (part, document) in sorted(documents.items()):
+            self.part_units[part['id']] = []
+            def discover(node, pointer):
+                if isinstance(node, dict):
+                    if 'Where' in node or (pointer.endswith('/filter') and set(node) != {'filter'}):
+                        self.register(part, pointer, node, 'NATIVE_PREDICATE')
+                        return
+                    for key, value in sorted(node.items()):
+                        discover(value, pointer + '/' + str(key).replace('~','~0').replace('/','~1'))
+                elif isinstance(node, list):
+                    for index, value in enumerate(node): discover(value, pointer + '/' + str(index))
+            discover(document, '')
+            # Unknown declaration containers cannot be assumed harmless merely
+            # because their payload has no recognised predicate operator.
+            if path == 'definition/report.json':
+                known_keys = {'$schema','settings','themeCollection','filterConfig','layoutOptimization','resourcePackages'}
+            elif re.fullmatch(r'definition/pages/[^/]+/page.json',path):
+                known_keys = {'$schema','name','displayName','displayOption','height','width','objects',
+                              'filterConfig','visualInteractions','pageBinding','type'}
+            elif re.fullmatch(r'definition/pages/[^/]+/visuals/[^/]+/visual.json',path):
+                known_keys = {'$schema','name','position','visual','filterConfig','syncGroup'}
+            else: known_keys = None
+            if known_keys is not None:
+                for key in sorted(set(document) - known_keys):
+                    pointer='/' + key.replace('~','~0').replace('/','~1')
+                    if id(document[key]) not in self.native_units:
+                        self.register(part,pointer,document[key],'UNKNOWN_DECLARATION_CONTAINER:' + key)
+            visual = document.get('visual')
+            if isinstance(visual, dict):
+                for key in sorted(set(visual) - {'visualType','objects','visualContainerObjects','query','drillFilterOtherVisuals','syncGroup'}):
+                    self.register(part,'/visual/'+key.replace('~','~0').replace('/','~1'),visual[key],'UNKNOWN_VISUAL_DECLARATION:' + key)
+                kind = visual.get('visualType')
+                if kind not in ('card', 'textbox', 'slicer'):
+                    self.register(part, '/visual', visual, 'UNKNOWN_VISUAL_KIND:' + str(kind))
+                elif kind == 'slicer' and not self.part_units[part['id']]:
+                    self.register(part, '/visual', visual, 'SLICER_WITHOUT_ENUMERATED_SELECTION')
+            elif path.startswith('definition/bookmarks/'):
+                if not self.part_units[part['id']]: self.register(part, '', document, 'STORED_BOOKMARK')
+            elif not (path in ('definition/report.json', 'definition/version.json', 'definition/pages/pages.json')
+                      or re.fullmatch(r'definition/pages/[^/]+/page.json', path)):
+                self.register(part, '', document, 'UNKNOWN_DEFINITION_PART')
+
+    def register(self, part, pointer, native, form):
+        source = {'location': part['id'] + '#' + pointer,
+                  'content_hash': digest(native)}
+        identity = declaration_inventory.identity(source)
+        if identity in self.units: raise Refusal('DUPLICATE_DISCOVERED_DECLARATION')
+        self.discovered.append(source)
+        self.units[identity] = {'id': identity, 'source': source,
+            'disposition': _enum('disposition','UNSUPPORTED'),
+            'volatility': _enum('volatility','UNKNOWN'),
+            'assumption': _enum('assumption','APPLICABILITY_UNKNOWN'),
+            'opaque_provenance': json.dumps({'part_id':part['id'],'part_hash':part['content_hash'],'form':form},sort_keys=True),
+            'restrictions': []}
+        self.part_units[part['id']].append(identity)
+        self.native_units[id(native)] = identity
+
+    def classify(self, identity, disposition, *, restrictions=None, volatile=False, origin=None):
+        entry = self.units[identity]
+        entry['disposition'] = _enum('disposition',disposition)
+        entry['volatility'] = _enum('volatility','VIEWER_CHANGEABLE' if volatile else
+                                    ('UNKNOWN' if disposition == 'UNSUPPORTED' else 'FIXED'))
+        entry['assumption'] = _enum('assumption','SAVED_DEFAULT' if volatile else
+                                    ('INVOCATION_UNKNOWN' if disposition == 'CONDITIONAL' else
+                                     ('APPLICABILITY_UNKNOWN' if disposition == 'UNSUPPORTED' else 'NONE')))
+        entry['restrictions'] = copy.deepcopy(restrictions or [])
+        if origin:
+            provenance=json.loads(entry['opaque_provenance']);provenance['classification']=origin
+            entry['opaque_provenance']=json.dumps(provenance,sort_keys=True)
+
+    def active(self, native, part, origin, parsed):
+        identity=self.native_units.get(id(native))
+        if identity is None: raise Refusal('RESTRICTION_WITHOUT_DISCOVERED_DECLARATION')
+        self.classify(identity,'ACTIVE',restrictions=parsed,
+                      volatile=origin == 'SAVED_SLICER_SELECTION',origin=origin)
+
+    def conditional(self, part, reason):
+        for identity in self.part_units[part['id']]: self.classify(identity,'CONDITIONAL',origin=reason)
+
+    def unsupported(self, part, form):
+        for identity in self.part_units[part['id']]: self.classify(identity,'UNSUPPORTED',origin=form)
+        if not self.part_units[part['id']]:
+            # Native context may be unrenderable without an IN node (e.g. page binding).
+            self.register(part, '', self.documents[part['id']], form)
+
+    def result(self):
+        return {'discovered':copy.deepcopy(self.discovered),
+                'entries':[copy.deepcopy(self.units[key]) for key in sorted(self.units)]}
+
+
 def extract(model, measure_id, scope):
     try: return _extract(model, measure_id, scope)
     except (Refusal, declared_reproduction.UnsupportedRestriction): raise
@@ -179,13 +287,11 @@ def _extract(model, measure_id, scope):
     page_path = path.split('/visuals/', 1)[0] + '/page.json'
     if page_path not in documents or 'definition/report.json' not in documents: raise Refusal('MISSING_PARENT_DEFINITION')
     page_part, page = documents[page_path]
-    active, sources = [], []
+    inventory = ReportDeclarations(documents)
 
     def add(document, part, origin):
         parsed = restrictions(model, document)
-        active.extend(parsed)
-        sources.append({'part_id': part['id'], 'content_hash': part['content_hash'],
-                        'origin': origin, 'restrictions': parsed, 'applies_by_default': True})
+        inventory.active(document, part, origin, parsed)
 
     def filters(document, part, origin):
         config = document.get('filterConfig', {'filters': []})
@@ -211,74 +317,81 @@ def _extract(model, measure_id, scope):
                     raise Refusal('FILTER_FIELD_DECLARATION_DISAGREES')
             add(entry['filter'], part, origin)
 
-    if page.get('pageBinding') or page.get('type') in ('Drillthrough', 'Tooltip'):
-        raise Refusal('CONDITIONAL_PAGE_CONTEXT')
-    filters(documents['definition/report.json'][1], documents['definition/report.json'][0], 'REPORT_FILTER')
-    filters(page, page_part, 'PAGE_FILTER'); filters(selected, selected_part, 'VISUAL_FILTER')
+    for document, part, origin in ((documents['definition/report.json'][1],documents['definition/report.json'][0],'REPORT_FILTER'),
+                                    (page,page_part,'PAGE_FILTER'),(selected,selected_part,'VISUAL_FILTER')):
+        try:
+            if part == page_part and (page.get('pageBinding') or page.get('type') in ('Drillthrough','Tooltip')):
+                raise Refusal('CONDITIONAL_PAGE_CONTEXT')
+            filters(document,part,origin)
+        except (Refusal, declared_reproduction.UnsupportedRestriction) as exc:
+            inventory.unsupported(part,exc.form)
     for other_path, (part, document) in documents.items():
-        if other_path.startswith('definition/bookmarks/'):
-            alternatives = []
-            for native in _native_filters(document):
-                try: alternatives.append({'restrictions': restrictions(model, native)})
-                except Refusal as exc: alternatives.append({'unsupported_form': exc.form, 'declaration': native})
-            exclusions.append({'part_id': part['id'], 'content_hash': part['content_hash'],
-                'reason': 'STORED_BOOKMARK_REQUIRES_INVOCATION', 'applies_by_default': False,
-                'alternatives': alternatives,
-                'non_reproduction_limit': 'An invoked bookmark may produce the reported figure; invocation is unknown.'})
-        source_visual = document.get('visual', {})
-        if source_visual.get('visualType') == 'slicer' and _sync_declared(document):
-            raise Refusal('SLICER_SYNC_CONTEXT')
-        if not other_path.startswith(page_path.removesuffix('page.json') + 'visuals/'): continue
-        if source_visual.get('visualType') != 'slicer': continue
-        if _inverted_selection(document): raise Refusal('INVERTED_SELECTION_MODE')
-        if 'syncGroup' in document or 'syncGroup' in source_visual: raise Refusal('SLICER_SYNC_CONTEXT')
-        interactions = [i for i in page.get('visualInteractions', [])
-                        if i.get('source') == document.get('name') and i.get('target') == selected.get('name')]
-        if len(interactions) != 1 or interactions[0].get('type') not in ('DataFilter', 'NoFilter'):
-            raise Refusal('SLICER_INTERACTION_APPLICABILITY_UNKNOWN')
-        if interactions[0]['type'] == 'NoFilter':
-            exclusions.append({'part_id': part['id'], 'reason': 'DECLARED_NO_FILTER_INTERACTION'})
-            continue
-        state = source_visual.get('query', {}).get('queryState', {})
-        if set(state) != {'Values'} or len(state['Values'].get('projections', [])) != 1:
-            raise Refusal('SLICER_FIELD_CONTEXT')
-        selected_column = member(model, state['Values']['projections'][0]['field'], 'Column')
-        data = source_visual.get('objects', {}).get('data', [])
-        if len(data) != 1 or data[0].get('selector'):
-            raise Refusal('SLICER_MODE_APPLICABILITY_UNKNOWN')
-        properties = data[0].get('properties', {})
-        if set(properties) != {'mode'}:
-            raise Refusal('SLICER_DATA_MODIFIER')
-        mode = properties['mode'].get('expr', {}).get('Literal', {}).get('Value')
-        if mode not in ("'Dropdown'", "'List'"):
-            raise Refusal('NON_ENUMERATED_SLICER_MODE')
-        # A slicer's own filter pane constrains its choices, not necessarily its selection.
-        if source_visual.get('filterConfig') or document.get('filterConfig'):
-            raise Refusal('SLICER_CHOICE_FILTER_CONTEXT')
-        general = source_visual.get('objects', {}).get('general', [])
-        known = [item.get('properties', {}).get('filter', {}).get('filter') for item in general]
-        if any(native not in known for native in _native_filters(document)):
-            raise Refusal('SLICER_SELECTION_APPLICABILITY_UNKNOWN')
-        for item in general:
-            selection = item.get('properties', {}).get('filter')
-            if selection is None: continue
-            if item.get('selector') or not isinstance(selection, dict) or set(selection) != {'filter'}:
+        try:
+            if other_path.startswith('definition/bookmarks/'):
+                alternatives = []
+                for native in _native_filters(document):
+                    try: alternatives.append({'restrictions': restrictions(model, native)})
+                    except Refusal as exc: alternatives.append({'unsupported_form': exc.form, 'declaration': native})
+                inventory.conditional(part, 'STORED_BOOKMARK_REQUIRES_INVOCATION')
+                exclusions.append({'part_id': part['id'], 'content_hash': part['content_hash'],
+                    'reason': 'STORED_BOOKMARK_REQUIRES_INVOCATION', 'applies_by_default': False,
+                    'alternatives': alternatives,
+                    'non_reproduction_limit': 'An invoked bookmark may produce the reported figure; invocation is unknown.'})
+            source_visual = document.get('visual', {})
+            if source_visual.get('visualType') == 'slicer' and _sync_declared(document):
+                raise Refusal('SLICER_SYNC_CONTEXT')
+            if not other_path.startswith(page_path.removesuffix('page.json') + 'visuals/'): continue
+            if source_visual.get('visualType') != 'slicer': continue
+            if _inverted_selection(document): raise Refusal('INVERTED_SELECTION_MODE')
+            if 'syncGroup' in document or 'syncGroup' in source_visual: raise Refusal('SLICER_SYNC_CONTEXT')
+            interactions = [i for i in page.get('visualInteractions', [])
+                            if i.get('source') == document.get('name') and i.get('target') == selected.get('name')]
+            if len(interactions) != 1 or interactions[0].get('type') not in ('DataFilter', 'NoFilter'):
+                raise Refusal('SLICER_INTERACTION_APPLICABILITY_UNKNOWN')
+            if interactions[0]['type'] == 'NoFilter':
+                inventory.conditional(part, 'DECLARED_NO_FILTER_INTERACTION')
+                exclusions.append({'part_id': part['id'], 'reason': 'DECLARED_NO_FILTER_INTERACTION'})
+                continue
+            state = source_visual.get('query', {}).get('queryState', {})
+            if set(state) != {'Values'} or len(state['Values'].get('projections', [])) != 1:
+                raise Refusal('SLICER_FIELD_CONTEXT')
+            selected_column = member(model, state['Values']['projections'][0]['field'], 'Column')
+            data = source_visual.get('objects', {}).get('data', [])
+            if len(data) != 1 or data[0].get('selector'):
+                raise Refusal('SLICER_MODE_APPLICABILITY_UNKNOWN')
+            properties = data[0].get('properties', {})
+            if set(properties) != {'mode'}:
+                raise Refusal('SLICER_DATA_MODIFIER')
+            mode = properties['mode'].get('expr', {}).get('Literal', {}).get('Value')
+            if mode not in ("'Dropdown'", "'List'"):
+                raise Refusal('NON_ENUMERATED_SLICER_MODE')
+            # A slicer's own filter pane constrains its choices, not necessarily its selection.
+            if source_visual.get('filterConfig') or document.get('filterConfig'):
+                raise Refusal('SLICER_CHOICE_FILTER_CONTEXT')
+            general = source_visual.get('objects', {}).get('general', [])
+            known = [item.get('properties', {}).get('filter', {}).get('filter') for item in general]
+            if any(native not in known for native in _native_filters(document)):
                 raise Refusal('SLICER_SELECTION_APPLICABILITY_UNKNOWN')
-            if any(r['field_id'] != selected_column['id'] for r in restrictions(model, selection['filter'])):
-                raise Refusal('SLICER_FIELD_DECLARATION_DISAGREES')
-            add(selection['filter'], part, 'SAVED_SLICER_SELECTION')
-    if not active: raise Refusal('NO_ACTIVE_PREDICATE')
-    # Validate representability/bounds before either query, without doing native extraction in the engine.
-    try: declared_reproduction.compose(active)
-    except declared_reproduction.UnsupportedRestriction: raise
-    except ValueError: raise Refusal('RESTRICTION_REPRESENTATION_BOUND')
-    return {'status': 'DECLARED', 'restrictions': active,
+            for item in general:
+                selection = item.get('properties', {}).get('filter')
+                if selection is None: continue
+                if item.get('selector') or not isinstance(selection, dict) or set(selection) != {'filter'}:
+                    raise Refusal('SLICER_SELECTION_APPLICABILITY_UNKNOWN')
+                if any(r['field_id'] != selected_column['id'] for r in restrictions(model, selection['filter'])):
+                    raise Refusal('SLICER_FIELD_DECLARATION_DISAGREES')
+                add(selection['filter'], part, 'SAVED_SLICER_SELECTION')
+        except (Refusal, declared_reproduction.UnsupportedRestriction) as exc:
+            inventory.unsupported(part, exc.form)
+    inventory_result = inventory.result()
+    active = [copy.deepcopy(r) for entry in inventory_result['entries']
+              if entry['disposition'] == _enum('disposition','ACTIVE') for r in entry['restrictions']]
+    return {'status': 'DECLARED', 'inventory': inventory_result, 'restrictions': active,
         'evidence': {'id': 'declared-context-' + str(uuid4()), 'tool': 'context',
             'completeness': 'COMPLETE_RESPONSE', 'declaration_provenance': 'DECLARED_BY_DEFINITION',
             'declared_restrictions': copy.deepcopy(active), 'conditional_declarations': copy.deepcopy(exclusions),
             'metadata': {'context_version': model['context_id'], 'model_revision': model['revision'],
                 'model_id': model['id'], 'definition_target_id': selected_part['id'],
-                'report_id': report['report']['id'], 'active_declarations': sources,
+                'report_id': report['report']['id'],
                 'excluded_declarations': exclusions,
                 'pinned_context_hash': digest(model['context'])}}}
 

@@ -94,6 +94,17 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         self.layer = {'id': self.table['id'], 'kind': 'presentation'}
         self.scope = {'filters': [{'column_id': self.column['id'], 'values': ['North']}], 'reported_figure': 3}
 
+    def test_combined_inventory_bound_is_refused_by_engine_before_compilation(self):
+        self.modify(self.page, lambda d: d['filterConfig'].update(
+            filters=[{'type': 'Categorical', 'filter': native_filter()} for _ in range(33)]))
+        declaration = self.adapter.declared_context(self.layer, self.measure['id'], self.scope)
+        self.assertEqual(declaration['status'], 'DECLARED')
+        self.assertGreater(len(declaration['restrictions']), 32)
+        result = self.run_check()
+        self.assertEqual(result['status'], 'UNDECLARED')
+        self.assertEqual(result['unsupported_form'], 'DECLARATION_INVENTORY_CONTRACT')
+        self.assertEqual(self.requests, [])
+
     def part(self, name, document):
         content = json.dumps(document)
         part = {'id': 'part/' + name, 'kind': 'DefinitionPart', 'name': name,
@@ -108,6 +119,19 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
 
     def declaration(self): return self.adapter.declared_context(self.layer, self.measure['id'], self.scope)
     def run_check(self): return declared_reproduction.run(self.adapter, self.layer, self.measure['id'], self.scope)
+
+    def assert_inventory_block(self, form):
+        declaration = self.declaration()
+        self.assertEqual(declaration['status'], 'DECLARED')  # extracted, not eligible
+        unsupported = [e for e in declaration['inventory']['entries'] if e['disposition'] == 'UNSUPPORTED']
+        self.assertTrue(unsupported)
+        self.assertIn(form, ' '.join(e['opaque_provenance'] for e in unsupported))
+        result = self.run_check()
+        self.assertEqual(result['status'], 'UNDECLARED')
+        self.assertEqual(result['unsupported_form'], 'UNSUPPORTED_DECLARATION')
+        self.assertEqual(self.requests, [])
+        return declaration, result
+
 
     def test_bookmark_on_active_column_is_retained_and_excluded_without_changing_intersection(self):
         declaration = self.declaration()
@@ -195,7 +219,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
 
     def test_out_of_bound_literal_and_lossy_decimal_refuse_before_queries(self):
         self.modify(self.page, lambda d: d.update(filterConfig=filter_config(native_filter(('x' * 201,)))))
-        self.assertIn('LITERAL_REPRESENTATION_BOUND', self.declaration()['reason'])
+        self.assert_inventory_block('LITERAL_REPRESENTATION_BOUND')
         self.assertEqual(self.requests, [])
         self.column['metadata']['dataType'] = 'decimal'
         doc = native_filter()
@@ -208,15 +232,13 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         doc = native_filter()
         doc['Where'][0]['Condition']['In']['Values'] = [[{'Literal': {'Value': '9' * 5000 + 'L'}}]]
         self.modify(self.page, lambda d: d.update(filterConfig=filter_config(doc)))
-        result = self.declaration()
-        self.assertEqual(result['status'], 'UNDECLARED')
-        self.assertIn('LITERAL_REPRESENTATION_BOUND', result['reason'])
+        self.assert_inventory_block('LITERAL_REPRESENTATION_BOUND')
         self.assertEqual(self.requests, [])
 
     def test_refused_new_declaration_cannot_reuse_prior_admission(self):
         self.declaration()
         self.modify(self.page, lambda d: d.update(visualInteractions=[]))
-        self.assertEqual(self.declaration()['status'], 'UNDECLARED')
+        self.assert_inventory_block('SLICER_INTERACTION_APPLICABILITY_UNKNOWN')
         with self.assertRaisesRegex(Conflict, 'No complete pinned declaration'):
             self.adapter.evaluate_declared_context(self.layer, self.measure['id'], {'restrictions': [], 'dimension_ids': []})
         self.assertEqual(self.requests, [])
@@ -234,10 +256,10 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
 
     def test_sync_slicers_and_conditional_pages_are_named_refusals(self):
         self.modify(self.slicer, lambda d: d.update(syncGroup={'name': 'shared'}))
-        self.assertIn('SLICER_SYNC_CONTEXT', self.declaration()['reason'])
+        self.assert_inventory_block('SLICER_SYNC_CONTEXT')
         self.modify(self.slicer, lambda d: d.pop('syncGroup'))
         self.modify(self.page, lambda d: d.update(pageBinding={'type': 'Drillthrough'}))
-        self.assertIn('CONDITIONAL_PAGE_CONTEXT', self.declaration()['reason'])
+        self.assert_inventory_block('CONDITIONAL_PAGE_CONTEXT')
 
     def test_unfamiliar_names_values_and_quoted_identifiers_are_catalog_bound(self):
         self.dimension['name'] = "Buyer's Areas"; self.column['name'] = 'Code]Name'
@@ -286,18 +308,13 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         for form in ('Between', 'Not', 'RelativeDate', 'Comparison', 'TopN'):
             self.modify(self.visual, lambda d: d.update(filterConfig=filter_config({
                 'Version': 2, 'From': [], 'Where': [{'Condition': {form: {}}}]})))
-            result = self.declaration()
-            self.assertEqual(result['status'], 'UNDECLARED', result)
-            self.assertIn(form, result['reason'])
+            self.assert_inventory_block(form)
             self.assertEqual(self.requests, [])
 
-    def test_adapter_refusal_form_reaches_neutral_engine_without_native_interpretation(self):
+    def test_native_unsupported_form_stays_opaque_while_engine_names_neutral_gate(self):
         self.modify(self.visual, lambda d: d.update(filterConfig=filter_config({
             'Version': 2, 'From': [], 'Where': [{'Condition': {'Not': {}}}]})))
-        result = self.run_check()
-        self.assertEqual(result['status'], 'UNDECLARED')
-        self.assertEqual(result['unsupported_form'], 'CONDITION_Not')
-        self.assertIn('CONDITION_Not', result['reason'])
+        self.assert_inventory_block('CONDITION_Not')
         self.assertEqual(self.requests, [])
 
     def test_measure_level_and_tuple_conditions_refuse_without_dropping_column_restrictions(self):
@@ -305,9 +322,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
             doc = native_filter()
             doc['Where'][0]['Condition']['In']['Expressions'] = expression if isinstance(expression, list) else [expression]
             self.modify(self.visual, lambda d: d.update(filterConfig=filter_config(doc)))
-            result = self.declaration()
-            self.assertEqual(result['status'], 'UNDECLARED')
-            self.assertIn('TUPLE_IN' if isinstance(expression, list) else 'FIELD_EXPRESSION_Measure', result['reason'])
+            self.assert_inventory_block('TUPLE_IN' if isinstance(expression, list) else 'FIELD_EXPRESSION_Measure')
             self.assertEqual(self.requests, [])
 
     def test_unknown_conditional_form_is_retained_but_never_applied(self):
@@ -321,36 +336,28 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
 
     def test_unknown_slicer_applicability_is_not_classified_active(self):
         self.modify(self.page, lambda d: d.update(visualInteractions=[]))
-        result = self.declaration()
-        self.assertEqual(result['status'], 'UNDECLARED')
-        self.assertIn('APPLICABILITY_UNKNOWN', result['reason'])
+        self.assert_inventory_block('APPLICABILITY_UNKNOWN')
 
     def test_non_enumerated_slicer_mode_without_predicate_cannot_be_dropped(self):
         self.modify(self.slicer, lambda d: d['visual']['objects'].update(
             general=[], data=[{'properties': {'mode': {'expr': {'Literal': {'Value': "'RelativeDate'"}}}}}]))
-        result = self.declaration()
-        self.assertEqual(result['status'], 'UNDECLARED')
-        self.assertIn('NON_ENUMERATED_SLICER_MODE', result['reason'])
+        self.assert_inventory_block('NON_ENUMERATED_SLICER_MODE')
         self.assertEqual(self.requests, [])
 
     def test_predicate_outside_supported_active_location_is_not_silently_dropped(self):
         self.modify(self.page, lambda d: d.update(unknownConditionalState={'filter': native_filter(('Coastal',))}))
-        result = self.declaration()
-        self.assertEqual(result['status'], 'UNDECLARED')
-        self.assertIn('FILTER_APPLICABILITY_UNKNOWN', result['reason'])
+        self.assert_inventory_block('FILTER_APPLICABILITY_UNKNOWN')
         self.assertEqual(self.requests, [])
 
     def test_inverted_selection_modifier_is_not_coerced_to_in_membership(self):
         self.modify(self.page, lambda d: d['filterConfig']['filters'][0].update(objects={
             'general': [{'properties': {'isInvertedSelectionMode': {'expr': {'Literal': {'Value': 'true'}}}}}]}))
-        result = self.declaration()
-        self.assertEqual(result['status'], 'UNDECLARED')
-        self.assertIn('INVERTED_SELECTION_MODE', result['reason'])
+        self.assert_inventory_block('INVERTED_SELECTION_MODE')
         self.assertEqual(self.requests, [])
 
     def test_filter_field_disagreement_refuses_instead_of_guessing(self):
         self.modify(self.page, lambda d: d['filterConfig']['filters'][0].update(field=field('Sales', 'Revenue', 'Measure')))
-        self.assertIn('FIELD_EXPRESSION_Measure', self.declaration()['reason'])
+        self.assert_inventory_block('FIELD_EXPRESSION_Measure')
         self.assertEqual(self.requests, [])
 
     def test_no_filter_interaction_excludes_selection(self):
@@ -373,12 +380,12 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
 
     def test_malformed_native_expression_is_named_refusal(self):
         self.modify(self.page, lambda d: d.update(filterConfig=filter_config({'Version': 2, 'From': [None], 'Where': [None]})))
-        self.assertEqual(self.declaration()['status'], 'UNDECLARED')
+        self.assert_inventory_block('SOURCE_REFERENCE')
         self.assertEqual(self.requests, [])
 
     def test_missing_render_support_refuses_before_even_undeclared_context_read(self):
         self.column['metadata']['dataType'] = 'dateTime'
-        self.assertIn('LITERAL_TYPE_dateTime', self.declaration()['reason'])
+        self.assert_inventory_block('LITERAL_TYPE_dateTime')
         self.assertEqual(self.requests, [])
 
     def test_lower_filtered_refusal_and_active_selection_inconclusive_are_unchanged(self):
@@ -387,6 +394,115 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         with patch('report_slicer_context.assess', return_value={}):
             result = self.adapter.presentation_context({}, {})
         self.assertEqual(result['status'], 'INCONCLUSIVE')
+
+    def test_unknown_selection_bearing_visual_is_unsupported_and_blocked_by_engine_validation(self):
+        self.modify(self.slicer,lambda d:d['visual'].update(visualType='unknownSelectionVisual'))
+        declaration=self.declaration()
+        self.assertEqual(declaration['status'],'DECLARED')
+        unsupported=[e for e in declaration['inventory']['entries'] if e['disposition']=='UNSUPPORTED']
+        self.assertTrue(any('unknownSelectionVisual' in e['opaque_provenance'] for e in unsupported))
+        from investigator import declaration_inventory
+        with patch.object(declaration_inventory,'validate',wraps=declaration_inventory.validate) as validation:
+            result=self.run_check()
+        validation.assert_called_once()
+        self.assertEqual(result['status'],'UNDECLARED')
+        self.assertEqual(result['unsupported_form'],'UNSUPPORTED_DECLARATION')
+        self.assertEqual(self.requests,[])
+
+    def test_active_set_is_only_a_flattening_of_active_inventory_entries(self):
+        d=self.declaration()
+        self.assertEqual(d['restrictions'],[r for e in d['inventory']['entries'] if e['disposition']=='ACTIVE' for r in e['restrictions']])
+        self.assertEqual(d['evidence']['declared_restrictions'],d['restrictions'])
+        self.assertNotIn('active_declarations',d['evidence']['metadata'])
+
+    def test_every_discovered_declaration_has_exactly_one_explicit_disposition(self):
+        d=self.declaration();inv=d['inventory']
+        from investigator import declaration_inventory
+        self.assertEqual(sorted(declaration_inventory.identity(s) for s in inv['discovered']),sorted(e['id'] for e in inv['entries']))
+        self.assertEqual(len(inv['discovered']),sum(e['disposition'] in declaration_inventory.SCHEMA['disposition']['enum'] for e in inv['entries']))
+        self.assertTrue(all(type(e['disposition']) is str for e in inv['entries']))
+        with patch.object(predicates.ReportDeclarations,'active',return_value=None):
+            result=self.run_check()
+        self.assertEqual(result['status'],'UNDECLARED')  # forgotten classification is explicit UNSUPPORTED
+        self.assertEqual(self.requests,[])
+
+    def test_shuffling_collected_parts_preserves_inventory_and_ids(self):
+        before=self.declaration()['inventory']
+        self.parts.reverse()
+        after=self.declaration()['inventory']
+        self.assertEqual(before,after)
+
+    def test_unknown_declaration_container_without_where_is_not_omitted(self):
+        self.modify(self.page,lambda d:d.update(unfamiliarSavedState={'values':['Coastal']}))
+        self.assert_inventory_block('UNKNOWN_DECLARATION_CONTAINER:unfamiliarSavedState')
+
+    def test_saved_defaults_are_active_volatile_and_qualified_in_both_outputs(self):
+        d=self.declaration();entries=d['inventory']['entries']
+        selected=[e for e in entries if 'SAVED_SLICER_SELECTION' in e['opaque_provenance']]
+        self.assertTrue(selected)
+        self.assertTrue(all(e['disposition']=='ACTIVE' and e['volatility']=='VIEWER_CHANGEABLE' and e['assumption']=='SAVED_DEFAULT' for e in selected))
+        result=self.run_check()
+        for output in ('business_output','technical_output'):
+            self.assertIn('assumes saved default',result[output])
+            self.assertNotIn('confirmed',result[output].lower())
+        self.scope['reported_figure']=4
+        result=self.run_check()
+        self.assertEqual(result['finding']['label'],'NOT_REPRODUCED')
+        for output in ('business_output','technical_output'):
+            self.assertIn('moved saved-default selection',result[output])
+            self.assertIn('invoked stored alternative',result[output])
+            self.assertIn('other selections',result[output])
+            self.assertIn('security restrictions',result[output])
+
+    def hostile(self, change, expected='DECLARATION_INVENTORY_CONTRACT'):
+        d=copy.deepcopy(self.declaration());change(d)
+        class WrongAdapter:
+            def capabilities(inner):return {'declared_context_reproduction'}
+            def declared_context(inner,*args):return d
+            def evaluate_declared_context(inner,*args):self.fail('Hostile producer reached a data read')
+        result=declared_reproduction.run(WrongAdapter(),self.layer,self.measure['id'],self.scope)
+        self.assertEqual(result['status'],'UNDECLARED')
+        self.assertEqual(result['unsupported_form'],expected)
+        self.assertEqual(self.requests,[])
+        return result
+
+    def test_hostile_producer_active_restriction_without_inventory_entry_is_refused(self):
+        self.hostile(lambda d:d['restrictions'].append({'field_id':'untraced','operator':'IN','values':[1]}))
+
+    def test_hostile_producer_active_entry_missing_from_active_set_is_refused(self):
+        self.hostile(lambda d:d['restrictions'].pop())
+
+    def test_hostile_producer_missing_or_multiple_dispositions_is_refused(self):
+        for value in (None,['ACTIVE','CONDITIONAL']):
+            def change(d):
+                e=d['inventory']['entries'][0]
+                if value is None:del e['disposition']
+                else:e['disposition']=value
+            with self.subTest(value=value):self.hostile(change)
+
+    def test_hostile_producer_unsupported_entry_blocks_otherwise_complete_active_set(self):
+        def change(d):
+            from investigator import declaration_inventory
+            source={'location':'unrelated-declaration','content_hash':'d'*64}
+            d['inventory']['discovered'].append(source)
+            d['inventory']['entries'].append({'id':declaration_inventory.identity(source),'source':source,
+                'disposition':'UNSUPPORTED','volatility':'UNKNOWN','assumption':'APPLICABILITY_UNKNOWN',
+                'opaque_provenance':'unknown-external-kind','restrictions':[]})
+        result=self.hostile(change,'UNSUPPORTED_DECLARATION')
+        self.assertIn('Unsupported declarations',result['reason'])
+
+    def test_hostile_producer_volatility_or_assumption_outside_consumer_enum_is_refused(self):
+        for field in ('volatility','assumption'):
+            with self.subTest(field=field):
+                result=self.hostile(lambda d:d['inventory']['entries'][0].update({field:'producer-invented-value'}))
+                self.assertIn('Invalid declaration '+field,result['reason'])
+
+    def test_hostile_producer_unaccounted_discovered_declaration_is_refused(self):
+        self.hostile(lambda d:d['inventory']['entries'].pop())
+
+    def test_unknown_part_is_unsupported_even_without_recognised_predicate(self):
+        self.part('definition/unfamiliarDeferredFeature.json',{'selection':['Coastal']})
+        self.assert_inventory_block('UNKNOWN_DEFINITION_PART')
 
 
 if __name__ == '__main__': unittest.main()

@@ -86,8 +86,17 @@ class MicrosoftProcessAdapter:
         try:
             model=pinned(self)
             declaration=extract(model,measure_id,scope)
+            # Collection status is not capability eligibility. Return the complete
+            # inventory for the engine's UNSUPPORTED gate; do not cache partial reads.
+            if any(e['disposition']=='UNSUPPORTED' for e in declaration['inventory']['entries']):
+                return declaration
+            # Leave invalid inventories to the consumer gate, including combined
+            # bounds, before preflight can attempt to compose an inadmissible set.
+            from ..declaration_inventory import validate as validate_inventory
+            try: validate_inventory(declaration['inventory'], declaration['restrictions'])
+            except ValueError: return declaration
             # Preflight both queries, so an unsupported rendering cannot consume a baseline read.
-            for applied in ([],compose(declaration['restrictions'])):
+            for applied in (([],compose(declaration['restrictions'])) if declaration['restrictions'] else ()):
                 query=quantity_query(model,measure_id,applied)
                 admit_query(self.store,{'model_id':model['id'],'revision':model['revision'],
                     'context_id':model['context_id'],'query':query,'max_rows':20,

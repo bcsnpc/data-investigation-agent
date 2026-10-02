@@ -115,3 +115,66 @@ slicer mode, one resolved column projection and matching saved-selection field.
 A non-enumerable mode without an IN predicate still refuses the whole active set
 rather than vanishing while page filters execute. The release-suite attempt
 before this guard was interrupted and its log preserved; the final suite passed.
+
+
+## Dated PR B correction: inventory is the source (2026-10-01)
+
+The earlier adapter and 0b audit assumed completeness when a declaration kind was
+not recognised. That claim is withdrawn, not removed from the historical text.
+#296 merged the required neutral contract at `7ec4a40`. All four required pieces
+are present on that main revision: the declaration inventory, conservation and
+ACTIVE-coverage validation, consumer-owned volatility/assumption enums, and
+engine-rendered saved-default qualifications. PR B rebases #295 onto that revision;
+it does not change or extend those engine files.
+
+Extraction first inventories native declarations from the selected report's
+collected JSON parts. Each has a content/location-derived identity and exactly
+one disposition. Unknown containers, visual kinds, predicates and applicability
+remain UNSUPPORTED, including forms without a recognised IN predicate. The active
+set is a flattening of ACTIVE entries' restrictions; no independent active-set
+builder or reconciliation path remains. Collection status and eligibility are
+separate: a DECLARED collection can contain an UNSUPPORTED entry, which the
+engine refuses before either quantity read. Combined inventory bounds also
+reach the consumer refusal without causing a preflight composition exception.
+
+Bookmarks are recorded CONDITIONAL and excluded. Saved slicer defaults remain
+ACTIVE with VIEWER_CHANGEABLE volatility and SAVED_DEFAULT assumption, selected
+from the consumer schema. Reproduction qualifies the assumed saved positions;
+non-reproduction explicitly names a moved saved-default selection alongside the
+other retained open possibilities. Native provenance is opaque evidence; the
+engine's neutral refusal identifies UNSUPPORTED_DECLARATION and the declaration
+IDs. It neither interprets native kind strings nor forwards them into model
+prose. The merged opaque-provenance test still checks identical engine behaviour
+under two different native strings.
+
+The original 32 adapter tests were reviewed. Unsupported-form tests now assert
+inventory dispositions and the engine's pre-read gate, rather than confusing
+collection status with eligibility. Prerequisite/target ambiguity tests retain
+named early refusals. Compiler, explicit empty intersections, unfamiliar catalog
+bindings, isolated reader attestation, cache/context checks and unchanged lower
+filtered-scope refusal retain their original invariants. Fourteen additional
+tests cover inventory derivation/conservation, unknown containers and the
+permanent unfamiliar selection-bearing visual, volatility and qualifications,
+and deliberately hostile producers. These producers omit ACTIVE coverage,
+introduce untraced restrictions, omit/duplicate dispositions or inventory entries,
+add UNSUPPORTED entries to otherwise valid sets, and emit invalid consumer enums.
+Every such case is refused before a data read. No new visual-kind recognition was
+added for the synthetic audit case.
+
+An extraction-only check against the already collected context
+`3ae7607b-5a5e-46c6-8e1b-195dbabc9cae`, revision 4, found four ACTIVE declarations
+and five CONDITIONAL entries. Both slicer defaults are ACTIVE, VIEWER_CHANGEABLE,
+and SAVED_DEFAULT. The five conditional entries are bookmark predicate nodes and
+the bookmark index, not five separate bookmarks. The consumer validated this
+inventory; no quantity was evaluated and no ticket was authored. PR3's reported
+figure must be derived under the full active set including both saved defaults,
+not merely page and visual filters.
+
+Validation: all 1,432 regression tests passed in 275.391 seconds, including 46
+adapter tests. All 392 local document targets in the four updated documents
+resolved; git diff --check passed.
+Planner goldens retain 28 directory entries, 11 SQL objects and 5,543 projected
+characters. The adapter does not add planner-directory content. This is offline
+compiler/contract evidence, not native reproduction or unfamiliar-domain acceptance.
+No investigation run, model call, metadata read, estate change, permission, budget,
+credit or ledger row. Earlier frozen attempts remain invalidated by adapter bytes.
