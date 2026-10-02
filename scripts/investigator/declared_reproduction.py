@@ -124,8 +124,22 @@ def run(adapter, layer, measure_id, scope):
         return {'status': 'UNDECLARED', 'observations': []}
     declaration = adapter.declared_context(layer, measure_id, copy.deepcopy(scope))
     from . import declaration_inventory as inventory
+    # Status is the existing declaration/refusal discriminant. An upstream
+    # refusal produced no eligible input; downstream validation must not mask it.
+    if not isinstance(declaration, dict) or declaration.get('status') not in ('DECLARED', 'UNDECLARED', 'UNAVAILABLE'):
+        return {'status': 'UNDECLARED', 'reason': 'Declaration response has no valid status',
+                'unsupported_form': 'DECLARATION_RESPONSE_CONTRACT', 'observations': []}
+    if declaration['status'] != 'DECLARED':
+        if not isinstance(declaration.get('reason'), str) or not declaration['reason'].strip():
+            return {'status': 'UNDECLARED', 'reason': 'Upstream declaration refusal has no reason',
+                    'unsupported_form': 'DECLARATION_RESPONSE_CONTRACT', 'observations': []}
+        return {'status': declaration['status'], 'reason': declaration['reason'],
+                **({'unsupported_form': declaration['unsupported_form']} if 'unsupported_form' in declaration else {}),
+                'observations': []}
     try:
         entries = inventory.validate(declaration.get('inventory'), declaration.get('restrictions', []))
+    except inventory.MissingInventory as exc:
+        return {'status': 'UNDECLARED', 'reason': str(exc), 'unsupported_form': 'DECLARATION_INVENTORY_ABSENT', 'observations': []}
     except UnsupportedRestriction as exc:
         return {'status': 'UNDECLARED', 'reason': str(exc), 'unsupported_form': exc.form, 'observations': []}
     except ValueError as exc:
@@ -134,9 +148,6 @@ def run(adapter, layer, measure_id, scope):
     if unsupported:
         return {'status': 'UNDECLARED', 'reason': 'Unsupported declarations: ' + ', '.join(e['id'] for e in unsupported),
                 'unsupported_form': 'UNSUPPORTED_DECLARATION', 'inventory': inventory.neutral(entries), 'observations': []}
-    if declaration.get('status') != 'DECLARED':
-        return {'status': declaration.get('status', 'UNDECLARED'),
-                'reason': declaration.get('reason') or 'Declared scope evidence is unavailable.', 'observations': []}
     if not declaration['restrictions']:
         return {'status': 'UNDECLARED', 'reason': 'No active declaration restrictions.', 'observations': []}
     try:
