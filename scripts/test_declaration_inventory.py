@@ -121,7 +121,7 @@ class InventoryTests(unittest.TestCase):
 
     def test_non_reproduction_names_moved_default_in_both_outputs(self):
         result=self.execute('opaque',True,value=4)
-        for field in ('business_output','technical_output'):self.assertIn('moved saved-default selection',result[field])
+        for field in ('business_output','technical_output'):self.assertIn('moved slicer',result[field])
 
     def test_synthesis_revalidates_original_inventory_not_marker_assertion(self):
         result=self.execute('opaque',True);by_id={o['id']:o for o in result['observations']}
@@ -145,7 +145,7 @@ class InventoryTests(unittest.TestCase):
 
     def test_conditional_alternative_qualification_comes_from_neutral_field(self):
         fields=[{'id':'opaque','disposition':'CONDITIONAL','volatility':'FIXED','assumption':'INVOCATION_UNKNOWN'}]
-        self.assertIn('invoked stored alternative',inventory.qualifications(fields,'NOT_REPRODUCED')[-1])
+        self.assertIn('invoked bookmark',inventory.qualifications(fields,'NOT_REPRODUCED')[-1])
 
     def test_malformed_active_set_is_contract_violation_not_type_error(self):
         d=self.declaration();d['restrictions']=None

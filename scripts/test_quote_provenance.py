@@ -24,16 +24,16 @@ class QuoteProvenanceTests(unittest.TestCase):
         return {'text':'Revenue shows 9 for North.','models':[{'id':'model','measures':[{'id':'measure','name':'Revenue'}],'columns':[{'column_id':'column','name':'Region'}]}]}
     def response(self):
         return {'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'Revenue','question':None,'filters':[],'dimension_ids':[],
-            'target_request':{'source':{'quote':'North'}},'reported_candidates':[{'quote':'9'}],'triage':'MISMATCH_COMPLAINT:VERTICAL'}
+            'report_quote':None,'target_request':{'value_source':{'quote':'North'},'column_source':None},'reported_candidates':[{'quote':'9'}],'triage':'MISMATCH_COMPLAINT:VERTICAL'}
     def test_quote_wire_computes_original_downstream_shape(self):
         with patch('ticket_planner.azure_generate',return_value=(self.response(),{})):
             value,_=azure_resolve(self.payload())
         self.assertEqual(value['reported_figure']['source'],{'start':14,'end':15,'quote':'9'})
-        self.assertEqual(value['target_request']['source'],{'start':20,'end':25,'quote':'North'})
+        self.assertEqual(value['target_request']['value_source'],{'start':20,'end':25,'quote':'North'})
     def test_hostile_offset_on_figure_or_target_rejects(self):
         for kind in ('figure','target'):
             response=self.response()
-            obj=response['reported_candidates'][0] if kind=='figure' else response['target_request']['source']
+            obj=response['reported_candidates'][0] if kind=='figure' else response['target_request']['value_source']
             obj['start']=0
             with patch('ticket_planner.azure_generate',return_value=(response,{})):
                 with self.assertRaisesRegex(ValueError,'Unexpected fields'):azure_resolve(self.payload())

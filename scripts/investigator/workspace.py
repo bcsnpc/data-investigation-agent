@@ -97,8 +97,8 @@ class Workspace:
         if intake is not None:
             # Saved, reviewed server evidence is authoritative; no client resend.
             envelope['reported_figure']=intake['reported_figure']
-            if 'definition_target' in intake:
-                envelope['definition_target']=intake['definition_target']
+            for key in ('definition_target','report_binding','selection_request'):
+                if key in intake: envelope[key]=intake[key]
         envelope.update(revision=model['revision'], context_id=model['context_id'], source_tests=[],
                         source_selection='reviewed_mappings', record_selection='reviewed_mappings', joint_native_records=True, limits=dict(LIMITS))
         if model.get('discovery'):

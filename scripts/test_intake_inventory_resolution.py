@@ -87,7 +87,7 @@ class AdapterWiringTests(unittest.TestCase):
     def test_no_figure_reason_precedes_target_and_inventory_with_real_adapter(self):
         scope={'reported_figure':{'state':'UNSPECIFIED'},'definition_target':{'bad':'target'}}
         with patch.object(self.h.adapter,'declared_context',side_effect=AssertionError('must not extract')):
-            result=declared_reproduction.run(self.h.adapter,self.h.layer,self.h.measure['id'],scope)
+            result=declared_reproduction._run_one(self.h.adapter,self.h.layer,self.h.measure['id'],scope)
         self.assertEqual(result['reason'],declared_reproduction.NO_FIGURE)
         from investigator import narrative_form
         payload={'evidence':[{'id':'unavailable','result':{'check_kind':'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE','reason':result['reason']}}]}
@@ -138,13 +138,13 @@ class TranslationTests(unittest.TestCase):
         return {'text':'Revenue for North.','models':[{'id':'model','measures':[{'id':'measure','name':'Revenue'}],
             'columns':[{'column_id':'column','name':'Region'}]}]}
     def test_model_extracts_value_without_emitting_resolution_or_guessing_column(self):
-        request={'source':{'quote':'North'}}
+        request={'value_source':{'quote':'North'},'column_source':None}
         response={'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'Revenue','question':None,
             'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[],'reported_candidates':[],
-            'target_request':request}
+            'target_request':request,'report_quote':None}
         with patch('ticket_planner.azure_generate',return_value=(response,{})):
             value,_=azure_resolve(self.payload())
-        self.assertEqual(value['target_request'],{'source':{'start':12,'end':17,'quote':'North'}});self.assertNotIn('definition_target',value)
+        self.assertEqual(value['target_request'],{'value_source':{'start':12,'end':17,'quote':'North'},'column_source':None});self.assertNotIn('definition_target',value)
         self.assertEqual(value['filters'],[])
     def test_context_coverage_is_unchanged_and_schema_cost_is_explicit(self):
         from investigator.onboarding import encoded

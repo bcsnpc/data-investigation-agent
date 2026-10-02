@@ -124,7 +124,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         part['content_hash'] = hashlib.sha256(part['metadata']['content'].encode()).hexdigest()
 
     def declaration(self): return self.adapter.declared_context(self.layer, self.measure['id'], self.scope)
-    def run_check(self): return declared_reproduction.run(self.adapter, self.layer, self.measure['id'], self.scope)
+    def run_check(self): return declared_reproduction._run_one(self.adapter, self.layer, self.measure['id'], self.scope)
 
     def assert_inventory_block(self, form):
         declaration = self.declaration()
@@ -385,7 +385,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
 
     def test_grouped_visual_is_not_silently_coerced_to_scalar_measure(self):
         self.modify(self.visual, lambda d: d['visual']['query']['queryState'].update(Category={}))
-        self.assertIn('NON_SCALAR_VISUAL_CONTEXT', self.declaration()['reason'])
+        self.assertIn('UNSUPPORTED_PROJECTION_ROLE: Category', self.declaration()['reason'])
 
     def test_malformed_native_expression_is_named_refusal(self):
         self.modify(self.page, lambda d: d.update(filterConfig=filter_config({'Version': 2, 'From': [None], 'Where': [None]})))
@@ -458,8 +458,8 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         result=self.run_check()
         self.assertEqual(result['finding']['label'],'NOT_REPRODUCED')
         for output in ('business_output','technical_output'):
-            self.assertIn('moved saved-default selection',result[output])
-            self.assertIn('invoked stored alternative',result[output])
+            self.assertIn('moved slicer',result[output])
+            self.assertIn('invoked bookmark',result[output])
             self.assertIn('other selections',result[output])
             self.assertIn('security restrictions',result[output])
 

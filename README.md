@@ -1,5 +1,15 @@
 # Self-Discovering Enterprise Data Investigator
 
+Dated update, 2026-10-02: report-scoping PR A merged as `c109b30` with six green
+checks. PR B now wires exact report provenance and selection requests through
+review, performs bounded receipt-backed value lookup within the stated report,
+and evaluates projected scalar cells and totals with conserved inventories.
+This implementation has local test evidence only; the duplicate-quote fix and
+three live reruns remain pending. No fixture, budget, permission or historical
+run changed, and prior freezes remain invalid. See
+[report-scoped cell evidence](docs/report-scoped-cells.md).
+
+
 Dated correction (2026-10-02, America/Chicago): #304's model-wide selection lookup was wrong in report scope. Declarations on another report cannot establish the context of the ticket's named report. Earlier evidence-resolution claims below are historical and do not establish valid report-scoped resolution. PR A adds the [report-scoping consumer contract](docs/report-scoping-contract.md): exact report provenance, per-report conservation, explicit full-domain declarations and receipt-backed OBSERVED resolution. This is contract work; adapter/cell wiring and duplicate-quote handling remain pending, with no live runs until both merge. Prior freezes are invalidated by engine changes. Original records and ledger rows remain unchanged.
 
 

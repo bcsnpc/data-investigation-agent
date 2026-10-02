@@ -38,8 +38,8 @@ def _typed(value):
 
 def compose(restrictions):
     """Intersect every same-field declaration; retain an empty intersection."""
-    if not isinstance(restrictions, list) or not 1 <= len(restrictions) <= 32:
-        raise ValueError('Declared restrictions require a bounded nonempty list')
+    if not isinstance(restrictions, list) or not 0 <= len(restrictions) <= 32:
+        raise ValueError('Declared restrictions require a bounded list')
     fields = {}
     for restriction in restrictions:
         if isinstance(restriction, dict) and restriction.get('operator') != 'IN':
@@ -108,13 +108,18 @@ def render(marker, business=False, include_limits=True):
               'Different update times, other selections or security restrictions, and a difference further back remain possible.')
     from .declaration_inventory import qualifications
     specific = qualifications(marker['declarations'], marker['label'])[4:] + figure.qualification(marker['reported_figure'])
+    if marker.get('selection_resolution'):
+        from .report_scope import render as render_resolution
+        finding += ' ' + render_resolution(marker['selection_resolution'],business)
+    if marker.get('cell'):
+        first = 'Cell ' + marker['cell']['mode'] + ': ' + first
     if business:
         return first + ' ' + finding + ' ' + limits + (' ' + ' '.join(specific) if specific else '')
-    return (f"WITHIN_LAYER_CHECK ({marker['id']}): undeclared-context value {baseline}; declared-context value {declared}. "
+    return ((f"Cell {marker['cell']['target_id']} ({marker['cell']['mode']}): " if marker.get('cell') else '') + f"WITHIN_LAYER_CHECK ({marker['id']}): undeclared-context value {baseline}; declared-context value {declared}. "
             + finding + (' ' + limits + (' ' + ' '.join(specific) if specific else '') if include_limits else ''))
 
 
-def run(adapter, layer, measure_id, scope):
+def _run_one(adapter, layer, measure_id, scope):
     """Callable independently, or before the vertical walk attempts a lower read.
 
     Not-declared/nonapplicable checks issue no value reads. Once applicable, both
@@ -127,7 +132,7 @@ def run(adapter, layer, measure_id, scope):
     if 'reported_figure' not in scope:
         return {'status':'UNAVAILABLE','reason':'Reported figure state was not supplied.','observations':[]}
     reported = figure.validate(scope['reported_figure'])
-    if reported['state']=='UNSPECIFIED':
+    if reported['state']=='UNSPECIFIED' and 'report_binding' not in scope:
         return {'status':'UNAVAILABLE','reason':NO_FIGURE,'observations':[]}
     declaration = adapter.declared_context(layer, measure_id, copy.deepcopy(scope))
     from . import declaration_inventory as inventory
@@ -144,7 +149,7 @@ def run(adapter, layer, measure_id, scope):
                 **({'unsupported_form': declaration['unsupported_form']} if 'unsupported_form' in declaration else {}),
                 'observations': []}
     try:
-        entries = inventory.validate(declaration.get('inventory'), declaration.get('restrictions'))
+        entries = _entries(declaration['evidence'], declaration.get('inventory'), declaration.get('restrictions'))
     except inventory.MissingInventory as exc:
         return {'status': 'UNDECLARED', 'reason': str(exc), 'unsupported_form': 'DECLARATION_INVENTORY_ABSENT', 'observations': []}
     except UnsupportedRestriction as exc:
@@ -153,16 +158,18 @@ def run(adapter, layer, measure_id, scope):
         return {'status': 'UNDECLARED', 'reason': str(exc), 'unsupported_form': 'DECLARATION_INVENTORY_CONTRACT', 'observations': []}
     unsupported = [e for e in entries if e['disposition'] == 'UNSUPPORTED']
     if unsupported:
-        return {'status': 'UNDECLARED', 'reason': 'Unsupported declarations: ' + ', '.join(e['id'] for e in unsupported),
+        return {'status': 'UNDECLARED', 'reason': 'Unsupported declarations: ' + declaration.get('unsupported_form','UNSUPPORTED_DECLARATION') + ' [' + ', '.join(e['id'] for e in unsupported) + ']' ,
                 'unsupported_form': 'UNSUPPORTED_DECLARATION', 'inventory': inventory.neutral(entries), 'observations': []}
-    if not declaration['restrictions']:
+    cell = declaration.get('cell')
+    keys = cell['key_restrictions'] if cell is not None else []
+    if not declaration['restrictions'] and cell is None:
         return {'status': 'UNDECLARED', 'reason': 'No active declaration restrictions.', 'observations': []}
     try:
-        restrictions = compose(declaration['restrictions'])
+        restrictions = compose(declaration['restrictions'] + keys)
     except UnsupportedRestriction as exc:
         return {'status': 'UNDECLARED', 'reason': str(exc), 'unsupported_form': exc.form,
                 'observations': []}
-    if not applicable(restrictions, scope):
+    if cell is None and not applicable(restrictions, scope):
         return {'status': 'UNDECLARED', 'reason': 'No declared predicate bears on the resolved ticket scope.', 'observations': []}
     definition = _observation(declaration['evidence'], 'declared_context_definition')
     definition['declaration_inventory'] = copy.deepcopy(declaration['inventory'])
@@ -175,11 +182,12 @@ def run(adapter, layer, measure_id, scope):
     probes = []
     for purpose, applied in (('UNDECLARED_CONTEXT', []), ('DECLARED_CONTEXT', restrictions)):
         probe = attest(adapter.evaluate_declared_context(layer, measure_id,
-                        {'restrictions': copy.deepcopy(applied), 'dimension_ids': []}))
+                        {'restrictions': copy.deepcopy(applied), 'dimension_ids': [],
+                         **({'cell_id': cell['id']} if cell is not None else {})}))
         if probe.evidence:
             observed = _observation(probe.evidence, 'declared_context_read')
             observed['execution_surface'] = probe.execution_surface
-            observed['reproduction_purpose'] = purpose
+            if cell is None: observed['reproduction_purpose'] = purpose
             if probe.query: observed['query'] = probe.query
             observations.append(observed)
         if probe.status != 'OBSERVED' or not probe.evidence:
@@ -195,9 +203,9 @@ def run(adapter, layer, measure_id, scope):
     if (_surface_key(a.execution_surface) is None or _surface_key(a.execution_surface) != _surface_key(b.execution_surface)
             or a.execution_surface['identity'].casefold() != b.execution_surface['identity'].casefold()):
         return {'status': 'UNAVAILABLE', 'reason': 'Reproduction requires the same execution surface and identity.', 'observations': observations}
-    if len({o['id'] for o in observations}) != 3:
-        raise ValueError('Reproduction requires distinct definition and read receipts')
-    marker = _observation({'id': 'declared-reproduction-' + b.evidence['id'], 'tool': 'process',
+    if a.evidence['id'] == b.evidence['id'] and restrictions:
+        raise ValueError('Distinct applied scopes require distinct original read receipts')
+    marker = _observation({'id': 'declared-reproduction-' + (cell['id'] if cell is not None else b.evidence['id']), 'tool': 'process',
         'check_kind': KIND, 'comparison_status': 'WITHIN_LAYER_CHECK',
         'definition_evidence_id': definition['id'], 'measure_id': measure_id,
         'upper_layer': a.layer, 'lower_layer': b.layer,
@@ -205,16 +213,21 @@ def run(adapter, layer, measure_id, scope):
         'upper_execution_surface': a.execution_surface, 'lower_execution_surface': b.execution_surface,
         'upper_surface_attestation': a.evidence['surface_attestation'], 'lower_surface_attestation': b.evidence['surface_attestation'],
         'composed_restrictions': restrictions,
+        **({'selection_resolution':copy.deepcopy(scope['selection_resolution']),
+            'selection_resolution_evidence_id':scope['selection_resolution_evidence_id']} if 'selection_resolution' in scope else {}),
+        **({'cell': copy.deepcopy(cell), 'redundant_cell_keys':
+            [r['field_id'] for r in keys if compose(declaration['restrictions'] + [r]) == compose(declaration['restrictions'])]} if cell is not None else {}),
         'undeclared_context_value': observations[-2]['reproduction_quantity'],
         'reproduced_value': observations[-1]['reproduction_quantity'], 'reported_figure': reported,
         'label': _label(reported, observations[-1]['reproduction_quantity']),
-        'unavailability': None,
+        'unavailability': NO_FIGURE if reported['state'] == 'UNSPECIFIED' else None,
         'values_equal': observations[-2]['reproduction_quantity'] == observations[-1]['reproduction_quantity'],
         'declarations': inventory.neutral(entries),
         'limitations': inventory.qualifications(inventory.neutral(entries), _label(reported, observations[-1]['reproduction_quantity'])) + figure.qualification(reported)}, 'declared_context_reproduction')
     observations.append(marker)
-    validate(marker, {o['id']: o for o in observations})
-    return {'status': 'COMPLETED', 'finding': marker, 'observations': observations,
+    validate(marker, {o['id']: o for o in observations + scope.get('selection_observations',[])})
+    return {'status': 'UNAVAILABLE' if reported['state'] == 'UNSPECIFIED' else 'COMPLETED',
+            **({'reason': NO_FIGURE} if reported['state'] == 'UNSPECIFIED' else {}), 'finding': marker, 'observations': observations,
             'business_output': render(marker,business=True), 'technical_output': render(marker)}
 
 
@@ -226,8 +239,10 @@ def validate(marker, observations, quantities=None):
     if set(marker.get('process_roles', [])) != {'declared_context_reproduction'}:
         raise ValueError('Reproduction cannot satisfy boundary or presentation-context roles')
     refs = [marker.get(k) for k in ('definition_evidence_id', 'upper_evidence_id', 'lower_evidence_id')]
-    if len(set(refs)) != 3 or any(r not in observations for r in refs):
-        raise ValueError('Reproduction requires three distinct original receipts')
+    if refs[0] in refs[1:] or any(r not in observations for r in refs):
+        raise ValueError('Reproduction requires original definition and read receipts')
+    if refs[1] == refs[2] and (not marker.get('cell') or marker['composed_restrictions']):
+        raise ValueError('Distinct scopes require distinct original read receipts')
     definition, a, b = [observations[r] for r in refs]
     if (set(definition.get('process_roles', [])) != {'declared_context_definition'}
             or any(set(o.get('process_roles', [])) != {'declared_context_read'} for o in (a,b))):
@@ -237,10 +252,25 @@ def validate(marker, observations, quantities=None):
     if definition.get('declaration_provenance') != 'DECLARED_BY_DEFINITION':
         raise ValueError('Reproduction requires declared definition provenance')
     from . import declaration_inventory as inventory
-    entries = inventory.validate(definition.get('declaration_inventory'), definition['declared_restrictions'])
+    entries = _entries(definition, definition.get('declaration_inventory'), definition['declared_restrictions'])
     if any(e['disposition'] == 'UNSUPPORTED' for e in entries) or marker.get('declarations') != inventory.neutral(entries):
         raise ValueError('Reproduction inventory differs or contains unsupported declarations')
-    restrictions = compose(definition['declared_restrictions'])
+    if marker.get('selection_resolution'):
+        from .report_resolution import validate as validate_resolution
+        resolution=observations.get(marker.get('selection_resolution_evidence_id'))
+        if not resolution or resolution['target']!=marker['selection_resolution']: raise ValueError('Selection resolution differs from its original evidence')
+        validate_resolution(resolution,observations)
+    cell = marker.get('cell')
+    if cell is not None:
+        from .report_cell import validate as validate_cell
+        validate_cell(cell, marker['measure_id'])
+        if definition.get('cell') != cell:
+            raise ValueError('Cell identity differs from original definition/read receipts')
+    keys = cell['key_restrictions'] if cell is not None else []
+    restrictions = compose(definition['declared_restrictions'] + keys)
+    if cell is not None and marker.get('redundant_cell_keys') != [r['field_id'] for r in keys
+            if compose(definition['declared_restrictions'] + [r]) == compose(definition['declared_restrictions'])]:
+        raise ValueError('Cell-key redundancy differs from the original declaration')
     if marker['composed_restrictions'] != restrictions or a.get('applied_restrictions') != [] or b.get('applied_restrictions') != restrictions:
         raise ValueError('Reproduction scope does not preserve declared intersection')
     surfaces = [o.get('execution_surface') for o in (a, b)]
@@ -264,7 +294,70 @@ def validate(marker, observations, quantities=None):
     if (marker['undeclared_context_value'] != values[0] or marker['reproduced_value'] != values[1]
             or marker['values_equal'] is not (values[0] == values[1])
             or marker['label'] != _label(marker['reported_figure'], values[1])
-            or marker['unavailability'] is not None
+            or marker['unavailability'] != (NO_FIGURE if marker['reported_figure']['state'] == 'UNSPECIFIED' else None)
             or marker['limitations'] != inventory.qualifications(inventory.neutral(entries), marker['label']) + figure.qualification(marker['reported_figure'])):
         raise ValueError('Reproduction verdict or mandatory limitations differ')
     return marker
+
+
+def run(adapter, layer, measure_id, scope):
+    """Evaluate independent cells, retaining named refusals and cap-limited candidates."""
+    if hasattr(adapter,'report_catalog') and 'report_binding' not in scope:
+        return {'status':'UNDECLARED','unsupported_form':'REPORT_BINDING_ABSENT',
+            'reason':'Report ambiguity: no stated report binding was supplied; model-wide declarations are not eligible.',
+            'observations':[]}
+    if not hasattr(adapter, 'declared_cells') or 'report_binding' not in scope:
+        return _run_one(adapter, layer, measure_id, scope)
+    if CAPABILITY not in adapter.capabilities(): return {'status': 'UNDECLARED', 'observations': []}
+    if 'reported_figure' not in scope: return {'status': 'UNAVAILABLE', 'reason': 'Reported figure state was not supplied.', 'observations': []}
+    figure.validate(scope['reported_figure'])
+    batch = adapter.declared_cells(layer, measure_id, copy.deepcopy(scope))
+    if batch['status'] != 'DECLARED': return {**batch, 'observations': []}
+    from .report_cell import validate as validate_cell
+    from .process_debugging import _observation
+    observations = []; results = []; skipped = list(batch['refusals'])
+    for declaration in batch['cells']:
+        validate_cell(declaration['cell'], measure_id, scope)
+        remaining = getattr(adapter, 'remaining_diagnostic_reads', None)
+        cost = adapter.declared_cell_cost(measure_id,declaration) if hasattr(adapter,'declared_cell_cost') else 2
+        if remaining is not None and remaining() < cost:
+            skipped.append({'target_id': declaration['cell']['target_id'], 'cell_id': declaration['cell']['id'],
+                            'reason': 'Diagnostic read cap leaves fewer than '+str(cost)+' new reads for this cell.'})
+            continue
+        class Selected:
+            def capabilities(self): return adapter.capabilities()
+            def declared_context(self, *args): return copy.deepcopy(declaration)
+            def evaluate_declared_context(self, *args): return adapter.evaluate_declared_context(*args)
+        checked = _run_one(Selected(), layer, measure_id, scope)
+        for observation in checked['observations']:
+            if observation['id'] not in {o['id'] for o in observations}: observations.append(observation)
+        results.append({'cell': declaration['cell'], 'status': checked['status'],
+                        **{k: checked[k] for k in ('reason', 'finding') if k in checked}})
+        if checked.get('unsupported_form'):
+            skipped.append({'target_id': declaration['cell']['target_id'], 'reason': checked['reason']})
+    for event in getattr(adapter,'duplicate_read_events',[]):
+        if event['id'] not in {o['id'] for o in observations}: observations.append(_observation(event,'established'))
+    if skipped:
+        observations.append(_observation({'id': 'declared-cells-unevaluated', 'tool': 'process',
+            'check_kind': 'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE', 'capability_status': 'UNAVAILABLE',
+            'reason': 'Unevaluated cells: ' + '; '.join(str(x['target_id']) + ': ' + x['reason'] for x in skipped),
+            'unevaluated_cells': skipped}, 'established'))
+    if len(batch['cells']) == 1 and len(results) == 1 and not batch['refusals']:
+        return {**checked,'observations':observations, 'cells': results, 'unevaluated_cells': []}
+    findings = [r['finding'] for r in results if 'finding' in r]
+    result = {'status': 'COMPLETED' if findings and scope['reported_figure']['state'] != 'UNSPECIFIED' else 'UNAVAILABLE',
+              'observations': observations, 'cells': results, 'unevaluated_cells': skipped}
+    if result['status'] == 'UNAVAILABLE': result['reason'] = NO_FIGURE if findings else ('; '.join(x['reason'] for x in skipped) or 'No addressable candidate visual.')
+    if len(findings) == 1: result['finding'] = findings[0]
+    if findings:
+        result['business_output'] = ' '.join(render(f, business=True) for f in findings)
+        result['technical_output'] = '\n'.join(render(f) for f in findings)
+    return result
+
+
+def _entries(definition, inventory, restrictions):
+    if definition.get('report_binding'):
+        from .report_scope import validate_inventory
+        return validate_inventory(inventory,restrictions,binding=definition['report_binding'],reports=definition['report_catalog'])
+    from .declaration_inventory import validate
+    return validate(inventory,restrictions)

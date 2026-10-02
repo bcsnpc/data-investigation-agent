@@ -32,7 +32,7 @@ GENERIC_SERVICE_ERRORS=frozenset(('DatasetExecuteQueriesError',))
 class MicrosoftProcessAdapter:
     def __init__(self,store,config,model,execute_native,execute_source,judge_definition=None,meter_read=None,
                  read_ingestion=None,lower_surface=None,read_failure_detail=None,execute_lower=None,
-                 max_boundaries=1,read_endpoint=None,read_refresh_timing=None,read_snapshot_identity=None):
+                 max_boundaries=1,read_endpoint=None,read_refresh_timing=None,read_snapshot_identity=None,remaining_diagnostic_reads=None):
         self.store,self.config,self.model=store,config,model
         self.execute_native,self.execute_source=execute_native,execute_source
         self.judge_definition=judge_definition
@@ -50,8 +50,11 @@ class MicrosoftProcessAdapter:
         self.max_boundaries=max_boundaries;self.read_endpoint=read_endpoint
         self.read_refresh_timing=read_refresh_timing
         self.read_snapshot_identity=read_snapshot_identity
+        self.remaining_diagnostic_reads=remaining_diagnostic_reads
         self._paths={}
         self._declared_checks={}
+        self._reproduction_cache={}
+        self.duplicate_read_events=[]
 
     def capabilities(self):
         result={'resolve_measure_path','evaluate_scoped_quantity','presentation_context','job_history','declared_source_comparison',
@@ -117,17 +120,47 @@ class MicrosoftProcessAdapter:
         self._declared_checks[measure_id]=declaration
         return declaration
 
+    def declared_cells(self, layer, measure_id, scope):
+        from .report_predicates import pinned, cells, quantity_query, Refusal
+        from ..declared_reproduction import compose, UnsupportedRestriction
+        from ..flexible_tools import build as admit_query
+        from .. import declaration_inventory, report_scope
+        if layer.get('kind') != 'presentation':
+            return {'status': 'UNDECLARED', 'reason': 'Declared reproduction requires a presentation layer.'}
+        self._declared_checks = {k: v for k, v in self._declared_checks.items() if not isinstance(k, tuple) or k[0] != measure_id}
+        try:
+            model = pinned(self); batch = cells(model, measure_id, scope)
+            for declaration in batch['cells']:
+                address = declaration['cell']
+                # Engine still owns inventory eligibility. Do not preflight a partial set.
+                if any(e['disposition'] == 'UNSUPPORTED' for e in declaration['inventory']['entries']): continue
+                try: entries = report_scope.validate_inventory(declaration['inventory'], declaration['restrictions'],binding=scope['report_binding'],reports=self.report_catalog())
+                except ValueError: continue
+                if any(e['disposition'] == 'UNSUPPORTED' for e in entries): continue
+                applied = compose(declaration['restrictions'] + address['key_restrictions'])
+                for restrictions in ([], applied):
+                    query = semantic_self_report(quantity_query(model, measure_id, restrictions))
+                    admit_query(self.store, {'model_id': model['id'], 'revision': model['revision'],
+                        'context_id': model['context_id'], 'query': query, 'max_rows': 20,
+                        'surface_report': SEMANTIC_REPORT}, self.config, 'bounded_dax')
+                self._declared_checks[(measure_id, address['id'])] = declaration
+            return batch
+        except (Refusal, UnsupportedRestriction) as exc:
+            return {'status': 'UNDECLARED', 'reason': str(exc), 'unsupported_form': exc.form}
+
     def evaluate_declared_context(self,layer,measure_id,scope):
         import copy
         from .report_predicates import pinned, quantity_query
         from ..declared_reproduction import compose
         from ..onboarding import Conflict
         model=pinned(self)
-        declaration=getattr(self,'_declared_checks',{}).get(measure_id)
+        declaration=getattr(self,'_declared_checks',{}).get((measure_id,scope['cell_id']) if 'cell_id' in scope else measure_id)
         if not declaration:raise Conflict('No complete pinned declaration admitted for reproduction')
         applied=scope.get('restrictions')
-        if (set(scope)!={'restrictions','dimension_ids'} or scope['dimension_ids']!=[]
-                or not isinstance(applied,list) or applied not in ([],compose(declaration['restrictions']))):
+        keys=declaration.get('cell',{}).get('key_restrictions',[])
+        expected_fields={'restrictions','dimension_ids'} | ({'cell_id'} if 'cell' in declaration else set())
+        if (set(scope)!=expected_fields or scope['dimension_ids']!=[]
+                or not isinstance(applied,list) or applied not in ([],compose(declaration['restrictions'] + keys))):
             raise Conflict('Reproduction scope differs from the pinned composed declaration')
         measure=next(a for a in assets(model['context']) if a['id']==measure_id)
         if layer.get('kind')!='presentation' or layer['id']!=measure['parent_id']:
@@ -135,6 +168,18 @@ class MicrosoftProcessAdapter:
         query=semantic_self_report(quantity_query(model,measure_id,applied))
         plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],
               'query':query,'max_rows':20,'surface_report':SEMANTIC_REPORT}
+        from ..onboarding import digest
+        from ..flexible_tools import build as admit_query
+        compiled=admit_query(self.store,plan,self.config,'bounded_dax')
+        fingerprint=self._compiled_quantity_fingerprint(compiled)
+        cached=self._reproduction_cache.get(fingerprint) if 'cell_id' in scope else None
+        if cached is not None:
+            import copy
+            self.duplicate_read_events.append({'id':'duplicate-read-'+str(uuid4()),'tool':'process',
+                'check_kind':'COMPILED_DUPLICATE_REFUSED','prior_evidence_id':cached.evidence['id'],
+                'compiled_fingerprint':fingerprint,'diagnostic_reads':0,'cell_id':scope['cell_id'],
+                'prior_result':copy.deepcopy(cached.value)})
+            return copy.deepcopy(cached)
         execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
         result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
         reader=self.config['fabric']['native_reader']
@@ -144,7 +189,7 @@ class MicrosoftProcessAdapter:
             return Probe('UNAVAILABLE',layer['id'],reason='Declared reproduction read did not complete.',
                          query=query,execution_surface=surface)
         body=result['result'];rows=body['rows']
-        return Probe('OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
+        probe=Probe('OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_dax',
             'completeness':body['completeness'],'values':rows,'request_hash':result['request_hash'],
             'measure_id':measure_id,'applied_restrictions':copy.deepcopy(applied),
             'context_id':model['context_id'],'model_revision':model['revision'],
@@ -153,6 +198,91 @@ class MicrosoftProcessAdapter:
             value=_quantity(rows,plan['surface_report']),query=query,execution_surface=surface,
             surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
             surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
+        if 'cell_id' in scope and body['completeness']=='COMPLETE_RESPONSE':
+            from ..process_debugging import attest
+            trusted=attest(probe)
+            if trusted.status=='OBSERVED': self._reproduction_cache[fingerprint]=probe
+        return probe
+
+    def _compiled_quantity_fingerprint(self,compiled):
+        from ..onboarding import digest
+        # Do not fingerprint proposal text or proposal scope_hash. Native canonical
+        # compilation carries resolved references and expression/filter structure.
+        if compiled.get('compiled_read') is None: raise ValueError('Volatile quantity cannot be reused')
+        return digest({k:compiled[k] for k in ('tool','compiled_read','asset_ids','workspace','native_model_id',
+            'context_id','context_hash','policy_hash','surface_report_columns')} | {'reader':self.config['fabric']['native_reader']})
+
+    def report_catalog(self):
+        from .report_predicates import report_catalog
+        return report_catalog(self.model)
+
+    def selection_columns(self):
+        return [{'id':a['id'],'name':a['name']} for a in assets(self.model['context']) if a['kind']=='SemanticColumn']
+
+    def report_selection_inventory(self,measure_id,binding):
+        from .report_predicates import pinned,scoped_options,_document
+        from .report_cells import roles
+        model=pinned(self)
+        from .report_predicates import Refusal
+        from ..declared_reproduction import UnsupportedRestriction
+        try: declarations=scoped_options(model,measure_id,binding)
+        except Refusal as exc: raise UnsupportedRestriction(exc.form) from exc
+        grouping=set()
+        for declaration in declarations:
+            target=declaration['evidence']['metadata']['definition_target_id']
+            try: columns,_=roles(model,_document(model,target))
+            except Refusal as exc: raise UnsupportedRestriction(exc.form) from exc
+            grouping.update(c['id'] for c in columns)
+        return declarations,sorted(grouping)
+
+    def observe_selection_value(self,layer,column_id,quote,binding):
+        from .report_predicates import Refusal
+        from ..declared_reproduction import UnsupportedRestriction
+        try: return self._observe_selection_value(layer,column_id,quote,binding)
+        except Refusal as exc: raise UnsupportedRestriction(exc.form) from exc
+
+    def _observe_selection_value(self,layer,column_id,quote,binding):
+        from .report_predicates import pinned,Refusal
+        from ..flexible_tools import build as admit_query
+        model=pinned(self); catalog=assets(model['context']); by_id={a['id']:a for a in catalog}
+        column=by_id[column_id]; table=by_id[column['parent_id']]
+        typ=column.get('metadata',{}).get('dataType')
+        if typ=='string': value=quote; literal='"'+quote.replace('"','""')+'"'
+        elif typ=='int64':
+            try: value=int(quote)
+            except ValueError: raise Refusal('SELECTION_VALUE_TYPE')
+            if str(value)!=quote: raise Refusal('SELECTION_VALUE_PRECISION')
+            literal=str(value)
+        else: raise Refusal('SELECTION_VALUE_TYPE_'+str(typ))
+        reference="'"+table['name'].replace("'","''")+"'["+column['name'].replace(']',']]')+']'
+        query=semantic_self_report('EVALUATE ROW("quantity",COUNTROWS(FILTER(VALUES('+reference+'),'+reference+' == '+literal+')),"surface_identity",USERPRINCIPALNAME())')
+        plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],'query':query,'max_rows':20,'surface_report':SEMANTIC_REPORT}
+        admit_query(self.store,plan,self.config,'bounded_dax')
+        execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
+        result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
+        surface={'engine':SEMANTIC_ENGINE,'connection':model['workspace'],'object':model['native_id'],'identity':self.config['fabric']['native_reader']['account']}
+        if result['status']!='COMPLETED': return Probe('UNAVAILABLE',layer['id'],reason='Value-existence read did not complete.',query=query,execution_surface=surface)
+        body=result['result']; rows=body['rows']; quantity=_quantity(rows,plan['surface_report'])
+        if not isinstance(quantity,dict) or quantity.get('quantity') not in ('0','1'): raise Refusal('VALUE_EXISTENCE_RESULT')
+        exists=quantity['quantity']=='1'
+        return Probe('OBSERVED',layer['id'],value=quantity,query=query,execution_surface=surface,
+            evidence={'id':result['id'],'tool':'bounded_dax','check_kind':'COLUMN_VALUE_EXISTENCE','column_id':column_id,
+                'searched_value':value,'value_exists':exists,'report_id':binding['report_id'],
+                'context_id':model['context_id'],'model_revision':model['revision'],'completeness':body['completeness'],'values':rows},
+            surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
+            surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
+
+    def declared_cell_cost(self,measure_id,declaration):
+        from .report_predicates import quantity_query
+        from ..declared_reproduction import compose
+        from ..onboarding import digest
+        model=self.model; plans=[]
+        for applied in ([],compose(declaration['restrictions']+declaration['cell']['key_restrictions'])):
+            plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],
+                'query':semantic_self_report(quantity_query(model,measure_id,applied)),'max_rows':20,'surface_report':SEMANTIC_REPORT}
+            from ..flexible_tools import build as admit_query
+            plans.append(self._compiled_quantity_fingerprint(admit_query(self.store,plan,self.config,'bounded_dax')))
+        return len(set(plans)-set(self._reproduction_cache))
 
     def resolve_declared_source(self,declaration):
         context=context_search.latest(self.store)

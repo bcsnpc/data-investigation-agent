@@ -180,7 +180,8 @@ class ReportDeclarations:
                 for key in sorted(set(visual) - {'visualType','objects','visualContainerObjects','query','drillFilterOtherVisuals','syncGroup'}):
                     self.register(part,'/visual/'+key.replace('~','~0').replace('/','~1'),visual[key],'UNKNOWN_VISUAL_DECLARATION:' + key)
                 kind = visual.get('visualType')
-                if kind not in ('card', 'textbox', 'slicer'):
+                from .report_cells import ROLES
+                if kind not in (*ROLES, 'textbox', 'slicer'):
                     self.register(part, '/visual', visual, 'UNKNOWN_VISUAL_KIND:' + str(kind))
                 elif kind == 'slicer' and not self.part_units[part['id']]:
                     self.register(part, '/visual', visual, 'SLICER_WITHOUT_ENUMERATED_SELECTION')
@@ -242,7 +243,10 @@ def extract(model, measure_id, scope):
     try:
         if 'definition_target_id' in scope:raise Refusal('LEGACY_SIDE_CHANNEL_TARGET')
         target=scope.get('definition_target')
-        if target is None:return _extract(model,measure_id,scope)
+        if target is None:
+            result=_extract(model,measure_id,scope)
+            _addressed(model, measure_id, scope, result)
+            return result
         from .. import definition_target as contract
         try:contract.shape(target)
         except ValueError:raise Refusal('TARGET_RESOLUTION_CONTRACT')
@@ -268,16 +272,18 @@ def extract(model, measure_id, scope):
             raise Refusal('Target ambiguity: '+('no ACTIVE declaration matches the target column' if not matching else
                 'multiple visual contexts match: '+', '.join(o['target_id'] for o in matching)))
         result=_extract(model,measure_id,scope,matching[0]['target_id'])
+        _addressed(model, measure_id, scope, result)
         result['evidence']['metadata']['target_resolution']=copy.deepcopy(target)
         return result
     except (Refusal, declared_reproduction.UnsupportedRestriction): raise
     except (KeyError, TypeError, AttributeError): raise Refusal('MALFORMED_NATIVE_DECLARATION')
 
 
-def targets(model,measure_id):
+def targets(model,measure_id,report_id=None):
     """Enumerate native candidate visuals locally; never combine their contexts."""
     candidates=[]
     for report in model['context'].get('reports',[]):
+        if report_id is not None and report['report']['id'] != report_id: continue
         parts=report.get('report_definitions',[])
         if len(parts)>500 or sum(len(p.get('metadata',{}).get('content','')) for p in parts)>2*1024*1024:
             raise Refusal('DEFINITION_BOUND')
@@ -286,9 +292,9 @@ def targets(model,measure_id):
             try:document=json.loads(part['metadata']['content'])
             except (ValueError,KeyError,TypeError):raise Refusal('MALFORMED_DEFINITION_PART')
             if not isinstance(document,dict):raise Refusal('DEFINITION_PART_SHAPE')
-            projections=document.get('visual',{}).get('query',{}).get('queryState',{}).get('Values',{}).get('projections',[])
-            if any(isinstance(p,dict) and p.get('field',{}).get('Measure') and member(model,p['field'],'Measure')['id']==measure_id for p in projections):
-                declaration=_extract(model,measure_id,{},part['id'])
+            from .report_cells import projected_measure
+            if projected_measure(model, document, measure_id):
+                declaration=_extract(model,measure_id,{'report_binding': {'report_id': report_id}} if report_id is not None else {},part['id'])
                 candidates.append({'target_id':part['id'],'inventory':declaration['inventory'],'restrictions':declaration['restrictions']})
                 if len(candidates)>512:raise Refusal('DEFINITION_TARGET_BOUND')
     return candidates
@@ -299,6 +305,7 @@ def _extract(model, measure_id, scope, selected_target=None):
     exclusions = []
     target = selected_target
     for report in model['context'].get('reports', []):
+        if scope.get('report_binding') and report['report']['id'] != scope['report_binding']['report_id']: continue
         if target is not None and not any(p['id'] == target for p in report.get('report_definitions', [])):
             continue
         if report.get('binding_status') != 'RESOLVED_EXPLICIT_ID' or report.get('gaps'):
@@ -323,16 +330,12 @@ def _extract(model, measure_id, scope, selected_target=None):
         for path, (part, document) in documents.items():
             if not re.fullmatch(r'definition/pages/[^/]+/visuals/[^/]+/visual.json', path): continue
             if target is not None and part['id'] != target: continue
-            projections = document.get('visual', {}).get('query', {}).get('queryState', {}).get('Values', {}).get('projections', [])
-            if any(isinstance(p, dict) and p.get('field', {}).get('Measure') and
-                   member(model, p['field'], 'Measure')['id'] == measure_id for p in projections):
+            from .report_cells import projected_measure
+            if projected_measure(model, document, measure_id):
                 candidates.append((report, documents, path, part, document))
     if len(candidates) != 1:
         raise Refusal('AMBIGUOUS_OR_MISSING_DECLARATION_TARGET' + (': ' + ', '.join(c[3]['id'] for c in candidates) if candidates else ''))
     report, documents, path, selected_part, selected = candidates[0]
-    visual = selected['visual']; state = visual.get('query', {}).get('queryState', {})
-    if (visual.get('visualType') != 'card' or set(state) != {'Values'}
-            or len(state['Values'].get('projections', [])) != 1): raise Refusal('NON_SCALAR_VISUAL_CONTEXT')
     page_path = path.split('/visuals/', 1)[0] + '/page.json'
     if page_path not in documents or 'definition/report.json' not in documents: raise Refusal('MISSING_PARENT_DEFINITION')
     page_part, page = documents[page_path]
@@ -387,12 +390,50 @@ def _extract(model, measure_id, scope, selected_target=None):
                     'alternatives': alternatives,
                     'non_reproduction_limit': 'An invoked bookmark may produce the reported figure; invocation is unknown.'})
             source_visual = document.get('visual', {})
+            from .report_cells import ROLES
+            # Filters attached to a different known visual/page are stored
+            # alternatives, not active in the selected cell. Unknown containers
+            # remain UNSUPPORTED; do not blanket-classify a whole part.
+            other_known_visual = (part['id'] != selected_part['id'] and source_visual.get('visualType') in ROLES)
+            other_page = re.fullmatch(r'definition/pages/[^/]+/page.json', other_path) and other_path != page_path
+            if other_known_visual or other_page:
+                for item in document.get('filterConfig', {}).get('filters', []):
+                    native = item.get('filter') if isinstance(item, dict) else None
+                    if native is not None:
+                        identity = inventory.native_units.get(id(native))
+                        if identity is None: raise Refusal('UNACCOUNTED_ALTERNATIVE_DECLARATION')
+                        inventory.classify(identity, 'CONDITIONAL', origin='OTHER_VISUAL_OR_PAGE_CONTEXT')
             if source_visual.get('visualType') == 'slicer' and _sync_declared(document):
                 raise Refusal('SLICER_SYNC_CONTEXT')
-            if not other_path.startswith(page_path.removesuffix('page.json') + 'visuals/'): continue
+            if not other_path.startswith(page_path.removesuffix('page.json') + 'visuals/'):
+                if source_visual.get('visualType') == 'slicer':
+                    for identity in inventory.part_units[part['id']]:
+                        form=json.loads(inventory.units[identity]['opaque_provenance'])['form']
+                        if form in ('NATIVE_PREDICATE','SLICER_WITHOUT_ENUMERATED_SELECTION'):
+                            inventory.classify(identity,'CONDITIONAL',origin='OTHER_PAGE_SAVED_SELECTION')
+                continue
             if source_visual.get('visualType') != 'slicer': continue
             if _inverted_selection(document): raise Refusal('INVERTED_SELECTION_MODE')
             if 'syncGroup' in document or 'syncGroup' in source_visual: raise Refusal('SLICER_SYNC_CONTEXT')
+            general = source_visual.get('objects', {}).get('general', [])
+            if not general and not list(_native_filters(document)) and scope.get('report_binding'):
+                state = source_visual.get('query', {}).get('queryState', {})
+                if set(state) != {'Values'} or len(state['Values'].get('projections', [])) != 1:
+                    raise Refusal('SLICER_FIELD_CONTEXT')
+                member(model, state['Values']['projections'][0]['field'], 'Column')
+                objects=source_visual.get('objects',{})
+                if set(objects)-{'data','general'}: raise Refusal('SLICER_SELECTION_CONTAINER_UNKNOWN')
+                data=objects.get('data',[])
+                if len(data)!=1 or data[0].get('selector'): raise Refusal('SLICER_MODE_APPLICABILITY_UNKNOWN')
+                properties=data[0].get('properties',{})
+                if set(properties)!={'mode'}: raise Refusal('SLICER_DATA_MODIFIER')
+                mode=properties['mode'].get('expr',{}).get('Literal',{}).get('Value')
+                if mode not in ("'Dropdown'","'List'"): raise Refusal('NON_ENUMERATED_SLICER_MODE')
+                if document.get('filterConfig') or source_visual.get('filterConfig'): raise Refusal('SLICER_CHOICE_FILTER_CONTEXT')
+                # Saved absence is a full-domain declaration, not an inferred value.
+                inventory.classify(inventory.native_units[id(source_visual)], 'ACTIVE',
+                                   origin='SAVED_FULL_DOMAIN', volatile=True)
+                continue
             interactions = [i for i in page.get('visualInteractions', [])
                             if i.get('source') == document.get('name') and i.get('target') == selected.get('name')]
             if len(interactions) != 1 or interactions[0].get('type') not in ('DataFilter', 'NoFilter'):
@@ -481,3 +522,77 @@ def quantity_query(model, measure_id, restrictions):
     try: query_dax.compile_query(query, catalog, max_rows=20)
     except ValueError: raise Refusal('NATIVE_QUERY_COMPILATION')
     return query
+
+
+def _document(model, target_id):
+    parts = [p for r in model['context']['reports'] for p in r['report_definitions'] if p['id'] == target_id]
+    if len(parts) != 1: raise Refusal('AMBIGUOUS_DEFINITION_PART')
+    return json.loads(parts[0]['metadata']['content'])
+
+
+def _addressed(model, measure_id, scope, declaration):
+    from .report_cells import addresses
+    target_id = declaration['evidence']['metadata']['definition_target_id']
+    return addresses(model, _document(model, target_id), target_id, measure_id, scope)
+
+
+def report_catalog(model):
+    return [{'id': r['report']['id'], 'name': r['report']['name']}
+            for r in model['context'].get('reports', [])]
+
+
+def scoped_declaration(model, measure_id, scope, target_id):
+    """Produce the new inventory from the discovered units, not a second filter path."""
+    from .. import report_scope
+    result = _extract(model, measure_id, scope, target_id)
+    binding = scope['report_binding']; inventory = result['inventory']
+    for source in inventory['discovered']:
+        source['report_id'] = binding['report_id']
+    for entry in inventory['entries']:
+        entry['source']['report_id'] = binding['report_id']
+        entry['id'] = report_scope.inventory_identity(entry['source'])
+        entry['effect'] = ('RESTRICTED' if entry['restrictions'] else 'FULL_DOMAIN') if entry['disposition'] == 'ACTIVE' else 'EXCLUDED'
+    inventory['report_id'] = binding['report_id']
+    # Restrictions have one source: the ACTIVE inventory entries.
+    result['restrictions'] = [copy.deepcopy(r) for e in inventory['entries'] if e['disposition'] == 'ACTIVE' for r in e['restrictions']]
+    result['evidence']['declared_restrictions'] = copy.deepcopy(result['restrictions'])
+    result['evidence']['report_binding'] = copy.deepcopy(binding)
+    result['evidence']['report_catalog'] = report_catalog(model)
+    report_scope.validate_inventory(inventory, result['restrictions'], binding=binding, reports=report_catalog(model))
+    forms=sorted({json.loads(e['opaque_provenance'])['form'] for e in inventory['entries'] if e['disposition']=='UNSUPPORTED'})
+    if forms: result['unsupported_form']=', '.join(forms)
+    return result
+
+
+def scoped_options(model, measure_id, binding):
+    from .. import report_scope
+    report_scope.report_binding(binding, reports=report_catalog(model))
+    options = targets(model, measure_id, binding['report_id'])
+    return [scoped_declaration(model, measure_id, {'report_binding': binding}, o['target_id']) for o in options]
+
+
+def cells(model, measure_id, scope):
+    """Only the stated report is enumerated, after conserved inventory resolution."""
+    from .. import report_scope
+    from .report_cells import addresses
+    report_scope.report_binding(scope.get('report_binding'), reports=report_catalog(model))
+    declarations = scoped_options(model, measure_id, scope['report_binding'])
+    result = []; refused = []
+    for declaration in declarations:
+        target_id = declaration['evidence']['metadata']['definition_target_id']
+        try:
+            for address in addresses(model, _document(model, target_id), target_id, measure_id, scope):
+                item = copy.deepcopy(declaration); item['cell'] = address
+                item['evidence']['cell'] = copy.deepcopy(address)
+                result.append(item)
+        except Refusal as exc:
+            refused.append({'target_id': target_id, 'reason': str(exc), 'form': exc.form})
+            if exc.form.startswith('MISSING_CELL_KEYS:'):
+                from .report_cells import roles
+                columns,_=roles(model,_document(model,target_id))
+                address={'target_id':target_id,'measure_id':measure_id,'grouping_columns':sorted(c['id'] for c in columns),
+                    'key_restrictions':[],'mode':'TOTAL'}
+                address['id']=digest(address)
+                item=copy.deepcopy(declaration);item['cell']=address;item['evidence']['cell']=copy.deepcopy(address)
+                result.append(item)
+    return {'status': 'DECLARED', 'cells': result, 'refusals': refused}
