@@ -81,3 +81,21 @@ README and current status updated. Engine bytes invalidate prior freezes.
 No investigation run, live model/cloud request, ledger row, fixture, approval,
 permission or budget change. Family D runs and historical evidence remain
 unchanged; draft #297 remains open. The next runs require a separate prompt.
+
+
+## Dated correction: report scope (2026-10-02, America/Chicago)
+
+The #304 account above resolved selections against model-wide inventories. That
+was wrong in scope: a declaration on another report cannot establish the context
+of a figure on the report named by the ticket. Inventory Health e1b8e1 contains
+zero retained predicate nodes; the ACTIVE North predicate belongs to Declared
+predicate fixture 20261001. Matching the same column/value across those reports
+is not report binding. Earlier claims of working evidence resolution describe
+an implemented lookup, not valid report-scoped resolution. Those claims and
+all original runs are preserved; this correction does not regrade them.
+
+The new consumer contract requires exact, provenance-backed report binding and
+per-report declaration conservation, and distinguishes declared EVIDENCE from
+receipt-backed OBSERVED value presence. Adapter wiring, general cell addressing,
+quote handling and the three live reruns are pending in that order. No live
+verification or replacement result is claimed. See [report-scoping contract](report-scoping-contract.md).
