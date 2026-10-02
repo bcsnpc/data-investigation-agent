@@ -603,3 +603,17 @@ merged at 56a1545 with six green checks. Prior runs, corrections and ledger rows
 remain unchanged; no investigation run or ledger row here. Engine bytes changed,
 invalidating prior freezes. Intake evidence resolution and target/figure wiring
 remain next; draft #297 remains open.
+
+
+## Target/figure contract extension (2026-10-02; PR A)
+
+The closed consumer contract now carries a column target with EVIDENCE, STATED
+or REFUSED resolution and provenance. The model-facing schema cannot emit that
+record; EVIDENCE construction requires a matching ACTIVE entry in a conserved
+inventory. Pinned inventory resolution and visual-target selection remain PR B.
+Reviewed reported figures now survive server-side preview and process dispatch
+without client resend, preserving NUMBER/EMPTY/UNSPECIFIED and stated precision.
+Synthetic adapter-boundary tests pass; no estate reproduction or live combined
+quantity attestation is claimed. See [contract and limits](docs/target-figure-contract.md).
+Engine bytes changed, invalidating prior freezes. No investigation run or ledger
+row; historical Family D evidence is unchanged and draft #297 remains open.

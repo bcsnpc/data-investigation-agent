@@ -8,7 +8,10 @@ CONTEXT_CHANGERS={'FILTERED_MEASURE','TIME_SHIFT','RELATIONSHIP_SWITCH','CONDITI
 def catalog(store,config,envelope):
     fields(envelope,['model_id','revision','context_id','measure_id','filters','dimension_ids','source_tests','symptom','limits']+
            [k for k in ('source_selection','record_tests','record_pairs','record_selection','joint_native_records','strategy',
-                        'ticket_shape','comparison_mode','reported_figure') if k in envelope])
+                        'ticket_shape','comparison_mode','reported_figure','definition_target') if k in envelope])
+    if 'definition_target' in envelope:
+        from .definition_target import shape
+        shape(envelope['definition_target'],envelope['symptom'])
     if 'reported_figure' in envelope:
         from .reported_figure import validate
         validate(envelope['reported_figure'],envelope['symptom'])

@@ -663,9 +663,8 @@ class AdaptiveRuntime:
             self.save(db,state,'PROCESS_STARTED',{'procedure':'VERTICAL','reserved_reads':0})
         error=None;assessment=None;observations=[]
         try:
-            assessment=vertical(adapter,state['envelope']['measure_id'],{
-                'filters':state['envelope']['filters'],'dimension_ids':state['envelope']['dimension_ids'],
-                'ticket_shape':state['envelope'].get('ticket_shape')})
+            from .definition_target import procedure_scope
+            assessment=vertical(adapter,state['envelope']['measure_id'],procedure_scope(state['envelope']))
             observations=assessment.pop('_observations',None)
             if observations is None:
                 observations=getattr(adapter,'observations',None)
