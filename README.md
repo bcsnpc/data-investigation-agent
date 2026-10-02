@@ -562,3 +562,26 @@ attribution. Other historical comparisons using the same partial self-report
 contract are subject to the same qualification. Original prose, outputs,
 receipt bodies, counts and outcome labels are preserved, not retrospectively
 regraded. Ledger corrections are annotations, not replacement runs.
+
+
+## Dated finding: reader self-description (2026-10-02, America/Chicago)
+
+The [least-privilege probe set](docs/surface-self-description-probes.md) supersedes the earlier
+claim that the Microsoft reader routes cannot report engine/connection/object
+metadata. SQL served its engine/version, session ID, network address and
+protocol. Both REST/DAX INFO.PROPERTIES and XMLA DISCOVER_PROPERTIES served
+OLAP Server, version 17.0.91.20, server name and catalog; REST/DAX returned
+the model GUID, XMLA its name. ProductName/ProductVersion filters returned
+empty, then property-name enumeration found the actual descriptor names.
+XMLA session/connection DMVs were permission-refused; those failures do not
+make all property metadata unavailable. Old receipts remain partial because
+they never asked for these fields; retrospective corrections merged in #300
+remain true. Current #299 FULL-coverage validation is unchanged.
+
+Thirteen metadata query requests were recorded: 3 SQL, 4 REST/DAX, 6 XMLA;
+ordinary rolling use 8 to 21 of 60. No retries, credits, cap/policy/config
+changes, grants, fixture changes or investigation model calls. The report
+proposes demonstrated difference on comparable query-bound self-reported
+fields with explicit omissions; this is a proposal, not an implemented
+standard or a requalification of any historical outcome. Intake and wiring
+remain queued; draft #297 and Family D evidence remain unchanged.
