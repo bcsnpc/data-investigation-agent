@@ -8,6 +8,7 @@ from .onboarding import fields, text, digest, encoded, Conflict
 from .runtime import fingerprint
 from .filter_scope import compile_filter
 from . import reported_figure as figure
+from . import definition_target as target
 
 VERSION = 'process-debugging-intake-v2'
 FIGURE_INSTRUCTIONS='\nSupply reported_candidates: every plausible reported-figure span, not dates, identifiers, thresholds or unrelated quantities. Each span has exact start/end/quote provenance. Do not choose between candidates. No candidates means UNSPECIFIED; an explicitly empty visual is a candidate too. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
@@ -52,6 +53,7 @@ filters, dimension_ids and scope_quotes are empty; question is a short clarifica
 For PROPOSE question is null and both triage fields are required. No extra fields.'''
 SCALAR = {'anyOf': [{'type': 'string','maxLength':limits.FILTER_STRING}, {'type': 'integer','minimum':-limits.EXACT_INTEGER,'maximum':limits.EXACT_INTEGER}, {'type': 'boolean'}, {'type': 'null'}]}
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
+    'definition_target': target.SCHEMA,
     'reported_figure': figure.SCHEMA,
     'action': {'type': 'string', 'enum': ['ASK', 'PROPOSE']},
     'model_id': {'type': ['string', 'null']}, 'measure_id': {'type': ['string', 'null']},
@@ -110,6 +112,9 @@ def wire_contract(payload):
         for j,column in enumerate(m['columns']):
             handle=key+'c'+str(j);handles[handle]=column['column_id'];column['column_id']=handle;columns.append(handle)
     schema=copy.deepcopy(SCHEMA)
+    # Resolution is consumer-owned. The model cannot emit EVIDENCE (or any
+    # target record); PR B supplies the separate stated-value extraction input.
+    schema['properties'].pop('definition_target')
     schema['properties'].pop('reported_figure');schema['required'].remove('reported_figure')
     schema['properties']['reported_candidates']={'type':'array','maxItems':figure.CANDIDATE_LIMIT,'items':figure.SPAN_SCHEMA}
     schema['required'].append('reported_candidates')
@@ -155,10 +160,14 @@ def snapshot(workspace):
 
 
 def validate(value, payload):
-    fields(value, SCHEMA['required'])
+    fields(value, SCHEMA['required']+(['definition_target'] if 'definition_target' in value else []))
+    if 'definition_target' in value:
+        target.validate(value['definition_target'],ticket=payload['text'],
+                        inventory=payload.get('declaration_inventory'),active=payload.get('active_restrictions'))
     figure.validate(value['reported_figure'],payload['text'])
     if len(encoded(value)) > 12000: raise ValueError('Intake response exceeds budget')
     if value['action'] == 'ASK':
+        if value.get('definition_target') is not None:raise ValueError('Clarification cannot also resolve a definition target')
         if value['reported_figure']['state']!='UNSPECIFIED':raise ValueError('Clarification cannot select a reported figure')
         text(value['question'], limits.QUESTION)
         if any(value[k] is not None for k in ('model_id', 'measure_id', 'metric_quote', 'ticket_shape', 'comparison_mode')) or any(value[k] != [] for k in ('filters', 'dimension_ids', 'scope_quotes')):
@@ -314,6 +323,7 @@ class Intake:
         if any(request[k] != proposal[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids')) or request['symptom'] != saved['text'] or request['predecessor'] is not None:
             raise Conflict('Reviewed question scope differs from the saved proposal')
         return {'id': saved['id'], 'text': saved['text'], 'metric_quote': proposal['metric_quote'],
+                **({'definition_target':proposal['definition_target']} if 'definition_target' in proposal else {}),
                 'reported_figure':proposal['reported_figure'],
                 'ticket_shape':proposal['ticket_shape'],'comparison_mode':proposal['comparison_mode'],
                 'screenshot_review': saved.get('screenshot_review'),

@@ -94,6 +94,11 @@ class Workspace:
             if intake is None or request['reported_figure']!=intake['reported_figure']:
                 raise Conflict('Reported figure must match the reviewed intake evidence')
             envelope['reported_figure']=request['reported_figure']
+        if intake is not None:
+            # Saved, reviewed server evidence is authoritative; no client resend.
+            envelope['reported_figure']=intake['reported_figure']
+            if 'definition_target' in intake:
+                envelope['definition_target']=intake['definition_target']
         envelope.update(revision=model['revision'], context_id=model['context_id'], source_tests=[],
                         source_selection='reviewed_mappings', record_selection='reviewed_mappings', joint_native_records=True, limits=dict(LIMITS))
         if model.get('discovery'):
