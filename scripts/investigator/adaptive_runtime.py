@@ -133,8 +133,9 @@ class AdaptiveRuntime:
             if synthesis['status']=='COMPLETED':
                 state['investigation_outcome']=state['outcome']
                 assessment=synthesis['assessment']
-                state['outcome']={**state['outcome'],'classification':assessment['classification'],
-                                  'assessment':assessment,'assessment_phase':'SYNTHESIS'}
+                if assessment is not None:
+                    state['outcome']={**state['outcome'],'classification':assessment['classification'],
+                                      'assessment':assessment,'assessment_phase':'SYNTHESIS'}
                 if 'outputs' in synthesis:state['outcome']['synthesis_outputs']=synthesis['outputs']
         from .action_budget import summary,allocation
         state['trajectory_metrics']=summary(state)
@@ -184,6 +185,13 @@ class AdaptiveRuntime:
         return result
 
     def stop(self,db,state,reason,status='COMPLETED'):
+        from .process_debugging import VERSION as process_version
+        if status in ('HELD','NEEDS_INPUT') and state['envelope'].get('strategy')==process_version:
+            from .process_receipts import refusal
+            from .refusal_synthesis import earliest
+            if earliest(state) is None:
+                state['observations'].append(refusal('WALK_REFUSED',reason,
+                    'process-refused-'+str(len(state['observations']))))
         state.update(status=status,token=None,stop_reason=reason)
         self.save(db,state,'STOPPED',{'reason':reason})
 

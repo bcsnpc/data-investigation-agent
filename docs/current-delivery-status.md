@@ -1,5 +1,8 @@
 # Current delivery status
 
+Current implementation, 2026-10-02: [Receipt registry and refusal delivery](refusal-receipt-registry.md). Refusals now produce both outputs deterministically from the earliest retained blocker, without a synthesis model call or a technical-finding upgrade. Three preserved R1?R3 states rendered offline with zero estate reads; the original failed runs remain unchanged. Value/descriptor intake separation and new live reruns remain next. Local regression and six-check CI evidence are recorded on the PR. No fixture, permission or budget change; prior freezes remain invalidated. Earlier dated status paragraphs retain historical evidence.
+
+
 Current live result, 2026-10-02: [Report-scoped reruns](report-scoped-reruns.md). PRs #308, #309 and #310 merged with six green checks each; the resumed final local suite passed 1,558 tests. All three unchanged tickets passed intake, but all extracted a surrounding phrase as the selection literal. R1 made one DAX existence read and stopped on an unhandled BLANK result; R2/R3 refused before reading because no scoped grouping column could test that literal. Every session stopped with NO_KNOWN_PATTERN, and synthesis BLOCKED before provider dispatch on an unsupported refusal-receipt shape. No reproduction comparison or narrative output was produced. One physical request total, allowance 21/60 to 22/60; no cap, credit, fixture, permission or policy change. Three ledger rows appended; prior failures preserved. No live acceptance or general capability pass. The fixture change remains deferred. Earlier dated entries below retain historical implementation and run evidence.
 
 
