@@ -634,9 +634,14 @@ class AdaptiveRuntime:
         def read_snapshot_identity(probe,workspace_name):
             from snapshot_identity_reader import read
             return meter_read('optional_snapshot_identity',lambda:read(self.config,model,probe,workspace_name))
+        def remaining_diagnostic_reads():
+            with self.runtime.db() as db:
+                current=self.load(db,identity)
+            return current['envelope']['limits']['cloud_calls']-current['cloud_calls']
         adapter=MicrosoftProcessAdapter(self.store,self.config,model,
             self.runtime.native_transport,self.runtime.source_transport,
             judge_definition=judge if provider is not None else None,meter_read=meter_read,
+            remaining_diagnostic_reads=remaining_diagnostic_reads,
             read_ingestion=read_ingestion,
             read_failure_detail=read_failure_detail if self.config['fabric'].get('xmla_client') else None,
             lower_surface=lower_surface,execute_lower=execute_lower,

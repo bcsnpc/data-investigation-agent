@@ -8,7 +8,13 @@ CONTEXT_CHANGERS={'FILTERED_MEASURE','TIME_SHIFT','RELATIONSHIP_SWITCH','CONDITI
 def catalog(store,config,envelope):
     fields(envelope,['model_id','revision','context_id','measure_id','filters','dimension_ids','source_tests','symptom','limits']+
            [k for k in ('source_selection','record_tests','record_pairs','record_selection','joint_native_records','strategy',
-                        'ticket_shape','comparison_mode','reported_figure','definition_target') if k in envelope])
+                        'ticket_shape','comparison_mode','reported_figure','definition_target','report_binding','selection_request') if k in envelope])
+    if 'report_binding' in envelope:
+        from . import report_scope
+        model=store.get(envelope['model_id'])
+        reports=[{'id':r['report']['id'],'name':r['report']['name']} for r in model['context'].get('reports',[])]
+        report_scope.report_binding(envelope['report_binding'],reports=reports,ticket=envelope['symptom'])
+        if 'selection_request' in envelope: report_scope.validate_request(envelope['selection_request'],reports=reports,ticket=envelope['symptom'])
     if 'definition_target' in envelope:
         from .definition_target import shape
         shape(envelope['definition_target'],envelope['symptom'])

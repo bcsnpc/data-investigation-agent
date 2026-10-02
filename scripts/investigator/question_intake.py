@@ -9,10 +9,12 @@ from .runtime import fingerprint
 from .filter_scope import compile_filter
 from . import reported_figure as figure
 from . import definition_target as target
+from . import report_scope
 
 VERSION = 'process-debugging-intake-v2'
 FIGURE_INSTRUCTIONS='\nSupply reported_candidates: every plausible reported-figure quote, not dates, identifiers, thresholds or unrelated quantities. Each candidate contains only {quote}, copied verbatim from the ticket. Never emit offsets; the consumer computes them. Quotes must occur exactly once; include longer context if necessary. Do not choose between candidates. No candidates means UNSPECIFIED; an explicitly empty visual is a candidate too. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
-TARGET_INSTRUCTIONS='\nSupply target_request or null. For a stated selection whose column is unclear, extract its exact value quote into {source:{quote}}; do not guess a column or ASK about its identifier before the consumer checks retained ACTIVE declarations. Anchor a PROPOSE to the named measure, leave that unresolved selection out of filters, and let the consumer bind it or refuse. For an explicitly named column use {column_id,source}, with source quoting the column name itself. Other requested filters must still be preserved. No offsets anywhere. A target request is translation, never an EVIDENCE resolution. ASK about real metric/model/date ambiguity still applies; ASK has target_request=null.'
+TARGET_INSTRUCTIONS='\nSupply target_request or null. For a stated selection extract its exact value as value_source:{quote}, and column_source:{quote} only if the ticket states the catalog column name exactly; otherwise column_source:null. Do not guess a column or ASK for its identifier. Anchor PROPOSE to the measure and named report, leave that unresolved selection out of filters, and let the consumer resolve it inside the procedure. Other requested filters are preserved. No offsets. ASK has target_request=null.'
+REPORT_INSTRUCTIONS='\nSupply report_quote as a verbatim quote of the complete report name, or null if none is named. Do not use a page or visual name as the report. For target_request supply value_source quoting the selected value and column_source quoting an explicitly stated catalog column name, or null; never infer a column name.'
 # Wire v2 encodes the relationship; persisted proposals keep their historical fields.
 TRIAGE_PAIRS = {
     'MISMATCH_COMPLAINT:VERTICAL': ('MISMATCH_COMPLAINT','VERTICAL'),
@@ -98,16 +100,17 @@ def azure_resolve(payload):
     instructions=INSTRUCTIONS.replace('scope_quotes','filter quote fields').replace(
         'ticket_shape and comparison_mode are null','triage is null').replace(
         'both triage fields are required','triage is required')+'\nUse catalog handles verbatim. Put each filter quote inside that filter object. No separate quote list.'
-    instructions+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS
+    instructions+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS
     result,usage=azure_generate(wire, instructions=instructions, schema=schema, name='resolve_business_question', decision_tool=True)
     fields(result,schema['required'])
     value=copy.deepcopy(result)
-    requested=value.pop('target_request')
+    requested=value.pop('target_request'); report_quote=value.pop('report_quote')
     try:
         candidates=[locate(source,payload['text']) for source in value.pop('reported_candidates')]
         if requested is not None:
-            fields(requested,['source']+(['column_id'] if 'column_id' in requested else []))
-            requested['source']=locate(requested['source'],payload['text'])
+            fields(requested,['value_source','column_source'])
+            requested['value_source']=locate(requested['value_source'],payload['text'])
+            if requested['column_source'] is not None: requested['column_source']=locate(requested['column_source'],payload['text'])
         if value['metric_quote'] is not None:locate({'quote':value['metric_quote']},payload['text'])
         for f in value['filters']:locate({'quote':f['quote']},payload['text'])
         value['reported_figure']=figure.from_candidates(candidates,payload['text'])
@@ -124,11 +127,13 @@ def azure_resolve(payload):
         return handles[handle]
     value['model_id']=actual(value['model_id']);value['measure_id']=actual(value['measure_id'])
     if requested is not None:
-        fields(requested,['source']+(['column_id'] if 'column_id' in requested else []))
-        figure.span(requested['source'],payload['text'])
-        if 'column_id' in requested:requested['column_id']=actual(requested['column_id'])
+        figure.span(requested['value_source'],payload['text'])
         if value['action']!='PROPOSE':raise ValueError('ASK cannot also request target resolution')
         value['target_request']=requested
+    if value['action']=='PROPOSE':
+        model=next((m for m in payload['models'] if m['id']==value['model_id']),None)
+        if model is None: raise ValueError('Unknown report anchor')
+        value['report_binding']=report_scope.resolve_report(locate({'quote':report_quote},payload['text']) if report_quote is not None else None,model.get('reports',[]),payload['text'])
     value['dimension_ids']=[actual(c) for c in value['dimension_ids']]
     value['scope_quotes']=[]
     for f in value['filters']:
@@ -151,9 +156,12 @@ def wire_contract(payload):
     # Resolution is consumer-owned. The model cannot emit EVIDENCE (or any
     # target record); PR B supplies the separate stated-value extraction input.
     schema['properties'].pop('definition_target')
-    schema['properties']['target_request']=copy.deepcopy(target.REQUEST_SCHEMA)
-    for spec in schema['properties']['target_request']['anyOf'][1:]:spec['properties']['source']=QUOTE_SCHEMA
-    schema['properties']['target_request']['anyOf'][2]['properties']['column_id']['enum']=columns or ['NO_COLUMN']
+    schema['properties']['target_request']={'anyOf':[{'type':'null'},
+        {'type':'object','additionalProperties':False,'properties':{
+            'value_source':QUOTE_SCHEMA,'column_source':{'anyOf':[{'type':'null'},QUOTE_SCHEMA]}},
+         'required':['value_source','column_source']}]}
+    schema['properties']['report_quote']={'type':['string','null'],'minLength':1,'maxLength':limits.INTAKE_QUOTE}
+    schema['required'].append('report_quote')
     schema['required'].append('target_request')
     schema['properties'].pop('reported_figure');schema['required'].remove('reported_figure')
     schema['properties']['reported_candidates']={'type':'array','maxItems':figure.CANDIDATE_LIMIT,'items':QUOTE_SCHEMA}
@@ -200,7 +208,12 @@ def snapshot(workspace):
 
 
 def validate(value, payload):
-    fields(value, SCHEMA['required']+(['definition_target'] if 'definition_target' in value else []))
+    fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request') if k in value])
+    if 'report_binding' in value:
+        model=next((m for m in payload['models'] if m['id']==value['model_id']),None)
+        if model is None: raise ValueError('Unknown report anchor')
+        report_scope.report_binding(value['report_binding'],reports=model.get('reports',[]),ticket=payload['text'])
+        if 'selection_request' in value: report_scope.validate_request(value['selection_request'],reports=model.get('reports',[]),ticket=payload['text'])
     if 'definition_target' in value:
         target.validate(value['definition_target'],ticket=payload['text'],
                         inventory=payload.get('declaration_inventory'),active=payload.get('active_restrictions'))
@@ -315,15 +328,26 @@ class Intake:
                 if decision['action']!='PROPOSE':raise ValueError('ASK cannot also request target resolution')
                 model=next((m for m in payload['models'] if m['id']==decision['model_id']),None)
                 if not model or decision['measure_id'] not in {m['id'] for m in model['measures']}:raise ValueError('Unknown target anchor')
-                resolution,audit,proof=target.lookup(requested,ticket=combined,
-                    options=self.workspace.target_options(decision['model_id'],decision['measure_id']),columns=model['columns'])
-                decision['definition_target']=resolution;body['target_resolution']=audit
-                if proof is not None:
-                    validation_payload={**payload,**proof}
-                    if any(f['column_id']==resolution['column_id'] for f in decision['filters']):
-                        raise ValueError('Unresolved selection must not also carry a guessed filter')
-                    decision['filters'].append({'column_id':resolution['column_id'],'operator':'in','values':[proof['resolved_value']]})
-                    decision['scope_quotes'].append({'column_id':resolution['column_id'],'quote':requested['source']['quote']})
+                if 'report_binding' in decision:
+                    if decision['report_binding']['resolution_kind']=='REFUSED':
+                        body['report_binding']=decision['report_binding']
+                        raise QuoteRefused('Report ambiguity: '+decision['report_binding']['reason']+'; candidates: '+', '.join(decision['report_binding']['candidates']))
+                    report_scope.report_binding(decision['report_binding'],reports=model.get('reports',[]),ticket=combined)
+                    decision['selection_request']={'state':'REQUESTED','report_binding':decision['report_binding'],**requested}
+                    report_scope.validate_request(decision['selection_request'],reports=model.get('reports',[]),ticket=combined)
+                else:
+                    resolution,audit,proof=target.lookup(requested,ticket=combined,
+                        options=self.workspace.target_options(decision['model_id'],decision['measure_id']),columns=model['columns'])
+                    decision['definition_target']=resolution;body['target_resolution']=audit
+                    if proof is not None:
+                        validation_payload={**payload,**proof}
+                        if any(f['column_id']==resolution['column_id'] for f in decision['filters']):
+                            raise ValueError('Unresolved selection must not also carry a guessed filter')
+                        decision['filters'].append({'column_id':resolution['column_id'],'operator':'in','values':[proof['resolved_value']]})
+                        decision['scope_quotes'].append({'column_id':resolution['column_id'],'quote':requested['source']['quote']})
+            if decision.get('report_binding',{}).get('resolution_kind')=='REFUSED':
+                body['report_binding']=decision['report_binding']
+                raise QuoteRefused('Report ambiguity: '+decision['report_binding']['reason']+'; candidates: '+', '.join(decision['report_binding']['candidates']))
             decision = validate(decision, validation_payload)
             if (digest(snapshot(self.workspace)) != body['catalog_hash'] or fingerprint() != body['engine_hash']
                     or digest(self.workspace.agent.config) != body['config_hash']):
@@ -384,7 +408,7 @@ class Intake:
         if any(request[k] != proposal[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids')) or request['symptom'] != saved['text'] or request['predecessor'] is not None:
             raise Conflict('Reviewed question scope differs from the saved proposal')
         return {'id': saved['id'], 'text': saved['text'], 'metric_quote': proposal['metric_quote'],
-                **({'definition_target':proposal['definition_target']} if 'definition_target' in proposal else {}),
+                **{k:copy.deepcopy(proposal[k]) for k in ('definition_target','report_binding','selection_request') if k in proposal},
                 'reported_figure':proposal['reported_figure'],
                 'ticket_shape':proposal['ticket_shape'],'comparison_mode':proposal['comparison_mode'],
                 'screenshot_review': saved.get('screenshot_review'),

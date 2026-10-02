@@ -135,6 +135,7 @@ def validate_inventory(inventory, active, *, binding, reports, ticket=None):
             if entry['effect'] == 'FULL_DOMAIN':
                 if entry['restrictions']: raise ValueError('Full-domain declaration cannot restrict values')
             elif entry['effect'] == 'RESTRICTED':
+                if not entry['restrictions']: raise ValueError('Restricted declaration requires a nonempty restriction list')
                 from .declared_reproduction import compose
                 compose(entry['restrictions'])
             else: raise ValueError('Active declaration cannot be excluded')
@@ -244,3 +245,12 @@ def render(target, business=False):
     if kind == 'EVIDENCE': return 'The stated report declares a restriction carrying ' + target['source']['quote'] + '; resolution EVIDENCE.'
     if kind == 'STATED': return 'The column was explicitly stated; resolution STATED. Value lookup: ' + target['lookup']['status'] + '.'
     return 'Target resolution REFUSED: ' + target['reason'] + '.'
+
+
+def validate_request(request, *, reports, ticket=None):
+    fields(request, REQUEST_SCHEMA['required'])
+    if request['state'] != 'REQUESTED': raise ValueError('Selection request is not a resolution')
+    report_binding(request['report_binding'], reports=reports, ticket=ticket)
+    reported_figure.span(request['value_source'], ticket)
+    if request['column_source'] is not None: reported_figure.span(request['column_source'], ticket)
+    return request

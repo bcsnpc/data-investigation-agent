@@ -374,6 +374,36 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     # Keep the missing-capability record for readers of existing run summaries.
     if 'refresh_timing' not in available:skip(1,'presentation_freshness')
 
+    if scope.get('report_binding'):
+        from .report_resolution import prepare,ResolutionRefused
+        from .declared_reproduction import UnsupportedRestriction
+        try:
+            scope, selection_observations = prepare(adapter,layers[0],measure_id,scope)
+        except (ResolutionRefused,UnsupportedRestriction) as exc:
+            observations.extend(getattr(exc,'observations',[]))
+            evidence=_observation({'id':'report-selection-refused','tool':'process',
+                'reason':str(exc),'check_kind':'REPORT_SELECTION_REFUSED'},'established')
+            return answer('NO_KNOWN_PATTERN',2,observations+[evidence],layers[0]['id'],'NOT_COMPARABLE',
+                roles=('established',),missing_capability=str(exc))
+        observations.extend(selection_observations)
+        scope['selection_observations']=selection_observations
+
+    def reproduce():
+        # Optional side finding, before any lower-boundary admission. It neither
+        # terminates the walk nor alters presentation_context or its defect gate.
+        if 'declared_context_reproduction' in available:
+            from .declared_reproduction import run
+            reproduction=run(adapter,layers[0],measure_id,scope)
+            observations.extend(reproduction['observations'])
+            if reproduction['status']=='UNAVAILABLE' or reproduction.get('unsupported_form'):
+                observations.append(_observation({'id':'declared-reproduction-unavailable','tool':'process',
+                    'check_kind':'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE',
+                    'reason':reproduction['reason'],
+                    'capability_status':reproduction['status'],
+                    **({'unsupported_form':reproduction['unsupported_form']} if reproduction.get('unsupported_form') else {})},'established'))
+
+    if scope.get('report_binding'): reproduce()
+
     # Step 2: establish our presentation baseline, independent of the ticket's
     # stated number. Failure is explicit and later boundary claims retain it.
     top=read(layers[0])
@@ -387,19 +417,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
               'status':'NOT_ESTABLISHED','layer':top.layer,'reason':top.reason or 'Presentation quantity was not comparable.',
               'evidence_ids':[]}
     measure_baseline=baseline
-
-    # Optional side finding, before any lower-boundary admission. It neither
-    # terminates the walk nor alters presentation_context or its defect gate.
-    if 'declared_context_reproduction' in available:
-        from .declared_reproduction import run
-        reproduction=run(adapter,layers[0],measure_id,scope)
-        observations.extend(reproduction['observations'])
-        if reproduction['status']=='UNAVAILABLE' or reproduction.get('unsupported_form'):
-            observations.append(_observation({'id':'declared-reproduction-unavailable','tool':'process',
-                'check_kind':'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE',
-                'reason':reproduction['reason'],
-                'capability_status':reproduction['status'],
-                **({'unsupported_form':reproduction['unsupported_form']} if reproduction.get('unsupported_form') else {})},'established'))
+    if not scope.get('report_binding'): reproduce()
 
     def unverified_business_flow(reason):
         return answer('NO_KNOWN_PATTERN',6,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,

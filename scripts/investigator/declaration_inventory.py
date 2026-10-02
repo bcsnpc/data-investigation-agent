@@ -31,7 +31,7 @@ def validate(inventory, active):
     if not isinstance(inventory, dict) or set(inventory) != {'discovered', 'entries'}:
         raise ValueError('Declaration inventory is malformed')
     discovered, entries = inventory['discovered'], inventory['entries']
-    if not isinstance(discovered, list) or not 1 <= len(discovered) <= 512 or not isinstance(entries, list):
+    if not isinstance(discovered, list) or not 0 <= len(discovered) <= 512 or not isinstance(entries, list):
         raise ValueError('Declaration inventory requires bounded discovered entries')
     if len(entries) != len(discovered):
         raise ValueError('Declaration conservation failed: entry count differs')
@@ -56,6 +56,7 @@ def validate(inventory, active):
             raise ValueError('Declaration restrictions require a list')
         accounted.append(entry['id'])
         if entry['disposition'] == 'ACTIVE':
+            if not entry['restrictions']: raise ValueError('Active declaration requires nonempty restrictions')
             compose(entry['restrictions'])
             if entry['assumption'] not in ('NONE', 'SAVED_DEFAULT') or entry['volatility'] == 'UNKNOWN':
                 raise ValueError('Active declaration applicability must be established')
@@ -84,9 +85,9 @@ def qualifications(fields, label):
     from .declared_reproduction import BASELINE_LIMIT, ACTIVE_LIMIT, TIMING_LIMIT, OPEN_LIMIT
     result = [BASELINE_LIMIT, ACTIVE_LIMIT, TIMING_LIMIT, OPEN_LIMIT]
     if any(e['disposition'] == 'CONDITIONAL' for e in fields):
-        result.append('An invoked stored alternative remains possible; invocation was not established.')
+        result.append('An invoked bookmark or other stored alternative remains possible; invocation was not established.')
     if any(e['disposition'] == 'ACTIVE' and e['assumption'] == 'SAVED_DEFAULT' for e in fields):
         result.append('The check assumes saved default positions for viewer-changeable selections; their current positions were not established.'
                       if label == 'REPRODUCED' else
-                      'A moved saved-default selection remains an explicit possibility; its current position was not established.')
+                      'A moved slicer or other saved-default selection remains an explicit possibility; its current position was not established.')
     return result
