@@ -110,6 +110,22 @@ def validate(assessment, observations):
     outcome = assessment['classification']
     if outcome not in OUTCOMES:
         raise ValueError('Unsupported process-debugging outcome')
+    from .declared_reproduction import KIND, validate as validate_reproduction
+    for observation in observations.values():
+        if observation.get('check_kind')!=KIND:continue
+        validate_reproduction(observation,observations)
+        if observation['id'] not in assessment['evidence_ids']:
+            raise ValueError('Reproduction must remain in the assessment evidence chain')
+        if any(limit not in assessment.get('limits',[]) for limit in observation['limitations']):
+            raise ValueError('Reproduction requires its explicit limitations')
+        for side in ('upper','lower'):
+            layer=observation[side+'_layer']
+            for field in observation[side+'_surface_attestation']['unattested_fields']:
+                if not any(field in limit and str(layer) in limit for limit in assessment.get('limits',[])):
+                    raise ValueError('Reproduction requires every unattested surface field in its limits')
+        for output in ('business_output','technical_output'):
+            if output in assessment and observation not in assessment[output].get('declared_context_reproductions',[]):
+                raise ValueError('Reproduction must be labelled within-layer in both outputs')
     from .snapshot_attestation import checked,limitation
     comparisons=[o for o in observations.values() if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
     for ordinal,o in enumerate(comparisons,1):

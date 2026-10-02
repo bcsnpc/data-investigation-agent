@@ -51,6 +51,13 @@ def validate(text,business=False):
 
 
 def business(text,payload):
+    from .declared_reproduction import KIND,render
+    for entry in payload.get('evidence',[]):
+        finding=entry.get('result',{})
+        if finding.get('check_kind')==KIND:
+            text=render(finding,business=True)+' '+text
+        elif finding.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
+            text='The declared selections could not be tested with the available evidence. '+text
     rows=[r for r in payload_comparisons(payload) if r.get('snapshot_attestation',{}).get('status')!=VERIFIED]
     # The deterministic body already qualifies timing in its own register.
     covered=any(phrase in text for phrase in ('whether the checks describe the same moment','update timing','which state is newer'))
@@ -74,6 +81,12 @@ def technical(commentary,payload,source,recommended):
         lower,upper=row['input'],row['output'];a=registry[lower['layer']];b=registry[upper['layer']]
         finding.append(f"B{i} {'agrees' if row['values_equal'] else 'diverges'}: {a['term']} ({a['name']}, upstream input) {lower['quantity'] or 'unestablished'} -> {b['term']} ({b['name']}, downstream output) {upper['quantity'] or 'unestablished'}.")
     if not facts:finding.append('No independently compared boundary was established.')
+    from .declared_reproduction import KIND,render
+    for entry in payload.get('evidence',[]):
+        result=entry.get('result',{})
+        if result.get('check_kind')==KIND:finding.append(render(result,include_limits=False))
+        elif result.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
+            finding.append('Declared-context reproduction unavailable: '+result['reason'])
     paragraphs=['\n'.join(finding),commentary]
     if registry:paragraphs.append('Layers:\n'+'\n'.join(f"{v['term']} - {v['name']}: {v['identifier']}" for v in registry.values()))
     limits=[];seen=set()
@@ -81,12 +94,16 @@ def technical(commentary,payload,source,recommended):
         text=short(text)
         if key not in seen and text not in limits:limits.append(text);seen.add(key)
     detail=source.get('technical_output',{})
-    grouped={}
+    by_field={}
     for item in detail.get('unattested_surface_fields',[]):
-        key=(item['layer'],item['evidence_id']);grouped.setdefault(key,[])
-        if item['field'] not in grouped[key]:grouped[key].append(item['field'])
-    for (layer,receipt),fields in grouped.items():
-        add(('surface',layer,receipt),'Unattested '+', '.join(fields)+' on '+layer+' (receipt '+receipt+').')
+        key=(item['layer'],item['field']);by_field.setdefault(key,[])
+        if item['evidence_id'] not in by_field[key]:by_field[key].append(item['evidence_id'])
+    grouped={}
+    for (layer,field),receipts in by_field.items():
+        grouped.setdefault((layer,tuple(receipts)),[]).append(field)
+    for (layer,receipts),fields in grouped.items():
+        reference=('receipt ' if len(receipts)==1 else 'receipts ')+', '.join(receipts)
+        add(('surface',layer,receipts),'Unattested '+', '.join(fields)+' on '+layer+' ('+reference+').')
     rows=payload_comparisons(payload)
     unknown=[str(i) for i,r in enumerate(rows,1) if r.get('snapshot_attestation',{}).get('status')!=VERIFIED]
     if unknown:
