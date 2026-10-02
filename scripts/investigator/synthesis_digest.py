@@ -3,7 +3,7 @@
 No model preprocessing, raw record rows, trajectory, or directory. Missing facts
 remain missing: selection/formatting does not establish semantic truth.
 """
-import json,re
+import copy,json,re
 from sqlglot import exp
 from sqlglot.lineage import lineage
 from sqlglot.errors import SqlglotError
@@ -18,6 +18,14 @@ EXCERPT_CHARACTERS = 2400
 
 def _context_evidence(observation):
  roles=observation.get('process_roles',[])
+ if 'declared_context_definition' in roles:
+  if not isinstance(observation.get('metadata'),dict):
+   raise Conflict('Declared scope receipt requires retained definition metadata')
+  return {'asked':observation.get('lookup'),
+          'result':{'declared_restrictions':observation['declared_restrictions'],
+                    'declaration_provenance':observation['declaration_provenance'],
+                    'definition':_definition_evidence(observation)},
+          'provenance':{'hash':digest(observation),'context_version':observation['metadata'].get('context_version')}}
  if 'transformation_definition' in roles and isinstance(observation.get('quantity_contract'),dict):
   contract=observation['quantity_contract']
   if (observation.get('asset_id')!=contract.get('definition_asset_id')
@@ -95,6 +103,12 @@ def _query_evidence(tool,query,rows):
          'aggregate_outputs':facts,'group_keys':groups,'group_keys_truncated':False}
 
 def _process_evidence(observation,by_id,quantities=None):
+ if observation.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION':
+  from .declared_reproduction import validate
+  # Preserve the complete validated original, not a reconstructed projection.
+  return copy.deepcopy(validate(observation,by_id,quantities))
+ if observation.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
+  return copy.deepcopy(observation)
  status=observation.get('comparison_status')
  if status not in ('CROSS_SURFACE_VERIFIED','NOT_COMPARABLE','WITHIN_LAYER_CHECK'):
   raise Conflict('Unsupported process receipt shape')

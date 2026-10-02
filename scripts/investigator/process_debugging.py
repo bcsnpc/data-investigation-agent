@@ -12,7 +12,8 @@ from .process_outcomes import ACTIONS,EVIDENCE_ROLES
 VERSION='process-debugging-v2'
 REQUIRED_CAPABILITIES=frozenset(('resolve_measure_path','evaluate_scoped_quantity'))
 OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','refresh_timing','snapshot_identity','declared_source_comparison','presentation_context',
-    'transformation_definition','job_history','ingestion','independent_lower_surface','failure_detail'))
+    'transformation_definition','job_history','ingestion','independent_lower_surface','failure_detail',
+    'declared_context_reproduction'))
 
 
 @dataclass(frozen=True)
@@ -78,7 +79,8 @@ def unattested_surface_fields(observations):
     """Every field of a compared surface that its surface did not report."""
     result=[]
     for o in observations:
-        if o.get('tool')!='process' or o.get('comparison_status')!='CROSS_SURFACE_VERIFIED':continue
+        if o.get('tool')!='process' or (o.get('comparison_status')!='CROSS_SURFACE_VERIFIED'
+                and o.get('check_kind')!='DECLARED_CONTEXT_REPRODUCTION'):continue
         for side in ('upper','lower'):
             attestation=o.get(side+'_surface_attestation') or {}
             for field in attestation.get('unattested_fields',[]):
@@ -143,6 +145,8 @@ class ProcessAdapter(Protocol):
     def refresh_timing(self, path: dict) -> dict: ...
     def snapshot_identity(self, probe: Probe) -> dict: ...
     def evaluate(self, layer: dict, measure_id: str, scope: dict) -> Probe: ...
+    def declared_context(self, layer: dict, measure_id: str, scope: dict) -> dict: ...
+    def evaluate_declared_context(self, layer: dict, measure_id: str, scope: dict) -> Probe: ...
     def presentation_context(self, boundary: dict, scope: dict) -> dict: ...
     def transformation_definition(self, boundary: dict) -> dict: ...
     def job_history(self, boundary: dict) -> dict: ...
@@ -194,7 +198,8 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                   and o.get('comparison_status')=='WITHIN_LAYER_CHECK']
     not_comparable=[{'upper_layer':o.get('upper_layer'),'lower_layer':o.get('lower_layer'),
                      'reason':o.get('reason')} for o in observations
-                    if o.get('comparison_status') in ('NOT_COMPARABLE','WITHIN_LAYER_CHECK')]
+                    if o.get('comparison_status') in ('NOT_COMPARABLE','WITHIN_LAYER_CHECK')
+                    and o.get('check_kind')!='DECLARED_CONTEXT_REPRODUCTION']
     unattested=unattested_surface_fields(observations)
     # Which kind of binding each compared lower layer rests on stays visible;
     # an inferred binding is a hypothesis about the estate, not a fact.
@@ -248,6 +253,12 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     snapshot_probes={}
     def answer(*args,**kwargs):
         result=_answer(*args,capabilities=available,failures=failures,**kwargs)
+        from .declared_reproduction import KIND
+        reproductions=[o for o in result['_observations'] if o.get('check_kind')==KIND]
+        for finding in reproductions:
+            result['limits'].extend(finding['limitations'])
+        for key in ('business_output','technical_output'):
+            if reproductions:result[key]['declared_context_reproductions']=reproductions
         # The baseline above a divergent internal boundary is not the selected
         # report measure. Keep its evidence separate from the presentation read.
         if measure_baseline is not None:
@@ -342,6 +353,19 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
               'status':'NOT_ESTABLISHED','layer':top.layer,'reason':top.reason or 'Presentation quantity was not comparable.',
               'evidence_ids':[]}
     measure_baseline=baseline
+
+    # Optional side finding, before any lower-boundary admission. It neither
+    # terminates the walk nor alters presentation_context or its defect gate.
+    if 'declared_context_reproduction' in available:
+        from .declared_reproduction import run
+        reproduction=run(adapter,layers[0],measure_id,scope)
+        observations.extend(reproduction['observations'])
+        if reproduction['status']=='UNAVAILABLE' or reproduction.get('unsupported_form'):
+            observations.append(_observation({'id':'declared-reproduction-unavailable','tool':'process',
+                'check_kind':'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE',
+                'reason':reproduction['reason'],
+                'capability_status':reproduction['status'],
+                **({'unsupported_form':reproduction['unsupported_form']} if reproduction.get('unsupported_form') else {})},'established'))
 
     def unverified_business_flow(reason):
         return answer('NO_KNOWN_PATTERN',6,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
