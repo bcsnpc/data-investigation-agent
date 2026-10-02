@@ -19,6 +19,11 @@ EXCERPT_CHARACTERS = 2400
 
 def _context_evidence(observation):
  roles=observation.get('process_roles',[])
+ if 'presentation_definition' in roles:
+  if not isinstance(observation.get('definitions'),list):
+   raise Conflict('Presentation-definition receipt requires retained definitions')
+  return {'asked':{'operation':'presentation_context'},'result':copy.deepcopy(observation),
+          'provenance':{'hash':digest(observation),'derivation':'RETAINED_REPORT_DEFINITION'}}
  if 'declared_context_definition' in roles:
   if not isinstance(observation.get('metadata'),dict):
    raise Conflict('Declared scope receipt requires retained definition metadata')
@@ -106,15 +111,26 @@ def _query_evidence(tool,query,rows):
          'aggregate_outputs':facts,'group_keys':groups,'group_keys_truncated':False}
 
 def _process_evidence(observation,by_id,quantities=None):
- if observation.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION':
+ from .process_receipts import identify
+ name,spec=identify(observation)
+ if spec.route=='reproduction':
   from .declared_reproduction import validate
   # Preserve the complete validated original, not a reconstructed projection.
   return copy.deepcopy(validate(observation,by_id,quantities))
- if observation.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
+ if spec.route=='resolution':
+  from .report_resolution import validate
+  validate(observation,by_id)
+  return copy.deepcopy(observation)
+ if spec.route=='duplicate':
+  prior=by_id.get(observation.get('prior_evidence_id'))
+  if prior is None or prior.get('status')!='COMPLETED':
+   raise Conflict('Duplicate refusal requires its prior successful receipt')
+  return copy.deepcopy(observation)
+ if spec.route=='retained':
   return copy.deepcopy(observation)
  status=observation.get('comparison_status')
  if status not in ('CROSS_SURFACE_VERIFIED','NOT_COMPARABLE','WITHIN_LAYER_CHECK'):
-  raise Conflict('Unsupported process receipt shape')
+  raise Conflict('Unsupported comparison receipt shape: '+name)
  refs=[observation.get('upper_evidence_id'),observation.get('lower_evidence_id')]
  referenced=[by_id.get(ref) for ref in refs if ref]
  if any(item is None or item.get('status')!='COMPLETED' for item in referenced):
@@ -145,15 +161,18 @@ def _process_evidence(observation,by_id,quantities=None):
 def build(state,db):
  entries=[];quantities={};pending=[];by_id={o['id']:o for o in state['observations'] if isinstance(o,dict) and o.get('id')}
  for o in state['observations']:
+  from .process_receipts import identify
+  name,spec=identify(o)
   if o['status']!='COMPLETED':continue
   item={'id':o['id'],'tool':o['tool'],'completeness':o['completeness']}
   if o.get('process_roles'):item['process_roles']=o['process_roles']
   if o.get('test_purpose'):item['test_purpose']=o['test_purpose']
-  if o['tool']=='context':
+  if spec.route=='context':
    item.update(_context_evidence(o))
-  elif o['tool']=='process':
+  elif spec.route!='query':
    pending.append((item,o))
-   item['provenance']={'hash':digest(o),'derivation':'PROCESS_COMPARISON_FROM_REFERENCED_OBSERVATIONS'}
+   item['provenance']={'hash':digest(o),'derivation':
+       'PROCESS_COMPARISON_FROM_REFERENCED_OBSERVATIONS' if spec.route=='comparison' else 'PROCESS_'+name+'_RECEIPT'}
   else:
    if o['tool'] not in TABLES:raise Conflict('Unsupported receipt integrity adapter')
    sealed=verify(db,o['tool'],o['id'])

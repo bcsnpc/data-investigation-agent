@@ -191,7 +191,7 @@ def run(agent,identity,provider):
         previous=read(db,identity,full=True)
         if previous:return {k:v for k,v in previous.items() if k!='payload'}
         state=agent.load(db,identity)
-        if state['status'] not in ('COMPLETED','NEEDS_INPUT') or not state['envelope'].get('strategy'):
+        if state['status'] not in ('COMPLETED','NEEDS_INPUT','HELD') or not state['envelope'].get('strategy'):
             raise Conflict('Synthesis requires a terminal dynamic investigation')
         record={'version':1,'status':'BLOCKED','source_hash':digest(state),'recording_session_id':identity+':synthesis',
                 'calls':0,'assessment':None,'payload':None,'payload_hash':None}
@@ -199,6 +199,14 @@ def run(agent,identity,provider):
             agent.admit(state)
             payload=build(state,db);size=len(encoded(payload))
             record.update(payload=payload,payload_hash=digest(payload),input_characters=size)
+            from .refusal_synthesis import render
+            outputs=render(state)
+            if outputs is not None:
+                record.update(status='COMPLETED',outputs=outputs,
+                              provenance='DETERMINISTIC_REFUSAL_RENDERING',
+                              assessment=None,validation='REGISTERED_REFUSAL_DELIVERY')
+                save(db,identity,record)
+                return {k:v for k,v in record.items() if k!='payload'}
             if provider is azure_synthesize:
                 original=narrative_source(state)
                 validate(original,payload,source_state=state)
@@ -212,6 +220,8 @@ def run(agent,identity,provider):
                           output_tokens_reserved=agent.generation_options['max_output_tokens'])
         except (ValueError,KeyError) as exc:
             record['error']=error_summary(exc)
+            if str(exc).startswith('Unregistered process receipt shape:'):
+                record['reason']=str(exc)
             if str(exc).startswith('SYNTHESIS_ASSESSMENT_UNAVAILABLE:'):
                 record['reason']='SYNTHESIS_ASSESSMENT_UNAVAILABLE'
                 record['limitation']=str(exc)

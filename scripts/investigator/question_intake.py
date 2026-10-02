@@ -295,6 +295,12 @@ class Intake:
                 id TEXT PRIMARY KEY, request_key TEXT UNIQUE NOT NULL, body TEXT NOT NULL, hash TEXT NOT NULL)''')
 
     def save(self, db, body):
+        if body['status'] in ('NEEDS_INPUT','HELD'):
+            from .process_receipts import refusal
+            from .refusal_synthesis import render
+            receipt=refusal('INTAKE_REFUSED',body.get('question') or body['error'],
+                            'intake-refusal-'+body['id'])
+            body['refusal_outputs']=render({**body,'observations':[receipt]})
         db.execute('UPDATE workspace_intakes SET body=?,hash=? WHERE id=?', (encoded(body), digest(body), body['id']))
 
     def get(self, identity):
