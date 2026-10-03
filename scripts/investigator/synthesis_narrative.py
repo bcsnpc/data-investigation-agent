@@ -46,7 +46,7 @@ def schema(payload):
     business=statement(limits.ASSESSMENT_CLAIM)
     from .output_contract import BUSINESS
     finding=payload.get('deterministic_process_finding')
-    outcomes=[finding['classification']] if finding else list(BUSINESS)
+    outcomes=[payload['outcome']] if payload.get('outcome') else [finding['classification']] if finding else list(BUSINESS)
     from .business_vocabulary import validate_text
     texts=[business_text(o,payload) for o in outcomes]
     for text in texts:validate_text(text,text)
