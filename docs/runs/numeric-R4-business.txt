@@ -1,0 +1,15 @@
+You asked: In Declared predicate fixture 20261001, on Saved predicate selections, the card Handled Quantity - extra visual predicate reports Handled Quantity as exactly 16. I selected warehouse North. Check whether the saved declared report context reproduces this figure and explain what remains unknown about my selections.
+Answer to your question: Yes — the saved declared context reproduces the reported figure.
+
+The answering visual "Handled Quantity - extra visual predicate" produced 16.
+The applied selections were event day: 2026-09-15; movement type: RECEIPT; product name: Component 1; warehouse name: North.
+These saved restrictions reproduce the reported figure of 16; this explains its reproduction by declared report design, not whether that design is intended.
+The same calculation without applying report declarations returned 8,765; this is not an unrestricted total.
+Adding the event day restriction takes 92 to 16.
+Other visual "Handled Quantity - page and slicers" produced 92.
+Other visual "Handled Quantity - unfiltered" produced 8,765.
+Assumed: viewer-changeable selections at their saved defaults; their current positions were not established.
+An invoked bookmark or stored alternative was not established.
+Active user selections, row-level security and a difference further back remain unestablished.
+The checks are not tied to a shared data version; they do not establish currency or business correctness.
+Recommended action: If the saved restrictions (event day: 2026-09-15; movement type: RECEIPT; product name: Component 1; warehouse name: North) are unintended, request an enhancement to the report selections, not a change to the data.
