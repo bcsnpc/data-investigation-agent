@@ -100,7 +100,10 @@ def build(store,plan,config,tool,*,catalog=None):
         compiled['require_read_only']=True
         compiled['catalog_hash']=digest(catalog)
     else:raise ValueError('Unsupported proposed query tool')
-    if report is not None:compiled['surface_report_columns']=report
+    if report is not None:
+        if tool=='bounded_dax' and not set(report.values())<=set(compiled['result_columns']):
+            raise ValueError('Probe statement lacks declared surface-report columns')
+        compiled['surface_report_columns']=report
     return dict(compiled,tool=tool,context_id=model['context_id'],context_hash=digest(model['context']),
                 policy_hash=digest(config),scope_hash=digest(plan))
 

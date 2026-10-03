@@ -134,7 +134,7 @@ class GradingTests(unittest.TestCase):
     def test_quantity_dax_compiles_same_query_self_report_without_general_info_access(self):
         assets=[{'id':'t','name':'Things','kind':'SemanticTable'},
                 {'id':'m','name':'Total','kind':'Measure','parent_id':'t'}]
-        query=semantic_self_report('EVALUATE ROW("value",[Total],"surface_identity",USERPRINCIPALNAME())')
+        query=semantic_self_report('EVALUATE ROW("value",[Total])')
         compiled=query_dax.compile_query(query,assets)
         self.assertIn('INFO.PROPERTIES()',compiled['query'])
         self.assertEqual(compiled['asset_ids'],['m'])

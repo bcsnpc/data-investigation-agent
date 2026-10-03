@@ -518,7 +518,7 @@ def quantity_query(model, measure_id, restrictions):
                      else 'FILTER(VALUES(' + path + '),FALSE())')
     expression = reference(measure)
     if terms: expression = 'CALCULATE(' + expression + ',' + ','.join(terms) + ')'
-    query = 'EVALUATE ROW("quantity",' + expression + ',"surface_identity",USERPRINCIPALNAME())'
+    query = 'EVALUATE ROW("quantity",' + expression + ')'
     try: query_dax.compile_query(query, catalog, max_rows=20)
     except ValueError: raise Refusal('NATIVE_QUERY_COMPILATION')
     return query
