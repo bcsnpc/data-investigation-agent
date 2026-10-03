@@ -83,9 +83,9 @@ def business_text(outcome, payload=None):
         subject=terms.get('subject',{}).get('text');matched=terms.get('matched',{}).get('text')
         first=(f'The report showed {number}'+(f' for {subject}' if subject else '')+
                (', matching the total used to prepare it.' if agrees else '.'))
-        compared=(f'An earlier check of {subject} returned {lower}; the difference appears in the step that matches {subject} with {matched}.'
+        compared=(f'The table it is built from contained {lower} for {subject}; the difference appears in the step that matches {subject} with {matched}.'
                   if agrees and subject and matched else
-                  f'An earlier check returned {lower}; the difference appears during preparation of the report.' if agrees else
+                  f'The table it is built from contained {lower}; the difference appears during preparation of the report.' if agrees else
                   f'The total used to prepare the report was {lower}; the difference appears between that total and the displayed number.')
         mechanism=_business_mechanism(entries) if outcome=='TRANSFORMATION_LOGIC' else None
         mechanism=mechanism or 'The checks locate the difference but do not establish a specific explanation for it.'

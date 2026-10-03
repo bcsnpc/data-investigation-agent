@@ -76,6 +76,8 @@ def business(text,payload):
         elif finding.get('check_kind')=='PROBE_NOT_EXECUTED':
             text='The selected calculation was not checked because the diagnostic read cap was reached; it would establish '+finding['would_establish']+'. '+text
         elif finding.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
+            if finding.get('capability_status')=='UNDECLARED' and finding.get('question_kind'):
+                continue
             from .declared_reproduction import NO_FIGURE,render_stopped
             if finding.get('unevaluated_probes'):text=render_stopped(finding['unevaluated_probes'],True)+' '+text
             text=('You did not provide the number shown in the report, so its saved selections could not be tested against your figure. '
@@ -84,10 +86,22 @@ def business(text,payload):
     if reproduction_limits:text+=' '+' '.join(reproduction_limits)
     from .surface_difference import wording
     statements=[]
+    baseline=next((e['id'] for e in payload.get('evidence',[]) if e.get('test_purpose')=='ESTABLISH_BASELINE'),None)
+    boundaries={r['comparison_id']:r for r in path_narrative.facts(payload)}
+    report_input=next((r['input']['layer'] for r in boundaries.values()
+        if any(e['id']==r['comparison_id'] and e.get('result',{}).get('referenced_evidence_ids',[None])[0]==baseline
+               for e in payload.get('evidence',[])) and baseline is not None),None)
     for entry in payload.get('evidence',[]):
         c=entry.get('result',{})
         if c.get('comparison_status')=='CROSS_SURFACE_VERIFIED' and c.get('surface_difference'):
             sentence=wording(c['surface_difference'],business=True)
+            boundary=boundaries.get(entry['id'])
+            if boundary:
+                refs=c.get('referenced_evidence_ids',[])
+                comparison=('the report and the table used to prepare it' if refs and refs[0]==baseline else
+                    'the table used to prepare the report and the table it is built from' if boundary['output']['layer']==report_input else
+                    'the compared tables yielding '+str(boundary['output']['quantity'])+' and '+str(boundary['input']['quantity']))
+                sentence='For '+comparison+', '+sentence[0].lower()+sentence[1:]
             if sentence not in statements:statements.append(sentence)
     if statements:
         text=text.replace('Recommended action:',' '.join(statements)+' Recommended action:') if 'Recommended action:' in text else text+' '+' '.join(statements)
