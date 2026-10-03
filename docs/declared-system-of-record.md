@@ -61,3 +61,24 @@ attestation, skipped boundaries, distinct contexts, original-receipt validation,
 inferred bindings and refused source divergence. The synthesis digest exposes the
 operator source-path declaration; it adds no investigation-planner directory
 entries or payload content. No new planner-context projection is introduced.
+
+## Validation and context cost
+
+117 focused tests passed, including 11 new source-contract tests and the 11
+planner projection/recording tests. The initial CI failed five golden assertions:
+the new consumer-owned action enum changes the wire schema hash. Only those four
+synthetic schema hashes were updated, after asserting all projected payloads,
+wire contexts and handles were byte-identical and that removing solely the new
+action enum reproduces each old hash. No recorded request tape was changed.
+The explicit CI list now includes the new source-contract suite.
+
+| Golden view | Directory entries before/after | SQL objects before/after | Payload characters before/after | Wire context characters before/after | Schema characters before/after |
+| --- | --- | --- | --- | --- | --- |
+| Dense profile | 0 / 0 | 0 / 0 | 1,460 / 1,460 | 1,525 / 1,525 | 10,012 / 10,036 |
+| Definition children | 50 / 50 | 0 / 0 | 7,212 / 7,212 | 6,884 / 6,884 | 12,396 / 12,420 |
+| Paged content | 0 / 0 | 0 / 0 | 4,722 / 4,722 | 4,888 / 4,888 | 10,382 / 10,406 |
+| Per-call ceiling | 0 / 0 | 0 / 0 | 31,851 / 31,851 | 31,969 / 31,969 | 11,959 / 11,983 |
+
+The separate directory coverage regression still requires 28 entries and 11 SQL
+objects under its existing 4,000-character entry budget. The constant schema
+increase is 24 characters per request, not content per directory entry.
