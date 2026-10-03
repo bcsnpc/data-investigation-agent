@@ -160,7 +160,9 @@ class GradingTests(unittest.TestCase):
             technical=narrative_form.technical('A join can repeat matches.',payload,source,action('TRANSFORMATION_LOGIC'))
             grade=difference.ENGINE_INDEPENDENT if engines else difference.OBJECT_DISTINCT
             self.assertIn(grade,technical)
-            self.assertIn(difference.wording({'grade':grade},True),business)
+            self.assertIn(difference.wording({'grade':grade},True).lower(),business.lower())
+            self.assertIn('For the report and the table used to prepare it,',business)
+            self.assertIn('For the table used to prepare the report and the table it is built from,',business)
             self.assertNotIn('engine-independent cross-surface comparison',technical if not engines else '')
             self.assertEqual(json.dumps(payload,sort_keys=True),before)
             self.assertEqual(len(payload['context_entry_points']),28)
