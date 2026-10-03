@@ -8,6 +8,8 @@ def earliest(state):
     # An internal crash must remain visible even after an earlier side-check
     # refusal; it cannot be delivered as that capability's unavailability.
     for observation in state.get('observations', []):
+        if observation.get('check_kind')=='BUDGET_STOP':return observation
+    for observation in state.get('observations', []):
         if observation.get('check_kind')=='PROCESS_FAILED':return observation
     for observation in state.get('observations', []):
         name, spec = process_receipts.identify(observation)
@@ -19,6 +21,7 @@ def earliest(state):
 def render(state,payload=None):
     receipt = earliest(state)
     if receipt is None: return None
+    process_receipts.validate_for_synthesis(receipt)
     item = process_receipts.summary(receipt)
     question = state.get('text') or state.get('envelope', {}).get('symptom')
     if not isinstance(question, str) or not question.strip():
@@ -78,6 +81,7 @@ def render(state,payload=None):
             if key=='business_output':
                 from .narrative_form import validate
                 rendered=validate(prefix+'\n\n'+body(cells),True)
+                if receipt.get('check_kind')=='BUDGET_STOP':rendered+='\nReason: '+reason
             else:
                 rendered=prefix+'\n\nWhat else was checked: the vertical walk stopped during '+stage+'.\nReason: '+reason+'.'
                 rendered+='\n\nCompleted within-layer cells:\n'+'\n'.join(technical_cells(cells))
@@ -89,8 +93,17 @@ def render(state,payload=None):
         if cells:outputs[key]['recommended_action']=action(select(cells))
         if hint:outputs[key]['descriptor_hint']=copy.deepcopy(hint)
         if receipt.get('check_kind')=='PROCESS_FAILED':
-            outputs[key]['explanation']['text']+='\nProcess failure: '+receipt['reason']
             if key=='technical_output':
                 failure=receipt['failure']
-                outputs[key]['explanation']['text']+=' ('+failure['error_type']+' at '+failure['module']+':'+str(failure['line'])+').'
+                outputs[key]['explanation']['text']+='\nDiagnostic: '+failure['error_type']+' at '+failure['module']+':'+str(failure['line'])+'.'
+        if receipt.get('check_kind')=='BUDGET_STOP':
+            if key=='technical_output':
+                outputs[key]['explanation']['text']+='\nAdmission: '+receipt['admission_reason']+'. Sub-budgets: '+', '.join(
+                    name+' '+str(receipt['phase_counts'][name])+'/'+str(receipt['phase_limits'][name]) for name in ('WALK','REPRODUCTION'))+'.'
+                retained=[o for o in state.get('observations',[]) if o['id']!=receipt['id']]
+                outputs[key]['explanation']['text']+='\nCompleted evidence before the stop:\n'+'\n'.join(
+                    '- '+str(o.get('tool'))+' '+str(o.get('check_kind') or o.get('status'))+'; receipt '+o['id']+
+                    ('; quantity '+str(o['quantity']) if 'quantity' in o else '')+'.' for o in retained)
+                outputs[key]['explanation']['text']+='\nChecks not run: '+', '.join(
+                    p['operation']+' on '+str(p.get('layer') or p.get('target')) for p in receipt['not_run_probes'])+'.'
     return outputs

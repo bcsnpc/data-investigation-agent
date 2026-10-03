@@ -27,7 +27,8 @@ class ProcessFailureAddressTests(unittest.TestCase):
         self.assertIsInstance(detail['line'],int)
         for output in refusal_synthesis.render(state).values():
             if isinstance(output,dict) and 'explanation' in output:
-                self.assertIn('Process failure: Synthetic walk failed.',output['explanation']['text'])
+                self.assertIn('Reason: Synthetic walk failed.',output['explanation']['text'])
+                self.assertEqual(output['explanation']['text'].count('Synthetic walk failed.'),1)
                 self.assertNotIn('TOOL_UNAVAILABLE',output['explanation']['text'])
 
     def test_dynamic_exception_data_is_not_recorded(self):

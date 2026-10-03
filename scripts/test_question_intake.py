@@ -32,7 +32,7 @@ class WireContractTests(unittest.TestCase):
 
     def test_opaque_handles_roundtrip_and_filter_quotes_stay_attached(self):
         payload=self.payload();original=copy.deepcopy(payload)
-        proposed={'report_quote':None,'target_request':None,'reported_candidates':[], 'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value','question':None,
+        proposed={'question_kind':{'kind':'FIGURE_DIFFERENCE','source':{'quote':'Compare an unfamiliar value for North.'}},'report_quote':None,'target_request':None,'reported_candidates':[], 'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value','question':None,
                   'triage':'MISMATCH_COMPLAINT:VERTICAL',
                   'filters':[{'column_id':'m0c0','operator':'in','values':['North'],'quote':'North'}],
                   'dimension_ids':['m0c0']}
@@ -47,7 +47,7 @@ class WireContractTests(unittest.TestCase):
         self.assertEqual(schema['properties']['dimension_ids']['maxItems'],1)
 
     def test_global_proposal_cannot_add_detached_scope_quotes(self):
-        proposed={'report_quote':None,'target_request':None,'reported_candidates':[], 'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
+        proposed={'question_kind':{'kind':'FIGURE_DIFFERENCE','source':{'quote':'Compare an unfamiliar value for North.'}},'report_quote':None,'target_request':None,'reported_candidates':[], 'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
                   'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[]}
         with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
             result,_=azure_resolve(self.payload())
@@ -67,7 +67,7 @@ class WireContractTests(unittest.TestCase):
         self.assertEqual(set(TRIAGE_PAIRS.values()),{('MISMATCH_COMPLAINT','VERTICAL'),
             ('MISMATCH_COMPLAINT','HORIZONTAL'),('BUSINESS_QUESTION','NONE')})
         for encoded_pair,pair in list(TRIAGE_PAIRS.items())+[(None,(None,None))]:
-            value={'report_quote':None,'target_request':None,'reported_candidates':[],'action':'PROPOSE' if encoded_pair else 'ASK','model_id':'m0' if encoded_pair else None,
+            value={'question_kind':{'kind':'FIGURE_DIFFERENCE','source':{'quote':'Compare an unfamiliar value for North.'}} if encoded_pair else None,'report_quote':None,'target_request':None,'reported_candidates':[],'action':'PROPOSE' if encoded_pair else 'ASK','model_id':'m0' if encoded_pair else None,
                 'measure_id':'m0v0' if encoded_pair else None,'metric_quote':'unfamiliar value' if encoded_pair else None,
                 'question':None if encoded_pair else 'Which metric?', 'triage':encoded_pair,'filters':[],'dimension_ids':[]}
             with patch('ticket_planner.azure_generate',return_value=(value,{})):

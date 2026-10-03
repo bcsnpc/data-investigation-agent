@@ -11,6 +11,8 @@ from . import reported_figure as figure
 from . import definition_target as target
 from . import report_scope
 from . import selection_descriptor
+from . import question_kind
+QUESTION_KIND_INSTRUCTIONS='\nClassify question_kind using the supplied consumer-owned kinds, with a verbatim quote of the question supporting the subject. FRESHNESS concerns currency; SOURCE_CORRECTNESS concerns source entries; VISUAL_CONTENT concerns what a report displays; FIGURE_DIFFERENCE concerns a discrepancy; the other named kinds distinguish components, derivation, transformation, business meaning and expected behaviour. ASK uses null. Routes are nominations: never substitute another route when the best route is marked unimplemented.'
 
 VERSION = 'process-debugging-intake-v2'
 FIGURE_INSTRUCTIONS='\nSupply reported_candidates: every plausible reported-figure quote, not dates, identifiers, thresholds or unrelated quantities. Each candidate contains only {quote}, copied verbatim from the ticket. Never emit offsets; the consumer computes them. Quotes must occur exactly once; include longer context if necessary. Do not choose between candidates. No candidates means UNSPECIFIED; an explicitly empty visual is a candidate too. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
@@ -92,7 +94,7 @@ class FigureQuoteAmbiguous(QuoteRefused):
 
 
 def locate(source,ticket,*,field='reported_figure',audit=None):
-    if field not in ('reported_figure','measure','column','selection','report','descriptor'):
+    if field not in ('reported_figure','measure','column','selection','report','descriptor','question_kind'):
         raise ValueError('Unknown provenance field')
     fields(source,['quote'])
     text(source['quote'],limits.INTAKE_QUOTE)
@@ -116,6 +118,7 @@ def azure_resolve(payload):
         'ticket_shape and comparison_mode are null','triage is null').replace(
         'both triage fields are required','triage is required')+'\nUse catalog handles verbatim. Put each filter quote inside that filter object. No separate quote list.'
     instructions+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS+DESCRIPTOR_INSTRUCTIONS
+    instructions+=QUESTION_KIND_INSTRUCTIONS
     repair=payload.get('_figure_quote_repair')
     if repair is not None:
         wire.pop('_figure_quote_repair',None)
@@ -137,6 +140,13 @@ def azure_resolve(payload):
     fields(result,schema['required'])
     value=copy.deepcopy(result)
     requested=value.pop('target_request'); report_quote=value.pop('report_quote')
+    subject=value.get('question_kind')
+    if value['action']=='PROPOSE' and subject is None:raise ValueError('Question kind is required')
+    if value['action']=='ASK' and subject is not None:raise ValueError('Clarification cannot classify a question kind')
+    if subject is not None:
+        fields(subject,['kind','source'])
+        subject['source']=locate(subject['source'],payload['text'],field='question_kind',audit=quote_audit)
+        question_kind.validate(subject,payload['text'])
     try:
         candidates=[locate(source,payload['text'],audit=quote_audit) for source in value.pop('reported_candidates')]
         if requested is not None:
@@ -196,6 +206,13 @@ def wire_contract(payload):
         for j,column in enumerate(m['columns']):
             handle=key+'c'+str(j);handles[handle]=column['column_id'];column['column_id']=handle;columns.append(handle)
     schema=copy.deepcopy(SCHEMA)
+    wire['implemented_routes']=copy.deepcopy(question_kind.ROUTES)
+    wire['question_kinds']=list(question_kind.KINDS)
+    schema['properties']['question_kind']={'anyOf':[{'type':'null'},
+        {'type':'object','additionalProperties':False,'properties':{
+            'kind':{'type':'string','enum':list(question_kind.KINDS)},'source':QUOTE_SCHEMA},
+         'required':['kind','source']}]}
+    schema['required'].append('question_kind')
     # Resolution is consumer-owned. The model cannot emit EVIDENCE (or any
     # target record); PR B supplies the separate stated-value extraction input.
     schema['properties'].pop('definition_target')
@@ -252,7 +269,8 @@ def snapshot(workspace):
 
 
 def validate(value, payload):
-    fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request') if k in value])
+    fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request','question_kind') if k in value])
+    if value.get('question_kind') is not None:question_kind.validate(value['question_kind'],payload['text'])
     if 'report_binding' in value:
         model=next((m for m in payload['models'] if m['id']==value['model_id']),None)
         if model is None: raise ValueError('Unknown report anchor')
@@ -276,6 +294,7 @@ def validate(value, payload):
     if not model or value['measure_id'] not in {m['id'] for m in model['measures']}: raise ValueError('Unknown metric')
     if value['ticket_shape'] not in ('MISMATCH_COMPLAINT','BUSINESS_QUESTION'): raise ValueError('Unknown ticket shape')
     if (value['ticket_shape'],value['comparison_mode']) not in TRIAGE_PAIRS.values(): raise ValueError('Comparison mode conflicts with ticket shape')
+    question_kind.route(value['comparison_mode'])
     def quote(q):
         text(q, limits.INTAKE_QUOTE)
         if q not in payload['text']: raise ValueError('Quote is not in the submitted question')
@@ -443,6 +462,8 @@ class Intake:
         except figure.UnavailablePrecision as exc:
             usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
             body.update(status='NEEDS_INPUT',question='The stated precision of the reported figure is unclear. At what precision should it be compared?',error=None)
+        except question_kind.UnimplementedRoute as exc:
+            body.update(status='HELD',error='UNIMPLEMENTED_ROUTE',refusal_reason=str(exc),proposal=None)
         except Exception:
             body.update(status='HELD', error='RESOLUTION_UNCERTAIN' if uncertain else 'INVALID_OR_STALE_PROPOSAL')
         body['quote_provenance']=usage.get('quote_provenance',[]) if isinstance(usage,dict) else []

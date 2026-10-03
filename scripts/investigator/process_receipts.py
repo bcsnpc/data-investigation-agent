@@ -37,7 +37,7 @@ REGISTRY = {
        'INTAKE_REFUSED': 'intake', 'RESOLUTION_REFUSED': 'resolution',
        'INVENTORY_REFUSED': 'declaration inventory',
        'REPRODUCTION_REFUSED': 'declared-context reproduction',
-       'WALK_REFUSED': 'process walk', 'PROCESS_FAILED':'process failure'}.items()},
+       'WALK_REFUSED': 'process walk', 'PROCESS_FAILED':'process failure','BUDGET_STOP':'read budget'}.items()},
 }
 
 QUERY_TABLES = {name: spec.table for name, spec in REGISTRY.items()
@@ -46,6 +46,8 @@ QUERY_TABLES = {name: spec.table for name, spec in REGISTRY.items()
 
 def validate_for_synthesis(observation):
     name,spec=identify(observation)
+    if name=='BUDGET_STOP':
+        validate_budget(observation)
     if name=='PROCESS_FAILED':
         from .process_failure import validate
         validate(observation.get('failure'))
@@ -96,13 +98,35 @@ def summary(observation):
             'evidence_id': observation.get('id')}
 
 
-def refusal(shape, reason, identity,*,failure=None):
+def validate_budget(value):
+    for key in ('diagnostic_reads','diagnostic_limit'):
+        if type(value.get(key)) is not int or value[key]<0:
+            raise Conflict('Budget stop lacks valid '+key)
+    if value['diagnostic_reads']>value['diagnostic_limit']:
+        raise Conflict('Budget stop exceeds declared diagnostic limit')
+    for key in ('phase_counts','phase_limits'):
+        mapping=value.get(key)
+        if not isinstance(mapping,dict) or set(mapping)!= {'WALK','REPRODUCTION'} or any(type(n) is not int or n<0 for n in mapping.values()):
+            raise Conflict('Budget stop lacks valid '+key)
+    if sum(value['phase_counts'].values())!=value['diagnostic_reads'] or sum(value['phase_limits'].values())!=value['diagnostic_limit']:
+        raise Conflict('Budget stop phase accounting does not conserve diagnostic counts')
+    if not isinstance(value.get('admission_reason'),str) or not value['admission_reason'].strip():
+        raise Conflict('Budget stop requires admission reason')
+    if not isinstance(value.get('not_run_probes'),list) or any(not isinstance(p,dict) or not isinstance(p.get('operation'),str) for p in value['not_run_probes']):
+        raise Conflict('Budget stop requires named pending probes')
+
+
+def refusal(shape, reason, identity,*,failure=None,budget=None):
     spec = REGISTRY.get(shape)
     if spec is None or spec.refusal_stage is None:
         raise Conflict('Unregistered refusal receipt shape: ' + str(shape))
     if not isinstance(reason, str) or not reason.strip():
         raise Conflict('Refusal requires the original reason')
     extra={}
+    if shape=='BUDGET_STOP':
+        if not isinstance(budget,dict):raise Conflict('Budget stop requires accounting and pending probes')
+        validate_budget(budget)
+        extra.update(budget)
     if shape=='PROCESS_FAILED':
         from .process_failure import validate
         validate(failure)

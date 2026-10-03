@@ -20,6 +20,10 @@ class ReceiptRegistryTests(unittest.TestCase):
                     if name=='PROCESS_FAILED':
                         observation['failure']={'error_type':'ValueError','message':'The original blocker.',
                             'message_redacted':False,'module':'walk.py','line':1}
+                    if name=='BUDGET_STOP':
+                        observation.update(diagnostic_reads=0,diagnostic_limit=4,
+                            phase_counts={'WALK':0,'REPRODUCTION':0},phase_limits={'WALK':4,'REPRODUCTION':0},
+                            admission_reason='Synthetic cap',not_run_probes=[])
                     chain=[observation]
                 else:
                     chain=[observation,receipts.refusal('WALK_REFUSED','The original blocker.','stop')]

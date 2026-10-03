@@ -483,10 +483,14 @@ class AdaptiveRuntime:
                 if current['status']!='EXECUTING' or self.clock()>=current['deadline']:raise UsageHold('Read cancelled or deadline exhausted')
                 if not physical_only and current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
                     raise UsageHold('Investigation diagnostic-read limit')
+                from . import process_budget
+                if not physical_only:process_budget.admit(current,tool)
                 number=current.get('physical_calls',current['cloud_calls'])+1;key='tool:process:'+str(number)
                 if self.governor:self.governor.reserve(db,identity,key,'cloud')
                 current['physical_calls']=number
-                if not physical_only:current['cloud_calls']+=1
+                if not physical_only:
+                    current['cloud_calls']+=1
+                    process_budget.charge(current)
                 current['read_accounting_version']='diagnostic-operations-v1'
                 self.save(db,current,'PROCESS_READ_RESERVED',{'tool':tool,'physical_calls':number,'diagnostic_reads':current['cloud_calls'],'physical_only':physical_only})
             uncertain=False;result=None;error_type=None;physical=None
@@ -646,7 +650,8 @@ class AdaptiveRuntime:
         def remaining_diagnostic_reads():
             with self.runtime.db() as db:
                 current=self.load(db,identity)
-            return current['envelope']['limits']['cloud_calls']-current['cloud_calls']
+            from .process_budget import remaining
+            return remaining(current)
         adapter=MicrosoftProcessAdapter(self.store,self.config,model,
             self.runtime.native_transport,self.runtime.source_transport,
             judge_definition=judge if provider is not None else None,meter_read=meter_read,
@@ -675,10 +680,12 @@ class AdaptiveRuntime:
             if state['status']!='READY':return self.project_after_commit(db,state)
             state['process_started']=True;state['status']='EXECUTING'
             self.save(db,state,'PROCESS_STARTED',{'procedure':'VERTICAL','reserved_reads':0})
-        error=None;assessment=None;observations=[]
+        from . import observation_journal
+        error=None;budget_error=None;assessment=None;observations=[];journal=observation_journal.Journal()
         try:
             from .definition_target import procedure_scope
-            assessment=vertical(adapter,state['envelope']['measure_id'],procedure_scope(state['envelope']))
+            with observation_journal.scope(journal):
+                assessment=vertical(adapter,state['envelope']['measure_id'],procedure_scope(state['envelope']))
             observations=assessment.pop('_observations',None)
             if observations is None:
                 observations=getattr(adapter,'observations',None)
@@ -686,11 +693,30 @@ class AdaptiveRuntime:
                 # Internal technical output alone is insufficient for validation.
                 raise ValueError('Process procedure did not return its evidence chain')
             validate_support(assessment,{o['id']:o for o in observations})
+        except UsageHold as exc:
+            budget_error=str(exc)
+            observations=list({o['id']:o for o in journal if o.get('id')}.values())
         except Exception as exc:
             from .process_failure import capture
             error=capture(exc)
+            observations=list({o['id']:o for o in journal if o.get('id')}.values())
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
+            if budget_error:
+                state['observations'].extend(observations)
+                from .process_receipts import refusal
+                used=state['cloud_calls'];limit=state['envelope']['limits']['cloud_calls']
+                reason=f'Read budget stopped after {used} of {limit} diagnostic reads; the next requested check did not run.'
+                from . import process_budget
+                receipt=refusal('BUDGET_STOP',reason,'budget-stop-'+str(len(state['observations'])),budget=dict(diagnostic_reads=used,diagnostic_limit=limit,
+                    phase_counts=state.get('diagnostic_phase_counts',{'WALK':0,'REPRODUCTION':0}),
+                    phase_limits=process_budget.allocation(limit,state['envelope']),
+                    admission_reason=budget_error,not_run_probes=list(journal.pending_probes)))
+                state['observations'].append(receipt)
+                self.stop(db,state,'BUDGET_LIMIT','HELD')
+                self.save(db,state,'PROCESS_BUDGET_STOPPED',{'diagnostic_reads':used,'diagnostic_limit':limit,
+                    'admission_reason':budget_error,'not_run_probes':receipt['not_run_probes']})
+                return self.project_after_commit(db,state)
             if error:
                 state['observations'].extend(observations or [])
                 from .process_receipts import refusal
@@ -700,10 +726,6 @@ class AdaptiveRuntime:
                 state['process_error']=error;self.save(db,state,'PROCESS_FAILED',error)
                 return self.project_after_commit(db,state)
             state['observations'].extend(observations);state['assessment']=assessment
-            if assessment['classification']=='NO_KNOWN_PATTERN' and assessment['terminating_step']==0:
-                state['status']='READY';state['token']=None
-                self.save(db,state,'OPEN_INVESTIGATION_FALLBACK',{'fallback_count':1})
-                db.commit();return self.run_open(identity)
             state.update(status='COMPLETED',stop_reason='ENOUGH_DIAGNOSTICS',token=None,pending=None)
             self.save(db,state,'PROCESS_STOPPED',{'classification':assessment['classification'],
                 'terminating_step':assessment['terminating_step']})
