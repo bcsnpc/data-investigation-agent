@@ -46,9 +46,9 @@ class NeutralAdapter(Adapter):
     def evaluate_declared_context(self, layer, measure_id, scope):
         self.read_scopes.append(copy.deepcopy(scope)); self.events.append('reproduction')
         n = len(self.read_scopes)
-        value = 8 if n == 1 else self.declared_value
-        identity = 'reader' if n == 1 else self.identity
-        obj = 'top' if n == 1 else self.object
+        value = self.declared_value if scope['restrictions'] else 8
+        identity = self.identity if scope['restrictions'] else 'reader'
+        obj = self.object if scope['restrictions'] else 'top'
         surface = {'engine': 'synthetic', 'connection': 'connection', 'object': obj, 'identity': identity}
         return Probe('OBSERVED', layer['id'], evidence={
             'id': 'reproduction-read-' + str(n), 'tool': 'probe',
@@ -122,7 +122,7 @@ class ReproductionTests(unittest.TestCase):
         adapter = NeutralAdapter(); result = self.run_check(adapter)
         expected = [{'field_id': 'field-a', 'operator': 'IN', 'values': ['y']}]
         self.assertEqual(adapter.read_scopes, [
-            {'restrictions': [], 'dimension_ids': []}, {'restrictions': expected, 'dimension_ids': []}])
+            {'restrictions': expected, 'dimension_ids': []}, {'restrictions': [], 'dimension_ids': []}])
         self.assertEqual(result['finding']['composed_restrictions'], expected)
         self.assertEqual(result['finding']['label'], 'REPRODUCED')
         observations = {o['id']: o for o in result['observations']}
@@ -147,9 +147,9 @@ class ReproductionTests(unittest.TestCase):
         adapter.restrictions[0]['values'] = ['x']; adapter.restrictions[1]['values'] = ['y']
         result = self.run_check(adapter, {**SCOPE, 'reported_figure': exact(0)})
         empty = [{'field_id': 'field-a', 'operator': 'IN', 'values': []}]
-        self.assertEqual(adapter.read_scopes[0]['restrictions'], [])
-        self.assertEqual(adapter.read_scopes[1]['restrictions'], empty)
-        self.assertEqual(result['observations'][2]['applied_restrictions'], empty)
+        self.assertEqual(adapter.read_scopes[1]['restrictions'], [])
+        self.assertEqual(adapter.read_scopes[0]['restrictions'], empty)
+        self.assertEqual(result['observations'][1]['applied_restrictions'], empty)
         self.assertEqual(result['finding']['undeclared_context_value'], '8')
         self.assertEqual(result['finding']['reproduced_value'], '0')
         self.assertEqual(result['finding']['label'], 'REPRODUCED')
@@ -163,7 +163,7 @@ class ReproductionTests(unittest.TestCase):
             {'field_id': columns[1]['id'], 'operator': 'IN', 'values': ['y']}]
         result = self.run_check(adapter, {'reported_figure':exact(3),'dimension_ids': [c['id'] for c in columns]})
         self.assertEqual(len(result['finding']['composed_restrictions']), 2)
-        self.assertEqual(adapter.read_scopes[1]['restrictions'], adapter.restrictions)
+        self.assertEqual(adapter.read_scopes[0]['restrictions'], adapter.restrictions)
         self.assertTrue(all(r['values'] for r in adapter.read_scopes[1]['restrictions']))
 
     def test_empty_intersection_can_return_native_blank_without_becoming_zero(self):
@@ -174,7 +174,7 @@ class ReproductionTests(unittest.TestCase):
         self.assertEqual(result['finding']['label'],'NOT_REPRODUCED')
         self.assertIn('produced blank',result['business_output'])
         by_id={o['id']:o for o in result['observations']}
-        _process_evidence(result['finding'],by_id,{'reproduction-read-1':{'quantity':8},'reproduction-read-2':{'quantity':None}})
+        _process_evidence(result['finding'],by_id,{'reproduction-read-1':{'quantity':None},'reproduction-read-2':{'quantity':8}})
 
     def test_empty_reported_state_can_reproduce_native_blank(self):
         result=self.run_check(NeutralAdapter(None),{'filters':SCOPE['filters'],
@@ -255,15 +255,15 @@ class ReproductionTests(unittest.TestCase):
 
     def test_original_surface_attestation_is_rechecked(self):
         result = self.run_check(); obs = {o['id']: o for o in result['observations']}
-        obs['reproduction-read-2']['surface_report']['identity'] = 'administrator'
+        obs['reproduction-read-1']['surface_report']['identity'] = 'administrator'
         with self.assertRaisesRegex(ValueError, 'attestation'):
             reproduction.validate(result['finding'], obs)
 
     def test_synthesis_uses_whole_original_and_sealed_quantities(self):
         result = self.run_check(); obs = {o['id']: o for o in result['observations']}
-        quantities = {'reproduction-read-1': {'quantity': '8'}, 'reproduction-read-2': {'quantity': '3'}}
+        quantities = {'reproduction-read-1': {'quantity': '3'}, 'reproduction-read-2': {'quantity': '8'}}
         self.assertEqual(_process_evidence(result['finding'], obs, quantities), result['finding'])
-        quantities['reproduction-read-2']['quantity'] = '4'
+        quantities['reproduction-read-1']['quantity'] = '4'
         with self.assertRaisesRegex(ValueError, 'sealed quantity'):
             _process_evidence(result['finding'], obs, quantities)
 
@@ -377,7 +377,7 @@ class PlacementAndGatingTests(unittest.TestCase):
         self.assertIn('WITHIN_LAYER_CHECK', technical)
         self.assertIn('No independently compared boundary', technical)
         self.assertEqual(technical.count('Unattested connection, engine on L0'),1)
-        self.assertIn('receipts reproduction-read-1, reproduction-read-2',technical)
+        self.assertIn('receipts reproduction-read-2, reproduction-read-1',technical)
 
     def test_validation_refuses_missing_side_finding_and_limits(self):
         result = vertical(NeutralAdapter(not_comparable=['lower']), 'measure', copy.deepcopy(SCOPE))
@@ -410,7 +410,7 @@ class PlacementAndGatingTests(unittest.TestCase):
         self.assertIn('Within-layer check',outputs['business_output']['explanation']['text'])
         self.assertIn('WITHIN_LAYER_CHECK',outputs['technical_output']['explanation']['text'])
         self.assertEqual(outputs['business_output']['question_account']['status'],'PARTLY_ANSWERED')
-        state['observations'][-2]['applied_restrictions']=[]
+        next(o for o in state['observations'] if o.get('applied_restrictions'))['applied_restrictions']=[]
         with self.assertRaisesRegex(ValueError,'coverage|intersection'):
             synthesis_narrative.assemble(synthesis_narrative.Response(fixtures.response(payload)),payload,state)
 

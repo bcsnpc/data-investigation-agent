@@ -62,8 +62,11 @@ def business(text,payload):
         finding=entry.get('result',{})
         if finding.get('check_kind')==KIND:
             text=render(finding,business=True)+' '+text
+        elif finding.get('check_kind')=='PROBE_NOT_EXECUTED':
+            text='The selected calculation was not checked because the diagnostic read cap was reached; it would establish '+finding['would_establish']+'. '+text
         elif finding.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
-            from .declared_reproduction import NO_FIGURE
+            from .declared_reproduction import NO_FIGURE,render_stopped
+            if finding.get('unevaluated_probes'):text=render_stopped(finding['unevaluated_probes'],True)+' '+text
             text=('You did not provide the number shown in the report, so its saved selections could not be tested against your figure. '
                   if finding['reason']==NO_FIGURE else
                   'The declared selections could not be tested with the available evidence. ')+text
@@ -114,8 +117,13 @@ def technical(commentary,payload,source,recommended):
     for entry in payload.get('evidence',[]):
         result=entry.get('result',{})
         if result.get('check_kind')==KIND:finding.append(render(result,include_limits=False))
+        elif result.get('check_kind')=='PROBE_NOT_EXECUTED':
+            finding.append('Probe not executed for '+result['target_id']+': '+result['reason']+' Would establish '+result['would_establish']+'.')
         elif result.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
             finding.append('Declared-context reproduction unavailable: '+result['reason'])
+            if result.get('unevaluated_probes'):
+                from .declared_reproduction import render_stopped
+                finding.append(render_stopped(result['unevaluated_probes']))
     paragraphs=['\n'.join(finding),commentary]
     if registry:paragraphs.append('Layers:\n'+'\n'.join(f"{v['term']} - {v['name']}: {v['identifier']}" for v in registry.values()))
     limits=[];seen=set()

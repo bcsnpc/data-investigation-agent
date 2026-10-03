@@ -135,7 +135,7 @@ class ScopedTests(unittest.TestCase):
         self.no_predicates();self.grouped();self.request('Region');self.native()
         scope,obs=self.prepare();self.assertEqual(scope['selection_resolution']['resolution_kind'],'STATED')
         self.assertEqual(scope['selection_resolution']['lookup']['status'],'MATCH');self.assertEqual(len(self.requests),1)
-        self.requests.clear();self.native(0)
+        self.requests.clear();self.adapter._native_result_cache.clear();self.native(0)  # New run: no prior read reuse.
         with self.assertRaisesRegex(report_resolution.ResolutionRefused,'MISMATCH receipt'):self.prepare()
         self.assertEqual(len(self.requests),1)
         self.request('region')
@@ -173,7 +173,7 @@ class ScopedTests(unittest.TestCase):
         result=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
         self.assertEqual(len(self.requests),2)
         declaration=self.adapter.declared_cells(self.layer,self.measure['id'],self.scope)['cells'][0]
-        self.assertEqual(self.adapter.declared_cell_cost(self.measure['id'],declaration),0)
+        self.assertEqual(self.adapter.declared_probe_cost(self.measure['id'],declaration,declared_reproduction.compose(declaration['restrictions'])),0)
         result=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
         self.assertEqual(len(self.requests),2);self.assertEqual(len(self.meters),2)
         events=[o for o in result['observations'] if o.get('check_kind')=='COMPILED_DUPLICATE_REFUSED']
