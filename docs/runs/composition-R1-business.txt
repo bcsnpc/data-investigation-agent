@@ -1,0 +1,15 @@
+You asked: In Inventory Health e1b8e1 I selected warehouse North. Handled Quantity differs from the global total. Check the North selection and explain what report context you can and cannot reproduce.
+Answer to your question: No verdict: no figure supplied.
+
+The selected row "Activity by warehouse" produced 3,359.
+The applied selections were warehouse name: North.
+No reported figure supplied; the produced value has no reproduction verdict.
+The same calculation without applying report declarations returned 8,765; this is not an unrestricted total.
+North was observed as a value addressing the displayed row, not declared as a report filter.
+Other displayed total row "Activity by warehouse" 1 produced 8,765.
+Other visual "Movement Units" 2 produced 8,765.
+Assumed: viewer-changeable selections at their saved defaults; their current positions were not established.
+Active user selections, row-level security and a difference further back remain unestablished.
+The checks are not tied to a shared data version; they do not establish currency or business correctness.
+Recommended action: Supply the figure or empty state that you saw in the report.
+Cell identity was derived retrospectively from the saved statement and definition, not recorded natively.

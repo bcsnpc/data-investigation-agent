@@ -1,0 +1,15 @@
+You asked: In Declared predicate fixture 20261001, on Saved predicate selections, the card Handled Quantity - extra visual predicate shows nothing (the visual is empty) for Handled Quantity. I selected warehouse North. Check whether the saved declared report context reproduces what the visual shows and explain what remains unknown about my selections.
+Answer to your question: Yes — the saved declared context reproduces the reported figure.
+
+The answering visual "Handled Quantity - extra visual predicate" produced nothing.
+The applied selections were event day: 2026-09-14; movement type: RECEIPT; product name: Component 1; warehouse name: North.
+These saved restrictions reproduce the reported figure of empty; this explains its reproduction by declared report design, not whether that design is intended.
+The same calculation without applying report declarations returned 8,765; this is not an unrestricted total.
+Other visual "Handled Quantity - page and slicers" 1 produced 92.
+Other visual "Handled Quantity - unfiltered" 2 produced 8,765.
+Assumed: viewer-changeable selections at their saved defaults; their current positions were not established.
+An invoked bookmark or stored alternative was not established.
+Active user selections, row-level security and a difference further back remain unestablished.
+The checks are not tied to a shared data version; they do not establish currency or business correctness.
+Recommended action: If the saved restrictions (event day: 2026-09-14; movement type: RECEIPT; product name: Component 1; warehouse name: North) are unintended, request an enhancement to the report selections, not a change to the data.
+Cell identity was derived retrospectively from the saved statement and definition, not recorded natively.
