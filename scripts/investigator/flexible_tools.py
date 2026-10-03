@@ -57,6 +57,8 @@ SQL_TOOLS=('bounded_sql','bounded_fabric_sql')
 def build(store,plan,config,tool,*,catalog=None):
     fields(plan,['model_id','revision','context_id','query','max_rows']+(['surface_report'] if 'surface_report' in plan else [])+(['cell_address'] if 'cell_address' in plan else []))
     report=surface_columns(plan['surface_report']) if 'surface_report' in plan else None
+    if 'cell_address' in plan and tool!='bounded_dax':
+        raise ValueError('Cell address is unsupported by this query adapter')
     model=store.get(plan['model_id'])
     if not model['enabled'] or plan['revision']!=model['revision'] or plan['context_id']!=model['context_id']:
         raise Conflict('Proposed query context changed or disabled')
