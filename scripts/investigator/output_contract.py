@@ -12,6 +12,7 @@ BUSINESS = {
     'INGESTION_GAP': 'Some expected information has not arrived in the checked process.',
     'DEFECT': 'The checked process changes the number in a way that the inspected rules do not explain.',
     'CONSISTENT_TO_BOUNDARY': 'The reported number agrees with the information checked so far. This does not establish whether the original entries or business rules are correct.',
+    'CONSISTENT_TO_SOURCE': 'The checked figure agrees through every compared step with the declared application source. This does not establish that the application contains everything the user expects.',
     'NO_COMPARABLE_PATH': 'The reported number was checked, but the available information does not allow a reliable comparison further back.',
     'DEFINITION_DIFFERENCE': 'The two numbers use different calculation rules. Whether that difference is intended remains a business decision.',
     'SCOPE_DIFFERENCE': 'The two numbers cover different selections. Whether those selections are intended remains a business decision.',
@@ -26,6 +27,7 @@ ACTION_TEXT = {
     'ROUTE_OPERATIONAL_FIX': 'Ask the operations owner to investigate the missing delivery using the recorded evidence.',
     'RAISE_BUG_WITH_EVIDENCE': 'Raise a defect with the recorded evidence for the responsible engineering team.',
     'ASK_UPSTREAM_OWNER': 'Ask the owner of the unchecked part of the process to investigate the remaining gap.',
+    'ASK_APPLICATION_OWNER': 'Ask the application owner about the expected entry; an entry absent from the application is not a delivery problem in the checked process.',
     'NAME_MISSING_BINDING_OR_ACCESS': 'Ask the system owner to provide the missing connection information or read access identified in the limits.',
     'DECIDE_BUG_OR_ENHANCEMENT': 'Ask the business owner whether the difference requires a defect fix or a requested change.',
     'CONFIRM_SCOPE_INTENT': 'Confirm with the requester which selections the comparison should use.',
@@ -60,6 +62,12 @@ def business_text(outcome, payload=None):
             except InvalidOperation:pass
         return None
     number=number_from(baseline)
+    if outcome=='CONSISTENT_TO_SOURCE':
+        return ' '.join((('The checked report value was '+number+'.' if number is not None else 'The reported figure was checked.'),
+            'Every checked step agreed with the application that the system owner declared authoritative.',
+            'These comparisons found no delivery difference; they do not establish that the application contains every expected entry.',
+            'The checks do not establish whether they describe the same moment or whether the original entries are correct.',
+            'Recommended action: '+action(outcome)['text']))
     first=('The checked report value was '+number+'.' if number is not None else
            'A single report value could not be established from the available verified evidence.')
     comparisons=[e['result'] for e in entries if e.get('tool')=='process'

@@ -12,7 +12,7 @@ class OutcomeContractTests(unittest.TestCase):
         observations={role:{'id':role,'status':'COMPLETED','process_roles':[role]} for role in roles}
         if 'comparison' in observations:
             observations['comparison']['values_equal']=outcome in (
-                'CONSISTENT_TO_BOUNDARY','INGESTION_GAP','BUSINESS_QUESTION')
+                'CONSISTENT_TO_BOUNDARY','CONSISTENT_TO_SOURCE','INGESTION_GAP','BUSINESS_QUESTION')
             observations['comparison']['upper_layer']='layer-1'
             observations['comparison']['comparison_status']='CROSS_SURFACE_VERIFIED'
             observations['comparison']['upper_execution_surface']={
@@ -45,6 +45,13 @@ class OutcomeContractTests(unittest.TestCase):
           'skipped_steps':[],'capabilities_declared':sorted({'evaluate_scoped_quantity','resolve_measure_path',
             'presentation_freshness','presentation_context','transformation_definition','job_history','ingestion'})}
         assessment={'classification':outcome,'evidence_ids':refs,'support':{'process':process}}
+        if outcome=='CONSISTENT_TO_SOURCE':
+            observations['path']['resolved_source_path']={'layers':[{'id':'layer-1'},{'id':'layer-2'}],
+                'system_of_record':{'asset_id':'layer-2'},'max_boundaries':1}
+            observations['comparison'].update(upper_declared_context={},lower_declared_context={})
+            observations['upper-quantity']['declared_context']={}
+            observations['lower-quantity']['declared_context']={}
+            process['visibility_boundary']['deepest_layer']='layer-2'
         return assessment,observations
 
     def test_every_outcome_accepts_only_its_evidence_contract(self):

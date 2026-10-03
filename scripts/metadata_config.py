@@ -20,7 +20,10 @@ def text(value):
 
 def load_config(path):
     config = json.loads(Path(path).read_text(encoding='utf-8-sig'))
-    keys(config, ['version', 'sql', 'fabric', 'storage'])
+    keys(config, ['version', 'sql', 'fabric', 'storage'] + (['system_of_record'] if 'system_of_record' in config else []))
+    if 'system_of_record' in config:
+        from investigator.system_of_record import declaration
+        declaration(config['system_of_record'])
     if config['version'] != 1:
         raise ValueError('Unsupported configuration version')
     sql, fabric = config['sql'], config['fabric']

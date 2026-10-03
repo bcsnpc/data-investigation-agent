@@ -74,6 +74,8 @@ def _definition_evidence(observation):
  m=observation['metadata'];lookup=observation.get('lookup') or {}
  result={'asset_name':m.get('asset',{}).get('name'),'asset_kind':m.get('asset',{}).get('kind'),
          'matching_assets':m.get('total'),'directory_and_schema_omitted':True}
+ if 'resolved_source_path' in observation:
+  result['resolved_source_path']=copy.deepcopy(observation['resolved_source_path'])
  operation=lookup.get('operation')
  if operation=='content' and m.get('asset_id')==lookup.get('value') and isinstance(m.get('content_hash'),str) and isinstance(m.get('content'),str):
   content=m['content'];shown=content[:EXCERPT_CHARACTERS]
