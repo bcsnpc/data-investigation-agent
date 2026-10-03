@@ -28,6 +28,11 @@ def render(state):
     outputs = {'version': 1, 'provenance': 'DETERMINISTIC_REFUSAL_RENDERING',
                'source_hash': digest(state), 'refusal': copy.deepcopy(item)}
     for key in ('business_output', 'technical_output'):
-        outputs[key] = {'explanation': {'text': text, 'evidence_ids': [receipt['id']]},
+        from .selection_descriptor import note,render as render_descriptor
+        request=state.get('envelope',{}).get('selection_request') or (state.get('proposal') or {}).get('selection_request')
+        hint=note(request.get('descriptor')) if request else None
+        qualification=render_descriptor(hint,business=key=='business_output') if hint else ''
+        outputs[key] = {'explanation': {'text': text+('\n'+qualification if qualification else ''), 'evidence_ids': [receipt['id']]},
                         'recommended_action': 'Resolve the stated blocker before a new investigation.'}
+        if hint:outputs[key]['descriptor_hint']=copy.deepcopy(hint)
     return outputs

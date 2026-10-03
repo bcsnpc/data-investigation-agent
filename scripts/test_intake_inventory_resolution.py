@@ -138,13 +138,13 @@ class TranslationTests(unittest.TestCase):
         return {'text':'Revenue for North.','models':[{'id':'model','measures':[{'id':'measure','name':'Revenue'}],
             'columns':[{'column_id':'column','name':'Region'}]}]}
     def test_model_extracts_value_without_emitting_resolution_or_guessing_column(self):
-        request={'value_source':{'quote':'North'},'column_source':None}
+        request={'value_source':{'quote':'North'},'column_source':None,'descriptor':{'state':'VALUE_ONLY','source':None}}
         response={'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'Revenue','question':None,
             'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[],'reported_candidates':[],
             'target_request':request,'report_quote':None}
         with patch('ticket_planner.azure_generate',return_value=(response,{})):
             value,_=azure_resolve(self.payload())
-        self.assertEqual(value['target_request'],{'value_source':{'start':12,'end':17,'quote':'North'},'column_source':None});self.assertNotIn('definition_target',value)
+        self.assertEqual(value['target_request'],{'value_source':{'start':12,'end':17,'quote':'North'},'column_source':None,'descriptor':{'state':'VALUE_ONLY','source':None}});self.assertNotIn('definition_target',value)
         self.assertEqual(value['filters'],[])
     def test_context_coverage_is_unchanged_and_schema_cost_is_explicit(self):
         from investigator.onboarding import encoded

@@ -1,5 +1,8 @@
 # Self-Discovering Enterprise Data Investigator
 
+Current implementation, 2026-10-02: [Selection value and descriptor](docs/selection-value-descriptor.md). Intake carries separate verbatim value/descriptor fields with a closed separation state; descriptors remain nonbinding hints. Queries use only the value. Disagreeing hints and exact textual agreement are recorded after resolution, without choosing a column. Local tests preserve catalog coverage and all refusals; three unchanged live reruns remain next. Refusal-delivery #312 merged after 1,566 local tests and six green CI checks. No fixture, permission or budget change; prior freezes remain invalidated. Earlier dated status entries are historical.
+
+
 Current implementation, 2026-10-02: [Receipt registry and refusal delivery](docs/refusal-receipt-registry.md). Refusals now produce both outputs deterministically from the earliest retained blocker, without a synthesis model call or a technical-finding upgrade. Three preserved R1?R3 states rendered offline with zero estate reads; the original failed runs remain unchanged. Value/descriptor intake separation and new live reruns remain next. Local regression and six-check CI evidence are recorded on the PR. No fixture, permission or budget change; prior freezes remain invalidated. Earlier dated status paragraphs retain historical evidence.
 
 

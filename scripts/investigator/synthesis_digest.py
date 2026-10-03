@@ -161,8 +161,8 @@ def _process_evidence(observation,by_id,quantities=None):
 def build(state,db):
  entries=[];quantities={};pending=[];by_id={o['id']:o for o in state['observations'] if isinstance(o,dict) and o.get('id')}
  for o in state['observations']:
-  from .process_receipts import identify
-  name,spec=identify(o)
+  from .process_receipts import validate_for_synthesis
+  name,spec=validate_for_synthesis(o)
   if o['status']!='COMPLETED':continue
   item={'id':o['id'],'tool':o['tool'],'completeness':o['completeness']}
   if o.get('process_roles'):item['process_roles']=o['process_roles']

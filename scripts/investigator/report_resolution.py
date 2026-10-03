@@ -91,6 +91,11 @@ def attach(scope,observations,target,declarations,grouping,columns):
         'reports':copy.deepcopy(declarations[0]['evidence']['report_catalog']),
         'inventories':[{'inventory':d['inventory'],'restrictions':d['restrictions']} for d in declarations],
         'grouping_columns':grouping,'columns':columns,'completeness':'COMPLETE_RESPONSE'},'selection_resolution')
+    if 'descriptor' in scope.get('selection_request',{}):
+        from .selection_descriptor import note
+        observation['selection_request']=copy.deepcopy(scope['selection_request'])
+        column=next((c for c in columns if c['id']==target['column_id']),None)
+        observation['descriptor_hint']=note(scope['selection_request']['descriptor'],column['name'] if column else None)
     observations.append(observation)
     scope['selection_resolution']=copy.deepcopy(target)
     scope['selection_resolution_evidence_id']=observation['id']
@@ -98,6 +103,13 @@ def attach(scope,observations,target,declarations,grouping,columns):
 
 def validate(observation, originals):
     target=observation['target']; inventories=observation['inventories']
+    if 'selection_request' in observation:
+        from .selection_descriptor import note
+        request=observation['selection_request']
+        report_scope.validate_request(request,reports=observation['reports'])
+        column=next((c for c in observation['columns'] if c['id']==target['column_id']),None)
+        if observation.get('descriptor_hint')!=note(request['descriptor'],column['name'] if column else None):
+            raise ValueError('Nonbinding descriptor evidence differs from the resolved column')
     if not inventories: raise ValueError('Resolution requires a scoped report inventory')
     for item in inventories:
         report_scope.validate_inventory(item['inventory'],item['restrictions'],binding=target['report_binding'],reports=observation['reports'])

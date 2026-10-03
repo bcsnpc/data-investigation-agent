@@ -43,6 +43,17 @@ QUERY_TABLES = {name: spec.table for name, spec in REGISTRY.items()
                 if spec.table and name != 'COLUMN_VALUE_EXISTENCE'}
 
 
+def validate_for_synthesis(observation):
+    name,spec=identify(observation)
+    # All registered query shapes require the same compiled-request and result
+    # fields. A newly registered query cannot forget this consumer contract.
+    if spec.route=='query' and observation.get('status')=='COMPLETED':
+        for field in ('request_hash','values'):
+            if field not in observation:
+                raise Conflict('Registered process receipt '+name+' lacks required '+field)
+    return name,spec
+
+
 def identify(observation):
     """Use discriminants, never native kind strings or absence of recognition."""
     name = observation.get('check_kind')
