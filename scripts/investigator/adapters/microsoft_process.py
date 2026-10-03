@@ -20,9 +20,7 @@ SEMANTIC_TYPES={'identity':'PRINCIPAL_NAME','engine':'ENGINE_PRODUCT','object':'
 SQL_TYPES={'identity':'PRINCIPAL_NAME','engine':'ENGINE_PRODUCT','object':'DATABASE_CATALOG_NAME'}
 
 
-def semantic_self_report(query):
-    expression=query.removeprefix('EVALUATE ')
-    return 'EVALUATE ADDCOLUMNS('+expression+',"surface_engine",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]="ProviderName"),[Value]),"surface_object",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]="Catalog"),[Value]))'
+from .microsoft_self_report import compose as semantic_self_report
 
 # Service errors this surface reports only generically through Execute Queries.
 # The same model's XMLA interface can expose the underlying failure.
@@ -255,7 +253,7 @@ class MicrosoftProcessAdapter:
             literal=str(value)
         else: raise Refusal('SELECTION_VALUE_TYPE_'+str(typ))
         reference="'"+table['name'].replace("'","''")+"'["+column['name'].replace(']',']]')+']'
-        query=semantic_self_report('EVALUATE ROW("quantity",COUNTROWS(FILTER(VALUES('+reference+'),'+reference+' == '+literal+')),"surface_identity",USERPRINCIPALNAME())')
+        query=semantic_self_report('EVALUATE ROW("quantity",COUNTROWS(FILTER(VALUES('+reference+'),'+reference+' == '+literal+')))')
         plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],'query':query,'max_rows':20,'surface_report':SEMANTIC_REPORT}
         admit_query(self.store,plan,self.config,'bounded_dax')
         execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
@@ -504,8 +502,7 @@ class MicrosoftProcessAdapter:
         semantic_surface={'engine':SEMANTIC_ENGINE,'connection':self.model['workspace'],
                           'object':self.model['native_id'],'identity':reader.get('account')}
         name=measure['name'].replace(']',']]')
-        identity=f',"{SURFACE_IDENTITY}",USERPRINCIPALNAME()'
-        query=f'EVALUATE ROW("baseline", [{name}]{identity})'
+        query=f'EVALUATE ROW("baseline", [{name}])'
         if layer.get('kind')=='declared_source':
             if scope.get('filters'):
                 return Probe('NOT_COMPARABLE',layer['id'],reason='Declared source comparison does not yet translate filtered scope faithfully.')
@@ -514,18 +511,20 @@ class MicrosoftProcessAdapter:
                 if compiled:return self._evaluate_lower(layer,measure_id,compiled)
                 layer=dict(layer,lower_refusal=refusal)
             table=layer['semantic_table'].replace("'","''");column=layer['semantic_column'].replace(']',']]')
-            query=f'EVALUATE ROW("baseline", SUM(\'{table}\'[{column}]){identity})'
+            query=f'EVALUATE ROW("baseline", SUM(\'{table}\'[{column}]))'
         if scope.get('filters'):
             from ..native_diagnostics import build as build_native
             native_plan={'model_id':self.model['id'],'revision':self.model['revision'],
                 'context_id':self.model['context_id'],'measure_ids':[measure_id],
                 'filters':scope['filters'],'dimension_id':None,'include_dependencies':False}
             native=build_native(self.model,native_plan)['query'].removeprefix('EVALUATE ')
-            query='EVALUATE ADDCOLUMNS('+native+identity+')'
+            query='EVALUATE '+native
         query=semantic_self_report(query)
         plan={'model_id':self.model['id'],'revision':self.model['revision'],
               'context_id':self.model['context_id'],'query':query,'max_rows':20,
               'surface_report':SEMANTIC_REPORT}
+        from ..flexible_tools import build as admit_query
+        admit_query(self.store,plan,self.config,'bounded_dax')
         execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
         result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
         if result['status']!='COMPLETED':

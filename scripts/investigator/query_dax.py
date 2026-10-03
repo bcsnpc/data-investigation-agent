@@ -39,7 +39,7 @@ class Parser:
             if i+1<len(tokens) and tokens[i][0]==tokens[i+1][0]=='operator' and tokens[i][1]+tokens[i+1][1] in OPS:
                 self.tokens.append(('operator',tokens[i][1]+tokens[i+1][1]));i+=2
             else:self.tokens.append(tokens[i]);i+=1
-        self.i=0;self.depth=0;self.assets=assets;self.references=set();self.variables=set()
+        self.i=0;self.depth=0;self.projected_columns={};self.assets=assets;self.references=set();self.variables=set()
         self.tables={a['name'].casefold():a for a in assets if a['kind']=='SemanticTable'}
         self.members=[a for a in assets if a['kind'] in ('Measure','SemanticColumn')]
 
@@ -74,8 +74,8 @@ class Parser:
         # Narrow scalar self-description, not general INFO-table access or a
         # bypass of catalog binding. Exact token grammar keeps synthetic rowset
         # columns out of model-member resolution everywhere else.
-        for property_name in ('ProviderName','Catalog'):
-            expression='MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]="'+property_name+'"),[Value])'
+        from .adapters.microsoft_self_report import SCALARS
+        for expression in SCALARS:
             expected,_=tokenize(expression)
             candidate=self.tokens[self.i:self.i+len(expected)]
             if [(k,v.upper() if k=='name' else v) for k,v in candidate]==[(k,v.upper() if k=='name' else v) for k,v in expected]:
@@ -114,7 +114,20 @@ class Parser:
             if self.identity and self.depth==1 and function=='ROW':
                 # Only outer ROW labels are presentation. Never erase nested labels.
                 if len(arguments)%2==0:arguments=sorted(arguments[1::2])
-            return function+'('+','.join(arguments)+')','table' if function in TABLE_FUNCTIONS else 'scalar'
+            rendered=function+'('+','.join(arguments)+')'
+            # Projection is computed from parsed table constructors, never from
+            # labels merely occurring inside a scalar or query comment.
+            columns=set()
+            if function=='ROW': labels=arguments[::2]
+            elif function in ('ADDCOLUMNS','SELECTCOLUMNS'): labels=arguments[1::2]
+            else: labels=[]
+            if function in ('ADDCOLUMNS','FILTER','TOPN'):
+                base=arguments[1] if function=='TOPN' and len(arguments)>1 else arguments[0] if arguments else ''
+                columns.update(self.projected_columns.get(base,set()))
+            for label in labels:
+                if label.startswith('"') and label.endswith('"'):columns.add(label[1:-1].replace('""','"'))
+            self.projected_columns[rendered]=columns
+            return rendered,'table' if function in TABLE_FUNCTIONS else 'scalar'
         qualifier=None
         if kind in ('name','table'):
             name=value[1:-1].replace("''", "'") if kind=='table' else value
@@ -138,6 +151,7 @@ class Parser:
         self.take('EVALUATE');expression,kind=self.expression()
         if self.peek() or kind not in ('table','variable'):raise ValueError('One table-valued EVALUATE required')
         if not self.references:raise ValueError('At least one discovered model reference required')
+        self.output_columns=self.projected_columns.get(expression,set())
         return expression
 
 
@@ -147,5 +161,5 @@ def compile_query(query,assets,*,max_rows=limits.QUERY_ROWS):
     identity=Parser(query,assets,identity=True);bound=identity.parse()
     return {'query':'EVALUATE TOPN('+str(max_rows+1)+','+expression+')',
             'compiled_read':None if identity.volatile else bound,
-            'asset_ids':sorted(parser.references),'max_rows':max_rows+1,'validator_version':VERSION,
+            'result_columns':sorted(parser.output_columns),'asset_ids':sorted(parser.references),'max_rows':max_rows+1,'validator_version':VERSION,
             'limitation':'Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.'}

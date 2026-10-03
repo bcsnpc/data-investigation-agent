@@ -1,0 +1,538 @@
+{
+  "engine_commit": "59043c7f344af0017dfc5384d04ce1a318a44e9e",
+  "engine_hash": "5f6fa8cae00df783f50f91470a1d489baccb720583d88ce318ffd1702ca1fa2e",
+  "config_hash": "38fcd7947803def3a167fd8803e4063342aad7ef254eb3c0f155d371f299c944",
+  "preflight_failure": {
+    "type": "ModuleNotFoundError",
+    "detail": "msal unavailable in default interpreter; no cloud request initiated; used existing Fabric virtualenv"
+  },
+  "results": [
+    {
+      "id": "native-columns",
+      "interface": "REST_DAX",
+      "query": "EVALUATE FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\")",
+      "account": "investigator-reader@skynwhy.com",
+      "started": "2026-10-03T03:22:13.520389+00:00",
+      "automatic_retries": 0,
+      "http_status": 200,
+      "request_id": "d463fcbc-f751-487c-b54f-75a46900d308",
+      "response": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[PropertyName]": "ProviderName",
+                    "[PropertyDescription]": "ProviderName",
+                    "[PropertyType]": "string",
+                    "[PropertyAccessType]": "Read",
+                    "[IsRequired]": false,
+                    "[Value]": "OLAP Server"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "raw_response_sha256": "7a804c8d5309475675383e7786e684cb39a471dc1f9cde1c8053189aefa172d6",
+      "ended": "2026-10-03T03:22:23.086713+00:00",
+      "receipt_sha256": "40e2bbc359d7e5d45a268c79a4aaf78a58c5424145cc55625d12fa820f0da46e"
+    },
+    {
+      "id": "property-names",
+      "interface": "REST_DAX",
+      "query": "EVALUATE SELECTCOLUMNS(INFO.PROPERTIES(),\"PropertyName\",[PropertyName])",
+      "account": "investigator-reader@skynwhy.com",
+      "started": "2026-10-03T03:22:23.088295+00:00",
+      "automatic_retries": 0,
+      "http_status": 200,
+      "request_id": "76a9ced9-cd84-4d46-8228-2e6bdb3967b4",
+      "response": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[PropertyName]": "Catalog"
+                  },
+                  {
+                    "[PropertyName]": "Timeout"
+                  },
+                  {
+                    "[PropertyName]": "Content"
+                  },
+                  {
+                    "[PropertyName]": "DiscoverAmbiguity"
+                  },
+                  {
+                    "[PropertyName]": "Format"
+                  },
+                  {
+                    "[PropertyName]": "AxisFormat"
+                  },
+                  {
+                    "[PropertyName]": "BeginRange"
+                  },
+                  {
+                    "[PropertyName]": "EndRange"
+                  },
+                  {
+                    "[PropertyName]": "ShowHiddenCubes"
+                  },
+                  {
+                    "[PropertyName]": "MaximumRows"
+                  },
+                  {
+                    "[PropertyName]": "VisualMode"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdCachePolicy"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdCacheRatio"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdCacheMode"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdFlattened2"
+                  },
+                  {
+                    "[PropertyName]": "DbpropInitMode"
+                  },
+                  {
+                    "[PropertyName]": "SspropInitAppName"
+                  },
+                  {
+                    "[PropertyName]": "SecuredCellValue"
+                  },
+                  {
+                    "[PropertyName]": "NonEmptyThreshold"
+                  },
+                  {
+                    "[PropertyName]": "SafetyOptions"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdCacheRatio2"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdUseFormulaCache"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdDynamicDebugLimit"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdDebugMode"
+                  },
+                  {
+                    "[PropertyName]": "Dialect"
+                  },
+                  {
+                    "[PropertyName]": "ImpactAnalysis"
+                  },
+                  {
+                    "[PropertyName]": "SQLQueryMode"
+                  },
+                  {
+                    "[PropertyName]": "ClientProcessID"
+                  },
+                  {
+                    "[PropertyName]": "Cube"
+                  },
+                  {
+                    "[PropertyName]": "ReturnCellProperties"
+                  },
+                  {
+                    "[PropertyName]": "CommitTimeout"
+                  },
+                  {
+                    "[PropertyName]": "ForceCommitTimeout"
+                  },
+                  {
+                    "[PropertyName]": "ExecutionMode"
+                  },
+                  {
+                    "[PropertyName]": "RealTimeOlap"
+                  },
+                  {
+                    "[PropertyName]": "MdxMissingMemberMode"
+                  },
+                  {
+                    "[PropertyName]": "DisablePrefetchFacts"
+                  },
+                  {
+                    "[PropertyName]": "UpdateIsolationLevel"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdOptimizeResponse"
+                  },
+                  {
+                    "[PropertyName]": "ResponseEncoding"
+                  },
+                  {
+                    "[PropertyName]": "DirectQueryMode"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdActivityID"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdRequestID"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdCurrentActivityID"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdRequestMemoryLimit"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdExecutionMetrics"
+                  },
+                  {
+                    "[PropertyName]": "Certificate"
+                  },
+                  {
+                    "[PropertyName]": "AuthenticationScheme"
+                  },
+                  {
+                    "[PropertyName]": "ExtAuthInfo"
+                  },
+                  {
+                    "[PropertyName]": "ReturnAffectedObjects"
+                  },
+                  {
+                    "[PropertyName]": "DataView"
+                  },
+                  {
+                    "[PropertyName]": "RequestPriority"
+                  },
+                  {
+                    "[PropertyName]": "ApplicationContext"
+                  },
+                  {
+                    "[PropertyName]": "DynamicFeatureSwitch"
+                  },
+                  {
+                    "[PropertyName]": "RequestLabel"
+                  },
+                  {
+                    "[PropertyName]": "NestingLevel"
+                  },
+                  {
+                    "[PropertyName]": "UseNewMetadataVersioning"
+                  },
+                  {
+                    "[PropertyName]": "ReturnAffectedObjectsByTag"
+                  },
+                  {
+                    "[PropertyName]": "DataSourceInfo"
+                  },
+                  {
+                    "[PropertyName]": "Password"
+                  },
+                  {
+                    "[PropertyName]": "LocaleIdentifier"
+                  },
+                  {
+                    "[PropertyName]": "Roles"
+                  },
+                  {
+                    "[PropertyName]": "EffectiveRoles"
+                  },
+                  {
+                    "[PropertyName]": "EffectiveUserName"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdMDXCompatibility"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdSQLCompatibility"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdMDXUniqueNameStyle"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdCompareCaseSensitiveStringFlags"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdCompareCaseNotSensitiveStringFlags"
+                  },
+                  {
+                    "[PropertyName]": "SspropInitWsid"
+                  },
+                  {
+                    "[PropertyName]": "SspropInitPacketsize"
+                  },
+                  {
+                    "[PropertyName]": "ReadOnlySession"
+                  },
+                  {
+                    "[PropertyName]": "CustomData"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdErrorMessageMode"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdSubqueries"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdAutoExists"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdCellErrorMode"
+                  },
+                  {
+                    "[PropertyName]": "UserMode"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMsmdOutputExecPlan"
+                  },
+                  {
+                    "[PropertyName]": "S2SOptions"
+                  },
+                  {
+                    "[PropertyName]": "UserName"
+                  },
+                  {
+                    "[PropertyName]": "StateSupport"
+                  },
+                  {
+                    "[PropertyName]": "MDXSupport"
+                  },
+                  {
+                    "[PropertyName]": "MemoryLockingMode"
+                  },
+                  {
+                    "[PropertyName]": "ProviderName"
+                  },
+                  {
+                    "[PropertyName]": "ProviderVersion"
+                  },
+                  {
+                    "[PropertyName]": "DBMSVersion"
+                  },
+                  {
+                    "[PropertyName]": "ProviderType"
+                  },
+                  {
+                    "[PropertyName]": "SQLSupport"
+                  },
+                  {
+                    "[PropertyName]": "TransactionDDL"
+                  },
+                  {
+                    "[PropertyName]": "ServerName"
+                  },
+                  {
+                    "[PropertyName]": "CatalogLocation"
+                  },
+                  {
+                    "[PropertyName]": "DbpropCatalogTerm"
+                  },
+                  {
+                    "[PropertyName]": "DbpropCatalogUsage"
+                  },
+                  {
+                    "[PropertyName]": "DbpropColumnDefinition"
+                  },
+                  {
+                    "[PropertyName]": "DbpropConcatNullBehavior"
+                  },
+                  {
+                    "[PropertyName]": "DbpropDataSourceReadOnly"
+                  },
+                  {
+                    "[PropertyName]": "DbpropGroupBy"
+                  },
+                  {
+                    "[PropertyName]": "DbpropHeterogeneousTables"
+                  },
+                  {
+                    "[PropertyName]": "DbpropIdentifierCase"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMaxIndexSize"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMaxOpenChapters"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMaxRowSize"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMaxRowSizeIncludeBlob"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMaxTablesInSelect"
+                  },
+                  {
+                    "[PropertyName]": "DbpropMultiTableUpdate"
+                  },
+                  {
+                    "[PropertyName]": "DbpropNullCollation"
+                  },
+                  {
+                    "[PropertyName]": "DbpropOrderByColumnsInSelect"
+                  },
+                  {
+                    "[PropertyName]": "DbpropOutputParameterAvailable"
+                  },
+                  {
+                    "[PropertyName]": "DbpropPersistentIdType"
+                  },
+                  {
+                    "[PropertyName]": "DbpropPrepareAbortBehavior"
+                  },
+                  {
+                    "[PropertyName]": "DbpropPrepareCommitBehavior"
+                  },
+                  {
+                    "[PropertyName]": "DbpropProcedureTerm"
+                  },
+                  {
+                    "[PropertyName]": "DbpropQuotedIdentifierCase"
+                  },
+                  {
+                    "[PropertyName]": "DbpropSchemaUsage"
+                  },
+                  {
+                    "[PropertyName]": "DbpropSqlSupport"
+                  },
+                  {
+                    "[PropertyName]": "DbpropSubqueries"
+                  },
+                  {
+                    "[PropertyName]": "DbpropSupportedTxnDdl"
+                  },
+                  {
+                    "[PropertyName]": "DbpropSupportedTxnIsoLevels"
+                  },
+                  {
+                    "[PropertyName]": "DbpropSupportedTxnIsoRetain"
+                  },
+                  {
+                    "[PropertyName]": "DbpropTableTerm"
+                  },
+                  {
+                    "[PropertyName]": "MdpropAggregateCellUpdate"
+                  },
+                  {
+                    "[PropertyName]": "MdpropAxes"
+                  },
+                  {
+                    "[PropertyName]": "MdpropFlatteningSupport"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxCaseSupport"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxDescFlags"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxDrillFunctions"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxFormulas"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxJoinCubes"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxMemberFunctions"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxNonMeasureExpressions"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxNumericFunctions"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxObjQualification"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxOuterReference"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxQueryByProperty"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxRangeRowset"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxSetFunctions"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxSlicer"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxStringCompop"
+                  },
+                  {
+                    "[PropertyName]": "MdpropNamedLevels"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxSubqueries"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxNamedSets"
+                  },
+                  {
+                    "[PropertyName]": "MdpropMdxDdlExtensions"
+                  },
+                  {
+                    "[PropertyName]": "DefaultCompatibilityLevel"
+                  },
+                  {
+                    "[PropertyName]": "SupportedCompatibilityLevels"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "raw_response_sha256": "f60dd5a0507e003794ab5d6d19c815156a38c60feaeaa90a78dc04aa83c8ff6e",
+      "ended": "2026-10-03T03:22:24.904647+00:00",
+      "receipt_sha256": "ddff54bf4d309103a7c56dd85af3d828cd77adc7ebd50d7301f7aca86b27e19d"
+    },
+    {
+      "id": "quantity-composition",
+      "interface": "REST_DAX",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME(),\"surface_engine\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),\"ReportValue\",[Value]),[ReportValue],\"\"),\"surface_object\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),\"ReportValue\",[Value]),[ReportValue],\"\"))",
+      "account": "investigator-reader@skynwhy.com",
+      "started": "2026-10-03T03:22:24.907646+00:00",
+      "automatic_retries": 0,
+      "http_status": 200,
+      "request_id": "776a422b-fc6f-4045-9e31-865f1cb8ca0c",
+      "response": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[quantity]": 8765,
+                    "[surface_identity]": "investigator-reader@skynwhy.com",
+                    "[surface_engine]": "OLAP Server",
+                    "[surface_object]": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "raw_response_sha256": "ac2bbb84c8ba92f2656f50196e342cb6b5439a6c292f7db52980306c6749fcda",
+      "ended": "2026-10-03T03:22:51.303853+00:00",
+      "receipt_sha256": "571a40b3e6e1e8e8b9120ab02aed32f22b1a52ebc0d8dda374f65d9be8c0b7a6"
+    }
+  ],
+  "ordinary_before": 23,
+  "ordinary_after": 26,
+  "policy_hash": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
+  "config_unchanged": true,
+  "policy_unchanged": true,
+  "model_calls": 0
+}
