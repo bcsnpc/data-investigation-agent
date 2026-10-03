@@ -197,7 +197,10 @@ def run(agent,identity,provider):
                 'calls':0,'assessment':None,'payload':None,'payload_hash':None}
         try:
             agent.admit(state)
-            payload=build(state,db);size=len(encoded(payload))
+            local_payload=build(state,db)
+            from .synthesis_spine import build as render_spine
+            payload=render_spine(local_payload,state,agent.generation_options['max_payload_characters']) if provider is azure_synthesize else local_payload
+            size=len(encoded(payload))
             record.update(payload=payload,payload_hash=digest(payload),input_characters=size)
             from .refusal_synthesis import render
             outputs=render(state)
@@ -209,7 +212,14 @@ def run(agent,identity,provider):
                 return {k:v for k,v in record.items() if k!='payload'}
             if provider is azure_synthesize:
                 original=narrative_source(state)
-                validate(original,payload,source_state=state)
+                validate(original,local_payload,source_state=state)
+                if payload.get('elided'):
+                    from .synthesis_spine import degraded_outputs
+                    assessment,outputs=degraded_outputs(local_payload,state,payload)
+                    record.update(status='COMPLETED',outputs=outputs,assessment=assessment,
+                                  provenance='DETERMINISTIC_BOUNDED_SPINE_RENDERING',validation='ORIGINAL_EVIDENCE',elided=payload['elided'])
+                    save(db,identity,record)
+                    return {k:v for k,v in record.items() if k!='payload'}
             if size>agent.generation_options['max_payload_characters']:raise ValueError('Synthesis digest exceeds input cap')
             if agent.governor:
                 agent.governor.reserve(db,identity,'synthesis:1','planner',size,
@@ -241,13 +251,13 @@ def run(agent,identity,provider):
         if digest(payload)!=record['payload_hash']:raise Conflict('Provider changed frozen digest')
         from .synthesis_narrative import Response,assemble
         if isinstance(assessment,Response):
-            assessment,outputs=assemble(assessment,payload,state)
+            assessment,outputs=assemble(assessment,local_payload,state)
         else:
             # Historical injected providers retain the old local interface;
             # the live Azure wire exposes only the narrative schema.
             declare_capabilities(assessment)
         normalize(assessment)
-        validate(assessment,payload,source_state=state)
+        validate(assessment,local_payload,source_state=state)
         if outputs is not None:
             from .question_account import validate as validate_question_account
             validate_question_account(outputs,state)
@@ -266,7 +276,9 @@ def run(agent,identity,provider):
         try:
             latest=agent.load(db,identity);agent.admit(latest)
             if digest(latest)!=current['source_hash']:raise Conflict('Frozen investigation changed')
-            if digest(build(latest,db))!=current['payload_hash']:raise Conflict('Frozen evidence changed')
+            latest_payload=build(latest,db)
+            if provider is azure_synthesize:latest_payload=render_spine(latest_payload,latest,agent.generation_options['max_payload_characters'])
+            if digest(latest_payload)!=current['payload_hash']:raise Conflict('Frozen evidence changed')
             if agent.clock()>current['deadline']:raise Conflict('Synthesis deadline exceeded')
         except (ValueError,KeyError) as exc:error=error_summary(exc)
         current.update(status='FAILED' if error else 'COMPLETED',error=error,

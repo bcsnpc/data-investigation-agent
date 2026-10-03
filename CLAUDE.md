@@ -365,3 +365,8 @@ merged at 56a1545 with six green checks. Prior runs, corrections and ledger rows
 remain unchanged; no investigation run or ledger row here. Engine bytes changed,
 invalidating prior freezes. Intake evidence resolution and target/figure wiring
 remain next; draft #297 remains open.
+
+
+## Dated semantic surface ceiling (2026-10-03, America/Chicago)
+
+Current quantity-bound semantic reads report engine, identity and model object. Connection is not self-reportable for this reader through the tested session route (DISCOVER_SESSIONS refused in #300). PARTIAL with those three matching fields is the tested ceiling, sufficient for qualified within-layer reproduction; it is not a gap to pursue with elevation. #302 engine-difference independence grading is unchanged. Connection omission and SNAPSHOT_UNVERIFIED remain explicit. See docs/synthesis-rendered-spine.md. Earlier narrower self-report statements above are historical.
