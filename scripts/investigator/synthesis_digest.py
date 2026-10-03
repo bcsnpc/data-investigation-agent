@@ -206,6 +206,23 @@ def build(state,db):
  result={'version':1,'question':state['envelope']['symptom'],'scope':{k:state['envelope'][k] for k in ('model_id','context_id','measure_id','filters','dimension_ids')},
  'digest_limits':f'Complete validated queries are retained. At most {DISPLAY_ROWS} returned rows and their group keys are displayed per observation, with explicit omitted counts. Explicit definition content/find lookups retain at most {EXCERPT_CHARACTERS} excerpt characters per observation with truncation labels; arbitrary metadata remains omitted. Hypotheses are unverified, not evidence.', 'evidence':entries,'hypotheses':[{'id':h['id'],'claim':h['claim'],'claim_truncated':False,'status':h['status'],'evidence_ids':h['evidence_ids'],'authority':'UNVERIFIED_HYPOTHESIS'} for h in state['hypotheses']]}
  if state.get('measure_display_name'):result['scope']['measure_name']=state['measure_display_name']
+ from .adapters.surface_display_limits import ceiling
+ ceilings={}
+ for o in by_id.values():
+  limit=ceiling(o)
+  if limit and o.get('layer'):ceilings[o['layer']]=limit
+  if o.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION':
+   for side in ('upper','lower'):
+    limit=ceiling(by_id.get(o.get(side+'_evidence_id'),{}))
+    if limit:ceilings[o[side+'_layer']]=limit
+ if ceilings:result['scope']['surface_attestation_ceiling']=ceilings
+ targets={o['cell']['target_id'] for o in by_id.values() if o.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION' and o.get('cell')}
+ if targets and db.execute("SELECT 1 FROM sqlite_master WHERE name='model_contexts'").fetchone():
+  context=db.execute('SELECT body FROM model_contexts WHERE id=?',(state['envelope']['context_id'],)).fetchone()
+  if context:
+   from .adapters.report_predicates import display_names
+   names=display_names(json.loads(context[0]),targets)
+   if names:result['scope']['cell_display_names']=names
  assessment=state.get('assessment') or {}
  process=assessment.get('support',{}).get('process') if isinstance(assessment,dict) else None
  if isinstance(process,dict):

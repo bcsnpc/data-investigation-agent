@@ -545,6 +545,23 @@ def _document(model, target_id):
     return json.loads(parts[0]['metadata']['content'])
 
 
+def display_names(context, target_ids):
+    """Literal retained titles only; not a target resolver or a claimed selection."""
+    result={}
+    for target in target_ids:
+        try:
+            document=_document({'context':context},target)
+            titles=document.get('visual',{}).get('visualContainerObjects',{}).get('title',[])
+            values=[t['properties']['text']['expr']['Literal']['Value'] for t in titles]
+            if len(values)==1 and re.fullmatch(r"'(?:''|[^'])*'",values[0]):
+                name=values[0][1:-1].replace("''", "'")
+                from ..business_vocabulary import validate_identifier_form
+                validate_identifier_form(name)
+                if name and len(name)<=limits.ASSESSMENT_CLAIM:result[target]=name
+        except (Refusal,KeyError,ValueError,TypeError):continue
+    return result
+
+
 def _addressed(model, measure_id, scope, declaration):
     from .report_cells import addresses
     target_id = declaration['evidence']['metadata']['definition_target_id']

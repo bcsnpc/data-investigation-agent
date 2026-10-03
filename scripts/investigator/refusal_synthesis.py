@@ -12,7 +12,7 @@ def earliest(state):
     return None
 
 
-def render(state):
+def render(state,payload=None):
     receipt = earliest(state)
     if receipt is None: return None
     item = process_receipts.summary(receipt)
@@ -64,14 +64,24 @@ def render(state):
             if key=='technical_output':rendered+=' Receipts: '+', '.join(invalid_cells)+'.'
         if cells:
             from .declared_reproduction import render as render_cell
+            from .reproduction_composition import body,select,action,from_payload,technical_cells,hedges
+            display={r['id']:r for r in from_payload(payload or {})}
+            cells=[display.get(c['id'],c) for c in cells]
+            from .question_account import build,render as render_account
+            checked=copy.deepcopy(state)
+            checked['observations']=[o for o in state['observations'] if o.get('check_kind')!='DECLARED_CONTEXT_REPRODUCTION' or o['id'] in {c['id'] for c in cells}]
+            prefix=render_account(build(checked))
             if key=='business_output':
-                from .narrative_form import business
-                rendered=business(rendered,{'evidence':[{'id':o['id'],'result':o} for o in cells]})
+                from .narrative_form import validate
+                rendered=validate(prefix+'\n\n'+body(cells),True)
             else:
-                rendered+='\n\nCompleted within-layer cells:\n'+'\n'.join(render_cell(o,include_limits=False) for o in cells)
-                limits=list(dict.fromkeys(limit for o in cells for limit in o['limitations']))
+                rendered=prefix+'\n\nWhat else was checked: the vertical walk stopped during '+stage+'.\nReason: '+reason+'.'
+                rendered+='\n\nCompleted within-layer cells:\n'+'\n'.join(technical_cells(cells))
+                limits=hedges(cells,select(cells))
                 rendered+='\nLimits:\n'+'\n'.join('- '+limit for limit in limits)
+                rendered+='\nRecommended action: '+action(select(cells))['text']
         outputs[key] = {'explanation': {'text': rendered, 'evidence_ids': [receipt['id']]},
                         'recommended_action': 'Resolve the stated blocker before a new investigation.'}
+        if cells:outputs[key]['recommended_action']=action(select(cells))
         if hint:outputs[key]['descriptor_hint']=copy.deepcopy(hint)
     return outputs

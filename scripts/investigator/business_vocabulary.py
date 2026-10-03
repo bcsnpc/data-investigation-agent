@@ -39,6 +39,6 @@ def validate_text(text,expected):
 
 
 def validate_identifier_form(text):
-    if re.search(r'\b(?:silver|gold|bronze|sql|dax|schema|receipt)\b|[A-Za-z]+_[A-Za-z0-9_]+|[A-Za-z0-9.]+[\\/][A-Za-z0-9_.-]+|://|\[[^\]]+\]|\b[A-Za-z]+\.[A-Za-z]+\b|[A-Za-z]:[\\/]|\b[0-9a-f]{8}-[0-9a-f-]{27,}\b|\b[A-Za-z]+[-_][0-9a-f]{6,}\b',text,re.I):
+    if re.search(r'\breceipt[-:][A-Za-z0-9-]+|[A-Za-z]+_[A-Za-z0-9_]+|[A-Za-z0-9.]+[\\/][A-Za-z0-9_.-]+|://|\[[^\]]+\]|\b[A-Za-z]+\.[A-Za-z]+\b|[A-Za-z]:[\\/]|\b[0-9a-f]{8}-[0-9a-f-]{27,}\b|\b[A-Za-z]+[-_][0-9a-f]{6,}\b',text,re.I):
         raise ValueError('Technical identifier in business explanation')
     return text

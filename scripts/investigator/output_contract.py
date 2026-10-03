@@ -44,6 +44,9 @@ def business_text(outcome, payload=None):
     outcome=canonical(outcome)
     if (payload or {}).get('rendered_business') is not None:
         return payload['rendered_business']
+    from .reproduction_composition import from_payload,body
+    reproduction=body(from_payload(payload or {}))
+    if reproduction is not None:return reproduction
     entries=(payload or {}).get('evidence',[])
     baseline=next((e for e in entries if e.get('test_purpose')=='ESTABLISH_BASELINE'
                    and e.get('provenance',{}).get('receipt_seal')),None)

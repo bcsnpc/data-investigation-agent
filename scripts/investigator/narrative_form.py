@@ -54,6 +54,9 @@ def validate(text,business=False):
 
 
 def business(text,payload):
+    from .reproduction_composition import from_payload,body
+    reproduction=body(from_payload(payload))
+    if reproduction is not None:return validate(reproduction,True)
     from .selection_descriptor import render as render_descriptor
     for entry in payload.get('evidence',[]):
         hint=entry.get('result',{}).get('descriptor_hint')
@@ -123,9 +126,13 @@ def technical(commentary,payload,source,recommended):
             finding.append(wording(c['surface_difference'])+' (receipt '+row['id']+').')
     if not facts:finding.append('No independently compared boundary was established.')
     from .declared_reproduction import KIND,render
+    from .reproduction_composition import from_payload,technical_cells
+    cell_lines=technical_cells(from_payload(payload))
+    if cell_lines:finding.extend(cell_lines)
     for entry in payload.get('evidence',[]):
         result=entry.get('result',{})
-        if result.get('check_kind')==KIND:finding.append(render(result,include_limits=False))
+        if result.get('check_kind')==KIND:
+            if not cell_lines:finding.append(render(result,include_limits=False))
         elif result.get('check_kind')=='PROBE_NOT_EXECUTED':
             finding.append('Probe not executed for '+result['target_id']+': '+result['reason']+' Would establish '+result['would_establish']+'.')
         elif result.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
@@ -149,7 +156,9 @@ def technical(commentary,payload,source,recommended):
         grouped.setdefault((layer,tuple(receipts)),[]).append(field)
     for (layer,receipts),fields in grouped.items():
         reference=('receipt ' if len(receipts)==1 else 'receipts ')+', '.join(receipts)
-        add(('surface',layer,receipts),'Unattested '+', '.join(fields)+' on '+layer+' ('+reference+').')
+        ceiling=payload.get('scope',{}).get('surface_attestation_ceiling',{}).get(layer,{})
+        note=('; connection is not self-reportable on this surface for this reader' if 'connection' in fields and ceiling.get('connection')=='NOT_SELF_REPORTABLE_FOR_READER' else '')
+        add(('surface',layer,receipts),'Unattested '+', '.join(fields)+' on '+layer+' ('+reference+')'+note+'.')
     rows=payload_comparisons(payload)
     unknown=[str(i) for i,r in enumerate(rows,1) if r.get('snapshot_attestation',{}).get('status')!=VERIFIED]
     if unknown:
@@ -157,10 +166,16 @@ def technical(commentary,payload,source,recommended):
         add('snapshot','SNAPSHOT_UNVERIFIED for '+refs+': the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.')
     # The structured fields above replace their duplicated generated prose;
     # every other original qualification is retained once, with short layer refs.
+    from .reproduction_composition import from_payload,select,hedges
+    candidates=from_payload(payload);lead=select(candidates)
+    cell_limits={limit for r in candidates for limit in r['limitations']} if lead else set()
     for text in source['limits']:
+        if text in cell_limits:continue
         if text.startswith('Unattested surface field ') and grouped:continue
         if re.match(r'Comparison \d+: SNAPSHOT_UNVERIFIED;',text) and unknown:continue
         add(('other',text),retained_limit(text,bool(rows) and len(unknown)==len(rows)))
+    if lead:
+        for text in hedges(candidates,lead):add(('cell',text),text)
     if limits:paragraphs.append('Limits:\n'+'\n'.join('- '+line for line in limits))
     for entry in payload.get('evidence',[]):
         timing=entry.get('result',{}).get('refresh_timing')

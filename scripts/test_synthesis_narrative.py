@@ -24,7 +24,7 @@ class NarrativeContractTests(unittest.TestCase):
         statement={'text':narrative.path_narrative.LIMITATION,
                    'evidence_ids':[payload['evidence'][0]['id']]}
         business=copy.deepcopy(statement)
-        business['text']=narrative.business_text(payload['deterministic_process_finding']['classification'])
+        business['text']=narrative.business_text(payload['deterministic_process_finding']['classification'],payload)
         return {'business_output':business,'technical_output':{**statement,'text':narrative.path_narrative.summary(payload)}}
 
     def test_business_cannot_include_free_prose_assets_queries_or_extra_numbers(self):

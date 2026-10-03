@@ -203,7 +203,7 @@ def run(agent,identity,provider):
             size=len(encoded(payload))
             record.update(payload=payload,payload_hash=digest(payload),input_characters=size)
             from .refusal_synthesis import render
-            outputs=render(state)
+            outputs=render(state,local_payload)
             if outputs is not None:
                 record.update(status='COMPLETED',outputs=outputs,
                               provenance='DETERMINISTIC_REFUSAL_RENDERING',
