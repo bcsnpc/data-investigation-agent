@@ -115,8 +115,10 @@ class SynthesisTests(unittest.TestCase):
         statement={'text':narrative.path_narrative.LIMITATION,
                    'evidence_ids':[source['observations'][0]['id']]}
         business={**statement,'text':narrative.business_text(source['assessment']['classification'])}
-        wire={'business_output':business,'technical_output':{**statement,'text':narrative.path_narrative.summary(payload)}}
-        with patch('ticket_planner.azure_generate',return_value=(wire,{})):
+        def provider(view,**kwargs):
+            return {'technical_output':{'text':narrative.path_narrative.summary(payload),
+                'evidence_ids':[view['evidence'][0]['id']]}},{}
+        with patch('ticket_planner.azure_generate',side_effect=provider):
             result=agent.synthesize(state['id'],synthesis.azure_synthesize)
         self.assertEqual(result['synthesis']['status'],'COMPLETED')
         self.assertEqual(result['synthesis']['assessment']['support'],source['assessment']['support'])

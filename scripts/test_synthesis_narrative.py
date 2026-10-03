@@ -99,12 +99,15 @@ class NarrativeContractTests(unittest.TestCase):
             narrative.assemble(narrative.Response(self.response(payload)),payload,state)
 
     def test_production_provider_uses_only_narrative_wire_schema(self):
-        state,payload=self.source('CONSISTENT_TO_BOUNDARY');answer=self.response(payload)
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY')
+        from investigator.synthesis_wire import prepare
+        _,wire,handles=prepare(payload)
+        answer={'technical_output':{'text':'The declared calculation was checked.','evidence_ids':[next(iter(handles))]}}
         with patch('ticket_planner.azure_generate',return_value=(answer,{})) as provider:
             response,usage=synthesis.azure_synthesize(payload,{})
         self.assertIsInstance(response,narrative.Response)
         sent=provider.call_args.kwargs['schema']
-        self.assertEqual(set(sent['properties']),{'business_output','technical_output'})
+        self.assertEqual(set(sent['properties']),{'technical_output'})
         self.assertFalse(sent['additionalProperties'])
         Draft202012Validator(sent).validate(answer)
 

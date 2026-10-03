@@ -145,13 +145,20 @@ def assemble_citations(value):
 
 
 def azure_synthesize(payload,options):
+    from jsonschema import ValidationError
     from ticket_planner import azure_generate
     from . import synthesis_narrative as narrative
     from .contract_vocabulary import instructions
-    wire=narrative.schema(payload)
-    value,usage=azure_generate(payload,instructions=instructions(narrative.INSTRUCTIONS,wire),schema=wire,
+    from .synthesis_wire import prepare,decode
+    view,wire,handles=prepare(payload)
+    guidance=narrative.INSTRUCTIONS.replace('Copy the business wording from its exact allowed vocabulary.','Business wording is rendered locally by the engine; do not return it.').replace('Return the business explanation and technical mechanism.','Return only the technical mechanism, citing the displayed receipt handles.')
+    value,usage=azure_generate(view,instructions=instructions(guidance,wire),schema=wire,
                                name='evidence_narrative',decision_tool=True,generation_options=options)
-    return narrative.Response(value),usage
+    try:decoded=decode(value,payload,wire,handles)
+    except (ValueError,ValidationError) as exc:
+        from .generation_policy import ProviderResponseError
+        raise ProviderResponseError('DECISION_DECODE',usage.get('usage')) from exc
+    return narrative.Response(decoded),usage
 
 
 def read(db,identity,*,full=False):
@@ -220,6 +227,9 @@ def run(agent,identity,provider):
                                   provenance='DETERMINISTIC_BOUNDED_SPINE_RENDERING',validation='ORIGINAL_EVIDENCE',elided=payload['elided'])
                     save(db,identity,record)
                     return {k:v for k,v in record.items() if k!='payload'}
+                from .synthesis_wire import validate_references,prepare
+                validate_references(payload,state['observations'])
+                prepare(payload) # Outbound schema is checked before reservation or dispatch.
             if size>agent.generation_options['max_payload_characters']:raise ValueError('Synthesis digest exceeds input cap')
             if agent.governor:
                 agent.governor.reserve(db,identity,'synthesis:1','planner',size,
