@@ -11,3 +11,5 @@ Memoisation now includes the complete cell address, including target and mode, a
 The 2026-10-03 preserved runs predate the new field. No original receipt or run is rewritten. Re-synthesis requires an explicit decision about independently derived historical bindings versus preservation of missing-address refusals; a post-hoc marker is not a substitute for read evidence. No re-synthesis, investigation or ledger row was produced in this implementation PR.
 
 PR #321's rendered-spine change merged as a279028 with six green checks. Tests, CI and historical bridge decision are recorded on this PR. README/current status updated; fixture/config/policy/grants/caps unchanged.
+
+Dated historical-binding authorisation: the user approved separately recorded retrospective bindings for these three preserved runs only. Each address must independently regenerate from retained context and compile to a byte-identical sealed statement. No match means no binding. Both offline outputs name the derived rather than natively recorded identity. This is a one-time local migration, not an engine backfill path; originals remain untouched. No re-synthesis before this PR merges.

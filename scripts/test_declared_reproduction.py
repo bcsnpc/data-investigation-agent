@@ -288,7 +288,7 @@ class ReproductionTests(unittest.TestCase):
         self.assertIn('WITHIN_LAYER_CHECK', result['technical_output'])
         self.assertIn('same calculation', result['business_output'])
         for key in ('business_output', 'technical_output'):
-            self.assertIn('undeclared-context', result[key])
+            self.assertIn('without applying report selections' if key=='business_output' else 'undeclared-context', result[key])
             self.assertIn('not', result[key])
             narrative_form.validate(result[key], key == 'business_output')
 
