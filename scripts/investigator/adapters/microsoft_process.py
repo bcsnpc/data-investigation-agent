@@ -478,6 +478,8 @@ class MicrosoftProcessAdapter:
                         if a.get('kind')=='Workspace' and a.get('id')=='fabric://'+self.model['workspace']),None)
         try:return self.read_snapshot_identity(probe,workspace)
         except Exception as exc:
+            from ..usage_governance import UsageHold
+            if isinstance(exc,UsageHold):raise
             profile=self.config['fabric'].get('snapshot_identity_reader',{})
             return {'status':'UNAVAILABLE','reason':'OPTIONAL_METADATA_FAILED','error_type':type(exc).__name__,
                     'identity_provenance':{'account':profile.get('account'),'profile':profile.get('profile'),
@@ -487,6 +489,8 @@ class MicrosoftProcessAdapter:
         if self.read_refresh_timing is None:return {'status':'UNAVAILABLE','reason':'No optional metadata identity configured.'}
         try:return self.read_refresh_timing()
         except Exception as exc:
+            from ..usage_governance import UsageHold
+            if isinstance(exc,UsageHold):raise
             profile=self.config['fabric'].get('refresh_timing_reader',{})
             return {'status':'UNAVAILABLE','error_type':type(exc).__name__,
                     'reason':'Optional metadata timing could not be obtained; the comparison remains authoritative.',

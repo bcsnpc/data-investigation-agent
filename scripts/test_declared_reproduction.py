@@ -69,7 +69,7 @@ class NeutralAdapter(Adapter):
         return {'status': 'INCONCLUSIVE', 'explains': None, 'reason': 'Active selection unknown.'}
 
 
-SCOPE = {'filters': [{'column_id': 'field-a', 'values': ['y']}], 'reported_figure': exact(3)}
+SCOPE = {'question_kind':{'kind':'VISUAL_CONTENT','source':{'quote':'visual','start':0,'end':6}},'filters': [{'column_id': 'field-a', 'values': ['y']}], 'reported_figure': exact(3)}
 
 
 class ReproductionTests(unittest.TestCase):
@@ -419,7 +419,7 @@ class PlacementAndGatingTests(unittest.TestCase):
 
     def test_question_account_names_missing_figure_without_claiming_an_answer(self):
         from investigator.question_account import build
-        result=vertical(NeutralAdapter(not_comparable=['lower']),'measure',{'filters':SCOPE['filters'],'reported_figure':{'state':'UNSPECIFIED'}})
+        result=vertical(NeutralAdapter(not_comparable=['lower']),'measure',{**SCOPE,'reported_figure':{'state':'UNSPECIFIED'}})
         state={'envelope':{'symptom':'Explain the difference.'},'observations':result['_observations'],'assessment':{}}
         account=build(state)
         self.assertEqual(account['status'],'NOT_ANSWERED')

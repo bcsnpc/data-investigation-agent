@@ -115,6 +115,6 @@ def procedure_scope(envelope):
     """Forward server-owned evidence unchanged, including explicit UNSPECIFIED."""
     result={k:copy.deepcopy(envelope[k]) for k in ('filters','dimension_ids')}
     result['ticket_shape']=envelope.get('ticket_shape')
-    for key in ('reported_figure','definition_target','report_binding','selection_request'):
+    for key in ('reported_figure','definition_target','report_binding','selection_request','question_kind'):
         if key in envelope:result[key]=copy.deepcopy(envelope[key])
     return result

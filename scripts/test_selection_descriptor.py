@@ -17,7 +17,7 @@ class DescriptorTranslationTests(unittest.TestCase):
     def response(self,value,hint):
         return {'report_quote':'Example Report','target_request':{
             'value_source':{'quote':value},'column_source':None,'descriptor':hint},
-            'reported_candidates':[],'action':'PROPOSE','model_id':'m0','measure_id':'m0v0',
+            'question_kind':{'kind':'VISUAL_CONTENT','source':{'quote':'Revenue'}},'reported_candidates':[],'action':'PROPOSE','model_id':'m0','measure_id':'m0v0',
             'metric_quote':'Revenue','question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL',
             'filters':[],'dimension_ids':[]}
 

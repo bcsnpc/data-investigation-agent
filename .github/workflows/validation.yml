@@ -71,6 +71,7 @@ jobs:
           python -m unittest discover -s scripts -p test_partial_self_report.py
           python -m unittest discover -s scripts -p test_dax_self_report_composition.py
           python -m unittest discover -s scripts -p test_question_first_probes.py
+          python -m unittest discover -s scripts -p test_question_kind_budgets.py
           python -m unittest discover -s scripts -p test_scoped_inventory_only.py
           python -m unittest discover -s scripts -p test_native_rejection.py
           python -m unittest discover -s scripts -p test_specific_failure.py

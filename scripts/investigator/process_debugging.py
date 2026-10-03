@@ -150,6 +150,8 @@ def refine_failure(adapter, available, layer, probe):
     try:
         detail=adapter.failure_detail(layer,probe)
     except Exception as exc:
+        from .usage_governance import UsageHold
+        if isinstance(exc,UsageHold):raise
         return replace(probe,failure=dict(failure,refinement='FAILED',refinement_error_type=type(exc).__name__))
     if not isinstance(detail,dict) or detail.get('specificity')!='SPECIFIC' or not detail.get('codes'):
         return replace(probe,failure=dict(failure,refinement='NO_SPECIFIC_FAILURE',
@@ -213,7 +215,8 @@ def _observation(item, *roles):
     result.setdefault('status','COMPLETED')
     result.setdefault('completeness','COMPLETE_RESPONSE')
     result['process_roles']=sorted(set(result.get('process_roles',[]))|set(roles))
-    return result
+    from .observation_journal import record
+    return record(result)
 
 
 def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline=None,
@@ -291,8 +294,15 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     path={}
     measure_baseline=None
     snapshot_probes={}
+    reproduction_started=False
     def answer(*args,**kwargs):
         result=_answer(*args,capabilities=available,failures=failures,**kwargs)
+        from .question_kind import reproduction as eligibility
+        if (not reproduction_started and path.get('layers') and
+                result['classification'] in ('NO_KNOWN_PATTERN','NO_COMPARABLE_PATH') and
+                eligibility(scope,walk_blocked=True)['applicable']):
+            reproduce(walk_blocked=True)
+            result=_answer(*args,capabilities=available,failures=failures,**kwargs)
         from .declared_reproduction import KIND
         reproductions=[o for o in result['_observations'] if o.get('check_kind')==KIND]
         for finding in reproductions:
@@ -343,6 +353,10 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             result[key]['mandatory_limits']=list(result['limits'])
         return result
     def read(layer):
+        from .observation_journal import pending
+        chain=path.get('layers',[])
+        index=next((i for i,l in enumerate(chain) if l['id']==layer['id']),0)
+        pending([{'layer':l['id'],'operation':'evaluate_scoped_quantity'} for l in chain[index:]])
         probe=refine_failure(adapter,available,layer,attest(adapter.evaluate(layer,measure_id,scope)))
         if probe.evidence:snapshot_probes[probe.evidence['id']]=probe
         if probe.status=='UNAVAILABLE' and probe.failure:failures.append(_failure_entry(probe))
@@ -380,12 +394,15 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     # Keep the missing-capability record for readers of existing run summaries.
     if 'refresh_timing' not in available:skip(1,'presentation_freshness')
 
-    if scope.get('report_binding'):
+    from .question_kind import reproduction as eligibility
+    from .process_budget import phase
+    if scope.get('report_binding') and (eligibility(scope)['applicable'] or scope.get('selection_request')):
         from .report_resolution import prepare,ResolutionRefused
         from .declared_reproduction import UnsupportedRestriction
         try:
             scope, selection_observations = prepare(adapter,layers[0],measure_id,scope)
         except (ResolutionRefused,UnsupportedRestriction) as exc:
+            reproduction_started=True
             observations.extend(getattr(exc,'observations',[]))
             evidence=_observation({'id':'report-selection-refused','tool':'process',
                 'reason':str(exc),'refusal_category':getattr(exc,'category','UNSUPPORTED'),'check_kind':'REPORT_SELECTION_REFUSED'},'established')
@@ -394,12 +411,21 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         observations.extend(selection_observations)
         scope['selection_observations']=selection_observations
 
-    def reproduce():
+    def reproduce(walk_blocked=False):
+        nonlocal reproduction_started
+        reproduction_started=True
+        eligible=eligibility(scope,walk_blocked)
+        if not eligible['applicable']:
+            observations.append(_observation({'id':'declared-reproduction-not-applicable','tool':'process',
+                'check_kind':'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE','question_kind':eligible['kind'],
+                'capability_status':'UNDECLARED','reason':eligible['reason']},'established'))
+            return
         # Optional side finding, before any lower-boundary admission. It neither
         # terminates the walk nor alters presentation_context or its defect gate.
         if 'declared_context_reproduction' in available:
             from .declared_reproduction import run
-            reproduction=run(adapter,layers[0],measure_id,scope)
+            with phase('REPRODUCTION'):
+                reproduction=run(adapter,layers[0],measure_id,scope)
             observations.extend(reproduction['observations'])
             if reproduction['status']=='UNAVAILABLE' or reproduction.get('unsupported_form'):
                 observations.append(_observation({'id':'declared-reproduction-unavailable','tool':'process',
@@ -407,8 +433,6 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                     'reason':reproduction['reason'],
                     'capability_status':reproduction['status'],
                     **({'unsupported_form':reproduction['unsupported_form']} if reproduction.get('unsupported_form') else {})},'established'))
-
-    if scope.get('report_binding'): reproduce()
 
     # Step 2: establish our presentation baseline, independent of the ticket's
     # stated number. Failure is explicit and later boundary claims retain it.
@@ -423,7 +447,8 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
               'status':'NOT_ESTABLISHED','layer':top.layer,'reason':top.reason or 'Presentation quantity was not comparable.',
               'evidence_ids':[]}
     measure_baseline=baseline
-    if not scope.get('report_binding'): reproduce()
+    if eligibility(scope)['applicable']:reproduce()
+    if not reproduction_started and not eligibility(scope,walk_blocked=True)['applicable']:reproduce()
 
     def unverified_business_flow(reason):
         return answer('NO_KNOWN_PATTERN',6,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
@@ -522,7 +547,10 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                     # Optional metadata failures must not erase completed reads or
                     # change a conclusion already established by their comparison.
                     try:timing=adapter.refresh_timing(path)
-                    except Exception as exc:timing={'status':'UNAVAILABLE','error_type':type(exc).__name__,'reason':reason}
+                    except Exception as exc:
+                        from .usage_governance import UsageHold
+                        if isinstance(exc,UsageHold):raise
+                        timing={'status':'UNAVAILABLE','error_type':type(exc).__name__,'reason':reason}
                 observations.append(_observation({'id':'declared-source-freshness','tool':'context',
                     'direct_source_proof':proof,'comparison_id':comparison['id'],
                     'reader_timing_unavailable':reason,'refresh_timing':timing},'freshness'))

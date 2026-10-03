@@ -201,6 +201,8 @@ def _run_one(adapter, layer, measure_id, scope):
     probes = {}; quantities = {}
     planned=(('DECLARED_CONTEXT', restrictions), ('UNDECLARED_CONTEXT', []))
     for ordinal,(purpose, applied) in enumerate(planned):
+        from .observation_journal import pending
+        pending([{'target':cell['target_id'] if cell else layer['id'],'operation':p} for p,_ in planned[ordinal:]])
         remaining=getattr(adapter,'remaining_diagnostic_reads',None)
         cost=adapter.declared_probe_cost(measure_id,declaration,applied,purpose) if hasattr(adapter,'declared_probe_cost') else 1
         if remaining is not None and remaining()<cost:
