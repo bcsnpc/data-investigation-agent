@@ -42,6 +42,8 @@ def business_text(outcome, payload=None):
     """Five sentences from sealed quantities and definition-backed business labels."""
     from decimal import Decimal, InvalidOperation
     outcome=canonical(outcome)
+    if (payload or {}).get('rendered_business') is not None:
+        return payload['rendered_business']
     entries=(payload or {}).get('evidence',[])
     baseline=next((e for e in entries if e.get('test_purpose')=='ESTABLISH_BASELINE'
                    and e.get('provenance',{}).get('receipt_seal')),None)
