@@ -114,7 +114,26 @@ def render(marker, business=False, include_limits=True):
     if marker.get('cell'):
         first = 'Cell ' + marker['cell']['mode'] + ': ' + first
     if business:
-        return first + ' ' + finding + ' ' + limits + (' ' + ' '.join(specific) if specific else '')
+        from urllib.parse import unquote
+        mode=marker.get('cell',{}).get('mode')
+        subject='The selected row' if mode=='KEYED' else 'The displayed total row' if mode=='TOTAL' else 'The visual'
+        declared_word='nothing' if marker['reproduced_value'] is None else declared
+        first=f'{subject} produced {declared_word}; the same calculation without applying report selections returned {baseline}.'
+        restrictions=marker['composed_restrictions']
+        if restrictions:
+            terms=[]
+            for restriction in restrictions:
+                name=unquote(restriction['field_id'].rstrip('/').rsplit('/',1)[-1]).replace('_',' ')
+                from .business_vocabulary import validate_identifier_form
+                try:validate_identifier_form(name)
+                except ValueError:name='saved selection'
+                values=', '.join(str(v) for v in restriction['values']) or 'no permitted values'
+                try:validate_identifier_form(values)
+                except ValueError:values='the recorded values'
+                terms.append(name+': '+values)
+            first+=' The applied selections were '+ '; '.join(terms)+'.'
+        else:first+=' No saved report filter restricts this calculation.'
+        return first + ' ' + finding + (' ' + limits + (' ' + ' '.join(specific) if specific else '') if include_limits else '')
     return ((f"Cell {marker['cell']['target_id']} ({marker['cell']['mode']}): " if marker.get('cell') else '') + f"WITHIN_LAYER_CHECK ({marker['id']}): undeclared-context value {baseline}; declared-context value {declared}. "
             + finding + (' ' + limits + (' ' + ' '.join(specific) if specific else '') if include_limits else ''))
 

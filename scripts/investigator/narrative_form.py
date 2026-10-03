@@ -61,10 +61,15 @@ def business(text,payload):
             wording=render_descriptor(hint,business=True)
             if wording:text=wording+' '+text
     from .declared_reproduction import KIND,render
+    reproduction_limits=[]
     for entry in payload.get('evidence',[]):
         finding=entry.get('result',{})
         if finding.get('check_kind')==KIND:
-            text=render(finding,business=True)+' '+text
+            text=render(finding,business=True,include_limits=False)+' '+text
+            from .declaration_inventory import qualifications
+            from .reported_figure import qualification
+            for limit in qualifications(finding['declarations'],finding['label'])[4:]+qualification(finding['reported_figure']):
+                if limit not in reproduction_limits:reproduction_limits.append(limit)
         elif finding.get('check_kind')=='PROBE_NOT_EXECUTED':
             text='The selected calculation was not checked because the diagnostic read cap was reached; it would establish '+finding['would_establish']+'. '+text
         elif finding.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':
@@ -73,6 +78,7 @@ def business(text,payload):
             text=('You did not provide the number shown in the report, so its saved selections could not be tested against your figure. '
                   if finding['reason']==NO_FIGURE else
                   'The declared selections could not be tested with the available evidence. ')+text
+    if reproduction_limits:text+=' '+' '.join(reproduction_limits)
     from .surface_difference import wording
     statements=[]
     for entry in payload.get('evidence',[]):

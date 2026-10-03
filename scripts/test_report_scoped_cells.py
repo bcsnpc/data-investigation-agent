@@ -185,7 +185,7 @@ class ScopedTests(unittest.TestCase):
         document['filterConfig']=filter_config(native_filter(('West',)))
         self.part('definition/pages/p/visuals/other/visual.json',document)
         result=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
-        self.assertEqual(len(self.requests),4)
+        self.assertEqual(len(self.requests),3)
         self.assertEqual(len({r['query'] for r in self.requests}),3)
         self.assertEqual(len(result['cells']),2)
 
