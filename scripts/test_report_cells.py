@@ -78,7 +78,7 @@ class CellTests(unittest.TestCase):
         self.modify(self.page, lambda d: d['visualInteractions'].append({'source': 's', 'target': 'other', 'type': 'DataFilter'}))
         result = declared_reproduction.run(self.adapter, self.layer, self.measure['id'], self.scope)
         self.assertEqual(len(result['cells']), 2)
-        self.assertEqual(len(self.requests), 2)
+        self.assertEqual(len(self.requests), 3)
         self.assertTrue(all(r['finding']['label'] == 'REPRODUCED' for r in result['cells']))
         for r in result['cells']: self.assertIn(r['cell']['target_id'], result['technical_output'])
 
@@ -100,8 +100,8 @@ class CellTests(unittest.TestCase):
         self.adapter.remaining_diagnostic_reads = lambda: 2 - len(self.requests)
         result = declared_reproduction.run(self.adapter, self.layer, self.measure['id'], self.scope)
         self.assertEqual(len(self.requests), 2)
-        self.assertEqual(len(result['unevaluated_cells']), 0)
-        self.assertTrue(self.adapter.duplicate_read_events)
+        self.assertEqual(len(result['unevaluated_cells']), 2)
+        self.assertEqual(result['unevaluated_cells'][0]['purpose'],'DECLARED_CONTEXT')
 
     def test_no_reported_figure_still_obtains_values_without_a_verdict(self):
         self.scope['reported_figure'] = {'state': 'UNSPECIFIED'}
@@ -123,7 +123,7 @@ class CellTests(unittest.TestCase):
         self.parts.remove(self.slicer); self.parts.remove(self.bookmark)
         result = declared_reproduction.run(self.adapter, self.layer, self.measure['id'], self.scope)
         self.assertEqual(result['finding']['declarations'], [])
-        self.assertEqual(len(self.requests), 1)
+        self.assertEqual(len(self.requests), 2)
 
 
 if __name__ == '__main__': unittest.main()

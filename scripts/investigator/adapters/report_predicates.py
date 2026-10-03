@@ -586,7 +586,8 @@ def cells(model, measure_id, scope):
         try:
             for address in addresses(model, _document(model, target_id), target_id, measure_id, scope):
                 item = copy.deepcopy(declaration); item['cell'] = address
-                item['evidence']['cell'] = copy.deepcopy(address)
+                item['evidence']['cell_definition'] = {'target_id':address['target_id'], 'measure_id':measure_id,
+                    'grouping_columns':copy.deepcopy(address['grouping_columns'])}
                 result.append(item)
         except Refusal as exc:
             refused.append({'target_id': target_id, 'reason': str(exc), 'form': exc.form})
@@ -596,6 +597,7 @@ def cells(model, measure_id, scope):
                 address={'target_id':target_id,'measure_id':measure_id,'grouping_columns':sorted(c['id'] for c in columns),
                     'key_restrictions':[],'mode':'TOTAL'}
                 address['id']=digest(address)
-                item=copy.deepcopy(declaration);item['cell']=address;item['evidence']['cell']=copy.deepcopy(address)
+                item=copy.deepcopy(declaration);item['cell']=address;item['evidence']['cell_definition']={'target_id':target_id,
+                    'measure_id':measure_id,'grouping_columns':copy.deepcopy(address['grouping_columns'])}
                 result.append(item)
     return {'status': 'DECLARED', 'cells': result, 'refusals': refused}

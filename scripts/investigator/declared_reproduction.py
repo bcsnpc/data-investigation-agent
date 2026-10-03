@@ -183,7 +183,7 @@ def _run_one(adapter, layer, measure_id, scope):
     planned=(('DECLARED_CONTEXT', restrictions), ('UNDECLARED_CONTEXT', []))
     for ordinal,(purpose, applied) in enumerate(planned):
         remaining=getattr(adapter,'remaining_diagnostic_reads',None)
-        cost=adapter.declared_probe_cost(measure_id,declaration,applied) if hasattr(adapter,'declared_probe_cost') else 1
+        cost=adapter.declared_probe_cost(measure_id,declaration,applied,purpose) if hasattr(adapter,'declared_probe_cost') else 1
         if remaining is not None and remaining()<cost:
             stopped={'target_id':cell['target_id'] if cell else layer['id'],'purpose':purpose,
                 'would_establish':('the value under the full declared restrictions' if purpose=='DECLARED_CONTEXT' else 'the value without applying the report declarations'),
@@ -193,7 +193,7 @@ def _run_one(adapter, layer, measure_id, scope):
                     would_establish=('the value under the full declared restrictions' if p=='DECLARED_CONTEXT' else 'the value without applying the report declarations')) for p,_ in planned[ordinal:]]}
         probe = attest(adapter.evaluate_declared_context(layer, measure_id,
                         {'restrictions': copy.deepcopy(applied), 'dimension_ids': [],
-                         **({'cell_id': cell['id']} if cell is not None else {})}))
+                         **({'cell_id': cell['id'],'probe_purpose':purpose} if cell is not None else {})}))
         if probe.evidence:
             observed = _observation(probe.evidence, 'declared_context_read')
             observed['execution_surface'] = probe.execution_surface
@@ -275,7 +275,9 @@ def validate(marker, observations, quantities=None):
     if cell is not None:
         from .report_cell import validate as validate_cell
         validate_cell(cell, marker['measure_id'])
-        if definition.get('cell') != cell:
+        shape=definition.get('cell_definition')
+        if (not isinstance(shape,dict) or shape!={k:cell[k] for k in ('target_id','measure_id','grouping_columns')}
+                or b.get('cell_address')!=cell):
             raise ValueError('Cell identity differs from original definition/read receipts')
     keys = cell['key_restrictions'] if cell is not None else []
     restrictions = compose(definition['declared_restrictions'] + keys)

@@ -1,0 +1,50 @@
+import copy
+import unittest
+from investigator import declared_reproduction
+import test_report_cells as fixture
+
+
+class ReadCellAddressTests(unittest.TestCase):
+    setUp=fixture.CellTests.setUp
+    part=fixture.CellTests.part
+    modify=fixture.CellTests.modify
+    grouped=fixture.CellTests.grouped
+
+    def run_cells(self):
+        self.grouped()
+        return declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
+
+    def test_two_cells_share_definition_and_validate_against_distinct_sealed_reads(self):
+        result=self.run_cells()
+        findings=[c['finding'] for c in result['cells']]
+        self.assertEqual(len(findings),2)
+        self.assertEqual(findings[0]['definition_evidence_id'],findings[1]['definition_evidence_id'])
+        self.assertNotEqual(findings[0]['lower_evidence_id'],findings[1]['lower_evidence_id'])
+        observations={o['id']:o for o in result['observations']}
+        definition=observations[findings[0]['definition_evidence_id']]
+        self.assertNotIn('cell',definition)
+        for f in findings:
+            read=observations[f['lower_evidence_id']]
+            self.assertEqual(read['cell_address'],f['cell'])
+            declared_reproduction.validate(f,observations)
+        self.assertEqual(len(self.requests),3)  # two cells, one shared baseline
+
+    def test_missing_read_address_is_a_refusal_not_a_default(self):
+        result=self.run_cells();f=result['cells'][0]['finding']
+        obs={o['id']:copy.deepcopy(o) for o in result['observations']}
+        del obs[f['lower_evidence_id']]['cell_address']
+        with self.assertRaisesRegex(ValueError,'Cell identity differs'):
+            declared_reproduction.validate(f,obs)
+
+    def test_cell_grouping_must_match_definition_even_if_read_and_marker_agree(self):
+        from investigator.onboarding import digest
+        result=self.run_cells();f=copy.deepcopy(result['cells'][0]['finding'])
+        obs={o['id']:copy.deepcopy(o) for o in result['observations']}
+        c=f['cell'];c['grouping_columns']=['different'];c['key_restrictions'][0]['field_id']='different'
+        c['id']=digest({k:v for k,v in c.items() if k!='id'})
+        obs[f['lower_evidence_id']]['cell_address']=copy.deepcopy(c)
+        with self.assertRaisesRegex(ValueError,'Cell identity differs'):
+            declared_reproduction.validate(f,obs)
+
+
+if __name__=='__main__':unittest.main()

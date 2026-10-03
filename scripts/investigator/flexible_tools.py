@@ -55,17 +55,23 @@ SQL_TOOLS=('bounded_sql','bounded_fabric_sql')
 
 
 def build(store,plan,config,tool,*,catalog=None):
-    fields(plan,['model_id','revision','context_id','query','max_rows']+(['surface_report'] if 'surface_report' in plan else []))
+    fields(plan,['model_id','revision','context_id','query','max_rows']+(['surface_report'] if 'surface_report' in plan else [])+(['cell_address'] if 'cell_address' in plan else []))
     report=surface_columns(plan['surface_report']) if 'surface_report' in plan else None
     model=store.get(plan['model_id'])
     if not model['enabled'] or plan['revision']!=model['revision'] or plan['context_id']!=model['context_id']:
         raise Conflict('Proposed query context changed or disabled')
     if model['workspace']!=config['fabric']['workspace_id']:raise Conflict('Connection workspace differs')
     if tool=='bounded_dax':
+        if 'cell_address' in plan:
+            from .report_cell import validate as validate_cell
+            validate_cell(plan['cell_address'],plan['cell_address']['measure_id'])
         reader=config['fabric'].get('native_reader')
         if reader is None or not allows(reader,model['workspace'],model['native_id']):raise Conflict('Proposed DAX requires approved isolated reader')
         compiled=query_dax.compile_query(plan['query'],assets(model['context']),max_rows=plan['max_rows'])
         compiled.update(workspace=model['workspace'],native_model_id=model['native_id'],requires_native_reader=True)
+        if 'cell_address' in plan:
+            import copy
+            compiled['cell_address']=copy.deepcopy(plan['cell_address'])
     elif tool=='bounded_sql':
         from .source_diagnostics import snapshot
         objects,_=snapshot(store,model,config)
