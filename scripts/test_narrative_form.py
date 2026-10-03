@@ -6,6 +6,28 @@ import test_path_narrative as fixture
 
 
 class NarrativeFormTests(unittest.TestCase):
+    def test_distinct_grades_are_attributed_to_their_own_boundaries(self):
+        payload,_,_=self.fixture()
+        comparisons=[e for e in payload['evidence'] if e.get('result',{}).get('comparison_status')=='CROSS_SURFACE_VERIFIED']
+        for entry,grade in zip(comparisons,('ENGINE_INDEPENDENT','OBJECT_DISTINCT')):
+            entry['result']['surface_difference']={'grade':grade}
+        original=copy.deepcopy(payload)
+        text=form.business(business_text('TRANSFORMATION_LOGIC',payload),payload)
+        self.assertIn('For the report and the table used to prepare it, the two checks used different calculation engines.',text)
+        self.assertIn('For the table used to prepare the report and the table it is built from, the checks read different data sources;',text)
+        self.assertEqual(payload,original)
+        self.assertNotIn('earlier',text.lower())
+
+    def test_kind_undeclared_reproduction_is_technical_only(self):
+        payload,source,_=self.fixture()
+        reason='Declared-context reproduction is undeclared for question kind BUSINESS_MEANING.'
+        payload['evidence'].append({'id':'not-applicable','result':{
+            'check_kind':'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE','question_kind':'BUSINESS_MEANING',
+            'capability_status':'UNDECLARED','reason':reason}})
+        body=business_text('TRANSFORMATION_LOGIC',payload)
+        self.assertEqual(form.business(body,payload),body)
+        self.assertIn(reason,form.technical('A left join can repeat matches.',payload,source,action('TRANSFORMATION_LOGIC')))
+
     def fixture(self):
         payload=fixture.PathNarrativeTests().payload()
         names={'report':'fabric://workspace/model/table/Sales',
