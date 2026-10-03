@@ -267,6 +267,7 @@ class MicrosoftProcessAdapter:
         exists=quantity['quantity']=='1'
         return Probe('OBSERVED',layer['id'],value=quantity,query=query,execution_surface=surface,
             evidence={'id':result['id'],'tool':'bounded_dax','check_kind':'COLUMN_VALUE_EXISTENCE','column_id':column_id,
+                'request_hash':result['request_hash'],
                 'searched_value':value,'value_exists':exists,'report_id':binding['report_id'],
                 'context_id':model['context_id'],'model_revision':model['revision'],'completeness':body['completeness'],'values':rows},
             surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),

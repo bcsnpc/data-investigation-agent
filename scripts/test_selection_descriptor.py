@@ -136,5 +136,30 @@ class DescriptorResolutionTests(unittest.TestCase):
             self.prepare()
         self.assertEqual(self.requests,[])
 
+    def test_positive_value_existence_and_resolution_producer_receipts_reach_synthesis(self):
+        from investigator.synthesis_digest import build
+        scope,observations=self.run_hint('warehouse')
+        envelope={'symptom':'Check North.','model_id':self.model['id'],
+                  'context_id':self.model['context_id'],'measure_id':self.measure['id'],
+                  'filters':scope['filters'],'dimension_ids':[]}
+        state={'model_id':self.model['id'],'envelope':envelope,
+               'observations':observations,'hypotheses':[]}
+        with self.store.connect() as db:payload=build(state,db)
+        self.assertEqual(len(payload['evidence']),len(observations))
+        self.assertEqual(payload['evidence'][-1]['result']['descriptor_hint']['agreement'],'TEXT_DISAGREEMENT')
+
+    def test_every_registered_query_shape_requires_original_compiled_hash_and_result(self):
+        from investigator.process_receipts import REGISTRY,validate_for_synthesis
+        from investigator.onboarding import Conflict
+        for name,spec in REGISTRY.items():
+            if spec.route!='query':continue
+            for field in ('request_hash','values'):
+                with self.subTest(shape=name,field=field):
+                    observation={'check_kind':name,'status':'COMPLETED',
+                                 'request_hash':'original','values':[]}
+                    del observation[field]
+                    with self.assertRaisesRegex(Conflict,name+'.*'+field):
+                        validate_for_synthesis(observation)
+
 
 if __name__=='__main__':unittest.main()

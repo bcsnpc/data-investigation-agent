@@ -66,3 +66,20 @@ Engine bytes changed; all earlier freezes remain invalidated. Full regression
 and final-head six-check CI are recorded on the PR. Three unchanged tickets are
 rerun only after this merges; reproduction and EMPTY handling are still not
 claimed as live-verified.
+
+## Dated producer integration finding
+
+A new positive value-existence -> resolution -> synthesis integration test failed
+with `KeyError: request_hash` before any live rerun. The adapter's existence
+receipt omitted the compiled-request hash although the query runner returned it;
+synthesis was right to require it. The producer now carries that exact hash,
+with no default. The registry's common query contract requires original hash and
+result fields for EVERY registered query shape and names a missing field before
+rendering. The same real adapter test now reaches sealed-receipt synthesis;
+hostile missing-field tests enumerate every query shape. The failing test log
+remains local. This is part of making the newly separated value's positive
+lookup usable, not a relaxation of existence or attestation checks.
+
+Fourteen new descriptor/integration tests pass. Earlier full suites passed
+1,576 and 1,578 tests before the final producer integration correction; final
+full-suite and exact-head CI results are recorded on the PR. No live runs here.
