@@ -1,5 +1,7 @@
 # Current delivery status
 
+Dated estate checkpoint, 2026-10-03: [Round-two source/history probe](round-two-source-history-probe.md). Reader Copy Job history served HTTP 200 with an empty list; no job has executed. An isolated SQL source now holds 360 movements, but the reader reports SELECT permission zero. Exact one-table grant prepared, not applied; Part B stops for that human decision. No application binding, new Bronze load, latency producer or new investigation run. Failed setup and source-resume preflight preserved. Part B nine charged admissions of 120; ordinary window observed 173/300, no policy increase. Prior freezes remain invalid.
+
 Dated measurement, 2026-10-03: [Round-two family I repeat](round-two-family-i.md). #338 merged with six green checks. Original I completed TRANSFORMATION_LOGIC and validated synthesis, while explicitly leaving the requested code meaning and intended treatment unanswered. Four diagnostics, ten physical requests, six guards; one intake, one judge, one synthesis, zero investigation-planner calls. Rolling window 155 to 165 of 300. Both outputs quoted. No fixture, permission, limit or credit change; prior freezes invalidated.
 
 Dated implementation, 2026-10-03: [Round-two business boundary attribution](round-two-business-boundaries.md). Surface grades are attributed to their own comparisons; kind-undeclared reproduction stays technical-only; path depth is no longer described as earlier time. No live run here; family I follows merge. Provider context and limits unchanged. Prior freezes invalidated.
