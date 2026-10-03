@@ -56,7 +56,7 @@ class IntakeFamilyTests(unittest.TestCase):
                 with self.provider(case,requests):decision,_=azure_resolve(copy.deepcopy(case['payload']))
                 if decision['action']=='ASK':validate(decision,case['payload'])
                 else:
-                    with self.assertRaisesRegex(ValueError,'Report ambiguity'):validate(decision,case['payload'])
+                    with self.assertRaisesRegex(ValueError,'Report unavailable'):validate(decision,case['payload'])
                 self.assertEqual(len(requests),1)
                 # Golden context and all other request settings stay byte-exact.
                 # Only wire triage serialization and its field-name instructions change.
@@ -112,7 +112,7 @@ class IntakeFamilyTests(unittest.TestCase):
                     with self.provider(case,requests):
                         saved=helper.workspace.intake.resolve({'text':case['payload']['text'],'request_key':'family-'+case['id'],'parent_id':None})
                     self.assertEqual(saved['status'],'NEEDS_INPUT',saved.get('error'))
-                    self.assertIn('Report ambiguity',saved['question'])
+                    self.assertIn('Report unavailable',saved['question'])
                     self.assertEqual(helper.helper.native_calls,[])
                     self.assertIsNone(saved['proposal'])
                 finally:helper.doCleanups()
