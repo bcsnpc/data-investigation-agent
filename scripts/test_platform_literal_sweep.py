@@ -38,7 +38,7 @@ def ratchet(actual,allowed,ceiling):
 
 class PlatformLiteralSweepTests(unittest.TestCase):
     def test_production_above_adapter_debt_can_only_shrink(self):
-        frozen=(ROOT/'platform-literal-debt-ceiling.json').read_bytes()
+        frozen=(ROOT/'platform-literal-debt-ceiling.json').read_text(encoding='utf8').encode('utf8')
         self.assertEqual(hashlib.sha256(frozen).hexdigest(),CEILING_SHA256)
         allowed=json.loads((ROOT/'platform-literal-debt.json').read_text())
         ratchet(scan(ROOT/'investigator'),allowed,json.loads(frozen))
