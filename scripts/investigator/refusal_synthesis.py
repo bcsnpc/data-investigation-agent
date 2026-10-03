@@ -34,7 +34,6 @@ def render(state):
         qualification=render_descriptor(hint,business=key=='business_output') if hint else ''
         rendered=text
         if key=='business_output':
-            from .business_vocabulary import validate_identifier_form
             from .narrative_form import validate
             category=receipt.get('refusal_category')
             plain={'AMBIGUOUS':'More than one possible target remains; the investigation cannot choose between them.',
@@ -43,9 +42,9 @@ def render(state):
                    'UNSUPPORTED':'A declared selection cannot be handled faithfully with the available capability.'}
             business_reason=plain.get(category)
             if business_reason is None:
-                try:validate_identifier_form(reason);business_reason=reason
+                try:business_reason=validate(' '.join(reason.split()),business=True)
                 except ValueError:business_reason='The required check could not be established. Its detailed blocker is retained in the technical explanation.'
-            try:validate_identifier_form(question);business_question=question
+            try:business_question=validate(' '.join(question.split()),business=True)
             except ValueError:business_question='You asked about the reported figure and its selections.'
             rendered=text.replace(question,business_question).replace(reason,business_reason)
             rendered=validate(rendered+('\n'+qualification if qualification else ''),business=True)

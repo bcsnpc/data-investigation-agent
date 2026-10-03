@@ -65,6 +65,15 @@ class ScopedInventoryOnlyTests(unittest.TestCase):
         self.assertIn(reason,result['technical_output']['explanation']['text'])
         self.assertEqual(result['refusal']['text'],reason)
 
+    def test_business_refusal_validates_multiturn_question_without_leaking_structures(self):
+        for question in ('What happened?\nWhat happened?', 'Why is {"quantity": 3} shown?'):
+            state={'text':question,'observations':[{'id':'stop','tool':'process','check_kind':'INTAKE_REFUSED',
+                                                  'reason':'More detail is required.'}]}
+            result=refusal_synthesis.render(state)
+            narrative_form.validate(result['business_output']['explanation']['text'],business=True)
+            self.assertIn(question,result['technical_output']['explanation']['text'])
+            self.assertNotIn('{',result['business_output']['explanation']['text'])
+
     def test_refusal_categories_are_explicit_not_inferred_from_reason(self):
         for category,prefix in (('AMBIGUOUS','Target ambiguity'),('UNAVAILABLE','Target unavailable'),
                                 ('UNSUPPORTED','Target unsupported'),('VALUE_ABSENT','Target value absent')):
