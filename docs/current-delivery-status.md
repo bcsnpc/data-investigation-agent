@@ -1421,3 +1421,6 @@ Synthetic adapter-boundary tests pass; no estate reproduction or live combined
 quantity attestation is claimed. See [contract and limits](target-figure-contract.md).
 Engine bytes changed, invalidating prior freezes. No investigation run or ledger
 row; historical Family D evidence is unchanged and draft #297 remains open.
+
+
+Dated design only, 2026-10-03: [Inferred transformation-code bindings](inferred-code-binding-design.md). Part C covers retained M/view/notebook evidence, a closed nominee, scope/compiler/attestation verification, bounded costs, refusal and provenance in both outputs. Equal aggregates are a falsification test, not proof of semantic equivalence or promotion to declared authority. No code, live run, ledger row or capability claim. Prior freezes remain invalid.
