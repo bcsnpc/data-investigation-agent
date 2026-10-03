@@ -5,6 +5,45 @@ from investigator.onboarding import encoded
 
 
 class RenderedSpineTests(unittest.TestCase):
+    def test_complete_mechanism_evidence_survives_without_a_second_field_allowlist(self):
+        payload,state=self.fixture()
+        definition={'id':'mechanism-receipt','tool':'context','process_roles':['transformation_definition'],
+            'result':{'operations':[{'expression':'declared operation text'}],
+                'judgment':{'status':'COMPLETED','explanation':'Rows may repeat at the declared matching operation.'},
+                'future_definition_member':{'must_survive':'opaque source evidence'}},
+            'provenance':{'content_hash':'sealed-definition-hash'}}
+        payload['evidence'].append(definition);before=copy.deepcopy(payload)
+        wire=build(payload,state,48000)
+        self.assertEqual(wire['mechanism_evidence'],[definition])
+        self.assertEqual(wire['evidence'],[{'id':e['id']} for e in payload['evidence']])
+        self.assertEqual(payload,before);self.assertFalse(wire['elided'])
+        wire['mechanism_evidence'][0]['result']['operations'].clear()
+        self.assertEqual(payload,before)
+
+    def test_mechanism_elision_is_whole_named_and_never_silent_source_truncation(self):
+        payload,state=self.fixture()
+        definition={'id':'large-definition','process_roles':['presentation_definition'],
+            'result':{'definition':'original source '+('x'*5000)+' complete ending.'}}
+        payload['evidence'].append(definition)
+        wire=build(payload,state,4000)
+        self.assertEqual(wire['mechanism_evidence'],[])
+        self.assertIn({'section':'mechanism_evidence','id':'large-definition'},wire['elided'])
+        self.assertEqual(payload['evidence'][-1],definition)
+        self.assertIn({'id':'large-definition'},wire['evidence'])
+
+    def test_mechanism_growth_keeps_directory_and_sql_object_coverage(self):
+        payload,state=self.fixture(10,10)
+        # No directory is supplied by this seam; evidence/candidate coverage
+        # is the bounded context actually consumed here.
+        payload['evidence'].append({'id':'definition','process_roles':[],
+            'result':{'operations':[{'expression':'combine declared records'}]}})
+        before=build(payload,state,48000)
+        payload['evidence'][-1]['process_roles']=['transformation_definition']
+        after=build(payload,state,48000)
+        self.assertEqual(before['evidence'],after['evidence'])
+        self.assertEqual(before['candidates'],after['candidates'])
+        self.assertFalse(after['elided'])
+
     def fixture(self, candidates=1, restrictions=1):
         rows=[]
         for n in range(candidates):

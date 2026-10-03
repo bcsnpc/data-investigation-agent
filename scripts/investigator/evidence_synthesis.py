@@ -152,6 +152,8 @@ def azure_synthesize(payload,options):
     from .synthesis_wire import prepare,decode
     view,wire,handles=prepare(payload)
     guidance=narrative.INSTRUCTIONS.replace('Copy the business wording from its exact allowed vocabulary.','Business wording is rendered locally by the engine; do not return it.').replace('Return the business explanation and technical mechanism.','Return only the technical mechanism, citing the displayed receipt handles.')
+    from .path_narrative import producer_rules
+    guidance+='\n'+producer_rules()
     value,usage=azure_generate(view,instructions=instructions(guidance,wire),schema=wire,
                                name='evidence_narrative',decision_tool=True,generation_options=options)
     try:decoded=decode(value,payload,wire,handles)

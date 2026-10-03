@@ -42,10 +42,10 @@ def _casefold(term):
     return ''.join('['+c.lower()+c.upper()+']' if c.isalpha() else r'\s+' if c==' ' else c for c in term)
 
 
-COMMENTARY_FORBIDDEN=(r'\d|\b(?:'+'|'.join(_casefold(w) for w in
-    ('independent','independence','upstream','downstream','input','output','feeds','fixed boundary account',
+COMMENTARY_TERMS=('independent','independence','upstream','downstream','input','output','feeds','fixed boundary account',
      'fixed account','boundary account','path facts','rendered facts','rendered spine',
-     'fixed spine','account states','account shows','account describes','see the table'))+r')\b')
+     'fixed spine','account states','account shows','account describes','see the table')
+COMMENTARY_FORBIDDEN=(r'\d|\b(?:'+'|'.join(_casefold(w) for w in COMMENTARY_TERMS)+r')\b')
 
 
 def commentary_schema(bound):
@@ -89,6 +89,17 @@ MECHANISM_LIMIT_TERMS=(
     'permission', 'access limitation', 'same moment', 'update timing',
     'limitation', 'caveat')
 MECHANISM_FORBIDDEN=r'\b(?:'+'|'.join(_casefold(t) for t in MECHANISM_LIMIT_TERMS)+r')\b'
+
+
+def producer_rules():
+    """Same vocabulary as the consumer, even where wire regex is unsupported."""
+    return ('Mechanism text must contain no digits, including digits in native identifiers. '
+        'Do not copy native names with digits; explain the operation instead. '
+        'Do not use these path-account terms: '+', '.join(COMMENTARY_TERMS)+'. '
+        'Do not use these engine-owned limitation terms: '+', '.join(MECHANISM_LIMIT_TERMS)+'. '
+        'The mechanism_evidence section contains original retained definition evidence and a '
+        'completed judgment where present. Explain only the recorded operation; its limitations '
+        'are rendered locally. No new inference, value or proof is supplied by that display copy.')
 
 
 def mechanism_schema(bound):

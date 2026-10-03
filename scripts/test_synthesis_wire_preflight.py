@@ -5,6 +5,20 @@ from investigator import synthesis_wire as wire,evidence_synthesis as synthesis
 from investigator.adapters.structured_output_contract import validate as provider_validate
 
 class WirePreflightTests(unittest.TestCase):
+    def test_consumer_owned_prose_vocabulary_reaches_outbound_instructions(self):
+        from investigator import path_narrative as p
+        from investigator.synthesis_narrative import Response
+        response={'technical_output':{'text':'The declared operation combines records.','evidence_ids':['r0']}}
+        with patch('ticket_planner.azure_generate',return_value=(response,{'usage':{}})) as generate:
+            result,_=synthesis.azure_synthesize(self.payload(),{})
+        self.assertIsInstance(result,Response)
+        instructions=generate.call_args.kwargs['instructions']
+        self.assertIn('no digits, including digits in native identifiers',instructions)
+        for term in p.COMMENTARY_TERMS+p.MECHANISM_LIMIT_TERMS:
+            self.assertIn(term,instructions)
+        for term in ('independent','snapshot'):
+            with self.assertRaises(ValueError):p.validate_mechanism('The '+term+' was checked.')
+
     def payload(self):
         return {'outcome':'NO_COMPARABLE_PATH','rendered_business':'The visual "Example" was checked.',
             'evidence':[{'id':'actual-receipt'},{'id':'definition'},{'id':'comparison'}],
