@@ -74,6 +74,9 @@ class Harness:
                                         'completeness': 'COMPLETE_RESPONSE',
                                         'surface_report': {'identity': 'reader@example.com','engine':'OLAP Server','object':'n'}}}
         real_run = flexible_tools.run
+        real_build = flexible_tools.build
+        def admit(store, plan, config, tool, **kwargs):
+            return {} if tool == 'bounded_dax' else real_build(store, plan, config, tool, **kwargs)
         def run_query(store, plan, config, tool, execute, **kwargs):
             if tool == 'bounded_dax':
                 self.dax_query = plan['query']
@@ -81,7 +84,8 @@ class Harness:
             return real_run(store, plan, config, tool, execute, **kwargs)
         with patch('investigator.adapters.microsoft_process.assets', return_value=[{'id': 'q', 'name': 'Q'}]), \
              patch('investigator.adapters.microsoft_process.context_search.latest', return_value=self.CONTEXT), \
-             patch('investigator.adapters.microsoft_process.run_query', side_effect=run_query):
+             patch('investigator.adapters.microsoft_process.run_query', side_effect=run_query), \
+             patch('investigator.flexible_tools.build', side_effect=admit):
             return self.adapter.evaluate(layer, 'q', scope or {})
 
 

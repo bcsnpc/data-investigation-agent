@@ -106,7 +106,8 @@ class AdapterTests(unittest.TestCase):
     def evaluate(self, result):
         adapter = self.adapter()
         with patch('investigator.adapters.microsoft_process.assets', return_value=[{'id': 'q', 'name': 'Q'}]), \
-             patch('investigator.adapters.microsoft_process.run_query', return_value=result):
+             patch('investigator.adapters.microsoft_process.run_query', return_value=result), \
+             patch('investigator.flexible_tools.build', return_value={}):
             return adapter.evaluate({'id': 'top', 'kind': 'presentation'}, 'q', {})
 
     def test_masked_service_error_is_classified_generic(self):

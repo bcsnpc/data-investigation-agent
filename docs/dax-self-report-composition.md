@@ -73,3 +73,15 @@ Prior receipts and failed runs remain unchanged. All engine freezes invalidated.
 Stop after PR B. Baseline memoisation/order/cap reporting (PR C), the scoped
 inventory consumer and R1 output defects (PR D), and reruns remain pending.
 The fixture change waits.
+
+Dated accounting correction, 2026-10-02: the planning snapshot was 24/60,
+but one existing reservation aged out before the executed set. Its actual
+before/after control reads are **23 to 26 of 60**, with three initiated requests.
+The ledger retains the original mistaken 24?27 summary and appends this correction;
+no counter reset, refund or policy change occurred. The probe source commit is
+59043c7. The evidence's engine_hash is explicitly a reconstructed Git-blob
+manifest, not an observed runtime fingerprint; these operator API probes did
+not enter the investigation engine. Approval-normalised config hash remains
+19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6.
+
+Validation correction: the initial full suite completed 1,596 tests with 13 errors across legacy adapter doubles that mocked execution but not the newly earlier admission. Their DAX admission is now explicitly mocked; the independent lower-read harness still uses real SQL admission. Dedicated hostile tests exercise real DAX admission with zero-meter/zero-execution assertions. Failure logs remain in .local; final full-suite/CI results follow on the PR.

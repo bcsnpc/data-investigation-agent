@@ -661,3 +661,5 @@ Synthetic adapter-boundary tests pass; no estate reproduction or live combined
 quantity attestation is claimed. See [contract and limits](docs/target-figure-contract.md).
 Engine bytes changed, invalidating prior freezes. No investigation run or ledger
 row; historical Family D evidence is unchanged and draft #297 remains open.
+
+Dated accounting correction, 2026-10-02: the composition probe set actually used rolling allowance 23 to 26 of 60, after one prior reservation naturally expired before execution. The mistaken preparation-summary 24 to 27 remains above and in its original ledger row; an appended correction records the actual control reads. Three requests, no resets or refunds.

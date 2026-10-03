@@ -534,5 +534,8 @@
   "policy_hash": "db0c9b6110a4c7f09bd872fdc65e544f883ee2215d000eb4abe20b5409d384fa",
   "config_unchanged": true,
   "policy_unchanged": true,
-  "model_calls": 0
+  "model_calls": 0,
+  "engine_hash_scope": "Reconstructed Git-blob source manifest with interpreter version; not an observed runtime fingerprint (Windows checkout line endings differ).",
+  "approved_normalised_config_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+  "config_hash_scope": "Raw parsed config JSON digest; approval pins the separately recorded normalised config digest."
 }
