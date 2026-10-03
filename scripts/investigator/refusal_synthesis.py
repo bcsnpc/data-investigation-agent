@@ -50,7 +50,18 @@ def render(state):
             rendered=validate(rendered+('\n'+qualification if qualification else ''),business=True)
         else:rendered+=('\n'+qualification if qualification else '')
         # A refused walk does not erase completed, separately validated cells.
-        cells=[o for o in state.get('observations',[]) if o.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION']
+        cells=[]
+        from .declared_reproduction import validate as validate_cell_finding
+        originals={o['id']:o for o in state.get('observations',[]) if o.get('id')}
+        invalid_cells=[]
+        for observation in originals.values():
+            if observation.get('check_kind')!='DECLARED_CONTEXT_REPRODUCTION':continue
+            try:validate_cell_finding(observation,originals)
+            except (ValueError,KeyError):invalid_cells.append(observation['id'])
+            else:cells.append(observation)
+        if invalid_cells:
+            rendered+='\nCompleted cell facts could not be validated.'
+            if key=='technical_output':rendered+=' Receipts: '+', '.join(invalid_cells)+'.'
         if cells:
             from .declared_reproduction import render as render_cell
             if key=='business_output':
