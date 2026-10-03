@@ -189,6 +189,11 @@ def build(state,db):
    compiled={k:v for k,v in request.items() if k!='plan'}
    if digest(expected)!=digest(o['values']) or digest(compiled)!=o['request_hash']:
     raise Conflict('Synthesis observation differs from sealed receipt')
+    if 'read_address' in request or 'read_address' in o:
+     from .read_address import validate as validate_address
+     validate_address(o.get('read_address'),o.get('measure_id'))
+     if o['read_address']!=request.get('read_address'):
+      raise Conflict('Quantity read address differs from sealed request')
    if o.get('surface_report_binding')=='VALUE_QUERY':
     if (o.get('surface_report')!=result.get('surface_report')
         or result.get('surface_report_binding')!='VALUE_QUERY'):

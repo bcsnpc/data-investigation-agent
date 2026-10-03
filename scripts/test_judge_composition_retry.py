@@ -48,7 +48,8 @@ class JudgeRetryTests(unittest.TestCase):
     def test_second_unfinished_response_holds_without_third_attempt(self):
         state,calls,_=self.run_case([IncompleteProse('unfinished'),IncompleteProse('unfinished')])
         self.assertEqual(len(calls),2);self.assertEqual(state['status'],'HELD')
-        self.assertEqual(state['process_error'],'IncompleteProse')
+        self.assertEqual(state['process_error']['error_type'],'IncompleteProse')
+        self.assertEqual(state['stop_reason'],'PROCESS_FAILED')
         self.assertEqual(sum(e['kind']=='PROCESS_JUDGMENT_RETRY_EXHAUSTED' for e in state['events']),1)
 
     def test_retry_does_not_bypass_call_limit(self):

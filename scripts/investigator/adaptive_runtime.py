@@ -23,7 +23,7 @@ def now():
 
 def outcome(state):
     reason=state.get('stop_reason')
-    classification='UNRESOLVED' if reason in ('BUDGET_LIMIT','DEADLINE','PLANNER_FAILED','TOOL_UNAVAILABLE','PLANNER_COMPLETION_UNCERTAIN','REMOTE_COMPLETION_UNCERTAIN','USAGE_LIMIT','NO_PROGRESS','USER_CANCELLED') else 'INSUFFICIENT_EVIDENCE'
+    classification='UNRESOLVED' if reason in ('BUDGET_LIMIT','DEADLINE','PLANNER_FAILED','TOOL_UNAVAILABLE','PROCESS_FAILED','PLANNER_COMPLETION_UNCERTAIN','REMOTE_COMPLETION_UNCERTAIN','USAGE_LIMIT','NO_PROGRESS','USER_CANCELLED') else 'INSUFFICIENT_EVIDENCE'
     result={'classification':classification,'stop_reason':reason,
             'record_comparisons':state.get('record_comparisons',[]),
             'aggregate_reconciliations':state.get('aggregate_reconciliations',[]),
@@ -554,8 +554,9 @@ class AdaptiveRuntime:
                 judgment_event('PROCESS_JUDGMENT_REJECTED',{'planner_call':number,'attempt':attempt,'reason_code':'INCOMPLETE_PROSE'})
                 raise
             except Exception as exc:
-                return {'status':'UNAVAILABLE','explains':None,
-                        'reason':'Definition judgment unavailable: '+type(exc).__name__+'.'}
+                # Composition/provider failures are not absent estate capabilities.
+                # The process failure recorder retains the safe diagnostic.
+                raise
             finally:
                 if self.governor:
                     usage=metadata.get('usage') if isinstance(metadata,dict) else None
@@ -686,13 +687,17 @@ class AdaptiveRuntime:
                 raise ValueError('Process procedure did not return its evidence chain')
             validate_support(assessment,{o['id']:o for o in observations})
         except Exception as exc:
-            error=type(exc).__name__
+            from .process_failure import capture
+            error=capture(exc)
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
             if error:
                 state['observations'].extend(observations or [])
-                self.stop(db,state,'TOOL_UNAVAILABLE','HELD')
-                state['process_error']=error;self.save(db,state,'PROCESS_FAILED',{'error_type':error})
+                from .process_receipts import refusal
+                state['observations'].append(refusal('PROCESS_FAILED',error['message'],
+                    'process-failed-'+str(len(state['observations'])),failure=error))
+                self.stop(db,state,'PROCESS_FAILED','HELD')
+                state['process_error']=error;self.save(db,state,'PROCESS_FAILED',error)
                 return self.project_after_commit(db,state)
             state['observations'].extend(observations);state['assessment']=assessment
             if assessment['classification']=='NO_KNOWN_PATTERN' and assessment['terminating_step']==0:

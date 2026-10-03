@@ -577,6 +577,9 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     # otherwise name the deepest layer actually reached.
     if verified_boundaries==0:
         reason=(gaps[0]['reason'] if gaps else path.get('missing_comparable_quantity')) or 'No successful boundary comparison connected the baseline to a lower layer.'
+        if baseline['status']!='ESTABLISHED':
+            return answer('NO_KNOWN_PATTERN',2,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
+                roles=('established',),missing_capability=baseline['reason'],skipped_steps=skipped)
         if scope.get('ticket_shape')=='BUSINESS_QUESTION':return unverified_business_flow(reason)
         return answer('NO_COMPARABLE_PATH',3,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
             roles=('path',),missing_capability=reason,

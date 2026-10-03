@@ -274,6 +274,10 @@ def validate(marker, observations, quantities=None):
     if refs[1] == refs[2] and (not marker.get('cell') or marker['composed_restrictions']):
         raise ValueError('Distinct scopes require distinct original read receipts')
     definition, a, b = [observations[r] for r in refs]
+    from .read_address import validate as validate_address
+    for read in (a,b):validate_address(read.get('read_address'),marker['measure_id'])
+    if a['read_address']!={'kind':'BASELINE','restrictions':[]}:
+        raise ValueError('Undeclared-context read requires its explicit baseline address')
     if (set(definition.get('process_roles', [])) != {'declared_context_definition'}
             or any(set(o.get('process_roles', [])) != {'declared_context_read'} for o in (a,b))):
         raise ValueError('Reproduction receipts cannot satisfy vertical outcome roles')
@@ -296,10 +300,12 @@ def validate(marker, observations, quantities=None):
         validate_cell(cell, marker['measure_id'])
         shape=definition.get('cell_definition')
         if (not isinstance(shape,dict) or shape!={k:cell[k] for k in ('target_id','measure_id','grouping_columns')}
-                or b.get('cell_address')!=cell):
+                or b.get('cell_address')!=cell or b['read_address']!={'kind':'CELL','cell':cell}):
             raise ValueError('Cell identity differs from original definition/read receipts')
     keys = cell['key_restrictions'] if cell is not None else []
     restrictions = compose(definition['declared_restrictions'] + keys)
+    if cell is None and b['read_address']!={'kind':'BASELINE','restrictions':restrictions}:
+        raise ValueError('Quantity address differs from its evaluated restriction set')
     if cell is not None and marker.get('redundant_cell_keys') != [r['field_id'] for r in keys
             if compose(definition['declared_restrictions'] + [r]) == compose(definition['declared_restrictions'])]:
         raise ValueError('Cell-key redundancy differs from the original declaration')

@@ -55,6 +55,7 @@ class NeutralAdapter(Adapter):
         return Probe('OBSERVED', layer['id'], evidence={
             'id': 'reproduction-read-' + str(n), 'tool': 'probe',
             'completeness': 'COMPLETE_RESPONSE', 'measure_id': measure_id,
+            'read_address':{'kind':'BASELINE','restrictions':reproduction.compose(scope['restrictions'])},
             'applied_restrictions': copy.deepcopy(scope['restrictions']) if self.applied else []},
             value={'quantity': value}, execution_surface=surface,
             surface_report={'identity': identity, 'object': obj} if self.report else None,
