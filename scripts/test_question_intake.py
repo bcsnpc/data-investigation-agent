@@ -81,6 +81,36 @@ class WireContractTests(unittest.TestCase):
 
 
 class IntakeTests(unittest.TestCase):
+    def test_review_preserves_every_validated_proposal_field_into_procedure_evidence(self):
+        value=proposal();quote='ratio looks low';start=self.request['text'].index(quote)
+        value['question_kind']={'kind':'METRIC_COMPONENTS','source':{'start':start,'end':start+len(quote),'quote':quote}}
+        self.resolver.return_value=(value,{})
+        saved=self.resolve();self.assertEqual(saved['status'],'PROPOSED')
+        preview=self.review(saved)
+        for key,item in saved['proposal'].items():
+            with self.subTest(key=key):self.assertEqual(preview['intake'][key],item)
+        self.assertEqual(preview['envelope']['question_kind'],value['question_kind'])
+        from investigator.definition_target import procedure_scope
+        scope=procedure_scope(preview['envelope'])
+        self.assertEqual(scope['question_kind'],value['question_kind'])
+        preview['intake']['question_kind']['source']['quote']='changed'
+        self.assertEqual(saved['proposal']['question_kind'],value['question_kind'])
+        self.assertEqual(scope['question_kind'],value['question_kind'])
+
+    def test_procedure_evidence_is_a_shared_declaration_not_two_projection_lists(self):
+        from investigator import definition_target
+        envelope={'filters':[],'dimension_ids':[],'future_evidence':{'proof':'opaque'}}
+        with patch.object(definition_target,'PROCEDURE_EVIDENCE_FIELDS',definition_target.PROCEDURE_EVIDENCE_FIELDS+('future_evidence',)):
+            reviewed=definition_target.server_evidence(envelope)
+            scope=definition_target.procedure_scope({**envelope,**reviewed})
+            reviewed_intake={**envelope,'reported_figure':{'state':'UNSPECIFIED'},'comparison_mode':'VERTICAL'}
+            request={**self.h.request,'symptom':self.request['text'],'intake_id':'future-reviewed'}
+            with patch.object(self.workspace.intake,'review',return_value=reviewed_intake),patch('investigator.workspace.catalog',return_value=([],[])):
+                preview=self.workspace.preview(request)
+            self.assertEqual(preview['envelope']['future_evidence'],envelope['future_evidence'])
+        self.assertEqual(scope['future_evidence'],envelope['future_evidence'])
+        reviewed['future_evidence']['proof']='changed'
+        self.assertEqual(scope['future_evidence']['proof'],'opaque')
     def setUp(self):
         self.h = workspace_fixture.WorkspaceTests(); self.h.setUp(); self.addCleanup(self.h.doCleanups)
         self.workspace = self.h.workspace

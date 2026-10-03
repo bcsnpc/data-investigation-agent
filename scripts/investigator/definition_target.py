@@ -111,10 +111,17 @@ def evidence(column_id, source, inventory_entry_id, *, ticket, inventory, active
             'inventory_entry_id':inventory_entry_id,'source':copy.deepcopy(source)}
     return validate(result,ticket=ticket,inventory=inventory,active=active,binding=binding,reports=reports)
 
+PROCEDURE_EVIDENCE_FIELDS=('reported_figure','definition_target','report_binding','selection_request','question_kind')
+
+
+def server_evidence(source):
+    """The procedure's one field declaration also owns its review handoff."""
+    return {key:copy.deepcopy(source[key]) for key in PROCEDURE_EVIDENCE_FIELDS if key in source}
+
+
 def procedure_scope(envelope):
     """Forward server-owned evidence unchanged, including explicit UNSPECIFIED."""
     result={k:copy.deepcopy(envelope[k]) for k in ('filters','dimension_ids')}
     result['ticket_shape']=envelope.get('ticket_shape')
-    for key in ('reported_figure','definition_target','report_binding','selection_request','question_kind'):
-        if key in envelope:result[key]=copy.deepcopy(envelope[key])
+    result.update(server_evidence(envelope))
     return result
