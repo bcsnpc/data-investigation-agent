@@ -5,6 +5,44 @@ from investigator.business_vocabulary import validate_identifier_form
 
 
 class CompositionTests(unittest.TestCase):
+    def delta_rows(self):
+        rows=self.rows()[:2]
+        for row in rows:
+            row.update(measure_id='opaque/measure',lower_layer='opaque/layer',
+                lower_execution_surface=dict(engine='reader',connection='connection',object='object',identity='identity'))
+        return rows
+    def test_one_evaluated_restriction_renders_delta(self):
+        rows=self.delta_rows()
+        self.assertEqual(composition.deltas(rows),['Adding the movement type restriction takes 61 to 17.'])
+        self.assertIn(composition.deltas(rows)[0],composition.body(rows))
+    def test_two_restriction_differences_render_no_delta(self):
+        rows=self.delta_rows();rows[1]['composed_restrictions']=self.rows()[2]['composed_restrictions']
+        self.assertEqual(composition.deltas(rows),[])
+    def test_isolated_pair_is_not_lost_when_neither_cell_leads(self):
+        rows=self.delta_rows();third=copy.deepcopy(rows[1]);third['id']='third'
+        third['composed_restrictions']=self.rows()[2]['composed_restrictions']
+        rows[0]['label']='REPRODUCED';rows.append(third)
+        self.assertIn('Adding the product name restriction',composition.deltas(rows)[-1])
+    def test_keyed_total_delta_requires_identical_remaining_restrictions(self):
+        rows=self.delta_rows();key=rows[1]['composed_restrictions']
+        rows[1]['cell']=dict(mode='KEYED',target_id='visual',grouping_columns=['opaque/key'],key_restrictions=key)
+        rows[0]['cell']=dict(mode='TOTAL',target_id='visual',grouping_columns=['opaque/key'],key_restrictions=[])
+        self.assertEqual(composition.deltas(rows),['The RECEIPT row and the total differ by the row selection alone; no other declared report restriction applies.'])
+        rows[0]['composed_restrictions']=self.rows()[2]['composed_restrictions'][1:]
+        self.assertEqual(composition.deltas(rows),[])
+    def test_one_cell_and_unevaluated_or_different_routes_emit_nothing(self):
+        self.assertEqual(composition.deltas(self.delta_rows()[:1]),[])
+        for field,value in [('status','UNAVAILABLE'),('measure_id','different'),('lower_layer','different')]:
+            rows=self.delta_rows();rows[1][field]=value
+            self.assertEqual(composition.deltas(rows),[])
+        rows=self.delta_rows();rows[1]['lower_execution_surface']['object']='different'
+        self.assertEqual(composition.deltas(rows),[])
+    def test_named_secondary_visual_has_no_index_suffix(self):
+        rows=self.rows()
+        for row in rows:row['display_name']='Activity by warehouse'
+        text=composition.body(rows)
+        self.assertIn('Other visual "Activity by warehouse" produced',text)
+        self.assertNotRegex(text,r'"Activity by warehouse" \d+ produced')
     def rows(self,label='REPRODUCED'):
         result=[]
         for i,count,v in [(0,0,'61'),(1,1,'17'),(2,2,None)]:

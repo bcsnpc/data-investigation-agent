@@ -3,6 +3,7 @@ from urllib.parse import unquote
 from . import reported_figure
 import re
 import copy
+import json
 
 
 def requested(question):
@@ -38,6 +39,60 @@ def value(raw):
     if raw is None:return 'nothing'
     from decimal import Decimal
     return format(Decimal(str(raw)),',f')
+
+
+def deltas(rows):
+    """Describe isolated differences in completed native evaluations only.
+
+    This is a syntactic difference of compiled neutral restrictions, not
+    containment/equivalence reasoning or a claim of snapshot alignment.
+    """
+    lead=select(rows)
+    if lead is None:return []
+    def fields(row):
+        return {r['field_id']:json.dumps(r,sort_keys=True,ensure_ascii=False) for r in row['composed_restrictions']}
+    def same_route(a,b):
+        keys=('engine','connection','object','identity')
+        x=a.get('lower_execution_surface',{});y=b.get('lower_execution_surface',{})
+        return (a.get('status')==b.get('status')=='COMPLETED'
+            and a.get('measure_id') and a['measure_id']==b.get('measure_id')
+            and a.get('lower_layer') and a['lower_layer']==b.get('lower_layer')
+            and all(x.get(k) and x.get(k)==y.get(k) for k in keys))
+    result=[]
+    from itertools import combinations
+    ordered=[lead]+sorted((r for r in rows if r['id']!=lead['id']),key=lambda r:(-len(r['composed_restrictions']),r['id']))
+    for lead,other in combinations(ordered,2):
+        if not same_route(lead,other):continue
+        a,b=fields(lead),fields(other)
+        changed={k for k in a.keys()|b.keys() if a.get(k)!=b.get(k)}
+        lc,oc=lead.get('cell',{}),other.get('cell',{})
+        # Keyed/TOTAL is a single address difference on the very same visual.
+        if {lc.get('mode'),oc.get('mode')}=={'KEYED','TOTAL'}:
+            keyed,total=(lead,other) if lc['mode']=='KEYED' else (other,lead)
+            kc,tc=keyed['cell'],total['cell'];keys=kc.get('key_restrictions',[])
+            from .declared_reproduction import compose
+            if (kc.get('target_id')!=tc.get('target_id') or kc.get('grouping_columns')!=tc.get('grouping_columns')
+                    or not keys or not changed or tc.get('key_restrictions')
+                    or compose(total['composed_restrictions']+keys)!=keyed['composed_restrictions']
+                    or not changed<={r['field_id'] for r in keys}):continue
+            values=', '.join(str(v) for r in keys for v in r['values'])
+            sentence='The '+values+' row and the total differ by the row selection alone'
+            sentence+=('; no other declared report restriction applies.' if not total['composed_restrictions'] else '; the remaining declared restrictions are the same.')
+        else:
+            if (len(changed)!=1 or lc.get('mode')!=oc.get('mode')
+                    or lc.get('grouping_columns')!=oc.get('grouping_columns')):continue
+            field=next(iter(changed));name=unquote(field.rstrip('/').rsplit('/',1)[-1]).replace('_',' ')
+            if field not in b:
+                sentence='Adding the '+name+' restriction takes '+value(other['reproduced_value'])+' to '+value(lead['reproduced_value'])+'.'
+            elif field not in a:
+                sentence='Removing the '+name+' restriction takes '+value(other['reproduced_value'])+' to '+value(lead['reproduced_value'])+'.'
+            else:
+                # A changed allowed-value set must name both sets, not imply addition.
+                old=next(r for r in other['composed_restrictions'] if r['field_id']==field)
+                new=next(r for r in lead['composed_restrictions'] if r['field_id']==field)
+                sentence='Changing the '+name+' restriction from '+(', '.join(map(str,old['values'])) or 'no permitted values')+' to '+(', '.join(map(str,new['values'])) or 'no permitted values')+' takes '+value(other['reproduced_value'])+' to '+value(lead['reproduced_value'])+'.'
+        if sentence not in result:result.append(sentence)
+    return result
 
 
 def restrictions(row):
@@ -93,6 +148,7 @@ def body(rows):
         lines.append('This is not the reported figure of '+reported_figure.display(lead['reported_figure'])+'.')
     else:lines.append('No reported figure supplied; the produced value has no reproduction verdict.')
     lines.append('The same calculation without applying report declarations returned '+value(lead['undeclared_context_value'])+'; this is not an unrestricted total.')
+    lines.extend(deltas(rows))
     resolution=lead.get('selection_resolution')
     if resolution and resolution.get('resolution_kind')=='OBSERVED':
         lines.append(resolution['source']['quote']+' was observed as a value addressing the displayed row, not declared as a report filter.')
@@ -101,7 +157,8 @@ def body(rows):
         role=row.get('cell',{}).get('mode')
         label='displayed total row' if role=='TOTAL' else 'selected row' if role=='KEYED' else 'visual'
         if row.get('display_name'):label+=' "'+row['display_name']+'"'
-        lines.append('Other '+label+' '+str(i)+' produced '+value(row['reproduced_value'])+'.')
+        else:label+=' '+str(i)
+        lines.append('Other '+label+' produced '+value(row['reproduced_value'])+'.')
     lines.extend(hedges(rows,lead))
     lines.append('Recommended action: '+action(lead)['text'])
     return '\n'.join(lines)
@@ -112,6 +169,7 @@ def technical_cells(rows):
     lead=select(rows)
     if not lead:return []
     result=[render(lead,include_limits=False)]
+    result.extend(deltas(rows))
     for row in sorted((r for r in rows if r['id']!=lead['id']),key=lambda r:r['id']):
         cell=row.get('cell',{})
         result.append('Other '+(row.get('display_name') or 'cell '+cell.get('target_id','unestablished'))+

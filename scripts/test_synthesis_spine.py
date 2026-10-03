@@ -58,5 +58,25 @@ class RenderedSpineTests(unittest.TestCase):
         self.assertEqual(after['evidence'],before['evidence'])
         self.assertFalse(after['elided']);self.assertLess(len(encoded(after)),24000)
 
+    def test_evaluated_delta_does_not_reduce_candidate_or_evidence_coverage(self):
+        payload,state=self.fixture(10,10)
+        payload['question']='Does the declared context reproduce the figure?'
+        state['assessment']={'classification':'NO_COMPARABLE_PATH'}
+        for e in payload['evidence']:
+            r=e['result'];r.update(id=e['id'],status='COMPLETED',measure_id='measure',lower_layer='layer',
+                lower_execution_surface=dict(engine='reader',connection='connection',object='object',identity='identity'))
+            r['cell']={'mode':'UNGROUPED'}
+            r['reported_figure']['source']={'start':0,'end':1,'quote':'7'}
+            for d in r['declarations']:d.update(assumption='SAVED_DEFAULT',volatility='VIEWER_CHANGEABLE')
+        from investigator import reproduction_composition as c
+        from unittest.mock import patch
+        with patch.object(c,'deltas',return_value=[]):before=build(payload,state,48000)
+        payload['evidence'][1]['result']['composed_restrictions'].pop()
+        after=build(payload,state,48000)
+        self.assertIn('Adding the',after['rendered_business'])
+        self.assertEqual(len(before['candidates']),len(after['candidates']))
+        self.assertEqual(before['evidence'],after['evidence'])
+        self.assertFalse(after['elided']);self.assertLess(len(encoded(after)),24000)
+
 
 if __name__=='__main__':unittest.main()

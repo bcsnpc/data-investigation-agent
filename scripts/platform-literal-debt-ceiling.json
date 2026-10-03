@@ -1,0 +1,59 @@
+{
+  "adaptive_candidates.py": {
+    "product": 2
+  },
+  "adaptive_runtime.py": {
+    "fixture_column": 6,
+    "product": 20
+  },
+  "connection_registry.py": {
+    "product": 4
+  },
+  "dependency_context.py": {
+    "product": 1
+  },
+  "discovery_collect.py": {
+    "product": 13
+  },
+  "dynamic_reasoning.py": {
+    "fixture_column": 2,
+    "product": 1
+  },
+  "enterprise_discovery.py": {
+    "product": 9
+  },
+  "evidence_synthesis.py": {
+    "product": 2
+  },
+  "flexible_tools.py": {
+    "fixture_column": 1,
+    "product": 4
+  },
+  "native_identity.py": {
+    "product": 2
+  },
+  "onboarding.py": {
+    "product": 1
+  },
+  "physical_binding.py": {
+    "product": 3
+  },
+  "proof_preflight.py": {
+    "product": 8
+  },
+  "query_dax.py": {
+    "product": 1
+  },
+  "query_sql.py": {
+    "fixture_column": 2
+  },
+  "record_readback.py": {
+    "product": 1
+  },
+  "semantic_graph.py": {
+    "product": 1
+  },
+  "source_diagnostics.py": {
+    "product": 1
+  }
+}
