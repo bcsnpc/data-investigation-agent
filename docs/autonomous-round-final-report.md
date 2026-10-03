@@ -13,7 +13,7 @@
 | [334](https://github.com/bcsnpc/data-investigation-agent/pull/334) | Own judgment in A: repair reviewed-evidence handoff | `test_question_intake`: full reviewed proposal, deep copy and future shared evidence declaration survive into preview/procedure | Shared procedure evidence declaration; no evidence passed alongside it |
 | [335](https://github.com/bcsnpc/data-investigation-agent/pull/335) | A7: all nine unchanged tickets | Original receipts, engine inventory revalidation, one row per run and append-only C correction; six CI checks | None |
 | [336](https://github.com/bcsnpc/data-investigation-agent/pull/336) | B: complete mechanism evidence into synthesis | `test_synthesis_spine`: whole future fields/provenance survive, deep copy, named whole elision, unchanged coverage; wire test checks consumer vocabulary reaches instructions | Provider view adds opaque `mechanism_evidence`; validation still uses originals |
-| Final evidence PR | B measurement and complete round report | Original output extraction, artifact hashes and append-only ledger-prefix audit | None |
+| [337](https://github.com/bcsnpc/data-investigation-agent/pull/337) | B measurement and complete round report | Original output extraction, artifact hashes and append-only ledger-prefix audit | None |
 
 Implementation and A7 PRs merged only after all six checks passed. Latest stable local suite reports 1,665 tests OK; 17 focused synthesis tests passed. The full-suite PowerShell redirection reported shell status 1 because existing ResourceWarnings went through its error stream; the unittest summary and raw log are preserved, and CI independently passed. No dedicated live browser session was rerun.
 
