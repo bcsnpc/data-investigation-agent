@@ -78,18 +78,24 @@ def attest_surface(declared, report, reportable=()):
         return {'status':'IDENTITY_NOT_DECLARED','consistency':'UNKNOWN','coverage':'NONE','reason':'SURFACE_IDENTITY_NOT_DECLARED','required_fields':required,
                 'contradictions':[],'attested_fields':[],'unattested_fields':[]}
     if (not isinstance(report,dict) or not report
-            or any(not isinstance(k,str) or not isinstance(v,str) or not v for k,v in report.items())
-            or any(k not in report for k in required)):
+            or any(not isinstance(k,str) or (v is not None and (not isinstance(v,str) or not v)) for k,v in report.items())):
         return {'status':'MISSING','consistency':'UNKNOWN','coverage':'NONE','reason':'SURFACE_SELF_REPORT_MISSING','required_fields':required,
                 'contradictions':[],'attested_fields':[],'unattested_fields':sorted(declared)}
-    contradictions=[{'field':k,'declared':declared.get(k),'reported':v} for k,v in sorted(report.items())
+    answered={k:v for k,v in report.items() if isinstance(v,str) and v}
+    if not answered:
+        return {'status':'MISSING','consistency':'UNKNOWN','coverage':'NONE','reason':'SURFACE_SELF_REPORT_MISSING','required_fields':required,
+                'contradictions':[],'attested_fields':[],'unattested_fields':sorted(declared)}
+    missing_required=sorted(set(required)-set(answered))
+    contradictions=[{'field':k,'declared':declared.get(k),'reported':v} for k,v in sorted(answered.items())
                     if not isinstance(declared.get(k),str) or declared[k].casefold()!=v.casefold()]
-    partial=bool(set(declared)-set(report))
+    partial=bool(set(declared)-set(answered))
     return {'status':'CONTRADICTED' if contradictions else ('PARTIAL' if partial else 'MATCHED'),
             'consistency':'CONTRADICTED' if contradictions else 'MATCHED','coverage':'PARTIAL' if partial else 'FULL',
-            'reason':'SURFACE_SELF_REPORT_CONTRADICTS_DECLARED' if contradictions else None,'required_fields':required,
-            'contradictions':contradictions,'attested_fields':sorted(set(report)&set(declared)),
-            'unattested_fields':sorted(set(declared)-set(report))}
+            'reason':'SURFACE_SELF_REPORT_CONTRADICTS_DECLARED' if contradictions else 'SURFACE_SELF_REPORT_INCOMPLETE' if missing_required else None,'required_fields':required,
+            'missing_required_fields':missing_required,
+            'field_states':{k:('ATTESTED' if k in answered else 'UNATTESTED') for k in sorted(declared)},
+            'contradictions':contradictions,'attested_fields':sorted(set(answered)&set(declared)),
+            'unattested_fields':sorted(set(declared)-set(answered))}
 
 
 def attest(probe):
@@ -99,7 +105,7 @@ def attest(probe):
     evidence=dict(probe.evidence,value_state=probe.value_state,surface_report=probe.surface_report,surface_attestation=result,
                   surface_report_types=probe.surface_report_types,surface_report_binding=probe.surface_report_binding,
                   surface_report_receipt_id=probe.evidence['id'] if probe.surface_report_binding=='VALUE_QUERY' else None)
-    if result['status'] in ('MATCHED','PARTIAL'):
+    if result['status'] in ('MATCHED','PARTIAL') and not result.get('missing_required_fields'):
         return replace(probe,evidence=evidence)
     # Deliberate: a failed attestation outranks every other status. A probe that
     # was NOT_COMPARABLE and also untrusted is reported as untrusted, and its

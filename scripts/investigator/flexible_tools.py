@@ -116,10 +116,14 @@ def extract(response,request):
     else:rows=response.get('rows');identity=response.get('execution_identity')
     if not isinstance(rows,list) or len(encoded(canonical(rows)))>2*1024*1024:raise ValueError('Query result byte budget exceeded')
     report=None
+    raw_report=None
     if request.get('surface_report_columns'):
         # The surface's answer about itself is separated from the values it
         # returned. It is kept only when every row carries one consistent answer.
-        rows,report=_split_surface_report(rows,request['surface_report_columns'])
+        from .raw_surface_report import capture,report as retained_report
+        raw_report=capture(rows,request['surface_report_columns'])
+        rows,_=_split_surface_report(rows,request['surface_report_columns'])
+        report=retained_report(raw_report)
     values=[];columns=set()
     for row in rows[:request['max_rows']]:
         if not isinstance(row,dict) or len(row)>16 or any(not isinstance(k,str) or len(k)>300 for k in row):raise ValueError('Query column budget exceeded')
@@ -142,6 +146,7 @@ def extract(response,request):
             'caller_limit':request.get('caller_limit'),'interpretation':'OBSERVED',
             'limitation':request['limitation'],'cause_verified':False,
             **({'surface_report':report,'surface_report_binding':'VALUE_QUERY'} if request.get('surface_report_columns') else {}),
+            **({'raw_surface_report':raw_report} if raw_report is not None else {}),
             **({'surface_report':_transport_report(response.get('surface_report')),
                 'surface_report_binding':response.get('surface_report_binding')}
                if request['tool']=='bounded_fabric_sql' else {})}
@@ -150,7 +155,7 @@ def extract(response,request):
 def _transport_report(report):
     """A same-connection self-report from the transport, kept only if well formed."""
     if (not isinstance(report,dict) or not 1<=len(report)<=4
-            or any(not isinstance(k,str) or not isinstance(v,str) or not v or len(v)>300 for k,v in report.items())):
+            or any(not isinstance(k,str) or (v is not None and (not isinstance(v,str) or len(v)>300)) for k,v in report.items())):
         return None
     return dict(report)
 
@@ -166,7 +171,7 @@ def _split_surface_report(rows,columns):
             answers.add(row.pop(present[0]))
         answer=next(iter(answers)) if len(answers)==1 else None
         report[field]=answer if isinstance(answer,str) and answer else None
-    return stripped,(report if all(report.values()) else None)
+    return stripped,(report if any(report.values()) else None)
 
 
 def run(store,plan,config,tool,execute,*,receipt_id=None,catalog=None):
@@ -174,12 +179,21 @@ def run(store,plan,config,tool,execute,*,receipt_id=None,catalog=None):
     with store.connect() as db:
         db.execute('CREATE TABLE IF NOT EXISTS '+TABLE+'(id TEXT PRIMARY KEY,model_id TEXT,created TEXT,status TEXT,request TEXT,result TEXT)')
         db.execute('INSERT INTO '+TABLE+' VALUES(?,?,?,?,?,NULL)',(identity,plan['model_id'],datetime.now(timezone.utc).isoformat(),'RUNNING',encoded({'plan':plan,**request})))
+    raw_report=None
     try:
         if build(store,plan,config,tool,catalog=catalog)!=request:raise Conflict('Context changed before query')
         response=execute(request)
         if tool=='bounded_dax':require(response,request,config['fabric']['native_reader'])
         elif not response.get('read_only_verified'):raise ValueError('Source read-only permission check missing')
+        if request.get('surface_report_columns'):
+            from .raw_surface_report import capture
+            returned=response['results'][0]['tables'][0]['rows'] if tool=='bounded_dax' else response['rows']
+            raw_report=capture(returned,request['surface_report_columns'])
         result=extract(response,request)
+        if raw_report is not None and result.get('raw_surface_report')!=raw_report:
+            raise ValueError('Receipt extraction lost original self-report columns')
+        from .raw_surface_report import validate as validate_raw_report
+        validate_raw_report(request,result)
         if tool=='bounded_sql':
             from .source_diagnostics import connection_attempts
             attempts=connection_attempts(response.get('connection_attempts'))
@@ -189,6 +203,9 @@ def run(store,plan,config,tool,execute,*,receipt_id=None,catalog=None):
     except Exception as exc:
         status='HELD' if isinstance(exc,Conflict) else 'INTERRUPTED' if isinstance(exc,(TimeoutError,subprocess.TimeoutExpired)) else 'FAILED'
         result={'error_type':type(exc).__name__,'cause_verified':False}
+        if raw_report is not None:
+            from .raw_surface_report import report as retained_report
+            result.update(raw_surface_report=raw_report,surface_report=retained_report(raw_report),surface_report_binding='VALUE_QUERY')
         # A service rejection carries its HTTP status and error code, never its body.
         if type(getattr(exc,'http_status',None)) is int:result['http_status']=exc.http_status
         if isinstance(getattr(exc,'service_error_code',None),str):result['service_error_code']=exc.service_error_code

@@ -58,7 +58,7 @@ def self_report(config, database, *, token=get_sql_token, run=subprocess.run):
                 'surface_report': None, **{k: answer.get(k) for k in ('stage', 'error_type', 'sql_error_number')}}
     report = {'identity': answer.get('login_name'), 'object': answer.get('database_name')}
     return {'status': 'REACHABLE', 'reason': None, 'execution_surface': surface,
-            'surface_report': report if all(isinstance(v, str) and v for v in report.values()) else None}
+            'surface_report': report}
 
 
 READ_SCRIPT = ROOT/'infra/scripts/Read-FabricSqlAggregate.ps1'

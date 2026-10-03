@@ -170,7 +170,7 @@ def _observation(receipt_id, observations, column_id, quote):
             or receipt.get('surface_report_binding') != 'VALUE_QUERY'
             or receipt.get('surface_report_receipt_id') != receipt_id
             or attestation != attest_surface(receipt['execution_surface'], receipt.get('surface_report'), attestation.get('required_fields', ()))
-            or attestation.get('status') not in ('MATCHED', 'PARTIAL')
+            or attestation.get('status') not in ('MATCHED', 'PARTIAL') or attestation.get('missing_required_fields')
             or 'identity' not in attestation.get('attested_fields', [])):
         raise ValueError('Observed target requires query-bound reader attestation')
     return receipt

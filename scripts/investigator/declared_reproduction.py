@@ -283,7 +283,7 @@ def validate(marker, observations, quantities=None):
         attestation = observation.get('surface_attestation') or {}
         recomputed = attest_surface(observation['execution_surface'], observation.get('surface_report'),
                                    attestation.get('required_fields', ()))
-        if (recomputed != attestation or attestation.get('status') not in ('MATCHED','PARTIAL')
+        if (recomputed != attestation or attestation.get('status') not in ('MATCHED','PARTIAL') or attestation.get('missing_required_fields')
                 or marker[side + '_surface_attestation'] != attestation
                 or marker[side + '_execution_surface'] != observation['execution_surface']
                 or observation.get('measure_id') != marker['measure_id']):

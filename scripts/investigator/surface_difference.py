@@ -15,7 +15,7 @@ def grade(upper,lower):
     """
     for observation in (upper,lower):
         attestation=observation.get('surface_attestation') or {}
-        if (attestation.get('consistency')!='MATCHED'
+        if (attestation.get('consistency')!='MATCHED' or attestation.get('missing_required_fields')
                 or observation.get('surface_report_binding')!='VALUE_QUERY'
                 or observation.get('surface_report_receipt_id')!=observation.get('id')):
             return {'grade':UNESTABLISHED,'differing_field':None,'reason':'QUANTITY_BOUND_SELF_REPORT_REQUIRED'}
@@ -57,7 +57,7 @@ def validate(comparison,observations):
         original=observations.get(comparison.get(side+'_evidence_id'))
         if not isinstance(original,dict):raise ValueError('Boundary comparison requires its original quantity receipts')
         attestation=original.get('surface_attestation') or {}
-        if (attestation.get('consistency')!='MATCHED'
+        if (attestation.get('consistency')!='MATCHED' or attestation.get('missing_required_fields')
                 or comparison.get(side+'_surface_attestation')!=attestation
                 or comparison.get(side+'_execution_surface')!=original.get('execution_surface')):
             raise ValueError('A boundary comparison requires both surfaces to be attested')

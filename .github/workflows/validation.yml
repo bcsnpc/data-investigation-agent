@@ -62,6 +62,7 @@ jobs:
           python -m unittest discover -s scripts -p test_read_budget.py
           python -m unittest discover -s scripts -p test_probe_execution_surfaces.py
           python -m unittest discover -s scripts -p test_surface_self_report.py
+          python -m unittest discover -s scripts -p test_partial_self_report.py
           python -m unittest discover -s scripts -p test_native_rejection.py
           python -m unittest discover -s scripts -p test_specific_failure.py
           python -m unittest discover -s scripts -p test_independent_lower_read.py
