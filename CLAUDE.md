@@ -78,7 +78,7 @@ tested routes.
 | DAX `INFO.DELTATABLEMETADATASTORAGES()` | Refused | Requires administrator; no framed Delta version returned. |
 | DAX `TABLETRAITS()` | Refused | Requires administrator; no fallback-mode indicator returned. |
 | Fabric SQL `sys.dm_db_external_tables_log_status` filtered to the source table | Accepted, zero rows | No Delta version returned. Empty results do not establish a permission denial or identify why the row was absent. |
-| Fabric Copy Job run-history listing (2026-10-03) | HTTP 200 for the least-privilege reader, empty `value` list on the isolated unrun job | Positive capability: run-history listing is readable without elevation, unlike dataset refresh history. Completed-run detail, capture cuts and rows-read/written remain untested. See docs/round-two-source-history-probe.md. |
+| Fabric Copy Job run history and completed-instance detail (2026-10-03) | HTTP 200 for the least-privilege reader: generic and Copy Job-specific detail returned Completed with start/end times; history listed that instance | Positive capability without elevation, unlike dataset refresh history. These responses contain no capture cuts or rows-read/written; do not substitute quantity counts for load accounting. The earlier empty-history probe is preserved. See docs/round-two-ingestion-estate.md. |
 
 Evidence: [refresh-history/partition probes](docs/job-history-path-and-refresh-probes.md)
 and [snapshot-version/fallback probes](docs/snapshot-alignment-audit.md), including
