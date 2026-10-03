@@ -1,0 +1,956 @@
+{
+  "version": 1,
+  "kind": "READ_ONLY_RECEIPT_AUDIT",
+  "new_estate_requests": 0,
+  "new_model_calls": 0,
+  "originals_modified": false,
+  "items": [
+    {
+      "family": "R1",
+      "receipt_id": "f4164fc3-ab60-4401-8abd-a45369403688",
+      "seal": {
+        "state": "SEALED",
+        "hash": "dd85d872f8545e920f53e0cd6aff94c19f2e9c01bf45b0488b9c30d1e7b254be"
+      },
+      "stored_request": {
+        "asset_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name"
+        ],
+        "compiled_read": "ADDCOLUMNS(ROW(\"quantity\",COUNTROWS(FILTER(VALUES('fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name'),'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name' == \"North\")),\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+        "context_hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f",
+        "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "max_rows": 21,
+        "native_model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "plan": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "max_rows": 20,
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"quantity\",COUNTROWS(FILTER(VALUES('Locations'[warehouse_name]),'Locations'[warehouse_name] == \"North\")),\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+          "revision": 4,
+          "surface_report": {
+            "engine": "surface_engine",
+            "identity": "surface_identity",
+            "object": "surface_object"
+          }
+        },
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+        "query": "EVALUATE TOPN(21,ADDCOLUMNS(ROW(\"quantity\",COUNTROWS(FILTER(VALUES('Locations'[warehouse_name]),'Locations'[warehouse_name] == \"North\")),\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value])))",
+        "requires_native_reader": true,
+        "scope_hash": "fd2126ebe2f81b796c9a7eda3268124ed52fdc3c118d3937b9ce863e4a66903c",
+        "surface_report_columns": {
+          "engine": "surface_engine",
+          "identity": "surface_identity",
+          "object": "surface_object"
+        },
+        "tool": "bounded_dax",
+        "validator_version": "bounded-dax-v1",
+        "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "stored_result": {
+        "caller_limit": null,
+        "cause_verified": false,
+        "columns": [
+          "[quantity]"
+        ],
+        "completeness": "COMPLETE_RESPONSE",
+        "execution_identity": {
+          "account": "investigator-reader@skynwhy.com",
+          "captured_at": "2026-10-03T00:10:50.766830+00:00",
+          "mode": "isolated_reader",
+          "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+          "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+          "query_hash": "dc7bf3e220715a4c49b5043affe7b36c22bdcc53b3ea5ab463820aca2bc07c3d",
+          "response_hash": "04856f803dd711d2690712f4a5a2e573655ab1eb5f19e65140c9ebb0a3406f47",
+          "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+          "version": "native-reader-execution-v1",
+          "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+        },
+        "interpretation": "OBSERVED",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "returned_rows": 1,
+        "rows": [
+          {
+            "[quantity]": {
+              "type": "decimal",
+              "value": "1"
+            }
+          }
+        ],
+        "surface_report": null,
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "original_raw_body_retained": false,
+      "hash_verified_reconstruction": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[quantity]": 1,
+                    "[surface_identity]": "investigator-reader@skynwhy.com",
+                    "[surface_engine]": null,
+                    "[surface_object]": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "reconstruction_method": "Original numeric values plus candidate principal/product/catalog/null/omission; exactly one canonical response matched the retained pre-extraction digest. Not a re-read or replacement receipt.",
+      "matched_response_hash": "04856f803dd711d2690712f4a5a2e573655ab1eb5f19e65140c9ebb0a3406f47",
+      "split_output": {
+        "rows": [
+          {
+            "[quantity]": 1
+          }
+        ],
+        "surface_report": null
+      }
+    },
+    {
+      "family": "R2",
+      "receipt_id": "d7c5ae17-94fb-4cbd-a043-3f417737dc54",
+      "seal": {
+        "state": "SEALED",
+        "hash": "9b420830492f278253660ac588cb32a8545b6c924a043c1a7657c657f99bf7e3"
+      },
+      "stored_request": {
+        "asset_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+        ],
+        "compiled_read": "ADDCOLUMNS(ROW(\"quantity\",'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity',\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+        "context_hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f",
+        "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "max_rows": 21,
+        "native_model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "plan": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "max_rows": 20,
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+          "revision": 4,
+          "surface_report": {
+            "engine": "surface_engine",
+            "identity": "surface_identity",
+            "object": "surface_object"
+          }
+        },
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+        "query": "EVALUATE TOPN(21,ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value])))",
+        "requires_native_reader": true,
+        "scope_hash": "2dbaa54e73780f56c0e03fc96625da65312641d748ccafcf0d1135f0d48cbe3b",
+        "surface_report_columns": {
+          "engine": "surface_engine",
+          "identity": "surface_identity",
+          "object": "surface_object"
+        },
+        "tool": "bounded_dax",
+        "validator_version": "bounded-dax-v1",
+        "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "stored_result": {
+        "caller_limit": null,
+        "cause_verified": false,
+        "columns": [
+          "[quantity]"
+        ],
+        "completeness": "COMPLETE_RESPONSE",
+        "execution_identity": {
+          "account": "investigator-reader@skynwhy.com",
+          "captured_at": "2026-10-03T00:11:37.679841+00:00",
+          "mode": "isolated_reader",
+          "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+          "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+          "query_hash": "9daa28a5914f1bf33ddaf0f4b743189f654906638c9c1370843e588c24e55858",
+          "response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+          "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+          "version": "native-reader-execution-v1",
+          "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+        },
+        "interpretation": "OBSERVED",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "returned_rows": 1,
+        "rows": [
+          {
+            "[quantity]": {
+              "type": "decimal",
+              "value": "8765"
+            }
+          }
+        ],
+        "surface_report": null,
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "original_raw_body_retained": false,
+      "hash_verified_reconstruction": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[quantity]": 8765,
+                    "[surface_identity]": "investigator-reader@skynwhy.com",
+                    "[surface_engine]": null,
+                    "[surface_object]": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "reconstruction_method": "Original numeric values plus candidate principal/product/catalog/null/omission; exactly one canonical response matched the retained pre-extraction digest. Not a re-read or replacement receipt.",
+      "matched_response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+      "split_output": {
+        "rows": [
+          {
+            "[quantity]": 8765
+          }
+        ],
+        "surface_report": null
+      }
+    },
+    {
+      "family": "R2",
+      "receipt_id": "37764631-4126-4c94-9a51-e97b75ee47ec",
+      "seal": {
+        "state": "SEALED",
+        "hash": "887396442fceaf7f32c8374138a446ac15f26c77001aaa81781f67fa602fedb1"
+      },
+      "stored_request": {
+        "asset_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+        ],
+        "compiled_read": "ADDCOLUMNS(ROW(\"quantity\",'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity',\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+        "context_hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f",
+        "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "max_rows": 21,
+        "native_model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "plan": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "max_rows": 20,
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+          "revision": 4,
+          "surface_report": {
+            "engine": "surface_engine",
+            "identity": "surface_identity",
+            "object": "surface_object"
+          }
+        },
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+        "query": "EVALUATE TOPN(21,ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value])))",
+        "requires_native_reader": true,
+        "scope_hash": "2dbaa54e73780f56c0e03fc96625da65312641d748ccafcf0d1135f0d48cbe3b",
+        "surface_report_columns": {
+          "engine": "surface_engine",
+          "identity": "surface_identity",
+          "object": "surface_object"
+        },
+        "tool": "bounded_dax",
+        "validator_version": "bounded-dax-v1",
+        "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "stored_result": {
+        "caller_limit": null,
+        "cause_verified": false,
+        "columns": [
+          "[quantity]"
+        ],
+        "completeness": "COMPLETE_RESPONSE",
+        "execution_identity": {
+          "account": "investigator-reader@skynwhy.com",
+          "captured_at": "2026-10-03T00:11:41.264996+00:00",
+          "mode": "isolated_reader",
+          "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+          "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+          "query_hash": "9daa28a5914f1bf33ddaf0f4b743189f654906638c9c1370843e588c24e55858",
+          "response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+          "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+          "version": "native-reader-execution-v1",
+          "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+        },
+        "interpretation": "OBSERVED",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "returned_rows": 1,
+        "rows": [
+          {
+            "[quantity]": {
+              "type": "decimal",
+              "value": "8765"
+            }
+          }
+        ],
+        "surface_report": null,
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "original_raw_body_retained": false,
+      "hash_verified_reconstruction": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[quantity]": 8765,
+                    "[surface_identity]": "investigator-reader@skynwhy.com",
+                    "[surface_engine]": null,
+                    "[surface_object]": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "reconstruction_method": "Original numeric values plus candidate principal/product/catalog/null/omission; exactly one canonical response matched the retained pre-extraction digest. Not a re-read or replacement receipt.",
+      "matched_response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+      "split_output": {
+        "rows": [
+          {
+            "[quantity]": 8765
+          }
+        ],
+        "surface_report": null
+      }
+    },
+    {
+      "family": "R2",
+      "receipt_id": "4e608d41-e4fc-4086-88a2-bd6944018c50",
+      "seal": {
+        "state": "SEALED",
+        "hash": "94a0b063bdfbc1294b61f976aaeaee54327f88492653f888a9f0fa4cc0ae6624"
+      },
+      "stored_request": {
+        "asset_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+        ],
+        "compiled_read": "ADDCOLUMNS(ROW(\"quantity\",'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity',\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+        "context_hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f",
+        "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "max_rows": 21,
+        "native_model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "plan": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "max_rows": 20,
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+          "revision": 4,
+          "surface_report": {
+            "engine": "surface_engine",
+            "identity": "surface_identity",
+            "object": "surface_object"
+          }
+        },
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+        "query": "EVALUATE TOPN(21,ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value])))",
+        "requires_native_reader": true,
+        "scope_hash": "2dbaa54e73780f56c0e03fc96625da65312641d748ccafcf0d1135f0d48cbe3b",
+        "surface_report_columns": {
+          "engine": "surface_engine",
+          "identity": "surface_identity",
+          "object": "surface_object"
+        },
+        "tool": "bounded_dax",
+        "validator_version": "bounded-dax-v1",
+        "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "stored_result": {
+        "caller_limit": null,
+        "cause_verified": false,
+        "columns": [
+          "[quantity]"
+        ],
+        "completeness": "COMPLETE_RESPONSE",
+        "execution_identity": {
+          "account": "investigator-reader@skynwhy.com",
+          "captured_at": "2026-10-03T00:11:44.992200+00:00",
+          "mode": "isolated_reader",
+          "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+          "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+          "query_hash": "9daa28a5914f1bf33ddaf0f4b743189f654906638c9c1370843e588c24e55858",
+          "response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+          "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+          "version": "native-reader-execution-v1",
+          "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+        },
+        "interpretation": "OBSERVED",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "returned_rows": 1,
+        "rows": [
+          {
+            "[quantity]": {
+              "type": "decimal",
+              "value": "8765"
+            }
+          }
+        ],
+        "surface_report": null,
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "original_raw_body_retained": false,
+      "hash_verified_reconstruction": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[quantity]": 8765,
+                    "[surface_identity]": "investigator-reader@skynwhy.com",
+                    "[surface_engine]": null,
+                    "[surface_object]": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "reconstruction_method": "Original numeric values plus candidate principal/product/catalog/null/omission; exactly one canonical response matched the retained pre-extraction digest. Not a re-read or replacement receipt.",
+      "matched_response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+      "split_output": {
+        "rows": [
+          {
+            "[quantity]": 8765
+          }
+        ],
+        "surface_report": null
+      }
+    },
+    {
+      "family": "R2",
+      "receipt_id": "602e065a-ed55-439c-a38f-62a27b0d9f3f",
+      "seal": {
+        "state": "SEALED",
+        "hash": "2d4b5febfdf1b3f58b11810c32d9308e54453ccc926ed4a5ca209c81b5f1086c"
+      },
+      "stored_request": {
+        "asset_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name"
+        ],
+        "compiled_read": "ADDCOLUMNS(ADDCOLUMNS(CALCULATETABLE(ROW(\"m0\",'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity'),TREATAS({\"North\"},'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name')),\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+        "context_hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f",
+        "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "max_rows": 21,
+        "native_model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "plan": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "max_rows": 20,
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "query": "EVALUATE ADDCOLUMNS(ADDCOLUMNS(CALCULATETABLE(ROW(\"m0\",'Activity'[Handled Quantity]),TREATAS({\"North\"},'Locations'[warehouse_name])),\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+          "revision": 4,
+          "surface_report": {
+            "engine": "surface_engine",
+            "identity": "surface_identity",
+            "object": "surface_object"
+          }
+        },
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+        "query": "EVALUATE TOPN(21,ADDCOLUMNS(ADDCOLUMNS(CALCULATETABLE(ROW(\"m0\",'Activity'[Handled Quantity]),TREATAS({\"North\"},'Locations'[warehouse_name])),\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value])))",
+        "requires_native_reader": true,
+        "scope_hash": "9dba74572b9bc1bcf87bb417e4be33260fcddeec3690ce3f1a4422b8960c2ecc",
+        "surface_report_columns": {
+          "engine": "surface_engine",
+          "identity": "surface_identity",
+          "object": "surface_object"
+        },
+        "tool": "bounded_dax",
+        "validator_version": "bounded-dax-v1",
+        "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "stored_result": {
+        "caller_limit": null,
+        "cause_verified": false,
+        "columns": [
+          "[m0]"
+        ],
+        "completeness": "COMPLETE_RESPONSE",
+        "execution_identity": {
+          "account": "investigator-reader@skynwhy.com",
+          "captured_at": "2026-10-03T00:11:50.914529+00:00",
+          "mode": "isolated_reader",
+          "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+          "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+          "query_hash": "709fb2e3b6b879f5ee14f53b1c7514de5658c4d2869c0d3ad50a3eb76e800ca5",
+          "response_hash": "8eed36fb44c9150b8d5fcaa8abfb9f568ad8afa2905a13baed711580b75f6d5b",
+          "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+          "version": "native-reader-execution-v1",
+          "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+        },
+        "interpretation": "OBSERVED",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "returned_rows": 1,
+        "rows": [
+          {
+            "[m0]": {
+              "type": "decimal",
+              "value": "3359"
+            }
+          }
+        ],
+        "surface_report": null,
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "original_raw_body_retained": false,
+      "hash_verified_reconstruction": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[m0]": 3359,
+                    "[surface_identity]": "investigator-reader@skynwhy.com",
+                    "[surface_engine]": null,
+                    "[surface_object]": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "reconstruction_method": "Original numeric values plus candidate principal/product/catalog/null/omission; exactly one canonical response matched the retained pre-extraction digest. Not a re-read or replacement receipt.",
+      "matched_response_hash": "8eed36fb44c9150b8d5fcaa8abfb9f568ad8afa2905a13baed711580b75f6d5b",
+      "split_output": {
+        "rows": [
+          {
+            "[m0]": 3359
+          }
+        ],
+        "surface_report": null
+      }
+    },
+    {
+      "family": "R3",
+      "receipt_id": "941741bd-2648-4479-835f-401e86a7ee96",
+      "seal": {
+        "state": "SEALED",
+        "hash": "fe80f43e7b7562c44407097e59cde345da08cf4edc0e09195ea8c783ec9cbb70"
+      },
+      "stored_request": {
+        "asset_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+        ],
+        "compiled_read": "ADDCOLUMNS(ROW(\"quantity\",'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity',\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+        "context_hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f",
+        "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "max_rows": 21,
+        "native_model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "plan": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "max_rows": 20,
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+          "revision": 4,
+          "surface_report": {
+            "engine": "surface_engine",
+            "identity": "surface_identity",
+            "object": "surface_object"
+          }
+        },
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+        "query": "EVALUATE TOPN(21,ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value])))",
+        "requires_native_reader": true,
+        "scope_hash": "2dbaa54e73780f56c0e03fc96625da65312641d748ccafcf0d1135f0d48cbe3b",
+        "surface_report_columns": {
+          "engine": "surface_engine",
+          "identity": "surface_identity",
+          "object": "surface_object"
+        },
+        "tool": "bounded_dax",
+        "validator_version": "bounded-dax-v1",
+        "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "stored_result": {
+        "caller_limit": null,
+        "cause_verified": false,
+        "columns": [
+          "[quantity]"
+        ],
+        "completeness": "COMPLETE_RESPONSE",
+        "execution_identity": {
+          "account": "investigator-reader@skynwhy.com",
+          "captured_at": "2026-10-03T00:13:09.641666+00:00",
+          "mode": "isolated_reader",
+          "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+          "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+          "query_hash": "9daa28a5914f1bf33ddaf0f4b743189f654906638c9c1370843e588c24e55858",
+          "response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+          "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+          "version": "native-reader-execution-v1",
+          "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+        },
+        "interpretation": "OBSERVED",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "returned_rows": 1,
+        "rows": [
+          {
+            "[quantity]": {
+              "type": "decimal",
+              "value": "8765"
+            }
+          }
+        ],
+        "surface_report": null,
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "original_raw_body_retained": false,
+      "hash_verified_reconstruction": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[quantity]": 8765,
+                    "[surface_identity]": "investigator-reader@skynwhy.com",
+                    "[surface_engine]": null,
+                    "[surface_object]": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "reconstruction_method": "Original numeric values plus candidate principal/product/catalog/null/omission; exactly one canonical response matched the retained pre-extraction digest. Not a re-read or replacement receipt.",
+      "matched_response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+      "split_output": {
+        "rows": [
+          {
+            "[quantity]": 8765
+          }
+        ],
+        "surface_report": null
+      }
+    },
+    {
+      "family": "R3",
+      "receipt_id": "a458d8d9-e9c8-4163-83a4-d7da1b3f5e64",
+      "seal": {
+        "state": "SEALED",
+        "hash": "d08608818412ab8cdad7e578285c80152ede674f020b863a47597054a7520986"
+      },
+      "stored_request": {
+        "asset_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+        ],
+        "compiled_read": "ADDCOLUMNS(ROW(\"quantity\",'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity',\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+        "context_hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f",
+        "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "max_rows": 21,
+        "native_model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "plan": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "max_rows": 20,
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+          "revision": 4,
+          "surface_report": {
+            "engine": "surface_engine",
+            "identity": "surface_identity",
+            "object": "surface_object"
+          }
+        },
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+        "query": "EVALUATE TOPN(21,ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value])))",
+        "requires_native_reader": true,
+        "scope_hash": "2dbaa54e73780f56c0e03fc96625da65312641d748ccafcf0d1135f0d48cbe3b",
+        "surface_report_columns": {
+          "engine": "surface_engine",
+          "identity": "surface_identity",
+          "object": "surface_object"
+        },
+        "tool": "bounded_dax",
+        "validator_version": "bounded-dax-v1",
+        "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "stored_result": {
+        "caller_limit": null,
+        "cause_verified": false,
+        "columns": [
+          "[quantity]"
+        ],
+        "completeness": "COMPLETE_RESPONSE",
+        "execution_identity": {
+          "account": "investigator-reader@skynwhy.com",
+          "captured_at": "2026-10-03T00:13:12.769600+00:00",
+          "mode": "isolated_reader",
+          "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+          "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+          "query_hash": "9daa28a5914f1bf33ddaf0f4b743189f654906638c9c1370843e588c24e55858",
+          "response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+          "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+          "version": "native-reader-execution-v1",
+          "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+        },
+        "interpretation": "OBSERVED",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "returned_rows": 1,
+        "rows": [
+          {
+            "[quantity]": {
+              "type": "decimal",
+              "value": "8765"
+            }
+          }
+        ],
+        "surface_report": null,
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "original_raw_body_retained": false,
+      "hash_verified_reconstruction": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[quantity]": 8765,
+                    "[surface_identity]": "investigator-reader@skynwhy.com",
+                    "[surface_engine]": null,
+                    "[surface_object]": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "reconstruction_method": "Original numeric values plus candidate principal/product/catalog/null/omission; exactly one canonical response matched the retained pre-extraction digest. Not a re-read or replacement receipt.",
+      "matched_response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+      "split_output": {
+        "rows": [
+          {
+            "[quantity]": 8765
+          }
+        ],
+        "surface_report": null
+      }
+    },
+    {
+      "family": "R3",
+      "receipt_id": "083412d1-0f99-4ff2-a2ea-62bfb1ed09e1",
+      "seal": {
+        "state": "SEALED",
+        "hash": "44ba9c76f7ea70fe9924a607489a8b35ad49da7fdcbe2bc298fd08f38ebfcaf9"
+      },
+      "stored_request": {
+        "asset_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity"
+        ],
+        "compiled_read": "ADDCOLUMNS(ROW(\"quantity\",'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity',\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+        "context_hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f",
+        "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "max_rows": 21,
+        "native_model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "plan": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "max_rows": 20,
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+          "revision": 4,
+          "surface_report": {
+            "engine": "surface_engine",
+            "identity": "surface_identity",
+            "object": "surface_object"
+          }
+        },
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+        "query": "EVALUATE TOPN(21,ADDCOLUMNS(ROW(\"quantity\",'Activity'[Handled Quantity],\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value])))",
+        "requires_native_reader": true,
+        "scope_hash": "2dbaa54e73780f56c0e03fc96625da65312641d748ccafcf0d1135f0d48cbe3b",
+        "surface_report_columns": {
+          "engine": "surface_engine",
+          "identity": "surface_identity",
+          "object": "surface_object"
+        },
+        "tool": "bounded_dax",
+        "validator_version": "bounded-dax-v1",
+        "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "stored_result": {
+        "caller_limit": null,
+        "cause_verified": false,
+        "columns": [
+          "[quantity]"
+        ],
+        "completeness": "COMPLETE_RESPONSE",
+        "execution_identity": {
+          "account": "investigator-reader@skynwhy.com",
+          "captured_at": "2026-10-03T00:13:16.254987+00:00",
+          "mode": "isolated_reader",
+          "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+          "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+          "query_hash": "9daa28a5914f1bf33ddaf0f4b743189f654906638c9c1370843e588c24e55858",
+          "response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+          "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+          "version": "native-reader-execution-v1",
+          "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+        },
+        "interpretation": "OBSERVED",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "returned_rows": 1,
+        "rows": [
+          {
+            "[quantity]": {
+              "type": "decimal",
+              "value": "8765"
+            }
+          }
+        ],
+        "surface_report": null,
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "original_raw_body_retained": false,
+      "hash_verified_reconstruction": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[quantity]": 8765,
+                    "[surface_identity]": "investigator-reader@skynwhy.com",
+                    "[surface_engine]": null,
+                    "[surface_object]": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "reconstruction_method": "Original numeric values plus candidate principal/product/catalog/null/omission; exactly one canonical response matched the retained pre-extraction digest. Not a re-read or replacement receipt.",
+      "matched_response_hash": "5592625efd81d4378b5ab0bd917a325a6466804823ec06530bed0c250a44fd0a",
+      "split_output": {
+        "rows": [
+          {
+            "[quantity]": 8765
+          }
+        ],
+        "surface_report": null
+      }
+    },
+    {
+      "family": "R3",
+      "receipt_id": "37bf51c0-743f-4777-9fb8-202052ad638f",
+      "seal": {
+        "state": "SEALED",
+        "hash": "cf59cc6426a13997ff8283f3aa9088a03d14c53575ef83072f7b8715c71d58c9"
+      },
+      "stored_request": {
+        "asset_ids": [
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name"
+        ],
+        "compiled_read": "ADDCOLUMNS(ADDCOLUMNS(CALCULATETABLE(ROW(\"m0\",'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity'),TREATAS({\"North\"},'fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name')),\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+        "context_hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f",
+        "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "max_rows": 21,
+        "native_model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "plan": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "max_rows": 20,
+          "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+          "query": "EVALUATE ADDCOLUMNS(ADDCOLUMNS(CALCULATETABLE(ROW(\"m0\",'Activity'[Handled Quantity]),TREATAS({\"North\"},'Locations'[warehouse_name])),\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value]))",
+          "revision": 4,
+          "surface_report": {
+            "engine": "surface_engine",
+            "identity": "surface_identity",
+            "object": "surface_object"
+          }
+        },
+        "policy_hash": "19e2ef0b0b5cb6bfd8df38c5fded6c1eaac40718b3926248ac62c61abf0cf8b6",
+        "query": "EVALUATE TOPN(21,ADDCOLUMNS(ADDCOLUMNS(CALCULATETABLE(ROW(\"m0\",'Activity'[Handled Quantity]),TREATAS({\"North\"},'Locations'[warehouse_name])),\"surface_identity\",USERPRINCIPALNAME()),\"surface_engine\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),[Value]),\"surface_object\",MAXX(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),[Value])))",
+        "requires_native_reader": true,
+        "scope_hash": "9dba74572b9bc1bcf87bb417e4be33260fcddeec3690ce3f1a4422b8960c2ecc",
+        "surface_report_columns": {
+          "engine": "surface_engine",
+          "identity": "surface_identity",
+          "object": "surface_object"
+        },
+        "tool": "bounded_dax",
+        "validator_version": "bounded-dax-v1",
+        "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60"
+      },
+      "stored_result": {
+        "caller_limit": null,
+        "cause_verified": false,
+        "columns": [
+          "[m0]"
+        ],
+        "completeness": "COMPLETE_RESPONSE",
+        "execution_identity": {
+          "account": "investigator-reader@skynwhy.com",
+          "captured_at": "2026-10-03T00:13:20.130462+00:00",
+          "mode": "isolated_reader",
+          "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+          "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+          "query_hash": "709fb2e3b6b879f5ee14f53b1c7514de5658c4d2869c0d3ad50a3eb76e800ca5",
+          "response_hash": "8eed36fb44c9150b8d5fcaa8abfb9f568ad8afa2905a13baed711580b75f6d5b",
+          "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+          "version": "native-reader-execution-v1",
+          "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+        },
+        "interpretation": "OBSERVED",
+        "limitation": "Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.",
+        "returned_rows": 1,
+        "rows": [
+          {
+            "[m0]": {
+              "type": "decimal",
+              "value": "3359"
+            }
+          }
+        ],
+        "surface_report": null,
+        "surface_report_binding": "VALUE_QUERY"
+      },
+      "original_raw_body_retained": false,
+      "hash_verified_reconstruction": {
+        "results": [
+          {
+            "tables": [
+              {
+                "rows": [
+                  {
+                    "[m0]": 3359,
+                    "[surface_identity]": "investigator-reader@skynwhy.com",
+                    "[surface_engine]": null,
+                    "[surface_object]": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "reconstruction_method": "Original numeric values plus candidate principal/product/catalog/null/omission; exactly one canonical response matched the retained pre-extraction digest. Not a re-read or replacement receipt.",
+      "matched_response_hash": "8eed36fb44c9150b8d5fcaa8abfb9f568ad8afa2905a13baed711580b75f6d5b",
+      "split_output": {
+        "rows": [
+          {
+            "[m0]": 3359
+          }
+        ],
+        "surface_report": null
+      }
+    }
+  ]
+}
