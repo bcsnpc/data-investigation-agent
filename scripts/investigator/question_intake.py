@@ -511,10 +511,7 @@ class Intake:
         proposal = saved['proposal']
         if any(request[k] != proposal[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids')) or request['symptom'] != saved['text'] or request['predecessor'] is not None:
             raise Conflict('Reviewed question scope differs from the saved proposal')
-        return {'id': saved['id'], 'text': saved['text'], 'metric_quote': proposal['metric_quote'],
-                **{k:copy.deepcopy(proposal[k]) for k in ('definition_target','report_binding','selection_request') if k in proposal},
-                'reported_figure':proposal['reported_figure'],
-                'ticket_shape':proposal['ticket_shape'],'comparison_mode':proposal['comparison_mode'],
+        return {**copy.deepcopy(proposal),'id': saved['id'], 'text': saved['text'],
                 'screenshot_review': saved.get('screenshot_review'),
-                'scope_quotes': proposal['scope_quotes'], 'provenance': 'SAVED_LLM_SCOPE_PROPOSAL',
+                'provenance': 'SAVED_LLM_SCOPE_PROPOSAL',
                 'interpretation_verified': False}
