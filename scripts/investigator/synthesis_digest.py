@@ -11,7 +11,7 @@ from .onboarding import digest,encoded,Conflict
 from .receipt_integrity import verify,TABLES
 from .process_debugging import _surface_key
 from .process_quantity import quantity
-from . import declaration_inventory
+from . import declaration_inventory, report_scope
 
 DISPLAY_ROWS = 2
 EXCERPT_CHARACTERS = 2400
@@ -31,8 +31,9 @@ def _context_evidence(observation):
           'result':{'declared_restrictions':observation['declared_restrictions'],
                     'declaration_provenance':observation['declaration_provenance'],
                     'declarations':declaration_inventory.neutral(
-                        declaration_inventory.validate(
-                            observation['declaration_inventory'],observation['declared_restrictions']))},
+                        report_scope.validate_inventory(
+                            observation['declaration_inventory'],observation['declared_restrictions'],
+                            binding=observation['report_binding'],reports=observation['report_catalog']))},
           'provenance':{'hash':digest(observation),'context_version':observation['metadata'].get('context_version')}}
  if 'transformation_definition' in roles and isinstance(observation.get('quantity_contract'),dict):
   contract=observation['quantity_contract']

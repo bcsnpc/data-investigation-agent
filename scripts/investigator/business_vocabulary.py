@@ -35,6 +35,10 @@ def validate_text(text,expected):
     # are fixed contract language; all interpolated domain labels are grounded.
     if text!=expected:raise ValueError('Business wording differs from evidence-backed composition')
     if any(p in text.casefold() for p in ABSTRACTIONS):raise ValueError('Unintelligible business abstraction')
+    return validate_identifier_form(text)
+
+
+def validate_identifier_form(text):
     if re.search(r'\b(?:silver|gold|bronze|sql|dax|schema|receipt)\b|[A-Za-z]+_[A-Za-z0-9_]+|[A-Za-z0-9.]+[\\/][A-Za-z0-9_.-]+|://|\[[^\]]+\]|\b[A-Za-z]+\.[A-Za-z]+\b|[A-Za-z]:[\\/]|\b[0-9a-f]{8}-[0-9a-f-]{27,}\b|\b[A-Za-z]+[-_][0-9a-f]{6,}\b',text,re.I):
         raise ValueError('Technical identifier in business explanation')
     return text

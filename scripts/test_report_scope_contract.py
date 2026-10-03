@@ -189,7 +189,7 @@ class ReportScopeTests(unittest.TestCase):
     def test_unresolved_report_cannot_be_encoded_as_value_absence(self):
         binding = scope.resolve_report(None, self.reports)
         target = {'resolution_kind': 'REFUSED', 'report_binding': binding, 'source': self.value_source, 'candidates': [], 'reason': 'VALUE_ABSENT'}
-        with self.assertRaisesRegex(ValueError, 'Report ambiguity'): self.validate(target)
+        with self.assertRaisesRegex(ValueError, 'Report unavailable'): self.validate(target)
         target['reason'] = 'REPORT_UNRESOLVED'
         self.validate(target)
         target['report_binding'] = self.binding

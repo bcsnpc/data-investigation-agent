@@ -32,7 +32,25 @@ def render(state):
         request=state.get('envelope',{}).get('selection_request') or (state.get('proposal') or {}).get('selection_request')
         hint=note(request.get('descriptor')) if request else None
         qualification=render_descriptor(hint,business=key=='business_output') if hint else ''
-        outputs[key] = {'explanation': {'text': text+('\n'+qualification if qualification else ''), 'evidence_ids': [receipt['id']]},
+        rendered=text
+        if key=='business_output':
+            from .business_vocabulary import validate_identifier_form
+            from .narrative_form import validate
+            category=receipt.get('refusal_category')
+            plain={'AMBIGUOUS':'More than one possible target remains; the investigation cannot choose between them.',
+                   'UNAVAILABLE':'The target check was unavailable, so the requested selection could not be established.',
+                   'VALUE_ABSENT':'The stated value was not found in the checked selection.',
+                   'UNSUPPORTED':'A declared selection cannot be handled faithfully with the available capability.'}
+            business_reason=plain.get(category)
+            if business_reason is None:
+                try:validate_identifier_form(reason);business_reason=reason
+                except ValueError:business_reason='The required check could not be established. Its detailed blocker is retained in the technical explanation.'
+            try:validate_identifier_form(question);business_question=question
+            except ValueError:business_question='You asked about the reported figure and its selections.'
+            rendered=text.replace(question,business_question).replace(reason,business_reason)
+            rendered=validate(rendered+('\n'+qualification if qualification else ''),business=True)
+        else:rendered+=('\n'+qualification if qualification else '')
+        outputs[key] = {'explanation': {'text': rendered, 'evidence_ids': [receipt['id']]},
                         'recommended_action': 'Resolve the stated blocker before a new investigation.'}
         if hint:outputs[key]['descriptor_hint']=copy.deepcopy(hint)
     return outputs

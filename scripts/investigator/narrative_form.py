@@ -41,6 +41,9 @@ def layers(payload,source):
 
 
 def validate(text,business=False):
+    if business:
+        from .business_vocabulary import validate_identifier_form
+        validate_identifier_form(text)
     if re.search(r'[{}]|\[\s*(?:\{|\[|["\']|\d+\s*[,\]]|null|true|false)|["\'][A-Za-z_]+["\']\s*:',text):
         raise ValueError('Narrative contains a serialized structure')
     if business and re.search(r'\b(?:SNAPSHOT_UNVERIFIED|SNAPSHOT_VERIFIED|snapshot_attestation|unverified_sides|evidence_ids|quantity_receipt_id|Comparison \d+|verified data version|check nearer the report|check further back)\b',text,re.I):

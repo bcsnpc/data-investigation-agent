@@ -7,6 +7,14 @@ from .declared_reproduction import UnsupportedRestriction
 
 class ResolutionRefused(ValueError):
     """An explicit unresolved selection, not a producer contract failure."""
+    def __init__(self, category, detail):
+        if category not in ('AMBIGUOUS','UNAVAILABLE','VALUE_ABSENT','UNSUPPORTED'):
+            raise ValueError('Unknown selection refusal category')
+        self.category=category
+        prefix={'AMBIGUOUS':'Target ambiguity','UNAVAILABLE':'Target unavailable',
+                'VALUE_ABSENT':'Target value absent','UNSUPPORTED':'Target unsupported'}[category]
+        super().__init__(prefix+': '+detail)
+
 
 
 def _prepare(adapter, layer, measure_id, scope, observations):
@@ -33,7 +41,7 @@ def _prepare(adapter, layer, measure_id, scope, observations):
     source = request['column_source']
     if source is not None:
         named = [c for c in columns if c['name'] == source['quote']]
-        if len(named) != 1: raise ResolutionRefused('Target ambiguity: explicitly stated column does not match exactly one catalog column.')
+        if len(named) != 1: raise ResolutionRefused('AMBIGUOUS' if named else 'UNAVAILABLE', 'explicitly stated column does not match exactly one catalog column.')
         candidates = [named[0]['id']]
     elif len(matches) == 1:
         (entry_id, column_id), (declaration, value) = next(iter(matches.items()))
@@ -44,15 +52,15 @@ def _prepare(adapter, layer, measure_id, scope, observations):
         result['filters'].append({'column_id':column_id,'operator':'in','values':[value]})
         return result, observations
     elif matches:
-        raise ResolutionRefused('Target ambiguity: multiple ACTIVE declarations carry the stated value: '+', '.join(sorted(k[1] for k in matches)))
+        raise ResolutionRefused('AMBIGUOUS', 'multiple ACTIVE declarations carry the stated value: '+', '.join(sorted(k[1] for k in matches)))
     else:
         candidates = grouping
         if any(e['disposition']=='UNSUPPORTED' for d in declarations for e in d['inventory']['entries']):
-            raise ResolutionRefused('Target ambiguity: unsupported report declaration prevents establishing the absence of a declared selection.')
-    if not candidates: raise ResolutionRefused('Target ambiguity: no scoped grouping column can test the stated value.')
+            raise ResolutionRefused('UNSUPPORTED', 'unsupported report declaration prevents establishing the absence of a declared selection.')
+    if not candidates: raise ResolutionRefused('UNAVAILABLE', 'no scoped grouping column can test the stated value.')
     remaining = getattr(adapter, 'remaining_diagnostic_reads', None)
     if remaining is not None and remaining() < len(candidates):
-        raise ResolutionRefused('Target ambiguity: diagnostic cap cannot cover every grouping column; no partial value lookup was chosen.')
+        raise ResolutionRefused('UNAVAILABLE', 'diagnostic cap cannot cover every grouping column; no partial value lookup was chosen.')
     for column in candidates:
         probe = attest(adapter.observe_selection_value(layer, column, quote, scope['report_binding']))
         if probe.evidence:
@@ -60,7 +68,7 @@ def _prepare(adapter, layer, measure_id, scope, observations):
             observation['execution_surface'] = probe.execution_surface
             observations.append(observation)
         if probe.status != 'OBSERVED' or not probe.evidence:
-            raise ResolutionRefused('Target ambiguity: value-existence observation unavailable for '+column+'.')
+            raise ResolutionRefused('UNAVAILABLE', 'value-existence observation unavailable for '+column+'.')
     by_id = {o['id']:o for o in observations}; found = [o for o in observations if o['value_exists']]
     if source is not None:
         target={'resolution_kind':'STATED','report_binding':scope['report_binding'],'column_id':candidates[0],
@@ -68,9 +76,9 @@ def _prepare(adapter, layer, measure_id, scope, observations):
                 'status':'MATCH' if found else 'MISMATCH','receipt_ids':[observations[0]['id']]}}
         report_scope.validate_target(target,reports=reports,columns=columns,observations=by_id)
         attach(result,observations,target,declarations,grouping,columns)
-        if not found: raise ResolutionRefused('Target ambiguity: explicitly stated column does not contain the stated value; MISMATCH receipt '+observations[0]['id']+'.')
+        if not found: raise ResolutionRefused('VALUE_ABSENT', 'explicitly stated column does not contain the stated value; MISMATCH receipt '+observations[0]['id']+'.')
     else:
-        if len(found)!=1: raise ResolutionRefused('Target ambiguity: '+('no grouping column contains the value.' if not found else 'multiple grouping columns contain the value: '+', '.join(o['column_id'] for o in found)))
+        if len(found)!=1: raise ResolutionRefused('VALUE_ABSENT' if not found else 'AMBIGUOUS', ('no grouping column contains the value.' if not found else 'multiple grouping columns contain the value: '+', '.join(o['column_id'] for o in found)))
         # All candidate contexts share the report manifest. Absence was checked across all.
         declaration = declarations[0]
         target={'resolution_kind':'OBSERVED','report_binding':scope['report_binding'],'column_id':found[0]['column_id'],

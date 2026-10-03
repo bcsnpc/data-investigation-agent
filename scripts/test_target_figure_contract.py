@@ -2,18 +2,20 @@
 import copy
 import unittest
 from unittest.mock import patch
-from investigator import definition_target as target, declaration_inventory as inventory, reported_figure
+from investigator import definition_target as target, declaration_inventory as inventory, reported_figure, report_scope
 from investigator.question_intake import Intake, wire_contract, azure_resolve
 from intake_regression_fixture import IntakeFixture
 
 class TargetContractTests(unittest.TestCase):
+    binding={'resolution_kind':'STATED','report_id':'report','source':{'start':0,'end':6,'quote':'Report'}}
+    reports=[{'id':'report','name':'Report'}]
     source={'start':0,'end':5,'quote':'North'}
     def declaration(self,disposition='ACTIVE'):
-        source={'location':'retained#predicate','content_hash':'a'*64}
-        entry={'id':inventory.identity(source),'source':source,'disposition':disposition,
+        source={'report_id':'report','location':'retained#predicate','content_hash':'a'*64}
+        entry={'id':report_scope.inventory_identity(source),'source':source,'disposition':disposition,
             'volatility':'FIXED','assumption':'NONE','opaque_provenance':'native',
-            'restrictions':[{'field_id':'column','operator':'IN','values':['North']}] if disposition=='ACTIVE' else []}
-        return {'discovered':[source],'entries':[entry]},entry
+            'effect':'RESTRICTED' if disposition=='ACTIVE' else 'EXCLUDED','restrictions':[{'field_id':'column','operator':'IN','values':['North']}] if disposition=='ACTIVE' else []}
+        return {'report_id':'report','discovered':[source],'entries':[entry]},entry
 
     def test_missing_resolution_and_missing_entry_refuse(self):
         for value in ({'column_id':'column','source':self.source},
@@ -23,14 +25,14 @@ class TargetContractTests(unittest.TestCase):
     def test_conditional_evidence_is_refused(self):
         inv,entry=self.declaration('CONDITIONAL')
         with self.assertRaisesRegex(ValueError,'ACTIVE'):
-            target.evidence('column',self.source,entry['id'],ticket='North',inventory=inv,active=[])
+            target.evidence('column',self.source,entry['id'],ticket='North',inventory=inv,active=[],binding=self.binding,reports=self.reports)
 
     def test_active_evidence_requires_conserved_inventory_and_matching_column(self):
         inv,entry=self.declaration();active=entry['restrictions']
-        value=target.evidence('column',self.source,entry['id'],ticket='North',inventory=inv,active=active)
+        value=target.evidence('column',self.source,entry['id'],ticket='North',inventory=inv,active=active,binding=self.binding,reports=self.reports)
         self.assertEqual(value['resolution_kind'],'EVIDENCE')
         for kwargs in ({'active':[]},{'inventory':None},{'column_id':'different'}):
-            args=dict(column_id='column',source=self.source,inventory_entry_id=entry['id'],ticket='North',inventory=inv,active=active)
+            args=dict(column_id='column',source=self.source,inventory_entry_id=entry['id'],ticket='North',inventory=inv,active=active,binding=self.binding,reports=self.reports)
             args.update(kwargs)
             with self.assertRaises(ValueError):target.evidence(**args)
 

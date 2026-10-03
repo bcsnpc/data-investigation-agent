@@ -3,7 +3,7 @@ import copy
 import json
 import unittest
 from unittest.mock import patch
-from investigator import definition_target as target, declaration_inventory as inventory, declared_reproduction
+from investigator import definition_target as target, declaration_inventory as inventory, declared_reproduction, report_scope
 from investigator.question_intake import Intake, azure_resolve, wire_contract, TARGET_INSTRUCTIONS
 import test_declared_predicate_adapter as adapter_fixture
 from test_declared_predicate_adapter import native_filter, filter_config
@@ -15,7 +15,8 @@ from investigator.onboarding import digest
 class InventoryResolutionTests(unittest.TestCase):
     def setUp(self):
         self.helper=contract_fixture.TargetContractTests();self.inv,self.entry=self.helper.declaration()
-        self.options=[{'target_id':'visual','inventory':self.inv,'restrictions':copy.deepcopy(self.entry['restrictions'])}]
+        self.evidence={'report_binding':self.helper.binding,'report_catalog':self.helper.reports}
+        self.options=[{'evidence':self.evidence,'target_id':'visual','inventory':self.inv,'restrictions':copy.deepcopy(self.entry['restrictions'])}]
         self.columns=[{'column_id':'column','name':'Region'}]
         self.request={'source':{'start':0,'end':5,'quote':'North'}}
     def lookup(self,request=None):
@@ -28,19 +29,19 @@ class InventoryResolutionTests(unittest.TestCase):
         for conditional in (False,True):
             inv,e=self.helper.declaration('CONDITIONAL' if conditional else 'ACTIVE')
             if not conditional:e['restrictions'][0]['values']=['South']
-            self.options=[{'inventory':inv,'restrictions':e['restrictions']}]
+            self.options=[{'evidence':self.evidence,'inventory':inv,'restrictions':e['restrictions']}]
             with self.assertRaises(target.ResolutionRefused) as caught:self.lookup()
             self.assertEqual(caught.exception.record['resolution_kind'],'REFUSED')
             self.assertEqual(caught.exception.record['candidates'],[])
-            self.assertIn('Target ambiguity',str(caught.exception))
+            self.assertIn('Target unavailable',str(caught.exception))
     def test_two_columns_refuse_and_list_both_declarations(self):
-        e=copy.deepcopy(self.entry);e['source']['location']='retained#another';e['id']=inventory.identity(e['source']);e['restrictions'][0]['field_id']='other'
+        e=copy.deepcopy(self.entry);e['source']['location']='retained#another';e['id']=report_scope.inventory_identity(e['source']);e['restrictions'][0]['field_id']='other'
         self.inv['discovered'].append(e['source']);self.inv['entries'].append(e);self.options[0]['restrictions']+=e['restrictions']
         with self.assertRaises(target.ResolutionRefused) as caught:self.lookup()
         self.assertEqual(len(caught.exception.record['candidates']),2)
         self.assertEqual({c['column_id'] for c in caught.exception.audit['candidates']},{'column','other'})
     def test_two_entries_for_one_column_are_not_collapsed(self):
-        e=copy.deepcopy(self.entry);e['source']['location']='retained#another';e['id']=inventory.identity(e['source'])
+        e=copy.deepcopy(self.entry);e['source']['location']='retained#another';e['id']=report_scope.inventory_identity(e['source'])
         self.inv['discovered'].append(e['source']);self.inv['entries'].append(e);self.options[0]['restrictions']+=e['restrictions']
         with self.assertRaises(target.ResolutionRefused) as caught:self.lookup()
         self.assertEqual(len(set(caught.exception.record['candidates'])),2)
@@ -61,7 +62,7 @@ class InventoryResolutionTests(unittest.TestCase):
         record,_,_=self.lookup()
         record['source']={'start':0,'end':5,'quote':'South'}
         with self.assertRaisesRegex(ValueError,'matching ACTIVE'):
-            target.validate(record,ticket='South',inventory=self.inv,active=self.options[0]['restrictions'])
+            target.validate(record,ticket='South',inventory=self.inv,active=self.options[0]['restrictions'],binding=self.helper.binding,reports=self.helper.reports)
 
 class AdapterWiringTests(unittest.TestCase):
     def setUp(self):
@@ -78,7 +79,7 @@ class AdapterWiringTests(unittest.TestCase):
         d=self.h.declaration();self.assertEqual(d['status'],'DECLARED')
         self.assertEqual(d['evidence']['metadata']['target_resolution'],self.h.scope['definition_target'])
         self.h.modify(self.h.page,lambda d:d.update(filterConfig=filter_config(native_filter(('Elsewhere',)))))
-        self.assertIn('Target ambiguity',self.h.declaration()['reason'])
+        self.assertIn('Target unavailable',self.h.declaration()['reason'])
     def test_real_visual_ambiguity_stays_a_refusal(self):
         record=self.resolution()
         self.h.part('definition/pages/p/visuals/another/visual.json',json.loads(self.h.visual['metadata']['content']))
@@ -103,7 +104,7 @@ class IntakeWiringTests(unittest.TestCase):
         self.h.request['text']='The ratio looks low for North.'
         self.h.h.request['filters'][0]['values']=['North']
         helper=contract_fixture.TargetContractTests();self.inv,self.entry=helper.declaration();self.entry['restrictions'][0]['field_id']='c'
-        self.h.workspace.target_options=lambda *args:[{'inventory':self.inv,'restrictions':copy.deepcopy(self.entry['restrictions'])}]
+        self.h.workspace.target_options=lambda *args:[{'evidence':{'report_binding':helper.binding,'report_catalog':helper.reports},'inventory':self.inv,'restrictions':copy.deepcopy(self.entry['restrictions'])}]
         p=proposal();p.update(filters=[],scope_quotes=[],target_request={'source':{'start':24,'end':29,'quote':'North'}})
         self.h.resolver.return_value=(p,{'usage':{'output_tokens':80}})
     def test_intake_resolves_before_column_ambiguity_and_review_forwards(self):
@@ -113,11 +114,11 @@ class IntakeWiringTests(unittest.TestCase):
         preview=self.h.review(saved)
         self.assertEqual(preview['envelope']['definition_target'],saved['proposal']['definition_target'])
         self.assertEqual(preview['envelope']['reported_figure'],{'state':'UNSPECIFIED'})
-    def test_zero_match_is_named_ambiguity_and_retains_refused_record(self):
+    def test_zero_match_is_named_unavailability_and_retains_refused_record(self):
         self.entry['restrictions'][0]['values']=['South']
         saved=self.h.resolve();self.assertEqual(saved['status'],'NEEDS_INPUT')
         self.assertEqual(saved['definition_target']['resolution_kind'],'REFUSED')
-        self.assertIn('Target ambiguity',saved['question']);self.assertIsNone(saved['proposal'])
+        self.assertIn('Target unavailable',saved['question']);self.assertIsNone(saved['proposal'])
         self.assertEqual(self.h.workspace.agent.governor.snapshot()['reserved_today']['planner_calls'],1)
 
     def test_stated_column_no_match_is_recorded_not_silently_accepted(self):

@@ -388,7 +388,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         except (ResolutionRefused,UnsupportedRestriction) as exc:
             observations.extend(getattr(exc,'observations',[]))
             evidence=_observation({'id':'report-selection-refused','tool':'process',
-                'reason':str(exc),'check_kind':'REPORT_SELECTION_REFUSED'},'established')
+                'reason':str(exc),'refusal_category':getattr(exc,'category','UNSUPPORTED'),'check_kind':'REPORT_SELECTION_REFUSED'},'established')
             return answer('NO_KNOWN_PATTERN',2,observations+[evidence],layers[0]['id'],'NOT_COMPARABLE',
                 roles=('established',),missing_capability=str(exc))
         observations.extend(selection_observations)
