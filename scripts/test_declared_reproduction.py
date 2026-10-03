@@ -174,7 +174,7 @@ class ReproductionTests(unittest.TestCase):
         result=self.run_check(adapter,{**SCOPE,'reported_figure':exact(0)})
         self.assertIsNone(result['finding']['reproduced_value'])
         self.assertEqual(result['finding']['label'],'NOT_REPRODUCED')
-        self.assertIn('produced blank',result['business_output'])
+        self.assertIn('produced nothing',result['business_output'])
         by_id={o['id']:o for o in result['observations']}
         _process_evidence(result['finding'],by_id,{'reproduction-read-1':{'quantity':None},'reproduction-read-2':{'quantity':8}})
 
@@ -286,9 +286,9 @@ class ReproductionTests(unittest.TestCase):
     def test_both_outputs_state_within_layer_and_bounded_baseline(self):
         result = self.run_check()
         self.assertIn('WITHIN_LAYER_CHECK', result['technical_output'])
-        self.assertIn('Within', result['business_output'])
+        self.assertIn('same calculation', result['business_output'])
         for key in ('business_output', 'technical_output'):
-            self.assertIn('undeclared-context', result[key])
+            self.assertIn('without applying report selections' if key=='business_output' else 'undeclared-context', result[key])
             self.assertIn('not', result[key])
             narrative_form.validate(result[key], key == 'business_output')
 
@@ -409,7 +409,7 @@ class PlacementAndGatingTests(unittest.TestCase):
         payload['evidence'].extend({'id':o['id'],'tool':o['tool'],
             'result':o if o.get('check_kind')==reproduction.KIND else {}} for o in result['observations'])
         _,outputs=synthesis_narrative.assemble(synthesis_narrative.Response(fixtures.response(payload)),payload,state)
-        self.assertIn('Within-layer check',outputs['business_output']['explanation']['text'])
+        self.assertIn('same calculation',outputs['business_output']['explanation']['text'])
         self.assertIn('WITHIN_LAYER_CHECK',outputs['technical_output']['explanation']['text'])
         self.assertEqual(outputs['business_output']['question_account']['status'],'PARTLY_ANSWERED')
         next(o for o in state['observations'] if o.get('applied_restrictions'))['applied_restrictions']=[]

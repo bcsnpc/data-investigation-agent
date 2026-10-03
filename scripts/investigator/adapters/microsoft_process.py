@@ -156,8 +156,9 @@ class MicrosoftProcessAdapter:
         if not declaration:raise Conflict('No complete pinned declaration admitted for reproduction')
         applied=scope.get('restrictions')
         keys=declaration.get('cell',{}).get('key_restrictions',[])
-        expected_fields={'restrictions','dimension_ids'} | ({'cell_id'} if 'cell' in declaration else set())
+        expected_fields={'restrictions','dimension_ids'} | ({'cell_id','probe_purpose'} if 'cell' in declaration else set())
         if (set(scope)!=expected_fields or scope['dimension_ids']!=[]
+                or ('cell' in declaration and scope.get('probe_purpose') not in ('DECLARED_CONTEXT','UNDECLARED_CONTEXT'))
                 or not isinstance(applied,list) or applied not in ([],compose(declaration['restrictions'] + keys))):
             raise Conflict('Reproduction scope differs from the pinned composed declaration')
         measure=next(a for a in assets(model['context']) if a['id']==measure_id)
@@ -166,6 +167,8 @@ class MicrosoftProcessAdapter:
         query=semantic_self_report(quantity_query(model,measure_id,applied))
         plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],
               'query':query,'max_rows':20,'surface_report':SEMANTIC_REPORT}
+        if 'cell' in declaration and scope['probe_purpose']=='DECLARED_CONTEXT':
+            plan['cell_address']=copy.deepcopy(declaration['cell'])
         from ..onboarding import digest
         from ..flexible_tools import build as admit_query
         compiled=admit_query(self.store,plan,self.config,'bounded_dax')
@@ -183,6 +186,7 @@ class MicrosoftProcessAdapter:
             'measure_id':measure_id,'applied_restrictions':copy.deepcopy(applied),
             'context_id':model['context_id'],'model_revision':model['revision'],
             'definition_evidence_id':declaration['evidence']['id'],
+            **({'cell_address':copy.deepcopy(plan['cell_address'])} if 'cell_address' in plan else {}),
             'conditional_declarations':copy.deepcopy(declaration['evidence']['conditional_declarations'])},
             value=_quantity(rows,plan['surface_report']),query=query,execution_surface=surface,
             surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
@@ -195,7 +199,8 @@ class MicrosoftProcessAdapter:
         from ..onboarding import digest
         from ..process_debugging import attest_surface
         compiled=build(self.store,plan,self.config,'bounded_dax')
-        key=digest({'compiled':self._compiled_quantity_fingerprint(compiled),'report':binding})
+        key=digest({'compiled':self._compiled_quantity_fingerprint(compiled),'report':binding,
+            'cell':self._cell_key(plan.get('cell_address'))})
         if key in self._native_result_cache:
             result=copy.deepcopy(self._native_result_cache[key])
             self.duplicate_read_events.append({'id':'duplicate-read-'+str(uuid4()),'tool':'process',
@@ -214,7 +219,7 @@ class MicrosoftProcessAdapter:
                 self._native_result_cache[key]=copy.deepcopy(result)
         return result
 
-    def declared_probe_cost(self,measure_id,declaration,restrictions):
+    def declared_probe_cost(self,measure_id,declaration,restrictions,purpose=None):
         from .report_predicates import quantity_query
         from ..flexible_tools import build
         from ..onboarding import digest
@@ -224,8 +229,13 @@ class MicrosoftProcessAdapter:
               'max_rows':20,'surface_report':SEMANTIC_REPORT}
         compiled=build(self.store,plan,self.config,'bounded_dax')
         key=digest({'compiled':self._compiled_quantity_fingerprint(compiled),
-                    'report':declaration['evidence'].get('report_binding')})
+                    'report':declaration['evidence'].get('report_binding'),
+                    'cell':self._cell_key(declaration.get('cell')) if purpose=='DECLARED_CONTEXT' else None})
         return int(key not in self._native_result_cache)
+
+    @staticmethod
+    def _cell_key(cell):
+        return cell
 
     def _compiled_quantity_fingerprint(self,compiled):
         from ..onboarding import digest

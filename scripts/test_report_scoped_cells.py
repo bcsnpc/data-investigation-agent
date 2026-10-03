@@ -100,7 +100,7 @@ class ScopedTests(unittest.TestCase):
         self.adapter.remaining_diagnostic_reads=lambda:4-len(self.requests)
         result=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],scope)
         self.assertEqual([r['cell']['mode'] for r in result['cells']],['KEYED','TOTAL'])
-        self.assertEqual(len(self.requests),3)
+        self.assertEqual(len(self.requests),4)
         self.assertIn('no declared report filter',result['business_output'])
         self.assertIn('OBSERVED',result['technical_output'])
         self.assertTrue(all(r['finding']['unavailability'] is None for r in result['cells']))
@@ -173,7 +173,7 @@ class ScopedTests(unittest.TestCase):
         result=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
         self.assertEqual(len(self.requests),2)
         declaration=self.adapter.declared_cells(self.layer,self.measure['id'],self.scope)['cells'][0]
-        self.assertEqual(self.adapter.declared_probe_cost(self.measure['id'],declaration,declared_reproduction.compose(declaration['restrictions'])),0)
+        self.assertEqual(self.adapter.declared_probe_cost(self.measure['id'],declaration,declared_reproduction.compose(declaration['restrictions']),'DECLARED_CONTEXT'),0)
         result=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
         self.assertEqual(len(self.requests),2);self.assertEqual(len(self.meters),2)
         events=[o for o in result['observations'] if o.get('check_kind')=='COMPILED_DUPLICATE_REFUSED']

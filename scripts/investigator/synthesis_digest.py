@@ -181,6 +181,8 @@ def build(state,db):
    r=db.execute('SELECT model_id,status,request,result FROM '+TABLES[o['tool']]+' WHERE id=?',(o['id'],)).fetchone()
    if not r or r[0]!=state['model_id'] or r[1]!='COMPLETED':raise Conflict('Synthesis receipt scope/status differs')
    request,result=map(json.loads,r[2:])
+   if o.get('cell_address')!=request.get('cell_address'):
+    raise Conflict('Cell address differs from sealed read receipt')
    from .raw_surface_report import validate as validate_raw_report
    validate_raw_report(request,result)
    expected=result.get('rows',[]) if o['tool']!='source' else [result.get('value')]
