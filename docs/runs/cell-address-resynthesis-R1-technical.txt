@@ -1,0 +1,20 @@
+You asked: In Inventory Health e1b8e1 I selected warehouse North. Handled Quantity differs from the global total. Check the North selection and explain what report context you can and cannot reproduce.
+Answer to your question: Not answered.
+
+The investigation stopped during process walk.
+Reason: TOOL_UNAVAILABLE
+No explanation of the reported difference was established.
+Recommended action: Resolve the stated blocker before a new investigation.
+You described the selected value as "warehouse"; that description was a hint, not a reason to choose a column.
+
+Completed within-layer cells:
+Cell fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json (UNGROUPED): WITHIN_LAYER_CHECK (declared-reproduction-b2d055eb7ea3ee4125d4b3d59cb6dce26e722852a63f5a5063484faafeefdd2d): undeclared-context value 8765; declared-context value 8765. No reported figure supplied; the produced value has no reproduction verdict. North is a value of fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name; no declared filter restricts this report to it. Resolution OBSERVED, receipt 7bd40167-1c55-46af-affd-ee3e2c8d63dd.
+Cell fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2Fd21708a8bc35561c81f5%2Fvisual.json (KEYED): WITHIN_LAYER_CHECK (declared-reproduction-d8964b006f1897843e4ab8efa01a1c351f1ed77cc6ac20c25467b12f6edbec3a): undeclared-context value 8765; declared-context value 3359. No reported figure supplied; the produced value has no reproduction verdict. North is a value of fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name; no declared filter restricts this report to it. Resolution OBSERVED, receipt 7bd40167-1c55-46af-affd-ee3e2c8d63dd.
+Cell fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2Fd21708a8bc35561c81f5%2Fvisual.json (TOTAL): WITHIN_LAYER_CHECK (declared-reproduction-3a403b9dd5670b5b82723419ffb22f87864e9370cdf0d9172e634539e5f5724a): undeclared-context value 8765; declared-context value 8765. No reported figure supplied; the produced value has no reproduction verdict. North is a value of fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name; no declared filter restricts this report to it. Resolution OBSERVED, receipt 7bd40167-1c55-46af-affd-ee3e2c8d63dd.
+Limits:
+- The undeclared-context value remains subject to row-level security and other native restrictions; it is not an unrestricted or true total.
+- Declared-context reproduction does not establish the active selection, security context or cross-filtering, or whether the number is business-correct.
+- The within-layer reads are not bound to a shared served data version; timing may explain a mismatch.
+- An undeclared selection, security context, cross-filtering or a deeper divergence may account for the reported figure; none was excluded.
+- A moved slicer or other saved-default selection remains an explicit possibility; its current position was not established.
+Cell identity was derived retrospectively from the saved statement and definition, not recorded natively.

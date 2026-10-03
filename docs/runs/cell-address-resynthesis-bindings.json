@@ -1,0 +1,207 @@
+{
+  "provenance": "DERIVED_RETROSPECTIVELY_UNDER_NEW_CONTRACT",
+  "scope": "CELL_ADDRESS_ONLY_THREE_APPROVED_HISTORICAL_RUNS",
+  "original_receipts_unchanged": true,
+  "bindings": {
+    "R1": [
+      {
+        "source_run": "f04a8af5-37df-4e64-aa80-a4f576956f6a",
+        "original_read_receipt_id": "e1250b5b-9103-4248-8c72-9cd44f6b9ae4",
+        "cell_address": {
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "grouping_columns": [],
+          "key_restrictions": [],
+          "mode": "UNGROUPED",
+          "id": "b2d055eb7ea3ee4125d4b3d59cb6dce26e722852a63f5a5063484faafeefdd2d"
+        },
+        "provenance": "DERIVED_RETROSPECTIVELY_UNDER_NEW_CONTRACT",
+        "original_receipt_hash": "f9b134fdc2ce052f41383c07dab6197481e8183c726eeb357de2ed0f4b03af18",
+        "statement_byte_match": true,
+        "proposal_statement_byte_match": true,
+        "status": "BOUND",
+        "derived_binding_receipt_id": "retrospective-cell-binding-a366c79f-24c0-4ba7-a6bd-03de7f1514a3"
+      },
+      {
+        "source_run": "f04a8af5-37df-4e64-aa80-a4f576956f6a",
+        "original_read_receipt_id": "ecc5a1fa-d451-45e3-9c28-1f17f10b06fa",
+        "cell_address": {
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2Fd21708a8bc35561c81f5%2Fvisual.json",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "grouping_columns": [
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name"
+          ],
+          "key_restrictions": [
+            {
+              "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
+              "operator": "IN",
+              "values": [
+                "North"
+              ]
+            }
+          ],
+          "mode": "KEYED",
+          "id": "d8964b006f1897843e4ab8efa01a1c351f1ed77cc6ac20c25467b12f6edbec3a"
+        },
+        "provenance": "DERIVED_RETROSPECTIVELY_UNDER_NEW_CONTRACT",
+        "original_receipt_hash": "6b66ba746eab7ff17c030f909bef188f1cfa1fbb3660b4c5bc22fbc9cca95f76",
+        "statement_byte_match": true,
+        "proposal_statement_byte_match": true,
+        "status": "BOUND",
+        "derived_binding_receipt_id": "retrospective-cell-binding-0814b001-552f-442a-987f-0fc35661f83d"
+      },
+      {
+        "source_run": "f04a8af5-37df-4e64-aa80-a4f576956f6a",
+        "original_read_receipt_id": "e1250b5b-9103-4248-8c72-9cd44f6b9ae4",
+        "cell_address": {
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2Fd21708a8bc35561c81f5%2Fvisual.json",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "grouping_columns": [
+            "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name"
+          ],
+          "key_restrictions": [],
+          "mode": "TOTAL",
+          "id": "3a403b9dd5670b5b82723419ffb22f87864e9370cdf0d9172e634539e5f5724a"
+        },
+        "provenance": "DERIVED_RETROSPECTIVELY_UNDER_NEW_CONTRACT",
+        "original_receipt_hash": "f9b134fdc2ce052f41383c07dab6197481e8183c726eeb357de2ed0f4b03af18",
+        "statement_byte_match": true,
+        "proposal_statement_byte_match": true,
+        "status": "BOUND",
+        "derived_binding_receipt_id": "retrospective-cell-binding-52070bee-ca28-4692-aa33-4736ab3218c8"
+      }
+    ],
+    "R2": [
+      {
+        "source_run": "d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36",
+        "original_read_receipt_id": "481b8698-9461-4d25-a2e1-af1e1e7a7d6c",
+        "cell_address": {
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "grouping_columns": [],
+          "key_restrictions": [],
+          "mode": "UNGROUPED",
+          "id": "676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6"
+        },
+        "provenance": "DERIVED_RETROSPECTIVELY_UNDER_NEW_CONTRACT",
+        "original_receipt_hash": "b706d1ad29d72addcadfd7636ac9b7f7c79c251635ed1202f43ec90dc5e71122",
+        "statement_byte_match": true,
+        "proposal_statement_byte_match": true,
+        "status": "BOUND",
+        "derived_binding_receipt_id": "retrospective-cell-binding-d9724709-9131-488d-896f-1747f8dc8e62"
+      },
+      {
+        "source_run": "d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36",
+        "original_read_receipt_id": "4c11d5b9-32cd-497c-9620-55d8a1c8aa61",
+        "cell_address": {
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2F7b8db703ca845710aca9%2Fvisual.json",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "grouping_columns": [],
+          "key_restrictions": [],
+          "mode": "UNGROUPED",
+          "id": "1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45"
+        },
+        "provenance": "DERIVED_RETROSPECTIVELY_UNDER_NEW_CONTRACT",
+        "original_receipt_hash": "5ee61b5bd20c7426f12a99871005eb31d9fb3bbfb33aca7e97fa47a6c1557e7a",
+        "statement_byte_match": true,
+        "proposal_statement_byte_match": true,
+        "status": "BOUND",
+        "derived_binding_receipt_id": "retrospective-cell-binding-9a1e8b2e-eb80-48f5-bb74-18a7125cd758"
+      },
+      {
+        "source_run": "d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36",
+        "original_read_receipt_id": "84f553bd-5200-4724-bf76-3744f1b06ab2",
+        "cell_address": {
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Fa32b6a48db655ac8a4f2%2Fvisual.json",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "grouping_columns": [],
+          "key_restrictions": [],
+          "mode": "UNGROUPED",
+          "id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3"
+        },
+        "provenance": "DERIVED_RETROSPECTIVELY_UNDER_NEW_CONTRACT",
+        "original_receipt_hash": "76b294bf2033c862846d6148e129bdf50b32578e2083c063845b2b7c4081909f",
+        "statement_byte_match": true,
+        "proposal_statement_byte_match": true,
+        "status": "BOUND",
+        "derived_binding_receipt_id": "retrospective-cell-binding-74209951-47ae-495b-af23-a060729a8e42"
+      }
+    ],
+    "R3": [
+      {
+        "source_run": "6875ffa2-cece-49e4-8338-05197ea69f32",
+        "original_read_receipt_id": "a32e71eb-e2e4-4216-93e8-2b0b1b2ceb62",
+        "cell_address": {
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "grouping_columns": [],
+          "key_restrictions": [],
+          "mode": "UNGROUPED",
+          "id": "676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6"
+        },
+        "provenance": "DERIVED_RETROSPECTIVELY_UNDER_NEW_CONTRACT",
+        "original_receipt_hash": "29e1fac0e1f9f5ad1d9fa0e821e59aeb726999658e681cca74fc5818ad5f6f97",
+        "statement_byte_match": true,
+        "proposal_statement_byte_match": true,
+        "status": "BOUND",
+        "derived_binding_receipt_id": "retrospective-cell-binding-b839647c-cad1-44f9-9461-35108d89cb73"
+      },
+      {
+        "source_run": "6875ffa2-cece-49e4-8338-05197ea69f32",
+        "original_read_receipt_id": "2dd4e8f9-6329-49ca-8811-dd28f7d7aa64",
+        "cell_address": {
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2F7b8db703ca845710aca9%2Fvisual.json",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "grouping_columns": [],
+          "key_restrictions": [],
+          "mode": "UNGROUPED",
+          "id": "1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45"
+        },
+        "provenance": "DERIVED_RETROSPECTIVELY_UNDER_NEW_CONTRACT",
+        "original_receipt_hash": "7fceddeeb5e2cbcd32e624f1d4c4a9f1b23511cf90b269e3a9a4514a49c775f9",
+        "statement_byte_match": true,
+        "proposal_statement_byte_match": true,
+        "status": "BOUND",
+        "derived_binding_receipt_id": "retrospective-cell-binding-8eb36b13-e10e-4454-9093-07ad82a7630f"
+      },
+      {
+        "source_run": "6875ffa2-cece-49e4-8338-05197ea69f32",
+        "original_read_receipt_id": "ba04e8f3-7aac-406c-934e-7ea1d106c56c",
+        "cell_address": {
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Fa32b6a48db655ac8a4f2%2Fvisual.json",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "grouping_columns": [],
+          "key_restrictions": [],
+          "mode": "UNGROUPED",
+          "id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3"
+        },
+        "provenance": "DERIVED_RETROSPECTIVELY_UNDER_NEW_CONTRACT",
+        "original_receipt_hash": "f02ac4f6692f2c964b6e9db5706f668eaae1e8a5a28d997b5244dd5e949c4fc1",
+        "statement_byte_match": true,
+        "proposal_statement_byte_match": true,
+        "status": "BOUND",
+        "derived_binding_receipt_id": "retrospective-cell-binding-6aec1b25-74fc-4226-9f60-bcba0f59c8cb"
+      }
+    ]
+  },
+  "protected_original_row_hashes": {
+    "adaptive_sessions:f04a8af5-37df-4e64-aa80-a4f576956f6a": "d6eadc0738407a3965209323c2600cc1d1ba02c8c8825fcebc12414955ca90c8",
+    "adaptive_syntheses:f04a8af5-37df-4e64-aa80-a4f576956f6a": "5a170c6a49278c22c678063ce0acdfb17969019205b2ce0cf65279cbd6dc5bf7",
+    "adaptive_sessions:d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36": "80f1a89c92d166ac58f90162265308fdbb67bb70980271c78546744d25c1ecb7",
+    "adaptive_syntheses:d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36": "bc78f7193cfd3a44f1a71696c152afc6d3b8b62e63cb7e47042fa9b8486d51d2",
+    "adaptive_sessions:6875ffa2-cece-49e4-8338-05197ea69f32": "1df4c2936cb61f6c498994f47f5876e7c065f72850d16c44a52acf79bd590929",
+    "adaptive_syntheses:6875ffa2-cece-49e4-8338-05197ea69f32": "eee23838ec2fa85854e37d2ed43ec9b0389bcca4485f001555dad60ef82b4c1b",
+    "read:7bd40167-1c55-46af-affd-ee3e2c8d63dd": "2db37878a567e8a6797cbcd3a25f2890beb562725afb61566842efe7a9a32df5",
+    "read:e1250b5b-9103-4248-8c72-9cd44f6b9ae4": "1455894828dedae5623f76bc3c67ec37b0a1838b35aedb2a0a3e24b04eae49f8",
+    "read:ecc5a1fa-d451-45e3-9c28-1f17f10b06fa": "7d3d24d143d943e1b80b0b7cc41cbb356723b1956c300993d762f6ef8a50a764",
+    "read:aa53f7d0-d0f6-4124-ba86-bc8c78f9b927": "8128d34a0cc7f65a4ad9b9e13554523b78a056a298cada5af81c98f9883ac2ba",
+    "read:481b8698-9461-4d25-a2e1-af1e1e7a7d6c": "e73d75e8962f9f47a3366d8cec67947a48e0f9a5ad332d16faedcc54f102ed9d",
+    "read:4c11d5b9-32cd-497c-9620-55d8a1c8aa61": "1c4a017c4e827f681c95e9d6aa56b6fdb466094305c26ba7ce42f8a0bba473cd",
+    "read:84f553bd-5200-4724-bf76-3744f1b06ab2": "4d441befe985833de48036cb55f17f86b2840417b5e25180a405bcfa51e6b181",
+    "read:086de50b-c61f-4b86-ae05-c23fe3504b64": "c8cd5ee2e84709ae54bf0dc2fa86f68729f1ce6aa8364230e1ef4fa084be569e",
+    "read:a32e71eb-e2e4-4216-93e8-2b0b1b2ceb62": "551935265db0dbe3dcbca4eaa639d4b71e3f3161b70da186972022bcfa3c5167",
+    "read:2dd4e8f9-6329-49ca-8811-dd28f7d7aa64": "384419108cce8397bbaeae650373bd8cac5386966460339d02cae6a7c1baded8",
+    "read:ba04e8f3-7aac-406c-934e-7ea1d106c56c": "6ce00e4534c66543f0a7e7cced1423d364386181da2bf438af66a2d0bdbe34fa",
+    "read:29ff57ce-c9d6-4de4-86a9-649674eaaeaf": "7e90bc4f3713b7806b3ce1ed787c2cfe3f4258cce0c6b8265b7b36c21843be9d"
+  }
+}
