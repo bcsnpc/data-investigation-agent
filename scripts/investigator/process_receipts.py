@@ -37,7 +37,7 @@ REGISTRY = {
        'INTAKE_REFUSED': 'intake', 'RESOLUTION_REFUSED': 'resolution',
        'INVENTORY_REFUSED': 'declaration inventory',
        'REPRODUCTION_REFUSED': 'declared-context reproduction',
-       'WALK_REFUSED': 'process walk'}.items()},
+       'WALK_REFUSED': 'process walk', 'PROCESS_FAILED':'process failure'}.items()},
 }
 
 QUERY_TABLES = {name: spec.table for name, spec in REGISTRY.items()
@@ -46,6 +46,11 @@ QUERY_TABLES = {name: spec.table for name, spec in REGISTRY.items()
 
 def validate_for_synthesis(observation):
     name,spec=identify(observation)
+    if name=='PROCESS_FAILED':
+        from .process_failure import validate
+        validate(observation.get('failure'))
+        if observation.get('reason')!=observation['failure']['message']:
+            raise Conflict('Process failure reason differs from its safe diagnostic')
     # All registered query shapes require the same compiled-request and result
     # fields. A newly registered query cannot forget this consumer contract.
     if spec.route=='query' and observation.get('status')=='COMPLETED':
@@ -91,11 +96,17 @@ def summary(observation):
             'evidence_id': observation.get('id')}
 
 
-def refusal(shape, reason, identity):
+def refusal(shape, reason, identity,*,failure=None):
     spec = REGISTRY.get(shape)
     if spec is None or spec.refusal_stage is None:
         raise Conflict('Unregistered refusal receipt shape: ' + str(shape))
     if not isinstance(reason, str) or not reason.strip():
         raise Conflict('Refusal requires the original reason')
+    extra={}
+    if shape=='PROCESS_FAILED':
+        from .process_failure import validate
+        validate(failure)
+        if reason!=failure['message']:raise Conflict('Process failure reason differs from its safe diagnostic')
+        extra['failure']=failure
     return {'id': identity, 'tool': 'process', 'status': 'COMPLETED',
-            'completeness': 'COMPLETE_RESPONSE', 'check_kind': shape, 'reason': reason}
+            'completeness': 'COMPLETE_RESPONSE', 'check_kind': shape, 'reason': reason,**extra}

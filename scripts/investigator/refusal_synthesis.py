@@ -5,6 +5,10 @@ from .onboarding import digest
 
 
 def earliest(state):
+    # An internal crash must remain visible even after an earlier side-check
+    # refusal; it cannot be delivered as that capability's unavailability.
+    for observation in state.get('observations', []):
+        if observation.get('check_kind')=='PROCESS_FAILED':return observation
     for observation in state.get('observations', []):
         name, spec = process_receipts.identify(observation)
         if spec.refusal_stage:
@@ -84,4 +88,9 @@ def render(state,payload=None):
                         'recommended_action': 'Resolve the stated blocker before a new investigation.'}
         if cells:outputs[key]['recommended_action']=action(select(cells))
         if hint:outputs[key]['descriptor_hint']=copy.deepcopy(hint)
+        if receipt.get('check_kind')=='PROCESS_FAILED':
+            outputs[key]['explanation']['text']+='\nProcess failure: '+receipt['reason']
+            if key=='technical_output':
+                failure=receipt['failure']
+                outputs[key]['explanation']['text']+=' ('+failure['error_type']+' at '+failure['module']+':'+str(failure['line'])+').'
     return outputs

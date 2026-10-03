@@ -55,10 +55,15 @@ SQL_TOOLS=('bounded_sql','bounded_fabric_sql')
 
 
 def build(store,plan,config,tool,*,catalog=None):
-    fields(plan,['model_id','revision','context_id','query','max_rows']+(['surface_report'] if 'surface_report' in plan else [])+(['cell_address'] if 'cell_address' in plan else []))
+    fields(plan,['model_id','revision','context_id','query','max_rows']+(['surface_report'] if 'surface_report' in plan else [])+(['cell_address'] if 'cell_address' in plan else [])+(['read_address'] if 'read_address' in plan else []))
+    if 'read_address' in plan:
+        from .read_address import validate as validate_address
+        validate_address(plan['read_address'])
     report=surface_columns(plan['surface_report']) if 'surface_report' in plan else None
     if 'cell_address' in plan and tool!='bounded_dax':
         raise ValueError('Cell address is unsupported by this query adapter')
+    if 'cell_address' in plan and plan.get('read_address')!={'kind':'CELL','cell':plan['cell_address']}:
+        raise ValueError('Cell read requires its complete explicit quantity address')
     model=store.get(plan['model_id'])
     if not model['enabled'] or plan['revision']!=model['revision'] or plan['context_id']!=model['context_id']:
         raise Conflict('Proposed query context changed or disabled')
@@ -112,6 +117,9 @@ def build(store,plan,config,tool,*,catalog=None):
         if tool=='bounded_dax' and not set(report.values())<=set(compiled['result_columns']):
             raise ValueError('Probe statement lacks declared surface-report columns')
         compiled['surface_report_columns']=report
+    if 'read_address' in plan:
+        import copy
+        compiled['read_address']=copy.deepcopy(plan['read_address'])
     return dict(compiled,tool=tool,context_id=model['context_id'],context_hash=digest(model['context']),
                 policy_hash=digest(config),scope_hash=digest(plan))
 

@@ -169,6 +169,8 @@ class MicrosoftProcessAdapter:
               'query':query,'max_rows':20,'surface_report':SEMANTIC_REPORT}
         if 'cell' in declaration and scope['probe_purpose']=='DECLARED_CONTEXT':
             plan['cell_address']=copy.deepcopy(declaration['cell'])
+        from ..read_address import baseline,cell
+        plan['read_address']=cell(plan['cell_address']) if 'cell_address' in plan else baseline(applied)
         from ..onboarding import digest
         from ..flexible_tools import build as admit_query
         compiled=admit_query(self.store,plan,self.config,'bounded_dax')
@@ -186,6 +188,7 @@ class MicrosoftProcessAdapter:
             'measure_id':measure_id,'applied_restrictions':copy.deepcopy(applied),
             'context_id':model['context_id'],'model_revision':model['revision'],
             'definition_evidence_id':declaration['evidence']['id'],
+            'read_address':copy.deepcopy(plan['read_address']),
             **({'cell_address':copy.deepcopy(plan['cell_address'])} if 'cell_address' in plan else {}),
             'conditional_declarations':copy.deepcopy(declaration['evidence']['conditional_declarations'])},
             value=_quantity(rows,plan['surface_report']),query=query,execution_surface=surface,
@@ -199,8 +202,10 @@ class MicrosoftProcessAdapter:
         from ..onboarding import digest
         from ..process_debugging import attest_surface
         compiled=build(self.store,plan,self.config,'bounded_dax')
+        from ..read_address import validate as validate_address
+        validate_address(plan.get('read_address'))
         key=digest({'compiled':self._compiled_quantity_fingerprint(compiled),'report':binding,
-            'cell':self._cell_key(plan.get('cell_address'))})
+            'address':plan['read_address']})
         if key in self._native_result_cache:
             result=copy.deepcopy(self._native_result_cache[key])
             self.duplicate_read_events.append({'id':'duplicate-read-'+str(uuid4()),'tool':'process',
@@ -228,9 +233,11 @@ class MicrosoftProcessAdapter:
               'query':semantic_self_report(quantity_query(model,measure_id,restrictions)),
               'max_rows':20,'surface_report':SEMANTIC_REPORT}
         compiled=build(self.store,plan,self.config,'bounded_dax')
+        from ..read_address import baseline,cell
+        address=cell(declaration['cell']) if purpose=='DECLARED_CONTEXT' and 'cell' in declaration else baseline(restrictions)
         key=digest({'compiled':self._compiled_quantity_fingerprint(compiled),
                     'report':declaration['evidence'].get('report_binding'),
-                    'cell':self._cell_key(declaration.get('cell')) if purpose=='DECLARED_CONTEXT' else None})
+                    'address':address})
         return int(key not in self._native_result_cache)
 
     @staticmethod
@@ -290,6 +297,8 @@ class MicrosoftProcessAdapter:
         reference="'"+table['name'].replace("'","''")+"'["+column['name'].replace(']',']]')+']'
         query=semantic_self_report('EVALUATE ROW("quantity",COUNTROWS(FILTER(VALUES('+reference+'),'+reference+' == '+literal+')))')
         plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],'query':query,'max_rows':20,'surface_report':SEMANTIC_REPORT}
+        from ..read_address import baseline
+        plan['read_address']=baseline([{'field_id':column_id,'operator':'IN','values':[value]}])
         admit_query(self.store,plan,self.config,'bounded_dax')
         result=self._native_read(plan,binding)
         surface={'engine':SEMANTIC_ENGINE,'connection':model['workspace'],'object':model['native_id'],'identity':self.config['fabric']['native_reader']['account']}
@@ -300,6 +309,7 @@ class MicrosoftProcessAdapter:
         return Probe('OBSERVED',layer['id'],value=quantity,query=query,execution_surface=surface,
             evidence={'id':result['id'],'tool':'bounded_dax','check_kind':'COLUMN_VALUE_EXISTENCE','column_id':column_id,
                 'request_hash':result['request_hash'],
+                'read_address':plan['read_address'],
                 'searched_value':value,'value_exists':exists,'report_id':binding['report_id'],
                 'context_id':model['context_id'],'model_revision':model['revision'],'completeness':body['completeness'],'values':rows},
             surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
@@ -545,6 +555,8 @@ class MicrosoftProcessAdapter:
         plan={'model_id':self.model['id'],'revision':self.model['revision'],
               'context_id':self.model['context_id'],'query':query,'max_rows':20,
               'surface_report':SEMANTIC_REPORT}
+        from ..read_address import baseline
+        plan['read_address']=baseline(scope.get('filters',[]))
         from ..flexible_tools import build as admit_query
         admit_query(self.store,plan,self.config,'bounded_dax')
         result=self._native_read(plan,scope.get('report_binding'))
@@ -570,6 +582,7 @@ class MicrosoftProcessAdapter:
             'request_hash':result['request_hash'],
             'declared_context':(whole_entity_context() if not scope.get('filters') and not scope.get('dimension_ids') else None),
             'measure_id':measure_id,'dimension_id':None,
+            'read_address':plan['read_address'],
             'test_purpose':'CHECK_DECLARED_SOURCE_DEFINITION' if definition_check else 'ESTABLISH_BASELINE',
             **({'binding_provenance':(layer.get('binding') or {}).get('provenance'),
                 'independent_read_refused':layer.get('lower_refusal')} if definition_check else {})},
@@ -623,6 +636,8 @@ class MicrosoftProcessAdapter:
                  'identity':reader.get('account')}
         plan={'model_id':self.model['id'],'revision':self.model['revision'],'context_id':self.model['context_id'],
               'query':compiled['query'],'max_rows':20}
+        from ..read_address import baseline
+        plan['read_address']=baseline([])
         execute=lambda:run_query(self.store,plan,self.config,'bounded_fabric_sql',
             lambda request:self.execute_lower(compiled['database'],request),catalog=compiled['catalog'])
         result=self.meter_read('bounded_fabric_sql',execute) if self.meter_read else execute()
@@ -643,6 +658,7 @@ class MicrosoftProcessAdapter:
         return Probe('OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_fabric_sql',
             'completeness':result['result']['completeness'],'values':rows,'request_hash':result['request_hash'],
             'measure_id':measure_id,'dimension_id':None,'test_purpose':'COMPARE_DECLARED_SOURCE',
+            'read_address':plan['read_address'],
             'binding_provenance':provenance,'lower_quantity':{'source_column':compiled['source_column'],
                 'catalog_provenance':'DECLARED_BY_DEFINITION'},
             'declared_context':whole_entity_context(),

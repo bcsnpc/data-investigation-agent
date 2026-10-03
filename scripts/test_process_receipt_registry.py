@@ -17,6 +17,9 @@ class ReceiptRegistryTests(unittest.TestCase):
                 self.assertEqual(receipts.summary(observation)['shape'],name)
                 if spec.refusal_stage:
                     observation['reason']='The original blocker.'
+                    if name=='PROCESS_FAILED':
+                        observation['failure']={'error_type':'ValueError','message':'The original blocker.',
+                            'message_redacted':False,'module':'walk.py','line':1}
                     chain=[observation]
                 else:
                     chain=[observation,receipts.refusal('WALK_REFUSED','The original blocker.','stop')]
