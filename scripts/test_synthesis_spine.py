@@ -43,5 +43,20 @@ class RenderedSpineTests(unittest.TestCase):
         self.assertTrue(wire['elided'])
         self.assertEqual(len(payload['evidence']),20)
 
+    def test_composition_labels_and_ceiling_do_not_reduce_context_coverage(self):
+        payload,state=self.fixture(10,10)
+        payload['question']='Does the declared context reproduce the figure?'
+        state['assessment']={'classification':'NO_COMPARABLE_PATH'}
+        for e in payload['evidence']:
+            r=e['result'];r['id']=e['id'];r['reported_figure']['source']={'start':0,'end':1,'quote':'7'}
+            for d in r['declarations']:d.update(assumption='SAVED_DEFAULT',volatility='VIEWER_CHANGEABLE')
+        before=build(payload,state,48000)
+        payload['scope']['cell_display_names']={str(i):'Distinct visual '+str(i) for i in range(10)}
+        payload['scope']['surface_attestation_ceiling']={'layer':{'connection':'NOT_SELF_REPORTABLE_FOR_READER'}}
+        after=build(payload,state,48000)
+        self.assertEqual(len(after['candidates']),len(before['candidates']))
+        self.assertEqual(after['evidence'],before['evidence'])
+        self.assertFalse(after['elided']);self.assertLess(len(encoded(after)),24000)
+
 
 if __name__=='__main__':unittest.main()

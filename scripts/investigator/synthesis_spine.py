@@ -16,6 +16,9 @@ def build(payload, state, bound):
               'candidates': [], 'boundaries': facts(payload),
               'elided': [], 'rendered_business': business_text(outcome, payload) if outcome else None}
     if outcome: result['outcome'] = outcome
+    from .reproduction_composition import from_payload,select
+    lead=select(from_payload(payload))
+    if lead:result['answering_cell_receipt_id']=lead['id']
     for entry in payload['evidence']:
         # Citation identity only. No raw receipt, query, self-report, inventory,
         # declaration or model-interpreted copy of a validation field.

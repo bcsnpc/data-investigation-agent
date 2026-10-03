@@ -22,6 +22,14 @@ def build(state):
     question=state['envelope']['symptom']
     if not isinstance(question,str) or not question.strip():raise Conflict('Question account requires the original ticket')
     assessment=state.get('assessment') or {}
+    from .reproduction_composition import select,answer,requested
+    lead=select(state.get('observations',[])) if requested(question) else None
+    if lead is not None:
+        return {'version':2,'question':question,'question_hash':digest(question),
+            'status':'ANSWERED' if lead['label'] else 'NOT_ANSWERED',
+            'subjects':[],'reproduction_answer':answer(lead),'answering_cell_receipt_id':lead['id'],
+            'subject_provenance':'COMPLETED_DECLARED_CONTEXT_PROCEDURE',
+            'finding_outcome':assessment.get('classification'),'authority':'DETERMINISTIC_EVIDENCE_COVERAGE'}
     observations=[o for o in state.get('observations',[]) if o.get('status')=='COMPLETED']
     roles={role for o in observations for role in o.get('process_roles',[])}
     detail=assessment.get('technical_output') or {}
@@ -80,6 +88,8 @@ def build(state):
 
 
 def render(account):
+    if 'reproduction_answer' in account:
+        return 'You asked: '+account['question']+'\nAnswer to your question: '+account['reproduction_answer']
     status={'ANSWERED':'Answered within the checked scope','PARTLY_ANSWERED':'Partly answered','NOT_ANSWERED':'Not answered'}[account['status']]
     lines=['You asked: '+account['question'],'Answer to your question: '+status+'.']
     for check in account['subjects']:

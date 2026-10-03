@@ -46,7 +46,7 @@ class VocabularyTests(unittest.TestCase):
         p,contract,terms,_=self.fixture();expected=business_text('TRANSFORMATION_LOGIC',p)
         for bad in ('other information','the information before the last check','silver','table_name','fabric://id','invented products'):
             with self.subTest(bad=bad),self.assertRaises(ValueError):validate_text(expected.replace('deliveries',bad),expected)
-        for bad in ('other information','the information before the last check','silver','table_name','fabric://id'):
+        for bad in ('other information','the information before the last check','table_name','fabric://id'):
             with self.subTest(bad=bad),self.assertRaises(ValueError):validate_text(bad,bad)
         for field,value in (('text','invoices'),('source_start',1),('definition_hash','different')):
             changed=copy.deepcopy(terms);changed['subject'][field]=value

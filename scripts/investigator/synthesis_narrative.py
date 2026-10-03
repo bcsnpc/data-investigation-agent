@@ -80,6 +80,9 @@ def assemble(response,payload,state):
     # complete fixed assessment and its mandatory evidence/attestation limits.
     outputs={}
     recommended=action(source['classification'])
+    from .reproduction_composition import from_payload,select,action as cell_action
+    answering=select(from_payload(payload))
+    if answering:recommended=cell_action(answering)
     for key in ('business_output','technical_output'):
         outputs[key]={'explanation':value[key],
                       'conclusion':copy.deepcopy(source.get(key,{})),
@@ -92,6 +95,12 @@ def assemble(response,payload,state):
     for key in ('business_output','technical_output'):
         outputs[key]['snapshot_attestations']=[e.get('snapshot_attestation',{'status':'SNAPSHOT_UNVERIFIED'}) for e in payload_comparisons(payload)]
     outputs['technical_output']['explanation']['text']=narrative_form.technical(value['technical_output']['text'],payload,source,recommended)
+    if answering:
+        vertical=[e for e in payload['evidence'] if e.get('test_purpose')=='ESTABLISH_BASELINE' and e.get('verified_quantity')]
+        account=['What else was checked: vertical path outcome '+source['classification']+'.']
+        for e in vertical:
+            account.append('Separate vertical-path probe '+e['id']+': quantity '+str(e['verified_quantity'].get('quantity'))+'.')
+        outputs['technical_output']['explanation']['text']+='\n\n'+'\n'.join(account)
     outputs['business_output']['explanation']['text']=narrative_form.business(value['business_output']['text'],payload)
     outputs['business_output']['provenance']='DETERMINISTIC_OUTCOME_RENDERING'
     outputs['business_output']['vocabulary_evidence']=[
