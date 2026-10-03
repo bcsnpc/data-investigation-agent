@@ -130,6 +130,32 @@ predates these artifacts; it cannot certify them. A new scan must fit the
 remaining 87 Part-B admissions alongside probes/runs, use honest scoped coverage,
 or receive a separately reviewed budget decision. Do not bypass the approval gate.
 
+## Monitoring decision required before the fourth scenario can satisfy its contract
+
+The prepared proposal is limited to workspace
+`149f8d99-1c66-4a0a-9624-759be002bb60`: enable workspace activity monitoring
+through its publisher-owned settings, creating Fabric's monitoring Eventhouse
+and read-only KQL database. No change to dataset permissions, SQL permissions,
+existing data, schedules or diagnostic allowance is included. The new resource
+uses Fabric capacity and storage; no measured dollar cost is yet available.
+
+After creation, inspect its returned resource/endpoint metadata and test only
+this Copy Job's run-accounting records. The initial checkpoint is bounded to four
+additional metadata/query requests and one further ten-minute, retry-zero isolated
+full Copy Job execution if monitoring does not include the pre-enable run. These
+requests remain inside the existing Part B cap; this proposal grants no credits,
+cap increase or automatic retries. If the reader needs a new audience/scope to
+query the monitoring database, prepare that exact identity decision and stop
+before using it. Existing Viewer does not prove that access in advance.
+
+The portal monitoring panel is a documented alternative but has not been tested;
+we do not assert that these REST omissions make all accounting inaccessible.
+Enabling monitoring is a proposal for a supported, reproducible evidence route,
+not a proven requirement or a claim that the original load lost rows. The plan
+forbids silently creating that resource, so the human estate decision comes first.
+Source producer/adapter and approved-context integration are still unfinished;
+monitoring alone will not make B3 ready or prove source continuity.
+
 ## Remaining Part B
 
 Integrate bounded connection/producer metadata, faithfully compile the application
