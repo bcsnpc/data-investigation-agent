@@ -7,7 +7,7 @@ label and evidence contract that were valid when they were written.
 OUTCOMES = (
     'REFRESH_LATENCY', 'LOAD_LATENCY', 'PRESENTATION_LOGIC',
     'TRANSFORMATION_LOGIC', 'INGESTION_GAP', 'DEFECT',
-    'CONSISTENT_TO_BOUNDARY', 'NO_COMPARABLE_PATH', 'DEFINITION_DIFFERENCE', 'SCOPE_DIFFERENCE',
+    'CONSISTENT_TO_BOUNDARY', 'CONSISTENT_TO_SOURCE', 'NO_COMPARABLE_PATH', 'DEFINITION_DIFFERENCE', 'SCOPE_DIFFERENCE',
     'DIFFERENT_SUBJECT', 'BUSINESS_QUESTION', 'NO_KNOWN_PATTERN')
 
 ACTIONS = {
@@ -18,6 +18,7 @@ ACTIONS = {
     'INGESTION_GAP': 'ROUTE_OPERATIONAL_FIX',
     'DEFECT': 'RAISE_BUG_WITH_EVIDENCE',
     'CONSISTENT_TO_BOUNDARY': 'ASK_UPSTREAM_OWNER',
+    'CONSISTENT_TO_SOURCE': 'ASK_APPLICATION_OWNER',
     'NO_COMPARABLE_PATH': 'NAME_MISSING_BINDING_OR_ACCESS',
     'DEFINITION_DIFFERENCE': 'DECIDE_BUG_OR_ENHANCEMENT',
     'SCOPE_DIFFERENCE': 'CONFIRM_SCOPE_INTENT',
@@ -36,6 +37,7 @@ REQUIRED_ROLES = {
     'INGESTION_GAP': ('ingestion', 'flow_consistency', 'comparison'),
     'DEFECT': ('mechanism', 'comparison', 'definition_absence'),
     'CONSISTENT_TO_BOUNDARY': ('path', 'flow_consistency', 'comparison'),
+    'CONSISTENT_TO_SOURCE': ('path', 'flow_consistency', 'comparison'),
     'NO_COMPARABLE_PATH': ('path',),
     'DEFINITION_DIFFERENCE': ('left_definition', 'right_definition'),
     'SCOPE_DIFFERENCE': ('left_scope', 'right_scope'),
@@ -258,7 +260,10 @@ def validate(assessment, observations):
                             u.get('field')==field and u.get('layer')==layer
                             for u in assessment[output].get('unattested_surface_fields',[])):
                         raise ValueError('Every unattested surface field must be named in both outputs')
-    if outcome in ('CONSISTENT_TO_BOUNDARY','INGESTION_GAP','BUSINESS_QUESTION') and not any(
+    if outcome=='CONSISTENT_TO_SOURCE':
+        from .system_of_record import validate as validate_source
+        validate_source(assessment,observations,comparisons)
+    if outcome in ('CONSISTENT_TO_BOUNDARY','CONSISTENT_TO_SOURCE','INGESTION_GAP','BUSINESS_QUESTION') and not any(
             comparison.get('values_equal') is True and cross_surface(comparison) for comparison in comparisons):
         raise ValueError(f'{outcome} requires at least one successful equal boundary comparison')
     if outcome in ('REFRESH_LATENCY','LOAD_LATENCY','PRESENTATION_LOGIC','TRANSFORMATION_LOGIC','DEFECT') and not any(

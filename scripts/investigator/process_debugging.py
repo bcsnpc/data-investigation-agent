@@ -315,6 +315,9 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             result['support']['measure_connection']='ESTABLISHED' if measure_baseline['status']=='ESTABLISHED' else 'NOT_ESTABLISHED_CAPABILITY'
             result['support']['measure_connection_evidence_ids']=list(measure_baseline['evidence_ids'])
         all_layers=path.get('layers',[]);observed=result['_observations']
+        if result['classification']=='CONSISTENT_TO_SOURCE':
+            terminal=path['system_of_record']['asset_id']
+            all_layers=all_layers[:next(i for i,l in enumerate(all_layers) if l['id']==terminal)+1]
         result['technical_output']['layer_labels']=path.get('layer_labels',{})
         from . import snapshot_attestation
         snapshot_attestation.enrich(observed,snapshot_probes,adapter,available)
@@ -333,7 +336,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             reason=(attempted.get(pair) or {}).get('reason') or (
                 'Configured boundary ceiling' if index>ceiling else 'Investigation terminated before this boundary')
             unchecked.append({'upper_layer':pair[0],'lower_layer':pair[1],'reason':reason})
-        if path.get('unresolved_boundary'):unchecked.append(path['unresolved_boundary'])
+        if path.get('unresolved_boundary') and result['classification']!='CONSISTENT_TO_SOURCE':unchecked.append(path['unresolved_boundary'])
         for row in unchecked:
             result['limits'].append(f"Unchecked {row['upper_layer']} -> {row['lower_layer']}: {row['reason']}.")
         for observation in observed:
@@ -377,6 +380,14 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         if not any(x['step']==step and x['capability']==capability for x in skipped):
             skipped.append({'step':step,'capability':capability,'reason':reason})
     layers=path.get('layers') or []
+    if path.get('system_of_record') is not None:
+        from .system_of_record import declaration
+        terminal=declaration(path['system_of_record'])['asset_id']
+        source_index=next((i for i,l in enumerate(layers) if l['id']==terminal),None)
+        if source_index is not None and source_index>0:
+            layers=layers[:source_index+1]
+            path=dict(path,layers=layers)
+            path.pop('unresolved_boundary',None)
     ceiling=path.get('max_boundaries',len(layers))
     if type(ceiling) is not int or ceiling<0:raise ValueError('Invalid boundary ceiling')
     if len(layers)>ceiling+1:
@@ -387,7 +398,13 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         return answer('NO_KNOWN_PATTERN',0,[evidence],path.get('boundary','unresolved path'),'NO_LINEAGE',
             roles=('established',),missing_capability='A discovered measure path is required.')
     observations=[]
-    path_obs=_observation(path.get('evidence'),'path','established')
+    path_evidence=path.get('evidence')
+    if path_evidence and path.get('system_of_record') is not None:
+        from .system_of_record import declaration
+        path_evidence=dict(path_evidence,resolved_source_path={
+            'layers':[{'id':l['id']} for l in path['layers']],
+            'max_boundaries':ceiling,'system_of_record':declaration(path['system_of_record'])})
+    path_obs=_observation(path_evidence,'path','established')
     if path_obs:observations.append(path_obs)
 
     # Timing is optional enrichment, never a reason to terminate or classify.
@@ -530,11 +547,26 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         observations.append(comparison)
         if upper.value==lower.value:
             if chain_connected:verified_boundaries+=1;last_verified=lower.layer
+            if chain_connected and path.get('system_of_record',{}).get('asset_id')==lower.layer:
+                from .system_of_record import proof
+                if proof(path,[o for o in observations if o.get('comparison_status')]):
+                    return answer('CONSISTENT_TO_SOURCE',6,observations,lower.layer,'REACHED',baseline,
+                        roles=('path','flow_consistency','comparison'),
+                        explanation='Every compared boundary agrees with the explicitly declared system of record; expected entries absent there belong with its owner.',
+                        skipped_steps=skipped)
             upper=lower;continue
         boundary_baseline={'status':'ESTABLISHED','layer':upper.layer,'reason':None,
                            'evidence_ids':[upper.evidence['id']] if upper.evidence else []}
         boundary={'upper':layers[index-1],'lower':lower_layer,'index':index,
                   'upper_probe':upper,'lower_probe':lower}
+        if path.get('system_of_record',{}).get('asset_id')==lower.layer:
+            # Authority changes what this boundary means. Until the delivery
+            # producer establishes run/capture evidence, neither transformation
+            # judgment nor a generic defect can substitute for ingestion proof.
+            reason='The declared system-of-record boundary diverges, but source delivery run and capture evidence is not implemented.'
+            return answer('NO_KNOWN_PATTERN',5,observations,lower.layer,'CAPABILITY_NOT_IMPLEMENTED',
+                boundary_baseline,roles=('established',),missing_capability=reason,
+                explanation=reason,skipped_steps=skipped)
         if index==1 and 'declared_source_comparison' in available:
             from .refresh_comparison import valid_proof,equivalent_context
             proof=adapter.direct_source_comparison(boundary,scope)
