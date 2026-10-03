@@ -19,6 +19,7 @@ REGISTRY = {
     'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE': Shape('retained'),
     'REPORT_SELECTION_RESOLUTION': Shape('resolution'),
     'REPORT_SELECTION_REFUSED': Shape('retained', refusal_stage='selection resolution'),
+    'PROBE_NOT_EXECUTED': Shape('retained'),
     'COMPILED_DUPLICATE_REFUSED': Shape('duplicate'),
     'COLUMN_VALUE_EXISTENCE': Shape('query', 'flexible_diagnostics'),
     **{name: Shape('comparison') for name in

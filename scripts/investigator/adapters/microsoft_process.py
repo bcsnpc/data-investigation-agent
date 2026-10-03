@@ -51,7 +51,7 @@ class MicrosoftProcessAdapter:
         self.remaining_diagnostic_reads=remaining_diagnostic_reads
         self._paths={}
         self._declared_checks={}
-        self._reproduction_cache={}
+        self._native_result_cache={}
         self.duplicate_read_events=[]
 
     def capabilities(self):
@@ -170,16 +170,7 @@ class MicrosoftProcessAdapter:
         from ..flexible_tools import build as admit_query
         compiled=admit_query(self.store,plan,self.config,'bounded_dax')
         fingerprint=self._compiled_quantity_fingerprint(compiled)
-        cached=self._reproduction_cache.get(fingerprint) if 'cell_id' in scope else None
-        if cached is not None:
-            import copy
-            self.duplicate_read_events.append({'id':'duplicate-read-'+str(uuid4()),'tool':'process',
-                'check_kind':'COMPILED_DUPLICATE_REFUSED','prior_evidence_id':cached.evidence['id'],
-                'compiled_fingerprint':fingerprint,'diagnostic_reads':0,'cell_id':scope['cell_id'],
-                'prior_result':copy.deepcopy(cached.value)})
-            return copy.deepcopy(cached)
-        execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
-        result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
+        result=self._native_read(plan, declaration['evidence'].get('report_binding'))
         reader=self.config['fabric']['native_reader']
         surface={'engine':SEMANTIC_ENGINE,'connection':model['workspace'],
                  'object':model['native_id'],'identity':reader['account']}
@@ -196,11 +187,45 @@ class MicrosoftProcessAdapter:
             value=_quantity(rows,plan['surface_report']),query=query,execution_surface=surface,
             surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
             surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
-        if 'cell_id' in scope and body['completeness']=='COMPLETE_RESPONSE':
-            from ..process_debugging import attest
-            trusted=attest(probe)
-            if trusted.status=='OBSERVED': self._reproduction_cache[fingerprint]=probe
         return probe
+
+    def _native_read(self,plan,binding=None):
+        import copy
+        from ..flexible_tools import build
+        from ..onboarding import digest
+        from ..process_debugging import attest_surface
+        compiled=build(self.store,plan,self.config,'bounded_dax')
+        key=digest({'compiled':self._compiled_quantity_fingerprint(compiled),'report':binding})
+        if key in self._native_result_cache:
+            result=copy.deepcopy(self._native_result_cache[key])
+            self.duplicate_read_events.append({'id':'duplicate-read-'+str(uuid4()),'tool':'process',
+                'check_kind':'COMPILED_DUPLICATE_REFUSED','prior_evidence_id':result['id'],
+                'compiled_fingerprint':key,'diagnostic_reads':0,'prior_result':_quantity(result['result']['rows'],plan['surface_report'])})
+            return result
+        if self.remaining_diagnostic_reads is not None and self.remaining_diagnostic_reads()<1:
+            return {'id':'probe-not-executed-'+str(uuid4()),'status':'NOT_EXECUTED'}
+        execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
+        result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
+        surface={'engine':SEMANTIC_ENGINE,'connection':self.model['workspace'],
+                 'object':self.model['native_id'],'identity':self.config['fabric']['native_reader']['account']}
+        if result['status']=='COMPLETED' and result['result']['completeness']=='COMPLETE_RESPONSE':
+            report=attest_surface(surface,result['result'].get('surface_report'),('identity','engine','object'))
+            if report['consistency']=='MATCHED' and not report['missing_required_fields']:
+                self._native_result_cache[key]=copy.deepcopy(result)
+        return result
+
+    def declared_probe_cost(self,measure_id,declaration,restrictions):
+        from .report_predicates import quantity_query
+        from ..flexible_tools import build
+        from ..onboarding import digest
+        model=self.model
+        plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],
+              'query':semantic_self_report(quantity_query(model,measure_id,restrictions)),
+              'max_rows':20,'surface_report':SEMANTIC_REPORT}
+        compiled=build(self.store,plan,self.config,'bounded_dax')
+        key=digest({'compiled':self._compiled_quantity_fingerprint(compiled),
+                    'report':declaration['evidence'].get('report_binding')})
+        return int(key not in self._native_result_cache)
 
     def _compiled_quantity_fingerprint(self,compiled):
         from ..onboarding import digest
@@ -256,8 +281,7 @@ class MicrosoftProcessAdapter:
         query=semantic_self_report('EVALUATE ROW("quantity",COUNTROWS(FILTER(VALUES('+reference+'),'+reference+' == '+literal+')))')
         plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],'query':query,'max_rows':20,'surface_report':SEMANTIC_REPORT}
         admit_query(self.store,plan,self.config,'bounded_dax')
-        execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
-        result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
+        result=self._native_read(plan,binding)
         surface={'engine':SEMANTIC_ENGINE,'connection':model['workspace'],'object':model['native_id'],'identity':self.config['fabric']['native_reader']['account']}
         if result['status']!='COMPLETED': return Probe('UNAVAILABLE',layer['id'],reason='Value-existence read did not complete.',query=query,execution_surface=surface)
         body=result['result']; rows=body['rows']; quantity=_quantity(rows,plan['surface_report'])
@@ -270,18 +294,6 @@ class MicrosoftProcessAdapter:
                 'context_id':model['context_id'],'model_revision':model['revision'],'completeness':body['completeness'],'values':rows},
             surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
             surface_report_types=SEMANTIC_TYPES,surface_report_binding='VALUE_QUERY')
-
-    def declared_cell_cost(self,measure_id,declaration):
-        from .report_predicates import quantity_query
-        from ..declared_reproduction import compose
-        from ..onboarding import digest
-        model=self.model; plans=[]
-        for applied in ([],compose(declaration['restrictions']+declaration['cell']['key_restrictions'])):
-            plan={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],
-                'query':semantic_self_report(quantity_query(model,measure_id,applied)),'max_rows':20,'surface_report':SEMANTIC_REPORT}
-            from ..flexible_tools import build as admit_query
-            plans.append(self._compiled_quantity_fingerprint(admit_query(self.store,plan,self.config,'bounded_dax')))
-        return len(set(plans)-set(self._reproduction_cache))
 
     def resolve_declared_source(self,declaration):
         context=context_search.latest(self.store)
@@ -525,8 +537,12 @@ class MicrosoftProcessAdapter:
               'surface_report':SEMANTIC_REPORT}
         from ..flexible_tools import build as admit_query
         admit_query(self.store,plan,self.config,'bounded_dax')
-        execute=lambda:run_query(self.store,plan,self.config,'bounded_dax',self.execute_native)
-        result=self.meter_read('bounded_dax',execute) if self.meter_read else execute()
+        result=self._native_read(plan,scope.get('report_binding'))
+        if result['status']=='NOT_EXECUTED':
+            reason='Diagnostic read cap stopped the presentation quantity probe.'
+            return Probe('UNAVAILABLE',layer['id'],reason=reason,evidence={'id':result['id'],'tool':'process',
+                'check_kind':'PROBE_NOT_EXECUTED','reason':reason,'target_id':layer['id'],
+                'would_establish':'the selected measure under the resolved ticket scope'})
         if result['status']!='COMPLETED':
             body=result.get('result') or {};code=body.get('service_error_code')
             failure={'interface':'EXECUTE_QUERIES','receipt_id':result.get('id'),'read_status':result['status'],
@@ -601,6 +617,11 @@ class MicrosoftProcessAdapter:
             lambda request:self.execute_lower(compiled['database'],request),catalog=compiled['catalog'])
         result=self.meter_read('bounded_fabric_sql',execute) if self.meter_read else execute()
         provenance=(layer.get('binding') or {}).get('provenance')
+        if result['status']=='NOT_EXECUTED':
+            reason='Diagnostic read cap stopped the presentation quantity probe.'
+            return Probe('UNAVAILABLE',layer['id'],reason=reason,evidence={'id':result['id'],'tool':'process',
+                'check_kind':'PROBE_NOT_EXECUTED','reason':reason,'target_id':layer['id'],
+                'would_establish':'the selected measure under the resolved ticket scope'})
         if result['status']!='COMPLETED':
             body=result.get('result') or {}
             return Probe('UNAVAILABLE',layer['id'],reason='The independent lower-layer read did not complete.',

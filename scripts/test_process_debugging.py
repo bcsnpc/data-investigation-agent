@@ -479,7 +479,7 @@ class VerticalProcedureTests(unittest.TestCase):
                 'result':{'rows':[{'baseline':{'type':'decimal','value':'10'}}],
                           'completeness':'COMPLETE_RESPONSE'}}
         with patch('investigator.adapters.microsoft_process.assets',return_value=model['context']['model_assets']), \
-             patch('investigator.adapters.microsoft_process.run_query',return_value=result), \
+             patch('investigator.adapters.microsoft_process.MicrosoftProcessAdapter._native_read',return_value=result), \
              patch('investigator.flexible_tools.build',return_value={}):
             probe=adapter.evaluate(layer,'measure',{})
         self.assertEqual(probe.status,'NOT_COMPARABLE')

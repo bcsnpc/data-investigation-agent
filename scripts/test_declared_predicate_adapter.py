@@ -181,7 +181,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
 
     def test_one_filter_argument_per_resolved_native_column_path(self):
         self.run_check()
-        query = self.requests[1]['query']
+        query = self.requests[0]['query']
         self.assertEqual(query.count('TREATAS('), 1)
         self.assertEqual(query.count("'Customers'[Region]"), 1)
         self.assertNotIn('Coastal', query)
@@ -189,9 +189,9 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
     def test_empty_intersection_is_compiled_as_empty_relation_not_unfiltered_scope(self):
         self.modify(self.visual, lambda d: d.update(filterConfig=filter_config(native_filter(('Elsewhere',)))))
         result = self.run_check()
-        query = self.requests[1]['query']
+        query = self.requests[0]['query']
         self.assertIn("FILTER(VALUES('Customers'[Region]),FALSE())", query)
-        self.assertEqual(result['observations'][2]['applied_restrictions'][0]['values'], [])
+        self.assertEqual(result['observations'][1]['applied_restrictions'][0]['values'], [])
         self.assertNotEqual(self.requests[0]['compiled_read'], self.requests[1]['compiled_read'])
 
     def test_duplicate_native_paths_refuse_even_if_caller_bypasses_engine_intersection(self):
@@ -204,11 +204,11 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         self.model['context']['model_assets'].append(column)
         self.modify(self.visual, lambda d: d.update(filterConfig=filter_config(native_filter(('West',), 'Sales'))))
         self.run_check()
-        query = self.requests[1]['query']
+        query = self.requests[0]['query']
         self.assertEqual(query.count('TREATAS('), 2)
         self.assertEqual(query.count("'Customers'[Region]"), 1)
         self.assertEqual(query.count("'Sales'[Region]"), 1)
-        self.assertTrue({column['id'], self.column['id']} <= set(self.requests[1]['asset_ids']))
+        self.assertTrue({column['id'], self.column['id']} <= set(self.requests[0]['asset_ids']))
 
     def test_numeric_and_boolean_membership_is_typed_without_date_or_column_name_branches(self):
         for typ, tokens, expected in (('int64', ['1L', '2L'], [1, 2]),
@@ -274,10 +274,10 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
             self.modify(part, lambda d: d.update(filterConfig=filter_config(native_filter(('A"B',), self.dimension['name'], self.column['name']))))
         self.modify(self.page, lambda d: d['visualInteractions'][0].update(type='NoFilter'))
         self.run_check()
-        query = self.requests[1]['query']
+        query = self.requests[0]['query']
         self.assertIn("'Buyer''s Areas'[Code]]Name]", query)
         self.assertIn('"A""B"', query)
-        self.assertIn(self.column['id'], self.requests[1]['asset_ids'])
+        self.assertIn(self.column['id'], self.requests[0]['asset_ids'])
 
     def test_missing_identity_report_on_either_probe_cannot_produce_finding(self):
         for fail_at in (1, 2):

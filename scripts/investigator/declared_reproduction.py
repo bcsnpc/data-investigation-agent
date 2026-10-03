@@ -179,8 +179,18 @@ def _run_one(adapter, layer, measure_id, scope):
             or definition.get('declared_restrictions') != declaration['restrictions']):
         raise ValueError('Declared scope requires retained definition evidence and provenance')
     observations = [definition]
-    probes = []
-    for purpose, applied in (('UNDECLARED_CONTEXT', []), ('DECLARED_CONTEXT', restrictions)):
+    probes = {}; quantities = {}
+    planned=(('DECLARED_CONTEXT', restrictions), ('UNDECLARED_CONTEXT', []))
+    for ordinal,(purpose, applied) in enumerate(planned):
+        remaining=getattr(adapter,'remaining_diagnostic_reads',None)
+        cost=adapter.declared_probe_cost(measure_id,declaration,applied) if hasattr(adapter,'declared_probe_cost') else 1
+        if remaining is not None and remaining()<cost:
+            stopped={'target_id':cell['target_id'] if cell else layer['id'],'purpose':purpose,
+                'would_establish':('the value under the full declared restrictions' if purpose=='DECLARED_CONTEXT' else 'the value without applying the report declarations'),
+                'reason':'Diagnostic read cap reached.'}
+            return {'status':'UNAVAILABLE','reason':'Diagnostic read cap reached.','observations':observations,
+                'unevaluated_probes':[dict(stopped,purpose=p,
+                    would_establish=('the value under the full declared restrictions' if p=='DECLARED_CONTEXT' else 'the value without applying the report declarations')) for p,_ in planned[ordinal:]]}
         probe = attest(adapter.evaluate_declared_context(layer, measure_id,
                         {'restrictions': copy.deepcopy(applied), 'dimension_ids': [],
                          **({'cell_id': cell['id']} if cell is not None else {})}))
@@ -198,8 +208,9 @@ def _run_one(adapter, layer, measure_id, scope):
                 or probe.evidence.get('completeness') != 'COMPLETE_RESPONSE'):
             raise ValueError('Executed reproduction scope/measure/completeness differs')
         observations[-1]['reproduction_quantity'] = number(probe.value,allow_blank=True)
-        probes.append(probe)
-    a, b = probes
+        quantities[purpose]=observations[-1]['reproduction_quantity']
+        probes[purpose]=probe
+    a, b = probes['UNDECLARED_CONTEXT'], probes['DECLARED_CONTEXT']
     if (_surface_key(a.execution_surface) is None or _surface_key(a.execution_surface) != _surface_key(b.execution_surface)
             or a.execution_surface['identity'].casefold() != b.execution_surface['identity'].casefold()):
         return {'status': 'UNAVAILABLE', 'reason': 'Reproduction requires the same execution surface and identity.', 'observations': observations}
@@ -217,13 +228,13 @@ def _run_one(adapter, layer, measure_id, scope):
             'selection_resolution_evidence_id':scope['selection_resolution_evidence_id']} if 'selection_resolution' in scope else {}),
         **({'cell': copy.deepcopy(cell), 'redundant_cell_keys':
             [r['field_id'] for r in keys if compose(declaration['restrictions'] + [r]) == compose(declaration['restrictions'])]} if cell is not None else {}),
-        'undeclared_context_value': observations[-2]['reproduction_quantity'],
-        'reproduced_value': observations[-1]['reproduction_quantity'], 'reported_figure': reported,
-        'label': _label(reported, observations[-1]['reproduction_quantity']),
+        'undeclared_context_value': quantities['UNDECLARED_CONTEXT'],
+        'reproduced_value': quantities['DECLARED_CONTEXT'], 'reported_figure': reported,
+        'label': _label(reported, quantities['DECLARED_CONTEXT']),
         'unavailability': NO_FIGURE if reported['state'] == 'UNSPECIFIED' else None,
-        'values_equal': observations[-2]['reproduction_quantity'] == observations[-1]['reproduction_quantity'],
+        'values_equal': quantities['UNDECLARED_CONTEXT'] == quantities['DECLARED_CONTEXT'],
         'declarations': inventory.neutral(entries),
-        'limitations': inventory.qualifications(inventory.neutral(entries), _label(reported, observations[-1]['reproduction_quantity'])) + figure.qualification(reported)}, 'declared_context_reproduction')
+        'limitations': inventory.qualifications(inventory.neutral(entries), _label(reported, quantities['DECLARED_CONTEXT'])) + figure.qualification(reported)}, 'declared_context_reproduction')
     observations.append(marker)
     validate(marker, {o['id']: o for o in observations + scope.get('selection_observations',[])})
     return {'status': 'UNAVAILABLE' if reported['state'] == 'UNSPECIFIED' else 'COMPLETED',
@@ -318,19 +329,16 @@ def run(adapter, layer, measure_id, scope):
     observations = []; results = []; skipped = list(batch['refusals'])
     for declaration in batch['cells']:
         validate_cell(declaration['cell'], measure_id, scope)
-        remaining = getattr(adapter, 'remaining_diagnostic_reads', None)
-        cost = adapter.declared_cell_cost(measure_id,declaration) if hasattr(adapter,'declared_cell_cost') else 2
-        if remaining is not None and remaining() < cost:
-            skipped.append({'target_id': declaration['cell']['target_id'], 'cell_id': declaration['cell']['id'],
-                            'reason': 'Diagnostic read cap leaves fewer than '+str(cost)+' new reads for this cell.'})
-            continue
         class Selected:
             def capabilities(self): return adapter.capabilities()
             def declared_context(self, *args): return copy.deepcopy(declaration)
             def evaluate_declared_context(self, *args): return adapter.evaluate_declared_context(*args)
+            remaining_diagnostic_reads=staticmethod(adapter.remaining_diagnostic_reads) if getattr(adapter,'remaining_diagnostic_reads',None) is not None else None
+            def declared_probe_cost(self,*args):return adapter.declared_probe_cost(*args) if hasattr(adapter,'declared_probe_cost') else 1
         checked = _run_one(Selected(), layer, measure_id, scope)
         for observation in checked['observations']:
             if observation['id'] not in {o['id'] for o in observations}: observations.append(observation)
+        skipped.extend(checked.get('unevaluated_probes',[]))
         results.append({'cell': declaration['cell'], 'status': checked['status'],
                         **{k: checked[k] for k in ('reason', 'finding') if k in checked}})
         if checked.get('unsupported_form'):
@@ -341,8 +349,8 @@ def run(adapter, layer, measure_id, scope):
         observations.append(_observation({'id': 'declared-cells-unevaluated', 'tool': 'process',
             'check_kind': 'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE', 'capability_status': 'UNAVAILABLE',
             'reason': 'Unevaluated cells: ' + '; '.join(str(x['target_id']) + ': ' + x['reason'] for x in skipped),
-            'unevaluated_cells': skipped}, 'established'))
-    if len(batch['cells']) == 1 and len(results) == 1 and not batch['refusals']:
+            'unevaluated_cells': skipped,'unevaluated_probes':[x for x in skipped if 'purpose' in x]}, 'established'))
+    if len(batch['cells']) == 1 and len(results) == 1 and not batch['refusals'] and not checked.get('unevaluated_probes'):
         return {**checked,'observations':observations, 'cells': results, 'unevaluated_cells': []}
     findings = [r['finding'] for r in results if 'finding' in r]
     result = {'status': 'COMPLETED' if findings and scope['reported_figure']['state'] != 'UNSPECIFIED' else 'UNAVAILABLE',
@@ -352,6 +360,10 @@ def run(adapter, layer, measure_id, scope):
     if findings:
         result['business_output'] = ' '.join(render(f, business=True) for f in findings)
         result['technical_output'] = '\n'.join(render(f) for f in findings)
+    stopped=[x for x in skipped if 'purpose' in x]
+    if stopped:
+        for output,business in (('business_output',True),('technical_output',False)):
+            result[output]=result.get(output,'')+' '+render_stopped(stopped,business)
     return result
 
 
@@ -361,3 +373,10 @@ def _entries(definition, inventory, restrictions):
         return validate_inventory(inventory,restrictions,binding=definition['report_binding'],reports=definition['report_catalog'])
     from .declaration_inventory import validate
     return validate(inventory,restrictions)
+
+
+def render_stopped(probes,business=False):
+    return ' '.join(('Candidate '+str(index) if business else row['target_id'])+
+        ': the '+('declared-context check' if row['purpose']=='DECLARED_CONTEXT' else 'check without report declarations')+
+        ' did not run because the diagnostic read cap was reached; it would establish '+row['would_establish']+'.'
+        for index,row in enumerate(probes,1))

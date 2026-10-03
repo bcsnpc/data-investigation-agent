@@ -135,7 +135,7 @@ class ScopedTests(unittest.TestCase):
         self.no_predicates();self.grouped();self.request('Region');self.native()
         scope,obs=self.prepare();self.assertEqual(scope['selection_resolution']['resolution_kind'],'STATED')
         self.assertEqual(scope['selection_resolution']['lookup']['status'],'MATCH');self.assertEqual(len(self.requests),1)
-        self.requests.clear();self.native(0)
+        self.requests.clear();self.adapter._native_result_cache.clear();self.native(0)  # New run: no prior read reuse.
         with self.assertRaisesRegex(report_resolution.ResolutionRefused,'MISMATCH receipt'):self.prepare()
         self.assertEqual(len(self.requests),1)
         self.request('region')
