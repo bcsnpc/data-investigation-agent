@@ -22,10 +22,15 @@ class ContractVocabularyTests(unittest.TestCase):
             self.assertIn('NEW_TERM',vocabulary.instructions('base',changed))
 
     def test_live_providers_send_the_exact_schema_vocabulary(self):
-        payload={'evidence':[]}
-        with patch('ticket_planner.azure_generate',return_value=({},{})) as provider:
+        payload={'outcome':'NO_COMPARABLE_PATH','evidence':[{'id':'receipt-A'}]}
+        answer={'technical_output':{'text':'The calculation was checked.','evidence_ids':['r0']}}
+        with patch('ticket_planner.azure_generate',return_value=(answer,{})) as provider:
             evidence_synthesis.azure_synthesize(payload,{})
-            self.assertEqual(provider.call_args.kwargs['instructions'],vocabulary.instructions(narrative.INSTRUCTIONS,provider.call_args.kwargs['schema']))
+            sent=provider.call_args.kwargs
+            supplied=json.loads(sent['instructions'].split('fields:\n')[1])
+            self.assertEqual(supplied,vocabulary.enumerations(sent['schema']))
+            self.assertIn('Return only the technical mechanism',sent['instructions'])
+            self.assertNotIn('Copy the business wording',sent['instructions'])
         value={'judgment':'INDETERMINATE','explanation':'The definition is incomplete.','limitation':'Coverage remains unknown.'}
         with patch('ticket_planner._azure_generate',return_value=(value,{})) as provider:
             judge.azure_judge({}, {})
