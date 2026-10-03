@@ -49,6 +49,17 @@ def render(state):
             rendered=text.replace(question,business_question).replace(reason,business_reason)
             rendered=validate(rendered+('\n'+qualification if qualification else ''),business=True)
         else:rendered+=('\n'+qualification if qualification else '')
+        # A refused walk does not erase completed, separately validated cells.
+        cells=[o for o in state.get('observations',[]) if o.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION']
+        if cells:
+            from .declared_reproduction import render as render_cell
+            if key=='business_output':
+                from .narrative_form import business
+                rendered=business(rendered,{'evidence':[{'id':o['id'],'result':o} for o in cells]})
+            else:
+                rendered+='\n\nCompleted within-layer cells:\n'+'\n'.join(render_cell(o,include_limits=False) for o in cells)
+                limits=list(dict.fromkeys(limit for o in cells for limit in o['limitations']))
+                rendered+='\nLimits:\n'+'\n'.join('- '+limit for limit in limits)
         outputs[key] = {'explanation': {'text': rendered, 'evidence_ids': [receipt['id']]},
                         'recommended_action': 'Resolve the stated blocker before a new investigation.'}
         if hint:outputs[key]['descriptor_hint']=copy.deepcopy(hint)

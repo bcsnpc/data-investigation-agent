@@ -13,3 +13,5 @@ The 2026-10-03 preserved runs predate the new field. No original receipt or run 
 PR #321's rendered-spine change merged as a279028 with six green checks. Tests, CI and historical bridge decision are recorded on this PR. README/current status updated; fixture/config/policy/grants/caps unchanged.
 
 Dated historical-binding authorisation: the user approved separately recorded retrospective bindings for these three preserved runs only. Each address must independently regenerate from retained context and compile to a byte-identical sealed statement. No match means no binding. Both offline outputs name the derived rather than natively recorded identity. This is a one-time local migration, not an engine backfill path; originals remain untouched. No re-synthesis before this PR merges.
+
+Cell rendering carries the resolved values and applied selections in plain business terms, while the technical output retains each cell result (including the intermediate page-and-slicer value). A refused walk now retains already validated completed cell facts in both refusal outputs; no new process verdict is inferred.
