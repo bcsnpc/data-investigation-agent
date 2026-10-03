@@ -13,7 +13,7 @@ def build(payload, state, bound):
     outcome = (state.get('assessment') or {}).get('classification')
     result = {'version': 2, 'question': payload['question'],
               'scope': copy.deepcopy(payload['scope']), 'evidence': [],
-              'candidates': [], 'boundaries': facts(payload),
+              'candidates': [], 'boundaries': facts(payload), 'mechanism_evidence': [],
               'elided': [], 'rendered_business': business_text(outcome, payload) if outcome else None}
     if outcome: result['outcome'] = outcome
     from .reproduction_composition import from_payload,select
@@ -24,6 +24,11 @@ def build(payload, state, bound):
         # declaration or model-interpreted copy of a validation field.
         result['evidence'].append({'id': entry['id']})
         row = entry.get('result', {})
+        # A display copy, never a reconstructed validation observation. Keep
+        # the complete retained definition and judgment together, including
+        # provenance and limits; future evidence fields cannot silently vanish.
+        if set(entry.get('process_roles', [])) & {'transformation_definition', 'presentation_definition'}:
+            result['mechanism_evidence'].append(copy.deepcopy(entry))
         if row.get('check_kind') == 'DECLARED_CONTEXT_REPRODUCTION':
             cell = row.get('cell') or {}
             declarations = row.get('declarations', [])
@@ -53,7 +58,7 @@ def build(payload, state, bound):
     # Drop whole display units with named omissions, never truncate evidence
     # prose or alter the local view. A degraded spine uses local deterministic
     # composition, so provider failure cannot hide validated facts.
-    for key in ('candidates', 'boundaries', 'evidence'):
+    for key in ('mechanism_evidence', 'candidates', 'boundaries', 'evidence'):
         while len(encoded(result)) > bound and result[key]:
             item = result[key].pop()
             identity = item.get('receipt_id') or item.get('comparison_id') or item.get('id')
@@ -63,7 +68,7 @@ def build(payload, state, bound):
         # IDs and long ticket text can themselves exceed a small provider bound.
         # The store/local rendering still contains them in full.
         counts = {key: sum(e['section'] == key for e in result['elided'])
-                  for key in ('candidates', 'boundaries', 'evidence')}
+                  for key in ('mechanism_evidence', 'candidates', 'boundaries', 'evidence')}
         result = {'version': 2, 'evidence': [], 'elided': [
             {'section': 'provider view', 'reason': 'Input bound; use complete local rendering.',
              'omitted_sections': ['question', 'scope', 'finding', 'business wording'], 'counts': counts}]}
