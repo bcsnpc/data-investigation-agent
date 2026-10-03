@@ -104,8 +104,8 @@ class MicrosoftProcessAdapter:
                 return declaration
             # Leave invalid inventories to the consumer gate, including combined
             # bounds, before preflight can attempt to compose an inadmissible set.
-            from ..declaration_inventory import validate as validate_inventory
-            try: validate_inventory(declaration['inventory'], declaration['restrictions'])
+            from ..report_scope import validate_inventory
+            try: validate_inventory(declaration['inventory'], declaration['restrictions'],binding=declaration['evidence']['report_binding'],reports=declaration['evidence']['report_catalog'])
             except ValueError: return declaration
             # Preflight both queries, so an unsupported rendering cannot consume a baseline read.
             for applied in (([],compose(declaration['restrictions'])) if declaration['restrictions'] else ()):

@@ -27,7 +27,7 @@ REQUEST_SCHEMA={'anyOf':[{'type':'null'},
 class ResolutionRefused(ValueError):
     def __init__(self, record, audit):
         self.record,self.audit=record,audit
-        super().__init__('Target ambiguity: '+('no ACTIVE declaration matches the stated value.' if not audit['candidates'] else
+        super().__init__(('Target unavailable: ' if not audit['candidates'] else 'Target ambiguity: ')+('no ACTIVE declaration matches the stated value.' if not audit['candidates'] else
             'multiple ACTIVE declaration candidates match: '+', '.join(c['column_id']+' ['+c['entry_id']+']' for c in audit['candidates'])))
 
 def lookup(request, *, ticket, options, columns):
@@ -43,7 +43,8 @@ def lookup(request, *, ticket, options, columns):
         if sum(c['name']==quote for c in columns)!=1:raise ValueError('Target ambiguity: the stated column name is not unique')
     matches={}
     for option in options:
-        entries=declaration_inventory.validate(option['inventory'],option['restrictions'])
+        from .report_scope import validate_inventory
+        entries=validate_inventory(option['inventory'],option['restrictions'],binding=option['evidence']['report_binding'],reports=option['evidence']['report_catalog'])
         for entry in entries:
             if entry['disposition']!='ACTIVE':continue
             for restriction in entry['restrictions']:
@@ -66,9 +67,9 @@ def lookup(request, *, ticket, options, columns):
         raise ResolutionRefused(shape(record,ticket),audit)
     match=next(iter(matches.values()));option=match['option']
     record=evidence(match['column_id'],request['source'],match['entry_id'],ticket=ticket,
-                    inventory=option['inventory'],active=option['restrictions'])
+                    inventory=option['inventory'],active=option['restrictions'],binding=option['evidence']['report_binding'],reports=option['evidence']['report_catalog'])
     return record,audit,{'declaration_inventory':option['inventory'],'active_restrictions':option['restrictions'],
-                        'resolved_value':match['value']}
+                        'resolved_value':match['value'],'inventory_report_binding':option['evidence']['report_binding'],'inventory_report_catalog':option['evidence']['report_catalog']}
 
 def literal_text(value):
     return value if isinstance(value,str) else str(value).lower() if type(value) is bool else str(value)
@@ -92,10 +93,11 @@ def shape(value, ticket=None):
         if value['resolution_kind']=='EVIDENCE':text(value['inventory_entry_id'],4000)
     return value
 
-def validate(value, *, ticket=None, inventory=None, active=None):
+def validate(value, *, ticket=None, inventory=None, active=None, binding=None, reports=None):
     shape(value,ticket)
     if value is not None and value['resolution_kind']=='EVIDENCE':
-        entries=declaration_inventory.validate(inventory,active)
+        from .report_scope import validate_inventory
+        entries=validate_inventory(inventory,active,binding=binding,reports=reports)
         entry=next((e for e in entries if e['id']==value['inventory_entry_id']),None)
         if (entry is None or entry['disposition']!='ACTIVE'
                 or not any(r['field_id']==value['column_id'] and
@@ -103,11 +105,11 @@ def validate(value, *, ticket=None, inventory=None, active=None):
             raise ValueError('Evidence target requires a matching ACTIVE inventory entry')
     return value
 
-def evidence(column_id, source, inventory_entry_id, *, ticket, inventory, active):
+def evidence(column_id, source, inventory_entry_id, *, ticket, inventory, active, binding, reports):
     """Deterministic producer; no model response may assign EVIDENCE."""
     result={'resolution_kind':'EVIDENCE','column_id':column_id,
             'inventory_entry_id':inventory_entry_id,'source':copy.deepcopy(source)}
-    return validate(result,ticket=ticket,inventory=inventory,active=active)
+    return validate(result,ticket=ticket,inventory=inventory,active=active,binding=binding,reports=reports)
 
 def procedure_scope(envelope):
     """Forward server-owned evidence unchanged, including explicit UNSPECIFIED."""

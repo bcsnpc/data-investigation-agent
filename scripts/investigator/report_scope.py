@@ -93,7 +93,7 @@ def report_binding(binding, *, reports, ticket=None, allow_refused=False):
     if binding != resolve_report(binding['source'], reports, ticket):
         raise ValueError('Report binding differs from exact retained report-name resolution')
     if binding['resolution_kind'] != 'STATED' and not allow_refused:
-        raise ValueError('Report ambiguity: ' + binding['reason'] + ': ' + ', '.join(binding['candidates']))
+        raise ValueError(('Report ambiguity: ' if binding['reason']=='MULTIPLE_EXACT_MATCHES' else 'Report unavailable: ') + binding['reason'] + ': ' + ', '.join(binding['candidates']))
     return binding
 
 
@@ -105,10 +105,13 @@ def inventory_identity(source):
 
 
 def validate_inventory(inventory, active, *, binding, reports, ticket=None):
+    if inventory is None: raise declaration_inventory.MissingInventory('Required declaration inventory was not supplied')
     report_binding(binding, reports=reports, ticket=ticket)
+    if not isinstance(inventory,dict) or set(inventory)!={'report_id','discovered','entries'}: raise ValueError('Declaration inventory is malformed')
     fields(inventory, ['report_id', 'discovered', 'entries'])
     if inventory['report_id'] != binding['report_id']:
         raise ValueError('Report inventory conservation failed: report differs from target')
+    if not isinstance(active,list): raise ValueError('Active restriction set requires a list')
     discovered, entries = inventory['discovered'], inventory['entries']
     if (not isinstance(discovered, list) or len(discovered) > 512 or not isinstance(entries, list)
             or len(entries) != len(discovered) or not isinstance(active, list)):
@@ -121,9 +124,11 @@ def validate_inventory(inventory, active, *, binding, reports, ticket=None):
     if len(ids) != len(set(ids)): raise ValueError('Duplicate scoped declaration identity')
     represented, accounted = [], []
     for entry in entries:
+        if not isinstance(entry,dict) or set(entry)!={'id','source','disposition','volatility','assumption','opaque_provenance','restrictions','effect'}:
+            raise ValueError('Declaration entry requires exactly one disposition and all contract fields')
         fields(entry, ['id', 'source', 'disposition', 'volatility', 'assumption', 'opaque_provenance', 'restrictions', 'effect'])
         if entry['id'] != inventory_identity(entry['source']) or entry['source']['report_id'] != binding['report_id']:
-            raise ValueError('Report inventory conservation failed: foreign or changed entry')
+            raise ValueError('Report inventory conservation failed: identity differs or foreign entry')
         accounted.append(entry['id'])
         for name, spec in DISPOSITIONS.items():
             if entry[name] not in spec['enum']: raise ValueError('Invalid declaration ' + name)

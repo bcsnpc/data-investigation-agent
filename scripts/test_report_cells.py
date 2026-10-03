@@ -4,7 +4,7 @@ import json
 import unittest
 from unittest.mock import patch
 from investigator.adapters import report_cells, report_predicates
-from investigator import declared_reproduction, declaration_inventory, report_cell
+from investigator import declared_reproduction, declaration_inventory, report_cell, report_scope
 import test_declared_predicate_adapter as fixture
 from test_declared_predicate_adapter import field
 
@@ -117,7 +117,7 @@ class CellTests(unittest.TestCase):
             report_cell.validate(cell, self.measure['id'], {'filters': []})
 
     def test_empty_inventory_is_conserved_but_active_without_a_predicate_is_not(self):
-        self.assertEqual(declaration_inventory.validate({'discovered': [], 'entries': []}, []), [])
+        self.assertEqual(report_scope.validate_inventory({'report_id':self.report['report']['id'],'discovered': [], 'entries': []}, [],binding=self.scope['report_binding'],reports=report_predicates.report_catalog(self.model)), [])
         self.modify(self.page, lambda d: d.pop('filterConfig'))
         self.modify(self.visual, lambda d: d.pop('filterConfig'))
         self.parts.remove(self.slicer); self.parts.remove(self.bookmark)

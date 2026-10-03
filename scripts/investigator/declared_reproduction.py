@@ -368,11 +368,8 @@ def run(adapter, layer, measure_id, scope):
 
 
 def _entries(definition, inventory, restrictions):
-    if definition.get('report_binding'):
-        from .report_scope import validate_inventory
-        return validate_inventory(inventory,restrictions,binding=definition['report_binding'],reports=definition['report_catalog'])
-    from .declaration_inventory import validate
-    return validate(inventory,restrictions)
+    from .report_scope import validate_inventory
+    return validate_inventory(inventory,restrictions,binding=definition.get('report_binding'),reports=definition.get('report_catalog'))
 
 
 def render_stopped(probes,business=False):

@@ -260,7 +260,8 @@ def validate(value, payload):
         if 'selection_request' in value: report_scope.validate_request(value['selection_request'],reports=model.get('reports',[]),ticket=payload['text'])
     if 'definition_target' in value:
         target.validate(value['definition_target'],ticket=payload['text'],
-                        inventory=payload.get('declaration_inventory'),active=payload.get('active_restrictions'))
+                        inventory=payload.get('declaration_inventory'),active=payload.get('active_restrictions'),
+                        binding=payload.get('inventory_report_binding'),reports=payload.get('inventory_report_catalog'))
     figure.validate(value['reported_figure'],payload['text'])
     if len(encoded(value)) > 12000: raise ValueError('Intake response exceeds budget')
     if value['action'] == 'ASK':
@@ -407,7 +408,7 @@ class Intake:
                 if 'report_binding' in decision:
                     if decision['report_binding']['resolution_kind']=='REFUSED':
                         body['report_binding']=decision['report_binding']
-                        raise QuoteRefused('Report ambiguity: '+decision['report_binding']['reason']+'; candidates: '+', '.join(decision['report_binding']['candidates']))
+                        raise QuoteRefused(('Report ambiguity: ' if decision['report_binding']['reason']=='MULTIPLE_EXACT_MATCHES' else 'Report unavailable: ')+decision['report_binding']['reason']+'; candidates: '+', '.join(decision['report_binding']['candidates']))
                     report_scope.report_binding(decision['report_binding'],reports=model.get('reports',[]),ticket=combined)
                     decision['selection_request']={'state':'REQUESTED','report_binding':decision['report_binding'],**requested}
                     report_scope.validate_request(decision['selection_request'],reports=model.get('reports',[]),ticket=combined)
@@ -423,7 +424,7 @@ class Intake:
                         decision['scope_quotes'].append({'column_id':resolution['column_id'],'quote':requested['source']['quote']})
             if decision.get('report_binding',{}).get('resolution_kind')=='REFUSED':
                 body['report_binding']=decision['report_binding']
-                raise QuoteRefused('Report ambiguity: '+decision['report_binding']['reason']+'; candidates: '+', '.join(decision['report_binding']['candidates']))
+                raise QuoteRefused(('Report ambiguity: ' if decision['report_binding']['reason']=='MULTIPLE_EXACT_MATCHES' else 'Report unavailable: ')+decision['report_binding']['reason']+'; candidates: '+', '.join(decision['report_binding']['candidates']))
             decision = validate(decision, validation_payload)
             if (digest(snapshot(self.workspace)) != body['catalog_hash'] or fingerprint() != body['engine_hash']
                     or digest(self.workspace.agent.config) != body['config_hash']):

@@ -250,7 +250,7 @@ def extract(model, measure_id, scope):
         from .. import definition_target as contract
         try:contract.shape(target)
         except ValueError:raise Refusal('TARGET_RESOLUTION_CONTRACT')
-        if target['resolution_kind']=='REFUSED':raise Refusal('Target ambiguity: '+', '.join(target['candidates']))
+        if target['resolution_kind']=='REFUSED':raise Refusal(('Target ambiguity: ' if target['candidates'] else 'Target unavailable: ')+', '.join(target['candidates']))
         available=targets(model,measure_id)
         columns=[{'column_id':a['id'],'name':a['name']} for a in assets(model['context']) if a['kind']=='SemanticColumn']
         request={'source':target['source']}
@@ -261,15 +261,16 @@ def extract(model, measure_id, scope):
         if expected!=target:raise Refusal('TARGET_RESOLUTION_CHANGED')
         matching=[]
         for option in available:
-            entries=declaration_inventory.validate(option['inventory'],option['restrictions'])
+            from ..report_scope import validate_inventory
+            entries=validate_inventory(option['inventory'],option['restrictions'],binding=option['evidence']['report_binding'],reports=option['evidence']['report_catalog'])
             if target['resolution_kind']=='EVIDENCE':
                 entry=next((e for e in entries if e['id']==target['inventory_entry_id']),None)
                 applies=entry is not None and entry['disposition']=='ACTIVE' and any(r['field_id']==target['column_id'] for r in entry['restrictions'])
-                if applies:contract.validate(target,inventory=option['inventory'],active=option['restrictions'])
+                if applies:contract.validate(target,inventory=option['inventory'],active=option['restrictions'],binding=option['evidence']['report_binding'],reports=option['evidence']['report_catalog'])
             else:applies=any(e['disposition']=='ACTIVE' and any(r['field_id']==target['column_id'] for r in e['restrictions']) for e in entries)
             if applies:matching.append(option)
         if len(matching)!=1:
-            raise Refusal('Target ambiguity: '+('no ACTIVE declaration matches the target column' if not matching else
+            raise Refusal(('Target unavailable: ' if not matching else 'Target ambiguity: ')+('no ACTIVE declaration matches the target column' if not matching else
                 'multiple visual contexts match: '+', '.join(o['target_id'] for o in matching)))
         result=_extract(model,measure_id,scope,matching[0]['target_id'])
         _addressed(model, measure_id, scope, result)
@@ -295,7 +296,7 @@ def targets(model,measure_id,report_id=None):
             from .report_cells import projected_measure
             if projected_measure(model, document, measure_id):
                 declaration=_extract(model,measure_id,{'report_binding': {'report_id': report_id}} if report_id is not None else {},part['id'])
-                candidates.append({'target_id':part['id'],'inventory':declaration['inventory'],'restrictions':declaration['restrictions']})
+                candidates.append({'target_id':part['id'],'inventory':declaration['inventory'],'restrictions':declaration['restrictions'],'evidence':declaration['evidence']})
                 if len(candidates)>512:raise Refusal('DEFINITION_TARGET_BOUND')
     return candidates
 
@@ -334,7 +335,7 @@ def _extract(model, measure_id, scope, selected_target=None):
             if projected_measure(model, document, measure_id):
                 candidates.append((report, documents, path, part, document))
     if len(candidates) != 1:
-        raise Refusal('AMBIGUOUS_OR_MISSING_DECLARATION_TARGET' + (': ' + ', '.join(c[3]['id'] for c in candidates) if candidates else ''))
+        raise Refusal(('MISSING_DECLARATION_TARGET' if not candidates else 'AMBIGUOUS_DECLARATION_TARGET') + (': ' + ', '.join(c[3]['id'] for c in candidates) if candidates else ''))
     report, documents, path, selected_part, selected = candidates[0]
     page_path = path.split('/visuals/', 1)[0] + '/page.json'
     if page_path not in documents or 'definition/report.json' not in documents: raise Refusal('MISSING_PARENT_DEFINITION')
@@ -473,12 +474,26 @@ def _extract(model, measure_id, scope, selected_target=None):
         except (Refusal, declared_reproduction.UnsupportedRestriction) as exc:
             inventory.unsupported(part, exc.form)
     inventory_result = inventory.result()
+    from .. import report_scope
+    binding = scope.get('report_binding')
+    if not binding or set(binding)=={'report_id'}:
+        name=report['report']['name']
+        binding=report_scope.resolve_report({'start':0,'end':len(name),'quote':name},report_catalog(model))
+    report_scope.report_binding(binding,reports=report_catalog(model))
+    if binding['report_id']!=report['report']['id']: raise Refusal('REPORT_SCOPE_MISMATCH')
+    for source in inventory_result['discovered']: source['report_id']=binding['report_id']
+    for entry in inventory_result['entries']:
+        entry['source']['report_id']=binding['report_id']
+        entry['id']=report_scope.inventory_identity(entry['source'])
+        entry['effect']=('RESTRICTED' if entry['restrictions'] else 'FULL_DOMAIN') if entry['disposition']=='ACTIVE' else 'EXCLUDED'
+    inventory_result['report_id']=binding['report_id']
     active = [copy.deepcopy(r) for entry in inventory_result['entries']
               if entry['disposition'] == _enum('disposition','ACTIVE') for r in entry['restrictions']]
     return {'status': 'DECLARED', 'inventory': inventory_result, 'restrictions': active,
         'evidence': {'id': 'declared-context-' + str(uuid4()), 'tool': 'context',
             'completeness': 'COMPLETE_RESPONSE', 'declaration_provenance': 'DECLARED_BY_DEFINITION',
             'declared_restrictions': copy.deepcopy(active), 'conditional_declarations': copy.deepcopy(exclusions),
+            'report_binding':copy.deepcopy(binding),'report_catalog':report_catalog(model),
             'metadata': {'context_version': model['context_id'], 'model_revision': model['revision'],
                 'model_id': model['id'], 'definition_target_id': selected_part['id'],
                 'report_id': report['report']['id'],
@@ -546,19 +561,7 @@ def scoped_declaration(model, measure_id, scope, target_id):
     from .. import report_scope
     result = _extract(model, measure_id, scope, target_id)
     binding = scope['report_binding']; inventory = result['inventory']
-    for source in inventory['discovered']:
-        source['report_id'] = binding['report_id']
-    for entry in inventory['entries']:
-        entry['source']['report_id'] = binding['report_id']
-        entry['id'] = report_scope.inventory_identity(entry['source'])
-        entry['effect'] = ('RESTRICTED' if entry['restrictions'] else 'FULL_DOMAIN') if entry['disposition'] == 'ACTIVE' else 'EXCLUDED'
-    inventory['report_id'] = binding['report_id']
-    # Restrictions have one source: the ACTIVE inventory entries.
-    result['restrictions'] = [copy.deepcopy(r) for e in inventory['entries'] if e['disposition'] == 'ACTIVE' for r in e['restrictions']]
-    result['evidence']['declared_restrictions'] = copy.deepcopy(result['restrictions'])
-    result['evidence']['report_binding'] = copy.deepcopy(binding)
-    result['evidence']['report_catalog'] = report_catalog(model)
-    report_scope.validate_inventory(inventory, result['restrictions'], binding=binding, reports=report_catalog(model))
+    report_scope.validate_inventory(inventory,result['restrictions'],binding=binding,reports=report_catalog(model))
     forms=sorted({json.loads(e['opaque_provenance'])['form'] for e in inventory['entries'] if e['disposition']=='UNSUPPORTED'})
     if forms: result['unsupported_form']=', '.join(forms)
     return result

@@ -18,7 +18,7 @@ from uuid import uuid4
 
 from investigator.adapters.microsoft_process import MicrosoftProcessAdapter
 from investigator.adapters import report_predicates as predicates
-from investigator import declared_reproduction, native_identity, query_dax
+from investigator import declared_reproduction, native_identity, query_dax, report_scope
 from investigator.process_debugging import attest
 from investigator.onboarding import Conflict
 
@@ -70,7 +70,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
             'context_id': str(uuid4()), 'enabled': True, 'context': {
                 'model_assets': [self.table, self.dimension, self.column, self.measure], 'reports': [], 'scan_id': 'scan'}}
         self.model['context']['id'] = self.model['context_id']
-        self.report = {'report': {'id': 'resolved/report'}, 'model_id': 'fabric://' + ws + '/' + mid,
+        self.report = {'report': {'id': 'resolved/report','name':'Report'}, 'model_id': 'fabric://' + ws + '/' + mid,
             'binding_status': 'RESOLVED_EXPLICIT_ID', 'gaps': [], 'report_definitions': self.parts}
         self.model['context']['reports'].append(self.report)
         self.report_doc = self.part('definition/report.json', {})
@@ -378,7 +378,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         self.part('definition/pages/p/visuals/other/visual.json', json.loads(self.visual['metadata']['content']))
         result = self.declaration()
         self.assertEqual(result['status'], 'UNDECLARED')
-        self.assertIn('AMBIGUOUS_OR_MISSING_DECLARATION_TARGET', result['reason'])
+        self.assertIn('AMBIGUOUS_DECLARATION_TARGET', result['reason'])
         self.scope['definition_target_id'] = self.visual['id']
         self.assertEqual(self.declaration()['status'], 'UNDECLARED')
         self.assertIn('LEGACY_SIDE_CHANNEL_TARGET',self.declaration()['reason'])
@@ -411,7 +411,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
         unsupported=[e for e in declaration['inventory']['entries'] if e['disposition']=='UNSUPPORTED']
         self.assertTrue(any('unknownSelectionVisual' in e['opaque_provenance'] for e in unsupported))
         from investigator import declaration_inventory
-        with patch.object(declaration_inventory,'validate',wraps=declaration_inventory.validate) as validation:
+        with patch('investigator.report_scope.validate_inventory',wraps=report_scope.validate_inventory) as validation:
             result=self.run_check()
         validation.assert_called_once()
         self.assertEqual(result['status'],'UNDECLARED')
@@ -427,7 +427,7 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
     def test_every_discovered_declaration_has_exactly_one_explicit_disposition(self):
         d=self.declaration();inv=d['inventory']
         from investigator import declaration_inventory
-        self.assertEqual(sorted(declaration_inventory.identity(s) for s in inv['discovered']),sorted(e['id'] for e in inv['entries']))
+        self.assertEqual(sorted(report_scope.inventory_identity(s) for s in inv['discovered']),sorted(e['id'] for e in inv['entries']))
         self.assertEqual(len(inv['discovered']),sum(e['disposition'] in declaration_inventory.SCHEMA['disposition']['enum'] for e in inv['entries']))
         self.assertTrue(all(type(e['disposition']) is str for e in inv['entries']))
         with patch.object(predicates.ReportDeclarations,'active',return_value=None):
@@ -492,11 +492,11 @@ class DeclaredPredicateAdapterTests(unittest.TestCase):
     def test_hostile_producer_unsupported_entry_blocks_otherwise_complete_active_set(self):
         def change(d):
             from investigator import declaration_inventory
-            source={'location':'unrelated-declaration','content_hash':'d'*64}
+            source={'report_id':'resolved/report','location':'unrelated-declaration','content_hash':'d'*64}
             d['inventory']['discovered'].append(source)
-            d['inventory']['entries'].append({'id':declaration_inventory.identity(source),'source':source,
+            d['inventory']['entries'].append({'id':report_scope.inventory_identity(source),'source':source,
                 'disposition':'UNSUPPORTED','volatility':'UNKNOWN','assumption':'APPLICABILITY_UNKNOWN',
-                'opaque_provenance':'unknown-external-kind','restrictions':[]})
+                'opaque_provenance':'unknown-external-kind','restrictions':[],'effect':'EXCLUDED'})
         result=self.hostile(change,'UNSUPPORTED_DECLARATION')
         self.assertIn('Unsupported declarations',result['reason'])
 

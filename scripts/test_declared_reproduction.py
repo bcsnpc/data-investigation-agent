@@ -32,14 +32,16 @@ class NeutralAdapter(Adapter):
         return super().capabilities() | {reproduction.CAPABILITY}
 
     def declared_context(self, layer, measure_id, scope):
-        from investigator.declaration_inventory import identity
-        source={'location':'definition/selection','content_hash':'a'*64}
+        from investigator.report_scope import inventory_identity as identity
+        source={'report_id':'report','location':'definition/selection','content_hash':'a'*64}
         return {'status': 'DECLARED', 'restrictions': copy.deepcopy(self.restrictions),
-                'inventory':{'discovered':[source], 'entries':[{'id':identity(source),'source':source,
+                'inventory':{'report_id':'report','discovered':[source], 'entries':[{'id':identity(source),'source':source,
                     'disposition':'ACTIVE','volatility':'FIXED','assumption':'NONE','opaque_provenance':'opaque',
-                    'restrictions':copy.deepcopy(self.restrictions)}]},
+                    'restrictions':copy.deepcopy(self.restrictions),'effect':'RESTRICTED'}]},
                 'evidence': {'id': 'declaration', 'tool': 'context', 'completeness': 'COMPLETE_RESPONSE',
                     'declaration_provenance': 'DECLARED_BY_DEFINITION',
+                    'report_binding':{'resolution_kind':'STATED','report_id':'report','source':{'start':0,'end':6,'quote':'Report'}},
+                    'report_catalog':[{'id':'report','name':'Report'}],
                     'declared_restrictions': copy.deepcopy(self.restrictions),
                     'metadata': {'context_version': 'context'}}}
 
@@ -72,7 +74,7 @@ SCOPE = {'filters': [{'column_id': 'field-a', 'values': ['y']}], 'reported_figur
 class ReproductionTests(unittest.TestCase):
     def test_upstream_refusal_owns_reason_without_inventory_validation(self):
         from unittest.mock import patch
-        from investigator import declaration_inventory
+        from investigator import report_scope
         for status in ('UNDECLARED', 'UNAVAILABLE'):
             for unused in (None, {'broken': 'unused input'}):
                 class Refused(NeutralAdapter):
@@ -80,7 +82,7 @@ class ReproductionTests(unittest.TestCase):
                         return {'status': status, 'reason': 'Ambiguous definition target: first, second',
                                 'unsupported_form': 'TARGET_AMBIGUITY', 'inventory': unused}
                 adapter = Refused()
-                with patch.object(declaration_inventory, 'validate', side_effect=AssertionError('Validated refused input')):
+                with patch.object(report_scope, 'validate_inventory', side_effect=AssertionError('Validated refused input')):
                     result = self.run_check(adapter)
                 self.assertEqual(result['reason'], 'Ambiguous definition target: first, second')
                 self.assertEqual(result['status'], status)

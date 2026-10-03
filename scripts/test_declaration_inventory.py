@@ -2,7 +2,7 @@
 import copy
 import json
 import unittest
-from investigator import declaration_inventory as inventory, declared_reproduction as reproduction
+from investigator import declaration_inventory as inventory, declared_reproduction as reproduction, report_scope
 from investigator.synthesis_digest import _context_evidence, _process_evidence
 from test_declared_reproduction import NeutralAdapter, SCOPE
 
@@ -12,7 +12,7 @@ class InventoryTests(unittest.TestCase):
         return NeutralAdapter().declared_context({'id': 'top'}, 'measure', SCOPE)
 
     def validate(self, declaration):
-        return inventory.validate(declaration['inventory'], declaration['restrictions'])
+        return report_scope.validate_inventory(declaration['inventory'], declaration['restrictions'],binding=declaration['evidence']['report_binding'],reports=declaration['evidence']['report_catalog'])
 
     def test_required_inventory_missing_refuses_before_any_read(self):
         class Missing(NeutralAdapter):
@@ -41,7 +41,7 @@ class InventoryTests(unittest.TestCase):
 
     def test_undiscovered_inventory_entry_fails_conservation(self):
         d = self.declaration(); entry=copy.deepcopy(d['inventory']['entries'][0]);entry['source']['location']='extra'
-        entry['id']=inventory.identity(entry['source']);d['inventory']['entries'].append(entry)
+        entry['id']=report_scope.inventory_identity(entry['source']);d['inventory']['entries'].append(entry)
         with self.assertRaisesRegex(ValueError, 'conservation'): self.validate(d)
 
     def test_active_restriction_without_inventory_trace_fails(self):
@@ -53,7 +53,7 @@ class InventoryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'coverage'): self.validate(d)
 
     def test_restriction_may_not_trace_to_conditional_entry(self):
-        d=self.declaration();e=d['inventory']['entries'][0];e['disposition']='CONDITIONAL';e['restrictions']=[]
+        d=self.declaration();e=d['inventory']['entries'][0];e['disposition']='CONDITIONAL';e['restrictions']=[];e['effect']='EXCLUDED'
         with self.assertRaisesRegex(ValueError, 'coverage'): self.validate(d)
 
     def test_empty_active_entry_is_not_falsely_accounted_for(self):
@@ -62,11 +62,11 @@ class InventoryTests(unittest.TestCase):
 
     def test_reordering_preserves_derived_identity_and_neutral_projection(self):
         d=self.declaration();e=copy.deepcopy(d['inventory']['entries'][0]);e['source']['location']='alternative'
-        e['id']=inventory.identity(e['source']);e.update(disposition='CONDITIONAL',restrictions=[],assumption='INVOCATION_UNKNOWN')
+        e['id']=report_scope.inventory_identity(e['source']);e.update(disposition='CONDITIONAL',restrictions=[],assumption='INVOCATION_UNKNOWN',effect='EXCLUDED')
         d['inventory']['discovered'].append(e['source']);d['inventory']['entries'].append(e)
         before=inventory.neutral(self.validate(d));d['inventory']['entries'].reverse();d['inventory']['discovered'].reverse()
         self.assertEqual(before,inventory.neutral(self.validate(d)))
-        self.assertEqual(e['id'],inventory.identity(e['source']))
+        self.assertEqual(e['id'],report_scope.inventory_identity(e['source']))
 
     def test_identity_cannot_be_iteration_counter(self):
         d=self.declaration();d['inventory']['entries'][0]['id']='0'
@@ -84,11 +84,11 @@ class InventoryTests(unittest.TestCase):
     def test_unsupported_unrelated_declaration_blocks_capability_before_reads(self):
         class Unsupported(NeutralAdapter):
             def declared_context(self,*args):
-                d=super().declared_context(*args);source={'location':'unrelated','content_hash':'c'*64}
+                d=super().declared_context(*args);source={'report_id':'report','location':'unrelated','content_hash':'c'*64}
                 d['inventory']['discovered'].append(source)
-                d['inventory']['entries'].append({'id':inventory.identity(source),'source':source,
+                d['inventory']['entries'].append({'id':report_scope.inventory_identity(source),'source':source,
                     'disposition':'UNSUPPORTED','volatility':'UNKNOWN','assumption':'APPLICABILITY_UNKNOWN',
-                    'opaque_provenance':'unfamiliar-kind','restrictions':[]})
+                    'opaque_provenance':'unfamiliar-kind','restrictions':[],'effect':'EXCLUDED'})
                 return d
         adapter=Unsupported();result=reproduction.run(adapter,{'id':'top'},'measure',SCOPE)
         self.assertEqual(result['status'],'UNDECLARED');self.assertEqual(adapter.read_scopes,[])
@@ -138,7 +138,7 @@ class InventoryTests(unittest.TestCase):
         class Conditional(NeutralAdapter):
             def declared_context(self,*args):
                 d=super().declared_context(*args);d['restrictions']=[]
-                d['inventory']['entries'][0].update(disposition='CONDITIONAL',restrictions=[],assumption='INVOCATION_UNKNOWN')
+                d['inventory']['entries'][0].update(disposition='CONDITIONAL',restrictions=[],assumption='INVOCATION_UNKNOWN',effect='EXCLUDED')
                 return d
         adapter=Conditional();result=reproduction.run(adapter,{'id':'top'},'measure',SCOPE)
         self.assertEqual(result['status'],'UNDECLARED');self.assertEqual(adapter.read_scopes,[])
@@ -157,7 +157,7 @@ class InventoryTests(unittest.TestCase):
                 d=super().declared_context(*args)
                 restrictions=[{'field_id':'f'+str(i),'operator':'IN','values':[i]} for i in range(33)]
                 first=d['inventory']['entries'][0];first['restrictions']=restrictions[:20]
-                second=copy.deepcopy(first);second['source']['location']='second';second['id']=inventory.identity(second['source'])
+                second=copy.deepcopy(first);second['source']['location']='second';second['id']=report_scope.inventory_identity(second['source'])
                 second['restrictions']=restrictions[20:]
                 d['inventory']['entries'].append(second);d['inventory']['discovered'].append(second['source']);d['restrictions']=restrictions
                 return d
