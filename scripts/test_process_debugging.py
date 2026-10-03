@@ -206,7 +206,8 @@ class AttestationConsumptionTests(unittest.TestCase):
         self.assertNotEqual(result['classification'],'CONSISTENT_TO_BOUNDARY')
         self.assertFalse(any(o.get('comparison_status')=='CROSS_SURFACE_VERIFIED' for o in result['_observations']))
         lower=next(o for o in result['_observations'] if o.get('id')=='read-lower')
-        self.assertEqual(lower['surface_attestation']['status'],'MISSING')
+        self.assertEqual(lower['surface_attestation']['status'],'PARTIAL')
+        self.assertEqual(lower['surface_attestation']['missing_required_fields'],['object'])
         self.assertEqual(lower['surface_attestation']['required_fields'],['identity','object'])
 
     def test_field_a_surface_cannot_report_is_named_in_limits_and_both_outputs(self):

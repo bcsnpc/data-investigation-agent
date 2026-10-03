@@ -39,8 +39,13 @@ class AttestationTests(unittest.TestCase):
         self.assertEqual(result['status'], 'CONTRADICTED')
 
     def test_absent_or_partial_report_is_missing(self):
-        for report in (None, {}, {'object': 'gold'}, {'identity': ''}, {'identity': 5}):
+        for report in (None, {}, {'identity': ''}, {'identity': 5}):
             self.assertEqual(attest_surface(self.DECLARED, report)['status'], 'MISSING', report)
+
+    def test_answered_object_without_required_identity_is_partial_but_not_eligible(self):
+        result=attest_surface(self.DECLARED,{'object':'gold'})
+        self.assertEqual(result['coverage'],'PARTIAL')
+        self.assertEqual(result['missing_required_fields'],['identity'])
 
     def test_reported_field_absent_from_declaration_contradicts(self):
         declared = {k: v for k, v in self.DECLARED.items() if k != 'object'}

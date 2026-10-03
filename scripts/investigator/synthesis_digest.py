@@ -180,6 +180,8 @@ def build(state,db):
    r=db.execute('SELECT model_id,status,request,result FROM '+TABLES[o['tool']]+' WHERE id=?',(o['id'],)).fetchone()
    if not r or r[0]!=state['model_id'] or r[1]!='COMPLETED':raise Conflict('Synthesis receipt scope/status differs')
    request,result=map(json.loads,r[2:])
+   from .raw_surface_report import validate as validate_raw_report
+   validate_raw_report(request,result)
    expected=result.get('rows',[]) if o['tool']!='source' else [result.get('value')]
    compiled={k:v for k,v in request.items() if k!='plan'}
    if digest(expected)!=digest(o['values']) or digest(compiled)!=o['request_hash']:

@@ -188,3 +188,15 @@ merged at 56a1545 with six green checks. Prior runs, corrections and ledger rows
 remain unchanged; no investigation run or ledger row here. Engine bytes changed,
 invalidating prior freezes. Intake evidence resolution and target/figure wiring
 remain next; draft #297 remains open.
+
+
+## Dated sweep correction: partial self-report loss (2026-10-02 America/Chicago)
+
+The #299 sweep missed `flexible_tools._split_surface_report`: a multi-field
+report was removed from result rows and collapsed to None unless every field
+was truthy. The later receipt audit proved that answered identity and explicit
+null engine/object fields were lost. A repeat sweep also found the same collapse
+in `fabric_sql_surface.self_report`. Both now retain partial mappings; bounded
+original columns survive extraction independently. Required null fields stay
+UNATTESTED and binding is refused. No earlier receipt or label is rewritten.
+See [partial-report retention](partial-self-report-retention.md).
