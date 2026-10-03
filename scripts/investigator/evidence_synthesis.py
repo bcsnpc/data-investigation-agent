@@ -242,6 +242,8 @@ def run(agent,identity,provider):
             record['error']=error_summary(exc)
             if str(exc).startswith('Unregistered process receipt shape:'):
                 record['reason']=str(exc)
+            if str(exc).startswith(('Dangling synthesis spine receipt ','Synthesis spine receipt unavailable in evidence store: ')):
+                record['reason']=str(exc)
             if str(exc).startswith('SYNTHESIS_ASSESSMENT_UNAVAILABLE:'):
                 record['reason']='SYNTHESIS_ASSESSMENT_UNAVAILABLE'
                 record['limitation']=str(exc)

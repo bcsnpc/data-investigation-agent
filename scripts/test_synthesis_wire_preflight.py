@@ -68,4 +68,20 @@ class WirePreflightTests(unittest.TestCase):
             with self.assertRaises(ProviderResponseError) as caught:synthesis.azure_synthesize(self.payload(),{})
         self.assertEqual(failure_usage(caught.exception),{'input_tokens':20,'output_tokens':30})
 
+    def test_runtime_names_dangling_id_without_reservation_or_provider_call(self):
+        from test_evidence_synthesis import SynthesisTests
+        from investigator import synthesis_digest
+        helper=SynthesisTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        agent,state=helper.stopped()
+        with agent.runtime.db() as db:
+            state=agent.load(db,state['id']);payload=synthesis_digest.build(state,db)
+            state['assessment']=helper.answer(payload);agent.save(db,state,'TEST_ASSESSMENT',{})
+        bad={**payload,'candidates':[{'receipt_id':'missing-spine-receipt'}]}
+        with patch('investigator.synthesis_spine.build',return_value=bad),patch('ticket_planner.azure_generate') as provider:
+            result=agent.synthesize(state['id'],synthesis.azure_synthesize)
+        provider.assert_not_called()
+        record=result['synthesis']
+        self.assertEqual(record['status'],'BLOCKED');self.assertEqual(record['calls'],0)
+        self.assertIn('missing-spine-receipt',record['reason'])
+
 if __name__=='__main__':unittest.main()
