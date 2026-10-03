@@ -1,0 +1,17 @@
+You asked: In Declared predicate fixture 20261001, on Saved predicate selections, the card Handled Quantity - extra visual predicate reports Handled Quantity as exactly 16. I selected warehouse North. Check whether the saved declared report context reproduces this figure and explain what remains unknown about my selections.
+Answer to your question: Yes — the saved declared context reproduces the reported figure.
+
+What else was checked: the vertical walk stopped during process walk.
+Reason: TOOL_UNAVAILABLE.
+
+Completed within-layer cells:
+Cell fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Fa32b6a48db655ac8a4f2%2Fvisual.json (UNGROUPED): WITHIN_LAYER_CHECK (declared-reproduction-68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3): undeclared-context value 8765; declared-context value 16. The declared selections reproduce the reported figure of 16; they account for that figure without requiring a difference further back. The stated report declares a restriction carrying North; resolution EVIDENCE.
+Adding the event day restriction takes 92 to 16.
+Other Handled Quantity - page and slicers (UNGROUPED, receipt declared-reproduction-1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45): declared-context value 92; undeclared-context value 8,765.
+Other Handled Quantity - unfiltered (UNGROUPED, receipt declared-reproduction-676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6): declared-context value 8,765; undeclared-context value 8,765.
+Limits:
+- Assumed: viewer-changeable selections at their saved defaults; their current positions were not established.
+- An invoked bookmark or stored alternative was not established.
+- Active user selections, row-level security and a difference further back remain unestablished.
+- The checks are not tied to a shared data version; they do not establish currency or business correctness.
+Recommended action: If the saved restrictions (event day: 2026-09-15; movement type: RECEIPT; product name: Component 1; warehouse name: North) are unintended, request an enhancement to the report selections, not a change to the data.
