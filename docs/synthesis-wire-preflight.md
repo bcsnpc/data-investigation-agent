@@ -53,7 +53,7 @@ These are synthesis views, without investigation directory/SQL-object directorie
 No investigation planner payload changes. The removed business text remains in
 local composition; shortening receipt handles does not remove evidence entries.
 
-Seven hostile-producer/preflight tests cover dangling receipt/definition/read/
+Eight hostile-producer/preflight tests cover dangling receipt/definition/read/
 comparison references, missing or failed original evidence, invented response
 citations, conserved view coverage, quoted enum refusal, unsupported schema
 keywords, consumer-owned prose bounds, and preserved numeric usage on decode
