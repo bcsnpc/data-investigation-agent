@@ -54,3 +54,5 @@ on the PR. No investigation was run, so no ledger row.
 All engine freezes are invalidated. Live partial-report retention is not yet
 verified. PR B's bounded composition probe set is next; cap ordering, scoped
 inventory consumer and R1 output repairs remain queued. Fixture mutation waits.
+
+CI and the full local suite exposed one historical assertion that expected an identity-only report to be MISSING. It now asserts PARTIAL with the required object still missing; the refusal and prohibition on a boundary claim remain tested. The initial full suite recorded 1 failure in 1,591 tests.
