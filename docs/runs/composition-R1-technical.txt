@@ -1,0 +1,16 @@
+You asked: In Inventory Health e1b8e1 I selected warehouse North. Handled Quantity differs from the global total. Check the North selection and explain what report context you can and cannot reproduce.
+Answer to your question: No verdict: no figure supplied.
+
+What else was checked: the vertical walk stopped during process walk.
+Reason: TOOL_UNAVAILABLE.
+
+Completed within-layer cells:
+Cell fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2Fd21708a8bc35561c81f5%2Fvisual.json (KEYED): WITHIN_LAYER_CHECK (declared-reproduction-d8964b006f1897843e4ab8efa01a1c351f1ed77cc6ac20c25467b12f6edbec3a): undeclared-context value 8765; declared-context value 3359. No reported figure supplied; the produced value has no reproduction verdict. North is a value of fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name; no declared filter restricts this report to it. Resolution OBSERVED, receipt 7bd40167-1c55-46af-affd-ee3e2c8d63dd.
+Other Activity by warehouse (TOTAL, receipt declared-reproduction-3a403b9dd5670b5b82723419ffb22f87864e9370cdf0d9172e634539e5f5724a): declared-context value 8,765; undeclared-context value 8,765.
+Other Movement Units (UNGROUPED, receipt declared-reproduction-b2d055eb7ea3ee4125d4b3d59cb6dce26e722852a63f5a5063484faafeefdd2d): declared-context value 8,765; undeclared-context value 8,765.
+Limits:
+- Assumed: viewer-changeable selections at their saved defaults; their current positions were not established.
+- Active user selections, row-level security and a difference further back remain unestablished.
+- The checks are not tied to a shared data version; they do not establish currency or business correctness.
+Recommended action: Supply the figure or empty state that you saw in the report.
+Cell identity was derived retrospectively from the saved statement and definition, not recorded natively.
