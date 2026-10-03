@@ -46,5 +46,19 @@ class ReadCellAddressTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Cell identity differs'):
             declared_reproduction.validate(f,obs)
 
+    def test_refused_walk_delivers_validated_cell_values_without_inventing_verdict(self):
+        from investigator.refusal_synthesis import render
+        from investigator.process_receipts import refusal
+        self.scope['reported_figure']={'state':'UNSPECIFIED'}
+        result=self.run_cells()
+        state={'envelope':{'symptom':'Explain the selected row.'},'observations':result['observations']+[
+            refusal('WALK_REFUSED','TOOL_UNAVAILABLE','walk-stop')]}
+        outputs=render(state)
+        self.assertIn('selected row produced 3',outputs['business_output']['explanation']['text'])
+        self.assertIn('No reported figure supplied',outputs['business_output']['explanation']['text'])
+        self.assertIn('KEYED',outputs['technical_output']['explanation']['text'])
+        self.assertIn('TOTAL',outputs['technical_output']['explanation']['text'])
+        self.assertEqual(outputs['provenance'],'DETERMINISTIC_REFUSAL_RENDERING')
+
 
 if __name__=='__main__':unittest.main()
