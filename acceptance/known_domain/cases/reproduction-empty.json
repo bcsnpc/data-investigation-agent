@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "ticket": "reproduction-empty",
+  "source_session_id": "d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36",
+  "expected_status": "COMPLETED",
+  "expected_outcome": "NO_COMPARABLE_PATH",
+  "expected_answer_line": "Answer to your question: Yes — the saved declared context reproduces the reported figure.",
+  "invariants": [
+    "both_outputs",
+    "no_serialized_structure",
+    "no_business_identifier_form",
+    "timing_hedge_once",
+    "valid_mechanism_layer_tokens"
+  ],
+  "required_output_terms": [],
+  "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
+  "acceptance_change_reason": "Initial Round Four roster. Includes preserved failures; no new live measurement or replay success implied."
+}

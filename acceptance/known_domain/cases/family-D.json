@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "ticket": "family-D",
+  "source_session_id": "96edf2e6-5ae0-467e-a420-69c4b717da17",
+  "expected_status": "COMPLETED",
+  "expected_outcome": "NO_COMPARABLE_PATH",
+  "expected_answer_line": "Answer to your question: No verdict: no figure supplied.",
+  "invariants": [
+    "both_outputs",
+    "no_serialized_structure",
+    "no_business_identifier_form",
+    "timing_hedge_once",
+    "valid_mechanism_layer_tokens"
+  ],
+  "required_output_terms": [],
+  "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
+  "acceptance_change_reason": "Initial Round Four roster. Includes preserved failures; no new live measurement or replay success implied."
+}

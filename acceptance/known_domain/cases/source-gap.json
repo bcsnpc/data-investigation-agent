@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "ticket": "source-gap",
+  "source_session_id": "68043c99-dd9b-401e-ba45-0a89ae5daa00",
+  "expected_status": "COMPLETED",
+  "expected_outcome": "INGESTION_GAP",
+  "expected_answer_line": "Answer to your question: Answered within the checked scope.",
+  "invariants": [
+    "both_outputs",
+    "no_serialized_structure",
+    "no_business_identifier_form",
+    "timing_hedge_once",
+    "valid_mechanism_layer_tokens"
+  ],
+  "required_output_terms": [],
+  "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
+  "acceptance_change_reason": "Initial Round Four roster. Includes preserved failures; no new live measurement or replay success implied."
+}
