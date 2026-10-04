@@ -1,5 +1,18 @@
 # Self-Discovering Enterprise Data Investigator
 
+2026-10-03: [Pipeline audit checkpoint](docs/round-two-pipeline-audit.md).
+Approved limits applied: rolling 600, Part B 300, diagnostics 12 unchanged.
+One isolated Copy Job succeeded inside a new pipeline; its reader-visible
+activity output supplies the load's own 360 rows read and 360 copied. The pipeline
+failed at the audit writer's nested-output parser; failures preserved, no
+replacement load. Delayed monitoring probes returned HTTP200 with zero rows after
+23m39s. Parser correction and successful audit-table integration are distinct;
+source binding/reapproval, producers and the four scenarios plus E remain pending.
+Part B 119/300 and rolling 274/600 observed at checkpoint. No new reader scope or
+unfamiliar-domain claim. Prior freezes remain invalid.
+
+
+
 2026-10-03: existing investigator-reader queried monitoring job/semantic logs at unchanged scope (HTTP200, empty histories). Job-event schema has no row accounting. An additional isolated load completed; dedicated accounting table has RowsRead/RowsWritten columns but no matching rows after 141.705s. No usable refresh timestamp or accounting count. Binding integration/current context/four scenarios pending; Part B 72/120, rolling observed 227/300. [Exact receipts](docs/round-two-investigator-reader-probes.md). No engine/config change.
 
 2026-10-03: the explicitly requested isolated administrator-profile viewer grant returned HTTP403 after a successful before listing. Stopped as instructed; no permission change, probes or B1 scenarios. Part B 64/120, rolling observed 219/300. [Exact profile and refusal](docs/round-two-admin-profile-grant.md). No engine/config change.

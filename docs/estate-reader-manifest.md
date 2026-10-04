@@ -19,3 +19,13 @@ not replace a reader's data/attestation evidence. Database viewer is the only
 approved dia-reader data-plane role; no cluster or workspace role is authorized.
 
 Dated positive route finding, 2026-10-03: investigator-reader at the unchanged recorded scope also reaches monitoring ItemJobEventLogs (including its schema) and SemanticModelLogs, HTTP200 with empty requested histories. No new permissions. dia-reader remains present without a successful monitoring role. See [reader probes](round-two-investigator-reader-probes.md).
+
+
+Dated capability evidence, 2026-10-03 America/Chicago: unchanged
+investigator-reader reads pipeline activity output at existing scope (HTTP200).
+InvokeCopyJob exposed its own nested rowsRead/rowsCopied, 360/360, for one
+successful isolated copy; three delayed monitoring histories stayed empty. Audit
+writer execution failed and its SQL-row probe obtained no row. This adds observed
+routes, not permission. dia-reader remains without a successful role/grant,
+orderops_investigator stays at the approved SQL scope, publisher invocation uses
+an existing CopyJob managed connection. See round-two-pipeline-audit.md.

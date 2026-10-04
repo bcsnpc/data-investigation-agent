@@ -202,6 +202,20 @@ Updated 2026-09-27. Tracking: [#193](https://github.com/bcsnpc/data-investigatio
 Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md).
 This is the authoritative current status; milestone pages retain historical evidence.
 
+
+**2026-10-03 pipeline-audit checkpoint:** approved rolling allowance 600 and Part B
+ceiling 300 applied with usage preserved; diagnostic cap 12 unchanged. New
+isolated pipeline/notebook published. First invocation failed before copying;
+using an existing publisher CopyJob connection fixed invocation. One actual
+additional load succeeded and its reader-visible activity output carries 360
+rowsRead/360 rowsCopied. The writer then failed because counters were nested;
+parser corrected and served, no replacement load or edited historical row. Three
+monitoring queries were HTTP200/empty after 23m39s. Audit-table read probe failed;
+usable audit declaration, new context/approval, latency/gap producers and the four
+scenarios plus E remain pending. Part B 119/300, rolling observed 274/600. No
+reader permission change or acceptance claim. See [exact evidence and cost
+basis](round-two-pipeline-audit.md). Prior freezes remain invalid.
+
 **Historical checkpoint, 2026-09-27: first completion recorded; whole-chain audit only.**
 Merged #262 after six green checks (`542ab0b`). First completed run `c2658c88`
 validated synthesis after one equal Power BI/Fabric SQL comparison at 8,765.

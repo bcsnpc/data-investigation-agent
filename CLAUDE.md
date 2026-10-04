@@ -386,3 +386,17 @@ Dated explicit administrator-profile attempt, 2026-10-03: the approved unchanged
 Dated monitoring-route correction, 2026-10-03: investigator-reader@skynwhy.com queried ItemJobEventLogs and SemanticModelLogs successfully (HTTP200) at its existing recorded workspace Viewer scope. Both requested histories were empty; ItemJobEventLogs schema has no rows-read/written fields. Monitoring is readable without new grants; no refresh timestamp or completed-refresh evidence was returned. REST/XMLA refusals remain historically correct for those routes. No more monitoring grants; dia-reader retained unchanged. See [exact probes](docs/round-two-investigator-reader-probes.md).
 
 Dated post-enable accounting checkpoint, 2026-10-03: one additional isolated Copy Job completed; investigator-reader queried CopyJobActivityRunDetailsLogs HTTP200, RowsRead/RowsWritten columns but no matching rows 141.705s after served completion. Accounting unavailable at that observation, no zero-copy or ingestion-gap claim. Four authorized monitoring probes and one additional load consumed. No more grants. See [exact checkpoint](docs/round-two-investigator-reader-probes.md).
+
+
+Dated pipeline accounting finding, 2026-10-03 America/Chicago: the existing
+investigator-reader returned HTTP200 for Data Pipeline queryactivityruns. A
+successful isolated InvokeCopyJob exposes its copy activity's own rowsRead and
+rowsCopied under value[0].output (360/360 observed), with activity start/end and
+null watermarkInfo. This supersedes earlier accounting-unavailable statements
+only for this activity-output route; generic Copy Job run details still did not
+carry counters, and three delayed KQL probes were empty after 23m39s. The new
+isolated audit writer failed on the nested response shape; corrected parser is
+not a successful live audit-source integration. No recount, elevated reader or
+new grant. See docs/round-two-pipeline-audit.md. The rolling allowance is now 600,
+Part B cumulative ceiling 300, diagnostic cap unchanged at 12 by human decision;
+all counters and failures remain preserved.

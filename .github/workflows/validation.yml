@@ -15,6 +15,7 @@ jobs:
       - name: Test deterministic generation and rejection of invalid data
         run: |
           python -m unittest discover -s scripts -p test_generate_orders.py
+          python -m unittest discover -s scripts -p test_fixture_load_audit.py
           python -m unittest discover -s scripts -p test_platform_literal_sweep.py
       - name: Check Fabric notebook and deployment helper syntax
         run: python -m py_compile infra/fabric/bronze_to_silver.py scripts/fabric_api.py scripts/deploy_silver_notebook.py scripts/compare_bronze_order.py
