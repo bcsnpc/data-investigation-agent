@@ -10,7 +10,8 @@
     "no_serialized_structure",
     "no_business_identifier_form",
     "timing_hedge_once",
-    "valid_mechanism_layer_tokens"
+    "valid_mechanism_layer_tokens",
+    "layer_names_by_declared_role"
   ],
   "required_output_terms": [
     "absent",

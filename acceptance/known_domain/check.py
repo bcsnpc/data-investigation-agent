@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'scripts'),str(ROOT/'acceptance/unknown_domain')]
-INVARIANTS=frozenset(('both_outputs','no_serialized_structure','no_business_identifier_form','timing_hedge_once','valid_mechanism_layer_tokens'))
+INVARIANTS=frozenset(('both_outputs','no_serialized_structure','no_business_identifier_form','timing_hedge_once','valid_mechanism_layer_tokens','layer_names_by_declared_role'))
 
 
 def validate_case(case):
@@ -38,8 +38,13 @@ def output_checks(case,state):
             # Only the model paragraph uses this vocabulary: engine-rendered
             # legends and limits deliberately state role names and identities.
             commentary=body.split('\n\n')
+            boundaries=[o for o in state.get('observations',[]) if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
+            labels=(state.get('assessment') or {}).get('technical_output',{}).get('layer_labels',{})
+            for boundary in boundaries:
+                for side in ('upper_layer','lower_layer'):
+                    if not labels.get(boundary.get(side),{}).get('role'):
+                        errors.append('technical_output:UNDECLARED_LAYER_ROLE')
             if len(commentary)>1 and commentary[1].strip():
-                labels=(state.get('assessment') or {}).get('technical_output',{}).get('layer_labels',{})
                 # Complete replay is required to validate against its receipt
                 # digest; never infer labels from words in this output.
                 if labels and not re.search(r'\bL\d+ \([A-Z]+\)',body):errors.append('technical_output:MISSING_LAYER_ROLE')
