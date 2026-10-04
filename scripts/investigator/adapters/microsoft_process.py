@@ -470,6 +470,8 @@ class MicrosoftProcessAdapter:
         context=context_search.latest(self.store) if self.store is not None else None
         from ..layer_display import discovered_labels
         path['layer_labels']=discovered_labels((context or {}).get('assets',[]),path['layers'])
+        from ..layer_roles import apply
+        path['layer_labels']=apply(path['layer_labels'],path['layers'],(self.config or {}).get('layer_roles',[]))
         if 'system_of_record' in (self.config or {}):
             from ..system_of_record import declaration
             path['system_of_record']=declaration(self.config['system_of_record'])

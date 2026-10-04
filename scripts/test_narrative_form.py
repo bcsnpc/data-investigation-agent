@@ -13,8 +13,8 @@ class NarrativeFormTests(unittest.TestCase):
             entry['result']['surface_difference']={'grade':grade}
         original=copy.deepcopy(payload)
         text=form.business(business_text('TRANSFORMATION_LOGIC',payload),payload)
-        self.assertIn('For the report and the table used to prepare it, the two checks used different calculation engines.',text)
-        self.assertIn('For the table used to prepare the report and the table it is built from, the checks read different data sources;',text)
+        self.assertIn('For the report and the serving data, the two checks used different calculation engines.',text)
+        self.assertIn('For the serving data and the refined data, the checks read different data sources;',text)
         self.assertEqual(payload,original)
         self.assertNotIn('earlier',text.lower())
 
@@ -37,6 +37,7 @@ class NarrativeFormTests(unittest.TestCase):
             result=entry.get('result',{})
             for key in ('upper_layer','lower_layer'):
                 if key in result:result[key]=names[result[key]]
+        payload['layer_labels']={names[k]:{'role':r,'business_name':n} for k,r,n in [('report','PRESENTATION','report'),('prepared','SERVING','serving data'),('original','REFINED','refined data')]}
         fields=[{'layer':names[layer],'field':field,'evidence_id':receipt}
                 for layer,receipt,columns in [('report','read-a',['engine','connection','object']),
                                               ('prepared','read-b',['engine','object']),

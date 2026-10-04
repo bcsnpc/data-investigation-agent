@@ -62,25 +62,27 @@ def business_text(outcome, payload=None):
             except InvalidOperation:pass
         return None
     number=number_from(baseline)
-    accounts=(payload or {}).get('deterministic_process_finding',{}).get('delivery_accounts',[])
-    if accounts and outcome in ('INGESTION_GAP','LOAD_LATENCY','CONSISTENT_TO_BOUNDARY'):
-        finding=BUSINESS[outcome]
-        if outcome=='CONSISTENT_TO_BOUNDARY':finding+=' The application itself was not read; the remaining question belongs with the application owner.'
-        return ' '.join((('The checked report value was '+number+'.' if number is not None else 'The reported figure was checked.'),
-            finding,*accounts,'The checks do not establish whether they describe the same moment; different update timing remains possible.',
-            'Recommended action: '+action(outcome)['text']))
-    if outcome=='CONSISTENT_TO_SOURCE':
-        return ' '.join((('The checked report value was '+number+'.' if number is not None else 'The reported figure was checked.'),
-            'Every checked step agreed with the application that the system owner declared authoritative.',
-            'These comparisons found no delivery difference; they do not establish that the application contains every expected entry.',
-            'The checks do not establish whether they describe the same moment or whether the original entries are correct.',
-            'Recommended action: '+action(outcome)['text']))
-    first=('The checked report value was '+number+'.' if number is not None else
-           'A single report value could not be established from the available verified evidence.')
     comparisons=[e['result'] for e in entries if e.get('tool')=='process'
                  and e.get('result',{}).get('comparison_status')=='CROSS_SURFACE_VERIFIED']
     immediate=next((c for c in comparisons if baseline and
                     c.get('referenced_evidence_ids',[None])[0]==baseline['id']),None)
+    from .layer_roles import name as role_name
+    baseline_name=role_name(payload or {},(immediate or {}).get('upper_layer'))
+    accounts=(payload or {}).get('deterministic_process_finding',{}).get('delivery_accounts',[])
+    if accounts and outcome in ('INGESTION_GAP','LOAD_LATENCY','CONSISTENT_TO_BOUNDARY'):
+        finding=BUSINESS[outcome]
+        if outcome=='CONSISTENT_TO_BOUNDARY':finding+=' The application itself was not read; the remaining question belongs with the application owner.'
+        return ' '.join((('The checked '+baseline_name+' value was '+number+'.' if number is not None else 'The reported figure was checked.'),
+            finding,*accounts,'The checks do not establish whether they describe the same moment; different update timing remains possible.',
+            'Recommended action: '+action(outcome)['text']))
+    if outcome=='CONSISTENT_TO_SOURCE':
+        return ' '.join((('The checked '+baseline_name+' value was '+number+'.' if number is not None else 'The reported figure was checked.'),
+            'Every checked step agreed with the application that the system owner declared authoritative.',
+            'These comparisons found no delivery difference; they do not establish that the application contains every expected entry.',
+            'The checks do not establish whether they describe the same moment or whether the original entries are correct.',
+            'Recommended action: '+action(outcome)['text']))
+    first=('The checked '+baseline_name+' value was '+number+'.' if number is not None else
+           'A single report value could not be established from the available verified evidence.')
     agrees=immediate is not None and immediate['values_equal'] is True
     differs=any(c['values_equal'] is False for c in comparisons)
     divergence=next((c for c in comparisons if c['values_equal'] is False),None)
@@ -88,20 +90,22 @@ def business_text(outcome, payload=None):
     lower=(number_from(by_id.get(divergence['referenced_evidence_ids'][1]))
            if divergence and len(divergence.get('referenced_evidence_ids',[]))==2 else None)
     if outcome=='REFRESH_LATENCY' and immediate is not None and number is not None and lower is not None:
-        return ' '.join((f'The report showed {number}, while its direct input totaled {lower}.',
+        return ' '.join((f'The {baseline_name} showed {number}, while the {role_name(payload,immediate.get("lower_layer"))} totaled {lower}.',
             'No processing changes the compared quantity between them, so the report is serving a different data state.',
             'The refresh time was unavailable to the diagnostic account because its read access does not permit refresh history.',
             'The checks do not establish how long the difference has existed, which state is newer, or whether the original entries are correct.',
             'Recommended action: '+action(outcome)['text']))
     if immediate is not None and number is not None and lower is not None:
+        from .layer_roles import name as role_name
+        upper_name=role_name(payload,divergence.get('upper_layer'))
+        lower_name=role_name(payload,divergence.get('lower_layer'))
         terms=_business_terms(entries)
         subject=terms.get('subject',{}).get('text');matched=terms.get('matched',{}).get('text')
-        first=(f'The report showed {number}'+(f' for {subject}' if subject else '')+
-               (', matching the total used to prepare it.' if agrees else '.'))
-        compared=(f'The table it is built from contained {lower} for {subject}; the difference appears in the step that matches {subject} with {matched}.'
+        first=(f'The {role_name(payload,immediate.get("upper_layer"))} showed {number}'+(f' for {subject}' if subject else '')+
+               (', matching its declared input.' if agrees else '.'))
+        compared=(f'The {lower_name} contained {lower} for {subject}; the difference appears between the {lower_name} and the {upper_name}, in the step that matches {subject} with {matched}.'
                   if agrees and subject and matched else
-                  f'The table it is built from contained {lower}; the difference appears during preparation of the report.' if agrees else
-                  f'The total used to prepare the report was {lower}; the difference appears between that total and the displayed number.')
+                  f'The {lower_name} contained {lower}; the difference appears between the {lower_name} and the {upper_name}.' )
         mechanism=_business_mechanism(entries) if outcome=='TRANSFORMATION_LOGIC' else None
         mechanism=mechanism or 'The checks locate the difference but do not establish a specific explanation for it.'
         remaining=(f'We have not confirmed the repeated matches, whether the checks describe the same moment, whether this matching rule is intended, or how {subject} were first entered.'
@@ -109,11 +113,11 @@ def business_text(outcome, payload=None):
                    'The retrieved definition supplies no usable business names for the compared entries; their origin, update timing and intended treatment remain unconfirmed.')
         return ' '.join((first,compared,mechanism,remaining,'Recommended action: '+action(outcome)['text']))
     if agrees:
-        compared=('A separate check of the total used to prepare the report agreed'+
+        compared=('A separate check of the '+role_name(payload,immediate.get('lower_layer'))+' agreed'+
                   (', but a comparison further back found a different total.' if differs else '.'))
-        ruled_out='This rules out a report-to-input difference within these checks, but does not prove the original records are correct.'
+        ruled_out='This rules out a difference at that checked boundary, but does not prove the original records are correct.'
     elif immediate is not None:
-        compared='A separate check of the total used to prepare the report found a different total.'
+        compared='A separate check of the '+role_name(payload,immediate.get('lower_layer'))+' found a different total.'
         ruled_out='These checks establish a difference, but do not by themselves establish which total is correct.'
     else:
         compared='The available evidence did not establish a boundary comparison with the total used to prepare the report.'

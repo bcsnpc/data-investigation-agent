@@ -1,5 +1,7 @@
 # Current delivery status
 
+Round Three A1: closed configured layer roles retained through local synthesis; no positional role inference. Both original and application fixture renderers are covered by regressions. No live role-configured run yet; freezes invalidated. See [role contract](declared-layer-roles.md).
+
 Round Three budget applied: rolling 600 ? 1,000, Part B 500 and diagnostic cap 12 unchanged. Starting usage 348 Part B / 488 rolling. A1?A6 and the four re-runs remain pending; Round Two failures are preserved. See [budget record](round-three-budget.md).
 
 2026-10-04: [Part B source scenarios](round-two-source-scenarios.md) reached the application in two qualified cross-surface runs, both NO_KNOWN_PATTERN on unavailable audit history. Source consistency and configured-unreachable tickets held at intake. All outputs/failures retained; none of the four intended source outcomes earned. Reader restoration: isolated 7,661 across application/Bronze/model, original model 8,765. Part B 348/500; rolling observed 488/600; diagnostic cap 12 unchanged. Part C is design-only; prior freezes invalidated.

@@ -27,6 +27,8 @@ def layers(payload,source):
             name=name.replace('_',' ')
             if label.get('container_name'):
                 name+=' in '+label['container_name'].replace('_',' ')
+            role=label.get('role')
+            if role:name+='; role '+role
             result[identity]={'term':'L'+str(len(result)),'name':name,'identifier':identity}
     for row in path_narrative.facts(payload):
         add(row['output']['layer']);add(row['input']['layer'])
@@ -88,19 +90,15 @@ def business(text,payload):
     statements=[]
     baseline=next((e['id'] for e in payload.get('evidence',[]) if e.get('test_purpose')=='ESTABLISH_BASELINE'),None)
     boundaries={r['comparison_id']:r for r in path_narrative.facts(payload)}
-    report_input=next((r['input']['layer'] for r in boundaries.values()
-        if any(e['id']==r['comparison_id'] and e.get('result',{}).get('referenced_evidence_ids',[None])[0]==baseline
-               for e in payload.get('evidence',[])) and baseline is not None),None)
+    from .layer_roles import name as role_name
     for entry in payload.get('evidence',[]):
         c=entry.get('result',{})
         if c.get('comparison_status')=='CROSS_SURFACE_VERIFIED' and c.get('surface_difference'):
             sentence=wording(c['surface_difference'],business=True)
             boundary=boundaries.get(entry['id'])
             if boundary:
-                refs=c.get('referenced_evidence_ids',[])
-                comparison=('the report and the table used to prepare it' if refs and refs[0]==baseline else
-                    'the table used to prepare the report and the table it is built from' if boundary['output']['layer']==report_input else
-                    'the compared tables yielding '+str(boundary['output']['quantity'])+' and '+str(boundary['input']['quantity']))
+                comparison=('the '+role_name(payload,boundary['output']['layer'])+' and the '+
+                            role_name(payload,boundary['input']['layer']))
                 sentence='For '+comparison+', '+sentence[0].lower()+sentence[1:]
             if sentence not in statements:statements.append(sentence)
     if statements:

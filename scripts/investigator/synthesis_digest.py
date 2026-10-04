@@ -241,6 +241,7 @@ def build(state,db):
    names=display_names(json.loads(context[0]),targets)
    if names:result['scope']['cell_display_names']=names
  assessment=state.get('assessment') or {}
+ result['layer_labels']=copy.deepcopy(assessment.get('technical_output',{}).get('layer_labels',{}))
  process=assessment.get('support',{}).get('process') if isinstance(assessment,dict) else None
  if isinstance(process,dict):
   result['deterministic_process_finding']={'classification':assessment['classification'],

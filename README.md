@@ -1,5 +1,7 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Three A1 adds estate-declared layer roles to both renderers; application boundaries are no longer named by position. Offline-tested only; source outcome re-runs remain pending. See [role contract](docs/declared-layer-roles.md).
+
 Round Three started with a human-approved rolling physical allowance of 1,000; Part B remains 500 and diagnostic cap 12. Defects and source scenarios are pending; no new outcome claimed. See [budget record](docs/round-three-budget.md).
 
 2026-10-04: [Part B source scenarios](docs/round-two-source-scenarios.md) reached the application in two qualified cross-surface runs, both NO_KNOWN_PATTERN on unavailable audit history. Source consistency and configured-unreachable tickets held at intake. All outputs/failures retained; none of the four intended source outcomes earned. Reader restoration: isolated 7,661 across application/Bronze/model, original model 8,765. Part B 348/500; rolling observed 488/600; diagnostic cap 12 unchanged. Part C is design-only; prior freezes invalidated.
