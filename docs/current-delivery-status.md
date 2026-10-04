@@ -1,5 +1,6 @@
 # Current delivery status
 
+2026-10-04: [Reportless model intake](reportless-model-intake.md) fixes the irrelevant missing-report refusal for model-only questions. Numeric figure provenance is retained, the walk starts at the model and reproduction remains undeclared by kind. 82 focused tests passed; visual/selection and explicit-report refusals remain; no live run in this fix, prior freezes invalid.
 2026-10-04: [Current binding and discovery approval](round-two-binding-recollection.md) completed via zero-read publication recovery after the original local failure. [E completed](round-two-source-boundary-runs.md) with TRANSFORMATION_LOGIC and freshness unanswered; source intake refused an irrelevant report requirement. Human-approved Part B ceiling is now 500 (282 charged); rolling remains 600 (last observed 434), diagnostic cap 12. Four source scenarios remain pending; freezes remain invalid.
 
 

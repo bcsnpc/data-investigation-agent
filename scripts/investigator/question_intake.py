@@ -186,7 +186,12 @@ def azure_resolve(payload):
     if value['action']=='PROPOSE':
         model=next((m for m in payload['models'] if m['id']==value['model_id']),None)
         if model is None: raise ValueError('Unknown report anchor')
-        value['report_binding']=report_scope.resolve_report(locate({'quote':report_quote},payload['text'],field='report',audit=quote_audit) if report_quote is not None else None,model.get('reports',[]),payload['text'])
+        # Report interpretation needs a report. A model-anchored source/flow
+        # question does not reproduce presentation context, and must not acquire
+        # a synthetic UNNAMED-report refusal merely because it is PROPOSED.
+        from .question_kind import reproduction
+        if report_quote is not None or requested is not None or reproduction(value)['applicable']:
+            value['report_binding']=report_scope.resolve_report(locate({'quote':report_quote},payload['text'],field='report',audit=quote_audit) if report_quote is not None else None,model.get('reports',[]),payload['text'])
     value['dimension_ids']=[actual(c) for c in value['dimension_ids']]
     value['scope_quotes']=[]
     for f in value['filters']:
