@@ -1626,3 +1626,17 @@ row; historical Family D evidence is unchanged and draft #297 remains open.
 
 
 Dated design only, 2026-10-03: [Inferred transformation-code bindings](inferred-code-binding-design.md). Part C covers retained M/view/notebook evidence, a closed nominee, scope/compiler/attestation verification, bounded costs, refusal and provenance in both outputs. Equal aggregates are a falsification test, not proof of semantic equivalence or promotion to declared authority. No code, live run, ledger row or capability claim. Prior freezes remain invalid.
+## Dated Round Five batch completion (2026-10-04 UTC)
+
+Fifteen live tickets attempted once; all preserved, including F's composition
+failure, changed outcomes and four strict replay failures. Eleven recorded
+results replayed, ten with both outputs; the unchanged checker reported 1/15.
+Its mechanism-paragraph/role-form defects are recorded separately. #376 is not
+merged and no acceptance claim is made. Source gap and latency reproduced;
+source consistency stopped short on SQL 40613. Reader baselines restored:
+application/landing/isolated model 7,661; original model 8,765. Physical usage
+182/400, last rolling ordinary 654/1,500, diagnostic cap 12 unchanged. No reset
+or replacement investigation. See [full record](round-five-recorded-fifteen.md)
+and [verbatim narratives](round-five-output-transcripts.md). Engine changes in
+the recording repairs already invalidated all prior freezes.
+
