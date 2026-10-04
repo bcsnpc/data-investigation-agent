@@ -130,6 +130,9 @@ def _process_evidence(observation,by_id,quantities=None):
    raise Conflict('Duplicate refusal requires its prior successful receipt')
   return copy.deepcopy(observation)
  if spec.route=='retained':
+  if name=='SOURCE_DELIVERY':
+   from .source_delivery import validate
+   validate(observation,by_id)
   return copy.deepcopy(observation)
  status=observation.get('comparison_status')
  if status not in ('CROSS_SURFACE_VERIFIED','NOT_COMPARABLE','WITHIN_LAYER_CHECK'):
@@ -208,6 +211,13 @@ def build(state,db):
    item['asked']={'query':q,'query_characters':len(q),'truncated':False}
    item['result']=_query_evidence(o['tool'],q,rows)
    item['provenance']={'request_hash':o['request_hash'],'result_hash':digest(result),'receipt_seal':sealed['hash']}
+   if 'load_accounting' in o.get('metadata',{}):
+    from .source_delivery import decode
+    from .load_accounting import classify
+    declared=o['metadata']['declared_audit']
+    expected=classify(decode(expected),declared['producer_asset_id'].rsplit('/',1)[-1])
+    if expected!=o['metadata']['load_accounting']:raise Conflict('Load accounting differs from sealed audit rows')
+    item['result']['load_accounting']=copy.deepcopy(expected)
   entries.append(item)
  for item,o in pending:item['result']=_process_evidence(o,by_id,quantities)
  result={'version':1,'question':state['envelope']['symptom'],'scope':{k:state['envelope'][k] for k in ('model_id','context_id','measure_id','filters','dimension_ids')},
@@ -241,4 +251,6 @@ def build(state,db):
     'capability_limitations':{'visibility_boundary':process['visibility_boundary'],
                               'skipped_checks':process['skipped_steps']},
     'mandatory_limits':assessment['limits']}
+  accounts=assessment.get('business_output',{}).get('delivery_accounts')
+  if accounts:result['deterministic_process_finding']['delivery_accounts']=copy.deepcopy(accounts)
  return result

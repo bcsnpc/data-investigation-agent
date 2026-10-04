@@ -155,6 +155,8 @@ def technical(commentary,payload,source,recommended):
                 from .declared_reproduction import render_stopped
                 finding.append(render_stopped(result['unevaluated_probes']))
     paragraphs=['\n'.join(finding),commentary]
+    accounts=source.get('technical_output',{}).get('delivery_accounts',[])
+    if accounts:paragraphs.append('\n'.join(accounts))
     if registry:paragraphs.append('Layers:\n'+'\n'.join(f"{v['term']} - {v['name']}: {v['identifier']}" for v in registry.values()))
     limits=[];seen=set()
     def add(key,text):

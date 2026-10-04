@@ -2,7 +2,8 @@
 
 
 def declaration(value):
-    if (not isinstance(value, dict) or set(value) != {'asset_id'}
+    if (not isinstance(value, dict) or set(value) not in ({'asset_id'},{'asset_id','reachable'})
+            or ('reachable' in value and type(value['reachable']) is not bool)
             or not isinstance(value['asset_id'], str)
             or not 1 <= len(value['asset_id']) <= 300
             or value['asset_id'] != value['asset_id'].strip()):
@@ -13,7 +14,7 @@ def declaration(value):
 def proof(path, comparisons):
     """Complete ordered chain to the declared asset, never merely deepest read."""
     declared = path.get('system_of_record')
-    if declared is None:
+    if declared is None or declared.get('reachable') is False:
         return False
     declared = declaration(declared)
     layers = [layer['id'] for layer in path.get('layers', [])]
