@@ -73,3 +73,23 @@ Private sealed receipts remain under `.local/round-two-20261003/`:
 `application-presentation-permissions-before.json`.
 Each has a corresponding append-only ledger entry; the failed publication
 verification is not rewritten as a clean success.
+
+
+## Dated human-approved identity scope change
+
+2026-10-04 UTC: the human explicitly approved Read + Build on this one model,
+using the existing publisher, with no workspace role, write or other item.
+The exact prepared request above was applied unchanged. Fresh before/after
+listings both returned HTTP200; the POST returned HTTP200. The reader entry
+changed from `Read` to `ReadExplore`; the publisher entry remained
+`ReadWriteReshareExplore`. No other identity or item was changed.
+
+The sealed `application-presentation-reader-grant-applied.json` records the
+human decision, exact request and full before/after listings. The append-only
+ledger records `IDENTITY_SCOPE_CHANGE_HUMAN_DECISION`. The reader manifest now
+names this model and its scope. This supersedes the pending-decision checkpoint
+above without erasing its historical evidence.
+
+These three control-plane requests bring Part B to **152/300** and observed
+rolling usage to **307/600**. Diagnostic cap remains 12. No investigation run
+was performed as part of the grant.

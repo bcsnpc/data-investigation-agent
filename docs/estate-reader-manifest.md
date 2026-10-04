@@ -29,3 +29,13 @@ writer execution failed and its SQL-row probe obtained no row. This adds observe
 routes, not permission. dia-reader remains without a successful role/grant,
 orderops_investigator stays at the approved SQL scope, publisher invocation uses
 an existing CopyJob managed connection. See round-two-pipeline-audit.md.
+
+
+Dated identity scope change, 2026-10-04 UTC, explicit human decision: existing
+`investigator-reader@skynwhy.com` gained **Read + Build / ReadExplore on semantic
+model `0c89889c-6fe6-49ab-91e9-4b00a51070e6` only** (`Application load fixture
+20261003`). The existing publisher applied the exact prepared request. Before
+Read; after ReadExplore; no write, workspace role or other item. This permits
+reader quantity execution on this isolated presentation layer; execution itself
+is still untested here. SQL `orderops_investigator` and roleless `dia-reader`
+are unchanged. [Decision, exact request and listings](round-two-application-presentation.md#dated-human-approved-identity-scope-change).
