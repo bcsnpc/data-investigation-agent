@@ -1,5 +1,18 @@
 # Current delivery status
 
+Round Three A3 integration complete: configured Warehouse producer returned
+CURRENT through newly approved context bf45ac5b (full config 738f75c8), matching
+own activity 360/360 counters; partial surface coverage remains explicit.
+131 focused tests passed. Part B 390/500, rolling last observed 530/1000;
+A4-A6 and scenarios remain pending. Prior freezes invalid. See [evidence](audit-row-validation.md).
+
+2026-10-04 Warehouse route: approved single-table SELECT applied, pipeline Script
+writer completed and reader audit row matched own copy 360/360 counters/times.
+OneLake grant declined/not applied; old lakehouse audit unchanged and unused.
+Warehouse producer/schema integration under validation; A4-A6 and four scenarios
+pending. Part B 381/500, rolling last observed 521/1000; diagnostics 12 unchanged.
+Prior freezes invalid. See [dated record](audit-row-validation.md).
+
 Round Three A3: per-row accounting validation and original-receipt checks pass
 110 focused tests. Administrator Delta diagnostics prove the writer succeeded;
 the reader direct path returned HTTP403. SQL later exposed both newer rows.

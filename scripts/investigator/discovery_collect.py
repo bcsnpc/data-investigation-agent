@@ -22,13 +22,15 @@ class BudgetExceeded(RuntimeError):
 
 class Collector:
     def __init__(self, config, transport, sql_reader, *, max_calls=160,
-                 max_assets=20000, max_bytes=32*1024*1024, seconds=600, clock=time.monotonic):
+                 max_assets=20000, max_bytes=32*1024*1024, seconds=600, clock=time.monotonic,
+                 warehouse_reader=None):
         self.config, self.transport, self.sql_reader = config, transport, sql_reader
         self.max_calls, self.max_assets, self.max_bytes = max_calls, max_assets, max_bytes
         self.clock, self.deadline = clock, clock()+seconds
         self.calls = self.bytes = self.asset_bytes = 0
         self.assets, self.coverage, self.observations = {}, {}, []
         self.scope = None
+        self.warehouse_reader = warehouse_reader
 
     def charge(self):
         if self.clock() >= self.deadline or self.calls >= self.max_calls:
@@ -138,8 +140,29 @@ class Collector:
                 self.attempt(aid+'/tables', tables)
                 self.observe(aid,'column_schema','UNKNOWN',aid,'REST table listing may omit columns')
             if kind == 'Warehouse':
-                self.coverage[aid+'/tables']={'status':'UNSUPPORTED',
-                    'reason':'Warehouse item discovered; approved SQL endpoint catalog connection required'}
+                declared=[entry['audit_asset_id'] for entry in config.get('load_audits',[])
+                          if entry['audit_asset_id'].startswith(aid+'/table/')]
+                if declared and self.warehouse_reader:
+                    def warehouse_tables(item=item,aid=aid,declared=declared):
+                        from urllib.parse import unquote
+                        endpoint=f'workspaces/{workspace}/warehouses/{item["id"]}'
+                        body=self.call(endpoint)['text']
+                        if body.get('id')!=item['id']:raise ValueError('Warehouse identity differs')
+                        self.assets[aid]['metadata']=copy.deepcopy(body)
+                        self.assets[aid]['content_hash']=digest(body)
+                        for tid in declared:
+                            name=unquote(tid.removeprefix(aid+'/table/'))
+                            self.charge()
+                            columns=self.warehouse_reader(config,body,name)
+                            self.asset(tid,'WarehouseTable',name,'Warehouse sys catalog',
+                                       {'schema_name':name.split('.')[0],'name':name.split('.')[1]},aid)
+                            for column in columns:
+                                self.asset(tid+'/column/'+quote(column['name'],safe=''),'WarehouseColumn',
+                                           column['name'],'Warehouse sys catalog',column,tid)
+                    self.attempt(aid+'/declared_audit_tables',warehouse_tables)
+                else:
+                    self.coverage[aid+'/tables']={'status':'UNSUPPORTED',
+                        'reason':'Warehouse catalog requires an explicitly declared audit table and approved reader'}
             if kind in ('DataPipeline','CopyJob','Notebook'):
                 history=self.attempt(aid+'/runs', lambda item=item: fabric.get_refresh_history(item))
                 if history is not None:self.observe(aid,'run_history','AVAILABLE',aid,history)

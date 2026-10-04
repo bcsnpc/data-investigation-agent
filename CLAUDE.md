@@ -10,6 +10,15 @@ never infer last-run currency from a lakehouse SQL endpoint. The prepared
 table-only read role awaits human decision under section 8. See
 [audit evidence](docs/audit-row-validation.md).
 
+Dated supersession, 2026-10-04 UTC: the human declined the OneLake audit grant
+and approved the Warehouse route. Audit tables live in a Warehouse, never
+behind a lakehouse SQL endpoint. LAKEHOUSE_SQL_AUDIT_SYNC_LAG observed at least
+6m20.259836s, receipts preserved. An isolated ops Warehouse now holds the audit;
+investigator-reader received SELECT on that table only by explicit human decision.
+The first reader audit row matches own copy 360/360 counters and times. No
+OneLake grant. See docs/audit-row-validation.md and the adapter known limits.
+The earlier pending OneLake proposal above is historical.
+
 Read this before changing anything. It is not style guidance. Every rule below
 exists because breaking it previously produced a false conclusion that survived
 review.

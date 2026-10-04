@@ -41,6 +41,7 @@ jobs:
           python -m unittest discover -s scripts -p test_reproduction_composition.py
           python -m unittest discover -s scripts -p test_synthesis_spine.py
           python -m unittest discover -s scripts -p test_enterprise_discovery.py
+          python -m unittest discover -s scripts -p test_warehouse_audit_catalog.py
           python -m unittest discover -s scripts -p test_domain_profile.py
           python -m unittest discover -s scripts -p test_context_navigation.py
           python -m unittest discover -s scripts -p test_flexible_investigation.py

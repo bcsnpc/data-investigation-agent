@@ -1,5 +1,13 @@
 # Estate reader manifest seed
 
+Dated single-object addition, 2026-10-04 UTC: explicit human decision granted
+investigator-reader@skynwhy.com SELECT on dbo.load_run_audit in isolated Warehouse
+round_three_ops_audit_20261004 (bea673e0-a206-461e-9b2f-1b3b827e80de). Before
+principal/explicit permissions empty; after EXTERNAL_USER, SELECT/GRANT. Applied
+by existing admin profile; query execution stayed on reader. No OneLake,
+workspace, write, admin or other object grant. Warehouse row matches own copy
+360/360 counters/times. Other readers unchanged. See [record](audit-row-validation.md).
+
 Updated 2026-10-03 America/Chicago. Recorded identities, privileges and reached
 surfaces are separated from intended access. This is a manifest seed from the
 linked receipts, not an exhaustive live enumeration of all historical grants.

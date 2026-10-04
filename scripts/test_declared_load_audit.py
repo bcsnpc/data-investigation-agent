@@ -49,12 +49,12 @@ class AuditTests(unittest.TestCase):
                'audit_asset_id':'fabric://ws/lake/tables/dbo.audit'}
         assets=[{'id':entry['delivery_asset_id'],'kind':'CopyJob'},
                 {'id':entry['producer_asset_id'],'kind':'DataPipeline'},
-                {'id':entry['audit_asset_id'],'kind':'LakehouseTable','name':'dbo.audit','parent_id':'fabric://ws/lake'}]
-        assets += [{'id':'col/'+k,'kind':'LakehouseColumn','parent_id':entry['audit_asset_id'],
-                    'name':k,'metadata':{'type':'long' if t=='bigint' else 'string'}} for k,t in COLUMNS.items()]
-        assets.append({'id':'fabric://ws/endpoint','kind':'SQLEndpoint','name':'lake'})
+                {'id':entry['audit_asset_id'],'kind':'WarehouseTable','name':'dbo.audit','parent_id':'fabric://ws/lake'}]
+        assets += [{'id':'col/'+k,'kind':'WarehouseColumn','parent_id':entry['audit_asset_id'],
+                    'name':k,'metadata':{'type':'bigint' if t=='bigint' else 'varchar'}} for k,t in COLUMNS.items()]
+        assets.append({'id':'fabric://ws/lake','kind':'Warehouse','name':'lake'})
         a=SimpleNamespace(store=None,config={'fabric':{'sql_reader':{'server':'server','account':'reader'}}},
-            read_endpoint=lambda req:{'id':'lake','properties':{'sqlEndpointProperties':{'id':'endpoint','connectionString':'server'}}},execute_lower=lambda *args:None,
+            read_endpoint=lambda req:{'id':'lake','properties':{'connectionString':'server'}},execute_lower=lambda *args:None,
             model={'id':'m','revision':1,'context_id':'c'},meter_read=None)
         good={'status':'COMPLETED','id':'receipt','request_hash':'sealed','result':{'completeness':'COMPLETE_RESPONSE',
             'rows':[{k:{'type':'STRING' if v is not None else 'NULL','value':v} for k,v in self.row().items()}],
@@ -68,6 +68,16 @@ class AuditTests(unittest.TestCase):
             self.assertEqual(read(a,entry)['status'],'UNAVAILABLE')
         with patch('investigator.context_search.latest',return_value={'assets':assets[:-1]}),patch('investigator.flexible_tools.run') as execute:
             self.assertEqual(read(a,entry)['status'],'UNAVAILABLE');execute.assert_not_called()
+
+    def test_lakehouse_audit_refused_before_any_read(self):
+        entry={'audit_asset_id':'audit','producer_asset_id':'producer','delivery_asset_id':'delivery'}
+        assets=[{'id':'audit','kind':'LakehouseTable'},{'id':'producer','kind':'DataPipeline'},
+                {'id':'delivery','kind':'CopyJob'}]
+        with patch('investigator.context_search.latest',return_value={'assets':assets}),patch('investigator.flexible_tools.run') as execute:
+            result=read(SimpleNamespace(store=None),entry)
+        self.assertEqual(result['status'],'UNAVAILABLE')
+        self.assertIn('LAKEHOUSE_SQL_AUDIT_SYNC_LAG',result['reason'])
+        execute.assert_not_called()
 
 
 if __name__=='__main__':unittest.main()
