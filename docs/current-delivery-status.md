@@ -1,5 +1,15 @@
 # Current delivery status
 
+2026-10-04 Round Four A1–A4 merged #371–#374, six green checks each. First
+consistency attempt completed CONSISTENT_TO_BOUNDARY after source SQL 40613;
+configured-unreachable completed at LANDING with own Warehouse audit 360/360/time.
+After restored-reader baselines, a separately recorded unchanged-engine follow-up
+earned CONSISTENT_TO_SOURCE, including independent absence at every layer. All
+three synthesized. No data/scope change; configuration restored and reapproved.
+Round Four 51/300, rolling last observed 641/1000, cap 12. Snapshot unverified;
+duplicate timing caveat and three baseline-reproducible broad-test failures remain.
+No freeze/unknown-domain claim. [Full evidence](round-four-source-scenarios.md).
+
 Round Four A4: delivery grammar is count-owned; gap filler removed. Pre-run
 inspection found and fixed omission of membership accounts from source-consistency
 business output, without changing its evidence gate. 33 focused tests passed;

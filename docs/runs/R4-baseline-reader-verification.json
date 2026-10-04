@@ -1,0 +1,119 @@
+{
+  "session_id": "round-four-final-baseline-reader-verification-20261004",
+  "started": "2026-10-04T17:55:51.347681+00:00",
+  "ended": "2026-10-04T17:56:21.896110+00:00",
+  "status": "READER_CHECKS_RETURNED",
+  "application": {
+    "column_types": {
+      "quantity": "Int32",
+      "__application_object": "String",
+      "__application_engine": "Int32",
+      "__application_identity": "String"
+    },
+    "execution_identity": {
+      "provenance": "TRANSPORT_PERMISSION_CHECK",
+      "principal": "orderops_investigator",
+      "server": "sql-orderops-9696025.database.windows.net",
+      "database": "ordersops"
+    },
+    "rows": [
+      {
+        "quantity": "7661"
+      }
+    ],
+    "read_only_verified": true,
+    "surface_report": {
+      "identity": "orderops_investigator",
+      "engine": "Microsoft SQL Azure",
+      "object": "ordersops"
+    },
+    "surface_report_binding": "VALUE_QUERY"
+  },
+  "destination": {
+    "execution_identity": {
+      "provenance": "SURFACE_SELF_REPORT",
+      "principal": "investigator-reader@skynwhy.com",
+      "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+      "database": "round_two_bronze_20261003"
+    },
+    "surface_report_binding": "VALUE_QUERY",
+    "read_only_verified": true,
+    "surface_report": {
+      "object": "round_two_bronze_20261003",
+      "engine": "Microsoft Azure SQL Data Warehouse",
+      "identity": "investigator-reader@skynwhy.com"
+    },
+    "column_types": {
+      "quantity": "Int32"
+    },
+    "rows": [
+      {
+        "quantity": "7661"
+      }
+    ]
+  },
+  "models": {
+    "0c89889c-6fe6-49ab-91e9-4b00a51070e6": {
+      "results": [
+        {
+          "tables": [
+            {
+              "rows": [
+                {
+                  "[quantity]": 7661,
+                  "[surface_identity]": "investigator-reader@skynwhy.com",
+                  "[surface_engine]": "OLAP Server",
+                  "[surface_object]": "0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "_native_execution": {
+        "version": "native-reader-execution-v1",
+        "mode": "isolated_reader",
+        "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+        "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+        "account": "investigator-reader@skynwhy.com",
+        "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "model_id": "0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "query_hash": "c6bcf584f003c59e3b9799922247aee276d7acf49fe2b50ba5c53c593909b75b",
+        "response_hash": "f64f4fb92757d6d90eeca7b588db658dd2aff2a3fa32b11c4e197dc56f19c09e",
+        "captured_at": "2026-10-04T17:56:02.936302+00:00"
+      }
+    },
+    "3484a2bc-98c5-4cef-be5c-a6215484075e": {
+      "results": [
+        {
+          "tables": [
+            {
+              "rows": [
+                {
+                  "[quantity]": 8765,
+                  "[surface_identity]": "investigator-reader@skynwhy.com",
+                  "[surface_engine]": "OLAP Server",
+                  "[surface_object]": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "_native_execution": {
+        "version": "native-reader-execution-v1",
+        "mode": "isolated_reader",
+        "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+        "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+        "account": "investigator-reader@skynwhy.com",
+        "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "query_hash": "36dd12d5a33d4936f01a8c2776c3fa5f9f8183a8a745a83bbdc690f365ed8bd7",
+        "response_hash": "2d1a9eb3e25fa39f14db7b55c57c60834f1260307a525d0f1163b1c29a6e0ec8",
+        "captured_at": "2026-10-04T17:56:21.834863+00:00"
+      }
+    }
+  },
+  "physical_requests_charged": 10,
+  "original_sha256": "7511b8d8e525195098f0921c46916f3d181da8efc3dd6116e720e7f2142f59df"
+}
