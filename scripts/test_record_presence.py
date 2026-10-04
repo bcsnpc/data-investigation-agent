@@ -85,14 +85,14 @@ class CompilerTests(unittest.TestCase):
         self.source={'id':'app','name':'Events','availability':'CURRENT','kind':'SqlObject',
             'metadata':{'schema_name':'source','name':'Events','type_desc':'USER_TABLE','columns':[{'name':'event_key','data_type':'bigint'}]}}
         key={'id':'key','name':'event_key','parent_id':'app','kind':'SqlColumn','availability':'CURRENT','metadata':{'data_type':'bigint'}}
-        endpoint={'id':'endpoint','name':'landing-db','kind':'SQLEndpoint','availability':'CURRENT','metadata':{'properties':{'connectionString':'approved.example'}}}
+        endpoint={'id':'endpoint','name':'landing-db','kind':'SQLEndpoint','availability':'CURRENT','metadata':{'displayName':'landing-db','id':'endpoint'}}
         self.context={'assets':[self.source,key,endpoint]}
         self.proof={'source':self.source,'server':'app.example','database':'application-db',
             'mapping':{'translator':{'mappings':[{'source':{'name':'event_key'},'destination':{'name':'copied_key'}}]}},
             'destination_columns':{'copied_key':{'data_type':'bigint'}}}
         self.layers=[{'id':'semantic','kind':'presentation'},
             {'id':'landing','kind':'declared_source','binding':{'declared_partition':{'schema_name':'dbo','entity_name':'Events'},
-               'declared_connection_asset_id':'endpoint','unchanged_connection':True,'declared_role_count':0}},
+               'declared_connection_asset_id':'endpoint','unchanged_connection':{'server':'approved.example','endpoint':'endpoint'},'declared_role_count':0}},
             {'id':'app','copy_mapping_proof':self.proof}]
         self.adapter=SimpleNamespace(store=None,config={'source_delivery':{'source_asset_id':'app','key_column_id':'key'},
             'sql':{'server':'app.example','database':'application-db'},'fabric':{'sql_reader':{'server':'approved.example'}}},
@@ -114,12 +114,16 @@ class CompilerTests(unittest.TestCase):
     def test_unknown_mapping_scope_transform_or_connection_never_guessed(self):
         for scope in ({'filters':[{'x':'y'}]},{'dimension_ids':['dimension']}):
             with self.assertRaisesRegex(ValueError,'filtered scope'):self.compile(1,scope)
-        self.context['assets'][-1]['metadata']['properties']['connectionString']='other.example'
+        self.layers[1]['binding']['unchanged_connection']['server']='other.example'
         with self.assertRaisesRegex(ValueError,'approved lower'):self.compile(1)
         self.layers[1]['kind']='transform'
         with self.assertRaisesRegex(ValueError,'intervening transformation'):self.compile(1)
         self.proof['mapping']['translator']['mappings']=[]
         with self.assertRaisesRegex(ValueError,'exact mapping'):self.compile(2)
+
+    def test_endpoint_identity_must_match_the_declared_pointer_not_a_similar_item_name(self):
+        self.layers[1]['binding']['unchanged_connection']['endpoint']='other-endpoint'
+        with self.assertRaisesRegex(ValueError,'approved lower'):self.compile(1)
     def test_bounded_integral_keys_only_and_unreachable_source_refuses(self):
         self.adapter.config['system_of_record']={'reachable':False}
         with self.assertRaisesRegex(ValueError,'unreachable'):self.compile(2)

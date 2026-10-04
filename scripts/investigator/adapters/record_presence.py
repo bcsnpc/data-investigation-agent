@@ -49,8 +49,9 @@ def plan(adapter,path,layer,requested,scope):
         name=destination_key;catalog=[{'id':layer['id'],'metadata':meta}]
         endpoint=by_id.get(layer['binding']['declared_connection_asset_id'],{})
         if endpoint.get('kind')!='SQLEndpoint':raise ValueError('Membership endpoint is not discovered.')
-        props=endpoint.get('metadata',{}).get('properties',{})
-        if props.get('connectionString')!=adapter.config['fabric']['sql_reader']['server']:
+        connection=layer['binding'].get('unchanged_connection') or {}
+        if (connection.get('server','').casefold()!=adapter.config['fabric']['sql_reader']['server'].casefold()
+                or layer['binding']['declared_connection_asset_id'].rsplit('/',1)[-1]!=connection.get('endpoint')):
             raise ValueError('Membership leaves the approved lower connection.')
         database=endpoint['name'];tool='bounded_fabric_sql'
     elif layer.get('kind')=='presentation' and path['layers'].index(layer)==source_index-2:
