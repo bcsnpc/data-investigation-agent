@@ -87,6 +87,8 @@ Dated authorized resume, 2026-10-03: monitoring enablement was authorized for th
 
 Dated monitoring access finding, 2026-10-03: monitoring Eventhouse/KQL/Eventstream now exist in the fixture. As the existing publisher, the exact dia-reader database-viewer grant returned 403; principal listings before/after contain no dia-reader entry. Both dia-reader history queries returned 403 before schema/data evaluation. No refresh-history capability correction is established; this is a new route refusal, not absence of logged events. No workspace role or new successful permission. FTL4 trial capacity Active; Eventhouse minimum consumption 0 CUs, actual UpTime/storage unmeasured. See [exact statements and receipts](docs/round-two-monitoring-history-cost.md). Earlier resource-absence claims are historical.
 
+Dated renewed viewer attempt, 2026-10-03: exact prepared grant again returned 403, with dia-reader absent before/after; Copy Job and semantic-refresh reader probes refused. Publisher effective roles are Viewer/Monitor (plus cluster viewer/monitor), not Database Admin. Human approval does not supply server grant authority; do not elevate or substitute a broader role. No presentation_freshness capability established. See [renewed receipt record](docs/round-two-viewer-grant-repeat.md) and [estate reader manifest seed](docs/estate-reader-manifest.md).
+
 Evidence: [refresh-history/partition probes](docs/job-history-path-and-refresh-probes.md)
 and [snapshot-version/fallback probes](docs/snapshot-alignment-audit.md), including
 exact requests, responses and identity provenance. These results constrain the
