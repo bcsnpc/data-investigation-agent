@@ -817,6 +817,12 @@ class MicrosoftProcessAdapter:
 
     def job_history(self,boundary):
         context=context_search.latest(self.store);target=boundary['lower'].get('transformation_asset_id')
+        from ..load_audits import declarations
+        entries=declarations(self.config['load_audits']) if 'load_audits' in self.config else []
+        selected=[e for e in entries if e['delivery_asset_id']==target]
+        if selected:
+            from .load_audit import read
+            return read(self,selected[0])
         rows=[o for o in (context or {}).get('observations',[]) if o.get('asset_id')==target and o.get('capability')=='run_history']
         if not target:return {'status':'NOT_APPLICABLE'}
         from .job_history import classify
