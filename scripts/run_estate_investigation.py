@@ -39,11 +39,25 @@ def record_attempt(workspace, manifest, result, output, request_key):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--manifest',type=Path,required=True)
-    p.add_argument('--ticket',type=Path,required=True)
-    p.add_argument('--request-key',required=True)
-    p.add_argument('--output',type=Path,required=True)
+    choice=p.add_mutually_exclusive_group(required=True)
+    choice.add_argument('--ticket',type=Path)
+    choice.add_argument('--preview-envelope',type=Path)
+    p.add_argument('--request-key')
+    p.add_argument('--output',type=Path)
     p.add_argument('--approve',action='store_true')
     a=p.parse_args()
+    if a.preview_envelope:
+        from investigator.estate_manifest import load
+        from investigator.adapters.estate_installation import configuration
+        from investigator.onboarding import ModelStore
+        from investigator.adaptive_candidates import catalog
+        from metadata_config import ROOT
+        installation=load(a.manifest);config=configuration(installation)
+        store=ModelStore(ROOT/installation['storage']['catalog'],config['storage']['database'],installation['environment'])
+        candidates,gaps=catalog(store,config,json.loads(a.preview_envelope.read_text(encoding='utf-8-sig')))
+        print(json.dumps({'candidates':candidates,'gaps':gaps,'cloud_calls':0,'equivalence_verified':False}))
+        return 0
+    if not a.request_key or not a.output:p.error('Live investigation requires request key and output')
     if not a.approve:p.error('Explicit scope approval required')
     if a.output.exists():p.error('Output exists; preserve the earlier attempt')
     manifest,workspace=build(a.manifest)

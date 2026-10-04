@@ -64,6 +64,12 @@ are removed. New investigations run through the budgeted manifest workspace.
 Synthetic tests reject the old configuration/execution switches and verify that
 status reading cannot execute a saved run. Historical receipts are unchanged.
 
+The adaptive CLI's local diagnostic preview remains available as
+`--manifest <file> --preview-envelope <file>`. It uses the same manifest and
+retained catalog, retrieves no provider key, creates no runtime and performs no
+cloud read. CI caught the old preview test's scattered flags; the revised test
+keeps the original no-key/no-runtime assertions on the manifest-only route.
+
 Discovery uses this same installation and budget governor. HTTP requests, nested
 OneLake requests, each SQL catalog command, and Warehouse catalog guards are
 admitted and counted individually. A logical discovery operation is not one
