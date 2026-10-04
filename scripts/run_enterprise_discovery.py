@@ -36,7 +36,8 @@ def main():
     summaries=[]
     for i in range(args.cycles):
         if i:time.sleep(args.interval_seconds)
-        result=discovery.run(Collector(config,transport,sql).run,args.request_key or str(uuid4()))
+        from investigator.adapters.warehouse_catalog import read as warehouse_catalog
+        result=discovery.run(Collector(config,transport,sql,warehouse_reader=warehouse_catalog).run,args.request_key or str(uuid4()))
         body=result['body']
         summary={'id':result['id'],'status':result['status'],'inventory_scan_id':body.get('inventory_scan_id'),
                  'calls':body.get('calls'),'changes':body.get('changes'),

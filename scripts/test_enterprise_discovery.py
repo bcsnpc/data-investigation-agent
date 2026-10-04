@@ -19,6 +19,28 @@ from investigator.native_identity import allows
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_only_declared_warehouse_audit_schema_is_collected(self):
+        wid=str(uuid4());self.items.append({'id':wid,'type':'Warehouse','displayName':'Operations'})
+        aid='fabric://'+self.ws+'/'+wid;tid=aid+'/table/dbo.audit'
+        self.config['load_audits']=[{'audit_asset_id':tid}]
+        original=self.transport
+        def transport(endpoint,**kwargs):
+            if endpoint.endswith('/warehouses/'+wid):
+                return {'status_code':200,'text':{'id':wid,'displayName':'Operations','properties':{'connectionString':'approved'}}}
+            return original(endpoint,**kwargs)
+        from unittest.mock import Mock
+        reader=Mock(return_value=[{'name':'run_id','data_type':'varchar'}])
+        collected=Collector(self.config,transport,self.sql,warehouse_reader=reader).run()
+        self.assertEqual(reader.call_args.args[2],'dbo.audit')
+        self.assertEqual(reader.call_count,1)
+        self.assertTrue(any(a['id']==tid and a['kind']=='WarehouseTable' for a in collected['assets']))
+        self.assertTrue(any(a['parent_id']==tid and a['kind']=='WarehouseColumn' for a in collected['assets']))
+        self.config.pop('load_audits')
+        reader.reset_mock()
+        collected=Collector(self.config,transport,self.sql,warehouse_reader=reader).run()
+        reader.assert_not_called()
+        self.assertEqual(collected['coverage'][aid+'/tables']['status'],'UNSUPPORTED')
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
         self.root=Path(self.tmp.name);self.ws=str(uuid4());self.mid=str(uuid4());self.rid=str(uuid4())

@@ -1,5 +1,25 @@
 # Current delivery status
 
+Round Three A3 integration complete: configured Warehouse producer returned
+CURRENT through newly approved context bf45ac5b (full config 738f75c8), matching
+own activity 360/360 counters; partial surface coverage remains explicit.
+131 focused tests passed. Part B 390/500, rolling last observed 530/1000;
+A4-A6 and scenarios remain pending. Prior freezes invalid. See [evidence](audit-row-validation.md).
+
+2026-10-04 Warehouse route: approved single-table SELECT applied, pipeline Script
+writer completed and reader audit row matched own copy 360/360 counters/times.
+OneLake grant declined/not applied; old lakehouse audit unchanged and unused.
+Warehouse producer/schema integration under validation; A4-A6 and four scenarios
+pending. Part B 381/500, rolling last observed 521/1000; diagnostics 12 unchanged.
+Prior freezes invalid. See [dated record](audit-row-validation.md).
+
+Round Three A3: per-row accounting validation and original-receipt checks pass
+110 focused tests. Administrator Delta diagnostics prove the writer succeeded;
+the reader direct path returned HTTP403. SQL later exposed both newer rows.
+Non-lagging reader integration is blocked before a scope change; A4-A6 and four
+scenarios remain pending. Part B 358/500; rolling last observed 498/1000;
+diagnostics 12. Freeze invalid. See [audit evidence](audit-row-validation.md).
+
 Round Three A2: quoted numeral-role inventory and expected-record/name-kind evidence carried through the existing contract. Two live intake-only calls used zero estate reads; the numeric model-suffix defect was preserved and a subsequent exact-span refusal tested offline. Final source scenarios pending; freezes invalid. See [intake evidence](intake-numeral-roles.md).
 
 Round Three A1: closed configured layer roles retained through local synthesis; no positional role inference. Both original and application fixture renderers are covered by regressions. No live role-configured run yet; freezes invalidated. See [role contract](declared-layer-roles.md).

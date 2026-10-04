@@ -617,8 +617,10 @@ class AdaptiveRuntime:
                 from uuid import UUID
                 if request['workspace']!=self.config['fabric']['workspace_id']:
                     raise ValueError('Endpoint lookup leaves approved workspace')
-                workspace=str(UUID(request['workspace']));lakehouse=str(UUID(request['lakehouse']))
-                endpoint=f'workspaces/{workspace}/lakehouses/{lakehouse}'
+                workspace=str(UUID(request['workspace']))
+                kind='warehouses' if 'warehouse' in request else 'lakehouses'
+                container=str(UUID(request['warehouse'] if kind=='warehouses' else request['lakehouse']))
+                endpoint=f'workspaces/{workspace}/{kind}/{container}'
                 try:
                     payload={'operation':'request','endpoint':endpoint,'method':'get','audience':'fabric',
                              'tenant':self.config['fabric']['auth']['tenant_id']}
@@ -626,7 +628,11 @@ class AdaptiveRuntime:
                         input=encoded(payload),capture_output=True,text=True,encoding='utf-8',timeout=90)
                     response=json.loads(result.stdout)
                     if response.get('status_code')!=200:return {'status':'UNAVAILABLE','http_status':response.get('status_code')}
-                    body=response['text'];properties=body.get('properties',{}).get('sqlEndpointProperties',{})
+                    body=response['text']
+                    if kind=='warehouses':
+                        return {'id':body['id'],'properties':{
+                            'connectionString':body.get('properties',{}).get('connectionString')}}
+                    properties=body.get('properties',{}).get('sqlEndpointProperties',{})
                     return {'id':body['id'],'properties':{'sqlEndpointProperties':{
                         k:properties[k] for k in ('id','connectionString') if k in properties}}}
                 except (ValueError,KeyError,subprocess.TimeoutExpired):return {'status':'UNAVAILABLE'}

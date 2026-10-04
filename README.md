@@ -1,5 +1,21 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Three A3: the configured Warehouse audit producer executed through a
+new approved context and returned its own completed-load accounting. One
+fixture verification, not general source-outcome acceptance. A4-A6 remain
+before scenario reruns; old failures preserved. See [record](docs/audit-row-validation.md).
+
+Dated update 2026-10-04: the approved Warehouse audit route completed one pipeline
+load and reader verification of its own 360/360 counters/times. Single-table
+SELECT recorded; no OneLake grant. Producer/context integration and A4-A6 remain
+in progress before source scenario reruns. No source outcomes earned. The earlier
+pending-scope statement below is historical. See [evidence](docs/audit-row-validation.md).
+
+Round Three A3 confirms the missing audit rows in committed Delta and later SQL,
+proving endpoint lag of at least 6m20s. Per-row validation is corrected offline;
+the non-lagging reader route awaits an explicit audit-table-only scope decision.
+No source outcomes earned. See [audit evidence](docs/audit-row-validation.md).
+
 Round Three A2 gives extracted numerals closed roles and resolves names by catalog kind. Two unchanged tickets passed intake only; one incorrectly treated a model-name suffix as an expected record, now guarded offline. Zero estate reads; source outcomes remain unearned. See [intake evidence](docs/intake-numeral-roles.md).
 
 Round Three A1 adds estate-declared layer roles to both renderers; application boundaries are no longer named by position. Offline-tested only; source outcome re-runs remain pending. See [role contract](docs/declared-layer-roles.md).

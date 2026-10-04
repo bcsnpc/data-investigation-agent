@@ -14,25 +14,27 @@ def read(adapter, entry):
     def unavailable(reason):return {'status':'UNAVAILABLE','reason':reason}
     if any(not a or a.get('availability','CURRENT')!='CURRENT' for a in (audit,producer,delivery)):
         return unavailable('Declared audit, producer or delivery is absent from current discovery.')
-    if audit['kind']!='LakehouseTable' or producer['kind']!='DataPipeline' or delivery['kind']!='CopyJob':
+    if audit['kind']=='LakehouseTable':
+        return unavailable('LAKEHOUSE_SQL_AUDIT_SYNC_LAG: load audit tables must be read from a Warehouse; a lakehouse SQL endpoint cannot establish last-run currency.')
+    if audit['kind']!='WarehouseTable' or producer['kind']!='DataPipeline' or delivery['kind']!='CopyJob':
         return unavailable('Declared audit-source kinds cannot be rendered by this adapter.')
     if adapter.execute_lower is None or adapter.read_endpoint is None:
         return unavailable('Declared audit has no configured independent reader execution surface.')
     parts=audit['parent_id'].removeprefix('fabric://').split('/')
     if len(parts)!=2:return unavailable('Declared audit container identity is malformed.')
-    endpoint=adapter.read_endpoint({'workspace':parts[0],'lakehouse':parts[1]})
-    props=endpoint.get('properties',{}).get('sqlEndpointProperties',{})
-    endpoint_asset=by_id.get('fabric://'+parts[0]+'/'+str(props.get('id')), {})
+    endpoint=adapter.read_endpoint({'workspace':parts[0],'warehouse':parts[1]})
+    props=endpoint.get('properties',{})
+    endpoint_asset=by_id.get(audit['parent_id'], {})
     reader=adapter.config['fabric']['sql_reader']
     if (endpoint.get('id')!=parts[1] or props.get('connectionString')!=reader['server']
-            or endpoint_asset.get('kind')!='SQLEndpoint' or endpoint_asset.get('availability','CURRENT')!='CURRENT'):
+            or endpoint_asset.get('kind')!='Warehouse' or endpoint_asset.get('availability','CURRENT')!='CURRENT'):
         return unavailable('Declared audit endpoint does not match the discovered object and approved connection.')
     database=endpoint_asset['name']
     name=audit['name'].split('.')
     if len(name)!=2:return unavailable('Declared audit must carry an explicit schema and object.')
     schema,table=name
     columns={a['name']:a['metadata'] for a in by_id.values()
-             if a['kind']=='LakehouseColumn' and a['parent_id']==audit['id']
+             if a['kind']=='WarehouseColumn' and a['parent_id']==audit['id']
              and a.get('availability','CURRENT')=='CURRENT'}
     # The contract names fields; physical types must come from discovered schema.
     if not set(COLUMNS)<=set(columns):
@@ -42,7 +44,7 @@ def read(adapter, entry):
         if not isinstance(value,str):return None
         value=value.lower()
         return {'string':'nvarchar','long':'bigint'}.get(value,value)
-    if any(physical_type(columns[k])!=t for k,t in COLUMNS.items()):
+    if any(physical_type(columns[k]) not in ({'varchar','nvarchar'} if t=='nvarchar' else {t}) for k,t in COLUMNS.items()):
         return unavailable('Declared audit physical schema differs from the accounting contract.')
     producer_id=producer['id'].rsplit('/',1)[-1]
     # Parameterisation and admission are performed by the existing compiler.
@@ -50,7 +52,7 @@ def read(adapter, entry):
     query+=" WHERE [pipeline_name] = '"+producer_id.replace("'","''")+"' ORDER BY [start_time_utc] DESC"
     catalog=[{'id':audit['id'],'provenance':'DECLARED_BY_CONFIGURATION',
         'metadata':{'schema_name':schema,'name':table,'type_desc':'USER_TABLE',
-                    'columns':[{'name':k,'data_type':v} for k,v in COLUMNS.items()]}}]
+                    'columns':[{'name':k,'data_type':physical_type(columns[k])} for k in COLUMNS]}}]
     plan={'model_id':adapter.model['id'],'revision':adapter.model['revision'],
           'context_id':adapter.model['context_id'],'query':query,'max_rows':20}
     execute=lambda:run_query(adapter.store,plan,adapter.config,'bounded_fabric_sql',
