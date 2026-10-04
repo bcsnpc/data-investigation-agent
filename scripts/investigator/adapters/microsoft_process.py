@@ -64,6 +64,8 @@ class MicrosoftProcessAdapter:
         if self.read_failure_detail is not None:result.add('failure_detail')
         if self.read_refresh_timing is not None:result.add('refresh_timing')
         if self.read_snapshot_identity is not None:result.add('snapshot_identity')
+        if self.config and self.config.get('source_delivery') and self.config.get('load_audits'):
+            result.add('source_delivery')
         return result
 
     def capability_gaps(self):
@@ -831,6 +833,10 @@ class MicrosoftProcessAdapter:
                              'completeness':'COMPLETE_RESPONSE','runs':rows,
                              'context_version':(context or {}).get('version')}
                             if rows else None)}
+
+    def source_delivery(self,boundary,scope):
+        from .source_delivery import read
+        return read(self,boundary,scope)
 
     def ingestion(self,path,scope):
         layer=next((x for x in path.get('layers',[]) if x.get('kind')=='declared_source'),None)

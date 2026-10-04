@@ -13,7 +13,7 @@ VERSION='process-debugging-v3-graded-surfaces'
 REQUIRED_CAPABILITIES=frozenset(('resolve_measure_path','evaluate_scoped_quantity'))
 OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','refresh_timing','snapshot_identity','declared_source_comparison','presentation_context',
     'transformation_definition','job_history','ingestion','independent_lower_surface','failure_detail',
-    'declared_context_reproduction'))
+    'declared_context_reproduction','source_delivery'))
 
 
 @dataclass(frozen=True)
@@ -349,6 +349,16 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         for observation in observed:
             limitation=(observation.get('judgment') or {}).get('limitation')
             if limitation:result['limits'].append(limitation)
+        from .source_delivery import render_account
+        delivery_runs={o['delivery_result'].get('run_id') for o in observed if o.get('check_kind')=='SOURCE_DELIVERY'}
+        for observation in observed:
+            if observation.get('check_kind')=='SOURCE_DELIVERY':
+                result['limits'].extend(observation['limitations'])
+            for key in ('business_output','technical_output'):
+                if observation.get('metadata',{}).get('load_accounting',{}).get('run_id') in delivery_runs:
+                    continue
+                account=render_account(observation,business=key=='business_output')
+                if account:result[key].setdefault('delivery_accounts',[]).append(account)
         for key in ('business_output','technical_output'):
             result[key]['unverified_boundaries']=unchecked
             result[key]['depth_ceiling']=ceiling
@@ -388,6 +398,12 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             layers=layers[:source_index+1]
             path=dict(path,layers=layers)
             path.pop('unresolved_boundary',None)
+            if path['system_of_record'].get('reachable') is False:
+                path['stopped_by']='NO_ACCESS'
+                path['unresolved_boundary']={'upper_layer':layers[-2]['id'],'lower_layer':terminal,
+                    'reason':'The declared system of record is configured unreachable; no application read was attempted.'}
+                layers=layers[:-1]
+                path['layers']=layers
     ceiling=path.get('max_boundaries',len(layers))
     if type(ceiling) is not int or ceiling<0:raise ValueError('Invalid boundary ceiling')
     if len(layers)>ceiling+1:
@@ -563,7 +579,22 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             # Authority changes what this boundary means. Until the delivery
             # producer establishes run/capture evidence, neither transformation
             # judgment nor a generic defect can substitute for ingestion proof.
-            reason='The declared system-of-record boundary diverges, but source delivery run and capture evidence is not implemented.'
+            delivery=None
+            if 'source_delivery' in available:
+                delivery=adapter.source_delivery(boundary,scope)
+                for evidence in delivery.get('observations',[]):
+                    o=_observation(evidence,'established')
+                    if o['id'] not in {r['id'] for r in observations}:observations.append(o)
+                if delivery.get('status') in ('LATENT','GAP'):
+                    from .source_delivery import validate
+                    validate(delivery['evidence'],{o['id']:o for o in observations})
+                    target=next(o for o in observations if o['id']==delivery['evidence']['id'])
+                    roles=('job_history','prior_state') if delivery['status']=='LATENT' else ('ingestion','flow_consistency')
+                    target['process_roles']=sorted(set(target['process_roles'])|set(roles))
+                    return answer('LOAD_LATENCY' if delivery['status']=='LATENT' else 'INGESTION_GAP',5,observations,lower.layer,
+                        baseline=boundary_baseline,roles=roles+('comparison',),
+                        explanation='The declared load evidence and independently read row membership establish the source delivery boundary condition.',skipped_steps=skipped)
+            reason=(delivery or {}).get('reason') or 'The declared system-of-record boundary diverges, but source delivery run and capture evidence is not implemented.'
             return answer('NO_KNOWN_PATTERN',5,observations,lower.layer,'CAPABILITY_NOT_IMPLEMENTED',
                 boundary_baseline,roles=('established',),missing_capability=reason,
                 explanation=reason,skipped_steps=skipped)
@@ -656,6 +687,15 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             roles=('ingestion','flow_consistency','comparison'),explanation=ingestion.get('explanation'),
             skipped_steps=skipped)
     deepest=last_verified
+    if path.get('system_of_record',{}).get('reachable') is False and path.get('unresolved_boundary'):
+        terminal=path['system_of_record']['asset_id']
+        # Retained load accounting enriches this limit, never substitutes for a
+        # source read or permits either source-delivery outcome.
+        all_context=adapter.resolve_path(measure_id)
+        source_layer=next((l for l in all_context.get('layers',[]) if l['id']==terminal),None)
+        if source_layer and 'job_history' in available:
+            job=adapter.job_history({'lower':source_layer,'upper':layers[-1]})
+            if job.get('evidence'):observations.append(_observation(job['evidence'],'job_history','prior_state'))
     stopped='NOT_COMPARABLE' if gaps else path.get('stopped_by','REACHED')
     if scope.get('ticket_shape')=='BUSINESS_QUESTION':
         return answer('BUSINESS_QUESTION',6,observations,deepest,stopped,baseline,

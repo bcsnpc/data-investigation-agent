@@ -62,6 +62,13 @@ def business_text(outcome, payload=None):
             except InvalidOperation:pass
         return None
     number=number_from(baseline)
+    accounts=(payload or {}).get('deterministic_process_finding',{}).get('delivery_accounts',[])
+    if accounts and outcome in ('INGESTION_GAP','LOAD_LATENCY','CONSISTENT_TO_BOUNDARY'):
+        finding=BUSINESS[outcome]
+        if outcome=='CONSISTENT_TO_BOUNDARY':finding+=' The application itself was not read; the remaining question belongs with the application owner.'
+        return ' '.join((('The checked report value was '+number+'.' if number is not None else 'The reported figure was checked.'),
+            finding,*accounts,'The checks do not establish whether they describe the same moment; different update timing remains possible.',
+            'Recommended action: '+action(outcome)['text']))
     if outcome=='CONSISTENT_TO_SOURCE':
         return ' '.join((('The checked report value was '+number+'.' if number is not None else 'The reported figure was checked.'),
             'Every checked step agreed with the application that the system owner declared authoritative.',

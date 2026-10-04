@@ -1,45 +1,5 @@
-"""Read the declared audit's own accounting; no recount or monitoring substitution."""
-from .job_history import timestamp
-
-# This is the audit writer's interface, not an application/domain schema.
-COLUMNS = {'run_id':'nvarchar','pipeline_name':'nvarchar','status':'nvarchar',
-           'rows_read':'bigint','rows_written':'bigint','accounting_state':'nvarchar',
-           'start_time_utc':'nvarchar','end_time_utc':'nvarchar','high_watermark':'nvarchar'}
-
-
-def classify(rows, producer_native_id):
-    def unavailable(reason): return {'status':'UNAVAILABLE','reason':reason}
-    if not isinstance(rows,list) or not rows:
-        return unavailable('The declared audit returned no run; successful completion is not established.')
-    try:
-        if any(set(r)!=set(COLUMNS) for r in rows):
-            return unavailable('Audit response does not carry the complete accounting contract.')
-        if any(r['pipeline_name']!=producer_native_id for r in rows):
-            return unavailable('Audit row names a different producer.')
-        ordered=sorted(rows,key=lambda r:timestamp(r['start_time_utc']))
-        latest=ordered[-1]
-        if any(timestamp(r['start_time_utc'])==timestamp(latest['start_time_utc']) and r!=latest for r in ordered[:-1]):
-            return unavailable('Latest audit run is ambiguous.')
-        if latest['status']!='Succeeded':
-            return unavailable('Latest audited run does not establish successful completion: '+str(latest['status']))
-        start,end=timestamp(latest['start_time_utc']),timestamp(latest['end_time_utc'])
-        if end<start:return unavailable('Audit run timestamps are contradictory.')
-        if latest['accounting_state']!='OBSERVED_COPY_OUTPUT':
-            return unavailable('Audit accounting is not observed copy-activity output.')
-        counts={}
-        for key in ('rows_read','rows_written'):
-            v=latest[key]
-            if isinstance(v,bool) or v is None or str(int(v))!=str(v) or int(v)<0:
-                return unavailable('Audit counter missing or not a nonnegative integer.')
-            counts[key]=int(v)
-        if not isinstance(latest['run_id'],str) or not latest['run_id']:
-            return unavailable('Audit run identity is missing.')
-    except (ValueError,TypeError,KeyError,AttributeError):
-        return unavailable('Audit response has malformed accounting or run timestamps.')
-    return {'status':'CURRENT','run_state':'SUCCEEDED','run_id':latest['run_id'],
-            'started_at':start.isoformat(),'completed_at':end.isoformat(),
-            'accounting':counts,'high_watermark':latest['high_watermark'],
-            'reason':'The audited run completed with its own activity counters; source capture currency was not established.'}
+"""Read the declared audit own accounting on a guarded Microsoft SQL surface."""
+from ..load_accounting import COLUMNS,classify
 
 
 def read(adapter, entry):
@@ -61,7 +21,13 @@ def read(adapter, entry):
     parts=audit['parent_id'].removeprefix('fabric://').split('/')
     if len(parts)!=2:return unavailable('Declared audit container identity is malformed.')
     endpoint=adapter.read_endpoint({'workspace':parts[0],'lakehouse':parts[1]})
-    if endpoint.get('provisioningStatus')!='Success':return unavailable('Declared audit endpoint is not ready.')
+    props=endpoint.get('properties',{}).get('sqlEndpointProperties',{})
+    endpoint_asset=by_id.get('fabric://'+parts[0]+'/'+str(props.get('id')), {})
+    reader=adapter.config['fabric']['sql_reader']
+    if (endpoint.get('id')!=parts[1] or props.get('connectionString')!=reader['server']
+            or endpoint_asset.get('kind')!='SQLEndpoint' or endpoint_asset.get('availability','CURRENT')!='CURRENT'):
+        return unavailable('Declared audit endpoint does not match the discovered object and approved connection.')
+    database=endpoint_asset['name']
     name=audit['name'].split('.')
     if len(name)!=2:return unavailable('Declared audit must carry an explicit schema and object.')
     schema,table=name
@@ -88,7 +54,7 @@ def read(adapter, entry):
     plan={'model_id':adapter.model['id'],'revision':adapter.model['revision'],
           'context_id':adapter.model['context_id'],'query':query,'max_rows':20}
     execute=lambda:run_query(adapter.store,plan,adapter.config,'bounded_fabric_sql',
-        lambda request:adapter.execute_lower(endpoint['name'],request),catalog=catalog)
+        lambda request:adapter.execute_lower(database,request),catalog=catalog)
     try:
         result=adapter.meter_read('bounded_fabric_sql',execute) if adapter.meter_read else execute()
     except ValueError as exc:
@@ -96,12 +62,16 @@ def read(adapter, entry):
     if result['status']!='COMPLETED':return unavailable('Declared audit read did not complete; no monitoring fallback was attempted.')
     body=result['result'];reader=adapter.config['fabric']['sql_reader']
     surface={'engine':'Microsoft Azure SQL Data Warehouse','connection':'sql://'+reader['server'],
-             'object':endpoint['name'],'identity':reader['account']}
+             'object':database,'identity':reader['account']}
     report=attest_surface(surface,body.get('surface_report'),('identity','engine','object'))
     if body['completeness']!='COMPLETE_RESPONSE' or report['consistency']!='MATCHED' or report['missing_required_fields']:
         return unavailable('Audit accounting lacks complete query-bound reader surface attestation.')
-    classified=classify(body['rows'],producer_id)
+    from ..source_delivery import decode
+    classified=classify(decode(body['rows']),producer_id)
     return {**classified,'evidence':{'id':result['id'],'tool':'bounded_fabric_sql',
         'metadata':{'declared_audit':entry,'load_accounting':classified},
         'values':body['rows'],'request_hash':result['request_hash'],
-        'surface_attestation':report,'execution_surface':surface,'surface_report':body['surface_report']}}
+        'surface_attestation':report,'execution_surface':surface,'surface_report':body['surface_report'],
+        'surface_report_binding':body.get('surface_report_binding'),
+        'surface_report_types':{'identity':'PRINCIPAL_NAME','engine':'ENGINE_PRODUCT','object':'DATABASE_CATALOG_NAME'},
+        'surface_report_receipt_id':result['id'],'completeness':body['completeness']}}

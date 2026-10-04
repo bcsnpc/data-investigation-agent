@@ -52,11 +52,13 @@ class AuditTests(unittest.TestCase):
                 {'id':entry['audit_asset_id'],'kind':'LakehouseTable','name':'dbo.audit','parent_id':'fabric://ws/lake'}]
         assets += [{'id':'col/'+k,'kind':'LakehouseColumn','parent_id':entry['audit_asset_id'],
                     'name':k,'metadata':{'type':'long' if t=='bigint' else 'string'}} for k,t in COLUMNS.items()]
+        assets.append({'id':'fabric://ws/endpoint','kind':'SQLEndpoint','name':'lake'})
         a=SimpleNamespace(store=None,config={'fabric':{'sql_reader':{'server':'server','account':'reader'}}},
-            read_endpoint=lambda req:{'provisioningStatus':'Success','name':'lake'},execute_lower=lambda *args:None,
+            read_endpoint=lambda req:{'id':'lake','properties':{'sqlEndpointProperties':{'id':'endpoint','connectionString':'server'}}},execute_lower=lambda *args:None,
             model={'id':'m','revision':1,'context_id':'c'},meter_read=None)
         good={'status':'COMPLETED','id':'receipt','request_hash':'sealed','result':{'completeness':'COMPLETE_RESPONSE',
-            'rows':[self.row()],'surface_report':{'identity':'reader','engine':'Microsoft Azure SQL Data Warehouse','object':'lake'}}}
+            'rows':[{k:{'type':'STRING' if v is not None else 'NULL','value':v} for k,v in self.row().items()}],
+            'surface_report':{'identity':'reader','engine':'Microsoft Azure SQL Data Warehouse','object':'lake'}}}
         with patch('investigator.context_search.latest',return_value={'assets':assets}),patch('investigator.flexible_tools.run',return_value=good):
             result=read(a,entry)
             self.assertEqual(result['status'],'CURRENT')

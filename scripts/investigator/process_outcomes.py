@@ -263,6 +263,10 @@ def validate(assessment, observations):
     if outcome=='CONSISTENT_TO_SOURCE':
         from .system_of_record import validate as validate_source
         validate_source(assessment,observations,comparisons)
+    for observation in observations.values():
+        if observation.get('check_kind')=='SOURCE_DELIVERY':
+            from .source_delivery import validate as validate_delivery
+            validate_delivery(observation,observations)
     if outcome in ('CONSISTENT_TO_BOUNDARY','CONSISTENT_TO_SOURCE','INGESTION_GAP','BUSINESS_QUESTION') and not any(
             comparison.get('values_equal') is True and cross_surface(comparison) for comparison in comparisons):
         raise ValueError(f'{outcome} requires at least one successful equal boundary comparison')
