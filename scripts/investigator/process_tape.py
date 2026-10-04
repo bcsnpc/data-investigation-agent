@@ -123,7 +123,17 @@ class Tape:
             final=json.loads(validate_event(self.events[-1],len(self.events)))
             if not isinstance(final,dict) or set(final)!={'operation','error','outputs','status','result'}:
                 raise TapeError('TAPE_FINAL_FIELDS')
-            if final['status']=='COMPLETED' and final['error'] is None:
+            synthesis=(final.get('result') or {}).get('synthesis') or {}
+            failed_composition=(synthesis.get('status')=='FAILED'
+                and type(synthesis.get('calls')) is int and synthesis['calls']>0
+                and isinstance(synthesis.get('error'),dict)
+                and isinstance(synthesis['error'].get('error_type'),str)
+                and bool(synthesis['error']['error_type'])
+                and not synthesis.get('outputs'))
+            # Procedure completion is not narrative completion. A failed
+            # composition is replayable failure evidence, with no outputs;
+            # it must never satisfy the dual-output acceptance gate.
+            if final['status']=='COMPLETED' and final['error'] is None and not failed_composition:
                 outputs=final['outputs']
                 if not isinstance(outputs,dict) or not {'business_output','technical_output'}<=outputs.keys() or any(not isinstance(outputs[key],dict) or not isinstance(outputs[key].get('explanation',{}).get('text'),str) or not outputs[key]['explanation']['text'] for key in ('business_output','technical_output')):
                     raise TapeError('TAPE_COMPLETED_OUTPUTS_MISSING')

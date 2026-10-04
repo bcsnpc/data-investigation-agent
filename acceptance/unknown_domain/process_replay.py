@@ -21,7 +21,8 @@ from run_source_diagnostic import transport as source
 
 def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_transport=None):
     tape=journal.Tape(path);bootstrap=tape.bootstrap
-    if bootstrap['engine_hash']!=fingerprint() and not allow_engine_drift:
+    replay_engine_hash=fingerprint()
+    if bootstrap['engine_hash']!=replay_engine_hash and not allow_engine_drift:
         raise journal.TapeError('ENGINE_VERSION_MISMATCH')
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     for name in ('catalog.sqlite','inventory.sqlite'):
@@ -40,6 +41,12 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
              'create':agent.create,'run':agent.run,'synthesize':agent.synthesize}
     result=None;error=None;operations=[]
     with ExitStack() as stack:
+        if allow_engine_drift:
+            # Engine identity is a recorded environmental input, distinct from
+            # executing current code. Pin its producers, never returned facts
+            # or outputs. Changed decisions/requests still fail byte matching.
+            for module in ('runtime','adaptive_runtime','workspace','question_intake','screenshot_intake'):
+                stack.enter_context(patch('investigator.'+module+'.fingerprint',return_value=bootstrap['engine_hash']))
         stack.enter_context(journal.active(tape))
         stack.enter_context(patch.dict('os.environ',{'INVESTIGATOR_RECORD_PLANNER':'0',
             'AZURE_OPENAI_ENDPOINT':'https://offline.openai.azure.com',
@@ -67,7 +74,9 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
     summary={'matched':True,'operations':operations,'outputs':final['outputs'],
              'outcome':((result or {}).get('assessment') or (result or {}).get('outcome') or {}).get('classification'),
              'session':result,
-             'status':final['status'],'network_requests':0,
+             'status':final['status'],'synthesis_status':((result or {}).get('synthesis') or {}).get('status'),
+             'recorded_engine_hash':bootstrap['engine_hash'],'replay_engine_hash':replay_engine_hash,
+             'recorded_engine_identity_used':allow_engine_drift,'network_requests':0,
              'claim':'Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.'}
     (output/'summary.json').write_text(json.dumps(summary,indent=2),encoding='utf-8')
     return summary

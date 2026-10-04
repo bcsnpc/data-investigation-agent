@@ -18,6 +18,12 @@ def bootstrap():
 
 class TapeTests(unittest.TestCase):
     def test_real_process_runtime_records_and_replays_its_two_outputs(self):
+        self.exercise_process()
+
+    def test_failed_composition_is_replayable_failure_not_completed_outputs(self):
+        self.exercise_process(failed_composition=True)
+
+    def exercise_process(self,failed_composition=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -47,7 +53,7 @@ class TapeTests(unittest.TestCase):
                     'metric_quote':'Total','question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL',
                     'filters':[],'dimension_ids':[]}
             else:
-                value={'technical_output':{'text':narrative.path_narrative.summary(view),
+                value={'technical_output':{'text':'The quantity can.' if failed_composition else narrative.path_narrative.summary(view),
                     'evidence_ids':[view['evidence'][0]['id']]}}
             return httpx.Response(200,json={'id':'synthetic-response','object':'response',
                 'model':'synthetic','created_at':1,'status':'completed','usage':None,
@@ -66,7 +72,7 @@ class TapeTests(unittest.TestCase):
                 'symptom':intake['text'],'predecessor':None,'intake_id':intake['id']})
             created=agent.create(preview['envelope'],'synthetic-process')
             agent.run(created['id']);result=agent.synthesize(created['id'])
-        self.assertEqual(result['synthesis']['status'],'COMPLETED')
+        self.assertEqual(result['synthesis']['status'],'FAILED' if failed_composition else 'COMPLETED')
         tape=agent._run_tapes[created['id']]
         sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
         from acceptance.unknown_domain.process_replay import replay
@@ -75,9 +81,18 @@ class TapeTests(unittest.TestCase):
                 bounded_call('synthetic-native',request,lambda:self.fail('No live transport in replay')))
         self.assertTrue(actual['matched'])
         self.assertEqual(actual['operations'],['intake','preview','create','run','synthesize'])
-        self.assertEqual(actual['outputs'],result['synthesis']['outputs'])
+        self.assertEqual(actual['outputs'],result['synthesis'].get('outputs'))
         self.assertEqual(actual['session'],result)
         self.assertEqual(actual['outcome'],result['assessment']['classification'])
+        with tempfile.TemporaryDirectory() as output,patch('acceptance.unknown_domain.process_replay.fingerprint',return_value='changed-engine'):
+            with self.assertRaisesRegex(TapeError,'ENGINE_VERSION_MISMATCH'):
+                replay(tape.path,Path(output)/'strict')
+            actual=replay(tape.path,Path(output)/'current-code',allow_engine_drift=True,
+                native_transport=lambda request:bounded_call('synthetic-native',request,lambda:self.fail('No live transport')))
+        self.assertTrue(actual['matched'])
+        self.assertEqual(actual['replay_engine_hash'],'changed-engine')
+        self.assertEqual(actual['recorded_engine_hash'],result['engine_hash'])
+        self.assertEqual(actual['outputs'],result['synthesis'].get('outputs'))
 
     def test_synthetic_worker_run_replays_decisions_and_both_outputs_without_network(self):
         with tempfile.TemporaryDirectory() as folder:
