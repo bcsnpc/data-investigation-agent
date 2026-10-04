@@ -1,5 +1,12 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Four's 15 offline acceptance attempts all blocked on missing complete
+runtime recordings. [Exact stops](docs/round-four-acceptance-gaps.md) are recorded;
+strict gate [#376](https://github.com/bcsnpc/data-investigation-agent/pull/376) remains
+draft. [Next-work ranking](docs/round-four-next-work-ranking.md) is design only;
+no new capability built. Round Four remains 51/300 physical, rolling last observed
+641/1000. No replay pass or general acceptance claimed.
+
 Round Four earned **CONSISTENT_TO_SOURCE** on a fixture-authored follow-up: 7,661
 agreed through two independently graded boundaries and the expected record was
 absent in all three membership reads. A configured-unreachable run stopped at
