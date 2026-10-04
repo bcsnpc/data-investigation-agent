@@ -1,6 +1,6 @@
 # Round-two workspace monitoring: authorized attempt and blockers
 
-2026-10-03 UTC. The user approved enablement only in fixture workspace
+2026-10-03 America/Chicago; requests span 2026-10-03/04 UTC. The user approved enablement only in fixture workspace
 `149f8d99-1c66-4a0a-9624-759be002bb60`, a read-only monitoring-database grant to
 `orderops_investigator`, no write/admin/ingest/other-resource access, at most four
 probes and one additional isolated load within the existing Part B budget.
