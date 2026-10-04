@@ -2,7 +2,8 @@
 from datetime import datetime, timezone
 import json
 import subprocess
-from uuid import uuid4, UUID
+from uuid import UUID
+from .process_tape import uuid4
 from .onboarding import Conflict, encoded, text
 
 

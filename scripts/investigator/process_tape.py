@@ -8,6 +8,9 @@ import json
 from pathlib import Path
 import time
 import math
+import re
+import sqlite3
+from contextlib import closing
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
@@ -16,6 +19,7 @@ KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION'
     'BUDGET','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
     'BOUNDED_REQUEST','BOUNDED_RESPONSE','BOUNDED_FAILURE','FINAL'})
+UUID_PATTERN=re.compile(r'(?i)\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b')
 
 
 class TapeError(ValueError):
@@ -123,6 +127,26 @@ class Tape:
                 outputs=final['outputs']
                 if not isinstance(outputs,dict) or not {'business_output','technical_output'}<=outputs.keys() or any(not isinstance(outputs[key],dict) or not isinstance(outputs[key].get('explanation',{}).get('text'),str) or not outputs[key]['explanation']['text'] for key in ('business_output','technical_output')):
                     raise TapeError('TAPE_COMPLETED_OUTPUTS_MISSING')
+            # A final result cannot introduce an identity whose provenance is
+            # absent from recorded inputs, generated-identity events or pinned
+            # bootstrap state. This catches missed identity producers rather
+            # than declaring an incomplete tape valid until replay finds it.
+            known=set()
+            for event in self.events[:-1]:
+                known.update(v.casefold() for v in UUID_PATTERN.findall(validate_event(event,event['ordinal']).decode('utf8')))
+            for name,expected in artifacts.items():
+                source=self.path.parent/name
+                if not source.exists() or sha(source.read_bytes())!=expected:
+                    raise TapeError('TAPE_BOOTSTRAP_ARTIFACT_CHANGED:'+name)
+                with closing(sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True)) as db:
+                    tables=[r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")]
+                    for table in tables:
+                        quoted='"'+table.replace('"','""')+'"'
+                        for row in db.execute('SELECT * FROM '+quoted):
+                            for value in row:
+                                if isinstance(value,str):known.update(v.casefold() for v in UUID_PATTERN.findall(value))
+            introduced={v.casefold() for v in UUID_PATTERN.findall(bytes_of(final).decode())}-known
+            if introduced:raise TapeError('TAPE_UNRECORDED_IDENTITY:'+','.join(sorted(introduced)))
         # Every started operation/provider/worker has a terminal event, in order.
         operations=[];workers=0;providers=0;bounded=0
         for event in self.events:

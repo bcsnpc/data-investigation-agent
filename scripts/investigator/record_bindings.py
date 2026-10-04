@@ -2,7 +2,7 @@
 from .model_context import assets as model_assets
 from datetime import datetime, timezone
 import json
-from uuid import uuid4
+from .process_tape import uuid4
 
 from .onboarding import fields, text, digest, encoded, Conflict
 from .record_comparison import bindings

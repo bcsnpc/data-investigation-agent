@@ -1,6 +1,6 @@
 """Resolve a request over a stated report; native inspection stays in the adapter."""
 import copy
-from uuid import uuid4
+from .process_tape import uuid4
 from . import report_scope, definition_target, reported_figure
 from .declared_reproduction import UnsupportedRestriction
 
