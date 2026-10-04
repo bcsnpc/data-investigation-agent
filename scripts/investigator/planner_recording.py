@@ -96,7 +96,14 @@ class CallRecord:
 @contextmanager
 def recording(metadata):
     """The flag is operator process configuration, never a ticket/provider field."""
-    if os.environ.get(FLAG) != '1' or ACTIVE.get() is not None:
+    from .process_tape import ACTIVE as RUN_TAPE
+    tape=RUN_TAPE.get()
+    if tape and tape.replaying:
+        class ReplayRecord:
+            def safe_write(self,name,data):return True
+        yield ReplayRecord()
+        return
+    if (os.environ.get(FLAG) != '1' and tape is None) or ACTIVE.get() is not None:
         yield ACTIVE.get()
         return
     record = CallRecord(metadata() if callable(metadata) else metadata)
@@ -113,6 +120,49 @@ def recording(metadata):
 
 
 def http_options():
+    from .process_tape import ACTIVE as RUN_TAPE, bytes_of
+    tape=RUN_TAPE.get()
+    if tape:
+        import httpx
+        from openai import DefaultHttpxClient
+        class Transport(httpx.BaseTransport):
+            def __init__(self):self.inner=None if tape.replaying else httpx.HTTPTransport()
+            def handle_request(self,request):
+                # Endpoint credentials/headers are deliberately outside this boundary.
+                tape.event('PROVIDER_REQUEST',request.read())
+                legacy=ACTIVE.get()
+                if legacy:legacy.request(request)
+                if tape.replaying:
+                    kind=tape.events[tape.index]['kind']
+                    body=json.loads(tape.take(kind))
+                    if kind=='PROVIDER_FAILURE':
+                        error=httpx.ReadTimeout if body['error']=='ReadTimeout' else httpx.ConnectError
+                        raise error('Recorded provider failure',request=request)
+                    if kind!='PROVIDER_RESPONSE':raise ValueError('Provider tape response missing')
+                    import base64
+                    return httpx.Response(body['status'],content=base64.b64decode(body['body']),request=request)
+                try:
+                    response=self.inner.handle_request(request)
+                    raw=response.read()
+                    if legacy:legacy.response(response)
+                    import base64
+                    # Scan the decoded body too; base64 must not conceal secrets.
+                    try:
+                        _safe(raw)
+                    except RecordingError:
+                        tape.exclusions.append({'ordinal':len(tape.events)+1,
+                            'kind':'PROVIDER_RESPONSE','reason':'SECRET_DETECTED'})
+                        tape.flush()
+                    else:
+                        tape.event('PROVIDER_RESPONSE',bytes_of({'status':response.status_code,
+                            'body':base64.b64encode(raw).decode()}))
+                    return response
+                except BaseException as exc:
+                    tape.event('PROVIDER_FAILURE',bytes_of({'error':type(exc).__name__}))
+                    raise
+            def close(self):
+                if self.inner:self.inner.close()
+        return {'http_client':DefaultHttpxClient(transport=Transport())}
     record = ACTIVE.get()
     if record is None:
         return {}

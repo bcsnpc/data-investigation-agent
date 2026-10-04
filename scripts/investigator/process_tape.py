@@ -1,0 +1,228 @@
+"""Private bounded-worker journal. Upstream decoding is outside replay coverage."""
+from contextlib import contextmanager
+from contextvars import ContextVar
+from datetime import datetime, timezone
+import base64
+import hashlib
+import json
+from pathlib import Path
+import time
+import math
+from uuid import uuid4 as new_uuid, UUID
+
+ACTIVE = ContextVar('process_tape', default=None)
+VERSION = 'bounded-worker-tape-v1'
+KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
+    'BUDGET','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END',
+    'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
+    'BOUNDED_REQUEST','BOUNDED_RESPONSE','BOUNDED_FAILURE','FINAL'})
+
+
+class TapeError(ValueError):
+    pass
+
+
+def bytes_of(value):
+    return json.dumps(value,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()
+
+
+def sha(data):return hashlib.sha256(data).hexdigest()
+
+
+def validate_event(event,ordinal):
+    if not isinstance(event,dict) or set(event)!={'ordinal','kind','body','sha256','at'}:
+        raise TapeError('TAPE_EVENT_FIELDS')
+    if type(event['ordinal']) is not int or event['ordinal']!=ordinal or event['kind'] not in KINDS:
+        raise TapeError('TAPE_EVENT_ORDER_OR_KIND')
+    if type(event['at']) not in (int,float) or not math.isfinite(event['at']):raise TapeError('TAPE_EVENT_TIME')
+    try:body=base64.b64decode(event['body'],validate=True)
+    except (ValueError,TypeError) as exc:raise TapeError('TAPE_BODY_ENCODING') from exc
+    if sha(body)!=event['sha256']:raise TapeError('TAPE_BODY_INTEGRITY')
+    return body
+
+
+class Tape:
+    def __init__(self,path,bootstrap=None):
+        self.path=Path(path);self.events=[];self.index=0;self.replaying=bootstrap is None
+        self.exclusions=[];self.finished=False
+        if self.replaying:
+            value=json.loads(self.path.read_bytes())
+            if set(value)!={'version','events','exclusions','seal'} or value['version']!=VERSION:
+                raise TapeError('TAPE_SCHEMA')
+            if value['seal']!=sha(bytes_of({k:v for k,v in value.items() if k!='seal'})):
+                raise TapeError('TAPE_SEAL')
+            self.events=value['events'];self.exclusions=value['exclusions']
+            self.validate()
+            self.bootstrap=json.loads(self.take('BOOTSTRAP'))
+        else:
+            self.path.parent.mkdir(parents=True,exist_ok=True)
+            if self.path.exists():raise TapeError('TAPE_ALREADY_EXISTS')
+            self.bootstrap=bootstrap
+            self.event('BOOTSTRAP',bytes_of(bootstrap))
+
+    def flush(self):
+        if self.replaying:return
+        value={'version':VERSION,'events':self.events,'exclusions':self.exclusions}
+        value['seal']=sha(bytes_of(value))
+        # Only this still-open attempt is rewritten. Sealed tapes are immutable.
+        self.path.write_bytes(bytes_of(value))
+
+    def event(self,kind,body):
+        if not isinstance(body,bytes):raise TypeError('Tape bodies must be bytes')
+        if self.replaying:
+            recorded=self.take(kind)
+            if recorded!=body:raise TapeError('TAPE_REQUEST_BYTES_DIFFER')
+            return
+        if self.finished or kind not in KINDS:raise TapeError('TAPE_EVENT_NOT_ADMISSIBLE')
+        from .planner_recording import _safe, RecordingError
+        try:_safe(body)
+        except RecordingError:
+            self.exclusions.append({'ordinal':len(self.events)+1,'kind':kind,'reason':'SECRET_DETECTED'})
+            self.flush()
+            return
+        self.events.append({'ordinal':len(self.events)+1,'kind':kind,
+                            'body':base64.b64encode(body).decode(),'sha256':sha(body),'at':time.time()})
+        self.flush()
+
+    def take(self,kind):
+        if self.index>=len(self.events):raise TapeError('TAPE_EXHAUSTED')
+        event=self.events[self.index]
+        body=validate_event(event,self.index+1)
+        if event['kind']!=kind:raise TapeError('TAPE_EVENT_DIFFERS:'+kind+':'+event['kind'])
+        self.index+=1
+        return body
+
+    def validate(self):
+        if self.exclusions:raise TapeError('TAPE_EXCLUDED_BODY')
+        if not self.events or self.events[0]['kind']!='BOOTSTRAP' or self.events[-1]['kind']!='FINAL':
+            raise TapeError('TAPE_INCOMPLETE')
+        for n,event in enumerate(self.events,1):validate_event(event,n)
+        bootstrap=json.loads(validate_event(self.events[0],1))
+        required={'entry_point','context_identity','config','profile','usage_policy','engine_hash','state'}
+        if not isinstance(bootstrap,dict) or set(bootstrap)!=required:
+            raise TapeError('TAPE_BOOTSTRAP_FIELDS')
+        if not bootstrap['context_identity'] or not bootstrap['engine_hash']:
+            raise TapeError('TAPE_BOOTSTRAP_IDENTITY')
+        if any(not isinstance(bootstrap[key],dict) for key in ('config','profile','state')) or not isinstance(bootstrap['usage_policy'],(dict,type(None))):
+            raise TapeError('TAPE_BOOTSTRAP_CONFIGURATION')
+        if bootstrap['entry_point']=='workspace':
+            state=bootstrap['state']
+            fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}
+            if set(state)!=fields:raise TapeError('TAPE_BOOTSTRAP_STATE_FIELDS')
+            if not isinstance(state['environment'],str) or not state['environment']:
+                raise TapeError('TAPE_BOOTSTRAP_ENVIRONMENT')
+            if type(state['dynamic_read_limit']) is not int or state['dynamic_read_limit']<1 or type(state['dynamic_input_limit']) is not int or state['dynamic_input_limit']<1:
+                raise TapeError('TAPE_BOOTSTRAP_LIMITS')
+            artifacts=state['artifacts']
+            if not isinstance(artifacts,dict) or set(artifacts)!={'catalog.sqlite','inventory.sqlite'} or any(not isinstance(v,str) or len(v)!=64 or any(c not in '0123456789abcdef' for c in v) for v in artifacts.values()):
+                raise TapeError('TAPE_BOOTSTRAP_ARTIFACTS')
+            final=json.loads(validate_event(self.events[-1],len(self.events)))
+            if not isinstance(final,dict) or set(final)!={'operation','error','outputs','status','result'}:
+                raise TapeError('TAPE_FINAL_FIELDS')
+            if final['status']=='COMPLETED' and final['error'] is None:
+                outputs=final['outputs']
+                if not isinstance(outputs,dict) or not {'business_output','technical_output'}<=outputs.keys() or any(not isinstance(outputs[key],dict) or not isinstance(outputs[key].get('explanation',{}).get('text'),str) or not outputs[key]['explanation']['text'] for key in ('business_output','technical_output')):
+                    raise TapeError('TAPE_COMPLETED_OUTPUTS_MISSING')
+        # Every started operation/provider/worker has a terminal event, in order.
+        operations=[];workers=0;providers=0;bounded=0
+        for event in self.events:
+            kind=event['kind']
+            if kind=='OPERATION_START':
+                body=json.loads(validate_event(event,event['ordinal']))
+                if bootstrap['entry_point']=='workspace' and (set(body)!={'name','args','kwargs'} or body['name'] not in {'intake','preview','create','run','synthesize'} or not isinstance(body['args'],list) or not isinstance(body['kwargs'],dict)):
+                    raise TapeError('TAPE_OPERATION_FIELDS')
+                operations.append(body['name'])
+            elif kind=='OPERATION_END':
+                name=json.loads(validate_event(event,event['ordinal']))['name']
+                if not operations or operations.pop()!=name:raise TapeError('TAPE_OPERATION_UNBALANCED')
+            elif kind=='WORKER_START':workers+=1
+            elif kind in ('WORKER_SEND','WORKER_READ') and workers!=1:raise TapeError('TAPE_WORKER_RESPONSE_WITHOUT_REQUEST')
+            elif kind=='WORKER_END':
+                workers-=1
+                if workers<0:raise TapeError('TAPE_WORKER_UNBALANCED')
+            elif kind=='PROVIDER_REQUEST':providers+=1
+            elif kind in ('PROVIDER_RESPONSE','PROVIDER_FAILURE'):
+                providers-=1
+                if providers<0:raise TapeError('TAPE_PROVIDER_UNBALANCED')
+                if kind=='PROVIDER_RESPONSE':
+                    response=json.loads(validate_event(event,event['ordinal']))
+                    if set(response)!={'status','body'} or type(response['status']) is not int:
+                        raise TapeError('TAPE_PROVIDER_RESPONSE_FIELDS')
+                    try:base64.b64decode(response['body'],validate=True)
+                    except (ValueError,TypeError) as exc:raise TapeError('TAPE_PROVIDER_BODY_ENCODING') from exc
+            elif kind=='BOUNDED_REQUEST':bounded+=1
+            elif kind in ('BOUNDED_RESPONSE','BOUNDED_FAILURE'):
+                bounded-=1
+                if bounded<0:raise TapeError('TAPE_BOUNDED_READ_UNBALANCED')
+        if operations or workers or providers or bounded:raise TapeError('TAPE_UNFINISHED_ATTEMPT')
+
+    def finish(self,result):
+        self.event('FINAL',bytes_of(result))
+        self.finished=True
+        self.validate()
+        if self.replaying and self.index!=len(self.events):raise TapeError('TAPE_NOT_CONSUMED')
+
+
+@contextmanager
+def active(tape):
+    token=ACTIVE.set(tape)
+    try:yield tape
+    finally:ACTIVE.reset(token)
+
+
+def event(kind,value):
+    tape=ACTIVE.get()
+    if tape:tape.event(kind,bytes_of(value))
+
+
+def value(kind,name,producer):
+    tape=ACTIVE.get()
+    if tape and tape.replaying:
+        saved=json.loads(tape.take(kind))
+        if saved['name']!=name:raise TapeError('TAPE_VALUE_SOURCE_DIFFERS')
+        return saved['value']
+    result=producer()
+    if tape:tape.event(kind,bytes_of({'name':name,'value':result}))
+    return result
+
+
+def uuid4():return UUID(value('IDENTITY','uuid4',lambda:str(new_uuid())))
+def clock(name,producer=time.time):return value('CLOCK',name,producer)
+def utc_now():return datetime.fromtimestamp(clock('utc_now'),timezone.utc).isoformat()
+
+
+def safe_request(text):
+    """Authentication material is outside this boundary, never stored or matched."""
+    body=json.loads(text)
+    if isinstance(body,dict):
+        body={k:v for k,v in body.items() if k not in ('access_token',)}
+    return bytes_of(body)
+
+
+def bounded_call(name,request,producer):
+    """For a bounded reader which does not launch a child worker.
+
+    Its upstream projection is deliberately outside the replay boundary.
+    """
+    tape=ACTIVE.get()
+    if tape is None:return producer()
+    tape.event('BOUNDED_REQUEST',bytes_of({'name':name,'request':request}))
+    if tape.replaying:
+        kind=tape.events[tape.index]['kind']
+        if kind=='BOUNDED_FAILURE':
+            failure=json.loads(tape.take(kind))
+            import builtins
+            cls=getattr(builtins,failure['type'],None)
+            if not isinstance(cls,type) or not issubclass(cls,Exception):
+                cls=type(failure['type'],(RuntimeError,),{})
+            error=cls.__new__(cls);Exception.__init__(error,failure['message'])
+            error.__dict__.update(failure['fields'])
+            raise error
+        return json.loads(tape.take('BOUNDED_RESPONSE'))
+    try:result=producer()
+    except Exception as exc:
+        tape.event('BOUNDED_FAILURE',bytes_of({'type':type(exc).__name__,'message':str(exc),
+            'fields':{k:v for k,v in exc.__dict__.items() if isinstance(v,(str,int,float,bool,type(None)))}}))
+        raise
+    tape.event('BOUNDED_RESPONSE',bytes_of(result))
+    return result

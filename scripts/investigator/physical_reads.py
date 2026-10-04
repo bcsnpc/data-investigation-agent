@@ -8,13 +8,24 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 import json
 from hashlib import sha256
-from uuid import uuid4
+from .process_tape import uuid4
 from pathlib import Path
 import subprocess
 from threading import Timer
 
 _scope=ContextVar('physical_read_scope',default=None)
 _guards=ContextVar('run_guard_cache',default=None)
+
+
+def decode_completion(raw,kind,*,guard=False):
+    done=json.loads(raw)
+    if not isinstance(done,dict):raise RuntimeError('Physical request completion unavailable')
+    if done.get('physical_read')!='DONE' or done.get('kind')!=kind:
+        if done.get('error') or done.get('status')=='UNAVAILABLE':return None
+        raise RuntimeError('Physical request completion unavailable')
+    if done.get('status')!='AVAILABLE':raise RuntimeError('Physical request failed')
+    if guard and done.get('guard_passed') is not True:raise RuntimeError('Guard success not established')
+    return done
 
 
 @contextmanager
@@ -36,16 +47,32 @@ def scope(meter):
 
 def run(command, *, input, timeout, fallback=None, **kwargs):
     state=_scope.get()
-    if state is None: return (fallback or subprocess.run)(command,input=input,timeout=timeout,**kwargs)
+    if state is None:
+        from .tape_worker import run as worker_run
+        return worker_run(command,input=input,timeout=timeout,fallback=fallback,**kwargs)
     command=list(command)+(['-Metered'] if any(str(c).endswith('.ps1') for c in command) else ['--metered'])
     payload=json.loads(input)
     # Credential fingerprint stays in memory only, never in receipts.
-    credential=payload.get('access_token','')
-    if payload.get('credential_file'):
-        credential=Path(payload['credential_file']).read_bytes().hex()
-    connection=sha256(json.dumps([command,payload.get('server'),payload.get('database'),credential],sort_keys=True).encode()).hexdigest()
+    def secret_connection():
+        credential=payload.get('access_token','')
+        if payload.get('credential_file'):
+            credential=Path(payload['credential_file']).read_bytes().hex()
+        return sha256(json.dumps([command,payload.get('server'),payload.get('database'),credential],sort_keys=True).encode()).hexdigest()
+    from .process_tape import ACTIVE as RUN_TAPE,value
+    tape=RUN_TAPE.get()
+    if tape:
+        def opaque_connection():
+            # Only a random label crosses the tape boundary. Secret hashes stay
+            # in memory, with exactly the existing credential-sensitive keying.
+            from uuid import uuid4 as fresh_id
+            if not hasattr(tape,'connections'):tape.connections={}
+            fingerprint=secret_connection()
+            return tape.connections.setdefault(fingerprint,str(fresh_id()))
+        connection=value('AUTH_STATE','guard_connection',opaque_connection)
+    else:connection=secret_connection()
     guards=_guards.get()
-    child=subprocess.Popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
+    from .tape_worker import popen
+    child=popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
                            text=True,encoding='utf-8')
     timer=Timer(timeout,child.kill);timer.daemon=True;timer.start()
     def line():
@@ -77,15 +104,11 @@ def run(command, *, input, timeout, fallback=None, **kwargs):
             def send():
                 nonlocal final,established
                 child.stdin.write('ALLOW\n');child.stdin.flush()
-                raw_done=line();done=json.loads(raw_done)
-                if done.get('physical_read')!='DONE' or done.get('kind')!=kind:
-                    if isinstance(done,dict) and (done.get('error') or done.get('status')=='UNAVAILABLE'):
-                        final=raw_done
-                        return {'status':'UNAVAILABLE','request_kind':kind}
-                    raise RuntimeError('Physical request completion unavailable')
-                if done.get('status')!='AVAILABLE': raise RuntimeError('Physical request failed')
+                raw_done=line();done=decode_completion(raw_done,kind,guard=cacheable)
+                if done is None:
+                    final=raw_done
+                    return {'status':'UNAVAILABLE','request_kind':kind}
                 if cacheable:
-                    if done.get('guard_passed') is not True:raise RuntimeError('Guard success not established')
                     established=str(uuid4())
                 return {'status':'AVAILABLE','request_kind':kind,'guard_receipt':established}
             if state['first']:

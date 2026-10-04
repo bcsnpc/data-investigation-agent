@@ -1,4 +1,5 @@
 """Durable typed-action runs for native/source/comparison tools. Not an AI planner."""
+from .process_tape import utc_now
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
@@ -6,7 +7,7 @@ import json
 from pathlib import Path
 import sqlite3
 import sys
-from uuid import uuid4
+from .process_tape import uuid4
 
 from .onboarding import fields, text, digest, encoded, Conflict
 from . import native_diagnostics, source_diagnostics, comparisons
@@ -86,7 +87,7 @@ class Runtime:
 
     def event(self, db, identity, kind, detail):
         db.execute('INSERT INTO v2_run_events(run_id,event,detail,created) VALUES(?,?,?,?)',
-                   (identity, kind, encoded(detail), datetime.now(timezone.utc).isoformat()))
+                   (identity, kind, encoded(detail), utc_now()))
 
     def load(self, db, identity):
         row = db.execute('SELECT * FROM v2_runs WHERE id=?', (identity,)).fetchone()
@@ -119,7 +120,7 @@ class Runtime:
                 return self.get(previous['id'])
             db.execute('INSERT INTO v2_runs VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
                 (identity,model['id'],request_key,row['request'],row['request_hash'],row['engine_hash'],row['connection_hash'],
-                 row['context_hash'],'READY',request['call_budget'],0,None,None,datetime.now(timezone.utc).isoformat()))
+                 row['context_hash'],'READY',request['call_budget'],0,None,None,utc_now()))
             for ordinal, action in enumerate(request['actions']):
                 db.execute('INSERT INTO v2_steps VALUES(?,?,?,?,?,?,NULL)',
                            (identity,ordinal,action['tool'],'PENDING',str(uuid4()),digest(compiled[ordinal])))
@@ -232,7 +233,7 @@ class Runtime:
     def cancel_in_transaction(self,db,identity):
         row=self.load(db,identity)
         if row['status'] in ('COMPLETED','CANCELLED'):return
-        db.execute('INSERT OR IGNORE INTO v2_cancellations VALUES(?,?)',(identity,datetime.now(timezone.utc).isoformat()))
+        db.execute('INSERT OR IGNORE INTO v2_cancellations VALUES(?,?)',(identity,utc_now()))
         db.execute("UPDATE v2_runs SET status='CANCELLED',lease_token=NULL WHERE id=?",(identity,))
         self.event(db,identity,'CANCELLED',{'remote_cancellation_confirmed':False})
 

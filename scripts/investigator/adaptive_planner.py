@@ -64,7 +64,7 @@ def validate(value, payload):
 
 def azure_plan(payload):
     from .planner_recording import recording
-    from uuid import uuid4
+    from .process_tape import uuid4
     # Runtime supplies richer state/reservation metadata through the outer context.
     # Standalone callers are explicitly identifiable, never assigned invented budgets.
     with recording({'session_id':'standalone:'+str(uuid4()),'planner_call':1,

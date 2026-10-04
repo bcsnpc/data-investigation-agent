@@ -7,7 +7,9 @@ from .model_context import assets as model_assets
 import json
 import threading
 import time
-from uuid import uuid4
+from .process_tape import uuid4
+from .run_recording import operation
+from .process_tape import clock as tape_clock
 
 from .onboarding import Conflict, digest, encoded, fields, text
 from .adaptive_candidates import catalog
@@ -34,7 +36,7 @@ class Workspace:
             raise ValueError("Invalid dynamic input limit")
         self.dynamic_input_limit=dynamic_input_limit
         self.dynamic_read_limit=dynamic_read_limit
-        self.agent, self.store, self.clock = agent, agent.store, clock
+        self.agent, self.store, self.clock = agent, agent.store, lambda:tape_clock('workspace',clock)
         self.execution_enabled = execution_enabled
         if execution_enabled and (agent.planner is None or agent.governor is None):
             raise ValueError('Interactive execution requires planner and shared usage governance')
@@ -75,6 +77,7 @@ class Workspace:
                 'measures': [{'id': m['id'], 'name': m['name']} for m in context.get('measures', [])],
                 'columns': columns, 'range_semantics': scope['range_semantics']}
 
+    @operation('preview')
     def preview(self, request):
         fields(request, ['model_id', 'measure_id', 'filters', 'dimension_ids', 'symptom', 'predecessor'] +
                [k for k in ('intake_id','reported_figure') if k in request])

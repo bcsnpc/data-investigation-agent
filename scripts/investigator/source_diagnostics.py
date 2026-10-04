@@ -1,4 +1,5 @@
 """Pinned SQL catalog aggregates. No measure equivalence or cause inference."""
+from .process_tape import utc_now
 from contextlib import closing
 from datetime import datetime, timezone
 import hashlib
@@ -6,7 +7,7 @@ import json
 import re
 import sqlite3
 import subprocess
-from uuid import uuid4
+from .process_tape import uuid4
 
 from .onboarding import fields, digest, encoded, Conflict
 
@@ -152,7 +153,7 @@ def run(store, plan, config, execute, *, receipt_id=None):
     with store.connect() as db:
         db.execute('CREATE TABLE IF NOT EXISTS source_diagnostics(id TEXT PRIMARY KEY,model_id TEXT,created TEXT,status TEXT,request TEXT,result TEXT)')
         db.execute('INSERT INTO source_diagnostics VALUES(?,?,?,?,?,NULL)',
-                   (identity, plan['model_id'], datetime.now(timezone.utc).isoformat(), 'RUNNING', encoded({'plan': plan, **request})))
+                   (identity, plan['model_id'], utc_now(), 'RUNNING', encoded({'plan': plan, **request})))
     attempts=None
     try:
         if build(store, plan, config) != request:raise Conflict('Source context changed')

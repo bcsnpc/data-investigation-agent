@@ -1,10 +1,11 @@
 """Receipt-backed, parser-governed SQL/DAX tools for proposed diagnostic queries."""
+from .process_tape import utc_now
 from datetime import datetime,timezone
 from decimal import Decimal
 import json
 import re
 import subprocess
-from uuid import uuid4
+from .process_tape import uuid4
 from .onboarding import fields,digest,encoded,Conflict
 from .model_context import assets
 from . import query_sql,query_dax
@@ -197,7 +198,7 @@ def run(store,plan,config,tool,execute,*,receipt_id=None,catalog=None):
     request=build(store,plan,config,tool,catalog=catalog);identity=receipt_id or str(uuid4())
     with store.connect() as db:
         db.execute('CREATE TABLE IF NOT EXISTS '+TABLE+'(id TEXT PRIMARY KEY,model_id TEXT,created TEXT,status TEXT,request TEXT,result TEXT)')
-        db.execute('INSERT INTO '+TABLE+' VALUES(?,?,?,?,?,NULL)',(identity,plan['model_id'],datetime.now(timezone.utc).isoformat(),'RUNNING',encoded({'plan':plan,**request})))
+        db.execute('INSERT INTO '+TABLE+' VALUES(?,?,?,?,?,NULL)',(identity,plan['model_id'],utc_now(),'RUNNING',encoded({'plan':plan,**request})))
     raw_report=None
     try:
         if build(store,plan,config,tool,catalog=catalog)!=request:raise Conflict('Context changed before query')

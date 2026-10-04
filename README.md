@@ -1,5 +1,12 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Five Part A records process-path tapes by construction. A synthetic
+intake-to-synthesis run replays with sockets blocked and reproduces both outputs.
+Replay reproduces engine decisions and both outputs from recorded worker responses;
+it does not re-exercise upstream decoding. Synthetic raw-input tests cover those
+decoders separately. No new estate tape or acceptance pass yet. Prior freezes
+invalid. [Contract and tests](docs/bounded-worker-tapes.md).
+
 Round Five is authorised with a separate 400 physical-request pot and rolling
 allowance 1,500; usage remains 641 and diagnostic cap 12. No Round Five live run
 has started. [Before/after budget record](docs/round-five-budget.md).

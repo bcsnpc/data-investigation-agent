@@ -6,7 +6,7 @@ import copy
 import json
 import math
 import re
-from uuid import uuid4
+from ..process_tape import uuid4
 from ..model_context import assets
 from ..onboarding import Conflict, digest
 from .. import declared_reproduction, declaration_inventory, query_dax, proposal_limits as limits

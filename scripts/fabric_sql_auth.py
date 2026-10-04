@@ -51,6 +51,26 @@ def cli(args, profile, interactive=False):
 
 
 def get_sql_token(tenant, account, profile):
+    from investigator.process_tape import ACTIVE,bytes_of
+    tape=ACTIVE.get()
+    if tape:
+        tape.event('CONFIGURATION',bytes_of({'token_profile':profile,'account':account,'tenant':tenant}))
+        if tape.replaying:
+            result=json.loads(tape.take('AUTH_STATE'))
+            if result['error']=='SignInRequired':raise SignInRequired(account,profile)
+            if result['error']:raise RuntimeError('Recorded SQL authentication unavailable')
+            return 'offline-authentication-placeholder'
+        try:
+            result=_get_sql_token(tenant,account,profile)
+        except Exception as exc:
+            tape.event('AUTH_STATE',bytes_of({'error':type(exc).__name__}))
+            raise
+        tape.event('AUTH_STATE',bytes_of({'error':None}))
+        return result
+    return _get_sql_token(tenant,account,profile)
+
+
+def _get_sql_token(tenant,account,profile):
     tenant, account = str(UUID(tenant)), account_name(account)
     if not profile_path(profile).is_dir():
         raise SignInRequired(account, profile)
@@ -82,6 +102,19 @@ def sign_in(tenant, account, profile):
 
 def session_status(tenant, account, profile):
     """Local check only (no token request): is the configured account signed in here?"""
+    from investigator.process_tape import ACTIVE, bytes_of
+    tape=ACTIVE.get()
+    if tape:
+        tape.event('CONFIGURATION',bytes_of({'auth_profile':profile,'account':account,'tenant':tenant}))
+        if tape.replaying:return json.loads(tape.take('AUTH_STATE'))
+        # The local identity/profile check is preserved; no credential is retained.
+        result=_session_status(tenant,account,profile)
+        tape.event('AUTH_STATE',bytes_of(result))
+        return result
+    return _session_status(tenant,account,profile)
+
+
+def _session_status(tenant, account, profile):
     tenant, account = str(UUID(tenant)), account_name(account)
     if not profile_path(profile).is_dir():
         return {'status': 'SIGN_IN_REQUIRED', 'account': account, 'profile': profile}

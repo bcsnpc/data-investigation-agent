@@ -1,7 +1,8 @@
 """Catalog-only business question resolution. A proposal never authorizes queries."""
 import json
 import copy
-from uuid import uuid4
+from .process_tape import uuid4
+from .run_recording import operation
 
 from . import proposal_limits as limits
 from .onboarding import fields, text, digest, encoded, Conflict
@@ -419,6 +420,7 @@ class Intake:
         return {'questions': [{k: value[k] for k in ('id', 'text', 'status', 'created')}
                               for value in (self.get(identity) for identity in identities)]}
 
+    @operation('intake')
     def resolve(self, request):
         fields(request, ['text', 'request_key', 'parent_id'] + (['screenshot_review_id'] if 'screenshot_review_id' in request else []))
         text(request['text'], 2000); text(request['request_key'], 100)

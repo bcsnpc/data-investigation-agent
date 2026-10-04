@@ -1,0 +1,231 @@
+import json
+import subprocess
+import tempfile
+import unittest
+import copy
+import sys
+from pathlib import Path
+from unittest.mock import patch
+from investigator.process_tape import Tape,TapeError,active,event,uuid4,clock,bytes_of
+from investigator.tape_worker import run
+from investigator.process_tape import bounded_call
+
+
+def bootstrap():
+    return {'entry_point':'synthetic','context_identity':'retained-context',
+            'config':{},'profile':{},'usage_policy':{},'engine_hash':'synthetic-engine','state':{}}
+
+
+class TapeTests(unittest.TestCase):
+    def test_real_process_runtime_records_and_replays_its_two_outputs(self):
+        import test_flexible_investigation as fixture
+        from investigator.runtime import Runtime
+        from investigator.adaptive_runtime import AdaptiveRuntime
+        from investigator.process_debugging import VERSION
+        from investigator import synthesis_narrative as narrative
+        from investigator.workspace import Workspace
+        from investigator.question_intake import azure_resolve
+        helper=fixture.DynamicTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        policy={'environment':helper.store.environment,'daily_limits':{'planner_calls':50,
+            'cloud_calls':50,'input_characters':1000000,'output_tokens':100000},
+            'max_inflight_planners':1,'no_progress_limit':3}
+        native=lambda request:bounded_call('synthetic-native',request,lambda:helper.runtime.native_transport(request))
+        runtime=Runtime(helper.store,helper.config,native,helper.runtime.source_transport)
+        agent=AdaptiveRuntime(runtime,lambda _:self.fail('No open planner'),usage_policy=policy,
+            planner_profile={'adapter':'injected','deployment':'synthetic'})
+        envelope=copy.deepcopy(helper.envelope);envelope['strategy']=VERSION
+        envelope['comparison_mode']='VERTICAL';envelope['ticket_shape']='MISMATCH_COMPLAINT'
+        workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve)
+        import httpx
+        def provider(request):
+            body=json.loads(request.content);view=json.loads(body['input'])
+            if body['tool_choice']['name']=='resolve_business_question':
+                metric=next(m for m in view['models'][0]['measures'] if m['name']=='Total')
+                value={'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':view['text']}},
+                    'report_quote':None,'target_request':None,'reported_candidates':[],
+                    'action':'PROPOSE','model_id':view['models'][0]['id'],'measure_id':metric['id'],
+                    'metric_quote':'Total','question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL',
+                    'filters':[],'dimension_ids':[]}
+            else:
+                value={'technical_output':{'text':narrative.path_narrative.summary(view),
+                    'evidence_ids':[view['evidence'][0]['id']]}}
+            return httpx.Response(200,json={'id':'synthetic-response','object':'response',
+                'model':'synthetic','created_at':1,'status':'completed','usage':None,
+                'output':[{'type':'function_call','name':body['tool_choice']['name'],
+                           'call_id':'synthetic-call','arguments':json.dumps(value)}]})
+        with (patch.dict('os.environ',{'INVESTIGATOR_RECORD_RUNS':'1'}),
+                patch('investigator.run_recording.ROOT',helper.fixture.root),
+                patch.dict('os.environ',{'AZURE_OPENAI_ENDPOINT':'https://synthetic.openai.azure.com',
+                    'AZURE_OPENAI_DEPLOYMENT':'synthetic','AZURE_OPENAI_API_KEY':'synthetic-key-for-test'}),
+                patch('httpx.HTTPTransport',return_value=httpx.MockTransport(provider))):
+            intake=workspace.intake.resolve({'text':'Does Total reflect source entries?',
+                'request_key':'synthetic-process-ticket','parent_id':None})
+            self.assertEqual(intake['status'],'PROPOSED',intake)
+            scope=intake['proposal']
+            preview=workspace.preview({**{k:scope[k] for k in ('model_id','measure_id','filters','dimension_ids')},
+                'symptom':intake['text'],'predecessor':None,'intake_id':intake['id']})
+            created=agent.create(preview['envelope'],'synthetic-process')
+            agent.run(created['id']);result=agent.synthesize(created['id'])
+        self.assertEqual(result['synthesis']['status'],'COMPLETED')
+        tape=agent._run_tapes[created['id']]
+        sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+        from acceptance.unknown_domain.process_replay import replay
+        with tempfile.TemporaryDirectory() as output:
+            actual=replay(tape.path,Path(output)/'replay',native_transport=lambda request:
+                bounded_call('synthetic-native',request,lambda:self.fail('No live transport in replay')))
+        self.assertTrue(actual['matched'])
+        self.assertEqual(actual['operations'],['intake','preview','create','run','synthesize'])
+        self.assertEqual(actual['outputs'],result['synthesis']['outputs'])
+
+    def test_synthetic_worker_run_replays_decisions_and_both_outputs_without_network(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json'
+            worker=lambda *a,**k:subprocess.CompletedProcess(a[0],0,'{"value":7}\n','')
+            def procedure():
+                event('OPERATION_START',{'name':'synthetic'})
+                identity=str(uuid4());started=clock('run')
+                event('CONFIGURATION',{'context':'retained-context','value':{}})
+                event('BUDGET',{'admitted':True,'physical_requests':1})
+                response=run(['python','read_worker.py'],input='{"query":"quantity"}',
+                             timeout=10,text=True,fallback=worker)
+                value=json.loads(response.stdout)['value']
+                outputs={'business':f'The number is {value}.','technical':f'{identity}: quantity {value}; clock {started}.'}
+                event('OPERATION_END',{'name':'synthetic'})
+                return outputs
+            tape=Tape(path,bootstrap())
+            with active(tape):
+                expected=procedure();tape.finish(expected)
+            replay=Tape(path)
+            with (active(replay),patch('socket.create_connection',side_effect=AssertionError('NETWORK')),
+                    patch('socket.socket.connect',side_effect=AssertionError('NETWORK'))):
+                actual=procedure();replay.finish(actual)
+            self.assertEqual(bytes_of(actual),bytes_of(expected))
+
+    def test_changed_request_bytes_refused_not_replaced(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json';tape=Tape(path,bootstrap())
+            with active(tape):
+                event('CONFIGURATION',{'scope':'one'});tape.finish({})
+            replay=Tape(path)
+            with active(replay),self.assertRaisesRegex(TapeError,'REQUEST_BYTES_DIFFER'):
+                event('CONFIGURATION',{'scope':'two'})
+
+    def test_started_worker_without_terminal_response_fails_completeness(self):
+        with tempfile.TemporaryDirectory() as folder:
+            tape=Tape(Path(folder)/'tape.json',bootstrap())
+            tape.event('WORKER_START',bytes_of({'mode':'BOUNDED'}))
+            with self.assertRaisesRegex(TapeError,'UNFINISHED_ATTEMPT'):tape.finish({})
+
+    def test_secret_exclusion_does_not_capture_secret_or_validate_as_complete(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json';tape=Tape(path,bootstrap())
+            with patch.dict('os.environ',{'PRIVATE_API_KEY':'synthetic-secret-long'}):
+                tape.event('WORKER_READ',b'synthetic-secret-long')
+            with self.assertRaisesRegex(TapeError,'EXCLUDED_BODY'):tape.finish({})
+            self.assertNotIn(b'synthetic-secret-long',path.read_bytes())
+
+    def test_bootstrap_with_unpinned_context_refused(self):
+        with tempfile.TemporaryDirectory() as folder:
+            body=bootstrap();body['context_identity']=None
+            tape=Tape(Path(folder)/'tape.json',body)
+            with self.assertRaisesRegex(TapeError,'BOOTSTRAP_IDENTITY'):tape.finish({})
+
+    def test_unknown_event_is_not_accepted(self):
+        with tempfile.TemporaryDirectory() as folder:
+            tape=Tape(Path(folder)/'tape.json',bootstrap())
+            with self.assertRaises(TapeError):tape.event('UNKNOWN',b'{}')
+
+    def test_response_without_started_worker_is_not_a_complete_tape(self):
+        with tempfile.TemporaryDirectory() as folder:
+            tape=Tape(Path(folder)/'tape.json',bootstrap())
+            tape.event('WORKER_READ',b'{}')
+            with self.assertRaisesRegex(TapeError,'WITHOUT_REQUEST'):tape.finish({})
+
+    def test_changed_final_output_refused(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json';tape=Tape(path,bootstrap())
+            tape.finish({'business':'Original.'})
+            replay=Tape(path)
+            with self.assertRaisesRegex(TapeError,'REQUEST_BYTES_DIFFER'):
+                replay.finish({'business':'Replacement.'})
+
+    def test_unknown_bootstrap_state_and_missing_completed_outputs_refused(self):
+        body=bootstrap();body['entry_point']='workspace'
+        body['state']={'environment':'synthetic','workspace_owner':None,
+            'artifacts':{'catalog.sqlite':'0'*64,'inventory.sqlite':'1'*64},
+            'dynamic_read_limit':12,'dynamic_input_limit':10000}
+        for extra,reason in (({'unknown':True},'STATE_FIELDS'),({},'COMPLETED_OUTPUTS_MISSING')):
+            with self.subTest(extra=extra),tempfile.TemporaryDirectory() as folder:
+                changed=copy.deepcopy(body);changed['state'].update(extra)
+                tape=Tape(Path(folder)/'tape.json',changed)
+                with self.assertRaisesRegex(TapeError,reason):
+                    tape.finish({'operation':'synthesize','error':None,'status':'COMPLETED','outputs':None,'result':{}})
+
+    def test_real_metered_protocol_records_every_request_and_replays_without_worker(self):
+        from investigator.physical_reads import run as physical_run,scope,guard_scope
+        with tempfile.TemporaryDirectory() as folder:
+            folder=Path(folder);child=folder/'worker.py';path=folder/'tape.json'
+            child.write_text('''import json,sys
+json.loads(sys.stdin.readline())
+for kind in ['sql_database_permissions','sql_quantity']:
+ print(json.dumps({'physical_read':'REQUEST','kind':kind,'cache_guard':kind!='sql_quantity','object':''}),flush=True)
+ answer=sys.stdin.readline().strip()
+ if answer=='REUSE':continue
+ assert answer=='ALLOW'
+ print(json.dumps({'physical_read':'DONE','kind':kind,'status':'AVAILABLE','guard_passed':True}),flush=True)
+print(json.dumps({'status':'AVAILABLE','quantity':7}),flush=True)
+''',encoding='utf8')
+            def procedure():
+                receipts=[];meters=[];results=[]
+                with guard_scope(receipts.append):
+                    for _ in range(2):
+                        with scope(lambda kind,call:(meters.append(kind),call())[1]):
+                            results.append(physical_run([sys.executable,str(child)],input='{"server":"host","database":"db"}',timeout=5).stdout)
+                return {'guards':receipts,'meters':meters,'results':results}
+            tape=Tape(path,bootstrap())
+            with active(tape):expected=procedure();tape.finish(expected)
+            # The initial physical slot is admitted by the caller, subsequent
+            # slots by the meter. On reuse the quantity uses that initial slot.
+            self.assertEqual(expected['meters'],['sql_quantity'])
+            self.assertEqual([r['status'] for r in expected['guards']],['ESTABLISHED','REUSED'])
+            child.unlink()
+            replay=Tape(path)
+            with active(replay),patch('subprocess.Popen',side_effect=AssertionError('No child during replay')):
+                actual=procedure();replay.finish(actual)
+            self.assertEqual(actual,expected)
+
+    def test_recording_does_not_reduce_directory_coverage_or_change_payload(self):
+        import test_flexible_investigation as fixture
+        from investigator.adaptive_runtime import AdaptiveRuntime
+        from investigator.adaptive_candidates import catalog
+        h=fixture.DynamicTests();h.setUp();self.addCleanup(h.doCleanups)
+        agent=AdaptiveRuntime(h.runtime,lambda _:None)
+        state=agent.get(agent.create(h.envelope,'tape-context')['id'])
+        choices,_=catalog(h.store,h.config,h.envelope)
+        before=agent.payload(state,choices)
+        with tempfile.TemporaryDirectory() as folder,active(Tape(Path(folder)/'tape.json',bootstrap())):
+            after=agent.payload(state,choices)
+        self.assertEqual(bytes_of(before),bytes_of(after))
+        directory=before['context_entry_points']
+        counts={'entries':len(directory),'sql_entries':sum(a['kind']=='SqlObject' for a in directory),
+                'payload_characters':len(bytes_of(before).decode())}
+        self.assertGreater(counts['entries'],0);self.assertGreater(counts['sql_entries'],0)
+        print('TAPE_CONTEXT_COVERAGE '+json.dumps({'before':counts,'after':counts}))
+
+    def test_connection_retry_receipt_times_replay_without_sleeping(self):
+        from sql_connect_retry import read_with_retry
+        from unittest.mock import Mock
+        failure={'error':'SQL_READ_FAILED','stage':'connect','sql_error_number':40613}
+        replies=[failure,{'quantity':7}]
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json';tape=Tape(path,bootstrap())
+            with active(tape):
+                expected=read_with_retry(Mock(side_effect=replies),Mock());tape.finish(expected)
+            replay=Tape(path)
+            with active(replay):
+                actual=read_with_retry(Mock(side_effect=replies),lambda _:self.fail('No live sleep in replay'))
+                replay.finish(actual)
+            self.assertEqual(actual,expected)
+
+
+if __name__=='__main__':unittest.main()

@@ -2,12 +2,13 @@
 import time
 from datetime import datetime, timezone
 import subprocess
+from investigator.process_tape import utc_now, ACTIVE
 
 
 def read_with_retry(read, sleep=time.sleep):
     attempts = []
     for index in range(3):
-        started = datetime.now(timezone.utc).isoformat()
+        started = utc_now()
         try:
             result = read()
         except subprocess.TimeoutExpired:
@@ -19,10 +20,11 @@ def read_with_retry(read, sleep=time.sleep):
                      and result.get('sql_error_number') == 40613)
         delay = (10, 20)[index] if retryable and index < 2 else 0
         attempts.append({'attempt': index + 1, 'started_at': started,
-                         'finished_at': datetime.now(timezone.utc).isoformat(),
+                         'finished_at': utc_now(),
                          'status': 'FAILED' if result.get('error') else 'SUCCEEDED',
                          'stage': result.get('stage'), 'sql_error_number': result.get('sql_error_number'),
                          'retry_delay_seconds': delay})
         if not delay:
             return dict(result, connection_attempts=attempts)
-        sleep(delay)
+        tape=ACTIVE.get()
+        if tape is None or not tape.replaying:sleep(delay)

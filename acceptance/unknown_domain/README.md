@@ -1,5 +1,12 @@
 # Post-freeze unfamiliar-domain publisher and evaluator
 
+The process-path `process_replay.py` harness reproduces engine decisions and both
+outputs from recorded worker responses; it does not re-exercise upstream decoding.
+It bootstraps sealed catalog/inventory backups, matches worker/provider bytes and
+blocks sockets. Decoder regression tests use committed synthetic raw inputs, never
+estate raw payloads. See [bounded-worker tape contract](../../docs/bounded-worker-tapes.md).
+This known-domain recording work is not a new freeze or unfamiliar-domain pass.
+
 These scripts are operator/evaluator tooling. The investigator never imports them
 or reads the publisher manifest, seed, private expected values or grading labels.
 Run after a committed freeze and an ordinary discovery scan showing the domain absent.

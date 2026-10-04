@@ -92,7 +92,8 @@ def transport(config, request):
     with tempfile.TemporaryDirectory() as directory:
         frozen=Path(directory)/'profile.json'
         frozen.write_text(json.dumps(config),encoding='utf-8')
-        p=subprocess.run([config['fabric']['auth']['python'],str(ROOT/'scripts/run_native_diagnostic.py'),
+        from investigator.tape_worker import run as worker_run
+        p=worker_run([config['fabric']['auth']['python'],str(ROOT/'scripts/run_native_diagnostic.py'),
             '--config',str(frozen),'--transport-worker'],input=json.dumps(request),
             capture_output=True,text=True,encoding='utf-8',timeout=120)
     if p.returncode:

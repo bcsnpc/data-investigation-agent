@@ -1,5 +1,5 @@
 """Microsoft delivery observations using declared semantic columns and copy mappings."""
-from uuid import uuid4
+from ..process_tape import uuid4
 from .. import context_search
 from ..source_delivery import declaration,decode,classify
 from ..source_diagnostics import quote

@@ -4,6 +4,7 @@ import json
 from .onboarding import fields,digest,encoded,Conflict
 from .generation_policy import MAX_OUTPUT_TOKENS
 from . import read_allowance
+from .tape_budget import decision
 
 KEYS=('planner_calls','cloud_calls','input_characters','output_tokens')
 
@@ -70,6 +71,7 @@ class UsageGovernor:
 
     def day(self):return datetime.fromtimestamp(self.clock(),timezone.utc).date().isoformat()
 
+    @decision
     def reserve(self,db,session_id,key,kind,characters=0,*,output_tokens=1500,purpose="INVESTIGATION"):
         # Caller holds BEGIN IMMEDIATE; budget and session transition commit together.
         if kind not in ('planner','cloud'):raise ValueError('Unknown usage kind')
@@ -101,6 +103,7 @@ class UsageGovernor:
         db.execute('INSERT INTO adaptive_usage VALUES(?,?,?,?,?,?,NULL,?,?,?)',
                    (self.environment,session_id,key,self.day(),kind,encoded(amount),'RESERVED',self.hash,self.clock()))
 
+    @decision
     def settle(self,db,session_id,key,usage=None,uncertain=False):
         row=db.execute('SELECT status,reserved FROM adaptive_usage WHERE environment=? AND session_id=? AND reservation_key=?',
                        (self.environment,session_id,key)).fetchone()

@@ -2,7 +2,7 @@
 import json
 import hashlib
 import re
-from uuid import uuid4
+from ..process_tape import uuid4
 from .. import context_search
 from ..declared_pointer import resolve as resolve_declared
 from ..flexible_tools import run as run_query
