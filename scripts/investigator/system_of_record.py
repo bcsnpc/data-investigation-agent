@@ -57,5 +57,8 @@ def validate(assessment, observations, comparisons):
             if original.get('declared_context') != c.get(side+'_declared_context'):
                 raise ValueError('Source consistency scope must match the original quantity receipts')
     terminal = paths[0]['resolved_source_path']['system_of_record']['asset_id']
+    from .record_presence import proof as presence_proof
+    if not presence_proof(paths[0].get('expected_records',[]),paths[0]['resolved_source_path']['layers'],list(observations.values())):
+        raise ValueError('Source consistency requires attested expected-record presence at every layer')
     if process['visibility_boundary']['deepest_layer'] != terminal or process['visibility_boundary']['stopped_by'] != 'REACHED':
         raise ValueError('Source consistency must terminate at the declared system of record')

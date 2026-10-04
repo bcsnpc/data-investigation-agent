@@ -28,6 +28,8 @@ REGISTRY = {
     'CAPABILITY_DECLARATION': Shape('retained'),
     'SOURCE_DELIVERY': Shape('retained'),
     'FRESHNESS_ATTEMPT': Shape('retained'),
+    'EXPECTED_RECORD_PRESENCE': Shape('query','flexible_diagnostics'),
+    'EXPECTED_RECORD_UNAVAILABLE': Shape('retained'),
     **{name: Shape('context') for name in ('CONTEXT_METADATA',
        'DECLARED_CONTEXT_DEFINITION', 'TRANSFORMATION_DEFINITION', 'INGESTION',
        'FRESHNESS', 'JOB_HISTORY', 'PRESENTATION_DEFINITION')},
@@ -61,6 +63,10 @@ def validate_for_synthesis(observation):
         for field in ('request_hash','values'):
             if field not in observation:
                 raise Conflict('Registered process receipt '+name+' lacks required '+field)
+    if name=='EXPECTED_RECORD_PRESENCE':
+        from .record_presence import validate
+        try:validate(observation)
+        except (ValueError,KeyError,TypeError) as exc:raise Conflict('Expected-record presence differs from its original counts') from exc
     return name,spec
 
 
