@@ -103,3 +103,16 @@ freezes remain invalid. No investigation run or fabricated accounting result.
 Prior 398 ledger rows remain unchanged. Local sealed artifact:
 `.local/round-two-20261003/monitoring-enable-resume.json`, SHA-256
 `7d34a535ac3d700ec6b82f079c5dc1dcb32566e5c74a092d4d44a7bfd6142773`.
+
+## Dated resource verification after manual enablement, 2026-10-03
+
+A subsequent user-requested publisher workspace listing returned HTTP 200 with
+no continuation. It now contains the workspace-monitoring backing Eventstream
+72b37e0e-0510-4226-9809-b132fdd7d9c6, Eventhouse
+5f443879-734a-4b02-8be7-4466222c6386, and KQL database
+7e353019-064f-4aac-9a62-a9770d1399a9. The prior resource-absence blocker is
+therefore superseded; earlier results remain unchanged. This listing establishes
+resource creation, not successful collection, viewer access or load accounting.
+No enabling/permission mutation was performed in this check. Existing dia-reader
+viewer grant and bounded accounting probes remain pending. One metadata request;
+Part B 48/120, rolling observed 203/300. Ledger checkpoint appended.
