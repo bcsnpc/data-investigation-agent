@@ -86,7 +86,9 @@ def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tic
     if not re.fullmatch(r'https://[a-zA-Z0-9-]+\.openai\.azure\.com/?', endpoint) or not deployment or not key:
         raise ValueError('Azure endpoint, deployment and local API key must be configured')
     from openai import OpenAI
-    request_input = json.dumps(payload)
+    # Stored evidence is canonicalized by the catalog. Equivalent dictionaries
+    # reconstructed in replay must produce the exact same provider input bytes.
+    request_input = json.dumps(payload, sort_keys=True)
     if image_data_url is not None:
         if not isinstance(image_data_url, str) or len(image_data_url) > 1_400_000 or not re.fullmatch(r'data:image/(?:png|jpeg);base64,[A-Za-z0-9+/]+=*', image_data_url):
             raise ValueError('Expected bounded inline image; remote image URLs are not accepted')

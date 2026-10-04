@@ -14,6 +14,21 @@ from ticket_planner import validate_plan, plan_ticket, azure_generate
 
 
 class PlannerTests(unittest.TestCase):
+    def test_provider_input_bytes_do_not_depend_on_nested_dictionary_insertion_order(self):
+        sdk=MagicMock();client=sdk.OpenAI.return_value.__enter__.return_value
+        client.responses.create.return_value=SimpleNamespace(status='completed',output=[],
+            output_text=json.dumps(self.plan),id='synthetic-response',model='synthetic-model',usage=None)
+        env=dict(AZURE_OPENAI_ENDPOINT='https://test.openai.azure.com',
+            AZURE_OPENAI_DEPLOYMENT='synthetic-model',AZURE_OPENAI_API_KEY='synthetic-placeholder')
+        first={'z':1,'a':{'second':2,'first':1}}
+        second={'a':{'first':1,'second':2},'z':1}
+        with patch.dict('os.environ',env,clear=True),patch.dict('sys.modules',{'openai':sdk}):
+            azure_generate(first);before=client.responses.create.call_args.kwargs['input']
+            azure_generate(second);after=client.responses.create.call_args.kwargs['input']
+        self.assertEqual(before,after)
+        self.assertEqual(len(before),len(json.dumps(first)))
+        self.assertEqual(json.loads(after),first)
+
     def setUp(self):
         self.ticket = dict(title='Cash question', report='Executive Sales', description='Check USD net cash',
                            metric='Net Cash', currency='USD')

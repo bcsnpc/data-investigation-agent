@@ -1640,3 +1640,6 @@ or replacement investigation. See [full record](round-five-recorded-fifteen.md)
 and [verbatim narratives](round-five-output-transcripts.md). Engine changes in
 the recording repairs already invalidated all prior freezes.
 
+
+
+Dated provider serialization correction (2026-10-04): future requests sort nested JSON keys so catalog reconstruction cannot change provider input bytes. Old sealed tapes and failed replays stay unchanged; no live replacement. Synthetic nested-order test passes with unchanged payload length and data. Directory coverage remains 2 entries / 1 SQL object / 7,540 characters. Engine bytes changed; prior freezes invalid. See [details](canonical-provider-input.md).
