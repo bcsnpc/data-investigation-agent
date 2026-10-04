@@ -6,6 +6,7 @@ from jsonschema import Draft202012Validator
 from .layer_roles import ROLES
 from .process_debugging import REQUIRED_CAPABILITIES, OPTIONAL_CAPABILITIES
 from .workspace import DYNAMIC_READ_BOUNDS, DYNAMIC_INPUT_BOUNDS
+from .estate_limits import STATEMENT_BOUND
 
 
 def obj(properties, optional=()):
@@ -59,7 +60,8 @@ SCHEMA=obj({
             'output_tokens':integer(1,10000000),'max_inflight':integer(1,4),'no_progress_limit':integer(1,4)}),
         'round':obj({'id':STRING,'starts_at_epoch':{'type':'number','minimum':0},
             'physical_requests':integer(1,10000000),'restoration_reserved':integer(0,10000000)})}),
-    'accepted_limits':array(obj({'code':STRING,'resource':STRING,'statement':STRING}))})
+    'accepted_limits':array(obj({'code':STRING,'resource':STRING,
+        'statement':{'type':'string','minLength':1,'maxLength':STATEMENT_BOUND}}))})
 
 
 def validate(value):
@@ -115,6 +117,9 @@ def validate(value):
     for i,limit in enumerate(value['accepted_limits']):ref(limit['resource'],all_resources,f'accepted_limits.{i}.resource')
     from .business_vocabulary import validate_identifier_form
     for i,limit in enumerate(value['accepted_limits']):
+        from .estate_limits import render
+        try:render(limit['statement'])
+        except ValueError as exc:raise ValueError(f'manifest.accepted_limits.{i}.statement: '+str(exc)) from exc
         try:validate_identifier_form(limit['statement'])
         except ValueError as exc:raise ValueError(f'manifest.accepted_limits.{i}.statement: '+str(exc)) from exc
     ceiling=value['capability_ceiling']

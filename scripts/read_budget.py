@@ -13,8 +13,11 @@ from investigator.usage_governance import UsageGovernor
 
 
 class Catalog:
-    def __init__(self,path,environment):
+    def __init__(self,path,environment,config=None):
         self.path=path;self.store=SimpleNamespace(environment=environment)
+        # This catalog also supports isolated legacy ledger unit tests. The
+        # installation CLI always supplies the validated manifest projection.
+        self.config={} if config is None else config
 
     @contextmanager
     def db(self):
@@ -26,14 +29,17 @@ class Catalog:
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--database',required=True)
-    parser.add_argument('--policy',required=True)
+    parser.add_argument('--manifest',required=True)
     parser.add_argument('--approval',help='JSON human approval; omit to inspect only')
     args=parser.parse_args()
     from pathlib import Path
-    if not Path(args.database).is_file():parser.error('Existing catalog required')
-    policy=json.loads(Path(args.policy).read_text(encoding='utf-8-sig'))
-    governor=UsageGovernor(Catalog(args.database,policy['environment']),policy,time.time)
+    from investigator.estate_manifest import load,policy
+    from investigator.adapters.estate_installation import configuration
+    from metadata_config import ROOT
+    manifest=load(args.manifest);config=configuration(manifest)
+    database=ROOT/manifest['storage']['catalog']
+    if not database.is_file():parser.error('Existing catalog required')
+    governor=UsageGovernor(Catalog(database,manifest['environment'],config),policy(manifest),time.time)
     if args.approval:
         governor.grant_batch(json.loads(Path(args.approval).read_text(encoding='utf-8-sig')))
     print(json.dumps(governor.snapshot(),indent=2))

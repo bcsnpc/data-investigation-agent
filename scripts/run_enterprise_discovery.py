@@ -8,7 +8,7 @@ from pathlib import Path
 import time
 from uuid import uuid4
 
-from metadata_config import load_config, ROOT
+from metadata_config import ROOT
 from metadata_auth import WorkerTransport, PowerShellSqlCatalog
 from investigator.onboarding import ModelStore
 from investigator.discovery_collect import Collector
@@ -30,6 +30,10 @@ def main():
     manifest=load(args.manifest);config=configuration(manifest)
     store=ModelStore(ROOT/manifest['storage']['catalog'],config['storage']['database'],manifest['environment'])
     discovery=Discovery(store,config)
+    from investigator.runtime import Runtime
+    from investigator.usage_governance import UsageGovernor
+    from investigator.estate_manifest import policy
+    governor=UsageGovernor(Runtime(store,config,None,None),policy(manifest),time.time)
     auth=config['fabric']['auth']
     transport=WorkerTransport(auth['python'],auth['tenant_id'],ROOT/'scripts/metadata_worker.py')
     sql=PowerShellSqlCatalog(ROOT/'infra/scripts/Get-SqlMetadata.ps1',config['sql']['auth']['credential_file'])
@@ -37,7 +41,16 @@ def main():
     for i in range(args.cycles):
         if i:time.sleep(args.interval_seconds)
         from investigator.adapters.warehouse_catalog import read as warehouse_catalog
-        result=discovery.run(Collector(config,transport,sql,warehouse_reader=warehouse_catalog).run,args.request_key or str(uuid4()))
+        request_key=args.request_key or str(uuid4());session_id='discovery:'+request_key
+        sequence=0
+        def admitted(execute):
+            nonlocal sequence
+            sequence+=1
+            return governor.metered_read(session_id,'metadata-'+str(sequence),execute)
+        def http(*a,**k):return admitted(lambda:transport(*a,**k))
+        def catalog(*a,**k):return admitted(lambda:sql(*a,**k))
+        def warehouse(*a,**k):return admitted(lambda:warehouse_catalog(*a,**k))
+        result=discovery.run(Collector(config,http,catalog,warehouse_reader=warehouse).run,request_key)
         body=result['body']
         summary={'id':result['id'],'status':result['status'],'inventory_scan_id':body.get('inventory_scan_id'),
                  'calls':body.get('calls'),'changes':body.get('changes'),

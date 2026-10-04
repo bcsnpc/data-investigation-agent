@@ -1657,7 +1657,7 @@ fail closed. Configuration grants no scope and supplies no quantity equivalence.
 The fixture manifest has not been recollected/re-approved or run live. The
 retained approval still pins the historical config and must refuse it. Historical
 configs/tapes remain evidence; active installation entrypoints consult one file.
-No additional estate reads or identity changes. 12 manifest tests, 43 procedure
+No additional estate reads or identity changes. 18 manifest tests, 43 procedure
 regressions, eight metadata-connector tests and 11 source-contract tests pass.
 Directory coverage is 2 entries / 1 SQL object / 7,540 characters before and after.
 The code-inference location list is a permission hook, not an implemented new

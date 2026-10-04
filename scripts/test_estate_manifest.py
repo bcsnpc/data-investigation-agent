@@ -154,3 +154,89 @@ class ManifestAdmissionTests(unittest.TestCase):
             result=vertical(adapter,'m',{})
             self.assertNotIn('application',adapter.evaluated)
             self.assertNotEqual(result['classification'],'CONSISTENT_TO_SOURCE')
+
+class InstallationEntrypointTests(unittest.TestCase):
+    def test_historical_entrypoints_cannot_execute_from_scattered_configuration(self):
+        import run_investigation_v2,serve_investigations
+        for module,extra in [(run_investigation_v2,['--config','legacy.json','--approve']),
+                             (serve_investigations,['--enable-worker','--estate','legacy.json'])]:
+            with self.subTest(module=module.__name__),patch('sys.argv',[module.__name__,*extra]),\
+                 patch('metadata_config.load_config',side_effect=AssertionError('No legacy config')):
+                with self.assertRaises(SystemExit) as refused:module.main()
+                self.assertEqual(refused.exception.code,2)
+
+    def test_historical_status_is_read_only_and_uses_only_manifest(self):
+        import run_investigation_v2
+        workspace=Mock();workspace.agent.runtime.get.return_value={'status':'SAVED'}
+        with patch('sys.argv',['historical','--manifest','estate.json','--run-id','saved','--status-only']),\
+             patch.object(run_investigation_v2,'build',return_value=({},workspace)) as build:
+            self.assertEqual(run_investigation_v2.main(),0)
+        build.assert_called_once_with(Path('estate.json'),execution_enabled=False)
+        workspace.agent.runtime.get.assert_called_once_with('saved')
+        workspace.agent.runtime.execute.assert_not_called()
+
+class ManifestDiscoveryBudgetTests(unittest.TestCase):
+    def test_metadata_http_admission_precedes_the_actual_request(self):
+        import io
+        from types import SimpleNamespace
+        from metadata_auth import MetadataHttp
+        class Reply(io.BytesIO):
+            status=200;headers={}
+        opener=Mock();opener.open.return_value=Reply(b'{"value":[]}')
+        calls=[]
+        def admit(send):calls.append('admitted');return send()
+        client=MetadataHttp(SimpleNamespace(get_token=lambda _: 'synthetic-token'),opener,meter=admit)
+        self.assertEqual(client('workspaces')['text'],{'value':[]});self.assertEqual(calls,['admitted'])
+        client.meter=lambda _: (_ for _ in ()).throw(RuntimeError('budget boundary'))
+        with self.assertRaisesRegex(RuntimeError,'budget boundary'):client('workspaces')
+        self.assertEqual(opener.open.call_count,1)
+
+    def test_multi_request_metadata_worker_counts_physical_requests_and_stops_at_pot(self):
+        import sys,sqlite3
+        import test_flexible_investigation as fixture
+        from investigator.usage_governance import UsageGovernor,UsageHold
+        from investigator.physical_reads import run
+        helper=fixture.DynamicTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        helper.runtime.config['_estate']={'round':{'starts_at_epoch':0,'physical_requests':2,'restoration_reserved':0}}
+        policy={'environment':helper.store.environment,'daily_limits':{'planner_calls':50,'cloud_calls':50,
+            'input_characters':1000000,'output_tokens':100000},'max_inflight_planners':1,'no_progress_limit':3}
+        gov=UsageGovernor(helper.runtime,policy,lambda:1000)
+        raw='''import json,sys
+json.loads(sys.stdin.readline())
+for _ in range(2):
+ print(json.dumps({'physical_read':'REQUEST','kind':'metadata_read'}),flush=True)
+ if sys.stdin.readline().strip()!='ALLOW':raise RuntimeError('not admitted')
+ print(json.dumps({'physical_read':'DONE','kind':'metadata_read','status':'AVAILABLE'}),flush=True)
+print(json.dumps({'value':[]}),flush=True)
+'''
+        reply=gov.metered_read('scan','catalog',lambda:run([sys.executable,'-c',raw],input='{}',text=True,timeout=10))
+        self.assertEqual(json.loads(reply.stdout),{'value':[]})
+        with helper.runtime.db() as db:
+            self.assertEqual(db.execute("SELECT count(*) FROM adaptive_usage WHERE kind='cloud'").fetchone()[0],2)
+        with self.assertRaises(UsageHold):gov.metered_read('scan','next',lambda:self.fail('No worker after cap'))
+
+    def test_synthetic_worker_raw_acknowledgement_cannot_be_omitted(self):
+        import io
+        from metadata_worker import metered_request
+        for raw,allowed in [('ALLOW\n',True),('DENY\n',False),('',False)]:
+            called=[];output=io.StringIO()
+            with patch('sys.stdin',io.StringIO(raw)),patch('sys.stdout',output):
+                if allowed:self.assertEqual(metered_request(lambda:called.append(True) or {'value':[]} ),{'value':[]})
+                else:
+                    with self.assertRaisesRegex(RuntimeError,'not admitted'):metered_request(lambda:called.append(True))
+            events=[json.loads(x) for x in output.getvalue().splitlines()]
+            self.assertEqual(events[0],{'physical_read':'REQUEST','kind':'metadata_read'})
+            self.assertEqual(bool(called),allowed)
+            self.assertEqual(len(events),2 if allowed else 1)
+
+class ManifestProseContractTests(unittest.TestCase):
+    def test_configuration_prefix_cannot_exceed_the_consumer_or_hide_an_unfinished_sentence(self):
+        from investigator.estate_limits import PREFIX,STATEMENT_BOUND,render
+        from investigator.proposal_limits import ASSESSMENT_DETAIL
+        self.assertEqual(STATEMENT_BOUND+len(PREFIX),ASSESSMENT_DETAIL)
+        m=ManifestTests().fixture()
+        for bad in ['x'*(STATEMENT_BOUND+1), 'A limitation ending without punctuation']:
+            m['accepted_limits'][0]['statement']=bad
+            with self.assertRaisesRegex(ValueError,'accepted_limits.*statement'):manifest.validate(m)
+        valid='This is '+('x'*(STATEMENT_BOUND-len('This is ')-1))+'.'
+        self.assertEqual(len(render(valid)),ASSESSMENT_DETAIL)

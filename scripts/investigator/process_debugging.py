@@ -355,9 +355,15 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             result=_answer(*args,capabilities=available,failures=failures,**kwargs)
         declared_assets={l['id'] for l in path.get('layers',[])}
         configured={l['id']:l['asset_id'] for l in estate.get('layers',[])}
+        configured_limits=[]
         for limit in estate.get('accepted_limits',[]):
             if configured.get(limit['resource']) in declared_assets:
-                result['limits'].append('By configuration, '+limit['statement'])
+                from .estate_limits import render
+                result['limits'].append(render(limit['statement']))
+                configured_limits.append(dict(limit,asset_id=configured[limit['resource']]))
+        if configured_limits:
+            for key in ('business_output','technical_output'):
+                result[key]['configured_limits']=configured_limits
         from .declared_reproduction import KIND
         reproductions=[o for o in result['_observations'] if o.get('check_kind')==KIND]
         for finding in reproductions:

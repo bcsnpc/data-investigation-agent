@@ -4,9 +4,11 @@ param(
  [Parameter(Mandatory=$true)][string]$Database,
  [Parameter(Mandatory=$true)][string]$VisibilitySchema,
  [Parameter(Mandatory=$true)][string]$CredentialPath,
- [Parameter(Mandatory=$true)][string]$OutputPath
+ [Parameter(Mandatory=$true)][string]$OutputPath,
+ [switch]$Metered
 )
 $ErrorActionPreference='Stop'
+if($Metered) { $null=[Console]::In.ReadLine() | ConvertFrom-Json }
 Add-Type -AssemblyName System.Data
 $credential=Import-Clixml -LiteralPath $CredentialPath
 $credential.Password.MakeReadOnly()
@@ -45,6 +47,11 @@ try {
    $null=$command.Parameters.Add('@visibility_schema',[System.Data.SqlDbType]::NVarChar,128)
    $command.Parameters['@visibility_schema'].Value=$VisibilitySchema
   }
+  if($Metered) {
+   [Console]::Out.WriteLine('{"physical_read":"REQUEST","kind":"metadata_read"}')
+   [Console]::Out.Flush()
+   if([Console]::In.ReadLine() -ne 'ALLOW') { throw 'Metadata read not admitted' }
+  }
   $reader=$command.ExecuteReader(); $rows=New-Object System.Collections.Generic.List[object]
   try {
    while($reader.Read()) {
@@ -59,7 +66,12 @@ try {
    }
   } finally { $reader.Dispose(); $command.Dispose() }
   $result[$entry.Key]=@($rows.ToArray())
+  if($Metered) {
+   [Console]::Out.WriteLine('{"physical_read":"DONE","kind":"metadata_read","status":"AVAILABLE"}')
+   [Console]::Out.Flush()
+  }
  }
  $result | ConvertTo-Json -Depth 12 | Set-Content -Encoding UTF8 -LiteralPath $OutputPath
- Write-Output 'SQL metadata captured using the investigator identity.'
+ if($Metered) { [Console]::Out.WriteLine('{"status":"AVAILABLE"}'); [Console]::Out.Flush() }
+ else { Write-Output 'SQL metadata captured using the investigator identity.' }
 } finally { $connection.Dispose() }

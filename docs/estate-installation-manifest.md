@@ -56,3 +56,17 @@ Databricks document contains no Microsoft-specific vocabulary; its transport and
 provider are intentionally uninstalled, so no connection or cloud call is made.
 Engine bytes changed; all previous freezes remain invalid. No investigation run
 or ledger row is claimed for these unit tests.
+
+Legacy execution entry points cannot bypass this installation. The typed-action
+CLI now reads saved status only, with `--manifest`; the historical evidence server
+is read-only and also takes the manifest. Its former planning/worker switches
+are removed. New investigations run through the budgeted manifest workspace.
+Synthetic tests reject the old configuration/execution switches and verify that
+status reading cannot execute a saved run. Historical receipts are unchanged.
+
+Discovery uses this same installation and budget governor. HTTP requests, nested
+OneLake requests, each SQL catalog command, and Warehouse catalog guards are
+admitted and counted individually. A logical discovery operation is not one
+physical request. Exhaustion prevents sending another request; partial coverage
+remains unavailable rather than silently becoming a complete context. Synthetic
+raw protocol tests establish two-request accounting and refusal before transport.
