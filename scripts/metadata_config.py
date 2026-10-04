@@ -20,7 +20,10 @@ def text(value):
 
 def load_config(path):
     config = json.loads(Path(path).read_text(encoding='utf-8-sig'))
-    keys(config, ['version', 'sql', 'fabric', 'storage'] + (['system_of_record'] if 'system_of_record' in config else []))
+    keys(config, ['version', 'sql', 'fabric', 'storage'] + [k for k in ('system_of_record','load_audits') if k in config])
+    if 'load_audits' in config:
+        from investigator.load_audits import declarations
+        declarations(config['load_audits'])
     if 'system_of_record' in config:
         from investigator.system_of_record import declaration
         declaration(config['system_of_record'])

@@ -8,7 +8,7 @@ class JobHistoryTests(unittest.TestCase):
         run={'id':'run','status':status,'startTimeUtc':'2026-09-18T18:12:02.4546073','endTimeUtc':'2026-09-18T18:13:23.9191421','failureReason':None};run.update(extra)
         return [{'asset_id':'job','capability':'run_history','status':'AVAILABLE','detail':[run]}]
     def test_failed_job_is_never_current_in_adapter(self):
-        a=MicrosoftProcessAdapter.__new__(MicrosoftProcessAdapter);a.store=None
+        a=MicrosoftProcessAdapter.__new__(MicrosoftProcessAdapter);a.store=None;a.config={}
         with patch('investigator.context_search.latest',return_value={'version':'scan','observations':self.rows('Failed')}):
             result=a.job_history({'lower':{'transformation_asset_id':'job'}})
         self.assertEqual(result['status'],'UNAVAILABLE');self.assertEqual(result['run_state'],'FAILED')
