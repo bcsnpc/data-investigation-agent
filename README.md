@@ -1,5 +1,9 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Five is authorised with a separate 400 physical-request pot and rolling
+allowance 1,500; usage remains 641 and diagnostic cap 12. No Round Five live run
+has started. [Before/after budget record](docs/round-five-budget.md).
+
 Round Four's 15 offline acceptance attempts all blocked on missing complete
 runtime recordings. [Exact stops](docs/round-four-acceptance-gaps.md) are recorded;
 strict gate [#376](https://github.com/bcsnpc/data-investigation-agent/pull/376) remains

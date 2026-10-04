@@ -1,5 +1,9 @@
 # Current delivery status
 
+2026-10-04: Round Five budget decision recorded. Separate pot 400; rolling
+allowance 1,000 -> 1,500, with charged use unchanged at 641; diagnostic cap 12.
+No live run or cloud request. [Control-plane record](round-five-budget.md).
+
 Round Four evidence closed: source consistency and configured-unreachable outcomes
 earned with snapshot caveats; first SQL 40613 failure preserved. Fifteen offline
 replay attempts blocked: four missing response/timing, eleven incomplete session

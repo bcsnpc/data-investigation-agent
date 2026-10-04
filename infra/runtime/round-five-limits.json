@@ -1,0 +1,8 @@
+{
+  "environment_reference": "unknown-domain-v4",
+  "physical_request_ceiling": 400,
+  "experiment_prefix": "ROUND_FIVE",
+  "rolling_physical_allowance": 1500,
+  "diagnostic_read_cap": 12,
+  "human_decision": "2026-10-04: round-five-tapes-and-manifest.md section 0; separate 400 physical-request pot; rolling 1000 to 1500; no counter reset"
+}
