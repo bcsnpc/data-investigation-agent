@@ -61,4 +61,53 @@ class QuestionAccountTests(unittest.TestCase):
         marker['freshness_attempt']['checks']['job_history']={'status':'CURRENT','accounting_observed':True}
         self.assertIn('load accounting was read',account.render(account.build(s)))
 
+    def test_every_declared_kind_owns_its_answer_subject_not_ticket_keywords(self):
+        from investigator.question_kind import KINDS
+        self.assertEqual(set(account.KIND_SUBJECTS),set(KINDS))
+        for kind in KINDS:
+            s=self.state('Inspect this.');s['envelope']['question_kind']={'kind':kind}
+            value=account.build(s)
+            self.assertEqual(value['subjects'][0]['subject'],account.KIND_SUBJECTS[kind])
+            self.assertEqual(value['subject_provenance'],'DECLARED_QUESTION_KIND')
+            self.assertEqual(value['status'],'NOT_ANSWERED')
+
+    def test_kind_outcome_and_completed_evidence_determine_answer_for_each_kind(self):
+        cases={
+            'SOURCE_CORRECTNESS':('INGESTION_GAP',{'check_kind':'SOURCE_DELIVERY','delivery_result':{'status':'GAP'}},'ANSWERED'),
+            'FIGURE_DIFFERENCE':('LOAD_LATENCY',{'check_kind':'SOURCE_DELIVERY','delivery_result':{'status':'LATENT'}},'ANSWERED'),
+            'FRESHNESS':('LOAD_LATENCY',{'process_roles':['job_history']},'PARTLY_ANSWERED'),
+            'TRANSFORMATION_MECHANISM':('TRANSFORMATION_LOGIC',{'process_roles':['mechanism']},'PARTLY_ANSWERED'),
+            'METRIC_COMPONENTS':('TRANSFORMATION_LOGIC',{'process_roles':['left_definition']},'PARTLY_ANSWERED'),
+            'DERIVED_CALCULATION':('TRANSFORMATION_LOGIC',{'process_roles':['transformation_definition']},'PARTLY_ANSWERED'),
+            'EXPECTED_BEHAVIOR':('CONSISTENT_TO_BOUNDARY',{'comparison_status':'CROSS_SURFACE_VERIFIED'},'PARTLY_ANSWERED'),
+            'BUSINESS_MEANING':('BUSINESS_QUESTION',{'process_roles':['flow_consistency']},'NOT_ANSWERED'),
+            'VISUAL_CONTENT':('NO_COMPARABLE_PATH',{'process_roles':['established']},'NOT_ANSWERED')}
+        for kind,(outcome,observation,status) in cases.items():
+            with self.subTest(kind=kind):
+                s=self.state('Inspect this.');s['envelope']['question_kind']={'kind':kind}
+                s['assessment']['classification']=outcome
+                s['observations']=[dict(observation,id='receipt',status='COMPLETED')]
+                self.assertEqual(account.build(s)['status'],status)
+                wording={'ANSWERED':'Answered within the checked scope','PARTLY_ANSWERED':'Partly answered','NOT_ANSWERED':'Not answered'}[status]
+                self.assertIn('Answer to your question: '+wording,account.render(account.build(s)))
+                s['observations'][0]['status']='UNAVAILABLE'
+                self.assertEqual(account.build(s)['status'],'NOT_ANSWERED')
+
+    def test_gap_answer_does_not_require_comparison_keywords_and_stays_qualified(self):
+        s=self.state('Did the completed load leave anything out?');s['envelope']['question_kind']={'kind':'FIGURE_DIFFERENCE'}
+        s['assessment']['classification']='INGESTION_GAP'
+        s['observations']=[{'id':'delivery','status':'COMPLETED','check_kind':'SOURCE_DELIVERY','delivery_result':{'status':'GAP'}}]
+        text=account.render(account.build(s))
+        self.assertIn('Answered within the checked scope',text)
+        self.assertIn('precise point of loss were not established',text)
+        self.assertNotIn('Not answered',text)
+
+    def test_visual_kind_takes_answer_from_reproduction_even_without_text_marker(self):
+        from test_reproduction_composition import CompositionTests
+        fixture=CompositionTests();s=fixture.state(fixture.rows())
+        s['envelope'].update(symptom='Inspect this.',question_kind={'kind':'VISUAL_CONTENT'})
+        self.assertIn('Yes',account.render(account.build(s)))
+        s['observations']=fixture.rows('NOT_REPRODUCED')
+        self.assertIn('No —',account.render(account.build(s)))
+
 if __name__=='__main__':unittest.main()

@@ -15,15 +15,60 @@ SUBJECTS={
 }
 LABELS={'currency':'whether the reported information is current','meaning':'business meaning and intended treatment',
         'definitions':'the requested definitions and components','comparison':'the requested comparison',
-        'unclassified':'the original question'}
+        'unclassified':'the original question','delivery':'whether the application information was delivered',
+        'mechanism':'the implemented transformation','expectation':'the expected behaviour'}
+
+# Closed consumer-owned mapping: typed intake subjects, never wording guesses.
+KIND_SUBJECTS={'VISUAL_CONTENT':'comparison','FRESHNESS':'currency',
+    'SOURCE_CORRECTNESS':'delivery','FIGURE_DIFFERENCE':'comparison',
+    'METRIC_COMPONENTS':'definitions','DERIVED_CALCULATION':'definitions',
+    'TRANSFORMATION_MECHANISM':'mechanism','BUSINESS_MEANING':'meaning',
+    'EXPECTED_BEHAVIOR':'expectation'}
+DELIVERY_OUTCOMES={'INGESTION_GAP':'GAP','LOAD_LATENCY':'LATENT'}
+
+
+def typed_check(kind,assessment,observations):
+    """An outcome needs its completed evidence; unknown intent stays unknown."""
+    from .question_kind import KINDS
+    if kind not in KINDS or set(KIND_SUBJECTS)!=set(KINDS):raise Conflict('Question-kind answer map is incomplete')
+    subject=KIND_SUBJECTS[kind];outcome=assessment.get('classification')
+    refs=[];status='NOT_ANSWERED';reason='The completed checks did not establish an answer for this question kind.'
+    delivery=[o for o in observations if o.get('check_kind')=='SOURCE_DELIVERY'
+              and o.get('delivery_result',{}).get('status')==DELIVERY_OUTCOMES.get(outcome)] if outcome in DELIVERY_OUTCOMES else []
+    comparisons=[o for o in observations if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
+    if kind in ('SOURCE_CORRECTNESS','FIGURE_DIFFERENCE') and delivery:
+        refs=[o['id'] for o in delivery];status='ANSWERED'
+        reason=('The completed load was followed by a delivery difference in the independently read application and landing information.'
+            if outcome=='INGESTION_GAP' else 'The application changed after the last successful load; delivery must be checked again after the next load.')
+        reason+=' This answers the delivery condition within the recorded scope; matching data versions and the precise point of loss were not established.'
+    elif kind in ('SOURCE_CORRECTNESS','FIGURE_DIFFERENCE','EXPECTED_BEHAVIOR') and comparisons:
+        refs=[o['id'] for o in comparisons];status='PARTLY_ANSWERED'
+        reason='Independent quantities were compared within the checked scope; remaining boundaries, timing and business intent are limited by the recorded evidence.'
+        if outcome=='CONSISTENT_TO_SOURCE':
+            status='ANSWERED';reason='The compared path agreed through the declared application source, with the requested record membership checked. The remaining expectation belongs to the application owner; currency is not established.'
+        elif outcome=='CONSISTENT_TO_BOUNDARY':
+            reason='The compared path agreed through the named checked depth; the application beyond it was not read, so the remaining question belongs to the application owner.'
+    elif kind=='TRANSFORMATION_MECHANISM':
+        refs=[o['id'] for o in observations if set(o.get('process_roles',[])) & {'transformation_definition','mechanism'}]
+        if refs and outcome in ('TRANSFORMATION_LOGIC','DEFECT'):
+            status='PARTLY_ANSWERED';reason='The retained definition was judged against the observed difference; the supported mechanism and its evidence limits are reported, without deciding business intent.'
+    elif kind in ('METRIC_COMPONENTS','DERIVED_CALCULATION'):
+        refs=[o['id'] for o in observations if set(o.get('process_roles',[])) & {'transformation_definition','left_definition','right_definition','presentation_definition'}]
+        if refs:status='PARTLY_ANSWERED';reason='Definitions were inspected; coverage of every requested component or calculation is limited to the retained evidence.'
+    elif kind=='BUSINESS_MEANING':
+        reason='Technical flow evidence cannot establish authoritative business meaning; the remaining question requires a domain specialist.'
+    elif kind=='VISUAL_CONTENT':
+        reason='No completed declared-context reproduction established the requested visual result.'
+    return {'subject':subject,'status':status,'reason':reason,'evidence_ids':refs}
 
 
 def build(state):
     question=state['envelope']['symptom']
     if not isinstance(question,str) or not question.strip():raise Conflict('Question account requires the original ticket')
     assessment=state.get('assessment') or {}
+    kind=(state['envelope'].get('question_kind') or {}).get('kind')
     from .reproduction_composition import select,answer,requested
-    lead=select(state.get('observations',[])) if requested(question) else None
+    lead=select(state.get('observations',[])) if kind=='VISUAL_CONTENT' or requested(question) else None
     if lead is not None:
         return {'version':2,'question':question,'question_hash':digest(question),
             'status':'ANSWERED' if lead['label'] else 'NOT_ANSWERED',
@@ -35,9 +80,9 @@ def build(state):
     detail=assessment.get('technical_output') or {}
     skipped=detail.get('skipped_steps',[])
     comparisons=[o for o in observations if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
-    subjects=[key for key,pattern in SUBJECTS.items() if re.search(pattern,question,re.I)] or ['unclassified']
-    if (state['envelope'].get('question_kind') or {}).get('kind')=='FRESHNESS' and 'currency' not in subjects:
-        subjects=['currency']+[s for s in subjects if s!='unclassified']
+    kind=(state['envelope'].get('question_kind') or {}).get('kind')
+    subjects=([KIND_SUBJECTS[kind]] if kind in KIND_SUBJECTS else
+        [key for key,pattern in SUBJECTS.items() if re.search(pattern,question,re.I)] or ['unclassified'])
     checks=[]
     for subject in subjects:
         status='NOT_ANSWERED';reason='No recorded completion check establishes an answer to this request.'
@@ -95,12 +140,13 @@ def build(state):
                         refs=[o['id'] for o in refusals if o.get('reason')==NO_FIGURE]
                         reason='There is no reported figure to compare; no reproduction verdict was established.'
                     else:reason='No independent comparison established an answer to the requested difference.'
-        checks.append({'subject':subject,'status':status,'reason':reason,'evidence_ids':refs})
+        checks.append(typed_check(kind,assessment,observations) if kind and kind!='FRESHNESS' else
+            {'subject':subject,'status':status,'reason':reason,'evidence_ids':refs})
     states=[c['status'] for c in checks]
     status=('ANSWERED' if all(s=='ANSWERED' for s in states) else
             'NOT_ANSWERED' if all(s=='NOT_ANSWERED' for s in states) else 'PARTLY_ANSWERED')
     return {'version':1,'question':question,'question_hash':digest(question),'status':status,
-            'subjects':checks,'subject_provenance':'EXPLICIT_TEXT_MARKERS_WITH_UNCLASSIFIED_FALLBACK',
+            'subjects':checks,'subject_provenance':'DECLARED_QUESTION_KIND' if kind else 'EXPLICIT_TEXT_MARKERS_WITH_UNCLASSIFIED_FALLBACK',
             'finding_outcome':assessment.get('classification'),'authority':'DETERMINISTIC_EVIDENCE_COVERAGE'}
 
 
