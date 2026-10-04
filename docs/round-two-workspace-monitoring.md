@@ -29,7 +29,8 @@ have not been observed, so no actual permission refusal is claimed from them.
 
 Step 2 was attempted regardless of those documented restrictions. The computer-use
 surface inventory returned **apps=[] and browsers=[]**. Creating an in-app tab
-returned exactly **Browser is not available: iab**. Thus the documented UI setting
+returned exactly **Browser is not available: iab**. A separate Chrome entry-point
+attempt also returned **Browser is not available: chrome**. Thus the documented UI setting
 could not be operated in this session. Searches found no supported workspace
 monitoring enablement endpoint; this is a bounded search finding, not proof none
 exists. The similarly named
