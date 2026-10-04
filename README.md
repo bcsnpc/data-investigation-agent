@@ -1,5 +1,11 @@
 # Self-Discovering Enterprise Data Investigator
 
+
+2026-10-04 correction: Round Five stopped at Family F after synthesis failed with
+IncompleteProse; its completed procedure was mistakenly treated as completed
+composition by tape validation. A/B/C/E replayed both outputs; F has none and
+remains failed. The recorder distinguishes that failure; no replacement run.
+See [Round Five evidence](docs/round-five-recorded-fifteen.md).
 Round Five's first estate recording completed Family D with NO_COMPARABLE_PATH,
 both outputs and six physical requests. Offline replay failed on an unrecorded
 report-selection ID; the live tape and failed replays are preserved, with no

@@ -1,5 +1,11 @@
 # Current delivery status
 
+
+2026-10-04 correction: Round Five stopped at Family F on IncompleteProse and the
+recorder's completed-procedure/completed-composition conflation. A/B/C/E replayed
+both outputs; F generated neither. Original failure preserved, 34/400 requests.
+Failed composition is replayable failure evidence, never a dual-output pass.
+Engine bytes changed; prior freezes remain invalid.
 Round Five's first estate recording completed Family D with NO_COMPARABLE_PATH,
 both outputs and six physical requests. Offline replay failed on an unrecorded
 report-selection ID; the live tape and failed replays are preserved, with no

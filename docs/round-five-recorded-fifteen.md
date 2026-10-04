@@ -70,3 +70,35 @@ What else was checked: vertical path outcome NO_COMPARABLE_PATH.
 Separate vertical-path probe b6e7361b-9de7-4fa6-9d1b-14ab96bc3027: quantity 3359.
 
 Prior engine freezes remain invalid; these are known-domain results only.
+
+## Dated second recording correction: failed composition (2026-10-04 UTC)
+
+Families A, B, C and E executed once and replayed both outputs byte-exactly.
+Family F's procedure completed CONSISTENT_TO_BOUNDARY after seven physical
+requests, but synthesis failed with IncompleteProse and produced no narratives.
+The original validator then raised TAPE_COMPLETED_OUTPUTS_MISSING because it
+mistook procedure completion for composition completion. The batch stopped before
+G; the original live row, provider body and sealed final remain unchanged.
+
+The validator now recognises an explicit failed composition (FAILED, a positive
+call count, an error category and no outputs) as replayable failure evidence.
+A completed composition still requires both complete outputs. This does not repair
+F's prose, supply a fallback or make its acceptance pass. A synthetic real-engine
+run now records and replays that failure; the missing-output refusal test stays.
+
+The harness's explicit engine-drift mode now treats the recorded engine identity
+as an environmental input while executing current code, and reports both hashes.
+Strict mode still refuses a different engine. All request, worker, budget and final
+bytes remain checked. This is needed to assess retained decisions after a recorder
+change, not permission to substitute recorded outputs or certify an old freeze.
+
+Usage at stop: 34/400 physical requests. No source-fixture mutation yet. No refund,
+replacement attempt, grant, ceiling increase or deadline extension. Prior freezes
+remain invalid. The remaining nine live attempts resume only after this repair's
+six checks pass.
+
+F now replays byte-exactly, including FAILED/IncompleteProse and the absence of
+both outputs. A dated ledger correction labels the unchanged tape valid failure
+evidence; the original validation failure is retained. Seventeen tape tests pass.
+Directory coverage is unchanged: two entries, one SQL object, 7,540 payload
+characters before and after. No planner-context field was added.
