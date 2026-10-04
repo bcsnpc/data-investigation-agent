@@ -1,0 +1,367 @@
+{
+  "original_artifact_sha256": "d1ce1649cc4af06a7bf42cc095e24840a751d895665a4cf65f2b860cd335271d",
+  "session_id": "round-three-final-baseline-reader-verification-20261004",
+  "status": "READER_CHECKS_RETURNED",
+  "started": "2026-10-04T16:55:57.296796+00:00",
+  "ended": "2026-10-04T16:56:46.089731+00:00",
+  "application": {
+    "column_types": {
+      "quantity": "Int32",
+      "__application_object": "String",
+      "__application_engine": "Int32",
+      "__application_identity": "String"
+    },
+    "execution_identity": {
+      "provenance": "TRANSPORT_PERMISSION_CHECK",
+      "principal": "orderops_investigator",
+      "server": "sql-orderops-9696025.database.windows.net",
+      "database": "ordersops"
+    },
+    "rows": [
+      {
+        "quantity": "7661"
+      }
+    ],
+    "read_only_verified": true,
+    "surface_report": {
+      "identity": "orderops_investigator",
+      "engine": "Microsoft SQL Azure",
+      "object": "ordersops"
+    },
+    "surface_report_binding": "VALUE_QUERY"
+  },
+  "destination": {
+    "execution_identity": {
+      "provenance": "SURFACE_SELF_REPORT",
+      "principal": "investigator-reader@skynwhy.com",
+      "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+      "database": "round_two_bronze_20261003"
+    },
+    "surface_report_binding": "VALUE_QUERY",
+    "read_only_verified": true,
+    "surface_report": {
+      "object": "round_two_bronze_20261003",
+      "engine": "Microsoft Azure SQL Data Warehouse",
+      "identity": "investigator-reader@skynwhy.com"
+    },
+    "column_types": {
+      "quantity": "Int32"
+    },
+    "rows": [
+      {
+        "quantity": "7661"
+      }
+    ]
+  },
+  "models": {
+    "0c89889c-6fe6-49ab-91e9-4b00a51070e6": {
+      "results": [
+        {
+          "tables": [
+            {
+              "rows": [
+                {
+                  "[quantity]": 7661,
+                  "[surface_identity]": "investigator-reader@skynwhy.com",
+                  "[surface_engine]": "OLAP Server",
+                  "[surface_object]": "0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "_native_execution": {
+        "version": "native-reader-execution-v1",
+        "mode": "isolated_reader",
+        "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+        "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+        "account": "investigator-reader@skynwhy.com",
+        "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "model_id": "0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "query_hash": "c6bcf584f003c59e3b9799922247aee276d7acf49fe2b50ba5c53c593909b75b",
+        "response_hash": "f64f4fb92757d6d90eeca7b588db658dd2aff2a3fa32b11c4e197dc56f19c09e",
+        "captured_at": "2026-10-04T16:56:16.953258+00:00"
+      }
+    },
+    "3484a2bc-98c5-4cef-be5c-a6215484075e": {
+      "results": [
+        {
+          "tables": [
+            {
+              "rows": [
+                {
+                  "[quantity]": 8765,
+                  "[surface_identity]": "investigator-reader@skynwhy.com",
+                  "[surface_engine]": "OLAP Server",
+                  "[surface_object]": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "_native_execution": {
+        "version": "native-reader-execution-v1",
+        "mode": "isolated_reader",
+        "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+        "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+        "account": "investigator-reader@skynwhy.com",
+        "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "model_id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+        "query_hash": "36dd12d5a33d4936f01a8c2776c3fa5f9f8183a8a745a83bbdc690f365ed8bd7",
+        "response_hash": "2d1a9eb3e25fa39f14db7b55c57c60834f1260307a525d0f1163b1c29a6e0ec8",
+        "captured_at": "2026-10-04T16:56:46.020737+00:00"
+      }
+    }
+  },
+  "physical_requests_charged": 10,
+  "ordinary_after": {
+    "window_seconds": 86400,
+    "ordinary_limit": 1000,
+    "ordinary_charged": 590,
+    "ordinary_available": 410,
+    "batches": [
+      {
+        "batch_id": "G-physical-budget-R1-20260927-credits",
+        "expires_at": 1790549200.0446944,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "a7d36799-fb4f-4b8c-a66e-b13012a9e7d9",
+            "purpose": "INVESTIGATION",
+            "allowance": 10,
+            "charged": 4,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "G-physical-budget-R2-20260927-credits",
+        "expires_at": 1790549326.8872936,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "1cfd52f2-b825-4e13-9737-9a78cfca3a68",
+            "purpose": "INVESTIGATION",
+            "allowance": 10,
+            "charged": 4,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "G-diagnostic-budget-R1-20260927-credits",
+        "expires_at": 1790550499.1808727,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "79735d7d-e7cb-4496-8f33-6b6b33cf1d4a",
+            "purpose": "INVESTIGATION",
+            "allowance": 10,
+            "charged": 10,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "G-diagnostic-budget-R2-20260927-credits",
+        "expires_at": 1790550648.476794,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "43977d8e-aad4-435b-ae5f-f0ee1ca2c071",
+            "purpose": "INVESTIGATION",
+            "allowance": 10,
+            "charged": 10,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "G-rendered-synthesis-R1-20260927-credits",
+        "expires_at": 1790551619.879465,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "c7019601-6f18-4a44-8cb8-1dcd36dc67ac",
+            "purpose": "INVESTIGATION",
+            "allowance": 10,
+            "charged": 10,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "G-rendered-synthesis-R2-20260927-credits",
+        "expires_at": 1790551766.443214,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "56a00578-875c-4c42-850e-040b0ab566ff",
+            "purpose": "INVESTIGATION",
+            "allowance": 10,
+            "charged": 10,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "G-narrative-form-R1-20260927-credits",
+        "expires_at": 1790572542.4069436,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "778bcd6f-582f-4b5a-bef3-ed4f2cea15d6",
+            "purpose": "INVESTIGATION",
+            "allowance": 10,
+            "charged": 10,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "A-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "c7dcc655-f2f9-4ae2-9b6c-5bd2a045e8b0",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 4,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "B-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "9a0eb374-247f-4380-8453-b3b77c63a1e3",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 1,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "C-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "e8dcb0d9-0fcd-400b-8bb8-788597667c40",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 0,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "D-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "c2e2e7c9-0cdc-482c-abc3-c3cdab729dee",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 1,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "E-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "c274890f-e041-4261-b364-c4c3d6c2bcc8",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 10,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "F-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "6860ae26-d855-4bb2-ac03-8e10c1e01cf1",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 7,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "G-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "cd2ffbff-f75b-4999-a0fe-a5fee18ee5f9",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 10,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "H-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "e68af7b8-4a7c-47a8-8303-8116278a15be",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 1,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "I-nine-family-20260928-credits",
+        "expires_at": 1790589024.3486154,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "0d049414-87b8-4a7a-a034-9649f6840f53",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 2,
+            "available": 0
+          }
+        ]
+      },
+      {
+        "batch_id": "H-full-allowance-20260928-credits",
+        "expires_at": 1790591365.031124,
+        "expired": true,
+        "runs": [
+          {
+            "session_id": "7a591ed4-8516-4633-901a-7d48a5eb7459",
+            "purpose": "INVESTIGATION",
+            "allowance": 16,
+            "charged": 2,
+            "available": 0
+          }
+        ]
+      }
+    ],
+    "accounting": "Physical request reservations; pre-migration records retain historical logical counts."
+  },
+  "note": "Original seal was computed before physical_requests_charged annotation; original artifact retained unchanged. This derived export is identified by original SHA256, not that earlier seal."
+}

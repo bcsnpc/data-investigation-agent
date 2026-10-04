@@ -1,0 +1,630 @@
+{
+  "family": "R3_CONSISTENT",
+  "session_id": "74d0c0ed-8aa9-4bb1-b6c5-db37709e8f7c",
+  "intake_status": "PROPOSED",
+  "intake_proposal": {
+    "action": "PROPOSE",
+    "model_id": "290ed2ac-2d38-42dd-9c39-d66785bec5e1",
+    "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+    "metric_quote": "Movement Units",
+    "question": null,
+    "filters": [],
+    "dimension_ids": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/columns/movement_id"
+    ],
+    "question_kind": {
+      "kind": "FIGURE_DIFFERENCE",
+      "source": {
+        "start": 164,
+        "end": 289,
+        "quote": "Please trace the displayed total to the application so I know whether this is a pipeline question or an application question."
+      }
+    },
+    "numeral_mentions": [
+      {
+        "role": "OTHER",
+        "source": {
+          "start": 3,
+          "end": 36,
+          "quote": "Application load fixture 20261003"
+        }
+      },
+      {
+        "role": "FIGURE",
+        "source": {
+          "start": 38,
+          "end": 70,
+          "quote": "Movement Units shows 7,661 units"
+        }
+      },
+      {
+        "role": "IDENTIFIER",
+        "source": {
+          "start": 83,
+          "end": 109,
+          "quote": "a movement numbered 900099"
+        }
+      }
+    ],
+    "expected_records": [
+      {
+        "value": "900099",
+        "source": {
+          "start": 83,
+          "end": 109,
+          "quote": "a movement numbered 900099"
+        }
+      }
+    ],
+    "reported_figure": {
+      "state": "NUMBER",
+      "source": {
+        "start": 38,
+        "end": 70,
+        "quote": "Movement Units shows 7,661 units"
+      },
+      "value": "7661",
+      "precision": {
+        "state": "EXACT"
+      }
+    },
+    "ticket_shape": "MISMATCH_COMPLAINT",
+    "comparison_mode": "VERTICAL",
+    "name_binding": {
+      "kind": "MODEL",
+      "asset_id": "290ed2ac-2d38-42dd-9c39-d66785bec5e1",
+      "source": {
+        "start": 3,
+        "end": 36,
+        "quote": "Application load fixture 20261003"
+      }
+    },
+    "scope_quotes": []
+  },
+  "error": null,
+  "assessment": {
+    "alternatives": [
+      "A different declared scope could change the comparison."
+    ],
+    "business_output": {
+      "checked_depth": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "compared_bindings": [],
+      "conclusion": "The presentation baseline was established, but no boundary below it could be compared faithfully. NO_INDEPENDENT_LOWER_READ",
+      "depth_ceiling": 3,
+      "failures": [],
+      "mandatory_limits": [
+        "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements; stopped because capability unavailable.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003: NO_INDEPENDENT_LOWER_READ.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003 -> sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945: Declared application quantity supports only whole-entity scope without filters or grouping..",
+        "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established."
+      ],
+      "recommended_action": "NAME_MISSING_BINDING_OR_ACCESS",
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+          "step": 1
+        }
+      ],
+      "snapshot_attestations": [],
+      "surface_difference_grades": [],
+      "unattested_surface_fields": [],
+      "unverified_boundaries": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "reason": "NO_INDEPENDENT_LOWER_READ",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements"
+        },
+        {
+          "lower_layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "reason": "Declared application quantity supports only whole-entity scope without filters or grouping.",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+        }
+      ]
+    },
+    "claim": "The presentation baseline was established, but no boundary below it could be compared faithfully. NO_INDEPENDENT_LOWER_READ",
+    "classification": "NO_COMPARABLE_PATH",
+    "evidence_ids": [
+      "path-6b00c5e3-d36f-47a4-8d95-40060a94ad9a",
+      "record-presence-unavailable-0",
+      "f654f022-21d0-48a5-9302-fba388106586",
+      "declared-reproduction-not-applicable",
+      "record-presence-unavailable-1",
+      "85e8bdb1-9ff3-457d-8f3a-77a00db7a749",
+      "boundary-1-not-comparable",
+      "record-presence-unavailable-2",
+      "boundary-2-not-comparable"
+    ],
+    "limits": [
+      "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements; stopped because capability unavailable.",
+      "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003: NO_INDEPENDENT_LOWER_READ.",
+      "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003 -> sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945: Declared application quantity supports only whole-entity scope without filters or grouping..",
+      "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established."
+    ],
+    "support": {
+      "intent_basis": "The outcome describes implemented process behavior without deciding whether it is intended.",
+      "intent_dependency": "NOT_REQUIRED",
+      "intent_evidence_ids": [],
+      "measure_connection": "ESTABLISHED",
+      "measure_connection_basis": "The baseline and boundary observations use the selected measure and declared scope.",
+      "measure_connection_evidence_ids": [
+        "f654f022-21d0-48a5-9302-fba388106586"
+      ],
+      "mechanism": "The presentation baseline was established, but no boundary below it could be compared faithfully. NO_INDEPENDENT_LOWER_READ",
+      "mechanism_evidence_ids": [
+        "record-presence-unavailable-2",
+        "boundary-2-not-comparable"
+      ],
+      "process": {
+        "baseline_above": {
+          "evidence_ids": [
+            "f654f022-21d0-48a5-9302-fba388106586"
+          ],
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+          "reason": null,
+          "status": "ESTABLISHED"
+        },
+        "capabilities_declared": [
+          "declared_context_reproduction",
+          "declared_source_comparison",
+          "evaluate_scoped_quantity",
+          "expected_record_presence",
+          "failure_detail",
+          "independent_lower_surface",
+          "ingestion",
+          "job_history",
+          "presentation_context",
+          "resolve_measure_path",
+          "source_delivery",
+          "transformation_definition"
+        ],
+        "evidence_by_role": {
+          "comparison": [],
+          "definition_absence": [],
+          "established": [],
+          "flow_consistency": [],
+          "freshness": [],
+          "ingestion": [],
+          "job_history": [],
+          "left_definition": [],
+          "left_path": [],
+          "left_scope": [],
+          "mechanism": [],
+          "path": [
+            "path-6b00c5e3-d36f-47a4-8d95-40060a94ad9a"
+          ],
+          "presentation_definition": [],
+          "prior_state": [],
+          "right_definition": [],
+          "right_path": [],
+          "right_scope": [],
+          "transformation_definition": []
+        },
+        "missing_capability": "NO_INDEPENDENT_LOWER_READ",
+        "procedure_step": 3,
+        "recommended_action": "NAME_MISSING_BINDING_OR_ACCESS",
+        "skipped_steps": [
+          {
+            "capability": "presentation_freshness",
+            "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+            "step": 1
+          }
+        ],
+        "visibility_boundary": {
+          "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+          "evidence_ids": [
+            "record-presence-unavailable-2",
+            "boundary-2-not-comparable"
+          ],
+          "stopped_by": "CAPABILITY_UNAVAILABLE"
+        }
+      },
+      "remaining_test": "Confirm intent separately when the implemented behavior is not desired."
+    },
+    "technical_output": {
+      "boundary_summary": {
+        "comparisons_executed": 0,
+        "not_comparable": [
+          {
+            "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+            "reason": "NO_INDEPENDENT_LOWER_READ",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements"
+          },
+          {
+            "lower_layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+            "reason": "Declared application quantity supports only whole-entity scope without filters or grouping.",
+            "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+          }
+        ],
+        "resolved_boundaries": 0,
+        "within_layer_checks": 1
+      },
+      "capabilities_declared": [
+        "declared_context_reproduction",
+        "declared_source_comparison",
+        "evaluate_scoped_quantity",
+        "expected_record_presence",
+        "failure_detail",
+        "independent_lower_surface",
+        "ingestion",
+        "job_history",
+        "presentation_context",
+        "resolve_measure_path",
+        "source_delivery",
+        "transformation_definition"
+      ],
+      "checked_depth": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "compared_bindings": [],
+      "depth_ceiling": 3,
+      "failures": [],
+      "layer_labels": {
+        "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements": {
+          "business_name": "reported calculation",
+          "container_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "container_name": "Application load fixture 20261003",
+          "name": "Movements",
+          "provenance": "DISCOVERED_PARENT_ID",
+          "role": "SEMANTIC"
+        },
+        "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003": {
+          "business_name": "landing table",
+          "container_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+          "container_name": "round_two_bronze_20261003",
+          "name": "dbo.stock_movements_round_two_20261003",
+          "provenance": "DISCOVERED_PARENT_ID",
+          "role": "LANDING"
+        },
+        "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945": {
+          "business_name": "application",
+          "container_id": "sql://sql-orderops-9696025.database.windows.net/ordersops",
+          "container_name": "ordersops",
+          "name": "app.stock_movements_round_two_20261003",
+          "provenance": "DISCOVERED_PARENT_ID",
+          "role": "APPLICATION"
+        }
+      },
+      "mandatory_limits": [
+        "Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements; stopped because capability unavailable.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements -> fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003: NO_INDEPENDENT_LOWER_READ.",
+        "Unchecked fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003 -> sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945: Declared application quantity supports only whole-entity scope without filters or grouping..",
+        "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established."
+      ],
+      "queries": [
+        {
+          "evidence_id": "f654f022-21d0-48a5-9302-fba388106586",
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"baseline\", [Movement Units]),\"surface_identity\",USERPRINCIPALNAME(),\"surface_engine\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),\"ReportValue\",[Value]),[ReportValue],\"\"),\"surface_object\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),\"ReportValue\",[Value]),[ReportValue],\"\"))"
+        },
+        {
+          "evidence_id": "85e8bdb1-9ff3-457d-8f3a-77a00db7a749",
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"baseline\", SUM('Movements'[units])),\"surface_identity\",USERPRINCIPALNAME(),\"surface_engine\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),\"ReportValue\",[Value]),[ReportValue],\"\"),\"surface_object\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),\"ReportValue\",[Value]),[ReportValue],\"\"))"
+        }
+      ],
+      "recommended_action": "NAME_MISSING_BINDING_OR_ACCESS",
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+          "step": 1
+        }
+      ],
+      "snapshot_attestations": [],
+      "surface_difference_grades": [],
+      "unattested_surface_fields": [],
+      "unverified_boundaries": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "reason": "NO_INDEPENDENT_LOWER_READ",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements"
+        },
+        {
+          "lower_layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "reason": "Declared application quantity supports only whole-entity scope without filters or grouping.",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+        }
+      ],
+      "visibility_boundary": {
+        "deepest_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+        "evidence_ids": [
+          "record-presence-unavailable-2",
+          "boundary-2-not-comparable"
+        ],
+        "stopped_by": "CAPABILITY_UNAVAILABLE"
+      }
+    },
+    "terminating_step": 3
+  },
+  "synthesis_status": "COMPLETED",
+  "synthesis_error": null,
+  "ledger": {
+    "session_id": "74d0c0ed-8aa9-4bb1-b6c5-db37709e8f7c",
+    "date_utc": "2026-10-04T16:52:01.152313+00:00",
+    "mode": "live",
+    "family": "R3_CONSISTENT",
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "experiment": "ROUND_TWO_PART_B_ROUND_THREE_SOURCE_R3_CONSISTENT",
+    "run_key": "R3_CONSISTENT",
+    "intake_id": "ebf992bc-8650-48d8-aa56-c4f6989d3d2d",
+    "engine_hash": "4bd6a3ca7623da92049bb700f94697b7810b143bd92d876009c071ab0ba40331",
+    "status": "COMPLETED",
+    "stop_reason": "ENOUGH_DIAGNOSTICS",
+    "outcome_label": "NO_COMPARABLE_PATH",
+    "intake_calls": 1,
+    "planner_calls": 0,
+    "synthesis_calls": 1,
+    "synthesis_status": "COMPLETED",
+    "physical_requests": 2,
+    "diagnostic_reads": 2,
+    "diagnostic_read_cap": 12,
+    "guard_requests": 0,
+    "reads_dax": 2,
+    "reads_sql": 0,
+    "reads_other": 0,
+    "provider_input_tokens": 18111,
+    "provider_output_tokens": 796,
+    "reserved_output_tokens": 9500,
+    "result_sha256": "89e95e607bfec2642513dec34fee40330b5f965e26e023f9d85f2033717eb47e",
+    "notes_doc": "docs/round-three-source-scenarios.md",
+    "rolling_physical_allowance": 1000,
+    "business_output_status": "GENERATED",
+    "technical_output_status": "GENERATED",
+    "reads_total": 2,
+    "guard_reuses": 0,
+    "reads_completed": 2,
+    "reads_unsuccessful_or_uncertain": 0,
+    "read_accounting_source": "PROCESS_READ_RECEIPTS",
+    "part_b_before": 452,
+    "part_b_ceiling": 500,
+    "fixture_authored": true,
+    "diagnostic_phase_counts": {
+      "REPRODUCTION": 0,
+      "WALK": 2
+    },
+    "intake_refusal_reason": null,
+    "question_kind": "FIGURE_DIFFERENCE",
+    "judge_calls": 0,
+    "investigation_planner_calls": 0,
+    "runtime_question_kind": "FIGURE_DIFFERENCE"
+  },
+  "probes": [
+    {
+      "id": "f654f022-21d0-48a5-9302-fba388106586",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "read_address": {
+        "kind": "BASELINE",
+        "restrictions": []
+      },
+      "test_purpose": "ESTABLISH_BASELINE",
+      "result_rows": 1,
+      "values": [
+        {
+          "[baseline]": {
+            "type": "decimal",
+            "value": "7661"
+          }
+        }
+      ]
+    },
+    {
+      "id": "85e8bdb1-9ff3-457d-8f3a-77a00db7a749",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "read_address": {
+        "kind": "BASELINE",
+        "restrictions": []
+      },
+      "test_purpose": "CHECK_DECLARED_SOURCE_DEFINITION",
+      "result_rows": 1,
+      "values": [
+        {
+          "[baseline]": {
+            "type": "decimal",
+            "value": "7661"
+          }
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "comparison_status": "WITHIN_LAYER_CHECK",
+      "completeness": "COMPLETE_RESPONSE",
+      "id": "boundary-1-not-comparable",
+      "lower_evidence_id": "85e8bdb1-9ff3-457d-8f3a-77a00db7a749",
+      "lower_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+      },
+      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+      "process_roles": [
+        "definition_check"
+      ],
+      "reason": "NO_INDEPENDENT_LOWER_READ",
+      "status": "COMPLETED",
+      "tool": "process",
+      "upper_evidence_id": "f654f022-21d0-48a5-9302-fba388106586",
+      "upper_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+      },
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "values_equal": true
+    },
+    {
+      "comparison_status": "NOT_COMPARABLE",
+      "completeness": "COMPLETE_RESPONSE",
+      "id": "boundary-2-not-comparable",
+      "lower_evidence_id": null,
+      "lower_execution_surface": null,
+      "lower_layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+      "process_roles": [],
+      "reason": "Declared application quantity supports only whole-entity scope without filters or grouping.",
+      "status": "COMPLETED",
+      "tool": "process",
+      "upper_evidence_id": "85e8bdb1-9ff3-457d-8f3a-77a00db7a749",
+      "upper_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+      },
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+    }
+  ],
+  "delivery": [],
+  "membership": [
+    {
+      "check_kind": "EXPECTED_RECORD_UNAVAILABLE",
+      "completeness": "COMPLETE_RESPONSE",
+      "id": "record-presence-unavailable-0",
+      "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "process_roles": [
+        "established"
+      ],
+      "reason": "Expected-record membership cannot translate filtered scope faithfully.",
+      "requested": [
+        {
+          "source": {
+            "end": 109,
+            "quote": "a movement numbered 900099",
+            "start": 83
+          },
+          "value": "900099"
+        }
+      ],
+      "status": "COMPLETED",
+      "tool": "process"
+    },
+    {
+      "check_kind": "EXPECTED_RECORD_UNAVAILABLE",
+      "completeness": "COMPLETE_RESPONSE",
+      "id": "record-presence-unavailable-1",
+      "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+      "process_roles": [
+        "established"
+      ],
+      "reason": "Expected-record membership cannot translate filtered scope faithfully.",
+      "requested": [
+        {
+          "source": {
+            "end": 109,
+            "quote": "a movement numbered 900099",
+            "start": 83
+          },
+          "value": "900099"
+        }
+      ],
+      "status": "COMPLETED",
+      "tool": "process"
+    },
+    {
+      "check_kind": "EXPECTED_RECORD_UNAVAILABLE",
+      "completeness": "COMPLETE_RESPONSE",
+      "id": "record-presence-unavailable-2",
+      "layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+      "process_roles": [
+        "established"
+      ],
+      "reason": "Expected-record membership cannot translate filtered scope faithfully.",
+      "requested": [
+        {
+          "source": {
+            "end": 109,
+            "quote": "a movement numbered 900099",
+            "start": 83
+          },
+          "value": "900099"
+        }
+      ],
+      "status": "COMPLETED",
+      "tool": "process"
+    }
+  ],
+  "unavailability": [
+    {
+      "capability_status": "UNDECLARED",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE",
+      "completeness": "COMPLETE_RESPONSE",
+      "id": "declared-reproduction-not-applicable",
+      "process_roles": [
+        "established"
+      ],
+      "question_kind": "FIGURE_DIFFERENCE",
+      "reason": "Declared-context reproduction is undeclared for model-only or layer-only named context.",
+      "status": "COMPLETED",
+      "tool": "process"
+    }
+  ]
+}

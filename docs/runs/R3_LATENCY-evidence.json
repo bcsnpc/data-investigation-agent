@@ -1,0 +1,1198 @@
+{
+  "family": "R3_LATENCY",
+  "session_id": "577a3cec-35ff-4637-bb9f-665a361bdf9a",
+  "intake_status": "PROPOSED",
+  "intake_proposal": {
+    "action": "PROPOSE",
+    "model_id": "290ed2ac-2d38-42dd-9c39-d66785bec5e1",
+    "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+    "metric_quote": "Movement Units",
+    "question": null,
+    "filters": [],
+    "dimension_ids": [],
+    "question_kind": {
+      "kind": "FRESHNESS",
+      "source": {
+        "start": 75,
+        "end": 86,
+        "quote": "looks stale"
+      }
+    },
+    "numeral_mentions": [
+      {
+        "role": "OTHER",
+        "source": {
+          "start": 3,
+          "end": 36,
+          "quote": "Application load fixture 20261003"
+        }
+      },
+      {
+        "role": "FIGURE",
+        "source": {
+          "start": 38,
+          "end": 70,
+          "quote": "Movement Units shows 7,661 units"
+        }
+      }
+    ],
+    "expected_records": [],
+    "reported_figure": {
+      "state": "NUMBER",
+      "source": {
+        "start": 38,
+        "end": 70,
+        "quote": "Movement Units shows 7,661 units"
+      },
+      "value": "7661",
+      "precision": {
+        "state": "EXACT"
+      }
+    },
+    "ticket_shape": "BUSINESS_QUESTION",
+    "comparison_mode": "NONE",
+    "name_binding": {
+      "kind": "MODEL",
+      "asset_id": "290ed2ac-2d38-42dd-9c39-d66785bec5e1",
+      "source": {
+        "start": 3,
+        "end": 36,
+        "quote": "Application load fixture 20261003"
+      }
+    },
+    "scope_quotes": []
+  },
+  "error": null,
+  "assessment": {
+    "alternatives": [
+      "A different declared scope could change the comparison."
+    ],
+    "business_output": {
+      "checked_depth": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+      "compared_bindings": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements"
+        },
+        {
+          "lower_layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+        }
+      ],
+      "conclusion": "The declared load evidence and independently read row membership establish the source delivery boundary condition.",
+      "delivery_accounts": [
+        "The recorded successful load finished at 2026-10-04T16:48:22.2386045Z; its own activity reported 360 rows read and 360 rows written. The newest application change read was 2026-10-04 16:49:46.8593410; 1 source rows were absent and 0 carried different versions in the destination. The source changed after that load finished, so another load is required before checking delivery."
+      ],
+      "depth_ceiling": 3,
+      "failures": [],
+      "mandatory_limits": [
+        "Checked through sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945; stopped because reached.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003: the surface did not report it.",
+        "Unattested surface field connection on sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945: the surface did not report it.",
+        "Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; agreement does not establish that either value is current.",
+        "Comparison 2: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; different update timing was not excluded as a cause of the difference.",
+        "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.",
+        "Delivery row comparisons do not exclude Fabric SQL analytics endpoint synchronization delay; query-bound matching snapshots are unavailable."
+      ],
+      "recommended_action": "RECHECK_AFTER_JOB",
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+          "step": 1
+        }
+      ],
+      "snapshot_attestations": [
+        {
+          "comparison_id": "boundary-1-comparison",
+          "lower": null,
+          "reason": "QUERY_BOUND_VERSION_MISSING",
+          "status": "SNAPSHOT_UNVERIFIED",
+          "unverified_sides": [
+            "upper",
+            "lower"
+          ],
+          "upper": null,
+          "version": 1
+        },
+        {
+          "comparison_id": "boundary-2-comparison",
+          "lower": null,
+          "reason": "QUERY_BOUND_VERSION_MISSING",
+          "status": "SNAPSHOT_UNVERIFIED",
+          "unverified_sides": [
+            "upper",
+            "lower"
+          ],
+          "upper": null,
+          "version": 1
+        }
+      ],
+      "surface_difference_grades": [
+        {
+          "comparison_id": "boundary-1-comparison",
+          "differing_field": "engine",
+          "grade": "ENGINE_INDEPENDENT",
+          "lower_value": "Microsoft Azure SQL Data Warehouse",
+          "reason": null,
+          "self_report_kind": "ENGINE_PRODUCT",
+          "upper_value": "OLAP Server"
+        },
+        {
+          "comparison_id": "boundary-2-comparison",
+          "differing_field": "engine",
+          "grade": "ENGINE_INDEPENDENT",
+          "lower_value": "Microsoft SQL Azure",
+          "reason": null,
+          "self_report_kind": "ENGINE_PRODUCT",
+          "upper_value": "Microsoft Azure SQL Data Warehouse"
+        }
+      ],
+      "unattested_surface_fields": [
+        {
+          "evidence_id": "3cea229c-dadc-427d-9a42-310b39819cfd",
+          "field": "connection",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements"
+        },
+        {
+          "evidence_id": "89fe2ad9-bac0-4e58-8a01-a197eb63cde7",
+          "field": "connection",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+        },
+        {
+          "evidence_id": "81ef9564-8186-4815-952d-a13f9c19f5b3",
+          "field": "connection",
+          "layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+        }
+      ],
+      "unverified_boundaries": []
+    },
+    "claim": "The declared load evidence and independently read row membership establish the source delivery boundary condition.",
+    "classification": "LOAD_LATENCY",
+    "evidence_ids": [
+      "path-466ce657-6bad-48a9-8d48-b3b45a52f345",
+      "3cea229c-dadc-427d-9a42-310b39819cfd",
+      "declared-reproduction-not-applicable",
+      "89fe2ad9-bac0-4e58-8a01-a197eb63cde7",
+      "boundary-1-comparison",
+      "81ef9564-8186-4815-952d-a13f9c19f5b3",
+      "boundary-2-comparison",
+      "f2b4e30d-cc8e-4768-9a1f-a52bdb6128af",
+      "514ce4b5-58b4-4ff6-9351-70616a221e55",
+      "e709e872-3df7-4071-a932-0f8658dd5a0f",
+      "c2a65578-84ae-444b-a185-0bbd3c196376",
+      "a96f3157-350d-4cc7-b325-b1716f34b7ff",
+      "source-delivery-05172bda-df27-41b2-bb40-ecb417818637",
+      "freshness-attempt-2"
+    ],
+    "limits": [
+      "Checked through sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945; stopped because reached.",
+      "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements: the surface did not report it.",
+      "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003: the surface did not report it.",
+      "Unattested surface field connection on sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945: the surface did not report it.",
+      "Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; agreement does not establish that either value is current.",
+      "Comparison 2: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; different update timing was not excluded as a cause of the difference.",
+      "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.",
+      "Delivery row comparisons do not exclude Fabric SQL analytics endpoint synchronization delay; query-bound matching snapshots are unavailable."
+    ],
+    "support": {
+      "intent_basis": "The outcome describes implemented process behavior without deciding whether it is intended.",
+      "intent_dependency": "NOT_REQUIRED",
+      "intent_evidence_ids": [],
+      "measure_connection": "ESTABLISHED",
+      "measure_connection_basis": "The baseline and boundary observations use the selected measure and declared scope.",
+      "measure_connection_evidence_ids": [
+        "3cea229c-dadc-427d-9a42-310b39819cfd"
+      ],
+      "mechanism": "The declared load evidence and independently read row membership establish the source delivery boundary condition.",
+      "mechanism_evidence_ids": [
+        "source-delivery-05172bda-df27-41b2-bb40-ecb417818637",
+        "freshness-attempt-2"
+      ],
+      "process": {
+        "baseline_above": {
+          "evidence_ids": [
+            "89fe2ad9-bac0-4e58-8a01-a197eb63cde7"
+          ],
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "reason": null,
+          "status": "ESTABLISHED"
+        },
+        "capabilities_declared": [
+          "declared_context_reproduction",
+          "declared_source_comparison",
+          "evaluate_scoped_quantity",
+          "expected_record_presence",
+          "failure_detail",
+          "independent_lower_surface",
+          "ingestion",
+          "job_history",
+          "presentation_context",
+          "resolve_measure_path",
+          "source_delivery",
+          "transformation_definition"
+        ],
+        "evidence_by_role": {
+          "comparison": [
+            "boundary-1-comparison",
+            "boundary-2-comparison"
+          ],
+          "definition_absence": [],
+          "established": [],
+          "flow_consistency": [],
+          "freshness": [],
+          "ingestion": [],
+          "job_history": [
+            "source-delivery-05172bda-df27-41b2-bb40-ecb417818637"
+          ],
+          "left_definition": [],
+          "left_path": [],
+          "left_scope": [],
+          "mechanism": [],
+          "path": [],
+          "presentation_definition": [],
+          "prior_state": [
+            "source-delivery-05172bda-df27-41b2-bb40-ecb417818637"
+          ],
+          "right_definition": [],
+          "right_path": [],
+          "right_scope": [],
+          "transformation_definition": []
+        },
+        "missing_capability": null,
+        "procedure_step": 5,
+        "recommended_action": "RECHECK_AFTER_JOB",
+        "skipped_steps": [
+          {
+            "capability": "presentation_freshness",
+            "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+            "step": 1
+          }
+        ],
+        "visibility_boundary": {
+          "deepest_layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "evidence_ids": [
+            "source-delivery-05172bda-df27-41b2-bb40-ecb417818637",
+            "freshness-attempt-2"
+          ],
+          "stopped_by": "REACHED"
+        }
+      },
+      "remaining_test": "Confirm intent separately when the implemented behavior is not desired."
+    },
+    "technical_output": {
+      "boundary_summary": {
+        "comparisons_executed": 2,
+        "not_comparable": [],
+        "resolved_boundaries": 2,
+        "within_layer_checks": 0
+      },
+      "capabilities_declared": [
+        "declared_context_reproduction",
+        "declared_source_comparison",
+        "evaluate_scoped_quantity",
+        "expected_record_presence",
+        "failure_detail",
+        "independent_lower_surface",
+        "ingestion",
+        "job_history",
+        "presentation_context",
+        "resolve_measure_path",
+        "source_delivery",
+        "transformation_definition"
+      ],
+      "checked_depth": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+      "compared_bindings": [
+        {
+          "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements"
+        },
+        {
+          "lower_layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+          "provenance": "DECLARED_BY_DEFINITION",
+          "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+        }
+      ],
+      "delivery_accounts": [
+        "Run 234ec7cc-0324-49e0-86c9-764202be00dc: The recorded successful load finished at 2026-10-04T16:48:22.2386045Z; its own activity reported 360 rows read and 360 rows written. The newest application change read was 2026-10-04 16:49:46.8593410; 1 source rows were absent and 0 carried different versions in the destination. The source changed after that load finished, so another load is required before checking delivery."
+      ],
+      "depth_ceiling": 3,
+      "failures": [],
+      "layer_labels": {
+        "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements": {
+          "business_name": "reported calculation",
+          "container_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+          "container_name": "Application load fixture 20261003",
+          "name": "Movements",
+          "provenance": "DISCOVERED_PARENT_ID",
+          "role": "SEMANTIC"
+        },
+        "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003": {
+          "business_name": "landing table",
+          "container_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3",
+          "container_name": "round_two_bronze_20261003",
+          "name": "dbo.stock_movements_round_two_20261003",
+          "provenance": "DISCOVERED_PARENT_ID",
+          "role": "LANDING"
+        },
+        "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945": {
+          "business_name": "application",
+          "container_id": "sql://sql-orderops-9696025.database.windows.net/ordersops",
+          "container_name": "ordersops",
+          "name": "app.stock_movements_round_two_20261003",
+          "provenance": "DISCOVERED_PARENT_ID",
+          "role": "APPLICATION"
+        }
+      },
+      "mandatory_limits": [
+        "Checked through sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945; stopped because reached.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements: the surface did not report it.",
+        "Unattested surface field connection on fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003: the surface did not report it.",
+        "Unattested surface field connection on sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945: the surface did not report it.",
+        "Comparison 1: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; agreement does not establish that either value is current.",
+        "Comparison 2: SNAPSHOT_UNVERIFIED; the upper and lower served data version is not attested to its quantity read; different update timing was not excluded as a cause of the difference.",
+        "Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.",
+        "Delivery row comparisons do not exclude Fabric SQL analytics endpoint synchronization delay; query-bound matching snapshots are unavailable."
+      ],
+      "queries": [
+        {
+          "evidence_id": "3cea229c-dadc-427d-9a42-310b39819cfd",
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"baseline\", [Movement Units]),\"surface_identity\",USERPRINCIPALNAME(),\"surface_engine\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),\"ReportValue\",[Value]),[ReportValue],\"\"),\"surface_object\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),\"ReportValue\",[Value]),[ReportValue],\"\"))"
+        },
+        {
+          "evidence_id": "89fe2ad9-bac0-4e58-8a01-a197eb63cde7",
+          "query": "SELECT SUM([units]) AS [quantity] FROM [dbo].[stock_movements_round_two_20261003]"
+        },
+        {
+          "evidence_id": "81ef9564-8186-4815-952d-a13f9c19f5b3",
+          "query": "SELECT SUM([units]) AS [quantity] FROM [app].[stock_movements_round_two_20261003]"
+        }
+      ],
+      "recommended_action": "RECHECK_AFTER_JOB",
+      "skipped_steps": [
+        {
+          "capability": "presentation_freshness",
+          "reason": "Refresh timestamps are unavailable to the diagnostic reader: REST requires dataset Write and XMLA requires administrator; both were tested and refused.",
+          "step": 1
+        }
+      ],
+      "snapshot_attestations": [
+        {
+          "comparison_id": "boundary-1-comparison",
+          "lower": null,
+          "reason": "QUERY_BOUND_VERSION_MISSING",
+          "status": "SNAPSHOT_UNVERIFIED",
+          "unverified_sides": [
+            "upper",
+            "lower"
+          ],
+          "upper": null,
+          "version": 1
+        },
+        {
+          "comparison_id": "boundary-2-comparison",
+          "lower": null,
+          "reason": "QUERY_BOUND_VERSION_MISSING",
+          "status": "SNAPSHOT_UNVERIFIED",
+          "unverified_sides": [
+            "upper",
+            "lower"
+          ],
+          "upper": null,
+          "version": 1
+        }
+      ],
+      "surface_difference_grades": [
+        {
+          "comparison_id": "boundary-1-comparison",
+          "differing_field": "engine",
+          "grade": "ENGINE_INDEPENDENT",
+          "lower_value": "Microsoft Azure SQL Data Warehouse",
+          "reason": null,
+          "self_report_kind": "ENGINE_PRODUCT",
+          "upper_value": "OLAP Server"
+        },
+        {
+          "comparison_id": "boundary-2-comparison",
+          "differing_field": "engine",
+          "grade": "ENGINE_INDEPENDENT",
+          "lower_value": "Microsoft SQL Azure",
+          "reason": null,
+          "self_report_kind": "ENGINE_PRODUCT",
+          "upper_value": "Microsoft Azure SQL Data Warehouse"
+        }
+      ],
+      "unattested_surface_fields": [
+        {
+          "evidence_id": "3cea229c-dadc-427d-9a42-310b39819cfd",
+          "field": "connection",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements"
+        },
+        {
+          "evidence_id": "89fe2ad9-bac0-4e58-8a01-a197eb63cde7",
+          "field": "connection",
+          "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+        },
+        {
+          "evidence_id": "81ef9564-8186-4815-952d-a13f9c19f5b3",
+          "field": "connection",
+          "layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+        }
+      ],
+      "unverified_boundaries": [],
+      "visibility_boundary": {
+        "deepest_layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+        "evidence_ids": [
+          "source-delivery-05172bda-df27-41b2-bb40-ecb417818637",
+          "freshness-attempt-2"
+        ],
+        "stopped_by": "REACHED"
+      }
+    },
+    "terminating_step": 5
+  },
+  "synthesis_status": "COMPLETED",
+  "synthesis_error": null,
+  "ledger": {
+    "session_id": "577a3cec-35ff-4637-bb9f-665a361bdf9a",
+    "date_utc": "2026-10-04T16:50:02.038083+00:00",
+    "mode": "live",
+    "family": "R3_LATENCY",
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "experiment": "ROUND_TWO_PART_B_ROUND_THREE_SOURCE_R3_LATENCY",
+    "run_key": "R3_LATENCY",
+    "intake_id": "886dee6c-1ca6-4186-b804-843885901ef4",
+    "engine_hash": "4bd6a3ca7623da92049bb700f94697b7810b143bd92d876009c071ab0ba40331",
+    "status": "COMPLETED",
+    "stop_reason": "ENOUGH_DIAGNOSTICS",
+    "outcome_label": "LOAD_LATENCY",
+    "intake_calls": 1,
+    "planner_calls": 0,
+    "synthesis_calls": 1,
+    "synthesis_status": "COMPLETED",
+    "physical_requests": 23,
+    "diagnostic_reads": 10,
+    "diagnostic_read_cap": 12,
+    "guard_requests": 13,
+    "reads_dax": 1,
+    "reads_sql": 20,
+    "reads_other": 2,
+    "provider_input_tokens": 18463,
+    "provider_output_tokens": 562,
+    "reserved_output_tokens": 9500,
+    "result_sha256": "70b0dbf8a1ef3fbd4361faa3e1a43fee08a562dce75bfae063721cc08009d297",
+    "notes_doc": "docs/round-three-source-scenarios.md",
+    "rolling_physical_allowance": 1000,
+    "business_output_status": "GENERATED",
+    "technical_output_status": "GENERATED",
+    "reads_total": 23,
+    "guard_reuses": 8,
+    "reads_completed": 23,
+    "reads_unsuccessful_or_uncertain": 0,
+    "read_accounting_source": "PROCESS_READ_RECEIPTS",
+    "part_b_before": 428,
+    "part_b_ceiling": 500,
+    "fixture_authored": true,
+    "diagnostic_phase_counts": {
+      "REPRODUCTION": 0,
+      "WALK": 10
+    },
+    "intake_refusal_reason": null,
+    "question_kind": "FRESHNESS",
+    "judge_calls": 0,
+    "investigation_planner_calls": 0,
+    "runtime_question_kind": "FRESHNESS"
+  },
+  "probes": [
+    {
+      "id": "3cea229c-dadc-427d-9a42-310b39819cfd",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "read_address": {
+        "kind": "BASELINE",
+        "restrictions": []
+      },
+      "test_purpose": "ESTABLISH_BASELINE",
+      "result_rows": 1,
+      "values": [
+        {
+          "[baseline]": {
+            "type": "decimal",
+            "value": "7661"
+          }
+        }
+      ]
+    },
+    {
+      "id": "89fe2ad9-bac0-4e58-8a01-a197eb63cde7",
+      "tool": "bounded_fabric_sql",
+      "status": "COMPLETED",
+      "execution_surface": {
+        "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+        "engine": "Microsoft Azure SQL Data Warehouse",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "round_two_bronze_20261003"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "read_address": {
+        "kind": "BASELINE",
+        "restrictions": []
+      },
+      "test_purpose": "COMPARE_DECLARED_SOURCE",
+      "result_rows": 1,
+      "values": [
+        {
+          "quantity": {
+            "type": "decimal",
+            "value": "7661"
+          }
+        }
+      ]
+    },
+    {
+      "id": "81ef9564-8186-4815-952d-a13f9c19f5b3",
+      "tool": "bounded_sql",
+      "status": "COMPLETED",
+      "execution_surface": {
+        "connection": "sql://sql-orderops-9696025.database.windows.net",
+        "engine": "Microsoft SQL Azure",
+        "identity": "orderops_investigator",
+        "object": "ordersops"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "read_address": {
+        "kind": "BASELINE",
+        "restrictions": []
+      },
+      "test_purpose": "COMPARE_DECLARED_SOURCE",
+      "result_rows": 1,
+      "values": [
+        {
+          "quantity": {
+            "type": "decimal",
+            "value": "7678"
+          }
+        }
+      ]
+    },
+    {
+      "id": "f2b4e30d-cc8e-4768-9a1f-a52bdb6128af",
+      "tool": "bounded_fabric_sql",
+      "status": "COMPLETED",
+      "execution_surface": {
+        "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+        "engine": "Microsoft Azure SQL Data Warehouse",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "round_three_ops_audit_20261004"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "result_rows": 3,
+      "audit_metadata": {
+        "declared_audit": {
+          "audit_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bea673e0-a206-461e-9b2f-1b3b827e80de/table/dbo.load_run_audit",
+          "delivery_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+          "producer_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c"
+        },
+        "load_accounting": {
+          "accounting": {
+            "rows_read": 360,
+            "rows_written": 360
+          },
+          "completed_at": "2026-10-04T16:48:22.2386045Z",
+          "high_watermark": null,
+          "reason": "The audited run completed with its own activity counters; source capture currency was not established.",
+          "run_id": "234ec7cc-0324-49e0-86c9-764202be00dc",
+          "run_state": "SUCCEEDED",
+          "started_at": "2026-10-04T16:48:01.1024494Z",
+          "status": "CURRENT"
+        }
+      }
+    },
+    {
+      "id": "514ce4b5-58b4-4ff6-9351-70616a221e55",
+      "tool": "bounded_sql",
+      "status": "COMPLETED",
+      "execution_surface": {
+        "connection": "sql://sql-orderops-9696025.database.windows.net",
+        "engine": "Microsoft SQL Azure",
+        "identity": "orderops_investigator",
+        "object": "ordersops"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "result_rows": 249
+    },
+    {
+      "id": "e709e872-3df7-4071-a932-0f8658dd5a0f",
+      "tool": "bounded_sql",
+      "status": "COMPLETED",
+      "execution_surface": {
+        "connection": "sql://sql-orderops-9696025.database.windows.net",
+        "engine": "Microsoft SQL Azure",
+        "identity": "orderops_investigator",
+        "object": "ordersops"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "result_rows": 112
+    },
+    {
+      "id": "c2a65578-84ae-444b-a185-0bbd3c196376",
+      "tool": "bounded_fabric_sql",
+      "status": "COMPLETED",
+      "execution_surface": {
+        "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+        "engine": "Microsoft Azure SQL Data Warehouse",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "round_two_bronze_20261003"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "result_rows": 249
+    },
+    {
+      "id": "a96f3157-350d-4cc7-b325-b1716f34b7ff",
+      "tool": "bounded_fabric_sql",
+      "status": "COMPLETED",
+      "execution_surface": {
+        "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+        "engine": "Microsoft Azure SQL Data Warehouse",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "round_two_bronze_20261003"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "result_rows": 111
+    }
+  ],
+  "comparisons": [
+    {
+      "comparison_status": "CROSS_SURFACE_VERIFIED",
+      "completeness": "COMPLETE_RESPONSE",
+      "id": "boundary-1-comparison",
+      "lower_binding_provenance": "DECLARED_BY_DEFINITION",
+      "lower_declared_context": {
+        "dimension_ids": [],
+        "filters": [],
+        "scope": "WHOLE_ENTITY",
+        "version": 1
+      },
+      "lower_evidence_id": "89fe2ad9-bac0-4e58-8a01-a197eb63cde7",
+      "lower_execution_surface": {
+        "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+        "engine": "Microsoft Azure SQL Data Warehouse",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "round_two_bronze_20261003"
+      },
+      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+      "lower_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "process_roles": [
+        "comparison",
+        "flow_consistency"
+      ],
+      "snapshot_attestation": {
+        "lower": null,
+        "reason": "QUERY_BOUND_VERSION_MISSING",
+        "status": "SNAPSHOT_UNVERIFIED",
+        "unverified_sides": [
+          "upper",
+          "lower"
+        ],
+        "upper": null,
+        "version": 1
+      },
+      "status": "COMPLETED",
+      "surface_difference": {
+        "differing_field": "engine",
+        "grade": "ENGINE_INDEPENDENT",
+        "lower_value": "Microsoft Azure SQL Data Warehouse",
+        "reason": null,
+        "self_report_kind": "ENGINE_PRODUCT",
+        "upper_value": "OLAP Server"
+      },
+      "tool": "process",
+      "upper_declared_context": {
+        "dimension_ids": [],
+        "filters": [],
+        "scope": "WHOLE_ENTITY",
+        "version": 1
+      },
+      "upper_evidence_id": "3cea229c-dadc-427d-9a42-310b39819cfd",
+      "upper_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+      },
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "upper_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "values_equal": true
+    },
+    {
+      "comparison_status": "CROSS_SURFACE_VERIFIED",
+      "completeness": "COMPLETE_RESPONSE",
+      "id": "boundary-2-comparison",
+      "lower_binding_provenance": "DECLARED_BY_DEFINITION",
+      "lower_declared_context": {
+        "dimension_ids": [],
+        "filters": [],
+        "scope": "WHOLE_ENTITY",
+        "version": 1
+      },
+      "lower_evidence_id": "81ef9564-8186-4815-952d-a13f9c19f5b3",
+      "lower_execution_surface": {
+        "connection": "sql://sql-orderops-9696025.database.windows.net",
+        "engine": "Microsoft SQL Azure",
+        "identity": "orderops_investigator",
+        "object": "ordersops"
+      },
+      "lower_layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+      "lower_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "process_roles": [
+        "comparison"
+      ],
+      "snapshot_attestation": {
+        "lower": null,
+        "reason": "QUERY_BOUND_VERSION_MISSING",
+        "status": "SNAPSHOT_UNVERIFIED",
+        "unverified_sides": [
+          "upper",
+          "lower"
+        ],
+        "upper": null,
+        "version": 1
+      },
+      "status": "COMPLETED",
+      "surface_difference": {
+        "differing_field": "engine",
+        "grade": "ENGINE_INDEPENDENT",
+        "lower_value": "Microsoft SQL Azure",
+        "reason": null,
+        "self_report_kind": "ENGINE_PRODUCT",
+        "upper_value": "Microsoft Azure SQL Data Warehouse"
+      },
+      "tool": "process",
+      "upper_declared_context": {
+        "dimension_ids": [],
+        "filters": [],
+        "scope": "WHOLE_ENTITY",
+        "version": 1
+      },
+      "upper_evidence_id": "89fe2ad9-bac0-4e58-8a01-a197eb63cde7",
+      "upper_execution_surface": {
+        "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+        "engine": "Microsoft Azure SQL Data Warehouse",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "round_two_bronze_20261003"
+      },
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+      "upper_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "values_equal": false
+    }
+  ],
+  "delivery": [
+    {
+      "audit_evidence_id": "f2b4e30d-cc8e-4768-9a1f-a52bdb6128af",
+      "audit_result": {
+        "accounting": {
+          "rows_read": 360,
+          "rows_written": 360
+        },
+        "completed_at": "2026-10-04T16:48:22.2386045Z",
+        "high_watermark": null,
+        "reason": "The audited run completed with its own activity counters; source capture currency was not established.",
+        "run_id": "234ec7cc-0324-49e0-86c9-764202be00dc",
+        "run_state": "SUCCEEDED",
+        "started_at": "2026-10-04T16:48:01.1024494Z",
+        "status": "CURRENT"
+      },
+      "check_kind": "SOURCE_DELIVERY",
+      "completeness": "COMPLETE_RESPONSE",
+      "delivery_result": {
+        "accounting": {
+          "rows_read": 360,
+          "rows_written": 360
+        },
+        "destination_only_rows": 0,
+        "different_version_rows": 0,
+        "last_successful_end": "2026-10-04T16:48:22.2386045Z",
+        "last_successful_start": "2026-10-04T16:48:01.1024494Z",
+        "missing_rows": 1,
+        "newest_source_change": "2026-10-04 16:49:46.8593410",
+        "run_id": "234ec7cc-0324-49e0-86c9-764202be00dc",
+        "status": "LATENT"
+      },
+      "id": "source-delivery-05172bda-df27-41b2-bb40-ecb417818637",
+      "limitations": [
+        "Delivery row comparisons do not exclude Fabric SQL analytics endpoint synchronization delay; query-bound matching snapshots are unavailable."
+      ],
+      "process_roles": [
+        "established",
+        "job_history",
+        "prior_state"
+      ],
+      "row_evidence": {
+        "destination": [
+          "c2a65578-84ae-444b-a185-0bbd3c196376",
+          "a96f3157-350d-4cc7-b325-b1716f34b7ff"
+        ],
+        "source": [
+          "514ce4b5-58b4-4ff6-9351-70616a221e55",
+          "e709e872-3df7-4071-a932-0f8658dd5a0f"
+        ]
+      },
+      "semantics": {
+        "key_column_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945/column/1",
+        "modified_column_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945/column/7",
+        "source_asset_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+        "time_semantics": "UTC_LAST_MODIFIED",
+        "version_column_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945/column/8"
+      },
+      "status": "COMPLETED",
+      "tool": "process"
+    }
+  ],
+  "membership": [],
+  "unavailability": [
+    {
+      "capability_status": "UNDECLARED",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE",
+      "completeness": "COMPLETE_RESPONSE",
+      "id": "declared-reproduction-not-applicable",
+      "process_roles": [
+        "established"
+      ],
+      "question_kind": "FRESHNESS",
+      "reason": "Declared-context reproduction is undeclared for model-only or layer-only named context.",
+      "status": "COMPLETED",
+      "tool": "process"
+    }
+  ]
+}

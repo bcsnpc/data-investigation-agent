@@ -1,0 +1,6 @@
+You asked: In Application load fixture 20261003, Movement Units shows 7,661 units. I expected a movement numbered 900099 that is absent from the authored application fixture. Please trace the displayed total to the application so I know whether this is a pipeline question or an application question.
+Answer to your question: Not answered.
+Regarding the original question: No recorded completion check establishes an answer to this request.
+What was found instead:
+
+The checked declared layer value was 7,661. The available evidence did not establish a boundary comparison with the total used to prepare the report. A difference between the report and its input therefore remains possible. The original entries, unchecked selections, update timing and intended business rules remain outside what these comparisons establish. Recommended action: Ask the system owner to provide the missing connection information or read access identified in the limits.

@@ -1,5 +1,16 @@
 # data-investigation-agent — charter for AI implementers
 
+Dated Round Three finding, 2026-10-04 UTC: the approved ops Warehouse audit
+producer independently retrieved own copy 361/361 and 360/360 counters and
+activity timestamps matching the reader's pipeline activity-output response.
+Qualified INGESTION_GAP and LOAD_LATENCY executions completed. Matching counters
+do not prove individual delivery or aligned snapshots. Two subsequent consistency
+tickets returned NO_COMPARABLE_PATH after intake added grouping; no source
+consistency claim was earned or expected absence backfilled from fixture truth.
+Original failures/outputs preserved. Reader restoration: isolated application,
+landing/model 7,661; original model 8,765. Part B 466/500, rolling last observed
+590/1,000, diagnostics 12 unchanged. See docs/round-three-source-scenarios.md.
+
 Dated audit-surface finding, 2026-10-04 UTC: administrator direct Delta reads
 establish that both newer audit rows committed, with own 361/361 and 360/360
 copy counters. The earlier reader SQL receipt omitted the first at least 6m20s

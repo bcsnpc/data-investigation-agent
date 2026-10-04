@@ -1,0 +1,31 @@
+You asked: In Application load fixture 20261003, Movement Units shows 7,661 units and looks stale. Please check whether the application changed after the last successful load.
+Answer to your question: Partly answered.
+Regarding whether the reported information is current: Timing or processing evidence was inspected, but it does not establish that the reported information is current. Refresh history was unavailable to the diagnostic reader. The load accounting was read and established a successful completed load; that alone does not establish currency. Source delivery evidence established that the source changed after the last load.
+What the investigation established:
+
+Measure: Movement Units.
+B2 diverges: L2 (app.stock movements round two 20261003 in ordersops; role APPLICATION, upstream input) 7,678 -> L1 (dbo.stock movements round two 20261003 in round two bronze 20261003; role LANDING, downstream output) 7,661.
+B1 agrees: L1 (dbo.stock movements round two 20261003 in round two bronze 20261003; role LANDING, upstream input) 7,661 -> L0 (Movements in Application load fixture 20261003; role SEMANTIC, downstream output) 7,661.
+ENGINE_INDEPENDENT: comparable quantity-bound engine self-reports differ; this is an engine-independent cross-surface comparison. (receipt boundary-1-comparison).
+ENGINE_INDEPENDENT: comparable quantity-bound engine self-reports differ; this is an engine-independent cross-surface comparison. (receipt boundary-2-comparison).
+Declared-context reproduction unavailable: Declared-context reproduction is undeclared for model-only or layer-only named context.
+
+The semantic measure is computed from rows in the movements table that currently align with the staged movements delivery, while the application side movements relation holds a higher rowwise total. This places the divergence at the handoff between the application relation and the staged delivery, with the semantic layer carrying forward the staged value rather than the newer application value.
+
+Run 234ec7cc-0324-49e0-86c9-764202be00dc: The recorded successful load finished at 2026-10-04T16:48:22.2386045Z; its own activity reported 360 rows read and 360 rows written. The newest application change read was 2026-10-04 16:49:46.8593410; 1 source rows were absent and 0 carried different versions in the destination. The source changed after that load finished, so another load is required before checking delivery.
+
+Layers:
+L0 - Movements in Application load fixture 20261003; role SEMANTIC: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements
+L1 - dbo.stock movements round two 20261003 in round two bronze 20261003; role LANDING: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003
+L2 - app.stock movements round two 20261003 in ordersops; role APPLICATION: sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945
+
+Limits:
+- Unattested connection on L0 (receipt 3cea229c-dadc-427d-9a42-310b39819cfd).
+- Unattested connection on L1 (receipt 89fe2ad9-bac0-4e58-8a01-a197eb63cde7).
+- Unattested connection on L2 (receipt 81ef9564-8186-4815-952d-a13f9c19f5b3).
+- SNAPSHOT_UNVERIFIED for B1, B2: the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.
+- Checked through L2; stopped because reached.
+- Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.
+- Delivery row comparisons do not exclude Fabric SQL analytics endpoint synchronization delay; query-bound matching snapshots are unavailable.
+
+Recommended action: Check the number again after the scheduled update finishes.
