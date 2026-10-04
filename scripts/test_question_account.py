@@ -47,4 +47,18 @@ class QuestionAccountTests(unittest.TestCase):
             broken=copy.deepcopy(outputs);broken['business_output']['question_account'][field]=value
             with self.assertRaises(Conflict):account.validate(broken,state)
 
+    def test_freshness_header_renders_actual_attempts_and_reasons_not_a_not_assessed_placeholder(self):
+        s=self.state('Inspect the latest movements.');s['envelope']['question_kind']={'kind':'FRESHNESS'}
+        marker={'id':'attempt','status':'COMPLETED','check_kind':'FRESHNESS_ATTEMPT',
+            'freshness_attempt':{'checks':{'job_history':{'status':'UNAVAILABLE','reason':'No successful run covers this job.'},
+                'source_delivery':{'status':'UNAVAILABLE','reason':'The source is configured unreachable.'}}}}
+        s['observations']=[marker];outputs=self.outputs();account.attach(outputs,s)
+        for output in outputs.values():
+            text=output['explanation']['text']
+            self.assertIn('No successful run covers this job.',text)
+            self.assertIn('source is configured unreachable',text)
+            self.assertNotIn('not assessed',text)
+        marker['freshness_attempt']['checks']['job_history']={'status':'CURRENT','accounting_observed':True}
+        self.assertIn('load accounting was read',account.render(account.build(s)))
+
 if __name__=='__main__':unittest.main()

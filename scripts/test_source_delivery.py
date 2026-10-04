@@ -105,6 +105,14 @@ class DeliveryTests(unittest.TestCase):
         from investigator.adapters.load_audit import classify as classify_audit
         self.assertEqual(classify_audit([{'run_id':'bad'}],'producer')['status'],'UNAVAILABLE')
 
+    def test_implemented_delivery_blocked_by_evidence_is_not_called_unimplemented(self):
+        a=DeliveryAdapter(['report','delivery','application'],dict(report=12,delivery=12,application=13))
+        a.source_delivery=lambda boundary,scope:{'status':'UNAVAILABLE','reason':'No valid completed audit row covers the pipeline.'}
+        result=vertical(a,'m',{})
+        p=result['support']['process']
+        self.assertEqual(p['visibility_boundary']['stopped_by'],'CAPABILITY_UNAVAILABLE')
+        self.assertEqual(p['missing_capability'],'Evidence unavailable: No valid completed audit row covers the pipeline.')
+
     def test_adapter_compiles_paginated_roles_and_audit_failure_prevents_membership_reads(self):
         from types import SimpleNamespace
         from unittest.mock import patch

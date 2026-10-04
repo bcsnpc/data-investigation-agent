@@ -318,6 +318,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             checks={};refs=[]
             job=job_for(boundary) if 'job_history' in available else {'status':'UNAVAILABLE','reason':'Job history capability is undeclared.'}
             checks['job_history']={k:job[k] for k in ('status','reason') if k in job}
+            checks['job_history']['accounting_observed']=bool(job.get('accounting'))
             if job.get('evidence'):
                 receipt=_observation(job['evidence'],'job_history','prior_state')
                 refs.append(receipt['id'])
@@ -676,7 +677,9 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                         baseline=boundary_baseline,roles=roles+('comparison',),
                         explanation='The declared load evidence and independently read row membership establish the source delivery boundary condition.',skipped_steps=skipped)
             reason=(delivery or {}).get('reason') or 'The declared system-of-record boundary diverges, but source delivery run and capture evidence is not implemented.'
-            return answer('NO_KNOWN_PATTERN',5,observations,lower.layer,'CAPABILITY_NOT_IMPLEMENTED',
+            stop='CAPABILITY_UNAVAILABLE' if delivery is not None else 'CAPABILITY_NOT_IMPLEMENTED'
+            if delivery is not None:reason='Evidence unavailable: '+reason
+            return answer('NO_KNOWN_PATTERN',5,observations,lower.layer,stop,
                 boundary_baseline,roles=('established',),missing_capability=reason,
                 explanation=reason,skipped_steps=skipped)
         if index==1 and 'declared_source_comparison' in available:
@@ -734,8 +737,12 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             unavailable(5,'job_history',(job or {}).get('reason') or 'Job-history completion was not established.')
         missing=[x['capability'] for x in skipped if x['step'] in ((3,5) if index==1 else (5,))]
         if missing:
-            reason='Divergence observed, but competing explanations were not checked: '+', '.join(missing)+'.'
-            return answer('NO_KNOWN_PATTERN',5,observations,lower.layer,'CAPABILITY_NOT_IMPLEMENTED',
+            failed=[x for x in skipped if x['capability'] in missing]
+            implemented=any(x['capability'] in available for x in failed)
+            reason=('Evidence unavailable: ' if implemented else 'Capabilities undeclared: ')+ '; '.join(
+                x['capability']+': '+x['reason'] for x in failed)
+            return answer('NO_KNOWN_PATTERN',5,observations,lower.layer,
+                'CAPABILITY_UNAVAILABLE' if implemented else 'CAPABILITY_NOT_IMPLEMENTED',
                 boundary_baseline,roles=('established',),missing_capability=reason,
                 explanation=reason,skipped_steps=skipped)
         absence=_observation({'id':f'boundary-{index}-definition-absence','tool':'process'},'definition_absence','mechanism')
