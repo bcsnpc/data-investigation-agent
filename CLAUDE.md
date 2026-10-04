@@ -1,4 +1,4 @@
-# data-investigation-agent â€” charter for AI implementers
+# data-investigation-agent — charter for AI implementers
 
 Read this before changing anything. It is not style guidance. Every rule below
 exists because breaking it previously produced a false conclusion that survived
@@ -18,7 +18,7 @@ It reports whether behaviour is **by design, latency, failure, or defect**.
 **It never judges whether a number is business-correct.** This is the governing
 non-goal. The system states the mechanism and its category; the user decides
 whether the design is right. A filter in a transformation is not a bug and not a
-non-bug â€” it is a design choice, reported as such, with an enhancement request
+non-bug — it is a design choice, reported as such, with an enhancement request
 as the available action.
 
 It also does not explain business causation. "Why did discounts rise" is not
@@ -171,21 +171,21 @@ outputs.
 **Never the model:** choosing which layer to look at next, inventing queries to
 search with, or deciding whether a design is correct.
 
-The model translates; it does not explore. A required layer order is banned â€”
+The model translates; it does not explore. A required layer order is banned —
 requirements live in the support contract, not in an enforced sequence.
 
-## Recording discipline â€” applies to every PR
+## Recording discipline — applies to every PR
 
 A PR that changes behaviour and does not update these is incomplete.
 
-- **`docs/runs/ledger.jsonl`** â€” exactly one appended line per run, live or
+- **`docs/runs/ledger.jsonl`** — exactly one appended line per run, live or
   offline. Never rewrite or delete existing lines, including failures. Counts,
   identifiers and outcomes only; never query text, result values, business data
   or provider message contents.
-- **`README.md`** â€” must be true as of every commit. "What works today" states
+- **`README.md`** — must be true as of every commit. "What works today" states
   only what is implemented and verified now. Never describe an aspiration, a
   plan or a single successful trial as a current general capability.
-- **`docs/current-delivery-status.md`** â€” owns implementation and verification
+- **`docs/current-delivery-status.md`** — owns implementation and verification
   claims.
 - Failed, partial and blocked outcomes are recorded with the same detail as
   successes, including the stop reason and what was NOT established.
@@ -233,8 +233,8 @@ See docs/current-delivery-status.md for subsequent work and current evidence.
     no OneLake role membership.
 - **No investigation has yet completed end to end.** The model's
   `judge_definition` call has never been invoked in a live run.
-- The Gold Fabric SQL analytics endpoint the process path needs (`77c49180â€¦`,
-  `warehouse_gold_e1b8e1` in workspace `149f8d99â€¦`) is reachable by the
+- The Gold Fabric SQL analytics endpoint the process path needs (`77c49180…`,
+  `warehouse_gold_e1b8e1` in workspace `149f8d99…`) is reachable by the
   least-privilege reader `investigator-reader@skynwhy.com` (workspace `Viewer`).
   The reader signs in through its own isolated Azure CLI profile
   (`.local/azure-reader-sql`), with no new permission and no app registration.
@@ -272,7 +272,7 @@ See docs/current-delivery-status.md for subsequent work and current evidence.
   known-issues register are **proposal-only**. Do not implement them
   opportunistically.
 
-## Known past failures â€” do not reintroduce
+## Known past failures — do not reintroduce
 
 - Adding reader and transport sections to an environment's config changed the
   whole-config digest that discovery approval pins, so every catalog-mediated
