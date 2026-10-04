@@ -1,5 +1,10 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Four is authorised: Part B closed at 466/500; a separate 300-physical-request
+pot is recorded, rolling 1000 and diagnostic cap 12 unchanged. Four fixes and two
+consistency scenarios precede an offline acceptance roster (the requested families
+sum to 15). No new outcome or replay pass claimed. [Budget](docs/round-four-budget.md).
+
 Round Three completed four first-attempt known-domain executions after A1–A6:
 **INGESTION_GAP**, **LOAD_LATENCY**, then two **NO_COMPARABLE_PATH** results.
 Warehouse audit matched the copy activity's own 361/361 and 360/360 counters.

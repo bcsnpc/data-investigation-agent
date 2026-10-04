@@ -1,5 +1,11 @@
 # Current delivery status
 
+2026-10-04 Round Four: Part B closed at 466/500. New separate pot 0/300 physical
+requests; rolling 1000 and diagnostic cap 12 unchanged, counters preserved.
+Identifier-scope, question-kind answer, mechanism-token and grammar fixes pending,
+then two consistency scenarios and offline suite. Requested roster totals 15,
+not 13; replayability remains to be audited. [Decision](round-four-budget.md).
+
 Current checkpoint, 2026-10-04 UTC: A1–A6 and pre-run membership correction
 merged (#361–#368), each with six green checks. Four first attempts executed:
 INGESTION_GAP and LOAD_LATENCY earned qualified reader findings; consistency and
