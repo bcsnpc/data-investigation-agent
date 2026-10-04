@@ -1,5 +1,9 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Three A6 binds mechanism paragraphs to divergent comparison receipts and
+renders actual freshness attempts and evidence-unavailability reasons. Offline
+regressions passed; the four live scenarios remain. See [output contract](docs/freshness-output-evidence.md).
+
 Round Three A5 adds receipt-backed expected-record membership at reachable
 layers. Source consistency cannot be earned from equal totals while a named
 record remains unchecked. Offline-tested only; A6 and source scenarios remain.

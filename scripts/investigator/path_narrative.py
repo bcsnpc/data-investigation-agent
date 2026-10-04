@@ -5,6 +5,14 @@ from .output_contract import _business_mechanism
 LIMITATION='These findings apply only to the recorded scope; unchecked conditions remain unestablished.'
 
 
+def divergent_boundaries(payload):
+    if 'boundaries' in payload:
+        return sorted(row['comparison_id'] for row in payload['boundaries'] if row.get('values_equal') is False)
+    return sorted(e['id'] for e in payload.get('evidence',[])
+                  if e.get('result',{}).get('comparison_status')=='CROSS_SURFACE_VERIFIED'
+                  and e['result'].get('values_equal') is False)
+
+
 def facts(payload):
     entries=payload.get('evidence',[]);by_id={e['id']:e for e in entries};labels={};result=[]
     def label(identity):

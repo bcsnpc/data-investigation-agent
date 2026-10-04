@@ -1,5 +1,11 @@
 # Current delivery status
 
+Round Three A6: wrong-boundary mechanism prose is excluded before output,
+implemented evidence failures are named honestly, and freshness headers use
+actual attempted checks. 98 focused tests passed; no live run. Part B remains
+390/500; four source scenarios pending after merge. Prior freezes invalid.
+[Details](freshness-output-evidence.md).
+
 Round Three A5: expected records require original attested membership evidence
 at every reachable layer before source consistency; missing keys/mappings refuse.
 Nine membership and 34 synthesis regressions passed, including sealed-address

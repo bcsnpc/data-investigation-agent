@@ -53,6 +53,10 @@ def schema(payload):
     business['properties']['text']={'type':'string','enum':texts}
     technical=statement(limits.ASSESSMENT_CLAIM)
     technical['properties']['text']=path_narrative.mechanism_schema(limits.ASSESSMENT_CLAIM)
+    boundaries=path_narrative.divergent_boundaries(payload)
+    if boundaries:
+        technical['properties']['boundary_evidence_id']={'type':'string','enum':boundaries}
+        technical['required'].append('boundary_evidence_id')
     return {'type':'object','additionalProperties':False,'properties':{
         'business_output':business,
         'technical_output':technical},
@@ -63,12 +67,19 @@ def assemble(response,payload,state):
     """Keep structural facts original; never infer them back from narrative."""
     from .evidence_synthesis import schema as assessment_schema,validate
     value=copy.deepcopy(response.narrative)
-    Draft202012Validator(schema(payload)).validate(value)
+    contract=schema(payload)
+    # A wrong boundary rejects this paragraph, not the already validated finding.
+    # Other malformed response fields still fail strictly; no repair or clipping.
+    boundaries=path_narrative.divergent_boundaries(payload)
+    rejected=bool(boundaries and value.get('technical_output',{}).get('boundary_evidence_id') not in boundaries)
+    if rejected:
+        contract['properties']['technical_output']['properties']['boundary_evidence_id']={'type':'string'}
+    Draft202012Validator(contract).validate(value)
     evidence_prose.validate(value['technical_output']['text'],limits.ASSESSMENT_CLAIM)
     import re
     if re.search(r'\b(?:you asked|answer to your question|partly answered|not answered)\b',value['technical_output']['text'],re.I):
         raise ValueError('Question coverage belongs to the engine, not model commentary')
-    path_narrative.validate_mechanism(value['technical_output']['text'],state['assessment']['limits'])
+    if not rejected:path_narrative.validate_mechanism(value['technical_output']['text'],state['assessment']['limits'])
     source=state['assessment']
     if value['business_output']['text']!=business_text(source['classification'],payload):
         raise ValueError('Business wording differs from the fixed outcome')
@@ -94,7 +105,11 @@ def assemble(response,payload,state):
     from .snapshot_attestation import payload_comparisons
     for key in ('business_output','technical_output'):
         outputs[key]['snapshot_attestations']=[e.get('snapshot_attestation',{'status':'SNAPSHOT_UNVERIFIED'}) for e in payload_comparisons(payload)]
-    outputs['technical_output']['explanation']['text']=narrative_form.technical(value['technical_output']['text'],payload,source,recommended)
+    outputs['technical_output']['explanation']['text']=narrative_form.technical('' if rejected else value['technical_output']['text'],payload,source,recommended)
+    if rejected:
+        outputs['technical_output']['mechanism_rejection']={'reason':'WRONG_DIVERGENT_BOUNDARY',
+            'cited_boundary':value['technical_output']['boundary_evidence_id'],'allowed_boundaries':boundaries}
+        outputs['technical_output']['explanation']['text']+='\n\nMechanism paragraph omitted: its citation did not name an observed divergent boundary.'
     if answering:
         vertical=[e for e in payload['evidence'] if e.get('test_purpose')=='ESTABLISH_BASELINE' and e.get('verified_quantity')]
         account=['What else was checked: vertical path outcome '+source['classification']+'.']

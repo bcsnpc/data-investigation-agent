@@ -36,6 +36,8 @@ def build(state):
     skipped=detail.get('skipped_steps',[])
     comparisons=[o for o in observations if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
     subjects=[key for key,pattern in SUBJECTS.items() if re.search(pattern,question,re.I)] or ['unclassified']
+    if (state['envelope'].get('question_kind') or {}).get('kind')=='FRESHNESS' and 'currency' not in subjects:
+        subjects=['currency']+[s for s in subjects if s!='unclassified']
     checks=[]
     for subject in subjects:
         status='NOT_ANSWERED';reason='No recorded completion check establishes an answer to this request.'
@@ -47,7 +49,22 @@ def build(state):
             else:reason='No completed currency check establishes whether the reported information is current.'
             if any(x.get('capability') in ('presentation_freshness','refresh_timing') for x in skipped):
                 reason+=' Refresh history was unavailable to the diagnostic reader.'
-            if 'job_history' not in roles:reason+=' Processing history was not assessed before the investigation stopped.'
+            attempts=[o for o in observations if o.get('check_kind')=='FRESHNESS_ATTEMPT']
+            if attempts:
+                refs=sorted(set(refs+[o['id'] for o in attempts]))
+                for attempt in attempts:
+                    attempted_checks=attempt['freshness_attempt']['checks']
+                    job=attempted_checks['job_history']
+                    if job['status']=='CURRENT':
+                        status='PARTLY_ANSWERED'
+                        reason+=(' The load accounting was read and established a successful completed load; that alone does not establish currency.'
+                            if job.get('accounting_observed') else ' Processing history was read and established successful completion; it did not return the load\'s own accounting.')
+                    else:reason+=' Load accounting was attempted and found '+job['status'].lower()+': '+(job.get('reason') or 'No successful completion was established.')
+                    delivery=attempted_checks['source_delivery']
+                    if delivery['status'] in ('GAP','LATENT'):
+                        status='PARTLY_ANSWERED';reason+=(' Source delivery evidence established a delivery gap.' if delivery['status']=='GAP' else ' Source delivery evidence established that the source changed after the last load.')
+                    else:reason+=' Source delivery was attempted and found '+delivery['status'].lower()+': '+(delivery.get('reason') or 'No delivery condition was established.')
+            elif 'job_history' not in roles:reason+=' Processing history was not assessed before the investigation stopped.'
         elif subject=='meaning':
             reason='No authoritative business meaning or intended rule was established; a technical finding cannot supply it.'
         elif subject=='definitions':

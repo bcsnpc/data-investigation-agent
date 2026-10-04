@@ -47,6 +47,12 @@ def prepare(payload):
         'text':{'type':'string','description':'Mechanism only. Complete sentences, at most '+str(limits.ASSESSMENT_CLAIM)+' characters; no limitations or path-account references.'},
         'evidence_ids':{'type':'array','items':{'type':'string','enum':list(handles)}}},
         'required':['text','evidence_ids']}
+    from .path_narrative import divergent_boundaries
+    boundaries=divergent_boundaries(payload)
+    if boundaries:
+        statement['properties']['boundary_evidence_id']={'type':'string','enum':[forward[i] for i in boundaries],
+            'description':'The observed divergent comparison explained by this mechanism paragraph.'}
+        statement['required'].append('boundary_evidence_id')
     schema={'type':'object','additionalProperties':False,'properties':{'technical_output':statement},'required':['technical_output']}
     from .adapters.structured_output_contract import validate
     validate(schema)
@@ -59,6 +65,8 @@ def decode(value,payload,schema,handles):
     refs=technical['evidence_ids']
     if len(refs)>limits.ASSESSMENT_REFS or (handles and not refs):raise ValueError('Synthesis requires bounded visible citations')
     technical['evidence_ids']=[handles[ref] for ref in refs]
+    if 'boundary_evidence_id' in technical:
+        technical['boundary_evidence_id']=handles[technical['boundary_evidence_id']]
     from .output_contract import business_text
     outcome=payload.get('outcome') or (payload.get('deterministic_process_finding') or {})['classification']
     return {'business_output':{'text':business_text(outcome,payload),'evidence_ids':copy.deepcopy(technical['evidence_ids'])},

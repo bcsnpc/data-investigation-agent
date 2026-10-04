@@ -25,7 +25,26 @@ class NarrativeContractTests(unittest.TestCase):
                    'evidence_ids':[payload['evidence'][0]['id']]}
         business=copy.deepcopy(statement)
         business['text']=narrative.business_text(payload['deterministic_process_finding']['classification'],payload)
-        return {'business_output':business,'technical_output':{**statement,'text':narrative.path_narrative.summary(payload)}}
+        technical={**statement,'text':narrative.path_narrative.summary(payload)}
+        boundaries=narrative.path_narrative.divergent_boundaries(payload)
+        if boundaries:technical['boundary_evidence_id']=boundaries[0]
+        return {'business_output':business,'technical_output':technical}
+
+    def test_wrong_mechanism_boundary_is_omitted_while_original_finding_and_spine_survive(self):
+        state,payload=self.source('TRANSFORMATION_LOGIC')
+        value=self.response(payload);value['technical_output']['boundary_evidence_id']='equal-boundary'
+        value['technical_output']['text']='A fabricated selection explains this change.'
+        original=copy.deepcopy(state)
+        assessment,outputs=narrative.assemble(narrative.Response(value),payload,state)
+        self.assertEqual(assessment,state['assessment']);self.assertEqual(state,original)
+        technical=outputs['technical_output']
+        self.assertNotIn('fabricated selection',technical['explanation']['text'])
+        self.assertIn('Mechanism paragraph omitted',technical['explanation']['text'])
+        self.assertEqual(technical['mechanism_rejection']['reason'],'WRONG_DIVERGENT_BOUNDARY')
+        from investigator.synthesis_wire import prepare
+        _,wire,handles=prepare(payload)
+        allowed=wire['properties']['technical_output']['properties']['boundary_evidence_id']['enum']
+        self.assertEqual([handles[i] for i in allowed],narrative.path_narrative.divergent_boundaries(payload))
 
     def test_business_cannot_include_free_prose_assets_queries_or_extra_numbers(self):
         from investigator.output_contract import BUSINESS
