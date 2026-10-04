@@ -469,6 +469,10 @@ class MicrosoftProcessAdapter:
             path['evidence']['unresolved_boundary']=gap
             if gap:path['stopped_by']='NO_LINEAGE'
         path['max_boundaries']=self.max_boundaries
+        estate=(self.config or {}).get('_estate')
+        if estate:
+            from ..estate_lineage import apply as apply_estate_lineage
+            path=apply_estate_lineage(path,estate)
         context=context_search.latest(self.store) if self.store is not None else None
         from ..layer_display import discovered_labels
         path['layer_labels']=discovered_labels((context or {}).get('assets',[]),path['layers'])

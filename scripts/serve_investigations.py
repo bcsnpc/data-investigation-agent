@@ -1,65 +1,32 @@
-"""Serve saved investigation evidence on loopback for the local operator."""
+"""Serve historical evidence read-only; investigation uses the manifest workspace."""
 import argparse
 import os
-import json
 from pathlib import Path
 from wsgiref.simple_server import make_server,WSGIRequestHandler
 from investigation_evidence_api import create_app
-from metadata_config import ROOT,load_config
-from ticket_workflow import TicketStore
+from investigator.estate_manifest import load
+from investigator.adapters.estate_installation import configuration
 
 
 class QuietHandler(WSGIRequestHandler):
-    def log_message(self,format,*args):
-        pass  # Do not log URLs or authorization-related input.
+    def log_message(self,format,*args):pass
 
 
-if __name__=='__main__':
+def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--config',type=Path,default=ROOT/'infra/metadata/development.json')
+    parser.add_argument('--manifest',type=Path,required=True)
     parser.add_argument('--port',type=int,default=8765)
-    parser.add_argument('--enable-tickets',action='store_true')
-    parser.add_argument('--enable-plan-review',action='store_true')
-    parser.add_argument('--enable-planning',action='store_true')
-    parser.add_argument('--enable-worker',action='store_true')
-    parser.add_argument('--enable-explanations',action='store_true')
-    parser.add_argument('--worker-max-jobs',type=int,default=1)
-    parser.add_argument('--worker-max-seconds',type=int,default=900)
-    parser.add_argument('--estate',type=Path,default=ROOT/'infra/fabric/environment.json')
     args=parser.parse_args()
     if not 1<=args.port<=65535:parser.error('Port must be between 1 and 65535')
     token=os.environ.get('INVESTIGATOR_API_TOKEN')
     if not token:parser.error('Set INVESTIGATOR_API_TOKEN before starting the local API')
-    if args.enable_plan_review and not args.enable_tickets:parser.error('Plan review requires --enable-tickets')
-    if args.enable_planning and not args.enable_plan_review:parser.error('Planning requires --enable-plan-review')
-    if args.enable_worker and not args.enable_plan_review:parser.error('Worker requires --enable-plan-review')
-    if args.enable_explanations and not args.enable_worker:parser.error('Automatic explanations require --enable-worker')
-    if not 1<=args.worker_max_jobs<=10 or not 1<=args.worker_max_seconds<=3600:parser.error('Worker limits: 1-10 jobs and 1-3600 seconds')
-    config=load_config(args.config)
-    database=config['storage']['database']
-    workflow=TicketStore(Path(database).with_name('workflow.sqlite')) if args.enable_tickets else None
-    lineage=json.loads(args.estate.read_text())['investigation']['lineage_run'] if workflow else None
-    reviews=None
-    if args.enable_plan_review:
-        from plan_review_api import PlanReviews
-        from planning_request import launch
-        planner=(lambda ticket_id:launch(ticket_id,args.config)) if args.enable_planning else None
-        reviews=PlanReviews(workflow,config,lambda: json.loads(args.estate.read_text()),planner)
-    worker=None
-    if args.enable_worker:
-        from background_worker import BackgroundWorker
-        explain=None
-        if args.enable_explanations:
-            from explanation_request import request_explanation,launch as launch_explanation
-            from investigation_evidence_api import EvidenceStore
-            evidence=EvidenceStore(database)
-            explain=lambda run_id:request_explanation(workflow,evidence,run_id,lambda identity:launch_explanation(identity,args.config))
-        worker=BackgroundWorker(workflow,config,lambda:json.loads(args.estate.read_text()),args.worker_max_jobs,args.worker_max_seconds,explain=explain)
-    app=create_app(database,token,workflow,lineage,reviews,ui=args.enable_plan_review,worker_status=worker.status if worker else None)
+    config=configuration(load(args.manifest))
+    app=create_app(config['storage']['database'],token)
     with make_server('127.0.0.1',args.port,app,handler_class=QuietHandler) as server:
-        print(f'Investigation evidence API listening on http://127.0.0.1:{args.port}',flush=True)
-        if worker:worker.start()
+        print(f'Historical evidence API listening on http://127.0.0.1:{args.port}',flush=True)
         try:server.serve_forever()
         except KeyboardInterrupt:pass
-        finally:
-            if worker:worker.stop()
+    return 0
+
+
+if __name__=='__main__':raise SystemExit(main())

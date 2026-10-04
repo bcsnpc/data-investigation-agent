@@ -19,6 +19,8 @@ from .runtime import fingerprint
 
 LIMITS = {'cloud_calls': 6, 'planner_calls': 6, 'wall_seconds': 900,
           'input_characters': 80000, 'max_depth': 3}
+DYNAMIC_READ_BOUNDS = (1, 15)
+DYNAMIC_INPUT_BOUNDS = (1000, 1536000)
 ACTIVE = ('SUBMITTING', 'QUEUED', 'RUNNING')
 PHASES = {'CREATED': 'Investigation created', 'PLANNER_RESERVED': 'Choosing the next check',
           'DECISION_SAVED': 'Next check selected', 'TOOL_RESERVED': 'Preparing a check',
@@ -30,9 +32,9 @@ PHASES.update(CONTEXT_OBSERVED='Reading definitions and relationships',PROPOSAL_
 
 class Workspace:
     def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000):
-        if type(dynamic_read_limit) is not int or not 1<=dynamic_read_limit<=15:
+        if type(dynamic_read_limit) is not int or not DYNAMIC_READ_BOUNDS[0]<=dynamic_read_limit<=DYNAMIC_READ_BOUNDS[1]:
             raise ValueError('Dynamic read limit must be 1–15')
-        if type(dynamic_input_limit) is not int or not 1000<=dynamic_input_limit<=1536000:
+        if type(dynamic_input_limit) is not int or not DYNAMIC_INPUT_BOUNDS[0]<=dynamic_input_limit<=DYNAMIC_INPUT_BOUNDS[1]:
             raise ValueError("Invalid dynamic input limit")
         self.dynamic_input_limit=dynamic_input_limit
         self.dynamic_read_limit=dynamic_read_limit

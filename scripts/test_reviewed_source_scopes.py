@@ -257,11 +257,15 @@ class ReviewedSourceTests(unittest.TestCase):
         self.register()
         with tempfile.TemporaryDirectory() as folder:
             envelope=Path(folder)/'envelope.json';envelope.write_text(json.dumps(self.envelope),encoding='utf-8')
-            argv=['run','--config','unused','--database','unused','--environment','development','--envelope',str(envelope),'--preview']
-            with patch('sys.argv',argv),patch.object(cli,'load_config',return_value=dict(self.config,storage={'database':'unused'})),patch.object(cli,'ModelStore',return_value=self.store),\
+            argv=['run','--manifest','estate.json','--preview-envelope',str(envelope)]
+            installation={'environment':'development','storage':{'catalog':'unused'}}
+            with patch('sys.argv',argv),patch('investigator.estate_manifest.load',return_value=installation) as manifest,\
+                 patch('investigator.adapters.estate_installation.configuration',return_value=dict(self.config,storage={'database':'unused'})),\
+                 patch('investigator.onboarding.ModelStore',return_value=self.store),\
                  patch.object(cli,'Runtime') as runtime,patch.object(cli,'local_azure_key') as key,redirect_stdout(StringIO()) as output:
                 self.assertEqual(cli.main(),0)
             runtime.assert_not_called();key.assert_not_called()
+            manifest.assert_called_once_with(Path('estate.json'))
             self.assertEqual(json.loads(output.getvalue())['cloud_calls'],0)
 
 

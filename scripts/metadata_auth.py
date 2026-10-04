@@ -63,9 +63,10 @@ class MetadataHttp:
         'onelake': ('https://onelake.table.fabric.microsoft.com/', 'https://storage.azure.com/.default'),
     }
 
-    def __init__(self, tokens: TokenProvider, opener=None):
+    def __init__(self, tokens: TokenProvider, opener=None, meter=None):
         self.tokens = tokens
         self.opener = opener or build_opener(NoRedirect())
+        self.meter = meter
 
     def __call__(self, endpoint, method='get', audience='fabric'):
         base, scope = self.SERVICES[audience]
@@ -76,6 +77,13 @@ class MetadataHttp:
             raise ValueError('Metadata transport rejects mutations')
         request = Request(base + endpoint, method=method.upper(),
                           headers={'Authorization': 'Bearer ' + self.tokens.get_token(scope)})
+        if self.meter:
+            # Admission covers the actual HTTP request, including nested
+            # OneLake enumeration requests, never just its logical operation.
+            return self.meter(lambda: self._send(request))
+        return self._send(request)
+
+    def _send(self, request):
         try:
             with self.opener.open(request, timeout=90) as response:
                 body = response.read()
@@ -92,7 +100,8 @@ class WorkerTransport:
 
     def invoke(self, request):
         request = dict(request, tenant=self.tenant)
-        result = subprocess.run([self.python, self.worker], input=json.dumps(request),
+        from investigator.physical_reads import run
+        result = run([self.python, self.worker], input=json.dumps(request), fallback=subprocess.run,
                                 capture_output=True, text=True, encoding='utf-8', timeout=360)
         if result.returncode:
             raise RuntimeError('Metadata authentication/transport worker failed')
@@ -113,10 +122,11 @@ class PowerShellSqlCatalog:
     def __call__(self, server, database, visibility_schema):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / 'catalog.json'
-            result = self.runner(['powershell', '-NoProfile', '-File', self.script,
+            from investigator.physical_reads import run
+            result = run(['powershell', '-NoProfile', '-File', self.script,
                 '-Server', server, '-Database', database, '-VisibilitySchema', visibility_schema,
                 '-CredentialPath', self.credential_file, '-OutputPath', str(output)],
-                capture_output=True, timeout=240)
+                input='{}', capture_output=True, text=True, encoding='utf-8', timeout=240, fallback=self.runner)
             if result.returncode:
                 raise RuntimeError('SQL metadata connection failed')
             return json.loads(output.read_text(encoding='utf-8-sig'))

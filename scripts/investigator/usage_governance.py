@@ -98,6 +98,17 @@ class UsageGovernor:
         if purpose!='RESTORATION' and db.execute("SELECT 1 FROM adaptive_usage WHERE environment=? AND day=? AND status='VIOLATION' LIMIT 1",(self.environment,self.day())).fetchone():
             raise UsageHold('Provider usage exceeded reservation')
         if kind=='cloud':
+            round_policy=self.runtime.config.get('_estate',{}).get('round')
+            if round_policy:
+                used=db.execute("SELECT count(*) FROM adaptive_usage WHERE environment=? AND kind='cloud' AND created>=?",
+                    (self.environment,round_policy['starts_at_epoch'])).fetchone()[0]
+                restored=db.execute('''SELECT count(*) FROM adaptive_usage u JOIN read_allocations a
+                    ON a.environment=u.environment AND a.session_id=u.session_id AND a.reservation_key=u.reservation_key
+                    WHERE u.environment=? AND u.kind='cloud' AND u.created>=? AND a.purpose='RESTORATION' ''',
+                    (self.environment,round_policy['starts_at_epoch'])).fetchone()[0]
+                reserve=0 if purpose=='RESTORATION' else max(0,round_policy['restoration_reserved']-restored)
+                if used+1+reserve>round_policy['physical_requests']:
+                    raise UsageHold('Estate manifest round physical allowance exhausted; restoration capacity reserved')
             read_allowance.allocate(db,self.environment,session_id,key,self.clock(),
                 self.policy['daily_limits']['cloud_calls'],purpose,UsageHold)
         db.execute('INSERT INTO adaptive_usage VALUES(?,?,?,?,?,?,NULL,?,?,?)',

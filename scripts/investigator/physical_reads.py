@@ -89,7 +89,7 @@ def run(command, *, input, timeout, fallback=None, **kwargs):
                 return subprocess.CompletedProcess(command,child.returncode,raw,'')
             kind=message.get('kind')
             if kind not in ('sql_identity','sql_database_permissions','sql_object_permissions',
-                            'sql_quantity','onelake_listing','onelake_commit'):
+                            'sql_quantity','onelake_listing','onelake_commit','metadata_read'):
                 raise ValueError('Unknown physical request')
             cache_key=(connection,kind,message.get('object'))
             cacheable=kind in ('sql_database_permissions','sql_object_permissions') and message.get('cache_guard') is True
