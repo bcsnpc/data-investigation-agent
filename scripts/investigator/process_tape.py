@@ -16,7 +16,7 @@ from uuid import uuid4 as new_uuid, UUID
 ACTIVE = ContextVar('process_tape', default=None)
 VERSION = 'bounded-worker-tape-v1'
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
-    'BUDGET','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END',
+    'BUDGET','BUDGET_INPUT','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
     'BOUNDED_REQUEST','BOUNDED_RESPONSE','BOUNDED_FAILURE','FINAL'})
 UUID_PATTERN=re.compile(r'(?i)\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b')
@@ -159,9 +159,18 @@ class Tape:
             if introduced:raise TapeError('TAPE_UNRECORDED_IDENTITY:'+','.join(sorted(introduced)))
         # Every started operation/provider/worker has a terminal event, in order.
         operations=[];workers=0;providers=0;bounded=0
+        previous_usage=None;external_checkpoint=False
         for event in self.events:
             kind=event['kind']
-            if kind=='OPERATION_START':
+            if kind=='BUDGET_INPUT':external_checkpoint=True
+            elif kind=='BUDGET':
+                budget=json.loads(validate_event(event,event['ordinal']))
+                if budget.get('phase') in ('BEFORE','AFTER') and 'usage_rows' in budget.get('state',{}):
+                    rows=budget['state']['usage_rows']
+                    if budget['phase']=='BEFORE' and previous_usage is not None and rows!=previous_usage and not external_checkpoint:
+                        raise TapeError('TAPE_UNRECORDED_BUDGET_INPUT')
+                    previous_usage=rows;external_checkpoint=False
+            elif kind=='OPERATION_START':
                 body=json.loads(validate_event(event,event['ordinal']))
                 if bootstrap['entry_point']=='workspace' and (set(body)!={'name','args','kwargs'} or body['name'] not in {'intake','preview','create','run','synthesize'} or not isinstance(body['args'],list) or not isinstance(body['kwargs'],dict)):
                     raise TapeError('TAPE_OPERATION_FIELDS')

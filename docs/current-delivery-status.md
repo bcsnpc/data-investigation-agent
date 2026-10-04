@@ -1,6 +1,13 @@
 # Current delivery status
 
 
+Round Five shared-budget correction (2026-10-04): G/H completed live but their
+replays missed concurrent operator usage. External budget inputs are now recorded;
+the runs remain incomplete recordings, with no backfill or replacement. I replayed
+both outputs but changed outcome to NO_KNOWN_PATTERN. Nine families attempted;
+six tickets remain. Usage 48/400, no fixture mutation or new permission.
+See [the preserved findings](docs/round-five-recorded-fifteen.md).
+
 2026-10-04 correction: Round Five stopped at Family F on IncompleteProse and the
 recorder's completed-procedure/completed-composition conflation. A/B/C/E replayed
 both outputs; F generated neither. Original failure preserved, 34/400 requests.
