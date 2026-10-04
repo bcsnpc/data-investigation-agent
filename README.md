@@ -1,5 +1,10 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Four A3 enforces exact declared layer tokens in mechanism prose. Incorrect
+role references exclude the paragraph while the original finding still renders.
+Offline-tested with unchanged synthesis coverage; no live rerun yet.
+[Details](docs/mechanism-layer-tokens.md). Prior freezes invalid.
+
 Round Four A2 derives answer coverage from the declared question kind and
 completed evidence. Qualified delivery findings answer delivery questions;
 currency and business meaning remain limited separately. Offline tests passed,

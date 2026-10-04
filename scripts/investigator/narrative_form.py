@@ -113,6 +113,7 @@ def business(text,payload):
 
 
 def technical(commentary,payload,source,recommended):
+    path_narrative.validate_layer_references(commentary,payload)
     path_narrative.validate_mechanism(commentary,source['limits'])
     registry=layers(payload,source)
     def short(text):

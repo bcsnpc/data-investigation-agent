@@ -19,7 +19,8 @@ independent evidence. The engine preserves checked boundaries and all limitation
 Copy the business wording from its exact allowed vocabulary.
 Technical prose explains only the mechanism. Limitations belong exclusively to the engine-rendered limits block. The engine itself inserts
 the measure, quantities, layers and direction. Do not restate them or refer to a
-fixed account or spine. Do not use digits or the ordering words input, output,
+fixed account or spine. Layer references must use the supplied L<n> (<ROLE>) tokens.
+Do not use other digits or the ordering words input, output,
 upstream, downstream or feeds in technical commentary.
 There is no model-written limitations field. Do not place caveats about proof,
 snapshots, access, unchecked conditions or business intent in the mechanism.
@@ -72,14 +73,19 @@ def assemble(response,payload,state):
     # Other malformed response fields still fail strictly; no repair or clipping.
     boundaries=path_narrative.divergent_boundaries(payload)
     rejected=bool(boundaries and value.get('technical_output',{}).get('boundary_evidence_id') not in boundaries)
+    layer_rejection=None
+    try:path_narrative.validate_layer_references(value.get('technical_output',{}).get('text',''),payload)
+    except path_narrative.LayerReferenceError as exc:layer_rejection=str(exc)
     if rejected:
         contract['properties']['technical_output']['properties']['boundary_evidence_id']={'type':'string'}
+    if layer_rejection:
+        contract['properties']['technical_output']['properties']['text']=evidence_prose.schema(limits.ASSESSMENT_CLAIM)
     Draft202012Validator(contract).validate(value)
     evidence_prose.validate(value['technical_output']['text'],limits.ASSESSMENT_CLAIM)
     import re
     if re.search(r'\b(?:you asked|answer to your question|partly answered|not answered)\b',value['technical_output']['text'],re.I):
         raise ValueError('Question coverage belongs to the engine, not model commentary')
-    if not rejected:path_narrative.validate_mechanism(value['technical_output']['text'],state['assessment']['limits'])
+    if not rejected and not layer_rejection:path_narrative.validate_mechanism(value['technical_output']['text'],state['assessment']['limits'])
     source=state['assessment']
     if value['business_output']['text']!=business_text(source['classification'],payload):
         raise ValueError('Business wording differs from the fixed outcome')
@@ -105,7 +111,10 @@ def assemble(response,payload,state):
     from .snapshot_attestation import payload_comparisons
     for key in ('business_output','technical_output'):
         outputs[key]['snapshot_attestations']=[e.get('snapshot_attestation',{'status':'SNAPSHOT_UNVERIFIED'}) for e in payload_comparisons(payload)]
-    outputs['technical_output']['explanation']['text']=narrative_form.technical('' if rejected else value['technical_output']['text'],payload,source,recommended)
+    outputs['technical_output']['explanation']['text']=narrative_form.technical('' if rejected or layer_rejection else value['technical_output']['text'],payload,source,recommended)
+    if layer_rejection:
+        outputs['technical_output']['mechanism_rejection']={'reason':'INVALID_LAYER_REFERENCE','detail':layer_rejection}
+        outputs['technical_output']['explanation']['text']+='\n\nMechanism paragraph omitted: its layer references did not match the declared spine.'
     if rejected:
         outputs['technical_output']['mechanism_rejection']={'reason':'WRONG_DIVERGENT_BOUNDARY',
             'cited_boundary':value['technical_output']['boundary_evidence_id'],'allowed_boundaries':boundaries}

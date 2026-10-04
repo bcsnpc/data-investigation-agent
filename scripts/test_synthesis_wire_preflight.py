@@ -13,7 +13,8 @@ class WirePreflightTests(unittest.TestCase):
             result,_=synthesis.azure_synthesize(self.payload(),{})
         self.assertIsInstance(result,Response)
         instructions=generate.call_args.kwargs['instructions']
-        self.assertIn('no digits, including digits in native identifiers',instructions)
+        self.assertIn('no other digits, including digits in native identifiers',instructions)
+        self.assertIn('exact layer_tokens entry, L<n> (<ROLE>)',instructions)
         for term in p.COMMENTARY_TERMS+p.MECHANISM_LIMIT_TERMS:
             self.assertIn(term,instructions)
         for term in ('independent','snapshot'):

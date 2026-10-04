@@ -65,6 +65,7 @@ def commentary_schema(bound):
 
 def validate_commentary(text):
     import re
+    text=re.sub(r'\bL\d+ \([A-Z]+\)', '', text)
     if re.search(COMMENTARY_FORBIDDEN,text):
         raise ValueError('Narrative redeclares path facts or refers to the account instead of explaining the mechanism')
 
@@ -101,7 +102,8 @@ MECHANISM_FORBIDDEN=r'\b(?:'+'|'.join(_casefold(t) for t in MECHANISM_LIMIT_TERM
 
 def producer_rules():
     """Same vocabulary as the consumer, even where wire regex is unsupported."""
-    return ('Mechanism text must contain no digits, including digits in native identifiers. '
+    return ('Refer to a layer only using an exact layer_tokens entry, L<n> (<ROLE>). '
+        'Never use a bare role word or invent a token. Mechanism text must contain no other digits, including digits in native identifiers. '
         'Do not copy native names with digits; explain the operation instead. '
         'Do not use these path-account terms: '+', '.join(COMMENTARY_TERMS)+'. '
         'Do not use these engine-owned limitation terms: '+', '.join(MECHANISM_LIMIT_TERMS)+'. '
@@ -111,9 +113,37 @@ def producer_rules():
 
 
 def mechanism_schema(bound):
-    value=commentary_schema(bound)
+    # Token digits are checked with the original spine, not a context-free regex.
+    from . import evidence_prose
+    value=evidence_prose.schema(bound)
+    terms=r'(?<![L0-9])\d|\b(?:'+'|'.join(_casefold(w) for w in COMMENTARY_TERMS)+r')\b'
+    value['pattern']='^(?![\\s\\S]*(?:'+terms+'))'+value['pattern'][1:]
     value['pattern']='^(?![\\s\\S]*(?:'+MECHANISM_FORBIDDEN+'))'+value['pattern'][1:]
     return value
+
+
+class LayerReferenceError(ValueError):
+    pass
+
+
+def layer_tokens(payload):
+    from .narrative_form import layers
+    labels=payload.get('layer_labels',{})
+    registry=layers(payload,{'technical_output':{'layer_labels':labels}})
+    return {item['term']+' ('+labels[identity]['role']+')':identity
+            for identity,item in registry.items() if labels.get(identity,{}).get('role')}
+
+
+def validate_layer_references(text,payload):
+    import re
+    from .layer_roles import ROLES
+    allowed=layer_tokens(payload)
+    mentions=re.findall(r'\bL\d+(?:\s*\([^)]*\))?',text)
+    if any(token not in allowed for token in mentions):
+        raise LayerReferenceError('Mechanism contains a layer token not declared by the spine')
+    remainder=re.sub(r'\bL\d+ \([A-Z]+\)', '', text)
+    if re.search(r'\b(?:'+'|'.join(ROLES)+r')\b',remainder,re.I):
+        raise LayerReferenceError('Mechanism contains a role word without its declared layer token')
 
 
 def validate_mechanism(text,limits=()):
