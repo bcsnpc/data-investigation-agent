@@ -47,6 +47,7 @@ def classify(audit,source,destination):
                'last_successful_end':audit['completed_at'],'run_id':audit['run_id'],
                'accounting':audit['accounting'],'missing_rows':len(missing),
                'different_version_rows':len(changed),'destination_only_rows':len(extras)}
+        if audit.get('excluded_rows'):facts['excluded_rows']=audit['excluded_rows']
         if not missing and not changed:
             return {'status':'UNAVAILABLE','reason':'No missing or different-version source rows establish a delivery gap.',**facts}
         affected=[instant(s[k]['modified']) for k in missing+changed]
@@ -114,11 +115,18 @@ def render_account(observation,business=False):
         if not audit:return None
         if audit.get('status')!='CURRENT':return 'Load accounting was unavailable: '+audit['reason']
         facts={'run_id':audit['run_id'],'accounting':audit['accounting'],
-            'last_successful_end':audit['completed_at']}
+            'last_successful_end':audit['completed_at'],'excluded_rows':audit.get('excluded_rows',[])}
     if not facts.get('accounting'):return None
     own=facts['accounting'];time=facts['last_successful_end']
     text=f"The recorded successful load finished at {time}; its own activity reported {own['rows_read']} rows read and {own['rows_written']} rows written."
     if not business:text='Run '+facts['run_id']+': '+text
+    excluded=facts.get('excluded_rows',[])
+    if excluded:
+        if business:
+            text+=' Damaged load-history entries were excluded; this is the latest usable record, not proof that no later load ran.'
+        else:
+            text+=' Excluded audit rows: '+ '; '.join('row '+str(e['row_index'])+' (run '+str(e['run_id'])+'): '+e['reason'] for e in excluded)
+            text+=' This is the latest valid run, not proof that no later load ran.'
     if 'newest_source_change' in facts:
         text+=f" The newest application change read was {facts['newest_source_change']}; {facts['missing_rows']} source rows were absent and {facts['different_version_rows']} carried different versions in the destination."
         if facts.get('status')=='LATENT':text+=' The source changed after that load finished, so another load is required before checking delivery.'

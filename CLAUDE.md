@@ -1,5 +1,15 @@
 # data-investigation-agent — charter for AI implementers
 
+Dated audit-surface finding, 2026-10-04 UTC: administrator direct Delta reads
+establish that both newer audit rows committed, with own 361/361 and 360/360
+copy counters. The earlier reader SQL receipt omitted the first at least 6m20s
+after commit; later SQL exposes both. This establishes lakehouse SQL audit sync
+lag, not writer failure. Investigator-reader direct OneLake returned HTTP403;
+no new scope was granted. Audit guidance: Warehouse or authorised direct Delta,
+never infer last-run currency from a lakehouse SQL endpoint. The prepared
+table-only read role awaits human decision under section 8. See
+[audit evidence](docs/audit-row-validation.md).
+
 Read this before changing anything. It is not style guidance. Every rule below
 exists because breaking it previously produced a false conclusion that survived
 review.

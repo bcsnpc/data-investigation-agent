@@ -1,5 +1,10 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Three A3 confirms the missing audit rows in committed Delta and later SQL,
+proving endpoint lag of at least 6m20s. Per-row validation is corrected offline;
+the non-lagging reader route awaits an explicit audit-table-only scope decision.
+No source outcomes earned. See [audit evidence](docs/audit-row-validation.md).
+
 Round Three A2 gives extracted numerals closed roles and resolves names by catalog kind. Two unchanged tickets passed intake only; one incorrectly treated a model-name suffix as an expected record, now guarded offline. Zero estate reads; source outcomes remain unearned. See [intake evidence](docs/intake-numeral-roles.md).
 
 Round Three A1 adds estate-declared layer roles to both renderers; application boundaries are no longer named by position. Offline-tested only; source outcome re-runs remain pending. See [role contract](docs/declared-layer-roles.md).
