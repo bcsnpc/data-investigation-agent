@@ -1,5 +1,7 @@
 # Current delivery status
 
+2026-10-03: existing investigator-reader queried monitoring job/semantic logs at unchanged scope (HTTP200, empty histories). Job-event schema has no row accounting. An additional isolated load completed; dedicated accounting table has RowsRead/RowsWritten columns but no matching rows after 141.705s. No usable refresh timestamp or accounting count. Binding integration/current context/four scenarios pending; Part B 72/120, rolling observed 227/300. [Exact receipts](round-two-investigator-reader-probes.md). No engine/config change.
+
 2026-10-03: the explicitly requested isolated administrator-profile viewer grant returned HTTP403 after a successful before listing. Stopped as instructed; no permission change, probes or B1 scenarios. Part B 64/120, rolling observed 219/300. [Exact profile and refusal](round-two-admin-profile-grant.md). No engine/config change.
 
 Dated renewed grant, 2026-10-03: [Exact viewer command and reader probes](round-two-viewer-grant-repeat.md). Prepared grant sent unchanged, HTTP403; dia-reader absent before/after. Copy Job log and semantic-refresh reader probes also 403. Effective-role query shows publisher Viewer/Monitor, no Database Admin: permission-management authority is missing, not human authorization. No elevation, scope gain, capability upgrade or fabricated rows. [Three-reader manifest](estate-reader-manifest.md) recorded. Part B 62/120, rolling observed 217/300. Binding integration/four scenarios remain pending; monitoring retained.
