@@ -40,7 +40,7 @@ Both commits insert one audit row, with no removed file or deletion vector.
 Full Parquet rows establish the run IDs and counters; commit statistics were
 not substituted for accounting. Watermarks remain unavailable.
 
-The preserved gap SQL receipt was persisted at 05:33:47.963836 UTC without
+The preserved gap SQL read was admitted at 05:33:47.963836 UTC and returned without
 run 293c0cd7. Delta committed that row at 05:27:27.704: SQL omitted a committed
 row at least **6 minutes 20.259836 seconds** after commit. A new reader SQL
 response at 06:54:15.941351 exposes both newer rows alongside the earlier
