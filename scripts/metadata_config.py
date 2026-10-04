@@ -31,7 +31,9 @@ def load_config(path):
     if not re.fullmatch(r'[A-Za-z0-9.-]+', text(sql['server'])):
         raise ValueError('SQL server must be a hostname')
     text(sql['database']); text(sql['visibility_schema'])
-    keys(sql['auth'], ['mode', 'credential_file'])
+    keys(sql['auth'], ['mode', 'credential_file'] + (['account'] if 'account' in sql['auth'] else []))
+    if 'account' in sql['auth']:
+        if len(text(sql['auth']['account']))>128:raise ValueError('Source reader account exceeds bound')
     if sql['auth']['mode'] != 'dpapi_file':
         raise ValueError('Unsupported SQL authentication mode')
     optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'refresh_timing_reader', 'snapshot_identity_reader') if k in fabric]

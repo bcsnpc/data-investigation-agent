@@ -511,6 +511,41 @@ class MicrosoftProcessAdapter:
         return dict(proof)
 
     def evaluate(self,layer,measure_id,scope):
+        if layer.get('kind')=='application_quantity':
+            if scope.get('filters') or scope.get('dimension_ids'):
+                return Probe('NOT_COMPARABLE',layer['id'],reason='Declared application quantity supports only whole-entity scope without filters or grouping.')
+            compiled=layer['compiled'];source=self.config.get('sql',{})
+            account=source.get('auth',{}).get('account')
+            if not account:
+                return Probe('UNAVAILABLE',layer['id'],reason='Application quantity reader identity is not explicitly declared in configuration.')
+            if (compiled['server'].casefold()!=source['server'].casefold() or compiled['database']!=source['database']
+                    or compiled['schema']!=source['visibility_schema']):
+                return Probe('UNAVAILABLE',layer['id'],reason='Application declaration leaves the approved source connection or schema.')
+            from ..source_diagnostics import quote
+            from application_sql_surface import read,ENGINE
+            plan={'model_id':self.model['id'],'revision':self.model['revision'],'context_id':self.model['context_id'],
+                'query':'SELECT SUM('+quote(compiled['source_column'])+') AS [quantity] FROM '+quote(compiled['schema'])+'.'+quote(compiled['table']),
+                'max_rows':20}
+            from ..read_address import baseline
+            plan['read_address']=baseline([])
+            execute=lambda:run_query(self.store,plan,self.config,'bounded_sql',lambda request:read(self.config,request))
+            result=self.meter_read('bounded_sql',execute) if self.meter_read else execute()
+            surface={'engine':ENGINE,'connection':'sql://'+source['server'],'object':source['database'],'identity':account}
+            if result['status']!='COMPLETED':
+                return Probe('UNAVAILABLE',layer['id'],reason='Application quantity was not established; the original receipt records the failure.',
+                    execution_surface=surface,query=plan['query'],
+                    failure={'interface':'APPLICATION_SQL','receipt_id':result.get('id'),'read_status':result['status'],
+                        'error_type':(result.get('result') or {}).get('error_type'),'codes':[],
+                        'specificity':'UNCERTAIN' if result['status']=='INTERRUPTED' else 'SPECIFIC'})
+            body=result['result'];rows=body['rows']
+            return Probe('OBSERVED',layer['id'],value=_quantity(rows),query=plan['query'],execution_surface=surface,
+                evidence={'id':result['id'],'tool':'bounded_sql','completeness':body['completeness'],'values':rows,
+                    'request_hash':result['request_hash'],'measure_id':measure_id,'dimension_id':None,
+                    'read_address':plan['read_address'],'declared_context':whole_entity_context(),
+                    'test_purpose':'COMPARE_DECLARED_SOURCE','binding_provenance':'DECLARED_BY_DEFINITION',
+                    'quantity_contract':layer['quantity_contract'],'copy_mapping_proof':layer['copy_mapping_proof']},
+                surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
+                surface_report_types=SQL_TYPES,surface_report_binding=body.get('surface_report_binding'))
         if layer.get('kind')=='declared_quantity':
             if scope.get('filters') or scope.get('dimension_ids'):
                 return Probe('NOT_COMPARABLE',layer['id'],reason='Declared quantity trace supports only whole-entity scope without filters or grouping.')
