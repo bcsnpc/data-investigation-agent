@@ -36,6 +36,8 @@ class FreshnessRoutingTests(unittest.TestCase):
         attempts=[o['freshness_attempt'] for o in result['_observations'] if 'freshness_attempt' in o]
         self.assertEqual([x['lower_layer'] for x in attempts],['prepared','source'])
         self.assertTrue(all(x['checks']['job_history']['status']=='UNAVAILABLE' for x in attempts))
+        from investigator.process_receipts import validate_for_synthesis
+        for observation in result['_observations']:validate_for_synthesis(observation)
 
     def test_reuse_and_unreachable_source_never_read_application(self):
         class Loads(Adapter):

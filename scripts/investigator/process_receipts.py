@@ -27,6 +27,7 @@ REGISTRY = {
     'DEFINITION_ABSENCE': Shape('retained'),
     'CAPABILITY_DECLARATION': Shape('retained'),
     'SOURCE_DELIVERY': Shape('retained'),
+    'FRESHNESS_ATTEMPT': Shape('retained'),
     **{name: Shape('context') for name in ('CONTEXT_METADATA',
        'DECLARED_CONTEXT_DEFINITION', 'TRANSFORMATION_DEFINITION', 'INGESTION',
        'FRESHNESS', 'JOB_HISTORY', 'PRESENTATION_DEFINITION')},

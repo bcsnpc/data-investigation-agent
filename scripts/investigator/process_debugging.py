@@ -335,6 +335,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                     'The system of record is configured unreachable; no source read was attempted.' if unreachable
                     else 'Source delivery capability is undeclared.'}
             observed.append(_observation({'id':'freshness-attempt-'+str(boundary['index']),'tool':'process',
+                'check_kind':'FRESHNESS_ATTEMPT',
                 'freshness_attempt':{'upper_layer':boundary['upper']['id'],'lower_layer':boundary['lower']['id'],
                                      'checks':checks,'evidence_ids':sorted(set(refs))}},'established'))
     def answer(*args,**kwargs):
