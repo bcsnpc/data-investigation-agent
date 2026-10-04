@@ -889,3 +889,14 @@ Dated accounting correction, 2026-10-02: the composition probe set actually used
 
 
 Dated design only, 2026-10-03: [Inferred transformation-code bindings](docs/inferred-code-binding-design.md). Part C covers retained M/view/notebook evidence, a closed nominee, scope/compiler/attestation verification, bounded costs, refusal and provenance in both outputs. Equal aggregates are a falsification test, not proof of semantic equivalence or promotion to declared authority. No code, live run, ledger row or capability claim. Prior freezes remain invalid.
+# Round Five completed batch record (2026-10-04)
+
+All fifteen unchanged known-domain tickets were attempted once. The strict
+offline batch reproduced eleven recorded results (ten with both outputs, one
+with failed synthesis); four replay attempts failed. The existing acceptance
+checker reported 1/15, including documented checker defects. This is not an
+acceptance pass, and draft #376 remains unmerged. Fixtures were restored and
+reader-verified at 7,661 / 8,765. See
+[batch results](docs/round-five-recorded-fifteen.md) and
+[verbatim outputs](docs/round-five-output-transcripts.md).
+

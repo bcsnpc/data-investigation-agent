@@ -152,3 +152,45 @@ investigation decisions. Synthetic tests exercise 2,000 clocks, interrupted and
 corrupt journals, and actual-engine replay of both outputs and failed composition.
 21 focused tests pass. Directory/SQL/payload coverage remains 2/1/7,540 before
 and after. Engine bytes changed; prior freezes remain invalid.
+
+## Dated completed fifteen-ticket batch (2026-10-04 UTC)
+
+Each ticket was attempted live once. No changed outcome was turned into its new expectation. Thirteen attempts produced both narratives; C produced refusal outputs and F preserved FAILED/IncompleteProse without narratives. All fifteen offline attempts used blocked sockets and strict recorded bytes. Eleven reproduced the recorded result; ten reproduced both outputs, while F reproduced its failure. Four failed replay. The unchanged acceptance checker reported 1/15 passes. That is not acceptance success; draft #376 remains open and unmerged.
+
+| Ticket | Live outcome | Physical / diagnostic | Replay | Both outputs live / replay | Acceptance |
+| --- | --- | --- | --- | --- | --- |
+| family-A | TRANSFORMATION_LOGIC | 10 / 4 | MATCHED | yes / yes | FAILED |
+| family-B | NO_KNOWN_PATTERN | 1 / 1 | MATCHED | yes / yes | FAILED |
+| family-C | HELD (no assessment) | 0 / 0 | MATCHED | yes / yes | PASSED |
+| family-D | NO_COMPARABLE_PATH | 6 / 6 | FAILED | yes / no | FAILED |
+| family-E | TRANSFORMATION_LOGIC | 10 / 4 | MATCHED | yes / yes | FAILED |
+| family-F | CONSISTENT_TO_BOUNDARY | 7 / 3 | MATCHED | no / no | FAILED |
+| family-G | TRANSFORMATION_LOGIC | 10 / 4 | FAILED | yes / no | FAILED |
+| family-H | NO_KNOWN_PATTERN | 1 / 1 | FAILED | yes / no | FAILED |
+| family-I | NO_KNOWN_PATTERN | 1 / 1 | MATCHED | yes / yes | FAILED |
+| reproduction-empty | NO_KNOWN_PATTERN | 5 / 5 | FAILED | yes / no | FAILED |
+| reproduction-16 | NO_COMPARABLE_PATH | 5 / 5 | MATCHED | yes / yes | FAILED |
+| source-consistent | CONSISTENT_TO_BOUNDARY | 13 / 6 | MATCHED | yes / yes | FAILED |
+| source-latency | LOAD_LATENCY | 23 / 10 | MATCHED | yes / yes | FAILED |
+| source-gap | INGESTION_GAP | 23 / 10 | MATCHED | yes / yes | FAILED |
+| source-unreachable | CONSISTENT_TO_BOUNDARY | 14 / 7 | MATCHED | yes / yes | FAILED |
+
+### What failed, and what the checker cannot establish
+
+D lacks a recorded identity producer; G/H lack a concurrent external budget input. Their original recordings and incomplete-tape corrections remain untouched. EMPTY failed the full-suite provider-response budget byte match after its earlier isolated replay matched. Conversely, 16 matched in the full suite after its earlier isolated replay failed. This is unstable replay evidence, not a clean pass. The future producer needs deterministic JSON ordering; sealed requests must not be sorted retrospectively or the matcher relaxed.
+
+F has no composed outputs. I, EMPTY, 16 and source-consistent differ from prior outcomes; E differs in question-answer status. These disagreements stand. A/E/G do not carry declared role fields for the original four-layer path. B/I/16 lack the expected role form. Those are reported, not invented from container names.
+
+The checker also has a separate defect: it splits technical prose into paragraphs and validates paragraph 2 as though it were the model mechanism. In these rendered outputs paragraph 2 is the deterministic boundary spine, which correctly contains quantities, bare layer terms and ordering. The source cases therefore fail LAYER_REFERENCE even though their model paragraph uses declared role-qualified tokens. Its regex also expects L0 (ROLE), whereas the rendered role legend uses role ROLE. These checker findings are not evidence of a successful gate, and the first grading rows remain immutable. No expected outcome or answer has been changed to erase a disagreement.
+
+The unreachable case substitutes only the newly authored load completion time, derived before inspecting the live answer from the reader-owned CopyApplication activity output: 2026-10-04T23:19:23.5350123Z, own counters 360/360. The old literal time referred to an earlier fixture state. All other acceptance expectations remain unchanged.
+
+### Fixture restoration and usage
+
+All mutations and interrupted setup attempts remain recorded. The first gap setup stopped before intake because the orchestration checked JOB_COMPLETED against the notebook's valid NOTEBOOK_COMPLETED status; it restored the fixture. An accepted restoration job survived the interruption and was polled to completion, not replaced. A restoration verification first failed on a source transport read, then a separately recorded diagnostic verification returned the baseline. None was a replacement investigation.
+
+Final independent reader checks: application, landing and isolated semantic model 7,661; original model 8,765. Application reachability and the approved whole-config policy are restored; digest ee6066720fe687e5c46daa03e951b73efb035fbbcf9b74b68ef9833163d182c7. No identity, scope, schedule or model refresh changed.
+
+Round Five physical usage: 182/400, including 129 investigation requests and 53 setup/restoration requests. Restoration reservation used 36/50, 14 remaining until 2026-10-05T02:16:52.112905Z, within the same round pot. Final rolling ordinary observation: 654/1,500, 846 available. Diagnostic cap 12 unchanged. Provider reservations today: 60 calls, 1,594,437 input characters, 278,500 output tokens; these are reservations, not dollar spend. No reset, refund, credit refill or extension.
+
+All per-probe attestations, checked/skipped boundaries and verbatim narratives are in [preserved transcripts](round-five-output-transcripts.md). Source arithmetic, audit provenance and honesty checks are in [source-scenario record](round-five-source-scenarios.md). Replay reproduces engine decisions and outputs from bounded worker responses and provider bodies; it does not re-exercise upstream decoding. No unfamiliar-domain or general-capability pass.
