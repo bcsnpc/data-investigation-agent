@@ -1,0 +1,6 @@
+{
+  "environment_reference": "unknown-domain-v4",
+  "physical_request_ceiling": 300,
+  "experiment_prefix": "ROUND_TWO_PART_B",
+  "human_decision": "2026-10-03: explicit approval Part B 120 to 300; ordinary rolling 300 to 600; diagnostic cap unchanged at 12"
+}

@@ -1,5 +1,5 @@
 {
   "environment_reference": "unknown-domain-v4",
-  "rolling_physical_allowance": 300,
+  "rolling_physical_allowance": 600,
   "diagnostic_read_cap": 12
 }
