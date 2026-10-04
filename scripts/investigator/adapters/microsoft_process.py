@@ -52,6 +52,7 @@ class MicrosoftProcessAdapter:
         self._paths={}
         self._declared_checks={}
         self._native_result_cache={}
+        self._job_history_cache={}
         self.duplicate_read_events=[]
 
     def capabilities(self):
@@ -820,6 +821,12 @@ class MicrosoftProcessAdapter:
         return {**judgment,'evidence':evidence}
 
     def job_history(self,boundary):
+        target=boundary['lower'].get('transformation_asset_id')
+        if target not in self._job_history_cache:
+            self._job_history_cache[target]=self._read_job_history(boundary)
+        return self._job_history_cache[target]
+
+    def _read_job_history(self,boundary):
         context=context_search.latest(self.store);target=boundary['lower'].get('transformation_asset_id')
         from ..load_audits import declarations
         entries=declarations(self.config['load_audits']) if 'load_audits' in self.config else []
@@ -835,6 +842,14 @@ class MicrosoftProcessAdapter:
                              'completeness':'COMPLETE_RESPONSE','runs':rows,
                              'context_version':(context or {}).get('version')}
                             if rows else None)}
+
+    def freshness_boundaries(self,path):
+        context=context_search.latest(self.store) or {}
+        by_id={a['id']:a for a in context.get('assets',[])}
+        layers=list(path.get('layers',[]))
+        return [{'upper':upper,'lower':lower,'index':i}
+                for i,(upper,lower) in enumerate(zip(layers,layers[1:]),1)
+                if by_id.get(lower.get('transformation_asset_id'),{}).get('kind') in ('DataPipeline','CopyJob','Notebook')]
 
     def source_delivery(self,boundary,scope):
         from .source_delivery import read
