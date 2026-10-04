@@ -1,5 +1,14 @@
 # Current delivery status
 
+Round Four evidence closed: source consistency and configured-unreachable outcomes
+earned with snapshot caveats; first SQL 40613 failure preserved. Fifteen offline
+replay attempts blocked: four missing response/timing, eleven incomplete session
+recordings, zero estate requests. Strict seventh-check implementation remains draft
+#376; no passing suite claimed. [Replay audit](round-four-acceptance-gaps.md).
+[Five-item ranking](round-four-next-work-ranking.md) delivered, no Part C build.
+Budgets unchanged: Part B closed 466/500, Round Four 51/300, rolling last observed
+641/1000, diagnostics 12. Original fixture and reachability restored.
+
 2026-10-04 Round Four A1–A4 merged #371–#374, six green checks each. First
 consistency attempt completed CONSISTENT_TO_BOUNDARY after source SQL 40613;
 configured-unreachable completed at LANDING with own Warehouse audit 360/360/time.
