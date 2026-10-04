@@ -4,7 +4,7 @@ import hashlib
 from io import BytesIO
 import json
 import warnings
-from uuid import uuid4
+from .process_tape import uuid4
 
 from .onboarding import fields, text, digest, encoded, Conflict
 from .runtime import fingerprint

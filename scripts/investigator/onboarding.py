@@ -9,7 +9,8 @@ import hashlib
 import json
 from pathlib import Path
 import sqlite3
-from uuid import UUID, uuid4
+from uuid import UUID
+from .process_tape import uuid4
 
 from report_definition_evidence import bundle
 from .semantic_graph import analyze, affected

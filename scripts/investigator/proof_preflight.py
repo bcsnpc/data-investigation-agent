@@ -5,7 +5,8 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import time
-from uuid import UUID, uuid4
+from uuid import UUID
+from .process_tape import uuid4
 
 from .onboarding import digest, encoded, Conflict
 

@@ -76,6 +76,8 @@ class TapeTests(unittest.TestCase):
         self.assertTrue(actual['matched'])
         self.assertEqual(actual['operations'],['intake','preview','create','run','synthesize'])
         self.assertEqual(actual['outputs'],result['synthesis']['outputs'])
+        self.assertEqual(actual['session'],result)
+        self.assertEqual(actual['outcome'],result['assessment']['classification'])
 
     def test_synthetic_worker_run_replays_decisions_and_both_outputs_without_network(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -226,6 +228,56 @@ print(json.dumps({'status':'AVAILABLE','quantity':7}),flush=True)
                 actual=read_with_retry(Mock(side_effect=replies),lambda _:self.fail('No live sleep in replay'))
                 replay.finish(actual)
             self.assertEqual(actual,expected)
+
+    def test_engine_identity_producers_must_use_the_recordable_source(self):
+        import ast
+        root=Path(__file__).resolve().parent/'investigator'
+        # Private tape-directory/call IDs and the guarded opaque-connection
+        # producer do not create engine result identities. Their boundaries
+        # are explicit; all other producers must use the common source.
+        private={'process_tape.py','run_recording.py','planner_recording.py','physical_reads.py'}
+        for path in root.rglob('*.py'):
+            if path.name in private:continue
+            tree=ast.parse(path.read_text(encoding='utf-8-sig'))
+            for node in ast.walk(tree):
+                if isinstance(node,ast.ImportFrom) and node.module=='uuid':
+                    self.assertNotIn('uuid4',[a.name for a in node.names],str(path))
+                if isinstance(node,ast.Attribute) and node.attr=='uuid4':
+                    self.fail('Unrecorded identity namespace call: '+str(path))
+
+    def test_report_selection_identity_replays_from_inventory_without_a_probe(self):
+        from test_report_scoped_cells import ScopedTests
+        helper=ScopedTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        helper.modify(helper.visual,lambda d:d.pop('filterConfig'))
+        helper.modify(helper.slicer,lambda d:d['visual']['objects'].pop('general'))
+        helper.request();helper.native()
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json';tape=Tape(path,bootstrap())
+            with active(tape):expected=helper.prepare();tape.finish(expected)
+            helper.scope.pop('selection_resolution',None)
+            helper.scope.pop('selection_resolution_evidence_id',None)
+            helper.scope['filters']=[]
+            replay=Tape(path)
+            with active(replay):actual=helper.prepare();replay.finish(actual)
+            self.assertEqual(actual,expected)
+
+    def test_final_cannot_introduce_unrecorded_identity(self):
+        import sqlite3
+        from contextlib import closing
+        from investigator.process_tape import sha
+        with tempfile.TemporaryDirectory() as folder:
+            folder=Path(folder);body=bootstrap();body['entry_point']='workspace'
+            hashes={}
+            for name in ('catalog.sqlite','inventory.sqlite'):
+                with closing(sqlite3.connect(folder/name)) as db:db.execute('CREATE TABLE inputs(value TEXT)');db.commit()
+                hashes[name]=sha((folder/name).read_bytes())
+            body['state']={'environment':'synthetic','workspace_owner':None,'artifacts':hashes,
+                          'dynamic_read_limit':12,'dynamic_input_limit':10000}
+            tape=Tape(folder/'tape.json',body)
+            unrecorded=str(uuid4())
+            with self.assertRaisesRegex(TapeError,'UNRECORDED_IDENTITY'):
+                tape.finish({'operation':'run','error':None,'status':'HELD','outputs':None,
+                             'result':{'selection_resolution_evidence_id':'selection-'+unrecorded}})
 
 
 if __name__=='__main__':unittest.main()

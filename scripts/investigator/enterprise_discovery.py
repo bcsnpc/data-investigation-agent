@@ -2,7 +2,8 @@
 from datetime import datetime, timezone
 import json
 import re
-from uuid import UUID, uuid4
+from uuid import UUID
+from .process_tape import uuid4
 
 from metadata_inventory import Inventory
 from .onboarding import Conflict, digest, encoded

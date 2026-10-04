@@ -1,5 +1,13 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Five's first estate recording completed Family D with NO_COMPARABLE_PATH,
+both outputs and six physical requests. Offline replay failed on an unrecorded
+report-selection ID; the live tape and failed replays are preserved, with no
+replacement run. A recording repair adds identity conservation and a producer
+ratchet before the remaining fourteen. No fifteen-case acceptance pass; #376 stays
+draft. Pot 6/400, diagnostics 12 unchanged, restoration capacity earmarked within
+the pot. Prior freezes invalid. [Finding and verbatim outputs](docs/round-five-recorded-fifteen.md).
+
 Round Five Part A records process-path tapes by construction. A synthetic
 intake-to-synthesis run replays with sockets blocked and reproduces both outputs.
 Replay reproduces engine decisions and both outputs from recorded worker responses;

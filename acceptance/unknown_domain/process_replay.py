@@ -60,9 +60,13 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
             operations.append(name)
         final={'operation':name,'error':error,'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs'),
                'status':(result or {}).get('status'),'result':result}
+        # Preserve the recomputed return even on mismatch. It is diagnostic
+        # evidence, never substituted for the sealed final or a passing replay.
+        (output/'recomputed-final.json').write_bytes(journal.bytes_of(final))
         tape.finish(final)
     summary={'matched':True,'operations':operations,'outputs':final['outputs'],
-             'outcome':(result or {}).get('outcome',{}).get('classification'),
+             'outcome':((result or {}).get('assessment') or (result or {}).get('outcome') or {}).get('classification'),
+             'session':result,
              'status':final['status'],'network_requests':0,
              'claim':'Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.'}
     (output/'summary.json').write_text(json.dumps(summary,indent=2),encoding='utf-8')

@@ -2,7 +2,7 @@
 from datetime import datetime, timezone
 from decimal import Decimal
 import json
-from uuid import uuid4
+from .process_tape import uuid4
 
 from .onboarding import Conflict, digest, encoded, fields, text
 
