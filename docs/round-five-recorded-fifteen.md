@@ -102,3 +102,35 @@ both outputs. A dated ledger correction labels the unchanged tape valid failure
 evidence; the original validation failure is retained. Seventeen tape tests pass.
 Directory coverage is unchanged: two entries, one SQL object, 7,540 payload
 characters before and after. No planner-context field was added.
+
+## Dated shared-budget input finding (2026-10-04 UTC)
+
+All nine families have now had their single live attempt. G and H completed with
+both outputs, but both offline replays failed on one additional shared usage row
+at intake settlement: G recorded 2,342 versus replayed 2,341; H recorded 2,356
+versus replayed 2,355. The operator's two source-baseline checks ran concurrently
+(first SQL 40613, then successful 360 rows / 7,661) and charged those rows after
+bootstrap. Both control receipts are preserved; no fixture mutation occurred.
+The recorder captured budget decisions, but not later external ledger inputs.
+
+I had started before the orchestration pause took effect. It completed and replayed
+both outputs, with NO_KNOWN_PATTERN rather than its earlier TRANSFORMATION_LOGIC.
+That outcome disagreement is not overwritten or updated into its acceptance file.
+EMPTY was paused before intake, so has no live attempt, request or replacement.
+The two reproduction tickets and four source scenarios remain next.
+
+BUDGET_INPUT now records the same environment's external usage/credit rows before
+and after each decision. Replay installs only those external rows in its private
+replica; it never overwrites any session owned by the tape. The engine still
+computes admission/settlement, and every resulting budget event is byte-matched.
+A synthetic concurrent charge reproduces without repeating another session's
+request; tampering with this run's own decision fails. One schema validates both
+producer and consumer. A validator now rejects a changed shared usage count with
+no recorded input. G/H's original VALIDATED labels receive appended INCOMPLETE
+corrections; their tapes and failed replays are untouched, with no backfill.
+
+No raw upstream decoder, mechanism, classification, permission, policy limit or
+planner context changed. Golden coverage remains two directory entries, one SQL
+object and 7,540 characters before/after. Engine bytes changed; freezes invalid.
+Usage: 48/400 physical requests (46 investigation requests, two baseline controls).
+Restoration reserve remains 50, unused, expires 2026-10-05T02:16:52.112905Z.

@@ -76,3 +76,9 @@ focused check now passes. A distinct-read matrix subcase returned one read rathe
 than two in the broad batch; all ten redundancy tests passed standalone afterward.
 The broad attempt is retained unchanged. Its intermittent admission/deadline finding
 is open for Part D; it is not reported as a clean broad-suite pass.
+
+Dated extension (2026-10-04): BUDGET_INPUT pins external same-environment usage
+and credit rows at each decision. Only these external inputs are restored in the
+offline replica; tape-owned reservations and decisions are recomputed and matched.
+Synthetic concurrency, hostile scope/row/schema and owned-row tamper tests cover
+the checkpoint decoder. This captures no raw cloud payload or new business data.

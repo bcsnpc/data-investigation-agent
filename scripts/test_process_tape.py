@@ -17,6 +17,64 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def test_budget_input_decoder_rejects_hostile_owned_rows_and_unknown_tables(self):
+        from investigator.tape_budget import validate_input,TABLES
+        schemas={table:['environment','session_id'] for table in TABLES}
+        body={'environment':'synthetic','owned_sessions':['own'],
+            'tables':{table:{'columns':columns,'rows':[]} for table,columns in schemas.items()}}
+        validate_input(body,'synthetic',{'own'},schemas)
+        for change in ('owned','unknown','columns','environment'):
+            bad=copy.deepcopy(body)
+            if change=='owned':bad['tables']['adaptive_usage']['rows']=[['synthetic','own']]
+            elif change=='unknown':bad['tables']['unknown']={}
+            elif change=='columns':bad['tables']['adaptive_usage']['columns']=['other']
+            else:bad['environment']='other'
+            with self.subTest(change=change),self.assertRaises(TapeError):validate_input(bad,'synthetic',{'own'},schemas)
+
+    def test_unrecorded_external_budget_change_is_not_a_complete_tape(self):
+        with tempfile.TemporaryDirectory() as folder:
+            tape=Tape(Path(folder)/'tape.json',bootstrap())
+            for phase,rows in [('BEFORE',0),('AFTER',1),('BEFORE',2),('AFTER',2)]:
+                tape.event('BUDGET',bytes_of({'phase':phase,'state':{'usage_rows':rows}}))
+            with self.assertRaisesRegex(TapeError,'UNRECORDED_BUDGET_INPUT'):tape.finish({})
+
+    def test_external_budget_inputs_replay_without_repeating_other_work_or_replacing_own_decisions(self):
+        import sqlite3
+        from contextlib import closing
+        import test_flexible_investigation as fixture
+        from investigator.usage_governance import UsageGovernor
+        h=fixture.DynamicTests();h.setUp();self.addCleanup(h.doCleanups)
+        policy={'environment':h.store.environment,'daily_limits':{'planner_calls':50,'cloud_calls':50,
+            'input_characters':1000000,'output_tokens':100000},'max_inflight_planners':1,'no_progress_limit':3}
+        gov=UsageGovernor(h.runtime,policy,lambda:1000)
+        with tempfile.TemporaryDirectory() as folder:
+            folder=Path(folder);initial=folder/'initial.sqlite'
+            with h.runtime.db() as db,closing(sqlite3.connect(initial)) as saved:db.backup(saved)
+            def restore():
+                with closing(sqlite3.connect(initial)) as saved,h.runtime.db() as db:saved.backup(db)
+            def concurrent():
+                with active(None):gov.metered_read('other-session','request',lambda:'other physical request')
+                return 'own result'
+            tape=Tape(folder/'tape.json',bootstrap())
+            with active(tape):
+                result=gov.metered_read('owned-session','request',concurrent)
+                expected={'result':result,'charged':gov.snapshot()['read_allowance']['ordinary_charged']}
+                tape.finish(expected)
+            self.assertEqual(expected['charged'],2)
+            restore();replayed=Tape(tape.path)
+            with active(replayed):
+                result=gov.metered_read('owned-session','request',lambda:'own result')
+                actual={'result':result,'charged':gov.snapshot()['read_allowance']['ordinary_charged']}
+                replayed.finish(actual)
+            self.assertEqual(actual,expected)
+            restore();replayed=Tape(tape.path)
+            def corrupt_own():
+                with h.runtime.db() as db:
+                    db.execute("UPDATE adaptive_usage SET actual=? WHERE session_id='owned-session'",('{"wrong":true}',))
+                return 'own result'
+            with active(replayed),self.assertRaises(TapeError):
+                gov.metered_read('owned-session','request',corrupt_own)
+
     def test_real_process_runtime_records_and_replays_its_two_outputs(self):
         self.exercise_process()
 
