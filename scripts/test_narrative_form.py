@@ -18,6 +18,12 @@ class NarrativeFormTests(unittest.TestCase):
         self.assertEqual(payload,original)
         self.assertNotIn('earlier',text.lower())
 
+    def test_source_consistency_has_one_timing_qualification(self):
+        payload,_,_=self.fixture()
+        text=form.business(business_text('CONSISTENT_TO_SOURCE',payload),payload)
+        self.assertEqual(text.count('same moment'),1)
+        self.assertNotIn('different update times',text)
+
     def test_kind_undeclared_reproduction_is_technical_only(self):
         payload,source,_=self.fixture()
         reason='Declared-context reproduction is undeclared for question kind BUSINESS_MEANING.'

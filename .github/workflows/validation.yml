@@ -54,6 +54,10 @@ jobs:
           python -m unittest discover -s scripts -p test_freshness_all_boundaries.py
           python -m unittest discover -s scripts -p test_system_of_record.py
           python -m unittest discover -s scripts -p test_record_presence.py
+          python -m unittest discover -s scripts -p test_narrative_form.py
+          python -m unittest discover -s scripts -p test_retained_job_history.py
+          python -m unittest discover -s scripts -p test_refresh_comparison.py
+          python -m unittest discover -s scripts -p test_evidence_prose.py
           python -m unittest discover -s scripts -p test_layer_roles.py
           python -m unittest discover -s scripts -p test_process_failure_address.py
           python -m unittest discover -s scripts -p test_graded_surface_attestation.py
