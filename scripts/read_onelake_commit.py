@@ -12,6 +12,16 @@ from metadata_auth import NoRedirect
 _metered = False
 
 
+def decode_commit(raw,latest_commit):
+    """Project synthetic-testable raw log bytes to the retained receipt fields."""
+    if len(raw)>1_000_000:raise ValueError('Delta commit metadata exceeds cap')
+    actions=[json.loads(line) for line in raw.decode().splitlines() if line.strip()]
+    info=next((x['commitInfo'] for x in actions if isinstance(x,dict) and isinstance(x.get('commitInfo'),dict)),None)
+    if info is None:return {'status':'EMPTY_RESPONSE','latest_commit':latest_commit}
+    return {'status':'AVAILABLE','latest_commit':latest_commit,
+            'commit_info':{k:info[k] for k in ('timestamp','operation','operationParameters','operationMetrics') if k in info}}
+
+
 def request_read(kind, execute):
     import sys
     if _metered:
@@ -45,12 +55,7 @@ def read(request):
         with build_opener(NoRedirect()).open(Request(target,headers=headers),timeout=60) as response:
             return response.read(1_000_001)
     raw=request_read('onelake_commit',commit_get)
-    if len(raw)>1_000_000:raise ValueError('Delta commit metadata exceeds cap')
-    actions=[json.loads(line) for line in raw.decode().splitlines() if line.strip()]
-    info=next((x['commitInfo'] for x in actions if isinstance(x,dict) and isinstance(x.get('commitInfo'),dict)),None)
-    if info is None:return {'status':'EMPTY_RESPONSE','latest_commit':commits[-1]}
-    return {'status':'AVAILABLE','latest_commit':commits[-1],
-            'commit_info':{k:info[k] for k in ('timestamp','operation','operationParameters','operationMetrics') if k in info}}
+    return decode_commit(raw,commits[-1])
 
 
 if __name__=='__main__':

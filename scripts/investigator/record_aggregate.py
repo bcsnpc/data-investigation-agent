@@ -1,8 +1,9 @@
 """Reconcile saved direct aggregates with record captures, not remote snapshots."""
+from .process_tape import utc_now
 from datetime import datetime, timezone
 from decimal import Decimal, localcontext
 import json
-from uuid import uuid4
+from .process_tape import uuid4
 
 from .onboarding import fields, digest, encoded, Conflict
 from . import aggregate_semantics, diagnostic_evidence, source_diagnostics, record_readback, record_bindings
@@ -129,7 +130,7 @@ def assess(store,model_id,body,*,assessment_id=None):
     identity=assessment_id or str(uuid4())
     with store.connect() as db:
         db.execute('CREATE TABLE IF NOT EXISTS record_aggregate_assessments(id TEXT PRIMARY KEY,model_id TEXT,body TEXT,hash TEXT,created TEXT)')
-        db.execute('INSERT INTO record_aggregate_assessments VALUES(?,?,?,?,?)',(identity,model_id,encoded(result),digest(result),datetime.now(timezone.utc).isoformat()))
+        db.execute('INSERT INTO record_aggregate_assessments VALUES(?,?,?,?,?)',(identity,model_id,encoded(result),digest(result),utc_now()))
     return dict(result,id=identity,hash=digest(result))
 
 

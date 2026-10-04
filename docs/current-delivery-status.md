@@ -1,5 +1,14 @@
 # Current delivery status
 
+2026-10-04: Round Five Part A implements sealed, ordered process-path tapes from
+intake through synthesis. Synthetic replay executes the real procedure with sockets
+blocked and matches both outputs; physical guard exchanges, provider bodies,
+configuration, clocks and budget decisions are retained at the bounded-worker
+boundary. Upstream decoding is not re-exercised by replay; synthetic raw-input tests
+cover it. No live estate run or cloud request. Part B fifteen-run recording and
+acceptance remain pending, then the manifest and output cleanup. Prior freezes
+invalidated. [Precise replay contract](bounded-worker-tapes.md).
+
 2026-10-04: Round Five budget decision recorded. Separate pot 400; rolling
 allowance 1,000 -> 1,500, with charged use unchanged at 641; diagnostic cap 12.
 No live run or cloud request. [Control-plane record](round-five-budget.md).

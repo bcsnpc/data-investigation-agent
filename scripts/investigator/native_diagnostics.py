@@ -1,9 +1,10 @@
 """Catalog-scoped native DAX diagnostics. No semantic emulation or cause claims."""
+from .process_tape import utc_now
 from .model_context import assets as model_assets
 from datetime import datetime, timezone
 from decimal import Decimal
 import subprocess
-from uuid import uuid4
+from .process_tape import uuid4
 from .onboarding import fields, digest, encoded, Conflict
 from .filter_scope import compile_filter, VERSION as FILTER_VERSION
 
@@ -145,7 +146,7 @@ def run(store,plan,execute,*,receipt_id=None):
         db.execute('CREATE TABLE IF NOT EXISTS native_diagnostics(id TEXT PRIMARY KEY,model_id TEXT,created TEXT,status TEXT,request TEXT,result TEXT)')
         db.execute('CREATE TABLE IF NOT EXISTS native_capability_decisions(receipt_id TEXT PRIMARY KEY,decision_hash TEXT,body TEXT)')
         db.execute('INSERT INTO native_diagnostics VALUES(?,?,?,?,?,NULL)',
-                   (identity,model['id'],datetime.now(timezone.utc).isoformat(),'RUNNING',encoded({'plan':plan,**request})))
+                   (identity,model['id'],utc_now(),'RUNNING',encoded({'plan':plan,**request})))
         db.execute('INSERT INTO native_capability_decisions VALUES(?,?,?)',
                    (identity,decision['decision_hash'],encoded(decision)))
     try:
@@ -156,7 +157,7 @@ def run(store,plan,execute,*,receipt_id=None):
         if build(store.get(model['id']),plan)!=request:raise Conflict('Context changed during read')
         result.update(snapshot_comparable=False,root_cause_verified=False,gaps=request['gaps'],
                       remote_definition_version_verified=False,visual_context_reproduced=False,
-                      effective_identity_verified=False,captured_at=datetime.now(timezone.utc).isoformat())
+                      effective_identity_verified=False,captured_at=utc_now())
         if dependency_context := request.get('dependency_context'):
             result['dependency_context']=dependency_context
         status='COMPLETED'

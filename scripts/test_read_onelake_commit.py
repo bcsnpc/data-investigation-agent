@@ -25,6 +25,19 @@ class Opener:
 
 
 class DeltaCommitTests(unittest.TestCase):
+    def test_synthetic_log_discards_file_actions_statistics_and_unretained_identity(self):
+        raw=(b'{"add":{"path":"synthetic.parquet","stats":"{\\"minValues\\":{\\"amount\\":1}}"}}\n'
+             b'{"commitInfo":{"timestamp":123,"operation":"WRITE","userName":"private",'
+             b'"operationMetrics":{"numOutputRows":"2"}}}\n')
+        result=read_onelake_commit.decode_commit(raw,'00000000000000000001.json')
+        self.assertEqual(result['commit_info'],{'timestamp':123,'operation':'WRITE','operationMetrics':{'numOutputRows':'2'}})
+        for word in ('synthetic.parquet','minValues','private'):self.assertNotIn(word,json.dumps(result))
+
+    def test_synthetic_missing_malformed_and_oversized_logs_remain_distinct(self):
+        self.assertEqual(read_onelake_commit.decode_commit(b'{"remove":{}}','v')['status'],'EMPTY_RESPONSE')
+        with self.assertRaises(ValueError):read_onelake_commit.decode_commit(b'not json','v')
+        with self.assertRaisesRegex(ValueError,'exceeds cap'):read_onelake_commit.decode_commit(b'x'*1_000_001,'v')
+
     def test_reads_only_latest_commit_metadata_and_returns_allowlisted_fields(self):
         auth=types.ModuleType('fabric_cli.core.fab_auth')
         auth.FabAuth=lambda:types.SimpleNamespace(get_access_token=lambda scopes,interactive_renew=False:'secret-token')

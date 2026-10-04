@@ -1,11 +1,13 @@
 """Bounded projected record groups, with multiplicity and no snapshot claims."""
+from .process_tape import utc_now
 from .model_context import assets as model_assets
 from datetime import datetime, timezone
 from decimal import Decimal, localcontext
 import json
 import re
 import subprocess
-from uuid import UUID, uuid4
+from uuid import UUID
+from .process_tape import uuid4
 
 from .onboarding import fields, digest, encoded, Conflict
 from . import native_diagnostics as native, source_diagnostics as source
@@ -168,7 +170,7 @@ def extract(response, request):
 def run(store,plan,config,backend,execute,*,receipt_id=None):
     request=build(store,plan,config,backend);identity=receipt_id or str(uuid4())
     if str(UUID(identity))!=identity:raise ValueError('Invalid receipt ID')
-    created=datetime.now(timezone.utc).isoformat();stored_request={'plan':plan,**request}
+    created=utc_now();stored_request={'plan':plan,**request}
     with store.connect() as db:
         db.execute('CREATE TABLE IF NOT EXISTS record_readbacks(id TEXT PRIMARY KEY,model_id TEXT,created TEXT,status TEXT,request TEXT,result TEXT,evidence_hash TEXT)')
         db.execute('INSERT INTO record_readbacks VALUES(?,?,?,?,?,NULL,NULL)',(identity,plan['model_id'],created,'RUNNING',encoded(stored_request)))

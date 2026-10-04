@@ -6,7 +6,7 @@ Metadata and LLM interpretations cannot grant query permissions or verified caus
 from . import proposal_limits as limits
 import copy
 import json
-from uuid import uuid4
+from .process_tape import uuid4
 from .onboarding import fields,text,digest,encoded,Conflict
 from . import context_search
 from .model_context import assets

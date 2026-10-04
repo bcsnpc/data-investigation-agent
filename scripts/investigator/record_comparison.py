@@ -1,7 +1,9 @@
 """Keyed differences between saved readbacks, never a cross-system proof claim."""
+from .process_tape import utc_now
 from datetime import datetime, timezone
 import json
-from uuid import UUID, uuid4
+from uuid import UUID
+from .process_tape import uuid4
 
 from .onboarding import fields, digest, encoded, Conflict
 from .record_readback import read as read_records
@@ -79,7 +81,7 @@ def assess(store,model_id,body,*,assessment_id=None):
     if str(UUID(identity))!=identity:raise ValueError('Invalid assessment ID')
     with store.connect() as db:
         db.execute('CREATE TABLE IF NOT EXISTS record_comparisons(id TEXT PRIMARY KEY,model_id TEXT,body TEXT,hash TEXT,created TEXT)')
-        db.execute('INSERT INTO record_comparisons VALUES(?,?,?,?,?)',(identity,model_id,encoded(result),digest(result),datetime.now(timezone.utc).isoformat()))
+        db.execute('INSERT INTO record_comparisons VALUES(?,?,?,?,?)',(identity,model_id,encoded(result),digest(result),utc_now()))
     # Local assessment status is not a remote tool status.
     return dict(result,id=identity,hash=digest(result))
 

@@ -1,7 +1,8 @@
 """Reviewed comparison intent and evidence gates; no causal certification."""
+from .process_tape import utc_now
 from datetime import datetime, timezone
 from decimal import Decimal
-from uuid import uuid4
+from .process_tape import uuid4
 
 from .onboarding import fields, text, encoded, digest, Conflict
 from .diagnostic_evidence import read as native_read
@@ -51,7 +52,7 @@ def register(store, model_id, body, actor):
     with store.connect() as db:
         initialize(db)
         db.execute('INSERT INTO comparison_mappings VALUES(?,?,?,?,?,?,?)',
-                   (identity, model_id, model['context_id'], encoded(body), digest(body), text(actor, 100), datetime.now(timezone.utc).isoformat()))
+                   (identity, model_id, model['context_id'], encoded(body), digest(body), text(actor, 100), utc_now()))
     return {'id': identity, 'context_id': model['context_id'], 'hash': digest(body),
             'provenance': 'TEAM_CONFIRMED_INTENT', 'equivalence_verified': False}
 
@@ -83,7 +84,7 @@ def revoke(store, model_id, identity, reason, actor):
     with store.connect() as db:
         initialize(db)
         db.execute('INSERT OR IGNORE INTO comparison_mapping_revocations VALUES(?,?,?,?)',
-                   (identity,reason,actor,datetime.now(timezone.utc).isoformat()))
+                   (identity,reason,actor,utc_now()))
     return mapping(store,model_id,identity)
 
 
@@ -175,7 +176,7 @@ def assess(store, model_id, body, *, assessment_id=None):
     with store.connect() as db:
         initialize(db)
         db.execute('INSERT INTO comparison_assessments VALUES(?,?,?,?,?,?)',
-                   (identity, model_id, model['context_id'], encoded(result), digest(result), datetime.now(timezone.utc).isoformat()))
+                   (identity, model_id, model['context_id'], encoded(result), digest(result), utc_now()))
     return dict(result, id=identity, hash=digest(result))
 
 

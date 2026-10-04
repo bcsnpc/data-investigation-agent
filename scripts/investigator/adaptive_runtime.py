@@ -2,12 +2,15 @@
 
 Planner suggestions are unverified. This module owns scope, budgets, facts and stops.
 """
+from .process_tape import utc_now
 from .model_context import assets as model_assets
 from .evidence_prose import diagnostic_detail
 from datetime import datetime, timezone
 import json
 import time
-from uuid import uuid4
+from .process_tape import uuid4
+from .run_recording import operation
+from .process_tape import clock as tape_clock, event as tape_event
 
 from .onboarding import digest, encoded, text, Conflict
 from .runtime import fingerprint
@@ -18,7 +21,7 @@ from .record_aggregate import derive as reconcile_aggregates
 
 
 def now():
-    return datetime.now(timezone.utc).isoformat()
+    return utc_now()
 
 
 def outcome(state):
@@ -41,7 +44,7 @@ def outcome(state):
 class AdaptiveRuntime:
     def __init__(self,runtime,planner,clock=time.time,planner_profile=None,usage_policy=None,process_judge=None):
         self.runtime=runtime;self.store=runtime.store;self.config=runtime.config
-        self.planner=planner;self.clock=clock;self.process_judge=process_judge
+        self.planner=planner;self.clock=lambda:tape_clock('agent',clock);self.process_judge=process_judge
         self.planner_profile=planner_profile or {"adapter":"injected"}
         self.process_max_boundaries=self.planner_profile.get('process_max_boundaries',1)
         if type(self.process_max_boundaries) is not int or not 0<=self.process_max_boundaries<=32:
@@ -51,7 +54,7 @@ class AdaptiveRuntime:
         self.max_planner_recoveries=self.planner_profile.get('max_planner_recoveries',0)
         if type(self.max_planner_recoveries) is not int or self.max_planner_recoveries not in (0,1):
             raise ValueError('At most one explicit planner recovery is supported')
-        self.governor=UsageGovernor(runtime,usage_policy,clock) if usage_policy is not None else None
+        self.governor=UsageGovernor(runtime,usage_policy,self.clock) if usage_policy is not None else None
         with runtime.db() as db:
             db.executescript("""
             CREATE TABLE IF NOT EXISTS adaptive_sessions(
@@ -62,6 +65,8 @@ class AdaptiveRuntime:
             """)
 
     def save(self,db,state,kind,detail=None):
+        if kind.endswith('RESERVED') or kind.startswith('SQL_GUARD_'):
+            tape_event('BUDGET',{'kind':kind,'detail':detail,'session_id':state['id']})
         db.execute('UPDATE adaptive_sessions SET state=?,state_hash=? WHERE id=?',
                    (encoded(state),digest(state),state['id']))
         db.execute('INSERT INTO adaptive_events(session_id,kind,detail,created) VALUES(?,?,?,?)',
@@ -90,6 +95,7 @@ class AdaptiveRuntime:
         if digest(candidates)!=state['catalog_hash']:raise Conflict('Candidate admission changed')
         return candidates
 
+    @operation('create')
     def create(self,envelope,key,*,predecessor=None):
         if self.planner_profile.get('adapter')=='azure' and self.governor is None:raise ValueError('Live Azure sessions require an explicit usage policy')
         text(key,100);candidates,gaps=catalog(self.store,self.config,envelope)
@@ -444,6 +450,7 @@ class AdaptiveRuntime:
                     self.save(db,state,'OBSERVED',{'run_id':child['id'],'observation_id':item['id']})
         return self.get(identity)
 
+    @operation('run')
     def run(self,identity):
         from .physical_reads import guard_scope
         def record_guard(event):
@@ -604,11 +611,12 @@ class AdaptiveRuntime:
                 fabric=self.config['fabric']
                 payload=dict(request,tenant=fabric['auth']['tenant_id'],account=fabric['native_reader']['account'],
                              library=fabric['xmla_client']['library'])
-                completed=subprocess.run([fabric['auth']['python'],str(ROOT/'scripts/read_xmla_failure.py')],
+                from .tape_worker import run as worker_run
+                completed=worker_run([fabric['auth']['python'],str(ROOT/'scripts/read_xmla_failure.py')],
                     input=encoded(payload),capture_output=True,text=True,encoding='utf-8',timeout=180)
                 try:return json.loads(completed.stdout)
                 except (ValueError,TypeError):return {'status':'UNAVAILABLE','error_type':'InvalidResponse','codes':[]}
-            return execute()
+            return meter_read('xmla_failure_detail',execute,True)
 
         def read_endpoint(request):
             def execute():
@@ -624,7 +632,8 @@ class AdaptiveRuntime:
                 try:
                     payload={'operation':'request','endpoint':endpoint,'method':'get','audience':'fabric',
                              'tenant':self.config['fabric']['auth']['tenant_id']}
-                    result=subprocess.run([self.config['fabric']['auth']['python'],str(ROOT/'scripts/metadata_worker.py')],
+                    from .tape_worker import run as worker_run
+                    result=worker_run([self.config['fabric']['auth']['python'],str(ROOT/'scripts/metadata_worker.py')],
                         input=encoded(payload),capture_output=True,text=True,encoding='utf-8',timeout=90)
                     response=json.loads(result.stdout)
                     if response.get('status_code')!=200:return {'status':'UNAVAILABLE','http_status':response.get('status_code')}
@@ -641,7 +650,8 @@ class AdaptiveRuntime:
         # The independent lower surface: declared only when the reader's own
         # session is present (a local check, no token request).
         lower_surface=None;execute_lower=None
-        sql_reader=self.config['fabric'].get('sql_reader')
+        reader_config=self.config['fabric']
+        sql_reader=reader_config.get('sql_reader')
         if sql_reader:
             from fabric_sql_auth import session_status
             from fabric_sql_surface import read as read_lower
@@ -649,10 +659,17 @@ class AdaptiveRuntime:
             execute_lower=lambda database,request:read_lower(self.config,database,request)
         def read_refresh_timing():
             from refresh_timing_reader import read
-            return meter_read('optional_refresh_timing',lambda:read(self.config,model))
+            from .process_tape import bounded_call
+            return meter_read('optional_refresh_timing',lambda:bounded_call('optional_refresh_timing',
+                {'model':model['native_id'],'profile':reader_config['refresh_timing_reader']},
+                lambda:read(self.config,model)))
         def read_snapshot_identity(probe,workspace_name):
             from snapshot_identity_reader import read
-            return meter_read('optional_snapshot_identity',lambda:read(self.config,model,probe,workspace_name))
+            from .process_tape import bounded_call
+            return meter_read('optional_snapshot_identity',lambda:bounded_call('optional_snapshot_identity',
+                {'model':model['native_id'],'profile':reader_config['snapshot_identity_reader'],
+                 'probe':probe.evidence,'workspace_name':workspace_name},
+                lambda:read(self.config,model,probe,workspace_name)))
         def remaining_diagnostic_reads():
             with self.runtime.db() as db:
                 current=self.load(db,identity)
@@ -737,6 +754,7 @@ class AdaptiveRuntime:
                 'terminating_step':assessment['terminating_step']})
             return self.project_after_commit(db,state)
 
+    @operation('synthesize')
     def synthesize(self,identity,provider=None):
         from .evidence_synthesis import run,azure_synthesize
         run(self,identity,provider or azure_synthesize)

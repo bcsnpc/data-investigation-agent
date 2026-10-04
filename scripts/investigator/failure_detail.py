@@ -5,8 +5,9 @@ receipt. The request and result are recorded like any other read. The result
 holds codes only, never message text. It is sealed, so the refinement carried
 into a probe's failure points at sealed evidence rather than a derived record.
 """
+from .process_tape import utc_now
 from datetime import datetime, timezone
-from uuid import uuid4
+from .process_tape import uuid4
 from .onboarding import encoded
 
 TABLE = 'failure_details'
@@ -27,7 +28,7 @@ def record(store, model_id, request, execute):
     with store.connect() as db:
         _table(db)
         db.execute('INSERT INTO '+TABLE+' VALUES(?,?,?,?,?,NULL)',
-                   (identity, model_id, datetime.now(timezone.utc).isoformat(), 'RUNNING', encoded(request)))
+                   (identity, model_id, utc_now(), 'RUNNING', encoded(request)))
     try:
         answer = execute()
         answer = answer if isinstance(answer, dict) else {'status': 'UNAVAILABLE', 'error_type': 'InvalidResponse'}
