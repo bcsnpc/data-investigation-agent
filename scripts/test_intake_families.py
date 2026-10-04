@@ -104,7 +104,9 @@ class IntakeFamilyTests(unittest.TestCase):
                 # Original fixtures/tapes remain unchanged; none requests grouping.
                 schema['properties']['dimension_ids']=current_schema['properties']['dimension_ids']
                 schema['required'].insert(schema['required'].index('report_quote'),'question_kind')
-                expected['input']=json.dumps(wire)
+                # Current synthetic request projection uses the producer's
+                # canonical ordering; the immutable recorded fixture stays intact.
+                expected['input']=json.dumps(wire,sort_keys=True)
                 self.assertEqual(requests,[expected])
                 self.assertEqual(decision['dimension_quotes'],[])
                 self.assertEqual({k:v for k,v in decision.items() if k not in ('report_binding','question_kind','dimension_quotes')},{**case['decision'],'reported_figure':{'state':'UNSPECIFIED'}})

@@ -900,3 +900,6 @@ reader-verified at 7,661 / 8,765. See
 [batch results](docs/round-five-recorded-fifteen.md) and
 [verbatim outputs](docs/round-five-output-transcripts.md).
 
+
+
+Dated provider serialization correction (2026-10-04): future requests sort nested JSON keys so catalog reconstruction cannot change provider input bytes. Old sealed tapes and failed replays stay unchanged; no live replacement. Synthetic nested-order test passes with unchanged payload length and data. Directory coverage remains 2 entries / 1 SQL object / 7,540 characters. Engine bytes changed; prior freezes invalid. See [details](docs/canonical-provider-input.md).
