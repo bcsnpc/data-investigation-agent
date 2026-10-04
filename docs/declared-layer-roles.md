@@ -1,0 +1,11 @@
+# Declared roles instead of positional layer names
+
+2026-10-04 America/Chicago. Round Three A1. The optional estate layer_roles configuration is a list of exact asset_id, role and business_name declarations. Consumer-owned roles are PRESENTATION, SEMANTIC, SERVING, REFINED, LANDING and APPLICATION. Each role has one plain business display name; unknown roles, duplicate identities, inconsistent role names and technical identifier forms are rejected. No asset naming convention or path position infers a role. Legacy estates without a declaration display a declared layer, not an invented role.
+
+The adapter carries the approved declarations into the complete assessment; the local synthesis view retains them. Business divergence and surface-independence sentences use those names. Technical L-number entries add the declared role alongside discovered names and containers. Application-to-landing evidence therefore cannot be rendered as report preparation. The original serving/refined fixture uses the same renderer. No outcome, comparison scope, execution identity or refusal is changed.
+
+Tests cover both estates, closed declarations, missing declarations without positional inference, and unchanged directory coverage. The planner payload shaping is untouched: existing exact context/request goldens pass with no entry, SQL-object or payload-character change. The recorded dense view remains 28 entries / 11 SQL objects / 5,543 characters. Role names appear only in local rendering and the already bounded rendered-business synthesis string; they do not reduce the planner directory.
+
+No live investigation, estate request or fixture change in this PR; no run ledger row. Earlier output failures remain verbatim. Engine changes invalidate prior freezes. Live role configuration and re-approval are required before the scenario batch; outcomes remain unearned.
+
+CI caught the initial full-label projection changing a payload when only container display labels changed. The correction projects only declared role/business_name fields; ordinary container labels remain local. The original no-container-payload-change test is retained. The new role suite is explicitly included in CI. Initial failed checks remain visible on the PR; merge requires all six checks on the corrected head.
