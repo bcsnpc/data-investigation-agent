@@ -1,5 +1,14 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Four earned **CONSISTENT_TO_SOURCE** on a fixture-authored follow-up: 7,661
+agreed through two independently graded boundaries and the expected record was
+absent in all three membership reads. A configured-unreachable run stopped at
+LANDING and quoted the Warehouse load's own 360/360 counters and completion time.
+The first source attempt failed with SQL 40613 and remains preserved. All three
+synthesized; snapshots remain unverified, repeated timing prose remains an output
+finding. Round Four 51/300, rolling last observed 641/1000. This is known-domain
+evidence, not general acceptance. [Verbatim outputs and receipts](docs/round-four-source-scenarios.md).
+
 Round Four A4 fixes count-owned delivery grammar, removes gap filler and preserves
 the membership account in source-consistency business output. Offline-tested only;
 scenario outcomes remain unearned. [Details](docs/delivery-output-grammar.md).

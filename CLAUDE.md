@@ -34,6 +34,18 @@ Read this before changing anything. It is not style guidance. Every rule below
 exists because breaking it previously produced a false conclusion that survived
 review.
 
+Dated Round Four finding, 2026-10-04 UTC: a fixture-authored follow-up earned
+CONSISTENT_TO_SOURCE with equal 7,661 quantities and independently observed
+expected-record absence through semantic, landing and application. The first
+attempt's application quantity failed SQL 40613, while membership succeeded;
+it remains CONSISTENT_TO_BOUNDARY, not retrospectively upgraded. Configured
+unreachable stopped at landing and retained own Warehouse load accounting.
+All three synthesized; PARTIAL connection coverage and SNAPSHOT_UNVERIFIED
+remain. Source-consistency business prose repeats timing; keep that finding.
+Round Four 51/300; rolling last observed 641/1000; Part B closed at 466/500.
+Original baselines 7,661/8,765 verified, reachability restored. No new grants.
+See docs/round-four-source-scenarios.md. Prior freezes remain invalid.
+
 ## What this system is
 
 A technical debugger for reported number discrepancies across a data stack.

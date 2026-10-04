@@ -1,0 +1,16 @@
+{
+  "fixture_authored": true,
+  "method": "Independent arithmetic over retained literal seed, not engine query execution.",
+  "seed_asset": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/part/notebook-content.py",
+  "seed_hash": "5f61cd4e0cdac7801df4bfdd0ca74f053fed0ef143a66b6eab4f2d0a3616f011",
+  "rows": 360,
+  "units_by_warehouse": {
+    "3": 2629,
+    "1": 2948,
+    "2": 2084
+  },
+  "total": 7661,
+  "expected_record": 900099,
+  "present_in_seed": false,
+  "honesty": "Seed arithmetic cannot guarantee served quantities, model framing, membership probes, binding, attestation, audit selection or validated synthesis. Equal totals alone cannot establish membership. No fixture truth is injected into the procedure."
+}

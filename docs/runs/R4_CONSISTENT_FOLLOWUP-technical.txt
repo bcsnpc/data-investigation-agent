@@ -1,0 +1,30 @@
+You asked: In Application load fixture 20261003, Movement Units shows 7,661 units. I expected a movement numbered 900099 that is absent from the authored application fixture. Please trace the displayed total to the application so I know whether this is a pipeline question or an application question.
+Answer to your question: Answered within the checked scope.
+Regarding the requested comparison: The compared path agreed through the declared application source, with the requested record membership checked. The remaining expectation belongs to the application owner; currency is not established.
+What the investigation established:
+
+Measure: Movement Units.
+B1 agrees: L1 (dbo.stock movements round two 20261003 in round two bronze 20261003; role LANDING, upstream input) 7,661 -> L0 (Movements in Application load fixture 20261003; role SEMANTIC, downstream output) 7,661.
+B2 agrees: L2 (app.stock movements round two 20261003 in ordersops; role APPLICATION, upstream input) 7,661 -> L1 (dbo.stock movements round two 20261003 in round two bronze 20261003; role LANDING, downstream output) 7,661.
+ENGINE_INDEPENDENT: comparable quantity-bound engine self-reports differ; this is an engine-independent cross-surface comparison. (receipt boundary-1-comparison).
+ENGINE_INDEPENDENT: comparable quantity-bound engine self-reports differ; this is an engine-independent cross-surface comparison. (receipt boundary-2-comparison).
+Declared-context reproduction unavailable: Declared-context reproduction is undeclared for model-only or layer-only named context.
+
+Recorded boundary comparisons carry the displayed measure total unchanged between L2 (APPLICATION) and L1 (LANDING), and again between L1 (LANDING) and L0 (SEMANTIC). This traces the displayed total back to L2 (APPLICATION) without a recorded change across the checked layers.
+
+Presence checks: the record you named was absent in L0 (SEMANTIC, reported calculation); the record you named was absent in L1 (LANDING, landing table); the record you named was absent in L2 (APPLICATION, application).
+
+Layers:
+L0 - Movements in Application load fixture 20261003; role SEMANTIC: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements
+L1 - dbo.stock movements round two 20261003 in round two bronze 20261003; role LANDING: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003
+L2 - app.stock movements round two 20261003 in ordersops; role APPLICATION: sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945
+
+Limits:
+- Unattested connection on L0 (receipt 5fb84a5a-8077-4d3b-a7ed-4f5981f45b9f).
+- Unattested connection on L1 (receipt 5da39397-9176-407e-8b7a-ab04a670e340).
+- Unattested connection on L2 (receipt 1e3a76f6-2927-4675-a896-34292c3d7798).
+- SNAPSHOT_UNVERIFIED for B1, B2: the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.
+- Checked through L2; stopped because reached.
+- Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.
+
+Recommended action: Ask the application owner about the expected entry; an entry absent from the application is not a delivery problem in the checked process.
