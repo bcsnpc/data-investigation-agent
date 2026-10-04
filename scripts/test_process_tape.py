@@ -17,6 +17,26 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def test_clock_events_persist_once_without_rewriting_prior_bodies(self):
+        with tempfile.TemporaryDirectory() as folder:
+            tape=Tape(Path(folder)/'tape.json',bootstrap())
+            envelope=tape.path.read_bytes()
+            with patch.object(tape,'flush',wraps=tape.flush) as flush:
+                with active(tape):
+                    for _ in range(2000):clock('synthetic',lambda:1000)
+                flush.assert_not_called()
+            self.assertEqual(tape.path.read_bytes(),envelope)
+            self.assertEqual(len(tape.journal_path.read_bytes().splitlines()),2001)
+            with self.assertRaisesRegex(TapeError,'JOURNAL_DIFFERS'):Tape(tape.path)
+            tape.finish({})
+            replayed=Tape(tape.path)
+            with active(replayed):
+                for _ in range(2000):clock('synthetic',lambda:self.fail('No current clock'))
+                replayed.finish({})
+            journal=tape.journal_path.read_bytes()
+            tape.journal_path.write_bytes(journal.split(b'\n',1)[1])
+            with self.assertRaisesRegex(TapeError,'JOURNAL_DIFFERS'):Tape(tape.path)
+
     def test_budget_input_decoder_rejects_hostile_owned_rows_and_unknown_tables(self):
         from investigator.tape_budget import validate_input,TABLES
         schemas={table:['environment','session_id'] for table in TABLES}

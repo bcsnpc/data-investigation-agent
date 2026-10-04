@@ -134,3 +134,21 @@ planner context changed. Golden coverage remains two directory entries, one SQL
 object and 7,540 characters before/after. Engine bytes changed; freezes invalid.
 Usage: 48/400 physical requests (46 investigation requests, two baseline controls).
 Restoration reserve remains 50, unused, expires 2026-10-05T02:16:52.112905Z.
+
+## Dated recording-overhead repair (2026-10-04 UTC)
+
+The first post-#383 EMPTY attempt exposed local tape write amplification: the
+budget snapshot requests a clock for each retained usage row, and each event
+rewrote every earlier bounded worker/budget body. More than 2,300 clock events
+occurred before the first provider request. The attempt remains unchanged; no
+replacement, cap change or deadline extension. The batch is paused before 16.
+
+Recording now appends every admissible event once to a private event journal,
+including clocks. Non-clock events still materialize the existing envelope;
+FINAL seals every event. Replay requires the journal and envelope to agree when
+a journal exists. Interrupted attempts remain incomplete. This changes private
+recording I/O, not the replay boundary, decoder coverage, retention or engine
+investigation decisions. Synthetic tests exercise 2,000 clocks, interrupted and
+corrupt journals, and actual-engine replay of both outputs and failed composition.
+21 focused tests pass. Directory/SQL/payload coverage remains 2/1/7,540 before
+and after. Engine bytes changed; prior freezes remain invalid.
