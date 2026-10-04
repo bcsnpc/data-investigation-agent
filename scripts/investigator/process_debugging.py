@@ -203,7 +203,9 @@ def capability_declaration(values):
 
 def applicability(adapter: ProcessAdapter):
     """Compute eligibility from advertised adapter capabilities."""
+    estate=getattr(adapter,'config',{}).get('_estate',{})
     available=frozenset(adapter.capabilities())
+    if estate:available &= frozenset(estate['capability_ceiling'])
     missing=sorted(REQUIRED_CAPABILITIES-available)
     return {'eligible':not missing,'required':sorted(REQUIRED_CAPABILITIES),
             'available':sorted(available),'missing':missing}
@@ -289,7 +291,9 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
 
 def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=None):
     """Run the vertical procedure over any discovered path length."""
+    estate=getattr(adapter,'config',{}).get('_estate',{})
     available=frozenset(adapter.capabilities())
+    if estate:available &= frozenset(estate['capability_ceiling'])
     failures=[]
     path={}
     measure_baseline=None
@@ -324,7 +328,8 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                 refs.append(receipt['id'])
                 if receipt['id'] not in {o['id'] for o in observed}:observed.append(receipt)
             unreachable=(path.get('system_of_record',{}).get('reachable') is False
-                         and boundary['lower']['id']==path['system_of_record']['asset_id'])
+                         and boundary['lower']['id']==path['system_of_record']['asset_id']) or any(
+                l['asset_id']==boundary['lower']['id'] and not l['reachable'] for l in estate.get('layers',[]))
             if 'source_delivery' in available and not unreachable:
                 delivery=delivery_for(boundary)
                 checks['source_delivery']={k:delivery[k] for k in ('status','reason') if k in delivery}
@@ -348,6 +353,11 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                 eligibility(scope,walk_blocked=True)['applicable']):
             reproduce(walk_blocked=True)
             result=_answer(*args,capabilities=available,failures=failures,**kwargs)
+        declared_assets={l['id'] for l in path.get('layers',[])}
+        configured={l['id']:l['asset_id'] for l in estate.get('layers',[])}
+        for limit in estate.get('accepted_limits',[]):
+            if configured.get(limit['resource']) in declared_assets:
+                result['limits'].append('By configuration, '+limit['statement'])
         from .declared_reproduction import KIND
         reproductions=[o for o in result['_observations'] if o.get('check_kind')==KIND]
         for finding in reproductions:
@@ -465,6 +475,23 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                     'reason':'The declared system of record is configured unreachable; no application read was attempted.'}
                 layers=layers[:-1]
                 path['layers']=layers
+    if estate:
+        declared={l['asset_id']:l for l in estate['layers']}
+        code={r['asset_id'] for r in estate['resources'] if r['id'] in estate['lineage']['inference']['code_resources']}
+        for i,layer in enumerate(layers):
+            declaration=declared.get(layer['id'])
+            reason=None
+            if declaration is None:reason='The layer is not declared in the estate manifest; no read was attempted.'
+            elif not declaration['reachable']:reason='The layer is configured unreachable in the estate manifest; no read was attempted.'
+            provenance=(layer.get('binding') or {}).get('provenance')
+            if provenance=='INFERRED_FROM_CODE' and (not estate['lineage']['inference']['enabled'] or layer.get('transformation_asset_id') not in code):
+                reason='Code inference is not authorised at this location by the estate manifest.'
+            if reason:
+                path['stopped_by']='NO_ACCESS';path['missing_comparable_quantity']=reason
+                path['unresolved_boundary']={'upper_layer':layers[i-1]['id'] if i else layer['id'],
+                    'lower_layer':layer['id'],'reason':reason}
+                layers=layers[:i];path['layers']=layers
+                break
     ceiling=path.get('max_boundaries',len(layers))
     if type(ceiling) is not int or ceiling<0:raise ValueError('Invalid boundary ceiling')
     if len(layers)>ceiling+1:

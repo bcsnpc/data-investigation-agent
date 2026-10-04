@@ -47,3 +47,6 @@ Read; after ReadExplore; no write, workspace role or other item. This permits
 reader quantity execution on this isolated presentation layer; execution itself
 is still untested here. SQL `orderops_investigator` and roleless `dia-reader`
 are unchanged. [Decision, exact request and listings](round-two-application-presentation.md#dated-human-approved-identity-scope-change).
+
+
+Dated installation supersession, 2026-10-04 UTC: the identity table remains historical evidence. Active installation declarations now live in the single [estate manifest](estate-installation-manifest.md); they do not grant access or retrospectively change scope. The fixture installation still requires current discovery re-approval before live use.

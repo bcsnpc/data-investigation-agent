@@ -1,0 +1,27 @@
+"""Build an investigation from one validated manifest; no configuration fallback."""
+from pathlib import Path
+from .estate_manifest import load, policy
+
+
+def build(path, *, execution_enabled=True):
+    manifest=load(path)
+    from .adapters.estate_installation import configuration,transports,provider
+    config=configuration(manifest)
+    from .onboarding import ModelStore
+    from .runtime import Runtime
+    from .adaptive_runtime import AdaptiveRuntime
+    from .workspace import Workspace
+    from metadata_config import ROOT
+    model=manifest['model'];budget=manifest['budgets']
+    planner,resolver=provider(model['provider'],model['credential']) if execution_enabled else (None,None)
+    store=ModelStore(ROOT/manifest['storage']['catalog'],config['storage']['database'],manifest['environment'])
+    native,source=transports(config) if execution_enabled else (None,None)
+    profile={'adapter':model['provider'],'deployment':model['deployment'],'endpoint':model['endpoint'],
+        'process_max_boundaries':budget['max_boundaries'],'generation_options':model['generation_options'],
+        'max_planner_recoveries':model['max_planner_recoveries']}
+    agent=AdaptiveRuntime(Runtime(store,config,native,source),planner,
+        planner_profile=profile,usage_policy=policy(manifest))
+    workspace=Workspace(agent,execution_enabled=execution_enabled,
+        question_resolver=resolver,
+        dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'])
+    return manifest,workspace

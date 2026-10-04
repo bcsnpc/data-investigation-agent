@@ -1643,3 +1643,23 @@ the recording repairs already invalidated all prior freezes.
 
 
 Dated provider serialization correction (2026-10-04): future requests sort nested JSON keys so catalog reconstruction cannot change provider input bytes. Old sealed tapes and failed replays stay unchanged; no live replacement. Synthetic nested-order test passes with unchanged payload length and data. Directory coverage remains 2 entries / 1 SQL object / 7,540 characters. Engine bytes changed; prior freezes invalid. See [details](canonical-provider-input.md).
+
+## Dated installation contract (2026-10-04 UTC)
+
+The closed estate manifest and manifest-only investigation/workspace/discovery
+entrypoints are implemented with synthetic validation. Fixture and hypothetical
+Databricks documents validate; the latter has no installed adapter and cannot
+execute. Installed native options reject unknown keys and conflicting account,
+credential or address declarations. Manifest references, READ scopes, consumer
+bounds, lineage conflicts, capability ceilings and round restoration reservation
+fail closed. Configuration grants no scope and supplies no quantity equivalence.
+
+The fixture manifest has not been recollected/re-approved or run live. The
+retained approval still pins the historical config and must refuse it. Historical
+configs/tapes remain evidence; active installation entrypoints consult one file.
+No additional estate reads or identity changes. 12 manifest tests, 43 procedure
+regressions, eight metadata-connector tests and 11 source-contract tests pass.
+Directory coverage is 2 entries / 1 SQL object / 7,540 characters before and after.
+The code-inference location list is a permission hook, not an implemented new
+transformation reader. Engine bytes changed; all prior freezes remain invalid.
+See [installation fields and limits](docs/estate-installation-manifest.md).

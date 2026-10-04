@@ -17,9 +17,7 @@ from investigator.enterprise_discovery import Discovery
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--config',type=Path,required=True)
-    parser.add_argument('--database',type=Path,required=True)
-    parser.add_argument('--environment',required=True)
+    parser.add_argument('--manifest',type=Path,required=True)
     parser.add_argument('--cycles',type=int,default=1)
     parser.add_argument('--interval-seconds',type=int,default=300)
     parser.add_argument('--request-key')
@@ -27,8 +25,10 @@ def main():
     args=parser.parse_args()
     if not 1<=args.cycles<=12 or not 60<=args.interval_seconds<=86400:parser.error('Invalid bounded schedule')
     if args.request_key and args.cycles!=1:parser.error('Request key requires one scan')
-    config=load_config(args.config)
-    store=ModelStore(args.database,config['storage']['database'],args.environment)
+    from investigator.estate_manifest import load
+    from investigator.adapters.estate_installation import configuration
+    manifest=load(args.manifest);config=configuration(manifest)
+    store=ModelStore(ROOT/manifest['storage']['catalog'],config['storage']['database'],manifest['environment'])
     discovery=Discovery(store,config)
     auth=config['fabric']['auth']
     transport=WorkerTransport(auth['python'],auth['tenant_id'],ROOT/'scripts/metadata_worker.py')

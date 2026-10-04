@@ -77,7 +77,7 @@ pot is recorded, rolling 1000 and diagnostic cap 12 unchanged. Four fixes and tw
 consistency scenarios precede an offline acceptance roster (the requested families
 sum to 15). No new outcome or replay pass claimed. [Budget](docs/round-four-budget.md).
 
-Round Three completed four first-attempt known-domain executions after A1–A6:
+Round Three completed four first-attempt known-domain executions after A1â€“A6:
 **INGESTION_GAP**, **LOAD_LATENCY**, then two **NO_COMPARABLE_PATH** results.
 Warehouse audit matched the copy activity's own 361/361 and 360/360 counters.
 Unexpected intake grouping prevented the two consistency outcomes; their refusals
@@ -201,7 +201,7 @@ Dated measurement, 2026-10-03 America/Chicago: [Nine existing families with repr
 
 Dated implementation, 2026-10-03 America/Chicago: [Process failures and read addresses](docs/process-failure-and-read-address.md). #328 merged with six green checks. Offline reconstruction locates R4/R5's ValueError: the walk returned NO_COMPARABLE_PATH without its required presentation baseline after exhausting the read cap. The producer now returns the existing missing-baseline refusal; the validator and cap are unchanged. Internal failures retain safe type/message/location and render as process failures in both outputs. Process quantities seal an explicit BASELINE or CELL address; memoisation distinguishes them even for identical statements. Empty and numeric declared-context reproduction have executed against independently derived fixture-authored figures with engine/identity/object attestation on every probe, not real-user validation. No live read or model call; historical evidence unchanged. Prior freezes invalidated. Approval hashes cover configuration only; separate conclusion-time collected-content freshness remains roadmap work.
 
-Dated live result, 2026-10-03 America/Chicago: [Fixture-authored numeric reproduction](docs/fixture-numeric-reproduction.md). #327 merged with six green checks. One target-date edit, reader baseline 8,765 before/after; complete 100-physical-read recollection produced revision 5/context 35461b1d… under unchanged config hash. All 16 parts/predicates survived; original context and evidence preserved. Independent full-active-set arithmetic including both slicer defaults yielded 16; R4 reproduced 16 and R5 did not reproduce 17. Both sessions remained HELD with an unlocated process ValueError; deterministic synthesis completed. Four DAX reads per run/cap four, one intake call each, zero investigation-planner/judge/synthesis model calls; window ends 41/60. Three visual reads per run have native addresses; shared baseline lacks one, reported without backfill. No engine/policy/grant change or acceptance claim; prior freezes remain invalidated.
+Dated live result, 2026-10-03 America/Chicago: [Fixture-authored numeric reproduction](docs/fixture-numeric-reproduction.md). #327 merged with six green checks. One target-date edit, reader baseline 8,765 before/after; complete 100-physical-read recollection produced revision 5/context 35461b1dâ€¦ under unchanged config hash. All 16 parts/predicates survived; original context and evidence preserved. Independent full-active-set arithmetic including both slicer defaults yielded 16; R4 reproduced 16 and R5 did not reproduce 17. Both sessions remained HELD with an unlocated process ValueError; deterministic synthesis completed. Four DAX reads per run/cap four, one intake call each, zero investigation-planner/judge/synthesis model calls; window ends 41/60. Three visual reads per run have native addresses; shared baseline lacks one, reported without backfill. No engine/policy/grant change or acceptance claim; prior freezes remain invalidated.
 
 Dated offline result, 2026-10-03 America/Chicago: [Evaluated-cell delta re-renderings](docs/evaluated-cell-delta-rerender.md). #325 and #326 merged with six green checks; final stable suite passed 1,633 tests. R1/R2/R3 completed offline with zero reads and zero new model calls; three ledger rows appended and original evidence/prior outputs unchanged. R1 names the North-row/TOTAL difference with no figure verdict; R2/R3 isolate event day changing 92 to BLANK. Named visuals have no index suffix. Saved-default, within-layer, snapshot and derived-identity qualifications remain. Literal-debt ratchet merged; no fixture/policy/grant change or acceptance claim. Prior freezes invalidated. Stop before the additive fixture/context and numeric runs.
 
@@ -442,12 +442,12 @@ written. A SQL-audience token was issued for tenant administrator
 `scripts/fabric_sql_auth.py` uses), with no app registration.
 - **Which endpoint was reached:** the `gold_sql_endpoint` host in
   `infra/fabric/environment.json` accepted the token, and `SELECT 1` returned 1.
-  That host belongs to the dev workspace `ws-investigator-dev` (`09cea7db…`),
-  endpoint `701ab1fc…`. It is not the workspace investigations run against
-  (`149f8d99…`). A connection naming no database opened that workspace's
+  That host belongs to the dev workspace `ws-investigator-dev` (`09cea7dbâ€¦`),
+  endpoint `701ab1fcâ€¦`. It is not the workspace investigations run against
+  (`149f8d99â€¦`). A connection naming no database opened that workspace's
   `lh_investigator_bronze`.
 - **What that establishes:** only that admin can reach the dev workspace's SQL
-  endpoint. It says nothing about `77c49180…` (`warehouse_gold_e1b8e1`), the Gold
+  endpoint. It says nothing about `77c49180â€¦` (`warehouse_gold_e1b8e1`), the Gold
   endpoint the process path needs. No identity has reached that endpoint over
   SQL, so `NO_INDEPENDENT_LOWER_READ` still stands.
 
@@ -456,12 +456,12 @@ See the
 for the three resolved IDs.
 
 **Correction, 2026-09-26 (read at 20:43 UTC).** The statement above that no
-identity has reached `77c49180…` is superseded; the original is kept. In a
-single read at 20:43:40–20:43:54 UTC, the least-privilege reader `investigator-reader@skynwhy.com` (workspace
-`Viewer` in `149f8d99…`) obtained a `database.windows.net` token through the
-Azure CLI client (`04b07795…`), from its own isolated profile
+identity has reached `77c49180â€¦` is superseded; the original is kept. In a
+single read at 20:43:40â€“20:43:54 UTC, the least-privilege reader `investigator-reader@skynwhy.com` (workspace
+`Viewer` in `149f8d99â€¦`) obtained a `database.windows.net` token through the
+Azure CLI client (`04b07795â€¦`), from its own isolated profile
 `.local/azure-reader-sql`. No new permission was granted and no app registration
-was created. The Gold endpoint `77c49180…` accepted it, with database
+was created. The Gold endpoint `77c49180â€¦` accepted it, with database
 `warehouse_gold_e1b8e1` named explicitly. `SUSER_SNAME()` returned
 `investigator-reader@skynwhy.com` and `DB_NAME()` returned
 `warehouse_gold_e1b8e1`, so the server, not the client, confirms both identity
@@ -739,14 +739,14 @@ while the default model asked an unnecessary clarification. General reliability
 and unfamiliar-domain acceptance remain unproven.
 
 
-**Discovery-to-ticket (Stages 2–3)** merged in PR #196. **Dynamic reasoning and
-governed tools (Stages 4–5)** merged in PR #198. The v4 attempt remains historical discovery evidence. The preceding v3 attempt discovered its new model
+**Discovery-to-ticket (Stages 2â€“3)** merged in PR #196. **Dynamic reasoning and
+governed tools (Stages 4â€“5)** merged in PR #198. The v4 attempt remains historical discovery evidence. The preceding v3 attempt discovered its new model
 and reports automatically, then exposed excessive planner-profile truncation.
 The generic correction required a fresh freeze and variant. The first nine-family trial recorded partial reads,
 reasoning failures and provider rate-limit blocks; it has **not passed**.
 [Challenge acceptance](docs/unknown-domain-challenge.md) remains in progress.
 [Current delivery status](docs/current-delivery-status.md) owns
-implementation and verification claims; [stages 1–9](docs/architecture/phases-and-acceptance.md)
+implementation and verification claims; [stages 1â€“9](docs/architecture/phases-and-acceptance.md)
 define remaining work.
 
 Discovery currently uses one approved workspace and SQL database/schema per profile.
@@ -903,3 +903,22 @@ reader-verified at 7,661 / 8,765. See
 
 
 Dated provider serialization correction (2026-10-04): future requests sort nested JSON keys so catalog reconstruction cannot change provider input bytes. Old sealed tapes and failed replays stay unchanged; no live replacement. Synthetic nested-order test passes with unchanged payload length and data. Directory coverage remains 2 entries / 1 SQL object / 7,540 characters. Engine bytes changed; prior freezes invalid. See [details](docs/canonical-provider-input.md).
+## Dated installation contract (2026-10-04 UTC)
+
+The closed estate manifest and manifest-only investigation/workspace/discovery
+entrypoints are implemented with synthetic validation. Fixture and hypothetical
+Databricks documents validate; the latter has no installed adapter and cannot
+execute. Installed native options reject unknown keys and conflicting account,
+credential or address declarations. Manifest references, READ scopes, consumer
+bounds, lineage conflicts, capability ceilings and round restoration reservation
+fail closed. Configuration grants no scope and supplies no quantity equivalence.
+
+The fixture manifest has not been recollected/re-approved or run live. The
+retained approval still pins the historical config and must refuse it. Historical
+configs/tapes remain evidence; active installation entrypoints consult one file.
+No additional estate reads or identity changes. 12 manifest tests, 43 procedure
+regressions, eight metadata-connector tests and 11 source-contract tests pass.
+Directory coverage is 2 entries / 1 SQL object / 7,540 characters before and after.
+The code-inference location list is a permission hook, not an implemented new
+transformation reader. Engine bytes changed; all prior freezes remain invalid.
+See [installation fields and limits](docs/estate-installation-manifest.md).

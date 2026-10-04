@@ -1,0 +1,198 @@
+{
+  "version": "estate-manifest-v1",
+  "environment": "hypothetical-lakehouse",
+  "storage": {
+    "catalog": "state/catalog.sqlite",
+    "inventory": "state/inventory.sqlite"
+  },
+  "adapters": [
+    {
+      "id": "estate-reader",
+      "implementation": "databricks",
+      "options": {
+        "host": "https://example.cloud.databricks.com",
+        "catalog": "analytics",
+        "warehouse": "query-service"
+      }
+    }
+  ],
+  "layers": [
+    {
+      "id": "model",
+      "asset_id": "model://analysis/events",
+      "role": "SEMANTIC",
+      "business_name": "reported calculation",
+      "reachable": true,
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "analysis.events",
+        "reader": "query-reader"
+      }
+    },
+    {
+      "id": "landing",
+      "asset_id": "table://analytics/ingested/events",
+      "role": "LANDING",
+      "business_name": "landing table",
+      "reachable": true,
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "analytics.ingested.events",
+        "reader": "query-reader"
+      }
+    },
+    {
+      "id": "application",
+      "asset_id": "table://application/events",
+      "role": "APPLICATION",
+      "business_name": "application",
+      "reachable": false,
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "application.events",
+        "reader": "query-reader"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "load-audit",
+      "asset_id": "table://ops/load_audit",
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "ops.load_audit",
+        "reader": "query-reader"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "id": "query-reader",
+      "principal": "least-privilege-query-reader",
+      "credential_reference": "secret://query-reader",
+      "scopes": [
+        {
+          "resource": "model",
+          "rights": [
+            "READ",
+            "QUERY"
+          ]
+        },
+        {
+          "resource": "landing",
+          "rights": [
+            "READ",
+            "QUERY"
+          ]
+        },
+        {
+          "resource": "application",
+          "rights": [
+            "READ",
+            "QUERY"
+          ]
+        },
+        {
+          "resource": "load-audit",
+          "rights": [
+            "READ",
+            "QUERY"
+          ]
+        }
+      ]
+    }
+  ],
+  "system_of_record": "application",
+  "pipelines": [
+    {
+      "id": "load",
+      "from_layer": "application",
+      "to_layer": "landing",
+      "producer_asset_id": "job://load",
+      "delivery_asset_id": "job://load",
+      "audit": {
+        "status": "PRESENT",
+        "resource": "load-audit"
+      },
+      "history_resource": null
+    }
+  ],
+  "lineage": {
+    "bindings": [
+      {
+        "from_layer": "application",
+        "to_layer": "landing",
+        "provenance": "DECLARED_BY_DEFINITION"
+      }
+    ],
+    "inference": {
+      "enabled": false,
+      "code_resources": []
+    },
+    "source_delivery": null
+  },
+  "capability_ceiling": [
+    "declared_context_reproduction",
+    "declared_source_comparison",
+    "evaluate_scoped_quantity",
+    "expected_record_presence",
+    "failure_detail",
+    "independent_lower_surface",
+    "ingestion",
+    "job_history",
+    "presentation_context",
+    "presentation_freshness",
+    "refresh_timing",
+    "resolve_measure_path",
+    "snapshot_identity",
+    "source_delivery",
+    "transformation_definition"
+  ],
+  "model": {
+    "provider": "test-provider",
+    "deployment": "reasoning-model",
+    "endpoint": "https://model.example",
+    "generation_options": {
+      "reasoning_effort": "medium",
+      "max_output_tokens": 8000,
+      "timeout_seconds": 120,
+      "max_payload_characters": 48000
+    },
+    "credential": {
+      "secret_reference": "secret://model-reader"
+    },
+    "max_planner_recoveries": 1
+  },
+  "budgets": {
+    "diagnostic_reads_per_run": 12,
+    "input_characters_per_run": 384000,
+    "max_boundaries": 3,
+    "rolling_window_seconds": 86400,
+    "rolling_physical_requests": 1500,
+    "planner_daily": {
+      "calls": 240,
+      "input_characters": 8000000,
+      "output_tokens": 1500000,
+      "max_inflight": 1,
+      "no_progress_limit": 3
+    },
+    "round": {
+      "id": "ROUND_FIVE",
+      "starts_at_epoch": 1791144960,
+      "physical_requests": 400,
+      "restoration_reserved": 50
+    }
+  },
+  "accepted_limits": [
+    {
+      "code": "SNAPSHOT_UNVERIFIED",
+      "resource": "model",
+      "statement": "these checks cannot establish which data versions they read."
+    },
+    {
+      "code": "CONNECTION_UNATTESTED",
+      "resource": "model",
+      "statement": "the calculation account cannot report its connection."
+    }
+  ]
+}

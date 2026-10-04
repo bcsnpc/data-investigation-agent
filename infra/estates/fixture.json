@@ -1,0 +1,342 @@
+{
+  "version": "estate-manifest-v1",
+  "environment": "unknown-domain-v4",
+  "storage": {
+    "catalog": ".local/unknown-domain-v4/catalog.sqlite",
+    "inventory": "D:\\data_investigation_agent\\.local\\unknown-domain-v4\\inventory.sqlite"
+  },
+  "adapters": [
+    {
+      "id": "estate-reader",
+      "implementation": "microsoft",
+      "options": {
+        "sql": {
+          "server": "sql-orderops-9696025.database.windows.net",
+          "database": "ordersops",
+          "visibility_schema": "app",
+          "auth": {
+            "mode": "dpapi_file",
+            "credential_file": ".local/runtime-credentials/orderops_investigator.credential.xml",
+            "account": "orderops_investigator"
+          }
+        },
+        "fabric": {
+          "workspace_id": "149f8d99-1c66-4a0a-9624-759be002bb60",
+          "auth": {
+            "mode": "fabric_cli",
+            "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+            "python": ".local/fabric-cli-env/Scripts/python.exe"
+          },
+          "native_reader": {
+            "mode": "isolated_reader",
+            "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780",
+            "account": "investigator-reader@skynwhy.com",
+            "principal_id": "8a582d2a-ecb4-4320-bf72-75a529a0d382",
+            "workspace_ids": [
+              "149f8d99-1c66-4a0a-9624-759be002bb60"
+            ]
+          },
+          "sql_reader": {
+            "account": "investigator-reader@skynwhy.com",
+            "profile": ".local/azure-reader-sql",
+            "server": "i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com"
+          },
+          "xmla_client": {
+            "library": ".local/adomd-client/19.117.0/lib/net472/Microsoft.AnalysisServices.AdomdClient.dll"
+          }
+        }
+      }
+    }
+  ],
+  "layers": [
+    {
+      "id": "original-model",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "role": "SEMANTIC",
+      "business_name": "reported calculation",
+      "reachable": true,
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+        "reader": "investigator-reader"
+      }
+    },
+    {
+      "id": "original-serving",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "role": "SERVING",
+      "business_name": "serving data",
+      "reachable": true,
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+        "reader": "investigator-reader"
+      }
+    },
+    {
+      "id": "original-refined",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+      "role": "REFINED",
+      "business_name": "refined data",
+      "reachable": true,
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+        "reader": "investigator-reader"
+      }
+    },
+    {
+      "id": "original-landing",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+      "role": "LANDING",
+      "business_name": "landing table",
+      "reachable": true,
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+        "reader": "investigator-reader"
+      }
+    },
+    {
+      "id": "model",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+      "role": "SEMANTIC",
+      "business_name": "reported calculation",
+      "reachable": true,
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+        "reader": "investigator-reader"
+      }
+    },
+    {
+      "id": "landing",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+      "role": "LANDING",
+      "business_name": "landing table",
+      "reachable": true,
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+        "reader": "investigator-reader"
+      }
+    },
+    {
+      "id": "application",
+      "asset_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+      "role": "APPLICATION",
+      "business_name": "application",
+      "reachable": true,
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+        "reader": "source-reader"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "load-audit",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bea673e0-a206-461e-9b2f-1b3b827e80de/table/dbo.load_run_audit",
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/bea673e0-a206-461e-9b2f-1b3b827e80de/table/dbo.load_run_audit",
+        "reader": "investigator-reader"
+      }
+    },
+    {
+      "id": "load-history",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+      "reach": {
+        "adapter": "estate-reader",
+        "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+        "reader": "investigator-reader"
+      }
+    }
+  ],
+  "identities": [
+    {
+      "id": "investigator-reader",
+      "principal": "investigator-reader@skynwhy.com",
+      "credential_reference": ".local/azure-reader-sql",
+      "scopes": [
+        {
+          "resource": "original-model",
+          "rights": [
+            "READ",
+            "BUILD"
+          ]
+        },
+        {
+          "resource": "original-serving",
+          "rights": [
+            "READ",
+            "QUERY"
+          ]
+        },
+        {
+          "resource": "original-refined",
+          "rights": [
+            "READ",
+            "QUERY"
+          ]
+        },
+        {
+          "resource": "original-landing",
+          "rights": [
+            "READ",
+            "QUERY"
+          ]
+        },
+        {
+          "resource": "model",
+          "rights": [
+            "READ",
+            "BUILD"
+          ]
+        },
+        {
+          "resource": "landing",
+          "rights": [
+            "READ",
+            "QUERY"
+          ]
+        },
+        {
+          "resource": "load-audit",
+          "rights": [
+            "READ",
+            "QUERY"
+          ]
+        },
+        {
+          "resource": "load-history",
+          "rights": [
+            "READ",
+            "QUERY"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "source-reader",
+      "principal": "orderops_investigator",
+      "credential_reference": ".local/runtime-credentials/orderops_investigator.credential.xml",
+      "scopes": [
+        {
+          "resource": "application",
+          "rights": [
+            "READ"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monitoring-reader",
+      "principal": "ddd4d3cf-9cfd-440e-ac5b-be127caa46ea",
+      "credential_reference": ".local/runtime-credentials/dia-reader.credential.xml",
+      "scopes": []
+    }
+  ],
+  "system_of_record": "application",
+  "pipelines": [
+    {
+      "id": "application-load",
+      "from_layer": "application",
+      "to_layer": "landing",
+      "producer_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b4871498-bd35-45be-916c-9a642568012c",
+      "delivery_asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+      "audit": {
+        "status": "PRESENT",
+        "resource": "load-audit"
+      },
+      "history_resource": "load-history"
+    }
+  ],
+  "lineage": {
+    "bindings": [
+      {
+        "from_layer": "application",
+        "to_layer": "landing",
+        "provenance": "DECLARED_BY_DEFINITION"
+      }
+    ],
+    "inference": {
+      "enabled": false,
+      "code_resources": []
+    },
+    "source_delivery": {
+      "source_asset_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+      "key_column_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945/column/1",
+      "version_column_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945/column/8",
+      "modified_column_id": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945/column/7",
+      "time_semantics": "UTC_LAST_MODIFIED"
+    }
+  },
+  "capability_ceiling": [
+    "declared_context_reproduction",
+    "declared_source_comparison",
+    "evaluate_scoped_quantity",
+    "expected_record_presence",
+    "failure_detail",
+    "independent_lower_surface",
+    "ingestion",
+    "job_history",
+    "presentation_context",
+    "presentation_freshness",
+    "refresh_timing",
+    "resolve_measure_path",
+    "snapshot_identity",
+    "source_delivery",
+    "transformation_definition"
+  ],
+  "model": {
+    "provider": "azure",
+    "deployment": "investigator-quality-54",
+    "endpoint": "https://aoai-investigator-9696025.openai.azure.com",
+    "generation_options": {
+      "reasoning_effort": "medium",
+      "max_output_tokens": 8000,
+      "timeout_seconds": 120,
+      "max_payload_characters": 48000
+    },
+    "credential": {
+      "subscription_id": "d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9",
+      "resource_group": "rg-investigator-dev",
+      "account": "aoai-investigator-9696025"
+    },
+    "max_planner_recoveries": 1
+  },
+  "budgets": {
+    "diagnostic_reads_per_run": 12,
+    "input_characters_per_run": 384000,
+    "max_boundaries": 3,
+    "rolling_window_seconds": 86400,
+    "rolling_physical_requests": 1500,
+    "planner_daily": {
+      "calls": 240,
+      "input_characters": 8000000,
+      "output_tokens": 1500000,
+      "max_inflight": 1,
+      "no_progress_limit": 3
+    },
+    "round": {
+      "id": "ROUND_FIVE",
+      "starts_at_epoch": 1791144900,
+      "physical_requests": 400,
+      "restoration_reserved": 50
+    }
+  },
+  "accepted_limits": [
+    {
+      "code": "SNAPSHOT_UNVERIFIED",
+      "resource": "model",
+      "statement": "these checks cannot establish which data versions they read."
+    },
+    {
+      "code": "CONNECTION_UNATTESTED",
+      "resource": "model",
+      "statement": "the calculation account cannot report its connection."
+    }
+  ]
+}
