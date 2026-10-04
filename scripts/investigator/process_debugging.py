@@ -295,7 +295,51 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     measure_baseline=None
     snapshot_probes={}
     reproduction_started=False
+    resolved_layers=[]
+    job_results={};delivery_results={}
+    def boundary_key(boundary):return (boundary['upper']['id'],boundary['lower']['id'])
+    def job_for(boundary):
+        key=boundary_key(boundary)
+        if key not in job_results:job_results[key]=adapter.job_history(boundary)
+        return job_results[key]
+    def delivery_for(boundary):
+        key=boundary_key(boundary)
+        if key not in delivery_results:delivery_results[key]=adapter.source_delivery(boundary,scope)
+        return delivery_results[key]
+    freshness_collected=False
+    def collect_freshness(observed):
+        nonlocal freshness_collected
+        if freshness_collected or (scope.get('question_kind') or {}).get('kind')!='FRESHNESS':return
+        freshness_collected=True
+        boundaries=getattr(adapter,'freshness_boundaries',lambda p:[
+            {'upper':a,'lower':b,'index':i} for i,(a,b) in enumerate(zip(p.get('layers',[]),p.get('layers',[])[1:]),1)
+            if b.get('transformation_asset_id')])(dict(path,layers=resolved_layers))
+        for boundary in boundaries:
+            checks={};refs=[]
+            job=job_for(boundary) if 'job_history' in available else {'status':'UNAVAILABLE','reason':'Job history capability is undeclared.'}
+            checks['job_history']={k:job[k] for k in ('status','reason') if k in job}
+            if job.get('evidence'):
+                receipt=_observation(job['evidence'],'job_history','prior_state')
+                refs.append(receipt['id'])
+                if receipt['id'] not in {o['id'] for o in observed}:observed.append(receipt)
+            unreachable=(path.get('system_of_record',{}).get('reachable') is False
+                         and boundary['lower']['id']==path['system_of_record']['asset_id'])
+            if 'source_delivery' in available and not unreachable:
+                delivery=delivery_for(boundary)
+                checks['source_delivery']={k:delivery[k] for k in ('status','reason') if k in delivery}
+                for evidence in delivery.get('observations',[]):
+                    receipt=_observation(evidence,'established');refs.append(receipt['id'])
+                    if receipt['id'] not in {o['id'] for o in observed}:observed.append(receipt)
+            else:
+                checks['source_delivery']={'status':'UNAVAILABLE','reason':
+                    'The system of record is configured unreachable; no source read was attempted.' if unreachable
+                    else 'Source delivery capability is undeclared.'}
+            observed.append(_observation({'id':'freshness-attempt-'+str(boundary['index']),'tool':'process',
+                'check_kind':'FRESHNESS_ATTEMPT',
+                'freshness_attempt':{'upper_layer':boundary['upper']['id'],'lower_layer':boundary['lower']['id'],
+                                     'checks':checks,'evidence_ids':sorted(set(refs))}},'established'))
     def answer(*args,**kwargs):
+        collect_freshness(args[2])
         result=_answer(*args,capabilities=available,failures=failures,**kwargs)
         from .question_kind import reproduction as eligibility
         if (not reproduction_started and path.get('layers') and
@@ -381,6 +425,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         return answer('NO_KNOWN_PATTERN',0,[evidence],'unresolved path','CAPABILITY_UNAVAILABLE',
             roles=('established',),missing_capability='Missing adapter capabilities: '+', '.join(eligible['missing']))
     path=adapter.resolve_path(measure_id)
+    resolved_layers=list(path.get('layers',[]))
     skipped=[];gap_reasons=getattr(adapter,'capability_gaps',lambda:{})()
     def skip(step,capability):
         if not any(x['step']==step and x['capability']==capability for x in skipped):
@@ -581,7 +626,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             # judgment nor a generic defect can substitute for ingestion proof.
             delivery=None
             if 'source_delivery' in available:
-                delivery=adapter.source_delivery(boundary,scope)
+                delivery=delivery_for(boundary)
                 for evidence in delivery.get('observations',[]):
                     o=_observation(evidence,'established')
                     if o['id'] not in {r['id'] for r in observations}:observations.append(o)
@@ -641,7 +686,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                 skipped_steps=skipped)
         if not definition or not definition_obs or definition.get('status')!='COMPLETED' or type(definition.get('explains')) is not bool:
             unavailable(5,'transformation_definition',(definition or {}).get('reason') or 'Transformation-definition check did not establish a completed judgment.')
-        if 'job_history' in available:job=adapter.job_history(boundary)
+        if 'job_history' in available:job=job_for(boundary)
         else:job=None;skip(5,'job_history')
         job_obs=_observation(job.get('evidence'),'job_history','prior_state') if job else None
         if job_obs:observations.append(job_obs)
@@ -694,7 +739,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         all_context=adapter.resolve_path(measure_id)
         source_layer=next((l for l in all_context.get('layers',[]) if l['id']==terminal),None)
         if source_layer and 'job_history' in available:
-            job=adapter.job_history({'lower':source_layer,'upper':layers[-1]})
+            job=job_for({'lower':source_layer,'upper':layers[-1]})
             if job.get('evidence'):observations.append(_observation(job['evidence'],'job_history','prior_state'))
     stopped='NOT_COMPARABLE' if gaps else path.get('stopped_by','REACHED')
     if scope.get('ticket_shape')=='BUSINESS_QUESTION':

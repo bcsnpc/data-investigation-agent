@@ -1,5 +1,9 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Three A4 is regression-tested: freshness evidence collection covers
+declared job boundaries despite an earlier transformation finding. No new live
+freshness outcome claimed. See [routing evidence](docs/freshness-all-boundaries.md).
+
 Round Three A3: the configured Warehouse audit producer executed through a
 new approved context and returned its own completed-load accounting. One
 fixture verification, not general source-outcome acceptance. A4-A6 remain

@@ -1,5 +1,10 @@
 # Current delivery status
 
+Round Three A4: freshness completion collects declared job-boundary evidence
+after an earlier transformation stop, with within-run accounting receipt reuse
+and no unreachable application read. Offline regressions only; A5/A6 and the
+four scenarios remain. Prior freezes invalid. [Details](freshness-all-boundaries.md).
+
 Round Three A3 integration complete: configured Warehouse producer returned
 CURRENT through newly approved context bf45ac5b (full config 738f75c8), matching
 own activity 360/360 counters; partial surface coverage remains explicit.
