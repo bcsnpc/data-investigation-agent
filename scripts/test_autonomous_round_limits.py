@@ -12,7 +12,7 @@ class AutonomousRoundLimitsTests(unittest.TestCase):
     def test_approved_profile_keeps_history_and_stops_at_new_boundary(self):
         limits = json.loads((Path(__file__).resolve().parents[1] /
                              'infra/runtime/autonomous-round-limits.json').read_text())
-        self.assertEqual(limits['rolling_physical_allowance'], 600)
+        self.assertEqual(limits['rolling_physical_allowance'], 1000)
         self.assertEqual(limits['diagnostic_read_cap'], 12)
         with tempfile.TemporaryDirectory() as folder:
             runtime = Catalog(Path(folder) / 'catalog.sqlite', 'estate')
