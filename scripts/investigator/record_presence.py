@@ -65,6 +65,13 @@ def proof(requested,layers,observations):
 def render(observations,labels,business=False,layers=()):
     facts=[validate(o) for o in observations if o.get('record_presence')]
     if not facts:return None
+    if business:
+        states=[list(f['presence'].values()) for f in facts]
+        if all(len(s)==1 for s in states) and all(s==states[0] for s in states):
+            status='present' if states[0][0] else 'absent'
+            names=[labels.get(f['layer'],{}).get('business_name','declared layer') for f in facts]
+            joined=', '.join(names[:-1])+' and '+names[-1] if len(names)>1 else names[0]
+            return 'The record you named was '+status+' at every checked layer: '+joined+'.'
     lines=[]
     for fact in facts:
         role=labels.get(fact['layer'],{})

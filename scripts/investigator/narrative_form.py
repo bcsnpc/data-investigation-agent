@@ -105,7 +105,7 @@ def business(text,payload):
         text=text.replace('Recommended action:',' '.join(statements)+' Recommended action:') if 'Recommended action:' in text else text+' '+' '.join(statements)
     rows=[r for r in payload_comparisons(payload) if r.get('snapshot_attestation',{}).get('status')!=VERIFIED]
     # The deterministic body already qualifies timing in its own register.
-    covered=any(phrase in text for phrase in ('whether the checks describe the same moment','update timing','which state is newer'))
+    covered=any(phrase in text for phrase in ('same moment','update timing','which state is newer'))
     if rows and not covered:
         sentence='The checks may reflect different update times, so matching totals do not prove they are current and timing may explain a difference.'
         text=text.replace('Recommended action:',sentence+' Recommended action:') if 'Recommended action:' in text else text+' '+sentence

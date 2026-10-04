@@ -922,3 +922,11 @@ Directory coverage is 2 entries / 1 SQL object / 7,540 characters before and aft
 The code-inference location list is a permission hook, not an implemented new
 transformation reader. Engine bytes changed; all prior freezes remain invalid.
 See [installation fields and limits](docs/estate-installation-manifest.md).
+
+
+Dated output cleanup, 2026-10-04: source-consistency timing caveat appears once;
+a single record absent/present across layers uses one sentence with declared role
+names. Three stale baseline fixtures corrected without weakening validation.
+46 focused tests pass; the earlier broad run remains preserved. No live rerun.
+See [cleanup and test findings](docs/round-five-output-cleanup.md). Changed engine
+invalidates prior freezes.

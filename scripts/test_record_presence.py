@@ -40,6 +40,18 @@ class PresenceTests(unittest.TestCase):
             self.assertEqual(result['classification'],'CONSISTENT_TO_SOURCE')
             process_outcomes.validate(result,{o['id']:o for o in result['_observations']})
             self.assertIn('absent' if count==0 else 'present',result['business_output']['delivery_accounts'][-1])
+    def test_business_membership_lists_declared_roles_once_without_hiding_disagreement(self):
+        labels={k:{'business_name':n,'role':r} for k,n,r in
+                [('report','report','SEMANTIC'),('delivery','landing table','LANDING'),('application','application','APPLICATION')]}
+        rows=[observation(k) for k in labels]
+        self.assertEqual(presence.render(rows,labels,True),
+            'The record you named was absent at every checked layer: report, landing table and application.')
+        rows[-1]=observation('application',1)
+        text=presence.render(rows,labels,True)
+        self.assertNotIn('at every checked layer',text)
+        self.assertIn('present in application',text)
+        self.assertIn('absent in report',text)
+
     def test_missing_or_disagreeing_presence_never_becomes_source_consistency(self):
         for value in (None,1):
             result=vertical(PresenceAdapter(dict(report=0,delivery=0,application=value)),'m',{'expected_records':REQUEST})

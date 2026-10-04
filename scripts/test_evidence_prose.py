@@ -45,7 +45,7 @@ class EvidenceProseTests(unittest.TestCase):
         p['evidence'][3]['result']['values_equal']=False
         value=business_text('NO_KNOWN_PATTERN',p)
         self.assertIn('8,765',value);self.assertIn('8,200',value)
-        self.assertIn('between that total and the displayed number',value)
+        self.assertIn('the difference appears between the declared layer and the declared layer',value)
         self.assertNotIn('7,661',value)
 
     def test_all_former_prose_cutters_preserve_and_reject(self):
