@@ -1,5 +1,7 @@
 # Self-Discovering Enterprise Data Investigator
 
+2026-10-04: [Part B source scenarios](docs/round-two-source-scenarios.md) reached the application in two qualified cross-surface runs, both NO_KNOWN_PATTERN on unavailable audit history. Source consistency and configured-unreachable tickets held at intake. All outputs/failures retained; none of the four intended source outcomes earned. Reader restoration: isolated 7,661 across application/Bronze/model, original model 8,765. Part B 348/500; rolling observed 488/600; diagnostic cap 12 unchanged. Part C is design-only; prior freezes invalidated.
+
 2026-10-04: [Declared source delivery](docs/declared-source-delivery.md) implements audit-first bounded membership/version evidence, original-receipt validation and configured-unreachable source depth. Load latency and ingestion gap require explicit source semantics and actual attested source reads; timing remains unexcluded. Offline validation only; live source scenarios remain pending. Existing planner directory coverage and budgets unchanged; prior freezes invalidated.
 
 Dated implementation, 2026-10-04: [Reportless model intake](docs/reportless-model-intake.md) admits model-anchored questions without inventing a report binding; visual/report ambiguity refusals remain. Reproduction stays undeclared by kind. 82 focused tests passed; no live source-completion claim; prior freezes invalid.
