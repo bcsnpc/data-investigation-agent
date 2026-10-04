@@ -1,5 +1,7 @@
 # Self-Discovering Enterprise Data Investigator
 
+2026-10-03: [Exact declared application quantity hop](docs/declared-application-quantity.md) implemented under governed SQL and existing read-only guards. Full-table Copy Job equivalence is explicit and fail-closed; filtered lower scope remains refused. Seven new tests plus existing depth/lower tests passed 36, flexible investigation 39 and fingerprint four. No live application-boundary run, fixture or permission change. Audit-source runtime integration, isolated downstream wiring/current approval and four scenarios plus E remain pending. Prior freezes invalidated.
+
 2026-10-03: [Audit source verified and monitoring provenance corrected](docs/round-two-audit-verification.md). The earlier KQL probes targeted the native monitoring database; the human confirms Monitoring ON, independently reading the toggle remains unavailable. One corrected pipeline run completed, and investigator-reader read exactly one same-run audit row with own copy counters 360/360 and matching start/end. Watermark remains unavailable. Discovery now follows exact approved Copy Job connection declarations; executable application/audit integration, current context and four scenarios plus E remain pending. Part B 140/300; rolling observed 295/600; diagnostic cap 12 unchanged. No identity or grant change; prior freezes invalidated.
 
 2026-10-03: [Pipeline audit checkpoint](docs/round-two-pipeline-audit.md).

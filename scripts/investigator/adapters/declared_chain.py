@@ -25,9 +25,31 @@ def extend(context, layers):
     for _ in range(32):
         upper=planned[-1];asset=by_id.get(upper['id']);path=(asset or {}).get('metadata',{}).get('location')
         matches=writers.get(path,[])
+        from .copy_quantity import resolve as copy_mapping
+        copy_proof,copy_reason=copy_mapping(context,upper['id'],column)
+        if matches and copy_proof:
+            gap={'upper_layer':upper['id'],'lower_layer':'unresolved upstream','reason':'Ambiguous declared notebook and Copy Job producers'};break
+        if not matches and copy_proof:
+            source=copy_proof['source'];meta=source['metadata']
+            contract={'kind':'UNCHANGED_ADDITIVE_COLUMN','column':copy_proof['source_column'],
+                'definition_asset_id':copy_proof['definition_asset_id'],'definition_hash':copy_proof['definition_hash'],
+                'operations':[{'operation':'COPY','grain':'Full-table overwrite with explicit one-to-one column mappings; no declared source predicate.'}],
+                'scope':'whole entity, no filters or grouping',
+                'limitation':'The declared copy mapping is not a source capture cut or proof of synchronized snapshots.'}
+            planned.append({'id':source['id'],'kind':'application_quantity','measure':upper['measure'],
+                'semantic_column':copy_proof['source_column'],'source_column':copy_proof['source_column'],
+                'definition_asset_id':copy_proof['definition_asset_id'],'transformation_asset_id':copy_proof['producer_id'],
+                'binding':{'status':'RESOLVED','provenance':'DECLARED_BY_DEFINITION',
+                    'asset':{k:source[k] for k in ('id','name','parent_id','kind')},
+                    'declared_connection_asset_id':copy_proof['connection_asset_id']},
+                'compiled':{'server':copy_proof['server'],'database':copy_proof['database'],
+                    'source_column':copy_proof['source_column'],'schema':meta['schema_name'],'table':meta['name']},
+                'quantity_contract':contract,'copy_mapping_proof':copy_proof})
+            notes.append({'upper_layer':upper['id'],'lower_layer':source['id'],**contract})
+            gap=None;break
         if len(matches)!=1:
             gap={'upper_layer':upper['id'],'lower_layer':'unresolved upstream','reason':
-                 'Ambiguous declared writers' if matches else 'No supported declared producer; unsupported definitions: '+str(len(errors))};break
+                 'Ambiguous declared writers' if matches else 'No supported declared producer; '+copy_reason+'; unsupported definitions: '+str(len(errors))};break
         part,frame,definition_hash=matches[0]
         if column not in frame.origins:
             gap={'upper_layer':upper['id'],'lower_layer':'unresolved upstream','reason':
@@ -40,10 +62,14 @@ def extend(context, layers):
         if target['id'] in seen:
             gap={'upper_layer':upper['id'],'lower_layer':target['id'],'reason':'Declared dependency cycle'};break
         source_matches=writers.get(source_path,[])
-        if len(source_matches)!=1:
+        source_copy,_=copy_mapping(context,target['id'],source_column)
+        if len(source_matches)>1 or (source_matches and source_copy):
+            gap={'upper_layer':upper['id'],'lower_layer':target['id'],'reason':'Ambiguous physical schema declarations for input'};break
+        if not source_matches and not source_copy:
             gap={'upper_layer':upper['id'],'lower_layer':target['id'],'reason':'No unique physical schema declaration for input'};break
-        source_frame=source_matches[0][1]
-        if source_frame.columns.get(source_column) not in ('long','bigint','int'):
+        source_columns=(source_matches[0][1].columns if source_matches else
+            {k:v['data_type'] for k,v in source_copy['destination_columns'].items()})
+        if source_columns.get(source_column) not in ('long','bigint','int','smallint','tinyint'):
             gap={'upper_layer':upper['id'],'lower_layer':target['id'],'reason':'Only unchanged integral additive quantities are supported'};break
         name=target['name'];schema,table=name.split('.',1) if '.' in name else ('dbo',name)
         contract={'kind':'UNCHANGED_ADDITIVE_COLUMN','column':source_column,
@@ -65,7 +91,7 @@ def extend(context, layers):
             'compiled':{'source_column':source_column,
                 'schema':schema,'table':table,'catalog':[{'id':target['id'],'provenance':'DECLARED_BY_DEFINITION',
                     'metadata':{'schema_name':schema,'name':table,'type_desc':'USER_TABLE','columns':[
-                        {'name':c,'data_type':TYPES.get(t,'sql_variant')} for c,t in source_frame.columns.items()]}}]},
+                        {'name':c,'data_type':TYPES.get(t,t if t in ('smallint','tinyint') else 'sql_variant')} for c,t in source_columns.items()]}}]},
             'quantity_contract':contract,'business_vocabulary':vocabulary})
         notes.append({'upper_layer':upper['id'],'lower_layer':target['id'],**contract})
         seen.add(target['id']);column=source_column

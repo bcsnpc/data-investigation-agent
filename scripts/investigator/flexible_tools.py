@@ -168,7 +168,7 @@ def extract(response,request):
             **({'raw_surface_report':raw_report} if raw_report is not None else {}),
             **({'surface_report':_transport_report(response.get('surface_report')),
                 'surface_report_binding':response.get('surface_report_binding')}
-               if request['tool']=='bounded_fabric_sql' else {})}
+               if request['tool'] in SQL_TOOLS and response.get('surface_report') is not None else {})}
 
 
 def _transport_report(report):
