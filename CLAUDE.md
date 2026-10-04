@@ -380,3 +380,5 @@ remain next; draft #297 remains open.
 ## Dated semantic surface ceiling (2026-10-03, America/Chicago)
 
 Current quantity-bound semantic reads report engine, identity and model object. Connection is not self-reportable for this reader through the tested session route (DISCOVER_SESSIONS refused in #300). PARTIAL with those three matching fields is the tested ceiling, sufficient for qualified within-layer reproduction; it is not a gap to pursue with elevation. #302 engine-difference independence grading is unchanged. Connection omission and SNAPSHOT_UNVERIFIED remain explicit. See docs/synthesis-rendered-spine.md. Earlier narrower self-report statements above are historical.
+
+Dated explicit administrator-profile attempt, 2026-10-03: the approved unchanged viewer grant was sent using `.local/azure-fabric-sql`, authenticated as admin@skynwhy.com. Before listing HTTP200, no dia-reader entries; grant HTTP403. Stopped immediately as directed, with no after listing, reader probes or B1 runs. No permissions changed. Part B 64/120; rolling observed 219/300. See [isolated-profile receipt](docs/round-two-admin-profile-grant.md). No engine/config change.
