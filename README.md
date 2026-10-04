@@ -1,5 +1,7 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Three A2 gives extracted numerals closed roles and resolves names by catalog kind. Two unchanged tickets passed intake only; one incorrectly treated a model-name suffix as an expected record, now guarded offline. Zero estate reads; source outcomes remain unearned. See [intake evidence](docs/intake-numeral-roles.md).
+
 Round Three A1 adds estate-declared layer roles to both renderers; application boundaries are no longer named by position. Offline-tested only; source outcome re-runs remain pending. See [role contract](docs/declared-layer-roles.md).
 
 Round Three started with a human-approved rolling physical allowance of 1,000; Part B remains 500 and diagnostic cap 12. Defects and source scenarios are pending; no new outcome claimed. See [budget record](docs/round-three-budget.md).

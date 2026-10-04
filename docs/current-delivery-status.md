@@ -1,5 +1,7 @@
 # Current delivery status
 
+Round Three A2: quoted numeral-role inventory and expected-record/name-kind evidence carried through the existing contract. Two live intake-only calls used zero estate reads; the numeric model-suffix defect was preserved and a subsequent exact-span refusal tested offline. Final source scenarios pending; freezes invalid. See [intake evidence](intake-numeral-roles.md).
+
 Round Three A1: closed configured layer roles retained through local synthesis; no positional role inference. Both original and application fixture renderers are covered by regressions. No live role-configured run yet; freezes invalidated. See [role contract](declared-layer-roles.md).
 
 Round Three budget applied: rolling 600 ? 1,000, Part B 500 and diagnostic cap 12 unchanged. Starting usage 348 Part B / 488 rolling. A1?A6 and the four re-runs remain pending; Round Two failures are preserved. See [budget record](round-three-budget.md).

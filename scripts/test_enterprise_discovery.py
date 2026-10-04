@@ -78,7 +78,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(profile['tables'][0]['data_profile'],'NOT_MEASURED')
         self.assertEqual(len(profile['tables'][0]['measure_ids']),2)
         self.assertTrue(assets(model['context']))
-        workspace=Workspace(SimpleNamespace(store=self.store))
+        workspace=Workspace(SimpleNamespace(store=self.store,config=self.config))
         resolved=snapshot(workspace)
         self.assertEqual(resolved['models'][0]['reports'][0]['name'],'Unfamiliar report')
         self.assertTrue(any(e['relation']=='DEPENDS_ON' for e in result['body']['graph']['edges']))
@@ -94,7 +94,7 @@ class DiscoveryTests(unittest.TestCase):
         self.items=self.items[:1];self.bindings=[]
         self.scan();model=self.store.list(True)[0]
         self.assertEqual(model['reports'],[]);self.assertEqual(model['context']['reports'],[])
-        self.assertEqual(len(Workspace(SimpleNamespace(store=self.store)).model(model['id'])['measures']),2)
+        self.assertEqual(len(Workspace(SimpleNamespace(store=self.store,config=self.config)).model(model['id'])['measures']),2)
 
     def test_repeat_detects_new_tables_and_definition_changes(self):
         self.scan();before=self.store.list(True)[0]['context_id']
@@ -133,7 +133,7 @@ class DiscoveryTests(unittest.TestCase):
     def test_duplicate_names_remain_distinct(self):
         another=str(uuid4());self.items.append({'id':another,'type':'SemanticModel','displayName':'Unfamiliar operations'})
         self.parts[another]=copy.deepcopy(self.parts[self.mid]);self.scan()
-        models=snapshot(Workspace(SimpleNamespace(store=self.store)))['models']
+        models=snapshot(Workspace(SimpleNamespace(store=self.store,config=self.config)))['models']
         self.assertEqual(len(models),2);self.assertNotEqual(models[0]['id'],models[1]['id'])
 
     def test_explicit_deny_survives_rescan(self):

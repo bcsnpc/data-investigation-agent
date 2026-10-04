@@ -24,7 +24,7 @@ class QuoteProvenanceTests(unittest.TestCase):
         return {'text':'Revenue shows 9 for North.','models':[{'id':'model','measures':[{'id':'measure','name':'Revenue'}],'columns':[{'column_id':'column','name':'Region'}]}]}
     def response(self):
         return {'question_kind':{'kind':'VISUAL_CONTENT','source':{'quote':'Revenue'}},'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'Revenue','question':None,'filters':[],'dimension_ids':[],
-            'report_quote':None,'target_request':{'value_source':{'quote':'North'},'column_source':None,'descriptor':{'state':'VALUE_ONLY','source':None}},'reported_candidates':[{'quote':'9'}],'triage':'MISMATCH_COMPLAINT:VERTICAL'}
+            'report_quote':None,'target_request':{'value_source':{'quote':'North'},'column_source':None,'descriptor':{'state':'VALUE_ONLY','source':None}},'reported_candidates':[{'role':'FIGURE','quote':'9'}],'triage':'MISMATCH_COMPLAINT:VERTICAL'}
     def test_quote_wire_computes_original_downstream_shape(self):
         with patch('ticket_planner.azure_generate',return_value=(self.response(),{})):
             value,_=azure_resolve(self.payload())
@@ -63,7 +63,7 @@ class QuoteProvenanceTests(unittest.TestCase):
             with self.assertRaises(FigureQuoteAmbiguous) as caught:azure_resolve(payload)
         repaired={**payload,'_figure_quote_repair':caught.exception.repair}
         for quote,error in [('shows 9',None),('Earlier 10',QuoteRefused),('fake shows 9',QuoteRefused),('9',QuoteRefused)]:
-            with patch('ticket_planner.azure_generate',return_value=({'reported_candidates':[{'quote':quote}]},{})) as generate:
+            with patch('ticket_planner.azure_generate',return_value=({'reported_candidates':[{'role':'FIGURE','quote':quote}]},{})) as generate:
                 if error:
                     with self.assertRaises(error):azure_resolve(repaired)
                 else:
@@ -77,7 +77,7 @@ class QuoteProvenanceTests(unittest.TestCase):
         payload=self.payload();payload['text']+=' It shows 9 again.'
         with patch('ticket_planner.azure_generate',return_value=(self.response(),{})):
             with self.assertRaises(FigureQuoteAmbiguous) as caught:azure_resolve(payload)
-        with patch('ticket_planner.azure_generate',return_value=({'reported_candidates':[{'quote':'shows 9'}]},{})):
+        with patch('ticket_planner.azure_generate',return_value=({'reported_candidates':[{'role':'FIGURE','quote':'shows 9'}]},{})):
             with self.assertRaisesRegex(FigureQuoteAmbiguous,'occurs 2 times at ticket spans'):
                 azure_resolve({**payload,'_figure_quote_repair':caught.exception.repair})
 

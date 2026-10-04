@@ -6,9 +6,22 @@ CONTEXT_CHANGERS={'FILTERED_MEASURE','TIME_SHIFT','RELATIONSHIP_SWITCH','CONDITI
 
 
 def catalog(store,config,envelope):
+    from .definition_target import PROCEDURE_EVIDENCE_FIELDS
     fields(envelope,['model_id','revision','context_id','measure_id','filters','dimension_ids','source_tests','symptom','limits']+
            [k for k in ('source_selection','record_tests','record_pairs','record_selection','joint_native_records','strategy',
-                        'ticket_shape','comparison_mode','reported_figure','definition_target','report_binding','selection_request','question_kind') if k in envelope])
+                        'ticket_shape','comparison_mode')+PROCEDURE_EVIDENCE_FIELDS if k in envelope])
+    from .numeral_roles import evidence
+    evidence(envelope,envelope['symptom'])
+    if 'name_binding' in envelope:
+        from .name_kind import validate as validate_name
+        from .context_search import latest
+        model=store.get(envelope['model_id'])
+        declared={r['asset_id'] for r in config.get('layer_roles',[])}
+        assets=(latest(store) or {}).get('assets',[])
+        named={'id':model['id'],'name':model.get('name',model['id']),
+            'reports':[{'id':r['report']['id'],'name':r['report']['name']} for r in model['context'].get('reports',[])],
+            'declared_layers':[{'id':a['id'],'name':a['name']} for a in assets if a['id'] in declared]}
+        validate_name(envelope['name_binding'],named,envelope['symptom'])
     if 'question_kind' in envelope:
         from .question_kind import validate
         validate(envelope['question_kind'],envelope['symptom'])
