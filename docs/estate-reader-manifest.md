@@ -17,3 +17,5 @@ and this database Viewer / Monitor, not database Admin. These are observed
 pre-existing roles, not roles granted in this work. Publisher observations may
 not replace a reader's data/attestation evidence. Database viewer is the only
 approved dia-reader data-plane role; no cluster or workspace role is authorized.
+
+Dated positive route finding, 2026-10-03: investigator-reader at the unchanged recorded scope also reaches monitoring ItemJobEventLogs (including its schema) and SemanticModelLogs, HTTP200 with empty requested histories. No new permissions. dia-reader remains present without a successful monitoring role. See [reader probes](round-two-investigator-reader-probes.md).
