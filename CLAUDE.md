@@ -79,6 +79,7 @@ tested routes.
 | DAX `TABLETRAITS()` | Refused | Requires administrator; no fallback-mode indicator returned. |
 | Fabric SQL `sys.dm_db_external_tables_log_status` filtered to the source table | Accepted, zero rows | No Delta version returned. Empty results do not establish a permission denial or identify why the row was absent. |
 | Fabric Copy Job run history and completed-instance detail (2026-10-03) | HTTP 200 for the least-privilege reader: generic and Copy Job-specific detail returned Completed with start/end times; history listed that instance | Positive capability without elevation, unlike dataset refresh history. These responses contain no capture cuts or rows-read/written; do not substitute quantity counts for load accounting. The earlier empty-history probe is preserved. See docs/round-two-ingestion-estate.md. |
+| Fabric Copy Job monitoring KQL accounting attempt (2026-10-03) | accounting unavailable from this surface; no KQL query occurred | Authorized enablement was blocked by unavailable browser UI; before/after listings expose no monitoring database. SQL served orderops_investigator as contained SQL_USER / DATABASE; KQL needs an Entra principal. Documented RowsRead/RowsWritten are not observed counts. No reader substitution, elevation or grant. See docs/round-two-workspace-monitoring.md. |
 
 Evidence: [refresh-history/partition probes](docs/job-history-path-and-refresh-probes.md)
 and [snapshot-version/fallback probes](docs/snapshot-alignment-audit.md), including
