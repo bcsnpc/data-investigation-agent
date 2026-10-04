@@ -36,6 +36,9 @@ def reproduction(scope, walk_blocked=False):
     selection = scope.get('selection_request') or scope.get('definition_target')
     applicable = kind == 'VISUAL_CONTENT' or (
         walk_blocked and selection and scope.get('report_binding'))
+    if scope.get('name_binding',{}).get('kind') in ('MODEL','LAYER'):
+        return {'applicable':False,'kind':kind,
+            'reason':'Declared-context reproduction is undeclared for model-only or layer-only named context.'}
     return {'applicable': bool(applicable), 'kind': kind,
             'reason': 'Declared-context reproduction is undeclared for question kind ' + kind +
                       (' before a blocked walk.' if selection else '.')}

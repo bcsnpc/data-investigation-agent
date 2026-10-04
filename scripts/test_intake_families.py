@@ -76,7 +76,8 @@ class IntakeFamilyTests(unittest.TestCase):
                 schema['required'].append('triage')
                 from investigator.question_intake import QUOTE_SCHEMA
                 from investigator.selection_descriptor import schema as descriptor_schema
-                schema['properties']['reported_candidates']={'type':'array','maxItems':8,'items':QUOTE_SCHEMA}
+                from investigator.numeral_roles import wire_schema
+                schema['properties']['reported_candidates']=wire_schema(QUOTE_SCHEMA)
                 schema['required'].insert(schema['required'].index('triage'),'reported_candidates')
                 schema['properties']['target_request']={'anyOf':[{'type':'null'},
                     {'type':'object','additionalProperties':False,'properties':{'value_source':QUOTE_SCHEMA,

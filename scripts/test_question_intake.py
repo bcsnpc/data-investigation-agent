@@ -30,7 +30,7 @@ class WireContractTests(unittest.TestCase):
         payload['models'][0]['dynamic_investigation']=True
         payload['text']+=' It shows 9 units.'
         proposed={'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':'Compare an unfamiliar value for North.'}},
-            'report_quote':None,'target_request':None,'reported_candidates':[{'quote':'It shows 9 units.'}],
+            'report_quote':None,'target_request':None,'reported_candidates':[{'role':'FIGURE','quote':'It shows 9 units.'}],
             'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
             'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[], 'dimension_ids':[]}
         with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
