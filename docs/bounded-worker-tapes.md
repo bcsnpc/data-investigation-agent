@@ -67,3 +67,12 @@ The test asserts the entire payload is identical, so no directory coverage is lo
 This is synthetic verification, not evidence that the fifteen estate tapes pass.
 Part B must re-record and replay those attempts before the acceptance gate can merge.
 The three already documented baseline test defects remain assigned to Part D.
+
+Local broad check: 1,789 tests ran. The three baseline defects reproduced
+(stale evidence-prose assertion, missing synthetic judge boundary field, and a
+job-history fixture bypassing cache initialization). It also exposed the platform
+literal ratchet before the final neutral recorder condition was corrected; that
+focused check now passes. A distinct-read matrix subcase returned one read rather
+than two in the broad batch; all ten redundancy tests passed standalone afterward.
+The broad attempt is retained unchanged. Its intermittent admission/deadline finding
+is open for Part D; it is not reported as a clean broad-suite pass.
