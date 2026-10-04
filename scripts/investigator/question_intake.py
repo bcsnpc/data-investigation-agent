@@ -77,7 +77,10 @@ SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
                 'comparison_mode', 'filters', 'dimension_ids', 'scope_quotes']}
 from . import numeral_roles, name_kind
 SCHEMA['properties'].update(numeral_mentions=numeral_roles.SCHEMA,expected_records=numeral_roles.EXPECTED_SCHEMA,
-                            name_binding=name_kind.SCHEMA)
+                            name_binding=name_kind.SCHEMA,
+                            dimension_quotes={'type':'array','items':{'type':'object','additionalProperties':False,
+                                'properties':{'column_id':{'type':'string'},'source':copy.deepcopy(figure.SPAN_SCHEMA)},
+                                'required':['column_id','source']}})
 
 
 QUOTE_SCHEMA={'type':'object','additionalProperties':False,'properties':{
@@ -97,7 +100,7 @@ class FigureQuoteAmbiguous(QuoteRefused):
 
 
 def locate(source,ticket,*,field='reported_figure',audit=None):
-    if field not in ('reported_figure','measure','column','selection','report','descriptor','question_kind','numeral'):
+    if field not in ('reported_figure','measure','column','selection','report','descriptor','question_kind','numeral','grouping'):
         raise ValueError('Unknown provenance field')
     fields(source,['quote'])
     text(source['quote'],limits.INTAKE_QUOTE)
@@ -122,6 +125,7 @@ def azure_resolve(payload):
         'both triage fields are required','triage is required')+'\nUse catalog handles verbatim. Put each filter quote inside that filter object. No separate quote list.'
     instructions+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS+DESCRIPTOR_INSTRUCTIONS
     instructions+=QUESTION_KIND_INSTRUCTIONS
+    instructions+=' Each dimension_ids entry requires column_id and a verbatim quote of an explicit grouping request (by, per, grouped, or breakdown). An expected-record IDENTIFIER supplies membership only, never a filter or grouping. Do not add a breakdown merely to inspect that record.'
     repair=payload.get('_figure_quote_repair')
     if repair is not None:
         wire.pop('_figure_quote_repair',None)
@@ -224,7 +228,13 @@ def azure_resolve(payload):
             try:evidence(value,payload['text'])
             except ValueError as exc:
                 refused=QuoteRefused(str(exc));refused.provider_metadata={**usage,'quote_provenance':quote_audit};raise refused from exc
-    value['dimension_ids']=[actual(c) for c in value['dimension_ids']]
+    dimensions=value['dimension_ids'];value['dimension_ids']=[];value['dimension_quotes']=[]
+    for c in dimensions:
+        fields(c,['column_id','quote'])
+        identity=actual(c['column_id'])
+        source=locate({'quote':c['quote']},payload['text'],field='grouping',audit=quote_audit)
+        value['dimension_ids'].append(identity)
+        value['dimension_quotes'].append({'column_id':identity,'source':source})
     value['scope_quotes']=[]
     for f in value['filters']:
         fields(f,['column_id','operator','values','quote'])
@@ -274,7 +284,10 @@ def wire_contract(payload):
     schema['required'].append('triage')
     schema['properties']['model_id']['enum']=models+[None]
     schema['properties']['measure_id']['enum']=measures+[None]
-    schema['properties']['dimension_ids']['items']['enum']=columns or ['NO_COLUMN']
+    schema['properties'].pop('dimension_quotes')
+    schema['properties']['dimension_ids']['items']={'type':'object','additionalProperties':False,
+        'properties':{'column_id':{'type':'string','enum':columns or ['NO_COLUMN']},
+                      'quote':copy.deepcopy(QUOTE_SCHEMA['properties']['quote'])},'required':['column_id','quote']}
     schema['properties']['dimension_ids']['maxItems']=limits.INTAKE_DIMENSIONS
     schema['properties']['filters']['maxItems']=limits.INTAKE_FILTERS
     item=schema['properties']['filters']['items']
@@ -314,7 +327,7 @@ def snapshot(workspace):
 
 
 def validate(value, payload):
-    fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding') if k in value])
+    fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes') if k in value])
     if 'numeral_mentions' in value or 'expected_records' in value:
         from .numeral_roles import evidence
         evidence(value,payload['text'])
@@ -370,6 +383,8 @@ def validate(value, payload):
         fields(q, ['column_id', 'quote']); quote(q['quote'])
         if q['column_id'] not in selected or q['column_id'] in quoted: raise ValueError('Invalid scope quote')
         quoted.add(q['column_id'])
+    from .numeral_roles import measure_scope
+    measure_scope(value,payload['text'])
     return value
 
 

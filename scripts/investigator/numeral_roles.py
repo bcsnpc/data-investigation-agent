@@ -59,3 +59,29 @@ def evidence(value,ticket):
     if value.get('expected_records')!=expected(mentions,ticket):raise ValueError('Expected records differ from IDENTIFIER mentions')
     candidates=[m['source'] for m in mentions if m['role']=='FIGURE']
     if value['reported_figure']!=reported_figure.from_candidates(candidates,ticket):raise ValueError('Reported figure differs from FIGURE mentions')
+
+
+def measure_scope(value,ticket):
+    """Scope requires its own declaration; record membership cannot supply it."""
+    import re
+    identifiers=[m['source'] for m in value.get('numeral_mentions',[]) if m['role']=='IDENTIFIER']
+    dimensions=value.get('dimension_ids',[]);quotes=value.get('dimension_quotes')
+    # Historical no-identifier proposals remain readable. New producer always
+    # supplies grouping provenance; an expected-record proposal cannot bypass it.
+    if dimensions and (identifiers or quotes is not None):
+        if not isinstance(quotes,list) or [q.get('column_id') for q in quotes]!=dimensions:
+            raise ValueError('Grouping requires independent quoted provenance; an identifier is membership only')
+        for q in quotes:
+            span(q['source'],ticket)
+            if not re.search(r'\b(?:by|per|grouped|breakdown|break down)\b',q['source']['quote'],re.I):
+                raise ValueError('Grouping quote does not declare a breakdown')
+            if any(q['source']['start']<i['end'] and i['start']<q['source']['end'] for i in identifiers):
+                raise ValueError('Identifier provenance cannot declare grouping')
+    elif quotes:
+        raise ValueError('Grouping provenance without grouping')
+    for q in value.get('scope_quotes',[]):
+        # Every occurrence is checked: a repeated quote cannot dodge the record's
+        # span by resolving to an earlier occurrence.
+        for match in re.finditer(re.escape(q['quote']),ticket):
+            if any(match.start()<i['end'] and i['start']<match.end() for i in identifiers):
+                raise ValueError('Identifier provenance cannot declare a measure restriction')

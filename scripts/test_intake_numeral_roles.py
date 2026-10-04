@@ -34,6 +34,8 @@ class NumeralKindTests(unittest.TestCase):
         self.assertEqual(r['reported_figure']['value'],'7661')
         self.assertEqual([v['value'] for v in r['expected_records']],['900099'])
         self.assertEqual(r['numeral_mentions'][1]['role'],'IDENTIFIER')
+        self.assertEqual(r['dimension_ids'],[])
+        self.assertEqual(r['filters'],[])
         self.assertEqual(p['text'][r['expected_records'][0]['source']['start']:r['expected_records'][0]['source']['end']], 'a movement numbered 900099')
         for path in (server_evidence(r),procedure_scope({**r,'filters':[],'dimension_ids':[]})):
             self.assertEqual(path['expected_records'],r['expected_records'])
@@ -84,3 +86,26 @@ class NumeralKindTests(unittest.TestCase):
         self.assertEqual(p,before)
         self.assertEqual(len(wire['models']),len(p['models']))
         self.assertEqual(len(wire['models'][0]['measures']),len(p['models'][0]['measures']))
+
+    def test_identifier_cannot_supply_grouping_or_restriction_provenance(self):
+        from investigator.numeral_roles import measure_scope
+        p=self.payload();r=self.translate(p);source=r['expected_records'][0]['source']
+        for quote in (source,{'start':source['start']+19,'end':source['end'],'quote':'900099'}):
+            bad=copy.deepcopy(r);bad['dimension_ids']=['key'];bad['dimension_quotes']=[{'column_id':'key','source':quote}]
+            with self.assertRaises(ValueError):measure_scope(bad,p['text'])
+        bad=copy.deepcopy(r);bad['dimension_ids']=['key'];bad.pop('dimension_quotes')
+        with self.assertRaisesRegex(ValueError,'membership only'):measure_scope(bad,p['text'])
+        bad=copy.deepcopy(r);bad['scope_quotes']=[{'column_id':'key','quote':'900099'}]
+        with self.assertRaisesRegex(ValueError,'restriction'):measure_scope(bad,p['text'])
+
+    def test_independent_explicit_breakdown_is_not_silently_removed(self):
+        from investigator.numeral_roles import measure_scope
+        p=self.payload();r=self.translate(p);p['text']+=' Group by region.'
+        a=p['text'].index('by region');r['dimension_ids']=['region'];r['dimension_quotes']=[{'column_id':'region',
+            'source':{'start':a,'end':a+len('by region'),'quote':'by region'}}]
+        measure_scope(r,p['text']);self.assertEqual(r['dimension_ids'],['region'])
+
+    def test_unproven_grouping_is_not_wire_representable(self):
+        p=self.payload();r=self.response(p);_,schema,_=wire_contract(p)
+        r['dimension_ids']=['m0c0']
+        self.assertFalse(Draft202012Validator(schema).is_valid(r))

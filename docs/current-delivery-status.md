@@ -1,5 +1,10 @@
 # Current delivery status
 
+Round Four A1: identifier scope leakage is refused; new grouping proposals require
+their own explicit quoted request. Ten numeral-role and 36 intake tests passed,
+catalog coverage unchanged. No investigation/cloud read; scenario reruns wait for
+A2–A4. Prior freezes invalid. [Details](intake-identifier-scope.md).
+
 2026-10-04 Round Four: Part B closed at 466/500. New separate pot 0/300 physical
 requests; rolling 1000 and diagnostic cap 12 unchanged, counters preserved.
 Identifier-scope, question-kind answer, mechanism-token and grammar fixes pending,

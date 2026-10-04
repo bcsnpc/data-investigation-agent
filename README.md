@@ -1,5 +1,9 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Four A1 requires independently quoted grouping; identifiers feed membership
+and cannot supply grouping/filter provenance. Offline tests passed; no scenario
+rerun yet. Prior freezes invalid. [Contract](docs/intake-identifier-scope.md).
+
 Round Four is authorised: Part B closed at 466/500; a separate 300-physical-request
 pot is recorded, rolling 1000 and diagnostic cap 12 unchanged. Four fixes and two
 consistency scenarios precede an offline acceptance roster (the requested families
