@@ -1,5 +1,10 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Four A2 derives answer coverage from the declared question kind and
+completed evidence. Qualified delivery findings answer delivery questions;
+currency and business meaning remain limited separately. Offline tests passed,
+no scenario rerun yet. [Rules](docs/question-kind-answer-account.md).
+
 Round Four A1 requires independently quoted grouping; identifiers feed membership
 and cannot supply grouping/filter provenance. Offline tests passed; no scenario
 rerun yet. Prior freezes invalid. [Contract](docs/intake-identifier-scope.md).

@@ -1,5 +1,10 @@
 # Current delivery status
 
+Round Four A2: all nine question kinds have explicit answer coverage rules.
+Completed delivery evidence answers delivery questions; unavailable observations
+cannot upgrade coverage. 24 focused tests passed. No live run; A3–A4 remain before
+consistency scenarios. Prior freezes invalid. [Details](question-kind-answer-account.md).
+
 Round Four A1: identifier scope leakage is refused; new grouping proposals require
 their own explicit quoted request. Ten numeral-role and 36 intake tests passed,
 catalog coverage unchanged. No investigation/cloud read; scenario reruns wait for
