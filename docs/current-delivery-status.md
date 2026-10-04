@@ -1,5 +1,11 @@
 # Current delivery status
 
+Dated recording-overhead repair, 2026-10-04: every event is persisted once;
+clock ticks no longer rewrite all earlier worker/budget bodies. 21 focused
+tests pass, including actual-engine output replay. EMPTY remains its single
+original live attempt; later attempts wait for this repair. No budget or
+context change. Previous freezes remain invalid.
+
 
 Round Five shared-budget correction (2026-10-04): G/H completed live but their
 replays missed concurrent operator usage. External budget inputs are now recorded;

@@ -82,3 +82,21 @@ and credit rows at each decision. Only these external inputs are restored in the
 offline replica; tape-owned reservations and decisions are recomputed and matched.
 Synthetic concurrency, hostile scope/row/schema and owned-row tamper tests cover
 the checkpoint decoder. This captures no raw cloud payload or new business data.
+
+## Dated recording-overhead repair (2026-10-04 UTC)
+
+The first post-#383 EMPTY attempt exposed local tape write amplification: the
+budget snapshot requests a clock for each retained usage row, and each event
+rewrote every earlier bounded worker/budget body. More than 2,300 clock events
+occurred before the first provider request. The attempt remains unchanged; no
+replacement, cap change or deadline extension. The batch is paused before 16.
+
+Recording now appends every admissible event once to a private event journal,
+including clocks. Non-clock events still materialize the existing envelope;
+FINAL seals every event. Replay requires the journal and envelope to agree when
+a journal exists. Interrupted attempts remain incomplete. This changes private
+recording I/O, not the replay boundary, decoder coverage, retention or engine
+investigation decisions. Synthetic tests exercise 2,000 clocks, interrupted and
+corrupt journals, and actual-engine replay of both outputs and failed composition.
+21 focused tests pass. Directory/SQL/payload coverage remains 2/1/7,540 before
+and after. Engine bytes changed; prior freezes remain invalid.

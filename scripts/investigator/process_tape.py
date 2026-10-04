@@ -48,6 +48,7 @@ def validate_event(event,ordinal):
 class Tape:
     def __init__(self,path,bootstrap=None):
         self.path=Path(path);self.events=[];self.index=0;self.replaying=bootstrap is None
+        self.journal_path=self.path.with_suffix('.events.jsonl')
         self.exclusions=[];self.finished=False
         if self.replaying:
             value=json.loads(self.path.read_bytes())
@@ -56,11 +57,14 @@ class Tape:
             if value['seal']!=sha(bytes_of({k:v for k,v in value.items() if k!='seal'})):
                 raise TapeError('TAPE_SEAL')
             self.events=value['events'];self.exclusions=value['exclusions']
+            if self.journal_path.exists():
+                recorded=[json.loads(line) for line in self.journal_path.read_bytes().splitlines()]
+                if recorded!=self.events:raise TapeError('TAPE_EVENT_JOURNAL_DIFFERS')
             self.validate()
             self.bootstrap=json.loads(self.take('BOOTSTRAP'))
         else:
             self.path.parent.mkdir(parents=True,exist_ok=True)
-            if self.path.exists():raise TapeError('TAPE_ALREADY_EXISTS')
+            if self.path.exists() or self.journal_path.exists():raise TapeError('TAPE_ALREADY_EXISTS')
             self.bootstrap=bootstrap
             self.event('BOOTSTRAP',bytes_of(bootstrap))
 
@@ -86,7 +90,14 @@ class Tape:
             return
         self.events.append({'ordinal':len(self.events)+1,'kind':kind,
                             'body':base64.b64encode(body).decode(),'sha256':sha(body),'at':time.time()})
-        self.flush()
+        # Persist every event once, including clocks. Rewriting all large worker
+        # and budget bodies for every clock tick amplified local I/O quadratically
+        # and consumed the live procedure's deadline before it dispatched work.
+        with self.journal_path.open('ab') as journal:journal.write(bytes_of(self.events[-1])+b'\n')
+        # Non-clock events materialize the existing sealed-envelope format. FINAL
+        # always includes every clock, and replay checks the journal if present.
+        # An interrupted attempt remains incomplete, never silently replayable.
+        if kind!='CLOCK':self.flush()
 
     def take(self,kind):
         if self.index>=len(self.events):raise TapeError('TAPE_EXHAUSTED')
