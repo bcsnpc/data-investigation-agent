@@ -25,6 +25,59 @@ def ask():
 
 
 class WireContractTests(unittest.TestCase):
+    def test_reportless_source_question_can_reach_validation_without_claiming_report_context(self):
+        payload=self.payload()
+        payload['models'][0]['dynamic_investigation']=True
+        payload['text']+=' It shows 9 units.'
+        proposed={'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':'Compare an unfamiliar value for North.'}},
+            'report_quote':None,'target_request':None,'reported_candidates':[{'quote':'It shows 9 units.'}],
+            'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
+            'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[], 'dimension_ids':[]}
+        with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
+            result,_=azure_resolve(payload)
+        self.assertNotIn('report_binding',result)
+        self.assertEqual(validate(result,payload)['action'],'PROPOSE')
+        self.assertEqual(result['reported_figure']['value'],'9')
+        from investigator.question_kind import reproduction
+        self.assertFalse(reproduction(result)['applicable'])
+
+    def test_visual_requests_still_require_a_report(self):
+        payload=self.payload()
+        proposed={'question_kind':{'kind':'VISUAL_CONTENT','source':{'quote':payload['text']}},
+            'report_quote':None,'target_request':None,'reported_candidates':[],
+            'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
+            'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[]}
+        with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
+            result,_=azure_resolve(payload)
+        self.assertEqual(result['report_binding']['resolution_kind'],'REFUSED')
+        self.assertEqual(result['report_binding']['reason'],'UNNAMED')
+        with self.assertRaises(ValueError):validate(result,payload)
+
+    def test_selection_on_source_question_still_requires_a_report(self):
+        payload=self.payload()
+        proposed={'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':payload['text']}},
+            'report_quote':None,'target_request':{'value_source':{'quote':'North'},'column_source':None,
+                'descriptor':{'state':'VALUE_ONLY','source':None}},'reported_candidates':[],
+            'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
+            'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[]}
+        with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
+            result,_=azure_resolve(payload)
+        self.assertEqual(result['report_binding']['reason'],'UNNAMED')
+        self.assertEqual(result['target_request']['value_source']['quote'],'North')
+
+    def test_explicit_ambiguous_report_on_source_question_is_not_ignored(self):
+        payload=self.payload();payload['text']='Compare an unfamiliar value for North. Use Shared.'
+        payload['models'][0]['reports']=[{'id':'r1','name':'Shared'},{'id':'r2','name':'Shared'}]
+        proposed={'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':'Compare an unfamiliar value for North.'}},
+            'report_quote':'Shared','target_request':None,'reported_candidates':[],
+            'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
+            'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[]}
+        with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
+            result,_=azure_resolve(payload)
+        self.assertEqual(result['report_binding']['reason'],'MULTIPLE_EXACT_MATCHES')
+        self.assertEqual(result['report_binding']['candidates'],['r1','r2'])
+        with self.assertRaises(ValueError):validate(result,payload)
+
     def payload(self):
         return {'text':'Compare an unfamiliar value for North.', 'models':[{
             'id':'model-id','measures':[{'id':'fabric://a/measure/Unfamiliar%20value','name':'Unfamiliar value'}],

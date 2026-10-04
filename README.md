@@ -1,5 +1,6 @@
 # Self-Discovering Enterprise Data Investigator
 
+Dated implementation, 2026-10-04: [Reportless model intake](docs/reportless-model-intake.md) admits model-anchored questions without inventing a report binding; visual/report ambiguity refusals remain. Reproduction stays undeclared by kind. 82 focused tests passed; no live source-completion claim; prior freezes invalid.
 Dated checkpoint, 2026-10-04: [Current binding/recollection and authorized budget](docs/round-two-binding-recollection.md) pins the new full configuration and resolves an isolated model-to-application path. [Family E](docs/round-two-source-boundary-runs.md) completed TRANSFORMATION_LOGIC with freshness unanswered; the source attempt refused at reportless intake. Part B increased 300 to 500 by human decision; rolling remains 600, diagnostics 12. Source scenarios remain pending; prior freezes invalid.
 
 

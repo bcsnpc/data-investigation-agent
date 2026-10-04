@@ -55,9 +55,8 @@ class IntakeFamilyTests(unittest.TestCase):
             with self.subTest(case=case['id']):
                 requests=[]
                 with self.provider(case,requests):decision,_=azure_resolve(copy.deepcopy(case['payload']))
-                if decision['action']=='ASK':validate(decision,case['payload'])
-                else:
-                    with self.assertRaisesRegex(ValueError,'Report unavailable'):validate(decision,case['payload'])
+                validate(decision,case['payload'])
+                self.assertNotIn('report_binding',decision)
                 self.assertEqual(len(requests),1)
                 # Golden context and all other request settings stay byte-exact.
                 # Only wire triage serialization and its field-name instructions change.
@@ -106,9 +105,9 @@ class IntakeFamilyTests(unittest.TestCase):
                 self.assertEqual({k:v for k,v in decision.items() if k not in ('report_binding','question_kind')},{**case['decision'],'reported_figure':{'state':'UNSPECIFIED'}})
                 self.assertTrue(score(case,decision)['passed'])
 
-    def test_historical_unnamed_report_tickets_now_refuse_without_a_read(self):
-        # Immutable v1 cases supplied a metric but no verbatim report-name binding.
-        # The report-scoped contract must not manufacture STATED provenance.
+    def test_model_anchored_figure_questions_need_no_manufactured_report_binding(self):
+        # The immutable responses are adapted to FIGURE_DIFFERENCE, not visual
+        # reproduction. They can reach review without inventing report context.
         for case in self.data['cases']:
             if case['expected_action']!='PROPOSE':continue
             with self.subTest(family=case['family']):
@@ -117,10 +116,9 @@ class IntakeFamilyTests(unittest.TestCase):
                     requests=[]
                     with self.provider(case,requests):
                         saved=helper.workspace.intake.resolve({'text':case['payload']['text'],'request_key':'family-'+case['id'],'parent_id':None})
-                    self.assertEqual(saved['status'],'NEEDS_INPUT',saved.get('error'))
-                    self.assertIn('Report unavailable',saved['question'])
+                    self.assertEqual(saved['status'],'PROPOSED',saved.get('error'))
                     self.assertEqual(helper.helper.native_calls,[])
-                    self.assertIsNone(saved['proposal'])
+                    self.assertNotIn('report_binding',saved['proposal'])
                 finally:helper.doCleanups()
 
     def test_metadata_clarifications_are_regression_failures(self):
