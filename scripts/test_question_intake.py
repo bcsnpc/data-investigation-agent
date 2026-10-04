@@ -84,11 +84,11 @@ class WireContractTests(unittest.TestCase):
             'columns':[{'column_id':'fabric://a/column/Region%20name','name':'Region name'}]}]}
 
     def test_opaque_handles_roundtrip_and_filter_quotes_stay_attached(self):
-        payload=self.payload();original=copy.deepcopy(payload)
+        payload=self.payload();payload['text']+=' Group by Region name.';original=copy.deepcopy(payload)
         proposed={'question_kind':{'kind':'FIGURE_DIFFERENCE','source':{'quote':'Compare an unfamiliar value for North.'}},'report_quote':None,'target_request':None,'reported_candidates':[], 'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value','question':None,
                   'triage':'MISMATCH_COMPLAINT:VERTICAL',
                   'filters':[{'column_id':'m0c0','operator':'in','values':['North'],'quote':'North'}],
-                  'dimension_ids':['m0c0']}
+                  'dimension_ids':[{'column_id':'m0c0','quote':'by Region name'}]}
         with patch('ticket_planner.azure_generate',return_value=(proposed,{})) as generate:
             result,_=azure_resolve(payload)
         self.assertEqual(result['measure_id'],'fabric://a/measure/Unfamiliar%20value')

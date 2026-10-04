@@ -64,9 +64,9 @@ class IntakeFamilyTests(unittest.TestCase):
                 expected['instructions']=expected['instructions'].replace(
                     'ticket_shape and comparison_mode are null','triage is null').replace(
                     'both triage fields are required','triage is required')
-                from investigator.question_intake import FIGURE_INSTRUCTIONS,TARGET_INSTRUCTIONS,REPORT_INSTRUCTIONS,DESCRIPTOR_INSTRUCTIONS,QUESTION_KIND_INSTRUCTIONS
+                from investigator.question_intake import FIGURE_INSTRUCTIONS,TARGET_INSTRUCTIONS,REPORT_INSTRUCTIONS,DESCRIPTOR_INSTRUCTIONS,QUESTION_KIND_INSTRUCTIONS,SCOPE_INSTRUCTIONS
                 expected['instructions']=expected['instructions'].replace('Quotes are provenance,','Repeated measure, column and selection quotes identify the same referent; every occurrence is retained. Reported-figure quotes alone must be unique; include longer verbatim context if necessary. Never emit offsets. Quotes are provenance,')
-                expected['instructions']+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS+DESCRIPTOR_INSTRUCTIONS+QUESTION_KIND_INSTRUCTIONS
+                expected['instructions']+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS+DESCRIPTOR_INSTRUCTIONS+QUESTION_KIND_INSTRUCTIONS+SCOPE_INSTRUCTIONS
                 schema=expected['tools'][0]['parameters']
                 for key in ('ticket_shape','comparison_mode'):
                     schema['properties'].pop(key);schema['required'].remove(key)
@@ -100,10 +100,14 @@ class IntakeFamilyTests(unittest.TestCase):
                 from investigator.question_intake import wire_contract
                 wire,current_schema,_=wire_contract(case['payload'])
                 schema['properties']['question_kind']=current_schema['properties']['question_kind']
+                # Explicit synthetic v1 -> current grouping provenance migration.
+                # Original fixtures/tapes remain unchanged; none requests grouping.
+                schema['properties']['dimension_ids']=current_schema['properties']['dimension_ids']
                 schema['required'].insert(schema['required'].index('report_quote'),'question_kind')
                 expected['input']=json.dumps(wire)
                 self.assertEqual(requests,[expected])
-                self.assertEqual({k:v for k,v in decision.items() if k not in ('report_binding','question_kind')},{**case['decision'],'reported_figure':{'state':'UNSPECIFIED'}})
+                self.assertEqual(decision['dimension_quotes'],[])
+                self.assertEqual({k:v for k,v in decision.items() if k not in ('report_binding','question_kind','dimension_quotes')},{**case['decision'],'reported_figure':{'state':'UNSPECIFIED'}})
                 self.assertTrue(score(case,decision)['passed'])
 
     def test_model_anchored_figure_questions_need_no_manufactured_report_binding(self):

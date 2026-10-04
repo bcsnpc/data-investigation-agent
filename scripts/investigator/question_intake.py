@@ -16,6 +16,7 @@ QUESTION_KIND_INSTRUCTIONS='\nClassify question_kind using the supplied consumer
 
 VERSION = 'process-debugging-intake-v2'
 FIGURE_INSTRUCTIONS='\nSupply reported_candidates as a numeral-role inventory: each extracted numeral has one role from the schema enum and a verbatim quote. A stated expected-record number is IDENTIFIER, never another FIGURE. Numerals inside report/model/layer names are OTHER, never expected records. Only FIGURE mentions are reported-figure candidates; include an explicitly empty visual as FIGURE too. Do not choose among competing FIGURE mentions. Include enough surrounding text to distinguish numeral roles; FIGURE quotes must occur exactly once. No offsets. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
+SCOPE_INSTRUCTIONS=' Each dimension_ids entry requires column_id and a verbatim quote of an explicit grouping request (by, per, grouped, or breakdown). An expected-record IDENTIFIER supplies membership only, never a filter or grouping. Do not add a breakdown merely to inspect that record.'
 TARGET_INSTRUCTIONS='\nSupply target_request or null. For a stated selection extract its exact value as value_source:{quote}, and column_source:{quote} only if the ticket states the catalog column name exactly; otherwise column_source:null. Do not guess a column or ASK for its identifier. Anchor PROPOSE to the measure and named report, leave that unresolved selection out of filters, and let the consumer resolve it inside the procedure. Other requested filters are preserved. No offsets. ASK has target_request=null.'
 DESCRIPTOR_INSTRUCTIONS='\nSeparate the selected VALUE from the user\'s DESCRIPTOR: in a phrase such as region East, value_source quotes East and descriptor has state SEPARATED and source:{quote:region}, each verbatim and non-overlapping. The descriptor is only a hint and must never select or guess a catalog column. A bare value has descriptor:{state:VALUE_ONLY,source:null}. If you cannot separate the phrase, say descriptor:{state:UNSEPARATED,source:null} and quote the whole phrase as value_source. Never silently treat a descriptor as part of a separated value.'
 REPORT_INSTRUCTIONS='\nSupply report_quote as a verbatim quote of a complete named report, semantic model or declared layer, or null when none is named. The consumer resolves its catalog kind: report first, then semantic model, then declared layer. A model name is not an unavailable report. Do not use a page or visual name as a report. For target_request supply value_source quoting the selected value and column_source quoting an explicitly stated catalog column name, or null; never infer a column name.'
@@ -77,7 +78,10 @@ SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
                 'comparison_mode', 'filters', 'dimension_ids', 'scope_quotes']}
 from . import numeral_roles, name_kind
 SCHEMA['properties'].update(numeral_mentions=numeral_roles.SCHEMA,expected_records=numeral_roles.EXPECTED_SCHEMA,
-                            name_binding=name_kind.SCHEMA)
+                            name_binding=name_kind.SCHEMA,
+                            dimension_quotes={'type':'array','items':{'type':'object','additionalProperties':False,
+                                'properties':{'column_id':{'type':'string'},'source':copy.deepcopy(figure.SPAN_SCHEMA)},
+                                'required':['column_id','source']}})
 
 
 QUOTE_SCHEMA={'type':'object','additionalProperties':False,'properties':{
@@ -97,7 +101,7 @@ class FigureQuoteAmbiguous(QuoteRefused):
 
 
 def locate(source,ticket,*,field='reported_figure',audit=None):
-    if field not in ('reported_figure','measure','column','selection','report','descriptor','question_kind','numeral'):
+    if field not in ('reported_figure','measure','column','selection','report','descriptor','question_kind','numeral','grouping'):
         raise ValueError('Unknown provenance field')
     fields(source,['quote'])
     text(source['quote'],limits.INTAKE_QUOTE)
@@ -122,6 +126,7 @@ def azure_resolve(payload):
         'both triage fields are required','triage is required')+'\nUse catalog handles verbatim. Put each filter quote inside that filter object. No separate quote list.'
     instructions+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS+DESCRIPTOR_INSTRUCTIONS
     instructions+=QUESTION_KIND_INSTRUCTIONS
+    instructions+=SCOPE_INSTRUCTIONS
     repair=payload.get('_figure_quote_repair')
     if repair is not None:
         wire.pop('_figure_quote_repair',None)
@@ -224,7 +229,13 @@ def azure_resolve(payload):
             try:evidence(value,payload['text'])
             except ValueError as exc:
                 refused=QuoteRefused(str(exc));refused.provider_metadata={**usage,'quote_provenance':quote_audit};raise refused from exc
-    value['dimension_ids']=[actual(c) for c in value['dimension_ids']]
+    dimensions=value['dimension_ids'];value['dimension_ids']=[];value['dimension_quotes']=[]
+    for c in dimensions:
+        fields(c,['column_id','quote'])
+        identity=actual(c['column_id'])
+        source=locate({'quote':c['quote']},payload['text'],field='grouping',audit=quote_audit)
+        value['dimension_ids'].append(identity)
+        value['dimension_quotes'].append({'column_id':identity,'source':source})
     value['scope_quotes']=[]
     for f in value['filters']:
         fields(f,['column_id','operator','values','quote'])
@@ -274,7 +285,10 @@ def wire_contract(payload):
     schema['required'].append('triage')
     schema['properties']['model_id']['enum']=models+[None]
     schema['properties']['measure_id']['enum']=measures+[None]
-    schema['properties']['dimension_ids']['items']['enum']=columns or ['NO_COLUMN']
+    schema['properties'].pop('dimension_quotes')
+    schema['properties']['dimension_ids']['items']={'type':'object','additionalProperties':False,
+        'properties':{'column_id':{'type':'string','enum':columns or ['NO_COLUMN']},
+                      'quote':copy.deepcopy(QUOTE_SCHEMA['properties']['quote'])},'required':['column_id','quote']}
     schema['properties']['dimension_ids']['maxItems']=limits.INTAKE_DIMENSIONS
     schema['properties']['filters']['maxItems']=limits.INTAKE_FILTERS
     item=schema['properties']['filters']['items']
@@ -314,7 +328,7 @@ def snapshot(workspace):
 
 
 def validate(value, payload):
-    fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding') if k in value])
+    fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes') if k in value])
     if 'numeral_mentions' in value or 'expected_records' in value:
         from .numeral_roles import evidence
         evidence(value,payload['text'])
@@ -370,6 +384,8 @@ def validate(value, payload):
         fields(q, ['column_id', 'quote']); quote(q['quote'])
         if q['column_id'] not in selected or q['column_id'] in quoted: raise ValueError('Invalid scope quote')
         quoted.add(q['column_id'])
+    from .numeral_roles import measure_scope
+    measure_scope(value,payload['text'])
     return value
 
 
