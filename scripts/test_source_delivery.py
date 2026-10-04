@@ -40,6 +40,25 @@ class DeliveryAdapter(SourceAdapter):
 
 
 class DeliveryTests(unittest.TestCase):
+    def test_count_owned_grammar_and_gap_body_omit_filler(self):
+        from investigator.output_contract import business_text
+        for count in (0,1,2):
+            facts=classify(audit(),rows(),rows()[:1]);facts['missing_rows']=count
+            text=render_account({'delivery_result':facts},True)
+            expected=f"{count} source {'row was' if count==1 else 'rows were'} absent"
+            self.assertIn(expected,text)
+            body=business_text('INGESTION_GAP',{'deterministic_process_finding':{'delivery_accounts':[text]}})
+            self.assertIn(expected,body)
+            self.assertNotIn('Some expected information',body)
+            self.assertNotIn('  ',body)
+
+    def test_consistent_source_business_body_preserves_membership_account(self):
+        from investigator.output_contract import business_text
+        text='Presence checks: the record you named was absent in the application.'
+        body=business_text('CONSISTENT_TO_SOURCE',{'deterministic_process_finding':{'delivery_accounts':[text]}})
+        self.assertIn(text,body)
+        self.assertIn('application owner',body)
+
     def test_last_modified_is_declared_not_guessed(self):
         value={'source_asset_id':'s','key_column_id':'k','version_column_id':'v','modified_column_id':'m','time_semantics':'UTC_LAST_MODIFIED'}
         self.assertEqual(declaration(value),value)

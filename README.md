@@ -1,5 +1,9 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Four A4 fixes count-owned delivery grammar, removes gap filler and preserves
+the membership account in source-consistency business output. Offline-tested only;
+scenario outcomes remain unearned. [Details](docs/delivery-output-grammar.md).
+
 Round Four A3 enforces exact declared layer tokens in mechanism prose. Incorrect
 role references exclude the paragraph while the original finding still renders.
 Offline-tested with unchanged synthesis coverage; no live rerun yet.

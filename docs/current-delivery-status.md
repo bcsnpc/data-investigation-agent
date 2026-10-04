@@ -1,5 +1,10 @@
 # Current delivery status
 
+Round Four A4: delivery grammar is count-owned; gap filler removed. Pre-run
+inspection found and fixed omission of membership accounts from source-consistency
+business output, without changing its evidence gate. 33 focused tests passed;
+no live run/cloud read. Prior freezes invalid. [Details](delivery-output-grammar.md).
+
 Round Four A3: exact layer/role tokens reach the bounded synthesis spine; invalid
 references exclude mechanism prose without changing the supported finding. Retained
 gap/latency views grew by 403 characters with no coverage loss. No live run or

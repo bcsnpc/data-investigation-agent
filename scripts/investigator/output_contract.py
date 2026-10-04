@@ -9,7 +9,7 @@ BUSINESS = {
     'LOAD_LATENCY': 'A scheduled update has not yet delivered the information needed by the reported number.',
     'PRESENTATION_LOGIC': 'The way the report presents the information explains the difference. This does not establish whether that behavior is intended.',
     'TRANSFORMATION_LOGIC': 'A documented processing rule explains the difference. This does not establish whether that rule is intended.',
-    'INGESTION_GAP': 'Some expected information has not arrived in the checked process.',
+    'INGESTION_GAP': '',
     'DEFECT': 'The checked process changes the number in a way that the inspected rules do not explain.',
     'CONSISTENT_TO_BOUNDARY': 'The reported number agrees with the information checked so far. This does not establish whether the original entries or business rules are correct.',
     'CONSISTENT_TO_SOURCE': 'The checked figure agrees through every compared step with the declared application source. This does not establish that the application contains everything the user expects.',
@@ -72,13 +72,14 @@ def business_text(outcome, payload=None):
     if accounts and outcome in ('INGESTION_GAP','LOAD_LATENCY','CONSISTENT_TO_BOUNDARY'):
         finding=BUSINESS[outcome]
         if outcome=='CONSISTENT_TO_BOUNDARY':finding+=' The application itself was not read; the remaining question belongs with the application owner.'
-        return ' '.join((('The checked '+baseline_name+' value was '+number+'.' if number is not None else 'The reported figure was checked.'),
+        return ' '.join(part for part in (('The checked '+baseline_name+' value was '+number+'.' if number is not None else 'The reported figure was checked.'),
             finding,*accounts,'The checks do not establish whether they describe the same moment; different update timing remains possible.',
-            'Recommended action: '+action(outcome)['text']))
+            'Recommended action: '+action(outcome)['text']) if part)
     if outcome=='CONSISTENT_TO_SOURCE':
         return ' '.join((('The checked '+baseline_name+' value was '+number+'.' if number is not None else 'The reported figure was checked.'),
             'Every checked step agreed with the application that the system owner declared authoritative.',
             'These comparisons found no delivery difference; they do not establish that the application contains every expected entry.',
+            *accounts,
             'The checks do not establish whether they describe the same moment or whether the original entries are correct.',
             'Recommended action: '+action(outcome)['text']))
     first=('The checked '+baseline_name+' value was '+number+'.' if number is not None else

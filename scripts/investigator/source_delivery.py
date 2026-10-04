@@ -118,7 +118,8 @@ def render_account(observation,business=False):
             'last_successful_end':audit['completed_at'],'excluded_rows':audit.get('excluded_rows',[])}
     if not facts.get('accounting'):return None
     own=facts['accounting'];time=facts['last_successful_end']
-    text=f"The recorded successful load finished at {time}; its own activity reported {own['rows_read']} rows read and {own['rows_written']} rows written."
+    def row_word(count):return 'row' if count==1 else 'rows'
+    text=f"The recorded successful load finished at {time}; its own activity reported {own['rows_read']} {row_word(own['rows_read'])} read and {own['rows_written']} {row_word(own['rows_written'])} written."
     if not business:text='Run '+facts['run_id']+': '+text
     excluded=facts.get('excluded_rows',[])
     if excluded:
@@ -128,7 +129,8 @@ def render_account(observation,business=False):
             text+=' Excluded audit rows: '+ '; '.join('row '+str(e['row_index'])+' (run '+str(e['run_id'])+'): '+e['reason'] for e in excluded)
             text+=' This is the latest valid run, not proof that no later load ran.'
     if 'newest_source_change' in facts:
-        text+=f" The newest application change read was {facts['newest_source_change']}; {facts['missing_rows']} source rows were absent and {facts['different_version_rows']} carried different versions in the destination."
+        absent=facts['missing_rows']
+        text+=f" The newest application change read was {facts['newest_source_change']}; {absent} source {row_word(absent)} {'was' if absent==1 else 'were'} absent and {facts['different_version_rows']} carried different versions in the destination."
         if facts.get('status')=='LATENT':text+=' The source changed after that load finished, so another load is required before checking delivery.'
         elif facts.get('status')=='GAP':text+=' The observed source changes predate that load, so this is a delivery difference requiring operational investigation.'
     return text
