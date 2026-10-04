@@ -83,6 +83,8 @@ tested routes.
 
 Dated supersession, 2026-10-03: the user authorized a separate Entra monitoring reader, `dia-reader` (client ID `ddd4d3cf-9cfd-440e-ac5b-be127caa46ea`, service principal object ID `59dd402b-1510-4289-96fb-f1d34d4494c5`). Registration and local DPAPI credential storage succeeded; the SQL `orderops_investigator` remains unchanged. Fabric public APIs are enabled with no group restrictions returned. The complete fixture listing still has no monitoring Eventhouse/KQL database; stop before viewer grant, KQL probes or an extra load. Accounting remains unavailable from this surface because it was not queried, not because the table was empty. No workspace role or elevation. See [dedicated reader record](docs/round-two-dia-reader-monitoring.md). Earlier blocked entry remains historical.
 
+Dated authorized resume, 2026-10-03: monitoring enablement was authorized for the fixture only. The documented monitoring/Fabric-item tenant prerequisites return enabled and capacity assignment Completed, but no UI can be operated: browser unavailable; native automation pipe missing. Both complete item listings still lack monitoring resources. No setting, identity, grant or load changed; existing dia-reader retained. Accounting remains blocked before query, not an empty-table result. See [resume checkpoint](docs/round-two-monitoring-resume.md). Enablement and viewer-only database-grant verification remain pending.
+
 Evidence: [refresh-history/partition probes](docs/job-history-path-and-refresh-probes.md)
 and [snapshot-version/fallback probes](docs/snapshot-alignment-audit.md), including
 exact requests, responses and identity provenance. These results constrain the
