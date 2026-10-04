@@ -1,5 +1,9 @@
 # Self-Discovering Enterprise Data Investigator
 
+Pre-run A5 correction validates membership against the declared server/endpoint,
+not a connection field absent from inventory listing items. No investigation
+outcome yet; source scenarios remain. [Details](docs/expected-record-membership.md).
+
 Round Three A6 binds mechanism paragraphs to divergent comparison receipts and
 renders actual freshness attempts and evidence-unavailability reasons. Offline
 regressions passed; the four live scenarios remain. See [output contract](docs/freshness-output-evidence.md).

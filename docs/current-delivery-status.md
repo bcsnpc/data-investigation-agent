@@ -1,5 +1,11 @@
 # Current delivery status
 
+Pre-run A5 compilation exposed an inventory-shape assumption: SQLEndpoint listing
+items do not carry connectionString. Membership now checks the already declared
+server/endpoint against approved scope; mismatch refuses. Regression uses the
+minimal served inventory shape. No investigation run; prior freezes invalid.
+[Details](expected-record-membership.md).
+
 Round Three A6: wrong-boundary mechanism prose is excluded before output,
 implemented evidence failures are named honestly, and freshness headers use
 actual attempted checks. 98 focused tests passed; no live run. Part B remains

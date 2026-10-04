@@ -28,3 +28,11 @@ The intake/planner directory construction is unchanged; no per-entry content is
 added. Additional evidence exists only after requested probes execute. No live run
 or ledger row in this PR. Engine changes invalidate prior freezes. A6 and the
 four source scenarios remain; no new live source outcome is claimed.
+
+Dated pre-run correction: retained-context compilation found that the inventory
+SQLEndpoint item has identity/name, not connectionString. The membership adapter
+now validates server and endpoint from the existing positively established
+unchanged declared connection, against the approved server and discovered endpoint
+identity. No metadata absence is treated as proof or replaced by name similarity.
+The regression uses the actual minimal inventory shape and refuses mismatched
+server or endpoint. No investigation had run; all earlier evidence is preserved.
