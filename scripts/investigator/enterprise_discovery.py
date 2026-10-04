@@ -51,7 +51,11 @@ def graph(assets, bindings, item_relations=()):
     try:
         retained=[{'id':a['id'],'parent':a['parent_id'],'kind':a['kind'],'name':a['name'],
                    'meta':a['metadata'],'hash':a['content_hash']} for a in assets.values()]
-        lineage=build(retained,{'records':[]})
+        connections=[{'source':a['source'],'status':'AVAILABLE','data':a['metadata'],
+                      'asset_id':a['id'],'content_hash':a['content_hash']}
+                     for a in assets.values() if a['kind']=='SourceConnection'
+                     and a.get('availability','CURRENT')=='CURRENT']
+        lineage=build(retained,{'records':connections})
         for (source,target,kind),evidence in lineage.edges.items():
             relation={'data':'DERIVED_FROM','binding':'USES','presentation':'PRESENTED_IN',
                       'filter':'FILTERS','context':'FILTER_CONTEXT','produces':'WRITES',
