@@ -146,7 +146,30 @@ class Collector:
             if kind == 'SemanticModel':
                 history=self.attempt(aid+'/refreshes', lambda item=item: powerbi.get_refresh_history(item))
                 if history is not None:self.observe(aid,'refresh_history','AVAILABLE',aid,history)
+        # Follow only connection references declared by collected Copy Jobs.
+        # An exact approved source scope is required; neither connection listing
+        # nor credential material belongs in the discovery context.
+        references=set()
+        for part in list(self.assets.values()):
+            if part['kind']!='DefinitionPart' or part['metadata'].get('path')!='copyjob-content.json':continue
+            def refs(part=part):
+                document=json.loads(part['metadata']['content'])
+                ref=document['properties']['source']['connectionSettings'].get('externalReferences',{}).get('connection')
+                if ref:references.add(str(UUID(ref)))
+            self.attempt(part['id']+'/connection_reference',refs)
         sql=config['sql']; sqlroot='sql://'+sql['server']+'/'+sql['database']
+        for cid in sorted(references):
+            def connection(cid=cid):
+                body=self.call('connections/'+cid)['text']
+                if str(UUID(body['id']))!=cid:raise ValueError('Connection identity differs')
+                details=body.get('connectionDetails',{})
+                path=details.get('path','').split(';')
+                if (details.get('type')!='SQL' or len(path)!=2
+                        or path[0].casefold()!=sql['server'].casefold() or path[1]!=sql['database']):
+                    raise ValueError('Declared connection leaves approved source scope')
+                self.asset(root+'/connection/'+cid,'SourceConnection',cid,'connections/'+cid,
+                    {'id':cid,'connectionDetails':{'type':details['type'],'path':details['path']}},root)
+            self.attempt(root+'/connection/'+cid,connection)
         def sql_catalog():
             self.charge()
             snapshot=self.sql_reader(sql['server'],sql['database'],sql['visibility_schema'])

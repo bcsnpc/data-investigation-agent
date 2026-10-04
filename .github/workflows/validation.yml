@@ -82,6 +82,7 @@ jobs:
           python -m unittest discover -s scripts -p test_engine_fingerprint.py
           python -m unittest discover -s scripts -p test_physical_binding.py
           python -m unittest discover -s scripts -p test_lineage.py
+          python -m unittest discover -s scripts -p test_discovered_source_connection.py
           python -m unittest discover -s scripts -p test_lineage_audit.py
           python -m unittest discover -s scripts -p test_lineage_gap_policy.py
           python -m unittest discover -s scripts -p test_publication_lineage_contract.py
