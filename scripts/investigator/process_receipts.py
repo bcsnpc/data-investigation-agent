@@ -57,16 +57,16 @@ def validate_for_synthesis(observation):
         validate(observation.get('failure'))
         if observation.get('reason')!=observation['failure']['message']:
             raise Conflict('Process failure reason differs from its safe diagnostic')
-    if name=='EXPECTED_RECORD_PRESENCE':
-        from .record_presence import validate
-        try:validate(observation)
-        except (ValueError,KeyError,TypeError) as exc:raise Conflict('Expected-record presence differs from its original counts') from exc
     # All registered query shapes require the same compiled-request and result
     # fields. A newly registered query cannot forget this consumer contract.
     if spec.route=='query' and observation.get('status')=='COMPLETED':
         for field in ('request_hash','values'):
             if field not in observation:
                 raise Conflict('Registered process receipt '+name+' lacks required '+field)
+    if name=='EXPECTED_RECORD_PRESENCE':
+        from .record_presence import validate
+        try:validate(observation)
+        except (ValueError,KeyError,TypeError) as exc:raise Conflict('Expected-record presence differs from its original counts') from exc
     return name,spec
 
 
