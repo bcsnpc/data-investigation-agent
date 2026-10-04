@@ -4,6 +4,11 @@
 allowance 1,000 -> 1,500, with charged use unchanged at 641; diagnostic cap 12.
 No live run or cloud request. [Control-plane record](round-five-budget.md).
 
+Round Five Part A audit, draft #379: tape capture boundary needs a human decision
+under the round's explicit stop condition. Proposed schema and code evidence are
+in [the decision note](round-five-tape-schema-decision.md). No recorder/replay
+implementation, re-recording batch or manifest migration yet. #376 stays draft.
+
 Round Four evidence closed: source consistency and configured-unreachable outcomes
 earned with snapshot caveats; first SQL 40613 failure preserved. Fifteen offline
 replay attempts blocked: four missing response/timing, eleven incomplete session
