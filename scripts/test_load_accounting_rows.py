@@ -59,5 +59,13 @@ class AuditRowTests(unittest.TestCase):
         from test_source_delivery import typed
         observations['audit']['values']+=typed([bad])
         with self.assertRaisesRegex(ValueError,'audit differs'):validate(marker,observations)
+        expected=classify([audit_row(),bad],'producer')
+        marker['audit_result']=copy.deepcopy(expected)
+        observations['audit']['metadata']['load_accounting']=copy.deepcopy(expected)
+        from investigator.source_delivery import classify as delivery_classify,decode
+        marker['delivery_result']=delivery_classify(expected,decode(observations['source-pages']['values']),decode(observations['destination-pages']['values']))
+        validate(marker,observations)
+        del marker['audit_result']['excluded_rows']
+        with self.assertRaisesRegex(ValueError,'audit differs'):validate(marker,observations)
 
 if __name__=='__main__':unittest.main()
