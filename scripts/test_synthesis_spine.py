@@ -5,6 +5,26 @@ from investigator.onboarding import encoded
 
 
 class RenderedSpineTests(unittest.TestCase):
+    def test_layer_tokens_do_not_reduce_any_display_coverage(self):
+        from test_path_narrative import PathNarrativeTests
+        from unittest.mock import patch
+        payload=PathNarrativeTests().payload();payload['question']='Explain the difference.';state={'envelope':{}}
+        payload.pop('deterministic_process_finding',None)
+        payload['layer_labels']={k:{'role':v} for k,v in
+            [('report','SEMANTIC'),('prepared','LANDING'),('original','APPLICATION')]}
+        with patch('investigator.path_narrative.layer_tokens',return_value={}):before=build(payload,state,48000)
+        after=build(payload,state,48000)
+        for key in ('evidence','candidates','mechanism_evidence','elided'):
+            self.assertEqual(before[key],after[key])
+        self.assertEqual(len(before['boundaries']),len(after['boundaries']))
+        for old,new in zip(before['boundaries'],after['boundaries']):
+            for side in ('input','output'):
+                self.assertEqual(old[side]['quantity'],new[side]['quantity'])
+                self.assertEqual(old[side]['layer'],new[side]['layer'])
+                self.assertIn(new[side]['term'],after['layer_tokens'])
+        self.assertEqual(set(after['layer_tokens']),{'L0 (SEMANTIC)','L1 (LANDING)','L2 (APPLICATION)'})
+        self.assertLess(len(encoded(after))-len(encoded(before)),200)
+
     def test_complete_mechanism_evidence_survives_without_a_second_field_allowlist(self):
         payload,state=self.fixture()
         definition={'id':'mechanism-receipt','tool':'context','process_roles':['transformation_definition'],

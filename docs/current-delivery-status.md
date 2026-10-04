@@ -1,5 +1,11 @@
 # Current delivery status
 
+Round Four A3: exact layer/role tokens reach the bounded synthesis spine; invalid
+references exclude mechanism prose without changing the supported finding. Retained
+gap/latency views grew by 403 characters with no coverage loss. No live run or
+cloud read; A4 precedes consistency scenarios. Prior freezes invalid.
+[Details](mechanism-layer-tokens.md).
+
 Round Four A2: all nine question kinds have explicit answer coverage rules.
 Completed delivery evidence answers delivery questions; unavailable observations
 cannot upgrade coverage. 24 focused tests passed. No live run; A3–A4 remain before

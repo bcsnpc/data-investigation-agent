@@ -16,6 +16,13 @@ def build(payload, state, bound):
               'candidates': [], 'boundaries': facts(payload), 'mechanism_evidence': [],
               'elided': [], 'rendered_business': business_text(outcome, payload) if outcome else None}
     if outcome: result['outcome'] = outcome
+    from .path_narrative import layer_tokens
+    result['layer_tokens']=layer_tokens(payload)
+    by_layer={identity:token for token,identity in result['layer_tokens'].items()}
+    for boundary in result['boundaries']:
+        for side in ('input','output'):
+            node=boundary[side]
+            if node['layer'] in by_layer:node['term']=by_layer[node['layer']]
     from .reproduction_composition import from_payload,select
     lead=select(from_payload(payload))
     if lead:result['answering_cell_receipt_id']=lead['id']

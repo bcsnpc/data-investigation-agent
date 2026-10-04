@@ -6,6 +6,18 @@ from investigator import process_outcomes,assessment_support
 import test_process_debugging as contract_fixtures
 
 class NarrativeContractTests(unittest.TestCase):
+    def test_wrong_layer_role_omits_only_paragraph_and_keeps_the_finding(self):
+        state,payload=self.source('TRANSFORMATION_LOGIC')
+        for text in ('The application measure repeats matches.','L0 (APPLICATION) repeats matches.'):
+            value=self.response(payload);value['technical_output']['text']=text
+            before=copy.deepcopy(state)
+            assessment,outputs=narrative.assemble(narrative.Response(value),payload,state)
+            self.assertEqual(assessment,state['assessment']);self.assertEqual(state,before)
+            technical=outputs['technical_output']
+            self.assertEqual(technical['mechanism_rejection']['reason'],'INVALID_LAYER_REFERENCE')
+            self.assertNotIn(text,technical['explanation']['text'])
+            self.assertIn('Measure:',technical['explanation']['text'])
+
     def source(self,outcome):
         value,observations=contract_fixtures.OutcomeContractTests().valid(outcome)
         for role,o in observations.items():

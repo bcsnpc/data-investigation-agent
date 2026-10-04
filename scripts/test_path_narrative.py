@@ -28,3 +28,13 @@ class PathNarrativeTests(unittest.TestCase):
     def test_no_payload_directory_loss(self):
         p=self.payload();p['context_entry_points']=[{'id':str(i),'kind':'SqlObject'} for i in range(28)];before=copy.deepcopy(p)
         narrative.schema(p);path.render(p);self.assertEqual(p,before)
+
+    def test_layers_must_use_the_exact_token_and_role_in_the_spine(self):
+        p=self.payload();p['layer_labels']={k:{'role':v} for k,v in
+            [('report','SEMANTIC'),('prepared','LANDING'),('original','APPLICATION')]}
+        self.assertEqual(path.layer_tokens(p),{'L0 (SEMANTIC)':'report','L1 (LANDING)':'prepared','L2 (APPLICATION)':'original'})
+        good='The declared join associates L1 (LANDING) with L2 (APPLICATION).'
+        path.validate_layer_references(good,p);path.validate_mechanism(good)
+        for bad in ('The application measure repeats matches.','L0 (APPLICATION) repeats matches.',
+                    'L7 (LANDING) repeats matches.','L0 repeats matches.','The semantic layer repeats matches.'):
+            with self.subTest(text=bad),self.assertRaises(path.LayerReferenceError):path.validate_layer_references(bad,p)
