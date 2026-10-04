@@ -80,8 +80,11 @@ Five sealed probe records under `.local/round-three-20261004`:
 `audit-delta-reader-listing.json`, `audit-delta-admin-listing.json`,
 `audit-delta-admin-rows.json`, `audit-sql-current.json`,
 `audit-onelake-role-before.json`. Hashes and count-only rows are appended to the
-ledger. Ten physical requests: seven metadata/direct diagnostic-file requests,
-one SQL diagnostic query, two SQL guards. Zero model calls or fixture changes.
+ledger. Ten physical requests: five metadata requests, two administrator-only
+Parquet diagnostic reads, one reader SQL diagnostic query, two SQL guards.
+An appended type correction separates the two Parquet reads from their two log
+metadata reads; it charges no additional requests and preserves the original row.
+Zero model calls or fixture changes.
 Part B **358/500**, rolling last observed **498/1000**, diagnostic cap **12**.
 No new pipeline run or load cost. A3's non-lagging reader integration and A4-A6
 must finish before the four outcomes are attempted.
