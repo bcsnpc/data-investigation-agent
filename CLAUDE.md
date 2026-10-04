@@ -85,6 +85,8 @@ Dated supersession, 2026-10-03: the user authorized a separate Entra monitoring 
 
 Dated authorized resume, 2026-10-03: monitoring enablement was authorized for the fixture only. The documented monitoring/Fabric-item tenant prerequisites return enabled and capacity assignment Completed, but no UI can be operated: browser unavailable; native automation pipe missing. Both complete item listings still lack monitoring resources. No setting, identity, grant or load changed; existing dia-reader retained. Accounting remains blocked before query, not an empty-table result. See [resume checkpoint](docs/round-two-monitoring-resume.md). Enablement and viewer-only database-grant verification remain pending.
 
+Dated monitoring access finding, 2026-10-03: monitoring Eventhouse/KQL/Eventstream now exist in the fixture. As the existing publisher, the exact dia-reader database-viewer grant returned 403; principal listings before/after contain no dia-reader entry. Both dia-reader history queries returned 403 before schema/data evaluation. No refresh-history capability correction is established; this is a new route refusal, not absence of logged events. No workspace role or new successful permission. FTL4 trial capacity Active; Eventhouse minimum consumption 0 CUs, actual UpTime/storage unmeasured. See [exact statements and receipts](docs/round-two-monitoring-history-cost.md). Earlier resource-absence claims are historical.
+
 Evidence: [refresh-history/partition probes](docs/job-history-path-and-refresh-probes.md)
 and [snapshot-version/fallback probes](docs/snapshot-alignment-audit.md), including
 exact requests, responses and identity provenance. These results constrain the
