@@ -1,5 +1,8 @@
 # Self-Discovering Enterprise Data Investigator
 
+Dated checkpoint, 2026-10-04: [Current binding/recollection and authorized budget](docs/round-two-binding-recollection.md) pins the new full configuration and resolves an isolated model-to-application path. [Family E](docs/round-two-source-boundary-runs.md) completed TRANSFORMATION_LOGIC with freshness unanswered; the source attempt refused at reportless intake. Part B increased 300 to 500 by human decision; rolling remains 600, diagnostics 12. Source scenarios remain pending; prior freezes invalid.
+
+
 2026-10-04: [Declared load audit source](docs/declared-load-audit-source.md) implemented: identity-only estate declaration, governed reader execution and explicit unavailability for failed/missing accounting; no silent fallback when declared. 81 focused regressions passed. Source delivery outcome producers, current configuration/recollection and four scenarios plus E remain pending. No live run or cap change; prior freezes invalid.
 
 2026-10-04: [Isolated application-load presentation checkpoint](docs/round-two-application-presentation.md). One separate model published; served TMDL verifies its declared source. Original model.bim-assuming verifier failed and remains recorded; offline correction adds no requests. Human-approved one-model Read + Build applied, with before/after listings; other scopes unchanged. Audit own counters remain attested at 360/360. Part B 152/300; rolling observed 307/600; diagnostic cap 12 unchanged. Four source scenarios and E have not run; audit/runtime producers and current discovery approval remain pending.
