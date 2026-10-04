@@ -13,7 +13,7 @@ VERSION='process-debugging-v3-graded-surfaces'
 REQUIRED_CAPABILITIES=frozenset(('resolve_measure_path','evaluate_scoped_quantity'))
 OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','refresh_timing','snapshot_identity','declared_source_comparison','presentation_context',
     'transformation_definition','job_history','ingestion','independent_lower_surface','failure_detail',
-    'declared_context_reproduction','source_delivery'))
+    'declared_context_reproduction','source_delivery','expected_record_presence'))
 
 
 @dataclass(frozen=True)
@@ -403,6 +403,10 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                     continue
                 account=render_account(observation,business=key=='business_output')
                 if account:result[key].setdefault('delivery_accounts',[]).append(account)
+        from .record_presence import render as render_presence
+        for key in ('business_output','technical_output'):
+            text=render_presence(observed,path.get('layer_labels',{}),business=key=='business_output',layers=path.get('layers',[]))
+            if text:result[key].setdefault('delivery_accounts',[]).append(text)
         for key in ('business_output','technical_output'):
             result[key]['unverified_boundaries']=unchecked
             result[key]['depth_ceiling']=ceiling
@@ -415,6 +419,17 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         index=next((i for i,l in enumerate(chain) if l['id']==layer['id']),0)
         pending([{'layer':l['id'],'operation':'evaluate_scoped_quantity'} for l in chain[index:]])
         probe=refine_failure(adapter,available,layer,attest(adapter.evaluate(layer,measure_id,scope)))
+        requested=scope.get('expected_records',[])
+        if requested:
+            presence=(adapter.record_presence(dict(path,layers=resolved_layers),layer,requested,scope)
+                      if 'expected_record_presence' in available else
+                      {'status':'UNAVAILABLE','reason':'Expected-record membership capability is undeclared.'})
+            if presence.get('evidence'):
+                observations.append(_observation(presence['evidence'],'established'))
+            else:
+                observations.append(_observation({'id':'record-presence-unavailable-'+str(index),'tool':'process',
+                    'check_kind':'EXPECTED_RECORD_UNAVAILABLE','layer':layer['id'],
+                    'reason':presence.get('reason') or 'Expected-record membership unavailable.','requested':requested},'established'))
         if probe.evidence:snapshot_probes[probe.evidence['id']]=probe
         if probe.status=='UNAVAILABLE' and probe.failure:failures.append(_failure_entry(probe))
         return probe
@@ -461,6 +476,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     observations=[]
     path_evidence=path.get('evidence')
     if path_evidence and path.get('system_of_record') is not None:
+        if scope.get('expected_records'):path_evidence['expected_records']=scope['expected_records']
         from .system_of_record import declaration
         path_evidence=dict(path_evidence,resolved_source_path={
             'layers':[{'id':l['id']} for l in path['layers']],
@@ -611,6 +627,26 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             if chain_connected and path.get('system_of_record',{}).get('asset_id')==lower.layer:
                 from .system_of_record import proof
                 if proof(path,[o for o in observations if o.get('comparison_status')]):
+                    from .record_presence import proof as presence_proof
+                    if not presence_proof(scope.get('expected_records',[]),layers,observations):
+                        boundary={'upper':layers[index-1],'lower':lower_layer,'index':index,
+                                  'upper_probe':upper,'lower_probe':lower}
+                        delivery=delivery_for(boundary) if 'source_delivery' in available else None
+                        for evidence in (delivery or {}).get('observations',[]):
+                            o=_observation(evidence,'established')
+                            if o['id'] not in {r['id'] for r in observations}:observations.append(o)
+                        if (delivery or {}).get('status')=='GAP':
+                            from .source_delivery import validate
+                            validate(delivery['evidence'],{o['id']:o for o in observations})
+                            target=next(o for o in observations if o['id']==delivery['evidence']['id'])
+                            roles=('ingestion','flow_consistency')
+                            target['process_roles']=sorted(set(target['process_roles'])|set(roles))
+                            return answer('INGESTION_GAP',5,observations,lower.layer,
+                                baseline={'status':'ESTABLISHED','layer':upper.layer,'reason':None,'evidence_ids':[upper.evidence['id']]},
+                                roles=roles+('comparison',),explanation='Expected-record membership differs across the declared source delivery boundary.',skipped_steps=skipped)
+                        reason='Expected-record membership is unavailable or differs across the chain; source consistency is not established.'
+                        return answer('NO_KNOWN_PATTERN',6,observations,lower.layer,'CAPABILITY_UNAVAILABLE',baseline,
+                            roles=('established',),missing_capability=reason,explanation=reason,skipped_steps=skipped)
                     return answer('CONSISTENT_TO_SOURCE',6,observations,lower.layer,'REACHED',baseline,
                         roles=('path','flow_consistency','comparison'),
                         explanation='Every compared boundary agrees with the explicitly declared system of record; expected entries absent there belong with its owner.',

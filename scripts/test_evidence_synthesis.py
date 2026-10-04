@@ -434,6 +434,27 @@ class SynthesisTests(unittest.TestCase):
         self.assertEqual(payload['evidence'][0]['asked']['query'],q)
         self.assertFalse(result['rows_truncated'])
 
+    def test_record_presence_and_its_sealed_address_survive_synthesis_and_tampering_refuses(self):
+        from test_record_presence import observation
+        agent,state=self.stopped();original=state['observations'][0]
+        original.update(observation('application'))
+        original['metadata']={}
+        q='SELECT COUNT(CASE WHEN [key] = 900099 THEN 1 END) AS [presence_0] FROM [scope].[Events]'
+        request={'query':q,'read_address':copy.deepcopy(original['read_address'])}
+        result={'rows':original['values'],'surface_report_binding':'VALUE_QUERY'}
+        original['request_hash']=digest(request)
+        class DB:
+            def execute(self,*args):return self
+            def fetchone(self):return (state['model_id'],'COMPLETED',encoded(request),encoded(result))
+        with patch.object(synthesis_digest,'verify',return_value={'state':'SEALED','hash':'seal'}):
+            payload=synthesis_digest.build(state,DB())
+            self.assertEqual(payload['evidence'][0]['result']['record_presence'],original['record_presence'])
+            # Alter both visible fields together: only the sealed request can catch this.
+            original['read_address']['layer']='other-layer'
+            original['record_presence']['layer']='other-layer'
+            with self.assertRaisesRegex(Conflict,'address differs from sealed'):
+                synthesis_digest.build(state,DB())
+
     def test_process_comparison_is_derived_from_two_receipt_backed_observations(self):
         agent,state=self.stopped();query=state['observations'][0]
         lower=copy.deepcopy(query);lower['id']='lower-receipt'

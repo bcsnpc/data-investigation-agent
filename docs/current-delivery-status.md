@@ -1,5 +1,11 @@
 # Current delivery status
 
+Round Three A5: expected records require original attested membership evidence
+at every reachable layer before source consistency; missing keys/mappings refuse.
+Nine membership and 34 synthesis regressions passed, including sealed-address
+tampering. No live run; Part B remains 390/500. A6 and four scenarios pending.
+Prior freezes invalid. [Details](expected-record-membership.md).
+
 Round Three A4: freshness completion collects declared job-boundary evidence
 after an earlier transformation stop, with within-run accounting receipt reuse
 and no unreachable application read. Offline regressions only; A5/A6 and the

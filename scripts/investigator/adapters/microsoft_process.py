@@ -67,6 +67,7 @@ class MicrosoftProcessAdapter:
         if self.read_snapshot_identity is not None:result.add('snapshot_identity')
         if self.config and self.config.get('source_delivery') and self.config.get('load_audits'):
             result.add('source_delivery')
+        if self.config and self.config.get('source_delivery'):result.add('expected_record_presence')
         return result
 
     def capability_gaps(self):
@@ -854,6 +855,10 @@ class MicrosoftProcessAdapter:
     def source_delivery(self,boundary,scope):
         from .source_delivery import read
         return read(self,boundary,scope)
+
+    def record_presence(self,path,layer,requested,scope):
+        from .record_presence import read
+        return read(self,path,layer,requested,scope)
 
     def ingestion(self,path,scope):
         layer=next((x for x in path.get('layers',[]) if x.get('kind')=='declared_source'),None)

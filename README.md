@@ -1,5 +1,10 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Three A5 adds receipt-backed expected-record membership at reachable
+layers. Source consistency cannot be earned from equal totals while a named
+record remains unchecked. Offline-tested only; A6 and source scenarios remain.
+See [membership contract](docs/expected-record-membership.md).
+
 Round Three A4 is regression-tested: freshness evidence collection covers
 declared job boundaries despite an earlier transformation finding. No new live
 freshness outcome claimed. See [routing evidence](docs/freshness-all-boundaries.md).
