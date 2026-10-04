@@ -1,5 +1,15 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Three completed four first-attempt known-domain executions after A1–A6:
+**INGESTION_GAP**, **LOAD_LATENCY**, then two **NO_COMPARABLE_PATH** results.
+Warehouse audit matched the copy activity's own 361/361 and 360/360 counters.
+Unexpected intake grouping prevented the two consistency outcomes; their refusals
+and both outputs are preserved. Snapshot alignment remains unverified. Fixture
+restored: application, landing and isolated model 7,661; original model 8,765.
+Part B 466/500, rolling last observed 590/1,000, diagnostic cap 12 unchanged.
+This supersedes the pending-work summaries below; no unfamiliar-domain acceptance.
+[Full round, outputs and open findings](docs/round-three-source-scenarios.md).
+
 Pre-run A5 correction validates membership against the declared server/endpoint,
 not a connection field absent from inventory listing items. No investigation
 outcome yet; source scenarios remain. [Details](docs/expected-record-membership.md).

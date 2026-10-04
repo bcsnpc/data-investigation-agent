@@ -1,5 +1,18 @@
 # Current delivery status
 
+Current checkpoint, 2026-10-04 UTC: A1–A6 and pre-run membership correction
+merged (#361–#368), each with six green checks. Four first attempts executed:
+INGESTION_GAP and LOAD_LATENCY earned qualified reader findings; consistency and
+configured-unreachable returned NO_COMPARABLE_PATH because intake added grouping.
+All four synthesized and validated; no replacement run or mid-run engine change.
+Warehouse audit own counters/times matched activity output. Application, landing
+and isolated model restored to 7,661, original model 8,765. Part B 466/500,
+rolling last observed 590/1,000, diagnostic cap 12 unchanged. Snapshot identity
+unverified; unknown-domain acceptance not claimed. Next evidenced work is intake
+scope fidelity and the preserved output-account/direction findings, not more grants.
+This checkpoint supersedes pending statements below. [Full evidence and verbatim
+outputs](round-three-source-scenarios.md).
+
 Pre-run A5 compilation exposed an inventory-shape assumption: SQLEndpoint listing
 items do not carry connectionString. Membership now checks the already declared
 server/endpoint against approved scope; mismatch refuses. Regression uses the

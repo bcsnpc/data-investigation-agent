@@ -1,0 +1,31 @@
+You asked: In Application load fixture 20261003, Movement Units shows 7,661 units. Recent movements are missing. Please trace this figure to the application and establish whether a completed load left anything out.
+Answer to your question: Not answered.
+Regarding the original question: No recorded completion check establishes an answer to this request.
+What was found instead:
+
+Measure: Movement Units.
+B2 diverges: L2 (app.stock movements round two 20261003 in ordersops; role APPLICATION, upstream input) 7,672 -> L1 (dbo.stock movements round two 20261003 in round two bronze 20261003; role LANDING, downstream output) 7,661.
+B1 agrees: L1 (dbo.stock movements round two 20261003 in round two bronze 20261003; role LANDING, upstream input) 7,661 -> L0 (Movements in Application load fixture 20261003; role SEMANTIC, downstream output) 7,661.
+ENGINE_INDEPENDENT: comparable quantity-bound engine self-reports differ; this is an engine-independent cross-surface comparison. (receipt boundary-1-comparison).
+ENGINE_INDEPENDENT: comparable quantity-bound engine self-reports differ; this is an engine-independent cross-surface comparison. (receipt boundary-2-comparison).
+Declared-context reproduction unavailable: Declared-context reproduction is undeclared for model-only or layer-only named context.
+
+The measure carries the intermediate movements table total straight through to the application layer with no change. The compared source relation is larger than that intermediate table, so the missing movements arise before or during transfer into that intermediate table rather than from aggregation within the application measure.
+
+Run cd38c792-a779-4edb-88b9-abd6ec49b375: The recorded successful load finished at 2026-10-04T16:36:16.1089576Z; its own activity reported 361 rows read and 361 rows written. The newest application change read was 2026-10-04 16:35:11.2617794; 1 source rows were absent and 0 carried different versions in the destination. The observed source changes predate that load, so this is a delivery difference requiring operational investigation.
+
+Layers:
+L0 - Movements in Application load fixture 20261003; role SEMANTIC: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements
+L1 - dbo.stock movements round two 20261003 in round two bronze 20261003; role LANDING: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003
+L2 - app.stock movements round two 20261003 in ordersops; role APPLICATION: sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945
+
+Limits:
+- Unattested connection on L0 (receipt 41097593-85d8-426c-98a3-e42b7ab4fc08).
+- Unattested connection on L1 (receipt 21bee0e7-a99d-4a4d-9111-95848b2ad726).
+- Unattested connection on L2 (receipt 4a4c8ef8-27ac-44e7-917f-9f3fe6c9f506).
+- SNAPSHOT_UNVERIFIED for B1, B2: the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.
+- Checked through L2; stopped because reached.
+- Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.
+- Delivery row comparisons do not exclude Fabric SQL analytics endpoint synchronization delay; query-bound matching snapshots are unavailable.
+
+Recommended action: Ask the operations owner to investigate the missing delivery using the recorded evidence.

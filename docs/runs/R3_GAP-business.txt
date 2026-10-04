@@ -1,0 +1,6 @@
+You asked: In Application load fixture 20261003, Movement Units shows 7,661 units. Recent movements are missing. Please trace this figure to the application and establish whether a completed load left anything out.
+Answer to your question: Not answered.
+Regarding the original question: No recorded completion check establishes an answer to this request.
+What was found instead:
+
+The checked reported calculation value was 7,661. Some expected information has not arrived in the checked process. The recorded successful load finished at 2026-10-04T16:36:16.1089576Z; its own activity reported 361 rows read and 361 rows written. The newest application change read was 2026-10-04 16:35:11.2617794; 1 source rows were absent and 0 carried different versions in the destination. The observed source changes predate that load, so this is a delivery difference requiring operational investigation. The checks do not establish whether they describe the same moment; different update timing remains possible. For the reported calculation and the landing table, the two checks used different calculation engines. For the landing table and the application, the two checks used different calculation engines. Recommended action: Ask the operations owner to investigate the missing delivery using the recorded evidence.
