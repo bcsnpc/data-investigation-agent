@@ -403,3 +403,19 @@ all counters and failures remain preserved.
 
 
 Dated correction and audit verification, 2026-10-03 America/Chicago: earlier HTTP200 monitoring queries established access to the native monitoring database and empty requested histories, not independent proof of active logging. The human now confirms Workspace settings Monitoring ON. Current listing contains a native Monitoring artifact and the same KQL database 7e353019-064f-4aac-9a62-a9770d1399a9 used by every earlier investigator-reader probe; no handmade database/table creation found in implementation scripts. The workspace API omits the toggle; Eventstream definition HTTP401 and no connected browser prevent an independent toggle read. No setting or grant changed. Corrected pipeline 2a3801ae completed; investigator-reader served exactly one audit row with 360/360 own copy counters and matching activity times for that same run. Accounting is available from this audit surface for this run, but its null watermark establishes no source capture cut or snapshot alignment. The earlier failed audit query retained only a generic transport error, so sync lag or permission cannot be named as its cause. See [verification](docs/round-two-audit-verification.md). Part B 140/300, rolling observed 295/600.
+
+Dated Part B result, 2026-10-04 UTC: the existing orderops_investigator reader
+successfully served the declared application quantity in two live investigations;
+the isolated model, Bronze and application boundaries were independently compared.
+No new identity or permission was needed. Both gap/latency trials completed
+NO_KNOWN_PATTERN: their audit SQL reads returned the earlier 360/360 successful
+row and the preserved null-timestamp/null-counter row, with neither new pipeline
+run present. The new runs' own activity output reported 361/361 and 360/360,
+but their writer success alone does not establish which audit rows Delta held.
+Do not assert SQL synchronization as the cause without that independent evidence,
+and do not skip the malformed history to manufacture CURRENT. No load/gap claim
+was earned. Source-consistency and configured-unreachable tickets held at intake.
+Reader restoration checks returned 7,661 across the isolated application,
+Bronze and model, and 8,765 in the original model. Snapshot caveats remain.
+Human-approved Part B ceiling is 500; rolling stays 600, diagnostic cap 12.
+See [complete preserved round](docs/round-two-source-scenarios.md).
