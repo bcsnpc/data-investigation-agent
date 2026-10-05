@@ -16,7 +16,7 @@ class NumeralKindTests(unittest.TestCase):
                 'measures':[{'id':'measure','name':'Movement Units'}],'columns':[],'reports':[]}]}
 
     def response(self,payload):
-        return {'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':'I expected a movement numbered 900099'}},
+        return {'value_mentions':[],'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':'I expected a movement numbered 900099'}},
             'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'Movement Units','question':None,
             'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[],
             'reported_candidates':[{'role':'FIGURE','quote':'shows 7,661 units'},

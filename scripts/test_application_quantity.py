@@ -116,6 +116,21 @@ class ApplicationSelfReportTests(unittest.TestCase):
         self.assertEqual(result['rows'],[{'quantity':'2'}])
         self.assertEqual(result['surface_report'],{'identity':'reader','engine':'Microsoft SQL Azure','object':'application'})
         self.assertEqual(result['surface_report_binding'],'VALUE_QUERY')
+    def test_application_connection_retry_retains_error_and_guarded_result(self):
+        from unittest.mock import Mock
+        failure={'error':'SQL_READ_FAILED','stage':'connect','sql_error_number':40613}
+        execute=Mock(side_effect=[failure,self.response()])
+        with patch('sql_connect_retry.time.sleep'):
+            # Explicit sleep injection avoids default-argument capture.
+            import sql_connect_retry
+            with patch('application_sql_surface.read_with_retry',
+                side_effect=lambda read:sql_connect_retry.read_with_retry(read,lambda delay:None)):
+                result=application_sql_surface.read({},self.request(),execute=execute)
+        self.assertEqual(execute.call_count,2)
+        self.assertEqual(result['connection_attempts'][0]['sql_error_number'],40613)
+        self.assertEqual(result['connection_attempts'][1]['status'],'SUCCEEDED')
+        self.assertTrue(result['read_only_verified'])
+        self.assertEqual(result['rows'],[{'quantity':'2'}])
     def test_missing_guards_self_report_or_wrong_engine_is_not_attested(self):
         request=self.request();request['require_read_only']=False
         with self.assertRaises(ValueError):application_sql_surface.read({},request,execute=self.fail)

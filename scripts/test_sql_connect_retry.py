@@ -1,7 +1,7 @@
 import subprocess
 import unittest
 from unittest.mock import Mock
-from sql_connect_retry import read_with_retry
+from sql_connect_retry import read_with_retry, TRANSIENT_CONNECTION_ERRORS
 from cross_layer_investigation import metric_observation
 
 
@@ -10,6 +10,39 @@ SUCCESS = dict(values={'order_count': '100000'}, query='fixed query', captured_a
 
 
 class RetryTests(unittest.TestCase):
+    def test_published_codes_retry_only_connection_establishment(self):
+        for number in TRANSIENT_CONNECTION_ERRORS:
+            failure=dict(FAILURE,sql_error_number=number)
+            for stage,count in [('connect',2),('query',1)]:
+                read=Mock(side_effect=[dict(failure,stage=stage),SUCCESS])
+                result=read_with_retry(read,Mock())
+                self.assertEqual(read.call_count,count)
+                self.assertEqual(result['connection_attempts'][0]['sql_error_number'],number)
+
+    def test_retry_needs_new_physical_admission_before_transport(self):
+        from investigator.physical_reads import scope
+        read=Mock(side_effect=[FAILURE,SUCCESS]);events=[]
+        def meter(kind,call):
+            events.append((kind,read.call_count))
+            return call()
+        with scope(meter) as physical:read_with_retry(read,Mock())
+        self.assertEqual(events,[('sql_connection_retry',1)])
+        self.assertEqual(physical['first_report']['status'],'FAILED')
+        read=Mock(return_value=FAILURE)
+        def refused(kind,call):raise RuntimeError('No remaining physical requests')
+        with scope(refused),self.assertRaisesRegex(RuntimeError,'No remaining'):
+            read_with_retry(read,Mock())
+        self.assertEqual(read.call_count,1)
+
+    def test_real_usage_hold_propagates_instead_of_becoming_invalid_sql_response(self):
+        from investigator.physical_reads import scope
+        from investigator.usage_governance import UsageHold
+        read=Mock(return_value=FAILURE)
+        def refused(kind,call):raise UsageHold('Physical allowance exhausted')
+        with scope(refused),self.assertRaisesRegex(UsageHold,'Physical allowance exhausted'):
+            read_with_retry(read,Mock())
+        self.assertEqual(read.call_count,1)
+
     def test_resume_recovery_and_evidence(self):
         read = Mock(side_effect=[FAILURE, FAILURE, SUCCESS])
         sleep = Mock()

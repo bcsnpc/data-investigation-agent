@@ -18,8 +18,10 @@ def schema(bound):
 
 def validate(value,bound):
     text(value,bound)
-    if (not re.search(SENTENCE_END,value) or 'TRUNCATED_TO_PUBLISHED_LIMIT' in value
-            or re.search(r'\b(?:and|or|but|because|although|including|such as|can|could|may|might|must|should|would|will|to|with|from|between|if|when|where|than)[.!?]["\')\]]?$',value,re.I)):
+    # "in between" is a complete adverbial, unlike a dangling "between".
+    tail = re.search(r'\b(?:and|or|but|because|although|including|such as|can|could|may|might|must|should|would|will|to|with|from|between|if|when|where|than)[.!?]["\')\]]?$',value,re.I)
+    if tail and re.search(r'\bin between[.!?]["\')\]]?$',value,re.I):tail=None
+    if (not re.search(SENTENCE_END,value) or 'TRUNCATED_TO_PUBLISHED_LIMIT' in value or tail):
         raise IncompleteProse('Evidence prose must end in a complete sentence; truncation is not accepted')
     # Unfinished formatting and subordinate tails are not complete prose merely
     # because a decoder supplies a final period. Do not repair either in place.

@@ -14,6 +14,23 @@ from investigator.admin_api import create_app
 
 
 class OnboardingTests(unittest.TestCase):
+    def test_acceptance_context_pin_selects_immutable_metadata_without_changing_catalog(self):
+        from investigator.onboarding import digest
+        old=self.imported()
+        current=self.store.import_scan(old['id'],old['revision'],
+            self.scan([{'name':'Later metric','expression':'COUNTROWS(Sales)'}]),'admin')
+        pins={old['id']:{'context_id':old['context_id'],'hash':digest(old['context'])}}
+        pinned=ModelStore(self.store.database,self.inventory,'development',context_pins=pins)
+        selected=pinned.get(old['id'])
+        self.assertEqual(selected['context'],old['context'])
+        self.assertEqual(selected['context_id'],old['context_id'])
+        self.assertEqual(selected['revision'],current['revision'])
+        self.assertEqual(selected['enabled'],current['enabled'])
+        self.assertEqual(self.store.get(old['id']),current)
+        pins[old['id']]['hash']='0'*64
+        with self.assertRaisesRegex(Conflict,'Pinned context hash differs'):
+            ModelStore(self.store.database,self.inventory,'development',context_pins=pins).get(old['id'])
+
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name);self.inventory=self.root/'inventory.sqlite'

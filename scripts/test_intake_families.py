@@ -44,6 +44,7 @@ class IntakeFamilyTests(unittest.TestCase):
                 value['target_request']=None
                 value['report_quote']=None
                 value['question_kind']=None if value['action']=='ASK' else {'kind':'FIGURE_DIFFERENCE','source':{'quote':case['payload']['text']}}
+                value['value_mentions']=[{'role':'SELECTION','source':{'quote':f['quote']}} for f in value['filters']]
                 value['reported_candidates']=[] # Explicit new synthetic response; the v1 fixture is unchanged.
                 output['arguments']=json.dumps(value)
             return httpx.Response(200,json=response)
@@ -64,9 +65,9 @@ class IntakeFamilyTests(unittest.TestCase):
                 expected['instructions']=expected['instructions'].replace(
                     'ticket_shape and comparison_mode are null','triage is null').replace(
                     'both triage fields are required','triage is required')
-                from investigator.question_intake import FIGURE_INSTRUCTIONS,TARGET_INSTRUCTIONS,REPORT_INSTRUCTIONS,DESCRIPTOR_INSTRUCTIONS,QUESTION_KIND_INSTRUCTIONS,SCOPE_INSTRUCTIONS
+                from investigator.question_intake import FIGURE_INSTRUCTIONS,TARGET_INSTRUCTIONS,REPORT_INSTRUCTIONS,DESCRIPTOR_INSTRUCTIONS,QUESTION_KIND_INSTRUCTIONS,SCOPE_INSTRUCTIONS,VALUE_ROLE_INSTRUCTIONS
                 expected['instructions']=expected['instructions'].replace('Quotes are provenance,','Repeated measure, column and selection quotes identify the same referent; every occurrence is retained. Reported-figure quotes alone must be unique; include longer verbatim context if necessary. Never emit offsets. Quotes are provenance,')
-                expected['instructions']+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS+DESCRIPTOR_INSTRUCTIONS+QUESTION_KIND_INSTRUCTIONS+SCOPE_INSTRUCTIONS
+                expected['instructions']+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS+DESCRIPTOR_INSTRUCTIONS+QUESTION_KIND_INSTRUCTIONS+SCOPE_INSTRUCTIONS+VALUE_ROLE_INSTRUCTIONS
                 schema=expected['tools'][0]['parameters']
                 for key in ('ticket_shape','comparison_mode'):
                     schema['properties'].pop(key);schema['required'].remove(key)
@@ -99,6 +100,8 @@ class IntakeFamilyTests(unittest.TestCase):
                 next(x for x in scalar if x['type']=='integer').update(minimum=-limits.EXACT_INTEGER,maximum=limits.EXACT_INTEGER)
                 from investigator.question_intake import wire_contract
                 wire,current_schema,_=wire_contract(case['payload'])
+                schema['properties']['value_mentions']=current_schema['properties']['value_mentions']
+                schema['required'].insert(schema['required'].index('report_quote'),'value_mentions')
                 schema['properties']['question_kind']=current_schema['properties']['question_kind']
                 # Explicit synthetic v1 -> current grouping provenance migration.
                 # Original fixtures/tapes remain unchanged; none requests grouping.
@@ -109,7 +112,7 @@ class IntakeFamilyTests(unittest.TestCase):
                 expected['input']=json.dumps(wire,sort_keys=True)
                 self.assertEqual(requests,[expected])
                 self.assertEqual(decision['dimension_quotes'],[])
-                self.assertEqual({k:v for k,v in decision.items() if k not in ('report_binding','question_kind','dimension_quotes')},{**case['decision'],'reported_figure':{'state':'UNSPECIFIED'}})
+                self.assertEqual({k:v for k,v in decision.items() if k not in ('report_binding','question_kind','dimension_quotes','value_mentions')},{**case['decision'],'reported_figure':{'state':'UNSPECIFIED'}})
                 self.assertTrue(score(case,decision)['passed'])
 
     def test_model_anchored_figure_questions_need_no_manufactured_report_binding(self):

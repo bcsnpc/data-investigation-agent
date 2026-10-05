@@ -2,7 +2,7 @@
 from .onboarding import digest
 
 SQL = {'bounded_sql', 'bounded_fabric_sql', 'source', 'source_records'}
-SQL.update({'sql_identity','sql_database_permissions','sql_object_permissions','sql_quantity'})
+SQL.update({'sql_identity','sql_database_permissions','sql_object_permissions','sql_quantity','sql_connection','sql_connection_retry'})
 GUARDS = {'sql_identity','sql_database_permissions','sql_object_permissions'}
 DAX = {'bounded_dax', 'native', 'native_records'}
 
@@ -32,6 +32,7 @@ def accounting(state):
     return {'reads_sql': sql, 'reads_dax': dax, 'reads_other': len(entries)-sql-dax,
             'reads_total': len(entries), 'physical_requests':len(entries),
             'guard_requests':sum(e['tool'] in GUARDS for e in entries),
+            'connection_retry_requests':sum(e['tool']=='sql_connection_retry' or e.get('logical_tool')=='sql_connection_retry' for e in entries),
             'diagnostic_reads':state.get('cloud_calls',0) if state.get('read_accounting_version')=='diagnostic-operations-v1' else None,
             'guard_reuses':sum(e['status']=='REUSED' for e in state.get('guard_evidence',[])),
             'diagnostic_read_cap':state.get('envelope',{}).get('limits',{}).get('cloud_calls'),

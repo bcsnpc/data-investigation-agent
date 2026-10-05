@@ -16,6 +16,7 @@ from . import question_kind
 QUESTION_KIND_INSTRUCTIONS='\nClassify question_kind using the supplied consumer-owned kinds, with a verbatim quote of the question supporting the subject. FRESHNESS concerns currency; SOURCE_CORRECTNESS concerns source entries; VISUAL_CONTENT concerns what a report displays; FIGURE_DIFFERENCE concerns a discrepancy; the other named kinds distinguish components, derivation, transformation, business meaning and expected behaviour. ASK uses null. Routes are nominations: never substitute another route when the best route is marked unimplemented.'
 
 VERSION = 'process-debugging-intake-v2'
+VALUE_ROLE_INSTRUCTIONS='\nInventory quoted data values in value_mentions using the supplied value_roles: SELECTION only for values the user selected, filtered or chose; SUBJECT for values they ask about; MENTION otherwise. A mentioned code is not a selected filter. Only SELECTION may supply filters or target_request. For BUSINESS_MEANING keep filters and dimension_ids empty and target_request null, even when selections are mentioned; preserve their roles in the inventory.'
 FIGURE_INSTRUCTIONS='\nSupply reported_candidates as a numeral-role inventory: each extracted numeral has one role from the schema enum and a verbatim quote. A stated expected-record number is IDENTIFIER, never another FIGURE. Numerals inside report/model/layer names are OTHER, never expected records. Only FIGURE mentions are reported-figure candidates; include an explicitly empty visual as FIGURE too. Do not choose among competing FIGURE mentions. Include enough surrounding text to distinguish numeral roles; FIGURE quotes must occur exactly once. No offsets. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
 SCOPE_INSTRUCTIONS=' Each dimension_ids entry requires column_id and a verbatim quote of an explicit grouping request (by, per, grouped, or breakdown). An expected-record IDENTIFIER supplies membership only, never a filter or grouping. Do not add a breakdown merely to inspect that record.'
 TARGET_INSTRUCTIONS='\nSupply target_request or null. For a stated selection extract its exact value as value_source:{quote}, and column_source:{quote} only if the ticket states the catalog column name exactly; otherwise column_source:null. Do not guess a column or ASK for its identifier. Anchor PROPOSE to the measure and named report, leave that unresolved selection out of filters, and let the consumer resolve it inside the procedure. Other requested filters are preserved. No offsets. ASK has target_request=null.'
@@ -128,6 +129,7 @@ def azure_resolve(payload):
     instructions+=FIGURE_INSTRUCTIONS+TARGET_INSTRUCTIONS+REPORT_INSTRUCTIONS+DESCRIPTOR_INSTRUCTIONS
     instructions+=QUESTION_KIND_INSTRUCTIONS
     instructions+=SCOPE_INSTRUCTIONS
+    instructions+=VALUE_ROLE_INSTRUCTIONS
     repair=payload.get('_figure_quote_repair')
     if repair is not None:
         wire.pop('_figure_quote_repair',None)
@@ -153,6 +155,10 @@ def azure_resolve(payload):
     quote_audit=[]
     fields(result,schema['required'])
     value=copy.deepcopy(result)
+    from . import value_roles
+    for mention in value['value_mentions']:
+        mention['source']=locate(mention['source'],payload['text'],field='selection',audit=quote_audit)
+    value_roles.validate(value['value_mentions'],payload['text'])
     requested=value.pop('target_request'); report_quote=value.pop('report_quote')
     subject=value.get('question_kind')
     if value['action']=='PROPOSE' and subject is None:raise ValueError('Question kind is required')
@@ -242,6 +248,7 @@ def azure_resolve(payload):
         fields(f,['column_id','operator','values','quote'])
         f['column_id']=actual(f['column_id'])
         value['scope_quotes'].append({'column_id':f['column_id'],'quote':f.pop('quote')})
+    value_roles.scope(value,payload['text'],requested)
     return value,{**usage,'quote_provenance':quote_audit}
 
 
@@ -258,6 +265,10 @@ def wire_contract(payload):
     for field in ('numeral_mentions','expected_records','name_binding'):schema['properties'].pop(field)
     wire['implemented_routes']=copy.deepcopy(question_kind.ROUTES)
     wire['question_kinds']=list(question_kind.KINDS)
+    from . import value_roles
+    wire['value_roles']=list(value_roles.ROLES)
+    schema['properties']['value_mentions']=value_roles.wire_schema(QUOTE_SCHEMA)
+    schema['required'].append('value_mentions')
     schema['properties']['question_kind']={'anyOf':[{'type':'null'},
         {'type':'object','additionalProperties':False,'properties':{
             'kind':{'type':'string','enum':list(question_kind.KINDS)},'source':QUOTE_SCHEMA},
@@ -329,7 +340,10 @@ def snapshot(workspace):
 
 
 def validate(value, payload):
-    fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes') if k in value])
+    fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes','value_mentions') if k in value])
+    if 'value_mentions' in value:
+        from .value_roles import scope
+        scope(value,payload['text'])
     if 'numeral_mentions' in value or 'expected_records' in value:
         from .numeral_roles import evidence
         evidence(value,payload['text'])

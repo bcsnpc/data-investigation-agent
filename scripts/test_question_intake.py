@@ -29,7 +29,7 @@ class WireContractTests(unittest.TestCase):
         payload=self.payload()
         payload['models'][0]['dynamic_investigation']=True
         payload['text']+=' It shows 9 units.'
-        proposed={'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':'Compare an unfamiliar value for North.'}},
+        proposed={'value_mentions':[],'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':'Compare an unfamiliar value for North.'}},
             'report_quote':None,'target_request':None,'reported_candidates':[{'role':'FIGURE','quote':'It shows 9 units.'}],
             'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
             'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[], 'dimension_ids':[]}
@@ -43,7 +43,7 @@ class WireContractTests(unittest.TestCase):
 
     def test_visual_requests_still_require_a_report(self):
         payload=self.payload()
-        proposed={'question_kind':{'kind':'VISUAL_CONTENT','source':{'quote':payload['text']}},
+        proposed={'value_mentions':[],'question_kind':{'kind':'VISUAL_CONTENT','source':{'quote':payload['text']}},
             'report_quote':None,'target_request':None,'reported_candidates':[],
             'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
             'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[]}
@@ -55,7 +55,7 @@ class WireContractTests(unittest.TestCase):
 
     def test_selection_on_source_question_still_requires_a_report(self):
         payload=self.payload()
-        proposed={'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':payload['text']}},
+        proposed={'value_mentions':[{'role':'SELECTION','source':{'quote':'North'}}],'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':payload['text']}},
             'report_quote':None,'target_request':{'value_source':{'quote':'North'},'column_source':None,
                 'descriptor':{'state':'VALUE_ONLY','source':None}},'reported_candidates':[],
             'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
@@ -68,7 +68,7 @@ class WireContractTests(unittest.TestCase):
     def test_explicit_ambiguous_report_on_source_question_is_not_ignored(self):
         payload=self.payload();payload['text']='Compare an unfamiliar value for North. Use Shared.'
         payload['models'][0]['reports']=[{'id':'r1','name':'Shared'},{'id':'r2','name':'Shared'}]
-        proposed={'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':'Compare an unfamiliar value for North.'}},
+        proposed={'value_mentions':[],'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':'Compare an unfamiliar value for North.'}},
             'report_quote':'Shared','target_request':None,'reported_candidates':[],
             'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
             'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[]}
@@ -85,7 +85,7 @@ class WireContractTests(unittest.TestCase):
 
     def test_opaque_handles_roundtrip_and_filter_quotes_stay_attached(self):
         payload=self.payload();payload['text']+=' Group by Region name.';original=copy.deepcopy(payload)
-        proposed={'question_kind':{'kind':'FIGURE_DIFFERENCE','source':{'quote':'Compare an unfamiliar value for North.'}},'report_quote':None,'target_request':None,'reported_candidates':[], 'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value','question':None,
+        proposed={'value_mentions':[{'role':'SELECTION','source':{'quote':'North'}}],'question_kind':{'kind':'FIGURE_DIFFERENCE','source':{'quote':'Compare an unfamiliar value for North.'}},'report_quote':None,'target_request':None,'reported_candidates':[], 'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value','question':None,
                   'triage':'MISMATCH_COMPLAINT:VERTICAL',
                   'filters':[{'column_id':'m0c0','operator':'in','values':['North'],'quote':'North'}],
                   'dimension_ids':[{'column_id':'m0c0','quote':'by Region name'}]}
@@ -100,7 +100,7 @@ class WireContractTests(unittest.TestCase):
         self.assertEqual(schema['properties']['dimension_ids']['maxItems'],1)
 
     def test_global_proposal_cannot_add_detached_scope_quotes(self):
-        proposed={'question_kind':{'kind':'FIGURE_DIFFERENCE','source':{'quote':'Compare an unfamiliar value for North.'}},'report_quote':None,'target_request':None,'reported_candidates':[], 'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
+        proposed={'value_mentions':[],'question_kind':{'kind':'FIGURE_DIFFERENCE','source':{'quote':'Compare an unfamiliar value for North.'}},'report_quote':None,'target_request':None,'reported_candidates':[], 'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'unfamiliar value',
                   'question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[]}
         with patch('ticket_planner.azure_generate',return_value=(proposed,{})):
             result,_=azure_resolve(self.payload())
@@ -120,7 +120,7 @@ class WireContractTests(unittest.TestCase):
         self.assertEqual(set(TRIAGE_PAIRS.values()),{('MISMATCH_COMPLAINT','VERTICAL'),
             ('MISMATCH_COMPLAINT','HORIZONTAL'),('BUSINESS_QUESTION','NONE')})
         for encoded_pair,pair in list(TRIAGE_PAIRS.items())+[(None,(None,None))]:
-            value={'question_kind':{'kind':'FIGURE_DIFFERENCE','source':{'quote':'Compare an unfamiliar value for North.'}} if encoded_pair else None,'report_quote':None,'target_request':None,'reported_candidates':[],'action':'PROPOSE' if encoded_pair else 'ASK','model_id':'m0' if encoded_pair else None,
+            value={'value_mentions':[],'question_kind':{'kind':'FIGURE_DIFFERENCE','source':{'quote':'Compare an unfamiliar value for North.'}} if encoded_pair else None,'report_quote':None,'target_request':None,'reported_candidates':[],'action':'PROPOSE' if encoded_pair else 'ASK','model_id':'m0' if encoded_pair else None,
                 'measure_id':'m0v0' if encoded_pair else None,'metric_quote':'unfamiliar value' if encoded_pair else None,
                 'question':None if encoded_pair else 'Which metric?', 'triage':encoded_pair,'filters':[],'dimension_ids':[]}
             with patch('ticket_planner.azure_generate',return_value=(value,{})):
