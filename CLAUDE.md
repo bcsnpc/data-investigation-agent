@@ -471,3 +471,5 @@ never infer state from its ID. Historical state associations are separate and
 retrospective, tied to sealed run/tape hashes; old receipts are unchanged.
 Fixture arithmetic must never enter runtime prompts or quantity contracts.
 See docs/round-five-fixture-states.md. No fresh freeze or live requalification.
+
+Dated serverless handling, 2026-10-05 UTC: manifest-declared application source uses a 240-second worker deadline (old failure used90). Connect-stage40613 may wait at most60 seconds of backoff, all attempts admitted/receipted. Pre-warm connections and resume waits are ledger controls, never investigation diagnostic reads. OSError reason/errno/location and actual timer expiry now retained; the historical missing reason remains unknown. No quota, policy, identity or billing change. See docs/serverless-source-controls.md. Prior freezes invalid.

@@ -16,7 +16,7 @@ from uuid import uuid4 as new_uuid, UUID
 ACTIVE = ContextVar('process_tape', default=None)
 VERSION = 'bounded-worker-tape-v1'
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
-    'BUDGET','BUDGET_INPUT','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END',
+    'BUDGET','BUDGET_INPUT','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
     'BOUNDED_REQUEST','BOUNDED_RESPONSE','BOUNDED_FAILURE','FINAL'})
 UUID_PATTERN=re.compile(r'(?i)\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b')
@@ -213,6 +213,13 @@ class Tape:
                 if not operations or operations.pop()!=name:raise TapeError('TAPE_OPERATION_UNBALANCED')
             elif kind=='WORKER_START':workers+=1
             elif kind in ('WORKER_SEND','WORKER_READ') and workers!=1:raise TapeError('TAPE_WORKER_RESPONSE_WITHOUT_REQUEST')
+            elif kind=='WORKER_FAILURE':
+                if workers!=1:raise TapeError('TAPE_WORKER_FAILURE_WITHOUT_REQUEST')
+                body=json.loads(validate_event(event,event['ordinal']))
+                if set(body)!={'operation','failure'} or body['operation'] not in ('write','flush','readline','deadline'):
+                    raise TapeError('TAPE_WORKER_FAILURE_FIELDS')
+                from .process_failure import validate as failure_detail
+                failure_detail(body['failure'])
             elif kind=='WORKER_END':
                 workers-=1
                 if workers<0:raise TapeError('TAPE_WORKER_UNBALANCED')

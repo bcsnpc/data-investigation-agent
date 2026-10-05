@@ -43,6 +43,11 @@ try {
     $connection = New-Object System.Data.SqlClient.SqlConnection($builder.ConnectionString)
     $connection.Credential = New-Object System.Data.SqlClient.SqlCredential($credential.UserName, $credential.Password)
     $connection.Open()
+    if ($request.control_mode -ceq 'PREWARM') {
+        # Connection-only control: no guard, metadata or quantity statement.
+        @{status='CONNECTED';stage='connect'} | ConvertTo-Json -Compress
+        return
+    }
     $stage = 'query'
     if ($request.require_read_only) {
         # ApplicationIntent alone does not enforce read-only access. Verify the

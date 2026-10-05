@@ -131,7 +131,9 @@
         "adapter": "estate-reader",
         "address": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
         "reader": "source-reader"
-      }
+      },
+      "serverless": true,
+      "worker_timeout_seconds": 240
     }
   ],
   "resources": [

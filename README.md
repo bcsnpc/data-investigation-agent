@@ -1,3 +1,5 @@
+Dated Round Five E implementation, 2026-10-05 UTC: manifest-declared serverless sources have bounded connect-stage 40613 resume waits; the fixture application worker deadline is 240 seconds. Pipe/OS diagnostics and actual deadline expiry are retained and replayed. Pre-warm attempts and waits are controls, not diagnostic reads. Offline checks pass; live list not yet attempted. Pot218/400, caps unchanged; prior freezes invalid. See [implementation and limits](docs/serverless-source-controls.md).
+
 # Self-Discovering Enterprise Data Investigator
 
 Dated recording-overhead repair, 2026-10-04: every event is persisted once;

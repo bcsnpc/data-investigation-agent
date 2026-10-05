@@ -9,6 +9,7 @@ from investigator.source_diagnostics import run, snapshot
 from investigator.source_scope import describe
 from metadata_config import load_config, ROOT
 from sql_connect_retry import read_with_retry
+from sql_layer_policy import policy as layer_policy
 
 
 class SourceReadError(RuntimeError):
@@ -28,7 +29,8 @@ class SourceReadTimeout(TimeoutError):
 def read_once(config, request):
     payload = {'server': config['sql']['server'], 'database': config['sql']['database'],
                'credential_file': config['sql']['auth']['credential_file'],
-               'query': request['query'], 'parameters': request['parameters']}
+               'query': request.get('query',''), 'parameters': request.get('parameters',[])}
+    if request.get('control_mode')=='PREWARM':payload['control_mode']='PREWARM'
     if request.get('response_mode')=='records':
         payload.update(response_mode='records',max_rows=request['max_rows'],result_columns=request['result_columns'])
     if request.get('require_read_only'):
@@ -36,7 +38,8 @@ def read_once(config, request):
     from investigator.physical_reads import run as physical_run
     completed = physical_run(['powershell', '-NoProfile', '-NonInteractive', '-File',
         str(ROOT / 'infra/scripts/Read-CatalogAggregate.ps1')],
-        input=json.dumps(payload), capture_output=True, text=True, encoding='utf-8', timeout=90)
+        input=json.dumps(payload), capture_output=True, text=True, encoding='utf-8',
+        timeout=layer_policy(config,request)['worker_timeout_seconds'])
     if len(completed.stdout) > (2*1024*1024 if request.get('response_mode')=='records' else 8192):
         raise RuntimeError('Source transport unavailable')
     result = json.loads(completed.stdout)
@@ -47,7 +50,7 @@ def read_once(config, request):
 
 
 def transport(config, request):
-    result=read_with_retry(lambda:read_once(config,request))
+    result=read_with_retry(lambda:read_once(config,request),serverless=layer_policy(config,request)['serverless'])
     if result.get('error') == 'SQL_READ_TIMEOUT' or (result.get('stage')=='query' and result.get('sql_error_number')==-2):
         raise SourceReadTimeout(result['connection_attempts'])
     if result.get('error'):
