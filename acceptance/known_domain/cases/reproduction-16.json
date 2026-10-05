@@ -1,10 +1,10 @@
 {
-  "version": 1,
+  "version": 2,
   "ticket": "reproduction-16",
-  "source_session_id": "46826851-6d68-4f25-a894-243c9e61f8f5",
-  "expected_status": "HELD",
-  "expected_outcome": null,
-  "expected_answer_line": "Answer to your question: Yes — the saved declared context reproduces the reported figure.",
+  "source_session_id": "6308d027-2ed3-4cf7-b87a-ee9aff105bfa",
+  "expected_status": "COMPLETED",
+  "expected_outcome": "NO_COMPARABLE_PATH",
+  "expected_answer_line": "Answer to your question: Yes \u2014 the saved declared context reproduces the reported figure.",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -15,5 +15,17 @@
   ],
   "required_output_terms": [],
   "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
-  "acceptance_change_reason": "Initial Round Four roster. Includes preserved failures; no new live measurement or replay success implied."
+  "acceptance_change_reason": "2026-10-05: grade the reproduced figure and answer line, retaining walk outcome separately. The older ValueError-held composition was since fixed; completed run 6308d027 reproduces 16 and answers Yes. No new live attempt.",
+  "context_pin": {
+    "context_id": "e920dda4-d5c8-4a95-b9e9-a600386ae3d5",
+    "hash": "baf3044545048d410b602ed8bec138e878d7d61da32490b364e42891db2beb2a"
+  },
+  "grade_kind": "reproduction",
+  "expected_reproduction": {
+    "cell_id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
+    "label": "REPRODUCED",
+    "reproduced_value": "16",
+    "reported_state": "NUMBER",
+    "reported_value": "16"
+  }
 }

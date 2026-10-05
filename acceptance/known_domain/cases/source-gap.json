@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "ticket": "source-gap",
   "source_session_id": "68043c99-dd9b-401e-ba45-0a89ae5daa00",
   "expected_status": "COMPLETED",
@@ -15,5 +15,10 @@
   ],
   "required_output_terms": [],
   "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
-  "acceptance_change_reason": "Initial Round Four roster. Includes preserved failures; no new live measurement or replay success implied."
+  "acceptance_change_reason": "Initial Round Four roster. Includes preserved failures; no new live measurement or replay success implied.",
+  "context_pin": {
+    "context_id": "3693ce4e-ffcb-4cdb-b1e8-7662ebeea8ba",
+    "hash": "54193af7ee9a2e905b154397dee7157e81767d40e6ec857248aab4f02421c394"
+  },
+  "grade_kind": "walk"
 }

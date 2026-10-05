@@ -10,17 +10,28 @@ INVARIANTS=frozenset(('both_outputs','no_serialized_structure','no_business_iden
 
 def validate_case(case):
     from investigator.process_outcomes import OUTCOMES
+    if case.get('grade_kind','walk') not in ('walk','reproduction'):raise ValueError('Unknown grading subject')
+    pin=case.get('context_pin')
+    if not isinstance(pin,dict) or (set(pin)!={'context_id','hash'} or not re.fullmatch('[0-9a-f]{64}',pin['hash'])):raise ValueError('Invalid context pin')
+    if case.get('grade_kind')=='reproduction' and not case.get('expected_reproduction'):raise ValueError('Missing reproduction expectation')
     if (set(case['invariants'])!=INVARIANTS or len(case['invariants'])!=len(INVARIANTS)
-            or case['expected_outcome'] not in tuple(OUTCOMES)+(None,)
+            or case['expected_outcome'] not in tuple(OUTCOMES)+('INSUFFICIENT_EVIDENCE',None,)
             or not case.get('acceptance_change_reason','').strip()
             or not case['expected_answer_line'].startswith('Answer to your question: ')):
         raise ValueError('Acceptance contract is incomplete or has an unsupported invariant/outcome')
 
 
-def output_checks(case,state):
+def output_checks(case,state,*,provider_mechanism=None,pinned_context=None,local_payload=None):
     errors=[]
     if state.get('status')!=case['expected_status']:errors.append('STATUS_CHANGED')
-    if (state.get('assessment') or {}).get('classification')!=case['expected_outcome']:errors.append('OUTCOME_CHANGED')
+    if case.get('grade_kind','walk')=='walk' and (state.get('assessment') or {}).get('classification')!=case['expected_outcome']:errors.append('OUTCOME_CHANGED')
+    pin=case.get('context_pin')
+    if pin:
+        if state.get('envelope',{}).get('context_id')!=pin['context_id']:errors.append('CONTEXT_ID_CHANGED')
+        if pinned_context!=pin:errors.append('CONTEXT_HASH_NOT_ESTABLISHED')
+    if case.get('grade_kind')=='reproduction':
+        actual=reproduction_verdict(state,case['expected_reproduction']['cell_id'])
+        if actual!=case['expected_reproduction']:errors.append('REPRODUCTION_CHANGED')
     outputs=(state.get('synthesis') or {}).get('outputs',{})
     for kind in ('business_output','technical_output'):
         text=outputs.get(kind,{}).get('explanation',{}).get('text')
@@ -37,47 +48,104 @@ def output_checks(case,state):
             from investigator.path_narrative import validate_layer_references
             # Only the model paragraph uses this vocabulary: engine-rendered
             # legends and limits deliberately state role names and identities.
-            commentary=body.split('\n\n')
             boundaries=[o for o in state.get('observations',[]) if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
             labels=(state.get('assessment') or {}).get('technical_output',{}).get('layer_labels',{})
             for boundary in boundaries:
                 for side in ('upper_layer','lower_layer'):
                     if not labels.get(boundary.get(side),{}).get('role'):
                         errors.append('technical_output:UNDECLARED_LAYER_ROLE')
-            if len(commentary)>1 and commentary[1].strip():
-                # Complete replay is required to validate against its receipt
-                # digest; never infer labels from words in this output.
-                if labels and not re.search(r'\bL\d+ \([A-Z]+\)',body):errors.append('technical_output:MISSING_LAYER_ROLE')
-                payload={'layer_labels':labels,'evidence':[{'id':o['id'],'tool':o.get('tool'),'result':o}
+            mechanism=outputs[kind].get('model_mechanism',provider_mechanism)
+            if mechanism is None and (state.get('synthesis') or {}).get('provenance') in ('DETERMINISTIC_REFUSAL_RENDERING','DETERMINISTIC_BOUNDED_SPINE_RENDERING'):
+                mechanism={'text':'','provenance':'ENGINE_ONLY_RENDERING'}
+            if mechanism is None:errors.append('technical_output:MISSING_MODEL_MECHANISM_PROVENANCE')
+            elif mechanism.get('provenance') not in ('PROVIDER_MECHANISM','SEALED_PROVIDER_MECHANISM','ENGINE_ONLY_RENDERING'):
+                errors.append('technical_output:INVALID_MECHANISM_PROVENANCE')
+            elif mechanism.get('text'):
+                payload=local_payload or {'layer_labels':labels,'evidence':[{'id':o['id'],'tool':o.get('tool'),'result':o}
                     for o in state.get('observations',[])]}
-                try:validate_layer_references(commentary[1],payload)
+                try:validate_layer_references(mechanism['text'],payload)
                 except ValueError as exc:errors.append('technical_output:LAYER_REFERENCE:'+str(exc))
         for required in case.get('required_output_terms',[]):
             if required not in text:errors.append(kind+':MISSING_REQUIRED_TERM:'+required)
     return sorted(set(errors))
 
 
+def reproduction_verdict(state,cell_id):
+    facts=[o for o in state.get('observations',[]) if o.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION'
+           and o.get('cell',{}).get('id')==cell_id]
+    if len(facts)!=1:return None
+    fact=facts[0];figure=fact.get('reported_figure') or {}
+    return {'cell_id':cell_id,'label':fact.get('label'),'reproduced_value':fact.get('reproduced_value'),
+            'reported_state':figure.get('state'),'reported_value':figure.get('value')}
+
+
+def sealed_mechanism(path):
+    """Read the explicit provider response field, never infer paragraphs in prose.
+
+    This is a grading view of historical bytes, not a change to their receipts
+    or outputs. New outputs carry the same role directly in model_mechanism.
+    """
+    import base64
+    from investigator.process_tape import Tape,validate_event
+    tape=Tape(path);operation=None;found=[]
+    for event in tape.events:
+        if event['kind']=='OPERATION_START':operation=json.loads(validate_event(event,event['ordinal']))['name']
+        if event['kind']!='PROVIDER_RESPONSE' or operation!='synthesize':continue
+        wrapper=json.loads(validate_event(event,event['ordinal']))
+        body=json.loads(base64.b64decode(wrapper['body'],validate=True))
+        for call in body.get('output',[]):
+            if call.get('type')!='function_call':continue
+            args=json.loads(call['arguments'])
+            if 'technical_output' in args:
+                found.append({'text':args['technical_output']['text'],'provenance':'SEALED_PROVIDER_MECHANISM',
+                              'provider_event_sha256':event['sha256']})
+    if not found:return None
+    return found[-1]
+
+
 def run_case(case,fixture_root,output):
     result={'ticket':case['ticket'],'source_session_id':case['source_session_id'],
             'status':'BLOCKED','network_calls':0,'physical_requests':0,'errors':[]}
-    folder=fixture_root/'unknown-domain-v4'
-    if not all((folder/name).exists() for name in ('catalog.sqlite','config.json')):
+    input_path=fixture_root/'known-domain-runs'/(case['ticket']+'.json')
+    if not input_path.is_file():
         result['reason']='MISSING_PRIVATE_REPLAY_INPUTS';return result
-    from metadata_config import load_config
-    from session_replay import replay,ReplayError
-    config=load_config(folder/'config.json')
-    def no_network(*args,**kwargs):raise ReplayError('NETWORK_FORBIDDEN')
+    from process_replay import replay
+    from investigator.process_tape import Tape,TapeError
+    from investigator.onboarding import digest
+    import sqlite3
+    def no_network(*args,**kwargs):raise TapeError('NETWORK_FORBIDDEN')
     try:
+        run=json.loads(input_path.read_text(encoding='utf-8'))
+        if (run.get('session') or {}).get('id')!=case['source_session_id']:
+            raise TapeError('ACCEPTANCE_RUN_ID_DIFFERS')
+        path=Path(run['tape_path'])
+        if not path.is_absolute():path=fixture_root/path
+        tape=Tape(path)
+        # Select from the sealed bootstrap, including a recorded operator pin.
+        # Never install the case's requested context into an existing tape.
+        model_id=run['session']['model_id']
+        with sqlite3.connect(path.parent/'catalog.sqlite') as db:
+            recorded_pin=tape.bootstrap['state'].get('context_pins',{}).get(model_id)
+            cid=(recorded_pin or {}).get('context_id') or db.execute('SELECT context_id FROM models WHERE id=?',(model_id,)).fetchone()[0]
+            context=json.loads(db.execute('SELECT body FROM model_contexts WHERE id=? AND model_id=?',(cid,model_id)).fetchone()[0])
+        established={'context_id':cid,'hash':digest(context)}
+        if established!=case['context_pin']:raise TapeError('ACCEPTANCE_CONTEXT_PIN_DIFFERS')
         with patch.object(socket,'create_connection',side_effect=no_network),patch.object(socket.socket,'connect',side_effect=no_network):
-            replayed=replay(case['source_session_id'],fixture_root/'planner-recordings',folder/'catalog.sqlite',
-                config['storage']['database'],config,output,allow_engine_drift=True)
-        if replayed['status']!='MATCHED':result['reason']='BYTE_EXACT_RUNTIME_REPLAY_DID_NOT_MATCH'
+            replayed=replay(path,output,allow_engine_drift=True)
+        if not replayed['matched']:result['reason']='BYTE_EXACT_RUNTIME_REPLAY_DID_NOT_MATCH'
         else:
-            result['errors']=output_checks(case,replayed['session'])
+            result['walk_outcome']=replayed['outcome']
+            result['reproduction_verdict']=reproduction_verdict(replayed['session'],case['expected_reproduction']['cell_id']) if case.get('grade_kind')=='reproduction' else None
+            from investigator.synthesis_digest import build
+            with sqlite3.connect(output/'catalog.sqlite') as db:
+                db.row_factory=sqlite3.Row
+                payload=build(replayed['session'],db)
+            result['errors']=output_checks(case,replayed['session'],provider_mechanism=sealed_mechanism(path),pinned_context=established,local_payload=payload)
             result['status']='FAILED' if result['errors'] else 'PASSED'
             result['reason']='OUTPUT_INVARIANT_FAILED' if result['errors'] else None
     except Exception as exc:
-        result['reason']=str(exc) if type(exc).__name__ in ('ReplayError','RecordingError') else type(exc).__name__
+        result['reason']=str(exc) if type(exc).__name__ in ('TapeError','RecordingError') else type(exc).__name__
+
     return result
 
 
@@ -85,7 +153,7 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--fixture-root',type=Path,default=ROOT/'.local')
     parser.add_argument('--output',type=Path,required=True);parser.add_argument('--ledger',type=Path)
     args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=False)
-    cases=[json.loads(p.read_text()) for p in sorted((Path(__file__).parent/'cases').glob('*.json'))]
+    cases=[json.loads(p.read_text(encoding='utf-8')) for p in sorted((Path(__file__).parent/'cases').glob('*.json'))]
     if len(cases)!=15 or len({c['ticket'] for c in cases})!=15:raise ValueError('Acceptance roster must conserve all fifteen tickets')
     results=[]
     for case in cases:

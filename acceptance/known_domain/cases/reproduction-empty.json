@@ -1,10 +1,10 @@
 {
-  "version": 1,
+  "version": 2,
   "ticket": "reproduction-empty",
   "source_session_id": "d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36",
   "expected_status": "COMPLETED",
   "expected_outcome": "NO_COMPARABLE_PATH",
-  "expected_answer_line": "Answer to your question: Yes — the saved declared context reproduces the reported figure.",
+  "expected_answer_line": "Answer to your question: Yes \u2014 the saved declared context reproduces the reported figure.",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -15,5 +15,17 @@
   ],
   "required_output_terms": [],
   "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
-  "acceptance_change_reason": "Initial Round Four roster. Includes preserved failures; no new live measurement or replay success implied."
+  "acceptance_change_reason": "2026-10-05: pin the earned 14 September fixture context; a 15 September run is not this EMPTY ticket. Grade reproduction and answer, retaining the walk outcome separately.",
+  "context_pin": {
+    "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+    "hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f"
+  },
+  "grade_kind": "reproduction",
+  "expected_reproduction": {
+    "cell_id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
+    "label": "REPRODUCED",
+    "reproduced_value": null,
+    "reported_state": "EMPTY",
+    "reported_value": null
+  }
 }
