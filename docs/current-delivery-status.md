@@ -1688,3 +1688,8 @@ names. Three stale baseline fixtures corrected without weakening validation.
 46 focused tests pass; the earlier broad run remains preserved. No live rerun.
 See [cleanup and test findings](docs/round-five-output-cleanup.md). Changed engine
 invalidates prior freezes.
+
+Dated grading correction, 2026-10-05 UTC: the checker no longer conflates entity
+binding kind with resolution_kind. Ten gate tests pass; corrected zero-request
+grading still accepts 1/15 with 11 replayable. Earlier grading ledger rows remain.
+See docs/round-five-offline-machinery.md. No live reruns or additional requests.

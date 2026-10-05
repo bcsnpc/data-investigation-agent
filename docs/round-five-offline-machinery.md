@@ -203,3 +203,35 @@ Round Five: 213 -> 218/400 (182 requests remain). Rolling last observed 580/1500
 its decreases reflect ordinary expiration, not refunds or resets. Diagnostic cap
 12 unchanged. Offline grading used zero estate requests. Control-plane receipt
 hashes and before/after state are retained privately and referenced in the ledger.
+
+
+## Dated grading correction: 2026-10-05 UTC
+
+The preceding Section 2 column is preserved as the first v3 grading. Its
+`STRUCTURE:resolutions` flags were checker defects: entity binding `kind=REPORT`
+was incorrectly treated as a resolution kind. Only an explicit `resolution_kind`
+is now compared. An entity-type addition leaves the projection unchanged; changing
+STATED to EVIDENCE still changes it. Ten checker tests pass. This correction
+neither changes the expected outcomes nor retargets the tapes' context.
+
+The corrected column below supersedes those flags. Fifteen new zero-request
+grading rows were appended; the earlier rows and original run evidence remain.
+The result remains 11/15 replayable and 1/15 accepted. #376 stays draft.
+
+| Ticket | Replay | Corrected structured acceptance / invariants |
+| --- | --- | --- |
+| family-A | MATCHED | CONTEXT_HASH_NOT_ESTABLISHED; CONTEXT_ID_CHANGED; technical_output:UNDECLARED_LAYER_ROLE |
+| family-B | MATCHED | CONTEXT_HASH_NOT_ESTABLISHED; CONTEXT_ID_CHANGED |
+| family-C | MATCHED | CONTEXT_HASH_NOT_ESTABLISHED; CONTEXT_ID_CHANGED |
+| family-D | FAILED | TAPE_UNRECORDED_IDENTITY:10543e9a-8a9e-4ac2-9596-e9cc127c209e |
+| family-E | MATCHED | CONTEXT_HASH_NOT_ESTABLISHED; CONTEXT_ID_CHANGED; STRUCTURE:answer_category; business_output:ANSWER_CATEGORY_CHANGED; technical_output:ANSWER_CATEGORY_CHANGED; technical_output:UNDECLARED_LAYER_ROLE |
+| family-F | MATCHED | CONTEXT_HASH_NOT_ESTABLISHED; CONTEXT_ID_CHANGED; business_output:MISSING_OUTPUT; technical_output:MISSING_OUTPUT |
+| family-G | FAILED | TAPE_UNRECORDED_BUDGET_INPUT |
+| family-H | FAILED | TAPE_UNRECORDED_BUDGET_INPUT |
+| family-I | MATCHED | CONTEXT_HASH_NOT_ESTABLISHED; CONTEXT_ID_CHANGED; STRUCTURE:boundaries; STRUCTURE:layers_reached; STRUCTURE:outcome |
+| reproduction-16 | MATCHED | PASSED |
+| reproduction-empty | FAILED | TAPE_EVENT_DIFFERS:BUDGET:PROVIDER_RESPONSE |
+| source-consistent | MATCHED | STRUCTURE:answer_category; STRUCTURE:boundaries; STRUCTURE:outcome; business_output:ANSWER_CATEGORY_CHANGED; technical_output:ANSWER_CATEGORY_CHANGED |
+| source-gap | MATCHED | CONTEXT_HASH_NOT_ESTABLISHED; CONTEXT_ID_CHANGED; STRUCTURE:answer_category; business_output:ANSWER_CATEGORY_CHANGED; technical_output:ANSWER_CATEGORY_CHANGED |
+| source-latency | MATCHED | CONTEXT_HASH_NOT_ESTABLISHED; CONTEXT_ID_CHANGED |
+| source-unreachable | MATCHED | CONTEXT_HASH_NOT_ESTABLISHED; CONTEXT_ID_CHANGED |
