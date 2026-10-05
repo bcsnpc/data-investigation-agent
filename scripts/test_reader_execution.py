@@ -49,6 +49,41 @@ class ReaderExecutionTests(unittest.TestCase):
         raw = copy.deepcopy(self.raw if raw is None else raw)
         return dict(raw, **{identity.KEY: identity.make(raw, request or self.request, READER)})
 
+    def test_manifest_extra_top_level_key_cannot_reach_worker_schema(self):
+        from investigator.adapters.estate_installation import configuration
+        from metadata_config import worker_configuration
+        manifest = json.loads((ROOT / 'infra/estates/fixture.json').read_text())
+        manifest['unfamiliar_future_metadata'] = {'must_not_reach_worker': True}
+        configured = configuration(manifest)
+        configured['another_runtime_field'] = {'ignored': True}
+        layer = next(row for row in manifest['layers'] if row['role'] == 'SEMANTIC')
+        workspace, model = layer['asset_id'].split('/')[2:4]
+        request = {'workspace': workspace, 'native_model_id': model}
+        projected = worker_configuration(configured, request)
+        self.assertEqual(set(projected), {'version', 'sql', 'fabric', 'storage'})
+        self.assertNotIn('_estate', projected)
+        self.assertNotIn('unfamiliar_future_metadata', projected)
+        self.assertNotIn('another_runtime_field', projected)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'worker.json'
+            path.write_text(json.dumps(projected))
+            self.assertEqual(load_config(path), projected)
+        with self.assertRaisesRegex(ValueError, 'declared layer'):
+            worker_configuration(configured, dict(request, native_model_id=MODEL))
+
+    def test_native_transport_serializes_only_consumer_projection(self):
+        from metadata_config import load_config
+        value = config(); value['_estate'] = {'layers': [{'role': 'SEMANTIC',
+            'asset_id': 'fabric://' + WORKSPACE + '/' + MODEL + '/table/Test', 'reachable': True}]}
+        value['future_runtime_metadata'] = 'never a worker setting'
+        def worker(command, **options):
+            loaded = load_config(command[command.index('--config') + 1])
+            self.assertNotIn('_estate', loaded)
+            self.assertNotIn('future_runtime_metadata', loaded)
+            return __import__('subprocess').CompletedProcess(command, 0, json.dumps(self.bound()))
+        with patch('investigator.tape_worker.run', side_effect=worker):
+            transport(value, self.request)
+
     def test_config_accepts_reader_and_preserves_metadata_login(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'config.json'; path.write_text(json.dumps(config()))
