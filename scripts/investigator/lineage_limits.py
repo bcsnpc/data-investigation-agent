@@ -1,6 +1,7 @@
 """Engine-owned reasons for refusing sampled code lineage, never model caveats."""
 def category(row, status=None):
     if status == 'STALE':return 'STALE_CODE'
+    if row.get('status') == 'FALSIFIED':return 'SAMPLED_VALUES_DIFFER'
     reason=row.get('reason') or ''
     if reason.startswith('Cannot compile faithfully:'):return 'FAITHFUL_COMPILATION_UNAVAILABLE'
     if any(o.get('status')=='FAILED' for o in row.get('observations',[])):return 'READ_FAILED'

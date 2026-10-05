@@ -65,7 +65,9 @@ def select(*,declared,inferred,current_hashes,boundary,target_column,context,cel
                     (('context',context),('cell',cell),('precision',precision))):
                 from .lineage_limits import category
                 excluded.append({'location':copy.deepcopy(location),'status':status,
-                    'reason_category':category(row,status) if row['status']!='VERIFIED' or status=='STALE' else 'SAMPLE_MISMATCH',
+                    'reason_category':('STALE_CODE' if status=='STALE' else 'SAMPLE_MISMATCH'
+                        if any(row.get(k)!=v for k,v in (('context',context),('cell',cell),('precision',precision)))
+                        else category(row,status)),
                     'verification_reason':row.get('reason'),
                     'reason':'Code is changed or unavailable.' if status=='STALE' else 'Verification is absent, failed or belongs to a different sample.'})
                 continue
