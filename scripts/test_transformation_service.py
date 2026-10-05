@@ -45,7 +45,7 @@ class ServiceTests(unittest.TestCase):
         v=self.rows()
         with tempfile.TemporaryDirectory() as d:
             ledger=Ledger(Path(d)/'lineage.jsonl')
-            with patch('investigator.transformation_service.read',return_value=({}, {'content_hash':'a'*64})),\
+            with patch('investigator.transformation_service.read',return_value=({'content_hash':'a'*64,'path':'unit.py'}, {'content_hash':'a'*64,'path':'unit.py'})),\
                  patch('investigator.transformation_service.propose',return_value={'proposals':[v['proposal']]}),\
                  patch('investigator.transformation_service.verify',return_value=v):
                 result=run(source={},path='unit.py',meter=None,root=d,schemas={},boundary=v['proposal']['boundary'],

@@ -252,3 +252,41 @@ The resumed broad regression log was interrupted after these code changes; it is
 preserved at `.local/round-six-20261005/resumed-reader-regression.txt` and is not a
 pass. Focused route tests8/8, independent lower-read tests18/18 and process read
 receipt tests3/3 passed after the change. No investigation or estate read.
+
+### Runtime qualification and approval controller, 2026-10-05
+
+The committed context-bound checkpoint passed **1,945 regression tests**.
+Runtime integration now treats the older retained-definition path as a candidate,
+not verification. A missing, stale, differently scoped or forged proof blocks the
+lower read. Code retrieval receipts preserve reported native/logical identity;
+binding identity is the declared CodeSource ID and path. The served `.platform`
+logicalId is the all-zero GUID, not the native item ID. Those are not substituted.
+
+Declared samples are produced only from exact served copy mappings. The approval
+controller verifies them before creating a separate immutable manifest-hash-pinned
+approval. A reader pass requires that approval, validates all authorized locations
+before fetching, shares one fetched unit across boundary proposals, and retains
+failed verification attempts. Application verification uses the existing isolated,
+guarded SQL route. Operator live setup and actual estate execution remain pending.
+
+Offline re-analysis of the already-recorded definition response made **zero reads**.
+The refined units expression refuses because whole-row deduplication includes
+strings whose SQL comparison semantics have not been established as equivalent.
+The serving units expression compiles under only its declared input catalogs but
+has **not executed or verified**. The earlier fifteen syntactic compilations did
+not test this type-equivalence precondition; they remain recorded, not acceptance.
+An intermediate analysis supplied unused catalogs and returned an ambiguous-catalog
+refusal; the subsequent scoped analysis corrects that driver error separately.
+Append writes and conditional SQL target creation also refuse, since they cannot
+establish equivalence of the whole target independently of prior target state.
+
+DECIDED WITHOUT REVIEW: refused unestablished string equivalence rather than
+assuming collation/padding or weakening the deduplication contract to earn a pass.
+The fixture may consequently leave an inferred boundary unbound. That is a finding,
+not authority to amend the code or expected outcomes during a live list.
+
+Final full regression, unchanged archived column and the offline schema/rule report
+must precede any live reader pass. Pot remains21/400, reserve60, ordinary stop340;
+rolling248/1500 is last observed, not a new current-window reading. No live probe,
+provider request, fixture change, identity change, refund or reset in this checkpoint.
+Previous freezes remain invalid.

@@ -156,5 +156,5 @@ def read(source,path,*,meter,root=None,git_fetch=None,item_fetch=None):
     raw=bytes.fromhex(body['content'])
     unit=normalize(path,raw,item_identity=body['item_identity'])
     receipt={**request,'locator':body['locator'],'content_hash':unit['content_hash'],'retrieved_at':utc_now(),
-             'revision':body.get('revision'),'provenance':'CODE_SOURCE_READ','replay_boundary':'BOUNDED_RESPONSE'}
+             'revision':body.get('revision'),'item_identity':copy.deepcopy(body['item_identity']),'provenance':'CODE_SOURCE_READ','replay_boundary':'BOUNDED_RESPONSE'}
     return unit,receipt

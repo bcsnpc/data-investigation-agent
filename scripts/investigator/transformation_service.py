@@ -6,21 +6,35 @@ service knows no estate's names, expected figures or required layer order.
 import copy
 from .code_sources import read
 from .transformation_reader import propose
-from .lineage_binding import verify,require_declared_approval
+from .lineage_binding import verify,require_declared_approval,VerificationHold
 
 
 def run(*,source,path,meter,root,schemas,boundary,item,target_table,layers,
         context,cell,precision,compiler,execute,ledger,model=None,
         git_fetch=None,item_fetch=None,declared=False):
     unit,receipt=read(source,path,meter=meter,root=root,git_fetch=git_fetch,item_fetch=item_fetch)
+    return run_unit(unit=unit,receipt=receipt,schemas=schemas,boundary=boundary,item=item,
+        target_table=target_table,layers=layers,context=context,cell=cell,precision=precision,
+        compiler=compiler,execute=execute,ledger=ledger,model=model,declared=declared)
+
+
+def run_unit(*,unit,receipt,schemas,boundary,item,target_table,layers,context,cell,
+             precision,compiler,execute,ledger,model=None,declared=False):
+    """Verify from one already-receipted retrieval shared by multiple boundaries."""
+    if unit['content_hash']!=receipt['content_hash'] or unit['path']!=receipt['path']:
+        raise ValueError('Retained code unit differs from its retrieval receipt')
     extraction=propose(unit,schemas=schemas,boundary=boundary,item=item,
         target_table=target_table,layers=layers,model=model)
     result={'code_receipt':receipt,'extraction':extraction,'verifications':[]}
     # Retain each attempt as it completes, including failures and refusals.
     # Do not claim a whole boundary is verified because one column agreed.
     for proposal in extraction['proposals']:
-        verification=verify(proposal,context=context,cell=cell,precision=precision,
-                            compiler=compiler,execute=execute)
+        try:
+            verification=verify(proposal,context=context,cell=cell,precision=precision,
+                                compiler=compiler,execute=execute)
+        except VerificationHold as exc:
+            ledger.append(exc.verification)
+            raise
         ledger.append(verification);result['verifications'].append(verification)
     if declared:
         if not result['verifications']:raise ValueError('Declared binding produced no verifiable proposal')
@@ -35,6 +49,7 @@ def select(*,declared,inferred,current_hashes,boundary,target_column,context,cel
     no confidence score changes eligibility. The ledger view supplies freshness.
     """
     from .lineage_binding import validate
+    exclusions=[]
     for rows,provenance in ((declared,'DECLARED_BY_CONFIGURATION'),(inferred,'INFERRED_FROM_CODE')):
         candidates=[];excluded=[]
         # A later failed verification supersedes an earlier success for the
@@ -54,10 +69,11 @@ def select(*,declared,inferred,current_hashes,boundary,target_column,context,cel
             candidates.append(row)
         # Multiple identical verifications are history, not ambiguity. Distinct
         # expressions for the same boundary cannot silently choose a winner.
+        exclusions.extend(excluded)
         unique={seal(c['proposal']):c for c in candidates}
         if len(unique)>1:return {'status':'AMBIGUOUS','reason':'Multiple verified code bindings for the selected quantity','excluded':excluded}
         if unique:return {'status':'RESOLVED','provenance':provenance,
                           'verification':copy.deepcopy(next(iter(unique.values()))),'excluded':excluded}
         if rows is declared and any(validate(r['proposal'])['boundary']==boundary for r in rows):
             return {'status':'UNBOUND','reason':'Declared binding lacks current matching verification','excluded':excluded}
-    return {'status':'UNBOUND','reason':'Neither a declared nor a current verified inferred binding matches the selected quantity and scope.'}
+    return {'status':'UNBOUND','reason':'Neither a declared nor a current verified inferred binding matches the selected quantity and scope.','excluded':exclusions}

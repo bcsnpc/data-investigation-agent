@@ -62,6 +62,35 @@ class RouteTests(unittest.TestCase):
         self.assertEqual(result['evidence']['values'],[{'quantity':7}])
         self.assertEqual(result['evidence']['surface_report_receipt_id'],'read-receipt')
 
+    def test_application_side_uses_its_own_guarded_reader_and_original_receipt(self):
+        from unittest.mock import patch
+        from application_sql_surface import ENGINE
+        route=self.setup_route();process=route.process
+        process.model.update(id='catalog-model',revision=3)
+        process.store=object();process.meter_read=lambda tool,execute:execute()
+        process.config['sql']={'server':'application-server','database':'application-db',
+            'visibility_schema':'app','auth':{'account':'application-reader'}}
+        route.objects['input-table'].update(surface='APPLICATION_SQL',connection='application-server',database='application-db')
+        route.objects['input-table']['catalog']['metadata']['schema_name']='app'
+        plan=route.compile(proposal(),'SOURCE','retained',self.cell,{'state':'EXACT'})
+        def run(store,request,config,tool,execute):
+            self.assertEqual(tool,'bounded_sql')
+            self.assertEqual(request['context_id'],'retained')
+            self.assertEqual(request['read_address'],{'kind':'CELL','cell':self.cell})
+            self.assertIn('[app].[items]',request['query'])
+            return {'id':'application-receipt','status':'COMPLETED','request_hash':'sealed-request',
+                'result':{'rows':[{'quantity':'7'}],'completeness':'COMPLETE_RESPONSE',
+                    'surface_report':{'engine':ENGINE,'object':'application-db','identity':'application-reader'},
+                    'surface_report_binding':'VALUE_QUERY'}}
+        with patch('investigator.flexible_tools.run',side_effect=run):
+            result=route.execute('SOURCE',plan)
+        self.assertEqual(result['status'],'COMPLETED')
+        self.assertEqual(result['quantity'],{'state':'NUMBER','value':'7'})
+        self.assertEqual(result['evidence']['id'],'application-receipt')
+        self.assertEqual(result['evidence']['execution_surface']['identity'],'application-reader')
+        self.assertEqual(result['evidence']['surface_attestation']['status'],'PARTIAL')
+        self.assertEqual(self.calls,[])
+
     def test_filtered_scope_still_refuses_before_read(self):
         route=self.setup_route();route.restrictions=[{'field_id':'a','values':[1]}]
         with self.assertRaisesRegex(NotImplementedError,'Filtered or grouped'):

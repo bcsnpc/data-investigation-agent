@@ -23,6 +23,16 @@ def resolve_objects(process,context,schemas):
     assets=[a for a in context.get('assets',[]) if a.get('availability')=='CURRENT']
     endpoints={};objects={};unavailable=[]
     for location,columns in schemas.items():
+        application=[a for a in assets if a.get('kind')=='SqlObject' and a['id']==location]
+        if application:
+            source=process.config.get('sql',{});a=application[0];meta=a['metadata']
+            declared='sql://'+source.get('server','')+'/'+source.get('database','')
+            if (len(application)!=1 or a['parent_id']!=declared or meta.get('schema_name')!=source.get('visibility_schema')
+                    or meta.get('type_desc')!='USER_TABLE' or not source.get('auth',{}).get('account')):
+                unavailable.append({'location':location,'reason':'Application object leaves the isolated declared connection or schema'});continue
+            objects[location]={'asset_id':a['id'],'surface':'APPLICATION_SQL','connection':source['server'],
+                'database':source['database'],'catalog':copy.deepcopy(a)}
+            continue
         matches=[a for a in assets if a.get('kind')=='LakehouseTable' and a.get('metadata',{}).get('location')==location]
         if len(matches)!=1:
             unavailable.append({'location':location,'reason':'Exact table location is absent or ambiguous in the approved context'});continue
@@ -68,10 +78,11 @@ class VerificationRoute:
         names=[s['table'] for s in proposal['sources']] if side=='SOURCE' else [table]
         try:resolved=[self.objects[name] for name in names]
         except KeyError as exc:raise ValueError('Exact code location is absent from approved object inventory: '+str(exc)) from exc
-        endpoints={(o['connection'],o['database']) for o in resolved}
+        endpoints={(o.get('surface','FABRIC_SQL'),o['connection'],o['database']) for o in resolved}
         if len(endpoints)!=1:raise NotImplementedError('Expression spans distinct declared connections; no cross-connection query')
-        connection,database=next(iter(endpoints))
-        configured=((self.process.config.get('fabric') or {}).get('sql_reader') or {}).get('server')
+        surface,connection,database=next(iter(endpoints))
+        configured=(self.process.config.get('sql',{}).get('server') if surface=='APPLICATION_SQL' else
+            ((self.process.config.get('fabric') or {}).get('sql_reader') or {}).get('server'))
         if connection!=configured:raise ValueError('Declared endpoint differs from isolated SQL reader connection')
         catalog={name:o['catalog'] for name,o in zip(names,resolved)}
         query=compile_quantity(relation,column,catalog)
@@ -79,10 +90,11 @@ class VerificationRoute:
             'endpoint_evidence':copy.deepcopy(resolved[0].get('endpoint_evidence'))}
         return {'layer':layer,'compiled':{'catalog':list(catalog.values()),'query':query,
             'database':database,'source_column':column,'read_address':cell_address(cell)},
-            'context':context,'cell':copy.deepcopy(cell),'precision':copy.deepcopy(precision)}
+            'surface':surface,'context':context,'cell':copy.deepcopy(cell),'precision':copy.deepcopy(precision)}
 
     def execute(self,side,plan):
-        probe=attest(self.process._evaluate_lower(plan['layer'],self.measure_id,plan['compiled']))
+        probe=attest(self._application(plan) if plan['surface']=='APPLICATION_SQL' else
+            self.process._evaluate_lower(plan['layer'],self.measure_id,plan['compiled']))
         result={k:copy.deepcopy(plan[k]) for k in ('context','cell','precision')}
         result.update(status='COMPLETED' if probe.status=='OBSERVED' else 'FAILED',
             evidence=copy.deepcopy(probe.evidence),reason=probe.reason,failure=copy.deepcopy(probe.failure))
@@ -103,3 +115,33 @@ class VerificationRoute:
                 result.update(status='FAILED',reason='Probe did not return an additive scalar quantity')
             else:result['quantity']={'state':'NUMBER','value':str(value)}
         return result
+
+
+    def _application(self,plan):
+        """Use the existing guarded application SQL route and retained receipt."""
+        from ..flexible_tools import run
+        from ..process_debugging import Probe
+        from ..process_quantity import quantity
+        from application_sql_surface import read,ENGINE
+        from .microsoft_process import SQL_TYPES
+        model=self.process.model;compiled=plan['compiled'];source=self.process.config['sql']
+        request={'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],
+            'query':compiled['query'],'max_rows':20,'read_address':compiled['read_address']}
+        execute=lambda:run(self.process.store,request,self.process.config,'bounded_sql',
+            lambda statement:read(self.process.config,statement))
+        result=self.process.meter_read('bounded_sql',execute) if self.process.meter_read else execute()
+        surface={'engine':ENGINE,'connection':'sql://'+source['server'],
+            'object':source['database'],'identity':source['auth']['account']}
+        body=result.get('result') or {}
+        if result['status']!='COMPLETED':
+            return Probe('UNAVAILABLE',plan['layer']['id'],execution_surface=surface,
+                reason='Application verification did not complete; original receipt retained.',
+                failure={'interface':'APPLICATION_SQL','receipt_id':result['id'],'read_status':result['status'],
+                    'error_type':body.get('error_type'),'codes':[],'specificity':'SPECIFIC'})
+        return Probe('OBSERVED',plan['layer']['id'],execution_surface=surface,query=compiled['query'],
+            value=quantity(body['rows']),evidence={'id':result['id'],'tool':'bounded_sql',
+                'values':body['rows'],'completeness':body['completeness'],'request_hash':result['request_hash'],
+                'context_id':request['context_id'],'read_address':request['read_address'],
+                'measure_id':self.measure_id,'test_purpose':'VERIFY_LINEAGE_BINDING'},
+            surface_report=body.get('surface_report'),surface_reportable=('identity','engine','object'),
+            surface_report_types=SQL_TYPES,surface_report_binding=body.get('surface_report_binding'))

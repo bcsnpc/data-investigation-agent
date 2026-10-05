@@ -1,9 +1,12 @@
-Resumed 2026-10-05: checkpoint `fa809a3` passed **1,933 regression tests**;
-unchanged archived tapes passed **15/15**, zero reads, under historical producers.
-New sampled declared-approval checks retain failed comparisons. Production
-approval/runtime integration remains pending; no live inferred column is claimed.
-Focused tests cover later corrections; final full regression remains.
-Prior freezes are invalid. [Reader delivery](round-six-code-sources.md).
+Resumed 2026-10-05: runtime qualification now requires original sampled proof,
+current code hashes and authorized locations before a lower read. Declared approval
+and one-pass reader orchestration use the same verifier; application probes use
+the existing guarded SQL reader. The last committed full regression passed 1,945
+tests; final regression on this integration is pending. Offline retained-code
+analysis refuses string deduplication without established cross-language semantics;
+the selected join quantity compiles but has not executed. No live inferred column
+is claimed. Round Six21/400, reserve60; rolling248/1500 last observed. Prior freezes
+are invalid. [Reader delivery](round-six-code-sources.md).
 
 2026-10-05: Code sources merged in #405 with seven green checks. Static/model
 proposal, sampled verification and stale-ledger modules are under offline

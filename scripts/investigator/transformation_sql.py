@@ -87,8 +87,13 @@ def extract_statement(text,catalog):
     statements=parse(text,read='spark');writes={}
     for statement in statements:
         if isinstance(statement,exp.Create) and statement.kind=='TABLE' and isinstance(statement.expression,exp.Select):
+            if statement.args.get('exists'):
+                raise Unsupported('Conditional target creation cannot establish that the selected write ran')
             target=statement.this
-        elif isinstance(statement,exp.Insert) and isinstance(statement.expression,exp.Select) and isinstance(statement.this,exp.Table):target=statement.this
+        elif isinstance(statement,exp.Insert) and isinstance(statement.expression,exp.Select) and isinstance(statement.this,exp.Table):
+            if not statement.args.get('overwrite'):
+                raise Unsupported('Append writes depend on prior target state; no whole-target equivalence')
+            target=statement.this
         else:raise Unsupported('SQL requires explicit CREATE TABLE AS or INSERT SELECT target')
         name='.'.join(p.name for p in target.parts)
         if name in writes:raise Unsupported('Multiple SQL writers for one target')
@@ -98,9 +103,47 @@ def extract_statement(text,catalog):
 def compile_quantity(relation,column,catalog):
     """Construct expressions, then let the existing parser govern the result."""
     number=0
+    def types(plan):
+        kind=plan['kind']
+        if kind=='SCAN':
+            known={c['name']:c.get('data_type','unknown').casefold() for c in catalog[plan['table']]['metadata']['columns']}
+            return {c:known.get(c,'unknown') for c in plan['columns']}
+        if kind=='JOIN':
+            left,right=types(plan['left']),types(plan['right'])
+            if any(not comparable(left.get(k)) or not comparable(right.get(k)) for k in plan['keys']):
+                raise Unsupported('Join-key comparison semantics are not established across code and execution languages')
+            return {**right,**left}
+        known=types(plan['input'])
+        def scalar_type(node):
+            if node['kind']=='COLUMN':return known.get(node['name'],'unknown')
+            if node['kind']=='LITERAL':return 'text' if isinstance(node['value'],str) else 'numeric'
+            if node['kind']=='DECIMAL':return 'numeric'
+            if node['kind'] in ('ADD','SUBTRACT','MULTIPLY','SUM','COUNT','MIN','MAX'):
+                operands=[node[x] for x in ('left','right','operand') if x in node]
+                return 'numeric' if all(comparable(scalar_type(o)) for o in operands) else 'unknown'
+            return 'unknown'
+        def predicates(node):
+            if node['kind'] in ('EQ','NE','GT','GE','LT','LE') and any(
+                    not comparable(scalar_type(node[k])) for k in ('left','right')):
+                raise Unsupported('Filter comparison semantics are not established across code and execution languages')
+            for key in ('left','right','operand'):
+                if key in node:predicates(node[key])
+        if kind in ('PROJECT','AGGREGATE'):
+            if kind=='AGGREGATE' and any(not comparable(known.get(g)) for g in plan['groups']):
+                raise Unsupported('Grouping equivalence is not established across code and execution languages')
+            return {c['name']:scalar_type(c['expression']) for c in plan['columns']}
+        if kind=='DEDUPE' and any(not comparable(known.get(c)) for c in plan['keys']):
+            raise Unsupported('Deduplication equivalence is not established across code and execution languages; no assumed string collation or padding')
+        if kind=='FILTER':predicates(plan['predicate'])
+        return known
+    def comparable(value):
+        return value in ('numeric','tinyint','smallint','int','bigint','bit','long','boolean')
+    types(relation)
     def identifier(name):return exp.to_identifier(name,quoted=True)
     def scalar_sql(node,alias):
         kind=node['kind']
+        if kind=='AVG':
+            raise Unsupported('Average result type and precision semantics are not declared')
         if kind=='DIVIDE':
             raise Unsupported('Division result type and zero semantics are not declared; no implicit integer truncation or numeric coercion')
         if kind=='COLUMN':return exp.Column(this=identifier(node['name']),table=identifier(alias))

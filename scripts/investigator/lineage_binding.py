@@ -12,6 +12,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 from .code_sources import obj
 from .reported_figure import PRECISION_SCHEMA
+from .usage_governance import UsageHold
 
 MAX_TEXT=500
 MAX_COLUMNS=128
@@ -86,6 +87,12 @@ COMPARISON_RULE=("Compile both expressions before either read. Both observations
  "VERIFIED only for that sampled quantity and scope; unequal is FALSIFIED. A compilation, "
  "read, identity or context failure is UNVERIFIED, never evidence of equality. No inferred tolerance.")
 
+class VerificationHold(UsageHold):
+    def __init__(self,verification):
+        self.verification=copy.deepcopy(verification)
+        super().__init__(verification['reason'])
+
+
 def verify(proposal,*,context,cell,precision,compiler,execute):
     proposal=validate(proposal)
     Draft202012Validator(PRECISION_SCHEMA).validate(precision)
@@ -100,6 +107,10 @@ def verify(proposal,*,context,cell,precision,compiler,execute):
         receipt['reason']='Cannot compile faithfully: '+str(exc);return receipt
     for side,plan in zip(('TARGET','SOURCE'),plans):
         try:observation=execute(side,plan)
+        except UsageHold as exc:
+            receipt['reason']='Verification stopped at the admitted budget or deadline: '+str(exc)
+            receipt['observations'].append({'status':'FAILED','error_type':type(exc).__name__,'error':str(exc),'side':side})
+            raise VerificationHold(receipt) from exc
         except (ValueError,OSError,TimeoutError) as exc:
             receipt['observations'].append({'status':'FAILED','error_type':type(exc).__name__,'error':str(exc),'side':side})
             receipt['reason']='The '+side.lower()+' read failed; no equality established.';return receipt
@@ -160,20 +171,42 @@ class Ledger:
         row={'event':'VERIFICATION','verification':verification,'sha256':seal(verification)}
         self.path.parent.mkdir(parents=True,exist_ok=True)
         with self.path.open('a',encoding='utf8') as stream:stream.write(json.dumps(row,separators=(',',':'))+'\n')
-    def view(self,current_hashes):
+    def records(self):
         result=[]
         if not self.path.exists():return result
         for line in self.path.read_text(encoding='utf8').splitlines():
             row=json.loads(line);v=row['verification']
             if set(row)!={'event','verification','sha256'} or row['event']!='VERIFICATION' or seal(v)!=row['sha256']:
                 raise ValueError('Lineage ledger integrity differs')
-            proposal=validate(v['proposal']);location=proposal['location']
+            validate(v['proposal']);result.append(copy.deepcopy(v))
+        return result
+
+    def view(self,current_hashes):
+        result=[]
+        for original in self.records():
+            location=original['proposal']['location']
             fresh=current_hashes.get((location['item'],location['path']))==location['content_hash']
-            result.append({**copy.deepcopy(v),'status':v['status'] if fresh else 'STALE',
+            result.append({**original,'status':original['status'] if fresh else 'STALE',
                            'provenance':'INFERRED_FROM_CODE'})
         return result
+
 
 def require_declared_approval(verifications):
     for v in verifications:
         if v['status']=='FALSIFIED':raise ValueError('Declared binding falsified: '+json.dumps(v['observations'],sort_keys=True))
         if v['status']!='VERIFIED':raise ValueError('Declared binding is not verified: '+str(v['reason']))
+
+
+def revalidate_verification(result):
+    """Recompute a claimed verdict from the original quantity-bound evidence.
+
+    This does not execute queries again. It prevents a consumer accepting a
+    producer's status label in place of the verifier's evidence contract.
+    """
+    if not isinstance(result,dict) or len(result.get('observations',[]))!=2:
+        raise ValueError('Binding verification requires both original observations')
+    observations=iter(result['observations'])
+    check=verify(result['proposal'],context=result['context'],cell=result['cell'],precision=result['precision'],
+        compiler=lambda *args: None,execute=lambda *args: next(observations))
+    if check!=result:raise ValueError('Binding verification differs from original observations; recomputed '+check['status'].lower())
+    return copy.deepcopy(check)

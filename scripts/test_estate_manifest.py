@@ -126,6 +126,9 @@ class ManifestAdmissionTests(unittest.TestCase):
         before=agent.payload(state,choices)
         helper.config['_estate']={'manifest_hash':'synthetic','layers':[],
             'lineage':{'bindings':[],'inference':{'enabled':False,'code_resources':[]}}}
+        helper.config['_estate']['lineage']['code_locations']=[{
+            'from_layer':'input','to_layer':'output','may_infer_from_code':True,
+            'locations':[{'source':'code-source','path':'unit.py'}]}]
         after=agent.payload(state,choices)
         def coverage(payload):
             entries=payload['context_entry_points']

@@ -37,6 +37,12 @@ class StaticReaderTests(unittest.TestCase):
             frame=extract_statement('CREATE TABLE out AS '+query,self.schemas)['out']
             name='value' if 'value' in frame.columns else 'amount'
             self.assertIn('SUM',self.query(frame.plan,name))
+
+    def test_append_and_conditional_sql_writes_cannot_claim_whole_target_equivalence(self):
+        for statement in ('INSERT INTO out SELECT amount FROM input',
+                          'CREATE TABLE IF NOT EXISTS out AS SELECT amount FROM input'):
+            with self.assertRaises(Unsupported):extract_statement(statement,self.schemas)
+        self.assertIn('out',extract_statement('INSERT OVERWRITE TABLE out SELECT amount FROM input',self.schemas))
     def test_exported_command_marker_notebook_uses_core_without_platform_adapter(self):
         from investigator.code_sources import normalize
         unit=normalize('unit.py',b"# Databricks notebook source\n# COMMAND ----------\na=spark.table('input')\na.write.format('delta').mode('overwrite').save('out')\n")
@@ -49,6 +55,15 @@ class StaticReaderTests(unittest.TestCase):
         frame=extract_statement('CREATE TABLE out AS SELECT amount / 2 AS value FROM input',self.schemas)['out']
         with self.assertRaisesRegex(Unsupported,'Division result type and zero semantics'):
             self.query(frame.plan,'value')
+
+    def test_string_deduplication_cannot_assume_execution_collation_and_padding(self):
+        catalog={**self.catalog,'input':{'id':'input','metadata':{'schema_name':'main','name':'input',
+            'columns':[{'name':'id','data_type':'int'},{'name':'amount','data_type':'int'},
+                       {'name':'kind','data_type':'nvarchar'}]}}}
+        relation={'kind':'DEDUPE','keys':['id','amount','kind'],'input':
+            {'kind':'SCAN','table':'input','columns':['id','amount','kind']}}
+        with self.assertRaisesRegex(Unsupported,'no assumed string collation or padding'):
+            compile_quantity(relation,'amount',catalog)
 
     def test_sql_alias_or_outer_join_null_difference_cannot_be_erased(self):
         for query in ('SELECT missing.amount FROM input a',

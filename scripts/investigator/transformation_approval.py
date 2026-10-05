@@ -7,7 +7,7 @@ import copy
 import json
 from datetime import datetime, timezone
 from pathlib import Path
-from .lineage_binding import verify, require_declared_approval, seal, validate
+from .lineage_binding import verify, require_declared_approval, seal, validate, revalidate_verification, VerificationHold
 
 VERSION='sampled-lineage-approval-v1'
 
@@ -36,8 +36,12 @@ def approve(manifest, *, samples, compiler, execute, ledger, destination, now=No
         raise ValueError('Declared approval has no executable sample for: '+str(sorted(expected-covered)))
     results=[]
     for _,sample in planned:
-        result=verify(sample['proposal'],context=sample['context'],cell=sample['cell'],
-            precision=sample['precision'],compiler=compiler,execute=execute)
+        try:
+            result=verify(sample['proposal'],context=sample['context'],cell=sample['cell'],
+                precision=sample['precision'],compiler=compiler,execute=execute)
+        except VerificationHold as exc:
+            ledger.append(exc.verification)
+            raise
         ledger.append(result)
         results.append(result)
     require_declared_approval(results)
@@ -67,14 +71,8 @@ def read_approval(path,manifest):
     covered=set()
     for result in record['declared_verifications']:
         require_declared_approval([result])
-        if len(result['observations'])!=2:raise ValueError('Declared approval requires both original observations')
-        observations=iter(result['observations'])
-        # Recompute the verdict from original sealed observations. A status label
-        # and a self-consistent file hash are not themselves comparison evidence.
-        check=verify(result['proposal'],context=result['context'],cell=result['cell'],precision=result['precision'],
-            compiler=lambda *args: None,execute=lambda *args: next(observations))
+        check=revalidate_verification(result)
         require_declared_approval([check])
-        if check!=result:raise ValueError('Declared approval verification differs from original observations')
         p=check['proposal'];covered.add((p['boundary']['from_layer'],p['boundary']['to_layer']))
     if covered!=expected:raise ValueError('Declared approval does not cover exactly the configured bindings')
     return copy.deepcopy(record)

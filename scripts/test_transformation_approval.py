@@ -50,6 +50,22 @@ class ApprovalTests(unittest.TestCase):
             self.assertIn('Faithful source expression unavailable',row['reason'])
             self.assertFalse(options['destination'].exists())
 
+    def test_budget_hold_preserves_first_observation_and_stops_the_batch(self):
+        from investigator.usage_governance import UsageHold
+        with tempfile.TemporaryDirectory() as d:
+            options=self.setup_approval(d);original=options['execute']
+            def execute(side,plan):
+                if side=='SOURCE':raise UsageHold('Diagnostic read limit')
+                return original(side,plan)
+            options['execute']=execute
+            with self.assertRaisesRegex(UsageHold,'Diagnostic read limit'):
+                approve(self.manifest,**options)
+            row=json.loads(options['ledger'].path.read_text())['verification']
+            self.assertEqual(row['status'],'UNVERIFIED')
+            self.assertEqual(row['observations'][0]['quantity']['value'],'7')
+            self.assertEqual(row['observations'][1]['error_type'],'UsageHold')
+            self.assertFalse(options['destination'].exists())
+
     def test_missing_or_unconfigured_declaration_refuses_before_read(self):
         with tempfile.TemporaryDirectory() as d:
             options=self.setup_approval(d);options['samples']=[]
