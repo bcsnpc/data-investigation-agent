@@ -30,7 +30,7 @@ Accounting v2 is dated retrospectively to #393 (`7abaabf37812b58cc74b684de9cafc1
 
 ## Live source run
 
-**a96e0ca5-0266-439d-a72f-c83a99b505b1 ? CONSISTENT_TO_SOURCE.** Fixture-authored unchanged ticket; approved source-baseline, context d48aa1d0-f692-44ed-969c-083c6d3df49f, SHA-256 e284a33adec25f6aeb592adca76b88ed30f48e4596ef7dacd7f70cb99d0c05a0. Config SHA-256 56dfa9aeab17f133b68ddfcc3761cf50d529eefdd10d4c3bfa22657fa73cf821. Recorded engine revision 75493590ad72c64dde179b922181ce2528631350; tape v3.
+**a96e0ca5-0266-439d-a72f-c83a99b505b1 - CONSISTENT_TO_SOURCE.** Fixture-authored unchanged ticket; approved source-baseline, context d48aa1d0-f692-44ed-969c-083c6d3df49f, SHA-256 e284a33adec25f6aeb592adca76b88ed30f48e4596ef7dacd7f70cb99d0c05a0. Config SHA-256 56dfa9aeab17f133b68ddfcc3761cf50d529eefdd10d4c3bfa22657fa73cf821. Recorded engine revision 75493590ad72c64dde179b922181ce2528631350; tape v3.
 
 Intake accepted SOURCE_CORRECTNESS on its first call, with expected record 900099, no filter/grouping and no selection target. The new retry was therefore not exercised live; its success/refusal/metering paths were tested offline. No causal claim that the retry made this first response valid.
 
@@ -43,7 +43,7 @@ Intake accepted SOURCE_CORRECTNESS on its first call, with expected record 90009
 | Membership | Microsoft SQL Azure / ordersops / orderops_investigator | 900099 absent | PARTIAL: engine, object, identity match; connection unattested | 3b0d562e-58ed-4f12-bc6e-3461e51726c9 |
 | Quantity | Microsoft SQL Azure / ordersops / orderops_investigator | 7,661 | PARTIAL: engine, object, identity match; connection unattested | ab18cb6d-0b97-41cc-96a8-5bc77fc42e41 |
 
-Both boundaries were compared: semantic model ? landing, and landing ? application. Both are ENGINE_INDEPENDENT cross-surface comparisons with equal 7,661 quantities. None is fully surface-verified or snapshot-verified: connection remains unattested on each surface; both comparisons are SNAPSHOT_UNVERIFIED. No within-layer reproduction was attempted. The declared source was reached, so no lower boundary was skipped. Optional refresh timing remains unavailable to the reader; report reproduction is undeclared for model-only context.
+Both boundaries were compared: semantic model to landing, and landing to application. Both are ENGINE_INDEPENDENT cross-surface comparisons with equal 7,661 quantities. None is fully surface-verified or snapshot-verified: connection remains unattested on each surface; both comparisons are SNAPSHOT_UNVERIFIED. No within-layer reproduction was attempted. The declared source was reached, so no lower boundary was skipped. Optional refresh timing remains unavailable to the reader; report reproduction is undeclared for model-only context.
 
 Six diagnostic reads / cap twelve: two semantic DAX, two landing SQL, two application SQL. Fourteen physical requests: two DAX, four SQL value/membership queries, four SQL identity checks, two database-permission checks, two object-permission checks. Eight overhead guards; four permission-check reuses; zero connection-retry requests inside the investigation. Intake one, investigation planner zero, definition judge zero, synthesis one. Synthesis COMPLETED and validated; v3 byte-exact replay PASSED with zero network requests.
 
@@ -51,13 +51,13 @@ The claim establishes observed unchanged quantities and independently observed a
 
 ## Controls and both budget windows
 
-Pre-warm: first connect failed SQL40613, then a recorded five-second resume wait, then connection success. Two physical controls and zero diagnostic reads. Pot 247?249/400. Resume started 2026-10-05T05:49:19.898489Z and completed 2026-10-05T05:49:24.900214Z.
+Pre-warm: first connect failed SQL40613, then a recorded five-second resume wait, then connection success. Two physical controls and zero diagnostic reads. Pot 247 to 249/400. Resume started 2026-10-05T05:49:19.898489Z and completed 2026-10-05T05:49:24.900214Z.
 
 A private harness path typo caused FileNotFoundError before intake or any investigation read. That zero-read/zero-model-call setup failure is preserved separately in the ledger; only its local case path was corrected. Exactly one actual investigation was submitted.
 
-Investigation pot 249?263/400; restoration reserve 50, usable remainder 87. Batch total sixteen physical requests including the two controls. Rolling ordinary allowance before investigation 384/1500, after 396/1500 over 86400 seconds. Fourteen new run requests were charged; two older requests aged out during the run. No reset or refund. Diagnostic cap twelve unchanged; actual six.
+Investigation pot 249 to 263/400; restoration reserve 50, usable remainder 87. Batch total sixteen physical requests including the two controls. Rolling ordinary allowance before investigation 384/1500, after 396/1500 over 86400 seconds. Fourteen new run requests were charged; two older requests aged out during the run. No reset or refund. Diagnostic cap twelve unchanged; actual six.
 
-## Business output ? verbatim
+## Business output (verbatim)
 
 ```text
 You asked: In Application load fixture 20261003, Movement Units shows 7,661 units. I expected a movement numbered 900099 that is absent from the authored application fixture. Please trace the displayed total to the application so I know whether this is a pipeline question or an application question.
@@ -68,7 +68,7 @@ What the investigation established:
 The checked reported calculation value was 7,661. Every checked step agreed with the application that the system owner declared authoritative. These comparisons found no delivery difference; they do not establish that the application contains every expected entry. The record you named was absent at every checked layer: reported calculation, landing table and application. The checks do not establish whether they describe the same moment or whether the original entries are correct. For the reported calculation and the landing table, the two checks used different calculation engines. For the landing table and the application, the two checks used different calculation engines. Recommended action: Ask the application owner about the expected entry; an entry absent from the application is not a delivery problem in the checked process.
 ```
 
-## Technical output ? verbatim
+## Technical output (verbatim)
 
 ```text
 You asked: In Application load fixture 20261003, Movement Units shows 7,661 units. I expected a movement numbered 900099 that is absent from the authored application fixture. Please trace the displayed total to the application so I know whether this is a pipeline question or an application question.
