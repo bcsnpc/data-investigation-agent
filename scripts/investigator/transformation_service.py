@@ -19,7 +19,8 @@ def run(*,source,path,meter,root,schemas,boundary,item,target_table,layers,
 
 
 def run_unit(*,unit,receipt,schemas,boundary,item,target_table,layers,context,cell,
-             precision,compiler,execute,ledger,model=None,declared=False):
+             precision,compiler,execute,ledger,model=None,declared=False,
+             comparison_sample=None,target_profile=None):
     """Verify from one already-receipted retrieval shared by multiple boundaries."""
     if unit['content_hash']!=receipt['content_hash'] or unit['path']!=receipt['path']:
         raise ValueError('Retained code unit differs from its retrieval receipt')
@@ -30,8 +31,21 @@ def run_unit(*,unit,receipt,schemas,boundary,item,target_table,layers,context,ce
     # Do not claim a whole boundary is verified because one column agreed.
     for proposal in extraction['proposals']:
         try:
-            verification=verify(proposal,context=context,cell=cell,precision=precision,
-                                compiler=compiler,execute=execute)
+            if comparison_sample is None:
+                verification=verify(proposal,context=context,cell=cell,precision=precision,
+                                    compiler=compiler,execute=execute)
+            else:
+                from .binding_sample import verify as verify_binding
+                try:profile=target_profile(proposal)
+                except (ValueError,KeyError,NotImplementedError) as exc:
+                    verification={'verification_version':'binding-profile-v1','proposal':proposal,
+                        'context':context,'sample':copy.deepcopy(comparison_sample),
+                        'observations':[],'status':'UNVERIFIED','reason':'Cannot compile faithfully: '+str(exc),
+                        'limits':['No target-type comparison was compiled or executed.']}
+                    ledger.append(verification);result['verifications'].append(verification)
+                    continue
+                verification=verify_binding(proposal,context=context,sample=comparison_sample,
+                    profile=profile,compiler=compiler,execute=execute)
         except VerificationHold as exc:
             ledger.append(exc.verification)
             raise
@@ -55,12 +69,19 @@ def select(*,declared,inferred,current_hashes,boundary,target_column,context,cel
         # A later failed verification supersedes an earlier success for the
         # same proposal and sample. History is retained, not cherry-picked.
         from .lineage_binding import seal
-        latest={seal({k:r[k] for k in ('proposal','context','cell','precision')}):r for r in rows}
+        latest={seal({k:r[k] for k in ('proposal','context','cell','precision','address','sample') if k in r}):r for r in rows}
         for row in latest.values():
             p=validate(row['proposal'])
             if p['boundary']!=boundary or p['target']['column']!=target_column:continue
             location=p['location'];current=current_hashes.get((location['item'],location['path']))
             status=row['status'] if current==location['content_hash'] else 'STALE'
+            if row.get('verification_version')=='binding-profile-v1':
+                excluded.append({'location':copy.deepcopy(location),'status':status,
+                    'reason_category':'STALE_CODE' if status=='STALE' else 'COLLATION_UNDECLARED'
+                        if 'COLLATION_UNDECLARED' in (row.get('reason') or '') else 'SAMPLE_MISMATCH',
+                    'verification_reason':row.get('reason'),
+                    'reason':'A per-binding sample is not a ticket-cell proof; re-verification for the current use is required.'})
+                continue
             if status!='VERIFIED' or any(row.get(k)!=v for k,v in
                     (('context',context),('cell',cell),('precision',precision))):
                 from .lineage_limits import category
@@ -81,7 +102,7 @@ def select(*,declared,inferred,current_hashes,boundary,target_column,context,cel
                           'verification':copy.deepcopy(next(iter(unique.values()))),'excluded':excluded}
         if rows is declared and any(validate(r['proposal'])['boundary']==boundary for r in rows):
             return {'status':'UNBOUND','reason':'Declared binding lacks current matching verification','excluded':excluded}
-    inventoried={seal({k:r[k] for k in ('proposal','context','cell','precision')}):r for r in declared+inferred
+    inventoried={seal({k:r[k] for k in ('proposal','context','cell','precision','address','sample') if k in r}):r for r in declared+inferred
                  if r['proposal']['boundary']==boundary}
     return {'status':'UNBOUND','reason':'Neither a declared nor a current verified inferred binding matches the selected quantity and scope.',
             'excluded':exclusions,'inventoried_proposal_count':len(inventoried)}

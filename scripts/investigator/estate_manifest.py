@@ -8,6 +8,7 @@ from .process_debugging import REQUIRED_CAPABILITIES, OPTIONAL_CAPABILITIES
 from .workspace import DYNAMIC_READ_BOUNDS, DYNAMIC_INPUT_BOUNDS
 from .estate_limits import STATEMENT_BOUND
 from .code_sources import CODE_SOURCE_SCHEMA, validate_sources as validate_code_inventory
+from .binding_sample import SAMPLE_SCHEMA
 
 
 def obj(properties, optional=()):
@@ -23,6 +24,10 @@ def integer(low,high):return {'type':'integer','minimum':low,'maximum':high}
 REFERENCE=obj({'adapter':STRING,'address':STRING,'reader':STRING})
 SCOPE=obj({'resource':STRING,'rights':array(enum(('READ','BUILD','CATALOG','QUERY')))})
 RESOURCE=obj({'id':STRING,'asset_id':STRING,'reach':REFERENCE})
+NORMALIZATION={'oneOf':[
+    obj({'status':{'const':'UNDECLARED'},'reason':STRING}),
+    obj({'status':{'const':'DECLARED'},'collation':STRING,'trim':BOOL,
+         'case_fold':BOOL,'evidence':STRING})]}
 SCHEMA=obj({
     'version':{'const':'estate-manifest-v1'},'environment':STRING,
     'storage':obj({'catalog':STRING,'inventory':STRING}),
@@ -31,7 +36,8 @@ SCHEMA=obj({
     'layers':array(obj({'id':STRING,'asset_id':STRING,'role':enum(ROLES),
         'business_name':{'type':'string','minLength':1,'maxLength':80},
         'reachable':BOOL,'reach':REFERENCE,'serverless':BOOL,
-        'worker_timeout_seconds':integer(30,600)}, optional=('serverless','worker_timeout_seconds'))),
+        'worker_timeout_seconds':integer(30,600),'comparison_normalization':NORMALIZATION},
+        optional=('serverless','worker_timeout_seconds','comparison_normalization'))),
     'resources':array(RESOURCE),
     'identities':array(obj({'id':STRING,'principal':STRING,'credential_reference':STRING,
         'scopes':array(SCOPE)})),
@@ -47,8 +53,9 @@ SCHEMA=obj({
         'code_sources':array(CODE_SOURCE_SCHEMA),
         'code_locations':array(obj({'from_layer':STRING,'to_layer':STRING,
             'may_infer_from_code':BOOL,'locations':array(obj({'source':STRING,'path':STRING}))})),
+        'verification_sample':SAMPLE_SCHEMA,
         'source_delivery':{'anyOf':[obj({k:STRING for k in
-            ('source_asset_id','key_column_id','version_column_id','modified_column_id','time_semantics')}),{'type':'null'}]}}, optional=('code_sources','code_locations')),
+            ('source_asset_id','key_column_id','version_column_id','modified_column_id','time_semantics')}),{'type':'null'}]}}, optional=('code_sources','code_locations','verification_sample')),
     'capability_ceiling':array(enum(sorted(REQUIRED_CAPABILITIES|OPTIONAL_CAPABILITIES))),
     'model':obj({'provider':STRING,'deployment':STRING,'endpoint':STRING,
         'generation_options':obj({'reasoning_effort':enum(('none','low','medium','high')),
@@ -58,13 +65,16 @@ SCHEMA=obj({
         # not to the platform-neutral installation contract.
         'credential':{'type':'object'},
         'max_planner_recoveries':integer(0,1)}),
-    'budgets':obj({'diagnostic_reads_per_run':integer(*DYNAMIC_READ_BOUNDS),'input_characters_per_run':integer(*DYNAMIC_INPUT_BOUNDS),
+    'budgets':obj({'diagnostic_reads_per_run':integer(*DYNAMIC_READ_BOUNDS),
+        'binding_verification':obj({'probes_per_binding':{'const':2},'metadata_probes':integer(0,32),
+                                   'session_cap':integer(1,2048)}),
+        'input_characters_per_run':integer(*DYNAMIC_INPUT_BOUNDS),
         'max_boundaries':integer(0,32),'rolling_window_seconds':{'const':86400},
         'rolling_physical_requests':integer(1,10000000),
         'planner_daily':obj({'calls':integer(1,10000000),'input_characters':integer(1,10000000),
             'output_tokens':integer(1,10000000),'max_inflight':integer(1,4),'no_progress_limit':integer(1,4)}),
         'round':obj({'id':STRING,'starts_at_epoch':{'type':'number','minimum':0},
-            'physical_requests':integer(1,10000000),'restoration_reserved':integer(0,10000000)})}),
+            'physical_requests':integer(1,10000000),'restoration_reserved':integer(0,10000000)})}, optional=('binding_verification',)),
     'accepted_limits':array(obj({'code':STRING,'resource':STRING,
         'statement':{'type':'string','minLength':1,'maxLength':STATEMENT_BOUND}})),
     # Evaluator-only declarations; not projected into tools or prompts.

@@ -205,6 +205,16 @@ def revalidate_verification(result):
     """
     if not isinstance(result,dict) or len(result.get('observations',[]))!=2:
         raise ValueError('Binding verification requires both original observations')
+    if result.get('verification_version')=='binding-profile-v1':
+        from .binding_sample import verify as verify_binding
+        observations=iter(result['observations'])
+        def compiler(*args):
+            return {'normalization':result.get('normalization')}
+        check=verify_binding(result['proposal'],context=result['context'],
+            sample=result['address']['sample'],profile=result['address']['profile'],
+            compiler=compiler,execute=lambda *args:next(observations))
+        if check!=result:raise ValueError('Binding profile verification differs from original observations')
+        return copy.deepcopy(check)
     observations=iter(result['observations'])
     check=verify(result['proposal'],context=result['context'],cell=result['cell'],precision=result['precision'],
         compiler=lambda *args: None,execute=lambda *args: next(observations))
