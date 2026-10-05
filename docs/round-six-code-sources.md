@@ -314,3 +314,933 @@ correctly returned fifteen MISSING_PRIVATE_REPLAY_INPUTS blocks, with zero reads
 The corrected invocation uses the same pinned source files as the earlier passed
 column; it is still running. This is an operator invocation correction, not tape
 modification or a replacement live run. No live section has started.
+
+## Offline report before the live section, 2026-10-05
+
+Full runtime checkpoint: 1,966 tests passed. Subsequent exact-address correction: 18 focused tests passed. The reader tape test passed with live probes forbidden and the source file removed, reproducing its FALSIFIED receipt and all three charged synthetic physical requests; the new ledger output is canonical. Original ledger rows remain readable and unchanged. Static plain selection, two-key join, dropping filter, aggregation, rename, arithmetic, dynamic-model handoff and deliberately false-binding cases are covered offline. No estate or provider read in these tests.
+
+The consumer ProposedBinding schema, verbatim:
+
+```json
+{
+  "$defs": {
+    "node": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "COLUMN"
+            },
+            "name": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "LITERAL"
+            },
+            "value": {
+              "maxLength": 500,
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "DECIMAL"
+            },
+            "value": {
+              "maxLength": 128,
+              "pattern": "^[+-]?[0-9]+(?:\\.[0-9]+)?$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "ADD"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "SUBTRACT"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "MULTIPLY"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "DIVIDE"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "EQ"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "NE"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "GT"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "GE"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "LT"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "LE"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "AND"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "OR"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "SUM"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "COUNT"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "MIN"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "MAX"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "AVG"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "NOT"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "relation": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "columns": {
+              "items": {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              "maxItems": 128,
+              "minItems": 1,
+              "type": "array"
+            },
+            "kind": {
+              "const": "SCAN"
+            },
+            "table": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "table",
+            "columns"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "columns": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "expression": {
+                    "$ref": "#/$defs/node"
+                  },
+                  "name": {
+                    "maxLength": 128,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "expression"
+                ],
+                "type": "object"
+              },
+              "maxItems": 128,
+              "minItems": 1,
+              "type": "array"
+            },
+            "input": {
+              "$ref": "#/$defs/relation"
+            },
+            "kind": {
+              "const": "PROJECT"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "columns"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "input": {
+              "$ref": "#/$defs/relation"
+            },
+            "kind": {
+              "const": "FILTER"
+            },
+            "predicate": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "predicate"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "input": {
+              "$ref": "#/$defs/relation"
+            },
+            "keys": {
+              "items": {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              "maxItems": 128,
+              "minItems": 1,
+              "type": "array"
+            },
+            "kind": {
+              "const": "DEDUPE"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "keys"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "how": {
+              "enum": [
+                "LEFT",
+                "INNER"
+              ]
+            },
+            "keys": {
+              "items": {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              "maxItems": 128,
+              "minItems": 1,
+              "type": "array"
+            },
+            "kind": {
+              "const": "JOIN"
+            },
+            "left": {
+              "$ref": "#/$defs/relation"
+            },
+            "right": {
+              "$ref": "#/$defs/relation"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right",
+            "how",
+            "keys"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "columns": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "expression": {
+                    "$ref": "#/$defs/node"
+                  },
+                  "name": {
+                    "maxLength": 128,
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "expression"
+                ],
+                "type": "object"
+              },
+              "maxItems": 128,
+              "minItems": 1,
+              "type": "array"
+            },
+            "groups": {
+              "items": {
+                "maxLength": 128,
+                "minLength": 1,
+                "type": "string"
+              },
+              "maxItems": 128,
+              "minItems": 0,
+              "type": "array"
+            },
+            "input": {
+              "$ref": "#/$defs/relation"
+            },
+            "kind": {
+              "const": "AGGREGATE"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "groups",
+            "columns"
+          ],
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "anyOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "boundary": {
+          "additionalProperties": false,
+          "properties": {
+            "from_layer": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            },
+            "to_layer": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "from_layer",
+            "to_layer"
+          ],
+          "type": "object"
+        },
+        "expression": {
+          "additionalProperties": false,
+          "properties": {
+            "column": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "relation": {
+              "$ref": "#/$defs/relation"
+            }
+          },
+          "required": [
+            "relation",
+            "column"
+          ],
+          "type": "object"
+        },
+        "extractor": {
+          "const": "STATIC"
+        },
+        "location": {
+          "additionalProperties": false,
+          "properties": {
+            "cell": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            },
+            "content_hash": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "item": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            },
+            "line_end": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "line_start": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "path": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "item",
+            "path",
+            "cell",
+            "line_start",
+            "line_end",
+            "content_hash"
+          ],
+          "type": "object"
+        },
+        "sources": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "columns": {
+                "items": {
+                  "maxLength": 128,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "maxItems": 128,
+                "minItems": 1,
+                "type": "array"
+              },
+              "table": {
+                "maxLength": 500,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "table",
+              "columns"
+            ],
+            "type": "object"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "type": "array"
+        },
+        "target": {
+          "additionalProperties": false,
+          "properties": {
+            "column": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "table": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "table",
+            "column"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "boundary",
+        "sources",
+        "target",
+        "expression",
+        "location",
+        "extractor"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "boundary": {
+          "additionalProperties": false,
+          "properties": {
+            "from_layer": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            },
+            "to_layer": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "from_layer",
+            "to_layer"
+          ],
+          "type": "object"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "expression": {
+          "additionalProperties": false,
+          "properties": {
+            "column": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "relation": {
+              "$ref": "#/$defs/relation"
+            }
+          },
+          "required": [
+            "relation",
+            "column"
+          ],
+          "type": "object"
+        },
+        "extractor": {
+          "const": "MODEL"
+        },
+        "location": {
+          "additionalProperties": false,
+          "properties": {
+            "cell": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            },
+            "content_hash": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "item": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            },
+            "line_end": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "line_start": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "path": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "item",
+            "path",
+            "cell",
+            "line_start",
+            "line_end",
+            "content_hash"
+          ],
+          "type": "object"
+        },
+        "sources": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "columns": {
+                "items": {
+                  "maxLength": 128,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "maxItems": 128,
+                "minItems": 1,
+                "type": "array"
+              },
+              "table": {
+                "maxLength": 500,
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "table",
+              "columns"
+            ],
+            "type": "object"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "type": "array"
+        },
+        "target": {
+          "additionalProperties": false,
+          "properties": {
+            "column": {
+              "maxLength": 128,
+              "minLength": 1,
+              "type": "string"
+            },
+            "table": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "table",
+            "column"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "boundary",
+        "sources",
+        "target",
+        "expression",
+        "location",
+        "extractor",
+        "confidence"
+      ],
+      "type": "object"
+    }
+  ]
+}
+```
+
+The comparison rule, verbatim:
+
+> Compile both expressions before either read. Both observations must be completed, bound to the same retained context, cell address and explicitly declared precision. Compare their numeric quantities at that precision, or BLANK with BLANK. Equal is VERIFIED only for that sampled quantity and scope; unequal is FALSIFIED. A compilation, read, identity or context failure is UNVERIFIED, never evidence of equality. No inferred tolerance.
+
+Specific pre-live limits: filtered/grouped lower quantities, undeclared division semantics, string comparison/deduplication equivalence and append/conditional writes refuse. Embedded literal seed data is withheld from model fallback. The serving units expression compiles but is unexecuted; the refined expression refuses compilation. These are not verification verdicts from data. Both measurements and inferred claims remain sampled and SNAPSHOT_UNVERIFIED unless value-bound snapshot evidence establishes otherwise. The unchanged archived column is still running under pinned historical producers; it is not current-engine acceptance.
+
+DECIDED WITHOUT REVIEW: approval retains the declared application-to-landing edge and enables the two original code boundaries in a separate experimental manifest. There were no explicit original notebook bindings to remove: they were legacy retained-definition candidates. The verifier will use the saved control-page cell and exact precision without an authored target value. The isolated copy receives a new approval sample address, not an alteration of old receipts. A fresh discovery scan is required to approve the changed whole-config policy; reusing or narrowing its old hash was rejected.
+
+Windows before live: Round Six21/400,60 reserved, ordinary stop340; rolling248/1500 last observed. No claim that this stale observation is the current rolling total. No live reader or inferred ticket has executed.
