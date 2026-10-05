@@ -1,0 +1,911 @@
+{
+  "anyOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "from_layer": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "to_layer": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          },
+          "required": [
+            "from_layer",
+            "to_layer"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "table": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "columns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                "minItems": 1,
+                "maxItems": 128
+              }
+            },
+            "required": [
+              "table",
+              "columns"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 16
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "table": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "column": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "table",
+            "column"
+          ]
+        },
+        "expression": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "relation": {
+              "$ref": "#/$defs/relation"
+            },
+            "column": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "relation",
+            "column"
+          ]
+        },
+        "location": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "item": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "cell": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "line_start": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "line_end": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "content_hash": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "item",
+            "path",
+            "cell",
+            "line_start",
+            "line_end",
+            "content_hash"
+          ]
+        },
+        "extractor": {
+          "const": "STATIC"
+        }
+      },
+      "required": [
+        "boundary",
+        "sources",
+        "target",
+        "expression",
+        "location",
+        "extractor"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "from_layer": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "to_layer": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          },
+          "required": [
+            "from_layer",
+            "to_layer"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "table": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "columns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                },
+                "minItems": 1,
+                "maxItems": 128
+              }
+            },
+            "required": [
+              "table",
+              "columns"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 16
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "table": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "column": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "table",
+            "column"
+          ]
+        },
+        "expression": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "relation": {
+              "$ref": "#/$defs/relation"
+            },
+            "column": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "relation",
+            "column"
+          ]
+        },
+        "location": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "item": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "cell": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "line_start": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "line_end": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "content_hash": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "item",
+            "path",
+            "cell",
+            "line_start",
+            "line_end",
+            "content_hash"
+          ]
+        },
+        "extractor": {
+          "const": "MODEL"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "boundary",
+        "sources",
+        "target",
+        "expression",
+        "location",
+        "extractor",
+        "confidence"
+      ]
+    }
+  ],
+  "$defs": {
+    "node": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "COLUMN"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "LITERAL"
+            },
+            "value": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ],
+              "maxLength": 500
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "DECIMAL"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^[+-]?[0-9]+(?:\\.[0-9]+)?$",
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "ADD"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "SUBTRACT"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "MULTIPLY"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "DIVIDE"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "EQ"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "NE"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "GT"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "GE"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "LT"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "LE"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "AND"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "OR"
+            },
+            "left": {
+              "$ref": "#/$defs/node"
+            },
+            "right": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "SUM"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "COUNT"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "MIN"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "MAX"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "AVG"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "NOT"
+            },
+            "operand": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "operand"
+          ]
+        }
+      ]
+    },
+    "relation": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "SCAN"
+            },
+            "table": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "minItems": 1,
+              "maxItems": 128
+            }
+          },
+          "required": [
+            "kind",
+            "table",
+            "columns"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "PROJECT"
+            },
+            "input": {
+              "$ref": "#/$defs/relation"
+            },
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "expression": {
+                    "$ref": "#/$defs/node"
+                  }
+                },
+                "required": [
+                  "name",
+                  "expression"
+                ]
+              },
+              "minItems": 1,
+              "maxItems": 128
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "columns"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "FILTER"
+            },
+            "input": {
+              "$ref": "#/$defs/relation"
+            },
+            "predicate": {
+              "$ref": "#/$defs/node"
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "predicate"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "DEDUPE"
+            },
+            "input": {
+              "$ref": "#/$defs/relation"
+            },
+            "keys": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "minItems": 1,
+              "maxItems": 128
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "keys"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "JOIN"
+            },
+            "left": {
+              "$ref": "#/$defs/relation"
+            },
+            "right": {
+              "$ref": "#/$defs/relation"
+            },
+            "how": {
+              "enum": [
+                "LEFT",
+                "INNER"
+              ]
+            },
+            "keys": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "minItems": 1,
+              "maxItems": 128
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right",
+            "how",
+            "keys"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "AGGREGATE"
+            },
+            "input": {
+              "$ref": "#/$defs/relation"
+            },
+            "groups": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              "minItems": 0,
+              "maxItems": 128
+            },
+            "columns": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 128
+                  },
+                  "expression": {
+                    "$ref": "#/$defs/node"
+                  }
+                },
+                "required": [
+                  "name",
+                  "expression"
+                ]
+              },
+              "minItems": 1,
+              "maxItems": 128
+            }
+          },
+          "required": [
+            "kind",
+            "input",
+            "groups",
+            "columns"
+          ]
+        }
+      ]
+    }
+  }
+}

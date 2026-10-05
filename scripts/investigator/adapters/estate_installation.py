@@ -49,7 +49,7 @@ def configuration(manifest):
     config['_estate']={'manifest_hash':digest(manifest),'round':manifest['budgets']['round'],
         'capability_ceiling':manifest['capability_ceiling'],'layers':manifest['layers'],'resources':manifest['resources'],
         # Code-source credentials/declarations never reach investigation workers.
-        'lineage':{k:v for k,v in manifest['lineage'].items() if k not in ('code_sources','code_locations')},
+        'lineage':{k:v for k,v in manifest['lineage'].items() if k!='code_sources'},
         'accepted_limits':manifest['accepted_limits']}
     return config
 

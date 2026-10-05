@@ -17,6 +17,36 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def test_worker_admission_never_rewrites_prior_envelope(self):
+        with tempfile.TemporaryDirectory() as folder:
+            tape=Tape(Path(folder)/'tape.json',bootstrap())
+            before=tape.path.read_bytes()
+            with patch.object(tape,'flush',wraps=tape.flush) as flush:
+                tape.event('WORKER_START',bytes_of({'command':['offline-worker'],'mode':'STREAM'}))
+                for n in range(100):tape.event('BUDGET_INPUT',bytes_of({'large_retained_history':'x'*10000,'n':n}))
+                tape.event('WORKER_SEND',b'ALLOW\n')
+                tape.event('WORKER_END',bytes_of({'returncode':0}))
+                flush.assert_not_called()
+            self.assertEqual(tape.path.read_bytes(),before)
+            self.assertEqual(len(tape.journal_path.read_bytes().splitlines()),104)
+            tape.finish({'status':'COMPLETED'})
+            replay=Tape(tape.path)
+            self.assertEqual(replay.events,tape.events)
+
+    def test_new_code_reader_requires_committed_producer_legacy_v3_is_unchanged(self):
+        from investigator import process_tape as journal
+        with tempfile.TemporaryDirectory() as folder:
+            b=bootstrap();b['entry_point']='code_reader'
+            old=Path(folder)/'old.json'
+            with patch.object(journal,'VERSION','bounded-worker-tape-v3'):
+                recorded=Tape(old,b);recorded.finish({})
+            original=old.read_bytes();replay=Tape(old);replay.finish({})
+            self.assertEqual(old.read_bytes(),original);self.assertIsNone(replay.engine_revision)
+            with patch('subprocess.check_output',return_value=' M scripts/investigator/reader.py'):
+                with self.assertRaisesRegex(TapeError,'UNCOMMITTED_ENGINE'):Tape(Path(folder)/'dirty.json',b)
+            with patch('subprocess.check_output',side_effect=['','a'*40]):
+                current=Tape(Path(folder)/'new.json',b);current.finish({})
+            replay=Tape(current.path);self.assertEqual(replay.engine_revision,'a'*40);replay.finish({})
     def test_v1_tape_replays_after_recorder_moves_to_v2(self):
         from investigator import process_tape as journal
         with tempfile.TemporaryDirectory() as folder:
@@ -27,7 +57,7 @@ class TapeTests(unittest.TestCase):
                 recorded.event('BOUNDED_RESPONSE', bytes_of({'value': 2}))
                 recorded.finish({})
             original = path.read_bytes()
-            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v3')
+            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v4')
             replayed = Tape(path)
             self.assertEqual(replayed.version, 'bounded-worker-tape-v1')
             replayed.event('BOUNDED_REQUEST', bytes_of({'request': 1}))

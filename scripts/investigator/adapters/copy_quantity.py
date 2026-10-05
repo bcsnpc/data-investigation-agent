@@ -2,6 +2,27 @@
 import json
 
 
+def approval_sample(context,target_id,column,*,boundary,context_id,cell,precision):
+    """Compile only a served, exact full-entity declaration for sampled approval."""
+    from ..lineage_binding import validate
+    proof,reason=resolve(context,target_id,column)
+    if proof is None:raise ValueError('Declared approval mapping unavailable: '+reason)
+    current={a['id']:a for a in context['assets'] if a.get('availability')=='CURRENT'}
+    target=current[target_id];part=current[proof['definition_asset_id']]
+    source_column=proof['source_column'];table=proof['source']['id']
+    relation={'kind':'SCAN','table':table,'columns':[source_column]}
+    if source_column!=column:
+        relation={'kind':'PROJECT','input':relation,'columns':[
+            {'name':column,'expression':{'kind':'COLUMN','name':source_column}}]}
+    proposal=validate({'boundary':boundary,'sources':[{'table':table,'columns':[source_column]}],
+        'target':{'table':target['id'],'column':column},
+        'expression':{'relation':relation,'column':column},
+        'location':{'item':part['parent_id'],'path':part['metadata']['path'],'cell':'declaration',
+                    'line_start':1,'line_end':max(1,len(part['metadata']['content'].splitlines())),
+                    'content_hash':proof['definition_hash']},'extractor':'STATIC'})
+    return {'proposal':proposal,'context':context_id,'cell':cell,'precision':precision}
+
+
 def resolve(context, target_id, column):
     current={a['id']:a for a in context.get('assets',[]) if a.get('availability')=='CURRENT'}
     edges=[e for e in context.get('graph',{}).get('edges',[]) if e.get('relation')=='DERIVED_FROM'

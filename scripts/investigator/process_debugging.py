@@ -399,7 +399,8 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             unchecked.append({'upper_layer':pair[0],'lower_layer':pair[1],'reason':reason})
         if path.get('unresolved_boundary') and result['classification']!='CONSISTENT_TO_SOURCE':unchecked.append(path['unresolved_boundary'])
         for row in unchecked:
-            result['limits'].append(f"Unchecked {row['upper_layer']} -> {row['lower_layer']}: {row['reason']}.")
+            from .lineage_limits import technical as lineage_limit
+            result['limits'].append(lineage_limit(row) or f"Unchecked {row['upper_layer']} -> {row['lower_layer']}: {row['reason']}.")
         for observation in observed:
             if observation.get('direct_source_proof'):
                 from .refresh_comparison import LIMIT
@@ -490,8 +491,26 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             if declaration is None:reason='The layer is not declared in the estate manifest; no read was attempted.'
             elif not declaration['reachable']:reason='The layer is configured unreachable in the estate manifest; no read was attempted.'
             provenance=(layer.get('binding') or {}).get('provenance')
-            if provenance=='INFERRED_FROM_CODE' and (not estate['lineage']['inference']['enabled'] or layer.get('transformation_asset_id') not in code):
-                reason='Code inference is not authorised at this location by the estate manifest.'
+            if provenance=='INFERRED_FROM_CODE':
+                binding=layer.get('binding') or {}
+                proof=binding.get('lineage_verification')
+                from .lineage_binding import revalidate_verification
+                if proof is None:
+                    reason='Inferred code lineage has no original sampled verification evidence.'
+                else:
+                    checked=revalidate_verification(proof)
+                    logical={x['asset_id']:x['id'] for x in estate['layers']}
+                    edge={'from_layer':logical.get(layer['id']),
+                          'to_layer':logical.get(layers[i-1]['id']) if i else None}
+                    locations=[b for b in estate['lineage'].get('code_locations',[])
+                        if b['may_infer_from_code'] and all(b[k]==v for k,v in edge.items())]
+                    permitted=any(binding.get('code_location') in b['locations'] for b in locations)
+                    current=[r for r in path.get('evidence',{}).get('code_source_receipts',[])
+                        if all(r.get(k)==v for k,v in (binding.get('code_location') or {}).items())]
+                    fresh=len(current)==1 and current[0].get('content_hash')==checked['proposal']['location']['content_hash']
+                    if (checked['status']!='VERIFIED' or checked['proposal']['boundary']!=edge
+                            or not estate['lineage']['inference']['enabled'] or not permitted or not fresh):
+                        reason='Code inference is not authorised and verified at this declared boundary.'
             if reason:
                 path['stopped_by']='NO_ACCESS';path['missing_comparable_quantity']=reason
                 path['unresolved_boundary']={'upper_layer':layers[i-1]['id'] if i else layer['id'],

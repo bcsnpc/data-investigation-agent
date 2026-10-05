@@ -41,6 +41,19 @@ class CopyQuantityTests(unittest.TestCase):
         self.assertEqual(path[-1]['binding']['provenance'],'DECLARED_BY_DEFINITION')
         self.assertEqual(contracts[0]['operations'][0]['operation'],'COPY')
 
+    def test_declared_approval_sample_comes_only_from_exact_served_copy_mapping(self):
+        from investigator.adapters.copy_quantity import approval_sample
+        sample=approval_sample(self.context,self.target,'id',boundary={'from_layer':'source','to_layer':'arrival'},
+            context_id='retained',cell={'id':'existing'},precision={'state':'EXACT'})
+        p=sample['proposal'];proof,_=resolve(self.context,self.target,'id')
+        self.assertEqual(p['sources'][0]['table'],proof['source']['id'])
+        self.assertEqual(p['target']['table'],self.target)
+        self.assertEqual(p['location']['content_hash'],proof['definition_hash'])
+        self.assertEqual(p['expression']['relation']['kind'],'SCAN')
+        with self.assertRaisesRegex(ValueError,'mapping unavailable'):
+            approval_sample(self.context,self.target,'absent',boundary={'from_layer':'source','to_layer':'arrival'},
+                context_id='retained',cell={'id':'existing'},precision={'state':'EXACT'})
+
     def test_unknown_predicate_incremental_append_expression_or_truncation_refuses(self):
         changes=[lambda d:d['activities'][0]['properties']['source'].update(query='select id from somewhere'),
             lambda d:d['properties'].update(jobMode='Incremental'),
