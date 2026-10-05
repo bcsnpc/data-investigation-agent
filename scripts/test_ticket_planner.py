@@ -29,7 +29,7 @@ class PlannerTests(unittest.TestCase):
         self.assertEqual(len(before),len(json.dumps(first)))
         self.assertEqual(json.loads(after),first)
 
-    def test_canonical_nested_payload_records_validates_and_replays_byte_exactly(self):
+    def test_canonical_nested_payload_replays_format_changes_but_rejects_content_changes(self):
         from investigator.process_tape import Tape,active,bytes_of
         from test_process_tape import bootstrap
         response=SimpleNamespace(status='completed',output=[],output_text=json.dumps(self.plan),
@@ -51,14 +51,18 @@ class PlannerTests(unittest.TestCase):
             with active(tape):
                 actual=azure_generate({'a':{'first':1,'second':2},'z':1});tape.finish(actual)
             self.assertEqual(actual,expected)
-            # Removing canonicalisation must make the same decoded payload fail.
+            # Transport comparison also tolerates an insertion-ordered producer.
             from investigator.process_tape import TapeError
             original_dumps=json.dumps
             def insertion_order(value,**kwargs):
                 kwargs.pop('sort_keys',None);return original_dumps(value,**kwargs)
             tape=Tape(path)
-            with active(tape),patch('ticket_planner.json',SimpleNamespace(dumps=insertion_order,loads=json.loads)),self.assertRaises(TapeError):
-                azure_generate({'z':1,'a':{'second':2,'first':1}})
+            with active(tape),patch('ticket_planner.json',SimpleNamespace(dumps=insertion_order,loads=json.loads)):
+                actual=azure_generate({'z':1,'a':{'second':2,'first':1}});tape.finish(actual)
+            self.assertEqual(actual,expected)
+            tape=Tape(path)
+            with active(tape),self.assertRaises(TapeError):
+                azure_generate({'z':2,'a':{'second':2,'first':1}})
 
     def setUp(self):
         self.ticket = dict(title='Cash question', report='Executive Sales', description='Check USD net cash',
