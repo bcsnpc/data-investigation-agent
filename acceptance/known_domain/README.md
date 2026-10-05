@@ -25,3 +25,15 @@ Dated 2026-10-05: cases pin immutable context ID/hash. Reproduction cases grade 
 Current declared roles are a dated grading view over unchanged old receipts. E's answer category NOT_ANSWERED → PARTLY_ANSWERED and source gap NOT_ANSWERED → ANSWERED are explicitly recorded #372 changes; outcomes unchanged. Original fifteen grade 8/15. Existing F and Q49 I tapes byte-exactly replay and pass, making selected evidence 10/15, still 11 replayable. No new live runs; D/G/H/EMPTY recording gaps and source consistency remain. #376 remains draft. See docs/round-five-fixture-states.md after the fixture-state implementation PR merges. This replaces earlier context-ID acceptance claims, not their historical evidence.
 
 Dated replay separation, 2026-10-05 UTC: v2 tapes seal a committed engine revision. Legacy v1 uses separately hash-bound historical-replay-bindings.json entries identifying a tested compatibility revision, not a retrospective exact-recording claim. The checker executes that revision with sockets blocked and exact request/final matching; it does not apply current producers to historical input or substitute saved outputs. Current-engine requalification remains the live list. G/H missing budget checkpoints and D missing identity still block. The new fifteen regrade is in progress; no15/15 claim.
+
+Dated Round Five G result, 2026-10-05 UTC: the human registered unchanged
+report-14sep context 3ae7607b/d6f3841f without recollection. New EMPTY returns
+REPRODUCED/EMPTY, synthesized and replayed. Source consistency then refused at
+intake for a non-verbatim column-source quote, before any application read.
+Full selected-tape regrade is13/15: numeric reproduction newly blocks after
+an earlier pass (source/tape bytes and compatibility revision unchanged),
+while historical source consistency replays only CONSISTENT_TO_BOUNDARY.
+No response repair or replacement. #398 records all15, outputs, hashes and
+controls. Pot247/400, rolling last observed440/1500. This gate stays draft;
+its hosted strict check remains missing private inputs separately. No case,
+expectation or validated field changed. Prior freezes remain invalid.
