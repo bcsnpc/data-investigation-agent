@@ -14,8 +14,8 @@ from contextlib import closing
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
-VERSION = 'bounded-worker-tape-v2'
-SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', VERSION))
+VERSION = 'bounded-worker-tape-v3'
+SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', VERSION))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
     'BUDGET','BUDGET_INPUT','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
@@ -54,14 +54,18 @@ class Tape:
         if self.replaying:
             value=json.loads(self.path.read_bytes())
             required={'version','events','exclusions','seal'}
-            if value.get('version') == 'bounded-worker-tape-v2':required.add('engine_revision')
+            if value.get('version') in ('bounded-worker-tape-v2','bounded-worker-tape-v3'):required.add('engine_revision')
+            if value.get('version')=='bounded-worker-tape-v3':required.add('accounting_version')
             if set(value)!=required or value['version'] not in SUPPORTED_VERSIONS:
                 raise TapeError('TAPE_SCHEMA')
             if value['seal']!=sha(bytes_of({k:v for k,v in value.items() if k!='seal'})):
                 raise TapeError('TAPE_SEAL')
             self.version=value['version']
+            from .budget_tape_contract import ACCOUNTING_VERSION
+            if self.version=='bounded-worker-tape-v3' and value['accounting_version']!=ACCOUNTING_VERSION:
+                raise TapeError('TAPE_ACCOUNTING_VERSION')
             self.engine_revision=value.get('engine_revision')
-            if self.version == 'bounded-worker-tape-v2' and self.engine_revision is not None and not re.fullmatch('[0-9a-f]{40}',self.engine_revision):
+            if self.version in ('bounded-worker-tape-v2','bounded-worker-tape-v3') and self.engine_revision is not None and not re.fullmatch('[0-9a-f]{40}',self.engine_revision):
                 raise TapeError('TAPE_ENGINE_REVISION')
             self.events=value['events'];self.exclusions=value['exclusions']
             if self.journal_path.exists():
@@ -74,7 +78,7 @@ class Tape:
             if self.path.exists() or self.journal_path.exists():raise TapeError('TAPE_ALREADY_EXISTS')
             self.bootstrap=bootstrap
             self.engine_revision=None
-            if self.version == 'bounded-worker-tape-v2' and bootstrap['entry_point']=='workspace':
+            if self.version in ('bounded-worker-tape-v2','bounded-worker-tape-v3') and bootstrap['entry_point']=='workspace':
                 import subprocess
                 root=Path(__file__).resolve().parents[2]
                 from .runtime import FINGERPRINT_TRANSPORTS
@@ -87,7 +91,10 @@ class Tape:
     def flush(self):
         if self.replaying:return
         value={'version':self.version,'events':self.events,'exclusions':self.exclusions}
-        if self.version == 'bounded-worker-tape-v2':value['engine_revision']=self.engine_revision
+        if self.version in ('bounded-worker-tape-v2','bounded-worker-tape-v3'):value['engine_revision']=self.engine_revision
+        if self.version=='bounded-worker-tape-v3':
+            from .budget_tape_contract import ACCOUNTING_VERSION
+            value['accounting_version']=ACCOUNTING_VERSION
         value['seal']=sha(bytes_of(value))
         # Only this still-open attempt is rewritten. Sealed tapes are immutable.
         self.path.write_bytes(bytes_of(value))
@@ -96,7 +103,10 @@ class Tape:
         if not isinstance(body,bytes):raise TypeError('Tape bodies must be bytes')
         if self.replaying:
             recorded=self.take(kind)
-            if recorded!=body:raise TapeError('TAPE_REQUEST_BYTES_DIFFER')
+            if kind=='BUDGET':
+                from .budget_tape_contract import equal
+                if not equal(recorded,body):raise TapeError('TAPE_BUDGET_DECISION_DIFFERS')
+            elif recorded!=body:raise TapeError('TAPE_REQUEST_BYTES_DIFFER')
             return
         if self.finished or kind not in KINDS:raise TapeError('TAPE_EVENT_NOT_ADMISSIBLE')
         from .planner_recording import _safe, RecordingError
@@ -138,7 +148,7 @@ class Tape:
         if any(not isinstance(bootstrap[key],dict) for key in ('config','profile','state')) or not isinstance(bootstrap['usage_policy'],(dict,type(None))):
             raise TapeError('TAPE_BOOTSTRAP_CONFIGURATION')
         if bootstrap['entry_point']=='workspace':
-            if self.version == 'bounded-worker-tape-v2' and self.engine_revision is None:
+            if self.version in ('bounded-worker-tape-v2','bounded-worker-tape-v3') and self.engine_revision is None:
                 raise TapeError('TAPE_ENGINE_REVISION_MISSING')
             state=bootstrap['state']
             fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}

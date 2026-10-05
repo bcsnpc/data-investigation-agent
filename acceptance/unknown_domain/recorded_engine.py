@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def replay_revision(path, output, revision):
     if not isinstance(revision, str) or not re.fullmatch('[0-9a-f]{40}', revision):
         raise ValueError('Replay revision must be an immutable Git commit')
+    accounting_version=2 if subprocess.run(['git','merge-base','--is-ancestor','7abaabf37812b58cc74b684de9cafc172212c1ad',revision],cwd=ROOT,capture_output=True).returncode==0 else 1
     actual = subprocess.check_output(['git', 'rev-parse', revision + '^{commit}'], cwd=ROOT, text=True).strip()
     if actual != revision:raise ValueError('Replay revision differs')
     archive = subprocess.check_output(['git', 'archive', '--format=tar', revision], cwd=ROOT)
@@ -30,13 +31,17 @@ def replay_revision(path, output, revision):
                     raise ValueError('Unsafe replay archive member')
             bundle.extractall(root, filter='data')
         driver = root / 'replay-pinned-driver.py'
-        driver.write_text("""import sys,json,socket,traceback
+        driver.write_text("""import sys,json,socket,traceback,importlib.util
 from pathlib import Path
 root=Path(__file__).parent
 sys.path[:0]=[str(root/'scripts'),str(root/'acceptance/unknown_domain')]
 def refused(*a,**k):raise RuntimeError('NETWORK_FORBIDDEN')
 socket.create_connection=refused;socket.socket.connect=refused
 try:
+ from investigator import process_tape as journal
+ spec=importlib.util.spec_from_file_location('budget_tape_contract',sys.argv[5])
+ contract=importlib.util.module_from_spec(spec);spec.loader.exec_module(contract)
+ contract.install(journal)
  from process_replay import replay
  result=replay(sys.argv[1],sys.argv[2],allow_engine_drift=True)
  result['replay_engine_revision']=sys.argv[3]
@@ -47,10 +52,11 @@ except Exception as exc:
 """, encoding='utf-8')
         answer = root / 'answer.json'
         done = subprocess.run([sys.executable, str(driver), str(Path(path).resolve()),
-            str(Path(output).resolve()), revision, str(answer)], cwd=ROOT, capture_output=True, text=True, timeout=900)
+            str(Path(output).resolve()), revision, str(answer), str(ROOT/'scripts/investigator/budget_tape_contract.py')], cwd=ROOT, capture_output=True, text=True, timeout=900)
         if not answer.exists():raise ValueError('Pinned replay worker failed without response: ' + str(done.returncode))
         value = json.loads(answer.read_text())
         if 'result' not in value:
             from investigator.process_tape import TapeError
             raise TapeError(value.get('reason', 'PINNED_REPLAY_FAILED'))
+        value['result']['replay_accounting_version']=accounting_version
         return value['result']
