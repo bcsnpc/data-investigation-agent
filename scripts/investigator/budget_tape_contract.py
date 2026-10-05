@@ -1,4 +1,4 @@
-"""Budget replay compares decisions/counts; opaque transports still compare bytes.
+"""Budget replay compares decisions/counts; physical transports still compare bytes.
 
 Accounting v2 is assigned retrospectively to #393 (7abaabf): physical overhead
 and bounded resume controls changed the accounting contract. Sealed tapes are
@@ -28,7 +28,7 @@ def equal(left,right):
     # It does not normalize event ordering, omitted fields or physical bodies.
     return json.dumps(budget_value(left),sort_keys=True,separators=(',',':')) == json.dumps(budget_value(right),sort_keys=True,separators=(',',':'))
 
-def install(journal):
+def install(journal,provider_equal=None):
     """Versioned transport consumer for archived producers, not engine rewriting."""
     previous=journal.Tape.event
     def event(self,kind,body):
@@ -37,6 +37,12 @@ def install(journal):
         try:
             if self.replaying and kind=='BUDGET':
                 if not equal(self.take(kind),body):raise journal.TapeError('TAPE_BUDGET_DECISION_DIFFERS')
+                return
+            if self.replaying and kind in ('PROVIDER_REQUEST','PROVIDER_RESPONSE'):
+                if provider_equal is None:
+                    from .provider_tape_contract import equal as compare_provider
+                else:compare_provider=provider_equal
+                if not compare_provider(kind,self.take(kind),body):raise journal.TapeError('TAPE_PROVIDER_CONTENT_DIFFERS')
                 return
             return previous(self,kind,body)
         except journal.TapeError as exc:

@@ -16,7 +16,7 @@ class BudgetContractTests(unittest.TestCase):
    else:changed['extra']=1
    self.assertFalse(equal(bytes_of(a),bytes_of(changed)))
  def test_only_budget_representation_is_relaxed(self):
-  for kind in ('BOUNDED_REQUEST','PROVIDER_REQUEST','WORKER_SEND'):
+  for kind in ('BOUNDED_REQUEST','WORKER_SEND'):
    tape=object.__new__(Tape);tape.replaying=True;tape.take=lambda requested:b'{"count":1}'
    with self.subTest(kind=kind),self.assertRaisesRegex(TapeError,'REQUEST_BYTES_DIFFER'):
     tape.event(kind,b'{ "count": 1 }')
@@ -31,7 +31,7 @@ class BudgetContractTests(unittest.TestCase):
   tape.event('BUDGET',b'{ "count":1, "decision":"ADMITTED" }')
   with self.assertRaisesRegex(TapeError,'DECISION_DIFFERS'):tape.event('BUDGET',b'{"decision":"REFUSED","count":1}')
   tape=Historical.Tape();tape.replaying=True;tape.take=lambda kind:b'{"decision":"ADMITTED","count":1}'
-  with self.assertRaisesRegex(TapeError,'OLD_BYTES'):tape.event('PROVIDER_REQUEST',b'{ "decision":"ADMITTED","count":1 }')
+  with self.assertRaisesRegex(TapeError,'OLD_BYTES'):tape.event('BOUNDED_REQUEST',b'{ "decision":"ADMITTED","count":1 }')
  def test_first_transport_failure_is_not_masked_by_settlement(self):
   class Historical:
    class Tape:
@@ -39,7 +39,7 @@ class BudgetContractTests(unittest.TestCase):
    TapeError=TapeError
   install(Historical)
   tape=Historical.Tape();tape.replaying=True
-  with self.assertRaisesRegex(TapeError,'FIRST_PROVIDER_BYTES_DIFFER'):tape.event('PROVIDER_REQUEST',b'{}')
+  with self.assertRaisesRegex(TapeError,'FIRST_PROVIDER_BYTES_DIFFER'):tape.event('BOUNDED_REQUEST',b'{}')
   with self.assertRaisesRegex(TapeError,'FIRST_PROVIDER_BYTES_DIFFER'):tape.event('BUDGET',b'{}')
  def test_accounting_version_records_retroactive_reason(self):
   self.assertIn('#393',ACCOUNTING_HISTORY[2])
