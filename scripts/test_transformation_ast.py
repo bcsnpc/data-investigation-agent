@@ -45,6 +45,11 @@ class StaticReaderTests(unittest.TestCase):
     def test_static_seed_is_not_proposed_as_an_observed_source(self):
         r=Reader("a=spark.createDataFrame([[1]],'amount int')\na.write.format('delta').mode('overwrite').save('seed')\nb=spark.read.format('delta').load('seed')\nb.write.format('delta').mode('overwrite').save('out')",{})
         self.assertIsNone(r.writes['seed'].plan);self.assertEqual(r.writes['out'].plan['table'],'seed')
+    def test_division_without_declared_type_and_zero_semantics_refuses_compilation(self):
+        frame=extract_statement('CREATE TABLE out AS SELECT amount / 2 AS value FROM input',self.schemas)['out']
+        with self.assertRaisesRegex(Unsupported,'Division result type and zero semantics'):
+            self.query(frame.plan,'value')
+
     def test_sql_alias_or_outer_join_null_difference_cannot_be_erased(self):
         for query in ('SELECT missing.amount FROM input a',
                       'SELECT b.id FROM input a LEFT JOIN other b ON a.id=b.id AND a.kind=b.kind',

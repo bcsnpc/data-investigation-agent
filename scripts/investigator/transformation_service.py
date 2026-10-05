@@ -37,7 +37,11 @@ def select(*,declared,inferred,current_hashes,boundary,target_column,context,cel
     from .lineage_binding import validate
     for rows,provenance in ((declared,'DECLARED_BY_CONFIGURATION'),(inferred,'INFERRED_FROM_CODE')):
         candidates=[];excluded=[]
-        for row in rows:
+        # A later failed verification supersedes an earlier success for the
+        # same proposal and sample. History is retained, not cherry-picked.
+        from .lineage_binding import seal
+        latest={seal({k:r[k] for k in ('proposal','context','cell','precision')}):r for r in rows}
+        for row in latest.values():
             p=validate(row['proposal'])
             if p['boundary']!=boundary or p['target']['column']!=target_column:continue
             location=p['location'];current=current_hashes.get((location['item'],location['path']))
@@ -50,7 +54,6 @@ def select(*,declared,inferred,current_hashes,boundary,target_column,context,cel
             candidates.append(row)
         # Multiple identical verifications are history, not ambiguity. Distinct
         # expressions for the same boundary cannot silently choose a winner.
-        from .lineage_binding import seal
         unique={seal(c['proposal']):c for c in candidates}
         if len(unique)>1:return {'status':'AMBIGUOUS','reason':'Multiple verified code bindings for the selected quantity','excluded':excluded}
         if unique:return {'status':'RESOLVED','provenance':provenance,

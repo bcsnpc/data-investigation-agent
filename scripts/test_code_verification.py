@@ -1,6 +1,6 @@
 import copy,unittest
 from types import SimpleNamespace
-from investigator.adapters.code_verification import VerificationRoute
+from investigator.adapters.code_verification import VerificationRoute,resolve_objects
 from investigator.onboarding import digest
 from investigator.process_debugging import Probe
 from test_lineage_binding import proposal
@@ -12,8 +12,10 @@ class RouteTests(unittest.TestCase):
         def execute(layer,measure,compiled):
             self.calls.append(copy.deepcopy(compiled))
             surface={'engine':'SQL','connection':'sql://declared-server','object':compiled['database'],'identity':'reader'}
-            return Probe('OBSERVED',layer['id'],evidence={'id':'read-receipt','values':[{'quantity':7}],
-                'read_address':compiled['read_address']},value=7,execution_surface=surface,surface_report=surface,
+            from investigator.process_quantity import quantity
+            rows=[{'quantity':7}]
+            return Probe('OBSERVED',layer['id'],evidence={'id':'read-receipt','values':rows,
+                'read_address':compiled['read_address']},value=quantity(rows),execution_surface=surface,surface_report=surface,
                 surface_reportable=tuple(surface),surface_report_binding='VALUE_QUERY',
                 surface_report_types={'engine':'ENGINE_PRODUCT','object':'DATABASE_CATALOG_NAME'})
         process=SimpleNamespace(config={'fabric':{'sql_reader':{'server':'declared-server'}}},_evaluate_lower=execute)
@@ -24,7 +26,13 @@ class RouteTests(unittest.TestCase):
         self.cell={'target_id':'target','measure_id':'measure','grouping_columns':[],
                    'key_restrictions':[],'mode':'UNGROUPED'}
         self.cell['id']=digest(self.cell)
-        return VerificationRoute(process,objects=objects,context='retained',measure_id='measure',restrictions=[])
+        return VerificationRoute(process,objects=objects,context='retained',measure_id='measure',quantity_column='amount',restrictions=[])
+
+    def test_unrelated_column_cannot_be_read_under_existing_cell_identity(self):
+        route=self.setup_route();p=proposal();p['target']['column']='other';p['expression']['column']='other'
+        with self.assertRaisesRegex(NotImplementedError,'not the quantity'):
+            route.compile(p,'SOURCE','retained',self.cell,{'state':'EXACT'})
+        self.assertEqual(self.calls,[])
 
     def test_existing_probe_route_preserves_cell_and_original_receipt_attestation(self):
         route=self.setup_route();plan=route.compile(proposal(),'SOURCE','retained',self.cell,{'state':'EXACT'})
@@ -54,5 +62,20 @@ class RouteTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'identity differs'):
             route.compile(proposal(),'SOURCE','retained',changed,{'state':'EXACT'})
         self.assertEqual(self.calls,[])
+
+    def test_exact_location_resolution_reuses_container_declaration_not_names(self):
+        calls=[];parent='fabric://workspace/container'
+        def endpoint(request):
+            calls.append(request);return {'id':'container','properties':{'sqlEndpointProperties':{'id':'endpoint','connectionString':'server'}}}
+        process=SimpleNamespace(config={'fabric':{'workspace_id':'workspace','sql_reader':{'server':'server'}}},read_endpoint=endpoint)
+        context={'assets':[{'id':parent+'/table/a','parent_id':parent,'kind':'LakehouseTable','availability':'CURRENT','name':'a','metadata':{'location':'exact:a'}},
+            {'id':parent+'/table/b','parent_id':parent,'kind':'LakehouseTable','availability':'CURRENT','name':'b','metadata':{'location':'exact:b'}},
+            {'id':'fabric://workspace/endpoint','kind':'SQLEndpoint','availability':'CURRENT','name':'served-db'}]}
+        objects,missing=resolve_objects(process,context,{'exact:a':{'amount':'long'},'exact:b':{'amount':'long'},'name-only:a':{'amount':'long'}})
+        self.assertEqual(set(objects),{'exact:a','exact:b'});self.assertEqual(len(calls),1)
+        self.assertEqual(objects['exact:a']['database'],'served-db');self.assertEqual(len(missing),1)
+        context['assets'].append(copy.deepcopy(context['assets'][0]))
+        objects,missing=resolve_objects(process,context,{'exact:a':{'amount':'long'}})
+        self.assertFalse(objects);self.assertIn('ambiguous',missing[0]['reason'])
 
 if __name__=='__main__':unittest.main()

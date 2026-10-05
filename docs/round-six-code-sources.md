@@ -212,3 +212,32 @@ Round Six21/400, ordinary stop340, reserve60; rolling248/1500 last observed.
 No diagnostic/provider request, counter reset, refund or new identity change.
 Prior engine freezes are invalid. Full regression and archived15-tape replay
 are pending on this implementation checkpoint; no live section starts here.
+
+
+### Resumed checkpoint, 2026-10-05
+
+The interrupted full regression completed at `fa809a3`: **1,933 tests passed**.
+The fifteen unchanged archived tapes also passed, with zero network calls and
+zero physical requests. Each replay used its historical producer revision;
+this is the existing column, not the new inferred-reader column.
+
+Post-checkpoint tests exposed and corrected two integration hazards: the SQL
+probe returns a quantity object containing a numeric string, rather than a
+primitive integer; and an older verified ledger sample could be selected after
+a later falsification of the same proposal and sample. Both now have regression
+tests. Unrelated proposed columns cannot reuse the selected measure's cell.
+Nonfinite literals and division without declared type/zero semantics refuse.
+Endpoint resolution follows exact locations and container endpoint declarations,
+never display-name matching.
+
+A separate immutable approval record now invokes the same verifier for every
+configured declared edge. Missing samples refuse before reads; failed attempts
+remain in the ledger, and a falsified edge prevents approval with both values.
+Reopening an approval recomputes its verdict from the original observations and
+checks the whole manifest hash. Synthetic approval tests pass. Production
+approval orchestration, application-side verification and runtime resolver
+integration remain unfinished. No live investigation was attempted.
+
+These changes invalidate previous engine freezes. Round Six remains **21/400**,
+ordinary stop340, reserve60; rolling **248/1500 last observed**, not a new
+control-plane read. No scope, allowance, fixture or counter changed.

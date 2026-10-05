@@ -36,6 +36,11 @@ class ServiceTests(unittest.TestCase):
         p['inferred'].append(other)
         self.assertEqual(select(**p)['status'],'AMBIGUOUS')
 
+    def test_later_falsification_cannot_reuse_earlier_matching_sample(self):
+        p=self.params();later=copy.deepcopy(p['inferred'][0]);later['status']='FALSIFIED'
+        p['inferred'].append(later)
+        self.assertEqual(select(**p)['status'],'UNBOUND')
+
     def test_service_retains_each_verifier_result_in_ledger(self):
         v=self.rows()
         with tempfile.TemporaryDirectory() as d:

@@ -6,6 +6,7 @@ it does not replace the original input/output quantity used by an investigation.
 import copy
 import hashlib
 import json
+import math
 from decimal import Decimal,localcontext
 from pathlib import Path
 from jsonschema import Draft202012Validator
@@ -56,6 +57,8 @@ def validate(proposal):
     pending=[(proposal,0)];count=0
     while pending:
         value,depth=pending.pop();count+=1
+        if isinstance(value,float) and not math.isfinite(value):
+            raise ValueError('ProposedBinding: nonfinite number')
         if depth>MAX_DEPTH or count>MAX_NODES:
             raise ValueError('ProposedBinding.expression: structural bound exceeded')
         if isinstance(value,dict):pending.extend((v,depth+1) for v in value.values())

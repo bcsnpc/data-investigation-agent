@@ -101,6 +101,8 @@ def compile_quantity(relation,column,catalog):
     def identifier(name):return exp.to_identifier(name,quoted=True)
     def scalar_sql(node,alias):
         kind=node['kind']
+        if kind=='DIVIDE':
+            raise Unsupported('Division result type and zero semantics are not declared; no implicit integer truncation or numeric coercion')
         if kind=='COLUMN':return exp.Column(this=identifier(node['name']),table=identifier(alias))
         if kind=='DECIMAL':return exp.Literal.number(node['value'])
         if kind=='LITERAL':

@@ -1,3 +1,10 @@
+Resumed 2026-10-05: checkpoint `fa809a3` passed **1,933 regression tests**;
+unchanged archived tapes passed **15/15**, zero reads, under historical producers.
+New sampled declared-approval checks retain failed comparisons. Production
+approval/runtime integration remains pending; no live inferred column is claimed.
+Focused tests cover later corrections; final full regression remains.
+Prior freezes are invalid. [Reader delivery](round-six-code-sources.md).
+
 2026-10-05: Code sources merged in #405 with seven green checks. Static/model
 proposal, sampled verification and stale-ledger modules are under offline
 validation; manifest approval and runtime path integration remain pending.

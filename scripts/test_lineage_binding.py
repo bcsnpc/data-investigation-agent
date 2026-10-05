@@ -36,6 +36,15 @@ class BindingTests(unittest.TestCase):
             bad=copy.deepcopy(p);bad[field]=value
             with self.assertRaises(ValueError):validate(bad)
         p['extractor']='MODEL';p['confidence']=0.8;validate(p)
+    def test_nonfinite_literal_cannot_enter_a_binding(self):
+        for value in (float('nan'),float('inf'),float('-inf')):
+            p=proposal()
+            p['expression']['relation']={'kind':'FILTER','input':p['expression']['relation'],
+                'predicate':{'kind':'GT','left':{'kind':'COLUMN','name':'amount'},
+                    'right':{'kind':'LITERAL','value':value}}}
+            with self.assertRaisesRegex(ValueError,'[Nn]onfinite'):
+                validate(p)
+
     def test_false_scan_inventory_cannot_validate(self):
         p=proposal();p['sources'][0]['table']='unrelated'
         with self.assertRaisesRegex(ValueError,'scan inventory'):validate(p)
@@ -68,7 +77,8 @@ class BindingTests(unittest.TestCase):
             'columns':[{'name':'amount','expression':{'kind':'MULTIPLY','left':{'kind':'COLUMN','name':'amount'},'right':{'kind':'LITERAL','value':2}}}]}
         catalog={name:{'id':name,'metadata':{'schema_name':schema,'name':'items','type_desc':'USER_TABLE',
                      'columns':[{'name':'amount','data_type':'int'}]}} for name,schema in [('input-table','lower_data'),('output-table','upper_data')]}
-        with sqlite3.connect(':memory:') as db:
+        from contextlib import closing
+        with closing(sqlite3.connect(':memory:')) as db:
             db.executescript("ATTACH DATABASE ':memory:' AS lower_data; ATTACH DATABASE ':memory:' AS upper_data; CREATE TABLE lower_data.items(amount INT); CREATE TABLE upper_data.items(amount INT); INSERT INTO lower_data.items VALUES (3),(4); INSERT INTO upper_data.items VALUES (3),(4);")
             def compiler(binding,side,*args):
                 relation=binding['expression']['relation'] if side=='SOURCE' else {'kind':'SCAN','table':binding['target']['table'],'columns':['amount']}
