@@ -55,7 +55,8 @@ class VerificationRoute:
 
     def compile(self,proposal,side,context,cell,precision):
         proposal=validate(proposal);validate_cell(cell,self.measure_id)
-        if context!=self.context:raise ValueError('Verification retained context differs')
+        if context!=self.context or context!=self.process.model['context_id']:
+            raise ValueError('Verification retained context differs from the actual probe context')
         if self.restrictions or cell['mode']!='UNGROUPED':
             raise NotImplementedError('Filtered or grouped lower comparison is not supported; no verification read')
         if side not in ('TARGET','SOURCE'):raise ValueError('Unknown verification side')
@@ -87,6 +88,9 @@ class VerificationRoute:
             evidence=copy.deepcopy(probe.evidence),reason=probe.reason,failure=copy.deepcopy(probe.failure))
         if probe.status!='OBSERVED':return result
         result['evidence']['execution_surface']=copy.deepcopy(probe.execution_surface)
+        if probe.evidence.get('context_id')!=plan['context'] or probe.evidence.get('read_address')!=cell_address(plan['cell']):
+            result.update(status='FAILED',reason='Original probe receipt context or cell address differs')
+            return result
         value=probe.value
         if isinstance(value,dict) and set(value)=={'quantity'}:value=value['quantity']
         if value is None:result['quantity']={'state':'BLANK'}

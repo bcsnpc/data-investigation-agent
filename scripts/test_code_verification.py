@@ -15,10 +15,10 @@ class RouteTests(unittest.TestCase):
             from investigator.process_quantity import quantity
             rows=[{'quantity':7}]
             return Probe('OBSERVED',layer['id'],evidence={'id':'read-receipt','values':rows,
-                'read_address':compiled['read_address']},value=quantity(rows),execution_surface=surface,surface_report=surface,
+                'read_address':compiled['read_address'],'context_id':'retained'},value=quantity(rows),execution_surface=surface,surface_report=surface,
                 surface_reportable=tuple(surface),surface_report_binding='VALUE_QUERY',
                 surface_report_types={'engine':'ENGINE_PRODUCT','object':'DATABASE_CATALOG_NAME'})
-        process=SimpleNamespace(config={'fabric':{'sql_reader':{'server':'declared-server'}}},_evaluate_lower=execute)
+        process=SimpleNamespace(model={'context_id':'retained'},config={'fabric':{'sql_reader':{'server':'declared-server'}}},_evaluate_lower=execute)
         objects={name:{'asset_id':name,'connection':'declared-server','database':database,
             'catalog':{'id':name,'metadata':{'schema_name':'dbo','name':'items','type_desc':'USER_TABLE',
                 'columns':[{'name':'amount','data_type':'int'}]}}}
@@ -27,6 +27,26 @@ class RouteTests(unittest.TestCase):
                    'key_restrictions':[],'mode':'UNGROUPED'}
         self.cell['id']=digest(self.cell)
         return VerificationRoute(process,objects=objects,context='retained',measure_id='measure',quantity_column='amount',restrictions=[])
+
+    def test_actual_probe_context_must_match_the_verification_sample(self):
+        route=self.setup_route();route.process.model['context_id']='different-retained-context'
+        with self.assertRaisesRegex(ValueError,'actual probe context'):
+            route.compile(proposal(),'SOURCE','retained',self.cell,{'state':'EXACT'})
+        self.assertEqual(self.calls,[])
+
+    def test_original_probe_address_cannot_be_replaced_by_caller_annotation(self):
+        route=self.setup_route()
+        original=route.process._evaluate_lower
+        def wrong(layer,measure,compiled):
+            probe=original(layer,measure,compiled)
+            probe.evidence['read_address']={'kind':'BASELINE','restrictions':[]}
+            return probe
+        route.process._evaluate_lower=wrong
+        plan=route.compile(proposal(),'SOURCE','retained',self.cell,{'state':'EXACT'})
+        result=route.execute('SOURCE',plan)
+        self.assertEqual(result['status'],'FAILED')
+        self.assertIn('Original probe receipt context or cell address differs',result['reason'])
+        self.assertEqual(result['evidence']['read_address'],{'kind':'BASELINE','restrictions':[]})
 
     def test_unrelated_column_cannot_be_read_under_existing_cell_identity(self):
         route=self.setup_route();p=proposal();p['target']['column']='other';p['expression']['column']='other'

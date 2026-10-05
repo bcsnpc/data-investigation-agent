@@ -709,6 +709,7 @@ class MicrosoftProcessAdapter:
         rows=result['result']['rows']
         return Probe('OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_fabric_sql',
             'completeness':result['result']['completeness'],'values':rows,'request_hash':result['request_hash'],
+            'context_id':plan['context_id'],
             'measure_id':measure_id,'dimension_id':None,'test_purpose':'COMPARE_DECLARED_SOURCE',
             'read_address':plan['read_address'],
             'binding_provenance':provenance,'lower_quantity':{'source_column':compiled['source_column'],

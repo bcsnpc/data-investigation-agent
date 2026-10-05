@@ -241,3 +241,14 @@ integration remain unfinished. No live investigation was attempted.
 These changes invalidate previous engine freezes. Round Six remains **21/400**,
 ordinary stop340, reserve60; rolling **248/1500 last observed**, not a new
 control-plane read. No scope, allowance, fixture or counter changed.
+
+A further focused check found that a verifier could annotate the caller's context
+without comparing it to the actual probe context. Compilation now requires the
+installed model's retained context, and the result must retain the same context
+and cell address from the original probe evidence. Mismatches remain failed with
+the original address visible; two focused regression tests cover this.
+
+The resumed broad regression log was interrupted after these code changes; it is
+preserved at `.local/round-six-20261005/resumed-reader-regression.txt` and is not a
+pass. Focused route tests8/8, independent lower-read tests18/18 and process read
+receipt tests3/3 passed after the change. No investigation or estate read.
