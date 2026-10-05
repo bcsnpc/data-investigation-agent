@@ -485,3 +485,19 @@ Historical replay restored10/15; new D/G/H passed, selected evidence13/15.
 EMPTY refused before intake for absent approved report-14sep state; source
 consistency was not run under first-unmet stop rule. Pot240/400, rolling last
 observed439/1500; prior freezes invalid. See docs/round-five-f-versioned-runs.md.
+
+Dated Round Five G continuation, 2026-10-05 UTC: explicit human approval registered
+unchanged context 3ae7607b-5a5e-46c6-8e1b-195dbabc9cae, SHA-256
+d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f,
+for report-14sep, no recollection. EMPTY reproduced BLANK and synthesized/replayed.
+Source pre-warm connected on second attempt; source-consistency intake then
+refused a non-verbatim column quote before any application read. No replacement
+or repair. Pot 247/400, rolling last observed 440/1500, diagnostic cap 12.
+See docs/round-five-g-final-two.md. Prior freezes remain invalid.
+
+Dated fresh-sweep finding, 2026-10-05 UTC: thirteen of fifteen selected proofs
+pass. Numeric reproduction now blocks TAPE_EVENT_DIFFERS:BUDGET:PROVIDER_RESPONSE
+after an earlier pass, with identical source bytes/tape hash and the same
+compatibility revision. Cause unestablished, both attempts preserved; no repair
+or replacement. Historical source consistency still replays only to the boundary.
+#376 remains draft; local13/15 is distinct from hosted missing-private-inputs CI.
