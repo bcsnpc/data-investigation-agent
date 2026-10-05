@@ -100,7 +100,7 @@ def extract_statement(text,catalog):
         writes[name]=parse_select(statement.expression.sql(dialect='spark'),catalog)
     return writes
 
-def compile_quantity(relation,column,catalog):
+def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normalization=None):
     """Construct expressions, then let the existing parser govern the result."""
     number=0
     def types(plan):
@@ -133,6 +133,10 @@ def compile_quantity(relation,column,catalog):
                 raise Unsupported('Grouping equivalence is not established across code and execution languages')
             return {c['name']:scalar_type(c['expression']) for c in plan['columns']}
         if kind=='DEDUPE' and any(not comparable(known.get(c)) for c in plan['keys']):
+            if profile is not None:
+                if normalization and normalization.get('status')=='DECLARED':
+                    raise Unsupported('NORMALIZATION_RENDERING_UNSUPPORTED: declared deduplication normalization has no faithful adapter renderer')
+                raise Unsupported('COLLATION_UNDECLARED: comparison_normalization must establish code/execution deduplication semantics')
             raise Unsupported('Deduplication equivalence is not established across code and execution languages; no assumed string collation or padding')
         if kind=='FILTER':predicates(plan['predicate'])
         return known
@@ -194,7 +198,38 @@ def compile_quantity(relation,column,catalog):
     query,columns=build(relation)
     if column not in columns:raise Unsupported('Compared column absent from expression output')
     table,alias=wrapped(query)
-    query=exp.select(exp.alias_(exp.Sum(this=exp.column(column,table=alias,quoted=True)),'quantity',quoted=True)).from_(table)
+    value=exp.column(column,table=alias,quoted=True)
+    if profile is None:
+        fields=[exp.alias_(exp.Sum(this=value),'quantity',quoted=True)]
+    else:
+        from .binding_sample import PROFILES,SAMPLE_SCHEMA
+        from jsonschema import Draft202012Validator
+        if profile not in PROFILES:raise Unsupported('Unsupported target-type comparison profile')
+        Draft202012Validator(SAMPLE_SCHEMA).validate(sample)
+        if sample['column'] not in columns:raise Unsupported('Declared sample column absent from expression output')
+        target_types=types(relation)
+        sample_type=target_types.get(sample['column'],'unknown')
+        if sample['kind']=='KEY_RANGE' and not comparable(sample_type):
+            raise Unsupported('Declared key-range sample does not have an integral key')
+        if sample['kind']=='DATE_WINDOW' and sample_type not in ('date','datetime','datetime2','timestamp'):
+            raise Unsupported('SAMPLE_TYPE_UNSUPPORTED: date-window column is text, not a declared temporal type; no implicit cast or string equivalence')
+        # COUNT(*) measures sample cardinality, including BLANK/NULL values.
+        count=exp.Count(this=exp.Star())
+        if profile=='NUMERIC':fields=[exp.alias_(exp.Sum(this=value.copy()),'sum',quoted=True),exp.alias_(count,'count',quoted=True)]
+        elif profile=='TEMPORAL':fields=[exp.alias_(exp.Min(this=value.copy()),'min',quoted=True),exp.alias_(exp.Max(this=value.copy()),'max',quoted=True),exp.alias_(count,'count',quoted=True)]
+        elif profile=='BOOLEAN':
+            truth=exp.Case(ifs=[exp.If(this=exp.EQ(this=value.copy(),expression=exp.Literal.number(1)),true=exp.Literal.number(1))],default=exp.Null())
+            fields=[exp.alias_(exp.Count(this=truth),'true_count',quoted=True),exp.alias_(count,'count',quoted=True)]
+        else:
+            if normalization and normalization.get('status')=='DECLARED':
+                raise Unsupported('NORMALIZATION_RENDERING_UNSUPPORTED: distinct/content profile has no faithful adapter renderer for the declared normalization')
+            raise Unsupported('COLLATION_UNDECLARED: comparison_normalization is required for distinct/content comparison; no implicit padding or case equivalence')
+    query=exp.select(*fields).from_(table)
+    if profile is not None:
+        field=exp.column(sample['column'],table=alias,quoted=True)
+        literal=lambda v:exp.Literal.number(v) if type(v) is int else exp.Literal.string(v)
+        query=query.where(exp.And(this=exp.GTE(this=field.copy(),expression=literal(sample['lower'])),
+                                 expression=(exp.LTE if sample['kind']=='KEY_RANGE' else exp.LT)(this=field.copy(),expression=literal(sample['upper']))))
     from .query_sql import compile_query
     text=query.sql(dialect='tsql')
     compile_query(text,list(catalog.values()),max_rows=1)

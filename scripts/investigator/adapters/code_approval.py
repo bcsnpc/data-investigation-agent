@@ -51,8 +51,21 @@ class Controller:
         authorized={(b['from_layer'],b['to_layer']):b for b in self.manifest['lineage']['code_locations']
                     if b['may_infer_from_code']}
         planned=[]
+        comparison_sample=self.manifest['lineage'].get('verification_sample')
+        supplied=[s.get('binding_sample') for s in samples if 'binding_sample' in s]
+        if supplied:
+            from ..binding_sample import SAMPLE_SCHEMA
+            from jsonschema import Draft202012Validator
+            if len(supplied)!=len(samples) or any(s!=supplied[0] for s in supplied):
+                raise ValueError('All binding requests must declare the same sample restriction')
+            Draft202012Validator(SAMPLE_SCHEMA).validate(supplied[0])
+            if comparison_sample is not None and comparison_sample!=supplied[0]:
+                raise ValueError('Binding sample differs from manifest declaration')
+            comparison_sample=supplied[0]
         for sample in samples:
             expected={'boundary','source','path','target_table','schemas','context','cell','precision'}
+            if comparison_sample is not None:expected-={'cell','precision'}
+            if supplied:expected.add('binding_sample')
             if set(sample)!=expected:raise ValueError('Code-reader sample fields differ from contract')
             boundary=sample['boundary'];edge=(boundary['from_layer'],boundary['to_layer'])
             if edge not in authorized or {'source':sample['source'],'path':sample['path']} not in authorized[edge]['locations']:
@@ -70,8 +83,9 @@ class Controller:
             unit,receipt=fetched[key];route=self.route_factory(sample)
             results.append(run_unit(unit=unit,receipt=receipt,schemas=sample['schemas'],
                 boundary=sample['boundary'],item=sample['source'],target_table=sample['target_table'],
-                layers=self.manifest['layers'],context=sample['context'],cell=sample['cell'],
-                precision=sample['precision'],compiler=route.compile,execute=route.execute,
-                ledger=self.ledger,model=model))
+                layers=self.manifest['layers'],context=sample['context'],cell=sample.get('cell'),
+                precision=sample.get('precision'),compiler=route.compile,execute=route.execute,
+                ledger=self.ledger,model=model,comparison_sample=comparison_sample,
+                target_profile=route.target_profile if comparison_sample is not None else None))
         return {'approval_hash':approval['manifest_hash'],'boundaries':results,
                 'code_receipts':[copy.deepcopy(v[1]) for v in fetched.values()]}

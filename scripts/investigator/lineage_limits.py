@@ -3,6 +3,7 @@ def category(row, status=None):
     if status == 'STALE':return 'STALE_CODE'
     if row.get('status') == 'FALSIFIED':return 'SAMPLED_VALUES_DIFFER'
     reason=row.get('reason') or ''
+    if 'COLLATION_UNDECLARED' in reason:return 'COLLATION_UNDECLARED'
     if reason.startswith('Cannot compile faithfully:'):return 'FAITHFUL_COMPILATION_UNAVAILABLE'
     if any(o.get('status')=='FAILED' for o in row.get('observations',[])):return 'READ_FAILED'
     if 'read did not complete' in reason or 'read failed' in reason:return 'READ_FAILED'
@@ -15,10 +16,13 @@ def technical(boundary):
     facts=boundary.get('lineage_refusal')
     if not facts:return None
     statuses=', '.join(facts['statuses']);categories=', '.join(facts['reason_categories'])
-    return (f"Unchecked {boundary['upper_layer']} -> {boundary['lower_layer']}: "
+    result=(f"Unchecked {boundary['upper_layer']} -> {boundary['lower_layer']}: "
             f"{facts['inventoried_proposal_count']} proposal(s) inventoried; "
             f"{facts['proposal_count']} selected-quantity proposal(s), {statuses}; "
             f"verifier reason categories: {categories}. The boundary was treated as unbound.")
+    if 'COLLATION_UNDECLARED' in facts['reason_categories']:
+        result+=' The estate layer must declare comparison_normalization with evidence for the code and execution comparison semantics.'
+    return result
 
 
 def business(payload):
@@ -29,6 +33,8 @@ def business(payload):
             sentences.append('The connection between the '+name(payload,row['lower_layer'])+
                 ' and the '+name(payload,row['upper_layer'])+
                 ' could not be verified from the processing code, so that part of the process was not checked.')
+            if 'COLLATION_UNDECLARED' in row['lineage_refusal']['reason_categories']:
+                sentences.append('The rules for comparing text were not declared; the data owner needs to establish them before that connection can be checked.')
     return ' '.join(dict.fromkeys(sentences))
 
 
