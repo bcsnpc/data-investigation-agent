@@ -32,8 +32,15 @@ def install(journal):
     """Versioned transport consumer for archived producers, not engine rewriting."""
     previous=journal.Tape.event
     def event(self,kind,body):
-        if self.replaying and kind=='BUDGET':
-            if not equal(self.take(kind),body):raise journal.TapeError('TAPE_BUDGET_DECISION_DIFFERS')
-            return
-        return previous(self,kind,body)
+        if getattr(self,'replay_first_error',None) is not None:
+            raise self.replay_first_error
+        try:
+            if self.replaying and kind=='BUDGET':
+                if not equal(self.take(kind),body):raise journal.TapeError('TAPE_BUDGET_DECISION_DIFFERS')
+                return
+            return previous(self,kind,body)
+        except journal.TapeError as exc:
+            # Finally settlement must not disguise an earlier byte mismatch.
+            if self.replaying:self.replay_first_error=exc
+            raise
     journal.Tape.event=event

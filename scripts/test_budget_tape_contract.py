@@ -30,7 +30,17 @@ class BudgetContractTests(unittest.TestCase):
   tape=Historical.Tape();tape.replaying=True;tape.take=lambda kind:b'{"decision":"ADMITTED","count":1}'
   tape.event('BUDGET',b'{ "count":1, "decision":"ADMITTED" }')
   with self.assertRaisesRegex(TapeError,'DECISION_DIFFERS'):tape.event('BUDGET',b'{"decision":"REFUSED","count":1}')
+  tape=Historical.Tape();tape.replaying=True;tape.take=lambda kind:b'{"decision":"ADMITTED","count":1}'
   with self.assertRaisesRegex(TapeError,'OLD_BYTES'):tape.event('PROVIDER_REQUEST',b'{ "decision":"ADMITTED","count":1 }')
+ def test_first_transport_failure_is_not_masked_by_settlement(self):
+  class Historical:
+   class Tape:
+    def event(self,kind,body):raise TapeError('FIRST_PROVIDER_BYTES_DIFFER')
+   TapeError=TapeError
+  install(Historical)
+  tape=Historical.Tape();tape.replaying=True
+  with self.assertRaisesRegex(TapeError,'FIRST_PROVIDER_BYTES_DIFFER'):tape.event('PROVIDER_REQUEST',b'{}')
+  with self.assertRaisesRegex(TapeError,'FIRST_PROVIDER_BYTES_DIFFER'):tape.event('BUDGET',b'{}')
  def test_accounting_version_records_retroactive_reason(self):
   self.assertIn('#393',ACCOUNTING_HISTORY[2])
 if __name__=='__main__':unittest.main()

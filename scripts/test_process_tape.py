@@ -35,6 +35,21 @@ class TapeTests(unittest.TestCase):
             replayed.finish({})
             self.assertEqual(path.read_bytes(), original)
 
+    def test_v2_recording_replays_unchanged_under_v3(self):
+        from investigator import process_tape as journal
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json'
+            with patch.object(journal,'VERSION','bounded-worker-tape-v2'):
+                recorded=Tape(path,bootstrap())
+                recorded.event('BUDGET',b'{"decision":"ADMITTED","count":1}')
+                recorded.finish({})
+            original=path.read_bytes()
+            replayed=Tape(path)
+            replayed.event('BUDGET',b'{ "count":1, "decision":"ADMITTED" }')
+            replayed.finish({})
+            self.assertEqual(replayed.version,'bounded-worker-tape-v2')
+            self.assertEqual(path.read_bytes(),original)
+
     def test_clock_events_persist_once_without_rewriting_prior_bodies(self):
         with tempfile.TemporaryDirectory() as folder:
             tape=Tape(Path(folder)/'tape.json',bootstrap())
