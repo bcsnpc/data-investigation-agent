@@ -524,3 +524,11 @@ private inputs and is not merged; local15/15 does not replace the seventh check.
 Pot263/400, rolling396/1500 last observed, diagnostic12 unchanged. Encrypted
 private CI delivery awaits a human decision; no evidence uploaded. See
 [final column and delivery gate](docs/round-five-i-canonical-gate.md).
+
+Dated section8 delivery decision, 2026-10-05 UTC: the human conditionally approved
+an immutable encrypted replay release and an Actions-only key. Content audit
+found tenant IDs in all sealed bootstraps and connection strings in all pinned
+inventory databases. The required absence condition is not satisfied. No key,
+secret, release or uploaded artifact was created; estate identities/scopes
+unchanged. Original evidence untouched. #376 stays unmerged despite local15/15.
+Planned tag/secret and candidate hash are recorded in docs/round-five-i-canonical-gate.md.

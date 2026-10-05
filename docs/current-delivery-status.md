@@ -1,8 +1,9 @@
 2026-10-05: Round Five I's complete zero-read selected-tape re-grade is **15/15**.
 Numeric reproduction is 16 from its original tape; no live re-record needed.
 Canonical provider matching merged in #402 with six green checks. #376 remains
-unmerged: its hosted seventh check lacks private inputs, and encrypted CI delivery
-is awaiting a human decision. Pot263/400, rolling396/1500 last observed; diagnostic
+unmerged: its hosted seventh check lacks private inputs. Encrypted delivery was approved
+conditionally, but the unchanged bundle contains tenant IDs and connection strings;
+publication stopped because that violates the content condition. Pot263/400, rolling396/1500 last observed; diagnostic
 cap12 unchanged. This is pinned known-domain replay, not current-engine or
 unfamiliar-domain acceptance. Prior freezes invalid. [Full column and gate record](round-five-i-canonical-gate.md).
 

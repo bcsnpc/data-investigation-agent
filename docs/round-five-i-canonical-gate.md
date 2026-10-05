@@ -76,7 +76,41 @@ not substituted for that seventh check.
 A 61-file private delivery bundle was prepared locally (245,953,790 compressed
 bytes), containing fifteen unmodified source files/tapes, their pinned bootstrap
 databases and a separate path-relocation map. Publishing an authenticated-encrypted
-release asset and placing the key in an Actions secret awaits the human decision
-requested this round. No raw evidence, credential or private bundle is committed
-or uploaded. After approval, hosted replay must genuinely pass before #376 merges;
+release asset and placing the key in an Actions secret was approved subject to the content audit below. No raw evidence, credential or private bundle is committed
+or uploaded. After the content condition is resolved, hosted replay must genuinely pass before #376 merges;
 missing inputs will continue to fail. No gate deployment is claimed here.
+
+## Dated human delivery decision and failed content precondition
+
+2026-10-05 UTC, CLAUDE.md section8: the human approved authenticated-encrypted
+GitHub release delivery and a repository Actions secret, with immutable hash
+pinning and a requirement that the bundle contain no credentials, connection
+strings or extra tenant identifiers. The key may live only in the Actions secret.
+No estate credential or reader scope change was approved or applied.
+
+Candidate bundle: fifteen unchanged source files and sealed tapes, thirty pinned
+bootstrap SQLite databases, and one separate relocation map. Candidate compressed
+archive SHA-256: `9094bbb09f37fda1b40e7d5c1416cb7f21192b7c1561a4488adfe5d31e0aa42b`.
+Planned release tag `known-domain-replay-20261005-v1`, planned secret name
+`KNOWN_DOMAIN_REPLAY_KEY`. **Neither exists or was created.** There is no encrypted
+asset/hash to pin because publication stopped at the content precondition.
+Before/after control checks: repository secret listing `[]`; proposed release
+`release not found`. No key was generated, written locally, or sent anywhere.
+
+Condition3 is not satisfied. Every one of the fifteen sealed bootstraps contains
+nonempty `fabric.auth.tenant_id` and `fabric.native_reader.tenant_id`. Each pinned
+inventory contains connectionString metadata: 182?212 asset rows per database.
+The numeric tape's inventory contains182 such rows,176 with `Data Source=`;
+a confirmed `DefinitionPart` stores this in `.content`, not merely a field-name
+placeholder. Those bytes are platform definition evidence, not a fabricated
+query. The databases retain earlier synthetic fixture models, historical scan
+contexts, prior runs and budget records, not only the selected fifteen results.
+A sampled catalog has11 model registrations (all the same fixture workspace),
+104 contexts and23 scans. No real-client-only certification is manufactured from
+those names, and no claim that the entire bundle is credential-free is made.
+
+Removing or replacing these fields would change sealed event/database hashes and
+would no longer be delivery of the original immutable evidence. No redaction or
+history rewrite was applied. The content exception or a separately reviewed
+sanitized evidence contract needs a human decision before delivery can proceed.
+#376 remains unmerged; a local15/15 does not override this failed precondition.
