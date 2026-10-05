@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "ticket": "reproduction-empty",
   "invariants": [
     "both_outputs",
@@ -11,10 +11,6 @@
   ],
   "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
   "acceptance_change_reason": "2026-10-05: grade structured earned spine/answer category, never sentence equality. Original reference and immutable fixture pin retained. Composition failure in the reference is not promoted to a successful output.",
-  "context_pin": {
-    "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
-    "hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f"
-  },
   "grade_kind": "reproduction",
   "expected": {
     "status": "COMPLETED",
@@ -42,5 +38,16 @@
   "walk_outcome_recorded": "NO_COMPARABLE_PATH",
   "reference_session_id": "d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36",
   "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
-  "ticket_hash": "fa93cd6a81007a8242502fc193572c7fb031629701ff6e9fb83a8e39fa772a72"
+  "ticket_hash": "fa93cd6a81007a8242502fc193572c7fb031629701ff6e9fb83a8e39fa772a72",
+  "fixture_state": "report-14sep",
+  "reference_context_pin": {
+    "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+    "hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f"
+  },
+  "acceptance_changes": [
+    {
+      "date": "2026-10-05",
+      "reason": "Fixture-state equality supersedes recollection context-ID equality. Historical pin retained as provenance."
+    }
+  ]
 }

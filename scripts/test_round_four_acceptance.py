@@ -11,9 +11,13 @@ class AcceptanceGateTests(unittest.TestCase):
                 **({'model_mechanism':{'text':'The calculation requires business context.','provenance':'PROVIDER_MECHANISM'}} if k=='technical_output' else {})}
                 for k in ('business_output','technical_output')}}}
     def case(self,state=None):
-        return {'version':3,'reference_session_id':'reference','model_id':'model','ticket_hash':'a'*64,'context_pin':{'context_id':'00000000-0000-4000-8000-000000000001','hash':'a'*64},
+        return {'version':4,'fixture_state':'inventory-baseline','reference_session_id':'reference','model_id':'model','ticket_hash':'a'*64,'context_pin':{'context_id':'00000000-0000-4000-8000-000000000001','hash':'a'*64},
             'expected':gate.project(state or self.state()),'invariants':sorted(gate.INVARIANTS),'acceptance_change_reason':'Structured reference.'}
-    def errors(self,state,case=None):return gate.output_checks(case or self.case(),state,pinned_context=self.case()['context_pin'])
+    def binding(self,name='inventory-baseline'):
+        from investigator.acceptance_context import state_definition
+        from investigator.onboarding import digest
+        return {'name':name,'definition_hash':digest(state_definition(gate.fixture_configuration(),name))}
+    def errors(self,state,case=None):return gate.output_checks(case or self.case(),state,fixture_state=self.binding())
 
     def test_wording_changes_preserving_structure_pass(self):
         s=self.state();self.assertEqual(self.errors(s),[])
@@ -28,7 +32,7 @@ class AcceptanceGateTests(unittest.TestCase):
     def test_mechanism_is_not_guessed_from_rendered_spine(self):
         s=self.state();s['synthesis']['outputs']['technical_output'].pop('model_mechanism')
         self.assertIn('technical_output:MISSING_MODEL_MECHANISM_PROVENANCE',self.errors(s))
-        self.assertNotIn('technical_output:MISSING_MODEL_MECHANISM_PROVENANCE',gate.output_checks(self.case(),s,pinned_context=self.case()['context_pin'],provider_mechanism={'text':'The calculation requires business context.','provenance':'SEALED_PROVIDER_MECHANISM'}))
+        self.assertNotIn('technical_output:MISSING_MODEL_MECHANISM_PROVENANCE',gate.output_checks(self.case(),s,fixture_state=self.binding(),provider_mechanism={'text':'The calculation requires business context.','provenance':'SEALED_PROVIDER_MECHANISM'}))
 
     def test_reproduction_grades_verdict_not_walk_label(self):
         s=self.state();s['observations']=[{'check_kind':'DECLARED_CONTEXT_REPRODUCTION','id':'finding','composed_restrictions':[],'cell':{'id':'cell'},'label':'REPRODUCED','reproduced_value':'16','reported_figure':{'state':'NUMBER','value':'16'}}]
@@ -56,9 +60,11 @@ class AcceptanceGateTests(unittest.TestCase):
             s=self.state();s['synthesis']['outputs']['business_output']['explanation']['text']='Answer to your question: Not answered.\n\n'+bad
             self.assertTrue(any(':FORM:' in x for x in self.errors(s)))
 
-    def test_wrong_context_fails(self):
+    def test_same_state_recollection_passes_different_state_refuses(self):
         s=self.state();s['envelope']['context_id']='successor'
-        self.assertIn('CONTEXT_ID_CHANGED',self.errors(s))
+        self.assertEqual(self.errors(s),[])
+        errors=gate.output_checks(self.case(),s,fixture_state=self.binding('source-gap'))
+        self.assertTrue(any('inventory-baseline' in e and 'source-gap' in e for e in errors))
 
     def test_required_structure_and_invariants_fail_closed(self):
         for field in ('unknown','missing','reason'):

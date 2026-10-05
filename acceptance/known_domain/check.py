@@ -10,12 +10,12 @@ INVARIANTS=frozenset(('both_outputs','no_serialized_structure','no_business_iden
 
 
 def validate_case(case):
-    from investigator.acceptance_context import validate_case_pin
-    validate_case_pin(case)
+    from investigator.acceptance_context import validate_case_state,state_definition
+    state_definition(fixture_configuration(),validate_case_state(case))
     if not case.get('reference_session_id') or not case.get('model_id') or not re.fullmatch('[0-9a-f]{64}',case.get('ticket_hash','')):
         raise ValueError('Acceptance reference/ticket identity is incomplete')
     expected=case.get('expected',{})
-    if (case.get('version')!=3 or set(case['invariants'])!=INVARIANTS
+    if (case.get('version')!=4 or set(case['invariants'])!=INVARIANTS
             or len(case['invariants'])!=len(INVARIANTS)
             or expected.get('answer_category') not in ANSWER_CATEGORIES
             or not case.get('acceptance_change_reason','').strip()
@@ -25,16 +25,20 @@ def validate_case(case):
         raise ValueError('Acceptance structure is incomplete')
 
 
-def output_checks(case,state,*,provider_mechanism=None,pinned_context=None,local_payload=None):
+def fixture_configuration():
+    return json.loads((ROOT/'infra/estates/fixture.json').read_text(encoding='utf-8'))
+
+
+def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_payload=None):
     errors=[]
     try:
         actual=project(state,(case.get('expected',{}).get('reproduction') or {}).get('cell_id'))
         errors += ['STRUCTURE:'+row['invariant'] for row in compare(case['expected'],actual)]
     except (ValueError,KeyError):errors.append('STRUCTURED_RESULT_MISSING')
-    pin=case.get('context_pin')
-    if pin:
-        if state.get('envelope',{}).get('context_id')!=pin['context_id']:errors.append('CONTEXT_ID_CHANGED')
-        if pinned_context!=pin:errors.append('CONTEXT_HASH_NOT_ESTABLISHED')
+    from investigator.acceptance_context import require_state,declared_role_view
+    try:require_state(case,fixture_state or {},fixture_configuration())
+    except ValueError as exc:errors.append('FIXTURE_STATE:'+str(exc))
+    if local_payload is not None:local_payload=declared_role_view(local_payload,fixture_configuration())
     outputs=(state.get('synthesis') or {}).get('outputs',{})
     for kind in ('business_output','technical_output'):
         text=outputs.get(kind,{}).get('explanation',{}).get('text')
@@ -132,8 +136,9 @@ def run_case(case,fixture_root,output):
             cid=(recorded_pin or {}).get('context_id') or db.execute('SELECT context_id FROM models WHERE id=?',(model_id,)).fetchone()[0]
             context=json.loads(db.execute('SELECT body FROM model_contexts WHERE id=? AND model_id=?',(cid,model_id)).fetchone()[0])
         established={'context_id':cid,'hash':digest(context)}
-        from investigator.acceptance_context import require_context
-        require_context(case,established)
+        from investigator.acceptance_context import require_state
+        binding=establish_fixture_state(case,run,input_path,tape,established)
+        require_state(case,binding,fixture_configuration())
         with patch.object(socket,'create_connection',side_effect=no_network),patch.object(socket.socket,'connect',side_effect=no_network):
             replayed=replay(path,output,allow_engine_drift=True)
         if not replayed['matched']:result['reason']='BYTE_EXACT_RUNTIME_REPLAY_DID_NOT_MATCH'
@@ -144,13 +149,35 @@ def run_case(case,fixture_root,output):
             with sqlite3.connect(output/'catalog.sqlite') as db:
                 db.row_factory=sqlite3.Row
                 payload=build(replayed['session'],db)
-            result['errors']=output_checks(case,replayed['session'],provider_mechanism=sealed_mechanism(path),pinned_context=established,local_payload=payload)
+            result['fixture_state']=binding['name'];result['context_used']=established
+            result['fixture_state_provenance']=binding.get('provenance','RECORDED_NATIVE')
+            result['errors']=output_checks(case,replayed['session'],provider_mechanism=sealed_mechanism(path),fixture_state=binding,local_payload=payload)
             result['status']='FAILED' if result['errors'] else 'PASSED'
             result['reason']='OUTPUT_INVARIANT_FAILED' if result['errors'] else None
     except Exception as exc:
         result['reason']=str(exc) if type(exc).__name__ in ('TapeError','RecordingError') else type(exc).__name__
 
     return result
+
+
+def establish_fixture_state(case,run,input_path,tape,context):
+    """Native future declaration, or a separate sealed historical association.
+
+    Never infer data state from context identity: gap and latency can share
+    the same metadata context. Original tape bytes are never amended.
+    """
+    native=tape.bootstrap['state'].get('fixture_state')
+    if native is not None:
+        if native['context']!=context:raise ValueError('Recorded fixture context integrity differs')
+        return native
+    import hashlib
+    bindings=json.loads((Path(__file__).parent/'historical-fixture-bindings.json').read_text())
+    found=[b for b in bindings if b['session_id']==run['session']['id']
+           and b['source_sha256']==hashlib.sha256(input_path.read_bytes()).hexdigest()
+           and b['tape_sha256']==hashlib.sha256(tape.path.read_bytes()).hexdigest()
+           and b['context']==context]
+    if len(found)!=1:raise ValueError('Historical fixture state not established for this sealed run')
+    return found[0]
 
 
 def main():
