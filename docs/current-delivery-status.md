@@ -1,3 +1,7 @@
+# Round Five D runner work (2026-10-05 UTC)
+
+Acceptance-file-owned context selection now refuses an explicitly invoked successor before store/transport work, naming expected and observed IDs/hashes. Current approval and reader scope remain unchanged. Two focused tests passed. No live investigation run; Round Five remains 213/400. Offline grading/tape audit and source control-plane work remain in progress; #376 stays draft. Prior freezes invalid. See [runner selection](acceptance-context-selection.md).
+
 # Current delivery status
 
 Dated Round Five correction, 2026-10-05 UTC: EMPTY's fixture state, 16's grading,
