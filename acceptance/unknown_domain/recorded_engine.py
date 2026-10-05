@@ -30,13 +30,17 @@ def replay_revision(path, output, revision):
                     raise ValueError('Unsafe replay archive member')
             bundle.extractall(root, filter='data')
         driver = root / 'replay-pinned-driver.py'
-        driver.write_text("""import sys,json,socket,traceback
+        driver.write_text("""import sys,json,socket,traceback,importlib.util
 from pathlib import Path
 root=Path(__file__).parent
 sys.path[:0]=[str(root/'scripts'),str(root/'acceptance/unknown_domain')]
 def refused(*a,**k):raise RuntimeError('NETWORK_FORBIDDEN')
 socket.create_connection=refused;socket.socket.connect=refused
 try:
+ from investigator import process_tape as journal
+ spec=importlib.util.spec_from_file_location('budget_tape_contract',sys.argv[5])
+ contract=importlib.util.module_from_spec(spec);spec.loader.exec_module(contract)
+ contract.install(journal)
  from process_replay import replay
  result=replay(sys.argv[1],sys.argv[2],allow_engine_drift=True)
  result['replay_engine_revision']=sys.argv[3]
@@ -47,7 +51,7 @@ except Exception as exc:
 """, encoding='utf-8')
         answer = root / 'answer.json'
         done = subprocess.run([sys.executable, str(driver), str(Path(path).resolve()),
-            str(Path(output).resolve()), revision, str(answer)], cwd=ROOT, capture_output=True, text=True, timeout=900)
+            str(Path(output).resolve()), revision, str(answer), str(ROOT/'scripts/investigator/budget_tape_contract.py')], cwd=ROOT, capture_output=True, text=True, timeout=900)
         if not answer.exists():raise ValueError('Pinned replay worker failed without response: ' + str(done.returncode))
         value = json.loads(answer.read_text())
         if 'result' not in value:

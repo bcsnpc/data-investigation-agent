@@ -1,5 +1,10 @@
 2026-10-05: v2 tapes seal a replay-engine revision; v1 remains readable. Pinned engine replay is isolated and network-blocked; it is distinct from current-engine requalification. Offline regrading precedes live runs. Prior freezes invalid. [Versioned replay](versioned-recorded-engine-replay.md).
 
+Budget tape replay now compares structured decisions and counts, while physical
+requests and provider bodies remain byte-exact. Recorder v3 preserves v1/v2;
+#393 accounting is explicitly versioned retrospectively. Prior freezes invalid.
+See [tape contract](budget-tape-decisions.md).
+
 Exact-span intake recovery allows one metered correction for a non-verbatim quote,
 then NEEDS_INPUT. Initial context coverage is unchanged. No live run in this
 milestone; prior freezes invalidated. See [recovery evidence](intake-exact-span-recovery.md).
