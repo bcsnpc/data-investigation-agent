@@ -88,3 +88,27 @@ The target lakehouse columns correspond to the emitted writes. The declared copy
 Dated correction: A’s CONSISTENT_TO_BOUNDARY on the unverified inferred manifest is a correct scoped result, not an engine regression. Its original changed-expectation grading and outputs remain unchanged. The saved outputs omitted proposal counts and verifier reasons: a composition defect.
 
 Dated decision supersession, 2026-10-05: the initial stacked-PR decision above was replaced by an independent main PR. The offline compiler/verifier libraries and rendering infrastructure can ship without activating the reader. Runtime installation/approval hooks and installed path callback remain only on draft #406; those files are explicitly excluded. The archived stacked commit 54da37d and prior CI attempts remain preserved. This split honors the independent offline merge without bypassing the live gate.
+
+## Validation record before any new live read
+
+Archived producer column: 15/15, zero network calls and zero physical requests,
+`.local/round-six-c-20261005/declared-acceptance/summary.json`. Stable integrated
+reader branch: 1,974 tests passed in 423.073 seconds. The earlier broad run's
+fingerprint error is preserved in regression.txt: editing during the run changed
+its fingerprint between setup and validation. Its affected runtime module passed
+21/21 independently; the stable rerun passed without weakening the check.
+
+Independent-main targeted suite: declared round trips, compiler, extractor,
+verifier, approval, controller, reason renderer and final narrative composition
+passed. Recorder 28/28 and service tape replay passed; directory coverage remained
+2 entries / 1 SQL / 7,540 characters. The first independent-main CI caught an
+omitted credential-free code-location authorization projection. Its exact failed
+logs are retained; carrying those authorization pointers fixes the contract while
+runtime installation and adaptive callbacks stay excluded. Code-source 9/9 and
+manifest 19/19 tests then passed. Current hosted checks are on #407.
+
+Offline checkpoint budget: pot unchanged 55/400, with 60 reserved. The zero-read
+preflight observed rolling 187/1,500 (expiry, not a reset). No model calls. The
+new reader attempt has not happened in this record. Existing approval was copied
+byte-for-byte for the prepared inference-only operator, explicitly not a new
+approval or a new context. No application control/probe is needed for that pass.
