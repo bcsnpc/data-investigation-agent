@@ -1,0 +1,58 @@
+import copy,unittest
+from types import SimpleNamespace
+from investigator.adapters.code_verification import VerificationRoute
+from investigator.onboarding import digest
+from investigator.process_debugging import Probe
+from test_lineage_binding import proposal
+
+
+class RouteTests(unittest.TestCase):
+    def setup_route(self):
+        self.calls=[]
+        def execute(layer,measure,compiled):
+            self.calls.append(copy.deepcopy(compiled))
+            surface={'engine':'SQL','connection':'sql://declared-server','object':compiled['database'],'identity':'reader'}
+            return Probe('OBSERVED',layer['id'],evidence={'id':'read-receipt','values':[{'quantity':7}],
+                'read_address':compiled['read_address']},value=7,execution_surface=surface,surface_report=surface,
+                surface_reportable=tuple(surface),surface_report_binding='VALUE_QUERY',
+                surface_report_types={'engine':'ENGINE_PRODUCT','object':'DATABASE_CATALOG_NAME'})
+        process=SimpleNamespace(config={'fabric':{'sql_reader':{'server':'declared-server'}}},_evaluate_lower=execute)
+        objects={name:{'asset_id':name,'connection':'declared-server','database':database,
+            'catalog':{'id':name,'metadata':{'schema_name':'dbo','name':'items','type_desc':'USER_TABLE',
+                'columns':[{'name':'amount','data_type':'int'}]}}}
+            for name,database in [('input-table','input-db'),('output-table','output-db')]}
+        self.cell={'target_id':'target','measure_id':'measure','grouping_columns':[],
+                   'key_restrictions':[],'mode':'UNGROUPED'}
+        self.cell['id']=digest(self.cell)
+        return VerificationRoute(process,objects=objects,context='retained',measure_id='measure',restrictions=[])
+
+    def test_existing_probe_route_preserves_cell_and_original_receipt_attestation(self):
+        route=self.setup_route();plan=route.compile(proposal(),'SOURCE','retained',self.cell,{'state':'EXACT'})
+        result=route.execute('SOURCE',plan)
+        self.assertEqual(result['status'],'COMPLETED');self.assertEqual(result['quantity'],{'state':'NUMBER','value':'7'})
+        self.assertEqual(self.calls[0]['read_address'],{'kind':'CELL','cell':self.cell})
+        self.assertEqual(result['evidence']['values'],[{'quantity':7}])
+        self.assertEqual(result['evidence']['surface_report_receipt_id'],'read-receipt')
+
+    def test_filtered_scope_still_refuses_before_read(self):
+        route=self.setup_route();route.restrictions=[{'field_id':'a','values':[1]}]
+        with self.assertRaisesRegex(NotImplementedError,'Filtered or grouped'):
+            route.compile(proposal(),'SOURCE','retained',self.cell,{'state':'EXACT'})
+        self.assertEqual(self.calls,[])
+
+    def test_connection_mismatch_cannot_fall_back_to_reader_server(self):
+        route=self.setup_route();route.objects['input-table']['connection']='other-server'
+        with self.assertRaisesRegex(ValueError,'endpoint differs'):
+            route.compile(proposal(),'SOURCE','retained',self.cell,{'state':'EXACT'})
+        self.assertEqual(self.calls,[])
+
+    def test_context_and_cell_are_validated_before_compile(self):
+        route=self.setup_route()
+        with self.assertRaisesRegex(ValueError,'context differs'):
+            route.compile(proposal(),'SOURCE','other-context',self.cell,{'state':'EXACT'})
+        changed=copy.deepcopy(self.cell);changed['id']='forged'
+        with self.assertRaisesRegex(ValueError,'identity differs'):
+            route.compile(proposal(),'SOURCE','retained',changed,{'state':'EXACT'})
+        self.assertEqual(self.calls,[])
+
+if __name__=='__main__':unittest.main()

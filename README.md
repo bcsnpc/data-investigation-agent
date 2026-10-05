@@ -1,3 +1,11 @@
+2026-10-05: Code sources merged in #405 with seven green checks. Static/model
+proposal, sampled verification and stale-ledger modules are under offline
+validation; manifest approval and runtime path integration remain pending.
+No inferred binding or second acceptance column has passed live. Pot21/400,
+reserve60; rolling248/1500 last observed. Earlier API-tape replay used the
+current transport without an archived producer pin; originals unchanged.
+Prior freezes invalid. [Reader checkpoint](docs/round-six-code-sources.md).
+
 2026-10-05: Round Six B code-source work is in progress. The separately
 approved `investigator-code-reader` has Contributor on the one actual fixture
 workspace; existing investigation readers are unchanged. Both transformation

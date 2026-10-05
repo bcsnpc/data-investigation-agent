@@ -95,7 +95,7 @@ class CodeSourceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);file=root/'unit.py';file.write_text('x=1\n')
             source={'id':'code','kind':'LOCAL_PATH','identity':'account','path':d}
-            bootstrap={'entry_point':'code_reader','context_identity':'offline','config':{},'profile':{},'usage_policy':None,'engine_hash':'offline','state':{}}
+            bootstrap={'entry_point':'synthetic','context_identity':'offline','config':{},'profile':{},'usage_policy':None,'engine_hash':'offline','state':{}}
             tape=journal.Tape(root/'tape.json',bootstrap=bootstrap)
             with journal.active(tape):
                 original=read(source,'unit.py',meter=lambda call:call())
@@ -112,7 +112,7 @@ class CodeSourceTests(unittest.TestCase):
             root=Path(d);file=root/'notebook-content.py';file.write_text('x=1\n')
             metadata=root/'.platform';metadata.write_text('{"config":{"logicalId":"kept"}}')
             source={'id':'code','kind':'LOCAL_PATH','identity':'account','path':d}
-            bootstrap={'entry_point':'code_reader','context_identity':'offline','config':{},'profile':{},'usage_policy':None,'engine_hash':'offline','state':{}}
+            bootstrap={'entry_point':'synthetic','context_identity':'offline','config':{},'profile':{},'usage_policy':None,'engine_hash':'offline','state':{}}
             tape=journal.Tape(root/'tape.json',bootstrap=bootstrap)
             with journal.active(tape):
                 original=read(source,file.name,meter=lambda call:call());tape.finish({'read':original})

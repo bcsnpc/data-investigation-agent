@@ -157,3 +157,58 @@ The hosted source check adds four: **18/400** initiated/reserved and settled.
 Rolling after that check: **245/1500** in24h (aging records account for its decrease).
 Diagnostic cap12 unchanged. Zero investigation planner calls; no counter reset,
 refund, new data mutation or investigation-reader elevation.
+
+
+## Reader implementation checkpoint ? 2026-10-05
+
+#405 merged at41ebe282eff19f9b88bc580644ba0e469d5b3e97. Its seven checks and
+the actual main checks are green. The code-source transport work is delivered;
+the full transformation reader and inferred acceptance column are not yet earned.
+
+The new neutral core extracts bounded read/transform/write expressions from
+Python and SQL, with static-first model handoff. Selection, two-key joins, filters,
+aggregation, rename, arithmetic and whole-row deduplication have offline tests.
+Partial-key deduplication refuses because the surviving row is unspecified.
+Literal-seeded writes have no inferred upstream source. Multi-cell notebook
+locations retain cell-local line spans. A model cannot claim STATIC provenance,
+verification, a different target or a location outside retained code.
+
+The consumer schema is committed verbatim in
+[transformation-proposed-binding.schema.json](transformation-proposed-binding.schema.json).
+Its verifier comparison rule, verbatim:
+
+> Compile both expressions before either read. Both observations must be completed, bound to the same retained context, cell address and explicitly declared precision. Compare their numeric quantities at that precision, or BLANK with BLANK. Equal is VERIFIED only for that sampled quantity and scope; unequal is FALSIFIED. A compilation, read, identity or context failure is UNVERIFIED, never evidence of equality. No inferred tolerance.
+
+The SQL verification route calls the existing guarded process probe and carries
+the actual cell address, original receipt, values and quantity-bound attestation.
+It refuses filtered/grouped lower reads and cross-connection expressions. It
+does not substitute the transformed source expression into the ordinary walk.
+An immutable lineage ledger retains VERIFIED/FALSIFIED/UNVERIFIED attempts;
+changed or unavailable code hashes yield STALE views without rewriting rows.
+Selection prefers declared bindings and refuses different context/cell/precision
+or ambiguous verified expressions. The manifest approval and runtime resolver
+integration remain pending; these modules are not yet a live capability.
+
+### Dated replay qualification
+
+The earlier successful definition continuation was replayed with its budget
+events under the current transport. Its v3 code_reader tape did not pin a
+committed producer revision. It is not archived-producer replay, and the previous
+local replay claim must be read with that limit. The original tape is unchanged.
+The new v4 recorder requires a clean committed producer for code_reader and
+code_verifier; older versions remain readable under their original rules.
+The committed HTTP excerpt remains explicitly a derived transport projection.
+
+### Static fixture inspection and accounting correction
+
+A direct local code inspection bypassed the meter once. That request was charged
+retrospectively and the inspection repeated through the metered source (code and
+.platform, two requests). All three remain charged. The script found17 writes:
+six literal-seeded and11 read-backed. Selected targets produced six and nine
+column proposals, with ten other read-backed writes visible in each extraction.
+These are proposals, not verified bindings. No estate data probe occurred.
+
+Round Six21/400, ordinary stop340, reserve60; rolling248/1500 last observed.
+No diagnostic/provider request, counter reset, refund or new identity change.
+Prior engine freezes are invalid. Full regression and archived15-tape replay
+are pending on this implementation checkpoint; no live section starts here.

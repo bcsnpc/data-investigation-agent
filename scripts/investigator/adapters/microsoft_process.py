@@ -689,7 +689,7 @@ class MicrosoftProcessAdapter:
         plan={'model_id':self.model['id'],'revision':self.model['revision'],'context_id':self.model['context_id'],
               'query':compiled['query'],'max_rows':20}
         from ..read_address import baseline
-        plan['read_address']=baseline([])
+        plan['read_address']=compiled.get('read_address',baseline([]))
         execute=lambda:run_query(self.store,plan,self.config,'bounded_fabric_sql',
             lambda request:self.execute_lower(compiled['database'],request),catalog=compiled['catalog'])
         result=self.meter_read('bounded_fabric_sql',execute) if self.meter_read else execute()
