@@ -475,3 +475,13 @@ See docs/round-five-fixture-states.md. No fresh freeze or live requalification.
 Dated serverless handling, 2026-10-05 UTC: manifest-declared application source uses a 240-second worker deadline (old failure used90). Connect-stage40613 may wait at most60 seconds of backoff, all attempts admitted/receipted. Pre-warm connections and resume waits are ledger controls, never investigation diagnostic reads. OSError reason/errno/location and actual timer expiry now retained; the historical missing reason remains unknown. No quota, policy, identity or billing change. See docs/serverless-source-controls.md. Prior freezes invalid.
 
 Dated native-worker contract finding, 2026-10-05 UTC: Round Five E D stopped before its value-existence lookup returned. The exact recorded config carries `_estate`; native load_config runs before its exception handler and rejects that key with ValueError: Unexpected or missing configuration fields. Offline reproduction establishes the contract mismatch, not historical stderr or an estate failure. No repair/replacement run. Pre-warm resumed positively via two control connections and five-second wait, no diagnostic reads. Current strict gate2/15, live list stopped, pot221/400. See docs/round-five-e-live-list.md.
+
+Dated Round Five F finding, 2026-10-05 UTC: #395 projects worker configuration
+from consumer-owned fields; runtime manifest metadata never enters worker schema.
+#396 records v2 tapes with immutable committed engine revisions. Legacy v1
+compatibility is explicit and hash-bound; historical producer replay is not
+current-engine acceptance and cannot manufacture missing identity/budget events.
+Historical replay restored10/15; new D/G/H passed, selected evidence13/15.
+EMPTY refused before intake for absent approved report-14sep state; source
+consistency was not run under first-unmet stop rule. Pot240/400, rolling last
+observed439/1500; prior freezes invalid. See docs/round-five-f-versioned-runs.md.
