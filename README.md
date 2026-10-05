@@ -930,3 +930,9 @@ names. Three stale baseline fixtures corrected without weakening validation.
 46 focused tests pass; the earlier broad run remains preserved. No live rerun.
 See [cleanup and test findings](docs/round-five-output-cleanup.md). Changed engine
 invalidates prior freezes.
+
+Dated offline acceptance update, 2026-10-05: fixture states replace recollection
+IDs as test identities; historical pins remain evidence. Original fifteen grade
+8/15; existing recorded F/I bring selected evidence to 10/15. Four tape gaps and
+source consistency remain, #376 stays draft. No new live verification or general
+capability claim. See [state binding and qualifications](docs/round-five-fixture-states.md).

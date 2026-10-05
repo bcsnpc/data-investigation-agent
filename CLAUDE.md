@@ -464,3 +464,10 @@ See [complete preserved round](docs/round-two-source-scenarios.md).
 
 
 Dated source-fixture platform finding, 2026-10-05 UTC: ordersops is GeneralPurpose Gen5 serverless/free, max2/min0.5, Paused. The authorised disable-idle-auto-pause request was admitted HTTP202 but completed Failed/ProvisioningDisabled: "Only default value for auto pause delay is allowed for Free Limit database with auto pause exhaustion behavior". After GET retains delay60 and free-limit AutoPause. No billing conversion; paid-overage mode cannot be reverted to AutoPause. Prior source OSError is class-only and occurred after completed SQL guards; do not call it a socket-connect error or auto-resume proof. See docs/round-five-offline-machinery.md.
+
+Dated evaluator ruling, 2026-10-05: acceptance binds independently declared
+fixture state, not recollection ID. A context may cover several data states;
+never infer state from its ID. Historical state associations are separate and
+retrospective, tied to sealed run/tape hashes; old receipts are unchanged.
+Fixture arithmetic must never enter runtime prompts or quantity contracts.
+See docs/round-five-fixture-states.md. No fresh freeze or live requalification.

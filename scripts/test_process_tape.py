@@ -104,7 +104,10 @@ class TapeTests(unittest.TestCase):
     def test_explicit_acceptance_context_pin_is_recorded_and_replayed(self):
         self.exercise_process(pinned_context=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False):
+    def test_fixture_state_and_selected_context_are_recorded_validated_and_replayed(self):
+        self.exercise_process(pinned_context=True,fixture_state=True)
+
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -117,6 +120,9 @@ class TapeTests(unittest.TestCase):
             from investigator.onboarding import digest
             model=helper.store.get(helper.envelope['model_id'])
             helper.store.context_pins={model['id']:{'context_id':model['context_id'],'hash':digest(model['context'])}}
+            if fixture_state:
+                helper.store.acceptance_fixture_state={'name':'baseline','definition_hash':'a'*64,
+                    'context':helper.store.context_pins[model['id']],'approval_reference':'synthetic explicit setup decision'}
         policy={'environment':helper.store.environment,'daily_limits':{'planner_calls':50,
             'cloud_calls':50,'input_characters':1000000,'output_tokens':100000},
             'max_inflight_planners':1,'no_progress_limit':3}
@@ -160,6 +166,7 @@ class TapeTests(unittest.TestCase):
         self.assertEqual(result['synthesis']['status'],'FAILED' if failed_composition else 'COMPLETED')
         tape=agent._run_tapes[created['id']]
         if pinned_context:self.assertEqual(tape.bootstrap['state']['context_pins'],helper.store.context_pins)
+        if fixture_state:self.assertEqual(tape.bootstrap['state']['fixture_state'],helper.store.acceptance_fixture_state)
         sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
         from acceptance.unknown_domain.process_replay import replay
         with tempfile.TemporaryDirectory() as output:
@@ -263,6 +270,18 @@ class TapeTests(unittest.TestCase):
                 tape=Tape(Path(folder)/'tape.json',changed)
                 with self.assertRaisesRegex(TapeError,reason):
                     tape.finish({'operation':'synthesize','error':None,'status':'COMPLETED','outputs':None,'result':{}})
+
+    def test_fixture_binding_refuses_context_that_was_not_selected(self):
+        body=bootstrap();body['entry_point']='workspace'
+        pin={'context_id':'00000000-0000-4000-8000-000000000001','hash':'a'*64}
+        body['state']={'environment':'synthetic','workspace_owner':None,
+            'artifacts':{'catalog.sqlite':'0'*64,'inventory.sqlite':'1'*64},
+            'dynamic_read_limit':12,'dynamic_input_limit':10000,'context_pins':{'model':pin},
+            'fixture_state':{'name':'baseline','definition_hash':'b'*64,'context':{**pin,'hash':'c'*64},'approval_reference':'decision'}}
+        with tempfile.TemporaryDirectory() as folder:
+            tape=Tape(Path(folder)/'tape.json',body)
+            with self.assertRaisesRegex(TapeError,'TAPE_FIXTURE_CONTEXT_DIFFERS'):
+                tape.finish({'operation':'run','error':None,'status':'HELD','outputs':None,'result':{}})
 
     def test_real_metered_protocol_records_every_request_and_replays_without_worker(self):
         from investigator.physical_reads import run as physical_run,scope,guard_scope

@@ -123,6 +123,18 @@ class Tape:
         if bootstrap['entry_point']=='workspace':
             state=bootstrap['state']
             fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}
+            if 'fixture_state' in state:
+                fields.add('fixture_state')
+                binding=state['fixture_state']
+                if (not isinstance(binding,dict) or set(binding)!={'name','definition_hash','context','approval_reference'}
+                    or not isinstance(binding['name'],str) or not re.fullmatch('[a-z][a-z0-9-]{0,99}',binding['name'])
+                    or not isinstance(binding['definition_hash'],str) or not re.fullmatch('[0-9a-f]{64}',binding['definition_hash'])
+                    or not isinstance(binding['approval_reference'],str) or not binding['approval_reference'].strip()):
+                    raise TapeError('TAPE_FIXTURE_STATE')
+                from .acceptance_context import validate_case_pin
+                try:validate_case_pin({'context_pin':binding['context']})
+                except (ValueError,TypeError,KeyError):raise TapeError('TAPE_FIXTURE_STATE')
+                if binding['context'] not in state.get('context_pins',{}).values():raise TapeError('TAPE_FIXTURE_CONTEXT_DIFFERS')
             if 'context_pins' in state:
                 fields.add('context_pins')
                 pins=state['context_pins']

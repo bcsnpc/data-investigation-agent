@@ -61,7 +61,11 @@ SCHEMA=obj({
         'round':obj({'id':STRING,'starts_at_epoch':{'type':'number','minimum':0},
             'physical_requests':integer(1,10000000),'restoration_reserved':integer(0,10000000)})}),
     'accepted_limits':array(obj({'code':STRING,'resource':STRING,
-        'statement':{'type':'string','minLength':1,'maxLength':STATEMENT_BOUND}}))})
+        'statement':{'type':'string','minLength':1,'maxLength':STATEMENT_BOUND}})),
+    # Evaluator-only declarations; not projected into tools or prompts.
+    'fixture_states':array(obj({'id':STRING,'description':STRING,
+        'arithmetic':{'type':'string','minLength':1,'maxLength':2000},
+        'evidence':array(STRING)}))}, optional=('fixture_states',))
 
 
 def validate(value):
@@ -78,6 +82,7 @@ def validate(value):
         return result
     layers=indexed('layers');resources=indexed('resources');adapters=indexed('adapters');identities=indexed('identities')
     indexed('pipelines')
+    if 'fixture_states' in value:indexed('fixture_states')
     from .layer_roles import declarations as roles
     roles([{k:l[k] for k in ('asset_id','role','business_name')} for l in value['layers']])
     if value['lineage']['source_delivery'] is not None:

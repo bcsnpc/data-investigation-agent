@@ -1693,3 +1693,11 @@ Dated grading correction, 2026-10-05 UTC: the checker no longer conflates entity
 binding kind with resolution_kind. Ten gate tests pass; corrected zero-request
 grading still accepts 1/15 with 11 replayable. Earlier grading ledger rows remain.
 See docs/round-five-offline-machinery.md. No live reruns or additional requests.
+
+Dated Round Five E, 2026-10-05 UTC: fixture-state acceptance replaces recollection
+ID equality. Original fifteen regrade 8/15; retained recorded F and Q49 I both
+byte-exactly replay and pass, giving 10/15 selected evidence. D/G/H/EMPTY recording
+gaps and source consistency remain. Current declared roles are a separate grading
+view, historical evidence unchanged. No cloud/live requests, Round Five 218/400.
+Section-4 serverless/error/deadline work awaits the section-3 checkpoint; #376
+remains draft. Prior freezes invalid. See docs/round-five-fixture-states.md.
