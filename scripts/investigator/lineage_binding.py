@@ -170,7 +170,7 @@ class Ledger:
         validate(verification['proposal'])
         row={'event':'VERIFICATION','verification':verification,'sha256':seal(verification)}
         self.path.parent.mkdir(parents=True,exist_ok=True)
-        with self.path.open('a',encoding='utf8') as stream:stream.write(json.dumps(row,separators=(',',':'))+'\n')
+        with self.path.open('a',encoding='utf8') as stream:stream.write(json.dumps(row,sort_keys=True,separators=(',',':'))+'\n')
     def records(self):
         result=[]
         if not self.path.exists():return result
