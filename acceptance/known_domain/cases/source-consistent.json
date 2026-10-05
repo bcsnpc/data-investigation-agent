@@ -1,0 +1,68 @@
+{
+  "version": 4,
+  "ticket": "source-consistent",
+  "invariants": [
+    "both_outputs",
+    "no_serialized_structure",
+    "no_business_identifier_form",
+    "timing_hedge_once",
+    "valid_mechanism_layer_tokens",
+    "layer_names_by_declared_role"
+  ],
+  "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
+  "acceptance_change_reason": "2026-10-05: grade structured earned spine/answer category, never sentence equality. Original reference and immutable fixture pin retained. Composition failure in the reference is not promoted to a successful output.",
+  "grade_kind": "walk",
+  "expected": {
+    "status": "COMPLETED",
+    "outcome": "CONSISTENT_TO_SOURCE",
+    "answer_category": "ANSWERED",
+    "resolutions": {},
+    "boundaries": [
+      {
+        "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+        "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+        "values_equal": true,
+        "grade": "ENGINE_INDEPENDENT"
+      },
+      {
+        "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+        "lower_layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+        "values_equal": true,
+        "grade": "ENGINE_INDEPENDENT"
+      }
+    ],
+    "layers_reached": [
+      {
+        "engine": "OLAP Server",
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "object": "0c89889c-6fe6-49ab-91e9-4b00a51070e6"
+      },
+      {
+        "engine": "Microsoft Azure SQL Data Warehouse",
+        "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+        "object": "round_two_bronze_20261003"
+      },
+      {
+        "engine": "Microsoft SQL Azure",
+        "connection": "sql://sql-orderops-9696025.database.windows.net",
+        "object": "ordersops"
+      }
+    ],
+    "reproduction": null
+  },
+  "walk_outcome_recorded": "CONSISTENT_TO_SOURCE",
+  "reference_session_id": "2f0dacf4-cbad-4dd0-b51c-18dfb1fc9ebd",
+  "model_id": "290ed2ac-2d38-42dd-9c39-d66785bec5e1",
+  "ticket_hash": "9cd26d1fc215bbbdadfb456b46608ad74f2505ba0e3be32884c3a635970fb80c",
+  "fixture_state": "source-baseline",
+  "reference_context_pin": {
+    "context_id": "07662592-aecc-459e-be89-0c8bc9127ff4",
+    "hash": "269c9abee2bec513eefb12a4dd63294c7eb36fde26dbd1cbfe29abf859e05b95"
+  },
+  "acceptance_changes": [
+    {
+      "date": "2026-10-05",
+      "reason": "Fixture-state equality supersedes recollection context-ID equality. Historical pin retained as provenance."
+    }
+  ]
+}

@@ -532,3 +532,13 @@ inventory databases. The required absence condition is not satisfied. No key,
 secret, release or uploaded artifact was created; estate identities/scopes
 unchanged. Original evidence untouched. #376 stays unmerged despite local15/15.
 Planned tag/secret and candidate hash are recorded in docs/round-five-i-canonical-gate.md.
+
+Dated section8 amendment, 2026-10-05 America/Chicago: the human permits tenant
+IDs and definition connection strings in immutable encrypted evidence; credentials
+remain forbidden. All requested credential-pattern counts are0. Fifteen sealed
+source/tape sets and30 bootstrap databases plus separate path mapping were
+encrypted and published as `known-domain-tapes-1b6d344c8072d8a9e47e4957efeac7ffd6f9e4ed4f3afa500562e41562224174`; ciphertext SHA256
+`fb7ac3ef8812c43230641bf90ce77c0f40b79ba9e127b15a8b9f9da883d530f4`. Key only in `KNOWN_DOMAIN_REPLAY_KEY` Actions
+secret. No estate credential or reader scope changed. Earlier condition/findings
+remain historical. Hosted check/merge pending; no fake CI pass. RoundSix0/400,
+reserve60, rolling386/1500. See docs/round-six-transformation-reader.md.

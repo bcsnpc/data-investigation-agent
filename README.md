@@ -1,3 +1,11 @@
+2026-10-05 America/Chicago: Round Six amended the private-delivery condition:
+identifiers and connection-string definitions are allowed; credentials are not.
+The credential-pattern scan is clean and an immutable encrypted fifteen-tape
+asset is published; key only in the Actions secret. #376 hosted execution/merge
+is pending, not replaced by local15/15. Transformation reader not built/live
+yet. Pot0/400,60 reserved; rolling386/1500 last observed.
+[Round Six report](docs/round-six-transformation-reader.md).
+
 2026-10-05: Round Five I's complete zero-read selected-tape re-grade is **15/15**.
 Numeric reproduction is 16 from its original tape; no live re-record needed.
 Canonical provider matching merged in #402 with six green checks. #376 remains

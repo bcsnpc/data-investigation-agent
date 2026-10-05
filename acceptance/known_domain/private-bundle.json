@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "tape_set_sha256": "1b6d344c8072d8a9e47e4957efeac7ffd6f9e4ed4f3afa500562e41562224174",
+  "ciphertext_sha256": "fb7ac3ef8812c43230641bf90ce77c0f40b79ba9e127b15a8b9f9da883d530f4",
+  "compressed_plaintext_sha256": "9094bbb09f37fda1b40e7d5c1416cb7f21192b7c1561a4488adfe5d31e0aa42b",
+  "release_tag": "known-domain-tapes-1b6d344c8072d8a9e47e4957efeac7ffd6f9e4ed4f3afa500562e41562224174",
+  "asset_name": "fixture-tapes.aesgcm",
+  "secret_name": "KNOWN_DOMAIN_REPLAY_KEY",
+  "bytes": 245953822,
+  "change_reason": "2026-10-05: initial immutable fifteen-tape set; human amended identifiers-versus-credentials condition. All credential-pattern counts zero."
+}

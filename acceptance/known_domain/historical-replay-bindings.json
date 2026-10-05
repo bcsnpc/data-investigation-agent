@@ -1,0 +1,130 @@
+[
+  {
+    "source_sha256": "185ee4ed5d0fce349955ce6182df6c3c59810544c901c303051d15f3342ef9bd",
+    "tape_sha256": "e8221bad4b4fd69c289b7b1db315efa7774d4dc2558313b44421aaf46e266449",
+    "session_id": "746c765a-26e3-4979-a694-3f06eda15275",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "f0b14aa9ef198b948499a4bed515c2a91a3bcb165b49aa13d060e69cb81c5aab",
+    "tape_sha256": "3192b553703e989a3755ee1f2262032548bd97016844a55d8a0fc5efd509e676",
+    "session_id": "8be79ae0-febb-4913-ad5c-95a0347edbfc",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "db8333377787cd18088ad9a727e77fd0211e5bf8a21637884403efc0cddd9d99",
+    "tape_sha256": "76e818f0efd4d339a32b7fcb8cfb6d91089410e0fe9d89023691d8e71b514ed2",
+    "session_id": "23ff3deb-12c4-4458-8ef0-757215d606b7",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "16adb01b2153be25fba5444f59bd031ede360d93140623ccc7035d5ef7c34846",
+    "tape_sha256": "95a3a839879f622cac86bd63983b00824008a3b5edef3b02704d398ef1d014ef",
+    "session_id": "fa04039d-0435-4ab2-a9a6-b6344ed6229f",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "5c3880f9495926401c576f0e31f3dac1d4a596aa76a43d57fd7bf44138203e17",
+    "tape_sha256": "dc8094785514652eedcb72c5d2f5980b9746494d0e6ca4021343bbf3f150c26b",
+    "session_id": "9b5ce960-114a-4801-a947-e6ba08819bab",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "329699842d546a37d011c87bba4214fde454130d7f13e368fecfce0557b15d35",
+    "tape_sha256": "c2539eda42f8d098374a606603f7846477f17b66f93015e58fd1ce5bc562832a",
+    "session_id": "ae3436f4-3f72-4b7d-9e60-823a69ad83b0",
+    "revision": "7abaabf37812b58cc74b684de9cafc172212c1ad",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "a4c67580141ec99bcc1292ba4ea50406d3cc3ee491fb81a815447942f69b44da",
+    "tape_sha256": "988368a2f404ad8d994f707735edc171ee779902499df4cdbb3f579e5b49b6fa",
+    "session_id": "41f2ac4d-c42a-455e-a281-fc41fb1aba6b",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "72fc4c0eb9b9898b5ac7c1730ff562282e88baebaf6fbf052b9011ec9a621c1d",
+    "tape_sha256": "99ce1b0c671afdbce11079b25a1147e3fb9a2c3a39239cc29e477d485d9c8906",
+    "session_id": "04b03d76-fe75-45f6-8ded-9793096ca3f8",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "6b55b9b26bcf20eb38a2481ee91fc8413a2f4eb85f9b7572baa89fd40f28efe4",
+    "tape_sha256": "79a7b049e2dacc2cdf3dbd7c228fb35f233f182cf48c704423dbff98483b4c79",
+    "session_id": "e726e66c-17d1-4171-a6d3-ccb978aa800c",
+    "revision": "7abaabf37812b58cc74b684de9cafc172212c1ad",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "baa754c8d82f746bd55b7d93e2a52fe229e083577db6b7995130dd336a9ec1f9",
+    "tape_sha256": "6ccaddf9abcb9004633d60382b491cbc03d5620909011f79467a77940e1783bd",
+    "session_id": "6308d027-2ed3-4cf7-b87a-ee9aff105bfa",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "3ae81cc14a250691fd617fcb567e6dfea0d10999fb2d67a2845b154f4b98d9ee",
+    "tape_sha256": "b795c5d7a7917e9bceb66f59768540ccd29c9aa91c92cdc68d8d4f7dabab09c6",
+    "session_id": "7aee0123-7b90-46fa-879b-2c87f5e7807e",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "4f583eee0b237724e0f1b8960ff96a117240fe6b390ea3053f62468faf1ea889",
+    "tape_sha256": "6d2c7b7d790a14c1c2d18939276f02dac9a5f013f1737a7c77636d3f848f642e",
+    "session_id": "31cb2ba8-dd73-4a68-b479-ad3217a64fab",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "3f7395a33e3e936b793c5b624ac5290cb45689ee4751b23cc10ed1937776bcf9",
+    "tape_sha256": "480da47cd210336bd22d60fe74daf58ac7f0e0338918405b71539274fca7fd83",
+    "session_id": "809d67b9-82c6-43d3-ad64-c25a749a7c86",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "ee4dd0a9d6b3d080ebff46440a6eea1d2af457c6f809fc51909530de930681d7",
+    "tape_sha256": "f1dcb3f1d52e2ac782aa6873a24fb646172b77a8fa26fd7bcd96e8e0fc5c00cd",
+    "session_id": "ea69d8e7-0ebf-4e3a-8d87-356cfb922235",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "c33ce8a140dcc9977f95d99fa359b25089d6d43af64bb77f3d02f4d9cd1632f5",
+    "tape_sha256": "7137803ae28bcd243c56a7b829c9bf9118e7dbfddefddeb502ecc670d0214aa8",
+    "session_id": "90fe815a-d244-439d-b1e1-5bf901f78587",
+    "revision": "5c3daad78f29c01bb5e7429093852ca204aa8949",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Separate compatibility binding; request/final byte-exact replay must still pass."
+  },
+  {
+    "source_sha256": "44fa0f834c2b2c05f180c8fcdbcb47ffca888fdce0a3e39f4f0a3f829f45732b",
+    "tape_sha256": "87d9b4028c401f4727cf4cd0f1001f7a58fdabd699b98986599b88fd51a47239",
+    "session_id": "33e5be52-fd0e-4201-9de7-4fea3a611376",
+    "revision": "7abaabf37812b58cc74b684de9cafc172212c1ad",
+    "provenance": "EXPLICIT_HISTORICAL_COMPATIBILITY_REVISION",
+    "qualification": "Failed D preserved; never substitutes for a passing live run."
+  }
+]

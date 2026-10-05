@@ -1,0 +1,47 @@
+{
+  "version": 4,
+  "ticket": "family-B",
+  "invariants": [
+    "both_outputs",
+    "no_serialized_structure",
+    "no_business_identifier_form",
+    "timing_hedge_once",
+    "valid_mechanism_layer_tokens",
+    "layer_names_by_declared_role"
+  ],
+  "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
+  "acceptance_change_reason": "2026-10-05: grade structured earned spine/answer category, never sentence equality. Original reference and immutable fixture pin retained. Composition failure in the reference is not promoted to a successful output.",
+  "grade_kind": "walk",
+  "expected": {
+    "status": "COMPLETED",
+    "outcome": "NO_KNOWN_PATTERN",
+    "answer_category": "NOT_ANSWERED",
+    "resolutions": {
+      "report_binding": "STATED"
+    },
+    "boundaries": [],
+    "layers_reached": [
+      {
+        "engine": "OLAP Server",
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      }
+    ],
+    "reproduction": null
+  },
+  "walk_outcome_recorded": "NO_KNOWN_PATTERN",
+  "reference_session_id": "42febae9-4d3e-4ec3-97bb-306769d96233",
+  "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+  "ticket_hash": "6655e8e0e91343b9272816be1b0e5e1fafcd6d3c6ec98685fdf5a55dbc9b2dba",
+  "fixture_state": "inventory-baseline",
+  "reference_context_pin": {
+    "context_id": "35461b1d-b5a4-48ef-a61d-aa539403a188",
+    "hash": "8ac06cfb33b4a3a3b82e725f331c9af2885c436fdfc0dde7677b02c3e1379f0b"
+  },
+  "acceptance_changes": [
+    {
+      "date": "2026-10-05",
+      "reason": "Fixture-state equality supersedes recollection context-ID equality. Historical pin retained as provenance."
+    }
+  ]
+}
