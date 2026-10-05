@@ -82,6 +82,7 @@ jobs:
           python -m unittest discover -s scripts -p test_code_sources.py
           python -m unittest discover -s scripts -p test_code_definition.py
           python -m unittest discover -s scripts -p test_git_code.py
+          python -m unittest discover -s scripts -p test_fixture_code_sources.py
           python -m unittest discover -s scripts -p test_tape_decoders.py
           python -m unittest discover -s scripts -p test_read_onelake_commit.py
           python -m unittest discover -s scripts -p test_autonomous_round_limits.py

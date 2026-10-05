@@ -107,6 +107,15 @@ slots were reserved before dispatch and settled afterward, no refunds. The full
 transformation reader, inferred-lineage ledger and second fifteen-ticket column
 are not yet completed. Definition-API replay is currently local, not hosted.
 
+CI additionally re-executes the definition transport against a fixture-only
+HTTP excerpt from those preserved recordings (`api-recorded-operation.json`).
+It checks the exact three method/endpoint pairs and yields the fetched code hash,
+without network or authentication. The excerpt is explicitly derived and hash
+links to both original attempts; it is **not** represented as a complete private
+budget tape. Original tape replay (admission and settlement included) passed
+locally. No raw catalog, credential, authentication body or provider content is
+committed as fixture transport material.
+
 The first ordinary CI run failed the scoped-inventory structural test because
 the new code-source validator reused a reserved function name. Renamed it to
 `validate_sources`; the original test and report-inventory validation remain
@@ -135,6 +144,10 @@ commit. Other hosts are explicitly unavailable with this installed adapter.
 - Use the existing generated read-only Actions secret `GITHUB_TOKEN` for CI.
   Rejected storing the local operator's broader GitHub credential as a code token.
   No new standing credential or investigation identity scope is introduced.
+- Commit only fixture definition HTTP projections for the hosted API-path test,
+  explicitly marked as a derived transport excerpt. Rejected committing private
+  live budget/catalog artifacts or silently describing an excerpt as a full tape.
+  The actual successful full tape remains sealed and separately replayed locally.
 
 ## Windows at this checkpoint
 
