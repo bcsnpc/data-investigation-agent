@@ -123,6 +123,11 @@ class RouteTests(unittest.TestCase):
         objects,missing=resolve_objects(process,context,{'exact:a':{'amount':'long'},'exact:b':{'amount':'long'},'name-only:a':{'amount':'long'}})
         self.assertEqual(set(objects),{'exact:a','exact:b'});self.assertEqual(len(calls),1)
         self.assertEqual(objects['exact:a']['database'],'served-db');self.assertEqual(len(missing),1)
+        context['assets'][0]['metadata'].pop('location')
+        objects,missing=resolve_objects(process,context,{parent+'/table/a':{'amount':'long'}})
+        self.assertEqual(objects[parent+'/table/a']['asset_id'],parent+'/table/a')
+        self.assertFalse(missing)
+        context['assets'][0]['metadata']['location']='exact:a'
         context['assets'].append(copy.deepcopy(context['assets'][0]))
         objects,missing=resolve_objects(process,context,{'exact:a':{'amount':'long'}})
         self.assertFalse(objects);self.assertIn('ambiguous',missing[0]['reason'])

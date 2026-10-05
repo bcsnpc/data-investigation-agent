@@ -33,7 +33,8 @@ def resolve_objects(process,context,schemas):
             objects[location]={'asset_id':a['id'],'surface':'APPLICATION_SQL','connection':source['server'],
                 'database':source['database'],'catalog':copy.deepcopy(a)}
             continue
-        matches=[a for a in assets if a.get('kind')=='LakehouseTable' and a.get('metadata',{}).get('location')==location]
+        matches=[a for a in assets if a.get('kind')=='LakehouseTable' and
+                 (a['id']==location or a.get('metadata',{}).get('location')==location)]
         if len(matches)!=1:
             unavailable.append({'location':location,'reason':'Exact table location is absent or ambiguous in the approved context'});continue
         asset=matches[0];parent=asset['parent_id'];parts=parent.removeprefix('fabric://').split('/')

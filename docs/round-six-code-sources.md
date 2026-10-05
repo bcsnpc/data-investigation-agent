@@ -290,3 +290,27 @@ must precede any live reader pass. Pot remains21/400, reserve60, ordinary stop34
 rolling248/1500 is last observed, not a new current-window reading. No live probe,
 provider request, fixture change, identity change, refund or reset in this checkpoint.
 Previous freezes remain invalid.
+
+### Offline integration checkpoint, 2026-10-05
+
+At `36fa77a`, **1,966 regression tests passed** (the preserved unittest log ends
+OK). The subsequent exact-object-address correction passed nine verification-route
+and nine application-quantity tests. The offline live-controller preflight found
+that the declared copy target lacks a Delta location while its exact discovered
+object ID is present. Approval now carries that object ID; the adapter resolves
+only that exact object inside its declared workspace and connection. No path is
+constructed from display names. The failed preflight remains preserved, with zero
+reads; the corrected preflight resolves both authorized boundary samples.
+
+Planner directory coverage remains two entries, one SQL object, 7,540 characters
+before and after the manifest authorization projection, asserted by the golden
+view test. Code credential declarations never enter worker configuration.
+The control sample is an already-recorded ungrouped control-page cell. The declared
+copy uses a newly recorded approval-sample address, not a historical backfill.
+Neither receives a ticket figure as an expected value; precision is explicitly exact.
+
+The initial archived-column invocation used the wrong private-input root and
+correctly returned fifteen MISSING_PRIVATE_REPLAY_INPUTS blocks, with zero reads.
+The corrected invocation uses the same pinned source files as the earlier passed
+column; it is still running. This is an operator invocation correction, not tape
+modification or a replacement live run. No live section has started.

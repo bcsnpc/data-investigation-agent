@@ -9,15 +9,13 @@ def approval_sample(context,target_id,column,*,boundary,context_id,cell,precisio
     if proof is None:raise ValueError('Declared approval mapping unavailable: '+reason)
     current={a['id']:a for a in context['assets'] if a.get('availability')=='CURRENT'}
     target=current[target_id];part=current[proof['definition_asset_id']]
-    if not target.get('metadata',{}).get('location'):
-        raise ValueError('Declared approval mapping unavailable: target has no declared physical location')
     source_column=proof['source_column'];table=proof['source']['id']
     relation={'kind':'SCAN','table':table,'columns':[source_column]}
     if source_column!=column:
         relation={'kind':'PROJECT','input':relation,'columns':[
             {'name':column,'expression':{'kind':'COLUMN','name':source_column}}]}
     proposal=validate({'boundary':boundary,'sources':[{'table':table,'columns':[source_column]}],
-        'target':{'table':target['metadata']['location'],'column':column},
+        'target':{'table':target['id'],'column':column},
         'expression':{'relation':relation,'column':column},
         'location':{'item':part['parent_id'],'path':part['metadata']['path'],'cell':'declaration',
                     'line_start':1,'line_end':max(1,len(part['metadata']['content'].splitlines())),
