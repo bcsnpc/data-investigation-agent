@@ -1,10 +1,7 @@
 {
-  "version": 2,
+  "version": 3,
   "ticket": "family-D",
   "source_session_id": "96edf2e6-5ae0-467e-a420-69c4b717da17",
-  "expected_status": "COMPLETED",
-  "expected_outcome": "NO_COMPARABLE_PATH",
-  "expected_answer_line": "Answer to your question: No verdict: no figure supplied.",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -13,12 +10,30 @@
     "valid_mechanism_layer_tokens",
     "layer_names_by_declared_role"
   ],
-  "required_output_terms": [],
   "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
-  "acceptance_change_reason": "Initial Round Four roster. Includes preserved failures; no new live measurement or replay success implied.",
+  "acceptance_change_reason": "2026-10-05: grade structured earned spine/answer category, never sentence equality. Original reference and immutable fixture pin retained. Composition failure in the reference is not promoted to a successful output.",
   "context_pin": {
     "context_id": "35461b1d-b5a4-48ef-a61d-aa539403a188",
     "hash": "8ac06cfb33b4a3a3b82e725f331c9af2885c436fdfc0dde7677b02c3e1379f0b"
   },
-  "grade_kind": "walk"
+  "grade_kind": "walk",
+  "expected": {
+    "status": "COMPLETED",
+    "outcome": "NO_COMPARABLE_PATH",
+    "answer_category": "NO_REPORTED_FIGURE",
+    "resolutions": {
+      "report_binding": "STATED",
+      "selection": null
+    },
+    "boundaries": [],
+    "layers_reached": [
+      {
+        "engine": "OLAP Server",
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      }
+    ],
+    "reproduction": null
+  },
+  "walk_outcome_recorded": "NO_COMPARABLE_PATH"
 }

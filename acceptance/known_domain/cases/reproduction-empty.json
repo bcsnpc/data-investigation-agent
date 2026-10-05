@@ -1,10 +1,7 @@
 {
-  "version": 2,
+  "version": 3,
   "ticket": "reproduction-empty",
   "source_session_id": "d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36",
-  "expected_status": "COMPLETED",
-  "expected_outcome": "NO_COMPARABLE_PATH",
-  "expected_answer_line": "Answer to your question: Yes \u2014 the saved declared context reproduces the reported figure.",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -13,19 +10,35 @@
     "valid_mechanism_layer_tokens",
     "layer_names_by_declared_role"
   ],
-  "required_output_terms": [],
   "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
-  "acceptance_change_reason": "2026-10-05: pin the earned 14 September fixture context; a 15 September run is not this EMPTY ticket. Grade reproduction and answer, retaining the walk outcome separately.",
+  "acceptance_change_reason": "2026-10-05: grade structured earned spine/answer category, never sentence equality. Original reference and immutable fixture pin retained. Composition failure in the reference is not promoted to a successful output.",
   "context_pin": {
     "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
     "hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f"
   },
   "grade_kind": "reproduction",
-  "expected_reproduction": {
-    "cell_id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
-    "label": "REPRODUCED",
-    "reproduced_value": null,
-    "reported_state": "EMPTY",
-    "reported_value": null
-  }
+  "expected": {
+    "status": "COMPLETED",
+    "answer_category": "REPRODUCED",
+    "resolutions": {
+      "report_binding": "STATED",
+      "selection": null
+    },
+    "boundaries": [],
+    "layers_reached": [
+      {
+        "engine": "OLAP Server",
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      }
+    ],
+    "reproduction": {
+      "cell_id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
+      "label": "REPRODUCED",
+      "reproduced_value": null,
+      "reported_state": "EMPTY",
+      "reported_value": null
+    }
+  },
+  "walk_outcome_recorded": "NO_COMPARABLE_PATH"
 }

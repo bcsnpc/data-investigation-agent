@@ -4,39 +4,40 @@ from pathlib import Path
 from unittest.mock import patch
 
 ROOT=Path(__file__).resolve().parents[2]
-sys.path[:0]=[str(ROOT/'scripts'),str(ROOT/'acceptance/unknown_domain')]
+sys.path[:0]=[str(ROOT/'scripts'),str(ROOT/'acceptance/unknown_domain'),str(Path(__file__).parent)]
+from contract import project,compare,answer_matches,ANSWER_CATEGORIES
 INVARIANTS=frozenset(('both_outputs','no_serialized_structure','no_business_identifier_form','timing_hedge_once','valid_mechanism_layer_tokens','layer_names_by_declared_role'))
 
 
 def validate_case(case):
-    from investigator.process_outcomes import OUTCOMES
-    if case.get('grade_kind','walk') not in ('walk','reproduction'):raise ValueError('Unknown grading subject')
-    pin=case.get('context_pin')
-    if not isinstance(pin,dict) or (set(pin)!={'context_id','hash'} or not re.fullmatch('[0-9a-f]{64}',pin['hash'])):raise ValueError('Invalid context pin')
-    if case.get('grade_kind')=='reproduction' and not case.get('expected_reproduction'):raise ValueError('Missing reproduction expectation')
-    if (set(case['invariants'])!=INVARIANTS or len(case['invariants'])!=len(INVARIANTS)
-            or case['expected_outcome'] not in tuple(OUTCOMES)+('INSUFFICIENT_EVIDENCE',None,)
+    from investigator.acceptance_context import validate_case_pin
+    validate_case_pin(case)
+    expected=case.get('expected',{})
+    if (case.get('version')!=3 or set(case['invariants'])!=INVARIANTS
+            or len(case['invariants'])!=len(INVARIANTS)
+            or expected.get('answer_category') not in ANSWER_CATEGORIES
             or not case.get('acceptance_change_reason','').strip()
-            or not case['expected_answer_line'].startswith('Answer to your question: ')):
-        raise ValueError('Acceptance contract is incomplete or has an unsupported invariant/outcome')
+            or any(k not in ('status','outcome','answer_category','resolutions','boundaries','layers_reached','reproduction') for k in expected)):
+        raise ValueError('Acceptance contract is incomplete or unsupported')
+    if not {'status','answer_category','resolutions','boundaries','layers_reached','reproduction'}<=set(expected):
+        raise ValueError('Acceptance structure is incomplete')
 
 
 def output_checks(case,state,*,provider_mechanism=None,pinned_context=None,local_payload=None):
     errors=[]
-    if state.get('status')!=case['expected_status']:errors.append('STATUS_CHANGED')
-    if case.get('grade_kind','walk')=='walk' and (state.get('assessment') or {}).get('classification')!=case['expected_outcome']:errors.append('OUTCOME_CHANGED')
+    try:
+        actual=project(state,(case.get('expected',{}).get('reproduction') or {}).get('cell_id'))
+        errors += ['STRUCTURE:'+row['invariant'] for row in compare(case['expected'],actual)]
+    except (ValueError,KeyError):errors.append('STRUCTURED_RESULT_MISSING')
     pin=case.get('context_pin')
     if pin:
         if state.get('envelope',{}).get('context_id')!=pin['context_id']:errors.append('CONTEXT_ID_CHANGED')
         if pinned_context!=pin:errors.append('CONTEXT_HASH_NOT_ESTABLISHED')
-    if case.get('grade_kind')=='reproduction':
-        actual=reproduction_verdict(state,case['expected_reproduction']['cell_id'])
-        if actual!=case['expected_reproduction']:errors.append('REPRODUCTION_CHANGED')
     outputs=(state.get('synthesis') or {}).get('outputs',{})
     for kind in ('business_output','technical_output'):
         text=outputs.get(kind,{}).get('explanation',{}).get('text')
         if not isinstance(text,str) or not text:errors.append(kind+':MISSING_OUTPUT');continue
-        if case['expected_answer_line'] not in text:errors.append(kind+':ANSWER_CHANGED')
+        if not answer_matches(case['expected']['answer_category'],text):errors.append(kind+':ANSWER_CATEGORY_CHANGED')
         body=text.split('\n\n',1)[-1]
         from investigator.narrative_form import validate
         try:validate(body,kind=='business_output')
@@ -49,7 +50,7 @@ def output_checks(case,state,*,provider_mechanism=None,pinned_context=None,local
             # Only the model paragraph uses this vocabulary: engine-rendered
             # legends and limits deliberately state role names and identities.
             boundaries=[o for o in state.get('observations',[]) if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
-            labels=(state.get('assessment') or {}).get('technical_output',{}).get('layer_labels',{})
+            labels=(local_payload or {}).get('layer_labels') or (state.get('assessment') or {}).get('technical_output',{}).get('layer_labels',{})
             for boundary in boundaries:
                 for side in ('upper_layer','lower_layer'):
                     if not labels.get(boundary.get(side),{}).get('role'):
@@ -65,8 +66,6 @@ def output_checks(case,state,*,provider_mechanism=None,pinned_context=None,local
                     for o in state.get('observations',[])]}
                 try:validate_layer_references(mechanism['text'],payload)
                 except ValueError as exc:errors.append('technical_output:LAYER_REFERENCE:'+str(exc))
-        for required in case.get('required_output_terms',[]):
-            if required not in text:errors.append(kind+':MISSING_REQUIRED_TERM:'+required)
     return sorted(set(errors))
 
 
@@ -129,13 +128,14 @@ def run_case(case,fixture_root,output):
             cid=(recorded_pin or {}).get('context_id') or db.execute('SELECT context_id FROM models WHERE id=?',(model_id,)).fetchone()[0]
             context=json.loads(db.execute('SELECT body FROM model_contexts WHERE id=? AND model_id=?',(cid,model_id)).fetchone()[0])
         established={'context_id':cid,'hash':digest(context)}
-        if established!=case['context_pin']:raise TapeError('ACCEPTANCE_CONTEXT_PIN_DIFFERS')
+        from investigator.acceptance_context import require_context
+        require_context(case,established)
         with patch.object(socket,'create_connection',side_effect=no_network),patch.object(socket.socket,'connect',side_effect=no_network):
             replayed=replay(path,output,allow_engine_drift=True)
         if not replayed['matched']:result['reason']='BYTE_EXACT_RUNTIME_REPLAY_DID_NOT_MATCH'
         else:
             result['walk_outcome']=replayed['outcome']
-            result['reproduction_verdict']=reproduction_verdict(replayed['session'],case['expected_reproduction']['cell_id']) if case.get('grade_kind')=='reproduction' else None
+            result['reproduction_verdict']=reproduction_verdict(replayed['session'],case['expected']['reproduction']['cell_id']) if case.get('grade_kind')=='reproduction' else None
             from investigator.synthesis_digest import build
             with sqlite3.connect(output/'catalog.sqlite') as db:
                 db.row_factory=sqlite3.Row
