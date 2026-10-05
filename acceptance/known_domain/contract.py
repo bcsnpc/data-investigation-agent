@@ -26,7 +26,8 @@ def project(state,cell_id=None):
     observations=state.get('observations',[]);envelope=state['envelope']
     resolutions={}
     for field in ('report_binding','definition_target','name_binding'):
-        if envelope.get(field):resolutions[field]=envelope[field].get('resolution_kind',envelope[field].get('kind'))
+        if (envelope.get(field) or {}).get('resolution_kind') is not None:
+            resolutions[field]=envelope[field]['resolution_kind']
     for o in observations:
         if o.get('check_kind')=='REPORT_SELECTION_RESOLUTION':
             resolutions['selection']=o.get('resolution_kind') or (o.get('resolution') or {}).get('resolution_kind')

@@ -37,6 +37,14 @@ class AcceptanceGateTests(unittest.TestCase):
         s['assessment']['classification']='NO_COMPARABLE_PATH';self.assertEqual(self.errors(s,c),[])
         s['observations'][0]['label']='NOT_REPRODUCED';self.assertIn('STRUCTURE:reproduction',self.errors(s,c))
 
+    def test_entity_binding_kind_is_not_a_resolution_kind(self):
+        s=self.state();s['envelope']['report_binding']={'resolution_kind':'STATED'}
+        baseline=gate.project(s)
+        s['envelope']['name_binding']={'kind':'REPORT'}
+        self.assertEqual(gate.project(s),baseline)
+        s['envelope']['report_binding']['resolution_kind']='EVIDENCE'
+        self.assertNotEqual(gate.project(s)['resolutions'],baseline['resolutions'])
+
     def test_missing_answer_and_wrong_answer_enum_fail(self):
         s=self.state();s['synthesis']['outputs']['business_output']['explanation']['text']='The result remains open.'
         self.assertIn('business_output:ANSWER_CATEGORY_CHANGED',self.errors(s))

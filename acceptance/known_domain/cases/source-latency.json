@@ -20,9 +20,7 @@
     "status": "COMPLETED",
     "outcome": "LOAD_LATENCY",
     "answer_category": "PARTLY_ANSWERED",
-    "resolutions": {
-      "name_binding": "MODEL"
-    },
+    "resolutions": {},
     "boundaries": [
       {
         "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
