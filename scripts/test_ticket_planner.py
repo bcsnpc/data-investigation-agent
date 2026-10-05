@@ -29,6 +29,37 @@ class PlannerTests(unittest.TestCase):
         self.assertEqual(len(before),len(json.dumps(first)))
         self.assertEqual(json.loads(after),first)
 
+    def test_canonical_nested_payload_records_validates_and_replays_byte_exactly(self):
+        from investigator.process_tape import Tape,active,bytes_of
+        from test_process_tape import bootstrap
+        response=SimpleNamespace(status='completed',output=[],output_text=json.dumps(self.plan),
+            id='synthetic-response',model='synthetic-model',usage=None)
+        sdk=MagicMock();client=sdk.OpenAI.return_value.__enter__.return_value
+        def create(**request):
+            tape.event('PROVIDER_REQUEST',bytes_of(request))
+            import base64
+            tape.event('PROVIDER_RESPONSE',bytes_of({'status':200,'body':base64.b64encode(bytes_of({'output_text':response.output_text})).decode()}))
+            return response
+        client.responses.create.side_effect=create
+        env=dict(AZURE_OPENAI_ENDPOINT='https://test.openai.azure.com',
+            AZURE_OPENAI_DEPLOYMENT='synthetic-model',AZURE_OPENAI_API_KEY='synthetic-placeholder')
+        with tempfile.TemporaryDirectory() as d,patch.dict('os.environ',env,clear=True),patch.dict('sys.modules',{'openai':sdk}):
+            path=Path(d)/'tape.json';tape=Tape(path,bootstrap())
+            with active(tape):
+                expected=azure_generate({'z':1,'a':{'second':2,'first':1}});tape.finish(expected)
+            tape.validate();tape=Tape(path)
+            with active(tape):
+                actual=azure_generate({'a':{'first':1,'second':2},'z':1});tape.finish(actual)
+            self.assertEqual(actual,expected)
+            # Removing canonicalisation must make the same decoded payload fail.
+            from investigator.process_tape import TapeError
+            original_dumps=json.dumps
+            def insertion_order(value,**kwargs):
+                kwargs.pop('sort_keys',None);return original_dumps(value,**kwargs)
+            tape=Tape(path)
+            with active(tape),patch('ticket_planner.json',SimpleNamespace(dumps=insertion_order,loads=json.loads)),self.assertRaises(TapeError):
+                azure_generate({'z':1,'a':{'second':2,'first':1}})
+
     def setUp(self):
         self.ticket = dict(title='Cash question', report='Executive Sales', description='Check USD net cash',
                            metric='Net Cash', currency='USD')
