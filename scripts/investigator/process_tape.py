@@ -14,7 +14,8 @@ from contextlib import closing
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
-VERSION = 'bounded-worker-tape-v1'
+VERSION = 'bounded-worker-tape-v2'
+SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', VERSION))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
     'BUDGET','BUDGET_INPUT','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
@@ -49,13 +50,19 @@ class Tape:
     def __init__(self,path,bootstrap=None):
         self.path=Path(path);self.events=[];self.index=0;self.replaying=bootstrap is None
         self.journal_path=self.path.with_suffix('.events.jsonl')
-        self.exclusions=[];self.finished=False
+        self.exclusions=[];self.finished=False;self.version=VERSION
         if self.replaying:
             value=json.loads(self.path.read_bytes())
-            if set(value)!={'version','events','exclusions','seal'} or value['version']!=VERSION:
+            required={'version','events','exclusions','seal'}
+            if value.get('version') == 'bounded-worker-tape-v2':required.add('engine_revision')
+            if set(value)!=required or value['version'] not in SUPPORTED_VERSIONS:
                 raise TapeError('TAPE_SCHEMA')
             if value['seal']!=sha(bytes_of({k:v for k,v in value.items() if k!='seal'})):
                 raise TapeError('TAPE_SEAL')
+            self.version=value['version']
+            self.engine_revision=value.get('engine_revision')
+            if self.version == 'bounded-worker-tape-v2' and self.engine_revision is not None and not re.fullmatch('[0-9a-f]{40}',self.engine_revision):
+                raise TapeError('TAPE_ENGINE_REVISION')
             self.events=value['events'];self.exclusions=value['exclusions']
             if self.journal_path.exists():
                 recorded=[json.loads(line) for line in self.journal_path.read_bytes().splitlines()]
@@ -66,11 +73,21 @@ class Tape:
             self.path.parent.mkdir(parents=True,exist_ok=True)
             if self.path.exists() or self.journal_path.exists():raise TapeError('TAPE_ALREADY_EXISTS')
             self.bootstrap=bootstrap
+            self.engine_revision=None
+            if self.version == 'bounded-worker-tape-v2' and bootstrap['entry_point']=='workspace':
+                import subprocess
+                root=Path(__file__).resolve().parents[2]
+                from .runtime import FINGERPRINT_TRANSPORTS
+                scope=['scripts/investigator',*FINGERPRINT_TRANSPORTS]
+                dirty=subprocess.check_output(['git','status','--porcelain','--untracked-files=all','--',*scope],cwd=root,text=True)
+                if dirty.strip():raise TapeError('TAPE_UNCOMMITTED_ENGINE')
+                self.engine_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
             self.event('BOOTSTRAP',bytes_of(bootstrap))
 
     def flush(self):
         if self.replaying:return
-        value={'version':VERSION,'events':self.events,'exclusions':self.exclusions}
+        value={'version':self.version,'events':self.events,'exclusions':self.exclusions}
+        if self.version == 'bounded-worker-tape-v2':value['engine_revision']=self.engine_revision
         value['seal']=sha(bytes_of(value))
         # Only this still-open attempt is rewritten. Sealed tapes are immutable.
         self.path.write_bytes(bytes_of(value))
@@ -121,6 +138,8 @@ class Tape:
         if any(not isinstance(bootstrap[key],dict) for key in ('config','profile','state')) or not isinstance(bootstrap['usage_policy'],(dict,type(None))):
             raise TapeError('TAPE_BOOTSTRAP_CONFIGURATION')
         if bootstrap['entry_point']=='workspace':
+            if self.version == 'bounded-worker-tape-v2' and self.engine_revision is None:
+                raise TapeError('TAPE_ENGINE_REVISION_MISSING')
             state=bootstrap['state']
             fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}
             if 'fixture_state' in state:
