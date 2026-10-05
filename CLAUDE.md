@@ -461,3 +461,6 @@ Reader restoration checks returned 7,661 across the isolated application,
 Bronze and model, and 8,765 in the original model. Snapshot caveats remain.
 Human-approved Part B ceiling is 500; rolling stays 600, diagnostic cap 12.
 See [complete preserved round](docs/round-two-source-scenarios.md).
+
+
+Dated source-fixture platform finding, 2026-10-05 UTC: ordersops is GeneralPurpose Gen5 serverless/free, max2/min0.5, Paused. The authorised disable-idle-auto-pause request was admitted HTTP202 but completed Failed/ProvisioningDisabled: "Only default value for auto pause delay is allowed for Free Limit database with auto pause exhaustion behavior". After GET retains delay60 and free-limit AutoPause. No billing conversion; paid-overage mode cannot be reverted to AutoPause. Prior source OSError is class-only and occurred after completed SQL guards; do not call it a socket-connect error or auto-resume proof. See docs/round-five-offline-machinery.md.
