@@ -514,3 +514,13 @@ accepted first response, so live retry not exercised. Selected14/15; #376 draft.
 PARTIAL connection and SNAPSHOT_UNVERIFIED limit the claim. Pot263/400, rolling
 last observed396/1500, diagnostic12 unchanged. No grants, fixture changes, refunds
 or counter resets. See docs/round-five-h-exact-span-budget.md. Prior freezes invalid.
+
+Dated Round Five I result, 2026-10-05 UTC: all fifteen selected sealed tapes
+passed one zero-read offline sweep after canonical provider JSON comparison.
+Original bytes, earlier grades and failures unchanged; numeric16 passed without
+its conditional live re-record. Producer revisions remain pinned; this is not
+current-engine/frozen unfamiliar-domain acceptance. #376's hosted gate has no
+private inputs and is not merged; local15/15 does not replace the seventh check.
+Pot263/400, rolling396/1500 last observed, diagnostic12 unchanged. Encrypted
+private CI delivery awaits a human decision; no evidence uploaded. See
+[final column and delivery gate](docs/round-five-i-canonical-gate.md).
