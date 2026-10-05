@@ -140,7 +140,12 @@ def run_case(case,fixture_root,output):
         binding=establish_fixture_state(case,run,input_path,tape,established)
         require_state(case,binding,fixture_configuration())
         with patch.object(socket,'create_connection',side_effect=no_network),patch.object(socket.socket,'connect',side_effect=no_network):
-            replayed=replay(path,output,allow_engine_drift=True)
+            from recorded_engine import replay_revision
+            revision = tape.engine_revision if tape.version == 'bounded-worker-tape-v2' else historical_replay_revision(run,input_path,tape)
+            replayed=replay_revision(path,output,revision)
+        result['tape_version']=tape.version
+        result['replay_engine_revision']=revision
+        result['recorded_engine_hash']=tape.bootstrap['engine_hash']
         if not replayed['matched']:result['reason']='BYTE_EXACT_RUNTIME_REPLAY_DID_NOT_MATCH'
         else:
             result['walk_outcome']=replayed['outcome']
@@ -158,6 +163,16 @@ def run_case(case,fixture_root,output):
         result['reason']=str(exc) if type(exc).__name__ in ('TapeError','RecordingError') else type(exc).__name__
 
     return result
+
+
+def historical_replay_revision(run,input_path,tape):
+    import hashlib
+    bindings=json.loads((Path(__file__).parent/'historical-replay-bindings.json').read_text())
+    matches=[b for b in bindings if b['session_id']==run['session']['id']
+        and b['source_sha256']==hashlib.sha256(input_path.read_bytes()).hexdigest()
+        and b['tape_sha256']==hashlib.sha256(tape.path.read_bytes()).hexdigest()]
+    if len(matches)!=1:raise ValueError('Historical replay revision not established for this sealed run')
+    return matches[0]['revision']
 
 
 def establish_fixture_state(case,run,input_path,tape,context):
@@ -193,11 +208,11 @@ def main():
         print(json.dumps(result),flush=True)
         if args.ledger:
             from datetime import datetime,timezone
-            row={'experiment':'ROUND_FOUR_OFFLINE_ACCEPTANCE','mode':'offline','run_key':case['ticket'],
+            row={'experiment':'ROUND_FIVE_VERSIONED_OFFLINE_ACCEPTANCE','mode':'offline','run_key':case['ticket'],
                  'session_id':'round-four-offline-'+case['ticket'],'reference_session_id':case['reference_session_id'],
                  'date_utc':datetime.now(timezone.utc).isoformat(),'status':result['status'],
                  'stop_reason':result.get('reason'),'physical_requests':0,'diagnostic_reads':0,'planner_calls':0,
-                 'notes_doc':'docs/round-four-acceptance-gaps.md'}
+                 'notes_doc':'docs/versioned-recorded-engine-replay.md'}
             with args.ledger.open('a',encoding='utf8',newline='\n') as f:f.write(json.dumps(row,separators=(',',':'))+'\n')
     (args.output/'summary.json').write_text(json.dumps(results,indent=2)+'\n')
     return 0 if all(r['status']=='PASSED' for r in results) else 1
