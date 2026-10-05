@@ -268,8 +268,8 @@ class AdaptiveTests(unittest.TestCase):
             with self.assertRaises(SourceReadTimeout):transport({}, {})
             read.assert_called_once()
         with patch('run_native_diagnostic.subprocess.run',return_value=subprocess.CompletedProcess([],1,'{"completion_uncertain":true}')):
-            with self.assertRaises(TimeoutError):native_transport(
-                {'fabric':{'workspace_id':'workspace','auth':{'python':'python'}}}, {'workspace':'workspace'})
+            from test_reader_execution import config, WORKSPACE, MODEL
+            with self.assertRaises(TimeoutError):native_transport(config(), {'workspace':WORKSPACE,'native_model_id':MODEL})
 
     def test_azure_adapter_requires_one_decision_call(self):
         import sys,json

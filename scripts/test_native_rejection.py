@@ -40,8 +40,10 @@ class WorkerClassificationTests(unittest.TestCase):
 
 
 class TransportTests(unittest.TestCase):
-    CONFIG = {'fabric': {'workspace_id': 'w', 'auth': {'python': 'python'}}}
-    REQUEST = {'workspace': 'w', 'native_model_id': 'm'}
+    from test_reader_execution import config as reader_config, WORKSPACE, MODEL
+    CONFIG = reader_config()
+    CONFIG['fabric'].pop('native_reader')
+    REQUEST = {'workspace': WORKSPACE, 'native_model_id': MODEL}
 
     def run_with(self, failure):
         completed = subprocess.CompletedProcess([], 1, json.dumps(failure), '')

@@ -18,6 +18,37 @@ def text(value):
     return value
 
 
+WORKER_CONFIG_FIELDS = ('version', 'sql', 'fabric', 'storage')
+WORKER_FABRIC_FIELDS = ('workspace_id', 'auth', 'native_reader')
+
+
+def worker_configuration(config, request):
+    """Closed consumer-owned projection; runtime/manifest fields never cross.
+
+    A manifested native request must resolve inside a declared semantic layer.
+    No global search or fallback to an undeclared layer.
+    """
+    import copy
+    estate = config.get('_estate')
+    if estate is not None:
+        prefix = 'fabric://' + request['workspace'] + '/' + request['native_model_id'] + '/'
+        layers = [row for row in estate['layers'] if row['role'] == 'SEMANTIC'
+                  and row['asset_id'].startswith(prefix)]
+        if not layers or any(not row['reachable'] for row in layers):
+            raise ValueError('Native worker target lacks a reachable declared layer')
+    projected = {key: copy.deepcopy(config[key]) for key in WORKER_CONFIG_FIELDS}
+    projected['fabric'] = {key: copy.deepcopy(config['fabric'][key])
+                           for key in WORKER_FABRIC_FIELDS if key in config['fabric']}
+    if estate is not None:
+        reader = projected['fabric']['native_reader']
+        from investigator.native_identity import allows
+        if not allows(reader, request['workspace'], request['native_model_id']):
+            raise ValueError('Native worker layer is outside reader scope')
+        reader.pop('workspace_ids', None)
+        reader['model_ids'] = [request['native_model_id']]
+    return validate_config(projected)
+
+
 def load_config(path):
     config = json.loads(Path(path).read_text(encoding='utf-8-sig'))
     return validate_config(config)
@@ -25,7 +56,7 @@ def load_config(path):
 
 def validate_config(config):
     """Adapter projection validation without consulting another config file."""
-    keys(config, ['version', 'sql', 'fabric', 'storage'] + [k for k in ('system_of_record','load_audits','source_delivery','layer_roles') if k in config])
+    keys(config, list(WORKER_CONFIG_FIELDS) + [k for k in ('system_of_record','load_audits','source_delivery','layer_roles') if k in config])
     if 'layer_roles' in config:
         from investigator.layer_roles import declarations
         declarations(config['layer_roles'])

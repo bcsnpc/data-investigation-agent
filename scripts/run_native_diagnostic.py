@@ -14,7 +14,7 @@ from uuid import UUID
 from investigator.onboarding import ModelStore
 from investigator.native_diagnostics import run
 from metadata_auth import FabricCliTokens, NoRedirect
-from metadata_config import load_config, ROOT
+from metadata_config import load_config, ROOT, worker_configuration
 from investigator.native_identity import KEY, profile, make, require, allows
 
 
@@ -91,7 +91,7 @@ def transport(config, request):
             raise ValueError('Native model is outside reader allowlist')
     with tempfile.TemporaryDirectory() as directory:
         frozen=Path(directory)/'profile.json'
-        frozen.write_text(json.dumps(config),encoding='utf-8')
+        frozen.write_text(json.dumps(worker_configuration(config,request)),encoding='utf-8')
         from investigator.tape_worker import run as worker_run
         p=worker_run([config['fabric']['auth']['python'],str(ROOT/'scripts/run_native_diagnostic.py'),
             '--config',str(frozen),'--transport-worker'],input=json.dumps(request),
