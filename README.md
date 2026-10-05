@@ -1026,3 +1026,14 @@ IDs as test identities; historical pins remain evidence. Original fifteen grade
 8/15; existing recorded F/I bring selected evidence to 10/15. Four tape gaps and
 source consistency remain, #376 stays draft. No new live verification or general
 capability claim. See [state binding and qualifications](docs/round-five-fixture-states.md).
+# Round Six C checkpoint (2026-10-05)
+
+The [sealed proposal audit](docs/round-six-unverified-audit.md) separates thirteen
+proposals outside the selected quantity, one unestablished string-deduplication
+equivalence and one failed source worker. The only manifest-declared binding is
+the separate application copy; its inferred round-trip reproduces the original
+sealed statements and 7,661/7,661 observations offline. A's scoped conclusion was
+correct with unverified upstream lineage; its original evidence stays unchanged.
+Offline output and recorder fixes are under validation. No new live run or
+unfamiliar-domain acceptance claim; previous freezes remain invalid.
+

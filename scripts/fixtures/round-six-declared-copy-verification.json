@@ -1,0 +1,283 @@
+{
+  "tape_sha256": "1413e870d36e482411b26ff013b370d83e564ccaf3bfea3c5156039367f270ab",
+  "verification": {
+    "cell": {
+      "grouping_columns": [],
+      "id": "0b34dd6674394146c1e44b07a2af9b31683408f7e8c30fa890439624d5fa9853",
+      "key_restrictions": [],
+      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+      "mode": "UNGROUPED",
+      "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+    },
+    "context": "a64b0401-bb16-42ec-bb87-64b5ae90a044",
+    "limits": [
+      "Sampled quantity agreement does not establish row membership, global equivalence, aligned snapshots or business intent.",
+      "SNAPSHOT_UNVERIFIED: matching served data versions were not established; timing is not excluded."
+    ],
+    "observations": [
+      {
+        "cell": {
+          "grouping_columns": [],
+          "id": "0b34dd6674394146c1e44b07a2af9b31683408f7e8c30fa890439624d5fa9853",
+          "key_restrictions": [],
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+          "mode": "UNGROUPED",
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+        },
+        "context": "a64b0401-bb16-42ec-bb87-64b5ae90a044",
+        "evidence": {
+          "binding_provenance": "INFERRED_FROM_CODE",
+          "completeness": "COMPLETE_RESPONSE",
+          "context_id": "a64b0401-bb16-42ec-bb87-64b5ae90a044",
+          "declared_context": {
+            "dimension_ids": [],
+            "filters": [],
+            "scope": "WHOLE_ENTITY",
+            "version": 1
+          },
+          "dimension_id": null,
+          "execution_surface": {
+            "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+            "engine": "Microsoft Azure SQL Data Warehouse",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "round_two_bronze_20261003"
+          },
+          "id": "9dd10fc1-2505-4420-a503-3366c37d8a11",
+          "lower_quantity": {
+            "catalog_provenance": "DECLARED_BY_DEFINITION",
+            "source_column": "units"
+          },
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+          "read_address": {
+            "cell": {
+              "grouping_columns": [],
+              "id": "0b34dd6674394146c1e44b07a2af9b31683408f7e8c30fa890439624d5fa9853",
+              "key_restrictions": [],
+              "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+              "mode": "UNGROUPED",
+              "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+            },
+            "kind": "CELL"
+          },
+          "request_hash": "c0afcf272cbb5b3040b6cba1f7768d892f0437cd600ee74046118f7c2e671fd7",
+          "surface_attestation": {
+            "attested_fields": [
+              "engine",
+              "identity",
+              "object"
+            ],
+            "consistency": "MATCHED",
+            "contradictions": [],
+            "coverage": "PARTIAL",
+            "field_states": {
+              "connection": "UNATTESTED",
+              "engine": "ATTESTED",
+              "identity": "ATTESTED",
+              "object": "ATTESTED"
+            },
+            "missing_required_fields": [],
+            "reason": null,
+            "required_fields": [
+              "engine",
+              "identity",
+              "object"
+            ],
+            "status": "PARTIAL",
+            "unattested_fields": [
+              "connection"
+            ]
+          },
+          "surface_report": {
+            "engine": "Microsoft Azure SQL Data Warehouse",
+            "identity": "investigator-reader@skynwhy.com",
+            "object": "round_two_bronze_20261003"
+          },
+          "surface_report_binding": "VALUE_QUERY",
+          "surface_report_receipt_id": "9dd10fc1-2505-4420-a503-3366c37d8a11",
+          "surface_report_types": {
+            "engine": "ENGINE_PRODUCT",
+            "identity": "PRINCIPAL_NAME",
+            "object": "DATABASE_CATALOG_NAME"
+          },
+          "test_purpose": "COMPARE_DECLARED_SOURCE",
+          "tool": "bounded_fabric_sql",
+          "value_state": "MEASURED",
+          "values": [
+            {
+              "quantity": {
+                "type": "decimal",
+                "value": "7661"
+              }
+            }
+          ]
+        },
+        "failure": null,
+        "precision": {
+          "state": "EXACT"
+        },
+        "quantity": {
+          "state": "NUMBER",
+          "value": "7661"
+        },
+        "reason": null,
+        "status": "COMPLETED"
+      },
+      {
+        "cell": {
+          "grouping_columns": [],
+          "id": "0b34dd6674394146c1e44b07a2af9b31683408f7e8c30fa890439624d5fa9853",
+          "key_restrictions": [],
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+          "mode": "UNGROUPED",
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+        },
+        "context": "a64b0401-bb16-42ec-bb87-64b5ae90a044",
+        "evidence": {
+          "completeness": "COMPLETE_RESPONSE",
+          "context_id": "a64b0401-bb16-42ec-bb87-64b5ae90a044",
+          "execution_surface": {
+            "connection": "sql://sql-orderops-9696025.database.windows.net",
+            "engine": "Microsoft SQL Azure",
+            "identity": "orderops_investigator",
+            "object": "ordersops"
+          },
+          "id": "71bf8923-a468-4907-a721-0873a0e4373e",
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+          "read_address": {
+            "cell": {
+              "grouping_columns": [],
+              "id": "0b34dd6674394146c1e44b07a2af9b31683408f7e8c30fa890439624d5fa9853",
+              "key_restrictions": [],
+              "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units",
+              "mode": "UNGROUPED",
+              "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements/measures/Movement%20Units"
+            },
+            "kind": "CELL"
+          },
+          "request_hash": "783dd1f80b59aba2481333d553a0c2982043aa598d6a4fda179d9dceb9da6e60",
+          "surface_attestation": {
+            "attested_fields": [
+              "engine",
+              "identity",
+              "object"
+            ],
+            "consistency": "MATCHED",
+            "contradictions": [],
+            "coverage": "PARTIAL",
+            "field_states": {
+              "connection": "UNATTESTED",
+              "engine": "ATTESTED",
+              "identity": "ATTESTED",
+              "object": "ATTESTED"
+            },
+            "missing_required_fields": [],
+            "reason": null,
+            "required_fields": [
+              "engine",
+              "identity",
+              "object"
+            ],
+            "status": "PARTIAL",
+            "unattested_fields": [
+              "connection"
+            ]
+          },
+          "surface_report": {
+            "engine": "Microsoft SQL Azure",
+            "identity": "orderops_investigator",
+            "object": "ordersops"
+          },
+          "surface_report_binding": "VALUE_QUERY",
+          "surface_report_receipt_id": "71bf8923-a468-4907-a721-0873a0e4373e",
+          "surface_report_types": {
+            "engine": "ENGINE_PRODUCT",
+            "identity": "PRINCIPAL_NAME",
+            "object": "DATABASE_CATALOG_NAME"
+          },
+          "test_purpose": "VERIFY_LINEAGE_BINDING",
+          "tool": "bounded_sql",
+          "value_state": "MEASURED",
+          "values": [
+            {
+              "quantity": {
+                "type": "decimal",
+                "value": "7661"
+              }
+            }
+          ]
+        },
+        "failure": null,
+        "precision": {
+          "state": "EXACT"
+        },
+        "quantity": {
+          "state": "NUMBER",
+          "value": "7661"
+        },
+        "reason": null,
+        "status": "COMPLETED"
+      }
+    ],
+    "precision": {
+      "state": "EXACT"
+    },
+    "proposal": {
+      "boundary": {
+        "from_layer": "application",
+        "to_layer": "landing"
+      },
+      "expression": {
+        "column": "units",
+        "relation": {
+          "columns": [
+            "units"
+          ],
+          "kind": "SCAN",
+          "table": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+        }
+      },
+      "extractor": "STATIC",
+      "location": {
+        "cell": "declaration",
+        "content_hash": "14d8cceb8ec222c2ea2783f492145b0c6bca98677795d9f663e93583feb32008",
+        "item": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/57e128c3-6ba0-4aaf-9464-81164ecdc782",
+        "line_end": 135,
+        "line_start": 1,
+        "path": "copyjob-content.json"
+      },
+      "sources": [
+        {
+          "columns": [
+            "units"
+          ],
+          "table": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+        }
+      ],
+      "target": {
+        "column": "units",
+        "table": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+      }
+    },
+    "reason": "The sampled expressions agree.",
+    "snapshot_status": "SNAPSHOT_UNVERIFIED",
+    "status": "VERIFIED",
+    "surface_difference": {
+      "differing_field": "engine",
+      "grade": "ENGINE_INDEPENDENT",
+      "lower_value": "Microsoft SQL Azure",
+      "reason": null,
+      "self_report_kind": "ENGINE_PRODUCT",
+      "upper_value": "Microsoft Azure SQL Data Warehouse"
+    }
+  },
+  "requests": [
+    {
+      "query": "SELECT TOP 21 SUM([read_stage_0].[units]) AS [quantity] FROM (SELECT [stock_movements_round_two_20261003].[units] AS [units] FROM [dbo].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]) AS [read_stage_0]",
+      "database": "round_two_bronze_20261003"
+    },
+    {
+      "query": "SELECT q.*, CURRENT_USER AS [__application_identity], CAST(SERVERPROPERTY('EngineEdition') AS int) AS [__application_engine], DB_NAME() AS [__application_object] FROM (SELECT TOP 21 SUM([read_stage_0].[units]) AS [quantity] FROM (SELECT [stock_movements_round_two_20261003].[units] AS [units] FROM [app].[stock_movements_round_two_20261003] AS [stock_movements_round_two_20261003]) AS [read_stage_0]) AS q",
+      "database": "ordersops"
+    }
+  ]
+}

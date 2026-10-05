@@ -127,10 +127,12 @@ class Tape:
         # and budget bodies for every clock tick amplified local I/O quadratically
         # and consumed the live procedure's deadline before it dispatched work.
         with self.journal_path.open('ab') as journal:journal.write(bytes_of(self.events[-1])+b'\n')
-        # Non-clock events materialize the existing sealed-envelope format. FINAL
-        # always includes every clock, and replay checks the journal if present.
-        # An interrupted attempt remains incomplete, never silently replayable.
-        if kind!='CLOCK':self.flush()
+        # The append-only journal retains every event before returning. Rewriting
+        # all prior bodies during each admission delayed ALLOW to the child and
+        # consumed its deadline. Materialize the envelope at the two boundaries;
+        # FINAL includes the full journal. Interrupted journals remain evidence,
+        # but are incomplete and cannot masquerade as replayable finished tapes.
+        if kind in ('BOOTSTRAP','FINAL'):self.flush()
 
     def take(self,kind):
         if self.index>=len(self.events):raise TapeError('TAPE_EXHAUSTED')

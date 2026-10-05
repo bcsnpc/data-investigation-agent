@@ -256,6 +256,9 @@ def build(state,db):
     'capability_limitations':{'visibility_boundary':process['visibility_boundary'],
                               'skipped_checks':process['skipped_steps']},
     'mandatory_limits':assessment['limits']}
+  unbound=assessment.get('technical_output',{}).get('unverified_boundaries',[])
+  if any(r.get('lineage_refusal') for r in unbound):
+   result['deterministic_process_finding']['unverified_boundaries']=copy.deepcopy(unbound)
   accounts=assessment.get('business_output',{}).get('delivery_accounts')
   if accounts:result['deterministic_process_finding']['delivery_accounts']=copy.deepcopy(accounts)
  return result

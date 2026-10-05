@@ -17,6 +17,22 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def test_worker_admission_never_rewrites_prior_envelope(self):
+        with tempfile.TemporaryDirectory() as folder:
+            tape=Tape(Path(folder)/'tape.json',bootstrap())
+            before=tape.path.read_bytes()
+            with patch.object(tape,'flush',wraps=tape.flush) as flush:
+                tape.event('WORKER_START',bytes_of({'command':['offline-worker'],'mode':'STREAM'}))
+                for n in range(100):tape.event('BUDGET_INPUT',bytes_of({'large_retained_history':'x'*10000,'n':n}))
+                tape.event('WORKER_SEND',b'ALLOW\n')
+                tape.event('WORKER_END',bytes_of({'returncode':0}))
+                flush.assert_not_called()
+            self.assertEqual(tape.path.read_bytes(),before)
+            self.assertEqual(len(tape.journal_path.read_bytes().splitlines()),104)
+            tape.finish({'status':'COMPLETED'})
+            replay=Tape(tape.path)
+            self.assertEqual(replay.events,tape.events)
+
     def test_new_code_reader_requires_committed_producer_legacy_v3_is_unchanged(self):
         from investigator import process_tape as journal
         with tempfile.TemporaryDirectory() as folder:

@@ -63,8 +63,11 @@ def select(*,declared,inferred,current_hashes,boundary,target_column,context,cel
             status=row['status'] if current==location['content_hash'] else 'STALE'
             if status!='VERIFIED' or any(row.get(k)!=v for k,v in
                     (('context',context),('cell',cell),('precision',precision))):
-                excluded.append({'location':copy.deepcopy(location),'status':status,'reason':
-                    'Code is changed or unavailable.' if status=='STALE' else 'Verification is absent, failed or belongs to a different sample.'})
+                from .lineage_limits import category
+                excluded.append({'location':copy.deepcopy(location),'status':status,
+                    'reason_category':category(row,status) if row['status']!='VERIFIED' or status=='STALE' else 'SAMPLE_MISMATCH',
+                    'verification_reason':row.get('reason'),
+                    'reason':'Code is changed or unavailable.' if status=='STALE' else 'Verification is absent, failed or belongs to a different sample.'})
                 continue
             candidates.append(row)
         # Multiple identical verifications are history, not ambiguity. Distinct
@@ -76,4 +79,7 @@ def select(*,declared,inferred,current_hashes,boundary,target_column,context,cel
                           'verification':copy.deepcopy(next(iter(unique.values()))),'excluded':excluded}
         if rows is declared and any(validate(r['proposal'])['boundary']==boundary for r in rows):
             return {'status':'UNBOUND','reason':'Declared binding lacks current matching verification','excluded':excluded}
-    return {'status':'UNBOUND','reason':'Neither a declared nor a current verified inferred binding matches the selected quantity and scope.','excluded':exclusions}
+    inventoried={seal({k:r[k] for k in ('proposal','context','cell','precision')}):r for r in declared+inferred
+                 if r['proposal']['boundary']==boundary}
+    return {'status':'UNBOUND','reason':'Neither a declared nor a current verified inferred binding matches the selected quantity and scope.',
+            'excluded':exclusions,'inventoried_proposal_count':len(inventoried)}

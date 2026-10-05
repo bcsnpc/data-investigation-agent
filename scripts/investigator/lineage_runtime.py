@@ -50,9 +50,14 @@ def qualify(path, *, estate, declared, inferred, current_hashes, addresses,
         evidence.append({'upper_layer':upper['id'],'lower_layer':lower['id'],
             'selection':copy.deepcopy(selection),'reason':reason})
         if reason:
+            excluded=(selection or {}).get('excluded',[])
+            refusal=({'lineage_refusal':{'proposal_count':len(excluded),
+                'inventoried_proposal_count':selection.get('inventoried_proposal_count',len(excluded)),
+                'statuses':sorted({r['status'] for r in excluded}),
+                'reason_categories':sorted({r['reason_category'] for r in excluded})}} if excluded else {})
             result.update(layers=layers[:i+1],stopped_by='NO_LINEAGE',
                 missing_comparable_quantity=reason,unresolved_boundary={
-                    'upper_layer':upper['id'],'lower_layer':lower['id'],'reason':reason})
+                    'upper_layer':upper['id'],'lower_layer':lower['id'],'reason':reason,**refusal})
             break
         # Carry the proof rather than a bare producer-owned VERIFIED label.
         lower['binding']={**lower.get('binding',{}),'provenance':selection['provenance'],

@@ -580,3 +580,11 @@ encrypted and published as `known-domain-tapes-1b6d344c8072d8a9e47e4957efeac7ffd
 secret. No estate credential or reader scope changed. Earlier condition/findings
 remain historical. Hosted check/merge pending; no fake CI pass. RoundSix0/400,
 reserve60, rolling386/1500. See docs/round-six-transformation-reader.md.
+Dated correction, Round Six C, 2026-10-05: the changed A result below is not an
+engine regression. With no verified inferred upstream binding, its scoped
+CONSISTENT_TO_BOUNDARY is appropriate; the old expectation grading remains
+unchanged. Only application → landing is explicitly declared in the manifest.
+Do not invent declarations for the two original notebook boundaries or equate
+the separate copy's 7,661/7,661 proof with them. See the sealed fifteen-row audit
+in docs/round-six-unverified-audit.md. No new estate reads at this checkpoint.
+

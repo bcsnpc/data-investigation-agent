@@ -399,7 +399,8 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             unchecked.append({'upper_layer':pair[0],'lower_layer':pair[1],'reason':reason})
         if path.get('unresolved_boundary') and result['classification']!='CONSISTENT_TO_SOURCE':unchecked.append(path['unresolved_boundary'])
         for row in unchecked:
-            result['limits'].append(f"Unchecked {row['upper_layer']} -> {row['lower_layer']}: {row['reason']}.")
+            from .lineage_limits import technical as lineage_limit
+            result['limits'].append(lineage_limit(row) or f"Unchecked {row['upper_layer']} -> {row['lower_layer']}: {row['reason']}.")
         for observation in observed:
             if observation.get('direct_source_proof'):
                 from .refresh_comparison import LIMIT

@@ -1791,3 +1791,17 @@ gaps and source consistency remain. Current declared roles are a separate gradin
 view, historical evidence unchanged. No cloud/live requests, Round Five 218/400.
 Section-4 serverless/error/deadline work awaits the section-3 checkpoint; #376
 remains draft. Prior freezes invalid. See docs/round-five-fixture-states.md.
+# Round Six C offline checkpoint — 2026-10-05
+
+See [the fifteen-row sealed audit](round-six-unverified-audit.md). The manifest
+does not declare either original notebook boundary. Thirteen proposals were
+outside the selected units cell; the selected refinement quantity lacks proven
+cross-language string-deduplication semantics; the selected serving quantity
+compiled but its source worker failed. No inferred verification was earned.
+The separate declared copy round-trips through inferred compilation to the
+byte-matching recorded requests and original 7,661/7,661 values, without reads.
+New output rendering names unbound proposal counts/status/reason categories;
+recorder materialization no longer rewrites all history before each worker
+admission. Validation pending. No live attempt in this checkpoint. #406 remains
+draft; archived fifteen and inferred acceptance remain separate. Freeze invalid.
+
