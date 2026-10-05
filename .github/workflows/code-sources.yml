@@ -1,5 +1,8 @@
 name: Recorded code-source verification
 on:
+  push:
+    branches: [feat/round-six-code-sources]
+    paths: [.github/workflows/code-sources.yml]
   workflow_dispatch:
 permissions:
   contents: read

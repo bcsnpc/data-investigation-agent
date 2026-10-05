@@ -103,6 +103,15 @@ the extractor/verifier exist. Prior engine freezes are invalidated by these chan
 Git-hosted fixture verification, the full transformation reader, inferred-lineage
 ledger and second fifteen-ticket column are not yet completed.
 
+The Git test manifest is `infra/estates/fixture-code-git.json`, pointing at this
+repository's code-source branch. Hosted verification uses the built-in Actions
+secret `GITHUB_TOKEN`, explicitly scoped by workflow `contents: read`; it is
+ephemeral, no write scope or new long-lived token is stored. The separate job
+compares local and pinned-commit Git content, retains source receipts on failure
+as well as success, and caps that batch at four physical retrievals (two local
+files and two repository requests). A branch ref is pinned to the hosted checkout
+commit. Other hosts are explicitly unavailable with this installed adapter.
+
 ## DECIDED WITHOUT REVIEW
 
 - Grant one actual workspace: both installations' declared publisher workspace
@@ -114,6 +123,9 @@ ledger and second fifteen-ticket column are not yet completed.
   refusal. Rejected reissuing the definition fetch; all charges/failures retained.
 - Keep the original fixtures' inference disabled until verification exists.
   Rejected presenting a code-location declaration as a verified binding.
+- Use the existing generated read-only Actions secret `GITHUB_TOKEN` for CI.
+  Rejected storing the local operator's broader GitHub credential as a code token.
+  No new standing credential or investigation identity scope is introduced.
 
 ## Windows at this checkpoint
 
