@@ -1,6 +1,7 @@
 """An admitted application quantity with same-statement reader self-description."""
 from run_source_diagnostic import read_once, SourceReadError
 from sql_connect_retry import read_with_retry
+from sql_layer_policy import policy as layer_policy
 
 ENGINE='Microsoft SQL Azure'
 REPORT={'identity':'__application_identity','engine':'__application_engine','object':'__application_object'}
@@ -15,7 +16,7 @@ def read(config, request, *, execute=read_once):
         "CAST(SERVERPROPERTY('EngineEdition') AS int) AS [__application_engine], "
         "DB_NAME() AS [__application_object] FROM ("+request['query']+") AS q"),
         result_columns=list(request['result_columns'])+list(REPORT.values()),response_mode='records')
-    result=read_with_retry(lambda:execute(config,payload))
+    result=read_with_retry(lambda:execute(config,payload),serverless=layer_policy(config,payload)['serverless'])
     if result.get('error'):
         raise SourceReadError(result.get('sql_error_number'),result.get('error_kind'),result['connection_attempts'])
     if result.get('read_only_verified') is not True:raise ValueError('Application guards did not establish read-only execution')

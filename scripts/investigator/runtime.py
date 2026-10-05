@@ -21,7 +21,7 @@ from .tool_registry import TOOLS, normalize, compile_actions
 FINGERPRINT_TRANSPORTS = ('scripts/run_native_diagnostic.py', 'scripts/run_source_diagnostic.py', 'scripts/run_investigation_v2.py',
     'scripts/run_adaptive_investigation.py', 'scripts/serve_investigator_workspace.py', 'scripts/connect_fixture_reader.py',
     'scripts/ticket_planner.py', 'scripts/requirements-workspace.txt', 'scripts/metadata_auth.py', 'scripts/metadata_worker.py', 'scripts/metadata_config.py',
-    'scripts/sql_connect_retry.py', 'scripts/fabric_sql_auth.py', 'scripts/fabric_sql_surface.py', 'scripts/application_sql_surface.py', 'scripts/read_xmla_failure.py', 'scripts/refresh_timing_reader.py',
+    'scripts/sql_connect_retry.py', 'scripts/sql_layer_policy.py', 'scripts/serverless_control.py', 'scripts/fabric_sql_auth.py', 'scripts/fabric_sql_surface.py', 'scripts/application_sql_surface.py', 'scripts/read_xmla_failure.py', 'scripts/refresh_timing_reader.py',
     'scripts/read_budget.py', 'scripts/snapshot_identity_reader.py', 'infra/scripts/Read-SnapshotMetadata.ps1', 'scripts/read_onelake_commit.py', 'infra/scripts/Read-CatalogAggregate.ps1', 'infra/scripts/Read-FabricSqlAggregate.ps1',
     'infra/scripts/Read-FabricSqlSurface.ps1', 'infra/scripts/Read-XmlaFailure.ps1')
 

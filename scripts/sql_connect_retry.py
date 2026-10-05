@@ -10,9 +10,12 @@ from investigator.onboarding import Conflict
 TRANSIENT_CONNECTION_ERRORS = frozenset((615,926,4060,4221,40197,40501,40613,49918,49919,49920))
 
 
-def read_with_retry(read, sleep=time.sleep):
+def read_with_retry(read, sleep=time.sleep, *, serverless=False, record_wait=None):
     attempts = []
-    for index in range(3):
+    # Bounded additional waiting, not a promise that a paused/free-quota source
+    # will become available. Each attempt must pass physical admission anew.
+    delays=(5,10,20,25) if serverless else (10,20)
+    for index in range(len(delays)+1):
         started = utc_now()
         try:
             if index:
@@ -30,16 +33,24 @@ def read_with_retry(read, sleep=time.sleep):
         retryable = (result.get('error') == 'SQL_READ_FAILED'
                      and result.get('stage') == 'connect'
                      and result.get('sql_error_number') in TRANSIENT_CONNECTION_ERRORS)
-        delay = (10, 20)[index] if retryable and index < 2 else 0
+        paused=(serverless and result.get('error')=='SQL_READ_FAILED'
+                and result.get('stage')=='connect' and result.get('sql_error_number')==40613)
+        # Serverless declaration does not authorize longer retries of other
+        # transient signatures. It specifically enables the paused signature.
+        if serverless:retryable=paused
+        delay = delays[index] if retryable and index < len(delays) else 0
         attempts.append({'attempt': index + 1, 'started_at': started,
                          'finished_at': utc_now(),
                          'status': 'FAILED' if result.get('error') else 'SUCCEEDED',
                          'stage': result.get('stage'), 'sql_error_number': result.get('sql_error_number'),
                          'retry_delay_seconds': delay})
+        if paused:attempts[-1]['condition']='source paused; waiting for resume'
         if not delay:
             return dict(result, connection_attempts=attempts)
         tape=ACTIVE.get()
-        if tape is None or not tape.replaying:sleep(delay)
+        if tape is None or not tape.replaying:
+            if record_wait:record_wait(delay,lambda:sleep(delay))
+            else:sleep(delay)
 
 
 def _read_attempt(read):

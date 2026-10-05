@@ -25,15 +25,30 @@ class Pipe:
         try:body=safe_request(text)
         except (ValueError,TypeError):pass # ALLOW/REUSE protocol is literal bytes.
         self.worker.tape.event('WORKER_SEND',body)
-        if self.worker.child:return self.worker.child.stdin.write(text)
+        if self.worker.child:return self.perform('write',lambda:self.worker.child.stdin.write(text))
+        self.perform('write',lambda:None)
         return len(text)
     def flush(self):
-        if self.worker.child:self.worker.child.stdin.flush()
+        self.perform('flush',lambda:self.worker.child.stdin.flush() if self.worker.child else None)
+    def perform(self,location,call):
+        if self.worker.tape.replaying:
+            if self.worker.tape.events[self.worker.tape.index]['kind']=='WORKER_FAILURE':
+                detail=json.loads(self.worker.tape.take('WORKER_FAILURE'))
+                if detail['operation']!=location:raise TapeError('TAPE_WORKER_FAILURE_LOCATION_DIFFERS')
+                raise_failure(detail['failure']['error_type'],[],None,detail['failure'])
+            return call()
+        try:return call()
+        except OSError as exc:
+            from .process_failure import capture
+            exc.recorded_failure=capture(exc)
+            self.worker.tape.event('WORKER_FAILURE',bytes_of({'operation':location,'failure':exc.recorded_failure}))
+            raise
     def readline(self,limit=-1):
         if self.worker.child:
-            text=self.worker.child.stdout.readline(limit)
+            text=self.perform('readline',lambda:self.worker.child.stdout.readline(limit))
             self.worker.tape.event('WORKER_READ',text.encode())
             return text
+        self.perform('readline',lambda:None)
         text=self.worker.tape.take('WORKER_READ').decode()
         if limit>=0 and len(text)>limit:raise TapeError('TAPE_WORKER_RESPONSE_EXCEEDS_LIMIT')
         return text
@@ -45,15 +60,27 @@ class Pipe:
 class Worker:
     def __init__(self,command,**kwargs):
         self.tape=ACTIVE.get();self.returncode=None;self.child=None
-        self.tape.event('WORKER_START',bytes_of({'command':descriptor(command),'mode':'STREAM'}))
+        deadline=kwargs.pop('worker_timeout',None)
+        start={'command':descriptor(command),'mode':'STREAM'}
+        # Legacy tapes never recorded a streaming deadline. Retain their
+        # byte-exact event shape without asserting a retrospective deadline.
+        legacy=False
+        if self.tape.replaying:
+            import base64
+            prior=json.loads(base64.b64decode(self.tape.events[self.tape.index]['body']))
+            legacy='timeout' not in prior
+        if deadline is not None and not legacy:start['timeout']=deadline
+        self.tape.event('WORKER_START',bytes_of(start))
         if not self.tape.replaying:
             try:self.child=subprocess.Popen(command,**kwargs)
             except Exception as exc:
-                self.tape.event('WORKER_END',bytes_of({'returncode':None,'error':type(exc).__name__}))
+                from .process_failure import capture
+                exc.recorded_failure=capture(exc)
+                self.tape.event('WORKER_END',bytes_of({'returncode':None,'error':type(exc).__name__,'failure':exc.recorded_failure}))
                 raise
         elif self.tape.events[self.tape.index]['kind']=='WORKER_END':
             end=json.loads(self.tape.take('WORKER_END'))
-            raise_failure(end['error'],command,kwargs.get('timeout'))
+            raise_failure(end['error'],command,deadline,end.get('failure'))
         self.stdin=Pipe(self,False);self.stdout=Pipe(self,True)
     def wait(self,timeout=None):
         if self.returncode is None:
@@ -68,16 +95,38 @@ class Worker:
 
 
 def popen(command,**kwargs):
-    return Worker(command,**kwargs) if ACTIVE.get() else subprocess.Popen(command,**kwargs)
+    if ACTIVE.get():return Worker(command,**kwargs)
+    kwargs.pop('worker_timeout',None)
+    return subprocess.Popen(command,**kwargs)
 
 
-def raise_failure(name,command,timeout):
+def check_deadline(worker):
+    tape=ACTIVE.get()
+    if tape and tape.replaying:
+        if tape.events[tape.index]['kind']=='WORKER_FAILURE':
+            detail=json.loads(tape.take('WORKER_FAILURE'))
+            if detail['operation']!='deadline':raise TapeError('TAPE_WORKER_FAILURE_LOCATION_DIFFERS')
+            raise_failure(detail['failure']['error_type'],[],None,detail['failure'])
+        return
+    if getattr(worker,'deadline_expired',False) is True:
+        import errno
+        from .process_failure import capture
+        try:raise OSError(errno.ETIMEDOUT,'Worker deadline expired')
+        except OSError as exc:
+            exc.recorded_failure=capture(exc)
+            if tape:tape.event('WORKER_FAILURE',bytes_of({'operation':'deadline','failure':exc.recorded_failure}))
+            raise
+
+
+def raise_failure(name,command,timeout,detail=None):
     if name=='TimeoutExpired':raise subprocess.TimeoutExpired(command,timeout)
     import builtins
     cls=getattr(builtins,name,None)
     if not isinstance(cls,type) or not issubclass(cls,Exception):
         raise TapeError('RECORDED_WORKER_FAILURE:'+name)
-    raise cls('Recorded bounded worker failure')
+    exc=cls(detail['errno'],detail['message']) if detail and issubclass(cls,OSError) else cls('Recorded bounded worker failure')
+    if detail:exc.recorded_failure=detail
+    raise exc
 
 
 def run(command,*,input,timeout,fallback=None,**kwargs):
@@ -89,7 +138,7 @@ def run(command,*,input,timeout,fallback=None,**kwargs):
         stdout=tape.take('WORKER_READ').decode()
         end=json.loads(tape.take('WORKER_END'))
         if end.get('error'):
-            raise_failure(end['error'],command,timeout)
+            raise_failure(end['error'],command,timeout,end.get('failure'))
         return subprocess.CompletedProcess(command,end['returncode'],stdout,'')
     try:
         result=(fallback or subprocess.run)(command,input=input,timeout=timeout,**kwargs)
@@ -98,5 +147,7 @@ def run(command,*,input,timeout,fallback=None,**kwargs):
         return result
     except Exception as exc:
         tape.event('WORKER_READ',b'')
-        tape.event('WORKER_END',bytes_of({'returncode':None,'error':type(exc).__name__}))
+        from .process_failure import capture
+        exc.recorded_failure=capture(exc)
+        tape.event('WORKER_END',bytes_of({'returncode':None,'error':type(exc).__name__,'failure':exc.recorded_failure}))
         raise

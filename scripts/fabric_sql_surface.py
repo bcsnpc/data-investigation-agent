@@ -93,8 +93,10 @@ def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
                           'result_columns': request['result_columns']})
     access = None
     from investigator.physical_reads import run as physical_run
+    from sql_layer_policy import policy as layer_policy
     completed = physical_run(['powershell', '-NoProfile', '-NonInteractive', '-File', str(READ_SCRIPT)], fallback=run, input=payload,
-                    capture_output=True, text=True, encoding='utf-8', timeout=150)
+                    capture_output=True, text=True, encoding='utf-8',
+                    timeout=layer_policy(config,request,default_timeout=150)['worker_timeout_seconds'])
     try:
         answer = json.loads(completed.stdout)
     except (TypeError, ValueError):

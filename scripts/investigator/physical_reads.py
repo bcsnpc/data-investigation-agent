@@ -97,10 +97,16 @@ def run(command, *, input, timeout, fallback=None, **kwargs):
     guards=_guards.get()
     from .tape_worker import popen
     child=popen(command,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
-                           text=True,encoding='utf-8')
-    timer=Timer(timeout,child.kill);timer.daemon=True;timer.start()
+                           text=True,encoding='utf-8',worker_timeout=timeout)
+    def expire():
+        child.deadline_expired=True
+        child.kill()
+    timer=Timer(timeout,expire);timer.daemon=True;timer.start()
     def line():
         value=child.stdout.readline(2*1024*1024+1)
+        if not value:
+            from .tape_worker import check_deadline
+            check_deadline(child)
         if not value or len(value)>2*1024*1024: raise RuntimeError('Physical read response unavailable')
         return value
     final=None

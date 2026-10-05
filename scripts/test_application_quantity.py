@@ -124,7 +124,7 @@ class ApplicationSelfReportTests(unittest.TestCase):
             # Explicit sleep injection avoids default-argument capture.
             import sql_connect_retry
             with patch('application_sql_surface.read_with_retry',
-                side_effect=lambda read:sql_connect_retry.read_with_retry(read,lambda delay:None)):
+                side_effect=lambda read,**options:sql_connect_retry.read_with_retry(read,lambda delay:None,**options)):
                 result=application_sql_surface.read({},self.request(),execute=execute)
         self.assertEqual(execute.call_count,2)
         self.assertEqual(result['connection_attempts'][0]['sql_error_number'],40613)
