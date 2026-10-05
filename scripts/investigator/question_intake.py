@@ -93,6 +93,13 @@ class QuoteRefused(ValueError):
     """Exact provenance cannot be established for its field."""
 
 
+class QuoteNotFound(QuoteRefused):
+    """One metered model correction may supply an exact ticket span."""
+    def __init__(self, quote, field):
+        self.quote, self.field = quote, field
+        super().__init__('Provenance quote not found verbatim in the ticket.')
+
+
 class FigureQuoteAmbiguous(QuoteRefused):
     """Eligible for one separately admitted, recorded quote repair."""
     def __init__(self, quote, occurrences):
@@ -112,7 +119,7 @@ def locate(source,ticket,*,field='reported_figure',audit=None):
         position=ticket.find(quote,start)
         if position<0:break
         positions.append(position);start=position+1
-    if not positions:raise QuoteRefused('Provenance quote not found verbatim in the ticket.')
+    if not positions:raise QuoteNotFound(quote,field)
     occurrences=[{'start':v,'end':v+len(quote),'quote':quote} for v in positions]
     if audit is not None:audit.append({'field':field,'occurrences':occurrences})
     if field=='reported_figure' and len(positions)!=1:
@@ -130,6 +137,11 @@ def azure_resolve(payload):
     instructions+=QUESTION_KIND_INSTRUCTIONS
     instructions+=SCOPE_INSTRUCTIONS
     instructions+=VALUE_ROLE_INSTRUCTIONS
+    span_repair=payload.get('_provenance_quote_repair')
+    if span_repair is not None:
+        wire.pop('_provenance_quote_repair',None)
+        wire['provenance_quote_repair']=span_repair
+        instructions+='\nThe previous response quoted text absent from the ticket. Return a corrected resolution using exact verbatim ticket spans, including the named field. Never use a catalog identifier as ticket provenance. If no supporting span exists, ask for clarification. This is the only correction attempt; all normal validation remains in force.'
     repair=payload.get('_figure_quote_repair')
     if repair is not None:
         wire.pop('_figure_quote_repair',None)
@@ -153,103 +165,111 @@ def azure_resolve(payload):
     else:
         result,usage=azure_generate(wire, instructions=instructions, schema=schema, name='resolve_business_question', decision_tool=True)
     quote_audit=[]
-    fields(result,schema['required'])
-    value=copy.deepcopy(result)
-    from . import value_roles
-    for mention in value['value_mentions']:
-        mention['source']=locate(mention['source'],payload['text'],field='selection',audit=quote_audit)
-    value_roles.validate(value['value_mentions'],payload['text'])
-    requested=value.pop('target_request'); report_quote=value.pop('report_quote')
-    subject=value.get('question_kind')
-    if value['action']=='PROPOSE' and subject is None:raise ValueError('Question kind is required')
-    if value['action']=='ASK' and subject is not None:raise ValueError('Clarification cannot classify a question kind')
-    if subject is not None:
-        fields(subject,['kind','source'])
-        subject['source']=locate(subject['source'],payload['text'],field='question_kind',audit=quote_audit)
-        question_kind.validate(subject,payload['text'])
     try:
-        from . import numeral_roles
-        mentions=[]
-        for item in value.pop('reported_candidates'):
-            fields(item,['role','quote'])
-            if item['role'] not in numeral_roles.ROLES:raise ValueError('Unknown numeral role')
-            mentions.append({'role':item['role'],'source':locate({'quote':item['quote']},payload['text'],
-                field='reported_figure' if item['role']=='FIGURE' else 'numeral',audit=quote_audit)})
-        numeral_roles.validate(mentions,payload['text'])
-        candidates=[m['source'] for m in mentions if m['role']=='FIGURE']
-        if mentions:
-            value['numeral_mentions']=mentions
-            value['expected_records']=numeral_roles.expected(mentions,payload['text'])
+        fields(result,schema['required'])
+        value=copy.deepcopy(result)
+        from . import value_roles
+        for mention in value['value_mentions']:
+            mention['source']=locate(mention['source'],payload['text'],field='selection',audit=quote_audit)
+        value_roles.validate(value['value_mentions'],payload['text'])
+        requested=value.pop('target_request'); report_quote=value.pop('report_quote')
+        subject=value.get('question_kind')
+        if value['action']=='PROPOSE' and subject is None:raise ValueError('Question kind is required')
+        if value['action']=='ASK' and subject is not None:raise ValueError('Clarification cannot classify a question kind')
+        if subject is not None:
+            fields(subject,['kind','source'])
+            subject['source']=locate(subject['source'],payload['text'],field='question_kind',audit=quote_audit)
+            question_kind.validate(subject,payload['text'])
+        try:
+            from . import numeral_roles
+            mentions=[]
+            for item in value.pop('reported_candidates'):
+                fields(item,['role','quote'])
+                if item['role'] not in numeral_roles.ROLES:raise ValueError('Unknown numeral role')
+                mentions.append({'role':item['role'],'source':locate({'quote':item['quote']},payload['text'],
+                    field='reported_figure' if item['role']=='FIGURE' else 'numeral',audit=quote_audit)})
+            numeral_roles.validate(mentions,payload['text'])
+            candidates=[m['source'] for m in mentions if m['role']=='FIGURE']
+            if mentions:
+                value['numeral_mentions']=mentions
+                value['expected_records']=numeral_roles.expected(mentions,payload['text'])
+            if requested is not None:
+                if 'descriptor' not in requested:
+                    raise QuoteRefused('Selection descriptor is missing from the current producer response.')
+                fields(requested,['value_source','column_source','descriptor'])
+                requested['value_source']=locate(requested['value_source'],payload['text'],field='selection',audit=quote_audit)
+                if requested['column_source'] is not None: requested['column_source']=locate(requested['column_source'],payload['text'],field='column',audit=quote_audit)
+                if 'descriptor' in requested:
+                    from .selection_descriptor import schema as descriptor_schema,validate as validate_descriptor
+                    from jsonschema import Draft202012Validator
+                    Draft202012Validator(descriptor_schema(QUOTE_SCHEMA)).validate(requested['descriptor'])
+                    if requested['descriptor']['source'] is not None:
+                        requested['descriptor']['source']=locate(requested['descriptor']['source'],payload['text'],field='descriptor',audit=quote_audit)
+                    try:validate_descriptor(requested['descriptor'],requested['value_source'],ticket=payload['text'])
+                    except ValueError as exc:raise QuoteRefused(str(exc)) from exc
+            if value['metric_quote'] is not None:locate({'quote':value['metric_quote']},payload['text'],field='measure',audit=quote_audit)
+            for f in value['filters']:locate({'quote':f['quote']},payload['text'],field='selection',audit=quote_audit)
+            value['reported_figure']=figure.from_candidates(candidates,payload['text'])
+        except (QuoteRefused,figure.AmbiguousFigure,figure.UnavailablePrecision) as exc:
+            exc.provider_metadata={**usage,'quote_provenance':quote_audit}
+            if isinstance(exc,FigureQuoteAmbiguous):exc.repair={'quote':exc.quote,'occurrences':exc.occurrences,'response':copy.deepcopy(result)}
+            raise
+        triage=value.pop('triage')
+        if triage is not None and (not isinstance(triage,str) or triage not in TRIAGE_PAIRS):
+            raise ValueError('Unknown intake triage pair')
+        value['ticket_shape'],value['comparison_mode']=TRIAGE_PAIRS[triage] if triage is not None else (None,None)
+        def actual(handle):
+            if handle is None:return None
+            if handle not in handles:raise ValueError('Unknown catalog handle')
+            return handles[handle]
+        value['model_id']=actual(value['model_id']);value['measure_id']=actual(value['measure_id'])
         if requested is not None:
-            if 'descriptor' not in requested:
-                raise QuoteRefused('Selection descriptor is missing from the current producer response.')
-            fields(requested,['value_source','column_source','descriptor'])
-            requested['value_source']=locate(requested['value_source'],payload['text'],field='selection',audit=quote_audit)
-            if requested['column_source'] is not None: requested['column_source']=locate(requested['column_source'],payload['text'],field='column',audit=quote_audit)
-            if 'descriptor' in requested:
-                from .selection_descriptor import schema as descriptor_schema,validate as validate_descriptor
-                from jsonschema import Draft202012Validator
-                Draft202012Validator(descriptor_schema(QUOTE_SCHEMA)).validate(requested['descriptor'])
-                if requested['descriptor']['source'] is not None:
-                    requested['descriptor']['source']=locate(requested['descriptor']['source'],payload['text'],field='descriptor',audit=quote_audit)
-                try:validate_descriptor(requested['descriptor'],requested['value_source'],ticket=payload['text'])
-                except ValueError as exc:raise QuoteRefused(str(exc)) from exc
-        if value['metric_quote'] is not None:locate({'quote':value['metric_quote']},payload['text'],field='measure',audit=quote_audit)
-        for f in value['filters']:locate({'quote':f['quote']},payload['text'],field='selection',audit=quote_audit)
-        value['reported_figure']=figure.from_candidates(candidates,payload['text'])
-    except (QuoteRefused,figure.AmbiguousFigure,figure.UnavailablePrecision) as exc:
+            figure.span(requested['value_source'],payload['text'])
+            if value['action']!='PROPOSE':raise ValueError('ASK cannot also request target resolution')
+            value['target_request']=requested
+        if value['action']=='PROPOSE':
+            model=next((m for m in payload['models'] if m['id']==value['model_id']),None)
+            if model is None: raise ValueError('Unknown report anchor')
+            # Report interpretation needs a report. A model-anchored source/flow
+            # question does not reproduce presentation context, and must not acquire
+            # a synthetic UNNAMED-report refusal merely because it is PROPOSED.
+            from .question_kind import reproduction
+            if report_quote is not None:
+                from .name_kind import resolve
+                try:named=resolve(locate({'quote':report_quote},payload['text'],field='report',audit=quote_audit),model,payload['text'])
+                except ValueError as exc:
+                    if isinstance(exc,QuoteNotFound):raise
+                    refused=QuoteRefused(str(exc));refused.provider_metadata={**usage,'quote_provenance':quote_audit};raise refused from exc
+                if named:
+                    value['name_binding']=named
+                    if named['kind']!='REPORT':report_quote=None
+            if report_quote is not None or requested is not None or reproduction(value)['applicable']:
+                value['report_binding']=report_scope.resolve_report(locate({'quote':report_quote},payload['text'],field='report',audit=quote_audit) if report_quote is not None else None,model.get('reports',[]),payload['text'])
+            if value.get('numeral_mentions'):
+                from .numeral_roles import evidence
+                try:evidence(value,payload['text'])
+                except ValueError as exc:
+                    if isinstance(exc,QuoteNotFound):raise
+                    refused=QuoteRefused(str(exc));refused.provider_metadata={**usage,'quote_provenance':quote_audit};raise refused from exc
+        dimensions=value['dimension_ids'];value['dimension_ids']=[];value['dimension_quotes']=[]
+        for c in dimensions:
+            fields(c,['column_id','quote'])
+            identity=actual(c['column_id'])
+            source=locate({'quote':c['quote']},payload['text'],field='grouping',audit=quote_audit)
+            value['dimension_ids'].append(identity)
+            value['dimension_quotes'].append({'column_id':identity,'source':source})
+        value['scope_quotes']=[]
+        for f in value['filters']:
+            fields(f,['column_id','operator','values','quote'])
+            f['column_id']=actual(f['column_id'])
+            value['scope_quotes'].append({'column_id':f['column_id'],'quote':f.pop('quote')})
+        value_roles.scope(value,payload['text'],requested)
+        return value,{**usage,'quote_provenance':quote_audit}
+
+    except QuoteNotFound as exc:
         exc.provider_metadata={**usage,'quote_provenance':quote_audit}
-        if isinstance(exc,FigureQuoteAmbiguous):exc.repair={'quote':exc.quote,'occurrences':exc.occurrences,'response':copy.deepcopy(result)}
+        exc.repair={'field':exc.field,'quote':exc.quote,'response':copy.deepcopy(result)}
         raise
-    triage=value.pop('triage')
-    if triage is not None and (not isinstance(triage,str) or triage not in TRIAGE_PAIRS):
-        raise ValueError('Unknown intake triage pair')
-    value['ticket_shape'],value['comparison_mode']=TRIAGE_PAIRS[triage] if triage is not None else (None,None)
-    def actual(handle):
-        if handle is None:return None
-        if handle not in handles:raise ValueError('Unknown catalog handle')
-        return handles[handle]
-    value['model_id']=actual(value['model_id']);value['measure_id']=actual(value['measure_id'])
-    if requested is not None:
-        figure.span(requested['value_source'],payload['text'])
-        if value['action']!='PROPOSE':raise ValueError('ASK cannot also request target resolution')
-        value['target_request']=requested
-    if value['action']=='PROPOSE':
-        model=next((m for m in payload['models'] if m['id']==value['model_id']),None)
-        if model is None: raise ValueError('Unknown report anchor')
-        # Report interpretation needs a report. A model-anchored source/flow
-        # question does not reproduce presentation context, and must not acquire
-        # a synthetic UNNAMED-report refusal merely because it is PROPOSED.
-        from .question_kind import reproduction
-        if report_quote is not None:
-            from .name_kind import resolve
-            try:named=resolve(locate({'quote':report_quote},payload['text'],field='report',audit=quote_audit),model,payload['text'])
-            except ValueError as exc:
-                refused=QuoteRefused(str(exc));refused.provider_metadata={**usage,'quote_provenance':quote_audit};raise refused from exc
-            if named:
-                value['name_binding']=named
-                if named['kind']!='REPORT':report_quote=None
-        if report_quote is not None or requested is not None or reproduction(value)['applicable']:
-            value['report_binding']=report_scope.resolve_report(locate({'quote':report_quote},payload['text'],field='report',audit=quote_audit) if report_quote is not None else None,model.get('reports',[]),payload['text'])
-        if value.get('numeral_mentions'):
-            from .numeral_roles import evidence
-            try:evidence(value,payload['text'])
-            except ValueError as exc:
-                refused=QuoteRefused(str(exc));refused.provider_metadata={**usage,'quote_provenance':quote_audit};raise refused from exc
-    dimensions=value['dimension_ids'];value['dimension_ids']=[];value['dimension_quotes']=[]
-    for c in dimensions:
-        fields(c,['column_id','quote'])
-        identity=actual(c['column_id'])
-        source=locate({'quote':c['quote']},payload['text'],field='grouping',audit=quote_audit)
-        value['dimension_ids'].append(identity)
-        value['dimension_quotes'].append({'column_id':identity,'source':source})
-    value['scope_quotes']=[]
-    for f in value['filters']:
-        fields(f,['column_id','operator','values','quote'])
-        f['column_id']=actual(f['column_id'])
-        value['scope_quotes'].append({'column_id':f['column_id'],'quote':f.pop('quote')})
-    value_roles.scope(value,payload['text'],requested)
-    return value,{**usage,'quote_provenance':quote_audit}
 
 
 def wire_contract(payload):
@@ -479,28 +499,31 @@ class Intake:
         from .planner_recording import recording
         def call(current,key,attempt):
             with recording({'session_id':'intake:'+body['id'],'planner_call':attempt,
-                    'call_kind':'intake' if attempt==1 else 'reported_figure_quote_retry',
+                    'call_kind':('intake' if attempt==1 else 'provenance_quote_retry' if '_provenance_quote_repair' in current else 'reported_figure_quote_retry'),
                     'payload':current,'context_version':None,'reservation':key,
                     'budget':governor.snapshot()}):
                 return self.resolver(current)
         try:
             try:
                 decision,usage=call(payload,reservation_key,1);uncertain=False
-            except FigureQuoteAmbiguous as exc:
+            except (FigureQuoteAmbiguous,QuoteNotFound) as exc:
                 usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
-                body['resolution_attempts'].append({'attempt':1,'event':'REPORTED_FIGURE_QUOTE_AMBIGUOUS',
-                    'reservation_key':'resolve','occurrences':exc.occurrences,'metadata':usage})
+                missing=isinstance(exc,QuoteNotFound)
+                body['resolution_attempts'].append({'attempt':1,'event':'PROVENANCE_QUOTE_NOT_FOUND' if missing else 'REPORTED_FIGURE_QUOTE_AMBIGUOUS',
+                    'reservation_key':'resolve','metadata':usage,
+                    **({'field':exc.field} if missing else {'occurrences':exc.occurrences})})
                 repair=getattr(exc,'repair',None)
                 if repair is None:raise
-                retry_payload={**payload,'_figure_quote_repair':repair}
+                retry_payload={**payload,'_provenance_quote_repair' if missing else '_figure_quote_repair':repair}
                 with self.store.connect() as db:
                     db.execute('BEGIN IMMEDIATE')
                     governor.settle(db,'intake:'+body['id'],'resolve',usage.get('usage') if isinstance(usage,dict) else None,uncertain=uncertain)
                     row=db.execute('SELECT body FROM workspace_intakes WHERE id=?',(body['id'],)).fetchone()
                     if json.loads(row['body'])['status']!='RESOLVING':return self.get(body['id'])
-                    governor.reserve(db,'intake:'+body['id'],'figure-quote-retry','planner',len(encoded(retry_payload)))
-                reservation_key='figure-quote-retry';usage=None;uncertain=True
-                body['resolution_attempts'].append({'attempt':2,'event':'REPORTED_FIGURE_QUOTE_RETRY',
+                    retry_key='provenance-quote-retry' if missing else 'figure-quote-retry'
+                    governor.reserve(db,'intake:'+body['id'],retry_key,'planner',len(encoded(retry_payload)))
+                reservation_key=retry_key;usage=None;uncertain=True
+                body['resolution_attempts'].append({'attempt':2,'event':'PROVENANCE_QUOTE_RETRY' if missing else 'REPORTED_FIGURE_QUOTE_RETRY',
                     'reservation_key':reservation_key})
                 decision,usage=call(retry_payload,reservation_key,2);uncertain=False
             validation_payload=payload

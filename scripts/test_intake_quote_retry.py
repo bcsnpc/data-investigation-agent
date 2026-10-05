@@ -2,7 +2,7 @@
 import copy
 import unittest
 from unittest.mock import MagicMock
-from investigator.question_intake import Intake, FigureQuoteAmbiguous, QuoteRefused
+from investigator.question_intake import Intake, FigureQuoteAmbiguous, QuoteRefused, QuoteNotFound
 import test_question_intake as fixture
 
 
@@ -62,6 +62,34 @@ class QuoteRetryTests(unittest.TestCase):
         self.assertEqual(saved['status'],'HELD')
         self.assertEqual(resolver.call_count,1)
         self.assertEqual(self.h.h.agent.governor.snapshot()['reserved_today']['planner_calls'],1)
+
+    def missing(self):
+        exc=QuoteNotFound('invented_column','column')
+        exc.provider_metadata={'usage':{'output_tokens':10}}
+        exc.repair={'field':'column','quote':'invented_column','response':{}}
+        return exc
+
+    def test_nonverbatim_then_exact_proceeds_with_two_metered_calls(self):
+        resolver=MagicMock(side_effect=[self.missing(),(fixture.proposal(),{'usage':{'output_tokens':20}})])
+        self.h.workspace.intake=Intake(self.h.workspace,resolver)
+        saved=self.h.workspace.intake.resolve(self.request)
+        self.assertEqual(saved['status'],'PROPOSED')
+        self.assertEqual(resolver.call_count,2)
+        self.assertIn('_provenance_quote_repair',resolver.call_args.args[0])
+        self.assertEqual([v['event'] for v in saved['resolution_attempts']],
+                         ['PROVENANCE_QUOTE_NOT_FOUND','PROVENANCE_QUOTE_RETRY'])
+        self.assertEqual(self.h.h.agent.governor.snapshot()['reservation_states'],{'SETTLED':2})
+        self.assertEqual(self.h.workspace.intake.resolve(self.request),saved)
+        self.assertEqual(resolver.call_count,2)
+
+    def test_two_nonverbatim_responses_need_input_without_third_call(self):
+        resolver=MagicMock(side_effect=[self.missing(),self.missing()])
+        self.h.workspace.intake=Intake(self.h.workspace,resolver)
+        saved=self.h.workspace.intake.resolve(self.request)
+        self.assertEqual(saved['status'],'NEEDS_INPUT')
+        self.assertIn('not found verbatim',saved['question'])
+        self.assertEqual(resolver.call_count,2)
+        self.assertEqual(self.h.h.agent.governor.snapshot()['reserved_today']['planner_calls'],2)
 
     def test_nonverbatim_first_quote_is_not_retried(self):
         resolver=MagicMock(side_effect=QuoteRefused('Not found verbatim'))

@@ -30,6 +30,22 @@ class QuoteProvenanceTests(unittest.TestCase):
             value,_=azure_resolve(self.payload())
         self.assertEqual(value['reported_figure']['source'],{'start':14,'end':15,'quote':'9'})
         self.assertEqual(value['target_request']['value_source'],{'start':20,'end':25,'quote':'North'})
+    def test_missing_column_quote_retains_response_for_exact_span_correction(self):
+        from investigator.question_intake import QuoteNotFound
+        payload=self.payload();response=self.response()
+        response['target_request']['column_source']={'quote':'Region'}
+        with patch('ticket_planner.azure_generate',return_value=(response,{'usage':{'output_tokens':11}})):
+            with self.assertRaises(QuoteNotFound) as caught:azure_resolve(payload)
+        self.assertEqual(caught.exception.field,'column')
+        self.assertEqual(caught.exception.repair['response'],response)
+        self.assertEqual(caught.exception.provider_metadata['usage']['output_tokens'],11)
+        corrected=self.response()
+        with patch('ticket_planner.azure_generate',return_value=(corrected,{})) as generate:
+            value,_=azure_resolve({**payload,'_provenance_quote_repair':caught.exception.repair})
+        self.assertEqual(value['target_request']['value_source']['quote'],'North')
+        self.assertIn('exact verbatim ticket spans',generate.call_args.kwargs['instructions'])
+        self.assertIn('provenance_quote_repair',generate.call_args.args[0])
+
     def test_hostile_offset_on_figure_or_target_rejects(self):
         for kind in ('figure','target'):
             response=self.response()
