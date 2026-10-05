@@ -8,11 +8,11 @@ measure selects that profile. Original receipts remain unchanged.
 
 ## Preserved proposals, zero reads
 
-The manifest declares only the separate application ? landing copy. None of
+The manifest declares only the separate application -> landing copy. None of
 these fifteen original notebook proposals has a same-boundary declared equivalent.
 The preceding source-copy 7,661/7,661 receipt cannot verify these boundaries.
 
-?Needed by? means the quantity's full candidate walk would need this binding,
+"Needed by" means the quantity's full candidate walk would need this binding,
 including a deeper hop not reached by the retained short walk. A/E/G/I use units;
 F uses movement_value. Other target projections are useful discoveries but do not
 independently feed those quantities. The units expression itself still carries
@@ -25,21 +25,21 @@ after seeing which candidates verified.
 
 | # | Boundary | Target column | Needed by | Declared equivalent |
 | --- | --- | --- | --- | --- |
-| 1 | original-landing ? original-refined | `movement_id` | ? | No; discovery |
-| 2 | original-landing ? original-refined | `warehouse_id` | ? | No; discovery |
-| 3 | original-landing ? original-refined | `product_id` | ? | No; discovery |
-| 4 | original-landing ? original-refined | `units` | A, E, G, I | No; discovery |
-| 5 | original-landing ? original-refined | `event_day` | ? | No; discovery |
-| 6 | original-landing ? original-refined | `movement_type` | ? | No; discovery |
-| 7 | original-refined ? original-serving | `movement_id` | ? | No; discovery |
-| 8 | original-refined ? original-serving | `warehouse_id` | ? | No; discovery |
-| 9 | original-refined ? original-serving | `product_id` | ? | No; discovery |
-| 10 | original-refined ? original-serving | `units` | A, E, G, I | No; discovery |
-| 11 | original-refined ? original-serving | `event_day` | ? | No; discovery |
-| 12 | original-refined ? original-serving | `movement_type` | ? | No; discovery |
-| 13 | original-refined ? original-serving | `rate_version` | ? | No; discovery |
-| 14 | original-refined ? original-serving | `unit_cost` | ? | No; discovery |
-| 15 | original-refined ? original-serving | `movement_value` | F | No; discovery |
+| 1 | original-landing -> original-refined | `movement_id` | - | No; discovery |
+| 2 | original-landing -> original-refined | `warehouse_id` | - | No; discovery |
+| 3 | original-landing -> original-refined | `product_id` | - | No; discovery |
+| 4 | original-landing -> original-refined | `units` | A, E, G, I | No; discovery |
+| 5 | original-landing -> original-refined | `event_day` | - | No; discovery |
+| 6 | original-landing -> original-refined | `movement_type` | - | No; discovery |
+| 7 | original-refined -> original-serving | `movement_id` | - | No; discovery |
+| 8 | original-refined -> original-serving | `warehouse_id` | - | No; discovery |
+| 9 | original-refined -> original-serving | `product_id` | - | No; discovery |
+| 10 | original-refined -> original-serving | `units` | A, E, G, I | No; discovery |
+| 11 | original-refined -> original-serving | `event_day` | - | No; discovery |
+| 12 | original-refined -> original-serving | `movement_type` | - | No; discovery |
+| 13 | original-refined -> original-serving | `rate_version` | - | No; discovery |
+| 14 | original-refined -> original-serving | `unit_cost` | - | No; discovery |
+| 15 | original-refined -> original-serving | `movement_value` | F | No; discovery |
 
 ## Offline implementation and limits
 
@@ -55,13 +55,13 @@ explicitly refused as incomplete; no historical count is manufactured.
 Both queries compile before either runs. Missing target type or any faithful
 construct produces UNVERIFIED naming it. Native target SQL catalog reads supply
 actual types, including the code extractor's unknown derived field. The explicit
-fixture sample is movement_id 1?360 inclusive, independently read from literal
+fixture sample is movement_id 1-360 inclusive, independently read from literal
 seed metadata in notebook hash 313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1,
 line 8. It is applied to expression outputs on both sides, never guessed as a
 pushdown through joins or deduplication. No expected sums/counts enter the verifier.
 
-Previous refusal: ?Deduplication equivalence is not established across code and
-execution languages; no assumed string collation or padding?. The new manifest
+Previous refusal: "Deduplication equivalence is not established across code and
+execution languages; no assumed string collation or padding". The new manifest
 layer field is `comparison_normalization` (declared collation, trim, case_fold,
 and evidence, or explicit UNDECLARED). Retained metadata does not establish
 Spark deduplication semantics; no Spark or model default is filled in by assumption.
@@ -102,7 +102,7 @@ Engine changes invalidate previous freezes. README/status report this checkpoint
 ## Single reader pass, preserved result
 
 Session `round-six-d-binding-reader-20261005T233448`, engine `b122207`.
-Completed 2026-10-05T23:39 UTC; KNOWN_DOMAIN_REGRESSION, not acceptance.
+Completed 2026-10-05T23:38:49 UTC; KNOWN_DOMAIN_REGRESSION, not acceptance.
 The controller processed all fifteen preserved proposals once. No fixture,
 manifest bytes, approval, configuration hash, identity or permission changed.
 Seven VERIFIED, eight UNVERIFIED, zero FALSIFIED. Each VERIFIED result was
@@ -111,21 +111,21 @@ No extra read or provider call occurred during that validation.
 
 | # | Boundary | Column | Native profile | Status | Target / source quantities | Needed by | Declared equivalent |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | original-landing ? original-refined | `movement_id` | NUMERIC | UNVERIFIED | No data probes; compile refusal | ? | No |
-| 2 | original-landing ? original-refined | `warehouse_id` | NUMERIC | UNVERIFIED | No data probes; compile refusal | ? | No |
-| 3 | original-landing ? original-refined | `product_id` | NUMERIC | UNVERIFIED | No data probes; compile refusal | ? | No |
-| 4 | original-landing ? original-refined | `units` | NUMERIC | UNVERIFIED | No data probes; compile refusal | A,E,G,I | No |
-| 5 | original-landing ? original-refined | `event_day` | STRING | UNVERIFIED | No data probes; compile refusal | ? | No |
-| 6 | original-landing ? original-refined | `movement_type` | STRING | UNVERIFIED | No data probes; compile refusal | ? | No |
-| 7 | original-refined ? original-serving | `movement_id` | NUMERIC | VERIFIED | sum=73672, count=406 / sum=73672, count=406 | ? | No |
-| 8 | original-refined ? original-serving | `warehouse_id` | NUMERIC | VERIFIED | sum=789, count=406 / sum=789, count=406 | ? | No |
-| 9 | original-refined ? original-serving | `product_id` | NUMERIC | VERIFIED | sum=2028, count=406 / sum=2028, count=406 | ? | No |
-| 10 | original-refined ? original-serving | `units` | NUMERIC | VERIFIED | sum=8765, count=406 / sum=8765, count=406 | A,E,G,I | No |
-| 11 | original-refined ? original-serving | `event_day` | STRING | UNVERIFIED | No data probes; compile refusal | ? | No |
-| 12 | original-refined ? original-serving | `movement_type` | STRING | UNVERIFIED | No data probes; compile refusal | ? | No |
-| 13 | original-refined ? original-serving | `rate_version` | NUMERIC | VERIFIED | sum=452, count=406 / sum=452, count=406 | ? | No |
-| 14 | original-refined ? original-serving | `unit_cost` | NUMERIC | VERIFIED | sum=2597, count=406 / sum=2597, count=406 | ? | No |
-| 15 | original-refined ? original-serving | `movement_value` | NUMERIC | VERIFIED | sum=57043, count=406 / sum=57043, count=406 | F | No |
+| 1 | original-landing -> original-refined | `movement_id` | NUMERIC | UNVERIFIED | No data probes; compile refusal | - | No |
+| 2 | original-landing -> original-refined | `warehouse_id` | NUMERIC | UNVERIFIED | No data probes; compile refusal | - | No |
+| 3 | original-landing -> original-refined | `product_id` | NUMERIC | UNVERIFIED | No data probes; compile refusal | - | No |
+| 4 | original-landing -> original-refined | `units` | NUMERIC | UNVERIFIED | No data probes; compile refusal | A,E,G,I | No |
+| 5 | original-landing -> original-refined | `event_day` | STRING | UNVERIFIED | No data probes; compile refusal | - | No |
+| 6 | original-landing -> original-refined | `movement_type` | STRING | UNVERIFIED | No data probes; compile refusal | - | No |
+| 7 | original-refined -> original-serving | `movement_id` | NUMERIC | VERIFIED | sum=73672, count=406 / sum=73672, count=406 | - | No |
+| 8 | original-refined -> original-serving | `warehouse_id` | NUMERIC | VERIFIED | sum=789, count=406 / sum=789, count=406 | - | No |
+| 9 | original-refined -> original-serving | `product_id` | NUMERIC | VERIFIED | sum=2028, count=406 / sum=2028, count=406 | - | No |
+| 10 | original-refined -> original-serving | `units` | NUMERIC | VERIFIED | sum=8765, count=406 / sum=8765, count=406 | A,E,G,I | No |
+| 11 | original-refined -> original-serving | `event_day` | STRING | UNVERIFIED | No data probes; compile refusal | - | No |
+| 12 | original-refined -> original-serving | `movement_type` | STRING | UNVERIFIED | No data probes; compile refusal | - | No |
+| 13 | original-refined -> original-serving | `rate_version` | NUMERIC | VERIFIED | sum=452, count=406 / sum=452, count=406 | - | No |
+| 14 | original-refined -> original-serving | `unit_cost` | NUMERIC | VERIFIED | sum=2597, count=406 / sum=2597, count=406 | - | No |
+| 15 | original-refined -> original-serving | `movement_value` | NUMERIC | VERIFIED | sum=57043, count=406 / sum=57043, count=406 | F | No |
 
 Every successful pair was OBJECT_DISTINCT: Microsoft Azure SQL Data Warehouse,
 same isolated SQL connection, distinct warehouse_gold_e1b8e1 and
@@ -199,7 +199,7 @@ its physical admissions remain in the existing rolling/round governor.
 
 Resume condition fails on refinement units, needed by A/E/G/I. No nine-family,
 EMPTY/16 or source control run followed. Current runtime activation remains
-closed; a vector sample is not silently treated as a ticket-cell proof. No15?2
+closed; a vector sample is not silently treated as a ticket-cell proof. No15x2
 or unfamiliar-domain acceptance claim. Previous freezes remain invalid.
 
 Full local regression:1,987 tests passed in359.070s, including16 new binding tests.
