@@ -240,9 +240,9 @@
       "scopes": []
     },
     {
-      "id": "export-reader",
-      "principal": "local-code-files",
-      "credential_reference": "local-files",
+      "id": "repository-code-reader",
+      "principal": "read-only-actions-token",
+      "credential_reference": "GITHUB_TOKEN",
       "scopes": [
         {
           "resource": "fixture-code",
@@ -290,9 +290,12 @@
     "code_sources": [
       {
         "id": "fixture-code",
-        "kind": "LOCAL_PATH",
-        "identity": "export-reader",
-        "path": "fixture-code"
+        "kind": "GIT_REPOSITORY",
+        "identity": "repository-code-reader",
+        "repo_url": "https://github.com/bcsnpc/data-investigation-agent",
+        "ref": "feat/round-six-code-sources",
+        "path_prefix": "fixture-code",
+        "token_reference": "GITHUB_TOKEN"
       }
     ],
     "code_locations": [

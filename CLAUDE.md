@@ -1,3 +1,15 @@
+Dated explicit code-identity decision, 2026-10-05: Round Six B supersedes the
+read-only code-fetch stop below only for a separate investigator-code-reader.
+App 2dd2f5c3-f7af-4804-b79e-6019e63efa60; principal
+dc89155f-9a9a-4daa-9c20-7eff55818ccd. Contributor on fixture workspace
+149f8d99-1c66-4a0a-9624-759be002bb60 only; both fixture publications declare
+that same workspace. Code-definition API only, never investigation execution.
+Existing investigation identities unchanged; DPAPI credential local only.
+CODE_READ_REQUIRES_WRITE_SCOPE remains a platform limitation; Git read-only
+and local export sources avoid that scope. Definition fetched and scanned clean;
+full transformation-reader verification remains pending. Pot14/400, reserve60.
+See docs/round-six-code-sources.md for human decision and before/after.
+
 # data-investigation-agent — charter for AI implementers
 
 Dated documented route constraint, 2026-10-05 America/Chicago: Fabric Notebook,

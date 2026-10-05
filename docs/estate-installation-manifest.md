@@ -6,6 +6,36 @@ that validates without an installed transport. Validation is not reachability,
 permission, faithful equivalence, evidence currency or a capability acceptance.
 No identity or permission is created by a manifest.
 
+## Where your code lives
+
+Declare `lineage.code_sources` and per-boundary `code_locations`. The three
+source kinds are closed and each names its own declared identity and READ scope.
+`GIT_REPOSITORY` is the recommended setup: connect the workspace to Git, then
+declare its HTTPS repository, ref, path prefix and read-only token reference.
+Workspace connection setup stays outside investigation execution. The installed
+repository transport supports GitHub; other hosts refuse explicitly until their
+transport is installed. A symbolic ref is resolved once to an immutable commit.
+
+`LOCAL_PATH` is the folder-export alternative. Code and sibling item metadata
+are separately metered reads; safe relative paths cannot escape the declared
+root. Python, SQL, notebook JSON and exported cell-marker formats normalize into
+the same non-executing cell representation. Logical metadata identity is distinct
+from a platform item's native ID; it never fabricates a native binding.
+
+`PLATFORM_ITEM_API` needs a workspace, explicit item IDs and a separate identity
+that is not any investigation reader. It requires the accepted limit
+`CODE_READ_REQUIRES_WRITE_SCOPE` for that source. Fabric's
+[definition route](https://learn.microsoft.com/en-us/rest/api/fabric/core/items/get-item-definition)
+requires write permission: prefer Git or a folder export rather than granting
+write unless necessary and explicitly authorized. The source declaration grants
+nothing and never changes the execution-reader identity.
+
+Receipts retain source kind, path/item, content hash, time and identity; Git also
+retains its resolved revision. Source reads include failed requests in physical
+accounting. Code locations authorize future inference; they do not by themselves
+verify a binding. The extractor/verifier and stale-lineage ledger remain pending
+at the Round Six B source checkpoint.
+
 The root and neutral nested structures are closed. The installed adapter/provider
 registry owns its native options and rejects unknown options. An uninstalled
 adapter may validate the neutral document, but execution refuses it. This keeps

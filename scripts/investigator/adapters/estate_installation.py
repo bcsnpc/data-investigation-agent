@@ -48,7 +48,9 @@ def configuration(manifest):
     from ..onboarding import digest
     config['_estate']={'manifest_hash':digest(manifest),'round':manifest['budgets']['round'],
         'capability_ceiling':manifest['capability_ceiling'],'layers':manifest['layers'],'resources':manifest['resources'],
-        'lineage':manifest['lineage'],'accepted_limits':manifest['accepted_limits']}
+        # Code-source credentials/declarations never reach investigation workers.
+        'lineage':{k:v for k,v in manifest['lineage'].items() if k not in ('code_sources','code_locations')},
+        'accepted_limits':manifest['accepted_limits']}
     return config
 
 
