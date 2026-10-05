@@ -67,6 +67,8 @@ def operation(name):
                         'dynamic_input_limit':getattr(getattr(owner,'workspace',owner),'dynamic_input_limit',384000)}}
                 if getattr(agent.store,'context_pins',None):
                     bootstrap['state']['context_pins']=agent.store.context_pins
+                if getattr(agent.store,'acceptance_fixture_state',None):
+                    bootstrap['state']['fixture_state']=agent.store.acceptance_fixture_state
                 tape=journal.Tape(root/'tape.json',bootstrap)
             error=None;result=None
             with journal.active(tape):

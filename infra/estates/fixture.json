@@ -338,5 +338,69 @@
       "resource": "model",
       "statement": "the calculation account cannot report its connection."
     }
+  ],
+  "fixture_states": [
+    {
+      "id": "inventory-baseline",
+      "description": "Original 360 seeded movements; retained deduplication and product-only rate join; no data changes. All nine family tickets use this estate state.",
+      "arithmetic": "360 seeded movement units sum to 7,661; product-only rate multiplicity yields 8,765 handled units. Independent seeded arithmetic is documented, not a compiled-query oracle.",
+      "evidence": [
+        "docs/nine-family-reproduction-measurement.md",
+        "docs/fixture-numeric-reproduction.md"
+      ]
+    },
+    {
+      "id": "report-14sep",
+      "description": "Original seeded data. Saved page RECEIPT, slicers North and Component 1, visual day 2026-09-14. Bookmark remains conditional.",
+      "arithmetic": "Full active intersection contains no seeded movements: SUM is BLANK, not zero.",
+      "evidence": [
+        "docs/fixture-numeric-reproduction.md",
+        "docs/fixture-numeric-reproduction.md"
+      ]
+    },
+    {
+      "id": "report-15sep",
+      "description": "Same seed and saved RECEIPT/North/Component 1 defaults; visual day 2026-09-15. Bookmark remains conditional.",
+      "arithmetic": "Movements 10 and 238 contribute 4 and 12 units, each one rate match: 4*1+12*1=16. Page plus slicers without visual yields 92; no report declarations yields 8,765.",
+      "evidence": [
+        "docs/fixture-numeric-reproduction.md"
+      ]
+    },
+    {
+      "id": "source-baseline",
+      "description": "Application and landing restored to the 360-row seed; expected record 900099 absent. Application reachable.",
+      "arithmetic": "Warehouse groups 2,629+2,948+2,084=7,661 units on application, landing and model. Record 900099 absent from independent seed.",
+      "evidence": [
+        "docs/round-four-source-scenarios.md",
+        "docs/round-five-source-scenarios.md"
+      ]
+    },
+    {
+      "id": "source-gap",
+      "description": "Application record 900002 adds 11 units. Copy completes 361/361, then authorised fixture removes that record from landing.",
+      "arithmetic": "Application 7,661+11=7,672; landing/model 7,661; one source row missing after completed copy.",
+      "evidence": [
+        "docs/round-three-source-scenarios.md",
+        "docs/round-five-source-scenarios.md"
+      ]
+    },
+    {
+      "id": "source-latency",
+      "description": "Application record 900001 adds 17 units after the last successful 360/360 load; no subsequent load.",
+      "arithmetic": "Application 7,661+17=7,678; landing/model 7,661; source change after completed load.",
+      "evidence": [
+        "docs/round-three-source-scenarios.md",
+        "docs/round-five-source-scenarios.md"
+      ]
+    },
+    {
+      "id": "source-unreachable",
+      "description": "Restored seed; application is declared system of record but configured unreachable. Own load accounting remains readable.",
+      "arithmetic": "Read ceiling ends at landing: independent seed 7,661, expected 900099 absent. No application read or ingestion/latency verdict is implied.",
+      "evidence": [
+        "docs/round-four-source-scenarios.md",
+        "docs/round-five-source-scenarios.md"
+      ]
+    }
   ]
 }

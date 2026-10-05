@@ -32,6 +32,7 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
     config=bootstrap['config'];settings=bootstrap['state']
     store=ModelStore(output/'catalog.sqlite',output/'inventory.sqlite',settings['environment'],
                      context_pins=settings.get('context_pins'))
+    if 'fixture_state' in settings:store.acceptance_fixture_state=settings['fixture_state']
     runtime=Runtime(store,config,native_transport or (lambda r:native(config,r)),
                     source_transport or (lambda r:source(config,r)))
     agent=AdaptiveRuntime(runtime,azure_plan,planner_profile=bootstrap['profile'],usage_policy=bootstrap['usage_policy'])

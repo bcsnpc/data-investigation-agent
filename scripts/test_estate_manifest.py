@@ -13,6 +13,15 @@ ROOT=Path(__file__).resolve().parents[1]
 class ManifestTests(unittest.TestCase):
     def fixture(self):return json.loads((ROOT/'infra/estates/fixture.json').read_text())
 
+    def test_fixture_arithmetic_never_enters_runtime_configuration(self):
+        from investigator.adapters.estate_installation import configuration
+        configured=self.fixture();bare=copy.deepcopy(configured);bare.pop('fixture_states')
+        actual=configuration(manifest.validate(configured));before=configuration(manifest.validate(bare))
+        self.assertNotEqual(actual['_estate'].pop('manifest_hash'),before['_estate'].pop('manifest_hash'))
+        self.assertEqual(actual,before)
+        bad=copy.deepcopy(configured);bad['fixture_states'].append(copy.deepcopy(bad['fixture_states'][0]))
+        with self.assertRaisesRegex(ValueError,'duplicate'):manifest.validate(bad)
+
     def test_fixture_and_unimplemented_estate_validate_without_transport(self):
         for name in ('fixture','databricks'):
             with self.subTest(name=name):manifest.load(ROOT/'infra/estates'/f'{name}.json')
