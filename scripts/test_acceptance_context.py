@@ -37,6 +37,10 @@ class AcceptanceContextTests(unittest.TestCase):
                 for pin in pins:
                     select_store(p,store,'model',fixture=self.fixture(),invoked_context=pin)
                 self.assertEqual(selected.acceptance_fixture_state['name'],'baseline')
+                gap={'context_id':'00000000-0000-4000-8000-000000000003','hash':'3'*64}
+                approve_state_context(store,self.fixture(),'gap','model',gap,approval_reference='different independently established fixture')
+                with self.assertRaises(Conflict) as e:select_store(p,store,'model',fixture=self.fixture(),invoked_context=gap)
+                self.assertIn('baseline',str(e.exception));self.assertIn('gap',str(e.exception))
                 with self.assertRaisesRegex(Conflict,'No approved context'):select_store(p,store,'model',fixture=self.fixture(),invoked_context={'context_id':'other','hash':'a'*64})
             db.close()
     def test_declared_roles_are_grading_view_not_evidence_mutation(self):

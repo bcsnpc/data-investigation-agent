@@ -62,8 +62,11 @@ def select_store(case_path,store,model_id,*,fixture,invoked_state=None,invoked_c
         exists=db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='acceptance_fixture_contexts'").fetchone()
         rows=db.execute('SELECT * FROM acceptance_fixture_contexts WHERE name=? AND definition_hash=? AND model_id=? ORDER BY approved_at DESC,rowid DESC',
                         (name,digest(definition),model_id)).fetchall() if exists else []
+        other_names=[r[0] for r in db.execute('SELECT DISTINCT name FROM acceptance_fixture_contexts WHERE model_id=? AND context_id=? AND context_hash=? ORDER BY name',
+            (model_id,invoked_context.get('context_id'),invoked_context.get('hash'))).fetchall()] if exists and invoked_context is not None else []
     if invoked_context is not None:
         rows=[r for r in rows if r['context_id']==invoked_context.get('context_id') and r['context_hash']==invoked_context.get('hash')]
+        if not rows and other_names:raise Conflict('Fixture state mismatch: expected '+name+', observed '+', '.join(other_names))
     if not rows:raise Conflict('No approved context for fixture state '+name)
     row=rows[0];pin={'context_id':row['context_id'],'hash':row['context_hash']}
     selected=ModelStore(store.database,store.inventory,store.environment,context_pins={model_id:pin});selected.get(model_id)
