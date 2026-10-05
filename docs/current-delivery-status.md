@@ -1,5 +1,10 @@
 2026-10-05: v2 tapes seal a replay-engine revision; v1 remains readable. Pinned engine replay is isolated and network-blocked; it is distinct from current-engine requalification. Offline regrading precedes live runs. Prior freezes invalid. [Versioned replay](versioned-recorded-engine-replay.md).
 
+Provider tapes now compare canonical JSON bytes: sorted keys and no formatting
+whitespace, with content changes refused. Physical requests remain byte-exact;
+original sealed tapes unchanged. No live run yet; prior freezes invalid.
+See [matching contract](canonical-provider-tape-matching.md).
+
 Round Five H: selected evidence **14/15**. The new source-consistency run
 completed CONSISTENT_TO_SOURCE: 7,661 and record 900099 absent at every checked
 layer; synthesis and byte-exact replay passed. Numeric reproduction still blocks

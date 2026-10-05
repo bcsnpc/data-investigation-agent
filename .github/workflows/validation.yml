@@ -76,6 +76,8 @@ jobs:
           python -m unittest discover -s scripts -p test_snapshot_attestation.py
           python -m unittest discover -s scripts -p test_read_budget.py
           python -m unittest discover -s scripts -p test_process_tape.py
+          python -m unittest discover -s scripts -p test_provider_tape_contract.py
+          python -m unittest discover -s scripts -p test_budget_tape_contract.py
           python -m unittest discover -s scripts -p test_estate_manifest.py
           python -m unittest discover -s scripts -p test_tape_decoders.py
           python -m unittest discover -s scripts -p test_read_onelake_commit.py

@@ -41,7 +41,9 @@ try:
  from investigator import process_tape as journal
  spec=importlib.util.spec_from_file_location('budget_tape_contract',sys.argv[5])
  contract=importlib.util.module_from_spec(spec);spec.loader.exec_module(contract)
- contract.install(journal)
+ provider_spec=importlib.util.spec_from_file_location('provider_tape_contract',sys.argv[6])
+ provider_contract=importlib.util.module_from_spec(provider_spec);provider_spec.loader.exec_module(provider_contract)
+ contract.install(journal,provider_equal=provider_contract.equal)
  from process_replay import replay
  result=replay(sys.argv[1],sys.argv[2],allow_engine_drift=True)
  result['replay_engine_revision']=sys.argv[3]
@@ -52,7 +54,7 @@ except Exception as exc:
 """, encoding='utf-8')
         answer = root / 'answer.json'
         done = subprocess.run([sys.executable, str(driver), str(Path(path).resolve()),
-            str(Path(output).resolve()), revision, str(answer), str(ROOT/'scripts/investigator/budget_tape_contract.py')], cwd=ROOT, capture_output=True, text=True, timeout=900)
+            str(Path(output).resolve()), revision, str(answer), str(ROOT/'scripts/investigator/budget_tape_contract.py'), str(ROOT/'scripts/investigator/provider_tape_contract.py')], cwd=ROOT, capture_output=True, text=True, timeout=900)
         if not answer.exists():raise ValueError('Pinned replay worker failed without response: ' + str(done.returncode))
         value = json.loads(answer.read_text())
         if 'result' not in value:

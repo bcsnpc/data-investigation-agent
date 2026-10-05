@@ -106,6 +106,9 @@ class Tape:
             if kind=='BUDGET':
                 from .budget_tape_contract import equal
                 if not equal(recorded,body):raise TapeError('TAPE_BUDGET_DECISION_DIFFERS')
+            elif kind in ('PROVIDER_REQUEST','PROVIDER_RESPONSE'):
+                from .provider_tape_contract import equal
+                if not equal(kind,recorded,body):raise TapeError('TAPE_PROVIDER_CONTENT_DIFFERS')
             elif recorded!=body:raise TapeError('TAPE_REQUEST_BYTES_DIFFER')
             return
         if self.finished or kind not in KINDS:raise TapeError('TAPE_EVENT_NOT_ADMISSIBLE')
