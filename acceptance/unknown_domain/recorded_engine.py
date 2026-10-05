@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def replay_revision(path, output, revision):
     if not isinstance(revision, str) or not re.fullmatch('[0-9a-f]{40}', revision):
         raise ValueError('Replay revision must be an immutable Git commit')
+    accounting_version=2 if subprocess.run(['git','merge-base','--is-ancestor','7abaabf37812b58cc74b684de9cafc172212c1ad',revision],cwd=ROOT,capture_output=True).returncode==0 else 1
     actual = subprocess.check_output(['git', 'rev-parse', revision + '^{commit}'], cwd=ROOT, text=True).strip()
     if actual != revision:raise ValueError('Replay revision differs')
     archive = subprocess.check_output(['git', 'archive', '--format=tar', revision], cwd=ROOT)
@@ -57,4 +58,5 @@ except Exception as exc:
         if 'result' not in value:
             from investigator.process_tape import TapeError
             raise TapeError(value.get('reason', 'PINNED_REPLAY_FAILED'))
+        value['result']['replay_accounting_version']=accounting_version
         return value['result']

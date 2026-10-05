@@ -10,7 +10,9 @@ engine code and provider payload shaping are otherwise unchanged.
 Accounting contract v2 is assigned retrospectively to #393 (`7abaabf`): physical
 guard/control accounting and bounded serverless resume changed accounting.
 This dated version history is an annotation, not a rewrite of any sealed tape.
-The new recorder envelope is bounded-worker-tape-v3; v1/v2 envelopes still replay.
+The new recorder envelope is bounded-worker-tape-v3 and seals accounting_version 2.
+Archived replay reports accounting version 1 before #393 and 2 at/after its
+immutable commit; original v1/v2 envelopes are not changed and still replay.
 Prior engine freezes invalidated. No estate reads or live investigation in this PR.
 
 The numeric reproduction diagnostic found a PROVIDER_REQUEST byte mismatch at

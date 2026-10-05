@@ -55,11 +55,15 @@ class Tape:
             value=json.loads(self.path.read_bytes())
             required={'version','events','exclusions','seal'}
             if value.get('version') in ('bounded-worker-tape-v2','bounded-worker-tape-v3'):required.add('engine_revision')
+            if value.get('version')=='bounded-worker-tape-v3':required.add('accounting_version')
             if set(value)!=required or value['version'] not in SUPPORTED_VERSIONS:
                 raise TapeError('TAPE_SCHEMA')
             if value['seal']!=sha(bytes_of({k:v for k,v in value.items() if k!='seal'})):
                 raise TapeError('TAPE_SEAL')
             self.version=value['version']
+            from .budget_tape_contract import ACCOUNTING_VERSION
+            if self.version=='bounded-worker-tape-v3' and value['accounting_version']!=ACCOUNTING_VERSION:
+                raise TapeError('TAPE_ACCOUNTING_VERSION')
             self.engine_revision=value.get('engine_revision')
             if self.version in ('bounded-worker-tape-v2','bounded-worker-tape-v3') and self.engine_revision is not None and not re.fullmatch('[0-9a-f]{40}',self.engine_revision):
                 raise TapeError('TAPE_ENGINE_REVISION')
@@ -88,6 +92,9 @@ class Tape:
         if self.replaying:return
         value={'version':self.version,'events':self.events,'exclusions':self.exclusions}
         if self.version in ('bounded-worker-tape-v2','bounded-worker-tape-v3'):value['engine_revision']=self.engine_revision
+        if self.version=='bounded-worker-tape-v3':
+            from .budget_tape_contract import ACCOUNTING_VERSION
+            value['accounting_version']=ACCOUNTING_VERSION
         value['seal']=sha(bytes_of(value))
         # Only this still-open attempt is rewritten. Sealed tapes are immutable.
         self.path.write_bytes(bytes_of(value))
