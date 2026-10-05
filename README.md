@@ -1,8 +1,18 @@
+2026-10-05 live reader control: the declared application copy sample agreed at
+7,661 on both sides. All fifteen code-derived proposals remain UNVERIFIED: refined
+units refuses unestablished string deduplication semantics; serving units returned
+8,765 at the target but its source worker failed with retained OSError errno22.
+Family A completed synthesis but changed from TRANSFORMATION_LOGIC to
+CONSISTENT_TO_BOUNDARY; the live list stopped as instructed. The second acceptance
+column failed its first ticket; remaining runs were not attempted. Validation: 1,967 current regression tests and15/15
+archived tapes offline. Round Six55/400,60 reserved; rolling223/1500 at the last run end.
+Prior freezes remain invalid. [Reader evidence](docs/round-six-code-sources.md).
+
 Resumed 2026-10-05: runtime qualification now requires original sampled proof,
 current code hashes and authorized locations before a lower read. Declared approval
 and one-pass reader orchestration use the same verifier; application probes use
-the existing guarded SQL reader. The runtime checkpoint passed 1,966 regression
-tests; the exact-object correction passed its 18 focused checks. Offline retained-code
+the existing guarded SQL reader. The final current implementation passed 1,967 regression
+tests; the archived fifteen-tape column passed 15/15 offline. Offline retained-code
 analysis refuses string deduplication without established cross-language semantics;
 the selected join quantity compiles but has not executed. No live inferred column
 is claimed. Round Six21/400, reserve60; rolling248/1500 last observed. Prior freezes

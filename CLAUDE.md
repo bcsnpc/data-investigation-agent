@@ -1,3 +1,14 @@
+Dated Round Six reader result, 2026-10-05: declared application-copy quantity
+agreed7,661/7,661, sampled VERIFIED with PARTIAL connection coverage and
+SNAPSHOT_UNVERIFIED. All15 inferred proposals remain UNVERIFIED: refinement
+units refuses unestablished string deduplication equivalence; serving units
+read8,765 at target but the source worker failed with OSError errno22 on flush.
+No retry. First live inferred ticket A synthesized CONSISTENT_TO_BOUNDARY,
+changed from TRANSFORMATION_LOGIC, so the requested list stopped. Archived
+column15/15 under pinned producers;15x2 unearned. Pot55/400,60 reserved;
+rolling223/1500 last recorded. Original evidence unchanged, prior freezes invalid.
+See docs/round-six-code-sources.md. No new scope or estate mutation this control.
+
 Dated explicit code-identity decision, 2026-10-05: Round Six B supersedes the
 read-only code-fetch stop below only for a separate investigator-code-reader.
 App 2dd2f5c3-f7af-4804-b79e-6019e63efa60; principal

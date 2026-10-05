@@ -1252,3 +1252,111 @@ The earlier pre-live plan said a fresh scan was required. An audit of the existi
 Retained context `785a8fea-f49c-4e7e-b48f-1cae765410dc`, hash `1676c296228589d96856d508a3981c4f8c756f1474c6a06e5eca0364bf17bd9a`. New approved context `8741fd7e-548b-4d0a-9c0d-378f3fd24a00`, hash `739af474020bedf1dac0e9268229542834e853ee9260619bd913968e1bdb6c84`; whole configuration hash `bbd11984ded8f1e3d4053fb7e2a21b8077b52db153c1f9c9c9c7cb4579b928b7`. Zero physical or diagnostic reads. Before/after approval listings and new model-context IDs are recorded locally in inferred-policy-approval.json. The separate sampled lineage approval has not yet been earned; it still requires the declared copy comparison.
 
 All fifteen archived tapes now passed, zero network calls and physical requests. Each used its pinned historical producer; the inferred column remains unexecuted. Round Six21/400, reserve60, ordinary stop340; rolling213/1500 at the fresh pre-live local usage check. Final current regression remains running. Draft PR #406 contains this implementation, not a completed live claim.
+
+### Final offline checkpoint, 2026-10-05
+
+The final current implementation at `3e6c94f8b0fe896df81a4dd4370fca063c34a3ee` passed **1,967 regression tests** in 599.822 seconds, actual subprocess exit zero. The retained fifteen-tape archived column passed **15/15**, with zero estate reads, under its pinned historical producers. This establishes the offline checkpoint, not a live inferred-lineage pass. The authorized single sampled reader control started after this checkpoint; its result is pending.
+
+### Live reader control, 2026-10-05
+
+The single authorized control completed its extraction and recording, **not successful inference**. Its declared application-to-landing sample agreed at **7,661 on both sides** and earned sampled VERIFIED, ENGINE_INDEPENDENT; both attestations were PARTIAL with connection unattested, and snapshots remain SNAPSHOT_UNVERIFIED. No identity or permission changed.
+The two original boundaries emitted fifteen STATIC proposals: six into the refined table, nine into serving. **All fifteen are UNVERIFIED.** Refinement units refuses cross-language string deduplication; serving units read 8,765 at the target but its source probe failed. Thirteen other columns are outside the selected measure and receive explicit compilation refusals. No extra column is silently promoted to a binding.
+Every proposal uses CodeSource `fixture-code`, path `7ccafe59-0460-4c8a-a691-bfdfa75a2b25/notebook-content.py`, cell `1`, content SHA-256 `313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1`. Location line ranges are shown below.
+| Boundary | Target column | Lines | Verdict | Reason |
+| --- | --- | --- | --- | --- |
+| original-landing ? original-refined | movement_id | 14?14 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-landing ? original-refined | warehouse_id | 14?14 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-landing ? original-refined | product_id | 14?14 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-landing ? original-refined | units | 14?14 | UNVERIFIED | Cannot compile faithfully: Deduplication equivalence is not established across code and execution languages; no assumed string collation or padding |
+| original-landing ? original-refined | event_day | 14?14 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-landing ? original-refined | movement_type | 14?14 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-refined ? original-serving | movement_id | 18?18 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-refined ? original-serving | warehouse_id | 18?18 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-refined ? original-serving | product_id | 18?18 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-refined ? original-serving | units | 18?18 | UNVERIFIED | The source read did not complete. |
+| original-refined ? original-serving | event_day | 18?18 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-refined ? original-serving | movement_type | 18?18 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-refined ? original-serving | rate_version | 18?18 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-refined ? original-serving | unit_cost | 18?18 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+| original-refined ? original-serving | movement_value | 18?18 | UNVERIFIED | Cannot compile faithfully: This proposal is not the quantity established by the selected cell; no substitute measure is invented |
+
+Serving source failure is retained as **OSError, errno22, ?Invalid argument?, operation flush, tape_worker.py line32**, worker timeout150 seconds. The recorded worker-start to failed-flush interval exceeds the configured150-second deadline, but the tape does not directly establish which event closed the pipe. This is a recording/worker failure, not a numerical disagreement or proof of a platform query refusal. Recording expanded to128,269,844 bytes and465 events. Its timing contribution is an open finding; the failed request remains charged. No retry, deadline extension, or rule change.
+The control admitted **8/12 diagnostic operations**: four endpoint metadata operations and four SQL verification probes. It charged **25 physical requests**, including two pre-warm controls, two local code/identity reads and nine permission guards (all established, zero reused). The last physical reservation is UNCERTAIN. Three quantity probes succeeded; one failed. Zero provider/planner calls. The pre-warm first encountered40613, waited5 seconds, then connected; it is control evidence, not a diagnostic.
+Windows: Round Six **21?46/400**,60 reserved, ordinary stop340. The actual live rolling observations were **200?220/1500**; the earlier213 preflight was taken before further historical requests expired, so adding25 to it is not the current rolling total. All original observations, errors, receipts and the sealed tape remain unchanged.
+DECIDED WITHOUT REVIEW: proceed to the first requested ticket once with the failed inferred bindings retained, rather than retrying the reader or granting a bare inferred label. Stop the live ticket list on the first changed outcome, as instructed. No inferred acceptance pass or15?2 claim.
+
+### First changed outcome: live list stopped, 2026-10-05
+
+Family A, session `572ffd5b-d064-405a-b756-8227aa453b81`, completed intake, procedure and synthesis; its sealed tape validated. The original unchanged ticket passed intake in one call. There were **zero investigation planner calls**, zero definition-judge calls and one successful synthesis call. The procedure compared native presentation8,765 against serving SQL8,765, ENGINE_INDEPENDENT, PARTIAL surface coverage (connection unattested), SNAPSHOT_UNVERIFIED. It could not cross serving?refined because the current ledger contains no VERIFIED binding for that quantity.
+Expected **TRANSFORMATION_LOGIC**; observed **CONSISTENT_TO_BOUNDARY**. Offline grading, zero reads, reports STRUCTURE:boundaries, STRUCTURE:layers_reached and STRUCTURE:outcome. This is the requested first changed-outcome stop. It is not an acceptance pass, and the expectation was not changed. The tape confirms the path was truncated at the failed serving units binding, before the earlier divergent boundary could be read. This finding follows from the retained UNVERIFIED result; it does not prove the transformation ceased to exist.
+The run charged **9 physical requests**, **3/12 diagnostic reads**, **3 permission guards**, zero guard reuse. Physical categories: one DAX, four SQL (including guards), four other (code and ingestion metadata). All nine requests completed. Round Six **46?55/400**; rolling **220?223/1500** in the recorded before/after windows. No budget increase, replacement attempt, write, identity or permission change. No fixture mutation occurred, so no restoration mutation was needed.
+Remaining families B?I, EMPTY,16 and both requested source controls **did not run**, because the first outcome changed. Source latency/unreachable were not requested as fresh repeats and are not relabelled as inferred passes. Their archived tapes remain evidence under their original producers. The second column is not earned; **15/15?2 is not achieved**.
+| Ticket | Archived declared column (pinned producer) | New inferred column |
+| --- | --- | --- |
+| family-A | PASSED | FAILED ? changed outcome |
+| family-B | PASSED | NOT RUN ? stopped at A |
+| family-C | PASSED | NOT RUN ? stopped at A |
+| family-D | PASSED | NOT RUN ? stopped at A |
+| family-E | PASSED | NOT RUN ? stopped at A |
+| family-F | PASSED | NOT RUN ? stopped at A |
+| family-G | PASSED | NOT RUN ? stopped at A |
+| family-H | PASSED | NOT RUN ? stopped at A |
+| family-I | PASSED | NOT RUN ? stopped at A |
+| reproduction-16 | PASSED | NOT RUN ? stopped at A |
+| reproduction-empty | PASSED | NOT RUN ? stopped at A |
+| source-consistent | PASSED | NOT RUN ? stopped at A |
+| source-gap | PASSED | NOT RUN ? stopped at A |
+| source-latency | PASSED | NOT REPEATED ? outside requested13 |
+| source-unreachable | PASSED | NOT REPEATED ? outside requested13 |
+
+Both outputs, verbatim, from the preserved live result:
+
+Business output:
+
+```text
+You asked: In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.
+Answer to your question: Partly answered.
+Regarding the requested comparison: The compared path agreed through the named checked depth; the application beyond it was not read, so the remaining question belongs to the application owner.
+What the investigation established:
+
+The checked reported calculation value was 8,765. A separate check of the serving data agreed. This rules out a difference at that checked boundary, but does not prove the original records are correct. The original entries, unchecked selections, update timing and intended business rules remain outside what these comparisons establish. For the reported calculation and the serving data, the two checks used different calculation engines. Recommended action: Ask the owner of the unchecked part of the process to investigate the remaining gap.
+```
+
+Technical output:
+
+```text
+You asked: In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.
+Answer to your question: Partly answered.
+Regarding the requested comparison: The compared path agreed through the named checked depth; the application beyond it was not read, so the remaining question belongs to the application owner.
+What the investigation established:
+
+Measure: Handled Quantity.
+B1 agrees: L1 (movement values in warehouse gold e1b8e1; role SERVING, upstream input) 8,765 -> L0 (Activity in Warehouse Operations e1b8e1; role SEMANTIC, downstream output) 8,765.
+ENGINE_INDEPENDENT: comparable quantity-bound engine self-reports differ; this is an engine-independent cross-surface comparison. (receipt boundary-1-comparison).
+Declared-context reproduction unavailable: Declared-context reproduction is undeclared for question kind FIGURE_DIFFERENCE.
+
+The recorded check matches the quantity at L1 (SERVING) with the quantity at L0 (SEMANTIC), and the value carries across that layer step without change.
+
+Layers:
+L0 - Activity in Warehouse Operations e1b8e1; role SEMANTIC: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity
+L1 - movement values in warehouse gold e1b8e1; role SERVING: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values
+L2 - stock movements e1b8e1 in warehouse silver e1b8e1; role REFINED: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1
+
+Limits:
+- Unattested connection on L0 (receipt 18a3a3ae-93e7-4268-9ee7-f7c3db4f00c4).
+- Unattested connection on L1 (receipt ef90a52f-ada9-4c10-99f6-35bbfccc3683).
+- SNAPSHOT_UNVERIFIED for B1: the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.
+- Checked through L1; stopped because no lineage.
+- Unchecked L1 -> L2: Neither a declared nor a current verified inferred binding matches the selected quantity and scope..
+- Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.
+
+Recommended action: Ask the owner of the unchecked part of the process to investigate the remaining gap.
+```
+
+### End-of-round findings and decisions
+
+The static reader extracted actual code declarations but did not recover an executable inferred boundary. Refinement needs established deduplication semantics; serving needs a source probe that completes within its existing worker contract. The128 MB tape and budget materialization overhead are measured operational findings, not permission or numerical failures. No live attempt was repeated to conceal either. The completed A output remains scoped to serving; its header refers the remaining question to the application owner even though this original branch has not established an application pointer. That ownership phrasing is an open output finding, not proof that the application owns this particular missing boundary.
+DECIDED WITHOUT REVIEW: approved inventory-baseline against the new projected model context `841e425e-fe17-4bb0-9d06-b4623f49de5b`, hash `ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f`, with the explicitly retained policy approval and unchanged fixture as provenance. Reusing the earlier whole-config approval or claiming a fresh recollection was rejected.
+Optional section4 changes were deferred. No core allow-list, ticket-history or platform-limit behavior was changed during the live attempts. Manifest reader/setup/STALE documentation is included in this implementation. Prior freezes remain invalid and no unfamiliar-domain claim is made.
+Draft PR #406 contains the implementation and these preserved negative results. Its existing hosted archived check passed15/15; the new inferred column failed on its first ticket, so the PR is not represented as a completed two-column gate and is not merged.
+Final recorded windows: **Round Six55/400**,60 reserved, ordinary stop340; **rolling223/1500** at21:41:03 UTC. Failed/uncertain requests remain charged. Original receipts, contexts, prior tapes and expectations remain untouched.
