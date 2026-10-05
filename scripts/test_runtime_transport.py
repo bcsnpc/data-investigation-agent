@@ -11,7 +11,7 @@ import test_source_diagnostics as source_fixture
 class RuntimeTransportTests(unittest.TestCase):
     def setUp(self):
         self.sleep=MagicMock()
-        patcher=patch('run_source_diagnostic.read_with_retry',side_effect=lambda read:read_with_retry(read,self.sleep))
+        patcher=patch('run_source_diagnostic.read_with_retry',side_effect=lambda read,**options:read_with_retry(read,self.sleep,**options))
         patcher.start();self.addCleanup(patcher.stop)
         self.success={'value':'5','row_count':'5','nonblank_count':'5'}
 
