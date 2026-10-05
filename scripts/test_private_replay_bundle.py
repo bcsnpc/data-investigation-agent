@@ -25,7 +25,7 @@ class PrivateReplayBundleTests(unittest.TestCase):
             root=Path(d);run={'tape_path':'D:\\private\\tape.json'};original=dict(run)
             mapping=root/'replay-paths.json'
             mapping.write_text(json.dumps({run['tape_path']:'process-tapes/id/tape.json'}))
-            self.assertEqual(bundle.tape_path(run,root),root/'process-tapes/id/tape.json')
+            self.assertEqual(bundle.tape_path(run,root),(root/'process-tapes/id/tape.json').resolve())
             self.assertEqual(run,original)
             mapping.write_text(json.dumps({run['tape_path']:'../outside/tape.json'}))
             with self.assertRaisesRegex(ValueError,'LEAVES_BUNDLE'):bundle.tape_path(run,root)
