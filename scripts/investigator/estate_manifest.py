@@ -7,7 +7,7 @@ from .layer_roles import ROLES
 from .process_debugging import REQUIRED_CAPABILITIES, OPTIONAL_CAPABILITIES
 from .workspace import DYNAMIC_READ_BOUNDS, DYNAMIC_INPUT_BOUNDS
 from .estate_limits import STATEMENT_BOUND
-from .code_sources import CODE_SOURCE_SCHEMA, validate_inventory as validate_code_inventory
+from .code_sources import CODE_SOURCE_SCHEMA, validate_sources as validate_code_inventory
 
 
 def obj(properties, optional=()):

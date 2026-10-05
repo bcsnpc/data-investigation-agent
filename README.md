@@ -3,8 +3,8 @@ approved `investigator-code-reader` has Contributor on the one actual fixture
 workspace; existing investigation readers are unchanged. Both transformation
 hops were fetched from one combined notebook, credential scan clean, API
 continuation tape replayed with zero requests. Closed local/Git/API sources and
-normalization are implemented; the full extractor/verifier and second acceptance
-column remain pending. Pot14/400 (60 reserved), rolling241/1500 last observed.
+normalization are implemented; hosted local/Git file verification passed. The full extractor/verifier and second acceptance
+column remain pending. Pot18/400 (60 reserved), rolling245/1500 last observed.
 Engine changes invalidate prior freezes. [Code-source checkpoint](docs/round-six-code-sources.md).
 
 2026-10-05 America/Chicago: Round Six amended the private-delivery condition:

@@ -53,7 +53,7 @@ def validate_source(source):
         relative_path(source['path_prefix'])
     return copy.deepcopy(source)
 
-def validate_inventory(manifest):
+def validate_sources(manifest):
     sources=manifest['lineage'].get('code_sources',[])
     identities={i['id']:i for i in manifest['identities']}
     investigation={l['reach']['reader'] for l in manifest['layers']+manifest['resources']}

@@ -100,8 +100,17 @@ Manifest golden-context comparison: directory entries2→2, SQL entries1→1,
 payload7540→7540 characters. Synthetic tests do not access the estate. The
 actual fixture manifest declares LOCAL_PATH; inference remains disabled until
 the extractor/verifier exist. Prior engine freezes are invalidated by these changes.
-Git-hosted fixture verification, the full transformation reader, inferred-lineage
-ledger and second fifteen-ticket column are not yet completed.
+Hosted local/Git verification passed in Actions run37355558213 at
+`6a1e00c83ea7c48113894d48b3ba57fddf2959f3`, both yielding the fetched hash.
+It consumed exactly two local-file retrievals and two repository GETs. Four
+slots were reserved before dispatch and settled afterward, no refunds. The full
+transformation reader, inferred-lineage ledger and second fifteen-ticket column
+are not yet completed. Definition-API replay is currently local, not hosted.
+
+The first ordinary CI run failed the scoped-inventory structural test because
+the new code-source validator reused a reserved function name. Renamed it to
+`validate_sources`; the original test and report-inventory validation remain
+unchanged. Failure logs retained; no acceptance expectation was changed.
 
 The Git test manifest is `infra/estates/fixture-code-git.json`, pointing at this
 repository's code-source branch. Hosted verification uses the built-in Actions
@@ -131,6 +140,7 @@ commit. Other hosts are explicitly unavailable with this installed adapter.
 
 Round Six before code fetch:7/400; after failed initiation and successful
 continuation: **14/400**, ordinary-work stop340, restoration reserve60.
-Rolling at 18:15UTC: **241/1500** in24h (aging records account for its decrease).
+The hosted source check adds four: **18/400** initiated/reserved and settled.
+Rolling after that check: **245/1500** in24h (aging records account for its decrease).
 Diagnostic cap12 unchanged. Zero investigation planner calls; no counter reset,
 refund, new data mutation or investigation-reader elevation.
