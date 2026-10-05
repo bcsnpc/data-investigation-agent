@@ -58,7 +58,10 @@ def validate(text,business=False):
 def business(text,payload):
     from .reproduction_composition import from_payload,body
     reproduction=body(from_payload(payload))
-    if reproduction is not None:return validate(reproduction,True)
+    if reproduction is not None:
+        from .lineage_limits import business as lineage_limit
+        limitation=lineage_limit(payload)
+        return validate(reproduction+(' '+limitation if limitation else ''),True)
     from .selection_descriptor import render as render_descriptor
     for entry in payload.get('evidence',[]):
         hint=entry.get('result',{}).get('descriptor_hint')
@@ -109,6 +112,10 @@ def business(text,payload):
     if rows and not covered:
         sentence='The checks may reflect different update times, so matching totals do not prove they are current and timing may explain a difference.'
         text=text.replace('Recommended action:',sentence+' Recommended action:') if 'Recommended action:' in text else text+' '+sentence
+    from .lineage_limits import business as lineage_limit
+    limitation=lineage_limit(payload)
+    if limitation:
+        text=text.replace('Recommended action:',limitation+' Recommended action:') if 'Recommended action:' in text else text+' '+limitation
     return validate(text,True)
 
 

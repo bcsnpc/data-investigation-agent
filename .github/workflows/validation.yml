@@ -80,6 +80,18 @@ jobs:
           python -m unittest discover -s scripts -p test_budget_tape_contract.py
           python -m unittest discover -s scripts -p test_estate_manifest.py
           python -m unittest discover -s scripts -p test_code_sources.py
+          python -m unittest discover -s scripts -p test_transformation_ast.py
+          python -m unittest discover -s scripts -p test_transformation_reader.py
+          python -m unittest discover -s scripts -p test_lineage_binding.py
+          python -m unittest discover -s scripts -p test_declared_lineage_round_trip.py
+          python -m unittest discover -s scripts -p test_lineage_limits.py
+          python -m unittest discover -s scripts -p test_transformation_service.py
+            python -m unittest discover -s scripts -p test_transformation_service_tape.py
+          python -m unittest discover -s scripts -p test_transformation_approval.py
+          python -m unittest discover -s scripts -p test_lineage_runtime.py
+          python -m unittest discover -s scripts -p test_code_proposal_budget.py
+          python -m unittest discover -s scripts -p test_code_verification.py
+            python -m unittest discover -s scripts -p test_code_approval_controller.py
           python -m unittest discover -s scripts -p test_code_definition.py
           python -m unittest discover -s scripts -p test_git_code.py
           python -m unittest discover -s scripts -p test_fixture_code_sources.py

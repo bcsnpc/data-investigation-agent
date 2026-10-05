@@ -72,6 +72,8 @@ def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_
                     for o in state.get('observations',[])]}
                 try:validate_layer_references(mechanism['text'],payload)
                 except ValueError as exc:errors.append('technical_output:LAYER_REFERENCE:'+str(exc))
+    from investigator.lineage_limits import validate_outputs
+    errors.extend(validate_outputs(state.get('assessment') or {},outputs))
     return sorted(set(errors))
 
 

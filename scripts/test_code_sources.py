@@ -43,13 +43,20 @@ class CodeSourceTests(unittest.TestCase):
         m=self.manifest('GIT_REPOSITORY');m['lineage']['code_sources'][-1]['token_reference']='another-account'
         with self.assertRaisesRegex(ValueError,'token_reference'):validate(m)
 
-    def test_code_credentials_and_locations_never_reach_investigation_config(self):
+    def test_code_credentials_stay_out_and_authorizations_reach_only_the_engine(self):
         m=validate(self.manifest());c=configuration(m)
         serialized=json.dumps(c)
         self.assertNotIn('secret/code',serialized)
         self.assertNotIn('code-only',serialized)
         self.assertNotIn('code_sources',serialized)
-        self.assertNotIn('code_locations',serialized)
+        self.assertEqual(c['_estate']['lineage']['code_locations'],m['lineage']['code_locations'])
+        from metadata_config import worker_configuration
+        layer=next(x for x in m['layers'] if x['role']=='SEMANTIC')
+        workspace,model=layer['asset_id'].removeprefix('fabric://').split('/')[:2]
+        worker=worker_configuration(c,{'workspace':workspace,'native_model_id':model})
+        projected=json.dumps(worker)
+        for forbidden in ('code_locations','code_sources','secret/code','code-only','_estate'):
+            self.assertNotIn(forbidden,projected)
 
     def test_notebook_layouts_share_one_representation(self):
         code='x = 1\n'
@@ -90,12 +97,13 @@ class CodeSourceTests(unittest.TestCase):
                 meter=lambda fn:(calls.append(1),fn())[1])
             self.assertEqual(len(calls),2)
             self.assertEqual(unit['item_identity'],{'logical_id':'declared-logical-id'})
+            self.assertEqual(receipt['item_identity'],unit['item_identity'])
 
     def test_local_code_read_tape_replays_without_io(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);file=root/'unit.py';file.write_text('x=1\n')
             source={'id':'code','kind':'LOCAL_PATH','identity':'account','path':d}
-            bootstrap={'entry_point':'code_reader','context_identity':'offline','config':{},'profile':{},'usage_policy':None,'engine_hash':'offline','state':{}}
+            bootstrap={'entry_point':'synthetic','context_identity':'offline','config':{},'profile':{},'usage_policy':None,'engine_hash':'offline','state':{}}
             tape=journal.Tape(root/'tape.json',bootstrap=bootstrap)
             with journal.active(tape):
                 original=read(source,'unit.py',meter=lambda call:call())
@@ -112,7 +120,7 @@ class CodeSourceTests(unittest.TestCase):
             root=Path(d);file=root/'notebook-content.py';file.write_text('x=1\n')
             metadata=root/'.platform';metadata.write_text('{"config":{"logicalId":"kept"}}')
             source={'id':'code','kind':'LOCAL_PATH','identity':'account','path':d}
-            bootstrap={'entry_point':'code_reader','context_identity':'offline','config':{},'profile':{},'usage_policy':None,'engine_hash':'offline','state':{}}
+            bootstrap={'entry_point':'synthetic','context_identity':'offline','config':{},'profile':{},'usage_policy':None,'engine_hash':'offline','state':{}}
             tape=journal.Tape(root/'tape.json',bootstrap=bootstrap)
             with journal.active(tape):
                 original=read(source,file.name,meter=lambda call:call());tape.finish({'read':original})

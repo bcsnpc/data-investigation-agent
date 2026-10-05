@@ -1,3 +1,5 @@
+Dated Round Six C offline checkpoint, 2026-10-05: fifteen sealed proposals audited: thirteen outside the sampled quantity, one string-deduplication equivalence unavailable, one source worker failure. Only the separate application copy is manifest-declared; its compiler round-trip matches the sealed requests and 7,661/7,661 observations offline. A's scoped outcome was correct, not a regression. Offline compiler/verifier and explicit unbound output infrastructure are separated from #406 runtime activation, which remains draft. No live read, scope change, cap change or fixture mutation here. Validation pending; prior freezes invalid. See docs/round-six-unverified-audit.md.
+
 2026-10-05: Round Six B code-source work is in progress. The separately
 approved `investigator-code-reader` has Contributor on the one actual fixture
 workspace; existing investigation readers are unchanged. Both transformation

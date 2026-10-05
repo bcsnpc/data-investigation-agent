@@ -689,7 +689,7 @@ class MicrosoftProcessAdapter:
         plan={'model_id':self.model['id'],'revision':self.model['revision'],'context_id':self.model['context_id'],
               'query':compiled['query'],'max_rows':20}
         from ..read_address import baseline
-        plan['read_address']=baseline([])
+        plan['read_address']=compiled.get('read_address',baseline([]))
         execute=lambda:run_query(self.store,plan,self.config,'bounded_fabric_sql',
             lambda request:self.execute_lower(compiled['database'],request),catalog=compiled['catalog'])
         result=self.meter_read('bounded_fabric_sql',execute) if self.meter_read else execute()
@@ -709,6 +709,7 @@ class MicrosoftProcessAdapter:
         rows=result['result']['rows']
         return Probe('OBSERVED',layer['id'],evidence={'id':result['id'],'tool':'bounded_fabric_sql',
             'completeness':result['result']['completeness'],'values':rows,'request_hash':result['request_hash'],
+            'context_id':plan['context_id'],
             'measure_id':measure_id,'dimension_id':None,'test_purpose':'COMPARE_DECLARED_SOURCE',
             'read_address':plan['read_address'],
             'binding_provenance':provenance,'lower_quantity':{'source_column':compiled['source_column'],

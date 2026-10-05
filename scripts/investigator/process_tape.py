@@ -14,8 +14,10 @@ from contextlib import closing
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
-VERSION = 'bounded-worker-tape-v3'
-SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', VERSION))
+VERSION = 'bounded-worker-tape-v4'
+SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', VERSION))
+PINNED_VERSIONS = SUPPORTED_VERSIONS - {'bounded-worker-tape-v1'}
+ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4'))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
     'BUDGET','BUDGET_INPUT','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
@@ -54,18 +56,18 @@ class Tape:
         if self.replaying:
             value=json.loads(self.path.read_bytes())
             required={'version','events','exclusions','seal'}
-            if value.get('version') in ('bounded-worker-tape-v2','bounded-worker-tape-v3'):required.add('engine_revision')
-            if value.get('version')=='bounded-worker-tape-v3':required.add('accounting_version')
+            if value.get('version') in PINNED_VERSIONS:required.add('engine_revision')
+            if value.get('version') in ACCOUNTED_VERSIONS:required.add('accounting_version')
             if set(value)!=required or value['version'] not in SUPPORTED_VERSIONS:
                 raise TapeError('TAPE_SCHEMA')
             if value['seal']!=sha(bytes_of({k:v for k,v in value.items() if k!='seal'})):
                 raise TapeError('TAPE_SEAL')
             self.version=value['version']
             from .budget_tape_contract import ACCOUNTING_VERSION
-            if self.version=='bounded-worker-tape-v3' and value['accounting_version']!=ACCOUNTING_VERSION:
+            if self.version in ACCOUNTED_VERSIONS and value['accounting_version']!=ACCOUNTING_VERSION:
                 raise TapeError('TAPE_ACCOUNTING_VERSION')
             self.engine_revision=value.get('engine_revision')
-            if self.version in ('bounded-worker-tape-v2','bounded-worker-tape-v3') and self.engine_revision is not None and not re.fullmatch('[0-9a-f]{40}',self.engine_revision):
+            if self.version in PINNED_VERSIONS and self.engine_revision is not None and not re.fullmatch('[0-9a-f]{40}',self.engine_revision):
                 raise TapeError('TAPE_ENGINE_REVISION')
             self.events=value['events'];self.exclusions=value['exclusions']
             if self.journal_path.exists():
@@ -78,7 +80,8 @@ class Tape:
             if self.path.exists() or self.journal_path.exists():raise TapeError('TAPE_ALREADY_EXISTS')
             self.bootstrap=bootstrap
             self.engine_revision=None
-            if self.version in ('bounded-worker-tape-v2','bounded-worker-tape-v3') and bootstrap['entry_point']=='workspace':
+            if self.version in PINNED_VERSIONS and (bootstrap['entry_point']=='workspace'
+                    or self.version=='bounded-worker-tape-v4' and bootstrap['entry_point'] in ('code_reader','code_verifier')):
                 import subprocess
                 root=Path(__file__).resolve().parents[2]
                 from .runtime import FINGERPRINT_TRANSPORTS
@@ -91,8 +94,8 @@ class Tape:
     def flush(self):
         if self.replaying:return
         value={'version':self.version,'events':self.events,'exclusions':self.exclusions}
-        if self.version in ('bounded-worker-tape-v2','bounded-worker-tape-v3'):value['engine_revision']=self.engine_revision
-        if self.version=='bounded-worker-tape-v3':
+        if self.version in PINNED_VERSIONS:value['engine_revision']=self.engine_revision
+        if self.version in ACCOUNTED_VERSIONS:
             from .budget_tape_contract import ACCOUNTING_VERSION
             value['accounting_version']=ACCOUNTING_VERSION
         value['seal']=sha(bytes_of(value))
@@ -124,10 +127,12 @@ class Tape:
         # and budget bodies for every clock tick amplified local I/O quadratically
         # and consumed the live procedure's deadline before it dispatched work.
         with self.journal_path.open('ab') as journal:journal.write(bytes_of(self.events[-1])+b'\n')
-        # Non-clock events materialize the existing sealed-envelope format. FINAL
-        # always includes every clock, and replay checks the journal if present.
-        # An interrupted attempt remains incomplete, never silently replayable.
-        if kind!='CLOCK':self.flush()
+        # The append-only journal retains every event before returning. Rewriting
+        # all prior bodies during each admission delayed ALLOW to the child and
+        # consumed its deadline. Materialize the envelope at the two boundaries;
+        # FINAL includes the full journal. Interrupted journals remain evidence,
+        # but are incomplete and cannot masquerade as replayable finished tapes.
+        if kind in ('BOOTSTRAP','FINAL'):self.flush()
 
     def take(self,kind):
         if self.index>=len(self.events):raise TapeError('TAPE_EXHAUSTED')
@@ -150,8 +155,10 @@ class Tape:
             raise TapeError('TAPE_BOOTSTRAP_IDENTITY')
         if any(not isinstance(bootstrap[key],dict) for key in ('config','profile','state')) or not isinstance(bootstrap['usage_policy'],(dict,type(None))):
             raise TapeError('TAPE_BOOTSTRAP_CONFIGURATION')
+        if self.version=='bounded-worker-tape-v4' and bootstrap['entry_point'] in ('code_reader','code_verifier') and self.engine_revision is None:
+            raise TapeError('TAPE_ENGINE_REVISION_MISSING')
         if bootstrap['entry_point']=='workspace':
-            if self.version in ('bounded-worker-tape-v2','bounded-worker-tape-v3') and self.engine_revision is None:
+            if self.version in PINNED_VERSIONS and self.engine_revision is None:
                 raise TapeError('TAPE_ENGINE_REVISION_MISSING')
             state=bootstrap['state']
             fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}
