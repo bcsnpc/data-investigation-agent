@@ -35,4 +35,22 @@ class LimitsTests(unittest.TestCase):
         self.assertIn('business_output:UNBOUND_LINEAGE_LIMIT_MISSING',validate_outputs(assessment,outputs))
         self.assertNotIn('UNVERIFIED',business(payload))
 
+    def test_final_narrative_composition_keeps_engine_owned_refusal(self):
+        import test_narrative_form as form_fixture
+        from investigator import narrative_form
+        from investigator.output_contract import action,business_text
+        payload,source,names=form_fixture.NarrativeFormTests().fixture()
+        row={'upper_layer':names['prepared'],'lower_layer':names['original'],
+            'lineage_refusal':{'proposal_count':1,'inventoried_proposal_count':9,
+                'statuses':['UNVERIFIED'],'reason_categories':['READ_FAILED']}}
+        source['technical_output']['unverified_boundaries']=[row]
+        source['limits'].append(technical(row))
+        payload['deterministic_process_finding']={'unverified_boundaries':[row]}
+        outputs={'technical_output':{'explanation':{'text':narrative_form.technical(
+            'A left join can repeat matches.',payload,source,action('TRANSFORMATION_LOGIC'))}},
+            'business_output':{'explanation':{'text':narrative_form.business(
+                business_text('TRANSFORMATION_LOGIC',payload),payload)}}}
+        self.assertFalse(validate_outputs(source,outputs))
+        self.assertIn('L1 -> L2',outputs['technical_output']['explanation']['text'])
+
 if __name__=='__main__':unittest.main()
