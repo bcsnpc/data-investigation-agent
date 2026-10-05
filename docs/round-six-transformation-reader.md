@@ -4,7 +4,7 @@ Dated 2026-10-05T02:12:49.230427-05:00 (America/Chicago). Unattended instruction
 round-six-transformation-reader.md apply. No estate credential/reader scope
 changed in section1. Original run/tape/database bytes preserved.
 
-## Section1 report ? encrypted evidence delivery
+## Section1 report — encrypted evidence delivery
 
 The amended delivery condition permits tenant IDs and definition connection
 strings; credentials remain forbidden. The original condition and finding remain
@@ -45,9 +45,34 @@ overwrite of an existing release asset was used. Four delivery tests pass,
 including hash rejection before decryption, wrong-key rejection, safe extraction,
 path-traversal refusal and separate path mapping without editing source files.
 
-**Hosted15/15 and #376 merge are pending actual CI execution.** No local pass
-is substituted for the hosted column. The final main merge-commit check will
-be quoted here after it actually runs.
+**#376 merged; the actual main merge commit passed hosted15/15.**
+Merge commit: `f4378dfeac79b74a3d2a5616b3a852336ae64df5`.
+PR check: [37277755751](https://github.com/bcsnpc/data-investigation-agent/actions/runs/37277755751).
+Actual main-commit check: [37278367358](https://github.com/bcsnpc/data-investigation-agent/actions/runs/37278367358),
+completed 2026-10-05T07:38:52Z. All six ordinary PR checks also passed.
+The following column is parsed from that main-commit hosted log, not a local run.
+
+| Ticket | Hosted main column | Walk outcome | Reproduction |
+| --- | --- | --- | --- |
+| family-A | PASSED | TRANSFORMATION_LOGIC | — |
+| family-B | PASSED | NO_KNOWN_PATTERN | — |
+| family-C | PASSED | INSUFFICIENT_EVIDENCE | — |
+| family-D | PASSED | NO_COMPARABLE_PATH | — |
+| family-E | PASSED | TRANSFORMATION_LOGIC | — |
+| family-F | PASSED | CONSISTENT_TO_BOUNDARY | — |
+| family-G | PASSED | TRANSFORMATION_LOGIC | — |
+| family-H | PASSED | NO_KNOWN_PATTERN | — |
+| family-I | PASSED | TRANSFORMATION_LOGIC | — |
+| reproduction-16 | PASSED | NO_COMPARABLE_PATH | REPRODUCED 16 |
+| reproduction-empty | PASSED | NO_COMPARABLE_PATH | REPRODUCED EMPTY |
+| source-consistent | PASSED | CONSISTENT_TO_SOURCE | — |
+| source-gap | PASSED | INGESTION_GAP | — |
+| source-latency | PASSED | LOAD_LATENCY | — |
+| source-unreachable | PASSED | CONSISTENT_TO_BOUNDARY | — |
+
+Every case recorded zero network calls and zero physical requests. These are
+pinned historical producer replays, not current-engine requalification.
+
 
 Dated hosted attempt, 2026-10-05: run37276485968 authenticated and decrypted
 the immutable bundle successfully, then passed family C and blocked the other
@@ -61,6 +86,12 @@ difference. Original failed hosted column remains in the Actions log.
 The hosted runner is now Windows, preserving archived producer path semantics;
 no tape, expectation, event matching or encrypted asset was changed. The four
 private-delivery tests still pass.
+
+The next hosted attempt37277589967 stopped before replay because a delivery
+test compared the loader's resolved long Windows temp path to its unresolved
+8.3 alias. The test now compares resolved paths on both sides; path-escape
+rejection and original source preservation remain tested. That failure remains
+in the ledger and Actions log. Subsequent PR and actual-main checks passed.
 
 Section1 estate windows: pot **0/400 before,0/400 after**,60 reserved.
 Rolling **386/1500** at the section closing read. GitHub release/secret/CI
@@ -82,12 +113,92 @@ controls are outside estate requests; no estate/model calls initiated.
 
 ## Reader design/offline report
 
-Pending. No reader capability, live binding or two-column acceptance claimed.
+2026-10-05 America/Chicago. **Blocked under section0's authorization rule.**
+The specified reader fetch through the item-definition API requires write
+permission, which this round explicitly forbids. Microsoft Learn states:
+
+> The caller must have read and write permissions for the notebook.
+
+See [Notebook Get Definition](https://learn.microsoft.com/en-us/rest/api/fabric/notebook/items/get-notebook-definition).
+[Generic Item Get Definition](https://learn.microsoft.com/en-us/rest/api/fabric/core/items/get-item-definition)
+has the same item permission requirement, and
+[Data Pipeline Get Definition](https://learn.microsoft.com/en-us/rest/api/fabric/datapipeline/items/get-data-pipeline-definition)
+also requires read and write. Choosing the generic endpoint does not remove it.
+The delegated ReadWrite scope and the item's own permission are distinct checks;
+a read grant does not meet the documented item requirement.
+
+This is a **documented route constraint**, not an observed reader HTTP403.
+No reader definition probe, permission listing, grant, new audience, identity
+change or credential was attempted. The pre-approved read-only grant was not
+applied because it would not satisfy this route. No publisher definition was
+relabeled as reader evidence. Under the prompt's stop-that-section rule the
+reader implementation and dependent live section were stopped. No new
+ProposedBinding schema, verifier, model fallback, approval gate or ledger is
+claimed; the existing design remains design only. No synthetic test results
+are invented for an unimplemented capability.
+
+The starting-state audit also found two independent discrepancies with the
+prompt: `estate_manifest.py` currently offers `inference.enabled` and
+`inference.code_resources`, but no per-boundary `may_infer_from_code` or code
+locations; both committed fixture and Databricks manifests have inference
+disabled with empty code resources. The fixture has only the application-to-
+landing configured lineage binding; its original notebook chain is currently
+derived from retained definitions in `adapters/declared_chain.py`. A future
+implementation must extend the closed contract explicitly and distinguish
+that legacy retained-definition path from reader-fetched, verified inference.
+Nothing was silently inserted into either manifest.
+
+Verifier design issue retained: agreement between a *transformed* source
+expression and its target can qualify that binding only for the tested
+quantity/context/precision. It must not replace the investigation's independent
+input-versus-output comparison, which locates the transformation difference.
+Aggregate agreement alone cannot establish equal memberships, intended grain
+or aligned snapshots. No verification rule has been implemented tonight.
+
+Section2 windows: pot **0/400 before,0/400 after**,60 reserved; rolling allowance
+**1500 unchanged**,386 last observed at section1. Zero estate/provider requests.
 
 ## Live reader report
 
-Not started.
+**Not run**, because reader-fetched notebook definitions are a precondition
+of the lineage-stripped experiment. No alternative identity or cached publisher
+definition was substituted. No binding verdict, inferred-lineage ticket, source
+control run, fixture mutation or new tape exists for this section. The second
+acceptance column is **NOT RUN**, not15/15. The first column remains historical
+pinned-producer replay and must not be described as current-engine inference
+acceptance. Pot0/400 before/after; no restoration was needed.
+
+## Section4 independent documentation
+
+Recorded the documented definition-read authorization constraint separately
+from tested platform findings. Existing SQL endpoint audit lag of at least
+6m20.259836s and the serverless Free Limit AutoPause constraint remain recorded
+with their original receipts in CLAUDE.md. The prompt's "workspace monitoring
+never enabled" is contradicted by the preserved human confirmation that
+Workspace settings Monitoring was ON and the native Monitoring artifact/database
+listing. Empty monitoring queries do not prove monitoring was disabled. That
+history was preserved; no contrary assertion or new monitoring probe was made.
+Optional allow-list shrink and ticket-history implementation were not attempted.
 
 ## Final report
 
-Pending the remaining sections and stop rules. Prior freezes remain invalid.
+The section1 main-commit hosted column above passed all fifteen cases.
+Sections2–3 stopped at the documented permission constraint; no permission was
+expanded. No new engine acceptance, freeze or unfamiliar-domain claim. Original
+evidence and failed hosted attempts remain unchanged. Prior freezes remain invalid.
+
+## DECIDED WITHOUT REVIEW — blocked reader
+
+- Applied section0's stop-that-section rule to the definition-read requirement.
+  Granting write was explicitly forbidden. Building a disconnected reader and
+  substituting publisher-retained definitions to obtain the live result was
+  rejected because it would not meet the required evidence identity.
+- Did not spend exploratory reader requests before the required offline
+  implementation/testing stage or pretend the published permission requirement
+  was an observed refusal. No unauthorized grant was attempted.
+- Preserved the documented monitoring ON finding instead of copying the
+  prompt's contradictory "never enabled" statement into known limits.
+
+Final windows, 2026-10-05 America/Chicago: RoundSix **0/400**,60 reserved,
+ordinary-work stop340; rolling **386/1500**,1114 available. No allowance,
+manifest configuration, counter, fixture, grant or estate identity changed.
