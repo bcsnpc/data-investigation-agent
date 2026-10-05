@@ -1,3 +1,9 @@
+Dated amended delivery condition, 2026-10-05 America/Chicago: the human amended
+condition3 for #376. Tenant IDs and connection-string definitions (server, database,
+driver, auth mode) are permitted identifiers. Passwords, client secrets, tokens,
+SAS credentials, keys and certificates are forbidden. Original condition and
+blocked finding below remain unchanged. The new condition supersedes them.
+
 # Canonical provider replay: fifteen of fifteen
 
 2026-10-05 UTC. Implementation PR #402 merged as

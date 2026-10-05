@@ -125,8 +125,8 @@ def run_case(case,fixture_root,output):
         if state.get('model_id')!=case['model_id'] or digest(state.get('envelope',{}).get('symptom'))!=case['ticket_hash']:
             raise TapeError('ACCEPTANCE_TICKET_IDENTITY_DIFFERS')
         result['source_session_id']=state['id']
-        path=Path(run['tape_path'])
-        if not path.is_absolute():path=fixture_root/path
+        from private_bundle import tape_path
+        path=tape_path(run,fixture_root)
         tape=Tape(path)
         # Select from the sealed bootstrap, including a recorded operator pin.
         # Never install the case's requested context into an existing tape.
