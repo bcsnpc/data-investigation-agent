@@ -1,0 +1,56 @@
+"""Isolated, zero-network replay using an explicitly pinned Git engine revision.
+
+Tape format and replay-engine revision are separate contracts. Legacy bindings
+are hash-bound annotations, not modifications to the sealed evidence.
+"""
+import io
+import json
+import re
+import subprocess
+import sys
+import tarfile
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def replay_revision(path, output, revision):
+    if not isinstance(revision, str) or not re.fullmatch('[0-9a-f]{40}', revision):
+        raise ValueError('Replay revision must be an immutable Git commit')
+    actual = subprocess.check_output(['git', 'rev-parse', revision + '^{commit}'], cwd=ROOT, text=True).strip()
+    if actual != revision:raise ValueError('Replay revision differs')
+    archive = subprocess.check_output(['git', 'archive', '--format=tar', revision], cwd=ROOT)
+    with tempfile.TemporaryDirectory(prefix='dia-recorded-engine-') as folder:
+        root = Path(folder)
+        with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
+            for member in bundle.getmembers():
+                target = (root / member.name).resolve()
+                if not target.is_relative_to(root.resolve()) or member.issym() or member.islnk():
+                    raise ValueError('Unsafe replay archive member')
+            bundle.extractall(root, filter='data')
+        driver = root / 'replay-pinned-driver.py'
+        driver.write_text("""import sys,json,socket,traceback
+from pathlib import Path
+root=Path(__file__).parent
+sys.path[:0]=[str(root/'scripts'),str(root/'acceptance/unknown_domain')]
+def refused(*a,**k):raise RuntimeError('NETWORK_FORBIDDEN')
+socket.create_connection=refused;socket.socket.connect=refused
+try:
+ from process_replay import replay
+ result=replay(sys.argv[1],sys.argv[2],allow_engine_drift=True)
+ result['replay_engine_revision']=sys.argv[3]
+ Path(sys.argv[4]).write_text(json.dumps({'result':result}))
+except Exception as exc:
+ Path(sys.argv[4]).write_text(json.dumps({'error_type':type(exc).__name__,'reason':str(exc)}))
+ raise SystemExit(1)
+""", encoding='utf-8')
+        answer = root / 'answer.json'
+        done = subprocess.run([sys.executable, str(driver), str(Path(path).resolve()),
+            str(Path(output).resolve()), revision, str(answer)], cwd=ROOT, capture_output=True, text=True, timeout=900)
+        if not answer.exists():raise ValueError('Pinned replay worker failed without response: ' + str(done.returncode))
+        value = json.loads(answer.read_text())
+        if 'result' not in value:
+            from investigator.process_tape import TapeError
+            raise TapeError(value.get('reason', 'PINNED_REPLAY_FAILED'))
+        return value['result']

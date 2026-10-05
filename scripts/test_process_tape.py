@@ -17,6 +17,24 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def test_v1_tape_replays_after_recorder_moves_to_v2(self):
+        from investigator import process_tape as journal
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'tape.json'
+            with patch.object(journal, 'VERSION', 'bounded-worker-tape-v1'):
+                recorded = Tape(path, bootstrap())
+                recorded.event('BOUNDED_REQUEST', bytes_of({'request': 1}))
+                recorded.event('BOUNDED_RESPONSE', bytes_of({'value': 2}))
+                recorded.finish({})
+            original = path.read_bytes()
+            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v2')
+            replayed = Tape(path)
+            self.assertEqual(replayed.version, 'bounded-worker-tape-v1')
+            replayed.event('BOUNDED_REQUEST', bytes_of({'request': 1}))
+            self.assertEqual(json.loads(replayed.take('BOUNDED_RESPONSE')), {'value': 2})
+            replayed.finish({})
+            self.assertEqual(path.read_bytes(), original)
+
     def test_clock_events_persist_once_without_rewriting_prior_bodies(self):
         with tempfile.TemporaryDirectory() as folder:
             tape=Tape(Path(folder)/'tape.json',bootstrap())
