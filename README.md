@@ -1,5 +1,12 @@
 2026-10-05: v2 tapes seal a replay-engine revision; v1 remains readable. Pinned engine replay is isolated and network-blocked; it is distinct from current-engine requalification. Offline regrading precedes live runs. Prior freezes invalid. [Versioned replay](docs/versioned-recorded-engine-replay.md).
 
+Round Five H: selected evidence **14/15**. The new source-consistency run
+completed CONSISTENT_TO_SOURCE: 7,661 and record 900099 absent at every checked
+layer; synthesis and byte-exact replay passed. Numeric reproduction still blocks
+on provider-request ordering, so #376 remains draft. Pot 263/400, rolling
+396/1500 last observed; diagnostic cap 12 unchanged. Prior freezes invalid.
+See [full record](docs/round-five-h-exact-span-budget.md).
+
 Budget tape replay now compares structured decisions and counts, while physical
 requests and provider bodies remain byte-exact. Recorder v3 preserves v1/v2;
 #393 accounting is explicitly versioned retrospectively. Prior freezes invalid.

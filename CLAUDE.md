@@ -501,3 +501,16 @@ after an earlier pass, with identical source bytes/tape hash and the same
 compatibility revision. Cause unestablished, both attempts preserved; no repair
 or replacement. Historical source consistency still replays only to the boundary.
 #376 remains draft; local13/15 is distinct from hosted missing-private-inputs CI.
+
+Dated Round Five H finding, 2026-10-05 UTC: #399 adds one metered exact-span
+correction; #400 compares budget decisions/counts structurally and records the
+#393 accounting version retrospectively. All fifteen preserved tapes graded
+13/15 with zero reads. Correction to the earlier numeric cause-unestablished
+entry: first mismatch is provider input map key order, not budget arithmetic;
+provider bytes remain exact and that proof remains blocked. One new source run
+a96e0ca5 completed CONSISTENT_TO_SOURCE, with 7,661 and expected record 900099
+absent at semantic, landing and application; synthesis and replay passed. Intake
+accepted first response, so live retry not exercised. Selected14/15; #376 draft.
+PARTIAL connection and SNAPSHOT_UNVERIFIED limit the claim. Pot263/400, rolling
+last observed396/1500, diagnostic12 unchanged. No grants, fixture changes, refunds
+or counter resets. See docs/round-five-h-exact-span-budget.md. Prior freezes invalid.
