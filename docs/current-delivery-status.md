@@ -1,9 +1,12 @@
 2026-10-05 America/Chicago: Round Six amended the private-delivery condition:
 identifiers and connection-string definitions are allowed; credentials are not.
 The credential-pattern scan is clean and an immutable encrypted fifteen-tape
-asset is published; key only in the Actions secret. #376 hosted execution/merge
-is pending, not replaced by local15/15. Transformation reader not built/live
-yet. Pot0/400,60 reserved; rolling386/1500 last observed.
+asset is published; key only in the Actions secret. #376 merged as `f4378df`
+after hosted15/15 and six ordinary green checks; the actual main merge commit
+also passed hosted15/15. The transformation-reader section stopped: its specified
+definition API requires write while the human authorized read only. No grant,
+reader probe, engine change or inferred-column run. Pot0/400,60 reserved;
+rolling386/1500. Earlier dated entries below remain historical.
 [Round Six report](round-six-transformation-reader.md).
 
 2026-10-05: Round Five I's complete zero-read selected-tape re-grade is **15/15**.

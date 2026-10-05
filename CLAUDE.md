@@ -1,5 +1,20 @@
 # data-investigation-agent — charter for AI implementers
 
+Dated documented route constraint, 2026-10-05 America/Chicago: Fabric Notebook,
+Data Pipeline and generic Item Get Definition APIs require item read AND write
+permission according to Microsoft Learn. Round Six approved read only and
+explicitly forbade write, so its reader-fetched transformation section stopped.
+No reader probe or grant was attempted; this is documentation evidence, not a
+tested HTTP403. Do not substitute publisher-fetched code for reader evidence.
+See docs/round-six-transformation-reader.md for links and the contract audit.
+
+Dated hosted gate delivery, 2026-10-05 America/Chicago: #376 merged as f4378df
+with six ordinary checks and the real hosted fifteen-tape check green. The
+actual main merge commit also passed15/15 in run37278367358. Archived producer
+replay is distinct from current-engine or unfamiliar-domain acceptance.
+Round Six spent0/400 estate physical requests;60 reserved, rolling386/1500.
+The reader/inferred-column sections remain blocked, not implemented or verified.
+
 Dated Round Three finding, 2026-10-04 UTC: the approved ops Warehouse audit
 producer independently retrieved own copy 361/361 and 360/360 counters and
 activity timestamps matching the reader's pipeline activity-output response.
