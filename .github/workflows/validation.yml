@@ -84,6 +84,7 @@ jobs:
           python -m unittest discover -s scripts -p test_transformation_reader.py
           python -m unittest discover -s scripts -p test_lineage_binding.py
           python -m unittest discover -s scripts -p test_transformation_service.py
+            python -m unittest discover -s scripts -p test_transformation_service_tape.py
           python -m unittest discover -s scripts -p test_transformation_approval.py
           python -m unittest discover -s scripts -p test_lineage_runtime.py
           python -m unittest discover -s scripts -p test_code_lineage_installation.py
