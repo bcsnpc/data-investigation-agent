@@ -7,7 +7,12 @@ permissions:
   contents: read
 jobs:
   known-domain-acceptance:
-    runs-on: ubuntu-latest
+    # Sealed worker descriptors were recorded with Windows Path semantics.
+    # Replay the archived producers on that OS; never rewrite their events.
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -33,4 +38,11 @@ jobs:
         run: python acceptance/known_domain/check.py --fixture-root "$RUNNER_TEMP/private-replay-inputs" --output "$RUNNER_TEMP/known-domain-acceptance"
       - name: Remove decrypted private evidence
         if: always()
-        run: rm -rf -- "$RUNNER_TEMP/private-replay-inputs" "$RUNNER_TEMP/known-domain-acceptance" "$RUNNER_TEMP/replay-ciphertext"
+        shell: pwsh
+        run: |
+          $replayRoot = [System.IO.Path]::GetFullPath($env:RUNNER_TEMP)
+          foreach ($replayName in @('private-replay-inputs', 'known-domain-acceptance', 'replay-ciphertext')) {
+            $replayTarget = [System.IO.Path]::GetFullPath((Join-Path $replayRoot $replayName))
+            if (-not $replayTarget.StartsWith($replayRoot + [System.IO.Path]::DirectorySeparatorChar)) { throw 'Cleanup outside runner temp' }
+            if (Test-Path -LiteralPath $replayTarget) { Remove-Item -LiteralPath $replayTarget -Recurse -Force }
+          }

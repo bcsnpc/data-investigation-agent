@@ -49,6 +49,19 @@ path-traversal refusal and separate path mapping without editing source files.
 is substituted for the hosted column. The final main merge-commit check will
 be quoted here after it actually runs.
 
+Dated hosted attempt, 2026-10-05: run37276485968 authenticated and decrypted
+the immutable bundle successfully, then passed family C and blocked the other
+14 at `TAPE_EVENT_DIFFERS:CLOCK:WORKER_SEND`. No estate requests occurred.
+The archived native worker normalizes the configured executable with
+`Path(v).name`: the recorded Windows path ends in `python.exe` under Windows,
+but its entire backslash-separated path is the basename under Linux. The
+sealed descriptor is `python`; Linux therefore differs before the worker send.
+The archived replay's subsequent cleanup clock masks that earlier descriptor
+difference. Original failed hosted column remains in the Actions log.
+The hosted runner is now Windows, preserving archived producer path semantics;
+no tape, expectation, event matching or encrypted asset was changed. The four
+private-delivery tests still pass.
+
 Section1 estate windows: pot **0/400 before,0/400 after**,60 reserved.
 Rolling **386/1500** at the section closing read. GitHub release/secret/CI
 controls are outside estate requests; no estate/model calls initiated.
@@ -63,6 +76,9 @@ controls are outside estate requests; no estate/model calls initiated.
   source-hash associations.
 - Kept ordinary prose/physical matching unchanged; private delivery does not
   weaken any refusal or create a replacement investigation.
+- Run archived Windows producers on Windows. Rewriting their descriptors or
+  accepting different physical requests was rejected because replay must retain
+  the producer's original behavior and the sealed transport contract.
 
 ## Reader design/offline report
 
