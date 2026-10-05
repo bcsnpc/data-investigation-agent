@@ -1,0 +1,38 @@
+{
+  "source": {
+    "id": "fixture-code-api",
+    "kind": "PLATFORM_ITEM_API",
+    "identity": "investigator-code-reader",
+    "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60",
+    "item_ids": [
+      "7ccafe59-0460-4c8a-a691-bfdfa75a2b25"
+    ]
+  },
+  "receipt": {
+    "source": "fixture-code-api",
+    "kind": "PLATFORM_ITEM_API",
+    "identity": "investigator-code-reader",
+    "path": "7ccafe59-0460-4c8a-a691-bfdfa75a2b25/notebook-content.py",
+    "locator": "149f8d99-1c66-4a0a-9624-759be002bb60/7ccafe59-0460-4c8a-a691-bfdfa75a2b25/notebook-content.py",
+    "content_hash": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+    "retrieved_at": "2026-10-05T18:15:08.544777+00:00",
+    "revision": null,
+    "provenance": "CODE_SOURCE_READ",
+    "replay_boundary": "BOUNDED_RESPONSE"
+  },
+  "parts": {
+    "notebook-content.py": {
+      "bytes": 20197,
+      "sha256": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1"
+    },
+    ".platform": {
+      "bytes": 312,
+      "sha256": "eaa125159f007e0c73ba73b5d9baedffe9d0f23bd6602ba0915cae7277465ef3"
+    }
+  },
+  "boundaries": [
+    "landing-to-refined",
+    "refined-to-serving"
+  ],
+  "credential_pattern_matches": 0
+}

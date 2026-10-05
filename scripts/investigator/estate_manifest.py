@@ -7,6 +7,7 @@ from .layer_roles import ROLES
 from .process_debugging import REQUIRED_CAPABILITIES, OPTIONAL_CAPABILITIES
 from .workspace import DYNAMIC_READ_BOUNDS, DYNAMIC_INPUT_BOUNDS
 from .estate_limits import STATEMENT_BOUND
+from .code_sources import CODE_SOURCE_SCHEMA, validate_sources as validate_code_inventory
 
 
 def obj(properties, optional=()):
@@ -43,8 +44,11 @@ SCHEMA=obj({
     'lineage':obj({'bindings':array(obj({'from_layer':STRING,'to_layer':STRING,
         'provenance':enum(('DECLARED_BY_DEFINITION','DECLARED_BY_CONFIGURATION'))})),
         'inference':obj({'enabled':BOOL,'code_resources':array(STRING)}),
+        'code_sources':array(CODE_SOURCE_SCHEMA),
+        'code_locations':array(obj({'from_layer':STRING,'to_layer':STRING,
+            'may_infer_from_code':BOOL,'locations':array(obj({'source':STRING,'path':STRING}))})),
         'source_delivery':{'anyOf':[obj({k:STRING for k in
-            ('source_asset_id','key_column_id','version_column_id','modified_column_id','time_semantics')}),{'type':'null'}]}}),
+            ('source_asset_id','key_column_id','version_column_id','modified_column_id','time_semantics')}),{'type':'null'}]}}, optional=('code_sources','code_locations')),
     'capability_ceiling':array(enum(sorted(REQUIRED_CAPABILITIES|OPTIONAL_CAPABILITIES))),
     'model':obj({'provider':STRING,'deployment':STRING,'endpoint':STRING,
         'generation_options':obj({'reasoning_effort':enum(('none','low','medium','high')),
@@ -93,7 +97,9 @@ def validate(value):
             raise ValueError('manifest.lineage.source_delivery.source_asset_id: undeclared layer')
     if not layers:raise ValueError('manifest.layers: at least one declared layer required')
     if set(layers)&set(resources):raise ValueError('manifest.resources.id: collides with a layer')
-    all_resources={**layers,**resources}
+    code_sources={s['id']:s for s in value['lineage'].get('code_sources',[])}
+    if set(code_sources)&(set(layers)|set(resources)):raise ValueError('manifest.lineage.code_sources.id: resource collision')
+    all_resources={**layers,**resources,**code_sources}
     def ref(key,pool,path):
         if key not in pool:raise ValueError('manifest.'+path+': unknown reference '+key)
     if value['system_of_record'] is not None:ref(value['system_of_record'],layers,'system_of_record')
@@ -118,9 +124,11 @@ def validate(value):
     for i,binding in enumerate(value['lineage']['bindings']):
         for side in ('from_layer','to_layer'):ref(binding[side],layers,f'lineage.bindings.{i}.{side}')
     inference=value['lineage']['inference']
-    if inference['enabled'] and not inference['code_resources']:raise ValueError('manifest.lineage.inference.code_resources: enabled without source')
+    if inference['enabled'] and not inference['code_resources'] and not any(x['may_infer_from_code'] and x['locations'] for x in value['lineage'].get('code_locations',[])):
+        raise ValueError('manifest.lineage.inference.code_resources: enabled without source')
     for key in inference['code_resources']:ref(key,resources,'lineage.inference.code_resources')
     for i,limit in enumerate(value['accepted_limits']):ref(limit['resource'],all_resources,f'accepted_limits.{i}.resource')
+    validate_code_inventory(value)
     from .business_vocabulary import validate_identifier_form
     for i,limit in enumerate(value['accepted_limits']):
         from .estate_limits import render
