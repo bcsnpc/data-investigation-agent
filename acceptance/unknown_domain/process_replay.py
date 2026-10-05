@@ -30,7 +30,8 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
             raise journal.TapeError('TAPE_BOOTSTRAP_ARTIFACT_CHANGED:'+name)
         shutil.copyfile(Path(path).parent/name,output/name)
     config=bootstrap['config'];settings=bootstrap['state']
-    store=ModelStore(output/'catalog.sqlite',output/'inventory.sqlite',settings['environment'])
+    store=ModelStore(output/'catalog.sqlite',output/'inventory.sqlite',settings['environment'],
+                     context_pins=settings.get('context_pins'))
     runtime=Runtime(store,config,native_transport or (lambda r:native(config,r)),
                     source_transport or (lambda r:source(config,r)))
     agent=AdaptiveRuntime(runtime,azure_plan,planner_profile=bootstrap['profile'],usage_policy=bootstrap['usage_policy'])

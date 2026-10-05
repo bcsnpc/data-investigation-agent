@@ -9,6 +9,13 @@ from investigator.output_contract import business_text
 
 
 class EvidenceProseTests(unittest.TestCase):
+    def test_complete_adverbial_in_between_is_not_a_dangling_preposition(self):
+        recorded = 'The displayed comparison records that the measure value passes unchanged across the checked boundary, with the same total on each side and no recorded transformation step in between.'
+        self.assertEqual(evidence_prose.validate(recorded,500),recorded)
+        for bad in ('The difference is between.', 'The comparison is between.', 'The evidence stops with.'):
+            with self.subTest(text=bad),self.assertRaises(evidence_prose.IncompleteProse):
+                evidence_prose.validate(bad,500)
+
     def test_boundary_and_incomplete_endings_are_rejected_without_changes(self):
         for size in (limits.ASSESSMENT_DETAIL,limits.ASSESSMENT_CLAIM):
             good='A'*(size-1)+'.'

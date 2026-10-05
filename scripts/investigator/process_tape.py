@@ -123,6 +123,16 @@ class Tape:
         if bootstrap['entry_point']=='workspace':
             state=bootstrap['state']
             fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}
+            if 'context_pins' in state:
+                fields.add('context_pins')
+                pins=state['context_pins']
+                if not isinstance(pins,dict) or not pins:raise TapeError('TAPE_CONTEXT_PINS')
+                for identity,pin in pins.items():
+                    if (not isinstance(identity,str) or not identity or not isinstance(pin,dict)
+                        or set(pin)!={'context_id','hash'}
+                        or not isinstance(pin['context_id'],str) or not UUID_PATTERN.fullmatch(pin['context_id'])
+                        or not isinstance(pin['hash'],str) or not re.fullmatch('[0-9a-f]{64}',pin['hash'])):
+                        raise TapeError('TAPE_CONTEXT_PINS')
             if set(state)!=fields:raise TapeError('TAPE_BOOTSTRAP_STATE_FIELDS')
             if not isinstance(state['environment'],str) or not state['environment']:
                 raise TapeError('TAPE_BOOTSTRAP_ENVIRONMENT')

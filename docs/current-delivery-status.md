@@ -1,5 +1,16 @@
 # Current delivery status
 
+Dated Round Five correction, 2026-10-05 UTC: EMPTY's fixture state, 16's grading,
+I's subject-as-selection intake defect and transient application connection handling
+were separate causes; the manifest migration hypothesis was wrong. Context pins,
+closed value roles and bounded physical-request retries are under evaluation.
+EMPTY's one rerun held at intake before any read; I completed TRANSFORMATION_LOGIC
+and kept business meaning Not answered, but used a newer context than its earned
+acceptance pin. Source consistency completed CONSISTENT_TO_BOUNDARY after an application quantity OSError; F completed synthesis. The duplicate-role false positive and retry admission catch were corrected offline afterwards, without replacement runs. Batch: 31 physical requests; Round Five 213/400, rolling last observed 630/1500, diagnostics 12 unchanged. Eleven original tapes replayed; only 16 passes corrected pinned acceptance. Original
+attempts and zero-read grading failures remain intact; #376 stays draft. No new
+fixture, identity or budget. Prior freezes invalid. See
+[the correction and checks](round-five-regression-contracts.md).
+
 Dated recording-overhead repair, 2026-10-04: every event is persisted once;
 clock ticks no longer rewrite all earlier worker/budget bodies. 21 focused
 tests pass, including actual-engine output replay. EMPTY remains its single

@@ -101,7 +101,10 @@ class TapeTests(unittest.TestCase):
     def test_failed_composition_is_replayable_failure_not_completed_outputs(self):
         self.exercise_process(failed_composition=True)
 
-    def exercise_process(self,failed_composition=False):
+    def test_explicit_acceptance_context_pin_is_recorded_and_replayed(self):
+        self.exercise_process(pinned_context=True)
+
+    def exercise_process(self,failed_composition=False,pinned_context=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -110,6 +113,10 @@ class TapeTests(unittest.TestCase):
         from investigator.workspace import Workspace
         from investigator.question_intake import azure_resolve
         helper=fixture.DynamicTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        if pinned_context:
+            from investigator.onboarding import digest
+            model=helper.store.get(helper.envelope['model_id'])
+            helper.store.context_pins={model['id']:{'context_id':model['context_id'],'hash':digest(model['context'])}}
         policy={'environment':helper.store.environment,'daily_limits':{'planner_calls':50,
             'cloud_calls':50,'input_characters':1000000,'output_tokens':100000},
             'max_inflight_planners':1,'no_progress_limit':3}
@@ -125,7 +132,7 @@ class TapeTests(unittest.TestCase):
             body=json.loads(request.content);view=json.loads(body['input'])
             if body['tool_choice']['name']=='resolve_business_question':
                 metric=next(m for m in view['models'][0]['measures'] if m['name']=='Total')
-                value={'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':view['text']}},
+                value={'value_mentions':[],'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':view['text']}},
                     'report_quote':None,'target_request':None,'reported_candidates':[],
                     'action':'PROPOSE','model_id':view['models'][0]['id'],'measure_id':metric['id'],
                     'metric_quote':'Total','question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL',
@@ -152,6 +159,7 @@ class TapeTests(unittest.TestCase):
             agent.run(created['id']);result=agent.synthesize(created['id'])
         self.assertEqual(result['synthesis']['status'],'FAILED' if failed_composition else 'COMPLETED')
         tape=agent._run_tapes[created['id']]
+        if pinned_context:self.assertEqual(tape.bootstrap['state']['context_pins'],helper.store.context_pins)
         sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
         from acceptance.unknown_domain.process_replay import replay
         with tempfile.TemporaryDirectory() as output:

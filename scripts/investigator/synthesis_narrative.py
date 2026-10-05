@@ -107,6 +107,10 @@ def assemble(response,payload,state):
                       'additional_limitations':[],
                       'recommended_action':copy.deepcopy(recommended)}
     outputs['technical_output']['path_order']=path_narrative.facts(payload)
+    outputs['technical_output']['model_mechanism']={
+        'text':'' if rejected or layer_rejection else value['technical_output']['text'],
+        'provenance':'PROVIDER_MECHANISM',
+        'evidence_ids':copy.deepcopy(value['technical_output']['evidence_ids'])}
     from . import narrative_form
     from .snapshot_attestation import payload_comparisons
     for key in ('business_output','technical_output'):

@@ -45,6 +45,30 @@ def scope(meter):
     finally: _scope.reset(token)
 
 
+def retry_connection(read):
+    """Admit each connection retry before transport; preserve the failed slot.
+
+    The enclosing diagnostic's initial reservation stays charged. The retry's
+    meter installs a fresh physical scope, so its first guard consumes its own
+    reservation, and subsequent commands remain individually admitted.
+    """
+    state=_scope.get()
+    if state is None:return read()
+    if state['first']:
+        state['first']=False
+        state['first_report']={'status':'FAILED','request_kind':'sql_connection'}
+    return state['meter']('sql_connection_retry',read)
+
+
+def connection_failure(number):
+    """The reserved slot observed a failed connection, before any SQL command."""
+    state=_scope.get()
+    if state is not None and state['first']:
+        state['first']=False
+        state['first_report']={'status':'FAILED','request_kind':'sql_connection',
+                               'sql_error_number':number,'stage':'connect'}
+
+
 def run(command, *, input, timeout, fallback=None, **kwargs):
     state=_scope.get()
     if state is None:

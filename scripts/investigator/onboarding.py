@@ -40,10 +40,18 @@ def fields(body, expected):
 
 
 class ModelStore:
-    def __init__(self, database, inventory, environment):
+    def __init__(self, database, inventory, environment, *, context_pins=None):
         self.database = Path(database)
         self.inventory = Path(inventory)
         self.environment = text(environment, 100)
+        # Operator-owned acceptance selection. Never changes retained metadata,
+        # model enablement, current discovery approval, or reader scope.
+        self.context_pins = json.loads(encoded(context_pins or {}))
+        for identity,pin in self.context_pins.items():
+            text(identity,4000);fields(pin,['context_id','hash'])
+            str(UUID(text(pin['context_id'],100)))
+            if not isinstance(pin['hash'],str) or len(pin['hash'])!=64 or any(c not in '0123456789abcdef' for c in pin['hash']):
+                raise ValueError('Context pin requires its immutable context hash')
         self.database.parent.mkdir(parents=True, exist_ok=True)
         with self.connect() as db:
             db.executescript('''
@@ -119,7 +127,12 @@ class ModelStore:
             row['reports'] = json.loads(row['reports'])
             row['business'] = json.loads(row['business'])
             row['enabled'] = bool(row['enabled'])
+            pin=self.context_pins.get(identity)
+            if pin:
+                row['context_id']=pin['context_id']
             context = self._context(db, identity, row['context_id']) if row['context_id'] else None
+            if pin and digest(context)!=pin['hash']:
+                raise Conflict('Pinned context hash differs')
             row['context'] = context
             discovered = db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='discovery_models'").fetchone()
             discovered = db.execute('SELECT denied,policy_hash FROM discovery_models WHERE model_id=?',(identity,)).fetchone() if discovered else None

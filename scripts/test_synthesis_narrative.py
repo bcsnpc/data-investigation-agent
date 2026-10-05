@@ -6,6 +6,17 @@ from investigator import process_outcomes,assessment_support
 import test_process_debugging as contract_fixtures
 
 class NarrativeContractTests(unittest.TestCase):
+    def test_model_mechanism_is_explicit_and_separate_from_rendered_spine(self):
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY')
+        value=self.response(payload)
+        value['technical_output']['text']='The measured quantity passes through unchanged.'
+        _,outputs=narrative.assemble(narrative.Response(value),payload,state)
+        mechanism=outputs['technical_output']['model_mechanism']
+        self.assertEqual(mechanism['text'],value['technical_output']['text'])
+        self.assertEqual(mechanism['provenance'],'PROVIDER_MECHANISM')
+        self.assertNotIn('Measure:',mechanism['text'])
+        self.assertIn('Measure:',outputs['technical_output']['explanation']['text'])
+
     def test_wrong_layer_role_omits_only_paragraph_and_keeps_the_finding(self):
         state,payload=self.source('TRANSFORMATION_LOGIC')
         for text in ('The application measure repeats matches.','L0 (APPLICATION) repeats matches.'):

@@ -65,6 +65,8 @@ def operation(name):
                         'artifacts':{name:journal.sha((root/name).read_bytes()) for name in ('catalog.sqlite','inventory.sqlite')},
                         'dynamic_read_limit':getattr(getattr(owner,'workspace',owner),'dynamic_read_limit',12),
                         'dynamic_input_limit':getattr(getattr(owner,'workspace',owner),'dynamic_input_limit',384000)}}
+                if getattr(agent.store,'context_pins',None):
+                    bootstrap['state']['context_pins']=agent.store.context_pins
                 tape=journal.Tape(root/'tape.json',bootstrap)
             error=None;result=None
             with journal.active(tape):

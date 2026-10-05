@@ -140,7 +140,7 @@ class TranslationTests(unittest.TestCase):
             'columns':[{'column_id':'column','name':'Region'}]}]}
     def test_model_extracts_value_without_emitting_resolution_or_guessing_column(self):
         request={'value_source':{'quote':'North'},'column_source':None,'descriptor':{'state':'VALUE_ONLY','source':None}}
-        response={'question_kind':{'kind':'VISUAL_CONTENT','source':{'quote':'Revenue'}},'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'Revenue','question':None,
+        response={'value_mentions':[{'role':'SELECTION','source':{'quote':'North'}}],'question_kind':{'kind':'VISUAL_CONTENT','source':{'quote':'Revenue'}},'action':'PROPOSE','model_id':'m0','measure_id':'m0v0','metric_quote':'Revenue','question':None,
             'triage':'MISMATCH_COMPLAINT:VERTICAL','filters':[],'dimension_ids':[],'reported_candidates':[],
             'target_request':request,'report_quote':None}
         with patch('ticket_planner.azure_generate',return_value=(response,{})):
@@ -157,7 +157,7 @@ class TranslationTests(unittest.TestCase):
         expected['models'][0]['id']='m0'
         expected['models'][0]['measures'][0]['id']='m0v0'
         expected['models'][0]['columns'][0]['column_id']='m0c0'
-        expected.update(implemented_routes=wire['implemented_routes'],question_kinds=wire['question_kinds'])
+        expected.update(implemented_routes=wire['implemented_routes'],question_kinds=wire['question_kinds'],value_roles=wire['value_roles'])
         self.assertEqual(encoded(wire),encoded(expected))
         before=copy.deepcopy(schema);before['properties'].pop('target_request');before['required'].remove('target_request')
         self.assertGreater(len(encoded(schema)),len(encoded(before)))
