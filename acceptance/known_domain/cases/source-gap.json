@@ -1,7 +1,6 @@
 {
   "version": 3,
   "ticket": "source-gap",
-  "source_session_id": "68043c99-dd9b-401e-ba45-0a89ae5daa00",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -62,5 +61,8 @@
     ],
     "reproduction": null
   },
-  "walk_outcome_recorded": "INGESTION_GAP"
+  "walk_outcome_recorded": "INGESTION_GAP",
+  "reference_session_id": "68043c99-dd9b-401e-ba45-0a89ae5daa00",
+  "model_id": "290ed2ac-2d38-42dd-9c39-d66785bec5e1",
+  "ticket_hash": "c97a2f839f5806d97ace3df68dbb0acf7b8e13adb238351638e243969d9805d1"
 }

@@ -1,7 +1,6 @@
 {
   "version": 3,
   "ticket": "source-consistent",
-  "source_session_id": "2f0dacf4-cbad-4dd0-b51c-18dfb1fc9ebd",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -57,5 +56,8 @@
     ],
     "reproduction": null
   },
-  "walk_outcome_recorded": "CONSISTENT_TO_SOURCE"
+  "walk_outcome_recorded": "CONSISTENT_TO_SOURCE",
+  "reference_session_id": "2f0dacf4-cbad-4dd0-b51c-18dfb1fc9ebd",
+  "model_id": "290ed2ac-2d38-42dd-9c39-d66785bec5e1",
+  "ticket_hash": "9cd26d1fc215bbbdadfb456b46608ad74f2505ba0e3be32884c3a635970fb80c"
 }

@@ -1,7 +1,6 @@
 {
   "version": 3,
   "ticket": "reproduction-16",
-  "source_session_id": "6308d027-2ed3-4cf7-b87a-ee9aff105bfa",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -41,5 +40,8 @@
       "reported_value": "16"
     }
   },
-  "walk_outcome_recorded": "NO_COMPARABLE_PATH"
+  "walk_outcome_recorded": "NO_COMPARABLE_PATH",
+  "reference_session_id": "6308d027-2ed3-4cf7-b87a-ee9aff105bfa",
+  "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+  "ticket_hash": "6ea876ab7da68a45a5042318606dda054e696ea12a4acfe1a31c33239ef36911"
 }

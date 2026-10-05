@@ -12,6 +12,8 @@ INVARIANTS=frozenset(('both_outputs','no_serialized_structure','no_business_iden
 def validate_case(case):
     from investigator.acceptance_context import validate_case_pin
     validate_case_pin(case)
+    if not case.get('reference_session_id') or not case.get('model_id') or not re.fullmatch('[0-9a-f]{64}',case.get('ticket_hash','')):
+        raise ValueError('Acceptance reference/ticket identity is incomplete')
     expected=case.get('expected',{})
     if (case.get('version')!=3 or set(case['invariants'])!=INVARIANTS
             or len(case['invariants'])!=len(INVARIANTS)
@@ -103,7 +105,7 @@ def sealed_mechanism(path):
 
 
 def run_case(case,fixture_root,output):
-    result={'ticket':case['ticket'],'source_session_id':case['source_session_id'],
+    result={'ticket':case['ticket'],'reference_session_id':case['reference_session_id'],
             'status':'BLOCKED','network_calls':0,'physical_requests':0,'errors':[]}
     input_path=fixture_root/'known-domain-runs'/(case['ticket']+'.json')
     if not input_path.is_file():
@@ -115,8 +117,10 @@ def run_case(case,fixture_root,output):
     def no_network(*args,**kwargs):raise TapeError('NETWORK_FORBIDDEN')
     try:
         run=json.loads(input_path.read_text(encoding='utf-8'))
-        if (run.get('session') or {}).get('id')!=case['source_session_id']:
-            raise TapeError('ACCEPTANCE_RUN_ID_DIFFERS')
+        state=run.get('session') or {}
+        if state.get('model_id')!=case['model_id'] or digest(state.get('envelope',{}).get('symptom'))!=case['ticket_hash']:
+            raise TapeError('ACCEPTANCE_TICKET_IDENTITY_DIFFERS')
+        result['source_session_id']=state['id']
         path=Path(run['tape_path'])
         if not path.is_absolute():path=fixture_root/path
         tape=Tape(path)
@@ -163,7 +167,7 @@ def main():
         if args.ledger:
             from datetime import datetime,timezone
             row={'experiment':'ROUND_FOUR_OFFLINE_ACCEPTANCE','mode':'offline','run_key':case['ticket'],
-                 'session_id':'round-four-offline-'+case['ticket'],'source_session_id':case['source_session_id'],
+                 'session_id':'round-four-offline-'+case['ticket'],'reference_session_id':case['reference_session_id'],
                  'date_utc':datetime.now(timezone.utc).isoformat(),'status':result['status'],
                  'stop_reason':result.get('reason'),'physical_requests':0,'diagnostic_reads':0,'planner_calls':0,
                  'notes_doc':'docs/round-four-acceptance-gaps.md'}

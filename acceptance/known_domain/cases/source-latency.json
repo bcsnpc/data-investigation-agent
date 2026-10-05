@@ -1,7 +1,6 @@
 {
   "version": 3,
   "ticket": "source-latency",
-  "source_session_id": "577a3cec-35ff-4637-bb9f-665a361bdf9a",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -62,5 +61,8 @@
     ],
     "reproduction": null
   },
-  "walk_outcome_recorded": "LOAD_LATENCY"
+  "walk_outcome_recorded": "LOAD_LATENCY",
+  "reference_session_id": "577a3cec-35ff-4637-bb9f-665a361bdf9a",
+  "model_id": "290ed2ac-2d38-42dd-9c39-d66785bec5e1",
+  "ticket_hash": "e39f05ae74dfafd0da3867870ad019c3cf1ccaf2936f449ff003ff43433b535f"
 }

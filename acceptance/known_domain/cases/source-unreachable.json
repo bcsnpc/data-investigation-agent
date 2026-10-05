@@ -1,7 +1,6 @@
 {
   "version": 3,
   "ticket": "source-unreachable",
-  "source_session_id": "dec91229-127c-491d-a697-629397dae119",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -51,5 +50,8 @@
     ],
     "reproduction": null
   },
-  "walk_outcome_recorded": "CONSISTENT_TO_BOUNDARY"
+  "walk_outcome_recorded": "CONSISTENT_TO_BOUNDARY",
+  "reference_session_id": "dec91229-127c-491d-a697-629397dae119",
+  "model_id": "290ed2ac-2d38-42dd-9c39-d66785bec5e1",
+  "ticket_hash": "9cd26d1fc215bbbdadfb456b46608ad74f2505ba0e3be32884c3a635970fb80c"
 }

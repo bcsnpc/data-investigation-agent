@@ -11,7 +11,7 @@ class AcceptanceGateTests(unittest.TestCase):
                 **({'model_mechanism':{'text':'The calculation requires business context.','provenance':'PROVIDER_MECHANISM'}} if k=='technical_output' else {})}
                 for k in ('business_output','technical_output')}}}
     def case(self,state=None):
-        return {'version':3,'context_pin':{'context_id':'00000000-0000-4000-8000-000000000001','hash':'a'*64},
+        return {'version':3,'reference_session_id':'reference','model_id':'model','ticket_hash':'a'*64,'context_pin':{'context_id':'00000000-0000-4000-8000-000000000001','hash':'a'*64},
             'expected':gate.project(state or self.state()),'invariants':sorted(gate.INVARIANTS),'acceptance_change_reason':'Structured reference.'}
     def errors(self,state,case=None):return gate.output_checks(case or self.case(),state,pinned_context=self.case()['context_pin'])
 
@@ -62,7 +62,7 @@ class AcceptanceGateTests(unittest.TestCase):
 
     def test_missing_private_inputs_blocks_without_network(self):
         with tempfile.TemporaryDirectory() as d:
-            c={**self.case(),'ticket':'test','source_session_id':'source'};r=gate.run_case(c,Path(d),Path(d)/'out')
+            c={**self.case(),'ticket':'test','reference_session_id':'source'};r=gate.run_case(c,Path(d),Path(d)/'out')
         self.assertEqual(r['status'],'BLOCKED');self.assertEqual(r['network_calls'],0)
 
 if __name__=='__main__':unittest.main()

@@ -1,7 +1,6 @@
 {
   "version": 3,
   "ticket": "family-A",
-  "source_session_id": "beb6b607-cb98-47f8-b1e2-9e7b2dfe8ac7",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -57,5 +56,8 @@
     ],
     "reproduction": null
   },
-  "walk_outcome_recorded": "TRANSFORMATION_LOGIC"
+  "walk_outcome_recorded": "TRANSFORMATION_LOGIC",
+  "reference_session_id": "beb6b607-cb98-47f8-b1e2-9e7b2dfe8ac7",
+  "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+  "ticket_hash": "a810a0664612cb51e970293ba66e4eb382eacb1365e32b5be9bd8c0377778d1d"
 }

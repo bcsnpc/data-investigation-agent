@@ -1,7 +1,6 @@
 {
   "version": 3,
   "ticket": "reproduction-empty",
-  "source_session_id": "d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36",
   "invariants": [
     "both_outputs",
     "no_serialized_structure",
@@ -40,5 +39,8 @@
       "reported_value": null
     }
   },
-  "walk_outcome_recorded": "NO_COMPARABLE_PATH"
+  "walk_outcome_recorded": "NO_COMPARABLE_PATH",
+  "reference_session_id": "d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36",
+  "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+  "ticket_hash": "fa93cd6a81007a8242502fc193572c7fb031629701ff6e9fb83a8e39fa772a72"
 }
