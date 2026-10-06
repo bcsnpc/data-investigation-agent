@@ -13,6 +13,8 @@ A read-only debugger for a reported number across a declared data estate. It dis
 
 ## Current limits
 
+The above-adapter literal ratchet is83 matches in17 legacy modules, down from85; zero is not claimed. [Remaining words and migration reasons](docs/round-seven-neutrality-audit.md).
+
 This is known-domain fixture evidence, not unfamiliar-domain acceptance or global equivalence. The gate replays sealed producer revisions and grades with current output contracts; it does not run every old request through today's planner. **SNAPSHOT_UNVERIFIED is the standing ceiling** until value queries can report aligned served versions. Filtered lower-layer equivalence, some ratio/component paths and unfamiliar code forms still refuse. Only installed adapters execute; a valid manifest grants no access and establishes no equivalence.
 
 [Round Six delivery](docs/round-six-delivery-record.md) · [Round Seven evidence](docs/round-seven-close-the-gate.md) · [Current status](docs/current-delivery-status.md) · [Two-column gate](docs/two-column-replay-gate.md).
