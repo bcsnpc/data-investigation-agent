@@ -10,6 +10,7 @@ import tarfile
 
 MAGIC = b'DIA1'
 PUBLIC_MAGIC = b'DIA2'
+MAX_BUNDLE_BYTES = 4_000_000_000
 
 
 def recipient_key(key):
@@ -53,7 +54,7 @@ def hydrate(ciphertext, expected_hash, key, output, *, expected_members=61, inve
         raise ValueError('PRIVATE_BUNDLE_OUTPUT_ALREADY_EXISTS')
     with tarfile.open(fileobj=io.BytesIO(plain), mode='r:gz') as archive:
         members = archive.getmembers()
-        if len(members) != expected_members or sum(m.size for m in members) > 3_000_000_000:
+        if len(members) != expected_members or sum(m.size for m in members) > MAX_BUNDLE_BYTES:
             raise ValueError('PRIVATE_BUNDLE_SIZE_OR_INVENTORY')
         if len({m.name for m in members}) != len(members):
             raise ValueError('PRIVATE_BUNDLE_DUPLICATE_MEMBER')

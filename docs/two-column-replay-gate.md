@@ -26,6 +26,14 @@ format tests run before replay. Delivery hashes and the release tag will be
 recorded after the immutable second bundle has been published. Only encrypted
 evidence is published; no estate credential or reader scope changes.
 
+The measured fifteen inferred tapes plus their databases exceed the original
+three-billion-byte extraction ceiling (3,044,552,001 bytes before source-run
+files and manifest pointers). The delivery-only extraction ceiling is four
+billion bytes, with an exact pinned member inventory for the new bundle.
+Original evidence is neither compacted nor rewritten to fit the old ceiling.
+This bounds runner disk work, not estate requests; all investigation and
+physical-request budgets remain unchanged.
+
 The dependency is pinned to PyNaCl 1.6.2, whose
 [maintainer changelog](https://pypi.org/project/PyNaCl/#changelog) records the
 updated libsodium security fix. Current engine code and live-run producer
