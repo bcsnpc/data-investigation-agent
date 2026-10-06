@@ -6,6 +6,7 @@ EMPTY_FORMS=('blank','empty','nothing','no data','no value','no rows','dash','sh
 SHOWN_MARKER=r'\b(?:shows?|displays?|returns?|reads?|reports|visual|card|chart|cell|shown value|reported figure|reported value)\b'
 NUMBER=r'[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*[KMBkmb]?(?![\w/-]|\.\d)'
 NUMBER_MARKER=r'\b(?:shows?|displays?|returns?|reads?|reports|(?:figure|value|number|total|amount)\s*(?:is|=|:))\s*(?:exactly\s+|about\s+|around\s+|roughly\s+|approximately\s+)?[\"\']?'
+DASH_SHOWN_MARKER=r'\b(?:shows?|displays?|returns?|reads?|reports|(?:figure|value|number|visual|card|chart|cell)\s*(?:is|=|:))\s*(?:a\s+)?[\"\']?$'
 
 
 def empty_matches(text):
@@ -20,6 +21,7 @@ def explicit_statements(ticket):
         # A definition mentioning a blank is not a statement of a shown value.
         prefix=ticket[max(0,match.start()-100):match.start()]
         prefix=re.split(r'[.!?\n]',prefix)[-1]
+        if match.group().casefold() in ('-','dash') and not re.search(DASH_SHOWN_MARKER,prefix,re.I):continue
         if not re.search(SHOWN_MARKER,prefix,re.I) and match.group().casefold()!='shows none':continue
         found.append({'kind':'EMPTY','source':{'start':match.start(),'end':match.end(),'quote':match.group()}})
     for match in re.finditer(NUMBER_MARKER+'(?P<figure>'+NUMBER+')',ticket,re.I):

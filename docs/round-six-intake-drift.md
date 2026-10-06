@@ -89,3 +89,28 @@ delivery claims remain unchanged until the actual 15x2 gate merges. The remainin
 authorized live list is EMPTY, numeric16, ingestion-gap and source-consistency,
 one attempt each, with source prewarm/restoration recorded as controls and a stop
 on the first changed result.
+
+## Section 2 completion checkpoint
+
+The committed `ad47c58` engine passed 2,027 complete regression tests. The initial
+failed sweep is preserved: twelve golden prompt mismatches, eleven uncommitted
+engine refusals from the recorder, and one transient replay setup count of four
+calls rather than six. Removing the unnecessary initial-prompt addition and
+committing the engine resolved the known causes; all 42 isolated recorder/replay
+tests and the complete committed sweep passed. No refusal was weakened.
+
+Regrading the two preserved intake decisions under the current consumer accepts
+declared EMPTY and rejects inferred UNSPECIFIED for correction. This found a false
+positive: the dash in the visual's title was also inventoried. The final refinement
+requires a dash to be stated as the shown value. A named test asserts that the
+exact EMPTY ticket matches only `nothing` (128:135) and `empty` (151:156), not the
+title separator. Twelve new tests plus seven quote-retry and four golden tests
+pass (23). The final correction input is 35,353 canonical characters, a 224-character
+increase; the earlier 284-character measurement above is retained as the
+pre-refinement result. Initial input and all catalog coverage remain unchanged.
+
+The initial wire stays byte-exact. No figure is synthesized by this validation,
+no tolerance is introduced, and both original runs remain unchanged. Ordinary CI
+was six green checks on `ad47c58`; final refinement CI and archived regrade are
+tracked separately. No I live request has occurred. Prior freezes invalid;
+15x2 unearned, #410 draft. This is the required report before live work.

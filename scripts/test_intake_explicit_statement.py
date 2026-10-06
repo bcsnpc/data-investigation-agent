@@ -86,6 +86,14 @@ class RegistryTests(unittest.TestCase):
         self.assertEqual(registry.explicit_statements('The visual shows -5.')[0]['kind'],'NUMBER')
         self.assertEqual(figure.from_candidates([{'start':0,'end':2,'quote':'-5'}],'-5')['state'],'NUMBER')
 
+    def test_visual_name_dash_is_not_a_shown_empty_value(self):
+        self.assertEqual({r['source']['quote'] for r in registry.explicit_statements(EMPTY_TICKET)},
+                         {'nothing','empty'})
+        self.assertEqual(registry.explicit_statements('The card Revenue - monthly looks wrong.'),[])
+        self.assertEqual(registry.explicit_statements('The card Dash looks wrong.'),[])
+        for ticket in ('The card shows -.','The visual is a dash.'):
+            self.assertEqual(registry.explicit_statements(ticket)[0]['kind'],'EMPTY')
+
     def test_ask_remains_fenced_not_forced_to_invent_a_figure(self):
         registry.validate(fixture.ask(),'The visual is empty; which measure?')
 
