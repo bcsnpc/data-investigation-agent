@@ -7,7 +7,8 @@ Updated 2026-10-06 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 **Round Nine offline integration in progress.** Forty-five translation tests
 pass, including governed DAX/SQL compiler and receipt paths with injected
 transports. Empty native key sets retain attestation; truncated sets refuse.
-Measure probes preserve cell addresses and use verification accounting. Supported native Top-N/day-relative definitions compile offline. Runtime
+Measure probes preserve cell addresses and use verification accounting. A keyed
+measure sample now refuses before reads: SQL cell-scope binding is not implemented. Supported native Top-N/day-relative definitions compile offline. Runtime
 wiring and live trials remain pending; existing filtered-scope refusal unchanged.
 Stable checkpoint `4e61a5e` passed 2,100 regression tests. Earlier `8de0e84`
 passed seven hosted checks; local archived/inferred replay is 15/15 in each

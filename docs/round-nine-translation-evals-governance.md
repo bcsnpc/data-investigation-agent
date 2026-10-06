@@ -229,3 +229,29 @@ No estate reads or provider calls, fixture/configuration/identity changes, or
 budget admission in Round Nine. Runtime wiring, complete binding production,
 evals, redaction/provider-region, rebuild/demo and live verification remain
 pending. Draft #420 remains open; no freeze or acceptance claim.
+
+
+## Dated correction: translated measure cell scope (2026-10-06)
+
+Audit found a defect in the draft measure route: it applied a keyed restriction
+on native DAX but reused the complete proposed SQL unchanged. The injected
+transport returned the same constant for both, so the three-cell route test
+passed without demonstrating faithful source scope. That earlier test result
+remains historical; it did not establish scoped translation. No live read or
+persisted investigation proof used this default-unused route.
+
+The route now refuses any nonempty base/cell restriction before reads until
+verified column bindings can compile it on SQL. A permanent test checks zero
+reads and zero verification budget charged for the keyed three-cell sample.
+Unrestricted native/SQL probes still retain their original addressed values;
+that transport test does not claim three-cell verification. Generic core tests
+continue to exercise independently evaluated three-cell verification and
+falsification. Forty-five translation tests pass after the correction.
+
+The revised negative test also exposed misuse of revalidate() on UNVERIFIED
+compiler refusals: there are no observations to replay. It now explicitly rejects
+those as having no observation proof; the ledger already only revalidates
+VERIFIED/FALSIFIED evidence. The intermediate test error is preserved below.
+Existing lower-walk filtered refusal stays untouched. This is a capability gap to
+build, not a reason to stamp an unfiltered statement with a keyed cell address.
+No live section6 trials begin while their faithful scope wiring is incomplete.

@@ -281,6 +281,8 @@ def verify(proposal, request, *, cells, compiler, execute, budget, cross_boundar
 
 
 def revalidate(receipt):
+    if receipt['status'] not in ('VERIFIED', 'FALSIFIED'):
+        raise ValueError('Unverified translation has no observation proof to revalidate')
     observations = iter(copy.deepcopy(receipt['observations']))
     if receipt['native_observation'] is not None: next(observations)
     class OfflineBudget:

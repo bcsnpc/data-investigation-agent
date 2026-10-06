@@ -42,23 +42,24 @@ class MeasureTranslationTests(unittest.TestCase):
             verification_meter=lambda tool, execute: execute())
         return request, proposal, route, cells
 
-    def test_three_original_cells_execute_on_actual_governed_native_and_sql_routes(self):
+    def test_keyed_sample_without_source_scope_binding_refuses_before_any_read(self):
         request, proposal, route, cells = self.build()
         budget = VerificationBudget({}, 3, record=lambda _: None)
         result = t.verify(proposal, request, cells=cells, compiler=route.compile, execute=route.execute,
                           budget=budget, cross_boundary=True)
-        self.assertEqual(result['status'], 'VERIFIED', result['reason'])
-        self.assertEqual(budget.count, 6); self.assertEqual(len(self.requests), 3); self.assertEqual(len(self.sql_requests), 3)
+        self.assertEqual(result['status'], 'UNVERIFIED', result['reason'])
+        self.assertIn('verified column bindings', result['reason'])
+        self.assertEqual(budget.count, 0); self.assertEqual(len(self.requests), 0); self.assertEqual(len(self.sql_requests), 0)
         self.assertEqual(self.meters, [])
-        self.assertIn('TREATAS', self.requests[-1]['query'])
-        self.assertEqual(t.revalidate(result), result)
+        with self.assertRaisesRegex(ValueError, 'no observation proof'): t.revalidate(result)
 
-    def test_differing_quantity_falsifies_and_preserves_both_values(self):
+    def test_unrestricted_native_and_source_probes_preserve_differing_original_values(self):
         request, proposal, route, cells = self.build('4')
-        result = t.verify(proposal, request, cells=cells, compiler=route.compile, execute=route.execute,
-            budget=VerificationBudget({}, 3, record=lambda _: None), cross_boundary=True)
-        self.assertEqual(result['status'], 'FALSIFIED'); self.assertEqual(len(result['observations']), 2)
-        self.assertEqual([o['quantity']['value'] for o in result['observations']], ['3', '4'])
+        address = {'kind':'TRANSLATION', 'proposal_hash':t.seal(proposal), 'cell':cells[0], 'evaluation_timestamp':None}
+        observations = [route.execute(side, route.compile(proposal,side,request,address)) for side in ('NATIVE','PROPOSED')]
+        self.assertEqual([o['quantity']['value'] for o in observations], ['3', '4'])
+        self.assertEqual([o['status'] for o in observations], ['COMPLETED','COMPLETED'])
+        self.assertEqual([o['evidence']['read_address'] for o in observations], [address,address])
 
     def test_definition_not_identical_to_pinned_measure_refuses_before_any_read(self):
         request, proposal, route, cells = self.build()

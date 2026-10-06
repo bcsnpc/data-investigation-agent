@@ -1,9 +1,10 @@
 """Sampled measure verification through isolated DAX and declared SQL routes.
 
 The native side compiles the actual retained measure at each original address.
-The proposed side is a complete, catalog-bound read-only SQL expression. A fixed
-SQL expression that ignores a scope-sensitive cell will falsify, never silently
-inherit or approximate its filters. Existing filtered lower-walk refusal remains.
+The proposed side is a complete, catalog-bound read-only SQL expression.
+Nonempty cell scope refuses until independently verified column bindings can
+compile it on the proposed side. Equal values cannot repair missing scope.
+Existing filtered lower-walk refusal remains.
 """
 import copy
 from decimal import Decimal
@@ -35,11 +36,14 @@ class MeasureRoute:
             raise ValueError('Translation definition differs from actual retained native measure')
         cell = address['cell']
         if cell['measure_id'] != self.measure_id: raise ValueError('Sample cell differs from the retained measure')
+        scope = request['scope']
+        if set(scope) != {'restrictions'}: raise ValueError('Measure verification requires explicit restrictions')
+        applied = restrictions(scope['restrictions'] + cell['key_restrictions'])
+        if applied:
+            raise NotImplementedError('Translated SQL cell scope requires verified column bindings; unfiltered substitution refused')
         plan = {'model_id': model['id'], 'revision': model['revision'], 'context_id': model['context_id'],
                 'max_rows': 20, 'read_address': copy.deepcopy(address)}
         if side == 'NATIVE':
-            scope = request['scope']
-            if set(scope) != {'restrictions'}: raise ValueError('Measure verification requires explicit restrictions')
             applied = restrictions(scope['restrictions'] + cell['key_restrictions'])
             plan.update(query=self_report(quantity_query(model, self.measure_id, applied)),
                         surface_report=copy.deepcopy(SEMANTIC_REPORT))
