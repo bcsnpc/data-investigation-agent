@@ -47,6 +47,10 @@ class ProposerTests(unittest.TestCase):
         mapping={'u':'upper','l':'lower','absent':None}
         f=lineage.findings(m,self.graph(),mapping)
         self.assertTrue(f['nonblocking']);self.assertEqual(len(f['missing_declared_paths']),1)
+        self.assertEqual(f['unconnected_declared_layers'][0]['layer'],'absent')
+        isolated={'layers':[{'id':'isolated'}],'lineage':{'bindings':[]}}
+        finding=lineage.findings(isolated,self.graph(),{'isolated':'no-returned-edge'})
+        self.assertEqual(finding['unconnected_declared_layers'][0]['layer'],'isolated')
         self.assertEqual(f['code_source_proposals'][0]['decision'],'PENDING_APPROVER')
         self.assertEqual(f['undeclared_writers'][0]['id'],'writer')
         g=self.graph();g['edges'].append({'source':'lower','target':'upper','kind':'READS_FROM','columns':None})
@@ -77,8 +81,9 @@ class ProposerTests(unittest.TestCase):
         meter.assert_called_once();self.assertEqual(g['edges'][0]['kind'],'READS_FROM')
         self.assertTrue(all(e['columns'] is None for e in g['edges']))
         with self.assertRaises(ValueError):FabricLineageProposer(request,meter,[anchor,anchor])
-        response['body']['relations'][0]['relationType']='Unfamiliar'
-        with self.assertRaisesRegex(ValueError,'Unfamiliar'):FabricLineageProposer(request,meter,[anchor]).propose(m)
+        for unsupported in ('Unfamiliar','Association'):
+            response['body']['relations'][0]['relationType']=unsupported
+            with self.assertRaisesRegex(ValueError,unsupported):FabricLineageProposer(request,meter,[anchor]).propose(m)
 
     def test_assistant_results_cannot_enter_candidate_or_compiler_contract(self):
         p={'provenance':'PROPOSED_BY_ASSISTANT','objects':[{'id':'t','kind':'TABLE'}],'expression':'candidate'}

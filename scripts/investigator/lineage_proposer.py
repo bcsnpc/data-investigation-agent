@@ -69,6 +69,9 @@ def findings(manifest,graph,layer_items,declared_writers=()):
         if lower is None or upper is None or not reaches(upper,lower):
             missing.append({'from_layer':b['from_layer'],'to_layer':b['to_layer'],
                 'from_item':lower,'to_item':upper,'reason':'No proposed dependency path; absence is not proof of no lineage.'})
+    connected={endpoint for e in graph['edges'] for endpoint in (e['source'],e['target'])}
+    unconnected=[{'layer':layer,'item':item,'reason':'Declared layer has no returned relation; absence is not proof of no lineage.'}
+                 for layer,item in layer_items.items() if item is None or item not in connected]
     writers=[];proposals=[];unmanifested=[]
     named={(layer_items[b['from_layer']],layer_items[b['to_layer']]) for b in manifest['lineage']['bindings']}
     # Native item declarations are decoded by the installed adapter, never here.
@@ -83,7 +86,8 @@ def findings(manifest,graph,layer_items,declared_writers=()):
                     'kind':e['kind'],'provenance':'PROPOSED_BY_PLATFORM','decision':'PENDING_APPROVER'})
                 if item['id'] not in code_items:writers.append(copy.deepcopy(item))
     return {'provenance':'PROPOSED_BY_PLATFORM','nonblocking':True,'missing_declared_paths':missing,
-            'unmanifested_edges':unmanifested,'code_source_proposals':proposals,'undeclared_writers':writers}
+            'unconnected_declared_layers':unconnected,'unmanifested_edges':unmanifested,
+            'code_source_proposals':proposals,'undeclared_writers':writers}
 
 def at_approval(manifest,proposer,record):
     if not manifest.get('lineage_proposer',False):return None
