@@ -1,8 +1,8 @@
 # Round Six E: string semantics and resume
 
 Dated 2026-10-05, America/Chicago. Starting main is `177153f` (#409).
-This is the offline checkpoint required before any live E request. No E cloud
-request, investigation, permission change or fixture change has occurred.
+The section 3 offline checkpoint preceded all controls recorded below. No
+investigation, permission change or fixture data change has occurred.
 Prior freezes are invalid; the inferred 15 x 2 acceptance gate is not earned.
 
 ## Owner declaration and retained code
@@ -78,8 +78,8 @@ synthetic case-fold renderer; they do not claim Python case folding implements
 a Microsoft linguistic collation. Unsupported native collations refuse.
 
 Twenty binding/string tests, nineteen manifest tests, nine code-verification
-tests and ten lineage tests pass. Full regression and live E verification have
-not yet run. SNAPSHOT_UNVERIFIED remains query-bound; no standalone metadata or
+tests and ten lineage tests pass. The committed-engine full suite passed 1,993 tests; live E verification
+has not run. SNAPSHOT_UNVERIFIED remains query-bound; no standalone metadata or
 memoization can upgrade it.
 
 ## One application metadata attempt, preserved
@@ -169,5 +169,36 @@ with byte-identical planner payloads.
 The first full suite ran1992 tests and produced11 TAPE_UNCOMMITTED_ENGINE errors
 because recording correctly requires committed engine bytes. It is preserved at
 `.local/round-six-e-20261005/regression.log`. It is not reported as a pass. The
-committed-engine repeat is pending; one further compiled-execution test now
+committed-engine repeat ran 1,993 tests in 346.535 seconds and ended `OK`.
+PowerShell returned exit1 with redirected ResourceWarning diagnostics; the retained
+unittest report contains no test failure. The additional compiled-execution test
 checks preservation of case, trailing space, NUL and NULL in binary deduplication.
+
+
+## Model property follow-up
+
+A narrowly filtered `INFO.PROPERTIES()` query served HTTP200 as the same
+least-privilege reader. The exact query is:
+
+```dax
+EVALUATE SELECTCOLUMNS(FILTER(INFO.PROPERTIES(), CONTAINSSTRING([PropertyName], "Collation") || CONTAINSSTRING([PropertyName], "Locale") || CONTAINSSTRING([PropertyName], "Culture")), "PropertyName", [PropertyName], "Value", [Value])
+```
+
+The complete returned property rows were:
+
+```json
+[{"[PropertyName]":"LocaleIdentifier","[Value]":127},{"[PropertyName]":"DbpropNullCollation","[Value]":"4"}]
+```
+
+These are locale and NULL-order properties, not a complete string collation
+declaration. Neither proves case, accent or trim behavior for this model. The
+[Microsoft API announcement](https://community.fabric.microsoft.com/blog/fbc_pbiupdatesblog/announcing-semantic-model-apis-to-update-culture-and-collation/5174041)
+describes case-insensitive OS-culture defaults for Desktop-created models; its
+`Latin1_General_100_CI_AS` is an update example, not this fixture's observed or
+documented complete default. No model setting was changed.
+
+Session `round-six-e-model-properties-20261006T002704` consumed one physical
+metadata request, zero diagnostics. Pot118 ->119/400; rolling199 ->200/1500.
+Tape SHA-256: `c8dc9eb749d26ed44ff9ed628f1797c76b4e95cb55dc5f2ccb5cbbe5764d8d83`. The successful
+query is preserved alongside the earlier failed INFO.MODEL query; it does not
+replace that failure. The semantic declaration remains incomplete.
