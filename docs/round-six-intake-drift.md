@@ -114,3 +114,79 @@ no tolerance is introduced, and both original runs remain unchanged. Ordinary CI
 was six green checks on `ad47c58`; final refinement CI and archived regrade are
 tracked separately. No I live request has occurred. Prior freezes invalid;
 15x2 unearned, #410 draft. This is the required report before live work.
+
+## Final I result: changed-result stop
+
+The archived declared column regraded 15/15 with zero estate reads. This replays
+the original producer revisions, not the new engine. The only I live attempt was
+EMPTY against report-14sep using the unchanged stripped manifest and single pin.
+Intake `1b844035-f362-40b2-aada-19ceaeb8a811`, sealed tape
+`4b2965df-b9cc-49e7-9645-9e2938151f7b`, producer
+`c0b3d5b01468b6294d80a4565bc8e9e2c0f1b60a`, stopped NEEDS_INPUT before a session
+was created. Tape SHA-256:
+`0ae91c97b3a09d05e2dfd3219f34ab11e2aa5a4feef09cf6045353bca1310f46`.
+
+The first response again emitted `reported_candidates: []`. The new validator
+rejected it, carrying `nothing` at 128:135 and `empty` at 151:156 into the
+independently reserved, recorded retry. The retry emitted:
+
+```json
+[
+  {"role":"OTHER","quote":"20261001"},
+  {"role":"FIGURE","quote":"shows nothing"},
+  {"role":"FIGURE","quote":"the visual is empty"}
+]
+```
+
+Both FIGURE quotes are verbatim, at 122:135 and 137:156. The unchanged reported
+figure contract rejects any inventory with more than one FIGURE candidate before
+choosing a value. These are two phrases describing the same visual in the ticket,
+not two different measured numbers; the current contract nevertheless treats two
+candidate spans as ambiguity. This is the next established blocker. It is not a
+second omission, so the result is NEEDS_INPUT, not the new omission-specific HELD.
+No third call, ambiguity weakening, replacement run or post-failure engine change
+was made. The exact refusal is:
+
+> More than one ticket span could be the reported figure. Which figure should be compared?
+
+The explicit-statement rule worked live and both attempts were charged. It did
+not earn reproduction. The failed result is independently byte-exact replayed
+under its recorded producer with sockets blocked, including both intake responses
+and deterministic refusal outputs. Tape replay matched; acceptance failed. Both
+full refusal outputs are saved under
+`docs/runs/round-six-i-reproduction-empty-business_output.txt` and
+`docs/runs/round-six-i-reproduction-empty-technical_output.txt`.
+
+| Authorized case | Result | Physical / diagnostic | Intake / investigation / synthesis calls | Pot |
+| --- | --- | --- | --- | --- |
+| EMPTY / report-14sep | NEEDS_INPUT; expected reproduction not earned | 0 / 0 of 12 | 2 / 0 / 0 | 265 → 265 |
+| numeric16 / report-15sep | NOT_RUN: first changed result | — | — | — |
+| source-gap | NOT_RUN: first changed result | — | — | — |
+| source-consistent | NOT_RUN: first changed result | — | — | — |
+
+There were no probes, execution surfaces, surface attestations, boundary reads or
+comparisons in I. Synthesis did not run; intake rendered refusal outputs. No
+prewarm or mutation occurred, so no restoration was required. Reader scopes,
+policy, manifest, fixtures and original recordings remain unchanged. The first
+live ledger row records the failure; an appended annotation specifies diagnostic
+0/cap12 where the generic runner originally emitted null for a missing session.
+
+Final column: archived15/15; inferred9 passed,1 failed,5 not run. H's nine family
+attempts and failed EMPTY remain exactly as recorded; this authorized I attempt
+has its own row and tape. The current matrix is `docs/runs/round-six-i-column.json`.
+Nine family expectations matched on bounded code-derived verified lineage;
+this includes C's expected HELD and does not mean nine full answers or global
+equivalence. The H binding table remains in the one-context report and original
+binding ledger. The [fifteen-binding table](round-six-per-binding-verification.md#preserved-proposals-zero-reads)
+names each boundary, column and dependent family; the
+[G completion evidence](round-six-last-two-engines.md#eight-remaining-profiles-2026-10-05)
+records the final eight bounded witnesses alongside the seven preserved ones.
+Every relevant boundary retains SNAPSHOT_UNVERIFIED.
+
+Closing local usage: Round Six265/400,60 restoration reserved, ordinary stop340;
+rolling310/1500. I added zero physical requests and two metered intake calls.
+The final refinement's targeted/golden23 tests passed; complete local2027 passed
+on its immediately preceding engine checkpoint. Final CI is tracked on #410.
+No15x2 gate was earned, no new replay bundle or secret was published, and #410
+stays draft/unmerged. README and roadmap delivery claims were deliberately not
+updated. Prior freezes remain invalid; no unfamiliar-domain acceptance claim.

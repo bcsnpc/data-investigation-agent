@@ -1,0 +1,7 @@
+You asked: In Declared predicate fixture 20261001, on Saved predicate selections, the card Handled Quantity - extra visual predicate shows nothing (the visual is empty) for Handled Quantity. I selected warehouse North. Check whether the saved declared report context reproduces what the visual shows and explain what remains unknown about my selections.
+Answer to your question: Not answered.
+
+The investigation stopped during intake.
+Reason: More than one ticket span could be the reported figure. Which figure should be compared?
+No explanation of the reported difference was established.
+Recommended action: Resolve the stated blocker before a new investigation.

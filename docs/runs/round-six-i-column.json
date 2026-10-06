@@ -1,0 +1,249 @@
+{
+  "date": "2026-10-06T02:56:29.503627+00:00",
+  "basis": "H nine preserved family attempts plus I authorized EMPTY attempt; historical failed H EMPTY unchanged",
+  "archived": {
+    "passed": 15,
+    "total": 15,
+    "physical_requests": 0
+  },
+  "inferred": {
+    "passed": 9,
+    "failed": 1,
+    "not_run": 5,
+    "total": 15,
+    "results": [
+      {
+        "ticket": "family-A",
+        "reference_session_id": "beb6b607-cb98-47f8-b1e2-9e7b2dfe8ac7",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "a9b93933-0c69-48bf-80eb-dfc97684b478",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "TRANSFORMATION_LOGIC",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-B",
+        "reference_session_id": "42febae9-4d3e-4ec3-97bb-306769d96233",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "922d24ed-176a-4214-a60c-909701110d18",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "NO_KNOWN_PATTERN",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-C",
+        "reference_session_id": "b5f4ff47-dd16-49f5-89af-df8d2c46ceaa",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "3623cc2f-6a2e-4782-bcbd-5f9f230e233e",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "INSUFFICIENT_EVIDENCE",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-D",
+        "reference_session_id": "96edf2e6-5ae0-467e-a420-69c4b717da17",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "80dc34a9-6529-4047-a598-1bdf78318dc0",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "NO_COMPARABLE_PATH",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-E",
+        "reference_session_id": "057ff2ca-fa5d-42e4-87ca-6c4736068b13",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "c276bf84-476c-4d3a-aa84-24dbe4161f68",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "TRANSFORMATION_LOGIC",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-F",
+        "reference_session_id": "e1fce96a-9e9c-458e-9101-983fc977281b",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "de6e25eb-2ab1-4eeb-92a1-ff32db9b5e84",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "CONSISTENT_TO_BOUNDARY",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-G",
+        "reference_session_id": "02a4372d-3722-4a12-b70f-66f96a76557e",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "436b749e-84e8-48cf-aeca-dcf1ca04d56d",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "TRANSFORMATION_LOGIC",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-H",
+        "reference_session_id": "467e416f-8200-4b1d-a034-8a03aeba4cd1",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "0b1f57a8-bc92-46c8-944c-2a92ab2f3a45",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "NO_KNOWN_PATTERN",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-I",
+        "reference_session_id": "a1dbfe60-a2fe-43af-999c-12e1170d4ee2",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "dbaec29a-16c3-41d2-b6fc-3da13ae1d957",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "TRANSFORMATION_LOGIC",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "reproduction-empty",
+        "reference_session_id": "d831c404-ea07-4d0b-bd7b-1f9b9c2cbe36",
+        "status": "FAILED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [
+          "EXPECTED_REPRODUCED_EMPTY_ACTUAL_INTAKE_NEEDS_INPUT"
+        ],
+        "source_session_id": null,
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "c0b3d5b01468b6294d80a4565bc8e9e2c0f1b60a",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": null,
+        "reproduction_verdict": null,
+        "fixture_state": "report-14sep",
+        "context_used": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": "INTAKE_NEEDS_INPUT_AFTER_EXPLICIT_STATEMENT_CORRECTION",
+        "source_intake_id": "1b844035-f362-40b2-aada-19ceaeb8a811",
+        "tape_id": "4b2965df-b9cc-49e7-9645-9e2938151f7b"
+      }
+    ]
+  },
+  "gate": "NOT_EARNED",
+  "PR_410": "DRAFT_UNMERGED",
+  "I_usage": {
+    "physical_requests": 0,
+    "diagnostic_reads": 0,
+    "intake_calls": 2,
+    "investigation_planner_calls": 0,
+    "synthesis_calls": 0
+  },
+  "closing": {
+    "pot": 265,
+    "ceiling": 400,
+    "reserved": 60,
+    "ordinary_stop": 340,
+    "diagnostic_cap": 12
+  },
+  "rolling_charged": 310,
+  "rolling_limit": 1500
+}
