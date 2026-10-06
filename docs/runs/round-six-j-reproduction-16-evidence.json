@@ -121,61 +121,28 @@
   "synthesis_status": "COMPLETED",
   "probe_observations": [
     {
-      "completeness": "COMPLETE_RESPONSE",
+      "id": "33764cb5-a0a5-4c66-be5e-7df72d5ef630",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "process_roles": [
+        "baseline",
+        "established"
+      ],
+      "values": [
+        {
+          "[m0]": {
+            "type": "decimal",
+            "value": "3359"
+          }
+        }
+      ],
+      "value_state": "MEASURED",
       "declared_context": null,
-      "dimension_id": null,
       "execution_surface": {
         "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
         "engine": "OLAP Server",
         "identity": "investigator-reader@skynwhy.com",
         "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
-      },
-      "id": "33764cb5-a0a5-4c66-be5e-7df72d5ef630",
-      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-      "process_roles": [
-        "baseline",
-        "established"
-      ],
-      "read_address": {
-        "kind": "BASELINE",
-        "restrictions": [
-          {
-            "column_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-            "operator": "in",
-            "values": [
-              "North"
-            ]
-          }
-        ]
-      },
-      "request_hash": "b4ba85dbf2765f690abfffe702b0006982f1533fc16e1f35449a22a52c74c98b",
-      "status": "COMPLETED",
-      "surface_attestation": {
-        "attested_fields": [
-          "engine",
-          "identity",
-          "object"
-        ],
-        "consistency": "MATCHED",
-        "contradictions": [],
-        "coverage": "PARTIAL",
-        "field_states": {
-          "connection": "UNATTESTED",
-          "engine": "ATTESTED",
-          "identity": "ATTESTED",
-          "object": "ATTESTED"
-        },
-        "missing_required_fields": [],
-        "reason": null,
-        "required_fields": [
-          "engine",
-          "identity",
-          "object"
-        ],
-        "status": "PARTIAL",
-        "unattested_fields": [
-          "connection"
-        ]
       },
       "surface_report": {
         "engine": "OLAP Server",
@@ -189,120 +156,6 @@
         "identity": "PRINCIPAL_NAME",
         "object": "MODEL_CATALOG_ID"
       },
-      "test_purpose": "ESTABLISH_BASELINE",
-      "tool": "bounded_dax",
-      "value_state": "MEASURED",
-      "values": [
-        {
-          "[m0]": {
-            "type": "decimal",
-            "value": "3359"
-          }
-        }
-      ]
-    },
-    {
-      "applied_restrictions": [],
-      "cell_address": {
-        "grouping_columns": [],
-        "id": "676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6",
-        "key_restrictions": [],
-        "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-        "mode": "UNGROUPED",
-        "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
-      },
-      "completeness": "COMPLETE_RESPONSE",
-      "conditional_declarations": [
-        {
-          "alternatives": [
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
-                  "operator": "IN",
-                  "values": [
-                    "RECEIPT"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-                  "operator": "IN",
-                  "values": [
-                    "Coastal"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
-                  "operator": "IN",
-                  "values": [
-                    "Component 1"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/event_day",
-                  "operator": "IN",
-                  "values": [
-                    "2026-09-14"
-                  ]
-                }
-              ]
-            }
-          ],
-          "applies_by_default": false,
-          "content_hash": "aee173e2f88c603f1332be66df5a4f62adf259ee5091fb75f7492f369b55c0a1",
-          "non_reproduction_limit": "An invoked bookmark may produce the reported figure; invocation is unknown.",
-          "part_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fbookmarks%2F3ea29d97240757cdb0d6.bookmark.json",
-          "reason": "STORED_BOOKMARK_REQUIRES_INVOCATION"
-        },
-        {
-          "alternatives": [],
-          "applies_by_default": false,
-          "content_hash": "08c701ddd6cc5a484a3357c2335d6ecca022e1c97a9b00a3ac464d235eb791fa",
-          "non_reproduction_limit": "An invoked bookmark may produce the reported figure; invocation is unknown.",
-          "part_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fbookmarks%2Fbookmarks.json",
-          "reason": "STORED_BOOKMARK_REQUIRES_INVOCATION"
-        }
-      ],
-      "context_id": "e920dda4-d5c8-4a95-b9e9-a600386ae3d5",
-      "definition_evidence_id": "declared-context-909cebf6-101d-4709-849c-247cc4eb7bb0",
-      "execution_surface": {
-        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
-        "engine": "OLAP Server",
-        "identity": "investigator-reader@skynwhy.com",
-        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
-      },
-      "id": "3091d03f-5569-4630-a886-b0808836a8c1",
-      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-      "model_revision": 20,
-      "process_roles": [
-        "declared_context_read"
-      ],
-      "read_address": {
-        "cell": {
-          "grouping_columns": [],
-          "id": "676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6",
-          "key_restrictions": [],
-          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-          "mode": "UNGROUPED",
-          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
-        },
-        "kind": "CELL"
-      },
-      "reproduction_quantity": "8765",
-      "request_hash": "44a6d0839b2c6fd43cc1497893c17a5d3e6aa13a719a398590d4bec150cee448",
-      "status": "COMPLETED",
       "surface_attestation": {
         "attested_fields": [
           "engine",
@@ -329,6 +182,43 @@
         "unattested_fields": [
           "connection"
         ]
+      },
+      "read_address": {
+        "kind": "BASELINE",
+        "restrictions": [
+          {
+            "column_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
+            "operator": "in",
+            "values": [
+              "North"
+            ]
+          }
+        ]
+      },
+      "completeness": "COMPLETE_RESPONSE",
+      "request_hash": "b4ba85dbf2765f690abfffe702b0006982f1533fc16e1f35449a22a52c74c98b"
+    },
+    {
+      "id": "3091d03f-5569-4630-a886-b0808836a8c1",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_read"
+      ],
+      "values": [
+        {
+          "[quantity]": {
+            "type": "decimal",
+            "value": "8765"
+          }
+        }
+      ],
+      "value_state": "MEASURED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
       },
       "surface_report": {
         "engine": "OLAP Server",
@@ -342,104 +232,6 @@
         "identity": "PRINCIPAL_NAME",
         "object": "MODEL_CATALOG_ID"
       },
-      "tool": "bounded_dax",
-      "value_state": "MEASURED",
-      "values": [
-        {
-          "[quantity]": {
-            "type": "decimal",
-            "value": "8765"
-          }
-        }
-      ]
-    },
-    {
-      "applied_restrictions": [],
-      "completeness": "COMPLETE_RESPONSE",
-      "conditional_declarations": [
-        {
-          "alternatives": [
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
-                  "operator": "IN",
-                  "values": [
-                    "RECEIPT"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-                  "operator": "IN",
-                  "values": [
-                    "Coastal"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
-                  "operator": "IN",
-                  "values": [
-                    "Component 1"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/event_day",
-                  "operator": "IN",
-                  "values": [
-                    "2026-09-14"
-                  ]
-                }
-              ]
-            }
-          ],
-          "applies_by_default": false,
-          "content_hash": "aee173e2f88c603f1332be66df5a4f62adf259ee5091fb75f7492f369b55c0a1",
-          "non_reproduction_limit": "An invoked bookmark may produce the reported figure; invocation is unknown.",
-          "part_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fbookmarks%2F3ea29d97240757cdb0d6.bookmark.json",
-          "reason": "STORED_BOOKMARK_REQUIRES_INVOCATION"
-        },
-        {
-          "alternatives": [],
-          "applies_by_default": false,
-          "content_hash": "08c701ddd6cc5a484a3357c2335d6ecca022e1c97a9b00a3ac464d235eb791fa",
-          "non_reproduction_limit": "An invoked bookmark may produce the reported figure; invocation is unknown.",
-          "part_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fbookmarks%2Fbookmarks.json",
-          "reason": "STORED_BOOKMARK_REQUIRES_INVOCATION"
-        }
-      ],
-      "context_id": "e920dda4-d5c8-4a95-b9e9-a600386ae3d5",
-      "definition_evidence_id": "declared-context-909cebf6-101d-4709-849c-247cc4eb7bb0",
-      "execution_surface": {
-        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
-        "engine": "OLAP Server",
-        "identity": "investigator-reader@skynwhy.com",
-        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
-      },
-      "id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
-      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-      "model_revision": 20,
-      "process_roles": [
-        "declared_context_read"
-      ],
-      "read_address": {
-        "kind": "BASELINE",
-        "restrictions": []
-      },
-      "reproduction_quantity": "8765",
-      "request_hash": "600df0f7a19cdb2d1a151e94cee715d42133cb6617e6875cbf1662c8a67b9b71",
-      "status": "COMPLETED",
       "surface_attestation": {
         "attested_fields": [
           "engine",
@@ -466,6 +258,42 @@
         "unattested_fields": [
           "connection"
         ]
+      },
+      "read_address": {
+        "cell": {
+          "grouping_columns": [],
+          "id": "676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6",
+          "key_restrictions": [],
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "mode": "UNGROUPED",
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
+        },
+        "kind": "CELL"
+      },
+      "completeness": "COMPLETE_RESPONSE",
+      "request_hash": "44a6d0839b2c6fd43cc1497893c17a5d3e6aa13a719a398590d4bec150cee448"
+    },
+    {
+      "id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_read"
+      ],
+      "values": [
+        {
+          "[quantity]": {
+            "type": "decimal",
+            "value": "8765"
+          }
+        }
+      ],
+      "value_state": "MEASURED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
       },
       "surface_report": {
         "engine": "OLAP Server",
@@ -479,141 +307,6 @@
         "identity": "PRINCIPAL_NAME",
         "object": "MODEL_CATALOG_ID"
       },
-      "tool": "bounded_dax",
-      "value_state": "MEASURED",
-      "values": [
-        {
-          "[quantity]": {
-            "type": "decimal",
-            "value": "8765"
-          }
-        }
-      ]
-    },
-    {
-      "applied_restrictions": [
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
-          "operator": "IN",
-          "values": [
-            "RECEIPT"
-          ]
-        },
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
-          "operator": "IN",
-          "values": [
-            "Component 1"
-          ]
-        },
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-          "operator": "IN",
-          "values": [
-            "North"
-          ]
-        }
-      ],
-      "cell_address": {
-        "grouping_columns": [],
-        "id": "1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45",
-        "key_restrictions": [],
-        "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-        "mode": "UNGROUPED",
-        "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2F7b8db703ca845710aca9%2Fvisual.json"
-      },
-      "completeness": "COMPLETE_RESPONSE",
-      "conditional_declarations": [
-        {
-          "alternatives": [
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
-                  "operator": "IN",
-                  "values": [
-                    "RECEIPT"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-                  "operator": "IN",
-                  "values": [
-                    "Coastal"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
-                  "operator": "IN",
-                  "values": [
-                    "Component 1"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/event_day",
-                  "operator": "IN",
-                  "values": [
-                    "2026-09-14"
-                  ]
-                }
-              ]
-            }
-          ],
-          "applies_by_default": false,
-          "content_hash": "aee173e2f88c603f1332be66df5a4f62adf259ee5091fb75f7492f369b55c0a1",
-          "non_reproduction_limit": "An invoked bookmark may produce the reported figure; invocation is unknown.",
-          "part_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fbookmarks%2F3ea29d97240757cdb0d6.bookmark.json",
-          "reason": "STORED_BOOKMARK_REQUIRES_INVOCATION"
-        },
-        {
-          "alternatives": [],
-          "applies_by_default": false,
-          "content_hash": "08c701ddd6cc5a484a3357c2335d6ecca022e1c97a9b00a3ac464d235eb791fa",
-          "non_reproduction_limit": "An invoked bookmark may produce the reported figure; invocation is unknown.",
-          "part_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fbookmarks%2Fbookmarks.json",
-          "reason": "STORED_BOOKMARK_REQUIRES_INVOCATION"
-        }
-      ],
-      "context_id": "e920dda4-d5c8-4a95-b9e9-a600386ae3d5",
-      "definition_evidence_id": "declared-context-0c39e661-0652-4c8e-bf1f-43136d39cad7",
-      "execution_surface": {
-        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
-        "engine": "OLAP Server",
-        "identity": "investigator-reader@skynwhy.com",
-        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
-      },
-      "id": "62d119da-2d30-44c4-a726-b9a55835cc15",
-      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-      "model_revision": 20,
-      "process_roles": [
-        "declared_context_read"
-      ],
-      "read_address": {
-        "cell": {
-          "grouping_columns": [],
-          "id": "1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45",
-          "key_restrictions": [],
-          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-          "mode": "UNGROUPED",
-          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2F7b8db703ca845710aca9%2Fvisual.json"
-        },
-        "kind": "CELL"
-      },
-      "reproduction_quantity": "92",
-      "request_hash": "6ebe2ebf25640abb2cc83c6b0ccc66bdbf9066d7797ee4d8f023115750a5b307",
-      "status": "COMPLETED",
       "surface_attestation": {
         "attested_fields": [
           "engine",
@@ -640,6 +333,35 @@
         "unattested_fields": [
           "connection"
         ]
+      },
+      "read_address": {
+        "kind": "BASELINE",
+        "restrictions": []
+      },
+      "completeness": "COMPLETE_RESPONSE",
+      "request_hash": "600df0f7a19cdb2d1a151e94cee715d42133cb6617e6875cbf1662c8a67b9b71"
+    },
+    {
+      "id": "62d119da-2d30-44c4-a726-b9a55835cc15",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_read"
+      ],
+      "values": [
+        {
+          "[quantity]": {
+            "type": "decimal",
+            "value": "92"
+          }
+        }
+      ],
+      "value_state": "MEASURED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
       },
       "surface_report": {
         "engine": "OLAP Server",
@@ -653,148 +375,6 @@
         "identity": "PRINCIPAL_NAME",
         "object": "MODEL_CATALOG_ID"
       },
-      "tool": "bounded_dax",
-      "value_state": "MEASURED",
-      "values": [
-        {
-          "[quantity]": {
-            "type": "decimal",
-            "value": "92"
-          }
-        }
-      ]
-    },
-    {
-      "applied_restrictions": [
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/event_day",
-          "operator": "IN",
-          "values": [
-            "2026-09-15"
-          ]
-        },
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
-          "operator": "IN",
-          "values": [
-            "RECEIPT"
-          ]
-        },
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
-          "operator": "IN",
-          "values": [
-            "Component 1"
-          ]
-        },
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-          "operator": "IN",
-          "values": [
-            "North"
-          ]
-        }
-      ],
-      "cell_address": {
-        "grouping_columns": [],
-        "id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
-        "key_restrictions": [],
-        "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-        "mode": "UNGROUPED",
-        "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Fa32b6a48db655ac8a4f2%2Fvisual.json"
-      },
-      "completeness": "COMPLETE_RESPONSE",
-      "conditional_declarations": [
-        {
-          "alternatives": [
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
-                  "operator": "IN",
-                  "values": [
-                    "RECEIPT"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-                  "operator": "IN",
-                  "values": [
-                    "Coastal"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
-                  "operator": "IN",
-                  "values": [
-                    "Component 1"
-                  ]
-                }
-              ]
-            },
-            {
-              "restrictions": [
-                {
-                  "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/event_day",
-                  "operator": "IN",
-                  "values": [
-                    "2026-09-14"
-                  ]
-                }
-              ]
-            }
-          ],
-          "applies_by_default": false,
-          "content_hash": "aee173e2f88c603f1332be66df5a4f62adf259ee5091fb75f7492f369b55c0a1",
-          "non_reproduction_limit": "An invoked bookmark may produce the reported figure; invocation is unknown.",
-          "part_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fbookmarks%2F3ea29d97240757cdb0d6.bookmark.json",
-          "reason": "STORED_BOOKMARK_REQUIRES_INVOCATION"
-        },
-        {
-          "alternatives": [],
-          "applies_by_default": false,
-          "content_hash": "08c701ddd6cc5a484a3357c2335d6ecca022e1c97a9b00a3ac464d235eb791fa",
-          "non_reproduction_limit": "An invoked bookmark may produce the reported figure; invocation is unknown.",
-          "part_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fbookmarks%2Fbookmarks.json",
-          "reason": "STORED_BOOKMARK_REQUIRES_INVOCATION"
-        }
-      ],
-      "context_id": "e920dda4-d5c8-4a95-b9e9-a600386ae3d5",
-      "definition_evidence_id": "declared-context-34e98100-41ec-4de5-b792-541e78e5f8e1",
-      "execution_surface": {
-        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
-        "engine": "OLAP Server",
-        "identity": "investigator-reader@skynwhy.com",
-        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
-      },
-      "id": "2a11694f-631e-44d9-b84d-f2ed6ba7434d",
-      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-      "model_revision": 20,
-      "process_roles": [
-        "declared_context_read"
-      ],
-      "read_address": {
-        "cell": {
-          "grouping_columns": [],
-          "id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
-          "key_restrictions": [],
-          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-          "mode": "UNGROUPED",
-          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Fa32b6a48db655ac8a4f2%2Fvisual.json"
-        },
-        "kind": "CELL"
-      },
-      "reproduction_quantity": "16",
-      "request_hash": "929dceeafb33e45cada18ddfd84288a6a27703f94d51b61b54d22d592e625cb8",
-      "status": "COMPLETED",
       "surface_attestation": {
         "attested_fields": [
           "engine",
@@ -822,6 +402,42 @@
           "connection"
         ]
       },
+      "read_address": {
+        "cell": {
+          "grouping_columns": [],
+          "id": "1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45",
+          "key_restrictions": [],
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "mode": "UNGROUPED",
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2F7b8db703ca845710aca9%2Fvisual.json"
+        },
+        "kind": "CELL"
+      },
+      "completeness": "COMPLETE_RESPONSE",
+      "request_hash": "6ebe2ebf25640abb2cc83c6b0ccc66bdbf9066d7797ee4d8f023115750a5b307"
+    },
+    {
+      "id": "2a11694f-631e-44d9-b84d-f2ed6ba7434d",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_read"
+      ],
+      "values": [
+        {
+          "[quantity]": {
+            "type": "decimal",
+            "value": "16"
+          }
+        }
+      ],
+      "value_state": "MEASURED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
       "surface_report": {
         "engine": "OLAP Server",
         "identity": "investigator-reader@skynwhy.com",
@@ -834,203 +450,90 @@
         "identity": "PRINCIPAL_NAME",
         "object": "MODEL_CATALOG_ID"
       },
-      "tool": "bounded_dax",
-      "value_state": "MEASURED",
-      "values": [
-        {
-          "[quantity]": {
-            "type": "decimal",
-            "value": "16"
-          }
-        }
-      ]
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "read_address": {
+        "cell": {
+          "grouping_columns": [],
+          "id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
+          "key_restrictions": [],
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "mode": "UNGROUPED",
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Fa32b6a48db655ac8a4f2%2Fvisual.json"
+        },
+        "kind": "CELL"
+      },
+      "completeness": "COMPLETE_RESPONSE",
+      "request_hash": "929dceeafb33e45cada18ddfd84288a6a27703f94d51b61b54d22d592e625cb8"
     }
   ],
   "boundary_observations": [
     {
-      "comparison_status": "NOT_COMPARABLE",
-      "completeness": "COMPLETE_RESPONSE",
       "id": "boundary-1-not-comparable",
-      "lower_evidence_id": null,
-      "lower_execution_surface": null,
-      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "tool": "process",
+      "status": "COMPLETED",
       "process_roles": [],
-      "reason": "Declared source comparison does not yet translate filtered scope faithfully.",
-      "status": "COMPLETED",
-      "tool": "process",
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
       "upper_evidence_id": "33764cb5-a0a5-4c66-be5e-7df72d5ef630",
+      "lower_evidence_id": null,
       "upper_execution_surface": {
         "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
         "engine": "OLAP Server",
         "identity": "investigator-reader@skynwhy.com",
         "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
       },
-      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity"
+      "lower_execution_surface": null,
+      "comparison_status": "NOT_COMPARABLE"
     },
     {
-      "cell": {
-        "grouping_columns": [],
-        "id": "676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6",
-        "key_restrictions": [],
-        "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-        "mode": "UNGROUPED",
-        "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
-      },
-      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
-      "comparison_status": "WITHIN_LAYER_CHECK",
-      "completeness": "COMPLETE_RESPONSE",
-      "composed_restrictions": [],
-      "declarations": [
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "133591ddf17bce811686afe4ce52301bfeb234dcbd058f5d724f70e219177dc3",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "294dee3231e8bf415245162b91b013d490925539bcd7d4fcd1f2149100d817be",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "2faec03f32e10816a2bd7a1546841333ad31680e03c7233a45f441bea6b65eef",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "74a714fa31759ea0339da48cede4bd4bf76324829347780e56057474fa0e1a53",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "ab856a347cd915ac11bdd7ae4fab3bc6df1df358e54c717b2c7b410146bfffc0",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "cac9aa35a4dcb793f149c5becc22516d005b2935d46e003475e9533f9f5d1ab0",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "ccfbc7484f91ec47ffe072fb350343fc57f650378689a8b674eb6d0664dc7a51",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "d35d0cac8e26d9a79bf31beec3501f8c6e4e4b3c104b80df74f9ea9442aae90d",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "f33503dd32c89e6d02c1e7ea14ae2d85b2d9071c945c0ed7899dbf716a54b5b6",
-          "volatility": "FIXED"
-        }
-      ],
-      "definition_evidence_id": "declared-context-909cebf6-101d-4709-849c-247cc4eb7bb0",
       "id": "declared-reproduction-676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6",
-      "label": "NOT_REPRODUCED",
-      "limitations": [
-        "The undeclared-context value remains subject to row-level security and other native restrictions; it is not an unrestricted or true total.",
-        "Declared-context reproduction does not establish the active selection, security context or cross-filtering, or whether the number is business-correct.",
-        "The within-layer reads are not bound to a shared served data version; timing may explain a mismatch.",
-        "An undeclared selection, security context, cross-filtering or a deeper divergence may account for the reported figure; none was excluded.",
-        "An invoked bookmark or other stored alternative remains possible; invocation was not established."
+      "tool": "process",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_reproduction"
       ],
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "upper_evidence_id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
       "lower_evidence_id": "3091d03f-5569-4630-a886-b0808836a8c1",
-      "lower_execution_surface": {
-        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
-        "engine": "OLAP Server",
-        "identity": "investigator-reader@skynwhy.com",
-        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
-      },
-      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
-      "lower_surface_attestation": {
-        "attested_fields": [
-          "engine",
-          "identity",
-          "object"
-        ],
-        "consistency": "MATCHED",
-        "contradictions": [],
-        "coverage": "PARTIAL",
-        "field_states": {
-          "connection": "UNATTESTED",
-          "engine": "ATTESTED",
-          "identity": "ATTESTED",
-          "object": "ATTESTED"
-        },
-        "missing_required_fields": [],
-        "reason": null,
-        "required_fields": [
-          "engine",
-          "identity",
-          "object"
-        ],
-        "status": "PARTIAL",
-        "unattested_fields": [
-          "connection"
-        ]
-      },
-      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-      "process_roles": [
-        "declared_context_reproduction"
-      ],
-      "redundant_cell_keys": [],
-      "reported_figure": {
-        "precision": {
-          "state": "EXACT"
-        },
-        "source": {
-          "end": 160,
-          "quote": "Handled Quantity as exactly 16",
-          "start": 130
-        },
-        "state": "NUMBER",
-        "value": "16"
-      },
-      "reproduced_value": "8765",
-      "selection_resolution": {
-        "column_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-        "inventory_entry_id": "cac9aa35a4dcb793f149c5becc22516d005b2935d46e003475e9533f9f5d1ab0",
-        "report_binding": {
-          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
-          "resolution_kind": "STATED",
-          "source": {
-            "end": 38,
-            "quote": "Declared predicate fixture 20261001",
-            "start": 3
-          }
-        },
-        "resolution_kind": "EVIDENCE",
-        "source": {
-          "end": 188,
-          "quote": "North",
-          "start": 183
-        }
-      },
-      "selection_resolution_evidence_id": "report-selection-969f2e3b-685b-4799-b57b-6edade36b19c",
-      "status": "COMPLETED",
-      "tool": "process",
-      "unavailability": null,
-      "undeclared_context_value": "8765",
-      "upper_evidence_id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
       "upper_execution_surface": {
         "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
         "engine": "OLAP Server",
         "identity": "investigator-reader@skynwhy.com",
         "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
       },
-      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
       "upper_surface_attestation": {
         "attested_fields": [
           "engine",
@@ -1058,195 +561,59 @@
           "connection"
         ]
       },
-      "values_equal": true
+      "lower_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "values_equal": true,
+      "comparison_status": "WITHIN_LAYER_CHECK"
     },
     {
-      "cell": {
-        "grouping_columns": [],
-        "id": "1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45",
-        "key_restrictions": [],
-        "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-        "mode": "UNGROUPED",
-        "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2F7b8db703ca845710aca9%2Fvisual.json"
-      },
-      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
-      "comparison_status": "WITHIN_LAYER_CHECK",
-      "completeness": "COMPLETE_RESPONSE",
-      "composed_restrictions": [
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
-          "operator": "IN",
-          "values": [
-            "RECEIPT"
-          ]
-        },
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
-          "operator": "IN",
-          "values": [
-            "Component 1"
-          ]
-        },
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-          "operator": "IN",
-          "values": [
-            "North"
-          ]
-        }
-      ],
-      "declarations": [
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "133591ddf17bce811686afe4ce52301bfeb234dcbd058f5d724f70e219177dc3",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "294dee3231e8bf415245162b91b013d490925539bcd7d4fcd1f2149100d817be",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "2faec03f32e10816a2bd7a1546841333ad31680e03c7233a45f441bea6b65eef",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "SAVED_DEFAULT",
-          "disposition": "ACTIVE",
-          "id": "74a714fa31759ea0339da48cede4bd4bf76324829347780e56057474fa0e1a53",
-          "volatility": "VIEWER_CHANGEABLE"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "ab856a347cd915ac11bdd7ae4fab3bc6df1df358e54c717b2c7b410146bfffc0",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "SAVED_DEFAULT",
-          "disposition": "ACTIVE",
-          "id": "cac9aa35a4dcb793f149c5becc22516d005b2935d46e003475e9533f9f5d1ab0",
-          "volatility": "VIEWER_CHANGEABLE"
-        },
-        {
-          "assumption": "NONE",
-          "disposition": "ACTIVE",
-          "id": "ccfbc7484f91ec47ffe072fb350343fc57f650378689a8b674eb6d0664dc7a51",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "d35d0cac8e26d9a79bf31beec3501f8c6e4e4b3c104b80df74f9ea9442aae90d",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "f33503dd32c89e6d02c1e7ea14ae2d85b2d9071c945c0ed7899dbf716a54b5b6",
-          "volatility": "FIXED"
-        }
-      ],
-      "definition_evidence_id": "declared-context-0c39e661-0652-4c8e-bf1f-43136d39cad7",
       "id": "declared-reproduction-1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45",
-      "label": "NOT_REPRODUCED",
-      "limitations": [
-        "The undeclared-context value remains subject to row-level security and other native restrictions; it is not an unrestricted or true total.",
-        "Declared-context reproduction does not establish the active selection, security context or cross-filtering, or whether the number is business-correct.",
-        "The within-layer reads are not bound to a shared served data version; timing may explain a mismatch.",
-        "An undeclared selection, security context, cross-filtering or a deeper divergence may account for the reported figure; none was excluded.",
-        "An invoked bookmark or other stored alternative remains possible; invocation was not established.",
-        "A moved slicer or other saved-default selection remains an explicit possibility; its current position was not established."
-      ],
-      "lower_evidence_id": "62d119da-2d30-44c4-a726-b9a55835cc15",
-      "lower_execution_surface": {
-        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
-        "engine": "OLAP Server",
-        "identity": "investigator-reader@skynwhy.com",
-        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
-      },
-      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
-      "lower_surface_attestation": {
-        "attested_fields": [
-          "engine",
-          "identity",
-          "object"
-        ],
-        "consistency": "MATCHED",
-        "contradictions": [],
-        "coverage": "PARTIAL",
-        "field_states": {
-          "connection": "UNATTESTED",
-          "engine": "ATTESTED",
-          "identity": "ATTESTED",
-          "object": "ATTESTED"
-        },
-        "missing_required_fields": [],
-        "reason": null,
-        "required_fields": [
-          "engine",
-          "identity",
-          "object"
-        ],
-        "status": "PARTIAL",
-        "unattested_fields": [
-          "connection"
-        ]
-      },
-      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+      "tool": "process",
+      "status": "COMPLETED",
       "process_roles": [
         "declared_context_reproduction"
       ],
-      "redundant_cell_keys": [],
-      "reported_figure": {
-        "precision": {
-          "state": "EXACT"
-        },
-        "source": {
-          "end": 160,
-          "quote": "Handled Quantity as exactly 16",
-          "start": 130
-        },
-        "state": "NUMBER",
-        "value": "16"
-      },
-      "reproduced_value": "92",
-      "selection_resolution": {
-        "column_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-        "inventory_entry_id": "cac9aa35a4dcb793f149c5becc22516d005b2935d46e003475e9533f9f5d1ab0",
-        "report_binding": {
-          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
-          "resolution_kind": "STATED",
-          "source": {
-            "end": 38,
-            "quote": "Declared predicate fixture 20261001",
-            "start": 3
-          }
-        },
-        "resolution_kind": "EVIDENCE",
-        "source": {
-          "end": 188,
-          "quote": "North",
-          "start": 183
-        }
-      },
-      "selection_resolution_evidence_id": "report-selection-969f2e3b-685b-4799-b57b-6edade36b19c",
-      "status": "COMPLETED",
-      "tool": "process",
-      "unavailability": null,
-      "undeclared_context_value": "8765",
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
       "upper_evidence_id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
+      "lower_evidence_id": "62d119da-2d30-44c4-a726-b9a55835cc15",
       "upper_execution_surface": {
         "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
         "engine": "OLAP Server",
         "identity": "investigator-reader@skynwhy.com",
         "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
       },
-      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
       "upper_surface_attestation": {
         "attested_fields": [
           "engine",
@@ -1274,202 +641,59 @@
           "connection"
         ]
       },
-      "values_equal": false
+      "lower_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "values_equal": false,
+      "comparison_status": "WITHIN_LAYER_CHECK"
     },
     {
-      "cell": {
-        "grouping_columns": [],
-        "id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
-        "key_restrictions": [],
-        "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
-        "mode": "UNGROUPED",
-        "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Fa32b6a48db655ac8a4f2%2Fvisual.json"
-      },
-      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
-      "comparison_status": "WITHIN_LAYER_CHECK",
-      "completeness": "COMPLETE_RESPONSE",
-      "composed_restrictions": [
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/event_day",
-          "operator": "IN",
-          "values": [
-            "2026-09-15"
-          ]
-        },
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
-          "operator": "IN",
-          "values": [
-            "RECEIPT"
-          ]
-        },
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
-          "operator": "IN",
-          "values": [
-            "Component 1"
-          ]
-        },
-        {
-          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-          "operator": "IN",
-          "values": [
-            "North"
-          ]
-        }
-      ],
-      "declarations": [
-        {
-          "assumption": "NONE",
-          "disposition": "ACTIVE",
-          "id": "133591ddf17bce811686afe4ce52301bfeb234dcbd058f5d724f70e219177dc3",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "294dee3231e8bf415245162b91b013d490925539bcd7d4fcd1f2149100d817be",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "2faec03f32e10816a2bd7a1546841333ad31680e03c7233a45f441bea6b65eef",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "SAVED_DEFAULT",
-          "disposition": "ACTIVE",
-          "id": "74a714fa31759ea0339da48cede4bd4bf76324829347780e56057474fa0e1a53",
-          "volatility": "VIEWER_CHANGEABLE"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "ab856a347cd915ac11bdd7ae4fab3bc6df1df358e54c717b2c7b410146bfffc0",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "SAVED_DEFAULT",
-          "disposition": "ACTIVE",
-          "id": "cac9aa35a4dcb793f149c5becc22516d005b2935d46e003475e9533f9f5d1ab0",
-          "volatility": "VIEWER_CHANGEABLE"
-        },
-        {
-          "assumption": "NONE",
-          "disposition": "ACTIVE",
-          "id": "ccfbc7484f91ec47ffe072fb350343fc57f650378689a8b674eb6d0664dc7a51",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "d35d0cac8e26d9a79bf31beec3501f8c6e4e4b3c104b80df74f9ea9442aae90d",
-          "volatility": "FIXED"
-        },
-        {
-          "assumption": "INVOCATION_UNKNOWN",
-          "disposition": "CONDITIONAL",
-          "id": "f33503dd32c89e6d02c1e7ea14ae2d85b2d9071c945c0ed7899dbf716a54b5b6",
-          "volatility": "FIXED"
-        }
-      ],
-      "definition_evidence_id": "declared-context-34e98100-41ec-4de5-b792-541e78e5f8e1",
       "id": "declared-reproduction-68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
-      "label": "REPRODUCED",
-      "limitations": [
-        "The undeclared-context value remains subject to row-level security and other native restrictions; it is not an unrestricted or true total.",
-        "Declared-context reproduction does not establish the active selection, security context or cross-filtering, or whether the number is business-correct.",
-        "The within-layer reads are not bound to a shared served data version; timing may explain a mismatch.",
-        "An undeclared selection, security context, cross-filtering or a deeper divergence may account for the reported figure; none was excluded.",
-        "An invoked bookmark or other stored alternative remains possible; invocation was not established.",
-        "The check assumes saved default positions for viewer-changeable selections; their current positions were not established."
-      ],
-      "lower_evidence_id": "2a11694f-631e-44d9-b84d-f2ed6ba7434d",
-      "lower_execution_surface": {
-        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
-        "engine": "OLAP Server",
-        "identity": "investigator-reader@skynwhy.com",
-        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
-      },
-      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
-      "lower_surface_attestation": {
-        "attested_fields": [
-          "engine",
-          "identity",
-          "object"
-        ],
-        "consistency": "MATCHED",
-        "contradictions": [],
-        "coverage": "PARTIAL",
-        "field_states": {
-          "connection": "UNATTESTED",
-          "engine": "ATTESTED",
-          "identity": "ATTESTED",
-          "object": "ATTESTED"
-        },
-        "missing_required_fields": [],
-        "reason": null,
-        "required_fields": [
-          "engine",
-          "identity",
-          "object"
-        ],
-        "status": "PARTIAL",
-        "unattested_fields": [
-          "connection"
-        ]
-      },
-      "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+      "tool": "process",
+      "status": "COMPLETED",
       "process_roles": [
         "declared_context_reproduction"
       ],
-      "redundant_cell_keys": [],
-      "reported_figure": {
-        "precision": {
-          "state": "EXACT"
-        },
-        "source": {
-          "end": 160,
-          "quote": "Handled Quantity as exactly 16",
-          "start": 130
-        },
-        "state": "NUMBER",
-        "value": "16"
-      },
-      "reproduced_value": "16",
-      "selection_resolution": {
-        "column_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
-        "inventory_entry_id": "cac9aa35a4dcb793f149c5becc22516d005b2935d46e003475e9533f9f5d1ab0",
-        "report_binding": {
-          "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995",
-          "resolution_kind": "STATED",
-          "source": {
-            "end": 38,
-            "quote": "Declared predicate fixture 20261001",
-            "start": 3
-          }
-        },
-        "resolution_kind": "EVIDENCE",
-        "source": {
-          "end": 188,
-          "quote": "North",
-          "start": 183
-        }
-      },
-      "selection_resolution_evidence_id": "report-selection-969f2e3b-685b-4799-b57b-6edade36b19c",
-      "status": "COMPLETED",
-      "tool": "process",
-      "unavailability": null,
-      "undeclared_context_value": "8765",
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
       "upper_evidence_id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
+      "lower_evidence_id": "2a11694f-631e-44d9-b84d-f2ed6ba7434d",
       "upper_execution_surface": {
         "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
         "engine": "OLAP Server",
         "identity": "investigator-reader@skynwhy.com",
         "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
       },
-      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
       "upper_surface_attestation": {
         "attested_fields": [
           "engine",
@@ -1497,7 +721,36 @@
           "connection"
         ]
       },
-      "values_equal": false
+      "lower_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "values_equal": false,
+      "comparison_status": "WITHIN_LAYER_CHECK"
     }
-  ]
+  ],
+  "projection_note": "Public attestation/quantity summary only; query text and repeated code/mapping proofs omitted. No validator consumes this projection. Original full observations remain in the hash-linked sealed tape."
 }
