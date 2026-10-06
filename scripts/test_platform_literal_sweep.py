@@ -37,6 +37,15 @@ def ratchet(actual,allowed,ceiling):
 
 
 class PlatformLiteralSweepTests(unittest.TestCase):
+    def test_adapter_owned_scope_decoder_preserves_absence_and_strict_workspace(self):
+        from investigator.adapters.native_scope import scope,required_workspace,workspace_root
+        self.assertEqual(scope({}),(None,None))
+        with self.assertRaises(KeyError):required_workspace({})
+        config={'fabric':{'workspace_id':'w','native_reader':{'mode':'isolated_reader'}}}
+        self.assertEqual(scope(config),('w',config['fabric']['native_reader']))
+        self.assertIs(scope(config)[1],config['fabric']['native_reader'])
+        self.assertEqual(required_workspace(config),'w')
+        self.assertEqual(workspace_root('w'),'fabric://'+'w')
     def test_production_above_adapter_debt_can_only_shrink(self):
         frozen=(ROOT/'platform-literal-debt-ceiling.json').read_text(encoding='utf8').encode('utf8')
         self.assertEqual(hashlib.sha256(frozen).hexdigest(),CEILING_SHA256)

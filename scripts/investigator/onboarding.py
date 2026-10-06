@@ -173,7 +173,8 @@ class ModelStore:
             raise ValueError('Scan time must include timezone')
         if model['context'] and ended <= datetime.fromisoformat(model['context']['scan_ended']):
             raise Conflict('Scan must be newer than current context')
-        root = 'fabric://' + model['workspace']
+        from .adapters.native_scope import workspace_root
+        root = workspace_root(model['workspace'])
         reports = [bundle(self.inventory, scan_id, root + '/' + r) for r in model['reports']]
         expected = root + '/' + model['native_id']
         if any(r['model_id'] != expected or r['gaps'] for r in reports):

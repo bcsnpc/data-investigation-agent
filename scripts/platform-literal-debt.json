@@ -1,7 +1,4 @@
 {
-  "adaptive_candidates.py": {
-    "product": 2
-  },
   "adaptive_runtime.py": {
     "fixture_column": 6,
     "product": 20
@@ -26,12 +23,6 @@
     "fixture_column": 1,
     "product": 4
   },
-  "native_identity.py": {
-    "product": 2
-  },
-  "onboarding.py": {
-    "product": 1
-  },
   "physical_binding.py": {
     "product": 3
   },
@@ -44,13 +35,7 @@
   "query_sql.py": {
     "fixture_column": 2
   },
-  "record_readback.py": {
-    "product": 1
-  },
   "semantic_graph.py": {
-    "product": 1
-  },
-  "source_diagnostics.py": {
     "product": 1
   }
 }

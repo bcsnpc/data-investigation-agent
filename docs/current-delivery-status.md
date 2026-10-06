@@ -4,6 +4,18 @@ Updated 2026-10-06 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 ## Current milestone
 
+**Round Eight underway: offline reliability and optional proposer research.**
+The README now states product commitments and distinguishes synthetic fixture
+measurements from unmeasured independent incident rates. Adapter-owned native
+scope/root decoding reduces the literal ratchet83→76 across12 residual modules.
+A deterministic latency mechanism is rendered from validated original delivery
+evidence; the recorded invalid provider role reference stays rejected. Twenty-eight
+focused tests passed. Full regression and30-case replay are pending; no platform
+proposer, assistant experiment or blind-estate execution is claimed. New round
+pot300, reserve60, rolling1500; initial rolling359, investigation cap12 unchanged.
+Licence deferred by owner decision. [Round Eight record](round-eight-research-and-proposers.md).
+Engine changes invalidate previous freezes. Round Seven evidence below remains historical.
+
 **Round Seven: two-column known-domain replay gate.** #410 and #411 merged with seven green PR checks. Actual-main check [37416970672](https://github.com/bcsnpc/data-investigation-agent/actions/runs/37416970672) passed archived15/15 and inferred15/15 with zero estate reads, on merge a43371d. The dated preparation checkpoint remains in the Round Six record; this closes its pending result. [Thirty rows and exact manifest variants](round-seven-delivery-record.md).
 
 The final once-only cases earned CONSISTENT_TO_BOUNDARY for source-unreachable and LOAD_LATENCY for the authored17-unit source change. Both synthesized, validated and sealed-replayed. Reachability was restored and reapproved, the row removed, the pipeline completed with own360/360 accounting, and the readers verified7661 and900099 absent at all three layers. The latency technical output explicitly omits a model paragraph whose layer references failed validation; that presentation defect is preserved.

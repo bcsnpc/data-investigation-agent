@@ -92,11 +92,12 @@ def require(response, request, reader):
 
 def guarded(config, request, execute):
     """Apply the same boundary to injected runtime transports and worker transports."""
-    reader = config.get('fabric', {}).get('native_reader')
+    from .adapters.native_scope import scope,required_workspace
+    _,reader = scope(config)
     if reader is None:
         if request.get('requires_native_reader'):raise ValueError('Discovered execution requires a read-only reader')
         return execute(request)
     profile(reader)
-    if request['workspace'] != config['fabric']['workspace_id'] or not allows(reader,request['workspace'],request['native_model_id']):
+    if request['workspace'] != required_workspace(config) or not allows(reader,request['workspace'],request['native_model_id']):
         raise ValueError('Native reader target differs')
     return require(execute(request), request, reader)

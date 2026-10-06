@@ -93,6 +93,7 @@ def assemble(response,payload,state):
     validate_text(value['business_output']['text'],business_text(source['classification'],payload))
     assessment={k:copy.deepcopy(source[k]) for k in assessment_schema()['required']}
     validate(copy.deepcopy(assessment),payload,source_state=state)
+    delivery=path_narrative.delivery_mechanism(state)
     # The explanation is explicitly additional to, not a replacement for, the
     # complete fixed assessment and its mandatory evidence/attestation limits.
     outputs={}
@@ -111,18 +112,20 @@ def assemble(response,payload,state):
         'text':'' if rejected or layer_rejection else value['technical_output']['text'],
         'provenance':'PROVIDER_MECHANISM',
         'evidence_ids':copy.deepcopy(value['technical_output']['evidence_ids'])}
+    if delivery:outputs['technical_output']['engine_mechanism']=delivery
     from . import narrative_form
     from .snapshot_attestation import payload_comparisons
     for key in ('business_output','technical_output'):
         outputs[key]['snapshot_attestations']=[e.get('snapshot_attestation',{'status':'SNAPSHOT_UNVERIFIED'}) for e in payload_comparisons(payload)]
-    outputs['technical_output']['explanation']['text']=narrative_form.technical('' if rejected or layer_rejection else value['technical_output']['text'],payload,source,recommended)
+    commentary=delivery['text'] if delivery else '' if rejected or layer_rejection else value['technical_output']['text']
+    outputs['technical_output']['explanation']['text']=narrative_form.technical(commentary,payload,source,recommended)
     if layer_rejection:
         outputs['technical_output']['mechanism_rejection']={'reason':'INVALID_LAYER_REFERENCE','detail':layer_rejection}
-        outputs['technical_output']['explanation']['text']+='\n\nMechanism paragraph omitted: its layer references did not match the declared spine.'
+        if not delivery:outputs['technical_output']['explanation']['text']+='\n\nMechanism paragraph omitted: its layer references did not match the declared spine.'
     if rejected:
         outputs['technical_output']['mechanism_rejection']={'reason':'WRONG_DIVERGENT_BOUNDARY',
             'cited_boundary':value['technical_output']['boundary_evidence_id'],'allowed_boundaries':boundaries}
-        outputs['technical_output']['explanation']['text']+='\n\nMechanism paragraph omitted: its citation did not name an observed divergent boundary.'
+        if not delivery:outputs['technical_output']['explanation']['text']+='\n\nMechanism paragraph omitted: its citation did not name an observed divergent boundary.'
     if answering:
         vertical=[e for e in payload['evidence'] if e.get('test_purpose')=='ESTABLISH_BASELINE' and e.get('verified_quantity')]
         account=['What else was checked: vertical path outcome '+source['classification']+'.']

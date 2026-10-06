@@ -1,6 +1,24 @@
 # Self-Discovering Enterprise Data Investigator
 
-A read-only debugger for a reported number across a declared data estate. It discovers supported metadata, resolves a measure and scope, compares faithful adjacent quantities, and produces business and technical explanations with receipts and explicit limits.
+Turn a disputed dashboard number into evidence-backed root cause — or an explicit statement of what cannot be proven — without giving an AI write access to production.
+
+It discovers supported metadata, resolves a measure and scope, compares faithful adjacent quantities, and produces business and technical explanations with receipts and explicit limits. A supported technical mechanism is not a judgment that a business rule is correct; snapshot and access qualifications remain explicit.
+
+## What this product commits to
+
+| Commitment | Measurement today |
+| --- | --- |
+| Correct classification on adjudicated in-scope incidents | Not yet measured on independently adjudicated incidents. Two fifteen-case synthetic, known-domain replay columns match sealed expectations, including refusals. |
+| False “verified” root cause rate | Not yet measured on independent incidents. Validators enforce evidence eligibility; receipt references do not certify semantic truth. |
+| Correct refusal on unsupported cases | Expected refusals/holds are scored in both fixture columns; a representative external unsupported-case rate is not yet measured. |
+| Production writes by the investigator: zero | Diagnostic identities are read-only; execution guards and permission receipts enforce their boundaries. Explicitly authorised fixture control changes are recorded separately from investigations. |
+| Evidence-bearing claims with receipt references: 100% | Output validation rejects missing or unknown required evidence references. This checks reference coverage, not whether prose is semantically true. |
+| Customer-specific code branches: zero | Required by the neutrality rule and literal allow-list ratchet; residual legacy platform coupling is disclosed below. The text scan alone does not certify absence of all semantic branching. |
+| Deployment time on a supported estate | Not yet measured on a client estate; the install guide specifies three inputs. |
+
+## How this differs
+
+[Soda](https://docs.soda.io/), [Bigeye](https://www.bigeye.com/platform/data-observability), [Acceldata](https://www.acceldata.io/data-ai-observability) and [Elementary](https://docs.elementary-data.com/) monitor data quality and health; several also offer lineage, impact and root-cause investigation. This project's starting point is a dashboard number a person disputes: reconstruct its supported declared report context, compare faithful quantities across the declared path, and explain the supported mechanism or the evidence gap. Their alerts can be intake tickets; an automated alert integration is not delivered. [Fabric Data Agent](https://learn.microsoft.com/en-us/fabric/data-science/how-to-create-data-agent) and [AI/BI Genie](https://docs.databricks.com/aws/genie/set-up) answer questions about data. Optional proposer work evaluates whether their candidates help discovery; assistant answers are never investigation evidence, and that experiment has not yet run.
 
 ## What works today
 
@@ -16,7 +34,7 @@ A read-only debugger for a reported number across a declared data estate. It dis
 
 [Content-hash freshness is designed](docs/content-hash-freshness-design.md), not implemented: the fixture definition route needs polling/identity requests, and quantity-only repeats would exceed the existing source-case diagnostic cap. Definition hashes and aggregate fingerprints cannot establish served snapshots or unchanged table content.
 
-The above-adapter literal ratchet is83 matches in17 legacy modules, down from85; zero is not claimed. [Remaining words and migration reasons](docs/round-seven-neutrality-audit.md).
+The above-adapter literal ratchet is76 matches in12 legacy modules, down from83. Adapter-owned workspace/reader decoding and workspace-root construction now replace seven core configuration/scheme interpretations; zero is not claimed. [Round Eight progress](docs/round-eight-research-and-proposers.md) retains the residual migration reasons.
 
 This is known-domain fixture evidence, not unfamiliar-domain acceptance or global equivalence. The gate replays sealed producer revisions and grades with current output contracts; it does not run every old request through today's planner. **SNAPSHOT_UNVERIFIED is the standing ceiling** until value queries can report aligned served versions. Filtered lower-layer equivalence, some ratio/component paths and unfamiliar code forms still refuse. Only installed adapters execute; a valid manifest grants no access and establishes no equivalence.
 

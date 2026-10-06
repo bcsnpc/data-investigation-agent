@@ -46,6 +46,28 @@ def summary(payload):
     return mechanism or 'The procedure compared the declared quantity along its resolved path.'
 
 
+def delivery_mechanism(state):
+    """Render deterministic delivery findings from their original cited observation.
+
+    Provider prose is not needed to restate an ordering the procedure established.
+    This runs only after the complete assessment has passed evidence validation.
+    """
+    assessment=state.get('assessment') or {}
+    if assessment.get('classification')!='LOAD_LATENCY':return None
+    process=assessment.get('support',{}).get('process',{})
+    refs=process.get('evidence_by_role',{}).get('job_history',[])
+    observations={o['id']:o for o in state.get('observations',[])}
+    for identity in refs:
+        observation=observations.get(identity,{})
+        result=observation.get('delivery_result',{})
+        if (observation.get('status')=='COMPLETED'
+                and observation.get('check_kind')=='SOURCE_DELIVERY'
+                and result.get('status')=='LATENT'):
+            return {'text':'The last successful load preceded the observed source change, so that load did not deliver the subsequently changed source rows.',
+                    'evidence_ids':[identity],'provenance':'DETERMINISTIC_DELIVERY_RENDERING'}
+    return None
+
+
 def _casefold(term):
     return ''.join('['+c.lower()+c.upper()+']' if c.isalpha() else r'\s+' if c==' ' else c for c in term)
 
