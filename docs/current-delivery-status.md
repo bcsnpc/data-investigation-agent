@@ -24,6 +24,8 @@ Round Six closed **338/400**. Round Seven uses **64/300** physical requests (41 
 
 ## Pending
 
+Identifier-only ticket/cell history is implemented offline on this PR. Shared completed-output persistence attaches it for model narrative, deterministic refusal and bounded-spine delivery. No historical record is backfilled, and previous conclusions never enter planner evidence. Six history tests and eleven unchanged projection goldens cover it; final full regression and hosted checks must pass before merge. Engine bytes changed, invalidating prior freezes. See [history scope](identifier-only-run-history.md).
+
 Content-hash freshness design is recorded; implementation is deferred because the fixture route cannot guarantee one request per layer and quantity-only repeats would need13 diagnostics against12. No cap changed. [Design and evidence scope](content-hash-freshness-design.md).
 
 Offline neutrality audit:85→83 matches,17 remaining legacy modules; two comments removed, payload goldens unchanged. [Module-level reasons](round-seven-neutrality-audit.md). Full neutrality remains pending.
