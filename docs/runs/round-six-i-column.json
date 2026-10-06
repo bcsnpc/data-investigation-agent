@@ -225,6 +225,46 @@
         "reason": "INTAKE_NEEDS_INPUT_AFTER_EXPLICIT_STATEMENT_CORRECTION",
         "source_intake_id": "1b844035-f362-40b2-aada-19ceaeb8a811",
         "tape_id": "4b2965df-b9cc-49e7-9645-9e2938151f7b"
+      },
+      {
+        "ticket": "reproduction-16",
+        "status": "NOT_RUN",
+        "reason": "FIRST_CHANGED_RESULT_EMPTY_INTAKE",
+        "physical_requests": 0,
+        "fixture_state": "report-15sep",
+        "source_session_id": null
+      },
+      {
+        "ticket": "source-consistent",
+        "status": "NOT_RUN",
+        "reason": "FIRST_CHANGED_RESULT_EMPTY_INTAKE",
+        "physical_requests": 0,
+        "fixture_state": "source-baseline",
+        "source_session_id": null
+      },
+      {
+        "ticket": "source-gap",
+        "status": "NOT_RUN",
+        "reason": "FIRST_CHANGED_RESULT_EMPTY_INTAKE",
+        "physical_requests": 0,
+        "fixture_state": "source-gap",
+        "source_session_id": null
+      },
+      {
+        "ticket": "source-latency",
+        "status": "NOT_RUN",
+        "reason": "FIRST_CHANGED_RESULT_EMPTY_INTAKE",
+        "physical_requests": 0,
+        "fixture_state": "source-latency",
+        "source_session_id": null
+      },
+      {
+        "ticket": "source-unreachable",
+        "status": "NOT_RUN",
+        "reason": "FIRST_CHANGED_RESULT_EMPTY_INTAKE",
+        "physical_requests": 0,
+        "fixture_state": "source-unreachable",
+        "source_session_id": null
       }
     ]
   },
