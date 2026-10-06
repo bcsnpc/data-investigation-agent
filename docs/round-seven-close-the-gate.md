@@ -126,3 +126,11 @@ bounded witnesses establishes currency or global equivalence.
 
 The complete archived and inferred fifteen-case regrades are in progress.
 The two-column hosted gate is not yet earned; #410 and the gate PR remain draft.
+
+## Dated replay checkpoint and preserved composition finding, 2026-10-06
+
+Fresh local archived15/15 and inferred15/15 completed with zero estate requests. The gate PR hosted check37415071467 passed both columns; #410 and #411 merged as9ae400b and a43371d. Actual-main replay37416970672 remains pending at this preparation checkpoint. Its final result belongs in the closing record, not an assumed pass.
+
+The latency technical output says verbatim: "Mechanism paragraph omitted: its layer references did not match the declared spine." The deterministic quantities, audit mechanism, action and limitations were rendered and synthesis validated; the omitted model paragraph remains a presentation defect. No replacement run or renderer change was made to obtain the outcome.
+
+Append-only ledger corrections identify the latency prewarm's old SOURCE_CONSISTENT label, the generic offline checker's old ROUND_FIVE experiment label, and the two zero-read statement-extraction preparation errors. Original ledger lines, tapes and probe statements remain unchanged.
