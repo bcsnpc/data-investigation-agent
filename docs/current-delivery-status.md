@@ -4,7 +4,7 @@ Updated 2026-10-06 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 ## Current milestone
 
-**Round Seven: two-column known-domain replay gate.** #410 and #411 merged with seven green PR checks. The PR hosted job replayed archived15/15 and inferred15/15 with zero estate reads. Actual-main check [37416970672](https://github.com/bcsnpc/data-investigation-agent/actions/runs/37416970672) is pending at this preparation checkpoint; its closing result will be recorded separately.
+**Round Seven: two-column known-domain replay gate.** #410 and #411 merged with seven green PR checks. Actual-main check [37416970672](https://github.com/bcsnpc/data-investigation-agent/actions/runs/37416970672) passed archived15/15 and inferred15/15 with zero estate reads, on merge a43371d. The dated preparation checkpoint remains in the Round Six record; this closes its pending result. [Thirty rows and exact manifest variants](round-seven-delivery-record.md).
 
 The final once-only cases earned CONSISTENT_TO_BOUNDARY for source-unreachable and LOAD_LATENCY for the authored17-unit source change. Both synthesized, validated and sealed-replayed. Reachability was restored and reapproved, the row removed, the pipeline completed with own360/360 accounting, and the readers verified7661 and900099 absent at all three layers. The latency technical output explicitly omits a model paragraph whose layer references failed validation; that presentation defect is preserved.
 
@@ -32,6 +32,6 @@ Content-hash freshness design is recorded; implementation is deferred because th
 
 Offline neutrality audit:85→83 matches,17 remaining legacy modules; two comments removed, payload goldens unchanged. [Module-level reasons](round-seven-neutrality-audit.md). Full neutrality remains pending.
 
-Actual-main gate confirmation, then the dated closing record. Post-gate offline list: platform-neutrality debt, content-hash freshness design, identifier-only ticket/cell history and the one-page estate install guide. No unfamiliar-domain acceptance pass is claimed. All earlier freezes remain invalid.
+The actual-main gate and [dated closing record](round-seven-delivery-record.md) are established. Separate post-gate PRs cover the honest neutrality audit, deferred freshness design, identifier-only history and install guide; each merges only after seven green checks and30/30 replay. Remaining work includes neutrality migration, a qualifying freshness route and unfamiliar-domain acceptance. All earlier freezes remain invalid.
 
 [Round Six delivery](round-six-delivery-record.md), [Round Seven live record](round-seven-close-the-gate.md), [gate delivery](two-column-replay-gate.md). The entire preceding status file is preserved [as historical evidence](historical-delivery-status-through-round-six.md), including its original links and failures.

@@ -1,0 +1,152 @@
+[
+  {
+    "column": "archived",
+    "ticket": "family-A",
+    "manifest_hash": null
+  },
+  {
+    "column": "archived",
+    "ticket": "family-B",
+    "manifest_hash": null
+  },
+  {
+    "column": "archived",
+    "ticket": "family-C",
+    "manifest_hash": null
+  },
+  {
+    "column": "archived",
+    "ticket": "family-D",
+    "manifest_hash": "8a4aeb47b1831bacb707a2034fb3e3e3394cc8978233a8976795e95e11d7e32b"
+  },
+  {
+    "column": "archived",
+    "ticket": "family-E",
+    "manifest_hash": null
+  },
+  {
+    "column": "archived",
+    "ticket": "family-F",
+    "manifest_hash": null
+  },
+  {
+    "column": "archived",
+    "ticket": "family-G",
+    "manifest_hash": "8a4aeb47b1831bacb707a2034fb3e3e3394cc8978233a8976795e95e11d7e32b"
+  },
+  {
+    "column": "archived",
+    "ticket": "family-H",
+    "manifest_hash": "8a4aeb47b1831bacb707a2034fb3e3e3394cc8978233a8976795e95e11d7e32b"
+  },
+  {
+    "column": "archived",
+    "ticket": "family-I",
+    "manifest_hash": null
+  },
+  {
+    "column": "archived",
+    "ticket": "reproduction-16",
+    "manifest_hash": null
+  },
+  {
+    "column": "archived",
+    "ticket": "reproduction-empty",
+    "manifest_hash": "8a4aeb47b1831bacb707a2034fb3e3e3394cc8978233a8976795e95e11d7e32b"
+  },
+  {
+    "column": "archived",
+    "ticket": "source-consistent",
+    "manifest_hash": "8a4aeb47b1831bacb707a2034fb3e3e3394cc8978233a8976795e95e11d7e32b"
+  },
+  {
+    "column": "archived",
+    "ticket": "source-gap",
+    "manifest_hash": null
+  },
+  {
+    "column": "archived",
+    "ticket": "source-latency",
+    "manifest_hash": null
+  },
+  {
+    "column": "archived",
+    "ticket": "source-unreachable",
+    "manifest_hash": null
+  },
+  {
+    "column": "inferred",
+    "ticket": "family-A",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "family-B",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "family-C",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "family-D",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "family-E",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "family-F",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "family-G",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "family-H",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "family-I",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "reproduction-16",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "reproduction-empty",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "source-consistent",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "source-gap",
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56"
+  },
+  {
+    "column": "inferred",
+    "ticket": "source-latency",
+    "manifest_hash": "d433f1b7b5ede9e8eb2d5343a7e960efbfedc23fbe64eff722daa95aff57da88"
+  },
+  {
+    "column": "inferred",
+    "ticket": "source-unreachable",
+    "manifest_hash": "e4ef23417aa3669794fb502891ba18b2b43445642e12db7e108ecfbc9307ad8a"
+  }
+]
