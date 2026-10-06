@@ -752,5 +752,5 @@
       "comparison_status": "WITHIN_LAYER_CHECK"
     }
   ],
-  "projection_note": "Public attestation/quantity summary only; query text and repeated code/mapping proofs omitted. No validator consumes this projection. Original full observations remain in the hash-linked sealed tape."
+  "projection_note": "Public attestation/quantity summary only; multirow diagnostic data is hash-linked to original sealed receipts, not reprinted. Query text and repeated code/mapping proofs omitted. No validator consumes this projection. Original full observations remain in the sealed tape."
 }
