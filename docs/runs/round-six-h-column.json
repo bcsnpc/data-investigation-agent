@@ -1,0 +1,182 @@
+{
+  "date_local": "2026-10-05 America/Chicago",
+  "producer_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+  "declared_archived": {
+    "passed": 15,
+    "total": 15,
+    "hosted_checkpoint_run": 37399565715
+  },
+  "inferred": {
+    "passed": 9,
+    "failed": 1,
+    "unattempted": 5,
+    "total": 15,
+    "physical_requests_for_replay": 0,
+    "snapshot_unverified_invariant": "PASSED",
+    "verified_boundary_observations": 9
+  },
+  "gate": "NOT_EARNED",
+  "live_pot": {
+    "before": 187,
+    "after": 265,
+    "ceiling": 400,
+    "restoration_reserved": 60
+  },
+  "rolling": {
+    "last_live": 335,
+    "closing": 310,
+    "ceiling": 1500
+  },
+  "cases": [
+    {
+      "ticket": "family-A",
+      "archived": "PASSED",
+      "inferred": "PASSED",
+      "stop_reason": null,
+      "session_id": "a9b93933-0c69-48bf-80eb-dfc97684b478",
+      "status": "COMPLETED",
+      "outcome": "TRANSFORMATION_LOGIC",
+      "diagnostic_reads": 4,
+      "physical_requests": 12,
+      "guard_requests": 6
+    },
+    {
+      "ticket": "family-B",
+      "archived": "PASSED",
+      "inferred": "PASSED",
+      "stop_reason": null,
+      "session_id": "922d24ed-176a-4214-a60c-909701110d18",
+      "status": "COMPLETED",
+      "outcome": "NO_KNOWN_PATTERN",
+      "diagnostic_reads": 1,
+      "physical_requests": 3,
+      "guard_requests": 0
+    },
+    {
+      "ticket": "family-C",
+      "archived": "PASSED",
+      "inferred": "PASSED",
+      "stop_reason": null,
+      "session_id": "3623cc2f-6a2e-4782-bcbd-5f9f230e233e",
+      "status": "HELD",
+      "outcome": null,
+      "diagnostic_reads": null,
+      "physical_requests": 0,
+      "guard_requests": 0
+    },
+    {
+      "ticket": "family-D",
+      "archived": "PASSED",
+      "inferred": "PASSED",
+      "stop_reason": null,
+      "session_id": "80dc34a9-6529-4047-a598-1bdf78318dc0",
+      "status": "COMPLETED",
+      "outcome": "NO_COMPARABLE_PATH",
+      "diagnostic_reads": 6,
+      "physical_requests": 8,
+      "guard_requests": 0
+    },
+    {
+      "ticket": "family-E",
+      "archived": "PASSED",
+      "inferred": "PASSED",
+      "stop_reason": null,
+      "session_id": "c276bf84-476c-4d3a-aa84-24dbe4161f68",
+      "status": "COMPLETED",
+      "outcome": "TRANSFORMATION_LOGIC",
+      "diagnostic_reads": 4,
+      "physical_requests": 12,
+      "guard_requests": 6
+    },
+    {
+      "ticket": "family-F",
+      "archived": "PASSED",
+      "inferred": "PASSED",
+      "stop_reason": null,
+      "session_id": "de6e25eb-2ab1-4eeb-92a1-ff32db9b5e84",
+      "status": "COMPLETED",
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "diagnostic_reads": 3,
+      "physical_requests": 9,
+      "guard_requests": 3
+    },
+    {
+      "ticket": "family-G",
+      "archived": "PASSED",
+      "inferred": "PASSED",
+      "stop_reason": null,
+      "session_id": "436b749e-84e8-48cf-aeca-dcf1ca04d56d",
+      "status": "COMPLETED",
+      "outcome": "TRANSFORMATION_LOGIC",
+      "diagnostic_reads": 4,
+      "physical_requests": 12,
+      "guard_requests": 6
+    },
+    {
+      "ticket": "family-H",
+      "archived": "PASSED",
+      "inferred": "PASSED",
+      "stop_reason": null,
+      "session_id": "0b1f57a8-bc92-46c8-944c-2a92ab2f3a45",
+      "status": "COMPLETED",
+      "outcome": "NO_KNOWN_PATTERN",
+      "diagnostic_reads": 1,
+      "physical_requests": 3,
+      "guard_requests": 0
+    },
+    {
+      "ticket": "family-I",
+      "archived": "PASSED",
+      "inferred": "PASSED",
+      "stop_reason": null,
+      "session_id": "dbaec29a-16c3-41d2-b6fc-3da13ae1d957",
+      "status": "COMPLETED",
+      "outcome": "TRANSFORMATION_LOGIC",
+      "diagnostic_reads": 4,
+      "physical_requests": 12,
+      "guard_requests": 6
+    },
+    {
+      "ticket": "reproduction-16",
+      "archived": "PASSED",
+      "inferred": "NOT_RUN",
+      "stop_reason": "STOPPED_AFTER_EMPTY_INTAKE_CHANGED_ACCEPTANCE_RESULT"
+    },
+    {
+      "ticket": "reproduction-empty",
+      "archived": "PASSED",
+      "inferred": "FAILED",
+      "stop_reason": "OUTPUT_INVARIANT_FAILED",
+      "session_id": "1f96ab15-e18c-4d5d-9732-0f79a15d072e",
+      "status": "COMPLETED",
+      "outcome": "NO_COMPARABLE_PATH",
+      "diagnostic_reads": 5,
+      "physical_requests": 7,
+      "guard_requests": 0
+    },
+    {
+      "ticket": "source-consistent",
+      "archived": "PASSED",
+      "inferred": "NOT_RUN",
+      "stop_reason": "STOPPED_AFTER_EMPTY_INTAKE_CHANGED_ACCEPTANCE_RESULT"
+    },
+    {
+      "ticket": "source-gap",
+      "archived": "PASSED",
+      "inferred": "NOT_RUN",
+      "stop_reason": "STOPPED_AFTER_EMPTY_INTAKE_CHANGED_ACCEPTANCE_RESULT"
+    },
+    {
+      "ticket": "source-latency",
+      "archived": "PASSED",
+      "inferred": "NOT_RUN",
+      "stop_reason": "STOPPED_AFTER_EMPTY_INTAKE_CHANGED_ACCEPTANCE_RESULT"
+    },
+    {
+      "ticket": "source-unreachable",
+      "archived": "PASSED",
+      "inferred": "NOT_RUN",
+      "stop_reason": "STOPPED_AFTER_EMPTY_INTAKE_CHANGED_ACCEPTANCE_RESULT"
+    }
+  ]
+}
