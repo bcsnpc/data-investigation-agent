@@ -583,7 +583,7 @@ class Intake:
                         explicit_statements=exc.statements,proposal=None)
         except figure.AmbiguousFigure as exc:
             usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
-            body.update(status='NEEDS_INPUT',question='More than one ticket span could be the reported figure. Which figure should be compared?',error=None)
+            body.update(status='NEEDS_INPUT',question=str(exc),error=None)
         except QuoteRefused as exc:
             usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
             body.update(status='NEEDS_INPUT',question=str(exc),error=None)

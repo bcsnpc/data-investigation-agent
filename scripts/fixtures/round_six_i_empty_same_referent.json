@@ -1,0 +1,20 @@
+{
+  "tape_id": "4b2965df-b9cc-49e7-9645-9e2938151f7b",
+  "tape_sha256": "0ae91c97b3a09d05e2dfd3219f34ab11e2aa5a4feef09cf6045353bca1310f46",
+  "response_event_sha256": "9b00d484f7e4163a1f49d4e8ec06acf4e3145a0722a7d62a39e7480a584add6b",
+  "ticket": "In Declared predicate fixture 20261001, on Saved predicate selections, the card Handled Quantity - extra visual predicate shows nothing (the visual is empty) for Handled Quantity. I selected warehouse North. Check whether the saved declared report context reproduces what the visual shows and explain what remains unknown about my selections.",
+  "reported_candidates": [
+    {
+      "role": "OTHER",
+      "quote": "20261001"
+    },
+    {
+      "role": "FIGURE",
+      "quote": "shows nothing"
+    },
+    {
+      "role": "FIGURE",
+      "quote": "the visual is empty"
+    }
+  ]
+}

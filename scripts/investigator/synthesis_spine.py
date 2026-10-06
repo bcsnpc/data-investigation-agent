@@ -47,7 +47,7 @@ def build(payload, state, bound):
                 'restrictions': copy.deepcopy(row['composed_restrictions']),
                 'undeclared_context_value': row['undeclared_context_value'],
                 'declared_context_value': row['reproduced_value'],
-                'reported_figure': {k: v for k, v in row['reported_figure'].items() if k != 'source'},
+                'reported_figure': {k: v for k, v in row['reported_figure'].items() if k not in ('source','supporting_sources')},
                 'result': row['label'] or row['unavailability'],
                 'grade': row['comparison_status'],
                 'attestation': {side: {k: row[side + '_surface_attestation'].get(k)

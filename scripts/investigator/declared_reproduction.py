@@ -134,7 +134,7 @@ def render(marker, business=False, include_limits=True):
             first+=' The applied selections were '+ '; '.join(terms)+'.'
         else:first+=' No saved report filter restricts this calculation.'
         return first + ' ' + finding + (' ' + limits + (' ' + ' '.join(specific) if specific else '') if include_limits else '')
-    return ((f"Cell {marker['cell']['target_id']} ({marker['cell']['mode']}): " if marker.get('cell') else '') + f"WITHIN_LAYER_CHECK ({marker['id']}): undeclared-context value {baseline}; declared-context value {declared}. "
+    return (figure.provenance(marker['reported_figure'])+' '+(f"Cell {marker['cell']['target_id']} ({marker['cell']['mode']}): " if marker.get('cell') else '') + f"WITHIN_LAYER_CHECK ({marker['id']}): undeclared-context value {baseline}; declared-context value {declared}. "
             + finding + (' ' + limits + (' ' + ' '.join(specific) if specific else '') if include_limits else ''))
 
 
