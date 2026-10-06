@@ -13,6 +13,7 @@ from . import definition_target as target
 from . import report_scope
 from . import selection_descriptor
 from . import question_kind
+from . import intake_statement_registry as statements
 QUESTION_KIND_INSTRUCTIONS='\nClassify question_kind using the supplied consumer-owned kinds, with a verbatim quote of the question supporting the subject. FRESHNESS concerns currency; SOURCE_CORRECTNESS concerns source entries; VISUAL_CONTENT concerns what a report displays; FIGURE_DIFFERENCE concerns a discrepancy; the other named kinds distinguish components, derivation, transformation, business meaning and expected behaviour. ASK uses null. Routes are nominations: never substitute another route when the best route is marked unimplemented.'
 
 VERSION = 'process-debugging-intake-v2'
@@ -137,6 +138,12 @@ def azure_resolve(payload):
     instructions+=QUESTION_KIND_INSTRUCTIONS
     instructions+=SCOPE_INSTRUCTIONS
     instructions+=VALUE_ROLE_INSTRUCTIONS
+    statement_repair=payload.get('_explicit_statement_repair')
+    if statement_repair is not None:
+        wire.pop('_explicit_statement_repair',None)
+        wire['explicit_statement_repair']=statement_repair
+        instructions+='\nConsumer-owned explicit-empty vocabulary: '+json.dumps(statements.EMPTY_FORMS)+'. A standalone dash as the shown value is empty, not zero. An explicit empty state or numeral shown in the ticket must not be omitted from reported_candidates.'
+        instructions+='\nThe previous response was rejected: INTAKE_OMITTED_EXPLICIT_STATEMENT. The consumer found the quoted explicit statement(s) supplied in explicit_statement_repair. Return a corrected resolution including exact verbatim FIGURE provenance. Do not invent a value, choose between ambiguous figures or infer a tolerance. This is the only correction attempt; all normal validation remains in force.'
     span_repair=payload.get('_provenance_quote_repair')
     if span_repair is not None:
         wire.pop('_provenance_quote_repair',None)
@@ -264,7 +271,12 @@ def azure_resolve(payload):
             f['column_id']=actual(f['column_id'])
             value['scope_quotes'].append({'column_id':f['column_id'],'quote':f.pop('quote')})
         value_roles.scope(value,payload['text'],requested)
+        statements.validate(value,payload['text'])
         return value,{**usage,'quote_provenance':quote_audit}
+
+    except statements.OmittedExplicitStatement as exc:
+        exc.provider_metadata={**usage,'quote_provenance':quote_audit}
+        raise
 
     except QuoteNotFound as exc:
         exc.provider_metadata={**usage,'quote_provenance':quote_audit}
@@ -360,6 +372,7 @@ def snapshot(workspace):
 
 
 def validate(value, payload):
+    statements.validate(value,payload['text'])
     fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes','value_mentions') if k in value])
     if 'value_mentions' in value:
         from .value_roles import scope
@@ -499,31 +512,37 @@ class Intake:
         from .planner_recording import recording
         def call(current,key,attempt):
             with recording({'session_id':'intake:'+body['id'],'planner_call':attempt,
-                    'call_kind':('intake' if attempt==1 else 'provenance_quote_retry' if '_provenance_quote_repair' in current else 'reported_figure_quote_retry'),
+                    'call_kind':('intake' if attempt==1 else 'explicit_statement_retry' if '_explicit_statement_repair' in current else 'provenance_quote_retry' if '_provenance_quote_repair' in current else 'reported_figure_quote_retry'),
                     'payload':current,'context_version':None,'reservation':key,
                     'budget':governor.snapshot()}):
-                return self.resolver(current)
+                decision,metadata=self.resolver(current)
+                try:statements.validate(decision,current['text'])
+                except statements.OmittedExplicitStatement as exc:
+                    exc.provider_metadata=metadata
+                    raise
+                return decision,metadata
         try:
             try:
                 decision,usage=call(payload,reservation_key,1);uncertain=False
-            except (FigureQuoteAmbiguous,QuoteNotFound) as exc:
+            except (FigureQuoteAmbiguous,QuoteNotFound,statements.OmittedExplicitStatement) as exc:
                 usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
                 missing=isinstance(exc,QuoteNotFound)
-                body['resolution_attempts'].append({'attempt':1,'event':'PROVENANCE_QUOTE_NOT_FOUND' if missing else 'REPORTED_FIGURE_QUOTE_AMBIGUOUS',
+                omitted=isinstance(exc,statements.OmittedExplicitStatement)
+                body['resolution_attempts'].append({'attempt':1,'event':'INTAKE_OMITTED_EXPLICIT_STATEMENT' if omitted else 'PROVENANCE_QUOTE_NOT_FOUND' if missing else 'REPORTED_FIGURE_QUOTE_AMBIGUOUS',
                     'reservation_key':'resolve','metadata':usage,
-                    **({'field':exc.field} if missing else {'occurrences':exc.occurrences})})
+                    **({'statements':exc.statements} if omitted else {'field':exc.field} if missing else {'occurrences':exc.occurrences})})
                 repair=getattr(exc,'repair',None)
                 if repair is None:raise
-                retry_payload={**payload,'_provenance_quote_repair' if missing else '_figure_quote_repair':repair}
+                retry_payload={**payload,'_explicit_statement_repair' if omitted else '_provenance_quote_repair' if missing else '_figure_quote_repair':repair}
                 with self.store.connect() as db:
                     db.execute('BEGIN IMMEDIATE')
                     governor.settle(db,'intake:'+body['id'],'resolve',usage.get('usage') if isinstance(usage,dict) else None,uncertain=uncertain)
                     row=db.execute('SELECT body FROM workspace_intakes WHERE id=?',(body['id'],)).fetchone()
                     if json.loads(row['body'])['status']!='RESOLVING':return self.get(body['id'])
-                    retry_key='provenance-quote-retry' if missing else 'figure-quote-retry'
+                    retry_key='explicit-statement-retry' if omitted else 'provenance-quote-retry' if missing else 'figure-quote-retry'
                     governor.reserve(db,'intake:'+body['id'],retry_key,'planner',len(encoded(retry_payload)))
                 reservation_key=retry_key;usage=None;uncertain=True
-                body['resolution_attempts'].append({'attempt':2,'event':'PROVENANCE_QUOTE_RETRY' if missing else 'REPORTED_FIGURE_QUOTE_RETRY',
+                body['resolution_attempts'].append({'attempt':2,'event':'EXPLICIT_STATEMENT_RETRY' if omitted else 'PROVENANCE_QUOTE_RETRY' if missing else 'REPORTED_FIGURE_QUOTE_RETRY',
                     'reservation_key':reservation_key})
                 decision,usage=call(retry_payload,reservation_key,2);uncertain=False
             validation_payload=payload
@@ -558,6 +577,10 @@ class Intake:
                 raise Conflict('Question context changed during resolution')
             body.update(status='NEEDS_INPUT' if decision['action'] == 'ASK' else 'PROPOSED',
                         proposal=decision if decision['action'] == 'PROPOSE' else None, question=decision['question'])
+        except statements.OmittedExplicitStatement as exc:
+            usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
+            body.update(status='HELD',error='INTAKE_OMITTED_EXPLICIT_STATEMENT',refusal_reason=str(exc),
+                        explicit_statements=exc.statements,proposal=None)
         except figure.AmbiguousFigure as exc:
             usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
             body.update(status='NEEDS_INPUT',question='More than one ticket span could be the reported figure. Which figure should be compared?',error=None)

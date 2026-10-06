@@ -2,6 +2,7 @@
 import re
 from decimal import Decimal, ROUND_HALF_EVEN, localcontext
 from .proposal_limits import INTAKE_QUOTE
+from .intake_statement_registry import empty_matches
 CANDIDATE_LIMIT=8
 
 
@@ -69,7 +70,7 @@ def validate(value, ticket=None):
     if state=='UNSPECIFIED':return value
     quote=span(value['source'],ticket)
     if state=='EMPTY':
-        if not re.search(r'\b(empty|blank|no data|no rows|nothing shown)\b',quote,re.I):
+        if not empty_matches(quote):
             raise ValueError('Empty reported state lacks explicit ticket provenance')
     else:
         number,precision=stated(quote)
@@ -86,7 +87,7 @@ def from_candidates(candidates,ticket):
     if len(candidates)>1:raise AmbiguousFigure('Ambiguous reported figure: more than one plausible ticket span')
     if not candidates:return {'state':'UNSPECIFIED'}
     source=candidates[0]; quote=span(source,ticket)
-    if re.search(r'\b(empty|blank|no data|no rows|nothing shown)\b',quote,re.I):
+    if empty_matches(quote):
         return validate({'state':'EMPTY','source':source},ticket)
     number,precision=stated(quote)
     return validate({'state':'NUMBER','source':source,'value':number,'precision':precision},ticket)
