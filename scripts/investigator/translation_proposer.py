@@ -97,6 +97,9 @@ def _evidence(observation, context, address):
         raise ValueError('Original probe context or address differs')
     attestation = evidence.get('surface_attestation') or {}
     if not isinstance(attestation, dict): raise ValueError('Malformed original surface attestation')
+    fields = attestation.get('required_fields')
+    if not isinstance(fields, list) or any(not isinstance(f, str) for f in fields):
+        raise ValueError('Malformed attestation required-field inventory')
     check = attest_surface(evidence.get('execution_surface'), evidence.get('surface_report'), attestation.get('required_fields', ()))
     if check != attestation or check['consistency'] != 'MATCHED' or check.get('missing_required_fields'):
         raise ValueError('Original probe surface attestation failed')

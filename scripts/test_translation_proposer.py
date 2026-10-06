@@ -124,6 +124,8 @@ class TranslationTests(unittest.TestCase):
             def mutation(o, side, field=field): o['evidence'][field] = 'tampered'
             # malformed evidence is a refusal, never a successful witness
             r = self.run_case(mutate=mutation); self.assertEqual(r['status'], 'UNVERIFIED')
+        def bad_inventory(o, side): o['evidence']['surface_attestation']['required_fields'] = 1
+        self.assertEqual(self.run_case(mutate=bad_inventory)['status'], 'UNVERIFIED')
 
     def test_distinct_measure_cell_without_retained_address_refuses(self):
         request, p = case('MEASURE'); cells = request['available_cells'][:2]
