@@ -11,8 +11,7 @@ Measure probes preserve cell addresses and use verification accounting. Runtime
 wiring and live trials remain pending; existing filtered-scope refusal unchanged.
 Stable checkpoint `8de0e84` passed 2,089 regression tests and seven hosted checks,
 including archived/inferred replay. New adapter/OTLP code has focused validation,
-not yet a full regression pass. Four OTLP schema/tree tests pass; fifteen-tape
-conversion is in progress. Missing historic timing/receipt fields stay explicit.
+not yet a full regression pass. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
 Evals, governance gaps, rebuild and demo remain pending. Draft PR #420 stays open.
 Round Nine has no estate/provider calls or policy change; authorized 200/40-reserved
 pot is not yet configured. Prior freezes remain invalid.

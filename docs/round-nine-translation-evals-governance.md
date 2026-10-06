@@ -161,3 +161,9 @@ cost/time is inclusive where only top-level operations were recorded.
 
 Zero Round Nine estate reads/provider calls; no fixture, identity, secret or
 policy change. Prior freezes invalidated. PR #420 remains draft, unmerged.
+
+Dated trace export completion: all fifteen archived tapes converted and passed
+official schema/tree validation, zero new estate requests. Their 139 probe spans
+match every retained physical total; family C did not retain a physical total.
+Original tapes remain untouched. Export files and detailed totals are private
+under `.local/round-nine-20261006/trace-export/`. Live footer wiring remains pending.

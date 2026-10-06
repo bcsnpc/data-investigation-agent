@@ -180,6 +180,9 @@ def convert(path):
         'scopeSpans': [{'scope': {'name': 'dia.tape', 'version': '1'}, 'spans': spans}]}]}
     validate(result)
     if providers: raise ValueError('Provider request lacks recorded completion')
+    physical = state.get('physical_calls')
+    if physical is not None and sum(s['name'] == 'probe' for s in spans) != physical:
+        raise ValueError('Recorded physical requests and exported probes differ')
     return result, {'stages': summary, 'basis': 'Recorded top-level operations; walk includes nested source/reproduction where finer historic phase timestamps are absent.',
                     'recorded_stages': sorted(stages), 'currency_cost': 'UNRECORDED',
                     'recorded_physical_requests': state.get('physical_calls'),
