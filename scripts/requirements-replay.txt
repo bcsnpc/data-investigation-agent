@@ -1,0 +1,2 @@
+cryptography==44.0.1
+PyNaCl==1.6.2

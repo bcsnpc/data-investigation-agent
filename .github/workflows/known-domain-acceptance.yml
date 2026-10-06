@@ -21,7 +21,11 @@ jobs:
         with:
           python-version: '3.13'
       - name: Install replay dependencies
-        run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt cryptography==44.0.1
+        run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt -r scripts/requirements-replay.txt
+      - name: Export only the replay recipient public key
+        env:
+          KNOWN_DOMAIN_REPLAY_KEY: ${{ secrets.KNOWN_DOMAIN_REPLAY_KEY }}
+        run: python acceptance/known_domain/private_bundle.py --public-key
       - name: Test private delivery refuses altered ciphertext
         run: python -m unittest discover -s scripts -p test_private_replay_bundle.py
       - name: Test replay requires the sealed lineage installation input
@@ -36,14 +40,29 @@ jobs:
         env:
           KNOWN_DOMAIN_REPLAY_KEY: ${{ secrets.KNOWN_DOMAIN_REPLAY_KEY }}
         run: python acceptance/known_domain/private_bundle.py "$RUNNER_TEMP/replay-ciphertext/fixture-tapes.aesgcm" "$RUNNER_TEMP/private-replay-inputs"
-      - name: Strict fifteen-ticket replay and output gate
-        run: python acceptance/known_domain/check.py --fixture-root "$RUNNER_TEMP/private-replay-inputs" --output "$RUNNER_TEMP/known-domain-acceptance"
+      - name: Download immutable encrypted inferred evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=$(python -c "import json; print(json.load(open('acceptance/known_domain/private-inferred-bundle.json'))['release_tag'])")
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern inferred-tapes.sealed --dir "$RUNNER_TEMP/inferred-replay-ciphertext"
+      - name: Verify inferred ciphertext and exact member hashes before extraction
+        env:
+          KNOWN_DOMAIN_REPLAY_KEY: ${{ secrets.KNOWN_DOMAIN_REPLAY_KEY }}
+        run: python acceptance/known_domain/private_bundle.py "$RUNNER_TEMP/inferred-replay-ciphertext/inferred-tapes.sealed" "$RUNNER_TEMP/private-inferred-inputs" --manifest acceptance/known_domain/private-inferred-bundle.json
+      - name: Strict thirty-answer replay and output gate
+        env:
+          BASE_REVISION: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          ARGS=()
+          if [[ -n "$BASE_REVISION" && "$BASE_REVISION" != "0000000000000000000000000000000000000000" ]]; then ARGS=(--base-revision "$BASE_REVISION"); fi
+          python acceptance/known_domain/two_columns.py --archived "$RUNNER_TEMP/private-replay-inputs" --inferred "$RUNNER_TEMP/private-inferred-inputs" --output "$RUNNER_TEMP/known-domain-acceptance" "${ARGS[@]}"
       - name: Remove decrypted private evidence
         if: always()
         shell: pwsh
         run: |
           $replayRoot = [System.IO.Path]::GetFullPath($env:RUNNER_TEMP)
-          foreach ($replayName in @('private-replay-inputs', 'known-domain-acceptance', 'replay-ciphertext')) {
+          foreach ($replayName in @('private-replay-inputs', 'private-inferred-inputs', 'known-domain-acceptance', 'replay-ciphertext', 'inferred-replay-ciphertext')) {
             $replayTarget = [System.IO.Path]::GetFullPath((Join-Path $replayRoot $replayName))
             if (-not $replayTarget.StartsWith($replayRoot + [System.IO.Path]::DirectorySeparatorChar)) { throw 'Cleanup outside runner temp' }
             if (Test-Path -LiteralPath $replayTarget) { Remove-Item -LiteralPath $replayTarget -Recurse -Force }
