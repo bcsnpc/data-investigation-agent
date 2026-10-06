@@ -1,4 +1,4 @@
-"""Bounded metadata-only dependency contexts. Power BI still evaluates all DAX.
+"""Bounded metadata-only dependency contexts. The native engine evaluates expressions.
 
 Recognizes neutral arithmetic/DIVIDE measure expressions and top-level CALCULATE
 of a direct measure with simple typed equality filters, optionally KEEPFILTERS.

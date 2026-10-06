@@ -24,6 +24,8 @@ Round Six closed **338/400**. Round Seven uses **64/300** physical requests (41 
 
 ## Pending
 
+Offline neutrality audit:85→83 matches,17 remaining legacy modules; two comments removed, payload goldens unchanged. [Module-level reasons](round-seven-neutrality-audit.md). Full neutrality remains pending.
+
 Actual-main gate confirmation, then the dated closing record. Post-gate offline list: platform-neutrality debt, content-hash freshness design, identifier-only ticket/cell history and the one-page estate install guide. No unfamiliar-domain acceptance pass is claimed. All earlier freezes remain invalid.
 
 [Round Six delivery](round-six-delivery-record.md), [Round Seven live record](round-seven-close-the-gate.md), [gate delivery](two-column-replay-gate.md). The entire preceding status file is preserved [as historical evidence](historical-delivery-status-through-round-six.md), including its original links and failures.

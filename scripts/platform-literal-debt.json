@@ -9,9 +9,6 @@
   "connection_registry.py": {
     "product": 4
   },
-  "dependency_context.py": {
-    "product": 1
-  },
   "discovery_collect.py": {
     "product": 13
   },
@@ -23,7 +20,7 @@
     "product": 9
   },
   "evidence_synthesis.py": {
-    "product": 2
+    "product": 1
   },
   "flexible_tools.py": {
     "fixture_column": 1,

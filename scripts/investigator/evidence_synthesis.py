@@ -268,7 +268,7 @@ def run(agent,identity,provider):
             assessment,outputs=assemble(assessment,local_payload,state)
         else:
             # Historical injected providers retain the old local interface;
-            # the live Azure wire exposes only the narrative schema.
+            # the live provider wire exposes only the narrative schema.
             declare_capabilities(assessment)
         normalize(assessment)
         validate(assessment,local_payload,source_state=state)
