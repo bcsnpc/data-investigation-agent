@@ -26,7 +26,7 @@ Round Six closed **338/400**. Round Seven uses **64/300** physical requests (41 
 
 The [one-page estate install guide](estate-install-guide.md) describes the three client inputs, missing-input behavior, reader/code identity separation, approval and budgets. It introduces no adapter, scope or execution capability.
 
-Identifier-only ticket/cell history is implemented and focused-tested offline on this PR. No historical record is backfilled, and previous conclusions never enter planner evidence. Five history tests and eleven unchanged projection goldens passed; hosted checks must pass before merge. Engine bytes changed, invalidating prior freezes. See [history scope](identifier-only-run-history.md).
+Identifier-only ticket/cell history is implemented offline on this PR. Shared completed-output persistence attaches it for model narrative, deterministic refusal and bounded-spine delivery. No historical record is backfilled, and previous conclusions never enter planner evidence. Six history tests and eleven unchanged projection goldens cover it; final full regression and hosted checks must pass before merge. Engine bytes changed, invalidating prior freezes. See [history scope](identifier-only-run-history.md).
 
 Content-hash freshness design is recorded; implementation is deferred because the fixture route cannot guarantee one request per layer and quantity-only repeats would need13 diagnostics against12. No cap changed. [Design and evidence scope](content-hash-freshness-design.md).
 

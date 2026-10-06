@@ -172,7 +172,11 @@ def read(db,identity,*,full=False):
     return body if full else {k:v for k,v in body.items() if k!='payload'}
 
 
-def save(db,identity,body):
+def save(db,identity,body,*,source_state=None):
+    if body.get('status')=='COMPLETED' and body.get('outputs') is not None:
+        if source_state is None:raise Conflict('Completed output requires original history source state')
+        from .run_history import attach
+        attach(body['outputs'],source_state)
     db.execute('INSERT OR REPLACE INTO adaptive_syntheses VALUES(?,?,?)',(identity,encoded(body),digest(body)))
 
 
@@ -217,7 +221,7 @@ def run(agent,identity,provider):
                 record.update(status='COMPLETED',outputs=outputs,
                               provenance='DETERMINISTIC_REFUSAL_RENDERING',
                               assessment=None,validation='REGISTERED_REFUSAL_DELIVERY')
-                save(db,identity,record)
+                save(db,identity,record,source_state=state)
                 return {k:v for k,v in record.items() if k!='payload'}
             if provider is azure_synthesize:
                 original=narrative_source(state)
@@ -227,7 +231,7 @@ def run(agent,identity,provider):
                     assessment,outputs=degraded_outputs(local_payload,state,payload)
                     record.update(status='COMPLETED',outputs=outputs,assessment=assessment,
                                   provenance='DETERMINISTIC_BOUNDED_SPINE_RENDERING',validation='ORIGINAL_EVIDENCE',elided=payload['elided'])
-                    save(db,identity,record)
+                    save(db,identity,record,source_state=state)
                     return {k:v for k,v in record.items() if k!='payload'}
                 from .synthesis_wire import validate_references,prepare
                 validate_references(payload,state['observations'])
@@ -298,7 +302,7 @@ def run(agent,identity,provider):
         current.update(status='FAILED' if error else 'COMPLETED',error=error,
                        assessment=None if error else {**assessment,'provenance':'LLM_INFERRED','cause_verified':False})
         if outputs is not None and not error:current['outputs']=outputs
-        save(db,identity,current)
+        save(db,identity,current,source_state=state)
     return read_result(agent,identity)
 
 

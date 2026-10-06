@@ -7,6 +7,7 @@ class RunHistoryTests(unittest.TestCase):
     def setUp(self):
         self.db=sqlite3.connect(':memory:');self.db.row_factory=sqlite3.Row
         self.db.execute('CREATE TABLE adaptive_sessions(id TEXT,model_id TEXT,state TEXT,state_hash TEXT)')
+        self.db.execute('CREATE TABLE adaptive_syntheses(id TEXT,body TEXT,body_hash TEXT)')
         self.addCleanup(self.db.close)
 
     def state(self,id,text='Exact ticket.',model='model',cell=False):
@@ -55,9 +56,27 @@ class RunHistoryTests(unittest.TestCase):
         _,before=narrative.assemble(narrative.Response(copy.deepcopy(response)),payload,state)
         state['previous_runs']={'version':1,'status':'RECORDED','ticket_key':'key','same_ticket':['run-a'],'same_cells':[]}
         _,after=narrative.assemble(narrative.Response(copy.deepcopy(response)),payload,state)
+        from investigator.evidence_synthesis import save
+        save(self.db,'composed',{'status':'COMPLETED','outputs':after},source_state=state)
         self.assertEqual(encoded(before['business_output']),encoded(after['business_output']))
         self.assertEqual(payload,original)
         self.assertEqual(after['technical_output']['explanation']['text'],before['technical_output']['explanation']['text']+'\n\nPrevious runs: same ticket run-a.')
+
+    def test_completed_refusal_and_degraded_outputs_use_the_same_history_finalizer(self):
+        from investigator.evidence_synthesis import save
+        from investigator import process_receipts,refusal_synthesis
+        state={'text':'What happened?','observations':[process_receipts.refusal('WALK_REFUSED','Retained refusal.','refusal')],
+               'previous_runs':{'version':1,'status':'RECORDED','ticket_key':'key','same_ticket':['prior'],'same_cells':[]}}
+        refusal=refusal_synthesis.render(state)
+        for provenance in ('DETERMINISTIC_REFUSAL_RENDERING','DETERMINISTIC_BOUNDED_SPINE_RENDERING','LLM_INFERRED'):
+            with self.subTest(provenance=provenance):
+                outputs=copy.deepcopy(refusal);business=encoded(outputs['business_output'])
+                body={'status':'COMPLETED','outputs':outputs,'provenance':provenance}
+                with self.assertRaisesRegex(ValueError,'original history source state'):save(self.db,provenance,body)
+                save(self.db,provenance,body,source_state=state)
+                save(self.db,provenance,body,source_state=state)
+                self.assertEqual(encoded(outputs['business_output']),business)
+                self.assertEqual(outputs['technical_output']['explanation']['text'].count('Previous runs:'),1)
 
     def test_actual_runtime_persists_links_without_adding_them_to_planner_context(self):
         from test_adaptive_investigation import AdaptiveTests

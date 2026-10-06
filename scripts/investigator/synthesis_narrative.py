@@ -136,7 +136,5 @@ def assemble(response,payload,state):
         for e in payload['evidence'] if e.get('result',{}).get('business_vocabulary')]
     from .question_account import attach
     attach(outputs,state)
-    from .run_history import attach as attach_history
-    attach_history(outputs,state)
     return assessment,{'version':5,'provenance':'LLM_INFERRED',
                        'source_assessment_hash':digest(source),**outputs}
