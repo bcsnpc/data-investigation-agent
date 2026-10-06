@@ -67,6 +67,9 @@ class AdaptiveRuntime:
             """)
 
     def save(self,db,state,kind,detail=None):
+        if kind=='CREATED' or ('previous_runs' in state and state['status'] not in ('READY','PLANNING','EXECUTING')):
+            from .run_history import capture
+            state['previous_runs']=capture(db,state)
         if kind.endswith('RESERVED') or kind.startswith('SQL_GUARD_'):
             tape_event('BUDGET',{'kind':kind,'detail':detail,'session_id':state['id']})
         db.execute('UPDATE adaptive_sessions SET state=?,state_hash=? WHERE id=?',

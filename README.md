@@ -10,6 +10,7 @@ A read-only debugger for a reported number across a declared data estate. It dis
 - Declared report-context reproduction has executed against fixture-authored EMPTY and numeric16 figures, preserving saved-slicer and precision assumptions. It has not been verified against a real user's report selections.
 - The hosted acceptance gate has two immutable fifteen-case columns: archived declared-lineage and separately recorded inferred-lineage evidence. The PR check passed **15/15 × 2** with zero estate requests. Its actual-main check is linked in the delivery record; passing includes deliberate holds/refusals.
 - Each probe retains physical-request accounting, diagnostic/guard separation, reader identity, execution-surface evidence and snapshot limitations. The local workspace supports reviewed intake, history, cancellation and dual outputs.
+- New run records link earlier identical tickets and native cell addresses by identifier only. Technical outputs carry a previous-runs line; business outputs and planner input are unchanged. [History scope and tests](docs/identifier-only-run-history.md).
 
 ## Current limits
 
