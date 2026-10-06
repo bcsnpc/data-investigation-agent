@@ -59,6 +59,37 @@
         "adapter": "estate-reader",
         "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
         "reader": "investigator-reader"
+      },
+      "string_semantics": {
+        "collation": "OBSERVED_COMPARISON_PROBE",
+        "case_fold": true,
+        "accent_fold": false,
+        "trim": false,
+        "kana": true,
+        "width": true,
+        "resolution": "OBSERVED",
+        "observation": {
+          "row": {
+            "case_fold": true,
+            "accent_fold": false,
+            "trim": false,
+            "kana": true,
+            "width": true,
+            "surface_version": "17.0.93.25",
+            "surface_identity": "investigator-reader@skynwhy.com",
+            "surface_engine": "OLAP Server",
+            "surface_object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+          },
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"case_fold\",\"a\"=\"A\",\"accent_fold\",\"a\"=\"\u00e1\",\"trim\",\"a\"=\"a \",\"kana\",\"\u30a2\"=\"\uff71\",\"width\",\"a\"=\"\uff41\",\"surface_version\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"DBMSVersion\"),\"ReportValue\",[Value]),[ReportValue],\"\")),\"surface_identity\",USERPRINCIPALNAME(),\"surface_engine\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),\"ReportValue\",[Value]),[ReportValue],\"\"),\"surface_object\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),\"ReportValue\",[Value]),[ReportValue],\"\"))",
+          "receipt_id": "round-six-f-semantic-20261006T003953",
+          "surface": {
+            "engine": "OLAP Server",
+            "version": "17.0.93.25",
+            "object": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+            "identity": "investigator-reader@skynwhy.com"
+          },
+          "surface_report_binding": "VALUE_QUERY"
+        }
       }
     },
     {
