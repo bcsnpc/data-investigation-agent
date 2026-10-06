@@ -33,3 +33,33 @@ Provisional runtime activation is explicit, requiring inference authorization, e
 DECIDED WITHOUT REVIEW under the authorized resume: the inferred manifest is hash908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56; only authorized inference switches differ from the current observed-semantics manifest. The unchanged declared application-copy proof was consumer-revalidated and retained in a new immutable whole-manifest approval, without changing the original or claiming new currency. All15 bounded witnesses enter a new ledger; old ledgers remain untouched.
 
 Whole-policy reapproval used exact retained metadata, zero cloud requests. Context8b6e9dfa-f209-4ca8-847b-dc07168e93fb, context hash5a771e9e60530cf261912d5ca31090c831e3b5a62de9ba893101043b2190f54e; pinned config hasha98dd72d3cc70972b0d82f2d686832a62d37f89ab7b45d810a232f20944ce414. Discovery creates new model-context identities even for unchanged source hashes. The runs retain the original explicitly approved fixture model contexts to which the proofs belong; their source hashes match the new projections. Proof context IDs are not relabelled. Current whole-policy approval still gates execution; this is retained-state approval, not a recollection or currency assertion.
+
+## Resumed-list stop, 2026-10-05
+
+The committed activation engine passed **2,011 regression tests** in348.267s. PowerShell reported exit1 for redirected ResourceWarnings; unittest itself reported OK, zero failures/errors.
+
+Family A was attempted exactly once. Intake PROPOSED in one provider call; preview completed; create refused `Conflict: Dynamic context changed or disabled`. There was no session, no probe, no compared boundary, no investigation planner call, no judge, no synthesis and no narrative output. Pot187->187/400, reserve60; diagnostic0/12; guard0; rolling237/1500 after earlier charges expired naturally, not reset/refunded. The complete tape is sealed and validates.
+
+Tape diagnosis: bootstrap pins841e425e-fe17-4bb0-9d06-b4623f49de5b, while OPERATION_START create carries preview contextd3b6e8e0-7911-4e62-b3f4-2d319c6ef131. The operator reassigned agent.store and runtime.store but omitted Workspace.store; preview therefore consulted the latest projection instead of the explicit retained pin. The gate correctly refused the mismatch. This is an operator integration failure, not evidence that provisional lineage succeeded or failed. A future correction must bind all three consumers to the same approved store; no context field may be hand-retargeted. No correction or replacement run was performed after the stop.
+
+The original ledger row retained intake status PROPOSED despite the create error. An append-only dated correction records FAILED_BEFORE_EXECUTION; the original row, provider bodies, final tape and failure text remain untouched. The first changed result stops the entire list as instructed. No fixture mutation occurred, so no restoration was needed. No identity, permission, budget or expectation changed.
+
+| Case | Current inferred column |
+| --- | --- |
+| family-A | FAILED_BEFORE_EXECUTION |
+| family-B | NOT_ATTEMPTED_STOP_RULE |
+| family-C | NOT_ATTEMPTED_STOP_RULE |
+| family-D | NOT_ATTEMPTED_STOP_RULE |
+| family-E | NOT_ATTEMPTED_STOP_RULE |
+| family-F | NOT_ATTEMPTED_STOP_RULE |
+| family-G | NOT_ATTEMPTED_STOP_RULE |
+| family-H | NOT_ATTEMPTED_STOP_RULE |
+| family-I | NOT_ATTEMPTED_STOP_RULE |
+| reproduction-16 | NOT_ATTEMPTED_STOP_RULE |
+| reproduction-empty | NOT_ATTEMPTED_STOP_RULE |
+| source-consistent | NOT_ATTEMPTED_STOP_RULE |
+| source-gap | NOT_ATTEMPTED_STOP_RULE |
+| source-latency | NOT_ATTEMPTED_STOP_RULE |
+| source-unreachable | NOT_ATTEMPTED_STOP_RULE |
+
+The historical archived column remains separately earned15/15. The current inferred column is0/15 accepted,1failed attempt,14not attempted. **15x2 is not earned**; #410 stays draft/unmerged and no gate PR is promoted. Ordinary archived-tape CI cannot authorize that merge. Final round pot187/400 (340ordinary stop,60restoration reserve); rolling last read237/1500; investigation cap12 unchanged. No unfamiliar-domain acceptance claimed; prior freezes invalid.
