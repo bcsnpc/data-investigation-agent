@@ -15,8 +15,10 @@ from .microsoft_self_report import compose
 
 
 class FilterRoute:
-    def __init__(self, process, *, native_compiler, verification_meter):
-        self.process = process; self.native_compiler = native_compiler
+    def __init__(self, process, *, verification_meter, native_compiler=None):
+        from .translation_filter_definition import compile_native
+        self.process = process
+        self.native_compiler = native_compiler or (lambda request, address: compile_native(process.model, request, address))
         # Explicit verification-class caller; never the process diagnostic meter.
         self.verification_meter = verification_meter
 

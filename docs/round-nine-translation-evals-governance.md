@@ -189,3 +189,43 @@ an expiry, keep deletion audit separate from the expiring ledger, and require an
 explicit apply command. Retention is not a licence to alter sealed replay inputs
 or immutable release bundles. Column redaction, provider-region pinning, evals,
 rebuild, demo and translation runtime/native-definition wiring remain pending.
+
+
+## Native definition and validation checkpoint (2026-10-06)
+
+Commit `4e61a5e` passed all 2,100 regression tests in an isolated committed
+checkout (604.466 seconds, exit 0). Newer native-definition and retention code
+has focused validation, not a claimed full-suite pass. The corrected pinned
+local replay sweep passed archived15/15 and inferred15/15 with zero estate
+requests. The original wrong-root sweep ended archived0/15 (missing inputs),
+inferred15/15 and is preserved unchanged.
+
+The native filter adapter now independently compiles a narrow retained PBIR
+Top-N subquery and day-relative Between form. Six definition tests pass;
+translation total is45. Top-N requires the definition's own final key ordering,
+refusing an unestablished tie-break. UTC anchor and day offsets become fixed
+literals; a day-span on the column is preserved, while a bare timestamp column
+never gains rounding. Additional active context, calendar units and unfamiliar
+forms refuse until compiled faithfully. Malformed collected declarations refuse
+rather than crash. No unsupported inventory entry is reclassified as active;
+these separate verification routes are not enabled in the investigation walk.
+
+The first new tests had two incorrect compiler-interface expectations (parent
+table IDs and an absent volatility field); the first attempt failed with one
+failure/one error, the second with one error. The tests now assert actual bound
+member IDs and non-null compiled identity for the frozen date query. No compiler
+behavior was weakened. Final45 focused translation tests pass.
+
+DECIDED WITHOUT REVIEW: use Microsoft's retained PBIR semantic-query schema,
+not the differently shaped embedded-report SDK serialization. Refuse unspecified
+Top-N tie ordering and additional context rather than inventing either. Published
+relative-date filters use UTC; pin that anchor, preserving exact declared date
+span semantics. Sources: [PBIR visual schema](https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json),
+[filter schema](https://developer.microsoft.com/json-schemas/fabric/item/report/definition/filterConfiguration/1.2.0/schema-embedded.json),
+[semantic query schema](https://developer.microsoft.com/json-schemas/fabric/item/report/definition/semanticQuery/1.3.0/schema.json),
+[relative-date semantics](https://learn.microsoft.com/en-us/power-bi/visuals/desktop-slicer-filter-date-range).
+
+No estate reads or provider calls, fixture/configuration/identity changes, or
+budget admission in Round Nine. Runtime wiring, complete binding production,
+evals, redaction/provider-region, rebuild/demo and live verification remain
+pending. Draft #420 remains open; no freeze or acceptance claim.

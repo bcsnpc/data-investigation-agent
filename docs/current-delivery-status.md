@@ -4,14 +4,14 @@ Updated 2026-10-06 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 ## Current milestone
 
-**Round Nine offline integration in progress.** Thirty-nine translation tests
+**Round Nine offline integration in progress.** Forty-five translation tests
 pass, including governed DAX/SQL compiler and receipt paths with injected
 transports. Empty native key sets retain attestation; truncated sets refuse.
-Measure probes preserve cell addresses and use verification accounting. Runtime
+Measure probes preserve cell addresses and use verification accounting. Supported native Top-N/day-relative definitions compile offline. Runtime
 wiring and live trials remain pending; existing filtered-scope refusal unchanged.
-Stable checkpoint `8de0e84` passed 2,089 regression tests and seven hosted checks,
-including archived/inferred replay. New adapter/OTLP code has focused validation,
-not yet a full regression pass. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
+Stable checkpoint `4e61a5e` passed 2,100 regression tests. Earlier `8de0e84`
+passed seven hosted checks; local archived/inferred replay is 15/15 in each
+column. New native-definition and retention changes have focused validation. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
 Governance table and retention command added; seven retention tests pass.
 Evals, redaction/provider-region, rebuild and demo remain pending. Draft PR #420 stays open.
 Round Nine has no estate/provider calls or policy change; authorized 200/40-reserved
