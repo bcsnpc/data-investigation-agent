@@ -24,6 +24,8 @@ This is known-domain fixture evidence, not unfamiliar-domain acceptance or globa
 
 ## Run and demo
 
+Start with the [one-page estate install guide](docs/estate-install-guide.md): a read-only identity, the estate file, and where transformation code lives.
+
 - [Local v2 workspace setup](docs/investigation-workspace-milestone.md#local-runbook)
   and [reviewed screenshot intake](docs/screenshot-intake-milestone.md).
   Install `scripts/requirements-workspace.txt` in your development environment.
