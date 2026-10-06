@@ -28,6 +28,8 @@ def technical(boundary):
 def business(payload):
     from .layer_roles import name
     sentences=[]
+    if payload.get('deterministic_process_finding',{}).get('profile_verified_boundaries'):
+        sentences.append('The lineage was verified on value, not on snapshot; the sampled agreement does not prove every entry follows the same rule.')
     for row in payload.get('deterministic_process_finding',{}).get('unverified_boundaries',[]):
         if row.get('lineage_refusal'):
             sentences.append('The connection between the '+name(payload,row['lower_layer'])+

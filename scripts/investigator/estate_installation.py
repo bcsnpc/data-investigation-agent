@@ -19,8 +19,13 @@ def build(path, *, execution_enabled=True):
     profile={'adapter':model['provider'],'deployment':model['deployment'],'endpoint':model['endpoint'],
         'process_max_boundaries':budget['max_boundaries'],'generation_options':model['generation_options'],
         'max_planner_recoveries':model['max_planner_recoveries']}
+    lineage=None
+    if any(b['may_infer_from_code'] for b in manifest['lineage'].get('code_locations',[])):
+        from .adapters.code_lineage import Installation
+        lineage=Installation(manifest,path,ROOT)
+        if execution_enabled:lineage.approval()
     agent=AdaptiveRuntime(Runtime(store,config,native,source),planner,
-        planner_profile=profile,usage_policy=policy(manifest))
+        planner_profile=profile,usage_policy=policy(manifest),process_lineage=lineage)
     workspace=Workspace(agent,execution_enabled=execution_enabled,
         question_resolver=resolver,
         dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'])

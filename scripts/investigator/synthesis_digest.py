@@ -261,4 +261,6 @@ def build(state,db):
    result['deterministic_process_finding']['unverified_boundaries']=copy.deepcopy(unbound)
   accounts=assessment.get('business_output',{}).get('delivery_accounts')
   if accounts:result['deterministic_process_finding']['delivery_accounts']=copy.deepcopy(accounts)
+  profiled=assessment.get('technical_output',{}).get('profile_verified_boundaries')
+  if profiled:result['deterministic_process_finding']['profile_verified_boundaries']=copy.deepcopy(profiled)
  return result

@@ -380,6 +380,13 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             terminal=path['system_of_record']['asset_id']
             all_layers=all_layers[:next(i for i,l in enumerate(all_layers) if l['id']==terminal)+1]
         result['technical_output']['layer_labels']=path.get('layer_labels',{})
+        profiled={l['id'] for l in path.get('layers',[]) if
+                  (l.get('binding',{}).get('lineage_verification') or {}).get('verification_version')=='binding-profile-v1'}
+        used=[o['id'] for o in result['_observations'] if
+              o.get('comparison_status')=='CROSS_SURFACE_VERIFIED' and o.get('lower_layer') in profiled]
+        if used:
+            result['limits'].append('Lineage was verified on value, not on snapshot; bounded profiles do not establish global equivalence or business intent.')
+            result['technical_output']['profile_verified_boundaries']=used
         from . import snapshot_attestation
         snapshot_attestation.enrich(observed,snapshot_probes,adapter,available)
         snapshot_comparisons=[o for o in observed if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']

@@ -56,7 +56,8 @@ def run_unit(*,unit,receipt,schemas,boundary,item,target_table,layers,context,ce
     return result
 
 
-def select(*,declared,inferred,current_hashes,boundary,target_column,context,cell,precision):
+def select(*,declared,inferred,current_hashes,boundary,target_column,context,cell,precision,
+           binding_profiles=False):
     """Declared first; a sampled binding cannot be reused for a different cell.
 
     STALE entries remain in evidence. No missing hash is treated as current, and
@@ -76,6 +77,11 @@ def select(*,declared,inferred,current_hashes,boundary,target_column,context,cel
             location=p['location'];current=current_hashes.get((location['item'],location['path']))
             status=row['status'] if current==location['content_hash'] else 'STALE'
             if row.get('verification_version')=='binding-profile-v1':
+                if binding_profiles and status=='VERIFIED' and row.get('context')==context:
+                    from .lineage_binding import revalidate_verification
+                    checked=revalidate_verification(row)
+                    candidates.append(checked)
+                    continue
                 excluded.append({'location':copy.deepcopy(location),'status':status,
                     'reason_category':'STALE_CODE' if status=='STALE' else 'COLLATION_UNDECLARED'
                         if 'COLLATION_UNDECLARED' in (row.get('reason') or '') else 'SAMPLE_MISMATCH',
