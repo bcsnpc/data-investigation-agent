@@ -39,6 +39,8 @@ jobs:
           pip install -r scripts/requirements-lineage.txt
           pip install -r scripts/requirements-llm.txt
           pip install -r scripts/requirements-replay.txt
+          pip install -r scripts/requirements-tracing.txt
+          python -m unittest discover -s scripts -p test_tape_trace.py
           python -m unittest discover -s scripts -p test_private_replay_bundle.py
           python -m unittest discover -s scripts -p test_two_column_replay_gate.py
           python -m unittest discover -s scripts -p test_reproduction_composition.py
@@ -85,6 +87,8 @@ jobs:
           python -m unittest discover -s scripts -p test_estate_manifest.py
           python -m unittest discover -s scripts -p test_platform_proposers.py
           python -m unittest discover -s scripts -p test_translation_proposer.py
+          python -m unittest discover -s scripts -p test_translation_native.py
+          python -m unittest discover -s scripts -p test_translation_measure.py
           python -m unittest discover -s scripts -p test_code_sources.py
           python -m unittest discover -s scripts -p test_transformation_ast.py
           python -m unittest discover -s scripts -p test_transformation_reader.py

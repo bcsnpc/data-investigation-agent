@@ -1,10 +1,12 @@
 # Self-Discovering Enterprise Data Investigator
 
-Round Nine's translation contract/verifier is an offline draft with 32 synthetic
-tests, complete-key binding witnesses, a governed provider wire and cell-specific
-cache orchestration; it is not enabled in investigations or live-verified. Native
-adapter integration, evals and governance additions remain pending. See the
-[Round Nine checkpoint](docs/round-nine-translation-evals-governance.md).
+Round Nine remains an offline draft. Thirty-nine translation tests pass, including
+actual governed DAX/SQL compiler and receipt paths with injected transports.
+The stable checkpoint passed 2,089 regression tests and its hosted replay gate.
+A file-only OTLP exporter has four schema/tree tests; fifteen-tape conversion
+is in progress. Translation is not enabled in investigations or live-verified.
+Runtime wiring, model-step evals and remaining governance/rebuild/demo work are
+pending. See the [Round Nine record](docs/round-nine-translation-evals-governance.md).
 
 Turn a disputed dashboard number into evidence-backed root cause — or an explicit statement of what cannot be proven — without giving an AI write access to production.
 

@@ -42,8 +42,7 @@ class Provider:
         from ..generation_policy import validate
         self.options = validate(options); self.generate = generate; self.metadata = None
 
-    def propose(self, request, schema):
-        self.metadata = None
+    def input(self, request):
         # Receipts and available-cell answers do not go to the model. It gets
         # declared correspondence and metadata, never the answer to reproduce.
         metadata = copy.deepcopy(request['metadata'])
@@ -53,5 +52,10 @@ class Provider:
             ('kind', 'definition', 'definition_hash', 'target_engine', 'grouping',
              'scope', 'relative', 'evaluation_timestamp')}
         payload['metadata'] = metadata
+        return payload
+
+    def propose(self, request, schema):
+        self.metadata = None
+        payload = self.input(request)
         value, self.metadata = self.generate(payload, schema, self.options)
         return value

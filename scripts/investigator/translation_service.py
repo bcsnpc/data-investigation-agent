@@ -20,6 +20,8 @@ def run(request, *, proposer, model_call, ledger, cells, compiler, execute,
         return {'source': 'PRESERVED_FALSIFICATION', 'verification': next(
             row for row in reversed(ledger.view(request)) if row['status'] == 'FALSIFIED')}
     candidate = ledger.candidate(request)
+    if request['kind'] == 'MEASURE' and len(cells) == 1 and candidate is None:
+        raise ValueError('New-cell extension requires an existing verified sample before a model call')
     source = 'REUSED_PROPOSAL' if candidate is not None else 'MODEL_PROPOSAL'
     if candidate is None: candidate = propose(request, proposer, model_call)
     extension = request['kind'] == 'MEASURE' and len(cells) == 1

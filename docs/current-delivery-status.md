@@ -4,21 +4,19 @@ Updated 2026-10-06 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 ## Current milestone
 
-**Round Nine offline translation checkpoint.** A default-unused closed proposal
-contract, bounded verifier and sealed translation ledger are under development.
-Thirty-two synthetic tests pass with zero estate/provider requests. Complete-key
-binding witnesses, a consumer-derived provider wire, metered reservations and
-cell-specific cache orchestration now exist offline. Live native compilation and
-runtime integration remain pending; sampled lineage proofs still do not establish
-a row-key map. No restriction refusal was weakened, no
-translation capability enabled, and no live trial occurred. Evals, tracing,
-governance, rebuild and demo work remain pending. Full regression and replay results
-remain pending. The initial 2,076-test sweep failed on an unstable working-tree
-basis (ten tape refusals and one changed-engine conflict); the affected suites
-passed after committing. No clean full-sweep pass claimed. Draft PR #420 is open.
-Round Nine0/200,40 authorized reserve not configured; rolling315/1500 at22:53:50Z,
-investigation cap12 unchanged. Engine changes invalidate prior freezes.
-[Checkpoint and decisions](round-nine-translation-evals-governance.md).
+**Round Nine offline integration in progress.** Thirty-nine translation tests
+pass, including governed DAX/SQL compiler and receipt paths with injected
+transports. Empty native key sets retain attestation; truncated sets refuse.
+Measure probes preserve cell addresses and use verification accounting. Runtime
+wiring and live trials remain pending; existing filtered-scope refusal unchanged.
+Stable checkpoint `8de0e84` passed 2,089 regression tests and seven hosted checks,
+including archived/inferred replay. New adapter/OTLP code has focused validation,
+not yet a full regression pass. Four OTLP schema/tree tests pass; fifteen-tape
+conversion is in progress. Missing historic timing/receipt fields stay explicit.
+Evals, governance gaps, rebuild and demo remain pending. Draft PR #420 stays open.
+Round Nine has no estate/provider calls or policy change; authorized 200/40-reserved
+pot is not yet configured. Prior freezes remain invalid.
+[Evidence, failures and decisions](round-nine-translation-evals-governance.md).
 
 **Round Eight closing checkpoint, 2026-10-06.** README commitments/positioning,
 latency mechanism rendering and neutrality83→76 delivered. Final engine2057

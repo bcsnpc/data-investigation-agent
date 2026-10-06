@@ -124,3 +124,40 @@ no reset or refund. Round Nine has spent 0/200, with 40 authorized for reserve
 but not yet installed as batch credits or round policy. Investigation cap stays
 12; diagnostic and provider calls are zero. The existing Round Eight reserve
 remains untouched. Failed and successful test records were appended to the ledger.
+
+
+## Dated integration checkpoint (2026-10-06)
+
+Stable commit `8de0e84` passed 2,089 regression tests in a separate committed
+checkout (697.063 seconds, exit 0). Seven hosted checks passed, including replay
+37545322267. This does not cover subsequent adapter/tracing changes. The initial
+failed sweep and wrong-input replay attempt remain preserved.
+
+Thirty-nine focused translation tests pass: 32 core/provider/service, four native
+filter adapter and three measure-route tests. Adapter tests use actual governed
+compilers/receipt storage with injected transports, not live engine evaluation.
+Empty key sets retain a marked attestation row excluded from the key hash.
+Truncated sets refuse. Three measure cells retain independent addresses;
+disagreement falsifies. Provider admission uses the wire's same input projection.
+New-cell extension without an existing candidate refuses before a model call.
+Retained Top-N/date native compilation and runtime activation remain pending;
+the filter route requires an independent compiler from its caller.
+
+The file-only OTLP exporter validates official generated protobuf definitions
+and span-tree/time invariants. Four tests pass; fifteen-tape export is in progress.
+SQL physical requests may link only at logical completion; guards carry separate
+receipt IDs. Export preserves those links and sealed event pointers. Missing
+receipt IDs remain UNRECORDED. Family A exports all ten physical probe spans.
+Historic finer source/reproduction timing was not recorded and is not invented.
+A technical stage-cost footer helper exists but live output wiring is pending.
+
+DECIDED WITHOUT REVIEW: pin official generated OTLP definitions in a separate
+tracing requirements file; export locally, with no collector or external upload.
+Local dependencies were installed in an isolated directory, leaving the existing
+protobuf installation unchanged. See [OTLP file export](https://opentelemetry.io/docs/specs/otel/protocol/file-exporter/)
+and [protocol package](https://pypi.org/project/opentelemetry-proto/1.45.0/).
+Historic currency cost is UNRECORDED: token counts lack a pinned price. Stage
+cost/time is inclusive where only top-level operations were recorded.
+
+Zero Round Nine estate reads/provider calls; no fixture, identity, secret or
+policy change. Prior freezes invalidated. PR #420 remains draft, unmerged.

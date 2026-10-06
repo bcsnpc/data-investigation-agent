@@ -234,7 +234,8 @@ def verify(proposal, request, *, cells, compiler, execute, budget, cross_boundar
             reused = side == 'NATIVE' and native_observation is not None
             observation = copy.deepcopy(native_observation) if reused else budget.read('TARGET' if side == 'NATIVE' else 'SOURCE', lambda: execute(side, plan))
             receipt['observations'].append(copy.deepcopy(observation))
-            if not isinstance(observation, dict) or observation.get('status') != 'COMPLETED': raise ValueError('Probe did not complete')
+            if not isinstance(observation, dict) or observation.get('status') != 'COMPLETED':
+                raise ValueError('Probe did not complete: ' + str(observation.get('reason') if isinstance(observation, dict) else 'Malformed observation'))
             _evidence(observation, context, {'kind': 'CELL', 'cell': address['cell']} if reused else address)
         except UsageHold as exc:
             receipt['reason'] = 'Verification budget/deadline stopped: ' + str(exc)

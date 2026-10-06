@@ -19,9 +19,9 @@ class Meter:
         self.calls = 0; self.input_characters = 0
 
     def __call__(self, request, execute):
-        # Reserve the full request, conservatively, even though provider input
-        # excludes prior values. No answer-bearing payload goes to the provider.
-        size = len(encoded(request)); options = self.provider.options
+        # The same producer projection drives admission and the actual wire;
+        # receipt bodies are neither model input nor charged as model input.
+        size = len(encoded(self.provider.input(request))); options = self.provider.options
         if size > options['max_payload_characters']: raise UsageHold('Translation per-call input limit')
         if self.calls >= self.max_calls or self.input_characters + size > self.max_input:
             raise UsageHold('Translation cumulative call or input limit')
