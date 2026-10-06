@@ -29,10 +29,13 @@ NORMALIZATION={'oneOf':[
     obj({'status':{'const':'UNDECLARED'},'reason':STRING}),
     obj({'status':{'const':'DECLARED'},'collation':STRING,'trim':BOOL,
          'case_fold':BOOL,'evidence':STRING})]}
+RETENTION_PERIOD={'oneOf':[{'const':'indefinite'},integer(1,36500)]}
+RETENTION=obj({'tape_days':RETENTION_PERIOD,'ledger_days':RETENTION_PERIOD})
 SCHEMA=obj({
     'version':{'const':'estate-manifest-v1'},'environment':STRING,
     'lineage_proposer':BOOL,'assistant_proposer':BOOL,
     'storage':obj({'catalog':STRING,'inventory':STRING}),
+    'retention':RETENTION,
     'adapters':array(obj({'id':STRING,'implementation':STRING,
         'options':{'type':'object'}})),
     'layers':array(obj({'id':STRING,'asset_id':STRING,'role':enum(ROLES),
@@ -83,7 +86,7 @@ SCHEMA=obj({
     # Evaluator-only declarations; not projected into tools or prompts.
     'fixture_states':array(obj({'id':STRING,'description':STRING,
         'arithmetic':{'type':'string','minLength':1,'maxLength':2000},
-        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer'))
+        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer','retention'))
 
 
 def validate(value):

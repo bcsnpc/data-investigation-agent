@@ -167,3 +167,25 @@ official schema/tree validation, zero new estate requests. Their 139 probe spans
 match every retained physical total; family C did not retain a physical total.
 Original tapes remain untouched. Export files and detailed totals are private
 under `.local/round-nine-20261006/trace-export/`. Live footer wiring remains pending.
+
+
+## Governance/retention offline checkpoint (2026-10-06)
+
+The governance table now maps implemented controls, evidence and human approval
+points, explicitly distinguishing unfinished redaction and region work from
+existing output vocabulary validation. The manifest optionally declares tape
+and ledger retention; omission means indefinite, preserving old manifests.
+`python scripts/dia.py retain` plans without mutation; `--apply` explicitly
+expires files/rows and durably audits original hashes separately. Unknown dates,
+unfinished tapes and unfamiliar sidecars stay. Changed hashes refuse before
+mutation. Seven retention tests and nineteen existing manifest tests pass.
+Tests delete only temporary synthetic files. No fixture tape or ledger row has
+been removed, no fixture manifest or approval changed. New retention fields do
+not enter planner payloads; the manifest coverage test still reports 2 directory
+entries, 1 SQL entry and 7,563 payload characters before/after.
+
+DECIDED WITHOUT REVIEW: retain undated/unfamiliar evidence rather than estimating
+an expiry, keep deletion audit separate from the expiring ledger, and require an
+explicit apply command. Retention is not a licence to alter sealed replay inputs
+or immutable release bundles. Column redaction, provider-region pinning, evals,
+rebuild, demo and translation runtime/native-definition wiring remain pending.

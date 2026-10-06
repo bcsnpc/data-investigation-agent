@@ -6,6 +6,15 @@ that validates without an installed transport. Validation is not reachability,
 permission, faithful equivalence, evidence currency or a capability acceptance.
 No identity or permission is created by a manifest.
 
+Optional `retention` has two closed fields, `tape_days` and `ledger_days`, each
+an integer from 1 to 36,500 or `indefinite`. An absent policy means indefinite,
+including the fixture. `python scripts/dia.py retain` prints the local expiry
+plan; `--apply` explicitly applies it. File and ledger hashes are checked again
+before changes, and a separate durable audit records deleted hashes. Unknown
+dates, incomplete tapes and unfamiliar sidecars stay. Original sealed tapes are
+never rewritten to redact or repair them. See [governance](governance.md) for
+the command and remaining Round Nine controls.
+
 ## String comparison declarations
 
 Each layer may declare the closed `string_semantics` fields `collation`,

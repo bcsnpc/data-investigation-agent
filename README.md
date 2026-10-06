@@ -4,7 +4,7 @@ Round Nine remains an offline draft. Thirty-nine translation tests pass, includi
 actual governed DAX/SQL compiler and receipt paths with injected transports.
 The stable checkpoint passed 2,089 regression tests and its hosted replay gate.
 A file-only OTLP exporter has four schema/tree tests; all fifteen archived tapes convert. Translation is not enabled in investigations or live-verified.
-Runtime wiring, model-step evals and remaining governance/rebuild/demo work are
+Runtime wiring, model-step evals and remaining redaction/provider-region/rebuild/demo work are
 pending. See the [Round Nine record](docs/round-nine-translation-evals-governance.md).
 
 Turn a disputed dashboard number into evidence-backed root cause — or an explicit statement of what cannot be proven — without giving an AI write access to production.
