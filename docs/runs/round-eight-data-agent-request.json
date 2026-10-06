@@ -1,0 +1,29 @@
+{
+  "displayName": "dia-round-eight-proposer-20261006",
+  "description": "Round Eight isolated proposal-only experiment; assistant answers are never evidence.",
+  "definition": {
+    "format": "JSON",
+    "parts": [
+      {
+        "path": "Files/Config/data_agent.json",
+        "payload": "eyIkc2NoZW1hIjoiMi4xLjAifQ==",
+        "payloadType": "InlineBase64"
+      },
+      {
+        "path": "Files/Config/draft/stage_config.json",
+        "payload": "eyIkc2NoZW1hIjoiMS4wLjAiLCJhaUluc3RydWN0aW9ucyI6IlByb3Bvc2UgcXVlcmllcyBmb3IgdGhlIGRlY2xhcmVkIHNvdXJjZXMuIEV4cGxhbmF0aW9ucyBhbmQgZXhlY3V0aW9uIGFuc3dlcnMgYXJlIG5vdCBpbnZlc3RpZ2F0b3IgZXZpZGVuY2UuIn0=",
+        "payloadType": "InlineBase64"
+      },
+      {
+        "path": "Files/Config/draft/lakehouse-b0ab76f7-20c7-410e-90e4-2c4eb104059a/datasource.json",
+        "payload": "eyIkc2NoZW1hIjoiMS4wLjAiLCJhcnRpZmFjdElkIjoiYjBhYjc2ZjctMjBjNy00MTBlLTkwZTQtMmM0ZWIxMDQwNTlhIiwid29ya3NwYWNlSWQiOiIxNDlmOGQ5OS0xYzY2LTRhMGEtOTYyNC03NTliZTAwMmJiNjAiLCJkaXNwbGF5TmFtZSI6Ik9yaWdpbmFsIEdvbGQgbGFrZWhvdXNlIiwidHlwZSI6Imxha2Vob3VzZSJ9",
+        "payloadType": "InlineBase64"
+      },
+      {
+        "path": "Files/Config/draft/semantic_model-3484a2bc-98c5-4cef-be5c-a6215484075e/datasource.json",
+        "payload": "eyIkc2NoZW1hIjoiMS4wLjAiLCJhcnRpZmFjdElkIjoiMzQ4NGEyYmMtOThjNS00Y2VmLWJlNWMtYTYyMTU0ODQwNzVlIiwid29ya3NwYWNlSWQiOiIxNDlmOGQ5OS0xYzY2LTRhMGEtOTYyNC03NTliZTAwMmJiNjAiLCJkaXNwbGF5TmFtZSI6Ik9yaWdpbmFsIHNlbWFudGljIG1vZGVsIiwidHlwZSI6InNlbWFudGljX21vZGVsIn0=",
+        "payloadType": "InlineBase64"
+      }
+    ]
+  }
+}

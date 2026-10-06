@@ -100,3 +100,109 @@ are provisional until full validation. Budget preparation and platform sections 
 | `query_dax.py` | 1 | `power bi` | Legacy provider, discovery, URI ownership or capability interpretation; retain admission/coverage while migrating behind the adapter. |
 | `query_sql.py` | 2 | `reason_code` | Neutral feedback field, not a business column branch. |
 | `semantic_graph.py` | 1 | `power bi` | Legacy provider, discovery, URI ownership or capability interpretation; retain admission/coverage while migrating behind the adapter. |
+
+## Section 4 — reader response, 2026-10-06
+
+Both retained fixture publications declare workspace
+`149f8d99-1c66-4a0a-9624-759be002bb60`; there are not two workspaces.
+One GET as `investigator-reader@skynwhy.com`:
+`workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/items/3484a2bc-98c5-4cef-be5c-a6215484075e/relations/upstream?beta=true`.
+HTTP200 returned three items and two edges. [Entire returned graph](runs/round-eight-lineage-response.json).
+The response uses item types `Model` and `SqlAnalyticsEndpoint` rather than the
+documentation's `SemanticModel` and `SQLEndpoint`, and an undocumented
+`Association` edge from model to endpoint, followed by `CascadeDelete` to the
+lakehouse. The adapter refused `Unsupported platform relation kind: Association`.
+No attempt was made to turn Association or parent/deletion ownership into data
+lineage. Missing-path, code-source and undeclared-writer checks are **not completed**,
+not clean. No new writer is established. The item-rooted response does not cover
+the application-copy branch; one-request-per-unique-workspace prevented a second
+root request. This is a preview coverage/vocabulary finding, not a verified binding.
+
+The initial operator environment lacked jsonschema and failed before any request;
+its zero-read failure is retained in the ledger. Installed jsonschema4.26.0 and
+dependencies in the existing local Fabric CLI virtualenv only; engine unchanged.
+The subsequent sole API attempt charged3 physical controls:2 authentication,1
+metadata. Pot0→3/300, reserve0/60 spent; rolling359→359/1500 as older requests
+expired naturally. No diagnostic or model call, counter reset, identity or scope change.
+
+## Section 5a — one creation attempt, 2026-10-06
+
+Human decision: Round Eight §5a authorizes one Data Agent in the original workspace,
+created by existing `investigator-code-reader`, attached only to Gold lakehouse
+`b0ab76f7-20c7-410e-90e4-2c4eb104059a` and semantic model
+`3484a2bc-98c5-4cef-be5c-a6215484075e`, followed by investigator-reader item Read.
+Code principal app `2dd2f5c3-f7af-4804-b79e-6019e63efa60`, object
+`dc89155f-9a9a-4daa-9c20-7eff55818ccd`, existing Contributor scope unchanged;
+DPAPI credential remains outside Git. Before workspace listing succeeded HTTP200
+and contained no item with the proposed name `dia-round-eight-proposer-20261006`.
+
+POST `workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/dataAgents`,
+[exact request](runs/round-eight-data-agent-request.json), returned HTTP400:
+
+```json
+{"requestId":"24e1f331-0bd3-4415-af4e-65742dbfc5ea","errorCode":"InvalidDefinitionFormat","message":"Requested item definition format is invalid","isRetriable":false}
+```
+
+The request supplied `format: JSON`, documented configuration parts and the two
+declared datasource IDs. This establishes a refusal of that documented creation
+shape, **not** that service principals or this capacity cannot use Data Agents.
+No agent ID or async operation was returned; no read grant was attempted/applied,
+so there is no before/after item permission listing to claim. No tenant setting,
+capacity, secret or identity changed. Section5 stopped after this one creation
+attempt; no repair or second creation. Exact failure retained, not engineered away.
+Charged4 physical controls:2 authentication,1 before listing,1 creation request;
+pot3→7/300, reserve0/60; rolling359→363/1500. Diagnostic0, model calls0.
+
+## Section 5b report — blocked before questions
+
+The measure references below identify the retained family inputs, not newly
+constructed answering-cell experiments. No assistant question, expression or
+attested value comparison was obtained. Therefore no match is either yes or no.
+
+| Family | Retained measure reference | Assistant expression | Ours | Structural match | Value match |
+| --- | --- | --- | --- | --- | --- |
+| A | Handled Quantity | Unattempted | Not compared | Unmeasured | Unmeasured |
+| B | Inbound Fraction | Unattempted | Not compared | Unmeasured | Unmeasured |
+| C | Quantity Balance | Unattempted | Not compared | Unmeasured | Unmeasured |
+| D | Handled Quantity | Unattempted | Not compared | Unmeasured | Unmeasured |
+| E | Handled Quantity | Unattempted | Not compared | Unmeasured | Unmeasured |
+| F | Extended Value | Unattempted | Not compared | Unmeasured | Unmeasured |
+| G | Handled Quantity | Unattempted | Not compared | Unmeasured | Unmeasured |
+| H | Inbound Quantity | Unattempted | Not compared | Unmeasured | Unmeasured |
+| I | Handled Quantity | Unattempted | Not compared | Unmeasured | Unmeasured |
+
+Section5c decision after reporting the table: **no measured six-of-nine threshold**.
+Shelve the thin-lineage discovery role and keep the closed interface and default-off
+flag. Do not convert blocked cases to mismatches or assert platform efficacy.
+Unity Catalog/Genie remain network-free stubs. The thirty-request experiment
+allocation was not spent. No investigation live run occurred this round.
+
+## DECIDED WITHOUT REVIEW — platform sections
+
+- Refuse the undocumented Association relation rather than classify it by its name
+  or infer data flow from the model/endpoint/lakehouse objects. Preserve the graph;
+  do not issue another workspace-root request to get better coverage.
+- Stop the Data Agent section on the documented-shape refusal; reject fixing the
+  request and retrying because only one attempt was authorized. No elevated fallback.
+- Unmeasured assistant performance does not authorize the conditional discovery role;
+  keep interfaces/stubs, leave both flags off for acceptance.
+- Use the single workspace actually declared by both fixtures, rather than invent a
+  second workspace or spend two requests against different roots in one workspace.
+
+## Design-only next acceptance
+
+Separate [blind-estate design](blind-estate-acceptance-design.md): the install guide's
+three inputs plus10–20 owner-authored/sealed tickets, engine tag before exposure,
+no fixes during the test, correct refusals scored as successes. Design only: no
+tag, unseen-estate access, provisioning or execution in Round Eight.
+
+## Dated platform delivery checkpoint
+
+2026-10-06: opt-in lineage/assistant contracts implemented and11 proposer tests
+passed; full integrated regression2057 passed. The historical 15×2 regrade and
+hosted checks are still pending at this checkpoint. Platform trials preserved:
+lineage HTTP200 blocked on an undocumented kind; Data Agent HTTP400 refused the
+definition format. Seven physical controls total, diagnostic0, model calls0;
+pot7/300 with60 untouched reserve, rolling363/1500 at the final control.
+Licence remains deferred. No scope, identity, data, schedule, tenant setting or
+capacity changed. Prior engine freezes invalid; no unfamiliar-domain pass claimed.

@@ -4,6 +4,16 @@ Updated 2026-10-06 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 ## Current milestone
 
+**Round Eight platform checkpoint, 2026-10-06.** Default-off lineage and assistant
+proposal contracts implemented;2057 integrated regression tests passed. Reader
+relations returned HTTP200 but an unsupported `Association` kind blocked graph
+checks. One Data Agent creation returned HTTP400 InvalidDefinitionFormat; no item
+ID/read grant or nine-family assistant experiment. Both failures preserved;7
+physical controls,0diagnostic/0model calls, pot7/300 with60reserved, rolling363/1500.
+Historical 15×2 regrade/CI pending. Blind-estate design only, not run. Prior freezes
+invalid; no unfamiliar-domain claim. [Round Eight record](round-eight-research-and-proposers.md).
+
+
 **Round Eight underway: offline reliability and optional proposer research.**
 The README now states product commitments and distinguishes synthetic fixture
 measurements from unmeasured independent incident rates. Adapter-owned native
