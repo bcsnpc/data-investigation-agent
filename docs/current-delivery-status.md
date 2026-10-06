@@ -4,6 +4,16 @@ Updated 2026-10-06 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 ## Current milestone
 
+**Round Nine offline translation checkpoint.** A default-unused closed proposal
+contract, bounded verifier and sealed translation ledger are under development.
+Twenty-two synthetic tests pass with zero estate/provider requests. Live adapter
+integration and row-key binding evidence remain pending; existing sampled lineage
+proofs do not establish a row-key map. No restriction refusal was weakened, no
+translation capability enabled, and no live trial occurred. Evals, tracing,
+governance, rebuild and demo work remain pending. Full regression and replay results
+will be recorded separately. Engine changes invalidate prior freezes.
+[Checkpoint and decisions](round-nine-translation-evals-governance.md).
+
 **Round Eight closing checkpoint, 2026-10-06.** README commitments/positioning,
 latency mechanism rendering and neutrality83→76 delivered. Final engine2057
 regressions and hosted archived15/15 + inferred15/15 passed with flags off, zero

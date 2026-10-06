@@ -1,5 +1,10 @@
 # Self-Discovering Enterprise Data Investigator
 
+Round Nine's translation contract/verifier is an offline draft with 22 synthetic
+tests; it is not enabled in investigations or live-verified. Adapter integration,
+key-binding evidence, evals and governance additions remain pending. See the
+[Round Nine checkpoint](docs/round-nine-translation-evals-governance.md).
+
 Turn a disputed dashboard number into evidence-backed root cause — or an explicit statement of what cannot be proven — without giving an AI write access to production.
 
 It discovers supported metadata, resolves a measure and scope, compares faithful adjacent quantities, and produces business and technical explanations with receipts and explicit limits. A supported technical mechanism is not a judgment that a business rule is correct; snapshot and access qualifications remain explicit.
