@@ -42,6 +42,41 @@ created, no grant attempted, no investigation or estate read performed in this w
   root-cause functions. Avoid claiming they only alert and cannot investigate.
 - Independent pilot correctness/error/deployment rates are not yet measured; synthetic
   acceptance and structural validators are not substitutes for adjudicated incidents.
+- Both retained fixture publications use one workspace, so the item-rooted preview
+  request is made once for that unique workspace, rooted at the original model.
+  Missing coverage of the application-copy branch will be reported rather than
+  spending an unauthorized second request or inventing a second workspace.
+
+## Proposer contract and platform research
+
+Both optional flags default off; the public base fixture explicitly disables both.
+`fixture-lineage-proposer.json` enables only approval-time lineage proposals. The
+engine validates a closed graph, records nonblocking missing paths/unmanifested
+edges and pending code-source proposals, and never adopts a scope or binding from
+them. Native types and item-address decoding remain adapter-owned. Column edges
+are optional for Unity Catalog; Fabric never supplies them. Uninstalled Unity
+Catalog and Genie stubs validate their manifest and make no network request.
+
+The [Fabric upstream relations API](https://learn.microsoft.com/en-us/rest/api/fabric/core/items/get-upstream-relations(beta))
+is item-rooted and preview-only, supports a reader/service principal, and returns
+upstream items, relations and workspaces. It is not a workspace-wide enumeration.
+The [Unity Catalog lineage contract](https://docs.databricks.com/aws/en/data-governance/unity-catalog/data-lineage)
+includes column lineage, subject to platform coverage limits.
+
+The [Data Agent creation API](https://learn.microsoft.com/en-us/rest/api/fabric/dataagent/items/create-data-agent)
+supports Contributor service principals. Its [definition contract](https://learn.microsoft.com/en-us/rest/api/fabric/articles/item-management/definitions/data-agent-definition)
+declares source artifacts explicitly. [Service-principal query support](https://learn.microsoft.com/en-us/fabric/data-science/data-agent-service-principal)
+is preview and documents paid F2-or-higher/Premium capacity and tenant AI settings.
+No capacity upgrade or tenant setting change is authorized here. One creation
+attempt is authorized; failure stops that section, not a permission escalation.
+
+The assistant contract admits only candidate object IDs/kinds and an expression,
+tagged `PROPOSED_BY_ASSISTANT`. Closed validation rejects results and receipt
+fields. A metered model-call wrapper records request, proposal response, start/end
+clocks or failure category using existing tape events and replays without a
+transport call. Compilation resolves every candidate against the discovered
+catalog, then invokes the governed compiler; no assistant expression is executed
+directly and no assistant answer enters an evidence receipt.
 
 ## Dated delivery record
 

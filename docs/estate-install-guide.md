@@ -1,5 +1,14 @@
 # Install an estate
 
+Optional manifest flags `lineage_proposer` and `assistant_proposer` default to
+`false`. Neither is required for an investigation. Approval-time lineage graphs
+are platform proposals, not verified bindings; an approver accepts or rejects
+proposed code locations. Assistant expressions are untrusted compiler inputs,
+and the assistant's own query answers are never evidence. Each assistant call
+consumes the client's Fabric capacity as well as a recorded model-call allowance;
+the feature's availability also depends on the tenant and capacity. An enabled
+flag supplies no permissions. The installed transport must be configured explicitly.
+
 Provide three things. The estate file is validated against
 [the manifest contract](../scripts/investigator/estate_manifest.py); only installed
 adapters execute. The current registry installs the Microsoft adapter and Azure

@@ -31,6 +31,7 @@ NORMALIZATION={'oneOf':[
          'case_fold':BOOL,'evidence':STRING})]}
 SCHEMA=obj({
     'version':{'const':'estate-manifest-v1'},'environment':STRING,
+    'lineage_proposer':BOOL,'assistant_proposer':BOOL,
     'storage':obj({'catalog':STRING,'inventory':STRING}),
     'adapters':array(obj({'id':STRING,'implementation':STRING,
         'options':{'type':'object'}})),
@@ -82,7 +83,7 @@ SCHEMA=obj({
     # Evaluator-only declarations; not projected into tools or prompts.
     'fixture_states':array(obj({'id':STRING,'description':STRING,
         'arithmetic':{'type':'string','minLength':1,'maxLength':2000},
-        'evidence':array(STRING)}))}, optional=('fixture_states',))
+        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer'))
 
 
 def validate(value):
