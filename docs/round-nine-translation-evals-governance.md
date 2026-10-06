@@ -81,3 +81,27 @@ policy, approval context or acceptance expectation changed.
 
 Engine bytes changed; all prior freezes remain invalid. No unfamiliar-domain,
 live translation or general capability acceptance is claimed.
+
+## Validation and budget record
+
+The first full discovery sweep ran 2,076 tests and failed with eleven errors.
+Ten were TAPE_UNCOMMITTED_ENGINE and one was Engine or connection changed:
+the sweep began while draft engine files were being edited. This is a preserved
+failed check, not a regression pass. After committing a stable checkpoint, the
+affected tape (28), code-definition (5), repository-code (3) and adaptive (33)
+suites passed; proposer tests (11) also passed. The final translation suite
+passed all 24 tests, including malformed attestation refusal. These are targeted
+reruns, not a claimed clean full 2,081-test sweep.
+
+The initial replay sweep used an absent archived-input directory and reported
+MISSING_PRIVATE_REPLAY_INPUTS. Its log and output remain preserved. A corrected
+sweep uses `.local/round-five-i-20261005/inputs` and the pinned inferred inputs.
+Both sweeps are still running at this checkpoint; no 15-by-2 pass is claimed.
+PR #420 remains draft; hosted checks are pending, no merge.
+
+At 2026-10-06T22:53:50Z (5:53 PM Chicago), the existing rolling physical window
+is 315/1,500. Natural expiry lowered it from Round Eight's historical 363;
+no reset or refund. Round Nine has spent 0/200, with 40 authorized for reserve
+but not yet installed as batch credits or round policy. Investigation cap stays
+12; diagnostic and provider calls are zero. The existing Round Eight reserve
+remains untouched. Failed and successful test records were appended to the ledger.

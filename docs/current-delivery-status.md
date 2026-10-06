@@ -11,7 +11,11 @@ integration and row-key binding evidence remain pending; existing sampled lineag
 proofs do not establish a row-key map. No restriction refusal was weakened, no
 translation capability enabled, and no live trial occurred. Evals, tracing,
 governance, rebuild and demo work remain pending. Full regression and replay results
-will be recorded separately. Engine changes invalidate prior freezes.
+remain pending. The initial 2,076-test sweep failed on an unstable working-tree
+basis (ten tape refusals and one changed-engine conflict); the affected suites
+passed after committing. No clean full-sweep pass claimed. Draft PR #420 is open.
+Round Nine0/200,40 authorized reserve not configured; rolling315/1500 at22:53:50Z,
+investigation cap12 unchanged. Engine changes invalidate prior freezes.
 [Checkpoint and decisions](round-nine-translation-evals-governance.md).
 
 **Round Eight closing checkpoint, 2026-10-06.** README commitments/positioning,
