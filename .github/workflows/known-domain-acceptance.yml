@@ -21,7 +21,11 @@ jobs:
         with:
           python-version: '3.13'
       - name: Install replay dependencies
-        run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt cryptography==44.0.1
+        run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt -r scripts/requirements-replay.txt
+      - name: Export only the replay recipient public key
+        env:
+          KNOWN_DOMAIN_REPLAY_KEY: ${{ secrets.KNOWN_DOMAIN_REPLAY_KEY }}
+        run: python acceptance/known_domain/private_bundle.py --public-key
       - name: Test private delivery refuses altered ciphertext
         run: python -m unittest discover -s scripts -p test_private_replay_bundle.py
       - name: Test replay requires the sealed lineage installation input

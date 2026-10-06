@@ -11,6 +11,31 @@ bundle=importlib.util.module_from_spec(spec);spec.loader.exec_module(bundle)
 
 
 class PrivateReplayBundleTests(unittest.TestCase):
+    def test_public_envelope_reuses_secret_and_preserves_legacy_bundle(self):
+        import io,tarfile
+        from nacl.exceptions import CryptoError
+        with tempfile.TemporaryDirectory() as d:
+            data=io.BytesIO()
+            with tarfile.open(fileobj=data,mode='w:gz') as archive:
+                member=tarfile.TarInfo('evidence');member.size=5
+                archive.addfile(member,io.BytesIO(b'proof'))
+            key=b'x'*32
+            public=bundle.recipient_public_key(key)
+            self.assertNotEqual(public,key)
+            self.assertEqual(public,bundle.recipient_public_key(key))
+            raw=bundle.seal_for_recipient(data.getvalue(),public)
+            p=Path(d)/'cipher';p.write_bytes(raw)
+            sha=hashlib.sha256(raw).hexdigest()
+            inventory={'evidence':hashlib.sha256(b'proof').hexdigest()}
+            bundle.hydrate(p,sha,key,Path(d)/'out',expected_members=1,inventory=inventory)
+            self.assertEqual((Path(d)/'out/evidence').read_bytes(),b'proof')
+            with self.assertRaises(CryptoError):
+                bundle.hydrate(p,sha,b'y'*32,Path(d)/'wrong',expected_members=1)
+            with self.assertRaisesRegex(ValueError,'MEMBER_HASH_DIFFERS'):
+                bundle.hydrate(p,sha,key,Path(d)/'bad-inventory',expected_members=1,
+                               inventory={'evidence':'0'*64})
+            self.assertFalse((Path(d)/'bad-inventory').exists())
+
     def test_hash_mismatch_fails_before_decryption(self):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d)/'cipher';p.write_bytes(b'DIA1'+b'x'*64)
