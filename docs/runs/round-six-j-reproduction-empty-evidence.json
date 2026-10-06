@@ -1,0 +1,118 @@
+{
+  "case": "reproduction-empty",
+  "fixture_state": {
+    "name": "report-14sep",
+    "definition_hash": "eb89d2dc2830b6e56cb9bf89d07ea0e591802f3c1bc2e72e1747e26df0987893",
+    "context": {
+      "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+      "hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f"
+    },
+    "approval_reference": "D:\\dia-surface-inventory\\.local\\round-five-g-20261005\\report-14sep-approval.json; Explicit human instruction: register preserved pinned unchanged context as approved report-14sep; approval record, not recollection."
+  },
+  "session_id": "fea3e18d-c1ad-47a8-a8d0-df3e9dd4cc07",
+  "tape_id": "8c3b648c-ed25-45aa-a81f-716423a56c89",
+  "tape_sha256": "1e5ab100ab934186a58f4e8ee531cf8a63fa7d8a057a977e64695fa27ea87e9f",
+  "reported_figure": {
+    "state": "EMPTY",
+    "source": {
+      "start": 122,
+      "end": 135,
+      "quote": "shows nothing"
+    }
+  },
+  "accounting": {
+    "date": "2026-10-06T03:16:54.645225+00:00",
+    "experiment": "ROUND_SIX_J_reproduction-empty",
+    "family": "reproduction-empty",
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "session_id": "fea3e18d-c1ad-47a8-a8d0-df3e9dd4cc07",
+    "status": "COMPLETED",
+    "outcome": "NO_COMPARABLE_PATH",
+    "error": null,
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56",
+    "fixture_state": {
+      "name": "report-14sep",
+      "definition_hash": "eb89d2dc2830b6e56cb9bf89d07ea0e591802f3c1bc2e72e1747e26df0987893",
+      "context": {
+        "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+        "hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f"
+      },
+      "approval_reference": "D:\\dia-surface-inventory\\.local\\round-five-g-20261005\\report-14sep-approval.json; Explicit human instruction: register preserved pinned unchanged context as approved report-14sep; approval record, not recollection."
+    },
+    "physical_requests": 7,
+    "pot_before": 265,
+    "pot_after": 272,
+    "intake_calls": 1,
+    "investigation_planner_calls": 0,
+    "synthesis_calls": 1,
+    "synthesis_status": "COMPLETED",
+    "tape_validation": "VALIDATED",
+    "notes_doc": "docs/round-six-same-referent.md",
+    "reads_sql": 0,
+    "reads_dax": 5,
+    "reads_other": 2,
+    "reads_total": 7,
+    "guard_requests": 0,
+    "connection_retry_requests": 0,
+    "diagnostic_reads": 5,
+    "guard_reuses": 0,
+    "diagnostic_read_cap": 12,
+    "reads_completed": 7,
+    "reads_unsuccessful_or_uncertain": 0,
+    "read_accounting_source": "PROCESS_READ_RECEIPTS",
+    "physical_requests_charged": 7
+  },
+  "observations": [
+    {
+      "id": "report-selection-2eca5120-4f4b-453d-836a-6da204491eed",
+      "check_kind": "REPORT_SELECTION_RESOLUTION",
+      "tool": "process"
+    },
+    {
+      "id": "declared-reproduction-676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
+      "tool": "process",
+      "values_equal": true,
+      "comparison_status": "WITHIN_LAYER_CHECK",
+      "label": "NOT_REPRODUCED",
+      "reproduced_value": "8765",
+      "undeclared_context_value": "8765"
+    },
+    {
+      "id": "declared-reproduction-1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
+      "tool": "process",
+      "values_equal": false,
+      "comparison_status": "WITHIN_LAYER_CHECK",
+      "label": "NOT_REPRODUCED",
+      "reproduced_value": "92",
+      "undeclared_context_value": "8765"
+    },
+    {
+      "id": "declared-reproduction-68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
+      "tool": "process",
+      "values_equal": false,
+      "comparison_status": "WITHIN_LAYER_CHECK",
+      "label": "REPRODUCED",
+      "reproduced_value": null,
+      "undeclared_context_value": "8765"
+    },
+    {
+      "id": "duplicate-read-2f97b9eb-019c-44f2-9f13-23e4201f9b81",
+      "check_kind": "COMPILED_DUPLICATE_REFUSED",
+      "tool": "process"
+    },
+    {
+      "id": "duplicate-read-73bee549-a0cd-42f0-927b-84fc0072e5fe",
+      "check_kind": "COMPILED_DUPLICATE_REFUSED",
+      "tool": "process"
+    },
+    {
+      "id": "boundary-1-not-comparable",
+      "tool": "process",
+      "comparison_status": "NOT_COMPARABLE"
+    }
+  ],
+  "synthesis_status": "COMPLETED"
+}

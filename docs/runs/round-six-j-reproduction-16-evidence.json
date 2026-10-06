@@ -1,0 +1,122 @@
+{
+  "case": "reproduction-16",
+  "fixture_state": {
+    "name": "report-15sep",
+    "definition_hash": "f6a06d75fb1f43150eb3a174d1cdc4cc9d870b36d9c2cb95e3df6acddaf38312",
+    "context": {
+      "context_id": "e920dda4-d5c8-4a95-b9e9-a600386ae3d5",
+      "hash": "baf3044545048d410b602ed8bec138e878d7d61da32490b364e42891db2beb2a"
+    },
+    "approval_reference": "Round Six H explicitly authorized retained report-15sep fixture state; unchanged seeded data and predicates; preserve original context and hash, no recollection or proof migration."
+  },
+  "session_id": "51b746dc-4810-423c-b293-2cbd79ce5e63",
+  "tape_id": "a6e8ddf1-a142-41fb-a5b7-c41b75203ddc",
+  "tape_sha256": "7029b283d60b266d510ac5d026cc3916b65e36bea423546b8d16be2da470964d",
+  "reported_figure": {
+    "state": "NUMBER",
+    "source": {
+      "start": 130,
+      "end": 160,
+      "quote": "Handled Quantity as exactly 16"
+    },
+    "value": "16",
+    "precision": {
+      "state": "EXACT"
+    }
+  },
+  "accounting": {
+    "date": "2026-10-06T03:19:06.613203+00:00",
+    "experiment": "ROUND_SIX_J_reproduction-16",
+    "family": "reproduction-16",
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "session_id": "51b746dc-4810-423c-b293-2cbd79ce5e63",
+    "status": "COMPLETED",
+    "outcome": "NO_COMPARABLE_PATH",
+    "error": null,
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56",
+    "fixture_state": {
+      "name": "report-15sep",
+      "definition_hash": "f6a06d75fb1f43150eb3a174d1cdc4cc9d870b36d9c2cb95e3df6acddaf38312",
+      "context": {
+        "context_id": "e920dda4-d5c8-4a95-b9e9-a600386ae3d5",
+        "hash": "baf3044545048d410b602ed8bec138e878d7d61da32490b364e42891db2beb2a"
+      },
+      "approval_reference": "Round Six H explicitly authorized retained report-15sep fixture state; unchanged seeded data and predicates; preserve original context and hash, no recollection or proof migration."
+    },
+    "physical_requests": 7,
+    "pot_before": 272,
+    "pot_after": 279,
+    "intake_calls": 1,
+    "investigation_planner_calls": 0,
+    "synthesis_calls": 1,
+    "synthesis_status": "COMPLETED",
+    "tape_validation": "VALIDATED",
+    "notes_doc": "docs/round-six-same-referent.md",
+    "reads_sql": 0,
+    "reads_dax": 5,
+    "reads_other": 2,
+    "reads_total": 7,
+    "guard_requests": 0,
+    "connection_retry_requests": 0,
+    "diagnostic_reads": 5,
+    "guard_reuses": 0,
+    "diagnostic_read_cap": 12,
+    "reads_completed": 7,
+    "reads_unsuccessful_or_uncertain": 0,
+    "read_accounting_source": "PROCESS_READ_RECEIPTS",
+    "physical_requests_charged": 7
+  },
+  "observations": [
+    {
+      "id": "report-selection-969f2e3b-685b-4799-b57b-6edade36b19c",
+      "check_kind": "REPORT_SELECTION_RESOLUTION",
+      "tool": "process"
+    },
+    {
+      "id": "boundary-1-not-comparable",
+      "tool": "process",
+      "comparison_status": "NOT_COMPARABLE"
+    },
+    {
+      "id": "declared-reproduction-676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
+      "tool": "process",
+      "values_equal": true,
+      "comparison_status": "WITHIN_LAYER_CHECK",
+      "label": "NOT_REPRODUCED",
+      "reproduced_value": "8765",
+      "undeclared_context_value": "8765"
+    },
+    {
+      "id": "declared-reproduction-1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
+      "tool": "process",
+      "values_equal": false,
+      "comparison_status": "WITHIN_LAYER_CHECK",
+      "label": "NOT_REPRODUCED",
+      "reproduced_value": "92",
+      "undeclared_context_value": "8765"
+    },
+    {
+      "id": "declared-reproduction-68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
+      "tool": "process",
+      "values_equal": false,
+      "comparison_status": "WITHIN_LAYER_CHECK",
+      "label": "REPRODUCED",
+      "reproduced_value": "16",
+      "undeclared_context_value": "8765"
+    },
+    {
+      "id": "duplicate-read-4e642db0-1d00-4407-864b-d332e0b6a12e",
+      "check_kind": "COMPILED_DUPLICATE_REFUSED",
+      "tool": "process"
+    },
+    {
+      "id": "duplicate-read-d73159fc-a15d-4f9f-9d87-e5cbaa9ad79e",
+      "check_kind": "COMPILED_DUPLICATE_REFUSED",
+      "tool": "process"
+    }
+  ],
+  "synthesis_status": "COMPLETED"
+}

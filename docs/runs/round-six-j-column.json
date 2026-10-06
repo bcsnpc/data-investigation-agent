@@ -1,0 +1,329 @@
+{
+  "date": "2026-10-06T03:40:35.355043+00:00",
+  "basis": "H nine family attempts plus four J authorized live attempts; H and I failed EMPTY originals remain historical unchanged.",
+  "archived": {
+    "passed": 15,
+    "total": 15,
+    "physical_requests": 0,
+    "fresh_summary": ".local/round-six-j-20261005/declared-regrade/summary.json",
+    "hosted_checkpoint_run": 37407444445
+  },
+  "inferred": {
+    "passed": 13,
+    "failed": 0,
+    "not_run": 2,
+    "total": 15,
+    "results": [
+      {
+        "ticket": "family-A",
+        "reference_session_id": "beb6b607-cb98-47f8-b1e2-9e7b2dfe8ac7",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "a9b93933-0c69-48bf-80eb-dfc97684b478",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "TRANSFORMATION_LOGIC",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-B",
+        "reference_session_id": "42febae9-4d3e-4ec3-97bb-306769d96233",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "922d24ed-176a-4214-a60c-909701110d18",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "NO_KNOWN_PATTERN",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-C",
+        "reference_session_id": "b5f4ff47-dd16-49f5-89af-df8d2c46ceaa",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "3623cc2f-6a2e-4782-bcbd-5f9f230e233e",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "INSUFFICIENT_EVIDENCE",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-D",
+        "reference_session_id": "96edf2e6-5ae0-467e-a420-69c4b717da17",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "80dc34a9-6529-4047-a598-1bdf78318dc0",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "NO_COMPARABLE_PATH",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-E",
+        "reference_session_id": "057ff2ca-fa5d-42e4-87ca-6c4736068b13",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "c276bf84-476c-4d3a-aa84-24dbe4161f68",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "TRANSFORMATION_LOGIC",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-F",
+        "reference_session_id": "e1fce96a-9e9c-458e-9101-983fc977281b",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "de6e25eb-2ab1-4eeb-92a1-ff32db9b5e84",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "CONSISTENT_TO_BOUNDARY",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-G",
+        "reference_session_id": "02a4372d-3722-4a12-b70f-66f96a76557e",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "436b749e-84e8-48cf-aeca-dcf1ca04d56d",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "TRANSFORMATION_LOGIC",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-H",
+        "reference_session_id": "467e416f-8200-4b1d-a034-8a03aeba4cd1",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "0b1f57a8-bc92-46c8-944c-2a92ab2f3a45",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "NO_KNOWN_PATTERN",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "family-I",
+        "reference_session_id": "a1dbfe60-a2fe-43af-999c-12e1170d4ee2",
+        "status": "PASSED",
+        "network_calls": 0,
+        "physical_requests": 0,
+        "errors": [],
+        "source_session_id": "dbaec29a-16c3-41d2-b6fc-3da13ae1d957",
+        "tape_version": "bounded-worker-tape-v4",
+        "replay_engine_revision": "154b2c2f0d2aee202ef5d7660e36c80e7d93d3f4",
+        "recorded_engine_hash": "13f4eabc072abf4c13a3d0d09ed03d66c08c65c6f8803f2e2c532a4f3761467f",
+        "walk_outcome": "TRANSFORMATION_LOGIC",
+        "reproduction_verdict": null,
+        "fixture_state": "inventory-baseline",
+        "context_used": {
+          "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+          "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+        },
+        "fixture_state_provenance": "RECORDED_NATIVE",
+        "reason": null
+      },
+      {
+        "ticket": "reproduction-empty",
+        "status": "PASSED",
+        "source_session_id": "fea3e18d-c1ad-47a8-a8d0-df3e9dd4cc07",
+        "fixture_state": "report-14sep",
+        "context_used": {
+          "context_id": "3ae7607b-5a5e-46c6-8e1b-195dbabc9cae",
+          "hash": "d6f3841fc02368a066f2de2d2e8bb4c22579b02d3bce3a95e441996091d5784f"
+        },
+        "producer_revision": "472367c6a7973e1bfee20af4f5b9d05f2532ae21",
+        "tape_id": "8c3b648c-ed25-45aa-a81f-716423a56c89",
+        "tape_sha256": "1e5ab100ab934186a58f4e8ee531cf8a63fa7d8a057a977e64695fa27ea87e9f",
+        "physical_requests": 7,
+        "diagnostic_reads": 5,
+        "guard_requests": 0,
+        "guard_reuses": 0,
+        "synthesis_status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "offline_replay_matched": true,
+        "snapshot_qualification": "SNAPSHOT_UNVERIFIED"
+      },
+      {
+        "ticket": "reproduction-16",
+        "status": "PASSED",
+        "source_session_id": "51b746dc-4810-423c-b293-2cbd79ce5e63",
+        "fixture_state": "report-15sep",
+        "context_used": {
+          "context_id": "e920dda4-d5c8-4a95-b9e9-a600386ae3d5",
+          "hash": "baf3044545048d410b602ed8bec138e878d7d61da32490b364e42891db2beb2a"
+        },
+        "producer_revision": "472367c6a7973e1bfee20af4f5b9d05f2532ae21",
+        "tape_id": "a6e8ddf1-a142-41fb-a5b7-c41b75203ddc",
+        "tape_sha256": "7029b283d60b266d510ac5d026cc3916b65e36bea423546b8d16be2da470964d",
+        "physical_requests": 7,
+        "diagnostic_reads": 5,
+        "guard_requests": 0,
+        "guard_reuses": 0,
+        "synthesis_status": "COMPLETED",
+        "outcome": "NO_COMPARABLE_PATH",
+        "offline_replay_matched": true,
+        "snapshot_qualification": "SNAPSHOT_UNVERIFIED"
+      },
+      {
+        "ticket": "source-consistent",
+        "status": "PASSED",
+        "source_session_id": "82f684ce-f508-423c-b7f4-54b0715c7697",
+        "fixture_state": "source-baseline",
+        "context_used": {
+          "context_id": "d48aa1d0-f692-44ed-969c-083c6d3df49f",
+          "hash": "e284a33adec25f6aeb592adca76b88ed30f48e4596ef7dacd7f70cb99d0c05a0"
+        },
+        "producer_revision": "472367c6a7973e1bfee20af4f5b9d05f2532ae21",
+        "tape_id": "9de7d696-68a8-401f-809c-205dae43682c",
+        "tape_sha256": "e28343dc8beaeade2c7d2658dc7a7cdba6fa9f61c3e55b732a3b3251253cded2",
+        "physical_requests": 16,
+        "diagnostic_reads": 6,
+        "guard_requests": 8,
+        "guard_reuses": 4,
+        "synthesis_status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_SOURCE",
+        "offline_replay_matched": true,
+        "snapshot_qualification": "SNAPSHOT_UNVERIFIED"
+      },
+      {
+        "ticket": "source-gap",
+        "status": "PASSED",
+        "source_session_id": "f4899a7a-b27b-4565-85c0-6821356b7386",
+        "fixture_state": "source-gap",
+        "context_used": {
+          "context_id": "d48aa1d0-f692-44ed-969c-083c6d3df49f",
+          "hash": "e284a33adec25f6aeb592adca76b88ed30f48e4596ef7dacd7f70cb99d0c05a0"
+        },
+        "producer_revision": "472367c6a7973e1bfee20af4f5b9d05f2532ae21",
+        "tape_id": "4daba573-7b7c-4684-998c-8b4a485cf8ae",
+        "tape_sha256": "bee30413296f3368071749b03eda83f1a7b74fcded24b8583dd2457a46696e7a",
+        "physical_requests": 25,
+        "diagnostic_reads": 10,
+        "guard_requests": 13,
+        "guard_reuses": 8,
+        "synthesis_status": "COMPLETED",
+        "outcome": "INGESTION_GAP",
+        "offline_replay_matched": true,
+        "snapshot_qualification": "SNAPSHOT_UNVERIFIED"
+      },
+      {
+        "ticket": "source-latency",
+        "status": "NOT_RUN",
+        "reason": "No inferred-manifest attempt preserved; outside J four-run list. Pot338 leaves2 before ordinary stop340, reserve is restoration-only."
+      },
+      {
+        "ticket": "source-unreachable",
+        "status": "NOT_RUN",
+        "reason": "No inferred-manifest attempt preserved; outside J four-run list. Pot338 leaves2 before ordinary stop340, reserve is restoration-only."
+      }
+    ]
+  },
+  "gate": "NOT_EARNED",
+  "PR_410": "DRAFT_UNMERGED",
+  "gate_PR": "NOT_CREATED_MISSING_TWO_INFERRED_INPUTS",
+  "J_usage": {
+    "investigation_physical_requests": 55,
+    "control_physical_requests": 18,
+    "physical_requests": 73,
+    "diagnostic_reads": 26,
+    "guard_requests": 21,
+    "intake_calls": 4,
+    "investigation_planner_calls": 0,
+    "synthesis_calls": 4,
+    "restoration_requests": 6,
+    "prewarm_requests": 3,
+    "resume_wait_seconds": 5
+  },
+  "closing": {
+    "pot": 338,
+    "ceiling": 400,
+    "ordinary_stop": 340,
+    "reserved_original": 60,
+    "restoration_spent": 6,
+    "earmarked_unused": 54,
+    "diagnostic_cap": 12
+  },
+  "rolling_charged": 374,
+  "rolling_limit": 1500
+}
