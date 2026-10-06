@@ -24,6 +24,8 @@ Round Six closed **338/400**. Round Seven uses **64/300** physical requests (41 
 
 ## Pending
 
+Content-hash freshness design is recorded; implementation is deferred because the fixture route cannot guarantee one request per layer and quantity-only repeats would need13 diagnostics against12. No cap changed. [Design and evidence scope](content-hash-freshness-design.md).
+
 Offline neutrality audit:85→83 matches,17 remaining legacy modules; two comments removed, payload goldens unchanged. [Module-level reasons](round-seven-neutrality-audit.md). Full neutrality remains pending.
 
 Actual-main gate confirmation, then the dated closing record. Post-gate offline list: platform-neutrality debt, content-hash freshness design, identifier-only ticket/cell history and the one-page estate install guide. No unfamiliar-domain acceptance pass is claimed. All earlier freezes remain invalid.
