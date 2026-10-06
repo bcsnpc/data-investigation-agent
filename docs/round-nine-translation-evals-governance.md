@@ -36,7 +36,7 @@ verdicts. Cache reuse is definition/context/metadata/scope/time/cell specific;
 changes expose STALE without editing history. A later failed reverification
 prevents reuse of the earlier successful entry for that cell.
 
-Twenty-four focused tests pass with SQLite in memory and synthetic query-bound
+Thirty-two focused tests pass with SQLite in memory and synthetic query-bound
 receipts; zero estate/network/provider requests. Independent native definitions
 and deliberately wrong candidates cover Top-N, a pinned date window and an
 ALL-like measure across three retained cells. These test the verifier and
@@ -49,12 +49,24 @@ The existing lineage proof contract (`lineage_binding.verify` and
 row-key mapping. The manifest's `lineage.bindings` carries layer IDs and declared
 provenance, not a verified column-key map. Treating either as a verified key
 binding would promote sampled agreement into unsupported row identity.
-The draft therefore keeps cross-boundary filters UNVERIFIED. It does not
+The draft now requires a separate complete-key witness for cross-boundary filters:
+an explicit ordered column correspondence with declaration provenance, original
+query-bound receipts on both independent surfaces, matching complete normalized
+key universes, retained context, scope and both definition hashes. Unknown columns,
+stale or falsified proofs and selected keys outside that universe refuse. This
+bounded witness does not establish global semantics or aligned snapshots. It does not
 declare the new capability or bypass existing UNSUPPORTED restrictions.
 
+The provider wire derives its supported structure and stated bounds from the
+consumer schema. Verification answers are removed from model input. Translation
+model calls use existing reservations, failure usage and recording; the service
+preserves falsifications and reuses current cell proofs without a model or read.
+New-cell verification still requires the original addressed native observation.
+The existing physical query admission now recognizes closed translation and
+key-binding addresses; no absent address becomes a baseline.
+
 Still required for section 1: adapter-governed native/proposed compilation and
-result extraction, an explicitly evidenced key-binding contract, recorded model
-transport integration, and runtime use/reverification of ledger entries. The
+result extraction, live key-binding production, and investigation runtime wiring. The
 section 1e report is provisional until these integration tests exist. No live
 Top-N/date/measure trial has occurred.
 
@@ -72,6 +84,13 @@ policy, approval context or acceptance expectation changed.
   wiring must measure all three and add the standing coverage regression test.
 - Do not reuse bounded lineage profiles as key-binding evidence. The alternative
   would falsely certify selected-row equivalence from aggregate agreement.
+- Use a separate complete-key witness with an explicit discovered-column mapping;
+  never infer correspondence from equal aggregate totals or similar column names.
+  It stays limited to the recorded universe and scope.
+- Derive provider wire structure and bounds from the consumer contract. The
+  installed Azure route strips unsupported wire keywords while retaining local
+  validation and stating those exact bounds in instructions; it never strips fields.
+  See [official structured-output guidance](https://developers.openai.com/api/docs/guides/structured-outputs).
 - Preserve query-bound snapshot requirements and refuse missing extension-cell
   addresses. Standalone metadata or address backfill would weaken prior rulings.
 - Round Nine's authorized pot is 200 with 40 reserved and rolling limit 1,500.

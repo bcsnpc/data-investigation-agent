@@ -20,6 +20,13 @@ from .usage_governance import UsageHold
 TEXT = {'type': 'string', 'minLength': 1, 'maxLength': 500}
 HASH = {'type': 'string', 'pattern': '^[0-9a-f]{64}$'}
 OBJECT = obj({'id': TEXT, 'kind': {'enum': ['TABLE', 'COLUMN', 'MEASURE']}})
+KEY_BINDING = obj({'context': TEXT, 'scope_hash': HASH,
+    'provenance': {'enum': ['DECLARED_BY_CONFIGURATION', 'DECLARED_BY_DEFINITION']},
+    'evidence_id': TEXT,
+    'normalization': {'type': 'object', 'minProperties': 1},
+    'columns': {'type': 'array', 'minItems': 1, 'maxItems': 32,
+                'items': obj({'native': TEXT, 'proposed': TEXT})},
+    'definition_hashes': obj({'native': HASH, 'proposed': HASH})})
 SCHEMA = obj({
     'kind': {'enum': ['FILTER', 'MEASURE']}, 'definition_hash': HASH,
     'target_engine': TEXT,
@@ -95,6 +102,8 @@ def _evidence(observation, context, address):
         raise ValueError('Original probe receipt is missing')
     if evidence.get('context_id') != context or evidence.get('read_address') != address:
         raise ValueError('Original probe context or address differs')
+    from .read_address import validate as validate_address
+    validate_address(address)
     attestation = evidence.get('surface_attestation') or {}
     if not isinstance(attestation, dict): raise ValueError('Malformed original surface attestation')
     fields = attestation.get('required_fields')
@@ -124,6 +133,55 @@ def _quantity(value, precision):
         if precision['state'] == 'STATED_PLACE':
             number = number.quantize(Decimal(1).scaleb(precision['place']), rounding=ROUND_HALF_EVEN)
     return ('NUMBER', number)
+
+
+def verify_key_binding(declaration, observations):
+    """Recompute a bounded complete-key witness; never promote quantity proofs.
+
+    Ordered columns are declared correspondence, not a guessed join. Both
+    original value-query receipts must carry the entire normalized key universe
+    at that scope. This proves correspondence for the recorded universe only;
+    no snapshot or global semantic-equivalence claim follows.
+    """
+    Draft202012Validator(KEY_BINDING).validate(declaration)
+    columns = declaration['columns']
+    if any(len({c[side] for c in columns}) != len(columns) for side in ('native', 'proposed')):
+        raise ValueError('Key binding repeats a column')
+    if len(observations) != 2: raise ValueError('Key binding requires two original observations')
+    address = {'kind': 'KEY_BINDING', 'declaration_hash': seal(declaration)}
+    fingerprints = []
+    for observation in observations:
+        if observation.get('status') != 'COMPLETED': raise ValueError('Key-binding probe did not complete')
+        _evidence(observation, declaration['context'], address)
+        if observation.get('complete') is not True or observation.get('normalization') != declaration['normalization']:
+            raise ValueError('Complete key-binding universe was not established')
+        if any(len(key) != len(columns) for key in observation['keys']):
+            raise ValueError('Key-binding tuple differs from declared column order')
+        fingerprints.append(key_fingerprint(observation['keys'], declaration['normalization']))
+    from .surface_difference import grade, BOUNDARY_GRADES
+    if grade(observations[0]['evidence'], observations[1]['evidence'])['grade'] not in BOUNDARY_GRADES:
+        raise ValueError('Key binding lacks an independent attested boundary')
+    return {'declaration': copy.deepcopy(declaration), 'observations': copy.deepcopy(observations),
+            'status': 'VERIFIED' if fingerprints[0] == fingerprints[1] else 'FALSIFIED',
+            'key_sets': fingerprints, 'snapshot_status': 'SNAPSHOT_UNVERIFIED'}
+
+
+def _binding_for(request):
+    proof = request['metadata'].get('key_binding')
+    if not isinstance(proof, dict): raise ValueError('Cross-boundary selected keys need a verified binding')
+    recomputed = verify_key_binding(proof['declaration'], proof['observations'])
+    if recomputed != proof or proof['status'] != 'VERIFIED':
+        raise ValueError('Key binding does not verify against original observations')
+    declaration = proof['declaration']
+    catalog = request['metadata']['objects']
+    if any(catalog.get(column[side]) != 'COLUMN'
+           for column in declaration['columns'] for side in ('native', 'proposed')):
+        raise ValueError('Key-binding column is absent from discovered metadata')
+    if (declaration['context'] != request['context'] or declaration['scope_hash'] != seal(request['scope'])
+            or declaration['normalization'] != request['metadata']['normalization']
+            or declaration['definition_hashes'] != request['metadata'].get('key_definition_hashes')):
+        raise ValueError('Key binding is stale or outside the translation scope')
+    return proof
 
 
 def verify(proposal, request, *, cells, compiler, execute, budget, cross_boundary=False, extension=False, native_observation=None):
@@ -157,9 +215,10 @@ def verify(proposal, request, *, cells, compiler, execute, budget, cross_boundar
                'limits': ['Matching served snapshots were not established; timing is not excluded.',
                           'Verification covers only the recorded scope and sampled cells; not global equivalence or business intent.']}
     if proposal['kind'] == 'FILTER' and cross_boundary:
-        receipt['reason'] = ('Cross-boundary selected keys need a verified binding; row-key mapping '
-                             'is not implemented by the current binding proof contract.')
-        return receipt
+        try: _binding_for(request)
+        except (ValueError, KeyError, TypeError) as exc:
+            receipt['reason'] = 'Key-binding verification unavailable: ' + str(exc)
+            return receipt
     plans = []
     try:
         for cell in cells:
@@ -200,6 +259,14 @@ def verify(proposal, request, *, cells, compiler, execute, budget, cross_boundar
                     if o.get('complete') is not True or o.get('normalization') != norm:
                         raise ValueError('Complete normalized key set was not established')
                     fingerprints.append(key_fingerprint(o['keys'], norm))
+                if cross_boundary:
+                    proof = _binding_for(request)
+                    for index, o in enumerate((left, right)):
+                        if o['evidence']['execution_surface'] != proof['observations'][index]['evidence']['execution_surface']:
+                            raise ValueError('Selected keys differ from the verified key-binding surface')
+                        universe = {seal(key) for key in proof['observations'][index]['keys']}
+                        if any(seal(key) not in universe for key in o['keys']):
+                            raise ValueError('Selected key is outside the verified key-binding universe')
                 receipt.setdefault('key_sets', []).append(fingerprints)
                 equal = fingerprints[0] == fingerprints[1]
             else:

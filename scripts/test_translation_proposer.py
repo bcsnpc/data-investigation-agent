@@ -137,6 +137,66 @@ class TranslationTests(unittest.TestCase):
         self.assertIn('verified binding', r['reason'])
         self.assertEqual(self.events, []); self.assertEqual(self.budget.count, 0)
 
+    def binding(self, request, *, wrong=False):
+        request['metadata']['objects'].update({'native.k': 'COLUMN', 'proposed.k': 'COLUMN'})
+        declaration = {'context': request['context'], 'scope_hash': t.seal(request['scope']),
+            'provenance': 'DECLARED_BY_CONFIGURATION', 'evidence_id': 'synthetic-key-declaration',
+            'normalization': request['metadata']['normalization'],
+            'columns': [{'native': 'native.k', 'proposed': 'proposed.k'}],
+            'definition_hashes': {'native': t.seal('native definition'), 'proposed': t.seal('proposed definition')}}
+        observations = []
+        for side in ('NATIVE', 'PROPOSED'):
+            surface = {'engine': 'sqlite', 'connection': 'test', 'object': side, 'identity': 'synthetic-reader'}
+            evidence = {'id': 'binding-' + side, 'context_id': request['context'],
+                'read_address': {'kind': 'KEY_BINDING', 'declaration_hash': t.seal(declaration)},
+                'execution_surface': surface, 'surface_report': surface,
+                'surface_report_types': {'engine': 'ENGINE_PRODUCT', 'object': 'DATABASE'},
+                'surface_report_binding': 'VALUE_QUERY', 'surface_report_receipt_id': 'binding-' + side,
+                'surface_attestation': attest_surface(surface, surface, tuple(surface))}
+            payload = {'keys': [[1], [2], [3], [5 if wrong and side == 'PROPOSED' else 4]],
+                       'complete': True, 'normalization': declaration['normalization']}
+            evidence['translation_result'] = copy.deepcopy(payload)
+            observations.append({'status': 'COMPLETED', 'evidence': evidence, **payload})
+        return t.verify_key_binding(declaration, observations)
+
+    def test_cross_boundary_filter_verifies_only_with_original_complete_key_binding(self):
+        self.run_case(cross=True)
+        proof = self.binding(self.request)
+        self.request['metadata'].update(key_binding=proof, key_definition_hashes=proof['declaration']['definition_hashes'])
+        r = t.verify(self.proposal, self.request, cells=[None], compiler=self.compiler,
+                     execute=self.execute, budget=self.budget, cross_boundary=True)
+        self.assertEqual(r['status'], 'VERIFIED'); self.assertEqual(self.budget.count, 2)
+        self.assertEqual(t.revalidate(r), r)
+
+    def test_falsified_stale_or_tampered_key_binding_refuses_before_any_probe(self):
+        for problem in ('wrong', 'stale', 'tampered'):
+            with self.subTest(problem=problem):
+                request, proposal = case(); proof = self.binding(request, wrong=problem == 'wrong')
+                request['metadata'].update(key_binding=proof, key_definition_hashes=copy.deepcopy(proof['declaration']['definition_hashes']))
+                if problem == 'stale': request['metadata']['key_definition_hashes']['native'] = t.seal('changed')
+                if problem == 'tampered': proof['status'] = 'FALSIFIED'
+                execute = Mock(); budget = Mock()
+                r = t.verify(proposal, request, cells=[None], compiler=Mock(), execute=execute, budget=budget, cross_boundary=True)
+                self.assertEqual(r['status'], 'UNVERIFIED'); execute.assert_not_called(); budget.read.assert_not_called()
+
+    def test_quantity_lineage_receipt_cannot_stand_in_for_key_binding(self):
+        request, proposal = case(); request['metadata']['key_binding'] = {'status': 'VERIFIED', 'quantity': 80}
+        r = t.verify(proposal, request, cells=[None], compiler=Mock(), execute=Mock(), budget=Mock(), cross_boundary=True)
+        self.assertEqual(r['status'], 'UNVERIFIED'); self.assertEqual(r['observations'], [])
+
+    def test_equal_subset_outside_verified_key_universe_remains_unverified(self):
+        self.run_case(cross=True)
+        proof = self.binding(self.request)
+        self.request['metadata'].update(key_binding=proof, key_definition_hashes=proof['declaration']['definition_hashes'])
+        def execute(side, plan):
+            observation = self.execute(side, plan)
+            observation['keys'] = [[99]]
+            observation['evidence']['translation_result']['keys'] = [[99]]
+            return observation
+        r = t.verify(self.proposal, self.request, cells=[None], compiler=self.compiler,
+                     execute=execute, budget=self.budget, cross_boundary=True)
+        self.assertEqual(r['status'], 'UNVERIFIED'); self.assertIn('universe', r['reason'])
+
     def test_ledger_cache_is_scope_and_cell_specific_and_marks_changes_stale(self):
         r = self.run_case('MEASURE', cross=True)
         with tempfile.TemporaryDirectory() as d:
@@ -226,6 +286,71 @@ class TranslationTests(unittest.TestCase):
     def test_blank_is_not_zero_or_failed_query(self):
         self.assertNotEqual(t._quantity({'state': 'BLANK'}, {'state': 'EXACT'}), t._quantity({'state': 'NUMBER', 'value': '0'}, {'state': 'EXACT'}))
         with self.assertRaises(ValueError): t._quantity(None, {'state': 'EXACT'})
+
+    def test_service_reuses_verified_sample_without_model_or_data_calls(self):
+        from investigator.translation_service import run
+        receipt = self.run_case('MEASURE', cross=True)
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = t.Ledger(Path(directory) / 'translation.jsonl'); ledger.append(receipt)
+            model = Mock(); execute = Mock()
+            result = run(self.request, proposer=model, model_call=Mock(), ledger=ledger,
+                cells=receipt['cells'], compiler=Mock(), execute=execute, budget=Mock(), cross_boundary=True)
+            self.assertEqual(result['source'], 'REUSED_VERIFICATION')
+            model.propose.assert_not_called(); execute.assert_not_called()
+
+    def test_service_preserves_falsification_without_asking_until_it_matches(self):
+        from investigator.translation_service import run
+        receipt = self.run_case(wrong=True)
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = t.Ledger(Path(directory) / 'translation.jsonl'); ledger.append(receipt)
+            model = Mock(); execute = Mock()
+            result = run(self.request, proposer=model, model_call=Mock(), ledger=ledger,
+                cells=[None], compiler=Mock(), execute=execute, budget=Mock())
+            self.assertEqual(result['source'], 'PRESERVED_FALSIFICATION')
+            model.propose.assert_not_called(); execute.assert_not_called()
+
+    def test_provider_input_excludes_verification_answers_and_keeps_consumer_vocabulary(self):
+        from investigator.adapters.translation_model import Provider, wire_schema
+        request, proposal = case(); proof = self.binding(request)
+        request['metadata']['key_binding'] = proof
+        generate = Mock(return_value=(proposal, {'usage': {'input_tokens': 12}}))
+        provider = Provider(options={}, generate=generate)
+        self.assertEqual(provider.propose(request, t.SCHEMA), proposal)
+        payload, schema, options = generate.call_args.args
+        self.assertNotIn('available_cells', payload)
+        self.assertNotIn('key_binding', payload['metadata'])
+        self.assertEqual(payload['metadata']['key_binding_declaration'], proof['declaration'])
+        self.assertNotIn('observations', str(payload))
+        self.assertEqual(schema, t.SCHEMA)
+        self.assertEqual(wire_schema(schema)['properties']['kind']['enum'], schema['properties']['kind']['enum'])
+        # Only provider-unsupported validation keywords disappear, never fields,
+        # requiredness or closed-object rules.
+        self.assertEqual(wire_schema(schema)['required'], schema['required'])
+        self.assertFalse(wire_schema(schema)['additionalProperties'])
+
+    def test_translation_meter_admits_and_settles_failures_with_original_usage(self):
+        from investigator.translation_budget import Meter
+        from investigator.adapters.translation_model import Provider
+        from contextlib import nullcontext
+        from unittest.mock import patch
+        provider = Provider(options={}); governor = Mock()
+        governor.runtime.db.side_effect = lambda: nullcontext(Mock())
+        events = []
+        meter = Meter(provider, governor=governor, session_id='synthetic', deadline=1000,
+            max_calls=1, max_input=10000, event=lambda *event: events.append(event),
+            context_version='synthetic', clock=lambda: 0)
+        request, proposal = case()
+        with patch('investigator.translation_budget.recording', side_effect=lambda _: nullcontext()):
+            def failed():
+                from investigator.generation_policy import ProviderResponseError
+                raise ProviderResponseError('OUTPUT_TOKEN_LIMIT', {'output_tokens': 1500})
+            with self.assertRaises(ValueError): meter(request, failed)
+        self.assertEqual(meter.calls, 1)
+        self.assertEqual(governor.settle.call_args.args[3], {'output_tokens': 1500})
+        self.assertFalse(governor.settle.call_args.kwargs['uncertain'])
+        from investigator.usage_governance import UsageHold
+        with self.assertRaises(UsageHold): meter(request, Mock())
+        self.assertEqual(governor.reserve.call_count, 1)
 
 
 if __name__ == '__main__': unittest.main()

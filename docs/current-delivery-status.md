@@ -6,9 +6,11 @@ Updated 2026-10-06 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 **Round Nine offline translation checkpoint.** A default-unused closed proposal
 contract, bounded verifier and sealed translation ledger are under development.
-Twenty-four synthetic tests pass with zero estate/provider requests. Live adapter
-integration and row-key binding evidence remain pending; existing sampled lineage
-proofs do not establish a row-key map. No restriction refusal was weakened, no
+Thirty-two synthetic tests pass with zero estate/provider requests. Complete-key
+binding witnesses, a consumer-derived provider wire, metered reservations and
+cell-specific cache orchestration now exist offline. Live native compilation and
+runtime integration remain pending; sampled lineage proofs still do not establish
+a row-key map. No restriction refusal was weakened, no
 translation capability enabled, and no live trial occurred. Evals, tracing,
 governance, rebuild and demo work remain pending. Full regression and replay results
 remain pending. The initial 2,076-test sweep failed on an unstable working-tree

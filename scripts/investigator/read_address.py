@@ -21,6 +21,9 @@ def validate(address,measure_id=None):
     elif address.get('kind')=='BINDING_SAMPLE':
         from .binding_sample import validate_address
         validate_address(address)
+    elif address.get('kind') in ('TRANSLATION','KEY_BINDING'):
+        from .translation_address import validate as validate_address
+        validate_address(address)
     elif address.get('kind')=='BASELINE' and set(address)=={'kind','restrictions'}:
         from .onboarding import encoded
         if (not isinstance(address['restrictions'],list)

@@ -1,8 +1,9 @@
 # Self-Discovering Enterprise Data Investigator
 
-Round Nine's translation contract/verifier is an offline draft with 24 synthetic
-tests; it is not enabled in investigations or live-verified. Adapter integration,
-key-binding evidence, evals and governance additions remain pending. See the
+Round Nine's translation contract/verifier is an offline draft with 32 synthetic
+tests, complete-key binding witnesses, a governed provider wire and cell-specific
+cache orchestration; it is not enabled in investigations or live-verified. Native
+adapter integration, evals and governance additions remain pending. See the
 [Round Nine checkpoint](docs/round-nine-translation-evals-governance.md).
 
 Turn a disputed dashboard number into evidence-backed root cause — or an explicit statement of what cannot be proven — without giving an AI write access to production.
