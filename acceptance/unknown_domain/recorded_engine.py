@@ -15,7 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def replay_revision(path, output, revision):
+def replay_revision(path, output, revision, *, estate_manifest=None):
     if not isinstance(revision, str) or not re.fullmatch('[0-9a-f]{40}', revision):
         raise ValueError('Replay revision must be an immutable Git commit')
     accounting_version=2 if subprocess.run(['git','merge-base','--is-ancestor','7abaabf37812b58cc74b684de9cafc172212c1ad',revision],cwd=ROOT,capture_output=True).returncode==0 else 1
@@ -44,8 +44,12 @@ try:
  provider_spec=importlib.util.spec_from_file_location('provider_tape_contract',sys.argv[6])
  provider_contract=importlib.util.module_from_spec(provider_spec);provider_spec.loader.exec_module(provider_contract)
  contract.install(journal,provider_equal=provider_contract.equal)
- from process_replay import replay
- result=replay(sys.argv[1],sys.argv[2],allow_engine_drift=True)
+ import process_replay
+ lineage_spec=importlib.util.spec_from_file_location('lineage_replay',sys.argv[7])
+ lineage=importlib.util.module_from_spec(lineage_spec);lineage_spec.loader.exec_module(lineage)
+ tape=journal.Tape(sys.argv[1])
+ with lineage.install(process_replay,tape,sys.argv[8] or None):
+  result=process_replay.replay(sys.argv[1],sys.argv[2],allow_engine_drift=True)
  result['replay_engine_revision']=sys.argv[3]
  Path(sys.argv[4]).write_text(json.dumps({'result':result}))
 except Exception as exc:
@@ -54,7 +58,8 @@ except Exception as exc:
 """, encoding='utf-8')
         answer = root / 'answer.json'
         done = subprocess.run([sys.executable, str(driver), str(Path(path).resolve()),
-            str(Path(output).resolve()), revision, str(answer), str(ROOT/'scripts/investigator/budget_tape_contract.py'), str(ROOT/'scripts/investigator/provider_tape_contract.py')], cwd=ROOT, capture_output=True, text=True, timeout=900)
+            str(Path(output).resolve()), revision, str(answer), str(ROOT/'scripts/investigator/budget_tape_contract.py'), str(ROOT/'scripts/investigator/provider_tape_contract.py'),
+            str(ROOT/'acceptance/unknown_domain/lineage_replay.py'),str(Path(estate_manifest).resolve()) if estate_manifest is not None else ''], cwd=ROOT, capture_output=True, text=True, timeout=900)
         if not answer.exists():raise ValueError('Pinned replay worker failed without response: ' + str(done.returncode))
         value = json.loads(answer.read_text())
         if 'result' not in value:

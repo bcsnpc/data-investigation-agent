@@ -1,0 +1,24 @@
+You asked: Inventory Health e1b8e1 Extended Value seems overstated. Investigate the current total, the upstream data and available transformation definitions to identify a supported explanation.
+Answer to your question: Partly answered.
+Regarding the requested comparison: The compared path agreed through the named checked depth; the application beyond it was not read, so the remaining question belongs to the application owner.
+What the investigation established:
+
+Measure: Extended Value.
+B1 agrees: L1 (movement values in warehouse gold e1b8e1; role SERVING, upstream input) 57,043 -> L0 (Activity in Warehouse Operations e1b8e1; role SEMANTIC, downstream output) 57,043.
+ENGINE_INDEPENDENT: comparable quantity-bound engine self-reports differ; this is an engine-independent cross-surface comparison. (receipt boundary-1-comparison).
+Declared-context reproduction unavailable: Declared-context reproduction is undeclared for question kind FIGURE_DIFFERENCE.
+
+The displayed record contains a comparison between L1 (SERVING) and L0 (SEMANTIC), and it records equal quantity across that pair. No retained operation definition is displayed beyond that comparison.
+
+Layers:
+L0 - Activity in Warehouse Operations e1b8e1; role SEMANTIC: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity
+L1 - movement values in warehouse gold e1b8e1; role SERVING: fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values
+
+Limits:
+- Unattested connection on L0 (receipt c7a5705c-1cad-45e5-97c0-d32a4a980da1).
+- Unattested connection on L1 (receipt c64ed6d6-5c93-46d8-a1ab-ec910b8b2d08).
+- SNAPSHOT_UNVERIFIED for B1: the reads cannot be tied to matching data versions; agreement does not prove currency, and different update timing was not excluded as a cause of divergence.
+- Checked through L1; stopped because no lineage.
+- Unchecked L1 -> unresolved upstream: No declared upstream read for this quantity (literal initialization or derived/unsupported column).
+
+Recommended action: Ask the owner of the unchecked part of the process to investigate the remaining gap.

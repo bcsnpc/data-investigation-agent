@@ -1,0 +1,15 @@
+You asked: Warehouse Performance e1b8e1 Inbound Quantity and Outbound Quantity are different. Explain whether the current observed difference follows their definitions, and state what business intent remains unknown.
+Answer to your question: Not answered.
+Regarding business meaning and intended treatment: Technical flow evidence cannot establish authoritative business meaning; the remaining question requires a domain specialist.
+What was found instead:
+
+Measure: Inbound Quantity.
+No independently compared boundary was established.
+Declared-context reproduction unavailable: Declared-context reproduction is undeclared for question kind BUSINESS_MEANING.
+
+The recorded logic maps the measure through Activity and relies on a partition source label for that table. For the cited label, the retained record has no stable discovered asset binding, so the compilation step for a lower-layer quantity under the declared scope does not proceed.
+
+Limits:
+- Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity; stopped because capability unavailable.
+
+Recommended action: Ask the responsible owner to review the recorded missing evidence and next step.

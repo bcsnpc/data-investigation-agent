@@ -1,0 +1,6 @@
+You asked: Inventory Health e1b8e1 Extended Value seems overstated. Investigate the current total, the upstream data and available transformation definitions to identify a supported explanation.
+Answer to your question: Partly answered.
+Regarding the requested comparison: The compared path agreed through the named checked depth; the application beyond it was not read, so the remaining question belongs to the application owner.
+What the investigation established:
+
+The checked reported calculation value was 57,043. A separate check of the serving data agreed. This rules out a difference at that checked boundary, but does not prove the original records are correct. The original entries, unchecked selections, update timing and intended business rules remain outside what these comparisons establish. For the reported calculation and the serving data, the two checks used different calculation engines. Recommended action: Ask the owner of the unchecked part of the process to investigate the remaining gap.

@@ -1,0 +1,6 @@
+You asked: Warehouse Performance e1b8e1 Inbound Quantity and Outbound Quantity are different. Explain whether the current observed difference follows their definitions, and state what business intent remains unknown.
+Answer to your question: Not answered.
+Regarding business meaning and intended treatment: Technical flow evidence cannot establish authoritative business meaning; the remaining question requires a domain specialist.
+What was found instead:
+
+The checked declared layer value was 6,425. The available evidence did not establish a boundary comparison with the total used to prepare the report. A difference between the report and its input therefore remains possible. The original entries, unchecked selections, update timing and intended business rules remain outside what these comparisons establish. Recommended action: Ask the responsible owner to review the recorded missing evidence and next step.
