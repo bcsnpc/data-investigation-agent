@@ -12,14 +12,20 @@ from ..transformation_service import run_unit
 
 
 class Controller:
-    def __init__(self,manifest,path,root,*,meter,route_factory,git_fetch=None,item_fetch=None):
+    def __init__(self,manifest,path,root,*,meter,route_factory,git_fetch=None,item_fetch=None,lineage_proposer=None,proposal_record=None):
         self.manifest=copy.deepcopy(manifest);self.path=Path(path);self.root=Path(root)
         self.meter=meter;self.route_factory=route_factory
         self.git_fetch=git_fetch;self.item_fetch=item_fetch
+        self.lineage_proposer=lineage_proposer;self.proposal_record=proposal_record
         self.ledger=Ledger(self.path.with_suffix('.lineage.jsonl'))
         self.destination=self.path.with_suffix('.lineage-approval.json')
 
     def approve(self,samples):
+        from ..lineage_proposer import at_approval
+        if self.manifest.get('lineage_proposer',False):
+            if self.lineage_proposer is None or self.proposal_record is None:
+                raise ValueError('Enabled lineage proposer requires an explicit approval transport and recorder')
+            at_approval(self.manifest,self.lineage_proposer,self.proposal_record)
         # Each declaration may resolve to its own physical connection, but all
         # executions go through the same consumer verifier and approval gate.
         routes={}

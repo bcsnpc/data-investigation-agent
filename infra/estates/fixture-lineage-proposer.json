@@ -571,6 +571,6 @@
       ]
     }
   ],
-  "lineage_proposer": false,
+  "lineage_proposer": true,
   "assistant_proposer": false
 }

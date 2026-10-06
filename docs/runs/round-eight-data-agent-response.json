@@ -1,0 +1,6 @@
+{
+  "requestId": "24e1f331-0bd3-4415-af4e-65742dbfc5ea",
+  "errorCode": "InvalidDefinitionFormat",
+  "message": "Requested item definition format is invalid",
+  "isRetriable": false
+}

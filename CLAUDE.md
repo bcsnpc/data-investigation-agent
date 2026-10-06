@@ -608,3 +608,18 @@ encrypted and published as `known-domain-tapes-1b6d344c8072d8a9e47e4957efeac7ffd
 secret. No estate credential or reader scope changed. Earlier condition/findings
 remain historical. Hosted check/merge pending; no fake CI pass. RoundSix0/400,
 reserve60, rolling386/1500. See docs/round-six-transformation-reader.md.
+
+
+### Dated platform proposer limits — 2026-10-06
+
+Round Eight's investigator-reader item-relations beta request returned HTTP200,
+but emitted undocumented relation `Association` and native item types Model /
+SqlAnalyticsEndpoint. The adapter refused the unknown kind; graph checks are not
+completed. This API is item-rooted, not workspace-wide, and both fixtures declare
+the same workspace. No new binding or writer follows from that response.
+The existing Contributor code principal's single Data Agent create request, with
+documented JSON definition parts, returned HTTP400 InvalidDefinitionFormat:
+"Requested item definition format is invalid", request24e1f331-0bd3-4415-af4e-65742dbfc5ea.
+No item ID returned and no read grant applied. This tests the submitted definition
+shape, not service-principal support or capacity eligibility. Both proposer flags
+default off; assistant answers are never evidence. See the Round Eight delivery record.

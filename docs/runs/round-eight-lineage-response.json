@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "id": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+      "type": "Model",
+      "displayName": "Warehouse Operations e1b8e1",
+      "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+    },
+    {
+      "id": "77c49180-2ef9-4558-837c-f50fdb1df8de",
+      "type": "SqlAnalyticsEndpoint",
+      "displayName": "warehouse_gold_e1b8e1",
+      "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+    },
+    {
+      "id": "b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "type": "Lakehouse",
+      "displayName": "warehouse_gold_e1b8e1",
+      "workspaceId": "149f8d99-1c66-4a0a-9624-759be002bb60"
+    }
+  ],
+  "relations": [
+    {
+      "itemId": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+      "dependentOnItemId": "77c49180-2ef9-4558-837c-f50fdb1df8de",
+      "relationType": "Association"
+    },
+    {
+      "itemId": "77c49180-2ef9-4558-837c-f50fdb1df8de",
+      "dependentOnItemId": "b0ab76f7-20c7-410e-90e4-2c4eb104059a",
+      "relationType": "CascadeDelete"
+    }
+  ],
+  "workspaces": [
+    {
+      "displayName": "investigator-fixture-83139e71cbdf6a50",
+      "id": "149f8d99-1c66-4a0a-9624-759be002bb60"
+    }
+  ]
+}
