@@ -1,6 +1,6 @@
 # Self-Discovering Enterprise Data Investigator
 
-Round Nine's translation contract/verifier is an offline draft with 22 synthetic
+Round Nine's translation contract/verifier is an offline draft with 24 synthetic
 tests; it is not enabled in investigations or live-verified. Adapter integration,
 key-binding evidence, evals and governance additions remain pending. See the
 [Round Nine checkpoint](docs/round-nine-translation-evals-governance.md).

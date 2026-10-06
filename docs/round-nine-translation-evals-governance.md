@@ -36,7 +36,7 @@ verdicts. Cache reuse is definition/context/metadata/scope/time/cell specific;
 changes expose STALE without editing history. A later failed reverification
 prevents reuse of the earlier successful entry for that cell.
 
-Twenty-two focused tests pass with SQLite in memory and synthetic query-bound
+Twenty-four focused tests pass with SQLite in memory and synthetic query-bound
 receipts; zero estate/network/provider requests. Independent native definitions
 and deliberately wrong candidates cover Top-N, a pinned date window and an
 ALL-like measure across three retained cells. These test the verifier and

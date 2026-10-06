@@ -21,6 +21,7 @@ def case(kind='FILTER', relative=False):
                'target_engine': 'sqlite', 'grouping': [], 'relative': relative,
                'evaluation_timestamp': '2026-10-06T15:00:00-05:00' if relative else None,
                'context': 'synthetic', 'available_cells': cells, 'precision': {'state': 'EXACT'},
+               'scope': {'restrictions': []},
                'metadata': {'objects': {'items': 'TABLE'}, 'normalization': {'encoding': 'typed-json-utf8', 'case_fold': False, 'trim': False}}}
     proposal = {k: copy.deepcopy(request[k]) for k in ('kind', 'definition_hash', 'target_engine', 'grouping', 'evaluation_timestamp')}
     proposal.update(objects=[{'id': 'items', 'kind': 'TABLE'}], expression='k in (2,3)' if not relative else "day >= '2026-10-01' and day <= '2026-10-06'")
@@ -201,6 +202,23 @@ class TranslationTests(unittest.TestCase):
         r = t.verify(p, request, cells=[None], compiler=Mock(side_effect=NotImplementedError('Unsupported native expression')),
                      execute=execute, budget=Mock())
         self.assertEqual(r['status'], 'UNVERIFIED'); execute.assert_not_called()
+
+    def test_scope_is_required_and_different_scope_cannot_reuse_verification(self):
+        r = self.run_case()
+        missing = copy.deepcopy(self.request); missing.pop('scope')
+        with self.assertRaisesRegex(ValueError, 'explicit declared scope'): t.validate(self.proposal, missing)
+        with tempfile.TemporaryDirectory() as d:
+            ledger = t.Ledger(Path(d)/'translations.jsonl'); ledger.append(r)
+            different = copy.deepcopy(self.request); different['scope'] = {'restrictions': ['other-filter']}
+            self.assertIsNone(ledger.reusable(different))
+
+    def test_new_cell_reuses_proposal_without_reusing_verification(self):
+        r = self.run_case('MEASURE', cross=True)
+        with tempfile.TemporaryDirectory() as d:
+            ledger = t.Ledger(Path(d)/'translations.jsonl'); ledger.append(r)
+            request = copy.deepcopy(self.request); request['available_cells'] = request['available_cells'][3:]
+            self.assertEqual(ledger.candidate(request), self.proposal)
+            self.assertIsNone(ledger.reusable(request, request['available_cells'][0]))
 
     def test_blank_is_not_zero_or_failed_query(self):
         self.assertNotEqual(t._quantity({'state': 'BLANK'}, {'state': 'EXACT'}), t._quantity({'state': 'NUMBER', 'value': '0'}, {'state': 'EXACT'}))

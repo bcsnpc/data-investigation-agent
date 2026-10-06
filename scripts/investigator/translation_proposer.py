@@ -42,6 +42,8 @@ def timestamp(value):
 
 def validate(proposal, request):
     Draft202012Validator(SCHEMA).validate(proposal)
+    if not isinstance(request.get('scope'), dict):
+        raise ValueError('Translation requires explicit declared scope; absence is not empty scope')
     for key in ('kind', 'definition_hash', 'target_engine', 'grouping'):
         if proposal[key] != request[key]: raise ValueError('Translation differs from requested ' + key)
     if proposal['definition_hash'] != seal(request['definition']):
@@ -244,11 +246,20 @@ class Ledger:
             if row['event'] != 'TRANSLATION_VERIFICATION' or seal(receipt) != row['sha256']:
                 raise ValueError('Translation ledger integrity differs')
             if receipt['status'] in ('VERIFIED', 'FALSIFIED'): revalidate(receipt)
-            result.append({**receipt, 'status': receipt['status'] if receipt['request'] == request else 'STALE'})
+            identity = lambda r: {k: v for k, v in r.items() if k != 'available_cells'}
+            result.append({**receipt, 'status': receipt['status'] if identity(receipt['request']) == identity(request) else 'STALE'})
         return result
 
     def reusable(self, request, cell=None):
         for receipt in reversed(self.view(request)):
+            if receipt['status'] == 'FALSIFIED': return None
             if receipt['status'] != 'STALE' and cell in receipt['cells']:
                 return receipt if receipt['status'] == 'VERIFIED' else None
+        return None
+
+    def candidate(self, request):
+        """A fresh existing proposal may be reverified at a new cell, not reasked."""
+        for receipt in reversed(self.view(request)):
+            if receipt['status'] == 'STALE': continue
+            return copy.deepcopy(receipt['proposal']) if receipt['status'] == 'VERIFIED' else None
         return None

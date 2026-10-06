@@ -6,7 +6,7 @@ Updated 2026-10-06 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 **Round Nine offline translation checkpoint.** A default-unused closed proposal
 contract, bounded verifier and sealed translation ledger are under development.
-Twenty-two synthetic tests pass with zero estate/provider requests. Live adapter
+Twenty-four synthetic tests pass with zero estate/provider requests. Live adapter
 integration and row-key binding evidence remain pending; existing sampled lineage
 proofs do not establish a row-key map. No restriction refusal was weakened, no
 translation capability enabled, and no live trial occurred. Evals, tracing,
