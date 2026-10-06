@@ -4,6 +4,20 @@ Updated 2026-10-06 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 ## Current milestone
 
+**Round Eight closing checkpoint, 2026-10-06.** README commitments/positioning,
+latency mechanism rendering and neutrality83→76 delivered. Final engine2057
+regressions and hosted archived15/15 + inferred15/15 passed with flags off, zero
+reads. Opt-in proposer interfaces/stubs exist; reader lineage HTTP200 refused an
+undocumented relation, Data Agent setup HTTP400 refused its definition format.
+No assistant benchmark/discovery role or blind-estate run claimed. Exact failures,
+graph and request retained. #417/#418 merged; #419 carries closing record and its
+final checks. Pot7/300,60untouched reserve, rolling363/1500 at closing,
+diagnostic0/modelcalls0, investigation cap12 unchanged. Licence deferred; prior
+freezes invalid. [Closing evidence](round-eight-research-and-proposers.md).
+
+### Earlier Round Eight checkpoints — retained history
+
+
 **Round Eight platform checkpoint, 2026-10-06.** Default-off lineage and assistant
 proposal contracts implemented;2057 integrated regression tests passed. Reader
 relations returned HTTP200 but an unsupported `Association` kind blocked graph

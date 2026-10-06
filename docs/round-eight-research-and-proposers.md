@@ -1,6 +1,6 @@
 # Round Eight research and proposers
 
-2026-10-06 America/Chicago. Work in progress, starting from merged main `ef5dbf1`.
+2026-10-06 America/Chicago. Closing record, starting from merged main `ef5dbf1`.
 Final-main hosted checks 37422076073 (acceptance) and 37422075850 (validation)
 succeeded. This remains known-domain historical-producer replay, not blind-estate acceptance.
 
@@ -16,7 +16,7 @@ the last successful load preceded the observed source change. The invalid provid
 paragraph remains rejected and separately recorded. No role-validation weakening,
 new inference, outcome change, clipping, or alteration of the original run/tape.
 The regression includes the exact recorded response and original-row/audit validation.
-Current offline re-composition and the thirty-row replay remain pending.
+Offline re-composition passed with the original assessment unchanged and the new rendered mechanism. Source tape SHA-256 `aa4b0d3c378266ab797f21e78a49b9a4fdde8f20fa35dd2a7d762bd37459954e`; zero reads. Its separate ledger row preserves the retrospective composition; originals unchanged. The final-engine hosted thirty-row gate passed, as recorded below.
 
 Neutrality measured 83 before, 76 after. Seven legacy workspace/reader and URI-root
 decodings moved behind `adapters/native_scope.py`; the original scope refusals,
@@ -24,13 +24,11 @@ absence behaviour and identity checks remain. This is an adapter boundary extrac
 not moving whole mixed engine modules to conceal debt. The sealed historical ceiling
 is unchanged; the current allowance shrinks. Remaining debt is listed below.
 Twenty-eight focused narrative, scope/ratchet and unchanged projection-golden tests
-passed. Full regression/hosted checks are pending. Engine changes invalidate prior freezes.
+passed. The offline engine passed2046 full tests; the final proposer engine passed2057 full tests and the hosted15×2 gate. Engine changes invalidate prior freezes.
 
-## Remaining work
+## Initial preparation checkpoint — superseded below
 
-Lineage/assistant interfaces, default-off manifest flags, recorded platform requests,
-the assistant experiment and blind-estate design remain pending. No Data Agent was
-created, no grant attempted, no investigation or estate read performed in this worktree.
+At initial preparation, lineage/assistant interfaces, flags, platform requests and blind-estate design were pending. No estate request or grant had then occurred. Sections4–6 below replace that checkpoint; the two unsuccessful platform trials remain preserved.
 
 ## DECIDED WITHOUT REVIEW
 
@@ -81,8 +79,7 @@ directly and no assistant answer enters an evidence receipt.
 ## Dated delivery record
 
 Licence deferred by explicit owner decision; no licence, copyright or contribution text changed.
-README positioning and commitment measurements updated. Offline corrections above
-are provisional until full validation. Budget preparation and platform sections pending.
+README positioning and commitment measurements updated. Offline corrections and closed proposer interfaces are validated; platform trials and their limitations are recorded below. No assistant benchmark or blind-estate run is claimed.
 
 ## Residual neutrality inventory
 
@@ -206,3 +203,37 @@ definition format. Seven physical controls total, diagnostic0, model calls0;
 pot7/300 with60 untouched reserve, rolling363/1500 at the final control.
 Licence remains deferred. No scope, identity, data, schedule, tenant setting or
 capacity changed. Prior engine freezes invalid; no unfamiliar-domain pass claimed.
+
+## Closing validation and delivery — 2026-10-06T19:38:32.871474+00:00
+
+Final engine `c978e84886a831cbbfe6c899753294d8a4d9e3f0` passed2057 local regression tests and all seven PR checks.
+Hosted [run 37517346358](https://github.com/bcsnpc/data-investigation-agent/actions/runs/37517346358):
+archived15/15 + inferred15/15, network0/physical0, with both optional flags off.
+Sealed manifests without these new flags use the same false defaults; their bytes
+were not edited. This is historical-producer replay/current output-contract grading,
+not an unfamiliar-domain pass or proof of current-planner generality.
+The isolated-layer refinement and exact unsupported live-kind refusal are tested.
+Projection goldens passed: directory2→2, SQLobjects1→1, payload7563→7563 characters
+for the representative fixture view; no added planner context or lost coverage.
+
+PR#417 merged407df9281bde7fcb8dc183906b2619ff01f7e414; design-only
+PR#418 merged8fa736d8399012345c2ffdf1927cab93ab6887d5. PR#419 contains the
+proposer work, exact platform request/response records, append-only controls and
+this closing documentation; final-head CI is tracked there. No fixture mutation,
+new secret, permission/scope, capacity or tenant-setting change. Licence deferred.
+
+Budget decision: round300/reserve60 starts2026-10-06T18:43:13.415416Z;
+manifest ad6236486ab9d073cf13e92fe66953d48140001f0669f06774751efbb69cee98,
+whole config fc7bde0575f280355cfb500bf7bd180eee6a27cca03ba616701ed8439e8bf396.
+Round Seven remains64; no reset/refund. Round Eight7/300, all controls,
+diagnostic0/modelcalls0; reserve0/60 spent. Rolling363/1500 at closing;
+ordinary natural expiry explains differences from prior samples. Investigation
+diagnostic cap12 unchanged. Unused earmarked restoration credits expire at
+2026-10-07T00:43:13.415416Z and cannot spill to another session. Final replays use0.
+The current configuration/principal scope is not narrowed to avoid approvals.
+
+Remaining findings: undocumented beta relation blocks interpreted lineage checks;
+submitted Data Agent definition format refused, so the nine-family experiment and
+conditional thin-lineage role are unearned. Neutrality remains76 matches/12 modules.
+Content-hash freshness remains deferred. Blind-estate acceptance is designed, never
+run; no engine freeze or unseen domain introduced. All earlier failed runs remain.
