@@ -9,6 +9,7 @@ from .workspace import DYNAMIC_READ_BOUNDS, DYNAMIC_INPUT_BOUNDS
 from .estate_limits import STATEMENT_BOUND
 from .code_sources import CODE_SOURCE_SCHEMA, validate_sources as validate_code_inventory
 from .binding_sample import SAMPLE_SCHEMA
+from .string_semantics import SCHEMA as STRING_SEMANTICS
 
 
 def obj(properties, optional=()):
@@ -36,8 +37,9 @@ SCHEMA=obj({
     'layers':array(obj({'id':STRING,'asset_id':STRING,'role':enum(ROLES),
         'business_name':{'type':'string','minLength':1,'maxLength':80},
         'reachable':BOOL,'reach':REFERENCE,'serverless':BOOL,
-        'worker_timeout_seconds':integer(30,600),'comparison_normalization':NORMALIZATION},
-        optional=('serverless','worker_timeout_seconds','comparison_normalization'))),
+        'worker_timeout_seconds':integer(30,600),'comparison_normalization':NORMALIZATION,
+        'string_semantics':STRING_SEMANTICS},
+        optional=('serverless','worker_timeout_seconds','comparison_normalization','string_semantics'))),
     'resources':array(RESOURCE),
     'identities':array(obj({'id':STRING,'principal':STRING,'credential_reference':STRING,
         'scopes':array(SCOPE)})),
@@ -96,6 +98,9 @@ def validate(value):
             result[row['id']]=row
         return result
     layers=indexed('layers');resources=indexed('resources');adapters=indexed('adapters');identities=indexed('identities')
+    from .string_semantics import validate as validate_string_semantics
+    for layer in layers.values():
+        if 'string_semantics' in layer:validate_string_semantics(layer['string_semantics'])
     indexed('pipelines')
     if 'fixture_states' in value:indexed('fixture_states')
     from .layer_roles import declarations as roles

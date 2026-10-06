@@ -2,6 +2,7 @@
 import re
 from decimal import Decimal, ROUND_HALF_EVEN, localcontext
 from .proposal_limits import INTAKE_QUOTE
+from .intake_statement_registry import empty_matches
 CANDIDATE_LIMIT=8
 
 
@@ -19,10 +20,13 @@ SCHEMA={'anyOf':[
     {'type':'object','additionalProperties':False,'properties':{'state':{'type':'string','enum':['NUMBER']},
         'value':{'type':'string','minLength':1,'maxLength':128},'source':SPAN_SCHEMA,'precision':PRECISION_SCHEMA},
         'required':['state','value','source','precision']}]}
+for _variant in SCHEMA['anyOf'][1:]:
+    _variant['properties']['supporting_sources']={'type':'array','minItems':1,
+        'maxItems':CANDIDATE_LIMIT-1,'items':SPAN_SCHEMA}
 
 
 class AmbiguousFigure(ValueError):
-    """Interpretation named more than one candidate; none may be selected."""
+    """Different resolved values, never merely different wording."""
 
 
 class UnavailablePrecision(ValueError):
@@ -65,11 +69,19 @@ def validate(value, ticket=None):
     if not isinstance(value,dict): raise ValueError('Reported figure requires an explicit state')
     state=value.get('state')
     expected={variant['properties']['state']['enum'][0]:set(variant['required']) for variant in SCHEMA['anyOf']}
-    if state not in expected or set(value)!=expected[state]:raise ValueError('Malformed reported figure state')
+    fields=set(value)-({'supporting_sources'} if state in ('EMPTY','NUMBER') else set())
+    if state not in expected or fields!=expected[state]:raise ValueError('Malformed reported figure state')
     if state=='UNSPECIFIED':return value
+    if 'supporting_sources' in value:
+        supporting=value['supporting_sources']
+        if not isinstance(supporting,list) or not 1<=len(supporting)<CANDIDATE_LIMIT:
+            raise ValueError('Reported supporting spans exceed the consumer bound')
+        resolved=_resolve([value['source'],*supporting],ticket)
+        if resolved!=value:raise ValueError('Reported value, precision or primary span differs from supporting evidence')
+        return value
     quote=span(value['source'],ticket)
     if state=='EMPTY':
-        if not re.search(r'\b(empty|blank|no data|no rows|nothing shown)\b',quote,re.I):
+        if not empty_matches(quote):
             raise ValueError('Empty reported state lacks explicit ticket provenance')
     else:
         number,precision=stated(quote)
@@ -79,17 +91,46 @@ def validate(value, ticket=None):
 
 
 def from_candidates(candidates,ticket):
-    """Interpretation supplies candidate spans; ambiguity is never selected away."""
+    """Resolve all supplied spans before deciding whether values are ambiguous."""
     if not isinstance(candidates,list):raise ValueError('Reported candidates require a list')
     if len(candidates)>CANDIDATE_LIMIT:raise ValueError('Reported candidates exceed the consumer bound')
-    for source in candidates:span(source,ticket)
-    if len(candidates)>1:raise AmbiguousFigure('Ambiguous reported figure: more than one plausible ticket span')
     if not candidates:return {'state':'UNSPECIFIED'}
-    source=candidates[0]; quote=span(source,ticket)
-    if re.search(r'\b(empty|blank|no data|no rows|nothing shown)\b',quote,re.I):
-        return validate({'state':'EMPTY','source':source},ticket)
-    number,precision=stated(quote)
-    return validate({'state':'NUMBER','source':source,'value':number,'precision':precision},ticket)
+    return validate(_resolve(candidates,ticket),ticket)
+
+
+def _resolve(candidates,ticket):
+    groups={}
+    for source in candidates:span(source,ticket)
+    for source in sorted(candidates,key=lambda s:(s['start'],s['end'])):
+        quote=span(source,ticket)
+        if empty_matches(quote):key=('EMPTY',);number=precision=None
+        else:
+            number,precision=stated(quote);key=('NUMBER',Decimal(number))
+        rows=groups.setdefault(key,[])
+        if not any(r[0]==source for r in rows):rows.append((source,number,precision))
+    if len(groups)>1:
+        raise AmbiguousFigure('Ambiguous reported figure: more than one resolved value requires clarification: '+
+            '; '.join(('EMPTY' if key[0]=='EMPTY' else str(key[1]))+' from '+repr(rows[0][0]['quote'])
+                      for key,rows in groups.items()))
+    key,rows=next(iter(groups.items()));source,number,precision=rows[0]
+    result={'state':key[0],'source':source}
+    if key[0]=='NUMBER':
+        if any(r[2]!=precision for r in rows[1:]):
+            # Equal values with different digit presentations use the coarser
+            # recorded place. Different numeric values NEVER collapse by rounding.
+            places=[r[2]['place'] if r[2]['state']=='STATED_PLACE' else Decimal(r[1]).as_tuple().exponent for r in rows]
+            precision={'state':'STATED_PLACE','place':max(places)}
+        result.update(value=number,precision=precision)
+    if len(rows)>1:result['supporting_sources']=[r[0] for r in rows[1:]]
+    return result
+
+
+def provenance(reported):
+    """Engine-rendered original wording, including every supporting span."""
+    validate(reported)
+    if reported['state']=='UNSPECIFIED':return ''
+    sources=[reported['source'],*reported.get('supporting_sources',[])]
+    return 'What the ticket said: '+ '; '.join(repr(s['quote']) for s in sources)+'.'
 
 
 def label(reported, measured):

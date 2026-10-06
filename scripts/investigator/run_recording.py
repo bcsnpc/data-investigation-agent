@@ -27,6 +27,10 @@ def operation(name):
         @wraps(method)
         def invoke(owner,*args,**kwargs):
             agent=agent_of(owner)
+            workspace=getattr(agent,'_acceptance_workspace',None)
+            if workspace is not None:
+                from .acceptance_context import assert_run_context
+                assert_run_context(workspace)
             if journal.ACTIVE.get() is not None:
                 # The replay driver supplies the same outer operation events.
                 return method(owner,*args,**kwargs)

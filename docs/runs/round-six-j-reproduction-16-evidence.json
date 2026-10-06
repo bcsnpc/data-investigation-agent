@@ -1,0 +1,756 @@
+{
+  "case": "reproduction-16",
+  "fixture_state": {
+    "name": "report-15sep",
+    "definition_hash": "f6a06d75fb1f43150eb3a174d1cdc4cc9d870b36d9c2cb95e3df6acddaf38312",
+    "context": {
+      "context_id": "e920dda4-d5c8-4a95-b9e9-a600386ae3d5",
+      "hash": "baf3044545048d410b602ed8bec138e878d7d61da32490b364e42891db2beb2a"
+    },
+    "approval_reference": "Round Six H explicitly authorized retained report-15sep fixture state; unchanged seeded data and predicates; preserve original context and hash, no recollection or proof migration."
+  },
+  "session_id": "51b746dc-4810-423c-b293-2cbd79ce5e63",
+  "tape_id": "a6e8ddf1-a142-41fb-a5b7-c41b75203ddc",
+  "tape_sha256": "7029b283d60b266d510ac5d026cc3916b65e36bea423546b8d16be2da470964d",
+  "reported_figure": {
+    "state": "NUMBER",
+    "source": {
+      "start": 130,
+      "end": 160,
+      "quote": "Handled Quantity as exactly 16"
+    },
+    "value": "16",
+    "precision": {
+      "state": "EXACT"
+    }
+  },
+  "accounting": {
+    "date": "2026-10-06T03:19:06.613203+00:00",
+    "experiment": "ROUND_SIX_J_reproduction-16",
+    "family": "reproduction-16",
+    "trial_kind": "KNOWN_DOMAIN_REGRESSION",
+    "session_id": "51b746dc-4810-423c-b293-2cbd79ce5e63",
+    "status": "COMPLETED",
+    "outcome": "NO_COMPARABLE_PATH",
+    "error": null,
+    "manifest_hash": "908df87f1b066c11605b8381f3c7a5b3cdbd6482dde820f87c03bb3beed87f56",
+    "fixture_state": {
+      "name": "report-15sep",
+      "definition_hash": "f6a06d75fb1f43150eb3a174d1cdc4cc9d870b36d9c2cb95e3df6acddaf38312",
+      "context": {
+        "context_id": "e920dda4-d5c8-4a95-b9e9-a600386ae3d5",
+        "hash": "baf3044545048d410b602ed8bec138e878d7d61da32490b364e42891db2beb2a"
+      },
+      "approval_reference": "Round Six H explicitly authorized retained report-15sep fixture state; unchanged seeded data and predicates; preserve original context and hash, no recollection or proof migration."
+    },
+    "physical_requests": 7,
+    "pot_before": 272,
+    "pot_after": 279,
+    "intake_calls": 1,
+    "investigation_planner_calls": 0,
+    "synthesis_calls": 1,
+    "synthesis_status": "COMPLETED",
+    "tape_validation": "VALIDATED",
+    "notes_doc": "docs/round-six-same-referent.md",
+    "reads_sql": 0,
+    "reads_dax": 5,
+    "reads_other": 2,
+    "reads_total": 7,
+    "guard_requests": 0,
+    "connection_retry_requests": 0,
+    "diagnostic_reads": 5,
+    "guard_reuses": 0,
+    "diagnostic_read_cap": 12,
+    "reads_completed": 7,
+    "reads_unsuccessful_or_uncertain": 0,
+    "read_accounting_source": "PROCESS_READ_RECEIPTS",
+    "physical_requests_charged": 7
+  },
+  "observations": [
+    {
+      "id": "report-selection-969f2e3b-685b-4799-b57b-6edade36b19c",
+      "check_kind": "REPORT_SELECTION_RESOLUTION",
+      "tool": "process"
+    },
+    {
+      "id": "boundary-1-not-comparable",
+      "tool": "process",
+      "comparison_status": "NOT_COMPARABLE"
+    },
+    {
+      "id": "declared-reproduction-676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
+      "tool": "process",
+      "values_equal": true,
+      "comparison_status": "WITHIN_LAYER_CHECK",
+      "label": "NOT_REPRODUCED",
+      "reproduced_value": "8765",
+      "undeclared_context_value": "8765"
+    },
+    {
+      "id": "declared-reproduction-1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
+      "tool": "process",
+      "values_equal": false,
+      "comparison_status": "WITHIN_LAYER_CHECK",
+      "label": "NOT_REPRODUCED",
+      "reproduced_value": "92",
+      "undeclared_context_value": "8765"
+    },
+    {
+      "id": "declared-reproduction-68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
+      "check_kind": "DECLARED_CONTEXT_REPRODUCTION",
+      "tool": "process",
+      "values_equal": false,
+      "comparison_status": "WITHIN_LAYER_CHECK",
+      "label": "REPRODUCED",
+      "reproduced_value": "16",
+      "undeclared_context_value": "8765"
+    },
+    {
+      "id": "duplicate-read-4e642db0-1d00-4407-864b-d332e0b6a12e",
+      "check_kind": "COMPILED_DUPLICATE_REFUSED",
+      "tool": "process"
+    },
+    {
+      "id": "duplicate-read-d73159fc-a15d-4f9f-9d87-e5cbaa9ad79e",
+      "check_kind": "COMPILED_DUPLICATE_REFUSED",
+      "tool": "process"
+    }
+  ],
+  "synthesis_status": "COMPLETED",
+  "probe_observations": [
+    {
+      "id": "33764cb5-a0a5-4c66-be5e-7df72d5ef630",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "process_roles": [
+        "baseline",
+        "established"
+      ],
+      "values": [
+        {
+          "[m0]": {
+            "type": "decimal",
+            "value": "3359"
+          }
+        }
+      ],
+      "value_state": "MEASURED",
+      "declared_context": null,
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "surface_report": {
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "surface_report_receipt_id": "33764cb5-a0a5-4c66-be5e-7df72d5ef630",
+      "surface_report_types": {
+        "engine": "ENGINE_PRODUCT",
+        "identity": "PRINCIPAL_NAME",
+        "object": "MODEL_CATALOG_ID"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "read_address": {
+        "kind": "BASELINE",
+        "restrictions": [
+          {
+            "column_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
+            "operator": "in",
+            "values": [
+              "North"
+            ]
+          }
+        ]
+      },
+      "completeness": "COMPLETE_RESPONSE",
+      "request_hash": "b4ba85dbf2765f690abfffe702b0006982f1533fc16e1f35449a22a52c74c98b"
+    },
+    {
+      "id": "3091d03f-5569-4630-a886-b0808836a8c1",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_read"
+      ],
+      "values": [
+        {
+          "[quantity]": {
+            "type": "decimal",
+            "value": "8765"
+          }
+        }
+      ],
+      "value_state": "MEASURED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "surface_report": {
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "surface_report_receipt_id": "3091d03f-5569-4630-a886-b0808836a8c1",
+      "surface_report_types": {
+        "engine": "ENGINE_PRODUCT",
+        "identity": "PRINCIPAL_NAME",
+        "object": "MODEL_CATALOG_ID"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "read_address": {
+        "cell": {
+          "grouping_columns": [],
+          "id": "676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6",
+          "key_restrictions": [],
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "mode": "UNGROUPED",
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2Fc35f95e493de5d258b64%2Fvisual.json"
+        },
+        "kind": "CELL"
+      },
+      "completeness": "COMPLETE_RESPONSE",
+      "request_hash": "44a6d0839b2c6fd43cc1497893c17a5d3e6aa13a719a398590d4bec150cee448"
+    },
+    {
+      "id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_read"
+      ],
+      "values": [
+        {
+          "[quantity]": {
+            "type": "decimal",
+            "value": "8765"
+          }
+        }
+      ],
+      "value_state": "MEASURED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "surface_report": {
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "surface_report_receipt_id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
+      "surface_report_types": {
+        "engine": "ENGINE_PRODUCT",
+        "identity": "PRINCIPAL_NAME",
+        "object": "MODEL_CATALOG_ID"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "read_address": {
+        "kind": "BASELINE",
+        "restrictions": []
+      },
+      "completeness": "COMPLETE_RESPONSE",
+      "request_hash": "600df0f7a19cdb2d1a151e94cee715d42133cb6617e6875cbf1662c8a67b9b71"
+    },
+    {
+      "id": "62d119da-2d30-44c4-a726-b9a55835cc15",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_read"
+      ],
+      "values": [
+        {
+          "[quantity]": {
+            "type": "decimal",
+            "value": "92"
+          }
+        }
+      ],
+      "value_state": "MEASURED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "surface_report": {
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "surface_report_receipt_id": "62d119da-2d30-44c4-a726-b9a55835cc15",
+      "surface_report_types": {
+        "engine": "ENGINE_PRODUCT",
+        "identity": "PRINCIPAL_NAME",
+        "object": "MODEL_CATALOG_ID"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "read_address": {
+        "cell": {
+          "grouping_columns": [],
+          "id": "1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45",
+          "key_restrictions": [],
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "mode": "UNGROUPED",
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2F7b8db703ca845710aca9%2Fvisual.json"
+        },
+        "kind": "CELL"
+      },
+      "completeness": "COMPLETE_RESPONSE",
+      "request_hash": "6ebe2ebf25640abb2cc83c6b0ccc66bdbf9066d7797ee4d8f023115750a5b307"
+    },
+    {
+      "id": "2a11694f-631e-44d9-b84d-f2ed6ba7434d",
+      "tool": "bounded_dax",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_read"
+      ],
+      "values": [
+        {
+          "[quantity]": {
+            "type": "decimal",
+            "value": "16"
+          }
+        }
+      ],
+      "value_state": "MEASURED",
+      "execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "surface_report": {
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "surface_report_binding": "VALUE_QUERY",
+      "surface_report_receipt_id": "2a11694f-631e-44d9-b84d-f2ed6ba7434d",
+      "surface_report_types": {
+        "engine": "ENGINE_PRODUCT",
+        "identity": "PRINCIPAL_NAME",
+        "object": "MODEL_CATALOG_ID"
+      },
+      "surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "read_address": {
+        "cell": {
+          "grouping_columns": [],
+          "id": "68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
+          "key_restrictions": [],
+          "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+          "mode": "UNGROUPED",
+          "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/part/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Fa32b6a48db655ac8a4f2%2Fvisual.json"
+        },
+        "kind": "CELL"
+      },
+      "completeness": "COMPLETE_RESPONSE",
+      "request_hash": "929dceeafb33e45cada18ddfd84288a6a27703f94d51b61b54d22d592e625cb8"
+    }
+  ],
+  "boundary_observations": [
+    {
+      "id": "boundary-1-not-comparable",
+      "tool": "process",
+      "status": "COMPLETED",
+      "process_roles": [],
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+      "upper_evidence_id": "33764cb5-a0a5-4c66-be5e-7df72d5ef630",
+      "lower_evidence_id": null,
+      "upper_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "lower_execution_surface": null,
+      "comparison_status": "NOT_COMPARABLE"
+    },
+    {
+      "id": "declared-reproduction-676f93893c17ba42fa2e5d05bd89c671ef7a3f615c58f59df6b9f646188342e6",
+      "tool": "process",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_reproduction"
+      ],
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "upper_evidence_id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
+      "lower_evidence_id": "3091d03f-5569-4630-a886-b0808836a8c1",
+      "upper_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "lower_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "upper_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "lower_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "values_equal": true,
+      "comparison_status": "WITHIN_LAYER_CHECK"
+    },
+    {
+      "id": "declared-reproduction-1c94ef3abb68f28cd7723d6928e73e6beafc7382d9de1d7633ecb353f5191f45",
+      "tool": "process",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_reproduction"
+      ],
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "upper_evidence_id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
+      "lower_evidence_id": "62d119da-2d30-44c4-a726-b9a55835cc15",
+      "upper_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "lower_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "upper_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "lower_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "values_equal": false,
+      "comparison_status": "WITHIN_LAYER_CHECK"
+    },
+    {
+      "id": "declared-reproduction-68005673deb755335aec10d34c484b89530a95e36b2de4332473b622cbdf21f3",
+      "tool": "process",
+      "status": "COMPLETED",
+      "process_roles": [
+        "declared_context_reproduction"
+      ],
+      "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+      "upper_evidence_id": "570e3f9b-948b-4888-9cb8-cf995c7cce5c",
+      "lower_evidence_id": "2a11694f-631e-44d9-b84d-f2ed6ba7434d",
+      "upper_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "lower_execution_surface": {
+        "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+        "engine": "OLAP Server",
+        "identity": "investigator-reader@skynwhy.com",
+        "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+      },
+      "upper_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "lower_surface_attestation": {
+        "attested_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "consistency": "MATCHED",
+        "contradictions": [],
+        "coverage": "PARTIAL",
+        "field_states": {
+          "connection": "UNATTESTED",
+          "engine": "ATTESTED",
+          "identity": "ATTESTED",
+          "object": "ATTESTED"
+        },
+        "missing_required_fields": [],
+        "reason": null,
+        "required_fields": [
+          "engine",
+          "identity",
+          "object"
+        ],
+        "status": "PARTIAL",
+        "unattested_fields": [
+          "connection"
+        ]
+      },
+      "values_equal": false,
+      "comparison_status": "WITHIN_LAYER_CHECK"
+    }
+  ],
+  "projection_note": "Public attestation/quantity summary only; multirow diagnostic data is hash-linked to original sealed receipts, not reprinted. Query text and repeated code/mapping proofs omitted. No validator consumes this projection. Original full observations remain in the sealed tape."
+}

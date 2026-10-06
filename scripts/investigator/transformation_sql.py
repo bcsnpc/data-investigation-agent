@@ -100,9 +100,27 @@ def extract_statement(text,catalog):
         writes[name]=parse_select(statement.expression.sql(dialect='spark'),catalog)
     return writes
 
-def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normalization=None):
+def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normalization=None,
+                     string_semantics=None,source_string_semantics=None):
     """Construct expressions, then let the existing parser govern the result."""
     number=0
+    def exact_strings(declaration):
+        if declaration is None:
+            raise Unsupported('COLLATION_UNDECLARED: string_semantics must establish code/execution string equality')
+        from .string_semantics import normalization
+        normalization(declaration)
+    def string_type(value):
+        return value in ('string','text','varchar','nvarchar','char','nchar')
+    def binary_key(value,declaration):
+        # UTF-16 on both sides, prefixed by byte length: SQL's padding rules
+        # cannot make strings differing only in trailing spaces/zero bytes equal.
+        text=exp.Cast(this=value.copy(),to=exp.DataType.build('NVARCHAR(MAX)',dialect='tsql'))
+        exact_strings(declaration)
+        if declaration['case_fold']:text=exp.Upper(this=text)
+        if declaration['trim']:text=exp.Trim(this=text,position='TRAILING')
+        length=exp.Anonymous(this='DATALENGTH',expressions=[text.copy()])
+        return exp.Add(this=exp.Cast(this=length,to=exp.DataType.build('BINARY(8)',dialect='tsql')),
+                       expression=exp.Cast(this=text,to=exp.DataType.build('VARBINARY(MAX)',dialect='tsql')))
     def types(plan):
         kind=plan['kind']
         if kind=='SCAN':
@@ -130,9 +148,14 @@ def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normaliz
                 if key in node:predicates(node[key])
         if kind in ('PROJECT','AGGREGATE'):
             if kind=='AGGREGATE' and any(not comparable(known.get(g)) for g in plan['groups']):
-                raise Unsupported('Grouping equivalence is not established across code and execution languages')
+                if all(comparable(known.get(g)) or string_type(known.get(g)) for g in plan['groups']):
+                    exact_strings(source_string_semantics)
+                else:raise Unsupported('Grouping equivalence is not established across code and execution languages')
             return {c['name']:scalar_type(c['expression']) for c in plan['columns']}
         if kind=='DEDUPE' and any(not comparable(known.get(c)) for c in plan['keys']):
+            if source_string_semantics is not None and all(comparable(known.get(c)) or string_type(known.get(c)) for c in plan['keys']):
+                exact_strings(source_string_semantics)
+                return known
             if profile is not None:
                 if normalization and normalization.get('status')=='DECLARED':
                     raise Unsupported('NORMALIZATION_RENDERING_UNSUPPORTED: declared deduplication normalization has no faithful adapter renderer')
@@ -186,13 +209,35 @@ def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normaliz
         if kind in ('PROJECT','AGGREGATE'):
             fields=[exp.alias_(scalar_sql(c['expression'],alias),c['name'],quoted=True) for c in plan['columns']]
             query=exp.select(*fields).from_(table)
-            if kind=='AGGREGATE' and plan['groups']:query=query.group_by(*[exp.column(g,table=alias,quoted=True) for g in plan['groups']])
+            if kind=='AGGREGATE' and plan['groups']:
+                known=types(plan['input']);keys=[]
+                for g in plan['groups']:
+                    value=exp.column(g,table=alias,quoted=True)
+                    keys.append(binary_key(value,source_string_semantics) if string_type(known.get(g)) else value)
+                for i,c in enumerate(plan['columns']):
+                    node=c['expression']
+                    if node['kind']=='COLUMN' and node['name'] in plan['groups'] and string_type(known.get(node['name'])):
+                        fields[i]=exp.alias_(exp.Min(this=scalar_sql(node,alias)),c['name'],quoted=True)
+                query=exp.select(*fields).from_(table).group_by(*keys)
             return query,[c['name'] for c in plan['columns']]
         query=exp.select(*[exp.column(c,table=alias,quoted=True) for c in columns]).from_(table)
         if kind=='FILTER':query=query.where(scalar_sql(plan['predicate'],alias))
         elif kind=='DEDUPE':
             if set(plan['keys'])!=set(columns):raise Unsupported('Partial-key deduplication cannot select faithful survivors')
-            query=query.distinct()
+            known=types(plan['input'])
+            if any(string_type(known.get(c)) for c in columns):
+                exact_strings(source_string_semantics)
+                fields=[];keys=[]
+                for c in columns:
+                    value=exp.column(c,table=alias,quoted=True)
+                    if string_type(known.get(c)):
+                        keys.append(binary_key(value,source_string_semantics))
+                        # Each group is byte-identical; MIN cannot choose a
+                        # different padded or case-equivalent survivor.
+                        fields.append(exp.alias_(exp.Min(this=value),c,quoted=True))
+                    else:keys.append(value.copy());fields.append(value)
+                query=exp.select(*fields).from_(table).group_by(*keys)
+            else:query=query.distinct()
         else:raise Unsupported('Unsupported relational operation')
         return query,columns
     query,columns=build(relation)
@@ -221,9 +266,20 @@ def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normaliz
             truth=exp.Case(ifs=[exp.If(this=exp.EQ(this=value.copy(),expression=exp.Literal.number(1)),true=exp.Literal.number(1))],default=exp.Null())
             fields=[exp.alias_(exp.Count(this=truth),'true_count',quoted=True),exp.alias_(count,'count',quoted=True)]
         else:
-            if normalization and normalization.get('status')=='DECLARED':
+            if string_semantics is not None:
+                exact_strings(string_semantics)
+                key=binary_key(value,string_semantics)
+                hashed=exp.Anonymous(this='HASHBYTES',expressions=[exp.Literal.string('SHA2_256'),key.copy()])
+                prefix=exp.Substring(this=hashed,start=exp.Literal.number(1),length=exp.Literal.number(4))
+                number_hash=exp.Cast(this=exp.Cast(this=prefix,to=exp.DataType.build('BIGINT')),
+                                     to=exp.DataType.build('DECIMAL(38,0)',dialect='tsql'))
+                fields=[exp.alias_(count,'count',quoted=True),
+                        exp.alias_(exp.Count(this=exp.Distinct(expressions=[key])),'distinct_count',quoted=True),
+                        exp.alias_(exp.Sum(this=number_hash),'hash_sum',quoted=True)]
+            elif normalization and normalization.get('status')=='DECLARED':
                 raise Unsupported('NORMALIZATION_RENDERING_UNSUPPORTED: distinct/content profile has no faithful adapter renderer for the declared normalization')
-            raise Unsupported('COLLATION_UNDECLARED: comparison_normalization is required for distinct/content comparison; no implicit padding or case equivalence')
+            else:
+                raise Unsupported('COLLATION_UNDECLARED: comparison_normalization is required for distinct/content comparison; no implicit padding or case equivalence')
     query=exp.select(*fields).from_(table)
     if profile is not None:
         field=exp.column(sample['column'],table=alias,quoted=True)

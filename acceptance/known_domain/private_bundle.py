@@ -53,6 +53,20 @@ def tape_path(run, fixture_root):
     return path if path.is_absolute() else root/path
 
 
+def estate_manifest(tape, fixture_root):
+    """Locate the immutable installation input by its already sealed digest."""
+    estate=tape.bootstrap['config'].get('_estate',{})
+    enabled=any(row['may_infer_from_code'] for row in estate.get('lineage',{}).get('code_locations',[]))
+    if not enabled:return None
+    digest=estate.get('manifest_hash')
+    import re
+    if not isinstance(digest,str) or not re.fullmatch('[0-9a-f]{64}',digest):
+        raise ValueError('SEALED_ESTATE_MANIFEST_HASH_INVALID')
+    path=Path(fixture_root)/'estate-manifests'/(digest+'.json')
+    if not path.is_file():raise ValueError('MISSING_SEALED_ESTATE_MANIFEST')
+    return path
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('ciphertext', type=Path)

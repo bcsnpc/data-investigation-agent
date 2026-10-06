@@ -80,6 +80,8 @@ try {
             }
         }
     } finally { $guard.Dispose() }
+    $recordBounds = (Get-Content -LiteralPath (Join-Path $PSScriptRoot 'WorkerResponseBounds.json') -Raw | ConvertFrom-Json).FABRIC_SQL
+    if ($request.max_rows -lt $recordBounds.minimum_rows -or $request.max_rows -gt $recordBounds.maximum_rows) { throw 'Invalid record budget' }
     $command = $connection.CreateCommand()
     $command.CommandTimeout = 60
     # Value and distinguishing evidence are one result, not the earlier guard
@@ -92,7 +94,6 @@ try {
     Begin-PhysicalRead 'sql_quantity'
     $reader = $command.ExecuteReader()
     End-PhysicalRead 'sql_quantity'
-    if ($request.max_rows -lt 2 -or $request.max_rows -gt 251) { throw 'Invalid record budget' }
     $columns = @($request.result_columns)
     if ($columns.Count -lt 1 -or $columns.Count -gt 16 -or $reader.FieldCount -ne ($columns.Count + 3)) { throw 'Invalid record shape' }
     $types = @{}

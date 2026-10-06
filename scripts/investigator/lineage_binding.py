@@ -209,7 +209,8 @@ def revalidate_verification(result):
         from .binding_sample import verify as verify_binding
         observations=iter(result['observations'])
         def compiler(*args):
-            return {'normalization':result.get('normalization')}
+            return {'normalization':result.get('normalization'),
+                    'string_semantics':result.get('string_semantics')}
         check=verify_binding(result['proposal'],context=result['context'],
             sample=result['address']['sample'],profile=result['address']['profile'],
             compiler=compiler,execute=lambda *args:next(observations))

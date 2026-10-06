@@ -80,6 +80,10 @@ try {
             End-PhysicalRead 'sql_identity'
         } finally { $guard.Dispose() }
     }
+    if ($request.response_mode -eq 'records') {
+        $recordBounds = (Get-Content -LiteralPath (Join-Path $PSScriptRoot 'WorkerResponseBounds.json') -Raw | ConvertFrom-Json).SOURCE_SQL
+        if ($request.max_rows -lt $recordBounds.minimum_rows -or $request.max_rows -gt $recordBounds.maximum_rows) { throw 'Invalid record budget' }
+    }
     $command = $connection.CreateCommand()
     $command.CommandTimeout = 30
     $command.CommandText = $request.query
@@ -91,7 +95,6 @@ try {
     $reader = $command.ExecuteReader()
     End-PhysicalRead 'sql_quantity'
     if ($request.response_mode -eq 'records') {
-        if ($request.max_rows -lt 2 -or $request.max_rows -gt 251) { throw 'Invalid record budget' }
         $columns = @($request.result_columns)
         $minimumColumns = 2
         $maximumColumns = 9

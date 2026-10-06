@@ -1,0 +1,12 @@
+{
+  "source_tape_sha256": "06d40ba6df8c39fe0366740d160b268314645b115d9c7d17e66fe85a33add9cd",
+  "source_tape_id": "fbf26f10-038a-472c-b009-48933e4e42b2",
+  "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+  "selected_context": {
+    "context_id": "841e425e-fe17-4bb0-9d06-b4623f49de5b",
+    "hash": "ed63c086dbfac8dd2421268223358394406f90ba6974b86441ee8d194257bb0f"
+  },
+  "preview_context_id": "d3b6e8e0-7911-4e62-b3f4-2d319c6ef131",
+  "error": "Dynamic context changed or disabled",
+  "claim": "Minimal excerpt from sealed G failure; original tape untouched, not a repaired replay."
+}

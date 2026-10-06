@@ -24,6 +24,8 @@ jobs:
         run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt cryptography==44.0.1
       - name: Test private delivery refuses altered ciphertext
         run: python -m unittest discover -s scripts -p test_private_replay_bundle.py
+      - name: Test replay requires the sealed lineage installation input
+        run: python acceptance/unknown_domain/test_lineage_replay.py
       - name: Download immutable encrypted replay evidence
         env:
           GH_TOKEN: ${{ github.token }}

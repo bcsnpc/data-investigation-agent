@@ -42,9 +42,11 @@ def outcome(state):
 
 
 class AdaptiveRuntime:
-    def __init__(self,runtime,planner,clock=time.time,planner_profile=None,usage_policy=None,process_judge=None):
+    def __init__(self,runtime,planner,clock=time.time,planner_profile=None,usage_policy=None,process_judge=None,
+                 process_lineage=None):
         self.runtime=runtime;self.store=runtime.store;self.config=runtime.config
         self.planner=planner;self.clock=lambda:tape_clock('agent',clock);self.process_judge=process_judge
+        self.process_lineage=process_lineage
         self.planner_profile=planner_profile or {"adapter":"injected"}
         self.process_max_boundaries=self.planner_profile.get('process_max_boundaries',1)
         if type(self.process_max_boundaries) is not int or not 0<=self.process_max_boundaries<=32:
@@ -708,6 +710,9 @@ class AdaptiveRuntime:
         try:
             from .definition_target import procedure_scope
             with observation_journal.scope(journal):
+                if self.process_lineage is not None:
+                    path=self.process_lineage(adapter,path,state['envelope'],meter_read)
+                    adapter.resolve_path=lambda measure:path
                 assessment=vertical(adapter,state['envelope']['measure_id'],procedure_scope(state['envelope']))
             observations=assessment.pop('_observations',None)
             if observations is None:

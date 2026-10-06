@@ -15,12 +15,18 @@ class BindingSampleTests(unittest.TestCase):
     sample = {'kind': 'KEY_RANGE', 'column': 'key', 'lower': 1, 'upper': 20,
               'provenance': 'synthetic-explicit-key-range'}
 
-    def trial(self, profile, source, target):
+    def trial(self, profile, source, target, *, semantics=None, deduplicate=False):
         with sqlite3.connect(':memory:') as db:
             db.executescript("CREATE TABLE source_data(k INT, v); CREATE TABLE target_data(k INT, v);")
             db.executemany('INSERT INTO source_data VALUES (?,?)', enumerate(source, 1))
             db.executemany('INSERT INTO target_data VALUES (?,?)', enumerate(target, 1))
             db.create_function('stable_hash', 1, lambda v: int.from_bytes(hashlib.sha256(v.encode('utf-8')).digest()[:4], 'big'))
+            target_semantics=semantics['target'] if semantics else None
+            def normalize(v):
+                if v is None:return None
+                if target_semantics and target_semantics['case_fold']:return v.casefold()
+                return v
+            db.create_function('declared_normalize',1,normalize)
             statements = []
 
             def compiler(binding, side, context, address):
@@ -29,9 +35,13 @@ class BindingSampleTests(unittest.TestCase):
                            'TEMPORAL': 'MIN(v) AS min, MAX(v) AS max, COUNT(*) AS count',
                            'BOOLEAN': 'COUNT(CASE WHEN v=1 THEN 1 END) AS true_count, COUNT(*) AS count'}
                 table = 'source_data' if side == 'SOURCE' else 'target_data'
+                if deduplicate:
+                    table='(SELECT DISTINCT declared_normalize(v) AS v,1 AS k FROM '+table+')'
+                if semantics and profile=='STRING':
+                    columns[profile]=columns[profile].replace('DISTINCT v','DISTINCT declared_normalize(v)').replace('stable_hash(v)','stable_hash(declared_normalize(v))')
                 query = 'SELECT ' + columns[profile] + ' FROM ' + table + ' WHERE k BETWEEN 1 AND 20'
                 statements.append((side, query))
-                return {'query':query, 'address':address, 'normalization':{
+                return {'query':query, 'address':address, 'string_semantics':semantics, 'normalization':{
                     'status':'DECLARED','collation':'ordinal','trim':False,'case_fold':False,
                     'evidence':'synthetic-sqlite-binary-declaration'}}
 
@@ -52,6 +62,22 @@ class BindingSampleTests(unittest.TestCase):
                             compiler=compiler, execute=execute)
             self.assertEqual(len(statements), 2)
             return result
+
+    def test_different_declarations_compare_under_explicit_target_semantics(self):
+        binary={'collation':'BINARY','case_fold':False,'trim':False,'accent_fold':False}
+        folded={**binary,'collation':'SYNTHETIC_UNICODE_CASEFOLD','case_fold':True}
+        declarations={'sources':{'input-table':binary},'target':folded,
+                      'comparison':'TARGET_SEMANTICS_ON_BOTH_SIDES'}
+        self.assertEqual(self.trial('STRING',['Sales'],['sales'])['status'],'FALSIFIED')
+        result=self.trial('STRING',['Sales'],['sales'],semantics=declarations)
+        self.assertEqual(result['status'],'VERIFIED')
+        self.assertEqual(result['string_semantics'],declarations)
+        self.assertEqual(self.trial('STRING',['Sales'],['Orders'],semantics=declarations)['status'],'FALSIFIED')
+        same={**declarations,'target':binary}
+        self.assertEqual(self.trial('STRING',['Sales '],['Sales '],semantics=same)['status'],'VERIFIED')
+        self.assertEqual(self.trial('STRING',['Sales '],['Sales'],semantics=same)['status'],'FALSIFIED')
+        from investigator.lineage_binding import revalidate_verification
+        self.assertEqual(revalidate_verification(result),result)
 
     def test_every_type_correct_binding_verifies_and_wrong_binding_falsifies(self):
         cases = [('NUMERIC', [2, 4], [1, 5], [3, 4]),

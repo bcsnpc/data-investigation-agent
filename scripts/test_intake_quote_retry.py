@@ -70,7 +70,10 @@ class QuoteRetryTests(unittest.TestCase):
         return exc
 
     def test_nonverbatim_then_exact_proceeds_with_two_metered_calls(self):
-        resolver=MagicMock(side_effect=[self.missing(),(fixture.proposal(),{'usage':{'output_tokens':20}})])
+        proposed=fixture.proposal()
+        proposed['reported_figure']={'state':'NUMBER','value':'9','precision':{'state':'EXACT'},
+                                    'source':{'start':10,'end':17,'quote':'shows 9'}}
+        resolver=MagicMock(side_effect=[self.missing(),(proposed,{'usage':{'output_tokens':20}})])
         self.h.workspace.intake=Intake(self.h.workspace,resolver)
         saved=self.h.workspace.intake.resolve(self.request)
         self.assertEqual(saved['status'],'PROPOSED')

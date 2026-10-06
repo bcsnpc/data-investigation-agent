@@ -144,7 +144,8 @@ def run_case(case,fixture_root,output):
         with patch.object(socket,'create_connection',side_effect=no_network),patch.object(socket.socket,'connect',side_effect=no_network):
             from recorded_engine import replay_revision
             revision = tape.engine_revision if tape.engine_revision is not None else historical_replay_revision(run,input_path,tape)
-            replayed=replay_revision(path,output,revision)
+            from private_bundle import estate_manifest
+            replayed=replay_revision(path,output,revision,estate_manifest=estate_manifest(tape,fixture_root))
         result['tape_version']=tape.version
         result['replay_engine_revision']=revision
         result['recorded_engine_hash']=tape.bootstrap['engine_hash']

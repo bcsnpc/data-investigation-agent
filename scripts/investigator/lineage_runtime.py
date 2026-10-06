@@ -35,7 +35,8 @@ def qualify(path, *, estate, declared, inferred, current_hashes, addresses,
         if not reason:
             selection=select(declared=declared,inferred=inferred,current_hashes=current_hashes,
                 boundary={'from_layer':edge[0],'to_layer':edge[1]},target_column=column,
-                context=context,cell=cell,precision=precision)
+                context=context,cell=cell,precision=precision,
+                binding_profiles=estate['lineage']['inference']['enabled'])
             if selection['status']!='RESOLVED':reason=selection['reason'] if 'reason' in selection else 'The sampled code binding is ambiguous.'
         if not reason:
             verification=revalidate_verification(selection['verification'])

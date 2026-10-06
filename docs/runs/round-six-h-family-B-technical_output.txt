@@ -1,0 +1,15 @@
+You asked: In Inventory Health e1b8e1, Inbound Fraction looks high. Check its current global value and explain the numerator and denominator using the actual measure definitions.
+Answer to your question: Not answered.
+Regarding the requested definitions and components: The completed checks did not establish an answer for this question kind.
+What was found instead:
+
+Measure: Inbound Fraction.
+No independently compared boundary was established.
+Declared-context reproduction unavailable: Declared-context reproduction is undeclared for question kind METRIC_COMPONENTS.
+
+The recorded operation reaches the Activity partition source label and finds no stable discovered asset binding for that label, so the engine compiles no quantity for the declared scope from that source.
+
+Limits:
+- Checked through fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity; stopped because capability unavailable.
+
+Recommended action: Ask the responsible owner to review the recorded missing evidence and next step.

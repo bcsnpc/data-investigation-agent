@@ -1,0 +1,7 @@
+You asked: In Inventory Health e1b8e1, Quantity Balance looks low. Inspect its current global value and the related calculations to explain what contributes to it.
+Answer to your question: Not answered.
+
+The investigation stopped during process walk.
+Reason: The required check could not be established. Its detailed blocker is retained in the technical explanation.
+No explanation of the reported difference was established.
+Recommended action: Resolve the stated blocker before a new investigation.

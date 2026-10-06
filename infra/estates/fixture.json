@@ -59,6 +59,37 @@
         "adapter": "estate-reader",
         "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
         "reader": "investigator-reader"
+      },
+      "string_semantics": {
+        "collation": "OBSERVED_COMPARISON_PROBE",
+        "case_fold": true,
+        "accent_fold": false,
+        "trim": false,
+        "kana": true,
+        "width": true,
+        "resolution": "OBSERVED",
+        "observation": {
+          "row": {
+            "case_fold": true,
+            "accent_fold": false,
+            "trim": false,
+            "kana": true,
+            "width": true,
+            "surface_version": "17.0.93.25",
+            "surface_identity": "investigator-reader@skynwhy.com",
+            "surface_engine": "OLAP Server",
+            "surface_object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+          },
+          "query": "EVALUATE ADDCOLUMNS(ROW(\"case_fold\",\"a\"=\"A\",\"accent_fold\",\"a\"=\"\u00e1\",\"trim\",\"a\"=\"a \",\"kana\",\"\u30a2\"=\"\uff71\",\"width\",\"a\"=\"\uff41\",\"surface_version\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"DBMSVersion\"),\"ReportValue\",[Value]),[ReportValue],\"\")),\"surface_identity\",USERPRINCIPALNAME(),\"surface_engine\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"ProviderName\"),\"ReportValue\",[Value]),[ReportValue],\"\"),\"surface_object\",CONCATENATEX(SELECTCOLUMNS(FILTER(INFO.PROPERTIES(),[PropertyName]=\"Catalog\"),\"ReportValue\",[Value]),[ReportValue],\"\"))",
+          "receipt_id": "round-six-f-semantic-20261006T003953",
+          "surface": {
+            "engine": "OLAP Server",
+            "version": "17.0.93.25",
+            "object": "3484a2bc-98c5-4cef-be5c-a6215484075e",
+            "identity": "investigator-reader@skynwhy.com"
+          },
+          "surface_report_binding": "VALUE_QUERY"
+        }
       }
     },
     {
@@ -71,6 +102,15 @@
         "adapter": "estate-reader",
         "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
         "reader": "investigator-reader"
+      },
+      "string_semantics": {
+        "collation": "BINARY",
+        "case_fold": false,
+        "trim": false,
+        "accent_fold": false,
+        "resolution": "DECLARED",
+        "kana": false,
+        "width": false
       }
     },
     {
@@ -83,6 +123,15 @@
         "adapter": "estate-reader",
         "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
         "reader": "investigator-reader"
+      },
+      "string_semantics": {
+        "collation": "BINARY",
+        "case_fold": false,
+        "trim": false,
+        "accent_fold": false,
+        "resolution": "DECLARED",
+        "kana": false,
+        "width": false
       }
     },
     {
@@ -95,6 +144,37 @@
         "adapter": "estate-reader",
         "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
         "reader": "investigator-reader"
+      },
+      "string_semantics": {
+        "collation": "OBSERVED_COMPARISON_PROBE",
+        "case_fold": false,
+        "accent_fold": false,
+        "trim": false,
+        "kana": false,
+        "width": false,
+        "resolution": "OBSERVED",
+        "observation": {
+          "row": {
+            "accent_fold": false,
+            "case_fold": false,
+            "kana": false,
+            "surface_engine": "3.5.5 0677b6b57ece11fffdfa0353346b97d0cf6872fe",
+            "surface_identity": "trusted-service-user",
+            "surface_object": "warehouse_bronze_e1b8e1",
+            "surface_version": "3.5.5 0677b6b57ece11fffdfa0353346b97d0cf6872fe",
+            "trim": false,
+            "width": false
+          },
+          "query": "import json\nrow = spark.sql(\"SELECT ('a'='A') AS case_fold,('a'='\u00e1') AS accent_fold,('a'='a ') AS trim,('\u30a2'='\uff71') AS kana,('a'='\uff41') AS width,version() AS surface_engine,version() AS surface_version,current_database() AS surface_object,current_user() AS surface_identity\").collect()[0].asDict()\nsettings = {}\niterator = spark.conf._jconf.getAll().iterator()\nwhile iterator.hasNext():\n    entry = iterator.next()\n    if \"collation\" in str(entry._1()).lower():\n        settings[str(entry._1())] = str(entry._2())\nprint(json.dumps({\"row\": row, \"spark_version\": spark.version, \"session_collation_settings\": settings}, sort_keys=True))",
+          "receipt_id": "round-six-g-spark-continuation-20261006T010104",
+          "surface": {
+            "engine": "3.5.5 0677b6b57ece11fffdfa0353346b97d0cf6872fe",
+            "version": "3.5.5 0677b6b57ece11fffdfa0353346b97d0cf6872fe",
+            "object": "warehouse_bronze_e1b8e1",
+            "identity": "trusted-service-user"
+          },
+          "surface_report_binding": "VALUE_QUERY"
+        }
       }
     },
     {
@@ -119,6 +199,15 @@
         "adapter": "estate-reader",
         "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
         "reader": "investigator-reader"
+      },
+      "string_semantics": {
+        "collation": "BINARY",
+        "case_fold": false,
+        "trim": false,
+        "accent_fold": false,
+        "resolution": "DECLARED",
+        "kana": false,
+        "width": false
       }
     },
     {
@@ -133,7 +222,39 @@
         "reader": "source-reader"
       },
       "serverless": true,
-      "worker_timeout_seconds": 240
+      "worker_timeout_seconds": 240,
+      "string_semantics": {
+        "collation": "SQL_Latin1_General_CP1_CI_AS",
+        "case_fold": true,
+        "accent_fold": false,
+        "trim": true,
+        "kana": true,
+        "width": true,
+        "resolution": "OBSERVED",
+        "observation": {
+          "row": {
+            "case_fold": 1,
+            "accent_fold": 0,
+            "trim": 1,
+            "kana": 1,
+            "width": 1,
+            "collation": "SQL_Latin1_General_CP1_CI_AS",
+            "surface_identity": "orderops_investigator",
+            "surface_object": "ordersops",
+            "surface_engine": "5",
+            "surface_version": "12.0.2000.8"
+          },
+          "query": "SELECT CASE WHEN N'a'=N'A' THEN 1 ELSE 0 END AS [case_fold],CASE WHEN N'a'=N'\u00e1' THEN 1 ELSE 0 END AS [accent_fold],CASE WHEN N'a'=N'a ' THEN 1 ELSE 0 END AS [trim],CASE WHEN N'\u30a2'=N'\uff71' THEN 1 ELSE 0 END AS [kana],CASE WHEN N'a'=N'\uff41' THEN 1 ELSE 0 END AS [width],CAST(DATABASEPROPERTYEX(DB_NAME(),'Collation') AS nvarchar(128)) AS collation,CURRENT_USER AS surface_identity,DB_NAME() AS surface_object,CAST(SERVERPROPERTY('EngineEdition') AS varchar(20)) AS surface_engine,CAST(SERVERPROPERTY('ProductVersion') AS varchar(128)) AS surface_version",
+          "receipt_id": "round-six-g-application-20261006T005803",
+          "surface": {
+            "engine": "5",
+            "version": "12.0.2000.8",
+            "object": "ordersops",
+            "identity": "orderops_investigator"
+          },
+          "surface_report_binding": "VALUE_QUERY"
+        }
+      }
     }
   ],
   "resources": [
