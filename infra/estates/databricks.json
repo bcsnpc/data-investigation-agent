@@ -44,7 +44,10 @@
         "collation": "BINARY",
         "case_fold": false,
         "trim": false,
-        "accent_fold": false
+        "accent_fold": false,
+        "resolution": "DECLARED",
+        "kana": false,
+        "width": false
       }
     },
     {

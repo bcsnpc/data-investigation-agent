@@ -76,7 +76,10 @@
         "collation": "BINARY",
         "case_fold": false,
         "trim": false,
-        "accent_fold": false
+        "accent_fold": false,
+        "resolution": "DECLARED",
+        "kana": false,
+        "width": false
       }
     },
     {
@@ -94,7 +97,10 @@
         "collation": "BINARY",
         "case_fold": false,
         "trim": false,
-        "accent_fold": false
+        "accent_fold": false,
+        "resolution": "DECLARED",
+        "kana": false,
+        "width": false
       }
     },
     {
@@ -112,7 +118,10 @@
         "collation": "BINARY",
         "case_fold": false,
         "trim": false,
-        "accent_fold": false
+        "accent_fold": false,
+        "resolution": "DECLARED",
+        "kana": false,
+        "width": false
       }
     },
     {
@@ -142,7 +151,10 @@
         "collation": "BINARY",
         "case_fold": false,
         "trim": false,
-        "accent_fold": false
+        "accent_fold": false,
+        "resolution": "DECLARED",
+        "kana": false,
+        "width": false
       }
     },
     {
@@ -162,7 +174,8 @@
         "collation": "SQL_Latin1_General_CP1_CI_AS",
         "case_fold": true,
         "trim": false,
-        "accent_fold": false
+        "accent_fold": false,
+        "resolution": "DECLARED"
       }
     }
   ],

@@ -15,7 +15,7 @@ class BindingSampleTests(unittest.TestCase):
     sample = {'kind': 'KEY_RANGE', 'column': 'key', 'lower': 1, 'upper': 20,
               'provenance': 'synthetic-explicit-key-range'}
 
-    def trial(self, profile, source, target, *, semantics=None):
+    def trial(self, profile, source, target, *, semantics=None, deduplicate=False):
         with sqlite3.connect(':memory:') as db:
             db.executescript("CREATE TABLE source_data(k INT, v); CREATE TABLE target_data(k INT, v);")
             db.executemany('INSERT INTO source_data VALUES (?,?)', enumerate(source, 1))
@@ -35,6 +35,8 @@ class BindingSampleTests(unittest.TestCase):
                            'TEMPORAL': 'MIN(v) AS min, MAX(v) AS max, COUNT(*) AS count',
                            'BOOLEAN': 'COUNT(CASE WHEN v=1 THEN 1 END) AS true_count, COUNT(*) AS count'}
                 table = 'source_data' if side == 'SOURCE' else 'target_data'
+                if deduplicate:
+                    table='(SELECT DISTINCT declared_normalize(v) AS v,1 AS k FROM '+table+')'
                 if semantics and profile=='STRING':
                     columns[profile]=columns[profile].replace('DISTINCT v','DISTINCT declared_normalize(v)').replace('stable_hash(v)','stable_hash(declared_normalize(v))')
                 query = 'SELECT ' + columns[profile] + ' FROM ' + table + ' WHERE k BETWEEN 1 AND 20'
