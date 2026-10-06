@@ -30,3 +30,23 @@ def spark():
     fields=','.join("('"+left+"'='"+right+"') AS "+key for key,left,right in PAIRS)
     return ('SELECT '+fields+',version() AS surface_engine,version() AS surface_version,'
             'current_database() AS surface_object,current_user() AS surface_identity')
+
+
+def spark_control(*, execution_authorized=False):
+    """One literal-only Livy statement, opt-in for a declared execution identity.
+
+    No estate table is read. Runtime configuration is returned as observed,
+    including an empty collation setting list; no default is invented here.
+    """
+    if execution_authorized is not True:
+        raise PermissionError('SPARK_CONTROL_REQUIRES_DECLARED_EXECUTION_SCOPE')
+    return ('import json\n'
+            'row = spark.sql('+repr(spark())+').collect()[0].asDict()\n'
+            'settings = {}\n'
+            'iterator = spark.conf._jconf.getAll().iterator()\n'
+            'while iterator.hasNext():\n'
+            '    entry = iterator.next()\n'
+            '    if "collation" in str(entry._1()).lower():\n'
+            '        settings[str(entry._1())] = str(entry._2())\n'
+            'print(json.dumps({"row": row, "spark_version": spark.version, '
+            '"session_collation_settings": settings}, sort_keys=True))')

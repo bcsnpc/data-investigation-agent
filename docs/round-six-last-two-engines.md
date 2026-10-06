@@ -1,0 +1,11 @@
+# Round Six G: last two engines and explicit normalization
+
+Offline checkpoint, 2026-10-05 America/Chicago. Draft #410; no G estate request yet.
+
+The failed application control requested one row against the worker minimum of two. SQL workers and control producers now consume `infra/scripts/WorkerResponseBounds.json`; record-budget validation precedes value execution. `process_tape.Tape` owns `finished`, not `finalized`. The shared finisher exercises the real recorder and a sweep checks all recorder self-attribute reads against declared attributes/methods. Original failed F artifacts remain unchanged.
+
+The target's supported semantics apply explicitly to both profiles: UPPER only for case_fold, RTRIM only for trailing-space trim, then length-prefixed UTF16 binary keys for distinct and hash. Source operation semantics remain separate. Accent/kana/width folding without a faithful renderer is refused. Receipts carry the normalization and consumers recompute it from target semantics. No SQL padded equality is used for string distinctness. Synthetic compiled statements executed with ambient binary and case-insensitive collation both preserve two distinct strings under lakehouse semantics and collapse them to one under Warehouse semantics. Five control and seven observed-semantics tests passed. Full regression remains pending.
+
+The Spark adapter builds one literal-only statement, with runtime version and session collation configuration, only behind explicit execution authorization. No identity is acquired or elevated by this producer. The human authorizes one Livy session/statement using existing investigator-code-reader Contributor scope; default clients cannot invoke it. [Microsoft's Livy route](https://learn.microsoft.com/en-us/fabric/data-engineering/get-started-api-livy-session) documents session creation, statements and deletion. Observations and any declared-default fallback remain pending; no outcome is claimed.
+
+Next: one authorized application observation, one authorized Spark attempt, eight remaining verification pairs; seven earlier verified profiles remain preserved. No family resume until required bindings verify, and no15x2 gate or merge is claimed. Engine changes invalidate prior freezes.

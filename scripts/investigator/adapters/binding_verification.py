@@ -79,6 +79,8 @@ class BindingVerificationRoute(VerificationRoute):
             semantics={'target':validate_semantics(target_semantics),
                        'sources':{name:validate_semantics(value) for name,value in source_declarations.items()},
                        'comparison':'TARGET_SEMANTICS_ON_BOTH_SIDES'}
+            from ..string_semantics import normalization
+            semantics['normalization']=normalization(target_semantics)
         return {'layer': {'id': resolved[0]['asset_id'], 'binding': {'provenance': 'INFERRED_FROM_CODE'}},
                 'compiled': {'catalog': list(catalog.values()), 'query': query, 'database': database,
                              'source_column': column, 'read_address': copy.deepcopy(address)},

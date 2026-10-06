@@ -108,9 +108,15 @@ def verify(proposal, *, context, sample, profile, compiler, execute):
             if semantics[0]!=semantics[1] or not isinstance(semantics[0],dict):
                 raise ValueError('String semantics declarations differ between probe plans')
             declared=semantics[0]
-            if set(declared)!={'target','sources','comparison'} or declared['comparison']!='TARGET_SEMANTICS_ON_BOTH_SIDES':
+            if (set(declared) not in ({'target','sources','comparison'},
+                                     {'target','sources','comparison','normalization'})
+                    or declared['comparison']!='TARGET_SEMANTICS_ON_BOTH_SIDES'):
                 raise ValueError('Invalid comparison semantics declaration')
             validate_semantics(declared['target'])
+            if 'normalization' in declared:
+                from .string_semantics import normalization
+                if declared['normalization'] != normalization(declared['target']):
+                    raise ValueError('Normalization differs from target semantics')
             if set(declared['sources'])!={s['table'] for s in proposal['sources']}:
                 raise ValueError('Source semantics do not cover the declared inputs')
             for value in declared['sources'].values():validate_semantics(value)

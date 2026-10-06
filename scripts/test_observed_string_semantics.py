@@ -18,6 +18,24 @@ def record(**flags):
 
 
 class ObservedStringTests(unittest.TestCase):
+    def test_normalization_receipt_is_recomputed_from_target_not_trusted(self):
+        from investigator.string_semantics import normalization
+        trial=samples.BindingSampleTests();trial.setUp()
+        declarations={'sources':{'input-table':BINARY},'target':BINARY,
+                      'comparison':'TARGET_SEMANTICS_ON_BOTH_SIDES',
+                      'normalization':normalization(BINARY)}
+        good=trial.trial('STRING',['a','a '],['a','a '],semantics=declarations)
+        self.assertEqual(good['status'],'VERIFIED')
+        self.assertEqual(good['string_semantics']['normalization'],normalization(BINARY))
+        from investigator.binding_sample import verify
+        from test_lineage_binding import proposal
+        declarations['normalization']['trailing_space_trim']=True
+        result=verify(proposal(),context='synthetic',sample=trial.sample,profile='STRING',
+            compiler=lambda *args:{'string_semantics':declarations},
+            execute=lambda *args:self.fail('Invalid normalization must never read'))
+        self.assertEqual(result['status'],'UNVERIFIED')
+        self.assertIn('Normalization differs',result['reason'])
+
     def test_all_five_flags_required_and_partial_never_defaults(self):
         full=record(case_fold=True)
         value=observation(full)

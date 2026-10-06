@@ -1,0 +1,4 @@
+{
+  "SOURCE_SQL": {"minimum_rows": 2, "maximum_rows": 251},
+  "FABRIC_SQL": {"minimum_rows": 2, "maximum_rows": 251}
+}

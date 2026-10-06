@@ -35,6 +35,14 @@ def binary(value):
     return value
 
 
+def normalization(value):
+    value=validate(value)
+    if any(value.get(k,False) for k in ('accent_fold','kana','width')):
+        raise NotImplementedError('STRING_SEMANTICS_RENDERING_UNSUPPORTED: accent/kana/width folding')
+    return {'case_fold':value['case_fold'],'trailing_space_trim':value['trim'],
+            'representation':'LENGTH_PREFIXED_UTF16_BINARY'}
+
+
 FLAGS=('case_fold','accent_fold','trim','kana','width')
 OBSERVATION_SCHEMA={'type':'object','additionalProperties':False,
     'properties':{'row':{'type':'object','maxProperties':24},'query':{'type':'string','minLength':1,'maxLength':16000},

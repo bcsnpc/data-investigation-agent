@@ -10,10 +10,11 @@ from sqlglot.errors import OptimizeError
 from sqlglot.optimizer.qualify import qualify
 from sqlglot.optimizer.scope import traverse_scope
 
-VERSION = 'bounded-tsql-v4'
+VERSION = 'bounded-tsql-v5'
 NODES = set('Select From Table Identifier TableAlias Column Alias Star Where Group Having Order Ordered Limit Join With CTE Subquery Paren And Or Not EQ NEQ GT GTE LT LTE Is In Between Like ILike Add Sub Mul Div Mod Neg Literal Null Boolean Parameter Var Distinct Case If Cast TryCast DataType DataTypeParam Count Sum Avg Min Max Coalesce Nullif Abs Round Floor Ceil DateAdd DateDiff CurrentDate CurrentTimestamp Extract Window RowNumber Partition Offset'.split())
 MAX_JOINS=4
 MAX_SELECTS=8
+NODES.update(('Upper','Lower','Trim'))
 
 
 class QueryRejection(ValueError):

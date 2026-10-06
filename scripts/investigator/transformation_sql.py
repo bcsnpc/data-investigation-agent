@@ -107,14 +107,17 @@ def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normaliz
     def exact_strings(declaration):
         if declaration is None:
             raise Unsupported('COLLATION_UNDECLARED: string_semantics must establish code/execution string equality')
-        from .string_semantics import binary
-        binary(declaration)
+        from .string_semantics import normalization
+        normalization(declaration)
     def string_type(value):
         return value in ('string','text','varchar','nvarchar','char','nchar')
-    def binary_key(value):
+    def binary_key(value,declaration):
         # UTF-16 on both sides, prefixed by byte length: SQL's padding rules
         # cannot make strings differing only in trailing spaces/zero bytes equal.
         text=exp.Cast(this=value.copy(),to=exp.DataType.build('NVARCHAR(MAX)',dialect='tsql'))
+        exact_strings(declaration)
+        if declaration['case_fold']:text=exp.Upper(this=text)
+        if declaration['trim']:text=exp.Trim(this=text,position='TRAILING')
         length=exp.Anonymous(this='DATALENGTH',expressions=[text.copy()])
         return exp.Add(this=exp.Cast(this=length,to=exp.DataType.build('BINARY(8)',dialect='tsql')),
                        expression=exp.Cast(this=text,to=exp.DataType.build('VARBINARY(MAX)',dialect='tsql')))
@@ -210,7 +213,7 @@ def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normaliz
                 known=types(plan['input']);keys=[]
                 for g in plan['groups']:
                     value=exp.column(g,table=alias,quoted=True)
-                    keys.append(binary_key(value) if string_type(known.get(g)) else value)
+                    keys.append(binary_key(value,source_string_semantics) if string_type(known.get(g)) else value)
                 for i,c in enumerate(plan['columns']):
                     node=c['expression']
                     if node['kind']=='COLUMN' and node['name'] in plan['groups'] and string_type(known.get(node['name'])):
@@ -228,7 +231,7 @@ def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normaliz
                 for c in columns:
                     value=exp.column(c,table=alias,quoted=True)
                     if string_type(known.get(c)):
-                        keys.append(binary_key(value))
+                        keys.append(binary_key(value,source_string_semantics))
                         # Each group is byte-identical; MIN cannot choose a
                         # different padded or case-equivalent survivor.
                         fields.append(exp.alias_(exp.Min(this=value),c,quoted=True))
@@ -265,7 +268,7 @@ def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normaliz
         else:
             if string_semantics is not None:
                 exact_strings(string_semantics)
-                key=binary_key(value)
+                key=binary_key(value,string_semantics)
                 hashed=exp.Anonymous(this='HASHBYTES',expressions=[exp.Literal.string('SHA2_256'),key.copy()])
                 prefix=exp.Substring(this=hashed,start=exp.Literal.number(1),length=exp.Literal.number(4))
                 number_hash=exp.Cast(this=exp.Cast(this=prefix,to=exp.DataType.build('BIGINT')),
