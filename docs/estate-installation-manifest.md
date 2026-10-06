@@ -6,6 +6,23 @@ that validates without an installed transport. Validation is not reachability,
 permission, faithful equivalence, evidence currency or a capability acceptance.
 No identity or permission is created by a manifest.
 
+## String comparison declarations
+
+Each layer may declare the closed `string_semantics` fields `collation`,
+`case_fold`, `trim` and `accent_fold`. The estate owner supplies these from the
+actual engine/definition, and records whether metadata or a documented default
+supports them. Unknown semantics do not become a binary or case-insensitive
+default. A string-dependent verification without a complete, faithfully
+renderable declaration refuses before data reads.
+
+The installed SQL renderer supports BINARY without trimming or folding, using
+length-prefixed binary keys rather than SQL's padded string equality. Other
+collations need their own faithful adapter renderer; declaring them does not
+make them executable. Both comparison plans record source and target semantics;
+the comparison profile uses target semantics on both sides, while the source
+transformation retains its own deduplication semantics. A change to these fields
+changes the whole-manifest approval hash; old approvals are not rewritten.
+
 ## Where your code lives
 
 Declare `lineage.code_sources` and per-boundary `code_locations`. The three

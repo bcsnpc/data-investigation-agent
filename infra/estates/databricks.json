@@ -39,6 +39,12 @@
         "adapter": "estate-reader",
         "address": "analytics.ingested.events",
         "reader": "query-reader"
+      },
+      "string_semantics": {
+        "collation": "BINARY",
+        "case_fold": false,
+        "trim": false,
+        "accent_fold": false
       }
     },
     {

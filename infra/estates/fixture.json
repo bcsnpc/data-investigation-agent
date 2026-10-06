@@ -71,6 +71,12 @@
         "adapter": "estate-reader",
         "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
         "reader": "investigator-reader"
+      },
+      "string_semantics": {
+        "collation": "BINARY",
+        "case_fold": false,
+        "trim": false,
+        "accent_fold": false
       }
     },
     {
@@ -83,6 +89,12 @@
         "adapter": "estate-reader",
         "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
         "reader": "investigator-reader"
+      },
+      "string_semantics": {
+        "collation": "BINARY",
+        "case_fold": false,
+        "trim": false,
+        "accent_fold": false
       }
     },
     {
@@ -95,6 +107,12 @@
         "adapter": "estate-reader",
         "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
         "reader": "investigator-reader"
+      },
+      "string_semantics": {
+        "collation": "BINARY",
+        "case_fold": false,
+        "trim": false,
+        "accent_fold": false
       }
     },
     {
@@ -119,6 +137,12 @@
         "adapter": "estate-reader",
         "address": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
         "reader": "investigator-reader"
+      },
+      "string_semantics": {
+        "collation": "BINARY",
+        "case_fold": false,
+        "trim": false,
+        "accent_fold": false
       }
     },
     {
@@ -133,7 +157,13 @@
         "reader": "source-reader"
       },
       "serverless": true,
-      "worker_timeout_seconds": 240
+      "worker_timeout_seconds": 240,
+      "string_semantics": {
+        "collation": "SQL_Latin1_General_CP1_CI_AS",
+        "case_fold": true,
+        "trim": false,
+        "accent_fold": false
+      }
     }
   ],
   "resources": [

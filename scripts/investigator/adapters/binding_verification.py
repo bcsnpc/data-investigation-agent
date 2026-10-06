@@ -22,13 +22,14 @@ def profile(data_type):
 
 
 class BindingVerificationRoute(VerificationRoute):
-    def __init__(self, process, *, objects, context, normalizations=None):
+    def __init__(self, process, *, objects, context, normalizations=None, string_semantics=None):
         self.process = process
         self.objects = copy.deepcopy(objects)
         self.context = context
         # A binding profile is not an evaluation of any semantic-model measure.
         self.measure_id = None
         self.normalizations = copy.deepcopy(normalizations or {})
+        self.string_semantics = copy.deepcopy(string_semantics or {})
 
     def target_profile(self, proposal):
         target = self.objects[proposal['target']['table']]['catalog']['metadata']
@@ -62,12 +63,27 @@ class BindingVerificationRoute(VerificationRoute):
         if connection != configured:
             raise ValueError('Declared endpoint differs from isolated reader')
         catalog = {name: obj['catalog'] for name, obj in zip(names, resolved)}
+        target_semantics=self.string_semantics.get(table)
+        source_declarations={name:self.string_semantics.get(name) for name in
+                             dict.fromkeys(s['table'] for s in proposal['sources'])}
+        source_semantics=list(source_declarations.values())
+        if source_semantics and any(v!=source_semantics[0] for v in source_semantics):
+            raise NotImplementedError('Mixed source string semantics require an operation-specific renderer')
         query = compile_quantity(relation, column, catalog, profile=address['profile'],
-                                 sample=address['sample'], normalization=self.normalizations.get(table))
+                                 sample=address['sample'], normalization=self.normalizations.get(table),
+                                 string_semantics=target_semantics,
+                                 source_string_semantics=source_semantics[0] if source_semantics else None)
+        semantics=None
+        if target_semantics is not None:
+            from ..string_semantics import validate as validate_semantics
+            semantics={'target':validate_semantics(target_semantics),
+                       'sources':{name:validate_semantics(value) for name,value in source_declarations.items()},
+                       'comparison':'TARGET_SEMANTICS_ON_BOTH_SIDES'}
         return {'layer': {'id': resolved[0]['asset_id'], 'binding': {'provenance': 'INFERRED_FROM_CODE'}},
                 'compiled': {'catalog': list(catalog.values()), 'query': query, 'database': database,
                              'source_column': column, 'read_address': copy.deepcopy(address)},
-                'surface': surface, 'context': context, 'address': copy.deepcopy(address)}
+                'surface': surface, 'context': context, 'address': copy.deepcopy(address),
+                'string_semantics':semantics}
 
     def execute(self, side, plan):
         probe = attest(self._application(plan) if plan['surface'] == 'APPLICATION_SQL' else

@@ -10,7 +10,7 @@ from sqlglot.errors import OptimizeError
 from sqlglot.optimizer.qualify import qualify
 from sqlglot.optimizer.scope import traverse_scope
 
-VERSION = 'bounded-tsql-v3'
+VERSION = 'bounded-tsql-v4'
 NODES = set('Select From Table Identifier TableAlias Column Alias Star Where Group Having Order Ordered Limit Join With CTE Subquery Paren And Or Not EQ NEQ GT GTE LT LTE Is In Between Like ILike Add Sub Mul Div Mod Neg Literal Null Boolean Parameter Var Distinct Case If Cast TryCast DataType DataTypeParam Count Sum Avg Min Max Coalesce Nullif Abs Round Floor Ceil DateAdd DateDiff CurrentDate CurrentTimestamp Extract Window RowNumber Partition Offset'.split())
 MAX_JOINS=4
 MAX_SELECTS=8
@@ -105,6 +105,21 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS):
     tree=statements[0]
     if len(list(tree.walk()))>1200:raise ValueError('SQL syntax budget exceeded')
     unsupported=sorted({type(n).__name__ for n in tree.walk()}-NODES)
+    # Two explicitly bounded scalar primitives used by exact string witnesses.
+    # No arbitrary/user-defined function becomes executable through Anonymous.
+    if 'Anonymous' in unsupported:
+        functions=list(tree.find_all(exp.Anonymous))
+        if all((n.name.upper()=='DATALENGTH' and len(n.expressions)==1) or
+               (n.name.upper()=='HASHBYTES' and len(n.expressions)==2 and
+                isinstance(n.expressions[0],exp.Literal) and n.expressions[0].is_string and
+                n.expressions[0].this=='SHA2_256') for n in functions):
+            unsupported.remove('Anonymous')
+    if 'Substring' in unsupported:unsupported.remove('Substring')
+    if 'SHA2' in unsupported:
+        if all(isinstance(n.args.get('length'),exp.Literal) and
+               not n.args['length'].is_string and n.args['length'].this=='256'
+               for n in tree.find_all(exp.SHA2)):
+            unsupported.remove('SHA2')
     if unsupported:raise ValueError('Unsupported SQL syntax or function nodes: '+', '.join(unsupported[:8])+'. Remove these constructs or choose a supported diagnostic; no query executed.')
     if any(n.args.get('recursive') for n in tree.find_all(exp.With)):raise ValueError('Recursive CTE unsupported')
     joins=len(list(tree.find_all(exp.Join)));selects=len(list(tree.find_all(exp.Select)))
@@ -165,7 +180,8 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS):
     parameters=[];bindings={};literal_count=0
     for literal in list(qualified.find_all(exp.Literal)):
         # Structural integers in TOP/type precision are syntax, not data values.
-        if isinstance(literal.parent,(exp.Limit,exp.DataTypeParam)):continue
+        if isinstance(literal.parent,(exp.Limit,exp.DataTypeParam)) or (
+                isinstance(literal.parent,exp.SHA2) and literal.arg_key=='length'):continue
         literal_count+=1
         if literal_count>60:raise ValueError('Parameter budget exceeded')
         if len(literal.this)>200:raise ValueError('Parameter value budget exceeded')
