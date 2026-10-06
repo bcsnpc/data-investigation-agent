@@ -135,6 +135,7 @@ class TranslationTests(unittest.TestCase):
     def test_cross_boundary_filters_need_verified_key_binding(self):
         r = self.run_case(cross=True); self.assertEqual(r['status'], 'UNVERIFIED')
         self.assertIn('verified binding', r['reason'])
+        self.assertEqual(self.events, []); self.assertEqual(self.budget.count, 0)
 
     def test_ledger_cache_is_scope_and_cell_specific_and_marks_changes_stale(self):
         r = self.run_case('MEASURE', cross=True)

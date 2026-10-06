@@ -156,6 +156,10 @@ def verify(proposal, request, *, cells, compiler, execute, budget, cross_boundar
                'status': 'UNVERIFIED', 'reason': None, 'snapshot_status': 'SNAPSHOT_UNVERIFIED',
                'limits': ['Matching served snapshots were not established; timing is not excluded.',
                           'Verification covers only the recorded scope and sampled cells; not global equivalence or business intent.']}
+    if proposal['kind'] == 'FILTER' and cross_boundary:
+        receipt['reason'] = ('Cross-boundary selected keys need a verified binding; row-key mapping '
+                             'is not implemented by the current binding proof contract.')
+        return receipt
     plans = []
     try:
         for cell in cells:
@@ -190,14 +194,6 @@ def verify(proposal, request, *, cells, compiler, execute, budget, cross_boundar
                 if triples[0] != triples[1] or any(v is None for v in triples[0]):
                     raise ValueError('Same-engine filter comparison requires the same resolved surface')
             if proposal['kind'] == 'FILTER':
-                if cross_boundary:
-                    from .lineage_binding import revalidate_verification
-                    binding = request['metadata'].get('verified_key_binding')
-                    if not isinstance(binding, dict): raise ValueError('Cross-boundary selected keys need a verified binding')
-                    proof = revalidate_verification(binding)
-                    if proof['status'] != 'VERIFIED' or proof['context'] != context:
-                        raise ValueError('Selected-key binding is not verified in this context')
-                    raise NotImplementedError('A sampled quantity binding does not prove a row-key mapping; explicit key binding route required')
                 norm = request['metadata']['normalization']
                 fingerprints = []
                 for o in (left, right):
