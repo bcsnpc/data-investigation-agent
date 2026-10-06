@@ -74,6 +74,75 @@ def select_store(case_path,store,model_id,*,fixture,invoked_state=None,invoked_c
     return selected
 
 
+def context_handles(workspace):
+    """Discover captured stores, including aliases and newly added consumers.
+
+    Walk the component graph, not a hand-maintained list of three setters.
+    Ancestor detection prevents workspace/intake and runtime/governor cycles.
+    No dictionaries, callables, transports or retained evidence are traversed.
+    """
+    result=[]
+    links={'agent','runtime','governor','intake','screenshots','workspace'}
+    def visit(owner,path,ancestors):
+        if owner is None or id(owner) in ancestors:return
+        attributes=vars(owner)
+        if 'store' in attributes:result.append((path+'.store',owner))
+        for name,value in sorted(attributes.items()):
+            if name.startswith('_') or callable(value) or not hasattr(value,'__dict__'):continue
+            if name in links or 'store' in vars(value):
+                visit(value,path+'.'+name,ancestors|{id(owner)})
+    visit(workspace,'workspace',set())
+    return result
+
+
+def assert_run_context(workspace):
+    """Refuse before intake if any consumer escapes the selected fixture pin."""
+    selection=getattr(workspace,'_acceptance_run',None)
+    if selection is None:return None
+    values={}
+    for name,owner in context_handles(workspace):
+        store=owner.store
+        value={'database':str(Path(store.database).resolve()),
+            'inventory':str(Path(store.inventory).resolve()),'environment':store.environment,
+            'pins':copy.deepcopy(store.context_pins)}
+        try:
+            model=store.get(selection['model_id'])
+            value.update(context_id=model['context_id'],context_hash=digest(model['context']),
+                         revision=model['revision'],enabled=model['enabled'])
+        except (ValueError,KeyError) as exc:value['error']=str(exc)
+        values[name]=value
+    expected=selection['handles']
+    if set(values)!=set(expected) or any(values[k]!=expected[k] for k in values if k in expected):
+        raise Conflict('Run context handles disagree: '+json.dumps(values,sort_keys=True))
+    return copy.deepcopy(values)
+
+
+def pin_run_context(workspace,case_path,*,fixture,invoked_state=None,invoked_context=None):
+    """Only runner entry point: select from an approved fixture state and pin all consumers."""
+    case=load_case(case_path);model_id=case['model_id']
+    selected=select_store(case_path,workspace.store,model_id,fixture=fixture,
+        invoked_state=invoked_state,invoked_context=invoked_context)
+    handles=context_handles(workspace)
+    if not handles:raise Conflict('Run has no context handles')
+    # Pinning may select metadata, never move a consumer to another estate/database.
+    storage=(selected.database.resolve(),selected.inventory.resolve(),selected.environment)
+    for name,owner in handles:
+        s=owner.store
+        if (s.database.resolve(),s.inventory.resolve(),s.environment)!=storage:
+            raise Conflict('Context handle points at another estate: '+name)
+    for _,owner in handles:owner.store=selected
+    model=selected.get(model_id)
+    value={'database':str(selected.database.resolve()),'inventory':str(selected.inventory.resolve()),
+        'environment':selected.environment,'pins':copy.deepcopy(selected.context_pins),
+        'context_id':model['context_id'],'context_hash':digest(model['context']),
+        'revision':model['revision'],'enabled':model['enabled']}
+    workspace._acceptance_run={'model_id':model_id,'fixture_state':copy.deepcopy(selected.acceptance_fixture_state),
+                              'handles':{name:copy.deepcopy(value) for name,_ in handles}}
+    workspace.agent._acceptance_workspace=workspace
+    assert_run_context(workspace)
+    return selected
+
+
 def declared_role_view(payload,fixture):
     """Dated grading view only. Never mutate old receipts, labels or outputs."""
     from .layer_roles import declarations
