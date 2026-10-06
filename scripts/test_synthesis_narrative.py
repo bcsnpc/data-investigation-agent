@@ -6,6 +6,43 @@ from investigator import process_outcomes,assessment_support
 import test_process_debugging as contract_fixtures
 
 class NarrativeContractTests(unittest.TestCase):
+    def test_recorded_latency_role_failure_keeps_engine_rendered_mechanism(self):
+        # Exact sealed Round Seven response; the final bare role stays invalid.
+        recorded='The checked path preserves the counted rows from L1 (LANDING) to L0 (SEMANTIC), while the counted rows differ between L2 (APPLICATION) and L1 (LANDING). This places the recorded count change at the transfer into L1 (LANDING), and L0 (SEMANTIC) reflects the L1 (LANDING) result rather than a further change within the semantic layer.'
+        state,payload=self.source('LOAD_LATENCY')
+        history=next(o for o in state['observations'] if o['id']=='job_history')
+        from test_source_delivery import DeliveryAdapter
+        adapter=DeliveryAdapter(['report','delivery','application'],dict(report=12,delivery=12,application=13))
+        adapter.modified='2026-10-04T02:02:00Z'
+        delivery=adapter.source_delivery(None,None)
+        marker=delivery['evidence'];history.update({k:v for k,v in marker.items() if k!='id'})
+        for row in delivery['observations'][:-1]:
+            row['status']='COMPLETED'
+            state['observations'].append(row)
+            payload['evidence'].append({'id':row['id'],'result':copy.deepcopy(row)})
+        value=self.response(payload);value['technical_output']['text']=recorded
+        before=copy.deepcopy(state)
+        assessment,outputs=narrative.assemble(narrative.Response(value),payload,state)
+        technical=outputs['technical_output']
+        self.assertEqual(assessment,state['assessment']);self.assertEqual(state,before)
+        self.assertEqual(technical['mechanism_rejection']['reason'],'INVALID_LAYER_REFERENCE')
+        self.assertEqual(technical['model_mechanism']['text'],'')
+        self.assertEqual(technical['engine_mechanism']['evidence_ids'],['job_history'])
+        self.assertIn('last successful load preceded the observed source change',technical['explanation']['text'])
+        self.assertNotIn('Mechanism paragraph omitted',technical['explanation']['text'])
+
+    def test_delivery_rendering_never_upgrades_another_outcome_or_uncompleted_read(self):
+        state,payload=self.source('LOAD_LATENCY')
+        history=next(o for o in state['observations'] if o['id']=='job_history')
+        history.update(check_kind='SOURCE_DELIVERY',delivery_result={'status':'LATENT'})
+        self.assertIsNotNone(narrative.path_narrative.delivery_mechanism(state))
+        for field,value in [('status','FAILED'),('delivery_result',{'status':'CURRENT'})]:
+            changed=copy.deepcopy(state)
+            next(o for o in changed['observations'] if o['id']=='job_history')[field]=value
+            self.assertIsNone(narrative.path_narrative.delivery_mechanism(changed))
+        state['assessment']['classification']='INGESTION_GAP'
+        self.assertIsNone(narrative.path_narrative.delivery_mechanism(state))
+
     def test_model_mechanism_is_explicit_and_separate_from_rendered_spine(self):
         state,payload=self.source('CONSISTENT_TO_BOUNDARY')
         value=self.response(payload)

@@ -13,7 +13,8 @@ from .onboarding import fields, digest, encoded, Conflict
 
 
 def snapshot(store, model, config):
-    if not model['enabled'] or model['workspace'] != config['fabric']['workspace_id']:
+    from .adapters.native_scope import required_workspace
+    if not model['enabled'] or model['workspace'] != required_workspace(config):
         raise Conflict('Model disabled or connection workspace differs')
     scan = model['context']['scan_id']
     source = 'sql://' + config['sql']['server'] + '/' + config['sql']['database']

@@ -51,7 +51,8 @@ def build(store, plan, config, backend):
                  'catalog_hash':compiled['catalog_hash'],'response_mode':'records','max_rows':limit,
                  'result_columns':['c'+str(i) for i in range(len(columns))]+['multiplicity']}
     else:
-        if model['workspace']!=config['fabric']['workspace_id']:raise Conflict('Native workspace differs')
+        from .adapters.native_scope import required_workspace
+        if model['workspace']!=required_workspace(config):raise Conflict('Native workspace differs')
         assets={a['id']:a for a in model_assets(model['context'])}
         obj=assets.get(plan['object_id'])
         if not obj or obj['kind']!='SemanticTable':raise ValueError('Unknown native table')

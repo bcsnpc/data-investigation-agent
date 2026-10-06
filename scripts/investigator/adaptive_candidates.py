@@ -64,11 +64,12 @@ def catalog(store,config,envelope):
         legacy['limits']={**limits,'cloud_calls':min(limits['cloud_calls'],10),'planner_calls':min(limits['planner_calls'],6),'input_characters':min(limits['input_characters'],80000)}
         return catalog(store,config,legacy)
     model=store.get(envelope['model_id'])
-    reader=config.get('fabric',{}).get('native_reader')
+    from .adapters.native_scope import scope,required_workspace
+    _,reader=scope(config)
     if reader is not None:
         from .native_identity import profile, allows
         profile(reader)
-        if model['workspace'] != config['fabric']['workspace_id'] or not allows(reader,model['workspace'],model['native_id']):
+        if model['workspace'] != required_workspace(config) or not allows(reader,model['workspace'],model['native_id']):
             raise Conflict('Model is outside the configured native reader scope')
     elif model.get('discovery'):
         raise Conflict('Discovered execution requires a configured read-only native reader')
