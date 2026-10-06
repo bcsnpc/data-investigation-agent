@@ -39,6 +39,9 @@ def capture(db,state):
 def attach(outputs,state):
     history=state.get('previous_runs')
     if history is None:return       # Historical records are never backfilled.
+    if 'previous_runs' in outputs['technical_output']:
+        if outputs['technical_output']['previous_runs']!=history:raise ValueError('Output history differs from source state')
+        return
     if history['status']=='UNAVAILABLE':
         line='Previous runs: unavailable; '+history['reason']+' for record '+history['record_id']+'.'
     else:
