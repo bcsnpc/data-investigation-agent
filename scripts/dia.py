@@ -20,6 +20,9 @@ def demo(manifest_path, case_path, port, live=False):
     if not isinstance(token, str) or len(token) < 32 or not token.isascii():
         raise ValueError('Set the existing INVESTIGATOR_WORKSPACE_TOKEN; demo never creates a key')
     manifest, workspace = build(manifest_path, execution_enabled=live)
+    if manifest.get('recording',{}).get('tape_class') == 'PRIVACY_PROJECTED':
+        workspace.close()
+        raise ValueError('Projected installations use atomic investigate/replay; the asynchronous demo interface is not exposed')
     selected = pin_run_context(workspace, case_path, fixture=manifest)
     from investigator.screenshot_intake import azure_extract
     workspace.screenshots.extractor = azure_extract if live else None

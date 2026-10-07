@@ -21,7 +21,8 @@ class Meter:
     def __call__(self, request, execute):
         # The same producer projection drives admission and the actual wire;
         # receipt bodies are neither model input nor charged as model input.
-        size = len(encoded(self.provider.input(request))); options = self.provider.options
+        from .privacy_capture import input_characters
+        size = input_characters(self.provider.input(request)); options = self.provider.options
         if size > options['max_payload_characters']: raise UsageHold('Translation per-call input limit')
         if self.calls >= self.max_calls or self.input_characters + size > self.max_input:
             raise UsageHold('Translation cumulative call or input limit')

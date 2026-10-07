@@ -39,8 +39,8 @@ class MeasureRoute:
         scope = request['scope']
         if set(scope) != {'restrictions'}: raise ValueError('Measure verification requires explicit restrictions')
         applied = restrictions(scope['restrictions'] + cell['key_restrictions'])
-        if applied:
-            raise NotImplementedError('Translated SQL cell scope requires verified column bindings; unfiltered substitution refused')
+        from .translation_scope import apply as compile_scope
+        scoped_query = compile_scope(proposal['expression'], applied, request, self.objects)
         plan = {'model_id': model['id'], 'revision': model['revision'], 'context_id': model['context_id'],
                 'max_rows': 20, 'read_address': copy.deepcopy(address)}
         if side == 'NATIVE':
@@ -62,7 +62,7 @@ class MeasureRoute:
         if surface != 'FABRIC_SQL' or connection != self.process.config['fabric']['sql_reader']['server']:
             raise ValueError('Measure proposal leaves the isolated declared SQL endpoint')
         catalog = [o['catalog'] for o in resolved]
-        plan['query'] = proposal['expression']
+        plan['query'] = scoped_query
         compiled = flexible_tools.build(self.process.store, plan, self.process.config, 'bounded_fabric_sql', catalog=catalog)
         if set(compiled['asset_ids']) != {o['id'] for o in catalog}:
             raise ValueError('SQL object declarations differ from compiler-resolved tables')
