@@ -255,3 +255,23 @@ VERIFIED/FALSIFIED evidence. The intermediate test error is preserved below.
 Existing lower-walk filtered refusal stays untouched. This is a capability gap to
 build, not a reason to stamp an unfiltered statement with a keyed cell address.
 No live section6 trials begin while their faithful scope wiring is incomplete.
+
+
+## Pinned demo entry point (2026-10-06)
+
+`python scripts/dia.py demo --manifest <estate.json> --case <acceptance-case.json>`
+starts the existing loopback workspace after selecting the exact approved
+fixture context and pinning every consumer. Execution defaults off; `--live`
+explicitly enables existing governed execution. It uses the existing local
+INVESTIGATOR_WORKSPACE_TOKEN, never creates a secret or retrieves a provider key
+in read-only mode. Four tests cover refusal before serving, pin ordering,
+read-only behavior and required case selection. The server was mocked; no local
+or cloud service was started. Live stage/binding displays still need work; this
+command alone is not the full demo-readiness milestone.
+
+At23:59:13Z, rolling273/1500 with1227 available; natural expiry, no reset/refund.
+Round Nine0/200,40 authorized reserve not configured, investigation cap12. The
+previous Round Eight restoration credit is untouched. No new provider or estate
+request, fixture state, approval context, identity, secret or policy change.
+Current corrected engine624ca67 has a full committed regression sweep running;
+its result is not yet claimed. Separate earlier4e61a5e pass remains historical.

@@ -42,6 +42,7 @@ jobs:
           pip install -r scripts/requirements-tracing.txt
           python -m unittest discover -s scripts -p test_tape_trace.py
           python -m unittest discover -s scripts -p test_retention.py
+          python -m unittest discover -s scripts -p test_dia_commands.py
           python -m unittest discover -s scripts -p test_private_replay_bundle.py
           python -m unittest discover -s scripts -p test_two_column_replay_gate.py
           python -m unittest discover -s scripts -p test_reproduction_composition.py
