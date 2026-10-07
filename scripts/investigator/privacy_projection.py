@@ -72,6 +72,28 @@ class Projection:
         return hmac.new(self._key, canonical({'purpose':'privacy-tape-seal',
             'estate':self.policy['estate_id'],'value':value}),hashlib.sha256).hexdigest()
 
+    def key_set(self, columns, keys, normalization):
+        """Hash projected, typed key tuples, never a raw sensitive key digest.
+
+        This is a producer boundary: exact resolved identities accompany every
+        tuple. A precomputed raw digest cannot be repaired by replacing prose.
+        The shared verifier still owns uniqueness and normalization validation.
+        """
+        if (not isinstance(columns,list) or not columns
+                or any(not isinstance(c,str) or not c for c in columns)
+                or len(columns)!=len(set(columns))):
+            raise ProjectionError('PRIVACY_UNRESOLVED_COLUMN_IDENTITY')
+        if not isinstance(keys,list):
+            raise ProjectionError('PRIVACY_ROW_SHAPE')
+        projected=[]
+        for key in keys:
+            if not isinstance(key,list) or len(key)!=len(columns):
+                raise ProjectionError('PRIVACY_ROW_WIDTH')
+            projected.append([self.bind(column,value) for column,value in zip(columns,key)])
+        from .translation_proposer import key_fingerprint
+        return {'columns':list(columns),'keys':projected,
+                **key_fingerprint(projected,normalization)}
+
     def trust_sealed_tokens(self, value):
         """Called only after the keyed tape seal and key binding are checked."""
         text=canonical(value).decode('utf8')
@@ -187,7 +209,14 @@ class Projection:
         if isinstance(value, list):
             return [self._project(v) for v in value]
         if isinstance(value, dict):
-            result={self._text(k):self._project(v) for k,v in value.items()}
+            # Structural names are not column values. Rewriting them would
+            # change the schema being replayed (a person can be named "value"
+            # or "quantity"). Refuse an unrepresentable collision rather
+            # than silently rename a consumer-owned field.
+            for key in value:
+                if self._text(key) != key:
+                    raise ProjectionError('PRIVACY_VALUE_COLLIDES_WITH_STRUCTURAL_KEY')
+            result={k:self._project(v) for k,v in value.items()}
             for column in self.policy['columns']:
                 if column in value:
                     cell=value[column]

@@ -8,8 +8,9 @@ A file-only OTLP exporter has seven focused tests; all fifteen archived tapes co
 Retention, explicit provider-region provenance and a pinned read-only demo command
 have focused offline tests. Sixty authored intake goldens and offline scoring exist;
 general translation wiring, redaction and rebuild remain pending.
-Privacy-projected capture has an approved separate contract and tested keyed
-codec; installation execution stays refused until all durable paths are wired.
+Privacy-projected capture has an approved separate contract and23 tested keyed
+codec cases, including fingerprints of projected keys; installation execution
+stays refused until all durable paths and dependent identities are wired.
 The fixture explicitly stays EXACT; existing sealed tapes are unchanged. The
 recording-path footer has a persistence test. Stage and recorded-binding workspace views
 have focused offline validation; browser verification is pending. Nine authored reader code cases and fifteen sealed synthesis cases are now

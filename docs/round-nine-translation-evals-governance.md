@@ -756,3 +756,11 @@ No real key created/read, scope change, model call or estate request.
 Installation privacy capture remains pending and refused. The independent
 local sweep passed archived15/15 and inferred15/15 under tightened grading,
 zero network/physical requests; original tapes and structured fields unchanged.
+
+Dated privacy producer follow-up:23 focused tests pass. A typed projected-key
+producer derives key fingerprints from HMAC tokens rather than raw sensitive
+tuples. Structural-field collisions refuse rather than renaming the replay
+schema. Intake/context SQLite, independent planner sidecars and projected-context
+identity remain outside the codec; installation execution stays refused before
+those writes. No model/estate call, real key access or approval change. The
+redaction audit quotes the producer dependencies. Prior freezes remain invalid.

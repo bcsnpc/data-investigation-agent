@@ -18,6 +18,40 @@ def projector(key=b'synthetic-in-memory-key-32-bytes!!', value=None):
 
 
 class PrivacyTests(unittest.TestCase):
+    def test_sensitive_key_digest_is_built_from_projected_tuples_not_raw_values(self):
+        from investigator.translation_proposer import key_fingerprint
+        column=policy()['columns'][0]; keys=[['PRIVATE KEY A'],['PRIVATE KEY B'],[None]]
+        normalization={'encoding':'TYPED_JSON','case_fold':False,'trim':False}
+        p=projector(); projected=p.key_set([column],keys,normalization)
+        self.assertEqual(projected['count'],3)
+        self.assertEqual(projected['binary_hash'],key_fingerprint(projected['keys'],normalization)['binary_hash'])
+        self.assertNotEqual(projected['binary_hash'],key_fingerprint(keys,normalization)['binary_hash'])
+        self.assertEqual(projected,projector().key_set([column],keys,normalization))
+        self.assertIsNone(projected['keys'][2][0])
+        self.assertNotIn('PRIVATE KEY',canonical(projected).decode())
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json';tape=PrivacyTape(path,p)
+            tape.event('KEY_SET',canonical(projected));outputs=tape.finish({'key_set':projected})
+            replay_projection=projector();replay=PrivacyTape(path,replay_projection,replay=True)
+            replay.event('KEY_SET',canonical(replay_projection.key_set([column],keys,normalization)))
+            self.assertEqual(replay.finish(outputs),outputs)
+
+    def test_sensitive_key_digest_requires_complete_typed_tuple_coverage(self):
+        p=projector(); column=policy()['columns'][0]
+        for columns,keys in (([column],[['PRIVATE',1]]),([column,column],[['A','B']]),
+                             ([],[['A']]),([column],['A'])):
+            with self.subTest(columns=columns,keys=keys),self.assertRaises(ProjectionError):
+                p.key_set(columns,keys,{'encoding':'TYPED_JSON'})
+
+    def test_sensitive_value_cannot_rename_schema_fields_or_merge_keys(self):
+        column=policy()['columns'][0]
+        for raw in ('quantity','value','column','private'):
+            with self.subTest(raw=raw), tempfile.TemporaryDirectory() as folder:
+                tape=PrivacyTape(Path(folder)/'tape.json',projector())
+                with self.assertRaisesRegex(ProjectionError,'STRUCTURAL_KEY'):
+                    tape.event('RESPONSE',canonical({column:raw,raw:12}))
+                self.assertEqual(list(Path(folder).iterdir()),[])
+
     def test_synthetic_sensitive_column_records_and_replays_without_raw_disk_or_outputs(self):
         raw = 'PRIVATE SYNTHETIC PERSON'
         column = policy()['columns'][0]

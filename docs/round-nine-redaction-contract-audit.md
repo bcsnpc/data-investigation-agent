@@ -118,3 +118,41 @@ cannot hide a discarded first value. A file declaring recording twice refuses
 instead of selecting a class by last-key wins.20 privacy tests,19 manifest tests
 and8 canonical provider tests pass; the adapter/fingerprint move also passed
 55 focused tests. These are offline checks, not an estate privacy run.
+
+## Dated producer audit and collision refusal, 2026-10-07
+
+The real key producer `translation_proposer.key_fingerprint()` encodes raw
+key tuples with JSON and length framing, then SHA-256. A singleton sensitive
+name would therefore be dictionary-testable if that digest survived projection.
+The new `Projection.key_set()` accepts complete resolved-column identities and
+typed tuples, substitutes the estate-keyed tokens first, and delegates the
+fingerprint to the same producer. Count, uniqueness, normalization and BLANK
+remain governed by that producer. The synthetic projected record/replay test
+confirms its digest differs from the raw-key digest. This helper is not yet
+wired into the live translation verifier; no claim about its stored hashes is
+upgraded.
+
+Projection must not rename structural JSON fields. A sensitive value such as
+`quantity` can collide with a schema field; replacing every occurrence would
+change consumer semantics. Such collisions now refuse before durable capture.
+The refusal has a permanent test, including a possible dictionary-key collision.
+23 privacy tests pass; directory coverage remains2/2, SQL objects1/1,
+payload characters7563/7563. Zero model or estate requests.
+
+Three production routes remain demonstrably outside this packet codec:
+
+- `run_recording.operation()` backs up both databases before bootstrapping the
+  exact tape. The projected-estate guard prevents reaching those backups.
+- `question_intake` writes its interpreted body and digest to SQLite;
+  `onboarding.ModelStore` persists context bodies with their content hashes.
+  Masking an exported tape cannot remove these earlier durable writes.
+- `planner_recording.CallRecord.write()` writes provider context and bodies
+  as separate exclusive files. Its credential scanner is not column projection.
+
+Installation capture therefore remains refused. Completing it requires typed
+projection at these producers and a projected context/store identity contract,
+not substituting a packet recorder into the exact replay driver. Provenance quote
+spans, cell addresses and all dependent seals must be produced from the same
+projected representation. Unlabelled native aliases do not establish a resolved
+sensitive-column identity. The approved format decision is settled; these are
+implementation dependencies, not a request to reopen it.

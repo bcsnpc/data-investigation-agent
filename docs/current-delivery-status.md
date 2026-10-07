@@ -16,7 +16,8 @@ context proof on `67b6d61` passed 31 focused tests and all eight sealed comparis
 passed seven hosted checks; the pre-review local archived/inferred replay was
 15/15 in each column. The tightened current checker does not inherit that pass. New native-definition and retention changes have focused validation. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
 Governance table and retention command added; seven retention tests pass.
-The human-approved separate privacy-projected contract has20 focused codec tests.
+The human-approved separate privacy-projected contract has23 focused codec tests,
+including projected-key fingerprints and refusal of structural-field collisions.
 Full installation capture remains unwired and refuses; fixture/gate tapes stay
 EXACT. Explicit recording declarations change manifest hashes; live re-approval
 is pending, not backfilled into historical tapes. No new secret or estate read.
