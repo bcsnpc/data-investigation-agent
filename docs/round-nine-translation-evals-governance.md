@@ -519,3 +519,16 @@ Reservation allowance is not actual provider token usage or monetary price.
 
 
 Dated stable-engine regression, 2026-10-06 America/Chicago: isolated55469a3 passed2178 tests in393.193s. The later fixture qualifier correction passed39 focused tests and the recorded-score gate passed3 tests, including changed-review-paragraph rejection. Human-review tests use temporary ungraded copies, so the actual human grades can arrive without changing test expectations. Hosted checks track the current head; mandatory human-review input remains pending.
+
+
+Dated translation evaluation provenance correction, 2026-10-06 America/Chicago:
+the v1/v2 harness used its own prompt and narrow wire. Its scores are prototype
+proposal scores, not the installed adapter's model-step baseline. They remain
+recorded; no evidence is relabelled as having used the installed path. The harness
+now delegates to the existing adapters.translation_model.Provider, including
+its exact prompt, metadata projection, receipt/cell-answer exclusion and wire
+conversion. The consumer still validates omitted provider-unsupported constraints
+before compilation. An integration test asserts equality to that actual path.
+The local compiler accepts one scalar expression or a complete one-column SELECT;
+multi-column or mutating queries refuse.42 focused tests pass. A separately
+recorded v3 evaluation will establish the actual installed-adapter baseline.

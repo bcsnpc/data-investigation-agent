@@ -44,10 +44,16 @@ def verify(case,proposal):
             sql=case['native_sql'] if side=='NATIVE' else (
                 'select k from items where '+p['expression'] if case['kind']=='FILTER'
                 else 'select '+p['expression']+' from items')
+            if side=='PROPOSED' and case['kind']=='MEASURE':
+                try:full=sqlglot.parse(p['expression'],read='sqlite')
+                except Exception:full=[]
+                if len(full)==1 and isinstance(full[0],sqlglot.exp.Select):sql=p['expression']
             try:statements=sqlglot.parse(sql,read='sqlite')
             except Exception as exc:raise ValueError('Synthetic proposal does not parse') from exc
             if len(statements)!=1 or not isinstance(statements[0],sqlglot.exp.Select):
                 raise ValueError('Only one synthetic SELECT is allowed')
+            if len(statements[0].expressions)!=1:
+                raise ValueError('Synthetic translation must project one quantity or key')
             if any(table.name!='items' or table.db or table.catalog for table in statements[0].find_all(sqlglot.exp.Table)):
                 raise ValueError('Synthetic query object outside metadata')
             # Explicit fixture binding maps the logical items table onto two

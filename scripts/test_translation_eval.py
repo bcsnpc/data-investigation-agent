@@ -30,6 +30,10 @@ class TranslationEvalTests(unittest.TestCase):
         self.assertEqual(result['verification']['status'],'VERIFIED')
         self.assertEqual(len(result['verification']['cells']),3)
         self.assertEqual(result['verification_probe_count'],6)
+        full=verify(c,self.proposal(c,'SELECT SUM(items.v) AS quantity FROM items'))
+        self.assertEqual(full['verification']['status'],'VERIFIED')
+        extra=verify(c,self.proposal(c,'SELECT SUM(items.v), COUNT(*) FROM items'))
+        self.assertEqual(extra['verification']['status'],'UNVERIFIED')
     def test_unknown_object_and_mutating_query_refuse(self):
         c=self.g['cases'][0];p=self.proposal(c,'1=1');p['objects'][0]['id']='outside'
         with self.assertRaises(ValueError):verify(c,p)
