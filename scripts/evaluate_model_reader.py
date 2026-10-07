@@ -10,6 +10,12 @@ from investigator.adapters.code_model import azure_propose
 from run_adaptive_investigation import local_azure_key
 
 
+def stop_reason(result):
+    if result.get('budget_hold'):return 'budget admission'
+    if (result.get('provider_error') or {}).get('error_type')=='BadRequestError':return 'provider rejected request/schema'
+    return None
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--manifest',type=Path,required=True)
@@ -37,8 +43,9 @@ def main():
                 (args.output/(c['id']+'.result.json')).write_text(json.dumps(row,indent=2),encoding='utf8')
                 print(json.dumps({'case_id':c['id'],'proposals':len(r['proposals']),'semantic_refusal':r['semantic_refusal'],
                                   'provider_error':r['provider_error'],'validation_error':r['validation_error']}),flush=True)
-                if r.get('budget_hold'):
-                    raise RuntimeError('Reader evaluation stopped at budget admission; remaining cases unattempted')
+                reason=stop_reason(r)
+                if reason:
+                    raise RuntimeError('Reader evaluation stopped at '+reason+'; remaining cases unattempted')
     except BaseException as exc:failure=type(exc).__name__;raise
     finally:
         (args.output/'records.json').write_text(json.dumps(records,indent=2),encoding='utf8')

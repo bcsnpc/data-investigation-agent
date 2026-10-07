@@ -7,6 +7,12 @@ from investigator.process_tape import Tape
 
 
 class ModelEvalReaderTests(unittest.TestCase):
+    def test_systemic_provider_rejection_stops_batch_without_replacing_case(self):
+        from evaluate_model_reader import stop_reason
+        self.assertEqual(stop_reason({'provider_error':{'error_type':'BadRequestError'}}),'provider rejected request/schema')
+        self.assertEqual(stop_reason({'budget_hold':True}),'budget admission')
+        self.assertIsNone(stop_reason({'semantic_refusal':True}))
+
     def setUp(self):
         self.h=fixture.WorkspaceTests();self.h.setUp();self.addCleanup(self.h.doCleanups)
         self.g=json.loads((Path(__file__).resolve().parents[1]/'acceptance/model_steps/reader.json').read_text())
