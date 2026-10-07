@@ -18,8 +18,10 @@ A separately recorded v2 batch after the consumer wire fix scored precision/reca
 on nine synthetic cases, with two correct refusals; no binding verification.
 Prototype translation proposals scored2/3 originally and3/3 after a separately
 recorded local compiler correction. The installed-adapter v3 batch scored0/3:
-all three proposals failed the metadata identity check before probes. Original
-results are preserved; scored CI remains red. No estate verification.
+all three proposals failed the metadata identity check before probes. The new
+versioned column catalog and producer identity enum served three verified first
+proposals in v4, with ten local probes. Every original is preserved; scored CI
+remains red for pending human grades. No estate verification.
 See the
 [Round Nine record](docs/round-nine-translation-evals-governance.md).
 

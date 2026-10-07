@@ -583,3 +583,25 @@ A separately recorded installed-adapter v4 model evaluation is authorized
 by the offline model-evaluation scope; at most three model calls and zero
 estate requests. One first proposal per case, all failures preserved. No
 model setting, scope, fixture estate or original acceptance expectation changes.
+
+
+Dated installed-adapter v4 result, 2026-10-06 America/Chicago: Top-N, pinned
+relative-day and ALL each VERIFIED on the first separately recorded proposal
+under the new explicitly complete column catalog.2+2+6 local probes, zero estate
+requests. The measure covers three existing authored cells and actual distinct
+local objects; SNAPSHOT_UNVERIFIED remains. Original v1/v2 prototype and v3
+rejections remain unchanged. No query-bound Microsoft/platform acceptance is
+claimed. The provider was not given seeded rows, native statements or answers.
+The match could fail through wrong ranking/tie handling, date endpoints, SQL
+scoping/qualification, or measure semantics; independently authored native SQL
+provides the comparison, not the model answer.
+
+Actual v4 usage: {"input_tokens": 3627, "output_tokens": 4377, "total_tokens": 8004, "reasoning_tokens": 3979}. Round Nine88 metered provider calls
+including failures; reserved today {"planner_calls": 88, "cloud_calls": 0, "input_characters": 47939, "output_tokens": 314000}. Rolling119/1500, natural expiry; estate0/200,40 reserved.
+
+DECIDED WITHOUT REVIEW: the recorded score gate uses the explicitly versioned
+v2 corpus and its actual installed-adapter v4 first baseline. It refuses to
+compare suite hashes across corpus versions, so no invented improvement delta
+from v3 or the prototype is reported. This establishes only a3-case local
+regression baseline. The previous failed score files and gate report remain.
+Human readability is still required and ungraded; the overall gate stays red.

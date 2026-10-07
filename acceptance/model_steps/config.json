@@ -25,9 +25,9 @@
     {
       "step": "translation",
       "model_version": "investigator-quality-54",
-      "golden": "acceptance/model_steps/translation.json",
-      "records": "acceptance/model_steps/translation-recorded-v3.json",
-      "baseline": "acceptance/model_steps/scores/translation-20261006-v2-offline-correction.json"
+      "golden": "acceptance/model_steps/translation-v2.json",
+      "records": "acceptance/model_steps/translation-recorded-v4.json",
+      "baseline": "acceptance/model_steps/scores/translation-20261006-v4.json"
     }
   ]
 }

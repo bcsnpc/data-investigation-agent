@@ -34,10 +34,12 @@ A separately recorded v2 batch after the consumer wire fix scored precision/reca
 on nine synthetic cases, with two correct refusals; no binding verification.
 Prototype translation proposals scored2/3 originally and3/3 after a separately
 recorded local compiler correction. The installed-adapter v3 batch scored0/3:
-all three proposals failed the metadata identity check before probes. Original
-results are preserved; scored CI remains red. No estate verification.
+all three proposals failed the metadata identity check before probes. The new
+versioned column catalog and producer identity enum served three verified first
+proposals in v4, with ten local probes. Every original is preserved; scored CI
+remains red for pending human grades. No estate verification.
 Draft PR #420 stays open.
-Round Nine has zero estate requests and85 metered model calls (60 intake,18 reader,7 translation including refusals). The authorized 200/40-reserved pot is
+Round Nine has zero estate requests and88 metered model calls (60 intake,18 reader,10 translation including refusals). The authorized 200/40-reserved pot is
 now declared in its private manifest; rolling1500, investigation12 and model
 allowances are unchanged. New discovery approval remains pending before estate reads. Prior freezes remain invalid.
 [Evidence, failures and decisions](round-nine-translation-evals-governance.md).
