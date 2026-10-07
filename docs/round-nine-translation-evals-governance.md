@@ -336,3 +336,22 @@ four human-grade assertions, producing NameError; that failed check is retained,
 and the corrected same assertions pass. Zero Round Nine provider or estate calls.
 The complete regression checkpoint remains5907162/2134. Model-step release gate,
 new provider scores, translation activation, redaction and rebuild remain pending.
+
+
+Dated intake-evaluation runner and budget checkpoint, 2026-10-06 America/Chicago:
+the synthetic-catalog runner uses the original intake procedure (including its
+single correction paths, validators and settlement), the existing governor and
+real durable usage counters. No native/source transport or investigation can
+execute. Its integration test plus24 workspace tests pass25/25 with injected
+responses; this is not a provider score. The plan reports60 cases, at most120
+metered model calls, zero estate requests; it loads only the existing local Azure
+credential mechanism and creates no identity, permission or secret.
+
+The authorized Round Nine200/40-reserved pot is now declared in a new private
+manifest, with the original Round Eight manifest unchanged. Rolling allowance1500,
+investigation cap12 and daily model allowances are unchanged; counters were not
+reset. Configuration before/after and hashes are in the ledger. New manifest hash
+83dcf739486e99ae63b5b2c7fe1234c4269308deee47fd1e0094dd09f5a76665.
+No discovery reapproval has occurred: this local configuration is not execution
+authority for estate reads. Local rolling observation254/1500 at00:52:45Z,
+model reservations0 for the new UTC day; Round Nine estate/provider spending0.

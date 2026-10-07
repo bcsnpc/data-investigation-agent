@@ -30,8 +30,9 @@ scorable offline; raw synthesis responses pass current form/token checks13/14.
 Ten human readability reviews are prepared and ungraded. This does not certify
 mechanism correctness; first intake/reader/translation provider scores remain pending.
 Draft PR #420 stays open.
-Round Nine has no estate/provider calls or policy change; authorized 200/40-reserved
-pot is not yet configured. Prior freezes remain invalid.
+Round Nine has no estate/provider calls. The authorized 200/40-reserved pot is
+now declared in its private manifest; rolling1500, investigation12 and model
+allowances are unchanged. New discovery approval remains pending before estate reads. Prior freezes remain invalid.
 [Evidence, failures and decisions](round-nine-translation-evals-governance.md).
 
 **Round Eight closing checkpoint, 2026-10-06.** README commitments/positioning,
