@@ -77,6 +77,10 @@ def validate(value):
 
 def convert(path):
     tape = Tape(path)
+    return _convert(tape,hashlib.sha256(tape.path.read_bytes()).hexdigest())
+
+
+def _convert(tape,tape_hash,*,check_schema=True):
     events = [(event, validate_event(event, index + 1)) for index, event in enumerate(tape.events)]
     def body(raw):
         try: return json.loads(raw)
@@ -86,7 +90,7 @@ def convert(path):
         raise ValueError('Completed sealed tape required')
     state = final.get('result') or {}
     if not isinstance(state, dict): state = {}
-    trace = hashlib.sha256(tape.path.read_bytes()).hexdigest()[:32]
+    trace = tape_hash[:32]
     spans = []; summary = {stage: {'model_calls': 0, 'input_tokens': 0, 'output_tokens': 0,
         'physical_admissions': 0, 'wall_seconds': 0.0} for stage in STAGES}
     def span(name, start, end, parent, values, failed=False):
@@ -97,10 +101,14 @@ def convert(path):
         if parent is not None: result['parentSpanId'] = parent
         spans.append(result); return result
     begin = min(e['at'] for e, _ in events); end = max(e['at'] for e, _ in events)
+    from .provider_terms import from_bootstrap
+    terms=from_bootstrap(body(events[0][1]) or {})
     root = span('investigation', begin, end, None, {'dia.tape.version': tape.version,
-        'dia.tape.sha256': hashlib.sha256(tape.path.read_bytes()).hexdigest(),
+        'dia.tape.sha256': tape_hash,
         'dia.engine.revision': tape.engine_revision, 'dia.outcome': (state.get('assessment') or {}).get('classification'),
-        'dia.physical.requests': state.get('physical_calls'), 'dia.diagnostic.reads': state.get('cloud_calls')}, bool(final.get('error')))
+        'dia.physical.requests': state.get('physical_calls'), 'dia.diagnostic.reads': state.get('cloud_calls'),
+        'dia.provider':terms.get('provider'),'dia.provider.deployment':terms.get('deployment'),
+        'dia.provider.region.status':terms['region']['status'],'dia.provider.region.name':terms['region'].get('name')}, bool(final.get('error')))
     # Top-level operations are recorded, not reconstructed from query contents.
     operations = []; opened = None
     for e, raw in events:
@@ -199,7 +207,7 @@ def convert(path):
             'dia.attestation.grade': attestation.get('status', 'UNRECORDED')}, detail.get('status') not in ('COMPLETED', 'OBSERVED', 'AVAILABLE'))
     result = {'resourceSpans': [{'resource': {'attributes': attributes({'service.name': 'data-investigation-agent'})},
         'scopeSpans': [{'scope': {'name': 'dia.tape', 'version': '1'}, 'spans': spans}]}]}
-    validate(result)
+    if check_schema:validate(result)
     if providers: raise ValueError('Provider request lacks recorded completion')
     physical = state.get('physical_calls')
     if physical is not None and sum(s['name'] == 'probe' for s in spans) != physical:
@@ -209,6 +217,27 @@ def convert(path):
                     'recorded_physical_requests': state.get('physical_calls'),
                     'recorded_diagnostic_reads': state.get('cloud_calls'),
                     'physical_requests': 0, 'network_calls': 0}
+
+
+def recorded_summary(tape,result):
+    """Same exporter arithmetic at the recorded synthesis-return boundary.
+
+    The transient FINAL is a view of already held state, not an event written
+    into the journal. No new timestamp, provider call, or price is inferred.
+    The actual sealed FINAL follows output persistence. Its root duration may
+    include persistence, while stage timings use the same closed operations.
+    """
+    from types import SimpleNamespace
+    from .process_tape import bytes_of,sha
+    events=copy.deepcopy(tape.events[:tape.index] if getattr(tape,'replaying',False) else tape.events)
+    if not events or events[-1]['kind']!='OPERATION_END':raise ValueError('Stage summary requires recorded operation end')
+    raw=bytes_of({'result':result})
+    events.append({'kind':'FINAL','ordinal':len(events)+1,'at':events[-1]['at'],
+                   'body':base64.b64encode(raw).decode(),'sha256':sha(raw)})
+    _,summary=_convert(SimpleNamespace(events=events,version=tape.version,engine_revision=tape.engine_revision),
+                       sha(bytes_of(events)),check_schema=False)
+    summary['boundary']='RECORDED_SYNTHESIS_RETURN'
+    return summary
 
 
 def footer(summary):

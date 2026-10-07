@@ -95,5 +95,31 @@ class TapeTraceTests(unittest.TestCase):
         source=next(s for s in spans if s['name']=='source')
         self.assertTrue(all(s['parentSpanId']==source['spanId'] for s in spans if s['name'] in ('model','probe')))
 
+    def test_live_footer_uses_exporter_counts_without_requiring_proto_or_writing_events(self):
+        events=self.example();result=json.loads(base64.b64decode(events[-1]['body']))['result']
+        tape=SimpleNamespace(events=events[:-1],version='test',engine_revision='abc')
+        before=copy.deepcopy(tape.events)
+        with patch.object(trace,'validate',side_effect=AssertionError('Runtime footer must not require optional exporter dependency')):
+            summary=trace.recorded_summary(tape,result)
+        _,exported=self.convert(events)
+        self.assertEqual(summary['stages'],exported['stages'])
+        self.assertEqual(summary['recorded_physical_requests'],2)
+        self.assertEqual(trace.footer(summary),trace.footer(exported))
+        self.assertEqual(tape.events,before)
+
+    def test_trace_retains_region_provenance_and_never_fills_historical_region(self):
+        value,_=self.convert()
+        root=value['resourceSpans'][0]['scopeSpans'][0]['spans'][0]
+        fields={a['key']:next(iter(a['value'].values())) for a in root['attributes']}
+        self.assertEqual(fields['dia.provider.region.status'],'UNRECORDED')
+        events=self.example();raw=json.dumps({'config':{'_estate':{'provider_terms':{
+            'provider':'test','deployment':'model','endpoint':'https://example.invalid',
+            'region':{'status':'DECLARED','name':'test-region','evidence':'control-plane'}}}}}).encode()
+        events[0]['body']=base64.b64encode(raw).decode();events[0]['sha256']=hashlib.sha256(raw).hexdigest()
+        value,_=self.convert(events);root=value['resourceSpans'][0]['scopeSpans'][0]['spans'][0]
+        fields={a['key']:next(iter(a['value'].values())) for a in root['attributes']}
+        self.assertEqual(fields['dia.provider.region.name'],'test-region')
+        self.assertNotIn('endpoint',str(root))
+
 
 if __name__ == '__main__': unittest.main()

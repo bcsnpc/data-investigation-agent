@@ -7,7 +7,7 @@ its hosted replay gate.
 A file-only OTLP exporter has four schema/tree tests; all fifteen archived tapes convert. Translation is not enabled in investigations or live-verified.
 Retention, explicit provider-region provenance and a pinned read-only demo command
 have focused offline tests. Runtime wiring, model-step evals, redaction, rebuild,
-live tracing footer remain pending. Stage and recorded-binding workspace views
+remain pending. The recording-path footer has a persistence test. Stage and recorded-binding workspace views
 have focused offline validation; browser verification is pending. See the
 [Round Nine record](docs/round-nine-translation-evals-governance.md).
 

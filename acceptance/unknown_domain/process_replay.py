@@ -66,6 +66,11 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
                 if isinstance(exc,journal.TapeError):raise
                 error=type(exc).__name__
             journal.event('OPERATION_END',{'name':name,'error':error})
+            if name=='synthesize' and error is None and config.get('_estate',{}).get('trace_footer'):
+                from investigator.run_recording import attach_trace_footer
+                try:attach_trace_footer(agent,operation['args'][0],tape,result)
+                except journal.TapeError:raise
+                except Exception as exc:error=type(exc).__name__
             operations.append(name)
         final={'operation':name,'error':error,'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs'),
                'status':(result or {}).get('status'),'result':result}

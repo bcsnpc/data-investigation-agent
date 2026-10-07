@@ -87,6 +87,11 @@ def operation(name):
                     raise
                 finally:
                     journal.event('OPERATION_END',{'name':name,'error':type(error).__name__ if error else None})
+                    trace_error=None
+                    if (name=='synthesize' and error is None and result is not None
+                            and agent.config.get('_estate',{}).get('trace_footer')):
+                        try:attach_trace_footer(agent,key,tape,result)
+                        except Exception as failure:error=trace_error=failure
                     if result is not None:
                         if name=='intake':tapes[result['id']]=tape
                         elif name=='preview':
@@ -102,5 +107,26 @@ def operation(name):
                         except journal.TapeError as failure:
                             if error is not None:error.add_note(str(failure))
                             else:raise
+                    if trace_error is not None:raise trace_error
         return invoke
     return decorate
+
+
+def attach_trace_footer(agent,identity,tape,result):
+    """Persist one engine-rendered footer; never re-write historical outputs."""
+    synthesis=result.get('synthesis') or {}
+    if synthesis.get('status')!='COMPLETED' or not synthesis.get('outputs'):return
+    from .tape_trace import recorded_summary,footer
+    summary=recorded_summary(tape,result)
+    from .evidence_synthesis import read,save
+    with agent.runtime.db() as db:
+        db.execute('BEGIN IMMEDIATE')
+        record=read(db,identity,full=True)
+        if record is None or record['status']!='COMPLETED':raise journal.TapeError('TRACE_OUTPUT_RECORD_MISSING')
+        if 'recorded_stage_cost_time' in record:return
+        output=record['outputs']['technical_output']['explanation']
+        output['text']+='\n\n'+footer(summary)
+        record['recorded_stage_cost_time']=summary
+        save(db,identity,record,source_state=agent.load(db,identity))
+    updated=agent.get(identity)
+    result.clear();result.update(updated)

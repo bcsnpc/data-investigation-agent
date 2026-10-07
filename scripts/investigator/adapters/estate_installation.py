@@ -53,7 +53,7 @@ def configuration(manifest):
         'lineage':{k:v for k,v in manifest['lineage'].items() if k!='code_sources'},
         'accepted_limits':manifest['accepted_limits'],
         # Recorder configuration only, never a worker option or model prompt.
-        'provider_terms':declaration(manifest['model'])}
+        'provider_terms':declaration(manifest['model']), 'trace_footer':True}
     return config
 
 

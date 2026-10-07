@@ -19,8 +19,11 @@ undeclared. A pinned, read-only demo command has four mocked tests; no server wa
 started. Engine stage events now reach the existing activity view during calls;
 the technical view lists local recorded binding checks without claiming current
 eligibility. Four stage tests, five trace tests, two binding-view tests and 24
-workspace tests pass; browser verification is pending. Evals, redaction, rebuild
-and live tracing footer remain pending. Draft PR #420 stays open.
+workspace tests pass; browser verification is pending. The recording path now
+persists a technical cost/time footer using exporter arithmetic; one persistence
+test and seven trace tests pass. A concurrent-edit synthesis test failed admission
+and is retained; stable rerun is pending. Evals, redaction and rebuild remain
+pending. Draft PR #420 stays open.
 Round Nine has no estate/provider calls or policy change; authorized 200/40-reserved
 pot is not yet configured. Prior freezes remain invalid.
 [Evidence, failures and decisions](round-nine-translation-evals-governance.md).
