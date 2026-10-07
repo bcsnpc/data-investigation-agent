@@ -7,9 +7,9 @@ temporary file exists. This is a new replay contract, not a legacy tape rewrite.
 import base64
 import hashlib
 import hmac
-import json
 from pathlib import Path
 from .privacy_projection import ProjectionError, canonical, PROJECTED
+from .provider_tape_contract import parse
 
 VERSION = 'privacy-projected-tape-v1'
 
@@ -23,9 +23,11 @@ class PrivacyTape:
         self.index = 0
         self.finished = False
         if replay:
-            value = json.loads(self.path.read_bytes())
-            if (set(value) != {'version', 'projection', 'events', 'outputs', 'seal'}
+            value = parse(self.path.read_bytes())
+            if (not isinstance(value,dict)
+                    or set(value) != {'version', 'projection', 'events', 'outputs', 'seal'}
                     or value['version'] != VERSION
+                    or not isinstance(value['projection'],dict)
                     or value['projection'].get('tape_class') != PROJECTED):
                 raise ProjectionError('PRIVACY_TAPE_SCHEMA')
             self.projection.require_descriptor(value['projection'])

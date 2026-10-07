@@ -77,7 +77,7 @@ written. A final pass also removes values that later typed evidence identifies
 from earlier prose. Sealed outputs are returned projected. A synthetic person
 column records and replays under the same in-memory test secret; the raw name
 appears in no file, decoded event, nested provider body or returned output.
-Eighteen focused tests pass. Recording declarations do not enter the model
+Twenty focused tests pass. Recording declarations do not enter the model
 payload: directory entries2/2, SQL entries1/1 and payload characters7563/7563.
 
 This is **codec groundwork, not a delivered installation privacy guarantee**.
@@ -111,3 +111,10 @@ store callback. Its PowerShell transport is included in the engine fingerprint,
 so a transport-only change cannot preserve an old freeze identity. Final path/
 fingerprint coverage has focused verification; it does not make installation
 capture complete.
+
+Dated strict-parser follow-up: privacy bodies and manifest loading share the
+existing duplicate-key/non-finite JSON refusal. Nested JSON and base64 JSON
+cannot hide a discarded first value. A file declaring recording twice refuses
+instead of selecting a class by last-key wins.20 privacy tests,19 manifest tests
+and8 canonical provider tests pass; the adapter/fingerprint move also passed
+55 focused tests. These are offline checks, not an estate privacy run.

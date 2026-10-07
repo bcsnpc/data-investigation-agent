@@ -150,6 +150,27 @@ class PrivacyTests(unittest.TestCase):
                     tape.event('RESPONSE',canonical(body))
             self.assertEqual(list(Path(folder).iterdir()),[])
 
+    def test_duplicate_keys_and_nested_ambiguous_json_cannot_hide_a_value(self):
+        with tempfile.TemporaryDirectory() as folder:
+            tape=PrivacyTape(Path(folder)/'tape.json',projector())
+            for body in (b'{"value":"PRIVATE A","value":"PRIVATE B"}',
+                         canonical({'input':'{"value":"PRIVATE A","value":"PRIVATE B"}'}),
+                         canonical({'embedded':base64.b64encode(
+                             b'{"value":"PRIVATE A","value":"PRIVATE B"}').decode()}),
+                         b'{"value":NaN}'):
+                with self.assertRaises(ProjectionError):
+                    tape.event('RESPONSE',body)
+            self.assertEqual(list(Path(folder).iterdir()),[])
+
+    def test_manifest_file_cannot_declare_both_classes_with_duplicate_keys(self):
+        from investigator.estate_manifest import load
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'estate.json'
+            path.write_text('{"recording":{"tape_class":"PRIVACY_PROJECTED"},'
+                            '"recording":{"tape_class":"EXACT"}}',encoding='utf8')
+            with self.assertRaisesRegex(ValueError,'Duplicate'):
+                load(path)
+
     def test_opaque_bytes_and_untyped_sensitive_numbers_refuse_without_disk_write(self):
         with tempfile.TemporaryDirectory() as folder:
             tape = PrivacyTape(Path(folder) / 'tape.json', projector())

@@ -9,6 +9,7 @@ import hashlib
 import hmac
 import json
 import re
+from .provider_tape_contract import parse
 
 EXACT = 'EXACT'
 PROJECTED = 'PRIVACY_PROJECTED'
@@ -97,9 +98,14 @@ class Projection:
         return token
 
     def _decode(self, text):
+        if isinstance(text,bytes):
+            try:text=text.decode('utf8')
+            except UnicodeError:return None
         try:
-            value = json.loads(text)
+            value = parse(text)
         except (ValueError, TypeError):
+            if isinstance(text,str) and text.strip().startswith(('{','[')):
+                raise ProjectionError('PRIVACY_AMBIGUOUS_NESTED_JSON') from None
             return None
         return value if isinstance(value, (dict, list)) else None
 
@@ -109,6 +115,8 @@ class Projection:
             if base64.b64encode(raw).decode('ascii')!=text:
                 return None
             return self._decode(raw)
+        except ProjectionError:
+            raise
         except (ValueError,TypeError,UnicodeError):
             return None
 
@@ -204,12 +212,12 @@ class Projection:
     def body(self, data, *, base64_body=False):
         """JSON-only capture boundary. Opaque bytes refuse, never pass through."""
         try:
-            value = json.loads(data)
+            value = parse(data)
             if base64_body:
                 if not isinstance(value, dict) or not isinstance(value.get('body'), str):
                     raise ProjectionError('PRIVACY_BODY_WRAPPER')
                 inner = base64.b64decode(value['body'], validate=True)
-                value = {**value, 'body': json.loads(inner)}
+                value = {**value, 'body': parse(inner)}
             projected = self.project(value)
             if base64_body:
                 projected['body'] = base64.b64encode(canonical(projected['body'])).decode('ascii')

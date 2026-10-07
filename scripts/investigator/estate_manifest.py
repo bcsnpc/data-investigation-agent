@@ -180,7 +180,8 @@ def validate(value):
 def load(path):
     # The only configuration read. Credential references name secrets, not
     # other configuration files; no environment/default file participates.
-    return validate(json.loads(Path(path).read_text(encoding='utf-8-sig')))
+    from .provider_tape_contract import parse
+    return validate(parse(Path(path).read_text(encoding='utf-8-sig')))
 
 
 def policy(manifest):
