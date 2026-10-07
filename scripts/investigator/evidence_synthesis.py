@@ -1,4 +1,5 @@
-﻿"""One separately metered conclusion call over a durably frozen evidence digest."""
+"""One separately metered conclusion call over a durably frozen evidence digest."""
+from .privacy_capture import input_characters
 import copy,json
 from .onboarding import encoded,digest,Conflict,fields
 from .synthesis_digest import build
@@ -213,7 +214,7 @@ def run(agent,identity,provider):
             local_payload=build(state,db)
             from .synthesis_spine import build as render_spine
             payload=render_spine(local_payload,state,agent.generation_options['max_payload_characters']) if provider is azure_synthesize else local_payload
-            size=len(encoded(payload))
+            size=input_characters(payload)
             record.update(payload=payload,payload_hash=digest(payload),input_characters=size)
             from .refusal_synthesis import render
             outputs=render(state,local_payload)

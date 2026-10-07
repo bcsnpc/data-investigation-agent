@@ -160,7 +160,8 @@ def verify(proposal,*,context,cell,precision,compiler,execute):
     return receipt
 
 def seal(value):
-    return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+    from .privacy_identities import digest
+    return digest(value,lambda body:json.dumps(body,sort_keys=True,separators=(',',':'),ensure_ascii=False))
 
 class Ledger:
     def __init__(self,path):self.path=Path(path)
@@ -169,13 +170,20 @@ class Ledger:
             raise ValueError('Only verifier results enter lineage ledger')
         validate(verification['proposal'])
         row={'event':'VERIFICATION','verification':verification,'sha256':seal(verification)}
+        from .privacy_capture import ACTIVE
+        if ACTIVE.get() is not None:
+            ACTIVE.get().ledger_append(self.path,row);return
         self.path.parent.mkdir(parents=True,exist_ok=True)
         with self.path.open('a',encoding='utf8') as stream:stream.write(json.dumps(row,sort_keys=True,separators=(',',':'))+'\n')
     def records(self):
         result=[]
-        if not self.path.exists():return result
-        for line in self.path.read_text(encoding='utf8').splitlines():
-            row=json.loads(line);v=row['verification']
+        from .privacy_capture import ACTIVE
+        if ACTIVE.get() is not None:rows=ACTIVE.get().ledger_rows(self.path)
+        else:
+            if not self.path.exists():return result
+            rows=[json.loads(line) for line in self.path.read_text(encoding='utf8').splitlines()]
+        for row in rows:
+            v=row['verification']
             if set(row)!={'event','verification','sha256'} or row['event']!='VERIFICATION' or seal(v)!=row['sha256']:
                 raise ValueError('Lineage ledger integrity differs')
             validate(v['proposal']);result.append(copy.deepcopy(v))

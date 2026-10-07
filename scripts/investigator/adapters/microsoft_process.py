@@ -747,7 +747,8 @@ class MicrosoftProcessAdapter:
                 'binding_status':report.get('binding_status','UNRESOLVED'),
                 'gaps':report.get('gaps',[]),'report_definitions':parts,
                 'model_assets':self.model['context'].get('model_assets',[])}
-            evidence['bundle_hash']=hashlib.sha256(json.dumps(evidence,sort_keys=True).encode()).hexdigest()
+            from ..privacy_identities import digest
+            evidence['bundle_hash']=digest(evidence,lambda value:json.dumps(value,sort_keys=True))
             page_paths=sorted(p['name'] for p in parts if p.get('name','').endswith('/page.json'))
             for page_path in page_paths[:20]:
                 try:slicer_context.append(assess_slicers(evidence,page_path))

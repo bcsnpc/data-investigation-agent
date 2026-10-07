@@ -39,6 +39,14 @@ def validate_text(text,expected):
 
 
 def validate_identifier_form(text):
-    if re.search(r'\breceipt[-:][A-Za-z0-9-]+|[A-Za-z]+_[A-Za-z0-9_]+|[A-Za-z0-9.]+[\\/][A-Za-z0-9_.-]+|://|\[[^\]]+\]|\b[A-Za-z]+\.[A-Za-z]+\b|[A-Za-z]:[\\/]|\b[0-9a-f]{8}-[0-9a-f-]{27,}\b|\b[A-Za-z]+[-_][0-9a-f]{6,}\b',text,re.I):
+    checked=text
+    from .privacy_capture import ACTIVE
+    capture=ACTIVE.get()
+    if capture is not None:
+        # Only keyed, sealed value tokens are evidence-backed redactions.
+        # Arbitrary token-shaped provider text retains the identifier refusal.
+        checked=re.sub(r'privacy_v1_[0-9a-f]{64}',lambda m:'protected value'
+                       if m.group() in capture.projection._issued else m.group(),checked)
+    if re.search(r'\breceipt[-:][A-Za-z0-9-]+|[A-Za-z]+_[A-Za-z0-9_]+|[A-Za-z0-9.]+[\\/][A-Za-z0-9_.-]+|://|\[[^\]]+\]|\b[A-Za-z]+\.[A-Za-z]+\b|[A-Za-z]:[\\/]|\b[0-9a-f]{8}-[0-9a-f-]{27,}\b|\b[A-Za-z]+[-_][0-9a-f]{6,}\b',checked,re.I):
         raise ValueError('Technical identifier in business explanation')
     return text

@@ -22,6 +22,8 @@ class PrivacyTape:
         self.events = []
         self.index = 0
         self.finished = False
+        self.version=VERSION
+        self.exclusions=[]
         if replay:
             value = parse(self.path.read_bytes())
             if (not isinstance(value,dict)
@@ -48,8 +50,14 @@ class PrivacyTape:
                     raise ProjectionError('PRIVACY_TAPE_ENCODING') from None
                 if hashlib.sha256(body).hexdigest() != event['sha256']:
                     raise ProjectionError('PRIVACY_TAPE_EVENT_SEAL')
+                self.projection.trust_sealed_tokens(parse(body))
         elif self.path.exists():
             raise ProjectionError('PRIVACY_TAPE_ALREADY_EXISTS')
+
+    def flush(self):
+        # Raw/partially identified events are memory-only until finalization.
+        # A legacy recorder must never use this as a raw journal fallback.
+        return None
 
     @property
     def tape_class(self):
@@ -60,6 +68,8 @@ class PrivacyTape:
             raise ProjectionError('PRIVACY_TAPE_EVENT')
         # Decode/learn in memory now. Refuse before opening any file if a
         # producer hands us a body whose sensitive columns cannot be parsed.
+        if kind=='WORKER_SEND' and body in (b'ALLOW\n',b'REUSE\n'):
+            body=canonical({'worker_control':body.decode('ascii')})
         projected = self.projection.body(body, base64_body=base64_body)
         if self.replaying:
             if self.index >= len(self.events):

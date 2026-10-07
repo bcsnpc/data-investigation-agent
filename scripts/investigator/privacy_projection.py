@@ -58,6 +58,9 @@ class Projection:
             'policy': self.policy_hash}), hashlib.sha256).hexdigest()
         self._values = {}
         self._issued = set()
+        self._identity_values = {}
+        self._spans = {}
+        self._projected_spans = {}
 
     def descriptor(self):
         return {'tape_class': PROJECTED, 'comparison': 'EXACT_AFTER_PROJECTION',
@@ -94,6 +97,25 @@ class Projection:
         return {'columns':list(columns),'keys':projected,
                 **key_fingerprint(projected,normalization)}
 
+    def register_span(self,ticket,source):
+        identity=canonical(source)
+        if identity not in self._spans:self._spans[identity]=[]
+        if ticket not in self._spans[identity]:self._spans[identity].append(ticket)
+
+    def prepare_spans(self):
+        for identity,tickets in self._spans.items():
+            source=parse(identity);candidates=[]
+            for ticket in tickets:
+                quote=self._text(source['quote'])
+                start=len(self._text(ticket[:source['start']]))
+                end=start+len(quote)
+                if self._text(ticket)[start:end]!=quote:
+                    raise ProjectionError('PRIVACY_SPAN_CROSSES_PROJECTED_VALUE')
+                candidates.append({'start':start,'end':end,'quote':quote})
+            if any(value!=candidates[0] for value in candidates):
+                raise ProjectionError('PRIVACY_SPAN_SOURCE_AMBIGUITY')
+            self._projected_spans[identity]=candidates[0]
+
     def trust_sealed_tokens(self, value):
         """Called only after the keyed tape seal and key binding are checked."""
         text=canonical(value).decode('utf8')
@@ -126,6 +148,8 @@ class Projection:
         try:
             value = parse(text)
         except (ValueError, TypeError):
+            if isinstance(text,str) and re.match(r'^\[[A-Za-z_][A-Za-z0-9_ ]*\](?:$|[+*/<>=-])',text):
+                return None  # A declared DAX member, not serialized JSON.
             if isinstance(text,str) and text.strip().startswith(('{','[')):
                 raise ProjectionError('PRIVACY_AMBIGUOUS_NESTED_JSON') from None
             return None
@@ -148,9 +172,13 @@ class Projection:
             # Exact column/value receipts and exact-key object rows.
             if set(('column_id', 'value')) <= value.keys():
                 self.bind(value['column_id'], value['value'])
+            if 'column_id' in value and isinstance(value.get('values'),list):
+                for cell in value['values']:self.bind(value['column_id'],cell)
             for key, child in value.items():
                 if key in self.policy['columns']:
-                    if isinstance(child, list):
+                    if isinstance(child,dict) and child.get('column_id')==key:
+                        pass  # A resolved column declaration, not a row cell.
+                    elif isinstance(child, list):
                         for item in child:
                             self.bind(key, item)
                     else:
@@ -209,19 +237,27 @@ class Projection:
         if isinstance(value, list):
             return [self._project(v) for v in value]
         if isinstance(value, dict):
+            if set(value)=={'start','end','quote'}:
+                identity=canonical(value)
+                if identity in self._projected_spans:return dict(self._projected_spans[identity])
+                if self._text(value['quote'])!=value['quote']:
+                    raise ProjectionError('PRIVACY_SPAN_REQUIRES_SOURCE_BINDING')
             # Structural names are not column values. Rewriting them would
             # change the schema being replayed (a person can be named "value"
             # or "quantity"). Refuse an unrepresentable collision rather
             # than silently rename a consumer-owned field.
             for key in value:
-                if self._text(key) != key:
+                if self._text(key) != key and key not in self._identity_values:
                     raise ProjectionError('PRIVACY_VALUE_COLLIDES_WITH_STRUCTURAL_KEY')
-            result={k:self._project(v) for k,v in value.items()}
+            result={self._identity_values.get(k,k):self._project(v) for k,v in value.items()}
+            if len(result)!=len(value):
+                raise ProjectionError('PRIVACY_PROJECTED_KEY_COLLISION')
             for column in self.policy['columns']:
                 if column in value:
                     cell=value[column]
-                    result[self._text(column)]=([self.bind(column,x) for x in cell]
-                        if isinstance(cell,list) else self.bind(column,cell))
+                    if not (isinstance(cell,dict) and cell.get('column_id')==column):
+                        result[self._text(column)]=([self.bind(column,x) for x in cell]
+                            if isinstance(cell,list) else self.bind(column,cell))
             if value.get('column_id') in self.policy['columns'] and 'value' in value:
                 result['value']=self.bind(value['column_id'],value['value'])
             if isinstance(value.get('columns'),list) and isinstance(value.get('rows'),list):

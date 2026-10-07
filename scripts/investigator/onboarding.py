@@ -25,7 +25,8 @@ def encoded(value):
 
 
 def digest(value):
-    return hashlib.sha256(encoded(value).encode()).hexdigest()
+    from .privacy_identities import digest as identity_digest
+    return identity_digest(value,encoded)
 
 
 def text(value, maximum=2000):
@@ -73,7 +74,8 @@ class ModelStore:
 
     @contextmanager
     def connect(self):
-        db = sqlite3.connect(self.database, timeout=10)
+        from .privacy_storage import connect
+        db = connect(self.database, timeout=10)
         db.row_factory = sqlite3.Row
         db.execute('PRAGMA foreign_keys=ON')
         try:
@@ -164,7 +166,8 @@ class ModelStore:
         # snapshot. bundle validates immutable hashes and explicit model binding.
         model = self.get(identity)
         self.check_revision(model, revision)
-        with closing(sqlite3.connect(self.inventory.resolve().as_uri()+'?mode=ro',uri=True)) as db:
+        from .privacy_storage import connect
+        with closing(connect(self.inventory.resolve().as_uri()+'?mode=ro',uri=True)) as db:
             scan = db.execute('SELECT ended FROM scans WHERE id=? AND status IN (\'COMPLETE\',\'PARTIAL\')',(scan_id,)).fetchone()
         if not scan or not scan[0]:
             raise ValueError('Finished scan required')

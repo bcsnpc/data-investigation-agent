@@ -249,6 +249,11 @@ class Workspace:
         facts = []
         for fact in technical['outcome']['facts']:
             if fact['tool']=='context':continue
+            if fact['tool']=='process':
+                # Process receipts are not native metric facts. Preserve their
+                # typed evidence rather than interpreting absent metric fields.
+                facts.append({'id':fact['id'],'kind':'process','evidence':fact})
+                continue
             facts.append({'id': fact['id'], 'metric': labels.get(fact['measure_id'], 'Related metric'),
                           'origin': 'Report' if fact['tool'].startswith('native') or fact['tool']=='bounded_dax' else 'Connected records',
                           **({'calculation_context':[labels.get(m,'Related metric') for m in fact['dependency_context']['path']]}

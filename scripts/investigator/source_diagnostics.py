@@ -18,7 +18,8 @@ def snapshot(store, model, config):
         raise Conflict('Model disabled or connection workspace differs')
     scan = model['context']['scan_id']
     source = 'sql://' + config['sql']['server'] + '/' + config['sql']['database']
-    with closing(sqlite3.connect(store.inventory)) as db:
+    from .privacy_storage import connect
+    with closing(connect(store.inventory)) as db:
         status = db.execute('SELECT status FROM scans WHERE id=?', (scan,)).fetchone()
         visibility = db.execute("SELECT status FROM observations WHERE scan_id=? AND asset_id=? AND capability='catalog_visibility'", (scan, source)).fetchall()
         if not status or status[0] not in ('COMPLETE', 'PARTIAL') or visibility != [('AVAILABLE',)]:

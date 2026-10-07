@@ -90,9 +90,11 @@ def key_fingerprint(keys, normalization):
             raise ValueError('Adapter must encode nonintegral keys explicitly')
         encodings.append(json.dumps(key, ensure_ascii=False, separators=(',', ':')).encode('utf8'))
     if len(set(encodings)) != len(encodings): raise ValueError('Selected keys are not unique')
-    digest = hashlib.sha256()
-    for encoded in sorted(encodings): digest.update(len(encoded).to_bytes(8, 'big') + encoded)
-    return {'count': len(encodings), 'binary_hash': digest.hexdigest(), 'normalization': copy.deepcopy(normalization)}
+    def encode(values):
+        encoded=sorted(json.dumps(key,ensure_ascii=False,separators=(',',':')).encode('utf8') for key in values)
+        return b''.join(len(value).to_bytes(8,'big')+value for value in encoded)
+    from .privacy_identities import digest
+    return {'count':len(encodings),'binary_hash':digest(keys,encode),'normalization':copy.deepcopy(normalization)}
 
 
 def _evidence(observation, context, address):
@@ -304,14 +306,21 @@ class Ledger:
             raise ValueError('Only verifier verdicts enter translation ledger')
         if receipt['status'] in ('VERIFIED', 'FALSIFIED'): revalidate(receipt)
         row = {'event': 'TRANSLATION_VERIFICATION', 'receipt': receipt, 'sha256': seal(receipt)}
+        from .privacy_capture import ACTIVE
+        if ACTIVE.get() is not None:
+            ACTIVE.get().ledger_append(self.path,row);return
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.path.open('a', encoding='utf8') as stream: stream.write(json.dumps(row, sort_keys=True) + '\n')
 
     def view(self, request):
         result = []
-        if not self.path.exists(): return result
-        for line in self.path.read_text(encoding='utf8').splitlines():
-            row = json.loads(line); receipt = row['receipt']
+        from .privacy_capture import ACTIVE
+        if ACTIVE.get() is not None:rows=ACTIVE.get().ledger_rows(self.path)
+        else:
+            if not self.path.exists():return result
+            rows=[json.loads(line) for line in self.path.read_text(encoding='utf8').splitlines()]
+        for row in rows:
+            receipt=row['receipt']
             if row['event'] != 'TRANSLATION_VERIFICATION' or seal(receipt) != row['sha256']:
                 raise ValueError('Translation ledger integrity differs')
             if receipt['status'] in ('VERIFIED', 'FALSIFIED'): revalidate(receipt)

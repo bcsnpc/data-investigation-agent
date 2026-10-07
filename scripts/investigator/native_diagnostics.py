@@ -123,6 +123,12 @@ def extract(response, request):
     output=[]
     for row in rows:
         if not isinstance(row,dict) or set(row)!=expected:raise ValueError('Native columns differ')
+        from .privacy_capture import ACTIVE as PROJECTED_CAPTURE
+        capture=PROJECTED_CAPTURE.get()
+        if capture is not None and request['dimension_id'] is not None:
+            # build() resolved this column and fixed this alias; no basename
+            # matching or inference from arbitrary returned field names.
+            capture.projection.bind(request['dimension_id'],row['[dimension]'])
         output.append({key:typed(value) for key,value in row.items()})
     from .native_identity import observed
     identity = observed(response, request)

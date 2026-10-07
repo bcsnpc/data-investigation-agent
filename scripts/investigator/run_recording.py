@@ -34,7 +34,19 @@ def operation(name):
             if agent.config.get('_estate',{}).get('recording',{}).get('tape_class')=='PRIVACY_PROJECTED':
                 # Validate the existing context-pin invariant first, then
                 # refuse before legacy backup() can create raw artifacts.
-                raise journal.TapeError('PRIVACY_PROJECTED_INSTALLATION_CAPTURE_NOT_YET_WIRED')
+                from .privacy_capture import ACTIVE as PROJECTED_CAPTURE
+                capture=PROJECTED_CAPTURE.get()
+                if capture is None or not capture.running or getattr(agent.store,'privacy_capture',None) is not capture:
+                    raise journal.TapeError('PRIVACY_PROJECTED_REQUIRES_ATOMIC_INSTALLATION_RUN')
+                if journal.ACTIVE.get() is None or journal.ACTIVE.get().tape_class!='PRIVACY_PROJECTED':
+                    raise journal.TapeError('PRIVACY_PROJECTED_CANNOT_USE_EXACT_CAPTURE')
+                # One outer atomic capture owns every operation, including
+                # originals that legacy recording cannot bootstrap.
+                journal.event('OPERATION_START',{'name':name,'args':list(args),'kwargs':kwargs})
+                failure=None
+                try:return method(owner,*args,**kwargs)
+                except BaseException as exc:failure=exc;raise
+                finally:journal.event('OPERATION_END',{'name':name,'error':type(failure).__name__ if failure else None})
             if journal.ACTIVE.get() is not None:
                 # The replay driver supplies the same outer operation events.
                 return method(owner,*args,**kwargs)

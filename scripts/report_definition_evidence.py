@@ -10,7 +10,8 @@ from uuid import UUID
 
 def bundle(database, scan_id, report_id):
     scan_id = str(UUID(scan_id))
-    with closing(sqlite3.connect(Path(database).resolve().as_uri()+'?mode=ro', uri=True)) as db:
+    from investigator.privacy_storage import connect
+    with closing(connect(Path(database).resolve().as_uri()+'?mode=ro', uri=True)) as db:
         db.execute('BEGIN')
         scan = db.execute('SELECT status FROM scans WHERE id=?', (scan_id,)).fetchone()
         if not scan or scan[0] not in ('COMPLETE', 'PARTIAL'):

@@ -1,4 +1,5 @@
 """Positive, deliberately narrow proof of an unchanged declared-source quantity."""
+from ..privacy_identities import text_digest
 import hashlib
 import re
 
@@ -12,7 +13,7 @@ def connection_proof(document, expression, source, partition, definition):
         or document.get('roles') or any('calculationGroup' in t for t in document.get('tables',[]))):
         return None
     return {'definition_asset_id':definition['id'],
-            'definition_hash':hashlib.sha256(definition['metadata']['content'].encode('utf-8')).hexdigest(),
+            'definition_hash':text_digest(definition['metadata']['content']),
             'server':match[2],'endpoint':match[3],'storage_mode':partition['mode']}
 
 

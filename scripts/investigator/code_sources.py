@@ -1,4 +1,5 @@
 """Closed code-source declarations and one bounded, non-executing representation."""
+from .privacy_identities import text_digest
 import copy
 import hashlib
 import json
@@ -109,7 +110,7 @@ def normalize(path, content, *, item_identity=None):
         if chunk:cells.append({'id':str(len(cells)),'language':language,'source':''.join(chunk),'line_start':start,'line_end':max(start,len(lines))})
     else:raise ValueError('Unsupported code file extension: '+suffix)
     if len(cells)>MAX_CELLS:raise ValueError('Notebook cell count exceeds bound')
-    return {'path':relative_path(path),'item_identity':item_identity,'content_hash':hashlib.sha256(content).hexdigest(),'cells':cells}
+    return {'path':relative_path(path),'item_identity':item_identity,'content_hash':text_digest(content),'cells':cells}
 
 def read(source,path,*,meter,root=None,git_fetch=None,item_fetch=None):
     """Each physical retrieval, including local IO, is admitted by the caller.

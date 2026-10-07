@@ -130,3 +130,27 @@ Offline neutrality audit:85→83 matches,17 remaining legacy modules; two commen
 The actual-main gate and [dated closing record](round-seven-delivery-record.md) are established. Separate post-gate PRs cover the honest neutrality audit, deferred freshness design, identifier-only history and install guide; each merges only after seven green checks and30/30 replay. Remaining work includes neutrality migration, a qualifying freshness route and unfamiliar-domain acceptance. All earlier freezes remain invalid.
 
 [Round Six delivery](round-six-delivery-record.md), [Round Seven live record](round-seven-close-the-gate.md), [gate delivery](two-column-replay-gate.md). The entire preceding status file is preserved [as historical evidence](historical-delivery-status-through-round-six.md), including its original links and failures.
+
+
+Dated projected-installation checkpoint, 2026-10-07: capture now routes the
+installation's catalog and inventory to memory-only SQLite and seals projected
+images, planner sidecars and dependent identities together. The atomic entry
+point covers intake, preview, procedure and synthesis. A synthetic sensitive
+column completes and replays with original metering evidence, no provider/estate
+calls during replay, no durable-file changes, and cold-loaded receipt/store
+hashes validated. Raw values appear nowhere in the captured files or returned
+outputs. Exact installations and the original gate tapes retain their class.
+42 focused tests passed before the additional cold-receipt assertions; complete
+regression and current-head hosted gate are pending. No real key was created or
+read, no identity/scope/cap changed, and no estate or model request occurred.
+Prior freezes remain invalid; section1 integration and sections5?7 remain open.
+
+DECIDED WITHOUT REVIEW: projected installations expose an atomic run rather than
+raw asynchronous intermediate views; unsupported sensitive numerals, schema
+collisions and query aliases without compiler-backed sensitive-column identity
+refuse. Raw legacy SQLite/ledger files cannot be loaded as projected material.
+A hard interruption before sealing retains no raw body; an ordinary capture
+refusal writes an exclusion record containing only safe failure types. Projection
+is exact after the declared estate-keyed substitution, not original wire bytes.
+Replay verifies the projected payload before consuming recorded source input
+lengths: redaction's longer spelling is not new estate work or refunded usage.

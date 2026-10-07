@@ -231,8 +231,23 @@ class PrivacyTests(unittest.TestCase):
         value['recording']=policy()
         validated=validate(value)
         with patch('investigator.estate_installation.load',return_value=validated):
-            with self.assertRaisesRegex(ValueError,'CAPTURE_NOT_YET_WIRED'):
+            with self.assertRaisesRegex(ValueError,'LOCAL_SECRET_STORE'):
                 build('not-read')
+        from types import SimpleNamespace
+        from investigator.onboarding import ModelStore
+        with tempfile.TemporaryDirectory() as folder:
+            temporary=Path(folder)
+            config={'storage':{'database':str(temporary/'inventory.sqlite')}}
+            def create(*args):return SimpleNamespace(store=ModelStore(temporary/'catalog.sqlite',temporary/'inventory.sqlite','synthetic'))
+            validated['storage']['catalog']='catalog.sqlite'
+            with patch('investigator.estate_installation.load',return_value=validated), \
+                 patch('metadata_config.ROOT',temporary), \
+                 patch('investigator.adapters.estate_installation.configuration',return_value=config), \
+                 patch('investigator.estate_installation._build_workspace',side_effect=create):
+                _,installation=build('not-read',secret_store=lambda _:b'synthetic-in-memory-key-32-bytes!!')
+            self.assertEqual(installation._workspace.store.privacy_capture,installation.capture)
+            self.assertEqual(list(temporary.iterdir()),[])
+            installation.close()
         value['recording']={'tape_class':'EXACT','columns':['secret']}
         with self.assertRaises(ValueError):validate(value)
 
@@ -279,7 +294,7 @@ class PrivacyTests(unittest.TestCase):
         @operation('intake')
         def read(owner):called.append('raw-implementation')
         with patch('investigator.run_recording.backup') as backup:
-            with self.assertRaisesRegex(TapeError,'CAPTURE_NOT_YET_WIRED'):
+            with self.assertRaisesRegex(TapeError,'REQUIRES_ATOMIC_INSTALLATION_RUN'):
                 read(owner)
             backup.assert_not_called()
         self.assertEqual(called,[])

@@ -764,3 +764,27 @@ schema. Intake/context SQLite, independent planner sidecars and projected-contex
 identity remain outside the codec; installation execution stays refused before
 those writes. No model/estate call, real key access or approval change. The
 redaction audit quotes the producer dependencies. Prior freezes remain invalid.
+
+
+Dated projected-installation checkpoint, 2026-10-07: capture now routes the
+installation's catalog and inventory to memory-only SQLite and seals projected
+images, planner sidecars and dependent identities together. The atomic entry
+point covers intake, preview, procedure and synthesis. A synthetic sensitive
+column completes and replays with original metering evidence, no provider/estate
+calls during replay, no durable-file changes, and cold-loaded receipt/store
+hashes validated. Raw values appear nowhere in the captured files or returned
+outputs. Exact installations and the original gate tapes retain their class.
+42 focused tests passed before the additional cold-receipt assertions; complete
+regression and current-head hosted gate are pending. No real key was created or
+read, no identity/scope/cap changed, and no estate or model request occurred.
+Prior freezes remain invalid; section1 integration and sections5?7 remain open.
+
+DECIDED WITHOUT REVIEW: projected installations expose an atomic run rather than
+raw asynchronous intermediate views; unsupported sensitive numerals, schema
+collisions and query aliases without compiler-backed sensitive-column identity
+refuse. Raw legacy SQLite/ledger files cannot be loaded as projected material.
+A hard interruption before sealing retains no raw body; an ordinary capture
+refusal writes an exclusion record containing only safe failure types. Projection
+is exact after the declared estate-keyed substitution, not original wire bytes.
+Replay verifies the projected payload before consuming recorded source input
+lengths: redaction's longer spelling is not new estate work or refunded usage.

@@ -2,6 +2,7 @@
 
 Planner suggestions are unverified. This module owns scope, budgets, facts and stops.
 """
+from .privacy_capture import input_characters
 from .process_tape import utc_now
 from .model_context import assets as model_assets
 from .evidence_prose import diagnostic_detail
@@ -229,7 +230,7 @@ class AdaptiveRuntime:
                 from .connection_registry import attach
                 payload=attach(payload,self.config,min(self.generation_options['max_payload_characters'],
                     limits['input_characters']-state['input_characters']))
-            size=len(encoded(payload))
+            size=input_characters(payload)
             if size>self.generation_options['max_payload_characters'] or state['input_characters']+size>limits['input_characters']:reason='BUDGET_LIMIT'
             if reason:
                 self.stop(db,state,reason);return self.project_after_commit(db,state)
@@ -540,7 +541,7 @@ class AdaptiveRuntime:
                 self.save(db,current,kind,detail)
 
         def judge_once(payload,attempt):
-            size=len(encoded(payload))
+            size=input_characters(payload)
             with self.runtime.db() as db:
                 db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
                 if current['status']!='EXECUTING' or self.clock()+self.generation_options['timeout_seconds']>current['deadline']:
