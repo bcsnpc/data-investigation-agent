@@ -12,7 +12,9 @@ recording-path footer has a persistence test. Stage and recorded-binding workspa
 have focused offline validation; browser verification is pending. Nine authored reader code cases and fifteen sealed synthesis cases are now
 scorable offline; raw synthesis responses pass current form/token checks13/14.
 Ten human readability reviews are prepared and ungraded. This does not certify
-mechanism correctness; first intake/reader/translation provider scores remain pending.
+mechanism correctness; The first intake field-match score is94.861% (60 cases, one unexpected
+hold); it needs expectation review and is not adjudicated accuracy. Reader and
+translation first scores remain pending.
 See the
 [Round Nine record](docs/round-nine-translation-evals-governance.md).
 

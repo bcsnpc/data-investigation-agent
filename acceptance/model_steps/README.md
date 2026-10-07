@@ -55,3 +55,21 @@ fifteen sealed tapes; private complete requests remain outside the repository.
 All model-step integration is still incomplete: intake/reader/translation first
 provider scores and human readability grades are pending. CI currently tests the
 scorers and their invariants; it is not yet the requested four-step score gate.
+
+
+The first executed intake set is preserved in `intake-recorded-v1.json` and
+`scores/intake-20261006-v1.json`:60 cases,94.861% field match, no retries, six
+intended semantic holds and one unexpected local-validation hold. The score is
+against authored expectations, not adjudicated incident truth. Some triage and
+filter expectations need review against the existing consumer instructions;
+they have not been silently corrected to match the provider. G3 returned a
+completed provider response but incorrectly nominated an identifier as a
+selection; local validation refused it. No replacement or refund occurred.
+
+`evaluate_model_intake.py` defaults to a plan; `--execute` uses the manifest's
+existing model credential and governor, through the original intake procedure,
+with synthetic metadata and no native/source transports. Actual provider usage
+is136753 input/7096 output tokens;60 calls, zero estate requests. Each original
+attempt and its usage survives. The wire's existing intake default is1500 output
+tokens without explicit reasoning effort; investigation settings are not assumed
+to apply. No four-step model-quality gate is claimed yet.

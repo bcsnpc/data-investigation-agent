@@ -355,3 +355,43 @@ reset. Configuration before/after and hashes are in the ledger. New manifest has
 No discovery reapproval has occurred: this local configuration is not execution
 authority for estate reads. Local rolling observation254/1500 at00:52:45Z,
 model reservations0 for the new UTC day; Round Nine estate/provider spending0.
+
+
+Dated first intake evaluation, 2026-10-06 America/Chicago: all60 cases ran once
+against the authored synthetic catalog, through the original intake validation
+and settlement path.53PROPOSED,6NEEDS_INPUT,1HELD; no correction retries and no
+replacement. Overall authored-field match94.861%, question kind83.333%,
+triage fields88.333% each, filters91.667%. All six should-hold cases did so.
+The first-baseline/drop-only scorer says PASSED because all cases were attempted
+and no earlier delta exists; that is NOT an adjudicated accuracy pass or the
+complete four-step quality gate. No expectation was changed to match responses.
+Triage expectations for plain component/freshness questions, and empty filter
+expectations for explicit column selections, require review against the consumer
+instructions. Compound source/discrepancy questions also overlap the current
+subject vocabulary. The v1 score, full synthetic results and its hash are retained.
+
+G3's original HELD/RESOLUTION_UNCERTAIN is preserved. Its provider returned
+HTTP200/status completed,167 output tokens, not an output or transport failure.
+An offline replay of the exact structured response raises:
+`ValueError: Only a quoted SELECTION may enter measurement scope`.
+The response labelled900099 MENTION and IDENTIFIER, yet also supplied it as
+`target_request`; it was refused before any preview/read. The guard prevented
+inventing a selection. This diagnostic makes no replacement response or refund.
+
+Exactly60 model calls,136753 input tokens,7096 output tokens,143849 total tokens;
+served reasoning tokens0. The intake wire used its existing1500-token default
+and no explicit reasoning setting, rather than the investigation profile's
+8000/medium settings. No setting was changed to improve this score. Charged
+output reservations90000 are distinct from actual output7096; counters retained.
+Existing credential lookup used the existing local Azure mechanism, with no
+credential or scope created. Round Nine physical estate requests0/200,40 reserved;
+rolling248/1500 at the saved batch close. Original negative/partial responses,
+sealed tapes and one ledger row per evaluated case are retained.
+
+
+| Step | Recorded model/deployment | First score | Delta |
+| --- | --- | --- | --- |
+| Intake | investigator-quality-54 |94.861% authored-field match,60cases; six intended holds, one unexpected hold; expectation review pending | No prior baseline |
+| Reader MODEL extractor | Not run | Nine code cases and scorer prepared; no provider precision/recall claimed | Unavailable |
+| Synthesis | investigator-quality-54 |13/14 current token/form validity; family C has no model paragraph; ten human reviews ungraded | No prior baseline |
+| Translation proposer | Not run | Synthetic verifier tests exist; first-proposal model score pending | Unavailable |

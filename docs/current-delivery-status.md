@@ -28,9 +28,11 @@ Reader/synthesis/translation eval integration, redaction and rebuild remain pend
 Nine authored reader code cases and fifteen sealed synthesis cases are now
 scorable offline; raw synthesis responses pass current form/token checks13/14.
 Ten human readability reviews are prepared and ungraded. This does not certify
-mechanism correctness; first intake/reader/translation provider scores remain pending.
+mechanism correctness; The first intake field-match score is94.861% (60 cases, one unexpected
+hold); it needs expectation review and is not adjudicated accuracy. Reader and
+translation first scores remain pending.
 Draft PR #420 stays open.
-Round Nine has no estate/provider calls. The authorized 200/40-reserved pot is
+Round Nine has zero estate requests and60 metered intake model calls. The authorized 200/40-reserved pot is
 now declared in its private manifest; rolling1500, investigation12 and model
 allowances are unchanged. New discovery approval remains pending before estate reads. Prior freezes remain invalid.
 [Evidence, failures and decisions](round-nine-translation-evals-governance.md).
