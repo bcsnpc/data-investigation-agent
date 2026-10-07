@@ -725,3 +725,24 @@ immutable hash/tag. General runtime translation, privacy capture, complete
 rebuild and bounded estate verification remain pending; demo browser QA lacks
 a connected browser and existing workspace token. No new secret or scope.
 See the supersession record for exact provenance, usage and limits.
+
+Dated privacy-contract continuation, 2026-10-07: the human approved the separate
+privacy-projected class with capture-time substitution, an estate-keyed secret,
+exact-after-projection replay, manifest class declaration and unchanged exact
+gate tapes.17 synthetic codec/secret-store/refusal tests pass; no model or estate
+call, key creation/read or scope change. Legacy databases/sidecars/output stores
+are not yet wired; projected installations refuse before those paths instead of
+silently using raw capture. Both example estates explicitly declare EXACT;
+manifest hashes change and new live approval is pending. Directory coverage
+remains2entries/1SQLobject/7563characters before and after the recorder declaration.
+Prior freezes remain invalid. See the redaction audit's dated checkpoint.
+
+DECIDED WITHOUT REVIEW: numeric sensitive values and opaque non-JSON bodies
+refuse in this codec until typed provenance can preserve unrelated quantities;
+no numeric tolerance, value guessing or basename matching. Capture packets stay
+in memory until sealed to avoid earlier durable prose leaking a value identified
+later. Interrupted-process preservation for that class remains unfinished, so
+it is not advertised as an installation control. The first legacy-tape test
+attempt produced8errors because committed-engine enforcement refuses a dirty
+worktree; that enforcement is preserved. It is not evidence of an estate or
+provider failure. Committed-checkpoint regression is pending.

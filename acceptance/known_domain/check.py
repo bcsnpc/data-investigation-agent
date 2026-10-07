@@ -138,6 +138,7 @@ def run_case(case,fixture_root,output,*,mechanism_root=None):
         from private_bundle import tape_path
         path=tape_path(run,fixture_root)
         tape=Tape(path)
+        result['tape_class']=tape.tape_class
         # Select from the sealed bootstrap, including a recorded operator pin.
         # Never install the case's requested context into an existing tape.
         model_id=run['session']['model_id']

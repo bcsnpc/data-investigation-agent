@@ -31,6 +31,11 @@ NORMALIZATION={'oneOf':[
          'case_fold':BOOL,'evidence':STRING})]}
 RETENTION_PERIOD={'oneOf':[{'const':'indefinite'},integer(1,36500)]}
 RETENTION=obj({'tape_days':RETENTION_PERIOD,'ledger_days':RETENTION_PERIOD})
+RECORDING={'oneOf':[
+    obj({'tape_class':{'const':'EXACT'}}),
+    obj({'tape_class':{'const':'PRIVACY_PROJECTED'},
+         'version':{'const':'estate-privacy-projection-v1'},'estate_id':STRING,
+         'key_reference':STRING,'columns':array(STRING)})]}
 PROVIDER_REGION={'oneOf':[
     obj({'status':{'const':'DECLARED'},'name':STRING,'evidence':STRING}),
     obj({'status':{'const':'UNDECLARED'},'reason':STRING})]}
@@ -39,6 +44,7 @@ SCHEMA=obj({
     'lineage_proposer':BOOL,'assistant_proposer':BOOL,
     'storage':obj({'catalog':STRING,'inventory':STRING}),
     'retention':RETENTION,
+    'recording':RECORDING,
     'adapters':array(obj({'id':STRING,'implementation':STRING,
         'options':{'type':'object'}})),
     'layers':array(obj({'id':STRING,'asset_id':STRING,'role':enum(ROLES),
@@ -90,7 +96,7 @@ SCHEMA=obj({
     # Evaluator-only declarations; not projected into tools or prompts.
     'fixture_states':array(obj({'id':STRING,'description':STRING,
         'arithmetic':{'type':'string','minLength':1,'maxLength':2000},
-        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer','retention'))
+        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer','retention','recording'))
 
 
 def validate(value):
@@ -99,6 +105,8 @@ def validate(value):
         e=errors[0];raise ValueError('manifest.'+'.'.join(map(str,e.path))+': '+e.message)
     from .generation_policy import validate as generation
     generation(value['model']['generation_options'])
+    from .privacy_projection import declaration as recording_declaration
+    recording_declaration(value.get('recording',{'tape_class':'EXACT'}))
     def indexed(name):
         result={}
         for i,row in enumerate(value[name]):

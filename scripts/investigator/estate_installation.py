@@ -5,6 +5,11 @@ from .estate_manifest import load, policy
 
 def build(path, *, execution_enabled=True):
     manifest=load(path)
+    if manifest.get('recording',{}).get('tape_class')=='PRIVACY_PROJECTED':
+        # The packet codec is not a licence for legacy stores/sidecars to
+        # write raw evidence. Keep execution closed until every durable route
+        # uses the projected capture boundary, including pinned databases.
+        raise ValueError('PRIVACY_PROJECTED_INSTALLATION_CAPTURE_NOT_YET_WIRED')
     from .adapters.estate_installation import configuration,transports,provider
     config=configuration(manifest)
     from .onboarding import ModelStore

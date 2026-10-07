@@ -53,3 +53,47 @@ as non-replayable where projection changes a sealed input identity. Both choices
 must keep the original raw-body contract for existing tapes. Until that choice
 is resolved and the full path is tested, the manifest does not advertise this
 control and the fixture continues to declare no redacted columns.
+
+## Dated contract decision and codec checkpoint, 2026-10-07
+
+The human approved a separate privacy-projected class: projection at capture,
+no raw durable or transient files, an estate-keyed secret-store key, exact replay
+after projection under the same key, one class per estate declared in the
+manifest, and a tape-class field in grading. Existing unredacted gate tapes stay
+exact. Changing the sensitive-column list requires re-recording; old tapes cannot
+be re-projected. This supersedes the pending decision above, not the earlier audit.
+
+The new codec uses HMAC-SHA256 with an estate domain and typed string values.
+Its descriptor carries policy, policy hash and a keyed key-binding assertion,
+never the key or an unkeyed hash of a sensitive value. A keyed seal prevents a
+modified capture from passing as an authentic projected tape. It decodes nested
+JSON and base64 JSON before projection. Null, zero and unrelated empty strings
+remain distinct. Unsupported sensitive numeric types and opaque non-JSON bodies
+refuse; no numeral guessing or string-column basename guessing occurs.
+
+The separate capture packet invokes projection at each event and keeps its
+projected events in memory until sealing; no raw journal or scratch file is
+written. A final pass also removes values that later typed evidence identifies
+from earlier prose. Sealed outputs are returned projected. A synthetic person
+column records and replays under the same in-memory test secret; the raw name
+appears in no file, decoded event, nested provider body or returned output.
+Seventeen focused tests pass. Recording declarations do not enter the model
+payload: directory entries2/2, SQL entries1/1 and payload characters7563/7563.
+
+This is **codec groundwork, not a delivered installation privacy guarantee**.
+The existing recorder also backs up catalog/inventory databases, and runtime
+stores and planner sidecars persist independently. Those paths do not yet use
+this typed boundary. Projected installations therefore refuse before execution,
+legacy capture or raw artifact backup. An unlabelled value cannot be safely
+identified as belonging to a sensitive column; native result aliases need exact
+resolved-column provenance. This remaining wiring must cover those producers,
+all sidecars, pinned artifacts and output persistence before this control is
+advertised as usable. Memory-only unfinished packets also need an explicit
+interruption record without leaking unidentified values; no failure-preservation
+guarantee is claimed for a process killed before sealing.
+
+Fixture and example manifests now explicitly declare EXACT. Their hashes change,
+so existing current approvals must not be reused for new live work. No approval
+was rewritten, secret created/read, identity changed, model called or estate
+request made. Old exact v1-v4 tapes and recorded manifests remain unchanged.
+Legacy manifest omission is supported only as the existing exact class.

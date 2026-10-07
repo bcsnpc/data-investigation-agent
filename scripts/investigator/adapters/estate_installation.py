@@ -54,6 +54,8 @@ def configuration(manifest):
         'accepted_limits':manifest['accepted_limits'],
         # Recorder configuration only, never a worker option or model prompt.
         'provider_terms':declaration(manifest['model']), 'trace_footer':True}
+    if 'recording' in manifest:
+        config['_estate']['recording']=copy.deepcopy(manifest['recording'])
     return config
 
 

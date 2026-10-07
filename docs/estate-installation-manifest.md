@@ -145,3 +145,11 @@ carried in every new manifest-backed tape's bootstrap and configuration events,
 without credentials. Historical tapes remain UNRECORDED for region. Adding or
 changing these terms changes the whole approval hash and requires re-approval;
 it does not change permissions or worker configuration.
+
+Recording now declares one class in `recording`: `{"tape_class":"EXACT"}`
+or the separate `PRIVACY_PROJECTED` policy with its version, estate ID, exact
+resolved column identities and secret-store key reference. A key is never a
+manifest value. Legacy omitted declarations retain the exact contract. The
+projected codec is tested offline; installation capture is still unwired and
+**refuses execution** rather than using exact capture as a fallback. See the
+[dated privacy decision and remaining boundaries](round-nine-redaction-contract-audit.md).
