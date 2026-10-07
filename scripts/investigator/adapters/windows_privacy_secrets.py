@@ -7,7 +7,7 @@ the decoded key only in memory; no environment variable or scratch file is used.
 import base64
 from pathlib import Path
 import subprocess
-from .privacy_projection import ProjectionError
+from ..privacy_projection import ProjectionError
 
 
 def resolver(root):

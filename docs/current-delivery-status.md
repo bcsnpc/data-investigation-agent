@@ -20,6 +20,9 @@ The human-approved separate privacy-projected contract has18 focused codec tests
 Full installation capture remains unwired and refuses; fixture/gate tapes stay
 EXACT. Explicit recording declarations change manifest hashes; live re-approval
 is pending, not backfilled into historical tapes. No new secret or estate read.
+Corrected privacy checkpoint64ca314 passed2227 regression tests; its earlier
+six context-pin errors and correction are retained. Full capture wiring is
+still pending; codec tests do not establish a usable installation privacy control.
 Provider-region provenance has three passing tests; the fixture remains explicitly
 undeclared. A pinned, read-only demo command has four mocked tests; no server was
 started. Engine stage events now reach the existing activity view during calls;

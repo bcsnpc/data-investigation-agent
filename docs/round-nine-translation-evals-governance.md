@@ -746,3 +746,13 @@ it is not advertised as an installation control. The first legacy-tape test
 attempt produced8errors because committed-engine enforcement refuses a dirty
 worktree; that enforcement is preserved. It is not evidence of an estate or
 provider failure. Committed-checkpoint regression is pending.
+
+Dated privacy regression follow-up:2326fb8 ran2226 tests with6errors because
+privacy refusal ran before context-pin validation. The corrected64ca314 passed
+2227 tests in742.483s.18 privacy tests and5 pin tests pass; unknown tabular
+identities/row shapes refuse, never skip. Failed logs remain retained. The
+Windows key resolver is adapter-owned and its transport is fingerprinted.
+No real key created/read, scope change, model call or estate request.
+Installation privacy capture remains pending and refused. The independent
+local sweep passed archived15/15 and inferred15/15 under tightened grading,
+zero network/physical requests; original tapes and structured fields unchanged.

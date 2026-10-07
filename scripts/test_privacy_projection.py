@@ -182,7 +182,7 @@ class PrivacyTests(unittest.TestCase):
         with self.assertRaises(ValueError):validate(value)
 
     def test_secret_reference_resolves_only_from_existing_local_dpapi_store(self):
-        from investigator.privacy_secrets import resolver
+        from investigator.adapters.windows_privacy_secrets import resolver
         from unittest.mock import patch
         from types import SimpleNamespace
         with tempfile.TemporaryDirectory() as folder:

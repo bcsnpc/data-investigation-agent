@@ -105,4 +105,9 @@ The invariant now runs first; privacy refusal still precedes raw backup or
 capture.5 context-pin tests and18 privacy tests pass after that correction.
 Unresolved tabular headers, duplicate identities and unaccounted row fields
 also refuse before capture; none are silently skipped. The original failed
-log is retained. Corrected full-suite verification remains pending.
+log is retained. Corrected64ca314 passed2227 tests in742.483s. The Windows
+secret-store resolver is adapter-owned; the neutral projector accepts a secret
+store callback. Its PowerShell transport is included in the engine fingerprint,
+so a transport-only change cannot preserve an old freeze identity. Final path/
+fingerprint coverage has focused verification; it does not make installation
+capture complete.

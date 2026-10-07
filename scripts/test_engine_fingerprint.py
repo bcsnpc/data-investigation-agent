@@ -14,6 +14,8 @@ class FingerprintTests(unittest.TestCase):
         _, files = fingerprint_files()
         names = {p.relative_to(ROOT).as_posix() for p in files}
         self.assertIn('scripts/investigator/adapters/microsoft_process.py', names)
+        self.assertIn('scripts/investigator/adapters/windows_privacy_secrets.py', names)
+        self.assertIn('infra/scripts/Read-PrivacyProjectionKey.ps1', names)
         self.assertFalse(any('__pycache__' in n for n in names))
 
     def test_every_listed_transport_exists(self):
