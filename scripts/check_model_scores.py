@@ -5,6 +5,22 @@ from investigator.model_step_scores import score_intake,score_reader,compare
 from investigator.synthesis_scores import score as score_synthesis,score_human,review_item
 from investigator.translation_eval import score as score_translation,verify
 from investigator.onboarding import digest
+from investigator.generation_policy import error_summary
+from jsonschema.exceptions import ValidationError
+
+
+def translation_records(golden, records):
+    """Rejected proposals are scored failures, never scorer crashes or omissions."""
+    cases={c['id']:c for c in golden['cases']};result=[]
+    for row in records:
+        current=dict(row)
+        if row.get('proposal') is not None:
+            try:current['evaluation']=verify(cases[row['case_id']],row['proposal'])
+            except (ValueError, ValidationError) as exc:
+                current['evaluation']=None
+                current['offline_validation_error']=error_summary(exc)
+        result.append(current)
+    return result
 
 
 def evaluate(root,config):
@@ -22,8 +38,7 @@ def evaluate(root,config):
                 # Re-execute the saved first proposals against independent local
                 # fixture statements. A forged cached VERIFIED marker cannot
                 # improve the CI score. No model request or estate transport.
-                cases={c['id']:c for c in golden['cases']}
-                records=[{**r,'evaluation':verify(cases[r['case_id']],r['proposal'])} if r.get('proposal') is not None else r for r in records]
+                records=translation_records(golden,records)
             current={'intake':score_intake,'reader':score_reader,'translation':score_translation}[step](golden,records,version)
         results.append(compare(current,read(entry['baseline']),thresholds[step]))
     human=None;human_error=None

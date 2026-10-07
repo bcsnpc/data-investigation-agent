@@ -16,10 +16,29 @@ class ModelTranslationTests(unittest.TestCase):
         with patch('ticket_planner._azure_generate',return_value=({'expression':'untrusted'},{'usage':{'output_tokens':2}})) as generate:
             value,metadata=azure_propose({'translation':req},SCHEMA,options)
         self.assertEqual(generate.call_args.args[0],Provider(options=options).input(req))
-        self.assertEqual(generate.call_args.kwargs['schema'],wire_schema(SCHEMA))
+        wire=generate.call_args.kwargs['schema']
+        self.assertEqual(wire['properties']['objects']['items']['anyOf'],[
+            {'type':'object','additionalProperties':False,'required':['id','kind'],
+             'properties':{'id':{'type':'string','enum':['items']},'kind':{'type':'string','enum':['TABLE']}}}])
+        self.assertEqual(wire['properties']['expression'],wire_schema(SCHEMA)['properties']['expression'])
         self.assertTrue(generate.call_args.kwargs['instructions'].startswith(INSTRUCTIONS))
         self.assertNotIn('available_cells',generate.call_args.args[0])
         self.assertTrue(SCHEMA['properties']['objects']['uniqueItems'])
+
+    def test_producer_can_express_only_consumer_catalog_identity_kind_pairs(self):
+        from investigator.translation_proposer import SCHEMA,validate
+        from investigator.adapters.translation_model import Provider,wire_schema
+        from jsonschema import Draft202012Validator
+        g=json.loads((Path(__file__).resolve().parents[1]/'acceptance/model_steps/translation.json').read_text())
+        req=request(g['cases'][0]);req['metadata']['objects']['items.k']='COLUMN'
+        generate=MagicMock(return_value=({},{}))
+        Provider(options={'timeout_seconds':10,'max_output_tokens':1500,'max_payload_characters':8000},generate=generate).propose(req,SCHEMA)
+        item=wire_schema(generate.call_args.args[1])['properties']['objects']['items']
+        for identity,kind in req['metadata']['objects'].items():
+            Draft202012Validator(item).validate({'id':identity,'kind':kind})
+        for bad in ({'id':'k','kind':'COLUMN'},{'id':'items','kind':'COLUMN'},{'id':'outside','kind':'TABLE'}):
+            self.assertTrue(list(Draft202012Validator(item).iter_errors(bad)))
+        self.assertEqual(SCHEMA['properties']['objects']['items']['properties']['id']['maxLength'],500)
 
     def test_one_proposal_is_metered_and_verified_locally_without_estate_routes(self):
         h=fixture.WorkspaceTests();h.setUp();self.addCleanup(h.doCleanups)

@@ -321,7 +321,15 @@ class TranslationTests(unittest.TestCase):
         self.assertNotIn('key_binding', payload['metadata'])
         self.assertEqual(payload['metadata']['key_binding_declaration'], proof['declaration'])
         self.assertNotIn('observations', str(payload))
-        self.assertEqual(schema, t.SCHEMA)
+        for key in t.SCHEMA['properties']:
+            if key!='objects':self.assertEqual(schema['properties'][key],t.SCHEMA['properties'][key])
+        self.assertEqual(schema['properties']['objects']['maxItems'],t.SCHEMA['properties']['objects']['maxItems'])
+        self.assertTrue(schema['properties']['objects']['uniqueItems'])
+        from jsonschema import Draft202012Validator
+        item=wire_schema(schema)['properties']['objects']['items']
+        for identity,kind in request['metadata']['objects'].items():
+            Draft202012Validator(item).validate({'id':identity,'kind':kind})
+        self.assertTrue(list(Draft202012Validator(item).iter_errors({'id':'invented','kind':'TABLE'})))
         self.assertEqual(wire_schema(schema)['properties']['kind']['enum'], schema['properties']['kind']['enum'])
         # Only provider-unsupported validation keywords disappear, never fields,
         # requiredness or closed-object rules.

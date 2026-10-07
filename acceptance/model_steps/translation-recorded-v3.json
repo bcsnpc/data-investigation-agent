@@ -1,0 +1,151 @@
+[
+  {
+    "case_id": "top-n",
+    "model_version": "investigator-quality-54",
+    "proposal": {
+      "kind": "FILTER",
+      "definition_hash": "573d3fa27be66bc78b44107c01a4bb9537aef37cb1505fa80a29ac9f94a9d132",
+      "target_engine": "sqlite",
+      "expression": "EXISTS (SELECT 1 FROM (SELECT \"k\" FROM \"items\" ORDER BY \"v\" DESC, \"k\" ASC LIMIT 2) AS \"__top_n\" WHERE \"__top_n\".\"k\" IS \"items\".\"k\")",
+      "objects": [
+        {
+          "id": "items",
+          "kind": "TABLE"
+        },
+        {
+          "id": "k",
+          "kind": "COLUMN"
+        },
+        {
+          "id": "v",
+          "kind": "COLUMN"
+        }
+      ],
+      "grouping": [],
+      "evaluation_timestamp": null
+    },
+    "evaluation": null,
+    "provider_error": null,
+    "validation_error": {
+      "error_type": "ValueError",
+      "cause_types": []
+    },
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_082dc27fe7735181016ac5a68681348190933d2dfbc8acb753",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 795,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2426,
+        "output_tokens_details": {
+          "reasoning_tokens": 2271
+        },
+        "total_tokens": 3221
+      }
+    },
+    "estate_physical_requests": 0
+  },
+  {
+    "case_id": "relative-day",
+    "model_version": "investigator-quality-54",
+    "proposal": {
+      "kind": "FILTER",
+      "definition_hash": "250922a3df03d0d81bc1324352448437611f04cd550a00a699aa5dee6aab90c6",
+      "target_engine": "sqlite",
+      "expression": "\"items\".\"day\" >= '2026-10-01' AND \"items\".\"day\" <= '2026-10-06'",
+      "objects": [
+        {
+          "id": "items",
+          "kind": "TABLE"
+        },
+        {
+          "id": "items.day",
+          "kind": "COLUMN"
+        }
+      ],
+      "grouping": [],
+      "evaluation_timestamp": "2026-10-06T20:00:00+00:00"
+    },
+    "evaluation": null,
+    "provider_error": null,
+    "validation_error": {
+      "error_type": "ValueError",
+      "cause_types": []
+    },
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_0c2b74d82fadde13016ac5a6a385848197a72ac334090c614b",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 794,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 644,
+        "output_tokens_details": {
+          "reasoning_tokens": 506
+        },
+        "total_tokens": 1438
+      }
+    },
+    "estate_physical_requests": 0
+  },
+  {
+    "case_id": "all-measure",
+    "model_version": "investigator-quality-54",
+    "proposal": {
+      "kind": "MEASURE",
+      "definition_hash": "6eeb008a81028aa0e412a956a9c5e70f3c938a3ecb054f8eb0fcde11d163476f",
+      "target_engine": "sqlite",
+      "expression": "(SELECT SUM(items.v) FROM items)",
+      "objects": [
+        {
+          "id": "items",
+          "kind": "TABLE"
+        },
+        {
+          "id": "items[k]",
+          "kind": "COLUMN"
+        },
+        {
+          "id": "items[v]",
+          "kind": "COLUMN"
+        }
+      ],
+      "grouping": [],
+      "evaluation_timestamp": null
+    },
+    "evaluation": null,
+    "provider_error": null,
+    "validation_error": {
+      "error_type": "ValueError",
+      "cause_types": []
+    },
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_058da23a2705b676016ac5a6ac39288196b17f8181e2049631",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 784,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1054,
+        "output_tokens_details": {
+          "reasoning_tokens": 936
+        },
+        "total_tokens": 1838
+      }
+    },
+    "estate_physical_requests": 0
+  }
+]

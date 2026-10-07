@@ -57,5 +57,20 @@ class Provider:
     def propose(self, request, schema):
         self.metadata = None
         payload = self.input(request)
-        value, self.metadata = self.generate(payload, schema, self.options)
+        # The consumer's discovered identity domain must also constrain the
+        # producer. Otherwise a perfectly shaped answer can invent a column
+        # spelling that the consumer will correctly refuse.
+        catalog=payload['metadata']['objects']
+        if not catalog or len(catalog)>512:
+            raise ValueError('Translation object inventory exceeds the producer contract')
+        from jsonschema import Draft202012Validator
+        for identity,kind in catalog.items():
+            Draft202012Validator(schema['properties']['objects']['items']).validate({'id':identity,'kind':kind})
+        narrowed=copy.deepcopy(schema)
+        narrowed['properties']['objects']['items']={'anyOf':[
+            {'type':'object','additionalProperties':False,'required':['id','kind'],
+             'properties':{'id':{'type':'string','enum':[identity]},
+                           'kind':{'type':'string','enum':[kind]}}}
+            for identity,kind in sorted(catalog.items())]}
+        value, self.metadata = self.generate(payload, narrowed, self.options)
         return value

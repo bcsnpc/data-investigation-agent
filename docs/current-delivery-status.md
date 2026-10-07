@@ -32,10 +32,12 @@ mechanism correctness; The first intake field-match score is94.861% (60 cases, o
 hold); it needs expectation review and is not adjudicated accuracy. Reader v1 failed before extraction on nine HTTP400 schema refusals; it is preserved.
 A separately recorded v2 batch after the consumer wire fix scored precision/recall1.0
 on nine synthetic cases, with two correct refusals; no binding verification.
-Translation first proposals:2/3 originally,3/3 on the same sealed proposals after
-a separately recorded local compiler correction; no estate verification.
+Prototype translation proposals scored2/3 originally and3/3 after a separately
+recorded local compiler correction. The installed-adapter v3 batch scored0/3:
+all three proposals failed the metadata identity check before probes. Original
+results are preserved; scored CI remains red. No estate verification.
 Draft PR #420 stays open.
-Round Nine has zero estate requests and82 metered model calls (60 intake,18 reader,4 translation including refusals). The authorized 200/40-reserved pot is
+Round Nine has zero estate requests and85 metered model calls (60 intake,18 reader,7 translation including refusals). The authorized 200/40-reserved pot is
 now declared in its private manifest; rolling1500, investigation12 and model
 allowances are unchanged. New discovery approval remains pending before estate reads. Prior freezes remain invalid.
 [Evidence, failures and decisions](round-nine-translation-evals-governance.md).

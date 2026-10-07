@@ -532,3 +532,36 @@ before compilation. An integration test asserts equality to that actual path.
 The local compiler accepts one scalar expression or a complete one-column SELECT;
 multi-column or mutating queries refuse.42 focused tests pass. A separately
 recorded v3 evaluation will establish the actual installed-adapter baseline.
+
+
+Dated installed-adapter v3 result, 2026-10-06 America/Chicago: three first
+responses served, three consumer rejections,0/3 verified,0 local verification
+probes,0 estate requests. All failed "Translation touches an object absent from
+metadata". The fixture catalog declares only the items table; a separate columns
+map lists k/v/day. The proposals name column identities in differing forms which
+that catalog never declared. This is an input/producer contract finding, not
+proof that their predicates or arithmetic are wrong. Each original proposal,
+response, error and tape remains unchanged. Separately recorded offline diagnosis
+quotes the rejecting consumer. Actual usage2373 input,4124 output,6497 total,
+3713 reasoning tokens. Round Nine85 calls; latest rolling162/1500 (natural expiry),
+85 model reservations/290000 output tokens reserved for the UTC day; estate0/200,
+40 reserved. No reset, refund, credential, scope or policy change.
+
+DECIDED WITHOUT REVIEW: the installed provider's object-item schema now derives
+its allowed identity/kind pairs directly from the consumer's metadata catalog.
+Singleton enums survive the actual provider wire; const did not, as a failed test
+exposed. Bounds and local duplicate checks remain consumer-owned. No new column
+identity is guessed or added to the historical catalog. Broader fixture metadata
+requires a separately authored input and subsequent evaluation; no replacement
+batch has been run.32 proposer,3 model-path,5 evaluator and4 gate tests pass.
+The two initial test failures are preserved in the ledger: dropped const and the
+old assertion that the producer schema was completely unnarrowed.
+
+Scored CI now re-scores the actual v3 proposals. Invalid saved proposals count
+as zero rather than crashing the scorer or trusting a cached VERIFIED flag.
+The prototype3/3 reference is retained, so the numeric ratchet fails(-1.0);
+this is an explicit baseline/proposer-path change, not an attributed model-quality
+regression. The reference has not been lowered to make CI green. Human grades
+are still pending. PR420 remains draft. General runtime translation integration,
+column redaction, rebuild, browser verification, reapproval and section6 live
+verification remain unfinished; prior freezes remain invalid.

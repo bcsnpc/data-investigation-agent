@@ -104,4 +104,5 @@ def score(golden,records,model_version):
     return {'step':'translation','model_version':model_version,'cases':len(cases),'evaluated':len(indexed),
         'suite_hash':digest(golden),'status':'COMPLETE' if len(indexed)==len(cases) else 'INCOMPLETE',
         'score':verified/len(cases),'first_proposal_verified':verified,'provider_failures':failures,
+        'validation_failures':sum(bool(r.get('validation_error') or r.get('offline_validation_error')) for r in indexed.values()),
         'estate_physical_requests':0,'limits':['Authored local fixture; verification is bounded evidence, not global equivalence or aligned snapshots.']}
