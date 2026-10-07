@@ -12,6 +12,17 @@ from investigator.mechanism_revision import effective_records,REASON
 from investigator.process_tape import Tape,validate_event
 
 
+def select_pools(path,source,*,root,pools):
+    """Select by sealed source identity, never by family or column labels."""
+    original_hash=hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    matching=[(records,revisions) for records,revisions in pools
+              if any(r['source_tape_sha256']==original_hash for r in revisions['revisions'])]
+    if len(matching)>1:raise ValueError('MECHANISM_SUPERSESSION_AMBIGUOUS_SOURCE_POOL')
+    if not matching:return None
+    records,revisions=matching[0]
+    return select(path,source,root=root,records=records,revisions=revisions)
+
+
 def select(path,source,*,root,records,revisions):
     original_hash=hashlib.sha256(Path(path).read_bytes()).hexdigest()
     matches=[r for r in revisions['revisions'] if r['source_tape_sha256']==original_hash]

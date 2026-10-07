@@ -11,10 +11,10 @@ general translation wiring, redaction and rebuild remain pending. The
 recording-path footer has a persistence test. Stage and recorded-binding workspace views
 have focused offline validation; browser verification is pending. Nine authored reader code cases and fifteen sealed synthesis cases are now
 scorable offline; the corrected checker accepts6/14 unchanged raw synthesis responses.
-Eight authorised mechanism-only supersessions now pass (nine recorded model calls,
-zero estate reads); their effective score is14/14. Original paragraphs and human
-grades remain unchanged. Seven different archived paragraphs still fail the new
-rules; the current15x2 gate is not green and PR420 stays draft. See
+Eight inferred and seven independently authorised archived mechanism-only
+supersessions now pass (17 recorded model calls combined, zero estate reads).
+Original paragraphs, structured fields and human grades remain unchanged.
+The current 15x2 replay is pending; PR420 stays draft until it passes. See
 [mechanism supersessions](docs/round-nine-mechanism-supersessions.md).
 Ten attributed human reviews are recorded: role naming8/10, one mechanism9/10,
 no repeated hedge6/10, all flags4/10. Shared rules now reject repeated hedges and
@@ -29,7 +29,7 @@ all three proposals failed the metadata identity check before probes. The new
 versioned column catalog and producer identity enum served three verified first
 proposals in v4, with ten local probes. Every original is preserved; scored CI
 passes locally with source-bound supersessions; original baselines are unchanged.
-The two-column gate remains pending/red for separate archived findings. No estate verification.
+The two-column gate is re-running with independently source-bound supersessions. No estate verification.
 See the
 [Round Nine record](docs/round-nine-translation-evals-governance.md).
 

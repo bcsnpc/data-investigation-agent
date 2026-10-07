@@ -1,24 +1,34 @@
 {
   "version": 1,
-  "release_tag": "mechanism-revisions-420-e3d03e97a371015fadfdb99c9cab3c86022cfbb25f6c8e81e9cdcf4fbd5e2b29",
+  "release_tag": "mechanism-revisions-420-e46a5ce9c27389f1b8b8fb74251f498ecd6c4f72a8d18a547a23adc09776daaf",
   "asset_name": "mechanism-tapes.sealed",
-  "ciphertext_sha256": "e3d03e97a371015fadfdb99c9cab3c86022cfbb25f6c8e81e9cdcf4fbd5e2b29",
-  "member_count": 11,
+  "ciphertext_sha256": "e46a5ce9c27389f1b8b8fb74251f498ecd6c4f72a8d18a547a23adc09776daaf",
+  "member_count": 19,
   "inventory": {
-    "mechanism-resynthesis-v1/family-A.tape.json": "846c92d742d306a128b1f7a1aa830cfe06389f657b2c56570503191689f76758",
-    "mechanism-resynthesis-v1/family-D.tape.json": "4555722bc557d8bebb700df8f33eda36b960d6f31e2ff572d90c445db32c760c",
-    "mechanism-resynthesis-v1/family-E.tape.json": "6fac84fb9f801633e01e0ecd614662a291dcdf5d05745fd7d91665c87c385b1f",
-    "mechanism-resynthesis-v1/results.json": "37c51db1417f5f76dc4e437ce7e118e7e54ba6bb2824c26f2b0d03758d1d88a6",
+    "archived-mechanism-resynthesis-v1/family-A.tape.json": "4ea00b3bec25a574ef1a54e9456913217ba36c49528a9defd708cd3bb8dafd64",
+    "archived-mechanism-resynthesis-v1/family-B.tape.json": "d7a03c83089fe8995907b205a6e98e54d92971b9d1cce7b9ca732b97fc4539a2",
+    "archived-mechanism-resynthesis-v1/family-D.tape.json": "3e34dc75254e1b2e9bd0a991f2c19bbcd9e94442f4094273558efc57f4baa44d",
+    "archived-mechanism-resynthesis-v1/family-E.tape.json": "ebd8620deb6265d9bd8bab625720c1fd05963be648c4d1a89015813067f44f15",
+    "archived-mechanism-resynthesis-v1/family-I.tape.json": "67e5a4651ca23c4aca1b0f7ba7c8ce3cc172a9ddb60a82cf6465e507fb465a5f",
+    "archived-mechanism-resynthesis-v1/results.json": "23a42ab7a547fab4318a7215bb5d6ac25afa33f6136547b4b6e9fcc1169c12b0",
+    "archived-mechanism-resynthesis-v1/source-consistent.tape.json": "be59d0a17298a4b7edd5a244585d65eb64b5547e7627a09160ecb3d945bc4106",
+    "archived-mechanism-resynthesis-v1/source-unreachable.tape.json": "33029b14c2a3dc8a324a317c5b0366eebf31b3f51a0d282dcf04dbcdce4ad7e6",
     "mechanism-resynthesis-v1-resume/family-E.tape.json": "7775881f1425a94b77673b008399ea5af1aa496f2f473ad04d96c91275ae97c5",
     "mechanism-resynthesis-v1-resume/family-G.tape.json": "382ca04fa1c9a66cd3b00b1323a560800fb818722982390fa7380bbfe9135cb4",
     "mechanism-resynthesis-v1-resume/family-H.tape.json": "770eb4c0f72064d62a8929cab82943154e3e5cf6dde2c3d63b9b0319def2ae9f",
     "mechanism-resynthesis-v1-resume/family-I.tape.json": "cdb9bf60a289c5ccda5b02d75b2b551fdc8fd498a4c465916abd23ff654a6254",
+    "mechanism-resynthesis-v1-resume/results.json": "6c71f315bc672437004825faca6dc41a87b58816ad835d534840fdecad88c89d",
     "mechanism-resynthesis-v1-resume/source-consistent.tape.json": "4d5328beff88b28e41d46059e9a6f9bca7157cbe9a36f80d3ce2375439c3273f",
     "mechanism-resynthesis-v1-resume/source-latency.tape.json": "efac5834e4bfec1cb38d49e943582cc312df0114b1d7cf025cfe0b8866e493e3",
-    "mechanism-resynthesis-v1-resume/results.json": "6c71f315bc672437004825faca6dc41a87b58816ad835d534840fdecad88c89d"
+    "mechanism-resynthesis-v1/family-A.tape.json": "846c92d742d306a128b1f7a1aa830cfe06389f657b2c56570503191689f76758",
+    "mechanism-resynthesis-v1/family-D.tape.json": "4555722bc557d8bebb700df8f33eda36b960d6f31e2ff572d90c445db32c760c",
+    "mechanism-resynthesis-v1/family-E.tape.json": "6fac84fb9f801633e01e0ecd614662a291dcdf5d05745fd7d91665c87c385b1f",
+    "mechanism-resynthesis-v1/results.json": "37c51db1417f5f76dc4e437ce7e118e7e54ba6bb2824c26f2b0d03758d1d88a6"
   },
   "reason": "synthesis rules tightened per human review, #420",
   "original_tapes_modified": false,
   "credential_scan": "ZERO_MATCHES_IN_ALL_FILES_DECODED_EVENTS_AND_PROVIDER_BODIES",
-  "actions_secret": "KNOWN_DOMAIN_REPLAY_KEY (existing, unchanged)"
+  "actions_secret": "KNOWN_DOMAIN_REPLAY_KEY (existing, unchanged)",
+  "supersedes_delivery_manifest": "private-mechanism-bundle-inferred-420.json",
+  "supersession_reason": "Add seven independently authorised archived mechanisms; retain all previous proof bytes and immutable releases."
 }

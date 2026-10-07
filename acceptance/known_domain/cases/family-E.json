@@ -73,6 +73,10 @@
       "before": "NOT_ANSWERED",
       "after": "PARTLY_ANSWERED",
       "reason": "Intentional declared-kind/evidence coverage derivation introduced after the reference run; outcome unchanged."
+    },
+    {
+      "date": "2026-10-07",
+      "reason": "synthesis rules tightened per human review, #420"
     }
   ]
 }

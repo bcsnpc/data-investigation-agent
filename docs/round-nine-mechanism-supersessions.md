@@ -121,3 +121,38 @@ pinned tracing dependency directory. The stricter source-context proof on
 The earlier8-error run remains intact. Current15x2 remains unearned because
 seven distinct archived paragraphs fail the tightened rules. No additional
 model call while the bounded archived-revision decision is pending.
+
+## Archived authorisation and execution ? 2026-10-07 America/Chicago
+
+The human authorised the seven independently sealed archived paragraphs after
+the preceding full replay scored archived8/15 and inferred15/15. A, B, D, E, I,
+source-consistent and source-unreachable are now accepted after eight metered
+model calls. A first emitted `may` and `could`; that response was rejected and
+its sole retry passed. The other six passed first call. No second rejection.
+Every new request uses its own exact archived evidence spine. Zero estate reads.
+
+Actual tokens:41,601 input +4,524 output =46,125. Reservations:64,000 output.
+Cumulative calls97 ->105, output reservations386,000 ->450,000; no refund or
+reset. Across both authorised batches:17 calls,91,318 input +9,911 output
+=101,229 tokens. Investigation cap12 and all estate allowances unchanged.
+The rolling window naturally aged to7/1500 at the final usage snapshot; this
+is not a counter reset. Round Nine estate pot remains0/200,40 reserved.
+
+The archived extracts and supersession index are separate from the inferred
+ones. Selection uses source tape hash, never a family or column name. Duplicate
+source claims across indexes refuse. All seven complete response structures
+are canonically byte-identical except `technical_output.text`. The original
+paragraphs are retained as superseded in the index and unchanged in their tapes.
+Original human grades are not transferred to these new sentences.
+
+Section8 evidence delivery uses a new immutable encrypted bundle with19
+exact members: the previous11 proof files unchanged plus seven new tapes and
+the archived batch results. The prior release and its manifest remain retained.
+Ciphertext SHA-256:`e46a5ce9c27389f1b8b8fb74251f498ecd6c4f72a8d18a547a23adc09776daaf`.
+Release tag:`mechanism-revisions-420-e46a5ce9c27389f1b8b8fb74251f498ecd6c4f72a8d18a547a23adc09776daaf`.
+Existing Actions secret `KNOWN_DOMAIN_REPLAY_KEY` unchanged; local encryption
+uses only its public recipient key. All19 files, decoded events and provider
+bodies scanned clean. No estate credential, reader scope or identity changed.
+
+Eight source-selector/revision tests pass. The full regression and current
+30-case replay are running. No15x2 or draft-promotion claim yet.

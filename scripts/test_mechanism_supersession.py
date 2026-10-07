@@ -1,7 +1,7 @@
 import base64,copy,hashlib,json,sys,tempfile,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'acceptance/known_domain'))
-from mechanism_supersession import select
+from mechanism_supersession import select,select_pools
 from investigator.process_tape import Tape,bytes_of
 from investigator.mechanism_revision import REASON
 
@@ -56,6 +56,16 @@ class SupersessionGateTests(unittest.TestCase):
             source=copy.deepcopy(source);source['response']['future']['quantity']=17
             with self.assertRaisesRegex(ValueError,'ORIGINAL_RESPONSE_DIFFERS'):
                 select(path,source,root=root,records=records,revisions=revisions)
+
+    def test_source_identity_selects_one_pool_and_duplicate_claims_refuse(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);path,source,records,revisions=self.build(root)
+            other=copy.deepcopy(revisions);other['revisions'][0]['source_tape_sha256']='another-column'
+            result=select_pools(path,source,root=root,pools=[([],other),(records,revisions)])
+            self.assertTrue(result['structured_fields_byte_identical'])
+            with self.assertRaisesRegex(ValueError,'AMBIGUOUS_SOURCE_POOL'):
+                select_pools(path,source,root=root,pools=[(records,revisions),(records,copy.deepcopy(revisions))])
+            self.assertIsNone(select_pools(path,source,root=root,pools=[([],other)]))
 
 
 if __name__=='__main__':unittest.main()

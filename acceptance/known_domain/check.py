@@ -168,13 +168,17 @@ def run_case(case,fixture_root,output,*,mechanism_root=None):
             result['fixture_state']=binding['name'];result['context_used']=established
             result['fixture_state_provenance']=binding.get('provenance','RECORDED_NATIVE')
             source_mechanism=sealed_mechanism(path)
-            revision_path=ROOT/'acceptance/model_steps/synthesis-revisions-420.json'
-            amended=None
-            if revision_path.exists():
-                from mechanism_supersession import select
-                records=json.loads((ROOT/'acceptance/model_steps/synthesis-recorded.json').read_text(encoding='utf8'))['records']
-                revisions=json.loads(revision_path.read_text(encoding='utf8'))
-                amended=select(path,source_mechanism,root=mechanism_root,records=records,revisions=revisions)
+            from mechanism_supersession import select_pools
+            pools=[]
+            for records_name,revisions_name in (
+                ('synthesis-recorded.json','synthesis-revisions-420.json'),
+                ('synthesis-archived-recorded.json','synthesis-archived-revisions-420.json')):
+                revision_path=ROOT/'acceptance/model_steps'/revisions_name
+                if revision_path.exists():
+                    records=json.loads((ROOT/'acceptance/model_steps'/records_name).read_text(encoding='utf8'))['records']
+                    revisions=json.loads(revision_path.read_text(encoding='utf8'))
+                    pools.append((records,revisions))
+            amended=select_pools(path,source_mechanism,root=mechanism_root,pools=pools)
             if amended:result['mechanism_supersession']=amended
             result['errors']=output_checks(case,replayed['session'],provider_mechanism=source_mechanism,
                 fixture_state=binding,local_payload=payload,mechanism_supersession=amended)
