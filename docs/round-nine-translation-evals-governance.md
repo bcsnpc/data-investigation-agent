@@ -455,3 +455,21 @@ replace that invalid test setup. The preceding missing-budget-callback failure
 and boundary-refusal failure are recorded.36 verifier tests and48 combined
 focused tests pass. Translation provider harness and first model score remain
 pending; no injected perfect score is published as a provider result.
+
+
+Dated translation wire finding, 2026-10-06 America/Chicago: the first local
+provider evaluation refused Top-N with HTTP400: `In context=('properties',
+'objects'), 'uniqueItems' is not permitted.` The batch stopped immediately;
+relative-day and ALL were unattempted, with no replacement in that batch.
+One8000-token reservation remains charged. Original evidence is retained.
+
+DECIDED WITHOUT REVIEW: the evaluation-only wire derives from the consumer but
+uses exactly one declared object and zero grouping members. Object maxItems1
+makes duplicate objects impossible; group maxItems0 makes duplicate groups
+impossible. The consumer retains its original uniqueItems constraints. A larger
+object inventory or nonempty grouping refuses before provider admission rather
+than dropping uniqueness. This is intentionally only the three local goldens,
+not the general estate translation provider interface. Thirteen focused tests
+pass, including duplicate rejection and broader-inventory refusal. No expected
+answer, fixture row or native statement enters model input; the expression can
+still be wrong, fail parsing, select wrong keys or calculate a wrong quantity.
