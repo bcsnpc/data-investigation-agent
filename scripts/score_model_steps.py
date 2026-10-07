@@ -3,6 +3,7 @@ import argparse
 import json
 from pathlib import Path
 from investigator.model_step_scores import score_intake,score_reader,compare
+from investigator.translation_eval import score as score_translation
 
 
 def main(argv=None):
@@ -15,7 +16,7 @@ def main(argv=None):
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args(argv)
     golden=json.loads(args.golden.read_text(encoding='utf-8'))
-    scorer={'intake':score_intake,'reader':score_reader}[golden['step']]
+    scorer={'intake':score_intake,'reader':score_reader,'translation':score_translation}[golden['step']]
     score=scorer(golden,
                        json.loads(args.records.read_text(encoding='utf-8')),args.model_version)
     result=compare(score,json.loads(args.previous.read_text(encoding='utf-8')) if args.previous else None,

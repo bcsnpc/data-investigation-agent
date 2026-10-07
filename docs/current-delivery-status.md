@@ -29,11 +29,12 @@ Nine authored reader code cases and fifteen sealed synthesis cases are now
 scorable offline; raw synthesis responses pass current form/token checks13/14.
 Ten human readability reviews are prepared and ungraded. This does not certify
 mechanism correctness; The first intake field-match score is94.861% (60 cases, one unexpected
-hold); it needs expectation review and is not adjudicated accuracy. Reader first batch failed before extraction: nine HTTP400 schema refusals, zero F1.
-The consumer-derived wire type fix passes offline tests; no replacement calls.
+hold); it needs expectation review and is not adjudicated accuracy. Reader v1 failed before extraction on nine HTTP400 schema refusals; it is preserved.
+A separately recorded v2 batch after the consumer wire fix scored precision/recall1.0
+on nine synthetic cases, with two correct refusals; no binding verification.
 Translation first score remains pending.
 Draft PR #420 stays open.
-Round Nine has zero estate requests and69 metered model calls (60 intake, nine rejected reader requests). The authorized 200/40-reserved pot is
+Round Nine has zero estate requests and78 metered model calls (60 intake, nine rejected reader requests, nine served reader requests). The authorized 200/40-reserved pot is
 now declared in its private manifest; rolling1500, investigation12 and model
 allowances are unchanged. New discovery approval remains pending before estate reads. Prior freezes remain invalid.
 [Evidence, failures and decisions](round-nine-translation-evals-governance.md).

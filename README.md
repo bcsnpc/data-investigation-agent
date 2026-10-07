@@ -13,8 +13,9 @@ have focused offline validation; browser verification is pending. Nine authored 
 scorable offline; raw synthesis responses pass current form/token checks13/14.
 Ten human readability reviews are prepared and ungraded. This does not certify
 mechanism correctness; The first intake field-match score is94.861% (60 cases, one unexpected
-hold); it needs expectation review and is not adjudicated accuracy. Reader first batch failed before extraction: nine HTTP400 schema refusals, zero F1.
-The consumer-derived wire type fix passes offline tests; no replacement calls.
+hold); it needs expectation review and is not adjudicated accuracy. Reader v1 failed before extraction on nine HTTP400 schema refusals; it is preserved.
+A separately recorded v2 batch after the consumer wire fix scored precision/recall1.0
+on nine synthetic cases, with two correct refusals; no binding verification.
 Translation first score remains pending.
 See the
 [Round Nine record](docs/round-nine-translation-evals-governance.md).

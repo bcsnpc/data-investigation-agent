@@ -19,7 +19,7 @@ from .usage_governance import UsageHold
 
 TEXT = {'type': 'string', 'minLength': 1, 'maxLength': 500}
 HASH = {'type': 'string', 'pattern': '^[0-9a-f]{64}$'}
-OBJECT = obj({'id': TEXT, 'kind': {'enum': ['TABLE', 'COLUMN', 'MEASURE']}})
+OBJECT = obj({'id': TEXT, 'kind': {'type':'string','enum': ['TABLE', 'COLUMN', 'MEASURE']}})
 KEY_BINDING = obj({'context': TEXT, 'scope_hash': HASH,
     'provenance': {'enum': ['DECLARED_BY_CONFIGURATION', 'DECLARED_BY_DEFINITION']},
     'evidence_id': TEXT,
@@ -28,7 +28,7 @@ KEY_BINDING = obj({'context': TEXT, 'scope_hash': HASH,
                 'items': obj({'native': TEXT, 'proposed': TEXT})},
     'definition_hashes': obj({'native': HASH, 'proposed': HASH})})
 SCHEMA = obj({
-    'kind': {'enum': ['FILTER', 'MEASURE']}, 'definition_hash': HASH,
+    'kind': {'type':'string','enum': ['FILTER', 'MEASURE']}, 'definition_hash': HASH,
     'target_engine': TEXT,
     'expression': {'type': 'string', 'minLength': 1, 'maxLength': 8000},
     'objects': {'type': 'array', 'minItems': 1, 'maxItems': 64, 'uniqueItems': True, 'items': OBJECT},

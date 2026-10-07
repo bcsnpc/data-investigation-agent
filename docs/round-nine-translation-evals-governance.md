@@ -425,3 +425,33 @@ documents nested anyOf branches under its supported schema subset; the HTTP400
 above is the direct evidence for this missing-type rejection.
 Human readability grades remain pending; the human confirmed they are coming.
 Prior freezes invalid. No estate scope, secret, fixture or allowance changed.
+
+
+Dated reader v2 and local translation evaluation checkpoint, 2026-10-06
+America/Chicago: after the consumer wire type correction, the same nine reader
+cases each ran once as a separately sealed v2 batch. Seven proposals and two
+appropriate semantic refusals; precision1.0, recall1.0, F1 1.0, no provider or
+consumer validation failure. No binding verification was performed. These are
+small synthetic code cases, not estate/general extraction acceptance. The
+nine-refusal v1 batch remains intact. Its provider-failed score is not a usable
+quality baseline: the wire changed, and a nominal +100pp would misdescribe a
+compatibility repair as extraction improvement.
+
+v2 actual usage: {"input_tokens": 16340, "output_tokens": 4021, "total_tokens": 20361, "reasoning_tokens": 2766}; nine metered calls. Combined Round Nine
+model calls78 (60 intake,9 refused reader v1,9 served reader v2); no estate reads,
+fixture changes, scopes, secrets or cap increases. Reservations, including the
+failed batch, remain charged.
+
+Three independently authored translation goldens now have a local SQLite
+verifier/scorer. Model input includes definitions, columns and retained cell
+addresses, never seeded rows, expected answers or native statements. Top-N and
+pinned relative-day key sets verify; ALL measure verifies three cells against
+separate actual created tables. Deliberately wrong proposals each FALSIFY.
+Generated local statements must parse as one SELECT against declared objects,
+and a SQLite authorizer denies mutation. These are synthetic adapter receipts,
+not platform self-reports or estate evidence. Connection difference alone was
+correctly refused in the first fixture version; explicit distinct created objects
+replace that invalid test setup. The preceding missing-budget-callback failure
+and boundary-refusal failure are recorded.36 verifier tests and48 combined
+focused tests pass. Translation provider harness and first model score remain
+pending; no injected perfect score is published as a provider result.

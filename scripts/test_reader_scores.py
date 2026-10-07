@@ -43,6 +43,8 @@ class ReaderScoresTests(unittest.TestCase):
         score=score_reader(g,rows,'test')
         self.assertEqual(score['provider_failures'],9)
         self.assertEqual(compare(score,None,{'maximum_drop':0.02,'reason':'ratchet'})['gate'],'FAILED')
+        with self.assertRaisesRegex(ValueError,'provider-failed baseline'):
+            compare(score,score,{'maximum_drop':0.02,'reason':'ratchet'})
 
 
 if __name__=='__main__':unittest.main()

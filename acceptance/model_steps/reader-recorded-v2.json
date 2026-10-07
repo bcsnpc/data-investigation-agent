@@ -1,0 +1,559 @@
+[
+  {
+    "case_id": "r6-plain-scan",
+    "model_version": "investigator-quality-54",
+    "proposals": [
+      {
+        "boundary": {
+          "from_layer": "input",
+          "to_layer": "output"
+        },
+        "sources": [
+          {
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          }
+        ],
+        "target": {
+          "table": "output-table",
+          "column": "amount"
+        },
+        "expression": {
+          "relation": {
+            "kind": "SCAN",
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          },
+          "column": "amount"
+        },
+        "location": {
+          "item": "code-item",
+          "path": "unit.py",
+          "cell": "0",
+          "line_start": 1,
+          "line_end": 2,
+          "content_hash": "844ba6f5d495f625fb5bdb68c579a748a77613f657da026244c7023edac8f9d6"
+        },
+        "extractor": "MODEL",
+        "confidence": 0.91
+      }
+    ],
+    "semantic_refusal": false,
+    "provider_error": null,
+    "validation_error": null,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_0106ba602469743f016ac59f942d3c8193ab931ddaf40baa72",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1793,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 411,
+        "output_tokens_details": {
+          "reasoning_tokens": 254
+        },
+        "total_tokens": 2204
+      }
+    },
+    "verification_performed": false
+  },
+  {
+    "case_id": "r6-selection",
+    "model_version": "investigator-quality-54",
+    "proposals": [
+      {
+        "boundary": {
+          "from_layer": "input",
+          "to_layer": "output"
+        },
+        "sources": [
+          {
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          }
+        ],
+        "target": {
+          "table": "output-table",
+          "column": "amount"
+        },
+        "expression": {
+          "relation": {
+            "kind": "PROJECT",
+            "input": {
+              "kind": "SCAN",
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            },
+            "columns": [
+              {
+                "name": "amount",
+                "expression": {
+                  "kind": "COLUMN",
+                  "name": "amount"
+                }
+              }
+            ]
+          },
+          "column": "amount"
+        },
+        "location": {
+          "item": "code-item",
+          "path": "unit.py",
+          "cell": "0",
+          "line_start": 1,
+          "line_end": 2,
+          "content_hash": "ca51d5263c9e951248e2c9ffce7ed4412d728dd4c4b3cb42ae83a19dda9b3093"
+        },
+        "extractor": "MODEL",
+        "confidence": 0.99
+      }
+    ],
+    "semantic_refusal": false,
+    "provider_error": null,
+    "validation_error": null,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_003877aa152d3513016ac59f9c0ad08193bff48305f70d83ff",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1806,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 269,
+        "output_tokens_details": {
+          "reasoning_tokens": 84
+        },
+        "total_tokens": 2075
+      }
+    },
+    "verification_performed": false
+  },
+  {
+    "case_id": "r6-unresolved-name",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": true,
+    "provider_error": null,
+    "validation_error": null,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_0ce8b4dc82f1dc6e016ac59fa222c48190acc1123566804207",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1790,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 152,
+        "output_tokens_details": {
+          "reasoning_tokens": 134
+        },
+        "total_tokens": 1942
+      }
+    },
+    "verification_performed": false
+  },
+  {
+    "case_id": "dynamic-concatenation",
+    "model_version": "investigator-quality-54",
+    "proposals": [
+      {
+        "boundary": {
+          "from_layer": "input",
+          "to_layer": "output"
+        },
+        "sources": [
+          {
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          }
+        ],
+        "target": {
+          "table": "output-table",
+          "column": "amount"
+        },
+        "expression": {
+          "relation": {
+            "kind": "SCAN",
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          },
+          "column": "amount"
+        },
+        "location": {
+          "item": "code-item",
+          "path": "unit.py",
+          "cell": "0",
+          "line_start": 1,
+          "line_end": 4,
+          "content_hash": "b727201fa0e72f50173956aff2f38ff9d16eeccdba46c6b42fe77caa7b35cc98"
+        },
+        "extractor": "MODEL",
+        "confidence": 0.83
+      }
+    ],
+    "semantic_refusal": false,
+    "provider_error": null,
+    "validation_error": null,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_09d07ef88409adce016ac59fa78a54819486f9d55a16a13c07",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1802,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 611,
+        "output_tokens_details": {
+          "reasoning_tokens": 454
+        },
+        "total_tokens": 2413
+      }
+    },
+    "verification_performed": false
+  },
+  {
+    "case_id": "dynamic-dictionary",
+    "model_version": "investigator-quality-54",
+    "proposals": [
+      {
+        "boundary": {
+          "from_layer": "input",
+          "to_layer": "output"
+        },
+        "sources": [
+          {
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          }
+        ],
+        "target": {
+          "table": "output-table",
+          "column": "amount"
+        },
+        "expression": {
+          "relation": {
+            "kind": "SCAN",
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          },
+          "column": "amount"
+        },
+        "location": {
+          "item": "code-item",
+          "path": "unit.py",
+          "cell": "0",
+          "line_start": 2,
+          "line_end": 3,
+          "content_hash": "ee6c55c9239e25512007f7d14c409645bf6645402a28ea2bd7ced37a1c326161"
+        },
+        "extractor": "MODEL",
+        "confidence": 0.97
+      }
+    ],
+    "semantic_refusal": false,
+    "provider_error": null,
+    "validation_error": null,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_05131d9ded47044d016ac59fb18c288193919ab5e9610b5b47",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1799,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 398,
+        "output_tokens_details": {
+          "reasoning_tokens": 242
+        },
+        "total_tokens": 2197
+      }
+    },
+    "verification_performed": false
+  },
+  {
+    "case_id": "dynamic-function",
+    "model_version": "investigator-quality-54",
+    "proposals": [
+      {
+        "boundary": {
+          "from_layer": "input",
+          "to_layer": "output"
+        },
+        "sources": [
+          {
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          }
+        ],
+        "target": {
+          "table": "output-table",
+          "column": "amount"
+        },
+        "expression": {
+          "relation": {
+            "kind": "SCAN",
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          },
+          "column": "amount"
+        },
+        "location": {
+          "item": "code-item",
+          "path": "unit.py",
+          "cell": "0",
+          "line_start": 1,
+          "line_end": 4,
+          "content_hash": "c85469c25f42f04dc4f630ff8ad98667fd730433a37df06ec14fff050276f3d0"
+        },
+        "extractor": "MODEL",
+        "confidence": 0.92
+      }
+    ],
+    "semantic_refusal": false,
+    "provider_error": null,
+    "validation_error": null,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_0510eb7c598e3b8d016ac59fb8cbc08194ae71fa75549ccd7f",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1798,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 579,
+        "output_tokens_details": {
+          "reasoning_tokens": 424
+        },
+        "total_tokens": 2377
+      }
+    },
+    "verification_performed": false
+  },
+  {
+    "case_id": "udf-double-null-propagation",
+    "model_version": "investigator-quality-54",
+    "proposals": [
+      {
+        "boundary": {
+          "from_layer": "input",
+          "to_layer": "output"
+        },
+        "sources": [
+          {
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          }
+        ],
+        "target": {
+          "table": "output-table",
+          "column": "value"
+        },
+        "expression": {
+          "relation": {
+            "kind": "PROJECT",
+            "input": {
+              "kind": "SCAN",
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            },
+            "columns": [
+              {
+                "name": "value",
+                "expression": {
+                  "kind": "MULTIPLY",
+                  "left": {
+                    "kind": "COLUMN",
+                    "name": "amount"
+                  },
+                  "right": {
+                    "kind": "LITERAL",
+                    "value": 2
+                  }
+                }
+              }
+            ]
+          },
+          "column": "value"
+        },
+        "location": {
+          "item": "code-item",
+          "path": "unit.py",
+          "cell": "0",
+          "line_start": 3,
+          "line_end": 7,
+          "content_hash": "d78b8c1d7a698d6a03931ea804d49816c45433966412d7b74b145f1d2b8121b1"
+        },
+        "extractor": "MODEL",
+        "confidence": 0.72
+      }
+    ],
+    "semantic_refusal": false,
+    "provider_error": null,
+    "validation_error": null,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_0e07e4857acf6832016ac59fc3d22081969ff0745d6b5e8cd4",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1864,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 649,
+        "output_tokens_details": {
+          "reasoning_tokens": 442
+        },
+        "total_tokens": 2513
+      }
+    },
+    "verification_performed": false
+  },
+  {
+    "case_id": "udf-add-null-propagation",
+    "model_version": "investigator-quality-54",
+    "proposals": [
+      {
+        "boundary": {
+          "from_layer": "input",
+          "to_layer": "output"
+        },
+        "sources": [
+          {
+            "table": "input",
+            "columns": [
+              "amount"
+            ]
+          }
+        ],
+        "target": {
+          "table": "output-table",
+          "column": "value"
+        },
+        "expression": {
+          "relation": {
+            "kind": "PROJECT",
+            "input": {
+              "kind": "SCAN",
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            },
+            "columns": [
+              {
+                "name": "value",
+                "expression": {
+                  "kind": "ADD",
+                  "left": {
+                    "kind": "COLUMN",
+                    "name": "amount"
+                  },
+                  "right": {
+                    "kind": "LITERAL",
+                    "value": 1
+                  }
+                }
+              }
+            ]
+          },
+          "column": "value"
+        },
+        "location": {
+          "item": "code-item",
+          "path": "unit.py",
+          "cell": "0",
+          "line_start": 3,
+          "line_end": 7,
+          "content_hash": "3f0cc9c85225819b5b77e40442baf563db4dc49544e1c8fcc5345e18e0316186"
+        },
+        "extractor": "MODEL",
+        "confidence": 0.67
+      }
+    ],
+    "semantic_refusal": false,
+    "provider_error": null,
+    "validation_error": null,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_0473a3424d25f6f5016ac59fcf418481908a389ba74c077865",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1856,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 867,
+        "output_tokens_details": {
+          "reasoning_tokens": 665
+        },
+        "total_tokens": 2723
+      }
+    },
+    "verification_performed": false
+  },
+  {
+    "case_id": "udf-missing-implementation",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": true,
+    "provider_error": null,
+    "validation_error": null,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_05bb32230243f170016ac59fdc60a081978c722b71b5e1d9b6",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1832,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 85,
+        "output_tokens_details": {
+          "reasoning_tokens": 67
+        },
+        "total_tokens": 1917
+      }
+    },
+    "verification_performed": false
+  }
+]
