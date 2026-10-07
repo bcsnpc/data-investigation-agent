@@ -695,3 +695,10 @@ passed on382cb1b; the model-score job remains red at6/14. CI now explicitly runs
 the shared possibility/non-role acceptance tests and seed contract tests rather
 than relying only on local full discovery. All original failures are retained.
 PR420 stays draft; no model or estate call, new baseline or freeze is implied.
+
+Dated historical sweep completion: the separately started fa83049 grading
+process completed archived15/15 and inferred15/15 with0 network/physical
+requests. Every producer revision and original tape remained pinned. This
+process started before the reviewer-rule changes and retains its prior imported
+checker; it does not validate the new readability checker or restore the6/14
+model-score failure. The two records are different claims, not competing counts.
