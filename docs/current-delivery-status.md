@@ -25,6 +25,10 @@ test and seven trace tests pass. A concurrent-edit synthesis test failed admissi
 and is retained; its stable rerun passed all 34 tests. Sixty authored intake
 goldens and four scoring tests exist, but no provider evaluation score is claimed.
 Reader/synthesis/translation eval integration, redaction and rebuild remain pending.
+Nine authored reader code cases and fifteen sealed synthesis cases are now
+scorable offline; raw synthesis responses pass current form/token checks13/14.
+Ten human readability reviews are prepared and ungraded. This does not certify
+mechanism correctness; first intake/reader/translation provider scores remain pending.
 Draft PR #420 stays open.
 Round Nine has no estate/provider calls or policy change; authorized 200/40-reserved
 pot is not yet configured. Prior freezes remain invalid.

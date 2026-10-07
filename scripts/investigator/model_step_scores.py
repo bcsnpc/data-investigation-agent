@@ -73,3 +73,40 @@ def compare(score,previous,threshold):
     result['gate']='FAILED' if score['status']!='COMPLETE' or result['delta'] is not None and result['delta'] < -limit else 'PASSED'
     result['threshold']=copy.deepcopy(threshold)
     return result
+
+
+def score_reader(golden,records,model_version):
+    """Binding precision/recall before reader verification; no value oracle."""
+    from .lineage_binding import validate
+    cases={c['id']:c for c in golden['cases']};indexed={}
+    if len(cases)!=len(golden['cases']):raise ValueError('Duplicate golden case')
+    for row in records:
+        if row['case_id'] not in cases or row['case_id'] in indexed:raise ValueError('Unknown or duplicate evaluated case')
+        if row['model_version']!=model_version:raise ValueError('Mixed model versions cannot share a score')
+        indexed[row['case_id']]=row
+    def signature(p):
+        return json.dumps({k:p[k] for k in ('sources','target','expression')},sort_keys=True,separators=(',',':'))
+    tp=fp=expected_count=correct_refusals=0;rows=[]
+    for identity,case in cases.items():
+        expected=Counter(signature(p) for p in case['expected_bindings']);expected_count+=sum(expected.values())
+        row=indexed.get(identity);actual=Counter();invalid=0
+        if row is not None:
+            if not isinstance(row['proposals'],list):raise ValueError('Reader proposals must be a list')
+            for proposal in row['proposals']:
+                try:
+                    p=validate(proposal)
+                    if p['extractor']!='MODEL':raise ValueError('MODEL provenance required')
+                    actual[signature(p)]+=1
+                except ValueError:invalid+=1
+            if case['should_refuse'] and not row['proposals'] and row.get('semantic_refusal') is True:correct_refusals+=1
+        matches=sum((actual & expected).values());extra=sum(actual.values())-matches+invalid
+        tp+=matches;fp+=extra
+        rows.append({'case_id':identity,'evaluated':row is not None,'true_positive':matches,'false_positive':extra,
+                     'false_negative':sum(expected.values())-matches})
+    precision=tp/(tp+fp) if tp+fp else 0;recall=tp/expected_count if expected_count else 0
+    return {'step':'reader','model_version':model_version,'cases':len(cases),'evaluated':len(indexed),
+            'suite_hash':hashlib.sha256(json.dumps(golden,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),
+            'status':'COMPLETE' if len(indexed)==len(cases) else 'INCOMPLETE',
+            'precision':precision,'recall':recall,'score':2*precision*recall/(precision+recall) if precision+recall else 0,
+            'correct_semantic_refusals':correct_refusals,'expected_refusals':sum(c['should_refuse'] for c in cases.values()),
+            'results':rows,'verification_performed':False}

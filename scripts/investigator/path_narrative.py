@@ -157,9 +157,13 @@ def layer_tokens(payload):
 
 
 def validate_layer_references(text,payload):
+    return validate_declared_layer_tokens(text,layer_tokens(payload))
+
+
+def validate_declared_layer_tokens(text,allowed):
+    """Same consumer rule for a sealed wire vocabulary and a local spine."""
     import re
     from .layer_roles import ROLES
-    allowed=layer_tokens(payload)
     mentions=re.findall(r'\bL\d+(?:\s*\([^)]*\))?',text)
     if any(token not in allowed for token in mentions):
         raise LayerReferenceError('Mechanism contains a layer token not declared by the spine')

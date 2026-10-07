@@ -310,3 +310,29 @@ The later scorer-integrity refinement passed its four targeted tests.
 This establishes offline regression health, not model accuracy, browser
 behaviour, translation activation or live acceptance. Zero Round Nine estate
 requests and provider calls; authorized pot remains unconfigured.
+
+
+Dated model-evaluation checkpoint, 2026-10-06 America/Chicago: nine reader code
+cases now carry authored expected bindings (three Round Six synthetic examples,
+six new dynamic-name/UDF examples). The first test assumed two constant-name
+forms required a model; both already compile statically. That failed assertion
+is preserved and corrected to check their exact authored static bindings. The
+other four new examples require fallback. No provider score is claimed for this
+set. Precision/recall counts invalid and duplicate proposals, before verification.
+
+The fifteen sealed inferred-column tapes yielded fourteen composition responses,
+plus family C's explicit no-call case. Current wire/form/token checks pass13/14:
+92.857% validity and7.143% rejection; no prior score delta. Source-latency's model
+paragraph uses an unqualified "semantic layer" despite supplied role tokens; the
+earned output used deterministic delivery wording. This is an independently
+recorded response's validation failure, not a failed earned outcome, and not
+causal correctness scoring. Originals and gate expectations remain unchanged.
+Ten exact paragraphs and checked boundary facts are exported for HUMAN review;
+all three flags per item are null, no grader or fabricated human score. A human
+input request is pending while independent offline work continues.
+
+Sixteen focused evaluation/path tests pass. A test insertion first misplaced
+four human-grade assertions, producing NameError; that failed check is retained,
+and the corrected same assertions pass. Zero Round Nine provider or estate calls.
+The complete regression checkpoint remains5907162/2134. Model-step release gate,
+new provider scores, translation activation, redaction and rebuild remain pending.

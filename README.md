@@ -9,7 +9,11 @@ Retention, explicit provider-region provenance and a pinned read-only demo comma
 have focused offline tests. Sixty authored intake goldens and offline scoring exist;
 model-step scores, runtime wiring, redaction and rebuild remain pending. The
 recording-path footer has a persistence test. Stage and recorded-binding workspace views
-have focused offline validation; browser verification is pending. See the
+have focused offline validation; browser verification is pending. Nine authored reader code cases and fifteen sealed synthesis cases are now
+scorable offline; raw synthesis responses pass current form/token checks13/14.
+Ten human readability reviews are prepared and ungraded. This does not certify
+mechanism correctness; first intake/reader/translation provider scores remain pending.
+See the
 [Round Nine record](docs/round-nine-translation-evals-governance.md).
 
 Turn a disputed dashboard number into evidence-backed root cause — or an explicit statement of what cannot be proven — without giving an AI write access to production.
