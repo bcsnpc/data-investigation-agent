@@ -5,6 +5,16 @@ on:
 permissions:
   contents: read
 jobs:
+  model-step-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt
+      - name: Re-score recorded model steps without provider or estate calls
+        run: python scripts/check_model_scores.py --output model-step-scores.json
   generator-tests:
     runs-on: ubuntu-latest
     steps:
@@ -39,10 +49,27 @@ jobs:
           pip install -r scripts/requirements-lineage.txt
           pip install -r scripts/requirements-llm.txt
           pip install -r scripts/requirements-replay.txt
+          pip install -r scripts/requirements-tracing.txt
+          python -m unittest discover -s scripts -p test_tape_trace.py
+          python -m unittest discover -s scripts -p test_trace_footer.py
+          python -m unittest discover -s scripts -p test_process_stages.py
+          python -m unittest discover -s scripts -p test_binding_view.py
+          python -m unittest discover -s scripts -p test_retention.py
+          python -m unittest discover -s scripts -p test_privacy_projection.py
+          python -m unittest discover -s scripts -p test_privacy_storage.py
+          python -m unittest discover -s scripts -p test_privacy_end_to_end.py
+          python -m unittest discover -s scripts -p test_run_context_pin.py
+          python -m unittest discover -s scripts -p test_model_eval_reader.py
+          python -m unittest discover -s scripts -p test_translation_eval.py
+          python -m unittest discover -s scripts -p test_dia_commands.py
           python -m unittest discover -s scripts -p test_private_replay_bundle.py
           python -m unittest discover -s scripts -p test_two_column_replay_gate.py
           python -m unittest discover -s scripts -p test_reproduction_composition.py
           python -m unittest discover -s scripts -p test_synthesis_spine.py
+          python -m unittest discover -s scripts -p test_path_narrative.py
+          python -m unittest discover -s scripts -p test_round_four_acceptance.py
+          python -m unittest discover -s scripts -p test_fixture_seed.py
+          python -m unittest discover -s scripts -p test_fixture_rebuild.py
           python -m unittest discover -s scripts -p test_enterprise_discovery.py
           python -m unittest discover -s scripts -p test_warehouse_audit_catalog.py
           python -m unittest discover -s scripts -p test_domain_profile.py
@@ -83,7 +110,18 @@ jobs:
           python -m unittest discover -s scripts -p test_provider_tape_contract.py
           python -m unittest discover -s scripts -p test_budget_tape_contract.py
           python -m unittest discover -s scripts -p test_estate_manifest.py
+          python -m unittest discover -s scripts -p test_provider_terms.py
+          python -m unittest discover -s scripts -p test_model_step_scores.py
+          python -m unittest discover -s scripts -p test_reader_scores.py
+          python -m unittest discover -s scripts -p test_synthesis_scores.py
+          python -m unittest discover -s scripts -p test_mechanism_revision.py
+          python -m unittest discover -s scripts -p test_mechanism_supersession.py
           python -m unittest discover -s scripts -p test_platform_proposers.py
+          python -m unittest discover -s scripts -p test_translation_proposer.py
+          python -m unittest discover -s scripts -p test_translation_native.py
+          python -m unittest discover -s scripts -p test_translation_filter_definition.py
+          python -m unittest discover -s scripts -p test_translation_measure.py
+          python -m unittest discover -s scripts -p test_translation_scope.py
           python -m unittest discover -s scripts -p test_code_sources.py
           python -m unittest discover -s scripts -p test_transformation_ast.py
           python -m unittest discover -s scripts -p test_transformation_reader.py

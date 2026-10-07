@@ -28,7 +28,8 @@ def encode(value):
 class Inventory:
     def __init__(self, path):
         Path(path).parent.mkdir(parents=True, exist_ok=True)
-        self.db = sqlite3.connect(path)
+        from investigator.privacy_storage import connect
+        self.db = connect(path)
         self.db.executescript('''
         PRAGMA foreign_keys=ON;
         CREATE TABLE IF NOT EXISTS scans(id TEXT PRIMARY KEY, started TEXT, ended TEXT, status TEXT);

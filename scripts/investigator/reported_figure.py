@@ -42,6 +42,10 @@ def span(source, ticket=None):
         raise ValueError('Reported figure requires an exact ticket span')
     if ticket is not None and ticket[source['start']:source['end']]!=source['quote']:
         raise ValueError('Reported figure provenance differs from the ticket')
+    if ticket is not None:
+        from .privacy_capture import ACTIVE
+        capture=ACTIVE.get()
+        if capture is not None:capture.projection.register_span(ticket,source)
     return source['quote']
 
 

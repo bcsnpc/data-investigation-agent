@@ -49,7 +49,12 @@ def validate_event(event,ordinal):
 
 
 class Tape:
+    # Legacy v1-v4 are always exact. No new declaration can reinterpret their
+    # bytes as privacy-projected or mix the contracts within an estate.
+    tape_class='EXACT'
     def __init__(self,path,bootstrap=None):
+        if bootstrap is not None and bootstrap.get('config',{}).get('_estate',{}).get('recording',{}).get('tape_class')=='PRIVACY_PROJECTED':
+            raise TapeError('PRIVACY_PROJECTED_CANNOT_USE_EXACT_CAPTURE')
         self.path=Path(path);self.events=[];self.index=0;self.replaying=bootstrap is None
         self.journal_path=self.path.with_suffix('.events.jsonl')
         self.exclusions=[];self.finished=False;self.version=VERSION

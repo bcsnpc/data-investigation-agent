@@ -2,6 +2,7 @@
 
 Planner suggestions are unverified. This module owns scope, budgets, facts and stops.
 """
+from .privacy_capture import input_characters
 from .process_tape import utc_now
 from .model_context import assets as model_assets
 from .evidence_prose import diagnostic_detail
@@ -229,7 +230,7 @@ class AdaptiveRuntime:
                 from .connection_registry import attach
                 payload=attach(payload,self.config,min(self.generation_options['max_payload_characters'],
                     limits['input_characters']-state['input_characters']))
-            size=len(encoded(payload))
+            size=input_characters(payload)
             if size>self.generation_options['max_payload_characters'] or state['input_characters']+size>limits['input_characters']:reason='BUDGET_LIMIT'
             if reason:
                 self.stop(db,state,reason);return self.project_after_commit(db,state)
@@ -540,7 +541,7 @@ class AdaptiveRuntime:
                 self.save(db,current,kind,detail)
 
         def judge_once(payload,attempt):
-            size=len(encoded(payload))
+            size=input_characters(payload)
             with self.runtime.db() as db:
                 db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
                 if current['status']!='EXECUTING' or self.clock()+self.generation_options['timeout_seconds']>current['deadline']:
@@ -690,6 +691,12 @@ class AdaptiveRuntime:
             max_boundaries=self.process_max_boundaries,read_endpoint=read_endpoint,
             read_refresh_timing=read_refresh_timing if self.config['fabric'].get('refresh_timing_reader') else None,
             read_snapshot_identity=read_snapshot_identity if self.config['fabric'].get('snapshot_identity_reader') else None)
+        def stage_event(kind, detail):
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                self.save(db,current,kind,detail)
+        from .process_stages import Adapter as StageAdapter
+        adapter=StageAdapter(adapter,stage_event)
         from .context_search import MeasurePathLimit
         try:
             path=adapter.resolve_path(state['envelope']['measure_id'])
@@ -714,7 +721,12 @@ class AdaptiveRuntime:
             from .definition_target import procedure_scope
             with observation_journal.scope(journal):
                 if self.process_lineage is not None:
-                    path=self.process_lineage(adapter,path,state['envelope'],meter_read)
+                    stage_event('PROCESS_STAGE_STARTED',{'stage':'context','operation':'qualify_lineage'})
+                    lineage_error=None
+                    try:path=self.process_lineage(adapter,path,state['envelope'],meter_read)
+                    except BaseException as exc:
+                        lineage_error=type(exc).__name__;raise
+                    finally:stage_event('PROCESS_STAGE_FINISHED',{'stage':'context','operation':'qualify_lineage','error_type':lineage_error})
                     adapter.resolve_path=lambda measure:path
                 assessment=vertical(adapter,state['envelope']['measure_id'],procedure_scope(state['envelope']))
             observations=assessment.pop('_observations',None)

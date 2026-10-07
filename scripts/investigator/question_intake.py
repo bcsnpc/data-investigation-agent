@@ -1,4 +1,5 @@
 """Catalog-only business question resolution. A proposal never authorizes queries."""
+from .privacy_capture import input_characters
 import json
 import copy
 from .process_tape import uuid4
@@ -505,7 +506,7 @@ class Intake:
             # Serializes duplicate dispatch and shares limits with adaptive planning.
             if db.execute('SELECT 1 FROM workspace_intakes WHERE request_key=?', (request['request_key'],)).fetchone():
                 raise Conflict('Question submission is already in progress')
-            governor.reserve(db, 'intake:' + body['id'], 'resolve', 'planner', len(encoded(payload)))
+            governor.reserve(db, 'intake:' + body['id'], 'resolve', 'planner', input_characters(payload))
             db.execute('INSERT INTO workspace_intakes VALUES (?,?,?,?)', (body['id'], request['request_key'], encoded(body), digest(body)))
         usage = None; uncertain = True; reservation_key='resolve'
         body['resolution_attempts']=[]
@@ -540,7 +541,7 @@ class Intake:
                     row=db.execute('SELECT body FROM workspace_intakes WHERE id=?',(body['id'],)).fetchone()
                     if json.loads(row['body'])['status']!='RESOLVING':return self.get(body['id'])
                     retry_key='explicit-statement-retry' if omitted else 'provenance-quote-retry' if missing else 'figure-quote-retry'
-                    governor.reserve(db,'intake:'+body['id'],retry_key,'planner',len(encoded(retry_payload)))
+                    governor.reserve(db,'intake:'+body['id'],retry_key,'planner',input_characters(retry_payload))
                 reservation_key=retry_key;usage=None;uncertain=True
                 body['resolution_attempts'].append({'attempt':2,'event':'EXPLICIT_STATEMENT_RETRY' if omitted else 'PROVENANCE_QUOTE_RETRY' if missing else 'REPORTED_FIGURE_QUOTE_RETRY',
                     'reservation_key':reservation_key})

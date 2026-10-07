@@ -1,0 +1,1330 @@
+{
+  "version": "model-step-intake-v1",
+  "authorship": "Explicitly authored fixture questions and semantic expectations; no model/query answers used.",
+  "catalog": [
+    {
+      "id": "inventory-model",
+      "name": "Inventory model",
+      "dynamic_investigation": true,
+      "measures": [
+        {
+          "id": "units",
+          "name": "Units"
+        },
+        {
+          "id": "ratio",
+          "name": "Ratio"
+        }
+      ],
+      "columns": [
+        {
+          "column_id": "region",
+          "name": "Region",
+          "data_type": "string"
+        }
+      ],
+      "reports": [
+        {
+          "id": "inventory-report",
+          "name": "Inventory report"
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "A1",
+      "family": "A",
+      "text": "Inventory report Units shows 16 but disagrees with the source records. Check this discrepancy.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FIGURE_DIFFERENCE",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "A2",
+      "family": "A",
+      "text": "Inventory report Units is empty but the source has records. Check the discrepancy.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FIGURE_DIFFERENCE",
+        "dimension_ids": [],
+        "figure_state": "EMPTY",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "A3",
+      "family": "A",
+      "text": "Inventory report Units disagrees with the connected records. Check why the figures differ.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FIGURE_DIFFERENCE",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "A4",
+      "family": "A",
+      "text": "Inventory report Units shows 0 while the connected records disagree. Check the mismatch.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FIGURE_DIFFERENCE",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "0",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "A5",
+      "family": "A",
+      "text": "Inventory report Units shows exactly 16 but the source disagrees. Check the different figures.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FIGURE_DIFFERENCE",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "A6",
+      "family": "A",
+      "text": "Fwd: figure mismatch\nSent 2026-09-15\nInventory report Units shows 16 and disagrees with the source records.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FIGURE_DIFFERENCE",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "B1",
+      "family": "B",
+      "text": "Units in Inventory report looks wrong. What components make up this measure?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "METRIC_COMPONENTS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "B2",
+      "family": "B",
+      "text": "Check the numerator and denominator of Ratio in Inventory report.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "ratio",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "METRIC_COMPONENTS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "B3",
+      "family": "B",
+      "text": "Inventory report Ratio is wrong; show its component values.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "ratio",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "METRIC_COMPONENTS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "B4",
+      "family": "B",
+      "text": "What are the componnents behind the wrong Units number in Inventory report?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "METRIC_COMPONENTS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "B5",
+      "family": "B",
+      "text": "The Ratio in Inventory report shows 0.5. Check the parts used to calculate it.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "ratio",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "METRIC_COMPONENTS",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "0.5",
+        "figure_precision": {
+          "state": "STATED_PLACE",
+          "place": -1
+        },
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "B6",
+      "family": "B",
+      "text": "Inventory report Units disagrees with my figures. Break it into its components.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "METRIC_COMPONENTS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "C1",
+      "family": "C",
+      "text": "The derived Units calculation in Inventory report is wrong. Check how it is calculated.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "DERIVED_CALCULATION",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "C2",
+      "family": "C",
+      "text": "Inventory report: the Units formula seems wrong. Trace its calculation.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "DERIVED_CALCULATION",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "C3",
+      "family": "C",
+      "text": "How is the wrong Ratio figure calculated in Inventory report?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "ratio",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "DERIVED_CALCULATION",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "C4",
+      "family": "C",
+      "text": "Units in Inventory report shows 16; inspect its derived calculation.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "DERIVED_CALCULATION",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "C5",
+      "family": "C",
+      "text": "The Units derivation on Inventory report looks off. Check its calculation by Region.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "DERIVED_CALCULATION",
+        "dimension_ids": [
+          "region"
+        ],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "C6",
+      "family": "C",
+      "text": "Fwd: calculation issue\nCase 991\nCheck the wrong Units formula in Inventory report.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "DERIVED_CALCULATION",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "D1",
+      "family": "D",
+      "text": "Inventory report: selected Region North; Units shows 16. Why this displayed figure?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "VISUAL_CONTENT",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": "North",
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "D2",
+      "family": "D",
+      "text": "I selected Region North in Inventory report and the Units card is empty.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "VISUAL_CONTENT",
+        "dimension_ids": [],
+        "figure_state": "EMPTY",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": "North",
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "D3",
+      "family": "D",
+      "text": "Inventory report Units with Region North selected looks wrong.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "VISUAL_CONTENT",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": "North",
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "D4",
+      "family": "D",
+      "text": "With Region South selected, Inventory report Units shows 0. Check the visual.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "VISUAL_CONTENT",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "0",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": "South",
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "D5",
+      "family": "D",
+      "text": "Inventory report Units shows 16 after I chose North for Region. Check the shown value.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "VISUAL_CONTENT",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": "North",
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "D6",
+      "family": "D",
+      "text": "I picked Region North in Inventory report. The Units visual says 16, which looks wrong.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "VISUAL_CONTENT",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": "North",
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "E1",
+      "family": "E",
+      "text": "Is Units in Inventory report up to date?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FRESHNESS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "E2",
+      "family": "E",
+      "text": "Inventory report Units may be stale. Check its freshness.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FRESHNESS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "E3",
+      "family": "E",
+      "text": "When did the data for Units in Inventory report last arrive?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FRESHNESS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "E4",
+      "family": "E",
+      "text": "Units in Inventory report shows 16. Is this current?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FRESHNESS",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "E5",
+      "family": "E",
+      "text": "Inventory report Units seems out of date after yesterday?s load.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FRESHNESS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "E6",
+      "family": "E",
+      "text": "Fwd: stale dashboard\nSent 2026-09-15\nIs Inventory report Units fresh?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "FRESHNESS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "F1",
+      "family": "F",
+      "text": "Inventory report Units looks wrong. Which transformation explains this?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "TRANSFORMATION_MECHANISM",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "F2",
+      "family": "F",
+      "text": "Trace the join causing the wrong Units figure in Inventory report.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "TRANSFORMATION_MECHANISM",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "F3",
+      "family": "F",
+      "text": "Units in Inventory report shows 16. Check the transformation logic.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "TRANSFORMATION_MECHANISM",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "F4",
+      "family": "F",
+      "text": "Did a filter or deduplication change Units on the way to Inventory report? It looks wrong.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "TRANSFORMATION_MECHANISM",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "F5",
+      "family": "F",
+      "text": "Check the tranformation producing the wrong Units figure in Inventory report.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "TRANSFORMATION_MECHANISM",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "F6",
+      "family": "F",
+      "text": "Inventory report Units is wrong; inspect how input records were transformed.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "TRANSFORMATION_MECHANISM",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "G1",
+      "family": "G",
+      "text": "Units looks wrong in Inventory model. Expected record 900099 is missing.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "SOURCE_CORRECTNESS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "G2",
+      "family": "G",
+      "text": "Check Inventory model Units against the application source. Record 900099 should exist.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "SOURCE_CORRECTNESS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "G3",
+      "family": "G",
+      "text": "Inventory model Units says 16; check whether record 900099 exists at the source.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "SOURCE_CORRECTNESS",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "G4",
+      "family": "G",
+      "text": "The Units count in Inventory model is wrong. Compare it by Region against the application.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "SOURCE_CORRECTNESS",
+        "dimension_ids": [
+          "region"
+        ],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "G5",
+      "family": "G",
+      "text": "Inventory model Units omits expected record 900099. Is the application missing it?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "SOURCE_CORRECTNESS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "G6",
+      "family": "G",
+      "text": "Fwd: missing record\nIncident 42\nInventory model Units is wrong; expected record 900099 is absent.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "SOURCE_CORRECTNESS",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "H1",
+      "family": "H",
+      "text": "Inventory report Units looks wrong. Is this expected technical behaviour?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "EXPECTED_BEHAVIOR",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "H2",
+      "family": "H",
+      "text": "Should Inventory report Units behave this way? The figure seems wrong.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "EXPECTED_BEHAVIOR",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "H3",
+      "family": "H",
+      "text": "Inventory report Units shows 16. Is that consistent with the documented behaviour?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "EXPECTED_BEHAVIOR",
+        "dimension_ids": [],
+        "figure_state": "NUMBER",
+        "figure_value": "16",
+        "figure_precision": {
+          "state": "EXACT"
+        },
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "H4",
+      "family": "H",
+      "text": "Is the wrong-looking Units figure in Inventory report by design?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "EXPECTED_BEHAVIOR",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "H5",
+      "family": "H",
+      "text": "Inventory report Units looks off. Is this intended behaviour or a technical failure?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "EXPECTED_BEHAVIOR",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "H6",
+      "family": "H",
+      "text": "Check whether Inventory report Units follows its expected behaviour; it seems wrong.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "MISMATCH_COMPLAINT",
+        "comparison_mode": "VERTICAL",
+        "question_kind": "EXPECTED_BEHAVIOR",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "I1",
+      "family": "I",
+      "text": "What does Units mean in Inventory model?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "BUSINESS_QUESTION",
+        "comparison_mode": "NONE",
+        "question_kind": "BUSINESS_MEANING",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "I2",
+      "family": "I",
+      "text": "Define Ratio in Inventory model in business terms.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "ratio",
+        "ticket_shape": "BUSINESS_QUESTION",
+        "comparison_mode": "NONE",
+        "question_kind": "BUSINESS_MEANING",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "I3",
+      "family": "I",
+      "text": "What does North mean for Units in Inventory report?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "BUSINESS_QUESTION",
+        "comparison_mode": "NONE",
+        "question_kind": "BUSINESS_MEANING",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "I4",
+      "family": "I",
+      "text": "Explain the business meaning of Units in Inventory report.",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "BUSINESS_QUESTION",
+        "comparison_mode": "NONE",
+        "question_kind": "BUSINESS_MEANING",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "I5",
+      "family": "I",
+      "text": "What is the Units measure counting in Inventory model?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "BUSINESS_QUESTION",
+        "comparison_mode": "NONE",
+        "question_kind": "BUSINESS_MEANING",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "I6",
+      "family": "I",
+      "text": "I selected Region North in Inventory report. What does Units actually mean?",
+      "should_hold": false,
+      "expected": {
+        "action": "PROPOSE",
+        "model_id": "inventory-model",
+        "measure_id": "units",
+        "ticket_shape": "BUSINESS_QUESTION",
+        "comparison_mode": "NONE",
+        "question_kind": "BUSINESS_MEANING",
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": null
+    },
+    {
+      "id": "X1",
+      "family": "HOLD",
+      "text": "The number is wrong.",
+      "should_hold": true,
+      "expected": {
+        "action": "ASK",
+        "model_id": null,
+        "measure_id": null,
+        "ticket_shape": null,
+        "comparison_mode": null,
+        "question_kind": null,
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": "Metric unspecified"
+    },
+    {
+      "id": "X2",
+      "family": "HOLD",
+      "text": "Inventory report Units shows 16 and also shows 17; I cannot tell which is the reported value.",
+      "should_hold": true,
+      "expected": {
+        "action": "ASK",
+        "model_id": null,
+        "measure_id": null,
+        "ticket_shape": null,
+        "comparison_mode": null,
+        "question_kind": null,
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": "Two different reported figures"
+    },
+    {
+      "id": "X3",
+      "family": "HOLD",
+      "text": "Inventory report Units shows about 16 and looks wrong.",
+      "should_hold": true,
+      "expected": {
+        "action": "ASK",
+        "model_id": null,
+        "measure_id": null,
+        "ticket_shape": null,
+        "comparison_mode": null,
+        "question_kind": null,
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": "Approximate integer has no stated precision"
+    },
+    {
+      "id": "X4",
+      "family": "HOLD",
+      "text": "Check the wrong Profit measure in Inventory report.",
+      "should_hold": true,
+      "expected": {
+        "action": "ASK",
+        "model_id": null,
+        "measure_id": null,
+        "ticket_shape": null,
+        "comparison_mode": null,
+        "question_kind": null,
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": "Metric absent from catalog"
+    },
+    {
+      "id": "X5",
+      "family": "HOLD",
+      "text": "https://example.invalid/report?id=123 is wrong.",
+      "should_hold": true,
+      "expected": {
+        "action": "ASK",
+        "model_id": null,
+        "measure_id": null,
+        "ticket_shape": null,
+        "comparison_mode": null,
+        "question_kind": null,
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": "URL supplies no measure or scope"
+    },
+    {
+      "id": "X6",
+      "family": "HOLD",
+      "text": "Inventory report Units looks wrong for last month.",
+      "should_hold": true,
+      "expected": {
+        "action": "ASK",
+        "model_id": null,
+        "measure_id": null,
+        "ticket_shape": null,
+        "comparison_mode": null,
+        "question_kind": null,
+        "dimension_ids": [],
+        "figure_state": "UNSPECIFIED",
+        "figure_value": null,
+        "figure_precision": null,
+        "selection_value": null,
+        "filters": []
+      },
+      "hold_reason": "Relative restriction has no exact boundaries"
+    }
+  ],
+  "step": "intake"
+}

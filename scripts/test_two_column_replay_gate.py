@@ -14,11 +14,12 @@ class TwoColumnReplayGateTests(unittest.TestCase):
     def test_both_columns_run_all_fifteen_and_a_missing_inferred_case_fails(self):
         for missing in (False,True):
             calls=[]
-            def replay(case,root,output):
+            def replay(case,root,output,*,mechanism_root=None):
+                self.assertEqual(mechanism_root,Path('supersessions'))
                 calls.append((str(root),case['ticket']))
                 return {'ticket':case['ticket'],'status':'BLOCKED' if missing and str(root)=='inferred' and len(calls)==30 else 'PASSED','physical_requests':0,'network_calls':0}
             with tempfile.TemporaryDirectory() as d,patch.object(gate,'run_case',side_effect=replay),contextlib.redirect_stdout(io.StringIO()):
-                code=gate.run('archived','inferred',Path(d)/'out')
+                code=gate.run('archived','inferred',Path(d)/'out',mechanism_root=Path('supersessions'))
                 self.assertEqual(code,1 if missing else 0)
                 self.assertEqual(len(calls),30)
                 self.assertEqual(len({c for root,c in calls if root=='archived'}),15)

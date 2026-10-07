@@ -1,0 +1,87 @@
+{
+  "step": "reader",
+  "model_version": "investigator-quality-54",
+  "cases": 9,
+  "evaluated": 9,
+  "suite_hash": "af74bf869138e67a99941556c16d87a96f32fce477a6fb93fd0eb10c64d3c6a0",
+  "status": "COMPLETE",
+  "precision": 1.0,
+  "recall": 1.0,
+  "score": 1.0,
+  "correct_semantic_refusals": 2,
+  "expected_refusals": 2,
+  "provider_failures": 0,
+  "validation_failures": 0,
+  "results": [
+    {
+      "case_id": "r6-plain-scan",
+      "evaluated": true,
+      "true_positive": 1,
+      "false_positive": 0,
+      "false_negative": 0
+    },
+    {
+      "case_id": "r6-selection",
+      "evaluated": true,
+      "true_positive": 1,
+      "false_positive": 0,
+      "false_negative": 0
+    },
+    {
+      "case_id": "r6-unresolved-name",
+      "evaluated": true,
+      "true_positive": 0,
+      "false_positive": 0,
+      "false_negative": 0
+    },
+    {
+      "case_id": "dynamic-concatenation",
+      "evaluated": true,
+      "true_positive": 1,
+      "false_positive": 0,
+      "false_negative": 0
+    },
+    {
+      "case_id": "dynamic-dictionary",
+      "evaluated": true,
+      "true_positive": 1,
+      "false_positive": 0,
+      "false_negative": 0
+    },
+    {
+      "case_id": "dynamic-function",
+      "evaluated": true,
+      "true_positive": 1,
+      "false_positive": 0,
+      "false_negative": 0
+    },
+    {
+      "case_id": "udf-double-null-propagation",
+      "evaluated": true,
+      "true_positive": 1,
+      "false_positive": 0,
+      "false_negative": 0
+    },
+    {
+      "case_id": "udf-add-null-propagation",
+      "evaluated": true,
+      "true_positive": 1,
+      "false_positive": 0,
+      "false_negative": 0
+    },
+    {
+      "case_id": "udf-missing-implementation",
+      "evaluated": true,
+      "true_positive": 0,
+      "false_positive": 0,
+      "false_negative": 0
+    }
+  ],
+  "verification_performed": false,
+  "delta": null,
+  "gate": "PASSED",
+  "threshold": {
+    "maximum_drop": 0.02,
+    "reason": "Provisional same-suite precision/recall F1 ratchet, not a statistical production guarantee. Missing cases fail; an explicit refusal is distinct from a provider failure. First complete recorded MODEL evaluation sets the baseline."
+  }
+}

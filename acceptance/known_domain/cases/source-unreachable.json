@@ -57,6 +57,10 @@
     {
       "date": "2026-10-05",
       "reason": "Fixture-state equality supersedes recollection context-ID equality. Historical pin retained as provenance."
+    },
+    {
+      "date": "2026-10-07",
+      "reason": "synthesis rules tightened per human review, #420"
     }
   ]
 }

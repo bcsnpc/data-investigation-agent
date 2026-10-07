@@ -1,0 +1,632 @@
+{
+  "records": [
+    {
+      "case_id": "family-A",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "e8221bad4b4fd69c289b7b1db315efa7774d4dc2558313b44421aaf46e266449",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {},
+            "boundaries": [
+              {
+                "comparison_id": "r2",
+                "input": {
+                  "term": "L1",
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765"
+                },
+                "output": {
+                  "term": "L0",
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                  "quantity": "8,765"
+                },
+                "values_equal": true,
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT"
+              },
+              {
+                "comparison_id": "r3",
+                "input": {
+                  "term": "L2",
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                  "quantity": "7,661"
+                },
+                "output": {
+                  "term": "L1",
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765"
+                },
+                "values_equal": false,
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT"
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7"
+                      ]
+                    }
+                  },
+                  "boundary_evidence_id": {
+                    "type": "string",
+                    "enum": [
+                      "r3"
+                    ],
+                    "description": "The observed divergent comparison explained by this mechanism paragraph."
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids",
+                  "boundary_evidence_id"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "boundary_evidence_id": "r3",
+              "text": "A left join matches movements with rates by product key, and the retained definition states that matching rows may multiply when key uniqueness is not assumed. That multiplication can repeat movement rows while the additive units quantity remains otherwise unchanged, producing a higher total across the checked boundary.",
+              "evidence_ids": [
+                "r7",
+                "r3"
+              ]
+            }
+          },
+          "provider_event_sha256": "f192566ead94c994dc3509f78b953d5ed135c59551427348bd2edab0c712f59a"
+        }
+      ]
+    },
+    {
+      "case_id": "family-B",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "3192b553703e989a3755ee1f2262032548bd97016844a55d8a0fc5efd509e676",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {},
+            "boundaries": []
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The recorded investigation reached the Activity measure scope and then stopped after checking the partition source label for that table. The displayed blocker states that the label for the Activity partition source lacked a stable discovered asset binding, so no lower layer quantity for the measure could be compiled under the declared scope.",
+              "evidence_ids": [
+                "r0",
+                "r1",
+                "r2"
+              ]
+            }
+          },
+          "provider_event_sha256": "b1fac56a28a01a2f889bf7c845f1d8660f4cdf7b304e043a3ec3a469a5fa81e3"
+        }
+      ]
+    },
+    {
+      "case_id": "family-D",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "174bf3f68642a0f129a74bf24c5c3f4203c2d31e1b4419a2d451d482111787c1",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {},
+            "boundaries": []
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8",
+                        "r9",
+                        "r10",
+                        "r11",
+                        "r12",
+                        "r13",
+                        "r14",
+                        "r15",
+                        "r16",
+                        "r17",
+                        "r18"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The investigation reproduces the measure within the report layer in three scopes. It matches the measure definition to a warehouse keyed row and to a total row, then evaluates the current warehouse selection for North against the broader total. The warehouse keyed row for North returns a smaller figure, while the total row returns the broader figure, so the visible difference aligns with a warehouse restriction being active in the report context. A separate whole visual read also reproduces the broader figure, showing the same measure is being read across those report scopes.",
+              "evidence_ids": [
+                "r9",
+                "r10",
+                "r11",
+                "r12",
+                "r13",
+                "r0",
+                "r1",
+                "r3",
+                "r8"
+              ]
+            }
+          },
+          "provider_event_sha256": "f8ac03e129c72ea079017843025e621e8fda2305ff1087ea2d5456bc2ad774d7"
+        }
+      ]
+    },
+    {
+      "case_id": "family-E",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "dc8094785514652eedcb72c5d2f5980b9746494d0e6ca4021343bbf3f150c26b",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {},
+            "boundaries": [
+              {
+                "comparison_id": "r3",
+                "input": {
+                  "term": "L1",
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765"
+                },
+                "output": {
+                  "term": "L0",
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                  "quantity": "8,765"
+                },
+                "values_equal": true,
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT"
+              },
+              {
+                "comparison_id": "r4",
+                "input": {
+                  "term": "L2",
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                  "quantity": "7,661"
+                },
+                "output": {
+                  "term": "L1",
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765"
+                },
+                "values_equal": false,
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT"
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8",
+                        "r9",
+                        "r10"
+                      ]
+                    }
+                  },
+                  "boundary_evidence_id": {
+                    "type": "string",
+                    "enum": [
+                      "r4"
+                    ],
+                    "description": "The observed divergent comparison explained by this mechanism paragraph."
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids",
+                  "boundary_evidence_id"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "boundary_evidence_id": "r4",
+              "text": "A left join matches movement rows with rate rows by product and then derives a value from units and cost. The retained definition states that matching rows may multiply, so the additive quantity can rise across the checked boundary, and the checked comparison above that boundary remains aligned with the intermediate layer.",
+              "evidence_ids": [
+                "r10",
+                "r4",
+                "r3"
+              ]
+            }
+          },
+          "provider_event_sha256": "43ec877a6d57e4005a4adeb0c67735492cd0306191c03e71248a436274b2aded"
+        }
+      ]
+    },
+    {
+      "case_id": "family-I",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "79a7b049e2dacc2cdf3dbd7c228fb35f233f182cf48c704423dbff98483b4c79",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {},
+            "boundaries": [
+              {
+                "comparison_id": "r3",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765",
+                  "term": "L1"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                  "quantity": "8,765",
+                  "term": "L0"
+                },
+                "values_equal": true
+              },
+              {
+                "comparison_id": "r4",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                  "quantity": "7,661",
+                  "term": "L2"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765",
+                  "term": "L1"
+                },
+                "values_equal": false
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7"
+                      ]
+                    }
+                  },
+                  "boundary_evidence_id": {
+                    "type": "string",
+                    "enum": [
+                      "r4"
+                    ],
+                    "description": "The observed divergent comparison explained by this mechanism paragraph."
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids",
+                  "boundary_evidence_id"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "boundary_evidence_id": "r4",
+              "text": "The retained definition shows a left join from movements to rates on product_id with matching rows allowed to multiply, then carries units into the produced table while also deriving a value column. When more than one rates row matches a movements row, the carried units total can rise in the produced table relative to the source side of the checked boundary.",
+              "evidence_ids": [
+                "r7",
+                "r4"
+              ]
+            }
+          },
+          "provider_event_sha256": "480661ab7648eb2351a979acd1f8e39b2f46bb22ae85a45a3b8beeec512c7aa2"
+        }
+      ]
+    },
+    {
+      "case_id": "source-consistent",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "ba217133c534dddcb27b4ff222bcd55877bf3969c8ccfb405a2acbd97318a195",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+              "L1 (LANDING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+              "L2 (APPLICATION)": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r6",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+                  "quantity": "7,661",
+                  "term": "L1 (LANDING)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+                  "quantity": "7,661",
+                  "term": "L0 (SEMANTIC)"
+                },
+                "values_equal": true
+              },
+              {
+                "comparison_id": "r7",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+                  "quantity": "7,661",
+                  "term": "L2 (APPLICATION)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+                  "quantity": "7,661",
+                  "term": "L1 (LANDING)"
+                },
+                "values_equal": true
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8",
+                        "r9"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The measure total at L0 (SEMANTIC) matches the total at L1 (LANDING), and the total at L1 (LANDING) matches the total at L2 (APPLICATION). The recorded checks therefore trace the displayed measure through those layers without a change in the counted quantity.",
+              "evidence_ids": [
+                "r6",
+                "r7"
+              ]
+            }
+          },
+          "provider_event_sha256": "d9dafc6cac02c25743a050f049f4f0cd0939997ab88c594618be12f978073c85"
+        }
+      ]
+    },
+    {
+      "case_id": "source-unreachable",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "7137803ae28bcd243c56a7b829c9bf9118e7dbfddefddeb502ecc670d0214aa8",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+              "L1 (LANDING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r5",
+                "input": {
+                  "term": "L1 (LANDING)",
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+                  "quantity": "7,661"
+                },
+                "output": {
+                  "term": "L0 (SEMANTIC)",
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+                  "quantity": "7,661"
+                },
+                "values_equal": true,
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT"
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The displayed measure on L0 (SEMANTIC) was compared with the traced quantity on L1 (LANDING), and the retained comparison records equality between those layers for this measure.",
+              "evidence_ids": [
+                "r5"
+              ]
+            }
+          },
+          "provider_event_sha256": "47d5bb025638ad91a27aed199098017d0429468f4a42d15c08b87dd929b8abc9"
+        }
+      ]
+    }
+  ]
+}

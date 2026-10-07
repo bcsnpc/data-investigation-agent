@@ -1,0 +1,139 @@
+{
+  "source": "RETAINED_COLLECTED_DEFINITION",
+  "source_sha256": "c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd",
+  "definition": {
+    "properties": {
+      "jobMode": "Batch",
+      "source": {
+        "type": "AzureSqlTable",
+        "connectionSettings": {
+          "type": "AzureSqlDatabase",
+          "typeProperties": {
+            "database": "ordersops"
+          },
+          "externalReferences": {
+            "connection": "${ITEM_5}"
+          }
+        }
+      },
+      "destination": {
+        "type": "LakehouseTable",
+        "connectionSettings": {
+          "type": "Lakehouse",
+          "typeProperties": {
+            "workspaceId": "${ITEM_6}",
+            "artifactId": "${ITEM_7}",
+            "rootFolder": "Tables"
+          }
+        }
+      },
+      "policy": {
+        "timeout": "0.00:10:00",
+        "retry": 0
+      }
+    },
+    "activities": [
+      {
+        "id": "${ITEM_8}",
+        "properties": {
+          "source": {
+            "datasetSettings": {
+              "schema": "app",
+              "table": "stock_movements_round_two_20261003"
+            },
+            "partitionSettings": {
+              "partitionOption": "None"
+            }
+          },
+          "destination": {
+            "partitionOption": "None",
+            "writeBehavior": "Overwrite",
+            "datasetSettings": {
+              "schema": "dbo",
+              "table": "stock_movements_round_two_20261003"
+            },
+            "applyVOrder": false,
+            "enableTimestampNtz": false,
+            "enableChangeDataFeed": false
+          },
+          "enableStaging": false,
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "movement_id"
+                },
+                "destination": {
+                  "name": "movement_id"
+                }
+              },
+              {
+                "source": {
+                  "name": "warehouse_id"
+                },
+                "destination": {
+                  "name": "warehouse_id"
+                }
+              },
+              {
+                "source": {
+                  "name": "product_id"
+                },
+                "destination": {
+                  "name": "product_id"
+                }
+              },
+              {
+                "source": {
+                  "name": "units"
+                },
+                "destination": {
+                  "name": "units"
+                }
+              },
+              {
+                "source": {
+                  "name": "event_day"
+                },
+                "destination": {
+                  "name": "event_day"
+                }
+              },
+              {
+                "source": {
+                  "name": "movement_type"
+                },
+                "destination": {
+                  "name": "movement_type"
+                }
+              },
+              {
+                "source": {
+                  "name": "source_modified_at_utc"
+                },
+                "destination": {
+                  "name": "source_modified_at_utc"
+                }
+              },
+              {
+                "source": {
+                  "name": "source_row_version"
+                },
+                "destination": {
+                  "name": "source_row_version"
+                }
+              }
+            ]
+          },
+          "typeConversionSettings": {
+            "typeConversion": {
+              "allowDataTruncation": false,
+              "treatBooleanAsNumber": false
+            }
+          }
+        }
+      }
+    ]
+  }
+}

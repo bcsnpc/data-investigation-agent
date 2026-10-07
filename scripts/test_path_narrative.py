@@ -4,6 +4,30 @@ from investigator import path_narrative as path,synthesis_narrative as narrative
 import test_substantive_business_output as fixture
 
 class PathNarrativeTests(unittest.TestCase):
+    def test_possibility_is_stated_once_in_both_producer_and_consumer_rules(self):
+        validator=Draft202012Validator(path.mechanism_schema(1000))
+        for good in ('The join can repeat matching rows.','Matching rows are allowed to multiply at the join.'):
+            path.validate_mechanism(good);self.assertTrue(validator.is_valid(good))
+        for bad in ('The join can repeat rows and can therefore raise the total.',
+                    'Matching rows are allowed to multiply and can duplicate quantities.',
+                    'Matches may multiply, and the total can rise.'):
+            with self.subTest(text=bad):
+                self.assertFalse(validator.is_valid(bad))
+                with self.assertRaises(path.RepeatedHedge):path.validate_mechanism(bad)
+
+    def test_non_role_layer_words_refuse_even_when_no_roles_are_declared(self):
+        for bad in ('The measure layer repeats matches.','The lower-layer read stops.',
+                    'The layers preserve the quantity.'):
+            with self.subTest(text=bad):
+                self.assertFalse(Draft202012Validator(path.mechanism_schema(1000)).is_valid(bad))
+                with self.assertRaises(path.LayerReferenceError):path.validate_declared_layer_tokens(bad,{})
+
+    def test_held_or_reproduction_only_role_identity_does_not_claim_a_read(self):
+        p={'evidence':[],'layer_labels':{'model':{'role':'SEMANTIC','business_name':'reported calculation'}}}
+        self.assertEqual(path.layer_tokens(p),{'L0 (SEMANTIC)':'model'})
+        self.assertIn('L0 (SEMANTIC)',path.render_roles(p))
+        self.assertIn('do not establish successful reads',path.render_roles(p))
+
     def payload(self):
         p=fixture.BusinessFactsTests().payload()
         p['evidence'].append({'id':'input','provenance':{'receipt_seal':'sealed'},'verified_quantity':{'quantity':'8765'}})

@@ -1,0 +1,21 @@
+{
+  "step": "translation",
+  "model_version": "investigator-quality-54",
+  "cases": 3,
+  "evaluated": 3,
+  "suite_hash": "a1eb77ad4ea2fdbbed507f971e69b483ff61c588a61c02cecb217010779195a4",
+  "status": "COMPLETE",
+  "score": 0.6666666666666666,
+  "first_proposal_verified": 2,
+  "provider_failures": 0,
+  "estate_physical_requests": 0,
+  "limits": [
+    "Authored local fixture; verification is bounded evidence, not global equivalence or aligned snapshots."
+  ],
+  "delta": null,
+  "gate": "PASSED",
+  "threshold": {
+    "maximum_drop": 0.0,
+    "reason": "Three deliberately small independently evaluated local cases. Any first-proposal verification regression fails; this is a release ratchet, not a claim of general equivalence or performance on an estate. Missing and provider-failed cases fail."
+  }
+}

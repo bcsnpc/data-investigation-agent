@@ -29,7 +29,7 @@ def fixture_configuration():
     return json.loads((ROOT/'infra/estates/fixture.json').read_text(encoding='utf-8'))
 
 
-def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_payload=None):
+def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_payload=None,mechanism_supersession=None):
     errors=[]
     try:
         actual=project(state,(case.get('expected',{}).get('reproduction') or {}).get('cell_id'))
@@ -52,7 +52,7 @@ def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_
             r'same moment|different update times|update timing|matching data versions|SNAPSHOT_UNVERIFIED',s,re.I)]
         if len(timing)>1:errors.append(kind+':REPEATED_TIMING_LIMIT')
         if kind=='technical_output':
-            from investigator.path_narrative import validate_layer_references
+            from investigator.path_narrative import validate_layer_references,validate_mechanism,RepeatedHedge
             # Only the model paragraph uses this vocabulary: engine-rendered
             # legends and limits deliberately state role names and identities.
             boundaries=[o for o in state.get('observations',[]) if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
@@ -61,7 +61,7 @@ def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_
                 for side in ('upper_layer','lower_layer'):
                     if not labels.get(boundary.get(side),{}).get('role'):
                         errors.append('technical_output:UNDECLARED_LAYER_ROLE')
-            mechanism=outputs[kind].get('model_mechanism',provider_mechanism)
+            mechanism=mechanism_supersession or outputs[kind].get('model_mechanism',provider_mechanism)
             if mechanism is None and (state.get('synthesis') or {}).get('provenance') in ('DETERMINISTIC_REFUSAL_RENDERING','DETERMINISTIC_BOUNDED_SPINE_RENDERING'):
                 mechanism={'text':'','provenance':'ENGINE_ONLY_RENDERING'}
             if mechanism is None:errors.append('technical_output:MISSING_MODEL_MECHANISM_PROVENANCE')
@@ -72,6 +72,9 @@ def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_
                     for o in state.get('observations',[])]}
                 try:validate_layer_references(mechanism['text'],payload)
                 except ValueError as exc:errors.append('technical_output:LAYER_REFERENCE:'+str(exc))
+                try:validate_mechanism(mechanism['text'])
+                except RepeatedHedge:errors.append('technical_output:HEDGE_TWICE')
+                except ValueError as exc:errors.append('technical_output:MECHANISM_FORM:'+str(exc))
     from investigator.lineage_limits import validate_outputs
     errors.extend(validate_outputs(state.get('assessment') or {},outputs))
     return sorted(set(errors))
@@ -94,9 +97,12 @@ def sealed_mechanism(path):
     """
     import base64
     from investigator.process_tape import Tape,validate_event
-    tape=Tape(path);operation=None;found=[]
+    tape=Tape(path);operation=None;request=None;found=[]
     for event in tape.events:
-        if event['kind']=='OPERATION_START':operation=json.loads(validate_event(event,event['ordinal']))['name']
+        if event['kind']=='OPERATION_START':
+            operation=json.loads(validate_event(event,event['ordinal']))['name'];request=None
+        if event['kind']=='PROVIDER_REQUEST' and operation=='synthesize':
+            request=json.loads(validate_event(event,event['ordinal']))
         if event['kind']!='PROVIDER_RESPONSE' or operation!='synthesize':continue
         wrapper=json.loads(validate_event(event,event['ordinal']))
         body=json.loads(base64.b64decode(wrapper['body'],validate=True))
@@ -104,13 +110,15 @@ def sealed_mechanism(path):
             if call.get('type')!='function_call':continue
             args=json.loads(call['arguments'])
             if 'technical_output' in args:
+                if request is None:raise ValueError('Sealed mechanism lacks its provider request')
                 found.append({'text':args['technical_output']['text'],'provenance':'SEALED_PROVIDER_MECHANISM',
-                              'provider_event_sha256':event['sha256']})
+                              'provider_event_sha256':event['sha256'],'response':args,
+                              'payload':json.loads(request['input'])})
     if not found:return None
     return found[-1]
 
 
-def run_case(case,fixture_root,output):
+def run_case(case,fixture_root,output,*,mechanism_root=None):
     result={'ticket':case['ticket'],'reference_session_id':case['reference_session_id'],
             'status':'BLOCKED','network_calls':0,'physical_requests':0,'errors':[]}
     input_path=fixture_root/'known-domain-runs'/(case['ticket']+'.json')
@@ -130,6 +138,7 @@ def run_case(case,fixture_root,output):
         from private_bundle import tape_path
         path=tape_path(run,fixture_root)
         tape=Tape(path)
+        result['tape_class']=tape.tape_class
         # Select from the sealed bootstrap, including a recorded operator pin.
         # Never install the case's requested context into an existing tape.
         model_id=run['session']['model_id']
@@ -159,7 +168,21 @@ def run_case(case,fixture_root,output):
                 payload=build(replayed['session'],db)
             result['fixture_state']=binding['name'];result['context_used']=established
             result['fixture_state_provenance']=binding.get('provenance','RECORDED_NATIVE')
-            result['errors']=output_checks(case,replayed['session'],provider_mechanism=sealed_mechanism(path),fixture_state=binding,local_payload=payload)
+            source_mechanism=sealed_mechanism(path)
+            from mechanism_supersession import select_pools
+            pools=[]
+            for records_name,revisions_name in (
+                ('synthesis-recorded.json','synthesis-revisions-420.json'),
+                ('synthesis-archived-recorded.json','synthesis-archived-revisions-420.json')):
+                revision_path=ROOT/'acceptance/model_steps'/revisions_name
+                if revision_path.exists():
+                    records=json.loads((ROOT/'acceptance/model_steps'/records_name).read_text(encoding='utf8'))['records']
+                    revisions=json.loads(revision_path.read_text(encoding='utf8'))
+                    pools.append((records,revisions))
+            amended=select_pools(path,source_mechanism,root=mechanism_root,pools=pools)
+            if amended:result['mechanism_supersession']=amended
+            result['errors']=output_checks(case,replayed['session'],provider_mechanism=source_mechanism,
+                fixture_state=binding,local_payload=payload,mechanism_supersession=amended)
             result['status']='FAILED' if result['errors'] else 'PASSED'
             result['reason']='OUTPUT_INVARIANT_FAILED' if result['errors'] else None
     except Exception as exc:

@@ -120,12 +120,21 @@ MECHANISM_LIMIT_TERMS=(
     'permission', 'access limitation', 'same moment', 'update timing',
     'limitation', 'caveat')
 MECHANISM_FORBIDDEN=r'\b(?:'+'|'.join(_casefold(t) for t in MECHANISM_LIMIT_TERMS)+r')\b'
+HEDGE_TERMS=('can','could','may','might','possibly','potentially','allowed to','able to','is possible','are possible')
+HEDGE_PATTERN=r'\b(?:'+'|'.join(_casefold(t) for t in HEDGE_TERMS)+r')\b'
+NON_ROLE_LAYER_PATTERN=r'\b'+_casefold('layer')+r'(?:[sS])?\b'
+
+
+class RepeatedHedge(ValueError):
+    pass
 
 
 def producer_rules():
     """Same vocabulary as the consumer, even where wire regex is unsupported."""
     return ('Refer to a layer only using an exact layer_tokens entry, L<n> (<ROLE>). '
         'Never use a bare role word or invent a token. Mechanism text must contain no other digits, including digits in native identifiers. '
+        'Do not use the bare words layer or layers, including measure layer and lower-layer. '
+        'State a mechanism possibility once at most. These possibility markers share one limit: '+', '.join(HEDGE_TERMS)+'. '
         'Do not copy native names with digits; explain the operation instead. '
         'Do not use these path-account terms: '+', '.join(COMMENTARY_TERMS)+'. '
         'Do not use these engine-owned limitation terms: '+', '.join(MECHANISM_LIMIT_TERMS)+'. '
@@ -141,6 +150,8 @@ def mechanism_schema(bound):
     terms=r'(?<![L0-9])\d|\b(?:'+'|'.join(_casefold(w) for w in COMMENTARY_TERMS)+r')\b'
     value['pattern']='^(?![\\s\\S]*(?:'+terms+'))'+value['pattern'][1:]
     value['pattern']='^(?![\\s\\S]*(?:'+MECHANISM_FORBIDDEN+'))'+value['pattern'][1:]
+    value['pattern']='^(?![\\s\\S]*(?:'+NON_ROLE_LAYER_PATTERN+'))'+value['pattern'][1:]
+    value['pattern']='^(?![\\s\\S]*'+HEDGE_PATTERN+'[\\s\\S]*'+HEDGE_PATTERN+')'+value['pattern'][1:]
     return value
 
 
@@ -157,15 +168,21 @@ def layer_tokens(payload):
 
 
 def validate_layer_references(text,payload):
+    return validate_declared_layer_tokens(text,layer_tokens(payload))
+
+
+def validate_declared_layer_tokens(text,allowed):
+    """Same consumer rule for a sealed wire vocabulary and a local spine."""
     import re
     from .layer_roles import ROLES
-    allowed=layer_tokens(payload)
     mentions=re.findall(r'\bL\d+(?:\s*\([^)]*\))?',text)
     if any(token not in allowed for token in mentions):
         raise LayerReferenceError('Mechanism contains a layer token not declared by the spine')
     remainder=re.sub(r'\bL\d+ \([A-Z]+\)', '', text)
     if re.search(r'\b(?:'+'|'.join(ROLES)+r')\b',remainder,re.I):
         raise LayerReferenceError('Mechanism contains a role word without its declared layer token')
+    if re.search(NON_ROLE_LAYER_PATTERN,remainder):
+        raise LayerReferenceError('Mechanism contains a non-role layer reference')
 
 
 def validate_mechanism(text,limits=()):
@@ -173,9 +190,23 @@ def validate_mechanism(text,limits=()):
     validate_commentary(text)
     if re.search(MECHANISM_FORBIDDEN,text):
         raise ValueError('Mechanism contains an engine-owned limitation')
+    if len(re.findall(HEDGE_PATTERN,text))>1:
+        raise RepeatedHedge('Mechanism states a possibility more than once')
     normalized=' '.join(text.casefold().split())
     for limit in limits:
         for sentence in re.split(r'(?<=[.!?])\s+',limit):
             phrase=' '.join(sentence.casefold().split()).strip(' .;')
             if phrase and phrase in normalized:
                 raise ValueError('Mechanism repeats a retained limitation')
+
+
+def render_roles(payload,source=None):
+    """Resolved role identity is an engine fact, independent of comparison count."""
+    from .narrative_form import layers
+    source=source or {'technical_output':{'layer_labels':payload.get('layer_labels',{})}}
+    registry=layers(payload,source)
+    labels=source.get('technical_output',{}).get('layer_labels',payload.get('layer_labels',{}))
+    tokens=[item['term']+' ('+labels[identity]['role']+')' if labels.get(identity,{}).get('role')
+            else item['term']+' (role undeclared)' for identity,item in registry.items()]
+    return ('Roles reached in path resolution: '+', '.join(tokens)+'. These labels do not establish successful reads.'
+            if tokens else 'Roles reached in path resolution: no declared layer identities were retained.')

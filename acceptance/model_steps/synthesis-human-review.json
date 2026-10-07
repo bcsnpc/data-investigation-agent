@@ -1,0 +1,332 @@
+{
+  "basis": "SEALED_PROVIDER_RESPONSES",
+  "grading_status": "GRADED",
+  "items": [
+    {
+      "case_id": "family-A",
+      "model_version": "investigator-quality-54",
+      "provider_event_sha256": "534e9b5097d0b208714b54e81ea2a6be05a9da51da0c5ddaeda13d5fdcc41466",
+      "text": "Between L2 (REFINED) and L1 (SERVING), the retained definition shows a left join on product_id, then a derived value column is added. If several rate rows match one movement row, that join can repeat movement rows while the carried additive quantity stays on each repeated row. Summing after that step can therefore produce a larger total in L1 (SERVING) than in L2 (REFINED). The checked comparison also shows L1 (SERVING) matching L0 (SEMANTIC), so that carried total is preserved into L0 (SEMANTIC).",
+      "allowed_layer_tokens": [
+        "L0 (SEMANTIC)",
+        "L1 (SERVING)",
+        "L2 (REFINED)"
+      ],
+      "boundary_spine": [
+        {
+          "comparison_id": "r3",
+          "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+          "input": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "quantity": "8,765",
+            "term": "L1 (SERVING)"
+          },
+          "output": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+            "quantity": "8,765",
+            "term": "L0 (SEMANTIC)"
+          },
+          "values_equal": true
+        },
+        {
+          "comparison_id": "r4",
+          "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+          "input": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+            "quantity": "7,661",
+            "term": "L2 (REFINED)"
+          },
+          "output": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "quantity": "8,765",
+            "term": "L1 (SERVING)"
+          },
+          "values_equal": false
+        }
+      ],
+      "human_flags": {
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": false
+      },
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "hedged twice: 'can repeat' and 'can therefore produce'"
+    },
+    {
+      "case_id": "family-B",
+      "model_version": "investigator-quality-54",
+      "provider_event_sha256": "d57173cfeb33c7ac38a8b3949cf7cd9060d1d786e08afe4f5f273140f167074c",
+      "text": "The recorded operation reaches the Activity partition source label and finds no stable discovered asset binding for that label, so the engine compiles no quantity for the declared scope from that source.",
+      "allowed_layer_tokens": [],
+      "boundary_spine": [],
+      "human_flags": {
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": true
+      },
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "no roles declared on spine"
+    },
+    {
+      "case_id": "family-D",
+      "model_version": "investigator-quality-54",
+      "provider_event_sha256": "da0c8268e67c6493ad0117cbbc03d39ab5cd7b4064f5592598d71d79d073d21c",
+      "text": "The investigation reproduced a warehouse-keyed cell under a recorded warehouse restriction for North, using the Handled Quantity definition and a within-layer read for that keyed cell. It also reproduced the same definition for the total and ungrouped cells, which yielded the broader visual-context value. The declared trace reaches the Activity measure and then continues through quantity-preserving steps, but the recorded chain does not carry the North warehouse restriction through the later entities, so the warehouse-keyed scope and the broader scope are both present while their translation into the declared source chain stops at the measure layer.",
+      "allowed_layer_tokens": [],
+      "boundary_spine": [],
+      "human_flags": {
+        "names_layer_by_role": false,
+        "one_mechanism": false,
+        "no_hedge_twice": true
+      },
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "'measure layer' is not a role; reproduction thread and chain-stop thread mixed"
+    },
+    {
+      "case_id": "family-E",
+      "model_version": "investigator-quality-54",
+      "provider_event_sha256": "e7d3a97c1d57fb6808160a121957ca8753792143fd5a9ec2653bc2e3c61ef96b",
+      "text": "Between L2 (REFINED) and L1 (SERVING), the retained definition evidence records a left join from movements to rates on product_id, with matching rows allowed to multiply when uniqueness is not assumed. The traced quantity is carried as an unchanged additive column through that join, while a separate value column is derived from units and unit cost. Under that recorded operation, repeated matches at the join can duplicate movement rows and raise the carried total in L1 (SERVING) relative to L2 (REFINED).",
+      "allowed_layer_tokens": [
+        "L0 (SEMANTIC)",
+        "L1 (SERVING)",
+        "L2 (REFINED)"
+      ],
+      "boundary_spine": [
+        {
+          "comparison_id": "r2",
+          "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+          "input": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "quantity": "8,765",
+            "term": "L1 (SERVING)"
+          },
+          "output": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+            "quantity": "8,765",
+            "term": "L0 (SEMANTIC)"
+          },
+          "values_equal": true
+        },
+        {
+          "comparison_id": "r3",
+          "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+          "input": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+            "quantity": "7,661",
+            "term": "L2 (REFINED)"
+          },
+          "output": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "quantity": "8,765",
+            "term": "L1 (SERVING)"
+          },
+          "values_equal": false
+        }
+      ],
+      "human_flags": {
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": false
+      },
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "hedged twice: 'allowed to multiply' and 'can duplicate'"
+    },
+    {
+      "case_id": "family-F",
+      "model_version": "investigator-quality-54",
+      "provider_event_sha256": "424af7bb1cbde3bb1aafae0fc34ceb05446db3f8defeb7290edb811c6ae340fe",
+      "text": "The displayed record contains a comparison between L1 (SERVING) and L0 (SEMANTIC), and it records equal quantity across that pair. No retained operation definition is displayed beyond that comparison.",
+      "allowed_layer_tokens": [
+        "L0 (SEMANTIC)",
+        "L1 (SERVING)"
+      ],
+      "boundary_spine": [
+        {
+          "comparison_id": "r0",
+          "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+          "input": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "quantity": "57,043",
+            "term": "L1 (SERVING)"
+          },
+          "output": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+            "quantity": "57,043",
+            "term": "L0 (SEMANTIC)"
+          },
+          "values_equal": true
+        }
+      ],
+      "human_flags": {
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": true
+      },
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": ""
+    },
+    {
+      "case_id": "family-G",
+      "model_version": "investigator-quality-54",
+      "provider_event_sha256": "4d2f01d8b7e67395e3d42d980424e290b1c0d52a2164350c9a051cc488eb43c1",
+      "text": "Between L2 (REFINED) and L1 (SERVING), the retained definition shows a left join on product_id from movements to rates, and the join notes that matching rows may multiply because uniqueness is not assumed. The units column is kept as an unchanged additive column through that step, so repeated matches can raise the carried total at L1 (SERVING). The checked comparison also shows L1 (SERVING) aligning with L0 (SEMANTIC), placing the divergence at that join step.",
+      "allowed_layer_tokens": [
+        "L0 (SEMANTIC)",
+        "L1 (SERVING)",
+        "L2 (REFINED)"
+      ],
+      "boundary_spine": [
+        {
+          "comparison_id": "r1",
+          "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+          "input": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "quantity": "8,765",
+            "term": "L1 (SERVING)"
+          },
+          "output": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+            "quantity": "8,765",
+            "term": "L0 (SEMANTIC)"
+          },
+          "values_equal": true
+        },
+        {
+          "comparison_id": "r2",
+          "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+          "input": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+            "quantity": "7,661",
+            "term": "L2 (REFINED)"
+          },
+          "output": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "quantity": "8,765",
+            "term": "L1 (SERVING)"
+          },
+          "values_equal": false
+        }
+      ],
+      "human_flags": {
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": false
+      },
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "hedged twice: 'may multiply' and 'can raise'"
+    },
+    {
+      "case_id": "family-H",
+      "model_version": "investigator-quality-54",
+      "provider_event_sha256": "cde3ae792aa08074c8cdc08cbc300f0e8332fa390d6a931528f4299f83fe950d",
+      "text": "The recorded logic maps the measure through Activity and relies on a partition source label for that table. For the cited label, the retained record has no stable discovered asset binding, so the compilation step for a lower-layer quantity under the declared scope does not proceed.",
+      "allowed_layer_tokens": [],
+      "boundary_spine": [],
+      "human_flags": {
+        "names_layer_by_role": false,
+        "one_mechanism": true,
+        "no_hedge_twice": true
+      },
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "'lower-layer' is a position word; no roles declared on spine"
+    },
+    {
+      "case_id": "family-I",
+      "model_version": "investigator-quality-54",
+      "provider_event_sha256": "e30e232773c6e2306c75e2a279136d0b8cd7e2a2a170e490469947d4e3a8929b",
+      "text": "A left join on product_id combines movement rows with rates before the result is written, and the retained definition states that matching rows may multiply because uniqueness is not assumed. When a movement row matches more than one rate row, the carried units total can rise between L2 (REFINED) and L1 (SERVING). The checked comparison then shows L1 (SERVING) passing the same total through to L0 (SEMANTIC).",
+      "allowed_layer_tokens": [
+        "L0 (SEMANTIC)",
+        "L1 (SERVING)",
+        "L2 (REFINED)"
+      ],
+      "boundary_spine": [
+        {
+          "comparison_id": "r2",
+          "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+          "input": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "quantity": "8,765",
+            "term": "L1 (SERVING)"
+          },
+          "output": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+            "quantity": "8,765",
+            "term": "L0 (SEMANTIC)"
+          },
+          "values_equal": true
+        },
+        {
+          "comparison_id": "r3",
+          "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+          "input": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+            "quantity": "7,661",
+            "term": "L2 (REFINED)"
+          },
+          "output": {
+            "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+            "quantity": "8,765",
+            "term": "L1 (SERVING)"
+          },
+          "values_equal": false
+        }
+      ],
+      "human_flags": {
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": false
+      },
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "hedged twice: 'may multiply' and 'can rise'"
+    },
+    {
+      "case_id": "reproduction-16",
+      "model_version": "investigator-quality-54",
+      "provider_event_sha256": "b0dbfc1acc9e147bbf8a41e7907d391e570356eecb8ae0d93388d96e27520f57",
+      "text": "The recorded check compares several declared-context candidates for the same visual. One candidate applies saved declarations for day, movement type, product, and warehouse, and that candidate reproduces the reported figure. Broader candidates that omit the day declaration, or omit the saved declarations entirely, return different declared-context results while the undeclared-context result remains the larger value. This means the recorded operation narrows the visual through those saved declarations when reproducing the figure.",
+      "allowed_layer_tokens": [],
+      "boundary_spine": [],
+      "human_flags": {
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": true
+      },
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "no roles declared on spine"
+    },
+    {
+      "case_id": "reproduction-empty",
+      "model_version": "investigator-quality-54",
+      "provider_event_sha256": "84f9fe99885cf5d682defd2f051c6bb368f4b51053e6c3b06484ea70528fa9d8",
+      "text": "The recorded check evaluated the card at three scopes. With the saved declared predicates captured for that cell, the measure read returned an empty result. When the date predicate was absent, the same measure read returned a value, and the broader undeclared scope also returned a value. This records that the empty card aligns with the combined warehouse, product, movement type, and date predicates attached to that visual state.",
+      "allowed_layer_tokens": [],
+      "boundary_spine": [],
+      "human_flags": {
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": true
+      },
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "no roles declared on spine"
+    }
+  ],
+  "grader": "Claude, independent reviewer; approved by Chaitu",
+  "graded_at": "2026-10-06",
+  "reviewer_findings": [
+    "Join-family mechanisms hedge twice consistently; synthesis should state the possibility once.",
+    "Spine omits the roles list for held and reproduction-only runs; roles reached should always be rendered.",
+    "D and H use non-role layer words ('measure layer', 'lower-layer')."
+  ]
+}

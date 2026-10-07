@@ -6,6 +6,15 @@ that validates without an installed transport. Validation is not reachability,
 permission, faithful equivalence, evidence currency or a capability acceptance.
 No identity or permission is created by a manifest.
 
+Optional `retention` has two closed fields, `tape_days` and `ledger_days`, each
+an integer from 1 to 36,500 or `indefinite`. An absent policy means indefinite,
+including the fixture. `python scripts/dia.py retain` prints the local expiry
+plan; `--apply` explicitly applies it. File and ledger hashes are checked again
+before changes, and a separate durable audit records deleted hashes. Unknown
+dates, incomplete tapes and unfamiliar sidecars stay. Original sealed tapes are
+never rewritten to redact or repair them. See [governance](governance.md) for
+the command and remaining Round Nine controls.
+
 ## String comparison declarations
 
 Each layer may declare the closed `string_semantics` fields `collation`,
@@ -123,3 +132,24 @@ admitted and counted individually. A logical discovery operation is not one
 physical request. Exhaustion prevents sending another request; partial coverage
 remains unavailable rather than silently becoming a complete context. Synthetic
 raw protocol tests establish two-request accounting and refusal before transport.
+
+The model provider, deployment and endpoint are pinned by `model`. Optional
+`model.region` is either `{"status":"DECLARED","name":"<region>","evidence":"<control-plane record>"}`
+or `{"status":"UNDECLARED","reason":"<why not established>"}`. A declared region
+is an operator statement supported by its cited deployment record, not an engine
+residency certification. Check the provider's processing, retention and residency
+terms for that deployment before installation; the endpoint hostname alone is not
+evidence. The fixture currently pins Azure and its deployment/endpoint but has no
+region declaration: its region remains UNDECLARED, rather than guessed. Terms are
+carried in every new manifest-backed tape's bootstrap and configuration events,
+without credentials. Historical tapes remain UNRECORDED for region. Adding or
+changing these terms changes the whole approval hash and requires re-approval;
+it does not change permissions or worker configuration.
+
+Recording now declares one class in `recording`: `{"tape_class":"EXACT"}`
+or the separate `PRIVACY_PROJECTED` policy with its version, estate ID, exact
+resolved column identities and secret-store key reference. A key is never a
+manifest value. Legacy omitted declarations retain the exact contract. The
+projected codec is tested offline; installation capture is still unwired and
+**refuses execution** rather than using exact capture as a fallback. See the
+[dated privacy decision and remaining boundaries](round-nine-redaction-contract-audit.md).

@@ -1,0 +1,1117 @@
+{
+  "step": "intake",
+  "model_version": "investigator-quality-54",
+  "suite_hash": "1e756fba6b005ad75a2b314c4b5ff4060879f1d5029450eebdbdbd7779296e4d",
+  "cases": 60,
+  "evaluated": 60,
+  "status": "COMPLETE",
+  "per_field_accuracy": {
+    "action": 0.9833333333333333,
+    "model_id": 0.9833333333333333,
+    "measure_id": 0.9833333333333333,
+    "ticket_shape": 0.8833333333333333,
+    "comparison_mode": 0.8833333333333333,
+    "question_kind": 0.8333333333333334,
+    "dimension_ids": 0.9833333333333333,
+    "figure_state": 0.9833333333333333,
+    "figure_value": 0.9833333333333333,
+    "figure_precision": 0.9833333333333333,
+    "selection_value": 0.9833333333333333,
+    "filters": 0.9166666666666666
+  },
+  "score": 0.9486111111111111,
+  "retry_rate": 0.0,
+  "hold_rate": 0.11666666666666667,
+  "expected_holds": 6,
+  "correct_holds": 6,
+  "correct_hold_rate": 1.0,
+  "results": [
+    {
+      "case_id": "A1",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": false,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "A2",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "A3",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "A4",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "A5",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "A6",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": false,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "B1",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "B2",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": false,
+        "comparison_mode": false,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "B3",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "B4",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "B5",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": false,
+        "comparison_mode": false,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "B6",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "C1",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "C2",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "C3",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "C4",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "C5",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "C6",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "D1",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": false,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": false
+      }
+    },
+    {
+      "case_id": "D2",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "D3",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": false,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": false
+      }
+    },
+    {
+      "case_id": "D4",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "D5",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": false
+      }
+    },
+    {
+      "case_id": "D6",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": false,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": false
+      }
+    },
+    {
+      "case_id": "E1",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": false,
+        "comparison_mode": false,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "E2",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": false,
+        "comparison_mode": false,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "E3",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": false,
+        "comparison_mode": false,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "E4",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "E5",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "E6",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": false,
+        "comparison_mode": false,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "F1",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "F2",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": false,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "F3",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "F4",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "F5",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "F6",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "G1",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": false,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "G2",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "G3",
+      "evaluated": true,
+      "fields": {
+        "action": false,
+        "model_id": false,
+        "measure_id": false,
+        "ticket_shape": false,
+        "comparison_mode": false,
+        "question_kind": false,
+        "dimension_ids": false,
+        "figure_state": false,
+        "figure_value": false,
+        "figure_precision": false,
+        "selection_value": false,
+        "filters": false
+      }
+    },
+    {
+      "case_id": "G4",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": false,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "G5",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "G6",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": false,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "H1",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "H2",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "H3",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "H4",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "H5",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "H6",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "I1",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "I2",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "I3",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "I4",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "I5",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "I6",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "X1",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "X2",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "X3",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "X4",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "X5",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    },
+    {
+      "case_id": "X6",
+      "evaluated": true,
+      "fields": {
+        "action": true,
+        "model_id": true,
+        "measure_id": true,
+        "ticket_shape": true,
+        "comparison_mode": true,
+        "question_kind": true,
+        "dimension_ids": true,
+        "figure_state": true,
+        "figure_value": true,
+        "figure_precision": true,
+        "selection_value": true,
+        "filters": true
+      }
+    }
+  ],
+  "delta": null,
+  "gate": "PASSED",
+  "threshold": {
+    "maximum_drop": 0.02,
+    "reason": "Provisional regression threshold: a drop exceeding two percentage points on the same hand-authored field suite fails. This is a release ratchet, not a statistically calibrated production accuracy guarantee. The first complete recorded model run establishes the baseline; missing cases fail rather than improving the denominator."
+  },
+  "interpretation": "First field-match score against authored v1 expectations, not adjudicated accuracy or completion of the four-step gate. Some triage/filter expectations need review against the consumer instructions; originals and expectations are unchanged."
+}

@@ -1,0 +1,20 @@
+{
+  "source": "RETAINED_COLLECTED_DEFINITION",
+  "parts": [
+    {
+      "path": ".platform",
+      "source_sha256": "1db08e5270920e3d6e398635b7e7f0eb9ee44c0b65e4221ae748470a494530b1",
+      "content": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json\",\n  \"metadata\": {\n    \"type\": \"SemanticModel\",\n    \"displayName\": \"Application load fixture 20261003\",\n    \"description\": \"Isolated declared application-load fixture; existing models/reports unchanged.\"\n  },\n  \"config\": {\n    \"version\": \"2.0\",\n    \"logicalId\": \"${ITEM_1}\"\n  }\n}"
+    },
+    {
+      "path": "definition.pbism",
+      "source_sha256": "7c99a27e4d2880441211ad26406e58fc498bfcd68b44883ee2730f658a188f1b",
+      "content": "{\n  \"$schema\": \"https://developer.microsoft.com/json-schemas/fabric/item/semanticModel/definitionProperties/1.0.0/schema.json\",\n  \"version\": \"4.2\",\n  \"settings\": {}\n}"
+    },
+    {
+      "path": "model.bim",
+      "source_sha256": "979fbc6aaee279b6f7665bdc245e13ab01cb16c2ea8b78dd085f9c924bc10cbf",
+      "content": "{\n  \"compatibilityLevel\": 1604,\n  \"model\": {\n    \"culture\": \"en-US\",\n    \"defaultPowerBIDataSourceVersion\": \"powerBI_V3\",\n    \"expressions\": [\n      {\n        \"name\": \"ApplicationLoadSource\",\n        \"expression\": \"let database = Sql.Database(\\\"${WAREHOUSE_ENDPOINT}\\\", \\\"${ITEM_3}\\\") in database\",\n        \"kind\": \"m\"\n      }\n    ],\n    \"tables\": [\n      {\n        \"name\": \"Movements\",\n        \"columns\": [\n          {\n            \"name\": \"movement_id\",\n            \"dataType\": \"int64\",\n            \"sourceColumn\": \"movement_id\",\n            \"summarizeBy\": \"none\"\n          },\n          {\n            \"name\": \"warehouse_id\",\n            \"dataType\": \"int64\",\n            \"sourceColumn\": \"warehouse_id\",\n            \"summarizeBy\": \"none\"\n          },\n          {\n            \"name\": \"product_id\",\n            \"dataType\": \"int64\",\n            \"sourceColumn\": \"product_id\",\n            \"summarizeBy\": \"none\"\n          },\n          {\n            \"name\": \"units\",\n            \"dataType\": \"int64\",\n            \"sourceColumn\": \"units\",\n            \"summarizeBy\": \"none\"\n          }\n        ],\n        \"measures\": [\n          {\n            \"name\": \"Movement Units\",\n            \"expression\": \"SUM('Movements'[units])\"\n          }\n        ],\n        \"partitions\": [\n          {\n            \"name\": \"Movements\",\n            \"mode\": \"directLake\",\n            \"source\": {\n              \"entityName\": \"stock_movements_round_two_20261003\",\n              \"expressionSource\": \"ApplicationLoadSource\",\n              \"schemaName\": \"dbo\",\n              \"type\": \"entity\"\n            }\n          }\n        ]\n      }\n    ]\n  }\n}"
+    }
+  ]
+}

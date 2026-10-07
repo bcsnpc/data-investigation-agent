@@ -20,7 +20,8 @@ def identity(source):
             or not isinstance(source['content_hash'], str) or len(source['content_hash']) != 64
             or any(c not in '0123456789abcdef' for c in source['content_hash'])):
         raise ValueError('Declaration identity requires location and content hash')
-    return hashlib.sha256(json.dumps(source, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+    from .privacy_identities import digest
+    return digest(source,lambda body:json.dumps(body,sort_keys=True,separators=(',',':')))
 
 
 def neutral(entries):

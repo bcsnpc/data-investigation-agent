@@ -114,6 +114,17 @@ def build(store,plan,config,tool,*,catalog=None):
         compiled['require_read_only']=True
         compiled['catalog_hash']=digest(catalog)
     else:raise ValueError('Unsupported proposed query tool')
+    from .privacy_capture import ACTIVE as PROJECTED_CAPTURE
+    capture=PROJECTED_CAPTURE.get()
+    if capture is not None:
+        # An arbitrary returned alias does not establish a sensitive column's
+        # identity. Until this compiler carries that result binding, refuse
+        # before dispatch; structured native dimensions bind independently.
+        referenced=set(compiled['asset_ids'])
+        if any(column in referenced or any(column.startswith(asset+'/') for asset in referenced)
+               for column in capture.projection.policy['columns']):
+            from .privacy_projection import ProjectionError
+            raise ProjectionError('PRIVACY_QUERY_RESULT_BINDING_UNAVAILABLE')
     if report is not None:
         if tool=='bounded_dax' and not set(report.values())<=set(compiled['result_columns']):
             raise ValueError('Probe statement lacks declared surface-report columns')

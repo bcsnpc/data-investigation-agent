@@ -1,0 +1,1703 @@
+[
+  {
+    "case_id": "top-n",
+    "model_version": "investigator-quality-54",
+    "proposal": {
+      "kind": "FILTER",
+      "definition_hash": "573d3fa27be66bc78b44107c01a4bb9537aef37cb1505fa80a29ac9f94a9d132",
+      "target_engine": "sqlite",
+      "expression": "EXISTS (SELECT 1 FROM (SELECT \"k\" AS top_k FROM \"items\" ORDER BY \"v\" DESC, \"k\" ASC LIMIT 2) AS top_n WHERE top_n.top_k IS \"k\")",
+      "objects": [
+        {
+          "id": "items",
+          "kind": "TABLE"
+        },
+        {
+          "id": "k",
+          "kind": "COLUMN"
+        },
+        {
+          "id": "v",
+          "kind": "COLUMN"
+        }
+      ],
+      "grouping": [],
+      "evaluation_timestamp": null
+    },
+    "evaluation": {
+      "verification": {
+        "version": 1,
+        "proposal": {
+          "kind": "FILTER",
+          "definition_hash": "573d3fa27be66bc78b44107c01a4bb9537aef37cb1505fa80a29ac9f94a9d132",
+          "target_engine": "sqlite",
+          "expression": "EXISTS (SELECT 1 FROM (SELECT \"k\" AS top_k FROM \"items\" ORDER BY \"v\" DESC, \"k\" ASC LIMIT 2) AS top_n WHERE top_n.top_k IS \"k\")",
+          "objects": [
+            {
+              "id": "items",
+              "kind": "TABLE"
+            },
+            {
+              "id": "k",
+              "kind": "COLUMN"
+            },
+            {
+              "id": "v",
+              "kind": "COLUMN"
+            }
+          ],
+          "grouping": [],
+          "evaluation_timestamp": null
+        },
+        "request": {
+          "kind": "FILTER",
+          "definition": {
+            "form": "TOP_N",
+            "table": "items",
+            "key": "k",
+            "order_by": [
+              {
+                "column": "v",
+                "direction": "DESC"
+              },
+              {
+                "column": "k",
+                "direction": "ASC"
+              }
+            ],
+            "count": 2
+          },
+          "definition_hash": "573d3fa27be66bc78b44107c01a4bb9537aef37cb1505fa80a29ac9f94a9d132",
+          "target_engine": "sqlite",
+          "grouping": [],
+          "relative": false,
+          "evaluation_timestamp": null,
+          "context": "authored-sqlite-v1",
+          "available_cells": [
+            {
+              "measure_id": "m",
+              "target_id": "v",
+              "mode": "KEYED",
+              "grouping_columns": [
+                "k"
+              ],
+              "key_restrictions": [
+                {
+                  "field_id": "k",
+                  "operator": "IN",
+                  "values": [
+                    "1"
+                  ]
+                }
+              ],
+              "id": "8355c94f64220b7378c57e0a0e5b58c71b57d3813bfc1983c8e237b5d082505c"
+            },
+            {
+              "measure_id": "m",
+              "target_id": "v",
+              "mode": "KEYED",
+              "grouping_columns": [
+                "k"
+              ],
+              "key_restrictions": [
+                {
+                  "field_id": "k",
+                  "operator": "IN",
+                  "values": [
+                    "2"
+                  ]
+                }
+              ],
+              "id": "c5452253523113e496cd255a8c3f6e49ff4f1c54edf166eb39cf4991314e5d76"
+            },
+            {
+              "measure_id": "m",
+              "target_id": "v",
+              "mode": "KEYED",
+              "grouping_columns": [
+                "k"
+              ],
+              "key_restrictions": [
+                {
+                  "field_id": "k",
+                  "operator": "IN",
+                  "values": [
+                    "3"
+                  ]
+                }
+              ],
+              "id": "33cf85e0511e7f5ad6ec108481baf5ea177ebe936c0ff0649213322657f42775"
+            }
+          ],
+          "precision": {
+            "state": "EXACT"
+          },
+          "scope": {
+            "restrictions": []
+          },
+          "metadata": {
+            "objects": {
+              "items": "TABLE",
+              "k": "COLUMN",
+              "v": "COLUMN",
+              "day": "COLUMN"
+            },
+            "columns": {
+              "items": {
+                "k": {
+                  "id": "k",
+                  "type": "INTEGER"
+                },
+                "v": {
+                  "id": "v",
+                  "type": "INTEGER"
+                },
+                "day": {
+                  "id": "day",
+                  "type": "ISO_DATE_TEXT"
+                }
+              }
+            },
+            "normalization": {
+              "encoding": "typed-json-utf8",
+              "case_fold": false,
+              "trim": false
+            }
+          }
+        },
+        "cells": [
+          null
+        ],
+        "cross_boundary": false,
+        "extension": false,
+        "native_observation": null,
+        "observations": [
+          {
+            "status": "COMPLETED",
+            "evidence": {
+              "id": "synthetic-1",
+              "context_id": "authored-sqlite-v1",
+              "read_address": {
+                "kind": "TRANSLATION",
+                "proposal_hash": "79b686a67b690b65d433b06984e78d3a0d5920a6883d3dad23b66fb90f3396d1",
+                "cell": null,
+                "evaluation_timestamp": null
+              },
+              "execution_surface": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report_binding": "VALUE_QUERY",
+              "surface_report_types": {
+                "engine": "ENGINE_PRODUCT",
+                "object": "SYNTHETIC_TABLE",
+                "connection": "SYNTHETIC_CONNECTION"
+              },
+              "surface_report_receipt_id": "synthetic-1",
+              "surface_attestation": {
+                "status": "MATCHED",
+                "consistency": "MATCHED",
+                "coverage": "FULL",
+                "reason": null,
+                "required_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "missing_required_fields": [],
+                "field_states": {
+                  "connection": "ATTESTED",
+                  "engine": "ATTESTED",
+                  "identity": "ATTESTED",
+                  "object": "ATTESTED"
+                },
+                "contradictions": [],
+                "attested_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "unattested_fields": []
+              },
+              "translation_result": {
+                "keys": [
+                  [
+                    2
+                  ],
+                  [
+                    3
+                  ]
+                ],
+                "complete": true,
+                "normalization": {
+                  "encoding": "typed-json-utf8",
+                  "case_fold": false,
+                  "trim": false
+                }
+              }
+            },
+            "keys": [
+              [
+                2
+              ],
+              [
+                3
+              ]
+            ],
+            "complete": true,
+            "normalization": {
+              "encoding": "typed-json-utf8",
+              "case_fold": false,
+              "trim": false
+            }
+          },
+          {
+            "status": "COMPLETED",
+            "evidence": {
+              "id": "synthetic-2",
+              "context_id": "authored-sqlite-v1",
+              "read_address": {
+                "kind": "TRANSLATION",
+                "proposal_hash": "79b686a67b690b65d433b06984e78d3a0d5920a6883d3dad23b66fb90f3396d1",
+                "cell": null,
+                "evaluation_timestamp": null
+              },
+              "execution_surface": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report_binding": "VALUE_QUERY",
+              "surface_report_types": {
+                "engine": "ENGINE_PRODUCT",
+                "object": "SYNTHETIC_TABLE",
+                "connection": "SYNTHETIC_CONNECTION"
+              },
+              "surface_report_receipt_id": "synthetic-2",
+              "surface_attestation": {
+                "status": "MATCHED",
+                "consistency": "MATCHED",
+                "coverage": "FULL",
+                "reason": null,
+                "required_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "missing_required_fields": [],
+                "field_states": {
+                  "connection": "ATTESTED",
+                  "engine": "ATTESTED",
+                  "identity": "ATTESTED",
+                  "object": "ATTESTED"
+                },
+                "contradictions": [],
+                "attested_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "unattested_fields": []
+              },
+              "translation_result": {
+                "keys": [
+                  [
+                    2
+                  ],
+                  [
+                    3
+                  ]
+                ],
+                "complete": true,
+                "normalization": {
+                  "encoding": "typed-json-utf8",
+                  "case_fold": false,
+                  "trim": false
+                }
+              }
+            },
+            "keys": [
+              [
+                2
+              ],
+              [
+                3
+              ]
+            ],
+            "complete": true,
+            "normalization": {
+              "encoding": "typed-json-utf8",
+              "case_fold": false,
+              "trim": false
+            }
+          }
+        ],
+        "status": "VERIFIED",
+        "reason": "All recorded comparisons agree at the declared scope and precision.",
+        "snapshot_status": "SNAPSHOT_UNVERIFIED",
+        "limits": [
+          "Matching served snapshots were not established; timing is not excluded.",
+          "Verification covers only the recorded scope and sampled cells; not global equivalence or business intent."
+        ],
+        "key_sets": [
+          [
+            {
+              "count": 2,
+              "binary_hash": "1613c3ec2111d43d2f3bc629ea2b8680dd1170f27a3f8658f648e2709030e217",
+              "normalization": {
+                "encoding": "typed-json-utf8",
+                "case_fold": false,
+                "trim": false
+              }
+            },
+            {
+              "count": 2,
+              "binary_hash": "1613c3ec2111d43d2f3bc629ea2b8680dd1170f27a3f8658f648e2709030e217",
+              "normalization": {
+                "encoding": "typed-json-utf8",
+                "case_fold": false,
+                "trim": false
+              }
+            }
+          ]
+        ]
+      },
+      "local_probes": [
+        {
+          "side": "NATIVE",
+          "statement": "SELECT k FROM items AS items ORDER BY v DESC, k ASC LIMIT 2",
+          "receipt_id": "synthetic-1"
+        },
+        {
+          "side": "PROPOSED",
+          "statement": "SELECT k FROM items AS items WHERE EXISTS(SELECT 1 FROM (SELECT \"k\" AS top_k FROM items AS items ORDER BY \"v\" DESC, \"k\" ASC LIMIT 2) AS top_n WHERE top_n.top_k IS \"k\")",
+          "receipt_id": "synthetic-2"
+        }
+      ],
+      "verification_probe_count": 2,
+      "budget_events": [
+        {
+          "event": "VERIFICATION_CAP",
+          "decision": "ADMITTED",
+          "count": 1,
+          "cap": 6,
+          "kind": "TARGET"
+        },
+        {
+          "event": "VERIFICATION_CAP",
+          "decision": "ADMITTED",
+          "count": 2,
+          "cap": 6,
+          "kind": "SOURCE"
+        }
+      ],
+      "estate_physical_requests": 0,
+      "fixture_authored": true
+    },
+    "provider_error": null,
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_03c490c9811843ce016ac5a8fda2cc8193b4f1f2fed0008ae6",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1213,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3207,
+        "output_tokens_details": {
+          "reasoning_tokens": 3059
+        },
+        "total_tokens": 4420
+      }
+    },
+    "estate_physical_requests": 0
+  },
+  {
+    "case_id": "relative-day",
+    "model_version": "investigator-quality-54",
+    "proposal": {
+      "kind": "FILTER",
+      "definition_hash": "250922a3df03d0d81bc1324352448437611f04cd550a00a699aa5dee6aab90c6",
+      "target_engine": "sqlite",
+      "expression": "\"items\".\"day\" >= '2026-10-01' AND \"items\".\"day\" <= '2026-10-06'",
+      "objects": [
+        {
+          "id": "items",
+          "kind": "TABLE"
+        },
+        {
+          "id": "day",
+          "kind": "COLUMN"
+        }
+      ],
+      "grouping": [],
+      "evaluation_timestamp": "2026-10-06T20:00:00+00:00"
+    },
+    "evaluation": {
+      "verification": {
+        "version": 1,
+        "proposal": {
+          "kind": "FILTER",
+          "definition_hash": "250922a3df03d0d81bc1324352448437611f04cd550a00a699aa5dee6aab90c6",
+          "target_engine": "sqlite",
+          "expression": "\"items\".\"day\" >= '2026-10-01' AND \"items\".\"day\" <= '2026-10-06'",
+          "objects": [
+            {
+              "id": "items",
+              "kind": "TABLE"
+            },
+            {
+              "id": "day",
+              "kind": "COLUMN"
+            }
+          ],
+          "grouping": [],
+          "evaluation_timestamp": "2026-10-06T20:00:00+00:00"
+        },
+        "request": {
+          "kind": "FILTER",
+          "definition": {
+            "form": "RELATIVE_DAY",
+            "table": "items",
+            "column": "day",
+            "days": 6,
+            "includes_evaluation_day": true,
+            "calendar": "UTC"
+          },
+          "definition_hash": "250922a3df03d0d81bc1324352448437611f04cd550a00a699aa5dee6aab90c6",
+          "target_engine": "sqlite",
+          "grouping": [],
+          "relative": true,
+          "evaluation_timestamp": "2026-10-06T20:00:00+00:00",
+          "context": "authored-sqlite-v1",
+          "available_cells": [
+            {
+              "measure_id": "m",
+              "target_id": "v",
+              "mode": "KEYED",
+              "grouping_columns": [
+                "k"
+              ],
+              "key_restrictions": [
+                {
+                  "field_id": "k",
+                  "operator": "IN",
+                  "values": [
+                    "1"
+                  ]
+                }
+              ],
+              "id": "8355c94f64220b7378c57e0a0e5b58c71b57d3813bfc1983c8e237b5d082505c"
+            },
+            {
+              "measure_id": "m",
+              "target_id": "v",
+              "mode": "KEYED",
+              "grouping_columns": [
+                "k"
+              ],
+              "key_restrictions": [
+                {
+                  "field_id": "k",
+                  "operator": "IN",
+                  "values": [
+                    "2"
+                  ]
+                }
+              ],
+              "id": "c5452253523113e496cd255a8c3f6e49ff4f1c54edf166eb39cf4991314e5d76"
+            },
+            {
+              "measure_id": "m",
+              "target_id": "v",
+              "mode": "KEYED",
+              "grouping_columns": [
+                "k"
+              ],
+              "key_restrictions": [
+                {
+                  "field_id": "k",
+                  "operator": "IN",
+                  "values": [
+                    "3"
+                  ]
+                }
+              ],
+              "id": "33cf85e0511e7f5ad6ec108481baf5ea177ebe936c0ff0649213322657f42775"
+            }
+          ],
+          "precision": {
+            "state": "EXACT"
+          },
+          "scope": {
+            "restrictions": []
+          },
+          "metadata": {
+            "objects": {
+              "items": "TABLE",
+              "k": "COLUMN",
+              "v": "COLUMN",
+              "day": "COLUMN"
+            },
+            "columns": {
+              "items": {
+                "k": {
+                  "id": "k",
+                  "type": "INTEGER"
+                },
+                "v": {
+                  "id": "v",
+                  "type": "INTEGER"
+                },
+                "day": {
+                  "id": "day",
+                  "type": "ISO_DATE_TEXT"
+                }
+              }
+            },
+            "normalization": {
+              "encoding": "typed-json-utf8",
+              "case_fold": false,
+              "trim": false
+            }
+          }
+        },
+        "cells": [
+          null
+        ],
+        "cross_boundary": false,
+        "extension": false,
+        "native_observation": null,
+        "observations": [
+          {
+            "status": "COMPLETED",
+            "evidence": {
+              "id": "synthetic-1",
+              "context_id": "authored-sqlite-v1",
+              "read_address": {
+                "kind": "TRANSLATION",
+                "proposal_hash": "932400d4e8840bf643da2887de8b58e0813e11e12ac6c3637269665b8ab19f52",
+                "cell": null,
+                "evaluation_timestamp": "2026-10-06T20:00:00+00:00"
+              },
+              "execution_surface": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report_binding": "VALUE_QUERY",
+              "surface_report_types": {
+                "engine": "ENGINE_PRODUCT",
+                "object": "SYNTHETIC_TABLE",
+                "connection": "SYNTHETIC_CONNECTION"
+              },
+              "surface_report_receipt_id": "synthetic-1",
+              "surface_attestation": {
+                "status": "MATCHED",
+                "consistency": "MATCHED",
+                "coverage": "FULL",
+                "reason": null,
+                "required_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "missing_required_fields": [],
+                "field_states": {
+                  "connection": "ATTESTED",
+                  "engine": "ATTESTED",
+                  "identity": "ATTESTED",
+                  "object": "ATTESTED"
+                },
+                "contradictions": [],
+                "attested_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "unattested_fields": []
+              },
+              "translation_result": {
+                "keys": [
+                  [
+                    2
+                  ],
+                  [
+                    3
+                  ]
+                ],
+                "complete": true,
+                "normalization": {
+                  "encoding": "typed-json-utf8",
+                  "case_fold": false,
+                  "trim": false
+                }
+              }
+            },
+            "keys": [
+              [
+                2
+              ],
+              [
+                3
+              ]
+            ],
+            "complete": true,
+            "normalization": {
+              "encoding": "typed-json-utf8",
+              "case_fold": false,
+              "trim": false
+            }
+          },
+          {
+            "status": "COMPLETED",
+            "evidence": {
+              "id": "synthetic-2",
+              "context_id": "authored-sqlite-v1",
+              "read_address": {
+                "kind": "TRANSLATION",
+                "proposal_hash": "932400d4e8840bf643da2887de8b58e0813e11e12ac6c3637269665b8ab19f52",
+                "cell": null,
+                "evaluation_timestamp": "2026-10-06T20:00:00+00:00"
+              },
+              "execution_surface": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report_binding": "VALUE_QUERY",
+              "surface_report_types": {
+                "engine": "ENGINE_PRODUCT",
+                "object": "SYNTHETIC_TABLE",
+                "connection": "SYNTHETIC_CONNECTION"
+              },
+              "surface_report_receipt_id": "synthetic-2",
+              "surface_attestation": {
+                "status": "MATCHED",
+                "consistency": "MATCHED",
+                "coverage": "FULL",
+                "reason": null,
+                "required_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "missing_required_fields": [],
+                "field_states": {
+                  "connection": "ATTESTED",
+                  "engine": "ATTESTED",
+                  "identity": "ATTESTED",
+                  "object": "ATTESTED"
+                },
+                "contradictions": [],
+                "attested_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "unattested_fields": []
+              },
+              "translation_result": {
+                "keys": [
+                  [
+                    2
+                  ],
+                  [
+                    3
+                  ]
+                ],
+                "complete": true,
+                "normalization": {
+                  "encoding": "typed-json-utf8",
+                  "case_fold": false,
+                  "trim": false
+                }
+              }
+            },
+            "keys": [
+              [
+                2
+              ],
+              [
+                3
+              ]
+            ],
+            "complete": true,
+            "normalization": {
+              "encoding": "typed-json-utf8",
+              "case_fold": false,
+              "trim": false
+            }
+          }
+        ],
+        "status": "VERIFIED",
+        "reason": "All recorded comparisons agree at the declared scope and precision.",
+        "snapshot_status": "SNAPSHOT_UNVERIFIED",
+        "limits": [
+          "Matching served snapshots were not established; timing is not excluded.",
+          "Verification covers only the recorded scope and sampled cells; not global equivalence or business intent."
+        ],
+        "key_sets": [
+          [
+            {
+              "count": 2,
+              "binary_hash": "1613c3ec2111d43d2f3bc629ea2b8680dd1170f27a3f8658f648e2709030e217",
+              "normalization": {
+                "encoding": "typed-json-utf8",
+                "case_fold": false,
+                "trim": false
+              }
+            },
+            {
+              "count": 2,
+              "binary_hash": "1613c3ec2111d43d2f3bc629ea2b8680dd1170f27a3f8658f648e2709030e217",
+              "normalization": {
+                "encoding": "typed-json-utf8",
+                "case_fold": false,
+                "trim": false
+              }
+            }
+          ]
+        ]
+      },
+      "local_probes": [
+        {
+          "side": "NATIVE",
+          "statement": "SELECT k FROM items AS items WHERE day >= '2026-10-01' AND day <= '2026-10-06'",
+          "receipt_id": "synthetic-1"
+        },
+        {
+          "side": "PROPOSED",
+          "statement": "SELECT k FROM items AS items WHERE \"items\".\"day\" >= '2026-10-01' AND \"items\".\"day\" <= '2026-10-06'",
+          "receipt_id": "synthetic-2"
+        }
+      ],
+      "verification_probe_count": 2,
+      "budget_events": [
+        {
+          "event": "VERIFICATION_CAP",
+          "decision": "ADMITTED",
+          "count": 1,
+          "cap": 6,
+          "kind": "TARGET"
+        },
+        {
+          "event": "VERIFICATION_CAP",
+          "decision": "ADMITTED",
+          "count": 2,
+          "cap": 6,
+          "kind": "SOURCE"
+        }
+      ],
+      "estate_physical_requests": 0,
+      "fixture_authored": true
+    },
+    "provider_error": null,
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_0d2bf890e2f2b054016ac5a926730881948478ed7a06361829",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1212,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 541,
+        "output_tokens_details": {
+          "reasoning_tokens": 404
+        },
+        "total_tokens": 1753
+      }
+    },
+    "estate_physical_requests": 0
+  },
+  {
+    "case_id": "all-measure",
+    "model_version": "investigator-quality-54",
+    "proposal": {
+      "kind": "MEASURE",
+      "definition_hash": "6eeb008a81028aa0e412a956a9c5e70f3c938a3ecb054f8eb0fcde11d163476f",
+      "target_engine": "sqlite",
+      "expression": "(SELECT SUM(v) FROM items)",
+      "objects": [
+        {
+          "id": "items",
+          "kind": "TABLE"
+        },
+        {
+          "id": "k",
+          "kind": "COLUMN"
+        },
+        {
+          "id": "v",
+          "kind": "COLUMN"
+        }
+      ],
+      "grouping": [],
+      "evaluation_timestamp": null
+    },
+    "evaluation": {
+      "verification": {
+        "version": 1,
+        "proposal": {
+          "kind": "MEASURE",
+          "definition_hash": "6eeb008a81028aa0e412a956a9c5e70f3c938a3ecb054f8eb0fcde11d163476f",
+          "target_engine": "sqlite",
+          "expression": "(SELECT SUM(v) FROM items)",
+          "objects": [
+            {
+              "id": "items",
+              "kind": "TABLE"
+            },
+            {
+              "id": "k",
+              "kind": "COLUMN"
+            },
+            {
+              "id": "v",
+              "kind": "COLUMN"
+            }
+          ],
+          "grouping": [],
+          "evaluation_timestamp": null
+        },
+        "request": {
+          "kind": "MEASURE",
+          "definition": {
+            "form": "MEASURE",
+            "expression": "CALCULATE(SUM(items[v]), ALL(items[k]))",
+            "table": "items",
+            "removes_restrictions": [
+              "k"
+            ]
+          },
+          "definition_hash": "6eeb008a81028aa0e412a956a9c5e70f3c938a3ecb054f8eb0fcde11d163476f",
+          "target_engine": "sqlite",
+          "grouping": [],
+          "relative": false,
+          "evaluation_timestamp": null,
+          "context": "authored-sqlite-v1",
+          "available_cells": [
+            {
+              "measure_id": "m",
+              "target_id": "v",
+              "mode": "KEYED",
+              "grouping_columns": [
+                "k"
+              ],
+              "key_restrictions": [
+                {
+                  "field_id": "k",
+                  "operator": "IN",
+                  "values": [
+                    "1"
+                  ]
+                }
+              ],
+              "id": "8355c94f64220b7378c57e0a0e5b58c71b57d3813bfc1983c8e237b5d082505c"
+            },
+            {
+              "measure_id": "m",
+              "target_id": "v",
+              "mode": "KEYED",
+              "grouping_columns": [
+                "k"
+              ],
+              "key_restrictions": [
+                {
+                  "field_id": "k",
+                  "operator": "IN",
+                  "values": [
+                    "2"
+                  ]
+                }
+              ],
+              "id": "c5452253523113e496cd255a8c3f6e49ff4f1c54edf166eb39cf4991314e5d76"
+            },
+            {
+              "measure_id": "m",
+              "target_id": "v",
+              "mode": "KEYED",
+              "grouping_columns": [
+                "k"
+              ],
+              "key_restrictions": [
+                {
+                  "field_id": "k",
+                  "operator": "IN",
+                  "values": [
+                    "3"
+                  ]
+                }
+              ],
+              "id": "33cf85e0511e7f5ad6ec108481baf5ea177ebe936c0ff0649213322657f42775"
+            }
+          ],
+          "precision": {
+            "state": "EXACT"
+          },
+          "scope": {
+            "restrictions": []
+          },
+          "metadata": {
+            "objects": {
+              "items": "TABLE",
+              "k": "COLUMN",
+              "v": "COLUMN",
+              "day": "COLUMN"
+            },
+            "columns": {
+              "items": {
+                "k": {
+                  "id": "k",
+                  "type": "INTEGER"
+                },
+                "v": {
+                  "id": "v",
+                  "type": "INTEGER"
+                },
+                "day": {
+                  "id": "day",
+                  "type": "ISO_DATE_TEXT"
+                }
+              }
+            },
+            "normalization": {
+              "encoding": "typed-json-utf8",
+              "case_fold": false,
+              "trim": false
+            }
+          }
+        },
+        "cells": [
+          {
+            "measure_id": "m",
+            "target_id": "v",
+            "mode": "KEYED",
+            "grouping_columns": [
+              "k"
+            ],
+            "key_restrictions": [
+              {
+                "field_id": "k",
+                "operator": "IN",
+                "values": [
+                  "1"
+                ]
+              }
+            ],
+            "id": "8355c94f64220b7378c57e0a0e5b58c71b57d3813bfc1983c8e237b5d082505c"
+          },
+          {
+            "measure_id": "m",
+            "target_id": "v",
+            "mode": "KEYED",
+            "grouping_columns": [
+              "k"
+            ],
+            "key_restrictions": [
+              {
+                "field_id": "k",
+                "operator": "IN",
+                "values": [
+                  "2"
+                ]
+              }
+            ],
+            "id": "c5452253523113e496cd255a8c3f6e49ff4f1c54edf166eb39cf4991314e5d76"
+          },
+          {
+            "measure_id": "m",
+            "target_id": "v",
+            "mode": "KEYED",
+            "grouping_columns": [
+              "k"
+            ],
+            "key_restrictions": [
+              {
+                "field_id": "k",
+                "operator": "IN",
+                "values": [
+                  "3"
+                ]
+              }
+            ],
+            "id": "33cf85e0511e7f5ad6ec108481baf5ea177ebe936c0ff0649213322657f42775"
+          }
+        ],
+        "cross_boundary": true,
+        "extension": false,
+        "native_observation": null,
+        "observations": [
+          {
+            "status": "COMPLETED",
+            "evidence": {
+              "id": "synthetic-1",
+              "context_id": "authored-sqlite-v1",
+              "read_address": {
+                "kind": "TRANSLATION",
+                "proposal_hash": "8e6f6ae44a3091c7ec6bb4b228d814f7e094cc731b64e8c8640f9480ed2036ca",
+                "cell": {
+                  "measure_id": "m",
+                  "target_id": "v",
+                  "mode": "KEYED",
+                  "grouping_columns": [
+                    "k"
+                  ],
+                  "key_restrictions": [
+                    {
+                      "field_id": "k",
+                      "operator": "IN",
+                      "values": [
+                        "1"
+                      ]
+                    }
+                  ],
+                  "id": "8355c94f64220b7378c57e0a0e5b58c71b57d3813bfc1983c8e237b5d082505c"
+                },
+                "evaluation_timestamp": null
+              },
+              "execution_surface": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "native_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "native_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report_binding": "VALUE_QUERY",
+              "surface_report_types": {
+                "engine": "ENGINE_PRODUCT",
+                "object": "SYNTHETIC_TABLE",
+                "connection": "SYNTHETIC_CONNECTION"
+              },
+              "surface_report_receipt_id": "synthetic-1",
+              "surface_attestation": {
+                "status": "MATCHED",
+                "consistency": "MATCHED",
+                "coverage": "FULL",
+                "reason": null,
+                "required_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "missing_required_fields": [],
+                "field_states": {
+                  "connection": "ATTESTED",
+                  "engine": "ATTESTED",
+                  "identity": "ATTESTED",
+                  "object": "ATTESTED"
+                },
+                "contradictions": [],
+                "attested_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "unattested_fields": []
+              },
+              "translation_result": {
+                "quantity": {
+                  "state": "NUMBER",
+                  "value": "100"
+                }
+              }
+            },
+            "quantity": {
+              "state": "NUMBER",
+              "value": "100"
+            }
+          },
+          {
+            "status": "COMPLETED",
+            "evidence": {
+              "id": "synthetic-2",
+              "context_id": "authored-sqlite-v1",
+              "read_address": {
+                "kind": "TRANSLATION",
+                "proposal_hash": "8e6f6ae44a3091c7ec6bb4b228d814f7e094cc731b64e8c8640f9480ed2036ca",
+                "cell": {
+                  "measure_id": "m",
+                  "target_id": "v",
+                  "mode": "KEYED",
+                  "grouping_columns": [
+                    "k"
+                  ],
+                  "key_restrictions": [
+                    {
+                      "field_id": "k",
+                      "operator": "IN",
+                      "values": [
+                        "1"
+                      ]
+                    }
+                  ],
+                  "id": "8355c94f64220b7378c57e0a0e5b58c71b57d3813bfc1983c8e237b5d082505c"
+                },
+                "evaluation_timestamp": null
+              },
+              "execution_surface": {
+                "engine": "sqlite",
+                "connection": "proposed",
+                "object": "proposed_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report": {
+                "engine": "sqlite",
+                "connection": "proposed",
+                "object": "proposed_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report_binding": "VALUE_QUERY",
+              "surface_report_types": {
+                "engine": "ENGINE_PRODUCT",
+                "object": "SYNTHETIC_TABLE",
+                "connection": "SYNTHETIC_CONNECTION"
+              },
+              "surface_report_receipt_id": "synthetic-2",
+              "surface_attestation": {
+                "status": "MATCHED",
+                "consistency": "MATCHED",
+                "coverage": "FULL",
+                "reason": null,
+                "required_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "missing_required_fields": [],
+                "field_states": {
+                  "connection": "ATTESTED",
+                  "engine": "ATTESTED",
+                  "identity": "ATTESTED",
+                  "object": "ATTESTED"
+                },
+                "contradictions": [],
+                "attested_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "unattested_fields": []
+              },
+              "translation_result": {
+                "quantity": {
+                  "state": "NUMBER",
+                  "value": "100"
+                }
+              }
+            },
+            "quantity": {
+              "state": "NUMBER",
+              "value": "100"
+            }
+          },
+          {
+            "status": "COMPLETED",
+            "evidence": {
+              "id": "synthetic-3",
+              "context_id": "authored-sqlite-v1",
+              "read_address": {
+                "kind": "TRANSLATION",
+                "proposal_hash": "8e6f6ae44a3091c7ec6bb4b228d814f7e094cc731b64e8c8640f9480ed2036ca",
+                "cell": {
+                  "measure_id": "m",
+                  "target_id": "v",
+                  "mode": "KEYED",
+                  "grouping_columns": [
+                    "k"
+                  ],
+                  "key_restrictions": [
+                    {
+                      "field_id": "k",
+                      "operator": "IN",
+                      "values": [
+                        "2"
+                      ]
+                    }
+                  ],
+                  "id": "c5452253523113e496cd255a8c3f6e49ff4f1c54edf166eb39cf4991314e5d76"
+                },
+                "evaluation_timestamp": null
+              },
+              "execution_surface": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "native_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "native_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report_binding": "VALUE_QUERY",
+              "surface_report_types": {
+                "engine": "ENGINE_PRODUCT",
+                "object": "SYNTHETIC_TABLE",
+                "connection": "SYNTHETIC_CONNECTION"
+              },
+              "surface_report_receipt_id": "synthetic-3",
+              "surface_attestation": {
+                "status": "MATCHED",
+                "consistency": "MATCHED",
+                "coverage": "FULL",
+                "reason": null,
+                "required_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "missing_required_fields": [],
+                "field_states": {
+                  "connection": "ATTESTED",
+                  "engine": "ATTESTED",
+                  "identity": "ATTESTED",
+                  "object": "ATTESTED"
+                },
+                "contradictions": [],
+                "attested_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "unattested_fields": []
+              },
+              "translation_result": {
+                "quantity": {
+                  "state": "NUMBER",
+                  "value": "100"
+                }
+              }
+            },
+            "quantity": {
+              "state": "NUMBER",
+              "value": "100"
+            }
+          },
+          {
+            "status": "COMPLETED",
+            "evidence": {
+              "id": "synthetic-4",
+              "context_id": "authored-sqlite-v1",
+              "read_address": {
+                "kind": "TRANSLATION",
+                "proposal_hash": "8e6f6ae44a3091c7ec6bb4b228d814f7e094cc731b64e8c8640f9480ed2036ca",
+                "cell": {
+                  "measure_id": "m",
+                  "target_id": "v",
+                  "mode": "KEYED",
+                  "grouping_columns": [
+                    "k"
+                  ],
+                  "key_restrictions": [
+                    {
+                      "field_id": "k",
+                      "operator": "IN",
+                      "values": [
+                        "2"
+                      ]
+                    }
+                  ],
+                  "id": "c5452253523113e496cd255a8c3f6e49ff4f1c54edf166eb39cf4991314e5d76"
+                },
+                "evaluation_timestamp": null
+              },
+              "execution_surface": {
+                "engine": "sqlite",
+                "connection": "proposed",
+                "object": "proposed_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report": {
+                "engine": "sqlite",
+                "connection": "proposed",
+                "object": "proposed_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report_binding": "VALUE_QUERY",
+              "surface_report_types": {
+                "engine": "ENGINE_PRODUCT",
+                "object": "SYNTHETIC_TABLE",
+                "connection": "SYNTHETIC_CONNECTION"
+              },
+              "surface_report_receipt_id": "synthetic-4",
+              "surface_attestation": {
+                "status": "MATCHED",
+                "consistency": "MATCHED",
+                "coverage": "FULL",
+                "reason": null,
+                "required_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "missing_required_fields": [],
+                "field_states": {
+                  "connection": "ATTESTED",
+                  "engine": "ATTESTED",
+                  "identity": "ATTESTED",
+                  "object": "ATTESTED"
+                },
+                "contradictions": [],
+                "attested_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "unattested_fields": []
+              },
+              "translation_result": {
+                "quantity": {
+                  "state": "NUMBER",
+                  "value": "100"
+                }
+              }
+            },
+            "quantity": {
+              "state": "NUMBER",
+              "value": "100"
+            }
+          },
+          {
+            "status": "COMPLETED",
+            "evidence": {
+              "id": "synthetic-5",
+              "context_id": "authored-sqlite-v1",
+              "read_address": {
+                "kind": "TRANSLATION",
+                "proposal_hash": "8e6f6ae44a3091c7ec6bb4b228d814f7e094cc731b64e8c8640f9480ed2036ca",
+                "cell": {
+                  "measure_id": "m",
+                  "target_id": "v",
+                  "mode": "KEYED",
+                  "grouping_columns": [
+                    "k"
+                  ],
+                  "key_restrictions": [
+                    {
+                      "field_id": "k",
+                      "operator": "IN",
+                      "values": [
+                        "3"
+                      ]
+                    }
+                  ],
+                  "id": "33cf85e0511e7f5ad6ec108481baf5ea177ebe936c0ff0649213322657f42775"
+                },
+                "evaluation_timestamp": null
+              },
+              "execution_surface": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "native_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report": {
+                "engine": "sqlite",
+                "connection": "native",
+                "object": "native_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report_binding": "VALUE_QUERY",
+              "surface_report_types": {
+                "engine": "ENGINE_PRODUCT",
+                "object": "SYNTHETIC_TABLE",
+                "connection": "SYNTHETIC_CONNECTION"
+              },
+              "surface_report_receipt_id": "synthetic-5",
+              "surface_attestation": {
+                "status": "MATCHED",
+                "consistency": "MATCHED",
+                "coverage": "FULL",
+                "reason": null,
+                "required_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "missing_required_fields": [],
+                "field_states": {
+                  "connection": "ATTESTED",
+                  "engine": "ATTESTED",
+                  "identity": "ATTESTED",
+                  "object": "ATTESTED"
+                },
+                "contradictions": [],
+                "attested_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "unattested_fields": []
+              },
+              "translation_result": {
+                "quantity": {
+                  "state": "NUMBER",
+                  "value": "100"
+                }
+              }
+            },
+            "quantity": {
+              "state": "NUMBER",
+              "value": "100"
+            }
+          },
+          {
+            "status": "COMPLETED",
+            "evidence": {
+              "id": "synthetic-6",
+              "context_id": "authored-sqlite-v1",
+              "read_address": {
+                "kind": "TRANSLATION",
+                "proposal_hash": "8e6f6ae44a3091c7ec6bb4b228d814f7e094cc731b64e8c8640f9480ed2036ca",
+                "cell": {
+                  "measure_id": "m",
+                  "target_id": "v",
+                  "mode": "KEYED",
+                  "grouping_columns": [
+                    "k"
+                  ],
+                  "key_restrictions": [
+                    {
+                      "field_id": "k",
+                      "operator": "IN",
+                      "values": [
+                        "3"
+                      ]
+                    }
+                  ],
+                  "id": "33cf85e0511e7f5ad6ec108481baf5ea177ebe936c0ff0649213322657f42775"
+                },
+                "evaluation_timestamp": null
+              },
+              "execution_surface": {
+                "engine": "sqlite",
+                "connection": "proposed",
+                "object": "proposed_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report": {
+                "engine": "sqlite",
+                "connection": "proposed",
+                "object": "proposed_items",
+                "identity": "local-synthetic-reader"
+              },
+              "surface_report_binding": "VALUE_QUERY",
+              "surface_report_types": {
+                "engine": "ENGINE_PRODUCT",
+                "object": "SYNTHETIC_TABLE",
+                "connection": "SYNTHETIC_CONNECTION"
+              },
+              "surface_report_receipt_id": "synthetic-6",
+              "surface_attestation": {
+                "status": "MATCHED",
+                "consistency": "MATCHED",
+                "coverage": "FULL",
+                "reason": null,
+                "required_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "missing_required_fields": [],
+                "field_states": {
+                  "connection": "ATTESTED",
+                  "engine": "ATTESTED",
+                  "identity": "ATTESTED",
+                  "object": "ATTESTED"
+                },
+                "contradictions": [],
+                "attested_fields": [
+                  "connection",
+                  "engine",
+                  "identity",
+                  "object"
+                ],
+                "unattested_fields": []
+              },
+              "translation_result": {
+                "quantity": {
+                  "state": "NUMBER",
+                  "value": "100"
+                }
+              }
+            },
+            "quantity": {
+              "state": "NUMBER",
+              "value": "100"
+            }
+          }
+        ],
+        "status": "VERIFIED",
+        "reason": "All recorded comparisons agree at the declared scope and precision.",
+        "snapshot_status": "SNAPSHOT_UNVERIFIED",
+        "limits": [
+          "Matching served snapshots were not established; timing is not excluded.",
+          "Verification covers only the recorded scope and sampled cells; not global equivalence or business intent."
+        ]
+      },
+      "local_probes": [
+        {
+          "side": "NATIVE",
+          "statement": "SELECT SUM(v) FROM native_items AS items",
+          "receipt_id": "synthetic-1"
+        },
+        {
+          "side": "PROPOSED",
+          "statement": "SELECT (SELECT SUM(v) FROM proposed_items AS items) FROM proposed_items AS items",
+          "receipt_id": "synthetic-2"
+        },
+        {
+          "side": "NATIVE",
+          "statement": "SELECT SUM(v) FROM native_items AS items",
+          "receipt_id": "synthetic-3"
+        },
+        {
+          "side": "PROPOSED",
+          "statement": "SELECT (SELECT SUM(v) FROM proposed_items AS items) FROM proposed_items AS items",
+          "receipt_id": "synthetic-4"
+        },
+        {
+          "side": "NATIVE",
+          "statement": "SELECT SUM(v) FROM native_items AS items",
+          "receipt_id": "synthetic-5"
+        },
+        {
+          "side": "PROPOSED",
+          "statement": "SELECT (SELECT SUM(v) FROM proposed_items AS items) FROM proposed_items AS items",
+          "receipt_id": "synthetic-6"
+        }
+      ],
+      "verification_probe_count": 6,
+      "budget_events": [
+        {
+          "event": "VERIFICATION_CAP",
+          "decision": "ADMITTED",
+          "count": 1,
+          "cap": 6,
+          "kind": "TARGET"
+        },
+        {
+          "event": "VERIFICATION_CAP",
+          "decision": "ADMITTED",
+          "count": 2,
+          "cap": 6,
+          "kind": "SOURCE"
+        },
+        {
+          "event": "VERIFICATION_CAP",
+          "decision": "ADMITTED",
+          "count": 3,
+          "cap": 6,
+          "kind": "TARGET"
+        },
+        {
+          "event": "VERIFICATION_CAP",
+          "decision": "ADMITTED",
+          "count": 4,
+          "cap": 6,
+          "kind": "SOURCE"
+        },
+        {
+          "event": "VERIFICATION_CAP",
+          "decision": "ADMITTED",
+          "count": 5,
+          "cap": 6,
+          "kind": "TARGET"
+        },
+        {
+          "event": "VERIFICATION_CAP",
+          "decision": "ADMITTED",
+          "count": 6,
+          "cap": 6,
+          "kind": "SOURCE"
+        }
+      ],
+      "estate_physical_requests": 0,
+      "fixture_authored": true
+    },
+    "provider_error": null,
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": {
+      "response_id": "resp_0ad487f8c8a86cfa016ac5a92ef3fc8193800d3f897872ad9a",
+      "model": "investigator-quality-54",
+      "usage": {
+        "input_tokens": 1202,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 629,
+        "output_tokens_details": {
+          "reasoning_tokens": 516
+        },
+        "total_tokens": 1831
+      }
+    },
+    "estate_physical_requests": 0
+  }
+]

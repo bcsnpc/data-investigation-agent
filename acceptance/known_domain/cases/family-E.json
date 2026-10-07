@@ -10,7 +10,7 @@
     "layer_names_by_declared_role"
   ],
   "basis": "Reviewed known-domain outcome and scope; coverage reflects the requested subject, not an invented complete answer. Historical failed synthesis must not be replaced by a fake response.",
-  "acceptance_change_reason": "2026-10-05: grade structured earned spine/answer category, never sentence equality. Original reference and immutable fixture pin retained. Composition failure in the reference is not promoted to a successful output.",
+  "acceptance_change_reason": "synthesis rules tightened per human review, #420",
   "grade_kind": "walk",
   "expected": {
     "status": "COMPLETED",
@@ -73,6 +73,10 @@
       "before": "NOT_ANSWERED",
       "after": "PARTLY_ANSWERED",
       "reason": "Intentional declared-kind/evidence coverage derivation introduced after the reference run; outcome unchanged."
+    },
+    {
+      "date": "2026-10-07",
+      "reason": "synthesis rules tightened per human review, #420"
     }
   ]
 }

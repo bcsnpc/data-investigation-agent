@@ -1,0 +1,796 @@
+# Round Nine: translation, evals and governance
+
+Started 2026-10-06, America/Chicago, from merged main `c96884c` (#419).
+This is an implementation checkpoint, not completion of Round Nine.
+
+## Offline translation checkpoint
+
+The consumer-owned `TranslationProposer` interface accepts a closed proposal:
+definition hash, kind, target engine, expression, discovered objects, canonical
+grouping and the original run timestamp for relative definitions. It has no
+verdict field. Object membership is checked before compilation; the platform
+adapter must also resolve every expression reference through its governed compiler.
+This module never executes expression text directly.
+
+The verifier compiles both plans before admitting any probe. Filter witnesses
+require complete selected key sets, explicit adapter normalization, and a
+length-framed binary SHA-256 hash plus count. Typed keys distinguish null, zero,
+text and boolean; duplicate keys and truncated sets refuse. A same-surface filter
+check requires the same engine/connection/object. Measure witnesses require at
+least three distinct retained cell addresses and an independently attested
+boundary. Original results, context, addresses and quantity-bound surface
+attestation are checked, rather than accepting wrapper annotations.
+
+Equal comparisons produce VERIFIED only for their recorded scope/sample;
+unequal comparisons preserve both observations as FALSIFIED. Compilation,
+execution or evidence failures remain UNVERIFIED. All remain
+SNAPSHOT_UNVERIFIED; sampled agreement does not prove global equivalence.
+Probes use the existing approval-verification budget class, not investigation
+diagnostics. Physical admission still belongs to the isolated adapter route.
+
+An extra measure cell uses an existing, natively addressed original cell
+observation plus one new proposed-side probe. Missing or differently addressed
+native evidence refuses; it is never retrospectively rebound. The append-only
+translation ledger checks receipt seals and recomputes successful/falsified
+verdicts. Cache reuse is definition/context/metadata/scope/time/cell specific;
+changes expose STALE without editing history. A later failed reverification
+prevents reuse of the earlier successful entry for that cell.
+
+Thirty-two focused tests pass with SQLite in memory and synthetic query-bound
+receipts; zero estate/network/provider requests. Independent native definitions
+and deliberately wrong candidates cover Top-N, a pinned date window and an
+ALL-like measure across three retained cells. These test the verifier and
+contract, not the live model's first-proposal quality or a platform adapter.
+
+## Integration finding and remaining work
+
+The existing lineage proof contract (`lineage_binding.verify` and
+`binding_sample.verify`) establishes bounded quantity/profile witnesses, not
+row-key mapping. The manifest's `lineage.bindings` carries layer IDs and declared
+provenance, not a verified column-key map. Treating either as a verified key
+binding would promote sampled agreement into unsupported row identity.
+The draft now requires a separate complete-key witness for cross-boundary filters:
+an explicit ordered column correspondence with declaration provenance, original
+query-bound receipts on both independent surfaces, matching complete normalized
+key universes, retained context, scope and both definition hashes. Unknown columns,
+stale or falsified proofs and selected keys outside that universe refuse. This
+bounded witness does not establish global semantics or aligned snapshots. It does not
+declare the new capability or bypass existing UNSUPPORTED restrictions.
+
+The provider wire derives its supported structure and stated bounds from the
+consumer schema. Verification answers are removed from model input. Translation
+model calls use existing reservations, failure usage and recording; the service
+preserves falsifications and reuses current cell proofs without a model or read.
+New-cell verification still requires the original addressed native observation.
+The existing physical query admission now recognizes closed translation and
+key-binding addresses; no absent address becomes a baseline.
+
+Still required for section 1: adapter-governed native/proposed compilation and
+result extraction, live key-binding production, and investigation runtime wiring. The
+section 1e report is provisional until these integration tests exist. No live
+Top-N/date/measure trial has occurred.
+
+Sections 2–7 (golden model-step evals, OTLP converter, governance/retention/
+redaction, rebuild plan, bounded live verification and demo command) have not
+been implemented in this checkpoint. No fixture, permission, identity, secret,
+policy, approval context or acceptance expectation changed.
+
+## DECIDED WITHOUT REVIEW
+
+- Begin with a separate default-unused verification core; do not make the
+  investigation consume translations before adapter integration is proved.
+  No existing planner payload builder changed, so directory and SQL-object
+  coverage and payload characters are unchanged by this checkpoint. Future
+  wiring must measure all three and add the standing coverage regression test.
+- Do not reuse bounded lineage profiles as key-binding evidence. The alternative
+  would falsely certify selected-row equivalence from aggregate agreement.
+- Use a separate complete-key witness with an explicit discovered-column mapping;
+  never infer correspondence from equal aggregate totals or similar column names.
+  It stays limited to the recorded universe and scope.
+- Derive provider wire structure and bounds from the consumer contract. The
+  installed Azure route strips unsupported wire keywords while retaining local
+  validation and stating those exact bounds in instructions; it never strips fields.
+  See [official structured-output guidance](https://developers.openai.com/api/docs/guides/structured-outputs).
+- Preserve query-bound snapshot requirements and refuse missing extension-cell
+  addresses. Standalone metadata or address backfill would weaken prior rulings.
+- Round Nine's authorized pot is 200 with 40 reserved and rolling limit 1,500.
+  No live admission or credit grant has occurred, so no budget configuration or
+  discovery approval has been changed yet. Round Eight's closing rolling usage
+  of 363 is historical, not a current measurement.
+
+Engine bytes changed; all prior freezes remain invalid. No unfamiliar-domain,
+live translation or general capability acceptance is claimed.
+
+## Validation and budget record
+
+The first full discovery sweep ran 2,076 tests and failed with eleven errors.
+Ten were TAPE_UNCOMMITTED_ENGINE and one was Engine or connection changed:
+the sweep began while draft engine files were being edited. This is a preserved
+failed check, not a regression pass. After committing a stable checkpoint, the
+affected tape (28), code-definition (5), repository-code (3) and adaptive (33)
+suites passed; proposer tests (11) also passed. The final translation suite
+passed all 24 tests, including malformed attestation refusal. These are targeted
+reruns, not a claimed clean full 2,081-test sweep.
+
+The initial replay sweep used an absent archived-input directory and reported
+MISSING_PRIVATE_REPLAY_INPUTS. Its log and output remain preserved. A corrected
+sweep uses `.local/round-five-i-20261005/inputs` and the pinned inferred inputs.
+Both sweeps are still running at this checkpoint; no 15-by-2 pass is claimed.
+PR #420 remains draft; hosted checks are pending, no merge.
+
+At 2026-10-06T22:53:50Z (5:53 PM Chicago), the existing rolling physical window
+is 315/1,500. Natural expiry lowered it from Round Eight's historical 363;
+no reset or refund. Round Nine has spent 0/200, with 40 authorized for reserve
+but not yet installed as batch credits or round policy. Investigation cap stays
+12; diagnostic and provider calls are zero. The existing Round Eight reserve
+remains untouched. Failed and successful test records were appended to the ledger.
+
+
+## Dated integration checkpoint (2026-10-06)
+
+Stable commit `8de0e84` passed 2,089 regression tests in a separate committed
+checkout (697.063 seconds, exit 0). Seven hosted checks passed, including replay
+37545322267. This does not cover subsequent adapter/tracing changes. The initial
+failed sweep and wrong-input replay attempt remain preserved.
+
+Thirty-nine focused translation tests pass: 32 core/provider/service, four native
+filter adapter and three measure-route tests. Adapter tests use actual governed
+compilers/receipt storage with injected transports, not live engine evaluation.
+Empty key sets retain a marked attestation row excluded from the key hash.
+Truncated sets refuse. Three measure cells retain independent addresses;
+disagreement falsifies. Provider admission uses the wire's same input projection.
+New-cell extension without an existing candidate refuses before a model call.
+Retained Top-N/date native compilation and runtime activation remain pending;
+the filter route requires an independent compiler from its caller.
+
+The file-only OTLP exporter validates official generated protobuf definitions
+and span-tree/time invariants. Four tests pass; fifteen-tape export is in progress.
+SQL physical requests may link only at logical completion; guards carry separate
+receipt IDs. Export preserves those links and sealed event pointers. Missing
+receipt IDs remain UNRECORDED. Family A exports all ten physical probe spans.
+Historic finer source/reproduction timing was not recorded and is not invented.
+A technical stage-cost footer helper exists but live output wiring is pending.
+
+DECIDED WITHOUT REVIEW: pin official generated OTLP definitions in a separate
+tracing requirements file; export locally, with no collector or external upload.
+Local dependencies were installed in an isolated directory, leaving the existing
+protobuf installation unchanged. See [OTLP file export](https://opentelemetry.io/docs/specs/otel/protocol/file-exporter/)
+and [protocol package](https://pypi.org/project/opentelemetry-proto/1.45.0/).
+Historic currency cost is UNRECORDED: token counts lack a pinned price. Stage
+cost/time is inclusive where only top-level operations were recorded.
+
+Zero Round Nine estate reads/provider calls; no fixture, identity, secret or
+policy change. Prior freezes invalidated. PR #420 remains draft, unmerged.
+
+Dated trace export completion: all fifteen archived tapes converted and passed
+official schema/tree validation, zero new estate requests. Their 139 probe spans
+match every retained physical total; family C did not retain a physical total.
+Original tapes remain untouched. Export files and detailed totals are private
+under `.local/round-nine-20261006/trace-export/`. Live footer wiring remains pending.
+
+
+## Governance/retention offline checkpoint (2026-10-06)
+
+The governance table now maps implemented controls, evidence and human approval
+points, explicitly distinguishing unfinished redaction and region work from
+existing output vocabulary validation. The manifest optionally declares tape
+and ledger retention; omission means indefinite, preserving old manifests.
+`python scripts/dia.py retain` plans without mutation; `--apply` explicitly
+expires files/rows and durably audits original hashes separately. Unknown dates,
+unfinished tapes and unfamiliar sidecars stay. Changed hashes refuse before
+mutation. Seven retention tests and nineteen existing manifest tests pass.
+Tests delete only temporary synthetic files. No fixture tape or ledger row has
+been removed, no fixture manifest or approval changed. New retention fields do
+not enter planner payloads; the manifest coverage test still reports 2 directory
+entries, 1 SQL entry and 7,563 payload characters before/after.
+
+DECIDED WITHOUT REVIEW: retain undated/unfamiliar evidence rather than estimating
+an expiry, keep deletion audit separate from the expiring ledger, and require an
+explicit apply command. Retention is not a licence to alter sealed replay inputs
+or immutable release bundles. Column redaction, provider-region pinning, evals,
+rebuild, demo and translation runtime/native-definition wiring remain pending.
+
+
+## Native definition and validation checkpoint (2026-10-06)
+
+Commit `4e61a5e` passed all 2,100 regression tests in an isolated committed
+checkout (604.466 seconds, exit 0). Newer native-definition and retention code
+has focused validation, not a claimed full-suite pass. The corrected pinned
+local replay sweep passed archived15/15 and inferred15/15 with zero estate
+requests. The original wrong-root sweep ended archived0/15 (missing inputs),
+inferred15/15 and is preserved unchanged.
+
+The native filter adapter now independently compiles a narrow retained PBIR
+Top-N subquery and day-relative Between form. Six definition tests pass;
+translation total is45. Top-N requires the definition's own final key ordering,
+refusing an unestablished tie-break. UTC anchor and day offsets become fixed
+literals; a day-span on the column is preserved, while a bare timestamp column
+never gains rounding. Additional active context, calendar units and unfamiliar
+forms refuse until compiled faithfully. Malformed collected declarations refuse
+rather than crash. No unsupported inventory entry is reclassified as active;
+these separate verification routes are not enabled in the investigation walk.
+
+The first new tests had two incorrect compiler-interface expectations (parent
+table IDs and an absent volatility field); the first attempt failed with one
+failure/one error, the second with one error. The tests now assert actual bound
+member IDs and non-null compiled identity for the frozen date query. No compiler
+behavior was weakened. Final45 focused translation tests pass.
+
+DECIDED WITHOUT REVIEW: use Microsoft's retained PBIR semantic-query schema,
+not the differently shaped embedded-report SDK serialization. Refuse unspecified
+Top-N tie ordering and additional context rather than inventing either. Published
+relative-date filters use UTC; pin that anchor, preserving exact declared date
+span semantics. Sources: [PBIR visual schema](https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json),
+[filter schema](https://developer.microsoft.com/json-schemas/fabric/item/report/definition/filterConfiguration/1.2.0/schema-embedded.json),
+[semantic query schema](https://developer.microsoft.com/json-schemas/fabric/item/report/definition/semanticQuery/1.3.0/schema.json),
+[relative-date semantics](https://learn.microsoft.com/en-us/power-bi/visuals/desktop-slicer-filter-date-range).
+
+No estate reads or provider calls, fixture/configuration/identity changes, or
+budget admission in Round Nine. Runtime wiring, complete binding production,
+evals, redaction/provider-region, rebuild/demo and live verification remain
+pending. Draft #420 remains open; no freeze or acceptance claim.
+
+
+## Dated correction: translated measure cell scope (2026-10-06)
+
+Audit found a defect in the draft measure route: it applied a keyed restriction
+on native DAX but reused the complete proposed SQL unchanged. The injected
+transport returned the same constant for both, so the three-cell route test
+passed without demonstrating faithful source scope. That earlier test result
+remains historical; it did not establish scoped translation. No live read or
+persisted investigation proof used this default-unused route.
+
+The route now refuses any nonempty base/cell restriction before reads until
+verified column bindings can compile it on SQL. A permanent test checks zero
+reads and zero verification budget charged for the keyed three-cell sample.
+Unrestricted native/SQL probes still retain their original addressed values;
+that transport test does not claim three-cell verification. Generic core tests
+continue to exercise independently evaluated three-cell verification and
+falsification. Forty-five translation tests pass after the correction.
+
+The revised negative test also exposed misuse of revalidate() on UNVERIFIED
+compiler refusals: there are no observations to replay. It now explicitly rejects
+those as having no observation proof; the ledger already only revalidates
+VERIFIED/FALSIFIED evidence. The intermediate test error is preserved below.
+Existing lower-walk filtered refusal stays untouched. This is a capability gap to
+build, not a reason to stamp an unfiltered statement with a keyed cell address.
+No live section6 trials begin while their faithful scope wiring is incomplete.
+
+
+## Pinned demo entry point (2026-10-06)
+
+`python scripts/dia.py demo --manifest <estate.json> --case <acceptance-case.json>`
+starts the existing loopback workspace after selecting the exact approved
+fixture context and pinning every consumer. Execution defaults off; `--live`
+explicitly enables existing governed execution. It uses the existing local
+INVESTIGATOR_WORKSPACE_TOKEN, never creates a secret or retrieves a provider key
+in read-only mode. Four tests cover refusal before serving, pin ordering,
+read-only behavior and required case selection. The server was mocked; no local
+or cloud service was started. Live stage/binding displays still need work; this
+command alone is not the full demo-readiness milestone.
+
+At23:59:13Z, rolling273/1500 with1227 available; natural expiry, no reset/refund.
+Round Nine0/200,40 authorized reserve not configured, investigation cap12. The
+previous Round Eight restoration credit is untouched. No new provider or estate
+request, fixture state, approval context, identity, secret or policy change.
+Current corrected engine624ca67 has a full committed regression sweep running;
+its result is not yet claimed. Separate earlier4e61a5e pass remains historical.
+
+### Provider terms, 2026-10-06 America/Chicago
+
+Three offline tests passed: closed region provenance, explicit unknown legacy region, whole-hash invalidation. Manifest-backed recorder configuration now carries provider/deployment/endpoint/region without credentials. The fixture was not modified and its region remains UNDECLARED; old tapes remain UNRECORDED, never retroactively attested. Nineteen manifest tests passed: directory 2?2, SQL 1?1, payload 7,563?7,563 characters. No estate/provider call, scope change or policy change. Prior freezes remain invalid. DECIDED WITHOUT REVIEW: retain legacy manifests with explicit unknown region instead of guessing it from an endpoint. New declared regions require cited owner deployment evidence.
+
+### Stage and ledger views, 2026-10-06 America/Chicago
+
+The isolated committed 624ca67 engine passed 2,113 tests in 593.676 seconds. Subsequent stage-observation changes have four focused tests, the OTLP converter five, binding display two, and the workspace 24. START is saved before a procedure call so polling sees progress while the call runs; FINISH preserves the actual exception type. Stage attribution never changes calls, values or eligibility. New trace stage attribution uses these saved events; old tapes retain inclusive WALK timing rather than inventing source/reproduction timings. The existing technical screen lists recorded ledger locations, verdicts and both original quantities/profiles, with current eligibility explicitly NOT_EVALUATED. Browser verification and live narrative footer remain pending. No estate/provider read, credential or scope change. Freeze invalidation remains. DECIDED WITHOUT REVIEW: display recorded ledger verdicts separately from runtime eligibility; a read-only view cannot establish code freshness without a fresh proof.
+
+### Technical stage footer checkpoint, 2026-10-06 America/Chicago
+
+Manifest-backed recordings now append and persist one engine-rendered cost/time footer after the recorded synthesis operation ends. It uses the exporter arithmetic on already recorded events and original returned state; no new clock, query, provider call or price. Recorded provider/deployment/region provenance also reaches trace attributes. Seven trace tests and one real-SQLite persistence test pass. Both return views and subsequent reads agree, business prose and observations unchanged, repeat attachment does not duplicate it. Historical tapes remain untouched and their producer configurations do not enable the footer. Replay performs the same declared footer step using only consumed events; no future event is read for its counts. Currency cost remains explicitly unrecorded because no installation price is pinned.
+
+A 34-test synthesis check had one failure: its last setup returned ADMISSION_CHANGED instead of BUDGET_LIMIT while engine files were being edited concurrently. This check is preserved, not counted as passed. A stable committed rerun follows. No estate/provider calls or policy change; prior freezes invalid.
+
+### Intake goldens and stable synthesis, 2026-10-06 America/Chicago
+
+The committed 7ab0c0b synthesis suite passed all 34 tests with no concurrent edits, after the retained admission failure. Sixty intake texts and structured expected records are explicitly authored in acceptance/model_steps/intake.json, with all nine families, all nine subjects, typos, forwarded noise, selection versus subject, numeric/EMPTY/unspecified figures, grouping and six semantic holds. Four scorer tests pass. The CLI accepts --model-version, reports per-field accuracy, retries, holds, separately expected/correct semantic holds and the score delta. Missing cases fail and mixed model versions refuse. No actual provider evaluation or accuracy score is claimed. Reader/synthesis/translation model-step sets and human readability flags remain pending.
+
+DECIDED WITHOUT REVIEW: provisional score-drop ratchet two percentage points, with a reason in acceptance/model_steps/thresholds.json; not a production-quality or statistical guarantee. No model call, estate read, policy or scope change. Prior freezes invalid.
+
+
+Dated scorer-integrity refinement, 2026-10-06 America/Chicago: provider/transport
+HELD earns zero field credit, including null expected values. Every score pins
+the canonical golden-set SHA-256, and changing expectations invalidates baseline
+comparison. Four focused scorer tests pass. No provider evaluation or model
+accuracy is claimed; zero model calls and estate requests.
+
+
+Dated stable integration validation, 2026-10-06 America/Chicago: isolated
+commit `5907162` passed all 2,134 regression tests in 373.661 seconds.
+The later scorer-integrity refinement passed its four targeted tests.
+This establishes offline regression health, not model accuracy, browser
+behaviour, translation activation or live acceptance. Zero Round Nine estate
+requests and provider calls; authorized pot remains unconfigured.
+
+
+Dated model-evaluation checkpoint, 2026-10-06 America/Chicago: nine reader code
+cases now carry authored expected bindings (three Round Six synthetic examples,
+six new dynamic-name/UDF examples). The first test assumed two constant-name
+forms required a model; both already compile statically. That failed assertion
+is preserved and corrected to check their exact authored static bindings. The
+other four new examples require fallback. No provider score is claimed for this
+set. Precision/recall counts invalid and duplicate proposals, before verification.
+
+The fifteen sealed inferred-column tapes yielded fourteen composition responses,
+plus family C's explicit no-call case. Current wire/form/token checks pass13/14:
+92.857% validity and7.143% rejection; no prior score delta. Source-latency's model
+paragraph uses an unqualified "semantic layer" despite supplied role tokens; the
+earned output used deterministic delivery wording. This is an independently
+recorded response's validation failure, not a failed earned outcome, and not
+causal correctness scoring. Originals and gate expectations remain unchanged.
+Ten exact paragraphs and checked boundary facts are exported for HUMAN review;
+all three flags per item are null, no grader or fabricated human score. A human
+input request is pending while independent offline work continues.
+
+Sixteen focused evaluation/path tests pass. A test insertion first misplaced
+four human-grade assertions, producing NameError; that failed check is retained,
+and the corrected same assertions pass. Zero Round Nine provider or estate calls.
+The complete regression checkpoint remains5907162/2134. Model-step release gate,
+new provider scores, translation activation, redaction and rebuild remain pending.
+
+
+Dated intake-evaluation runner and budget checkpoint, 2026-10-06 America/Chicago:
+the synthetic-catalog runner uses the original intake procedure (including its
+single correction paths, validators and settlement), the existing governor and
+real durable usage counters. No native/source transport or investigation can
+execute. Its integration test plus24 workspace tests pass25/25 with injected
+responses; this is not a provider score. The plan reports60 cases, at most120
+metered model calls, zero estate requests; it loads only the existing local Azure
+credential mechanism and creates no identity, permission or secret.
+
+The authorized Round Nine200/40-reserved pot is now declared in a new private
+manifest, with the original Round Eight manifest unchanged. Rolling allowance1500,
+investigation cap12 and daily model allowances are unchanged; counters were not
+reset. Configuration before/after and hashes are in the ledger. New manifest hash
+83dcf739486e99ae63b5b2c7fe1234c4269308deee47fd1e0094dd09f5a76665.
+No discovery reapproval has occurred: this local configuration is not execution
+authority for estate reads. Local rolling observation254/1500 at00:52:45Z,
+model reservations0 for the new UTC day; Round Nine estate/provider spending0.
+
+
+Dated first intake evaluation, 2026-10-06 America/Chicago: all60 cases ran once
+against the authored synthetic catalog, through the original intake validation
+and settlement path.53PROPOSED,6NEEDS_INPUT,1HELD; no correction retries and no
+replacement. Overall authored-field match94.861%, question kind83.333%,
+triage fields88.333% each, filters91.667%. All six should-hold cases did so.
+The first-baseline/drop-only scorer says PASSED because all cases were attempted
+and no earlier delta exists; that is NOT an adjudicated accuracy pass or the
+complete four-step quality gate. No expectation was changed to match responses.
+Triage expectations for plain component/freshness questions, and empty filter
+expectations for explicit column selections, require review against the consumer
+instructions. Compound source/discrepancy questions also overlap the current
+subject vocabulary. The v1 score, full synthetic results and its hash are retained.
+
+G3's original HELD/RESOLUTION_UNCERTAIN is preserved. Its provider returned
+HTTP200/status completed,167 output tokens, not an output or transport failure.
+An offline replay of the exact structured response raises:
+`ValueError: Only a quoted SELECTION may enter measurement scope`.
+The response labelled900099 MENTION and IDENTIFIER, yet also supplied it as
+`target_request`; it was refused before any preview/read. The guard prevented
+inventing a selection. This diagnostic makes no replacement response or refund.
+
+Exactly60 model calls,136753 input tokens,7096 output tokens,143849 total tokens;
+served reasoning tokens0. The intake wire used its existing1500-token default
+and no explicit reasoning setting, rather than the investigation profile's
+8000/medium settings. No setting was changed to improve this score. Charged
+output reservations90000 are distinct from actual output7096; counters retained.
+Existing credential lookup used the existing local Azure mechanism, with no
+credential or scope created. Round Nine physical estate requests0/200,40 reserved;
+rolling248/1500 at the saved batch close. Original negative/partial responses,
+sealed tapes and one ledger row per evaluated case are retained.
+
+
+| Step | Recorded model/deployment | First score | Delta |
+| --- | --- | --- | --- |
+| Intake | investigator-quality-54 |94.861% authored-field match,60cases; six intended holds, one unexpected hold; expectation review pending | No prior baseline |
+| Reader MODEL extractor | Not run | Nine code cases and scorer prepared; no provider precision/recall claimed | Unavailable |
+| Synthesis | investigator-quality-54 |13/14 current token/form validity; family C has no model paragraph; ten human reviews ungraded | No prior baseline |
+| Translation proposer | Not run | Synthetic verifier tests exist; first-proposal model score pending | Unavailable |
+
+
+Dated reader-evaluation admission, 2026-10-06 America/Chicago: isolated 5f09cec regression passed 2167 tests in 368.972s. MODEL evaluation shares the runtime consumer-derived schema and candidate validation, preserves rejected raw proposals, seals every attempted case, and stops on budget admission without replacements. Eleven focused tests passed; one initial test assertion confused the unchanged const MODEL wire with an enum and was corrected, not the runtime contract. Nine provider calls maximum; no binding verification or estate reads. Existing medium/8000/120 profile is retained. The extraction refactor changes no wire payload.
+
+
+Dated reader MODEL negative baseline, 2026-10-06 America/Chicago: nine cases
+attempted once, all HTTP400 before extraction. Exact retained provider error:
+`Invalid schema for response_format 'transformation_code_proposals': In context=('anyOf', '0', 'properties', 'kind'), schema must have a 'type' key.`
+This is a producer-schema defect, not nine incorrect extraction decisions.
+Precision/recall/F1 are zero; correct semantic refusals0/2; provider failures9.
+The initial drop-only score incorrectly said PASSED. An append-only correction
+records FAILED; provider failures now fail even a first-baseline gate.
+Original tapes, rejected responses, reservations and initial score stay unchanged.
+No replacement provider request has been made. Nine8000-token reservations are
+charged, with no reported actual token usage and no refunds. Combined UTC-day
+model reservations69, output reservations162000; Round Nine estate0/200 with40
+reserved, saved rolling197/1500 (window expiry, not reset).
+
+DECIDED WITHOUT REVIEW: add explicit string types to consumer-owned binding
+kind/extractor/join vocabularies and their fixed wire identity fields. This
+preserves accepted values and derives the provider wire from the same contract.
+A recursive test refuses any const/enum node lacking its type. Twenty-two focused
+reader/lineage/scorer tests pass; full regression on this change remains pending.
+The initial reader assertion expected the old typeless shape and failed once;
+it was updated to the consumer's explicit type, without changing expected bindings.
+The official [Structured Outputs guide](https://developers.openai.com/api/docs/guides/structured-outputs)
+documents nested anyOf branches under its supported schema subset; the HTTP400
+above is the direct evidence for this missing-type rejection.
+Human readability grades remain pending; the human confirmed they are coming.
+Prior freezes invalid. No estate scope, secret, fixture or allowance changed.
+
+
+Dated reader v2 and local translation evaluation checkpoint, 2026-10-06
+America/Chicago: after the consumer wire type correction, the same nine reader
+cases each ran once as a separately sealed v2 batch. Seven proposals and two
+appropriate semantic refusals; precision1.0, recall1.0, F1 1.0, no provider or
+consumer validation failure. No binding verification was performed. These are
+small synthetic code cases, not estate/general extraction acceptance. The
+nine-refusal v1 batch remains intact. Its provider-failed score is not a usable
+quality baseline: the wire changed, and a nominal +100pp would misdescribe a
+compatibility repair as extraction improvement.
+
+v2 actual usage: {"input_tokens": 16340, "output_tokens": 4021, "total_tokens": 20361, "reasoning_tokens": 2766}; nine metered calls. Combined Round Nine
+model calls78 (60 intake,9 refused reader v1,9 served reader v2); no estate reads,
+fixture changes, scopes, secrets or cap increases. Reservations, including the
+failed batch, remain charged.
+
+Three independently authored translation goldens now have a local SQLite
+verifier/scorer. Model input includes definitions, columns and retained cell
+addresses, never seeded rows, expected answers or native statements. Top-N and
+pinned relative-day key sets verify; ALL measure verifies three cells against
+separate actual created tables. Deliberately wrong proposals each FALSIFY.
+Generated local statements must parse as one SELECT against declared objects,
+and a SQLite authorizer denies mutation. These are synthetic adapter receipts,
+not platform self-reports or estate evidence. Connection difference alone was
+correctly refused in the first fixture version; explicit distinct created objects
+replace that invalid test setup. The preceding missing-budget-callback failure
+and boundary-refusal failure are recorded.36 verifier tests and48 combined
+focused tests pass. Translation provider harness and first model score remain
+pending; no injected perfect score is published as a provider result.
+
+
+Dated translation wire finding, 2026-10-06 America/Chicago: the first local
+provider evaluation refused Top-N with HTTP400: `In context=('properties',
+'objects'), 'uniqueItems' is not permitted.` The batch stopped immediately;
+relative-day and ALL were unattempted, with no replacement in that batch.
+One8000-token reservation remains charged. Original evidence is retained.
+
+DECIDED WITHOUT REVIEW: the evaluation-only wire derives from the consumer but
+uses exactly one declared object and zero grouping members. Object maxItems1
+makes duplicate objects impossible; group maxItems0 makes duplicate groups
+impossible. The consumer retains its original uniqueItems constraints. A larger
+object inventory or nonempty grouping refuses before provider admission rather
+than dropping uniqueness. This is intentionally only the three local goldens,
+not the general estate translation provider interface. Thirteen focused tests
+pass, including duplicate rejection and broader-inventory refusal. No expected
+answer, fixture row or native statement enters model input; the expression can
+still be wrong, fail parsing, select wrong keys or calculate a wrong quantity.
+
+
+Dated translation v2 result, 2026-10-06 America/Chicago: all three first proposals
+were served once. Top-N and pinned relative day VERIFIED; the measure was
+UNVERIFIED because the local fixture compiler renamed the declared table but
+not the qualifier in `SUM(items.v)`. Original v2 rate2/3 and every tape remain
+unchanged. DECIDED WITHOUT REVIEW: preserve logical table qualification through
+an explicit alias when binding to the two created fixture objects.39 focused
+tests passed, including qualified SUM and deliberately wrong translations.
+The exact sealed proposals were recompiled/re-evaluated locally, separately
+recorded as OFFLINE_FIXTURE_COMPILER_CORRECTION with proposal hashes. Corrected
+local rate3/3, no new model calls; measure three cells/six local probes.
+This is an evaluator correction, not a replacement successful run or estate
+verification. v2 provider usage: {"input_tokens": 2373, "output_tokens": 2341, "total_tokens": 4714}.
+Round Nine82 provider calls including failed batches; no estate reads.
+
+| Step | Deployment | Recorded score | Delta/basis |
+| --- | --- | --- | --- |
+| Intake | investigator-quality-54 |94.861% field match,60 cases;6/6 intended holds | First baseline, authored expectations need review |
+| Reader MODEL | investigator-quality-54 |v1 nine provider refusals; v2 precision/recall/F1 1.0,2/2 intended refusals | Wire repaired; failed batch is not a quality baseline |
+| Synthesis | investigator-quality-54 |13/14 token/form validity; C no model paragraph;10 human grades pending | Recorded earned responses under current rules; not mechanism truth |
+| Translation | investigator-quality-54 |v1 one provider refusal then stop; v2 2/3 originally;3/3 same sealed proposals after offline fixture compiler repair | Small synthetic evidence, original result unchanged; no general/estate acceptance |
+
+Remaining: general translation provider/runtime integration and faithful SQL
+cell-scope bindings, complete scored CI ratchet, human grades, redaction,
+rebuild, browser checks, discovery reapproval and the bounded estate list.
+No live trial or fixture mutation is justified by these local scores alone.
+
+
+Dated scored-CI checkpoint, 2026-10-06 America/Chicago: the new model-step
+regression job re-scores all four recorded decision sets, with pinned same-suite
+baselines and reasoned drop thresholds. Translation proposals execute again only
+against the local authored SQLite fixture; a cached VERIFIED marker is not an
+oracle. No provider or estate call. Four numerical deltas are0, their ratchets
+pass; the overall gate correctly FAILS until ten attributed human grades exist.
+Review paragraphs and provenance are checked against the sealed response before
+human booleans are accepted. This is the expected explicit missing-input state,
+not a failed model trial or permission request. Two gate tests pass. No merge
+while this mandatory human-review check is red; the human says grades are coming.
+The other Round Nine implementation work remains unfinished as listed above.
+Latest local usage:82 model reservations,266000 output tokens reserved,0 cloud
+calls for the UTC day; rolling197/1500; Round Nine estate0/200,40 reserved.
+Reservation allowance is not actual provider token usage or monetary price.
+
+
+Dated stable-engine regression, 2026-10-06 America/Chicago: isolated55469a3 passed2178 tests in393.193s. The later fixture qualifier correction passed39 focused tests and the recorded-score gate passed3 tests, including changed-review-paragraph rejection. Human-review tests use temporary ungraded copies, so the actual human grades can arrive without changing test expectations. Hosted checks track the current head; mandatory human-review input remains pending.
+
+
+Dated translation evaluation provenance correction, 2026-10-06 America/Chicago:
+the v1/v2 harness used its own prompt and narrow wire. Its scores are prototype
+proposal scores, not the installed adapter's model-step baseline. They remain
+recorded; no evidence is relabelled as having used the installed path. The harness
+now delegates to the existing adapters.translation_model.Provider, including
+its exact prompt, metadata projection, receipt/cell-answer exclusion and wire
+conversion. The consumer still validates omitted provider-unsupported constraints
+before compilation. An integration test asserts equality to that actual path.
+The local compiler accepts one scalar expression or a complete one-column SELECT;
+multi-column or mutating queries refuse.42 focused tests pass. A separately
+recorded v3 evaluation will establish the actual installed-adapter baseline.
+
+
+Dated installed-adapter v3 result, 2026-10-06 America/Chicago: three first
+responses served, three consumer rejections,0/3 verified,0 local verification
+probes,0 estate requests. All failed "Translation touches an object absent from
+metadata". The fixture catalog declares only the items table; a separate columns
+map lists k/v/day. The proposals name column identities in differing forms which
+that catalog never declared. This is an input/producer contract finding, not
+proof that their predicates or arithmetic are wrong. Each original proposal,
+response, error and tape remains unchanged. Separately recorded offline diagnosis
+quotes the rejecting consumer. Actual usage2373 input,4124 output,6497 total,
+3713 reasoning tokens. Round Nine85 calls; latest rolling162/1500 (natural expiry),
+85 model reservations/290000 output tokens reserved for the UTC day; estate0/200,
+40 reserved. No reset, refund, credential, scope or policy change.
+
+DECIDED WITHOUT REVIEW: the installed provider's object-item schema now derives
+its allowed identity/kind pairs directly from the consumer's metadata catalog.
+Singleton enums survive the actual provider wire; const did not, as a failed test
+exposed. Bounds and local duplicate checks remain consumer-owned. No new column
+identity is guessed or added to the historical catalog. Broader fixture metadata
+requires a separately authored input and subsequent evaluation; no replacement
+batch has been run.32 proposer,3 model-path,5 evaluator and4 gate tests pass.
+The two initial test failures are preserved in the ledger: dropped const and the
+old assertion that the producer schema was completely unnarrowed.
+
+Scored CI now re-scores the actual v3 proposals. Invalid saved proposals count
+as zero rather than crashing the scorer or trusting a cached VERIFIED flag.
+The prototype3/3 reference is retained, so the numeric ratchet fails(-1.0);
+this is an explicit baseline/proposer-path change, not an attributed model-quality
+regression. The reference has not been lowered to make CI green. Human grades
+are still pending. PR420 remains draft. General runtime translation integration,
+column redaction, rebuild, browser verification, reapproval and section6 live
+verification remain unfinished; prior freezes remain invalid.
+
+
+Dated authored input correction, 2026-10-06 America/Chicago: a separate
+translation-v2.json declares the three fixture column identities explicitly,
+with typed names pointing to the same consumer catalog. Original v1 goldens and
+their requests are unchanged. Native SQL, seeded rows, definitions and expected
+results are unchanged; only the incomplete metadata declaration is corrected.
+Both corpus version and suite hash change. No historical run is reinterpreted
+against that widened catalog. Producer input still excludes native statements,
+seeded rows and expected values. A regression test checks all declared column
+identities and unchanged old input.9 focused tests pass.
+
+Context cost: [{"case": "top-n", "before_objects": 1, "after_objects": 4, "before_payload_characters": 551, "after_payload_characters": 648, "sql_objects_before": 1, "sql_objects_after": 1}, {"case": "relative-day", "before_objects": 1, "after_objects": 4, "before_payload_characters": 552, "after_payload_characters": 649, "sql_objects_before": 1, "sql_objects_after": 1}, {"case": "all-measure", "before_objects": 1, "after_objects": 4, "before_payload_characters": 538, "after_payload_characters": 635, "sql_objects_before": 1, "sql_objects_after": 1}]
+
+A separately recorded installed-adapter v4 model evaluation is authorized
+by the offline model-evaluation scope; at most three model calls and zero
+estate requests. One first proposal per case, all failures preserved. No
+model setting, scope, fixture estate or original acceptance expectation changes.
+
+
+Dated installed-adapter v4 result, 2026-10-06 America/Chicago: Top-N, pinned
+relative-day and ALL each VERIFIED on the first separately recorded proposal
+under the new explicitly complete column catalog.2+2+6 local probes, zero estate
+requests. The measure covers three existing authored cells and actual distinct
+local objects; SNAPSHOT_UNVERIFIED remains. Original v1/v2 prototype and v3
+rejections remain unchanged. No query-bound Microsoft/platform acceptance is
+claimed. The provider was not given seeded rows, native statements or answers.
+The match could fail through wrong ranking/tie handling, date endpoints, SQL
+scoping/qualification, or measure semantics; independently authored native SQL
+provides the comparison, not the model answer.
+
+Actual v4 usage: {"input_tokens": 3627, "output_tokens": 4377, "total_tokens": 8004, "reasoning_tokens": 3979}. Round Nine88 metered provider calls
+including failures; reserved today {"planner_calls": 88, "cloud_calls": 0, "input_characters": 47939, "output_tokens": 314000}. Rolling119/1500, natural expiry; estate0/200,40 reserved.
+
+DECIDED WITHOUT REVIEW: the recorded score gate uses the explicitly versioned
+v2 corpus and its actual installed-adapter v4 first baseline. It refuses to
+compare suite hashes across corpus versions, so no invented improvement delta
+from v3 or the prototype is reported. This establishes only a3-case local
+regression baseline. The previous failed score files and gate report remain.
+Human readability is still required and ungraded; the overall gate stays red.
+
+
+Dated independent offline groundwork, 2026-10-06 America/Chicago: the
+[redaction capture audit](round-nine-redaction-contract-audit.md) reproduces
+sensitive synthetic values persisting at four tape boundaries and shows the
+current byte-replay conflict; a privacy-projected contract choice has been
+asked asynchronously. No sensitive real data or original tape was altered.
+The [rebuild seed/template groundwork](round-nine-rebuild-groundwork.md) has
+four passing tests and independently derives7661/8765 from the committed seed.
+It changes only declared container paths; no notebook executes. Full rebuild
+command and remaining recorded templates are pending, not claimed delivered.
+No provider or estate request in either audit.
+
+
+Dated stable v4 regression checkpoint, 2026-10-06 America/Chicago: isolated
+fa83049 passed2185 tests in424.437s. The later publication-only seed/template
+module passed four focused tests separately; it is not part of that full-suite
+count. The new two-column regrade is still running; no finished sweep is claimed.
+Historical prior archived15/15 and inferred15/15 remain distinct. All four
+recorded numerical model ratchets pass on the new corpus baseline; the overall
+model gate fails only for pending attributed human review. Privacy-contract
+clarification, complete rebuild and the other offline/live gaps remain pending.
+No estate request, scope, secret, policy change, reset or refund.
+
+### Attributed review and corrected checker, 2026-10-06 America/Chicago
+
+The ten supplied reviews are recorded unchanged, including notes and findings,
+with attribution to Claude, independent reviewer; approved by Chaitu. Role
+naming passes8/10, one mechanism9/10, no repeated hedge6/10; all flags4/10.
+Grades remain bound to the original sealed paragraphs and provenance. They are
+not grades for future paragraphs produced under the repaired rules.
+
+The consumer, producer schema/instructions, recorded scorer and acceptance
+checker now share the one-possibility rule. The acceptance checker previously
+checked layer references but never called the mechanism validator. It now does.
+Non-role references such as measure layer, lower-layer and bare layers refuse
+even when the declared token set is empty. This is syntactic enforcement of
+the recorded invariant, not a guarantee of causal truth or semantic uniqueness.
+
+The role registry retains every resolved-path label, including zero-boundary
+and within-layer-only runs. Provider spines and deterministic technical/refusal
+rendering state the roles reached; absent role evidence stays explicitly absent.
+The rendered statement distinguishes resolved identities from successful reads.
+Existing boundary token order is preserved before additional labels are added.
+No estate-wide catalog is introduced into the mechanism payload.
+
+Context cost measured on the same ten-candidate/ten-restriction golden: old
+fa83049 synthesis payload14098 characters, new14155 (+57); evidence10->10,
+candidates10->10, no elision. This seam contains no directory/SQL-object entries
+(0->0); the conservation test checks the actual evidence/candidate coverage.
+The complete local source remains unchanged. A bound-elided provider view still
+retains its role list and is not sent as a complete evidence view.
+
+58 focused tests passed. The corrected recorded-model gate has no missing human
+input, but fails synthesis:6/14 (42.857%), versus the preserved13/14 baseline,
+delta-0.5. Intake94.861%, reader1.0 and translation1.0 ratchets pass. This is a
+checker correction over unchanged responses, not a new provider experiment.
+No baseline, expectation, tape, receipt or paragraph was rewritten to recover
+a pass. The separate dated score report records the failure. PR420 stays draft.
+
+Dated correction to the midnote: source-consistency's extra rejection is the
+bare word layers, not another repeated hedge. A/E/G/I are the four hedge
+failures; D/H/source-consistency have non-role words; source-latency's earlier
+bare-role refusal remains. Two failed score-test assertions (the old count and
+the mistaken additional hedge attribution) were corrected and recorded, not
+treated as model/provider failures. Prior freezes remain invalid. No new model
+or estate request, scope, credential, cap, reset or refund in this work.
+
+Dated full-suite follow-up: bb3d27b ran2199 tests in444.809s, with two failures.
+The name golden expected role-free labels despite the corrected rendering; it
+now asserts the declared roles as well. A paragraph violating both the caveat
+and possibility rules reached the newer diagnostic first; the original caveat
+diagnostic priority is preserved. Both conditions still refuse.68 focused tests
+passed after these corrections. The failed local run and hosted test failure
+remain recorded; the corrected full suite is pending. Original model scores,
+paragraphs, grades and the failing score baseline are unchanged.
+
+Dated continuation: rebuild insert planning previously bypassed the notebook
+seed's complete row/type validation. Both producers now share that contract;
+five focused tests pass with hostile external tables. No notebook execution,
+SQL connection, seed change or fixture mutation. See the rebuild groundwork;
+the complete rebuild/apply command and remaining native templates are pending.
+
+Dated stable reviewer-fix verification: isolated382cb1b passed2199 tests in
+412.367s. The later publication-only shared seed contract passed5 focused tests
+separately and is not included in that full-suite count. Ordinary hosted tests
+passed on382cb1b; the model-score job remains red at6/14. CI now explicitly runs
+the shared possibility/non-role acceptance tests and seed contract tests rather
+than relying only on local full discovery. All original failures are retained.
+PR420 stays draft; no model or estate call, new baseline or freeze is implied.
+
+Dated historical sweep completion: the separately started fa83049 grading
+process completed archived15/15 and inferred15/15 with0 network/physical
+requests. Every producer revision and original tape remained pinned. This
+process started before the reviewer-rule changes and retains its prior imported
+checker; it does not validate the new readability checker or restore the6/14
+model-score failure. The two records are different claims, not competing counts.
+
+
+Dated mechanism-only continuation, 2026-10-06 America/Chicago: eight authorised
+inferred paragraphs accepted after9 recorded model calls (E required its one
+retry),0 estate reads; effective machine score14/14, original6/14 and human4/10
+unchanged. Every structured response field is byte-identical in canonical form.
+Original tapes retained; separate hash-pinned encrypted supersession evidence
+uses the unchanged Actions secret. Seven different archived paragraphs also
+fail current rules; their separate revision decision and full15x2 remain pending.
+PR420 stays draft. See [supersession record](round-nine-mechanism-supersessions.md).
+
+Dated archived-authorisation completion, 2026-10-07 America/Chicago: seven
+archived mechanisms accepted after8 recorded calls (A used one retry),0 estate
+reads; all structured fields unchanged, originals retained as superseded. Both
+authorised batches used17 calls and101,229 tokens. Actions37576721653 on
+cbdff46 passed archived15/15 + inferred15/15,0 physical/network requests;
+PR420 moved out of draft afterwards. Local2209 tests passed. Original corrected
+6/14 score and human4/10 remain recorded, not reassigned to new prose.
+The separate19-member encrypted delivery uses the unchanged secret and new
+immutable hash/tag. General runtime translation, privacy capture, complete
+rebuild and bounded estate verification remain pending; demo browser QA lacks
+a connected browser and existing workspace token. No new secret or scope.
+See the supersession record for exact provenance, usage and limits.
+
+Dated privacy-contract continuation, 2026-10-07: the human approved the separate
+privacy-projected class with capture-time substitution, an estate-keyed secret,
+exact-after-projection replay, manifest class declaration and unchanged exact
+gate tapes.17 synthetic codec/secret-store/refusal tests pass; no model or estate
+call, key creation/read or scope change. Legacy databases/sidecars/output stores
+are not yet wired; projected installations refuse before those paths instead of
+silently using raw capture. Both example estates explicitly declare EXACT;
+manifest hashes change and new live approval is pending. Directory coverage
+remains2entries/1SQLobject/7563characters before and after the recorder declaration.
+Prior freezes remain invalid. See the redaction audit's dated checkpoint.
+
+DECIDED WITHOUT REVIEW: numeric sensitive values and opaque non-JSON bodies
+refuse in this codec until typed provenance can preserve unrelated quantities;
+no numeric tolerance, value guessing or basename matching. Capture packets stay
+in memory until sealed to avoid earlier durable prose leaking a value identified
+later. Interrupted-process preservation for that class remains unfinished, so
+it is not advertised as an installation control. The first legacy-tape test
+attempt produced8errors because committed-engine enforcement refuses a dirty
+worktree; that enforcement is preserved. It is not evidence of an estate or
+provider failure. Committed-checkpoint regression is pending.
+
+Dated privacy regression follow-up:2326fb8 ran2226 tests with6errors because
+privacy refusal ran before context-pin validation. The corrected64ca314 passed
+2227 tests in742.483s.18 privacy tests and5 pin tests pass; unknown tabular
+identities/row shapes refuse, never skip. Failed logs remain retained. The
+Windows key resolver is adapter-owned and its transport is fingerprinted.
+No real key created/read, scope change, model call or estate request.
+Installation privacy capture remains pending and refused. The independent
+local sweep passed archived15/15 and inferred15/15 under tightened grading,
+zero network/physical requests; original tapes and structured fields unchanged.
+
+Dated privacy producer follow-up:23 focused tests pass. A typed projected-key
+producer derives key fingerprints from HMAC tokens rather than raw sensitive
+tuples. Structural-field collisions refuse rather than renaming the replay
+schema. Intake/context SQLite, independent planner sidecars and projected-context
+identity remain outside the codec; installation execution stays refused before
+those writes. No model/estate call, real key access or approval change. The
+redaction audit quotes the producer dependencies. Prior freezes remain invalid.
+
+
+Dated projected-installation checkpoint, 2026-10-07: capture now routes the
+installation's catalog and inventory to memory-only SQLite and seals projected
+images, planner sidecars and dependent identities together. The atomic entry
+point covers intake, preview, procedure and synthesis. A synthetic sensitive
+column completes and replays with original metering evidence, no provider/estate
+calls during replay, no durable-file changes, and cold-loaded receipt/store
+hashes validated. Raw values appear nowhere in the captured files or returned
+outputs. Exact installations and the original gate tapes retain their class.
+42 focused tests passed before the additional cold-receipt assertions; complete
+regression and current-head hosted gate are pending. No real key was created or
+read, no identity/scope/cap changed, and no estate or model request occurred.
+Prior freezes remain invalid; section1 integration and sections5?7 remain open.
+
+DECIDED WITHOUT REVIEW: projected installations expose an atomic run rather than
+raw asynchronous intermediate views; unsupported sensitive numerals, schema
+collisions and query aliases without compiler-backed sensitive-column identity
+refuse. Raw legacy SQLite/ledger files cannot be loaded as projected material.
+A hard interruption before sealing retains no raw body; an ordinary capture
+refusal writes an exclusion record containing only safe failure types. Projection
+is exact after the declared estate-keyed substitution, not original wire bytes.
+Replay verifies the projected payload before consuming recorded source input
+lengths: redaction's longer spelling is not new estate work or refunded usage.
+
+
+Dated 2026-10-07 Round Nine checkpoint: privacy installation commit f1389a9 passed all 2,241 local regressions. Atomic synthetic capture/replay leaves no raw sensitive value in evidence-store history, planner sidecars, tape or output; sealed dependent identities validate after cold load. No projected-estate live claim. Five scoped translation tests now compile integral cell predicates only through independently verified key correspondence; stale/missing proofs, ambiguous SQL and string semantics refuse. The existing lower-walk filtered refusal remains. Recorded model-step CI scoring passes intake 94.86%, reader 100%, tightened synthesis 100%, translation 100%; original human grades and superseded prose remain. Seven trace and one footer tests pass. `scripts/fixture/rebuild.py --plan --manifest ...` supplies both fixture paths and parameterized retained model/report/Copy Job/audit-pipeline templates; apply is deliberately absent per the latest plan-only instruction. Four plan tests pass. Zero estate requests for this checkpoint; live section6 and final demo verification remain pending, prior freezes invalid.
+
+
+Dated 2026-10-07 Round Nine closing checkpoint: projected atomic installation capture/replay passes raw-value-nowhere across evidence stores, planner sidecars and dependent identities. Engine0f785fa passed2,250 tests; hosted Actions37669448250 passed archived15/15 + inferred15/15, zero replay requests. Offline eval CI, OTLP, governance and plan-only rebuild are delivered. Section6 published a separate Top-N report copy; reader baseline8,765 before/after. Bounded rescan PARTIAL, current-config context fa19c0ce; RoundNine128/200 with40reserved, rolling128/1500 at closing read, cap12 unchanged. Top-N UNVERIFIED before reads (DAX DISTINCT projection and predicate/query representation gaps),1model call4,959tokens; relative-date text column and missing scoped key correspondence leave the other live cases unattempted/UNVERIFIED. Demo launch refuses absent existing token; no key or scope created. PR420 ready/unmerged; delivery-only head checks separate. No live translation/freeze/unfamiliar claim; old tapes/grades intact. See [full checkpoint](docs/round-nine-final-checkpoint.md).

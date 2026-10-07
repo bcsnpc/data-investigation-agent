@@ -43,13 +43,21 @@ def _safe(data):
 class CallRecord:
     def __init__(self, metadata):
         self.path = ROOT / '.local' / 'planner-recordings' / str(uuid4())
-        self.path.mkdir(parents=True, exist_ok=False)
+        from .privacy_capture import ACTIVE as PROJECTED_CAPTURE
+        self.projected_capture=PROJECTED_CAPTURE.get()
+        if self.projected_capture is None:self.path.mkdir(parents=True, exist_ok=False)
         self.bodies = {}
         self.exclusion = None
         self.safe_write('context.json', _bytes({'version': 1, 'created_utc': datetime.now(timezone.utc).isoformat(), **metadata}))
 
     def write(self, name, data):
         _safe(data)
+        if self.projected_capture is not None:
+            self.projected_capture.sidecar(self,name,data)
+            # These provisional counters never leave memory; finish() builds
+            # its durable manifest from the actual projected files.
+            self.bodies[name]={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}
+            return
         # Exclusive files: interrupted attempts and previous evidence are never overwritten.
         with (self.path / name).open('xb') as stream:
             stream.write(data)
@@ -64,6 +72,10 @@ class CallRecord:
             return True
         except RecordingError:
             self.exclusion = 'SECRET_DETECTED'
+        except (ValueError,TypeError):
+            # Capture-only refusal must not abort an otherwise valid provider
+            # call. The excluded body is never written or replayed as evidence.
+            self.exclusion = 'PRIVACY_BODY_UNSUPPORTED'
         except OSError:
             if self.exclusion is None:
                 self.exclusion = 'RECORDING_IO_ERROR'

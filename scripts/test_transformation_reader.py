@@ -19,7 +19,7 @@ class ReaderTests(unittest.TestCase):
         calls=[]
         def model(payload,schema):
             calls.append(payload);self.assertEqual(set(payload),{'code','layers'})
-            self.assertEqual(schema['properties']['extractor'],{'const':'MODEL'})
+            self.assertEqual(schema['properties']['extractor'],{'type':'string','const':'MODEL'})
             self.assertIn('confidence',schema['required'])
             candidate=proposal();candidate['extractor']='MODEL';candidate['confidence']=0.5
             candidate['sources'][0]['table']='input';candidate['expression']['relation']['table']='input'

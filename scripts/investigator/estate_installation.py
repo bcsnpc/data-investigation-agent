@@ -3,10 +3,29 @@ from pathlib import Path
 from .estate_manifest import load, policy
 
 
-def build(path, *, execution_enabled=True):
+def build(path, *, execution_enabled=True,secret_store=None):
     manifest=load(path)
     from .adapters.estate_installation import configuration,transports,provider
     config=configuration(manifest)
+    from metadata_config import ROOT
+    if manifest.get('recording',{}).get('tape_class')=='PRIVACY_PROJECTED':
+        from .privacy_capture import Capture
+        from .privacy_projection import Projection
+        from .privacy_installation import Installation
+        from .adapters.windows_privacy_secrets import resolver
+        projection=Projection(manifest['recording'],secret_store or resolver(ROOT))
+        capture=Capture(projection,[ROOT/manifest['storage']['catalog'],config['storage']['database']])
+        try:
+            with capture.active():workspace=_build_workspace(manifest,path,config,execution_enabled)
+            workspace.store.privacy_capture=capture
+            return manifest,Installation(workspace,capture,ROOT/'.local/privacy-process-tapes')
+        except BaseException:
+            capture.close();raise
+    return manifest,_build_workspace(manifest,path,config,execution_enabled)
+
+
+def _build_workspace(manifest,path,config,execution_enabled):
+    from .adapters.estate_installation import transports,provider
     from .onboarding import ModelStore
     from .runtime import Runtime
     from .adaptive_runtime import AdaptiveRuntime
@@ -29,4 +48,4 @@ def build(path, *, execution_enabled=True):
     workspace=Workspace(agent,execution_enabled=execution_enabled,
         question_resolver=resolver,
         dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'])
-    return manifest,workspace
+    return workspace

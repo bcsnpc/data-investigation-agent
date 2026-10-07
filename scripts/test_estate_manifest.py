@@ -128,6 +128,8 @@ class ManifestAdmissionTests(unittest.TestCase):
             'lineage':{'bindings':[],'inference':{'enabled':False,'code_resources':[]}}}
         helper.config['_estate']['layers']=[{'id':'synthetic','string_semantics':{
             'collation':'BINARY','case_fold':False,'trim':False,'accent_fold':False}}]
+        helper.config['_estate']['provider_terms']={'provider':'synthetic', 'deployment':'synthetic',
+            'endpoint':'https://synthetic.invalid','region':{'status':'DECLARED','name':'test-region','evidence':'owner declaration'}}
         after=agent.payload(state,choices)
         def coverage(payload):
             entries=payload['context_entry_points']

@@ -29,10 +29,22 @@ NORMALIZATION={'oneOf':[
     obj({'status':{'const':'UNDECLARED'},'reason':STRING}),
     obj({'status':{'const':'DECLARED'},'collation':STRING,'trim':BOOL,
          'case_fold':BOOL,'evidence':STRING})]}
+RETENTION_PERIOD={'oneOf':[{'const':'indefinite'},integer(1,36500)]}
+RETENTION=obj({'tape_days':RETENTION_PERIOD,'ledger_days':RETENTION_PERIOD})
+RECORDING={'oneOf':[
+    obj({'tape_class':{'const':'EXACT'}}),
+    obj({'tape_class':{'const':'PRIVACY_PROJECTED'},
+         'version':{'const':'estate-privacy-projection-v1'},'estate_id':STRING,
+         'key_reference':STRING,'columns':array(STRING)})]}
+PROVIDER_REGION={'oneOf':[
+    obj({'status':{'const':'DECLARED'},'name':STRING,'evidence':STRING}),
+    obj({'status':{'const':'UNDECLARED'},'reason':STRING})]}
 SCHEMA=obj({
     'version':{'const':'estate-manifest-v1'},'environment':STRING,
     'lineage_proposer':BOOL,'assistant_proposer':BOOL,
     'storage':obj({'catalog':STRING,'inventory':STRING}),
+    'retention':RETENTION,
+    'recording':RECORDING,
     'adapters':array(obj({'id':STRING,'implementation':STRING,
         'options':{'type':'object'}})),
     'layers':array(obj({'id':STRING,'asset_id':STRING,'role':enum(ROLES),
@@ -61,13 +73,14 @@ SCHEMA=obj({
             ('source_asset_id','key_column_id','version_column_id','modified_column_id','time_semantics')}),{'type':'null'}]}}, optional=('code_sources','code_locations','verification_sample')),
     'capability_ceiling':array(enum(sorted(REQUIRED_CAPABILITIES|OPTIONAL_CAPABILITIES))),
     'model':obj({'provider':STRING,'deployment':STRING,'endpoint':STRING,
+        'region':PROVIDER_REGION,
         'generation_options':obj({'reasoning_effort':enum(('none','low','medium','high')),
             'max_output_tokens':integer(500,16000),'timeout_seconds':integer(10,120),
             'max_payload_characters':integer(8000,128000)}),
         # Provider-owned closed validation belongs to its installed registry,
         # not to the platform-neutral installation contract.
         'credential':{'type':'object'},
-        'max_planner_recoveries':integer(0,1)}),
+        'max_planner_recoveries':integer(0,1)}, optional=('region',)),
     'budgets':obj({'diagnostic_reads_per_run':integer(*DYNAMIC_READ_BOUNDS),
         'binding_verification':obj({'probes_per_binding':{'const':2},'metadata_probes':integer(0,32),
                                    'session_cap':integer(1,2048)}),
@@ -83,7 +96,7 @@ SCHEMA=obj({
     # Evaluator-only declarations; not projected into tools or prompts.
     'fixture_states':array(obj({'id':STRING,'description':STRING,
         'arithmetic':{'type':'string','minLength':1,'maxLength':2000},
-        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer'))
+        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer','retention','recording'))
 
 
 def validate(value):
@@ -92,6 +105,8 @@ def validate(value):
         e=errors[0];raise ValueError('manifest.'+'.'.join(map(str,e.path))+': '+e.message)
     from .generation_policy import validate as generation
     generation(value['model']['generation_options'])
+    from .privacy_projection import declaration as recording_declaration
+    recording_declaration(value.get('recording',{'tape_class':'EXACT'}))
     def indexed(name):
         result={}
         for i,row in enumerate(value[name]):
@@ -165,7 +180,8 @@ def validate(value):
 def load(path):
     # The only configuration read. Credential references name secrets, not
     # other configuration files; no environment/default file participates.
-    return validate(json.loads(Path(path).read_text(encoding='utf-8-sig')))
+    from .provider_tape_contract import parse
+    return validate(parse(Path(path).read_text(encoding='utf-8-sig')))
 
 
 def policy(manifest):

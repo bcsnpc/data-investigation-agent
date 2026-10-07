@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "reason": "synthesis rules tightened per human review, #420",
+  "basis": "ARCHIVED_MECHANISM_ONLY_SUPERSESSION; original responses and tapes retained, not a new investigation or causal grade",
+  "revisions": [
+    {
+      "case_id": "family-A",
+      "source_tape_sha256": "e8221bad4b4fd69c289b7b1db315efa7774d4dc2558313b44421aaf46e266449",
+      "source_provider_event_sha256": "f192566ead94c994dc3509f78b953d5ed135c59551427348bd2edab0c712f59a",
+      "superseded_text": "A left join matches movements with rates by product key, and the retained definition states that matching rows may multiply when key uniqueness is not assumed. That multiplication can repeat movement rows while the additive units quantity remains otherwise unchanged, producing a higher total across the checked boundary.",
+      "response": {
+        "technical_output": {
+          "boundary_evidence_id": "r3",
+          "text": "A left join matches movements with rates by product key, and when key uniqueness is not assumed, matching rows may multiply and repeat movement rows while the additive units quantity remains otherwise unchanged, producing a higher total across the checked boundary.",
+          "evidence_ids": [
+            "r7",
+            "r3"
+          ]
+        }
+      },
+      "revision_tape_sha256": "4ea00b3bec25a574ef1a54e9456913217ba36c49528a9defd708cd3bb8dafd64",
+      "revision_provider_event_sha256": "cf5d7f0cc9bf9fc1f9dd7c3486a05e0408ec2b6a37856b8f709bb082c5e929fc",
+      "revision_tape_member": "archived-mechanism-resynthesis-v1/family-A.tape.json",
+      "accepted_attempt": 2
+    },
+    {
+      "case_id": "family-B",
+      "source_tape_sha256": "3192b553703e989a3755ee1f2262032548bd97016844a55d8a0fc5efd509e676",
+      "source_provider_event_sha256": "b1fac56a28a01a2f889bf7c845f1d8660f4cdf7b304e043a3ec3a469a5fa81e3",
+      "superseded_text": "The recorded investigation reached the Activity measure scope and then stopped after checking the partition source label for that table. The displayed blocker states that the label for the Activity partition source lacked a stable discovered asset binding, so no lower layer quantity for the measure could be compiled under the declared scope.",
+      "response": {
+        "technical_output": {
+          "text": "Checking the partition source label for Activity found no stable discovered asset binding for that label, so no quantity was compiled under the declared scope.",
+          "evidence_ids": [
+            "r0",
+            "r1",
+            "r2"
+          ]
+        }
+      },
+      "revision_tape_sha256": "d7a03c83089fe8995907b205a6e98e54d92971b9d1cce7b9ca732b97fc4539a2",
+      "revision_provider_event_sha256": "047bccfe7e724476ec422369b90677904419140df78f36feabd679b1d8da1d73",
+      "revision_tape_member": "archived-mechanism-resynthesis-v1/family-B.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "family-D",
+      "source_tape_sha256": "174bf3f68642a0f129a74bf24c5c3f4203c2d31e1b4419a2d451d482111787c1",
+      "source_provider_event_sha256": "f8ac03e129c72ea079017843025e621e8fda2305ff1087ea2d5456bc2ad774d7",
+      "superseded_text": "The investigation reproduces the measure within the report layer in three scopes. It matches the measure definition to a warehouse keyed row and to a total row, then evaluates the current warehouse selection for North against the broader total. The warehouse keyed row for North returns a smaller figure, while the total row returns the broader figure, so the visible difference aligns with a warehouse restriction being active in the report context. A separate whole visual read also reproduces the broader figure, showing the same measure is being read across those report scopes.",
+      "response": {
+        "technical_output": {
+          "text": "With warehouse North selected, comparing the warehouse row for Handled Quantity with the total row yields a smaller value for North and the broader value at total, which is consistent with a warehouse restriction in the report context.",
+          "evidence_ids": [
+            "r9",
+            "r10",
+            "r11",
+            "r12",
+            "r13",
+            "r0",
+            "r1",
+            "r3",
+            "r8"
+          ]
+        }
+      },
+      "revision_tape_sha256": "3e34dc75254e1b2e9bd0a991f2c19bbcd9e94442f4094273558efc57f4baa44d",
+      "revision_provider_event_sha256": "226f956cb617a6cf0d72c3cc80f7e9d4c039d1dabd3bec782ad1d3ece97e40d4",
+      "revision_tape_member": "archived-mechanism-resynthesis-v1/family-D.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "family-E",
+      "source_tape_sha256": "dc8094785514652eedcb72c5d2f5980b9746494d0e6ca4021343bbf3f150c26b",
+      "source_provider_event_sha256": "43ec877a6d57e4005a4adeb0c67735492cd0306191c03e71248a436274b2aded",
+      "superseded_text": "A left join matches movement rows with rate rows by product and then derives a value from units and cost. The retained definition states that matching rows may multiply, so the additive quantity can rise across the checked boundary, and the checked comparison above that boundary remains aligned with the intermediate layer.",
+      "response": {
+        "technical_output": {
+          "boundary_evidence_id": "r4",
+          "text": "A left join on product_id between movements and rates might multiply matching movement rows because uniqueness is not assumed, which would raise the additive units total from seven thousand six hundred sixty one to eight thousand seven hundred sixty five.",
+          "evidence_ids": [
+            "r10",
+            "r4",
+            "r3"
+          ]
+        }
+      },
+      "revision_tape_sha256": "ebd8620deb6265d9bd8bab625720c1fd05963be648c4d1a89015813067f44f15",
+      "revision_provider_event_sha256": "0038a81b094d187f9efbe223ed8463e6e9ef0265cb6f6e0331bb8a5bc7686387",
+      "revision_tape_member": "archived-mechanism-resynthesis-v1/family-E.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "family-I",
+      "source_tape_sha256": "79a7b049e2dacc2cdf3dbd7c228fb35f233f182cf48c704423dbff98483b4c79",
+      "source_provider_event_sha256": "480661ab7648eb2351a979acd1f8e39b2f46bb22ae85a45a3b8beeec512c7aa2",
+      "superseded_text": "The retained definition shows a left join from movements to rates on product_id with matching rows allowed to multiply, then carries units into the produced table while also deriving a value column. When more than one rates row matches a movements row, the carried units total can rise in the produced table relative to the source side of the checked boundary.",
+      "response": {
+        "technical_output": {
+          "boundary_evidence_id": "r4",
+          "text": "A left join from movements to rates on product_id carries units through the join, and if more than one rates row matches a movements row, the repeated joined rows raise the summed units in the produced table.",
+          "evidence_ids": [
+            "r7",
+            "r4"
+          ]
+        }
+      },
+      "revision_tape_sha256": "67e5a4651ca23c4aca1b0f7ba7c8ce3cc172a9ddb60a82cf6465e507fb465a5f",
+      "revision_provider_event_sha256": "c84e3d5f97a8057591c05056ebecd4941b54b6b043292ada6a791207cf8d46a9",
+      "revision_tape_member": "archived-mechanism-resynthesis-v1/family-I.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "source-consistent",
+      "source_tape_sha256": "ba217133c534dddcb27b4ff222bcd55877bf3969c8ccfb405a2acbd97318a195",
+      "source_provider_event_sha256": "d9dafc6cac02c25743a050f049f4f0cd0939997ab88c594618be12f978073c85",
+      "superseded_text": "The measure total at L0 (SEMANTIC) matches the total at L1 (LANDING), and the total at L1 (LANDING) matches the total at L2 (APPLICATION). The recorded checks therefore trace the displayed measure through those layers without a change in the counted quantity.",
+      "response": {
+        "technical_output": {
+          "text": "A recorded comparison traces the Movement Units total from L1 (LANDING) to L0 (SEMANTIC) with no change in the counted quantity.",
+          "evidence_ids": [
+            "r6",
+            "r7"
+          ]
+        }
+      },
+      "revision_tape_sha256": "be59d0a17298a4b7edd5a244585d65eb64b5547e7627a09160ecb3d945bc4106",
+      "revision_provider_event_sha256": "2e0f7cade04305abf71f21fa3fc34d6b2d16f54ac34a9fa6e483e007a7acfdf7",
+      "revision_tape_member": "archived-mechanism-resynthesis-v1/source-consistent.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "source-unreachable",
+      "source_tape_sha256": "7137803ae28bcd243c56a7b829c9bf9118e7dbfddefddeb502ecc670d0214aa8",
+      "source_provider_event_sha256": "47d5bb025638ad91a27aed199098017d0429468f4a42d15c08b87dd929b8abc9",
+      "superseded_text": "The displayed measure on L0 (SEMANTIC) was compared with the traced quantity on L1 (LANDING), and the retained comparison records equality between those layers for this measure.",
+      "response": {
+        "technical_output": {
+          "text": "A retained comparison records that Movement Units on L0 (SEMANTIC) equals the traced quantity on L1 (LANDING) for this measure.",
+          "evidence_ids": [
+            "r5"
+          ]
+        }
+      },
+      "revision_tape_sha256": "33029b14c2a3dc8a324a317c5b0366eebf31b3f51a0d282dcf04dbcdce4ad7e6",
+      "revision_provider_event_sha256": "28846decff16d401335fdcde8ef4574433e17c0e31cba9bc6a969c96a0e7b348",
+      "revision_tape_member": "archived-mechanism-resynthesis-v1/source-unreachable.tape.json",
+      "accepted_attempt": 1
+    }
+  ]
+}

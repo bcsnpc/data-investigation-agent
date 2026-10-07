@@ -1,5 +1,6 @@
 {
   "version": "estate-manifest-v1",
+  "recording": {"tape_class": "EXACT"},
   "environment": "hypothetical-lakehouse",
   "storage": {
     "catalog": "state/catalog.sqlite",

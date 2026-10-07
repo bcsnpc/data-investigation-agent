@@ -1,4 +1,5 @@
 """Scoped, definition-backed additive quantity paths for the Microsoft adapter."""
+from ..privacy_identities import text_digest
 import hashlib
 import copy
 from .notebook_quantities import DeclaredQuantities
@@ -16,7 +17,7 @@ def extend(context, layers):
         try:analysis=DeclaredQuantities(code)
         except (ValueError,TypeError,KeyError,IndexError,RecursionError):
             errors.append(part['id']);continue
-        for path,frame in analysis.writes.items():writers.setdefault(path,[]).append((part,frame,hashlib.sha256(code.encode()).hexdigest()))
+        for path,frame in analysis.writes.items():writers.setdefault(path,[]).append((part,frame,text_digest(code)))
     planned=list(layers);seen={l['id'] for l in planned};notes=[]
     column=next((c.get('sourceColumn') for c in planned[-1].get('declared_columns',[])
                  if c.get('name')==planned[-1].get('semantic_column')),None)

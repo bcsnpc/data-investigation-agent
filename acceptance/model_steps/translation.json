@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "step": "translation",
+  "cases": [
+    {
+      "id": "top-n",
+      "kind": "FILTER",
+      "relative": false,
+      "definition": {"form": "TOP_N", "table": "items", "key": "k", "order_by": [{"column": "v", "direction": "DESC"}, {"column": "k", "direction": "ASC"}], "count": 2},
+      "native_sql": "select k from items order by v desc, k asc limit 2"
+    },
+    {
+      "id": "relative-day",
+      "kind": "FILTER",
+      "relative": true,
+      "definition": {"form": "RELATIVE_DAY", "table": "items", "column": "day", "days": 6, "includes_evaluation_day": true, "calendar": "UTC"},
+      "native_sql": "select k from items where day >= '2026-10-01' and day <= '2026-10-06'"
+    },
+    {
+      "id": "all-measure",
+      "kind": "MEASURE",
+      "relative": false,
+      "definition": {"form": "MEASURE", "expression": "CALCULATE(SUM(items[v]), ALL(items[k]))", "table": "items", "removes_restrictions": ["k"]},
+      "native_sql": "select sum(v) from items"
+    }
+  ]
+}

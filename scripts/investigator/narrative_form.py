@@ -19,7 +19,7 @@ def retained_limit(text,all_snapshots_unverified):
 
 def layers(payload,source):
     result={}
-    labels=source.get('technical_output',{}).get('layer_labels',{})
+    labels=source.get('technical_output',{}).get('layer_labels',payload.get('layer_labels',{}))
     def add(identity):
         if identity and identity!='unresolved upstream' and identity not in result:
             label=labels.get(identity,{})
@@ -34,6 +34,10 @@ def layers(payload,source):
         add(row['output']['layer']);add(row['input']['layer'])
     for boundary in source.get('technical_output',{}).get('unverified_boundaries',[]):
         add(boundary['upper_layer']);add(boundary['lower_layer'])
+    # Labels come from the resolved path, not the estate-wide directory. A held
+    # or within-layer-only run must not lose its roles just because it has no
+    # independently compared boundary. Presence here never certifies a read.
+    for identity in sorted(labels):add(identity)
     # A missing/nonunique human label never makes distinct objects look identical.
     for item in result.values():
         if sum(other['name']==item['name'] for other in result.values())>1:
@@ -129,7 +133,7 @@ def technical(commentary,payload,source,recommended):
     facts=path_narrative.facts(payload)
     measure=payload.get('scope',{}).get('measure_name') or payload.get('scope',{}).get('measure_id') or 'unnamed measure'
     # Put the actual finding first. Identifiers have one dedicated legend below.
-    finding=['Measure: '+measure+'.']
+    finding=['Measure: '+measure+'.',path_narrative.render_roles(payload,source)]
     from .selection_descriptor import render as render_descriptor
     for entry in payload.get('evidence',[]):
         hint=entry.get('result',{}).get('descriptor_hint')

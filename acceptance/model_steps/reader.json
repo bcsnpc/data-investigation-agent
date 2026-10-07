@@ -1,0 +1,448 @@
+{
+  "version": 1,
+  "step": "reader",
+  "cases": [
+    {
+      "id": "r6-plain-scan",
+      "origin": "ROUND_SIX_SYNTHETIC",
+      "code": "a=spark.table('input')\na.write.format('delta').mode('overwrite').save('output-table')\n",
+      "schemas": {
+        "input": {
+          "amount": "int"
+        }
+      },
+      "target_table": "output-table",
+      "expected_bindings": [
+        {
+          "boundary": {
+            "from_layer": "input",
+            "to_layer": "output"
+          },
+          "sources": [
+            {
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            }
+          ],
+          "target": {
+            "table": "output-table",
+            "column": "amount"
+          },
+          "expression": {
+            "relation": {
+              "kind": "SCAN",
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            },
+            "column": "amount"
+          },
+          "location": {
+            "item": "code-item",
+            "path": "unit.py",
+            "cell": "0",
+            "line_start": 2,
+            "line_end": 2,
+            "content_hash": "844ba6f5d495f625fb5bdb68c579a748a77613f657da026244c7023edac8f9d6"
+          },
+          "extractor": "STATIC"
+        }
+      ],
+      "should_refuse": false,
+      "reason": "Binding authored directly from code, before verification; no rows or query values supplied."
+    },
+    {
+      "id": "r6-selection",
+      "origin": "ROUND_SIX_SYNTHETIC",
+      "code": "a=spark.table('input')\na.select('amount').write.format('delta').mode('overwrite').save('output-table')\n",
+      "schemas": {
+        "input": {
+          "amount": "int"
+        }
+      },
+      "target_table": "output-table",
+      "expected_bindings": [
+        {
+          "boundary": {
+            "from_layer": "input",
+            "to_layer": "output"
+          },
+          "sources": [
+            {
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            }
+          ],
+          "target": {
+            "table": "output-table",
+            "column": "amount"
+          },
+          "expression": {
+            "relation": {
+              "kind": "PROJECT",
+              "input": {
+                "kind": "SCAN",
+                "table": "input",
+                "columns": [
+                  "amount"
+                ]
+              },
+              "columns": [
+                {
+                  "name": "amount",
+                  "expression": {
+                    "kind": "COLUMN",
+                    "name": "amount"
+                  }
+                }
+              ]
+            },
+            "column": "amount"
+          },
+          "location": {
+            "item": "code-item",
+            "path": "unit.py",
+            "cell": "0",
+            "line_start": 2,
+            "line_end": 2,
+            "content_hash": "ca51d5263c9e951248e2c9ffce7ed4412d728dd4c4b3cb42ae83a19dda9b3093"
+          },
+          "extractor": "STATIC"
+        }
+      ],
+      "should_refuse": false,
+      "reason": "Binding authored directly from code, before verification; no rows or query values supplied."
+    },
+    {
+      "id": "r6-unresolved-name",
+      "origin": "ROUND_SIX_SYNTHETIC",
+      "code": "a=spark.table(dynamic_name())\na.write.format('delta').mode('overwrite').save('output-table')\n",
+      "schemas": {
+        "input": {
+          "amount": "int"
+        }
+      },
+      "target_table": "output-table",
+      "expected_bindings": [],
+      "should_refuse": true,
+      "reason": "Required implementation or dynamic name is not supplied; no guessed binding."
+    },
+    {
+      "id": "dynamic-concatenation",
+      "origin": "ROUND_NINE_AUTHORED",
+      "code": "prefix='in'\nsuffix='put'\na=spark.table(prefix + suffix)\na.write.format('delta').mode('overwrite').save('output-table')\n",
+      "schemas": {
+        "input": {
+          "amount": "int"
+        }
+      },
+      "target_table": "output-table",
+      "expected_bindings": [
+        {
+          "boundary": {
+            "from_layer": "input",
+            "to_layer": "output"
+          },
+          "sources": [
+            {
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            }
+          ],
+          "target": {
+            "table": "output-table",
+            "column": "amount"
+          },
+          "expression": {
+            "relation": {
+              "kind": "SCAN",
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            },
+            "column": "amount"
+          },
+          "location": {
+            "item": "code-item",
+            "path": "unit.py",
+            "cell": "0",
+            "line_start": 4,
+            "line_end": 4,
+            "content_hash": "b727201fa0e72f50173956aff2f38ff9d16eeccdba46c6b42fe77caa7b35cc98"
+          },
+          "extractor": "STATIC"
+        }
+      ],
+      "should_refuse": false,
+      "reason": "Binding authored directly from code, before verification; no rows or query values supplied."
+    },
+    {
+      "id": "dynamic-dictionary",
+      "origin": "ROUND_NINE_AUTHORED",
+      "code": "tables={'landing':'input'}\na=spark.table(tables['landing'])\na.write.format('delta').mode('overwrite').save('output-table')\n",
+      "schemas": {
+        "input": {
+          "amount": "int"
+        }
+      },
+      "target_table": "output-table",
+      "expected_bindings": [
+        {
+          "boundary": {
+            "from_layer": "input",
+            "to_layer": "output"
+          },
+          "sources": [
+            {
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            }
+          ],
+          "target": {
+            "table": "output-table",
+            "column": "amount"
+          },
+          "expression": {
+            "relation": {
+              "kind": "SCAN",
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            },
+            "column": "amount"
+          },
+          "location": {
+            "item": "code-item",
+            "path": "unit.py",
+            "cell": "0",
+            "line_start": 3,
+            "line_end": 3,
+            "content_hash": "ee6c55c9239e25512007f7d14c409645bf6645402a28ea2bd7ced37a1c326161"
+          },
+          "extractor": "STATIC"
+        }
+      ],
+      "should_refuse": false,
+      "reason": "Binding authored directly from code, before verification; no rows or query values supplied."
+    },
+    {
+      "id": "dynamic-function",
+      "origin": "ROUND_NINE_AUTHORED",
+      "code": "def table_name():\n    return 'input'\na=spark.table(table_name())\na.write.format('delta').mode('overwrite').save('output-table')\n",
+      "schemas": {
+        "input": {
+          "amount": "int"
+        }
+      },
+      "target_table": "output-table",
+      "expected_bindings": [
+        {
+          "boundary": {
+            "from_layer": "input",
+            "to_layer": "output"
+          },
+          "sources": [
+            {
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            }
+          ],
+          "target": {
+            "table": "output-table",
+            "column": "amount"
+          },
+          "expression": {
+            "relation": {
+              "kind": "SCAN",
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            },
+            "column": "amount"
+          },
+          "location": {
+            "item": "code-item",
+            "path": "unit.py",
+            "cell": "0",
+            "line_start": 4,
+            "line_end": 4,
+            "content_hash": "c85469c25f42f04dc4f630ff8ad98667fd730433a37df06ec14fff050276f3d0"
+          },
+          "extractor": "STATIC"
+        }
+      ],
+      "should_refuse": false,
+      "reason": "Binding authored directly from code, before verification; no rows or query values supplied."
+    },
+    {
+      "id": "udf-double-null-propagation",
+      "origin": "ROUND_NINE_AUTHORED",
+      "code": "from pyspark.sql import functions as F\nfrom pyspark.sql.types import IntegerType\ndef double(v):\n    return None if v is None else v * 2\nf=F.udf(double, IntegerType())\na=spark.table('input')\na.select(f(F.col('amount')).alias('value')).write.format('delta').mode('overwrite').save('output-table')\n",
+      "schemas": {
+        "input": {
+          "amount": "int"
+        }
+      },
+      "target_table": "output-table",
+      "expected_bindings": [
+        {
+          "boundary": {
+            "from_layer": "input",
+            "to_layer": "output"
+          },
+          "sources": [
+            {
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            }
+          ],
+          "target": {
+            "table": "output-table",
+            "column": "value"
+          },
+          "expression": {
+            "relation": {
+              "kind": "PROJECT",
+              "input": {
+                "kind": "SCAN",
+                "table": "input",
+                "columns": [
+                  "amount"
+                ]
+              },
+              "columns": [
+                {
+                  "name": "value",
+                  "expression": {
+                    "kind": "MULTIPLY",
+                    "left": {
+                      "kind": "COLUMN",
+                      "name": "amount"
+                    },
+                    "right": {
+                      "kind": "LITERAL",
+                      "value": 2
+                    }
+                  }
+                }
+              ]
+            },
+            "column": "value"
+          },
+          "location": {
+            "item": "code-item",
+            "path": "unit.py",
+            "cell": "0",
+            "line_start": 7,
+            "line_end": 7,
+            "content_hash": "d78b8c1d7a698d6a03931ea804d49816c45433966412d7b74b145f1d2b8121b1"
+          },
+          "extractor": "STATIC"
+        }
+      ],
+      "should_refuse": false,
+      "reason": "Binding authored directly from code, before verification; no rows or query values supplied."
+    },
+    {
+      "id": "udf-add-null-propagation",
+      "origin": "ROUND_NINE_AUTHORED",
+      "code": "from pyspark.sql import functions as F\nfrom pyspark.sql.types import IntegerType\ndef increment(v):\n    return None if v is None else v + 1\nf=F.udf(increment, IntegerType())\na=spark.table('input')\na.select(f(F.col('amount')).alias('value')).write.format('delta').mode('overwrite').save('output-table')\n",
+      "schemas": {
+        "input": {
+          "amount": "int"
+        }
+      },
+      "target_table": "output-table",
+      "expected_bindings": [
+        {
+          "boundary": {
+            "from_layer": "input",
+            "to_layer": "output"
+          },
+          "sources": [
+            {
+              "table": "input",
+              "columns": [
+                "amount"
+              ]
+            }
+          ],
+          "target": {
+            "table": "output-table",
+            "column": "value"
+          },
+          "expression": {
+            "relation": {
+              "kind": "PROJECT",
+              "input": {
+                "kind": "SCAN",
+                "table": "input",
+                "columns": [
+                  "amount"
+                ]
+              },
+              "columns": [
+                {
+                  "name": "value",
+                  "expression": {
+                    "kind": "ADD",
+                    "left": {
+                      "kind": "COLUMN",
+                      "name": "amount"
+                    },
+                    "right": {
+                      "kind": "LITERAL",
+                      "value": 1
+                    }
+                  }
+                }
+              ]
+            },
+            "column": "value"
+          },
+          "location": {
+            "item": "code-item",
+            "path": "unit.py",
+            "cell": "0",
+            "line_start": 7,
+            "line_end": 7,
+            "content_hash": "3f0cc9c85225819b5b77e40442baf563db4dc49544e1c8fcc5345e18e0316186"
+          },
+          "extractor": "STATIC"
+        }
+      ],
+      "should_refuse": false,
+      "reason": "Binding authored directly from code, before verification; no rows or query values supplied."
+    },
+    {
+      "id": "udf-missing-implementation",
+      "origin": "ROUND_NINE_AUTHORED",
+      "code": "from organisation_rules import transform\nfrom pyspark.sql import functions as F\nf=F.udf(transform)\na=spark.table('input')\na.select(f(F.col('amount')).alias('value')).write.format('delta').mode('overwrite').save('output-table')\n",
+      "schemas": {
+        "input": {
+          "amount": "int"
+        }
+      },
+      "target_table": "output-table",
+      "expected_bindings": [],
+      "should_refuse": true,
+      "reason": "Required implementation or dynamic name is not supplied; no guessed binding."
+    }
+  ]
+}

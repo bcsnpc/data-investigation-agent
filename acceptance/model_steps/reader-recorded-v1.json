@@ -1,0 +1,137 @@
+[
+  {
+    "case_id": "r6-plain-scan",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": false,
+    "provider_error": {
+      "error_type": "BadRequestError",
+      "cause_types": []
+    },
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": null,
+    "verification_performed": false
+  },
+  {
+    "case_id": "r6-selection",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": false,
+    "provider_error": {
+      "error_type": "BadRequestError",
+      "cause_types": []
+    },
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": null,
+    "verification_performed": false
+  },
+  {
+    "case_id": "r6-unresolved-name",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": false,
+    "provider_error": {
+      "error_type": "BadRequestError",
+      "cause_types": []
+    },
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": null,
+    "verification_performed": false
+  },
+  {
+    "case_id": "dynamic-concatenation",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": false,
+    "provider_error": {
+      "error_type": "BadRequestError",
+      "cause_types": []
+    },
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": null,
+    "verification_performed": false
+  },
+  {
+    "case_id": "dynamic-dictionary",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": false,
+    "provider_error": {
+      "error_type": "BadRequestError",
+      "cause_types": []
+    },
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": null,
+    "verification_performed": false
+  },
+  {
+    "case_id": "dynamic-function",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": false,
+    "provider_error": {
+      "error_type": "BadRequestError",
+      "cause_types": []
+    },
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": null,
+    "verification_performed": false
+  },
+  {
+    "case_id": "udf-double-null-propagation",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": false,
+    "provider_error": {
+      "error_type": "BadRequestError",
+      "cause_types": []
+    },
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": null,
+    "verification_performed": false
+  },
+  {
+    "case_id": "udf-add-null-propagation",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": false,
+    "provider_error": {
+      "error_type": "BadRequestError",
+      "cause_types": []
+    },
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": null,
+    "verification_performed": false
+  },
+  {
+    "case_id": "udf-missing-implementation",
+    "model_version": "investigator-quality-54",
+    "proposals": [],
+    "semantic_refusal": false,
+    "provider_error": {
+      "error_type": "BadRequestError",
+      "cause_types": []
+    },
+    "validation_error": null,
+    "budget_hold": false,
+    "model_calls": 1,
+    "provider_metadata": null,
+    "verification_performed": false
+  }
+]

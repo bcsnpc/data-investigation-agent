@@ -16,6 +16,7 @@ from .adaptive_candidates import catalog
 from .adaptive_projection import read as project
 from .filter_scope import catalog as filter_catalog
 from .runtime import fingerprint
+from .process_stages import label as stage_label
 
 LIMITS = {'cloud_calls': 6, 'planner_calls': 6, 'wall_seconds': 900,
           'input_characters': 80000, 'max_depth': 3}
@@ -248,6 +249,11 @@ class Workspace:
         facts = []
         for fact in technical['outcome']['facts']:
             if fact['tool']=='context':continue
+            if fact['tool']=='process':
+                # Process receipts are not native metric facts. Preserve their
+                # typed evidence rather than interpreting absent metric fields.
+                facts.append({'id':fact['id'],'kind':'process','evidence':fact})
+                continue
             facts.append({'id': fact['id'], 'metric': labels.get(fact['measure_id'], 'Related metric'),
                           'origin': 'Report' if fact['tool'].startswith('native') or fact['tool']=='bounded_dax' else 'Connected records',
                           **({'calculation_context':[labels.get(m,'Related metric') for m in fact['dependency_context']['path']]}
@@ -278,9 +284,14 @@ class Workspace:
                 'scope_hash': technical['scope_hash'], 'context_hash': technical['context_hash'],
                 'outcome_hash': technical['outcome_hash'], 'summary': summary, 'question': technical['question'],
                 'facts': facts, 'scope': preview['envelope'], 'columns': preview['columns'], 'predecessor': preview['predecessor'],
-                'activity': [{'label': PHASES.get(e['kind'], 'Investigation updated'), **e} for e in technical['activity']],
+                'activity': [{'label': stage_label(e) or PHASES.get(e['kind'], 'Investigation updated'), **e} for e in technical['activity']],
                 'cause_verified': technical['outcome']['cause_verified'], 'delivery_eligible': technical['outcome']['delivery_eligible'],
-                'intake': preview.get('intake'), 'technical': technical}
+                'intake': preview.get('intake'), 'technical': technical,
+                'bindings': self.binding_ledger()}
+
+    def binding_ledger(self):
+        from .binding_view import read
+        return read(self.agent.process_lineage)
 
     def cancel(self, identity):
         self.session(identity)

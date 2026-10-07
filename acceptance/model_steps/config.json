@@ -1,0 +1,34 @@
+{
+  "thresholds": "acceptance/model_steps/thresholds.json",
+  "human_reviews": "acceptance/model_steps/synthesis-human-review.json",
+  "steps": [
+    {
+      "step": "intake",
+      "model_version": "investigator-quality-54",
+      "golden": "acceptance/model_steps/intake.json",
+      "records": "acceptance/model_steps/intake-recorded-v1.json",
+      "baseline": "acceptance/model_steps/scores/intake-20261006-v1.json"
+    },
+    {
+      "step": "reader",
+      "model_version": "investigator-quality-54",
+      "golden": "acceptance/model_steps/reader.json",
+      "records": "acceptance/model_steps/reader-recorded-v2.json",
+      "baseline": "acceptance/model_steps/scores/reader-20261006-v2.json"
+    },
+    {
+      "step": "synthesis",
+      "model_version": "investigator-quality-54",
+      "records": "acceptance/model_steps/synthesis-recorded.json",
+      "baseline": "acceptance/model_steps/scores/synthesis-20261006-v1.json",
+      "revisions": "acceptance/model_steps/synthesis-revisions-420.json"
+    },
+    {
+      "step": "translation",
+      "model_version": "investigator-quality-54",
+      "golden": "acceptance/model_steps/translation-v2.json",
+      "records": "acceptance/model_steps/translation-recorded-v4.json",
+      "baseline": "acceptance/model_steps/scores/translation-20261006-v4.json"
+    }
+  ]
+}

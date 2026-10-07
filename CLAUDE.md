@@ -612,6 +612,17 @@ reserve60, rolling386/1500. See docs/round-six-transformation-reader.md.
 
 ### Dated platform proposer limits — 2026-10-06
 
+Dated privacy replay decision, 2026-10-07: the human approved a separate
+PRIVACY_PROJECTED tape class, capture-time projection with no raw disk writes,
+an estate-keyed secret-store key, and exact matching after projection under that
+same key. An estate declares one class, never a mixture; existing gate tapes
+remain EXACT. A changed sensitive-column list requires re-recording, never
+re-projecting historical evidence. The keyed codec is tested synthetically;
+installation capture is not yet wired across raw database backups, sidecars and
+output stores, so projected installation execution refuses. Do not advertise
+it as a delivered control or fall back to raw recording. No key or grant was
+created in this checkpoint. See docs/round-nine-redaction-contract-audit.md.
+
 Round Eight's investigator-reader item-relations beta request returned HTTP200,
 but emitted undocumented relation `Association` and native item types Model /
 SqlAnalyticsEndpoint. The adapter refused the unknown kind; graph checks are not

@@ -1,0 +1,364 @@
+import copy
+import sqlite3
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import Mock
+from investigator import translation_proposer as t
+from investigator.process_debugging import attest_surface
+from investigator.verification_budget import VerificationBudget
+from investigator.onboarding import digest
+
+
+def case(kind='FILTER', relative=False):
+    definition = {'form': 'relative-window' if relative else 'top-ranked'} if kind == 'FILTER' else {'form': 'remove-restriction'}
+    cells = []
+    for i in range(4):
+        c = {'measure_id': 'm', 'target_id': 'v', 'mode': 'KEYED', 'grouping_columns': ['k'],
+             'key_restrictions': [{'field_id': 'k', 'operator': 'IN', 'values': [str(i)]}]}
+        c['id'] = digest(c); cells.append(c)
+    request = {'kind': kind, 'definition': definition, 'definition_hash': t.seal(definition),
+               'target_engine': 'sqlite', 'grouping': [], 'relative': relative,
+               'evaluation_timestamp': '2026-10-06T15:00:00-05:00' if relative else None,
+               'context': 'synthetic', 'available_cells': cells, 'precision': {'state': 'EXACT'},
+               'scope': {'restrictions': []},
+               'metadata': {'objects': {'items': 'TABLE'}, 'normalization': {'encoding': 'typed-json-utf8', 'case_fold': False, 'trim': False}}}
+    proposal = {k: copy.deepcopy(request[k]) for k in ('kind', 'definition_hash', 'target_engine', 'grouping', 'evaluation_timestamp')}
+    proposal.update(objects=[{'id': 'items', 'kind': 'TABLE'}], expression='k in (2,3)' if not relative else "day >= '2026-10-01' and day <= '2026-10-06'")
+    if kind == 'MEASURE': proposal['expression'] = 'sum(v)'
+    return request, proposal
+
+
+class TranslationTests(unittest.TestCase):
+    def run_case(self, kind='FILTER', *, relative=False, wrong=False, mutate=None, cross=False, cells=None, extension=False):
+        request, proposal = case(kind, relative)
+        self.request = request; self.proposal = proposal; self.events = []
+        db = sqlite3.connect(':memory:')
+        self.addCleanup(db.close)
+        db.execute('create table items(k integer, v integer, day text)')
+        db.executemany('insert into items values(?,?,?)', [(1, 10, '2026-09-30'), (2, 40, '2026-10-01'), (3, 30, '2026-10-06'), (4, 20, '2026-10-07')])
+        if wrong: proposal['expression'] = 'k in (1,2)' if kind == 'FILTER' else 'sum(v)+1'
+        if relative and wrong: proposal['expression'] = "day >= '2026-10-02'"
+        def compile(proposal, side, request, address):
+            # This fixture compiler has no network/estate route. Native queries
+            # are independently authored, not copied from proposed expressions.
+            if kind == 'FILTER':
+                native = "select k from items where day >= '2026-10-01' and day <= '2026-10-06'" if relative else 'select k from items order by v desc, k asc limit 2'
+                query = native if side == 'NATIVE' else 'select k from items where ' + proposal['expression']
+            else:
+                native = 'select sum(v) from items'  # ALL removes the keyed restriction.
+                query = native if side == 'NATIVE' else 'select ' + proposal['expression'] + ' from items'
+            return {'query': query, 'address': address}
+        def execute(side, plan):
+            self.events.append(side)
+            surface = {'engine': 'sqlite', 'connection': 'test', 'object': side if cross else 'items', 'identity': 'synthetic-reader'}
+            evidence = {'id': 'receipt-' + str(len(self.events)), 'context_id': request['context'],
+                        'read_address': plan['address'], 'execution_surface': surface, 'surface_report': surface,
+                        'surface_report_binding': 'VALUE_QUERY', 'surface_report_types': {'engine': 'ENGINE_PRODUCT', 'object': 'DATABASE'}}
+            evidence['surface_report_receipt_id'] = evidence['id']
+            evidence['surface_attestation'] = attest_surface(surface, surface, tuple(surface))
+            rows = db.execute(plan['query']).fetchall()
+            o = {'status': 'COMPLETED', 'evidence': evidence}
+            if kind == 'FILTER': o.update(keys=[list(r) for r in rows], complete=True, normalization=request['metadata']['normalization'])
+            else: o['quantity'] = {'state': 'NUMBER', 'value': str(rows[0][0])}
+            evidence['translation_result'] = copy.deepcopy({k: o[k] for k in ('quantity', 'keys', 'complete', 'normalization') if k in o})
+            if mutate: mutate(o, side)
+            return o
+        selected = cells if cells is not None else (request['available_cells'][:3] if kind == 'MEASURE' else [None])
+        self.compiler = compile; self.execute = execute
+        self.budget_events = []
+        self.budget = VerificationBudget({'binding_verification': {'metadata_probes': 0}}, 3, record=self.budget_events.append)
+        return t.verify(proposal, request, cells=selected, compiler=compile, execute=execute, budget=self.budget, cross_boundary=cross, extension=extension)
+
+    def test_top_n_matches_independently_evaluated_native_keys(self):
+        r = self.run_case(); self.assertEqual(r['status'], 'VERIFIED')
+        self.assertEqual(r['key_sets'][0][0]['count'], 2); self.assertEqual(self.budget.count, 2)
+
+    def test_relative_date_pinned_in_every_probe_address(self):
+        r = self.run_case(relative=True); self.assertEqual(r['status'], 'VERIFIED')
+        for o in r['observations']: self.assertEqual(o['evidence']['read_address']['evaluation_timestamp'], self.request['evaluation_timestamp'])
+
+    def test_all_like_measure_verifies_three_distinct_cell_addresses(self):
+        r = self.run_case('MEASURE', cross=True)
+        self.assertEqual(r['status'], 'VERIFIED'); self.assertEqual(len(r['cells']), 3)
+        self.assertEqual(self.budget.count, 6); self.assertEqual(r['snapshot_status'], 'SNAPSHOT_UNVERIFIED')
+
+    def test_deliberately_wrong_top_n_relative_date_and_measure_falsify(self):
+        for kind, relative in [('FILTER', False), ('FILTER', True), ('MEASURE', False)]:
+            with self.subTest(kind=kind, relative=relative):
+                r = self.run_case(kind, relative=relative, wrong=True, cross=kind == 'MEASURE')
+                self.assertEqual(r['status'], 'FALSIFIED'); self.assertEqual(len(r['observations']), 2)
+
+    def test_undiscovered_object_rejected_before_compiler_or_reads(self):
+        request, p = case(); p['objects'][0]['id'] = 'other'; compiler = Mock(); execute = Mock()
+        with self.assertRaisesRegex(ValueError, 'absent from metadata'):
+            t.verify(p, request, cells=[None], compiler=compiler, execute=execute, budget=Mock())
+        compiler.assert_not_called(); execute.assert_not_called()
+
+    def test_model_cannot_emit_verdict_or_omit_grouping(self):
+        request, p = case()
+        for bad in [{**p, 'status': 'VERIFIED'}, {k: v for k, v in p.items() if k != 'grouping'}]:
+            with self.assertRaises(Exception): t.validate(bad, request)
+
+    def test_relative_time_cannot_be_changed_or_naive(self):
+        request, p = case(relative=True)
+        p['evaluation_timestamp'] = '2026-10-07T15:00:00-05:00'
+        with self.assertRaisesRegex(ValueError, 'timestamp differs'): t.validate(p, request)
+        p['evaluation_timestamp'] = request['evaluation_timestamp'] = '2026-10-06T15:00:00'
+        with self.assertRaisesRegex(ValueError, 'timezone'): t.validate(p, request)
+
+    def test_complete_normalized_set_required_not_aggregate_count_alone(self):
+        for mutation in [lambda o, s: o.update(complete=False), lambda o, s: o.update(normalization={'other': True})]:
+            self.assertEqual(self.run_case(mutate=mutation)['status'], 'UNVERIFIED')
+        self.assertNotEqual(t.key_fingerprint([[1], [2]], {'encoding': 'typed'}), t.key_fingerprint([[3], [4]], {'encoding': 'typed'}))
+
+    def test_binary_fingerprint_preserves_type_order_and_tuple_boundaries(self):
+        norm = {'encoding': 'typed'}
+        self.assertEqual(t.key_fingerprint([[1], [2]], norm), t.key_fingerprint([[2], [1]], norm))
+        self.assertNotEqual(t.key_fingerprint([[1]], norm), t.key_fingerprint([['1']], norm))
+        self.assertNotEqual(t.key_fingerprint([['ab', 'c']], norm), t.key_fingerprint([['a', 'bc']], norm))
+        with self.assertRaises(ValueError): t.key_fingerprint([[1], [1]], norm)
+
+    def test_tampered_attestation_context_or_address_never_verifies(self):
+        for field in ('context_id', 'read_address', 'surface_attestation', 'surface_report_binding'):
+            def mutation(o, side, field=field): o['evidence'][field] = 'tampered'
+            # malformed evidence is a refusal, never a successful witness
+            r = self.run_case(mutate=mutation); self.assertEqual(r['status'], 'UNVERIFIED')
+        def bad_inventory(o, side): o['evidence']['surface_attestation']['required_fields'] = 1
+        self.assertEqual(self.run_case(mutate=bad_inventory)['status'], 'UNVERIFIED')
+
+    def test_distinct_measure_cell_without_retained_address_refuses(self):
+        request, p = case('MEASURE'); cells = request['available_cells'][:2]
+        with self.assertRaisesRegex(ValueError, 'three bounded cells'):
+            t.verify(p, request, cells=cells, compiler=Mock(), execute=Mock(), budget=Mock(), cross_boundary=True)
+
+    def test_cross_boundary_filters_need_verified_key_binding(self):
+        r = self.run_case(cross=True); self.assertEqual(r['status'], 'UNVERIFIED')
+        self.assertIn('verified binding', r['reason'])
+        self.assertEqual(self.events, []); self.assertEqual(self.budget.count, 0)
+
+    def binding(self, request, *, wrong=False):
+        request['metadata']['objects'].update({'native.k': 'COLUMN', 'proposed.k': 'COLUMN'})
+        declaration = {'context': request['context'], 'scope_hash': t.seal(request['scope']),
+            'provenance': 'DECLARED_BY_CONFIGURATION', 'evidence_id': 'synthetic-key-declaration',
+            'normalization': request['metadata']['normalization'],
+            'columns': [{'native': 'native.k', 'proposed': 'proposed.k'}],
+            'definition_hashes': {'native': t.seal('native definition'), 'proposed': t.seal('proposed definition')}}
+        observations = []
+        for side in ('NATIVE', 'PROPOSED'):
+            surface = {'engine': 'sqlite', 'connection': 'test', 'object': side, 'identity': 'synthetic-reader'}
+            evidence = {'id': 'binding-' + side, 'context_id': request['context'],
+                'read_address': {'kind': 'KEY_BINDING', 'declaration_hash': t.seal(declaration)},
+                'execution_surface': surface, 'surface_report': surface,
+                'surface_report_types': {'engine': 'ENGINE_PRODUCT', 'object': 'DATABASE'},
+                'surface_report_binding': 'VALUE_QUERY', 'surface_report_receipt_id': 'binding-' + side,
+                'surface_attestation': attest_surface(surface, surface, tuple(surface))}
+            payload = {'keys': [[1], [2], [3], [5 if wrong and side == 'PROPOSED' else 4]],
+                       'complete': True, 'normalization': declaration['normalization']}
+            evidence['translation_result'] = copy.deepcopy(payload)
+            observations.append({'status': 'COMPLETED', 'evidence': evidence, **payload})
+        return t.verify_key_binding(declaration, observations)
+
+    def test_cross_boundary_filter_verifies_only_with_original_complete_key_binding(self):
+        self.run_case(cross=True)
+        proof = self.binding(self.request)
+        self.request['metadata'].update(key_binding=proof, key_definition_hashes=proof['declaration']['definition_hashes'])
+        r = t.verify(self.proposal, self.request, cells=[None], compiler=self.compiler,
+                     execute=self.execute, budget=self.budget, cross_boundary=True)
+        self.assertEqual(r['status'], 'VERIFIED'); self.assertEqual(self.budget.count, 2)
+        self.assertEqual(t.revalidate(r), r)
+
+    def test_falsified_stale_or_tampered_key_binding_refuses_before_any_probe(self):
+        for problem in ('wrong', 'stale', 'tampered'):
+            with self.subTest(problem=problem):
+                request, proposal = case(); proof = self.binding(request, wrong=problem == 'wrong')
+                request['metadata'].update(key_binding=proof, key_definition_hashes=copy.deepcopy(proof['declaration']['definition_hashes']))
+                if problem == 'stale': request['metadata']['key_definition_hashes']['native'] = t.seal('changed')
+                if problem == 'tampered': proof['status'] = 'FALSIFIED'
+                execute = Mock(); budget = Mock()
+                r = t.verify(proposal, request, cells=[None], compiler=Mock(), execute=execute, budget=budget, cross_boundary=True)
+                self.assertEqual(r['status'], 'UNVERIFIED'); execute.assert_not_called(); budget.read.assert_not_called()
+
+    def test_quantity_lineage_receipt_cannot_stand_in_for_key_binding(self):
+        request, proposal = case(); request['metadata']['key_binding'] = {'status': 'VERIFIED', 'quantity': 80}
+        r = t.verify(proposal, request, cells=[None], compiler=Mock(), execute=Mock(), budget=Mock(), cross_boundary=True)
+        self.assertEqual(r['status'], 'UNVERIFIED'); self.assertEqual(r['observations'], [])
+
+    def test_equal_subset_outside_verified_key_universe_remains_unverified(self):
+        self.run_case(cross=True)
+        proof = self.binding(self.request)
+        self.request['metadata'].update(key_binding=proof, key_definition_hashes=proof['declaration']['definition_hashes'])
+        def execute(side, plan):
+            observation = self.execute(side, plan)
+            observation['keys'] = [[99]]
+            observation['evidence']['translation_result']['keys'] = [[99]]
+            return observation
+        r = t.verify(self.proposal, self.request, cells=[None], compiler=self.compiler,
+                     execute=execute, budget=self.budget, cross_boundary=True)
+        self.assertEqual(r['status'], 'UNVERIFIED'); self.assertIn('universe', r['reason'])
+
+    def test_ledger_cache_is_scope_and_cell_specific_and_marks_changes_stale(self):
+        r = self.run_case('MEASURE', cross=True)
+        with tempfile.TemporaryDirectory() as d:
+            ledger = t.Ledger(Path(d)/'translations.jsonl'); ledger.append(r)
+            self.assertIsNotNone(ledger.reusable(self.request, self.request['available_cells'][0]))
+            self.assertIsNone(ledger.reusable(self.request, self.request['available_cells'][3]))
+            changed = copy.deepcopy(self.request); changed['context'] = 'new'
+            self.assertEqual(ledger.view(changed)[0]['status'], 'STALE')
+            original = ledger.path.read_bytes()
+            ledger.view(changed); self.assertEqual(ledger.path.read_bytes(), original)
+
+    def test_mechanism_uses_metered_provider_contract(self):
+        request, p = case(); proposer = Mock(); proposer.propose.return_value = p
+        meter = Mock(side_effect=lambda request, execute: execute())
+        self.assertEqual(t.propose(request, proposer, meter), p)
+        meter.assert_called_once(); self.assertEqual(proposer.propose.call_args.args[1], t.SCHEMA)
+
+    def test_extension_reuses_original_native_cell_and_charges_one_probe(self):
+        r = self.run_case('MEASURE', cross=True)
+        cell = self.request['available_cells'][3]
+        baseline = copy.deepcopy(r['observations'][0])
+        baseline['evidence']['read_address'] = {'kind': 'CELL', 'cell': cell}
+        budget = VerificationBudget({'binding_verification': {'metadata_probes': 0}}, 1, record=lambda e: None)
+        extended = t.verify(self.proposal, self.request, cells=[cell], compiler=self.compiler, execute=self.execute,
+                            budget=budget, cross_boundary=True, extension=True, native_observation=baseline)
+        self.assertEqual(extended['status'], 'VERIFIED'); self.assertEqual(budget.count, 1)
+        self.assertEqual(t.revalidate(extended), extended)
+
+    def test_failed_or_unaddressed_extension_baseline_cannot_be_rebound(self):
+        r = self.run_case('MEASURE', cross=True)
+        cell = self.request['available_cells'][3]
+        budget = VerificationBudget({'binding_verification': {'metadata_probes': 0}}, 1, record=lambda e: None)
+        bad = t.verify(self.proposal, self.request, cells=[cell], compiler=self.compiler, execute=self.execute,
+                       budget=budget, cross_boundary=True, extension=True, native_observation=r['observations'][0])
+        self.assertEqual(bad['status'], 'UNVERIFIED'); self.assertEqual(budget.count, 0)
+
+    def test_budget_hold_retains_failed_verification_not_a_clean_verdict(self):
+        from investigator.lineage_binding import VerificationHold
+        self.run_case()
+        budget = VerificationBudget({'binding_verification': {'metadata_probes': 0, 'session_cap': 1}}, 1, record=lambda e: None)
+        with self.assertRaises(VerificationHold) as raised:
+            t.verify(self.proposal, self.request, cells=[None], compiler=self.compiler, execute=self.execute, budget=budget)
+        self.assertEqual(len(raised.exception.verification['observations']), 1)
+        self.assertEqual(raised.exception.verification['status'], 'UNVERIFIED')
+
+    def test_producer_cannot_replace_receipted_keys_with_an_equal_set(self):
+        r = self.run_case(mutate=lambda o, side: o.update(keys=[[99]]))
+        self.assertEqual(r['status'], 'UNVERIFIED'); self.assertIn('original probe receipt', r['reason'])
+
+    def test_latest_failed_reverification_invalidates_older_cache(self):
+        success = self.run_case()
+        with tempfile.TemporaryDirectory() as d:
+            ledger = t.Ledger(Path(d)/'translations.jsonl'); ledger.append(success)
+            failed = copy.deepcopy(success)
+            failed.update(status='UNVERIFIED', reason='New comparison could not execute')
+            ledger.append(failed); self.assertIsNone(ledger.reusable(self.request))
+
+    def test_receipt_cannot_relabel_a_falsification_as_verified(self):
+        failed = self.run_case(wrong=True); failed['status'] = 'VERIFIED'
+        with tempfile.TemporaryDirectory() as d:
+            ledger = t.Ledger(Path(d)/'translations.jsonl')
+            with self.assertRaisesRegex(ValueError, 'original observations'): ledger.append(failed)
+
+    def test_uncompilable_expression_refuses_before_any_probe(self):
+        request, p = case(); execute = Mock()
+        r = t.verify(p, request, cells=[None], compiler=Mock(side_effect=NotImplementedError('Unsupported native expression')),
+                     execute=execute, budget=Mock())
+        self.assertEqual(r['status'], 'UNVERIFIED'); execute.assert_not_called()
+
+    def test_scope_is_required_and_different_scope_cannot_reuse_verification(self):
+        r = self.run_case()
+        missing = copy.deepcopy(self.request); missing.pop('scope')
+        with self.assertRaisesRegex(ValueError, 'explicit declared scope'): t.validate(self.proposal, missing)
+        with tempfile.TemporaryDirectory() as d:
+            ledger = t.Ledger(Path(d)/'translations.jsonl'); ledger.append(r)
+            different = copy.deepcopy(self.request); different['scope'] = {'restrictions': ['other-filter']}
+            self.assertIsNone(ledger.reusable(different))
+
+    def test_new_cell_reuses_proposal_without_reusing_verification(self):
+        r = self.run_case('MEASURE', cross=True)
+        with tempfile.TemporaryDirectory() as d:
+            ledger = t.Ledger(Path(d)/'translations.jsonl'); ledger.append(r)
+            request = copy.deepcopy(self.request); request['available_cells'] = request['available_cells'][3:]
+            self.assertEqual(ledger.candidate(request), self.proposal)
+            self.assertIsNone(ledger.reusable(request, request['available_cells'][0]))
+
+    def test_blank_is_not_zero_or_failed_query(self):
+        self.assertNotEqual(t._quantity({'state': 'BLANK'}, {'state': 'EXACT'}), t._quantity({'state': 'NUMBER', 'value': '0'}, {'state': 'EXACT'}))
+        with self.assertRaises(ValueError): t._quantity(None, {'state': 'EXACT'})
+
+    def test_service_reuses_verified_sample_without_model_or_data_calls(self):
+        from investigator.translation_service import run
+        receipt = self.run_case('MEASURE', cross=True)
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = t.Ledger(Path(directory) / 'translation.jsonl'); ledger.append(receipt)
+            model = Mock(); execute = Mock()
+            result = run(self.request, proposer=model, model_call=Mock(), ledger=ledger,
+                cells=receipt['cells'], compiler=Mock(), execute=execute, budget=Mock(), cross_boundary=True)
+            self.assertEqual(result['source'], 'REUSED_VERIFICATION')
+            model.propose.assert_not_called(); execute.assert_not_called()
+
+    def test_service_preserves_falsification_without_asking_until_it_matches(self):
+        from investigator.translation_service import run
+        receipt = self.run_case(wrong=True)
+        with tempfile.TemporaryDirectory() as directory:
+            ledger = t.Ledger(Path(directory) / 'translation.jsonl'); ledger.append(receipt)
+            model = Mock(); execute = Mock()
+            result = run(self.request, proposer=model, model_call=Mock(), ledger=ledger,
+                cells=[None], compiler=Mock(), execute=execute, budget=Mock())
+            self.assertEqual(result['source'], 'PRESERVED_FALSIFICATION')
+            model.propose.assert_not_called(); execute.assert_not_called()
+
+    def test_provider_input_excludes_verification_answers_and_keeps_consumer_vocabulary(self):
+        from investigator.adapters.translation_model import Provider, wire_schema
+        request, proposal = case(); proof = self.binding(request)
+        request['metadata']['key_binding'] = proof
+        generate = Mock(return_value=(proposal, {'usage': {'input_tokens': 12}}))
+        provider = Provider(options={}, generate=generate)
+        self.assertEqual(provider.propose(request, t.SCHEMA), proposal)
+        payload, schema, options = generate.call_args.args
+        self.assertNotIn('available_cells', payload)
+        self.assertNotIn('key_binding', payload['metadata'])
+        self.assertEqual(payload['metadata']['key_binding_declaration'], proof['declaration'])
+        self.assertNotIn('observations', str(payload))
+        for key in t.SCHEMA['properties']:
+            if key!='objects':self.assertEqual(schema['properties'][key],t.SCHEMA['properties'][key])
+        self.assertEqual(schema['properties']['objects']['maxItems'],t.SCHEMA['properties']['objects']['maxItems'])
+        self.assertTrue(schema['properties']['objects']['uniqueItems'])
+        from jsonschema import Draft202012Validator
+        item=wire_schema(schema)['properties']['objects']['items']
+        for identity,kind in request['metadata']['objects'].items():
+            Draft202012Validator(item).validate({'id':identity,'kind':kind})
+        self.assertTrue(list(Draft202012Validator(item).iter_errors({'id':'invented','kind':'TABLE'})))
+        self.assertEqual(wire_schema(schema)['properties']['kind']['enum'], schema['properties']['kind']['enum'])
+        # Only provider-unsupported validation keywords disappear, never fields,
+        # requiredness or closed-object rules.
+        self.assertEqual(wire_schema(schema)['required'], schema['required'])
+        self.assertFalse(wire_schema(schema)['additionalProperties'])
+
+    def test_translation_meter_admits_and_settles_failures_with_original_usage(self):
+        from investigator.translation_budget import Meter
+        from investigator.adapters.translation_model import Provider
+        from contextlib import nullcontext
+        from unittest.mock import patch
+        provider = Provider(options={}); governor = Mock()
+        governor.runtime.db.side_effect = lambda: nullcontext(Mock())
+        events = []
+        meter = Meter(provider, governor=governor, session_id='synthetic', deadline=1000,
+            max_calls=1, max_input=10000, event=lambda *event: events.append(event),
+            context_version='synthetic', clock=lambda: 0)
+        request, proposal = case()
+        with patch('investigator.translation_budget.recording', side_effect=lambda _: nullcontext()):
+            def failed():
+                from investigator.generation_policy import ProviderResponseError
+                raise ProviderResponseError('OUTPUT_TOKEN_LIMIT', {'output_tokens': 1500})
+            with self.assertRaises(ValueError): meter(request, failed)
+        self.assertEqual(meter.calls, 1)
+        self.assertEqual(governor.settle.call_args.args[3], {'output_tokens': 1500})
+        self.assertFalse(governor.settle.call_args.kwargs['uncertain'])
+        from investigator.usage_governance import UsageHold
+        with self.assertRaises(UsageHold): meter(request, Mock())
+        self.assertEqual(governor.reserve.call_count, 1)
+
+
+if __name__ == '__main__': unittest.main()

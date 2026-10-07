@@ -1,0 +1,94 @@
+{
+  "source": "RETAINED_COLLECTED_DEFINITION",
+  "source_sha256": "2ad010f0f8c75662d1fab7ebc89e2ef801da946287e2b62becbee58038477fdc",
+  "definition": {
+    "properties": {
+      "activities": [
+        {
+          "name": "CopyApplication",
+          "type": "InvokeCopyJob",
+          "dependsOn": [],
+          "policy": {
+            "timeout": "0.00:10:00",
+            "retry": 0
+          },
+          "typeProperties": {
+            "copyJobId": "${ITEM_9}",
+            "workspaceId": "${ITEM_6}"
+          },
+          "externalReferences": {
+            "connection": "${ITEM_10}"
+          }
+        },
+        {
+          "name": "RecordOwnAccounting",
+          "type": "Script",
+          "dependsOn": [
+            {
+              "activity": "CopyApplication",
+              "dependencyConditions": [
+                "Succeeded"
+              ]
+            }
+          ],
+          "policy": {
+            "timeout": "0.00:10:00",
+            "retry": 0,
+            "secureOutput": false,
+            "secureInput": false
+          },
+          "linkedService": {
+            "name": "${WAREHOUSE_LINK_NAME}",
+            "properties": {
+              "type": "DataWarehouse",
+              "typeProperties": {
+                "endpoint": "${WAREHOUSE_ENDPOINT}",
+                "artifactId": "${ITEM_11}",
+                "workspaceId": "${ITEM_6}"
+              }
+            }
+          },
+          "typeProperties": {
+            "database": "round_three_ops_audit_20261004",
+            "scripts": [
+              {
+                "type": "NonQuery",
+                "text": "IF ISJSON(@copy_output_json) <> 1 THROW 51000, 'Copy activity output is not JSON.', 1;\nIF COALESCE(JSON_VALUE(@copy_output_json, '$.value[0].status'),'') <> 'Succeeded'\n OR JSON_QUERY(@copy_output_json, '$.value[1]') IS NOT NULL\n THROW 51001, 'Expected one successfully completed copy activity.', 1;\nDECLARE @rows_read bigint=TRY_CONVERT(bigint,JSON_VALUE(@copy_output_json,'$.value[0].output.rowsRead'));\nDECLARE @rows_written bigint=TRY_CONVERT(bigint,JSON_VALUE(@copy_output_json,'$.value[0].output.rowsCopied'));\nDECLARE @started varchar(40)=JSON_VALUE(@copy_output_json,'$.value[0].activityRunStart');\nDECLARE @ended varchar(40)=JSON_VALUE(@copy_output_json,'$.value[0].activityRunEnd');\nIF @rows_read IS NULL OR @rows_written IS NULL OR @rows_read<0 OR @rows_written<0\n OR @started IS NULL OR @ended IS NULL THROW 51002, 'Own copy counts or timestamps unavailable.', 1;\nIF EXISTS(SELECT 1 FROM dbo.load_run_audit WHERE run_id=@run_id)\n THROW 51003, 'Audit run already recorded; no overwrite.', 1;\nINSERT INTO dbo.load_run_audit (run_id,pipeline_name,status,rows_read,rows_written,accounting_state,start_time_utc,end_time_utc,high_watermark)\nVALUES (@run_id,@pipeline_name,'Succeeded',@rows_read,@rows_written,'OBSERVED_COPY_OUTPUT',@started,@ended,NULL);\n",
+                "parameters": [
+                  {
+                    "name": "copy_output_json",
+                    "type": "String",
+                    "direction": "Input",
+                    "value": {
+                      "value": "@string(activity('CopyApplication').output)",
+                      "type": "Expression"
+                    }
+                  },
+                  {
+                    "name": "run_id",
+                    "type": "String",
+                    "direction": "Input",
+                    "value": {
+                      "value": "@pipeline().RunId",
+                      "type": "Expression"
+                    }
+                  },
+                  {
+                    "name": "pipeline_name",
+                    "type": "String",
+                    "direction": "Input",
+                    "value": {
+                      "value": "@pipeline().Pipeline",
+                      "type": "Expression"
+                    }
+                  }
+                ]
+              }
+            ],
+            "scriptBlockExecutionTimeout": "00:02:00"
+          }
+        }
+      ]
+    }
+  }
+}

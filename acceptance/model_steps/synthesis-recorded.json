@@ -1,0 +1,1371 @@
+{
+  "basis": "SEALED_INFERRED_COLUMN_RESPONSES",
+  "scope": "Recorded mechanism form/vocabulary; not semantic truth or a new provider trial.",
+  "records": [
+    {
+      "case_id": "family-A",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "535d115a76d6e37eeb9bbd24035d7f742f75bfd296530928377aa72ff3ec3291",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+              "L1 (SERVING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+              "L2 (REFINED)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r3",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765",
+                  "term": "L1 (SERVING)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                  "quantity": "8,765",
+                  "term": "L0 (SEMANTIC)"
+                },
+                "values_equal": true
+              },
+              {
+                "comparison_id": "r4",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                  "quantity": "7,661",
+                  "term": "L2 (REFINED)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765",
+                  "term": "L1 (SERVING)"
+                },
+                "values_equal": false
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7"
+                      ]
+                    }
+                  },
+                  "boundary_evidence_id": {
+                    "type": "string",
+                    "enum": [
+                      "r4"
+                    ],
+                    "description": "The observed divergent comparison explained by this mechanism paragraph."
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids",
+                  "boundary_evidence_id"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "boundary_evidence_id": "r4",
+              "text": "Between L2 (REFINED) and L1 (SERVING), the retained definition shows a left join on product_id, then a derived value column is added. If several rate rows match one movement row, that join can repeat movement rows while the carried additive quantity stays on each repeated row. Summing after that step can therefore produce a larger total in L1 (SERVING) than in L2 (REFINED). The checked comparison also shows L1 (SERVING) matching L0 (SEMANTIC), so that carried total is preserved into L0 (SEMANTIC).",
+              "evidence_ids": [
+                "r7",
+                "r4",
+                "r3"
+              ]
+            }
+          },
+          "provider_event_sha256": "534e9b5097d0b208714b54e81ea2a6be05a9da51da0c5ddaeda13d5fdcc41466"
+        }
+      ]
+    },
+    {
+      "case_id": "family-B",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "1a2be7d299f936083093237532ab55b673d5dad43f14caef064dbd239dcfcede",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {},
+            "boundaries": []
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The recorded operation reaches the Activity partition source label and finds no stable discovered asset binding for that label, so the engine compiles no quantity for the declared scope from that source.",
+              "evidence_ids": [
+                "r0",
+                "r1",
+                "r2"
+              ]
+            }
+          },
+          "provider_event_sha256": "d57173cfeb33c7ac38a8b3949cf7cd9060d1d786e08afe4f5f273140f167074c"
+        }
+      ]
+    },
+    {
+      "case_id": "family-C",
+      "model_version": "NO_MODEL_CALL",
+      "tape_sha256": "a4bef25efe68d7606214d90a49bda43395d2213e15a76210dd8bcb21256bf993",
+      "attempts": []
+    },
+    {
+      "case_id": "family-D",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "3cf9dd625dd1bedc68faf31d4c5f0309af8ee206a701f7cc71ed8050b2846e68",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {},
+            "boundaries": []
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8",
+                        "r9",
+                        "r10",
+                        "r11",
+                        "r12",
+                        "r13",
+                        "r14",
+                        "r15",
+                        "r16",
+                        "r17",
+                        "r18"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The investigation reproduced a warehouse-keyed cell under a recorded warehouse restriction for North, using the Handled Quantity definition and a within-layer read for that keyed cell. It also reproduced the same definition for the total and ungrouped cells, which yielded the broader visual-context value. The declared trace reaches the Activity measure and then continues through quantity-preserving steps, but the recorded chain does not carry the North warehouse restriction through the later entities, so the warehouse-keyed scope and the broader scope are both present while their translation into the declared source chain stops at the measure layer.",
+              "evidence_ids": [
+                "r12",
+                "r9",
+                "r16",
+                "r7",
+                "r10",
+                "r1",
+                "r11",
+                "r2",
+                "r8"
+              ]
+            }
+          },
+          "provider_event_sha256": "da0c8268e67c6493ad0117cbbc03d39ab5cd7b4064f5592598d71d79d073d21c"
+        }
+      ]
+    },
+    {
+      "case_id": "family-E",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "9548429f79b08f08d81f031b028e7e6f0f8b0752a8d0d3fd5782b3282f8508ed",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+              "L1 (SERVING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+              "L2 (REFINED)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r2",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765",
+                  "term": "L1 (SERVING)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                  "quantity": "8,765",
+                  "term": "L0 (SEMANTIC)"
+                },
+                "values_equal": true
+              },
+              {
+                "comparison_id": "r3",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                  "quantity": "7,661",
+                  "term": "L2 (REFINED)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765",
+                  "term": "L1 (SERVING)"
+                },
+                "values_equal": false
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8",
+                        "r9",
+                        "r10"
+                      ]
+                    }
+                  },
+                  "boundary_evidence_id": {
+                    "type": "string",
+                    "enum": [
+                      "r3"
+                    ],
+                    "description": "The observed divergent comparison explained by this mechanism paragraph."
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids",
+                  "boundary_evidence_id"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "boundary_evidence_id": "r3",
+              "text": "Between L2 (REFINED) and L1 (SERVING), the retained definition evidence records a left join from movements to rates on product_id, with matching rows allowed to multiply when uniqueness is not assumed. The traced quantity is carried as an unchanged additive column through that join, while a separate value column is derived from units and unit cost. Under that recorded operation, repeated matches at the join can duplicate movement rows and raise the carried total in L1 (SERVING) relative to L2 (REFINED).",
+              "evidence_ids": [
+                "r3",
+                "r10"
+              ]
+            }
+          },
+          "provider_event_sha256": "e7d3a97c1d57fb6808160a121957ca8753792143fd5a9ec2653bc2e3c61ef96b"
+        }
+      ]
+    },
+    {
+      "case_id": "family-F",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "6217202296fc7fd1d5b1bed768d122310f7c1e215450a1ccf8f2b3f124916199",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+              "L1 (SERVING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r0",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "57,043",
+                  "term": "L1 (SERVING)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                  "quantity": "57,043",
+                  "term": "L0 (SEMANTIC)"
+                },
+                "values_equal": true
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The displayed record contains a comparison between L1 (SERVING) and L0 (SEMANTIC), and it records equal quantity across that pair. No retained operation definition is displayed beyond that comparison.",
+              "evidence_ids": [
+                "r0"
+              ]
+            }
+          },
+          "provider_event_sha256": "424af7bb1cbde3bb1aafae0fc34ceb05446db3f8defeb7290edb811c6ae340fe"
+        }
+      ]
+    },
+    {
+      "case_id": "family-G",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "0f2aea42c498ba588711976c5ebb036eeb28209ddf37567a1b2581919cdf42bf",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+              "L1 (SERVING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+              "L2 (REFINED)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r1",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765",
+                  "term": "L1 (SERVING)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                  "quantity": "8,765",
+                  "term": "L0 (SEMANTIC)"
+                },
+                "values_equal": true
+              },
+              {
+                "comparison_id": "r2",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                  "quantity": "7,661",
+                  "term": "L2 (REFINED)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765",
+                  "term": "L1 (SERVING)"
+                },
+                "values_equal": false
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7"
+                      ]
+                    }
+                  },
+                  "boundary_evidence_id": {
+                    "type": "string",
+                    "enum": [
+                      "r2"
+                    ],
+                    "description": "The observed divergent comparison explained by this mechanism paragraph."
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids",
+                  "boundary_evidence_id"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "boundary_evidence_id": "r2",
+              "text": "Between L2 (REFINED) and L1 (SERVING), the retained definition shows a left join on product_id from movements to rates, and the join notes that matching rows may multiply because uniqueness is not assumed. The units column is kept as an unchanged additive column through that step, so repeated matches can raise the carried total at L1 (SERVING). The checked comparison also shows L1 (SERVING) aligning with L0 (SEMANTIC), placing the divergence at that join step.",
+              "evidence_ids": [
+                "r7",
+                "r2",
+                "r1"
+              ]
+            }
+          },
+          "provider_event_sha256": "4d2f01d8b7e67395e3d42d980424e290b1c0d52a2164350c9a051cc488eb43c1"
+        }
+      ]
+    },
+    {
+      "case_id": "family-H",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "87ac1cc8f5fd31b3bebc0ba6321e3b0289ee4fcc36f55b87a1b533f4b3fe5b9e",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {},
+            "boundaries": []
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The recorded logic maps the measure through Activity and relies on a partition source label for that table. For the cited label, the retained record has no stable discovered asset binding, so the compilation step for a lower-layer quantity under the declared scope does not proceed.",
+              "evidence_ids": [
+                "r0",
+                "r1",
+                "r2"
+              ]
+            }
+          },
+          "provider_event_sha256": "cde3ae792aa08074c8cdc08cbc300f0e8332fa390d6a931528f4299f83fe950d"
+        }
+      ]
+    },
+    {
+      "case_id": "family-I",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "9c6978d23222b311f1e9025e4a957f3ca836c654fda6cf77e9e81114696980db",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+              "L1 (SERVING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+              "L2 (REFINED)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r2",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765",
+                  "term": "L1 (SERVING)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                  "quantity": "8,765",
+                  "term": "L0 (SEMANTIC)"
+                },
+                "values_equal": true
+              },
+              {
+                "comparison_id": "r3",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                  "quantity": "7,661",
+                  "term": "L2 (REFINED)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                  "quantity": "8,765",
+                  "term": "L1 (SERVING)"
+                },
+                "values_equal": false
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7"
+                      ]
+                    }
+                  },
+                  "boundary_evidence_id": {
+                    "type": "string",
+                    "enum": [
+                      "r3"
+                    ],
+                    "description": "The observed divergent comparison explained by this mechanism paragraph."
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids",
+                  "boundary_evidence_id"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "boundary_evidence_id": "r3",
+              "text": "A left join on product_id combines movement rows with rates before the result is written, and the retained definition states that matching rows may multiply because uniqueness is not assumed. When a movement row matches more than one rate row, the carried units total can rise between L2 (REFINED) and L1 (SERVING). The checked comparison then shows L1 (SERVING) passing the same total through to L0 (SEMANTIC).",
+              "evidence_ids": [
+                "r7",
+                "r3",
+                "r2"
+              ]
+            }
+          },
+          "provider_event_sha256": "e30e232773c6e2306c75e2a279136d0b8cd7e2a2a170e490469947d4e3a8929b"
+        }
+      ]
+    },
+    {
+      "case_id": "reproduction-16",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "7029b283d60b266d510ac5d026cc3916b65e36bea423546b8d16be2da470964d",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {},
+            "boundaries": []
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8",
+                        "r9",
+                        "r10",
+                        "r11",
+                        "r12",
+                        "r13",
+                        "r14",
+                        "r15"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The recorded check compares several declared-context candidates for the same visual. One candidate applies saved declarations for day, movement type, product, and warehouse, and that candidate reproduces the reported figure. Broader candidates that omit the day declaration, or omit the saved declarations entirely, return different declared-context results while the undeclared-context result remains the larger value. This means the recorded operation narrows the visual through those saved declarations when reproducing the figure.",
+              "evidence_ids": [
+                "r11",
+                "r9",
+                "r10"
+              ]
+            }
+          },
+          "provider_event_sha256": "b0dbfc1acc9e147bbf8a41e7907d391e570356eecb8ae0d93388d96e27520f57"
+        }
+      ]
+    },
+    {
+      "case_id": "reproduction-empty",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "1e5ab100ab934186a58f4e8ee531cf8a63fa7d8a057a977e64695fa27ea87e9f",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {},
+            "boundaries": []
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8",
+                        "r9",
+                        "r10",
+                        "r11",
+                        "r12",
+                        "r13",
+                        "r14",
+                        "r15"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The recorded check evaluated the card at three scopes. With the saved declared predicates captured for that cell, the measure read returned an empty result. When the date predicate was absent, the same measure read returned a value, and the broader undeclared scope also returned a value. This records that the empty card aligns with the combined warehouse, product, movement type, and date predicates attached to that visual state.",
+              "evidence_ids": [
+                "r10",
+                "r6",
+                "r4",
+                "r8",
+                "r5",
+                "r13",
+                "r9",
+                "r7",
+                "r2",
+                "r0"
+              ]
+            }
+          },
+          "provider_event_sha256": "84f9fe99885cf5d682defd2f051c6bb368f4b51053e6c3b06484ea70528fa9d8"
+        }
+      ]
+    },
+    {
+      "case_id": "source-consistent",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "e28343dc8beaeade2c7d2658dc7a7cdba6fa9f61c3e55b732a3b3251253cded2",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+              "L1 (LANDING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+              "L2 (APPLICATION)": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r6",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+                  "quantity": "7,661",
+                  "term": "L1 (LANDING)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+                  "quantity": "7,661",
+                  "term": "L0 (SEMANTIC)"
+                },
+                "values_equal": true
+              },
+              {
+                "comparison_id": "r7",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+                  "quantity": "7,661",
+                  "term": "L2 (APPLICATION)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+                  "quantity": "7,661",
+                  "term": "L1 (LANDING)"
+                },
+                "values_equal": true
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8",
+                        "r9"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The recorded operation traces an unchanged integral column from L2 (APPLICATION) through L1 (LANDING) to L0 (SEMANTIC). Each checked boundary preserves the same quantity, so the displayed result is carried across those layers without a recorded change in that column.",
+              "evidence_ids": [
+                "r7",
+                "r6"
+              ]
+            }
+          },
+          "provider_event_sha256": "124c5e6d10d161c2d60fc43ee21cfd4a8aa259ec8222740dd3f758f6961419ae"
+        }
+      ]
+    },
+    {
+      "case_id": "source-gap",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "bee30413296f3368071749b03eda83f1a7b74fcded24b8583dd2457a46696e7a",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+              "L1 (LANDING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+              "L2 (APPLICATION)": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r6",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+                  "quantity": "7,661",
+                  "term": "L1 (LANDING)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+                  "quantity": "7,661",
+                  "term": "L0 (SEMANTIC)"
+                },
+                "values_equal": true
+              },
+              {
+                "comparison_id": "r7",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+                  "quantity": "7,672",
+                  "term": "L2 (APPLICATION)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+                  "quantity": "7,661",
+                  "term": "L1 (LANDING)"
+                },
+                "values_equal": false
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8",
+                        "r9",
+                        "r10",
+                        "r11",
+                        "r12"
+                      ]
+                    }
+                  },
+                  "boundary_evidence_id": {
+                    "type": "string",
+                    "enum": [
+                      "r7"
+                    ],
+                    "description": "The observed divergent comparison explained by this mechanism paragraph."
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids",
+                  "boundary_evidence_id"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "boundary_evidence_id": "r7",
+              "text": "The recorded comparisons place the change between L2 (APPLICATION) and L1 (LANDING). A separate recorded comparison shows L1 (LANDING) and L0 (SEMANTIC) carrying the same total, so L0 (SEMANTIC) mirrors L1 (LANDING) rather than introducing the change.",
+              "evidence_ids": [
+                "r7",
+                "r6"
+              ]
+            }
+          },
+          "provider_event_sha256": "f5a4865ad317c184e72bda505f013aca4892923609d11302fffed0075a23b4d8"
+        }
+      ]
+    },
+    {
+      "case_id": "source-latency",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "aa4b0d3c378266ab797f21e78a49b9a4fdde8f20fa35dd2a7d762bd37459954e",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+              "L1 (LANDING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+              "L2 (APPLICATION)": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r5",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+                  "quantity": "7,661",
+                  "term": "L1 (LANDING)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+                  "quantity": "7,661",
+                  "term": "L0 (SEMANTIC)"
+                },
+                "values_equal": true
+              },
+              {
+                "comparison_id": "r6",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945",
+                  "quantity": "7,678",
+                  "term": "L2 (APPLICATION)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+                  "quantity": "7,661",
+                  "term": "L1 (LANDING)"
+                },
+                "values_equal": false
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8",
+                        "r9",
+                        "r10",
+                        "r11",
+                        "r12",
+                        "r13"
+                      ]
+                    }
+                  },
+                  "boundary_evidence_id": {
+                    "type": "string",
+                    "enum": [
+                      "r6"
+                    ],
+                    "description": "The observed divergent comparison explained by this mechanism paragraph."
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids",
+                  "boundary_evidence_id"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "boundary_evidence_id": "r6",
+              "text": "The checked path preserves the counted rows from L1 (LANDING) to L0 (SEMANTIC), while the counted rows differ between L2 (APPLICATION) and L1 (LANDING). This places the recorded count change at the transfer into L1 (LANDING), and L0 (SEMANTIC) reflects the L1 (LANDING) result rather than a further change within the semantic layer.",
+              "evidence_ids": [
+                "r5",
+                "r6"
+              ]
+            }
+          },
+          "provider_event_sha256": "7bf425b7a3421a967b465a4601f2204772e5f3d4516b462911106d393372da45"
+        }
+      ]
+    },
+    {
+      "case_id": "source-unreachable",
+      "model_version": "investigator-quality-54",
+      "tape_sha256": "949ec683bf25e3147fb3e15ee7081261f231362d97837ed63bf0a0b163b4f92f",
+      "attempts": [
+        {
+          "payload": {
+            "layer_tokens": {
+              "L0 (SEMANTIC)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+              "L1 (LANDING)": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003"
+            },
+            "boundaries": [
+              {
+                "comparison_id": "r3",
+                "direction": "UPSTREAM_INPUT_TO_DOWNSTREAM_OUTPUT",
+                "input": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/33618b8d-46eb-4fe7-b80b-122c331260a3/table/dbo.stock_movements_round_two_20261003",
+                  "quantity": "7,661",
+                  "term": "L1 (LANDING)"
+                },
+                "output": {
+                  "layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/0c89889c-6fe6-49ab-91e9-4b00a51070e6/table/Movements",
+                  "quantity": "7,661",
+                  "term": "L0 (SEMANTIC)"
+                },
+                "values_equal": true
+              }
+            ]
+          },
+          "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "technical_output": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "Mechanism only. Complete sentences, at most 1000 characters; no limitations or path-account references."
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "r0",
+                        "r1",
+                        "r2",
+                        "r3",
+                        "r4",
+                        "r5",
+                        "r6",
+                        "r7",
+                        "r8"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "text",
+                  "evidence_ids"
+                ]
+              }
+            },
+            "required": [
+              "technical_output"
+            ]
+          },
+          "response": {
+            "technical_output": {
+              "text": "The recorded check compares the quantity at L1 (LANDING) with the quantity at L0 (SEMANTIC) and records that the value is carried across that boundary without change.",
+              "evidence_ids": [
+                "r3"
+              ]
+            }
+          },
+          "provider_event_sha256": "c9b3bffe34fb1b0a4a34ff00abf09266055a5569cd95d872c5801c5643a1f674"
+        }
+      ]
+    }
+  ],
+  "scores": [
+    {
+      "step": "synthesis",
+      "model_version": "NO_MODEL_CALL",
+      "cases": 1,
+      "attempts": 0,
+      "no_model_mechanism_cases": [
+        "family-C"
+      ],
+      "score": null,
+      "token_validity": null,
+      "rejection_rate": null,
+      "basis": "RECORDED_RESPONSES_UNDER_CURRENT_VALIDATION",
+      "human_readability": "PENDING",
+      "results": []
+    },
+    {
+      "step": "synthesis",
+      "model_version": "investigator-quality-54",
+      "cases": 14,
+      "attempts": 14,
+      "no_model_mechanism_cases": [],
+      "score": 0.9285714285714286,
+      "token_validity": 0.9285714285714286,
+      "rejection_rate": 0.07142857142857142,
+      "basis": "RECORDED_RESPONSES_UNDER_CURRENT_VALIDATION",
+      "human_readability": "PENDING",
+      "results": [
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        },
+        {
+          "token_valid": false,
+          "rejected_under_current_rules": true,
+          "errors": [
+            "LAYER_TOKENS"
+          ]
+        },
+        {
+          "token_valid": true,
+          "rejected_under_current_rules": false,
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

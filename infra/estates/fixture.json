@@ -1,5 +1,6 @@
 {
   "version": "estate-manifest-v1",
+  "recording": {"tape_class": "EXACT"},
   "environment": "unknown-domain-v4",
   "storage": {
     "catalog": ".local/unknown-domain-v4/catalog.sqlite",

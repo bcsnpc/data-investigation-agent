@@ -3,6 +3,7 @@
 Discovery never executes business queries or changes remote assets. Each collection
 surface reports its own coverage; failed definitions preserve successful listings.
 """
+from .privacy_identities import text_digest
 import copy
 import hashlib
 import json
@@ -52,7 +53,7 @@ class Collector:
         if self.asset_bytes > self.max_bytes:raise BudgetExceeded('Expanded metadata byte limit')
         self.assets[identity] = {'id': identity, 'parent_id': parent, 'kind': kind,
             'name': name, 'source': source, 'metadata': copy.deepcopy(metadata),
-            'content_hash': hashlib.sha256(raw.encode()).hexdigest(), 'coverage_scope': self.scope,
+            'content_hash': text_digest(raw), 'coverage_scope': self.scope,
             'provenance': 'DISCOVERED'}
         return identity
 

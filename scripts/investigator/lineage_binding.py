@@ -24,7 +24,7 @@ COLUMN={'type':'string','minLength':1,'maxLength':MAX_COLUMNS}
 HASH={'type':'string','pattern':'^[0-9a-f]{64}$'}
 NODE={'$ref':'#/$defs/node'}
 RELATION={'$ref':'#/$defs/relation'}
-def variant(kind,fields):return obj({'kind':{'const':kind},**fields})
+def variant(kind,fields):return obj({'kind':{'type':'string','const':kind},**fields})
 def array(item,minimum=1,maximum=MAX_COLUMNS):return {'type':'array','items':item,'minItems':minimum,'maxItems':maximum}
 
 DEFS={
@@ -39,7 +39,7 @@ DEFS={
     variant('PROJECT',{'input':RELATION,'columns':array(obj({'name':COLUMN,'expression':NODE}))}),
     variant('FILTER',{'input':RELATION,'predicate':NODE}),
     variant('DEDUPE',{'input':RELATION,'keys':array(COLUMN)}),
-    variant('JOIN',{'left':RELATION,'right':RELATION,'how':{'enum':['LEFT','INNER']},'keys':array(COLUMN)}),
+    variant('JOIN',{'left':RELATION,'right':RELATION,'how':{'type':'string','enum':['LEFT','INNER']},'keys':array(COLUMN)}),
     variant('AGGREGATE',{'input':RELATION,'groups':array(COLUMN,0),'columns':array(obj({'name':COLUMN,'expression':NODE}))})]}}
 COMMON={
  'boundary':obj({'from_layer':TEXT,'to_layer':TEXT}),
@@ -49,8 +49,8 @@ COMMON={
  'location':obj({'item':TEXT,'path':TEXT,'cell':TEXT,'line_start':{'type':'integer','minimum':1},
     'line_end':{'type':'integer','minimum':1},'content_hash':HASH})}
 PROPOSED_BINDING_SCHEMA={'anyOf':[
- obj({**COMMON,'extractor':{'const':'STATIC'}}),
- obj({**COMMON,'extractor':{'const':'MODEL'},'confidence':{'type':'number','minimum':0,'maximum':1}})],'$defs':DEFS}
+ obj({**COMMON,'extractor':{'type':'string','const':'STATIC'}}),
+ obj({**COMMON,'extractor':{'type':'string','const':'MODEL'},'confidence':{'type':'number','minimum':0,'maximum':1}})],'$defs':DEFS}
 
 def validate(proposal):
     # Bound the entire tree before recursive schema validation, including scalar
@@ -160,7 +160,8 @@ def verify(proposal,*,context,cell,precision,compiler,execute):
     return receipt
 
 def seal(value):
-    return hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+    from .privacy_identities import digest
+    return digest(value,lambda body:json.dumps(body,sort_keys=True,separators=(',',':'),ensure_ascii=False))
 
 class Ledger:
     def __init__(self,path):self.path=Path(path)
@@ -169,13 +170,20 @@ class Ledger:
             raise ValueError('Only verifier results enter lineage ledger')
         validate(verification['proposal'])
         row={'event':'VERIFICATION','verification':verification,'sha256':seal(verification)}
+        from .privacy_capture import ACTIVE
+        if ACTIVE.get() is not None:
+            ACTIVE.get().ledger_append(self.path,row);return
         self.path.parent.mkdir(parents=True,exist_ok=True)
         with self.path.open('a',encoding='utf8') as stream:stream.write(json.dumps(row,sort_keys=True,separators=(',',':'))+'\n')
     def records(self):
         result=[]
-        if not self.path.exists():return result
-        for line in self.path.read_text(encoding='utf8').splitlines():
-            row=json.loads(line);v=row['verification']
+        from .privacy_capture import ACTIVE
+        if ACTIVE.get() is not None:rows=ACTIVE.get().ledger_rows(self.path)
+        else:
+            if not self.path.exists():return result
+            rows=[json.loads(line) for line in self.path.read_text(encoding='utf8').splitlines()]
+        for row in rows:
+            v=row['verification']
             if set(row)!={'event','verification','sha256'} or row['event']!='VERIFICATION' or seal(v)!=row['sha256']:
                 raise ValueError('Lineage ledger integrity differs')
             validate(v['proposal']);result.append(copy.deepcopy(v))

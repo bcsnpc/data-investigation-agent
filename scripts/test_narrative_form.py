@@ -61,7 +61,8 @@ class NarrativeFormTests(unittest.TestCase):
         text=form.technical('A left join can repeat matches.',payload,source,action('TRANSFORMATION_LOGIC'))
         self.assertLess(text.index('B2 diverges'),text.index('B1 agrees'))
         self.assertLess(text.index('A left join'),text.index('Layers:'))
-        self.assertIn('L2 (Orders, upstream input) 7,661 -> L1 (order totals, downstream output) 8,765',text)
+        self.assertIn('L2 (Orders; role REFINED, upstream input) 7,661 -> L1 (order totals; role SERVING, downstream output) 8,765',text)
+        self.assertIn('Roles reached in path resolution: L0 (PRESENTATION), L1 (SERVING), L2 (REFINED).',text)
         for identity in names.values():self.assertEqual(text.count(identity),1)
         for term,fields,receipt in [('L0','engine, connection, object','read-a'),
                                     ('L1','engine, object','read-b'),('L2','engine, object','read-c')]:

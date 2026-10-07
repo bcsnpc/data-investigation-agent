@@ -5,6 +5,20 @@ from investigator.onboarding import encoded
 
 
 class RenderedSpineTests(unittest.TestCase):
+    def test_roles_survive_without_compared_boundaries_and_without_directory_loss(self):
+        payload,state=self.fixture(10,10)
+        before=build(payload,state,48000)
+        payload['layer_labels']={'model':{'role':'SEMANTIC','business_name':'reported calculation'}}
+        after=build(payload,state,48000)
+        self.assertEqual(after['roles_reached'],['L0 (SEMANTIC)'])
+        self.assertEqual(after['layer_tokens'],{'L0 (SEMANTIC)':'model'})
+        self.assertEqual(before['evidence'],after['evidence'])
+        self.assertEqual(before['candidates'],after['candidates'])
+        self.assertFalse(after['elided'])
+        self.assertGreater(len(encoded(after)),len(encoded(before)))
+        bounded=build(payload,state,100)
+        self.assertEqual(bounded['roles_reached'],after['roles_reached'])
+
     def test_layer_tokens_do_not_reduce_any_display_coverage(self):
         from test_path_narrative import PathNarrativeTests
         from unittest.mock import patch
