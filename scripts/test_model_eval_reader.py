@@ -30,7 +30,14 @@ class ModelEvalReaderTests(unittest.TestCase):
         self.assertEqual(provider.call_count,1)
         payload,schema,options=provider.call_args.args
         self.assertEqual(set(payload),{'code','layers'})
-        self.assertEqual(schema['properties']['extractor'],{'const':'MODEL'})
+        self.assertEqual(schema['properties']['extractor'],{'type':'string','const':'MODEL'})
+        def walk(node):
+            if isinstance(node,dict):
+                if 'enum' in node or 'const' in node:self.assertIn('type',node)
+                for value in node.values():walk(value)
+            elif isinstance(node,list):
+                for value in node:walk(value)
+        walk(schema)
         self.assertEqual(tape.bootstrap['entry_point'],'model_eval_reader')
 
     def test_rejected_raw_candidate_is_preserved_for_precision(self):

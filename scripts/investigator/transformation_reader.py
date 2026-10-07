@@ -83,10 +83,10 @@ def model_schema(unit,*,boundary,item,target_table):
     # STATIC provenance. Engine-known identities are fixed in that same schema.
     schema=copy.deepcopy(PROPOSED_BINDING_SCHEMA['anyOf'][1])
     schema['$defs']=copy.deepcopy(PROPOSED_BINDING_SCHEMA['$defs'])
-    for name,value in boundary.items():schema['properties']['boundary']['properties'][name]={'enum':[value]}
-    schema['properties']['target']['properties']['table']={'enum':[target_table]}
+    for name,value in boundary.items():schema['properties']['boundary']['properties'][name]={'type':'string','enum':[value]}
+    schema['properties']['target']['properties']['table']={'type':'string','enum':[target_table]}
     for name,value in {'item':item,'path':unit['path'],'content_hash':unit['content_hash']}.items():
-        schema['properties']['location']['properties'][name]={'enum':[value]}
+        schema['properties']['location']['properties'][name]={'type':'string','enum':[value]}
     return schema
 
 

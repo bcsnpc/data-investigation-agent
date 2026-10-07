@@ -398,3 +398,30 @@ sealed tapes and one ledger row per evaluated case are retained.
 
 
 Dated reader-evaluation admission, 2026-10-06 America/Chicago: isolated 5f09cec regression passed 2167 tests in 368.972s. MODEL evaluation shares the runtime consumer-derived schema and candidate validation, preserves rejected raw proposals, seals every attempted case, and stops on budget admission without replacements. Eleven focused tests passed; one initial test assertion confused the unchanged const MODEL wire with an enum and was corrected, not the runtime contract. Nine provider calls maximum; no binding verification or estate reads. Existing medium/8000/120 profile is retained. The extraction refactor changes no wire payload.
+
+
+Dated reader MODEL negative baseline, 2026-10-06 America/Chicago: nine cases
+attempted once, all HTTP400 before extraction. Exact retained provider error:
+`Invalid schema for response_format 'transformation_code_proposals': In context=('anyOf', '0', 'properties', 'kind'), schema must have a 'type' key.`
+This is a producer-schema defect, not nine incorrect extraction decisions.
+Precision/recall/F1 are zero; correct semantic refusals0/2; provider failures9.
+The initial drop-only score incorrectly said PASSED. An append-only correction
+records FAILED; provider failures now fail even a first-baseline gate.
+Original tapes, rejected responses, reservations and initial score stay unchanged.
+No replacement provider request has been made. Nine8000-token reservations are
+charged, with no reported actual token usage and no refunds. Combined UTC-day
+model reservations69, output reservations162000; Round Nine estate0/200 with40
+reserved, saved rolling197/1500 (window expiry, not reset).
+
+DECIDED WITHOUT REVIEW: add explicit string types to consumer-owned binding
+kind/extractor/join vocabularies and their fixed wire identity fields. This
+preserves accepted values and derives the provider wire from the same contract.
+A recursive test refuses any const/enum node lacking its type. Twenty-two focused
+reader/lineage/scorer tests pass; full regression on this change remains pending.
+The initial reader assertion expected the old typeless shape and failed once;
+it was updated to the consumer's explicit type, without changing expected bindings.
+The official [Structured Outputs guide](https://developers.openai.com/api/docs/guides/structured-outputs)
+documents nested anyOf branches under its supported schema subset; the HTTP400
+above is the direct evidence for this missing-type rejection.
+Human readability grades remain pending; the human confirmed they are coming.
+Prior freezes invalid. No estate scope, secret, fixture or allowance changed.

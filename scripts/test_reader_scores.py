@@ -1,6 +1,6 @@
 import copy,json,unittest
 from pathlib import Path
-from investigator.model_step_scores import score_reader
+from investigator.model_step_scores import score_reader,compare
 from investigator.lineage_binding import validate
 from investigator.code_sources import normalize
 from investigator.transformation_reader import static
@@ -35,6 +35,14 @@ class ReaderScoresTests(unittest.TestCase):
         self.assertEqual(score_reader(g,[row],'test')['correct_semantic_refusals'],0)
         row['semantic_refusal']=True
         self.assertEqual(score_reader(g,[row],'test')['correct_semantic_refusals'],1)
+
+    def test_complete_provider_failure_batch_fails_first_baseline_gate(self):
+        g=self.golden()
+        rows=[{'case_id':c['id'],'model_version':'test','proposals':[],
+               'semantic_refusal':False,'provider_error':{'error_type':'BadRequestError'}} for c in g['cases']]
+        score=score_reader(g,rows,'test')
+        self.assertEqual(score['provider_failures'],9)
+        self.assertEqual(compare(score,None,{'maximum_drop':0.02,'reason':'ratchet'})['gate'],'FAILED')
 
 
 if __name__=='__main__':unittest.main()

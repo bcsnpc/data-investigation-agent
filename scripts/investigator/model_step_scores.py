@@ -70,7 +70,7 @@ def compare(score,previous,threshold):
                 or not score.get('suite_hash') or previous.get('suite_hash')!=score['suite_hash']):raise ValueError('Comparison suite differs')
         if previous['status']!='COMPLETE':raise ValueError('Incomplete baseline is not a quality baseline')
         result['delta']=score['score']-previous['score']
-    result['gate']='FAILED' if score['status']!='COMPLETE' or result['delta'] is not None and result['delta'] < -limit else 'PASSED'
+    result['gate']='FAILED' if score['status']!='COMPLETE' or score.get('provider_failures',0) or result['delta'] is not None and result['delta'] < -limit else 'PASSED'
     result['threshold']=copy.deepcopy(threshold)
     return result
 

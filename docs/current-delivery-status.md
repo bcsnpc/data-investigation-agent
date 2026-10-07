@@ -10,7 +10,7 @@ transports. Empty native key sets retain attestation; truncated sets refuse.
 Measure probes preserve cell addresses and use verification accounting. A keyed
 measure sample now refuses before reads: SQL cell-scope binding is not implemented. Supported native Top-N/day-relative definitions compile offline. Runtime
 wiring and live trials remain pending; existing filtered-scope refusal unchanged.
-Stable checkpoint `5907162` passed 2,134 regression tests. Earlier `8de0e84`
+Stable checkpoint `5f09cec` passed 2,167 regression tests. Earlier `8de0e84`
 passed seven hosted checks; local archived/inferred replay is 15/15 in each
 column. New native-definition and retention changes have focused validation. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
 Governance table and retention command added; seven retention tests pass.
@@ -23,16 +23,17 @@ workspace tests pass; browser verification is pending. The recording path now
 persists a technical cost/time footer using exporter arithmetic; one persistence
 test and seven trace tests pass. A concurrent-edit synthesis test failed admission
 and is retained; its stable rerun passed all 34 tests. Sixty authored intake
-goldens and four scoring tests exist, but no provider evaluation score is claimed.
+goldens and four scoring tests exist, with the first intake provider score recorded below.
 Reader/synthesis/translation eval integration, redaction and rebuild remain pending.
 Nine authored reader code cases and fifteen sealed synthesis cases are now
 scorable offline; raw synthesis responses pass current form/token checks13/14.
 Ten human readability reviews are prepared and ungraded. This does not certify
 mechanism correctness; The first intake field-match score is94.861% (60 cases, one unexpected
-hold); it needs expectation review and is not adjudicated accuracy. Reader and
-translation first scores remain pending.
+hold); it needs expectation review and is not adjudicated accuracy. Reader first batch failed before extraction: nine HTTP400 schema refusals, zero F1.
+The consumer-derived wire type fix passes offline tests; no replacement calls.
+Translation first score remains pending.
 Draft PR #420 stays open.
-Round Nine has zero estate requests and60 metered intake model calls. The authorized 200/40-reserved pot is
+Round Nine has zero estate requests and69 metered model calls (60 intake, nine rejected reader requests). The authorized 200/40-reserved pot is
 now declared in its private manifest; rolling1500, investigation12 and model
 allowances are unchanged. New discovery approval remains pending before estate reads. Prior freezes remain invalid.
 [Evidence, failures and decisions](round-nine-translation-evals-governance.md).

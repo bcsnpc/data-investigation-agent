@@ -2,7 +2,7 @@
 
 Round Nine remains an offline draft. Forty-five translation tests pass, including
 actual governed DAX/SQL compiler and receipt paths with injected transports.
-Commit `5907162` passed 2,134 regression tests; earlier `8de0e84` passed
+Commit `5f09cec` passed 2,167 regression tests; earlier `8de0e84` passed
 its hosted replay gate.
 A file-only OTLP exporter has seven focused tests; all fifteen archived tapes convert. Translation is not enabled in investigations or live-verified.
 Retention, explicit provider-region provenance and a pinned read-only demo command
@@ -13,8 +13,9 @@ have focused offline validation; browser verification is pending. Nine authored 
 scorable offline; raw synthesis responses pass current form/token checks13/14.
 Ten human readability reviews are prepared and ungraded. This does not certify
 mechanism correctness; The first intake field-match score is94.861% (60 cases, one unexpected
-hold); it needs expectation review and is not adjudicated accuracy. Reader and
-translation first scores remain pending.
+hold); it needs expectation review and is not adjudicated accuracy. Reader first batch failed before extraction: nine HTTP400 schema refusals, zero F1.
+The consumer-derived wire type fix passes offline tests; no replacement calls.
+Translation first score remains pending.
 See the
 [Round Nine record](docs/round-nine-translation-evals-governance.md).
 
