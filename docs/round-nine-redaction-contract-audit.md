@@ -77,7 +77,7 @@ written. A final pass also removes values that later typed evidence identifies
 from earlier prose. Sealed outputs are returned projected. A synthetic person
 column records and replays under the same in-memory test secret; the raw name
 appears in no file, decoded event, nested provider body or returned output.
-Seventeen focused tests pass. Recording declarations do not enter the model
+Eighteen focused tests pass. Recording declarations do not enter the model
 payload: directory entries2/2, SQL entries1/1 and payload characters7563/7563.
 
 This is **codec groundwork, not a delivered installation privacy guarantee**.
@@ -97,3 +97,12 @@ so existing current approvals must not be reused for new live work. No approval
 was rewritten, secret created/read, identity changed, model called or estate
 request made. Old exact v1-v4 tapes and recorded manifests remain unchanged.
 Legacy manifest omission is supported only as the existing exact class.
+
+Dated regression correction: the committed2326fb8 full suite ran2226 tests
+and returned6errors, all context-pin refusal tests. The new guard accessed
+configuration before the existing pin invariant rejected a mismatched handle.
+The invariant now runs first; privacy refusal still precedes raw backup or
+capture.5 context-pin tests and18 privacy tests pass after that correction.
+Unresolved tabular headers, duplicate identities and unaccounted row fields
+also refuse before capture; none are silently skipped. The original failed
+log is retained. Corrected full-suite verification remains pending.

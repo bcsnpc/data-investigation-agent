@@ -129,6 +129,8 @@ class Projection:
             # Tabular wire rows: identities must already be resolved by adapter.
             if isinstance(value.get('columns'), list) and isinstance(value.get('rows'), list):
                 columns = value['columns']
+                if any(not isinstance(c,str) or not c for c in columns) or len(columns)!=len(set(columns)):
+                    raise ProjectionError('PRIVACY_UNRESOLVED_COLUMN_IDENTITY')
                 for row in value['rows']:
                     if isinstance(row, list):
                         if len(row) != len(columns):
@@ -136,6 +138,10 @@ class Projection:
                         for column, cell in zip(columns, row):
                             if isinstance(column, str):
                                 self.bind(column, cell)
+                    elif isinstance(row,dict) and set(row)==set(columns):
+                        for column,cell in row.items():self.bind(column,cell)
+                    else:
+                        raise ProjectionError('PRIVACY_ROW_SHAPE')
         elif isinstance(value, list):
             for child in value:
                 self.discover(child)

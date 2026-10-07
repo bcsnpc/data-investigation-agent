@@ -27,14 +27,14 @@ def operation(name):
         @wraps(method)
         def invoke(owner,*args,**kwargs):
             agent=agent_of(owner)
-            if agent.config.get('_estate',{}).get('recording',{}).get('tape_class')=='PRIVACY_PROJECTED':
-                # In particular, refuse before the legacy backup() creates
-                # raw pinned databases. The new codec is not a fallback mask.
-                raise journal.TapeError('PRIVACY_PROJECTED_INSTALLATION_CAPTURE_NOT_YET_WIRED')
             workspace=getattr(agent,'_acceptance_workspace',None)
             if workspace is not None:
                 from .acceptance_context import assert_run_context
                 assert_run_context(workspace)
+            if agent.config.get('_estate',{}).get('recording',{}).get('tape_class')=='PRIVACY_PROJECTED':
+                # Validate the existing context-pin invariant first, then
+                # refuse before legacy backup() can create raw artifacts.
+                raise journal.TapeError('PRIVACY_PROJECTED_INSTALLATION_CAPTURE_NOT_YET_WIRED')
             if journal.ACTIVE.get() is not None:
                 # The replay driver supplies the same outer operation events.
                 return method(owner,*args,**kwargs)

@@ -139,6 +139,17 @@ class PrivacyTests(unittest.TestCase):
         result=p.project({'column_id':'column://other/person_name','value':raw})
         self.assertEqual(result['value'],raw)
 
+    def test_unresolved_column_headers_and_unaccounted_row_fields_refuse_capture(self):
+        column=policy()['columns'][0]
+        with tempfile.TemporaryDirectory() as folder:
+            tape=PrivacyTape(Path(folder)/'tape.json',projector())
+            for body in ({'columns':[{'name':'person_name'}],'rows':[['PRIVATE NAME']]},
+                         {'columns':[column],'rows':[{'unresolved_alias':'PRIVATE NAME'}]},
+                         {'columns':[column,column],'rows':[['A','B']]}):
+                with self.assertRaises(ProjectionError):
+                    tape.event('RESPONSE',canonical(body))
+            self.assertEqual(list(Path(folder).iterdir()),[])
+
     def test_opaque_bytes_and_untyped_sensitive_numbers_refuse_without_disk_write(self):
         with tempfile.TemporaryDirectory() as folder:
             tape = PrivacyTape(Path(folder) / 'tape.json', projector())
