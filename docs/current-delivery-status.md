@@ -6,6 +6,8 @@ Updated 2026-10-07 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 **Round Ten: partial fifty-ticket evaluation.** All50 inference-enabled tickets and14/30 inference-disabled evaluations ran once. Full authored expectations/output checks matched41/64 (31/50 and10/14);16 evaluations remain unattempted after the unchanged daily model allowance reached240/240. All six visual expectations failed, including reproduction in a different cell. The new tape gate is blocked by a copied-bootstrap SQLite lock; #423 stays draft and the last earned hosted gate remains15?2. Pot572/800, restoration5/100, rolling697/3000, diagnostics12 unchanged. Rebuild, billing and later sections have not started. See [partial delivery record](round-ten-delivery-record.md) and [dated findings](round-ten-findings.md). Earlier checkpoints below are historical; prior unfamiliar-domain freezes remain invalid.
 
+Dated Round Ten B first-divergence audit, 2026-10-07: zero-read inspection groups23 misses into13 intake,8 outcome/question-account and2 synthesis divergences. The wrong-card match followed an absent target, not a dropped grouping column. New Part B manifests record the authorized model allowance240?600; all other caps and original recorded manifests stay unchanged, and whole-config approval is required before live. No fix or rerun yet. See [the audit](round-ten-b-divergence-audit.md).
+
 **Round Nine offline integration in progress.** Forty-five translation tests
 pass, including governed DAX/SQL compiler and receipt paths with injected
 transports. Empty native key sets retain attestation; truncated sets refuse.

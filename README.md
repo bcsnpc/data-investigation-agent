@@ -2,6 +2,8 @@
 
 Dated Round Ten partial batch, 2026-10-07: all50 inference-enabled tickets and14/30 inference-disabled evaluations ran once;41/64 matched full sealed expectations and output checks. The unchanged daily model allowance240/240 stopped16 remaining evaluations. All six visual-variety cases missed their expectations, including a same-number/wrong-cell finding. New gate enlargement is blocked by copied-bootstrap SQLite replay; #423 stays draft, no larger pass claimed. Pot572/800, restoration5/100, rolling697/3000; diagnostics12 unchanged. See [partial delivery record](docs/round-ten-delivery-record.md). Rebuild and billing have not started. The earlier Round Nine checkpoints below are historical.
 
+Dated Round Ten B first-divergence audit, 2026-10-07: zero-read inspection groups23 misses into13 intake,8 outcome/question-account and2 synthesis divergences. The wrong-card match followed an absent target, not a dropped grouping column. New Part B manifests record the authorized model allowance240?600; all other caps and original recorded manifests stay unchanged, and whole-config approval is required before live. No fix or rerun yet. See [the audit](docs/round-ten-b-divergence-audit.md).
+
 Round Nine continues with offline integration. Forty-five translation tests pass, including
 actual governed DAX/SQL compiler and receipt paths with injected transports.
 Reviewer-fix commit `382cb1b` passed 2,199 regression tests; earlier `8de0e84` passed
