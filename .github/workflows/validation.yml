@@ -87,6 +87,7 @@ jobs:
           python -m unittest discover -s scripts -p test_provider_tape_contract.py
           python -m unittest discover -s scripts -p test_budget_tape_contract.py
           python -m unittest discover -s scripts -p test_estate_manifest.py
+          python -m unittest discover -s scripts -p test_provider_terms.py
           python -m unittest discover -s scripts -p test_platform_proposers.py
           python -m unittest discover -s scripts -p test_translation_proposer.py
           python -m unittest discover -s scripts -p test_translation_native.py

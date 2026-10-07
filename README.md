@@ -5,8 +5,10 @@ actual governed DAX/SQL compiler and receipt paths with injected transports.
 Commit `4e61a5e` passed 2,100 regression tests; earlier `8de0e84` passed
 its hosted replay gate.
 A file-only OTLP exporter has four schema/tree tests; all fifteen archived tapes convert. Translation is not enabled in investigations or live-verified.
-Runtime wiring, model-step evals and remaining redaction/provider-region/rebuild/demo work are
-pending. See the [Round Nine record](docs/round-nine-translation-evals-governance.md).
+Retention, explicit provider-region provenance and a pinned read-only demo command
+have focused offline tests. Runtime wiring, model-step evals, redaction, rebuild,
+live tracing footer and workspace stage/binding views remain pending. See the
+[Round Nine record](docs/round-nine-translation-evals-governance.md).
 
 Turn a disputed dashboard number into evidence-backed root cause — or an explicit statement of what cannot be proven — without giving an AI write access to production.
 

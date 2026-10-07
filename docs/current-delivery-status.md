@@ -14,7 +14,10 @@ Stable checkpoint `4e61a5e` passed 2,100 regression tests. Earlier `8de0e84`
 passed seven hosted checks; local archived/inferred replay is 15/15 in each
 column. New native-definition and retention changes have focused validation. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
 Governance table and retention command added; seven retention tests pass.
-Evals, redaction/provider-region, rebuild and demo remain pending. Draft PR #420 stays open.
+Provider-region provenance has three passing tests; the fixture remains explicitly
+undeclared. A pinned, read-only demo command has four mocked tests; no server was
+started. Evals, redaction, rebuild, live tracing footer and workspace stage/binding
+views remain pending. Draft PR #420 stays open.
 Round Nine has no estate/provider calls or policy change; authorized 200/40-reserved
 pot is not yet configured. Prior freezes remain invalid.
 [Evidence, failures and decisions](round-nine-translation-evals-governance.md).

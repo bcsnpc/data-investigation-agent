@@ -46,11 +46,14 @@ def configuration(manifest):
     config=validate_config(config)
     # The manifest hash, not the adapter subset, is pinned by discovery.
     from ..onboarding import digest
+    from ..provider_terms import declaration
     config['_estate']={'manifest_hash':digest(manifest),'round':manifest['budgets']['round'],
         'capability_ceiling':manifest['capability_ceiling'],'layers':manifest['layers'],'resources':manifest['resources'],
         # Code-source credentials/declarations never reach investigation workers.
         'lineage':{k:v for k,v in manifest['lineage'].items() if k!='code_sources'},
-        'accepted_limits':manifest['accepted_limits']}
+        'accepted_limits':manifest['accepted_limits'],
+        # Recorder configuration only, never a worker option or model prompt.
+        'provider_terms':declaration(manifest['model'])}
     return config
 
 

@@ -31,6 +31,9 @@ NORMALIZATION={'oneOf':[
          'case_fold':BOOL,'evidence':STRING})]}
 RETENTION_PERIOD={'oneOf':[{'const':'indefinite'},integer(1,36500)]}
 RETENTION=obj({'tape_days':RETENTION_PERIOD,'ledger_days':RETENTION_PERIOD})
+PROVIDER_REGION={'oneOf':[
+    obj({'status':{'const':'DECLARED'},'name':STRING,'evidence':STRING}),
+    obj({'status':{'const':'UNDECLARED'},'reason':STRING})]}
 SCHEMA=obj({
     'version':{'const':'estate-manifest-v1'},'environment':STRING,
     'lineage_proposer':BOOL,'assistant_proposer':BOOL,
@@ -64,13 +67,14 @@ SCHEMA=obj({
             ('source_asset_id','key_column_id','version_column_id','modified_column_id','time_semantics')}),{'type':'null'}]}}, optional=('code_sources','code_locations','verification_sample')),
     'capability_ceiling':array(enum(sorted(REQUIRED_CAPABILITIES|OPTIONAL_CAPABILITIES))),
     'model':obj({'provider':STRING,'deployment':STRING,'endpoint':STRING,
+        'region':PROVIDER_REGION,
         'generation_options':obj({'reasoning_effort':enum(('none','low','medium','high')),
             'max_output_tokens':integer(500,16000),'timeout_seconds':integer(10,120),
             'max_payload_characters':integer(8000,128000)}),
         # Provider-owned closed validation belongs to its installed registry,
         # not to the platform-neutral installation contract.
         'credential':{'type':'object'},
-        'max_planner_recoveries':integer(0,1)}),
+        'max_planner_recoveries':integer(0,1)}, optional=('region',)),
     'budgets':obj({'diagnostic_reads_per_run':integer(*DYNAMIC_READ_BOUNDS),
         'binding_verification':obj({'probes_per_binding':{'const':2},'metadata_probes':integer(0,32),
                                    'session_cap':integer(1,2048)}),

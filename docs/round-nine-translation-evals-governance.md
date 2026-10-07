@@ -275,3 +275,7 @@ previous Round Eight restoration credit is untouched. No new provider or estate
 request, fixture state, approval context, identity, secret or policy change.
 Current corrected engine624ca67 has a full committed regression sweep running;
 its result is not yet claimed. Separate earlier4e61a5e pass remains historical.
+
+### Provider terms, 2026-10-06 America/Chicago
+
+Three offline tests passed: closed region provenance, explicit unknown legacy region, whole-hash invalidation. Manifest-backed recorder configuration now carries provider/deployment/endpoint/region without credentials. The fixture was not modified and its region remains UNDECLARED; old tapes remain UNRECORDED, never retroactively attested. Nineteen manifest tests passed: directory 2?2, SQL 1?1, payload 7,563?7,563 characters. No estate/provider call, scope change or policy change. Prior freezes remain invalid. DECIDED WITHOUT REVIEW: retain legacy manifests with explicit unknown region instead of guessing it from an endpoint. New declared regions require cited owner deployment evidence.

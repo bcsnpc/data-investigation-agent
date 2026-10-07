@@ -132,3 +132,16 @@ admitted and counted individually. A logical discovery operation is not one
 physical request. Exhaustion prevents sending another request; partial coverage
 remains unavailable rather than silently becoming a complete context. Synthetic
 raw protocol tests establish two-request accounting and refusal before transport.
+
+The model provider, deployment and endpoint are pinned by `model`. Optional
+`model.region` is either `{"status":"DECLARED","name":"<region>","evidence":"<control-plane record>"}`
+or `{"status":"UNDECLARED","reason":"<why not established>"}`. A declared region
+is an operator statement supported by its cited deployment record, not an engine
+residency certification. Check the provider's processing, retention and residency
+terms for that deployment before installation; the endpoint hostname alone is not
+evidence. The fixture currently pins Azure and its deployment/endpoint but has no
+region declaration: its region remains UNDECLARED, rather than guessed. Terms are
+carried in every new manifest-backed tape's bootstrap and configuration events,
+without credentials. Historical tapes remain UNRECORDED for region. Adding or
+changing these terms changes the whole approval hash and requires re-approval;
+it does not change permissions or worker configuration.
