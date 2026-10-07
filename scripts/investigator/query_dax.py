@@ -13,7 +13,7 @@ TABLE_FUNCTIONS={'ROW','SUMMARIZECOLUMNS','SUMMARIZE','SELECTCOLUMNS','ADDCOLUMN
 FUNCTIONS=TABLE_FUNCTIONS|{'CALCULATE','SUM','SUMX','COUNT','COUNTX','COUNTROWS','DISTINCTCOUNT',
  'MIN','MAX','MINX','MAXX','AVERAGE','AVERAGEX','DIVIDE','IF','SWITCH','COALESCE','ISBLANK',
  'BLANK','TRUE','FALSE','ABS','ROUND','INT','DATE','YEAR','MONTH','DAY','DATEDIFF','TODAY',
- 'NOW','KEEPFILTERS','REMOVEFILTERS','USERELATIONSHIP','HASONEVALUE','SELECTEDVALUE',
+ 'NOW','DATEVALUE','VALUE','IFERROR','KEEPFILTERS','REMOVEFILTERS','USERELATIONSHIP','HASONEVALUE','SELECTEDVALUE',
  'ISFILTERED','ISCROSSFILTERED','RELATED','RELATEDTABLE','LOOKUPVALUE','USERPRINCIPALNAME'}
 ENUMS={'ASC','DESC','DAY','MONTH','QUARTER','YEAR','SECOND','MINUTE','HOUR','WEEK'}
 OPS={'+','-','*','/','^','&','=','<','>','<=','>=','<>','==','&&','||','IN'}
@@ -121,7 +121,7 @@ class Parser:
             if function=='ROW': labels=arguments[::2]
             elif function in ('ADDCOLUMNS','SELECTCOLUMNS'): labels=arguments[1::2]
             else: labels=[]
-            if function in ('ADDCOLUMNS','FILTER','TOPN'):
+            if function in ('ADDCOLUMNS','FILTER','TOPN','DISTINCT','CALCULATETABLE','EXCEPT','INTERSECT','UNION'):
                 base=arguments[1] if function=='TOPN' and len(arguments)>1 else arguments[0] if arguments else ''
                 columns.update(self.projected_columns.get(base,set()))
             for label in labels:

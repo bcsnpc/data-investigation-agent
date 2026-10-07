@@ -101,7 +101,7 @@ def extract_statement(text,catalog):
     return writes
 
 def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normalization=None,
-                     string_semantics=None,source_string_semantics=None):
+                     string_semantics=None,source_string_semantics=None,comparison_type=None):
     """Construct expressions, then let the existing parser govern the result."""
     number=0
     def exact_strings(declaration):
@@ -244,6 +244,16 @@ def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normaliz
     if column not in columns:raise Unsupported('Compared column absent from expression output')
     table,alias=wrapped(query)
     value=exp.column(column,table=alias,quoted=True)
+    raw_value=value.copy()
+    failed_cast=None
+    if comparison_type is not None:
+        if comparison_type.casefold() not in ('date','datetime','datetime2','int','bigint','smallint','tinyint'):
+            raise Unsupported('TARGET_CAST_TYPE_UNSUPPORTED: '+comparison_type)
+        value=exp.TryCast(this=value,to=exp.DataType.build(comparison_type,dialect='tsql'))
+        invalid=exp.And(this=exp.Not(this=exp.Is(this=raw_value.copy(),expression=exp.Null())),
+                        expression=exp.Is(this=value.copy(),expression=exp.Null()))
+        failed_cast=exp.Sum(this=exp.Case(ifs=[exp.If(this=invalid,true=exp.Literal.number(1))],
+                                        default=exp.Literal.number(0)))
     if profile is None:
         fields=[exp.alias_(exp.Sum(this=value),'quantity',quoted=True)]
     else:
@@ -262,6 +272,12 @@ def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normaliz
         count=exp.Count(this=exp.Star())
         if profile=='NUMERIC':fields=[exp.alias_(exp.Sum(this=value.copy()),'sum',quoted=True),exp.alias_(count,'count',quoted=True)]
         elif profile=='TEMPORAL':fields=[exp.alias_(exp.Min(this=value.copy()),'min',quoted=True),exp.alias_(exp.Max(this=value.copy()),'max',quoted=True),exp.alias_(count,'count',quoted=True)]
+        elif profile=='KEY':
+            if string_type(target_types.get(column,'unknown')):
+                exact_strings(string_semantics)
+                if string_semantics['case_fold']:value=exp.Upper(this=value)
+                if string_semantics['trim']:value=exp.Trim(this=value,position='TRAILING')
+            fields=[exp.alias_(value,'key_value',quoted=True)]
         elif profile=='BOOLEAN':
             truth=exp.Case(ifs=[exp.If(this=exp.EQ(this=value.copy(),expression=exp.Literal.number(1)),true=exp.Literal.number(1))],default=exp.Null())
             fields=[exp.alias_(exp.Count(this=truth),'true_count',quoted=True),exp.alias_(count,'count',quoted=True)]
@@ -280,7 +296,13 @@ def compile_quantity(relation,column,catalog,*,profile=None,sample=None,normaliz
                 raise Unsupported('NORMALIZATION_RENDERING_UNSUPPORTED: distinct/content profile has no faithful adapter renderer for the declared normalization')
             else:
                 raise Unsupported('COLLATION_UNDECLARED: comparison_normalization is required for distinct/content comparison; no implicit padding or case equivalence')
+    if failed_cast is not None:
+        fields.append(exp.alias_(exp.Coalesce(this=failed_cast,expressions=[exp.Literal.number(0)]),'cast_failure_count',quoted=True))
     query=exp.select(*fields).from_(table)
+    if profile=='KEY':
+        if string_type(target_types.get(column,'unknown')):
+            query=exp.select(exp.alias_(exp.Min(this=value.copy()),'key_value',quoted=True)).from_(table).group_by(binary_key(value,string_semantics))
+        else:query=query.distinct()
     if profile is not None:
         field=exp.column(sample['column'],table=alias,quoted=True)
         literal=lambda v:exp.Literal.number(v) if type(v) is int else exp.Literal.string(v)

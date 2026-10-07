@@ -36,7 +36,7 @@ def read(config, obj, *, execute):
                 or not isinstance(row['data_type'],str) or not row['data_type']
                 or (row['collation_name'] is not None and not isinstance(row['collation_name'],str))):
             raise ValueError('Target catalog field type differs')
-        columns.append({'name':row['column_name'],'data_type':row['data_type'],
+        columns.append({'name':row['column_name'],'data_type':row['data_type'],'observed_type':row['data_type'],
                         'collation_name':row['collation_name']})
     if len({c['name'] for c in columns})!=len(columns):
         raise ValueError('Target catalog has ambiguous columns')

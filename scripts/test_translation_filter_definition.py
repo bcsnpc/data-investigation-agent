@@ -47,9 +47,11 @@ class NativeDefinitionTests(unittest.TestCase):
         compiled = query_dax.compile_query(query,self.model['context']['model_assets'])
         self.assertEqual(set(compiled['asset_ids']),{self.column['id'],self.measure['id']})
 
-    def test_unspecified_tie_order_refuses_not_invented(self):
+    def test_unspecified_tie_order_is_preserved_not_invented(self):
         doc = self.top(); doc['From'][0]['Expression']['Subquery']['Query']['OrderBy'].pop()
-        with self.assertRaisesRegex(Refusal,'TIE_ORDER'): compile_native(self.model,self.request(doc),{})
+        query=compile_native(self.model,self.request(doc),{})
+        self.assertNotIn("[Region],ASC",query)
+        self.assertIn("[Revenue],DESC)",query)
 
     def test_date_pin_uses_utc_without_live_clock(self):
         request = self.date(); query = compile_native(self.model,request,{})

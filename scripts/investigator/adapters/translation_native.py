@@ -38,6 +38,17 @@ class FilterRoute:
             raise ValueError('Key column absent from pinned model')
         query = (self.native_compiler(copy.deepcopy(request), copy.deepcopy(address))
                  if side == 'NATIVE' else proposal['expression'])
+        if side == 'PROPOSED' and not query.lstrip().upper().startswith('EVALUATE '):
+            # The proposer supplies a predicate. The adapter owns the rowset,
+            # discovered grouping and output labels on both sides.
+            by_id = {a['id']: a for a in catalog}
+            parents = {by_id[column]['parent_id'] for column in columns}
+            if len(parents) != 1:
+                raise NotImplementedError('Predicate keys span different tables')
+            table = "'" + by_id[next(iter(parents))]['name'].replace("'", "''") + "'"
+            fields = ','.join('"translation_key_' + str(i) + '",' + table + '[' +
+                by_id[column]['name'].replace(']', ']]') + ']' for i,column in enumerate(columns))
+            query = 'EVALUATE DISTINCT(SELECTCOLUMNS(FILTER(' + table + ',' + query + '),' + fields + '))'
         compiled = query_dax.compile_query(query, catalog)
         labels = ['translation_key_' + str(i) for i in range(len(columns))]
         if set(compiled['result_columns']) != set(labels):
@@ -57,7 +68,10 @@ class FilterRoute:
             'max_rows': min(proposal_limits.QUERY_ROWS, MAX_ROWS) - 1,
             'surface_report': copy.deepcopy(SEMANTIC_REPORT), 'read_address': copy.deepcopy(address)}
         flexible_tools.build(self.process.store, plan, self.process.config, 'bounded_dax')
-        return {'plan': plan, 'labels': labels, 'normalization': copy.deepcopy(norm)}
+        definition = request['definition'].get('pbir_filter', {})
+        top = next((source.get('Expression', {}).get('Subquery', {}).get('Query', {}).get('Top')
+                    for source in definition.get('From', []) if source.get('Type') == 2), None)
+        return {'plan': plan, 'labels': labels, 'normalization': copy.deepcopy(norm), 'top_n': top}
 
     def execute(self, side, compiled):
         process = self.process; plan = compiled['plan']
@@ -125,4 +139,9 @@ class FilterRoute:
             observation['reason'] = str(exc); return observation
         payload = {'keys': keys, 'complete': True, 'normalization': compiled['normalization']}
         evidence['translation_result'] = copy.deepcopy(payload)
-        return {**observation, 'status': 'COMPLETED', 'reason': None, **payload}
+        result = {**observation, 'status': 'COMPLETED', 'reason': None, **payload}
+        if compiled.get('top_n') is not None and len(keys) > compiled['top_n']:
+            failure = {'reason': 'TIE_AT_BOUNDARY', 'row_count': len(keys) - compiled['top_n']}
+            evidence['verification_failure'] = copy.deepcopy(failure)
+            result['verification_failure'] = failure
+        return result

@@ -78,7 +78,7 @@ def compile_native(model, request, address):
         query = closed(subqueries[source], ('Version', 'From', 'Select', 'OrderBy', 'Top'), 'TRANSLATION_NATIVE_TOP_QUERY')
         records(query['From'], 1, 16, 'TRANSLATION_NATIVE_TOP_SOURCE')
         records(query['Select'], 1, 1, 'TRANSLATION_NATIVE_TOP_PROJECTION')
-        records(query['OrderBy'], 2, 2, 'TRANSLATION_NATIVE_TOP_TIE_ORDER_UNESTABLISHED')
+        records(query['OrderBy'], 1, 2, 'TRANSLATION_NATIVE_TOP_ORDER')
         if query['Version'] != 2 or type(query['Top']) is not int or not 1 <= query['Top'] <= 62:
             raise Refusal('TRANSLATION_NATIVE_TOP_BOUND')
         inner = {}
@@ -95,7 +95,6 @@ def compile_native(model, request, address):
         ordering = query['OrderBy']
         # The final key ordering is declared, not invented. VALUES groups that
         # same key, so distinct groups cannot tie under its own engine semantics.
-        if len(ordering) != 2: raise Refusal('TRANSLATION_NATIVE_TOP_TIE_ORDER_UNESTABLISHED')
         terms = []
         for index, order in enumerate(ordering):
             closed(order, ('Direction', 'Expression'), 'TRANSLATION_NATIVE_TOP_ORDER')
@@ -113,7 +112,7 @@ def compile_native(model, request, address):
             if type(wrapped['TimeUnit']) is not int or wrapped['TimeUnit'] != 0: raise Refusal('TRANSLATION_NATIVE_DATE_DAY_ONLY')
             column_expression = wrapped['Expression']; column_day = True
         column = resolved_member(model, column_expression, 'Column', aliases)
-        if column['parent_id'] != key['parent_id'] or column.get('metadata',{}).get('dataType') != 'dateTime':
+        if column['parent_id'] != key['parent_id'] or column.get('metadata',{}).get('observed_type',column.get('metadata',{}).get('dataType')) not in ('dateTime','date'):
             raise Refusal('TRANSLATION_NATIVE_DATE_COLUMN')
         if not request['relative'] or not request['evaluation_timestamp']: raise Refusal('TRANSLATION_NATIVE_DATE_ANCHOR')
         anchor = datetime.fromisoformat(request['evaluation_timestamp'].replace('Z', '+00:00'))

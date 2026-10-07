@@ -14,7 +14,7 @@ from .usage_governance import UsageHold
 PROFILES = {'NUMERIC': ('sum', 'count'),
             'STRING': ('count', 'distinct_count', 'hash_sum'),
             'TEMPORAL': ('min', 'max', 'count'),
-            'BOOLEAN': ('true_count', 'count')}
+            'BOOLEAN': ('true_count', 'count'), 'KEY': ('count','distinct_count','binary_hash')}
 TEXT = {'type': 'string', 'minLength': 1, 'maxLength': 500}
 SAMPLE_SCHEMA = {'oneOf': [
     obj({'kind': {'const': 'KEY_RANGE'}, 'column': TEXT,
@@ -66,6 +66,12 @@ def _quantities(value, profile):
         raise ValueError('Complete target-type quantity set was not obtained')
     result = {}
     for key, item in value.items():
+        if key=='binary_hash':
+            import re
+            if not isinstance(item,str) or not re.fullmatch('[0-9a-f]{64}',item):
+                raise ValueError('KEY content hash is not a complete SHA-256')
+            result[key]=item
+            continue
         if item is None:
             if key not in ('sum', 'min', 'max', 'hash_sum'):
                 raise ValueError('Count is not BLANK')
@@ -102,6 +108,12 @@ def verify(proposal, *, context, sample, profile, compiler, execute):
                'limits': ['Bounded aggregate witnesses do not prove global or rowwise equivalence, business intent or currency.']}
     try:
         plans = [compiler(proposal, side, context, address) for side in ('TARGET', 'SOURCE')]
+        casts=[p.get('type_cast') if isinstance(p,dict) else None for p in plans]
+        if any(cast is not None for cast in casts):receipt['type_casts']=copy.deepcopy(casts)
+        if profile=='KEY':
+            norms=[p.get('key_normalization') for p in plans]
+            if norms[0]!=norms[1] or not isinstance(norms[0],dict):raise ValueError('KEY normalization differs or is absent')
+            receipt['key_normalization']=copy.deepcopy(norms[0])
         semantics=[p.get('string_semantics') if isinstance(p,dict) else None for p in plans]
         if any(s is not None for s in semantics):
             from .string_semantics import validate as validate_semantics
@@ -153,11 +165,26 @@ def verify(proposal, *, context, sample, profile, compiler, execute):
                 raise ValueError('The ' + side.lower() + ' read did not complete')
             if observation['context'] != context or observation['address'] != address:
                 raise ValueError('Observed context or binding sample differs')
+            failed_cast_count=0
+            if casts[len(receipt['observations'])-1] is not None:
+                rows=observation['evidence'].get('values')
+                if not isinstance(rows,list) or len(rows)!=1:raise ValueError('Cast failure count unavailable')
+                count=rows[0]['cast_failure_count']
+                count=count['value'] if isinstance(count,dict) else count
+                number=Decimal(str(count))
+                if not number.is_finite() or number<0 or number!=number.to_integral_value():
+                    raise ValueError('Invalid failed-cast row count')
+                failed_cast_count=int(number)
             _quantities(observation['quantities'], profile)
             evidence = observation['evidence']
             if evidence['context_id'] != context:
                 raise ValueError('Original probe context differs')
             rows=evidence.get('values')
+            if profile=='KEY':
+                from .key_profile import quantities
+                original=quantities(rows,receipt['key_normalization'],evidence.get('completeness'))
+                if original!=observation['quantities']:raise ValueError('KEY profile differs from original complete keys')
+                rows=[original]
             if not isinstance(rows,list) or len(rows)!=1 or not isinstance(rows[0],dict):
                 raise ValueError('Original complete one-row profile was not obtained')
             original={}
@@ -173,6 +200,10 @@ def verify(proposal, *, context, sample, profile, compiler, execute):
             if attest_surface(evidence['execution_surface'], evidence['surface_report'],
                               attestation.get('required_fields', ())) != attestation:
                 raise ValueError('Original surface attestation differs')
+            if failed_cast_count:
+                if evidence.get('completeness')!='COMPLETE_RESPONSE':raise ValueError('Failed cast count is not complete')
+                receipt.update(status='FALSIFIED',reason='TYPE_CAST_FAILED',failed_row_count=failed_cast_count)
+                return receipt
         except (KeyError, ValueError, TypeError, ArithmeticError) as exc:
             receipt['reason'] = str(exc)
             return receipt
