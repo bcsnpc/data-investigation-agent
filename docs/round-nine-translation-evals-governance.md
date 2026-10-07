@@ -712,3 +712,16 @@ Original tapes retained; separate hash-pinned encrypted supersession evidence
 uses the unchanged Actions secret. Seven different archived paragraphs also
 fail current rules; their separate revision decision and full15x2 remain pending.
 PR420 stays draft. See [supersession record](round-nine-mechanism-supersessions.md).
+
+Dated archived-authorisation completion, 2026-10-07 America/Chicago: seven
+archived mechanisms accepted after8 recorded calls (A used one retry),0 estate
+reads; all structured fields unchanged, originals retained as superseded. Both
+authorised batches used17 calls and101,229 tokens. Actions37576721653 on
+cbdff46 passed archived15/15 + inferred15/15,0 physical/network requests;
+PR420 moved out of draft afterwards. Local2209 tests passed. Original corrected
+6/14 score and human4/10 remain recorded, not reassigned to new prose.
+The separate19-member encrypted delivery uses the unchanged secret and new
+immutable hash/tag. General runtime translation, privacy capture, complete
+rebuild and bounded estate verification remain pending; demo browser QA lacks
+a connected browser and existing workspace token. No new secret or scope.
+See the supersession record for exact provenance, usage and limits.

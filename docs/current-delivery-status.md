@@ -32,7 +32,8 @@ scorable offline; the corrected checker accepts6/14 unchanged raw synthesis resp
 Eight inferred and seven independently authorised archived mechanism-only
 supersessions now pass (17 recorded model calls combined, zero estate reads).
 Original paragraphs, structured fields and human grades remain unchanged.
-The current 15x2 replay is pending; PR420 stays draft until it passes. See
+Hosted replay on `cbdff46` passed archived15/15 and inferred15/15, with
+zero network/estate requests; PR420 is ready for review. Round Nine work continues. See
 [mechanism supersessions](round-nine-mechanism-supersessions.md).
 Ten attributed human reviews are recorded: role naming8/10, one mechanism9/10,
 no repeated hedge6/10, all flags4/10. Shared rules now reject repeated hedges and
@@ -47,7 +48,7 @@ all three proposals failed the metadata identity check before probes. The new
 versioned column catalog and producer identity enum served three verified first
 proposals in v4, with ten local probes. Every original is preserved; scored CI
 passes locally with source-bound supersessions; original baselines are unchanged.
-The two-column gate is re-running with independently source-bound supersessions. No estate verification.
+The hosted two-column gate passes with independently source-bound supersessions. No estate verification.
 Draft PR #420 stays open.
 Round Nine has zero estate requests and97 metered model calls (60 intake,18 reader,10 translation,9 mechanism revisions including a rejected first response). The authorized 200/40-reserved pot is
 now declared in its private manifest; rolling1500, investigation12 and model

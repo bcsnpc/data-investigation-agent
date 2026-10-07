@@ -156,3 +156,36 @@ bodies scanned clean. No estate credential, reader scope or identity changed.
 
 Eight source-selector/revision tests pass. The full regression and current
 30-case replay are running. No15x2 or draft-promotion claim yet.
+
+## Hosted gate and draft promotion ? 2026-10-07 America/Chicago
+
+Actions37576721653 on `cbdff46` passed archived15/15 and inferred15/15;
+each column reports0 physical and0 network requests. All ordinary hosted
+checks passed. PR420 was moved out of draft only after that hosted result.
+The local full regression passed2209 tests in689.623s using the existing
+pinned tracing dependencies. The independent local30-case sweep is still
+running and is not substituted for the completed hosted result.
+
+The hosted gate verifies the19-member ciphertext before decryption, the
+exact member inventory, every source/proof linkage and unchanged structured
+fields. Original tapes and rendered outputs remain unchanged. This is
+historical producer replay plus explicitly authorised mechanism grading,
+not current-engine estate execution, unfamiliar-domain acceptance or causal
+truth. No new human readability grade is assigned to the replacement prose.
+
+Round Nine continues: general runtime translation wiring, privacy capture,
+full fixture rebuild and bounded estate verification remain pending. Browser
+QA could not start: no connected browser and no existing workspace token in
+the shell. No token was created and estate execution stayed disabled.
+
+The offline rebuild audit recovered the retained Copy Job and Warehouse
+audit-pipeline definitions from scan063087a0-39e6-4630-874d-c957a17336d6,
+hash79944d52b889ce5f013075d42fcfa700f0ec97a966b4e49b7c03abc8529162e2.
+Copy definition SHA-256c7060c8a1aa2ead4482ccd9826d004c0ffef3009e8fa7df0e7b92676c41718fd;
+pipeline SHA-2562ad010f0f8c75662d1fab7ebc89e2ef801da946287e2b62becbee58038477fdc.
+The pipeline uses InvokeCopyJob then Script, taking rowsRead/rowsCopied from
+its own activity output. This is cached definition evidence, not a new load.
+Its source mapping has eight columns; the committed notebook seed has six,
+so source_modified_at_utc and source_row_version need explicit rebuild
+producers. Connection/workspace/item/endpoint rebinding must be declared;
+no inferred binding or silent grant. No --apply operation or estate request.
