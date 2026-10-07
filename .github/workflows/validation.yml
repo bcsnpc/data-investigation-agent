@@ -122,6 +122,7 @@ jobs:
           python -m unittest discover -s scripts -p test_translation_filter_definition.py
           python -m unittest discover -s scripts -p test_translation_measure.py
           python -m unittest discover -s scripts -p test_translation_scope.py
+          python -m unittest discover -s scripts -p test_translator_gaps.py
           python -m unittest discover -s scripts -p test_code_sources.py
           python -m unittest discover -s scripts -p test_transformation_ast.py
           python -m unittest discover -s scripts -p test_transformation_reader.py

@@ -94,7 +94,7 @@ def key_fingerprint(keys, normalization):
         encoded=sorted(json.dumps(key,ensure_ascii=False,separators=(',',':')).encode('utf8') for key in values)
         return b''.join(len(value).to_bytes(8,'big')+value for value in encoded)
     from .privacy_identities import digest
-    return {'count':len(encodings),'binary_hash':digest(keys,encode),'normalization':copy.deepcopy(normalization)}
+    return {'count':len(encodings),'distinct_count':len(set(encodings)),'binary_hash':digest(keys,encode),'normalization':copy.deepcopy(normalization)}
 
 
 def _evidence(observation, context, address):
@@ -165,13 +165,19 @@ def verify_key_binding(declaration, observations):
         raise ValueError('Key binding lacks an independent attested boundary')
     return {'declaration': copy.deepcopy(declaration), 'observations': copy.deepcopy(observations),
             'status': 'VERIFIED' if fingerprints[0] == fingerprints[1] else 'FALSIFIED',
-            'key_sets': fingerprints, 'snapshot_status': 'SNAPSHOT_UNVERIFIED'}
+            'kind':'KEY', 'key_sets': fingerprints, 'snapshot_status': 'SNAPSHOT_UNVERIFIED'}
 
 
 def _binding_for(request):
     proof = request['metadata'].get('key_binding')
-    if not isinstance(proof, dict): raise ValueError('Cross-boundary selected keys need a verified binding')
-    recomputed = verify_key_binding(proof['declaration'], proof['observations'])
+    if not isinstance(proof, dict):
+        columns = request['metadata'].get('native_key_columns') or sorted({r['field_id'] for c in request.get('available_cells',[]) for r in c.get('key_restrictions',[])})
+        raise ValueError('NO_KEY_BINDING: Cross-boundary selected keys need a verified binding; columns=' + ','.join(columns))
+    if proof.get('version')=='per-binding-key-v1':
+        from .binding_keys import certify
+        recomputed=certify(proof['declaration'],proof['binding_verification'],proof['column_catalog'])
+    else:
+        recomputed = verify_key_binding(proof['declaration'], proof['observations'])
     if recomputed != proof or proof['status'] != 'VERIFIED':
         raise ValueError('Key binding does not verify against original observations')
     declaration = proof['declaration']
@@ -247,6 +253,18 @@ def verify(proposal, request, *, cells, compiler, execute, budget, cross_boundar
         if side != 'PROPOSED': continue
         left, right = receipt['observations'][-2:]
         try:
+            for observation in (left, right):
+                failure = observation.get('verification_failure')
+                if failure is not None:
+                    if (not isinstance(failure, dict) or failure.get('reason') not in
+                            ('TIE_AT_BOUNDARY', 'TYPE_CAST_FAILED') or
+                            type(failure.get('row_count')) is not int or failure['row_count'] < 1):
+                        raise ValueError('Invalid adapter verification failure')
+                    if observation['evidence'].get('verification_failure') != failure:
+                        raise ValueError('Verification failure lacks original receipt evidence')
+                    receipt.update(status='FALSIFIED', reason=failure['reason'],
+                                   failure=copy.deepcopy(failure))
+                    return receipt
             if cross_boundary:
                 from .surface_difference import grade, BOUNDARY_GRADES
                 if grade(left['evidence'], right['evidence'])['grade'] not in BOUNDARY_GRADES:

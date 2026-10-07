@@ -4,6 +4,29 @@ import json
 from pathlib import Path
 import time
 
+WORKSPACE_TOKEN_HELP = '''Missing local workspace access key. This is not an Entra/Fabric token:
+the local Windows operator owns it; reader identities and tenant permissions are unchanged.
+Demo never creates a key. As that operator, run PowerShell from the repository:
+  $workspaceKeyPath = Join-Path (Get-Location) '.local/workspace-access.dpapi'
+If an existing key is provisioned, use its existing secret-store path. Otherwise
+the operator can provision this local-only key (not an Azure credential):
+  New-Item -ItemType Directory -Force .local | Out-Null
+  $workspaceBytes = New-Object byte[] 48
+  $workspaceRng = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+  $workspaceRng.GetBytes($workspaceBytes)
+  $workspaceKey = [Convert]::ToBase64String($workspaceBytes)
+  $workspaceRng.Dispose()
+  [Array]::Clear($workspaceBytes, 0, $workspaceBytes.Length)
+  ConvertTo-SecureString $workspaceKey -AsPlainText -Force | ConvertFrom-SecureString | Set-Content -LiteralPath $workspaceKeyPath
+Load it into this process without printing it:
+  $workspaceSecure = Get-Content -LiteralPath $workspaceKeyPath -Raw | ConvertTo-SecureString
+  $env:INVESTIGATOR_WORKSPACE_TOKEN = [System.Net.NetworkCredential]::new('', $workspaceSecure).Password
+  Remove-Variable workspaceKey -ErrorAction SilentlyContinue
+Then re-run dia demo with the approved manifest and case. DPAPI is bound to this
+Windows user; never commit the file, put the key in a URL, or use an Entra token.'''
+
+class WorkspaceTokenRequired(ValueError): pass
+
 
 def demo(manifest_path, case_path, port, live=False):
     """Same existing workspace, exact approved fixture pin; no default execution."""
@@ -18,7 +41,7 @@ def demo(manifest_path, case_path, port, live=False):
     if type(port) is not int or not 1 <= port <= 65535: raise ValueError('Invalid local demo port')
     token = os.environ.get('INVESTIGATOR_WORKSPACE_TOKEN')
     if not isinstance(token, str) or len(token) < 32 or not token.isascii():
-        raise ValueError('Set the existing INVESTIGATOR_WORKSPACE_TOKEN; demo never creates a key')
+        raise WorkspaceTokenRequired(WORKSPACE_TOKEN_HELP)
     manifest, workspace = build(manifest_path, execution_enabled=live)
     if manifest.get('recording',{}).get('tape_class') == 'PRIVACY_PROJECTED':
         workspace.close()
@@ -63,7 +86,12 @@ def main(argv=None):
                        tapes=args.tapes, ledger=args.ledger, now=time.time())
         print(json.dumps(summary(planned), indent=2))
         if args.apply: apply(planned, root=args.root, audit=args.audit)
-    elif args.command == 'demo': demo(args.manifest, args.case, args.port, args.live)
+    elif args.command == 'demo':
+        try:demo(args.manifest, args.case, args.port, args.live)
+        except WorkspaceTokenRequired as exc:
+            import sys
+            print(str(exc),file=sys.stderr)
+            return 2
     return 0
 
 

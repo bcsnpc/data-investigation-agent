@@ -51,6 +51,8 @@ COMMON={
 PROPOSED_BINDING_SCHEMA={'anyOf':[
  obj({**COMMON,'extractor':{'type':'string','const':'STATIC'}}),
  obj({**COMMON,'extractor':{'type':'string','const':'MODEL'},'confidence':{'type':'number','minimum':0,'maximum':1}})],'$defs':DEFS}
+PROPOSED_BINDING_SCHEMA['anyOf'] += [obj({**branch['properties'],
+    'binding_kind':{'const':'KEY'}}) for branch in PROPOSED_BINDING_SCHEMA['anyOf'][:2]]
 
 def validate(proposal):
     # Bound the entire tree before recursive schema validation, including scalar
@@ -218,7 +220,9 @@ def revalidate_verification(result):
         observations=iter(result['observations'])
         def compiler(*args):
             return {'normalization':result.get('normalization'),
-                    'string_semantics':result.get('string_semantics')}
+                    'string_semantics':result.get('string_semantics'),
+                    'key_normalization':result.get('key_normalization'),
+                    'type_cast':result.get('type_casts',[None,None])[0 if args[1]=='TARGET' else 1]}
         check=verify_binding(result['proposal'],context=result['context'],
             sample=result['address']['sample'],profile=result['address']['profile'],
             compiler=compiler,execute=lambda *args:next(observations))

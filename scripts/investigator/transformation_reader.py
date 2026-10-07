@@ -11,6 +11,16 @@ def scan_inventory(relation):
     if kind=='JOIN':return scan_inventory(relation['left'])+scan_inventory(relation['right'])
     return scan_inventory(relation['input'])
 
+
+def key_columns(plan):
+    if plan['kind']=='SCAN':return set()
+    if plan['kind']=='JOIN':return key_columns(plan['left'])|key_columns(plan['right'])|set(plan['keys'])
+    keys=key_columns(plan['input'])
+    if plan['kind'] in ('PROJECT','AGGREGATE'):
+        return {c['name'] for c in plan['columns'] if c['expression']['kind']=='COLUMN'
+                and c['expression']['name'] in keys}
+    return keys
+
 def static(unit,*,schemas,boundary,item,target_table):
     cells=unit['cells'];languages={c['language'].casefold() for c in cells}
     if languages<={'python','pyspark'}:
@@ -56,6 +66,7 @@ def static(unit,*,schemas,boundary,item,target_table):
         for name in frame.columns:
             proposals.append(validate({'boundary':copy.deepcopy(boundary),'sources':scan_inventory(frame.plan),
                 'target':{'table':target,'column':name},'expression':{'relation':frame.plan,'column':name},
+                **({'binding_kind':'KEY'} if name in key_columns(frame.plan) else {}),
                 'location':{'item':item,'path':unit['path'],'cell':cell['id'],'line_start':start,'line_end':end,
                             'content_hash':unit['content_hash']},'extractor':'STATIC'}))
     return {'proposals':proposals,'seeded_without_read':seeded,'other_writes':other_writes,'extractor':'STATIC','reason':None}
@@ -106,5 +117,7 @@ def validate_model_candidates(candidates,*,unit,schemas,boundary,item,target_tab
         for source in candidate['sources']:
             if source['table'] not in schemas or not set(source['columns'])<=set(schemas[source['table']]):
                 raise ValueError('Model proposal source columns are not declared')
+        if candidate['target']['column'] in key_columns(candidate['expression']['relation']):
+            candidate=validate({**candidate,'binding_kind':'KEY'})
         result.append(candidate)
     return result

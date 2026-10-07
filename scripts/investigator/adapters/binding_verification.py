@@ -32,11 +32,12 @@ class BindingVerificationRoute(VerificationRoute):
         self.string_semantics = copy.deepcopy(string_semantics or {})
 
     def target_profile(self, proposal):
+        if proposal.get('binding_kind')=='KEY':return 'KEY'
         target = self.objects[proposal['target']['table']]['catalog']['metadata']
         matches = [c for c in target['columns'] if c['name'] == proposal['target']['column']]
         if len(matches) != 1:
             raise ValueError('Target column type absent or ambiguous')
-        return profile(matches[0]['data_type'])
+        return profile(matches[0].get('observed_type',matches[0]['data_type']))
 
     def compile(self, proposal, side, context, address):
         proposal = validate(proposal)
@@ -67,12 +68,23 @@ class BindingVerificationRoute(VerificationRoute):
         source_declarations={name:self.string_semantics.get(name) for name in
                              dict.fromkeys(s['table'] for s in proposal['sources'])}
         source_semantics=list(source_declarations.values())
+        target_columns=self.objects[table]['catalog']['metadata']['columns']
+        target_column=next(c for c in target_columns if c['name']==column)
+        target_type=target_column.get('observed_type',target_column['data_type'])
+        source_types={c.get('observed_type',c['data_type']).casefold() for obj in resolved
+                      for c in obj['catalog']['metadata']['columns'] if c['name']==column}
+        # Source code's declared type never determines the comparison type.
+        # TRY_CAST reports invalid rows in the same value query, rather than
+        # letting an exception erase the failed-row count or silently dropping it.
+        cast_type=target_type if source_types!={target_type.casefold()} and address['profile']!='KEY' and side=='SOURCE' and target_type.casefold() in (
+            'date','datetime','datetime2','int','bigint','smallint','tinyint') else None
         if source_semantics and any(v!=source_semantics[0] for v in source_semantics):
             raise NotImplementedError('Mixed source string semantics require an operation-specific renderer')
         query = compile_quantity(relation, column, catalog, profile=address['profile'],
                                  sample=address['sample'], normalization=self.normalizations.get(table),
                                  string_semantics=target_semantics,
-                                 source_string_semantics=source_semantics[0] if source_semantics else None)
+                                 source_string_semantics=source_semantics[0] if source_semantics else None,
+                                 comparison_type=cast_type)
         semantics=None
         if target_semantics is not None:
             from ..string_semantics import validate as validate_semantics
@@ -85,7 +97,12 @@ class BindingVerificationRoute(VerificationRoute):
                 'compiled': {'catalog': list(catalog.values()), 'query': query, 'database': database,
                              'source_column': column, 'read_address': copy.deepcopy(address)},
                 'surface': surface, 'context': context, 'address': copy.deepcopy(address),
-                'string_semantics':semantics}
+                'string_semantics':semantics,
+                'key_normalization':({'encoding':'typed-json-utf8',
+                    'case_fold':bool((target_semantics or {}).get('case_fold',False)),
+                    'trim':bool((target_semantics or {}).get('trim',False))} if address['profile']=='KEY' else None),
+                'type_cast':({'column':column,'target_observed_type':target_type,
+                    'operation':'TRY_CAST','failed_rows_field':'cast_failure_count'} if cast_type else None)}
 
     def execute(self, side, plan):
         probe = attest(self._application(plan) if plan['surface'] == 'APPLICATION_SQL' else
@@ -102,6 +119,12 @@ class BindingVerificationRoute(VerificationRoute):
             result.update(status='FAILED', reason='Original context or sample address differs')
             return result
         rows = evidence.get('values')
+        if plan['address']['profile']=='KEY':
+            from ..key_profile import quantities
+            try:result['quantities']=quantities(rows,plan['key_normalization'],evidence.get('completeness'))
+            except (ValueError,KeyError,ArithmeticError) as exc:
+                result.update(status='FAILED',reason=str(exc))
+            return result
         if not isinstance(rows, list) or len(rows) != 1 or not isinstance(rows[0], dict):
             result.update(status='FAILED', reason='Complete one-row profile was not obtained')
             return result
