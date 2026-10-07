@@ -628,3 +628,47 @@ recorded numerical model ratchets pass on the new corpus baseline; the overall
 model gate fails only for pending attributed human review. Privacy-contract
 clarification, complete rebuild and the other offline/live gaps remain pending.
 No estate request, scope, secret, policy change, reset or refund.
+
+### Attributed review and corrected checker, 2026-10-06 America/Chicago
+
+The ten supplied reviews are recorded unchanged, including notes and findings,
+with attribution to Claude, independent reviewer; approved by Chaitu. Role
+naming passes8/10, one mechanism9/10, no repeated hedge6/10; all flags4/10.
+Grades remain bound to the original sealed paragraphs and provenance. They are
+not grades for future paragraphs produced under the repaired rules.
+
+The consumer, producer schema/instructions, recorded scorer and acceptance
+checker now share the one-possibility rule. The acceptance checker previously
+checked layer references but never called the mechanism validator. It now does.
+Non-role references such as measure layer, lower-layer and bare layers refuse
+even when the declared token set is empty. This is syntactic enforcement of
+the recorded invariant, not a guarantee of causal truth or semantic uniqueness.
+
+The role registry retains every resolved-path label, including zero-boundary
+and within-layer-only runs. Provider spines and deterministic technical/refusal
+rendering state the roles reached; absent role evidence stays explicitly absent.
+The rendered statement distinguishes resolved identities from successful reads.
+Existing boundary token order is preserved before additional labels are added.
+No estate-wide catalog is introduced into the mechanism payload.
+
+Context cost measured on the same ten-candidate/ten-restriction golden: old
+fa83049 synthesis payload14098 characters, new14155 (+57); evidence10->10,
+candidates10->10, no elision. This seam contains no directory/SQL-object entries
+(0->0); the conservation test checks the actual evidence/candidate coverage.
+The complete local source remains unchanged. A bound-elided provider view still
+retains its role list and is not sent as a complete evidence view.
+
+58 focused tests passed. The corrected recorded-model gate has no missing human
+input, but fails synthesis:6/14 (42.857%), versus the preserved13/14 baseline,
+delta-0.5. Intake94.861%, reader1.0 and translation1.0 ratchets pass. This is a
+checker correction over unchanged responses, not a new provider experiment.
+No baseline, expectation, tape, receipt or paragraph was rewritten to recover
+a pass. The separate dated score report records the failure. PR420 stays draft.
+
+Dated correction to the midnote: source-consistency's extra rejection is the
+bare word layers, not another repeated hedge. A/E/G/I are the four hedge
+failures; D/H/source-consistency have non-role words; source-latency's earlier
+bare-role refusal remains. Two failed score-test assertions (the old count and
+the mistaken additional hedge attribution) were corrected and recorded, not
+treated as model/provider failures. Prior freezes remain invalid. No new model
+or estate request, scope, credential, cap, reset or refund in this work.

@@ -64,6 +64,10 @@ class ScopedInventoryOnlyTests(unittest.TestCase):
         self.assertNotIn('fabric://',business);self.assertNotIn('Target ambiguity',business)
         self.assertIn(reason,result['technical_output']['explanation']['text'])
         self.assertEqual(result['refusal']['text'],reason)
+        payload={'evidence':[],'layer_labels':{'model':{'role':'SEMANTIC'}}}
+        technical=refusal_synthesis.render(state,payload)['technical_output']['explanation']['text']
+        self.assertIn('Roles reached in path resolution: L0 (SEMANTIC).',technical)
+        self.assertIn('do not establish successful reads',technical)
 
     def test_business_refusal_validates_multiturn_question_without_leaking_structures(self):
         for question in ('What happened?\nWhat happened?', 'Why is {"quantity": 3} shown?'):

@@ -1,7 +1,7 @@
 """Offline composition scoring against sealed requests, not inferred output prose."""
 from jsonschema import Draft202012Validator, ValidationError
 from . import evidence_prose, proposal_limits
-from .path_narrative import validate_mechanism, validate_declared_layer_tokens
+from .path_narrative import validate_mechanism, validate_declared_layer_tokens,RepeatedHedge
 
 READABILITY_FIELDS=('names_layer_by_role','one_mechanism','no_hedge_twice')
 
@@ -21,6 +21,7 @@ def score_attempt(attempt):
         try:
             Draft202012Validator(evidence_prose.schema(proposal_limits.ASSESSMENT_CLAIM)).validate(text)
             validate_mechanism(text)
+        except RepeatedHedge:errors.append('HEDGE_TWICE')
         except (ValueError,ValidationError):errors.append('MECHANISM_FORM')
     else:errors.append('MISSING_MECHANISM')
     return {'token_valid':token_valid,'rejected_under_current_rules':bool(errors),'errors':sorted(set(errors))}

@@ -47,7 +47,14 @@ class SynthesisScoresTests(unittest.TestCase):
         model=score(source['records'],'investigator-quality-54')
         self.assertEqual(model['attempts'],14)
         bad=[r['case_id'] for r in source['records'] for a in r['attempts'] if score_attempt(a)['rejected_under_current_rules']]
-        self.assertEqual(bad,['source-latency'])
+        self.assertEqual(bad,['family-A','family-D','family-E','family-G','family-H','family-I','source-consistent','source-latency'])
+        self.assertEqual(model['score'],6/14)
+        for case in ('family-A','family-E','family-G','family-I'):
+            attempt=next(r for r in source['records'] if r['case_id']==case)['attempts'][-1]
+            self.assertIn('HEDGE_TWICE',score_attempt(attempt)['errors'])
+        attempt=next(r for r in source['records'] if r['case_id']=='source-consistent')['attempts'][-1]
+        self.assertIn('LAYER_TOKENS',score_attempt(attempt)['errors'])
+        self.assertNotIn('HEDGE_TWICE',score_attempt(attempt)['errors'])
 
 
 if __name__=='__main__':unittest.main()

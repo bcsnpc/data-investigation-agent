@@ -34,6 +34,18 @@ class AcceptanceGateTests(unittest.TestCase):
         self.assertIn('technical_output:MISSING_MODEL_MECHANISM_PROVENANCE',self.errors(s))
         self.assertNotIn('technical_output:MISSING_MODEL_MECHANISM_PROVENANCE',gate.output_checks(self.case(),s,fixture_state=self.binding(),provider_mechanism={'text':'The calculation requires business context.','provenance':'SEALED_PROVIDER_MECHANISM'}))
 
+    def test_acceptance_checks_the_same_possibility_limit_as_the_consumer(self):
+        s=self.state();mechanism=s['synthesis']['outputs']['technical_output']['model_mechanism']
+        mechanism['text']='The join can repeat movements and can therefore raise the quantity.'
+        self.assertIn('technical_output:HEDGE_TWICE',self.errors(s))
+        mechanism['text']='The join can repeat matching movements.'
+        self.assertEqual(self.errors(s),[])
+
+    def test_non_role_layer_words_cannot_pass_with_an_empty_role_vocabulary(self):
+        for text in ('The measure layer repeats matches.','The lower-layer calculation stops.'):
+            s=self.state();s['synthesis']['outputs']['technical_output']['model_mechanism']['text']=text
+            self.assertTrue(any(':LAYER_REFERENCE:' in error for error in self.errors(s)))
+
     def test_reproduction_grades_verdict_not_walk_label(self):
         s=self.state();s['observations']=[{'check_kind':'DECLARED_CONTEXT_REPRODUCTION','id':'finding','composed_restrictions':[],'cell':{'id':'cell'},'label':'REPRODUCED','reproduced_value':'16','reported_figure':{'state':'NUMBER','value':'16'}}]
         for o in s['synthesis']['outputs'].values():o['question_account']={'status':'ANSWERED','reproduction_answer':'Yes'};o['explanation']['text']='Answer to your question: Yes, saved selections reproduce it.\n\nThe calculation matches the reported figure.'

@@ -32,7 +32,8 @@ class ModelScoreGateTests(unittest.TestCase):
             config['human_reviews']=str(path)
             result=gate.evaluate(root,config)
         self.assertEqual([r['step'] for r in result['steps']],['intake','reader','synthesis','translation'])
-        self.assertTrue(all(r['gate']=='PASSED' for r in result['steps']))
+        self.assertTrue(all(r['gate']=='PASSED' for r in result['steps'] if r['step']!='synthesis'))
+        self.assertEqual(next(r for r in result['steps'] if r['step']=='synthesis')['gate'],'FAILED')
         self.assertEqual(result['gate'],'FAILED');self.assertIsNone(result['human_readability'])
         self.assertEqual(result['provider_calls'],0);self.assertEqual(result['estate_physical_requests'],0)
 

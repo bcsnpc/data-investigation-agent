@@ -18,6 +18,7 @@ def build(payload, state, bound):
     if outcome: result['outcome'] = outcome
     from .path_narrative import layer_tokens
     result['layer_tokens']=layer_tokens(payload)
+    result['roles_reached']=sorted(result['layer_tokens'])
     by_layer={identity:token for token,identity in result['layer_tokens'].items()}
     for boundary in result['boundaries']:
         for side in ('input','output'):
@@ -76,7 +77,7 @@ def build(payload, state, bound):
         # The store/local rendering still contains them in full.
         counts = {key: sum(e['section'] == key for e in result['elided'])
                   for key in ('mechanism_evidence', 'candidates', 'boundaries', 'evidence')}
-        result = {'version': 2, 'evidence': [], 'elided': [
+        result = {'version': 2, 'roles_reached':sorted(layer_tokens(payload)), 'evidence': [], 'elided': [
             {'section': 'provider view', 'reason': 'Input bound; use complete local rendering.',
              'omitted_sections': ['question', 'scope', 'finding', 'business wording'], 'counts': counts}]}
     return result

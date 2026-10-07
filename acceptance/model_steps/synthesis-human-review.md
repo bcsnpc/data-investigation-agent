@@ -1,6 +1,6 @@
 # Ten synthesis readability reviews
 
-These are exact model-written mechanisms from the sealed inferred-column tapes. The checked boundary facts are supplied separately; they are not model prose. No human grades have been assigned.
+These are exact model-written mechanisms from the sealed inferred-column tapes. The checked boundary facts are supplied separately; they are not model prose. Human grades were supplied on 2026-10-06 by Claude, independent reviewer; approved by Chaitu.
 
 For each item, record three booleans: `names_layer_by_role`, `one_mechanism`, `no_hedge_twice`, plus the human grader in [the structured review](synthesis-human-review.json). These flags assess readability, not causal truth.
 
@@ -13,7 +13,7 @@ Allowed roles: L0 (SEMANTIC), L1 (SERVING), L2 (REFINED).
 - Checked input L1 (SERVING): 8,765; output L0 (SEMANTIC): 8,765; values equal: True.
 - Checked input L2 (REFINED): 7,661; output L1 (SERVING): 8,765; values equal: False.
 
-Human flags: ungraded.
+Human flags: names_layer_by_role=true, one_mechanism=true, no_hedge_twice=false. Reviewer note: hedged twice: 'can repeat' and 'can therefore produce'
 
 ## family-B
 
@@ -22,7 +22,7 @@ The recorded operation reaches the Activity partition source label and finds no 
 Allowed roles: None declared.
 
 
-Human flags: ungraded.
+Human flags: names_layer_by_role=true, one_mechanism=true, no_hedge_twice=true. Reviewer note: no roles declared on spine
 
 ## family-D
 
@@ -31,7 +31,7 @@ The investigation reproduced a warehouse-keyed cell under a recorded warehouse r
 Allowed roles: None declared.
 
 
-Human flags: ungraded.
+Human flags: names_layer_by_role=false, one_mechanism=false, no_hedge_twice=true. Reviewer note: 'measure layer' is not a role; reproduction thread and chain-stop thread mixed
 
 ## family-E
 
@@ -42,7 +42,7 @@ Allowed roles: L0 (SEMANTIC), L1 (SERVING), L2 (REFINED).
 - Checked input L1 (SERVING): 8,765; output L0 (SEMANTIC): 8,765; values equal: True.
 - Checked input L2 (REFINED): 7,661; output L1 (SERVING): 8,765; values equal: False.
 
-Human flags: ungraded.
+Human flags: names_layer_by_role=true, one_mechanism=true, no_hedge_twice=false. Reviewer note: hedged twice: 'allowed to multiply' and 'can duplicate'
 
 ## family-F
 
@@ -52,7 +52,7 @@ Allowed roles: L0 (SEMANTIC), L1 (SERVING).
 
 - Checked input L1 (SERVING): 57,043; output L0 (SEMANTIC): 57,043; values equal: True.
 
-Human flags: ungraded.
+Human flags: names_layer_by_role=true, one_mechanism=true, no_hedge_twice=true.
 
 ## family-G
 
@@ -63,7 +63,7 @@ Allowed roles: L0 (SEMANTIC), L1 (SERVING), L2 (REFINED).
 - Checked input L1 (SERVING): 8,765; output L0 (SEMANTIC): 8,765; values equal: True.
 - Checked input L2 (REFINED): 7,661; output L1 (SERVING): 8,765; values equal: False.
 
-Human flags: ungraded.
+Human flags: names_layer_by_role=true, one_mechanism=true, no_hedge_twice=false. Reviewer note: hedged twice: 'may multiply' and 'can raise'
 
 ## family-H
 
@@ -72,7 +72,7 @@ The recorded logic maps the measure through Activity and relies on a partition s
 Allowed roles: None declared.
 
 
-Human flags: ungraded.
+Human flags: names_layer_by_role=false, one_mechanism=true, no_hedge_twice=true. Reviewer note: 'lower-layer' is a position word; no roles declared on spine
 
 ## family-I
 
@@ -83,7 +83,7 @@ Allowed roles: L0 (SEMANTIC), L1 (SERVING), L2 (REFINED).
 - Checked input L1 (SERVING): 8,765; output L0 (SEMANTIC): 8,765; values equal: True.
 - Checked input L2 (REFINED): 7,661; output L1 (SERVING): 8,765; values equal: False.
 
-Human flags: ungraded.
+Human flags: names_layer_by_role=true, one_mechanism=true, no_hedge_twice=false. Reviewer note: hedged twice: 'may multiply' and 'can rise'
 
 ## reproduction-16
 
@@ -92,7 +92,7 @@ The recorded check compares several declared-context candidates for the same vis
 Allowed roles: None declared.
 
 
-Human flags: ungraded.
+Human flags: names_layer_by_role=true, one_mechanism=true, no_hedge_twice=true. Reviewer note: no roles declared on spine
 
 ## reproduction-empty
 
@@ -101,4 +101,4 @@ The recorded check evaluated the card at three scopes. With the saved declared p
 Allowed roles: None declared.
 
 
-Human flags: ungraded.
+Human flags: names_layer_by_role=true, one_mechanism=true, no_hedge_twice=true. Reviewer note: no roles declared on spine

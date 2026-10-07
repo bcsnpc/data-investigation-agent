@@ -52,7 +52,7 @@ def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_
             r'same moment|different update times|update timing|matching data versions|SNAPSHOT_UNVERIFIED',s,re.I)]
         if len(timing)>1:errors.append(kind+':REPEATED_TIMING_LIMIT')
         if kind=='technical_output':
-            from investigator.path_narrative import validate_layer_references
+            from investigator.path_narrative import validate_layer_references,validate_mechanism,RepeatedHedge
             # Only the model paragraph uses this vocabulary: engine-rendered
             # legends and limits deliberately state role names and identities.
             boundaries=[o for o in state.get('observations',[]) if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
@@ -72,6 +72,9 @@ def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_
                     for o in state.get('observations',[])]}
                 try:validate_layer_references(mechanism['text'],payload)
                 except ValueError as exc:errors.append('technical_output:LAYER_REFERENCE:'+str(exc))
+                try:validate_mechanism(mechanism['text'])
+                except RepeatedHedge:errors.append('technical_output:HEDGE_TWICE')
+                except ValueError as exc:errors.append('technical_output:MECHANISM_FORM:'+str(exc))
     from investigator.lineage_limits import validate_outputs
     errors.extend(validate_outputs(state.get('assessment') or {},outputs))
     return sorted(set(errors))

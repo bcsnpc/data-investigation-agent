@@ -1,6 +1,6 @@
 {
   "basis": "SEALED_PROVIDER_RESPONSES",
-  "grading_status": "NOT_GRADED",
+  "grading_status": "GRADED",
   "items": [
     {
       "case_id": "family-A",
@@ -45,11 +45,13 @@
         }
       ],
       "human_flags": {
-        "names_layer_by_role": null,
-        "one_mechanism": null,
-        "no_hedge_twice": null
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": false
       },
-      "grader": null
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "hedged twice: 'can repeat' and 'can therefore produce'"
     },
     {
       "case_id": "family-B",
@@ -59,11 +61,13 @@
       "allowed_layer_tokens": [],
       "boundary_spine": [],
       "human_flags": {
-        "names_layer_by_role": null,
-        "one_mechanism": null,
-        "no_hedge_twice": null
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": true
       },
-      "grader": null
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "no roles declared on spine"
     },
     {
       "case_id": "family-D",
@@ -73,11 +77,13 @@
       "allowed_layer_tokens": [],
       "boundary_spine": [],
       "human_flags": {
-        "names_layer_by_role": null,
-        "one_mechanism": null,
-        "no_hedge_twice": null
+        "names_layer_by_role": false,
+        "one_mechanism": false,
+        "no_hedge_twice": true
       },
-      "grader": null
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "'measure layer' is not a role; reproduction thread and chain-stop thread mixed"
     },
     {
       "case_id": "family-E",
@@ -122,11 +128,13 @@
         }
       ],
       "human_flags": {
-        "names_layer_by_role": null,
-        "one_mechanism": null,
-        "no_hedge_twice": null
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": false
       },
-      "grader": null
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "hedged twice: 'allowed to multiply' and 'can duplicate'"
     },
     {
       "case_id": "family-F",
@@ -155,11 +163,13 @@
         }
       ],
       "human_flags": {
-        "names_layer_by_role": null,
-        "one_mechanism": null,
-        "no_hedge_twice": null
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": true
       },
-      "grader": null
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": ""
     },
     {
       "case_id": "family-G",
@@ -204,11 +214,13 @@
         }
       ],
       "human_flags": {
-        "names_layer_by_role": null,
-        "one_mechanism": null,
-        "no_hedge_twice": null
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": false
       },
-      "grader": null
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "hedged twice: 'may multiply' and 'can raise'"
     },
     {
       "case_id": "family-H",
@@ -218,11 +230,13 @@
       "allowed_layer_tokens": [],
       "boundary_spine": [],
       "human_flags": {
-        "names_layer_by_role": null,
-        "one_mechanism": null,
-        "no_hedge_twice": null
+        "names_layer_by_role": false,
+        "one_mechanism": true,
+        "no_hedge_twice": true
       },
-      "grader": null
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "'lower-layer' is a position word; no roles declared on spine"
     },
     {
       "case_id": "family-I",
@@ -267,11 +281,13 @@
         }
       ],
       "human_flags": {
-        "names_layer_by_role": null,
-        "one_mechanism": null,
-        "no_hedge_twice": null
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": false
       },
-      "grader": null
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "hedged twice: 'may multiply' and 'can rise'"
     },
     {
       "case_id": "reproduction-16",
@@ -281,11 +297,13 @@
       "allowed_layer_tokens": [],
       "boundary_spine": [],
       "human_flags": {
-        "names_layer_by_role": null,
-        "one_mechanism": null,
-        "no_hedge_twice": null
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": true
       },
-      "grader": null
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "no roles declared on spine"
     },
     {
       "case_id": "reproduction-empty",
@@ -295,11 +313,20 @@
       "allowed_layer_tokens": [],
       "boundary_spine": [],
       "human_flags": {
-        "names_layer_by_role": null,
-        "one_mechanism": null,
-        "no_hedge_twice": null
+        "names_layer_by_role": true,
+        "one_mechanism": true,
+        "no_hedge_twice": true
       },
-      "grader": null
+      "grader": "Claude, independent reviewer; approved by Chaitu",
+      "graded_at": "2026-10-06",
+      "note": "no roles declared on spine"
     }
+  ],
+  "grader": "Claude, independent reviewer; approved by Chaitu",
+  "graded_at": "2026-10-06",
+  "reviewer_findings": [
+    "Join-family mechanisms hedge twice consistently; synthesis should state the possibility once.",
+    "Spine omits the roles list for held and reproduction-only runs; roles reached should always be rendered.",
+    "D and H use non-role layer words ('measure layer', 'lower-layer')."
   ]
 }

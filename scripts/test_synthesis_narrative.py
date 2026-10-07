@@ -6,6 +6,17 @@ from investigator import process_outcomes,assessment_support
 import test_process_debugging as contract_fixtures
 
 class NarrativeContractTests(unittest.TestCase):
+    def test_roles_render_without_a_boundary_or_model_role_reference(self):
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY')
+        labels={'model':{'role':'SEMANTIC','name':'Calculation'}}
+        payload['layer_labels']=labels
+        state['assessment'].setdefault('technical_output',{})['layer_labels']=labels
+        value=self.response(payload)
+        value['technical_output']['text']='The calculation carries the quantity unchanged.'
+        _,outputs=narrative.assemble(narrative.Response(value),payload,state)
+        self.assertIn('Roles reached in path resolution: L0 (SEMANTIC).',outputs['technical_output']['explanation']['text'])
+        self.assertIn('do not establish successful reads',outputs['technical_output']['explanation']['text'])
+
     def test_recorded_latency_role_failure_keeps_engine_rendered_mechanism(self):
         # Exact sealed Round Seven response; the final bare role stays invalid.
         recorded='The checked path preserves the counted rows from L1 (LANDING) to L0 (SEMANTIC), while the counted rows differ between L2 (APPLICATION) and L1 (LANDING). This places the recorded count change at the transfer into L1 (LANDING), and L0 (SEMANTIC) reflects the L1 (LANDING) result rather than a further change within the semantic layer.'

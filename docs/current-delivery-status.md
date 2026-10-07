@@ -26,8 +26,10 @@ and is retained; its stable rerun passed all 34 tests. Sixty authored intake
 goldens and four scoring tests exist, with the first intake provider score recorded below.
 Reader/synthesis/translation eval integration, redaction and rebuild remain pending.
 Nine authored reader code cases and fifteen sealed synthesis cases are now
-scorable offline; raw synthesis responses pass current form/token checks13/14.
-Ten human readability reviews are prepared and ungraded. This does not certify
+scorable offline; the corrected checker accepts6/14 unchanged raw synthesis responses.
+Ten attributed human reviews are recorded: role naming8/10, one mechanism9/10,
+no repeated hedge6/10, all flags4/10. Shared rules now reject repeated hedges and
+non-role layer words; resolved roles render even without a compared boundary. This does not certify
 mechanism correctness; The first intake field-match score is94.861% (60 cases, one unexpected
 hold); it needs expectation review and is not adjudicated accuracy. Reader v1 failed before extraction on nine HTTP400 schema refusals; it is preserved.
 A separately recorded v2 batch after the consumer wire fix scored precision/recall1.0
@@ -37,7 +39,7 @@ recorded local compiler correction. The installed-adapter v3 batch scored0/3:
 all three proposals failed the metadata identity check before probes. The new
 versioned column catalog and producer identity enum served three verified first
 proposals in v4, with ten local probes. Every original is preserved; scored CI
-remains red for pending human grades. No estate verification.
+remains red for the corrected synthesis score drop; original baselines are unchanged. No estate verification.
 Draft PR #420 stays open.
 Round Nine has zero estate requests and88 metered model calls (60 intake,18 reader,10 translation including refusals). The authorized 200/40-reserved pot is
 now declared in its private manifest; rolling1500, investigation12 and model

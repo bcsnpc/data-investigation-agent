@@ -106,4 +106,6 @@ def render(state,payload=None):
                     ('; quantity '+str(o['quantity']) if 'quantity' in o else '')+'.' for o in retained)
                 outputs[key]['explanation']['text']+='\nChecks not run: '+', '.join(
                     p['operation']+' on '+str(p.get('layer') or p.get('target')) for p in receipt['not_run_probes'])+'.'
+    from .path_narrative import render_roles
+    outputs['technical_output']['explanation']['text']+='\n'+render_roles(payload or {})
     return outputs
