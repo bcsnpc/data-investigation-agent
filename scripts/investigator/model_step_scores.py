@@ -86,11 +86,13 @@ def score_reader(golden,records,model_version):
         indexed[row['case_id']]=row
     def signature(p):
         return json.dumps({k:p[k] for k in ('sources','target','expression')},sort_keys=True,separators=(',',':'))
-    tp=fp=expected_count=correct_refusals=0;rows=[]
+    tp=fp=expected_count=correct_refusals=provider_failures=validation_failures=0;rows=[]
     for identity,case in cases.items():
         expected=Counter(signature(p) for p in case['expected_bindings']);expected_count+=sum(expected.values())
         row=indexed.get(identity);actual=Counter();invalid=0
         if row is not None:
+            provider_failures+=bool(row.get('provider_error'))
+            validation_failures+=bool(row.get('validation_error'))
             if not isinstance(row['proposals'],list):raise ValueError('Reader proposals must be a list')
             for proposal in row['proposals']:
                 try:
@@ -109,4 +111,5 @@ def score_reader(golden,records,model_version):
             'status':'COMPLETE' if len(indexed)==len(cases) else 'INCOMPLETE',
             'precision':precision,'recall':recall,'score':2*precision*recall/(precision+recall) if precision+recall else 0,
             'correct_semantic_refusals':correct_refusals,'expected_refusals':sum(c['should_refuse'] for c in cases.values()),
+            'provider_failures':provider_failures,'validation_failures':validation_failures,
             'results':rows,'verification_performed':False}

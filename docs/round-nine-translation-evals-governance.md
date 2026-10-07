@@ -395,3 +395,6 @@ sealed tapes and one ledger row per evaluated case are retained.
 | Reader MODEL extractor | Not run | Nine code cases and scorer prepared; no provider precision/recall claimed | Unavailable |
 | Synthesis | investigator-quality-54 |13/14 current token/form validity; family C has no model paragraph; ten human reviews ungraded | No prior baseline |
 | Translation proposer | Not run | Synthetic verifier tests exist; first-proposal model score pending | Unavailable |
+
+
+Dated reader-evaluation admission, 2026-10-06 America/Chicago: isolated 5f09cec regression passed 2167 tests in 368.972s. MODEL evaluation shares the runtime consumer-derived schema and candidate validation, preserves rejected raw proposals, seals every attempted case, and stops on budget admission without replacements. Eleven focused tests passed; one initial test assertion confused the unchanged const MODEL wire with an enum and was corrected, not the runtime contract. Nine provider calls maximum; no binding verification or estate reads. Existing medium/8000/120 profile is retained. The extraction refactor changes no wire payload.

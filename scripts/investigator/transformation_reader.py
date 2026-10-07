@@ -71,6 +71,14 @@ def propose(unit,*,schemas,boundary,item,target_table,layers,model=None):
         return {'proposals':[],'seeded_without_read':[],'extractor':None,
                 'reason':'Static extraction unavailable; model fallback withheld because code includes literal row initialization: '+reason}
     payload={'code':copy.deepcopy(unit),'layers':copy.deepcopy(layers)}
+    schema=model_schema(unit,boundary=boundary,item=item,target_table=target_table)
+    candidates=model(payload,schema)
+    result=validate_model_candidates(candidates,unit=unit,schemas=schemas,boundary=boundary,item=item,target_table=target_table)
+    return {'proposals':result,'seeded_without_read':[],'extractor':'MODEL','reason':reason}
+
+
+def model_schema(unit,*,boundary,item,target_table):
+    """The runtime and MODEL evaluator share the exact consumer-derived wire."""
     # The model gets the consumer's MODEL branch, never permission to claim
     # STATIC provenance. Engine-known identities are fixed in that same schema.
     schema=copy.deepcopy(PROPOSED_BINDING_SCHEMA['anyOf'][1])
@@ -79,7 +87,10 @@ def propose(unit,*,schemas,boundary,item,target_table,layers,model=None):
     schema['properties']['target']['properties']['table']={'enum':[target_table]}
     for name,value in {'item':item,'path':unit['path'],'content_hash':unit['content_hash']}.items():
         schema['properties']['location']['properties'][name]={'enum':[value]}
-    candidates=model(payload,schema)
+    return schema
+
+
+def validate_model_candidates(candidates,*,unit,schemas,boundary,item,target_table):
     if not isinstance(candidates,list) or len(candidates)>MAX_COLUMNS:raise ValueError('Model proposed-binding count exceeds bound')
     result=[]
     for candidate in candidates:
@@ -96,4 +107,4 @@ def propose(unit,*,schemas,boundary,item,target_table,layers,model=None):
             if source['table'] not in schemas or not set(source['columns'])<=set(schemas[source['table']]):
                 raise ValueError('Model proposal source columns are not declared')
         result.append(candidate)
-    return {'proposals':result,'seeded_without_read':[],'extractor':'MODEL','reason':reason}
+    return result
