@@ -10,7 +10,7 @@ transports. Empty native key sets retain attestation; truncated sets refuse.
 Measure probes preserve cell addresses and use verification accounting. A keyed
 measure sample now refuses before reads: SQL cell-scope binding is not implemented. Supported native Top-N/day-relative definitions compile offline. Runtime
 wiring and live trials remain pending; existing filtered-scope refusal unchanged.
-Stable checkpoint `fa83049` passed 2,185 regression tests. Earlier `8de0e84`
+Reviewer-fix checkpoint `382cb1b` passed 2,199 regression tests. Earlier `8de0e84`
 passed seven hosted checks; local archived/inferred replay is 15/15 in each
 column. New native-definition and retention changes have focused validation. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
 Governance table and retention command added; seven retention tests pass.

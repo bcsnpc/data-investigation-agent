@@ -62,6 +62,9 @@ jobs:
           python -m unittest discover -s scripts -p test_two_column_replay_gate.py
           python -m unittest discover -s scripts -p test_reproduction_composition.py
           python -m unittest discover -s scripts -p test_synthesis_spine.py
+          python -m unittest discover -s scripts -p test_path_narrative.py
+          python -m unittest discover -s scripts -p test_round_four_acceptance.py
+          python -m unittest discover -s scripts -p test_fixture_seed.py
           python -m unittest discover -s scripts -p test_enterprise_discovery.py
           python -m unittest discover -s scripts -p test_warehouse_audit_catalog.py
           python -m unittest discover -s scripts -p test_domain_profile.py

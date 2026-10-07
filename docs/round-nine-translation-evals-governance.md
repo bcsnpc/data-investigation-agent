@@ -687,3 +687,11 @@ seed's complete row/type validation. Both producers now share that contract;
 five focused tests pass with hostile external tables. No notebook execution,
 SQL connection, seed change or fixture mutation. See the rebuild groundwork;
 the complete rebuild/apply command and remaining native templates are pending.
+
+Dated stable reviewer-fix verification: isolated382cb1b passed2199 tests in
+412.367s. The later publication-only shared seed contract passed5 focused tests
+separately and is not included in that full-suite count. Ordinary hosted tests
+passed on382cb1b; the model-score job remains red at6/14. CI now explicitly runs
+the shared possibility/non-role acceptance tests and seed contract tests rather
+than relying only on local full discovery. All original failures are retained.
+PR420 stays draft; no model or estate call, new baseline or freeze is implied.
