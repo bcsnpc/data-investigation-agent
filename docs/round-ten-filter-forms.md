@@ -28,3 +28,13 @@ The retained Top-N request has3directory objects before/after,0SQL objects befor
 - The operator manifest is a new immutable local file; Round Nine policy/artifacts remain unchanged. This does not silently reapprove lineage after a whole-manifest change.
 
 Live section1b has its40physical-request ceiling, once-only Top-N/relative-date/measure order, and first-non-VERIFIED stop. Later fifty-ticket findings do not stop their list. No ticket expectations authored/sealed, list tag, new workspace, billing estate or Data Agent attempt yet. Prior engine freezes invalidated.
+
+## Section 1 live stop
+
+On committed engine d1067c7, Top-N VERIFIED with native and proposed complete key sets **5,8,7**. Each same-statement probe attested engine, object and investigator-reader identity; connection remains unattested, and matching key sets do not attest aligned snapshots. Two physical DAX requests, two approval-time verification reads/cap5, zero investigation diagnostics, guards or metadata requests. One model call:3,532input +2,129output =5,661tokens (1,833reasoning included in output). Sealed tape `.local/round-ten-20261007/topn.tape.json` and original receipts retain the proposed form and both selected sets.
+
+Relative-date UNVERIFIED at fixture preflight: retained event_day dataType is string, and58collected report definition parts contain0Now,0DateSpan and0DateAdd nodes. There is no retained relative-date definition to compile for this model. No predicate or observed date type was invented; no provider or estate request was made for that preflight. Measure verification remains UNATTEMPTED after this first non-VERIFIED. This is a remaining fixture prerequisite, not a successful date/measure translator proof.
+
+Pot0->2/800;100reserved untouched, section2/40; rolling130->132/3,000. All original Round Nine failures/artifacts remain unchanged. No retry, scope change or new fixture mutation. This stops the section1b live list, not the subsequent fifty-ticket list's changed-outcome policy.
+
+Initial broad local sweep ran2,266cases:2,264passed; two tape tests refused TAPE_UNCOMMITTED_ENGINE because the sweep started before the implementation commit. Both affected suites (5code-definition and3repository-code cases) passed on the clean commit. The sixth form/coverage test was added afterwards and passed with the full six-case focused suite. All2,267current local cases have passed across these sweeps; no uninterrupted clean-sweep claim. Initial failed log preserved. Final-head ordinary/hosted15x2 pending before merge.
