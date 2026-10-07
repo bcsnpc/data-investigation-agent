@@ -29,7 +29,7 @@ def fixture_configuration():
     return json.loads((ROOT/'infra/estates/fixture.json').read_text(encoding='utf-8'))
 
 
-def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_payload=None):
+def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_payload=None,mechanism_supersession=None):
     errors=[]
     try:
         actual=project(state,(case.get('expected',{}).get('reproduction') or {}).get('cell_id'))
@@ -61,7 +61,7 @@ def output_checks(case,state,*,provider_mechanism=None,fixture_state=None,local_
                 for side in ('upper_layer','lower_layer'):
                     if not labels.get(boundary.get(side),{}).get('role'):
                         errors.append('technical_output:UNDECLARED_LAYER_ROLE')
-            mechanism=outputs[kind].get('model_mechanism',provider_mechanism)
+            mechanism=mechanism_supersession or outputs[kind].get('model_mechanism',provider_mechanism)
             if mechanism is None and (state.get('synthesis') or {}).get('provenance') in ('DETERMINISTIC_REFUSAL_RENDERING','DETERMINISTIC_BOUNDED_SPINE_RENDERING'):
                 mechanism={'text':'','provenance':'ENGINE_ONLY_RENDERING'}
             if mechanism is None:errors.append('technical_output:MISSING_MODEL_MECHANISM_PROVENANCE')
@@ -108,12 +108,12 @@ def sealed_mechanism(path):
             args=json.loads(call['arguments'])
             if 'technical_output' in args:
                 found.append({'text':args['technical_output']['text'],'provenance':'SEALED_PROVIDER_MECHANISM',
-                              'provider_event_sha256':event['sha256']})
+                              'provider_event_sha256':event['sha256'],'response':args})
     if not found:return None
     return found[-1]
 
 
-def run_case(case,fixture_root,output):
+def run_case(case,fixture_root,output,*,mechanism_root=None):
     result={'ticket':case['ticket'],'reference_session_id':case['reference_session_id'],
             'status':'BLOCKED','network_calls':0,'physical_requests':0,'errors':[]}
     input_path=fixture_root/'known-domain-runs'/(case['ticket']+'.json')
@@ -162,7 +162,17 @@ def run_case(case,fixture_root,output):
                 payload=build(replayed['session'],db)
             result['fixture_state']=binding['name'];result['context_used']=established
             result['fixture_state_provenance']=binding.get('provenance','RECORDED_NATIVE')
-            result['errors']=output_checks(case,replayed['session'],provider_mechanism=sealed_mechanism(path),fixture_state=binding,local_payload=payload)
+            source_mechanism=sealed_mechanism(path)
+            revision_path=ROOT/'acceptance/model_steps/synthesis-revisions-420.json'
+            amended=None
+            if revision_path.exists():
+                from mechanism_supersession import select
+                records=json.loads((ROOT/'acceptance/model_steps/synthesis-recorded.json').read_text(encoding='utf8'))['records']
+                revisions=json.loads(revision_path.read_text(encoding='utf8'))
+                amended=select(path,source_mechanism,root=mechanism_root,records=records,revisions=revisions)
+            if amended:result['mechanism_supersession']=amended
+            result['errors']=output_checks(case,replayed['session'],provider_mechanism=source_mechanism,
+                fixture_state=binding,local_payload=payload,mechanism_supersession=amended)
             result['status']='FAILED' if result['errors'] else 'PASSED'
             result['reason']='OUTPUT_INVARIANT_FAILED' if result['errors'] else None
     except Exception as exc:

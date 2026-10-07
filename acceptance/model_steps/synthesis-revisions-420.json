@@ -1,0 +1,175 @@
+{
+  "version": 1,
+  "reason": "synthesis rules tightened per human review, #420",
+  "basis": "MECHANISM_ONLY_SUPERSESSION; original responses and tapes retained, not a new investigation or causal grade",
+  "revisions": [
+    {
+      "case_id": "family-A",
+      "source_tape_sha256": "535d115a76d6e37eeb9bbd24035d7f742f75bfd296530928377aa72ff3ec3291",
+      "source_provider_event_sha256": "534e9b5097d0b208714b54e81ea2a6be05a9da51da0c5ddaeda13d5fdcc41466",
+      "superseded_text": "Between L2 (REFINED) and L1 (SERVING), the retained definition shows a left join on product_id, then a derived value column is added. If several rate rows match one movement row, that join can repeat movement rows while the carried additive quantity stays on each repeated row. Summing after that step can therefore produce a larger total in L1 (SERVING) than in L2 (REFINED). The checked comparison also shows L1 (SERVING) matching L0 (SEMANTIC), so that carried total is preserved into L0 (SEMANTIC).",
+      "response": {
+        "technical_output": {
+          "boundary_evidence_id": "r4",
+          "text": "A left join on product_id from L2 (REFINED) to L1 (SERVING), where uniqueness is not assumed, could multiply matching rows and repeat movement rows so the carried additive quantity is counted more than once when summed.",
+          "evidence_ids": [
+            "r7",
+            "r4",
+            "r3"
+          ]
+        }
+      },
+      "revision_tape_sha256": "846c92d742d306a128b1f7a1aa830cfe06389f657b2c56570503191689f76758",
+      "revision_provider_event_sha256": "5ff537949807cfb540f7cffae2ed21b5d5f4dcbcc1b653211d89de31aa20a07b",
+      "revision_tape_member": "mechanism-resynthesis-v1/family-A.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "family-D",
+      "source_tape_sha256": "3cf9dd625dd1bedc68faf31d4c5f0309af8ee206a701f7cc71ed8050b2846e68",
+      "source_provider_event_sha256": "da0c8268e67c6493ad0117cbbc03d39ab5cd7b4064f5592598d71d79d073d21c",
+      "superseded_text": "The investigation reproduced a warehouse-keyed cell under a recorded warehouse restriction for North, using the Handled Quantity definition and a within-layer read for that keyed cell. It also reproduced the same definition for the total and ungrouped cells, which yielded the broader visual-context value. The declared trace reaches the Activity measure and then continues through quantity-preserving steps, but the recorded chain does not carry the North warehouse restriction through the later entities, so the warehouse-keyed scope and the broader scope are both present while their translation into the declared source chain stops at the measure layer.",
+      "response": {
+        "technical_output": {
+          "text": "A within-entity read reproduced Handled Quantity for the warehouse North keyed cell under the recorded warehouse restriction, while declared source comparison did not yet translate that filtered scope faithfully.",
+          "evidence_ids": [
+            "r12",
+            "r9",
+            "r16",
+            "r7",
+            "r10",
+            "r1",
+            "r11",
+            "r2",
+            "r8"
+          ]
+        }
+      },
+      "revision_tape_sha256": "4555722bc557d8bebb700df8f33eda36b960d6f31e2ff572d90c445db32c760c",
+      "revision_provider_event_sha256": "6d6155f2fc075e9790ee869fa17b75f990fb992b89dd089a3efbba3e8b0729f9",
+      "revision_tape_member": "mechanism-resynthesis-v1/family-D.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "family-E",
+      "source_tape_sha256": "9548429f79b08f08d81f031b028e7e6f0f8b0752a8d0d3fd5782b3282f8508ed",
+      "source_provider_event_sha256": "e7d3a97c1d57fb6808160a121957ca8753792143fd5a9ec2653bc2e3c61ef96b",
+      "superseded_text": "Between L2 (REFINED) and L1 (SERVING), the retained definition evidence records a left join from movements to rates on product_id, with matching rows allowed to multiply when uniqueness is not assumed. The traced quantity is carried as an unchanged additive column through that join, while a separate value column is derived from units and unit cost. Under that recorded operation, repeated matches at the join can duplicate movement rows and raise the carried total in L1 (SERVING) relative to L2 (REFINED).",
+      "response": {
+        "technical_output": {
+          "boundary_evidence_id": "r3",
+          "text": "Between L2 (REFINED) and L1 (SERVING), a left join from movements to rates on product_id leaves units as an unchanged additive column while matching rows may multiply when uniqueness is not assumed, with duplicated movement rows after the join raising the carried total.",
+          "evidence_ids": [
+            "r3",
+            "r10"
+          ]
+        }
+      },
+      "revision_tape_sha256": "7775881f1425a94b77673b008399ea5af1aa496f2f473ad04d96c91275ae97c5",
+      "revision_provider_event_sha256": "f1a41b2a7931e2fa063b64000d367410c63d93c4ecf2a5aed1c87b1bffed5991",
+      "revision_tape_member": "mechanism-resynthesis-v1-resume/family-E.tape.json",
+      "accepted_attempt": 2
+    },
+    {
+      "case_id": "family-G",
+      "source_tape_sha256": "0f2aea42c498ba588711976c5ebb036eeb28209ddf37567a1b2581919cdf42bf",
+      "source_provider_event_sha256": "4d2f01d8b7e67395e3d42d980424e290b1c0d52a2164350c9a051cc488eb43c1",
+      "superseded_text": "Between L2 (REFINED) and L1 (SERVING), the retained definition shows a left join on product_id from movements to rates, and the join notes that matching rows may multiply because uniqueness is not assumed. The units column is kept as an unchanged additive column through that step, so repeated matches can raise the carried total at L1 (SERVING). The checked comparison also shows L1 (SERVING) aligning with L0 (SEMANTIC), placing the divergence at that join step.",
+      "response": {
+        "technical_output": {
+          "boundary_evidence_id": "r2",
+          "text": "At L2 (REFINED), a left join on product_id from movements to rates may multiply matching rows because uniqueness is not assumed, increasing the carried units total into L1 (SERVING).",
+          "evidence_ids": [
+            "r7",
+            "r2",
+            "r1"
+          ]
+        }
+      },
+      "revision_tape_sha256": "382ca04fa1c9a66cd3b00b1323a560800fb818722982390fa7380bbfe9135cb4",
+      "revision_provider_event_sha256": "26ff662c49634a813a558bfb8f2d91ee513fbbae095ec62135827c6ae62a8c92",
+      "revision_tape_member": "mechanism-resynthesis-v1-resume/family-G.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "family-H",
+      "source_tape_sha256": "87ac1cc8f5fd31b3bebc0ba6321e3b0289ee4fcc36f55b87a1b533f4b3fe5b9e",
+      "source_provider_event_sha256": "cde3ae792aa08074c8cdc08cbc300f0e8332fa390d6a931528f4299f83fe950d",
+      "superseded_text": "The recorded logic maps the measure through Activity and relies on a partition source label for that table. For the cited label, the retained record has no stable discovered asset binding, so the compilation step for a lower-layer quantity under the declared scope does not proceed.",
+      "response": {
+        "technical_output": {
+          "text": "The recorded logic maps the measure through Activity and relies on a partition source label for that table, and because the retained record has no stable discovered asset binding for the cited label, the compilation step for the quantity under the declared scope does not proceed.",
+          "evidence_ids": [
+            "r0",
+            "r1",
+            "r2"
+          ]
+        }
+      },
+      "revision_tape_sha256": "770eb4c0f72064d62a8929cab82943154e3e5cf6dde2c3d63b9b0319def2ae9f",
+      "revision_provider_event_sha256": "b7ec49ae0965a71c23012cb595c8552198995ab7457abf02399ef4747925d8f1",
+      "revision_tape_member": "mechanism-resynthesis-v1-resume/family-H.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "family-I",
+      "source_tape_sha256": "9c6978d23222b311f1e9025e4a957f3ca836c654fda6cf77e9e81114696980db",
+      "source_provider_event_sha256": "e30e232773c6e2306c75e2a279136d0b8cd7e2a2a170e490469947d4e3a8929b",
+      "superseded_text": "A left join on product_id combines movement rows with rates before the result is written, and the retained definition states that matching rows may multiply because uniqueness is not assumed. When a movement row matches more than one rate row, the carried units total can rise between L2 (REFINED) and L1 (SERVING). The checked comparison then shows L1 (SERVING) passing the same total through to L0 (SEMANTIC).",
+      "response": {
+        "technical_output": {
+          "boundary_evidence_id": "r3",
+          "text": "A left join on product_id combines movement rows with rates before writing L1 (SERVING), and if a movement row matches more than one rate row, the retained definition says those matches may multiply rows and raise the carried units total from L2 (REFINED) to L1 (SERVING), which L1 (SERVING) then passes unchanged to L0 (SEMANTIC).",
+          "evidence_ids": [
+            "r7",
+            "r3",
+            "r2"
+          ]
+        }
+      },
+      "revision_tape_sha256": "cdb9bf60a289c5ccda5b02d75b2b551fdc8fd498a4c465916abd23ff654a6254",
+      "revision_provider_event_sha256": "9fc30618674212b71d9988832cc822f708d3b4f315d135a5d23b4ed95208611d",
+      "revision_tape_member": "mechanism-resynthesis-v1-resume/family-I.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "source-consistent",
+      "source_tape_sha256": "e28343dc8beaeade2c7d2658dc7a7cdba6fa9f61c3e55b732a3b3251253cded2",
+      "source_provider_event_sha256": "124c5e6d10d161c2d60fc43ee21cfd4a8aa259ec8222740dd3f758f6961419ae",
+      "superseded_text": "The recorded operation traces an unchanged integral column from L2 (APPLICATION) through L1 (LANDING) to L0 (SEMANTIC). Each checked boundary preserves the same quantity, so the displayed result is carried across those layers without a recorded change in that column.",
+      "response": {
+        "technical_output": {
+          "text": "The recorded operation carries the same integral column quantity from L2 (APPLICATION) into L1 (LANDING) and then into L0 (SEMANTIC), with no recorded change in that column.",
+          "evidence_ids": [
+            "r7",
+            "r6"
+          ]
+        }
+      },
+      "revision_tape_sha256": "4d5328beff88b28e41d46059e9a6f9bca7157cbe9a36f80d3ce2375439c3273f",
+      "revision_provider_event_sha256": "7a4428564e3df5f42511c1f63d8d72b480554ece7316178ec67ecf3f316f2c2d",
+      "revision_tape_member": "mechanism-resynthesis-v1-resume/source-consistent.tape.json",
+      "accepted_attempt": 1
+    },
+    {
+      "case_id": "source-latency",
+      "source_tape_sha256": "aa4b0d3c378266ab797f21e78a49b9a4fdde8f20fa35dd2a7d762bd37459954e",
+      "source_provider_event_sha256": "7bf425b7a3421a967b465a4601f2204772e5f3d4516b462911106d393372da45",
+      "superseded_text": "The checked path preserves the counted rows from L1 (LANDING) to L0 (SEMANTIC), while the counted rows differ between L2 (APPLICATION) and L1 (LANDING). This places the recorded count change at the transfer into L1 (LANDING), and L0 (SEMANTIC) reflects the L1 (LANDING) result rather than a further change within the semantic layer.",
+      "response": {
+        "technical_output": {
+          "boundary_evidence_id": "r6",
+          "text": "A count reduction during transfer from L2 (APPLICATION) into L1 (LANDING) might account for the lower total then carried unchanged into L0 (SEMANTIC).",
+          "evidence_ids": [
+            "r5",
+            "r6"
+          ]
+        }
+      },
+      "revision_tape_sha256": "efac5834e4bfec1cb38d49e943582cc312df0114b1d7cf025cfe0b8866e493e3",
+      "revision_provider_event_sha256": "2a2e5106f49b637df998fd183b979c78ce91fd60c6ca46f3fe6f65f7986fa901",
+      "revision_tape_member": "mechanism-resynthesis-v1-resume/source-latency.tape.json",
+      "accepted_attempt": 1
+    }
+  ]
+}

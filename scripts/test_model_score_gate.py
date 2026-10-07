@@ -23,6 +23,9 @@ class ModelScoreGateTests(unittest.TestCase):
     def test_four_recorded_steps_score_but_missing_human_grades_do_not_pass(self):
         root=Path(__file__).resolve().parents[1]
         config=json.loads((root/'acceptance/model_steps/config.json').read_text())
+        # The original responses still fail the corrected checker; approved
+        # supersessions are a separately tested, source-bound evaluation view.
+        next(e for e in config['steps'] if e['step']=='synthesis').pop('revisions',None)
         review=json.loads((root/config['human_reviews']).read_text())
         for item in review['items']:
             item['grader']=None
@@ -40,6 +43,16 @@ class ModelScoreGateTests(unittest.TestCase):
     def test_existing_results_cannot_invent_human_grades(self):
         from investigator.synthesis_scores import score_human
         with self.assertRaises(ValueError):score_human([{'case_id':str(i),'grader':'','human_flags':{}} for i in range(10)])
+
+    def test_superseded_responses_do_not_inherit_original_human_flags(self):
+        root=Path(__file__).resolve().parents[1]
+        config=json.loads((root/'acceptance/model_steps/config.json').read_text())
+        result=gate.evaluate(root,config)
+        synthesis=next(r for r in result['steps'] if r['step']=='synthesis')
+        self.assertEqual(synthesis['score'],1)
+        self.assertAlmostEqual(synthesis['original_response_score'],6/14)
+        # Human grades remain about the original, rejected paragraphs.
+        self.assertEqual(result['human_readability']['score'],0.4)
 
     def test_a_different_paragraph_cannot_receive_a_grade_for_the_sealed_one(self):
         root=Path(__file__).resolve().parents[1]

@@ -50,19 +50,29 @@ jobs:
         env:
           KNOWN_DOMAIN_REPLAY_KEY: ${{ secrets.KNOWN_DOMAIN_REPLAY_KEY }}
         run: python acceptance/known_domain/private_bundle.py "$RUNNER_TEMP/inferred-replay-ciphertext/inferred-tapes.sealed" "$RUNNER_TEMP/private-inferred-inputs" --manifest acceptance/known_domain/private-inferred-bundle.json
+      - name: Download separate immutable encrypted mechanism-only supersessions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=$(python -c "import json; print(json.load(open('acceptance/known_domain/private-mechanism-bundle.json'))['release_tag'])")
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern mechanism-tapes.sealed --dir "$RUNNER_TEMP/mechanism-replay-ciphertext"
+      - name: Verify mechanism ciphertext and exact member hashes before extraction
+        env:
+          KNOWN_DOMAIN_REPLAY_KEY: ${{ secrets.KNOWN_DOMAIN_REPLAY_KEY }}
+        run: python acceptance/known_domain/private_bundle.py "$RUNNER_TEMP/mechanism-replay-ciphertext/mechanism-tapes.sealed" "$RUNNER_TEMP/private-mechanism-inputs" --manifest acceptance/known_domain/private-mechanism-bundle.json
       - name: Strict thirty-answer replay and output gate
         env:
           BASE_REVISION: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
           ARGS=()
           if [[ -n "$BASE_REVISION" && "$BASE_REVISION" != "0000000000000000000000000000000000000000" ]]; then ARGS=(--base-revision "$BASE_REVISION"); fi
-          python acceptance/known_domain/two_columns.py --archived "$RUNNER_TEMP/private-replay-inputs" --inferred "$RUNNER_TEMP/private-inferred-inputs" --output "$RUNNER_TEMP/known-domain-acceptance" "${ARGS[@]}"
+          python acceptance/known_domain/two_columns.py --archived "$RUNNER_TEMP/private-replay-inputs" --inferred "$RUNNER_TEMP/private-inferred-inputs" --mechanism-root "$RUNNER_TEMP/private-mechanism-inputs" --output "$RUNNER_TEMP/known-domain-acceptance" "${ARGS[@]}"
       - name: Remove decrypted private evidence
         if: always()
         shell: pwsh
         run: |
           $replayRoot = [System.IO.Path]::GetFullPath($env:RUNNER_TEMP)
-          foreach ($replayName in @('private-replay-inputs', 'private-inferred-inputs', 'known-domain-acceptance', 'replay-ciphertext', 'inferred-replay-ciphertext')) {
+          foreach ($replayName in @('private-replay-inputs', 'private-inferred-inputs', 'private-mechanism-inputs', 'known-domain-acceptance', 'replay-ciphertext', 'inferred-replay-ciphertext', 'mechanism-replay-ciphertext')) {
             $replayTarget = [System.IO.Path]::GetFullPath((Join-Path $replayRoot $replayName))
             if (-not $replayTarget.StartsWith($replayRoot + [System.IO.Path]::DirectorySeparatorChar)) { throw 'Cleanup outside runner temp' }
             if (Test-Path -LiteralPath $replayTarget) { Remove-Item -LiteralPath $replayTarget -Recurse -Force }

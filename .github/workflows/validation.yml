@@ -109,6 +109,8 @@ jobs:
           python -m unittest discover -s scripts -p test_model_step_scores.py
           python -m unittest discover -s scripts -p test_reader_scores.py
           python -m unittest discover -s scripts -p test_synthesis_scores.py
+          python -m unittest discover -s scripts -p test_mechanism_revision.py
+          python -m unittest discover -s scripts -p test_mechanism_supersession.py
           python -m unittest discover -s scripts -p test_platform_proposers.py
           python -m unittest discover -s scripts -p test_translation_proposer.py
           python -m unittest discover -s scripts -p test_translation_native.py

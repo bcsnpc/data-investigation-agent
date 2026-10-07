@@ -20,7 +20,8 @@
       "step": "synthesis",
       "model_version": "investigator-quality-54",
       "records": "acceptance/model_steps/synthesis-recorded.json",
-      "baseline": "acceptance/model_steps/scores/synthesis-20261006-v1.json"
+      "baseline": "acceptance/model_steps/scores/synthesis-20261006-v1.json",
+      "revisions": "acceptance/model_steps/synthesis-revisions-420.json"
     },
     {
       "step": "translation",

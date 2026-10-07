@@ -16,7 +16,7 @@ def require_change_reason(before,after):
         raise ValueError('CHANGED_ACCEPTANCE_ANSWER_REQUIRES_NEW_REASON')
 
 
-def run(archived,inferred,output,*,base_revision=None):
+def run(archived,inferred,output,*,base_revision=None,mechanism_root=None):
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     paths=sorted((Path(__file__).parent/'cases').glob('*.json'))
     cases=[json.loads(p.read_text()) for p in paths]
@@ -31,13 +31,14 @@ def run(archived,inferred,output,*,base_revision=None):
     for name,root in [('archived',Path(archived)),('inferred',Path(inferred))]:
         rows=[]
         for case in cases:
-            result=run_case(case,root,output/name/case['ticket'])
+            result=run_case(case,root,output/name/case['ticket'],mechanism_root=mechanism_root)
             rows.append(result)
             print(json.dumps({'column':name,**result}),flush=True)
         columns[name]={'passed':sum(r['status']=='PASSED' for r in rows),'total':15,
                        'physical_requests':sum(r['physical_requests'] for r in rows),
                        'network_calls':sum(r['network_calls'] for r in rows),'results':rows}
     summary={'version':1,'basis':'Sealed producer replay with current output-contract grading; not unfamiliar-domain or global equivalence acceptance.',
+             'mechanism_basis':'Original producer replay; authorised separate mechanism-only tapes where declared. Not a new runtime investigation.',
              'columns':columns}
     (output/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     print('TWO_COLUMN_GATE '+json.dumps({k:{x:v[x] for x in ('passed','total','physical_requests','network_calls')} for k,v in columns.items()}),flush=True)
@@ -48,4 +49,6 @@ if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--archived',type=Path,required=True)
     p.add_argument('--inferred',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--base-revision')
-    args=p.parse_args();raise SystemExit(run(args.archived,args.inferred,args.output,base_revision=args.base_revision))
+    p.add_argument('--mechanism-root',type=Path)
+    args=p.parse_args();raise SystemExit(run(args.archived,args.inferred,args.output,
+        base_revision=args.base_revision,mechanism_root=args.mechanism_root))

@@ -702,3 +702,13 @@ requests. Every producer revision and original tape remained pinned. This
 process started before the reviewer-rule changes and retains its prior imported
 checker; it does not validate the new readability checker or restore the6/14
 model-score failure. The two records are different claims, not competing counts.
+
+
+Dated mechanism-only continuation, 2026-10-06 America/Chicago: eight authorised
+inferred paragraphs accepted after9 recorded model calls (E required its one
+retry),0 estate reads; effective machine score14/14, original6/14 and human4/10
+unchanged. Every structured response field is byte-identical in canonical form.
+Original tapes retained; separate hash-pinned encrypted supersession evidence
+uses the unchanged Actions secret. Seven different archived paragraphs also
+fail current rules; their separate revision decision and full15x2 remain pending.
+PR420 stays draft. See [supersession record](round-nine-mechanism-supersessions.md).

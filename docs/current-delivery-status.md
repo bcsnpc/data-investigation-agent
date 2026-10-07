@@ -11,8 +11,8 @@ Measure probes preserve cell addresses and use verification accounting. A keyed
 measure sample now refuses before reads: SQL cell-scope binding is not implemented. Supported native Top-N/day-relative definitions compile offline. Runtime
 wiring and live trials remain pending; existing filtered-scope refusal unchanged.
 Reviewer-fix checkpoint `382cb1b` passed 2,199 regression tests. Earlier `8de0e84`
-passed seven hosted checks; local archived/inferred replay is 15/15 in each
-column. New native-definition and retention changes have focused validation. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
+passed seven hosted checks; the pre-review local archived/inferred replay was
+15/15 in each column. The tightened current checker does not inherit that pass. New native-definition and retention changes have focused validation. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
 Governance table and retention command added; seven retention tests pass.
 Provider-region provenance has three passing tests; the fixture remains explicitly
 undeclared. A pinned, read-only demo command has four mocked tests; no server was
@@ -27,6 +27,11 @@ goldens and four scoring tests exist, with the first intake provider score recor
 Reader/synthesis/translation eval integration, redaction and rebuild remain pending.
 Nine authored reader code cases and fifteen sealed synthesis cases are now
 scorable offline; the corrected checker accepts6/14 unchanged raw synthesis responses.
+Eight authorised mechanism-only supersessions now pass (nine recorded model calls,
+zero estate reads); their effective score is14/14. Original paragraphs and human
+grades remain unchanged. Seven different archived paragraphs still fail the new
+rules; the current15x2 gate is not green and PR420 stays draft. See
+[mechanism supersessions](round-nine-mechanism-supersessions.md).
 Ten attributed human reviews are recorded: role naming8/10, one mechanism9/10,
 no repeated hedge6/10, all flags4/10. Shared rules now reject repeated hedges and
 non-role layer words; resolved roles render even without a compared boundary. This does not certify
@@ -39,9 +44,10 @@ recorded local compiler correction. The installed-adapter v3 batch scored0/3:
 all three proposals failed the metadata identity check before probes. The new
 versioned column catalog and producer identity enum served three verified first
 proposals in v4, with ten local probes. Every original is preserved; scored CI
-remains red for the corrected synthesis score drop; original baselines are unchanged. No estate verification.
+passes locally with source-bound supersessions; original baselines are unchanged.
+The two-column gate remains pending/red for separate archived findings. No estate verification.
 Draft PR #420 stays open.
-Round Nine has zero estate requests and88 metered model calls (60 intake,18 reader,10 translation including refusals). The authorized 200/40-reserved pot is
+Round Nine has zero estate requests and97 metered model calls (60 intake,18 reader,10 translation,9 mechanism revisions including a rejected first response). The authorized 200/40-reserved pot is
 now declared in its private manifest; rolling1500, investigation12 and model
 allowances are unchanged. New discovery approval remains pending before estate reads. Prior freezes remain invalid.
 [Evidence, failures and decisions](round-nine-translation-evals-governance.md).

@@ -29,7 +29,15 @@ def evaluate(root,config):
     for entry in config['steps']:
         step=entry['step'];records=read(entry['records']);version=entry['model_version']
         if step=='synthesis':
-            rows=records['records'];current=score_synthesis(rows,version)
+            rows=records['records'];scored_rows=rows
+            if entry.get('revisions'):
+                from investigator.mechanism_revision import effective_records
+                scored_rows=effective_records(rows,read(entry['revisions']))
+            current=score_synthesis(scored_rows,version)
+            if scored_rows is not rows:
+                current['basis']='RECORDED_RESPONSES_WITH_AUTHORISED_MECHANISM_ONLY_SUPERSESSIONS'
+                current['original_response_score']=score_synthesis(rows,version)['score']
+                current['supersession_reason']=read(entry['revisions'])['reason']
             current.update(evaluated=len(rows),status='COMPLETE' if len(rows)==15 and len({r['case_id'] for r in rows})==15 else 'INCOMPLETE',
                 suite_hash=digest([{'case_id':r['case_id'],'requests':[{'payload':a['payload'],'schema':a['schema']} for a in r['attempts']]} for r in rows]))
         else:
