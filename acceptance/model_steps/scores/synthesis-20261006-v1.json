@@ -82,5 +82,8 @@
       "rejected_under_current_rules": false,
       "errors": []
     }
-  ]
+  ],
+  "evaluated": 15,
+  "status": "COMPLETE",
+  "suite_hash": "b37a448c5ca360e47b2a23e418578d0735f96060ea1115e64473b2440b3e36e9"
 }

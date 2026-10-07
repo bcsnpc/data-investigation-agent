@@ -7,6 +7,10 @@
     "maximum_drop": 0.0,
     "reason": "Three deliberately small independently evaluated local cases. Any first-proposal verification regression fails; this is a release ratchet, not a claim of general equivalence or performance on an estate. Missing and provider-failed cases fail."
   },
+  "synthesis": {
+    "maximum_drop": 0.02,
+    "reason": "Provisional two-percentage-point ratchet on the same sealed request/schema set under current form and token validation. Not causal truth. Ten attributed human readability grades are a separate mandatory completeness gate; they cannot be inferred from model text."
+  },
   "reader": {
     "maximum_drop": 0.02,
     "reason": "Provisional same-suite precision/recall F1 ratchet, not a statistical production guarantee. Missing cases fail; an explicit refusal is distinct from a provider failure. First complete recorded MODEL evaluation sets the baseline."

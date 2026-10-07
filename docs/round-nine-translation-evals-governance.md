@@ -500,3 +500,19 @@ Remaining: general translation provider/runtime integration and faithful SQL
 cell-scope bindings, complete scored CI ratchet, human grades, redaction,
 rebuild, browser checks, discovery reapproval and the bounded estate list.
 No live trial or fixture mutation is justified by these local scores alone.
+
+
+Dated scored-CI checkpoint, 2026-10-06 America/Chicago: the new model-step
+regression job re-scores all four recorded decision sets, with pinned same-suite
+baselines and reasoned drop thresholds. Translation proposals execute again only
+against the local authored SQLite fixture; a cached VERIFIED marker is not an
+oracle. No provider or estate call. Four numerical deltas are0, their ratchets
+pass; the overall gate correctly FAILS until ten attributed human grades exist.
+Review paragraphs and provenance are checked against the sealed response before
+human booleans are accepted. This is the expected explicit missing-input state,
+not a failed model trial or permission request. Two gate tests pass. No merge
+while this mandatory human-review check is red; the human says grades are coming.
+The other Round Nine implementation work remains unfinished as listed above.
+Latest local usage:82 model reservations,266000 output tokens reserved,0 cloud
+calls for the UTC day; rolling197/1500; Round Nine estate0/200,40 reserved.
+Reservation allowance is not actual provider token usage or monetary price.
