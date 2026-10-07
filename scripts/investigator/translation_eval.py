@@ -53,7 +53,10 @@ def verify(case,proposal):
             # Explicit fixture binding maps the logical items table onto two
             # genuinely distinct created objects; connection alone cannot earn
             # the engine's OBJECT_DISTINCT evidence grade.
-            for table in statements[0].find_all(sqlglot.exp.Table):table.set('this',sqlglot.exp.to_identifier(objects[side]))
+            for table in statements[0].find_all(sqlglot.exp.Table):
+                if not table.args.get('alias'):
+                    table.set('alias',sqlglot.exp.TableAlias(this=sqlglot.exp.to_identifier('items')))
+                table.set('this',sqlglot.exp.to_identifier(objects[side]))
             return {'query':statements[0].sql(dialect='sqlite'),'address':address,'object':objects[side]}
         def execute(side,plan):
             db=databases[side]

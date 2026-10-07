@@ -24,6 +24,12 @@ class TranslationEvalTests(unittest.TestCase):
     def test_model_input_has_no_rows_native_statement_or_expected_answer(self):
         for c in self.g['cases']:
             r=request(c);self.assertNotIn('native_sql',r);self.assertNotIn('rows',r);self.assertNotIn('expected',r)
+    def test_declared_table_qualified_expression_survives_explicit_fixture_binding(self):
+        c=self.g['cases'][2]
+        result=verify(c,self.proposal(c,'SUM(items.v)'))
+        self.assertEqual(result['verification']['status'],'VERIFIED')
+        self.assertEqual(len(result['verification']['cells']),3)
+        self.assertEqual(result['verification_probe_count'],6)
     def test_unknown_object_and_mutating_query_refuse(self):
         c=self.g['cases'][0];p=self.proposal(c,'1=1');p['objects'][0]['id']='outside'
         with self.assertRaises(ValueError):verify(c,p)

@@ -473,3 +473,30 @@ not the general estate translation provider interface. Thirteen focused tests
 pass, including duplicate rejection and broader-inventory refusal. No expected
 answer, fixture row or native statement enters model input; the expression can
 still be wrong, fail parsing, select wrong keys or calculate a wrong quantity.
+
+
+Dated translation v2 result, 2026-10-06 America/Chicago: all three first proposals
+were served once. Top-N and pinned relative day VERIFIED; the measure was
+UNVERIFIED because the local fixture compiler renamed the declared table but
+not the qualifier in `SUM(items.v)`. Original v2 rate2/3 and every tape remain
+unchanged. DECIDED WITHOUT REVIEW: preserve logical table qualification through
+an explicit alias when binding to the two created fixture objects.39 focused
+tests passed, including qualified SUM and deliberately wrong translations.
+The exact sealed proposals were recompiled/re-evaluated locally, separately
+recorded as OFFLINE_FIXTURE_COMPILER_CORRECTION with proposal hashes. Corrected
+local rate3/3, no new model calls; measure three cells/six local probes.
+This is an evaluator correction, not a replacement successful run or estate
+verification. v2 provider usage: {"input_tokens": 2373, "output_tokens": 2341, "total_tokens": 4714}.
+Round Nine82 provider calls including failed batches; no estate reads.
+
+| Step | Deployment | Recorded score | Delta/basis |
+| --- | --- | --- | --- |
+| Intake | investigator-quality-54 |94.861% field match,60 cases;6/6 intended holds | First baseline, authored expectations need review |
+| Reader MODEL | investigator-quality-54 |v1 nine provider refusals; v2 precision/recall/F1 1.0,2/2 intended refusals | Wire repaired; failed batch is not a quality baseline |
+| Synthesis | investigator-quality-54 |13/14 token/form validity; C no model paragraph;10 human grades pending | Recorded earned responses under current rules; not mechanism truth |
+| Translation | investigator-quality-54 |v1 one provider refusal then stop; v2 2/3 originally;3/3 same sealed proposals after offline fixture compiler repair | Small synthetic evidence, original result unchanged; no general/estate acceptance |
+
+Remaining: general translation provider/runtime integration and faithful SQL
+cell-scope bindings, complete scored CI ratchet, human grades, redaction,
+rebuild, browser checks, discovery reapproval and the bounded estate list.
+No live trial or fixture mutation is justified by these local scores alone.

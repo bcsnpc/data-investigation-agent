@@ -1,0 +1,86 @@
+{
+  "step": "synthesis",
+  "model_version": "investigator-quality-54",
+  "cases": 14,
+  "attempts": 14,
+  "no_model_mechanism_cases": [],
+  "score": 0.9285714285714286,
+  "token_validity": 0.9285714285714286,
+  "rejection_rate": 0.07142857142857142,
+  "basis": "RECORDED_RESPONSES_UNDER_CURRENT_VALIDATION",
+  "human_readability": "PENDING",
+  "results": [
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    },
+    {
+      "token_valid": false,
+      "rejected_under_current_rules": true,
+      "errors": [
+        "LAYER_TOKENS"
+      ]
+    },
+    {
+      "token_valid": true,
+      "rejected_under_current_rules": false,
+      "errors": []
+    }
+  ]
+}
