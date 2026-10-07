@@ -605,3 +605,15 @@ compare suite hashes across corpus versions, so no invented improvement delta
 from v3 or the prototype is reported. This establishes only a3-case local
 regression baseline. The previous failed score files and gate report remain.
 Human readability is still required and ungraded; the overall gate stays red.
+
+
+Dated independent offline groundwork, 2026-10-06 America/Chicago: the
+[redaction capture audit](round-nine-redaction-contract-audit.md) reproduces
+sensitive synthetic values persisting at four tape boundaries and shows the
+current byte-replay conflict; a privacy-projected contract choice has been
+asked asynchronously. No sensitive real data or original tape was altered.
+The [rebuild seed/template groundwork](round-nine-rebuild-groundwork.md) has
+four passing tests and independently derives7661/8765 from the committed seed.
+It changes only declared container paths; no notebook executes. Full rebuild
+command and remaining recorded templates are pending, not claimed delivered.
+No provider or estate request in either audit.

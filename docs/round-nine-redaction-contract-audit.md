@@ -1,0 +1,55 @@
+# Redaction capture and replay contract audit
+
+Recorded 2026-10-06 America/Chicago. Synthetic material only; zero provider or
+estate requests. Existing evidence was not changed. This records unfinished
+work, not a delivered redaction control.
+
+The requested guarantee covers every output and every tape, rather than just
+rendered explanations. Current capture precedes those explanations:
+
+| Boundary | Existing behavior | Consequence for a declared sensitive key |
+| --- | --- | --- |
+| `Tape.__init__` / BOOTSTRAP | Serializes full configuration and state | A ticket or context payload can retain the value before any read |
+| BOUNDED_REQUEST and WORKER_SEND | Retains the original diagnostic request | A key can appear inside the predicate, not only in a result column |
+| BOUNDED_RESPONSE and WORKER_READ | Retains the original response | Hashing a later receipt leaves the raw value in the tape |
+| PROVIDER_REQUEST / RESPONSE | Nested JSON and base64 HTTP bodies are retained | Final-output masking does not cover model payloads or responses |
+| FINAL | Retains results and outputs | Every earlier leak remains even if FINAL is masked |
+
+A temporary synthetic tape with `person_name=ROUND_NINE_SYNTHETIC_PERSON`
+retained that value in BOOTSTRAP, BOUNDED_REQUEST, BOUNDED_RESPONSE and FINAL.
+Replacing the request's value with a hash under the current replay contract
+refused with exactly `TAPE_REQUEST_BYTES_DIFFER`. The temporary tape was removed;
+the audit result and ledger entry are retained. No actual person data was used.
+
+The relevant code is [process_tape.py](../scripts/investigator/process_tape.py)
+(`Tape.event`, `take`, `bounded_call`) and
+[provider_tape_contract.py](../scripts/investigator/provider_tape_contract.py)
+(canonical provider-body comparison, including its nested body encoding).
+Secret detection does not constitute column-value redaction. Base64 is encoding,
+not concealment. Encryption is not the requested substitution either.
+
+Implementing an output-only replacement or rewriting sealed historical tapes
+would fail the requirement. A correct implementation needs a distinct capture
+contract for installations that declare sensitive columns:
+
+1. Exact column identities, typed hashing and explicit policy provenance. No
+   basename guessing, inferred sensitive-column list, new secret or grant.
+2. A typed projection before durable capture, with sensitive query/selection
+   values covered as well as returned grouping keys. Parsing failures refuse
+   capture rather than leaking an opaque body.
+3. Consistent opaque identities across receipts, addresses and outputs. Preserve
+   null/zero/empty distinctions, equality, grouping cardinality and attestation;
+   do not change a predicate or replace an aggregate with a plausible value.
+4. Original-request content hashes and clearly labelled projected response
+   bodies. A projected replay must never claim it replayed the original raw
+   response bytes. Original versions remain immutable and supported.
+5. Coverage of bootstrap, workers, bounded routes, nested provider bodies,
+   failures, final outputs, sidecars and pinned context artifacts; a raw tape
+   plus a masked export is insufficient.
+
+The remaining contract decision is whether redacted installations may use a
+new explicitly labelled privacy-projected replay format, or must fail closed
+as non-replayable where projection changes a sealed input identity. Both choices
+must keep the original raw-body contract for existing tapes. Until that choice
+is resolved and the full path is tested, the manifest does not advertise this
+control and the fixture continues to declare no redacted columns.
