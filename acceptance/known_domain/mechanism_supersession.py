@@ -42,6 +42,12 @@ def select(path,source,*,root,records,revisions):
     event=next(e for e in reversed(tape.events) if e['kind']=='PROVIDER_RESPONSE')
     if event['sha256']!=revision['revision_provider_event_sha256']:
         raise ValueError('MECHANISM_SUPERSESSION_PROVIDER_EVENT_DIFFERS')
+    request_event=next(e for e in reversed(tape.events) if e['kind']=='PROVIDER_REQUEST' and e['ordinal']<event['ordinal'])
+    request=json.loads(validate_event(request_event,request_event['ordinal']))
+    submitted=json.loads(request['input'])['mechanism']
+    if (submitted['spine']!=source['payload'] or submitted['previous_mechanism']!=source['text']
+            or submitted['reason']!=REASON):
+        raise ValueError('MECHANISM_SUPERSESSION_PROVIDER_CONTEXT_DIFFERS')
     wrapper=json.loads(validate_event(event,event['ordinal']))
     response=json.loads(base64.b64decode(wrapper['body'],validate=True))
     answer=json.loads(''.join(c['text'] for o in response['output'] if o['type']=='message'

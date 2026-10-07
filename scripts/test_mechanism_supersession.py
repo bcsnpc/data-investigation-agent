@@ -17,7 +17,8 @@ class SupersessionGateTests(unittest.TestCase):
             'config':{},'profile':{},'usage_policy':{},'engine_hash':'synthetic','state':{
                 'supersedes_tape_sha256':source_hash,'supersedes_provider_event_sha256':'source-event','reason':REASON}})
         body={'output':[{'type':'message','content':[{'type':'output_text','text':json.dumps({'text':response['technical_output']['text']})}]}]}
-        tape.event('PROVIDER_REQUEST',bytes_of({'input':'synthetic immutable evidence'}))
+        tape.event('PROVIDER_REQUEST',bytes_of({'input':json.dumps({'mechanism':{
+            'spine':{'layer_tokens':{}},'previous_mechanism':'Original sentence.','reason':REASON}})}))
         tape.event('PROVIDER_RESPONSE',bytes_of({'status':200,'body':base64.b64encode(bytes_of(body)).decode()}))
         event_hash=tape.events[-1]['sha256']
         tape.finish({'status':'ACCEPTED','result':{'response':response}})
@@ -27,7 +28,8 @@ class SupersessionGateTests(unittest.TestCase):
             'superseded_text':original['technical_output']['text'],'response':response,
             'revision_tape_member':'new.json','revision_tape_sha256':hashlib.sha256(tape.path.read_bytes()).hexdigest(),
             'revision_provider_event_sha256':event_hash}
-        return source,{'provider_event_sha256':'source-event','response':original},records,{'version':1,'reason':REASON,'revisions':[revision]}
+        return source,{'provider_event_sha256':'source-event','response':original,'text':'Original sentence.',
+            'payload':{'layer_tokens':{}}},records,{'version':1,'reason':REASON,'revisions':[revision]}
 
     def test_private_provider_body_and_all_structured_fields_are_checked(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -40,6 +42,9 @@ class SupersessionGateTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'STRUCTURED_FIELDS'):select(path,source,root=root,records=records,revisions=bad)
             bad=copy.deepcopy(revisions);bad['revisions'][0]['revision_provider_event_sha256']='forged'
             with self.assertRaisesRegex(ValueError,'PROVIDER_EVENT_DIFFERS'):select(path,source,root=root,records=records,revisions=bad)
+            bad_source=copy.deepcopy(source);bad_source['payload']['new_context']='different'
+            with self.assertRaisesRegex(ValueError,'PROVIDER_CONTEXT_DIFFERS'):
+                select(path,bad_source,root=root,records=records,revisions=revisions)
 
     def test_no_cross_column_substitution_or_unproved_amendment(self):
         with tempfile.TemporaryDirectory() as folder:

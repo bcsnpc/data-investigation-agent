@@ -97,9 +97,12 @@ def sealed_mechanism(path):
     """
     import base64
     from investigator.process_tape import Tape,validate_event
-    tape=Tape(path);operation=None;found=[]
+    tape=Tape(path);operation=None;request=None;found=[]
     for event in tape.events:
-        if event['kind']=='OPERATION_START':operation=json.loads(validate_event(event,event['ordinal']))['name']
+        if event['kind']=='OPERATION_START':
+            operation=json.loads(validate_event(event,event['ordinal']))['name'];request=None
+        if event['kind']=='PROVIDER_REQUEST' and operation=='synthesize':
+            request=json.loads(validate_event(event,event['ordinal']))
         if event['kind']!='PROVIDER_RESPONSE' or operation!='synthesize':continue
         wrapper=json.loads(validate_event(event,event['ordinal']))
         body=json.loads(base64.b64decode(wrapper['body'],validate=True))
@@ -107,8 +110,10 @@ def sealed_mechanism(path):
             if call.get('type')!='function_call':continue
             args=json.loads(call['arguments'])
             if 'technical_output' in args:
+                if request is None:raise ValueError('Sealed mechanism lacks its provider request')
                 found.append({'text':args['technical_output']['text'],'provenance':'SEALED_PROVIDER_MECHANISM',
-                              'provider_event_sha256':event['sha256'],'response':args})
+                              'provider_event_sha256':event['sha256'],'response':args,
+                              'payload':json.loads(request['input'])})
     if not found:return None
     return found[-1]
 

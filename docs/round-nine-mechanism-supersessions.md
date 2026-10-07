@@ -100,3 +100,17 @@ rather than a duplicated1000 literal. Failed CI runs37566469628/37566474060
 remain visible. Current hosted full replay and stable regression are pending.
 Published ciphertext was independently downloaded and its SHA-256 verified;
 no local decryption or new secret was used.
+
+Dated full-source proof: all eight new provider requests contain the exact
+original sealed evidence spine, previous mechanism and approved reason. This
+is now asserted by the hosted amendment checker as well as the local proof;
+a different evidence context refuses even if the response text is valid.
+31 focused tests pass. No new provider or estate request.
+
+Local d8ae849 full discovery ran2208 tests in459.805s with8 errors: seven
+tracing tests lacked opentelemetry in the invoked base interpreter, and one
+used the already-corrected replay double. No failure was discarded. The stable
+527abcd rerun uses the previously installed, pinned otlp-deps directory; no
+package or system environment was changed. Latest527abcd generator, portal,
+PowerShell and model-score hosted checks pass. Full current replay still
+rejects seven archived paragraphs; no15x2 pass or draft promotion is claimed.
