@@ -91,3 +91,12 @@ Full regression and current thirty-case gate remain pending at this checkpoint.
 General translation/runtime wiring, privacy capture contract, complete rebuild,
 browser verification, discovery approval and the bounded estate verification
 remain pending. Prior freezes remain invalid. No live estate run here.
+
+Dated hosted follow-up: model-step-regression passed on d8ae849. Generator CI
+failed because the two-column test double did not accept the new explicit
+mechanism-root argument. The double now asserts it is forwarded for all30
+cases;31 focused tests pass. The operator uses the consumer-owned claim bound
+rather than a duplicated1000 literal. Failed CI runs37566469628/37566474060
+remain visible. Current hosted full replay and stable regression are pending.
+Published ciphertext was independently downloaded and its SHA-256 verified;
+no local decryption or new secret was used.

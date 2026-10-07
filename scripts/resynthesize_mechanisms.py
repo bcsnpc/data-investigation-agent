@@ -12,6 +12,7 @@ from investigator.onboarding import digest
 from investigator.mechanism_revision import revise,REASON,require_unused_retry
 from investigator.synthesis_scores import score_attempt
 from investigator.path_narrative import producer_rules,mechanism_schema
+from investigator.proposal_limits import ASSESSMENT_CLAIM
 from investigator.generation_policy import error_summary
 from run_adaptive_investigation import local_azure_key
 
@@ -92,7 +93,7 @@ def main():
                         max_input=2*agent.generation_options['max_payload_characters'],
                         event=lambda k,d:journal.event('CONFIGURATION',{'event':k,'detail':d}),context_version=record['tape_sha256'])
                     contract={'type':'object','additionalProperties':False,'required':['text'],
-                        'properties':{'text':mechanism_schema(1000)}}
+                        'properties':{'text':mechanism_schema(ASSESSMENT_CLAIM)}}
                     request={'spine':attempt['payload'],'previous_mechanism':attempt['response']['technical_output']['text'],
                         'reason':REASON,'correction':None}
                     if previous:
