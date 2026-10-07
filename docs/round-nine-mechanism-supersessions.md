@@ -114,3 +114,10 @@ used the already-corrected replay double. No failure was discarded. The stable
 package or system environment was changed. Latest527abcd generator, portal,
 PowerShell and model-score hosted checks pass. Full current replay still
 rejects seven archived paragraphs; no15x2 pass or draft promotion is claimed.
+
+Dated stable regression result:527abcd passed2208 tests in447.851s with the
+pinned tracing dependency directory. The stricter source-context proof on
+67b6d61 passed31 focused tests and all8 actual sealed-source comparisons.
+The earlier8-error run remains intact. Current15x2 remains unearned because
+seven distinct archived paragraphs fail the tightened rules. No additional
+model call while the bounded archived-revision decision is pending.
