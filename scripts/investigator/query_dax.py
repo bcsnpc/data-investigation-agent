@@ -9,7 +9,7 @@ from .semantic_graph import tokenize
 VERSION='bounded-dax-v1'
 TABLE_FUNCTIONS={'ROW','SUMMARIZECOLUMNS','SUMMARIZE','SELECTCOLUMNS','ADDCOLUMNS','FILTER',
                  'CALCULATETABLE','VALUES','DISTINCT','ALL','ALLSELECTED','TOPN','TREATAS',
-                 'DATESBETWEEN','DATESINPERIOD','DATEADD','SAMEPERIODLASTYEAR','EXCEPT','INTERSECT','UNION'}
+                 'DATESBETWEEN','DATESINPERIOD','DATEADD','SAMEPERIODLASTYEAR','EXCEPT','INTERSECT','UNION','KEEPFILTERS','REMOVEFILTERS','RELATEDTABLE'}
 FUNCTIONS=TABLE_FUNCTIONS|{'CALCULATE','SUM','SUMX','COUNT','COUNTX','COUNTROWS','DISTINCTCOUNT',
  'MIN','MAX','MINX','MAXX','AVERAGE','AVERAGEX','DIVIDE','IF','SWITCH','COALESCE','ISBLANK',
  'BLANK','TRUE','FALSE','ABS','ROUND','INT','DATE','YEAR','MONTH','DAY','DATEDIFF','TODAY',
@@ -28,8 +28,8 @@ def capabilities():
 
 
 class Parser:
-    def __init__(self,query,assets,*,identity=False):
-        self.identity=identity;self.volatile=False
+    def __init__(self,query,assets,*,identity=False,strict_forms=False):
+        self.identity=identity;self.volatile=False;self.strict_forms=strict_forms
         if not isinstance(query,str) or not 1<=len(query)<=limits.QUERY_TEXT:raise ValueError('DAX text budget exceeded')
         tokens,gaps=tokenize(query)
         if gaps or not tokens or len(tokens)>1600:raise ValueError('Unsupported DAX token or syntax budget')
@@ -65,7 +65,11 @@ class Parser:
         else:
             value,typ=self.atom()
             while self.peek() and self.tokens[self.i][1].upper() in OPS:
-                operator=self.take()[1];right,_=self.atom();value+=' '+operator+' '+right;typ='scalar'
+                operator=self.take()[1];right,right_type=self.atom()
+                if self.strict_forms and (typ=='table' or (right_type=='table' and operator!='IN') or (operator=='IN' and right_type!='table')):
+                    raise ValueError('DAX operator requires scalar operands and IN requires a table on the right')
+                value+=' '+operator+' '+right
+                typ='boolean' if operator in {'=','<','>','<=','>=','<>','==','&&','||','IN'} else 'scalar'
             result=value,typ
         self.depth-=1
         return result
@@ -85,7 +89,7 @@ class Parser:
                 return expression,'scalar'
         kind,value=self.take()
         if value in ('+','-') or value.upper()=='NOT':
-            child,_=self.atom();return value+' '+child,'scalar'
+            child,_=self.atom();return value+' '+child,'boolean' if value.upper()=='NOT' else 'scalar'
         if value=='(':
             child,typ=self.expression();self.take(')');return '('+child+')',typ
         if value=='{':
@@ -102,11 +106,11 @@ class Parser:
         if kind=='name' and self.peek('('):
             function=value.upper()
             if function not in FUNCTIONS:raise ValueError('Unsupported DAX function: '+function)
-            self.take('(');arguments=[]
+            self.take('(');arguments=[];argument_types=[]
             if function in ('NOW','TODAY'):self.volatile=True
             if not self.peek(')'):
                 while True:
-                    child,_=self.expression();arguments.append(child)
+                    child,child_type=self.expression();arguments.append(child);argument_types.append(child_type)
                     if not self.peek(','):break
                     self.take(',')
             self.take(')')
@@ -127,7 +131,9 @@ class Parser:
             for label in labels:
                 if label.startswith('"') and label.endswith('"'):columns.add(label[1:-1].replace('""','"'))
             self.projected_columns[rendered]=columns
-            return rendered,'table' if function in TABLE_FUNCTIONS else 'scalar'
+            kind='table' if function in TABLE_FUNCTIONS else 'boolean' if function in ('TRUE','FALSE','ISBLANK','HASONEVALUE','ISFILTERED','ISCROSSFILTERED') else 'scalar'
+            if function=='IF' and len(argument_types)==3 and argument_types[1]==argument_types[2]:kind=argument_types[1]
+            return rendered,kind
         qualifier=None
         if kind in ('name','table'):
             name=value[1:-1].replace("''", "'") if kind=='table' else value

@@ -34,6 +34,9 @@ SCHEMA = obj({
     'objects': {'type': 'array', 'minItems': 1, 'maxItems': 64, 'uniqueItems': True, 'items': OBJECT},
     'grouping': {'type': 'array', 'maxItems': 64, 'uniqueItems': True, 'items': TEXT},
     'evaluation_timestamp': {'type': ['string', 'null'], 'maxLength': 64}})
+LEGACY_SCHEMA = copy.deepcopy(SCHEMA)
+SCHEMA['properties']['form'] = {'type': ['string', 'null'], 'enum': ['PREDICATE', 'TABLE_FILTER', None]}
+SCHEMA['required'].append('form')
 
 
 class TranslationProposer(Protocol):
@@ -48,7 +51,11 @@ def timestamp(value):
 
 
 def validate(proposal, request):
-    Draft202012Validator(SCHEMA).validate(proposal)
+    # Historical sealed proposals predate form; fresh production always uses
+    # SCHEMA below. Never rewrite their hashes or infer a form into old evidence.
+    Draft202012Validator(SCHEMA if 'form' in proposal else LEGACY_SCHEMA).validate(proposal)
+    if 'form' in proposal and ((proposal['kind']=='FILTER') == (proposal['form'] is None)):
+        raise ValueError('Filter needs a declared form; measure form must be null')
     if not isinstance(request.get('scope'), dict):
         raise ValueError('Translation requires explicit declared scope; absence is not empty scope')
     for key in ('kind', 'definition_hash', 'target_engine', 'grouping'):
@@ -69,7 +76,9 @@ def validate(proposal, request):
 
 def propose(request, proposer, model_call):
     """Caller meters/records every provider call; the response cannot self-verify."""
-    return validate(model_call(request, lambda: proposer.propose(copy.deepcopy(request), copy.deepcopy(SCHEMA))), request)
+    proposal=model_call(request, lambda: proposer.propose(copy.deepcopy(request), copy.deepcopy(SCHEMA)))
+    Draft202012Validator(SCHEMA).validate(proposal)
+    return validate(proposal, request)
 
 
 def key_fingerprint(keys, normalization):

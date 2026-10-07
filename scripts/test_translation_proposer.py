@@ -209,7 +209,7 @@ class TranslationTests(unittest.TestCase):
             ledger.view(changed); self.assertEqual(ledger.path.read_bytes(), original)
 
     def test_mechanism_uses_metered_provider_contract(self):
-        request, p = case(); proposer = Mock(); proposer.propose.return_value = p
+        request, p = case(); p['form']='PREDICATE'; proposer = Mock(); proposer.propose.return_value = p
         meter = Mock(side_effect=lambda request, execute: execute())
         self.assertEqual(t.propose(request, proposer, meter), p)
         meter.assert_called_once(); self.assertEqual(proposer.propose.call_args.args[1], t.SCHEMA)
@@ -322,7 +322,9 @@ class TranslationTests(unittest.TestCase):
         self.assertEqual(payload['metadata']['key_binding_declaration'], proof['declaration'])
         self.assertNotIn('observations', str(payload))
         for key in t.SCHEMA['properties']:
-            if key!='objects':self.assertEqual(schema['properties'][key],t.SCHEMA['properties'][key])
+            if key not in ('objects','kind','form'):self.assertEqual(schema['properties'][key],t.SCHEMA['properties'][key])
+        self.assertEqual(schema['properties']['form']['enum'],['PREDICATE','TABLE_FILTER'])
+        self.assertEqual(schema['properties']['kind']['enum'],['FILTER'])
         self.assertEqual(schema['properties']['objects']['maxItems'],t.SCHEMA['properties']['objects']['maxItems'])
         self.assertTrue(schema['properties']['objects']['uniqueItems'])
         from jsonschema import Draft202012Validator
