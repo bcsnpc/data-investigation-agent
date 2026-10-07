@@ -1,6 +1,6 @@
 # Self-Discovering Enterprise Data Investigator
 
-Dated Round Ten pre-run seal, 2026-10-07: #422 merged with hosted archived15/15 and inferred15/15 green. Fifty fixture-authored tickets are hash-sealed before execution; the owner folder was empty. The separate six-page visual report is collected, and both additive-unit bindings have fresh bounded witnesses. No Round Ten ticket has run yet. Pot190/800, restoration5/100, rolling315/3000, investigation cap12 unchanged. See [Round Ten record](docs/round-ten-findings.md). This is preparation, not a new accuracy or unfamiliar-domain claim.
+Dated Round Ten partial batch, 2026-10-07: all50 inference-enabled tickets and14/30 inference-disabled evaluations ran once;41/64 matched full sealed expectations and output checks. The unchanged daily model allowance240/240 stopped16 remaining evaluations. All six visual-variety cases missed their expectations, including a same-number/wrong-cell finding. New gate enlargement is blocked by copied-bootstrap SQLite replay; #423 stays draft, no larger pass claimed. Pot572/800, restoration5/100, rolling697/3000; diagnostics12 unchanged. See [partial delivery record](docs/round-ten-delivery-record.md). Rebuild and billing have not started. The earlier Round Nine checkpoints below are historical.
 
 Round Nine continues with offline integration. Forty-five translation tests pass, including
 actual governed DAX/SQL compiler and receipt paths with injected transports.

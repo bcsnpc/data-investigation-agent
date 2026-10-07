@@ -4,7 +4,7 @@ Updated 2026-10-07 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 ## Current milestone
 
-**Round Ten: fifty-ticket pre-run seal.** #422 merged on seven green checks, including archived15/15 and inferred15/15 historical replay. Fifty independently derived, fixture-authored tickets are sealed; none has run. The separate visual-variety fixture is served and collected, baseline remains8,765, and both additive-unit bindings have fresh bounded current-context witnesses. Pot190/800, restoration5/100, rolling315/3000, diagnostics12 unchanged. The declared/stripped list, rebuild and billing remain pending. See [Round Ten evidence](round-ten-findings.md). Earlier dated checkpoints below remain historical; prior unfamiliar-domain freezes are invalid.
+**Round Ten: partial fifty-ticket evaluation.** All50 inference-enabled tickets and14/30 inference-disabled evaluations ran once. Full authored expectations/output checks matched41/64 (31/50 and10/14);16 evaluations remain unattempted after the unchanged daily model allowance reached240/240. All six visual expectations failed, including reproduction in a different cell. The new tape gate is blocked by a copied-bootstrap SQLite lock; #423 stays draft and the last earned hosted gate remains15?2. Pot572/800, restoration5/100, rolling697/3000, diagnostics12 unchanged. Rebuild, billing and later sections have not started. See [partial delivery record](round-ten-delivery-record.md) and [dated findings](round-ten-findings.md). Earlier checkpoints below are historical; prior unfamiliar-domain freezes remain invalid.
 
 **Round Nine offline integration in progress.** Forty-five translation tests
 pass, including governed DAX/SQL compiler and receipt paths with injected
