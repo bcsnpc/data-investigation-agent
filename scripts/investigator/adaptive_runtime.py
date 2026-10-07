@@ -690,6 +690,12 @@ class AdaptiveRuntime:
             max_boundaries=self.process_max_boundaries,read_endpoint=read_endpoint,
             read_refresh_timing=read_refresh_timing if self.config['fabric'].get('refresh_timing_reader') else None,
             read_snapshot_identity=read_snapshot_identity if self.config['fabric'].get('snapshot_identity_reader') else None)
+        def stage_event(kind, detail):
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                self.save(db,current,kind,detail)
+        from .process_stages import Adapter as StageAdapter
+        adapter=StageAdapter(adapter,stage_event)
         from .context_search import MeasurePathLimit
         try:
             path=adapter.resolve_path(state['envelope']['measure_id'])
@@ -714,7 +720,12 @@ class AdaptiveRuntime:
             from .definition_target import procedure_scope
             with observation_journal.scope(journal):
                 if self.process_lineage is not None:
-                    path=self.process_lineage(adapter,path,state['envelope'],meter_read)
+                    stage_event('PROCESS_STAGE_STARTED',{'stage':'context','operation':'qualify_lineage'})
+                    lineage_error=None
+                    try:path=self.process_lineage(adapter,path,state['envelope'],meter_read)
+                    except BaseException as exc:
+                        lineage_error=type(exc).__name__;raise
+                    finally:stage_event('PROCESS_STAGE_FINISHED',{'stage':'context','operation':'qualify_lineage','error_type':lineage_error})
                     adapter.resolve_path=lambda measure:path
                 assessment=vertical(adapter,state['envelope']['measure_id'],procedure_scope(state['envelope']))
             observations=assessment.pop('_observations',None)

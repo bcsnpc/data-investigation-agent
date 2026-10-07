@@ -40,10 +40,10 @@ class TapeTraceTests(unittest.TestCase):
                               'surface_attestation': {'status': 'PARTIAL'}, 'layer_role': 'SOURCE'}]}})
         return events
 
-    def convert(self):
+    def convert(self,events=None):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / 'tape.json'; path.write_text('sealed synthetic fixture')
-            tape = SimpleNamespace(path=path, events=self.example(), version='test', engine_revision='abc')
+            tape = SimpleNamespace(path=path, events=events or self.example(), version='test', engine_revision='abc')
             with patch.object(trace, 'Tape', return_value=tape):
                 return trace.convert(path)
 
@@ -78,6 +78,22 @@ class TapeTraceTests(unittest.TestCase):
         self.assertIn('walk: 7.000s, 1 model calls, 20/5 input/output tokens, 1 physical admissions', text)
         self.assertIn('source: timing not recorded separately', text)
         self.assertIn('currency cost not recorded', text)
+
+    def test_new_stage_events_attribute_source_probes_without_guessing_tool_names(self):
+        events=self.example();final=json.loads(base64.b64decode(events[-1]['body']))
+        runtime=final['result']['events']
+        runtime[:0]=[{'kind':'PROCESS_STAGE_STARTED','created':'1970-01-01T00:00:02Z',
+                      'detail':{'stage':'source','operation':'ingestion'}}]
+        runtime.append({'kind':'PROCESS_STAGE_FINISHED','created':'1970-01-01T00:00:09Z',
+                        'detail':{'stage':'source','operation':'ingestion','error_type':None}})
+        raw=json.dumps(final).encode();events[-1]['body']=base64.b64encode(raw).decode();events[-1]['sha256']=hashlib.sha256(raw).hexdigest()
+        value,summary=self.convert(events)
+        self.assertEqual(summary['recorded_stages'],['source'])
+        self.assertEqual(summary['stages']['source']['model_calls'],1)
+        self.assertEqual(summary['stages']['source']['wall_seconds'],7)
+        spans=value['resourceSpans'][0]['scopeSpans'][0]['spans']
+        source=next(s for s in spans if s['name']=='source')
+        self.assertTrue(all(s['parentSpanId']==source['spanId'] for s in spans if s['name'] in ('model','probe')))
 
 
 if __name__ == '__main__': unittest.main()

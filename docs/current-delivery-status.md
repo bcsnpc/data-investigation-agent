@@ -10,14 +10,17 @@ transports. Empty native key sets retain attestation; truncated sets refuse.
 Measure probes preserve cell addresses and use verification accounting. A keyed
 measure sample now refuses before reads: SQL cell-scope binding is not implemented. Supported native Top-N/day-relative definitions compile offline. Runtime
 wiring and live trials remain pending; existing filtered-scope refusal unchanged.
-Stable checkpoint `4e61a5e` passed 2,100 regression tests. Earlier `8de0e84`
+Stable checkpoint `624ca67` passed 2,113 regression tests. Earlier `8de0e84`
 passed seven hosted checks; local archived/inferred replay is 15/15 in each
 column. New native-definition and retention changes have focused validation. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
 Governance table and retention command added; seven retention tests pass.
 Provider-region provenance has three passing tests; the fixture remains explicitly
 undeclared. A pinned, read-only demo command has four mocked tests; no server was
-started. Evals, redaction, rebuild, live tracing footer and workspace stage/binding
-views remain pending. Draft PR #420 stays open.
+started. Engine stage events now reach the existing activity view during calls;
+the technical view lists local recorded binding checks without claiming current
+eligibility. Four stage tests, five trace tests, two binding-view tests and 24
+workspace tests pass; browser verification is pending. Evals, redaction, rebuild
+and live tracing footer remain pending. Draft PR #420 stays open.
 Round Nine has no estate/provider calls or policy change; authorized 200/40-reserved
 pot is not yet configured. Prior freezes remain invalid.
 [Evidence, failures and decisions](round-nine-translation-evals-governance.md).

@@ -119,6 +119,18 @@ function render(data){
   $('identities').replaceChildren();for(const [label,value] of [['Session',data.id],['Scope',data.scope_hash],['Outcome',data.outcome_hash],['Cause verified',String(data.cause_verified)],['Delivery eligible',String(data.delivery_eligible)]])$('identities').append(node('dt',label),node('dd',value));
   $('technical-scope').textContent=JSON.stringify({scope:data.scope,budgets:data.technical.budgets,intake:data.intake},null,2);
   $('technical-outcome').textContent=JSON.stringify(data.technical.outcome,null,2);$('technical-decisions').textContent=JSON.stringify(data.technical.decisions,null,2);
+  renderBindings(data.bindings || []);
+}
+function renderBindings(rows){
+  const host=$('binding-ledger');host.replaceChildren();
+  if(!rows.length){host.append(node('p','No recorded binding checks in this installation.','muted'));return;}
+  const table=node('table');table.append(node('caption','Recorded location, verdict and original values'));
+  const head=node('tr');for(const title of ['Code location','Target','Recorded verdict','First value','Second value'])head.append(node('th',title));table.append(head);
+  const measured=item=>!item?'Not obtained':item.value===null||item.value===undefined?'Not obtained ('+item.status+')':typeof item.value==='object'?Object.entries(item.value).map(([k,v])=>k+': '+format(v)).join('; '):format(item.value);
+  for(const entry of rows){const tr=node('tr');const loc=entry.location;
+    for(const value of [loc.item+' / '+loc.path+' / '+loc.cell+' lines '+loc.line_start+'–'+loc.line_end,entry.target.table+' / '+entry.target.column,entry.recorded_verdict,measured(entry.values[0]),measured(entry.values[1])])tr.append(node('td',value));
+    table.append(tr);
+  }host.append(table);
 }
 async function openSession(id){
   stopPolling();const epoch=generation;const data=await api('sessions/'+encodeURIComponent(id));if(epoch!==generation)return;

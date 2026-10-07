@@ -112,14 +112,35 @@ def convert(path):
             if opened is None or opened[1] != b['name']: raise ValueError('Recorded operation pairing differs')
             operations.append((opened[0], e['at'], OPERATIONS.get(b['name'], 'context'), bool(b.get('error')))); opened = None
     if opened is not None: raise ValueError('Unfinished operation cannot export a completed trace')
+    # New tapes retain procedure-call stage events in the original FINAL state.
+    # Attribute nested source/reproduction work from those events, not tool names.
+    calls=[];pending_stage=None
+    for event in state.get('events',[]):
+        if event.get('kind') not in ('PROCESS_STAGE_STARTED','PROCESS_STAGE_FINISHED'):continue
+        detail=event['detail'];stage=detail['stage']
+        if stage not in STAGES:raise ValueError('Unknown recorded process stage')
+        at=datetime.fromisoformat(event['created'].replace('Z','+00:00')).timestamp()
+        if event['kind']=='PROCESS_STAGE_STARTED':
+            if pending_stage is not None:raise ValueError('Nested recorded procedure stages')
+            pending_stage=(at,stage,detail['operation'])
+        else:
+            if pending_stage is None or pending_stage[1:]!=(stage,detail['operation']):
+                raise ValueError('Procedure stage pairing differs')
+            calls.append((pending_stage[0],at,stage,bool(detail.get('error_type'))));pending_stage=None
+    if pending_stage is not None:raise ValueError('Unfinished recorded procedure stage')
+    timing=([o for o in operations if o[2]!='walk']+calls) if calls else operations
     stages = {}
     for stage in STAGES:
-        intervals = [o for o in operations if o[2] == stage]
+        intervals = [o for o in timing if o[2] == stage]
         if not intervals: continue
         stages[stage] = span(stage, min(o[0] for o in intervals), max(o[1] for o in intervals), root['spanId'],
-                             {'dia.stage': stage, 'dia.stage.basis': 'RECORDED_OPERATION'}, any(o[3] for o in intervals))
+                             {'dia.stage': stage, 'dia.stage.basis': 'RECORDED_PROCEDURE_CALL' if calls else 'RECORDED_OPERATION'}, any(o[3] for o in intervals))
         summary[stage]['wall_seconds'] = sum(float(Decimal(str(o[1])) - Decimal(str(o[0]))) for o in intervals)
     def stage_at(at):
+        selected=next((c[2] for c in calls if c[0]<=at<=c[1]),None)
+        if selected is not None:return selected
+        # Unattributed gaps inside a modern walk are not invented stage spans.
+        if calls:return next((o[2] for o in operations if o[2]!='walk' and o[0]<=at<=o[1]),None)
         return next((o[2] for o in operations if o[0] <= at <= o[1]), None)
     providers = []; budgets = {}
     for e, raw in events:

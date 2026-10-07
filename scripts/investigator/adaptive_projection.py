@@ -15,7 +15,9 @@ def read(store,model_id,identity,audience='technical'):
         if row is None:raise KeyError('Session not found')
         state=json.loads(row['state'])
         if digest(state)!=row['state_hash']:raise ValueError('Session integrity differs')
-        events=[{'kind':r['kind'],'created':r['created']} for r in db.execute('SELECT kind,created FROM adaptive_events WHERE session_id=? ORDER BY id',(identity,))]
+        events=[{'kind':r['kind'],'created':r['created'],
+                 **({'detail':json.loads(r['detail'])} if r['kind'] in ('PROCESS_STAGE_STARTED','PROCESS_STAGE_FINISHED') else {})}
+                for r in db.execute('SELECT kind,detail,created FROM adaptive_events WHERE session_id=? ORDER BY id',(identity,))]
     result=outcome(state)
     shared={'id':identity,'scope_hash':state['scope_hash'],'context_hash':state['context_hash'],
             'status':state['status'],'outcome_hash':digest(result),'question':state['question'],
