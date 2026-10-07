@@ -1,0 +1,6 @@
+{
+  "intake": {
+    "maximum_drop": 0.02,
+    "reason": "Provisional regression threshold: a drop exceeding two percentage points on the same hand-authored field suite fails. This is a release ratchet, not a statistically calibrated production accuracy guarantee. The first complete recorded model run establishes the baseline; missing cases fail rather than improving the denominator."
+  }
+}

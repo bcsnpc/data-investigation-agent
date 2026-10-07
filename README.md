@@ -4,10 +4,11 @@ Round Nine remains an offline draft. Forty-five translation tests pass, includin
 actual governed DAX/SQL compiler and receipt paths with injected transports.
 Commit `624ca67` passed 2,113 regression tests; earlier `8de0e84` passed
 its hosted replay gate.
-A file-only OTLP exporter has four schema/tree tests; all fifteen archived tapes convert. Translation is not enabled in investigations or live-verified.
+A file-only OTLP exporter has seven focused tests; all fifteen archived tapes convert. Translation is not enabled in investigations or live-verified.
 Retention, explicit provider-region provenance and a pinned read-only demo command
-have focused offline tests. Runtime wiring, model-step evals, redaction, rebuild,
-remain pending. The recording-path footer has a persistence test. Stage and recorded-binding workspace views
+have focused offline tests. Sixty authored intake goldens and offline scoring exist;
+model-step scores, runtime wiring, redaction and rebuild remain pending. The
+recording-path footer has a persistence test. Stage and recorded-binding workspace views
 have focused offline validation; browser verification is pending. See the
 [Round Nine record](docs/round-nine-translation-evals-governance.md).
 
