@@ -1,4 +1,4 @@
-# Round Nine B ? offline checkpoint, 2026-10-07
+# Round Nine B: translator fixes and live stop, 2026-10-07
 
 #420 merged as `60ba4943488597a1a3bb85f96adbf80f8b20edd4` after all ordinary checks and hosted archived15/15 + inferred15/15 passed on its exact documentation head (Actions37672867511). Earlier histories remain unchanged. See [Round Nine delivery](round-nine-final-checkpoint.md).
 
@@ -23,4 +23,18 @@ The local workspace key belongs to the Windows operator, not the fixture's Entra
 
 Section4's40-request ceiling is an additional bound, not a grant to consume the round's40reserved requests. At128/200 the ordinary portion has32requests left, so both bounds will be enforced. Stop at the first non-VERIFIED result, no retry or replacement. Existing model/fixture definitions and scopes are unchanged; prior freezes invalidated by engine changes.
 
-Live verdicts and final counters remain pending. No live translator capability is claimed by this offline checkpoint.
+## Once-only live result
+
+On committed engine `105b8d130e5696d3ae5d98ca372c2dff8b43549f`, the Top-N verification returned **UNVERIFIED**: `Verification unavailable: Probe did not complete: Native key probe did not complete`. The independent native evaluation completed with three product keys, **5, 8, 7**. Its same-query self-report attested engine, model object and `investigator-reader@skynwhy.com`; connection remains unattested (PARTIAL coverage). Receipt `4748d8b2-0bfc-4e70-84bf-700815c171f3` retains those keys and reports. The proposed evaluation failed with **NativeRejected, HTTP400, DatasetExecuteQueriesError**, receipt `3bb7b96d-85fb-4b40-b5bf-546a9042569b`. The transport retained no more specific provider message; no cause is invented. The candidate was a table-valued KEEPFILTERS/TOPN expression used by the predicate wrapper: parser admission did not establish that this expression was a valid scalar predicate for FILTER. This is an observed compiler/provider boundary failure, not a verified translation or a corrected fixture result.
+
+**Stop rule applied:** relative-date and SERVING-to-REFINED measure are UNATTEMPTED after that first non-VERIFIED result, with separate zero-read ledger entries. No retry, replacement, fixture mutation, new identity scope, or cap change. Original first-round findings remain preserved.
+
+Two approval-time verification reads / cap5, **two physical DAX requests**, zero investigation diagnostic reads, zero guard/metadata/control requests in this live batch. One recorded model call: 3,486 input + 2,576 output = 6,062 tokens, including 2,285 reasoning tokens. No investigation planner or synthesis call. Pot **128 -> 130 / 200**, restoration40 untouched; section **2 / 40**, ordinary round remainder **30**; rolling **128 -> 130 / 1,500** at the closing read. Investigation cap12 unchanged.
+
+The new sealed tape's FINAL event retains the full result. A private orchestration helper then refused to write its summary over the original first-round `topn-result.json` (`RuntimeError: Preserved record already exists: topn-result`). The new summary was derived from that already-sealed FINAL event into a separate path; original tape and summary unchanged. This post-run recording error and the recovery are explicitly in the ledger, with no additional model or estate request. New private artifacts: `.local/round-nine-b-live-20261007/topn.tape.json`, `topn-result.json`, `proposed-failure.json`, `worker-error.json` and both unattempted records. Full key sets, model response, sealed request and failed receipt are preserved there, not inferred from successful native evaluation.
+
+## Validation and delivery
+
+The full local sweep ran2,261 tests: 2,254 passed and seven tracing tests failed solely because the local interpreter lacked `opentelemetry`. That failed log remains preserved. All seven then passed using an isolated test environment with the repository's pinned tracing dependencies; no engine change was made after the live stop. The system protobuf version was restored to5.29.3 after dependency installation exposed a Streamlit conflict; pinned tracing protobuf7.36.2 remains in the isolated test environment. Focused gap/binding/reader suites passed as above. All2,261 cases have passed across these two local sweeps, not one uninterrupted green sweep.
+
+#421 carries the implementation and this evidence. Exact final-head ordinary checks and hosted archived15/15 + inferred15/15 are required before merging; their final-head result is pending here. No general or unfamiliar-domain acceptance, date-fixture verification or cross-boundary key live verification is claimed. Prior freezes invalid.
