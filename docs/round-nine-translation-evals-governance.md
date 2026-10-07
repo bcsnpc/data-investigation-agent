@@ -302,3 +302,11 @@ HELD earns zero field credit, including null expected values. Every score pins
 the canonical golden-set SHA-256, and changing expectations invalidates baseline
 comparison. Four focused scorer tests pass. No provider evaluation or model
 accuracy is claimed; zero model calls and estate requests.
+
+
+Dated stable integration validation, 2026-10-06 America/Chicago: isolated
+commit `5907162` passed all 2,134 regression tests in 373.661 seconds.
+The later scorer-integrity refinement passed its four targeted tests.
+This establishes offline regression health, not model accuracy, browser
+behaviour, translation activation or live acceptance. Zero Round Nine estate
+requests and provider calls; authorized pot remains unconfigured.

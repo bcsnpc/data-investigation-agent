@@ -10,7 +10,7 @@ transports. Empty native key sets retain attestation; truncated sets refuse.
 Measure probes preserve cell addresses and use verification accounting. A keyed
 measure sample now refuses before reads: SQL cell-scope binding is not implemented. Supported native Top-N/day-relative definitions compile offline. Runtime
 wiring and live trials remain pending; existing filtered-scope refusal unchanged.
-Stable checkpoint `624ca67` passed 2,113 regression tests. Earlier `8de0e84`
+Stable checkpoint `5907162` passed 2,134 regression tests. Earlier `8de0e84`
 passed seven hosted checks; local archived/inferred replay is 15/15 in each
 column. New native-definition and retention changes have focused validation. Four OTLP schema/tree tests pass; all fifteen archived tapes convert. Missing historic timing/receipt fields stay explicit.
 Governance table and retention command added; seven retention tests pass.
@@ -18,7 +18,7 @@ Provider-region provenance has three passing tests; the fixture remains explicit
 undeclared. A pinned, read-only demo command has four mocked tests; no server was
 started. Engine stage events now reach the existing activity view during calls;
 the technical view lists local recorded binding checks without claiming current
-eligibility. Four stage tests, five trace tests, two binding-view tests and 24
+eligibility. Four stage tests, seven trace tests, two binding-view tests and 24
 workspace tests pass; browser verification is pending. The recording path now
 persists a technical cost/time footer using exporter arithmetic; one persistence
 test and seven trace tests pass. A concurrent-edit synthesis test failed admission
