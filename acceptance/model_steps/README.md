@@ -15,7 +15,9 @@ Each recorded entry has `case_id`, `model_version` and the saved `intake` body.
 Unknown IDs, duplicates and mixed model versions refuse. Missing cases reduce the
 score and fail completion. Provider/budget/transport HELD is not a correct
 semantic hold; NEEDS_INPUT on a should-hold case is reported separately. Retry
-rate uses recorded attempt counts, never a clean replacement response. Threshold
+rate uses recorded attempt counts, never a clean replacement response. The golden set is hash-pinned in every score; a changed expectation set cannot
+be compared to the old baseline. Non-semantic provider failures score zero,
+including fields whose expected value happens to be null. Threshold
 changes require a reason. The provisional two-percentage-point drop limit is a
 regression ratchet, not a statistically calibrated accuracy guarantee.
 

@@ -1,5 +1,7 @@
 """Score recorded model-step decisions, never fabricate responses or grades."""
 import copy
+import hashlib
+import json
 from collections import Counter
 
 
@@ -32,7 +34,8 @@ def score_intake(golden,records,model_version):
         row=indexed.get(identity);expected=case['expected'];actual=None
         if case['should_hold']:expected_holds+=1
         if row is not None:
-            saved=row['intake'];actual=intake_record(saved);answered+=1
+            saved=row['intake'];answered+=1
+            if saved.get('status') in ('PROPOSED','NEEDS_INPUT'):actual=intake_record(saved)
             holds+=saved.get('status')!='PROPOSED'
             attempts=saved.get('resolution_attempts',[])
             if not isinstance(attempts,list):raise ValueError('Recorded resolution attempts must be a list')
@@ -44,7 +47,9 @@ def score_intake(golden,records,model_version):
             totals[field]+=1;matched[field]=actual is not None and actual.get(field)==value
             correct[field]+=matched[field]
         rows.append({'case_id':identity,'evaluated':row is not None,'fields':matched})
-    return {'step':'intake','model_version':model_version,'cases':len(cases),'evaluated':answered,
+    return {'step':'intake','model_version':model_version,
+            'suite_hash':hashlib.sha256(json.dumps(golden,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest(),
+            'cases':len(cases),'evaluated':answered,
             'status':'COMPLETE' if answered==len(cases) else 'INCOMPLETE',
             'per_field_accuracy':{k:correct[k]/v for k,v in totals.items()},
             'score':sum(correct.values())/sum(totals.values()),
@@ -61,7 +66,8 @@ def compare(score,previous,threshold):
     if type(limit) not in (int,float) or not 0<=limit<=1:raise ValueError('Invalid score-drop threshold')
     result=copy.deepcopy(score);result['delta']=None
     if previous is not None:
-        if previous['step']!=score['step'] or previous['cases']!=score['cases']:raise ValueError('Comparison suite differs')
+        if (previous['step']!=score['step'] or previous['cases']!=score['cases']
+                or not score.get('suite_hash') or previous.get('suite_hash')!=score['suite_hash']):raise ValueError('Comparison suite differs')
         if previous['status']!='COMPLETE':raise ValueError('Incomplete baseline is not a quality baseline')
         result['delta']=score['score']-previous['score']
     result['gate']='FAILED' if score['status']!='COMPLETE' or result['delta'] is not None and result['delta'] < -limit else 'PASSED'

@@ -31,17 +31,19 @@ class ModelScoresTests(unittest.TestCase):
         rows=[{'case_id':case['id'],'model_version':'self-test','intake':{'status':'HELD','resolution_attempts':[{},{}]}}]
         score=score_intake(golden,rows,'self-test')
         self.assertEqual(score['correct_holds'],0);self.assertEqual(score['hold_rate'],1);self.assertEqual(score['retry_rate'],1)
+        self.assertEqual(score['score'],0)
         rows[0]['intake']['status']='NEEDS_INPUT'
         self.assertEqual(score_intake(golden,rows,'self-test')['correct_holds'],1)
         with self.assertRaisesRegex(ValueError,'Mixed model'):score_intake(golden,rows,'another-model')
         with self.assertRaisesRegex(ValueError,'duplicate'):score_intake(golden,rows+rows,'self-test')
 
     def test_drop_threshold_and_baseline_cannot_silently_accept_missing_cases(self):
-        score={'step':'intake','model_version':'new','cases':60,'score':0.85,'status':'COMPLETE'}
+        score={'step':'intake','model_version':'new','suite_hash':'same golden hash','cases':60,'score':0.85,'status':'COMPLETE'}
         previous={**score,'score':0.9,'model_version':'old'}
         result=compare(score,previous,{'maximum_drop':0.02,'reason':'provisional ratchet'})
         self.assertAlmostEqual(result['delta'],-0.05);self.assertEqual(result['gate'],'FAILED')
         with self.assertRaises(ValueError):compare(score,{**previous,'cases':59},{'maximum_drop':0.02,'reason':'ratchet'})
+        with self.assertRaises(ValueError):compare(score,{**previous,'suite_hash':'changed goldens'},{'maximum_drop':0.02,'reason':'ratchet'})
         with self.assertRaises(ValueError):compare(score,{**previous,'status':'INCOMPLETE'},{'maximum_drop':0.02,'reason':'ratchet'})
         with self.assertRaises(ValueError):compare(score,previous,{'maximum_drop':0.02,'reason':''})
 

@@ -295,3 +295,10 @@ A 34-test synthesis check had one failure: its last setup returned ADMISSION_CHA
 The committed 7ab0c0b synthesis suite passed all 34 tests with no concurrent edits, after the retained admission failure. Sixty intake texts and structured expected records are explicitly authored in acceptance/model_steps/intake.json, with all nine families, all nine subjects, typos, forwarded noise, selection versus subject, numeric/EMPTY/unspecified figures, grouping and six semantic holds. Four scorer tests pass. The CLI accepts --model-version, reports per-field accuracy, retries, holds, separately expected/correct semantic holds and the score delta. Missing cases fail and mixed model versions refuse. No actual provider evaluation or accuracy score is claimed. Reader/synthesis/translation model-step sets and human readability flags remain pending.
 
 DECIDED WITHOUT REVIEW: provisional score-drop ratchet two percentage points, with a reason in acceptance/model_steps/thresholds.json; not a production-quality or statistical guarantee. No model call, estate read, policy or scope change. Prior freezes invalid.
+
+
+Dated scorer-integrity refinement, 2026-10-06 America/Chicago: provider/transport
+HELD earns zero field credit, including null expected values. Every score pins
+the canonical golden-set SHA-256, and changing expectations invalidates baseline
+comparison. Four focused scorer tests pass. No provider evaluation or model
+accuracy is claimed; zero model calls and estate requests.
