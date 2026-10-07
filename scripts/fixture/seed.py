@@ -31,7 +31,13 @@ def load(path=NOTEBOOK):
         or not isinstance(value.func.value,ast.Name) or value.func.value.id!='json'
         or not isinstance(value.args[0],ast.Constant) or not isinstance(value.args[0].value,str)):
         raise ValueError('Fixture seed is not literal JSON')
-    tables=json.loads(value.args[0].value);names=set()
+    tables=_validated_tables(json.loads(value.args[0].value))
+    return {'source_sha256':hashlib.sha256(raw).hexdigest(),'tables':tables}
+
+
+def _validated_tables(tables):
+    """One seed contract for retained notebook literals and external SQL plans."""
+    names=set()
     if not isinstance(tables,list) or not 1<=len(tables)<=32:raise ValueError('Fixture table count is invalid')
     for table in tables:
         if not isinstance(table,dict) or set(table)!={'name','columns','rows'}:raise ValueError('Fixture table fields differ')
@@ -50,7 +56,7 @@ def load(path=NOTEBOOK):
             if not isinstance(row,list) or len(row)!=len(columns):raise ValueError('Fixture row shape differs')
             if any(type(v) is not TYPES[c[1]] for v,c in zip(row,columns)):raise ValueError('Fixture value type differs')
             if any(isinstance(v,str) and len(v)>4000 for v in row):raise ValueError('Fixture string bound exceeded')
-    return {'source_sha256':hashlib.sha256(raw).hexdigest(),'tables':copy.deepcopy(tables)}
+    return copy.deepcopy(tables)
 
 
 def summary(seed):
@@ -60,8 +66,8 @@ def summary(seed):
 
 def insert_plan(table,schema='app'):
     """Bound values stay parameters; existing objects must never be overwritten."""
-    if not IDENTIFIER.fullmatch(schema):raise ValueError('Fixture schema is invalid')
-    # Revalidate even if the caller supplied its own dictionary.
+    if not isinstance(schema,str) or not IDENTIFIER.fullmatch(schema):raise ValueError('Fixture schema is invalid')
+    table=_validated_tables([table])[0]
     name=table['name'];columns=table['columns']
     if not IDENTIFIER.fullmatch(name) or any(not IDENTIFIER.fullmatch(c[0]) or c[1] not in TYPES for c in columns):
         raise ValueError('Fixture SQL identity is invalid')

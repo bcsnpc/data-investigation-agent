@@ -61,3 +61,12 @@ operation polling, and refusal to retry an uncertain mutation. The existing
 create-only publisher journal is a reusable primitive, not authority to apply
 anything now. The complete rebuild script, full plan output and mocked tests
 for those remaining steps are still pending.
+
+Dated follow-up, 2026-10-06 America/Chicago: notebook literals and externally
+supplied SQL insert plans now use one complete seed validator. Insert planning
+previously checked column names/types but did not enforce the same row shape,
+value types, duplicate-column or extra-field rules. A hostile-producer test
+rejects Boolean-as-integer, string-as-integer, wrong row width, duplicate
+columns, non-string identities and undeclared fields; returned parameters are
+independent of the caller's object. Five focused tests pass. This is still
+publication-only groundwork; no apply, SQL connection or fixture mutation.

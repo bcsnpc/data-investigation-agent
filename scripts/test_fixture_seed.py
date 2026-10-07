@@ -46,5 +46,16 @@ class FixtureSeedTests(unittest.TestCase):
         for key,value in lakes.items():self.assertIn(value,result['containers'][key])
         with self.assertRaises(ValueError):notebook_template('11111111-1111-1111-1111-111111111111',{k:list(lakes.values())[0] for k in lakes})
 
+    def test_external_insert_plan_cannot_bypass_the_notebook_seed_contract(self):
+        valid={'name':'synthetic_rows','columns':[['quantity','int']],'rows':[[1]]}
+        import copy
+        for change in ({'rows':[[True]]},{'rows':[['1']]},{'rows':[[1,2]]},
+                       {'columns':[['quantity','int'],['quantity','int']]},
+                       {'name':7},{'extra':'not declared'}):
+            table={**copy.deepcopy(valid),**change}
+            with self.subTest(change=change),self.assertRaises(ValueError):insert_plan(table)
+        plan=insert_plan(valid);plan['parameters'][0][0]=2
+        self.assertEqual(valid['rows'],[[1]])
+
 
 if __name__=='__main__':unittest.main()

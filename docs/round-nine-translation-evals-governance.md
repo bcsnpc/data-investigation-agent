@@ -681,3 +681,9 @@ diagnostic priority is preserved. Both conditions still refuse.68 focused tests
 passed after these corrections. The failed local run and hosted test failure
 remain recorded; the corrected full suite is pending. Original model scores,
 paragraphs, grades and the failing score baseline are unchanged.
+
+Dated continuation: rebuild insert planning previously bypassed the notebook
+seed's complete row/type validation. Both producers now share that contract;
+five focused tests pass with hostile external tables. No notebook execution,
+SQL connection, seed change or fixture mutation. See the rebuild groundwork;
+the complete rebuild/apply command and remaining native templates are pending.
