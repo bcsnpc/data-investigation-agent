@@ -4,6 +4,8 @@ Updated 2026-10-07 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/d
 
 ## Current milestone
 
+**Round Ten: fifty-ticket pre-run seal.** #422 merged on seven green checks, including archived15/15 and inferred15/15 historical replay. Fifty independently derived, fixture-authored tickets are sealed; none has run. The separate visual-variety fixture is served and collected, baseline remains8,765, and both additive-unit bindings have fresh bounded current-context witnesses. Pot190/800, restoration5/100, rolling315/3000, diagnostics12 unchanged. The declared/stripped list, rebuild and billing remain pending. See [Round Ten evidence](round-ten-findings.md). Earlier dated checkpoints below remain historical; prior unfamiliar-domain freezes are invalid.
+
 **Round Nine offline integration in progress.** Forty-five translation tests
 pass, including governed DAX/SQL compiler and receipt paths with injected
 transports. Empty native key sets retain attestation; truncated sets refuse.
@@ -169,3 +171,7 @@ Dated 2026-10-07 Round Nine B live stop: #420 merged60ba494; #421 contains trans
 Dated 2026-10-07 Round Ten offline checkpoint: fresh filter proposals declare PREDICATE or TABLE_FILTER, with adapter form validation before dispatch and historical sealed contracts retained. Six new form tests and prior focused suites pass; full regression/hosted15x2 and once-only live checks pending. New round pot800/reserve100, rolling3,000 with130carried forward; diagnostic12 unchanged. No live request, ticket-list or billing/rebuild claim; previous freezes invalid. See [record](round-ten-filter-forms.md).
 
 Dated 2026-10-07 Round Ten section1: Top-N VERIFIED in two physical DAX probes; relative-date unavailable at retained-definition/type preflight, measure unattempted under section stop rule. Pot2/800, reserve100 untouched, rolling132/3,000; diagnostic12 unchanged. All2,267local cases passed across broad and targeted sweeps; initial dirty-engine tape refusals preserved. #422 final CI/15x2 pending; no date/measure live proof or fifty-ticket/billing/rebuild claim. Prior freezes invalid.
+## Dated Round Ten checkpoint — 2026-10-07
+
+#422 merged as `0f0977b` after all final-head checks, including hosted archived15/15 and inferred15/15 with zero estate/network requests. Top-N VERIFIED; relative-date unavailable at the fixture preflight, measure unattempted under the stop rule. Fifty independent ticket drafts are not yet sealed or run. Separate report `95b6d455-9150-4738-983d-ca6e7e0f3719` and an isolated constant calculated table now provide the requested visual variety; existing measures/reports and reader scopes are unchanged, reader baseline8,765before/after. Collection into current approved contexts and current-context binding verification remain pending. Fixture-control failures and original-model restoration are preserved. Publication checkpoint37/800, rolling ordinary162/3,000, reserve5/100spent; later reads have separate receipts. No engine change since #422; prior unfamiliar-domain freezes remain invalid. See [Round Ten findings](round-ten-findings.md).
+

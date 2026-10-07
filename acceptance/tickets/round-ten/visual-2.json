@@ -1,0 +1,100 @@
+{
+  "id": "visual-2",
+  "ticket_text": "In Round Ten Visual Variety, on page Warehouse matrix total, the Handled Quantity TOTAL row shows 8765. Can the saved declared context reproduce that figure?",
+  "phrasing_class": "visual-variety",
+  "fixture_state": "round-ten-visuals",
+  "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+  "fixture_authored": true,
+  "expected": {
+    "status": "COMPLETED",
+    "outcome": "NO_COMPARABLE_PATH",
+    "answer_category": "REPRODUCED"
+  },
+  "expected_reproduction": {
+    "label": "REPRODUCED",
+    "value": "8765"
+  },
+  "derivation": {
+    "method": "Independent literal-seed arithmetic or authored calculated-table row. No engine query result used. {\"title\": \"Warehouse matrix total\", \"page\": \"7788dc14cd101535f3aa\", \"visual\": \"b4e3f6618f94a15d6aa6\", \"authored_value\": 8765, \"movement_ids\": [1, 2, 3, 4, 5, 6, 6, 7, 8, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 20, 21, 21, 22, 23, 24, 25, 26, 26, 27, 28, 29, 30, 31, 32, 32, 33, 34, 35, 36, 37, 38, 39, 40, 40, 41, 42, 43, 43, 44, 44, 45, 46, 47, 48, 49, 50, 51, 51, 52, 53, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 160, 161, 162, 163, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 172, 173, 174, 175, 176, 176, 177, 177, 178, 179, 180, 181, 182, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 193, 194, 195, 196, 197, 198, 199, 200, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 215, 216, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 250, 251, 252, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 280, 281, 281, 282, 283, 284, 285, 285, 286, 287, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 297, 298, 299, 300, 301, 301, 302, 303, 304, 304, 305, 305, 306, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 319, 320, 321, 322, 323, 324, 325, 326, 327, 327, 328, 329, 329, 330, 331, 331, 332, 333, 334, 335, 336, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 348, 349, 350, 351, 352, 352, 353, 354, 355, 356, 357, 358, 359, 360], \"method\": \"Committed synthetic rows expanded on declared product-only left join, then explicit declared predicates/grouping; no engine query. Calculated card uses independently authored DATATABLE row 16.\"}",
+    "arithmetic": {
+      "seed_sha256": "313e90c9e25e1e1e844aac5383bfb3c01c4bd11684faeaabf48c207c623cf0c1",
+      "seed_rows": 360,
+      "refined": 7661,
+      "serving": 8765,
+      "inbound": 6425,
+      "outbound": 2340,
+      "fraction": "6425/8765",
+      "balance": 4085,
+      "value": 57043,
+      "rate_rows": [
+        {
+          "product_id": 1,
+          "rate_version": 1,
+          "unit_cost": 6
+        },
+        {
+          "product_id": 2,
+          "rate_version": 1,
+          "unit_cost": 4
+        },
+        {
+          "product_id": 3,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 4,
+          "rate_version": 1,
+          "unit_cost": 7
+        },
+        {
+          "product_id": 5,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 6,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 7,
+          "rate_version": 1,
+          "unit_cost": 5
+        },
+        {
+          "product_id": 7,
+          "rate_version": 2,
+          "unit_cost": 11
+        },
+        {
+          "product_id": 8,
+          "rate_version": 1,
+          "unit_cost": 9
+        }
+      ],
+      "join": "Product-only left join. Product 7 has two matches. Additive units are carried, not transformed. Row identity is not globally proven by equal totals."
+    }
+  },
+  "fixture_prerequisites": [
+    "Served new report definition collected and explicitly approved",
+    "Authored visual exists in served report"
+  ],
+  "lineage_columns": [
+    "stripped"
+  ],
+  "version": 1,
+  "ticket_hash": "04cccd067ea12d4205f44b4e8436a4792a8b8c9175f727f7882542930e8b707a",
+  "authorship": "Fixture-authored by Codex before any Round Ten ticket run, from committed seed arithmetic and definition/capability contracts; not real user observations.",
+  "expectation_columns": {
+    "stripped": {
+      "status": "COMPLETED",
+      "outcome": "NO_COMPARABLE_PATH",
+      "answer_category": "REPRODUCED"
+    }
+  },
+  "reference_context_pin": {
+    "context_id": "541d500c-437a-485c-97bf-f5d44febae44",
+    "hash": "5c38074b687c1c56157ccf081975ba15517ec27cf962cd19882c47219e353564"
+  }
+}

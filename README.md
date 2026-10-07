@@ -1,5 +1,7 @@
 # Self-Discovering Enterprise Data Investigator
 
+Dated Round Ten pre-run seal, 2026-10-07: #422 merged with hosted archived15/15 and inferred15/15 green. Fifty fixture-authored tickets are hash-sealed before execution; the owner folder was empty. The separate six-page visual report is collected, and both additive-unit bindings have fresh bounded witnesses. No Round Ten ticket has run yet. Pot190/800, restoration5/100, rolling315/3000, investigation cap12 unchanged. See [Round Ten record](docs/round-ten-findings.md). This is preparation, not a new accuracy or unfamiliar-domain claim.
+
 Round Nine continues with offline integration. Forty-five translation tests pass, including
 actual governed DAX/SQL compiler and receipt paths with injected transports.
 Reviewer-fix commit `382cb1b` passed 2,199 regression tests; earlier `8de0e84` passed
@@ -150,3 +152,7 @@ Dated 2026-10-07 Round Nine B live stop: #420 merged60ba494; #421 contains trans
 Dated 2026-10-07 Round Ten offline checkpoint: fresh filter proposals declare PREDICATE or TABLE_FILTER, with adapter form validation before dispatch and historical sealed contracts retained. Six new form tests and prior focused suites pass; full regression/hosted15x2 and once-only live checks pending. New round pot800/reserve100, rolling3,000 with130carried forward; diagnostic12 unchanged. No live request, ticket-list or billing/rebuild claim; previous freezes invalid. See [record](docs/round-ten-filter-forms.md).
 
 Dated 2026-10-07 Round Ten section1: Top-N VERIFIED in two physical DAX probes; relative-date unavailable at retained-definition/type preflight, measure unattempted under section stop rule. Pot2/800, reserve100 untouched, rolling132/3,000; diagnostic12 unchanged. All2,267local cases passed across broad and targeted sweeps; initial dirty-engine tape refusals preserved. #422 final CI/15x2 pending; no date/measure live proof or fifty-ticket/billing/rebuild claim. Prior freezes invalid.
+# Round Ten checkpoint — 2026-10-07
+
+#422 merged with final-head hosted archived15/15 and inferred15/15 replay green, zero estate/network requests. Top-N verified matching full keys; relative-date stopped at a missing fixture prerequisite and the measure check was not attempted. Fifty independent ticket drafts are prepared but remain unsealed and unrun. The new visual-variety report is published; reader baseline remains8,765. Served-definition collection and current-context verification are pending. Preserved fixture-control failures and restoration are recorded in [Round Ten findings](docs/round-ten-findings.md). No new general-capability or unfamiliar-domain acceptance claim.
+
