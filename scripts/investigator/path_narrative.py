@@ -188,10 +188,10 @@ def validate_declared_layer_tokens(text,allowed):
 def validate_mechanism(text,limits=()):
     import re
     validate_commentary(text)
-    if len(re.findall(HEDGE_PATTERN,text))>1:
-        raise RepeatedHedge('Mechanism states a possibility more than once')
     if re.search(MECHANISM_FORBIDDEN,text):
         raise ValueError('Mechanism contains an engine-owned limitation')
+    if len(re.findall(HEDGE_PATTERN,text))>1:
+        raise RepeatedHedge('Mechanism states a possibility more than once')
     normalized=' '.join(text.casefold().split())
     for limit in limits:
         for sentence in re.split(r'(?<=[.!?])\s+',limit):

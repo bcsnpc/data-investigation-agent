@@ -672,3 +672,12 @@ bare-role refusal remains. Two failed score-test assertions (the old count and
 the mistaken additional hedge attribution) were corrected and recorded, not
 treated as model/provider failures. Prior freezes remain invalid. No new model
 or estate request, scope, credential, cap, reset or refund in this work.
+
+Dated full-suite follow-up: bb3d27b ran2199 tests in444.809s, with two failures.
+The name golden expected role-free labels despite the corrected rendering; it
+now asserts the declared roles as well. A paragraph violating both the caveat
+and possibility rules reached the newer diagnostic first; the original caveat
+diagnostic priority is preserved. Both conditions still refuse.68 focused tests
+passed after these corrections. The failed local run and hosted test failure
+remain recorded; the corrected full suite is pending. Original model scores,
+paragraphs, grades and the failing score baseline are unchanged.
