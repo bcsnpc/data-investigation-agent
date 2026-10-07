@@ -38,6 +38,21 @@ class FilterRoute:
             raise ValueError('Key column absent from pinned model')
         query = (self.native_compiler(copy.deepcopy(request), copy.deepcopy(address))
                  if side == 'NATIVE' else proposal['expression'])
+        form=proposal.get('form')
+        if side=='PROPOSED' and form is not None:
+            from .translation_filter_forms import dax_form
+            dax_form(query,form,catalog)
+            if form=='TABLE_FILTER':
+                by_id={a['id']:a for a in catalog}
+                parents={by_id[column]['parent_id'] for column in columns}
+                if len(parents)!=1:raise NotImplementedError('Table-filter keys span different tables')
+                table="'"+by_id[next(iter(parents))]['name'].replace("'","''")+"'"
+                keys=[table+'['+by_id[column]['name'].replace(']',']]')+']' for column in columns]
+                fields=','.join('"translation_key_'+str(i)+'",'+key for i,key in enumerate(keys))
+                # Table filter modifiers belong in filter context, not in
+                # FILTER's Boolean slot or as standalone rowsets.
+                selected='CALCULATETABLE(SUMMARIZE('+table+','+','.join(keys)+'),'+query+')'
+                query='EVALUATE DISTINCT(SELECTCOLUMNS('+selected+','+fields+'))'
         if side == 'PROPOSED' and not query.lstrip().upper().startswith('EVALUATE '):
             # The proposer supplies a predicate. The adapter owns the rowset,
             # discovered grouping and output labels on both sides.

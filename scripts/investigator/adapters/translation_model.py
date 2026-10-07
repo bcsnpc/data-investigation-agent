@@ -67,6 +67,10 @@ class Provider:
         for identity,kind in catalog.items():
             Draft202012Validator(schema['properties']['objects']['items']).validate({'id':identity,'kind':kind})
         narrowed=copy.deepcopy(schema)
+        narrowed['properties']['kind']['enum']=[request['kind']]
+        if 'form' in narrowed['properties']:
+            narrowed['properties']['form'] = ({'type':'string','enum':['PREDICATE','TABLE_FILTER']}
+                if request['kind']=='FILTER' else {'type':'null','enum':[None]})
         narrowed['properties']['objects']['items']={'anyOf':[
             {'type':'object','additionalProperties':False,'required':['id','kind'],
              'properties':{'id':{'type':'string','enum':[identity]},
