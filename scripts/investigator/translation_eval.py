@@ -15,13 +15,14 @@ def request(case):
         cell={'measure_id':'m','target_id':'v','mode':'KEYED','grouping_columns':['k'],
               'key_restrictions':[{'field_id':'k','operator':'IN','values':[key]}]}
         cell['id']=digest(cell);cells.append(cell)
+    metadata=copy.deepcopy(case.get('metadata',{'objects':{'items':'TABLE'},
+          'columns':{'items':{'k':'INTEGER','v':'INTEGER','day':'ISO_DATE_TEXT'}},
+          'normalization':{'encoding':'typed-json-utf8','case_fold':False,'trim':False}}))
     return {'kind':case['kind'],'definition':copy.deepcopy(case['definition']),
         'definition_hash':t.seal(case['definition']),'target_engine':'sqlite','grouping':[],
         'relative':case['relative'],'evaluation_timestamp':'2026-10-06T20:00:00+00:00' if case['relative'] else None,
         'context':'authored-sqlite-v1','available_cells':cells,'precision':{'state':'EXACT'},
-        'scope':{'restrictions':[]},'metadata':{'objects':{'items':'TABLE'},
-          'columns':{'items':{'k':'INTEGER','v':'INTEGER','day':'ISO_DATE_TEXT'}},
-          'normalization':{'encoding':'typed-json-utf8','case_fold':False,'trim':False}}}
+        'scope':{'restrictions':[]},'metadata':metadata}
 
 
 def verify(case,proposal):

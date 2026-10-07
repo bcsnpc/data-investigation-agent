@@ -24,6 +24,18 @@ class TranslationEvalTests(unittest.TestCase):
     def test_model_input_has_no_rows_native_statement_or_expected_answer(self):
         for c in self.g['cases']:
             r=request(c);self.assertNotIn('native_sql',r);self.assertNotIn('rows',r);self.assertNotIn('expected',r)
+
+    def test_new_catalog_declares_columns_without_rewriting_historical_inputs(self):
+        root=Path(__file__).resolve().parents[1]
+        revised=json.loads((root/'acceptance/model_steps/translation-v2.json').read_text())
+        for old,new in zip(self.g['cases'],revised['cases']):
+            self.assertEqual(old['native_sql'],new['native_sql'])
+            self.assertEqual(old['definition'],new['definition'])
+            self.assertEqual(request(old)['metadata']['objects'],{'items':'TABLE'})
+            metadata=request(new)['metadata']
+            for column in metadata['columns']['items'].values():
+                self.assertEqual(metadata['objects'][column['id']],'COLUMN')
+            self.assertNotIn('native_sql',request(new))
     def test_declared_table_qualified_expression_survives_explicit_fixture_binding(self):
         c=self.g['cases'][2]
         result=verify(c,self.proposal(c,'SUM(items.v)'))

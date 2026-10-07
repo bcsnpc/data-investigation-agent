@@ -565,3 +565,21 @@ regression. The reference has not been lowered to make CI green. Human grades
 are still pending. PR420 remains draft. General runtime translation integration,
 column redaction, rebuild, browser verification, reapproval and section6 live
 verification remain unfinished; prior freezes remain invalid.
+
+
+Dated authored input correction, 2026-10-06 America/Chicago: a separate
+translation-v2.json declares the three fixture column identities explicitly,
+with typed names pointing to the same consumer catalog. Original v1 goldens and
+their requests are unchanged. Native SQL, seeded rows, definitions and expected
+results are unchanged; only the incomplete metadata declaration is corrected.
+Both corpus version and suite hash change. No historical run is reinterpreted
+against that widened catalog. Producer input still excludes native statements,
+seeded rows and expected values. A regression test checks all declared column
+identities and unchanged old input.9 focused tests pass.
+
+Context cost: [{"case": "top-n", "before_objects": 1, "after_objects": 4, "before_payload_characters": 551, "after_payload_characters": 648, "sql_objects_before": 1, "sql_objects_after": 1}, {"case": "relative-day", "before_objects": 1, "after_objects": 4, "before_payload_characters": 552, "after_payload_characters": 649, "sql_objects_before": 1, "sql_objects_after": 1}, {"case": "all-measure", "before_objects": 1, "after_objects": 4, "before_payload_characters": 538, "after_payload_characters": 635, "sql_objects_before": 1, "sql_objects_after": 1}]
+
+A separately recorded installed-adapter v4 model evaluation is authorized
+by the offline model-evaluation scope; at most three model calls and zero
+estate requests. One first proposal per case, all failures preserved. No
+model setting, scope, fixture estate or original acceptance expectation changes.
