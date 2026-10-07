@@ -516,3 +516,6 @@ The other Round Nine implementation work remains unfinished as listed above.
 Latest local usage:82 model reservations,266000 output tokens reserved,0 cloud
 calls for the UTC day; rolling197/1500; Round Nine estate0/200,40 reserved.
 Reservation allowance is not actual provider token usage or monetary price.
+
+
+Dated stable-engine regression, 2026-10-06 America/Chicago: isolated55469a3 passed2178 tests in393.193s. The later fixture qualifier correction passed39 focused tests and the recorded-score gate passed3 tests, including changed-review-paragraph rejection. Human-review tests use temporary ungraded copies, so the actual human grades can arrive without changing test expectations. Hosted checks track the current head; mandatory human-review input remains pending.

@@ -2,12 +2,12 @@
 
 Round Nine remains an offline draft. Forty-five translation tests pass, including
 actual governed DAX/SQL compiler and receipt paths with injected transports.
-Commit `5f09cec` passed 2,167 regression tests; earlier `8de0e84` passed
+Commit `55469a3` passed 2,178 regression tests; earlier `8de0e84` passed
 its hosted replay gate.
 A file-only OTLP exporter has seven focused tests; all fifteen archived tapes convert. Translation is not enabled in investigations or live-verified.
 Retention, explicit provider-region provenance and a pinned read-only demo command
 have focused offline tests. Sixty authored intake goldens and offline scoring exist;
-model-step scores, runtime wiring, redaction and rebuild remain pending. The
+general translation wiring, redaction and rebuild remain pending. The
 recording-path footer has a persistence test. Stage and recorded-binding workspace views
 have focused offline validation; browser verification is pending. Nine authored reader code cases and fifteen sealed synthesis cases are now
 scorable offline; raw synthesis responses pass current form/token checks13/14.
