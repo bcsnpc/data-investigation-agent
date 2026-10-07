@@ -3,4 +3,4 @@ docs/runs/rendered-synthesis-*.txt -text
 
 docs/runs/narrative-form-*.txt -text
 fixture-code/** -text
-acceptance/tickets/round-ten/*.json -text
+acceptance/tickets/round-ten/*.json -text whitespace=cr-at-eol
