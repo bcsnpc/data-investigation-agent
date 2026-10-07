@@ -2,7 +2,7 @@
 
 Round Nine remains an offline draft. Forty-five translation tests pass, including
 actual governed DAX/SQL compiler and receipt paths with injected transports.
-Commit `55469a3` passed 2,178 regression tests; earlier `8de0e84` passed
+Commit `fa83049` passed 2,185 regression tests; earlier `8de0e84` passed
 its hosted replay gate.
 A file-only OTLP exporter has seven focused tests; all fifteen archived tapes convert. Translation is not enabled in investigations or live-verified.
 Retention, explicit provider-region provenance and a pinned read-only demo command

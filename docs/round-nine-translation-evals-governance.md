@@ -617,3 +617,14 @@ four passing tests and independently derives7661/8765 from the committed seed.
 It changes only declared container paths; no notebook executes. Full rebuild
 command and remaining recorded templates are pending, not claimed delivered.
 No provider or estate request in either audit.
+
+
+Dated stable v4 regression checkpoint, 2026-10-06 America/Chicago: isolated
+fa83049 passed2185 tests in424.437s. The later publication-only seed/template
+module passed four focused tests separately; it is not part of that full-suite
+count. The new two-column regrade is still running; no finished sweep is claimed.
+Historical prior archived15/15 and inferred15/15 remain distinct. All four
+recorded numerical model ratchets pass on the new corpus baseline; the overall
+model gate fails only for pending attributed human review. Privacy-contract
+clarification, complete rebuild and the other offline/live gaps remain pending.
+No estate request, scope, secret, policy change, reset or refund.
