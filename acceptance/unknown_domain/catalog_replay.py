@@ -12,9 +12,7 @@ from unittest.mock import patch
 
 @contextmanager
 def install(module):
-    from investigator.onboarding import ModelStore
-    from investigator.runtime import Runtime
-    from investigator.adaptive_runtime import AdaptiveRuntime
+    ModelStore=module.ModelStore;Runtime=module.Runtime;AdaptiveRuntime=module.AdaptiveRuntime
     if hasattr(ModelStore,'catalog_connection'):
         yield
         return

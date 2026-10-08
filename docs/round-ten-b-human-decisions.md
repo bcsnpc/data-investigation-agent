@@ -175,3 +175,38 @@ regression and thirteen-case model eval are next. No estate request, live model
 call, fixture change, scope change, reset or cap increase in this checkpoint.
 Prior freezes remain invalid; #423 stays draft. No improved batch score or enlarged
 gate is claimed.
+
+Dated model-eval checkpoint, 2026-10-07 America/Chicago. All thirteen goldens
+executed once against the synthetic retained-metadata catalog, with zero estate
+reads and fourteen recorded model calls (one normal validation retry). Full-record
+matches 0/13 -> 11/13; field score 0.6442307692 -> 0.9134615385. The baseline-v2
+adds only the required step label to the evaluation suite; the earlier baseline
+artifact and original captured records remain. This is not an updated fifty-ticket
+end-to-end score.
+
+Two findings remain. The two-level matrix responses supplied a single combined
+"North / Component 1" target value with no column and no filters, rather than two
+address keys. Both responses are retained; the validator HOLDs INTAKE_RECORD_INVALID
+instead of reading the wrong cell. The saved-bookmark case returned the correct
+visual and VISUAL_CONTENT subject but BUSINESS_QUESTION/NONE rather than the
+authored MISMATCH_COMPLAINT/VERTICAL pair. Both are valid wire pairs; the existing
+validator has no rule establishing that this reproduction question must use the
+latter pair. This is recorded field variance, not silently changed expectation
+or an asserted false reproduction. No ticket-specific repair or replacement
+attempt was made.
+
+The first CLI invocation stopped at KeyError: step before building an installation
+or dispatching a provider. The suite now carries that required format field and a
+regression assertion. This operator/setup failure is recorded separately from the
+thirteen model attempts.
+
+Historical gate replay requires the old decision code, which also contains the
+old second-connection I/O defect. A scoped replay-only connection shim now reuses
+the caller's writer during historical load/admission, never patches a fact,
+request, response, clock or output, and is skipped on current producers. The sealed
+family-A-mention replay now matches all events and final outputs under its original
+2ec18bdc8148e99a33adfb667c2d473f4ac95615 revision: COMPLETED,
+TRANSFORMATION_LOGIC, synthesis COMPLETED, zero network/estate/model requests.
+Both current and legacy fifty-append tests pass. The first failed diagnostic and
+its database-is-locked error remain unchanged. This confirms one repaired gate
+path, not an expanded passing roster or a new engine acceptance.
