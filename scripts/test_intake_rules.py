@@ -11,6 +11,28 @@ import test_investigator_workspace as fixture
 
 
 class IntakeRulesTests(unittest.TestCase):
+    def test_selected_report_scope_is_technical_not_business_rule_meaning(self):
+        value=proposal();value['question_kind']={'kind':'BUSINESS_MEANING'}
+        ticket='I selected West. Explain the selected region scope.'
+        with self.assertRaisesRegex(intake_rules.RuleViolation,'MIXED_TECHNICAL_SUBJECT_REQUIRED'):
+            intake_rules.validate(value,ticket)
+        value['question_kind']['kind']='VISUAL_CONTENT'
+        intake_rules.validate(value,ticket)
+
+    def test_check_verb_does_not_authorize_a_sole_business_rule_decision(self):
+        ticket='Check whether this business rule is correct.'
+        self.assertFalse(intake_rules.technical_ask(ticket))
+        value=proposal();value['question_kind']={'kind':'FIGURE_DIFFERENCE'}
+        with self.assertRaisesRegex(intake_rules.RuleViolation,'BUSINESS_RULE_SUBJECT_REQUIRED'):
+            intake_rules.validate(value,ticket)
+        value['question_kind']['kind']='BUSINESS_MEANING'
+        intake_rules.validate(value,ticket)
+
+    def test_extraction_and_consumer_share_subject_instructions(self):
+        from investigator import intake_extraction
+        self.assertIn(intake_rules.SUBJECT_INSTRUCTIONS,intake_extraction.INSTRUCTIONS)
+        self.assertIn(intake_rules.SUBJECT_INSTRUCTIONS,intake_rules.INSTRUCTIONS)
+
     def test_explicit_reproduction_and_mismatch_are_not_business_scope(self):
         value=proposal();value['question_kind']={'kind':'FIGURE_DIFFERENCE'}
         with self.assertRaisesRegex(intake_rules.RuleViolation,'REPRODUCTION_SUBJECT_REQUIRED'):

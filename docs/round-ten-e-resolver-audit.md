@@ -179,3 +179,56 @@ Prepared and sealed request sizes must agree after every case, or the benchmark
 stops with its evidence preserved. Allowing the historical design to undercount
 the larger wire body was rejected. Both designs make fresh calls; none of the
 composite 32/50's answers is reused.
+
+The historical body's sizing estimate was checked against the actual transport
+builder with a fake client, making zero network requests. Its corrected first
+68 requests total 3,725,618 characters (25,580 to 59,495 each); the earlier
+preview omitted the tool description and understated each request by 74.
+
+Dated in-progress reference audit: the newly authored resolved nine contain
+additional issues that must not be disguised as model failures. H explicitly
+compares two distinct measures but the section-1 amendment copied A's VERTICAL
+triage. D's authored record expects an immediate typed restriction, whereas the
+existing contract also represents a still-unresolved column as a report-scoped
+selection request. Further reading confirmed I is deliberately treated by the
+existing tested rule as a mixed technical request about implemented effects on
+the metric, while authoritative meaning is declined; its nomination is not
+changed. The fifty remain
+unchanged. No further expectation is changed during this pass; both designs are
+graded against the same references. Any eventual adoption decision must name
+these reference limits and must not weaken the intent refusal to earn a score.
+
+The first candidate tapes expose primary/global scope labelled COMPARISON and
+misspelled measures unresolved after the single recorded retry. These are
+preserved failures, not evidence that stronger matching has succeeded. The
+candidate stays fixed through section 4; no estate reads follow an unearned gate.
+
+DECIDED WITHOUT REVIEW, 2026-10-08T21:06:45Z: stop the partial candidate pass
+after tracing a deterministic defect, rather than spend the rest of the pass on
+known-broken scope wiring. The engine-change fence stopped further dispatch;
+13 recorded outcomes and 16 provider requests remain intact, including the final
+zero-provider RESOLUTION_UNCERTAIN refusal. Seventeen reservations remain charged:
+input 8,959,498 -> 9,105,448, output reservations 383,000 -> 408,500;
+actual transmitted input was 137,474. No refund, replacement investigation or
+estate read occurred. The historical pass was not launched by the stopped
+sequencer. This partial pass is exploratory evidence, not the full comparison.
+
+The visual-only exclusion rule was incorrectly reused for primary figures,
+selections, groupings, dates and identifiers. Primary facts stated in setup now
+survive a broad context span; context and comparator evidence still cannot
+choose a visual, and comparator quantities cannot become the reported figure.
+Four regression cases cover setup figure/selection preservation, background
+visual refusal, comparator figure exclusion and unsatisfied setup date scope.
+Selected-scope explanation is also technical context; its wrong nomination
+gets the existing single recorded correction. Conversely the verb "check"
+alone cannot turn a sole business-rule decision into technical work. Subject
+instructions are shared by extraction and the consumer, avoiding drift without
+passing the consumer's SELECTION vocabulary into the extractor's different role
+enum. Seventy-three focused tests pass, including wrong-cell and comparison guards.
+
+The corrected full pass and fresh historical pass still have the same unchanged
+references. All 16 exploratory calls count inside a hard 272-provider-request
+experiment allowance; no new call or input allowance is granted. The corrected
+candidate uses a distinct request namespace so saved failures cannot be reused
+as fresh results. Failed module-name invocations in verification are retained;
+the correctly named focused batch passed.

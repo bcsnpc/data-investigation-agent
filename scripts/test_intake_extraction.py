@@ -25,6 +25,43 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_primary_reported_figure_and_selection_survive_background_setup(self):
+        ticket='In Report, I selected warehouse North; Quantity shows 16. Investigate the Global card.'
+        raw,payload=fixture(ticket,primary='Investigate the Global card.',
+            contexts=['In Report, I selected warehouse North; Quantity shows 16.'],
+            figures=[{'quote':'shows 16','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            selections=[{'quote':'warehouse North','column':'warehouse','value':'North','role':'PRIMARY'}],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        result=extraction.resolve(raw,payload)
+        self.assertEqual(result['reported_figure']['value'],'16')
+        self.assertEqual(result['filters'],[{'column_id':'warehouse','operator':'in','values':['North']}])
+        self.assertEqual(result['target_visual']['target_id'],'card')
+        validate(result,payload)
+
+    def test_background_visual_cannot_select_while_primary_facts_survive(self):
+        ticket='In Report, the Global card Quantity shows 16. Investigate the discrepancy.'
+        raw,payload=fixture(ticket,primary='Investigate the discrepancy.',
+            contexts=['In Report, the Global card Quantity shows 16.'],
+            figures=[{'quote':'shows 16','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        with self.assertRaises(TargetUnresolved) as caught:extraction.resolve(raw,payload)
+        self.assertEqual(caught.exception.code,'TARGET_AMBIGUOUS')
+
+    def test_comparator_figure_cannot_become_primary_even_when_mislabelled(self):
+        ticket='In Report, Global card Quantity differs from another report that shows 16.'
+        raw,payload=fixture(ticket,comparisons=['another report that shows 16'],
+            figures=[{'quote':'shows 16','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        result=extraction.resolve(raw,payload)
+        self.assertEqual(result['reported_figure']['state'],'UNSPECIFIED')
+
+    def test_background_primary_date_scope_is_refused_not_discarded(self):
+        ticket='In Report, Quantity for last week. Investigate the Global card.'
+        raw,payload=fixture(ticket,primary='Investigate the Global card.',
+            contexts=['Quantity for last week'],dates=[{'quote':'last week','role':'PRIMARY'}],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        with self.assertRaisesRegex(ValueError,'Stated date scope'):extraction.resolve(raw,payload)
+
     def test_comparison_global_card_cannot_select_even_if_mislabelled_primary(self):
         ticket='In Report, Quantity differs for warehouse North from the Global card.'
         raw,payload=fixture(ticket,comparisons=['Global card'],
