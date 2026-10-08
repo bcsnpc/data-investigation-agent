@@ -22,3 +22,13 @@ Release: [round-ten-earned-replay-20261008-v1](https://github.com/bcsnpc/data-in
 GitHub asset digests and sizes match all four repository pins. The hosted downloader verifies each ciphertext hash before decrypting, then exact archive-member hashes before extraction. A changed bundle requires a new release tag and reasoned PR; these assets must never be overwritten.
 
 The initial publication attempt failed with HTTP 422, `Release.target_commitish is invalid`, because its target used a short SHA. No release was created. The separately recorded retry used the full remote commit SHA and the same unchanged ciphertext; it succeeded. Both attempts are retained in the ledger. This is historical replay evidence, not unfamiliar-domain acceptance or a generality claim.
+
+
+## Hosted result
+
+[Actions37724611630](https://github.com/bcsnpc/data-investigation-agent/actions/runs/37724611630) passed all four shards on `0a577fae9fa54093b18318a568e7a1b28db1b059`:11/11,11/11,11/11 and9/9,42/42 total. Every shard reports0network and0physical requests. Downloaded ciphertext and exact members passed verification; decrypted input/output cleanup also passed. Existing30-check execution on this documentation head is separately pending at this checkpoint. The earlier30 pass remains preserved. No failed expectation was promoted to earn this count.
+
+
+## Both hosted gates green
+
+[Actions37724611275](https://github.com/bcsnpc/data-investigation-agent/actions/runs/37724611275) passed archived15/15 and inferred15/15 on the same `0a577fae9fa54093b18318a568e7a1b28db1b059` head as the four earned shards. Each column reports0network and0physical requests. Combined gate:72/72 recorded evaluations. Ordinary regression/model-step/portal/PowerShell checks also passed this head. The new documentation checkpoint will have its own checks; no merge or completed rebuild is claimed.

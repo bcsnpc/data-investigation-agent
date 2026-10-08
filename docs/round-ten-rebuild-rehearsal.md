@@ -1,6 +1,6 @@
 # Round Ten rebuild rehearsal
 
-Recorded 2026-10-07 America/Chicago. Rehearsal is incomplete; no data, models, reports or new context have been published.
+Recorded 2026-10-07 America/Chicago. Rehearsal is incomplete. The isolated application source is seeded and its reader grant verified; foundation items are published. No models, reports or new context have been published. Later checkpoints below name execution state explicitly.
 
 Explicit human authority: Round Ten section3 preapproved one `dia-rebuild-rehearsal` workspace on the current capacity, administrator profile for workspace creation only, and the same investigator-reader/code-reader scopes as the fixture. Workspace remains in place; original fixture untouched.
 
@@ -487,3 +487,38 @@ SET NOCOUNT ON; SET XACT_ABORT ON; BEGIN TRANSACTION; IF OBJECT_ID(N'app.stock_m
 Source controls: nine physical requests total (one failed initial connection, one failed SQL pre-warm query, zero-request admission refusal, one successful pre-warm, six successful resumed controls). Zero diagnostic reads/model calls; no cap/reset/refund. Pot619 ->628/800; rolling744 ->753/3000 at the closing snapshot. This establishes the new reader scope and seeded table, not completion of the fixture factory or a source-consistency investigation.
 
 Append-only control metadata correction: the successful source summary computed its auxiliary seal before adding physical_requests. The ledger artifact SHA-256 and SQL receipts remain correct; the original artifact is unchanged. A separate correction binds its exact artifact hash and the corrected complete-payload seal. No evidence, permissions or counts changed.
+
+
+## Foundation publication and served-definition refusal
+
+Recorded 2026-10-07 America/Chicago, 2026-10-08 UTC. Existing Fabric publisher identity, no administrator profile used, no new permission or credential. The target workspace was verified by ID/name/capacity and a complete empty item listing before creation. Every create was committed to a durable mutation journal before dispatch; uncertain requests are never automatically repeated.
+
+| New artifact | Returned item ID |
+| --- | --- |
+| bronze | `1cbc0cde-434a-4f6b-82d4-4da300076736` |
+| silver | `cfd8d7d5-a914-4ff8-96d0-bb8ccbc45d74` |
+| gold | `0b36ee15-643c-464f-81b3-776aa4616872` |
+| application-landing | `4e7523f8-a985-46c4-a14f-bfe297970ec0` |
+| audit-warehouse | `b662d40d-dd16-4c8e-8e2c-ecc9d1941461` |
+| notebook | `449097a3-945c-496b-956f-d7325a2b3d87` |
+
+The four lakehouses separate notebook-seeded Bronze/Silver/Gold from the application Copy Job landing. The ops Warehouse is created but does not yet hold an audit table. No Copy Job, pipeline, model or report has been created in this workspace. Foundation publication charged13physical controls,0diagnostics/model calls; pot628 ->641/800, rolling753 ->766/3000 at its closing snapshot.
+
+A local bootstrap using system Python failed with `ModuleNotFoundError: No module named 'fabric_cli'` before authentication or dispatch,0requests. The separate invocation used the existing configured Fabric CLI Python environment. This manual environment dependency is part of the migration record, not omitted from it.
+
+The first served notebook definition retained only `# Fabric notebook source`,26characters and0executable statements. The intended path-rebound committed notebook carries13statements and20,179characters. Statement comparison refused with `RuntimeError: Served notebook statements differ from committed seed/transform; refuse execution`. The original response and failed attempt are preserved. No execution request or job was submitted. Definition retrieval charged3physical controls,0diagnostics/model calls; pot641 ->644/800, rolling766 ->769/3000 at closing. This is a publication-format failure; it does not establish that the original committed notebook was wrong or that a reader rejected it.
+
+The separately recorded correction uses the documented ipynb representation on this isolated new notebook only. It does not edit the committed transformation statements or any original-estate item. Served statements must match before the single execution can proceed. The initial failed definition is retained, not overwritten. See Microsoft Learn's [notebook definition formats](https://learn.microsoft.com/en-us/rest/api/fabric/articles/item-management/definitions/notebook-definition) and [notebook execution API](https://learn.microsoft.com/en-us/rest/api/fabric/notebook/background-jobs/run-on-demand-notebook). Correction/execution is pending at this checkpoint.
+
+Budget preflight read the existing durable catalog, never a fresh counter:628used with5restoration requests already spent left77ordinary requests before foundation publication. The governor reserves the remaining95, so the actual ordinary boundary is705/800, not700. No cap or reserve changed; this explains the difference from a conservative earlier estimate. A new rehearsal manifest must retain this shared accounting and cannot reset usage by creating a new catalog/environment.
+
+
+## Corrected notebook: served statements match, execution completed
+
+The separately recorded ipynb correction on the isolated rehearsal notebook retained all13statements. Parsing the served FabricGitSource response and comparing ASTs against the path-rebound committed source passed before dispatch. No transformation or seeded row changed. The publisher then submitted one notebook execution, explicitly Spark with the new Bronze lakehouse as default.
+
+Job `00b38ff0-a591-46c0-a849-d5f88a5f6010` returned `Completed`, failureReasonnull. This establishes successful fixture execution, not independent reader verification of every table or a completed investigation. There was no retry of notebook execution: the original failed served-definition check had submitted no job.
+
+Correction, served-definition retrieval, one execution and its status reads charged8physical controls,0diagnostics/model calls. Pot644 ->652/800, rolling769 ->777/3000 at the recorded closing snapshot. Rehearsal controls total43physical including all failed requests. The remaining restoration reserve is95; the actual ordinary boundary is705, leaving53ordinary requests at this checkpoint. Investigation diagnostic12, rolling3000 and model600 remain unchanged. No counter reset/refund or new batch credit.
+
+Outstanding: Copy Job and audited pipeline, Warehouse audit table and reader verification, two models, predicate report, state declarations, executable estate manifest, fresh context collection/approval/lineage verification, and nine once-only investigations. `scripts/fixture/rebuild.py` still has no complete apply executor: these durable operator controls are recorded manual steps, not represented as a portable factory or successful migration rehearsal. Billing has not started.
