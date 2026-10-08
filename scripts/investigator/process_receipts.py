@@ -16,6 +16,7 @@ class Shape:
 
 REGISTRY = {
     'DECLARED_CONTEXT_REPRODUCTION': Shape('reproduction'),
+    'DECLARED_FILTER_EFFECTS':Shape('filter_effects'),
     'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE': Shape('retained'),
     'REPORT_SELECTION_RESOLUTION': Shape('resolution'),
     'REPORT_SELECTION_REFUSED': Shape('retained', refusal_stage='selection resolution'),

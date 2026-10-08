@@ -8,6 +8,12 @@ import test_flexible_investigation as flexible_fixture
 
 class OutcomeContractTests(unittest.TestCase):
     def valid(self,outcome):
+        if outcome=='DECLARED_FILTER_EFFECTS':
+            from test_filter_effects import FilterEffectsTests
+            fixture=FilterEffectsTests();fixture.setUp()
+            result=fixture.vertical_result()
+            observations={o['id']:o for o in result.pop('_observations')}
+            return {k:result[k] for k in ('classification','evidence_ids','support','limits')},observations
         roles=set(process_outcomes.REQUIRED_ROLES[outcome])|{'baseline'}
         observations={role:{'id':role,'status':'COMPLETED','process_roles':[role]} for role in roles}
         if 'comparison' in observations:

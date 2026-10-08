@@ -83,11 +83,13 @@ class AdaptiveRuntime:
         if row is None:raise KeyError('Session not found')
         state=json.loads(row['state'])
         if digest(state)!=row['state_hash']:raise ValueError('Session integrity differs')
-        self.store.get(row['model_id'])
+        with self.store.catalog_connection(db):self.store.get(row['model_id'])
         if state['model_id']!=row['model_id']:raise ValueError('Session model differs')
         return state
 
-    def admit(self,state):
+    def admit(self,state,db=None):
+        if db is not None:
+            with self.store.catalog_connection(db):return self.admit(state)
         if state.get('usage_policy_hash')!=(self.governor.hash if self.governor else None):raise Conflict('Usage policy changed')
         if state['engine_hash']!=fingerprint() or state['config_hash']!=digest(self.config) or state['planner_profile_hash']!=digest(self.planner_profile):raise Conflict('Engine or connection changed')
         model=self.store.get(state['model_id'])
@@ -213,7 +215,7 @@ class AdaptiveRuntime:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
             if state['status'] in ('COMPLETED','NEEDS_INPUT','HELD','CANCELLED'):return self.get(identity)
             if state['status']!='READY':raise Conflict('Session has an active or interrupted turn')
-            try:candidates=self.admit(state)
+            try:candidates=self.admit(state,db)
             except Conflict:
                 self.stop(db,state,'ADMISSION_CHANGED','HELD');return self.project_after_commit(db,state)
             dynamic=bool(state['envelope'].get('strategy'))
@@ -299,7 +301,7 @@ class AdaptiveRuntime:
             if self.governor:self.governor.settle(db,identity,'planner:'+str(state['planner_calls']),usage.get('usage') if isinstance(usage,dict) else None)
             if state['token']!=token or state['status']!='PLANNING':raise Conflict('Planner is fenced')
             for detail in repairs:self.save(db,state,'PROPOSAL_REPAIRED',detail)
-            try:self.admit(state)
+            try:self.admit(state,db)
             except Conflict:
                 self.stop(db,state,'ADMISSION_CHANGED','HELD');return self.project_after_commit(db,state)
             if self.clock()>state['deadline']:
@@ -380,7 +382,7 @@ class AdaptiveRuntime:
         with self.runtime.db() as db:
             state=self.load(db,identity)
             if state['token']!=token or state['status']!='EXECUTING':raise Conflict('Dispatcher fenced')
-            self.admit(state);pending=state['pending'];candidate=pending['candidate']
+            self.admit(state,db);pending=state['pending'];candidate=pending['candidate']
             if self.clock()+(300 if candidate['tool'] in ('source','source_records','bounded_sql') else 120)>state['deadline']:
                 self.stop(db,state,'DEADLINE','HELD');return self.project_after_commit(db,state)
         child=self.runtime.create({'model_id':state['model_id'],'call_budget':1,
@@ -393,7 +395,7 @@ class AdaptiveRuntime:
             state['pending']['run_id']=child['id'];self.save(db,state,'CHILD_LINKED',{'run_id':child['id']})
         def additional_read(tool,execute):
             with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
                 if current['status']!='EXECUTING' or current['token']!=token: raise Conflict('Dispatcher fenced')
                 if current['status']!='EXECUTING' or self.clock()>=current['deadline']:raise UsageHold('Read cancelled or deadline exhausted')
                 number=current.get('physical_calls',current['cloud_calls'])+1;key='physical:'+str(number)
@@ -447,7 +449,7 @@ class AdaptiveRuntime:
             if self.governor:self.governor.settle(db,identity,state['pending'].get('reservation_key','tool:'+str(state['cloud_calls'])),uncertain=child['status'] not in ('COMPLETED','CANCELLED') and not any(s['status']=='FAILED' for s in child['steps']))
             if child['status']!='COMPLETED':self.stop(db,state,'TOOL_UNAVAILABLE','HELD')
             else:
-                try:self.admit(state)
+                try:self.admit(state,db)
                 except Conflict:self.stop(db,state,'ADMISSION_CHANGED','HELD')
                 else:
                     from .progress_policy import informative
@@ -461,7 +463,7 @@ class AdaptiveRuntime:
         from .physical_reads import guard_scope
         def record_guard(event):
             with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)
+                db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
                 state.setdefault('guard_evidence',[]).append(event)
                 self.save(db,state,'SQL_GUARD_'+event['status'],event)
         with guard_scope(record_guard):
@@ -486,13 +488,13 @@ class AdaptiveRuntime:
         from .process_debugging import vertical
         from .assessment_support import validate as validate_support
         with self.runtime.db() as db:
-            state=self.load(db,identity);self.admit(state)
+            state=self.load(db,identity);self.admit(state,db)
             if state['status']!='READY':return self.get(identity)
         model=self.store.get(state['model_id'])
 
         def meter_read(tool,execute,physical_only=False):
             with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
                 if current['status']!='EXECUTING' or self.clock()>=current['deadline']:raise UsageHold('Read cancelled or deadline exhausted')
                 if not physical_only and current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
                     raise UsageHold('Investigation diagnostic-read limit')
@@ -543,7 +545,7 @@ class AdaptiveRuntime:
         def judge_once(payload,attempt):
             size=input_characters(payload)
             with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
                 if current['status']!='EXECUTING' or self.clock()+self.generation_options['timeout_seconds']>current['deadline']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Judgment cancelled or deadline exhausted.'}
                 if current['planner_calls']>=current['envelope']['limits']['planner_calls']:
@@ -702,7 +704,7 @@ class AdaptiveRuntime:
             path=adapter.resolve_path(state['envelope']['measure_id'])
         except MeasurePathLimit as exc:
             with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current)
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
                 if current['status']!='READY':return self.project_after_commit(db,current)
                 self.stop(db,current,'PATH_CONTEXT_LIMIT','HELD')
                 current['process_error']='PATH_CONTEXT_LIMIT'
@@ -711,7 +713,7 @@ class AdaptiveRuntime:
                     'limitation':'The complete measure path exceeds the context bound; no evidence was truncated and no data read was attempted.'})
                 return self.project_after_commit(db,current)
         with self.runtime.db() as db:
-            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state)
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
             if state['status']!='READY':return self.project_after_commit(db,state)
             state['process_started']=True;state['status']='EXECUTING'
             self.save(db,state,'PROCESS_STARTED',{'procedure':'VERTICAL','reserved_reads':0})
@@ -825,7 +827,7 @@ class AdaptiveRuntime:
                 return self.get(identity)
         if child['status']=='READY':
             with self.runtime.db() as db:
-                state=self.load(db,identity);self.admit(state)
+                state=self.load(db,identity);self.admit(state,db)
                 if self.clock()+(300 if pending['candidate']['tool'] in ('source','source_records','bounded_sql') else 120)>state['deadline']:
                     self.stop(db,state,'DEADLINE','HELD');return self.project_after_commit(db,state)
             return self.dispatch(identity,token)

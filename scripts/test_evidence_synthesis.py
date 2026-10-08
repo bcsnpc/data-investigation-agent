@@ -127,6 +127,51 @@ class SynthesisTests(unittest.TestCase):
         validate_account(result['outcome']['synthesis_outputs'],source)
         self.assertEqual(result['outcome']['synthesis_outputs']['technical_output']['mandatory_limits'],source['assessment']['limits'])
 
+    def test_one_rejected_sentence_then_valid_retry_preserves_original_contract(self):
+        agent,state=self.stopped()
+        with agent.runtime.db() as db:
+            source=agent.load(db,state['id']);payload=synthesis_digest.build(source,db)
+            source['assessment']=self.answer(payload)
+            agent.save(db,source,'TEST_ASSESSMENT',{})
+        calls=[]
+        def provider(view,**kwargs):
+            calls.append(kwargs)
+            text='Unfinished prose' if len(calls)==1 else 'The retained calculation adds the measured entries.'
+            return {'technical_output':{'text':text,'evidence_ids':[view['evidence'][0]['id']]}},{'usage':{'input_tokens':1,'output_tokens':1}}
+        with patch('ticket_planner.azure_generate',side_effect=provider):
+            result=agent.synthesize(state['id'],synthesis.azure_synthesize)
+        record=result['synthesis']
+        self.assertEqual(record['calls'],2);self.assertEqual(record['status'],'COMPLETED')
+        self.assertEqual(record['assessment']['support'],source['assessment']['support'])
+        self.assertNotIn('mechanism_error',record)
+        self.assertEqual(record['outputs']['technical_output']['model_mechanism']['text'],'The retained calculation adds the measured entries.')
+        self.assertLessEqual(calls[1]['generation_options']['timeout_seconds'],calls[0]['generation_options']['timeout_seconds'])
+
+    def test_two_rejected_model_sentences_keep_original_result_and_both_outputs(self):
+        agent,state=self.stopped()
+        with agent.runtime.db() as db:
+            source=agent.load(db,state['id']);payload=synthesis_digest.build(source,db)
+            source['assessment']=self.answer(payload)
+            agent.save(db,source,'TEST_ASSESSMENT',{})
+        def invalid(view,**kwargs):
+            return {'technical_output':{'text':'An unfinished mechanism',
+                'evidence_ids':[view['evidence'][0]['id']]}},{'usage':{'input_tokens':10,'output_tokens':10,'total_tokens':20}}
+        with patch('ticket_planner.azure_generate',side_effect=invalid) as provider:
+            result=agent.synthesize(state['id'],synthesis.azure_synthesize)
+        self.assertEqual(provider.call_count,2)
+        record=result['synthesis']
+        self.assertEqual(record['calls'],2);self.assertEqual(len(record['attempts']),2)
+        self.assertEqual(record['status'],'COMPLETED')
+        self.assertEqual(record['assessment']['support'],source['assessment']['support'])
+        for key in ('business_output','technical_output'):
+            text=record['outputs'][key]['explanation']['text']
+            self.assertIn('Mechanism not stated',text)
+            self.assertNotIn('An unfinished mechanism',text)
+        self.assertEqual(record['outputs']['technical_output']['model_mechanism']['text'],'')
+        with agent.runtime.db() as db:
+            self.assertEqual(db.execute("SELECT count(*) FROM adaptive_events WHERE session_id=? AND kind='SYNTHESIS_MECHANISM_RETRY'",(state['id'],)).fetchone()[0],1)
+        self.assertEqual(agent.governor.snapshot()['reservation_states']['SETTLED'],4)
+
     def test_container_display_labels_do_not_change_model_payload_or_coverage(self):
         agent,state=self.stopped()
         with agent.runtime.db() as db:before=synthesis_digest.build(state,db)

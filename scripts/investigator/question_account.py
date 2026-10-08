@@ -57,6 +57,10 @@ def typed_check(kind,assessment,observations):
         elif outcome=='CONSISTENT_TO_BOUNDARY':
             reason='The compared path agreed through the named checked depth; the application beyond it was not read, so the remaining question belongs to the application owner.'
     elif kind=='TRANSFORMATION_MECHANISM':
+        if outcome=='CONSISTENT_TO_BOUNDARY':
+            return {'subject':subject,'status':'NOT_ANSWERED',
+                'reason':'The reachable compared layers agree, but the application source was not reached; agreement does not establish the requested mechanism.',
+                'evidence_ids':[o['id'] for o in comparisons]}
         refs=[o['id'] for o in observations if set(o.get('process_roles',[])) & {'transformation_definition','mechanism'}]
         if refs and outcome in ('TRANSFORMATION_LOGIC','DEFECT'):
             status='PARTLY_ANSWERED';reason='The retained definition was judged against the observed difference; the supported mechanism and its evidence limits are reported, without deciding business intent.'
@@ -67,6 +71,10 @@ def typed_check(kind,assessment,observations):
         reason='Technical flow evidence cannot establish authoritative business meaning; the remaining question requires a domain specialist.'
     elif kind=='VISUAL_CONTENT':
         reason='No completed declared-context reproduction established the requested visual result.'
+    elif kind=='FILTER_EFFECT':
+        refs=[o['id'] for o in observations if o.get('check_kind')=='DECLARED_FILTER_EFFECTS']
+        if refs:
+            status='PARTLY_ANSWERED';reason='Each active saved restriction was removed separately at the requested cell. The value effects were observed; current viewer selections, individual missing rows and timing remain unestablished.'
     return {'subject':subject,'status':status,'reason':reason,'evidence_ids':refs}
 
 
@@ -76,11 +84,12 @@ def build(state):
     assessment=state.get('assessment') or {}
     kind=(state['envelope'].get('question_kind') or {}).get('kind')
     from .reproduction_composition import select,answer,requested
-    lead=select(state.get('observations',[])) if kind=='VISUAL_CONTENT' or requested(question) else None
+    lead=select(state.get('observations',[])) if kind in ('VISUAL_CONTENT','FILTER_EFFECT') or requested(question) else None
     if lead is not None:
         return {'version':2,'question':question,'question_hash':digest(question),
             'status':'ANSWERED' if lead['label'] else 'NOT_ANSWERED',
-            'subjects':[],'reproduction_answer':answer(lead),'answering_cell_receipt_id':lead['id'],
+            'subjects':[typed_check(kind,assessment,state.get('observations',[]))] if kind=='FILTER_EFFECT' else [],
+            'reproduction_answer':answer(lead),'answering_cell_receipt_id':lead['id'],
             'subject_provenance':'COMPLETED_DECLARED_CONTEXT_PROCEDURE',
             'finding_outcome':assessment.get('classification'),'authority':'DETERMINISTIC_EVIDENCE_COVERAGE'}
     observations=[o for o in state.get('observations',[]) if o.get('status')=='COMPLETED']

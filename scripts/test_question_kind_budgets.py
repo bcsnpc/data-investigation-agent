@@ -99,7 +99,7 @@ class QuestionKindBudgetTests(unittest.TestCase):
     def test_filter_effect_reproduces_but_never_reads_a_lower_layer(self):
         adapter=NeutralAdapter()
         with patch.object(adapter,'evaluate',wraps=adapter.evaluate) as evaluate:
-            with self.assertRaisesRegex(question_kind.UnimplementedRoute,'No pipeline walk'):
+            with self.assertRaisesRegex(question_kind.UnimplementedRoute,'no pipeline walk'):
                 vertical(adapter,'metric',self.scope('FILTER_EFFECT'))
         self.assertEqual(len(adapter.read_scopes),2)
         self.assertEqual(evaluate.call_count,1)

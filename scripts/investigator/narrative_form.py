@@ -65,6 +65,7 @@ def business(text,payload):
     if reproduction is not None:
         from .lineage_limits import business as lineage_limit
         limitation=lineage_limit(payload)
+        if payload.get('deterministic_process_finding',{}).get('classification')=='DECLARED_FILTER_EFFECTS':reproduction=text
         return validate(reproduction+(' '+limitation if limitation else ''),True)
     from .selection_descriptor import render as render_descriptor
     for entry in payload.get('evidence',[]):
@@ -93,6 +94,10 @@ def business(text,payload):
                   if finding['reason']==NO_FIGURE else
                   'The declared selections could not be tested with the available evidence. ')+text
     if reproduction_limits:text+=' '+' '.join(reproduction_limits)
+    from .filter_effects import KIND as EFFECTS_KIND,render as render_effects
+    for entry in payload.get('evidence',[]):
+        if entry.get('result',{}).get('check_kind')==EFFECTS_KIND:
+            text+=' '+render_effects(entry['result'],True)
     from .surface_difference import wording
     statements=[]
     baseline=next((e['id'] for e in payload.get('evidence',[]) if e.get('test_purpose')=='ESTABLISH_BASELINE'),None)
@@ -157,6 +162,9 @@ def technical(commentary,payload,source,recommended):
         result=entry.get('result',{})
         if result.get('check_kind')==KIND:
             if not cell_lines:finding.append(render(result,include_limits=False))
+        elif result.get('check_kind')=='DECLARED_FILTER_EFFECTS':
+            from .filter_effects import render as render_effects
+            finding.append(render_effects(result))
         elif result.get('check_kind')=='PROBE_NOT_EXECUTED':
             finding.append('Probe not executed for '+result['target_id']+': '+result['reason']+' Would establish '+result['would_establish']+'.')
         elif result.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':

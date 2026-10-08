@@ -117,3 +117,61 @@ The test-only correction subsequently passed all 28 process-tape tests and is
 on #423. A final integrated full regression remains required. No new estate
 request, fixture change, identity scope or live model call in this checkpoint.
 Original failures remain unchanged. #423 is draft; the freeze remains invalid.
+
+Dated Round Ten B offline route/output/transaction checkpoint, 2026-10-07
+America/Chicago. The intake commit passed 2,292 regression tests. The filter
+question now has an optional declared_filter_effects route: reproduce the named
+cell, then compile one evaluation per ACTIVE restriction removed. It never walks
+the pipeline. Conditional alternatives stay excluded; cell keys and all remaining
+restrictions are retained, including empty intersections. Original quantities,
+complete inventory, query scope, context/revision and attestation validate every
+variant. BLANK is a result. A cap or failed probe prevents a complete effect
+finding; no approximation or pipeline substitution follows. The original D
+filtered-lower-layer refusal is unchanged.
+
+The new DECLARED_FILTER_EFFECTS outcome reports value changes, not individual
+missing records or intended business correctness. Both output paths render its
+restriction/value facts and CONFIRM_SCOPE_INTENT action. Saved-default and
+snapshot qualifications remain; no aligned-version claim is added. The authorized
+placeholder expectation correction is hash-linked and append-only; the authored
+original ticket and its old result remain unchanged. The adapter capability is
+not yet enabled in the prepared live manifests, so no live result is claimed.
+
+F's two original business outputs established reachable agreement but omitted
+an explicit unreached-source statement. That separate output defect is preserved.
+The engine now renders both facts for a mechanism question ending at boundary
+consistency, while conservatively mapping it NOT_ANSWERED. The two expectation
+corrections retain the human's exact reason.
+
+The original family-A-terse and family-G-mention synthesis failures were schema
+pattern rejections: A used "matching rows may multiply" and "operation may
+ duplicate"; G used "matching rows may multiply" and "can exceed". Their sealed
+responses and absent outputs remain. One separately reserved/recorded composition
+retry now runs within the original synthesis deadline and existing governor. No
+retry of uncertain transport completion. After rejected prose or exhausted retry
+capacity, an unchanged, revalidated original assessment renders both outputs and
+an explicit "Mechanism not stated" limitation. Unsupported assessments and changed
+source evidence still refuse; fallback cannot invent a classification. Tests cover
+one rejection followed by success, two rejections followed by deterministic outputs,
+and unchanged support. Earlier bounded-spine rendering now uses this same engine
+fallback instead of manufacturing model prose.
+
+Gate lock cause: the gate's own copied-database writer, after cache spill,
+opened a second ModelStore read connection to the same file during load/admission.
+Catalog reads now borrow that caller-owned transaction under an explicit path
+scope; they never commit or close it, and another file cannot borrow it. The
+regression appends fifty 32-KiB records under EXCLUSIVE with cache_size=2, reloads
+and admits each, then confirms all fifty committed. No journal mode or timeout
+increase.
+
+Intermediate checks are preserved: generic new-outcome fixtures lacked real
+per-restriction receipts; fixing them exposed reproduction-action substitution
+and a business early-return dropping effect findings. Both were fixed. A display
+check expected a capitalized synthetic field despite the evidence carrying a
+lowercase identity; the assertion was corrected. A retry-accounting assertion
+forgot the existing planner plus baseline-read reservations; the corrected check
+asserts four settlements. Targeted integrated checks pass; the committed complete
+regression and thirteen-case model eval are next. No estate request, live model
+call, fixture change, scope change, reset or cap increase in this checkpoint.
+Prior freezes remain invalid; #423 stays draft. No improved batch score or enlarged
+gate is claimed.

@@ -8,6 +8,19 @@ from test_question_intake import ask
 
 
 class ModelEvalIntakeTests(unittest.TestCase):
+    def test_thirteen_case_eval_retains_visual_coverage_without_sending_native_parts(self):
+        golden=json.loads((Path(__file__).resolve().parents[1]/'acceptance/model_steps/intake-round-ten-misses.json').read_text())
+        from investigator.model_eval_intake import workspace
+        from investigator.question_intake import snapshot
+        h=WorkspaceTests();h.setUp();self.addCleanup(h.doCleanups)
+        owner=workspace(h.agent,golden['catalog'],None)
+        view=snapshot(owner)
+        self.assertEqual(sum(len(m['visuals']) for m in view['models']),52)
+        for row in view['models']:
+            self.assertNotIn('evaluation_context',row)
+            self.assertNotIn('model_assets',row)
+            self.assertNotIn('context',row)
+
     def test_real_intake_settles_existing_governor_and_has_no_estate_transport(self):
         h=WorkspaceTests();h.setUp();self.addCleanup(h.doCleanups)
         golden=json.loads((Path(__file__).resolve().parents[1]/'acceptance/model_steps/intake.json').read_text())

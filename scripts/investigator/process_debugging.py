@@ -13,7 +13,7 @@ VERSION='process-debugging-v3-graded-surfaces'
 REQUIRED_CAPABILITIES=frozenset(('resolve_measure_path','evaluate_scoped_quantity'))
 OPTIONAL_CAPABILITIES=frozenset(('presentation_freshness','refresh_timing','snapshot_identity','declared_source_comparison','presentation_context',
     'transformation_definition','job_history','ingestion','independent_lower_surface','failure_detail',
-    'declared_context_reproduction','source_delivery','expected_record_presence'))
+    'declared_context_reproduction','declared_filter_effects','source_delivery','expected_record_presence'))
 
 
 @dataclass(frozen=True)
@@ -299,6 +299,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     measure_baseline=None
     snapshot_probes={}
     reproduction_started=False
+    checked_reproduction=None
     resolved_layers=[]
     job_results={};delivery_results={}
     def boundary_key(boundary):return (boundary['upper']['id'],boundary['lower']['id'])
@@ -368,6 +369,11 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         reproductions=[o for o in result['_observations'] if o.get('check_kind')==KIND]
         for finding in reproductions:
             result['limits'].extend(finding['limitations'])
+        from .filter_effects import KIND as EFFECTS_KIND,LIMIT as EFFECTS_LIMIT
+        effects=[o for o in result['_observations'] if o.get('check_kind')==EFFECTS_KIND]
+        if effects:
+            result['limits'].append(EFFECTS_LIMIT)
+            for key in ('business_output','technical_output'):result[key]['declared_filter_effects']=effects
         for key in ('business_output','technical_output'):
             if reproductions:result[key]['declared_context_reproductions']=reproductions
         # The baseline above a divergent internal boundary is not the selected
@@ -566,7 +572,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         scope['selection_observations']=selection_observations
 
     def reproduce(walk_blocked=False):
-        nonlocal reproduction_started
+        nonlocal reproduction_started,checked_reproduction
         reproduction_started=True
         eligible=eligibility(scope,walk_blocked)
         if not eligible['applicable']:
@@ -580,6 +586,7 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
             from .declared_reproduction import run
             with phase('REPRODUCTION'):
                 reproduction=run(adapter,layers[0],measure_id,scope)
+            checked_reproduction=reproduction
             observations.extend(reproduction['observations'])
             if reproduction['status']=='UNAVAILABLE' or reproduction.get('unsupported_form'):
                 observations.append(_observation({'id':'declared-reproduction-unavailable','tool':'process',
@@ -604,8 +611,15 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     if eligibility(scope)['applicable']:reproduce()
     if not reproduction_started and not eligibility(scope,walk_blocked=True)['applicable']:reproduce()
     if (scope.get('question_kind') or {}).get('kind')=='FILTER_EFFECT':
-        from .question_kind import UnimplementedRoute
-        raise UnimplementedRoute('Filter-effect attribution is unimplemented: reproduction alone does not establish which restriction hides rows. No pipeline walk was attempted.')
+        if 'declared_filter_effects' not in available:
+            from .question_kind import UnimplementedRoute
+            raise UnimplementedRoute('Filter-effect capability is undeclared for this estate; no pipeline walk was attempted.')
+        from .filter_effects import run as effects,render as render_effects
+        with phase('REPRODUCTION'):
+            checked=effects(adapter,layers[0],measure_id,scope,checked_reproduction or {})
+        observations.extend(checked['observations'])
+        return answer('DECLARED_FILTER_EFFECTS',2,observations,layers[0]['id'],baseline=baseline,
+            roles=('established',),explanation=render_effects(checked['finding'],True),skipped_steps=skipped)
 
     def unverified_business_flow(reason):
         return answer('NO_KNOWN_PATTERN',6,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,
