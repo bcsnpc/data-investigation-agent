@@ -3,8 +3,11 @@ import re
 
 INSTRUCTIONS = ('\nPreserve the primary ask: an explicit request to reproduce a saved or declared '
     'display is VISUAL_CONTENT; an explicit discrepancy allegation is MISMATCH_COMPLAINT; '
-    'a request to decide a business rule is BUSINESS_MEANING and is refused before any '
-    'technical procedure. A quoted value explicitly selected by the user must be SELECTION, '
+    'a sole request to decide a business rule is BUSINESS_MEANING and is refused before any '
+    'technical procedure. Mixed questions retain a technical question kind and answer the '
+    'technical part, explicitly declining business meaning. Requests about the implemented '
+    'effect of adjustments on a metric or whether a difference follows definitions are '
+    'technical asks even when authoritative meaning is also requested. A quoted value explicitly selected by the user must be SELECTION, '
     'not SUBJECT or MENTION. Tracking references are not expected-record identifiers. '
     'A request asking which restriction hides rows is FILTER_EFFECT, not a pipeline question. '
     'Comparison of earlier and later states is TEMPORAL_COMPARISON, not business meaning. '
@@ -18,9 +21,21 @@ class RuleViolation(ValueError):
         super().__init__(code+': '+requirement)
 
 
+def technical_ask(ticket):
+    """Explicit technical work, not a mere metric mentioned in an intent question."""
+    return bool(re.search(
+        r'\b(?:inspect|investigate|reproduce|check)\b|'
+        r'\b(?:explain|whether)\b[^.!?\n]*\b(?:definitions?|observed difference)\b|'
+        r'\bfollows?\b[^.!?\n]*\bdefinitions?\b|'
+        r'\baffect\b[^.!?\n]*\b(?:metric|measure|quantity)\b', ticket, re.I))
+
+
 def validate(value, ticket):
     if value.get('action') != 'PROPOSE':return
     kind=(value.get('question_kind') or {}).get('kind')
+    if kind == 'BUSINESS_MEANING' and technical_ask(ticket):
+        raise RuleViolation('MIXED_TECHNICAL_SUBJECT_REQUIRED',
+            'Answer the explicit technical part under its technical question kind; decline authoritative business meaning separately. Do not refuse the mixed ticket as a sole business-rule decision.')
     if re.search(r'\bwhich\s+(?:saved\s+)?filters?\b[^.!?\n]*\bhid(?:e|es|ing)\b',ticket,re.I) and kind!='FILTER_EFFECT':
         raise RuleViolation('FILTER_EFFECT_SUBJECT_REQUIRED',
             'Which filters hide rows is FILTER_EFFECT; reproduction does not authorize a pipeline walk.')
@@ -35,7 +50,7 @@ def validate(value, ticket):
         if value.get('ticket_shape') != 'MISMATCH_COMPLAINT':
             raise RuleViolation('MISMATCH_SHAPE_REQUIRED',
                 'An explicit discrepancy allegation is MISMATCH_COMPLAINT. It cannot use BUSINESS_QUESTION:NONE.')
-    if re.search(r'\b(?:decide|determine)\b[^.!?\n]*\bbusiness rule\b',ticket,re.I):
+    if re.search(r'\b(?:decide|determine)\b[^.!?\n]*\bbusiness rule\b',ticket,re.I) and not technical_ask(ticket):
         if kind != 'BUSINESS_MEANING':
             raise RuleViolation('BUSINESS_RULE_SUBJECT_REQUIRED',
                 'The primary request to decide a business rule is BUSINESS_MEANING. Technical process evidence cannot decide business correctness.')

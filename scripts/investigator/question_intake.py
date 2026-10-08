@@ -149,7 +149,7 @@ def azure_resolve(payload):
         wire['intake_rule_repair']=payload['_intake_rule_repair']
         instructions+='\nThe previous interpretation violated the supplied intake_rule_repair. Return a complete corrected record under the same schema, with exact provenance. This is the only retry; do not invent a value, target, selection, precision or tolerance.'
     if 'visual_request' in schema['required']:
-        instructions+='\nFor a report-bound question, visual_request is required: quote the named page or visual exactly and state UNGROUPED, KEYED or an explicitly requested TOTAL. TOTAL requires mode_source quoting the explicit total request; other modes use mode_source null. Never choose a visual by matching its number. If no target is named, leave visual_request null; the consumer will HOLD and list candidates. Model-only questions need no visual.'
+        instructions+='\nResolve the ticket context, not a mandatory visual name. visual_request is null when no visual or cell-mode constraint is stated; the consumer resolves a unique measure/report match from the complete inventory. When a visual or page is named, quote it in source. For an explicit global request without a visual name use source null, mode UNGROUPED and mode_source quoting that global request. TOTAL requires mode_source quoting an explicitly requested total. Do not nominate a visual, cell mode, or total by default, position, or a number obtained from another cell. Multiple matching visuals HOLD with TARGET_AMBIGUOUS; none with TARGET_UNRESOLVED. Model-only questions need no visual.'
     statement_repair=payload.get('_explicit_statement_repair')
     if statement_repair is not None:
         wire.pop('_explicit_statement_repair',None)
@@ -274,7 +274,8 @@ def azure_resolve(payload):
             if not business_meaning and value.get('report_binding',{}).get('resolution_kind')=='STATED' and 'visuals' in model:
                 from .visual_target import resolve
                 if visual_request is not None:
-                    visual_request['source']=locate(visual_request['source'],payload['text'],field='visual',audit=quote_audit)
+                    if visual_request['source'] is not None:
+                        visual_request['source']=locate(visual_request['source'],payload['text'],field='visual',audit=quote_audit)
                     if visual_request.get('mode_source') is not None:
                         visual_request['mode_source']=locate(visual_request['mode_source'],payload['text'],field='visual',audit=quote_audit)
                 value['target_visual']=resolve(visual_request,ticket=payload['text'],candidates=model['visuals'],
@@ -353,7 +354,7 @@ def wire_contract(payload):
     if any('visuals' in m for m in payload['models']):
         schema['properties']['visual_request']={'anyOf':[{'type':'null'},
             {'type':'object','additionalProperties':False,'properties':{
-                'source':QUOTE_SCHEMA,'mode':{'type':'string','enum':['UNGROUPED','KEYED','TOTAL']},
+                'source':{'anyOf':[{'type':'null'},QUOTE_SCHEMA]},'mode':{'type':'string','enum':['UNGROUPED','KEYED','TOTAL']},
                 'mode_source':{'anyOf':[{'type':'null'},QUOTE_SCHEMA]}},
              'required':['source','mode','mode_source']}]}
         schema['required'].append('visual_request')
@@ -675,7 +676,7 @@ class Intake:
         except TargetUnresolved as exc:
             usage=getattr(exc,'provider_metadata',usage);uncertain=usage is None
             names=sorted({name for candidate in exc.candidates for name in candidate.get('names',[])})
-            body.update(status='HELD',error='TARGET_UNRESOLVED',refusal_reason=str(exc),
+            body.update(status='HELD',error=exc.code,refusal_reason=str(exc),
                         candidate_visuals=exc.candidates,proposal=None)
             if names:body['refusal_reason']+=' Candidate visuals: '+', '.join(names)+'.'
         except intake_rules.RuleViolation as exc:

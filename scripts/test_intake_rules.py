@@ -26,6 +26,24 @@ class IntakeRulesTests(unittest.TestCase):
         value['question_kind']['kind']='BUSINESS_MEANING'
         intake_rules.validate(value,'Please decide the business rule.')
 
+    def test_mixed_question_must_keep_technical_subject_and_may_walk(self):
+        ticket='Explain whether the observed difference follows their definitions, and state what business intent remains unknown.'
+        value=proposal();value['question_kind']={'kind':'BUSINESS_MEANING'}
+        with self.assertRaisesRegex(intake_rules.RuleViolation,'MIXED_TECHNICAL_SUBJECT_REQUIRED'):
+            intake_rules.validate(value,ticket)
+        value['question_kind']['kind']='TRANSFORMATION_MECHANISM'
+        intake_rules.validate(value,ticket)
+        from investigator.question_kind import intake_route
+        intake_route(value)
+
+    def test_mixed_adjustment_effect_is_not_authoritative_meaning(self):
+        ticket='What does adjustment reason Q49 mean, and should those adjustments affect this metric?'
+        value=proposal();value['question_kind']={'kind':'BUSINESS_MEANING'}
+        with self.assertRaisesRegex(intake_rules.RuleViolation,'MIXED_TECHNICAL_SUBJECT_REQUIRED'):
+            intake_rules.validate(value,ticket)
+        value['question_kind']['kind']='SOURCE_CORRECTNESS'
+        intake_rules.validate(value,ticket)
+
     def test_sealed_business_intent_must_never_become_a_defect_answer(self):
         saved=json.loads((Path(__file__).parent/'fixtures/round_ten/business-intent-sealed-excerpt.json').read_text())
         self.assertEqual(saved['observed_outcome'],'TRANSFORMATION_LOGIC')

@@ -32,6 +32,21 @@ def workspace(agent,catalog,resolver):
     return owner
 
 
+def ci_agent(directory, profile):
+    """Isolated quality governor and metadata store, with no estate transports."""
+    from pathlib import Path
+    from .onboarding import ModelStore
+    from .runtime import Runtime
+    from .adaptive_runtime import AdaptiveRuntime
+    directory=Path(directory);directory.mkdir(parents=True,exist_ok=True)
+    config={'storage':{'database':str(directory/'inventory.sqlite')}}
+    store=ModelStore(directory/'catalog.sqlite',config['storage']['database'],'intake-ci')
+    policy={'environment':'intake-ci','daily_limits':{'planner_calls':118,'cloud_calls':1,
+            'input_characters':8000000,'output_tokens':1500000},
+            'max_inflight_planners':1,'no_progress_limit':2}
+    return AdaptiveRuntime(Runtime(store,config,None,None),None,planner_profile=profile,usage_policy=policy)
+
+
 def run_case(agent,golden,case,resolver,path,request_key):
     """No preview, create, investigation or read; reservations use the real governor."""
     owner=workspace(agent,golden['catalog'],resolver);intake=Intake(owner,resolver)

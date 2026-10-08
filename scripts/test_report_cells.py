@@ -17,9 +17,11 @@ class CellTests(unittest.TestCase):
             'source':{'start':0,'end':14,'quote':'Sales overview'}}
         self.modify(self.page,lambda d:d.update(displayName='Revenue page'))
         self.modify(self.visual,lambda d:d['visual'].update(visualContainerObjects={'title':[{'properties':{'text':{'expr':{'Literal':{'Value':"'Revenue card'"}}}}}]}))
-        self.scope['target_visual']={'target_id':self.visual['id'],'report_id':self.report['report']['id'],
-            'measure_id':self.measure['id'],'mode':'UNGROUPED','mode_source':None,
-            'source':{'start':0,'end':12,'quote':'Revenue card'}}
+        from investigator.visual_target import resolve
+        self.scope['target_visual']=resolve({'mode':'UNGROUPED','mode_source':None,
+            'source':{'start':0,'end':12,'quote':'Revenue card'}},ticket=None,
+            candidates=report_cells.catalog(self.model),report_id=self.report['report']['id'],
+            measure_id=self.measure['id'])
     part = fixture.DeclaredPredicateAdapterTests.part
     modify = fixture.DeclaredPredicateAdapterTests.modify
 

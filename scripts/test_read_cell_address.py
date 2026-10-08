@@ -16,7 +16,12 @@ class ReadCellAddressTests(unittest.TestCase):
 
     def test_two_explicit_cell_requests_validate_against_their_own_definition_and_reads(self):
         result=self.run_cells()
-        self.scope['target_visual'].update(mode='TOTAL',mode_source={'start':0,'end':5,'quote':'TOTAL'})
+        from investigator.visual_target import resolve
+        from investigator.adapters.report_cells import catalog
+        previous=self.scope['target_visual']
+        self.scope['target_visual']=resolve({'source':previous['source'],'mode':'TOTAL',
+            'mode_source':{'start':0,'end':5,'quote':'TOTAL'}},ticket=None,candidates=catalog(self.model),
+            report_id=previous['report_id'],measure_id=previous['measure_id'])
         total=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
         findings=[c['finding'] for c in result['cells']+total['cells']]
         self.assertEqual(len(findings),2)

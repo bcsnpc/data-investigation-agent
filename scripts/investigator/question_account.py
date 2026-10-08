@@ -100,6 +100,8 @@ def build(state):
     kind=(state['envelope'].get('question_kind') or {}).get('kind')
     subjects=([KIND_SUBJECTS[kind]] if kind in KIND_SUBJECTS else
         [key for key,pattern in SUBJECTS.items() if re.search(pattern,question,re.I)] or ['unclassified'])
+    if kind in KIND_SUBJECTS and kind != 'BUSINESS_MEANING' and re.search(SUBJECTS['meaning'],question,re.I):
+        if 'meaning' not in subjects:subjects.append('meaning')
     checks=[]
     for subject in subjects:
         status='NOT_ANSWERED';reason='No recorded completion check establishes an answer to this request.'
@@ -157,7 +159,7 @@ def build(state):
                         refs=[o['id'] for o in refusals if o.get('reason')==NO_FIGURE]
                         reason='There is no reported figure to compare; no reproduction verdict was established.'
                     else:reason='No independent comparison established an answer to the requested difference.'
-        checks.append(typed_check(kind,assessment,observations) if kind and kind!='FRESHNESS' else
+        checks.append(typed_check(kind,assessment,observations) if kind and kind!='FRESHNESS' and subject==KIND_SUBJECTS[kind] else
             {'subject':subject,'status':status,'reason':reason,'evidence_ids':refs})
     states=[c['status'] for c in checks]
     status=('NO_REPORTED_FIGURE' if all(s=='NO_REPORTED_FIGURE' for s in states) else

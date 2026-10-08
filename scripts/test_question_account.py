@@ -43,6 +43,17 @@ class QuestionAccountTests(unittest.TestCase):
         a=self.outputs();b=self.outputs();account.attach(a,self.state());account.attach(b,self.state('Explain the observed difference.'))
         self.assertNotEqual(a['business_output']['explanation']['text'],b['business_output']['explanation']['text'])
         self.assertEqual(a['business_output']['mandatory_limits'],b['business_output']['mandatory_limits'])
+
+    def test_mixed_typed_question_always_declines_authoritative_meaning(self):
+        s=self.state('Explain the observed difference and state what business intent remains unknown.')
+        s['envelope']['question_kind']={'kind':'TRANSFORMATION_MECHANISM'}
+        s['observations']=[{'id':'definition','status':'COMPLETED','process_roles':['transformation_definition']}]
+        outputs=self.outputs();account.attach(outputs,s)
+        for output in outputs.values():
+            text=output['explanation']['text']
+            self.assertIn('supported mechanism',text)
+            self.assertIn('No authoritative business meaning',text)
+        self.assertEqual(outputs['business_output']['question_account']['status'],'PARTLY_ANSWERED')
     def test_outcome_or_optional_timestamp_does_not_establish_currency(self):
         for outcome in ('REFRESH_LATENCY','CONSISTENT_TO_BOUNDARY','TRANSFORMATION_LOGIC'):
             s=self.state();s['assessment']['classification']=outcome

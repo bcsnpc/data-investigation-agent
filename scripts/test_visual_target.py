@@ -47,6 +47,48 @@ class ReferentTests(unittest.TestCase):
         self.catalog.append(dict(self.catalog[0],target_id='other-card'))
         with self.assertRaises(TargetUnresolved):self.resolve('Global card')
 
+    def test_one_measure_match_resolves_without_a_visual_name(self):
+        result=resolve(None,ticket='Quantity is wrong.',candidates=self.catalog[:1],
+                       report_id='report',measure_id='measure')
+        self.assertEqual(result['target_id'],'card')
+        self.assertEqual(result['resolution'],'RESOLVED')
+        self.assertIn('visual_name',result['match_basis']['absent'])
+        validate(result,ticket='Quantity is wrong.',candidates=self.catalog[:1],
+                 report_id='report',measure_id='measure')
+
+    def test_two_matches_are_ambiguous_not_missing_target_names(self):
+        with self.assertRaises(TargetUnresolved) as caught:
+            resolve(None,ticket='Quantity is wrong.',candidates=self.catalog,
+                    report_id='report',measure_id='measure')
+        self.assertEqual(caught.exception.code,'TARGET_AMBIGUOUS')
+        self.assertEqual([c['target_id'] for c in caught.exception.candidates],['card','matrix'])
+
+    def test_zero_matches_is_unresolved_and_no_default_is_selected(self):
+        with self.assertRaises(TargetUnresolved) as caught:
+            resolve(None,ticket='Quantity is wrong.',candidates=self.catalog,
+                    report_id='other',measure_id='measure')
+        self.assertEqual(caught.exception.code,'TARGET_UNRESOLVED')
+        self.assertEqual(caught.exception.candidates,[])
+
+    def test_mode_without_provenance_cannot_disambiguate(self):
+        with self.assertRaises(TargetUnresolved):
+            resolve({'source':None,'mode':'UNGROUPED','mode_source':None},ticket='Quantity is wrong.',
+                    candidates=self.catalog,report_id='report',measure_id='measure')
+
+    def test_explicit_global_scope_is_a_constraint_not_an_implicit_default(self):
+        ticket='Check the global quantity.'
+        result=resolve({'source':None,'mode':'UNGROUPED','mode_source':span(ticket,'global quantity')},
+                       ticket=ticket,candidates=self.catalog,report_id='report',measure_id='measure')
+        self.assertEqual(result['target_id'],'card')
+        self.assertIn('cell_mode',result['match_basis']['matched'])
+
+    def test_aggregate_total_does_not_silently_choose_a_matrix_total_cell(self):
+        ticket='Check the current total.'
+        with self.assertRaises(TargetUnresolved) as caught:
+            resolve({'source':None,'mode':'TOTAL','mode_source':span(ticket,'total')},
+                    ticket=ticket,candidates=self.catalog,report_id='report',measure_id='measure')
+        self.assertEqual(caught.exception.code,'TARGET_AMBIGUOUS')
+
     def test_keyed_target_requires_every_declared_group_before_admission(self):
         from investigator.visual_target import complete
         target=self.resolve('Warehouse matrix','KEYED')

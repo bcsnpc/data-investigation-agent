@@ -39,9 +39,11 @@ def score_intake(golden,records,model_version):
         if row is not None:
             saved=row['intake'];answered+=1
             semantic_hold=(case['should_hold'] and expected.get('status')=='HELD'
-                           and expected.get('error') in ('TARGET_UNRESOLVED','UNIMPLEMENTED_ROUTE')
+                           and expected.get('error') in ('TARGET_UNRESOLVED','TARGET_AMBIGUOUS','UNIMPLEMENTED_ROUTE')
                            and saved.get('status')=='HELD' and saved.get('error')==expected['error'])
             if saved.get('status') in ('PROPOSED','NEEDS_INPUT') or semantic_hold:actual=intake_record(saved)
+            if actual is not None and 'nominated_question_kind' in expected:
+                actual['nominated_question_kind']=row.get('nominated_question_kind')
             holds+=saved.get('status')!='PROPOSED'
             attempts=saved.get('resolution_attempts',[])
             if not isinstance(attempts,list):raise ValueError('Recorded resolution attempts must be a list')
