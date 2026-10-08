@@ -161,3 +161,21 @@ validity semantic accuracy, was rejected. Full structured match remains the
 pass condition. Target-derived report/page binding is labelled as such; it does
 not claim separate page-span interpretation. The field scorer preserves these
 distinctions and cannot upgrade a provider failure to a correct semantic hold.
+
+At 2026-10-08T20:49:02Z, section 4's authorized input allowance changed from
+9,000,000 to 23,000,000 in the benchmark-only manifest. Before/after charged
+input is unchanged at 8,959,498. Maximum additional input is 13,600,000: 136
+attempts per design, bounded by 20,000 characters for the candidate and 80,000
+for the historical baseline. The benchmark expires at 2026-10-09T06:00:00Z;
+the standing manifest remains unchanged. Calls, output reservations, ordinary
+estate allowance, pot, restoration reserve and diagnostic cap are unchanged.
+Both passes retain the same model deployment and 65-second pacing. UTC counters
+may roll naturally; no counter is reset or refunded.
+
+DECIDED WITHOUT REVIEW: charge the historical benchmark's full transmitted
+request instead of its old payload-only estimate. This accounting-only harness
+override changes no prompt, schema, resolver, decoding or consumer decision.
+Prepared and sealed request sizes must agree after every case, or the benchmark
+stops with its evidence preserved. Allowing the historical design to undercount
+the larger wire body was rejected. Both designs make fresh calls; none of the
+composite 32/50's answers is reused.
