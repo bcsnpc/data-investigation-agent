@@ -113,4 +113,14 @@ Workspace creation and role controls charged ten physical requests, zero diagnos
 
 `scripts/fixture/rebuild.py` accepts only `--plan`; its tests deliberately reject `--apply`. The committed plan lacks an executor, so the requested rehearsal cannot be described as completed by that script. This is a migration-procedure gap, not an estate investigation result. Apply implementation and its prerequisite validation are pending. No new SQL table or reader grant is inferred from a plan.
 
+Prepared, not applied: an isolated `ordersops.app.stock_movements_rebuild_20261008`
+source using the 360 committed synthetic movement rows. The parameterized source
+plan is sealed locally with SHA-256
+`757a5a6467d11e435907ac1eaf6597cdec7ec8e2eda6a42279f689101101ae77`.
+The [exact table-only SELECT script](rebuild-application-source-grant.sql) is
+reviewable. It names `orderops_investigator`, the existing SQL reader, which is
+different from the two identities named in the workspace pre-approval. Its
+scope decision is pending under CLAUDE.md section8. Neither source creation nor
+the grant has been executed. Existing source data and scopes are unchanged.
+
 Documented control-plane methods: [Create Workspace](https://learn.microsoft.com/en-us/rest/api/fabric/core/workspaces/create-workspace), [Add Workspace Role Assignment](https://learn.microsoft.com/en-us/rest/api/fabric/core/workspaces/add-workspace-role-assignment).

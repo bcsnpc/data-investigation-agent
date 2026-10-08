@@ -43,50 +43,50 @@ Batch: 37 charged physical requests, 15 diagnostic reads, nine guard requests, 4
 
 Pot572 ->609/800, ordinary stop700, restoration reserve100 (five already spent historically). Rolling697 ->734/3,000 at closing read. Diagnostic cap12 unchanged. Today65/600 model calls includes14 offline intake-eval calls plus51 batch intake/composition calls; it is not a reset of the prior UTC day.
 
-Hosted run37714499671 passed archived15/15 and inferred15/15 with zero estate/network requests. Forty-two strict-match Round Ten records are candidates for gate growth; exact replay is pending and no enlarged earned gate is claimed.
+Hosted run37714499671 passed archived15/15 and inferred15/15 with zero estate/network requests. Forty-two strict-match Round Ten records are candidates for gate growth; exact replay is pending and no enlarged earned gate is claimed. The encrypted-publication audit is also pending: these newer tapes retain tenant identifiers and SQL endpoint hostnames in fields named `connectionString`. They are not silently removed from exact evidence or published under the earlier fixture-only bundle approval.
 
 ## Every once-only attempt
 
 | Ticket | Column | Status | Reason/outcome | Matches sealed expectation | Physical / diagnostic / guards |
 | --- | --- | --- | --- | --- | --- |
-| question-hiding-rows | stripped | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-A-terse | stripped | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-D-noisy | stripped | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-D-terse | stripped | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-D-typo | stripped | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-E-mention | stripped | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-F-noisy | stripped | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-F-terse | stripped | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-F-typo | stripped | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-G-mention | stripped | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| question-change-days | stripped | HELD | UNIMPLEMENTED_ROUTE | no | 0 / None / 0 |
-| question-change-week | stripped | HELD | UNIMPLEMENTED_ROUTE | no | 0 / None / 0 |
-| refusal-business-intent | stripped | HELD | UNIMPLEMENTED_ROUTE | yes | 0 / None / 0 |
+| question-hiding-rows | stripped | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-A-terse | stripped | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-D-noisy | stripped | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-D-terse | stripped | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-D-typo | stripped | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-E-mention | stripped | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-F-noisy | stripped | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-F-terse | stripped | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-F-typo | stripped | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-G-mention | stripped | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| question-change-days | stripped | HELD | UNIMPLEMENTED_ROUTE | no | 0 / 0 / 0 |
+| question-change-week | stripped | HELD | UNIMPLEMENTED_ROUTE | no | 0 / 0 / 0 |
+| refusal-business-intent | stripped | HELD | UNIMPLEMENTED_ROUTE | yes | 0 / 0 / 0 |
 | visual-1 | stripped | COMPLETED | CONSISTENT_TO_BOUNDARY | no | 11 / 5 / 3 |
 | visual-2 | stripped | COMPLETED | CONSISTENT_TO_BOUNDARY | no | 11 / 5 / 3 |
-| visual-3 | stripped | HELD | INTAKE_RECORD_INVALID | no | 0 / None / 0 |
+| visual-3 | stripped | HELD | INTAKE_RECORD_INVALID | no | 0 / 0 / 0 |
 | visual-4 | stripped | COMPLETED | CONSISTENT_TO_BOUNDARY | no | 11 / 5 / 3 |
 | visual-5 | stripped | COMPLETED | NO_KNOWN_PATTERN | no | 2 / 0 / 0 |
 | visual-6 | stripped | COMPLETED | NO_KNOWN_PATTERN | no | 2 / 0 / 0 |
-| family-A-mention | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-D-noisy | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-D-terse | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-E-mention | declared | NEEDS_INPUT | NEEDS_INPUT | no | 0 / None / 0 |
-| family-E-noisy | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-E-terse | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-E-typo | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-F-noisy | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-F-terse | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-F-typo | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-G-mention | declared | NEEDS_INPUT | NEEDS_INPUT | no | 0 / None / 0 |
-| family-G-noisy | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-G-terse | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-G-typo | declared | HELD | TARGET_UNRESOLVED | no | 0 / None / 0 |
-| family-H-noisy | declared | HELD | UNIMPLEMENTED_ROUTE | no | 0 / None / 0 |
-| family-H-terse | declared | HELD | UNIMPLEMENTED_ROUTE | no | 0 / None / 0 |
-| family-H-typo | declared | NEEDS_INPUT | NEEDS_INPUT | no | 0 / None / 0 |
-| family-I-noisy | declared | HELD | UNIMPLEMENTED_ROUTE | no | 0 / None / 0 |
-| family-I-terse | declared | HELD | UNIMPLEMENTED_ROUTE | no | 0 / None / 0 |
-| family-I-typo | declared | HELD | UNIMPLEMENTED_ROUTE | no | 0 / None / 0 |
+| family-A-mention | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-D-noisy | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-D-terse | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-E-mention | declared | NEEDS_INPUT | NEEDS_INPUT | no | 0 / 0 / 0 |
+| family-E-noisy | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-E-terse | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-E-typo | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-F-noisy | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-F-terse | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-F-typo | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-G-mention | declared | NEEDS_INPUT | NEEDS_INPUT | no | 0 / 0 / 0 |
+| family-G-noisy | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-G-terse | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-G-typo | declared | HELD | TARGET_UNRESOLVED | no | 0 / 0 / 0 |
+| family-H-noisy | declared | HELD | UNIMPLEMENTED_ROUTE | no | 0 / 0 / 0 |
+| family-H-terse | declared | HELD | UNIMPLEMENTED_ROUTE | no | 0 / 0 / 0 |
+| family-H-typo | declared | NEEDS_INPUT | NEEDS_INPUT | no | 0 / 0 / 0 |
+| family-I-noisy | declared | HELD | UNIMPLEMENTED_ROUTE | no | 0 / 0 / 0 |
+| family-I-terse | declared | HELD | UNIMPLEMENTED_ROUTE | no | 0 / 0 / 0 |
+| family-I-typo | declared | HELD | UNIMPLEMENTED_ROUTE | no | 0 / 0 / 0 |
 
 Original tickets, figures, expectation seals, prior tapes and ledger rows are unchanged. F corrections are hash-bound overlays with the human reason; the filter-route placeholder correction is separately authorized and does not make its blocked live run pass. Original F tapes lack an explicit source-unreachable sentence; that separate output defect is fixed by deterministic rendering, not by editing their outputs.
