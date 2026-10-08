@@ -173,6 +173,22 @@ class IntakeTests(unittest.TestCase):
 
     def resolve(self): return self.workspace.intake.resolve(copy.deepcopy(self.request))
 
+    def test_business_rule_question_refuses_at_intake_without_process_execution(self):
+        value=proposal()
+        value['question_kind']={'kind':'BUSINESS_MEANING',
+            'source':{'start':0,'end':len(self.request['text']),'quote':self.request['text']}}
+        self.resolver.return_value=(value,{'usage':{'output_tokens':80}})
+        saved=self.resolve()
+        self.assertEqual(saved['status'],'HELD')
+        self.assertEqual(saved['error'],'UNIMPLEMENTED_ROUTE')
+        self.assertIn('business-rule decision',saved['refusal_reason'])
+        self.assertIsNone(saved['proposal'])
+        self.h.native.assert_not_called()
+        self.h.source.assert_not_called()
+        for output in saved['refusal_outputs'].values():
+            if isinstance(output,dict) and 'explanation' in output:
+                self.assertIn('domain specialist',output['explanation']['text'])
+
     def review(self, saved):
         return self.workspace.preview(dict(self.h.request, symptom=saved['text'], intake_id=saved['id']))
 

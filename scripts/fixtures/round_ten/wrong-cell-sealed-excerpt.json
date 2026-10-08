@@ -1,0 +1,81 @@
+{
+  "basis": "Unmodified field excerpt from sealed wrong-cell run; the full private tape stays hash-pinned and unchanged.",
+  "tape_sha256": "29e4b61b392a645961a2fe02a735088754402161326c234390977e1b2b9390e1",
+  "ticket": "In Round Ten Visual Variety, on page Global card, the Handled Quantity shows 8765. Can the saved declared context reproduce that figure?",
+  "proposal": {
+    "action": "PROPOSE",
+    "model_id": "5b3eff46-631c-47b8-8211-049b5aa906ee",
+    "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+    "metric_quote": "Handled Quantity",
+    "question": null,
+    "filters": [],
+    "dimension_ids": [],
+    "value_mentions": [],
+    "question_kind": {
+      "kind": "VISUAL_CONTENT",
+      "source": {
+        "start": 83,
+        "end": 136,
+        "quote": "Can the saved declared context reproduce that figure?"
+      }
+    },
+    "numeral_mentions": [
+      {
+        "role": "FIGURE",
+        "source": {
+          "start": 71,
+          "end": 81,
+          "quote": "shows 8765"
+        }
+      }
+    ],
+    "expected_records": [],
+    "reported_figure": {
+      "state": "NUMBER",
+      "source": {
+        "start": 71,
+        "end": 81,
+        "quote": "shows 8765"
+      },
+      "value": "8765",
+      "precision": {
+        "state": "EXACT"
+      }
+    },
+    "ticket_shape": "MISMATCH_COMPLAINT",
+    "comparison_mode": "VERTICAL",
+    "name_binding": {
+      "kind": "REPORT",
+      "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+      "source": {
+        "start": 3,
+        "end": 27,
+        "quote": "Round Ten Visual Variety"
+      }
+    },
+    "report_binding": {
+      "resolution_kind": "STATED",
+      "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719",
+      "source": {
+        "start": 3,
+        "end": 27,
+        "quote": "Round Ten Visual Variety"
+      }
+    },
+    "dimension_quotes": [],
+    "scope_quotes": []
+  },
+  "wrong_answer_cell": {
+    "grouping_columns": [
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
+      "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name"
+    ],
+    "id": "cc089422797269bbb6544b4e5c7087a963107ffdaf99d934e6407da24cf9c7cf",
+    "key_restrictions": [],
+    "measure_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+    "mode": "TOTAL",
+    "target_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/part/definition%2Fpages%2F5b9bd0d258d6c51b5929%2Fvisuals%2Fd72c75adb19cf1cb1f15%2Fvisual.json"
+  },
+  "requested_page": "Global card",
+  "requested_page_id": "99d9ca357e3792ad6f70"
+}

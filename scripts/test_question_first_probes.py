@@ -11,17 +11,18 @@ class QuestionFirstTests(unittest.TestCase):
         doc=json.loads(self.visual['metadata']['content'])
         for name in ('second','third'):
             doc['name']=name
+            doc['visual']['visualContainerObjects']['title'][0]['properties']['text']['expr']['Literal']['Value']="'"+name+" card'"
             self.part('definition/pages/p/visuals/'+name+'/visual.json',doc)
             self.modify(self.page,lambda d:d['visualInteractions'].append({'source':'s','target':name,'type':'DataFilter'}))
     def check(self):return declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
-    def test_three_addressed_candidates_share_only_baseline_reads(self):
+    def test_only_named_candidate_is_read_when_three_visuals_are_available(self):
         self.three();result=self.check()
-        self.assertEqual(len(result['cells']),3)
-        self.assertEqual(len(self.requests),4)
+        self.assertEqual(len(result['cells']),1)
+        self.assertEqual(result['cells'][0]['cell']['target_id'],self.visual['id'])
+        self.assertEqual(len(self.requests),2)
         self.assertIn('TREATAS',self.requests[0]['query'])
         self.assertNotIn('TREATAS',self.requests[1]['query'])
-        self.assertEqual(len(self.adapter.duplicate_read_events),2)
-        self.assertTrue(all(e['diagnostic_reads']==0 for e in self.adapter.duplicate_read_events))
+        self.assertEqual(len(self.adapter.duplicate_read_events),0)
     def test_one_slot_records_declared_value_and_names_stopped_baseline_in_both_outputs(self):
         self.adapter.remaining_diagnostic_reads=lambda:1-len(self.requests)
         result=self.check()

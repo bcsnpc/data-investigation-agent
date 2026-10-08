@@ -263,13 +263,18 @@ class MicrosoftProcessAdapter:
     def selection_columns(self):
         return [{'id':a['id'],'name':a['name']} for a in assets(self.model['context']) if a['kind']=='SemanticColumn']
 
-    def report_selection_inventory(self,measure_id,binding):
+    def report_selection_inventory(self,measure_id,binding,target_visual=None):
         from .report_predicates import pinned,scoped_options,_document
         from .report_cells import roles
         model=pinned(self)
         from .report_predicates import Refusal
         from ..declared_reproduction import UnsupportedRestriction
-        try: declarations=scoped_options(model,measure_id,binding)
+        try:
+            if target_visual is None:
+                declarations=scoped_options(model,measure_id,binding)
+            else:
+                from .report_predicates import scoped_declaration
+                declarations=[scoped_declaration(model,measure_id,{'report_binding':binding},target_visual['target_id'])]
         except Refusal as exc: raise UnsupportedRestriction(exc.form) from exc
         grouping=set()
         for declaration in declarations:

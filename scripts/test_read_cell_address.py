@@ -14,14 +14,17 @@ class ReadCellAddressTests(unittest.TestCase):
         self.grouped()
         return declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
 
-    def test_two_cells_share_definition_and_validate_against_distinct_sealed_reads(self):
+    def test_two_explicit_cell_requests_validate_against_their_own_definition_and_reads(self):
         result=self.run_cells()
-        findings=[c['finding'] for c in result['cells']]
+        self.scope['target_visual'].update(mode='TOTAL',mode_source={'start':0,'end':5,'quote':'TOTAL'})
+        total=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
+        findings=[c['finding'] for c in result['cells']+total['cells']]
         self.assertEqual(len(findings),2)
-        self.assertEqual(findings[0]['definition_evidence_id'],findings[1]['definition_evidence_id'])
+        self.assertNotEqual(findings[0]['definition_evidence_id'],findings[1]['definition_evidence_id'])
         self.assertNotEqual(findings[0]['lower_evidence_id'],findings[1]['lower_evidence_id'])
-        observations={o['id']:o for o in result['observations']}
+        observations={o['id']:o for o in result['observations']+total['observations']}
         definition=observations[findings[0]['definition_evidence_id']]
+        self.assertEqual(definition['cell_definition'],observations[findings[1]['definition_evidence_id']]['cell_definition'])
         self.assertNotIn('cell',definition)
         for f in findings:
             read=observations[f['lower_evidence_id']]
@@ -57,7 +60,7 @@ class ReadCellAddressTests(unittest.TestCase):
         self.assertIn('selected row produced 3',outputs['business_output']['explanation']['text'])
         self.assertIn('No reported figure supplied',outputs['business_output']['explanation']['text'])
         self.assertIn('KEYED',outputs['technical_output']['explanation']['text'])
-        self.assertIn('TOTAL',outputs['technical_output']['explanation']['text'])
+        self.assertNotIn('(TOTAL)',outputs['technical_output']['explanation']['text'])
         self.assertEqual(outputs['provenance'],'DETERMINISTIC_REFUSAL_RENDERING')
 
 

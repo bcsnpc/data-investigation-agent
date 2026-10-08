@@ -3,6 +3,22 @@ from investigator import question_account as account
 from investigator.onboarding import Conflict
 
 class QuestionAccountTests(unittest.TestCase):
+    def test_no_reported_figure_category_requires_the_explicit_procedure_receipt(self):
+        from investigator.declared_reproduction import NO_FIGURE
+        s=self.state('Explain the selected quantity.')
+        s['envelope']['question_kind']={'kind':'VISUAL_CONTENT'}
+        s['assessment']['classification']='NO_COMPARABLE_PATH'
+        s['observations']=[{'id':'no-figure','status':'COMPLETED',
+            'check_kind':'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE','reason':NO_FIGURE}]
+        result=account.build(s)
+        self.assertEqual(result['status'],'NO_REPORTED_FIGURE')
+        self.assertEqual(result['subjects'][0]['evidence_ids'],['no-figure'])
+        self.assertIn('Answer to your question: No verdict',account.render(result))
+        s['observations'][0]['reason']='The declared selection is unsupported.'
+        self.assertEqual(account.build(s)['status'],'NOT_ANSWERED')
+        s['observations'][0]['reason']=NO_FIGURE
+        s['observations'][0]['status']='UNAVAILABLE'
+        self.assertEqual(account.build(s)['status'],'NOT_ANSWERED')
     def state(self,question='Could the reported quantity be stale? Inspect freshness and processing history.'):
         return {'envelope':{'symptom':question},'observations':[],
                 'assessment':{'classification':'TRANSFORMATION_LOGIC','limits':['Snapshot unknown.'],

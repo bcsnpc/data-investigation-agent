@@ -1,5 +1,6 @@
 """Native visual roles become neutral measure-and-key cell addresses."""
 import copy
+import json
 from ..onboarding import digest
 
 # This knowledge is adapter-owned; no native role names cross this boundary.
@@ -14,6 +15,46 @@ ROLES = {
     'stackedColumnChart': ({'Category': 'group', 'Series': 'group'}, {'Y'}),
     'lineChart': ({'Category': 'group', 'Series': 'group'}, {'Y'}),
 }
+
+
+def catalog(model):
+    """Retained names and shapes only; never quantities or inferred targets."""
+    from .report_predicates import member, Refusal
+    result = []
+    for report in model['context'].get('reports', []):
+        pages = {}
+        for part in report.get('report_definitions', []):
+            path = part['name'].split('/')
+            if len(path) == 4 and path[-1] == 'page.json':
+                doc = json.loads(part['metadata']['content'])
+                pages[path[2]] = doc.get('displayName')
+        for part in report.get('report_definitions', []):
+            path = part['name'].split('/')
+            if len(path) != 6 or path[-1] != 'visual.json': continue
+            doc = json.loads(part['metadata']['content'])
+            state = doc.get('visual', {}).get('query', {}).get('queryState', {})
+            measures = sorted({member(model, p['field'], 'Measure')['id']
+                               for role in state.values() for p in role.get('projections', [])
+                               if 'Measure' in p.get('field', {})})
+            if not measures: continue
+            names = [pages.get(path[2])]
+            titles = doc.get('visual', {}).get('visualContainerObjects', {}).get('title', [])
+            for title in titles:
+                literal = title.get('properties', {}).get('text', {}).get('expr', {}).get('Literal', {}).get('Value')
+                if isinstance(literal, str) and literal.startswith("'") and literal.endswith("'"):
+                    names.append(literal[1:-1].replace("''", "'"))
+            try:
+                columns, _ = roles(model, doc)
+                grouping = sorted(c['id'] for c in columns)
+                unsupported = None
+            except Refusal as exc:
+                grouping = []
+                unsupported = str(exc)
+            result.append({'target_id': part['id'], 'report_id': report['report']['id'],
+                           'names': sorted(set(n for n in names if n)),
+                           'measure_ids': measures, 'grouping_columns': grouping,
+                           'unsupported': unsupported})
+    return sorted(result, key=lambda c: c['target_id'])
 
 
 def projected_measure(model, document, measure_id):
@@ -51,6 +92,10 @@ def addresses(model, document, target_id, measure_id, scope):
     from ..declared_reproduction import compose
     columns, measures = roles(model, document)
     if measure_id not in {m['id'] for m in measures}: return []
+    referent = scope.get('target_visual')
+    if referent is not None:
+        if referent['target_id'] != target_id or referent['measure_id'] != measure_id:
+            raise Refusal('TARGET_UNRESOLVED: addressed visual differs from the ticket referent')
     stated = {}
     for restriction in scope.get('filters', []):
         if restriction.get('operator', 'in') != 'in': continue
@@ -61,13 +106,20 @@ def addresses(model, document, target_id, measure_id, scope):
         values = compose(stated[column['id']])[0]['values'] if column['id'] in stated else []
         if len(values) != 1: missing.append(column['name'])
         else: keys.append({'field_id': column['id'], 'operator': 'IN', 'values': values})
-    if missing: raise Refusal('MISSING_CELL_KEYS: ' + ', '.join(missing))
     def cell(keys, mode):
         result = {'target_id': target_id, 'measure_id': measure_id,
                   'grouping_columns': sorted(c['id'] for c in columns),
                   'key_restrictions': sorted(copy.deepcopy(keys), key=lambda r: r['field_id']), 'mode': mode}
         result['id'] = digest(result)
         return result
+    if referent is not None and referent['mode'] == 'TOTAL':
+        if not columns: raise Refusal('TARGET_UNRESOLVED: ungrouped visual has no total row')
+        return [cell([], 'TOTAL')]
+    if missing: raise Refusal('MISSING_CELL_KEYS: ' + ', '.join(missing))
     result = [cell(keys, 'KEYED' if columns else 'UNGROUPED')]
+    if referent is not None:
+        if result[0]['mode'] != referent['mode']:
+            raise Refusal('TARGET_UNRESOLVED: addressed mode differs from the ticket referent')
+        return result
     if columns: result.append(cell([], 'TOTAL'))
     return result

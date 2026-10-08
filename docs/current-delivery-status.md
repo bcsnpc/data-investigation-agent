@@ -1,5 +1,7 @@
 # Current delivery status
 
+Dated Round Ten B implementation checkpoint, 2026-10-07: human decisions record six engine errors and two expectation corrections. Offline referent guards require the named visual and complete cell address before a value probe; current work is uncommitted and not live-qualified. Whole-config approvals for the prepared 600-call manifests are recorded from retained metadata with zero cloud reads. Original tapes, tickets and scores remain unchanged. The earlier Round Ten freeze is invalidated by these engine changes. Full regression, the thirteen-case intake eval, remaining routing/output/lock fixes and touched reruns are pending; no improved score or enlarged gate is claimed. See [human decisions and approval pins](docs/round-ten-b-human-decisions.md).
+
 Updated 2026-10-07 America/Chicago. Tracking: [#193](https://github.com/bcsnpc/data-investigation-agent/issues/193). Direction: [Self-Discovering Enterprise Data Investigator](../SELF_DISCOVERING_ENTERPRISE_INVESTIGATOR_PLAN.md). This is the current status; dated reports retain historical evidence.
 
 ## Current milestone

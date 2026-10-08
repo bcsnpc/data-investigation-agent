@@ -29,6 +29,10 @@ def validate(cell, measure_id, scope=None):
         for key in keys:
             if key['field_id'] not in supplied or compose(supplied[key['field_id']]) != [key]:
                 raise ValueError('Cell key was not stated in the resolved ticket scope')
+    if scope is not None and scope.get('target_visual') is not None:
+        target = scope['target_visual']
+        if any(cell[k] != target[k] for k in ('target_id', 'measure_id', 'mode')):
+            raise ValueError('TARGET_UNRESOLVED: Cell differs from the ticket referent')
     if cell['id'] != digest({k: v for k, v in cell.items() if k != 'id'}):
         raise ValueError('Cell identity differs from its resolved address')
     return cell

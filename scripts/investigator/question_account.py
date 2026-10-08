@@ -33,6 +33,14 @@ def typed_check(kind,assessment,observations):
     if kind not in KINDS or set(KIND_SUBJECTS)!=set(KINDS):raise Conflict('Question-kind answer map is incomplete')
     subject=KIND_SUBJECTS[kind];outcome=assessment.get('classification')
     refs=[];status='NOT_ANSWERED';reason='The completed checks did not establish an answer for this question kind.'
+    from .declared_reproduction import NO_FIGURE
+    no_figure = [o for o in observations
+                 if o.get('check_kind') == 'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE'
+                 and o.get('reason') == NO_FIGURE]
+    if outcome == 'NO_COMPARABLE_PATH' and no_figure:
+        return {'subject':subject, 'status':'NO_REPORTED_FIGURE',
+                'reason':'There is no reported figure to compare; no reproduction verdict was established.',
+                'evidence_ids':[o['id'] for o in no_figure]}
     delivery=[o for o in observations if o.get('check_kind')=='SOURCE_DELIVERY'
               and o.get('delivery_result',{}).get('status')==DELIVERY_OUTCOMES.get(outcome)] if outcome in DELIVERY_OUTCOMES else []
     comparisons=[o for o in observations if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
@@ -143,7 +151,8 @@ def build(state):
         checks.append(typed_check(kind,assessment,observations) if kind and kind!='FRESHNESS' else
             {'subject':subject,'status':status,'reason':reason,'evidence_ids':refs})
     states=[c['status'] for c in checks]
-    status=('ANSWERED' if all(s=='ANSWERED' for s in states) else
+    status=('NO_REPORTED_FIGURE' if all(s=='NO_REPORTED_FIGURE' for s in states) else
+            'ANSWERED' if all(s=='ANSWERED' for s in states) else
             'NOT_ANSWERED' if all(s=='NOT_ANSWERED' for s in states) else 'PARTLY_ANSWERED')
     return {'version':1,'question':question,'question_hash':digest(question),'status':status,
             'subjects':checks,'subject_provenance':'DECLARED_QUESTION_KIND' if kind else 'EXPLICIT_TEXT_MARKERS_WITH_UNCLASSIFIED_FALLBACK',
@@ -153,7 +162,8 @@ def build(state):
 def render(account):
     if 'reproduction_answer' in account:
         return 'You asked: '+account['question']+'\nAnswer to your question: '+account['reproduction_answer']
-    status={'ANSWERED':'Answered within the checked scope','PARTLY_ANSWERED':'Partly answered','NOT_ANSWERED':'Not answered'}[account['status']]
+    status={'ANSWERED':'Answered within the checked scope','PARTLY_ANSWERED':'Partly answered',
+            'NOT_ANSWERED':'Not answered','NO_REPORTED_FIGURE':'No verdict: no reported figure supplied'}[account['status']]
     lines=['You asked: '+account['question'],'Answer to your question: '+status+'.']
     for check in account['subjects']:
         lines.append('Regarding '+LABELS[check['subject']]+': '+check['reason'])

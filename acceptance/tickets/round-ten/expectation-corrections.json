@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "corrections": [
+    {
+      "id": "family-F-terse",
+      "column": "stripped",
+      "original_sha256": "c43516d326df0e4d95f67a09c7f56767ed2dfb342813ad0ea8e637df00c708dd",
+      "before": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "after": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "reason": "boundary consistency does not answer a mechanism question",
+      "authority": "Explicit human outcome-mapping decision, 2026-10-07"
+    },
+    {
+      "id": "family-F-typo",
+      "column": "stripped",
+      "original_sha256": "1ef08209f24e8d58659f3228545279e1894b9dbe94fd107bc6fb6b5be5755015",
+      "before": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "PARTLY_ANSWERED"
+      },
+      "after": {
+        "status": "COMPLETED",
+        "outcome": "CONSISTENT_TO_BOUNDARY",
+        "answer_category": "NOT_ANSWERED"
+      },
+      "reason": "boundary consistency does not answer a mechanism question",
+      "authority": "Explicit human outcome-mapping decision, 2026-10-07"
+    }
+  ]
+}

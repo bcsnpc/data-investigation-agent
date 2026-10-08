@@ -12,6 +12,7 @@ from .filter_scope import compile_filter
 from . import reported_figure as figure
 from . import definition_target as target
 from . import report_scope
+from .visual_target import TargetUnresolved
 from . import selection_descriptor
 from . import question_kind
 from . import intake_statement_registry as statements
@@ -112,7 +113,7 @@ class FigureQuoteAmbiguous(QuoteRefused):
 
 
 def locate(source,ticket,*,field='reported_figure',audit=None):
-    if field not in ('reported_figure','measure','column','selection','report','descriptor','question_kind','numeral','grouping'):
+    if field not in ('reported_figure','measure','column','selection','report','visual','descriptor','question_kind','numeral','grouping'):
         raise ValueError('Unknown provenance field')
     fields(source,['quote'])
     text(source['quote'],limits.INTAKE_QUOTE)
@@ -139,6 +140,8 @@ def azure_resolve(payload):
     instructions+=QUESTION_KIND_INSTRUCTIONS
     instructions+=SCOPE_INSTRUCTIONS
     instructions+=VALUE_ROLE_INSTRUCTIONS
+    if 'visual_request' in schema['required']:
+        instructions+='\nFor a report-bound question, visual_request is required: quote the named page or visual exactly and state UNGROUPED, KEYED or an explicitly requested TOTAL. TOTAL requires mode_source quoting the explicit total request; other modes use mode_source null. Never choose a visual by matching its number. If no target is named, leave visual_request null; the consumer will HOLD and list candidates. Model-only questions need no visual.'
     statement_repair=payload.get('_explicit_statement_repair')
     if statement_repair is not None:
         wire.pop('_explicit_statement_repair',None)
@@ -174,12 +177,15 @@ def azure_resolve(payload):
         result,usage=azure_generate(wire, instructions=instructions, schema=schema, name='resolve_business_question', decision_tool=True)
     quote_audit=[]
     try:
+        if 'visual_request' in schema['required'] and 'visual_request' not in result and result.get('report_quote'):
+            raise TargetUnresolved([c for m in payload['models'] for c in m.get('visuals',[])])
         fields(result,schema['required'])
         value=copy.deepcopy(result)
         from . import value_roles
         for mention in value['value_mentions']:
             mention['source']=locate(mention['source'],payload['text'],field='selection',audit=quote_audit)
         value_roles.validate(value['value_mentions'],payload['text'])
+        visual_request=value.pop('visual_request',None)
         requested=value.pop('target_request'); report_quote=value.pop('report_quote')
         subject=value.get('question_kind')
         if value['action']=='PROPOSE' and subject is None:raise ValueError('Question kind is required')
@@ -253,6 +259,14 @@ def azure_resolve(payload):
                     if named['kind']!='REPORT':report_quote=None
             if report_quote is not None or requested is not None or reproduction(value)['applicable']:
                 value['report_binding']=report_scope.resolve_report(locate({'quote':report_quote},payload['text'],field='report',audit=quote_audit) if report_quote is not None else None,model.get('reports',[]),payload['text'])
+            if value.get('report_binding',{}).get('resolution_kind')=='STATED' and 'visuals' in model:
+                from .visual_target import resolve
+                if visual_request is not None:
+                    visual_request['source']=locate(visual_request['source'],payload['text'],field='visual',audit=quote_audit)
+                    if visual_request.get('mode_source') is not None:
+                        visual_request['mode_source']=locate(visual_request['mode_source'],payload['text'],field='visual',audit=quote_audit)
+                value['target_visual']=resolve(visual_request,ticket=payload['text'],candidates=model['visuals'],
+                    report_id=value['report_binding']['report_id'],measure_id=value['measure_id'])
             if value.get('numeral_mentions'):
                 from .numeral_roles import evidence
                 try:evidence(value,payload['text'])
@@ -275,6 +289,9 @@ def azure_resolve(payload):
         statements.validate(value,payload['text'])
         return value,{**usage,'quote_provenance':quote_audit}
 
+    except TargetUnresolved as exc:
+        exc.provider_metadata={**usage,'quote_provenance':quote_audit}
+        raise
     except statements.OmittedExplicitStatement as exc:
         exc.provider_metadata={**usage,'quote_provenance':quote_audit}
         raise
@@ -294,7 +311,25 @@ def wire_contract(payload):
             handle=key+'v'+str(j);handles[handle]=metric['id'];metric['id']=handle;measures.append(handle)
         for j,column in enumerate(m['columns']):
             handle=key+'c'+str(j);handles[handle]=column['column_id'];column['column_id']=handle;columns.append(handle)
+        # Opaque referent handles keep the complete visual directory affordable;
+        # neither the model nor the wire needs long internal asset URIs.
+        inverse={identity:handle for handle,identity in handles.items()}
+        report_handles={r['id']:key+'r'+str(j) for j,r in enumerate(m.get('reports',[]))}
+        if 'visuals' in m:
+            for report in m.get('reports',[]):report['id']=report_handles[report['id']]
+        for j,visual in enumerate(m.get('visuals',[])):
+            visual['target_id']=key+'t'+str(j)
+            visual['report_id']=report_handles[visual['report_id']]
+            visual['measure_ids']=[inverse[x] for x in visual['measure_ids']]
+            visual['grouping_columns']=[inverse.get(x,x) for x in visual['grouping_columns']]
     schema=copy.deepcopy(SCHEMA)
+    if any('visuals' in m for m in payload['models']):
+        schema['properties']['visual_request']={'anyOf':[{'type':'null'},
+            {'type':'object','additionalProperties':False,'properties':{
+                'source':QUOTE_SCHEMA,'mode':{'type':'string','enum':['UNGROUPED','KEYED','TOTAL']},
+                'mode_source':{'anyOf':[{'type':'null'},QUOTE_SCHEMA]}},
+             'required':['source','mode','mode_source']}]}
+        schema['required'].append('visual_request')
     for field in ('numeral_mentions','expected_records','name_binding'):schema['properties'].pop(field)
     wire['implemented_routes']=copy.deepcopy(question_kind.ROUTES)
     wire['question_kinds']=list(question_kind.KINDS)
@@ -352,6 +387,8 @@ def snapshot(workspace):
         item['columns'] = [c for c in item['columns'] if not c['name'].startswith('_')]
         item['reports'] = [{'id': r['report']['id'], 'name': r['report']['name']}
                            for r in model['context'].get('reports', []) if r.get('report')]
+        from .adapters.report_cells import catalog as visual_catalog
+        item['visuals']=visual_catalog(model)
         if workspace.agent.config.get('layer_roles'):
             from .context_search import latest
             declared={r['asset_id'] for r in workspace.agent.config['layer_roles']}
@@ -367,14 +404,15 @@ def snapshot(workspace):
                                       'business': business, 'enabled': model['enabled']})
     models.sort(key=lambda m: m['id'])
     if (not models or len(models) > 12 or sum(len(m['measures']) for m in models) > 200
-            or sum(len(m['columns']) for m in models) > 300 or len(encoded(models)) > 60000):
+            or sum(len(m['columns']) for m in models) > 300
+            or len(encoded(wire_contract({'text':'','models':models})[0]['models'])) > 60000):
         raise Conflict('Catalog is empty or exceeds question intake limits; select scope manually')
     return {'models': models, 'versions': versions}
 
 
 def validate(value, payload):
     statements.validate(value,payload['text'])
-    fields(value, SCHEMA['required']+[k for k in ('definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes','value_mentions') if k in value])
+    fields(value, SCHEMA['required']+[k for k in ('target_visual','definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes','value_mentions') if k in value])
     if 'value_mentions' in value:
         from .value_roles import scope
         scope(value,payload['text'])
@@ -391,6 +429,10 @@ def validate(value, payload):
         model=next((m for m in payload['models'] if m['id']==value['model_id']),None)
         if model is None: raise ValueError('Unknown report anchor')
         report_scope.report_binding(value['report_binding'],reports=model.get('reports',[]),ticket=payload['text'])
+        if 'visuals' in model:
+            from .visual_target import validate as validate_visual
+            validate_visual(value.get('target_visual'),ticket=payload['text'],candidates=model['visuals'],
+                report_id=value['report_binding']['report_id'],measure_id=value['measure_id'])
         if 'selection_request' in value: report_scope.validate_request(value['selection_request'],reports=model.get('reports',[]),ticket=payload['text'])
     if 'definition_target' in value:
         target.validate(value['definition_target'],ticket=payload['text'],
@@ -435,6 +477,9 @@ def validate(value, payload):
         quoted.add(q['column_id'])
     from .numeral_roles import measure_scope
     measure_scope(value,payload['text'])
+    if value.get('target_visual') and not value.get('selection_request'):
+        from .visual_target import complete
+        complete(value['target_visual'],model['visuals'],filters)
     return value
 
 
@@ -449,7 +494,7 @@ class Intake:
         if body['status'] in ('NEEDS_INPUT','HELD'):
             from .process_receipts import refusal
             from .refusal_synthesis import render
-            receipt=refusal('INTAKE_REFUSED',body.get('question') or body['error'],
+            receipt=refusal('INTAKE_REFUSED',body.get('question') or body.get('refusal_reason') or body['error'],
                             'intake-refusal-'+body['id'])
             body['refusal_outputs']=render({**body,'observations':[receipt]})
         db.execute('UPDATE workspace_intakes SET body=?,hash=? WHERE id=?', (encoded(body), digest(body), body['id']))
@@ -573,11 +618,21 @@ class Intake:
                 body['report_binding']=decision['report_binding']
                 raise QuoteRefused(('Report ambiguity: ' if decision['report_binding']['reason']=='MULTIPLE_EXACT_MATCHES' else 'Report unavailable: ')+decision['report_binding']['reason']+'; candidates: '+', '.join(decision['report_binding']['candidates']))
             decision = validate(decision, validation_payload)
+            if (decision.get('question_kind') or {}).get('kind') == 'BUSINESS_MEANING':
+                raise question_kind.UnimplementedRoute(
+                    'The requested business-rule decision requires a domain specialist; '
+                    'technical process evidence cannot decide whether the rule is correct.')
             if (digest(snapshot(self.workspace)) != body['catalog_hash'] or fingerprint() != body['engine_hash']
                     or digest(self.workspace.agent.config) != body['config_hash']):
                 raise Conflict('Question context changed during resolution')
             body.update(status='NEEDS_INPUT' if decision['action'] == 'ASK' else 'PROPOSED',
                         proposal=decision if decision['action'] == 'PROPOSE' else None, question=decision['question'])
+        except TargetUnresolved as exc:
+            usage=getattr(exc,'provider_metadata',usage);uncertain=usage is None
+            names=sorted({name for candidate in exc.candidates for name in candidate.get('names',[])})
+            body.update(status='HELD',error='TARGET_UNRESOLVED',refusal_reason=str(exc),
+                        candidate_visuals=exc.candidates,proposal=None)
+            if names:body['refusal_reason']+=' Candidate visuals: '+', '.join(names)+'.'
         except statements.OmittedExplicitStatement as exc:
             usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
             body.update(status='HELD',error='INTAKE_OMITTED_EXPLICIT_STATEMENT',refusal_reason=str(exc),

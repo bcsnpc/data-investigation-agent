@@ -4,6 +4,7 @@ The authored ticket index remains the outcome oracle. The selected evidence
 roster pins artifacts; it cannot replace an expectation with an observed answer.
 """
 import argparse
+import copy
 import hashlib
 import json
 from pathlib import Path
@@ -13,6 +14,23 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / 'scripts'), str(ROOT / 'acceptance/known_domain'),
                str(ROOT / 'acceptance/unknown_domain')]
 from contract import answer_category, answer_matches
+
+
+def corrected_case(case, sealed_bytes, corrections):
+    """Apply explicit human corrections without replacing the original byte seal."""
+    result = copy.deepcopy(case)
+    for change in corrections:
+        if change['id'] != case.get('id'):
+            continue
+        if hashlib.sha256(sealed_bytes).hexdigest() != change['original_sha256']:
+            raise ValueError('EXPECTATION_CORRECTION_SOURCE_HASH_DIFFERS')
+        column = change['column']
+        if result['expectation_columns'][column] != change['before']:
+            raise ValueError('EXPECTATION_CORRECTION_BEFORE_DIFFERS')
+        if not change.get('authority') or not change.get('reason'):
+            raise ValueError('EXPECTATION_CORRECTION_REQUIRES_HUMAN_REASON')
+        result['expectation_columns'][column] = copy.deepcopy(change['after'])
+    return result
 
 
 def grade(case, column, run):
@@ -90,6 +108,7 @@ def run(roster_path, fixture_root, output):
     roster = json.loads(Path(roster_path).read_text())
     index = json.loads((ROOT / 'acceptance/tickets/round-ten/index.json').read_text())
     entries = {row['id']: row for row in index['entries']}
+    corrections = json.loads((ROOT / 'acceptance/tickets/round-ten/expectation-corrections.json').read_text())['corrections']
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
     results = []
@@ -105,7 +124,7 @@ def run(roster_path, fixture_root, output):
             if hashlib.sha256(raw).hexdigest() != selected['run_sha256']:
                 raise ValueError('EARNED_SOURCE_HASH_DIFFERS')
             original = json.loads(raw)
-            case = json.loads(case_bytes)
+            case = corrected_case(json.loads(case_bytes), case_bytes, corrections)
             from investigator.onboarding import digest
             if (original.get('family') != row['id']
                     or digest((original.get('intake') or {}).get('text')) != case['ticket_hash']
