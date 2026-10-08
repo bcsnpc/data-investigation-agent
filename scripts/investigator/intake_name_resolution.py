@@ -42,7 +42,7 @@ def rank(quote, candidates, id_field, settings=None):
             words = set(name_tokens)
             if query and query_tokens == name_tokens:
                 score, basis = (settings['alias_score'], 'declared_alias') if alias else (settings['exact_score'], 'normalized_exact')
-            elif query and words and (query < words or words < query):
+            elif query and words and query < words:
                 score, basis = settings['containment_score'], 'token_containment'
             else:
                 score = 2*len(query & words)/(len(query)+len(words)) if query or words else 0
@@ -73,13 +73,18 @@ def resolve(quote, candidates, id_field, audit=None):
     return next(c for c in candidates if c[id_field] == eligible[0]['id'])
 
 
-def closed_value(quote, values):
+def closed_value(quote, values, audit=None):
     """A spelling repair needs an enumerated metadata domain, not a data read."""
     settings = policy()
     if not isinstance(values, list) or len(values) > settings['closed_value_maximum']:
         raise ValueError('A short closed value list is required for spelling repair')
+    if any(type(v) not in (str,bool) for v in values):
+        raise ValueError('Spelling repair requires declared text or boolean values')
     exact = [v for v in values if tokens(str(v)) == tokens(quote)]
-    if len(exact) == 1:return exact[0]
+    if len(exact) == 1:
+        if audit is not None:audit.append({'quote':quote,'resolution':'RESOLVED','basis':'closed_value_normalized_exact',
+            'resolved_value':exact[0],'score':1.0,'edit_distance':0,'maximum_edit_distance':settings['closed_value_edit_distance']})
+        return exact[0]
     def distance(a, b):
         previous = list(range(len(b)+1))
         for i, x in enumerate(a, 1):
@@ -89,4 +94,9 @@ def closed_value(quote, values):
         return previous[-1]
     close = [v for v in values if distance(quote.casefold(), str(v).casefold()) <= settings['closed_value_edit_distance']]
     if len(close) != 1:raise ValueError('Closed selection value is ambiguous or unresolved')
+    if audit is not None:
+        d=distance(quote.casefold(),str(close[0]).casefold())
+        audit.append({'quote':quote,'resolution':'RESOLVED','basis':'unique_closed_value_spelling_repair',
+            'resolved_value':close[0],'score':1-d/max(len(quote),len(str(close[0]))),'edit_distance':d,
+            'maximum_edit_distance':settings['closed_value_edit_distance']})
     return close[0]

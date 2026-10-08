@@ -170,15 +170,14 @@ def resolve(raw, payload):
         report_words=expanded
         selected={match(q,anchors,'id',audit)['model_id'] for q in report_words}
         models=[m for m in models if m['id'] in selected]
-    choices=[]
-    for model in models:
-        try: metric=match(mentions[0]['quote']['quote'],model['measures'],'id',audit)
-        except ValueError as exc:
-            if str(exc).startswith('Ambiguous declared name:'):raise
-            continue
-        choices.append((model,metric))
-    if len(choices)!=1: raise ValueError('Starting measure/model is '+('ambiguous' if choices else 'unresolved'))
-    model,metric=choices[0]
+    # Rank once across the report-scoped models: independent per-model
+    # winners cannot establish a unique global referent.
+    candidates=[{**metric,'resolution_id':json.dumps([model['id'],metric['id']],separators=(',',':'))}
+                for model in models for metric in model['measures']]
+    chosen=match(mentions[0]['quote']['quote'],candidates,'resolution_id',audit)
+    model_id,metric_id=json.loads(chosen['resolution_id'])
+    model=next(m for m in models if m['id']==model_id)
+    metric=next(m for m in model['measures'] if m['id']==metric_id)
     figures=[i for i in extraction['figures'] if primary_fact(i,extraction)]
     reported=reported_figure.from_candidates([i['quote'] for i in figures],ticket)
     for item in figures:
@@ -203,16 +202,21 @@ def resolve(raw, payload):
             pending.append(item)
             continue
         value=item['value']['quote'];dtype=column['data_type']
-        if 'declared_values' in column:
+        # Spelling evidence may repair a categorical word. A stated numeric or
+        # date restriction is literal scope, not a nearest-value request.
+        if 'declared_values' in column and dtype in ('string','boolean'):
             from .intake_name_resolution import closed_value
-            value=closed_value(value,column['declared_values'])
+            value=closed_value(value,column['declared_values'],audit)
         if dtype=='int64':
             if not re.fullmatch(r'-?\d+',value): raise ValueError('Selection is not a declared integer')
             value=int(value)
         elif dtype=='boolean':
-            if value.casefold() not in ('true','false'): raise ValueError('Selection is not a declared boolean')
-            value=value.casefold()=='true'
+            if type(value) is not bool:
+                if not isinstance(value,str) or value.casefold() not in ('true','false'):
+                    raise ValueError('Selection is not a declared boolean')
+                value=value.casefold()=='true'
         elif dtype not in ('string','decimal','dateTime'): raise ValueError('Unsupported selection type')
+        elif not isinstance(value,str):raise ValueError('Selection does not match its declared scalar type')
         filters.append({'column_id':column['column_id'],'operator':'in','values':[value]})
         scope_quotes.append({'column_id':column['column_id'],'quote':item['quote']['quote']})
     dimensions=[];dimension_quotes=[]

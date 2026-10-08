@@ -9,6 +9,55 @@ from test_intake_extraction import fixture
 
 
 class NameResolutionTests(unittest.TestCase):
+    def test_partial_name_preserves_informative_query_words(self):
+        rows=[{'id':'model','name':'Sales'}, {'id':'report','name':'Sales Dashboard Ops'}]
+        self.assertEqual(names.resolve('Sales Dashboard',rows,'id')['id'],'report')
+        self.assertEqual(names.rank('Sales Dashboard',rows,'id')[1]['basis'],'token_overlap')
+
+    def test_declared_measure_alias_wins_across_models_in_one_ranking(self):
+        ticket='Handled Quantity differs.'
+        raw,payload=fixture(ticket,reports=[],measures=[{'quote':'Handled Quantity','role':'PRIMARY'}])
+        payload['models'][0]['visuals']=[]
+        other=copy.deepcopy(payload['models'][0]);other.update(id='other',name='Other Model')
+        other['measures']=[{'id':'other-measure','name':'Handled Quantity'}]
+        payload['models'].append(other)
+        value=extraction.resolve(raw,payload)
+        self.assertEqual(value['model_id'],'model')
+        audit=value['extracted_ticket']['resolution_evidence'][0]
+        self.assertEqual(audit['best']['basis'],'declared_alias')
+        self.assertEqual(audit['runner_up']['basis'],'normalized_exact')
+        validate(value,payload)
+
+    def test_closed_value_spelling_repair_reaches_validated_scope_with_evidence(self):
+        ticket='In Report, Warehouse matrix Quantity differs; I selected warehouse Nort.'
+        raw,payload=fixture(ticket,
+            selections=[{'quote':'I selected warehouse Nort','column':'warehouse','value':'Nort','role':'PRIMARY'}],
+            visuals=[{'quote':'Warehouse matrix','role':'PRIMARY','form':'TITLE'}])
+        payload['models'][0]['columns'][0]['declared_values']=['North','South']
+        value=extraction.resolve(raw,payload);validate(value,payload)
+        self.assertEqual(value['filters'][0]['values'],['North'])
+        evidence=next(r for r in value['extracted_ticket']['resolution_evidence'] if r.get('basis')=='unique_closed_value_spelling_repair')
+        self.assertEqual(evidence['quote'],'Nort');self.assertEqual(evidence['resolved_value'],'North')
+        self.assertEqual(evidence['edit_distance'],1)
+
+    def test_boolean_closed_domain_does_not_crash_or_become_a_string(self):
+        ticket='In Report, Global card Quantity differs; I selected warehouse tru.'
+        raw,payload=fixture(ticket,
+            selections=[{'quote':'I selected warehouse tru','column':'warehouse','value':'tru','role':'PRIMARY'}],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        payload['models'][0]['columns'][0].update(data_type='boolean',declared_values=[True,False])
+        value=extraction.resolve(raw,payload);validate(value,payload)
+        self.assertEqual(value['filters'][0]['values'],[True])
+
+    def test_closed_numeric_domain_never_changes_a_stated_literal(self):
+        ticket='In Report, Global card Quantity differs; I selected warehouse 2.'
+        raw,payload=fixture(ticket,
+            selections=[{'quote':'I selected warehouse 2','column':'warehouse','value':'2','role':'PRIMARY'}],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        payload['models'][0]['columns'][0].update(data_type='int64',declared_values=[1])
+        value=extraction.resolve(raw,payload);validate(value,payload)
+        self.assertEqual(value['filters'][0]['values'],[2])
+
     def test_runner_up_below_threshold_still_blocks_an_insufficient_lead(self):
         rows=[{'id':'a','name':'other beta gamma delta'},
               {'id':'b','name':'extra other beta gamma delta'}]

@@ -241,3 +241,10 @@ token-overlap scoring. The policy parser checks every setting's type and
 priority ordering, including finite numeric weights and the configured one-edit
 maximum. Three regression tests cover these cases; the focused total is now
 76 passing tests. No configured threshold or golden changed.
+
+
+Further section 3 exploration, 2026-10-08: measure candidates were ranked independently per model, then their winners counted. This discarded the global score margin. The resolver now ranks all measures inside the already declared report scope once, using a model/measure composite identity; a declared alias beats a competing ordinary name only by the configured margin. A regression validates the resulting consumer record. Containment now requires the quoted tokens to be contained by the candidate; a generic candidate that omits an informative quoted word gets its ordinary overlap score. No threshold, golden or expectation changed.
+
+Closed metadata value repair is restricted to text and boolean domains. A typed boolean survives to the validated filter; numeric and date literals are not corrected into a nearby metadata value. Tests cover a one-edit text repair with provenance, typed boolean, unchanged numeric literal, and setup grouping/record-identifier preservation. Every fix remains offline.
+
+The earlier integrated regression overlapped source edits and failed the engine/tape integrity fences. It is retained as a failed verification attempt, not counted as a passing suite. The final committed source is tested again without concurrent engine edits. The historical benchmark runs in its separate immutable worktree; its provider timeout and target refusals remain recorded. No estate reads, identity, permission or secret changes.

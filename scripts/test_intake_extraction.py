@@ -25,6 +25,19 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_primary_setup_grouping_and_identifier_are_not_erased(self):
+        ticket='In Report, Quantity by warehouse should include record 900099. Investigate the Warehouse matrix.'
+        raw,payload=fixture(ticket,primary='Investigate the Warehouse matrix.',
+            contexts=['Quantity by warehouse should include record 900099'],
+            groupings=[{'quote':'by warehouse','column':'warehouse','role':'PRIMARY'}],
+            identifiers=[{'quote':'900099','role':'PRIMARY'}],
+            visuals=[{'quote':'Warehouse matrix','role':'PRIMARY','form':'TITLE'}])
+        value=extraction.resolve(raw,payload)
+        self.assertEqual(value['dimension_ids'],['warehouse'])
+        self.assertEqual(value['expected_records'][0]['value'],'900099')
+        self.assertEqual(value['filters'],[])
+        self.assertEqual(value['reported_figure']['state'],'UNSPECIFIED')
+
     def test_primary_reported_figure_and_selection_survive_background_setup(self):
         ticket='In Report, I selected warehouse North; Quantity shows 16. Investigate the Global card.'
         raw,payload=fixture(ticket,primary='Investigate the Global card.',
