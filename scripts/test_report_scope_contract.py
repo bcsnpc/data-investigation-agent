@@ -49,8 +49,14 @@ class ReportScopeTests(unittest.TestCase):
         self.assertEqual(self.binding, {'resolution_kind': 'STATED', 'report_id': 'report-a', 'source': self.report_source})
         scope.report_binding(self.binding, reports=self.reports, ticket=self.ticket)
 
-    def test_partial_case_changed_and_missing_names_never_bind(self):
-        for quote in ('Inventory', 'inventory report', 'No such report'):
+    def test_partial_and_case_changed_names_bind_only_when_unique(self):
+        for quote in ('Inventory', 'inventory report'):
+            source = {'start': 0, 'end': len(quote), 'quote': quote}
+            result = scope.resolve_report(source, self.reports, quote)
+            self.assertEqual(result['resolution_kind'], 'STATED')
+            self.assertEqual(result['report_id'], 'report-a')
+            scope.report_binding(result, reports=self.reports, ticket=quote)
+        for quote in ('No such report',):
             source = {'start': 0, 'end': len(quote), 'quote': quote}
             result = scope.resolve_report(source, self.reports, quote)
             self.assertEqual(result['resolution_kind'], 'REFUSED')
@@ -72,7 +78,7 @@ class ReportScopeTests(unittest.TestCase):
 
     def test_hostile_report_binding_with_changed_identity_refuses(self):
         target = copy.deepcopy(self.target); target['report_binding']['report_id'] = 'report-b'
-        with self.assertRaisesRegex(ValueError, 'exact retained'): self.validate(target)
+        with self.assertRaisesRegex(ValueError, 'scored retained'): self.validate(target)
 
     def test_foreign_declaration_in_discovery_manifest_fails_conservation(self):
         self.inventory['discovered'].append({**self.inventory['discovered'][0], 'report_id': 'report-b'})

@@ -10,11 +10,10 @@ from investigator.visual_target import TargetUnresolved
 
 def fixture(ticket, **updates):
     raw={key:[] for key in extraction.SCHEMA['properties']}
-    raw.update(kind='FIGURE_DIFFERENCE',primary=ticket,reported_state='UNSPECIFIED',
+    raw.update(kind='FIGURE_DIFFERENCE',primary=ticket,triage='MISMATCH_COMPLAINT:VERTICAL',
                measures=[{'quote':'Quantity','role':'PRIMARY'}],
                reports=[{'quote':'Report','role':'PRIMARY'}])
     raw.update(updates)
-    if updates.get('figures'):raw['reported_state']=updates['figures'][0]['state']
     model={'id':'model','name':'Model','dynamic_investigation':True,
         'measures':[{'id':'measure','name':'Quantity','aliases':['Handled Quantity']}],
         'columns':[{'column_id':'warehouse','name':'warehouse_name','aliases':['warehouse'],'data_type':'string'}],

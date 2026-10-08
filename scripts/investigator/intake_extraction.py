@@ -3,9 +3,9 @@ import copy
 import json
 import re
 from jsonschema import Draft202012Validator
-from . import question_kind, reported_figure, proposal_limits, numeral_roles
+from . import question_kind, reported_figure, proposal_limits, numeral_roles, intake_triage
 
-VERSION = 'ticket-spans-v1'
+VERSION = 'ticket-spans-v2'
 REQUEST_CAP = 20000
 NAME_CAP = 4000
 QUOTE = {'type':'string','minLength':1,'maxLength':proposal_limits.INTAKE_QUOTE}
@@ -20,15 +20,15 @@ def items(properties, maximum=24):
 ROLE = {'type':'string','enum':list(ROLES)}
 SCHEMA = obj({
     'kind':{'type':'string','enum':list(question_kind.KINDS)},
-    'reported_state':{'type':'string','enum':['NUMBER','EMPTY','UNSPECIFIED']},
+    'triage':{'type':'string','enum':list(intake_triage.PAIRS)},
     'primary':QUOTE,
     'comparisons':{'type':'array','maxItems':12,'items':QUOTE},
     'contexts':{'type':'array','maxItems':12,'items':QUOTE},
     'measures':items({'quote':QUOTE,'role':ROLE}),
     'figures':items({'quote':QUOTE,'role':ROLE,'state':{'type':'string','enum':['NUMBER','EMPTY']},
                     'precision_quote':{'type':['string','null'],'maxLength':proposal_limits.INTAKE_QUOTE}},reported_figure.CANDIDATE_LIMIT),
-    'selections':items({'quote':QUOTE,'column':QUOTE,'value':QUOTE,'role':ROLE},proposal_limits.INTAKE_FILTERS),
-    'visuals':items({'quote':QUOTE,'role':ROLE,'form':{'type':'string','enum':['CARD','MATRIX','CHART','TITLE','TOTAL']}}),
+    'selections':items({'quote':QUOTE,'column':{'anyOf':[QUOTE,{'type':'null'}]},'value':QUOTE,'role':ROLE},proposal_limits.INTAKE_FILTERS),
+    'visuals':items({'quote':QUOTE,'role':ROLE,'form':{'type':'string','enum':['CARD','MATRIX','CHART','TITLE','TOTAL','UNGROUPED']}}),
     'reports':items({'quote':QUOTE,'role':ROLE}),
     'pages':items({'quote':QUOTE,'role':ROLE}),
     'dates':items({'quote':QUOTE,'role':ROLE}),
@@ -41,16 +41,27 @@ or offsets. Every quote must occur verbatim. Code computes offsets and resolves 
 primary quotes the actual question. comparisons quote secondary comparators (including 'global value');
 contexts quote background. Label every item PRIMARY, COMPARISON or CONTEXT. A comparator never
 becomes PRIMARY merely because it names a visual. A selected value is a selection; merely mentioning
-it is not. column and value quote separate words, quote includes their stated relationship.
+it is not. column and value quote separate words, quote includes their stated relationship. If no
+column is stated, column is null. Never invent a column name: the procedure resolves a quoted
+selection inside its declared report using evidence, after intake.
 figures contains only what the user says the visual shows, NUMBER or EMPTY. No reported state means
-reported_state UNSPECIFIED and an empty figures list. Preserve all competing figures. precision_quote quotes stated
+an empty figures list. Code derives the state from these spans. Preserve all competing figures. precision_quote quotes stated
 precision, otherwise null; do not infer a tolerance. Dates and record identifiers are not figures.
 Names are spelling aids only; no guessing between measures. Extract all named reports/pages and
 visual titles and explicit card/matrix/chart/total hints. Groupings require an explicit by/per request.
+An explicit global request is an UNGROUPED visual-scope hint; a global comparator is COMPARISON.
+Keep the full named report, including its suffix. A measure in setup is still the referent of 'its'
+in the question: extract it even when the actual question does not repeat the name.
 Choose the consumer question kind for the PRIMARY ask: an explicit technical figure question with a
 secondary business-meaning question remains technical. Sole business-rule correctness is BUSINESS_MEANING.
 FRESHNESS asks currency, FILTER_EFFECT asks which restriction hides rows, VISUAL_CONTENT asks contents,
 SOURCE_CORRECTNESS asks source records. Do not substitute another kind to avoid an unavailable route.'''
+INSTRUCTIONS += '''
+triage is the single valid shape/mode pair from the schema. An allegation that the named number
+is high, low, overstated, incorrect or stale is MISMATCH_COMPLAINT. Use VERTICAL to check one
+measure through its path; HORIZONTAL only for an explicit comparison of distinct measures/reports.
+A request without a mismatch allegation uses BUSINESS_QUESTION:NONE. This is interpretation of
+the primary ask and its named referent, not a keyword search of unrelated footers or comparators.'''
 
 def wire(payload):
     names = sorted({x['name'] for m in payload['models'] for key in ('measures','columns')
@@ -84,15 +95,9 @@ def request_size(payload):
 def normalize(value):
     return ''.join(c for c in value.casefold() if c.isalnum())
 
-def match(quote, candidates, id_field):
-    for predicate in (lambda x:quote==x['name'],
-                      lambda x:quote in x.get('aliases',[]),
-                      lambda x:normalize(quote) in {normalize(n) for n in [x['name'],*x.get('aliases',[])]}):
-        found = [x for x in candidates if predicate(x)]
-        if found:
-            if len({x[id_field] for x in found})!=1: raise ValueError('Ambiguous declared name: '+quote)
-            return found[0]
-    raise ValueError('Unresolved declared name: '+quote)
+def match(quote, candidates, id_field, audit=None):
+    from .intake_name_resolution import resolve as resolve_name
+    return resolve_name(quote, candidates, id_field, audit)
 
 def spans(raw, ticket):
     from .question_intake import locate
@@ -105,13 +110,22 @@ def spans(raw, ticket):
         for item in result[key]:
             for field in ('quote','column','value','precision_quote'):
                 if field in item and item[field] is not None:
-                    item[field]=locate({'quote':item[field]},ticket,
+                    value=item[field]
+                    item[field]=locate({'quote':value},ticket,
                         field='reported_figure' if key=='figures' and field=='quote' else 'selection')
+                    if field in ('column','value','precision_quote'):
+                        # Nested words belong to this verbatim relationship,
+                        # not their earliest occurrence elsewhere in the ticket.
+                        parent=item['quote']
+                        offset=parent['quote'].find(value)
+                        if offset < 0:raise ValueError('Nested provenance must lie inside its relationship span')
+                        start=parent['start']+offset
+                        item[field]={'start':start,'end':start+len(value),'quote':value}
     return result
 
 def active(item, extraction):
-    span=item['quote']; primary=extraction['primary']
-    return (item['role']=='PRIMARY' and primary['start']<=span['start'] and span['end']<=primary['end']
+    span=item['quote']
+    return (item['role']=='PRIMARY'
             and not any(span['start']<s['end'] and s['start']<span['end']
                         for s in extraction['comparisons']+extraction['contexts']))
 
@@ -120,17 +134,35 @@ def resolve(raw, payload):
     from . import report_scope, numeral_roles, intake_rules
     from .visual_target import TargetUnresolved
     extraction=spans(raw,payload['text']); ticket=payload['text']
-    mentions=[i for i in extraction['measures'] if active(i,extraction)]
+    # A measure in setup can be the referent of "its" in the actual ask.
+    # This is not visual-selection authority: targets retain active() below.
+    mentions=[i for i in extraction['measures'] if i['role']!='COMPARISON' and
+              not any(i['quote']['start']<s['end'] and s['start']<i['quote']['end']
+                      for s in extraction['comparisons'])]
     if not mentions: raise ValueError('Starting measure is unresolved from the primary question')
+    audit=[]
     # Named context narrows the metadata search; it does not select a visual.
     report_words=[i['quote']['quote'] for i in extraction['reports'] if i['role']!='COMPARISON']
     models=payload['models']
     if report_words:
-        models=[m for m in models if any(normalize(q)==normalize(n) for q in report_words
-                for n in [m['name'],*[r['name'] for r in m.get('reports',[])]])]
+        anchors=[{'id':r['id'],'name':r['name'],'model_id':m['id']}
+                 for m in models for r in [m,*m.get('reports',[])]]
+        # Restore only a fully declared name at the extracted span's exact
+        # location. This handles a separately extracted identifier suffix;
+        # it cannot borrow a name from another part of the ticket.
+        expanded=[]
+        for item in extraction['reports']:
+            if item['role']=='COMPARISON':continue
+            source=item['quote'];q=source['quote']
+            full=[r['name'] for r in anchors if r['name'].startswith(q) and
+                  ticket[source['start']:source['start']+len(r['name'])]==r['name']]
+            expanded.append(max(full,key=len) if full else q)
+        report_words=expanded
+        selected={match(q,anchors,'id',audit)['model_id'] for q in report_words}
+        models=[m for m in models if m['id'] in selected]
     choices=[]
     for model in models:
-        try: metric=match(mentions[0]['quote']['quote'],model['measures'],'id')
+        try: metric=match(mentions[0]['quote']['quote'],model['measures'],'id',audit)
         except ValueError as exc:
             if str(exc).startswith('Ambiguous declared name:'):raise
             continue
@@ -138,25 +170,32 @@ def resolve(raw, payload):
     if len(choices)!=1: raise ValueError('Starting measure/model is '+('ambiguous' if choices else 'unresolved'))
     model,metric=choices[0]
     figures=[i for i in extraction['figures'] if active(i,extraction)]
-    states={i['state'] for i in figures}
-    if states and raw['reported_state'] not in states or not states and raw['reported_state']!='UNSPECIFIED':
-        raise ValueError('Reported state contradicts its primary figure inventory')
     reported=reported_figure.from_candidates([i['quote'] for i in figures],ticket)
     for item in figures:
         derived=reported_figure.from_candidates([item['quote']],ticket)
         if derived['state']!=item['state']: raise ValueError('Reported state contradicts its verbatim span')
         if item['precision_quote'] is not None and item['precision_quote']['quote'] not in item['quote']['quote']:
             raise ValueError('Precision must belong to its reported figure span')
-    filters=[];scope_quotes=[];value_mentions=[]
+    filters=[];scope_quotes=[];value_mentions=[];pending=[]
     for item in extraction['selections']:
         is_active=active(item,extraction)
         value_mentions.append({'role':'SELECTION' if is_active else 'MENTION','source':item['value']})
         if not is_active: continue
         for field in ('column','value'):
+            if item[field] is None:continue
             if not (item['quote']['start']<=item[field]['start'] and item[field]['end']<=item['quote']['end']):
                 raise ValueError('Selection column/value must lie inside its relationship span')
-        column=match(item['column']['quote'],model['columns'],'column_id')
+        column=None
+        if item['column'] is not None:
+            try:column=match(item['column']['quote'],model['columns'],'column_id',audit)
+            except ValueError:pass  # Preserve the request for report-scoped evidence resolution.
+        if column is None:
+            pending.append(item)
+            continue
         value=item['value']['quote'];dtype=column['data_type']
+        if 'declared_values' in column:
+            from .intake_name_resolution import closed_value
+            value=closed_value(value,column['declared_values'])
         if dtype=='int64':
             if not re.fullmatch(r'-?\d+',value): raise ValueError('Selection is not a declared integer')
             value=int(value)
@@ -169,7 +208,7 @@ def resolve(raw, payload):
     dimensions=[];dimension_quotes=[]
     for item in extraction['groupings']:
         if not active(item,extraction):continue
-        column=match(item['column']['quote'],model['columns'],'column_id')
+        column=match(item['column']['quote'],model['columns'],'column_id',audit)
         dimensions.append(column['column_id']);dimension_quotes.append({'column_id':column['column_id'],'source':item['quote']})
     # Date restrictions may not disappear simply because this version cannot faithfully compile them.
     if any(active(i,extraction) and not any(f['quote']['start']<=i['quote']['start'] and
@@ -177,12 +216,11 @@ def resolve(raw, payload):
            for i in extraction['dates']):
         raise ValueError('Stated date scope requires explicit typed endpoints; unresolved date restriction')
     kind=raw['kind']
-    mismatch=bool(re.search(r'\b(wrong|differs?|disagree\w*|too high|too low|mismatch|expected|overstat\w*)\b',raw['primary'],re.I))
+    shape,mode=intake_triage.PAIRS[raw['triage']]
     value={'action':'PROPOSE','model_id':model['id'],'measure_id':metric['id'],
         'metric_quote':mentions[0]['quote']['quote'],'question':None,
         'question_kind':{'kind':kind,'source':extraction['primary']},
-        'ticket_shape':'MISMATCH_COMPLAINT' if mismatch else 'BUSINESS_QUESTION',
-        'comparison_mode':'VERTICAL' if mismatch else 'NONE',
+        'ticket_shape':shape,'comparison_mode':mode,
         'reported_figure':reported,'filters':filters,'scope_quotes':scope_quotes,
         'dimension_ids':dimensions,'dimension_quotes':dimension_quotes,'value_mentions':value_mentions}
     from .name_kind import resolve as resolve_name
@@ -195,24 +233,57 @@ def resolve(raw, payload):
     if numerals:
         value['numeral_mentions']=numerals;value['expected_records']=numeral_roles.expected(numerals,ticket)
     intake_rules.validate(value,ticket)
-    reports=[r for r in model.get('reports',[]) if any(normalize(q)==normalize(r['name']) for q in report_words)]
-    needs_report=kind in ('VISUAL_CONTENT','FILTER_EFFECT') or bool(extraction['visuals'])
+    reports=[]
+    for q in report_words:
+        # A model name is a valid anchor without a report. Do not reinterpret
+        # it as a fuzzy report merely because one report shares some tokens.
+        if normalize(q)==normalize(model['name']):continue
+        report=match(q,model.get('reports',[]),'id',audit)
+        if report not in reports:reports.append(report)
+    needs_report=kind in ('VISUAL_CONTENT','FILTER_EFFECT') or any(active(i,extraction) for i in extraction['visuals'])
+    needs_report=needs_report or bool(pending)
     if needs_report or reports:
         if len(reports)!=1:
             raise TargetUnresolved(model.get('visuals',[]),'Named report is unresolved or ambiguous.',
                                    'TARGET_AMBIGUOUS' if len(reports)>1 else 'TARGET_UNRESOLVED')
         report=reports[0]
-        stated=next(i['quote'] for i in extraction['reports'] if i['quote']['quote']==report['name'])
+        stated=next(i['quote'] for i,q in zip(
+            [i for i in extraction['reports'] if i['role']!='COMPARISON'],report_words)
+            if match(q,model['reports'],'id')['id']==report['id'])
+        # The expanded full spelling is still verbatim, and its provenance
+        # remains at the same declared location.
+        full=next((q for q in report_words if q==report['name']),None)
+        if full:stated={'start':stated['start'],'end':stated['start']+len(full),'quote':full}
         value['report_binding']=report_scope.resolve_report(stated,model['reports'],ticket)
+        if pending:
+            if len(pending)!=1:raise ValueError('The contract supports one unresolved report-scoped selection; multiple selections remain unresolved')
+            item=pending[0]
+            descriptor=({'state':'SEPARATED','source':item['column']} if item['column'] is not None else
+                        {'state':'VALUE_ONLY','source':None})
+            value['selection_request']={'state':'REQUESTED','report_binding':copy.deepcopy(value['report_binding']),
+                'value_source':item['value'],'column_source':None,'descriptor':descriptor}
         candidates=[v for v in model.get('visuals',[]) if v['report_id']==report['id'] and metric['id'] in v['measure_ids']]
         matched=candidates;basis=['report','measure'];source=None;mode_source=None;mode=None
-        for hint in extraction['visuals']+extraction['pages']:
+        for hint in extraction['pages']:
+            if not active(hint,extraction):continue
+            pages=[{'id':v['page_id'],'name':name} for v in matched for name in v.get('page_names',[])]
+            page=match(hint['quote']['quote'],pages,'id',audit)
+            matched=[v for v in matched if v.get('page_id')==page['id']]
+            basis.append('page_name')
+        for hint in extraction['visuals']:
             if not active(hint,extraction): continue
             quote=hint['quote']['quote'];form=hint.get('form','TITLE')
             if form=='TITLE':
-                matched=[v for v in matched if any(normalize(quote)==normalize(n) for n in v['names'])]
+                names=[{'id':v['target_id'],'name':n} for v in matched for n in v['names']]
+                selected=match(quote,names,'id',audit)
+                matched=[v for v in matched if v['target_id']==selected['id']]
                 source=hint['quote'];basis.append('visual_name')
             elif form=='TOTAL':mode='TOTAL';mode_source=hint['quote']
+            elif form=='UNGROUPED':
+                if not re.search(r'\bglobal\b',quote,re.I):
+                    raise TargetUnresolved(candidates,'Ungrouped scope needs an explicit global request.')
+                matched=[v for v in matched if not v['grouping_columns']]
+                mode='UNGROUPED';mode_source=hint['quote'];basis.append('cell_mode')
             else:
                 matched=[v for v in matched if v.get('form')==form];basis.append('visual_form')
         if len(matched)!=1:
@@ -224,7 +295,7 @@ def resolve(raw, payload):
         value['target_visual']={'target_id':candidate['target_id'],'report_id':report['id'],'measure_id':metric['id'],
             'source':source,'mode_source':mode_source,'mode':mode,'resolution':'RESOLVED',
             'match_basis':{'matched':sorted(set(basis)),'absent':['reported_value_in_inventory','selection_in_inventory']}}
-    value['extracted_ticket']={'version':VERSION,'response':copy.deepcopy(raw),'spans':extraction}
+    value['extracted_ticket']={'version':VERSION,'response':copy.deepcopy(raw),'spans':extraction,'resolution_evidence':audit}
     return value
 
 def azure_resolve(payload):

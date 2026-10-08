@@ -75,7 +75,14 @@ def resolve_report(source, reports, ticket=None):
         fields(report, ['id', 'name']); text(report['id'], 4000); text(report['name'], 4000)
     if len({r['id'] for r in reports}) != len(reports): raise ValueError('Duplicate report identity')
     quote = reported_figure.span(source, ticket) if source is not None else None
-    matches = [r for r in reports if r['name'] == quote] if quote is not None else []
+    matches=[]
+    if quote is not None:
+        from .intake_name_resolution import resolve as resolve_name
+        try:matches=[resolve_name(quote,reports,'id')]
+        except ValueError as exc:
+            if str(exc).startswith('Ambiguous declared name:'):
+                identities={c['id'] for c in exc.candidates}
+                matches=[r for r in reports if r['id'] in identities]
     if len(matches) == 1:
         return {'resolution_kind': 'STATED', 'report_id': matches[0]['id'], 'source': copy.deepcopy(source)}
     return {'resolution_kind': 'REFUSED', 'source': copy.deepcopy(source),
@@ -91,7 +98,7 @@ def report_binding(binding, *, reports, ticket=None, allow_refused=False):
     if spec is None: raise ValueError('Unknown report refusal reason')
     fields(binding, spec['required'])
     if binding != resolve_report(binding['source'], reports, ticket):
-        raise ValueError('Report binding differs from exact retained report-name resolution')
+        raise ValueError('Report binding differs from scored retained report-name resolution')
     if binding['resolution_kind'] != 'STATED' and not allow_refused:
         raise ValueError(('Report ambiguity: ' if binding['reason']=='MULTIPLE_EXACT_MATCHES' else 'Report unavailable: ') + binding['reason'] + ': ' + ', '.join(binding['candidates']))
     return binding

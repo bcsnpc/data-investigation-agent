@@ -1,0 +1,6 @@
+"""Consumer-owned valid shape/mode pairs; producers declare one field."""
+PAIRS = {
+    'MISMATCH_COMPLAINT:VERTICAL': ('MISMATCH_COMPLAINT', 'VERTICAL'),
+    'MISMATCH_COMPLAINT:HORIZONTAL': ('MISMATCH_COMPLAINT', 'HORIZONTAL'),
+    'BUSINESS_QUESTION:NONE': ('BUSINESS_QUESTION', 'NONE'),
+}

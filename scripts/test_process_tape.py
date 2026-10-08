@@ -202,7 +202,7 @@ class TapeTests(unittest.TestCase):
             if body['tool_choice']['name']=='extract_ticket_spans':
                 from investigator.intake_extraction import SCHEMA
                 value={key:[] for key in SCHEMA['properties']}
-                value.update(kind='SOURCE_CORRECTNESS',reported_state='UNSPECIFIED',
+                value.update(kind='SOURCE_CORRECTNESS',triage='MISMATCH_COMPLAINT:VERTICAL',
                     primary=view['ticket'],measures=[{'quote':'Total','role':'PRIMARY'}])
             elif body['tool_choice']['name']=='resolve_business_question':
                 metric=next(m for m in view['models'][0]['measures'] if m['name']=='Total')

@@ -73,6 +73,8 @@ def catalog(model):
                 unsupported = str(exc)
             result.append({'target_id': part['id'], 'report_id': report['report']['id'],
                            'names': sorted(set(n for n in names if n)),
+                           'page_id': report['report']['id']+'/page/'+path[2],
+                           'page_names': [pages[path[2]]] if pages.get(path[2]) else [],
                            'measure_ids': measures, 'grouping_columns': grouping,
                            'unsupported': unsupported,
                            'form': ('CARD' if doc['visual']['visualType'] in ('card','multiRowCard') else
