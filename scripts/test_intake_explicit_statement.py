@@ -2,7 +2,7 @@
 import copy
 import unittest
 from unittest.mock import MagicMock,patch
-from investigator.question_intake import Intake,azure_resolve
+from investigator.question_intake import Intake,azure_resolve_legacy as azure_resolve
 from investigator import reported_figure as figure
 from investigator import intake_statement_registry as registry
 import test_question_intake as fixture

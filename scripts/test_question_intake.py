@@ -4,7 +4,7 @@ from threading import Event, Thread
 import unittest
 from unittest.mock import MagicMock, patch
 
-from investigator.question_intake import Intake, validate, snapshot, azure_resolve, wire_contract
+from investigator.question_intake import Intake, validate, snapshot, azure_resolve_legacy as azure_resolve, wire_contract
 from investigator.onboarding import Conflict
 from investigator.usage_governance import UsageHold
 from investigator.workspace import Workspace

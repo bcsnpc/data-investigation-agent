@@ -3,7 +3,7 @@ import copy
 import unittest
 from unittest.mock import patch
 from investigator import definition_target as target, declaration_inventory as inventory, reported_figure, report_scope
-from investigator.question_intake import Intake, wire_contract, azure_resolve
+from investigator.question_intake import Intake, wire_contract, azure_resolve_legacy as azure_resolve
 from intake_regression_fixture import IntakeFixture
 
 class TargetContractTests(unittest.TestCase):

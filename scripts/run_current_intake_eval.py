@@ -70,6 +70,7 @@ def main(argv=None):
             time.sleep(min(1,args.pace_seconds-(time.monotonic()-last[0])))
         last[0]=time.monotonic()
         return azure_resolve(payload)
+    resolver.request_characters=azure_resolve.request_characters
     settings={**model.get('credential',{}),'endpoint':model.get('endpoint') or os.environ.get('AZURE_OPENAI_ENDPOINT'),'deployment':version}
     os.environ['INVESTIGATOR_RECORD_PLANNER']='1'
     if settings['endpoint']:os.environ['AZURE_OPENAI_ENDPOINT']=settings['endpoint']

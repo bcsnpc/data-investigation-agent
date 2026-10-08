@@ -17,6 +17,27 @@ ROLES = {
 }
 
 
+def declared_aliases(model):
+    """Projection display names are declared aliases, not inferred synonyms."""
+    from .report_predicates import member, Refusal
+    result={}
+    for report in model['context'].get('reports',[]):
+        for part in report.get('report_definitions',[]):
+            if not part['name'].endswith('/visual.json'):continue
+            document=json.loads(part['metadata']['content'])
+            state=document.get('visual',{}).get('query',{}).get('queryState',{})
+            for role in state.values():
+                for projection in role.get('projections',[]):
+                    alias=projection.get('displayName');field=projection.get('field',{})
+                    if not isinstance(alias,str) or not alias:continue
+                    for kind in ('Measure','Column'):
+                        if kind not in field:continue
+                        try:identity=member(model,field,kind)['id']
+                        except Refusal:continue  # An unresolved alias grants no name match.
+                        result.setdefault(identity,set()).add(alias)
+    return {key:sorted(values) for key,values in result.items()}
+
+
 def catalog(model):
     """Retained names and shapes only; never quantities or inferred targets."""
     from .report_predicates import member, Refusal
@@ -53,7 +74,10 @@ def catalog(model):
             result.append({'target_id': part['id'], 'report_id': report['report']['id'],
                            'names': sorted(set(n for n in names if n)),
                            'measure_ids': measures, 'grouping_columns': grouping,
-                           'unsupported': unsupported})
+                           'unsupported': unsupported,
+                           'form': ('CARD' if doc['visual']['visualType'] in ('card','multiRowCard') else
+                                    'MATRIX' if doc['visual']['visualType'] in ('tableEx','pivotTable') else
+                                    'CHART' if doc['visual']['visualType'] in ROLES else None)})
     return sorted(result, key=lambda c: c['target_id'])
 
 

@@ -2,7 +2,8 @@ import copy
 import unittest
 from unittest.mock import patch
 from jsonschema import Draft202012Validator
-from investigator.question_intake import azure_resolve,validate,wire_contract
+# Explicit historical wire-v2 decoder; current producer covered by test_intake_extraction.
+from investigator.question_intake import azure_resolve_legacy as azure_resolve,validate,wire_contract
 from investigator.definition_target import server_evidence,procedure_scope
 from investigator.question_kind import reproduction
 from investigator.numeral_roles import evidence

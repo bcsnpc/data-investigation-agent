@@ -19,7 +19,7 @@ from . import intake_statement_registry as statements
 from . import intake_rules
 QUESTION_KIND_INSTRUCTIONS='\nClassify question_kind using the supplied consumer-owned kinds, with a verbatim quote of the question supporting the subject. FRESHNESS concerns currency; SOURCE_CORRECTNESS concerns source entries; VISUAL_CONTENT concerns what a report displays; FIGURE_DIFFERENCE concerns a discrepancy; the other named kinds distinguish components, derivation, transformation, business meaning and expected behaviour. ASK uses null. Routes are nominations: never substitute another route when the best route is marked unimplemented.'
 
-VERSION = 'process-debugging-intake-v2'
+VERSION = 'process-debugging-intake-v3'
 VALUE_ROLE_INSTRUCTIONS='\nInventory quoted data values in value_mentions using the supplied value_roles: SELECTION only for values the user selected, filtered or chose; SUBJECT for values they ask about; MENTION otherwise. A mentioned code is not a selected filter. Only SELECTION may supply filters or target_request. For BUSINESS_MEANING keep filters and dimension_ids empty and target_request null, even when selections are mentioned; preserve their roles in the inventory.'
 FIGURE_INSTRUCTIONS='\nSupply reported_candidates as a numeral-role inventory: each extracted numeral has one role from the schema enum and a verbatim quote. A stated expected-record number is IDENTIFIER, never another FIGURE. Numerals inside report/model/layer names are OTHER, never expected records. Only FIGURE mentions are reported-figure candidates; include an explicitly empty visual as FIGURE too. Do not choose among competing FIGURE mentions. Include enough surrounding text to distinguish numeral roles; FIGURE quotes must occur exactly once. No offsets. Preserve digits and scale exactly; the consumer derives precision from the span, never a tolerance. An approximate integer without stated precision requires ASK.'
 SCOPE_INSTRUCTIONS=' Each dimension_ids entry requires column_id and a verbatim quote of an explicit grouping request (by, per, grouped, or breakdown). An expected-record IDENTIFIER supplies membership only, never a filter or grouping. Do not add a breakdown merely to inspect that record.'
@@ -131,7 +131,7 @@ def locate(source,ticket,*,field='reported_figure',audit=None):
     return occurrences[0]
 
 
-def azure_resolve(payload):
+def azure_resolve_legacy(payload):
     from ticket_planner import azure_generate
     wire,schema,handles=wire_contract(payload)
     instructions=INSTRUCTIONS.replace('scope_quotes','filter quote fields').replace(
@@ -330,6 +330,17 @@ def azure_resolve(payload):
         raise failure from exc
 
 
+# Historical wire decoding remains explicit for archived protocol tests. Production
+# never falls back to a model selecting identities from the full inventory.
+from .intake_extraction import azure_resolve
+
+def reservation_characters(resolver,payload):
+    # Only an explicitly installed estimator is authority. Mock/dynamic
+    # attributes are not estimators and cannot become a budget reservation.
+    estimator=getattr(resolver,'__dict__',{}).get('request_characters')
+    return estimator(payload) if estimator is not None else input_characters(payload)
+
+
 def wire_contract(payload):
     """Opaque bounded handles avoid asking an LLM to reproduce long encoded URIs."""
     wire=copy.deepcopy(payload);handles={};models=[];measures=[];columns=[]
@@ -418,6 +429,12 @@ def snapshot(workspace):
                            for r in model['context'].get('reports', []) if r.get('report')]
         from .adapters.report_cells import catalog as visual_catalog
         item['visuals']=visual_catalog(model)
+        from .adapters.report_cells import declared_aliases
+        aliases=declared_aliases(model)
+        for key,identity in (('measures','id'),('columns','column_id')):
+            for member in item[key]:
+                names=set(member.get('aliases',[]))|set(aliases.get(member[identity],[]))
+                if names:member['aliases']=sorted(names)
         if workspace.agent.config.get('layer_roles'):
             from .context_search import latest
             declared={r['asset_id'] for r in workspace.agent.config['layer_roles']}
@@ -441,7 +458,15 @@ def snapshot(workspace):
 
 def validate(value, payload):
     statements.validate(value,payload['text'])
-    fields(value, SCHEMA['required']+[k for k in ('target_visual','definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes','value_mentions') if k in value])
+    fields(value, SCHEMA['required']+[k for k in ('target_visual','definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes','value_mentions','extracted_ticket') if k in value])
+    if 'extracted_ticket' in value:
+        from .intake_extraction import resolve, VERSION as extraction_version
+        evidence=value['extracted_ticket']
+        fields(evidence,['version','response','spans'])
+        if evidence['version']!=extraction_version:raise ValueError('Unknown extraction protocol')
+        expected=resolve(evidence['response'],payload)
+        for key,item in expected.items():
+            if value.get(key)!=item:raise ValueError('Resolved extraction differs: '+key)
     if 'value_mentions' in value:
         from .value_roles import scope
         scope(value,payload['text'])
@@ -458,7 +483,7 @@ def validate(value, payload):
         model=next((m for m in payload['models'] if m['id']==value['model_id']),None)
         if model is None: raise ValueError('Unknown report anchor')
         report_scope.report_binding(value['report_binding'],reports=model.get('reports',[]),ticket=payload['text'])
-        if 'visuals' in model:
+        if 'visuals' in model and 'extracted_ticket' not in value:
             from .visual_target import validate as validate_visual
             validate_visual(value.get('target_visual'),ticket=payload['text'],candidates=model['visuals'],
                 report_id=value['report_binding']['report_id'],measure_id=value['measure_id'])
@@ -580,7 +605,7 @@ class Intake:
             # Serializes duplicate dispatch and shares limits with adaptive planning.
             if db.execute('SELECT 1 FROM workspace_intakes WHERE request_key=?', (request['request_key'],)).fetchone():
                 raise Conflict('Question submission is already in progress')
-            governor.reserve(db, 'intake:' + body['id'], 'resolve', 'planner', input_characters(payload))
+            governor.reserve(db, 'intake:' + body['id'], 'resolve', 'planner', reservation_characters(self.resolver,payload))
             db.execute('INSERT INTO workspace_intakes VALUES (?,?,?,?)', (body['id'], request['request_key'], encoded(body), digest(body)))
         usage = None; uncertain = True; reservation_key='resolve'
         body['resolution_attempts']=[]
@@ -635,7 +660,7 @@ class Intake:
                     row=db.execute('SELECT body FROM workspace_intakes WHERE id=?',(body['id'],)).fetchone()
                     if json.loads(row['body'])['status']!='RESOLVING':return self.get(body['id'])
                     retry_key='intake-rule-retry' if rule else 'explicit-statement-retry' if omitted else 'provenance-quote-retry' if missing else 'figure-quote-retry'
-                    governor.reserve(db,'intake:'+body['id'],retry_key,'planner',input_characters(retry_payload))
+                    governor.reserve(db,'intake:'+body['id'],retry_key,'planner',reservation_characters(self.resolver,retry_payload))
                 reservation_key=retry_key;usage=None;uncertain=True
                 body['resolution_attempts'].append({'attempt':2,'event':'INTAKE_RULE_RETRY' if rule else 'EXPLICIT_STATEMENT_RETRY' if omitted else 'PROVENANCE_QUOTE_RETRY' if missing else 'REPORTED_FIGURE_QUOTE_RETRY',
                     'reservation_key':reservation_key})

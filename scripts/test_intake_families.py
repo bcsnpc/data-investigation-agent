@@ -11,7 +11,8 @@ import httpx
 from openai import DefaultHttpxClient
 from intake_regression_fixture import IntakeFixture
 from investigator import planner_recording
-from investigator.question_intake import azure_resolve,validate
+# Explicit historical wire-v2 decoder; current producer covered by test_intake_extraction.
+from investigator.question_intake import azure_resolve_legacy as azure_resolve,validate
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'acceptance/unknown_domain'))
 from score_intake import score
 

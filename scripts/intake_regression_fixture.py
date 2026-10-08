@@ -4,7 +4,8 @@ import unittest
 import test_flexible_investigation as dynamic_fixture
 from investigator.adaptive_runtime import AdaptiveRuntime
 from investigator.workspace import Workspace
-from investigator.question_intake import Intake,azure_resolve
+# Archived wire-v2 protocol fixture; current producer has independent tests.
+from investigator.question_intake import Intake,azure_resolve_legacy as azure_resolve
 
 
 class IntakeFixture(unittest.TestCase):
