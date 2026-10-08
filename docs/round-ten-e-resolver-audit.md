@@ -128,10 +128,24 @@ The latest integrated focused batch passed 107 tests; the intake discovery
 batch passed 182. These are offline correctness checks, not current model
 accuracy. Full committed regression and the new/old fresh evaluation remain.
 
-The baseline is pinned at `8d7f118`, the engine behind the composite 32/50
-record, in a detached worktree. The composite 32/50 was not a fresh full-column
+The previous intake is pinned at `8d7f118`, the engine behind the composite 32/50
+record. Its benchmark revision `45958a0` changes only the same input-budget
+validation bound/schema, adds the shared constant and its test; all intake,
+adapter, provider and resolver sources remain byte-identical to `8d7f118`.
+DECIDED WITHOUT REVIEW: use identical authorized budget validation for both
+designs rather than defer the baseline until another UTC day. The rejected
+alternative would add a needless day/timing difference to a fair comparison.
+The baseline's prompt, schema, decoding and consumer rules are not upgraded.
+The composite 32/50 was not a fresh full-column
 intake evaluation. Section 4 will run both designs afresh against identical
 amended goldens, retain failures, and record transmitted request sizes.
 Hosted evaluation of prior head `f29dbb1`, run 37834006827, is still in progress
 at this checkpoint; its result remains unclaimed. No identity, permission,
 credential, secret, fixture or estate approval changed.
+
+The complete committed `448ac15` regression passed 2,443 tests in 420.400s.
+Subsequent review found that the external scoring-policy file must also be
+included in the engine fingerprint; its new test changes the threshold file
+alone and requires a different fingerprint. An uncommitted-tree process-replay
+check correctly refused `TAPE_UNCOMMITTED_ENGINE`; it must pass on the committed
+follow-up before any model batch. No refusal is bypassed.
