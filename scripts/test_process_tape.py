@@ -161,7 +161,7 @@ class TapeTests(unittest.TestCase):
     def test_real_process_runtime_records_and_replays_its_two_outputs(self):
         self.exercise_process()
 
-    def test_failed_composition_is_replayable_failure_not_completed_outputs(self):
+    def test_failed_composition_keeps_completed_outputs_and_recorded_retry_in_replay(self):
         self.exercise_process(failed_composition=True)
 
     def test_explicit_acceptance_context_pin_is_recorded_and_replayed(self):
@@ -226,7 +226,14 @@ class TapeTests(unittest.TestCase):
                 'symptom':intake['text'],'predecessor':None,'intake_id':intake['id']})
             created=agent.create(preview['envelope'],'synthetic-process')
             agent.run(created['id']);result=agent.synthesize(created['id'])
-        self.assertEqual(result['synthesis']['status'],'FAILED' if failed_composition else 'COMPLETED')
+        self.assertEqual(result['synthesis']['status'],'COMPLETED')
+        if failed_composition:
+            self.assertEqual(result['synthesis']['calls'],2)
+            self.assertEqual(len(result['synthesis']['attempts']),2)
+            self.assertEqual(result['synthesis']['validation'],'ORIGINAL_EVIDENCE_WITHOUT_MODEL_MECHANISM')
+            for key in ('business_output','technical_output'):
+                self.assertIn('Mechanism not stated',result['synthesis']['outputs'][key]['explanation']['text'])
+                self.assertNotIn('The quantity can.',result['synthesis']['outputs'][key]['explanation']['text'])
         tape=agent._run_tapes[created['id']]
         if pinned_context:self.assertEqual(tape.bootstrap['state']['context_pins'],helper.store.context_pins)
         if fixture_state:self.assertEqual(tape.bootstrap['state']['fixture_state'],helper.store.acceptance_fixture_state)
