@@ -65,3 +65,6 @@ Dated Round Ten explicit scope decision, 2026-10-07 America/Chicago: new rehears
 
 
 Dated 2026-10-07 America/Chicago, explicit human rehearsal-source decision: orderops_investigator additionally holds SELECT only on ordersops.app.stock_movements_rebuild_20261008. Before effective SELECT0, after1; INSERT/UPDATE/DELETE/CONTROL0 before and after. Existing grants and role membership unchanged. The reader served the 360-row/7661-unit seeded source. This is the isolated rehearsal application layer; model/report scopes on the new workspace are not yet published or inferred. See [exact approval, grant and before/after](round-ten-rebuild-rehearsal.md).
+
+
+Dated rehearsal model scopes, 2026-10-08 UTC, explicit human Round Ten section3 same-scope authorization: investigator-reader@skynwhy.com holds ReadExplore on ade205fe-52b1-43b5-980a-773b7b1de538 and46687aa6-13d7-40ff-9c78-02f7bfd4e73a in isolated rehearsal workspace only. Each before listing Read, after ReadExplore; existing publisher applied exact request, no write or new workspace role. Warehouse audit verification served SELECT1/INSERT0/UPDATE0/DELETE0 without another grant. Source reader and roleless dia-reader unchanged. [Exact request, scope and receipt record](round-ten-rebuild-rehearsal.md#audited-load-models-and-predicate-report-continuation-checkpoint).

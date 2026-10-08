@@ -522,3 +522,38 @@ Job `00b38ff0-a591-46c0-a849-d5f88a5f6010` returned `Completed`, failureReasonnu
 Correction, served-definition retrieval, one execution and its status reads charged8physical controls,0diagnostics/model calls. Pot644 ->652/800, rolling769 ->777/3000 at the recorded closing snapshot. Rehearsal controls total43physical including all failed requests. The remaining restoration reserve is95; the actual ordinary boundary is705, leaving53ordinary requests at this checkpoint. Investigation diagnostic12, rolling3000 and model600 remain unchanged. No counter reset/refund or new batch credit.
 
 Outstanding: Copy Job and audited pipeline, Warehouse audit table and reader verification, two models, predicate report, state declarations, executable estate manifest, fresh context collection/approval/lineage verification, and nine once-only investigations. `scripts/fixture/rebuild.py` still has no complete apply executor: these durable operator controls are recorded manual steps, not represented as a portable factory or successful migration rehearsal. Billing has not started.
+
+
+## Human-approved continuation pot, 2026-10-07 America/Chicago
+
+Reason: credit window closing; rebuild and billing ahead. Round Ten physical pot800 ->1500, rolling3000unchanged, investigation diagnostic12unchanged and model600unchanged. The native reserve remains its original100allocation with5already spent, so95remaining is preserved exactly; setting the allocation itself to95 would incorrectly leave90. No credit was restored, no counter reset, no historical manifest/tape edited. New active continuation manifest preserves the same catalog/environment and records whole-config hash`c9a27319e94d12e27ba797104a3b31f072d98f7302b1666f18937c91c93b65c0` (before`6da2dbfe047e69baaa9d0854fc7eb535013a400c6f6466a49c87be415960df75`). Used652/1500at approval; ordinary work stops at1405, leaving753ordinary requests. New rehearsal/billing manifests inherit these budgets and will receive their own fresh context approvals. Configuration control used0estate/model requests.
+
+## Audited load, models and predicate report: continuation checkpoint
+
+The isolated Copy Job `ba52baf6-755a-43f1-a58e-0f6ca31c9b6f` declares the approved application table and the new application landing lakehouse. Data Pipeline `9235a87a-bdc7-48e5-968f-59e6bd601a76` invokes it and records its own activity output in the new ops Warehouse. Existing managed connections were read and reused; no credential or connection scope changed.
+
+The existing publisher CLI could not obtain a SQL token: `[AuthenticationFailed] Failed to get access token`, zero estate requests. The administrator profile was not substituted. One isolated create-only pipeline Script activity created `dbo.load_run_audit` instead, job `279b1d88-c92e-48da-85db-2892756ef6d6`, Completed. This is a recorded manual factory dependency, not a diagnostic execution identity change.
+
+The initial load ran once, instance `b335ae7d-0dea-450c-977d-fd2bcfdd6405`, Completed. As `investigator-reader@skynwhy.com`, the Warehouse returned exactly one audit row for that run, with own counters 360 rows read / 360 written, matching the copy activity's nested `rowsRead` / `rowsCopied`. Copy activity start `2026-10-08T04:47:18.4561973Z`, end `2026-10-08T04:48:45.2564481Z`; audit timestamps match. Watermark is null: it is not invented or inferred. Effective SELECT=1; INSERT/UPDATE/DELETE=0, without a new table grant. These counters establish accounting agreement, not individual delivery or aligned snapshots.
+
+Two new semantic models and one new report are published:
+
+| Item | ID |
+| --- | --- |
+| Original notebook-fed model | `ade205fe-52b1-43b5-980a-773b7b1de538` |
+| Application-load model | `46687aa6-13d7-40ff-9c78-02f7bfd4e73a` |
+| Predicate report | `3001db60-723d-44d3-b10c-7a50130f3c45` |
+
+Explicit human Round Ten section3 authorizes the same scopes as the fixture. Existing publisher applied this request separately on each new model, with no write or additional workspace grant:
+
+```json
+{"identifier":"investigator-reader@skynwhy.com","datasetUserAccessRight":"ReadExplore","principalType":"User"}
+```
+
+On both models, the before listing is `Read`; the after listing is `ReadExplore`. Publisher and definition-reader entries are unchanged. Full before/after listings and requests remain in the sealed private models/report control receipt. The definition reader's existing Contributor role remains restricted by installation to code-definition retrieval, never quantity execution.
+
+The first model baseline failed. A separately recorded same-reader detail request retained HTTP400 `DatasetExecuteQueriesError`, "Failed to execute the DAX query.", Analysis Services code `3242524690`, request `756bd000-78f4-4d2a-89a2-61f33e5e344d`. The publisher had substituted lakehouse IDs for SQL endpoint IDs in `Sql.Database`. Retained original definitions and returned endpoint metadata establish that mismatch. Only the two isolated new model expressions were corrected; original publication and failed probes remain unchanged. The first correction also hit `OperationHasNoResult` after a successful definition update; it was not reissued. A zero-request local selection error is preserved too. The fixture controller now distinguishes result-bearing provisioning from resultless updates, and a regression test guards the endpoint/item distinction.
+
+After the corrections, the actual investigator reader served 8,765 from the notebook-fed model and 7,661 from the application-load model, each with its own quantity-bound identity report and sealed response. No refresh/reframe, elevated execution or altered data was used to obtain those values. This is setup verification, not an investigation or snapshot verification.
+
+Continuation through these baselines charged52physical controls; total rehearsal controls95 including failures, zero investigation diagnostics/model calls. Pot704/1500 before fresh recollection, reserve95remaining, rolling3000/diagnostic12/model600 unchanged. Historical approval proofs and string-semantics observations were removed from the new manifest rather than rebound to new objects. Fresh collection/approval is underway; fresh lineage verification, the portable full apply executor and nine families remain incomplete. Billing has not started.
