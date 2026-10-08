@@ -19,13 +19,15 @@ class EvaluationStore:
     def get(self,identity):
         model=next(m for m in self.catalog if m['id']==identity)
         return {'id':identity,'enabled':True,'revision':1,'context_id':'synthetic-evaluation',
-                'context':{'reports':[{'report':r} for r in model.get('reports',[])]}}
+                'context':copy.deepcopy(model.get('evaluation_context',
+                    {'reports':[{'report':r} for r in model.get('reports',[])]}))}
 
 
 def workspace(agent,catalog,resolver):
     store=EvaluationStore(agent.store,catalog)
     owner=SimpleNamespace(store=store,agent=agent,execution_enabled=True,clock=time.time)
-    owner.model=lambda identity:copy.deepcopy(next(m for m in catalog if m['id']==identity))
+    owner.model=lambda identity:{k:copy.deepcopy(v) for k,v in next(m for m in catalog if m['id']==identity).items()
+                                 if k!='evaluation_context'}
     owner.target_options=lambda *_:[]
     return owner
 

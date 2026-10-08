@@ -10,7 +10,10 @@ def intake_record(saved):
     figure=proposal.get('reported_figure') or {'state':'UNSPECIFIED'}
     selected=proposal.get('target_request') or proposal.get('selection_request') or {}
     value_source=selected.get('value_source') or selected.get('source') or {}
-    return {'action':'PROPOSE' if saved.get('status')=='PROPOSED' else 'ASK' if saved.get('status')=='NEEDS_INPUT' else None,
+    return {'status':saved.get('status'),'error':saved.get('error'),
+            'target_id':(proposal.get('target_visual') or {}).get('target_id'),
+            'cell_mode':(proposal.get('target_visual') or {}).get('mode'),
+            'action':'PROPOSE' if saved.get('status')=='PROPOSED' else 'ASK' if saved.get('status')=='NEEDS_INPUT' else None,
             'model_id':proposal.get('model_id'),'measure_id':proposal.get('measure_id'),
             'ticket_shape':proposal.get('ticket_shape'),'comparison_mode':proposal.get('comparison_mode'),
             'question_kind':(proposal.get('question_kind') or {}).get('kind'),
@@ -35,13 +38,16 @@ def score_intake(golden,records,model_version):
         if case['should_hold']:expected_holds+=1
         if row is not None:
             saved=row['intake'];answered+=1
-            if saved.get('status') in ('PROPOSED','NEEDS_INPUT'):actual=intake_record(saved)
+            semantic_hold=(case['should_hold'] and expected.get('status')=='HELD'
+                           and expected.get('error') in ('TARGET_UNRESOLVED','UNIMPLEMENTED_ROUTE')
+                           and saved.get('status')=='HELD' and saved.get('error')==expected['error'])
+            if saved.get('status') in ('PROPOSED','NEEDS_INPUT') or semantic_hold:actual=intake_record(saved)
             holds+=saved.get('status')!='PROPOSED'
             attempts=saved.get('resolution_attempts',[])
             if not isinstance(attempts,list):raise ValueError('Recorded resolution attempts must be a list')
             retries+=len(attempts)>1
             # A provider/transport/budget HELD is not a correct semantic hold.
-            if case['should_hold'] and saved.get('status')=='NEEDS_INPUT':correct_holds+=1
+            if case['should_hold'] and (saved.get('status')=='NEEDS_INPUT' or semantic_hold):correct_holds+=1
         matched={}
         for field,value in expected.items():
             totals[field]+=1;matched[field]=actual is not None and actual.get(field)==value

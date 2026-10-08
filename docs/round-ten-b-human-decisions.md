@@ -59,3 +59,61 @@ bytes. Corrected targeted checks pass 25/25; the committed full regression and
 hosted checks remain pending. No live run or improved fifty-ticket score is
 claimed. The thirteen-case intake eval and remaining routing, fallback-output,
 and lock work remain pending.
+
+
+Dated intake checkpoint, 2026-10-07 America/Chicago. The sealed business-intent
+proposal already carried `BUSINESS_MEANING`: the defect was admission ignoring
+that kind, rather than the model returning the wrong kind. The new admission
+rule refuses before a procedure; the original `TRANSFORMATION_LOGIC` result
+and human decision remain preserved. Its exact proposal excerpt and full-tape
+hash are a regression case. Mixed business-rule requests are conservatively
+refused; no technical finding answers their intent component.
+
+Explicit saved-context reproduction, discrepancy, primary business-rule,
+filter-effect and earlier-state wording now have consumer checks. A returned
+contradiction or invalid consumer record receives one separately recorded and
+metered correction; another invalid response HOLDs. Exact provenance, figure
+precision and selection-versus-mention checks remain. Missing visual evidence
+is not repaired by choosing a candidate. Closed wording checks cannot certify
+all human intent: ambiguous paraphrases remain model-quality risks measured by
+the eval, not an asserted completeness proof.
+
+Thirteen misses are goldens in
+`acceptance/model_steps/intake-round-ten-misses.json`. Five report questions
+without a named visual now expect `TARGET_UNRESOLVED`, two unavailable historical
+comparisons expect `UNIMPLEMENTED_ROUTE`, and six visual cases retain their
+named cells, keys and quantities. No target was authored into an original
+ticket. Retained fixture metadata excerpts supply the evaluation names/shapes;
+the adapter derives all 52 visual candidates, with no parallel inventory.
+The original captured intake records score 0/13 full records and 0.6442307692
+field accuracy under these new admission requirements. This is an intake eval
+baseline, not a restatement of the 41/64 historical end-to-end batch score.
+The corrected model eval has not run, so no after score is claimed.
+
+Filter-effect intake is a distinct subject. Its current route preserves
+reproduction receipts then HOLDs `UNIMPLEMENTED_ROUTE` without reading a lower
+layer. The requested one-restriction-at-a-time attribution implementation is
+still pending; the placeholder expectation stays unchanged. The two earlier
+state questions cannot silently substitute a present-state walk.
+
+Context measurement on this eval view: six models, 39 measures, 97 columns,
+52 visual directory entries and zero SQL-object entries before and after.
+Wire payload 36,492 -> 36,530 characters; new instruction text 653 characters.
+No truncation or coverage reduction. This excludes native definition excerpts
+which stay out of the planner payload. The earlier referent inventory cost
+measurement is separate and preserved.
+
+Validation: 100 focused tests passed. An intermediate check failed because it
+expected the business-intent tape to be misclassified; inspecting the actual
+sealed proposal corrected the test to assert the admission defect. Another
+intermediate decoder check exposed admission being applied before pure decoding;
+that check was moved to intake admission, preserving decoded roles and rejecting
+business measurement scope. A test command also named a nonexistent test module;
+this was operator error, not a passing check.
+
+The prior committed 2,281-test regression had four synthetic tape-provider
+failures; the provider fixture lacked the newly required nullable visual field.
+The test-only correction subsequently passed all 28 process-tape tests and is
+on #423. A final integrated full regression remains required. No new estate
+request, fixture change, identity scope or live model call in this checkpoint.
+Original failures remain unchanged. #423 is draft; the freeze remains invalid.

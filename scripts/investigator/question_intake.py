@@ -16,6 +16,7 @@ from .visual_target import TargetUnresolved
 from . import selection_descriptor
 from . import question_kind
 from . import intake_statement_registry as statements
+from . import intake_rules
 QUESTION_KIND_INSTRUCTIONS='\nClassify question_kind using the supplied consumer-owned kinds, with a verbatim quote of the question supporting the subject. FRESHNESS concerns currency; SOURCE_CORRECTNESS concerns source entries; VISUAL_CONTENT concerns what a report displays; FIGURE_DIFFERENCE concerns a discrepancy; the other named kinds distinguish components, derivation, transformation, business meaning and expected behaviour. ASK uses null. Routes are nominations: never substitute another route when the best route is marked unimplemented.'
 
 VERSION = 'process-debugging-intake-v2'
@@ -140,6 +141,13 @@ def azure_resolve(payload):
     instructions+=QUESTION_KIND_INSTRUCTIONS
     instructions+=SCOPE_INSTRUCTIONS
     instructions+=VALUE_ROLE_INSTRUCTIONS
+    # New snapshots declare visual candidates; historical producer payloads keep
+    # their recorded prompt. Consumer validation remains active in either case.
+    if any('visuals' in model for model in payload['models']):instructions+=intake_rules.INSTRUCTIONS
+    if payload.get('_intake_rule_repair') is not None:
+        wire.pop('_intake_rule_repair',None)
+        wire['intake_rule_repair']=payload['_intake_rule_repair']
+        instructions+='\nThe previous interpretation violated the supplied intake_rule_repair. Return a complete corrected record under the same schema, with exact provenance. This is the only retry; do not invent a value, target, selection, precision or tolerance.'
     if 'visual_request' in schema['required']:
         instructions+='\nFor a report-bound question, visual_request is required: quote the named page or visual exactly and state UNGROUPED, KEYED or an explicitly requested TOTAL. TOTAL requires mode_source quoting the explicit total request; other modes use mode_source null. Never choose a visual by matching its number. If no target is named, leave visual_request null; the consumer will HOLD and list candidates. Model-only questions need no visual.'
     statement_repair=payload.get('_explicit_statement_repair')
@@ -232,6 +240,9 @@ def azure_resolve(payload):
         if triage is not None and (not isinstance(triage,str) or triage not in TRIAGE_PAIRS):
             raise ValueError('Unknown intake triage pair')
         value['ticket_shape'],value['comparison_mode']=TRIAGE_PAIRS[triage] if triage is not None else (None,None)
+        # Semantic contradictions are repairable producer failures, not missing
+        # visual evidence. Check them before resolving any report referent.
+        intake_rules.validate(value,payload['text'])
         def actual(handle):
             if handle is None:return None
             if handle not in handles:raise ValueError('Unknown catalog handle')
@@ -257,9 +268,10 @@ def azure_resolve(payload):
                 if named:
                     value['name_binding']=named
                     if named['kind']!='REPORT':report_quote=None
-            if report_quote is not None or requested is not None or reproduction(value)['applicable']:
+            business_meaning=subject['kind'] in ('BUSINESS_MEANING','TEMPORAL_COMPARISON')
+            if not business_meaning and (report_quote is not None or requested is not None or reproduction(value)['applicable']):
                 value['report_binding']=report_scope.resolve_report(locate({'quote':report_quote},payload['text'],field='report',audit=quote_audit) if report_quote is not None else None,model.get('reports',[]),payload['text'])
-            if value.get('report_binding',{}).get('resolution_kind')=='STATED' and 'visuals' in model:
+            if not business_meaning and value.get('report_binding',{}).get('resolution_kind')=='STATED' and 'visuals' in model:
                 from .visual_target import resolve
                 if visual_request is not None:
                     visual_request['source']=locate(visual_request['source'],payload['text'],field='visual',audit=quote_audit)
@@ -287,9 +299,13 @@ def azure_resolve(payload):
             value['scope_quotes'].append({'column_id':f['column_id'],'quote':f.pop('quote')})
         value_roles.scope(value,payload['text'],requested)
         statements.validate(value,payload['text'])
+        intake_rules.validate(value,payload['text'])
         return value,{**usage,'quote_provenance':quote_audit}
 
     except TargetUnresolved as exc:
+        exc.provider_metadata={**usage,'quote_provenance':quote_audit}
+        raise
+    except question_kind.UnimplementedRoute as exc:
         exc.provider_metadata={**usage,'quote_provenance':quote_audit}
         raise
     except statements.OmittedExplicitStatement as exc:
@@ -300,6 +316,17 @@ def azure_resolve(payload):
         exc.provider_metadata={**usage,'quote_provenance':quote_audit}
         exc.repair={'field':exc.field,'quote':exc.quote,'response':copy.deepcopy(result)}
         raise
+    except (figure.AmbiguousFigure,figure.UnavailablePrecision,QuoteRefused) as exc:
+        exc.provider_metadata={**usage,'quote_provenance':quote_audit}
+        raise
+    except intake_rules.RuleViolation as exc:
+        exc.provider_metadata={**usage,'quote_provenance':quote_audit}
+        raise
+    except (ValueError,KeyError) as exc:
+        failure=intake_rules.RuleViolation('INTAKE_RECORD_INVALID',
+            'The previous record failed schema or provenance validation: '+str(exc))
+        failure.provider_metadata={**usage,'quote_provenance':quote_audit}
+        raise failure from exc
 
 
 def wire_contract(payload):
@@ -332,14 +359,15 @@ def wire_contract(payload):
         schema['required'].append('visual_request')
     for field in ('numeral_mentions','expected_records','name_binding'):schema['properties'].pop(field)
     wire['implemented_routes']=copy.deepcopy(question_kind.ROUTES)
-    wire['question_kinds']=list(question_kind.KINDS)
+    kinds=question_kind.KINDS if any('visuals' in model for model in payload['models']) else question_kind.LEGACY_KINDS
+    wire['question_kinds']=list(kinds)
     from . import value_roles
     wire['value_roles']=list(value_roles.ROLES)
     schema['properties']['value_mentions']=value_roles.wire_schema(QUOTE_SCHEMA)
     schema['required'].append('value_mentions')
     schema['properties']['question_kind']={'anyOf':[{'type':'null'},
         {'type':'object','additionalProperties':False,'properties':{
-            'kind':{'type':'string','enum':list(question_kind.KINDS)},'source':QUOTE_SCHEMA},
+            'kind':{'type':'string','enum':list(kinds)},'source':QUOTE_SCHEMA},
          'required':['kind','source']}]}
     schema['required'].append('question_kind')
     # Resolution is consumer-owned. The model cannot emit EVIDENCE (or any
@@ -558,37 +586,57 @@ class Intake:
         from .planner_recording import recording
         def call(current,key,attempt):
             with recording({'session_id':'intake:'+body['id'],'planner_call':attempt,
-                    'call_kind':('intake' if attempt==1 else 'explicit_statement_retry' if '_explicit_statement_repair' in current else 'provenance_quote_retry' if '_provenance_quote_repair' in current else 'reported_figure_quote_retry'),
+                    'call_kind':('intake' if attempt==1 else 'intake_rule_retry' if '_intake_rule_repair' in current else 'explicit_statement_retry' if '_explicit_statement_repair' in current else 'provenance_quote_retry' if '_provenance_quote_repair' in current else 'reported_figure_quote_retry'),
                     'payload':current,'context_version':None,'reservation':key,
                     'budget':governor.snapshot()}):
                 decision,metadata=self.resolver(current)
+                try:intake_rules.validate(decision,current['text'])
+                except intake_rules.RuleViolation as exc:
+                    exc.provider_metadata=metadata
+                    raise
                 try:statements.validate(decision,current['text'])
                 except statements.OmittedExplicitStatement as exc:
                     exc.provider_metadata=metadata
                     raise
+                try:question_kind.intake_route(decision)
+                except question_kind.UnimplementedRoute as exc:
+                    exc.provider_metadata=metadata
+                    raise
+                if 'target_request' not in decision:
+                    try:validate(decision,current)
+                    except (TargetUnresolved,question_kind.UnimplementedRoute,QuoteRefused,
+                            figure.AmbiguousFigure,figure.UnavailablePrecision) as exc:
+                        exc.provider_metadata=metadata
+                        raise
+                    except (ValueError,KeyError) as exc:
+                        failed=intake_rules.RuleViolation('INTAKE_RECORD_INVALID',
+                            'The consumer rejected the proposed record: '+str(exc))
+                        failed.provider_metadata=metadata
+                        raise failed from exc
                 return decision,metadata
         try:
             try:
                 decision,usage=call(payload,reservation_key,1);uncertain=False
-            except (FigureQuoteAmbiguous,QuoteNotFound,statements.OmittedExplicitStatement) as exc:
+            except (FigureQuoteAmbiguous,QuoteNotFound,statements.OmittedExplicitStatement,intake_rules.RuleViolation) as exc:
                 usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
                 missing=isinstance(exc,QuoteNotFound)
                 omitted=isinstance(exc,statements.OmittedExplicitStatement)
-                body['resolution_attempts'].append({'attempt':1,'event':'INTAKE_OMITTED_EXPLICIT_STATEMENT' if omitted else 'PROVENANCE_QUOTE_NOT_FOUND' if missing else 'REPORTED_FIGURE_QUOTE_AMBIGUOUS',
+                rule=isinstance(exc,intake_rules.RuleViolation)
+                body['resolution_attempts'].append({'attempt':1,'event':exc.code if rule else 'INTAKE_OMITTED_EXPLICIT_STATEMENT' if omitted else 'PROVENANCE_QUOTE_NOT_FOUND' if missing else 'REPORTED_FIGURE_QUOTE_AMBIGUOUS',
                     'reservation_key':'resolve','metadata':usage,
-                    **({'statements':exc.statements} if omitted else {'field':exc.field} if missing else {'occurrences':exc.occurrences})})
+                    **({'rule':exc.code} if rule else {'statements':exc.statements} if omitted else {'field':exc.field} if missing else {'occurrences':exc.occurrences})})
                 repair=getattr(exc,'repair',None)
                 if repair is None:raise
-                retry_payload={**payload,'_explicit_statement_repair' if omitted else '_provenance_quote_repair' if missing else '_figure_quote_repair':repair}
+                retry_payload={**payload,'_intake_rule_repair' if rule else '_explicit_statement_repair' if omitted else '_provenance_quote_repair' if missing else '_figure_quote_repair':repair}
                 with self.store.connect() as db:
                     db.execute('BEGIN IMMEDIATE')
                     governor.settle(db,'intake:'+body['id'],'resolve',usage.get('usage') if isinstance(usage,dict) else None,uncertain=uncertain)
                     row=db.execute('SELECT body FROM workspace_intakes WHERE id=?',(body['id'],)).fetchone()
                     if json.loads(row['body'])['status']!='RESOLVING':return self.get(body['id'])
-                    retry_key='explicit-statement-retry' if omitted else 'provenance-quote-retry' if missing else 'figure-quote-retry'
+                    retry_key='intake-rule-retry' if rule else 'explicit-statement-retry' if omitted else 'provenance-quote-retry' if missing else 'figure-quote-retry'
                     governor.reserve(db,'intake:'+body['id'],retry_key,'planner',input_characters(retry_payload))
                 reservation_key=retry_key;usage=None;uncertain=True
-                body['resolution_attempts'].append({'attempt':2,'event':'EXPLICIT_STATEMENT_RETRY' if omitted else 'PROVENANCE_QUOTE_RETRY' if missing else 'REPORTED_FIGURE_QUOTE_RETRY',
+                body['resolution_attempts'].append({'attempt':2,'event':'INTAKE_RULE_RETRY' if rule else 'EXPLICIT_STATEMENT_RETRY' if omitted else 'PROVENANCE_QUOTE_RETRY' if missing else 'REPORTED_FIGURE_QUOTE_RETRY',
                     'reservation_key':reservation_key})
                 decision,usage=call(retry_payload,reservation_key,2);uncertain=False
             validation_payload=payload
@@ -618,10 +666,7 @@ class Intake:
                 body['report_binding']=decision['report_binding']
                 raise QuoteRefused(('Report ambiguity: ' if decision['report_binding']['reason']=='MULTIPLE_EXACT_MATCHES' else 'Report unavailable: ')+decision['report_binding']['reason']+'; candidates: '+', '.join(decision['report_binding']['candidates']))
             decision = validate(decision, validation_payload)
-            if (decision.get('question_kind') or {}).get('kind') == 'BUSINESS_MEANING':
-                raise question_kind.UnimplementedRoute(
-                    'The requested business-rule decision requires a domain specialist; '
-                    'technical process evidence cannot decide whether the rule is correct.')
+            question_kind.intake_route(decision)
             if (digest(snapshot(self.workspace)) != body['catalog_hash'] or fingerprint() != body['engine_hash']
                     or digest(self.workspace.agent.config) != body['config_hash']):
                 raise Conflict('Question context changed during resolution')
@@ -633,6 +678,9 @@ class Intake:
             body.update(status='HELD',error='TARGET_UNRESOLVED',refusal_reason=str(exc),
                         candidate_visuals=exc.candidates,proposal=None)
             if names:body['refusal_reason']+=' Candidate visuals: '+', '.join(names)+'.'
+        except intake_rules.RuleViolation as exc:
+            usage=getattr(exc,'provider_metadata',usage);uncertain=usage is None
+            body.update(status='HELD',error=exc.code,refusal_reason=exc.repair['requirement'],proposal=None)
         except statements.OmittedExplicitStatement as exc:
             usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
             body.update(status='HELD',error='INTAKE_OMITTED_EXPLICIT_STATEMENT',refusal_reason=str(exc),
@@ -650,6 +698,7 @@ class Intake:
             usage=getattr(exc,'provider_metadata',None);uncertain=usage is None
             body.update(status='NEEDS_INPUT',question='The stated precision of the reported figure is unclear. At what precision should it be compared?',error=None)
         except question_kind.UnimplementedRoute as exc:
+            usage=getattr(exc,'provider_metadata',usage);uncertain=usage is None
             body.update(status='HELD',error='UNIMPLEMENTED_ROUTE',refusal_reason=str(exc),proposal=None)
         except Exception:
             body.update(status='HELD', error='RESOLUTION_UNCERTAIN' if uncertain else 'INVALID_OR_STALE_PROPOSAL')

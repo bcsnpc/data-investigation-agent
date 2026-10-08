@@ -716,7 +716,8 @@ class AdaptiveRuntime:
             state['process_started']=True;state['status']='EXECUTING'
             self.save(db,state,'PROCESS_STARTED',{'procedure':'VERTICAL','reserved_reads':0})
         from . import observation_journal
-        error=None;budget_error=None;assessment=None;observations=[];journal=observation_journal.Journal()
+        from .question_kind import UnimplementedRoute
+        error=None;budget_error=None;route_error=None;assessment=None;observations=[];journal=observation_journal.Journal()
         try:
             from .definition_target import procedure_scope
             with observation_journal.scope(journal):
@@ -738,6 +739,9 @@ class AdaptiveRuntime:
             validate_support(assessment,{o['id']:o for o in observations})
         except UsageHold as exc:
             budget_error=str(exc)
+            observations=list({o['id']:o for o in journal if o.get('id')}.values())
+        except UnimplementedRoute as exc:
+            route_error=str(exc)
             observations=list({o['id']:o for o in journal if o.get('id')}.values())
         except Exception as exc:
             from .process_failure import capture
@@ -767,6 +771,14 @@ class AdaptiveRuntime:
                     'process-failed-'+str(len(state['observations'])),failure=error))
                 self.stop(db,state,'PROCESS_FAILED','HELD')
                 state['process_error']=error;self.save(db,state,'PROCESS_FAILED',error)
+                return self.project_after_commit(db,state)
+            if route_error:
+                state['observations'].extend(observations)
+                from .process_receipts import refusal
+                state['observations'].append(refusal('UNIMPLEMENTED_ROUTE',route_error,
+                    'unimplemented-route-'+str(len(state['observations']))))
+                self.stop(db,state,'UNIMPLEMENTED_ROUTE','HELD')
+                self.save(db,state,'PROCESS_ROUTE_UNIMPLEMENTED',{'reason':route_error})
                 return self.project_after_commit(db,state)
             state['observations'].extend(observations);state['assessment']=assessment
             state.update(status='COMPLETED',stop_reason='ENOUGH_DIAGNOSTICS',token=None,pending=None)

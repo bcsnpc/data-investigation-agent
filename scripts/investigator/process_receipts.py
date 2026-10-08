@@ -41,7 +41,7 @@ REGISTRY = {
        'INTAKE_REFUSED': 'intake', 'RESOLUTION_REFUSED': 'resolution',
        'INVENTORY_REFUSED': 'declaration inventory',
        'REPRODUCTION_REFUSED': 'declared-context reproduction',
-       'WALK_REFUSED': 'process walk', 'PROCESS_FAILED':'process failure','BUDGET_STOP':'read budget'}.items()},
+       'WALK_REFUSED': 'process walk', 'UNIMPLEMENTED_ROUTE':'unimplemented route', 'PROCESS_FAILED':'process failure','BUDGET_STOP':'read budget'}.items()},
 }
 
 QUERY_TABLES = {name: spec.table for name, spec in REGISTRY.items()

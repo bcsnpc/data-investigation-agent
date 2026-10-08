@@ -23,7 +23,7 @@ KIND_SUBJECTS={'VISUAL_CONTENT':'comparison','FRESHNESS':'currency',
     'SOURCE_CORRECTNESS':'delivery','FIGURE_DIFFERENCE':'comparison',
     'METRIC_COMPONENTS':'definitions','DERIVED_CALCULATION':'definitions',
     'TRANSFORMATION_MECHANISM':'mechanism','BUSINESS_MEANING':'meaning',
-    'EXPECTED_BEHAVIOR':'expectation'}
+    'EXPECTED_BEHAVIOR':'expectation','FILTER_EFFECT':'comparison','TEMPORAL_COMPARISON':'comparison'}
 DELIVERY_OUTCOMES={'INGESTION_GAP':'GAP','LOAD_LATENCY':'LATENT'}
 
 

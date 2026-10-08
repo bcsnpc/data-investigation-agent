@@ -603,6 +603,9 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     measure_baseline=baseline
     if eligibility(scope)['applicable']:reproduce()
     if not reproduction_started and not eligibility(scope,walk_blocked=True)['applicable']:reproduce()
+    if (scope.get('question_kind') or {}).get('kind')=='FILTER_EFFECT':
+        from .question_kind import UnimplementedRoute
+        raise UnimplementedRoute('Filter-effect attribution is unimplemented: reproduction alone does not establish which restriction hides rows. No pipeline walk was attempted.')
 
     def unverified_business_flow(reason):
         return answer('NO_KNOWN_PATTERN',6,observations,layers[0]['id'],'CAPABILITY_UNAVAILABLE',baseline,

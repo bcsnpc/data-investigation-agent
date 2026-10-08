@@ -93,8 +93,16 @@ class QuestionKindBudgetTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Unknown question kind'):
             validate(value,{'text':'ratio','models':[]})
         payload={'text':'Report','models':[]};_,schema,_=wire_contract(payload)
-        self.assertEqual(schema['properties']['question_kind']['anyOf'][1]['properties']['kind']['enum'],list(question_kind.KINDS))
+        self.assertEqual(schema['properties']['question_kind']['anyOf'][1]['properties']['kind']['enum'],list(question_kind.LEGACY_KINDS))
         self.assertIn('question_kind',schema['required'])
+
+    def test_filter_effect_reproduces_but_never_reads_a_lower_layer(self):
+        adapter=NeutralAdapter()
+        with patch.object(adapter,'evaluate',wraps=adapter.evaluate) as evaluate:
+            with self.assertRaisesRegex(question_kind.UnimplementedRoute,'No pipeline walk'):
+                vertical(adapter,'metric',self.scope('FILTER_EFFECT'))
+        self.assertEqual(len(adapter.read_scopes),2)
+        self.assertEqual(evaluate.call_count,1)
 
     def test_unimplemented_route_refuses_at_intake_no_investigation_reads_or_calls(self):
         helper=intake_fixture.IntakeTests();helper.setUp();self.addCleanup(helper.doCleanups)
@@ -151,6 +159,26 @@ class QuestionKindBudgetTests(unittest.TestCase):
         stop=result['observations'][-1]
         self.assertEqual(stop['check_kind'],'BUDGET_STOP')
         self.assertEqual(len(stop['not_run_probes']),2)
+        self.assertFalse(any(o.get('check_kind')=='PROCESS_FAILED' for o in result['observations']))
+
+    def test_unimplemented_route_hold_retains_prior_receipts_and_is_not_a_crash(self):
+        import test_flexible_investigation as fixture
+        from investigator.adaptive_runtime import AdaptiveRuntime
+        from investigator.process_debugging import VERSION
+        helper=fixture.DynamicTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        envelope=copy.deepcopy(helper.envelope);envelope['strategy']=VERSION
+        agent=AdaptiveRuntime(helper.runtime,lambda _:self.fail('No planner'))
+        identity=agent.create(envelope,'synthetic-filter-route-stop')['id']
+        def hold(adapter,*args):
+            result=adapter.meter_read('bounded_dax',lambda:{'id':'retained-read','tool':'context',
+                'metadata':{'context_version':'test'},'quantity':16})
+            _observation(result,'established')
+            raise question_kind.UnimplementedRoute('Filter effects have not been tested.')
+        with patch('investigator.process_debugging.vertical',hold):result=agent.run(identity)
+        self.assertEqual(result['status'],'HELD');self.assertEqual(result['stop_reason'],'UNIMPLEMENTED_ROUTE')
+        self.assertEqual(result['cloud_calls'],1)
+        self.assertEqual(result['observations'][0]['id'],'retained-read')
+        self.assertEqual(result['observations'][-1]['check_kind'],'UNIMPLEMENTED_ROUTE')
         self.assertFalse(any(o.get('check_kind')=='PROCESS_FAILED' for o in result['observations']))
 
 
