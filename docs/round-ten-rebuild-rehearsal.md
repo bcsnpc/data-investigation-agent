@@ -113,14 +113,377 @@ Workspace creation and role controls charged ten physical requests, zero diagnos
 
 `scripts/fixture/rebuild.py` accepts only `--plan`; its tests deliberately reject `--apply`. The committed plan lacks an executor, so the requested rehearsal cannot be described as completed by that script. This is a migration-procedure gap, not an estate investigation result. Apply implementation and its prerequisite validation are pending. No new SQL table or reader grant is inferred from a plan.
 
-Prepared, not applied: an isolated `ordersops.app.stock_movements_rebuild_20261008`
+Initial preparation checkpoint, superseded by the dated execution below: an isolated `ordersops.app.stock_movements_rebuild_20261008`
 source using the 360 committed synthetic movement rows. The parameterized source
 plan is sealed locally with SHA-256
 `757a5a6467d11e435907ac1eaf6597cdec7ec8e2eda6a42279f689101101ae77`.
 The [exact table-only SELECT script](rebuild-application-source-grant.sql) is
 reviewable. It names `orderops_investigator`, the existing SQL reader, which is
 different from the two identities named in the workspace pre-approval. Its
-scope decision is pending under CLAUDE.md section8. Neither source creation nor
-the grant has been executed. Existing source data and scopes are unchanged.
+scope decision was explicitly approved under CLAUDE.md section8 on 2026-10-07
+America/Chicago and applied as recorded below. Existing source data and its
+permissions are unchanged.
 
 Documented control-plane methods: [Create Workspace](https://learn.microsoft.com/en-us/rest/api/fabric/core/workspaces/create-workspace), [Add Workspace Role Assignment](https://learn.microsoft.com/en-us/rest/api/fabric/core/workspaces/add-workspace-role-assignment).
+
+
+## Isolated application source: explicit decision and execution
+
+Dated 2026-10-07 America/Chicago. Human decision: "Approve the isolated table and table-only SELECT". The source is ordersops.app.stock_movements_rebuild_20261008, created from the 360 committed synthetic movement rows. Existing SQL database-owner credentials performed the control work; orderops_investigator performed the independent final reader verification. No identity, credential, database role, schema-wide grant or other-object permission changed. The administrator Fabric profile was not used.
+
+The initial before-read failed with SqlException40613: ordersops was not currently available. No mutation was attempted. A separately recorded twenty-second pre-warm wait led to a control-query error156 because the operator used the reserved alias identity without brackets. A corrected attempt reused the governor admission key and was refused before dispatch, zero physical requests. The separately identified corrected control then served successfully. All original failures remain unchanged, followed by a distinct successful resume. These are controls, not investigation retries or diagnostic reads.
+
+Exact applied grant (the prepared script was not changed):
+
+```sql
+-- Prepared only. New isolated rehearsal source; existing source and credentials unchanged.
+-- Reader scope needs explicit human decision: orderops_investigator is not one of the two workspace readers named in section3.
+GRANT SELECT ON OBJECT::[app].[stock_movements_rebuild_20261008] TO [orderops_investigator];
+```
+
+Before grant: direct permission listing and database-role listing, followed by the effective per-object check:
+
+```json
+[
+  [
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": null,
+      "major_id": "0",
+      "class_desc": "DATABASE",
+      "object_name": null,
+      "permission_name": "CONNECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "978102525",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "warehouse_locations_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1010102639",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "inventory_products_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1042102753",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "product_rates_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1090102924",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "stock_movements_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1154103152",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "purchase_orders_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1218103380",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "inventory_adjustments_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1298103665",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "warehouse_locations_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1330103779",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "inventory_products_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1362103893",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "product_rates_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1410104064",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "stock_movements_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1474104292",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "purchase_orders_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1538104520",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "inventory_adjustments_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1938105945",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "stock_movements_round_two_20261003",
+      "permission_name": "SELECT"
+    }
+  ],
+  [
+    {
+      "role_name": "orderops_investigator_role"
+    }
+  ],
+  [
+    {
+      "can_insert": "0",
+      "can_update": "0",
+      "can_delete": "0",
+      "can_control": "0",
+      "can_select": "0"
+    }
+  ]
+]
+```
+
+After grant: the same listings/check and the unchanged existing-source baseline:
+
+```json
+[
+  [
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": null,
+      "major_id": "0",
+      "class_desc": "DATABASE",
+      "object_name": null,
+      "permission_name": "CONNECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "110623437",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "stock_movements_rebuild_20261008",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "978102525",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "warehouse_locations_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1010102639",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "inventory_products_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1042102753",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "product_rates_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1090102924",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "stock_movements_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1154103152",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "purchase_orders_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1218103380",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "inventory_adjustments_e1b8e1",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1298103665",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "warehouse_locations_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1330103779",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "inventory_products_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1362103893",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "product_rates_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1410104064",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "stock_movements_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1474104292",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "purchase_orders_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1538104520",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "inventory_adjustments_0fd86f",
+      "permission_name": "SELECT"
+    },
+    {
+      "state_desc": "GRANT",
+      "minor_id": "0",
+      "schema_name": "app",
+      "major_id": "1938105945",
+      "class_desc": "OBJECT_OR_COLUMN",
+      "object_name": "stock_movements_round_two_20261003",
+      "permission_name": "SELECT"
+    }
+  ],
+  [
+    {
+      "role_name": "orderops_investigator_role"
+    }
+  ],
+  [
+    {
+      "can_insert": "0",
+      "can_update": "0",
+      "can_delete": "0",
+      "can_control": "0",
+      "can_select": "1"
+    }
+  ],
+  [
+    {
+      "units": "7661",
+      "row_count": "360"
+    }
+  ]
+]
+```
+
+Only one permission was added: GRANT SELECT on the new object. All prior direct grants and database-role membership were compared and retained. New-table write/control rights remain absent. Actual reader verification:
+
+```json
+[
+  [
+    {
+      "database_user": "orderops_investigator",
+      "database_name": "ordersops",
+      "identity": "orderops_investigator"
+    }
+  ],
+  [
+    {
+      "first_version": "1",
+      "first_modified": "2026-10-08T03:17:50.6199765Z",
+      "last_modified": "2026-10-08T03:17:50.6199765Z",
+      "last_version": "360",
+      "units": "7661",
+      "row_count": "360"
+    }
+  ]
+]
+```
+
+The create operation used one parameterized JSON input for all committed rows inside a create-only transaction, not interpolated values or an engine-derived result. Exact control SQL:
+
+```sql
+SET NOCOUNT ON; SET XACT_ABORT ON; BEGIN TRANSACTION; IF OBJECT_ID(N'app.stock_movements_rebuild_20261008') IS NOT NULL THROW 50001,'Rehearsal source already exists',1; CREATE TABLE [app].[stock_movements_rebuild_20261008] ([movement_id] int NOT NULL, [warehouse_id] int NOT NULL, [product_id] int NOT NULL, [units] int NOT NULL, [event_day] varchar(4000) NOT NULL, [movement_type] varchar(4000) NOT NULL, [source_modified_at_utc] datetime2(7) NOT NULL DEFAULT SYSUTCDATETIME(), [source_row_version] bigint IDENTITY(1,1) NOT NULL); INSERT INTO [app].[stock_movements_rebuild_20261008] ([movement_id], [warehouse_id], [product_id], [units], [event_day], [movement_type]) SELECT CAST(JSON_VALUE([value],'$[0]') AS int), CAST(JSON_VALUE([value],'$[1]') AS int), CAST(JSON_VALUE([value],'$[2]') AS int), CAST(JSON_VALUE([value],'$[3]') AS int), CAST(JSON_VALUE([value],'$[4]') AS varchar(4000)), CAST(JSON_VALUE([value],'$[5]') AS varchar(4000)) FROM OPENJSON(@seed_rows); COMMIT TRANSACTION; SELECT COUNT_BIG(*) AS row_count,SUM(CAST(units AS bigint)) AS units,MIN(source_row_version) AS first_version,MAX(source_row_version) AS last_version,MIN(source_modified_at_utc) AS first_modified,MAX(source_modified_at_utc) AS last_modified FROM [app].[stock_movements_rebuild_20261008];
+```
+
+Source controls: nine physical requests total (one failed initial connection, one failed SQL pre-warm query, zero-request admission refusal, one successful pre-warm, six successful resumed controls). Zero diagnostic reads/model calls; no cap/reset/refund. Pot619 ->628/800; rolling744 ->753/3000 at the closing snapshot. This establishes the new reader scope and seeded table, not completion of the fixture factory or a source-consistency investigation.
+
+Append-only control metadata correction: the successful source summary computed its auxiliary seal before adding physical_requests. The ledger artifact SHA-256 and SQL receipts remain correct; the original artifact is unchanged. A separate correction binds its exact artifact hash and the corrected complete-payload seal. No evidence, permissions or counts changed.

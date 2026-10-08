@@ -1,0 +1,53 @@
+name: Round Ten earned acceptance
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  earned-replay:
+    name: round-ten-earned-${{ matrix.shard }}
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install replay dependencies
+        run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt -r scripts/requirements-replay.txt
+      - name: Download immutable encrypted earned evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHARD: ${{ matrix.shard }}
+        run: |
+          TAG=$(python -c "import json,os; print(json.load(open('acceptance/round_ten/private-earned-'+os.environ['SHARD']+'.json'))['release_tag'])")
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "earned-$SHARD.sealed" --dir "$RUNNER_TEMP/earned-ciphertext"
+      - name: Verify ciphertext and exact members before extraction
+        env:
+          KNOWN_DOMAIN_REPLAY_KEY: ${{ secrets.KNOWN_DOMAIN_REPLAY_KEY }}
+          SHARD: ${{ matrix.shard }}
+        run: python acceptance/known_domain/private_bundle.py "$RUNNER_TEMP/earned-ciphertext/earned-$SHARD.sealed" "$RUNNER_TEMP/earned-inputs" --manifest "acceptance/round_ten/private-earned-$SHARD.json"
+      - name: Replay earned historical producers against sealed expectations
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: python acceptance/round_ten/check.py --roster "acceptance/round_ten/earned-$SHARD.json" --fixture-root "$RUNNER_TEMP/earned-inputs" --output "$RUNNER_TEMP/earned-results"
+      - name: Remove decrypted evidence
+        if: always()
+        shell: pwsh
+        run: |
+          $earnedRoot = [System.IO.Path]::GetFullPath($env:RUNNER_TEMP)
+          foreach ($earnedName in @('earned-inputs', 'earned-results', 'earned-ciphertext')) {
+            $earnedTarget = [System.IO.Path]::GetFullPath((Join-Path $earnedRoot $earnedName))
+            if (-not $earnedTarget.StartsWith($earnedRoot + [System.IO.Path]::DirectorySeparatorChar)) { throw 'Cleanup outside runner temp' }
+            if (Test-Path -LiteralPath $earnedTarget) { Remove-Item -LiteralPath $earnedTarget -Recurse -Force }
+          }
