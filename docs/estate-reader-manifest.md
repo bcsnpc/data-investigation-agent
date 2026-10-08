@@ -60,3 +60,5 @@ are unchanged. [Decision, exact request and listings](round-two-application-pres
 
 
 Dated installation supersession, 2026-10-04 UTC: the identity table remains historical evidence. Active installation declarations now live in the single [estate manifest](estate-installation-manifest.md); they do not grant access or retrospectively change scope. The fixture installation still requires current discovery re-approval before live use.
+
+Dated Round Ten explicit scope decision, 2026-10-07 America/Chicago: new rehearsal workspace `d028fa2b-0d1b-4dd8-b423-37dd161cd5d0` only. Existing investigator-reader (`8a582d2a-ecb4-4320-bf72-75a529a0d382`) now holds Viewer there; existing investigator-code-reader (`dc89155f-9a9a-4daa-9c20-7eff55818ccd`) holds Contributor there for code-definition access. Neither had a role before, both roles match the source fixture and were verified afterward. No new identity or audience, no existing-workspace change, no new model Build or SQL-table grant yet. See [exact grants](round-ten-rebuild-rehearsal.md).
