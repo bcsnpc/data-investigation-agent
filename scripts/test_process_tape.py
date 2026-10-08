@@ -202,7 +202,7 @@ class TapeTests(unittest.TestCase):
             if body['tool_choice']['name']=='resolve_business_question':
                 metric=next(m for m in view['models'][0]['measures'] if m['name']=='Total')
                 value={'value_mentions':[],'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':view['text']}},
-                    'report_quote':None,'target_request':None,'reported_candidates':[],
+                    'report_quote':None,'visual_request':None,'target_request':None,'reported_candidates':[],
                     'action':'PROPOSE','model_id':view['models'][0]['id'],'measure_id':metric['id'],
                     'metric_quote':'Total','question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL',
                     'filters':[],'dimension_ids':[]}
