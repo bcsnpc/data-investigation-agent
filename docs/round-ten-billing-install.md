@@ -1,5 +1,7 @@
 # Billing installation checkpoint
 
+Dated Round Ten C authorization, 2026-10-08 UTC: the human approved replacing the planned Dataflow Gen2 ingestion with an API-authored Data Pipeline Copy activity and using its run history as the audit source. This supersedes the earlier portal-only destination dependency below. The replacement has not been implemented or published: billing still waits for the nine-family rehearsal to earn 9/9. The sealed author-only fixture description remains unchanged; its required dated ingestion amendment belongs to that later step, not to an unexecuted installation claim.
+
 Updated 2026-10-08 UTC. The nine-family rehearsal precedes this work. Billing is **not deployed**, no human-facing report exists yet, and no billing tickets or expected-outcome records have been authored.
 
 The committed `fixture-code/billing/` artifacts supply synthetic source rows, Dataflow mashup authoring input, Warehouse procedure source, measure fragments and a report authoring specification. These are publication inputs, not an executable installation or evidence of served values. The procedure copy on a Git branch and actual `estate.yaml` must follow returned platform IDs. Application reachability defaults to false; the existing SQL reader must not acquire a new database scope implicitly.
