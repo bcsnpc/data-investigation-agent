@@ -149,3 +149,15 @@ included in the engine fingerprint; its new test changes the threshold file
 alone and requires a different fingerprint. An uncommitted-tree process-replay
 check correctly refused `TAPE_UNCOMMITTED_ENGINE`; it must pass on the committed
 follow-up before any model batch. No refusal is bypassed.
+
+Dated follow-up: committed `5fa67fa` passed all 33 fingerprint and process-tape
+tests in 18.900s. PowerShell's redirected native stderr produced an error-shaped
+wrapper; the retained test log ends in `OK`. It was not a replay refusal.
+
+DECIDED WITHOUT REVIEW: report primary-span and comparison-span semantic
+accuracy as unscored. The sealed goldens have no expected span annotations,
+and this part prohibits adding them. Inventing annotations, or calling verbatim
+validity semantic accuracy, was rejected. Full structured match remains the
+pass condition. Target-derived report/page binding is labelled as such; it does
+not claim separate page-span interpretation. The field scorer preserves these
+distinctions and cannot upgrade a provider failure to a correct semantic hold.
