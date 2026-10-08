@@ -1,5 +1,5 @@
 {
-  "deployment": "investigator-quality-54",
+  "deployment": "investigator-intake-ci",
   "generation_options": {
     "reasoning_effort": "medium",
     "max_output_tokens": 8000,
