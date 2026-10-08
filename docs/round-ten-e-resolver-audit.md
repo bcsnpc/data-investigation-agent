@@ -232,3 +232,12 @@ experiment allowance; no new call or input allowance is granted. The corrected
 candidate uses a distinct request namespace so saved failures cannot be reused
 as fresh results. Failed module-name invocations in verification are retained;
 the correctly named focused batch passed.
+
+Additional resolver review found two selection defects before the corrected
+candidate pass. A runner-up below the acceptance threshold was ignored even
+when it defeated the required margin; it now causes ambiguity. Word-reordered
+aliases were incorrectly given exact-alias priority; they now receive ordinary
+token-overlap scoring. The policy parser checks every setting's type and
+priority ordering, including finite numeric weights and the configured one-edit
+maximum. Three regression tests cover these cases; the focused total is now
+76 passing tests. No configured threshold or golden changed.

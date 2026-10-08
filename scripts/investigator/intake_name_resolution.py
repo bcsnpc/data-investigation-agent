@@ -1,14 +1,23 @@
 """Scored names are referent evidence, never lineage or quantity equivalence."""
 import json
+import math
 import re
 from pathlib import Path
 
 
 def policy():
     value = json.loads((Path(__file__).resolve().parents[2] / 'acceptance/model_steps/intake-resolution-policy.json').read_text(encoding='utf8'))
-    if (value['version'] != 'intake-name-scoring-v1' or not value['reason']
-            or not 0 < value['threshold'] <= 1
-            or not 0 < value['margin'] <= 1):
+    expected={'version','reason','threshold','margin','alias_score','exact_score','containment_score',
+              'closed_value_maximum','closed_value_edit_distance'}
+    numeric=('threshold','margin','alias_score','exact_score','containment_score')
+    if (not isinstance(value,dict) or set(value)!=expected
+            or value['version'] != 'intake-name-scoring-v1'
+            or not isinstance(value['reason'],str) or not value['reason'].strip()
+            or any(type(value[k]) not in (int,float) or not math.isfinite(value[k]) for k in numeric)
+            or not 0 < value['threshold'] <= 1 or not 0 < value['margin'] <= 1
+            or not value['alias_score']>value['exact_score']>=value['containment_score']>0
+            or type(value['closed_value_maximum']) is not int or value['closed_value_maximum']<1
+            or type(value['closed_value_edit_distance']) is not int or not 0<=value['closed_value_edit_distance']<=1):
         raise ValueError('Invalid intake name-scoring configuration')
     return value
 
@@ -23,15 +32,17 @@ def tokens(value):
 
 def rank(quote, candidates, id_field, settings=None):
     settings = settings or policy()
-    query = set(tokens(quote))
+    query_tokens=tokens(quote)
+    query = set(query_tokens)
     ranked = {}
     for candidate in candidates:
         best = (0.0, 'no_token_overlap', candidate['name'])
         for name, alias in [(candidate['name'], False), *[(n, True) for n in candidate.get('aliases', [])]]:
-            words = set(tokens(name))
-            if query and query == words:
+            name_tokens=tokens(name)
+            words = set(name_tokens)
+            if query and query_tokens == name_tokens:
                 score, basis = (settings['alias_score'], 'declared_alias') if alias else (settings['exact_score'], 'normalized_exact')
-            elif query and words and (query <= words or words <= query):
+            elif query and words and (query < words or words < query):
                 score, basis = settings['containment_score'], 'token_containment'
             else:
                 score = 2*len(query & words)/(len(query)+len(words)) if query or words else 0
@@ -47,7 +58,8 @@ def resolve(quote, candidates, id_field, audit=None):
     settings = policy()
     ranked = rank(quote, candidates, id_field, settings)
     eligible = [r for r in ranked if r['score'] >= settings['threshold']]
-    close = [r for r in eligible if eligible[0]['score']-r['score'] <= settings['margin']]
+    # A runner-up just below threshold still defeats the required lead.
+    close = [r for r in ranked if eligible and eligible[0]['score']-r['score'] <= settings['margin']]
     state = 'UNRESOLVED' if not eligible else 'AMBIGUOUS' if len(close)>1 else 'RESOLVED'
     evidence = {'quote': quote, 'resolution': state, 'threshold': settings['threshold'],
                 'margin': settings['margin'], 'best': ranked[0] if ranked else None,

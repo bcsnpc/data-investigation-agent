@@ -1,11 +1,38 @@
 import copy
+import json
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 from investigator import intake_name_resolution as names, intake_extraction as extraction
 from investigator.question_intake import validate
 from test_intake_extraction import fixture
 
 
 class NameResolutionTests(unittest.TestCase):
+    def test_runner_up_below_threshold_still_blocks_an_insufficient_lead(self):
+        rows=[{'id':'a','name':'other beta gamma delta'},
+              {'id':'b','name':'extra other beta gamma delta'}]
+        with self.assertRaisesRegex(ValueError,'Ambiguous') as caught:
+            names.resolve('alpha beta gamma delta',rows,'id')
+        evidence=caught.exception.resolution_evidence
+        self.assertLess(evidence['runner_up']['score'],evidence['threshold'])
+        self.assertEqual({r['id'] for r in caught.exception.candidates},{'a','b'})
+
+    def test_reordered_alias_words_do_not_receive_exact_alias_priority(self):
+        rows=[{'id':'a','name':'Operations','aliases':['Sales Revenue']},
+              {'id':'b','name':'Revenue Sales'}]
+        ranked=names.rank('Revenue Sales',rows,'id')
+        self.assertEqual(next(r['basis'] for r in ranked if r['id']=='a'),'token_overlap')
+        with self.assertRaisesRegex(ValueError,'Ambiguous'):names.resolve('Revenue Sales',rows,'id')
+
+    def test_policy_rejects_invalid_types_and_inconsistent_weights(self):
+        original=names.policy()
+        for changes in ({'threshold':True},{'alias_score':0.5},{'exact_score':float('nan')},
+                        {'closed_value_edit_distance':2},{'closed_value_maximum':False},{'reason':' '},
+                        {'ignored':1}):
+            with self.subTest(changes=changes),patch.object(Path,'read_text',return_value=json.dumps({**original,**changes})):
+                with self.assertRaisesRegex(ValueError,'Invalid intake'):names.policy()
+
     def test_page_constraint_does_not_attempt_to_select_a_visual_by_itself(self):
         ticket='In Report on Overview, Global card Quantity differs.'
         raw,payload=fixture(ticket,pages=[{'quote':'Overview','role':'PRIMARY'}],
