@@ -199,7 +199,12 @@ class TapeTests(unittest.TestCase):
         import httpx
         def provider(request):
             body=json.loads(request.content);view=json.loads(body['input'])
-            if body['tool_choice']['name']=='resolve_business_question':
+            if body['tool_choice']['name']=='extract_ticket_spans':
+                from investigator.intake_extraction import SCHEMA
+                value={key:[] for key in SCHEMA['properties']}
+                value.update(kind='SOURCE_CORRECTNESS',reported_state='UNSPECIFIED',
+                    primary=view['ticket'],measures=[{'quote':'Total','role':'PRIMARY'}])
+            elif body['tool_choice']['name']=='resolve_business_question':
                 metric=next(m for m in view['models'][0]['measures'] if m['name']=='Total')
                 value={'value_mentions':[],'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':view['text']}},
                     'report_quote':None,'visual_request':None,'target_request':None,'reported_candidates':[],

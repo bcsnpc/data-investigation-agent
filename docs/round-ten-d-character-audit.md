@@ -20,7 +20,7 @@ The 7,997,743 daily total includes 5,276,574 characters reserved before this bat
 
 Model metadata excludes visual arrays; examples=0 denotes no separate example block (inline examples remain counted in instructions). Other input holds the consumer-owned enums and route flags plus retry detail when present. Input syntax and outer escaping are measured separately so each row sums exactly to the recorded request size.
 
-The dominant component is model metadata, including all models, measures, typed columns and native table identifiers. The whole-catalog snapshot dates to c7c7b208; ef ace31e (spelled `eface31e`) added the per-model complete visual inventory on 2026-10-07. The latter adds visual cost but is not the largest component. Round Ten C also increased instructions 7,732→8,291 and schema 6,261→6,289 on its controlled before/after input; it did not create the whole-catalog expansion.
+The dominant component is model metadata, including all models, measures, typed columns and native table identifiers. The whole-catalog snapshot dates to c7c7b208; `eface31e` added the per-model complete visual inventory on 2026-10-07. The latter adds visual cost but is not the largest component. Round Ten C also increased instructions 7,732→8,291 and schema 6,261→6,289 on its controlled before/after input; it did not create the whole-catalog expansion.
 
 | Ticket / attempt | Prompt | Ticket | Visuals | Model metadata | Other input | Input syntax | Schema | Fixed options | Escaping/syntax | Request | Reserved |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
