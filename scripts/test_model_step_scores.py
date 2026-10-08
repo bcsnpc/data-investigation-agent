@@ -61,6 +61,7 @@ class ModelScoresTests(unittest.TestCase):
         import hashlib
         root=Path(__file__).resolve().parents[1]
         golden=json.loads((root/'acceptance/model_steps/intake-round-ten-misses.json').read_text())
+        self.assertEqual(golden['step'],'intake')
         self.assertEqual(len(golden['cases']),13)
         self.assertEqual(len({c['id'] for c in golden['cases']}),13)
         fields={'status','error','target_id','cell_mode','action','model_id','measure_id','ticket_shape',
