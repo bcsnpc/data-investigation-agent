@@ -18,13 +18,21 @@ class SealedExpectationTest(unittest.TestCase):
     def test_human_corrections_keep_sealed_files_and_unapproved_columns_unchanged(self):
         root=Path(__file__).resolve().parents[2]
         revisions=json.loads((root/'acceptance/tickets/round-ten/expectation-corrections.json').read_text())['corrections']
-        self.assertEqual({r['id'] for r in revisions},{'family-F-terse','family-F-typo'})
+        self.assertEqual({r['id'] for r in revisions},{'family-F-terse','family-F-typo','question-hiding-rows'})
         for r in revisions:
             raw=(root/('acceptance/tickets/round-ten/'+r['id']+'.json')).read_bytes()
             original=json.loads(raw);updated=corrected_case(original,raw,[r])
-            self.assertEqual(original['expectation_columns']['stripped']['answer_category'],'PARTLY_ANSWERED')
-            self.assertEqual(updated['expectation_columns']['stripped']['answer_category'],'NOT_ANSWERED')
-            self.assertEqual(original['expectation_columns']['declared'],updated['expectation_columns']['declared'])
+            self.assertEqual(original['expectation_columns'][r['column']],r['before'])
+            self.assertEqual(updated['expectation_columns'][r['column']],r['after'])
+            if r['id'].startswith('family-F-'):
+                self.assertEqual(r['reason'],'boundary consistency does not answer a mechanism question')
+                self.assertEqual(r['after']['answer_category'],'NOT_ANSWERED')
+            else:
+                self.assertEqual(r['after']['outcome'],'DECLARED_FILTER_EFFECTS')
+                self.assertIn('authorized placeholder',r['reason'])
+            for column in original['expectation_columns']:
+                if column != r['column']:
+                    self.assertEqual(original['expectation_columns'][column],updated['expectation_columns'][column])
             with self.assertRaisesRegex(ValueError,'SOURCE_HASH'):
                 corrected_case(original,raw+b' ',[r])
     def test_all_fifty_authored_files_preserve_the_pre_run_byte_seal(self):
