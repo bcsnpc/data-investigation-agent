@@ -80,6 +80,33 @@ class ExtractionTests(unittest.TestCase):
         with self.assertRaises(ValueError):extraction.match('Revenue',rows,'id')
         with self.assertRaises(ValueError):extraction.match('Sales Quantity',rows+[dict(rows[0],id='b')],'id')
 
+    def test_ambiguous_measure_in_one_model_cannot_be_skipped_for_another_model(self):
+        raw,payload=fixture('Quantity differs.')
+        raw['reports']=[]
+        model=payload['models'][0]
+        model['measures'].append(dict(model['measures'][0],id='other-measure'))
+        other=copy.deepcopy(model);other['id']='other-model';other['measures']=other['measures'][:1]
+        payload['models'].append(other)
+        with self.assertRaisesRegex(ValueError,'Ambiguous declared name'):extraction.resolve(raw,payload)
+
+    def test_producer_collection_bounds_come_from_consumers(self):
+        from investigator import numeral_roles, proposal_limits, reported_figure
+        fields=extraction.SCHEMA['properties']
+        self.assertEqual(fields['figures']['maxItems'],reported_figure.CANDIDATE_LIMIT)
+        self.assertEqual(fields['selections']['maxItems'],proposal_limits.INTAKE_FILTERS)
+        self.assertEqual(fields['groupings']['maxItems'],proposal_limits.INTAKE_DIMENSIONS)
+        self.assertEqual(fields['identifiers']['maxItems']+fields['figures']['maxItems'],numeral_roles.LIMIT)
+
+    def test_current_eval_reads_kind_from_new_taped_response(self):
+        import base64,tempfile
+        from run_current_intake_eval import nomination
+        response={'output':[{'type':'function_call','name':'extract_ticket_spans','arguments':json.dumps({'kind':'FRESHNESS'})}]}
+        outer={'body':base64.b64encode(json.dumps(response).encode()).decode()}
+        tape={'events':[{'kind':'PROVIDER_RESPONSE','body':base64.b64encode(json.dumps(outer).encode()).decode()}]}
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'response.json';path.write_text(json.dumps(tape))
+            self.assertEqual(nomination(path),'FRESHNESS')
+
     def test_wire_no_visuals_values_identifiers_and_catalog_growth_does_not_expand_request(self):
         raw,payload=fixture('In Report, Quantity differs.')
         before=extraction.request_size(payload);wire=extraction.wire(payload)

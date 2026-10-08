@@ -28,7 +28,8 @@ def nomination(path):
         for item in body.get('output',[]):
             if item.get('type')=='function_call':
                 args=json.loads(item['arguments'])
-                found=(args.get('question_kind') or {}).get('kind')
+                found=(args.get('kind') if item.get('name')=='extract_ticket_spans'
+                       else (args.get('question_kind') or {}).get('kind'))
     return found
 
 
