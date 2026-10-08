@@ -1,0 +1,11 @@
+{
+  "status":"AUTHORING_SPEC_NOT_PUBLISHED_REPORT_DEFINITION",
+  "report":"Subscription Billing",
+  "pages":[
+    {"name":"Overview","visuals":[{"title":"Invoiced Amount","type":"card","measure":"Invoiced Amount"},{"title":"Collected Amount","type":"card","measure":"Collected Amount"},{"title":"Monthly Recurring Revenue","type":"card","measure":"MRR All Plans"},{"title":"Churned Accounts","type":"card","measure":"Churned Accounts"},{"title":"Usage Overage","type":"card","measure":"Usage Overage"}]},
+    {"name":"Accounts","visuals":[{"title":"Top Accounts by Invoice Value","type":"barChart","grouping":"Accounts.account_name","measure":"Invoiced Amount","filter":{"kind":"TopN","count":2,"direction":"Top","order_by":"Invoiced Amount"}}]},
+    {"name":"Recent Collections","visuals":[{"title":"Collected in the Last Seven Days","type":"card","measure":"Collected Amount","filter":{"kind":"RelativeDate","column":"PaymentDate.date","unit":"Days","count":7,"direction":"Last","include_today":true}}]}
+  ],
+  "required_relationships":["InvoiceDate.date -> Billing.invoice_date","PaymentDate.date -> Payments.payment_date","Accounts -> AccountPlanHistory <- Plans (many-to-many over validity dates)","Accounts -> Subscriptions <- Plans","Accounts -> Usage (current-plan resolution declared explicitly)"],
+  "claims":"No displayed figure, working relationship or retained predicate is established until publication and independent reader checks."
+}

@@ -1,0 +1,12 @@
+{
+  "fixture": "synthetic-subscription-billing-v1",
+  "tables": [
+    {"name":"accounts","columns":[["account_id","int"],["account_name","string"]],"rows":[[1,"Aster"],[2,"Birch"],[3,"Cedar"],[4,"Dune"]]},
+    {"name":"plans","columns":[["plan_id","int"],["plan_name","string"],["monthly_price","int"],["included_units","int"]],"rows":[[1,"Starter",100,1000],[2,"Growth",250,3000]]},
+    {"name":"account_plan_history","columns":[["history_id","int"],["account_id","int"],["plan_id","int"],["valid_from","string"],["valid_to","string"]],"rows":[[1,1,1,"2026-09-01","2026-09-30"],[2,1,2,"2026-10-01","2099-12-31"],[3,2,1,"2026-09-01","2099-12-31"],[4,3,2,"2026-09-01","2099-12-31"],[5,4,1,"2026-09-01","2099-12-31"]]},
+    {"name":"invoices","columns":[["invoice_id","int"],["account_id","int"],["invoice_date","string"],["amount","int"],["status","string"]],"rows":[[101,1,"2026-10-01",250,"ISSUED"],[102,2,"2026-10-01",100,"ISSUED"],[103,3,"2026-10-01",250,"ISSUED"],[104,4,"2026-10-01",100,"VOID"]]},
+    {"name":"payments","columns":[["payment_id","int"],["invoice_id","int"],["payment_date","string"],["amount","int"]],"rows":[[201,101,"2026-10-02",200],[202,102,"2026-10-03",100],[203,103,"2026-10-04",250]]},
+    {"name":"usage_events","columns":[["event_id","int"],["account_id","int"],["event_date","string"],["units","int"]],"rows":[[301,1,"2026-10-02",3500],[302,2,"2026-10-02",1100],[303,3,"2026-10-03",2800],[304,4,"2026-10-03",500]]},
+    {"name":"subscriptions","columns":[["subscription_id","int"],["account_id","int"],["plan_id","int"],["status","string"]],"rows":[[401,1,2,"ACTIVE"],[402,2,1,"ACTIVE"],[403,3,2,"ACTIVE"],[404,4,1,"CHURNED"]]}
+  ]
+}
