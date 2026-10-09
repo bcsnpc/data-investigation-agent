@@ -671,3 +671,11 @@ qualified historical evidence. General link-context integration, aliases and
 the current 68-ticket quality/lifecycle gate remain incomplete; #423 draft,
 freezes invalid. Zero new real provider calls/estate requests, scopes, secrets,
 fixtures or golden changes.
+
+Dated restatement replay follow-up, 2026-10-09 America/Chicago: committed
+92f1e36 produced separate synthetic ticket_submit and ticket_respond captures.
+Both replayed independently with matched=true and network_requests=0. The
+second capture re-enters intake from the retained waiting ticket, keeps its
+original request and ID, archives the prior question version, and resolves the
+new source question. No real model call or estate read occurred. This closes
+the preceding pending capture check, not the current quality/lifecycle gate.
