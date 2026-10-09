@@ -4,6 +4,7 @@ This gate does not evaluate estate values or repair the model's extraction.
 It resolves through the original consumer, or records why it cannot ask.
 """
 import copy
+import re
 from jsonschema import ValidationError
 from . import intake_extraction, intake_confirmation, ticket_protocol as protocol
 from .onboarding import digest
@@ -16,6 +17,16 @@ def prepare(ticket, source, payload, configuration, *, comparison_conflict=False
     if raw is None:return result,events,None
     try:extraction=intake_extraction.spans(raw,payload['text'],figure_occurrences=True)
     except (ValueError,ValidationError):return result,events,None
+    ask=extraction['primary']['quote']
+    if re.search(r'\b(?:unidentified|unknown|unsupported)\b[^.!?\n]*\b(?:filter|slicer)\b',ask,re.I):
+        return result,events,'UNSUPPORTED_FILTER: declared predicate is not established'
+    # Ticket-relative dates require typed exact endpoints. A visual choice
+    # cannot supply those endpoints or turn an untyped field into a date.
+    for selection in extraction['selections']:
+        if selection['role']=='PRIMARY' and re.search(
+                r'\b(?:last|next|past)\s+(?:\d+|[a-z]+)\s+(?:days?|weeks?|months?|years?)\b',
+                selection['quote']['quote'],re.I):
+            return result,events,'RELATIVE_DATE_UNSUPPORTED: exact typed endpoints are not established'
     for selection in extraction['selections']:
         if selection['role']!='PRIMARY' or selection['column'] is None:continue
         columns=[c for model in payload['models'] for c in model['columns']]
@@ -47,8 +58,10 @@ def prepare(ticket, source, payload, configuration, *, comparison_conflict=False
     except TargetUnresolved:
         return result,events,None
     except (ValueError,ValidationError) as exc:
-        from .reported_figure import AmbiguousFigure
+        from .reported_figure import AmbiguousFigure, UnavailablePrecision
         if isinstance(exc,AmbiguousFigure):return result,events,None
+        if isinstance(exc,UnavailablePrecision):
+            return result,events,'REPORTED_PRECISION_UNAVAILABLE: '+str(exc)
         # No user choice can make a nonexistent column, unsupported restriction
         # or historical comparison executable. Keep its actual refusal visible.
         message=str(exc)
@@ -97,39 +110,9 @@ def offer(ticket, source, payload, configuration, proposed):
                        'highlight':None} for f in figures]}
         values={digest(q)+'/'+c['id']:{'figure_source':copy.deepcopy(f)}
                 for c,f in zip(q['choices'],figures)}
-        # Keep independently unresolved target/scope and comparison questions,
-        # but never ask the figure again as part of each visual choice.
+        # Figure ambiguity is clarified first, once. Other questions cannot
+        # depend on a figure the user has not identified yet.
         questions=[q]
-        # A figure question cannot smuggle another target choice into the offer.
-        # Exact retained titles provide an offer bound; the consumer still
-        # re-resolves the original extraction after the answer.
-        named_targets=None
-        for hint in extraction['visuals']:
-            if hint['role']!='PRIMARY' or hint['form']!='TITLE':continue
-            named={v['target_id'] for m in payload['models'] for v in m.get('visuals',[])
-                   if any(intake_extraction.normalize(n)==intake_extraction.normalize(hint['quote']['quote'])
-                          for n in v.get('names',[]))}
-            if named:named_targets=named if named_targets is None else named_targets&named
-        for question in proposed['questions']:
-            old=copy.deepcopy(question)
-            meanings=[(c,proposed['values'][digest(question)+'/'+c['id']]) for c in old['choices']]
-            if question['field']=='NUMBER':
-                choices=[];seen=set()
-                for choice,meaning in meanings:
-                    if named_targets is not None and meaning['target_id'] not in named_targets:continue
-                    value=copy.deepcopy(meaning);value['figure_source']=None
-                    identity=digest(value)
-                    if identity in seen:continue
-                    seen.add(identity)
-                    choices.append(({'id':identity,'label':choice['label'].split(' — ')[0],'highlight':choice['highlight']},value))
-                old['choices']=[c for c,_ in choices]
-                meanings=choices
-                if len(choices)==1 and named_targets is not None:
-                    # The named visual stays in the original extraction, not
-                    # in a synthetic user confirmation. Only ask the figure.
-                    continue
-            questions.append(old)
-            for choice,value in meanings:values[digest(old)+'/'+choice['id']]=copy.deepcopy(value)
         intake_confirmation.offer(ticket,questions,values,request_text=payload['text'],
                                   models=payload['models'],maximum=configuration['max_clarifying_rounds'])
         return {'questions':questions,'values':values,'blocked':None}

@@ -6,6 +6,30 @@ from test_intake_extraction import fixture
 
 
 class QuestionGateTests(unittest.TestCase):
+    def test_two_figures_never_add_visual_or_comparison_questions(self):
+        raw,payload=fixture('In Report, Quantity shows 16 or 17.',
+            figures=[{'quote':v,'role':'PRIMARY','state':'NUMBER','precision_quote':None} for v in ('16','17')])
+        ticket=protocol.new('t');source={'retained_extraction':raw};config=planner.settings()
+        offered=gate.offer(ticket,source,payload,config,planner.batch(ticket,source,payload,config))
+        self.assertEqual([q['field'] for q in offered['questions']],['FIGURE'])
+
+    def test_selected_scope_against_global_is_not_an_unknown_comparison(self):
+        raw,payload=fixture('In Report, selected warehouse North Quantity differs from global value. Explain selected warehouse scope.',
+            comparisons=['global value'],selections=[{'quote':'warehouse North','column':'warehouse','value':'North','role':'PRIMARY'}])
+        ticket,_,_=gate.prepare(protocol.new('t'),{'retained_extraction':raw},payload,planner.settings())
+        self.assertEqual(ticket['settled']['COMPARISON']['value']['route'],'DECLARED_SUBJECT')
+
+    def test_unsupported_filter_refuses_even_when_model_omits_selection(self):
+        raw,payload=fixture('In Report, Quantity differs under an unknown custom filter.')
+        ticket,_,blocked=gate.prepare(protocol.new('t'),{'retained_extraction':raw},payload,planner.settings())
+        self.assertIn('UNSUPPORTED_FILTER',blocked);self.assertEqual(ticket['questions'],[])
+
+    def test_relative_date_selection_refuses_before_visual_questions(self):
+        raw,payload=fixture('In Report, Quantity for last seven days differs.',
+            selections=[{'quote':'last seven days','column':None,'value':'last seven days','role':'PRIMARY'}])
+        ticket,_,blocked=gate.prepare(protocol.new('t'),{'retained_extraction':raw},payload,planner.settings())
+        self.assertIn('RELATIVE_DATE',blocked);self.assertEqual(ticket['questions'],[])
+
     def test_equivalent_complete_scopes_with_one_figure_settle_without_question(self):
         raw,payload=fixture('In Report, Quantity shows 16 and looks high.',
             figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}])

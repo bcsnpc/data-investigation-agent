@@ -76,6 +76,14 @@ def from_request(raw, ticket, *, code_gate=False):
     extraction=spans(raw,ticket,figure_occurrences=True)
     if extraction['comparisons'] and not code_gate:return None
     source=extraction['primary'];ask=source['quote']
+    if code_gate and raw['kind'] not in ('BUSINESS_MEANING','TEMPORAL_COMPARISON'):
+        scoped_self=(bool(extraction['selections']) and extraction['comparisons'] and
+            all(re.fullmatch(r'(?:the )?global (?:value|total)',s['quote'],re.I)
+                for s in extraction['comparisons']) and
+            bool(re.search(r'\bexplain\b[^.!?\n]*\b(?:selected|declared|filter)\b[^.!?\n]*\bscope\b',ask,re.I)))
+        if scoped_self:
+            return validate({'version':SUBJECT_VERSION,'route':'DECLARED_SUBJECT',
+                'kind':'VISUAL_CONTENT','request_hash':digest(ticket),'source':source},ticket)
     # A comparison phrase is not missing comparison evidence. Preserve genuinely
     # different named comparators, but do not re-ask a source/freshness ask merely
     # because extraction put its explicit words in the comparison list.

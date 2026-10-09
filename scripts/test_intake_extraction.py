@@ -25,6 +25,29 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_catalog_name_suffix_is_not_an_expected_record(self):
+        ticket='Report abc123 Global card Quantity shows 16; record 900099 is missing.'
+        raw,payload=fixture(ticket,reports=[{'quote':'Report abc123','role':'PRIMARY'}],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}],
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            identifiers=[{'quote':v,'role':'PRIMARY'} for v in ('abc123','900099')])
+        payload['models'][0]['reports'][0]['name']='Report abc123'
+        result=extraction.resolve(raw,payload)
+        self.assertEqual([m['role'] for m in result['numeral_mentions']],['FIGURE','OTHER','IDENTIFIER'])
+        self.assertEqual([m['value'] for m in result['expected_records']],['900099'])
+        self.assertEqual(result['extracted_ticket']['response'],raw)
+        validate(result,payload)
+        hostile=copy.deepcopy(result)
+        hostile['numeral_mentions'][-1]['role']='OTHER';hostile['expected_records']=[]
+        with self.assertRaises(ValueError):validate(hostile,payload)
+
+    def test_unbound_alphanumeric_identifier_is_not_silently_discarded(self):
+        raw,payload=fixture('Report Global card Quantity differs; identifier abc123.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}],
+            identifiers=[{'quote':'abc123','role':'PRIMARY'}])
+        from investigator.reported_figure import UnavailablePrecision
+        with self.assertRaises(UnavailablePrecision):extraction.resolve(raw,payload)
+
     def test_invoked_bookmark_label_is_never_a_column_selection(self):
         from investigator.intake_rules import RuleViolation
         ticket='In Report, I invoked North product one saved alternative bookmark; Global card Quantity shows 16.'

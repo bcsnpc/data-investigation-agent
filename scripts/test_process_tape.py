@@ -255,7 +255,7 @@ class TapeTests(unittest.TestCase):
                     'AZURE_OPENAI_DEPLOYMENT':'synthetic','AZURE_OPENAI_API_KEY':'synthetic-key-for-test'}),
                 patch('httpx.HTTPTransport',return_value=httpx.MockTransport(provider))):
             if smart_ticket:
-                saved=workspace.smart_intake.submit({'text':'Does Total reflect source entries?',
+                saved=workspace.smart_intake.submit({'text':'Does Total reflect the intended comparison?',
                     'request_key':'synthetic-process-ticket'})
                 question=saved['ticket']['questions'][0]
                 choice=next(c for c in question['choices'] if c['label']=='The application')

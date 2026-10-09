@@ -473,7 +473,22 @@ def resolve(raw, payload):
     if named_context:
         value['name_binding']=resolve_name(named_context[0]['quote'],model,ticket)
     numerals=[{'role':'FIGURE','source':i['quote']} for i in figures]
-    numerals += [{'role':'IDENTIFIER','source':i['quote']} for i in extraction['identifiers'] if primary_fact(i,extraction)]
+    # Catalog-name components identify a named asset, not an expected record.
+    # Require the complete retained name at this exact location; a suffix
+    # pattern alone is never evidence that an identifier can be discarded.
+    for item in extraction['identifiers']:
+        if not primary_fact(item,extraction):continue
+        source=item['quote'];bindings=[]
+        for asset in [model,*model.get('reports',[])]:
+            name=asset['name']
+            for occurrence in re.finditer(r'(?<!\w)'+re.escape(name)+r'(?!\w)',ticket):
+                if occurrence.start()<=source['start'] and source['end']<=occurrence.end():
+                    bindings.append({'asset_id':asset['id'],'source':{'start':occurrence.start(),
+                        'end':occurrence.end(),'quote':name}})
+        role='OTHER' if bindings else 'IDENTIFIER'
+        numerals.append({'role':role,'source':source})
+        if bindings:audit.append({'resolution':'EXACT_CATALOG_NAME_COMPONENT',
+            'component':copy.deepcopy(source),'bindings':bindings})
     if numerals:
         value['numeral_mentions']=numerals;value['expected_records']=numeral_roles.expected(numerals,ticket)
     intake_rules.validate(value,ticket)

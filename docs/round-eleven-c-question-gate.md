@@ -41,3 +41,27 @@ Validation before the first dev pass:111 focused tests passed with native exit0;
 94 ticket regression tests passed on the earlier gate checkpoint. The final
 structured-comparison conflict check also passed. Original oracle hash verified
 unchanged and no acceptance file differs.
+
+Dated first fresh development pass, 2026-10-09: 19/40 one-round settlements,
+27 questions, 17 illegitimate questions and one consequential admission flag;
+50 recorded provider calls, 625,135 input characters, zero estate reads. This
+is intermediate evidence, not the final quality gate. Originals are retained.
+
+The single dev-only fix iteration distinguishes catalog-name components from
+expected record identifiers using complete exact names at the same location.
+Raw extraction is unchanged and consumer re-resolution checks derived roles.
+Unknown alphanumeric identifiers retain a precision refusal. Explicit selected
+scope versus global comparisons settle their declared subject; ambiguous figures
+ask FIGURE alone; unsupported or unidentified filters and relative dates without
+exact typed endpoints hold before unrelated questions. Tests cover each rule.
+
+The first full regression ran 2,716 tests and had four errors: synthetic tape
+fixtures indexed a comparison question despite explicitly naming the source.
+Those fixtures now use a genuinely unspecified comparison; recording, cold
+resume, unavailable replies and automatic start remain exercised. A dirty-source
+tape test invocation also refused TAPE_UNCOMMITTED_ENGINE; both failed logs are
+preserved. Clean committed validation and final scoring remain pending.
+
+DECIDED WITHOUT REVIEW: exact discovered-name containment classifies an extracted
+identifier as catalog evidence instead of interpreting it as a reported number.
+Rejected suffix heuristics, model-output rewrites and oracle amendments.
