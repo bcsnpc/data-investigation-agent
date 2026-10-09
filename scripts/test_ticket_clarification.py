@@ -6,6 +6,17 @@ from test_intake_extraction import fixture
 
 
 class TicketClarificationTests(unittest.TestCase):
+    def test_saved_single_axis_address_is_offered_only_for_confirmable_matrix(self):
+        raw,payload=fixture('In Report, selected North Quantity differs.',
+            selections=[{'quote':'selected North','column':None,'value':'North','role':'PRIMARY'}])
+        offer=planner.batch(protocol.new('ticket'),{'retained_extraction':raw},payload)
+        keyed=[v for v in offer['values'].values() if v.get('mode')=='KEYED']
+        self.assertEqual(len(keyed),1)
+        self.assertEqual(keyed[0]['target_id'],'matrix')
+        q=next(q for q in offer['questions'] if q['field']=='NUMBER')
+        self.assertTrue(any("warehouse_name='North'" in c['label'] for c in q['choices']))
+        self.assertIn('NUMBER',{q['field'] for q in offer['questions']})
+
     def test_invalid_retained_wire_record_refuses_instead_of_crashing(self):
         raw,payload=fixture('In Report, Quantity shows 16.')
         raw['kind']='UNDECLARED_KIND'

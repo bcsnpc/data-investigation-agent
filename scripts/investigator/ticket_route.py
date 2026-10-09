@@ -23,7 +23,7 @@ DEFAULT_SCHEMA=ticket_protocol.obj({'version':{'const':DEFAULT_VERSION},
     'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
     'configuration_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'}})
 SUBJECT_VERSION='ticket-subject-route-v1'
-SUBJECT_KINDS=('METRIC_COMPONENTS','DERIVED_CALCULATION','TRANSFORMATION_MECHANISM','FILTER_EFFECT','VISUAL_CONTENT')
+SUBJECT_KINDS=('METRIC_COMPONENTS','DERIVED_CALCULATION','TRANSFORMATION_MECHANISM','FILTER_EFFECT','VISUAL_CONTENT','EXPECTED_BEHAVIOR')
 SUBJECT_SCHEMA=ticket_protocol.obj({'version':{'const':SUBJECT_VERSION},
     'route':{'const':'DECLARED_SUBJECT'},'kind':{'enum':list(SUBJECT_KINDS)},
     'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
@@ -44,11 +44,13 @@ def settlement(raw, ticket, configuration):
     scoped_self=(raw['kind']=='VISUAL_CONTENT' and extraction['comparisons'] and
                  all(re.fullmatch(r'(?:the )?global (?:value|total)',s['quote'],re.I) for s in extraction['comparisons']) and
                  any(i['role']=='PRIMARY' for i in extraction['selections']))
-    if (extraction['comparisons'] and not scoped_self) or raw['kind'] in ('BUSINESS_MEANING','TEMPORAL_COMPARISON'):return None
+    declared_definitions=(raw['kind'] in SUBJECT_KINDS and bool(re.search(r'\bexplain\b[\s\S]*\bdefinitions?\b',extraction['primary']['quote'],re.I)) and
+        not any(re.search(r'\b(?:application|source|another|other|second|report|stale|yesterday|earlier)\b',s['quote'],re.I) for s in extraction['comparisons']))
+    if (extraction['comparisons'] and not scoped_self and not declared_definitions) or raw['kind'] in ('BUSINESS_MEANING','TEMPORAL_COMPARISON'):return None
     # A default may fill absence, never replace a named comparator or intent.
     if re.search(r'\b(application|source|stale|freshness|refresh|lag|another|other report|second report)\b',
                  extraction['primary']['quote'],re.I):return None
-    if scoped_self or raw['kind'] in SUBJECT_KINDS and not re.search(
+    if scoped_self or declared_definitions or raw['kind'] in SUBJECT_KINDS and not re.search(
             r'\b(compared|versus|against|than|elsewhere|yesterday|earlier|previous)\b',
             extraction['primary']['quote'],re.I) and re.search(
             (r'\b(what|which|how many)\b|\b(?:can|does|whether)\b[\s\S]*\breproduce\b' if raw['kind']=='VISUAL_CONTENT' else

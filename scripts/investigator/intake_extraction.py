@@ -542,8 +542,13 @@ def resolve(raw, payload):
                 named_form=form in ('CARD','MATRIX','CHART') and title_quote.casefold()!=form.casefold()
                 if form=='TITLE' or named_form:
                     names=[{'id':v['target_id'],'name':n} for v in matched for n in v['names']]
-                    selected=match(title_quote,names,'id',audit)
-                    matched=[v for v in matched if v['target_id']==selected['id']]
+                    try:
+                        selected=match(title_quote,names,'id',audit)
+                        identities={selected['id']}
+                    except ValueError as exc:
+                        if not str(exc).startswith('Ambiguous declared name:'):raise
+                        identities={c['id'] for c in exc.candidates}
+                    matched=[v for v in matched if v['target_id'] in identities]
                     source=hint['quote'];basis.append('visual_name')
                     if named_form:
                         matched=[v for v in matched if v['form']==form]
@@ -563,7 +568,8 @@ def resolve(raw, payload):
                 mode=number['mode'];source=mode_source=None
                 basis=['report','measure','user_confirmation']
             equivalent=False
-            if len(matched)>1 and not number and not figures and not pending and not filters and not dimensions and source is None:
+            explicit_keyed_shape=any(active(h,extraction) and h.get('form') in ('MATRIX','CHART','TOTAL') for h in extraction['visuals'])
+            if len(matched)>1 and not number and not figures and not pending and not filters and not dimensions and not explicit_keyed_shape:
                 proofs=[v.get('declared_scopes',{}).get(metric['id'],{}) for v in matched]
                 # Only a genuinely unrestricted, completely accounted-for
                 # scope can become model-only here. Nonempty declaration sets

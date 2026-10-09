@@ -8,6 +8,23 @@ from investigator.visual_target import complete
 
 
 class MatrixAddressTests(unittest.TestCase):
+    def test_shared_title_is_narrowed_by_later_declared_shape_without_choosing_first(self):
+        raw,payload=fixture('In Report, Shared global Quantity looks high.',
+            visuals=[{'quote':'Shared','role':'PRIMARY','form':'TITLE'},
+                     {'quote':'global','role':'PRIMARY','form':'UNGROUPED'}])
+        for v in payload['models'][0]['visuals']:v['names'].append('Shared')
+        self.assertEqual(extraction.resolve(raw,payload)['target_visual']['target_id'],'card')
+        raw['visuals']=raw['visuals'][:1]
+        with self.assertRaises(ValueError):extraction.resolve(raw,payload)
+
+    def test_definition_comparison_has_its_own_subject_not_external_route(self):
+        from investigator.ticket_route import settlement
+        raw,payload=fixture('In Report, Quantity differs from Value. Explain their definitions and what intent stays unknown.',
+                            kind='EXPECTED_BEHAVIOR',comparisons=['Value'])
+        self.assertEqual(settlement(raw,payload['text'],None)['route'],'DECLARED_SUBJECT')
+        raw['comparisons']=['Report']
+        self.assertIsNone(settlement(raw,payload['text'],None))
+
     def test_confirmed_visual_resolves_unmatched_label_without_erasing_it(self):
         raw,payload=fixture('In Report, Global card shows 16.',
             measures=[{'quote':'Global card','role':'PRIMARY'}],
