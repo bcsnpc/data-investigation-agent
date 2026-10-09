@@ -113,3 +113,32 @@ def parse(link):
     return {'provenance':'SHARED_URL','workspace_id':workspace,'report_id':report,
             'page_id':page,'bookmark_reference':bookmark,'predicates':restrictions,
             'claims_active_user_state':False}
+
+
+def bind(link, models):
+    """Resolve native IDs only inside the retained adapter catalog, never names."""
+    declared=parse(link)
+    if declared['predicates']:
+        raise LinkRefused('DECLARED_LINK_CONTEXT_UNSUPPORTED: URL predicates cannot yet be applied faithfully')
+    if declared['bookmark_reference'] is not None:
+        raise LinkRefused('DECLARED_LINK_CONTEXT_UNSUPPORTED: invoked bookmark data cannot yet be applied faithfully')
+    candidates=[]
+    for model in models:
+        for report in model.get('reports',[]):
+            native=urlsplit(report['id'])
+            if native.scheme!='fabric':continue
+            try:workspace=guid(native.netloc);identity=guid(native.path.strip('/'))
+            except LinkRefused:continue
+            if identity!=declared['report_id'] or declared['workspace_id'] not in (None,workspace):continue
+            candidates.append((model,report))
+    if len(candidates)!=1:
+        raise LinkRefused('DECLARED_REFERENCE_UNRESOLVED: report is absent or multiply bound in the retained context')
+    model,report=candidates[0];page=None
+    if declared['page_id'] is not None:
+        expected=report['id']+'/page/'+declared['page_id']
+        pages={v.get('page_id') for v in model.get('visuals',[]) if v['report_id']==report['id']}
+        if expected not in pages:
+            raise LinkRefused('DECLARED_REFERENCE_UNRESOLVED: page is absent from the retained report')
+        page=expected
+    return {'model_id':model['id'],'report_id':report['id'],'page_id':page,
+            'scope_state':'NO_ADDITIONAL_RESTRICTIONS'}

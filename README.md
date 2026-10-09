@@ -1,3 +1,5 @@
+Dated Round Eleven link checkpoint, 2026-10-09 America/Chicago: supplied report/page links bind retained identifiers with explicit input provenance; filtered links/bookmarks hold rather than lose context. 197 focused checks passed; earlier frozen9422f43 full regression finished2,639 OK. Phase A remains incomplete/ungraded, #423 draft, freezes invalid; zero new real model/estate requests. See docs/round-eleven-smart-intake.md.
+
 Dated Round Eleven reproduction-route checkpoint, 2026-10-09 America/Chicago: explicit saved-context reproduction asks no longer require an external comparator; 46 focused tests passed. Current Phase A incomplete/ungraded, #423 draft, freezes invalid; no new model/estate requests. See docs/round-eleven-smart-intake.md.
 
 Dated Round Eleven resume checkpoint, 2026-10-09 America/Chicago: report/page simulation now uses the sealed target's actual container; duplicate bindings refuse. Estate measure/column vocabulary aliases reach extraction and scope validation without rewriting user text. Current Phase A incomplete/ungraded, #423 draft, freezes invalid; zero new model/estate requests. See docs/round-eleven-smart-intake.md.

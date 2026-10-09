@@ -37,6 +37,10 @@ def visual_candidates(ticket, extraction, payload):
     all their candidates visible; a value match never supplies authority.
     """
     pairs=[(m,v) for m in payload['models'] for v in m.get('visuals',[])]
+    reference=payload.get('_ticket_reference')
+    if reference:
+        pairs=[(m,v) for m,v in pairs if m['id']==reference['model_id'] and v['report_id']==reference['report_id'] and
+               (reference['page_id'] is None or v.get('page_id')==reference['page_id'])]
     if ticket['confirmed']:
         selected=intake_confirmation.values(intake_confirmation.build(ticket,payload['text']),
                                             ticket=payload['text'],models=payload['models'])
@@ -93,7 +97,10 @@ def batch(ticket, source, payload, configuration=None):
             choices=[]
             for model in payload['models']:
                 for report in model.get('reports',[]):
+                    reference=payload.get('_ticket_reference')
+                    if reference and (model['id']!=reference['model_id'] or report['id']!=reference['report_id']):continue
                     pages={v.get('page_id') for v in model.get('visuals',[]) if v['report_id']==report['id']}
+                    if reference and reference['page_id'] is not None:pages&={reference['page_id']}
                     for page in sorted(pages,key=lambda p:p or ''):
                         label=report['name']+(' / '+page if page else '')
                         choices.append((label,{'report_id':report['id'],'page_id':page}))

@@ -33,6 +33,15 @@ class TicketInputTests(unittest.TestCase):
         for structured in ({'number':16},{'comparison':'invented'},{'target_id':'invented'}):
             with self.assertRaises(Exception):ticket_inputs.document({'text':'Question','request_key':'one','structured':structured})
 
+    def test_optional_link_has_an_exact_source_span_and_is_never_truncated(self):
+        request={'text':'','request_key':'one','structured':{'report_link':'https://example.test/report'}}
+        document=ticket_inputs.document(request)
+        part=document['provenance']['parts'][-1]
+        self.assertEqual(part['pointer'],'/structured/report_link')
+        self.assertEqual(document['text'][part['start']:part['end']],request['structured']['report_link'])
+        with self.assertRaises(ValueError):
+            ticket_inputs.document({**request,'text':'x'*2000})
+
     def test_explicit_comparison_is_not_a_fabricated_choice_confirmation(self):
         request={'text':'Check Quantity.','request_key':'one','structured':{'comparison':'APPLICATION'}}
         config=ticket_clarification.settings()

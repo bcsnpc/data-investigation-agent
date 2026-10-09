@@ -5,9 +5,9 @@ from .onboarding import digest
 
 VERSION='ticket-input-document-v1'
 ROUTE_VERSION='ticket-comparison-input-v1'
-STRUCTURED=protocol.obj({'number':protocol.TEXT,'report_page':protocol.TEXT,
+STRUCTURED=protocol.obj({'number':protocol.TEXT,'report_page':protocol.TEXT,'report_link':protocol.TEXT,
                          'comparison':{'enum':list(protocol.ROUTES)}},
-                        optional=('number','report_page','comparison'))
+                        optional=('number','report_page','report_link','comparison'))
 STRUCTURED['minProperties']=1
 REQUEST=protocol.obj({'text':{**protocol.TEXT,'minLength':0},
                      'request_key':{'type':'string','minLength':1,'maxLength':100},
@@ -37,7 +37,8 @@ def document(request):
     pieces=[];parts=[];position=0
     for path,label,value in [('/text','',request['text']),
             ('/structured/number','Number specified by user:\n',request.get('structured',{}).get('number')),
-            ('/structured/report_page','Report or page specified by user:\n',request.get('structured',{}).get('report_page'))]:
+            ('/structured/report_page','Report or page specified by user:\n',request.get('structured',{}).get('report_page')),
+            ('/structured/report_link','Report link supplied by user:\n',request.get('structured',{}).get('report_link'))]:
         if not value:continue
         if pieces:pieces.append('\n\n');position+=2
         pieces.append(label);position+=len(label)

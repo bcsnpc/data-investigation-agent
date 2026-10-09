@@ -27,7 +27,10 @@ def variant(discriminant, value, properties):
 STATED_REPORT_SCHEMA = variant('resolution_kind', 'STATED', {'report_id': ID, 'source': reported_figure.SPAN_SCHEMA})
 CONFIRMED_REPORT_SCHEMA = variant('resolution_kind','USER_CONFIRMED',{
     'report_id':ID,'source':{'type':'null'},'confirmation':CONFIRMATION_SCHEMA})
-BINDING_SCHEMA={'anyOf':[STATED_REPORT_SCHEMA,CONFIRMED_REPORT_SCHEMA]}
+from .input_reference import SCHEMA as REFERENCE_SCHEMA
+REFERENCE_REPORT_SCHEMA=variant('resolution_kind','DECLARED_REFERENCE',{
+    'report_id':ID,'source':{'type':'null'},'reference':REFERENCE_SCHEMA})
+BINDING_SCHEMA={'anyOf':[STATED_REPORT_SCHEMA,CONFIRMED_REPORT_SCHEMA,REFERENCE_REPORT_SCHEMA]}
 REPORT_SCHEMA = {'anyOf': [STATED_REPORT_SCHEMA,
     variant('resolution_kind', 'REFUSED', {
         'source': {'type': 'null'},
@@ -40,7 +43,7 @@ REPORT_SCHEMA = {'anyOf': [STATED_REPORT_SCHEMA,
     variant('resolution_kind', 'REFUSED', {
         'source': reported_figure.SPAN_SCHEMA,
         'candidates': {'type': 'array', 'minItems': 2, 'maxItems': 512, 'uniqueItems': True, 'items': ID},
-            'reason': {'type': 'string', 'enum': ['MULTIPLE_EXACT_MATCHES']}}),CONFIRMED_REPORT_SCHEMA]}
+            'reason': {'type': 'string', 'enum': ['MULTIPLE_EXACT_MATCHES']}}),CONFIRMED_REPORT_SCHEMA,REFERENCE_REPORT_SCHEMA]}
 REFUSED_REPORT_SCHEMAS=[v for v in REPORT_SCHEMA['anyOf']
                         if v['properties']['resolution_kind']['enum']==['REFUSED']]
 LOOKUP_SCHEMA = {'anyOf': [variant('status', state, {'receipt_ids': {
@@ -99,6 +102,13 @@ def resolve_report(source, reports, ticket=None):
 
 
 def report_binding(binding, *, reports, ticket=None, allow_refused=False):
+    if isinstance(binding,dict) and binding.get('resolution_kind')=='DECLARED_REFERENCE':
+        from .input_reference import validate
+        Draft202012Validator(REFERENCE_REPORT_SCHEMA).validate(binding)
+        validate(binding['reference'],reports=reports,ticket=ticket)
+        if binding['report_id']!=binding['reference']['report_id']:
+            raise ValueError('Declared reference report differs from its binding')
+        return binding
     if isinstance(binding,dict) and binding.get('resolution_kind')=='USER_CONFIRMED':
         # Admission checks this against the server-retained ticket proof. Later
         # consumers receive the sealed scope, not a new model declaration.

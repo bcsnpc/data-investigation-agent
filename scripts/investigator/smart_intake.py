@@ -33,8 +33,21 @@ class SmartIntake:
         ticket_inputs.route(request,document['text'],self.configuration)
         saved=self.tickets.submit(request,request['request_key'])
         if saved['ticket'].get('source_intake'):return saved
+        if saved['ticket']['state']=='HELD':return saved
+        options={'retain_extraction':True}
+        if request.get('structured',{}).get('report_link') is not None:
+            from .input_reference import preflight, from_input
+            try:
+                preflight(request)
+                from_input(request,document['text'],snapshot(self.workspace)['models'])
+            except ValueError as exc:
+                return self.tickets.update(saved['ticket']['id'],saved['revision'],lambda current:
+                    protocol.transition(current,'HELD',actor='AGENT',detail={
+                        'reason':'DECLARED_REFERENCE_UNAVAILABLE','message':str(exc),
+                        'source_input_hash':digest(request),'provider_calls':0}))
+            options['input_request']=request
         source=self.workspace.intake.resolve({'text':document['text'],
-            'request_key':'smart:'+saved['ticket']['id'],'parent_id':None},retain_extraction=True)
+            'request_key':'smart:'+saved['ticket']['id'],'parent_id':None},**options)
         def attach(ticket):
             ticket['source_intake']=source['id']
             if request.get('structured'):
@@ -48,6 +61,12 @@ class SmartIntake:
     def _plan(self, saved, source):
         ticket=saved['ticket'];catalog=snapshot(self.workspace)
         payload={'text':source['text'],'models':catalog['models']}
+        from .ticket_inputs import active_request
+        from .input_reference import from_input
+        input_request=active_request(saved)
+        reference=from_input(input_request,source['text'],catalog['models'])
+        if reference is not None:
+            payload['_input_request']=input_request;payload['_ticket_reference']=reference
         from .onboarding import digest
         if source['catalog_hash']!=digest(catalog):raise Conflict('Ticket metadata changed before clarification')
         from .intake_extraction import retained_response
@@ -74,6 +93,8 @@ class SmartIntake:
                     'reason':source['refusal_reason'],'capability':'UNIMPLEMENTED_ROUTE'}))
         def plan(current):
             comparison_conflict=False
+            if reference is not None and 'REPORT_PAGE' not in self.configuration['must_confirm']:
+                current['settled']['REPORT_PAGE']={'authority':'DECLARED_REFERENCE','value':copy.deepcopy(reference)}
             from .ticket_inputs import active_request
             request=active_request(saved)
             if source.get('proposal'):

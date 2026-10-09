@@ -456,6 +456,12 @@ def snapshot(workspace):
 
 
 def validate(value, payload):
+    if isinstance(value.get('report_binding'),dict) and value['report_binding'].get('resolution_kind')=='DECLARED_REFERENCE':
+        from .input_reference import from_input
+        reference=value['report_binding']['reference']
+        if (payload.get('_input_request') is None or payload.get('_ticket_reference')!=reference or
+                from_input(payload['_input_request'],payload['text'],payload['models'])!=reference):
+            raise ValueError('Model response cannot declare supplied reference authority')
     statements.validate(value,payload['text'])
     fields(value, SCHEMA['required']+[k for k in ('target_visual','definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes','value_mentions','extracted_ticket','ticket_route') if k in value])
     if 'extracted_ticket' in value:
@@ -627,6 +633,13 @@ class Intake:
         if digest(catalog)!=source['catalog_hash']:raise Conflict('Ticket metadata changed; clarify against current evidence')
         proof=intake_confirmation.build(ticket,source['text']) if ticket['confirmed'] else None
         payload={'text':source['text'],'models':catalog['models']}
+        from .ticket_inputs import active_request
+        from .input_reference import from_input as supplied_reference
+        input_request=active_request(saved)
+        reference=supplied_reference(input_request,source['text'],catalog['models'])
+        if reference is not None:
+            payload['_input_request']=copy.deepcopy(input_request)
+            payload['_ticket_reference']=reference
         if proof is not None:payload['_ticket_confirmation']=proof
         settled=ticket['settled']['COMPARISON']
         if settled.get('authority')=='USER_SUPPLIED_INPUT':
@@ -664,7 +677,7 @@ class Intake:
             return body
 
     @operation('intake')
-    def resolve(self, request, *, retain_extraction=False):
+    def resolve(self, request, *, retain_extraction=False, input_request=None):
         if type(retain_extraction) is not bool:raise ValueError('Invalid extraction retention mode')
         fields(request, ['text', 'request_key', 'parent_id'] + (['screenshot_review_id'] if 'screenshot_review_id' in request else []))
         text(request['text'], limits.INTAKE_TEXT); text(request['request_key'], 100)
@@ -673,6 +686,7 @@ class Intake:
         if prior:
             saved = self.get(prior[0])
             if saved['request'] != request: raise Conflict('Question request key was already used')
+            if saved.get('input_request')!=input_request:raise Conflict('Retained input authority differs')
             return saved  # Includes uncertain reservations; never dispatches again.
         if not self.workspace.execution_enabled or self.resolver is None or self.workspace.agent.governor is None:
             raise Conflict('Question resolution is disabled on this host')
@@ -690,6 +704,14 @@ class Intake:
             text(combined, limits.INTAKE_TEXT)
         catalog = snapshot(self.workspace); payload = {'text': combined, 'models': catalog['models']}
         body = self._new_record(request,combined,catalog,turn,screenshot)
+        if input_request is not None:
+            from .input_reference import preflight, from_input
+            preflight(input_request)
+            reference=from_input(input_request,combined,catalog['models'])
+            if reference is None:raise ValueError('Supplied input authority has no declared reference')
+            payload['_input_request']=copy.deepcopy(input_request)
+            payload['_ticket_reference']=reference
+            body['input_request']=copy.deepcopy(input_request)
         governor = self.workspace.agent.governor
         with self.store.connect() as db:
             db.execute('BEGIN IMMEDIATE')

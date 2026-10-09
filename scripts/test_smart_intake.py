@@ -9,6 +9,56 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_supplied_report_link_reaches_scope_without_fake_confirmation(self):
+        from test_input_reference import setup_reference
+        self.raw,self.payload,request=setup_reference()
+        self.catalog['models']=self.payload['models']
+        saved=self.controller.submit(request)
+        self.assertEqual(saved['ticket']['questions'],[])
+        proposal=self.workspace.intake.get(saved['ticket']['intake_id'])['proposal']
+        self.assertEqual(proposal['report_binding']['resolution_kind'],'DECLARED_REFERENCE')
+        self.assertEqual(proposal['target_visual']['target_id'],'card')
+        self.assertEqual(saved['ticket']['confirmed'],{})
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called();self.h.source.assert_not_called()
+
+    def test_unsupported_supplied_link_is_a_saved_hold_before_provider_or_estate_calls(self):
+        from test_input_reference import setup_reference,LINK
+        self.raw,self.payload,request=setup_reference();self.catalog['models']=self.payload['models']
+        request['structured']['report_link']=LINK+'?bookmarkGuid=SavedState'
+        saved=self.controller.submit(request)
+        self.assertEqual(saved['ticket']['state'],'HELD')
+        self.assertIn('CONTEXT_UNSUPPORTED',saved['ticket']['history'][-1]['detail']['message'])
+        self.assertEqual(saved['request'],request)
+        self.assertEqual(self.controller.submit(request),saved)
+        self.assertEqual(self.calls,0);self.h.native.assert_not_called();self.h.source.assert_not_called()
+
+    def test_required_report_confirmation_keeps_the_supplied_link_container(self):
+        from test_input_reference import setup_reference,ASSET
+        self.raw,self.payload,request=setup_reference();self.catalog['models']=self.payload['models']
+        self.controller.configuration['must_confirm']=['REPORT_PAGE']
+        saved=self.controller.submit(request)
+        self.assertEqual([q['field'] for q in saved['ticket']['questions']],['REPORT_PAGE'])
+        meanings=list(saved['ticket']['choice_values'].values())
+        self.assertEqual(meanings,[{'report_id':ASSET,'page_id':ASSET+'/page/PageA'}])
+        reply=self.reply(saved)
+        resumed=self.controller.reply(reply)
+        self.assertIn('intake_id',resumed['ticket'])
+        proposal=self.workspace.intake.get(resumed['ticket']['intake_id'])['proposal']
+        self.assertEqual(proposal['target_visual']['target_id'],'card')
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
+    def test_reference_narrows_choices_to_its_page_without_selecting_a_visual(self):
+        from test_input_reference import setup_reference,ASSET
+        self.raw,self.payload,request=setup_reference();self.catalog['models']=self.payload['models'];self.raw['visuals']=[]
+        visual=copy.deepcopy(self.payload['models'][0]['visuals'][0]);visual['target_id']='second-card'
+        self.catalog['models'][0]['visuals'].append(visual)
+        saved=self.controller.submit(request)
+        self.assertEqual([q['field'] for q in saved['ticket']['questions']],['NUMBER'])
+        meanings=list(saved['ticket']['choice_values'].values())
+        self.assertEqual({v['target_id'] for v in meanings},{'card','second-card'})
+        self.assertTrue(all(v['page_id']==ASSET+'/page/PageA' for v in meanings))
+        self.assertNotIn('intake_id',saved['ticket']);self.assertEqual(self.calls,1)
+
     def test_named_reproduction_question_adopts_scope_without_a_comparison_question(self):
         self.raw,self.payload=fixture('In Report, Global card Quantity shows 16. Can the saved context reproduce that figure?',
             kind='VISUAL_CONTENT',triage='BUSINESS_QUESTION:NONE',

@@ -279,9 +279,17 @@ def resolve(raw, payload):
         confirmed=values(confirmation,ticket=ticket,models=payload['models'])
     number=confirmed.get('NUMBER')
     extraction=spans(raw,ticket,figure_occurrences=bool(number and number['figure_source'] is not None))
+    reference=None
+    if payload.get('_ticket_reference') is not None:
+        from .input_reference import from_input
+        reference=from_input(payload.get('_input_request'),ticket,payload['models'])
+        if reference!=payload['_ticket_reference']:raise ValueError('Declared reference authority differs from retained input')
     report_confirmation=confirmed.get('REPORT_PAGE')
     if report_confirmation is None and number and 'report_id' in number:
         report_confirmation={k:number[k] for k in ('report_id','page_id')}
+    if reference and report_confirmation and (report_confirmation['report_id']!=reference['report_id'] or
+            reference['page_id'] is not None and report_confirmation['page_id']!=reference['page_id']):
+        raise ValueError('Confirmed target conflicts with the supplied report/page reference')
     route=None
     if confirmed.get('COMPARISON'):
         from .ticket_route import declared,admit
@@ -326,6 +334,8 @@ def resolve(raw, payload):
                           [i['quote'] for i in report_mentions if i['role']=='PRIMARY']})
     report_words=[i['quote']['quote'] for i in report_mentions if i['role']!='COMPARISON']
     models=payload['models']
+    if reference:
+        models=[m for m in models if m['id']==reference['model_id']]
     if report_confirmation:
         models=[m for m in models if any(r['id']==report_confirmation['report_id'] for r in m.get('reports',[]))]
         report_words=[]  # The recorded user choice supersedes the original report ambiguity.
@@ -419,6 +429,8 @@ def resolve(raw, payload):
         value['numeral_mentions']=numerals;value['expected_records']=numeral_roles.expected(numerals,ticket)
     intake_rules.validate(value,ticket)
     reports=[]
+    if reference:
+        reports=[next(r for r in model.get('reports',[]) if r['id']==reference['report_id'])]
     if report_confirmation:
         reports=[next(r for r in model.get('reports',[]) if r['id']==report_confirmation['report_id'])]
     for q in report_words:
@@ -426,6 +438,8 @@ def resolve(raw, payload):
         # it as a fuzzy report merely because one report shares some tokens.
         if normalize(q)==normalize(model['name']):continue
         report=match(q,model.get('reports',[]),'id',audit)
+        if reference and report['id']!=reference['report_id']:
+            raise ValueError('Named report conflicts with the supplied report reference')
         if report not in reports:reports.append(report)
     needs_report=kind in ('VISUAL_CONTENT','FILTER_EFFECT') or any(active(i,extraction) for i in extraction['visuals'])
     needs_report=needs_report or bool(pending)
@@ -434,7 +448,10 @@ def resolve(raw, payload):
             raise TargetUnresolved(model.get('visuals',[]),'Named report is unresolved or ambiguous.',
                                    'TARGET_AMBIGUOUS' if len(reports)>1 else 'TARGET_UNRESOLVED')
         report=reports[0]
-        if report_confirmation:
+        if reference:
+            from .input_reference import binding
+            value['report_binding']=binding(reference)
+        elif report_confirmation:
             value['report_binding']={'resolution_kind':'USER_CONFIRMED','report_id':report['id'],
                                      'source':None,'confirmation':copy.deepcopy(confirmation)}
         else:
@@ -457,6 +474,9 @@ def resolve(raw, payload):
         if needs_visual:
             candidates=[v for v in model.get('visuals',[]) if v['report_id']==report['id'] and metric['id'] in v['measure_ids']]
             matched=candidates;basis=['report','measure'];source=None;mode_source=None;mode=None
+            if reference and reference['page_id'] is not None:
+                matched=[v for v in matched if v.get('page_id')==reference['page_id']]
+                basis.append('declared_reference_page')
             if report_confirmation and report_confirmation['page_id'] is not None:
                 matched=[v for v in matched if v.get('page_id')==report_confirmation['page_id']]
                 basis.append('user_confirmed_page')
@@ -490,7 +510,8 @@ def resolve(raw, payload):
                 else:
                     matched=[v for v in matched if v.get('form')==form];basis.append('visual_form')
             if number:
-                matched=[v for v in candidates if v['target_id']==number['target_id']]
+                matched=[v for v in candidates if v['target_id']==number['target_id'] and
+                         (reference is None or reference['page_id'] is None or v.get('page_id')==reference['page_id'])]
                 if len(matched)!=1:raise TargetUnresolved(candidates,'Confirmed target differs from the resolved report/measure.')
                 mode=number['mode'];source=mode_source=None
                 basis=['report','measure','user_confirmation']

@@ -792,3 +792,54 @@ Later reproduction-route tests and hosted21a78b2 validation are separate from
 that frozen run. Do not overwrite its log or mistake it for validation of the
 later source. No provider/estate request occurred; #423 remains draft, Phase A
 incomplete and prior freezes invalid.
+
+
+Dated link-reference checkpoint, 2026-10-09 America/Chicago:
+plain supplied report/page links now carry a closed DECLARED_REFERENCE binding,
+separate from name quotations and clicked confirmations. The adapter resolves
+native identifiers only against the retained catalog. The proof pins the input
+request, exact source interval and report catalog; the consumer recomputes that
+proof before extraction validation. A link cannot choose among competing visuals,
+override a named conflicting report, or let a confirmed cell escape its page.
+The optional local-workspace link field is wired to that same contract.
+
+Predicate-bearing links and invoked bookmarks remain explicitly HELD before a
+provider call: their context cannot yet be applied faithfully. Nothing drops
+those restrictions and executes a broader read. This is partial Phase A link
+support, not completion; URL discovery from arbitrary pasted prose and faithful
+URL/bookmark context application remain pending. No screenshot exports or live
+investigation follows this checkpoint.
+
+The shared report-binding union gained a new explicitly discriminated variant;
+its supplied-reference proof has its own ticket-report-reference-v1 version.
+Existing STATED/USER_CONFIRMED bindings and their recorded bytes are unchanged.
+DECIDED WITHOUT REVIEW: retain those historical versions and extend the union
+rather than relabel old tapes or encode a supplied link as a fabricated clicked
+choice. Rejected alternative: invent a report-name quote from a URL identifier.
+
+Validation: 197 focused checks passed across input reference (14), smart
+controller (41), clarification (10), extraction (39), legacy intake (37),
+confirmation (20), report contract (22), link parser (8), and optional inputs (6).
+Wrong-cell, comparison-span and competing-figure checks remain in those suites.
+JavaScript syntax and git diff whitespace checks passed; browser presentation
+was not visually tested. Initial test failures are preserved in the working
+history: the missing-authority refusal originally occurred after extraction;
+the check now runs first. A new catalog-coverage test initially addressed a
+nonexistent wire.models key; it now checks the actual compact wire and catalog.
+
+Synthetic context-cost check (same catalog before/after): report entries1/1,
+visual entries2/2, declared names4/4, visual titles2/2; compact payload434/587
+characters and complete provider body10,481/10,637. The added characters are the
+user's labelled link, not per-entry ownership or catalog truncation. A regression
+test asserts both the catalog and compact names/titles survive unchanged.
+
+Dated correction to the earlier pending local-suite entry: frozen9422f43 completed
+2,639 tests in1,011.310seconds, OK, with ResourceWarnings preserved in
+.local/round-eleven-regression-vocabulary.log. That pass covers the vocabulary
+checkpoint, not the later reproduction or link changes. The focused checks above
+cover those newer paths; no new full-suite result is attributed to them.
+
+Zero new real model calls or estate requests; no budget, identity, scope, fixture,
+golden or acceptance expectation change. Last retained dev audit remains15/40
+one-round settlements,39questions, family mean1.077; harmful-error grading and
+the 68-case quality gate remain incomplete. #423 stays draft; freezes invalid.
