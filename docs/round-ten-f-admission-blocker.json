@@ -1,0 +1,9 @@
+{
+  "case_id": "original:refusal-two-figures-total",
+  "tape_sha256": "fd4ffd25c040d12c056d15dd3aefc9b715cbd251a156bb91eba5340380d5dde8",
+  "ticket_verbatim": "Inventory Health e1b8e1 Handled Quantity currently shows 8765 and 8766 for the identical card and scope. Both are reported values.",
+  "observed": "PROPOSED with8765; both provider responses retain8766 as COMPARISON and primary_fact excludes it. This is an unsafe admission, not simply an incorrect score.",
+  "release_blocker": true,
+  "post_final_score_only": true,
+  "fix_applied": false
+}

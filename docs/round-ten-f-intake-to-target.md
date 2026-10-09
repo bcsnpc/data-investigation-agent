@@ -28,4 +28,58 @@ Final development change: clarify generic kind definitions, retain referent-sett
 
 DECIDED WITHOUT REVIEW: use one dev-only fixture example, explicitly authorized by this prompt, rather than the earlier blanket prohibition on fixture-specific prompt examples. It illustrates span roles, not an expected runtime answer; the reported number is not used to select a target. Reject forcing its triage to MISMATCH just to satisfy the sealed reference. Requests remain below20,000 characters (preview11,493?12,795). Sequential admission avoids shared recorder patch races.
 
-Suspected golden/contract gaps for human decision, no edits: dev visual-1 describes a shown value and asks reproduction without alleging a mismatch, but the sealed triage requires MISMATCH; base H compares two distinct metrics while its reference requires VERTICAL. Refusal records require null nominated kind while the extraction schema requires a non-null kind. These can limit full-match even for a safe refusal. No claim is made about held-out individual records. Dev annotation proposals remain separate and ungraded.
+Suspected golden/contract gaps for human decision, no edits: dev visual-1 describes a shown value and asks reproduction without alleging a mismatch, but the sealed triage requires MISMATCH; base H compares two distinct metrics while its reference requires VERTICAL. Some non-business refusal records require null nominated kind while the extraction schema requires a non-null kind; business-intent refusals correctly expect BUSINESS_MEANING. These nominated-kind expectations can limit full-match for those particular refusals. No claim is made about held-out individual records. Dev annotation proposals remain separate and ungraded.
+
+DECIDED WITHOUT REVIEW: cancelled automatically queued hosted provider eval37868103672 on c6d9c6c before it ran, to avoid an unbudgeted duplicate full pass and held-out exposure; offline CI checks continue. No CI secret or permission changed. Final report will mark hosted current-provider quality unclaimed.
+
+
+## Final held-out result ? recorded before diagnosis
+
+Goal FAILED. Final score sealed2026-10-09T01:38:06Z, SHA-256524588094648c5c61ea214cfc90d6c11cdc1ef311a229d8a3a94370a1e247533; append-only ledger records the seal before failure inspection.17/28 full matches were needed for60%. No golden, split or threshold changed. No further fix follows this score. #423 stays draft; neither corrected intake nor comparison deployment is adopted. Rehearsal nine, changed fifty and billing are unattempted under the explicit no-estate-before-goal rule. Prior freezes remain invalid.
+
+| Candidate/source | Dev full | Held-out full | Held-out kind | Held calls | Characters/call | Tokens/call | Estimated dollars/ticket |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Frozen previous intake |6/40 retained E calls|6/28 (21.4%)|19/28 (67.9%)|30|54,172|17,164|0.01363|
+| V1 / GPT-5.4 |3/40|Not selected for held-out|?|?|10,344 dev|2,312 dev|0.00729 dev|
+| V1 / GPT-5.5 |13/40|Not selected for held-out|?|?|10,324 dev|2,304 dev|0.01576 dev|
+| Final V2 / GPT-5.4 |No fourth dev pass|2/28 (7.1%)|16/28 (57.1%)|40|12,524|2,726|0.00672|
+| Final V2 / GPT-5.5 |13/40|9/28 (32.1%)|16/28 (57.1%)|36|12,499|2,716|0.01100|
+
+Exactly three dev passes occurred. Both final held-out model passes use the same V2 source/prompt/policy. GPT-5.5 V2 dev kind31/40 (77.5%), mean12,518characters/2,725tokens, estimated0.01189dollars/ticket,53calls. V1 comparison has equal source and settings. V1 is not mixed with V2 when attributing a model effect. Previous dev is retained evidence; all three held-out comparisons are fresh. Costs include retries and recorded cached/input/output usage, estimated from published OpenAI rates rather than an Azure invoice. Every one of284responses supplied usage; no missing usage was filled in.
+
+| Held-out diagnostic field | Previous | Final GPT-5.4 | Final GPT-5.5 |
+|---|---:|---:|---:|
+| Kind |67.9%|57.1%|57.1%|
+| Figure and precision |21.4%|57.1%|67.9%|
+| Measure binding |21.4%|25.0%|57.1%|
+| Selections |28.6%|60.7%|71.4%|
+| Target |21.4%|25.0%|57.1%|
+| Shape/mode |21.4%|17.9%|50.0%|
+| Report/page binding, derived from target |21.4%|25.0%|57.1%|
+
+| Held-out class | Cases | Previous full | Final GPT-5.4 full | Final GPT-5.5 full |
+|---|---:|---:|---:|---:|
+| Families |22|0|2|9|
+| Other question |1|1|0|0|
+| Refusals |3|3|0|0|
+| Visual variety |2|2|0|0|
+
+Strong-model status map:16PROPOSED,6HELD/INTAKE_EXTRACTION_INVALID,3NEEDS_INPUT,3HELD/TARGET_AMBIGUOUS. Full matches remain lower than admissions; an admitted proposal does not establish an answered investigation or a reproduction.
+
+## What still limits it
+
+After the final score was sealed, retained failure inspection found three different problems. Semantic kind labels still vary: all five C-family records nominate METRIC_COMPONENTS where the reference requires DERIVED_CALCULATION, while F varies among VISUAL_CONTENT, SOURCE_CORRECTNESS and FIGURE_DIFFERENCE instead of TRANSFORMATION_MECHANISM. Starting-measure and scope resolution still over-refuse in typo/noisy cases; F-noisy reached a precision question even though the provider returned no figure and the ticket explicitly identified the footer number as not a reported figure. A genuinely missing measure still gets an extraction-invalid HOLD rather than the expected user-input request. These are not fixed after held-out inspection.
+
+The entire3/28kind difference from previous intake occurs in refusal cases whose references expect null nomination. Family kind matches are13/22 for every model. That does not waive the goal or change the scorer. Two held visual cases are admitted with BUSINESS_QUESTION/NONE where the reference requires MISMATCH_COMPLAINT/VERTICAL. Dev-only suspected reference conflicts are separately quoted in round-ten-f-dev-reference-findings.json for human decision; no reference was amended.
+
+Release blocker: refusal-two-figures-total was PROPOSED with8,765 despite the ticket explicitly reporting8,765 and8,766 for the same card/scope. Both sealed provider responses retained the second figure but labelled it COMPARISON. The resolver's primary_fact filter excluded it before from_candidates, so ambiguity disappeared. Wrong-cell/comparison-span regressions passing does not cover this misuse of comparator role to discard a competing primary figure. Exact ticket and tape hash are in round-ten-f-admission-blocker.json. This admission is unsafe, not simply a scoring mismatch. No estate read or reproduction followed it. No post-held-out patch or retest is presented as an improved score.
+
+Pure shape/provenance/name/precision contradictions are caught by code and get one recorded retry. A plausible but semantically wrong kind, primary/comparison role or setup span can still satisfy those checks. The current validator cannot prove those semantic nominations correct. The competing-figure case above demonstrates a concrete missing role-consistency validation, not a reason to trust the model's nomination.
+
+## Closing record
+
+2,468 regression tests passed on frozen V2, including wrong-cell, comparison-span and business-meaning guards.204dry records /284model requests,80retries, all request/response pairs and tapes retained; recording audit reconciles exact prepared/sealed request sizes and confirms no estate transport events. All68record hashes and sealed split match. All four existing deployments match before/after. No identity, permission, credential or secret changed.
+
+Input allowance restored12M->8M at01:38:06Z without reset/refund. Closing UTC model reservations300calls/4,674,051inputcharacters/450,000outputtokens include16pre-existing calls. F added284calls/4,531,364characters. Rolling441/3000; round pot1013/1500; restoration reserve95; investigation diagnostic cap12 unchanged. Zero estate reads. Private control/probe/tape files remain under part-f; public aggregates are round-ten-f-results.json. Original E attempts and all failures remain intact.
+
+Hosted c6d9c6c Validation and Round Ten historical earned-tape check passed. The current-provider duplicate was cancelled before any job ran; fresh hosted current-provider quality is unclaimed. Local intake experiments above are the fresh F evidence. Final delivery-only checks are distinct from the validated engine and no readiness/merge claim is made.

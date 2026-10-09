@@ -1,0 +1,484 @@
+{
+  "date": "2026-10-09T01:40:47.001543+00:00",
+  "split_sha256": "d2c330ff5144b9f05c69c5571bb5c89a17b157d781cabc8d86c56346ded96795",
+  "held_score_sha256": "524588094648c5c61ea214cfc90d6c11cdc1ef311a229d8a3a94370a1e247533",
+  "previous_dev_basis": "Retained Round Ten E frozen-old calls filtered by sealed F dev split, not a fresh F dev pass",
+  "previous_dev": {
+    "cases": 40,
+    "evaluated": 40,
+    "full_matches": 6,
+    "field_accuracy": {
+      "kind": 0.6,
+      "figure_precision": 0.25,
+      "measure": 0.25,
+      "selections": 0.225,
+      "target": 0.25,
+      "triage": 0.25,
+      "report_page": 0.25
+    },
+    "unscored_fields": {
+      "primary_span": "No expected primary-span annotation exists in these sealed golden records. Verbatim validity is not semantic accuracy.",
+      "comparison_spans": "No expected comparison-span annotation exists in these sealed golden records; no reference was invented."
+    },
+    "basis": {
+      "kind": "Recorded nomination compared to sealed kind, including rejected proposals.",
+      "report_page": "Target-derived report/page binding; not separate page-span interpretation."
+    }
+  },
+  "dev": {
+    "dev-54-v1": {
+      "cases": 40,
+      "calls": 65,
+      "tokens": {
+        "input_tokens": 138737,
+        "output_tokens": 11514,
+        "total_tokens": 150251
+      },
+      "cached_input_tokens": 101376,
+      "usage_responses": 65,
+      "estimated_usd": 0.2914565,
+      "estimated_usd_per_ticket": 0.0072864125000000005,
+      "mean_characters_per_call": 10344.2,
+      "mean_tokens_per_call": 2311.5538461538463,
+      "estate_reads": 0,
+      "cost_basis": "Published OpenAI API token rates; not a served Azure invoice; missing usage is not estimated",
+      "engine_hash": "dee74afeaafc6a85c7affe3df0a27ab1168b0877523efcdd087566a73fe67d77",
+      "score": {
+        "cases": 40,
+        "evaluated": 40,
+        "full_matches": 3,
+        "field_accuracy": {
+          "kind": 0.525,
+          "figure_precision": 0.35,
+          "measure": 0.275,
+          "selections": 0.3,
+          "target": 0.275,
+          "triage": 0.275,
+          "report_page": 0.275
+        },
+        "unscored_fields": {
+          "primary_span": "No expected primary-span annotation exists in these sealed golden records. Verbatim validity is not semantic accuracy.",
+          "comparison_spans": "No expected comparison-span annotation exists in these sealed golden records; no reference was invented."
+        },
+        "basis": {
+          "kind": "Recorded nomination compared to sealed kind, including rejected proposals.",
+          "report_page": "Target-derived report/page binding; not separate page-span interpretation."
+        },
+        "per_class": {
+          "family": {
+            "cases": 26,
+            "full_matches": 1,
+            "kind_correct": 12
+          },
+          "question": {
+            "cases": 3,
+            "full_matches": 0,
+            "kind_correct": 2
+          },
+          "refusal": {
+            "cases": 7,
+            "full_matches": 2,
+            "kind_correct": 3
+          },
+          "visual": {
+            "cases": 4,
+            "full_matches": 0,
+            "kind_correct": 4
+          }
+        }
+      }
+    },
+    "dev-55-v1": {
+      "cases": 40,
+      "calls": 60,
+      "tokens": {
+        "input_tokens": 127812,
+        "output_tokens": 10447,
+        "total_tokens": 138259
+      },
+      "cached_input_tokens": 71552,
+      "usage_responses": 60,
+      "estimated_usd": 0.630486,
+      "estimated_usd_per_ticket": 0.01576215,
+      "mean_characters_per_call": 10324.15,
+      "mean_tokens_per_call": 2304.3166666666666,
+      "estate_reads": 0,
+      "cost_basis": "Published OpenAI API token rates; not a served Azure invoice; missing usage is not estimated",
+      "engine_hash": "dee74afeaafc6a85c7affe3df0a27ab1168b0877523efcdd087566a73fe67d77",
+      "score": {
+        "cases": 40,
+        "evaluated": 40,
+        "full_matches": 13,
+        "field_accuracy": {
+          "kind": 0.625,
+          "figure_precision": 0.45,
+          "measure": 0.45,
+          "selections": 0.475,
+          "target": 0.45,
+          "triage": 0.45,
+          "report_page": 0.45
+        },
+        "unscored_fields": {
+          "primary_span": "No expected primary-span annotation exists in these sealed golden records. Verbatim validity is not semantic accuracy.",
+          "comparison_spans": "No expected comparison-span annotation exists in these sealed golden records; no reference was invented."
+        },
+        "basis": {
+          "kind": "Recorded nomination compared to sealed kind, including rejected proposals.",
+          "report_page": "Target-derived report/page binding; not separate page-span interpretation."
+        },
+        "per_class": {
+          "family": {
+            "cases": 26,
+            "full_matches": 9,
+            "kind_correct": 15
+          },
+          "question": {
+            "cases": 3,
+            "full_matches": 1,
+            "kind_correct": 3
+          },
+          "refusal": {
+            "cases": 7,
+            "full_matches": 3,
+            "kind_correct": 3
+          },
+          "visual": {
+            "cases": 4,
+            "full_matches": 0,
+            "kind_correct": 4
+          }
+        }
+      }
+    },
+    "dev-55-v2": {
+      "cases": 40,
+      "calls": 53,
+      "tokens": {
+        "input_tokens": 135333,
+        "output_tokens": 9114,
+        "total_tokens": 144447
+      },
+      "cached_input_tokens": 105472,
+      "usage_responses": 53,
+      "estimated_usd": 0.475461,
+      "estimated_usd_per_ticket": 0.011886525,
+      "mean_characters_per_call": 12517.698113207547,
+      "mean_tokens_per_call": 2725.4150943396226,
+      "estate_reads": 0,
+      "cost_basis": "Published OpenAI API token rates; not a served Azure invoice; missing usage is not estimated",
+      "engine_hash": "68d4f30c96b43571498011016e3d5346deb070fde76140f7c0cd417f09c0a2e0",
+      "score": {
+        "cases": 40,
+        "evaluated": 40,
+        "full_matches": 13,
+        "field_accuracy": {
+          "kind": 0.775,
+          "figure_precision": 0.65,
+          "measure": 0.6,
+          "selections": 0.55,
+          "target": 0.6,
+          "triage": 0.5,
+          "report_page": 0.6
+        },
+        "unscored_fields": {
+          "primary_span": "No expected primary-span annotation exists in these sealed golden records. Verbatim validity is not semantic accuracy.",
+          "comparison_spans": "No expected comparison-span annotation exists in these sealed golden records; no reference was invented."
+        },
+        "basis": {
+          "kind": "Recorded nomination compared to sealed kind, including rejected proposals.",
+          "report_page": "Target-derived report/page binding; not separate page-span interpretation."
+        },
+        "per_class": {
+          "family": {
+            "cases": 26,
+            "full_matches": 9,
+            "kind_correct": 21
+          },
+          "question": {
+            "cases": 3,
+            "full_matches": 1,
+            "kind_correct": 3
+          },
+          "refusal": {
+            "cases": 7,
+            "full_matches": 3,
+            "kind_correct": 3
+          },
+          "visual": {
+            "cases": 4,
+            "full_matches": 0,
+            "kind_correct": 4
+          }
+        }
+      }
+    }
+  },
+  "held_out": {
+    "held-54": {
+      "cases": 28,
+      "calls": 40,
+      "tokens": {
+        "input_tokens": 102127,
+        "output_tokens": 6910,
+        "total_tokens": 109037
+      },
+      "cached_input_tokens": 75904,
+      "usage_responses": 40,
+      "estimated_usd": 0.1881835,
+      "estimated_usd_per_ticket": 0.006720839285714286,
+      "mean_characters_per_call": 12524.125,
+      "mean_tokens_per_call": 2725.925,
+      "estate_reads": 0,
+      "cost_basis": "Published OpenAI API token rates; not a served Azure invoice; missing usage is not estimated",
+      "engine_hash": "68d4f30c96b43571498011016e3d5346deb070fde76140f7c0cd417f09c0a2e0",
+      "score": {
+        "cases": 28,
+        "evaluated": 28,
+        "full_matches": 2,
+        "field_accuracy": {
+          "kind": 0.5714285714285714,
+          "figure_precision": 0.5714285714285714,
+          "measure": 0.25,
+          "selections": 0.6071428571428571,
+          "target": 0.25,
+          "triage": 0.17857142857142858,
+          "report_page": 0.25
+        },
+        "unscored_fields": {
+          "primary_span": "No expected primary-span annotation exists in these sealed golden records. Verbatim validity is not semantic accuracy.",
+          "comparison_spans": "No expected comparison-span annotation exists in these sealed golden records; no reference was invented."
+        },
+        "basis": {
+          "kind": "Recorded nomination compared to sealed kind, including rejected proposals.",
+          "report_page": "Target-derived report/page binding; not separate page-span interpretation."
+        },
+        "per_class": {
+          "family": {
+            "cases": 22,
+            "full_matches": 2,
+            "kind_correct": 13
+          },
+          "question": {
+            "cases": 1,
+            "full_matches": 0,
+            "kind_correct": 1
+          },
+          "refusal": {
+            "cases": 3,
+            "full_matches": 0,
+            "kind_correct": 0
+          },
+          "visual": {
+            "cases": 2,
+            "full_matches": 0,
+            "kind_correct": 2
+          }
+        }
+      }
+    },
+    "held-55": {
+      "cases": 28,
+      "calls": 36,
+      "tokens": {
+        "input_tokens": 91728,
+        "output_tokens": 6041,
+        "total_tokens": 97769
+      },
+      "cached_input_tokens": 73728,
+      "usage_responses": 36,
+      "estimated_usd": 0.308094,
+      "estimated_usd_per_ticket": 0.011003357142857143,
+      "mean_characters_per_call": 12499.277777777777,
+      "mean_tokens_per_call": 2715.8055555555557,
+      "estate_reads": 0,
+      "cost_basis": "Published OpenAI API token rates; not a served Azure invoice; missing usage is not estimated",
+      "engine_hash": "68d4f30c96b43571498011016e3d5346deb070fde76140f7c0cd417f09c0a2e0",
+      "score": {
+        "cases": 28,
+        "evaluated": 28,
+        "full_matches": 9,
+        "field_accuracy": {
+          "kind": 0.5714285714285714,
+          "figure_precision": 0.6785714285714286,
+          "measure": 0.5714285714285714,
+          "selections": 0.7142857142857143,
+          "target": 0.5714285714285714,
+          "triage": 0.5,
+          "report_page": 0.5714285714285714
+        },
+        "unscored_fields": {
+          "primary_span": "No expected primary-span annotation exists in these sealed golden records. Verbatim validity is not semantic accuracy.",
+          "comparison_spans": "No expected comparison-span annotation exists in these sealed golden records; no reference was invented."
+        },
+        "basis": {
+          "kind": "Recorded nomination compared to sealed kind, including rejected proposals.",
+          "report_page": "Target-derived report/page binding; not separate page-span interpretation."
+        },
+        "per_class": {
+          "family": {
+            "cases": 22,
+            "full_matches": 9,
+            "kind_correct": 13
+          },
+          "question": {
+            "cases": 1,
+            "full_matches": 0,
+            "kind_correct": 1
+          },
+          "refusal": {
+            "cases": 3,
+            "full_matches": 0,
+            "kind_correct": 0
+          },
+          "visual": {
+            "cases": 2,
+            "full_matches": 0,
+            "kind_correct": 2
+          }
+        }
+      }
+    },
+    "held-old": {
+      "cases": 28,
+      "calls": 30,
+      "tokens": {
+        "input_tokens": 510730,
+        "output_tokens": 4195,
+        "total_tokens": 514925
+      },
+      "cached_input_tokens": 425856,
+      "usage_responses": 30,
+      "estimated_usd": 0.381574,
+      "estimated_usd_per_ticket": 0.013627642857142857,
+      "mean_characters_per_call": 54172.166666666664,
+      "mean_tokens_per_call": 17164.166666666668,
+      "estate_reads": 0,
+      "cost_basis": "Published OpenAI API token rates; not a served Azure invoice; missing usage is not estimated",
+      "engine_hash": "4a27f2aa0ae451a920d003c493a518f78d5010f9fb5bc03ff381302fe3d9bd0d",
+      "score": {
+        "cases": 28,
+        "evaluated": 28,
+        "full_matches": 6,
+        "field_accuracy": {
+          "kind": 0.6785714285714286,
+          "figure_precision": 0.21428571428571427,
+          "measure": 0.21428571428571427,
+          "selections": 0.2857142857142857,
+          "target": 0.21428571428571427,
+          "triage": 0.21428571428571427,
+          "report_page": 0.21428571428571427
+        },
+        "unscored_fields": {
+          "primary_span": "No expected primary-span annotation exists in these sealed golden records. Verbatim validity is not semantic accuracy.",
+          "comparison_spans": "No expected comparison-span annotation exists in these sealed golden records; no reference was invented."
+        },
+        "basis": {
+          "kind": "Recorded nomination compared to sealed kind, including rejected proposals.",
+          "report_page": "Target-derived report/page binding; not separate page-span interpretation."
+        },
+        "per_class": {
+          "family": {
+            "cases": 22,
+            "full_matches": 0,
+            "kind_correct": 13
+          },
+          "question": {
+            "cases": 1,
+            "full_matches": 1,
+            "kind_correct": 1
+          },
+          "refusal": {
+            "cases": 3,
+            "full_matches": 3,
+            "kind_correct": 3
+          },
+          "visual": {
+            "cases": 2,
+            "full_matches": 2,
+            "kind_correct": 2
+          }
+        }
+      }
+    }
+  },
+  "goal": {
+    "required_full_accuracy": 0.6,
+    "minimum_held_matches": 17,
+    "kind_minimum": 0.6785714285714286,
+    "met": false
+  },
+  "audit": {
+    "dev-54-v1": {
+      "cases": 40,
+      "provider_requests": 65,
+      "provider_responses": 65,
+      "estate_requests": 0,
+      "pot_before": 1013,
+      "pot_after": 1013,
+      "engine_hash": "dee74afeaafc6a85c7affe3df0a27ab1168b0877523efcdd087566a73fe67d77"
+    },
+    "dev-55-v1": {
+      "cases": 40,
+      "provider_requests": 60,
+      "provider_responses": 60,
+      "estate_requests": 0,
+      "pot_before": 1013,
+      "pot_after": 1013,
+      "engine_hash": "dee74afeaafc6a85c7affe3df0a27ab1168b0877523efcdd087566a73fe67d77"
+    },
+    "dev-55-v2": {
+      "cases": 40,
+      "provider_requests": 53,
+      "provider_responses": 53,
+      "estate_requests": 0,
+      "pot_before": 1013,
+      "pot_after": 1013,
+      "engine_hash": "68d4f30c96b43571498011016e3d5346deb070fde76140f7c0cd417f09c0a2e0"
+    },
+    "held-54": {
+      "cases": 28,
+      "provider_requests": 40,
+      "provider_responses": 40,
+      "estate_requests": 0,
+      "pot_before": 1013,
+      "pot_after": 1013,
+      "engine_hash": "68d4f30c96b43571498011016e3d5346deb070fde76140f7c0cd417f09c0a2e0"
+    },
+    "held-55": {
+      "cases": 28,
+      "provider_requests": 36,
+      "provider_responses": 36,
+      "estate_requests": 0,
+      "pot_before": 1013,
+      "pot_after": 1013,
+      "engine_hash": "68d4f30c96b43571498011016e3d5346deb070fde76140f7c0cd417f09c0a2e0"
+    },
+    "held-old": {
+      "cases": 28,
+      "provider_requests": 30,
+      "provider_responses": 30,
+      "estate_requests": 0,
+      "pot_before": 1013,
+      "pot_after": 1013,
+      "engine_hash": "4a27f2aa0ae451a920d003c493a518f78d5010f9fb5bc03ff381302fe3d9bd0d"
+    }
+  },
+  "regression_tests": 2468,
+  "estate_reads": 0,
+  "model_calls": 284,
+  "input_restored": 8000000,
+  "budget_after": {
+    "reserved_today": {
+      "planner_calls": 300,
+      "cloud_calls": 0,
+      "input_characters": 4674051,
+      "output_tokens": 450000
+    },
+    "rolling_charged": 441,
+    "rolling_limit": 3000,
+    "pot": 1013,
+    "pot_limit": 1500,
+    "restoration_remaining": 95,
+    "diagnostic_cap": 12
+  }
+}
