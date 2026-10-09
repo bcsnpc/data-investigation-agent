@@ -314,8 +314,8 @@ class SmartIntakeTests(unittest.TestCase):
         self.assertEqual(self.calls,1)
 
     def test_confirmed_keyed_cell_keeps_original_scope(self):
-        self.raw,self.payload=fixture('In Report, warehouse North Quantity shows 16 and 17.',
-            figures=[{'quote':v,'role':'PRIMARY','state':'NUMBER','precision_quote':None} for v in ('16','17')],
+        self.raw,self.payload=fixture('In Report, warehouse North Quantity shows 17.',
+            figures=[{'quote':'17','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
             selections=[{'quote':'warehouse North','column':'warehouse','value':'North','role':'PRIMARY'}])
         saved=self.submit();request=self.reply(saved)
         q=next(q for q in saved['ticket']['questions'] if q['field']=='NUMBER')
@@ -377,8 +377,8 @@ class SmartIntakeTests(unittest.TestCase):
     def setUp(self):
         self.h=workspace_fixture.WorkspaceTests();self.h.setUp();self.addCleanup(self.h.doCleanups)
         self.workspace=self.h.workspace
-        self.raw,self.payload=fixture('In Report, Quantity shows 16 and 17.',
-            figures=[{'quote':v,'role':'PRIMARY','state':'NUMBER','precision_quote':None} for v in ('16','17')])
+        self.raw,self.payload=fixture('In Report, Quantity shows 17.',
+            figures=[{'quote':'17','role':'PRIMARY','state':'NUMBER','precision_quote':None}])
         self.catalog={'models':self.payload['models'],'versions':[]}
         self.calls=0
         def resolver(payload):
@@ -408,6 +408,23 @@ class SmartIntakeTests(unittest.TestCase):
                 question['field']=='FIGURE' and t['choice_values'][digest(question)+'/'+c['id']]['figure_source']['quote']=='17'))
             answers.append({'question_id':question['id'],'choice_id':choice['id']})
         return {'ticket_id':t['id'],'revision':saved['revision'],'answers':answers,'request_key':'reply'}
+
+    def test_two_figures_are_settled_before_target_and_comparison_without_another_model_call(self):
+        self.raw,self.payload=fixture('In Report, Quantity shows 16 and 17.',
+            figures=[{'quote':v,'role':'PRIMARY','state':'NUMBER','precision_quote':None} for v in ('16','17')])
+        first=self.submit()
+        self.assertEqual([q['field'] for q in first['ticket']['questions']],['FIGURE'])
+        second=self.controller.reply(self.reply(first))
+        self.assertNotIn('intake_id',second['ticket'])
+        self.assertEqual([q['field'] for q in second['ticket']['questions']],['NUMBER','COMPARISON'])
+        request=self.reply(second);request['request_key']='target-and-comparison'
+        final=self.controller.reply(request)
+        proposal=self.workspace.intake.get(final['ticket']['intake_id'])['proposal']
+        self.assertEqual(proposal['reported_figure']['value'],'17')
+        self.assertEqual(proposal['target_visual']['target_id'],'card')
+        self.assertEqual(final['ticket']['rounds'],2)
+        self.assertEqual(self.calls,1)
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
 
     def test_one_batch_resumes_retained_extraction_without_another_call(self):
         saved=self.submit();self.assertEqual(saved['ticket']['state'],'CLARIFYING')
