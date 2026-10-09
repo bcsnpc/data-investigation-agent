@@ -132,6 +132,7 @@ class SmartIntake:
             result.setdefault('reply_keys',{})[request['request_key']]=digest(request)
             return result
         saved=self.tickets.update(request['ticket_id'],request['revision'],answer)
+        if saved['ticket']['state']=='HELD':return saved
         if 'REPORT_PAGE' not in saved['ticket']['settled'] and 'NUMBER' in saved['ticket']['confirmed']:
             source=self.workspace.intake.get(saved['ticket']['source_intake'])
             try:

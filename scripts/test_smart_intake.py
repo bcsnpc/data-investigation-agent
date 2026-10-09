@@ -9,6 +9,21 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_user_can_hold_for_missing_information_and_resume_the_same_offer(self):
+        saved=self.submit();request=self.reply(saved)
+        unanswered=copy.deepcopy(request)
+        unanswered['answers']=[{'question_id':a['question_id'],'unavailable':True} for a in request['answers']]
+        unanswered['request_key']='missing-information'
+        held=self.controller.reply(unanswered)
+        self.assertEqual(held['ticket']['state'],'HELD')
+        self.assertNotIn('intake_id',held['ticket'])
+        self.assertEqual(held['ticket']['confirmed'],{})
+        self.assertEqual(self.controller.reply(unanswered),held)
+        request['revision']=held['revision'];request['request_key']='now-known'
+        resumed=self.controller.reply(request)
+        self.assertIn('intake_id',resumed['ticket']);self.assertEqual(resumed['ticket']['rounds'],1)
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_named_definition_question_does_not_ask_for_an_external_comparator(self):
         self.raw,self.payload=fixture('In Report, explain Global card Quantity components.',
             kind='METRIC_COMPONENTS',visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])

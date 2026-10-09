@@ -31,7 +31,8 @@ CHOICE = obj({'id':ID, 'label':TEXT,
 QUESTION = obj({'id':ID, 'field':{'enum':list(FIELDS)}, 'question':TEXT,
                 'choices':{'type':'array','minItems':1,'maxItems':100,'items':CHOICE}})
 QUESTIONS = {'type':'array','minItems':1,'maxItems':3,'items':QUESTION}
-ANSWER = obj({'question_id':ID, 'choice_id':ID})
+ANSWER = {'oneOf':[obj({'question_id':ID, 'choice_id':ID}),
+                   obj({'question_id':ID,'unavailable':{'const':True}})]}
 ANSWERS = {'type':'array','minItems':1,'maxItems':3,'items':ANSWER}
 INTAKE = obj({'comparison_choices':{'type':'array','minItems':1,'maxItems':5,
                   'items':obj({'route':{'enum':list(ROUTES)},'label':TEXT})},
@@ -65,7 +66,7 @@ def validate_questions(questions):
     return copy.deepcopy(questions)
 
 
-def confirmed(questions, answers):
+def answer_dispositions(questions, answers):
     """Answer identity must bind a retained choice; no arbitrary scope payload."""
     validate_questions(questions)
     Draft202012Validator(ANSWERS).validate(answers)
@@ -73,14 +74,22 @@ def confirmed(questions, answers):
         raise ValueError('A question cannot receive two answers')
     if {a['question_id'] for a in answers}!={q['id'] for q in questions}:
         raise ValueError('Answer every question in the retained batch exactly once')
-    result={}
+    result={};unavailable=[]
     for question in questions:
         answer=next(a for a in answers if a['question_id']==question['id'])
+        if answer.get('unavailable'):
+            unavailable.append(question['field']);continue
         choice=next((c for c in question['choices'] if c['id']==answer['choice_id']),None)
         if choice is None:raise ValueError('Answer refers to an unoffered choice')
         result[question['field']]={'question_id':question['id'],
             'choice_id':choice['id'],'authority':'USER_CONFIRMED',
             'question_hash':digest(question)}
+    return result,unavailable
+
+
+def confirmed(questions, answers):
+    result,unavailable=answer_dispositions(questions,answers)
+    if unavailable:raise ValueError('Unavailable information cannot be confirmed')
     return result
 
 
@@ -129,9 +138,17 @@ def ask(ticket, questions, *, maximum=2):
 
 
 def answer(ticket, answers):
+    if ticket['state']=='HELD' and ticket['questions'] and ticket['history'][-1].get('detail',{}).get('unavailable_fields'):
+        ticket=transition(ticket,'CLARIFYING',actor='USER',detail={'resume_retained_questions':True})
     if ticket['state']!='CLARIFYING':raise ValueError('Ticket is not awaiting clarification')
     result=copy.deepcopy(ticket)
-    choices=confirmed(ticket['questions'],answers)
+    choices,unavailable=answer_dispositions(ticket['questions'],answers)
+    if unavailable:
+        # Preserve the offer and evidence for a later reply. No field becomes
+        # confirmed, no scope is adopted, and the agent does not supply a value.
+        return transition(result,'HELD',actor='USER',detail={
+            'reason':'USER_INFORMATION_UNAVAILABLE','unavailable_fields':unavailable,
+            'answers':copy.deepcopy(answers)})
     result['confirmed'].update(choices)
     result['settled'].update(choices)
     result['history'].append({'from':'CLARIFYING','to':'CLARIFYING','actor':'USER',

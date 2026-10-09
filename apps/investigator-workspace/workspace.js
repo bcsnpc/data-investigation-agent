@@ -198,9 +198,10 @@ function showSmartTicket(saved){
   for(const question of ticket.questions){
     const group=node('fieldset');group.append(node('legend',question.question));
     for(const choice of question.choices){const label=node('label');const radio=node('input');radio.type='radio';radio.name=question.id;radio.value=choice.id;radio.required=true;label.append(radio,document.createTextNode(choice.label));group.append(label);}
+    const unknown=node('label');const radio=node('input');radio.type='radio';radio.name=question.id;radio.dataset.unavailable='true';radio.required=true;unknown.append(radio,document.createTextNode('I cannot tell from the information I have'));group.append(unknown);
     form.append(group);
   }
-  if(ticket.state==='CLARIFYING'&&ticket.questions.length){const button=node('button','Confirm these choices');button.type='submit';form.append(button);}
+  if((ticket.state==='CLARIFYING'||ticket.state==='HELD'&&ticket.history.at(-1)?.detail?.unavailable_fields)&&ticket.questions.length){const button=node('button','Send these answers');button.type='submit';form.append(button);}
   $('smart-ticket-transitions').replaceChildren(...ticket.history.map(entry=>node('li',(entry.actor==='USER'?'You':entry.actor==='OWNER'?'Owner':'Investigator')+': '+(entry.to||'NEW').replaceAll('_',' '))));
   $('smart-ticket-review').hidden=!ticket.intake_id;
   $('smart-ticket-finish').hidden=ticket.state!=='INVESTIGATING';
@@ -225,7 +226,7 @@ $('smart-ticket-form').addEventListener('submit',guard(async()=>{
 }));
 $('smart-ticket-answers').addEventListener('submit',guard(async()=>{
   if(!smartTicket)return;const saved=smartTicket;const form=$('smart-ticket-answers');
-  const answers=saved.ticket.questions.map(question=>({question_id:question.id,choice_id:form.elements.namedItem(question.id).value}));
+  const answers=saved.ticket.questions.map(question=>{const selected=form.querySelector('input[name="'+CSS.escape(question.id)+'"]:checked');return selected?.dataset.unavailable==='true'?{question_id:question.id,unavailable:true}:{question_id:question.id,choice_id:selected?.value};});
   const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/reply',{revision:saved.revision,answers,request_key:crypto.randomUUID()});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();
 }));
 $('smart-ticket-refresh').addEventListener('click',guard(smartTicketHistory));

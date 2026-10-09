@@ -9,6 +9,31 @@ def question(field):
 
 
 class TicketProtocolTests(unittest.TestCase):
+    def test_unavailable_answer_is_not_confirmation_and_preserves_the_offer(self):
+        ticket=protocol.ask(protocol.new('ticket'),[question('NUMBER')])
+        answers=[{'question_id':'number','unavailable':True}]
+        held=protocol.answer(ticket,answers)
+        self.assertEqual(held['state'],'HELD')
+        self.assertEqual(held['confirmed'],{});self.assertEqual(held['settled'],{})
+        self.assertEqual(held['questions'],ticket['questions'])
+        self.assertEqual(held['history'][-1]['actor'],'USER')
+        self.assertEqual(held['history'][-1]['detail']['unavailable_fields'],['NUMBER'])
+        with self.assertRaises(ValueError):protocol.confirmed(ticket['questions'],answers)
+        with self.assertRaises(ValueError):protocol.transition(held,'INVESTIGATING',actor='AGENT',detail={})
+        resumed=protocol.answer(held,[{'question_id':'number','choice_id':'first'}])
+        self.assertEqual(resumed['state'],'CLARIFYING')
+        self.assertEqual(resumed['confirmed']['NUMBER']['choice_id'],'first')
+        self.assertEqual(resumed['rounds'],1)
+
+    def test_unavailable_variant_cannot_hide_an_invalid_other_answer(self):
+        ticket=protocol.ask(protocol.new('ticket'),[question('NUMBER'),question('COMPARISON')])
+        with self.assertRaises(ValueError):protocol.answer(ticket,[{'question_id':'number','unavailable':True},
+            {'question_id':'comparison','choice_id':'not-offered'}])
+        for bad in ({'question_id':'number','unavailable':False},
+                    {'question_id':'number','unavailable':True,'choice_id':'first'}):
+            with self.assertRaises(Exception):protocol.answer(
+                protocol.ask(protocol.new('ticket'),[question('NUMBER')]),[bad])
+
     def test_unique_referent_requires_original_intake_validation_and_never_selects_comparison(self):
         from test_intake_extraction import fixture
         from investigator import intake_extraction

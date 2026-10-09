@@ -493,3 +493,33 @@ settled tickets rather than merely adopted/source-matching records. Preserve
 review flags instead of declaring a zero harmful-error rate from incomplete
 provenance scoring. Add the evaluator/controller tests to hosted offline CI
 instead of relying only on local discovery.
+
+
+## Missing-information replies and full checkpoint regression
+
+The frozencc8b0d7 full regression completed2,591 tests in775.245s, exit0.
+This covers the intake retention, visual-label grain and subject-route changes;
+it is not claimed for the later evaluator or unavailable-reply extension.
+
+The closed reply union now accepts either one retained choice or an explicit
+`unavailable:true` answer for each asked field. Those variants cannot be mixed
+in one answer, and every other answer is still checked against its original
+offer. Unavailability never enters confirmation or settles a field. It records
+a USER_INFORMATION_UNAVAILABLE hold, retains the offer/evidence, does not adopt
+a scope and makes no provider/data call. A later answer can resume that same
+offer and same ticket; no additional model interpretation is needed. Idempotent
+repeated replies and stale-revision protection remain. The workspace UI offers
+'I cannot tell from the information I have' separately from target choices.
+63 protocol/controller/confirmation/state tests and JavaScript syntax passed;
+the distinct-event tape replay test is pending until this source is committed.
+The previous63-test result and new full checkpoint result are separate.
+
+No simulator silently takes this action on behalf of a real user. The frozen
+fresh40 and reuse-only40 results are unchanged; no new quality claim, provider
+call, estate read, budget/scope/golden change or live run follows. #423 draft,
+Phase A incomplete/ungraded, freezes invalid.
+
+DECIDED WITHOUT REVIEW: permit an explicit missing-information answer instead
+of forcing selection of a potentially wrong cell/comparison. Treat that answer
+as unavailability, never authority. Preserve the retained offer for later human
+resume rather than creating a replacement ticket or pretending the scope settled.

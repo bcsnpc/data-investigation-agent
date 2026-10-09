@@ -192,7 +192,10 @@ class TapeTests(unittest.TestCase):
     def test_smart_ticket_cold_resume_preserves_read_stage_and_replays_composition(self):
         self.exercise_process(smart_ticket=True,cold_resume=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False):
+    def test_unavailable_clarification_and_later_reply_replay_as_distinct_events(self):
+        self.exercise_process(smart_ticket=True,unavailable_reply=True)
+
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -250,6 +253,12 @@ class TapeTests(unittest.TestCase):
                     'request_key':'synthetic-process-ticket'})
                 question=saved['ticket']['questions'][0]
                 choice=next(c for c in question['choices'] if c['label']=='The application')
+                if unavailable_reply:
+                    saved=workspace.smart_intake.reply({'ticket_id':saved['ticket']['id'],
+                        'revision':saved['revision'],'answers':[{'question_id':question['id'],'unavailable':True}],
+                        'request_key':'synthetic-unavailable'})
+                    self.assertEqual(saved['ticket']['state'],'HELD')
+                    self.assertNotIn('intake_id',saved['ticket'])
                 saved=workspace.smart_intake.reply({'ticket_id':saved['ticket']['id'],
                     'revision':saved['revision'],'answers':[{'question_id':question['id'],'choice_id':choice['id']}],
                     'request_key':'synthetic-reply'})
@@ -295,7 +304,7 @@ class TapeTests(unittest.TestCase):
         from acceptance.unknown_domain.process_replay import replay
         if smart_ticket:
             paths=list((helper.fixture.root/'.local/process-tapes').glob('*/tape.json'))
-            self.assertEqual(len(paths),5)
+            self.assertEqual(len(paths),6 if unavailable_reply else 5)
             operations=[]
             with tempfile.TemporaryDirectory() as output:
                 for n,path in enumerate(paths):
