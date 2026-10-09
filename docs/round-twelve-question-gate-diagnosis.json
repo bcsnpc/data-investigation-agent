@@ -1,0 +1,299 @@
+{
+  "oracle_sha256": "be029b56a6de27195dac507bfb5010f0ce7abc2732702d9a230e5f4a8d38406c",
+  "method": "Held-out inspected for authorised diagnosis only; no oracle or golden changes.",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "rows": [
+    {
+      "id": "original:family-A",
+      "partition": "held_out",
+      "fields": [
+        "comparison_route"
+      ],
+      "ticket": "In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.",
+      "oracle": {
+        "state": "DETERMINED",
+        "value": "APPLICATION",
+        "basis": "Human oracle decision 2026-10-09, C2"
+      },
+      "actual": {
+        "authority": "CODE_ESTABLISHED_REQUEST_COMPARISON",
+        "value": {
+          "kind": "FRESHNESS",
+          "request_hash": "a810a0664612cb51e970293ba66e4eb382eacb1365e32b5be9bd8c0377778d1d",
+          "route": "STALE",
+          "source": {
+            "end": 172,
+            "quote": "In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.",
+            "start": 0
+          },
+          "version": "ticket-comparison-request-v1"
+        }
+      },
+      "nominated_kind": "FIGURE_DIFFERENCE",
+      "gate_rule": "from_request(code_gate=True) overrides the nominated kind from current/source keywords; COMPARISON_ESTABLISHED_FROM_REQUEST suppresses the comparison question.",
+      "finding": "UNSAFE_COMPARISON_SETTLEMENT"
+    },
+    {
+      "id": "original:family-A-mention",
+      "partition": "held_out",
+      "fields": [
+        "reported_figure"
+      ],
+      "ticket": "Inventory Health e1b8e1 Handled Quantity is higher than source movements. Check the global discrepancy. The global Handled Quantity currently shows 8765. Internal request reference 4182 is only a tracking number, not the metric figure; please do not compare that reference to the data.",
+      "oracle": {
+        "state": "NOT_STATED",
+        "reason": "The admitted sealed record explicitly records no reported figure."
+      },
+      "actual": {
+        "precision": {
+          "state": "EXACT"
+        },
+        "source": {
+          "end": 152,
+          "quote": "8765",
+          "start": 148
+        },
+        "state": "NUMBER",
+        "value": "8765"
+      },
+      "nominated_kind": "FIGURE_DIFFERENCE",
+      "gate_rule": "VALIDATED_REFERENT_AND_SCOPE accepts the extracted reported figure. The ticket explicitly states a displayed value; the sealed oracle says NOT_STATED. No corrective question is established by this evidence.",
+      "finding": "SEALED_ORACLE_TEXT_CONFLICT"
+    },
+    {
+      "id": "original:family-E-mention",
+      "partition": "dev",
+      "fields": [
+        "reported_figure"
+      ],
+      "ticket": "Inventory Health e1b8e1 Handled Quantity may be stale. Check freshness and processing history; no freshness SLA is supplied. The global Handled Quantity currently shows 8765. Internal request reference 4182 is only a tracking number, not the metric figure; please do not compare that reference to the data.",
+      "oracle": {
+        "state": "NOT_STATED",
+        "reason": "The admitted sealed record explicitly records no reported figure."
+      },
+      "actual": {
+        "precision": {
+          "state": "EXACT"
+        },
+        "source": {
+          "end": 173,
+          "quote": "8765",
+          "start": 169
+        },
+        "state": "NUMBER",
+        "value": "8765"
+      },
+      "nominated_kind": "FRESHNESS",
+      "gate_rule": "VALIDATED_REFERENT_AND_SCOPE accepts the extracted reported figure. The ticket explicitly states a displayed value; the sealed oracle says NOT_STATED. No corrective question is established by this evidence.",
+      "finding": "SEALED_ORACLE_TEXT_CONFLICT"
+    },
+    {
+      "id": "original:family-F",
+      "partition": "held_out",
+      "fields": [
+        "comparison_route"
+      ],
+      "ticket": "Inventory Health e1b8e1 Extended Value seems overstated. Investigate the Movement Value card's current total, the upstream data and available transformation definitions to identify a supported explanation.",
+      "oracle": {
+        "state": "DETERMINED",
+        "value": "LOOKS_WRONG",
+        "basis": "An explicit wrong-looking-number ask without a named second referent."
+      },
+      "actual": {
+        "authority": "CODE_ESTABLISHED_REQUEST_COMPARISON",
+        "value": {
+          "kind": "FRESHNESS",
+          "request_hash": "2ffe50a52bb588a8510908ebcfeacd8bd8780fd2eef0354697214cf12082ddff",
+          "route": "STALE",
+          "source": {
+            "end": 205,
+            "quote": "Inventory Health e1b8e1 Extended Value seems overstated. Investigate the Movement Value card's current total, the upstream data and available transformation definitions to identify a supported explanation.",
+            "start": 0
+          },
+          "version": "ticket-comparison-request-v1"
+        }
+      },
+      "nominated_kind": "FIGURE_DIFFERENCE",
+      "gate_rule": "from_request(code_gate=True) overrides the nominated kind from current/source keywords; COMPARISON_ESTABLISHED_FROM_REQUEST suppresses the comparison question.",
+      "finding": "UNSAFE_COMPARISON_SETTLEMENT"
+    },
+    {
+      "id": "original:family-F-noisy",
+      "partition": "held_out",
+      "fields": [
+        "comparison_route"
+      ],
+      "ticket": "Forwarded warehouse help request\nFrom: shift supervisor\nSubject: F metric follow-up\nPlease ignore this email footer; the workstation inventory reference is 7321, not a reported metric figure.\nInventory Health e1b8e1 Extended Value seems overstated. Explain its global total and any supported source mechanism.\nPrevious email: we need evidence and its limits, not a guess.\nRegards, operations",
+      "oracle": {
+        "state": "DETERMINED",
+        "value": "LOOKS_WRONG",
+        "basis": "An explicit wrong-looking-number ask without a named second referent."
+      },
+      "actual": {
+        "authority": "CODE_ESTABLISHED_REQUEST_COMPARISON",
+        "value": {
+          "kind": "SOURCE_CORRECTNESS",
+          "request_hash": "f46ba73ed7bcfa6675c02ababa70b840aae88ae0a8d13c7505886e2ca23ce9ff",
+          "route": "APPLICATION",
+          "source": {
+            "end": 309,
+            "quote": "Inventory Health e1b8e1 Extended Value seems overstated. Explain its global total and any supported source mechanism.",
+            "start": 192
+          },
+          "version": "ticket-comparison-request-v1"
+        }
+      },
+      "nominated_kind": "TRANSFORMATION_MECHANISM",
+      "gate_rule": "from_request(code_gate=True) overrides the nominated kind from current/source keywords; COMPARISON_ESTABLISHED_FROM_REQUEST suppresses the comparison question.",
+      "finding": "UNSAFE_COMPARISON_SETTLEMENT"
+    },
+    {
+      "id": "original:family-F-terse",
+      "partition": "held_out",
+      "fields": [
+        "comparison_route"
+      ],
+      "ticket": "Inventory Health e1b8e1 Extended Value seems overstated. Explain its global total and any supported source mechanism.",
+      "oracle": {
+        "state": "DETERMINED",
+        "value": "LOOKS_WRONG",
+        "basis": "An explicit wrong-looking-number ask without a named second referent."
+      },
+      "actual": {
+        "authority": "CODE_ESTABLISHED_REQUEST_COMPARISON",
+        "value": {
+          "kind": "SOURCE_CORRECTNESS",
+          "request_hash": "0f5114359a6d6659d990a71ea728a711102b72303f8f6b530d08d333dd7ead64",
+          "route": "APPLICATION",
+          "source": {
+            "end": 117,
+            "quote": "Inventory Health e1b8e1 Extended Value seems overstated. Explain its global total and any supported source mechanism.",
+            "start": 0
+          },
+          "version": "ticket-comparison-request-v1"
+        }
+      },
+      "nominated_kind": "SOURCE_CORRECTNESS",
+      "gate_rule": "from_request(code_gate=True) overrides the nominated kind from current/source keywords; COMPARISON_ESTABLISHED_FROM_REQUEST suppresses the comparison question.",
+      "finding": "UNSAFE_COMPARISON_SETTLEMENT"
+    },
+    {
+      "id": "original:family-F-typo",
+      "partition": "held_out",
+      "fields": [
+        "comparison_route"
+      ],
+      "ticket": "Inventory Health e1b8e1 Extended Value seems overstated. pls explain its global total and any supported source mechanism. thx, need the actual scope too",
+      "oracle": {
+        "state": "DETERMINED",
+        "value": "LOOKS_WRONG",
+        "basis": "An explicit wrong-looking-number ask without a named second referent."
+      },
+      "actual": {
+        "authority": "CODE_ESTABLISHED_REQUEST_COMPARISON",
+        "value": {
+          "kind": "SOURCE_CORRECTNESS",
+          "request_hash": "2eb7618db35733d86a9e1ce2182b57a59e135878becde473cb7fb94b1ef41f53",
+          "route": "APPLICATION",
+          "source": {
+            "end": 152,
+            "quote": "Inventory Health e1b8e1 Extended Value seems overstated. pls explain its global total and any supported source mechanism. thx, need the actual scope too",
+            "start": 0
+          },
+          "version": "ticket-comparison-request-v1"
+        }
+      },
+      "nominated_kind": "SOURCE_CORRECTNESS",
+      "gate_rule": "from_request(code_gate=True) overrides the nominated kind from current/source keywords; COMPARISON_ESTABLISHED_FROM_REQUEST suppresses the comparison question.",
+      "finding": "UNSAFE_COMPARISON_SETTLEMENT"
+    },
+    {
+      "id": "original:family-G-mention",
+      "partition": "held_out",
+      "fields": [
+        "reported_figure"
+      ],
+      "ticket": "Inventory Health e1b8e1 Handled Quantity may contain incorrect source entries. Check source movements and inventory adjustments, without assuming adjustment business intent. The global Handled Quantity currently shows 8765. Internal request reference 4182 is only a tracking number, not the metric figure; please do not compare that reference to the data.",
+      "oracle": {
+        "state": "NOT_STATED",
+        "reason": "The admitted sealed record explicitly records no reported figure."
+      },
+      "actual": {
+        "precision": {
+          "state": "EXACT"
+        },
+        "source": {
+          "end": 222,
+          "quote": "8765",
+          "start": 218
+        },
+        "state": "NUMBER",
+        "value": "8765"
+      },
+      "nominated_kind": "SOURCE_CORRECTNESS",
+      "gate_rule": "VALIDATED_REFERENT_AND_SCOPE accepts the extracted reported figure. The ticket explicitly states a displayed value; the sealed oracle says NOT_STATED. No corrective question is established by this evidence.",
+      "finding": "SEALED_ORACLE_TEXT_CONFLICT"
+    },
+    {
+      "id": "rebuilt:family-A",
+      "partition": "held_out",
+      "fields": [
+        "comparison_route"
+      ],
+      "ticket": "In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.",
+      "oracle": {
+        "state": "DETERMINED",
+        "value": "APPLICATION",
+        "basis": "Human oracle decision 2026-10-09, C2"
+      },
+      "actual": {
+        "authority": "CODE_ESTABLISHED_REQUEST_COMPARISON",
+        "value": {
+          "kind": "FRESHNESS",
+          "request_hash": "a810a0664612cb51e970293ba66e4eb382eacb1365e32b5be9bd8c0377778d1d",
+          "route": "STALE",
+          "source": {
+            "end": 172,
+            "quote": "In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.",
+            "start": 0
+          },
+          "version": "ticket-comparison-request-v1"
+        }
+      },
+      "nominated_kind": "FIGURE_DIFFERENCE",
+      "gate_rule": "from_request(code_gate=True) overrides the nominated kind from current/source keywords; COMPARISON_ESTABLISHED_FROM_REQUEST suppresses the comparison question.",
+      "finding": "UNSAFE_COMPARISON_SETTLEMENT"
+    },
+    {
+      "id": "rebuilt:family-F",
+      "partition": "held_out",
+      "fields": [
+        "comparison_route"
+      ],
+      "ticket": "Inventory Health e1b8e1 Extended Value seems overstated. Investigate the Movement Value card's current total, the upstream data and available transformation definitions to identify a supported explanation.",
+      "oracle": {
+        "state": "DETERMINED",
+        "value": "LOOKS_WRONG",
+        "basis": "An explicit wrong-looking-number ask without a named second referent."
+      },
+      "actual": {
+        "authority": "CODE_ESTABLISHED_REQUEST_COMPARISON",
+        "value": {
+          "kind": "FRESHNESS",
+          "request_hash": "2ffe50a52bb588a8510908ebcfeacd8bd8780fd2eef0354697214cf12082ddff",
+          "route": "STALE",
+          "source": {
+            "end": 205,
+            "quote": "Inventory Health e1b8e1 Extended Value seems overstated. Investigate the Movement Value card's current total, the upstream data and available transformation definitions to identify a supported explanation.",
+            "start": 0
+          },
+          "version": "ticket-comparison-request-v1"
+        }
+      },
+      "nominated_kind": "FIGURE_DIFFERENCE",
+      "gate_rule": "from_request(code_gate=True) overrides the nominated kind from current/source keywords; COMPARISON_ESTABLISHED_FROM_REQUEST suppresses the comparison question.",
+      "finding": "UNSAFE_COMPARISON_SETTLEMENT"
+    }
+  ]
+}

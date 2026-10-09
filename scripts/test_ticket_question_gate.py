@@ -6,6 +6,37 @@ from test_intake_extraction import fixture
 
 
 class QuestionGateTests(unittest.TestCase):
+    def test_current_quantity_does_not_mean_freshness(self):
+        raw,payload=fixture('In Report, Global card Quantity seems overstated. Investigate its current total.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        ticket,_,_=gate.prepare(protocol.new('t'),{'retained_extraction':raw},payload,planner.settings())
+        self.assertEqual(ticket['settled']['COMPARISON']['value']['route'],'LOOKS_WRONG')
+
+    def test_source_mechanism_does_not_establish_application_comparison(self):
+        raw,payload=fixture('In Report, Global card Quantity seems overstated. Explain its source mechanism.',
+            kind='SOURCE_CORRECTNESS',visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        ticket,_,_=gate.prepare(protocol.new('t'),{'retained_extraction':raw},payload,planner.settings())
+        self.assertNotIn('COMPARISON',ticket['settled'])
+
+    def test_model_freshness_nomination_needs_matching_text(self):
+        raw,payload=fixture('In Report, Global card Quantity looks high.',kind='FRESHNESS',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        ticket,_,_=gate.prepare(protocol.new('t'),{'retained_extraction':raw},payload,planner.settings())
+        self.assertNotIn('COMPARISON',ticket['settled'])
+
+    def test_policy_default_cannot_drop_uncertain_comparison_question(self):
+        raw,payload=fixture('In Report, Global card Quantity needs investigation.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        config=planner.settings();config['default_route']='APPLICATION'
+        ticket,_,_=gate.prepare(protocol.new('t'),{'retained_extraction':raw},payload,config)
+        self.assertNotIn('COMPARISON',ticket['settled'])
+
+    def test_conflicting_freshness_and_source_cues_require_question(self):
+        raw,payload=fixture('In Report, Global card Quantity is stale against the application.',kind='FRESHNESS',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        ticket,_,_=gate.prepare(protocol.new('t'),{'retained_extraction':raw},payload,planner.settings())
+        self.assertNotIn('COMPARISON',ticket['settled'])
+
     def test_two_figures_never_add_visual_or_comparison_questions(self):
         raw,payload=fixture('In Report, Quantity shows 16 or 17.',
             figures=[{'quote':v,'role':'PRIMARY','state':'NUMBER','precision_quote':None} for v in ('16','17')])

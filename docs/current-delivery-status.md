@@ -281,3 +281,7 @@ conflicts requiring clarification. Link integration and the Phase A quality
 gate remain incomplete. #423 draft; all prior engine freezes invalidated.
 Zero new provider calls or estate reads; goldens, scopes and budgets unchanged.
 See [Round Eleven evidence](round-eleven-smart-intake.md).
+# Round Twelve checkpoint — 2026-10-09
+
+The authorised diagnosis-only audit of ten retained mismatches is complete. Seven are unsafe comparison settlements; three are fixed-oracle/text conflicts, preserved as findings. The asymmetric smart-intake route correction passed 115 focused tests. Fresh held-out scoring, form scoring and live form runs are pending. No estate/model requests, identity changes or billing rebuild in this checkpoint. Engine freeze invalidated; #423 remains draft. See [the evidence and decision](round-twelve-form-intake.md).
+

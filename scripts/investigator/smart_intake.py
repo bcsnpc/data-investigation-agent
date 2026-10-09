@@ -120,12 +120,12 @@ class SmartIntake:
                             'detail':{'supplied_comparison':declared,'source_input_hash':digest(request)}})
             if raw and not comparison_conflict and 'COMPARISON' not in current['settled'] and 'COMPARISON' not in self.configuration['must_confirm']:
                 from .ticket_route import settlement
-                try:route=settlement(raw,source['text'],self.configuration)
+                try:route=settlement(raw,source['text'],self.configuration,code_gate=True)
                 except (ValueError,ValidationError):route=None
                 if route is not None:
                     current['settled']['COMPARISON']={'authority':
                         'ESTATE_COMPARISON_POLICY' if route['version']=='ticket-comparison-policy-v1' else
-                        'EXPLICIT_REQUEST_COMPARISON','value':route}
+                        'CODE_ESTABLISHED_REQUEST_COMPARISON','value':route}
                     current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
                         'detail':{'settled_from_request':copy.deepcopy(route)}})
             from . import ticket_question_gate

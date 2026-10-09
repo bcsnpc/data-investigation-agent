@@ -61,6 +61,9 @@ def settlement(raw, ticket, configuration, *, code_gate=False):
         return validate({'version':SUBJECT_VERSION,'route':'DECLARED_SUBJECT','kind':raw['kind'],
                          'request_hash':digest(ticket),'source':extraction['primary']},ticket)
     route=config['default_route']
+    # A configured fallback is policy, not a checkable answer to a user question.
+    # The asymmetric question gate must ask when text has not settled the route.
+    if code_gate:return None
     if route not in ('APPLICATION','STALE','LOOKS_WRONG'):return None
     return validate({'version':DEFAULT_VERSION,'route':route,'request_hash':digest(ticket),
                      'configuration_hash':digest(config)},ticket)
@@ -89,21 +92,25 @@ def from_request(raw, ticket, *, code_gate=False):
     # because extraction put its explicit words in the comparison list.
     if any(re.search(r'\b(?:another|other|second) report\b|\byesterday\b|\bearlier\b',s['quote'],re.I)
            for s in extraction['comparisons']):return None
-    freshness=bool(re.search(r'\b(stale|freshness|refresh|lag|up[ -]to[ -]date|current)\b',ask,re.I))
+    freshness=bool(re.search(r'\b(stale|freshness|refresh|lag|up[ -]to[ -]date)\b|\b(?:is|how|whether)\s+(?:it\s+is\s+|this\s+is\s+)?current\b',ask,re.I))
     application=bool(re.search(r'\b(application|source (?:system|records?|data|movements?|entries|total))\b',ask,re.I))
-    if code_gate and re.search(r'\bsource\b',ask,re.I):application=True
-    if raw['kind']=='SOURCE_CORRECTNESS' and re.search(r'\b(?:records?|entries|reason)\b',ask,re.I):
-        application=True
-    if freshness and application and not code_gate:return None
+    # A bare declared comparator is evidence; "source mechanism" is not.
+    if code_gate and any(re.fullmatch(r'(?:the )?source',s['quote'],re.I)
+                         for s in extraction['comparisons']):application=True
+    if freshness and application:return None
     looks_wrong=bool(re.search(r'\b(?:looks? (?:too )?(?:high|wrong)|overstated)\b',ask,re.I))
     route=('STALE' if raw['kind']=='FRESHNESS' and freshness else
            'APPLICATION' if raw['kind'] in ('SOURCE_CORRECTNESS','FIGURE_DIFFERENCE') and application else
            'LOOKS_WRONG' if code_gate and raw['kind']=='FIGURE_DIFFERENCE' and looks_wrong else None)
     kind=raw['kind']
-    if code_gate and raw['kind'] not in ('BUSINESS_MEANING','TEMPORAL_COMPARISON'):
-        if freshness:route,kind='STALE','FRESHNESS'
-        elif application:route,kind='APPLICATION','SOURCE_CORRECTNESS'
-        elif looks_wrong:route,kind='LOOKS_WRONG','FIGURE_DIFFERENCE'
+    # Never replace the model's nomination with a keyword-derived kind. Both
+    # independent sources must agree, and conflicting cues leave the question open.
+    if code_gate:
+        cues={name for name,present in [('STALE',freshness),('APPLICATION',application),
+                                       ('LOOKS_WRONG',looks_wrong)] if present}
+        # Wrong-looking values can also explicitly name their application comparator.
+        if application:cues.discard('LOOKS_WRONG')
+        if len(cues)!=1 or route not in cues:return None
     if route is None:return None
     return validate({'version':EVIDENCE_VERSION,'route':route,'kind':kind,
                      'request_hash':digest(ticket),'source':source},ticket)

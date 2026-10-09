@@ -258,3 +258,7 @@ Plain text remains supported. Offline focused validation is recorded in
 docs/round-eleven-smart-intake.md; the current 68-ticket quality gate remains
 incomplete, #423 draft, freezes invalid. No new provider or estate requests.
 
+# Round Twelve checkpoint
+
+The form-first round is in progress. The ten retained intake mismatches have been diagnosed: seven unsafe comparison settlements and three conflicts between explicit ticket figures and the unchanged sealed oracle. The corrected asymmetric gate passed 115 focused tests; fresh held-out scoring and form delivery are pending. Billing is already published and is not being rebuilt. See [the checkpoint](docs/round-twelve-form-intake.md). No new general intake-quality claim is established.
+
