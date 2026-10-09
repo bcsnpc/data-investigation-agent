@@ -32,13 +32,14 @@ PHASES.update(CONTEXT_OBSERVED='Reading definitions and relationships',PROPOSAL_
 
 
 class Workspace:
-    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000):
+    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000, intake_configuration=None):
         if type(dynamic_read_limit) is not int or not DYNAMIC_READ_BOUNDS[0]<=dynamic_read_limit<=DYNAMIC_READ_BOUNDS[1]:
             raise ValueError('Dynamic read limit must be 1–15')
         if type(dynamic_input_limit) is not int or not DYNAMIC_INPUT_BOUNDS[0]<=dynamic_input_limit<=DYNAMIC_INPUT_BOUNDS[1]:
             raise ValueError("Invalid dynamic input limit")
         self.dynamic_input_limit=dynamic_input_limit
         self.dynamic_read_limit=dynamic_read_limit
+        self.intake_configuration=intake_configuration
         self.agent, self.store, self.clock = agent, agent.store, lambda:tape_clock('workspace',clock)
         self.execution_enabled = execution_enabled
         if execution_enabled and (agent.planner is None or agent.governor is None):
@@ -59,6 +60,13 @@ class Workspace:
         self.intake = Intake(self, question_resolver)
         from .screenshot_intake import Screenshots
         self.screenshots = Screenshots(self, screenshot_extractor)
+
+    @property
+    def smart_intake(self):
+        if not hasattr(self,'_smart_intake'):
+            from .smart_intake import SmartIntake
+            self._smart_intake=SmartIntake(self,self.intake_configuration)
+        return self._smart_intake
 
     def models(self):
         return {'execution_enabled': self.execution_enabled, 'question_intake_enabled': self.execution_enabled and self.intake.resolver is not None,

@@ -137,14 +137,36 @@ def match(quote, candidates, id_field, audit=None):
     from .intake_name_resolution import resolve as resolve_name
     return resolve_name(quote, candidates, id_field, audit)
 
-def spans(raw, ticket):
+def spans(raw, ticket, *, figure_occurrences=False):
     from .question_intake import locate
     Draft202012Validator(SCHEMA).validate(raw)
     result = copy.deepcopy(raw)
+    if figure_occurrences:
+        # A user can distinguish occurrences that a quote-only model response
+        # cannot. Retain every occurrence before applying that user's choice.
+        # The legacy protocol remains strict for existing exact tapes.
+        from .question_intake import FigureQuoteAmbiguous
+        inventory=[]
+        for item in raw['figures']:
+            try: sources=[locate({'quote':item['quote']},ticket,field='reported_figure')]
+            except FigureQuoteAmbiguous as exc: sources=exc.occurrences
+            for source in sources:
+                entry=copy.deepcopy(item);entry['quote']=source
+                precision=entry.get('precision_quote')
+                if precision is not None:
+                    offset=source['quote'].find(precision)
+                    if offset<0:raise ValueError('Nested provenance must lie inside its relationship span')
+                    start=source['start']+offset
+                    entry['precision_quote']={'start':start,'end':start+len(precision),'quote':precision}
+                if entry not in inventory:inventory.append(entry)
+        if len(inventory)>reported_figure.CANDIDATE_LIMIT:
+            raise ValueError('Reported occurrence inventory exceeds the consumer bound')
+        result['figures']=inventory
     result['primary']=locate({'quote':raw['primary']},ticket,field='question_kind')
     for key in ('comparisons','contexts'):
         result[key]=[locate({'quote':q},ticket,field='question_kind') for q in raw[key]]
     for key in ('measures','figures','selections','visuals','reports','pages','dates','groupings','identifiers'):
+        if key=='figures' and figure_occurrences:continue
         for item in result[key]:
             for field in ('quote','column','value','precision_quote'):
                 if field in item and item[field] is not None:
@@ -178,13 +200,19 @@ def resolve(raw, payload):
     """Resolve solely against retained metadata. Missing information is a refusal."""
     from . import report_scope, numeral_roles, intake_rules
     from .visual_target import TargetUnresolved
-    extraction=spans(raw,payload['text']); ticket=payload['text']
+    ticket=payload['text']
     confirmation=payload.get('_ticket_confirmation')
     confirmed={}
     if confirmation is not None:
         from .intake_confirmation import values
         confirmed=values(confirmation,ticket=ticket,models=payload['models'])
     number=confirmed.get('NUMBER')
+    extraction=spans(raw,ticket,figure_occurrences=bool(number and number['figure_source'] is not None))
+    report_confirmation=confirmed.get('REPORT_PAGE')
+    route=None
+    if confirmed.get('COMPARISON'):
+        from .ticket_route import declared,admit
+        route=declared(confirmation);admit(route)
     figures=[i for i in extraction['figures'] if primary_fact(i,extraction)]
     # Roles are model judgments, not proof that two reported values belong
     # to different cells. Conserve reported candidates before resolving scope.
@@ -210,6 +238,9 @@ def resolve(raw, payload):
     # Named context narrows the metadata search; it does not select a visual.
     report_words=[i['quote']['quote'] for i in extraction['reports'] if i['role']!='COMPARISON']
     models=payload['models']
+    if report_confirmation:
+        models=[m for m in models if any(r['id']==report_confirmation['report_id'] for r in m.get('reports',[]))]
+        report_words=[]  # The recorded user choice supersedes the original report ambiguity.
     if report_words:
         anchors=[{'id':r['id'],'name':r['name'],'model_id':m['id']}
                  for m in models for r in [m,*m.get('reports',[])]]
@@ -301,6 +332,7 @@ def resolve(raw, payload):
         'ticket_shape':shape,'comparison_mode':mode,
         'reported_figure':reported,'filters':filters,'scope_quotes':scope_quotes,
         'dimension_ids':dimensions,'dimension_quotes':dimension_quotes,'value_mentions':value_mentions}
+    if route is not None:value['ticket_route']=route
     from .name_kind import resolve as resolve_name
     named_context=[i for i in extraction['reports'] if i['role']!='COMPARISON' and
                    i['quote']['quote']==model['name']]
@@ -312,6 +344,8 @@ def resolve(raw, payload):
         value['numeral_mentions']=numerals;value['expected_records']=numeral_roles.expected(numerals,ticket)
     intake_rules.validate(value,ticket)
     reports=[]
+    if report_confirmation:
+        reports=[next(r for r in model.get('reports',[]) if r['id']==report_confirmation['report_id'])]
     for q in report_words:
         # A model name is a valid anchor without a report. Do not reinterpret
         # it as a fuzzy report merely because one report shares some tokens.
@@ -325,14 +359,17 @@ def resolve(raw, payload):
             raise TargetUnresolved(model.get('visuals',[]),'Named report is unresolved or ambiguous.',
                                    'TARGET_AMBIGUOUS' if len(reports)>1 else 'TARGET_UNRESOLVED')
         report=reports[0]
-        stated=next(i['quote'] for i,q in zip(
-            [i for i in extraction['reports'] if i['role']!='COMPARISON'],report_words)
-            if match(q,model['reports'],'id')['id']==report['id'])
-        # The expanded full spelling is still verbatim, and its provenance
-        # remains at the same declared location.
-        full=next((q for q in report_words if q==report['name']),None)
-        if full:stated={'start':stated['start'],'end':stated['start']+len(full),'quote':full}
-        value['report_binding']=report_scope.resolve_report(stated,model['reports'],ticket)
+        if report_confirmation:
+            value['report_binding']={'resolution_kind':'USER_CONFIRMED','report_id':report['id'],
+                                     'source':None,'confirmation':copy.deepcopy(confirmation)}
+        else:
+            stated=next(i['quote'] for i,q in zip(
+                [i for i in extraction['reports'] if i['role']!='COMPARISON'],report_words)
+                if match(q,model['reports'],'id')['id']==report['id'])
+            # Expanded spelling is still verbatim at the same declared location.
+            full=next((q for q in report_words if q==report['name']),None)
+            if full:stated={'start':stated['start'],'end':stated['start']+len(full),'quote':full}
+            value['report_binding']=report_scope.resolve_report(stated,model['reports'],ticket)
         if pending:
             if len(pending)!=1:raise ValueError('The contract supports one unresolved report-scoped selection; multiple selections remain unresolved')
             item=pending[0]
@@ -342,13 +379,16 @@ def resolve(raw, payload):
                 'value_source':item['value'],'column_source':None,'descriptor':descriptor}
         candidates=[v for v in model.get('visuals',[]) if v['report_id']==report['id'] and metric['id'] in v['measure_ids']]
         matched=candidates;basis=['report','measure'];source=None;mode_source=None;mode=None
-        for hint in extraction['pages']:
+        if report_confirmation and report_confirmation['page_id'] is not None:
+            matched=[v for v in matched if v.get('page_id')==report_confirmation['page_id']]
+            basis.append('user_confirmed_page')
+        for hint in ([] if report_confirmation and report_confirmation['page_id'] is not None else extraction['pages']):
             if not active(hint,extraction):continue
             pages=[{'id':v['page_id'],'name':name} for v in matched for name in v.get('page_names',[])]
             page=match(hint['quote']['quote'],pages,'id',audit)
             matched=[v for v in matched if v.get('page_id')==page['id']]
             basis.append('page_name')
-        for hint in extraction['visuals']:
+        for hint in ([] if number else extraction['visuals']):
             if not active(hint,extraction): continue
             quote=hint['quote']['quote'];form=hint.get('form','TITLE')
             # A form cue does not erase an explicitly quoted title. Apply both
@@ -387,11 +427,6 @@ def resolve(raw, payload):
             'match_basis':{'matched':sorted(set(basis)),'absent':['reported_value_in_inventory','selection_in_inventory']}}
     value['extracted_ticket']={'version':VERSION,'response':copy.deepcopy(raw),'spans':extraction,'resolution_evidence':audit}
     if confirmation is not None:
-        # A proof may not silently disappear because its bridge is unfinished.
-        # Report/page and route confirmation need their own consumer wiring;
-        # target/figure confirmation is the only integration established here.
-        if set(confirmed)-{'NUMBER'}:
-            raise ValueError('CONFIRMATION_BRIDGE_UNIMPLEMENTED: '+', '.join(sorted(set(confirmed)-{'NUMBER'})))
         value['extracted_ticket']['version']='ticket-spans-confirmed-v1'
         value['extracted_ticket']['confirmation']=copy.deepcopy(confirmation)
     return value
@@ -432,7 +467,11 @@ def azure_extract(payload):
 def azure_resolve(payload):
     raw,metadata=_generate(payload)
     try:return resolve(raw,payload),metadata
-    except Exception as exc:_failure(exc,metadata)
+    except Exception as exc:
+        try:_failure(exc,metadata)
+        except Exception as failure:
+            failure.retained_extraction=copy.deepcopy(raw)
+            raise
 
 azure_resolve.request_characters=request_size
 azure_extract.request_characters=request_size

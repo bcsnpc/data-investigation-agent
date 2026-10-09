@@ -111,7 +111,7 @@ def evidence(column_id, source, inventory_entry_id, *, ticket, inventory, active
             'inventory_entry_id':inventory_entry_id,'source':copy.deepcopy(source)}
     return validate(result,ticket=ticket,inventory=inventory,active=active,binding=binding,reports=reports)
 
-PROCEDURE_EVIDENCE_FIELDS=('reported_figure','definition_target','target_visual','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','value_mentions')
+PROCEDURE_EVIDENCE_FIELDS=('reported_figure','definition_target','target_visual','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','value_mentions','ticket_route')
 
 
 def server_evidence(source):

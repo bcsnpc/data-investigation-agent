@@ -17,6 +17,22 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def test_v4_tape_replays_unchanged_after_smart_ticket_version_bump(self):
+        from investigator import process_tape as journal
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'v4.json'
+            with patch.object(journal,'VERSION','bounded-worker-tape-v4'):
+                recorded=Tape(path,bootstrap())
+                recorded.event('BOUNDED_REQUEST',bytes_of({'value':16}))
+                recorded.event('BOUNDED_RESPONSE',bytes_of({'value':17}))
+                recorded.finish({'status':'HELD'})
+            original=path.read_bytes();replayed=Tape(path)
+            self.assertEqual(replayed.version,'bounded-worker-tape-v4')
+            replayed.event('BOUNDED_REQUEST',bytes_of({'value':16}))
+            self.assertEqual(json.loads(replayed.take('BOUNDED_RESPONSE')),{'value':17})
+            replayed.finish({'status':'HELD'})
+            self.assertEqual(path.read_bytes(),original)
+
     def test_worker_admission_never_rewrites_prior_envelope(self):
         with tempfile.TemporaryDirectory() as folder:
             tape=Tape(Path(folder)/'tape.json',bootstrap())
@@ -57,7 +73,7 @@ class TapeTests(unittest.TestCase):
                 recorded.event('BOUNDED_RESPONSE', bytes_of({'value': 2}))
                 recorded.finish({})
             original = path.read_bytes()
-            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v4')
+            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v5')
             replayed = Tape(path)
             self.assertEqual(replayed.version, 'bounded-worker-tape-v1')
             replayed.event('BOUNDED_REQUEST', bytes_of({'request': 1}))

@@ -47,5 +47,6 @@ def _build_workspace(manifest,path,config,execution_enabled):
         planner_profile=profile,usage_policy=policy(manifest),process_lineage=lineage)
     workspace=Workspace(agent,execution_enabled=execution_enabled,
         question_resolver=resolver,
+        intake_configuration=manifest.get('intake'),
         dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'])
     return workspace

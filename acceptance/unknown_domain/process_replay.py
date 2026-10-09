@@ -41,6 +41,10 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
     workspace.owner=settings['workspace_owner']
     methods={'intake':workspace.intake.resolve,'preview':workspace.preview,
              'create':agent.create,'run':agent.run,'synthesize':agent.synthesize}
+    if tape.version in journal.SMART_VERSIONS:
+        from investigator.smart_intake import SmartIntake
+        controller=SmartIntake(workspace,settings.get('smart_intake'))
+        methods.update(ticket_submit=controller.submit,ticket_reply=controller.reply)
     result=None;error=None;operations=[]
     with ExitStack() as stack:
         if allow_engine_drift:

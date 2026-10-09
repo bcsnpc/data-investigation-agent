@@ -22,6 +22,34 @@ def confirm(payload, raw, target='card', figure=None, mode='UNGROUPED'):
 
 
 class IntakeConfirmationTests(unittest.TestCase):
+    def test_repeated_numeral_requires_an_occurrence_and_conserves_both(self):
+        raw,payload=fixture('In Report, Quantity shows 16; the application also shows 16.',
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}])
+        from investigator.question_intake import FigureQuoteAmbiguous
+        with self.assertRaises(FigureQuoteAmbiguous):intake_extraction.resolve(raw,payload)
+        start=payload['text'].rindex('16')
+        source={'start':start,'end':start+2,'quote':'16'}
+        confirmed,_,_=confirm(payload,raw,figure=source)
+        value=intake_extraction.resolve(raw,confirmed);validate(value,confirmed)
+        self.assertEqual(value['reported_figure']['source'],source)
+        self.assertEqual(value['extracted_ticket']['response'],raw)
+        spans=value['extracted_ticket']['spans']['figures']
+        self.assertEqual([v['quote']['start'] for v in spans],
+            [payload['text'].index('16'),start])
+        changed=copy.deepcopy(value);changed['extracted_ticket']['spans']['figures'].pop(0)
+        with self.assertRaisesRegex(ValueError,'Resolved extraction differs'):validate(changed,confirmed)
+
+    def test_confirmed_numeral_cannot_strip_its_unknown_precision(self):
+        raw,payload=fixture('In Report, Quantity shows about 16.',
+            figures=[{'quote':'about 16','role':'PRIMARY','state':'NUMBER','precision_quote':None}])
+        start=payload['text'].index('16')
+        confirmed,_,_=confirm(payload,raw,figure={'start':start,'end':start+2,'quote':'16'})
+        with self.assertRaisesRegex(ValueError,'not one retained extraction'):intake_extraction.resolve(raw,confirmed)
+        source={'start':payload['text'].index('about'),'end':start+2,'quote':'about 16'}
+        confirmed,_,_=confirm(payload,raw,figure=source)
+        with self.assertRaises(intake_extraction.reported_figure.UnavailablePrecision):
+            intake_extraction.resolve(raw,confirmed)
+
     def test_ambiguous_visual_resolves_only_from_recorded_user_choice(self):
         raw,payload=fixture('In Report, Quantity looks wrong.')
         with self.assertRaises(TargetUnresolved):intake_extraction.resolve(raw,payload)
@@ -62,16 +90,21 @@ class IntakeConfirmationTests(unittest.TestCase):
             else:bad[key]['confirmation']['fields']['NUMBER']['value']['target_id']='matrix'
             with self.subTest(key=key),self.assertRaises(ValueError):validate(bad,confirmed)
 
-    def test_confirmation_never_adds_provider_context_or_selects_a_comparison_route(self):
+    def test_route_confirmation_never_adds_provider_context_or_reclassifies_the_subject(self):
         raw,payload=fixture('In Report, Quantity looks wrong.')
-        confirmed,_,_=confirm(payload,raw)
+        confirmed,ticket,_=confirm(payload,raw)
+        q={'id':'comparison','field':'COMPARISON','question':'What are you comparing against?',
+           'choices':[{'id':'application','label':'The application','highlight':None}]}
+        ticket=confirmation.offer(ticket,[q],{digest(q)+'/application':{'route':'APPLICATION'}},
+            request_text=payload['text'],models=payload['models'])
+        ticket=protocol.answer(ticket,[{'question_id':'comparison','choice_id':'application'}])
+        confirmed['_ticket_confirmation']=confirmation.build(ticket,payload['text'])
         self.assertEqual(intake_extraction.wire(payload),intake_extraction.wire(confirmed))
         self.assertEqual(intake_extraction.request_size(payload),intake_extraction.request_size(confirmed))
-        confirmed['_ticket_confirmation']['fields']['COMPARISON']={
-            'proof':{'question_id':'comparison','choice_id':'application','authority':'USER_CONFIRMED','question_hash':'retained'},
-            'value':{'route':'APPLICATION'}}
-        with self.assertRaisesRegex(ValueError,'CONFIRMATION_BRIDGE_UNIMPLEMENTED'):
-            intake_extraction.resolve(raw,confirmed)
+        value=intake_extraction.resolve(raw,confirmed);validate(value,confirmed)
+        self.assertEqual(value['ticket_route']['route'],'APPLICATION')
+        self.assertEqual(value['question_kind']['kind'],raw['kind'])
+        with self.assertRaises(ValueError):validate(value,payload)
 
     def test_confirmation_requires_an_actual_retained_user_answer(self):
         raw,payload=fixture('In Report, Quantity looks wrong.')
@@ -83,6 +116,55 @@ class IntakeConfirmationTests(unittest.TestCase):
         raw,payload=fixture('In Report, Quantity looks wrong.')
         confirmed,_,_=confirm(payload,raw)
         with self.assertRaises(Exception):intake_extraction.resolve(raw,{**confirmed,'text':'Changed request'})
+
+    def test_changed_catalog_cannot_reuse_confirmation(self):
+        raw,payload=fixture('In Report, Quantity looks wrong.')
+        confirmed,_,_=confirm(payload,raw)
+        changed=copy.deepcopy(confirmed);changed['models'][0]['visuals'][0]['names']=['Changed card']
+        with self.assertRaisesRegex(ValueError,'catalog changed'):intake_extraction.resolve(raw,changed)
+
+    def test_user_can_supply_missing_report_page_without_a_fabricated_quote(self):
+        raw,payload=fixture('Quantity looks wrong.',reports=[])
+        model=payload['models'][0]
+        model['visuals'][0]['page_id']='overview';model['visuals'][1]['page_id']='details'
+        q={'id':'report-page','field':'REPORT_PAGE','question':'Which report/page?',
+           'choices':[{'id':'overview','label':'Report — Overview','highlight':None}]}
+        ticket=confirmation.offer(protocol.new('ticket'),[q],{
+            digest(q)+'/overview':{'report_id':'report','page_id':'overview'}},
+            request_text=payload['text'],models=payload['models'])
+        ticket=protocol.answer(ticket,[{'question_id':'report-page','choice_id':'overview'}])
+        confirmed={**payload,'_ticket_confirmation':confirmation.build(ticket,payload['text'])}
+        value=intake_extraction.resolve(raw,confirmed);validate(value,confirmed)
+        self.assertEqual(value['report_binding']['resolution_kind'],'USER_CONFIRMED')
+        self.assertIsNone(value['report_binding']['source'])
+        self.assertEqual(value['target_visual']['target_id'],'card')
+        self.assertEqual(value['extracted_ticket']['response'],raw)
+        from investigator.report_scope import report_binding
+        self.assertEqual(report_binding(value['report_binding'],reports=model['reports'],ticket=payload['text']),value['report_binding'])
+        # The proof is authority supplied by the server, not an additional wire
+        # variant a model may declare on its own.
+        with self.assertRaises(ValueError):validate(value,payload)
+        bad=copy.deepcopy(value);bad.pop('extracted_ticket')
+        with self.assertRaisesRegex(ValueError,'cannot declare user report'):validate(bad,confirmed)
+
+    def test_report_confirmation_keeps_real_target_ambiguity(self):
+        raw,payload=fixture('Quantity looks wrong.',reports=[])
+        q={'id':'report','field':'REPORT_PAGE','question':'Which report?',
+           'choices':[{'id':'report','label':'Report','highlight':None}]}
+        ticket=confirmation.offer(protocol.new('ticket'),[q],{
+            digest(q)+'/report':{'report_id':'report','page_id':None}},
+            request_text=payload['text'],models=payload['models'])
+        ticket=protocol.answer(ticket,[{'question_id':'report','choice_id':'report'}])
+        with self.assertRaises(TargetUnresolved):
+            intake_extraction.resolve(raw,{**payload,'_ticket_confirmation':confirmation.build(ticket,payload['text'])})
+
+    def test_confirmed_target_can_resolve_an_unmatched_original_title(self):
+        raw,payload=fixture('In Report, Missing card Quantity looks wrong.',
+            visuals=[{'quote':'Missing card','role':'PRIMARY','form':'TITLE'}])
+        confirmed,_,_=confirm(payload,raw)
+        value=intake_extraction.resolve(raw,confirmed);validate(value,confirmed)
+        self.assertEqual(value['target_visual']['target_id'],'card')
+        self.assertEqual(value['extracted_ticket']['response']['visuals'],raw['visuals'])
 
     def test_confirmation_never_invents_a_reported_span(self):
         raw,payload=fixture('In Report, Quantity looks wrong.')

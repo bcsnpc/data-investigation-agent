@@ -116,8 +116,8 @@ invalidated engine-pinned operations. This run is retained in
 `.local/round-eleven-regression.log`; it is not a clean regression result.
 Dated clean result: after committing and freezing `4175ced`, all 2,493 tests
 passed in 450.659 seconds. The failed run above remains unchanged. Subsequent
-confirmation/link/closure/reuse changes passed 142 targeted tests; their clean
-full regression is pending. Do not weaken the committed-tape or engine-change
+confirmation/link/closure/reuse changes passed 142 targeted tests and the clean
+`e200e8b` full regression passed 2,512 tests in 451.597 seconds. Do not weaken the committed-tape or engine-change
 refusal to make the suite pass.
 
 Phase B exports use existing identities and the unchanged estate pot; denied
@@ -128,3 +128,36 @@ No identity, permission, secret, estate fixture, policy counter or acceptance
 expectation has changed. No model or estate request has been made. Engine bytes
 changed, so earlier freezes are invalid. No investigation ledger row is added
 for these offline component changes.
+
+## Dated controller integration checkpoint — 2026-10-09 UTC
+
+Report/page and comparison confirmations now pass through the consumer contract.
+Report bindings name `USER_CONFIRMED` provenance without inventing an original
+quotation. Application, stale and looks-wrong choices reach the procedure;
+other-report and business-meaning choices refuse before adapter work. The
+original subject is preserved independently from the comparison choice.
+
+The text controller persists one choice batch and adopts the selected scope
+from retained extraction without another provider reservation. Replies contain
+only question and choice IDs. Catalog changes hold; old source records stay
+unchanged. Every occurrence of a repeated numeral remains in the confirmed
+inventory, and a user cannot strip approximate wording to manufacture exactness.
+Thirty-three targeted controller/confirmation tests pass. Full regression on
+this checkpoint remains pending.
+
+Tape v5 adds terminal `ticket_submit` and `ticket_reply` operations and pins
+their configuration. V1–V4 remain supported under their original contracts;
+no old tape is rewritten. The replay driver dispatches the actual controller.
+These new operations still need a committed-source record/replay check.
+
+The controller is not yet exposed in the workspace API/UI. Link application,
+structured inputs, keyed-cell choices, routing packages, runtime evidence reuse,
+the 68-case evaluation and phases B/C are unfinished. Projected interactive
+capture refuses before any raw fallback; existing atomic projected runs are
+unchanged. No provider or estate requests, budget changes or scope changes here.
+
+DECIDED WITHOUT REVIEW: retain quote-occurrence inventory only in the new
+user-confirmed resolution path. Rejected alternative: choose the first repeated
+quote, which cannot establish the user's referent and changes legacy tape bytes.
+The metadata-only choice planner labels grouped candidates as total-cell-only;
+it does not silently replace an unrepresentable keyed address with a total.

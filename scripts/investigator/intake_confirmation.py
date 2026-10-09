@@ -17,6 +17,20 @@ REPORT_PAGE=protocol.obj({'report_id':protocol.ID,
     'page_id':{'anyOf':[{'type':'null'},protocol.ID]}})
 COMPARISON=protocol.obj({'route':{'enum':list(protocol.ROUTES)}})
 VALUES={'NUMBER':NUMBER,'REPORT_PAGE':REPORT_PAGE,'COMPARISON':COMPARISON}
+SCHEMA=protocol.obj({'version':{'const':VERSION},'ticket_id':protocol.ID,
+    'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
+    'catalog_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
+    'fields':{'type':'object','additionalProperties':False,'minProperties':1,
+        'properties':{field:protocol.obj({'proof':protocol.obj({
+            'question_id':protocol.ID,'choice_id':protocol.ID,
+            'authority':{'const':'USER_CONFIRMED'},'question_hash':protocol.ID}),
+            'value':spec}) for field,spec in VALUES.items()}}})
+
+
+def authority_hash(ticket):
+    """State/history may advance; a changed consequential decision may not."""
+    return digest({k:ticket.get(k) for k in
+        ('source_intake','choice_context','choice_values','confirmed','settled')})
 
 
 def offer(ticket, questions, choice_values, *, request_text, models, maximum=2):
@@ -27,10 +41,14 @@ def offer(ticket, questions, choice_values, *, request_text, models, maximum=2):
     for q in questions:
         for c in q['choices']:
             proof=protocol.confirmed([q],[{'question_id':q['id'],'choice_id':c['id']}])[q['field']]
-            values({'version':VERSION,'ticket_id':ticket['id'],'request_hash':digest(request_text),
+            values({'version':VERSION,'ticket_id':ticket['id'],'request_hash':digest(request_text),'catalog_hash':digest(models),
                 'fields':{q['field']:{'proof':proof,'value':choice_values[digest(q)+'/'+c['id']]}}},
                 ticket=request_text,models=models)
     result=protocol.ask(ticket,questions,maximum=maximum)
+    context={'request_hash':digest(request_text),'catalog_hash':digest(models)}
+    if result.get('choice_context',context)!=context:
+        raise ValueError('Retained choice context changed; open a new question frame')
+    result['choice_context']=context
     retained=result.setdefault('choice_values',{})
     for key,value in choice_values.items():
         if key in retained and retained[key]!=value:raise ValueError('A retained choice cannot change meaning')
@@ -43,6 +61,10 @@ def build(ticket, request_text):
     if not ticket['confirmed']:raise ValueError('No user confirmation exists')
     result={'version':VERSION,'ticket_id':ticket['id'],
             'request_hash':digest(request_text),'fields':{}}
+    context=ticket.get('choice_context')
+    if context is None or context['request_hash']!=result['request_hash']:
+        raise ValueError('Confirmation has no matching retained request context')
+    result['catalog_hash']=context['catalog_hash']
     # Recover the retained question/answer exchange from history. Never ask the
     # caller to supply a question hash that can masquerade as a recorded reply.
     questions={}
@@ -69,13 +91,9 @@ def build(ticket, request_text):
 
 def values(confirmation, *, ticket, models):
     """Revalidate the server proof's shape and every selected catalog identity."""
-    Draft202012Validator(protocol.obj({'version':{'const':VERSION},
-        'ticket_id':protocol.ID,'request_hash':{'const':digest(ticket)},
-        'fields':{'type':'object','additionalProperties':False,'minProperties':1,
-            'properties':{field:protocol.obj({'proof':protocol.obj({
-                'question_id':protocol.ID,'choice_id':protocol.ID,
-                'authority':{'const':'USER_CONFIRMED'},'question_hash':protocol.ID}),
-                'value':spec}) for field,spec in VALUES.items()}}})).validate(confirmation)
+    Draft202012Validator(SCHEMA).validate(confirmation)
+    if confirmation['request_hash']!=digest(ticket):raise ValueError('Confirmation request changed')
+    if confirmation['catalog_hash']!=digest(models):raise ValueError('Confirmation catalog changed')
     result={f:copy.deepcopy(v['value']) for f,v in confirmation['fields'].items()}
     report=result.get('REPORT_PAGE')
     if report:

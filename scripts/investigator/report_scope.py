@@ -6,10 +6,13 @@ Adapter wiring and actual value-existence reads are separate implementation work
 """
 import copy
 from collections import Counter
+from jsonschema import Draft202012Validator
 from . import declaration_inventory, reported_figure, definition_target
+from .intake_confirmation import SCHEMA as CONFIRMATION_SCHEMA
 from .onboarding import fields, text, digest
 
-VERSION = 'report-scoped-target-v1'
+LEGACY_VERSION = 'report-scoped-target-v1'
+VERSION = 'report-scoped-target-v2-confirmation'
 ID = copy.deepcopy(definition_target.ID)
 DISPOSITIONS = declaration_inventory.SCHEMA
 EFFECTS = ('RESTRICTED', 'FULL_DOMAIN', 'EXCLUDED')
@@ -22,6 +25,9 @@ def variant(discriminant, value, properties):
 
 
 STATED_REPORT_SCHEMA = variant('resolution_kind', 'STATED', {'report_id': ID, 'source': reported_figure.SPAN_SCHEMA})
+CONFIRMED_REPORT_SCHEMA = variant('resolution_kind','USER_CONFIRMED',{
+    'report_id':ID,'source':{'type':'null'},'confirmation':CONFIRMATION_SCHEMA})
+BINDING_SCHEMA={'anyOf':[STATED_REPORT_SCHEMA,CONFIRMED_REPORT_SCHEMA]}
 REPORT_SCHEMA = {'anyOf': [STATED_REPORT_SCHEMA,
     variant('resolution_kind', 'REFUSED', {
         'source': {'type': 'null'},
@@ -34,7 +40,9 @@ REPORT_SCHEMA = {'anyOf': [STATED_REPORT_SCHEMA,
     variant('resolution_kind', 'REFUSED', {
         'source': reported_figure.SPAN_SCHEMA,
         'candidates': {'type': 'array', 'minItems': 2, 'maxItems': 512, 'uniqueItems': True, 'items': ID},
-        'reason': {'type': 'string', 'enum': ['MULTIPLE_EXACT_MATCHES']}})]}
+            'reason': {'type': 'string', 'enum': ['MULTIPLE_EXACT_MATCHES']}}),CONFIRMED_REPORT_SCHEMA]}
+REFUSED_REPORT_SCHEMAS=[v for v in REPORT_SCHEMA['anyOf']
+                        if v['properties']['resolution_kind']['enum']==['REFUSED']]
 LOOKUP_SCHEMA = {'anyOf': [variant('status', state, {'receipt_ids': {
     'type': 'array', 'minItems': 0 if state == 'UNAVAILABLE' else 1,
     'maxItems': 0 if state == 'UNAVAILABLE' else 1, 'items': ID}})
@@ -43,7 +51,7 @@ LOOKUP_SCHEMA = {'anyOf': [variant('status', state, {'receipt_ids': {
 # A request is not a resolution. It can be carried through review without any
 # estate read or guessed column. Reads occur inside the governed procedure.
 REQUEST_SCHEMA = variant('state', 'REQUESTED', {
-    'report_binding': STATED_REPORT_SCHEMA, 'value_source': reported_figure.SPAN_SCHEMA,
+    'report_binding': BINDING_SCHEMA, 'value_source': reported_figure.SPAN_SCHEMA,
     'column_source': {'anyOf': [{'type': 'null'}, reported_figure.SPAN_SCHEMA]}})
 from .selection_descriptor import SCHEMA as DESCRIPTOR_SCHEMA
 # Historical requests have no descriptor field. New intake's wire requires it;
@@ -51,19 +59,19 @@ from .selection_descriptor import SCHEMA as DESCRIPTOR_SCHEMA
 REQUEST_SCHEMA['properties']['descriptor']=DESCRIPTOR_SCHEMA
 
 SCHEMA = {'anyOf': [
-    variant('resolution_kind', 'EVIDENCE', {'report_binding': STATED_REPORT_SCHEMA, 'column_id': ID,
+    variant('resolution_kind', 'EVIDENCE', {'report_binding': BINDING_SCHEMA, 'column_id': ID,
         'inventory_entry_id': ID, 'source': reported_figure.SPAN_SCHEMA}),
-    variant('resolution_kind', 'OBSERVED', {'report_binding': STATED_REPORT_SCHEMA, 'column_id': ID,
+    variant('resolution_kind', 'OBSERVED', {'report_binding': BINDING_SCHEMA, 'column_id': ID,
         'receipt_id': ID, 'source': reported_figure.SPAN_SCHEMA}),
-    variant('resolution_kind', 'STATED', {'report_binding': STATED_REPORT_SCHEMA, 'column_id': ID,
+    variant('resolution_kind', 'STATED', {'report_binding': BINDING_SCHEMA, 'column_id': ID,
         'source': reported_figure.SPAN_SCHEMA, 'value_source': reported_figure.SPAN_SCHEMA,
         'lookup': LOOKUP_SCHEMA}),
-    variant('resolution_kind', 'REFUSED', {'report_binding': STATED_REPORT_SCHEMA,
+    variant('resolution_kind', 'REFUSED', {'report_binding': BINDING_SCHEMA,
         'source': reported_figure.SPAN_SCHEMA,
         'candidates': {'type': 'array', 'maxItems': 512, 'uniqueItems': True, 'items': ID},
         'reason': {'type': 'string', 'enum': ['DECLARATION_AMBIGUITY', 'VALUE_ABSENT',
             'VALUE_AMBIGUITY', 'OBSERVATION_INCOMPLETE']}}),
-    variant('resolution_kind', 'REFUSED', {'report_binding': {'anyOf': REPORT_SCHEMA['anyOf'][1:]},
+    variant('resolution_kind', 'REFUSED', {'report_binding': {'anyOf': REFUSED_REPORT_SCHEMAS},
         'source': reported_figure.SPAN_SCHEMA,
         'candidates': {'type': 'array', 'maxItems': 512, 'uniqueItems': True, 'items': ID},
         'reason': {'type': 'string', 'enum': ['REPORT_UNRESOLVED']}})]}
@@ -91,6 +99,18 @@ def resolve_report(source, reports, ticket=None):
 
 
 def report_binding(binding, *, reports, ticket=None, allow_refused=False):
+    if isinstance(binding,dict) and binding.get('resolution_kind')=='USER_CONFIRMED':
+        # Admission checks this against the server-retained ticket proof. Later
+        # consumers receive the sealed scope, not a new model declaration.
+        Draft202012Validator(CONFIRMED_REPORT_SCHEMA).validate(binding)
+        selected=binding['confirmation']['fields'].get('REPORT_PAGE',{}).get('value',{})
+        if selected.get('report_id')!=binding['report_id']:
+            raise ValueError('Confirmed report differs from the retained selection')
+        if sum(r['id']==binding['report_id'] for r in reports)!=1:
+            raise ValueError('Confirmed report is absent or ambiguous in the retained catalog')
+        if ticket is not None and binding['confirmation']['request_hash']!=digest(ticket):
+            raise ValueError('Confirmed report belongs to a different ticket')
+        return binding
     if not isinstance(binding, dict) or binding.get('resolution_kind') not in ('STATED', 'REFUSED'):
         raise ValueError('Target requires a report binding')
     spec = next((v for v in REPORT_SCHEMA['anyOf'] if v['properties']['resolution_kind']['enum'] == [binding['resolution_kind']]

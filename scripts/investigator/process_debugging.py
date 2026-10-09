@@ -290,6 +290,9 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
 
 
 def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=None):
+    if 'ticket_route' in scope:
+        from .ticket_route import admit
+        admit(scope['ticket_route'])
     """Run the vertical procedure over any discovered path length."""
     estate=getattr(adapter,'config',{}).get('_estate',{})
     available=frozenset(adapter.capabilities())
@@ -314,7 +317,8 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
     freshness_collected=False
     def collect_freshness(observed):
         nonlocal freshness_collected
-        if freshness_collected or (scope.get('question_kind') or {}).get('kind')!='FRESHNESS':return
+        from .ticket_route import wants_freshness
+        if freshness_collected or not wants_freshness(scope):return
         freshness_collected=True
         boundaries=getattr(adapter,'freshness_boundaries',lambda p:[
             {'upper':a,'lower':b,'index':i} for i,(a,b) in enumerate(zip(p.get('layers',[]),p.get('layers',[])[1:]),1)

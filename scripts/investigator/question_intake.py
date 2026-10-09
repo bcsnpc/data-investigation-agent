@@ -454,7 +454,7 @@ def snapshot(workspace):
 
 def validate(value, payload):
     statements.validate(value,payload['text'])
-    fields(value, SCHEMA['required']+[k for k in ('target_visual','definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes','value_mentions','extracted_ticket') if k in value])
+    fields(value, SCHEMA['required']+[k for k in ('target_visual','definition_target','report_binding','selection_request','question_kind','numeral_mentions','expected_records','name_binding','dimension_quotes','value_mentions','extracted_ticket','ticket_route') if k in value])
     if 'extracted_ticket' in value:
         from .intake_extraction import resolve, VERSION as extraction_version
         evidence=value['extracted_ticket']
@@ -478,7 +478,17 @@ def validate(value, payload):
         if model is None:raise ValueError('Unknown named-context anchor')
         validate_name(value['name_binding'],model,payload['text'])
     if value.get('question_kind') is not None:question_kind.validate(value['question_kind'],payload['text'])
+    if 'ticket_route' in value:
+        from .ticket_route import validate as validate_route,admit
+        if (value.get('extracted_ticket',{}).get('version')!='ticket-spans-confirmed-v1' or
+                value['ticket_route'].get('confirmation')!=payload.get('_ticket_confirmation')):
+            raise ValueError('Model response cannot declare user comparison confirmation')
+        validate_route(value['ticket_route'],payload['text']);admit(value['ticket_route'])
     if 'report_binding' in value:
+        if value['report_binding'].get('resolution_kind')=='USER_CONFIRMED' and (
+                value.get('extracted_ticket',{}).get('version')!='ticket-spans-confirmed-v1' or
+                value['report_binding'].get('confirmation')!=payload.get('_ticket_confirmation')):
+            raise ValueError('Model response cannot declare user report confirmation')
         model=next((m for m in payload['models'] if m['id']==value['model_id']),None)
         if model is None: raise ValueError('Unknown report anchor')
         report_scope.report_binding(value['report_binding'],reports=model.get('reports',[]),ticket=payload['text'])
@@ -566,8 +576,55 @@ class Intake:
         return {'questions': [{k: value[k] for k in ('id', 'text', 'status', 'created')}
                               for value in (self.get(identity) for identity in identities)]}
 
+    def _new_record(self, request, combined, catalog, turn=1, screenshot=None):
+        """One producer for the pins consumed by preview/review."""
+        return {'id': str(uuid4()), 'version': VERSION, 'request': request, 'text': combined, 'turn': turn,
+                'status': 'RESOLVING', 'proposal': None, 'question': None, 'error': None,
+                'created': self.workspace.clock(), 'expires': self.workspace.clock() + 900,
+                'catalog_hash': digest(catalog), 'engine_hash': fingerprint(),
+                'config_hash': digest(self.workspace.agent.config), 'planner_hash': digest(self.workspace.agent.planner_profile),
+                'screenshot_review': screenshot,
+                'data_queries': 0, 'requires_scope_review': True, 'cause_verified': False}
+
+    def _adopt_ticket(self, identity, revision, request_key):
+        """Internal, taped controller operation; no provider reservation or read."""
+        from .ticket_state import Tickets
+        from . import ticket_protocol, intake_confirmation, intake_extraction
+        saved=Tickets(self.store).get(identity);ticket=saved['ticket']
+        if saved['revision']!=revision:raise Conflict('Ticket changed before scope review')
+        if ticket['state'] not in ('NEW','CLARIFYING') or ticket['questions'] or set(ticket['settled'])!=set(ticket_protocol.FIELDS):
+            raise Conflict('Ticket still has unresolved consequential fields')
+        source=self.get(ticket['source_intake'])
+        raw=source.get('retained_extraction') or (source.get('proposal') or {}).get('extracted_ticket',{}).get('response')
+        if raw is None:raise Conflict('Ticket has no retained extraction; no substitute was generated')
+        catalog=snapshot(self.workspace)
+        if digest(catalog)!=source['catalog_hash']:raise Conflict('Ticket metadata changed; clarify against current evidence')
+        proof=intake_confirmation.build(ticket,source['text']) if ticket['confirmed'] else None
+        payload={'text':source['text'],'models':catalog['models']}
+        if proof is not None:payload['_ticket_confirmation']=proof
+        proposal=intake_extraction.resolve(raw,payload)
+        validate(proposal,payload);question_kind.intake_route(proposal)
+        request={'ticket_id':identity,'revision':revision,'request_key':request_key}
+        with self.store.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            prior=db.execute('SELECT id FROM workspace_intakes WHERE request_key=?',(request_key,)).fetchone()
+            if prior:
+                row=db.execute('SELECT body,hash FROM workspace_intakes WHERE id=?',(prior[0],)).fetchone()
+                existing=json.loads(row[0])
+                if digest(existing)!=row[1] or existing['request']!=request:raise Conflict('Scope adoption key differs')
+                return existing
+            body=self._new_record(request,source['text'],catalog,screenshot=source.get('screenshot_review'))
+            body.update(status='PROPOSED',proposal=proposal,source_intake=source['id'],
+                scope_provenance='SAVED_USER_CONFIRMED_SCOPE_PROPOSAL' if proof else 'REVALIDATED_RETAINED_SCOPE_PROPOSAL',
+                provider_calls=0,confirmation_ticket={'id':identity,'revision':revision,
+                    'authority_hash':intake_confirmation.authority_hash(ticket)})
+            db.execute('INSERT INTO workspace_intakes VALUES(?,?,?,?)',
+                       (body['id'],request_key,encoded(body),digest(body)))
+            return body
+
     @operation('intake')
-    def resolve(self, request):
+    def resolve(self, request, *, retain_extraction=False):
+        if type(retain_extraction) is not bool:raise ValueError('Invalid extraction retention mode')
         fields(request, ['text', 'request_key', 'parent_id'] + (['screenshot_review_id'] if 'screenshot_review_id' in request else []))
         text(request['text'], 2000); text(request['request_key'], 100)
         with self.store.connect() as db:
@@ -591,13 +648,7 @@ class Intake:
             screenshot = parent.get('screenshot_review')
             text(combined, 2000)
         catalog = snapshot(self.workspace); payload = {'text': combined, 'models': catalog['models']}
-        body = {'id': str(uuid4()), 'version': VERSION, 'request': request, 'text': combined, 'turn': turn,
-                'status': 'RESOLVING', 'proposal': None, 'question': None, 'error': None,
-                'created': self.workspace.clock(), 'expires': self.workspace.clock() + 900,
-                'catalog_hash': digest(catalog), 'engine_hash': fingerprint(),
-                'config_hash': digest(self.workspace.agent.config), 'planner_hash': digest(self.workspace.agent.planner_profile),
-                'screenshot_review': screenshot,
-                'data_queries': 0, 'requires_scope_review': True, 'cause_verified': False}
+        body = self._new_record(request,combined,catalog,turn,screenshot)
         governor = self.workspace.agent.governor
         with self.store.connect() as db:
             db.execute('BEGIN IMMEDIATE')
@@ -614,7 +665,11 @@ class Intake:
                     'call_kind':('intake' if attempt==1 else 'intake_rule_retry' if '_intake_rule_repair' in current else 'explicit_statement_retry' if '_explicit_statement_repair' in current else 'provenance_quote_retry' if '_provenance_quote_repair' in current else 'reported_figure_quote_retry'),
                     'payload':current,'context_version':None,'reservation':key,
                     'budget':governor.snapshot()}):
-                decision,metadata=self.resolver(current)
+                try:decision,metadata=self.resolver(current)
+                except Exception as exc:
+                    if retain_extraction and getattr(exc,'retained_extraction',None) is not None:
+                        body['retained_extraction']=copy.deepcopy(exc.retained_extraction)
+                    raise
                 try:intake_rules.validate(decision,current['text'])
                 except intake_rules.RuleViolation as exc:
                     exc.provider_metadata=metadata
@@ -765,6 +820,13 @@ class Intake:
 
     def review(self, identity, request):
         saved = self.get(identity)
+        if saved.get('confirmation_ticket'):
+            from .ticket_state import Tickets
+            from .intake_confirmation import authority_hash
+            binding=saved['confirmation_ticket']
+            ticket=Tickets(self.store).get(binding['id'])['ticket']
+            if binding['authority_hash']!=authority_hash(ticket):
+                raise Conflict('Ticket decisions changed; the old scope cannot be reviewed')
         if (saved['status'] != 'PROPOSED' or self.workspace.clock() > saved['expires']
                 or fingerprint() != saved['engine_hash'] or digest(snapshot(self.workspace)) != saved['catalog_hash']
                 or digest(self.workspace.agent.config) != saved['config_hash']):
@@ -774,5 +836,5 @@ class Intake:
             raise Conflict('Reviewed question scope differs from the saved proposal')
         return {**copy.deepcopy(proposal),'id': saved['id'], 'text': saved['text'],
                 'screenshot_review': saved.get('screenshot_review'),
-                'provenance': 'SAVED_LLM_SCOPE_PROPOSAL',
+                'provenance': saved.get('scope_provenance','SAVED_LLM_SCOPE_PROPOSAL'),
                 'interpretation_verified': False}

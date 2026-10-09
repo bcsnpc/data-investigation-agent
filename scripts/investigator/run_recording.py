@@ -68,7 +68,7 @@ def operation(name):
                     # own contract. This bootstrap extends the process path.
                     return method(owner,*args,**kwargs)
             if tape is None:
-                if name not in ('intake','preview','create'):
+                if name not in ('intake','preview','create','ticket_submit','ticket_reply'):
                     raise journal.TapeError('LIVE_RUN_MISSING_RECORDING_BOOTSTRAP')
                 root=ROOT/'.local/process-tapes'/str(fresh_id())
                 root.mkdir(parents=True,exist_ok=False)
@@ -89,6 +89,8 @@ def operation(name):
                     bootstrap['state']['context_pins']=agent.store.context_pins
                 if getattr(agent.store,'acceptance_fixture_state',None):
                     bootstrap['state']['fixture_state']=agent.store.acceptance_fixture_state
+                if name in ('ticket_submit','ticket_reply'):
+                    bootstrap['state']['smart_intake']=owner.configuration
                 tape=journal.Tape(root/'tape.json',bootstrap)
             error=None;result=None
             with journal.active(tape):
@@ -114,7 +116,7 @@ def operation(name):
                             from .onboarding import digest
                             tapes[digest(result['envelope'])]=tape
                         elif name=='create':tapes[result['id']]=tape
-                    terminal=error is not None or name=='synthesize' or name=='intake' and result.get('status')!='PROPOSED'
+                    terminal=error is not None or name in ('synthesize','ticket_submit','ticket_reply') or name=='intake' and result.get('status')!='PROPOSED'
                     if terminal:
                         final={'operation':name,'error':type(error).__name__ if error else None,
                                'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs'),
