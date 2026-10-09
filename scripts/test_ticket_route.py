@@ -15,6 +15,36 @@ def route(value):
 
 
 class TicketRouteTests(unittest.TestCase):
+    def test_explicit_reproduction_question_has_a_subject_without_an_external_comparison(self):
+        from test_intake_extraction import fixture
+        from investigator.ticket_clarification import settings
+        for ask in ('Can the saved declared context reproduce that figure?',
+                    'Does this visual reproduce the number?',
+                    'Check whether the saved context can reproduce it.'):
+            raw,payload=fixture('In Report, Quantity shows 16. '+ask,kind='VISUAL_CONTENT')
+            value=ticket_route.settlement(raw,payload['text'],settings())
+            self.assertEqual(value['route'],'DECLARED_SUBJECT')
+            self.assertFalse(ticket_route.wants_freshness({'ticket_route':value}))
+            self.assertIsNone(ticket_route.settlement(raw,payload['text'],
+                {**settings(),'must_confirm':['COMPARISON']}))
+
+    def test_reproduction_word_cannot_hide_a_named_comparator(self):
+        from test_intake_extraction import fixture
+        from investigator.ticket_clarification import settings
+        for comparator in ('against another report','versus yesterday','against the application'):
+            raw,payload=fixture('In Report, can the saved context reproduce Quantity '+comparator+'?',kind='VISUAL_CONTENT')
+            self.assertIsNone(ticket_route.settlement(raw,payload['text'],settings()))
+        raw,payload=fixture('In Report, can the saved context reproduce Quantity?',kind='VISUAL_CONTENT',
+                            comparisons=['Quantity'])
+        self.assertIsNone(ticket_route.settlement(raw,payload['text'],settings()))
+
+    def test_reproduction_word_in_background_does_not_settle_primary_comparison(self):
+        from test_intake_extraction import fixture
+        from investigator.ticket_clarification import settings
+        raw,payload=fixture('In Report, Quantity is high. Background: can we reproduce an old example?',kind='VISUAL_CONTENT',
+                            primary='In Report, Quantity is high.')
+        self.assertIsNone(ticket_route.settlement(raw,payload['text'],settings()))
+
     def test_local_subject_does_not_invent_a_comparison_or_request_freshness(self):
         from test_intake_extraction import fixture
         from investigator.ticket_clarification import settings

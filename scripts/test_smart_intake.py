@@ -9,6 +9,20 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_named_reproduction_question_adopts_scope_without_a_comparison_question(self):
+        self.raw,self.payload=fixture('In Report, Global card Quantity shows 16. Can the saved context reproduce that figure?',
+            kind='VISUAL_CONTENT',triage='BUSINESS_QUESTION:NONE',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}],
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}])
+        saved=self.submit()
+        self.assertEqual(saved['ticket']['questions'],[])
+        proposal=self.workspace.intake.get(saved['ticket']['intake_id'])['proposal']
+        self.assertEqual(proposal['ticket_route']['route'],'DECLARED_SUBJECT')
+        self.assertEqual(proposal['target_visual']['target_id'],'card')
+        self.assertEqual(proposal['reported_figure']['value'],'16')
+        self.assertEqual(self.calls,1)
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_changed_question_can_resume_from_a_waiting_clarification(self):
         waiting=self.submit();old_questions=copy.deepcopy(waiting['ticket']['questions'])
         self.raw,self.payload=fixture('In Report, Global card Quantity shows 25 and looks wrong.',

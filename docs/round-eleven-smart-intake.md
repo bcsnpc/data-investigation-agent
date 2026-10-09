@@ -730,3 +730,23 @@ tests and21 manifest tests passed after the vocabulary wiring. The earlier
 36 controller,20 confirmation and12 evaluator checks passed before it.
 Full regression on the combined source is pending; the earlier2,620 pass
 was on4565752 and is not a result for these new bytes.
+
+
+Dated reproduction-route correction: two dev tickets explicitly ask whether
+saved context reproduces a figure. Their kind and referent resolved, but the
+subject-route recognizer required what/which/how-many and asked an unrelated
+external-comparison question. Can/does/whether reproduction asks now settle
+DECLARED_SUBJECT only inside the retained primary ask and the existing no-named-
+comparator guard. They do not select a cell, assume an application comparator,
+request freshness or claim a reproduced result. Estate confirmation policy
+still overrides. Thirty-seven controller and nine route tests passed. A test
+adopts the named card/16 scope with one mocked intake call and no estate read;
+comparison and background-text tests still refuse subject settlement.
+
+The first two new negative tests failed because their synthetic ticket omitted
+the Report quote their fixture supplied. The test input was corrected to retain
+that quote; provenance validation was not weakened. Original failed audit and
+provider tapes are untouched. Full regression remains on frozen9422f43 in the
+other worktree, not on this later route correction. Current quality gate is
+incomplete, #423 draft, freezes invalid. Zero real provider or estate requests,
+no altered goldens, expectation, configuration, access, secret or budget.
