@@ -450,3 +450,46 @@ application/staleness route merely to explain the requested definition. This
 additive proof preserves legacy user-confirmation and sealed replay contracts.
 The fresh40-case evaluation above predates this fix; no improved score is claimed.
 Phase A still incomplete/ungraded, #423 draft, freezes invalid.
+
+
+## Evaluator correction, 2026-10-09 UTC
+
+Offline evaluator code now records the original case hash and every structured
+difference. It separates a source record that matches its golden from a ticket
+that is actually settled: a waiting clarification is not a settled refusal.
+It uses the complete public model visual inventory for report choices, never
+supplies a missing target/page/figure, preserves exact figure precision, and
+requires exactly one matching choice. A missing comparator stays missing;
+freshness wording such as up-to-date may answer the original freshness choice.
+Consequential differences remain review flags, never silently graded harmless.
+The module does not declare the Phase A gate green or a zero harmful-error rate.
+Eight evaluator regressions and six existing scoring regressions passed. The
+first synthetic test used an integer instead of the consumer's precision object;
+it was corrected to EXACT and no sealed expected record changed. CI now runs
+these new controller/evaluator and related intake suites offline.
+
+A reuse-only dev audit of the same40 sealed fresh responses, oncc8b0d7 with the
+corrected simulator, offered43 questions (mean1.075) and adopted9 scopes. Twelve
+tickets settled within one round under the conservative counter (including
+three appropriate terminal semantic refusals):30%, not85%. Per-class one-round
+rates: family8/26, question1/3, refusal3/7, visual0/4. Original-record matches12/40.
+This is reused-provider-byte debugging, NOT a fresh quality evaluation. Zero
+new provider or estate requests; originals retained. Evidence is in
+.local/round-eleven/retained-fresh-dev-scored-v5. Prior fresh records remain
+unchanged, including D; the stricter simulator did not treat a report-context
+question as an application/looks-wrong answer merely to get it through intake.
+That reveals a remaining clarification gap: internal report comparisons can
+fall between the external comparison choices. It does not justify inventing
+a comparison or relaxing the lower filtered-scope refusal.
+
+A full regression runs on unchangedcc8b0d7 inD:/dia-round-eleven-intake while
+evaluator work continues inD:/dia-round-eleven-eval; its pending result is not
+claimed for newer code. Phase A remains incomplete, #423 draft. No held-out
+tuning, screenshot/export, live family, fixture or reader-scope change occurred.
+
+DECIDED WITHOUT REVIEW: make the simulator abstain on unclear comparison
+semantics, rejecting the earlier broad keyword inference for family D. Count
+settled tickets rather than merely adopted/source-matching records. Preserve
+review flags instead of declaring a zero harmful-error rate from incomplete
+provenance scoring. Add the evaluator/controller tests to hosted offline CI
+instead of relying only on local discovery.

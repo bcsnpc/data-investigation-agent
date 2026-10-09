@@ -175,6 +175,14 @@ jobs:
         run: |
           python -m unittest discover -s scripts -p test_investigation_checks.py
           python -m py_compile scripts/investigation_checks.py scripts/check_model_freshness.py
+      - name: Test interactive intake and its sealed-record evaluator offline
+        run: |
+          python -m unittest discover -s scripts -p "test_smart_intake*.py"
+          python -m unittest discover -s scripts -p test_ticket_clarification.py
+          python -m unittest discover -s scripts -p test_ticket_route.py
+          python -m unittest discover -s scripts -p test_intake_confirmation.py
+          python -m unittest discover -s scripts -p test_intake_extraction.py
+          python -m unittest discover -s scripts -p test_question_intake.py
       - name: Test read-only metric adapters and ordered boundaries
         run: |
           python -m unittest discover -s scripts -p test_cross_layer_investigation.py
