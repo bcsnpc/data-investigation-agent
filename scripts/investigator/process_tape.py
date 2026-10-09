@@ -227,7 +227,9 @@ class Tape:
             # Procedure completion is not narrative completion. A failed
             # composition is replayable failure evidence, with no outputs;
             # it must never satisfy the dual-output acceptance gate.
-            if final['status']=='COMPLETED' and final['error'] is None and not failed_composition:
+            read_stage=(self.version=='bounded-worker-tape-v5' and final['operation']=='run'
+                        and not synthesis and final['outputs'] is None)
+            if final['status']=='COMPLETED' and final['error'] is None and not failed_composition and not read_stage:
                 outputs=final['outputs']
                 if not isinstance(outputs,dict) or not {'business_output','technical_output'}<=outputs.keys() or any(not isinstance(outputs[key],dict) or not isinstance(outputs[key].get('explanation',{}).get('text'),str) or not outputs[key]['explanation']['text'] for key in ('business_output','technical_output')):
                     raise TapeError('TAPE_COMPLETED_OUTPUTS_MISSING')
