@@ -35,7 +35,7 @@ DECIDED WITHOUT REVIEW: cancelled automatically queued hosted provider eval37868
 
 ## Final held-out result ? recorded before diagnosis
 
-Goal FAILED. Final score sealed2026-10-09T01:38:06Z, SHA-256524588094648c5c61ea214cfc90d6c11cdc1ef311a229d8a3a94370a1e247533; append-only ledger records the seal before failure inspection.17/28 full matches were needed for60%. No golden, split or threshold changed. No further fix follows this score. #423 stays draft; neither corrected intake nor comparison deployment is adopted. Rehearsal nine, changed fifty and billing are unattempted under the explicit no-estate-before-goal rule. Prior freezes remain invalid.
+Goal FAILED. Final score sealed2026-10-09T01:38:06Z, SHA-256524588094648c5c61ea214cfc90d6c11cdc1ef311a229d8a3a94370a1e247533; append-only ledger records the seal before failure inspection.17/28 full matches were needed for60%. No golden, split or threshold changed. No intake fix follows this score. #423 stays draft; neither corrected intake nor comparison deployment is adopted. Rehearsal nine, changed fifty and billing are unattempted under the explicit no-estate-before-goal rule. Prior freezes remain invalid.
 
 | Candidate/source | Dev full | Held-out full | Held-out kind | Held calls | Characters/call | Tokens/call | Estimated dollars/ticket |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -83,3 +83,6 @@ Pure shape/provenance/name/precision contradictions are caught by code and get o
 Input allowance restored12M->8M at01:38:06Z without reset/refund. Closing UTC model reservations300calls/4,674,051inputcharacters/450,000outputtokens include16pre-existing calls. F added284calls/4,531,364characters. Rolling441/3000; round pot1013/1500; restoration reserve95; investigation diagnostic cap12 unchanged. Zero estate reads. Private control/probe/tape files remain under part-f; public aggregates are round-ten-f-results.json. Original E attempts and all failures remain intact.
 
 Hosted c6d9c6c Validation and Round Ten historical earned-tape check passed. The current-provider duplicate was cancelled before any job ran; fresh hosted current-provider quality is unclaimed. Local intake experiments above are the fresh F evidence. Final delivery-only checks are distinct from the validated engine and no readiness/merge claim is made.
+
+
+Delivery CI exception, appended2026-10-09: pushing3ed384a unexpectedly started current-provider run37871139192. Cancellation completed, but its log confirms one completed family-A-mention call (NEEDS_INPUT) and a later interrupted evaluation. The artifact retained only plan.json, not score or raw tapes; total additional calls/characters are unavailable. This is separate from the284 fully retained controlled experiment calls, not used for grading, and demonstrates a hosted cancellation-retention gap. No missing request/response bytes are invented. The final append-only record uses [skip ci] to prevent another provider launch; no workflow, intake, golden, identity or secret changes follow the held-out score. Source c6d9c6c also completed known-domain acceptance successfully; final delivery-only head is intentionally not claimed green or merge-ready.
