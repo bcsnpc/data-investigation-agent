@@ -405,3 +405,27 @@ unimplemented-route refusals instead of asking a user to repair an engine gap.
 Treat the first fresh40-case pass as exploratory and repair its scorer before
 claiming quality; rejected treating adopted records as full matches or changing
 goldens to make the count improve.
+
+
+### Retained-record scoring recovery and grain audit
+
+The exploratory scorer was repaired offline by reading hash-verified original
+consumer records and recovering nominated kind from each sealed provider response.
+It now reports12/40 matches against unchanged original structured records,
+including semantic refusals. This is NOT12 successful ticket completions: some
+matching source records still wait for comparison clarification. Zero new model
+or estate calls. Private consumer-record-score.json retains every difference.
+The initial scorer failures (wrong SQLite hash column and a nested-base64 provider
+body) occurred locally and charged no reads; the recovered score replaces no tape.
+The interactive one-round/harmful-error gate remains ungraded.
+
+The two D records exposed a duplicate grain nomination: words inside the named
+visual were also treated as an independent grouping request. Intake now uses
+that quotation for visual identification, retains the discovered grouping on
+the cell address, and does not add it as a second diagnostic query breakdown.
+An independent grouping quotation still adds the requested dimension. Both
+cases have regression tests; no target, filter or lower-scope refusal is weakened.
+
+DECIDED WITHOUT REVIEW: distinguish a visual label from a separately stated
+breakdown, rejecting silent query-grain changes caused by extracting the same
+visual-title words twice. Original nominations remain in retained extraction.

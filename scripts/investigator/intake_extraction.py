@@ -382,6 +382,12 @@ def resolve(raw, payload):
     dimensions=[];dimension_quotes=[]
     for item in extraction['groupings']:
         if not primary_fact(item,extraction):continue
+        if any(primary_fact(v,extraction) and v['quote']['start']<=item['quote']['start'] and
+               item['quote']['end']<=v['quote']['end'] for v in extraction['visuals']):
+            # Words inside a visual's name locate that visual. Its declared
+            # grouping remains on the cell address; they are not a second
+            # user request to change the diagnostic query's grain.
+            continue
         column=match(item['column']['quote'],model['columns'],'column_id',audit)
         dimensions.append(column['column_id']);dimension_quotes.append({'column_id':column['column_id'],'source':item['quote']})
     # Date restrictions may not disappear simply because this version cannot faithfully compile them.

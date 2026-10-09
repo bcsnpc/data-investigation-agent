@@ -25,6 +25,25 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_visual_title_grouping_is_not_an_independent_query_breakdown(self):
+        raw,payload=fixture('In Report, warehouse North Quantity differs on Warehouse matrix.',
+            selections=[{'quote':'warehouse North','column':'warehouse','value':'North','role':'PRIMARY'}],
+            visuals=[{'quote':'Warehouse matrix','role':'PRIMARY','form':'TITLE'}],
+            groupings=[{'quote':'Warehouse matrix','column':'Warehouse','role':'PRIMARY'}])
+        value=extraction.resolve(raw,payload);validate(value,payload)
+        self.assertEqual(value['target_visual']['mode'],'KEYED')
+        self.assertEqual(value['dimension_ids'],[])
+        self.assertEqual(value['filters'],[{'column_id':'warehouse','operator':'in','values':['North']}])
+        self.assertEqual(value['extracted_ticket']['response'],raw)
+
+    def test_separate_requested_breakdown_survives_a_named_visual(self):
+        raw,payload=fixture('In Report, warehouse North Quantity differs on Warehouse matrix; group by warehouse.',
+            selections=[{'quote':'warehouse North','column':'warehouse','value':'North','role':'PRIMARY'}],
+            visuals=[{'quote':'Warehouse matrix','role':'PRIMARY','form':'TITLE'}],
+            groupings=[{'quote':'group by warehouse','column':'warehouse','role':'PRIMARY'}])
+        value=extraction.resolve(raw,payload);validate(value,payload)
+        self.assertEqual(value['dimension_ids'],['warehouse'])
+
     def test_resolved_evidence_has_precedence_without_erasing_failed_attempt(self):
         bad={'measures':[{'quote':'Invented'}]};good={'measures':[{'quote':'Quantity'}]}
         source={'retained_extraction':bad,'resolver_extraction':good,'proposal':None}
