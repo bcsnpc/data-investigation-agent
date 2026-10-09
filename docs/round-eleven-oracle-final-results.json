@@ -1,0 +1,1497 @@
+{
+  "method": "Fresh governed provider calls; synthetic catalog identities plus independently pinned complete retained definitions; approved fixed oracle simulator; dev then held-out once; no tuning during or after held-out",
+  "source_revision": "cc7dfd2",
+  "engine_hash": "6c9747075363a79f3141f36098fd5568cb44a845c79409f0c55327a9ce734228",
+  "oracle_sha256": "be029b56a6de27195dac507bfb5010f0ce7abc2732702d9a230e5f4a8d38406c",
+  "split_sha256": "d2c330ff5144b9f05c69c5571bb5c89a17b157d781cabc8d86c56346ded96795",
+  "runner_sha256": "b5e03c075f516ac5b74b9eb42132b58e6f6da3e8256dbfc01bcccae8fa6fdd33",
+  "provider_calls": 82,
+  "input_characters": 1026165,
+  "physical_estate_requests": 0,
+  "completed": 68,
+  "stopped": null,
+  "budget_before": {
+    "planner_calls": 436,
+    "cloud_calls": 0,
+    "input_characters": 6373491,
+    "output_tokens": 654000
+  },
+  "budget_after": {
+    "planner_calls": 518,
+    "cloud_calls": 0,
+    "input_characters": 7399656,
+    "output_tokens": 777000
+  },
+  "unchanged_model_limits": {
+    "cloud_calls": 3000,
+    "input_characters": 8000000,
+    "output_tokens": 1500000,
+    "planner_calls": 600
+  },
+  "scores": {
+    "dev": {
+      "tickets": 40,
+      "evaluated": 40,
+      "settled_within_one_round": 20,
+      "one_round_rate": 0.5,
+      "questions": 25,
+      "mean_questions": 0.625,
+      "harmful_admissions": 1,
+      "illegitimate_questions": 17,
+      "per_class": {
+        "family": {
+          "tickets": 26,
+          "evaluated": 26,
+          "settled_within_one_round": 10,
+          "questions": 16,
+          "illegitimate_questions": 10,
+          "harmful_admissions": 1
+        },
+        "question": {
+          "tickets": 3,
+          "evaluated": 3,
+          "settled_within_one_round": 2,
+          "questions": 1,
+          "illegitimate_questions": 1,
+          "harmful_admissions": 0
+        },
+        "refusal": {
+          "tickets": 7,
+          "evaluated": 7,
+          "settled_within_one_round": 4,
+          "questions": 8,
+          "illegitimate_questions": 6,
+          "harmful_admissions": 0
+        },
+        "visual": {
+          "tickets": 4,
+          "evaluated": 4,
+          "settled_within_one_round": 4,
+          "questions": 0,
+          "illegitimate_questions": 0,
+          "harmful_admissions": 0
+        }
+      },
+      "rows": [
+        {
+          "id": "original:family-B-noisy",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "NUMBER"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-B-terse",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-B-typo",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-D-noisy",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 1,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "CLARIFYING"
+        },
+        {
+          "id": "original:family-D-terse",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 1,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "CLARIFYING"
+        },
+        {
+          "id": "original:family-D-typo",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-E-mention",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [
+            "reported_figure"
+          ],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-E-noisy",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "NUMBER"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-E-terse",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-E-typo",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "NUMBER"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-H-noisy",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-H-terse",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-H-typo",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-I-noisy",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "NUMBER"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-I-terse",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-I-typo",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "NUMBER"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+          "state": "HELD"
+        },
+        {
+          "id": "original:question-change-days",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "UNSUPPORTED_ROUTE",
+          "state": "HELD"
+        },
+        {
+          "id": "original:question-hiding-rows",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "NUMBER"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "REPRODUCE_THEN_FILTER_EFFECT_OR_UNIMPLEMENTED_ROUTE",
+          "state": "HELD"
+        },
+        {
+          "id": "original:question-stale-no-sla",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:refusal-business-benchmark",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "BUSINESS_VALIDATION",
+          "state": "HELD"
+        },
+        {
+          "id": "original:refusal-business-intent",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "BUSINESS_VALIDATION",
+          "state": "HELD"
+        },
+        {
+          "id": "original:refusal-business-q49",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "BUSINESS_VALIDATION",
+          "state": "HELD"
+        },
+        {
+          "id": "original:refusal-two-figures",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "HOLD_TWO_REPORTED_FIGURES",
+          "state": "HELD"
+        },
+        {
+          "id": "original:refusal-unidentified-visual",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "HOLD_UNIDENTIFIED_REFERENT",
+          "state": "HELD"
+        },
+        {
+          "id": "original:refusal-unsupported-filter",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "HOLD_UNSUPPORTED_FILTER",
+          "state": "HELD"
+        },
+        {
+          "id": "original:refusal-unsupported-relative",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "HOLD_UNLESS_RELATIVE_DATE_TRANSLATION_VERIFIED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:visual-1",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:visual-3",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:visual-4",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:visual-5",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-B",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-D",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-E",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-H",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-I",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+          "state": "HELD"
+        },
+        {
+          "id": "rebuilt:family-B",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "rebuilt:family-D",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "rebuilt:family-E",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "rebuilt:family-H",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "rebuilt:family-I",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "NUMBER"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_TECHNICAL_THEN_BUSINESS_VALIDATION",
+          "state": "HELD"
+        }
+      ],
+      "gate": "FAILED",
+      "lifecycle_gate": "SEPARATE_TEST_REQUIRED"
+    },
+    "held_out": {
+      "tickets": 28,
+      "evaluated": 28,
+      "settled_within_one_round": 10,
+      "one_round_rate": 0.35714285714285715,
+      "questions": 24,
+      "mean_questions": 0.8571428571428571,
+      "harmful_admissions": 1,
+      "illegitimate_questions": 24,
+      "per_class": {
+        "family": {
+          "tickets": 22,
+          "evaluated": 22,
+          "settled_within_one_round": 6,
+          "questions": 18,
+          "illegitimate_questions": 18,
+          "harmful_admissions": 1
+        },
+        "question": {
+          "tickets": 1,
+          "evaluated": 1,
+          "settled_within_one_round": 1,
+          "questions": 0,
+          "illegitimate_questions": 0,
+          "harmful_admissions": 0
+        },
+        "refusal": {
+          "tickets": 3,
+          "evaluated": 3,
+          "settled_within_one_round": 1,
+          "questions": 6,
+          "illegitimate_questions": 6,
+          "harmful_admissions": 0
+        },
+        "visual": {
+          "tickets": 2,
+          "evaluated": 2,
+          "settled_within_one_round": 2,
+          "questions": 0,
+          "illegitimate_questions": 0,
+          "harmful_admissions": 0
+        }
+      },
+      "rows": [
+        {
+          "id": "original:family-A-mention",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-A-noisy",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-A-terse",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-A-typo",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-C-noisy",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "NUMBER"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-C-terse",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-C-typo",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "NUMBER"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-F-noisy",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-F-terse",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-F-typo",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-G-mention",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [
+            "reported_figure"
+          ],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-G-noisy",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-G-terse",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-G-typo",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "NUMBER"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:question-change-week",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "UNSUPPORTED_ROUTE",
+          "state": "HELD"
+        },
+        {
+          "id": "original:refusal-nonexistent-column",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "HOLD_NONEXISTENT_COLUMN",
+          "state": "HELD"
+        },
+        {
+          "id": "original:refusal-two-figures-total",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "HOLD_TWO_REPORTED_FIGURES",
+          "state": "HELD"
+        },
+        {
+          "id": "original:refusal-unidentified-measure",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 2,
+          "illegitimate_questions": [
+            "NUMBER",
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "HOLD_UNIDENTIFIED_REFERENT",
+          "state": "HELD"
+        },
+        {
+          "id": "original:visual-2",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:visual-6",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-A",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-C",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "original:family-F",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "original:family-G",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "rebuilt:family-A",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "rebuilt:family-C",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        },
+        {
+          "id": "rebuilt:family-F",
+          "evaluated": true,
+          "settled_within_one_round": false,
+          "questions": 1,
+          "illegitimate_questions": [
+            "COMPARISON"
+          ],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "HELD"
+        },
+        {
+          "id": "rebuilt:family-G",
+          "evaluated": true,
+          "settled_within_one_round": true,
+          "questions": 0,
+          "illegitimate_questions": [],
+          "harmful_admission_fields": [],
+          "required_disposition": "CONTINUE_ONLY_AFTER_CONSEQUENTIAL_FIELDS_RESOLVED",
+          "state": "NEW"
+        }
+      ],
+      "gate": "FAILED",
+      "lifecycle_gate": "SEPARATE_TEST_REQUIRED"
+    }
+  },
+  "artifacts": [
+    {
+      "id": "original:family-B-noisy",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12813,
+      "tape_sha256": "af9d08e6b8229cf0d6303141632d88b8dd3e317777e60592c53684be6391e75a"
+    },
+    {
+      "id": "original:family-B-terse",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12527,
+      "tape_sha256": "701dabe7b83c81cf1f6ad9517808bea16f2f7386b53d97a5d8b26e1b4519f45d"
+    },
+    {
+      "id": "original:family-B-typo",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12562,
+      "tape_sha256": "db7dc5f486e8388a5c76beec1a1b8172c5c92cf1390c49077c510cbc70418811"
+    },
+    {
+      "id": "original:family-D-noisy",
+      "partition": "dev",
+      "ticket_state": "CLARIFYING",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12822,
+      "tape_sha256": "5fb701f6255166ae7f29a189350f75e1b9fcc127f8a474b6310b3b1e9bc9f07b"
+    },
+    {
+      "id": "original:family-D-terse",
+      "partition": "dev",
+      "ticket_state": "CLARIFYING",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12536,
+      "tape_sha256": "d22ddf13bcd449948edc907d634383fe589aefe643e2c26bdbce14b30cdf3a36"
+    },
+    {
+      "id": "original:family-D-typo",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25327,
+      "tape_sha256": "696fd0b5e97552cde079d9737dc3fc448c890166334e7d4d78079224d15701d9"
+    },
+    {
+      "id": "original:family-E-mention",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12714,
+      "tape_sha256": "301bd6c94d86e7147aac1267b79a4183ad3d82a77a520a9fbf0d2b0278ae0e8c"
+    },
+    {
+      "id": "original:family-E-noisy",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12818,
+      "tape_sha256": "0cd1dda88cf7241960e4c913f30fffb1f99f68cdfd7d634a08e35e82d78947a0"
+    },
+    {
+      "id": "original:family-E-terse",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12532,
+      "tape_sha256": "f500dec0739bbcd5bbcb9ba59548101e91e8f1e2b6519139dfeb6fda54751537"
+    },
+    {
+      "id": "original:family-E-typo",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25307,
+      "tape_sha256": "29b7a1d90ca6d4d92ef8a070a7839726ea8e02e2be31b93a57c41f9a2b045583"
+    },
+    {
+      "id": "original:family-H-noisy",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12837,
+      "tape_sha256": "f442c04e6fb3660b44b76bd7fbf11e19248793311962bba0bcda988e244d9661"
+    },
+    {
+      "id": "original:family-H-terse",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12551,
+      "tape_sha256": "ae8dae4c86ab227ede224f26e95c3bef942fbba94667636301152cc75eb67e13"
+    },
+    {
+      "id": "original:family-H-typo",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25357,
+      "tape_sha256": "18b1e3b59c9c45b5b44b1bdf38200bc77a56a2211a5d4455cb1fb85eaa25d8cd"
+    },
+    {
+      "id": "original:family-I-noisy",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12821,
+      "tape_sha256": "10679ea3b0cf6e38eabf20e221e37789f222888858b313dfa0c1af8d4e5e8bf9"
+    },
+    {
+      "id": "original:family-I-terse",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25404,
+      "tape_sha256": "b830e56209ae1d720e3b2dc618c7491dd1e4be23a5bd6635b121ff0daad0663a"
+    },
+    {
+      "id": "original:family-I-typo",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25317,
+      "tape_sha256": "2701c631aae092d6fecb952274311179da3c4e0ce2cc5c1501666c0551cbb98d"
+    },
+    {
+      "id": "original:question-change-days",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12562,
+      "tape_sha256": "98d94f5ccffc088b047b0463ba96a76ac4959806fd5793c716d4601fc89b2782"
+    },
+    {
+      "id": "original:question-hiding-rows",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12570,
+      "tape_sha256": "d4c47cd7504958658a7646c8b98e96c2cb4da3ee8fb9489698f48694819fb770"
+    },
+    {
+      "id": "original:question-stale-no-sla",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12538,
+      "tape_sha256": "45154be4c4f3a93cbddb8ffdfecf3a3e36c88f96f7f0bffdc6c20d60d533c3a6"
+    },
+    {
+      "id": "original:refusal-business-benchmark",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12505,
+      "tape_sha256": "639159f27b72ae45e7ddfa4452ebafe539fd6bffa2fd97c1d7ac8aedd46ea32e"
+    },
+    {
+      "id": "original:refusal-business-intent",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12525,
+      "tape_sha256": "f5bbab1bb9f3666748dc7983916c61227d6a218ad7fb9d7bfd7f9cefde30d9ad"
+    },
+    {
+      "id": "original:refusal-business-q49",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12483,
+      "tape_sha256": "a1718fc94ddc25730eadfefe03e81368aaaf51215d21e3dcbea8279fe390731f"
+    },
+    {
+      "id": "original:refusal-two-figures",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12574,
+      "tape_sha256": "e9da556cf6f049b86d68f578de0698c650878a8a83df742f60b760b0b2f4e59a"
+    },
+    {
+      "id": "original:refusal-unidentified-visual",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25223,
+      "tape_sha256": "15062c72ef4ccd0d60aa1eb580ff28efbfc960b14f1ed413add430dd19962f30"
+    },
+    {
+      "id": "original:refusal-unsupported-filter",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12550,
+      "tape_sha256": "df5ec7c310a726aff8e8359ccc15b86e3434bee65c238941a365334ccfc1ccbb"
+    },
+    {
+      "id": "original:refusal-unsupported-relative",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12573,
+      "tape_sha256": "e2a4f7cc32307c31b06784cc8f08476f8cfca93c666821a2e431de8f4ff8ab21"
+    },
+    {
+      "id": "original:visual-1",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12544,
+      "tape_sha256": "c3a727720e7f4ed3fc47baf4724955972223784245850abb769147fefbb50a45"
+    },
+    {
+      "id": "original:visual-3",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12585,
+      "tape_sha256": "d53b2e328861a0eb0cb46fc23ff9e17cb58a53c5de8005e3c65dc6c8f2138e9f"
+    },
+    {
+      "id": "original:visual-4",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12552,
+      "tape_sha256": "f257e0349ef79c3a6bedf63e67839a7a6ffe42fc8ee50d6428accdd029081410"
+    },
+    {
+      "id": "original:visual-5",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 2,
+      "input_characters": 25618,
+      "tape_sha256": "a5f38c976127566ae6ecbc03b614d49525639baaf43f044202b6aded19357c08"
+    },
+    {
+      "id": "original:family-B",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12575,
+      "tape_sha256": "0a2fdf22eea5e1f7b76518c0b778a77e70a102fe21d4fa3c206a03b9596beddf"
+    },
+    {
+      "id": "original:family-D",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25477,
+      "tape_sha256": "0f7b28d01be4cfdf9f205f28f45d2d72e184e43d9921f9e0817dffe6eec51997"
+    },
+    {
+      "id": "original:family-E",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12630,
+      "tape_sha256": "8084a1af0fbded0f9913735f8296918eb3dc422ab6974b75f7545b3ce0004189"
+    },
+    {
+      "id": "original:family-H",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12642,
+      "tape_sha256": "1ada6412132b5ab314cc8460bca05ba0c58882c46eaffc8b04cf20dcc13708f5"
+    },
+    {
+      "id": "original:family-I",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25470,
+      "tape_sha256": "5c7e37e529b9e83285e125aa6f0f9df17599050f5ba3e0d2f3c707905007cafc"
+    },
+    {
+      "id": "rebuilt:family-B",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 11542,
+      "tape_sha256": "7bcd381b0eeee520db33e6e5712c3c31dfa9214cc594dc2cf545e37d076715f5"
+    },
+    {
+      "id": "rebuilt:family-D",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 23411,
+      "tape_sha256": "f0382cc7881b597086799af264a4b554ae2a06eae706bc841c01ce6e197530c1"
+    },
+    {
+      "id": "rebuilt:family-E",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 11597,
+      "tape_sha256": "9b5e56c3b7685c861339639911e0dc493ce97d501eb8c371c67ddfe883cbe1ec"
+    },
+    {
+      "id": "rebuilt:family-H",
+      "partition": "dev",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 11609,
+      "tape_sha256": "161b60d0ce5bbe70614c308538212040a81f9edcf66d586e94acf3f9da9430db"
+    },
+    {
+      "id": "rebuilt:family-I",
+      "partition": "dev",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 11535,
+      "tape_sha256": "e656b754725a22f0c09f3f1c72623a91b97f95bb17e7f3bcdf78cc803c2f31d7"
+    },
+    {
+      "id": "original:family-A-mention",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12693,
+      "tape_sha256": "25aec789de04a28341d72dfe7f3d26079c3943847eb1a7aee56f03301f7f3915"
+    },
+    {
+      "id": "original:family-A-noisy",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12797,
+      "tape_sha256": "b7fde34ea6bc18e77cda2056e7c2e833253eaca29cc9132534015d1e2b34e40f"
+    },
+    {
+      "id": "original:family-A-terse",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12511,
+      "tape_sha256": "8817ec60f58299b69c18af26e7926c0c4772ce4f6726718b0d99d7ee7b9c0ad0"
+    },
+    {
+      "id": "original:family-A-typo",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25265,
+      "tape_sha256": "a94b1c147b3d310c905bf5ff1725ffc95fa14de7dbdbf65ea7ec798d0b3a26e3"
+    },
+    {
+      "id": "original:family-C-noisy",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12792,
+      "tape_sha256": "4070a09a2df68beab79ff460be93285066bd563e2b77e8d54e40caeaea78aed3"
+    },
+    {
+      "id": "original:family-C-terse",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12505,
+      "tape_sha256": "0a50006332557ace20c8aa7436385dabf6986ebb3e69f8567e39804a8deee0ea"
+    },
+    {
+      "id": "original:family-C-typo",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25267,
+      "tape_sha256": "68375ba76f608f6410e5596f84ad55f4a6c19ae98ace818d95a9cfc754ac69a7"
+    },
+    {
+      "id": "original:family-F-noisy",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12811,
+      "tape_sha256": "7cdf7a0f7f62fae19df2f7e856113b0aab39099f47569ee1e210f25fd989e887"
+    },
+    {
+      "id": "original:family-F-terse",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12525,
+      "tape_sha256": "bdf1953e776785a090f3559c158f8d70c74fc664415bbc645ba70a56e9adc549"
+    },
+    {
+      "id": "original:family-F-typo",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12560,
+      "tape_sha256": "dc2d3746dd056f015b77703bd35c0a6b2f810aacc5dc0c34fed9a4ba9818343d"
+    },
+    {
+      "id": "original:family-G-mention",
+      "partition": "held_out",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12763,
+      "tape_sha256": "871d85c39cebbee9ab847211c1a23d0ac3e32101a47347a9fe939b60f708f38b"
+    },
+    {
+      "id": "original:family-G-noisy",
+      "partition": "held_out",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12867,
+      "tape_sha256": "f10e0de60a42c55192c3b69a0af5bdd214d7613cf19016070bd97ab032d686af"
+    },
+    {
+      "id": "original:family-G-terse",
+      "partition": "held_out",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12581,
+      "tape_sha256": "e31249629be7af27117e415780e18180431b4fdf9b506eafd8424e8266a3df4c"
+    },
+    {
+      "id": "original:family-G-typo",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25405,
+      "tape_sha256": "1b6abadd6cd15ab0765982783b0191732c3c62b13acf1d34742ed8eedbff03c4"
+    },
+    {
+      "id": "original:question-change-week",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12553,
+      "tape_sha256": "9afa05e1fd4d7aa133a900e67e27e2a52082d00dd40ac3fd32fe9755fd4ad464"
+    },
+    {
+      "id": "original:refusal-nonexistent-column",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12528,
+      "tape_sha256": "d34894f657041da0abb7f0d257e50d9cd3cdb648dc5eadefb7f62a99e5573794"
+    },
+    {
+      "id": "original:refusal-two-figures-total",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12538,
+      "tape_sha256": "574c6244f540a2eae31e80c402a481e7efdc535a812ecb4a296dc56813a8fb01"
+    },
+    {
+      "id": "original:refusal-unidentified-measure",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 2,
+      "input_characters": 25229,
+      "tape_sha256": "c4353d7c7918c783f4d07bf714b2fefca17b42b02c91acf23dd4fbec362a29d8"
+    },
+    {
+      "id": "original:visual-2",
+      "partition": "held_out",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12565,
+      "tape_sha256": "f54daf6c87106fe4d5ede8b6c3d359d4e9e4dfab5923cd3c1c1187098619e439"
+    },
+    {
+      "id": "original:visual-6",
+      "partition": "held_out",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12563,
+      "tape_sha256": "3d4f794f91f6c1599822785b7937ce87394dc24c6ab80eda5c47df43939fe223"
+    },
+    {
+      "id": "original:family-A",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12580,
+      "tape_sha256": "bf929f6e268c48365bf7a5d6edce67c2768208470a5042c02f958f31af89580a"
+    },
+    {
+      "id": "original:family-C",
+      "partition": "held_out",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12560,
+      "tape_sha256": "64c141a97b7565f4cdca526e3df4e42dfb5aeaf8ba4dae2a368e269147227d53"
+    },
+    {
+      "id": "original:family-F",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 12613,
+      "tape_sha256": "14559ff2ae39dbb9ffd72d3bdbb151c5dd31de7685ca857a6f8c34cbdc2691b2"
+    },
+    {
+      "id": "original:family-G",
+      "partition": "held_out",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 12669,
+      "tape_sha256": "9878047b982e682048c95f77806f06f0b88b41ea2317395e5786e1ed376fc709"
+    },
+    {
+      "id": "rebuilt:family-A",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 11547,
+      "tape_sha256": "2afd53f8b685b034148f696f7afa744851b2c23d21a4eb88f09c3a138db26447"
+    },
+    {
+      "id": "rebuilt:family-C",
+      "partition": "held_out",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 11527,
+      "tape_sha256": "b0e6bf743983a251c7a2ba9a8386bf59aa9b91d8be16afbc9c29aba597af65b3"
+    },
+    {
+      "id": "rebuilt:family-F",
+      "partition": "held_out",
+      "ticket_state": "HELD",
+      "adopted": false,
+      "new_model_calls": 1,
+      "input_characters": 11580,
+      "tape_sha256": "aa3314c47153f09db4c73d73b2adb5b53642fb0d143bc8f8b4e98bf4ae71e667"
+    },
+    {
+      "id": "rebuilt:family-G",
+      "partition": "held_out",
+      "ticket_state": "NEW",
+      "adopted": true,
+      "new_model_calls": 1,
+      "input_characters": 11636,
+      "tape_sha256": "cd945ce686365d0714b60e5e1e272f4ff341f546787ee286417b7c31927e061b"
+    }
+  ]
+}
