@@ -613,3 +613,26 @@ between two cells/reports, and does not remove filtered-scope refusals. Phase A
 remains incomplete and ungraded; #423 draft, freezes invalid. Browser inventory
 was checked again and returned apps=[] and browsers=[]; visual UI verification
 remains unavailable, with no estate export attempted.
+
+Dated dev-only retained-response audit, 2026-10-09 America/Chicago: source
+4565752 re-used the same 40 development response tapes into a separately named
+v6 capture. No new model sample or estate request occurred; held-out was not
+opened. Runtime proposals adopted 10 scopes; the scorer credits 13/40 one-round
+settlements (32.5%, including three retained semantic refusals). Original full
+consumer-record agreement stays 12/40. Individual questions are 42, mean1.05.
+Lifecycle history is retained for every row. This does not reach the goal and
+does not grade harmful-error rate; consequential review flags are not a proof
+of safety. Forty separate offline ledger rows carry the new tape hashes.
+
+| Dev class | Tickets | One-round settled | Questions | Mean questions |
+| --- | ---: | ---: | ---: | ---: |
+| Family | 26 | 8 | 28 | 1.077 |
+| Question | 3 | 1 | 3 | 1.000 |
+| Refusal | 7 | 3 | 7 | 1.000 |
+| Visual | 4 | 1 | 4 | 1.000 |
+
+The visual-class improvement removes one irrelevant comparison question; it
+does not settle unknown targets or internal two-cell comparisons. No missing
+seal information was volunteered by the simulator. The current quality gate
+is still incomplete, #423 draft, freezes invalid, no live run allowed. Original
+v5 audit/scores and every earlier failed or interrupted result are untouched.
