@@ -1,0 +1,417 @@
+{
+  "version": 1,
+  "seed": "round-ten-f-before-tuning-v1",
+  "reason": "Whole family groups including both estates; four held-out families plus stratified question/refusal/visual classes; no prior score or response used.",
+  "dev": [
+    {
+      "id": "original:family-B-noisy",
+      "family": "B",
+      "class": "family",
+      "record_hash": "caddec0a36353a0ab0b66af44a32b560564975d7ea466f84ae1c69f11ce8c58a"
+    },
+    {
+      "id": "original:family-B-terse",
+      "family": "B",
+      "class": "family",
+      "record_hash": "9d06c7cddc5dcdfe8ba71c6e46450a5801b7fd9cd106a5ecd0b4019a44e044be"
+    },
+    {
+      "id": "original:family-B-typo",
+      "family": "B",
+      "class": "family",
+      "record_hash": "7d58ab89294924297a08e5e6c9efeb73245baab6b6b13e209ff613b1c7d5d95c"
+    },
+    {
+      "id": "original:family-D-noisy",
+      "family": "D",
+      "class": "family",
+      "record_hash": "3ec7479934412512af230a245e475c72dde4a20a6e9e7df605f6cc9ee79622ed"
+    },
+    {
+      "id": "original:family-D-terse",
+      "family": "D",
+      "class": "family",
+      "record_hash": "b43ad6562dd132b0633224939593db08a1e5b60b4457c3ef337b89d581f67b77"
+    },
+    {
+      "id": "original:family-D-typo",
+      "family": "D",
+      "class": "family",
+      "record_hash": "fffeec67fbbffdbec895e8a655127c38e2a4cafb0bd68a091bc3b5194d60bb9f"
+    },
+    {
+      "id": "original:family-E-mention",
+      "family": "E",
+      "class": "family",
+      "record_hash": "ecd0cf39360d9723559aafb22692d14fc8a3cea473d81253c99930b80568cce5"
+    },
+    {
+      "id": "original:family-E-noisy",
+      "family": "E",
+      "class": "family",
+      "record_hash": "63cbdb74533566d664dc6891f4ad1a94e828eef239fbf68194a70adf6ab602c1"
+    },
+    {
+      "id": "original:family-E-terse",
+      "family": "E",
+      "class": "family",
+      "record_hash": "0387b0959ab9d30c48e1becb79cd063dfb55b6e9b9536f3e29be853a56a4d3c1"
+    },
+    {
+      "id": "original:family-E-typo",
+      "family": "E",
+      "class": "family",
+      "record_hash": "ac025fe13ee222794f0de3bc9863a892ac5e878653008626cbabbd5218f2fe60"
+    },
+    {
+      "id": "original:family-H-noisy",
+      "family": "H",
+      "class": "family",
+      "record_hash": "ea01c8495ab3394176728e2ca032fb363633659cf9a68b5a5a83976956f0f0c4"
+    },
+    {
+      "id": "original:family-H-terse",
+      "family": "H",
+      "class": "family",
+      "record_hash": "f03e3f5a6f20717ee20b68fae048c1cb0b7486e9346b75c617ad7b6b294e8f24"
+    },
+    {
+      "id": "original:family-H-typo",
+      "family": "H",
+      "class": "family",
+      "record_hash": "1149cbde4037dbf62f6c4f5040a6a67b6c92f600fc3084276ece04157f3d427e"
+    },
+    {
+      "id": "original:family-I-noisy",
+      "family": "I",
+      "class": "family",
+      "record_hash": "e9c7f6d85ced725e40c1b9cf3a656fdad4678ae05688ab54a9ff63c549f394a6"
+    },
+    {
+      "id": "original:family-I-terse",
+      "family": "I",
+      "class": "family",
+      "record_hash": "95a56b883f6dc78e7b0c25bb6832514f7343df2beb3f4696ddd99c8366388df2"
+    },
+    {
+      "id": "original:family-I-typo",
+      "family": "I",
+      "class": "family",
+      "record_hash": "5f5e111b03bfe3ab6efb9cbd63a2b2e1768d4d81a327e735b73c03fa29f11334"
+    },
+    {
+      "id": "original:question-change-days",
+      "family": null,
+      "class": "question",
+      "record_hash": "2f511ca104ddf6dffb69d8434234c8f740f6da3afb585c7af2e79c621c86bef2"
+    },
+    {
+      "id": "original:question-hiding-rows",
+      "family": null,
+      "class": "question",
+      "record_hash": "e5e2cf73851356628d37ed9e2104be80cd803bfd2375ea1260b39f764cf2d946"
+    },
+    {
+      "id": "original:question-stale-no-sla",
+      "family": null,
+      "class": "question",
+      "record_hash": "2248d22baa81b9e749e3b533033b89261b45df18871beb6d50e03d5d9b1ce01f"
+    },
+    {
+      "id": "original:refusal-business-benchmark",
+      "family": null,
+      "class": "refusal",
+      "record_hash": "9238a0c6958c9a47172514fcfff7228ddc67dee16df3566f05da15ef597f2540"
+    },
+    {
+      "id": "original:refusal-business-intent",
+      "family": null,
+      "class": "refusal",
+      "record_hash": "e8fc24a8f5fe51c6f1cb67090895bb62266f890e3e2949c9104fb5eddb77f3ad"
+    },
+    {
+      "id": "original:refusal-business-q49",
+      "family": null,
+      "class": "refusal",
+      "record_hash": "6413836e90ee9c77f8369d55a598834496f97a4d7d2c24002ef94e477d5feec7"
+    },
+    {
+      "id": "original:refusal-two-figures",
+      "family": null,
+      "class": "refusal",
+      "record_hash": "cf708814d97c6d985815e2a07dcd90f17590871e721e84c885a59e6f541569ca"
+    },
+    {
+      "id": "original:refusal-unidentified-visual",
+      "family": null,
+      "class": "refusal",
+      "record_hash": "38506d3663b6a479b39c87827b6b0fb93a3d1dd080d566021c4c19649aa81033"
+    },
+    {
+      "id": "original:refusal-unsupported-filter",
+      "family": null,
+      "class": "refusal",
+      "record_hash": "b8e5ac4cc6f875c0bc3391d5845447c45619142f1daa607f97b23bbcd3015b9e"
+    },
+    {
+      "id": "original:refusal-unsupported-relative",
+      "family": null,
+      "class": "refusal",
+      "record_hash": "038215ec163ffe494da805736939e5bd76be00d0bc04697bcee7250e5f7c82bb"
+    },
+    {
+      "id": "original:visual-1",
+      "family": null,
+      "class": "visual",
+      "record_hash": "5860d44b5254a67f8e8d407ff648166d224a5bcb02445d2a60d8b8f13eb98952"
+    },
+    {
+      "id": "original:visual-3",
+      "family": null,
+      "class": "visual",
+      "record_hash": "5bbd2777a38cf2d926552358c0c327e4cbdd1d8f7983073762669738ad71645c"
+    },
+    {
+      "id": "original:visual-4",
+      "family": null,
+      "class": "visual",
+      "record_hash": "b27fa1c79e9dfebf114cb9438fb3b7cd6ca301b2d382659f854fa15ddac6bcb8"
+    },
+    {
+      "id": "original:visual-5",
+      "family": null,
+      "class": "visual",
+      "record_hash": "db122e6ada79c1436571dffc2e1b0c7beaf706cafa4bda8062c1e3f6012d9bbd"
+    },
+    {
+      "id": "original:family-B",
+      "family": "B",
+      "class": "family",
+      "record_hash": "442ce86af9cd9da86f9344b91bf20c46bb3a21288576e57b38da5a0b0a4d8b1d"
+    },
+    {
+      "id": "original:family-D",
+      "family": "D",
+      "class": "family",
+      "record_hash": "1346f123a44ebaf5728ca8a695a24f5f56468c27bf5fea26c250090c1235f44f"
+    },
+    {
+      "id": "original:family-E",
+      "family": "E",
+      "class": "family",
+      "record_hash": "03fd16286b69921942938d0aeda32fb5e2bcf0164453a7309a217efe6f2ba1a5"
+    },
+    {
+      "id": "original:family-H",
+      "family": "H",
+      "class": "family",
+      "record_hash": "31072ce487b575892243910a3b3c7cd017cb74b504452b6284adcd86beb7cc8d"
+    },
+    {
+      "id": "original:family-I",
+      "family": "I",
+      "class": "family",
+      "record_hash": "1002698116d4ce49a48cf8076d5e60f636bbc80a70e3605fa3a45ab97e184ca3"
+    },
+    {
+      "id": "rebuilt:family-B",
+      "family": "B",
+      "class": "family",
+      "record_hash": "86a210aecff9f38dc2e2238fa1bb29fb3244a6986f5390fb6bcab11bb96283c2"
+    },
+    {
+      "id": "rebuilt:family-D",
+      "family": "D",
+      "class": "family",
+      "record_hash": "d89d38a1f36971f00c8c9d12b33304056e8cc8083de1f982aaa2a14c65a1ab37"
+    },
+    {
+      "id": "rebuilt:family-E",
+      "family": "E",
+      "class": "family",
+      "record_hash": "37f2dbc2fe816f1480fa05b8d3a89102a995715ea8e3dd1db646be3798d22459"
+    },
+    {
+      "id": "rebuilt:family-H",
+      "family": "H",
+      "class": "family",
+      "record_hash": "62bd4d34efdbf05bb321905eaf6e22a0253c3cfd9eb29a3302ef0f526aa807b1"
+    },
+    {
+      "id": "rebuilt:family-I",
+      "family": "I",
+      "class": "family",
+      "record_hash": "774ccaf7baa777efaba95cce9addb1fb594a140a9e62f310030b03c8a40672c2"
+    }
+  ],
+  "held_out": [
+    {
+      "id": "original:family-A-mention",
+      "family": "A",
+      "class": "family",
+      "record_hash": "f24168dd8f69f5e4e3cdb6f94c66b523ad48a4236f766fd779b6d2a3e83a536a"
+    },
+    {
+      "id": "original:family-A-noisy",
+      "family": "A",
+      "class": "family",
+      "record_hash": "929666deccac70daf32888cc108f8271fc4fb65dbadaad7f4144174cc40e025f"
+    },
+    {
+      "id": "original:family-A-terse",
+      "family": "A",
+      "class": "family",
+      "record_hash": "7d87240cbcae3a7b1c3dae63bb116dd00db1e8d8266a34e719734ce123d1ad52"
+    },
+    {
+      "id": "original:family-A-typo",
+      "family": "A",
+      "class": "family",
+      "record_hash": "cd8cd6fbf912ff8ec6dcb8a8053a37e895b170c7af86f8cae688a1d2904727e9"
+    },
+    {
+      "id": "original:family-C-noisy",
+      "family": "C",
+      "class": "family",
+      "record_hash": "0ee6fa8de575ea69f0433a265df7e84fc6010bf6d566678bffcd6027492b7177"
+    },
+    {
+      "id": "original:family-C-terse",
+      "family": "C",
+      "class": "family",
+      "record_hash": "480e5af4df44ffa43ddbe589ea1846cef1ef11abe6a798ce0f3a90b3021870b8"
+    },
+    {
+      "id": "original:family-C-typo",
+      "family": "C",
+      "class": "family",
+      "record_hash": "c137245b4d854f65bd4b54600115be950e538e3648354112ac7dbe85b76dd0dd"
+    },
+    {
+      "id": "original:family-F-noisy",
+      "family": "F",
+      "class": "family",
+      "record_hash": "64502f6536ecef863a2e48517ed9e10e766368cb5587add6b520a81715352ae4"
+    },
+    {
+      "id": "original:family-F-terse",
+      "family": "F",
+      "class": "family",
+      "record_hash": "277de96591b8498d1fd90cca5de7c0e276fd29c3c772538e36a282a49a0a961b"
+    },
+    {
+      "id": "original:family-F-typo",
+      "family": "F",
+      "class": "family",
+      "record_hash": "e607fa7a70260c9358d6e7aa86ebee552c588bd0e6b4dc4fb28c52fc67599ded"
+    },
+    {
+      "id": "original:family-G-mention",
+      "family": "G",
+      "class": "family",
+      "record_hash": "df635a8abadfc22183e1422a0eee921d0d6c8e893c32a15e3fa2e04a68dbfbe2"
+    },
+    {
+      "id": "original:family-G-noisy",
+      "family": "G",
+      "class": "family",
+      "record_hash": "d2400847bfda1b12e421f4f79e1159c8a8f3127ed3ec89f5e1318640e5be0e1f"
+    },
+    {
+      "id": "original:family-G-terse",
+      "family": "G",
+      "class": "family",
+      "record_hash": "a75133b8ce6db63d1cba55ffa59cd572b167ab2f8a7065f67484ffd1b188dad5"
+    },
+    {
+      "id": "original:family-G-typo",
+      "family": "G",
+      "class": "family",
+      "record_hash": "85a40c9e7b274972415afda603fae4cf0ccf3870c6592d0dc8b47974108ed584"
+    },
+    {
+      "id": "original:question-change-week",
+      "family": null,
+      "class": "question",
+      "record_hash": "0f6c4b3b136e7c6fa94622010edb71daa96b693e19462f6da7285ff86b32b6a4"
+    },
+    {
+      "id": "original:refusal-nonexistent-column",
+      "family": null,
+      "class": "refusal",
+      "record_hash": "475b28e735f320f98a123aca035686d607d9caf8f664f115e6bb77d332a65127"
+    },
+    {
+      "id": "original:refusal-two-figures-total",
+      "family": null,
+      "class": "refusal",
+      "record_hash": "e67300dfdb7fd407d4db8f9967e0569547ac8aa385f511fd69abce73fd9b7fb7"
+    },
+    {
+      "id": "original:refusal-unidentified-measure",
+      "family": null,
+      "class": "refusal",
+      "record_hash": "dd0a03b6d1a3ae3ba66492c37366623b9cf143b913ea1a1f8a179aaddf812ce9"
+    },
+    {
+      "id": "original:visual-2",
+      "family": null,
+      "class": "visual",
+      "record_hash": "e0cb6439be6e82353136358049b0228f1c8e8cc15162d07f45621e8f37223f8b"
+    },
+    {
+      "id": "original:visual-6",
+      "family": null,
+      "class": "visual",
+      "record_hash": "3f7a2544b1837ad02d8e82d8d7cd2a210a486dc36908903bea832f474d7633c6"
+    },
+    {
+      "id": "original:family-A",
+      "family": "A",
+      "class": "family",
+      "record_hash": "e01d83f787904f20f84e81fabd1b4e931c837944b16fdec69f440611d90c3d98"
+    },
+    {
+      "id": "original:family-C",
+      "family": "C",
+      "class": "family",
+      "record_hash": "262f3f44354db3389740b9ab6ad112a4e6fe189ca6ba2f3e99156c0be164c167"
+    },
+    {
+      "id": "original:family-F",
+      "family": "F",
+      "class": "family",
+      "record_hash": "e07a370e56320a52db64faf11ec4dcc0c7069d9dc4608132609e7683945596b0"
+    },
+    {
+      "id": "original:family-G",
+      "family": "G",
+      "class": "family",
+      "record_hash": "4030462329780642abb1a3995d2c93b6d8c3bdd99753199139f5018dc46e59ff"
+    },
+    {
+      "id": "rebuilt:family-A",
+      "family": "A",
+      "class": "family",
+      "record_hash": "9fd4a51ef89c06d263a69ad3f3f5d1c60058648557ae54c9d0fb7121d0879cc8"
+    },
+    {
+      "id": "rebuilt:family-C",
+      "family": "C",
+      "class": "family",
+      "record_hash": "34e755d43bf0c9ac097e1bb8f1e41f1100d26d2eca5eeebe42fe38cbbc8d875e"
+    },
+    {
+      "id": "rebuilt:family-F",
+      "family": "F",
+      "class": "family",
+      "record_hash": "912134ddfaeac97e71a604c3b7fdd126d03e509099e4025fbabb9ba7952e3e34"
+    },
+    {
+      "id": "rebuilt:family-G",
+      "family": "G",
+      "class": "family",
+      "record_hash": "54665be1f76701ee7a6c7b58baf5ef8dae245dc6fe66ea0f4c400da231070f77"
+    }
+  ]
+}
