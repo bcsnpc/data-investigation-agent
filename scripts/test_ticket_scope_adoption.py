@@ -24,7 +24,8 @@ class TicketScopeAdoptionTests(unittest.TestCase):
             db.execute('INSERT INTO workspace_intakes VALUES(?,?,?,?)',
                        (source['id'],'original',encoded(source),digest(source)))
         self.tickets=Tickets(self.owner.store)
-        saved=self.tickets.submit({'text':self.payload['text']},'ticket')
+        saved=self.tickets.submit({'text':self.payload['text'],'request_key':'ticket'},'ticket')
+        self.assertEqual(saved['request']['request_key'],'ticket')
         self.identity=saved['ticket']['id']
         from investigator.intake_extraction import spans
         selected=spans(self.raw,self.payload['text'])['figures'][0]['quote']

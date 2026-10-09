@@ -904,3 +904,8 @@ pass, including this hostile-record regression. No seal/expectation changes.
 Raw differences, unavailable simulator answers, refusals and failures will be
 retained; neither a paused ticket nor an untested route earns settlement credit.
 The current held-out result will not be used to tune this candidate.
+
+
+Dated completed evaluation, 2026-10-09 America/Chicago: the final 68-case fresh pass completed on frozen44490b4 with82 recorded model calls and zero estate reads. Dev16/40 and held15/28 settled within one round; original full matches12/40 and9/28. Held-out settlement53.6% fails85%, question mean1.143 exceeds1.0, and one consequential-admission discrepancy remains under provenance review. This supersedes the earlier incomplete/ungraded status for this pass, not the preserved historical results. No model/golden/expectation or budget was changed after the freeze. #423 stays draft; screenshots, live lists and OTHER_REPORT implementation are not enabled. See [the full result and all68 rows](round-eleven-phase-a-results.md).
+
+Dated corrected full regression result: 2,665 tests OK in543.092seconds after fixing only the manually constructed request fixture;110 lifecycle/safety and36 focused input/adoption tests passed separately. Initial two errors remain in the frozen evaluation log. Intake quality remains FAILED, #423 draft, no estate reads.
