@@ -28,7 +28,8 @@ class RuleViolation(ValueError):
 def technical_ask(ticket):
     """Explicit technical work, not a mere metric mentioned in an intent question."""
     operations=re.finditer(r'\b(?:inspect|investigate|reproduce|check)\b([^.!?\n]*)',ticket,re.I)
-    if any(not re.search(r'\bbusiness\s+(?:rule|intent|meaning)\b',m.group(1),re.I) for m in operations):
+    if any(not re.search(r'\bbusiness\s+(?:rule|intent|meaning)\b',
+            re.split(r'\b(?:and|but|then)\b',m.group(1),maxsplit=1,flags=re.I)[0],re.I) for m in operations):
         return True
     return bool(re.search(
         r'\bexplain\b[^.!?\n]*\b(?:selected|declared|filter)\b[^.!?\n]*\bscope\b|'

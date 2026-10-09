@@ -25,6 +25,45 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_non_measure_title_span_cannot_hide_the_named_metric(self):
+        ticket='In Report, Global card Quantity differs.'
+        raw,payload=fixture(ticket,measures=[{'quote':'Global','role':'PRIMARY'},{'quote':'Quantity','role':'CONTEXT'}],visuals=[{'quote':'Global card','role':'PRIMARY','form':'CARD'}])
+        value=extraction.resolve(raw,payload)
+        self.assertEqual(value['metric_quote'],'Quantity')
+        validate(value,payload)
+        self.assertEqual(value['extracted_ticket']['resolution_evidence'][1]['resolution'],'UNRESOLVED')
+
+    def test_mixed_technical_request_cannot_use_early_business_refusal(self):
+        ticket='In Report, inspect Quantity on the Global card and decide the business rule.'
+        raw,payload=fixture(ticket,kind='BUSINESS_MEANING',triage='BUSINESS_QUESTION:NONE')
+        from investigator.intake_rules import RuleViolation
+        with self.assertRaisesRegex(RuleViolation,'MIXED_TECHNICAL_SUBJECT_REQUIRED'):extraction.resolve(raw,payload)
+
+    def test_named_card_form_preserves_title_and_does_not_choose_another_card(self):
+        ticket='In Report, investigate Quantity on the Global card.'
+        raw,payload=fixture(ticket,visuals=[{'quote':'Global card','role':'PRIMARY','form':'CARD'}])
+        other=copy.deepcopy(payload['models'][0]['visuals'][0]);other.update(target_id='other',names=['Other'])
+        payload['models'][0]['visuals'].append(other)
+        payload['models'][0]['visuals'][0]['names']=['Global']
+        value=extraction.resolve(raw,payload)
+        self.assertEqual(value['target_visual']['target_id'],'card')
+        self.assertIn('visual_name',value['target_visual']['match_basis']['matched'])
+        validate(value,payload)
+
+    def test_business_refusal_keeps_its_type_and_provider_receipt(self):
+        ticket='Please decide the business rule.'
+        raw,payload=fixture(ticket,kind='BUSINESS_MEANING',triage='BUSINESS_QUESTION:NONE',measures=[],reports=[])
+        from investigator.question_kind import UnimplementedRoute
+        with patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'recorded'})):
+            with self.assertRaises(UnimplementedRoute) as caught:extraction.azure_resolve(payload)
+        self.assertEqual(caught.exception.provider_metadata,{'response_id':'recorded'})
+
+    def test_pure_business_intent_refuses_before_missing_measure_and_target(self):
+        ticket='Should this rule be the business rule?'
+        raw,payload=fixture(ticket,kind='BUSINESS_MEANING',triage='BUSINESS_QUESTION:NONE',measures=[],reports=[])
+        from investigator.question_kind import UnimplementedRoute
+        with self.assertRaisesRegex(UnimplementedRoute,'domain specialist'):extraction.resolve(raw,payload)
+
     def test_primary_setup_grouping_and_identifier_are_not_erased(self):
         ticket='In Report, Quantity by warehouse should include record 900099. Investigate the Warehouse matrix.'
         raw,payload=fixture(ticket,primary='Investigate the Warehouse matrix.',
@@ -156,11 +195,11 @@ class ExtractionTests(unittest.TestCase):
             path=Path(directory)/'response.json';path.write_text(json.dumps(tape))
             self.assertEqual(nomination(path),'FRESHNESS')
 
-    def test_wire_no_visuals_values_identifiers_and_catalog_growth_does_not_expand_request(self):
+    def test_wire_titles_without_values_or_identities_and_duplicate_catalog_growth_is_constant(self):
         raw,payload=fixture('In Report, Quantity differs.')
         before=extraction.request_size(payload);wire=extraction.wire(payload)
-        self.assertEqual(set(wire),{'ticket','question_kinds','names'})
-        self.assertNotIn('Global card',json.dumps(wire));self.assertNotIn('target_id',json.dumps(wire))
+        self.assertEqual(set(wire),{'ticket','question_kinds','names','visual_titles'})
+        self.assertEqual(wire['visual_titles'],['Global card','Warehouse matrix']);self.assertNotIn('target_id',json.dumps(wire));self.assertNotIn('model',json.dumps(wire))
         payload['models'][0]['visuals']*=10000
         self.assertEqual(extraction.request_size(payload),before)
         self.assertLessEqual(before,20000)

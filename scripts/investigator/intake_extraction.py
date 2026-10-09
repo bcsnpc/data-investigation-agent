@@ -48,7 +48,9 @@ selection inside its declared report using evidence, after intake.
 figures contains only what the user says the visual shows, NUMBER or EMPTY. No reported state means
 an empty figures list. Code derives the state from these spans. Preserve all competing figures. precision_quote quotes stated
 precision, otherwise null; do not infer a tolerance. Dates and record identifiers are not figures.
-Names are spelling aids only; no guessing between measures. Extract all named reports/pages and
+Names are spelling aids only; no guessing between measures. visual_titles are display names, not measure names.
+A title inside the primary ask stays PRIMARY even if a broad context quote overlaps it.
+A named metric in setup remains a measure; do not replace it with the card title. Extract all named reports/pages and
 visual titles and explicit card/matrix/chart/total hints. Groupings require an explicit by/per request.
 An explicit global request is an UNGROUPED visual-scope hint; a global comparator is COMPARISON.
 PRIMARY figures and selections are the reported state and selected scope of the primary referent,
@@ -74,7 +76,10 @@ def wire(payload):
         from .process_tape import event
         event('CONFIGURATION',{'control':'INTAKE_NAME_LIST_OVERSIZE','cap':NAME_CAP})
         raise ValueError('INTAKE_NAME_LIST_OVERSIZE: compact names exceed '+str(NAME_CAP))
-    value = {'ticket':payload['text'],'question_kinds':list(question_kind.KINDS),'names':names}
+    titles=sorted({n for m in payload['models'] for v in m.get('visuals',[]) for n in v.get('names',[])})
+    if len(json.dumps({'names':names,'visual_titles':titles},ensure_ascii=False))>NAME_CAP:
+        raise ValueError('INTAKE_NAME_LIST_OVERSIZE: compact typed names exceed '+str(NAME_CAP))
+    value = {'ticket':payload['text'],'question_kinds':list(question_kind.KINDS),'names':names,'visual_titles':titles}
     repairs = {k:v for k,v in payload.items() if k.startswith('_') and k.endswith('repair')}
     if repairs:
         # A correction contains the validation reason, never the old catalog or proposed IDs.
@@ -144,6 +149,12 @@ def resolve(raw, payload):
     from . import report_scope, numeral_roles, intake_rules
     from .visual_target import TargetUnresolved
     extraction=spans(raw,payload['text']); ticket=payload['text']
+    # Business intent has no executable technical target. Decide it before
+    # catalog resolution; a figure-bearing mixed ticket remains technical.
+    early_shape,_=intake_triage.PAIRS[raw['triage']]
+    intake_rules.validate({'action':'PROPOSE','question_kind':{'kind':raw['kind']},'ticket_shape':early_shape},ticket)
+    if raw['kind']=='BUSINESS_MEANING' and not any(primary_fact(i,extraction) for i in extraction['figures']):
+        question_kind.intake_route({'action':'PROPOSE','question_kind':{'kind':'BUSINESS_MEANING'}})
     # A measure in setup can be the referent of "its" in the actual ask.
     # This is not visual-selection authority: targets retain active() below.
     mentions=[i for i in extraction['measures'] if i['role']!='COMPARISON' and
@@ -174,7 +185,16 @@ def resolve(raw, payload):
     # winners cannot establish a unique global referent.
     candidates=[{**metric,'resolution_id':json.dumps([model['id'],metric['id']],separators=(',',':'))}
                 for model in models for metric in model['measures']]
-    chosen=match(mentions[0]['quote']['quote'],candidates,'resolution_id',audit)
+    resolved=[]
+    for mention in mentions:
+        try:chosen=match(mention['quote']['quote'],candidates,'resolution_id',audit)
+        except ValueError as exc:
+            if getattr(exc,'resolution_evidence',{}).get('resolution')=='UNRESOLVED':continue
+            raise
+        resolved.append((mention,chosen))
+    identities={c['resolution_id'] for _,c in resolved}
+    if len(identities)!=1:raise ValueError('Starting measure/model is '+('ambiguous' if identities else 'unresolved'))
+    metric_mention,chosen=resolved[0]
     model_id,metric_id=json.loads(chosen['resolution_id'])
     model=next(m for m in models if m['id']==model_id)
     metric=next(m for m in model['measures'] if m['id']==metric_id)
@@ -232,7 +252,7 @@ def resolve(raw, payload):
     kind=raw['kind']
     shape,mode=intake_triage.PAIRS[raw['triage']]
     value={'action':'PROPOSE','model_id':model['id'],'measure_id':metric['id'],
-        'metric_quote':mentions[0]['quote']['quote'],'question':None,
+        'metric_quote':metric_mention['quote']['quote'],'question':None,
         'question_kind':{'kind':kind,'source':extraction['primary']},
         'ticket_shape':shape,'comparison_mode':mode,
         'reported_figure':reported,'filters':filters,'scope_quotes':scope_quotes,
@@ -287,11 +307,18 @@ def resolve(raw, payload):
         for hint in extraction['visuals']:
             if not active(hint,extraction): continue
             quote=hint['quote']['quote'];form=hint.get('form','TITLE')
-            if form=='TITLE':
+            # A form cue does not erase an explicitly quoted title. Apply both
+            # restrictions, rather than treating every named card alike.
+            title_quote=re.sub(r'\s+(?:card|matrix|chart)$','',quote,flags=re.I).strip() if form in ('CARD','MATRIX','CHART') else quote
+            named_form=form in ('CARD','MATRIX','CHART') and title_quote.casefold()!=form.casefold()
+            if form=='TITLE' or named_form:
                 names=[{'id':v['target_id'],'name':n} for v in matched for n in v['names']]
-                selected=match(quote,names,'id',audit)
+                selected=match(title_quote,names,'id',audit)
                 matched=[v for v in matched if v['target_id']==selected['id']]
                 source=hint['quote'];basis.append('visual_name')
+                if named_form:
+                    matched=[v for v in matched if v['form']==form]
+                    if form=='CARD':mode='UNGROUPED';mode_source=hint['quote']
             elif form=='TOTAL':mode='TOTAL';mode_source=hint['quote']
             elif form=='UNGROUPED':
                 if not re.search(r'\bglobal\b',quote,re.I):
@@ -324,7 +351,7 @@ def azure_resolve(payload):
         from .visual_target import TargetUnresolved
         from .intake_rules import RuleViolation
         if isinstance(exc,(QuoteNotFound,FigureQuoteAmbiguous,TargetUnresolved,RuleViolation,
-                           reported_figure.AmbiguousFigure,reported_figure.UnavailablePrecision)):
+                           reported_figure.AmbiguousFigure,reported_figure.UnavailablePrecision,question_kind.UnimplementedRoute)):
             raise
         failed=RuleViolation('INTAKE_EXTRACTION_INVALID',str(exc))
         failed.provider_metadata=metadata
