@@ -161,3 +161,40 @@ user-confirmed resolution path. Rejected alternative: choose the first repeated
 quote, which cannot establish the user's referent and changes legacy tape bytes.
 The metadata-only choice planner labels grouped candidates as total-cell-only;
 it does not silently replace an unrepresentable keyed address with a total.
+
+## Lifecycle and capture checkpoint ? 2026-10-09 UTC
+
+The authenticated workspace exposes durable text submission, closed choice replies,
+history, scope review, run attachment, composition, findings, user closure and
+recorded owner handoffs. Technical findings route on sharing when one configured
+owner resolves; consistency disputes route to a business owner. Nothing is sent.
+Retained explanations are qualified as historical, without a new read.
+
+V5 distinguishes read completion from narrative completion. The actual original
+read return closes the old capture before ticket composition starts its own tape;
+missing original capture refuses instead of reconstructing a return. A permanent
+synthetic integration test records five tapes (submission, reply, preview/create/run,
+attachment, finish) and replays each with zero network requests. Legacy v1?v4
+contracts are unchanged. Missing-capture refusals replay too.
+
+The successful consumer-validated retry is authoritative while the rejected
+extraction remains retained. The production resolver now supplies the missing
+non-verbatim retry evidence. Confirming a visual with exactly one declared measure
+can settle that measure without fabricating an original metric quotation;
+multimeasure ambiguity still refuses. Seventy-four focused checks passed before
+the last handoff/measure additions; those additions passed 21 and 64 focused checks.
+Full regression is pending. The prior c48841e full run had one v3 version-pinning
+failure among 2,536 checks; explicit v4/v5 matching fixes it and its focused test
+passes. Both original failure and log remain preserved.
+
+Phase A is not complete: keyed choices, link/structured submission integration,
+changed-question frames, current-evidence reuse and the 68-case quality evaluation
+remain unfinished. Interactive privacy-projected capture refuses before any raw
+fallback. Screenshots and OTHER_REPORT design remain subsequent work. No new
+provider or estate requests, no counter/budget/scope/golden changes. No live-run
+ledger row. Existing held-out records were already scored in Round Ten; a later
+Round Eleven held pass is not a never-seen corpus. #423 remains draft.
+
+DECIDED WITHOUT REVIEW: represent original read-stage completion separately in
+v5, rejecting the alternative of pretending read completion already includes two
+narratives or rewriting the original return after synthesis.

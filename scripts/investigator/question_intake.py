@@ -519,7 +519,18 @@ def validate(value, payload):
     def quote(q):
         text(q, limits.INTAKE_QUOTE)
         if q not in payload['text']: raise ValueError('Quote is not in the submitted question')
-    quote(value['metric_quote'])
+    if value['metric_quote'] is None:
+        # Only a consumer-recomputed confirmed visual can supply a metric
+        # without a ticket quote; the declaration must itself be unambiguous.
+        from .intake_confirmation import values as confirmed_values
+        proof=payload.get('_ticket_confirmation')
+        if not proof or value.get('extracted_ticket',{}).get('version')!='ticket-spans-confirmed-v1':
+            raise ValueError('A starting measure without a quote requires a confirmed visual')
+        number=confirmed_values(proof,ticket=payload['text'],models=payload['models']).get('NUMBER')
+        matches=[v for v in model.get('visuals',[]) if number and v['target_id']==number['target_id']]
+        if len(matches)!=1 or matches[0]['measure_ids']!=[value['measure_id']]:
+            raise ValueError('Confirmed visual does not declare the unique starting measure')
+    else:quote(value['metric_quote'])
     columns = {c['column_id']: c for c in model['columns']}
     filters = value['filters']; dimensions = value['dimension_ids']; quotes = value['scope_quotes']
     if not isinstance(filters, list) or not (0 if model.get('dynamic_investigation') else 1) <= len(filters) <= limits.INTAKE_FILTERS: raise ValueError('Bounded filters required')

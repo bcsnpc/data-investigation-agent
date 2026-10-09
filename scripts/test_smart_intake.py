@@ -150,6 +150,19 @@ class SmartIntakeTests(unittest.TestCase):
         self.assertEqual(result['ticket']['state'],'FINDINGS_SHARED')
         self.assertEqual(result['ticket']['history'][-1]['detail']['handoff_unavailable'],'OWNERSHIP_UNDECLARED')
 
+    def test_technical_cause_routes_on_sharing_without_waiting_for_another_question(self):
+        self.controller.ownership={'business':[],'technical':[{'layer_or_pipeline':'layer-1','owner':'pipeline-team'}]}
+        shared=self.findings('TRANSFORMATION_LOGIC')
+        self.assertEqual(shared['ticket']['state'],'TECH_HANDOFF')
+        self.assertEqual(shared['ticket']['handoff']['delivery'],'RECORDED_NOT_SENT')
+        self.assertEqual(shared['ticket']['history'][-2]['to'],'FINDINGS_SHARED')
+        self.assertEqual(shared['ticket']['history'][-1]['to'],'TECH_HANDOFF')
+        retained=self.controller.respond({'ticket_id':shared['ticket']['id'],'revision':shared['revision'],
+            'kind':'EXPLAIN_RECORDED_RESULT','text':'Explain the retained finding.'})
+        self.assertEqual(retained['ticket']['state'],'TECH_HANDOFF')
+        self.assertIn('not a new reading',retained['ticket']['retained_answer']['qualification'])
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_a_foreign_run_cannot_be_attached_to_the_ticket(self):
         saved=self.controller.reply(self.reply(self.submit()))
         with patch.object(self.workspace,'session',return_value={'intake':{'id':'foreign'}}),self.assertRaises(Conflict):

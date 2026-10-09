@@ -22,6 +22,21 @@ def confirm(payload, raw, target='card', figure=None, mode='UNGROUPED'):
 
 
 class IntakeConfirmationTests(unittest.TestCase):
+    def test_user_confirmed_visual_supplies_its_unique_measure_without_fabricating_quote(self):
+        raw,payload=fixture('In Report, this number looks wrong.',measures=[])
+        with self.assertRaisesRegex(ValueError,'Starting measure is unresolved'):intake_extraction.resolve(raw,payload)
+        confirmed,_,_=confirm(payload,raw)
+        value=intake_extraction.resolve(raw,confirmed);validate(value,confirmed)
+        self.assertIsNone(value['metric_quote']);self.assertEqual(value['measure_id'],'measure')
+        self.assertEqual(value['extracted_ticket']['response']['measures'],[])
+        with self.assertRaises(ValueError):validate(value,payload)
+
+    def test_confirmed_multimeasure_visual_cannot_choose_one_measure(self):
+        raw,payload=fixture('In Report, this number looks wrong.',measures=[])
+        payload['models'][0]['visuals'][0]['measure_ids'].append('other')
+        confirmed,_,_=confirm(payload,raw)
+        with self.assertRaisesRegex(ValueError,'one unique starting measure'):intake_extraction.resolve(raw,confirmed)
+
     def test_repeated_numeral_requires_an_occurrence_and_conserves_both(self):
         raw,payload=fixture('In Report, Quantity shows 16; the application also shows 16.',
             figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}])

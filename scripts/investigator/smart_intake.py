@@ -118,7 +118,7 @@ class SmartIntake:
     @operation('ticket_share')
     def share(self, request):
         self._guard();fields(request,['ticket_id','revision'])
-        from .ticket_findings import from_state
+        from .ticket_findings import from_state, TECHNICAL
         saved=self.tickets.get(request['ticket_id']);ticket=saved['ticket']
         if ticket['state']!='INVESTIGATING':raise Conflict('Ticket is not investigating')
         self._bound_session(ticket,ticket['session_id'])
@@ -126,7 +126,8 @@ class SmartIntake:
         def share(current):
             current=protocol.transition(current,'FINDINGS_SHARED',actor='AGENT',
                 detail={'session_id':findings['session_id'],'findings_hash':digest(findings)})
-            current['findings']=findings;return current
+            current['findings']=findings
+            return self._handoff(current,'TECH_HANDOFF') if findings['classification'] in TECHNICAL else current
         return self.tickets.update(ticket['id'],request['revision'],share)
 
     @operation('ticket_finish')
@@ -164,8 +165,9 @@ class SmartIntake:
         if request['kind'] not in ('DISPUTE','REQUEST_CHANGE','EXPLAIN_RECORDED_RESULT'):
             raise ValueError('Unknown findings reply kind')
         saved=self.tickets.get(request['ticket_id']);ticket=saved['ticket']
-        if ticket['state']!='FINDINGS_SHARED':raise Conflict('Ticket is not awaiting a findings reply')
-        from .ticket_findings import CONSISTENT, package
+        if ticket['state'] not in ('FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'):
+            raise Conflict('Ticket is not awaiting a findings reply')
+        from .ticket_findings import CONSISTENT
         finding=ticket['findings']
         self._bound_session(ticket,ticket['session_id'])
         def reply(current):
@@ -176,21 +178,25 @@ class SmartIntake:
                     'qualification':'This describes retained evidence, not a new reading of current data.'}
                 return current
             kind='BUSINESS_VALIDATION' if request['kind']=='DISPUTE' and finding['classification'] in CONSISTENT else 'TECH_HANDOFF'
-            assessment=finding['assessment'];process=assessment['support']['process']
-            if kind=='BUSINESS_VALIDATION':
-                adopted=self.workspace.intake.get(current['intake_id'])
-                selector=adopted['proposal']['measure_id'];key='measure_or_area';rows=self.ownership['business']
-                selectors={selector}
-            else:
-                key='layer_or_pipeline';rows=self.ownership['technical']
-                selectors={process['visibility_boundary']['deepest_layer'],process['baseline_above']['layer']}
-            owners={row['owner'] for row in rows if row[key] in selectors}
-            if len(owners)!=1:
-                current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
-                    'detail':{'handoff_unavailable':'OWNERSHIP_AMBIGUOUS' if owners else 'OWNERSHIP_UNDECLARED',
-                              'requested_kind':kind}})
-                return current
-            owner=next(iter(owners));handoff=package(finding,kind,owner)
-            current=protocol.transition(current,kind,actor='AGENT',detail={'owner':owner,'package_hash':digest(handoff)})
-            current['handoff']=handoff;return current
+            if current['state']==kind and current.get('handoff'):return current
+            return self._handoff(current,kind)
         return self.tickets.update(ticket['id'],request['revision'],reply)
+
+    def _handoff(self, current, kind):
+        from .ticket_findings import package
+        finding=current['findings'];process=finding['assessment']['support']['process']
+        if kind=='BUSINESS_VALIDATION':
+            adopted=self.workspace.intake.get(current['intake_id'])
+            selectors={adopted['proposal']['measure_id']};key='measure_or_area';rows=self.ownership['business']
+        else:
+            key='layer_or_pipeline';rows=self.ownership['technical']
+            selectors={process['visibility_boundary']['deepest_layer'],process['baseline_above']['layer']}
+        owners={row['owner'] for row in rows if row[key] in selectors}
+        if len(owners)!=1:
+            current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
+                'detail':{'handoff_unavailable':'OWNERSHIP_AMBIGUOUS' if owners else 'OWNERSHIP_UNDECLARED',
+                          'requested_kind':kind}})
+            return current
+        owner=next(iter(owners));handoff=package(finding,kind,owner)
+        current=protocol.transition(current,kind,actor='AGENT',detail={'owner':owner,'package_hash':digest(handoff)})
+        current['handoff']=handoff;return current

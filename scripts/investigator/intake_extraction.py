@@ -239,7 +239,7 @@ def resolve(raw, payload):
     mentions=[i for i in extraction['measures'] if i['role']!='COMPARISON' and
               not any(i['quote']['start']<s['end'] and s['start']<i['quote']['end']
                       for s in extraction['comparisons'])]
-    if not mentions: raise ValueError('Starting measure is unresolved from the primary question')
+    if not mentions and not number: raise ValueError('Starting measure is unresolved from the primary question')
     audit=[]
     # Named context narrows the metadata search; it does not select a visual.
     report_words=[i['quote']['quote'] for i in extraction['reports'] if i['role']!='COMPARISON']
@@ -274,6 +274,20 @@ def resolve(raw, payload):
             if getattr(exc,'resolution_evidence',{}).get('resolution')=='UNRESOLVED':continue
             raise
         resolved.append((mention,chosen))
+    if not mentions and number:
+        # A confirmed single-measure visual declares its measure. This is
+        # metadata evidence, not a fabricated quotation or value-match guess.
+        visual_matches=[(m,v) for m in models for v in m.get('visuals',[])
+                        if v['target_id']==number['target_id']]
+        if len(visual_matches)!=1 or len(visual_matches[0][1]['measure_ids'])!=1:
+            raise ValueError('Confirmed visual does not declare one unique starting measure')
+        selected_model,visual=visual_matches[0]
+        chosen=next((c for c in candidates if json.loads(c['resolution_id'])==
+                     [selected_model['id'],visual['measure_ids'][0]]),None)
+        if chosen is None:raise ValueError('Confirmed visual measure is not retained in metadata')
+        resolved.append((None,chosen))
+        audit.append({'resolution':'USER_CONFIRMED_VISUAL_MEASURE','target_id':number['target_id'],
+                      'model_id':selected_model['id'],'measure_id':visual['measure_ids'][0]})
     identities={c['resolution_id'] for _,c in resolved}
     if len(identities)!=1:raise ValueError('Starting measure/model is '+('ambiguous' if identities else 'unresolved'))
     metric_mention,chosen=resolved[0]
@@ -333,7 +347,7 @@ def resolve(raw, payload):
     kind=raw['kind']
     shape,mode=intake_triage.PAIRS[raw['triage']]
     value={'action':'PROPOSE','model_id':model['id'],'measure_id':metric['id'],
-        'metric_quote':metric_mention['quote']['quote'],'question':None,
+        'metric_quote':metric_mention['quote']['quote'] if metric_mention else None,'question':None,
         'question_kind':{'kind':kind,'source':extraction['primary']},
         'ticket_shape':shape,'comparison_mode':mode,
         'reported_figure':reported,'filters':filters,'scope_quotes':scope_quotes,
