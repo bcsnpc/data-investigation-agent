@@ -58,7 +58,43 @@ def answer_batch(ticket, case, models):
     return {'answers':answers,'abstentions':abstentions,'case_hash':digest(case)}
 
 
-def score(cases, records):
+def verified_model_scope(case, row, models):
+    """Reprove a model-only ask; null identities in a refusal are not wrong IDs.
+
+    No outcome, provider assertion or later quantity can supply this proof.
+    A retained catalog and the original ticket must independently reproduce it.
+    """
+    from . import intake_extraction
+    from .question_intake import validate
+    expected=case['expected'];proposal=row.get('proposal');source=row.get('source_intake')
+    if (not models or not proposal or not source or source.get('text')!=case['text'] or
+            expected.get('error')!='TARGET_AMBIGUOUS' or expected.get('target_id') is not None or
+            expected.get('figure_state')!='UNSPECIFIED' or
+            expected.get('nominated_question_kind') not in ('FRESHNESS','SOURCE_CORRECTNESS') or
+            proposal.get('target_visual') or proposal.get('selection_request') or proposal.get('filters') or
+            proposal.get('dimension_ids') or proposal.get('reported_figure')!={'state':'UNSPECIFIED'}):
+        return False
+    try:
+        payload={'text':case['text'],'models':models}
+        binding=proposal.get('report_binding')
+        if binding:
+            owners=[m for m in models if any(r['id']==binding['report_id'] for r in m.get('reports',[]))]
+            if len(owners)!=1 or owners[0]['id']!=proposal['model_id']:return False
+        raw=intake_extraction.retained_response(source)
+        resolved=intake_extraction.resolve(raw,payload)
+        validate(resolved,payload)
+        from .intake_statement_registry import validate as validate_statements
+        validate_statements(resolved,case['text'])
+        fields=('model_id','measure_id','target_visual','reported_figure','filters','dimension_ids','report_binding','question_kind')
+        # Reprove scope independently of a comparison-only user confirmation.
+        # Never transplant that confirmation into a catalog validation payload.
+        return (all(resolved.get(k)==proposal.get(k) for k in fields) and
+                all(row['intake_record'].get(k)==resolved[k] for k in ('model_id','measure_id')))
+    except (ValueError,KeyError,TypeError):
+        return False
+
+
+def score(cases, records, *, catalogs=None):
     """Keep original-record agreement distinct from interactive settlement.
 
     A correct, terminal semantic refusal can settle a ticket. A waiting
@@ -96,15 +132,20 @@ def score(cases, records):
         if row and (type(rounds) is not int or rounds<0 or type(questions) is not int or questions<0):
             raise ValueError('Clarification counts must be nonnegative integers')
         flags=[]
+        verified_model_only=False
         if adopted:
+            verified_model_only=verified_model_scope(case,row,(catalogs or {}).get(case['id']))
             for field in ('model_id','measure_id','target_id','cell_mode','figure_state','figure_value','figure_precision','filters','dimension_ids','selection_value'):
-                if field in expected and actual.get(field)!=expected[field]:flags.append(field)
+                if field in expected and actual.get(field)!=expected[field]:
+                    if field in ('model_id','measure_id') and expected[field] is None and verified_model_only:continue
+                    flags.append(field)
             # The evaluator never resolves a review flag by inventing a user
             # confirmation. Retain the actual proof for independent checking.
         result={'id':case['id'],'evaluated':row is not None,'original_record_match':not differences,
                 'differences':differences,'settled':settled,'settled_within_one_round':bool(settled and rounds<=1),
                 'questions':questions,'consequential_differences':flags,
                 'waiting_on_user':waiting_on_user,
+                'verified_model_only_scope':verified_model_only,
                 'refusal_lifecycle_evidence':bool(history) if case['should_hold'] else None}
         rows.append(result)
         group=classes.setdefault(case['class'],Counter())

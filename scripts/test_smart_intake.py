@@ -9,6 +9,20 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_incomplete_two_key_cell_holds_before_adoption_and_every_reader(self):
+        self.raw,self.payload=fixture('In Report, Warehouse matrix Quantity North / One shows 16. Can saved context reproduce it?',
+            kind='VISUAL_CONTENT',triage='BUSINESS_QUESTION:NONE',
+            visuals=[{'quote':'Warehouse matrix','role':'PRIMARY','form':'TITLE'}],
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            selections=[{'quote':'North / One','column':None,'value':'North / One','role':'PRIMARY'}])
+        model=self.payload['models'][0];model['visuals'][1]['grouping_columns'].append('product')
+        model['columns'].append({'column_id':'product','name':'product','data_type':'string'})
+        self.catalog['models']=self.payload['models']
+        saved=self.submit()
+        self.assertEqual(saved['ticket']['state'],'HELD');self.assertNotIn('intake_id',saved['ticket'])
+        self.assertIn('Every grouping column',saved['ticket']['history'][-1]['detail']['reason'])
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_supplied_report_link_reaches_scope_without_fake_confirmation(self):
         from test_input_reference import setup_reference
         self.raw,self.payload,request=setup_reference()

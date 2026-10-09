@@ -25,6 +25,33 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_invoked_bookmark_label_is_never_a_column_selection(self):
+        from investigator.intake_rules import RuleViolation
+        ticket='In Report, I invoked North product one saved alternative bookmark; Global card Quantity shows 16.'
+        raw,payload=fixture(ticket,
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}],
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            selections=[{'quote':'North product one saved alternative bookmark','column':None,
+                         'value':'North product one','role':'PRIMARY'}])
+        with self.assertRaisesRegex(RuleViolation,'PAGE_STATE_IS_NOT_SELECTION'):extraction.resolve(raw,payload)
+        raw['selections']=[];raw['contexts']=['I invoked North product one saved alternative bookmark']
+        result=extraction.resolve(raw,payload);validate(result,payload)
+        self.assertNotIn('selection_request',result);self.assertEqual(result['filters'],[])
+        # A separate actual selection after invoking the bookmark is retained.
+        ticket+=' I selected warehouse North.';raw['primary']=ticket;payload['text']=ticket
+        raw['selections']=[{'quote':'warehouse North','column':'warehouse','value':'North','role':'PRIMARY'}]
+        result=extraction.resolve(raw,payload)
+        self.assertEqual(result['filters'],[{'column_id':'warehouse','operator':'in','values':['North']}])
+
+    def test_bookmark_before_label_is_page_state_but_separate_selection_survives(self):
+        from investigator.intake_rules import RuleViolation, selection_is_page_state
+        ticket='I invoked bookmark North product one and selected warehouse North.'
+        start=ticket.index('North product one')
+        with self.assertRaisesRegex(RuleViolation,'PAGE_STATE_IS_NOT_SELECTION'):
+            selection_is_page_state({'start':start,'end':start+len('North product one')},ticket)
+        start=ticket.rindex('North')
+        selection_is_page_state({'start':start,'end':start+len('North')},ticket)
+
     def test_visual_title_grouping_is_not_an_independent_query_breakdown(self):
         raw,payload=fixture('In Report, warehouse North Quantity differs on Warehouse matrix.',
             selections=[{'quote':'warehouse North','column':'warehouse','value':'North','role':'PRIMARY'}],

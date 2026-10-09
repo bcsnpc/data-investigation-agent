@@ -9,6 +9,21 @@ def question(field):
 
 
 class TicketProtocolTests(unittest.TestCase):
+    def test_keyed_symbolic_selection_cannot_be_adopted_as_a_complete_cell(self):
+        from test_intake_extraction import fixture
+        from investigator import intake_extraction
+        from investigator.visual_target import complete, TargetUnresolved
+        raw,payload=fixture('In Report, Quantity on Warehouse matrix North / One shows 16.',
+            visuals=[{'quote':'Warehouse matrix','role':'PRIMARY','form':'TITLE'}],
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            selections=[{'quote':'North / One','column':None,'value':'North / One','role':'PRIMARY'}])
+        model=payload['models'][0];model['visuals'][1]['grouping_columns'].append('product')
+        model['columns'].append({'column_id':'product','name':'product','data_type':'string'})
+        proposal=intake_extraction.resolve(raw,payload)
+        self.assertIn('selection_request',proposal)
+        with self.assertRaisesRegex(TargetUnresolved,'Every grouping column'):
+            complete(proposal['target_visual'],model['visuals'],proposal['filters'])
+
     def test_unavailable_answer_is_not_confirmation_and_preserves_the_offer(self):
         ticket=protocol.ask(protocol.new('ticket'),[question('NUMBER')])
         answers=[{'question_id':'number','unavailable':True}]

@@ -658,6 +658,12 @@ class Intake:
             payload['_comparison_configuration']=comparison_configuration
         proposal=intake_extraction.resolve(raw,payload)
         validate(proposal,payload);question_kind.intake_route(proposal)
+        # A provisional symbolic selection can ask for resolution, but cannot
+        # make a confirmed keyed ticket executable without all of its keys.
+        if proposal.get('target_visual'):
+            from .visual_target import complete
+            model=next(m for m in catalog['models'] if m['id']==proposal['model_id'])
+            complete(proposal['target_visual'],model['visuals'],proposal['filters'])
         request={'ticket_id':identity,'revision':revision,'request_key':request_key}
         with self.store.connect() as db:
             db.execute('BEGIN IMMEDIATE')

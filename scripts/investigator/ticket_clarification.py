@@ -117,7 +117,7 @@ def batch(ticket, source, payload, configuration=None):
                 if visual['grouping_columns']:
                     # Use the exact scope producer, not a second key parser.
                     # A value mention alone is never a keyed address.
-                    filters,_,_,pending=intake_extraction.selections(extraction,model)
+                    filters,_,_,pending=intake_extraction.selections(extraction,model,ticket=payload['text'])
                     from .declared_reproduction import compose
                     restrictions=compose([{'field_id':f['column_id'],'operator':'IN','values':f['values']} for f in filters])
                     singleton={f['field_id']:f['values'][0] for f in restrictions if len(f['values'])==1}

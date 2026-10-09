@@ -227,12 +227,15 @@ def literal_reports(extraction, ticket, models):
             found.append({'quote':{'start':start,'end':end,'quote':name},'role':'PRIMARY'})
     return found
 
-def selections(extraction, model, audit=None):
+def selections(extraction, model, audit=None, *, ticket):
     """One typed selection producer for scope and faithful keyed-cell offers."""
     audit=[] if audit is None else audit
     filters=[];scope_quotes=[];value_mentions=[];pending=[]
     for item in extraction['selections']:
         is_active=primary_fact(item,extraction)
+        if is_active:
+            from .intake_rules import selection_is_page_state
+            selection_is_page_state(item['value'],ticket)
         value_mentions.append({'role':'SELECTION' if is_active else 'MENTION','source':item['value']})
         if not is_active: continue
         for field in ('column','value'):
@@ -395,7 +398,7 @@ def resolve(raw, payload):
         if derived['state']!=item['state']: raise ValueError('Reported state contradicts its verbatim span')
         if item['precision_quote'] is not None and item['precision_quote']['quote'] not in item['quote']['quote']:
             raise ValueError('Precision must belong to its reported figure span')
-    filters,scope_quotes,value_mentions,pending=selections(extraction,model,audit)
+    filters,scope_quotes,value_mentions,pending=selections(extraction,model,audit,ticket=ticket)
     dimensions=[];dimension_quotes=[]
     for item in extraction['groupings']:
         if not primary_fact(item,extraction):continue

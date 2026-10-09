@@ -16,6 +16,8 @@ INSTRUCTIONS = SUBJECT_INSTRUCTIONS + (' A quoted value explicitly selected by t
     'A request asking which restriction hides rows is FILTER_EFFECT, not a pipeline question. '
     'Comparison of earlier and later states is TEMPORAL_COMPARISON, not business meaning. '
     'Keep the question classified even when its route is unavailable.')
+INSTRUCTIONS += (' An invoked, activated or applied bookmark names stored page state, not a selected column value. '
+    'Preserve its invocation as context; never turn words inside its label into a filter or symbolic selection.')
 
 
 class RuleViolation(ValueError):
@@ -23,6 +25,17 @@ class RuleViolation(ValueError):
         self.code=code
         self.repair={'code':code,'requirement':requirement}
         super().__init__(code+': '+requirement)
+
+
+def selection_is_page_state(source, ticket):
+    """An invocation span is evidence of page state, not of a column/value pair."""
+    # Labels can precede or follow "bookmark". A separately stated selection
+    # begins a new clause and is not swallowed by the page-state qualification.
+    for match in re.finditer(r'\b(?:invoked|activated|applied)\b(?:(?!\b(?:and|then|but)\b)[^;.!?\n])*',ticket,re.I):
+        if not re.search(r'\bbookmark\b',match.group(),re.I):continue
+        if match.start() <= source['start'] and source['end'] <= match.end():
+            raise RuleViolation('PAGE_STATE_IS_NOT_SELECTION',
+                'The quoted value belongs to an invoked bookmark label. Retain page-state context; do not nominate its words as a selected column value.')
 
 
 def technical_ask(ticket):
@@ -40,6 +53,10 @@ def technical_ask(ticket):
 
 def validate(value, ticket):
     if value.get('action') != 'PROPOSE':return
+    if value.get('selection_request'):
+        selection_is_page_state(value['selection_request']['value_source'],ticket)
+    for mention in value.get('value_mentions',[]):
+        if mention['role']=='SELECTION':selection_is_page_state(mention['source'],ticket)
     kind=(value.get('question_kind') or {}).get('kind')
     if kind == 'BUSINESS_MEANING' and technical_ask(ticket):
         raise RuleViolation('MIXED_TECHNICAL_SUBJECT_REQUIRED',

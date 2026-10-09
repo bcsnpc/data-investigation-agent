@@ -17,6 +17,39 @@ def offer(field, values):
 
 
 class SmartIntakeEvalTests(unittest.TestCase):
+    def test_refusal_null_identity_is_cleared_only_by_reproved_model_only_scope(self):
+        from test_intake_extraction import fixture
+        from investigator import intake_extraction
+        from investigator.model_step_scores import intake_record
+        raw,payload=fixture('In Report, Quantity may be stale. Check freshness.',kind='FRESHNESS')
+        proposal=intake_extraction.resolve(raw,payload)
+        c={'id':'fresh','class':'question','text':payload['text'],'should_hold':True,
+           'expected':{'status':'HELD','error':'TARGET_AMBIGUOUS','model_id':None,'measure_id':None,
+                       'target_id':None,'figure_state':'UNSPECIFIED','nominated_question_kind':'FRESHNESS'}}
+        source={'status':'PROPOSED','text':payload['text'],'proposal':proposal}
+        row={'id':'fresh','case_hash':digest(c),'intake_record':intake_record(source),'proposal':proposal,
+             'source_intake':source,'adopted':True,'ticket_state':'NEW','rounds':0,'questions':0}
+        self.assertEqual(score([c],[row])['rows'][0]['consequential_differences'],['model_id','measure_id'])
+        checked=score([c],[row],catalogs={'fresh':payload['models']})['rows'][0]
+        self.assertEqual(checked['consequential_differences'],[])
+        self.assertTrue(checked['verified_model_only_scope'])
+        self.assertFalse(checked['original_record_match'])
+        forged=copy.deepcopy(row);forged['proposal']['model_id']='wrong-model'
+        self.assertFalse(score([c],[forged],catalogs={'fresh':payload['models']})['rows'][0]['verified_model_only_scope'])
+        wrong_record=copy.deepcopy(row);wrong_record['intake_record']['model_id']='wrong-model'
+        self.assertIn('model_id',score([c],[wrong_record],catalogs={'fresh':payload['models']})['rows'][0]['consequential_differences'])
+        ambiguous=copy.deepcopy(payload['models']);other=copy.deepcopy(ambiguous[0]);other['id']='other-model'
+        ambiguous.append(other)
+        self.assertFalse(score([c],[row],catalogs={'fresh':ambiguous})['rows'][0]['verified_model_only_scope'])
+        # A model-only nomination cannot erase an explicit reported quantity.
+        raw2,payload2=fixture('In Report, Quantity may be stale. Global card shows 16.',kind='FRESHNESS')
+        proposal2=intake_extraction.resolve(raw2,payload2)
+        c2=copy.deepcopy(c);c2['text']=payload2['text']
+        source2={'status':'PROPOSED','text':payload2['text'],'proposal':proposal2}
+        row2=copy.deepcopy(row);row2.update(case_hash=digest(c2),proposal=proposal2,source_intake=source2,
+                                          intake_record=intake_record(source2))
+        self.assertFalse(score([c2],[row2],catalogs={'fresh':payload2['models']})['rows'][0]['verified_model_only_scope'])
+
     def test_only_sealed_target_and_exact_figure_can_be_answered(self):
         c=case();values=[{'target_id':target,'mode':'UNGROUPED',
             'figure_source':{'start':13,'end':15,'quote':'16'}} for target in ('wrong-card','card')]
