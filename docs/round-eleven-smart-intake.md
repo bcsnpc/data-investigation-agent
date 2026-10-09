@@ -750,3 +750,27 @@ provider tapes are untouched. Full regression remains on frozen9422f43 in the
 other worktree, not on this later route correction. Current quality gate is
 incomplete, #423 draft, freezes invalid. Zero real provider or estate requests,
 no altered goldens, expectation, configuration, access, secret or budget.
+
+
+Dated retained-response follow-up: sourcebdf8037 completed forty independent
+v8 development captures using the same old provider responses. No new model
+sample or estate request. Twelve scopes adopted; fifteen one-round settlements
+(37.5%, including three semantic refusals), thirty-nine questions (mean0.975),
+twelve original full consumer-record matches. Forty new ledger rows retain the
+separate tape hashes. No earlier evidence was rewritten.
+
+| Dev class | Tickets | One-round settled | Questions | Mean questions |
+| --- | ---: | ---: | ---: | ---: |
+| Family | 26 | 8 | 28 | 1.077 |
+| Question | 3 | 1 | 3 | 1.000 |
+| Refusal | 7 | 3 | 7 | 1.000 |
+| Visual | 4 | 3 | 1 | 0.250 |
+
+Compared withv7, visual-1 andvisual-4 adopted their uniquely established scopes
+with no question; visual-3 still needs a number/target answer but no invented
+comparison. No result value was read and these are not reproduced-value claims.
+The remaining classes did not improve. Family meanquestions still exceeds1.0;
+settlement still falls short85%; harmful-error grade remains
+REQUIRES_PROVENANCE_REVIEW. Current68 quality is incomplete, held-out not opened,
+#423 draft and freezes invalid. The alias/reproduction changes therefore do not
+authorize screenshot exports, rehearsal or fifty-ticket estate runs.
