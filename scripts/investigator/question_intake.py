@@ -506,7 +506,7 @@ def validate(value, payload):
             from .ticket_route import settlement
             raw=value.get('extracted_ticket',{}).get('response')
             if (payload.get('_ticket_route')!=value['ticket_route'] or raw is None or
-                    settlement(raw,payload['text'],payload.get('_comparison_configuration'))!=value['ticket_route']):
+                    settlement(raw,payload['text'],payload.get('_comparison_configuration'),code_gate=payload.get('_question_gate',False))!=value['ticket_route']):
                 raise ValueError('Model response cannot declare request comparison authority')
         elif (value.get('extracted_ticket',{}).get('version')!='ticket-spans-confirmed-v1' or
                 value['ticket_route'].get('confirmation')!=payload.get('_ticket_confirmation')):
@@ -631,7 +631,7 @@ class Intake:
         from . import ticket_protocol, intake_confirmation, intake_extraction
         saved=Tickets(self.store).get(identity);ticket=saved['ticket']
         if saved['revision']!=revision:raise Conflict('Ticket changed before scope review')
-        if ticket['state'] not in ('NEW','CLARIFYING') or ticket['questions'] or set(ticket['settled'])!=set(ticket_protocol.FIELDS):
+        if ticket['state'] not in ('NEW','CLARIFYING') or not ticket_protocol.fully_settled(ticket):
             raise Conflict('Ticket still has unresolved consequential fields')
         source=self.get(ticket['source_intake'])
         raw=intake_extraction.retained_response(source)
@@ -657,12 +657,17 @@ class Intake:
             payload['_ticket_route']=route
             payload['_input_request']=copy.deepcopy(input_request)
             payload['_comparison_configuration']=comparison_configuration
-        if settled.get('authority') in ('EXPLICIT_REQUEST_COMPARISON','ESTATE_COMPARISON_POLICY'):
+        if settled.get('authority') in ('EXPLICIT_REQUEST_COMPARISON','ESTATE_COMPARISON_POLICY','CODE_ESTABLISHED_REQUEST_COMPARISON'):
             from .ticket_route import settlement
-            route=settlement(raw,source['text'],comparison_configuration)
+            if settled.get('authority')=='CODE_ESTABLISHED_REQUEST_COMPARISON':
+                comparison_configuration=copy.deepcopy(comparison_configuration)
+                comparison_configuration['must_confirm']=[]
+            gated=settled.get('authority')=='CODE_ESTABLISHED_REQUEST_COMPARISON'
+            route=settlement(raw,source['text'],comparison_configuration,code_gate=gated)
             if route is None or route!=settled['value']:raise Conflict('Request comparison evidence changed')
             payload['_ticket_route']=route
             payload['_comparison_configuration']=comparison_configuration
+            if gated:payload['_question_gate']=True
         proposal=intake_extraction.resolve(raw,payload)
         validate(proposal,payload);question_kind.intake_route(proposal)
         # A provisional symbolic selection can ask for resolution, but cannot

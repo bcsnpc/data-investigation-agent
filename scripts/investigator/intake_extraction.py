@@ -314,13 +314,15 @@ def resolve(raw, payload):
         from .intake_confirmation import values
         confirmed=values(confirmation,ticket=ticket,models=payload['models'])
     number=confirmed.get('NUMBER')
-    extraction=spans(raw,ticket,figure_occurrences=bool(number and number['figure_source'] is not None))
+    figure=confirmed.get('FIGURE')
+    selected_figure=figure['figure_source'] if figure else number.get('figure_source') if number else None
+    extraction=spans(raw,ticket,figure_occurrences=selected_figure is not None)
     reference=None
     if payload.get('_ticket_reference') is not None:
         from .input_reference import from_input
         reference=from_input(payload.get('_input_request'),ticket,payload['models'])
         if reference!=payload['_ticket_reference']:raise ValueError('Declared reference authority differs from retained input')
-    report_confirmation=confirmed.get('REPORT_PAGE')
+    report_confirmation=confirmed.get('REPORT_PAGE') or confirmed.get('REPORT_OR_SCREENSHOT')
     if report_confirmation is None and number and 'report_id' in number:
         report_confirmation={k:number[k] for k in ('report_id','page_id')}
     if reference and report_confirmation and (report_confirmation['report_id']!=reference['report_id'] or
@@ -336,15 +338,15 @@ def resolve(raw, payload):
             from .ticket_inputs import route as input_route
             route=input_route(payload.get('_input_request'),ticket,payload.get('_comparison_configuration'))
         else:
-            route=settlement(raw,ticket,payload.get('_comparison_configuration'))
+            route=settlement(raw,ticket,payload.get('_comparison_configuration'),code_gate=payload.get('_question_gate',False))
         if route is None or route!=payload['_ticket_route']:raise ValueError('Request comparison evidence differs')
         admit(route)
     figures=[i for i in extraction['figures'] if primary_fact(i,extraction)]
     # Roles are model judgments, not proof that two reported values belong
     # to different cells. Conserve reported candidates before resolving scope.
     # Clarification may settle their referents; extraction cannot erase one.
-    if number and number['figure_source'] is not None:
-        figures=[i for i in extraction['figures'] if i['quote']==number['figure_source']]
+    if selected_figure is not None:
+        figures=[i for i in extraction['figures'] if i['quote']==selected_figure]
         if len(figures)!=1:raise ValueError('Confirmed figure is not one retained extraction candidate')
     elif len(extraction['figures']) > 1:
         reported_figure.from_candidates([i['quote'] for i in extraction['figures']],ticket)
@@ -569,7 +571,7 @@ def resolve(raw, payload):
                 basis=['report','measure','user_confirmation']
             equivalent=False
             explicit_keyed_shape=any(active(h,extraction) and h.get('form') in ('MATRIX','CHART','TOTAL') for h in extraction['visuals'])
-            if len(matched)>1 and not number and not figures and not pending and not filters and not dimensions and not explicit_keyed_shape:
+            if len(matched)>1 and not number and len(figures)<=1 and not pending and not filters and not dimensions and not explicit_keyed_shape:
                 proofs=[v.get('declared_scopes',{}).get(metric['id'],{}) for v in matched]
                 # Only a genuinely unrestricted, completely accounted-for
                 # scope can become model-only here. Nonempty declaration sets

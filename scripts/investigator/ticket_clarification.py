@@ -110,6 +110,10 @@ def batch(ticket, source, payload, configuration=None):
             for item in extraction['figures']:
                 if item['quote'] not in figures:figures.append(item['quote'])
             figures=figures or [None]
+            if 'FIGURE' in ticket['confirmed']:
+                selected=intake_confirmation.values(intake_confirmation.build(ticket,payload['text']),
+                    ticket=payload['text'],models=payload['models'])['FIGURE']['figure_source']
+                figures=[f for f in figures if f==selected]
             choices=[]
             for model,visual in visual_candidates(ticket,extraction,payload):
                 if visual.get('unsupported'):continue

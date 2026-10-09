@@ -105,8 +105,8 @@ class SmartIntake:
                 from .ticket_inputs import route as input_route
                 declared=input_route(request,source['text'],self.configuration)
                 if declared is not None:
-                    from .ticket_route import settlement
-                    try:explicit=settlement(raw,source['text'],self.configuration) if raw else None
+                    from .ticket_route import from_request
+                    try:explicit=from_request(raw,source['text'],code_gate=True) if raw else None
                     except (ValueError,ValidationError):explicit=None
                     comparison_conflict=bool(explicit and explicit['version']=='ticket-comparison-request-v1'
                                              and explicit['route']!=declared['route'])
@@ -128,7 +128,16 @@ class SmartIntake:
                         'EXPLICIT_REQUEST_COMPARISON','value':route}
                     current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
                         'detail':{'settled_from_request':copy.deepcopy(route)}})
+            from . import ticket_question_gate
+            current,gate_events,blocked=ticket_question_gate.prepare(current,source,payload,self.configuration,
+                                                                    comparison_conflict=comparison_conflict)
+            for event in gate_events:
+                current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
+                    'detail':{'event':'QUESTION_DROPPED',**event}})
+            if blocked:
+                return protocol.transition(current,'HELD',actor='AGENT',detail={'reason':blocked})
             offered=ticket_clarification.batch(current,source,payload,self.configuration)
+            offered=ticket_question_gate.offer(current,source,payload,self.configuration,offered)
             if offered['blocked']:
                 return protocol.transition(current,'HELD',actor='AGENT',detail={'reason':offered['blocked']})
             if offered['questions']:
@@ -180,6 +189,11 @@ class SmartIntake:
             return result
         saved=self.tickets.update(request['ticket_id'],request['revision'],answer)
         if saved['ticket']['state']=='HELD':return saved
+        if set(saved['ticket']['confirmed'])&{'FIGURE','REPORT_OR_SCREENSHOT'}:
+            try:return self._plan(saved,self.workspace.intake.get(saved['ticket']['source_intake']))
+            except (ValueError,Conflict) as exc:
+                return self.tickets.update(request['ticket_id'],saved['revision'],lambda ticket:
+                    protocol.transition(ticket,'HELD',actor='AGENT',detail={'reason':str(exc)}))
         if 'REPORT_PAGE' not in saved['ticket']['settled'] and 'NUMBER' in saved['ticket']['confirmed']:
             source=self.workspace.intake.get(saved['ticket']['source_intake'])
             try:

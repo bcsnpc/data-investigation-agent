@@ -16,7 +16,7 @@ EVIDENCE_SCHEMA={'oneOf':[ticket_protocol.obj({
     'source':ticket_protocol.obj({'start':{'type':'integer','minimum':0},
         'end':{'type':'integer','minimum':1},'quote':ticket_protocol.TEXT})})
     for kind,route in [('FRESHNESS','STALE'),('SOURCE_CORRECTNESS','APPLICATION'),
-                       ('FIGURE_DIFFERENCE','APPLICATION')]]}
+                       ('FIGURE_DIFFERENCE','APPLICATION'),('FIGURE_DIFFERENCE','LOOKS_WRONG')]]}
 DEFAULT_VERSION='ticket-comparison-policy-v1'
 DEFAULT_SCHEMA=ticket_protocol.obj({'version':{'const':DEFAULT_VERSION},
     'route':{'enum':['APPLICATION','STALE','LOOKS_WRONG']},
@@ -32,13 +32,13 @@ from .ticket_inputs import ROUTE_SCHEMA as INPUT_SCHEMA, ROUTE_VERSION as INPUT_
 SCHEMA={'oneOf':[USER_SCHEMA,EVIDENCE_SCHEMA,DEFAULT_SCHEMA,SUBJECT_SCHEMA,INPUT_SCHEMA]}
 
 
-def settlement(raw, ticket, configuration):
+def settlement(raw, ticket, configuration, *, code_gate=False):
     """Configured defaults are policy evidence, never a fabricated user choice."""
     from .ticket_clarification import settings
     from .intake_extraction import spans
     config=settings(configuration)
     if 'COMPARISON' in config['must_confirm']:return None
-    explicit=from_request(raw,ticket)
+    explicit=from_request(raw,ticket,code_gate=code_gate)
     if explicit is not None:return explicit
     extraction=spans(raw,ticket,figure_occurrences=True)
     scoped_self=(raw['kind']=='VISUAL_CONTENT' and extraction['comparisons'] and
@@ -66,7 +66,7 @@ def settlement(raw, ticket, configuration):
                      'configuration_hash':digest(config)},ticket)
 
 
-def from_request(raw, ticket):
+def from_request(raw, ticket, *, code_gate=False):
     """A narrow explicit primary ask, never a triage-derived comparison.
 
     Secondary comparisons keep the question open. The extraction's kind alone
@@ -74,17 +74,30 @@ def from_request(raw, ticket):
     """
     from .intake_extraction import spans
     extraction=spans(raw,ticket,figure_occurrences=True)
-    if extraction['comparisons']:return None
+    if extraction['comparisons'] and not code_gate:return None
     source=extraction['primary'];ask=source['quote']
+    # A comparison phrase is not missing comparison evidence. Preserve genuinely
+    # different named comparators, but do not re-ask a source/freshness ask merely
+    # because extraction put its explicit words in the comparison list.
+    if any(re.search(r'\b(?:another|other|second) report\b|\byesterday\b|\bearlier\b',s['quote'],re.I)
+           for s in extraction['comparisons']):return None
     freshness=bool(re.search(r'\b(stale|freshness|refresh|lag|up[ -]to[ -]date|current)\b',ask,re.I))
     application=bool(re.search(r'\b(application|source (?:system|records?|data|movements?|entries|total))\b',ask,re.I))
+    if code_gate and re.search(r'\bsource\b',ask,re.I):application=True
     if raw['kind']=='SOURCE_CORRECTNESS' and re.search(r'\b(?:records?|entries|reason)\b',ask,re.I):
         application=True
-    if freshness and application:return None
+    if freshness and application and not code_gate:return None
+    looks_wrong=bool(re.search(r'\b(?:looks? (?:too )?(?:high|wrong)|overstated)\b',ask,re.I))
     route=('STALE' if raw['kind']=='FRESHNESS' and freshness else
-           'APPLICATION' if raw['kind'] in ('SOURCE_CORRECTNESS','FIGURE_DIFFERENCE') and application else None)
+           'APPLICATION' if raw['kind'] in ('SOURCE_CORRECTNESS','FIGURE_DIFFERENCE') and application else
+           'LOOKS_WRONG' if code_gate and raw['kind']=='FIGURE_DIFFERENCE' and looks_wrong else None)
+    kind=raw['kind']
+    if code_gate and raw['kind'] not in ('BUSINESS_MEANING','TEMPORAL_COMPARISON'):
+        if freshness:route,kind='STALE','FRESHNESS'
+        elif application:route,kind='APPLICATION','SOURCE_CORRECTNESS'
+        elif looks_wrong:route,kind='LOOKS_WRONG','FIGURE_DIFFERENCE'
     if route is None:return None
-    return validate({'version':EVIDENCE_VERSION,'route':route,'kind':raw['kind'],
+    return validate({'version':EVIDENCE_VERSION,'route':route,'kind':kind,
                      'request_hash':digest(ticket),'source':source},ticket)
 
 

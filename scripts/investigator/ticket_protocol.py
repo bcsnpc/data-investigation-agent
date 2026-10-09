@@ -11,6 +11,7 @@ from .proposal_limits import INTAKE_TEXT
 
 VERSION = 'smart-ticket-v1'
 FIELDS = ('NUMBER', 'REPORT_PAGE', 'COMPARISON')
+QUESTION_FIELDS = (*FIELDS, 'FIGURE', 'REPORT_OR_SCREENSHOT')
 ROUTES = ('APPLICATION', 'STALE', 'LOOKS_WRONG', 'OTHER_REPORT', 'BUSINESS_MEANING')
 STATES = ('NEW', 'CLARIFYING', 'INVESTIGATING', 'FINDINGS_SHARED',
           'CLOSED', 'BUSINESS_VALIDATION', 'TECH_HANDOFF', 'HELD')
@@ -29,7 +30,7 @@ CHOICE = obj({'id':ID, 'label':TEXT,
                   'y':{'type':'number','minimum':0,'maximum':1},
                   'width':{'type':'number','exclusiveMinimum':0,'maximum':1},
                   'height':{'type':'number','exclusiveMinimum':0,'maximum':1}})]}})
-QUESTION = obj({'id':ID, 'field':{'enum':list(FIELDS)}, 'question':TEXT,
+QUESTION = obj({'id':ID, 'field':{'enum':list(QUESTION_FIELDS)}, 'question':TEXT,
                 'choices':{'type':'array','minItems':1,'maxItems':100,'items':CHOICE}})
 QUESTIONS = {'type':'array','minItems':1,'maxItems':3,'items':QUESTION}
 ANSWER = {'oneOf':[obj({'question_id':ID, 'choice_id':ID}),
@@ -99,6 +100,10 @@ def new(identity):
             'questions':[],'confirmed':{},'settled':{},'history':[],'evidence':{}}
 
 
+def fully_settled(ticket):
+    return set(FIELDS)<=set(ticket['settled'])<=set(QUESTION_FIELDS) and not ticket['questions']
+
+
 def transition(ticket, state, *, actor, detail):
     if ticket.get('version')!=VERSION or state not in STATES:
         raise ValueError('Unknown ticket contract or state')
@@ -119,7 +124,7 @@ def transition(ticket, state, *, actor, detail):
                   if e['to'] in ('BUSINESS_VALIDATION','TECH_HANDOFF')}
         if not isinstance(owner,str) or not owner or owner not in assigned:
             raise ValueError('Only the named handoff owner can close as OWNER')
-    if state=='INVESTIGATING' and (ticket['questions'] or set(ticket['settled'])!=set(FIELDS)):
+    if state=='INVESTIGATING' and not fully_settled(ticket):
         raise ValueError('Every consequential field must be settled before investigation')
     result=copy.deepcopy(ticket)
     result['state']=state
@@ -148,7 +153,7 @@ def answer(ticket, answers):
         # Preserve the offer and evidence for a later reply. No field becomes
         # confirmed, no scope is adopted, and the agent does not supply a value.
         return transition(result,'HELD',actor='USER',detail={
-            'reason':'USER_INFORMATION_UNAVAILABLE','unavailable_fields':unavailable,
+            'reason':'MULTIPLE_REPORTED_FIGURES_UNRESOLVED' if 'FIGURE' in unavailable else 'USER_INFORMATION_UNAVAILABLE','unavailable_fields':unavailable,
             'answers':copy.deepcopy(answers)})
     result['confirmed'].update(choices)
     result['settled'].update(choices)

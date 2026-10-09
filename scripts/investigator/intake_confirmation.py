@@ -18,7 +18,8 @@ NUMBER=protocol.obj({'target_id':protocol.ID,
 REPORT_PAGE=protocol.obj({'report_id':protocol.ID,
     'page_id':{'anyOf':[{'type':'null'},protocol.ID]}})
 COMPARISON=protocol.obj({'route':{'enum':list(protocol.ROUTES)}})
-VALUES={'NUMBER':NUMBER,'REPORT_PAGE':REPORT_PAGE,'COMPARISON':COMPARISON}
+FIGURE=protocol.obj({'figure_source':reported_figure.SPAN_SCHEMA})
+VALUES={'NUMBER':NUMBER,'REPORT_PAGE':REPORT_PAGE,'REPORT_OR_SCREENSHOT':REPORT_PAGE,'COMPARISON':COMPARISON,'FIGURE':FIGURE}
 SCHEMA=protocol.obj({'version':{'const':VERSION},'ticket_id':protocol.ID,
     'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
     'catalog_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
@@ -97,7 +98,8 @@ def values(confirmation, *, ticket, models):
     if confirmation['request_hash']!=digest(ticket):raise ValueError('Confirmation request changed')
     if confirmation['catalog_hash']!=digest(models):raise ValueError('Confirmation catalog changed')
     result={f:copy.deepcopy(v['value']) for f,v in confirmation['fields'].items()}
-    report=result.get('REPORT_PAGE')
+    if 'FIGURE' in result:reported_figure.span(result['FIGURE']['figure_source'],ticket)
+    report=result.get('REPORT_PAGE') or result.get('REPORT_OR_SCREENSHOT')
     if report:
         eligible=[m for m in models if any(r['id']==report['report_id'] for r in m.get('reports',[]))]
         if len(eligible)!=1:raise ValueError('Confirmed report is absent or ambiguously bound')

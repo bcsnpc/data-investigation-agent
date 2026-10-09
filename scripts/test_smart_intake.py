@@ -46,20 +46,14 @@ class SmartIntakeTests(unittest.TestCase):
         self.assertEqual(self.controller.submit(request),saved)
         self.assertEqual(self.calls,0);self.h.native.assert_not_called();self.h.source.assert_not_called()
 
-    def test_required_report_confirmation_keeps_the_supplied_link_container(self):
+    def test_supplied_link_container_never_becomes_a_redundant_question(self):
         from test_input_reference import setup_reference,ASSET
         self.raw,self.payload,request=setup_reference();self.catalog['models']=self.payload['models']
         self.controller.configuration['must_confirm']=['REPORT_PAGE']
         saved=self.controller.submit(request)
-        self.assertEqual([q['field'] for q in saved['ticket']['questions']],['REPORT_PAGE'])
-        meanings=list(saved['ticket']['choice_values'].values())
-        self.assertEqual(meanings,[{'report_id':ASSET,'page_id':ASSET+'/page/PageA'}])
-        reply=self.reply(saved)
-        resumed=self.controller.reply(reply)
-        self.assertIn('intake_id',resumed['ticket'])
-        proposal=self.workspace.intake.get(resumed['ticket']['intake_id'])['proposal']
-        self.assertEqual(proposal['target_visual']['target_id'],'card')
-        self.h.native.assert_not_called();self.h.source.assert_not_called()
+        self.assertEqual(saved['ticket']['questions'],[])
+        self.assertIn('intake_id',saved['ticket'])
+        self.assertEqual(saved['ticket']['settled']['REPORT_PAGE']['value']['report_binding']['report_id'],ASSET)
 
     def test_reference_narrows_choices_to_its_page_without_selecting_a_visual(self):
         from test_input_reference import setup_reference,ASSET
@@ -105,11 +99,11 @@ class SmartIntakeTests(unittest.TestCase):
             visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
         changed=self.controller.respond({'ticket_id':waiting['ticket']['id'],'revision':waiting['revision'],
             'kind':'RESTATE_QUESTION','text':self.payload['text']})
-        self.assertEqual(changed['ticket']['state'],'CLARIFYING')
-        self.assertEqual([q['field'] for q in changed['ticket']['questions']],['COMPARISON'])
+        self.assertEqual(changed['ticket']['questions'],[])
+        self.assertEqual(changed['ticket']['settled']['COMPARISON']['value']['route'],'LOOKS_WRONG')
         self.assertEqual(changed['ticket']['question_versions'][0]['questions'],old_questions)
         self.assertEqual(changed['ticket']['prior_clarifying_rounds'],1)
-        self.assertEqual(changed['ticket']['rounds'],1)
+        self.assertEqual(changed['ticket']['rounds'],0)
         self.assertEqual(self.calls,2);self.h.native.assert_not_called()
 
     def test_old_confirmed_cell_cannot_settle_a_new_ambiguous_target(self):
@@ -136,8 +130,9 @@ class SmartIntakeTests(unittest.TestCase):
         self.assertEqual(changed['request'],before['request'])
         self.assertEqual(changed['ticket']['current_input']['text'],self.payload['text'])
         self.assertEqual(changed['ticket']['state'],'CLARIFYING',changed['ticket']['history'])
-        self.assertEqual([q['field'] for q in changed['ticket']['questions']],['COMPARISON'])
-        self.assertNotIn('findings',changed['ticket']);self.assertNotIn('intake_id',changed['ticket'])
+        self.assertEqual(changed['ticket']['settled']['COMPARISON']['value']['route'],'LOOKS_WRONG')
+        self.assertNotIn('findings',changed['ticket'])
+        self.assertNotEqual(changed['ticket']['intake_id'],before['ticket']['intake_id'])
         self.assertEqual(changed['ticket']['confirmed'],{})
         archived=changed['ticket']['question_versions'][0]
         self.assertEqual(archived['findings'],before['ticket']['findings'])
@@ -145,7 +140,7 @@ class SmartIntakeTests(unittest.TestCase):
         self.assertEqual(archived['confirmed'],before['ticket']['confirmed'])
         self.assertEqual(changed['ticket']['evidence'],before['ticket']['evidence'])
         self.assertEqual(self.calls,2)
-        resumed=self.controller.reply(self.reply(changed))
+        resumed=changed
         proposal=self.workspace.intake.get(resumed['ticket']['intake_id'])['proposal']
         self.assertEqual(proposal['reported_figure']['value'],'25')
         self.assertEqual(proposal['target_visual']['target_id'],'card')
@@ -325,7 +320,7 @@ class SmartIntakeTests(unittest.TestCase):
         saved=self.submit();request=self.reply(saved)
         q=next(q for q in saved['ticket']['questions'] if q['field']=='NUMBER')
         choice=next(c for c in q['choices'] if saved['ticket']['choice_values'][digest(q)+'/'+c['id']].get('mode')=='KEYED'
-            and saved['ticket']['choice_values'][digest(q)+'/'+c['id']]['figure_source']['quote']=='17')
+            )
         next(a for a in request['answers'] if a['question_id']==q['id'])['choice_id']=choice['id']
         resumed=self.controller.reply(request)
         adopted=self.workspace.intake.get(resumed['ticket']['intake_id'])
@@ -342,12 +337,15 @@ class SmartIntakeTests(unittest.TestCase):
         self.assertEqual(adopted['proposal']['ticket_route']['route'],'STALE')
         self.assertEqual(self.calls,1);self.h.native.assert_not_called()
 
-    def test_must_confirm_overrides_explicit_request_comparison(self):
+    def test_explicit_request_comparison_is_not_asked_again(self):
         self.raw,self.payload=fixture('In Report, Global card Quantity is stale.',kind='FRESHNESS',
             visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
         self.controller.configuration['must_confirm']=['COMPARISON']
         saved=self.submit()
-        self.assertEqual([q['field'] for q in saved['ticket']['questions']],['COMPARISON'])
+        self.assertEqual(saved['ticket']['questions'],[])
+        self.assertEqual(saved['ticket']['settled']['COMPARISON']['value']['route'],'STALE')
+        self.assertTrue(any(e['detail'].get('reason')=='COMPARISON_ESTABLISHED_FROM_REQUEST'
+            for e in saved['ticket']['history']))
 
     def test_current_producer_retries_nonverbatim_once_and_preserves_both_attempts(self):
         from investigator.question_intake import azure_resolve
@@ -406,8 +404,8 @@ class SmartIntakeTests(unittest.TestCase):
             choice=next(c for c in question['choices'] if (
                 question['field']=='REPORT_PAGE' or
                 question['field']=='COMPARISON' and t['choice_values'][digest(question)+'/'+c['id']]['route']=='APPLICATION' or
-                question['field']=='NUMBER' and t['choice_values'][digest(question)+'/'+c['id']]['target_id']=='card' and
-                t['choice_values'][digest(question)+'/'+c['id']]['figure_source']['quote']=='17'))
+                question['field']=='NUMBER' and t['choice_values'][digest(question)+'/'+c['id']]['target_id']=='card' or
+                question['field']=='FIGURE' and t['choice_values'][digest(question)+'/'+c['id']]['figure_source']['quote']=='17'))
             answers.append({'question_id':question['id'],'choice_id':choice['id']})
         return {'ticket_id':t['id'],'revision':saved['revision'],'answers':answers,'request_key':'reply'}
 

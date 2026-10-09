@@ -94,7 +94,11 @@ def answer_batch(ticket, oracle, models):
                         try:figure=reported_figure.from_candidates([source],oracle['ticket']) if source else {'state':'UNSPECIFIED'}
                         except ValueError:good=False
                         else:good=good and figure_matches(oracle['true_reported_figure'],figure)
-                elif field=='REPORT_PAGE':
+                elif field=='FIGURE':
+                    try:figure=reported_figure.from_candidates([value['figure_source']],oracle['ticket'])
+                    except ValueError:good=False
+                    else:good=figure_matches(oracle['true_reported_figure'],figure)
+                elif field in ('REPORT_PAGE','REPORT_OR_SCREENSHOT'):
                     truth=oracle['true_report_and_page']
                     good=truth['state']=='DETERMINED' and all(value.get(k)==truth['value'].get(k) for k in ('report_id','page_id'))
                 elif field=='COMPARISON':
