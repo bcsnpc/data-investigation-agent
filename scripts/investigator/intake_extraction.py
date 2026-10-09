@@ -405,7 +405,7 @@ def resolve(raw, payload):
             if getattr(exc,'resolution_evidence',{}).get('resolution')=='UNRESOLVED':continue
             raise
         resolved.append((mention,chosen))
-    if not mentions and number:
+    if not resolved and number:
         # A confirmed single-measure visual declares its measure. This is
         # metadata evidence, not a fabricated quotation or value-match guess.
         visual_matches=[(m,v) for m in models for v in m.get('visuals',[])

@@ -353,6 +353,11 @@ def wire_contract(payload):
         if 'visuals' in m:
             for report in m.get('reports',[]):report['id']=report_handles[report['id']]
         for j,visual in enumerate(m.get('visuals',[])):
+            # These proofs/address axes are code-consumed metadata. They must
+            # neither consume legacy model-wire coverage nor become authority
+            # the model can emit. The ticket-only wire never sends them either.
+            visual.pop('declared_scopes',None)
+            visual.pop('cell_key_order',None)
             visual['target_id']=key+'t'+str(j)
             visual['report_id']=report_handles[visual['report_id']]
             visual['measure_ids']=[inverse[x] for x in visual['measure_ids']]

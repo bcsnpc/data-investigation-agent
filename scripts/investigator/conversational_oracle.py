@@ -39,6 +39,10 @@ def figure_matches(truth, actual):
     return value.get('state')!='AMBIGUOUS' and all(actual.get(k)==value.get(k) for k in ('state','value','precision'))
 
 
+def scope(value):
+    return sorted(value,key=lambda f:json.dumps(f,sort_keys=True,separators=(',',':')))
+
+
 def target_differences(oracle, proposal, models=()):
     truth=oracle['true_target_and_cell'];bad=[]
     if truth['state']=='UNDETERMINED':return ['undetermined_target_adopted']
@@ -49,7 +53,7 @@ def target_differences(oracle, proposal, models=()):
     if value.get('kind')=='MEASURE_AT_SCOPE':
         if proposal.get('measure_id')!=value['measure_id']:bad.append('measure_id')
         if value.get('model_id') and proposal.get('model_id')!=value['model_id']:bad.append('model_id')
-        if proposal.get('filters',[])!=value['scope'] or proposal.get('dimension_ids',[]):bad.append('scope')
+        if scope(proposal.get('filters',[]))!=scope(value['scope']) or proposal.get('dimension_ids',[]):bad.append('scope')
         # No chosen visual can masquerade as scope equivalence without the
         # independently reviewed complete-definition proof for that candidate.
         if actual:
@@ -61,7 +65,7 @@ def target_differences(oracle, proposal, models=()):
         return bad
     if actual.get('target_id')!=value['target_id']:bad.append('target_id')
     if actual.get('mode')!=value['mode']:bad.append('cell_mode')
-    if proposal.get('filters',[])!=value.get('selected_filters',[]):bad.append('filters')
+    if scope(proposal.get('filters',[]))!=scope(value.get('selected_filters',[])):bad.append('filters')
     if proposal.get('dimension_ids',[])!=value.get('dimension_ids',[]):bad.append('dimension_ids')
     if value.get('cell_keys'):
         keys={f['column_id']:f['values'][0] for f in proposal.get('filters',[])

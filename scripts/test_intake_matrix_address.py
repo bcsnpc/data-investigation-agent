@@ -8,6 +8,32 @@ from investigator.visual_target import complete
 
 
 class MatrixAddressTests(unittest.TestCase):
+    def test_confirmed_visual_resolves_unmatched_label_without_erasing_it(self):
+        raw,payload=fixture('In Report, Global card shows 16.',
+            measures=[{'quote':'Global card','role':'PRIMARY'}],
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}])
+        with self.assertRaisesRegex(ValueError,'Starting measure/model is unresolved'):extraction.resolve(raw,payload)
+        start=payload['text'].index('16')
+        with patch('investigator.intake_confirmation.values',return_value={'NUMBER':{
+                'target_id':'card','mode':'UNGROUPED','figure_source':{'quote':'16','start':start,'end':start+2}}}):
+            value=extraction.resolve(raw,{**payload,'_ticket_confirmation':{'test':'trusted validator result'}})
+        self.assertEqual(value['measure_id'],'measure');self.assertIsNone(value['metric_quote'])
+        self.assertEqual(value['extracted_ticket']['response'],raw)
+
+    def test_scope_proof_does_not_reduce_model_directory_coverage_or_add_wire_cost(self):
+        from investigator.question_intake import wire_contract
+        from investigator.onboarding import encoded
+        raw,payload=fixture('In Report, Quantity differs.')
+        before=wire_contract(payload)[0]
+        for v in payload['models'][0]['visuals']:
+            v['declared_scopes']={'measure':{'state':'COMPLETE','context_hash':'x'*100000,'restrictions':[]}}
+            v['cell_key_order']=v['grouping_columns']
+        after=wire_contract(payload)[0]
+        self.assertEqual(before,after)
+        self.assertEqual(len(encoded(before)),len(encoded(after)))
+        self.assertEqual(len(after['models'][0]['visuals']),2)
+        self.assertEqual(extraction.wire(payload),extraction.wire({'text':payload['text'],'models':copy.deepcopy(payload['models'])}))
+
     def test_confirmed_single_measure_visual_selects_between_two_named_measures(self):
         raw,payload=fixture('In Report, Quantity and Value differ. Explain their definitions.',
             measures=[{'quote':'Quantity','role':'PRIMARY'},{'quote':'Value','role':'PRIMARY'}])
