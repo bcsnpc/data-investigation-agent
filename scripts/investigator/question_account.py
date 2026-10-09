@@ -27,6 +27,31 @@ KIND_SUBJECTS={'VISUAL_CONTENT':'comparison','FRESHNESS':'currency',
 DELIVERY_OUTCOMES={'INGESTION_GAP':'GAP','LOAD_LATENCY':'LATENT'}
 
 
+def question_views(envelope):
+    """Keep transport authority in evidence, not in the business question.
+
+    Only the exact appended input-document block may be omitted, and only
+    under its validated declared-reference proof. User prose is never parsed
+    or shortened by an identifier-removal heuristic.
+    """
+    binding=envelope.get('report_binding') or {}
+    if binding.get('resolution_kind')!='DECLARED_REFERENCE':return {}
+    question=envelope['symptom'];reference=binding['reference'];source=reference['source']
+    marker='\n\nReport link supplied by user:\n'
+    start=source['start'];end=source['end']
+    if (reference['request_hash']!=digest(question) or type(start)!=int or type(end)!=int
+            or not 0<=start<end<=len(question) or question[start:end]!=source['quote']):
+        raise Conflict('Business question reference does not match the retained input document')
+    boundary=start-len(marker)
+    if end!=len(question) or boundary<0 or question[boundary:start]!=marker:
+        return {}  # A different placement is not proof of an appended field.
+    visible=question[:boundary]
+    if not visible.strip():return {}
+    return {'business_question':visible,
+            'business_question_projection':{'rule':'OMIT_PROVEN_APPENDED_REPORT_LINK',
+                'document_hash':reference['request_hash'],'source':copy.deepcopy(source)}}
+
+
 def typed_check(kind,assessment,observations):
     """An outcome needs its completed evidence; unknown intent stays unknown."""
     from .question_kind import KINDS
@@ -86,7 +111,7 @@ def build(state):
     from .reproduction_composition import select,answer,requested
     lead=select(state.get('observations',[])) if kind in ('VISUAL_CONTENT','FILTER_EFFECT') or requested(question) else None
     if lead is not None:
-        return {'version':2,'question':question,'question_hash':digest(question),
+        return {'version':2,'question':question,'question_hash':digest(question),**question_views(state['envelope']),
             'status':'ANSWERED' if lead['label'] else 'NOT_ANSWERED',
             'subjects':[typed_check(kind,assessment,state.get('observations',[]))] if kind=='FILTER_EFFECT' else [],
             'reproduction_answer':answer(lead),'answering_cell_receipt_id':lead['id'],
@@ -165,17 +190,18 @@ def build(state):
     status=('NO_REPORTED_FIGURE' if all(s=='NO_REPORTED_FIGURE' for s in states) else
             'ANSWERED' if all(s=='ANSWERED' for s in states) else
             'NOT_ANSWERED' if all(s=='NOT_ANSWERED' for s in states) else 'PARTLY_ANSWERED')
-    return {'version':1,'question':question,'question_hash':digest(question),'status':status,
+    return {'version':1,'question':question,'question_hash':digest(question),**question_views(state['envelope']),'status':status,
             'subjects':checks,'subject_provenance':'DECLARED_QUESTION_KIND' if kind else 'EXPLICIT_TEXT_MARKERS_WITH_UNCLASSIFIED_FALLBACK',
             'finding_outcome':assessment.get('classification'),'authority':'DETERMINISTIC_EVIDENCE_COVERAGE'}
 
 
-def render(account):
+def render(account, *, business=False):
+    question=account.get('business_question',account['question']) if business else account['question']
     if 'reproduction_answer' in account:
-        return 'You asked: '+account['question']+'\nAnswer to your question: '+account['reproduction_answer']
+        return 'You asked: '+question+'\nAnswer to your question: '+account['reproduction_answer']
     status={'ANSWERED':'Answered within the checked scope','PARTLY_ANSWERED':'Partly answered',
             'NOT_ANSWERED':'Not answered','NO_REPORTED_FIGURE':'No verdict: no reported figure supplied'}[account['status']]
-    lines=['You asked: '+account['question'],'Answer to your question: '+status+'.']
+    lines=['You asked: '+question,'Answer to your question: '+status+'.']
     for check in account['subjects']:
         lines.append('Regarding '+LABELS[check['subject']]+': '+check['reason'])
     lines.append('What was found instead:' if account['status']=='NOT_ANSWERED' else 'What the investigation established:')
@@ -183,20 +209,21 @@ def render(account):
 
 
 def attach(outputs,state):
-    account=build(state);prefix=render(account)
+    account=build(state)
     from .narrative_form import validate as validate_form
     for key in ('business_output','technical_output'):
         entry=outputs[key]
         entry['question_account']=copy.deepcopy(account)
-        entry['explanation']['text']=prefix+'\n\n'+entry['explanation']['text']
+        entry['explanation']['text']=render(account,business=key=='business_output')+'\n\n'+entry['explanation']['text']
         validate_form(entry['explanation']['text'],key=='business_output')
     validate(outputs,state)
     return outputs
 
 
 def validate(outputs,state):
-    expected=build(state);prefix=render(expected)+'\n\n'
+    expected=build(state)
     for key in ('business_output','technical_output'):
         entry=outputs.get(key,{})
+        prefix=render(expected,business=key=='business_output')+'\n\n'
         if entry.get('question_account')!=expected or not entry.get('explanation',{}).get('text','').startswith(prefix):
             raise Conflict('Narrative omits or changes the engine question/answer account')

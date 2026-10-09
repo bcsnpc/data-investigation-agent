@@ -3,6 +3,35 @@ from investigator import question_account as account
 from investigator.onboarding import Conflict
 
 class QuestionAccountTests(unittest.TestCase):
+    def test_proven_appended_report_link_is_evidence_not_business_question(self):
+        from investigator.ticket_inputs import document
+        from investigator.onboarding import digest
+        question='Could the reported quantity be stale?'
+        request={'text':question,'request_key':'test','structured':{
+            'report_link':'https://app.powerbi.com/groups/workspace/reports/report/page'}}
+        derived=document(request);s=self.state(derived['text'])
+        part=derived['provenance']['parts'][-1]
+        s['envelope']['report_binding']={'resolution_kind':'DECLARED_REFERENCE','reference':{
+            'request_hash':digest(derived['text']),
+            'source':{'start':part['start'],'end':part['end'],'quote':request['structured']['report_link']}}}
+        before=copy.deepcopy(s);outputs=self.outputs();account.attach(outputs,s)
+        business=outputs['business_output']['explanation']['text']
+        technical=outputs['technical_output']['explanation']['text']
+        self.assertIn(question,business);self.assertNotIn('https://',business)
+        self.assertNotIn('Report link supplied by user:',business)
+        self.assertIn(derived['text'],technical)
+        self.assertEqual(outputs['business_output']['question_account']['question'],derived['text'])
+        self.assertEqual(s,before)
+        broken=copy.deepcopy(outputs);broken['business_output']['question_account']['business_question']='Another ask.'
+        with self.assertRaises(Conflict):account.validate(broken,s)
+        s['envelope']['report_binding']['reference']['source']['start']+=1
+        with self.assertRaises(Conflict):account.attach(self.outputs(),s)
+
+    def test_user_typed_identifier_is_not_silently_removed(self):
+        s=self.state('Inspect https://example.com/report freshness.')
+        with self.assertRaisesRegex(ValueError,'Technical identifier'):
+            account.attach(self.outputs(),s)
+
     def test_no_reported_figure_category_requires_the_explicit_procedure_receipt(self):
         from investigator.declared_reproduction import NO_FIGURE
         s=self.state('Explain the selected quantity.')
