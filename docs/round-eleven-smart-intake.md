@@ -774,3 +774,21 @@ settlement still falls short85%; harmful-error grade remains
 REQUIRES_PROVENANCE_REVIEW. Current68 quality is incomplete, held-out not opened,
 #423 draft and freezes invalid. The alias/reproduction changes therefore do not
 authorize screenshot exports, rehearsal or fifty-ticket estate runs.
+
+
+Dated hosted validation checkpoint: Validation run37951535051 completed success
+on head21a78b275f7778a136ff18be0ab621055e545b62. Its generator-tests job executed
+237 test-module commands totaling2,356 unit checks, with zero FAILED summaries;
+portal, PowerShell syntax and recorded model-step checks also passed. Local log:
+.local/round-eleven-ci-21a78b2-generator.log. Current-intake-evaluation remains
+skipped because the PR is draft; this is not a current intake quality pass.
+Historical earned/known-domain replay jobs were still pending at this read.
+
+The separate all-at-once local discovery run remains active on frozen9422f43
+in D:\dia-round-eleven-eval, session5521, with its output retained in
+.local/round-eleven-regression-vocabulary.log. Resource warnings are present,
+there is no final test summary yet, and no local full-suite pass is claimed.
+Later reproduction-route tests and hosted21a78b2 validation are separate from
+that frozen run. Do not overwrite its log or mistake it for validation of the
+later source. No provider/estate request occurred; #423 remains draft, Phase A
+incomplete and prior freezes invalid.
