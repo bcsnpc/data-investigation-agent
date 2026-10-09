@@ -75,7 +75,14 @@ def score(cases, records):
         if row and row['case_hash']!=digest(case):raise ValueError('Evaluated ticket differs from its seal')
         actual=row['intake_record'] if row else None
         differences=[k for k,v in expected.items() if actual is None or actual.get(k)!=v]
-        appropriate_refusal=bool(row and case['should_hold'] and actual and
+        history=row.get('ticket_history') if row else None
+        waiting_on_user=bool(history and any(
+            e.get('to')=='HELD' and e.get('detail',{}).get('reason')=='USER_INFORMATION_UNAVAILABLE'
+            for e in history[-1:]))
+        # A source refusal is not proof of a terminal ticket disposition.
+        # Require the retained lifecycle evidence; a user who cannot answer
+        # an offer has paused the ticket, not settled its consequential fields.
+        appropriate_refusal=bool(row and history and not waiting_on_user and case['should_hold'] and actual and
             actual.get('error')==expected.get('error') and actual.get('status')==expected.get('status') and
             row['ticket_state'] in ('HELD','BUSINESS_VALIDATION'))
         adopted=bool(row and row.get('adopted'))
@@ -94,7 +101,9 @@ def score(cases, records):
             # confirmation. Retain the actual proof for independent checking.
         result={'id':case['id'],'evaluated':row is not None,'original_record_match':not differences,
                 'differences':differences,'settled':settled,'settled_within_one_round':bool(settled and rounds<=1),
-                'questions':questions,'consequential_differences':flags}
+                'questions':questions,'consequential_differences':flags,
+                'waiting_on_user':waiting_on_user,
+                'refusal_lifecycle_evidence':bool(history) if case['should_hold'] else None}
         rows.append(result)
         group=classes.setdefault(case['class'],Counter())
         group['tickets']+=1;group['evaluated']+=row is not None

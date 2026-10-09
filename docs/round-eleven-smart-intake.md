@@ -575,3 +575,18 @@ Verification correction: the initial final documentation patch introduced three
 extra blank lines at EOF, so its final diff check reported whitespace warnings.
 Those lines are removed in this follow-up; the earlier clean check had preceded
 that documentation patch. No code or evidence validation changed.
+
+Dated lifecycle-score correction, 2026-10-09 UTC: a source record that matches
+an expected refusal does not prove the ticket settled. The scorer now requires
+retained ticket history before crediting a terminal refusal and explicitly
+excludes USER_INFORMATION_UNAVAILABLE pauses from one-round settlement. A
+regression retains an exactly matching original record while asserting that
+the unavailable user reply remains unsettled. Nine evaluator tests and six
+original scoring tests passed, zero provider calls or estate reads.
+
+Earlier completed score files remain unchanged. Their 12/40 record agreement
+and exploratory settlement counts are historical, not a current Phase A pass;
+they did not retain the lifecycle history newly required for refusal credit.
+DECIDED WITHOUT REVIEW: require lifecycle evidence for the disposition rather
+than treating the word HELD as proof of successful settlement. An inability to
+answer must never improve the quality gate. #423 stays draft, freezes invalid.

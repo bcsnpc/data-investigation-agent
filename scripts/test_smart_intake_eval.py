@@ -69,7 +69,22 @@ class SmartIntakeEvalTests(unittest.TestCase):
         result=score([c],[r]);self.assertFalse(result['rows'][0]['settled'])
         self.assertEqual(result['per_class']['visual']['mean_questions'],2)
         r['ticket_state']='HELD'
+        self.assertFalse(score([c],[r])['rows'][0]['settled_within_one_round'])
+        r['ticket_history']=[{'from':'NEW','to':'HELD','actor':'AGENT',
+                              'detail':{'reason':'TARGET_AMBIGUOUS'}}]
         self.assertTrue(score([c],[r])['rows'][0]['settled_within_one_round'])
+
+    def test_unavailable_user_reply_is_paused_not_a_successful_one_round_settlement(self):
+        c=case();c['should_hold']=True;c['expected']={'status':'HELD','error':'TARGET_AMBIGUOUS'}
+        r={'id':c['id'],'case_hash':digest(c),'intake_record':copy.deepcopy(c['expected']),
+           'ticket_state':'HELD','adopted':False,'rounds':1,'questions':1,
+           'ticket_history':[{'from':'CLARIFYING','to':'HELD','actor':'USER',
+                              'detail':{'reason':'USER_INFORMATION_UNAVAILABLE'}}]}
+        result=score([c],[r]);row=result['rows'][0]
+        self.assertTrue(row['original_record_match'])
+        self.assertTrue(row['waiting_on_user'])
+        self.assertFalse(row['settled_within_one_round'])
+        self.assertFalse(row['settled'])
 
     def test_seals_and_complete_consumer_records_are_required(self):
         c=case();r={'id':c['id'],'case_hash':'changed','intake_record':c['expected'],
