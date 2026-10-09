@@ -224,7 +224,9 @@ class TapeTests(unittest.TestCase):
         envelope=copy.deepcopy(helper.envelope);envelope['strategy']=VERSION
         envelope['comparison_mode']='VERTICAL';envelope['ticket_shape']='MISMATCH_COMPLAINT'
         workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve)
-        if smart_ticket:workspace.smart_intake.auto_start=auto_start
+        if smart_ticket:
+            workspace.smart_intake.auto_start=auto_start
+            workspace.smart_intake.configuration['must_confirm']=['COMPARISON']
         import httpx
         def provider(request):
             body=json.loads(request.content);view=json.loads(body['input'])
