@@ -9,6 +9,33 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_current_producer_retries_nonverbatim_once_and_preserves_both_attempts(self):
+        from investigator.question_intake import azure_resolve
+        good,payload=fixture('In Report, Global card Quantity differs.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        bad=copy.deepcopy(good);bad['measures'][0]['quote']='Invented metric'
+        self.workspace.intake.resolver=azure_resolve
+        with patch('ticket_planner.azure_generate',side_effect=[(bad,{}),(good,{})]) as provider:
+            saved=self.workspace.intake.resolve({'text':payload['text'],'request_key':'exact-retry','parent_id':None},retain_extraction=True)
+        self.assertEqual(saved['status'],'PROPOSED',saved)
+        self.assertEqual(provider.call_count,2)
+        self.assertEqual([a['event'] for a in saved['resolution_attempts']],
+                         ['PROVENANCE_QUOTE_NOT_FOUND','PROVENANCE_QUOTE_RETRY'])
+        self.assertEqual(saved['retained_extraction'],bad)
+        self.assertEqual(intake_extraction.retained_response(saved),good)
+        with patch('ticket_planner.azure_generate',side_effect=[(bad,{}),(bad,{})]) as provider:
+            refused=self.workspace.intake.resolve({'text':payload['text'],'request_key':'double-bad','parent_id':None},retain_extraction=True)
+        self.assertEqual(refused['status'],'NEEDS_INPUT');self.assertEqual(provider.call_count,2)
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
+    def test_business_intent_refusal_is_not_reopened_as_visual_clarification(self):
+        self.raw,self.payload=fixture('In Report, Quantity: decide whether the business rule is correct.',
+            kind='BUSINESS_MEANING',triage='BUSINESS_QUESTION:NONE')
+        saved=self.submit()
+        self.assertEqual(saved['ticket']['state'],'HELD');self.assertEqual(saved['ticket']['questions'],[])
+        self.assertEqual(saved['ticket']['history'][-1]['detail']['route'],'BUSINESS_VALIDATION')
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def setUp(self):
         self.h=workspace_fixture.WorkspaceTests();self.h.setUp();self.addCleanup(self.h.doCleanups)
         self.workspace=self.h.workspace

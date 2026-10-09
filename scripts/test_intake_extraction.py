@@ -25,6 +25,26 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_omitted_literal_report_is_recovered_from_primary_ask_without_guessing(self):
+        raw,payload=fixture('In Report, Global card Quantity differs.',reports=[],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        other=copy.deepcopy(payload['models'][0]);other['id']='other-model'
+        other['reports']=[{'id':'other-report','name':'Other estate'}]
+        payload['models'].append(other)
+        value=extraction.resolve(raw,payload);validate(value,payload)
+        self.assertEqual(value['model_id'],'model');self.assertEqual(value['report_binding']['source']['quote'],'Report')
+        self.assertEqual(value['extracted_ticket']['response']['reports'],[])
+
+    def test_literal_report_recovery_never_uses_comparator_or_guesses_between_reports(self):
+        raw,payload=fixture('Quantity differs from another Report.',reports=[],comparisons=['another Report'])
+        result=extraction.literal_reports(extraction.spans(raw,payload['text']),payload['text'],payload['models'])
+        self.assertEqual(result,[])
+        raw,payload=fixture('Report and Other estate Quantity differ.',reports=[])
+        other=copy.deepcopy(payload['models'][0]);other['id']='other-model'
+        other['reports']=[{'id':'other-report','name':'Other estate'}]
+        payload['models'].append(other)
+        with self.assertRaises(ValueError):extraction.resolve(raw,payload)
+
     def test_validated_retry_is_authority_without_overwriting_failed_response(self):
         bad={'measures':[{'quote':'invented'}]};good={'measures':[{'quote':'Quantity'}]}
         source={'retained_extraction':bad,'proposal':{'extracted_ticket':{'response':good}}}

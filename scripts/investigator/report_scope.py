@@ -103,7 +103,8 @@ def report_binding(binding, *, reports, ticket=None, allow_refused=False):
         # Admission checks this against the server-retained ticket proof. Later
         # consumers receive the sealed scope, not a new model declaration.
         Draft202012Validator(CONFIRMED_REPORT_SCHEMA).validate(binding)
-        selected=binding['confirmation']['fields'].get('REPORT_PAGE',{}).get('value',{})
+        proof_fields=binding['confirmation']['fields']
+        selected=proof_fields.get('REPORT_PAGE',proof_fields.get('NUMBER',{})).get('value',{})
         if selected.get('report_id')!=binding['report_id']:
             raise ValueError('Confirmed report differs from the retained selection')
         if sum(r['id']==binding['report_id'] for r in reports)!=1:

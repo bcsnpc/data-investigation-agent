@@ -44,6 +44,14 @@ class SmartIntake:
         payload={'text':source['text'],'models':catalog['models']}
         from .onboarding import digest
         if source['catalog_hash']!=digest(catalog):raise Conflict('Ticket metadata changed before clarification')
+        raw=(source.get('proposal') or {}).get('extracted_ticket',{}).get('response') or source.get('retained_extraction')
+        if source.get('error')=='UNIMPLEMENTED_ROUTE' and raw and raw.get('kind')=='BUSINESS_MEANING':
+            # Preserve the existing intent refusal; do not try to turn it into
+            # a comparison merely by asking the user to select a visual.
+            return self.tickets.update(ticket['id'],saved['revision'],lambda current:
+                protocol.transition(current,'HELD',actor='AGENT',detail={
+                    'reason':source['refusal_reason'],'route':'BUSINESS_VALIDATION',
+                    'handoff_unavailable':'BUSINESS_OWNER_BINDING_UNESTABLISHED'}))
         def plan(current):
             if source.get('proposal'):
                 current=protocol.settle_from_intake(current,source['proposal'],payload,
@@ -74,6 +82,16 @@ class SmartIntake:
             result.setdefault('reply_keys',{})[request['request_key']]=digest(request)
             return result
         saved=self.tickets.update(request['ticket_id'],request['revision'],answer)
+        if 'REPORT_PAGE' not in saved['ticket']['settled'] and 'NUMBER' in saved['ticket']['confirmed']:
+            source=self.workspace.intake.get(saved['ticket']['source_intake'])
+            try:
+                catalog=snapshot(self.workspace)
+                if digest(catalog)!=source['catalog_hash']:raise Conflict('Ticket metadata changed before container settlement')
+                saved=self.tickets.update(request['ticket_id'],saved['revision'],lambda ticket:
+                    intake_confirmation.settle_container(ticket,request_text=source['text'],models=catalog['models']))
+            except (ValueError,Conflict) as exc:
+                return self.tickets.update(request['ticket_id'],saved['revision'],lambda ticket:
+                    protocol.transition(ticket,'HELD',actor='AGENT',detail={'reason':str(exc)}))
         return self._adopt(saved)
 
     def _adopt(self, saved):

@@ -6,13 +6,28 @@ from test_intake_extraction import fixture
 
 
 class TicketClarificationTests(unittest.TestCase):
+    def test_named_container_limits_offer_without_using_values_or_picking_target(self):
+        raw,payload=fixture('In Report, Quantity shows 16 and 17.',
+            figures=[{'quote':v,'role':'PRIMARY','state':'NUMBER','precision_quote':None} for v in ('16','17')])
+        other=copy.deepcopy(payload['models'][0]);other['id']='other-model'
+        other['reports']=[{'id':'other-report','name':'Unrelated report'}]
+        for visual in other['visuals']:
+            visual['target_id']='other-'+visual['target_id'];visual['report_id']='other-report'
+        payload['models'].append(other)
+        offer=planner.batch(protocol.new('ticket'),{'retained_extraction':raw},payload)
+        self.assertIsNone(offer['blocked'])
+        numbers=[v for v in offer['values'].values() if 'figure_source' in v]
+        self.assertEqual({v['target_id'] for v in numbers},{'card','matrix'})
+        self.assertEqual({v['figure_source']['quote'] for v in numbers},{'16','17'})
+        self.assertEqual(len(numbers),4)
+
     def test_competing_values_are_distinct_choices_for_each_target(self):
         raw,payload=fixture('In Report, Quantity shows 16 and 17.',
             figures=[{'quote':v,'role':'PRIMARY','state':'NUMBER','precision_quote':None} for v in ('16','17')])
         ticket=protocol.new('ticket')
         offered=planner.batch(ticket,{'retained_extraction':raw},payload)
         self.assertIsNone(offered['blocked'])
-        self.assertEqual({q['field'] for q in offered['questions']},set(protocol.FIELDS))
+        self.assertEqual({q['field'] for q in offered['questions']},{'NUMBER','COMPARISON'})
         numbers=[v for v in offered['values'].values() if 'figure_source' in v]
         self.assertEqual(len(numbers),4)
         self.assertEqual({v['figure_source']['quote'] for v in numbers},{'16','17'})

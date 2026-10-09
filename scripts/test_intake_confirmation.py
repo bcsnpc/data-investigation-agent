@@ -22,6 +22,27 @@ def confirm(payload, raw, target='card', figure=None, mode='UNGROUPED'):
 
 
 class IntakeConfirmationTests(unittest.TestCase):
+    def test_visual_confirmation_also_binds_its_declared_report_without_a_separate_choice(self):
+        from investigator.ticket_clarification import batch
+        raw,payload=fixture('Quantity looks wrong.',reports=[])
+        ticket=protocol.new('ticket');offer=batch(ticket,{'retained_extraction':raw},payload)
+        retained=confirmation.offer(ticket,offer['questions'],offer['values'],request_text=payload['text'],models=payload['models'])
+        answers=[]
+        for q in retained['questions']:
+            chosen=next(c for c in q['choices'] if q['field']=='COMPARISON' or
+                        retained['choice_values'][digest(q)+'/'+c['id']]['target_id']=='card')
+            answers.append({'question_id':q['id'],'choice_id':chosen['id']})
+        replied=protocol.answer(retained,answers)
+        replied=confirmation.settle_container(replied,request_text=payload['text'],models=payload['models'])
+        self.assertEqual(replied['settled']['REPORT_PAGE']['value'],{'report_id':'report','page_id':None})
+        proof=confirmation.build(replied,payload['text']);confirmed={**payload,'_ticket_confirmation':proof}
+        value=intake_extraction.resolve(raw,confirmed);validate(value,confirmed)
+        self.assertEqual(value['report_binding']['resolution_kind'],'USER_CONFIRMED')
+        self.assertEqual(value['report_binding']['report_id'],'report')
+        hostile=copy.deepcopy(proof);hostile['fields']['NUMBER']['value']['report_id']='foreign'
+        with self.assertRaisesRegex(ValueError,'container differs'):
+            confirmation.values(hostile,ticket=payload['text'],models=payload['models'])
+
     def test_user_confirmed_visual_supplies_its_unique_measure_without_fabricating_quote(self):
         raw,payload=fixture('In Report, this number looks wrong.',measures=[])
         with self.assertRaisesRegex(ValueError,'Starting measure is unresolved'):intake_extraction.resolve(raw,payload)

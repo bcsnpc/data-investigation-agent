@@ -198,3 +198,50 @@ Round Eleven held pass is not a never-seen corpus. #423 remains draft.
 DECIDED WITHOUT REVIEW: represent original read-stage completion separately in
 v5, rejecting the alternative of pretending read completion already includes two
 narratives or rewriting the original return after synthesis.
+
+## Clarification audit and correction ? 2026-10-09 UTC
+
+Committed lifecycle source5a67e9b passed all2,558 regression tests in796.038s,
+Python exit0; log retained privately. Source was held fixed for the whole run.
+
+A development-only audit re-used Round Ten's sealed GPT-5.5 response bytes;
+it is not a fresh provider evaluation or the68-ticket gate. The40 cases offered
+88 individual questions (mean2.2): family57/26, question9/3, refusal18/7,
+visual4/4. Eight adopted a scope under that conservative client. Missing original
+referents were not volunteered; the client withheld a report/page it could not
+identify from its original-golden representation. That abstention method itself
+requires improvement before a quality score. Every synthetic exchange and state
+transition is taped. Original tapes and split unchanged. No new provider calls,
+no estate requests, no production reservations; audit governors are isolated.
+
+Corrections from this audit: the NUMBER offer now includes the exact discovered
+report/page container and readable names. Choosing it settles the container by
+metadata rather than asking again. Foreign containers fail validation. Legacy
+offers lacking the optional fields retain their previous meaning. Candidate
+lists narrow only through literal primary report names and uniquely resolved
+measure metadata; competing values and target choices remain explicit. Full
+report names omitted by extraction may be recovered literally inside the primary
+ask, excluding comparator references. Multiple names stay ambiguous. Business
+meaning refusals no longer reopen as visual questions; unresolved business-owner
+binding is named rather than fabricated.
+
+The live production resolver's non-verbatim retry is now tested through Intake,
+not merely an exception double: exact second response proceeds, two invalid
+responses stop after two charged synthetic admissions. The rejected response
+remains retained alongside the validated replacement. Latest related focused
+checks passed138,74,22 and16 tests in their respective runs. These are overlapping
+checks, not summed as unique tests. Latest-source broad regression and v5 replay
+remain pending after these additions.
+
+Workspace state labels now reflect actual lifecycle state, owner states permit
+retained replies, historical-use qualification is displayed, and sign-out clears
+ticket content. JavaScript syntax check passes; visual QA remains pending.
+Phase A still incomplete/ungraded; no screenshot or live family run. Pot1013/1500,
+restoration95, rolling260/3000 at05:11Z; daily300 calls/4,674,051input/450,000output
+reservations unchanged. No cap/identity/secret/fixture/golden change. #423 draft.
+
+DECIDED WITHOUT REVIEW: derive container identity from the selected visual's
+retained declaration, rejecting a redundant independent report/page question.
+Never use a reported-value match as identity authority. Retained-response audit
+results are development diagnostics, rejecting the alternative of presenting
+historical samples as fresh model-quality scores.

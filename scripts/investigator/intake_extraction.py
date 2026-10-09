@@ -202,6 +202,25 @@ def primary_fact(item, extraction):
             and not any(span['start']<s['end'] and s['start']<span['end']
                         for s in extraction['comparisons']))
 
+
+def literal_reports(extraction, ticket, models):
+    """Recover full declared names inside the primary ask, never a comparator.
+
+    Missing extraction is not permission to search by a similar name. Only
+    complete names literally retained in that span are candidates; all are
+    conserved so multiple named reports remain ambiguous.
+    """
+    primary=extraction['primary'];found=[]
+    names=sorted({r['name'] for model in models for r in model.get('reports',[])})
+    for name in names:
+        for match in re.finditer(r'(?<!\w)'+re.escape(name)+r'(?!\w)',primary['quote']):
+            start=primary['start']+match.start();end=primary['start']+match.end()
+            if any(start<s['end'] and s['start']<end for s in extraction['comparisons']):continue
+            prefix=ticket[max(primary['start'],start-40):start]
+            if re.search(r'\b(?:another|other|second|compared to)\s*$',prefix,re.I):continue
+            found.append({'quote':{'start':start,'end':end,'quote':name},'role':'PRIMARY'})
+    return found
+
 def resolve(raw, payload):
     """Resolve solely against retained metadata. Missing information is a refusal."""
     from . import report_scope, numeral_roles, intake_rules
@@ -215,6 +234,8 @@ def resolve(raw, payload):
     number=confirmed.get('NUMBER')
     extraction=spans(raw,ticket,figure_occurrences=bool(number and number['figure_source'] is not None))
     report_confirmation=confirmed.get('REPORT_PAGE')
+    if report_confirmation is None and number and 'report_id' in number:
+        report_confirmation={k:number[k] for k in ('report_id','page_id')}
     route=None
     if confirmed.get('COMPARISON'):
         from .ticket_route import declared,admit
@@ -242,7 +263,13 @@ def resolve(raw, payload):
     if not mentions and not number: raise ValueError('Starting measure is unresolved from the primary question')
     audit=[]
     # Named context narrows the metadata search; it does not select a visual.
-    report_words=[i['quote']['quote'] for i in extraction['reports'] if i['role']!='COMPARISON']
+    report_mentions=extraction['reports']
+    if not report_confirmation and not any(i['role']!='COMPARISON' for i in report_mentions):
+        report_mentions=report_mentions+literal_reports(extraction,ticket,payload['models'])
+        if len(report_mentions)!=len(extraction['reports']):
+            audit.append({'resolution':'LITERAL_PRIMARY_REPORT_NAMES','sources':
+                          [i['quote'] for i in report_mentions if i['role']=='PRIMARY']})
+    report_words=[i['quote']['quote'] for i in report_mentions if i['role']!='COMPARISON']
     models=payload['models']
     if report_confirmation:
         models=[m for m in models if any(r['id']==report_confirmation['report_id'] for r in m.get('reports',[]))]
@@ -254,7 +281,7 @@ def resolve(raw, payload):
         # location. This handles a separately extracted identifier suffix;
         # it cannot borrow a name from another part of the ticket.
         expanded=[]
-        for item in extraction['reports']:
+        for item in report_mentions:
             if item['role']=='COMPARISON':continue
             source=item['quote'];q=source['quote']
             full=[r['name'] for r in anchors if r['name'].startswith(q) and
@@ -384,7 +411,7 @@ def resolve(raw, payload):
                                      'source':None,'confirmation':copy.deepcopy(confirmation)}
         else:
             stated=next(i['quote'] for i,q in zip(
-                [i for i in extraction['reports'] if i['role']!='COMPARISON'],report_words)
+                [i for i in report_mentions if i['role']!='COMPARISON'],report_words)
                 if match(q,model['reports'],'id')['id']==report['id'])
             # Expanded spelling is still verbatim at the same declared location.
             full=next((q for q in report_words if q==report['name']),None)

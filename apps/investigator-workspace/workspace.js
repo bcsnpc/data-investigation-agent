@@ -146,7 +146,7 @@ $('login-form').addEventListener('submit',guard(async()=>{
   $('access-key').value='';$('login').hidden=true;$('workspace').hidden=false;$('signout').hidden=false;$('read-only').hidden=execution;
   options($('model'),models.map(m=>({id:m.id,name:m.name})));resetComposer();await history();
 }));
-$('signout').addEventListener('click',()=>{resetIntake();stopPolling();key='';models=[];current=null;preview=null;predecessor=null;$('workspace').hidden=true;$('login').hidden=false;$('signout').hidden=true;$('access-key').value='';$('history').replaceChildren();$('question-history').replaceChildren();$('image-history').replaceChildren();$('facts').replaceChildren();$('activity').replaceChildren();for(const id of ['technical-scope','technical-outcome','technical-decisions','identities'])$(id).replaceChildren();$('scope-form').reset();clearError();});
+$('signout').addEventListener('click',()=>{resetIntake();resetSmartTicket();stopPolling();key='';models=[];current=null;preview=null;predecessor=null;$('workspace').hidden=true;$('login').hidden=false;$('signout').hidden=true;$('access-key').value='';$('history').replaceChildren();$('question-history').replaceChildren();$('image-history').replaceChildren();$('facts').replaceChildren();$('activity').replaceChildren();for(const id of ['technical-scope','technical-outcome','technical-decisions','identities'])$(id).replaceChildren();$('scope-form').reset();clearError();});
 $('model').addEventListener('change',()=>{predecessor=null;$('clarification-note').hidden=true;modelChanged();});
 $('scope-form').addEventListener('input',invalidate);$('scope-form').addEventListener('change',invalidate);
 $('add-filter').addEventListener('click',guard(()=>addFilter()));
@@ -190,9 +190,10 @@ $('intake-history').addEventListener('click',guard(async()=>{if(!intakeSaved)ret
 $('hold-question').addEventListener('click',guard(async()=>{if(!intakeSaved)return;const epoch=generation;const data=await api('questions/'+encodeURIComponent(intakeSaved)+'/hold',{});if(epoch===generation)showIntake(data);await history();}));
 
 let smartTicket=null, smartTicketRequest=null, smartTicketGeneration=0;
+function resetSmartTicket(){smartTicket=null;smartTicketRequest=null;smartTicketGeneration++;$('smart-ticket-text').value='';$('smart-ticket-result').hidden=true;$('smart-ticket-answers').replaceChildren();$('smart-ticket-history').replaceChildren();for(const id of ['smart-ticket-business','smart-ticket-technical','smart-ticket-handoff','smart-ticket-reuse','smart-ticket-reply-text']){const element=$(id);if(element.tagName==='TEXTAREA')element.value='';else element.replaceChildren();}}
 function showSmartTicket(saved){
   smartTicket=saved;const ticket=saved.ticket;$('smart-ticket-result').hidden=false;
-  $('smart-ticket-state').textContent=ticket.state==='HELD'?'Paused: '+(ticket.history.at(-1)?.detail?.reason||'More evidence is needed'):ticket.intake_id?'Your choices are resolved. Review the scope to continue.':ticket.state.replaceAll('_',' ');
+  $('smart-ticket-state').textContent=ticket.state==='HELD'?'Paused: '+(ticket.history.at(-1)?.detail?.reason||'More evidence is needed'):ticket.intake_id&&['NEW','CLARIFYING'].includes(ticket.state)?'Your choices are resolved. Review the scope to continue.':ticket.state.replaceAll('_',' ');
   const form=$('smart-ticket-answers');form.replaceChildren();
   for(const question of ticket.questions){
     const group=node('fieldset');group.append(node('legend',question.question));
@@ -210,8 +211,10 @@ function showSmartTicket(saved){
     $('smart-ticket-technical').textContent=outputs.technical_output?.explanation?.text||outputs.technical_output?.text||'';
     $('smart-ticket-handoff').textContent=ticket.handoff?'Recorded for '+ticket.handoff.owner+'. Delivery has not been sent.':ticket.history.at(-1)?.detail?.handoff_unavailable?'The owning person or team is not uniquely configured. The findings remain available.':'';
   }
+  $('smart-ticket-reuse').hidden=!ticket.retained_answer;
+  $('smart-ticket-reuse').textContent=ticket.retained_answer?.qualification||'';
   $('smart-ticket-close').disabled=!['FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'].includes(ticket.state);
-  $('smart-ticket-followup').hidden=ticket.state!=='FINDINGS_SHARED';
+  $('smart-ticket-followup').hidden=!['FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'].includes(ticket.state);
 }
 async function smartTicketHistory(){const epoch=generation;const data=await api('tickets');if(epoch!==generation)return;
   $('smart-ticket-history').replaceChildren(...data.tickets.map(saved=>{const button=node('button',saved.request.text.slice(0,100)+' · '+saved.ticket.state.replaceAll('_',' '));button.type='button';button.addEventListener('click',guard(async()=>{const requestEpoch=++smartTicketGeneration;const value=await api('tickets/'+encodeURIComponent(saved.ticket.id));if(requestEpoch===smartTicketGeneration)showSmartTicket(value);}));return button;}));}
@@ -227,6 +230,6 @@ $('smart-ticket-answers').addEventListener('submit',guard(async()=>{
 }));
 $('smart-ticket-refresh').addEventListener('click',guard(smartTicketHistory));
 $('smart-ticket-review').addEventListener('click',guard(async()=>{if(!smartTicket?.ticket.intake_id)return;const epoch=generation;const saved=await api('questions/'+encodeURIComponent(smartTicket.ticket.intake_id));if(epoch===generation)showIntake(saved);}));
-$('smart-ticket-finish').addEventListener('click',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/finish',{revision:saved.revision});showSmartTicket(result);await smartTicketHistory();}));
-$('smart-ticket-close').addEventListener('click',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/close',{revision:saved.revision});showSmartTicket(result);await smartTicketHistory();}));
-$('smart-ticket-followup').addEventListener('submit',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/respond',{revision:saved.revision,kind:$('smart-ticket-reply-kind').value,text:$('smart-ticket-reply-text').value});showSmartTicket(result);await smartTicketHistory();}));
+$('smart-ticket-finish').addEventListener('click',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/finish',{revision:saved.revision});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();}));
+$('smart-ticket-close').addEventListener('click',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/close',{revision:saved.revision});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();}));
+$('smart-ticket-followup').addEventListener('submit',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/respond',{revision:saved.revision,kind:$('smart-ticket-reply-kind').value,text:$('smart-ticket-reply-text').value});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();}));

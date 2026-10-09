@@ -28,6 +28,38 @@ def settings(value=None):
     return result
 
 
+def visual_candidates(ticket, extraction, payload):
+    """Narrow offers only with declared containers and unique metadata names.
+
+    This does not select a visual or evaluate a quantity. Ambiguous names leave
+    all their candidates visible; a value match never supplies authority.
+    """
+    pairs=[(m,v) for m in payload['models'] for v in m.get('visuals',[])]
+    if ticket['confirmed']:
+        selected=intake_confirmation.values(intake_confirmation.build(ticket,payload['text']),
+                                            ticket=payload['text'],models=payload['models'])
+        report=selected.get('REPORT_PAGE')
+        if report:
+            pairs=[(m,v) for m,v in pairs if v['report_id']==report['report_id'] and
+                   (report['page_id'] is None or v.get('page_id')==report['page_id'])]
+    named=intake_extraction.literal_reports(extraction,payload['text'],payload['models'])
+    if named:
+        names={i['quote']['quote'] for i in named}
+        report_ids={r['id'] for m in payload['models'] for r in m.get('reports',[]) if r['name'] in names}
+        pairs=[(m,v) for m,v in pairs if v['report_id'] in report_ids]
+    measures=[]
+    eligible_models={m['id'] for m,v in pairs}
+    candidates=[{**metric,'binding_id':digest([m['id'],metric['id']])} for m in payload['models']
+                if m['id'] in eligible_models for metric in m['measures']]
+    for mention in extraction['measures']:
+        if not intake_extraction.primary_fact(mention,extraction):continue
+        try:chosen=intake_extraction.match(mention['quote']['quote'],candidates,'binding_id')
+        except ValueError:continue
+        measures.append(chosen['id'])
+    if measures:pairs=[(m,v) for m,v in pairs if set(v['measure_ids'])&set(measures)]
+    return pairs
+
+
 def batch(ticket, source, payload, configuration=None):
     """Return an exhaustive bounded offer, or a named reason it cannot be made.
 
@@ -51,7 +83,10 @@ def batch(ticket, source, payload, configuration=None):
             values[digest(question)+'/'+choice['id']]=copy.deepcopy(value)
         questions.append(question)
     try:
-        if 'REPORT_PAGE' not in ticket['settled']:
+        # The number choice includes its native report/page container. Asking
+        # for both separately adds no evidence unless estate policy requires it.
+        if 'REPORT_PAGE' not in ticket['settled'] and (
+                'NUMBER' in ticket['settled'] or 'REPORT_PAGE' in config['must_confirm']):
             choices=[]
             for model in payload['models']:
                 for report in model.get('reports',[]):
@@ -66,17 +101,20 @@ def batch(ticket, source, payload, configuration=None):
                 if item['quote'] not in figures:figures.append(item['quote'])
             figures=figures or [None]
             choices=[]
-            for model in payload['models']:
-                for visual in model.get('visuals',[]):
-                    if visual.get('unsupported'):continue
-                    # KEYED requires a real key address. Until that input is
-                    # representable, do not replace it with an ungrouped/total.
-                    mode='TOTAL' if visual['grouping_columns'] else 'UNGROUPED'
-                    name=' / '.join(visual.get('names') or [visual['target_id']])
-                    if mode=='TOTAL':name+=' (total cell only; keyed cells not offered)'
-                    for figure in figures:
-                        label=name+(' — '+repr(figure['quote'])+f" at {figure['start']}:{figure['end']}" if figure else ' — no figure supplied')
-                        choices.append((label,{'target_id':visual['target_id'],'mode':mode,'figure_source':figure}))
+            for model,visual in visual_candidates(ticket,extraction,payload):
+                if visual.get('unsupported'):continue
+                # KEYED requires a real key address. Until that input is
+                # representable, do not replace it with an ungrouped/total.
+                mode='TOTAL' if visual['grouping_columns'] else 'UNGROUPED'
+                report=next(r for r in model['reports'] if r['id']==visual['report_id'])
+                page=' / '.join(visual.get('page_names') or [])
+                name=' / '.join([report['name'],*([page] if page else []),
+                                ' / '.join(visual.get('names') or [visual['target_id']])])
+                if mode=='TOTAL':name+=' (total cell only; keyed cells not offered)'
+                for figure in figures:
+                    label=name+(' — '+repr(figure['quote'])+f" at {figure['start']}:{figure['end']}" if figure else ' — no figure supplied')
+                    choices.append((label,{'target_id':visual['target_id'],'mode':mode,'figure_source':figure,
+                                          'report_id':visual['report_id'],'page_id':visual.get('page_id')}))
             add('NUMBER','Which displayed number should we investigate?',choices)
         if 'COMPARISON' not in ticket['settled']:
             add('COMPARISON','What are you comparing against?',[

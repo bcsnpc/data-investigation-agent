@@ -12,7 +12,9 @@ from .onboarding import digest
 VERSION='ticket-confirmation-v1'
 NUMBER=protocol.obj({'target_id':protocol.ID,
     'mode':{'enum':['UNGROUPED','KEYED','TOTAL']},
-    'figure_source':{'anyOf':[{'type':'null'},reported_figure.SPAN_SCHEMA]}})
+    'figure_source':{'anyOf':[{'type':'null'},reported_figure.SPAN_SCHEMA]},
+    'report_id':protocol.ID,
+    'page_id':{'anyOf':[{'type':'null'},protocol.ID]}},optional=('report_id','page_id'))
 REPORT_PAGE=protocol.obj({'report_id':protocol.ID,
     'page_id':{'anyOf':[{'type':'null'},protocol.ID]}})
 COMPARISON=protocol.obj({'route':{'enum':list(protocol.ROUTES)}})
@@ -107,6 +109,11 @@ def values(confirmation, *, ticket, models):
         candidates=[(m,v) for m in models for v in m.get('visuals',[]) if v['target_id']==number['target_id']]
         if len(candidates)!=1:raise ValueError('Confirmed visual is absent or ambiguous')
         _,visual=candidates[0]
+        if ('report_id' in number)!=('page_id' in number):
+            raise ValueError('Confirmed visual container requires both report and page fields')
+        if 'report_id' in number and (number['report_id']!=visual['report_id'] or
+                number['page_id']!=visual.get('page_id')):
+            raise ValueError('Confirmed visual container differs from retained metadata')
         if visual.get('unsupported'):raise ValueError('Confirmed visual is unsupported: '+visual['unsupported'])
         if bool(visual['grouping_columns'])!=(number['mode']!='UNGROUPED'):
             raise ValueError('Confirmed cell mode contradicts the visual')
@@ -115,4 +122,18 @@ def values(confirmation, *, ticket, models):
             raise ValueError('Confirmed number is outside the confirmed report/page')
         if number['figure_source'] is not None:
             reported_figure.span(number['figure_source'],ticket)
+    return result
+
+
+def settle_container(ticket, *, request_text, models):
+    """A confirmed visual establishes its declared container without a second ask."""
+    result=copy.deepcopy(ticket)
+    if 'REPORT_PAGE' in result['settled'] or 'NUMBER' not in result['confirmed']:return result
+    selected=values(build(result,request_text),ticket=request_text,models=models)['NUMBER']
+    # Historical offers without container fields retain their original contract.
+    if 'report_id' not in selected:return result
+    container={k:selected[k] for k in ('report_id','page_id')}
+    result['settled']['REPORT_PAGE']={'authority':'DECLARED_CONTAINER_OF_CONFIRMED_VISUAL','value':container}
+    result['history'].append({'from':result['state'],'to':result['state'],'actor':'AGENT',
+        'detail':{'settled_container':container,'target_id':selected['target_id']}})
     return result
