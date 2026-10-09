@@ -248,3 +248,53 @@ Further section 3 exploration, 2026-10-08: measure candidates were ranked indepe
 Closed metadata value repair is restricted to text and boolean domains. A typed boolean survives to the validated filter; numeric and date literals are not corrected into a nearby metadata value. Tests cover a one-edit text repair with provenance, typed boolean, unchanged numeric literal, and setup grouping/record-identifier preservation. Every fix remains offline.
 
 The earlier integrated regression overlapped source edits and failed the engine/tape integrity fences. It is retained as a failed verification attempt, not counted as a passing suite. The final committed source is tested again without concurrent engine edits. The historical benchmark runs in its separate immutable worktree; its provider timeout and target refusals remain recorded. No estate reads, identity, permission or secret changes.
+
+
+Clean committed regression on fb43800: 2,461 tests passed in 481.050 seconds. No source edits overlapped this verification.
+
+Hosted evaluation Actions37834006827 completed 2026-10-08T21:42:48Z: FAILED, 4/50 full matches (4/59 total), 0/9 family resolutions, 111 model calls, 840,374 charged input characters, zero estate requests. Its recorded engine hash is320bc0d6c9d87bf5339e2d05a7f207bff3c652bb4396a861b9426e77ae073087 and golden hashbb724be6c27e1e7641de5a708bcc9544fbb02a4dc44f63a66f6a0e65845881b7. It uses investigator-intake-ci, not the local investigator-quality-54 deployment. It began before the named-visual amendments and resolver fixes; therefore it cannot certify or refute the corrected candidate. All59 responses were fresh; retry rate52/59. Score and plan retained under part-e/hosted-f29. Artifact contains scores and plan only, not provider bodies; no causal explanation of individual hosted refusals is claimed from missing bodies.
+
+
+Final section 4 result, 2026-10-09 UTC (2026-10-08 America/Chicago): **FAILED**. Both fresh68 passes completed, original tapes/failed calls preserved, zero estate reads. The common current scorer reports11/68 for each. Kind nomination falls44/68 to40/68 (-5.88 points), exceeding the allowed5-point loss. The candidate is not adopted and #423 remains draft; no rehearsal, fifty investigation rerun or billing execution follows. Main was not changed.
+
+| Field | Historical | Corrected |
+|---|---:|---:|
+| kind | 64.7% | 58.8% |
+| figure_precision | 23.5% | 47.1% |
+| measure | 23.5% | 47.1% |
+| selections | 23.5% | 44.1% |
+| target | 23.5% | 45.6% |
+| triage | 23.5% | 45.6% |
+| report_page | 23.5% | 45.6% |
+| Full match | 11/68 (16.2%) | 11/68 (16.2%) |
+| Mean transmitted characters | 54,491 | 9,426 |
+| Fresh provider calls, retries included | 73 | 92 |
+
+Primary and comparison spans remain UNSCORED: sealed references have no annotations. Report/page score is target-derived, not independently annotated page interpretation. No golden field was invented to fill that gap.
+
+The fifty:11/50 historical versus10/50 corrected. Original named-family full matches0/9 versus0/9; rebuilt0/9 versus1/9. The historical pass internal scorer (frozen8d7 source) reported6 total, whereas the same current scorer applied to both recognizes11. This difference is the current scorer recognizing correctly coded semantic holds; expectation bytes are unchanged. The adoption comparison uses one scorer for both, not6 versus11.
+
+| Family/class, combined original + rebuilt | Cases | Historical full matches | Corrected full matches |
+|---|---:|---:|---:|
+| A | 6 | 0 | 2 |
+| B | 5 | 0 | 3 |
+| C | 5 | 0 | 0 |
+| D | 5 | 0 | 2 |
+| E | 6 | 0 | 3 |
+| F | 5 | 0 | 1 |
+| G | 6 | 0 | 0 |
+| H | 5 | 0 | 0 |
+| I | 5 | 0 | 0 |
+| Other questions/refusals/visual forms | 20 | 11 | 0 |
+
+The historical32/50 result did not reproduce. Today?s fresh requests include the agreed named-visual references and target-preservation validation; they are not a byte-identical rerun of the historical provider traffic. No causal claim of provider variance alone is justified. One historical provider ReadTimeout remains a scored failure, with no replacement.
+
+Saved failing paths: D-terse still supplies only a selection/comparator, so target ambiguity is retained. Rebuilt F explicitly names the card but the recorded extraction excludes its visual authority, producing TARGET_AMBIGUOUS; that is a remaining extraction/wiring failure, not evidence that the ticket lacks a referent. Rebuilt H omits a usable primary measure on both attempts and ends INTAKE_EXTRACTION_INVALID. Rebuilt I nominates EXPECTED_BEHAVIOR, fails MIXED_TECHNICAL_SUBJECT_REQUIRED, then refuses target ambiguity. A sole business-intent case now names BUSINESS_MEANING but target resolution happens before kind refusal, so it stops for the wrong reason. These are findings; no post-gate fix, extra trial or expectation rewrite was used to improve the column.
+
+Latest hosted corrected-source eval Actions37847775626 also FAILED:8/50,6/9 targets resolved (1/9 full matches),9/59 total full matches;77 model calls,733,818 charged input characters,0estate requests. It uses investigator-intake-ci versus local investigator-quality-54, tests59 original records versus68 across both estates, and has fresh independent responses. It agrees that quality remains below the locked gate; differing individual nominations do not prove a platform cause. Public artifact lacks provider bodies, so no byte-level response comparison is claimed. Earlier hosted4/50 result is retained above.
+
+Accounting: historical3,977,861 transmitted input characters; corrected867,209; partial exploratory137,474.181 actual local provider requests total (16+73+92), all recorded. UTC day rollover occurred naturally during the corrected pass; no counters reset. Pot1013/1500 and restoration reserve95 unchanged. At close rolling441/3000, investigation cap12 unchanged. Benchmark-only input23M was restored to standing8M after completion; current UTC-day charged input142,687 and16call reservations unchanged by restoration. Standing installation never acquired23M.
+
+Control launch error preserved separately: controller pre-created candidate-final, runner refused FileExistsError before any provider request. Directory/log moved to candidate-final-prelaunch-error, then the runner created a fresh namespace. No result, request, receipt or counter was removed.
+
+**DECIDED WITHOUT REVIEW:** do not activate a losing draft solely to add a production fallback flag. Reject replacing the live resolver or silently changing its defaults. The isolated corrected design and its explicit new/old benchmark selector remain in draft#423, while main/deployed configuration stay unchanged. A later adoption decision requires new passing evidence. This preserves the user?s non-adoption rule without changing an estate-facing engine after this failed experiment.
