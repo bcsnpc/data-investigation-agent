@@ -9,6 +9,17 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_estate_default_is_policy_evidence_not_user_confirmation(self):
+        self.raw,self.payload=fixture('In Report, Global card Quantity looks wrong.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        self.controller.configuration['default_route']='LOOKS_WRONG'
+        saved=self.submit();ticket=saved['ticket']
+        self.assertEqual(ticket['questions'],[]);self.assertNotIn('COMPARISON',ticket['confirmed'])
+        self.assertEqual(ticket['settled']['COMPARISON']['authority'],'ESTATE_COMPARISON_POLICY')
+        adopted=self.workspace.intake.get(ticket['intake_id'])
+        self.assertEqual(adopted['proposal']['ticket_route']['version'],'ticket-comparison-policy-v1')
+        self.assertEqual(self.calls,1)
+
     def test_confirmed_keyed_cell_keeps_original_scope(self):
         self.raw,self.payload=fixture('In Report, warehouse North Quantity shows 16 and 17.',
             figures=[{'quote':v,'role':'PRIMARY','state':'NUMBER','precision_quote':None} for v in ('16','17')],

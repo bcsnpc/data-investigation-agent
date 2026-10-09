@@ -279,3 +279,33 @@ DECIDED WITHOUT REVIEW: use explicit retained question evidence to settle narrow
 comparison routes, rejecting inference from vertical/horizontal triage. Reuse the
 intake scope producer for keyed offers, rejecting a second parser whose keys
 could drift from the consumer.
+
+
+## Policy defaults and restart evidence, 2026-10-09 UTC
+
+The configured default comparison is now applied only when no named comparator
+is present. It is labelled ESTATE_COMPARISON_POLICY, with request and configuration
+hashes, not USER_CONFIRMED. Explicit request evidence takes precedence and
+must-confirm policy forces a question. Business intent and temporal comparisons
+remain excluded; OTHER_REPORT still requires the separate design.95 focused
+checks passed for this policy checkpoint.
+
+Attached interactive runs now seal the actual completed read return immediately
+and persist only a hash-pinned pointer to the original capture. Cold resume
+checks its hash, recording-root location, tape validity and session identity; it
+does not reconstruct a return from newer state. Legacy investigation recording
+retains its original lifecycle.31 focused tests passed, including changed bytes
+and wrong-session refusals. The first test run failed cleanup because the
+synthetic SQLite double left connections open on Windows; the double now closes
+connections explicitly. End-to-end cold-resume/replay verification is pending
+on this committed source.
+
+Work continues in D:/dia-round-eleven-intake on the same #423 remote branch,
+while the full regression at5ae814c runs in the unchanged prior worktree. No new
+model/estate requests or budget, identity, secret, fixture or golden changes.
+Phase A remains incomplete and ungraded; #423 stays draft, freezes invalid.
+
+DECIDED WITHOUT REVIEW: distinguish a configured estate default from a user
+comparison choice, rejecting fabricated confirmation. Preserve the actual
+read-stage FINAL at completion for restart, rejecting retrospective reconstruction
+from an investigation state that may already contain synthesis.

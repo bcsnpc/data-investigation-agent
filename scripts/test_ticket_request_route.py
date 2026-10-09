@@ -7,6 +7,29 @@ from test_intake_extraction import fixture
 
 
 class RequestRouteTests(unittest.TestCase):
+    def test_default_never_overrides_named_comparison_or_required_confirmation(self):
+        from investigator.ticket_clarification import DEFAULTS
+        config=copy.deepcopy(DEFAULTS);config['default_route']='LOOKS_WRONG'
+        raw,payload=fixture('In Report, Quantity differs from the application.')
+        self.assertIsNone(ticket_route.settlement(raw,payload['text'],config))
+        raw,payload=fixture('In Report, Quantity looks wrong.')
+        proof=ticket_route.settlement(raw,payload['text'],config)
+        self.assertEqual(proof['route'],'LOOKS_WRONG')
+        self.assertEqual(proof['version'],ticket_route.DEFAULT_VERSION)
+        config['must_confirm']=['COMPARISON']
+        self.assertIsNone(ticket_route.settlement(raw,payload['text'],config))
+
+    def test_changed_default_policy_cannot_validate_retained_proof(self):
+        from investigator.ticket_clarification import DEFAULTS
+        config=copy.deepcopy(DEFAULTS);config['default_route']='LOOKS_WRONG'
+        raw,payload=fixture('In Report, Global card Quantity looks wrong.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        payload['_comparison_configuration']=config
+        payload['_ticket_route']=ticket_route.settlement(raw,payload['text'],config)
+        value=intake_extraction.resolve(raw,payload);validate(value,payload)
+        config['default_route']='APPLICATION'
+        with self.assertRaises(ValueError):validate(value,payload)
+
     def test_only_explicit_primary_subject_settles_comparison(self):
         for kind,ask,route in [('FRESHNESS','is this stale','STALE'),
                                ('SOURCE_CORRECTNESS','differs from the application','APPLICATION')]:

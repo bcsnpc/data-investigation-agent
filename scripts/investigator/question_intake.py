@@ -480,11 +480,11 @@ def validate(value, payload):
     if value.get('question_kind') is not None:question_kind.validate(value['question_kind'],payload['text'])
     if 'ticket_route' in value:
         from .ticket_route import validate as validate_route,admit
-        if value['ticket_route'].get('version')=='ticket-comparison-request-v1':
-            from .ticket_route import from_request
+        if value['ticket_route'].get('version') in ('ticket-comparison-request-v1','ticket-comparison-policy-v1'):
+            from .ticket_route import settlement
             raw=value.get('extracted_ticket',{}).get('response')
             if (payload.get('_ticket_route')!=value['ticket_route'] or raw is None or
-                    from_request(raw,payload['text'])!=value['ticket_route']):
+                    settlement(raw,payload['text'],payload.get('_comparison_configuration'))!=value['ticket_route']):
                 raise ValueError('Model response cannot declare request comparison authority')
         elif (value.get('extracted_ticket',{}).get('version')!='ticket-spans-confirmed-v1' or
                 value['ticket_route'].get('confirmation')!=payload.get('_ticket_confirmation')):
@@ -603,7 +603,7 @@ class Intake:
                 'screenshot_review': screenshot,
                 'data_queries': 0, 'requires_scope_review': True, 'cause_verified': False}
 
-    def _adopt_ticket(self, identity, revision, request_key):
+    def _adopt_ticket(self, identity, revision, request_key, *, comparison_configuration=None):
         """Internal, taped controller operation; no provider reservation or read."""
         from .ticket_state import Tickets
         from . import ticket_protocol, intake_confirmation, intake_extraction
@@ -620,11 +620,12 @@ class Intake:
         payload={'text':source['text'],'models':catalog['models']}
         if proof is not None:payload['_ticket_confirmation']=proof
         settled=ticket['settled']['COMPARISON']
-        if settled.get('authority')=='EXPLICIT_REQUEST_COMPARISON':
-            from .ticket_route import from_request
-            route=from_request(raw,source['text'])
+        if settled.get('authority') in ('EXPLICIT_REQUEST_COMPARISON','ESTATE_COMPARISON_POLICY'):
+            from .ticket_route import settlement
+            route=settlement(raw,source['text'],comparison_configuration)
             if route is None or route!=settled['value']:raise Conflict('Request comparison evidence changed')
             payload['_ticket_route']=route
+            payload['_comparison_configuration']=comparison_configuration
         proposal=intake_extraction.resolve(raw,payload)
         validate(proposal,payload);question_kind.intake_route(proposal)
         request={'ticket_id':identity,'revision':revision,'request_key':request_key}

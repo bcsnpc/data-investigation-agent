@@ -2,12 +2,14 @@
 import copy
 import json
 import tempfile
+import sqlite3
+from contextlib import contextmanager
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 from investigator import process_tape as journal
-from investigator.run_recording import seal_read_stage
+from investigator.run_recording import seal_read_stage,retain_read_capture
 from investigator.onboarding import Conflict
 
 
@@ -16,7 +18,47 @@ def bootstrap():
             'profile':{},'usage_policy':{},'engine_hash':'synthetic','state':{}}
 
 
+def store_at(path):
+    @contextmanager
+    def connect():
+        db=sqlite3.connect(path)
+        try:
+            with db:yield db
+        finally:db.close()
+    return SimpleNamespace(connect=connect)
+
+
 class ReadStageTests(unittest.TestCase):
+    def test_cold_resume_uses_immutable_original_final_and_refuses_changed_bytes(self):
+        with tempfile.TemporaryDirectory() as folder,patch('investigator.run_recording.ROOT',Path(folder)):
+            root=Path(folder)/'.local/process-tapes';root.mkdir(parents=True)
+            actual={'operation':'run','error':None,'outputs':None,'status':'COMPLETED',
+                    'result':{'id':'session','status':'COMPLETED','observations':[{'receipt':'original'}]}}
+            read=journal.Tape(root/'reads.json',bootstrap());read.finish(actual)
+            store=store_at(Path(folder)/'state.sqlite')
+            agent=SimpleNamespace(store=store,planner_profile={'adapter':'azure'})
+            retain_read_capture(agent,'session',read);original=read.path.read_bytes()
+            # No _run_tapes cache exists; no current-state getter can supply a replacement.
+            agent.get=lambda *_:self.fail('must not reconstruct the original return')
+            result=seal_read_stage(agent,'session')
+            self.assertEqual(result,{'status':'SEALED','tape_sha256':journal.sha(original)})
+            self.assertEqual(read.path.read_bytes(),original)
+            read.path.write_bytes(original+b' ')
+            with self.assertRaisesRegex(journal.TapeError,'READ_CAPTURE_HASH_DIFFERS'):
+                seal_read_stage(agent,'session')
+
+    def test_cold_pointer_cannot_substitute_a_different_session(self):
+        with tempfile.TemporaryDirectory() as folder,patch('investigator.run_recording.ROOT',Path(folder)):
+            root=Path(folder)/'.local/process-tapes';root.mkdir(parents=True)
+            read=journal.Tape(root/'reads.json',bootstrap())
+            read.finish({'operation':'run','error':None,'outputs':None,'status':'COMPLETED',
+                         'result':{'id':'other','status':'COMPLETED'}})
+            agent=SimpleNamespace(store=store_at(Path(folder)/'state.sqlite'),
+                                  planner_profile={'adapter':'azure'})
+            retain_read_capture(agent,'session',read)
+            with self.assertRaisesRegex(journal.TapeError,'READ_CAPTURE_SESSION_DIFFERS'):
+                seal_read_stage(agent,'session')
+
     def test_seals_actual_read_return_once_and_replays_control_without_live_cache(self):
         with tempfile.TemporaryDirectory() as folder:
             read=journal.Tape(Path(folder)/'reads.json',bootstrap())

@@ -189,7 +189,10 @@ class TapeTests(unittest.TestCase):
     def test_smart_ticket_read_stage_and_composition_replay_independently(self):
         self.exercise_process(smart_ticket=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False):
+    def test_smart_ticket_cold_resume_preserves_read_stage_and_replays_composition(self):
+        self.exercise_process(smart_ticket=True,cold_resume=True)
+
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -263,7 +266,15 @@ class TapeTests(unittest.TestCase):
                 saved=workspace.smart_intake.attach({'ticket_id':saved['ticket']['id'],
                     'revision':saved['revision'],'session_id':created['id']})
                 self.assertTrue(workspace.run_once())
+                original_capture=agent._run_tapes[created['id']]
+                if cold_resume:
+                    self.assertTrue(original_capture.finished)
+                    original_bytes=original_capture.path.read_bytes()
+                    agent._run_tapes={}
                 saved=workspace.smart_intake.finish({'ticket_id':saved['ticket']['id'],'revision':saved['revision']})
+                if cold_resume:
+                    self.assertEqual(original_capture.path.read_bytes(),original_bytes)
+                    agent._run_tapes[created['id']]=original_capture
                 self.assertEqual(saved['ticket']['state'],'FINDINGS_SHARED')
                 result=agent.get(created['id'])
             else:

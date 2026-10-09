@@ -281,8 +281,8 @@ def resolve(raw, payload):
         from .ticket_route import declared,admit
         route=declared(confirmation);admit(route)
     elif payload.get('_ticket_route') is not None:
-        from .ticket_route import from_request,admit
-        route=from_request(raw,ticket)
+        from .ticket_route import settlement,admit
+        route=settlement(raw,ticket,payload.get('_comparison_configuration'))
         if route is None or route!=payload['_ticket_route']:raise ValueError('Request comparison evidence differs')
         admit(route)
     figures=[i for i in extraction['figures'] if primary_fact(i,extraction)]

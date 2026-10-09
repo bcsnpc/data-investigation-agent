@@ -16,7 +16,31 @@ EVIDENCE_SCHEMA={'oneOf':[ticket_protocol.obj({
     'source':ticket_protocol.obj({'start':{'type':'integer','minimum':0},
         'end':{'type':'integer','minimum':1},'quote':ticket_protocol.TEXT})})
     for kind,route in [('FRESHNESS','STALE'),('SOURCE_CORRECTNESS','APPLICATION')]]}
-SCHEMA={'oneOf':[USER_SCHEMA,EVIDENCE_SCHEMA]}
+DEFAULT_VERSION='ticket-comparison-policy-v1'
+DEFAULT_SCHEMA=ticket_protocol.obj({'version':{'const':DEFAULT_VERSION},
+    'route':{'enum':['APPLICATION','STALE','LOOKS_WRONG']},
+    'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
+    'configuration_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'}})
+SCHEMA={'oneOf':[USER_SCHEMA,EVIDENCE_SCHEMA,DEFAULT_SCHEMA]}
+
+
+def settlement(raw, ticket, configuration):
+    """Configured defaults are policy evidence, never a fabricated user choice."""
+    from .ticket_clarification import settings
+    from .intake_extraction import spans
+    config=settings(configuration)
+    if 'COMPARISON' in config['must_confirm']:return None
+    explicit=from_request(raw,ticket)
+    if explicit is not None:return explicit
+    extraction=spans(raw,ticket,figure_occurrences=True)
+    if extraction['comparisons'] or raw['kind'] in ('BUSINESS_MEANING','TEMPORAL_COMPARISON'):return None
+    # A default may fill absence, never replace a named comparator or intent.
+    if re.search(r'\b(application|source|stale|freshness|refresh|lag|another|other report|second report)\b',
+                 extraction['primary']['quote'],re.I):return None
+    route=config['default_route']
+    if route not in ('APPLICATION','STALE','LOOKS_WRONG'):return None
+    return validate({'version':DEFAULT_VERSION,'route':route,'request_hash':digest(ticket),
+                     'configuration_hash':digest(config)},ticket)
 
 
 def from_request(raw, ticket):
@@ -49,6 +73,10 @@ def declared(confirmation):
 
 def validate(value, ticket=None):
     Draft202012Validator(SCHEMA).validate(value)
+    if value['version']==DEFAULT_VERSION:
+        if ticket is not None and value['request_hash']!=digest(ticket):
+            raise ValueError('Comparison policy belongs to a different ticket')
+        return value
     if value['version']==EVIDENCE_VERSION:
         if ticket is not None:
             source=value['source']

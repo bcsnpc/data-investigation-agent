@@ -57,11 +57,13 @@ class SmartIntake:
                 current=protocol.settle_from_intake(current,source['proposal'],payload,
                     must_confirm=self.configuration['must_confirm'])
             if raw and 'COMPARISON' not in current['settled'] and 'COMPARISON' not in self.configuration['must_confirm']:
-                from .ticket_route import from_request
-                try:route=from_request(raw,source['text'])
+                from .ticket_route import settlement
+                try:route=settlement(raw,source['text'],self.configuration)
                 except ValueError:route=None
                 if route is not None:
-                    current['settled']['COMPARISON']={'authority':'EXPLICIT_REQUEST_COMPARISON','value':route}
+                    current['settled']['COMPARISON']={'authority':
+                        'ESTATE_COMPARISON_POLICY' if route['version']=='ticket-comparison-policy-v1' else
+                        'EXPLICIT_REQUEST_COMPARISON','value':route}
                     current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
                         'detail':{'settled_from_request':copy.deepcopy(route)}})
             offered=ticket_clarification.batch(current,source,payload,self.configuration)
@@ -108,7 +110,7 @@ class SmartIntake:
             # Scope is established by the original validator, never by the
             # completeness of the UI's answer batch alone.
             adopted=self.workspace.intake._adopt_ticket(ticket['id'],saved['revision'],
-                'smart-scope:'+ticket['id']+':'+str(saved['revision']))
+                'smart-scope:'+ticket['id']+':'+str(saved['revision']),comparison_configuration=self.configuration)
         except (ValueError,Conflict) as exc:
             return self.tickets.update(ticket['id'],saved['revision'],lambda t:
                 protocol.transition(t,'HELD',actor='AGENT',detail={'reason':str(exc)}))
