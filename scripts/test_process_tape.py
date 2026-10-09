@@ -186,7 +186,10 @@ class TapeTests(unittest.TestCase):
     def test_fixture_state_and_selected_context_are_recorded_validated_and_replayed(self):
         self.exercise_process(pinned_context=True,fixture_state=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False):
+    def test_smart_ticket_read_stage_and_composition_replay_independently(self):
+        self.exercise_process(smart_ticket=True)
+
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -239,14 +242,33 @@ class TapeTests(unittest.TestCase):
                 patch.dict('os.environ',{'AZURE_OPENAI_ENDPOINT':'https://synthetic.openai.azure.com',
                     'AZURE_OPENAI_DEPLOYMENT':'synthetic','AZURE_OPENAI_API_KEY':'synthetic-key-for-test'}),
                 patch('httpx.HTTPTransport',return_value=httpx.MockTransport(provider))):
-            intake=workspace.intake.resolve({'text':'Does Total reflect source entries?',
-                'request_key':'synthetic-process-ticket','parent_id':None})
+            if smart_ticket:
+                saved=workspace.smart_intake.submit({'text':'Does Total reflect source entries?',
+                    'request_key':'synthetic-process-ticket'})
+                question=saved['ticket']['questions'][0]
+                choice=next(c for c in question['choices'] if c['label']=='The application')
+                saved=workspace.smart_intake.reply({'ticket_id':saved['ticket']['id'],
+                    'revision':saved['revision'],'answers':[{'question_id':question['id'],'choice_id':choice['id']}],
+                    'request_key':'synthetic-reply'})
+                intake=workspace.intake.get(saved['ticket']['intake_id'])
+            else:
+                intake=workspace.intake.resolve({'text':'Does Total reflect source entries?',
+                    'request_key':'synthetic-process-ticket','parent_id':None})
             self.assertEqual(intake['status'],'PROPOSED',intake)
             scope=intake['proposal']
             preview=workspace.preview({**{k:scope[k] for k in ('model_id','measure_id','filters','dimension_ids')},
                 'symptom':intake['text'],'predecessor':None,'intake_id':intake['id']})
-            created=agent.create(preview['envelope'],'synthetic-process')
-            agent.run(created['id']);result=agent.synthesize(created['id'])
+            if smart_ticket:
+                created=workspace.start(preview['id'])
+                saved=workspace.smart_intake.attach({'ticket_id':saved['ticket']['id'],
+                    'revision':saved['revision'],'session_id':created['id']})
+                self.assertTrue(workspace.run_once())
+                saved=workspace.smart_intake.finish({'ticket_id':saved['ticket']['id'],'revision':saved['revision']})
+                self.assertEqual(saved['ticket']['state'],'FINDINGS_SHARED')
+                result=agent.get(created['id'])
+            else:
+                created=agent.create(preview['envelope'],'synthetic-process')
+                agent.run(created['id']);result=agent.synthesize(created['id'])
         self.assertEqual(result['synthesis']['status'],'COMPLETED')
         if failed_composition:
             self.assertEqual(result['synthesis']['calls'],2)
@@ -260,6 +282,20 @@ class TapeTests(unittest.TestCase):
         if fixture_state:self.assertEqual(tape.bootstrap['state']['fixture_state'],helper.store.acceptance_fixture_state)
         sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
         from acceptance.unknown_domain.process_replay import replay
+        if smart_ticket:
+            paths=list((helper.fixture.root/'.local/process-tapes').glob('*/tape.json'))
+            self.assertEqual(len(paths),5)
+            operations=[]
+            with tempfile.TemporaryDirectory() as output:
+                for n,path in enumerate(paths):
+                    actual=replay(path,Path(output)/str(n),native_transport=lambda request:
+                        bounded_call('synthetic-native',request,lambda:self.fail('No live transport in replay')))
+                    self.assertTrue(actual['matched'],actual)
+                    self.assertEqual(actual['network_requests'],0)
+                    operations.append(actual['operations'])
+            self.assertIn(['preview','create','run'],operations)
+            self.assertIn(['ticket_finish'],operations)
+            return
         with tempfile.TemporaryDirectory() as output:
             actual=replay(tape.path,Path(output)/'replay',native_transport=lambda request:
                 bounded_call('synthetic-native',request,lambda:self.fail('No live transport in replay')))

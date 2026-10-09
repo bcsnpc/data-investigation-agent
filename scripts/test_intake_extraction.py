@@ -25,6 +25,24 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_validated_retry_is_authority_without_overwriting_failed_response(self):
+        bad={'measures':[{'quote':'invented'}]};good={'measures':[{'quote':'Quantity'}]}
+        source={'retained_extraction':bad,'proposal':{'extracted_ticket':{'response':good}}}
+        chosen=extraction.retained_response(source)
+        self.assertEqual(chosen,good);chosen['measures'].clear()
+        self.assertEqual(source['retained_extraction'],bad)
+        self.assertEqual(source['proposal']['extracted_ticket']['response'],good)
+        self.assertEqual(extraction.retained_response({'retained_extraction':bad,'proposal':None}),bad)
+
+    def test_current_resolver_supplies_recordable_nonverbatim_retry_evidence(self):
+        from investigator.question_intake import QuoteNotFound
+        raw,payload=fixture('In Report, Quantity differs.',measures=[{'quote':'Invented metric','role':'PRIMARY'}])
+        with patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'retained'})):
+            with self.assertRaises(QuoteNotFound) as caught:extraction.azure_resolve(payload)
+        self.assertEqual(caught.exception.repair,{'field':caught.exception.field,
+            'quote':'Invented metric','response':raw})
+        self.assertEqual(caught.exception.retained_extraction,raw)
+
     def test_independent_extraction_does_not_add_planner_context(self):
         raw,payload=fixture('In Report, Global card Quantity differs.',
             visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])

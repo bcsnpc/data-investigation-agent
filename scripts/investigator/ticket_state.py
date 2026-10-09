@@ -48,6 +48,11 @@ class Tickets:
     def get(self, identity):
         with self.store.connect() as db:return self._get(db,identity)
 
+    def list(self):
+        with self.store.connect() as db:
+            identities=[r[0] for r in db.execute('SELECT id FROM smart_tickets ORDER BY rowid DESC LIMIT 40')]
+            return {'tickets':[self._get(db,identity) for identity in identities]}
+
     def update(self, identity, revision, operation):
         """Optimistic revision check prevents replies applying to newer choices."""
         with self.store.connect() as db:

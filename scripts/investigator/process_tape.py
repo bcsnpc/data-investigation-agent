@@ -19,6 +19,7 @@ SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v
 PINNED_VERSIONS = SUPPORTED_VERSIONS - {'bounded-worker-tape-v1'}
 ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4',VERSION))
 SMART_VERSIONS = frozenset((VERSION,))
+SMART_OPERATIONS=frozenset(('ticket_submit','ticket_reply','ticket_attach','ticket_share','ticket_close','ticket_respond','ticket_finish'))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
     'BUDGET','BUDGET_INPUT','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
@@ -87,7 +88,7 @@ class Tape:
             self.bootstrap=bootstrap
             self.engine_revision=None
             if self.version in PINNED_VERSIONS and (bootstrap['entry_point']=='workspace'
-                    or self.version in ('bounded-worker-tape-v4',VERSION) and bootstrap['entry_point'] in ('code_reader','code_verifier')):
+                    or self.version in ('bounded-worker-tape-v4','bounded-worker-tape-v5') and bootstrap['entry_point'] in ('code_reader','code_verifier')):
                 import subprocess
                 root=Path(__file__).resolve().parents[2]
                 from .runtime import FINGERPRINT_TRANSPORTS
@@ -161,7 +162,7 @@ class Tape:
             raise TapeError('TAPE_BOOTSTRAP_IDENTITY')
         if any(not isinstance(bootstrap[key],dict) for key in ('config','profile','state')) or not isinstance(bootstrap['usage_policy'],(dict,type(None))):
             raise TapeError('TAPE_BOOTSTRAP_CONFIGURATION')
-        if self.version in ('bounded-worker-tape-v4',VERSION) and bootstrap['entry_point'] in ('code_reader','code_verifier') and self.engine_revision is None:
+        if self.version in ('bounded-worker-tape-v4','bounded-worker-tape-v5') and bootstrap['entry_point'] in ('code_reader','code_verifier') and self.engine_revision is None:
             raise TapeError('TAPE_ENGINE_REVISION_MISSING')
         if bootstrap['entry_point']=='workspace':
             if self.version in PINNED_VERSIONS and self.engine_revision is None:
@@ -175,6 +176,14 @@ class Tape:
                 from jsonschema.exceptions import ValidationError
                 try:intake_settings(state['smart_intake'])
                 except (ValueError,TypeError,ValidationError):raise TapeError('TAPE_SMART_INTAKE_CONFIGURATION')
+            if 'smart_ownership' in state:
+                if self.version not in SMART_VERSIONS:raise TapeError('TAPE_SMART_INTAKE_VERSION')
+                fields.add('smart_ownership')
+                from .ticket_protocol import OWNERSHIP
+                from jsonschema import Draft202012Validator
+                from jsonschema.exceptions import ValidationError
+                try:Draft202012Validator(OWNERSHIP).validate(state['smart_ownership'])
+                except ValidationError:raise TapeError('TAPE_SMART_OWNERSHIP_CONFIGURATION')
             if 'fixture_state' in state:
                 fields.add('fixture_state')
                 binding=state['fixture_state']
@@ -258,7 +267,7 @@ class Tape:
             elif kind=='OPERATION_START':
                 body=json.loads(validate_event(event,event['ordinal']))
                 supported={'intake','preview','create','run','synthesize'}
-                if self.version in SMART_VERSIONS:supported.update(('ticket_submit','ticket_reply'))
+                if self.version in SMART_VERSIONS:supported.update(SMART_OPERATIONS)
                 if bootstrap['entry_point']=='workspace' and (set(body)!={'name','args','kwargs'} or body['name'] not in supported or not isinstance(body['args'],list) or not isinstance(body['kwargs'],dict)):
                     raise TapeError('TAPE_OPERATION_FIELDS')
                 operations.append(body['name'])

@@ -36,7 +36,7 @@ def batch(ticket, source, payload, configuration=None):
     Unknown precision remains a refusal in the original consumer.
     """
     config=settings(configuration)
-    raw=source.get('retained_extraction') or (source.get('proposal') or {}).get('extracted_ticket',{}).get('response')
+    raw=intake_extraction.retained_response(source)
     if raw is None:return {'questions':[],'values':{},'blocked':'NO_RETAINED_EXTRACTION'}
     try:extraction=intake_extraction.spans(raw,payload['text'],figure_occurrences=True)
     except ValueError as exc:return {'questions':[],'values':{},'blocked':str(exc)}

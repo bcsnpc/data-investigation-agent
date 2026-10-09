@@ -32,7 +32,7 @@ PHASES.update(CONTEXT_OBSERVED='Reading definitions and relationships',PROPOSAL_
 
 
 class Workspace:
-    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000, intake_configuration=None):
+    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000, intake_configuration=None, ownership_configuration=None):
         if type(dynamic_read_limit) is not int or not DYNAMIC_READ_BOUNDS[0]<=dynamic_read_limit<=DYNAMIC_READ_BOUNDS[1]:
             raise ValueError('Dynamic read limit must be 1–15')
         if type(dynamic_input_limit) is not int or not DYNAMIC_INPUT_BOUNDS[0]<=dynamic_input_limit<=DYNAMIC_INPUT_BOUNDS[1]:
@@ -40,6 +40,7 @@ class Workspace:
         self.dynamic_input_limit=dynamic_input_limit
         self.dynamic_read_limit=dynamic_read_limit
         self.intake_configuration=intake_configuration
+        self.ownership_configuration=ownership_configuration
         self.agent, self.store, self.clock = agent, agent.store, lambda:tape_clock('workspace',clock)
         self.execution_enabled = execution_enabled
         if execution_enabled and (agent.planner is None or agent.governor is None):
@@ -65,7 +66,7 @@ class Workspace:
     def smart_intake(self):
         if not hasattr(self,'_smart_intake'):
             from .smart_intake import SmartIntake
-            self._smart_intake=SmartIntake(self,self.intake_configuration)
+            self._smart_intake=SmartIntake(self,self.intake_configuration,self.ownership_configuration)
         return self._smart_intake
 
     def models(self):

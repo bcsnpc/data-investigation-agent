@@ -595,7 +595,7 @@ class Intake:
         if ticket['state'] not in ('NEW','CLARIFYING') or ticket['questions'] or set(ticket['settled'])!=set(ticket_protocol.FIELDS):
             raise Conflict('Ticket still has unresolved consequential fields')
         source=self.get(ticket['source_intake'])
-        raw=source.get('retained_extraction') or (source.get('proposal') or {}).get('extracted_ticket',{}).get('response')
+        raw=intake_extraction.retained_response(source)
         if raw is None:raise Conflict('Ticket has no retained extraction; no substitute was generated')
         catalog=snapshot(self.workspace)
         if digest(catalog)!=source['catalog_hash']:raise Conflict('Ticket metadata changed; clarify against current evidence')

@@ -68,7 +68,7 @@ def operation(name):
                     # own contract. This bootstrap extends the process path.
                     return method(owner,*args,**kwargs)
             if tape is None:
-                if name not in ('intake','preview','create','ticket_submit','ticket_reply'):
+                if name not in {'intake','preview','create',*journal.SMART_OPERATIONS}:
                     raise journal.TapeError('LIVE_RUN_MISSING_RECORDING_BOOTSTRAP')
                 root=ROOT/'.local/process-tapes'/str(fresh_id())
                 root.mkdir(parents=True,exist_ok=False)
@@ -89,8 +89,9 @@ def operation(name):
                     bootstrap['state']['context_pins']=agent.store.context_pins
                 if getattr(agent.store,'acceptance_fixture_state',None):
                     bootstrap['state']['fixture_state']=agent.store.acceptance_fixture_state
-                if name in ('ticket_submit','ticket_reply'):
+                if name in journal.SMART_OPERATIONS:
                     bootstrap['state']['smart_intake']=owner.configuration
+                    bootstrap['state']['smart_ownership']=owner.ownership
                 tape=journal.Tape(root/'tape.json',bootstrap)
             error=None;result=None
             with journal.active(tape):
@@ -116,7 +117,14 @@ def operation(name):
                             from .onboarding import digest
                             tapes[digest(result['envelope'])]=tape
                         elif name=='create':tapes[result['id']]=tape
-                    terminal=error is not None or name in ('synthesize','ticket_submit','ticket_reply') or name=='intake' and result.get('status')!='PROPOSED'
+                        elif name=='run' and error is None:
+                            # Retain the actual return, not a later reconstruction
+                            # containing synthesis or ticket-state changes.
+                            tape.pending_read_final=json.loads(journal.bytes_of({
+                                'operation':'run','error':None,
+                                'outputs':result.get('refusal_outputs'),
+                                'status':result.get('status'),'result':result}))
+                    terminal=error is not None or name=='synthesize' or name in journal.SMART_OPERATIONS or name=='intake' and result.get('status')!='PROPOSED'
                     if terminal:
                         final={'operation':name,'error':type(error).__name__ if error else None,
                                'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs'),
@@ -128,6 +136,32 @@ def operation(name):
                     if trace_error is not None:raise trace_error
         return invoke
     return decorate
+
+
+def seal_read_stage(agent, identity):
+    """Close the old read capture before a separate ticket composition capture.
+
+    The closure is a recorded control input. Replay consumes its hash; values
+    and claims still come from the separately hash-checked bootstrap database.
+    A missing live capture refuses instead of fabricating the run's return.
+    """
+    def seal():
+        prior=getattr(agent,'_run_tapes',{}).get(str(identity))
+        enabled=agent.planner_profile.get('adapter') not in (None,'injected') or os.environ.get('INVESTIGATOR_RECORD_RUNS')=='1'
+        if prior is None:
+            if enabled:return {'status':'UNAVAILABLE','reason':'READ_STAGE_CAPTURE_UNAVAILABLE'}
+            return {'status':'RECORDING_DISABLED'}
+        if not prior.finished:
+            pending=getattr(prior,'pending_read_final',None)
+            if pending is None or pending['result']['id']!=identity:
+                return {'status':'UNAVAILABLE','reason':'READ_STAGE_RETURN_UNAVAILABLE'}
+            prior.finish(pending)
+        return {'status':'SEALED','tape_sha256':journal.sha(prior.path.read_bytes())}
+    closure=journal.value('CONFIGURATION','ticket_read_stage_closure',seal)
+    if closure['status']=='UNAVAILABLE':
+        from .onboarding import Conflict
+        raise Conflict(closure['reason'])
+    return closure
 
 
 def attach_trace_footer(agent,identity,tape,result):

@@ -6,6 +6,12 @@ from jsonschema import Draft202012Validator
 from . import question_kind, reported_figure, proposal_limits, numeral_roles, intake_triage, intake_rules
 
 VERSION = 'ticket-spans-v2'
+
+
+def retained_response(source):
+    """Prefer the consumer-validated proposal over a superseded failed attempt."""
+    approved=(source.get('proposal') or {}).get('extracted_ticket',{}).get('response')
+    return copy.deepcopy(approved if approved is not None else source.get('retained_extraction'))
 REQUEST_CAP = 20000
 NAME_CAP = 4000
 QUOTE = {'type':'string','minLength':1,'maxLength':proposal_limits.INTAKE_QUOTE}
@@ -468,6 +474,11 @@ def azure_resolve(payload):
     raw,metadata=_generate(payload)
     try:return resolve(raw,payload),metadata
     except Exception as exc:
+        from .question_intake import QuoteNotFound, FigureQuoteAmbiguous
+        if isinstance(exc,QuoteNotFound):
+            exc.repair={'field':exc.field,'quote':exc.quote,'response':copy.deepcopy(raw)}
+        elif isinstance(exc,FigureQuoteAmbiguous):
+            exc.repair={'quote':exc.quote,'occurrences':exc.occurrences,'response':copy.deepcopy(raw)}
         try:_failure(exc,metadata)
         except Exception as failure:
             failure.retained_extraction=copy.deepcopy(raw)

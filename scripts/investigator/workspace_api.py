@@ -82,6 +82,20 @@ def create_app(workspace, token, port=8776):
                     fields(body, []); result = workspace.screenshots.hold(parts[0])
                 else: return respond('404 Not Found', {'error': 'Not found'})
             elif path == '/api/workspace/screenshot-reviews' and method == 'POST': result = workspace.screenshots.review(body)
+            elif path == '/api/workspace/tickets':
+                result = workspace.smart_intake.submit(body) if method == 'POST' else workspace.smart_intake.tickets.list()
+            elif path.startswith('/api/workspace/tickets/'):
+                parts=path[len('/api/workspace/tickets/'):].split('/')
+                if len(parts)==1 and method=='GET':result=workspace.smart_intake.tickets.get(parts[0])
+                elif len(parts)==2 and parts[1]=='reply' and method=='POST':
+                    fields(body,['revision','answers','request_key'])
+                    result=workspace.smart_intake.reply({'ticket_id':parts[0],**body})
+                elif len(parts)==2 and parts[1] in ('attach','share','finish','close','respond') and method=='POST':
+                    expected=['revision']+(['session_id'] if parts[1]=='attach' else ['kind','text'] if parts[1]=='respond' else [])
+                    fields(body,expected)
+                    method_name=parts[1]
+                    result=getattr(workspace.smart_intake,method_name)({'ticket_id':parts[0],**body})
+                else:return respond('404 Not Found',{'error':'Not found'})
             elif path == '/api/workspace/questions' and method == 'POST':
                 result = workspace.intake.resolve(body)
             elif path == '/api/workspace/questions' and method == 'GET':
