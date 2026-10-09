@@ -74,12 +74,14 @@ class SmartIntake:
                     'reason':source['refusal_reason'],'capability':'UNIMPLEMENTED_ROUTE'}))
         def plan(current):
             comparison_conflict=False
+            from .ticket_inputs import active_request
+            request=active_request(saved)
             if source.get('proposal'):
                 current=protocol.settle_from_intake(current,source['proposal'],payload,
                     must_confirm=self.configuration['must_confirm'])
-            if saved['request'].get('structured') and 'COMPARISON' not in current['settled']:
+            if request.get('structured') and 'COMPARISON' not in current['settled']:
                 from .ticket_inputs import route as input_route
-                declared=input_route(saved['request'],source['text'],self.configuration)
+                declared=input_route(request,source['text'],self.configuration)
                 if declared is not None:
                     from .ticket_route import settlement
                     try:explicit=settlement(raw,source['text'],self.configuration) if raw else None
@@ -93,7 +95,7 @@ class SmartIntake:
                     else:
                         current['settled']['COMPARISON']={'authority':'USER_SUPPLIED_INPUT','value':declared}
                         current['history'].append({'from':current['state'],'to':current['state'],'actor':'USER',
-                            'detail':{'supplied_comparison':declared,'source_input_hash':digest(saved['request'])}})
+                            'detail':{'supplied_comparison':declared,'source_input_hash':digest(request)}})
             if raw and not comparison_conflict and 'COMPARISON' not in current['settled'] and 'COMPARISON' not in self.configuration['must_confirm']:
                 from .ticket_route import settlement
                 try:route=settlement(raw,source['text'],self.configuration)
@@ -253,10 +255,11 @@ class SmartIntake:
     @operation('ticket_respond')
     def respond(self, request):
         self._guard();fields(request,['ticket_id','revision','kind','text'])
-        text(request['text'],2000)
-        if request['kind'] not in ('DISPUTE','REQUEST_CHANGE','EXPLAIN_RECORDED_RESULT'):
+        text(request['text'],protocol.TEXT['maxLength'])
+        if request['kind'] not in ('DISPUTE','REQUEST_CHANGE','EXPLAIN_RECORDED_RESULT','RESTATE_QUESTION'):
             raise ValueError('Unknown findings reply kind')
         saved=self.tickets.get(request['ticket_id']);ticket=saved['ticket']
+        if request['kind']=='RESTATE_QUESTION':return self._restate(saved,request)
         if ticket['state'] not in ('FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'):
             raise Conflict('Ticket is not awaiting a findings reply')
         if 'findings' not in ticket and ticket.get('handoff',{}).get('kind')=='BUSINESS_VALIDATION':
@@ -280,6 +283,47 @@ class SmartIntake:
             if current['state']==kind and current.get('handoff'):return current
             return self._handoff(current,kind)
         return self.tickets.update(ticket['id'],request['revision'],reply)
+
+    def _restate(self, saved, request):
+        """User changes the question; preserve old evidence without its authority."""
+        ticket=saved['ticket']
+        if saved['revision']!=request['revision']:raise Conflict('Ticket changed before the new question')
+        if ticket['state'] not in ('NEW','CLARIFYING','FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF','HELD'):
+            raise Conflict('Ticket is not waiting for a changed question')
+        from .ticket_inputs import active_request,document
+        changed={'text':request['text'],'request_key':'smart-restatement:'+ticket['id']+':'+str(saved['revision'])}
+        derived=document(changed)
+        prior_input=copy.deepcopy(active_request(saved))
+        scoped=('source_intake','intake_id','session_id','findings','handoff','retained_answer',
+                'input_document','choice_context','choice_values','clarification_offers','reply_keys','unavailable_fields')
+        def change(current):
+            archived={'revision':saved['revision'],'input_request':prior_input,
+                'confirmed':copy.deepcopy(current['confirmed']),'settled':copy.deepcopy(current['settled']),
+                'questions':copy.deepcopy(current['questions']),'rounds':current['rounds']}
+            for field in scoped:
+                if field in current:archived[field]=current.pop(field)
+            current.setdefault('question_versions',[]).append(archived)
+            current['prior_clarifying_rounds']=current.get('prior_clarifying_rounds',0)+current['rounds']
+            current.update(current_input=changed,questions=[],confirmed={},settled={},rounds=0)
+            return protocol.transition(current,'CLARIFYING',actor='USER',detail={
+                'reply_kind':'RESTATE_QUESTION','input_hash':digest(changed),
+                'prior_question_revision':saved['revision'],'prior_evidence_use':'HISTORICAL_ONLY'})
+        updated=self.tickets.update(ticket['id'],saved['revision'],change)
+        try:
+            source=self.workspace.intake.resolve({'text':derived['text'],
+                'request_key':changed['request_key'],'parent_id':None},retain_extraction=True)
+        except Exception as exc:
+            return self.tickets.update(ticket['id'],updated['revision'],lambda current:
+                protocol.transition(current,'HELD',actor='AGENT',detail={
+                    'reason':'RESTATEMENT_INTAKE_FAILED','exception_type':type(exc).__name__,'message':str(exc),
+                    'source_request_key':changed['request_key']}))
+        def attach(current):
+            current['source_intake']=source['id']
+            current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
+                'detail':{'intake_id':source['id'],'status':source['status'],'new_question':True}})
+            return current
+        updated=self.tickets.update(ticket['id'],updated['revision'],attach)
+        return self._plan(updated,source)
 
     def _handoff(self, current, kind):
         from .ticket_findings import package

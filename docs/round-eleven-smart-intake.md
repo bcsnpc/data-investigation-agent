@@ -636,3 +636,38 @@ does not settle unknown targets or internal two-cell comparisons. No missing
 seal information was volunteered by the simulator. The current quality gate
 is still incomplete, #423 draft, freezes invalid, no live run allowed. Original
 v5 audit/scores and every earlier failed or interrupted result are untouched.
+
+Dated full checkpoint, 2026-10-09 America/Chicago: unchanged source4565752
+completed 2,620 tests in611.109s, OK. The earlier interrupted optional-input
+log remains untouched. This pass covers the optional-input, unavailable-reply,
+score-history and content-subject changes, not the later restatement work.
+
+Dated changed-question lifecycle checkpoint: RESTATE_QUESTION reopens the same
+ticket from a waiting clarification, hold, findings or handoff. The original
+request is unchanged. Prior questions, choices, confirmations, scope, findings,
+handoff and source/session identifiers are archived under the question version;
+the existing evidence addresses remain. Current request authority comes only
+from the new user text and its fresh, governed extraction. Old figure/cell and
+comparison authority cannot resolve a new ambiguous ask; an old run cannot be
+attached as the new investigation. Current-value reuse remains forbidden.
+
+If extraction fails, the ticket holds with its exception type/message and the
+source request key, retaining the prior version. Stale revisions refuse before
+calling a model. The workspace provides this reply outside the findings block,
+so a waiting clarification can also change its question. No delivery is sent,
+no ticket is agent-closed, and no estate read is started by this action.
+98 focused controller/input/confirmation/intake tests passed; JavaScript syntax
+and whitespace checks passed. The committed-source capture/replay is pending.
+One synthetic test initially supplied a mismatch record without a mismatch ask;
+its ticket was corrected. A second failure exposed retained choice_context,
+which is now archived and removed from active authority, with a permanent test.
+
+DECIDED WITHOUT REVIEW: treat an explicit user restatement as a new question
+version on the same ticket, with a fresh clarification allowance and the prior
+question's count retained in prior_clarifying_rounds. Reject both borrowing old
+choices and forcing a new ticket. This does not reset model/read budgets or
+change diagnostic caps. An explanation of the old result still returns only
+qualified historical evidence. General link-context integration, aliases and
+the current 68-ticket quality/lifecycle gate remain incomplete; #423 draft,
+freezes invalid. Zero new real provider calls/estate requests, scopes, secrets,
+fixtures or golden changes.

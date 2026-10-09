@@ -627,11 +627,12 @@ class Intake:
         if proof is not None:payload['_ticket_confirmation']=proof
         settled=ticket['settled']['COMPARISON']
         if settled.get('authority')=='USER_SUPPLIED_INPUT':
-            from .ticket_inputs import route as input_route
-            route=input_route(saved['request'],source['text'],comparison_configuration)
+            from .ticket_inputs import route as input_route, active_request
+            input_request=active_request(saved)
+            route=input_route(input_request,source['text'],comparison_configuration)
             if route is None or route!=settled['value']:raise Conflict('Supplied comparison evidence changed')
             payload['_ticket_route']=route
-            payload['_input_request']=copy.deepcopy(saved['request'])
+            payload['_input_request']=copy.deepcopy(input_request)
             payload['_comparison_configuration']=comparison_configuration
         if settled.get('authority') in ('EXPLICIT_REQUEST_COMPARISON','ESTATE_COMPARISON_POLICY'):
             from .ticket_route import settlement

@@ -18,6 +18,13 @@ ROUTE_SCHEMA=protocol.obj({'version':{'const':ROUTE_VERSION},
                           'source_input_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'}})
 
 
+def active_request(saved):
+    """The original envelope stays immutable; a user restatement is explicit."""
+    request=saved['ticket'].get('current_input',saved['request'])
+    document(request)
+    return request
+
+
 def document(request):
     """Keep user strings unchanged; labels are explicit document structure.
 

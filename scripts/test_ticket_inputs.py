@@ -4,6 +4,14 @@ from investigator.onboarding import digest
 
 
 class TicketInputTests(unittest.TestCase):
+    def test_current_question_does_not_change_or_borrow_the_original_optional_fields(self):
+        original={'text':'Old question','request_key':'one','structured':{'comparison':'APPLICATION'}}
+        changed={'text':'New question','request_key':'two'}
+        saved={'request':original,'ticket':{'current_input':changed}}
+        self.assertEqual(ticket_inputs.active_request(saved),changed)
+        self.assertEqual(saved['request'],original)
+        self.assertIsNone(ticket_inputs.route(ticket_inputs.active_request(saved),changed['text'],None))
+
     def test_plain_text_keeps_its_original_bytes(self):
         request={'text':'Original question.','request_key':'one'}
         self.assertEqual(ticket_inputs.document(request)['text'],request['text'])

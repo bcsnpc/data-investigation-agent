@@ -9,6 +9,80 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_changed_question_can_resume_from_a_waiting_clarification(self):
+        waiting=self.submit();old_questions=copy.deepcopy(waiting['ticket']['questions'])
+        self.raw,self.payload=fixture('In Report, Global card Quantity shows 25 and looks wrong.',
+            figures=[{'quote':'25','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        changed=self.controller.respond({'ticket_id':waiting['ticket']['id'],'revision':waiting['revision'],
+            'kind':'RESTATE_QUESTION','text':self.payload['text']})
+        self.assertEqual(changed['ticket']['state'],'CLARIFYING')
+        self.assertEqual([q['field'] for q in changed['ticket']['questions']],['COMPARISON'])
+        self.assertEqual(changed['ticket']['question_versions'][0]['questions'],old_questions)
+        self.assertEqual(changed['ticket']['prior_clarifying_rounds'],1)
+        self.assertEqual(changed['ticket']['rounds'],1)
+        self.assertEqual(self.calls,2);self.h.native.assert_not_called()
+
+    def test_old_confirmed_cell_cannot_settle_a_new_ambiguous_target(self):
+        shared=self.findings()
+        self.raw,self.payload=fixture('In Report, Quantity shows 25 and looks wrong.',
+            figures=[{'quote':'25','role':'PRIMARY','state':'NUMBER','precision_quote':None}])
+        changed=self.controller.respond({'ticket_id':shared['ticket']['id'],'revision':shared['revision'],
+            'kind':'RESTATE_QUESTION','text':self.payload['text']})
+        self.assertEqual(changed['ticket']['state'],'CLARIFYING')
+        self.assertEqual(changed['ticket']['confirmed'],{})
+        self.assertNotIn('NUMBER',changed['ticket']['settled'])
+        self.assertNotIn('intake_id',changed['ticket'])
+        self.assertIn('NUMBER',[q['field'] for q in changed['ticket']['questions']])
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
+    def test_user_changed_question_keeps_the_ticket_and_history_but_not_old_scope_authority(self):
+        shared=self.findings();before=copy.deepcopy(shared)
+        self.raw,self.payload=fixture('In Report, Global card Quantity shows 25 and looks wrong.',
+            figures=[{'quote':'25','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        changed=self.controller.respond({'ticket_id':shared['ticket']['id'],'revision':shared['revision'],
+            'kind':'RESTATE_QUESTION','text':self.payload['text']})
+        self.assertEqual(changed['ticket']['id'],shared['ticket']['id'])
+        self.assertEqual(changed['request'],before['request'])
+        self.assertEqual(changed['ticket']['current_input']['text'],self.payload['text'])
+        self.assertEqual(changed['ticket']['state'],'CLARIFYING',changed['ticket']['history'])
+        self.assertEqual([q['field'] for q in changed['ticket']['questions']],['COMPARISON'])
+        self.assertNotIn('findings',changed['ticket']);self.assertNotIn('intake_id',changed['ticket'])
+        self.assertEqual(changed['ticket']['confirmed'],{})
+        archived=changed['ticket']['question_versions'][0]
+        self.assertEqual(archived['findings'],before['ticket']['findings'])
+        self.assertEqual(archived['intake_id'],before['ticket']['intake_id'])
+        self.assertEqual(archived['confirmed'],before['ticket']['confirmed'])
+        self.assertEqual(changed['ticket']['evidence'],before['ticket']['evidence'])
+        self.assertEqual(self.calls,2)
+        resumed=self.controller.reply(self.reply(changed))
+        proposal=self.workspace.intake.get(resumed['ticket']['intake_id'])['proposal']
+        self.assertEqual(proposal['reported_figure']['value'],'25')
+        self.assertEqual(proposal['target_visual']['target_id'],'card')
+        self.assertEqual(self.calls,2);self.h.native.assert_not_called();self.h.source.assert_not_called()
+        with self.assertRaises(Conflict):self.controller.attach({
+            'ticket_id':resumed['ticket']['id'],'revision':resumed['revision'],'session_id':'session'})
+
+    def test_changed_question_rejects_a_stale_revision_before_calling_the_model(self):
+        shared=self.findings()
+        with self.assertRaises(Conflict):self.controller.respond({
+            'ticket_id':shared['ticket']['id'],'revision':shared['revision']-1,
+            'kind':'RESTATE_QUESTION','text':'New question'})
+        self.assertEqual(self.calls,1)
+
+    def test_changed_question_retains_a_provider_failure_without_reusing_old_findings(self):
+        shared=self.findings()
+        with patch.object(self.workspace.intake,'resolve',side_effect=RuntimeError('retained synthetic failure')):
+            changed=self.controller.respond({'ticket_id':shared['ticket']['id'],'revision':shared['revision'],
+                'kind':'RESTATE_QUESTION','text':'New question'})
+        self.assertEqual(changed['ticket']['state'],'HELD')
+        self.assertEqual(changed['ticket']['history'][-1]['detail']['message'],'retained synthetic failure')
+        self.assertEqual(changed['ticket']['history'][-1]['detail']['exception_type'],'RuntimeError')
+        self.assertNotIn('findings',changed['ticket']);self.assertNotIn('intake_id',changed['ticket'])
+        self.assertEqual(len(changed['ticket']['question_versions']),1)
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_named_visual_content_does_not_ask_for_an_unmentioned_external_comparison(self):
         self.raw,self.payload=fixture('In Report, what does Global card Quantity show?',kind='VISUAL_CONTENT',
             triage='BUSINESS_QUESTION:NONE',visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])

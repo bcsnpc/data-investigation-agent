@@ -216,7 +216,10 @@ function showSmartTicket(saved){
   $('smart-ticket-reuse').hidden=!ticket.retained_answer;
   $('smart-ticket-reuse').textContent=ticket.retained_answer?.qualification||'';
   $('smart-ticket-close').disabled=!['FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'].includes(ticket.state);
-  $('smart-ticket-followup').hidden=!['FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'].includes(ticket.state);
+  $('smart-ticket-followup').hidden=!['NEW','CLARIFYING','HELD','FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'].includes(ticket.state);
+  const canDiscussFindings=Boolean(ticket.findings)||ticket.handoff?.kind==='BUSINESS_VALIDATION';
+  for(const choice of $('smart-ticket-reply-kind').options)choice.disabled=choice.value!=='RESTATE_QUESTION'&&!canDiscussFindings;
+  if($('smart-ticket-reply-kind').selectedOptions[0]?.disabled)$('smart-ticket-reply-kind').value='RESTATE_QUESTION';
 }
 async function smartTicketHistory(){const epoch=generation;const data=await api('tickets');if(epoch!==generation)return;
   $('smart-ticket-history').replaceChildren(...data.tickets.map(saved=>{const button=node('button',saved.request.text.slice(0,100)+' · '+saved.ticket.state.replaceAll('_',' '));button.type='button';button.addEventListener('click',guard(async()=>{const requestEpoch=++smartTicketGeneration;const value=await api('tickets/'+encodeURIComponent(saved.ticket.id));if(requestEpoch===smartTicketGeneration)showSmartTicket(value);}));return button;}));}
