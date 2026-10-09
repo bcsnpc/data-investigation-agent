@@ -247,4 +247,3 @@ conflicts requiring clarification. Link integration and the Phase A quality
 gate remain incomplete. #423 draft; all prior engine freezes invalidated.
 Zero new provider calls or estate reads; goldens, scopes and budgets unchanged.
 See [Round Eleven evidence](round-eleven-smart-intake.md).
-

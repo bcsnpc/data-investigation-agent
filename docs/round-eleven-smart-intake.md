@@ -565,3 +565,13 @@ in 13.875s, including independently replayed submission/unavailability/resume
 captures and preserved legacy-v4 replay, with zero network requests. The full
 2,591-test pass applies only to cc8b0d7, not this newer optional-input source.
 
+Dated follow-up, 2026-10-09 UTC: committed 0cd56b2's optional-input synthetic
+submission replayed independently with matched=true and zero network requests.
+It retains the original structured request and admits its comparison only via
+ticket-comparison-input-v1. This is capture/replay verification, not a fresh
+model-quality result. Full regression on this engine source is running.
+
+Verification correction: the initial final documentation patch introduced three
+extra blank lines at EOF, so its final diff check reported whitespace warnings.
+Those lines are removed in this follow-up; the earlier clean check had preceded
+that documentation patch. No code or evidence validation changed.

@@ -677,4 +677,3 @@ and comparison provenance are retained and revalidated; conflicting text/input
 comparisons ask rather than choosing precedence. Phase A remains incomplete,
 #423 draft, freezes invalid; zero new provider/estate requests or budget, scope,
 secret or golden changes. See docs/round-eleven-smart-intake.md.
-
