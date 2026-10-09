@@ -67,6 +67,36 @@ measure through its path; HORIZONTAL only for an explicit comparison of distinct
 A request without a mismatch allegation uses BUSINESS_QUESTION:NONE. This is interpretation of
 the primary ask and its named referent, not a keyword search of unrelated footers or comparators.'''
 INSTRUCTIONS += intake_rules.SUBJECT_INSTRUCTIONS
+INSTRUCTIONS += """
+Classification distinguishes the requested work, not the words on a footer:
+METRIC_COMPONENTS asks a numerator, denominator, contribution or component breakdown.
+DERIVED_CALCULATION asks how a single derived calculation is computed.
+TRANSFORMATION_MECHANISM asks what implemented operation explains a difference.
+SOURCE_CORRECTNESS asks source records or the implemented treatment of a named record/reason;
+a mixed question may leave authoritative business meaning unanswered.
+EXPECTED_BEHAVIOR asks observed behaviour against an explicit expectation, not authoritative intent.
+FIGURE_DIFFERENCE asks to locate a discrepancy; VISUAL_CONTENT asks to reproduce a display or
+explain its declared/selected scope. FILTER_EFFECT requires an actual question about which
+restriction changes/hides results, not merely a selected context that should be explained.
+FRESHNESS asks currency; TEMPORAL_COMPARISON asks to compare two times.
+The primary quote includes the named referent and its setup, not only the final question.
+Do not put the setup that identifies that primary referent into contexts. Contexts contain
+unrelated background, footers and other topics. A title/page in that setup remains PRIMARY.
+Selections are only user-selected/chosen/filtered values, never categories merely asked about.
+For a global hint, quote the actual request containing global, not the report name.
+Comparing a scoped cell to the same measure's global value is VERTICAL, not HORIZONTAL.
+HORIZONTAL means distinct measures or reports. A comparator remains excluded from target choice.
+"""
+# Dev-only few-shot: reproduction setup was mislabelled as unrelated context.
+# This is ticket interpretation, not a claim that its authored figure is correct.
+INSTRUCTIONS += """
+Example ticket: In Round Ten Visual Variety, on page Global card, the Handled Quantity shows 8765. Can the saved declared context reproduce that figure?
+Example spans: primary is the complete two-sentence ticket; contexts=[]; comparisons=[];
+kind=VISUAL_CONTENT; triage=BUSINESS_QUESTION:NONE; measures quote Handled Quantity as PRIMARY;
+figures quote 8765 as PRIMARY NUMBER with no precision_quote; report quotes Round Ten Visual Variety;
+page quotes Global card; there is no independently stated visual title, so visuals=[].
+No result is inferred by this example. A reported figure never chooses a target.
+"""
 
 def wire(payload):
     names = sorted({x['name'] for m in payload['models'] for key in ('measures','columns')

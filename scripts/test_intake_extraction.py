@@ -25,6 +25,20 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_dev_guidance_keeps_setup_and_same_measure_comparator_roles_distinct(self):
+        self.assertIn('same measure',extraction.INSTRUCTIONS)
+        self.assertIn('Selections are only user-selected',extraction.INSTRUCTIONS)
+        self.assertIn('contexts=[]',extraction.INSTRUCTIONS)
+        ticket='In Report on Overview, Quantity shows 16. Can the saved declared context reproduce that figure?'
+        raw,payload=fixture(ticket,kind='VISUAL_CONTENT',triage='BUSINESS_QUESTION:NONE',
+            pages=[{'quote':'Overview','role':'PRIMARY'}],figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}])
+        payload['models'][0]['visuals'][0].update(page_id='card-page',page_names=['Overview'])
+        payload['models'][0]['visuals'][1].update(page_id='other-page',page_names=['Detail'])
+        value=extraction.resolve(raw,payload)
+        self.assertEqual(value['target_visual']['target_id'],'card')
+        self.assertEqual(value['reported_figure']['value'],'16')
+        validate(value,payload)
+
     def test_non_measure_title_span_cannot_hide_the_named_metric(self):
         ticket='In Report, Global card Quantity differs.'
         raw,payload=fixture(ticket,measures=[{'quote':'Global','role':'PRIMARY'},{'quote':'Quantity','role':'CONTEXT'}],visuals=[{'quote':'Global card','role':'PRIMARY','form':'CARD'}])
