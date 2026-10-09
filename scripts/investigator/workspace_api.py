@@ -61,6 +61,9 @@ def create_app(workspace, token, port=8776):
             elif path == '/api/workspace/context/search' and method == 'POST':
                 from .context_search import search
                 result = search(workspace.store,body)
+            elif path == '/api/workspace/report-layouts' and method == 'POST':
+                from .adapters.report_layout import preview
+                result=preview(workspace,body)
             elif path == '/api/workspace/context/asset' and method == 'POST':
                 from .context_search import get_asset
                 fields(body,['asset_id']);result=get_asset(workspace.store,body['asset_id'])
@@ -89,6 +92,9 @@ def create_app(workspace, token, port=8776):
             elif path.startswith('/api/workspace/tickets/'):
                 parts=path[len('/api/workspace/tickets/'):].split('/')
                 if len(parts)==1 and method=='GET':result=workspace.smart_intake.tickets.get(parts[0])
+                elif len(parts)==2 and parts[1]=='layout' and method=='GET':
+                    from .adapters.report_layout import choices
+                    result=choices(workspace,parts[0])
                 elif len(parts)==2 and parts[1]=='reply' and method=='POST':
                     fields(body,['revision','answers','request_key'])
                     result=workspace.smart_intake.reply({'ticket_id':parts[0],**body})

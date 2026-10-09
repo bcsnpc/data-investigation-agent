@@ -200,3 +200,48 @@ Recommended action: Ask the responsible business owner whether this behavior is 
 
 Previous runs: same ticket bf82037e-9f78-4bd9-89e2-7cd09889840d.
 ```
+
+
+Dated Round Eleven C demo continuation, 2026-10-09:
+
+Start from the repository with one command:
+
+```powershell
+python scripts/serve_investigator_workspace.py --manifest .local/round-ten-20261007/part-b/rebuild-remaining/estate-inferred.json --live --open-browser
+```
+
+The launcher creates an ephemeral in-memory loopback key if no existing local
+key was supplied. It passes it in the browser fragment; the frontend removes
+the fragment before authentication and does not save the key in browser storage.
+The key is never logged or written to the project secret store. Existing estate
+credentials and permissions are unchanged.
+
+A pasted retained report link previews page geometry before extraction. Offered
+target choices show that geometry with the candidate highlighted; clicking the
+label uses the existing revisioned confirmation API. Preview cannot submit a
+scope, choose a visual, retrieve values, or execute any estate read. The real
+pinned rehearsal context supplied one page/seven positioned visuals, context
+95583877-28b4-42cb-ac60-b286f5971e8c, with no network requests. Geometry and
+identifiers remain in the adapter/UI; the intake provider payload is unchanged.
+
+This is a definition-layout schematic, not an image crop of live report values.
+Actual screenshot crops require a supplied screenshot and an established pixel
+mapping; this change does not invent either. That part of the requested browser
+experience remains incomplete. Existing screenshot upload/review APIs remain.
+
+Validation: four geometry/authority tests, one ephemeral-launcher test and25
+workspace API tests passed; JavaScript syntax passed. The available browser
+returned `Browser is not available: chrome`. Therefore no actual browser
+click-through or fresh screenshot end-to-end claim is made. One-command opening
+is tested with a mocked browser, not observed on this computer.
+
+No new model calls or estate requests. Today's restored model budget is already
+exhausted, so a new live ticket is blocked until the next UTC window. The prior
+63710273 fixture-link run remains historical evidence only. Ordinary rolling
+requests22/3,000, Round Ten pot1,035/1,500, reserve95 unchanged.
+
+DECIDED WITHOUT REVIEW: use a separately labelled retained-layout schematic,
+without placing geometry in extraction prompts or treating a preview click as
+scope authority. Rejected fabricated screenshots and fabricated displayed values.
+Current freeze invalidated; #423 stays draft. Billing construction follows the
+human's explicit move-on decision, without a passed intake-quality claim.

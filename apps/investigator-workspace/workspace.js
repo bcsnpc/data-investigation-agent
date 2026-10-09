@@ -204,6 +204,7 @@ function showSmartTicket(saved){
     form.append(group);
   }
   if((ticket.state==='CLARIFYING'||ticket.state==='HELD'&&ticket.history.at(-1)?.detail?.unavailable_fields)&&ticket.questions.length){const button=node('button','Send these answers');button.type='submit';form.append(button);}
+  if(ticket.questions.length)loadChoiceLayouts(saved);
   $('smart-ticket-transitions').replaceChildren(...ticket.history.map(entry=>node('li',(entry.actor==='USER'?'You':entry.actor==='OWNER'?'Owner':'Investigator')+': '+(entry.to||'NEW').replaceAll('_',' '))));
   $('smart-ticket-review').hidden=!ticket.intake_id||Boolean(ticket.session_id);
   $('smart-ticket-finish').hidden=ticket.state!=='INVESTIGATING';
@@ -259,3 +260,29 @@ $('smart-ticket-review').addEventListener('click',guard(async()=>{if(!smartTicke
 $('smart-ticket-finish').addEventListener('click',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/finish',{revision:saved.revision});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();}));
 $('smart-ticket-close').addEventListener('click',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/close',{revision:saved.revision});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();}));
 $('smart-ticket-followup').addEventListener('submit',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/respond',{revision:saved.revision,kind:$('smart-ticket-reply-kind').value,text:$('smart-ticket-reply-text').value});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();}));
+
+function layoutDrawing(page,selected){
+  const drawing=node('div',undefined,'report-layout');drawing.setAttribute('role','img');
+  drawing.setAttribute('aria-label',page.name+': retained layout, no live values');
+  for(const visual of page.visuals){const box=node('span',visual.name,'layout-visual'+(visual.target_id===selected?' selected':''));
+    for(const [property,value] of [['left',visual.box.x],['top',visual.box.y],['width',visual.box.width],['height',visual.box.height]])box.style[property]=(100*value)+'%';
+    drawing.append(box);
+  }return drawing;
+}
+async function loadChoiceLayouts(saved){
+  try{const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/layout');
+    if(smartTicket!==saved)return;
+    for(const label of $('smart-ticket-answers').querySelectorAll('label')){const radio=label.querySelector('input');const match=result.choices[radio?.value];
+      if(match)label.append(layoutDrawing(match.page,match.visual.target_id),node('small',result.qualification));}
+  }catch(error){if(smartTicket===saved)$('smart-ticket-answers').append(node('p','Layout preview unavailable: '+error.message,'muted'));}
+}
+const linkPreview=node('div');$('smart-ticket-report-link').after(linkPreview);let layoutGeneration=0;
+$('smart-ticket-report-link').addEventListener('change',guard(async()=>{
+  const epoch=++layoutGeneration;linkPreview.replaceChildren();const link=$('smart-ticket-report-link').value;if(!link||!key)return;
+  const result=await api('report-layouts',{report_link:link});if(epoch!==layoutGeneration)return;
+  linkPreview.append(node('p',result.qualification,'muted'));
+  for(const page of result.pages)linkPreview.append(node('h4',page.name),layoutDrawing(page,null));
+}));
+// The fragment is never sent to the server or saved in history/storage.
+const initialAccess=new URLSearchParams(location.hash.slice(1)).get('access');
+if(initialAccess){window.history.replaceState(null,'',location.pathname);$('access-key').value=initialAccess;$('login-form').requestSubmit();}
