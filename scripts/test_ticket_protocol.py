@@ -81,9 +81,12 @@ class TicketProtocolTests(unittest.TestCase):
         ticket=protocol.retain(ticket,context='context',scope={'filter':'North'},cell='card',receipt={'id':'receipt'})
         ticket=protocol.transition(ticket,'FINDINGS_SHARED',actor='AGENT',detail={})
         ticket=protocol.transition(ticket,'INVESTIGATING',actor='USER',detail={'follow_up':True})
-        self.assertEqual(protocol.reuse(ticket,context='context',scope={'filter':'North'},cell='card'),{'id':'receipt'})
+        reused=protocol.reuse(ticket,context='context',scope={'filter':'North'},cell='card',purpose='EXPLAIN_RECORDED_RESULT')
+        self.assertEqual(reused['receipt'],{'id':'receipt'})
+        self.assertIn('not a new reading',reused['qualification'])
+        self.assertIsNone(protocol.reuse(ticket,context='context',scope={'filter':'North'},cell='card',purpose='CURRENT_VALUE'))
         for context,scope,cell in [('changed',{'filter':'North'},'card'),('context',{'filter':'South'},'card'),('context',{'filter':'North'},'other')]:
-            self.assertIsNone(protocol.reuse(ticket,context=context,scope=scope,cell=cell))
+            self.assertIsNone(protocol.reuse(ticket,context=context,scope=scope,cell=cell,purpose='EXPLAIN_RECORDED_RESULT'))
         with self.assertRaises(ValueError):
             protocol.retain(ticket,context='context',scope={'filter':'North'},cell='card',receipt={'id':'replacement'})
 
@@ -99,6 +102,14 @@ class TicketProtocolTests(unittest.TestCase):
             routed=protocol.transition(ticket,state,actor='AGENT',detail={'owner':'configured-owner'})
             self.assertEqual(routed['history'][-2]['detail'],{'receipt':'receipt'})
             self.assertEqual(routed['state'],state)
+
+    def test_owner_closure_requires_the_named_handoff_owner(self):
+        ticket=protocol.transition(self.ready(),'FINDINGS_SHARED',actor='AGENT',detail={})
+        ticket=protocol.transition(ticket,'BUSINESS_VALIDATION',actor='AGENT',detail={'owner':'business-owner'})
+        for detail in ({},{'owner':'someone-else'}):
+            with self.assertRaisesRegex(ValueError,'named handoff owner'):
+                protocol.transition(ticket,'CLOSED',actor='OWNER',detail=detail)
+        self.assertEqual(protocol.transition(ticket,'CLOSED',actor='OWNER',detail={'owner':'business-owner'})['state'],'CLOSED')
 
 
 if __name__=='__main__':unittest.main()

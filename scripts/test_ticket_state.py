@@ -49,8 +49,8 @@ class TicketStateTests(unittest.TestCase):
         identity=self.tickets.submit({'text':'Question'},'key')['ticket']['id']
         self.tickets.update(identity,0,lambda t:protocol.retain(t,context='pin',scope='North',cell='card',receipt={'id':'sealed'}))
         ticket=Tickets(self.store).get(identity)['ticket']
-        self.assertEqual(protocol.reuse(ticket,context='pin',scope='North',cell='card'),{'id':'sealed'})
-        self.assertIsNone(protocol.reuse(ticket,context='pin',scope='South',cell='card'))
+        self.assertEqual(protocol.reuse(ticket,context='pin',scope='North',cell='card',purpose='EXPLAIN_RECORDED_RESULT')['receipt'],{'id':'sealed'})
+        self.assertIsNone(protocol.reuse(ticket,context='pin',scope='South',cell='card',purpose='EXPLAIN_RECORDED_RESULT'))
 
     def test_projected_ticket_restart_keeps_seals_and_writes_no_raw_value(self):
         from investigator.privacy_capture import Capture

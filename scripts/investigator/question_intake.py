@@ -458,8 +458,11 @@ def validate(value, payload):
     if 'extracted_ticket' in value:
         from .intake_extraction import resolve, VERSION as extraction_version
         evidence=value['extracted_ticket']
-        fields(evidence,['version','response','spans','resolution_evidence'])
-        if evidence['version']!=extraction_version:raise ValueError('Unknown extraction protocol')
+        confirmed=evidence.get('version')=='ticket-spans-confirmed-v1'
+        fields(evidence,['version','response','spans','resolution_evidence']+(['confirmation'] if confirmed else []))
+        if evidence['version'] not in (extraction_version,'ticket-spans-confirmed-v1'):raise ValueError('Unknown extraction protocol')
+        if confirmed and evidence['confirmation']!=payload.get('_ticket_confirmation'):
+            raise ValueError('Model response cannot supply user confirmation authority')
         expected=resolve(evidence['response'],payload)
         for key,item in expected.items():
             if value.get(key)!=item:raise ValueError('Resolved extraction differs: '+key)

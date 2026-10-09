@@ -179,11 +179,20 @@ def resolve(raw, payload):
     from . import report_scope, numeral_roles, intake_rules
     from .visual_target import TargetUnresolved
     extraction=spans(raw,payload['text']); ticket=payload['text']
+    confirmation=payload.get('_ticket_confirmation')
+    confirmed={}
+    if confirmation is not None:
+        from .intake_confirmation import values
+        confirmed=values(confirmation,ticket=ticket,models=payload['models'])
+    number=confirmed.get('NUMBER')
     figures=[i for i in extraction['figures'] if primary_fact(i,extraction)]
     # Roles are model judgments, not proof that two reported values belong
     # to different cells. Conserve reported candidates before resolving scope.
     # Clarification may settle their referents; extraction cannot erase one.
-    if len(extraction['figures']) > 1:
+    if number and number['figure_source'] is not None:
+        figures=[i for i in extraction['figures'] if i['quote']==number['figure_source']]
+        if len(figures)!=1:raise ValueError('Confirmed figure is not one retained extraction candidate')
+    elif len(extraction['figures']) > 1:
         reported_figure.from_candidates([i['quote'] for i in extraction['figures']],ticket)
     # Business intent has no executable technical target. Decide it before
     # catalog resolution; a figure-bearing mixed ticket remains technical.
@@ -362,6 +371,11 @@ def resolve(raw, payload):
                 mode='UNGROUPED';mode_source=hint['quote'];basis.append('cell_mode')
             else:
                 matched=[v for v in matched if v.get('form')==form];basis.append('visual_form')
+        if number:
+            matched=[v for v in candidates if v['target_id']==number['target_id']]
+            if len(matched)!=1:raise TargetUnresolved(candidates,'Confirmed target differs from the resolved report/measure.')
+            mode=number['mode'];source=mode_source=None
+            basis=['report','measure','user_confirmation']
         if len(matched)!=1:
             raise TargetUnresolved(matched,'Primary-question evidence does not uniquely select a visual.',
                                    'TARGET_AMBIGUOUS' if len(matched)>1 else 'TARGET_UNRESOLVED')
@@ -372,6 +386,14 @@ def resolve(raw, payload):
             'source':source,'mode_source':mode_source,'mode':mode,'resolution':'RESOLVED',
             'match_basis':{'matched':sorted(set(basis)),'absent':['reported_value_in_inventory','selection_in_inventory']}}
     value['extracted_ticket']={'version':VERSION,'response':copy.deepcopy(raw),'spans':extraction,'resolution_evidence':audit}
+    if confirmation is not None:
+        # A proof may not silently disappear because its bridge is unfinished.
+        # Report/page and route confirmation need their own consumer wiring;
+        # target/figure confirmation is the only integration established here.
+        if set(confirmed)-{'NUMBER'}:
+            raise ValueError('CONFIRMATION_BRIDGE_UNIMPLEMENTED: '+', '.join(sorted(set(confirmed)-{'NUMBER'})))
+        value['extracted_ticket']['version']='ticket-spans-confirmed-v1'
+        value['extracted_ticket']['confirmation']=copy.deepcopy(confirmation)
     return value
 
 def _generate(payload):

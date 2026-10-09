@@ -103,6 +103,12 @@ def transition(ticket, state, *, actor, detail):
     if state not in allowed.get(before,set()):raise ValueError('Invalid ticket transition')
     if actor not in ('AGENT','USER','OWNER'):raise ValueError('Unknown ticket actor')
     if state=='CLOSED' and actor=='AGENT':raise ValueError('The agent cannot close a ticket')
+    if state=='CLOSED' and actor=='OWNER':
+        owner=detail.get('owner') if isinstance(detail,dict) else None
+        assigned={e['detail'].get('owner') for e in ticket['history']
+                  if e['to'] in ('BUSINESS_VALIDATION','TECH_HANDOFF')}
+        if not isinstance(owner,str) or not owner or owner not in assigned:
+            raise ValueError('Only the named handoff owner can close as OWNER')
     if state=='INVESTIGATING' and (ticket['questions'] or set(ticket['settled'])!=set(FIELDS)):
         raise ValueError('Every consequential field must be settled before investigation')
     result=copy.deepcopy(ticket)
@@ -174,5 +180,17 @@ def retain(ticket, *, context, scope, cell, receipt):
     return result
 
 
-def reuse(ticket, *, context, scope, cell):
-    return copy.deepcopy(ticket['evidence'].get(evidence_address(context,scope,cell)))
+def reuse(ticket, *, context, scope, cell, purpose):
+    """A retained receipt cannot answer a new question about current values.
+
+    Callers must name the purpose; historical use carries its qualification in
+    the returned contract, rather than presenting an old receipt as a fresh read.
+    """
+    if purpose not in ('EXPLAIN_RECORDED_RESULT','DEFINITION','CURRENT_VALUE'):
+        raise ValueError('Unknown evidence reuse purpose')
+    if purpose=='CURRENT_VALUE':return None
+    receipt=ticket['evidence'].get(evidence_address(context,scope,cell))
+    if receipt is None:return None
+    return {'receipt':copy.deepcopy(receipt),'purpose':purpose,
+            'evidence_use':'RETAINED_EVIDENCE',
+            'qualification':'This describes retained evidence, not a new reading of current data.'}

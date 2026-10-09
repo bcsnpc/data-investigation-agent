@@ -20,6 +20,21 @@ The split was evaluated in earlier rounds; it is not newly unseen evidence.
   resolution to succeed. The legacy resolver remains available; both entry points
   send identical provider requests. A missing target does not discard a paid
   extraction or itself trigger a second model call.
+- A recorded target/figure choice now has a consumer resolution path. Choice
+  meanings are retained before asking; every offered choice has exactly one
+  value. The proof requires the actual retained user answer and original request
+  hash. Resolution preserves the original extraction and all competing figures;
+  a model response cannot introduce confirmation authority. Missing keyed-cell
+  restrictions still refuse. This is an internal bridge, not an exposed API.
+  Report/page and comparison bridges remain unfinished and explicitly refuse;
+  their confirmations cannot silently disappear.
+- The adapter parses shared report links and a bounded, faithful `eq`/`in`
+  conjunction subset. Apostrophes, native escaped identifiers and literal types
+  are retained. Unsupported syntax, incomplete conjunctions and unestablished
+  bookmark/filter precedence refuse the whole declaration. Bookmarks remain
+  references until resolved from collected evidence. Parsing is not binding or
+  execution and does not claim the user's current selection. Native syntax is
+  documented in [Microsoft Learn's URL filter contract](https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-url-filters).
 - The consumer owns the three clarification fields, offered-choice identities,
   normalized highlight bounds, lifecycle states and user-only closure rule.
   Answers bind the exact retained question hash; answering is not dispatch.
@@ -28,6 +43,9 @@ The split was evaluated in earlier rounds; it is not newly unseen evidence.
   and confirmations; an old reply cannot answer a newer batch.
 - Reuse addresses include context, scope and cell. A changed address misses the
   cache, and an existing receipt cannot be overwritten through the retain path.
+  Reuse now requires its purpose: a request for current values never uses a
+  historical receipt. Historical explanations carry a retained-evidence
+  qualification. Named-owner closure requires the owner from the handoff.
 - Optional closed `intake` and `ownership` manifest sections cover ordered route
   choices, confirmation fields, maximum rounds, screenshot retention using the
   estate recording policy, vocabulary aliases and ownership selectors. Existing
@@ -36,7 +54,9 @@ The split was evaluated in earlier rounds; it is not newly unseen evidence.
   evaluation entry points remain available. This prevents the unplanned duplicate
   provider calls observed in Round Ten F.
 
-These components are not yet connected to the resolver, workspace API or UI.
+The target/figure bridge is tested through the existing intake validator. The
+controller, report/page and comparison bridges, governed dispatch, workspace API
+and UI remain unfinished.
 There has been no 68-ticket evaluation, screenshot export or live investigation
 in this round. No success rate is claimed.
 
@@ -58,6 +78,13 @@ in this round. No success rate is claimed.
    explicit unsupported forms and the compiler imposes faithful-scope conditions.
    Candidate evaluation must report unavailable forms and retain their errors;
    a matching value is only a candidate, never target-selection authority.
+5. A follow-up about today's values is a new observation, even if its scope and
+   cell equal an old receipt's address. Rejected alternative: regard an equal
+   address as evidence of currency. Historical evidence can explain an earlier
+   result; it cannot establish what a surface serves now.
+6. Refuse a URL declaration when its unsupported part or bookmark/filter
+   precedence cannot be represented faithfully. Rejected alternative: keep the
+   supported prefix or select a precedence without evidence.
 
 ## Next integration and evaluation
 
@@ -87,8 +114,11 @@ failed with 13 errors and one failure while the source was dirty and being
 edited: tape creation refused `TAPE_UNCOMMITTED_ENGINE`, and source changes
 invalidated engine-pinned operations. This run is retained in
 `.local/round-eleven-regression.log`; it is not a clean regression result.
-Commit and freeze the source before repeating that check. Do not weaken either
-the committed-tape or engine-change refusal to make the suite pass.
+Dated clean result: after committing and freezing `4175ced`, all 2,493 tests
+passed in 450.659 seconds. The failed run above remains unchanged. Subsequent
+confirmation/link/closure/reuse changes passed 142 targeted tests; their clean
+full regression is pending. Do not weaken the committed-tape or engine-change
+refusal to make the suite pass.
 
 Phase B exports use existing identities and the unchanged estate pot; denied
 exports are retained failures, never a reason to elevate. Phase C is a design
