@@ -6,6 +6,13 @@ from test_intake_extraction import fixture
 
 
 class TicketClarificationTests(unittest.TestCase):
+    def test_invalid_retained_wire_record_refuses_instead_of_crashing(self):
+        raw,payload=fixture('In Report, Quantity shows 16.')
+        raw['kind']='UNDECLARED_KIND'
+        offer=planner.batch(protocol.new('ticket'),{'retained_extraction':raw},payload)
+        self.assertEqual(offer['blocked'],'RETAINED_EXTRACTION_SCHEMA_INVALID')
+        self.assertEqual(offer['questions'],[]);self.assertEqual(offer['values'],{})
+
     def test_keyed_offer_uses_typed_primary_selection_not_a_mention(self):
         raw,payload=fixture('In Report, warehouse North Quantity shows 16.',
             figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}],

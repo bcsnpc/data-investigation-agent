@@ -25,6 +25,14 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_resolved_evidence_has_precedence_without_erasing_failed_attempt(self):
+        bad={'measures':[{'quote':'Invented'}]};good={'measures':[{'quote':'Quantity'}]}
+        source={'retained_extraction':bad,'resolver_extraction':good,'proposal':None}
+        chosen=extraction.retained_response(source)
+        self.assertEqual(chosen,good);chosen['measures'].clear()
+        self.assertEqual(source['retained_extraction'],bad)
+        self.assertEqual(source['resolver_extraction'],good)
+
     def test_model_freshness_ask_does_not_select_an_unnamed_report_visual(self):
         raw,payload=fixture('In Report, Quantity may be stale. Check freshness.',kind='FRESHNESS')
         value=extraction.resolve(raw,payload);validate(value,payload)

@@ -692,8 +692,15 @@ class Intake:
                 try:decision,metadata=self.resolver(current)
                 except Exception as exc:
                     if retain_extraction and getattr(exc,'retained_extraction',None) is not None:
-                        body['retained_extraction']=copy.deepcopy(exc.retained_extraction)
+                        body.setdefault('retained_extraction',copy.deepcopy(exc.retained_extraction))
                     raise
+                if retain_extraction:
+                    raw=decision.get('extracted_ticket',{}).get('response')
+                    if raw is not None:
+                        # Extraction and admission are separate facts. Preserve
+                        # evidence even when a later consumer refuses the route.
+                        body.setdefault('retained_extraction',copy.deepcopy(raw))
+                        body['resolver_extraction']=copy.deepcopy(raw)
                 try:intake_rules.validate(decision,current['text'])
                 except intake_rules.RuleViolation as exc:
                     exc.provider_metadata=metadata

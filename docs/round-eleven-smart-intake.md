@@ -345,3 +345,63 @@ DECIDED WITHOUT REVIEW: preserve model-level freshness/source questions without
 asking users to invent a visual, rejecting a blanket relaxation for other kinds.
 Route intent-only tickets using definition/owner evidence while explicitly
 refusing technical findings, rejecting invented end-to-end consistency.
+
+
+## Fresh development text checkpoint, 2026-10-09 UTC
+
+Frozen source fda65b8 completed all40 dev tickets:50 real provider calls,48
+individual questions (mean1.20),11 adopted intake scopes, zero estate requests.
+Every case has a capture and an append-only ledger row, including refusals.
+The28 held records were not tuned or evaluated in this round; they were already
+evaluated in Round Ten, so their historical exposure is disclosed.
+
+| Class | Tickets | Adopted | Questions | Mean questions | Model calls |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| family | 26 | 10 | 33 | 1.27 | 33 |
+| question | 3 | 1 | 4 | 1.33 | 5 |
+| refusal | 7 | 0 | 8 | 1.14 | 8 |
+| visual | 4 | 0 | 3 | 0.75 | 4 |
+
+This is exploratory development evidence, not a full quality score. Seven adopted
+records match every observed golden field except the runner's omitted nominated
+kind. The runner also omits final refused-intake records and uses a conservative,
+incomplete report/page answer simulator. Consequently full structured accuracy,
+correct-refusal coverage and harmful-error rate are ungraded. The two no-figure
+freshness admissions differ from unchanged historical target-ambiguity goldens;
+this is a declared model-start change, not an amended expectation. Both D
+admissions carry an extra grouping dimension compared with their sealed records;
+target, figure and selected filter match, but this is not a full structured pass.
+Do not use eleven admissions as eleven correct answers.
+
+Private evidence: .local/round-eleven/fresh-dev-v2/{plan.json,results.json,
+audit-score.json} and each case's audit.tape.json. Prior attempts remain unchanged.
+Reservations increased300->350 calls,4,674,051->5,299,181 input characters,
+450,000->525,000 output tokens. Thus50 calls reserved625,130 input characters;
+today's8,000,000 input limit and600 call limit are unchanged. Estate pot remains
+1,013/1,500 with95 reserved; rolling ordinary usage was0/3,000 at the final
+read through normal window expiry, with no reset. Investigation cap12 unchanged.
+
+The exploration found successful extractor responses discarded when a later
+consumer route gate refused. Extraction now persists independently of admission;
+its latest successful resolver response is distinguished from the first failed
+attempt and revalidated before any use. Known UNIMPLEMENTED_ROUTE refusals do
+not reopen irrelevant visual/comparison questions. Invalid retained wire-schema
+evidence produces RETAINED_EXTRACTION_SCHEMA_INVALID rather than escaping as a
+controller crash.130 focused intake/clarification tests passed, including original
+wrong-cell, competing-figure and comparison referent guards. The preceding clean
+5ae814c full regression passed2,573 tests; this newer source has not yet earned
+that full result.
+
+Visual QA is pending: connected-surface inventory was empty and opening the
+in-app browser returned `Browser is not available: iab`. No UI or export result
+is inferred from that. Phase A is incomplete, #423 stays draft, prior freezes
+invalid. URLs/structured fields, aliases, changed-question frames, the corrected
+68-case evaluator and the acceptance gate remain pending. No screenshot,
+OTHER_REPORT implementation, live family, rebuild or billing run occurred.
+
+DECIDED WITHOUT REVIEW: retain successful extraction separately from admission,
+rejecting a second model call solely to recover discarded evidence. Preserve
+unimplemented-route refusals instead of asking a user to repair an engine gap.
+Treat the first fresh40-case pass as exploratory and repair its scorer before
+claiming quality; rejected treating adopted records as full matches or changing
+goldens to make the count improve.

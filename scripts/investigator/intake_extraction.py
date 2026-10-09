@@ -9,9 +9,15 @@ VERSION = 'ticket-spans-v2'
 
 
 def retained_response(source):
-    """Prefer the consumer-validated proposal over a superseded failed attempt."""
+    """Prefer admitted evidence, then resolved evidence, then a failed attempt.
+
+    Returning extraction evidence does not certify its admission; callers must
+    still validate it against the ticket and the consumer contract.
+    """
     approved=(source.get('proposal') or {}).get('extracted_ticket',{}).get('response')
-    return copy.deepcopy(approved if approved is not None else source.get('retained_extraction'))
+    resolved=source.get('resolver_extraction')
+    return copy.deepcopy(approved if approved is not None else
+                         resolved if resolved is not None else source.get('retained_extraction'))
 REQUEST_CAP = 20000
 NAME_CAP = 4000
 QUOTE = {'type':'string','minLength':1,'maxLength':proposal_limits.INTAKE_QUOTE}

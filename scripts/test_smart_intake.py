@@ -9,6 +9,23 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_successful_extraction_survives_later_consumer_route_refusal(self):
+        from investigator.question_kind import UnimplementedRoute
+        self.raw,self.payload=fixture('In Report, Global card Quantity is stale.',kind='FRESHNESS',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        with patch('investigator.question_intake.question_kind.intake_route',
+                   side_effect=UnimplementedRoute('A named procedure capability is unavailable.')):
+            saved=self.submit()
+        ticket=saved['ticket'];source=self.workspace.intake.get(ticket['source_intake'])
+        self.assertEqual(source['error'],'UNIMPLEMENTED_ROUTE')
+        self.assertEqual(source['resolver_extraction'],self.raw)
+        self.assertEqual(source['retained_extraction'],self.raw)
+        self.assertEqual(intake_extraction.retained_response(source),self.raw)
+        self.assertIsNone(source.get('proposal'))
+        self.assertEqual(ticket['state'],'HELD');self.assertEqual(ticket['questions'],[])
+        self.assertEqual(ticket['history'][-1]['detail']['reason'],source['refusal_reason'])
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_meaning_only_ticket_routes_to_declared_owner_without_fabricating_findings(self):
         self.raw,self.payload=fixture('In Report, Quantity: decide whether the business rule is correct.',
             kind='BUSINESS_MEANING',triage='BUSINESS_QUESTION:NONE')

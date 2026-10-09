@@ -5,7 +5,7 @@ value match. Unsupported cell addressing remains explicit rather than being
 replaced with a total. The controller must persist the offer before a reply.
 """
 import copy
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, ValidationError
 from . import ticket_protocol as protocol, intake_confirmation, intake_extraction
 from .onboarding import digest
 
@@ -71,6 +71,7 @@ def batch(ticket, source, payload, configuration=None):
     raw=intake_extraction.retained_response(source)
     if raw is None:return {'questions':[],'values':{},'blocked':'NO_RETAINED_EXTRACTION'}
     try:extraction=intake_extraction.spans(raw,payload['text'],figure_occurrences=True)
+    except ValidationError:return {'questions':[],'values':{},'blocked':'RETAINED_EXTRACTION_SCHEMA_INVALID'}
     except ValueError as exc:return {'questions':[],'values':{},'blocked':str(exc)}
     questions=[];values={}
     def add(field,label,choices):

@@ -4,6 +4,7 @@ Public replies contain only retained question/choice IDs. Scope adoption never
 calls the provider again; changed metadata or unsupported inputs refuse loudly.
 """
 import copy
+from jsonschema import ValidationError
 from .onboarding import Conflict, fields, text, digest
 from . import ticket_protocol as protocol, intake_confirmation, ticket_clarification
 from .ticket_state import Tickets
@@ -44,7 +45,8 @@ class SmartIntake:
         payload={'text':source['text'],'models':catalog['models']}
         from .onboarding import digest
         if source['catalog_hash']!=digest(catalog):raise Conflict('Ticket metadata changed before clarification')
-        raw=(source.get('proposal') or {}).get('extracted_ticket',{}).get('response') or source.get('retained_extraction')
+        from .intake_extraction import retained_response
+        raw=retained_response(source)
         if source.get('error')=='UNIMPLEMENTED_ROUTE' and raw and raw.get('kind')=='BUSINESS_MEANING':
             # Preserve the existing intent refusal; do not try to turn it into
             # a comparison merely by asking the user to select a visual.
@@ -59,6 +61,12 @@ class SmartIntake:
                 protocol.transition(current,'HELD',actor='AGENT',detail={
                     'reason':source['refusal_reason'],'route':'BUSINESS_VALIDATION',
                     'handoff_unavailable':'BUSINESS_OWNER_BINDING_UNESTABLISHED'}))
+        if source.get('error')=='UNIMPLEMENTED_ROUTE':
+            # A user answer cannot implement a missing procedure. Retain the
+            # original consumer refusal rather than asking unrelated questions.
+            return self.tickets.update(ticket['id'],saved['revision'],lambda current:
+                protocol.transition(current,'HELD',actor='AGENT',detail={
+                    'reason':source['refusal_reason'],'capability':'UNIMPLEMENTED_ROUTE'}))
         def plan(current):
             if source.get('proposal'):
                 current=protocol.settle_from_intake(current,source['proposal'],payload,
@@ -66,7 +74,7 @@ class SmartIntake:
             if raw and 'COMPARISON' not in current['settled'] and 'COMPARISON' not in self.configuration['must_confirm']:
                 from .ticket_route import settlement
                 try:route=settlement(raw,source['text'],self.configuration)
-                except ValueError:route=None
+                except (ValueError,ValidationError):route=None
                 if route is not None:
                     current['settled']['COMPARISON']={'authority':
                         'ESTATE_COMPARISON_POLICY' if route['version']=='ticket-comparison-policy-v1' else
@@ -107,7 +115,7 @@ class SmartIntake:
                 'retained_definition':model.get('business_definition',''),
                 'limits':['No value or pipeline comparison was performed.',
                           'The engine does not decide business intent or correctness.']}
-        except ValueError:return None
+        except (ValueError,ValidationError):return None
 
     @operation('ticket_reply')
     def reply(self, request):
