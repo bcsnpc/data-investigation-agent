@@ -32,7 +32,12 @@ class RequestRouteTests(unittest.TestCase):
         from investigator.ticket_clarification import DEFAULTS
         config=copy.deepcopy(DEFAULTS);config['default_route']='LOOKS_WRONG'
         raw,payload=fixture('In Report, Quantity differs from the application.')
-        self.assertIsNone(ticket_route.settlement(raw,payload['text'],config))
+        proof=ticket_route.settlement(raw,payload['text'],config)
+        self.assertEqual(proof['route'],'APPLICATION')
+        self.assertEqual(proof['version'],ticket_route.EVIDENCE_VERSION)
+        self.assertNotEqual(proof['version'],ticket_route.DEFAULT_VERSION)
+        required={**config,'must_confirm':['COMPARISON']}
+        self.assertIsNone(ticket_route.settlement(raw,payload['text'],required))
         raw,payload=fixture('In Report, Quantity looks wrong.')
         proof=ticket_route.settlement(raw,payload['text'],config)
         self.assertEqual(proof['route'],'LOOKS_WRONG')

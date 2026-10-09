@@ -94,10 +94,12 @@ class NameResolutionTests(unittest.TestCase):
         validate(value,payload)
 
     def test_columnless_selection_reaches_existing_request_contract_without_inventing_filter(self):
-        ticket='In Report, Warehouse matrix Quantity differs; I selected North.'
+        # No grouped axis declares what North means here. A value mention is
+        # still a selection request; the separate matrix tests cover exact axes.
+        ticket='In Report, Global card Quantity differs; I selected North.'
         raw,payload=fixture(ticket,
             selections=[{'quote':'I selected North','column':None,'value':'North','role':'PRIMARY'}],
-            visuals=[{'quote':'Warehouse matrix','role':'PRIMARY','form':'TITLE'}])
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
         value=extraction.resolve(raw,payload)
         self.assertEqual(value['filters'],[])
         self.assertEqual(value['selection_request']['value_source']['quote'],'North')
