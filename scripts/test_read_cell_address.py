@@ -54,6 +54,25 @@ class ReadCellAddressTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Cell identity differs'):
             declared_reproduction.validate(f,obs)
 
+    def test_refused_walk_keeps_proven_link_in_technical_evidence_only(self):
+        from investigator.refusal_synthesis import render
+        from investigator.process_receipts import refusal
+        from investigator.ticket_inputs import document
+        from investigator.onboarding import digest
+        self.scope['reported_figure']={'state':'UNSPECIFIED'}
+        result=self.run_cells()
+        request={'text':'Explain the selected row.','request_key':'link',
+                 'structured':{'report_link':'https://example.com/report/page'}}
+        derived=document(request);part=derived['provenance']['parts'][-1]
+        state={'envelope':{'symptom':derived['text'],'report_binding':{
+            'resolution_kind':'DECLARED_REFERENCE','reference':{'request_hash':digest(derived['text']),
+            'source':{'start':part['start'],'end':part['end'],'quote':request['structured']['report_link']}}}},
+            'observations':result['observations']+[refusal('WALK_REFUSED','TOOL_UNAVAILABLE','walk-stop')]}
+        outputs=render(state)
+        self.assertIn('Explain the selected row.',outputs['business_output']['explanation']['text'])
+        self.assertNotIn('https://',outputs['business_output']['explanation']['text'])
+        self.assertIn(request['structured']['report_link'],outputs['technical_output']['explanation']['text'])
+
     def test_refused_walk_delivers_validated_cell_values_without_inventing_verdict(self):
         from investigator.refusal_synthesis import render
         from investigator.process_receipts import refusal
