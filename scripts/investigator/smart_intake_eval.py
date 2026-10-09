@@ -32,10 +32,12 @@ def answer_batch(ticket, case, models):
             elif not case['should_hold'] and question['field']=='REPORT_PAGE':
                 visuals=[v for m in models for v in m.get('visuals',[])
                          if v['target_id']==expected.get('target_id')]
-                # A named target may settle its container, not supply a page
-                # the original request never named.
-                good=bool(visuals and len({v['report_id'] for v in visuals})==1 and
-                          visuals[0]['report_id']==value['report_id'] and value['page_id'] is None)
+                # The sealed target establishes its retained container. A
+                # page identifier need not have been typed by the user, but
+                # it must be the target's actual page, not any page in that
+                # report. Duplicate bindings remain unanswerable.
+                good=bool(len(visuals)==1 and visuals[0]['report_id']==value['report_id'] and
+                          value['page_id']==visuals[0].get('page_id'))
             elif question['field']=='COMPARISON':
                 text=case['text']; kind=expected.get('nominated_question_kind') or expected.get('question_kind')
                 route=None

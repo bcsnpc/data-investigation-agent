@@ -48,6 +48,30 @@ class SmartIntakeEvalTests(unittest.TestCase):
         result=answer_batch(offer('COMPARISON',[{'route':'LOOKS_WRONG'}]),c,[])
         self.assertEqual(result['answers'],[])
 
+    def test_sealed_target_supplies_its_actual_page_without_inventing_a_user_quote(self):
+        c=case();models=[{'visuals':[{'target_id':'card','report_id':'report','page_id':'native-page'}]}]
+        values=[{'report_id':'report','page_id':None},
+                {'report_id':'report','page_id':'other-page'},
+                {'report_id':'report','page_id':'native-page'}]
+        result=answer_batch(offer('REPORT_PAGE',values),c,models)
+        self.assertEqual(result['answers'],[{'question_id':'REPORT_PAGE','choice_id':'2'}])
+        self.assertEqual(c['text'],'A card shows 16.')
+
+    def test_duplicate_target_bindings_cannot_supply_a_container(self):
+        c=case();visual={'target_id':'card','report_id':'report','page_id':'page'}
+        models=[{'visuals':[copy.deepcopy(visual)]},{'visuals':[copy.deepcopy(visual)]}]
+        result=answer_batch(offer('REPORT_PAGE',[{'report_id':'report','page_id':'page'}]),c,models)
+        self.assertEqual(result['answers'],[])
+        self.assertEqual(result['abstentions'][0]['matches'],0)
+
+    def test_missing_or_held_target_cannot_supply_a_page(self):
+        c=case();models=[{'visuals':[{'target_id':'card','report_id':'report','page_id':'page'}]}]
+        choices=offer('REPORT_PAGE',[{'report_id':'report','page_id':'page'}])
+        c['should_hold']=True
+        self.assertEqual(answer_batch(choices,c,models)['answers'],[])
+        c['should_hold']=False;c['expected']['target_id']=None
+        self.assertEqual(answer_batch(choices,c,models)['answers'],[])
+
     def test_freshness_wording_can_answer_without_inventing_a_number(self):
         c=case();c['text']='Is it up to date?';c['expected']['question_kind']='FRESHNESS'
         result=answer_batch(offer('COMPARISON',[{'route':'STALE'}]),c,[])
