@@ -1,5 +1,6 @@
--- Fixture-authoring code only. Not executed or asserted to be deployed.
--- Bronze tables are Dataflow Gen2 destinations; no literal-row staging here.
+-- Published in isolated billing_serving on 2026-10-09 through publisher Script activity.
+-- Bronze tables are Pipeline Copy destinations, exposed by explicit cross-database views.
+-- No literal-row staging; the original sealed defect inventory remains unchanged.
 CREATE PROCEDURE [silver].[build_invoices]
 AS
 BEGIN

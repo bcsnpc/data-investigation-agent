@@ -1,0 +1,569 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "CreateAuditTable",
+        "type": "Script",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "linkedService": {
+          "name": "9cd1829b_7e2e_4340_8f59_fdf996033198",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com",
+              "artifactId": "9cd1829b-7e2e-4340-8f59-fdf996033198",
+              "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa"
+            }
+          }
+        },
+        "typeProperties": {
+          "database": "billing_ops",
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "CREATE TABLE [dbo].[load_run_audit] (\n [run_id] varchar(36) NOT NULL,\n [pipeline_name] varchar(36) NOT NULL,\n [status] varchar(24) NOT NULL,\n [rows_read] bigint NULL,\n [rows_written] bigint NULL,\n [accounting_state] varchar(32) NOT NULL,\n [start_time_utc] varchar(40) NOT NULL,\n [end_time_utc] varchar(40) NULL,\n [high_watermark] varchar(256) NULL\n);\n",
+              "parameters": []
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:02:00"
+        }
+      },
+      {
+        "name": "Copy_accounts",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "CreateAuditTable",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT [account_id],[account_name],CAST(source_row_version AS bigint) AS source_row_version,source_modified_at_utc FROM [app].[accounts]",
+            "queryTimeout": "00:02:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "accounts"
+              },
+              "externalReferences": {
+                "connection": "93fd5fbf-5835-4756-bc59-bbf07302f321"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "accounts"
+              },
+              "linkedService": {
+                "name": "billing_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+                    "artifactId": "1853cbbb-06d1-4ae9-b378-370007c574ba",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false,
+          "parallelCopies": 1
+        }
+      },
+      {
+        "name": "Copy_plans",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "Copy_accounts",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT [plan_id],[plan_name],[monthly_price],[included_units],CAST(source_row_version AS bigint) AS source_row_version,source_modified_at_utc FROM [app].[plans]",
+            "queryTimeout": "00:02:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "plans"
+              },
+              "externalReferences": {
+                "connection": "93fd5fbf-5835-4756-bc59-bbf07302f321"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "plans"
+              },
+              "linkedService": {
+                "name": "billing_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+                    "artifactId": "1853cbbb-06d1-4ae9-b378-370007c574ba",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false,
+          "parallelCopies": 1
+        }
+      },
+      {
+        "name": "Copy_account_plan_history",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "Copy_plans",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT [history_id],[account_id],[plan_id],[valid_from],[valid_to],CAST(source_row_version AS bigint) AS source_row_version,source_modified_at_utc FROM [app].[account_plan_history]",
+            "queryTimeout": "00:02:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "account_plan_history"
+              },
+              "externalReferences": {
+                "connection": "93fd5fbf-5835-4756-bc59-bbf07302f321"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "account_plan_history"
+              },
+              "linkedService": {
+                "name": "billing_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+                    "artifactId": "1853cbbb-06d1-4ae9-b378-370007c574ba",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false,
+          "parallelCopies": 1
+        }
+      },
+      {
+        "name": "Copy_invoices",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "Copy_account_plan_history",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT [invoice_id],[account_id],[invoice_date],[amount],[status],CAST(source_row_version AS bigint) AS source_row_version,source_modified_at_utc FROM [app].[invoices]",
+            "queryTimeout": "00:02:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "invoices"
+              },
+              "externalReferences": {
+                "connection": "93fd5fbf-5835-4756-bc59-bbf07302f321"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "invoices"
+              },
+              "linkedService": {
+                "name": "billing_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+                    "artifactId": "1853cbbb-06d1-4ae9-b378-370007c574ba",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false,
+          "parallelCopies": 1
+        }
+      },
+      {
+        "name": "Copy_payments",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "Copy_invoices",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT [payment_id],[invoice_id],[payment_date],[amount],CAST(source_row_version AS bigint) AS source_row_version,source_modified_at_utc FROM [app].[payments]",
+            "queryTimeout": "00:02:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "payments"
+              },
+              "externalReferences": {
+                "connection": "93fd5fbf-5835-4756-bc59-bbf07302f321"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "payments"
+              },
+              "linkedService": {
+                "name": "billing_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+                    "artifactId": "1853cbbb-06d1-4ae9-b378-370007c574ba",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false,
+          "parallelCopies": 1
+        }
+      },
+      {
+        "name": "Copy_usage_events",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "Copy_payments",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT [event_id],[account_id],[event_date],[units],CAST(source_row_version AS bigint) AS source_row_version,source_modified_at_utc FROM [app].[usage_events]",
+            "queryTimeout": "00:02:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "usage_events"
+              },
+              "externalReferences": {
+                "connection": "93fd5fbf-5835-4756-bc59-bbf07302f321"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "usage_events"
+              },
+              "linkedService": {
+                "name": "billing_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+                    "artifactId": "1853cbbb-06d1-4ae9-b378-370007c574ba",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false,
+          "parallelCopies": 1
+        }
+      },
+      {
+        "name": "Copy_subscriptions",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "Copy_usage_events",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT [subscription_id],[account_id],[plan_id],[status],CAST(source_row_version AS bigint) AS source_row_version,source_modified_at_utc FROM [app].[subscriptions]",
+            "queryTimeout": "00:02:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "app",
+                "table": "subscriptions"
+              },
+              "externalReferences": {
+                "connection": "93fd5fbf-5835-4756-bc59-bbf07302f321"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "subscriptions"
+              },
+              "linkedService": {
+                "name": "billing_bronze",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+                    "artifactId": "1853cbbb-06d1-4ae9-b378-370007c574ba",
+                    "rootFolder": "Tables"
+                  }
+                }
+              }
+            }
+          },
+          "enableStaging": false,
+          "parallelCopies": 1
+        }
+      },
+      {
+        "name": "RecordOwnAccounting",
+        "type": "Script",
+        "dependsOn": [
+          {
+            "activity": "Copy_subscriptions",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.00:10:00",
+          "retry": 0,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "linkedService": {
+          "name": "9cd1829b_7e2e_4340_8f59_fdf996033198",
+          "properties": {
+            "type": "DataWarehouse",
+            "typeProperties": {
+              "endpoint": "i4iptx6c5nlundn6llzsrvlxqa-g25wo7pwasbedfnk3jovcusi7i.datawarehouse.fabric.microsoft.com",
+              "artifactId": "9cd1829b-7e2e-4340-8f59-fdf996033198",
+              "workspaceId": "7d67bb36-04f6-4182-95aa-da5d515248fa"
+            }
+          }
+        },
+        "typeProperties": {
+          "database": "billing_ops",
+          "scripts": [
+            {
+              "type": "NonQuery",
+              "text": "DECLARE @r bigint=0,@w bigint=0;\nIF ISJSON(@copy_0)<>1 OR TRY_CONVERT(bigint,JSON_VALUE(@copy_0,'$.rowsRead')) IS NULL OR TRY_CONVERT(bigint,JSON_VALUE(@copy_0,'$.rowsCopied')) IS NULL THROW 51002,'Own copy accounting unavailable.',1;\nSET @r=@r+CONVERT(bigint,JSON_VALUE(@copy_0,'$.rowsRead')); SET @w=@w+CONVERT(bigint,JSON_VALUE(@copy_0,'$.rowsCopied'));\nIF ISJSON(@copy_1)<>1 OR TRY_CONVERT(bigint,JSON_VALUE(@copy_1,'$.rowsRead')) IS NULL OR TRY_CONVERT(bigint,JSON_VALUE(@copy_1,'$.rowsCopied')) IS NULL THROW 51002,'Own copy accounting unavailable.',1;\nSET @r=@r+CONVERT(bigint,JSON_VALUE(@copy_1,'$.rowsRead')); SET @w=@w+CONVERT(bigint,JSON_VALUE(@copy_1,'$.rowsCopied'));\nIF ISJSON(@copy_2)<>1 OR TRY_CONVERT(bigint,JSON_VALUE(@copy_2,'$.rowsRead')) IS NULL OR TRY_CONVERT(bigint,JSON_VALUE(@copy_2,'$.rowsCopied')) IS NULL THROW 51002,'Own copy accounting unavailable.',1;\nSET @r=@r+CONVERT(bigint,JSON_VALUE(@copy_2,'$.rowsRead')); SET @w=@w+CONVERT(bigint,JSON_VALUE(@copy_2,'$.rowsCopied'));\nIF ISJSON(@copy_3)<>1 OR TRY_CONVERT(bigint,JSON_VALUE(@copy_3,'$.rowsRead')) IS NULL OR TRY_CONVERT(bigint,JSON_VALUE(@copy_3,'$.rowsCopied')) IS NULL THROW 51002,'Own copy accounting unavailable.',1;\nSET @r=@r+CONVERT(bigint,JSON_VALUE(@copy_3,'$.rowsRead')); SET @w=@w+CONVERT(bigint,JSON_VALUE(@copy_3,'$.rowsCopied'));\nIF ISJSON(@copy_4)<>1 OR TRY_CONVERT(bigint,JSON_VALUE(@copy_4,'$.rowsRead')) IS NULL OR TRY_CONVERT(bigint,JSON_VALUE(@copy_4,'$.rowsCopied')) IS NULL THROW 51002,'Own copy accounting unavailable.',1;\nSET @r=@r+CONVERT(bigint,JSON_VALUE(@copy_4,'$.rowsRead')); SET @w=@w+CONVERT(bigint,JSON_VALUE(@copy_4,'$.rowsCopied'));\nIF ISJSON(@copy_5)<>1 OR TRY_CONVERT(bigint,JSON_VALUE(@copy_5,'$.rowsRead')) IS NULL OR TRY_CONVERT(bigint,JSON_VALUE(@copy_5,'$.rowsCopied')) IS NULL THROW 51002,'Own copy accounting unavailable.',1;\nSET @r=@r+CONVERT(bigint,JSON_VALUE(@copy_5,'$.rowsRead')); SET @w=@w+CONVERT(bigint,JSON_VALUE(@copy_5,'$.rowsCopied'));\nIF ISJSON(@copy_6)<>1 OR TRY_CONVERT(bigint,JSON_VALUE(@copy_6,'$.rowsRead')) IS NULL OR TRY_CONVERT(bigint,JSON_VALUE(@copy_6,'$.rowsCopied')) IS NULL THROW 51002,'Own copy accounting unavailable.',1;\nSET @r=@r+CONVERT(bigint,JSON_VALUE(@copy_6,'$.rowsRead')); SET @w=@w+CONVERT(bigint,JSON_VALUE(@copy_6,'$.rowsCopied'));\nIF EXISTS(SELECT 1 FROM dbo.load_run_audit WHERE run_id=@run_id) THROW 51003,'Run already recorded.',1;\nINSERT INTO dbo.load_run_audit (run_id,pipeline_name,status,rows_read,rows_written,accounting_state,start_time_utc,end_time_utc,high_watermark) VALUES (@run_id,@pipeline_name,'Succeeded',@r,@w,'OBSERVED_COPY_OUTPUT',@started,CONVERT(varchar(40),SYSUTCDATETIME(),127),NULL);",
+              "parameters": [
+                {
+                  "name": "copy_0",
+                  "type": "String",
+                  "direction": "Input",
+                  "value": {
+                    "value": "@string(activity('Copy_accounts').output)",
+                    "type": "Expression"
+                  }
+                },
+                {
+                  "name": "copy_1",
+                  "type": "String",
+                  "direction": "Input",
+                  "value": {
+                    "value": "@string(activity('Copy_plans').output)",
+                    "type": "Expression"
+                  }
+                },
+                {
+                  "name": "copy_2",
+                  "type": "String",
+                  "direction": "Input",
+                  "value": {
+                    "value": "@string(activity('Copy_account_plan_history').output)",
+                    "type": "Expression"
+                  }
+                },
+                {
+                  "name": "copy_3",
+                  "type": "String",
+                  "direction": "Input",
+                  "value": {
+                    "value": "@string(activity('Copy_invoices').output)",
+                    "type": "Expression"
+                  }
+                },
+                {
+                  "name": "copy_4",
+                  "type": "String",
+                  "direction": "Input",
+                  "value": {
+                    "value": "@string(activity('Copy_payments').output)",
+                    "type": "Expression"
+                  }
+                },
+                {
+                  "name": "copy_5",
+                  "type": "String",
+                  "direction": "Input",
+                  "value": {
+                    "value": "@string(activity('Copy_usage_events').output)",
+                    "type": "Expression"
+                  }
+                },
+                {
+                  "name": "copy_6",
+                  "type": "String",
+                  "direction": "Input",
+                  "value": {
+                    "value": "@string(activity('Copy_subscriptions').output)",
+                    "type": "Expression"
+                  }
+                },
+                {
+                  "name": "run_id",
+                  "type": "String",
+                  "direction": "Input",
+                  "value": {
+                    "value": "@pipeline().RunId",
+                    "type": "Expression"
+                  }
+                },
+                {
+                  "name": "pipeline_name",
+                  "type": "String",
+                  "direction": "Input",
+                  "value": {
+                    "value": "@pipeline().Pipeline",
+                    "type": "Expression"
+                  }
+                },
+                {
+                  "name": "started",
+                  "type": "String",
+                  "direction": "Input",
+                  "value": {
+                    "value": "@pipeline().TriggerTime",
+                    "type": "Expression"
+                  }
+                }
+              ]
+            }
+          ],
+          "scriptBlockExecutionTimeout": "00:02:00"
+        }
+      }
+    ]
+  }
+}

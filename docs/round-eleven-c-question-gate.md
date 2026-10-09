@@ -106,3 +106,6 @@ this failed quality gate. #423 remains draft; current freeze invalidated. The
 billing report is not yet deployed. Browser click-through is not established:
 the available browser inventory is empty and the native automation pipe is
 unavailable. The prior fixture-link API flow remains historical evidence only.
+
+
+Dated regression closure,2026-10-09 UTC: lifecycle correction e6b398e passed2,723 tests; demo c8e370c passed2,728,native exit0. Earlier failures retained; quality gate still FAILED. Billing report/reader checkpoint now reached; stop for owner tickets. See docs/round-eleven-c-billing-delivery.md.
