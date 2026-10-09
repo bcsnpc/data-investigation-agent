@@ -61,6 +61,17 @@ class WorkspaceTests(unittest.TestCase):
         captured['body'] = json.loads(data) if captured['headers']['Content-Type'].startswith('application/json') else data
         return captured
 
+    def test_smart_input_choices_use_the_estate_labels_and_order_without_reads(self):
+        from investigator.ticket_clarification import settings
+        configured=settings()
+        configured['comparison_choices']=[{'route':'STALE','label':'Check age'},
+                                          {'route':'APPLICATION','label':'Check source'}]
+        self.workspace.intake_configuration=configured
+        result=self.http('/api/workspace/models')
+        self.assertTrue(result['status'].startswith('200'))
+        self.assertEqual(result['body']['intake_options']['comparison_choices'],configured['comparison_choices'])
+        self.native.assert_not_called();self.source.assert_not_called();self.planner.assert_not_called()
+
     def test_catalog_and_preview_no_cloud_or_llm(self):
         self.assertEqual(self.workspace.models()['models'][0]['measures'][0]['id'], 'Unseen ratio')
         p = self.preview(); self.assertEqual(p['cloud_calls'], 0)

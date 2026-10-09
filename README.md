@@ -217,3 +217,10 @@ Dated 2026-10-07 Round Ten section1: Top-N VERIFIED in two physical DAX probes; 
 
 #422 merged with final-head hosted archived15/15 and inferred15/15 replay green, zero estate/network requests. Top-N verified matching full keys; relative-date stopped at a missing fixture prerequisite and the measure check was not attempted. Fifty independent ticket drafts are prepared but remain unsealed and unrun. The new visual-variety report is published; reader baseline remains8,765. Served-definition collection and current-context verification are pending. Preserved fixture-control failures and restoration are recorded in [Round Ten findings](docs/round-ten-findings.md). No new general-capability or unfamiliar-domain acceptance claim.
 
+Dated Round Eleven optional-input checkpoint, 2026-10-09 UTC: optional user
+number/report descriptions retain exact field provenance; supplied comparisons
+are revalidated against the original request and conflicts require a choice.
+Plain text remains supported. Offline focused validation is recorded in
+docs/round-eleven-smart-intake.md; the current 68-ticket quality gate remains
+incomplete, #423 draft, freezes invalid. No new provider or estate requests.
+

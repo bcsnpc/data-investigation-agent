@@ -9,6 +9,63 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_optional_fields_retain_original_request_and_exact_source_intervals(self):
+        from investigator.ticket_inputs import document
+        request={'text':'Check this.','request_key':'fields',
+            'structured':{'number':'Global card Quantity shows 16.','report_page':'In Report.',
+                          'comparison':'APPLICATION'}}
+        derived=document(request)
+        self.raw,self.payload=fixture(derived['text'],
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        saved=self.controller.submit(request)
+        self.assertEqual(saved['request'],request)
+        self.assertEqual(saved['ticket']['input_document'],derived['provenance'])
+        proposal=self.workspace.intake.get(saved['ticket']['intake_id'])['proposal']
+        self.assertEqual(proposal['reported_figure']['value'],'16')
+        self.assertEqual(proposal['target_visual']['target_id'],'card')
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called()
+
+    def test_disabled_structured_comparison_refuses_before_model_or_ticket_write(self):
+        self.controller.configuration['comparison_choices']=[{'route':'STALE','label':'Freshness'}]
+        with self.assertRaisesRegex(ValueError,'not enabled'):
+            self.controller.submit({'text':'Check Quantity.','request_key':'disabled',
+                                    'structured':{'comparison':'APPLICATION'}})
+        self.assertEqual(self.calls,0)
+
+    def test_structured_comparison_still_requires_estate_confirmation(self):
+        self.raw,self.payload=fixture('In Report, Global card Quantity differs.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        self.controller.configuration['must_confirm']=['COMPARISON']
+        saved=self.controller.submit({'text':self.payload['text'],'request_key':'required',
+                                      'structured':{'comparison':'APPLICATION'}})
+        self.assertEqual([q['field'] for q in saved['ticket']['questions']],['COMPARISON'])
+        self.assertNotIn('COMPARISON',saved['ticket']['settled'])
+
+    def test_conflicting_text_and_structured_comparisons_require_a_user_choice(self):
+        self.raw,self.payload=fixture('In Report, Global card Quantity is stale.',kind='FRESHNESS',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        saved=self.controller.submit({'text':self.payload['text'],'request_key':'conflict',
+                                      'structured':{'comparison':'APPLICATION'}})
+        self.assertEqual([q['field'] for q in saved['ticket']['questions']],['COMPARISON'])
+        self.assertNotIn('intake_id',saved['ticket'])
+        self.assertNotIn('COMPARISON',saved['ticket']['settled'])
+        self.h.native.assert_not_called()
+
+    def test_optional_comparison_supplied_at_input_uses_its_own_provenance(self):
+        self.raw,self.payload=fixture('In Report, Global card Quantity differs.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        request={'text':self.payload['text'],'request_key':'structured',
+                 'structured':{'comparison':'APPLICATION'}}
+        saved=self.controller.submit(request)
+        self.assertEqual(saved['request'],request);self.assertEqual(saved['ticket']['questions'],[])
+        self.assertEqual(saved['ticket']['settled']['COMPARISON']['authority'],'USER_SUPPLIED_INPUT')
+        self.assertNotIn('COMPARISON',saved['ticket']['confirmed'])
+        proposal=self.workspace.intake.get(saved['ticket']['intake_id'])['proposal']
+        self.assertEqual(proposal['ticket_route']['route'],'APPLICATION')
+        self.assertEqual(proposal['ticket_route']['source_input_hash'],digest(request))
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_user_can_hold_for_missing_information_and_resume_the_same_offer(self):
         saved=self.submit();request=self.reply(saved)
         unanswered=copy.deepcopy(request)

@@ -143,6 +143,7 @@ function schedule(epoch){
 function resetComposer(){resetIntake();stopPolling();current=null;predecessor=null;invalidate();$('result').hidden=true;$('composer').hidden=false;$('clarification-note').hidden=true;$('symptom').value='';modelChanged();}
 $('login-form').addEventListener('submit',guard(async()=>{
   key=$('access-key').value;const result=await api('models');models=result.models;execution=result.execution_enabled;$('question-intake').hidden=!result.question_intake_enabled;$('smart-ticket-intake').hidden=!result.question_intake_enabled;$('screenshot-intake').hidden=!result.screenshot_intake_enabled;
+  options($('smart-ticket-comparison'),(result.intake_options?.comparison_choices||[]).map(choice=>({id:choice.route,name:choice.label})),'Not specified');
   $('access-key').value='';$('login').hidden=true;$('workspace').hidden=false;$('signout').hidden=false;$('read-only').hidden=execution;
   options($('model'),models.map(m=>({id:m.id,name:m.name})));resetComposer();await history();
 }));
@@ -190,7 +191,7 @@ $('intake-history').addEventListener('click',guard(async()=>{if(!intakeSaved)ret
 $('hold-question').addEventListener('click',guard(async()=>{if(!intakeSaved)return;const epoch=generation;const data=await api('questions/'+encodeURIComponent(intakeSaved)+'/hold',{});if(epoch===generation)showIntake(data);await history();}));
 
 let smartTicket=null, smartTicketRequest=null, smartTicketGeneration=0;
-function resetSmartTicket(){smartTicket=null;smartTicketRequest=null;smartTicketGeneration++;$('smart-ticket-text').value='';$('smart-ticket-result').hidden=true;$('smart-ticket-answers').replaceChildren();$('smart-ticket-history').replaceChildren();for(const id of ['smart-ticket-business','smart-ticket-technical','smart-ticket-handoff','smart-ticket-reuse','smart-ticket-reply-text']){const element=$(id);if(element.tagName==='TEXTAREA')element.value='';else element.replaceChildren();}}
+function resetSmartTicket(){smartTicket=null;smartTicketRequest=null;smartTicketGeneration++;for(const id of ['smart-ticket-text','smart-ticket-number','smart-ticket-report-page','smart-ticket-comparison'])$(id).value='';$('smart-ticket-result').hidden=true;$('smart-ticket-answers').replaceChildren();$('smart-ticket-history').replaceChildren();for(const id of ['smart-ticket-business','smart-ticket-technical','smart-ticket-handoff','smart-ticket-reuse','smart-ticket-reply-text']){const element=$(id);if(element.tagName==='TEXTAREA')element.value='';else element.replaceChildren();}}
 function showSmartTicket(saved){
   smartTicket=saved;const ticket=saved.ticket;$('smart-ticket-result').hidden=false;
   $('smart-ticket-state').textContent=ticket.state==='HELD'?'Paused: '+(ticket.history.at(-1)?.detail?.reason||'More evidence is needed'):ticket.intake_id&&['NEW','CLARIFYING'].includes(ticket.state)?'Your choices are resolved. Review the scope to continue.':ticket.state.replaceAll('_',' ');
@@ -220,7 +221,9 @@ function showSmartTicket(saved){
 async function smartTicketHistory(){const epoch=generation;const data=await api('tickets');if(epoch!==generation)return;
   $('smart-ticket-history').replaceChildren(...data.tickets.map(saved=>{const button=node('button',saved.request.text.slice(0,100)+' · '+saved.ticket.state.replaceAll('_',' '));button.type='button';button.addEventListener('click',guard(async()=>{const requestEpoch=++smartTicketGeneration;const value=await api('tickets/'+encodeURIComponent(saved.ticket.id));if(requestEpoch===smartTicketGeneration)showSmartTicket(value);}));return button;}));}
 $('smart-ticket-form').addEventListener('submit',guard(async()=>{
-  const text=$('smart-ticket-text').value;if(!smartTicketRequest||smartTicketRequest.text!==text)smartTicketRequest={text,request_key:crypto.randomUUID()};
+  const text=$('smart-ticket-text').value;const structured={};for(const [field,id] of [['number','smart-ticket-number'],['report_page','smart-ticket-report-page'],['comparison','smart-ticket-comparison']]){if($(id).value)structured[field]=$(id).value;}
+  const input={text,...(Object.keys(structured).length?{structured}:{})};if(!text&&!structured.number&&!structured.report_page)throw new Error('Add your question or describe the number.');
+  if(!smartTicketRequest||JSON.stringify({...smartTicketRequest,request_key:undefined})!==JSON.stringify(input))smartTicketRequest={...input,request_key:crypto.randomUUID()};
   const epoch=++smartTicketGeneration;$('smart-ticket-submit').disabled=true;
   try{const saved=await api('tickets',smartTicketRequest);if(epoch===smartTicketGeneration)showSmartTicket(saved);await smartTicketHistory();}finally{$('smart-ticket-submit').disabled=false;}
 }));

@@ -56,6 +56,8 @@ def create_app(workspace, token, port=8776):
                 body = json.loads(env['wsgi.input'].read(size))
             if path == '/api/workspace/models' and method == 'GET':
                 result = workspace.models()
+                from .ticket_clarification import settings
+                result['intake_options']={'comparison_choices':settings(workspace.intake_configuration)['comparison_choices']}
             elif path == '/api/workspace/context/search' and method == 'POST':
                 from .context_search import search
                 result = search(workspace.store,body)

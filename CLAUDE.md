@@ -672,3 +672,9 @@ documented JSON definition parts, returned HTTP400 InvalidDefinitionFormat:
 No item ID returned and no read grant applied. This tests the submitted definition
 shape, not service-principal support or capacity eligibility. Both proposer flags
 default off; assistant answers are never evidence. See the Round Eight delivery record.
+Dated Round Eleven optional-input checkpoint, 2026-10-09 UTC: user field text
+and comparison provenance are retained and revalidated; conflicting text/input
+comparisons ask rather than choosing precedence. Phase A remains incomplete,
+#423 draft, freezes invalid; zero new provider/estate requests or budget, scope,
+secret or golden changes. See docs/round-eleven-smart-intake.md.
+

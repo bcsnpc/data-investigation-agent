@@ -27,13 +27,18 @@ class SmartIntake:
 
     @operation('ticket_submit')
     def submit(self, request):
-        self._guard();fields(request,['text','request_key']);text(request['text'],2000);text(request['request_key'],100)
+        self._guard()
+        from . import ticket_inputs
+        document=ticket_inputs.document(request)
+        ticket_inputs.route(request,document['text'],self.configuration)
         saved=self.tickets.submit(request,request['request_key'])
         if saved['ticket'].get('source_intake'):return saved
-        source=self.workspace.intake.resolve({'text':request['text'],
+        source=self.workspace.intake.resolve({'text':document['text'],
             'request_key':'smart:'+saved['ticket']['id'],'parent_id':None},retain_extraction=True)
         def attach(ticket):
             ticket['source_intake']=source['id']
+            if request.get('structured'):
+                ticket['input_document']=document['provenance']
             ticket['history'].append({'from':ticket['state'],'to':ticket['state'],'actor':'AGENT',
                 'detail':{'intake_id':source['id'],'status':source['status']}})
             return ticket
@@ -68,10 +73,28 @@ class SmartIntake:
                 protocol.transition(current,'HELD',actor='AGENT',detail={
                     'reason':source['refusal_reason'],'capability':'UNIMPLEMENTED_ROUTE'}))
         def plan(current):
+            comparison_conflict=False
             if source.get('proposal'):
                 current=protocol.settle_from_intake(current,source['proposal'],payload,
                     must_confirm=self.configuration['must_confirm'])
-            if raw and 'COMPARISON' not in current['settled'] and 'COMPARISON' not in self.configuration['must_confirm']:
+            if saved['request'].get('structured') and 'COMPARISON' not in current['settled']:
+                from .ticket_inputs import route as input_route
+                declared=input_route(saved['request'],source['text'],self.configuration)
+                if declared is not None:
+                    from .ticket_route import settlement
+                    try:explicit=settlement(raw,source['text'],self.configuration) if raw else None
+                    except (ValueError,ValidationError):explicit=None
+                    comparison_conflict=bool(explicit and explicit['version']=='ticket-comparison-request-v1'
+                                             and explicit['route']!=declared['route'])
+                    if comparison_conflict:
+                        current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
+                            'detail':{'reason':'CONFLICTING_USER_COMPARISONS','text_comparison':explicit,
+                                      'supplied_comparison':declared}})
+                    else:
+                        current['settled']['COMPARISON']={'authority':'USER_SUPPLIED_INPUT','value':declared}
+                        current['history'].append({'from':current['state'],'to':current['state'],'actor':'USER',
+                            'detail':{'supplied_comparison':declared,'source_input_hash':digest(saved['request'])}})
+            if raw and not comparison_conflict and 'COMPARISON' not in current['settled'] and 'COMPARISON' not in self.configuration['must_confirm']:
                 from .ticket_route import settlement
                 try:route=settlement(raw,source['text'],self.configuration)
                 except (ValueError,ValidationError):route=None

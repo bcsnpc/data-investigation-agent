@@ -241,3 +241,10 @@ Dated 2026-10-07 Round Ten section1: Top-N VERIFIED in two physical DAX probes; 
 Historical Round Ten A current-milestone paragraph, superseded by Round Ten B:
 
 **Round Ten: partial fifty-ticket evaluation.** All50 inference-enabled tickets and14/30 inference-disabled evaluations ran once. Full authored expectations/output checks matched41/64 (31/50 and10/14);16 evaluations remain unattempted after the unchanged daily model allowance reached240/240. All six visual expectations failed, including reproduction in a different cell. The new tape gate is blocked by a copied-bootstrap SQLite lock; #423 stays draft and the last earned hosted gate remains15?2. Pot572/800, restoration5/100, rolling697/3000, diagnostics12 unchanged. Rebuild, billing and later sections have not started. See [partial delivery record](round-ten-delivery-record.md) and [dated findings](round-ten-findings.md). Earlier checkpoints below are historical; prior unfamiliar-domain freezes remain invalid.
+Dated Round Eleven optional-input checkpoint, 2026-10-09 UTC: optional fields
+and request-bound comparison provenance are wired through the consumer, with
+conflicts requiring clarification. Link integration and the Phase A quality
+gate remain incomplete. #423 draft; all prior engine freezes invalidated.
+Zero new provider calls or estate reads; goldens, scopes and budgets unchanged.
+See [Round Eleven evidence](round-eleven-smart-intake.md).
+

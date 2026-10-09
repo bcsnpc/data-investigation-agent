@@ -27,7 +27,8 @@ SUBJECT_SCHEMA=ticket_protocol.obj({'version':{'const':SUBJECT_VERSION},
     'route':{'const':'DECLARED_SUBJECT'},'kind':{'enum':list(SUBJECT_KINDS)},
     'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
     'source':copy.deepcopy(EVIDENCE_SCHEMA['oneOf'][0]['properties']['source'])})
-SCHEMA={'oneOf':[USER_SCHEMA,EVIDENCE_SCHEMA,DEFAULT_SCHEMA,SUBJECT_SCHEMA]}
+from .ticket_inputs import ROUTE_SCHEMA as INPUT_SCHEMA, ROUTE_VERSION as INPUT_VERSION
+SCHEMA={'oneOf':[USER_SCHEMA,EVIDENCE_SCHEMA,DEFAULT_SCHEMA,SUBJECT_SCHEMA,INPUT_SCHEMA]}
 
 
 def settlement(raw, ticket, configuration):
@@ -88,7 +89,7 @@ def declared(confirmation):
 
 def validate(value, ticket=None):
     Draft202012Validator(SCHEMA).validate(value)
-    if value['version']==DEFAULT_VERSION:
+    if value['version'] in (DEFAULT_VERSION,INPUT_VERSION):
         if ticket is not None and value['request_hash']!=digest(ticket):
             raise ValueError('Comparison policy belongs to a different ticket')
         return value

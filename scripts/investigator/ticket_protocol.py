@@ -7,6 +7,7 @@ authority. It only accepts answers to choices the caller has already retained.
 import copy
 from jsonschema import Draft202012Validator
 from .onboarding import digest
+from .proposal_limits import INTAKE_TEXT
 
 VERSION = 'smart-ticket-v1'
 FIELDS = ('NUMBER', 'REPORT_PAGE', 'COMPARISON')
@@ -20,7 +21,7 @@ def obj(properties, optional=()):
             'required':[k for k in properties if k not in optional]}
 
 
-TEXT = {'type':'string', 'minLength':1, 'maxLength':2000}
+TEXT = {'type':'string', 'minLength':1, 'maxLength':INTAKE_TEXT}
 ID = {'type':'string', 'minLength':1, 'maxLength':200}
 CHOICE = obj({'id':ID, 'label':TEXT,
               'highlight':{'anyOf':[{'type':'null'}, obj({'image_id':ID,

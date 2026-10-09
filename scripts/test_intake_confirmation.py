@@ -22,6 +22,20 @@ def confirm(payload, raw, target='card', figure=None, mode='UNGROUPED'):
 
 
 class IntakeConfirmationTests(unittest.TestCase):
+    def test_supplied_input_route_cannot_be_forged_by_a_model(self):
+        from investigator import ticket_inputs, ticket_clarification
+        raw,payload=fixture('In Report, Global card Quantity differs.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        request={'text':payload['text'],'request_key':'input',
+                 'structured':{'comparison':'APPLICATION'}}
+        config=ticket_clarification.settings()
+        route=ticket_inputs.route(request,payload['text'],config)
+        trusted={**payload,'_input_request':request,'_ticket_route':route,'_comparison_configuration':config}
+        value=intake_extraction.resolve(raw,trusted);validate(value,trusted)
+        with self.assertRaisesRegex(ValueError,'retained user-input authority'):validate(value,payload)
+        changed=copy.deepcopy(trusted);changed['_input_request']['structured']['comparison']='STALE'
+        with self.assertRaisesRegex(ValueError,'Request comparison evidence differs'):validate(value,changed)
+
     def test_visual_confirmation_also_binds_its_declared_report_without_a_separate_choice(self):
         from investigator.ticket_clarification import batch
         raw,payload=fixture('Quantity looks wrong.',reports=[])

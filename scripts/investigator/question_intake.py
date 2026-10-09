@@ -480,7 +480,13 @@ def validate(value, payload):
     if value.get('question_kind') is not None:question_kind.validate(value['question_kind'],payload['text'])
     if 'ticket_route' in value:
         from .ticket_route import validate as validate_route,admit
-        if value['ticket_route'].get('version') in ('ticket-comparison-request-v1','ticket-comparison-policy-v1','ticket-subject-route-v1'):
+        if value['ticket_route'].get('version')=='ticket-comparison-input-v1':
+            from .ticket_inputs import route as input_route
+            request=payload.get('_input_request')
+            if (request is None or payload.get('_ticket_route')!=value['ticket_route'] or
+                input_route(request,payload['text'],payload.get('_comparison_configuration'))!=value['ticket_route']):
+                raise ValueError('Supplied comparison has no retained user-input authority')
+        elif value['ticket_route'].get('version') in ('ticket-comparison-request-v1','ticket-comparison-policy-v1','ticket-subject-route-v1'):
             from .ticket_route import settlement
             raw=value.get('extracted_ticket',{}).get('response')
             if (payload.get('_ticket_route')!=value['ticket_route'] or raw is None or
@@ -620,6 +626,13 @@ class Intake:
         payload={'text':source['text'],'models':catalog['models']}
         if proof is not None:payload['_ticket_confirmation']=proof
         settled=ticket['settled']['COMPARISON']
+        if settled.get('authority')=='USER_SUPPLIED_INPUT':
+            from .ticket_inputs import route as input_route
+            route=input_route(saved['request'],source['text'],comparison_configuration)
+            if route is None or route!=settled['value']:raise Conflict('Supplied comparison evidence changed')
+            payload['_ticket_route']=route
+            payload['_input_request']=copy.deepcopy(saved['request'])
+            payload['_comparison_configuration']=comparison_configuration
         if settled.get('authority') in ('EXPLICIT_REQUEST_COMPARISON','ESTATE_COMPARISON_POLICY'):
             from .ticket_route import settlement
             route=settlement(raw,source['text'],comparison_configuration)
@@ -650,7 +663,7 @@ class Intake:
     def resolve(self, request, *, retain_extraction=False):
         if type(retain_extraction) is not bool:raise ValueError('Invalid extraction retention mode')
         fields(request, ['text', 'request_key', 'parent_id'] + (['screenshot_review_id'] if 'screenshot_review_id' in request else []))
-        text(request['text'], 2000); text(request['request_key'], 100)
+        text(request['text'], limits.INTAKE_TEXT); text(request['request_key'], 100)
         with self.store.connect() as db:
             prior = db.execute('SELECT id FROM workspace_intakes WHERE request_key=?', (request['request_key'],)).fetchone()
         if prior:
@@ -664,13 +677,13 @@ class Intake:
             if request['parent_id'] is not None: raise ValueError('Clarification inherits its original screenshot')
             screenshot = self.workspace.screenshots.saved('workspace_image_reviews', request['screenshot_review_id'])
             combined += '\nReviewed screenshot details:\n' + screenshot['text']
-            text(combined, 2000)
+            text(combined, limits.INTAKE_TEXT)
         if request['parent_id'] is not None:
             parent = self.get(request['parent_id'])
             if parent['status'] != 'NEEDS_INPUT' or parent['turn'] >= 4: raise Conflict('Question is not waiting for clarification')
             combined = parent['text'] + '\nClarification: ' + combined; turn = parent['turn'] + 1
             screenshot = parent.get('screenshot_review')
-            text(combined, 2000)
+            text(combined, limits.INTAKE_TEXT)
         catalog = snapshot(self.workspace); payload = {'text': combined, 'models': catalog['models']}
         body = self._new_record(request,combined,catalog,turn,screenshot)
         governor = self.workspace.agent.governor

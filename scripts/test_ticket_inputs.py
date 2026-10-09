@@ -1,0 +1,41 @@
+import unittest
+from investigator import ticket_inputs, ticket_clarification
+from investigator.onboarding import digest
+
+
+class TicketInputTests(unittest.TestCase):
+    def test_plain_text_keeps_its_original_bytes(self):
+        request={'text':'Original question.','request_key':'one'}
+        self.assertEqual(ticket_inputs.document(request)['text'],request['text'])
+
+    def test_optional_user_strings_have_exact_intervals_in_a_labelled_document(self):
+        request={'text':'Check this.','request_key':'one',
+            'structured':{'number':'Global card shows about 3.4M.','report_page':'Inventory main page'}}
+        document=ticket_inputs.document(request)
+        for part in document['provenance']['parts']:
+            original=request['text'] if part['pointer']=='/text' else request['structured'][part['pointer'].split('/')[-1]]
+            self.assertEqual(document['text'][part['start']:part['end']],original)
+            self.assertEqual(part['source_hash'],digest(original))
+        self.assertEqual(document['provenance']['source_input_hash'],digest(request))
+
+    def test_no_default_number_or_comparison_and_no_truncation(self):
+        with self.assertRaises(ValueError):ticket_inputs.document({'text':'','request_key':'one'})
+        with self.assertRaises(ValueError):ticket_inputs.document({'text':'a'*2000,'request_key':'one',
+            'structured':{'number':'16'}})
+        for structured in ({'number':16},{'comparison':'invented'},{'target_id':'invented'}):
+            with self.assertRaises(Exception):ticket_inputs.document({'text':'Question','request_key':'one','structured':structured})
+
+    def test_explicit_comparison_is_not_a_fabricated_choice_confirmation(self):
+        request={'text':'Check Quantity.','request_key':'one','structured':{'comparison':'APPLICATION'}}
+        config=ticket_clarification.settings()
+        result=ticket_inputs.route(request,request['text'],config)
+        self.assertEqual(result['version'],'ticket-comparison-input-v1')
+        self.assertNotIn('confirmation',result)
+        self.assertEqual(result['source_input_hash'],digest(request))
+        self.assertIsNone(ticket_inputs.route(request,request['text'],{**config,'must_confirm':['COMPARISON']}))
+        with self.assertRaises(ValueError):ticket_inputs.route(request,'Changed question.',config)
+        config['comparison_choices']=[{'route':'STALE','label':'Freshness'}]
+        with self.assertRaises(ValueError):ticket_inputs.route(request,request['text'],config)
+
+
+if __name__=='__main__':unittest.main()

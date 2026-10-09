@@ -288,7 +288,11 @@ def resolve(raw, payload):
         route=declared(confirmation);admit(route)
     elif payload.get('_ticket_route') is not None:
         from .ticket_route import settlement,admit
-        route=settlement(raw,ticket,payload.get('_comparison_configuration'))
+        if payload['_ticket_route'].get('version')=='ticket-comparison-input-v1':
+            from .ticket_inputs import route as input_route
+            route=input_route(payload.get('_input_request'),ticket,payload.get('_comparison_configuration'))
+        else:
+            route=settlement(raw,ticket,payload.get('_comparison_configuration'))
         if route is None or route!=payload['_ticket_route']:raise ValueError('Request comparison evidence differs')
         admit(route)
     figures=[i for i in extraction['figures'] if primary_fact(i,extraction)]
