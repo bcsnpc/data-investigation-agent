@@ -320,10 +320,14 @@ def run(agent,identity,provider):
         except (ValueError,KeyError) as exc:
             error=error_summary(exc)
             break
+    # Provider work has finished. Commit its non-refundable accounting before
+    # any renderer or final evidence write can fail and roll back a transaction.
+    actual=usage.get('usage') if isinstance(usage,dict) else None
+    with agent.runtime.db() as db:
+        db.execute('BEGIN IMMEDIATE')
+        if agent.governor and reservation:agent.governor.settle(db,identity,reservation,actual,uncertain=not received and not actual)
     with agent.runtime.db() as db:
         db.execute('BEGIN IMMEDIATE');current=read(db,identity,full=True)
-        actual=usage.get('usage') if isinstance(usage,dict) else None
-        if agent.governor and reservation:agent.governor.settle(db,identity,reservation,actual,uncertain=not received and not actual)
         if current['status']!='RUNNING':return {k:v for k,v in current.items() if k!='payload'}
         current['usage']={k:v for k,v in (actual or {}).items() if k in ('input_tokens','output_tokens','total_tokens') and type(v) is int and v>=0}
         current['finished']=agent.clock()
@@ -342,10 +346,15 @@ def run(agent,identity,provider):
         current['attempts']=attempts
         if error and provider is azure_synthesize and frozen_valid:
             from .synthesis_narrative import assemble
-            assessment,outputs=assemble(None,local_payload,state)
             current['mechanism_error']=error
-            current['validation']='ORIGINAL_EVIDENCE_WITHOUT_MODEL_MECHANISM'
-            error=None
+            try:
+                assessment,outputs=assemble(None,local_payload,state)
+            except Exception as exc:
+                error=error_summary(exc)
+                current['fallback_error']=copy.deepcopy(error)
+            else:
+                current['validation']='ORIGINAL_EVIDENCE_WITHOUT_MODEL_MECHANISM'
+                error=None
         current.update(status='FAILED' if error else 'COMPLETED',error=error,
                        assessment=None if error else {**assessment,'provenance':'LLM_INFERRED','cause_verified':False})
         if outputs is not None and not error:current['outputs']=outputs

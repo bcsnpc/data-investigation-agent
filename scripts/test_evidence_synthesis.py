@@ -25,6 +25,31 @@ def attested_comparison(observation,receipts):
 
 
 class SynthesisTests(unittest.TestCase):
+    def test_fallback_failure_settles_provider_usage_without_refund_or_stuck_slot(self):
+        agent,state=self.stopped()
+        with agent.runtime.db() as db:
+            source=agent.load(db,state['id']);payload=synthesis_digest.build(source,db)
+            source['assessment']=self.answer(payload)
+            agent.save(db,source,'TEST_ASSESSMENT',{})
+        before=agent.governor.snapshot()['reserved_today'];calls=[]
+        def provider(view,**kwargs):
+            calls.append(kwargs)
+            return {'technical_output':{'text':'A complete sentence.','evidence_ids':[view['evidence'][0]['id']]}},{'usage':{'input_tokens':1,'output_tokens':1}}
+        with patch('ticket_planner.azure_generate',side_effect=provider),patch(
+                'investigator.synthesis_narrative.assemble',side_effect=ValueError('Synthetic final renderer failure')):
+            result=agent.synthesize(state['id'],synthesis.azure_synthesize)
+        record=result['synthesis']
+        self.assertEqual(record['status'],'FAILED');self.assertEqual(len(calls),2)
+        self.assertIn('fallback_error',record);self.assertIn('mechanism_error',record)
+        after=agent.governor.snapshot()
+        self.assertEqual(after['reserved_today']['planner_calls'],before['planner_calls']+2)
+        self.assertEqual(after['reserved_today']['output_tokens'],before['output_tokens']+3000)
+        self.assertEqual(after['reservation_states'].get('RESERVED',0),0)
+        with agent.runtime.db() as db:
+            # Another legitimate call can reserve the slot; no manual reset.
+            agent.governor.reserve(db,'next','next','planner',1,output_tokens=500)
+            agent.governor.settle(db,'next','next',{'output_tokens':1})
+
     def setUp(self):
         self.f=fixture.DynamicTests();self.f.setUp();self.addCleanup(self.f.doCleanups)
         self.policy={'environment':self.f.store.environment,'daily_limits':{'planner_calls':50,'cloud_calls':50,'input_characters':1000000,'output_tokens':100000},'max_inflight_planners':1,'no_progress_limit':3}
