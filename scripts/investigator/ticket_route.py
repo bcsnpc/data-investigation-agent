@@ -22,7 +22,7 @@ DEFAULT_SCHEMA=ticket_protocol.obj({'version':{'const':DEFAULT_VERSION},
     'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
     'configuration_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'}})
 SUBJECT_VERSION='ticket-subject-route-v1'
-SUBJECT_KINDS=('METRIC_COMPONENTS','DERIVED_CALCULATION','TRANSFORMATION_MECHANISM','FILTER_EFFECT')
+SUBJECT_KINDS=('METRIC_COMPONENTS','DERIVED_CALCULATION','TRANSFORMATION_MECHANISM','FILTER_EFFECT','VISUAL_CONTENT')
 SUBJECT_SCHEMA=ticket_protocol.obj({'version':{'const':SUBJECT_VERSION},
     'route':{'const':'DECLARED_SUBJECT'},'kind':{'enum':list(SUBJECT_KINDS)},
     'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
@@ -47,9 +47,10 @@ def settlement(raw, ticket, configuration):
     if raw['kind'] in SUBJECT_KINDS and not re.search(
             r'\b(compared|versus|against|than|elsewhere|yesterday|earlier|previous)\b',
             extraction['primary']['quote'],re.I) and re.search(
-            r'\b(how|why|explain|components?|composition|calculation|derived|mechanism|filters?)\b',
+            (r'\b(what|which|how many)\b' if raw['kind']=='VISUAL_CONTENT' else
+             r'\b(how|why|explain|components?|composition|calculation|derived|mechanism|filters?)\b'),
             extraction['primary']['quote'],re.I):
-        # A definition/filter question has an intrinsic subject, not a missing
+        # A definition/filter/content question has an intrinsic subject, not a missing
         # external comparator. Do not manufacture "looks wrong" or freshness.
         return validate({'version':SUBJECT_VERSION,'route':'DECLARED_SUBJECT','kind':raw['kind'],
                          'request_hash':digest(ticket),'source':extraction['primary']},ticket)

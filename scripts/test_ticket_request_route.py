@@ -7,6 +7,27 @@ from test_intake_extraction import fixture
 
 
 class RequestRouteTests(unittest.TestCase):
+    def test_visual_content_question_has_an_intrinsic_subject_not_an_external_comparator(self):
+        from investigator.ticket_clarification import DEFAULTS
+        raw,payload=fixture('In Report, what does Global card Quantity show?',kind='VISUAL_CONTENT',
+            triage='BUSINESS_QUESTION:NONE',visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        proof=ticket_route.settlement(raw,payload['text'],DEFAULTS)
+        self.assertEqual(proof['route'],'DECLARED_SUBJECT')
+        payload['_ticket_route']=proof
+        proposal=intake_extraction.resolve(raw,payload);validate(proposal,payload)
+        self.assertEqual(proposal['target_visual']['target_id'],'card')
+        self.assertFalse(ticket_route.wants_freshness(proposal))
+        required={**DEFAULTS,'must_confirm':['COMPARISON']}
+        self.assertIsNone(ticket_route.settlement(raw,payload['text'],required))
+
+    def test_visual_content_kind_cannot_erase_a_named_external_or_temporal_comparison(self):
+        from investigator.ticket_clarification import DEFAULTS
+        for ask,comparisons in [('what does Quantity show compared with another report?',['another report']),
+                                ('what did Quantity show yesterday?',[]),
+                                ('what does Quantity show against the application?',[])]:
+            raw,payload=fixture('In Report, '+ask,kind='VISUAL_CONTENT',comparisons=comparisons)
+            self.assertIsNone(ticket_route.settlement(raw,payload['text'],DEFAULTS))
+
     def test_default_never_overrides_named_comparison_or_required_confirmation(self):
         from investigator.ticket_clarification import DEFAULTS
         config=copy.deepcopy(DEFAULTS);config['default_route']='LOOKS_WRONG'

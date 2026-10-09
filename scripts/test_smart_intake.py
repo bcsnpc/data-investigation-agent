@@ -9,6 +9,16 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_named_visual_content_does_not_ask_for_an_unmentioned_external_comparison(self):
+        self.raw,self.payload=fixture('In Report, what does Global card Quantity show?',kind='VISUAL_CONTENT',
+            triage='BUSINESS_QUESTION:NONE',visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        saved=self.submit()
+        self.assertEqual(saved['ticket']['questions'],[])
+        proposal=self.workspace.intake.get(saved['ticket']['intake_id'])['proposal']
+        self.assertEqual(proposal['ticket_route']['route'],'DECLARED_SUBJECT')
+        self.assertEqual(proposal['target_visual']['target_id'],'card')
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_optional_fields_retain_original_request_and_exact_source_intervals(self):
         from investigator.ticket_inputs import document
         request={'text':'Check this.','request_key':'fields',

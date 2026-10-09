@@ -590,3 +590,26 @@ they did not retain the lifecycle history newly required for refusal credit.
 DECIDED WITHOUT REVIEW: require lifecycle evidence for the disposition rather
 than treating the word HELD as proof of successful settlement. An inability to
 answer must never improve the quality gate. #423 stays draft, freezes invalid.
+
+Dated resume checkpoint, 2026-10-09 America/Chicago: the full optional-input
+test process no longer exists and its preserved log has no final test count or
+OK/FAILED footer. Record it as INTERRUPTED, not a pass. Existing unrelated
+notebook/kernel processes were inspected and left untouched. The earlier
+cc8b0d7 2,591-test pass remains the last completed full checkpoint.
+
+An explicit visual-content question now uses DECLARED_SUBJECT, just like an
+intrinsic definition/filter question. A narrowly revalidated what/which/how-many
+ask with no named comparator or timing request does not need the user to invent
+an application/staleness comparison. The target still comes from the original
+consumer and its evidence, never this route. Named external/temporal comparisons,
+ambiguous targets and estate-required confirmation remain open/refused. Eight
+request-route tests and 31 smart-controller tests passed, zero provider calls
+or estate reads. Existing golden records and completed samples are unchanged.
+
+DECIDED WITHOUT REVIEW: route a content question by its stated intrinsic
+subject instead of asking for an irrelevant external comparison. Reject making
+LOOKS_WRONG the automatic substitute. This does not implement comparisons
+between two cells/reports, and does not remove filtered-scope refusals. Phase A
+remains incomplete and ungraded; #423 draft, freezes invalid. Browser inventory
+was checked again and returned apps=[] and browsers=[]; visual UI verification
+remains unavailable, with no estate export attempted.
