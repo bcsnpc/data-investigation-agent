@@ -309,3 +309,39 @@ DECIDED WITHOUT REVIEW: distinguish a configured estate default from a user
 comparison choice, rejecting fabricated confirmation. Preserve the actual
 read-stage FINAL at completion for restart, rejecting retrospective reconstruction
 from an investigation state that may already contain synthesis.
+
+
+## Model-level asks and business-owner routing, 2026-10-09 UTC
+
+Three independent v5 replay tests passed onfefa8e5, including a cold-resume
+workflow that removes the in-memory capture cache before composition. Every
+original capture remained unchanged; all replay requests were offline. Historical
+v4 replay also passed.
+
+The development audit exposed no-figure freshness questions being forced to
+select an unnamed report visual. A report name can anchor the model without
+nominating a display: FRESHNESS/SOURCE_CORRECTNESS with no figure, visual request
+or selected/grouped scope now retain the report binding and start at the model.
+Figure-bearing asks still require a target; selected scope and explicit visuals
+still use the existing target refusals. The first broadening affected unrelated
+discrepancy tests; it was narrowed to these two subjects.117 related tests passed
+after that correction, including wrong-cell and comparison-span guards.
+
+Pure business intent retains the original UNIMPLEMENTED_ROUTE intake refusal,
+then records BUSINESS_VALIDATION only when retained metadata identifies one
+measure and configuration names one business owner. Its package contains the
+ask, available definition and explicit absence of value/pipeline comparisons.
+It does not invent a number, consistency finding or receipts. Missing/ambiguous
+ownership remains HELD; delivery is RECORDED_NOT_SENT. Replies to an intent-only
+handoff are retained without assuming technical findings exist.99 focused tests
+and a later26-test reply check passed (overlapping, not summed).
+
+Zero new provider calls or estate reads. No allowance, identity, secret, fixture
+or golden changes. Phase A remains incomplete/ungraded; #423 draft, prior
+freezes invalid. URL/structured input, aliases, changed-question frames and the
+fresh68-record evaluation remain pending; no screenshot/live-family claim.
+
+DECIDED WITHOUT REVIEW: preserve model-level freshness/source questions without
+asking users to invent a visual, rejecting a blanket relaxation for other kinds.
+Route intent-only tickets using definition/owner evidence while explicitly
+refusing technical findings, rejecting invented end-to-end consistency.

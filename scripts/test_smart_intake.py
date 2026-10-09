@@ -9,6 +9,31 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_meaning_only_ticket_routes_to_declared_owner_without_fabricating_findings(self):
+        self.raw,self.payload=fixture('In Report, Quantity: decide whether the business rule is correct.',
+            kind='BUSINESS_MEANING',triage='BUSINESS_QUESTION:NONE')
+        self.controller.ownership['business']=[{'measure_or_area':'measure','owner':'Operations owner'}]
+        saved=self.submit();ticket=saved['ticket']
+        self.assertEqual(ticket['state'],'BUSINESS_VALIDATION');self.assertEqual(ticket['questions'],[])
+        self.assertEqual(ticket['handoff']['owner'],'Operations owner')
+        self.assertEqual(ticket['handoff']['delivery'],'RECORDED_NOT_SENT')
+        self.assertNotIn('findings',ticket);self.assertNotIn('figure',ticket['handoff'])
+        self.assertEqual(self.workspace.intake.get(ticket['source_intake'])['error'],'UNIMPLEMENTED_ROUTE')
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called();self.h.source.assert_not_called()
+        reply=self.controller.respond({'ticket_id':ticket['id'],'revision':saved['revision'],
+            'kind':'DISPUTE','text':'The owner needs to review this rule.'})
+        self.assertEqual(reply['ticket']['state'],'BUSINESS_VALIDATION')
+        self.assertEqual(reply['ticket']['history'][-1]['detail']['technical_findings'],'NOT_OBTAINED')
+        self.assertNotIn('findings',reply['ticket']);self.assertEqual(self.calls,1)
+
+    def test_model_freshness_ticket_never_asks_for_absent_visual(self):
+        self.raw,self.payload=fixture('In Report, Quantity may be stale. Check freshness.',kind='FRESHNESS')
+        saved=self.submit();self.assertEqual(saved['ticket']['questions'],[])
+        adopted=self.workspace.intake.get(saved['ticket']['intake_id'])
+        self.assertNotIn('target_visual',adopted['proposal'])
+        self.assertEqual(adopted['proposal']['ticket_route']['route'],'STALE')
+        self.h.native.assert_not_called();self.assertEqual(self.calls,1)
+
     def test_estate_default_is_policy_evidence_not_user_confirmation(self):
         self.raw,self.payload=fixture('In Report, Global card Quantity looks wrong.',
             visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])

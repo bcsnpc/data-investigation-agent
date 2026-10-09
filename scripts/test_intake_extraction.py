@@ -25,6 +25,19 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_model_freshness_ask_does_not_select_an_unnamed_report_visual(self):
+        raw,payload=fixture('In Report, Quantity may be stale. Check freshness.',kind='FRESHNESS')
+        value=extraction.resolve(raw,payload);validate(value,payload)
+        self.assertNotIn('target_visual',value)
+        self.assertEqual(value['model_id'],'model');self.assertEqual(value['measure_id'],'measure')
+        self.assertEqual(value['reported_figure']['state'],'UNSPECIFIED')
+        self.assertEqual(value['report_binding']['report_id'],'report')
+
+    def test_numeric_ask_still_requires_target_even_with_a_named_report(self):
+        raw,payload=fixture('In Report, Quantity shows 16.',
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}])
+        with self.assertRaises(TargetUnresolved):extraction.resolve(raw,payload)
+
     def test_omitted_literal_report_is_recovered_from_primary_ask_without_guessing(self):
         raw,payload=fixture('In Report, Global card Quantity differs.',reports=[],
             visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])

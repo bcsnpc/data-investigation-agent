@@ -436,54 +436,57 @@ def resolve(raw, payload):
                         {'state':'VALUE_ONLY','source':None})
             value['selection_request']={'state':'REQUESTED','report_binding':copy.deepcopy(value['report_binding']),
                 'value_source':item['value'],'column_source':None,'descriptor':descriptor}
-        candidates=[v for v in model.get('visuals',[]) if v['report_id']==report['id'] and metric['id'] in v['measure_ids']]
-        matched=candidates;basis=['report','measure'];source=None;mode_source=None;mode=None
-        if report_confirmation and report_confirmation['page_id'] is not None:
-            matched=[v for v in matched if v.get('page_id')==report_confirmation['page_id']]
-            basis.append('user_confirmed_page')
-        for hint in ([] if report_confirmation and report_confirmation['page_id'] is not None else extraction['pages']):
-            if not active(hint,extraction):continue
-            pages=[{'id':v['page_id'],'name':name} for v in matched for name in v.get('page_names',[])]
-            page=match(hint['quote']['quote'],pages,'id',audit)
-            matched=[v for v in matched if v.get('page_id')==page['id']]
-            basis.append('page_name')
-        for hint in ([] if number else extraction['visuals']):
-            if not active(hint,extraction): continue
-            quote=hint['quote']['quote'];form=hint.get('form','TITLE')
-            # A form cue does not erase an explicitly quoted title. Apply both
-            # restrictions, rather than treating every named card alike.
-            title_quote=re.sub(r'\s+(?:card|matrix|chart)$','',quote,flags=re.I).strip() if form in ('CARD','MATRIX','CHART') else quote
-            named_form=form in ('CARD','MATRIX','CHART') and title_quote.casefold()!=form.casefold()
-            if form=='TITLE' or named_form:
-                names=[{'id':v['target_id'],'name':n} for v in matched for n in v['names']]
-                selected=match(title_quote,names,'id',audit)
-                matched=[v for v in matched if v['target_id']==selected['id']]
-                source=hint['quote'];basis.append('visual_name')
-                if named_form:
-                    matched=[v for v in matched if v['form']==form]
-                    if form=='CARD':mode='UNGROUPED';mode_source=hint['quote']
-            elif form=='TOTAL':mode='TOTAL';mode_source=hint['quote']
-            elif form=='UNGROUPED':
-                if not re.search(r'\bglobal\b',quote,re.I):
-                    raise TargetUnresolved(candidates,'Ungrouped scope needs an explicit global request.')
-                matched=[v for v in matched if not v['grouping_columns']]
-                mode='UNGROUPED';mode_source=hint['quote'];basis.append('cell_mode')
-            else:
-                matched=[v for v in matched if v.get('form')==form];basis.append('visual_form')
-        if number:
-            matched=[v for v in candidates if v['target_id']==number['target_id']]
-            if len(matched)!=1:raise TargetUnresolved(candidates,'Confirmed target differs from the resolved report/measure.')
-            mode=number['mode'];source=mode_source=None
-            basis=['report','measure','user_confirmation']
-        if len(matched)!=1:
-            raise TargetUnresolved(matched,'Primary-question evidence does not uniquely select a visual.',
-                                   'TARGET_AMBIGUOUS' if len(matched)>1 else 'TARGET_UNRESOLVED')
-        candidate=matched[0]
-        if candidate.get('unsupported'):raise TargetUnresolved(matched,candidate['unsupported'])
-        mode=mode or ('KEYED' if candidate['grouping_columns'] else 'UNGROUPED')
-        value['target_visual']={'target_id':candidate['target_id'],'report_id':report['id'],'measure_id':metric['id'],
-            'source':source,'mode_source':mode_source,'mode':mode,'resolution':'RESOLVED',
-            'match_basis':{'matched':sorted(set(basis)),'absent':['reported_value_in_inventory','selection_in_inventory']}}
+        needs_visual=bool(raw['kind'] not in ('FRESHNESS','SOURCE_CORRECTNESS') or number or figures or needs_report or
+                          any(primary_fact(i,extraction) for i in extraction['selections']+extraction['groupings']))
+        if needs_visual:
+            candidates=[v for v in model.get('visuals',[]) if v['report_id']==report['id'] and metric['id'] in v['measure_ids']]
+            matched=candidates;basis=['report','measure'];source=None;mode_source=None;mode=None
+            if report_confirmation and report_confirmation['page_id'] is not None:
+                matched=[v for v in matched if v.get('page_id')==report_confirmation['page_id']]
+                basis.append('user_confirmed_page')
+            for hint in ([] if report_confirmation and report_confirmation['page_id'] is not None else extraction['pages']):
+                if not active(hint,extraction):continue
+                pages=[{'id':v['page_id'],'name':name} for v in matched for name in v.get('page_names',[])]
+                page=match(hint['quote']['quote'],pages,'id',audit)
+                matched=[v for v in matched if v.get('page_id')==page['id']]
+                basis.append('page_name')
+            for hint in ([] if number else extraction['visuals']):
+                if not active(hint,extraction): continue
+                quote=hint['quote']['quote'];form=hint.get('form','TITLE')
+                # A form cue does not erase an explicitly quoted title. Apply both
+                # restrictions, rather than treating every named card alike.
+                title_quote=re.sub(r'\s+(?:card|matrix|chart)$','',quote,flags=re.I).strip() if form in ('CARD','MATRIX','CHART') else quote
+                named_form=form in ('CARD','MATRIX','CHART') and title_quote.casefold()!=form.casefold()
+                if form=='TITLE' or named_form:
+                    names=[{'id':v['target_id'],'name':n} for v in matched for n in v['names']]
+                    selected=match(title_quote,names,'id',audit)
+                    matched=[v for v in matched if v['target_id']==selected['id']]
+                    source=hint['quote'];basis.append('visual_name')
+                    if named_form:
+                        matched=[v for v in matched if v['form']==form]
+                        if form=='CARD':mode='UNGROUPED';mode_source=hint['quote']
+                elif form=='TOTAL':mode='TOTAL';mode_source=hint['quote']
+                elif form=='UNGROUPED':
+                    if not re.search(r'\bglobal\b',quote,re.I):
+                        raise TargetUnresolved(candidates,'Ungrouped scope needs an explicit global request.')
+                    matched=[v for v in matched if not v['grouping_columns']]
+                    mode='UNGROUPED';mode_source=hint['quote'];basis.append('cell_mode')
+                else:
+                    matched=[v for v in matched if v.get('form')==form];basis.append('visual_form')
+            if number:
+                matched=[v for v in candidates if v['target_id']==number['target_id']]
+                if len(matched)!=1:raise TargetUnresolved(candidates,'Confirmed target differs from the resolved report/measure.')
+                mode=number['mode'];source=mode_source=None
+                basis=['report','measure','user_confirmation']
+            if len(matched)!=1:
+                raise TargetUnresolved(matched,'Primary-question evidence does not uniquely select a visual.',
+                                       'TARGET_AMBIGUOUS' if len(matched)>1 else 'TARGET_UNRESOLVED')
+            candidate=matched[0]
+            if candidate.get('unsupported'):raise TargetUnresolved(matched,candidate['unsupported'])
+            mode=mode or ('KEYED' if candidate['grouping_columns'] else 'UNGROUPED')
+            value['target_visual']={'target_id':candidate['target_id'],'report_id':report['id'],'measure_id':metric['id'],
+                'source':source,'mode_source':mode_source,'mode':mode,'resolution':'RESOLVED',
+                'match_basis':{'matched':sorted(set(basis)),'absent':['reported_value_in_inventory','selection_in_inventory']}}
     value['extracted_ticket']={'version':VERSION,'response':copy.deepcopy(raw),'spans':extraction,'resolution_evidence':audit}
     if confirmation is not None:
         value['extracted_ticket']['version']='ticket-spans-confirmed-v1'

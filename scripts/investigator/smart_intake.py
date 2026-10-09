@@ -48,6 +48,13 @@ class SmartIntake:
         if source.get('error')=='UNIMPLEMENTED_ROUTE' and raw and raw.get('kind')=='BUSINESS_MEANING':
             # Preserve the existing intent refusal; do not try to turn it into
             # a comparison merely by asking the user to select a visual.
+            handoff=self._intent_handoff(raw,source,catalog['models'])
+            if handoff is not None:
+                def route_intent(current):
+                    current=protocol.transition(current,'BUSINESS_VALIDATION',actor='AGENT',detail={
+                        'owner':handoff['owner'],'package_hash':digest(handoff),'technical_ask_refused':source['refusal_reason']})
+                    current['handoff']=handoff;return current
+                return self.tickets.update(ticket['id'],saved['revision'],route_intent)
             return self.tickets.update(ticket['id'],saved['revision'],lambda current:
                 protocol.transition(current,'HELD',actor='AGENT',detail={
                     'reason':source['refusal_reason'],'route':'BUSINESS_VALIDATION',
@@ -76,6 +83,31 @@ class SmartIntake:
             return current
         result=self.tickets.update(ticket['id'],saved['revision'],plan)
         return self._adopt(result) if not result['ticket']['questions'] and result['ticket']['state']!='HELD' else result
+
+    def _intent_handoff(self, raw, source, models):
+        """A meaning-only ticket carries the ask and definition, never invented findings."""
+        from . import intake_extraction
+        try:
+            extraction=intake_extraction.spans(raw,source['text'])
+            pairs=ticket_clarification.visual_candidates(protocol.new('intent'),extraction,
+                                                         {'text':source['text'],'models':models})
+            eligible={m['id'] for m,_ in pairs}
+            candidates=[{**metric,'binding_id':digest([m['id'],metric['id']]),'model_id':m['id']}
+                for m in models if m['id'] in eligible for metric in m['measures']]
+            matched=[intake_extraction.match(i['quote']['quote'],candidates,'binding_id')
+                     for i in extraction['measures'] if intake_extraction.primary_fact(i,extraction)]
+            if not matched or len({m['binding_id'] for m in matched})!=1:return None
+            measure=matched[0]
+            owners={r['owner'] for r in self.ownership['business'] if r['measure_or_area']==measure['id']}
+            if len(owners)!=1:return None
+            model=next(m for m in models if m['id']==measure['model_id'])
+            return {'kind':'BUSINESS_VALIDATION','owner':next(iter(owners)),
+                'delivery':'RECORDED_NOT_SENT','subject':{'model_id':model['id'],'measure_id':measure['id']},
+                'question':source['text'],'source_intake':source['id'],
+                'retained_definition':model.get('business_definition',''),
+                'limits':['No value or pipeline comparison was performed.',
+                          'The engine does not decide business intent or correctness.']}
+        except ValueError:return None
 
     @operation('ticket_reply')
     def reply(self, request):
@@ -195,6 +227,13 @@ class SmartIntake:
         saved=self.tickets.get(request['ticket_id']);ticket=saved['ticket']
         if ticket['state'] not in ('FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'):
             raise Conflict('Ticket is not awaiting a findings reply')
+        if 'findings' not in ticket and ticket.get('handoff',{}).get('kind')=='BUSINESS_VALIDATION':
+            def owner_reply(current):
+                current['history'].append({'from':current['state'],'to':current['state'],'actor':'USER',
+                    'detail':{'reply_kind':request['kind'],'text':request['text'],
+                              'owner':current['handoff']['owner'],'technical_findings':'NOT_OBTAINED'}})
+                return current
+            return self.tickets.update(ticket['id'],request['revision'],owner_reply)
         from .ticket_findings import CONSISTENT
         finding=ticket['findings']
         self._bound_session(ticket,ticket['session_id'])
