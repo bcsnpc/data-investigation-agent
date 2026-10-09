@@ -56,6 +56,14 @@ class SmartIntake:
             if source.get('proposal'):
                 current=protocol.settle_from_intake(current,source['proposal'],payload,
                     must_confirm=self.configuration['must_confirm'])
+            if raw and 'COMPARISON' not in current['settled'] and 'COMPARISON' not in self.configuration['must_confirm']:
+                from .ticket_route import from_request
+                try:route=from_request(raw,source['text'])
+                except ValueError:route=None
+                if route is not None:
+                    current['settled']['COMPARISON']={'authority':'EXPLICIT_REQUEST_COMPARISON','value':route}
+                    current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
+                        'detail':{'settled_from_request':copy.deepcopy(route)}})
             offered=ticket_clarification.batch(current,source,payload,self.configuration)
             if offered['blocked']:
                 return protocol.transition(current,'HELD',actor='AGENT',detail={'reason':offered['blocked']})

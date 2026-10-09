@@ -103,18 +103,27 @@ def batch(ticket, source, payload, configuration=None):
             choices=[]
             for model,visual in visual_candidates(ticket,extraction,payload):
                 if visual.get('unsupported'):continue
-                # KEYED requires a real key address. Until that input is
-                # representable, do not replace it with an ungrouped/total.
-                mode='TOTAL' if visual['grouping_columns'] else 'UNGROUPED'
+                modes=[('UNGROUPED','')] if not visual['grouping_columns'] else [('TOTAL',' (total cell)')]
+                if visual['grouping_columns']:
+                    # Use the exact scope producer, not a second key parser.
+                    # A value mention alone is never a keyed address.
+                    filters,_,_,pending=intake_extraction.selections(extraction,model)
+                    from .declared_reproduction import compose
+                    restrictions=compose([{'field_id':f['column_id'],'operator':'IN','values':f['values']} for f in filters])
+                    singleton={f['field_id']:f['values'][0] for f in restrictions if len(f['values'])==1}
+                    if not pending and set(visual['grouping_columns'])<=set(singleton):
+                        keys=', '.join(next(c['name'] for c in model['columns'] if c['column_id']==key)+'='+repr(singleton[key])
+                                       for key in visual['grouping_columns'])
+                        modes.insert(0,('KEYED',' (cell: '+keys+')'))
                 report=next(r for r in model['reports'] if r['id']==visual['report_id'])
                 page=' / '.join(visual.get('page_names') or [])
                 name=' / '.join([report['name'],*([page] if page else []),
                                 ' / '.join(visual.get('names') or [visual['target_id']])])
-                if mode=='TOTAL':name+=' (total cell only; keyed cells not offered)'
-                for figure in figures:
-                    label=name+(' — '+repr(figure['quote'])+f" at {figure['start']}:{figure['end']}" if figure else ' — no figure supplied')
-                    choices.append((label,{'target_id':visual['target_id'],'mode':mode,'figure_source':figure,
-                                          'report_id':visual['report_id'],'page_id':visual.get('page_id')}))
+                for mode,suffix in modes:
+                    for figure in figures:
+                        label=name+suffix+(' — '+repr(figure['quote'])+f" at {figure['start']}:{figure['end']}" if figure else ' — no figure supplied')
+                        choices.append((label,{'target_id':visual['target_id'],'mode':mode,'figure_source':figure,
+                                              'report_id':visual['report_id'],'page_id':visual.get('page_id')}))
             add('NUMBER','Which displayed number should we investigate?',choices)
         if 'COMPARISON' not in ticket['settled']:
             add('COMPARISON','What are you comparing against?',[

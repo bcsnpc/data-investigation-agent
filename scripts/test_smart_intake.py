@@ -9,6 +9,37 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_confirmed_keyed_cell_keeps_original_scope(self):
+        self.raw,self.payload=fixture('In Report, warehouse North Quantity shows 16 and 17.',
+            figures=[{'quote':v,'role':'PRIMARY','state':'NUMBER','precision_quote':None} for v in ('16','17')],
+            selections=[{'quote':'warehouse North','column':'warehouse','value':'North','role':'PRIMARY'}])
+        saved=self.submit();request=self.reply(saved)
+        q=next(q for q in saved['ticket']['questions'] if q['field']=='NUMBER')
+        choice=next(c for c in q['choices'] if saved['ticket']['choice_values'][digest(q)+'/'+c['id']].get('mode')=='KEYED'
+            and saved['ticket']['choice_values'][digest(q)+'/'+c['id']]['figure_source']['quote']=='17')
+        next(a for a in request['answers'] if a['question_id']==q['id'])['choice_id']=choice['id']
+        resumed=self.controller.reply(request)
+        adopted=self.workspace.intake.get(resumed['ticket']['intake_id'])
+        self.assertEqual(adopted['proposal']['target_visual']['mode'],'KEYED')
+        self.assertEqual(adopted['proposal']['filters'],[{'column_id':'warehouse','operator':'in','values':['North']}])
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called()
+
+    def test_explicit_freshness_settles_without_comparison_question(self):
+        self.raw,self.payload=fixture('In Report, Global card Quantity is stale.',kind='FRESHNESS',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        saved=self.submit()
+        self.assertEqual(saved['ticket']['questions'],[])
+        adopted=self.workspace.intake.get(saved['ticket']['intake_id'])
+        self.assertEqual(adopted['proposal']['ticket_route']['route'],'STALE')
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called()
+
+    def test_must_confirm_overrides_explicit_request_comparison(self):
+        self.raw,self.payload=fixture('In Report, Global card Quantity is stale.',kind='FRESHNESS',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        self.controller.configuration['must_confirm']=['COMPARISON']
+        saved=self.submit()
+        self.assertEqual([q['field'] for q in saved['ticket']['questions']],['COMPARISON'])
+
     def test_current_producer_retries_nonverbatim_once_and_preserves_both_attempts(self):
         from investigator.question_intake import azure_resolve
         good,payload=fixture('In Report, Global card Quantity differs.',

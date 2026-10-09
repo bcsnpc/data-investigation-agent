@@ -221,6 +221,46 @@ def literal_reports(extraction, ticket, models):
             found.append({'quote':{'start':start,'end':end,'quote':name},'role':'PRIMARY'})
     return found
 
+def selections(extraction, model, audit=None):
+    """One typed selection producer for scope and faithful keyed-cell offers."""
+    audit=[] if audit is None else audit
+    filters=[];scope_quotes=[];value_mentions=[];pending=[]
+    for item in extraction['selections']:
+        is_active=primary_fact(item,extraction)
+        value_mentions.append({'role':'SELECTION' if is_active else 'MENTION','source':item['value']})
+        if not is_active: continue
+        for field in ('column','value'):
+            if item[field] is None:continue
+            if not (item['quote']['start']<=item[field]['start'] and item[field]['end']<=item['quote']['end']):
+                raise ValueError('Selection column/value must lie inside its relationship span')
+        column=None
+        if item['column'] is not None:
+            try:column=match(item['column']['quote'],model['columns'],'column_id',audit)
+            except ValueError:pass  # Preserve the request for report-scoped evidence resolution.
+        if column is None:
+            pending.append(item)
+            continue
+        value=item['value']['quote'];dtype=column['data_type']
+        # Spelling evidence may repair a categorical word. A stated numeric or
+        # date restriction is literal scope, not a nearest-value request.
+        if 'declared_values' in column and dtype in ('string','boolean'):
+            from .intake_name_resolution import closed_value
+            value=closed_value(value,column['declared_values'],audit)
+        if dtype=='int64':
+            if not re.fullmatch(r'-?\d+',value): raise ValueError('Selection is not a declared integer')
+            value=int(value)
+        elif dtype=='boolean':
+            if type(value) is not bool:
+                if not isinstance(value,str) or value.casefold() not in ('true','false'):
+                    raise ValueError('Selection is not a declared boolean')
+                value=value.casefold()=='true'
+        elif dtype not in ('string','decimal','dateTime'): raise ValueError('Unsupported selection type')
+        elif not isinstance(value,str):raise ValueError('Selection does not match its declared scalar type')
+        filters.append({'column_id':column['column_id'],'operator':'in','values':[value]})
+        scope_quotes.append({'column_id':column['column_id'],'quote':item['quote']['quote']})
+    return filters,scope_quotes,value_mentions,pending
+
+
 def resolve(raw, payload):
     """Resolve solely against retained metadata. Missing information is a refusal."""
     from . import report_scope, numeral_roles, intake_rules
@@ -240,6 +280,11 @@ def resolve(raw, payload):
     if confirmed.get('COMPARISON'):
         from .ticket_route import declared,admit
         route=declared(confirmation);admit(route)
+    elif payload.get('_ticket_route') is not None:
+        from .ticket_route import from_request,admit
+        route=from_request(raw,ticket)
+        if route is None or route!=payload['_ticket_route']:raise ValueError('Request comparison evidence differs')
+        admit(route)
     figures=[i for i in extraction['figures'] if primary_fact(i,extraction)]
     # Roles are model judgments, not proof that two reported values belong
     # to different cells. Conserve reported candidates before resolving scope.
@@ -327,40 +372,7 @@ def resolve(raw, payload):
         if derived['state']!=item['state']: raise ValueError('Reported state contradicts its verbatim span')
         if item['precision_quote'] is not None and item['precision_quote']['quote'] not in item['quote']['quote']:
             raise ValueError('Precision must belong to its reported figure span')
-    filters=[];scope_quotes=[];value_mentions=[];pending=[]
-    for item in extraction['selections']:
-        is_active=primary_fact(item,extraction)
-        value_mentions.append({'role':'SELECTION' if is_active else 'MENTION','source':item['value']})
-        if not is_active: continue
-        for field in ('column','value'):
-            if item[field] is None:continue
-            if not (item['quote']['start']<=item[field]['start'] and item[field]['end']<=item['quote']['end']):
-                raise ValueError('Selection column/value must lie inside its relationship span')
-        column=None
-        if item['column'] is not None:
-            try:column=match(item['column']['quote'],model['columns'],'column_id',audit)
-            except ValueError:pass  # Preserve the request for report-scoped evidence resolution.
-        if column is None:
-            pending.append(item)
-            continue
-        value=item['value']['quote'];dtype=column['data_type']
-        # Spelling evidence may repair a categorical word. A stated numeric or
-        # date restriction is literal scope, not a nearest-value request.
-        if 'declared_values' in column and dtype in ('string','boolean'):
-            from .intake_name_resolution import closed_value
-            value=closed_value(value,column['declared_values'],audit)
-        if dtype=='int64':
-            if not re.fullmatch(r'-?\d+',value): raise ValueError('Selection is not a declared integer')
-            value=int(value)
-        elif dtype=='boolean':
-            if type(value) is not bool:
-                if not isinstance(value,str) or value.casefold() not in ('true','false'):
-                    raise ValueError('Selection is not a declared boolean')
-                value=value.casefold()=='true'
-        elif dtype not in ('string','decimal','dateTime'): raise ValueError('Unsupported selection type')
-        elif not isinstance(value,str):raise ValueError('Selection does not match its declared scalar type')
-        filters.append({'column_id':column['column_id'],'operator':'in','values':[value]})
-        scope_quotes.append({'column_id':column['column_id'],'quote':item['quote']['quote']})
+    filters,scope_quotes,value_mentions,pending=selections(extraction,model,audit)
     dimensions=[];dimension_quotes=[]
     for item in extraction['groupings']:
         if not primary_fact(item,extraction):continue

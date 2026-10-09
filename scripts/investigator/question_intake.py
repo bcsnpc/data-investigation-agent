@@ -480,7 +480,13 @@ def validate(value, payload):
     if value.get('question_kind') is not None:question_kind.validate(value['question_kind'],payload['text'])
     if 'ticket_route' in value:
         from .ticket_route import validate as validate_route,admit
-        if (value.get('extracted_ticket',{}).get('version')!='ticket-spans-confirmed-v1' or
+        if value['ticket_route'].get('version')=='ticket-comparison-request-v1':
+            from .ticket_route import from_request
+            raw=value.get('extracted_ticket',{}).get('response')
+            if (payload.get('_ticket_route')!=value['ticket_route'] or raw is None or
+                    from_request(raw,payload['text'])!=value['ticket_route']):
+                raise ValueError('Model response cannot declare request comparison authority')
+        elif (value.get('extracted_ticket',{}).get('version')!='ticket-spans-confirmed-v1' or
                 value['ticket_route'].get('confirmation')!=payload.get('_ticket_confirmation')):
             raise ValueError('Model response cannot declare user comparison confirmation')
         validate_route(value['ticket_route'],payload['text']);admit(value['ticket_route'])
@@ -613,6 +619,12 @@ class Intake:
         proof=intake_confirmation.build(ticket,source['text']) if ticket['confirmed'] else None
         payload={'text':source['text'],'models':catalog['models']}
         if proof is not None:payload['_ticket_confirmation']=proof
+        settled=ticket['settled']['COMPARISON']
+        if settled.get('authority')=='EXPLICIT_REQUEST_COMPARISON':
+            from .ticket_route import from_request
+            route=from_request(raw,source['text'])
+            if route is None or route!=settled['value']:raise Conflict('Request comparison evidence changed')
+            payload['_ticket_route']=route
         proposal=intake_extraction.resolve(raw,payload)
         validate(proposal,payload);question_kind.intake_route(proposal)
         request={'ticket_id':identity,'revision':revision,'request_key':request_key}

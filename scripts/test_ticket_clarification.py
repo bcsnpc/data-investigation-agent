@@ -6,6 +6,28 @@ from test_intake_extraction import fixture
 
 
 class TicketClarificationTests(unittest.TestCase):
+    def test_keyed_offer_uses_typed_primary_selection_not_a_mention(self):
+        raw,payload=fixture('In Report, warehouse North Quantity shows 16.',
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}],
+            selections=[{'quote':'warehouse North','column':'warehouse','value':'North','role':'PRIMARY'}])
+        for role,keyed in [('PRIMARY',True),('CONTEXT',False)]:
+            raw['selections'][0]['role']=role
+            if role=='CONTEXT':raw['contexts']=['warehouse North']
+            offer=planner.batch(protocol.new('ticket'),{'retained_extraction':raw},payload)
+            self.assertIsNone(offer['blocked'])
+            numbers=[v for v in offer['values'].values() if v.get('target_id')=='matrix']
+            self.assertEqual(any(v['mode']=='KEYED' for v in numbers),keyed)
+            if keyed:
+                q=next(q for q in offer['questions'] if q['field']=='NUMBER')
+                self.assertTrue(any("warehouse_name='North'" in c['label'] for c in q['choices']))
+
+    def test_empty_intersection_is_not_a_keyed_address(self):
+        raw,payload=fixture('In Report, warehouse North and warehouse South Quantity.',
+            selections=[{'quote':'warehouse '+v,'column':'warehouse','value':v,'role':'PRIMARY'} for v in ('North','South')])
+        offer=planner.batch(protocol.new('ticket'),{'retained_extraction':raw},payload)
+        self.assertIsNone(offer['blocked'])
+        self.assertFalse(any(v.get('mode')=='KEYED' for v in offer['values'].values()))
+
     def test_named_container_limits_offer_without_using_values_or_picking_target(self):
         raw,payload=fixture('In Report, Quantity shows 16 and 17.',
             figures=[{'quote':v,'role':'PRIMARY','state':'NUMBER','precision_quote':None} for v in ('16','17')])

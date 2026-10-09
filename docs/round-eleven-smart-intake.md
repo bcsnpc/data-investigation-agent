@@ -245,3 +245,37 @@ retained declaration, rejecting a redundant independent report/page question.
 Never use a reported-value match as identity authority. Retained-response audit
 results are development diagnostics, rejecting the alternative of presenting
 historical samples as fresh model-quality scores.
+
+
+## Explicit comparison and keyed-cell checkpoint, 2026-10-09 UTC
+
+The controller settles a comparison from a validated verbatim primary ask only
+when its subject and wording explicitly agree on freshness or the application
+source. Secondary comparisons and competing routes remain open. Estate-required
+confirmation overrides this settlement. The original provider wire is unchanged;
+an internal request-proof variant is recomputed at adoption and rejects model
+authority, changed spans, hashes, kinds and routes.
+
+Grouped visual offers now include a keyed cell only when the same typed selection
+producer used by intake establishes every grouping key as a singleton. The user
+selects the offered cell; mentions, missing keys and empty intersections do not
+become addresses. This refactors the scope parser rather than adding a parallel
+key parser. Total and keyed choices remain distinct.
+
+104 focused tests passed, including wrong-cell, competing-figure, confirmation
+and extraction checks. This is not a fresh 68-record grade. The second
+development-only retained-response audit conserved its originals separately in
+.local/round-eleven/retained-dev-audit-v2: 40 cases, 9 adopted scopes, 52 offered
+questions (1.30 per ticket), versus the earlier 8 and 88. Unanswerable choices
+remain unanswerable; no absent referent was volunteered. The audit predates the
+keyed-offer change and uses historical provider responses, so it establishes
+redundant-question reduction, not model quality or the Phase A gate.
+
+Zero new model calls and zero estate reads. No budget, identity, secret, fixture
+or golden change. #423 remains draft; Phase A is incomplete and ungraded, and
+prior freezes remain invalid.
+
+DECIDED WITHOUT REVIEW: use explicit retained question evidence to settle narrow
+comparison routes, rejecting inference from vertical/horizontal triage. Reuse the
+intake scope producer for keyed offers, rejecting a second parser whose keys
+could drift from the consumer.
