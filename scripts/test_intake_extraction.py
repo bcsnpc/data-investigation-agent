@@ -25,6 +25,59 @@ def fixture(ticket, **updates):
     return raw,{'text':ticket,'models':[model]}
 
 class ExtractionTests(unittest.TestCase):
+    def test_independent_extraction_does_not_add_planner_context(self):
+        raw,payload=fixture('In Report, Global card Quantity differs.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        with patch('ticket_planner.azure_generate',return_value=(raw,{})) as provider:
+            extraction.azure_extract(payload)
+            before=provider.call_args
+            extraction.azure_resolve(payload)
+            after=provider.call_args
+        self.assertEqual(before,after)
+        self.assertEqual(provider.call_count,2)
+
+    def test_extraction_survives_an_unresolved_target_without_another_model_call(self):
+        raw,payload=fixture('In Report, Quantity differs.')
+        with patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'retained'})) as provider:
+            extracted,metadata=extraction.azure_extract(payload)
+            with self.assertRaises(TargetUnresolved):extraction.resolve(extracted,payload)
+            self.assertEqual(provider.call_count,1)
+            self.assertEqual(metadata,{'response_id':'retained'})
+            self.assertEqual(extracted,raw)
+
+    def test_independent_extraction_still_rejects_nonverbatim_provenance(self):
+        from investigator.question_intake import QuoteNotFound
+        raw,payload=fixture('In Report, Quantity differs.',measures=[{'quote':'Invented metric','role':'PRIMARY'}])
+        with patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'retained'})):
+            with self.assertRaises(QuoteNotFound) as caught:extraction.azure_extract(payload)
+        self.assertEqual(caught.exception.provider_metadata,{'response_id':'retained'})
+
+    def test_sealed_two_figure_admission_responses_now_require_clarification(self):
+        saved=json.loads((Path(__file__).resolve().parents[1]/'acceptance/model_steps/intake-competing-figures-regression.json').read_text())
+        self.assertEqual(len(saved['responses']),2)
+        for response in saved['responses']:
+            with self.assertRaises(extraction.reported_figure.AmbiguousFigure):
+                extraction.resolve(response,{'text':saved['ticket'],'models':[]})
+
+    def test_competing_reported_figures_cannot_disappear_under_comparison_role(self):
+        ticket='In Report, Quantity currently shows 8765 and 8766 for the identical card and scope. Both are reported values.'
+        from itertools import product
+        for first_role,role in product(extraction.ROLES,repeat=2):
+            with self.subTest(first_role=first_role,role=role):
+                raw,payload=fixture(ticket,comparisons=['8766'],
+                    figures=[{'quote':'8765','role':first_role,'state':'NUMBER','precision_quote':None},
+                             {'quote':'8766','role':role,'state':'NUMBER','precision_quote':None}])
+                with self.assertRaises(extraction.reported_figure.AmbiguousFigure):
+                    extraction.resolve(raw,payload)
+
+    def test_equal_reported_candidates_do_not_manufacture_ambiguity(self):
+        ticket='In Report, Global card Quantity shows 8765; another report also shows 8765.'
+        raw,payload=fixture(ticket,comparisons=['another report also shows 8765'],
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}],
+            figures=[{'quote':'Quantity shows 8765','role':'PRIMARY','state':'NUMBER','precision_quote':None},
+                     {'quote':'also shows 8765','role':'COMPARISON','state':'NUMBER','precision_quote':None}])
+        self.assertEqual(extraction.resolve(raw,payload)['reported_figure']['value'],'8765')
+
     def test_dev_guidance_keeps_setup_and_same_measure_comparator_roles_distinct(self):
         self.assertIn('same measure',extraction.INSTRUCTIONS)
         self.assertIn('Selections are only user-selected',extraction.INSTRUCTIONS)

@@ -13,6 +13,39 @@ ROOT=Path(__file__).resolve().parents[1]
 class ManifestTests(unittest.TestCase):
     def fixture(self):return json.loads((ROOT/'infra/estates/fixture.json').read_text())
 
+    def smart(self):
+        value=self.fixture()
+        value['intake']={'comparison_choices':[{'route':'APPLICATION','label':'Against our application'},
+            {'route':'LOOKS_WRONG','label':'No other comparison'}], 'default_route':'ASK',
+            'must_confirm':['NUMBER'],'max_clarifying_rounds':2,'screenshot_retention_days':30,
+            'screenshot_redaction':'ESTATE_RECORDING_POLICY','vocabulary_aliases':[]}
+        value['ownership']={'business':[{'measure_or_area':'operations','owner':'Operations owner'}],
+            'technical':[{'layer_or_pipeline':value['layers'][0]['id'],'owner':'Reporting team'}]}
+        return value
+
+    def test_smart_ticket_configuration_is_closed_and_customisable(self):
+        value=self.smart();self.assertEqual(manifest.validate(value)['intake']['max_clarifying_rounds'],2)
+        other=copy.deepcopy(value);other['intake'].update(default_route='APPLICATION',max_clarifying_rounds=3,
+            must_confirm=['NUMBER','COMPARISON'],screenshot_retention_days=7,
+            vocabulary_aliases=[{'alias':'Orders','canonical':'Order count'}])
+        other['intake']['comparison_choices'].reverse()
+        other['ownership']['business'][0]['owner']='Client finance owner'
+        self.assertEqual(manifest.validate(other)['intake']['comparison_choices'][0]['route'],'LOOKS_WRONG')
+        for section in ('intake','ownership'):
+            bad=copy.deepcopy(value);bad[section]['unexpected']=True
+            with self.assertRaises(ValueError):manifest.validate(bad)
+
+    def test_smart_ticket_defaults_and_owners_cannot_be_ambiguous(self):
+        for mutate in (lambda m:m['intake'].update(default_route='STALE'),
+                       lambda m:m['intake']['comparison_choices'].append(m['intake']['comparison_choices'][0]),
+                       lambda m:m['ownership']['business'].append(m['ownership']['business'][0]),
+                       lambda m:m['ownership']['technical'][0].update(layer_or_pipeline='undeclared'),
+                       lambda m:m['intake'].update(screenshot_redaction='RAW_FALLBACK'),
+                       lambda m:m['intake'].update(vocabulary_aliases=[{'alias':'Orders','canonical':'A'},
+                                                                   {'alias':'orders','canonical':'B'}])):
+            value=self.smart();mutate(value)
+            with self.assertRaises(ValueError):manifest.validate(value)
+
     def test_fixture_arithmetic_never_enters_runtime_configuration(self):
         from investigator.adapters.estate_installation import configuration
         configured=self.fixture();bare=copy.deepcopy(configured);bare.pop('fixture_states')

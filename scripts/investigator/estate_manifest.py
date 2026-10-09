@@ -11,6 +11,7 @@ from .estate_limits import STATEMENT_BOUND
 from .code_sources import CODE_SOURCE_SCHEMA, validate_sources as validate_code_inventory
 from .binding_sample import SAMPLE_SCHEMA
 from .string_semantics import SCHEMA as STRING_SEMANTICS
+from .ticket_protocol import INTAKE as INTAKE_SCHEMA, OWNERSHIP as OWNERSHIP_SCHEMA
 
 
 def obj(properties, optional=()):
@@ -41,6 +42,7 @@ PROVIDER_REGION={'oneOf':[
     obj({'status':{'const':'DECLARED'},'name':STRING,'evidence':STRING}),
     obj({'status':{'const':'UNDECLARED'},'reason':STRING})]}
 SCHEMA=obj({
+    'intake':INTAKE_SCHEMA,'ownership':OWNERSHIP_SCHEMA,
     'version':{'const':'estate-manifest-v1'},'environment':STRING,
     'lineage_proposer':BOOL,'assistant_proposer':BOOL,
     'storage':obj({'catalog':STRING,'inventory':STRING}),
@@ -97,13 +99,25 @@ SCHEMA=obj({
     # Evaluator-only declarations; not projected into tools or prompts.
     'fixture_states':array(obj({'id':STRING,'description':STRING,
         'arithmetic':{'type':'string','minLength':1,'maxLength':2000},
-        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer','retention','recording'))
+        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer','retention','recording','intake','ownership'))
 
 
 def validate(value):
     errors=sorted(Draft202012Validator(SCHEMA).iter_errors(value),key=lambda e:str(list(e.path)))
     if errors:
         e=errors[0];raise ValueError('manifest.'+'.'.join(map(str,e.path))+': '+e.message)
+    if 'intake' in value:
+        routes=[c['route'] for c in value['intake']['comparison_choices']]
+        if len(set(routes))!=len(routes):raise ValueError('manifest.intake: duplicate comparison route')
+        default=value['intake']['default_route']
+        if default!='ASK' and default not in routes:
+            raise ValueError('manifest.intake: default route is not an offered comparison')
+        aliases=[a['alias'].casefold() for a in value['intake']['vocabulary_aliases']]
+        if len(set(aliases))!=len(aliases):raise ValueError('manifest.intake: ambiguous vocabulary alias')
+    if 'ownership' in value:
+        for kind,key in (('business','measure_or_area'),('technical','layer_or_pipeline')):
+            selectors=[row[key] for row in value['ownership'][kind]]
+            if len(set(selectors))!=len(selectors):raise ValueError('manifest.ownership: ambiguous owner')
     from .generation_policy import validate as generation
     generation(value['model']['generation_options'])
     from .privacy_projection import declaration as recording_declaration
@@ -118,7 +132,10 @@ def validate(value):
     from .string_semantics import validate as validate_string_semantics
     for layer in layers.values():
         if 'string_semantics' in layer:validate_string_semantics(layer['string_semantics'])
-    indexed('pipelines')
+    pipelines=indexed('pipelines')
+    for owner in value.get('ownership',{}).get('technical',[]):
+        if owner['layer_or_pipeline'] not in set(layers)|set(pipelines):
+            raise ValueError('manifest.ownership.technical: undeclared layer or pipeline')
     if 'fixture_states' in value:indexed('fixture_states')
     from .layer_roles import declarations as roles
     roles([{k:l[k] for k in ('asset_id','role','business_name')} for l in value['layers']])

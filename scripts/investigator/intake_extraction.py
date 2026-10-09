@@ -179,6 +179,12 @@ def resolve(raw, payload):
     from . import report_scope, numeral_roles, intake_rules
     from .visual_target import TargetUnresolved
     extraction=spans(raw,payload['text']); ticket=payload['text']
+    figures=[i for i in extraction['figures'] if primary_fact(i,extraction)]
+    # Roles are model judgments, not proof that two reported values belong
+    # to different cells. Conserve reported candidates before resolving scope.
+    # Clarification may settle their referents; extraction cannot erase one.
+    if len(extraction['figures']) > 1:
+        reported_figure.from_candidates([i['quote'] for i in extraction['figures']],ticket)
     # Business intent has no executable technical target. Decide it before
     # catalog resolution; a figure-bearing mixed ticket remains technical.
     early_shape,_=intake_triage.PAIRS[raw['triage']]
@@ -228,7 +234,6 @@ def resolve(raw, payload):
     model_id,metric_id=json.loads(chosen['resolution_id'])
     model=next(m for m in models if m['id']==model_id)
     metric=next(m for m in model['measures'] if m['id']==metric_id)
-    figures=[i for i in extraction['figures'] if primary_fact(i,extraction)]
     reported=reported_figure.from_candidates([i['quote'] for i in figures],ticket)
     for item in figures:
         derived=reported_figure.from_candidates([item['quote']],ticket)
@@ -369,22 +374,43 @@ def resolve(raw, payload):
     value['extracted_ticket']={'version':VERSION,'response':copy.deepcopy(raw),'spans':extraction,'resolution_evidence':audit}
     return value
 
-def azure_resolve(payload):
+def _generate(payload):
     from ticket_planner import azure_generate
     request_size(payload)
-    raw,metadata=azure_generate(wire(payload),instructions=INSTRUCTIONS,schema=SCHEMA,
+    return azure_generate(wire(payload),instructions=INSTRUCTIONS,schema=SCHEMA,
         name='extract_ticket_spans',decision_tool=True,max_request_characters=REQUEST_CAP)
+
+
+def _failure(exc, metadata):
+    exc.provider_metadata=metadata
+    from .question_intake import QuoteNotFound, FigureQuoteAmbiguous
+    from .visual_target import TargetUnresolved
+    from .intake_rules import RuleViolation
+    if isinstance(exc,(QuoteNotFound,FigureQuoteAmbiguous,TargetUnresolved,RuleViolation,
+                       reported_figure.AmbiguousFigure,reported_figure.UnavailablePrecision,question_kind.UnimplementedRoute)):
+        raise exc
+    failed=RuleViolation('INTAKE_EXTRACTION_INVALID',str(exc))
+    failed.provider_metadata=metadata
+    raise failed from exc
+
+
+def azure_extract(payload):
+    """Retain validated spans even when no catalog scope can yet be resolved.
+
+    Interactive clarification needs this evidence. A missing target is not a
+    reason to discard extraction or repeat the provider call on every reply.
+    """
+    raw,metadata=_generate(payload)
+    try:
+        spans(raw,payload['text'])
+        return raw,metadata
+    except Exception as exc:_failure(exc,metadata)
+
+
+def azure_resolve(payload):
+    raw,metadata=_generate(payload)
     try:return resolve(raw,payload),metadata
-    except Exception as exc:
-        exc.provider_metadata=metadata
-        from .question_intake import QuoteNotFound, FigureQuoteAmbiguous
-        from .visual_target import TargetUnresolved
-        from .intake_rules import RuleViolation
-        if isinstance(exc,(QuoteNotFound,FigureQuoteAmbiguous,TargetUnresolved,RuleViolation,
-                           reported_figure.AmbiguousFigure,reported_figure.UnavailablePrecision,question_kind.UnimplementedRoute)):
-            raise
-        failed=RuleViolation('INTAKE_EXTRACTION_INVALID',str(exc))
-        failed.provider_metadata=metadata
-        raise failed from exc
+    except Exception as exc:_failure(exc,metadata)
 
 azure_resolve.request_characters=request_size
+azure_extract.request_characters=request_size
