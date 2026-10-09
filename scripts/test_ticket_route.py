@@ -15,6 +15,29 @@ def route(value):
 
 
 class TicketRouteTests(unittest.TestCase):
+    def test_local_subject_does_not_invent_a_comparison_or_request_freshness(self):
+        from test_intake_extraction import fixture
+        from investigator.ticket_clarification import settings
+        raw,payload=fixture('In Report, explain Quantity components.',kind='METRIC_COMPONENTS')
+        value=ticket_route.settlement(raw,payload['text'],settings())
+        self.assertEqual(value['route'],'DECLARED_SUBJECT')
+        self.assertEqual(value['kind'],'METRIC_COMPONENTS')
+        self.assertFalse(ticket_route.wants_freshness({'ticket_route':value}))
+        ticket_route.admit(value)
+        with self.assertRaises(ValueError):ticket_route.validate(value,'Another question')
+        self.assertIsNone(ticket_route.settlement(raw,payload['text'],{**settings(),'must_confirm':['COMPARISON']}))
+
+    def test_local_subject_cannot_replace_a_named_comparator_or_business_intent(self):
+        from test_intake_extraction import fixture
+        from investigator.ticket_clarification import settings
+        raw,payload=fixture('In Report, explain Quantity compared with another report.',
+            kind='TRANSFORMATION_MECHANISM',comparisons=['another report'])
+        self.assertIsNone(ticket_route.settlement(raw,payload['text'],settings()))
+        raw,payload=fixture('In Report, explain Quantity against the app.',kind='METRIC_COMPONENTS')
+        self.assertIsNone(ticket_route.settlement(raw,payload['text'],settings()))
+        raw,payload=fixture('In Report, explain the business meaning of Quantity.',kind='BUSINESS_MEANING')
+        self.assertIsNone(ticket_route.settlement(raw,payload['text'],settings()))
+
     def test_only_recorded_comparison_can_establish_route(self):
         value=route('APPLICATION');self.assertEqual(ticket_route.validate(value,'Question'),value)
         for wrong in ('STALE','invented'):

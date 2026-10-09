@@ -9,6 +9,17 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_named_definition_question_does_not_ask_for_an_external_comparator(self):
+        self.raw,self.payload=fixture('In Report, explain Global card Quantity components.',
+            kind='METRIC_COMPONENTS',visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        saved=self.submit();ticket=saved['ticket']
+        self.assertEqual(ticket['questions'],[])
+        adopted=self.workspace.intake.get(ticket['intake_id'])
+        self.assertEqual(adopted['proposal']['ticket_route']['route'],'DECLARED_SUBJECT')
+        self.assertEqual(adopted['proposal']['question_kind']['kind'],'METRIC_COMPONENTS')
+        self.assertNotIn('COMPARISON',ticket['confirmed'])
+        self.assertEqual(self.calls,1);self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_successful_extraction_survives_later_consumer_route_refusal(self):
         from investigator.question_kind import UnimplementedRoute
         self.raw,self.payload=fixture('In Report, Global card Quantity is stale.',kind='FRESHNESS',

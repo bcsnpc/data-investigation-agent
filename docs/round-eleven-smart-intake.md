@@ -429,3 +429,24 @@ cases have regression tests; no target, filter or lower-scope refusal is weakene
 DECIDED WITHOUT REVIEW: distinguish a visual label from a separately stated
 breakdown, rejecting silent query-grain changes caused by extracting the same
 visual-title words twice. Original nominations remain in retained extraction.
+
+
+### Subject-only clarification checkpoint
+
+Definition, component, transformation-mechanism and filter-effect questions
+without an external comparator now carry ticket-subject-route-v1 evidence:
+DECLARED_SUBJECT, kind, exact primary span and request hash. They do not invent
+an application comparison, a looks-wrong complaint or freshness request. Any
+retained comparator, explicit comparator wording, business meaning or temporal
+comparison leaves the original refusals/questions intact. Must-confirm policy
+still overrides. The intake consumer recomputes the proof from original text
+and extraction before admission; a model cannot supply its own authority.
+135 related checks passed, followed by30 focused checks after tightening the
+comparator wording guard. These suites overlap. No new provider or estate calls.
+
+DECIDED WITHOUT REVIEW: a request to explain a local definition/filter has a
+subject, not an absent external comparison. Reject asking users to select an
+application/staleness route merely to explain the requested definition. This
+additive proof preserves legacy user-confirmation and sealed replay contracts.
+The fresh40-case evaluation above predates this fix; no improved score is claimed.
+Phase A still incomplete/ungraded, #423 draft, freezes invalid.

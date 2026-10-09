@@ -21,7 +21,13 @@ DEFAULT_SCHEMA=ticket_protocol.obj({'version':{'const':DEFAULT_VERSION},
     'route':{'enum':['APPLICATION','STALE','LOOKS_WRONG']},
     'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
     'configuration_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'}})
-SCHEMA={'oneOf':[USER_SCHEMA,EVIDENCE_SCHEMA,DEFAULT_SCHEMA]}
+SUBJECT_VERSION='ticket-subject-route-v1'
+SUBJECT_KINDS=('METRIC_COMPONENTS','DERIVED_CALCULATION','TRANSFORMATION_MECHANISM','FILTER_EFFECT')
+SUBJECT_SCHEMA=ticket_protocol.obj({'version':{'const':SUBJECT_VERSION},
+    'route':{'const':'DECLARED_SUBJECT'},'kind':{'enum':list(SUBJECT_KINDS)},
+    'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
+    'source':copy.deepcopy(EVIDENCE_SCHEMA['oneOf'][0]['properties']['source'])})
+SCHEMA={'oneOf':[USER_SCHEMA,EVIDENCE_SCHEMA,DEFAULT_SCHEMA,SUBJECT_SCHEMA]}
 
 
 def settlement(raw, ticket, configuration):
@@ -37,6 +43,15 @@ def settlement(raw, ticket, configuration):
     # A default may fill absence, never replace a named comparator or intent.
     if re.search(r'\b(application|source|stale|freshness|refresh|lag|another|other report|second report)\b',
                  extraction['primary']['quote'],re.I):return None
+    if raw['kind'] in SUBJECT_KINDS and not re.search(
+            r'\b(compared|versus|against|than|elsewhere|yesterday|earlier|previous)\b',
+            extraction['primary']['quote'],re.I) and re.search(
+            r'\b(how|why|explain|components?|composition|calculation|derived|mechanism|filters?)\b',
+            extraction['primary']['quote'],re.I):
+        # A definition/filter question has an intrinsic subject, not a missing
+        # external comparator. Do not manufacture "looks wrong" or freshness.
+        return validate({'version':SUBJECT_VERSION,'route':'DECLARED_SUBJECT','kind':raw['kind'],
+                         'request_hash':digest(ticket),'source':extraction['primary']},ticket)
     route=config['default_route']
     if route not in ('APPLICATION','STALE','LOOKS_WRONG'):return None
     return validate({'version':DEFAULT_VERSION,'route':route,'request_hash':digest(ticket),
@@ -77,7 +92,7 @@ def validate(value, ticket=None):
         if ticket is not None and value['request_hash']!=digest(ticket):
             raise ValueError('Comparison policy belongs to a different ticket')
         return value
-    if value['version']==EVIDENCE_VERSION:
+    if value['version'] in (EVIDENCE_VERSION,SUBJECT_VERSION):
         if ticket is not None:
             source=value['source']
             if (value['request_hash']!=digest(ticket) or source['end']>len(ticket) or

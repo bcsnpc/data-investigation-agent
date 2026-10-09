@@ -480,7 +480,7 @@ def validate(value, payload):
     if value.get('question_kind') is not None:question_kind.validate(value['question_kind'],payload['text'])
     if 'ticket_route' in value:
         from .ticket_route import validate as validate_route,admit
-        if value['ticket_route'].get('version') in ('ticket-comparison-request-v1','ticket-comparison-policy-v1'):
+        if value['ticket_route'].get('version') in ('ticket-comparison-request-v1','ticket-comparison-policy-v1','ticket-subject-route-v1'):
             from .ticket_route import settlement
             raw=value.get('extracted_ticket',{}).get('response')
             if (payload.get('_ticket_route')!=value['ticket_route'] or raw is None or
