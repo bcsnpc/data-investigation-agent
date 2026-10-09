@@ -1,3 +1,5 @@
+Dated Round Eleven B validation, 2026-10-09: source24e306f passed 2,672 full regression tests, native exit0. Oracle68 remains pending owner/reviewer approval and unscored; zero new model/estate calls, #423 draft. See docs/round-eleven-b-safety-oracle.md.
+
 Dated Round Eleven B review checkpoint, 2026-10-09: five flags audited, three independently reproved model-only scopes are false flags; two real visual-scope defects now refuse unsafe adoption/selection. Zero new model/estate calls. Conversational oracle draft68 (dev40/held28),29 with undetermined truth fields, owner/reviewer approvals blank; not sealed or scored. Original goldens/split/tapes unchanged. Stop for oracle review, #423 draft, freezes invalid; no scope/secret/fixture/budget changes. See docs/round-eleven-b-safety-oracle.md.
 
 Dated Round Eleven validation, 2026-10-09: 2,665 corrected full regression tests passed; 110 lifecycle/safety and 36 focused input/adoption checks passed separately. The initial two invalid-fixture errors are preserved. This does not clear the FAILED Phase A quality gate. See docs/round-eleven-phase-a-results.md.

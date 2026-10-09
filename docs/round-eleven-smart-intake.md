@@ -912,3 +912,5 @@ Dated corrected full regression result: 2,665 tests OK in543.092seconds after fi
 
 
 Dated Part Two safety/oracle checkpoint, 2026-10-09: three model-level admissions independently reproved as false flags; matrix and bookmark admissions are real defects with new safety refusals. Five offline ledger rows preserve original tape identities; no fresh provider or estate calls. Draft oracle68 records,29 partially undetermined; approvals absent and not scored. Original Phase A gate remains failed; prior freezes invalid. Stop at section2 for owner/reviewer approval. See [safety findings and oracle](round-eleven-b-safety-oracle.md).
+
+Dated Round Eleven B validation, 2026-10-09: committed source24e306f passed2,672 full regression tests, native exit0. Dirty-source tape refusals remain recorded. The oracle68 review remains unapproved/unscored; five safety flags disposed (3false,2real fixed). Zero new provider/estate calls; #423 draft, no fresh quality gate claim. See docs/round-eleven-b-safety-oracle.md.

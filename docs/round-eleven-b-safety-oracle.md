@@ -112,3 +112,13 @@ correctly refused to seal a dirty source tree. Its log is preserved at
 .local/round-eleven/part-two-regression.log. A parallel fail-fast run overlapped
 source edits and refused changed engine identity; it is not a clean regression
 result. A committed-source full rerun follows; neither refusal was bypassed.
+
+Committed-source validation completed on 24e306f: 2,672 tests passed in
+461.449 seconds, native exit0. The unchanged clean-source log and status are
+.local/round-eleven/part-two-regression-clean.log and
+.local/round-eleven/part-two-regression-clean-status.json. This includes the
+wrong-cell/comparison-span regressions and the new safety/oracle tests. These
+are regression checks, not a new provider quality or conversational settlement
+score. The initial failed logs remain preserved. Original golden files are
+unchanged; the prior ledger prefix is intact. Draft SHA-256 remains
+0bce64af7690c4fc86b7e9bfd2e796d80dfc5a3aadf1154f605cac21254e11dd.
