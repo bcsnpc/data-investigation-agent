@@ -270,7 +270,7 @@ def selections(extraction, model, audit=None, *, ticket):
     return filters,scope_quotes,value_mentions,pending
 
 
-def keyed_address(pending, candidate, model, *, ticket):
+def keyed_address(pending, candidate, model, *, ticket, named_or_confirmed=False):
     """A slash-separated stated cell follows declared row/column axes.
 
     This applies only after the visual itself resolves. A missing/duplicate
@@ -278,10 +278,14 @@ def keyed_address(pending, candidate, model, *, ticket):
     Ordinary slicer values containing slashes remain symbolic selections.
     """
     order=candidate.get('cell_key_order')
-    if (len(pending)!=1 or not order or len(order)<2 or len(set(order))!=len(order)
+    if not order and named_or_confirmed and len(candidate['grouping_columns'])==1:
+        order=candidate['grouping_columns']
+    if (len(pending)!=1 or not order or len(set(order))!=len(order)
             or set(order)!=set(candidate['grouping_columns'])):return None
     item=pending[0]
-    if item['column'] is not None or not re.search(r'\bcell\b',item['quote']['quote'],re.I):return None
+    if item['column'] is not None:return None
+    if len(order)>1 and not re.search(r'\bcell\b',item['quote']['quote'],re.I):return None
+    if len(order)==1 and not named_or_confirmed:return None
     parts=[p.strip() for p in item['value']['quote'].split('/')]
     if len(parts)!=len(order) or any(not p for p in parts):return None
     columns={c['column_id']:c for c in model['columns']};filters=[];quotes=[]
@@ -416,6 +420,14 @@ def resolve(raw, payload):
         audit.append({'resolution':'USER_CONFIRMED_VISUAL_MEASURE','target_id':number['target_id'],
                       'model_id':selected_model['id'],'measure_id':visual['measure_ids'][0]})
     identities={c['resolution_id'] for _,c in resolved}
+    if len(identities)>1 and number:
+        visuals=[(m,v) for m in models for v in m.get('visuals',[]) if v['target_id']==number['target_id']]
+        if len(visuals)==1 and len(visuals[0][1]['measure_ids'])==1:
+            identity=json.dumps([visuals[0][0]['id'],visuals[0][1]['measure_ids'][0]],separators=(',',':'))
+            if identity in identities:
+                resolved=[r for r in resolved if r[1]['resolution_id']==identity];identities={identity}
+                audit.append({'resolution':'USER_CONFIRMED_STARTING_MEASURE','target_id':number['target_id'],
+                              'measure_id':visuals[0][1]['measure_ids'][0]})
     if len(identities)!=1:raise ValueError('Starting measure/model is '+('ambiguous' if identities else 'unresolved'))
     metric_mention,chosen=resolved[0]
     model_id,metric_id=json.loads(chosen['resolution_id'])
@@ -575,7 +587,7 @@ def resolve(raw, payload):
             if candidate.get('unsupported'):raise TargetUnresolved(matched,candidate['unsupported'])
             mode=mode or ('KEYED' if candidate['grouping_columns'] else 'UNGROUPED')
             if mode=='KEYED' and pending:
-                address=keyed_address(pending,candidate,model,ticket=ticket)
+                address=keyed_address(pending,candidate,model,ticket=ticket,named_or_confirmed=bool(source or number))
                 if address is not None:
                     keys,key_quotes=address
                     if set(f['column_id'] for f in filters)&set(f['column_id'] for f in keys):
@@ -583,7 +595,8 @@ def resolve(raw, payload):
                     filters.extend(keys);scope_quotes.extend(key_quotes)
                     value.pop('selection_request',None)
                     audit.append({'resolution':'DECLARED_MATRIX_ADDRESS_ORDER','target_id':candidate['target_id'],
-                                  'cell_key_order':candidate['cell_key_order'],'source':pending[0]['value']})
+                                  'cell_key_order':candidate.get('cell_key_order',candidate['grouping_columns']),
+                                  'source':pending[0]['value']})
             value['target_visual']={'target_id':candidate['target_id'],'report_id':report['id'],'measure_id':metric['id'],
                 'source':source,'mode_source':mode_source,'mode':mode,'resolution':'RESOLVED',
                 'match_basis':{'matched':sorted(set(basis)),'absent':['reported_value_in_inventory','selection_in_inventory']}}

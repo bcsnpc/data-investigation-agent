@@ -1,5 +1,6 @@
 import copy
 import unittest
+from unittest.mock import patch
 from test_intake_extraction import fixture
 from investigator import intake_extraction as extraction
 from investigator.question_intake import validate
@@ -7,6 +8,25 @@ from investigator.visual_target import complete
 
 
 class MatrixAddressTests(unittest.TestCase):
+    def test_confirmed_single_measure_visual_selects_between_two_named_measures(self):
+        raw,payload=fixture('In Report, Quantity and Value differ. Explain their definitions.',
+            measures=[{'quote':'Quantity','role':'PRIMARY'},{'quote':'Value','role':'PRIMARY'}])
+        payload['models'][0]['measures'].append({'id':'other','name':'Value'})
+        with self.assertRaisesRegex(ValueError,'Starting measure/model is ambiguous'):extraction.resolve(raw,payload)
+        with patch('investigator.intake_confirmation.values',return_value={'NUMBER':{
+                'target_id':'card','mode':'UNGROUPED','figure_source':None}}):
+            value=extraction.resolve(raw,{**payload,'_ticket_confirmation':{'test':'trusted validator result'}})
+        self.assertEqual(value['measure_id'],'measure')
+        self.assertEqual(value['extracted_ticket']['response']['measures'],raw['measures'])
+
+    def test_named_single_axis_matrix_binds_its_stated_key(self):
+        raw,payload=fixture('In Report, selected North Quantity differs on Warehouse matrix.',
+            kind='VISUAL_CONTENT',visuals=[{'quote':'Warehouse matrix','role':'PRIMARY','form':'MATRIX'}],
+            selections=[{'quote':'selected North','column':None,'value':'North','role':'PRIMARY'}])
+        value=extraction.resolve(raw,payload);validate(value,payload)
+        self.assertEqual(value['filters'],[{'column_id':'warehouse','operator':'in','values':['North']}])
+        self.assertNotIn('selection_request',value)
+
     def test_scoped_global_comparator_is_not_an_external_route_question(self):
         from investigator.ticket_route import settlement
         raw,payload=fixture('In Report, selected warehouse North Quantity differs from the global value. Explain the selected scope.',

@@ -76,6 +76,8 @@ def from_request(raw, ticket):
     source=extraction['primary'];ask=source['quote']
     freshness=bool(re.search(r'\b(stale|freshness|refresh|lag|up[ -]to[ -]date|current)\b',ask,re.I))
     application=bool(re.search(r'\b(application|source (?:system|records?|data|movements?|entries|total))\b',ask,re.I))
+    if raw['kind']=='SOURCE_CORRECTNESS' and re.search(r'\b(?:records?|entries|reason)\b',ask,re.I):
+        application=True
     if freshness and application:return None
     route=('STALE' if raw['kind']=='FRESHNESS' and freshness else
            'APPLICATION' if raw['kind'] in ('SOURCE_CORRECTNESS','FIGURE_DIFFERENCE') and application else None)
