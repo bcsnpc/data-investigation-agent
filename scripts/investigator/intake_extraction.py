@@ -111,8 +111,8 @@ No result is inferred by this example. A reported figure never chooses a target.
 """
 
 def wire(payload):
-    names = sorted({x['name'] for m in payload['models'] for key in ('measures','columns')
-                    for x in m.get(key,[]) } | {x['table_name'] for m in payload['models']
+    names = sorted({name for m in payload['models'] for key in ('measures','columns')
+                    for x in m.get(key,[]) for name in [x['name'],*x.get('aliases',[])]} | {x['table_name'] for m in payload['models']
                     for x in m.get('columns',[]) if x.get('table_name')})
     if len(json.dumps(names,ensure_ascii=False)) > NAME_CAP:
         from .process_tape import event

@@ -445,6 +445,9 @@ def snapshot(workspace):
         versions[model['id']] = digest({'context': model['context'], 'revision': model['revision'],
                                       'business': business, 'enabled': model['enabled']})
     models.sort(key=lambda m: m['id'])
+    from .ticket_clarification import settings as intake_settings
+    from .intake_vocabulary import apply as apply_vocabulary
+    models=apply_vocabulary(models,intake_settings(getattr(workspace,'intake_configuration',None)))
     if (not models or len(models) > 12 or sum(len(m['measures']) for m in models) > 200
             or sum(len(m['columns']) for m in models) > 300
             or len(encoded(wire_contract({'text':'','models':models})[0]['models'])) > 60000):

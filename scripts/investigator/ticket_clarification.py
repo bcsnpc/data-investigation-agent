@@ -25,6 +25,8 @@ def settings(value=None):
     if len(routes)!=len(set(routes)):raise ValueError('Duplicate comparison route')
     if result['default_route']!='ASK' and result['default_route'] not in routes:
         raise ValueError('Default comparison is not offered')
+    aliases=[d['alias'].casefold() for d in result['vocabulary_aliases']]
+    if len(aliases)!=len(set(aliases)):raise ValueError('Duplicate estate vocabulary alias')
     return result
 
 

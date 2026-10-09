@@ -679,3 +679,54 @@ second capture re-enters intake from the retained waiting ticket, keeps its
 original request and ID, archives the prior question version, and resolves the
 new source question. No real model call or estate read occurred. This closes
 the preceding pending capture check, not the current quality/lifecycle gate.
+
+
+Dated evaluator/container correction, 2026-10-09 America/Chicago: the simulated
+user previously allowed REPORT_PAGE only with a null page, even where the sealed
+visual uniquely established a native page. It now answers only that exact
+retained container. Duplicate visual bindings, other pages and unresolved or
+held sealed targets remain unanswerable. The simulator was not loosened to
+invent targets from expected refusals. Twelve evaluator tests passed.
+
+Source7e3db02 reused the same forty development response tapes into a separate
+v7 audit. Results remain ten adopted scopes, thirteen one-round settlements
+(32.5%, including three semantic refusals), forty-two questions (mean1.05),
+and twelve original full consumer-record matches. Per-class results match the
+v6 table above. This correction did not improve these development cases.
+Forty new tape hashes have separate appended ledger rows; original captures
+and ledger entries remain untouched. No model call or estate request occurred,
+held-out remains untouched, harmful-error rate is ungraded, and no intake gate
+pass is claimed. The later vocabulary wiring is not included in this audit.
+
+Dated estate vocabulary wiring: operator-declared synonyms for measure and
+column names now join the retained intake catalog and its existing name scorer.
+Their provenance is DECLARED_BY_CONFIGURATION, with the exact declarations and
+hash retained on each member. Canonical destinations require exact declared
+names; a synonym never creates a metric, column, filter value, precision or
+query. Duplicate canonical destinations remain ambiguous. Native definition
+synonyms remain distinct in origin and are retained too. Extraction receives
+the names without changing the ticket; its original verbatim quotes still
+pass through the scope validator. This does not implement report/page-title
+aliases, URL-context binding or any data-value synonym substitution.
+
+Ten new tests cover snapshot integration, original-consumer validation,
+unchanged inputs/catalog identities, declaration provenance, ambiguity,
+configuration rejection and context bounds. The synthetic two-member context
+keeps one measure and one column before/after: name-list characters32->55,
+serialized extraction payload349->372. Over-bound name contexts refuse whole;
+no directory/catalog entry is dropped. The test is wired into CI.
+
+DECIDED WITHOUT REVIEW: apply estate vocabulary at the catalog boundary rather
+than replacing user words. Reject text substitution because it would falsify
+span provenance, and reject selecting one duplicate canonical name because the
+operator vocabulary is no new target authority. Configuration still needs its
+normal whole-config approval; this work changes no estate configuration,
+approval, golden, secret, identity, permission or budget. Phase A remains
+incomplete, #423 draft and all earlier freezes invalid. No live read follows.
+
+Validation follow-up:39 extraction tests (including sealed wrong-cell and
+competing-figure cases),37 intake tests,10 clarification tests,10 vocabulary
+tests and21 manifest tests passed after the vocabulary wiring. The earlier
+36 controller,20 confirmation and12 evaluator checks passed before it.
+Full regression on the combined source is pending; the earlier2,620 pass
+was on4565752 and is not a result for these new bytes.

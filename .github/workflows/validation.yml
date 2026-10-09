@@ -184,6 +184,7 @@ jobs:
           python -m unittest discover -s scripts -p test_ticket_protocol.py
           python -m unittest discover -s scripts -p test_ticket_state.py
           python -m unittest discover -s scripts -p test_intake_confirmation.py
+          python -m unittest discover -s scripts -p test_intake_vocabulary.py
           python -m unittest discover -s scripts -p test_intake_extraction.py
           python -m unittest discover -s scripts -p test_question_intake.py
       - name: Test read-only metric adapters and ordered boundaries
