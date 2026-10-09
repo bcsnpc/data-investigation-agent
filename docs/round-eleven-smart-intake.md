@@ -886,3 +886,21 @@ do not yet express; ambiguous records cannot supply an invented simulated reply.
 None is credited as settled simply because the old golden expected a HOLD.
 No golden, fixture, scope, cap, counter or identity changed. Phase A incomplete,
 #423 draft, prior freezes invalid. Screenshot and estate runs remain gated.
+
+
+Dated complete-evaluation preparation, 2026-10-09 America/Chicago:
+the human requested completion and full results. The frozen final pass will run
+all68 original records once (dev40 then held28, no source changes between them),
+using the current conservative simulator. Maximum136 metered model calls and
+2,720,000 input characters, existing daily8,000,000/600 limits unchanged. Before:
+350 calls and5,299,181 input characters reserved,525,000 output tokens; the
+remaining daily input reserve is2,700,819, so that stricter ceiling binds if the
+worst case reaches it. Zero estate/data-adapter requests are permitted.
+
+Audit correction before freezing: consequential-field grading now also checks
+model_id,measure_id andselection_value. A same-named cell on a wrong model or
+measure must not escape the harmful-admission review flag. Thirteen scoring tests
+pass, including this hostile-record regression. No seal/expectation changes.
+Raw differences, unavailable simulator answers, refusals and failures will be
+retained; neither a paused ticket nor an untested route earns settlement credit.
+The current held-out result will not be used to tune this candidate.

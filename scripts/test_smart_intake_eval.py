@@ -86,6 +86,16 @@ class SmartIntakeEvalTests(unittest.TestCase):
         self.assertFalse(result['rows'][0]['original_record_match'])
         self.assertEqual(result['gate'],'UNGRADABLE')
 
+    def test_same_cell_name_cannot_hide_a_wrong_model_measure_or_selection(self):
+        c=case();c['expected'].update(model_id='model',measure_id='measure',selection_value='North')
+        for field in ('model_id','measure_id','selection_value'):
+            actual={**c['expected'],field:'wrong'}
+            row={'id':c['id'],'case_hash':digest(c),'intake_record':actual,'ticket_state':'NEW',
+                 'adopted':True,'rounds':0,'questions':0}
+            result=score([c],[row])
+            self.assertEqual(result['rows'][0]['consequential_differences'],[field])
+            self.assertEqual(result['gate'],'UNGRADABLE')
+
     def test_waiting_source_refusal_is_not_a_settled_ticket(self):
         c=case();c['should_hold']=True;c['expected']={'status':'HELD','error':'TARGET_AMBIGUOUS'}
         r={'id':c['id'],'case_hash':digest(c),'intake_record':copy.deepcopy(c['expected']),

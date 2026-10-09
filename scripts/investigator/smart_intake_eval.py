@@ -97,7 +97,7 @@ def score(cases, records):
             raise ValueError('Clarification counts must be nonnegative integers')
         flags=[]
         if adopted:
-            for field in ('target_id','cell_mode','figure_state','figure_value','figure_precision','filters','dimension_ids'):
+            for field in ('model_id','measure_id','target_id','cell_mode','figure_state','figure_value','figure_precision','filters','dimension_ids','selection_value'):
                 if field in expected and actual.get(field)!=expected[field]:flags.append(field)
             # The evaluator never resolves a review flag by inventing a user
             # confirmation. Retain the actual proof for independent checking.
