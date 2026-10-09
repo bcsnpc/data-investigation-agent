@@ -857,3 +857,32 @@ Two new extraction/controller regressions cover an unresolved catalog anchor;
 40 extraction,42 controller and8 request-route checks passed (90 total).
 Zero new real model/estate calls. A separate retained-response dev audit follows;
 no improvement is claimed before scoring. #423 stays draft, freezes invalid.
+
+
+Dated retained-dev-v9 result, 2026-10-09 America/Chicago:
+40 unchanged dev records reprocessed using historical provider bytes on frozen
+75a2240, zero fresh provider calls and zero estate requests. The only changed
+consumer record is question-change-days: prior RESOLUTION_UNCERTAIN plus two
+unanswerable questions is now the existing UNIMPLEMENTED_ROUTE refusal with no
+questions. Its sealed expected record now matches without changing that record.
+One-round settlements16/40 (40.0%, including four appropriate semantic refusals),
+12 adopted scopes,37questions (mean0.925),13 original full consumer matches.
+Forty new ledger rows preserve the separate tape hashes; earlier rows/tapes remain.
+
+| Dev class | Tickets | One-round settled | Questions | Mean questions |
+| --- | ---: | ---: | ---: | ---: |
+| Family | 26 | 8 | 28 | 1.077 |
+| Question | 3 | 2 | 1 | 0.333 |
+| Refusal | 7 | 3 | 7 | 1.000 |
+| Visual | 4 | 3 | 1 | 0.250 |
+
+This is a development-only retained-response audit, not a new model-quality
+sample. Harmful-error grading remains REQUIRES_PROVENANCE_REVIEW; the28 held-out
+records were not opened. Family meanquestions still exceeds1.0 and settlement
+falls short85%. Remaining examples traced: visual-3's retained extraction omits
+its two explicitly named cell keys, so the offer cannot faithfully bind the
+keyed cell; D/H retain explicit comparators that the closed clarification routes
+do not yet express; ambiguous records cannot supply an invented simulated reply.
+None is credited as settled simply because the old golden expected a HOLD.
+No golden, fixture, scope, cap, counter or identity changed. Phase A incomplete,
+#423 draft, prior freezes invalid. Screenshot and estate runs remain gated.

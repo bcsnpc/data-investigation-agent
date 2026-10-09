@@ -1,3 +1,5 @@
+Dated Round Eleven dev-v9 checkpoint, 2026-10-09 America/Chicago: unsupported earlier-state asks now refuse before current catalog clarification; 90 focused checks passed. Retained-response audit16/40 one-round settlements,37questions,13 original matches; no fresh quality claim. Phase A incomplete/ungraded, #423 draft, freezes invalid; zero new real model/estate requests. See docs/round-eleven-smart-intake.md.
+
 Dated Round Eleven link checkpoint, 2026-10-09 America/Chicago: supplied report/page links bind retained identifiers with explicit input provenance; filtered links/bookmarks hold rather than lose context. 197 focused checks passed; earlier frozen9422f43 full regression finished2,639 OK. Phase A remains incomplete/ungraded, #423 draft, freezes invalid; zero new real model/estate requests. See docs/round-eleven-smart-intake.md.
 
 Dated Round Eleven reproduction-route checkpoint, 2026-10-09 America/Chicago: explicit saved-context reproduction asks no longer require an external comparator; 46 focused tests passed. Current Phase A incomplete/ungraded, #423 draft, freezes invalid; no new model/estate requests. See docs/round-eleven-smart-intake.md.
