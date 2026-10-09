@@ -68,7 +68,7 @@ def operation(name):
                     # own contract. This bootstrap extends the process path.
                     return method(owner,*args,**kwargs)
             if tape is None:
-                if name not in {'intake','preview','create',*journal.SMART_OPERATIONS}:
+                if name not in {'intake','preview','create',*journal.SMART_OPERATIONS} and not (name=='run' and has_smart_ticket(agent,str(key))):
                     raise journal.TapeError('LIVE_RUN_MISSING_RECORDING_BOOTSTRAP')
                 root=ROOT/'.local/process-tapes'/str(fresh_id())
                 root.mkdir(parents=True,exist_ok=False)
@@ -92,6 +92,7 @@ def operation(name):
                 if name in journal.SMART_OPERATIONS:
                     bootstrap['state']['smart_intake']=owner.configuration
                     bootstrap['state']['smart_ownership']=owner.ownership
+                    bootstrap['state']['smart_auto_start']=owner.auto_start
                 tape=journal.Tape(root/'tape.json',bootstrap)
             error=None;result=None
             with journal.active(tape):

@@ -66,7 +66,7 @@ class Workspace:
     def smart_intake(self):
         if not hasattr(self,'_smart_intake'):
             from .smart_intake import SmartIntake
-            self._smart_intake=SmartIntake(self,self.intake_configuration,self.ownership_configuration)
+            self._smart_intake=SmartIntake(self,self.intake_configuration,self.ownership_configuration,auto_start=True)
         return self._smart_intake
 
     def models(self):

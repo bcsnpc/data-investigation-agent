@@ -195,7 +195,10 @@ class TapeTests(unittest.TestCase):
     def test_unavailable_clarification_and_later_reply_replay_as_distinct_events(self):
         self.exercise_process(smart_ticket=True,unavailable_reply=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False):
+    def test_smart_ticket_auto_start_records_and_replays_without_an_extra_click(self):
+        self.exercise_process(smart_ticket=True,auto_start=True)
+
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -221,6 +224,7 @@ class TapeTests(unittest.TestCase):
         envelope=copy.deepcopy(helper.envelope);envelope['strategy']=VERSION
         envelope['comparison_mode']='VERTICAL';envelope['ticket_shape']='MISMATCH_COMPLAINT'
         workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve)
+        if smart_ticket:workspace.smart_intake.auto_start=auto_start
         import httpx
         def provider(request):
             body=json.loads(request.content);view=json.loads(body['input'])
@@ -268,12 +272,17 @@ class TapeTests(unittest.TestCase):
                     'request_key':'synthetic-process-ticket','parent_id':None})
             self.assertEqual(intake['status'],'PROPOSED',intake)
             scope=intake['proposal']
-            preview=workspace.preview({**{k:scope[k] for k in ('model_id','measure_id','filters','dimension_ids')},
-                'symptom':intake['text'],'predecessor':None,'intake_id':intake['id']})
+            if not auto_start:
+                preview=workspace.preview({**{k:scope[k] for k in ('model_id','measure_id','filters','dimension_ids')},
+                    'symptom':intake['text'],'predecessor':None,'intake_id':intake['id']})
             if smart_ticket:
-                created=workspace.start(preview['id'])
-                saved=workspace.smart_intake.attach({'ticket_id':saved['ticket']['id'],
-                    'revision':saved['revision'],'session_id':created['id']})
+                if auto_start:
+                    self.assertEqual(saved['ticket']['state'],'INVESTIGATING')
+                    created=agent.get(saved['ticket']['session_id'])
+                else:
+                    created=workspace.start(preview['id'])
+                    saved=workspace.smart_intake.attach({'ticket_id':saved['ticket']['id'],
+                        'revision':saved['revision'],'session_id':created['id']})
                 self.assertTrue(workspace.run_once())
                 original_capture=agent._run_tapes[created['id']]
                 if cold_resume:
@@ -304,7 +313,7 @@ class TapeTests(unittest.TestCase):
         from acceptance.unknown_domain.process_replay import replay
         if smart_ticket:
             paths=list((helper.fixture.root/'.local/process-tapes').glob('*/tape.json'))
-            self.assertEqual(len(paths),6 if unavailable_reply else 5)
+            self.assertEqual(len(paths),(5 if unavailable_reply else 4) if auto_start else (6 if unavailable_reply else 5))
             operations=[]
             with tempfile.TemporaryDirectory() as output:
                 for n,path in enumerate(paths):
@@ -313,7 +322,7 @@ class TapeTests(unittest.TestCase):
                     self.assertTrue(actual['matched'],actual)
                     self.assertEqual(actual['network_requests'],0)
                     operations.append(actual['operations'])
-            self.assertIn(['preview','create','run'],operations)
+            self.assertIn(['run'] if auto_start else ['preview','create','run'],operations)
             self.assertIn(['ticket_finish'],operations)
             return
         with tempfile.TemporaryDirectory() as output:

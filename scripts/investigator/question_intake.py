@@ -425,6 +425,8 @@ def snapshot(workspace):
                            for r in model['context'].get('reports', []) if r.get('report')]
         from .adapters.report_cells import catalog as visual_catalog
         item['visuals']=visual_catalog(model)
+        from .adapters.report_cells import declared_scopes
+        item['visuals']=declared_scopes(model,item['visuals'])
         from .adapters.report_cells import declared_aliases
         aliases=declared_aliases(model)
         for key,identity in (('measures','id'),('columns','column_id')):

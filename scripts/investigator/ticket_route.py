@@ -15,7 +15,8 @@ EVIDENCE_SCHEMA={'oneOf':[ticket_protocol.obj({
     'kind':{'const':kind},'request_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'},
     'source':ticket_protocol.obj({'start':{'type':'integer','minimum':0},
         'end':{'type':'integer','minimum':1},'quote':ticket_protocol.TEXT})})
-    for kind,route in [('FRESHNESS','STALE'),('SOURCE_CORRECTNESS','APPLICATION')]]}
+    for kind,route in [('FRESHNESS','STALE'),('SOURCE_CORRECTNESS','APPLICATION'),
+                       ('FIGURE_DIFFERENCE','APPLICATION')]]}
 DEFAULT_VERSION='ticket-comparison-policy-v1'
 DEFAULT_SCHEMA=ticket_protocol.obj({'version':{'const':DEFAULT_VERSION},
     'route':{'enum':['APPLICATION','STALE','LOOKS_WRONG']},
@@ -40,11 +41,14 @@ def settlement(raw, ticket, configuration):
     explicit=from_request(raw,ticket)
     if explicit is not None:return explicit
     extraction=spans(raw,ticket,figure_occurrences=True)
-    if extraction['comparisons'] or raw['kind'] in ('BUSINESS_MEANING','TEMPORAL_COMPARISON'):return None
+    scoped_self=(raw['kind']=='VISUAL_CONTENT' and extraction['comparisons'] and
+                 all(re.fullmatch(r'(?:the )?global (?:value|total)',s['quote'],re.I) for s in extraction['comparisons']) and
+                 any(i['role']=='PRIMARY' for i in extraction['selections']))
+    if (extraction['comparisons'] and not scoped_self) or raw['kind'] in ('BUSINESS_MEANING','TEMPORAL_COMPARISON'):return None
     # A default may fill absence, never replace a named comparator or intent.
     if re.search(r'\b(application|source|stale|freshness|refresh|lag|another|other report|second report)\b',
                  extraction['primary']['quote'],re.I):return None
-    if raw['kind'] in SUBJECT_KINDS and not re.search(
+    if scoped_self or raw['kind'] in SUBJECT_KINDS and not re.search(
             r'\b(compared|versus|against|than|elsewhere|yesterday|earlier|previous)\b',
             extraction['primary']['quote'],re.I) and re.search(
             (r'\b(what|which|how many)\b|\b(?:can|does|whether)\b[\s\S]*\breproduce\b' if raw['kind']=='VISUAL_CONTENT' else
@@ -71,10 +75,10 @@ def from_request(raw, ticket):
     if extraction['comparisons']:return None
     source=extraction['primary'];ask=source['quote']
     freshness=bool(re.search(r'\b(stale|freshness|refresh|lag|up[ -]to[ -]date|current)\b',ask,re.I))
-    application=bool(re.search(r'\b(application|source system|source records?|source data)\b',ask,re.I))
+    application=bool(re.search(r'\b(application|source (?:system|records?|data|movements?|entries|total))\b',ask,re.I))
     if freshness and application:return None
     route=('STALE' if raw['kind']=='FRESHNESS' and freshness else
-           'APPLICATION' if raw['kind']=='SOURCE_CORRECTNESS' and application else None)
+           'APPLICATION' if raw['kind'] in ('SOURCE_CORRECTNESS','FIGURE_DIFFERENCE') and application else None)
     if route is None:return None
     return validate({'version':EVIDENCE_VERSION,'route':route,'kind':raw['kind'],
                      'request_hash':digest(ticket),'source':source},ticket)

@@ -13,8 +13,9 @@ from .run_recording import operation
 
 
 class SmartIntake:
-    def __init__(self, workspace, configuration=None, ownership=None):
+    def __init__(self, workspace, configuration=None, ownership=None, *, auto_start=False):
         self.workspace=workspace;self.store=workspace.store
+        self.auto_start=auto_start
         self.configuration=ticket_clarification.settings(configuration)
         from jsonschema import Draft202012Validator
         self.ownership=copy.deepcopy(ownership or {'business':[],'technical':[]})
@@ -206,7 +207,39 @@ class SmartIntake:
             current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
                 'detail':{'scope_adopted':adopted['id'],'provider_calls':0}})
             return current
-        return self.tickets.update(ticket['id'],saved['revision'],ready)
+        saved=self.tickets.update(ticket['id'],saved['revision'],ready)
+        return self._start_settled(saved) if self.auto_start else saved
+
+    def _start_settled(self, saved):
+        """Queue exactly the adopted scope through the existing governed start.
+
+        Persist the preview before starting: a repeated submission cannot create
+        another preview or retry an uncertain start after a host interruption.
+        """
+        ticket=saved['ticket']
+        if not self.workspace.execution_enabled:
+            return self.tickets.update(ticket['id'],saved['revision'],lambda current:
+                protocol.transition(current,'HELD',actor='AGENT',detail={
+                    'reason':'INTAKE_ONLY_HOST','scope_adopted':ticket['intake_id']}))
+        source=self.workspace.intake.get(ticket['intake_id']);p=source['proposal']
+        request={k:copy.deepcopy(p[k]) for k in ('model_id','measure_id','filters','dimension_ids')}
+        request.update(symptom=source['text'],predecessor=None,intake_id=source['id'])
+        try:
+            preview=self.workspace.preview(request)
+            def reserve(current):
+                current['start_preview_id']=preview['id']
+                current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
+                    'detail':{'reason':'AUTO_START_RESERVED','preview_id':preview['id'],
+                              'limits':copy.deepcopy(preview['envelope']['limits'])}})
+                return current
+            saved=self.tickets.update(ticket['id'],saved['revision'],reserve)
+            run=self.workspace.start(preview['id'])
+            return self.attach({'ticket_id':ticket['id'],'revision':saved['revision'],'session_id':run['id']})
+        except (ValueError,Conflict) as exc:
+            return self.tickets.update(ticket['id'],saved['revision'],lambda current:
+                protocol.transition(current,'HELD',actor='AGENT',detail={
+                    'reason':'AUTO_START_REFUSED','message':str(exc),
+                    'preview_id':current.get('start_preview_id')}))
 
     def _bound_session(self, ticket, identity):
         view=self.workspace.session(identity)

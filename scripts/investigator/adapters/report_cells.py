@@ -80,7 +80,41 @@ def catalog(model):
                            'form': ('CARD' if doc['visual']['visualType'] in ('card','multiRowCard') else
                                     'MATRIX' if doc['visual']['visualType'] in ('tableEx','pivotTable') else
                                     'CHART' if doc['visual']['visualType'] in ROLES else None)})
+            # Matrix address order is declaration evidence, never alphabetical
+            # column order or the serialization order of queryState keys.
+            if doc.get('visual',{}).get('visualType')=='pivotTable' and unsupported is None:
+                order=[]
+                for role in ('Rows','Columns'):
+                    for projection in state.get(role,{}).get('projections',[]):
+                        if 'Column' in projection.get('field',{}):
+                            identity=member(model,projection['field'],'Column')['id']
+                            if identity not in order:order.append(identity)
+                result[-1]['cell_key_order']=order
     return sorted(result, key=lambda c: c['target_id'])
+
+
+def declared_scopes(model, visuals):
+    """Complete supported retained declarations, not absence of recognition."""
+    from .report_predicates import scoped_declaration
+    from ..declared_reproduction import compose
+    result=copy.deepcopy(visuals)
+    for visual in result:
+        proofs={}
+        for measure in visual['measure_ids']:
+            try:
+                name=next(r['report']['name'] for r in model['context']['reports'] if r['report']['id']==visual['report_id'])
+                declared=scoped_declaration(model,measure,{'report_binding':{
+                    'report_id':visual['report_id'],'resolution_kind':'STATED',
+                    'source':{'start':0,'end':len(name),'quote':name}}},visual['target_id'])
+                if declared.get('unsupported_form'):continue
+                inventory=declared['inventory']
+                if any(e['disposition']=='UNSUPPORTED' for e in inventory['entries']):continue
+                proofs[measure]={'state':'COMPLETE','restrictions':compose(declared['restrictions']),
+                    'context_id':model['context_id'],'context_hash':digest(model['context']),
+                    'inventory_hash':digest(inventory)}
+            except (ValueError,KeyError,TypeError):continue
+        if proofs:visual['declared_scopes']=proofs
+    return result
 
 
 def projected_measure(model, document, measure_id):

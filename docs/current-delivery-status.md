@@ -1,3 +1,5 @@
+Dated approved oracle seal, 2026-10-09: owner and reviewer accepted the published diff. Exact oracle SHA256 be029b56a6de27195dac507bfb5010f0ce7abc2732702d9a230e5f4a8d38406c, dev40/held28 unchanged; fixed this phase. Historical baseline scored separately; fresh corrected evaluation pending, #423 draft, prior freeze invalid. Zero new model/estate calls. See docs/round-eleven-b-oracle-evaluation.md.
+
 Dated oracle owner/reviewer amendments, 2026-10-09: revised all68 records with exact field diff, complete local R1 context proofs and originals preserved. Nine records retain unknown truth; one relative-card target exception named. Five oracle tests pass, zero model/estate calls. Diff-before-sealing checkpoint; oracle unsealed/unscored, #423 draft. See docs/round-eleven-oracle-owner-amendments.md.
 
 Dated Round Eleven B validation, 2026-10-09: source24e306f passed 2,672 full regression tests, native exit0. Oracle68 remains pending owner/reviewer approval and unscored; zero new model/estate calls, #423 draft. See docs/round-eleven-b-safety-oracle.md.

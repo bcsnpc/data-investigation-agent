@@ -270,6 +270,35 @@ def selections(extraction, model, audit=None, *, ticket):
     return filters,scope_quotes,value_mentions,pending
 
 
+def keyed_address(pending, candidate, model, *, ticket):
+    """A slash-separated stated cell follows declared row/column axes.
+
+    This applies only after the visual itself resolves. A missing/duplicate
+    axis, wrong arity, non-cell phrase or type mismatch cannot be guessed.
+    Ordinary slicer values containing slashes remain symbolic selections.
+    """
+    order=candidate.get('cell_key_order')
+    if (len(pending)!=1 or not order or len(order)<2 or len(set(order))!=len(order)
+            or set(order)!=set(candidate['grouping_columns'])):return None
+    item=pending[0]
+    if item['column'] is not None or not re.search(r'\bcell\b',item['quote']['quote'],re.I):return None
+    parts=[p.strip() for p in item['value']['quote'].split('/')]
+    if len(parts)!=len(order) or any(not p for p in parts):return None
+    columns={c['column_id']:c for c in model['columns']};filters=[];quotes=[]
+    for identity,part in zip(order,parts):
+        dtype=columns[identity]['data_type'];value=part
+        if dtype=='int64':
+            if not re.fullmatch(r'-?\d+',part):return None
+            value=int(part)
+        elif dtype=='boolean':
+            if part.casefold() not in ('true','false'):return None
+            value=part.casefold()=='true'
+        elif dtype not in ('string','decimal','dateTime'):return None
+        filters.append({'column_id':identity,'operator':'in','values':[value]})
+        quotes.append({'column_id':identity,'quote':item['quote']['quote']})
+    return filters,quotes
+
+
 def resolve(raw, payload):
     """Resolve solely against retained metadata. Missing information is a refusal."""
     from . import report_scope, numeral_roles, intake_rules
@@ -521,12 +550,40 @@ def resolve(raw, payload):
                 if len(matched)!=1:raise TargetUnresolved(candidates,'Confirmed target differs from the resolved report/measure.')
                 mode=number['mode'];source=mode_source=None
                 basis=['report','measure','user_confirmation']
+            equivalent=False
+            if len(matched)>1 and not number and not figures and not pending and not filters and not dimensions and source is None:
+                proofs=[v.get('declared_scopes',{}).get(metric['id'],{}) for v in matched]
+                # Only a genuinely unrestricted, completely accounted-for
+                # scope can become model-only here. Nonempty declaration sets
+                # need the existing report-context quantity compiler.
+                equivalent=all(p.get('state')=='COMPLETE' and p.get('restrictions')==[] and
+                               all(p.get(k) for k in ('context_id','context_hash','inventory_hash')) for p in proofs)
+                equivalent=equivalent and len({(p['context_id'],p['context_hash']) for p in proofs})==1
+            if equivalent:
+                audit.append({'resolution':'COMPLETE_DECLARED_SCOPE_EQUIVALENCE',
+                              'measure_id':metric['id'],'candidate_ids':sorted(v['target_id'] for v in matched),
+                              'proofs':proofs})
+                value['extracted_ticket']={'version':VERSION,'response':copy.deepcopy(raw),'spans':extraction,'resolution_evidence':audit}
+                if confirmation is not None:
+                    value['extracted_ticket']['version']='ticket-spans-confirmed-v1'
+                    value['extracted_ticket']['confirmation']=copy.deepcopy(confirmation)
+                return value
             if len(matched)!=1:
                 raise TargetUnresolved(matched,'Primary-question evidence does not uniquely select a visual.',
                                        'TARGET_AMBIGUOUS' if len(matched)>1 else 'TARGET_UNRESOLVED')
             candidate=matched[0]
             if candidate.get('unsupported'):raise TargetUnresolved(matched,candidate['unsupported'])
             mode=mode or ('KEYED' if candidate['grouping_columns'] else 'UNGROUPED')
+            if mode=='KEYED' and pending:
+                address=keyed_address(pending,candidate,model,ticket=ticket)
+                if address is not None:
+                    keys,key_quotes=address
+                    if set(f['column_id'] for f in filters)&set(f['column_id'] for f in keys):
+                        raise ValueError('Stated matrix address conflicts with a separately stated key')
+                    filters.extend(keys);scope_quotes.extend(key_quotes)
+                    value.pop('selection_request',None)
+                    audit.append({'resolution':'DECLARED_MATRIX_ADDRESS_ORDER','target_id':candidate['target_id'],
+                                  'cell_key_order':candidate['cell_key_order'],'source':pending[0]['value']})
             value['target_visual']={'target_id':candidate['target_id'],'report_id':report['id'],'measure_id':metric['id'],
                 'source':source,'mode_source':mode_source,'mode':mode,'resolution':'RESOLVED',
                 'match_basis':{'matched':sorted(set(basis)),'absent':['reported_value_in_inventory','selection_in_inventory']}}

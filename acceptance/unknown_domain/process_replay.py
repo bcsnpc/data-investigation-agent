@@ -43,7 +43,8 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
              'create':agent.create,'run':agent.run,'synthesize':agent.synthesize}
     if tape.version in journal.SMART_VERSIONS:
         from investigator.smart_intake import SmartIntake
-        controller=SmartIntake(workspace,settings.get('smart_intake'),settings.get('smart_ownership'))
+        controller=SmartIntake(workspace,settings.get('smart_intake'),settings.get('smart_ownership'),
+                               auto_start=settings.get('smart_auto_start',False))
         methods.update(ticket_submit=controller.submit,ticket_reply=controller.reply,
             ticket_attach=controller.attach,ticket_share=controller.share,ticket_close=controller.close,
             ticket_respond=controller.respond,ticket_finish=controller.finish)

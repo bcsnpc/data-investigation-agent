@@ -176,6 +176,10 @@ class Tape:
                 from jsonschema.exceptions import ValidationError
                 try:intake_settings(state['smart_intake'])
                 except (ValueError,TypeError,ValidationError):raise TapeError('TAPE_SMART_INTAKE_CONFIGURATION')
+            if 'smart_auto_start' in state:
+                if self.version not in SMART_VERSIONS or type(state['smart_auto_start']) is not bool:
+                    raise TapeError('TAPE_SMART_AUTO_START_CONFIGURATION')
+                fields.add('smart_auto_start')
             if 'smart_ownership' in state:
                 if self.version not in SMART_VERSIONS:raise TapeError('TAPE_SMART_INTAKE_VERSION')
                 fields.add('smart_ownership')

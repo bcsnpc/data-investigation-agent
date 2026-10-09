@@ -190,9 +190,10 @@ $('intake-history').addEventListener('click',guard(async()=>{if(!intakeSaved)ret
 
 $('hold-question').addEventListener('click',guard(async()=>{if(!intakeSaved)return;const epoch=generation;const data=await api('questions/'+encodeURIComponent(intakeSaved)+'/hold',{});if(epoch===generation)showIntake(data);await history();}));
 
-let smartTicket=null, smartTicketRequest=null, smartTicketGeneration=0;
-function resetSmartTicket(){smartTicket=null;smartTicketRequest=null;smartTicketGeneration++;for(const id of ['smart-ticket-text','smart-ticket-number','smart-ticket-report-page','smart-ticket-report-link','smart-ticket-comparison'])$(id).value='';$('smart-ticket-result').hidden=true;$('smart-ticket-answers').replaceChildren();$('smart-ticket-history').replaceChildren();for(const id of ['smart-ticket-business','smart-ticket-technical','smart-ticket-handoff','smart-ticket-reuse','smart-ticket-reply-text']){const element=$(id);if(element.tagName==='TEXTAREA')element.value='';else element.replaceChildren();}}
+let smartTicket=null, smartTicketRequest=null, smartTicketGeneration=0, smartTicketTimer=null;
+function resetSmartTicket(){clearTimeout(smartTicketTimer);smartTicketTimer=null;smartTicket=null;smartTicketRequest=null;smartTicketGeneration++;for(const id of ['smart-ticket-text','smart-ticket-number','smart-ticket-report-page','smart-ticket-report-link','smart-ticket-comparison'])$(id).value='';$('smart-ticket-result').hidden=true;$('smart-ticket-answers').replaceChildren();$('smart-ticket-history').replaceChildren();for(const id of ['smart-ticket-business','smart-ticket-technical','smart-ticket-handoff','smart-ticket-reuse','smart-ticket-reply-text']){const element=$(id);if(element.tagName==='TEXTAREA')element.value='';else element.replaceChildren();}}
 function showSmartTicket(saved){
+  clearTimeout(smartTicketTimer);smartTicketTimer=null;
   smartTicket=saved;const ticket=saved.ticket;$('smart-ticket-result').hidden=false;
   $('smart-ticket-state').textContent=ticket.state==='HELD'?'Paused: '+(ticket.history.at(-1)?.detail?.reason||'More evidence is needed'):ticket.intake_id&&['NEW','CLARIFYING'].includes(ticket.state)?'Your choices are resolved. Review the scope to continue.':ticket.state.replaceAll('_',' ');
   const form=$('smart-ticket-answers');form.replaceChildren();
@@ -204,7 +205,7 @@ function showSmartTicket(saved){
   }
   if((ticket.state==='CLARIFYING'||ticket.state==='HELD'&&ticket.history.at(-1)?.detail?.unavailable_fields)&&ticket.questions.length){const button=node('button','Send these answers');button.type='submit';form.append(button);}
   $('smart-ticket-transitions').replaceChildren(...ticket.history.map(entry=>node('li',(entry.actor==='USER'?'You':entry.actor==='OWNER'?'Owner':'Investigator')+': '+(entry.to||'NEW').replaceAll('_',' '))));
-  $('smart-ticket-review').hidden=!ticket.intake_id;
+  $('smart-ticket-review').hidden=!ticket.intake_id||Boolean(ticket.session_id);
   $('smart-ticket-finish').hidden=ticket.state!=='INVESTIGATING';
   $('smart-ticket-findings').hidden=!ticket.findings;
   if(ticket.findings){
@@ -220,6 +221,24 @@ function showSmartTicket(saved){
   const canDiscussFindings=Boolean(ticket.findings)||ticket.handoff?.kind==='BUSINESS_VALIDATION';
   for(const choice of $('smart-ticket-reply-kind').options)choice.disabled=choice.value!=='RESTATE_QUESTION'&&!canDiscussFindings;
   if($('smart-ticket-reply-kind').selectedOptions[0]?.disabled)$('smart-ticket-reply-kind').value='RESTATE_QUESTION';
+  if(ticket.state==='INVESTIGATING'&&ticket.session_id)scheduleSmartTicket(saved,smartTicketGeneration);
+}
+function scheduleSmartTicket(saved,epoch){
+  smartTicketTimer=setTimeout(async()=>{
+    if(epoch!==smartTicketGeneration||saved.ticket.id!==smartTicket?.ticket.id)return;
+    try{
+      const session=await api('sessions/'+encodeURIComponent(saved.ticket.session_id));
+      if(epoch!==smartTicketGeneration)return;
+      if(session.job_status==='INTERRUPTED'||!session.worker_attached){
+        $('smart-ticket-state').textContent='Investigation paused. The worker did not complete; no automatic retry.';return;
+      }
+      if(activeStates.includes(session.status)){scheduleSmartTicket(saved,epoch);return;}
+      const latest=await api('tickets/'+encodeURIComponent(saved.ticket.id));
+      if(epoch!==smartTicketGeneration)return;
+      const result=latest.ticket.state==='INVESTIGATING'?await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/finish',{revision:latest.revision}):latest;
+      if(epoch===smartTicketGeneration)showSmartTicket(result);
+    }catch(error){if(epoch===smartTicketGeneration)showError(error);}
+  },2000);
 }
 async function smartTicketHistory(){const epoch=generation;const data=await api('tickets');if(epoch!==generation)return;
   $('smart-ticket-history').replaceChildren(...data.tickets.map(saved=>{const button=node('button',saved.request.text.slice(0,100)+' · '+saved.ticket.state.replaceAll('_',' '));button.type='button';button.addEventListener('click',guard(async()=>{const requestEpoch=++smartTicketGeneration;const value=await api('tickets/'+encodeURIComponent(saved.ticket.id));if(requestEpoch===smartTicketGeneration)showSmartTicket(value);}));return button;}));}
