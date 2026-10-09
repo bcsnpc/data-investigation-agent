@@ -316,8 +316,11 @@ def resolve(raw, payload):
     # catalog resolution; a figure-bearing mixed ticket remains technical.
     early_shape,_=intake_triage.PAIRS[raw['triage']]
     intake_rules.validate({'action':'PROPOSE','question_kind':{'kind':raw['kind']},'ticket_shape':early_shape},ticket)
-    if raw['kind']=='BUSINESS_MEANING' and not any(primary_fact(i,extraction) for i in extraction['figures']):
-        question_kind.intake_route({'action':'PROPOSE','question_kind':{'kind':'BUSINESS_MEANING'}})
+    if raw['kind']=='TEMPORAL_COMPARISON' or (raw['kind']=='BUSINESS_MEANING' and
+            not any(primary_fact(i,extraction) for i in extraction['figures'])):
+        # An unimplemented historical route is known before catalog resolution.
+        # Asking for a current visual cannot supply a missing earlier-state reader.
+        question_kind.intake_route({'action':'PROPOSE','question_kind':{'kind':raw['kind']}})
     # A measure in setup can be the referent of "its" in the actual ask.
     # This is not visual-selection authority: targets retain active() below.
     mentions=[i for i in extraction['measures'] if i['role']!='COMPARISON' and

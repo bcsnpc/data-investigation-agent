@@ -356,6 +356,13 @@ class ExtractionTests(unittest.TestCase):
                 _azure_generate({'text':'X'*20001},instructions='',schema={},name='extract',max_request_characters=20000)
         client.assert_not_called();self.assertEqual(event.call_args.args[1]['control'],'INTAKE_REQUEST_OVERSIZE')
 
+    def test_historical_route_refuses_before_missing_current_catalog_anchor(self):
+        from investigator.question_kind import UnimplementedRoute
+        raw,payload=fixture('Why did Quantity change between the earlier and later report states?',
+            kind='TEMPORAL_COMPARISON',triage='BUSINESS_QUESTION:NONE',reports=[],measures=[])
+        with self.assertRaisesRegex(UnimplementedRoute,'earlier-state comparison route is unimplemented'):
+            extraction.resolve(raw,payload)
+
     def test_sealed_wrong_cell_remains_a_regression_under_new_protocol(self):
         saved=json.loads((Path(__file__).parent/'fixtures/round_ten/wrong-cell-sealed-excerpt.json').read_text())
         # The immutable original proves equal values are not referent evidence.

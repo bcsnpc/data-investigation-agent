@@ -59,6 +59,17 @@ class SmartIntakeTests(unittest.TestCase):
         self.assertTrue(all(v['page_id']==ASSET+'/page/PageA' for v in meanings))
         self.assertNotIn('intake_id',saved['ticket']);self.assertEqual(self.calls,1)
 
+    def test_historical_route_does_not_ask_for_a_current_visual_or_comparison(self):
+        self.raw,self.payload=fixture('Why did Quantity change between the earlier and later report states?',
+            kind='TEMPORAL_COMPARISON',triage='BUSINESS_QUESTION:NONE',reports=[],measures=[])
+        saved=self.submit()
+        self.assertEqual(saved['ticket']['state'],'HELD')
+        self.assertEqual(saved['ticket']['questions'],[])
+        self.assertEqual(saved['ticket']['history'][-1]['detail']['capability'],'UNIMPLEMENTED_ROUTE')
+        self.assertIn('earlier-state',saved['ticket']['history'][-1]['detail']['reason'])
+        self.assertNotIn('intake_id',saved['ticket']);self.assertEqual(self.calls,1)
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_named_reproduction_question_adopts_scope_without_a_comparison_question(self):
         self.raw,self.payload=fixture('In Report, Global card Quantity shows 16. Can the saved context reproduce that figure?',
             kind='VISUAL_CONTENT',triage='BUSINESS_QUESTION:NONE',

@@ -843,3 +843,17 @@ Zero new real model calls or estate requests; no budget, identity, scope, fixtur
 golden or acceptance expectation change. Last retained dev audit remains15/40
 one-round settlements,39questions, family mean1.077; harmful-error grading and
 the 68-case quality gate remain incomplete. #423 stays draft; freezes invalid.
+
+
+Dated historical-route ordering correction, 2026-10-09 America/Chicago:
+tracing retained dev case question-change-days found that TEMPORAL_COMPARISON
+was correctly nominated, but its missing catalog anchor failed first. The
+controller then offered current NUMBER/COMPARISON questions. Neither answer
+could implement the absent earlier-state route. The existing route refusal now
+runs immediately after provenance and semantic-rule validation, before measure,
+report or visual lookup. It remains an explicit UNIMPLEMENTED_ROUTE HOLD, not a
+current-state finding. No new historical capability or changed expectation.
+Two new extraction/controller regressions cover an unresolved catalog anchor;
+40 extraction,42 controller and8 request-route checks passed (90 total).
+Zero new real model/estate calls. A separate retained-response dev audit follows;
+no improvement is claimed before scoring. #423 stays draft, freezes invalid.
