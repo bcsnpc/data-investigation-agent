@@ -119,6 +119,7 @@ def operation(name):
                             tapes[digest(result['envelope'])]=tape
                         elif name=='create':tapes[result['id']]=tape
                         elif name=='run' and error is None:
+                            tapes[str(key)]=tape
                             # Retain the actual return, not a later reconstruction
                             # containing synthesis or ticket-state changes.
                             tape.pending_read_final=json.loads(journal.bytes_of({
