@@ -53,4 +53,29 @@ class ModelSubjectTests(unittest.TestCase):
         start=text.index('X73');mention['source']={'start':start,'end':start+3,'quote':'X73'}
         self.assertEqual(expected([mention],text,allow_opaque=True)[0]['value'],'X73')
 
+    def test_one_transposition_in_one_named_model_is_audited_without_visual_selection(self):
+        text='Is global Qunatity in Model current?'
+        raw,payload=fixture(text,kind='FRESHNESS',reports=[{'quote':'Model','role':'PRIMARY'}],
+            measures=[{'quote':'Qunatity','role':'PRIMARY'}],visuals=[{'quote':'global','role':'PRIMARY','form':'UNGROUPED'}])
+        payload['_input_request']=self.request(text)
+        result=intake_extraction.resolve(raw,payload)
+        self.assertNotIn('target_visual',result)
+        self.assertIn('USER_MODEL_SUBJECT_CLOSED_MEASURE_TRANSPOSITION',
+            [e.get('resolution') for e in result['extracted_ticket']['resolution_evidence']])
+        validate(result,payload)
+
+    def test_two_transposition_candidates_do_not_pick_a_measure(self):
+        from investigator.form_description import transposed_measure
+        candidates=[{'id':'a','name':'abcd'},{'id':'b','name':'adbc'}]
+        self.assertIsNone(transposed_measure('abdc',candidates,None,[],model={'id':'model','measures':candidates}))
+
+    def test_unresolved_model_subject_never_opens_a_report_visual_menu(self):
+        from investigator.ticket_question_gate import scope_block
+        text='Unknown measure in Model'
+        raw,payload=fixture(text)
+        payload['_input_request']=self.request(text)
+        blocked=scope_block({'error':'INTAKE_EXTRACTION_INVALID','retained_extraction':raw,
+            'refusal_reason':'Starting measure/model is unresolved'},payload)
+        self.assertTrue(blocked.startswith('MODEL_MEASURE_UNRESOLVED'))
+
 if __name__=='__main__':unittest.main()

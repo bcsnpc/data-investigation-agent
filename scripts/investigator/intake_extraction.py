@@ -431,6 +431,9 @@ def resolve(raw, payload):
                 from .form_description import transposed_measure
                 visual=next(v for m in models for v in m.get('visuals',[]) if v['target_id']==form_anchor['target_id'])
                 chosen=transposed_measure(mention['quote']['quote'],candidates,visual,audit)
+            elif model_only and report_words and len(models)==1:
+                from .form_description import transposed_measure
+                chosen=transposed_measure(mention['quote']['quote'],candidates,None,audit,model=models[0])
             if chosen is None:continue
         resolved.append((mention,chosen))
     if not resolved and number:

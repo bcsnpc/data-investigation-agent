@@ -83,26 +83,29 @@ def identifiers(extraction,ticket):
                     'The quoted label belongs to an invoked bookmark, not a record identifier or number. Retain page-state context; do not put its label into identifiers.')
 
 
-def transposed_measure(quote,candidates,visual,audit):
+def transposed_measure(quote,candidates,visual,audit,*,model=None):
     """One adjacent letter swap within this picked visual's closed names.
 
     This is not target search or numeric matching. Two possible names refuse;
     a resolved ordinary name never reaches this fallback.
     """
     from .intake_name_resolution import tokens
+    if (visual is None)==(model is None):raise ValueError('Transposition needs exactly one declared closed subject')
+    measure_ids=visual['measure_ids'] if visual is not None else [m['id'] for m in model['measures']]
     words=tokens(quote);hits=[]
     def one_swap(left,right):
         if len(left)!=len(right) or left==right:return False
         diff=[i for i,(a,b) in enumerate(zip(left,right)) if a!=b]
         return len(diff)==2 and diff[1]==diff[0]+1 and left[diff[0]]==right[diff[1]] and left[diff[1]]==right[diff[0]]
     for c in candidates:
-        if c['id'] not in visual['measure_ids']:continue
+        if c['id'] not in measure_ids:continue
         for name in (c['name'],*c.get('aliases',[])):
             declared=tokens(name)
             if len(words)==len(declared) and sum(a!=b for a,b in zip(words,declared))==1 and all(a==b or one_swap(a,b) for a,b in zip(words,declared)):
                 hits.append((c,name));break
     if len(hits)!=1:return None
     candidate,name=hits[0]
-    audit.append({'resolution':'FORM_PICKED_VISUAL_CLOSED_MEASURE_TRANSPOSITION',
-        'quote':quote,'declared_name':name,'measure_id':candidate['id'],'target_id':visual['target_id']})
+    audit.append({'resolution':'FORM_PICKED_VISUAL_CLOSED_MEASURE_TRANSPOSITION' if visual is not None else 'USER_MODEL_SUBJECT_CLOSED_MEASURE_TRANSPOSITION',
+        'quote':quote,'declared_name':name,'measure_id':candidate['id'],
+        **({'target_id':visual['target_id']} if visual is not None else {'model_id':model['id']})})
     return candidate

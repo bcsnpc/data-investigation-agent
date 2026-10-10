@@ -15,6 +15,10 @@ def scope_block(source,payload):
     """Same predicate admission rule for form and free-text questions."""
     raw=intake_extraction.retained_response(source)
     if raw is None:return None
+    from .ticket_inputs import model_subject
+    if model_subject(payload.get('_input_request'),payload['text']) and source.get('error') in (
+            'TARGET_UNRESOLVED','TARGET_AMBIGUOUS','INTAKE_EXTRACTION_INVALID'):
+        return 'MODEL_MEASURE_UNRESOLVED: '+(source.get('refusal_reason') or 'The named model/measure was not established; no report visual was substituted.')
     try:extraction=intake_extraction.spans(raw,payload['text'],figure_occurrences=True)
     except (ValueError,ValidationError):return None
     ask=extraction['primary']['quote']
