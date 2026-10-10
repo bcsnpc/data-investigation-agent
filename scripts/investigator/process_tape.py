@@ -11,6 +11,7 @@ import math
 import re
 import sqlite3
 from contextlib import closing
+from .artifact_identity_cache import IdentityCache,ArtifactChanged
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
@@ -27,6 +28,9 @@ KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION'
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
     'BOUNDED_REQUEST','BOUNDED_RESPONSE','BOUNDED_FAILURE','FINAL'})
 UUID_PATTERN=re.compile(r'(?i)\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b')
+
+
+_ARTIFACT_IDENTITIES=IdentityCache(UUID_PATTERN)
 
 
 class TapeError(ValueError):
@@ -274,13 +278,8 @@ class Tape:
                 source=self.path.parent/name
                 if not source.exists() or sha(source.read_bytes())!=expected:
                     raise TapeError('TAPE_BOOTSTRAP_ARTIFACT_CHANGED:'+name)
-                with closing(sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True)) as db:
-                    tables=[r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")]
-                    for table in tables:
-                        quoted='"'+table.replace('"','""')+'"'
-                        for row in db.execute('SELECT * FROM '+quoted):
-                            for value in row:
-                                if isinstance(value,str):known.update(v.casefold() for v in UUID_PATTERN.findall(value))
+                try:known.update(_ARTIFACT_IDENTITIES.get(source,expected))
+                except ArtifactChanged:raise TapeError('TAPE_BOOTSTRAP_ARTIFACT_CHANGED:'+name) from None
             introduced={v.casefold() for v in UUID_PATTERN.findall(bytes_of(final).decode())}-known
             if introduced:raise TapeError('TAPE_UNRECORDED_IDENTITY:'+','.join(sorted(introduced)))
         # Every started operation/provider/worker has a terminal event, in order.

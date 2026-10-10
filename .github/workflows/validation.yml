@@ -171,6 +171,30 @@ jobs:
           python -m unittest discover -s scripts -p test_lineage_gap_policy.py
           python -m unittest discover -s scripts -p test_publication_lineage_contract.py
           python -m py_compile scripts/lineage_graph.py scripts/lineage_notebook.py scripts/collect_lineage_evidence.py scripts/validate_lineage.py
+      - name: Test Round Thirteen concurrency, accounting and coverage invariants
+        run: |
+          python -m unittest discover -s scripts -p test_artifact_identity_cache.py
+          python -m unittest discover -s scripts -p test_budget_delta.py
+          python -m unittest discover -s scripts -p test_usage_snapshot_history.py
+          python -m unittest discover -s scripts -p test_local_accounting.py
+          python -m unittest discover -s scripts -p test_physical_transport_retry.py
+          python -m unittest discover -s scripts -p test_model_spend.py
+          python -m unittest discover -s scripts -p test_parallel_run.py
+          python -m unittest discover -s scripts -p test_parallel_usage_reservations.py
+          python -m unittest discover -s scripts -p test_model_transport_retry.py
+          python -m unittest discover -s scripts -p test_retry_owners.py
+          python -m unittest discover -s scripts -p test_workspace_admission.py
+          python -m unittest discover -s scripts -p test_round_thirteen_questionnaire_coverage.py
+          python -m unittest discover -s scripts -p test_question_account.py
+          python -m unittest discover -s scripts -p test_process_read_receipts.py
+          python -m unittest discover -s scripts -p test_pipeline_adapter_owned.py
+          python -m unittest discover -s scripts -p test_catalog_transaction.py
+          python -m unittest discover -s scripts -p test_model_usage_reconciliation.py
+          python -m unittest discover -s scripts -p test_producer_consumer_bounds.py
+          python -m unittest discover -s scripts -p test_contract_vocabulary.py
+          python -m unittest discover -s scripts -p test_intake_questionnaire.py
+          python -m unittest discover -s scripts -p test_ticket_question_gate.py
+          python -m unittest discover -s scripts -p test_model_subject_input.py
       - name: Test deterministic investigation evidence
         run: |
           python -m unittest discover -s scripts -p test_investigation_checks.py
