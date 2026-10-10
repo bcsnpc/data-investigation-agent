@@ -267,5 +267,10 @@ def build(state,db):
   profiled=assessment.get('technical_output',{}).get('profile_verified_boundaries')
   if profiled:result['deterministic_process_finding']['profile_verified_boundaries']=copy.deepcopy(profiled)
  from .narrative_form import layers
- result['layer_registry']=layers(result,assessment)
+ # Role-bearing path identities define aliases. Display-only directory entries
+ # and human names must neither cross the provider seam nor renumber tokens.
+ alias_source={'technical_output':copy.deepcopy(assessment.get('technical_output',{}))}
+ alias_source['technical_output']['layer_labels']=copy.deepcopy(result['layer_labels'])
+ result['layer_registry']={identity:{'term':item['term']} for identity,item in layers(result,alias_source).items()
+   if identity in result['layer_labels']}
  return result

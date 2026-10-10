@@ -21,8 +21,19 @@ def layers(payload,source):
     # The digest owns one registry constructed from the complete assessment.
     # Provider vocabulary, validation, legend and prose all consume this map.
     if 'layer_registry' in payload:
-        import copy
-        return copy.deepcopy(payload['layer_registry'])
+        # Engine aliases only cross the model boundary. Names stay local and
+        # are enriched from the validated assessment without changing aliases.
+        stripped=dict(payload);stripped.pop('layer_registry')
+        local=layers(stripped,source)
+        result={}
+        for identity,item in payload['layer_registry'].items():
+            display=local.get(identity,{'name':unquote(identity.rstrip('/').rsplit('/',1)[-1]),'identifier':identity})
+            result[identity]={**display,'term':item['term']}
+        next_term=max((int(v['term'][1:]) for v in result.values()),default=-1)+1
+        for identity,item in local.items():
+            if identity not in result:
+                result[identity]={**item,'term':'L'+str(next_term)};next_term+=1
+        return result
     result={}
     labels=source.get('technical_output',{}).get('layer_labels',payload.get('layer_labels',{}))
     def add(identity):

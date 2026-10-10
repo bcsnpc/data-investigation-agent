@@ -186,18 +186,21 @@ def build(state):
             attempts=[o for o in observations if o.get('check_kind')=='FRESHNESS_ATTEMPT']
             if attempts:
                 refs=sorted(set(refs+[o['id'] for o in attempts]))
+                statements=[]
                 for attempt in attempts:
                     attempted_checks=attempt['freshness_attempt']['checks']
                     job=attempted_checks['job_history']
                     if job['status']=='CURRENT':
                         status='PARTLY_ANSWERED'
-                        reason+=(' The load accounting was read and established a successful completed load; that alone does not establish currency.'
+                        statements.append(' The load accounting was read and established a successful completed load; that alone does not establish currency.'
                             if job.get('accounting_observed') else ' Processing history was read and established successful completion; it did not return the load\'s own accounting.')
-                    else:reason+=' Load accounting was attempted and found '+job['status'].lower()+': '+(job.get('reason') or 'No successful completion was established.')
+                    else:statements.append(' Load accounting was attempted and found '+job['status'].lower()+': '+(job.get('reason') or 'No successful completion was established.'))
                     delivery=attempted_checks['source_delivery']
                     if delivery['status'] in ('GAP','LATENT'):
-                        status='PARTLY_ANSWERED';reason+=(' Source delivery evidence established a delivery gap.' if delivery['status']=='GAP' else ' Source delivery evidence established that the source changed after the last load.')
-                    else:reason+=' Source delivery was attempted and found '+delivery['status'].lower()+': '+(delivery.get('reason') or 'No delivery condition was established.')
+                        status='PARTLY_ANSWERED';statements.append(' Source delivery evidence established a delivery gap.' if delivery['status']=='GAP' else ' Source delivery evidence established that the source changed after the last load.')
+                    else:statements.append(' Source delivery was attempted and found '+delivery['status'].lower()+': '+(delivery.get('reason') or 'No delivery condition was established.'))
+                # Render each identical engine-owned fact once; all receipt IDs remain.
+                reason+=''.join(dict.fromkeys(statements))
             elif 'job_history' not in roles:reason+=' Processing history was not assessed before the investigation stopped.'
         elif subject=='meaning':
             reason='No authoritative business meaning or intended rule was established; a technical finding cannot supply it.'

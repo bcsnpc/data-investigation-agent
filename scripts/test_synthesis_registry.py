@@ -32,4 +32,17 @@ class SharedRegistryTests(unittest.TestCase):
   with self.assertRaises(ValueError):narrative_form.technical(text,payload,state['assessment'],{'text':'Review the declared calculation.'})
  def test_conservative_no_operation_summary_remains_valid(self):
   path_narrative.validate_mechanism('The retained definition records a direct quantity-preserving mapping.')
+class DisplayPrivacyRegistryTests(SharedRegistryTests):
+ def test_container_and_asset_display_renames_do_not_change_provider_payload(self):
+  payload,state=self.fixture();before=spine(payload,state,48000)
+  state=copy.deepcopy(state)
+  for value in state['assessment']['technical_output']['layer_labels'].values():value.update(name='Private display name',container_name='Private container label')
+  import sqlite3
+  from contextlib import closing
+  with closing(sqlite3.connect(':memory:')) as db:after=digest(state,db)
+  self.assertEqual(payload,after);self.assertEqual(before,spine(after,state,48000))
+  rendered=narrative_form.technical('The declared calculation preserves the quantity at L0 (SEMANTIC).',after,state['assessment'],{'text':'Review.'})
+  self.assertIn('Private display name in Private container label; role SEMANTIC',rendered)
+  self.assertEqual(path_narrative.layer_tokens(after),before['layer_tokens'])
+  for value in after['layer_registry'].values():self.assertEqual(set(value),{'term'})
 if __name__=='__main__':unittest.main()
