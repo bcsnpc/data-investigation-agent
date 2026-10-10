@@ -25,9 +25,9 @@ def _admission_state(workspace,tape,replaying):
             'physical_transport_retries':2,'provider_transport_retries':2,
             'workspace_concurrency_limit':workspace.concurrency_limit}
         if getattr(getattr(workspace,'agent',None),'governor',None) is not None:
-            state['budget_checkpoint']='DELTA_V1'
+            state['budget_checkpoint']='DELTA_V2'
     if not isinstance(state,dict):raise ProjectionError('PRIVACY_ADMISSION_STATE')
-    for name,expected in (('local_accounting',LOCAL_ACCOUNTING_PIN),('budget_checkpoint','DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),
+    for name,expected in (('local_accounting',LOCAL_ACCOUNTING_PIN),('budget_checkpoint','DELTA_V2' if (not replaying or getattr(tape,'version','privacy-projected-tape-v1')=='privacy-projected-tape-v2') else 'DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),
                           ('physical_transport_retries',2),('provider_transport_retries',2)):
         if name in state and (type(state[name]) is not type(expected) or state[name]!=expected):
             raise ProjectionError('PRIVACY_ADMISSION_PIN_DIFFERS')
@@ -62,7 +62,7 @@ class Installation:
                 tape.event('BOOTSTRAP',canonical(bootstrap))
                 governor=self._workspace.agent.governor
                 if governor is not None:
-                    from .budget_delta import prepare_memory
+                    from .budget_checkpoint import prepare_memory
                     with governor.runtime.db() as db:
                         prepare_memory(tape,db,governor.environment)
                 intake=self._workspace.intake.resolve(request)

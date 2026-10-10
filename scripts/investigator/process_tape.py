@@ -15,16 +15,16 @@ from .artifact_identity_cache import IdentityCache,ArtifactChanged
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
-VERSION = 'bounded-worker-tape-v7'
-SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', 'bounded-worker-tape-v6', VERSION))
+VERSION = 'bounded-worker-tape-v8'
+SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', 'bounded-worker-tape-v6', 'bounded-worker-tape-v7', VERSION))
 PINNED_VERSIONS = SUPPORTED_VERSIONS - {'bounded-worker-tape-v1'}
-ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6',VERSION))
-SMART_VERSIONS = frozenset(('bounded-worker-tape-v5','bounded-worker-tape-v6',VERSION))
-CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6',VERSION))
+ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7',VERSION))
+SMART_VERSIONS = frozenset(('bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7',VERSION))
+CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7',VERSION))
 SMART_OPERATIONS=frozenset(('ticket_submit','ticket_reply','ticket_attach','ticket_share','ticket_close','ticket_respond','ticket_finish',
                           'form_submit','form_reply','form_screenshot_reply','form_comment'))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
-    'BUDGET','BUDGET_INPUT','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
+    'BUDGET','BUDGET_INPUT','BUDGET_INPUT_FAILURE','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
     'BOUNDED_REQUEST','BOUNDED_RESPONSE','BOUNDED_FAILURE','FINAL'})
 UUID_PATTERN=re.compile(r'(?i)\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b')
@@ -114,7 +114,8 @@ class Tape:
             value['accounting_version']=ACCOUNTING_VERSION
         value['seal']=sha(bytes_of(value))
         # Only this still-open attempt is rewritten. Sealed tapes are immutable.
-        self.path.write_bytes(bytes_of(value))
+        from .atomic_tape_publish import publish
+        publish(self.path,bytes_of(value))
 
     def event(self,kind,body):
         if not isinstance(body,bytes):raise TypeError('Tape bodies must be bytes')
@@ -187,7 +188,7 @@ class Tape:
                 fields.add('provider_transport_retries')
                 if type(state['provider_transport_retries']) is not int or state['provider_transport_retries']!=2:
                     raise TapeError('TAPE_PROVIDER_TRANSPORT_RETRY_CONFIGURATION')
-            for key,expected in (('budget_checkpoint','DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),('local_accounting','SQLITE_BOUNDARY_V1')):
+            for key,expected in (('budget_checkpoint','DELTA_V2' if self.version=='bounded-worker-tape-v8' else 'DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),('local_accounting','SQLITE_BOUNDARY_V1')):
                 if key in state:
                     fields.add(key)
                     if state[key]!=expected:raise TapeError('TAPE_BUDGET_CONFIGURATION')
@@ -287,7 +288,11 @@ class Tape:
         previous_usage=None;external_checkpoint=False
         for event in self.events:
             kind=event['kind']
-            if kind=='BUDGET_INPUT':external_checkpoint=True
+            if kind=='BUDGET_INPUT_FAILURE':
+                if self.version!='bounded-worker-tape-v8':raise TapeError('TAPE_BUDGET_FAILURE_VERSION')
+                from .budget_delta_v2 import validate_failure
+                validate_failure(json.loads(validate_event(event,event['ordinal'])))
+            elif kind=='BUDGET_INPUT':external_checkpoint=True
             elif kind=='BUDGET':
                 budget=json.loads(validate_event(event,event['ordinal']))
                 if budget.get('phase') in ('BEFORE','AFTER') and 'usage_rows' in budget.get('state',{}):
@@ -342,8 +347,8 @@ class Tape:
 
 @contextmanager
 def active(tape):
-    if tape is not None and getattr(tape,'version',None)=='bounded-worker-tape-v7' and tape.bootstrap.get('entry_point')=='workspace' and tape.bootstrap.get('usage_policy') is not None and tape.bootstrap.get('state',{}).get('budget_checkpoint')=='DELTA_V1':
-        from .budget_delta import prepare
+    if tape is not None and getattr(tape,'version',None) in ('bounded-worker-tape-v7','bounded-worker-tape-v8') and tape.bootstrap.get('entry_point')=='workspace' and tape.bootstrap.get('usage_policy') is not None and tape.bootstrap.get('state',{}).get('budget_checkpoint') in ('DELTA_V1','DELTA_V2'):
+        from .budget_checkpoint import prepare
         prepare(tape,tape.path.parent/'catalog.sqlite',tape.bootstrap['state']['environment'])
     token=ACTIVE.set(tape)
     try:yield tape

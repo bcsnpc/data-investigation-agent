@@ -49,6 +49,8 @@ class UsageGovernor:
             read_allowance.initialize(db)
             from .budget_delta import initialize
             initialize(db)
+            from .budget_delta_v2 import initialize as initialize_v2
+            initialize_v2(db)
             db.execute('''CREATE TABLE IF NOT EXISTS usage_violation_acknowledgments(
                 environment TEXT, session_id TEXT, reservation_key TEXT,
                 violation_hash TEXT, approval TEXT, created REAL,

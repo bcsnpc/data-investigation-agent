@@ -20,7 +20,9 @@ class BudgetDeltaTests(unittest.TestCase):
  def row(self,session,key,environment='test'):
     return [environment,session,key,'1900-01-01','cloud',json.dumps({'cloud_calls':1}),None,'SETTLED','policy',1000.0]
  def tape(self,name='tape.json'):
-    tape=journal.Tape(self.root/name,self.boot);delta.prepare(tape,self.root/'catalog.sqlite','test');return tape
+    with patch.object(journal,'VERSION','bounded-worker-tape-v7'):
+     tape=journal.Tape(self.root/name,self.boot)
+    delta.prepare(tape,self.root/'catalog.sqlite','test');return tape
  def snapshot(self,db):
     return {table:[list(r) for r in db.execute('SELECT * FROM '+table+' WHERE environment=? ORDER BY '+','.join(delta.layout(db)[table]['keys']),('test',))] for table in delta.TABLES}
  def test_added_updated_deleted_old_rows_reconstruct_exact_state_and_keep_owned(self):
@@ -58,7 +60,7 @@ class BudgetDeltaTests(unittest.TestCase):
     self.db.execute('CREATE TRIGGER budget_delta_adaptive_usage_update AFTER UPDATE ON adaptive_usage BEGIN SELECT 1; END')
     with self.assertRaisesRegex(journal.TapeError,'JOURNAL_CHANGED'):delta.initialize(self.db)
     with closing(sqlite3.connect(self.root/'wrong.sqlite')) as saved:self.db.backup(saved)
-    tape=journal.Tape(self.root/'wrong.json',bootstrap())
+    with patch.object(journal,'VERSION','bounded-worker-tape-v7'):tape=journal.Tape(self.root/'wrong.json',bootstrap())
     tape.bootstrap['state']={'budget_checkpoint':'DELTA_V1'}
     with self.assertRaisesRegex(journal.TapeError,'JOURNAL_CHANGED'):delta.prepare(tape,self.root/'wrong.sqlite','test')
  def test_corrupt_delta_before_image_and_owned_rows_are_refused(self):
@@ -74,7 +76,8 @@ class BudgetDeltaTests(unittest.TestCase):
  def test_baseline_hash_and_unprepared_pin_refuse(self):
     tape=self.tape();tape.budget_delta=None
     with self.assertRaisesRegex(journal.TapeError,'NOT_PREPARED'):delta.checkpoint(tape,self.db,'test',set())
-    self.boot['state']['artifacts']['catalog.sqlite']='bad';fresh=journal.Tape(self.root/'bad.json',self.boot)
+    self.boot['state']['artifacts']['catalog.sqlite']='bad'
+    with patch.object(journal,'VERSION','bounded-worker-tape-v7'):fresh=journal.Tape(self.root/'bad.json',self.boot)
     with self.assertRaisesRegex(journal.TapeError,'BASELINE_HASH'):delta.prepare(fresh,self.root/'catalog.sqlite','test')
  def test_memory_baseline_is_never_prepared_under_write_lock(self):
     tape=self.tape();tape.budget_delta=None;self.db.execute('BEGIN IMMEDIATE')
@@ -107,7 +110,8 @@ class BudgetDeltaTests(unittest.TestCase):
      root=self.root/str(i);root.mkdir()
      with helper.runtime.db() as db,closing(sqlite3.connect(root/'catalog.sqlite')) as saved:db.backup(saved)
      boot=bootstrap();boot['state']={'budget_checkpoint':'DELTA_V1','artifacts':{'catalog.sqlite':journal.sha((root/'catalog.sqlite').read_bytes())}}
-     tape=journal.Tape(root/'tape.json',boot);delta.prepare(tape,root/'catalog.sqlite','development');tapes.append(tape)
+     with patch.object(journal,'VERSION','bounded-worker-tape-v7'):tape=journal.Tape(root/'tape.json',boot)
+     delta.prepare(tape,root/'catalog.sqlite','development');tapes.append(tape)
     def work(i,governor,runtime,tape):
      session='taped-parallel-'+str(i)
      with journal.active(tape):

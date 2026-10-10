@@ -90,7 +90,7 @@ def operation(name):
                         'snapshot_clock':'ONE_CLOCK_V1',
                         'local_accounting':'SQLITE_BOUNDARY_V1','physical_transport_retries':2}}
                 if agent.governor is not None:
-                    bootstrap['state']['budget_checkpoint']='DELTA_V1'
+                    bootstrap['state']['budget_checkpoint']='DELTA_V2'
                 if getattr(agent.store,'context_pins',None):
                     bootstrap['state']['context_pins']=agent.store.context_pins
                 if getattr(agent.store,'acceptance_fixture_state',None):

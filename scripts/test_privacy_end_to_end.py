@@ -62,7 +62,7 @@ class EndToEndTests(unittest.TestCase):
         no_governor=SimpleNamespace(concurrency_limit=1,agent=SimpleNamespace(governor=None))
         self.assertNotIn('budget_checkpoint',_admission_state(no_governor,SimpleNamespace(),False))
         governed=SimpleNamespace(concurrency_limit=1,agent=SimpleNamespace(governor=object()))
-        self.assertEqual(_admission_state(governed,SimpleNamespace(),False)['budget_checkpoint'],'DELTA_V1')
+        self.assertEqual(_admission_state(governed,SimpleNamespace(),False)['budget_checkpoint'],'DELTA_V2')
 
     def test_projected_admission_pins_keep_legacy_contract_and_refuse_changed_pins(self):
         from investigator.privacy_installation import _admission_state
@@ -207,7 +207,7 @@ class EndToEndTests(unittest.TestCase):
             from investigator.local_accounting import PIN as LOCAL_ACCOUNTING_PIN
             self.assertEqual(tape.bootstrap['state']['local_accounting'],LOCAL_ACCOUNTING_PIN)
             self.assertEqual(tape.accounting_version,ACCOUNTING_VERSION)
-            self.assertEqual(tape.bootstrap['state']['budget_checkpoint'],'DELTA_V1')
+            self.assertEqual(tape.bootstrap['state']['budget_checkpoint'],'DELTA_V2')
             self.assertEqual(tape.bootstrap['state']['snapshot_clock'],'ONE_CLOCK_V1')
             self.assertEqual(tape.bootstrap['state']['physical_transport_retries'],2)
             self.assertEqual(tape.bootstrap['state']['provider_transport_retries'],2)

@@ -83,6 +83,8 @@ class Runtime:
     @contextmanager
     def db(self):
         with self.store.connect() as db:
+            from .budget_delta_v2 import register_codec
+            register_codec(db)
             db.row_factory = sqlite3.Row
             yield db
 

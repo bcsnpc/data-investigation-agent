@@ -11,7 +11,8 @@ from pathlib import Path
 from .privacy_projection import ProjectionError, canonical, PROJECTED
 from .provider_tape_contract import parse
 
-VERSION = 'privacy-projected-tape-v1'
+VERSION = 'privacy-projected-tape-v2'
+SUPPORTED_VERSIONS = frozenset(('privacy-projected-tape-v1',VERSION))
 
 
 class PrivacyTape:
@@ -32,10 +33,11 @@ class PrivacyTape:
             value = parse(self.path.read_bytes())
             if (not isinstance(value,dict)
                     or set(value) != {'version', 'projection', 'events', 'outputs', 'seal'}
-                    or value['version'] != VERSION
+                    or value['version'] not in SUPPORTED_VERSIONS
                     or not isinstance(value['projection'],dict)
                     or value['projection'].get('tape_class') != PROJECTED):
                 raise ProjectionError('PRIVACY_TAPE_SCHEMA')
+            self.version=value['version']
             self.projection.require_descriptor(value['projection'])
             if not isinstance(value['seal'],str) or not hmac.compare_digest(value['seal'], self.projection.sign({
                     k: v for k, v in value.items() if k != 'seal'})):
@@ -141,7 +143,7 @@ class PrivacyTape:
                     'body': base64.b64encode(body).decode('ascii'),
                     'sha256': hashlib.sha256(body).hexdigest(),
                     'base64_body': event['base64_body']})
-            value = {'version': VERSION, 'projection': self.projection.descriptor(),
+            value = {'version': self.version, 'projection': self.projection.descriptor(),
                      'events': events, 'outputs': projected_outputs}
             value['seal'] = self.projection.sign(value)
             self.path.parent.mkdir(parents=True, exist_ok=True)
