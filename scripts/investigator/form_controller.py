@@ -88,7 +88,8 @@ class Forms:
             return self.smart.tickets.update(saved['ticket']['id'],saved['revision'],route)
         if request['description'] and request.get('description_resolution')!='FORM_SELECTIONS' and not saved['ticket'].get('source_intake'):
             doc=form_scope.document(request,self.workspace.intake_configuration)
-            source=self.workspace.intake.resolve({'text':doc['text'],
+            description=next(p for p in doc['parts'] if p['pointer']=='/description')
+            source=self.workspace.intake.resolve({'text':doc['text'][:description['end']],
                 'request_key':'form-description:'+saved['ticket']['id'],'parent_id':None},retain_extraction=True)
             def attach(current):
                 current['source_intake']=source['id'];return current

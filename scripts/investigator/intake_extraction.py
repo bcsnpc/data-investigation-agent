@@ -142,6 +142,12 @@ def request_size(payload):
         raise ValueError('INTAKE_REQUEST_OVERSIZE: '+str(size)+' > '+str(REQUEST_CAP))
     return size
 
+
+def request_output_tokens(payload):
+    from ticket_planner import provider_body
+    return provider_body(wire(payload),INSTRUCTIONS,SCHEMA,'extract_ticket_spans',
+                         decision_tool=True)['max_output_tokens']
+
 def normalize(value):
     return ''.join(c for c in value.casefold() if c.isalnum())
 
@@ -678,3 +684,5 @@ def azure_resolve(payload):
 
 azure_resolve.request_characters=request_size
 azure_extract.request_characters=request_size
+azure_resolve.request_output_tokens=request_output_tokens
+azure_extract.request_output_tokens=request_output_tokens

@@ -12,7 +12,7 @@ VERSION = 'ticket-form-authority-v2'
 HASH = {'type':'string', 'pattern':'^[0-9a-f]{64}$'}
 PROOF = protocol.obj({'version':{'const':VERSION}, 'request_hash':HASH,
     'catalog_hash':HASH, 'document_hash':HASH, 'report_id':protocol.ID,
-    'page_id':protocol.ID, 'target_id':form_intake.NULL_ID,
+    'page_id':protocol.ID, 'target_id':form_intake.NULL_ID,'measure_id':protocol.ID,
     'mode':{'enum':['UNGROUPED','TOTAL','KEYED','MEASURE_AT_SCOPE']},
     'declared_scope':protocol.obj({'state':{'const':'COMPLETE'},'context_id':protocol.ID,
         'context_hash':HASH,'inventory_hash':HASH,'restrictions':{'type':'array','maxItems':32,
@@ -27,13 +27,29 @@ ROUTE = protocol.obj({'version':{'const':ROUTE_VERSION},
     'route':{'enum':[*protocol.ROUTES,'DECLARED_SUBJECT']}, 'form':PROOF})
 
 
+def description_route(proposal,request,configuration):
+    if not proposal:return None
+    route=proposal.get('ticket_route')
+    if route:return route
+    raw=proposal.get('extracted_ticket',{}).get('response')
+    if raw is None:return None
+    from .ticket_route import settlement
+    return settlement(raw,document(request,configuration)['text'],configuration,code_gate=True)
+
+
 def resolved_scope(request, models, configuration, description_proposal=None):
     """User picks stay facts; absence may be settled by validated description.
 
     A measure-only description is accepted only with the existing complete R1
     declaration proof. No candidate is selected by matching an expected value.
     """
-    result=form_intake.resolve(request,models,configuration)
+    try:
+        result=form_intake.resolve(request,models,configuration,
+            measure_id=description_proposal.get('measure_id') if description_proposal else None)
+    except ValueError as exc:
+        if str(exc)=='Description measure is not bound by the selected visual':
+            raise Conflict('Description conflicts with the selected form target') from exc
+        raise
     if result['status']=='BOUND':return result['scope']
     if result['status']!='NEEDS_INPUT' or not description_proposal or description_proposal.get('action')!='PROPOSE':
         raise Conflict('Form still has unresolved consequential fields')
@@ -70,7 +86,7 @@ def resolved_scope(request, models, configuration, description_proposal=None):
         if len({(d['context_id'],d['context_hash']) for d in declared})!=1:
             raise Conflict('R1 proof spans different retained contexts')
         target_id=None;mode='MEASURE_AT_SCOPE'
-    route=request['comparison'] or (p.get('ticket_route') or {}).get('route')
+    route=request['comparison'] or (description_route(p,request,configuration) or {}).get('route')
     if not route:raise Conflict('Description does not establish a comparison or declared subject')
     figure=result.get('scope',{}).get('reported_figure') if result.get('scope') else None
     if request['value_seen'] is not None:
@@ -78,7 +94,7 @@ def resolved_scope(request, models, configuration, description_proposal=None):
         probe={**request,'target_id':target_id,'cell_mode':None if mode=='MEASURE_AT_SCOPE' else mode,
                'comparison':request['comparison'] or 'LOOKS_WRONG'}
         if target_id is None:raise Conflict('A displayed figure needs a cell binding or value-match receipts')
-        parsed=form_intake.resolve(probe,models,configuration)
+        parsed=form_intake.resolve(probe,models,configuration,measure_id=p['measure_id'])
         if parsed['status']!='BOUND':raise Conflict('Form figure scope is not bound')
         figure=parsed['scope']['reported_figure']
     else:figure=copy.deepcopy(p.get('reported_figure',{'state':'UNSPECIFIED'}))
@@ -127,7 +143,7 @@ def build(request, models, configuration, *, description_proposal=None):
         binding = description_proposal.get('report_binding')
         if binding and binding['report_id'] != scope['report_id']:
             raise Conflict('Description conflicts with the selected form report')
-        route = description_proposal.get('ticket_route')
+        route = description_route(description_proposal,request,configuration)
         if route and route['route'] != scope['comparison']:
             raise Conflict('Description conflicts with the selected form comparison')
         # Additional text restrictions must be handled explicitly; do not erase
@@ -156,7 +172,8 @@ def build(request, models, configuration, *, description_proposal=None):
     proof = {'version':VERSION, 'request_hash':digest(request),
         'catalog_hash':digest(models), 'document_hash':digest(text),
         'report_id':scope['report_id'], 'page_id':scope['page_id'],
-        'target_id':scope['target_id'], 'mode':scope['cell_mode'],'declared_scope':copy.deepcopy(declared)}
+        'target_id':scope['target_id'], 'mode':scope['cell_mode'],'measure_id':scope['measure_id'],
+        'declared_scope':copy.deepcopy(declared)}
     Draft202012Validator(PROOF).validate(proof)
     figure = copy.deepcopy(scope['reported_figure'])
     if figure['state'] != 'UNSPECIFIED':
@@ -171,6 +188,11 @@ def build(request, models, configuration, *, description_proposal=None):
     if description_proposal is not None:
         subject = copy.deepcopy(description_proposal['question_kind'])
         kind=subject['kind']
+        from .question_kind import validate as validate_subject
+        validate_subject(subject,text)
+        part=next(p for p in doc['parts'] if p['pointer']=='/description')
+        if subject['source']['start']<part['start'] or subject['source']['end']>part['end']:
+            raise Conflict('Description subject provenance must belong to the user description')
     proposal = {'action':'PROPOSE', 'model_id':scope['model_id'],
         'measure_id':scope['measure_id'], 'metric_quote':None, 'question':None,
         'ticket_shape':description_proposal['ticket_shape'] if description_proposal else 'BUSINESS_QUESTION' if kind == 'BUSINESS_MEANING' else 'MISMATCH_COMPLAINT',
@@ -191,7 +213,7 @@ def validate_target(value, *, candidates, report_id, measure_id, ticket=None):
     Draft202012Validator(PROOF).validate(proof)
     matches = [c for c in candidates if c['target_id'] == proof['target_id']
         and c['report_id'] == proof['report_id'] and c.get('page_id') == proof['page_id']]
-    if len(matches) != 1 or matches[0].get('unsupported') or matches[0]['measure_ids'] != [measure_id]:
+    if len(matches) != 1 or matches[0].get('unsupported') or measure_id not in matches[0]['measure_ids'] or measure_id!=proof['measure_id']:
         raise ValueError('Form target is absent, ambiguous or not executable')
     candidate = matches[0]
     if report_id != proof['report_id'] or bool(candidate['grouping_columns']) != (proof['mode'] != 'UNGROUPED'):

@@ -25,7 +25,7 @@ SCHEMA = protocol.obj({
             {'type':'integer'}, {'type':'boolean'}, {'type':'null'}]}})}}, optional=('cell_keys','description_resolution'))
 
 
-def resolve(request, models, configuration):
+def resolve(request, models, configuration, *, measure_id=None):
     """Bind explicit picks; an unresolved field produces at most one batch.
 
     Live list IDs must first be mapped by the platform adapter into these
@@ -67,8 +67,14 @@ def resolve(request, models, configuration):
         return {**base, 'status': 'NEEDS_INPUT', 'questions': [{
             'field': 'NUMBER', 'candidate_target_ids': [v['target_id'] for v in eligible]}]}
     visual = eligible[0]
-    if visual.get('unsupported') or len(visual['measure_ids']) != 1:
+    if visual.get('unsupported') or not visual['measure_ids']:
         return {**base, 'status': 'HELD', 'reason': 'TARGET_NOT_EXECUTABLE'}
+    if measure_id is None and len(visual['measure_ids'])!=1:
+        return {**base,'status':'NEEDS_INPUT','questions':[{'field':'NUMBER','reason':'MEASURE_UNRESOLVED',
+            'candidate_measure_ids':visual['measure_ids']}]}
+    measure_id=measure_id or visual['measure_ids'][0]
+    if measure_id not in visual['measure_ids']:
+        raise ValueError('Description measure is not bound by the selected visual')
     mode = request['cell_mode']
     if mode is None:
         if visual['grouping_columns']:
@@ -108,7 +114,7 @@ def resolve(request, models, configuration):
         reported_figure.validate(figure, wording)
     return {**base, 'status': 'BOUND', 'scope': {
         'model_id': model['id'], 'report_id': report['id'], 'page_id': request['page_id'],
-        'target_id': visual['target_id'], 'measure_id': visual['measure_ids'][0],
+        'target_id': visual['target_id'], 'measure_id': measure_id,
         'cell_mode': mode, 'comparison': route, 'reported_figure': copy.deepcopy(figure),
         'figure_document': wording, 'figure_pointer': '/value_seen',
         'filters': [{'column_id': k['column_id'], 'operator': 'in',

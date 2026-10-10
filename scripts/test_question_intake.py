@@ -291,6 +291,21 @@ class IntakeTests(unittest.TestCase):
         self.assertIsNone(saved['proposal'])
         with self.assertRaises(Conflict): self.review(saved)
 
+    def test_explicit_producer_output_bound_is_reserved_before_dispatch(self):
+        self.resolver.request_output_tokens=lambda payload:8000
+        self.resolver.return_value=proposal(),{'usage':{'output_tokens':2504}}
+        saved=self.resolve()
+        self.assertEqual(saved['status'],'PROPOSED')
+        with self.h.store.connect() as db:
+            row=db.execute('SELECT reserved,status FROM adaptive_usage').fetchone()
+        self.assertEqual(json.loads(row['reserved'])['output_tokens'],8000)
+        self.assertEqual(row['status'],'SETTLED')
+
+    def test_model_reservation_uses_actual_provider_body_bound(self):
+        from investigator.intake_extraction import request_output_tokens
+        with patch('ticket_planner.provider_body',return_value={'max_output_tokens':8000}):
+            self.assertEqual(request_output_tokens({'text':'Explain Quantity.','models':[]}),8000)
+
     def test_usage_counts_are_recorded_without_provider_metadata(self):
         self.resolver.return_value = proposal(), {'usage': {'input_tokens': 50, 'output_tokens': 10}, 'response_id': 'private'}
         self.resolve()

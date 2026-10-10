@@ -175,7 +175,8 @@ class FormControllerTests(unittest.TestCase):
         from investigator import form_scope
         proposal=form_scope.build({**self.request,'value_seen':None},self.catalog['models'],None)['proposal']
         proposal.update(updates)
-        proposal['question_kind']={'kind':'DEFINITION','source':{'start':0,'end':11,'quote':'Description'}}
+        part=next(p for p in form_scope.document(request,None)['parts'] if p['pointer']=='/description')
+        proposal['question_kind']={'kind':'METRIC_COMPONENTS','source':{k:part[k] for k in ('start','end','quote')}}
         proposal['ticket_shape']='BUSINESS_QUESTION';proposal['comparison_mode']='NONE'
         proposal['ticket_route']={'route':'DECLARED_SUBJECT'}
         return proposal
@@ -227,6 +228,49 @@ class FormControllerTests(unittest.TestCase):
         self.assertEqual(saved['ticket']['state'],'HELD')
         self.assertIn('scope is unavailable',saved['ticket']['history'][-1]['detail']['reason'])
         self.assertNotIn('intake_id',saved['ticket'])
+
+    def test_picked_multimeasure_visual_uses_description_measure_not_another_question(self):
+        visual=next(v for v in self.catalog['models'][0]['visuals'] if v['target_id']=='card')
+        request={**self.request,'comparison':None,'value_seen':None,'description':'Explain Quantity.'}
+        p=self.description_proposal(request)
+        visual['measure_ids'].append('other-measure')
+        built=form_scope.build(request,self.catalog['models'],None,description_proposal=p)
+        self.assertEqual(built['proposal']['measure_id'],'measure')
+        target_validate(built['proposal']['target_visual'],ticket=built['document']['text'],
+            candidates=self.catalog['models'][0]['visuals'],report_id='report',measure_id='measure')
+
+    def test_description_cannot_select_a_measure_absent_from_picked_visual(self):
+        request={**self.request,'description':'Explain another measure.'}
+        p=self.description_proposal(request,measure_id='unbound')
+        with self.assertRaisesRegex(Conflict,'conflicts'):
+            form_scope.build(request,self.catalog['models'],None,description_proposal=p)
+
+    def test_description_declared_subject_route_is_derived_from_retained_extraction(self):
+        request={**self.request,'comparison':None,'value_seen':None,
+                 'description':'In Report, explain the global numerator and denominator of Quantity.'}
+        p=self.description_proposal(request);p.pop('ticket_route')
+        raw,_=fixtures.fixture(form_scope.document(request,None)['text'],figures=[])
+        raw['kind']='METRIC_COMPONENTS'
+        p['extracted_ticket']={'response':raw}
+        built=form_scope.build(request,self.catalog['models'],None,description_proposal=p)
+        self.assertEqual(built['proposal']['ticket_route']['route'],'DECLARED_SUBJECT')
+
+    def test_description_read_does_not_duplicate_supplied_form_figure(self):
+        request={**self.request,'description':'Quantity shows 16.'}
+        with patch.object(self.workspace.intake,'resolve',return_value={
+                'id':'description','status':'HELD','refusal_reason':'Recorded refusal'}) as resolver:
+            saved=self.workspace.forms.submit(request)
+        text=resolver.call_args.args[0]['text']
+        self.assertEqual(text.count('16'),1)
+        self.assertNotIn('Comparison selected',text)
+        self.assertEqual(saved['ticket']['state'],'HELD')
+
+    def test_description_subject_cannot_quote_generated_label_as_user_provenance(self):
+        request={**self.request,'comparison':None,'value_seen':None,'description':'Explain Quantity.'}
+        p=self.description_proposal(request)
+        p['question_kind']['source']={'start':0,'end':11,'quote':'Description'}
+        with self.assertRaisesRegex(Conflict,'user description'):
+            form_scope.build(request,self.catalog['models'],None,description_proposal=p)
 
     def test_business_question_with_missing_target_never_crashes(self):
         saved=self.submit(comparison='BUSINESS_MEANING',target_id=None,cell_mode=None)

@@ -337,6 +337,13 @@ def reservation_characters(resolver,payload):
     return estimator(payload) if estimator is not None else input_characters(payload)
 
 
+def reservation_output_tokens(resolver,payload):
+    """Reserve the producer's declared bound, including reasoning tokens."""
+    estimator=getattr(resolver,'__dict__',{}).get('request_output_tokens')
+    from .generation_policy import validate as generation_policy
+    return estimator(payload) if estimator is not None else generation_policy()['max_output_tokens']
+
+
 def wire_contract(payload):
     """Opaque bounded handles avoid asking an LLM to reproduce long encoded URIs."""
     wire=copy.deepcopy(payload);handles={};models=[];measures=[];columns=[]
@@ -784,7 +791,8 @@ class Intake:
             # Serializes duplicate dispatch and shares limits with adaptive planning.
             if db.execute('SELECT 1 FROM workspace_intakes WHERE request_key=?', (request['request_key'],)).fetchone():
                 raise Conflict('Question submission is already in progress')
-            governor.reserve(db, 'intake:' + body['id'], 'resolve', 'planner', reservation_characters(self.resolver,payload))
+            governor.reserve(db, 'intake:' + body['id'], 'resolve', 'planner', reservation_characters(self.resolver,payload),
+                             output_tokens=reservation_output_tokens(self.resolver,payload))
             db.execute('INSERT INTO workspace_intakes VALUES (?,?,?,?)', (body['id'], request['request_key'], encoded(body), digest(body)))
         usage = None; uncertain = True; reservation_key='resolve'
         body['resolution_attempts']=[]
@@ -850,7 +858,8 @@ class Intake:
                     row=db.execute('SELECT body FROM workspace_intakes WHERE id=?',(body['id'],)).fetchone()
                     if json.loads(row['body'])['status']!='RESOLVING':return self.get(body['id'])
                     retry_key='intake-rule-retry' if rule else 'explicit-statement-retry' if omitted else 'provenance-quote-retry' if missing else 'figure-quote-retry'
-                    governor.reserve(db,'intake:'+body['id'],retry_key,'planner',reservation_characters(self.resolver,retry_payload))
+                    governor.reserve(db,'intake:'+body['id'],retry_key,'planner',reservation_characters(self.resolver,retry_payload),
+                                     output_tokens=reservation_output_tokens(self.resolver,retry_payload))
                 reservation_key=retry_key;usage=None;uncertain=True
                 body['resolution_attempts'].append({'attempt':2,'event':'INTAKE_RULE_RETRY' if rule else 'EXPLICIT_STATEMENT_RETRY' if omitted else 'PROVENANCE_QUOTE_RETRY' if missing else 'REPORTED_FIGURE_QUOTE_RETRY',
                     'reservation_key':reservation_key})
