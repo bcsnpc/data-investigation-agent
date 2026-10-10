@@ -23,9 +23,14 @@ SCHEMA = protocol.obj({
     'measure_id': protocol.ID,
     'description': {**protocol.TEXT, 'minLength': 0},
     'description_resolution':{'enum':['FORM_SELECTIONS']},
+    'subject':{'enum':['REPORT','MEASURE_TEXT']},
     'cell_keys': {'type': 'array', 'maxItems': 6, 'items': protocol.obj({
         'column_id': protocol.ID, 'value': {'anyOf': [protocol.TEXT,
-            {'type':'integer'}, {'type':'boolean'}, {'type':'null'}]}})}}, optional=('cell_keys','description_resolution','measure_id'))
+            {'type':'integer'}, {'type':'boolean'}, {'type':'null'}]}})}}, optional=('cell_keys','description_resolution','measure_id','subject'))
+SCHEMA['allOf']=[{'if':{'required':['subject'],'properties':{'subject':{'const':'MEASURE_TEXT'}}},
+    'then':{'not':{'anyOf':[{'required':['measure_id']},{'required':['description_resolution']}]},
+            'properties':{**{k:{'type':'null'} for k in ('report_id','page_id','target_id','cell_mode')},
+                          'description':{**protocol.TEXT,'minLength':1},'cell_keys':{'maxItems':0}}}}]
 
 
 def resolve(request, models, configuration, *, measure_id=None):
@@ -46,6 +51,8 @@ def resolve(request, models, configuration, *, measure_id=None):
             'execution_authorized': False,
             'description_requires_interpretation': bool(request['description']),
             'questions': [], 'scope': None}
+    if request.get('subject')=='MEASURE_TEXT':
+        return {**base,'status':'ROUTED','route':'MEASURE_TEXT'}
     if route == 'OTHER_REPORT':
         return {**base, 'status': 'HELD', 'reason': 'OTHER_REPORT_COMING_SOON'}
     reports = [(m, r) for m in models for r in m.get('reports', [])

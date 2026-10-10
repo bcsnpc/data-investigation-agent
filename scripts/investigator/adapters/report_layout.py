@@ -60,7 +60,8 @@ def choices(workspace, ticket_id):
     targets={}
     for question in ticket['questions']:
         for choice in question['choices']:
-            meaning=ticket['choice_values'].get(digest(question)+'/'+choice['id'],{})
+            meaning=(ticket.get('form_choices',{}).get(choice['id']) if ticket.get('form_input')
+                     else ticket.get('choice_values',{}).get(digest(question)+'/'+choice['id'],{})) or {}
             if meaning.get('target_id'):targets[choice['id']]=meaning['target_id']
     matches={}
     for row in workspace.store.list(True):
@@ -72,4 +73,18 @@ def choices(workspace, ticket_id):
                     if visual['target_id']==target:matches.setdefault(choice,[]).append({'page':page,'visual':visual})
     # A preview cannot pick between duplicated retained bindings.
     return {'choices':{k:v[0] for k,v in matches.items() if len(v)==1},
+            'qualification':'Retained definition layout; no live figures or current selections are shown.'}
+
+
+def form_page(workspace,request):
+    """Retained geometry only; selecting a region remains a user's form pick."""
+    from ..onboarding import fields,Conflict
+    fields(request,['report_id','page_id'])
+    matches=[]
+    for row in workspace.store.list(True):
+        model=workspace.store.get(row['id'])
+        if not model.get('enabled') or not model.get('context'):continue
+        matches.extend(p for p in pages(model) if p['report_id']==request['report_id'] and p['id']==request['page_id'])
+    if len(matches)!=1:raise Conflict('Selected page has no unique retained layout')
+    return {'page':matches[0],
             'qualification':'Retained definition layout; no live figures or current selections are shown.'}

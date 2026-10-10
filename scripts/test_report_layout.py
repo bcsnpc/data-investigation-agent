@@ -53,4 +53,18 @@ class LayoutTests(unittest.TestCase):
         self.workspace.store.list.return_value=[{'id':'model'},{'id':'duplicate'}]
         self.assertEqual(report_layout.choices(self.workspace,'ticket')['choices'],{})
 
+    def test_form_choices_receive_geometry_without_becoming_authority(self):
+        ticket={'form_input':{'target_id':None},'questions':[{'choices':[{'id':'offered'}]}],
+                'form_choices':{'offered':{'target_id':self.visual['id']}}}
+        original=copy.deepcopy(ticket);self.workspace.smart_intake.tickets.get.return_value={'ticket':ticket}
+        self.assertEqual(set(report_layout.choices(self.workspace,'ticket')['choices']),{'offered'})
+        self.assertEqual(ticket,original)
+
+    def test_form_page_geometry_requires_unique_retained_page(self):
+        request={'report_id':self.report,'page_id':self.report+'/page/PageA'}
+        result=report_layout.form_page(self.workspace,request)
+        self.assertEqual(result['page']['visuals'][0]['target_id'],self.visual['id'])
+        self.assertNotIn('value',result)
+        self.workspace.agent.runtime.native_transport.assert_not_called()
+
 if __name__=='__main__':unittest.main()

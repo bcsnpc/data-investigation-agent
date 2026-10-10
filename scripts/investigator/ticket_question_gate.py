@@ -11,29 +11,40 @@ from .onboarding import digest
 from .visual_target import TargetUnresolved
 
 
-def prepare(ticket, source, payload, configuration, *, comparison_conflict=False):
-    result=copy.deepcopy(ticket);events=[]
+def scope_block(source,payload):
+    """Same predicate admission rule for form and free-text questions."""
     raw=intake_extraction.retained_response(source)
-    if raw is None:return result,events,None
+    if raw is None:return None
     try:extraction=intake_extraction.spans(raw,payload['text'],figure_occurrences=True)
-    except (ValueError,ValidationError):return result,events,None
+    except (ValueError,ValidationError):return None
     ask=extraction['primary']['quote']
     if re.search(r'\b(?:unidentified|unknown|unsupported)\b[^.!?\n]*\b(?:filter|slicer)\b',ask,re.I):
-        return result,events,'UNSUPPORTED_FILTER: declared predicate is not established'
+        return 'UNSUPPORTED_FILTER: declared predicate is not established'
     # Ticket-relative dates require typed exact endpoints. A visual choice
     # cannot supply those endpoints or turn an untyped field into a date.
     for selection in extraction['selections']:
         if selection['role']=='PRIMARY' and re.search(
                 r'\b(?:last|next|past)\s+(?:\d+|[a-z]+)\s+(?:days?|weeks?|months?|years?)\b',
                 selection['quote']['quote'],re.I):
-            return result,events,'RELATIVE_DATE_UNSUPPORTED: exact typed endpoints are not established'
+            return 'RELATIVE_DATE_UNSUPPORTED: exact typed endpoints are not established'
     for selection in extraction['selections']:
         if selection['role']!='PRIMARY' or selection['column'] is None:continue
         columns=[c for model in payload['models'] for c in model['columns']]
         try:intake_extraction.match(selection['column']['quote'],columns,'column_id')
         except ValueError as exc:
             if getattr(exc,'resolution_evidence',{}).get('resolution')=='UNRESOLVED':
-                return result,events,'COLUMN_UNRESOLVED: '+str(exc)
+                return 'COLUMN_UNRESOLVED: '+str(exc)
+    return None
+
+
+def prepare(ticket, source, payload, configuration, *, comparison_conflict=False):
+    result=copy.deepcopy(ticket);events=[]
+    raw=intake_extraction.retained_response(source)
+    if raw is None:return result,events,None
+    try:intake_extraction.spans(raw,payload['text'],figure_occurrences=True)
+    except (ValueError,ValidationError):return result,events,None
+    blocked=scope_block(source,payload)
+    if blocked:return result,events,blocked
     # Policy confirmation is not evidence of ambiguity. A complete validated
     # referent or an explicit request settles its question without another ask.
     from .ticket_route import settlement

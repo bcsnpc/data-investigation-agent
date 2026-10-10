@@ -65,7 +65,9 @@ def matching(request,models,binding):
             (c['target_id'],c['measure_id'],c['scope_hash']) for c in current]:
         raise Conflict('Candidate evidence is not exhaustive for current definitions')
     matches=[c for c,e in zip(current,entries) if reported_figure.label(c['scope']['reported_figure'],e['probe']['value'])=='REPRODUCED']
-    if not matches:return {'status':'HELD','reason':'TARGET_UNRESOLVED: no candidate reproduces the supplied figure'}
+    if not matches:
+        return {'status':'NEEDS_INPUT','questions':[{'field':'NUMBER',
+            'reason':'VALUE_NOT_FOUND','candidate_target_ids':sorted({c['target_id'] for c in current})}]}
     if len({c['scope_hash'] for c in matches})!=1:
         return {'status':'NEEDS_INPUT','questions':[{'field':'NUMBER','candidate_target_ids':[c['target_id'] for c in matches]}]}
     return {'status':'BOUND','scope':matches[0]['scope'],'authority':'RECEIPTED_VALUE_MATCH',

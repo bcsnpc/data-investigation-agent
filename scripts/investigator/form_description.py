@@ -37,9 +37,9 @@ def anchor(request,models,extraction,candidate_binding=None):
     for hint in extraction['visuals']:
         if not active(hint,extraction):continue
         form=hint.get('form','TITLE');word=hint['quote']['quote']
-        if form in ('CARD','MATRIX','CHART') and visual.get('form')!=form:return None
-        if form=='TOTAL' and request['cell_mode']!='TOTAL':return None
-        if form=='UNGROUPED' and request['cell_mode'] not in (None,'UNGROUPED'):return None
+        # A generic shape or position word is not another named referent.
+        # The picked cell remains authoritative; actual named-object conflicts
+        # are retained below and require the user's decision.
         if form in ('CARD','MATRIX','CHART'):
             word=re.sub(r'\s+(?:card|matrix|chart)$','',word,flags=re.I).strip()
         hits=[v for v in model.get('visuals',[]) if any(normal(word)==normal(n) for n in v.get('names',[]))]

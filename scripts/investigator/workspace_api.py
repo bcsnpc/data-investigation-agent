@@ -64,6 +64,9 @@ def create_app(workspace, token, port=8776):
                 result=workspace.forms.catalog(refresh=body['refresh'] if method=='POST' else False)
             elif path == '/api/workspace/forms/pages' and method == 'POST':
                 result=workspace.forms.pages(body)
+            elif path == '/api/workspace/forms/layout' and method == 'POST':
+                from .adapters.report_layout import form_page
+                result=form_page(workspace,body)
             elif path == '/api/workspace/forms' and method == 'POST':
                 result=workspace.forms.submit(body)
             elif path == '/api/workspace/context/search' and method == 'POST':

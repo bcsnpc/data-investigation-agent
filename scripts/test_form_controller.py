@@ -40,6 +40,44 @@ class FormControllerTests(unittest.TestCase):
         first=self.submit();self.assertEqual(self.submit(),first)
         with self.assertRaises(Conflict):self.submit(value_seen='17')
 
+    def test_measure_text_uses_existing_port_without_report_or_visual_authority(self):
+        request={**self.request,'subject':'MEASURE_TEXT','report_id':None,'page_id':None,
+                 'target_id':None,'cell_mode':None,'description':'Why is Quantity stale?'}
+        with patch.object(self.workspace.smart_intake,'submit',return_value=self.helper.controller.tickets.submit(
+                {'text':request['description'],'request_key':'routed'},'routed')) as submit:
+            saved=self.workspace.forms.submit(request)
+        forwarded=submit.call_args.args[0]
+        self.assertEqual(forwarded['text'],request['description'])
+        self.assertNotIn('report_page',forwarded.get('structured',{}))
+        self.assertEqual(saved['ticket']['form_origin'],request)
+        self.assertNotIn('form_input',saved['ticket'])
+        self.assertEqual(saved['ticket']['questions'],[])
+
+    def test_measure_text_cannot_carry_a_fake_report_pick(self):
+        with self.assertRaisesRegex(ValueError,'closed input contract'):
+            self.submit(subject='MEASURE_TEXT',description='Why is Quantity stale?')
+
+    def test_picked_visual_unresolved_description_asks_once_not_refuses(self):
+        with patch.object(self.workspace.intake,'resolve',return_value={'id':'unresolved',
+                'status':'REFUSED','error':'TARGET_AMBIGUOUS','attempts':[],
+                'text':'Some other display may be involved.'}):
+            saved=self.submit(description='Some other display may be involved.')
+        self.assertEqual(len(saved['ticket']['questions']),1)
+        self.assertNotEqual(saved['ticket']['state'],'HELD')
+        q=saved['ticket']['questions'][0]
+        self.assertIn('Which should I check?',q['question'])
+        self.assertEqual(saved['ticket']['form_input']['target_id'],'card')
+
+    def test_unsupported_filter_refuses_before_unrelated_page_question(self):
+        from test_intake_extraction import fixture
+        description='Report Quantity shows 16 under an unknown script filter.'
+        self.helper.raw,_=fixture(description,
+            figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}])
+        saved=self.submit(page_id=None,target_id=None,cell_mode=None,description=description)
+        self.assertEqual(saved['ticket']['state'],'HELD')
+        self.assertEqual(saved['ticket']['questions'],[])
+        self.assertIn('UNSUPPORTED_FILTER',saved['ticket']['history'][-1]['detail']['reason'])
+
     def test_missing_target_asks_then_actual_user_choice_adopts(self):
         saved=self.submit(target_id=None,cell_mode=None,value_seen=None)
         self.assertNotIn('intake_id',saved['ticket'])
@@ -258,7 +296,8 @@ class FormControllerTests(unittest.TestCase):
     def test_description_read_does_not_duplicate_supplied_form_figure(self):
         request={**self.request,'description':'Quantity shows 16.'}
         with patch.object(self.workspace.intake,'resolve',return_value={
-                'id':'description','status':'HELD','refusal_reason':'Recorded refusal'}) as resolver:
+                'id':'description','status':'HELD','refusal_reason':'Recorded refusal',
+                'text':'Description supplied by user:\nQuantity shows 16.'}) as resolver:
             saved=self.workspace.forms.submit(request)
         text=resolver.call_args.args[0]['text']
         self.assertEqual(text.count('16'),1)

@@ -17,6 +17,13 @@ class AuthoritativeFormTests(unittest.TestCase):
     def result(self, **changes):
         return resolve({**self.request, **changes}, self.models, None)
 
+    def test_measure_text_routes_without_report_page_question(self):
+        result=self.result(subject='MEASURE_TEXT',report_id=None,page_id=None,target_id=None,
+            cell_mode=None,description='Why is this measure stale?')
+        self.assertEqual(result['status'],'ROUTED')
+        self.assertEqual(result['questions'],[])
+        self.assertIsNone(result['scope'])
+
     def test_explicit_card_never_replaced_by_same_measure_matrix(self):
         r = self.result()
         self.assertEqual(r['status'], 'BOUND')

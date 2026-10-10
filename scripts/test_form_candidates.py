@@ -81,4 +81,25 @@ class CandidateTests(unittest.TestCase):
 
     def test_no_match_never_invents_target(self):
         b,m=form_candidates.observe(self.request,self.models,self.reader({'card':'17','second':'18'}))
-        self.assertEqual(m['status'],'HELD')
+        self.assertEqual(m['status'],'NEEDS_INPUT')
+        self.assertEqual(m['questions'][0]['reason'],'VALUE_NOT_FOUND')
+        self.assertNotIn('scope',m)
+
+    def test_no_match_click_preserves_figure_and_prior_probes(self):
+        self.f.workspace.form_candidate_reader=self.reader({'card':'17','second':'18'})
+        saved=self.f.workspace.forms.submit(self.request);q=saved['ticket']['questions'][0]
+        self.assertIn('could not find 16',q['question'])
+        selected=next(c for c in q['choices'] if saved['ticket']['form_choices'][c['id']]['target_id']=='second')
+        resumed=self.f.workspace.forms.reply({'ticket_id':saved['ticket']['id'],'revision':saved['revision'],
+            'answers':[{'question_id':q['id'],'choice_id':selected['id']}],'request_key':'no-match-choice'})
+        p=self.f.proposal(resumed)['proposal']
+        self.assertEqual(p['target_visual']['target_id'],'second')
+        self.assertEqual(p['reported_figure']['value'],'16')
+        self.assertTrue(resumed['ticket']['superseded_candidate_bindings'])
+
+    def test_no_match_cannot_point_holds(self):
+        self.f.workspace.form_candidate_reader=self.reader({'card':'17','second':'18'})
+        saved=self.f.workspace.forms.submit(self.request);q=saved['ticket']['questions'][0]
+        resumed=self.f.workspace.forms.reply({'ticket_id':saved['ticket']['id'],'revision':saved['revision'],
+            'answers':[{'question_id':q['id'],'unavailable':True}],'request_key':'cannot-point'})
+        self.assertEqual(resumed['ticket']['state'],'HELD')

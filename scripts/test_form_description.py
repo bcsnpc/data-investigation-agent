@@ -40,6 +40,14 @@ class FormDescriptionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Description conflicts'):
             form_scope.build(r,p['models'],None,description_proposal=result)
 
+    def test_generic_shape_noise_cannot_displace_picked_visual(self):
+        raw,p,r=self.payload('Report Quantity differs; the chart total is confusing.',
+            visuals=[{'quote':'chart','form':'CHART','role':'PRIMARY'},
+                     {'quote':'total','form':'TOTAL','role':'PRIMARY'}])
+        result=intake_extraction.resolve(raw,p);validate(result,p)
+        self.assertEqual(result['target_visual']['target_id'],'matrix')
+        self.assertEqual(result['target_visual']['mode'],'KEYED')
+
     def test_missing_text_key_does_not_reask_a_picked_form_key(self):
         raw,p,r=self.payload('Report Quantity differs.')
         result=intake_extraction.resolve(raw,p)

@@ -15,13 +15,16 @@
         <div id="clarification-note" class="notice" hidden></div>
         <section id="form-intake" hidden>
           <h2>Choose your report and number</h2>
+          <button id="form-measure-text" type="button" class="quiet">It's about a measure, not a specific report</button>
+          <p id="form-measure-note" hidden>Measure questions use the existing text intake. Name the model and measure in your question; no report or page is required.</p>
           <p id="form-list-status" class="muted small" role="status"></p>
           <button id="form-refresh" type="button" class="quiet">Refresh report choices</button>
           <form id="report-ticket-form">
             <label for="form-report-search">Find a report</label><input id="form-report-search" type="search" placeholder="Search report names">
             <label for="form-report">Report</label><select id="form-report"></select>
             <label for="form-page">Page or tab</label><select id="form-page"></select>
-            <label for="form-target">Which number? (optional)</label><select id="form-target"></select>
+            <div id="form-page-picture" aria-label="Pick a visual from its retained page layout"></div>
+            <details><summary>I know the visual name</summary><label for="form-target">Visual title (optional)</label><select id="form-target"></select></details>
             <label for="form-mode">Displayed cell</label><select id="form-mode"></select>
             <div id="form-cell-keys"></div>
             <label for="form-value">Value you see (optional)</label><input id="form-value" maxlength="2000" placeholder="For example, 16 or empty">

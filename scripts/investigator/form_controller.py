@@ -50,6 +50,22 @@ class Forms:
         self.smart._guard()
         try:Draft202012Validator(form_intake.SCHEMA).validate(request)
         except ValidationError as exc:raise ValueError('Form does not satisfy the closed input contract') from exc
+        if request.get('subject')=='MEASURE_TEXT':
+            # No report authority is manufactured for a model-level question.
+            # Preserve the form envelope, but use the existing free-text port.
+            forwarded={'text':request['description'],'request_key':request['request_key']}
+            structured={}
+            if request['value_seen'] is not None:structured['number']=request['value_seen']
+            if request['comparison'] not in (None,form_intake.SUBJECT_ROUTE):structured['comparison']=request['comparison']
+            if structured:forwarded['structured']=structured
+            saved=self.smart.submit(forwarded)
+            if saved['ticket'].get('form_origin') is not None:return saved
+            def retain_origin(ticket):
+                ticket['form_origin']=copy.deepcopy(request)
+                ticket['history'].append({'from':ticket['state'],'to':ticket['state'],'actor':'USER',
+                    'detail':{'routing':'MEASURE_TEXT','source_input_hash':digest(request)}})
+                return ticket
+            return self.smart.tickets.update(saved['ticket']['id'],saved['revision'],retain_origin)
         saved=self.smart.tickets.submit(request,request['request_key'])
         if saved['revision']!=0:return saved
         catalog=snapshot(self.workspace)
@@ -110,11 +126,17 @@ class Forms:
             def attach(current):
                 current['source_intake']=source['id'];return current
             saved=self.smart.tickets.update(saved['ticket']['id'],saved['revision'],attach)
+            from .ticket_question_gate import scope_block
+            blocked=scope_block(source,{'text':source['text'],'models':catalog['models']})
+            if blocked:return self._hold(saved,blocked)
             if source['status']!='PROPOSED':
                 from .intake_extraction import retained_response
                 raw=retained_response(source)
                 if source.get('error')=='UNIMPLEMENTED_ROUTE' and raw and raw['kind']=='BUSINESS_MEANING':
                     return self.smart._business_refusal(saved,source,catalog)
+                reason=source.get('refusal_reason') or source.get('question') or source.get('error') or 'DESCRIPTION_REQUIRES_CLARIFICATION'
+                if request['target_id'] is not None and any(code in reason for code in ('TARGET_UNRESOLVED','TARGET_AMBIGUOUS')):
+                    return self._conflict(saved,catalog,'The description could not establish the selected visual: '+reason,{})
                 return self._hold(saved,source.get('refusal_reason') or source.get('question') or source.get('error') or 'DESCRIPTION_REQUIRES_CLARIFICATION')
         description=None
         if saved['ticket'].get('source_intake') and request.get('description_resolution')!='FORM_SELECTIONS':
@@ -206,6 +228,8 @@ class Forms:
             'question':{'NUMBER':'Which displayed cell do you mean?','REPORT_PAGE':'Which report and page?',
                         'COMPARISON':'What are you comparing against?'}[wanted],
             'choices':[{'id':digest(value),'label':label,'highlight':None} for label,value in options]}
+        if result['questions'][0].get('reason')=='VALUE_NOT_FOUND':
+            question['question']='We could not find '+request['value_seen']+' on this page. Click the visual where you saw it.'
         def offer(current):
             current=protocol.ask(current,[question],maximum=self.smart.configuration['max_clarifying_rounds'])
             current['form_choices']={digest(v):copy.deepcopy(v) for _,v in options}

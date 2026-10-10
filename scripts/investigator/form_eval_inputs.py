@@ -38,6 +38,10 @@ def construct(oracle,models,base):
             measure=truth.get('measure_id')
             if measure:request['measure_id']=measure
             steps.append({'field':'visual/cell','source':'sealed resolved target (including reviewed inherited variant targets)','basis':target.get('basis')})
+    elif target['state']=='NOT_APPLICABLE':
+        request.update(subject='MEASURE_TEXT',report_id=None,page_id=None,target_id=None,cell_mode=None)
+        request.pop('measure_id',None);request.pop('cell_keys',None)
+        steps.append({'field':'subject','source':'sealed target is not applicable; explicit measure-text routing, no visual selected'})
     else:gaps.append('Target '+target['state']+'; no visual invented')
     route=oracle['true_comparison_route']
     if route['state']=='NOT_APPLICABLE':request['comparison']=form_intake.SUBJECT_ROUTE
