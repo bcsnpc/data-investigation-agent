@@ -15,3 +15,6 @@ acceptance/tickets/billing/tester/** -text
 acceptance/oracle/oracle-draft.json -text
 acceptance/oracle/oracle-before-a1.json -text
 acceptance/oracle/oracle-seal-before-a1.json -text
+# Raw-byte independent billing expectation seal.
+acceptance/billing/independent-expectations.json -text
+acceptance/billing/independent-expectations-seal.json -text
