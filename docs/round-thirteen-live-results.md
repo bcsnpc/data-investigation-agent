@@ -96,3 +96,25 @@ E-r3 has14 charged physical requests but13 process receipt rows. Sequence4 has a
 ## Rebuilt reader preparation, 2026-10-10
 
 The current-context verification completed at32 of its33 permitted approval probes:15SOURCE,15TARGET and2METADATA. It charged74physical requests, including2prewarm control connections; investigation diagnostics and model calls were zero. A paused-source40613 was retained, followed by a successful connection after a recorded5second wait. This is preparation evidence, not an investigation success. Whole-manifest SHA256d4966050d5a26c18652e41847a34548b3b832c18ff0648b68d1e1569861615a7 and config hash0955d9c025e37bcf625ef299050d3dab6140082a1d408fdabc46f3957d5c7684 stayed unchanged; current enterprise context6f5d1a66-6570-40a4-af9c-8e25311f1a30 and the appended evidence-profile ledger were pinned. The captured window before rebuilt investigations was1473/2500physical,95restoration remaining,359/3000rolling. All24unpaused rebuilt attempts are admitted under the ordinary diagnostic12cap; the three F slots remain unadmitted. First four are in progress, no stability claim.
+
+
+## Rebuilt pause and dated root correction, 2026-10-10
+
+Eight attempts completed before the operator pause reached a cohort boundary. The second cohort was already admitted, so it drained without cancellation or replacement. Sixteen remaining slots in that batch were not admitted; D and F remain paused on both estates and chat. Original F had one harmful answer-coverage overclaim; rebuilt D has one harmful unsupported technical blocker/role claim. No confident wrong business causal conclusion was identified in this cohort, but hard-zero harmful output is not earned. Original automatic audits and delivered outputs remain unchanged; separate hash-linked root reviews append the correction.
+
+| Rebuilt case | Actual outcome | Answer category | Physical requests | Model calls |
+| --- | --- | --- | ---: | ---: |
+| A-r1 | TRANSFORMATION_LOGIC | PARTLY_ANSWERED | 11 | 3 |
+| B-r1 | NO_COMPARABLE_PATH | NOT_ANSWERED | 2 | 2 |
+| C-r1 | HELD / PATH_CONTEXT_LIMIT | NOT_ANSWERED | 0 | 1 |
+| D-r1 | NO_COMPARABLE_PATH | NO_REPORTED_FIGURE | 4 | 2 |
+| E-r1 | TRANSFORMATION_LOGIC | PARTLY_ANSWERED | 11 | 3 |
+| G-r1 | TRANSFORMATION_LOGIC | NOT_ANSWERED | 11 | 4 |
+| H-r1 | NO_KNOWN_PATTERN | NOT_ANSWERED | 2 | 2 |
+| I-r1 | TRANSFORMATION_LOGIC | NOT_ANSWERED | 11 | 3 |
+
+These are outcome projections, not full sealed-contract passes. USER_SUPPLIED_FORM remains distinct from the old expectation's STATED provenance. No expectation is rewritten to conceal that difference. B's action refers to connection/access although its actual blocker is non-additive compilation; that is a retained detail defect. E's engine-rendered freshness header repeats processing-history facts; freshness remains explicitly unestablished. Neither defect is silently repaired in the historical output.
+
+D's accepted mechanism calls its semantic object L2 while the rendered spine calls it L0. It also attributes the stop to a needed connection field. Native required attestation fields were engine, identity and object, all established; connection was non-required and unattested. The actual refusal is unsupported filtered-scope translation. The defect is two independently derived alias maps plus provider-written engine-status facts, not evidence of a permission failure. A single engine-owned registry and a restriction on provider status assertions are being tested offline. The filtered-scope refusal remains intact.
+
+The eight attempts used52physical requests and20model calls. Current pot1525/2500, restoration95 unchanged, rolling411/3000, modelUSD1.816658/100 with no outstanding dollar reservations at the checkpoint. Approval-time reader verification remains separate:32/33probes,74physical requests,zero model calls. Capture closure resolved2 and3pending files across the two cohorts, conservation confirmed and0blocked; this is capture completeness, not replay proof. Complete rebuilt replay, billing/chat/matrix and immutable publication remain pending. The draft is not merged; demo is not earned.
