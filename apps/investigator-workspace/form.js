@@ -12,7 +12,7 @@ function formReportOptions(){
 function reportFormModel(){return reportFormCatalog?.models.find(m=>m.reports.some(r=>r.id===$('form-report').value));}
 function reportFormVisuals(){return (reportFormModel()?.visuals||[]).filter(v=>v.report_id===$('form-report').value&&v.page_id===$('form-page').value);}
 function formChanged(){reportFormRevision++;reportFormRequest=null;}
-async function loadReportForm(refresh=false){
+async function loadLegacyReportForm(refresh=false){
   const epoch=key;const catalog=await api('forms/catalog',refresh?{refresh:true}:undefined);if(epoch!==key)return;
   reportFormCatalog=catalog;formChanged();$('form-intake').hidden=false;
   $('form-list-status').textContent=catalog.live_lists_connected?'Live report and page choices; visual titles from the approved context.':'Report choices from the approved context. Live report lists are not connected on this host.';

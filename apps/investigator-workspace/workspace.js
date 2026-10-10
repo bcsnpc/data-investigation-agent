@@ -223,12 +223,14 @@ function showSmartTicket(saved){
   for(const choice of $('smart-ticket-reply-kind').options)choice.disabled=choice.value!=='RESTATE_QUESTION'&&!canDiscussFindings;
   if($('smart-ticket-reply-kind').selectedOptions[0]?.disabled)$('smart-ticket-reply-kind').value='RESTATE_QUESTION';
   if(ticket.state==='INVESTIGATING'&&ticket.session_id)scheduleSmartTicket(saved,smartTicketGeneration);
+  if(typeof renderQuestionnaireTicket==='function')renderQuestionnaireTicket(saved);
 }
 function scheduleSmartTicket(saved,epoch){
   smartTicketTimer=setTimeout(async()=>{
     if(epoch!==smartTicketGeneration||saved.ticket.id!==smartTicket?.ticket.id)return;
     try{
       const session=await api('sessions/'+encodeURIComponent(saved.ticket.session_id));
+      if(typeof renderQuestionnaireTicket==='function')renderQuestionnaireTicket(saved);
       if(epoch!==smartTicketGeneration)return;
       if(session.job_status==='INTERRUPTED'||!session.worker_attached){
         $('smart-ticket-state').textContent='Investigation paused. The worker did not complete; no automatic retry.';return;

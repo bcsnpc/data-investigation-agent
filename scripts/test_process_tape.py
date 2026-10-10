@@ -17,6 +17,15 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def test_accounting_version_requires_integer_not_boolean_alias(self):
+        from investigator.process_tape import sha
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json';tape=Tape(path,bootstrap());tape.finish({})
+            value=json.loads(path.read_bytes());value['accounting_version']=True
+            value['seal']=sha(bytes_of({k:v for k,v in value.items() if k!='seal'}))
+            path.write_bytes(bytes_of(value))
+            with self.assertRaisesRegex(TapeError,'ACCOUNTING_VERSION'):Tape(path)
+
     def test_v4_tape_replays_unchanged_after_smart_ticket_version_bump(self):
         from investigator import process_tape as journal
         with tempfile.TemporaryDirectory() as folder:

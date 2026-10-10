@@ -12,6 +12,24 @@ def from_state(state):
     if synthesis.get('status')!='COMPLETED' or not synthesis.get('outputs'):
         raise Conflict('Findings require completed, validated synthesis')
     assessment=synthesis.get('assessment')
+    if assessment is None and synthesis.get('validation')=='REGISTERED_REFUSAL_DELIVERY':
+        # A registered, validated refusal deliberately has no outcome assessment.
+        # Revalidate its actual receipt instead of manufacturing a verdict.
+        from .refusal_synthesis import earliest
+        from . import process_receipts
+        receipt=earliest(state)
+        if receipt is None:raise Conflict('Refusal delivery has no original refusal receipt')
+        process_receipts.validate_for_synthesis(receipt)
+        outputs=synthesis['outputs']
+        if outputs.get('provenance')!='DETERMINISTIC_REFUSAL_RENDERING' or outputs.get('refusal')!=process_receipts.summary(receipt):
+            raise Conflict('Refusal delivery differs from its original receipt')
+        for key in ('business_output','technical_output'):
+            if outputs[key]['explanation']['evidence_ids']!=[receipt['id']]:raise Conflict('Refusal delivery cites another receipt')
+        return {'session_id':state['id'],'classification':'HELD','assessment':None,
+            'outputs':copy.deepcopy(outputs),'evidence_ids':[receipt['id']],
+            'observations':copy.deepcopy(state['observations']),'source_hash':synthesis.get('source_hash'),
+            'record_hash':digest(synthesis),'question':'Does this explain why the investigation stopped?',
+            'refusal':copy.deepcopy(outputs['refusal'])}
     if not isinstance(assessment,dict):raise Conflict('Saved synthesis has no assessment')
     observations={o['id']:o for o in state['observations']}
     if len(observations)!=len(state['observations']):raise Conflict('Duplicate observation identity')

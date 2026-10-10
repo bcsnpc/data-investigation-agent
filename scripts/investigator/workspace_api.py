@@ -37,6 +37,7 @@ def create_app(workspace, token, port=8776):
         assets = {'/': ('index.html', 'text/html; charset=utf-8'),
                   '/workspace.js': ('workspace.js', 'text/javascript'), '/screenshots.js': ('screenshots.js', 'text/javascript'), '/style.css': ('style.css', 'text/css')}
         assets['/form.js']=('form.js','text/javascript')
+        assets['/questionnaire.js']=('questionnaire.js','text/javascript')
         if method == 'GET' and path in assets:
             filename, mime = assets[path]
             return respond('200 OK', (ASSETS / filename).read_bytes(), mime)
@@ -59,6 +60,20 @@ def create_app(workspace, token, port=8776):
                 result = workspace.models()
                 from .ticket_clarification import settings
                 result['intake_options']={'comparison_choices':settings(workspace.intake_configuration)['comparison_choices']}
+            elif path == '/api/workspace/questionnaire/schema' and method=='GET':
+                from .intake_questionnaire import DEFINITION
+                result=DEFINITION
+            elif path == '/api/workspace/questionnaire/catalog':
+                if method=='POST':fields(body,['refresh'])
+                result=workspace.forms.catalog(refresh=body['refresh'] if method=='POST' else False)
+            elif path == '/api/workspace/questionnaire/pages' and method=='POST':
+                result=workspace.forms.pages(body)
+            elif path == '/api/workspace/questionnaire/visuals' and method=='POST':
+                fields(body,['report_id','page_id'])
+                from .question_intake import snapshot
+                result={'source':'RETAINED_APPROVED_DEFINITION','visuals':[{'id':v['target_id'],'name':next(iter(v.get('names',[])),'Unnamed visual')} for m in snapshot(workspace)['models'] for v in m.get('visuals',[]) if v['report_id']==body['report_id'] and v['page_id']==body['page_id']]}
+            elif path == '/api/workspace/questionnaire' and method=='POST':
+                result=workspace.forms.submit(body)
             elif path == '/api/workspace/forms/catalog':
                 if method=='POST':fields(body,['refresh'])
                 result=workspace.forms.catalog(refresh=body['refresh'] if method=='POST' else False)
@@ -103,6 +118,13 @@ def create_app(workspace, token, port=8776):
             elif path.startswith('/api/workspace/tickets/'):
                 parts=path[len('/api/workspace/tickets/'):].split('/')
                 if len(parts)==1 and method=='GET':result=workspace.smart_intake.tickets.get(parts[0])
+                elif len(parts)==2 and parts[1]=='progress' and method=='GET':
+                    from .ticket_comments import progress
+                    result=progress(workspace,parts[0])
+                elif len(parts)==2 and parts[1]=='comments' and method=='POST':
+                    result=workspace.forms.comment({'ticket_id':parts[0],**body})
+                elif len(parts)==2 and parts[1]=='screenshot-reply' and method=='POST':
+                    result=workspace.forms.screenshot_reply({'ticket_id':parts[0],**body})
                 elif len(parts)==2 and parts[1]=='layout' and method=='GET':
                     from .adapters.report_layout import choices
                     result=choices(workspace,parts[0])

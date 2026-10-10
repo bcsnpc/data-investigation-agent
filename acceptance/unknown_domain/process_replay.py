@@ -55,7 +55,8 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
                 workspace.ownership_configuration=settings.get('smart_ownership')
                 return getattr(workspace.forms,method)(*args,**kwargs)
             return invoke
-        methods.update(form_submit=form_method('submit'),form_reply=form_method('reply'))
+        methods.update(form_submit=form_method('submit'),form_reply=form_method('reply'),
+                       form_screenshot_reply=form_method('screenshot_reply'),form_comment=form_method('comment'))
     result=None;error=None;operations=[]
     with ExitStack() as stack:
         if allow_engine_drift:

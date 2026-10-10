@@ -32,6 +32,21 @@ class TicketFindingsTests(unittest.TestCase):
             state=self.state();state['synthesis'].update(change)
             with self.subTest(change=change),self.assertRaises(Conflict):findings.from_state(state)
 
+    def test_registered_refusal_can_be_shared_without_manufacturing_assessment(self):
+        from investigator.process_receipts import refusal
+        from investigator.refusal_synthesis import render
+        state={'id':'session','envelope':{'symptom':'Why does the number differ?'},'observations':[]}
+        # The producer's receipt validator owns the failure shape; use the
+        # registered boundary refusal for this delivery-contract regression.
+        state['observations']=[refusal('UNIMPLEMENTED_ROUTE','This route is not implemented.','refused')]
+        outputs=render(state)
+        state['synthesis']={'status':'COMPLETED','validation':'REGISTERED_REFUSAL_DELIVERY','assessment':None,'outputs':outputs}
+        result=findings.from_state(state)
+        self.assertEqual(result['classification'],'HELD');self.assertIsNone(result['assessment'])
+        self.assertEqual(result['outputs'],outputs)
+        state['synthesis']['outputs']['refusal']['text']='A different blocker.'
+        with self.assertRaises(Conflict):findings.from_state(state)
+
     def test_handoff_retains_scope_limits_and_never_sends(self):
         state=self.state('CONSISTENT_TO_BOUNDARY')
         result=findings.from_state(state)

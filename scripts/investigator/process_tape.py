@@ -20,7 +20,7 @@ PINNED_VERSIONS = SUPPORTED_VERSIONS - {'bounded-worker-tape-v1'}
 ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4',VERSION))
 SMART_VERSIONS = frozenset((VERSION,))
 SMART_OPERATIONS=frozenset(('ticket_submit','ticket_reply','ticket_attach','ticket_share','ticket_close','ticket_respond','ticket_finish',
-                          'form_submit','form_reply'))
+                          'form_submit','form_reply','form_screenshot_reply','form_comment'))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
     'BUDGET','BUDGET_INPUT','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
@@ -72,7 +72,7 @@ class Tape:
                 raise TapeError('TAPE_SEAL')
             self.version=value['version']
             from .budget_tape_contract import ACCOUNTING_HISTORY
-            if self.version in ACCOUNTED_VERSIONS and value['accounting_version'] not in ACCOUNTING_HISTORY:
+            if self.version in ACCOUNTED_VERSIONS and (type(value['accounting_version']) is not int or value['accounting_version'] not in ACCOUNTING_HISTORY):
                 raise TapeError('TAPE_ACCOUNTING_VERSION')
             self.accounting_version=value.get('accounting_version',1)
             self.engine_revision=value.get('engine_revision')

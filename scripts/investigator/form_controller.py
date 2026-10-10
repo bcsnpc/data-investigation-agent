@@ -48,6 +48,14 @@ class Forms:
     @operation('form_submit')
     def submit(self, request):
         self.smart._guard()
+        original_request=copy.deepcopy(request)
+        questionnaire=None
+        if request.get('version')=='intake-questionnaire-v1':
+            from . import intake_questionnaire
+            questionnaire=copy.deepcopy(request)
+            review=(self.workspace.screenshots.saved('workspace_image_reviews',request['screenshot_review_id'])
+                    if request.get('screenshot_review_id') else None)
+            request=intake_questionnaire.to_form(request,snapshot(self.workspace)['models'],review=review)
         try:Draft202012Validator(form_intake.SCHEMA).validate(request)
         except ValidationError as exc:raise ValueError('Form does not satisfy the closed input contract') from exc
         if request.get('subject')=='MEASURE_TEXT':
@@ -65,16 +73,22 @@ class Forms:
                 ticket['form_routing']={'route':'MEASURE_TEXT','source_input_hash':digest(request)}
                 return ticket
             return self.smart.tickets.update(saved['ticket']['id'],saved['revision'],retain_origin)
-        saved=self.smart.tickets.submit(request,request['request_key'])
+        saved=self.smart.tickets.submit(original_request,request['request_key'])
         if saved['revision']!=0:return saved
         catalog=snapshot(self.workspace)
         def retain(ticket):
             ticket['form_input']=copy.deepcopy(request)
+            if questionnaire is not None:
+                ticket['questionnaire_input']=questionnaire
+                if questionnaire.get('screenshot_review_id'):
+                    ticket['evidence']['screenshot_review']=copy.deepcopy(review)
             ticket['form_catalog_hash']=digest(catalog)
             ticket['history'].append({'from':'NEW','to':'NEW','actor':'USER',
                 'detail':{'form_input_hash':digest(request),'catalog_hash':digest(catalog)}})
             return ticket
         saved=self.smart.tickets.update(saved['ticket']['id'],saved['revision'],retain)
+        if questionnaire is not None and questionnaire['comparing']['kind'] in ('OTHER_REPORT','OTHER_PAGE'):
+            return self._hold(saved,'UNIMPLEMENTED_ROUTE: comparing '+questionnaire['comparing']['kind']+' needs two faithfully equivalent declared scopes; submitted picks are retained')
         return self._plan(saved,catalog)
 
     def _hold(self,saved,reason):
@@ -119,8 +133,10 @@ class Forms:
         if request['description'] and request.get('description_resolution')!='FORM_SELECTIONS' and not saved['ticket'].get('source_intake'):
             doc=form_scope.document(request,self.workspace.intake_configuration)
             description=next(p for p in doc['parts'] if p['pointer']=='/description')
+            generation=saved['ticket'].get('form_description_generation',0)
+            description_key='form-description:'+saved['ticket']['id']+(':'+str(generation) if generation else '')
             source=self.workspace.intake.resolve({'text':doc['text'][:description['end']],
-                'request_key':'form-description:'+saved['ticket']['id'],'parent_id':None},retain_extraction=True,form_request=request,
+                'request_key':description_key,'parent_id':None},retain_extraction=True,form_request=request,
                 form_candidate_binding=saved['ticket'].get('form_candidate_binding'))
             def attach(current):
                 current['source_intake']=source['id'];return current
@@ -260,3 +276,47 @@ class Forms:
         saved=self.smart.tickets.update(request['ticket_id'],request['revision'],answer)
         if saved['ticket']['state']=='HELD':return saved
         return self._plan(saved,catalog)
+
+    @operation('form_screenshot_reply')
+    def screenshot_reply(self,request):
+        """Explicitly use reviewed evidence on an unresolved form, never a live scope."""
+        self.smart._guard();fields(request,['ticket_id','revision','review_id','request_key'])
+        saved=self.smart.tickets.get(request['ticket_id']);ticket=saved['ticket']
+        from .onboarding import text
+        text(request['request_key'],100)
+        prior=ticket.get('screenshot_reply_keys',{}).get(request['request_key'])
+        if prior is not None:
+            if prior!=digest(request):raise Conflict('Screenshot reply key changed')
+            return saved
+        if ticket['state']!='CLARIFYING' or not ticket.get('form_input') or ticket.get('intake_id'):
+            raise Conflict('Screenshot interpretation requires an unresolved form; an admitted scope is never replaced')
+        catalog=snapshot(self.workspace)
+        if digest(catalog)!=ticket['form_catalog_hash']:raise Conflict('Form choices are stale')
+        review=self.workspace.screenshots.saved('workspace_image_reviews',request['review_id'])
+        if review['provenance']!='USER_REVIEWED_SCREENSHOT_TRANSCRIPTION':raise ValueError('Screenshot must be reviewed')
+        description=ticket['form_input']['description']+'\nReviewed screenshot: '+review['text']
+        if len(description)>2000:raise ValueError('Combined description exceeds intake bound')
+        def retain(current):
+            current.setdefault('superseded_form_inputs',[]).append(copy.deepcopy(current['form_input']))
+            if current.get('source_intake'):
+                current.setdefault('superseded_source_intakes',[]).append(current.pop('source_intake'))
+            if current.get('form_candidate_binding'):
+                current.setdefault('superseded_candidate_bindings',[]).append(current.pop('form_candidate_binding'))
+            current['form_description_generation']=current.get('form_description_generation',0)+1
+            current['form_input'].pop('description_resolution',None)
+            current['form_input']['description']=description
+            current['evidence']['screenshot_review']=copy.deepcopy(review)
+            current['questions']=[]
+            current.setdefault('screenshot_reply_keys',{})[request['request_key']]=digest(request)
+            current.setdefault('comments',[]).append({'id':request['request_key'],'actor':'USER',
+                'text':'Use these reviewed screenshot details to answer the pending question.',
+                'attachment':copy.deepcopy(review['attachment']),'review':copy.deepcopy(review)})
+            return current
+        saved=self.smart.tickets.update(ticket['id'],request['revision'],retain)
+        return self._plan(saved,catalog)
+
+    @operation('form_comment')
+    def comment(self,request,*,actor='USER'):
+        self.smart._guard()
+        from .ticket_comments import append
+        return append(self.workspace,request,actor=actor)
