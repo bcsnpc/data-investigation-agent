@@ -711,3 +711,5 @@ and comparison provenance are retained and revalidated; conflicting text/input
 comparisons ask rather than choosing precedence. Phase A remains incomplete,
 #423 draft, freezes invalid; zero new provider/estate requests or budget, scope,
 secret or golden changes. See docs/round-eleven-smart-intake.md.
+Dated Round Twelve intake checkpoint,2026-10-10 UTC: authorised diagnosis of9 held/1 dev mismatches found7 unsafe comparison settlements and3 sealed-oracle/text figure conflicts. Asymmetric gate580726b single fresh held pass17/28;9→2 consequential mismatches,3→10 illegitimate questions; quality gate FAILED. Fixed oracle unchanged; no post-score tuning.32 recorded model calls,400,030 input characters,zero evaluation estate reads. Report/page metadata controls served200; reader getDefinition404 EntityNotFound, no scope change.3physical/0diagnostic controls; pot1,117/1,500,reserve95. Form-list foundation10tests only; form/API/scoring and domains pending. #423 draft,freeze invalid. See docs/round-twelve-form-intake.md.
+

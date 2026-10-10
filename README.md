@@ -262,3 +262,5 @@ incomplete, #423 draft, freezes invalid. No new provider or estate requests.
 
 The form-first round is in progress. The ten retained intake mismatches have been diagnosed: seven unsafe comparison settlements and three conflicts between explicit ticket figures and the unchanged sealed oracle. The corrected asymmetric gate passed 115 focused tests; fresh held-out scoring and form delivery are pending. Billing is already published and is not being rebuilt. See [the checkpoint](docs/round-twelve-form-intake.md). No new general intake-quality claim is established.
 
+Dated result, 2026-10-10 UTC: the single fresh held-out pass settled 17/28, with two reported-figure oracle/text conflict flags and ten illegitimate questions. All seven route mismatches disappeared; the zero-mismatch quality gate still FAILED. Cost: 32 model calls, 400,030 input characters, zero evaluation estate reads. Reader metadata controls used three physical requests; report/page lists served, live definition retrieval did not. Form delivery and form scoring remain pending; historical figures and oracle unchanged.
+
