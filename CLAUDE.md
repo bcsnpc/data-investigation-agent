@@ -716,3 +716,6 @@ Dated Round Twelve intake checkpoint,2026-10-10 UTC: authorised diagnosis of9 he
 
 
 Dated native regression verification, 2026-10-10 UTC: 2,733 tests passed with native exit 0. The first PowerShell wrapper returned 1 despite its OK log; both transcripts are preserved. This verification changes no held-out result: the zero-mismatch gate remains FAILED and #423 remains draft. No model or estate requests.
+
+
+Dated identity scope change, owner approval 2026-10-09 America/Chicago, execution2026-10-10 UTC: Chaitu approved contained investigator-reader@skynwhy.com and db_datareader only in Azure SQL billingapp. Existing SQL-owner DPAPI path applied; before absent, after EXTERNAL_USER/EXTERNAL plus db_datareader and CONNECT, no other role. Actual reader SELECT and UPDATE both failed at login with SQL18456, server not configured to accept token; no read-only verification claimed, no server-authentication change. Current application collector uses orderops_investigator and needs its own separately approved billing grant; none taken. Six physical controls, zero investigation diagnostics/models, pot1117?1123/1500,reserve95 unchanged. See docs/billing-tester-reader-scope.md.
