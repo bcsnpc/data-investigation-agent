@@ -19,9 +19,9 @@ Four model requests consumed 50,812 input characters and zero estate requests. T
 | Prior form held-out |28/28|1/28|28 /28|0|
 | New form held-out |Not run|Not measured|Not measured|Not measured|
 | Unchanged historical free-text dev |40/40|24/40|16 /7|1 consequential-field mismatch|
-| Unchanged historical free-text held-out |28/28|16/28|5 /3|9 consequential-field mismatches|
+| Unchanged latest free-text held-out (Round Twelve) |28/28|17/28|12 /10|2 reported-figure oracle/text conflict flags|
 
-The free-text figures are copied from the final Round Eleven C report, not a new evaluation. Structured mismatches must not be relabelled verified estate harm.
+The free-text development figure is the historical Round Eleven C dev pass; the latest held-out figure is the single Round Twelve pass recorded in `round-twelve-form-intake.md`. They are unchanged, from different recorded revisions, and are not a new paired evaluation. Structured mismatches must not be relabelled verified estate harm.
 
 All eight attempted dev records are in the family class (26 dev records). Question (3), refusal (7), and visual (4) classes are unrun this attempt. Observed questions per attempted record are 3/8; the legacy scorer's 3/40 mean must not be read as a complete-pass result. No missing-definition record was found. Budget stops are distinct from definition inaccessibility or semantic refusal.
 
@@ -48,3 +48,7 @@ Private evidence: `.local/round-eleven/round-twelve-forms-31b4710-facts-dev-v1/`
 Today's model reservations:32?36 calls,400,030?450,842 input characters,48,000?54,000 reserved output tokens. The fourth response's actual2,504 remains recorded against its original1,500 reservation. Rolling requests129/3,000 unchanged, Round Ten pot1,142/1,500, restoration reserve95 unchanged. No identity, permission, secret, fixture, policy ceiling or ordinary allowance change.
 
 Focused form tests passed36; question-intake tests passed37 alongside them (73 total). The initial full run finished2,796 tests with four TAPE_UNCOMMITTED_ENGINE errors after development changes made the tree dirty. The log is preserved; it is not a clean full-regression pass. Final committed-source validation follows separately. Freeze invalid; #423 stays draft and is not merged.
+
+Dated zero-call retained-response wiring audit: the three proposed B descriptions from the partial dev attempt recompile through the corrected form authority to DECLARED_SUBJECT, with no target differences under the unchanged oracle. This is an offline audit of already received responses, not a fresh model pass or scope admission. Originals and their failed lifecycle outcomes remain untouched. Results: `evals/round-twelve-c-retained-dev-wiring-audit.json`.
+
+Clean-source regression closure: e7f612a passed all2,803 tests in542.129 seconds, native exit0. Log `.local/round-twelve-c-clean-full.txt`. The code was frozen for this successful run; subsequent changes are documentation and retained-audit records only. This does not change the incomplete dev quality gate or release the provider reservation stop.

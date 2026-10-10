@@ -1,0 +1,20 @@
+[
+  {
+    "id": "original:family-B-noisy",
+    "status": "RETAINED_DEV_RESPONSE_RECOMPILES",
+    "route": "DECLARED_SUBJECT",
+    "target_differences": []
+  },
+  {
+    "id": "original:family-B-terse",
+    "status": "RETAINED_DEV_RESPONSE_RECOMPILES",
+    "route": "DECLARED_SUBJECT",
+    "target_differences": []
+  },
+  {
+    "id": "original:family-B-typo",
+    "status": "RETAINED_DEV_RESPONSE_RECOMPILES",
+    "route": "DECLARED_SUBJECT",
+    "target_differences": []
+  }
+]
