@@ -35,3 +35,15 @@ DECIDED WITHOUT REVIEW: future reporting reads an integrity-checked owner hint b
 Production artifact identity scans now use a bounded, process-local cache keyed by the already sealed SHA-256. Every caller still hashes its actual file; changed files, live SQLite overlays and changes during a scan refuse. Only immutable UUID sets are retained, with eight-entry/100,000-identity limits; failed scans are never cached. Concurrent identical copies share one scan. The alternative of bypassing identity validation or trusting path/mtime was rejected. On the four real pinned database pairs (237,150,208 bytes), cold validation scanned each database once in31.791s; four warm copies took2.585s, with identical6,667 identities. These are local performance measurements, zero estate/model calls.
 
 The new source invalidates the freeze and requires fresh tests before further live admission. Draft#423 remains draft; no expectations, identities, permissions or secrets changed.
+
+## Dated clean regression and recording findings, 2026-10-10
+
+Frozen source0cc86cd completed3,005 tests in1,124.860s, native exit0. This supersedes no previous failed regression: those native logs remain preserved.
+
+The next eight live attempts consumed42 physical requests and16 model calls. Twelve original-fixture attempts are now retained. H and I exposed a REAL timestamp precision loss in the append-only mutation producer. The strict consumer remains correct. A separately typed, lossless producer and versioned replay contract are being implemented; legacy tapes retain their old behavior. I's failed settlement leaves a governed reservation requiring explicit receipt-backed recovery.
+
+Two subsequent capture-owner prefix failures concern valid files currently about354KB, below the16MiB bound. Tape publication currently writes its public JSON in place, so another worker can see partial JSON. This is consistent with the errors; the transient bytes were not retained, so that cause is not retrospectively proven. Atomic publication is being tested without relaxing validation. Original capture-blocked reports remain unchanged.
+
+Round spendUSD1.230258/100,pot1310/2500,reserve95,rolling3000,diagnostic12. No scopes,secrets,expectations or oracle changed. #423 stays draft; freeze invalid.
+
+Dated offline capture checkpoint: all eight captured operations for the four912fce1 attempts replay matched at that exact revision, with every seal SHA unchanged and zero estate/model calls. This proves those captured operation outcomes, including safe refusals; it does not turn them into expectation matches or replace the older f927 failure map. Full-suite capture/replay and encrypted publication remain pending.
