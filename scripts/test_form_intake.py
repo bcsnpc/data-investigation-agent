@@ -38,6 +38,12 @@ class AuthoritativeFormTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'contradicts'):
             self.result(target_id='matrix')
 
+    def test_missing_keys_use_existing_number_clarification_field(self):
+        r = self.result(target_id='matrix', cell_mode='KEYED')
+        self.assertEqual(r['status'], 'NEEDS_INPUT')
+        self.assertEqual(r['questions'][0]['field'], 'NUMBER')
+        self.assertIsNone(r['scope'])
+
     def test_figure_precision_is_supplied_not_tolerance(self):
         self.assertEqual(self.result(value_seen='about 3.4M')['scope']['reported_figure']['precision'],
                          {'state': 'STATED_PLACE', 'place': 5})

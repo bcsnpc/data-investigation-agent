@@ -73,7 +73,8 @@ def resolve(request, models, configuration):
     if bool(visual['grouping_columns']) != (mode != 'UNGROUPED'):
         raise ValueError('Selected cell mode contradicts the selected visual')
     if mode == 'KEYED':
-        return {**base, 'status': 'NEEDS_INPUT', 'questions': [{'field': 'CELL_KEYS'}]}
+        return {**base, 'status': 'NEEDS_INPUT', 'questions': [
+            {'field': 'NUMBER', 'reason': 'CELL_KEYS_UNRESOLVED'}]}
     if route is None:
         return {**base, 'status': 'NEEDS_INPUT', 'questions': [{'field': 'COMPARISON'}]}
     wording = request['value_seen']
