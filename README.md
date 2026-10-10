@@ -271,3 +271,7 @@ Dated native regression verification, 2026-10-10 UTC: 2,733 tests passed with na
 ## 2026-10-10 UTC — billing owner-authored capture, before expectations
 
 This session authored all 18 billing ticket files and captured all six screenshots during the owner's requested report inspection. They are not independent tester evidence. Copied the 18 texts, six screenshots and tester-summary.md byte-for-byte into acceptance/tickets/billing/owner-authored/ (screens/ for images); no .form.json existed. Original files remain unchanged. Per-file SHA-256 hashes and copy checks are in capture-manifest.json, SHA-256 5d85963c56744a0c65d48a38669f0625f344098b2bcee8929f55a5924e40a682. No sealed defect inventory has been opened in this continuation and no outcome expectation has been authored. Score this group separately from independent tester evidence; independent tester set remains absent. Browser screenshot identity was admin@skynwhy.com, not the diagnostic reader. No investigation run, model call, estate request or engine change in this copy/hash block; no ledger run row. #423 stays draft, prior failed quality result unchanged. Build-state and RLS checks follow the committed capture.
+# Separate form-worktree checkpoint â€” 2026-10-10
+
+This branch contains an estate-scoped report/page list-cache foundation with 11 passing offline tests. It is not yet wired to the governed transport, API or UI, and is not a runnable or scored form. The fixed-oracle text gate still fails as recorded below. See [the integration notes](docs/round-twelve-form-design.md).
+
