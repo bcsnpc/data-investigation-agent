@@ -105,7 +105,7 @@ class Forms:
             doc=form_scope.document(request,self.workspace.intake_configuration)
             description=next(p for p in doc['parts'] if p['pointer']=='/description')
             source=self.workspace.intake.resolve({'text':doc['text'][:description['end']],
-                'request_key':'form-description:'+saved['ticket']['id'],'parent_id':None},retain_extraction=True)
+                'request_key':'form-description:'+saved['ticket']['id'],'parent_id':None},retain_extraction=True,form_request=request)
             def attach(current):
                 current['source_intake']=source['id'];return current
             saved=self.smart.tickets.update(saved['ticket']['id'],saved['revision'],attach)

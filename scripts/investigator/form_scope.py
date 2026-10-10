@@ -55,7 +55,13 @@ def resolved_scope(request, models, configuration, description_proposal=None, ca
         if str(exc)=='Description measure is not bound by the selected visual':
             raise Conflict('Description conflicts with the selected form target') from exc
         raise
-    if result['status']=='BOUND':return result['scope']
+    if result['status']=='BOUND':
+        scope=result['scope']
+        # A blank optional field is absence of a second assertion, not a
+        # contradiction of a verbatim value supplied in the description.
+        if request['value_seen'] is None and description_proposal is not None:
+            scope['reported_figure']=copy.deepcopy(description_proposal.get('reported_figure',{'state':'UNSPECIFIED'}))
+        return scope
     if result['status']!='NEEDS_INPUT' or not description_proposal or description_proposal.get('action')!='PROPOSE':
         raise Conflict('Form still has unresolved consequential fields')
     p=description_proposal;binding=p.get('report_binding') or {};target=p.get('target_visual')
@@ -154,7 +160,7 @@ def build(request, models, configuration, *, description_proposal=None, candidat
             raise Conflict('Description conflicts with the selected form comparison')
         # Additional text restrictions must be handled explicitly; do not erase
         # them merely because a form bound a different scope successfully.
-        if description_proposal.get('filters', []) != scope['filters']:
+        if any(f not in scope['filters'] for f in description_proposal.get('filters', [])):
             raise Conflict('Description adds restrictions not settled by the form')
         if description_proposal.get('dimension_ids', []):
             raise Conflict('Description adds a breakdown not settled by the form')

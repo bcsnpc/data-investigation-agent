@@ -323,6 +323,12 @@ def resolve(raw, payload):
     figure=confirmed.get('FIGURE')
     selected_figure=figure['figure_source'] if figure else number.get('figure_source') if number else None
     extraction=spans(raw,ticket,figure_occurrences=selected_figure is not None)
+    form_anchor=None
+    if payload.get('_form_description_input') is not None:
+        from .form_description import anchor, validate_input
+        validate_input(payload)
+        form_anchor=anchor(payload['_form_description_input'],payload['models'],extraction)
+        if form_anchor is not None:number=form_anchor
     reference=None
     if payload.get('_ticket_reference') is not None:
         from .input_reference import from_input
@@ -410,23 +416,31 @@ def resolve(raw, payload):
     for mention in mentions:
         try:chosen=match(mention['quote']['quote'],candidates,'resolution_id',audit)
         except ValueError as exc:
-            if getattr(exc,'resolution_evidence',{}).get('resolution')=='UNRESOLVED':continue
-            raise
+            if getattr(exc,'resolution_evidence',{}).get('resolution')!='UNRESOLVED':raise
+            chosen=None
+            if form_anchor:
+                from .form_description import transposed_measure
+                visual=next(v for m in models for v in m.get('visuals',[]) if v['target_id']==form_anchor['target_id'])
+                chosen=transposed_measure(mention['quote']['quote'],candidates,visual,audit)
+            if chosen is None:continue
         resolved.append((mention,chosen))
     if not resolved and number:
         # A confirmed single-measure visual declares its measure. This is
         # metadata evidence, not a fabricated quotation or value-match guess.
         visual_matches=[(m,v) for m in models for v in m.get('visuals',[])
                         if v['target_id']==number['target_id']]
-        if len(visual_matches)!=1 or len(visual_matches[0][1]['measure_ids'])!=1:
+        picked=payload.get('_form_description_input',{}).get('measure_id') if form_anchor else None
+        if len(visual_matches)!=1 or (picked is None and len(visual_matches[0][1]['measure_ids'])!=1):
             raise ValueError('Confirmed visual does not declare one unique starting measure')
         selected_model,visual=visual_matches[0]
+        declared_measure=picked or visual['measure_ids'][0]
+        if declared_measure not in visual['measure_ids']:raise ValueError('Picked measure is not bound by the selected visual')
         chosen=next((c for c in candidates if json.loads(c['resolution_id'])==
-                     [selected_model['id'],visual['measure_ids'][0]]),None)
+                     [selected_model['id'],declared_measure]),None)
         if chosen is None:raise ValueError('Confirmed visual measure is not retained in metadata')
         resolved.append((None,chosen))
-        audit.append({'resolution':'USER_CONFIRMED_VISUAL_MEASURE','target_id':number['target_id'],
-                      'model_id':selected_model['id'],'measure_id':visual['measure_ids'][0]})
+        audit.append({'resolution':'FORM_SELECTED_VISUAL_MEASURE' if form_anchor else 'USER_CONFIRMED_VISUAL_MEASURE','target_id':number['target_id'],
+                      'model_id':selected_model['id'],'measure_id':declared_measure})
     identities={c['resolution_id'] for _,c in resolved}
     if len(identities)>1 and number:
         visuals=[(m,v) for m in models for v in m.get('visuals',[]) if v['target_id']==number['target_id']]
@@ -434,7 +448,7 @@ def resolve(raw, payload):
             identity=json.dumps([visuals[0][0]['id'],visuals[0][1]['measure_ids'][0]],separators=(',',':'))
             if identity in identities:
                 resolved=[r for r in resolved if r[1]['resolution_id']==identity];identities={identity}
-                audit.append({'resolution':'USER_CONFIRMED_STARTING_MEASURE','target_id':number['target_id'],
+                audit.append({'resolution':'FORM_SELECTED_STARTING_MEASURE' if form_anchor else 'USER_CONFIRMED_STARTING_MEASURE','target_id':number['target_id'],
                               'measure_id':visuals[0][1]['measure_ids'][0]})
     if len(identities)!=1:raise ValueError('Starting measure/model is '+('ambiguous' if identities else 'unresolved'))
     metric_mention,chosen=resolved[0]
@@ -521,6 +535,9 @@ def resolve(raw, payload):
         if reference:
             from .input_reference import binding
             value['report_binding']=binding(reference)
+        elif form_anchor:
+            from .form_description import evidence
+            value['report_binding']=evidence(payload['_form_description_input'],payload['models'],ticket)
         elif report_confirmation:
             value['report_binding']={'resolution_kind':'USER_CONFIRMED','report_id':report['id'],
                                      'source':None,'confirmation':copy.deepcopy(confirmation)}
@@ -589,7 +606,7 @@ def resolve(raw, payload):
                          (reference is None or reference['page_id'] is None or v.get('page_id')==reference['page_id'])]
                 if len(matched)!=1:raise TargetUnresolved(candidates,'Confirmed target differs from the resolved report/measure.')
                 mode=number['mode'];source=mode_source=None
-                basis=['report','measure','user_confirmation']
+                basis=['report','measure','form_selection' if form_anchor else 'user_confirmation']
             equivalent=False
             explicit_keyed_shape=any(active(h,extraction) and h.get('form') in ('MATRIX','CHART','TOTAL') for h in extraction['visuals'])
             if len(matched)>1 and not number and len(figures)<=1 and not pending and not filters and not dimensions and not explicit_keyed_shape:
@@ -619,9 +636,11 @@ def resolve(raw, payload):
                 address=keyed_address(pending,candidate,model,ticket=ticket,named_or_confirmed=bool(source or number))
                 if address is not None:
                     keys,key_quotes=address
-                    if set(f['column_id'] for f in filters)&set(f['column_id'] for f in keys):
+                    existing={f['column_id']:f for f in filters}
+                    if any(k['column_id'] in existing and k!=existing[k['column_id']] for k in keys):
                         raise ValueError('Stated matrix address conflicts with a separately stated key')
-                    filters.extend(keys);scope_quotes.extend(key_quotes)
+                    filters.extend(k for k in keys if k['column_id'] not in existing)
+                    scope_quotes.extend(q for k,q in zip(keys,key_quotes) if k['column_id'] not in existing)
                     value.pop('selection_request',None)
                     audit.append({'resolution':'DECLARED_MATRIX_ADDRESS_ORDER','target_id':candidate['target_id'],
                                   'cell_key_order':candidate.get('cell_key_order',candidate['grouping_columns']),

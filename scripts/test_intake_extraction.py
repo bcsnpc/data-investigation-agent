@@ -41,12 +41,13 @@ class ExtractionTests(unittest.TestCase):
         hostile['numeral_mentions'][-1]['role']='OTHER';hostile['expected_records']=[]
         with self.assertRaises(ValueError):validate(hostile,payload)
 
-    def test_unbound_alphanumeric_identifier_is_not_silently_discarded(self):
+    def test_unbound_alphanumeric_identifier_is_retained_without_numeric_precision(self):
         raw,payload=fixture('Report Global card Quantity differs; identifier abc123.',
             visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}],
             identifiers=[{'quote':'abc123','role':'PRIMARY'}])
-        from investigator.reported_figure import UnavailablePrecision
-        with self.assertRaises(UnavailablePrecision):extraction.resolve(raw,payload)
+        result=extraction.resolve(raw,payload);validate(result,payload)
+        self.assertEqual(result['expected_records'][0]['value'],'abc123')
+        self.assertEqual(result['reported_figure'],{'state':'UNSPECIFIED'})
 
     def test_invoked_bookmark_label_is_never_a_column_selection(self):
         from investigator.intake_rules import RuleViolation

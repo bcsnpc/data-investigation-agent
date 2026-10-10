@@ -154,5 +154,5 @@ def score(records, rows, *, catalogs=None):
     return {'tickets':n,'evaluated':len(rows),'settled_within_one_round':settlements,'one_round_rate':settlements/n if n else 0,
             'questions':questions,'mean_questions':questions/n if n else 0,'harmful_admissions':harm,
             'illegitimate_questions':unfair,'per_class':dict(classes),'rows':results,
-            'gate':'PASSED' if len(rows)==n and settlements/n>=.85 and questions/n<=1 and not harm and not unfair else 'FAILED',
+            'gate':'PASSED' if n and len(rows)==n and settlements/n>=.85 and questions/n<=1 and not harm and not unfair else 'NOT_MEASURABLE' if not n else 'FAILED',
             'lifecycle_gate':'SEPARATE_TEST_REQUIRED'}

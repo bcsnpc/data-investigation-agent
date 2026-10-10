@@ -470,6 +470,12 @@ def snapshot(workspace):
 
 
 def validate(value, payload):
+    if payload.get('_form_description_input') is not None:
+        from .intake_extraction import resolve
+        raw=value.get('extracted_ticket',{}).get('response')
+        if raw is None or value!=resolve(raw,payload):
+            raise ValueError('Form description differs from recomputed extraction and selected inputs')
+        return value
     if isinstance(value.get('report_binding'),dict) and value['report_binding'].get('resolution_kind')=='USER_SUPPLIED_FORM':
         from .form_scope import build
         request=payload.get('_form_request')
@@ -751,7 +757,7 @@ class Intake:
             return body
 
     @operation('intake')
-    def resolve(self, request, *, retain_extraction=False, input_request=None):
+    def resolve(self, request, *, retain_extraction=False, input_request=None, form_request=None):
         if type(retain_extraction) is not bool:raise ValueError('Invalid extraction retention mode')
         fields(request, ['text', 'request_key', 'parent_id'] + (['screenshot_review_id'] if 'screenshot_review_id' in request else []))
         text(request['text'], limits.INTAKE_TEXT); text(request['request_key'], 100)
@@ -761,6 +767,7 @@ class Intake:
             saved = self.get(prior[0])
             if saved['request'] != request: raise Conflict('Question request key was already used')
             if saved.get('input_request')!=input_request:raise Conflict('Retained input authority differs')
+            if saved.get('form_description_input')!=form_request:raise Conflict('Retained form description authority differs')
             return saved  # Includes uncertain reservations; never dispatches again.
         if not self.workspace.execution_enabled or self.resolver is None or self.workspace.agent.governor is None:
             raise Conflict('Question resolution is disabled on this host')
@@ -778,6 +785,16 @@ class Intake:
             text(combined, limits.INTAKE_TEXT)
         catalog = snapshot(self.workspace); payload = {'text': combined, 'models': catalog['models']}
         body = self._new_record(request,combined,catalog,turn,screenshot)
+        if form_request is not None:
+            from .form_scope import document
+            doc=document(form_request,self.workspace.intake_configuration)
+            part=next(p for p in doc['parts'] if p['pointer']=='/description')
+            if combined!=doc['text'][:part['end']] or request['parent_id'] is not None:
+                raise ValueError('Form description authority belongs to different input')
+            payload['_form_description_input']=copy.deepcopy(form_request)
+            payload['_form_configuration']=copy.deepcopy(self.workspace.intake_configuration)
+            body['form_description_only']=True
+            body['form_description_input']=copy.deepcopy(form_request)
         if input_request is not None:
             from .input_reference import preflight, from_input
             preflight(input_request)
@@ -966,6 +983,8 @@ class Intake:
 
     def review(self, identity, request):
         saved = self.get(identity)
+        if saved.get('form_description_only'):
+            raise Conflict('Description interpretation is not an admitted form scope')
         if saved.get('confirmation_ticket'):
             from .ticket_state import Tickets
             from .intake_confirmation import authority_hash

@@ -1,5 +1,6 @@
 """Quoted numeral interpretations; only FIGURE mentions enter comparison."""
 import copy
+import re
 from .reported_figure import SPAN_SCHEMA, span, stated
 ROLES=('FIGURE','IDENTIFIER','DATE','COUNT','OTHER')
 LIMIT=32
@@ -35,7 +36,14 @@ def expected(mentions,ticket=None):
     result=[]
     for mention in mentions:
         if mention['role']!='IDENTIFIER':continue
-        value,precision=stated(mention['source']['quote'])
+        literal=mention['source']['quote']
+        if re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*',literal):
+            # An opaque record/code identifier has no numeric precision. Keep
+            # its exact spelling; the downstream source/key compiler decides
+            # whether it is meaningful for the declared key type.
+            result.append({'value':literal,'source':copy.deepcopy(mention['source'])})
+            continue
+        value,precision=stated(literal)
         if precision!={'state':'EXACT'}:raise ValueError('Expected record identifier must be exact, not rounded')
         result.append({'value':value,'source':copy.deepcopy(mention['source'])})
     return result

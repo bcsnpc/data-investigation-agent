@@ -13,12 +13,22 @@ from .microsoft_process import SEMANTIC_REPORT,SEMANTIC_ENGINE,semantic_self_rep
 
 def plan(model,candidate):
     from .report_predicates import quantity_query
-    from ..read_address import baseline
+    from ..read_address import cell as address
+    from ..report_cell import validate
     restrictions=compose(candidate['declaration']['restrictions']+[
         {'field_id':f['column_id'],'operator':'IN','values':f['values']} for f in candidate['scope']['filters']])
     query=semantic_self_report(quantity_query(model,candidate['measure_id'],restrictions))
+    # The target hypothesis is resolved before the quantity is compiled. Its
+    # receipt must name that cell, including a TOTAL/UNGROUPED distinction.
+    from .report_predicates import _document
+    from .report_cells import addresses
+    cells=addresses(model,_document(model,candidate['target_id']),candidate['target_id'],candidate['measure_id'],
+        {'target_visual':{'target_id':candidate['target_id'],'measure_id':candidate['measure_id'],'mode':candidate['mode']},
+         'filters':candidate['scope']['filters']})
+    if len(cells)!=1:raise NotMeasurable('Candidate does not compile to one addressed cell')
+    cell=cells[0];validate(cell,candidate['measure_id'])
     return {'model_id':model['id'],'revision':model['revision'],'context_id':model['context_id'],
-            'query':query,'max_rows':20,'surface_report':SEMANTIC_REPORT,'read_address':baseline(restrictions)}
+            'query':query,'max_rows':20,'surface_report':SEMANTIC_REPORT,'read_address':address(cell),'cell_address':cell}
 
 
 def observation(model,config,compiled,result):
@@ -59,6 +69,7 @@ def retained_reader(workspace):
             for row in db.execute("SELECT id,request,result FROM flexible_diagnostics WHERE status='COMPLETED' AND model_id=?",(model['id'],)):
                 saved=json.loads(row['request']);p=saved['plan']
                 if p.get('query')!=request['query'] or p.get('context_id')!=request['context_id']:continue
+                if p.get('read_address')!=request['read_address']:continue
                 if saved.get('workspace')!=model['workspace'] or saved.get('native_model_id')!=model['native_id']:continue
                 if verify(db,'bounded_dax',row['id'])['state']!='SEALED':continue
                 body=json.loads(row['result'])
