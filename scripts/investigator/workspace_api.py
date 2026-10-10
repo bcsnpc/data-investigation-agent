@@ -36,6 +36,7 @@ def create_app(workspace, token, port=8776):
         path, method = env.get('PATH_INFO', ''), env.get('REQUEST_METHOD', 'GET')
         assets = {'/': ('index.html', 'text/html; charset=utf-8'),
                   '/workspace.js': ('workspace.js', 'text/javascript'), '/screenshots.js': ('screenshots.js', 'text/javascript'), '/style.css': ('style.css', 'text/css')}
+        assets['/form.js']=('form.js','text/javascript')
         if method == 'GET' and path in assets:
             filename, mime = assets[path]
             return respond('200 OK', (ASSETS / filename).read_bytes(), mime)
@@ -58,6 +59,13 @@ def create_app(workspace, token, port=8776):
                 result = workspace.models()
                 from .ticket_clarification import settings
                 result['intake_options']={'comparison_choices':settings(workspace.intake_configuration)['comparison_choices']}
+            elif path == '/api/workspace/forms/catalog':
+                if method=='POST':fields(body,['refresh'])
+                result=workspace.forms.catalog(refresh=body['refresh'] if method=='POST' else False)
+            elif path == '/api/workspace/forms/pages' and method == 'POST':
+                result=workspace.forms.pages(body)
+            elif path == '/api/workspace/forms' and method == 'POST':
+                result=workspace.forms.submit(body)
             elif path == '/api/workspace/context/search' and method == 'POST':
                 from .context_search import search
                 result = search(workspace.store,body)
@@ -97,7 +105,9 @@ def create_app(workspace, token, port=8776):
                     result=choices(workspace,parts[0])
                 elif len(parts)==2 and parts[1]=='reply' and method=='POST':
                     fields(body,['revision','answers','request_key'])
-                    result=workspace.smart_intake.reply({'ticket_id':parts[0],**body})
+                    saved=workspace.smart_intake.tickets.get(parts[0])
+                    controller=workspace.forms if saved['ticket'].get('form_input') else workspace.smart_intake
+                    result=controller.reply({'ticket_id':parts[0],**body})
                 elif len(parts)==2 and parts[1] in ('attach','share','finish','close','respond') and method=='POST':
                     expected=['revision']+(['session_id'] if parts[1]=='attach' else ['kind','text'] if parts[1]=='respond' else [])
                     fields(body,expected)

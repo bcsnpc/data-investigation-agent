@@ -39,3 +39,41 @@ At the owner's explicit request, verified all 25 old source files against their 
 Twelve form-port tests and 64 existing visual-target, comparison-gate, neutral-platform and question-gate tests passed. The initial full regression ran2,754 tests and ended with15 errors: tape tests refused the uncommitted engine tree (`TAPE_UNCOMMITTED_ENGINE`). The original log is retained at `.local/round-twelve-form-full-regression.txt`. After committing the tested implementation, all four affected suites passed: process-tape33, transformation-service tape1, code-definition5 and Git-code3 (42 tests). All other initial full-suite tests passed. The subsequently added empty-versus-numeric ambiguity regression passed separately. Zero new model calls or estate requests in this continuation; last recorded pot 1,142/1,500, reserve95 and rolling allowance3,000 unchanged. No investigation or ledger row for file cleanup/offline tests. Prior freeze invalid; #423 stays draft.
 
 The final keyed-address check uses the existing NUMBER clarification field, with CELL_KEYS_UNRESOLVED as its reason, rather than inventing a new clarification field. Twelve final form-port tests pass. This remains a metadata-binding port, not an API/UI or investigation admission.
+# Form API/UI implementation checkpoint — 2026-10-10 UTC
+
+The closed form contract now reaches durable tickets, authenticated API and UI,
+and the existing preview/start/findings lifecycle. Selected identifiers carry
+recomputable USER_SUPPLIED_FORM authority; they are not fabricated text quotes.
+The input document labels field provenance and preserves the description.
+The legacy authority hash remains unchanged for legacy tickets.
+
+Live report/page lists use the existing reader in an isolated, metered worker,
+with the five-minute cache and explicit refresh. Exact native identifiers bind
+live entries to approved context. Unbound entries remain visible with a reason;
+names never substitute for identifiers. List requests are CONTROL_METADATA,
+charged physically against the existing rolling/round budget, not diagnostic
+investigation reads. A host without that transport explicitly labels its list
+as retained approved context. No new identity or permission is taken.
+
+The UI retains typed grouped-cell keys and EMPTY versus zero. Another report
+holds as coming soon. Business meaning records a handoff to a configured owner.
+Missing choices use the existing clarification lifecycle. Description conflicts
+currently hold explicitly; the required one-click conflict resolution remains
+incomplete. Model-only and comparator-free tickets also need evaluation against
+the actual form coverage; no target or comparison will be invented for them.
+
+DECIDED WITHOUT REVIEW: selected IDs are validated against the approved context
+on submission; a second unconditional page-list HTTP call is not required on
+every submit. Rejected alternative: repeat metadata requests on every submit,
+which couples admission/replay to an unrelated cache state. List retrieval is
+metered and recorded when performed, stale catalog authority refuses, and value
+probes still require the existing surface attestation.
+
+Validation: 182 focused tests passed, then 66 focused tests after tape-operation
+registration and UI reset refinements. Both JavaScript files pass node --check.
+This is not a browser completion, form accuracy or live-investigation claim.
+Full regression and the 68-form scoring remain pending. Zero new estate/model
+requests at this checkpoint; last round pot 1,142/1,500, restoration reserve95,
+rolling allowance3,000 and diagnostic cap12 unchanged. Prior freeze invalid;
+draft #423 remains draft. No oracle, golden, acceptance expectation or billing
+ticket was edited.

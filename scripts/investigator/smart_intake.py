@@ -361,9 +361,10 @@ class SmartIntake:
         from .ticket_inputs import active_request,document
         changed={'text':request['text'],'request_key':'smart-restatement:'+ticket['id']+':'+str(saved['revision'])}
         derived=document(changed)
-        prior_input=copy.deepcopy(active_request(saved))
+        prior_input=copy.deepcopy(ticket['form_input'] if ticket.get('form_input') else active_request(saved))
         scoped=('source_intake','intake_id','session_id','findings','handoff','retained_answer',
-                'input_document','choice_context','choice_values','clarification_offers','reply_keys','unavailable_fields')
+                'input_document','choice_context','choice_values','clarification_offers','reply_keys','unavailable_fields',
+                'form_input','form_catalog_hash','form_choices')
         def change(current):
             archived={'revision':saved['revision'],'input_request':prior_input,
                 'confirmed':copy.deepcopy(current['confirmed']),'settled':copy.deepcopy(current['settled']),

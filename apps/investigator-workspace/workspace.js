@@ -145,9 +145,9 @@ $('login-form').addEventListener('submit',guard(async()=>{
   key=$('access-key').value;const result=await api('models');models=result.models;execution=result.execution_enabled;$('question-intake').hidden=!result.question_intake_enabled;$('smart-ticket-intake').hidden=!result.question_intake_enabled;$('screenshot-intake').hidden=!result.screenshot_intake_enabled;
   options($('smart-ticket-comparison'),(result.intake_options?.comparison_choices||[]).map(choice=>({id:choice.route,name:choice.label})),'Not specified');
   $('access-key').value='';$('login').hidden=true;$('workspace').hidden=false;$('signout').hidden=false;$('read-only').hidden=execution;
-  options($('model'),models.map(m=>({id:m.id,name:m.name})));resetComposer();await history();
+  options($('model'),models.map(m=>({id:m.id,name:m.name})));resetComposer();await history();await loadReportForm();
 }));
-$('signout').addEventListener('click',()=>{resetIntake();resetSmartTicket();stopPolling();key='';models=[];current=null;preview=null;predecessor=null;$('workspace').hidden=true;$('login').hidden=false;$('signout').hidden=true;$('access-key').value='';$('history').replaceChildren();$('question-history').replaceChildren();$('image-history').replaceChildren();$('facts').replaceChildren();$('activity').replaceChildren();for(const id of ['technical-scope','technical-outcome','technical-decisions','identities'])$(id).replaceChildren();$('scope-form').reset();clearError();});
+$('signout').addEventListener('click',()=>{resetIntake();resetSmartTicket();resetReportForm();stopPolling();key='';models=[];current=null;preview=null;predecessor=null;$('workspace').hidden=true;$('login').hidden=false;$('signout').hidden=true;$('access-key').value='';$('history').replaceChildren();$('question-history').replaceChildren();$('image-history').replaceChildren();$('facts').replaceChildren();$('activity').replaceChildren();for(const id of ['technical-scope','technical-outcome','technical-decisions','identities'])$(id).replaceChildren();$('scope-form').reset();clearError();});
 $('model').addEventListener('change',()=>{predecessor=null;$('clarification-note').hidden=true;modelChanged();});
 $('scope-form').addEventListener('input',invalidate);$('scope-form').addEventListener('change',invalidate);
 $('add-filter').addEventListener('click',guard(()=>addFilter()));
@@ -242,7 +242,7 @@ function scheduleSmartTicket(saved,epoch){
   },2000);
 }
 async function smartTicketHistory(){const epoch=generation;const data=await api('tickets');if(epoch!==generation)return;
-  $('smart-ticket-history').replaceChildren(...data.tickets.map(saved=>{const button=node('button',saved.request.text.slice(0,100)+' · '+saved.ticket.state.replaceAll('_',' '));button.type='button';button.addEventListener('click',guard(async()=>{const requestEpoch=++smartTicketGeneration;const value=await api('tickets/'+encodeURIComponent(saved.ticket.id));if(requestEpoch===smartTicketGeneration)showSmartTicket(value);}));return button;}));}
+  $('smart-ticket-history').replaceChildren(...data.tickets.map(saved=>{const label=saved.request.text??saved.request.description??'Report question';const button=node('button',(label||'Report question').slice(0,100)+' · '+saved.ticket.state.replaceAll('_',' '));button.type='button';button.addEventListener('click',guard(async()=>{const requestEpoch=++smartTicketGeneration;const value=await api('tickets/'+encodeURIComponent(saved.ticket.id));if(requestEpoch===smartTicketGeneration)showSmartTicket(value);}));return button;}));}
 $('smart-ticket-form').addEventListener('submit',guard(async()=>{
   const text=$('smart-ticket-text').value;const structured={};for(const [field,id] of [['number','smart-ticket-number'],['report_page','smart-ticket-report-page'],['report_link','smart-ticket-report-link'],['comparison','smart-ticket-comparison']]){if($(id).value)structured[field]=$(id).value;}
   const input={text,...(Object.keys(structured).length?{structured}:{})};if(!text&&!structured.number&&!structured.report_page&&!structured.report_link)throw new Error('Add your question or describe the number.');

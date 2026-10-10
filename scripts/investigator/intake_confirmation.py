@@ -32,8 +32,9 @@ SCHEMA=protocol.obj({'version':{'const':VERSION},'ticket_id':protocol.ID,
 
 def authority_hash(ticket):
     """State/history may advance; a changed consequential decision may not."""
-    return digest({k:ticket.get(k) for k in
-        ('source_intake','choice_context','choice_values','confirmed','settled')})
+    keys=['source_intake','choice_context','choice_values','confirmed','settled']
+    if 'form_input' in ticket:keys+=['form_input','form_catalog_hash']
+    return digest({k:ticket.get(k) for k in keys})
 
 
 def offer(ticket, questions, choice_values, *, request_text, models, maximum=2):

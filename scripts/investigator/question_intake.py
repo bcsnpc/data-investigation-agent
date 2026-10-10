@@ -463,6 +463,19 @@ def snapshot(workspace):
 
 
 def validate(value, payload):
+    if isinstance(value.get('report_binding'),dict) and value['report_binding'].get('resolution_kind')=='USER_SUPPLIED_FORM':
+        from .form_scope import build
+        request=payload.get('_form_request')
+        if request is None:
+            raise ValueError('Model response cannot declare form authority')
+        expected=build(request,payload['models'],payload.get('_form_configuration'),
+                       description_proposal=payload.get('_form_description'))
+        if value!=expected['proposal'] or payload['text']!=expected['document']['text']:
+            raise ValueError('Form proposal differs from recomputed user inputs')
+        from .visual_target import complete
+        model=next(m for m in payload['models'] if m['id']==value['model_id'])
+        complete(value['target_visual'],model['visuals'],value['filters'])
+        return value
     if isinstance(value.get('report_binding'),dict) and value['report_binding'].get('resolution_kind')=='DECLARED_REFERENCE':
         from .input_reference import from_input
         reference=value['report_binding']['reference']
@@ -694,6 +707,40 @@ class Intake:
                        (body['id'],request_key,encoded(body),digest(body)))
             return body
 
+    def _adopt_form(self, saved):
+        """Typed producer through the same immutable review/start consumer."""
+        from . import form_scope, intake_confirmation
+        ticket=saved['ticket'];request=ticket['form_input'];catalog=snapshot(self.workspace)
+        if digest(catalog)!=ticket['form_catalog_hash']:
+            raise Conflict('Form catalog changed; select against current metadata')
+        description=None
+        if ticket.get('source_intake'):
+            source=self.get(ticket['source_intake'])
+            if source['catalog_hash']!=digest(catalog) or source['status']!='PROPOSED':
+                raise Conflict('Description has no current validated interpretation')
+            description=source['proposal']
+        built=form_scope.build(request,catalog['models'],self.workspace.intake_configuration,
+                               description_proposal=description)
+        payload={'text':built['document']['text'],'models':catalog['models'],
+                 '_form_request':request,'_form_configuration':self.workspace.intake_configuration,
+                 '_form_description':description}
+        validate(built['proposal'],payload);question_kind.intake_route(built['proposal'])
+        key='form-scope:'+ticket['id']+':'+str(saved['revision'])
+        record_request={'ticket_id':ticket['id'],'revision':saved['revision'],'request_key':key}
+        with self.store.connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            prior=db.execute('SELECT id FROM workspace_intakes WHERE request_key=?',(key,)).fetchone()
+            if prior:return self.get(prior[0])
+            body=self._new_record(record_request,built['document']['text'],catalog)
+            body.update(status='PROPOSED',proposal=built['proposal'],provider_calls=0,
+                scope_provenance='SAVED_USER_SUPPLIED_FORM',form_request=copy.deepcopy(request),
+                form_description_intake=ticket.get('source_intake'),form_document=built['document'],
+                confirmation_ticket={'id':ticket['id'],'revision':saved['revision'],
+                    'authority_hash':intake_confirmation.authority_hash(ticket)})
+            db.execute('INSERT INTO workspace_intakes VALUES(?,?,?,?)',
+                       (body['id'],key,encoded(body),digest(body)))
+            return body
+
     @operation('intake')
     def resolve(self, request, *, retain_extraction=False, input_request=None):
         if type(retain_extraction) is not bool:raise ValueError('Invalid extraction retention mode')
@@ -920,6 +967,11 @@ class Intake:
                 or digest(self.workspace.agent.config) != saved['config_hash']):
             raise Conflict('Question proposal is stale or incomplete; resolve or select scope again')
         proposal = saved['proposal']
+        if saved.get('form_request') is not None:
+            description=self.get(saved['form_description_intake'])['proposal'] if saved.get('form_description_intake') else None
+            validate(proposal,{'text':saved['text'],'models':snapshot(self.workspace)['models'],
+                '_form_request':saved['form_request'],'_form_configuration':self.workspace.intake_configuration,
+                '_form_description':description})
         if any(request[k] != proposal[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids')) or request['symptom'] != saved['text'] or request['predecessor'] is not None:
             raise Conflict('Reviewed question scope differs from the saved proposal')
         return {**copy.deepcopy(proposal),'id': saved['id'], 'text': saved['text'],

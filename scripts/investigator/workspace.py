@@ -69,6 +69,13 @@ class Workspace:
             self._smart_intake=SmartIntake(self,self.intake_configuration,self.ownership_configuration,auto_start=True)
         return self._smart_intake
 
+    @property
+    def forms(self):
+        if not hasattr(self,'_forms'):
+            from .form_controller import Forms
+            self._forms=Forms(self)
+        return self._forms
+
     def models(self):
         return {'execution_enabled': self.execution_enabled, 'question_intake_enabled': self.execution_enabled and self.intake.resolver is not None,
                 'screenshot_intake_enabled': self.execution_enabled and self.screenshots.extractor is not None,

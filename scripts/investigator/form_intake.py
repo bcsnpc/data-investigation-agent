@@ -18,7 +18,10 @@ SCHEMA = protocol.obj({
     'cell_mode': {'enum': ['UNGROUPED', 'TOTAL', 'KEYED', None]},
     'value_seen': {'anyOf': [protocol.TEXT, {'type': 'null'}]},
     'comparison': {'enum': [*protocol.ROUTES, None]},
-    'description': {**protocol.TEXT, 'minLength': 0}})
+    'description': {**protocol.TEXT, 'minLength': 0},
+    'cell_keys': {'type': 'array', 'maxItems': 6, 'items': protocol.obj({
+        'column_id': protocol.ID, 'value': {'anyOf': [protocol.TEXT,
+            {'type':'integer'}, {'type':'boolean'}, {'type':'null'}]}})}}, optional=('cell_keys',))
 
 
 def resolve(request, models, configuration):
@@ -72,7 +75,19 @@ def resolve(request, models, configuration):
         mode = 'UNGROUPED'
     if bool(visual['grouping_columns']) != (mode != 'UNGROUPED'):
         raise ValueError('Selected cell mode contradicts the selected visual')
-    if mode == 'KEYED':
+    keys = request.get('cell_keys', [])
+    if len({k['column_id'] for k in keys}) != len(keys):
+        raise ValueError('Duplicate cell key')
+    if keys and (mode != 'KEYED' or set(k['column_id'] for k in keys) != set(visual['grouping_columns'])):
+        raise ValueError('Cell keys must match exactly the selected visual grouping')
+    from .filter_scope import compile_filter
+    columns = {c['column_id']: c for c in model.get('columns', [])}
+    for k in keys:
+        if k['column_id'] not in columns:
+            raise ValueError('Cell key is absent from the retained column catalog')
+        compile_filter({'column_id': k['column_id'], 'operator': 'in', 'values': [k['value']]},
+                       {'dataType': columns[k['column_id']]['data_type']}, 'validated_reference')
+    if mode == 'KEYED' and not keys:
         return {**base, 'status': 'NEEDS_INPUT', 'questions': [
             {'field': 'NUMBER', 'reason': 'CELL_KEYS_UNRESOLVED'}]}
     if route is None:
@@ -94,4 +109,6 @@ def resolve(request, models, configuration):
         'model_id': model['id'], 'report_id': report['id'], 'page_id': request['page_id'],
         'target_id': visual['target_id'], 'measure_id': visual['measure_ids'][0],
         'cell_mode': mode, 'comparison': route, 'reported_figure': copy.deepcopy(figure),
-        'figure_document': wording, 'figure_pointer': '/value_seen'}}
+        'figure_document': wording, 'figure_pointer': '/value_seen',
+        'filters': [{'column_id': k['column_id'], 'operator': 'in',
+                     'values': [copy.deepcopy(k['value'])]} for k in keys]}}

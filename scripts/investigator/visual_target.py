@@ -67,6 +67,9 @@ def resolve(request, *, ticket, candidates, report_id, measure_id):
 
 
 def validate(value, *, ticket, candidates, report_id, measure_id):
+    if isinstance(value,dict) and isinstance(value.get('match_basis'),dict) and 'form' in value['match_basis']:
+        from .form_scope import validate_target
+        return validate_target(value,ticket=ticket,candidates=candidates,report_id=report_id,measure_id=measure_id)
     if not isinstance(value, dict) or set(value) != {
             'target_id', 'report_id', 'measure_id', 'mode', 'source', 'mode_source', 'resolution', 'match_basis'}:
         raise TargetUnresolved([c for c in candidates if c['report_id'] == report_id])

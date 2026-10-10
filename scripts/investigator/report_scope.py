@@ -30,7 +30,8 @@ CONFIRMED_REPORT_SCHEMA = variant('resolution_kind','USER_CONFIRMED',{
 from .input_reference import SCHEMA as REFERENCE_SCHEMA
 REFERENCE_REPORT_SCHEMA=variant('resolution_kind','DECLARED_REFERENCE',{
     'report_id':ID,'source':{'type':'null'},'reference':REFERENCE_SCHEMA})
-BINDING_SCHEMA={'anyOf':[STATED_REPORT_SCHEMA,CONFIRMED_REPORT_SCHEMA,REFERENCE_REPORT_SCHEMA]}
+from .form_scope import REPORT as FORM_REPORT_SCHEMA
+BINDING_SCHEMA={'anyOf':[STATED_REPORT_SCHEMA,CONFIRMED_REPORT_SCHEMA,REFERENCE_REPORT_SCHEMA,FORM_REPORT_SCHEMA]}
 REPORT_SCHEMA = {'anyOf': [STATED_REPORT_SCHEMA,
     variant('resolution_kind', 'REFUSED', {
         'source': {'type': 'null'},
@@ -43,7 +44,7 @@ REPORT_SCHEMA = {'anyOf': [STATED_REPORT_SCHEMA,
     variant('resolution_kind', 'REFUSED', {
         'source': reported_figure.SPAN_SCHEMA,
         'candidates': {'type': 'array', 'minItems': 2, 'maxItems': 512, 'uniqueItems': True, 'items': ID},
-            'reason': {'type': 'string', 'enum': ['MULTIPLE_EXACT_MATCHES']}}),CONFIRMED_REPORT_SCHEMA,REFERENCE_REPORT_SCHEMA]}
+            'reason': {'type': 'string', 'enum': ['MULTIPLE_EXACT_MATCHES']}}),CONFIRMED_REPORT_SCHEMA,REFERENCE_REPORT_SCHEMA,FORM_REPORT_SCHEMA]}
 REFUSED_REPORT_SCHEMAS=[v for v in REPORT_SCHEMA['anyOf']
                         if v['properties']['resolution_kind']['enum']==['REFUSED']]
 LOOKUP_SCHEMA = {'anyOf': [variant('status', state, {'receipt_ids': {
@@ -102,6 +103,14 @@ def resolve_report(source, reports, ticket=None):
 
 
 def report_binding(binding, *, reports, ticket=None, allow_refused=False):
+    if isinstance(binding,dict) and binding.get('resolution_kind')=='USER_SUPPLIED_FORM':
+        Draft202012Validator(FORM_REPORT_SCHEMA).validate(binding)
+        proof=binding['form']
+        if binding['report_id']!=proof['report_id'] or sum(r['id']==binding['report_id'] for r in reports)!=1:
+            raise ValueError('Form report differs from its retained selection')
+        if ticket is not None and digest(ticket)!=proof['document_hash']:
+            raise ValueError('Form report belongs to a different input document')
+        return binding
     if isinstance(binding,dict) and binding.get('resolution_kind')=='DECLARED_REFERENCE':
         from .input_reference import validate
         Draft202012Validator(REFERENCE_REPORT_SCHEMA).validate(binding)
