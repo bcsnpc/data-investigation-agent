@@ -83,7 +83,7 @@ $('simple-form').addEventListener('submit',guard(async()=>{
 for(const [id,mode] of [['simple-web','WEB'],['simple-chat','CHAT']])$(id).addEventListener('click',guard(async()=>{questionnaireMode=mode;questionnaireStep=0;await renderQuestionnaire();}));
 $('simple-refresh').addEventListener('click',guard(()=>loadReportForm(true)));
 function renderQuestionnaireTicket(saved){
-  const ticket=saved.ticket;$('smart-ticket-intake').hidden=false;
+  const ticket=saved.ticket;$('smart-ticket-intake').hidden=false;$('ticket-discussion').hidden=false;
   const input=ticket.questionnaire_input||ticket.form_input||saved.request, facts=$('ticket-submitted-facts');facts.replaceChildren();
   for(const [label,value] of [['Report',input.report_id],['Page',input.page_id],['Visual',input.visual_id||input.target_id],['Comparison',input.comparing?.kind||input.comparison],['Value in the source',input.comparing?.source_value],['Description',input.description||input.text]]){
     if(!value)continue;
