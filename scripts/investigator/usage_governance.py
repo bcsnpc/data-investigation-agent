@@ -34,6 +34,36 @@ class UsageGovernor:
             """)
 
             read_allowance.initialize(db)
+            db.execute('''CREATE TABLE IF NOT EXISTS usage_violation_acknowledgments(
+                environment TEXT, session_id TEXT, reservation_key TEXT,
+                violation_hash TEXT, approval TEXT, created REAL,
+                PRIMARY KEY(environment,session_id,reservation_key))''')
+
+    def acknowledge_violation(self, session_id, key, approval):
+        """Operator-only, explicit owner decision; charges and violation stay intact."""
+        fields(approval,['owner','approved_at','reason','corrected_output_tokens'])
+        if any(not isinstance(approval[k],str) or not approval[k].strip()
+               for k in ('owner','approved_at','reason')):
+            raise ValueError('Dated owner approval required')
+        if type(approval['corrected_output_tokens']) is not int or not 500<=approval['corrected_output_tokens']<=MAX_OUTPUT_TOKENS:
+            raise ValueError('Invalid corrected output bound')
+        with self.runtime.db() as db:
+            db.execute('BEGIN IMMEDIATE')
+            row=db.execute('SELECT * FROM adaptive_usage WHERE environment=? AND session_id=? AND reservation_key=?',
+                           (self.environment,session_id,key)).fetchone()
+            if row is None or row['status']!='VIOLATION':raise UsageHold('Named violation required')
+            if approval['corrected_output_tokens']<json.loads(row['actual']).get('output_tokens',0):
+                raise ValueError('Corrected bound does not cover retained usage')
+            record={'violation_hash':digest(dict(row)),'approval':approval}
+            prior=db.execute('SELECT violation_hash,approval FROM usage_violation_acknowledgments WHERE environment=? AND session_id=? AND reservation_key=?',
+                             (self.environment,session_id,key)).fetchone()
+            if prior:
+                if prior['violation_hash']!=record['violation_hash'] or json.loads(prior['approval'])!=approval:
+                    raise UsageHold('Acknowledgment is immutable')
+                return record
+            db.execute('INSERT INTO usage_violation_acknowledgments VALUES(?,?,?,?,?,?)',
+                       (self.environment,session_id,key,record['violation_hash'],encoded(approval),self.clock()))
+            return record
 
     def grant_batch(self, approval):
         with self.runtime.db() as db:
@@ -96,7 +126,10 @@ class UsageGovernor:
         for row in db.execute('SELECT reserved FROM adaptive_usage WHERE environment=? AND day=?',(self.environment,self.day())):
             for k,v in json.loads(row[0]).items():total[k]+=v
         if any(amount[k] and total[k]+amount[k]>self.policy['daily_limits'][k] for k in KEYS if k!='cloud_calls'):raise UsageHold('Daily usage limit')
-        if purpose!='RESTORATION' and db.execute("SELECT 1 FROM adaptive_usage WHERE environment=? AND day=? AND status='VIOLATION' LIMIT 1",(self.environment,self.day())).fetchone():
+        violations=db.execute("SELECT * FROM adaptive_usage WHERE environment=? AND day=? AND status='VIOLATION'",(self.environment,self.day())).fetchall()
+        if purpose!='RESTORATION' and any(not db.execute('''SELECT 1 FROM usage_violation_acknowledgments
+                WHERE environment=? AND session_id=? AND reservation_key=? AND violation_hash=?''',
+                (self.environment,r['session_id'],r['reservation_key'],digest(dict(r)))).fetchone() for r in violations):
             raise UsageHold('Provider usage exceeded reservation')
         if kind=='cloud':
             round_policy=self.runtime.config.get('_estate',{}).get('round')

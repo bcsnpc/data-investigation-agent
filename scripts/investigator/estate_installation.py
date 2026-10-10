@@ -57,4 +57,7 @@ def _build_workspace(manifest,path,config,execution_enabled):
         dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'])
     from .adapters.report_list_installation import install as install_report_lists
     workspace.report_lists=install_report_lists(workspace,config)
+    if execution_enabled:
+        from .adapters.form_candidate_values import install as install_form_candidates
+        install_form_candidates(workspace)
     return workspace

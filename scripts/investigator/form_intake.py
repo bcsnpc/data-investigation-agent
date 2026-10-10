@@ -11,18 +11,21 @@ from . import ticket_protocol as protocol, reported_figure
 from .onboarding import digest
 
 VERSION = 'estate-form-input-v1'
+SUBJECT_ROUTE = 'DECLARED_SUBJECT'
+SUBJECT_LABEL = "The report's saved context or definition"
 NULL_ID = {'anyOf': [protocol.ID, {'type': 'null'}]}
 SCHEMA = protocol.obj({
     'version': {'const': VERSION}, 'request_key': protocol.ID,
     'report_id': NULL_ID, 'page_id': NULL_ID, 'target_id': NULL_ID,
     'cell_mode': {'enum': ['UNGROUPED', 'TOTAL', 'KEYED', None]},
     'value_seen': {'anyOf': [protocol.TEXT, {'type': 'null'}]},
-    'comparison': {'enum': [*protocol.ROUTES, None]},
+    'comparison': {'enum': [*protocol.ROUTES, SUBJECT_ROUTE, None]},
+    'measure_id': protocol.ID,
     'description': {**protocol.TEXT, 'minLength': 0},
     'description_resolution':{'enum':['FORM_SELECTIONS']},
     'cell_keys': {'type': 'array', 'maxItems': 6, 'items': protocol.obj({
         'column_id': protocol.ID, 'value': {'anyOf': [protocol.TEXT,
-            {'type':'integer'}, {'type':'boolean'}, {'type':'null'}]}})}}, optional=('cell_keys','description_resolution'))
+            {'type':'integer'}, {'type':'boolean'}, {'type':'null'}]}})}}, optional=('cell_keys','description_resolution','measure_id'))
 
 
 def resolve(request, models, configuration, *, measure_id=None):
@@ -34,7 +37,7 @@ def resolve(request, models, configuration, *, measure_id=None):
     Draft202012Validator(SCHEMA).validate(request)
     from .ticket_clarification import settings
     configured = settings(configuration)
-    routes = {v['route'] for v in configured['comparison_choices']}
+    routes = {v['route'] for v in configured['comparison_choices']} | {SUBJECT_ROUTE}
     route = request['comparison']
     if route is not None and route not in routes:
         raise ValueError('Comparison outside estate intake choices')
@@ -67,6 +70,10 @@ def resolve(request, models, configuration, *, measure_id=None):
         return {**base, 'status': 'NEEDS_INPUT', 'questions': [{
             'field': 'NUMBER', 'candidate_target_ids': [v['target_id'] for v in eligible]}]}
     visual = eligible[0]
+    picked_measure=request.get('measure_id')
+    if picked_measure and measure_id and picked_measure!=measure_id:
+        raise ValueError('Description measure is not bound by the selected visual')
+    measure_id=picked_measure or measure_id
     if visual.get('unsupported') or not visual['measure_ids']:
         return {**base, 'status': 'HELD', 'reason': 'TARGET_NOT_EXECUTABLE'}
     if measure_id is None and len(visual['measure_ids'])!=1:

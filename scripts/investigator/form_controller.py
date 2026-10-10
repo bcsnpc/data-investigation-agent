@@ -28,7 +28,8 @@ class Forms:
         current=snapshot(self.workspace)
         from .ticket_clarification import settings
         result={'catalog_hash':digest(current), 'models':copy.deepcopy(current['models']),
-                'comparison_choices':settings(self.workspace.intake_configuration)['comparison_choices'],
+                'comparison_choices':[*settings(self.workspace.intake_configuration)['comparison_choices'],
+                    {'route':form_intake.SUBJECT_ROUTE,'label':form_intake.SUBJECT_LABEL}],
                 'source':'RETAINED_APPROVED_CONTEXT', 'live_lists_connected':False}
         lists=getattr(self.workspace,'report_lists',None)
         if lists is not None:
@@ -70,6 +71,20 @@ class Forms:
         try:result=form_intake.resolve(request,catalog['models'],self.workspace.intake_configuration)
         except ValueError as exc:return self._hold(saved,str(exc))
         if result['status']=='HELD':return self._hold(saved,result['reason'])
+        if request['target_id'] is None and request['value_seen'] is not None and request['comparison'] is not None and request['report_id'] is not None and request['page_id'] is not None:
+            from .form_candidates import observe,NotMeasurable
+            if not saved['ticket'].get('form_candidate_binding'):
+                self.workspace._form_candidate_session='form-candidates:'+saved['ticket']['id']
+                self.workspace._form_candidate_count=0
+                reader=getattr(self.workspace,'form_candidate_reader',None)
+                try:binding,matched=observe(request,catalog['models'],reader)
+                except NotMeasurable as exc:return self._hold(saved,'NOT_MEASURABLE: '+str(exc))
+                def retain_binding(t):t['form_candidate_binding']=binding;return t
+                saved=self.smart.tickets.update(saved['ticket']['id'],saved['revision'],retain_binding)
+                if matched['status']=='HELD':return self._hold(saved,matched['reason'])
+                if matched['status']=='NEEDS_INPUT':return self._ask(saved,catalog,matched)
+            from .form_candidates import matching
+            result=matching(request,catalog['models'],saved['ticket']['form_candidate_binding'])
         if request['comparison']=='BUSINESS_MEANING' and result['status']=='BOUND':
             measure=result['scope']['measure_id']
             owners={r['owner'] for r in self.smart.ownership['business'] if r['measure_or_area']==measure}
@@ -102,8 +117,8 @@ class Forms:
             if source['status']!='PROPOSED':return self._hold(saved,'DESCRIPTION_REQUIRES_CLARIFICATION')
             description=source['proposal']
         try:
-            scope=form_scope.resolved_scope(request,catalog['models'],self.workspace.intake_configuration,description)
-            form_scope.build(request,catalog['models'],self.workspace.intake_configuration,description_proposal=description)
+            scope=form_scope.resolved_scope(request,catalog['models'],self.workspace.intake_configuration,description,saved['ticket'].get('form_candidate_binding'))
+            form_scope.build(request,catalog['models'],self.workspace.intake_configuration,description_proposal=description,candidate_binding=saved['ticket'].get('form_candidate_binding'))
         except Conflict as exc:
             if str(exc).startswith('Description conflicts'):return self._conflict(saved,catalog,str(exc),description)
             if result['status']=='NEEDS_INPUT':return self._ask(saved,catalog,result)
@@ -172,7 +187,8 @@ class Forms:
             for model in catalog['models']:
                 for visual in model.get('visuals',[]):
                     if visual['report_id']!=request['report_id'] or visual['page_id']!=request['page_id']:continue
-                    if visual.get('unsupported') or len(visual['measure_ids'])!=1:continue
+                    if result['questions'][0].get('candidate_target_ids') and visual['target_id'] not in result['questions'][0]['candidate_target_ids']:continue
+                    if visual.get('unsupported') or (len(visual['measure_ids'])!=1 and request.get('measure_id') not in visual['measure_ids']):continue
                     if request['target_id'] and visual['target_id']!=request['target_id']:continue
                     modes=['TOTAL','KEYED'] if visual['grouping_columns'] else ['UNGROUPED']
                     for mode in modes:
@@ -209,6 +225,8 @@ class Forms:
                     updates.update(current['form_choices'][a['choice_id']])
             current=protocol.answer(current,request['answers'])
             current['form_input'].update(updates)
+            if current.get('form_candidate_binding'):
+                current.setdefault('superseded_candidate_bindings',[]).append(current.pop('form_candidate_binding'))
             current.setdefault('reply_keys',{})[request['request_key']]=digest(request)
             return current
         saved=self.smart.tickets.update(request['ticket_id'],request['revision'],answer)

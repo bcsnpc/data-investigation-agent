@@ -476,7 +476,7 @@ def validate(value, payload):
         if request is None:
             raise ValueError('Model response cannot declare form authority')
         expected=build(request,payload['models'],payload.get('_form_configuration'),
-                       description_proposal=payload.get('_form_description'))
+                       description_proposal=payload.get('_form_description'),candidate_binding=payload.get('_form_candidate_binding'))
         if value!=expected['proposal'] or payload['text']!=expected['document']['text']:
             raise ValueError('Form proposal differs from recomputed user inputs')
         from .visual_target import complete
@@ -728,10 +728,10 @@ class Intake:
                 raise Conflict('Description has no current validated interpretation')
             description=source['proposal']
         built=form_scope.build(request,catalog['models'],self.workspace.intake_configuration,
-                               description_proposal=description)
+                               description_proposal=description,candidate_binding=ticket.get('form_candidate_binding'))
         payload={'text':built['document']['text'],'models':catalog['models'],
                  '_form_request':request,'_form_configuration':self.workspace.intake_configuration,
-                 '_form_description':description}
+                 '_form_description':description,'_form_candidate_binding':ticket.get('form_candidate_binding')}
         validate(built['proposal'],payload);question_kind.intake_route(built['proposal'])
         key='form-scope:'+ticket['id']+':'+str(saved['revision'])
         record_request={'ticket_id':ticket['id'],'revision':saved['revision'],'request_key':key}
@@ -742,6 +742,7 @@ class Intake:
             body=self._new_record(record_request,built['document']['text'],catalog)
             body.update(status='PROPOSED',proposal=built['proposal'],provider_calls=0,
                 scope_provenance='SAVED_USER_SUPPLIED_FORM',form_request=copy.deepcopy(request),
+                form_candidate_binding=copy.deepcopy(ticket.get('form_candidate_binding')),
                 form_description_intake=ticket.get('source_intake'),form_document=built['document'],
                 confirmation_ticket={'id':ticket['id'],'revision':saved['revision'],
                     'authority_hash':intake_confirmation.authority_hash(ticket)})
@@ -981,7 +982,7 @@ class Intake:
             description=self.get(saved['form_description_intake'])['proposal'] if saved.get('form_description_intake') and saved['form_request'].get('description_resolution')!='FORM_SELECTIONS' else None
             validate(proposal,{'text':saved['text'],'models':snapshot(self.workspace)['models'],
                 '_form_request':saved['form_request'],'_form_configuration':self.workspace.intake_configuration,
-                '_form_description':description})
+                '_form_description':description,'_form_candidate_binding':saved.get('form_candidate_binding')})
         if any(request[k] != proposal[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids')) or request['symptom'] != saved['text'] or request['predecessor'] is not None:
             raise Conflict('Reviewed question scope differs from the saved proposal')
         return {**copy.deepcopy(proposal),'id': saved['id'], 'text': saved['text'],

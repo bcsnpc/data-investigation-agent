@@ -41,7 +41,7 @@ class FormControllerTests(unittest.TestCase):
         with self.assertRaises(Conflict):self.submit(value_seen='17')
 
     def test_missing_target_asks_then_actual_user_choice_adopts(self):
-        saved=self.submit(target_id=None,cell_mode=None)
+        saved=self.submit(target_id=None,cell_mode=None,value_seen=None)
         self.assertNotIn('intake_id',saved['ticket'])
         q=saved['ticket']['questions'][0]
         c=next(c for c in q['choices'] if saved['ticket']['form_choices'][c['id']]['target_id']=='card')
@@ -53,7 +53,7 @@ class FormControllerTests(unittest.TestCase):
         self.assertEqual(self.helper.calls,0)
 
     def test_changed_catalog_refuses_old_choices(self):
-        saved=self.submit(target_id=None);self.catalog['versions'].append('changed')
+        saved=self.submit(target_id=None,value_seen=None);self.catalog['versions'].append('changed')
         q=saved['ticket']['questions'][0]
         with self.assertRaisesRegex(Conflict,'stale'):
             self.workspace.forms.reply({'ticket_id':saved['ticket']['id'],'revision':saved['revision'],
@@ -139,7 +139,7 @@ class FormControllerTests(unittest.TestCase):
         self.helper.h.native.assert_not_called();self.helper.h.source.assert_not_called()
 
     def test_target_reply_api_uses_actual_saved_form_choices(self):
-        first=self.helper.h.http('/api/workspace/forms',{**self.request,'target_id':None,'cell_mode':None})['body']
+        first=self.helper.h.http('/api/workspace/forms',{**self.request,'target_id':None,'cell_mode':None,'value_seen':None})['body']
         q=first['ticket']['questions'][0]
         c=next(c for c in q['choices'] if first['ticket']['form_choices'][c['id']]['target_id']=='card')
         result=self.helper.h.http('/api/workspace/tickets/'+first['ticket']['id']+'/reply',{
@@ -149,7 +149,7 @@ class FormControllerTests(unittest.TestCase):
         self.assertEqual(self.proposal(result['body'])['proposal']['target_visual']['target_id'],'card')
 
     def test_stale_reply_revision_cannot_replace_target(self):
-        first=self.submit(target_id=None)
+        first=self.submit(target_id=None,value_seen=None)
         q=first['ticket']['questions'][0];c=q['choices'][0]
         request={'ticket_id':first['ticket']['id'],'revision':first['revision']-1,
             'answers':[{'question_id':q['id'],'choice_id':c['id']}],'request_key':'stale'}
@@ -273,7 +273,7 @@ class FormControllerTests(unittest.TestCase):
             form_scope.build(request,self.catalog['models'],None,description_proposal=p)
 
     def test_business_question_with_missing_target_never_crashes(self):
-        saved=self.submit(comparison='BUSINESS_MEANING',target_id=None,cell_mode=None)
+        saved=self.submit(comparison='BUSINESS_MEANING',target_id=None,cell_mode=None,value_seen=None)
         self.assertEqual(saved['ticket']['state'],'CLARIFYING')
         self.assertNotIn('intake_id',saved['ticket'])
 

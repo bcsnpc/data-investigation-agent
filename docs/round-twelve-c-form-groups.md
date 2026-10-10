@@ -1,0 +1,13 @@
+# Round Twelve C: grouped form scoring
+
+Owner decision, 2026-10-10 America/Chicago: acknowledge the retained undersized reservation (2,504 output tokens used against 1,500 reserved), after correcting reservations to the producer's 8,000-token bound. The original VIOLATION row and all charges remain unchanged. An append-only acknowledgment pins its full row hash, owner, date, reason and corrected bound. Only that exact violation stops latching; a new violation, or an altered old row, still blocks. The approval and before/after charges are appended to docs/runs/ledger.jsonl. No identity, permission, secret or estate setting changed.
+
+DECIDED WITHOUT REVIEW: rejected changing the VIOLATION status or deleting its charges. The separate acknowledgment preserves the finding while implementing the owner's explicit continuation decision.
+
+The form now offers an explicit saved-context/definition comparison choice, rather than forcing a declared-subject ticket into an external-comparison answer. This is confined to the form; free-text route policy is unchanged. A multi-measure visual can carry a measure pick, checked against its declared binding. The form catalog exposes the subject choice. These input and scope changes invalidate the prior engine freeze; #423 remains draft.
+
+Test construction uses the sealed oracle and independently retained report/model definitions. R1 can choose only a reviewed equivalent visual with a complete matching declaration. Resolved variant targets remain the sealed ones. Unknown fields remain blank. Every selection, source and inability to complete is recorded in the grouped forms artifact. The visual-skipped group contains otherwise complete forms with a supplied numeric/empty value; records without a stated figure cannot test candidate-value matching and are listed separately.
+
+Candidate-value matching enumerates the page's eligible measure/cell candidates, requires complete declarations and complete receipted value probes for the whole set, and settles only a unique matching scope or an equivalent matching set. Different matching scopes ask; no match refuses; missing evidence is NOT_MEASURABLE. The original form remains unchanged; read-based authority is retained separately and revalidated at adoption/review. Offline scoring never reads a value from the oracle. Its observer uses only a sealed exact-statement/context receipt; absence or disagreeing retained results is not measurable. Live observers use the existing reader and physical-request governor, bounded by the existing per-form diagnostic limit.
+
+Fresh development scoring pending. Held-out and live remain unrun. No billing scoring is authorized by this result.

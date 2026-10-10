@@ -10,14 +10,14 @@ from .onboarding import digest, Conflict
 
 VERSION = 'ticket-form-authority-v2'
 HASH = {'type':'string', 'pattern':'^[0-9a-f]{64}$'}
-PROOF = protocol.obj({'version':{'const':VERSION}, 'request_hash':HASH,
+PROOF = protocol.obj({'version':{'const':VERSION}, 'request_hash':HASH, 'candidate_binding_hash':HASH,
     'catalog_hash':HASH, 'document_hash':HASH, 'report_id':protocol.ID,
     'page_id':protocol.ID, 'target_id':form_intake.NULL_ID,'measure_id':protocol.ID,
     'mode':{'enum':['UNGROUPED','TOTAL','KEYED','MEASURE_AT_SCOPE']},
     'declared_scope':protocol.obj({'state':{'const':'COMPLETE'},'context_id':protocol.ID,
         'context_hash':HASH,'inventory_hash':HASH,'restrictions':{'type':'array','maxItems':32,
             'items':protocol.obj({'field_id':protocol.ID,'operator':{'const':'IN'},
-                'values':{'type':'array','maxItems':1000}})}})})
+                'values':{'type':'array','maxItems':1000}})}})}, optional=('candidate_binding_hash',))
 PROOF['oneOf']=[{'properties':{'mode':{'const':'MEASURE_AT_SCOPE'},'target_id':{'type':'null'}}},
                 {'properties':{'mode':{'enum':['UNGROUPED','TOTAL','KEYED']},'target_id':protocol.ID}}]
 REPORT = protocol.obj({'resolution_kind':{'type':'string','enum':['USER_SUPPLIED_FORM']},
@@ -37,12 +37,17 @@ def description_route(proposal,request,configuration):
     return settlement(raw,document(request,configuration)['text'],configuration,code_gate=True)
 
 
-def resolved_scope(request, models, configuration, description_proposal=None):
+def resolved_scope(request, models, configuration, description_proposal=None, candidate_binding=None):
     """User picks stay facts; absence may be settled by validated description.
 
     A measure-only description is accepted only with the existing complete R1
     declaration proof. No candidate is selected by matching an expected value.
     """
+    if candidate_binding is not None:
+        from .form_candidates import matching
+        matched=matching(request,models,candidate_binding)
+        if matched['status']!='BOUND':raise Conflict('Candidate value binding remains ambiguous or unmatched')
+        return matched['scope']
     try:
         result=form_intake.resolve(request,models,configuration,
             measure_id=description_proposal.get('measure_id') if description_proposal else None)
@@ -107,6 +112,7 @@ def document(request, configuration):
     from .ticket_clarification import settings
     Draft202012Validator(form_intake.SCHEMA).validate(request)
     choices = settings(configuration)['comparison_choices']
+    choices = [*choices, {'route':form_intake.SUBJECT_ROUTE,'label':form_intake.SUBJECT_LABEL}]
     choice = next((c for c in choices if c['route'] == request['comparison']), None)
     pieces = []; parts = []; position = 0
     inputs = [('/description', 'Description supplied by user:', request['description']),
@@ -125,8 +131,8 @@ def document(request, configuration):
     return {'text':text, 'parts':parts, 'source_input_hash':digest(request)}
 
 
-def build(request, models, configuration, *, description_proposal=None):
-    scope=resolved_scope(request,models,configuration,description_proposal)
+def build(request, models, configuration, *, description_proposal=None, candidate_binding=None):
+    scope=resolved_scope(request,models,configuration,description_proposal,candidate_binding)
     doc = document(request, configuration); text = doc['text']
     if request['description'] and description_proposal is None and request.get('description_resolution')!='FORM_SELECTIONS':
         raise Conflict('Form description has not been interpreted')
@@ -174,6 +180,7 @@ def build(request, models, configuration, *, description_proposal=None):
         'report_id':scope['report_id'], 'page_id':scope['page_id'],
         'target_id':scope['target_id'], 'mode':scope['cell_mode'],'measure_id':scope['measure_id'],
         'declared_scope':copy.deepcopy(declared)}
+    if candidate_binding is not None:proof['candidate_binding_hash']=digest(candidate_binding)
     Draft202012Validator(PROOF).validate(proof)
     figure = copy.deepcopy(scope['reported_figure'])
     if figure['state'] != 'UNSPECIFIED':
@@ -182,7 +189,7 @@ def build(request, models, configuration, *, description_proposal=None):
     from .reported_figure import validate as validate_figure
     validate_figure(figure,text)
     comparison = next((p for p in doc['parts'] if p['pointer'] == '/comparison'),None)
-    kind = {'APPLICATION':'SOURCE_CORRECTNESS','STALE':'FRESHNESS',
+    kind = {'DECLARED_SUBJECT':'VISUAL_CONTENT','APPLICATION':'SOURCE_CORRECTNESS','STALE':'FRESHNESS',
             'LOOKS_WRONG':'FIGURE_DIFFERENCE','BUSINESS_MEANING':'BUSINESS_MEANING'}.get(scope['comparison'])
     subject = {'kind':kind, 'source':{k:comparison[k] for k in ('start','end','quote')}} if comparison else None
     if description_proposal is not None:
