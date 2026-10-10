@@ -211,6 +211,10 @@ class Forms:
 
     def _ask(self,saved,catalog,result):
         request=saved['ticket']['form_input'];wanted=result['questions'][0]['field'];options=[]
+        questionnaire=saved['ticket'].get('questionnaire_input')
+        if (wanted=='COMPARISON' and request['comparison'] is None and questionnaire
+                and questionnaire['comparing']['kind']=='NOTHING'):
+            return self._hold(saved,'DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again.')
         if wanted=='REPORT_PAGE':
             for model in catalog['models']:
                 for report in model.get('reports',[]):

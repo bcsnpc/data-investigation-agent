@@ -48,6 +48,20 @@ class QuestionnaireTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'QUESTIONNAIRE_NOT_MEASURABLE'):
                 map_form({**form,**change},'original text')
         self.assertEqual(map_form({**form,'comparison':'DECLARED_SUBJECT'},'Explain Quantity')['comparing'],{'kind':'NOTHING'})
+    def test_unresolved_description_cannot_reask_selected_nothing(self):
+        request={**self.request,'comparing':{'kind':'NOTHING'},'description':'Explain Quantity.'}
+        controller=self.h.workspace.forms
+        saved=controller.smart.tickets.submit(request,request['request_key'])
+        def retain(ticket):
+            ticket['questionnaire_input']=copy.deepcopy(request)
+            ticket['form_input']=to_form(request,self.models)
+            return ticket
+        saved=controller.smart.tickets.update(saved['ticket']['id'],saved['revision'],retain)
+        result=controller._ask(saved,{'models':self.models},{'questions':[{'field':'COMPARISON'}]})
+        self.assertEqual(result['ticket']['state'],'HELD')
+        self.assertEqual(result['ticket']['questions'],[])
+        self.assertIn('DESCRIPTION_SUBJECT_UNRESOLVED',result['ticket']['history'][-1]['detail']['reason'])
+        self.assertEqual(result['ticket']['questionnaire_input'],request)
     def test_other_page_and_report_cannot_alias_or_escape_declared_context(self):
         for comparison in ({'kind':'OTHER_PAGE','page_id':'page'},{'kind':'OTHER_REPORT','report_id':'absent','page_id':'x'}):
             with self.assertRaises(ValueError):validate({**self.request,'comparing':comparison},self.models)
