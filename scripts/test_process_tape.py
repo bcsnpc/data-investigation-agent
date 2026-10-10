@@ -96,13 +96,13 @@ class TapeTests(unittest.TestCase):
             path=Path(folder)/'v5.json'
             with patch.object(journal,'VERSION','bounded-worker-tape-v5'):
                 recorded=Tape(path,bootstrap())
-                recorded.event('PROVIDER_REQUEST',bytes_of({'value':16}))
-                recorded.event('PROVIDER_RESPONSE',bytes_of({'value':17}))
+                recorded.event('BOUNDED_REQUEST',bytes_of({'value':16}))
+                recorded.event('BOUNDED_RESPONSE',bytes_of({'value':17}))
                 recorded.finish({'status':'HELD'})
             original=path.read_bytes();replayed=Tape(path)
             self.assertEqual(replayed.version,'bounded-worker-tape-v5')
-            replayed.event('PROVIDER_REQUEST',bytes_of({'value':16}))
-            self.assertEqual(json.loads(replayed.take('PROVIDER_RESPONSE')),{'value':17})
+            replayed.event('BOUNDED_REQUEST',bytes_of({'value':16}))
+            self.assertEqual(json.loads(replayed.take('BOUNDED_RESPONSE')),{'value':17})
             replayed.finish({'status':'HELD'})
             self.assertEqual(path.read_bytes(),original)
 

@@ -40,3 +40,9 @@ Complete/control group includes the unchanged incomplete controls. Compare compl
 Model calls 46; transmitted input characters 590,850. Round dollar guard charged/reserved $0.862408 against $100; unsettled calls 0. This is conservative public rate-card accounting, not an Azure invoice.
 
 The two prior live coverage overclaims remain preserved; dev harmful admissions are a separate measurement, not proof of zero live harms. Live repeat testing remains pending.
+
+## Affected follow-up on5272812
+
+Only the three affected skipped records were rerun, preserving the initial46 results. Five calls/65,177 input characters,zero estate reads. Saved-context reproduction now settles; the matrix holds after two malformed model proposals (generic cell treated as visual title, then an unrequested global cell). The ambiguous card still holds. Combined current picture: complete28/28, measure-only7/7, skipped4/6;0questions/illegitimate/harmful. This is a mixed-pass development picture, not a second full pass.
+
+Spend charged/reserved USD0.957119/100; unsettled 0. No live correctness claim.
