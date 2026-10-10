@@ -86,3 +86,5 @@ New seal: `bc2819f1ab12ae93d2203a519a6318a6f9ecbc1a3220a466e664a00c495a9a6b`. Ol
 | held_out/complete | 18/21 | 20/21 | 2 | 0 | 0 | 0 |
 | held_out/visual-skipped | 2/2 | 2/2 | 0 | 0 | 0 | 0 |
 | held_out/incomplete-controls | 1/7 | 1/7 | 0 | 0 | 1 | 1 |
+
+Dated archive transport correction: the first A1 commit normalized the superseded archive line endings in its Git blob (6b885966cf78a7afd94a1fac1f0627b42e1d7af35afec2100b21a71268d5691c), while the unchanged local original still hashed be029b56?38406c. Binary Git attributes now preserve the current sealed oracle and superseded originals byte-for-byte; the original archive bytes, not a reconstructed JSON file, are re-staged. No record values, seal, response or score changes.
