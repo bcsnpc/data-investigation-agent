@@ -27,6 +27,27 @@ KIND_SUBJECTS={'VISUAL_CONTENT':'comparison','FRESHNESS':'currency',
 DELIVERY_OUTCOMES={'INGESTION_GAP':'GAP','LOAD_LATENCY':'LATENT'}
 
 
+def primary_business_request(envelope):
+    """A picked comparator does not add a technical question to user prose.
+
+    This is a conservative coverage guard, not an intake-kind rewrite. An
+    explicit independent technical ask keeps its own coverage obligation; a
+    direct meaning/intent ask cannot be answered by incidental flow checks.
+    """
+    source=(envelope.get('question_kind') or {}).get('source') or {}
+    quote=source.get('quote')
+    question=envelope['symptom']
+    if isinstance(quote,str) and quote:
+        start,end=source.get('start'),source.get('end')
+        if type(start)!=int or type(end)!=int or not 0<=start<end<=len(question) or question[start:end]!=quote:
+            raise Conflict('Question coverage source is not the retained user span')
+        question=quote
+    meaning=re.search(r'\b(?:what\s+(?:does|do)\b[^?]*\bmean|what\s+is\b[^?]*\bmeaning|should\b[^?]*\b(?:affect|count|include|exclude)|business\s+(?:intent|rule))\b',question,re.I)
+    technical=any(re.search(SUBJECTS[name],question,re.I) for name in ('currency','definitions','comparison'))
+    technical=technical or re.search(r'\b(?:how\b[^?]*\b(?:calculated|transformed|loaded)|transformation mechanism)\b',question,re.I)
+    return bool(meaning and not technical)
+
+
 def question_views(envelope):
     """Keep transport authority in evidence, not in the business question.
 
@@ -109,7 +130,8 @@ def build(state):
     assessment=state.get('assessment') or {}
     kind=(state['envelope'].get('question_kind') or {}).get('kind')
     from .reproduction_composition import select,answer,requested
-    lead=select(state.get('observations',[])) if kind in ('VISUAL_CONTENT','FILTER_EFFECT') or requested(question) else None
+    business_primary=primary_business_request(state['envelope'])
+    lead=select(state.get('observations',[])) if not business_primary and (kind in ('VISUAL_CONTENT','FILTER_EFFECT') or requested(question)) else None
     if lead is not None:
         return {'version':2,'question':question,'question_hash':digest(question),**question_views(state['envelope']),
             'status':'ANSWERED' if lead['label'] else 'NOT_ANSWERED',
@@ -125,6 +147,7 @@ def build(state):
     kind=(state['envelope'].get('question_kind') or {}).get('kind')
     subjects=([KIND_SUBJECTS[kind]] if kind in KIND_SUBJECTS else
         [key for key,pattern in SUBJECTS.items() if re.search(pattern,question,re.I)] or ['unclassified'])
+    if business_primary:subjects=['meaning']
     if kind in KIND_SUBJECTS and kind != 'BUSINESS_MEANING' and re.search(SUBJECTS['meaning'],question,re.I):
         if 'meaning' not in subjects:subjects.append('meaning')
     checks=[]
@@ -184,14 +207,14 @@ def build(state):
                         refs=[o['id'] for o in refusals if o.get('reason')==NO_FIGURE]
                         reason='There is no reported figure to compare; no reproduction verdict was established.'
                     else:reason='No independent comparison established an answer to the requested difference.'
-        checks.append(typed_check(kind,assessment,observations) if kind and kind!='FRESHNESS' and subject==KIND_SUBJECTS[kind] else
+        checks.append(typed_check(kind,assessment,observations) if not business_primary and kind and kind!='FRESHNESS' and subject==KIND_SUBJECTS[kind] else
             {'subject':subject,'status':status,'reason':reason,'evidence_ids':refs})
     states=[c['status'] for c in checks]
     status=('NO_REPORTED_FIGURE' if all(s=='NO_REPORTED_FIGURE' for s in states) else
             'ANSWERED' if all(s=='ANSWERED' for s in states) else
             'NOT_ANSWERED' if all(s=='NOT_ANSWERED' for s in states) else 'PARTLY_ANSWERED')
     return {'version':1,'question':question,'question_hash':digest(question),**question_views(state['envelope']),'status':status,
-            'subjects':checks,'subject_provenance':'DECLARED_QUESTION_KIND' if kind else 'EXPLICIT_TEXT_MARKERS_WITH_UNCLASSIFIED_FALLBACK',
+            'subjects':checks,'subject_provenance':'PRIMARY_BUSINESS_REQUEST_GUARD' if business_primary else 'DECLARED_QUESTION_KIND' if kind else 'EXPLICIT_TEXT_MARKERS_WITH_UNCLASSIFIED_FALLBACK',
             'finding_outcome':assessment.get('classification'),'authority':'DETERMINISTIC_EVIDENCE_COVERAGE'}
 
 

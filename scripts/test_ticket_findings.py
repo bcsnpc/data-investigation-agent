@@ -27,6 +27,25 @@ class TicketFindingsTests(unittest.TestCase):
         state=self.state();state['observations']=[o for o in state['observations'] if o['id']!='flow_consistency']
         with self.assertRaises((ValueError,Conflict)):findings.from_state(state)
 
+    def test_delivery_rejects_coverage_overclaim_even_when_outcome_is_valid(self):
+        from investigator import question_account
+        state=self.state('TRANSFORMATION_LOGIC')
+        state['envelope']={'symptom':'What does this adjustment mean, and should it count?','question_kind':{'kind':'BUSINESS_MEANING'}}
+        state['assessment']=state['synthesis']['assessment']
+        state['synthesis']['outputs']={key:{'explanation':{'text':'The retained operation repeats matching entries.'}}
+            for key in ('business_output','technical_output')}
+        question_account.attach(state['synthesis']['outputs'],state)
+        result=findings.from_state(state)
+        self.assertEqual(result['classification'],'TRANSFORMATION_LOGIC')
+        self.assertEqual(result['outputs']['business_output']['question_account']['status'],'NOT_ANSWERED')
+        for key in ('business_output','technical_output'):
+            changed=copy.deepcopy(state)
+            changed['synthesis']['outputs'][key]['question_account']['status']='PARTLY_ANSWERED'
+            with self.assertRaisesRegex(Conflict,'question/answer account'):findings.from_state(changed)
+        changed=copy.deepcopy(state)
+        for entry in changed['synthesis']['outputs'].values():entry.pop('question_account')
+        with self.assertRaisesRegex(Conflict,'question/answer account'):findings.from_state(changed)
+
     def test_failed_or_absent_synthesis_cannot_be_shared(self):
         for change in ({'status':'FAILED'},{'outputs':None},{'assessment':None}):
             state=self.state();state['synthesis'].update(change)

@@ -422,6 +422,11 @@ class MicrosoftProcessAdapter:
         binding=self._partition_binding(metadata) if self.store is not None else {'status':'NO_DECLARATION','candidates':[]}
         layers=[{'id':measure['parent_id'],'kind':'presentation','measure':measure}]
         if binding.get('status')=='RESOLVED':
+            # The concrete scoped pointer supersedes the collector's generic
+            # partition-identity gap even when this measure cannot be compiled.
+            # Binding resolution and faithful quantity compilation are separate
+            # facts; an unsupported expression must not become a missing pointer.
+            gaps=[g for g in gaps if g.get('reason')!='UNRESOLVED_PARTITION_IDENTITY']
             referenced_columns=[a for a in metadata.get('assets',[]) if a.get('kind')=='SemanticColumn']
             expression=measure.get('metadata',{}).get('expression','')
             if isinstance(expression,list):expression='\n'.join(expression)
@@ -439,7 +444,9 @@ class MicrosoftProcessAdapter:
                     'binding':binding,'definition_asset_id':binding['definition_asset_id']})
                 from .direct_source import quantity_proof
                 layers[-1]['direct_source_proof']=quantity_proof(metadata,layers[-1],self.config)
-                gaps=[g for g in gaps if g.get('reason')!='UNRESOLVED_PARTITION_IDENTITY']
+            else:
+                gaps=[{'reason':'UNSUPPORTED_DECLARED_SOURCE_QUANTITY',
+                    'detail':'The declared partition source was resolved, but this measure expression cannot be compiled faithfully on that source; only a direct additive SUM is supported by this path.'}]+gaps
             context=context_search.latest(self.store);edges=(context or {}).get('graph',{}).get('edges',[])
             upstream=[]
             for edge in edges:
@@ -472,7 +479,8 @@ class MicrosoftProcessAdapter:
                 'stopped_by':'CAPABILITY_UNAVAILABLE' if gaps else 'REACHED',
                 'missing_comparable_quantity':missing,
                 'evidence':{'id':'path-'+str(uuid4()),'tool':'context','completeness':'PARTIAL' if gaps else 'COMPLETE_RESPONSE',
-                            'metadata':metadata,'declared_source_binding':binding}}
+                            'metadata':metadata,'declared_source_binding':binding,
+                            'resolved_path_gaps':gaps}}
         if self.max_boundaries>1 and len(layers)>1:
             from .declared_chain import extend
             path['layers'],contracts,gap=extend(context_search.latest(self.store) or {},layers)

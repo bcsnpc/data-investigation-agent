@@ -16,10 +16,15 @@ COMPARISON={'oneOf':[
     p.obj({'kind':{'const':'OTHER_PAGE'},'page_id':ID}),
     p.obj({'kind':{'const':'APPLICATION'},'source_value':OPTIONAL_TEXT},optional=('source_value',)),
     p.obj({'kind':{'const':'NOTHING'}})]}
-SCHEMA=p.obj({'version':{'const':VERSION},'request_key':{**ID,'maxLength':100},'report_id':ID,'page_id':ID,
+SCHEMA=p.obj({'version':{'const':VERSION},'request_key':{**ID,'maxLength':100},'subject':{'enum':['REPORT','MEASURE_TEXT']},'report_id':form_intake.NULL_ID,'page_id':form_intake.NULL_ID,
     'visual_id':{'anyOf':[ID,{'type':'null'}]},'comparing':COMPARISON,
     'description':{'type':'string','maxLength':2000},
-    'screenshot_review_id':{'anyOf':[ID,{'type':'null'}]}},optional=('screenshot_review_id',))
+    'screenshot_review_id':{'anyOf':[ID,{'type':'null'}]}},optional=('screenshot_review_id','subject'))
+SCHEMA['allOf']=[{'if':{'required':['subject'],'properties':{'subject':{'const':'MEASURE_TEXT'}}},
+    'then':{'properties':{**{k:{'type':'null'} for k in ('report_id','page_id','visual_id')},
+        'description':{'type':'string','minLength':1,'maxLength':2000},
+        'comparing':{'properties':{'kind':{'enum':['APPLICATION','NOTHING']}}}}},
+    'else':{'properties':{'report_id':ID,'page_id':ID}}}]
 DEFINITION={'version':VERSION,'schema':SCHEMA,'fields':[
     {'name':'report_id','label':'Report','kind':'select','optional':False,'list':'questionnaire/catalog'},
     {'name':'page_id','label':'Page / tab','kind':'select','optional':False,'list':'questionnaire/pages','depends_on':'report_id'},
@@ -31,12 +36,15 @@ DEFINITION={'version':VERSION,'schema':SCHEMA,'fields':[
         {'value':'NOTHING','label':'Nothing specific — it looks wrong','reveals':[]}]},
     {'name':'description','label':'Description','kind':'text','optional':True,'maxLength':2000},
     {'name':'screenshot_review_id','label':'Screenshot','kind':'screenshot','optional':True}],
-    'hidden_legacy_fields':['model-only choice','page-picture picker','value_seen','cell_mode','cell_keys','extra comparison choices'],
+    'subject_choice':{'name':'subject','label':'Question about','default':'REPORT','choices':[
+        {'value':'REPORT','label':'A report visual'}, {'value':'MEASURE_TEXT','label':'A measure, without a report visual'}]},
+    'hidden_legacy_fields':['page-picture picker','value_seen','cell_mode','cell_keys','extra comparison choices'],
     'visual_list_source':'RETAINED_APPROVED_DEFINITION',
     'quantity_rule':'A picked visual identifies the measure and declared scope. Its current query value is not a user-reported figure. Figures come from exact description spans or reviewed screenshot evidence.'}
 
 def validate(request,models):
     Draft202012Validator(SCHEMA).validate(request)
+    if request.get('subject')=='MEASURE_TEXT':return copy.deepcopy(request)
     reports=[r for m in models for r in m.get('reports',[]) if r['id']==request['report_id']]
     if len(reports)!=1:raise ValueError('Selected report is absent or ambiguously bound')
     visuals=[v for m in models for v in m.get('visuals',[]) if v['report_id']==request['report_id']]
@@ -66,6 +74,7 @@ def to_form(request,models,*,review=None):
     mode='UNGROUPED' if len(visuals)==1 and not visuals[0]['grouping_columns'] else None
     kind=request['comparing']['kind']
     return {'version':form_intake.VERSION,'request_key':request['request_key'],
+        **({'subject':'MEASURE_TEXT'} if request.get('subject')=='MEASURE_TEXT' else {}),
         'report_id':request['report_id'],'page_id':request['page_id'],'target_id':request['visual_id'],
         'cell_mode':mode,'value_seen':None,'comparison':'APPLICATION' if kind=='APPLICATION' else (None if description.strip() else 'LOOKS_WRONG') if kind=='NOTHING' else form_intake.SUBJECT_ROUTE,
         'description':description,'cell_keys':[]}

@@ -649,6 +649,24 @@ def resolve(raw, payload):
             candidate=matched[0]
             if candidate.get('unsupported'):raise TargetUnresolved(matched,candidate['unsupported'])
             mode=mode or ('KEYED' if candidate['grouping_columns'] else 'UNGROUPED')
+            # A picked visual supplies axes, not a row. Recover only an explicit
+            # '<named measure> <axis values> cell' phrase the span model omitted.
+            # No value search, bare mention, visual substitution or axis guessing.
+            if mode=='KEYED' and form_anchor and not pending:
+                declared_names=[metric['name'],*metric.get('aliases',[])]
+                address_spans={}
+                for name in declared_names:
+                    for hit in re.finditer(r'(?<!\w)'+re.escape(name)+r'\s+(?P<address>[^.!?;\n]+?)\s+cell\b',ticket,re.I):
+                        start,end=hit.span('address')
+                        if any(s['start']<end and start<s['end'] for s in extraction['comparisons']+extraction['contexts']):continue
+                        address_spans[(start,end)]=({'start':start,'end':end,'quote':ticket[start:end]},
+                            {'start':start,'end':hit.end(),'quote':ticket[start:hit.end()]})
+                if len(address_spans)>1:raise TargetUnresolved([candidate],'More than one explicit cell address was stated.')
+                if len(address_spans)==1:
+                    span,relationship=next(iter(address_spans.values()))
+                    # The existing address compiler requires an explicit cell cue
+                    # and the picked visual's complete retained axis ordering.
+                    pending=[{'column':None,'value':span,'quote':relationship,'role':'PRIMARY'}]
             if mode=='KEYED' and pending:
                 address=keyed_address(pending,candidate,model,ticket=ticket,named_or_confirmed=bool(source or number))
                 if address is not None:

@@ -1,5 +1,6 @@
 """Environment-owned discovery, versioned graph and automatic model catalog projection."""
 from datetime import datetime, timezone
+import copy
 import json
 import re
 from uuid import UUID
@@ -27,6 +28,24 @@ def descendants(assets, root):
         if children<=selected:break
         selected|=children
     return [assets[k] for k in sorted(selected) if k in assets]
+
+
+def same_model_context_content(before, after):
+    """Compare the whole context except explicitly generated scan bookkeeping.
+
+    Definitions, unknown fields, policy, coverage, changes and capabilities are
+    never dropped from equality. In particular, similarly named assets or equal
+    source hashes alone cannot preserve a verification's context authority.
+    """
+    def content(context):
+        result=copy.deepcopy(context)
+        for key in ('id','scan_id','scan_ended'):result.pop(key,None)
+        for asset in result.get('model_assets',[]):asset.pop('last_seen_scan',None)
+        for report in result.get('reports',[]):
+            report.get('report',{}).pop('last_seen_scan',None)
+            for asset in report.get('report_definitions',[]):asset.pop('last_seen_scan',None)
+        return result
+    return before is not None and content(before)==content(after)
 
 
 def graph(assets, bindings, item_relations=()):
@@ -240,10 +259,17 @@ class Discovery:
                      'capabilities':{'MODEL_QUERYABLE':'UNKNOWN','MEASURE_DEFINITION_AVAILABLE':'SUPPORTED' if ready else 'UNKNOWN'},
                      'limitation':'Automatically discovered metadata; query permissions and effective report context are checked separately.'}
             enabled=bool(ready and measures and not denied)
-            db.execute('INSERT INTO model_contexts VALUES(?,?,?,?,?,?)',(context['id'],mid,context['scan_id'],encoded(context),digest(context),utc()))
+            reused=same_model_context_content(old,context)
+            if reused:
+                # Keep the immutable original context and hash. The new scan's
+                # evidence remains in enterprise_scans, not relabelled receipts.
+                context=old
+            else:
+                db.execute('INSERT INTO model_contexts VALUES(?,?,?,?,?,?)',(context['id'],mid,context['scan_id'],encoded(context),digest(context),utc()))
             db.execute('UPDATE models SET name=?,reports=?,revision=revision+1,context_id=?,enabled=? WHERE id=?',
                        (a['name'],encoded([r['report']['metadata']['id'] for r in reports]),context['id'],int(enabled),mid))
             db.execute('UPDATE discovery_models SET policy_hash=? WHERE model_id=?',(self.policy_hash,mid))
-            self.store.event(db,mid,row['revision']+1,'DISCOVERED_CONTEXT','discovery',{'context_id':context['id'],'enabled':enabled,'changes':changes})
+            self.store.event(db,mid,row['revision']+1,'DISCOVERED_CONTEXT_REUSED' if reused else 'DISCOVERED_CONTEXT','discovery',{'context_id':context['id'],'enabled':enabled,'changes':changes,
+                'inventory_scan_id':result['inventory_scan_id'],'context_preserved':reused})
         for row in db.execute('SELECT model_id FROM discovery_models WHERE environment=?',(self.store.environment,)).fetchall():
             if row['model_id'] not in active:db.execute('UPDATE models SET enabled=0,revision=revision+1 WHERE id=? AND enabled=1',(row['model_id'],))

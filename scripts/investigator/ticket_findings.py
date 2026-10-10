@@ -31,6 +31,13 @@ def from_state(state):
             'record_hash':digest(synthesis),'question':'Does this explain why the investigation stopped?',
             'refusal':copy.deepcopy(outputs['refusal'])}
     if not isinstance(assessment,dict):raise Conflict('Saved synthesis has no assessment')
+    outputs=synthesis['outputs']
+    if (state.get('envelope',{}).get('question_kind')
+            or any('question_account' in outputs.get(key,{}) for key in ('business_output','technical_output'))):
+        # Delivery must not turn a stale or tampered coverage header into an
+        # answer merely because its technical outcome still validates.
+        from .question_account import validate as validate_question
+        validate_question(outputs,state)
     observations={o['id']:o for o in state['observations']}
     if len(observations)!=len(state['observations']):raise Conflict('Duplicate observation identity')
     # Revalidate against original observations, not a narrative projection.

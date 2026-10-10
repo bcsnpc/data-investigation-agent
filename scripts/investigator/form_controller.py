@@ -70,6 +70,7 @@ class Forms:
             if saved['ticket'].get('form_origin') is not None:return saved
             def retain_origin(ticket):
                 ticket['form_origin']=copy.deepcopy(request)
+                if questionnaire is not None:ticket['questionnaire_input']=copy.deepcopy(questionnaire)
                 ticket['form_routing']={'route':'MEASURE_TEXT','source_input_hash':digest(request)}
                 return ticket
             return self.smart.tickets.update(saved['ticket']['id'],saved['revision'],retain_origin)

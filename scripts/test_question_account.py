@@ -3,6 +3,27 @@ from investigator import question_account as account
 from investigator.onboarding import Conflict
 
 class QuestionAccountTests(unittest.TestCase):
+    def test_business_only_ask_is_not_promoted_by_a_form_comparator_or_technical_finding(self):
+        description='For Handled Quantity, what does adjustment reason Q49 mean, and should those adjustments affect this metric?'
+        question='Description supplied by user:\n'+description+'\n\nComparison selected by user:\nThe application'
+        for outcome in ('TRANSFORMATION_LOGIC','BUSINESS_QUESTION','CONSISTENT_TO_SOURCE','INGESTION_GAP'):
+            with self.subTest(outcome=outcome):
+                s=self.state(question);start=question.index(description)
+                s['envelope']['question_kind']={'kind':'SOURCE_CORRECTNESS','source':{
+                    'quote':description,'start':start,'end':start+len(description)}}
+                s['assessment']['classification']=outcome
+                s['observations']=[{'id':'flow','status':'COMPLETED','comparison_status':'CROSS_SURFACE_VERIFIED'},
+                    {'id':'delivery','status':'COMPLETED','check_kind':'SOURCE_DELIVERY','delivery_result':{'status':'GAP'}}]
+                outputs=self.outputs();account.attach(outputs,s)
+                for entry in outputs.values():
+                    self.assertEqual(entry['question_account']['status'],'NOT_ANSWERED')
+                    self.assertIn('Answer to your question: Not answered.',entry['explanation']['text'])
+                    self.assertIn('What was found instead:',entry['explanation']['text'])
+                self.assertEqual(s['assessment']['classification'],outcome)
+                broken=copy.deepcopy(outputs)
+                broken['business_output']['question_account']['status']='PARTLY_ANSWERED'
+                with self.assertRaises(Conflict):account.validate(broken,s)
+
     def test_proven_appended_report_link_is_evidence_not_business_question(self):
         from investigator.ticket_inputs import document
         from investigator.onboarding import digest

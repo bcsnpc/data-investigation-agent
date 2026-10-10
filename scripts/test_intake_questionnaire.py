@@ -26,6 +26,27 @@ class QuestionnaireTests(unittest.TestCase):
         self.assertIsNone(r['cell_mode']);self.assertEqual(r['cell_keys'],[])
     def test_optional_visual_never_selects_a_representative(self):
         self.assertIsNone(to_form({**self.request,'visual_id':None},self.models)['target_id'])
+    def test_measure_question_route_is_explicit_and_cannot_select_a_visual(self):
+        request={**self.request,'subject':'MEASURE_TEXT','report_id':None,'page_id':None,'visual_id':None,
+            'description':'Why is Quantity stale?'}
+        result=to_form(request,self.models)
+        self.assertEqual(result['subject'],'MEASURE_TEXT')
+        self.assertIsNone(result['target_id']);self.assertIsNone(result['report_id'])
+        with self.assertRaises(ValidationError):to_form({**request,'visual_id':'card'},self.models)
+        with self.assertRaises(ValidationError):to_form({**request,'subject':'REPORT'},self.models)
+        from investigator.questionnaire_eval_inputs import map_form
+        self.assertEqual(map_form(result,result['description'])['subject'],'MEASURE_TEXT')
+    def test_measure_subject_uses_existing_controller_with_original_questionnaire(self):
+        from unittest.mock import patch
+        request={**self.request,'subject':'MEASURE_TEXT','report_id':None,'page_id':None,'visual_id':None,
+            'description':'Why is Quantity stale?'}
+        controller=self.h.workspace.smart_intake
+        with patch.object(controller,'submit',return_value=controller.tickets.submit(
+                {'text':request['description'],'request_key':'measure-question'},'measure-question')) as submit:
+            saved=self.h.workspace.forms.submit(request)
+        self.assertEqual(submit.call_args.args[0]['structured']['subject'],'MODEL_MEASURE')
+        self.assertNotIn('report_page',submit.call_args.args[0]['structured'])
+        self.assertEqual(saved['ticket']['form_origin']['subject'],'MEASURE_TEXT')
     def test_nothing_with_description_preserves_subject_instead_of_inventing_discrepancy(self):
         from investigator import form_scope
         import test_smart_intake

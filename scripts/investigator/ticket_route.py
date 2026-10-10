@@ -84,7 +84,7 @@ def from_request(raw, ticket, *, code_gate=False):
         scoped_self=(bool(extraction['selections']) and extraction['comparisons'] and
             all(re.fullmatch(r'(?:the )?global (?:value|total)',s['quote'],re.I)
                 for s in extraction['comparisons']) and
-            bool(re.search(r'\bexplain\b[^.!?\n]*\b(?:selected|declared|filter)\b[^.!?\n]*\bscope\b',ask,re.I)))
+            bool(re.search(r'\bexplain\b[^.!?\n]*\b(?:selected|declared|filter)\b[^.!?\n]*\bscope\b|\breport context\b[^.!?\n]*\breproduce\b',ask,re.I)))
         if scoped_self:
             return validate({'version':SUBJECT_VERSION,'route':'DECLARED_SUBJECT',
                 'kind':'VISUAL_CONTENT','request_hash':digest(ticket),'source':source},ticket)

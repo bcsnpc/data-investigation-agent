@@ -27,7 +27,11 @@ async function questionnaireList(field){
 }
 async function renderQuestionnaire(){
   const epoch=++questionnaireEpoch, host=$('simple-fields');host.replaceChildren();
-  const fields=questionnaireDefinition.fields.filter(f=>f.kind!=='screenshot');
+  const subject=questionnaireDefinition.subject_choice;
+  const subjectControl=node('select');options(subjectControl,subject.choices.map(c=>({id:c.value,name:c.label})));subjectControl.value=questionnaireValues.subject||subject.default;
+  const subjectLabel=node('label',subject.label);subjectControl.id='simple-subject';subjectLabel.htmlFor=subjectControl.id;host.append(subjectLabel,subjectControl);
+  subjectControl.addEventListener('change',guard(async()=>{questionnaireValues.subject=subjectControl.value;questionnaireStep=0;for(const f of ['report_id','page_id','visual_id'])delete questionnaireValues[f];if(['OTHER_PAGE','OTHER_REPORT'].includes(questionnaireValues.comparing?.kind))delete questionnaireValues.comparing;await renderQuestionnaire();}));
+  const fields=questionnaireDefinition.fields.filter(f=>f.kind!=='screenshot'&&((questionnaireValues.subject||'REPORT')!=='MEASURE_TEXT'||!['report_id','page_id','visual_id'].includes(f.name)));
   const visible=questionnaireMode==='CHAT'?[fields[questionnaireStep]]:fields;
   $('simple-submit').textContent=questionnaireMode==='CHAT'&&questionnaireStep<fields.length-1?'Continue':'Submit ticket';
   $('simple-channel-note').textContent=questionnaireMode==='CHAT'?'Question '+(questionnaireStep+1)+' of '+fields.length:'';
@@ -39,7 +43,7 @@ async function renderQuestionnaire(){
       control=node('select');options(control,choices,field.optional?'Not selected':'Choose '+field.label.toLowerCase());
       control.value=questionnaireValues[field.name]||'';
     }else if(field.kind==='comparison'){
-      control=node('select');options(control,field.choices.map(c=>({id:c.value,name:c.label})),'Choose a comparison');control.value=questionnaireValues.comparing?.kind||'';
+      control=node('select');options(control,field.choices.filter(c=>(questionnaireValues.subject||'REPORT')!=='MEASURE_TEXT'||['APPLICATION','NOTHING'].includes(c.value)).map(c=>({id:c.value,name:c.label})),'Choose a comparison');control.value=questionnaireValues.comparing?.kind||'';
     }else{control=node('textarea');control.rows=4;control.maxLength=field.maxLength;control.value=questionnaireValues[field.name]||'';}
     control.id='simple-'+field.name;label.htmlFor=control.id;control.required=!field.optional;
     control.addEventListener(field.kind==='text'?'input':'change',guard(async()=>{
@@ -72,9 +76,9 @@ async function renderComparisonExtras(host,field){
   }
 }
 $('simple-form').addEventListener('submit',guard(async()=>{
-  const fields=questionnaireDefinition.fields.filter(f=>f.kind!=='screenshot');
+  const fields=questionnaireDefinition.fields.filter(f=>f.kind!=='screenshot'&&((questionnaireValues.subject||'REPORT')!=='MEASURE_TEXT'||!['report_id','page_id','visual_id'].includes(f.name)));
   if(questionnaireMode==='CHAT'&&questionnaireStep<fields.length-1){questionnaireStep++;await renderQuestionnaire();return;}
-  const request={version:questionnaireDefinition.version,request_key:crypto.randomUUID(),report_id:questionnaireValues.report_id,page_id:questionnaireValues.page_id,
+  const request={version:questionnaireDefinition.version,request_key:crypto.randomUUID(),subject:questionnaireValues.subject||'REPORT',report_id:questionnaireValues.report_id||null,page_id:questionnaireValues.page_id||null,
     visual_id:questionnaireValues.visual_id||null,comparing:questionnaireValues.comparing,description:questionnaireValues.description||'',screenshot_review_id:screenshotReviewId};
   $('simple-submit').disabled=true;
   try{const saved=await api('questionnaire',request);showSmartTicket(saved);$('simple-submitted').textContent='Ticket submitted';$('simple-ticket-link').href='/?ticket='+encodeURIComponent(saved.ticket.id);$('simple-ticket-link').textContent='Open ticket';await smartTicketHistory();}
