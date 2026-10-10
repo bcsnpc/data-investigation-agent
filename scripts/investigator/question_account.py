@@ -129,6 +129,19 @@ def typed_check(kind,assessment,observations):
     return {'subject':subject,'status':status,'reason':reason,'evidence_ids':refs}
 
 
+def explicit_mechanism_obligation(envelope):
+    """Conservative requested deliverable guard, never an intake-kind rewrite.
+
+    A discrepancy allegation is background; an explicit request for a causal
+    explanation is not answered by confirming equal values. Unknown wording
+    remains under the ordinary typed coverage rule.
+    """
+    question=question_views(envelope).get('business_question',envelope['symptom'])
+    causal=re.search(r'\b(?:identify|find|seek|provide|give|establish)\b[^.!?\n]*\bexplanations?\b|\bexplain\s+why\b|\b(?:identify|find|establish)\b[^.!?\n]*\b(?:cause|mechanism)\b',question,re.I)
+    independent_comparison=re.search(r'\b(?:compare|reconcile)\b[^.!?\n]*\b(?:with|against|versus|to)\b',question,re.I)
+    return bool(causal),bool(independent_comparison)
+
+
 def build(state):
     question=state['envelope']['symptom']
     if not isinstance(question,str) or not question.strip():raise Conflict('Question account requires the original ticket')
@@ -155,6 +168,10 @@ def build(state):
     if business_primary:subjects=['meaning']
     if kind in KIND_SUBJECTS and kind != 'BUSINESS_MEANING' and re.search(SUBJECTS['meaning'],question,re.I):
         if 'meaning' not in subjects:subjects.append('meaning')
+    mechanism_required,independent_comparison=explicit_mechanism_obligation(state['envelope'])
+    if mechanism_required and not business_primary:
+        subjects=[subject for subject in subjects if subject!='comparison' or independent_comparison]
+        if 'mechanism' not in subjects:subjects.append('mechanism')
     checks=[]
     for subject in subjects:
         status='NOT_ANSWERED';reason='No recorded completion check establishes an answer to this request.'
@@ -212,6 +229,9 @@ def build(state):
                         refs=[o['id'] for o in refusals if o.get('reason')==NO_FIGURE]
                         reason='There is no reported figure to compare; no reproduction verdict was established.'
                     else:reason='No independent comparison established an answer to the requested difference.'
+        if subject=='mechanism' and mechanism_required and not business_primary:
+            checks.append(typed_check('TRANSFORMATION_MECHANISM',assessment,observations))
+            continue
         checks.append(typed_check(kind,assessment,observations) if not business_primary and kind and kind!='FRESHNESS' and subject==KIND_SUBJECTS[kind] else
             {'subject':subject,'status':status,'reason':reason,'evidence_ids':refs})
     states=[c['status'] for c in checks]
@@ -219,7 +239,7 @@ def build(state):
             'ANSWERED' if all(s=='ANSWERED' for s in states) else
             'NOT_ANSWERED' if all(s=='NOT_ANSWERED' for s in states) else 'PARTLY_ANSWERED')
     return {'version':1,'question':question,'question_hash':digest(question),**question_views(state['envelope']),'status':status,
-            'subjects':checks,'subject_provenance':'PRIMARY_BUSINESS_REQUEST_GUARD' if business_primary else 'DECLARED_QUESTION_KIND' if kind else 'EXPLICIT_TEXT_MARKERS_WITH_UNCLASSIFIED_FALLBACK',
+            'subjects':checks,'subject_provenance':'PRIMARY_BUSINESS_REQUEST_GUARD' if business_primary else 'EXPLICIT_MECHANISM_OBLIGATION_GUARD' if mechanism_required else 'DECLARED_QUESTION_KIND' if kind else 'EXPLICIT_TEXT_MARKERS_WITH_UNCLASSIFIED_FALLBACK',
             'finding_outcome':assessment.get('classification'),'authority':'DETERMINISTIC_EVIDENCE_COVERAGE'}
 
 

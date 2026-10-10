@@ -84,6 +84,8 @@ class UsageGovernor:
 
     def grant_batch(self, approval):
         with self.runtime.db() as db:
+            from .budget_delta_v2 import register_codec
+            register_codec(db)
             db.execute("BEGIN IMMEDIATE")
             read_allowance.grant(db,self.environment,approval,self.clock())
 

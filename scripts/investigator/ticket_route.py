@@ -55,7 +55,7 @@ def settlement(raw, ticket, configuration, *, code_gate=False):
             r'\b(compared|versus|against|than|elsewhere|yesterday|earlier|previous)\b',
             extraction['primary']['quote'],re.I) and re.search(
             (r'\b(what|which|how many)\b|\b(?:can|does|whether)\b[\s\S]*\breproduce\b' if raw['kind']=='VISUAL_CONTENT' else
-             r'\b(how|why|explain|components?|composition|calculation|derived|mechanism|filters?)\b'),
+             r'\b(how|why|explain(?:s|ed|ing)?|explanations?|components?|composition|calculation|derived|mechanism|filters?)\b'),
             extraction['primary']['quote'],re.I):
         # A definition/filter/content question has an intrinsic subject, not a missing
         # external comparator. Do not manufacture "looks wrong" or freshness.

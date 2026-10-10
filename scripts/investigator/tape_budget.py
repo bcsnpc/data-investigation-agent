@@ -66,6 +66,10 @@ def checkpoint(self,db,session_id):
 def decision(method):
     @wraps(method)
     def run(self,db,session_id,key,*args,**kwargs):
+        # Public admission accepts a caller-owned connection. Prepare its codec
+        # BEFORE any physical work or journaled reservation, also outside tapes.
+        from .budget_delta_v2 import register_codec
+        register_codec(db)
         if ACTIVE.get() is None:return method(self,db,session_id,key,*args,**kwargs)
         checkpoint(self,db,session_id)
         def snapshot():

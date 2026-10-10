@@ -7,6 +7,7 @@ import argparse
 from contextlib import contextmanager
 import json
 import sqlite3
+from investigator.budget_connection import connect as budget_connect
 import time
 from types import SimpleNamespace
 from investigator.usage_governance import UsageGovernor
@@ -21,7 +22,7 @@ class Catalog:
 
     @contextmanager
     def db(self):
-        db=sqlite3.connect(self.path);db.row_factory=sqlite3.Row
+        db=budget_connect(self.path);db.row_factory=sqlite3.Row
         try:
             with db:yield db
         finally:db.close()

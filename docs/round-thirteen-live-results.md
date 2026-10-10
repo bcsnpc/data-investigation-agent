@@ -54,3 +54,21 @@ Dated scope correction, 2026-10-10: the8/8 offline checkpoint covers two workspa
 
 
 Dated semantic correction, 2026-10-10: the first four attempts on 242f20e completed recording with no capture diagnostics. D-r2 remained HELD with a retained OperationalError while saving a receipt; its message is withheld, so a lock cause is not established. F-r2 completed CONSISTENT_TO_BOUNDARY but labelled the requested supported explanation PARTLY_ANSWERED as a comparison. Boundary equality does not establish that mechanism: this is one harmful answer-coverage overclaim, with no confident wrong causal finding identified. F is paused; the original delivered output and automatic audit are preserved, with a separate dated review correction. E-r2 and G-r2 completed TRANSFORMATION_LOGIC synthesis; neither establishes currency or business intent. These four used 30 physical requests. The next already-admitted cohort drains before the operator pause; no replacement runs. Current shared model spend USD1.367360/100 (89 calls, no unsettled dollar reservation at the checkpoint). Completed-attempt physical accounting is at least1340/2500; concurrent requests are reported from their own receipts when settled. Reserve95, rolling3000 and diagnostic12 remain unchanged.
+
+
+## Preserved eight-attempt242f20e cohort, 2026-10-10
+
+The batch ended after B-r3/H-r2 capture-attribution audits blocked on an unrelated recording; an operator pause for F had also been queued. Twenty original-fixture slots are now admitted; C/D/E/F/G/H/I-r3 remain unadmitted. F-r3 is paused by the harmful-coverage stop rule. No admitted attempt is replaced.
+
+| Ticket/repeat | Expected | Actual | Synthesis | Harmful coverage | Physical | Model calls | USD | Seconds | Native capture status |
+|---|---|---|---|---|---:|---:|---:|---:|---|
+| family-D-r2 | NO_COMPARABLE_PATH | None / HELD | COMPLETED | not identified | 3 | 1 | 0.010100 | 418.8 | RETAINED_ATTEMPT |
+| family-F-r2 | CONSISTENT_TO_BOUNDARY | CONSISTENT_TO_BOUNDARY / COMPLETED | COMPLETED | YES (dated root correction) | 7 | 2 | 0.019586 | 470.1 | RETAINED_ATTEMPT |
+| family-G-r2 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC / COMPLETED | COMPLETED | not identified | 10 | 3 | 0.034575 | 474.4 | RETAINED_ATTEMPT |
+| family-E-r2 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC / COMPLETED | COMPLETED | not identified | 10 | 3 | 0.035925 | 477.0 | RETAINED_ATTEMPT |
+| family-B-r3 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH / COMPLETED | COMPLETED | not identified | 1 | 2 | 0.018613 | 374.9 | CAPTURE_BLOCKED |
+| family-H-r2 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH / COMPLETED | COMPLETED | not identified | 1 | 2 | 0.019573 | 379.6 | CAPTURE_BLOCKED |
+| family-I-r2 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC / COMPLETED | COMPLETED | not identified | 10 | 3 | 0.037121 | 481.8 | RETAINED_ATTEMPT |
+| family-A-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC / COMPLETED | COMPLETED | not identified | 10 | 3 | 0.037698 | 486.9 | RETAINED_ATTEMPT |
+
+USD1.443449/100,95calls,zero unsettled dollar reservations; pot1362/2500,reserve95,rolling3000,diagnostic12. These eight used52physical requests and19model calls. Capture closure and exact revision replay are separate pending checks. Earlier incorrect zero-harm automatic audits remain unchanged; the root F correction is appended. No confident wrong causal finding has been identified in reviewed delivered outputs.

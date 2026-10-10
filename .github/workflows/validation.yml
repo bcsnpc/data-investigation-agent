@@ -175,6 +175,11 @@ jobs:
         run: |
           python -m unittest discover -s scripts -p test_artifact_identity_cache.py
           python -m unittest discover -s scripts -p test_budget_delta.py
+          python -m unittest discover -s scripts -p test_budget_delta_v2.py
+          python -m unittest discover -s scripts -p test_budget_connection.py
+          python -m unittest discover -s scripts -p test_atomic_tape_publish.py
+          python -m unittest discover -s scripts -p test_mechanism_subject_grammar.py
+          python -m unittest discover -s scripts -p test_causal_question_coverage.py
           python -m unittest discover -s scripts -p test_usage_snapshot_history.py
           python -m unittest discover -s scripts -p test_local_accounting.py
           python -m unittest discover -s scripts -p test_physical_transport_retry.py
