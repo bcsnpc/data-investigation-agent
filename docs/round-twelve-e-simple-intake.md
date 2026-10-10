@@ -48,3 +48,63 @@ Two application pre-warms each used two physical controls, separately recorded a
 Retained approvals, zero metadata requests: original context b8d15e64-a003-41bf-924a-0ab9006599d0 pins config b240cef651374de86fbf2d43708d412641097e1ee40071eb5122eda550460661; rebuilt context2f662903-b06e-407e-b5a1-de1eaded8968 pins adebadf73fe62d6f8cab4001a9081e6cd95804767fc4bcf2eb6e15dafe721c33. Scope checks passed before each approval. These are approvals of unchanged retained definitions, never recollection or proof of current serving.
 
 The live expectation gate did not pass, so an owner-unaided successful demo is not claimed. Questionnaire implementation and fresh dev-only scoring continue; held-out and billing are untouched. Draft423 remains draft and prior freezes are invalid.
+
+## Questionnaire and final session report, 2026-10-10
+
+The shared questionnaire now drives web/chat/API, with retained submitted facts,
+progress, ticket links, discussion, reviewed screenshot replies and existing
+close/reply/handoff paths. See [the schema](intake-schema.md). The isolated browser
+checks exercised web and chat submissions, reopening their ticket page and a
+retained comment. They made no estate/provider requests; no owner-unaided live
+acceptance is claimed. Live visual titles remain a named access gap; approved
+retained titles are labelled. Cross-report/page investigations hold rather than
+substituting a one-report walk. Optional source values remain separate user claims.
+
+Fresh questionnaire dev first pass: complete5/28 zero-question settlements,
+6questions,3illegitimate,16harmful; visual-skipped0/6,1question,1illegitimate,3harmful.
+The generic Nothing-route correction removed harmful admissions. Frozen corrected
+pass: complete24/28,1question,1illegitimate,0harmful; skipped4/6,0/0/0. After the
+picked-comparator guard, one fresh affected H-noisy attempt settled. Final affected-
+dev combined column: complete25/28,skipped4/6; zero questions, illegitimate questions
+and harmful admissions in both;12unmappable records. It combines45 unchanged rows
+from1e1fb33 and one fresh row from02cff87, not a new full frozen pass. All originals
+and tapes retained. [Full dev table and refusal reasons](round-twelve-e-questionnaire-dev.md).
+Held-out, oracle, goldens and expectations unchanged; no billing runs.
+
+The frozen questionnaire full suite passed2,877 tests in1,064.243seconds. Final
+source02cff87 passed159 focused tests in30.722seconds, including wrong-cell guards.
+The earlier full2860 result with its obsolete assertion and the corrected33test
+result remain recorded. No claim that the2877run covered the subsequent guard.
+
+Both manifests restored from1,800 to1,500. Reserve95,rolling3,000,diagnostic12,
+model600calls/8Minput/1.5Moutput unchanged. Counters retained. Pot1,150->1,254/1,500,
+net151 outside reserve; rolling137->241/3,000. Session actual104 physical requests
+(100investigations+4prewarm controls); dev0estate reads. Session116model calls,
+1,317,628input characters,85,692actual output tokens. Daily390calls,4,784,121input
+characters,284,657actual charged output versus2,710,500gross reserved; zero active
+reservations and zero unknown output charge. The original acknowledged violation
+and real-overrun guard remain. No identity, permission or secret changes.
+
+Restoration first re-used the old discovery idempotency key and correctly refused
+with `Conflict: Scan key policy differs`. The original manifest was already
+restored; no estate request occurred. Retrying under a config-hash-qualified key
+completed unchanged-scope retained reapproval. Previous contexts and approval
+records preserved, not edited. Restored original context0bc41d66-4fd8-4902-8931-d5609cd8d615
+pins c9a27319e94d12e27ba797104a3b31f072d98f7302b1666f18937c91c93b65c0;
+rebuilt context73852267-63fb-4e2d-ac57-288a249979da pins
+5e2a45cb0d9c21d688d8f1aec6f7cd4e56dab01638e4139aac3af30dab58d3b7.
+This is zero-read adoption of retained definitions, not recollection.
+
+DECIDED WITHOUT REVIEW: a declaration of no specific comparator cannot become a
+wrong-number claim. An unresolved description cannot cause that selected field to
+be asked again; the safe result is refusal, with original picks retained. The
+rejected alternative guessed a complaint route and caused the first dev harms.
+The failed separate-worktree dev startup lacked its local Python path and made
+zero provider/estate calls; it remains preserved. Source line-ending alignment
+before the frozen dev run changed no normalized content; earlier bytes and its
+record are retained locally. No live fixture or expectation was adjusted.
+
+The live gate remains failed:16/18 delivered,9/18 outcomes,0/18 exact contracts.
+The [demo handoff](round-twelve-e-demo-handoff.md) lists the available launcher and
+remaining gaps; a successful unaided demo is not ready. #423 remains draft and
+prior freeze invalid. No merge and no replacement live attempts.

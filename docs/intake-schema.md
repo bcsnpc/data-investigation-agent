@@ -72,3 +72,23 @@ unresolved form's pending question. It requires the current revision, review ID
 and idempotency key. It retains the earlier input and review provenance, checks
 the existing description bound without truncation, and reruns the same admission
 checks. An already-admitted scope cannot be replaced through this endpoint.
+
+## Description and the Nothing choice
+
+DECIDED WITHOUT REVIEW, 2026-10-10: Nothing identifies no specific comparator;
+it does not assert that every description is a discrepancy complaint. With a
+description or reviewed screenshot, the existing validated extraction supplies
+the subject or freshness route. The selected report, page and visual remain
+facts. An empty description retains the generic looks-wrong route. The rejected
+alternative forced LOOKS_WRONG for definition questions and created harmful
+admissions in the first questionnaire dev pass. A regression traverses the real
+scope builder and verifies a component question retains DECLARED_SUBJECT and its
+picked card. Evaluation mapping refuses absent required picks and unknown or
+unrepresentable comparisons instead of manufacturing a Nothing selection.
+
+If the selected Nothing choice has no admissible route from the description,
+the ticket holds with DESCRIPTION_SUBJECT_UNRESOLVED and retains the pick. It
+cannot offer the comparator dropdown again. The user may restate the description
+through the existing reply flow; a new interpretation still faces all admission
+checks. This refusal does not override a model nomination or invent a subject.
+Actual pick-versus-description conflicts retain their separate one-question path.
