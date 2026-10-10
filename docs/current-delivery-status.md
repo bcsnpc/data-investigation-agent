@@ -287,3 +287,7 @@ The authorised diagnosis-only audit of ten retained mismatches is complete. Seve
 
 Dated continuation, 2026-10-10 UTC: the single fresh held-out pass at 580726b completed all28, settled17/28, consequential mismatches9→2, illegitimate questions3→10. Seven route errors removed; two figure flags conflict with explicit ticket wording. Fixed oracle unchanged; quality gate FAILED, no post-score tuning.32 recorded model calls/400,030 characters/zero evaluation estate reads. Three reader metadata controls moved pot1,114→1,117, reserve95 unchanged: reports/pages200, getDefinition404 EntityNotFound. Separate form-list foundation has10 passing tests, not yet API/UI wired or form-scored. Full regression log reports2,733 OK; native-exit verification rerun pending. Form and later domain work are incomplete. #423 draft, freeze invalid.
 
+# Separate form-worktree checkpoint — 2026-10-10
+
+Live-list cache foundation: 11 offline tests passed, no model or estate calls. Unknown report types remain visible and refused for page opening. Runtime transport, authenticated API/UI, authoritative form contract, 68-case form scoring and live runs remain pending. This is independent of the frozen 580726b held-out pass; no post-score intake tuning. Engine freeze invalidated. See [the integration notes](round-twelve-form-design.md).
+
