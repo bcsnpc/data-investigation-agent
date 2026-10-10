@@ -320,3 +320,35 @@ class Forms:
         self.smart._guard()
         from .ticket_comments import append
         return append(self.workspace,request,actor=actor)
+
+    def restate(self,saved,request):
+        """A new description changes the question, never its selected container."""
+        ticket=saved['ticket']
+        if saved['revision']!=request['revision']:raise Conflict('Ticket changed before the new question')
+        if ticket['state'] not in ('NEW','CLARIFYING','FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF','HELD'):
+            raise Conflict('Ticket is not waiting for a changed question')
+        catalog=snapshot(self.workspace)
+        if digest(catalog)!=ticket['form_catalog_hash']:raise Conflict('Form choices are stale')
+        def replace_description(current):
+            archived={'form_input':copy.deepcopy(current['form_input']),
+                      'questionnaire_input':copy.deepcopy(current['questionnaire_input'])}
+            for field in ('source_intake','intake_id','session_id','findings','handoff','retained_answer',
+                          'choice_context','choice_values','clarification_offers','reply_keys','unavailable_fields',
+                          'form_choices','form_candidate_binding'):
+                if field in current:archived[field]=current.pop(field)
+            current.setdefault('question_versions',[]).append(archived)
+            current['questionnaire_input']['description']=request['text']
+            current['form_input']['description']=request['text']
+            current['form_input'].pop('description_resolution',None)
+            current['form_description_generation']=current.get('form_description_generation',0)+1
+            current['prior_clarifying_rounds']=current.get('prior_clarifying_rounds',0)+current['rounds']
+            current.update(questions=[],confirmed={},settled={},rounds=0)
+            current.setdefault('comments',[]).append({'actor':'USER','text':request['text'],
+                'kind':'RESTATE_QUESTION','prior_evidence_use':'HISTORICAL_ONLY'})
+            return protocol.transition(current,'CLARIFYING',actor='USER',detail={
+                'reply_kind':'RESTATE_QUESTION','picked_facts_preserved':True,'prior_evidence_use':'HISTORICAL_ONLY'})
+        saved=self.smart.tickets.update(ticket['id'],request['revision'],replace_description)
+        if ticket['questionnaire_input']['comparing']['kind'] in ('OTHER_PAGE','OTHER_REPORT'):
+            return self.smart.tickets.update(ticket['id'],saved['revision'],lambda current:
+                protocol.transition(current,'HELD',actor='AGENT',detail={'reason':'UNIMPLEMENTED_ROUTE'}))
+        return self._plan(saved,catalog)

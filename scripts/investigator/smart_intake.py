@@ -338,7 +338,10 @@ class SmartIntake:
         if request['kind'] not in ('DISPUTE','REQUEST_CHANGE','EXPLAIN_RECORDED_RESULT','RESTATE_QUESTION'):
             raise ValueError('Unknown findings reply kind')
         saved=self.tickets.get(request['ticket_id']);ticket=saved['ticket']
-        if request['kind']=='RESTATE_QUESTION':return self._restate(saved,request)
+        if request['kind']=='RESTATE_QUESTION':
+            if ticket.get('questionnaire_input'):
+                return self.workspace.forms.restate(saved,request)
+            return self._restate(saved,request)
         if ticket['state'] not in ('FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'):
             raise Conflict('Ticket is not awaiting a findings reply')
         if 'findings' not in ticket and ticket.get('handoff',{}).get('kind')=='BUSINESS_VALIDATION':

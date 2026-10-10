@@ -90,6 +90,18 @@ class QuestionnaireTests(unittest.TestCase):
             self.h.workspace.forms.screenshot_reply({'ticket_id':saved['ticket']['id'],
                 'revision':saved['revision'],'review_id':'review','request_key':'screenshot'})
 
+    def test_changed_question_preserves_picked_facts_and_archives_old_scope(self):
+        from unittest.mock import patch
+        saved=self.h.workspace.forms.submit(self.request)
+        with patch.object(self.h.workspace.forms,'_plan',side_effect=lambda s,c:s):
+            result=self.h.workspace.smart_intake.respond({'ticket_id':saved['ticket']['id'],
+                'revision':saved['revision'],'kind':'RESTATE_QUESTION','text':'Is that number stale?'})
+        for field in ('report_id','page_id','target_id','comparison'):
+            self.assertEqual(result['ticket']['form_input'][field],saved['ticket']['form_input'][field])
+        self.assertNotIn('intake_id',result['ticket'])
+        self.assertEqual(result['ticket']['question_versions'][0]['intake_id'],saved['ticket']['intake_id'])
+        self.assertEqual(result['ticket']['questionnaire_input']['description'],'Is that number stale?')
+
     def test_pending_screenshot_answer_supersedes_interpretation_not_selected_facts(self):
         from unittest.mock import patch
         saved=self.h.workspace.forms.submit({**self.request,'visual_id':None})
