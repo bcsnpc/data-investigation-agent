@@ -72,3 +72,22 @@ The batch ended after B-r3/H-r2 capture-attribution audits blocked on an unrelat
 | family-A-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC / COMPLETED | COMPLETED | not identified | 10 | 3 | 0.037698 | 486.9 | RETAINED_ATTEMPT |
 
 USD1.443449/100,95calls,zero unsettled dollar reservations; pot1362/2500,reserve95,rolling3000,diagnostic12. These eight used52physical requests and19model calls. Capture closure and exact revision replay are separate pending checks. Earlier incorrect zero-harm automatic audits remain unchanged; the root F correction is appended. No confident wrong causal finding has been identified in reviewed delivered outputs.
+
+## Original-fixture final six, 2026-10-10
+
+These are the remaining unpaused slots, not replacements. Original F-r3 is PAUSED_UNADMITTED. All six returned; capture closure resolved both pending recordings with conservation and zero blocked entries. The repeats span recorded engine revisions; they are not three repeats of one final frozen revision.
+
+| Ticket/repeat | Expected | Actual | Synthesis | Physical | Model calls | USD | Seconds | Harmful found |
+|---|---|---|---|---:|---:|---:|---:|---|
+| family-C-r3 | None | None / HELD | COMPLETED | 0 | 1 | 0.008853 | 324.9 | no new harmful claim identified |
+| family-D-r3 | NO_COMPARABLE_PATH | None / HELD | COMPLETED | 2 | 1 | 0.010100 | 386.8 | no new harmful claim identified |
+| family-G-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC / COMPLETED | COMPLETED | 10 | 3 | 0.035676 | 486.4 | no new harmful claim identified |
+| family-E-r3 | TRANSFORMATION_LOGIC | NO_COMPARABLE_PATH / COMPLETED | COMPLETED | 14 | 2 | 0.023818 | 543.3 | no new harmful claim identified |
+| family-H-r3 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH / COMPLETED | COMPLETED | 1 | 2 | 0.019483 | 260.7 | no new harmful claim identified |
+| family-I-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC / COMPLETED | COMPLETED | 10 | 3 | 0.035088 | 351.8 | no new harmful claim identified |
+
+The six used37 physical requests and12 model calls. All26 original attempts used145 physical requests and53 model calls, separately from development and the aborted pre-admission concurrency cohort. Shared model USD1.576467/100,107 calls; pot1399/2500, restoration95,rolling285/3000 at the captured final window,diagnostic12 unchanged.
+
+A and G have three matching expected terminal outcomes and three delivered syntheses. I has three matching terminal outcomes but only two delivered syntheses; the first settlement failure remains preserved. B produces NO_COMPARABLE_PATH on all three against unchanged NO_KNOWN_PATTERN expectations. C holds on the complete-path size bound in all three. D holds on local persistence in all three. E changes TRANSFORMATION_LOGIC -> TRANSFORMATION_LOGIC -> NO_COMPARABLE_PATH; the last Gold quantity was never read after its object guard succeeded and local persistence failed. H changes NO_KNOWN_PATTERN -> NO_COMPARABLE_PATH -> NO_COMPARABLE_PATH. F has an intake refusal, then the retained harmful coverage overclaim, then an unadmitted pause. No fixture-wide stability, exact-contract, complete-replay or demo success is claimed.
+
+E-r3 has14 charged physical requests but13 process receipt rows. Sequence4 has a sealed successful guard response and no original settlement event; a separately hash-pinned ordinary settlement correction preserves the charge and original artifacts, without filling the missing receipt. D-r3 message/error-code absence prevents a proved lock attribution. The rebuilt preflight starts only after original workers drain.
