@@ -264,3 +264,6 @@ The form-first round is in progress. The ten retained intake mismatches have bee
 
 Dated result, 2026-10-10 UTC: the single fresh held-out pass settled 17/28, with two reported-figure oracle/text conflict flags and ten illegitimate questions. All seven route mismatches disappeared; the zero-mismatch quality gate still FAILED. Cost: 32 model calls, 400,030 input characters, zero evaluation estate reads. Reader metadata controls used three physical requests; report/page lists served, live definition retrieval did not. Form delivery and form scoring remain pending; historical figures and oracle unchanged.
 
+
+
+Dated native regression verification, 2026-10-10 UTC: 2,733 tests passed with native exit 0. The first PowerShell wrapper returned 1 despite its OK log; both transcripts are preserved. This verification changes no held-out result: the zero-mismatch gate remains FAILED and #423 remains draft. No model or estate requests.

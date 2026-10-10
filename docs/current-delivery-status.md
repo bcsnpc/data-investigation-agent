@@ -287,3 +287,6 @@ The authorised diagnosis-only audit of ten retained mismatches is complete. Seve
 
 Dated continuation, 2026-10-10 UTC: the single fresh held-out pass at 580726b completed all28, settled17/28, consequential mismatches9→2, illegitimate questions3→10. Seven route errors removed; two figure flags conflict with explicit ticket wording. Fixed oracle unchanged; quality gate FAILED, no post-score tuning.32 recorded model calls/400,030 characters/zero evaluation estate reads. Three reader metadata controls moved pot1,114→1,117, reserve95 unchanged: reports/pages200, getDefinition404 EntityNotFound. Separate form-list foundation has10 passing tests, not yet API/UI wired or form-scored. Full regression log reports2,733 OK; native-exit verification rerun pending. Form and later domain work are incomplete. #423 draft, freeze invalid.
 
+
+
+Dated native regression verification, 2026-10-10 UTC: 2,733 tests passed with native exit 0. The first PowerShell wrapper returned 1 despite its OK log; both transcripts are preserved. This verification changes no held-out result: the zero-mismatch gate remains FAILED and #423 remains draft. No model or estate requests.

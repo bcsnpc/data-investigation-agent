@@ -63,3 +63,6 @@ The existing `investigator-reader@skynwhy.com` served the scoped workspace's rep
 For report `692f3ead-d1d1-4f7f-984b-51e54f3e7497`, reader POST `getDefinition` returned HTTP 404, `EntityNotFound`, message **“The requested resource could not be found”**, request ID `43a6d2c3-0dbf-45f3-8642-51b4b1fae655`, `isRetriable: false`. That establishes no served visual definition, not proof of a particular permission denial. No publisher/code-reader fallback was used and no scope changed.
 
 Receipts are `.local/round-twelve-list-probes.json` and `.local/round-twelve-list-probes-continuation.json`, with identity/audience, exact requests/responses, seals and budget snapshots. Combined actual usage: three physical requests, zero diagnostic reads, zero model calls. Pot before 1,114, after 1,117 of 1,500; restoration reserve remains 95, leaving 288 ordinary requests. Rolling allowance remains 3,000. Metadata-list controls are separate from investigation diagnostic counts.
+
+
+Dated native regression verification, 2026-10-10 UTC: 2,733 tests passed with native exit 0. The first PowerShell wrapper returned 1 despite its OK log; both transcripts are preserved. This verification changes no held-out result: the zero-mismatch gate remains FAILED and #423 remains draft. No model or estate requests.
