@@ -1,0 +1,118 @@
+{
+  "authored_at": "2026-10-10",
+  "cases": [
+    {
+      "execution_condition": "Any unavailable access, scope or route must be named; no missing evidence may be replaced with these expected facts.",
+      "expected_answer": "The technical reconciliation may explain 950 versus 700 through the invoice-to-plan-history join. Whether VOID should count is a separate business-owner question.",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "required_evidence_facts": [
+        "The 250 invoice is repeated by two plan-history matches.",
+        "All source invoices sum to 700; excluding VOID yields 600.",
+        "Do not decide whether VOID is correct."
+      ],
+      "ticket": "ticket-01.txt",
+      "ticket_sha256": "17c02dae44dec694ff87ac5d40817eada645ddcac9d67b141a374c438c31bb0e"
+    },
+    {
+      "execution_condition": "Any unavailable access, scope or route must be named; no missing evidence may be replaced with these expected facts.",
+      "expected_answer": "Collected payments and invoiced amounts are different measures. Their difference does not establish a pipeline defect or whether collection performance is satisfactory.",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "required_evidence_facts": [
+        "Payments sum to 550.",
+        "The displayed invoiced amount is 950 and includes the independently planted join multiplication.",
+        "Do not compare payment and invoice quantities as equivalent boundaries or decide collection policy."
+      ],
+      "ticket": "ticket-02.txt",
+      "ticket_sha256": "9019a3f4ba690da70a81a0c81a5dcb139e22455fd063ac6c23e9153cb379bb3e"
+    },
+    {
+      "execution_condition": "Any unavailable access, scope or route must be named; no missing evidence may be replaced with these expected facts.",
+      "expected_answer": "The active-plan definition explains the arithmetic, but the requested treatment of a churned account is a business-rule decision.",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "required_evidence_facts": [
+        "Active Aster, Birch and Cedar contribute 250 + 100 + 250 = 600.",
+        "The extra 100 is Dune, whose status is CHURNED.",
+        "No claim that this exclusion is business-correct."
+      ],
+      "ticket": "ticket-03.txt",
+      "ticket_sha256": "349d6fab5f7e229cee7eea360c02f5de2cfee8492ba8c8c65c6358db98f718d4"
+    },
+    {
+      "execution_condition": "Any unavailable access, scope or route must be named; no missing evidence may be replaced with these expected facts.",
+      "expected_answer": "The current definition counts churned-status accounts; it does not establish a month-specific churn event or decide treatment of paused accounts.",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "required_evidence_facts": [
+        "One account has current CHURNED status.",
+        "Current status and monthly churn are different questions.",
+        "No invented monthly event history or business rule."
+      ],
+      "ticket": "ticket-04.txt",
+      "ticket_sha256": "77f0d8a9eeb0750aa746481f60f7bc1ef90f57e79a6058777d3b9d757b6243d3"
+    },
+    {
+      "execution_condition": "Any unavailable access, scope or route must be named; no missing evidence may be replaced with these expected facts.",
+      "expected_answer": "The definition computes usage above allowance in units. Pricing those units or deciding a better label belongs to the business owner.",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "required_evidence_facts": [
+        "Aster contributes 3500 - 3000 = 500 units.",
+        "Birch contributes 1100 - 1000 = 100 units.",
+        "Other accounts contribute zero; total 600 units, not a currency charge."
+      ],
+      "ticket": "ticket-05.txt",
+      "ticket_sha256": "ffa3300a489f9d21dd5c9958389388f26400281e149683ea49805353cfa88c83"
+    },
+    {
+      "execution_condition": "Any unavailable access, scope or route must be named; no missing evidence may be replaced with these expected facts.",
+      "expected_answer": "Neither an aggregate MRR of 600 nor aggregate overage of 600 proves the account-specific plan change is current.",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "required_evidence_facts": [
+        "Aster has Starter in September and Growth from October 1.",
+        "Its authored October allowance is 3000 and usage is 3500.",
+        "Do not claim stale serving merely because the request expresses a worry; require equivalent-context source/presentation evidence."
+      ],
+      "ticket": "ticket-06.txt",
+      "ticket_sha256": "a864b58113e642995d21e8e61522daf9bf9437786413da27eb45bce9c9b788be"
+    },
+    {
+      "execution_condition": "Any unavailable access, scope or route must be named; no missing evidence may be replaced with these expected facts.",
+      "expected_answer": "The three displayed values do not establish an as-of timestamp. A freshness claim needs actual timing/source evidence and its limits.",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "required_evidence_facts": [
+        "Displayed values are invoiced 950, collected 550, MRR 600.",
+        "Payment records through October 4 do not by themselves identify the snapshot served.",
+        "No refresh timestamp or currentness claim inferred from equality."
+      ],
+      "ticket": "ticket-13.txt",
+      "ticket_sha256": "2a381ab1d8b332bebeb8a5c08e8cac711000dc4455e1ace2a1f8280eec0201a5"
+    },
+    {
+      "execution_condition": "Any unavailable access, scope or route must be named; no missing evidence may be replaced with these expected facts.",
+      "expected_answer": "The request is a between-month comparison and a report-design request, not a current-state discrepancy.",
+      "expected_question_relationship": "NOT_ANSWERED",
+      "required_evidence_facts": [
+        "The seeded September invoice/payment comparison cannot be replaced by a current aggregate.",
+        "October has four invoices; payment total 550.",
+        "No month-selector implementation or current-state walk presented as answering temporal comparison."
+      ],
+      "ticket": "ticket-14.txt",
+      "ticket_sha256": "5d3516670561c26be88a30a5cc27741213dcadf60e641f4ccf3ff5f31d9b1604"
+    },
+    {
+      "execution_condition": "Any unavailable access, scope or route must be named; no missing evidence may be replaced with these expected facts.",
+      "expected_answer": "The MRR All Plans definition deliberately removes the plan filter. It cannot be represented as a plan-scoped MRR measurement.",
+      "expected_question_relationship": "PARTLY_ANSWERED",
+      "required_evidence_facts": [
+        "Starter active MRR is 100; Growth active MRR is 500.",
+        "All Plans MRR is 600 because its definition removes the plan filter.",
+        "Do not weaken filtered-scope refusal or claim that a plan selector exists."
+      ],
+      "ticket": "ticket-15.txt",
+      "ticket_sha256": "34967bf507d2329a72cfddb718082d85028effdc54c88423bbbee9a46d4345e5"
+    }
+  ],
+  "derivation": "Question-relative answer and arithmetic expectations from sealed fixture definitions and synthetic rows, authored before any billing investigation. These are answer/evidence contracts, not fabricated observed outcomes. Undeployed latency/gap states are not assumed.",
+  "scope": "Nine independent tester tickets only; six unplanned-rendering tickets excluded.",
+  "sealed_defects_sha256": "9886e5e43ea170bbc8164a007686832e0d116fbe337c9f9ac59e3eb35aab5919",
+  "source": "independent tester thread",
+  "version": "billing-independent-answer-expectations-v1"
+}

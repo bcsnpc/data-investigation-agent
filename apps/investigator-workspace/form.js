@@ -43,6 +43,7 @@ async function loadFormPagePicture(){
   try{
     const result=await api('forms/layout',{report_id:report,page_id:page});if(epoch!==formLayoutEpoch)return;
     const drawing=layoutDrawing(result.page,$('form-target').value);
+    drawing.setAttribute('role','group');
     for(const box of drawing.children){
       const visual=result.page.visuals[[...drawing.children].indexOf(box)];
       if(!reportFormVisuals().some(v=>v.target_id===visual.target_id))continue;

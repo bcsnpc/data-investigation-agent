@@ -1,11 +1,55 @@
 """One start command creates only ephemeral local browser authentication."""
 import os
 import unittest
+import json
+import re
+import subprocess
+from pathlib import Path
 from unittest.mock import MagicMock,patch
 import serve_investigator_workspace as launcher
 
 
 class LauncherTests(unittest.TestCase):
+    def test_page_outline_is_an_accessible_target_choice(self):
+        source=(Path(__file__).resolve().parents[1]/'apps/investigator-workspace/form.js').read_text(encoding='utf-8')
+        function=source[source.index('async function loadFormPagePicture()'):source.index('function formTargetChanged()')]
+        script='''const vm=require('node:vm'),assert=require('node:assert/strict');
+const box={attributes:{},listeners:{},setAttribute(k,v){this.attributes[k]=v;},addEventListener(k,v){this.listeners[k]=v;}};
+const drawing={children:[box],attributes:{},setAttribute(k,v){this.attributes[k]=v;}};
+const elements={'form-report':{value:'report'},'form-page':{value:'page'},'form-target':{value:''},'form-page-picture':{replaceChildren(){},append(){}}};
+let changed=0;const context={formLayoutEpoch:0,$:id=>elements[id],
+api:async()=>({page:{visuals:[{target_id:'card',name:'Global card'}]},qualification:'Retained geometry'}),
+layoutDrawing:()=>drawing,node:()=>({}),reportFormVisuals:()=>[{target_id:'card'}],formTargetChanged:()=>changed++};
+vm.createContext(context);vm.runInContext(FUNCTION,context);
+(async()=>{await context.loadFormPagePicture();assert.equal(drawing.attributes.role,'group');
+assert.equal(box.attributes.role,'button');assert.equal(box.attributes['aria-label'],'Select Global card');
+let prevented=0;box.listeners.keydown({key:'Enter',preventDefault(){prevented++;}});
+assert.equal(elements['form-target'].value,'card');assert.equal(changed,1);assert.equal(prevented,1);})();
+'''.replace('FUNCTION',json.dumps(function))
+        result=subprocess.run(['node','-e',script],capture_output=True,text=True)
+        self.assertEqual(result.returncode,0,result.stderr)
+
+    def test_classic_script_globals_preserve_browser_history_for_fragment_login(self):
+        source=(Path(__file__).resolve().parents[1]/'apps/investigator-workspace/workspace.js').read_text(encoding='utf-8')
+        # Classic-script function declarations become window properties. Test
+        # the actual declaration names and actual bootstrap, without a browser
+        # or credentials, so a newly added conflicting global also fails.
+        names=re.findall(r'^(?:async )?function ([A-Za-z_$][\w$]*)\(',source,re.M)
+        bootstrap=source[source.index('const initialAccess='):]
+        script='''const vm=require('node:vm'),assert=require('node:assert/strict');
+let submitted=0,removed=0;const input={value:''};
+const nativeHistory={replaceState(){removed++;}};
+const context={URLSearchParams,location:{hash:'#access=synthetic-ephemeral',pathname:'/'},
+history:nativeHistory,$:id=>id==='access-key'?input:{requestSubmit(){submitted++;}}};
+context.window=context;vm.createContext(context);
+vm.runInContext(NAMES.map(n=>'function '+n+'() {}').join('\\n'),context);
+assert.equal(context.history,nativeHistory);
+vm.runInContext(BOOTSTRAP,context);
+assert.equal(removed,1);assert.equal(submitted,1);assert.equal(input.value,'synthetic-ephemeral');
+'''.replace('NAMES',json.dumps(names)).replace('BOOTSTRAP',json.dumps(bootstrap))
+        result=subprocess.run(['node','-e',script],capture_output=True,text=True)
+        self.assertEqual(result.returncode,0,result.stderr)
+
     def test_open_browser_uses_ephemeral_key_without_environment_or_secret_write(self):
         workspace=MagicMock();manifest={'model':{'credential':{},'endpoint':'https://example.invalid','deployment':'test'}}
         server=MagicMock();server.__enter__.return_value=server

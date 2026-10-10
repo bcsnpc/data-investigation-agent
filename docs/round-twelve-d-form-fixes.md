@@ -49,3 +49,13 @@ These are the retained last-pass results, not a fresh held-out evaluation. Genui
 ## Validation and next steps
 
 157 focused tests passed before the final measure-text preflight test; subsequent focused and full regression results will be appended. One invalid mock source lacking its required text was corrected in the test, not defaulted in production. An early full regression was interrupted before source edits; its log is preserved and is not a frozen-source pass. Fresh dev and live work are pending. No billing investigation has run.
+
+## Browser validation and billing preparation, 2026-10-10
+
+A synthetic local server with estate transports absent was exercised in the connected Edge browser. Selecting Report / Overview displayed retained page geometry; clicking the Global card outline selected that target and single-number mode. The measure-text switch disabled report/page/visual fields. No ticket was submitted and no billing tester artifact was created. This verifies interaction, not estate execution or owner-unaided use.
+
+The first fragment-login attempt failed with `TypeError: window.history.replaceState is not a function`. The classic script's global `history()` function shadowed the browser API. It is now named `investigationHistory`; a Node regression runs the actual fragment bootstrap and checks that the native history object survives. Interactive outlines use role `group`, with keyboard-operable button children, instead of a static-image role. Three launcher/UI tests pass.
+
+Nine independent billing answer/evidence contracts are sealed in `acceptance/billing/independent-expectations.json`, SHA-256 `b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362`. They specify the relationship to the actual question and the seeded arithmetic, not invented observed outcomes. Undeployed latency states are explicitly not assumed. A test verifies both the seal and every unchanged independent ticket hash. Tickets07-12 remain excluded and await owner/reviewer expectations via `docs/billing-unplanned-tickets-for-review.md`. No billing investigation has run.
+
+Fresh dev is in progress on engine9ef6205 with zero estate reads. Two model-only freshness records so far still ask NUMBER: the form's explicit subject is not conveyed to the text resolver. This is a shared wiring defect, not a reason to change oracle targets. The current pass and its failures are preserved before a dev-only fix. No fresh held-out pass.
