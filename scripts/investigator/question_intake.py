@@ -474,7 +474,8 @@ def validate(value, payload):
             raise ValueError('Form proposal differs from recomputed user inputs')
         from .visual_target import complete
         model=next(m for m in payload['models'] if m['id']==value['model_id'])
-        complete(value['target_visual'],model['visuals'],value['filters'])
+        if value['target_visual'] is not None:
+            complete(value['target_visual'],model['visuals'],value['filters'])
         return value
     if isinstance(value.get('report_binding'),dict) and value['report_binding'].get('resolution_kind')=='DECLARED_REFERENCE':
         from .input_reference import from_input
@@ -714,7 +715,7 @@ class Intake:
         if digest(catalog)!=ticket['form_catalog_hash']:
             raise Conflict('Form catalog changed; select against current metadata')
         description=None
-        if ticket.get('source_intake'):
+        if ticket.get('source_intake') and request.get('description_resolution')!='FORM_SELECTIONS':
             source=self.get(ticket['source_intake'])
             if source['catalog_hash']!=digest(catalog) or source['status']!='PROPOSED':
                 raise Conflict('Description has no current validated interpretation')
@@ -968,7 +969,7 @@ class Intake:
             raise Conflict('Question proposal is stale or incomplete; resolve or select scope again')
         proposal = saved['proposal']
         if saved.get('form_request') is not None:
-            description=self.get(saved['form_description_intake'])['proposal'] if saved.get('form_description_intake') else None
+            description=self.get(saved['form_description_intake'])['proposal'] if saved.get('form_description_intake') and saved['form_request'].get('description_resolution')!='FORM_SELECTIONS' else None
             validate(proposal,{'text':saved['text'],'models':snapshot(self.workspace)['models'],
                 '_form_request':saved['form_request'],'_form_configuration':self.workspace.intake_configuration,
                 '_form_description':description})

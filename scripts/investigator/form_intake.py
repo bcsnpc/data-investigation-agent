@@ -19,9 +19,10 @@ SCHEMA = protocol.obj({
     'value_seen': {'anyOf': [protocol.TEXT, {'type': 'null'}]},
     'comparison': {'enum': [*protocol.ROUTES, None]},
     'description': {**protocol.TEXT, 'minLength': 0},
+    'description_resolution':{'enum':['FORM_SELECTIONS']},
     'cell_keys': {'type': 'array', 'maxItems': 6, 'items': protocol.obj({
         'column_id': protocol.ID, 'value': {'anyOf': [protocol.TEXT,
-            {'type':'integer'}, {'type':'boolean'}, {'type':'null'}]}})}}, optional=('cell_keys',))
+            {'type':'integer'}, {'type':'boolean'}, {'type':'null'}]}})}}, optional=('cell_keys','description_resolution'))
 
 
 def resolve(request, models, configuration):

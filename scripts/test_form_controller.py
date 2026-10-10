@@ -14,6 +14,8 @@ class FormControllerTests(unittest.TestCase):
         self.workspace=self.helper.workspace;self.catalog=self.helper.catalog
         for visual in self.catalog['models'][0]['visuals']:
             visual.update(page_id='page',page_names=['Overview'])
+            visual['declared_scopes']={'measure':{'state':'COMPLETE','restrictions':[],
+                'context_id':'context','context_hash':'a'*64,'inventory_hash':'b'*64}}
         p=patch('investigator.form_controller.snapshot',return_value=self.catalog)
         p.start();self.addCleanup(p.stop)
         self.request={'version':form_intake.VERSION,'request_key':'form-submit','report_id':'report',
@@ -168,6 +170,89 @@ class FormControllerTests(unittest.TestCase):
         base['target_visual']['target_id']='matrix'
         with self.assertRaisesRegex(Conflict,'conflicts'):
             form_scope.build(request,self.catalog['models'],None,description_proposal=base)
+
+    def description_proposal(self,request,**updates):
+        from investigator import form_scope
+        proposal=form_scope.build({**self.request,'value_seen':None},self.catalog['models'],None)['proposal']
+        proposal.update(updates)
+        proposal['question_kind']={'kind':'DEFINITION','source':{'start':0,'end':11,'quote':'Description'}}
+        proposal['ticket_shape']='BUSINESS_QUESTION';proposal['comparison_mode']='NONE'
+        proposal['ticket_route']={'route':'DECLARED_SUBJECT'}
+        return proposal
+
+    def test_blank_comparator_uses_validated_declared_subject_without_new_question(self):
+        request={**self.request,'comparison':None,'value_seen':None,'description':'What does Quantity mean?'}
+        p=self.description_proposal(request)
+        built=form_scope.build(request,self.catalog['models'],None,description_proposal=p)
+        self.assertEqual(built['proposal']['ticket_route']['route'],'DECLARED_SUBJECT')
+        self.assertEqual(built['proposal']['target_visual']['target_id'],'card')
+
+    def test_complete_r1_scope_does_not_invent_a_visual(self):
+        for visual in self.catalog['models'][0]['visuals']:
+            visual['declared_scopes']={'measure':{'state':'COMPLETE','restrictions':[],
+                'context_id':'context','context_hash':'a'*64,'inventory_hash':'b'*64}}
+        request={**self.request,'target_id':None,'cell_mode':None,'comparison':None,
+                 'value_seen':None,'description':'What does Quantity mean?'}
+        p=self.description_proposal(request,target_visual=None,extracted_ticket={'resolution_evidence':[
+            {'resolution':'COMPLETE_DECLARED_SCOPE_EQUIVALENCE','measure_id':'measure','candidate_ids':['card','matrix']}]})
+        built=form_scope.build(request,self.catalog['models'],None,description_proposal=p)
+        self.assertIsNone(built['proposal']['target_visual'])
+        self.assertEqual(built['form']['mode'],'MEASURE_AT_SCOPE')
+
+    def test_missing_r1_candidate_cannot_admit_model_scope(self):
+        request={**self.request,'target_id':None,'cell_mode':None,'comparison':None,
+                 'value_seen':None,'description':'Quantity'}
+        p=self.description_proposal(request,target_visual=None,extracted_ticket={'resolution_evidence':[
+            {'resolution':'COMPLETE_DECLARED_SCOPE_EQUIVALENCE','measure_id':'measure','candidate_ids':['missing']}]})
+        with self.assertRaisesRegex(Conflict,'R1 proof'):
+            form_scope.build(request,self.catalog['models'],None,description_proposal=p)
+
+    def test_form_proof_cannot_pair_null_target_with_cell_mode(self):
+        from jsonschema import Draft202012Validator,ValidationError
+        proof=form_scope.build(self.request,self.catalog['models'],None)['form']
+        for altered in ({**proof,'target_id':None},{**proof,'mode':'MEASURE_AT_SCOPE'}):
+            with self.assertRaises(ValidationError):Draft202012Validator(form_scope.PROOF).validate(altered)
+
+    def test_selected_visual_carries_complete_declared_filters_and_saved_defaults(self):
+        visual=next(v for v in self.catalog['models'][0]['visuals'] if v['target_id']=='card')
+        restrictions=[{'field_id':'warehouse','operator':'IN','values':['North']}]
+        visual['declared_scopes']['measure']['restrictions']=restrictions
+        p=self.proposal(self.submit())['proposal']
+        self.assertEqual(p['target_visual']['match_basis']['form']['declared_scope']['restrictions'],restrictions)
+        self.assertEqual(p['target_visual']['target_id'],'card')
+
+    def test_missing_definition_scope_never_means_unfiltered(self):
+        for visual in self.catalog['models'][0]['visuals']:visual.pop('declared_scopes')
+        saved=self.submit()
+        self.assertEqual(saved['ticket']['state'],'HELD')
+        self.assertIn('scope is unavailable',saved['ticket']['history'][-1]['detail']['reason'])
+        self.assertNotIn('intake_id',saved['ticket'])
+
+    def test_business_question_with_missing_target_never_crashes(self):
+        saved=self.submit(comparison='BUSINESS_MEANING',target_id=None,cell_mode=None)
+        self.assertEqual(saved['ticket']['state'],'CLARIFYING')
+        self.assertNotIn('intake_id',saved['ticket'])
+
+    def test_conflict_offers_user_decision_and_review_respects_it(self):
+        request={**self.request,'description':'Another value.'}
+        p=form_scope.build({**self.request,'value_seen':'17'},self.catalog['models'],None)['proposal']
+        # A separately retained interpretation conflicts with the explicit 16.
+        with patch.object(self.workspace.intake,'resolve',wraps=self.workspace.intake.resolve) as resolver:
+            saved=self.workspace.smart_intake.tickets.submit(request,request['request_key'])
+            from investigator.onboarding import digest
+            def retain(t):
+                t.update(form_input=copy.deepcopy(request),form_catalog_hash=digest(self.catalog));return t
+            saved=self.workspace.smart_intake.tickets.update(saved['ticket']['id'],saved['revision'],retain)
+            offered=self.workspace.forms._conflict(saved,self.catalog,'Description conflicts with the figure',p)
+        self.assertEqual(len(offered['ticket']['questions']),1)
+        q=offered['ticket']['questions'][0];choice=next(c for c in q['choices'] if c['label']=='Use my selected form details')
+        resumed=self.workspace.forms.reply({'ticket_id':saved['ticket']['id'],'revision':offered['revision'],
+            'answers':[{'question_id':q['id'],'choice_id':choice['id']}],'request_key':'conflict-answer'})
+        record=self.proposal(resumed);proposal=record['proposal']
+        self.assertEqual(proposal['reported_figure']['value'],'16')
+        review={k:proposal[k] for k in ('model_id','measure_id','filters','dimension_ids')}
+        review.update(symptom=record['text'],predecessor=None)
+        self.assertEqual(self.workspace.intake.review(record['id'],review)['target_visual']['target_id'],'card')
 
     def test_invalid_form_is_400_without_creating_a_ticket(self):
         result=self.helper.h.http('/api/workspace/forms',{**self.request,'query':'SELECT 1'})

@@ -70,8 +70,7 @@ class Forms:
         try:result=form_intake.resolve(request,catalog['models'],self.workspace.intake_configuration)
         except ValueError as exc:return self._hold(saved,str(exc))
         if result['status']=='HELD':return self._hold(saved,result['reason'])
-        if result['status']=='NEEDS_INPUT':return self._ask(saved,catalog,result)
-        if request['comparison']=='BUSINESS_MEANING':
+        if request['comparison']=='BUSINESS_MEANING' and result['status']=='BOUND':
             measure=result['scope']['measure_id']
             owners={r['owner'] for r in self.smart.ownership['business'] if r['measure_or_area']==measure}
             if len(owners)!=1:return self._hold(saved,'BUSINESS_OWNER_BINDING_UNESTABLISHED')
@@ -87,19 +86,33 @@ class Forms:
                     'owner':handoff['owner'],'package_hash':digest(handoff)})
                 current['handoff']=handoff;return current
             return self.smart.tickets.update(saved['ticket']['id'],saved['revision'],route)
-        if request['description'] and not saved['ticket'].get('source_intake'):
+        if request['description'] and request.get('description_resolution')!='FORM_SELECTIONS' and not saved['ticket'].get('source_intake'):
             doc=form_scope.document(request,self.workspace.intake_configuration)
             source=self.workspace.intake.resolve({'text':doc['text'],
                 'request_key':'form-description:'+saved['ticket']['id'],'parent_id':None},retain_extraction=True)
             def attach(current):
                 current['source_intake']=source['id'];return current
             saved=self.smart.tickets.update(saved['ticket']['id'],saved['revision'],attach)
+            if source['status']!='PROPOSED':
+                return self._hold(saved,source.get('refusal_reason') or source.get('question') or source.get('error') or 'DESCRIPTION_REQUIRES_CLARIFICATION')
+        description=None
+        if saved['ticket'].get('source_intake') and request.get('description_resolution')!='FORM_SELECTIONS':
+            source=self.workspace.intake.get(saved['ticket']['source_intake'])
             if source['status']!='PROPOSED':return self._hold(saved,'DESCRIPTION_REQUIRES_CLARIFICATION')
+            description=source['proposal']
+        try:
+            scope=form_scope.resolved_scope(request,catalog['models'],self.workspace.intake_configuration,description)
+            form_scope.build(request,catalog['models'],self.workspace.intake_configuration,description_proposal=description)
+        except Conflict as exc:
+            if str(exc).startswith('Description conflicts'):return self._conflict(saved,catalog,str(exc),description)
+            if result['status']=='NEEDS_INPUT':return self._ask(saved,catalog,result)
+            return self._hold(saved,str(exc))
+        except ValueError as exc:return self._hold(saved,str(exc))
         def settle(current):
-            for field,value in [('REPORT_PAGE',{k:result['scope'][k] for k in ('report_id','page_id')}),
-                                ('NUMBER',{k:result['scope'][k] for k in ('target_id','cell_mode','reported_figure')}),
-                                ('COMPARISON',{'route':request['comparison']})]:
-                current['settled'][field]={'authority':'USER_SUPPLIED_FORM','value':copy.deepcopy(value)}
+            for field,value in [('REPORT_PAGE',{k:scope[k] for k in ('report_id','page_id')}),
+                                ('NUMBER',{k:scope[k] for k in ('target_id','cell_mode','reported_figure')}),
+                                ('COMPARISON',{'route':scope['comparison']})]:
+                current['settled'][field]={'authority':'USER_SUPPLIED_FORM' if request.get({'REPORT_PAGE':'report_id','NUMBER':'target_id','COMPARISON':'comparison'}[field]) is not None else 'VALIDATED_DESCRIPTION_AND_DEFINITION','value':copy.deepcopy(value)}
             return current
         saved=self.smart.tickets.update(saved['ticket']['id'],saved['revision'],settle)
         try:adopted=self.workspace.intake._adopt_form(saved)
@@ -111,6 +124,32 @@ class Forms:
             return current
         saved=self.smart.tickets.update(saved['ticket']['id'],saved['revision'],ready)
         return self.smart._start_settled(saved) if self.smart.auto_start else saved
+
+    def _conflict(self,saved,catalog,reason,description):
+        """A persisted user decision, never a model choice between inputs."""
+        request=saved['ticket']['form_input'];p=description
+        updates={'description_resolution':'FORM_SELECTIONS'}
+        alternatives=[]
+        if form_intake.resolve(request,catalog['models'],self.workspace.intake_configuration)['status']=='BOUND':
+            alternatives.append(('Use my selected form details',updates))
+        target=p.get('target_visual');binding=p.get('report_binding') or {}
+        visual=next((v for m in catalog['models'] for v in m.get('visuals',[]) if target and v['target_id']==target['target_id']),None)
+        if visual:
+            figure=p.get('reported_figure',{'state':'UNSPECIFIED'})
+            route=(p.get('ticket_route') or {}).get('route')
+            alternatives.append(('Use the described '+next(iter(visual.get('names',[])),visual['target_id']),{
+                'report_id':binding.get('report_id'),'page_id':visual['page_id'],'target_id':visual['target_id'],
+                'cell_mode':target['mode'],'comparison':None if route=='DECLARED_SUBJECT' else route,
+                'value_seen':figure.get('source',{}).get('quote'),
+                'cell_keys':[{'column_id':f['column_id'],'value':f['values'][0]} for f in p.get('filters',[]) if target['mode']=='KEYED' and f['operator']=='in' and len(f['values'])==1]}))
+        if not alternatives:return self._hold(saved,reason+'; no complete alternative is established')
+        q={'id':'form-conflict-'+str(saved['revision']),'field':'NUMBER','question':reason+'. Which should I check?',
+           'choices':[{'id':digest(v),'label':label,'highlight':None} for label,v in alternatives]}
+        def offer(current):
+            current=protocol.ask(current,[q],maximum=self.smart.configuration['max_clarifying_rounds'])
+            current['form_choices']={digest(v):copy.deepcopy(v) for _,v in alternatives}
+            return current
+        return self.smart.tickets.update(saved['ticket']['id'],saved['revision'],offer)
 
     def _ask(self,saved,catalog,result):
         request=saved['ticket']['form_input'];wanted=result['questions'][0]['field'];options=[]
