@@ -71,9 +71,10 @@ class Tape:
             if value['seal']!=sha(bytes_of({k:v for k,v in value.items() if k!='seal'})):
                 raise TapeError('TAPE_SEAL')
             self.version=value['version']
-            from .budget_tape_contract import ACCOUNTING_VERSION
-            if self.version in ACCOUNTED_VERSIONS and value['accounting_version']!=ACCOUNTING_VERSION:
+            from .budget_tape_contract import ACCOUNTING_HISTORY
+            if self.version in ACCOUNTED_VERSIONS and value['accounting_version'] not in ACCOUNTING_HISTORY:
                 raise TapeError('TAPE_ACCOUNTING_VERSION')
+            self.accounting_version=value.get('accounting_version',1)
             self.engine_revision=value.get('engine_revision')
             if self.version in PINNED_VERSIONS and self.engine_revision is not None and not re.fullmatch('[0-9a-f]{40}',self.engine_revision):
                 raise TapeError('TAPE_ENGINE_REVISION')

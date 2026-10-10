@@ -9,6 +9,19 @@ from .tape_budget import decision
 KEYS=('planner_calls','cloud_calls','input_characters','output_tokens')
 
 
+def charged(row):
+    """Keep immutable reservations; release unused output only with usage evidence."""
+    amount=json.loads(row['reserved'])
+    from .process_tape import ACTIVE
+    tape=ACTIVE.get()
+    if tape is not None and tape.replaying and getattr(tape,'accounting_version',1)<3:
+        return amount
+    actual=json.loads(row['actual']) if row['actual'] else {}
+    if row['status']!='RESERVED' and type(actual.get('output_tokens')) is int:
+        amount['output_tokens']=actual['output_tokens']
+    return amount
+
+
 class UsageHold(Conflict):pass
 
 
@@ -123,8 +136,8 @@ class UsageGovernor:
             active=db.execute("SELECT count(*) FROM adaptive_usage WHERE environment=? AND kind='planner' AND status='RESERVED'",(self.environment,)).fetchone()[0]
             if active>=self.policy['max_inflight_planners']:raise UsageHold('Planner concurrency limit')
         total=dict.fromkeys(KEYS,0)
-        for row in db.execute('SELECT reserved FROM adaptive_usage WHERE environment=? AND day=?',(self.environment,self.day())):
-            for k,v in json.loads(row[0]).items():total[k]+=v
+        for row in db.execute('SELECT reserved,actual,status FROM adaptive_usage WHERE environment=? AND day=?',(self.environment,self.day())):
+            for k,v in charged(row).items():total[k]+=v
         if any(amount[k] and total[k]+amount[k]>self.policy['daily_limits'][k] for k in KEYS if k!='cloud_calls'):raise UsageHold('Daily usage limit')
         violations=db.execute("SELECT * FROM adaptive_usage WHERE environment=? AND day=? AND status='VIOLATION'",(self.environment,self.day())).fetchall()
         if purpose!='RESTORATION' and any(not db.execute('''SELECT 1 FROM usage_violation_acknowledgments
@@ -160,19 +173,27 @@ class UsageGovernor:
             status='VIOLATION'
         db.execute('UPDATE adaptive_usage SET actual=?,status=? WHERE environment=? AND session_id=? AND reservation_key=?',
                    (encoded(actual),status,self.environment,session_id,key))
-        # Conservative reservations are never refunded. Missing usage remains explicit.
+        # The original reservation stays immutable. Admission charges known
+        # actual output after settlement; missing usage retains the full bound.
 
     def snapshot(self):
         with self.runtime.db() as db:
             reads=read_allowance.snapshot(db,self.environment,self.clock(),self.policy['daily_limits']['cloud_calls'])
             rows=db.execute('SELECT day,kind,reserved,actual,status FROM adaptive_usage WHERE environment=? ORDER BY created',
                             (self.environment,)).fetchall()
-        total=dict.fromkeys(KEYS,0);states={}
+        total=dict.fromkeys(KEYS,0);used=dict.fromkeys(KEYS,0);active=dict.fromkeys(KEYS,0);states={}
+        unknown_output=0
         for r in rows:
             if r['day']==self.day():
                 for k,v in json.loads(r['reserved']).items():total[k]+=v
+                for k,v in charged(r).items():used[k]+=v
+                if r['status']=='RESERVED':
+                    for k,v in json.loads(r['reserved']).items():active[k]+=v
+                elif r['kind']=='planner' and 'output_tokens' not in json.loads(r['actual'] or '{}'):
+                    unknown_output+=json.loads(r['reserved'])['output_tokens']
             states[r['status']]=states.get(r['status'],0)+1
         return {'environment':self.environment,'day':self.day(),'policy_hash':self.hash,
-                'limits':self.policy['daily_limits'],'reserved_today':total,'reservation_states':states,
+                'limits':self.policy['daily_limits'],'reserved_today':total,'charged_today':used,
+                'active_reservations':active,'unknown_output_charged':unknown_output,'reservation_states':states,
                 'read_allowance':reads,'billing_cap_verified':False,
                 'limitation':'Planner reservations use UTC days; ordinary reads use rolling 24 hours, with separate expiring run credits. Initiated requests in this catalog only, not provider spend or SQL compute.'}
