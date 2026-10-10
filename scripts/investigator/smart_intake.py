@@ -410,7 +410,12 @@ class SmartIntake:
 
     def _handoff(self, current, kind):
         from .ticket_findings import package
-        finding=current['findings'];process=finding['assessment']['support']['process']
+        finding=current['findings']
+        if finding['classification']=='HELD' and finding['assessment'] is None:
+            current['history'].append({'from':current['state'],'to':current['state'],'actor':'AGENT',
+                'detail':{'handoff_unavailable':'REGISTERED_REFUSAL_NO_TECHNICAL_FINDING','requested_kind':kind}})
+            return current
+        process=finding['assessment']['support']['process']
         if kind=='BUSINESS_VALIDATION':
             adopted=self.workspace.intake.get(current['intake_id'])
             selectors={adopted['proposal']['measure_id']};key='measure_or_area';rows=self.ownership['business']

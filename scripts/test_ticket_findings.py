@@ -44,6 +44,12 @@ class TicketFindingsTests(unittest.TestCase):
         result=findings.from_state(state)
         self.assertEqual(result['classification'],'HELD');self.assertIsNone(result['assessment'])
         self.assertEqual(result['outputs'],outputs)
+        from investigator.smart_intake import SmartIntake
+        ticket={'state':'FINDINGS_SHARED','findings':result,'history':[]}
+        retained=SmartIntake._handoff(None,ticket,'TECH_HANDOFF')
+        self.assertEqual(retained['state'],'FINDINGS_SHARED')
+        self.assertEqual(retained['history'][-1]['detail']['handoff_unavailable'],
+                         'REGISTERED_REFUSAL_NO_TECHNICAL_FINDING')
         state['synthesis']['outputs']['refusal']['text']='A different blocker.'
         with self.assertRaises(Conflict):findings.from_state(state)
 
