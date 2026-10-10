@@ -81,10 +81,10 @@ class SnapshotHistoryTests(unittest.TestCase):
      with patch('investigator.process_tape.clock',side_effect=lambda name,fn:fn()):owner.snapshot()
     finally:process_tape.ACTIVE.reset(token)
     self.assertEqual(len(calls),1)
- def test_v7_registry_keeps_v6_in_every_supported_feature_class(self):
-    self.assertEqual(process_tape.VERSION,'bounded-worker-tape-v7')
+ def test_v8_registry_keeps_v6_and_v7_in_every_supported_feature_class(self):
+    self.assertEqual(process_tape.VERSION,'bounded-worker-tape-v8')
     for versions in (process_tape.SUPPORTED_VERSIONS,process_tape.PINNED_VERSIONS,process_tape.ACCOUNTED_VERSIONS,process_tape.SMART_VERSIONS,process_tape.CODE_VERSIONS):
-     self.assertIn('bounded-worker-tape-v6',versions);self.assertIn('bounded-worker-tape-v7',versions)
+     self.assertIn('bounded-worker-tape-v6',versions);self.assertIn('bounded-worker-tape-v7',versions);self.assertIn('bounded-worker-tape-v8',versions)
  def test_four_concurrent_reservations_with_history_have_no_counter_leaks(self):
     helper=fixture.AdaptiveTests();helper.setUp();self.addCleanup(helper.doCleanups);helper.store.environment='development'
     policy={'environment':'development','daily_limits':{'planner_calls':100,'cloud_calls':100,'input_characters':100000,'output_tokens':100000},'max_inflight_planners':4,'no_progress_limit':2}
