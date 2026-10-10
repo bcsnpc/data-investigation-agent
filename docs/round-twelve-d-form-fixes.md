@@ -71,3 +71,19 @@ Model-only routing now carries the user choice as `structured.subject=MODEL_MEAS
 The prior full regression ran2842 tests and failed one historical oracle-diff assertion. That test is now pinned to the preserved pre-A1 seal, and all12 oracle tests pass. A1's own exact-three-field diff test still protects the current oracle. Original run errors and ledger rows remain unchanged. A focused fresh dev rerun will cover the four model-subject records and the identifier record; unaffected D1 results remain historical, not newly generated.
 
 D2 affected-dev rerun engine9914e9d:8 attempts,9 calls,114947 input characters,zero estate reads. Identifier case now settles, with rejected phrase evidence retained in D1. E-noisy/E-terse/stale-no-SLA settle with zero questions. E-typo still asked NUMBER after two calls: its sole named measure has one adjacent transposition, but the old spelling repair was restricted to a picked visual. This is a shared closed-subject defect. The same one-swap rule now applies only within one named model's retained measures; two possible names refuse and no visual is selected. Unknown model/measure subjects now hold with their actual named blocker rather than offering report visuals. Synthetic spelling and ambiguity tests pass. The running full regression9914e9d was stopped before this source change; its partial log is preserved and is not a completed pass. A final frozen-source regression and a fresh E-typo dev-only recheck follow. No acceptance expectation or oracle changes.
+
+## Final dev map and live admission
+
+D3 engine488664b rechecked E-typo once: one recorded model call,12,858 input characters,zero estate reads; settled without a question. The retained D1 map plus affected D2/D3 reruns totals58 model calls,741,542 input characters,zero estate reads. This is an explicitly mixed-revision dev map, not a fresh whole-set or held-out pass.
+
+| Dev group | Records | Correct zero-question settlements | Questions | Illegitimate questions | Harmful errors |
+|---|---:|---:|---:|---:|---:|
+| Complete visual forms |28|28|0|0|0|
+| Unchanged controls |12|10|0|0|0|
+| Visual-skipped measurable forms |5|4|1|1|0|
+
+The sixth skipped form, original E-mention newly carrying the A1 figure, is not measurable without a retained candidate-value capture. No receipt was manufactured. The one skipped no-match question follows the newly required click-to-identify route, but remains a mismatch against the fixed oracle. Controls question-change-days and refusal-unidentified-visual hold; the original scorer does not credit their disposition. No expectation was edited. By base class: family26/26, question2/3, refusal6/7, visual4/4. Every selected row retains its source revision and score hash.
+
+Two live harness startups failed before a ticket or estate request: first a private artifact path typo, then rebuilt lineage approval rejected the changed whole-manifest hash. Both logs are retained. DECIDED WITHOUT REVIEW: revalidate and explicitly reapprove the existing sampled lineage witnesses under the approved output-budget-only manifest, instead of repeating estate verification for an allowance change. The script asserts that the output allowance is the only difference; witnesses remain identical and the original approval is archived. No new snapshot or current-data claim. Original installation disables code inference and needs no lineage approval. Rebuilt new approval SHA-256 af64188ae1a1c24af38f5ffa37e69b4fdd01d101ac4e74e199b58311c134a276.
+
+Live plan: eighteen fixture-authored forms, one base family per original/rebuilt estate, with fixed expectations preserved. Starting shared pot1,150/1,500, restoration reserve95, ordinary remainder255; diagnostic cap12. Upper physical estimate288 exceeds that remainder, so the batch can stop and preserve a partial map rather than spend restoration capacity. Model-output allowance2.4M is temporary and will return to1.5M with charges intact. No billing run.
