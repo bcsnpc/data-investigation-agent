@@ -37,7 +37,8 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
                     source_transport or (lambda r:source(config,r)))
     agent=AdaptiveRuntime(runtime,azure_plan,planner_profile=bootstrap['profile'],usage_policy=bootstrap['usage_policy'])
     workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve,
-        dynamic_read_limit=settings['dynamic_read_limit'],dynamic_input_limit=settings['dynamic_input_limit'])
+        dynamic_read_limit=settings['dynamic_read_limit'],dynamic_input_limit=settings['dynamic_input_limit'],
+        concurrency_limit=settings.get('workspace_concurrency_limit',1))
     workspace.owner=settings['workspace_owner']
     methods={'intake':workspace.intake.resolve,'preview':workspace.preview,
              'create':agent.create,'run':agent.run,'synthesize':agent.synthesize}

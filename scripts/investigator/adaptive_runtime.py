@@ -222,7 +222,7 @@ class AdaptiveRuntime:
             choices=([c for c in candidates if c['id'] not in state['attempted']] if dynamic else available(candidates,state['observations'],state['attempted']));limits=state['envelope']['limits']
             reason=None
             if self.clock()+self.generation_options['timeout_seconds']>state['deadline']:reason='DEADLINE'
-            elif state['planner_calls']>=limits['planner_calls'] or state['cloud_calls']>=limits['cloud_calls']:reason='BUDGET_LIMIT'
+            elif state['planner_calls']+state.get('transport_planner_calls',0)>=limits['planner_calls'] or state['cloud_calls']>=limits['cloud_calls']:reason='BUDGET_LIMIT'
             elif state.get('no_progress',0)>=(self.governor.policy['no_progress_limit'] if self.governor else 2):reason='NO_PROGRESS'
             elif not choices and not dynamic:reason='NO_ADMITTED_TEST'
             payload=self.payload(state,choices)
@@ -249,7 +249,8 @@ class AdaptiveRuntime:
         if self.planner_profile.get('adapter')=='azure':payload['generation_options']=self.generation_options
         try:
             from .planner_recording import recording
-            with recording(lambda: {'session_id':identity,'planner_call':state['planner_calls'],
+            from .model_transport_retry import adaptive_scope
+            with adaptive_scope(self,identity,'planner:'+str(state['planner_calls']),size,self.generation_options['max_output_tokens'],'PLANNING'), recording(lambda: {'session_id':identity,'planner_call':state['planner_calls'],
                     'environment':self.store.environment,'planner_profile':self.planner_profile,
                     'usage_policy':self.governor.policy if self.governor else None,
                     'context_version':state.get('discovery_version',state['context_hash']),
@@ -548,7 +549,7 @@ class AdaptiveRuntime:
                 db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
                 if current['status']!='EXECUTING' or self.clock()+self.generation_options['timeout_seconds']>current['deadline']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Judgment cancelled or deadline exhausted.'}
-                if current['planner_calls']>=current['envelope']['limits']['planner_calls']:
+                if current['planner_calls']+current.get('transport_planner_calls',0)>=current['envelope']['limits']['planner_calls']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Investigation planner-call limit reached.'}
                 if current['input_characters']+size>current['envelope']['limits']['input_characters']:
                     return {'status':'UNAVAILABLE','explains':None,'reason':'Investigation input-character limit reached.'}
@@ -560,7 +561,8 @@ class AdaptiveRuntime:
             metadata=None;received=False
             try:
                 from .planner_recording import recording
-                with recording({'session_id':identity,'phase':'PROCESS_JUDGMENT','planner_call':number,
+                from .model_transport_retry import adaptive_scope
+                with adaptive_scope(self,identity,key,size,output,'EXECUTING'), recording({'session_id':identity,'phase':'PROCESS_JUDGMENT','planner_call':number,
                     'attempt':attempt,'retry_reason':'INCOMPLETE_PROSE' if attempt==2 else None,
                     'context_version':current.get('discovery_version'),'payload':payload,
                     'planner_profile':self.planner_profile,'usage_policy':self.governor.policy if self.governor else None,

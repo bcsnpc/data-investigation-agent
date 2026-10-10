@@ -3,6 +3,17 @@ from investigator import question_account as account
 from investigator.onboarding import Conflict
 
 class QuestionAccountTests(unittest.TestCase):
+    def test_short_valid_kind_quote_cannot_hide_the_primary_business_question(self):
+        description='What does Q49 mean, and should those adjustments affect this metric?'
+        question='Description supplied by user:\n'+description+'\n\nComparison selected by user:\nThe application'
+        for quote in ('Q49',description):
+            state=self.state(question);start=question.index(quote)
+            state['envelope']['question_kind']={'kind':'SOURCE_CORRECTNESS','source':{
+                'quote':quote,'start':start,'end':start+len(quote)}}
+            state['observations']=[{'id':'flow','status':'COMPLETED','comparison_status':'CROSS_SURFACE_VERIFIED'}]
+            self.assertEqual(account.build(state)['status'],'NOT_ANSWERED')
+            outputs=self.outputs();account.attach(outputs,state)
+            for entry in outputs.values():self.assertIn('Answer to your question: Not answered.',entry['explanation']['text'])
     def test_business_only_ask_is_not_promoted_by_a_form_comparator_or_technical_finding(self):
         description='For Handled Quantity, what does adjustment reason Q49 mean, and should those adjustments affect this metric?'
         question='Description supplied by user:\n'+description+'\n\nComparison selected by user:\nThe application'

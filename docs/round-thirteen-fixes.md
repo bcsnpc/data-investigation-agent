@@ -85,3 +85,9 @@ evidence, but missing boundaries cannot be formatted into a pass.
 Fresh dev scores, full regression, fixture three-repeat table, billing/chat,
 scenario matrix, offline capture/replay and the recorded demo remain pending.
 No Round Thirteen live correctness, stability, billing or replay pass is claimed.
+
+## Fresh dev and parallel accounting checkpoint
+
+Fresh scores are in round-thirteen-dev-results.md. Original46 attempts remain unchanged. Unique named-matrix addressing and intrinsic saved-context reproduction now share the existing selected-target path; unknown visual qualifiers remain refused. Affected fresh follow-up is pending.
+
+Workspace admission counts active owners atomically and bounds them by the manifest, preserving one active operation per owner. Provider429 retries receive distinct reservations, sidecars and events, obeying the original owner deadline and call bounds. Tapev6 records these controls; v1 through v5 remain supported unchanged. Concurrent spend rows allocate private ledger identities atomically. Initial full2903 failed vocabulary and identity ratchets; pricing moved into the adapter and unrecorded identity was removed without relaxing either ratchet. Recording tests on dirty source correctly refused; committed-source validation follows.

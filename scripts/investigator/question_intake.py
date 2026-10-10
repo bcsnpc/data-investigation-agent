@@ -824,8 +824,9 @@ class Intake:
         usage = None; uncertain = True; reservation_key='resolve'
         body['resolution_attempts']=[]
         from .planner_recording import recording
+        from .model_transport_retry import intake_scope
         def call(current,key,attempt):
-            with recording({'session_id':'intake:'+body['id'],'planner_call':attempt,
+            with intake_scope(self,body,current,key), recording({'session_id':'intake:'+body['id'],'planner_call':attempt,
                     'call_kind':('intake' if attempt==1 else 'intake_rule_retry' if '_intake_rule_repair' in current else 'explicit_statement_retry' if '_explicit_statement_repair' in current else 'provenance_quote_retry' if '_provenance_quote_repair' in current else 'reported_figure_quote_retry'),
                     'payload':current,'context_version':None,'reservation':key,
                     'budget':governor.snapshot()}):

@@ -54,7 +54,8 @@ def _build_workspace(manifest,path,config,execution_enabled):
         question_resolver=resolver,
         intake_configuration=manifest.get('intake'),
         ownership_configuration=ownership,
-        dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'])
+        dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'],
+        concurrency_limit=budget['planner_daily']['max_inflight'])
     from .adapters.report_list_installation import install as install_report_lists
     workspace.report_lists=install_report_lists(workspace,config)
     if execution_enabled:

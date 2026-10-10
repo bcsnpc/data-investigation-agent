@@ -1,14 +1,13 @@
 """Optional round-wide dollar admission, shared across processes and catalogs.
 
 Only counts and request IDs are stored. Unknown provider usage retains the full
-reservation. This is a rate-card ceiling, not an assertion about an Azure bill.
+reservation. This is a rate-card ceiling, not an assertion about a provider bill.
 """
 import contextlib
 import json
 import os
 import sqlite3
 import time
-import uuid
 
 
 class SpendHold(RuntimeError):
@@ -41,11 +40,8 @@ class SpendBudget:
 
     @staticmethod
     def price(input_tokens, output_tokens):
-        # GPT-5.4 Global Standard public rate card, USD per million tokens.
-        # Cached input is conservatively charged at the ordinary input rate.
-        from decimal import Decimal, ROUND_CEILING
-        i, o = ('5', '22.5') if input_tokens > 272000 else ('2.5', '15')
-        return int((Decimal(i)*input_tokens + Decimal(o)*output_tokens).to_integral_value(rounding=ROUND_CEILING))
+        from .adapters.model_price import price
+        return price(input_tokens, output_tokens)
 
     def reserve(self, body):
         if not isinstance(body.get('input'), str):
@@ -55,7 +51,6 @@ class SpendBudget:
         inputs = len(json.dumps(body, ensure_ascii=False).encode('utf8')) + 4096
         outputs = body['max_output_tokens']
         bound = self.price(inputs, outputs)
-        identity = str(uuid.uuid4())
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE')
             if db.execute("SELECT 1 FROM model_spend WHERE status='VIOLATION'").fetchone():
@@ -63,6 +58,9 @@ class SpendBudget:
             charged = db.execute('SELECT COALESCE(SUM(charged),0) FROM model_spend').fetchone()[0]
             if charged + bound > self.ceiling:
                 raise SpendHold('Round model-spend hard stop: request would exceed dollar ceiling')
+            # Private spend-row identity is allocated atomically by this ledger,
+            # outside investigation identities and replay events. Rows are retained.
+            identity = 'cost-'+str(db.execute('SELECT COALESCE(MAX(rowid),0)+1 FROM model_spend').fetchone()[0])
             db.execute('INSERT INTO model_spend VALUES (?,?,?,?,?,?,?)',
                        (identity, time.time(), bound, bound, 'RESERVED', None, None))
         return identity

@@ -41,9 +41,14 @@ def primary_business_request(envelope):
         start,end=source.get('start'),source.get('end')
         if type(start)!=int or type(end)!=int or not 0<=start<end<=len(question) or question[start:end]!=quote:
             raise Conflict('Question coverage source is not the retained user span')
-        question=quote
+        # Quote validity establishes provenance, not completeness of the ask.
+        # A short valid quote must not hide another obligation in user prose.
+    question=question_views(envelope).get('business_question',question)
     meaning=re.search(r'\b(?:what\s+(?:does|do)\b[^?]*\bmean|what\s+is\b[^?]*\bmeaning|should\b[^?]*\b(?:affect|count|include|exclude)|business\s+(?:intent|rule))\b',question,re.I)
-    technical=any(re.search(SUBJECTS[name],question,re.I) for name in ('currency','definitions','comparison'))
+    technical=any(re.search(SUBJECTS[name],question,re.I) for name in ('currency','definitions'))
+    # The transport caption "Comparison selected by user" declares an input,
+    # not an independent comparison request. No caption/string is stripped.
+    technical=technical or re.search(r'\b(?:compare|differs|difference|discrepancy|disagree|higher|lower|overstated)\b|\b(?:explain|check|investigate|show|why|how)\b[^?]*\bcomparison\b',question,re.I)
     technical=technical or re.search(r'\b(?:how\b[^?]*\b(?:calculated|transformed|loaded)|transformation mechanism)\b',question,re.I)
     return bool(meaning and not technical)
 

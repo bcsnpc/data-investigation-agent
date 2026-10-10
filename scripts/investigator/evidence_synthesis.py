@@ -265,7 +265,8 @@ def run(agent,identity,provider):
             if remaining<10:raise Conflict('Synthesis call cannot fit the existing deadline')
             options['timeout_seconds']=min(options['timeout_seconds'],remaining)
             from .planner_recording import recording
-            with recording({'session_id':identity+':synthesis','phase':'SYNTHESIS','planner_call':attempt,
+            from .model_transport_retry import synthesis_scope
+            with synthesis_scope(agent,identity,reservation,size,record['deadline']), recording({'session_id':identity+':synthesis','phase':'SYNTHESIS','planner_call':attempt,
                             'context_version':state.get('discovery_version'),'payload':payload,
                             'planner_profile':agent.planner_profile,'usage_policy':agent.governor.policy if agent.governor else None,
                             'reservation':{'key':reservation,'input_characters':size,'output_tokens':agent.generation_options['max_output_tokens']},

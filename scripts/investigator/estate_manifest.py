@@ -91,7 +91,7 @@ SCHEMA=obj({
         'max_boundaries':integer(0,32),'rolling_window_seconds':{'const':86400},
         'rolling_physical_requests':integer(1,10000000),
         'planner_daily':obj({'calls':integer(1,DAILY_MAXIMUM['planner_calls']),'input_characters':integer(1,DAILY_MAXIMUM['input_characters']),
-            'output_tokens':integer(1,10000000),'max_inflight':integer(1,4),'no_progress_limit':integer(1,4)}),
+            'output_tokens':integer(1,10000000),'max_inflight':integer(1,8),'no_progress_limit':integer(1,4)}),
         'round':obj({'id':STRING,'starts_at_epoch':{'type':'number','minimum':0},
             'physical_requests':integer(1,10000000),'restoration_reserved':integer(0,10000000)})}, optional=('binding_verification',)),
     'accepted_limits':array(obj({'code':STRING,'resource':STRING,

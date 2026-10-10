@@ -34,7 +34,7 @@ class UsageGovernor:
         from .usage_limits import DAILY_MAXIMUM
         for key,value in policy['daily_limits'].items():
             if type(value) is not int or not 1<=value<=DAILY_MAXIMUM[key]:raise ValueError('Invalid daily limit')
-        for key,maximum in [('max_inflight_planners',4),('no_progress_limit',4)]:
+        for key,maximum in [('max_inflight_planners',8),('no_progress_limit',4)]:
             if type(policy[key]) is not int or not 1<=policy[key]<=maximum:raise ValueError('Invalid policy limit')
         self.runtime=runtime;self.policy=json.loads(encoded(policy));self.clock=clock
         self.environment=policy['environment'];self.hash=digest(policy)

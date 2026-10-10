@@ -30,6 +30,25 @@ class PickedCellCoverageTests(unittest.TestCase):
         complete(value['target_visual'],[visual],value['filters'])
         self.assertEqual(value['extracted_ticket']['response'],raw)
 
+    def test_uniquely_named_matrix_recovers_stated_cell_without_a_form_pick(self):
+        raw,payload,visual=self.payload('In Report, Warehouse matrix Quantity North / Component 1 cell shows 149.')
+        payload['_form_description_input']['target_id']=None
+        payload['text']=form_scope.document(payload['_form_description_input'],None)['text']
+        raw['visuals']=[{'quote':'Warehouse matrix','role':'PRIMARY','form':'TITLE'}]
+        visual['names']=['Warehouse matrix']
+        value=intake_extraction.resolve(raw,payload)
+        self.assertEqual(value['target_visual']['target_id'],'matrix')
+        self.assertEqual(value['filters'],[
+            {'column_id':'warehouse','operator':'in','values':['North']},
+            {'column_id':'product','operator':'in','values':['Component 1']}])
+        complete(value['target_visual'],[visual],value['filters'])
+
+    def test_unpicked_unnamed_visual_does_not_gain_cell_recovery_authority(self):
+        raw,payload,visual=self.payload('In Report, Quantity North / Component 1 cell shows 149.')
+        payload['_form_description_input']['target_id']=None
+        payload['text']=form_scope.document(payload['_form_description_input'],None)['text']
+        with self.assertRaises(TargetUnresolved):intake_extraction.resolve(raw,payload)
+
     def test_axis_order_missing_does_not_guess_and_mentions_do_not_become_keys(self):
         for text in ('In Report, Quantity North / Component 1 shows 149.',
                      'In Report, Quantity North / Component 1 cell shows 149.'):
@@ -48,6 +67,18 @@ class PickedCellCoverageTests(unittest.TestCase):
         raw['comparisons']=['Quantity North / Component 1 cell']
         value=intake_extraction.resolve(raw,payload)
         with self.assertRaises(TargetUnresolved):complete(value['target_visual'],[visual],value['filters'])
+
+    def test_declared_reproduction_context_is_not_an_external_comparator(self):
+        text='In Report, Quantity shows 17. Does the saved active context reproduce it?'
+        raw,_=fixture(text,comparisons=['the saved active context'],kind='VISUAL_CONTENT',triage='BUSINESS_QUESTION:NONE')
+        route=ticket_route.settlement(raw,text,None,code_gate=True)
+        self.assertEqual(route['route'],'DECLARED_SUBJECT')
+        raw['comparisons'].append('another report')
+        raw['primary']=text+' Compare another report.'
+        self.assertIsNone(ticket_route.settlement(raw,raw['primary'],None,code_gate=True))
+        raw['comparisons']=['the saved active context']
+        raw['primary']='In Report, Quantity shows 17 against the saved active context.'
+        self.assertIsNone(ticket_route.settlement(raw,raw['primary'],None,code_gate=True))
 
     def test_selected_context_vs_global_routes_to_declared_subject(self):
         text='In Report, I selected warehouse North. Quantity differs from the global total. Explain what report context you can and cannot reproduce.'

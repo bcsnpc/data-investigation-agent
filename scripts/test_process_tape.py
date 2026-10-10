@@ -82,13 +82,29 @@ class TapeTests(unittest.TestCase):
                 recorded.event('BOUNDED_RESPONSE', bytes_of({'value': 2}))
                 recorded.finish({})
             original = path.read_bytes()
-            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v5')
+            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v6')
             replayed = Tape(path)
             self.assertEqual(replayed.version, 'bounded-worker-tape-v1')
             replayed.event('BOUNDED_REQUEST', bytes_of({'request': 1}))
             self.assertEqual(json.loads(replayed.take('BOUNDED_RESPONSE')), {'value': 2})
             replayed.finish({})
             self.assertEqual(path.read_bytes(), original)
+
+    def test_v5_replays_unchanged_after_parallel_recorder_moves_to_v6(self):
+        from investigator import process_tape as journal
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'v5.json'
+            with patch.object(journal,'VERSION','bounded-worker-tape-v5'):
+                recorded=Tape(path,bootstrap())
+                recorded.event('PROVIDER_REQUEST',bytes_of({'value':16}))
+                recorded.event('PROVIDER_RESPONSE',bytes_of({'value':17}))
+                recorded.finish({'status':'HELD'})
+            original=path.read_bytes();replayed=Tape(path)
+            self.assertEqual(replayed.version,'bounded-worker-tape-v5')
+            replayed.event('PROVIDER_REQUEST',bytes_of({'value':16}))
+            self.assertEqual(json.loads(replayed.take('PROVIDER_RESPONSE')),{'value':17})
+            replayed.finish({'status':'HELD'})
+            self.assertEqual(path.read_bytes(),original)
 
     def test_v2_recording_replays_unchanged_under_v3(self):
         from investigator import process_tape as journal

@@ -80,6 +80,15 @@ def from_request(raw, ticket, *, code_gate=False):
     extraction=spans(raw,ticket,figure_occurrences=True)
     if extraction['comparisons'] and not code_gate:return None
     source=extraction['primary'];ask=source['quote']
+    # Comparing a reported figure with its own declared context is an intrinsic
+    # reproduction question, not an external comparison. Conserve every span:
+    # one real external comparator still prevents this route.
+    if (code_gate and raw['kind']=='VISUAL_CONTENT' and extraction['comparisons']
+            and all(re.fullmatch(r'(?:the )?(?:saved|declared)(?: active)? context',span['quote'],re.I)
+                    for span in extraction['comparisons'])
+            and re.search(r'\b(?:can|does|whether)\b[^.!?\n]*\b(?:saved|declared)(?: active)? context\b[^.!?\n]*\breproduce\b',ask,re.I)):
+        return validate({'version':SUBJECT_VERSION,'route':'DECLARED_SUBJECT',
+            'kind':raw['kind'],'request_hash':digest(ticket),'source':source},ticket)
     if code_gate and raw['kind'] not in ('BUSINESS_MEANING','TEMPORAL_COMPARISON'):
         scoped_self=(bool(extraction['selections']) and extraction['comparisons'] and
             all(re.fullmatch(r'(?:the )?global (?:value|total)',s['quote'],re.I)

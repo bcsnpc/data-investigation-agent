@@ -32,7 +32,10 @@ PHASES.update(CONTEXT_OBSERVED='Reading definitions and relationships',PROPOSAL_
 
 
 class Workspace:
-    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000, intake_configuration=None, ownership_configuration=None):
+    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000, intake_configuration=None, ownership_configuration=None, concurrency_limit=1):
+        if type(concurrency_limit) is not int or not 1<=concurrency_limit<=8:
+            raise ValueError('Workspace concurrency must be one through eight')
+        self.concurrency_limit=concurrency_limit
         if type(dynamic_read_limit) is not int or not DYNAMIC_READ_BOUNDS[0]<=dynamic_read_limit<=DYNAMIC_READ_BOUNDS[1]:
             raise ValueError('Dynamic read limit must be 1–15')
         if type(dynamic_input_limit) is not int or not DYNAMIC_INPUT_BOUNDS[0]<=dynamic_input_limit<=DYNAMIC_INPUT_BOUNDS[1]:
@@ -54,9 +57,10 @@ class Workspace:
             CREATE TABLE IF NOT EXISTS workspace_jobs(
               preview_id TEXT PRIMARY KEY, model_id TEXT NOT NULL, session_id TEXT UNIQUE,
               owner TEXT NOT NULL, status TEXT NOT NULL, created REAL NOT NULL, error TEXT);
-            CREATE UNIQUE INDEX IF NOT EXISTS workspace_single_active ON workspace_jobs((1))
-              WHERE status IN ('SUBMITTING','QUEUED','RUNNING');
             ''')
+            db.execute('BEGIN IMMEDIATE')
+            db.execute('DROP INDEX IF EXISTS workspace_single_active')
+            db.execute("CREATE UNIQUE INDEX IF NOT EXISTS workspace_owner_active ON workspace_jobs(owner) WHERE status IN ('SUBMITTING','QUEUED','RUNNING')")
         from .question_intake import Intake
         self.intake = Intake(self, question_resolver)
         from .screenshot_intake import Screenshots
@@ -196,8 +200,8 @@ class Workspace:
             raise Conflict('Available checks changed; review again')
         with self.store.connect() as db:
             db.execute('BEGIN IMMEDIATE')
-            if db.execute("SELECT 1 FROM workspace_jobs WHERE status IN ('SUBMITTING','QUEUED','RUNNING')").fetchone():
-                raise Conflict('Another investigation is active; wait or cancel it first')
+            from .workspace_admission import admit
+            admit(db,self.owner,self.concurrency_limit)
             db.execute('INSERT INTO workspace_jobs VALUES (?,?,NULL,?,?,?,NULL)',
                        (identity, preview['model_id'], self.owner, 'SUBMITTING', self.clock()))
         try:

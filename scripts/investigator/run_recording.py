@@ -84,7 +84,9 @@ def operation(name):
                         'workspace_owner':getattr(getattr(owner,'workspace',owner),'owner',None),
                         'artifacts':{name:journal.sha((root/name).read_bytes()) for name in ('catalog.sqlite','inventory.sqlite')},
                         'dynamic_read_limit':getattr(getattr(owner,'workspace',owner),'dynamic_read_limit',12),
-                        'dynamic_input_limit':getattr(getattr(owner,'workspace',owner),'dynamic_input_limit',384000)}}
+                        'workspace_concurrency_limit':getattr(getattr(owner,'workspace',owner),'concurrency_limit',1),
+                        'dynamic_input_limit':getattr(getattr(owner,'workspace',owner),'dynamic_input_limit',384000),
+                        'provider_transport_retries':2}}
                 if getattr(agent.store,'context_pins',None):
                     bootstrap['state']['context_pins']=agent.store.context_pins
                 if getattr(agent.store,'acceptance_fixture_state',None):

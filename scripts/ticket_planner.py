@@ -117,10 +117,15 @@ def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tic
     from openai import OpenAI
     from investigator.planner_recording import http_options
     from investigator.model_spend import admission
-    with admission(body) as settle_spend:
-        with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=policy['timeout_seconds'], max_retries=0, **http_options()) as client:
-            response=client.responses.create(**body)
-        settle_spend(response.usage.model_dump() if response.usage else None)
+    def send(unchanged_body):
+        with admission(unchanged_body) as settle_spend:
+            from investigator.model_transport_retry import timeout
+            with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=timeout(policy['timeout_seconds']), max_retries=0, **http_options()) as client:
+                response=client.responses.create(**unchanged_body)
+            settle_spend(response.usage.model_dump() if response.usage else None)
+            return response
+    from investigator.model_transport_retry import dispatch
+    response=dispatch(body,send)
     from investigator.generation_policy import ProviderResponseError
     usage=response.usage.model_dump() if response.usage else None
     if any(c.type=='refusal' for item in response.output if item.type=='message' for c in item.content):

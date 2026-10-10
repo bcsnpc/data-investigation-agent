@@ -10,7 +10,7 @@ from dataclasses import dataclass
 import copy, json
 from pathlib import Path
 from threading import Lock
-from uuid import uuid4
+from .process_tape import uuid4
 
 
 @dataclass(frozen=True)
@@ -90,7 +90,8 @@ def run_estates(groups, *, root, budget_database, workspace_factory, execute,
             pending={}
             def admit():
                 label,request=pending_jobs.pop(0)
-                identity=str(uuid4());directory=root/identity;directory.mkdir(exist_ok=False)
+                # Operator slot identities must not inherit a caller's tape.
+                identity=str(Context().run(uuid4));directory=root/identity;directory.mkdir(exist_ok=False)
                 slot=Slot(identity,estate,label,directory,copy.deepcopy(request))
                 # Do not inherit any caller's active tape/privacy/physical scope.
                 pending[pool.submit(Context().run,attempt,slot)]=slot

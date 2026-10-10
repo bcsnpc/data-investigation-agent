@@ -649,10 +649,10 @@ def resolve(raw, payload):
             candidate=matched[0]
             if candidate.get('unsupported'):raise TargetUnresolved(matched,candidate['unsupported'])
             mode=mode or ('KEYED' if candidate['grouping_columns'] else 'UNGROUPED')
-            # A picked visual supplies axes, not a row. Recover only an explicit
+            # A picked or uniquely named visual supplies axes, not a row. Recover only an explicit
             # '<named measure> <axis values> cell' phrase the span model omitted.
             # No value search, bare mention, visual substitution or axis guessing.
-            if mode=='KEYED' and form_anchor and not pending:
+            if mode=='KEYED' and (form_anchor or source) and not pending:
                 declared_names=[metric['name'],*metric.get('aliases',[])]
                 address_spans={}
                 for name in declared_names:

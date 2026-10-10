@@ -14,11 +14,12 @@ from contextlib import closing
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
-VERSION = 'bounded-worker-tape-v5'
-SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', VERSION))
+VERSION = 'bounded-worker-tape-v6'
+SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', VERSION))
 PINNED_VERSIONS = SUPPORTED_VERSIONS - {'bounded-worker-tape-v1'}
-ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4',VERSION))
-SMART_VERSIONS = frozenset((VERSION,))
+ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4','bounded-worker-tape-v5',VERSION))
+SMART_VERSIONS = frozenset(('bounded-worker-tape-v5',VERSION))
+CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5',VERSION))
 SMART_OPERATIONS=frozenset(('ticket_submit','ticket_reply','ticket_attach','ticket_share','ticket_close','ticket_respond','ticket_finish',
                           'form_submit','form_reply','form_screenshot_reply','form_comment'))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
@@ -90,7 +91,7 @@ class Tape:
             self.bootstrap=bootstrap
             self.engine_revision=None
             if self.version in PINNED_VERSIONS and (bootstrap['entry_point']=='workspace'
-                    or self.version in ('bounded-worker-tape-v4','bounded-worker-tape-v5') and bootstrap['entry_point'] in ('code_reader','code_verifier')):
+                    or self.version in CODE_VERSIONS and bootstrap['entry_point'] in ('code_reader','code_verifier')):
                 import subprocess
                 root=Path(__file__).resolve().parents[2]
                 from .runtime import FINGERPRINT_TRANSPORTS
@@ -164,13 +165,21 @@ class Tape:
             raise TapeError('TAPE_BOOTSTRAP_IDENTITY')
         if any(not isinstance(bootstrap[key],dict) for key in ('config','profile','state')) or not isinstance(bootstrap['usage_policy'],(dict,type(None))):
             raise TapeError('TAPE_BOOTSTRAP_CONFIGURATION')
-        if self.version in ('bounded-worker-tape-v4','bounded-worker-tape-v5') and bootstrap['entry_point'] in ('code_reader','code_verifier') and self.engine_revision is None:
+        if self.version in CODE_VERSIONS and bootstrap['entry_point'] in ('code_reader','code_verifier') and self.engine_revision is None:
             raise TapeError('TAPE_ENGINE_REVISION_MISSING')
         if bootstrap['entry_point']=='workspace':
             if self.version in PINNED_VERSIONS and self.engine_revision is None:
                 raise TapeError('TAPE_ENGINE_REVISION_MISSING')
             state=bootstrap['state']
             fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}
+            if 'provider_transport_retries' in state:
+                fields.add('provider_transport_retries')
+                if type(state['provider_transport_retries']) is not int or state['provider_transport_retries']!=2:
+                    raise TapeError('TAPE_PROVIDER_TRANSPORT_RETRY_CONFIGURATION')
+            if 'workspace_concurrency_limit' in state:
+                if type(state['workspace_concurrency_limit']) is not int or not 1<=state['workspace_concurrency_limit']<=8:
+                    raise TapeError('TAPE_WORKSPACE_CONCURRENCY_CONFIGURATION')
+                fields.add('workspace_concurrency_limit')
             if 'smart_intake' in state:
                 if self.version not in SMART_VERSIONS:raise TapeError('TAPE_SMART_INTAKE_VERSION')
                 fields.add('smart_intake')
@@ -233,7 +242,7 @@ class Tape:
             # Procedure completion is not narrative completion. A failed
             # composition is replayable failure evidence, with no outputs;
             # it must never satisfy the dual-output acceptance gate.
-            read_stage=(self.version=='bounded-worker-tape-v5' and final['operation']=='run'
+            read_stage=(self.version in SMART_VERSIONS and final['operation']=='run'
                         and not synthesis and final['outputs'] is None)
             if final['status']=='COMPLETED' and final['error'] is None and not failed_composition and not read_stage:
                 outputs=final['outputs']
