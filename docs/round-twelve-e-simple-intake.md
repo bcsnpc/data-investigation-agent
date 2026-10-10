@@ -32,3 +32,19 @@ The original models were disabled by our rebuild's discovery projection: enterpr
 Before adoption, the operator checks exact adapter options, identities and declared layer/resource access against their previously approved manifest. Any difference creates discovery-policy-diff.md and stops adoption. This is reapproval of unchanged retained definitions, not new metadata collection or proof of current serving. Live reader probes must still attest every read. Original/rebuilt phases are sequential because they share a catalog; each phase adopts its own approved scope before intake. Prior contexts and all failed attempts remain unchanged.
 
 Full regression, live results and the new questionnaire remain pending at this preparation checkpoint. No fresh held-out pass.
+
+## Section 0 and live unblock checkpoint, 2026-10-10
+
+The full regression on frozen c377331 ran2,860 tests in872.011 seconds:2,859 passed and one obsolete test expected permanent full-reservation charging. Its corrected assertion checks gross and actual charging separately; all33 governance tests passed. Original failed log retained. Questionnaire source validation is separate and still running.
+
+All18 live forms were attempted once. 16/18 delivered findings; the two C attempts retained `Conflict: Saved synthesis has no assessment` after completed deterministic registered-refusal synthesis. This is a delivery defect, not a missing refusal receipt. Offline validation of C's original state under the fix now yields HELD with no invented assessment and the original receipt untouched. No C replacement run occurred.
+
+Fixed expectation scoring: 9/18 expected outcomes earned; exact structured contracts 0/18. Text-ticket expectations carry STATED report provenance; submitted forms correctly carry USER_SUPPLIED_FORM. That common difference is reported, not normalised away. Original B/H and rebuilt B return NO_COMPARABLE_PATH instead of the historic NO_KNOWN_PATTERN; rebuilt H matches NO_KNOWN_PATTERN. The rebuilt serving-only runs stop at the serving boundary because the selected lower binding's recorded verifier includes SAMPLE_MISMATCH; they cannot inherit the historic TRANSFORMATION_LOGIC expectation. No binding or expectation was changed to obtain a pass.
+
+Investigation requests 100; retained receipt accounting reports 44 diagnostics and 42 guards. Both zero-request C refusals have no diagnostic receipt counter, recorded as unavailable rather than defaulted. Models: 38 calls and 316149 transmitted input characters. Each case's cost, wall time, unchanged expected projection and exact differences are in [the live table](round-twelve-e-live-results.md) and [structured record](round-twelve-e-live-results.json). Time includes durable capture, not just cloud latency. No run reached diagnostic cap12.
+
+Two application pre-warms each used two physical controls, separately recorded as controls with diagnostic count0. Including those four, the pot moved1,150 to1254/1,800; reserve95 intact. Temporary1,800 restoration remains due after this session's remaining dev work; rolling3,000 and model600calls/8Minput/1.5Moutput remain unchanged.
+
+Retained approvals, zero metadata requests: original context b8d15e64-a003-41bf-924a-0ab9006599d0 pins config b240cef651374de86fbf2d43708d412641097e1ee40071eb5122eda550460661; rebuilt context2f662903-b06e-407e-b5a1-de1eaded8968 pins adebadf73fe62d6f8cab4001a9081e6cd95804767fc4bcf2eb6e15dafe721c33. Scope checks passed before each approval. These are approvals of unchanged retained definitions, never recollection or proof of current serving.
+
+The live expectation gate did not pass, so an owner-unaided successful demo is not claimed. Questionnaire implementation and fresh dev-only scoring continue; held-out and billing are untouched. Draft423 remains draft and prior freezes are invalid.
