@@ -7,3 +7,6 @@ acceptance/tickets/round-ten/*.json -text whitespace=cr-at-eol
 
 # Immutable owner-authored billing capture: preserve source bytes.
 acceptance/tickets/billing/owner-authored/** -text
+
+# Immutable independent billing tester capture: preserve source bytes.
+acceptance/tickets/billing/tester/** -text

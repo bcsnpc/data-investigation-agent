@@ -1,0 +1,6 @@
+can't get Cedar's row
+
+i tried Show as a table on Top Accounts by Invoice Value and that was empty too. no rows or total that i could read.
+
+Cedar has invoice 103 for 250 on October 1 in the app. I wanted to check Cedar's row rather than guess from a chart, but couldn't find it. Can we get the account values visible in the table view?
+

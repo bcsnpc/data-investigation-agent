@@ -1,0 +1,6 @@
+Need to check Starter versus Growth
+
+Where do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.
+
+In the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.
+
