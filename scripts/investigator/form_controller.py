@@ -105,11 +105,16 @@ class Forms:
             doc=form_scope.document(request,self.workspace.intake_configuration)
             description=next(p for p in doc['parts'] if p['pointer']=='/description')
             source=self.workspace.intake.resolve({'text':doc['text'][:description['end']],
-                'request_key':'form-description:'+saved['ticket']['id'],'parent_id':None},retain_extraction=True,form_request=request)
+                'request_key':'form-description:'+saved['ticket']['id'],'parent_id':None},retain_extraction=True,form_request=request,
+                form_candidate_binding=saved['ticket'].get('form_candidate_binding'))
             def attach(current):
                 current['source_intake']=source['id'];return current
             saved=self.smart.tickets.update(saved['ticket']['id'],saved['revision'],attach)
             if source['status']!='PROPOSED':
+                from .intake_extraction import retained_response
+                raw=retained_response(source)
+                if source.get('error')=='UNIMPLEMENTED_ROUTE' and raw and raw['kind']=='BUSINESS_MEANING':
+                    return self.smart._business_refusal(saved,source,catalog)
                 return self._hold(saved,source.get('refusal_reason') or source.get('question') or source.get('error') or 'DESCRIPTION_REQUIRES_CLARIFICATION')
         description=None
         if saved['ticket'].get('source_intake') and request.get('description_resolution')!='FORM_SELECTIONS':

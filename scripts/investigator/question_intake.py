@@ -757,7 +757,7 @@ class Intake:
             return body
 
     @operation('intake')
-    def resolve(self, request, *, retain_extraction=False, input_request=None, form_request=None):
+    def resolve(self, request, *, retain_extraction=False, input_request=None, form_request=None, form_candidate_binding=None):
         if type(retain_extraction) is not bool:raise ValueError('Invalid extraction retention mode')
         fields(request, ['text', 'request_key', 'parent_id'] + (['screenshot_review_id'] if 'screenshot_review_id' in request else []))
         text(request['text'], limits.INTAKE_TEXT); text(request['request_key'], 100)
@@ -768,6 +768,7 @@ class Intake:
             if saved['request'] != request: raise Conflict('Question request key was already used')
             if saved.get('input_request')!=input_request:raise Conflict('Retained input authority differs')
             if saved.get('form_description_input')!=form_request:raise Conflict('Retained form description authority differs')
+            if saved.get('form_description_candidate_binding')!=form_candidate_binding:raise Conflict('Retained candidate description authority differs')
             return saved  # Includes uncertain reservations; never dispatches again.
         if not self.workspace.execution_enabled or self.resolver is None or self.workspace.agent.governor is None:
             raise Conflict('Question resolution is disabled on this host')
@@ -795,6 +796,9 @@ class Intake:
             payload['_form_configuration']=copy.deepcopy(self.workspace.intake_configuration)
             body['form_description_only']=True
             body['form_description_input']=copy.deepcopy(form_request)
+            payload['_form_description_candidate_binding']=copy.deepcopy(form_candidate_binding)
+            body['form_description_candidate_binding']=copy.deepcopy(form_candidate_binding)
+        elif form_candidate_binding is not None:raise ValueError('Candidate binding needs its original form input')
         if input_request is not None:
             from .input_reference import preflight, from_input
             preflight(input_request)

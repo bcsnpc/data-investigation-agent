@@ -122,6 +122,8 @@ def wire(payload):
     if len(json.dumps({'names':names,'visual_titles':titles},ensure_ascii=False))>NAME_CAP:
         raise ValueError('INTAKE_NAME_LIST_OVERSIZE: compact typed names exceed '+str(NAME_CAP))
     value = {'ticket':payload['text'],'question_kinds':list(question_kind.KINDS),'names':names,'visual_titles':titles}
+    if payload.get('_form_description_input') is not None:
+        value['form_description_rules']='Extract the description verbatim. The separately selected form objects are already established by code. An invoked bookmark label is page-state context, never a record identifier. A selected comparison is a user fact; an inferred default does not contradict it.'
     repairs = {k:v for k,v in payload.items() if k.startswith('_') and k.endswith('repair')}
     if repairs:
         # A correction contains the validation reason, never the old catalog or proposed IDs.
@@ -325,9 +327,10 @@ def resolve(raw, payload):
     extraction=spans(raw,ticket,figure_occurrences=selected_figure is not None)
     form_anchor=None
     if payload.get('_form_description_input') is not None:
-        from .form_description import anchor, validate_input
+        from .form_description import anchor, validate_input, identifiers
         validate_input(payload)
-        form_anchor=anchor(payload['_form_description_input'],payload['models'],extraction)
+        identifiers(extraction,ticket)
+        form_anchor=anchor(payload['_form_description_input'],payload['models'],extraction,payload.get('_form_description_candidate_binding'))
         if form_anchor is not None:number=form_anchor
     reference=None
     if payload.get('_ticket_reference') is not None:
@@ -510,7 +513,7 @@ def resolve(raw, payload):
         if bindings:audit.append({'resolution':'EXACT_CATALOG_NAME_COMPONENT',
             'component':copy.deepcopy(source),'bindings':bindings})
     if numerals:
-        value['numeral_mentions']=numerals;value['expected_records']=numeral_roles.expected(numerals,ticket)
+        value['numeral_mentions']=numerals;value['expected_records']=numeral_roles.expected(numerals,ticket,allow_opaque=payload.get('_form_description_input') is not None)
     intake_rules.validate(value,ticket)
     reports=[]
     if reference:
@@ -537,7 +540,7 @@ def resolve(raw, payload):
             value['report_binding']=binding(reference)
         elif form_anchor:
             from .form_description import evidence
-            value['report_binding']=evidence(payload['_form_description_input'],payload['models'],ticket)
+            value['report_binding']=evidence(payload['_form_description_input'],payload['models'],ticket,payload.get('_form_description_candidate_binding'))
         elif report_confirmation:
             value['report_binding']={'resolution_kind':'USER_CONFIRMED','report_id':report['id'],
                                      'source':None,'confirmation':copy.deepcopy(confirmation)}
@@ -606,7 +609,7 @@ def resolve(raw, payload):
                          (reference is None or reference['page_id'] is None or v.get('page_id')==reference['page_id'])]
                 if len(matched)!=1:raise TargetUnresolved(candidates,'Confirmed target differs from the resolved report/measure.')
                 mode=number['mode'];source=mode_source=None
-                basis=['report','measure','form_selection' if form_anchor else 'user_confirmation']
+                basis=['report','measure',('candidate_value_receipts' if form_anchor['authority']=='CANDIDATE_VALUE_RECEIPTS' else 'form_selection') if form_anchor else 'user_confirmation']
             equivalent=False
             explicit_keyed_shape=any(active(h,extraction) and h.get('form') in ('MATRIX','CHART','TOTAL') for h in extraction['visuals'])
             if len(matched)>1 and not number and len(figures)<=1 and not pending and not filters and not dimensions and not explicit_keyed_shape:

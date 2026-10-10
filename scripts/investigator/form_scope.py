@@ -33,7 +33,9 @@ def description_route(proposal,request,configuration):
     if route:return route
     raw=proposal.get('extracted_ticket',{}).get('response')
     if raw is None:return None
-    from .ticket_route import settlement
+    from .ticket_route import settlement, from_request
+    if request['comparison'] is not None:
+        return from_request(raw,document(request,configuration)['text'],code_gate=True)
     return settlement(raw,document(request,configuration)['text'],configuration,code_gate=True)
 
 
@@ -44,9 +46,12 @@ def resolved_scope(request, models, configuration, description_proposal=None, ca
     declaration proof. No candidate is selected by matching an expected value.
     """
     if candidate_binding is not None:
-        from .form_candidates import matching
+        from .form_candidates import matching, candidates
         matched=matching(request,models,candidate_binding)
         if matched['status']!='BOUND':raise Conflict('Candidate value binding remains ambiguous or unmatched')
+        target=(description_proposal or {}).get('target_visual')
+        if target and target['target_id'] in matched['equivalent_target_ids']:
+            return next(c['scope'] for c in candidates(request,models) if c['target_id']==target['target_id'] and c['measure_id']==target['measure_id'])
         return matched['scope']
     try:
         result=form_intake.resolve(request,models,configuration,
@@ -218,6 +223,11 @@ def build(request, models, configuration, *, description_proposal=None, candidat
         'target_visual':({'target_id':scope['target_id'],'report_id':scope['report_id'],
             'measure_id':scope['measure_id'],'mode':scope['cell_mode'], 'source':None,
             'mode_source':None,'resolution':'RESOLVED','match_basis':{'form':copy.deepcopy(proof)}} if scope['target_id'] else None)}
+    if description_proposal is not None:
+        # These are validated user facts, not redundant copies of the model's
+        # chosen target. Losing identifiers here changes the question walked.
+        for field in ('numeral_mentions','expected_records','value_mentions','name_binding'):
+            if field in description_proposal:proposal[field]=copy.deepcopy(description_proposal[field])
     return {'document':doc, 'proposal':proposal, 'form':proof}
 
 

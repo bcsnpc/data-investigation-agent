@@ -1,12 +1,32 @@
 """Selected form facts are description anchors, not fabricated text quotes."""
-import re
+import re, copy
 from jsonschema import Draft202012Validator
 from . import form_intake
 from .onboarding import digest
 
 
-def anchor(request,models,extraction):
+def anchor(request,models,extraction,candidate_binding=None):
     Draft202012Validator(form_intake.SCHEMA).validate(request)
+    original_hash=digest(request)
+    authority='FORM_SELECTION'
+    if request['target_id'] is None and candidate_binding is not None:
+        from .form_candidates import matching
+        matched=matching(request,models,candidate_binding)
+        if matched['status']!='BOUND':return None
+        request=copy.deepcopy(request)
+        request.update(target_id=matched['scope']['target_id'],cell_mode=matched['scope']['cell_mode'])
+        # A named member of an equivalent matching set preserves that actual
+        # referent; a representative is needed only when text names none.
+        from .intake_extraction import active
+        named=set()
+        for hint in extraction['visuals']:
+            if not active(hint,extraction):continue
+            word=re.sub(r'\s+(?:card|matrix|chart)$','',hint['quote']['quote'],flags=re.I).strip() if hint['form'] in ('CARD','MATRIX','CHART') else hint['quote']['quote']
+            for m in models:
+                for v in m.get('visuals',[]):
+                    if v['target_id'] in matched['equivalent_target_ids'] and any(' '.join(word.casefold().split())==' '.join(n.casefold().split()) for n in v.get('names',[])):named.add(v['target_id'])
+        if len(named)==1:request['target_id']=next(iter(named))
+        authority='CANDIDATE_VALUE_RECEIPTS'
     pairs=[(m,v) for m in models for v in m.get('visuals',[]) if v['target_id']==request['target_id']
            and v['report_id']==request['report_id'] and v.get('page_id')==request['page_id']]
     if len(pairs)!=1:return None
@@ -34,12 +54,14 @@ def anchor(request,models,extraction):
         if hits and request['page_id'] not in hits:return None
     return {'target_id':visual['target_id'],'report_id':visual['report_id'],'page_id':visual['page_id'],
             'mode':request['cell_mode'] or ('UNGROUPED' if not visual['grouping_columns'] else None),
-            'figure_source':None,'request_hash':digest(request),'model_id':model['id']}
+            'figure_source':None,'request_hash':original_hash,'model_id':model['id'],'authority':authority}
 
 
-def evidence(request,models,text):
-    return {'resolution_kind':'FORM_DESCRIPTION_SELECTION','report_id':request['report_id'],'source':None,
-            'selection':{'request_hash':digest(request),'catalog_hash':digest(models),'document_hash':digest(text)}}
+def evidence(request,models,text,candidate_binding=None):
+    selection={'request_hash':digest(request),'catalog_hash':digest(models),'document_hash':digest(text)}
+    if candidate_binding is not None:selection['candidate_binding_hash']=digest(candidate_binding)
+    return {'resolution_kind':'FORM_DESCRIPTION_VALUE_MATCH' if candidate_binding is not None else 'FORM_DESCRIPTION_SELECTION',
+            'report_id':request['report_id'],'source':None,'selection':selection}
 
 
 def validate_input(payload):
@@ -49,6 +71,16 @@ def validate_input(payload):
     part=next(p for p in doc['parts'] if p['pointer']=='/description')
     if payload['text']!=doc['text'][:part['end']]:
         raise ValueError('Form description authority belongs to different text')
+
+
+def identifiers(extraction,ticket):
+    from .intake_rules import RuleViolation
+    for item in extraction['identifiers']:
+        span=item['quote']
+        for match in re.finditer(r'\b(?:invoked|activated|applied)\b(?:(?!\b(?:and|then|but)\b)[^;.!?\n])*',ticket,re.I):
+            if re.search(r'\bbookmark\b',match.group(),re.I) and match.start()<=span['start'] and span['end']<=match.end():
+                raise RuleViolation('PAGE_STATE_IS_NOT_IDENTIFIER',
+                    'The quoted label belongs to an invoked bookmark, not a record identifier or number. Retain page-state context; do not put its label into identifiers.')
 
 
 def transposed_measure(quote,candidates,visual,audit):

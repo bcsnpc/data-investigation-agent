@@ -59,6 +59,26 @@ class SmartIntake:
         saved=self.tickets.update(saved['ticket']['id'],saved['revision'],attach)
         return self._plan(saved,source)
 
+    def _business_refusal(self,saved,source,catalog):
+        ticket=saved['ticket']
+        from .intake_extraction import retained_response
+        raw=retained_response(source)
+        if source.get('error')!='UNIMPLEMENTED_ROUTE' or not raw or raw.get('kind')!='BUSINESS_MEANING':
+            raise ValueError('Business refusal needs validated business-meaning evidence')
+        # Preserve the existing intent refusal; do not try to turn it into
+        # a comparison merely by asking the user to select a visual.
+        handoff=self._intent_handoff(raw,source,catalog['models'])
+        if handoff is not None:
+            def route_intent(current):
+                current=protocol.transition(current,'BUSINESS_VALIDATION',actor='AGENT',detail={
+                    'owner':handoff['owner'],'package_hash':digest(handoff),'technical_ask_refused':source['refusal_reason']})
+                current['handoff']=handoff;return current
+            return self.tickets.update(ticket['id'],saved['revision'],route_intent)
+        return self.tickets.update(ticket['id'],saved['revision'],lambda current:
+            protocol.transition(current,'HELD',actor='AGENT',detail={
+                'reason':source['refusal_reason'],'route':'BUSINESS_VALIDATION',
+                'handoff_unavailable':'BUSINESS_OWNER_BINDING_UNESTABLISHED'}))
+
     def _plan(self, saved, source):
         ticket=saved['ticket'];catalog=snapshot(self.workspace)
         payload={'text':source['text'],'models':catalog['models']}
@@ -73,19 +93,7 @@ class SmartIntake:
         from .intake_extraction import retained_response
         raw=retained_response(source)
         if source.get('error')=='UNIMPLEMENTED_ROUTE' and raw and raw.get('kind')=='BUSINESS_MEANING':
-            # Preserve the existing intent refusal; do not try to turn it into
-            # a comparison merely by asking the user to select a visual.
-            handoff=self._intent_handoff(raw,source,catalog['models'])
-            if handoff is not None:
-                def route_intent(current):
-                    current=protocol.transition(current,'BUSINESS_VALIDATION',actor='AGENT',detail={
-                        'owner':handoff['owner'],'package_hash':digest(handoff),'technical_ask_refused':source['refusal_reason']})
-                    current['handoff']=handoff;return current
-                return self.tickets.update(ticket['id'],saved['revision'],route_intent)
-            return self.tickets.update(ticket['id'],saved['revision'],lambda current:
-                protocol.transition(current,'HELD',actor='AGENT',detail={
-                    'reason':source['refusal_reason'],'route':'BUSINESS_VALIDATION',
-                    'handoff_unavailable':'BUSINESS_OWNER_BINDING_UNESTABLISHED'}))
+            return self._business_refusal(saved,source,catalog)
         if source.get('error')=='UNIMPLEMENTED_ROUTE':
             # A user answer cannot implement a missing procedure. Retain the
             # original consumer refusal rather than asking unrelated questions.
