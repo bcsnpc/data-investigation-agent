@@ -87,3 +87,39 @@ The sixth skipped form, original E-mention newly carrying the A1 figure, is not 
 Two live harness startups failed before a ticket or estate request: first a private artifact path typo, then rebuilt lineage approval rejected the changed whole-manifest hash. Both logs are retained. DECIDED WITHOUT REVIEW: revalidate and explicitly reapprove the existing sampled lineage witnesses under the approved output-budget-only manifest, instead of repeating estate verification for an allowance change. The script asserts that the output allowance is the only difference; witnesses remain identical and the original approval is archived. No new snapshot or current-data claim. Original installation disables code inference and needs no lineage approval. Rebuilt new approval SHA-256 af64188ae1a1c24af38f5ffa37e69b4fdd01d101ac4e74e199b58311c134a276.
 
 Live plan: eighteen fixture-authored forms, one base family per original/rebuilt estate, with fixed expectations preserved. Starting shared pot1,150/1,500, restoration reserve95, ordinary remainder255; diagnostic cap12. Upper physical estimate288 exceeds that remainder, so the batch can stop and preserve a partial map rather than spend restoration capacity. Model-output allowance2.4M is temporary and will return to1.5M with charges intact. No billing run.
+
+## Once-per-family live record, engine488664b
+
+These are actual form attempts, not successful end-to-end investigations. No replacement attempt or gate bypass. Fixed expectations remain unchanged. A hold before procedure earns no expected technical outcome.
+
+| Estate / family | State | Reason | Physical | Model calls | Input characters | Seconds |
+|---|---|---|---:|---:|---:|---:|
+|original:family-A|HELD|Selected report is absent or ambiguously bound|0|0|0|29.91|
+|original:family-B|HELD|Selected report is absent or ambiguously bound|0|0|0|26.44|
+|original:family-C|HELD|Selected report is absent or ambiguously bound|0|0|0|27.39|
+|original:family-D|HELD|Selected report is absent or ambiguously bound|0|0|0|28.15|
+|original:family-E|HELD|Selected report is absent or ambiguously bound|0|0|0|26.83|
+|original:family-F|HELD|Selected report is absent or ambiguously bound|0|0|0|27.5|
+|original:family-G|HELD|Selected report is absent or ambiguously bound|0|0|0|28.78|
+|original:family-H|HELD|Selected report is absent or ambiguously bound|0|0|0|27.77|
+|original:family-I|HELD|Selected report is absent or ambiguously bound|0|0|0|27.38|
+|rebuilt:family-A|HELD|Dynamic investigation needs current approved discovery policy|0|1|11843|55.43|
+|rebuilt:family-B|HELD|Dynamic investigation needs current approved discovery policy|0|1|11838|41.88|
+|rebuilt:family-C|HELD|Dynamic investigation needs current approved discovery policy|0|1|11823|39.19|
+|rebuilt:family-D|HELD|Dynamic investigation needs current approved discovery policy|0|1|11897|34.37|
+|rebuilt:family-E|HELD|Dynamic investigation needs current approved discovery policy|0|1|11893|36.28|
+|rebuilt:family-F|HELD|Dynamic investigation needs current approved discovery policy|0|1|11876|33.4|
+|rebuilt:family-G|HELD|Dynamic investigation needs current approved discovery policy|0|1|11932|32.88|
+|rebuilt:family-H|HELD|Dynamic investigation needs current approved discovery policy|0|1|11905|34.96|
+|rebuilt:family-I|HELD|Dynamic investigation needs current approved discovery policy|0|1|11831|33.78|
+
+Completed investigations: 0/18. Physical requests 0; model calls 9; reserved input characters 106838. No probe, surface attestation, boundary comparison, investigation planner call or synthesis output exists for a pre-procedure hold. No business/technical output is invented for it. Original ticket histories, provider bodies, sealed forms, failure logs and per-attempt ledger rows are preserved.
+
+Original models are disabled in the shared catalog after the rebuilt collection. Both manifests share that catalog; the current enabled set contains only the two rebuilt models. Original definitions remain retained. This is a catalog activation/state mismatch, not evidence that the original platform reports vanished. Rebuilt forms reach scope adoption, but their preview refuses current discovery-policy approval. The separate sampled-lineage budget reapproval did not reapprove discovery. No model was enabled and no discovery gate was bypassed.
+
+The upper physical estimate was288; actual estate requests0. The shared pot stays1,150/1,500, remaining restoration reserve95, ordinary remainder255. Rolling allowance3,000 and diagnostic cap12 are unchanged. No billing run, owner-unaided demo, latency finding or general capability verification is earned. The blocked demo command and terminal requirements are recorded in [the handoff](round-twelve-d-demo-handoff.md).
+
+Validation: frozen488664b full regression ran2,855 tests in1,003.166 seconds and failed one obsolete expected exception. All other2,854 passed. The identifier test now requires IDENTIFIER_QUOTE_INVALID and verifies the input is untouched; all44 extraction tests pass after that test-only correction. Production engine hash is unchanged. The failed full-run log remains retained; no second complete full-run claim is made.
+
+
+Temporary output allowance restored on both manifests:2,400,000 ->1,500,000. Shared daily counters preserved:274 model reservations,3,466,493 input characters,1,899,500 output tokens. The restored output limit is already exceeded; further calls must hold until reset or a new explicit approval. The overrun guard remains on. Original sampled-lineage approval restored after archiving the batch approval. No counter reset or identity/permission change.

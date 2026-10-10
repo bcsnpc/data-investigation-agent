@@ -45,8 +45,11 @@ class ExtractionTests(unittest.TestCase):
         raw,payload=fixture('Report Global card Quantity differs; identifier abc123.',
             visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}],
             identifiers=[{'quote':'abc123','role':'PRIMARY'}])
-        from investigator.reported_figure import UnavailablePrecision
-        with self.assertRaises(UnavailablePrecision):extraction.resolve(raw,payload)
+        from investigator.intake_rules import RuleViolation
+        original=copy.deepcopy(raw)
+        with self.assertRaises(RuleViolation) as caught:extraction.resolve(raw,payload)
+        self.assertIn('IDENTIFIER_QUOTE_INVALID',str(caught.exception))
+        self.assertEqual(raw,original)
 
     def test_invoked_bookmark_label_is_never_a_column_selection(self):
         from investigator.intake_rules import RuleViolation
