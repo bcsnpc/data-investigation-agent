@@ -756,20 +756,8 @@
         "basis": "Human oracle decision 2026-10-09, R1"
       },
       "true_reported_figure": {
-        "state": "DETERMINED",
-        "value": {
-          "state": "NUMBER",
-          "value": "8765",
-          "precision": {
-            "state": "EXACT"
-          },
-          "source": {
-            "start": 169,
-            "end": 173,
-            "quote": "8765"
-          }
-        },
-        "reason": "Owner/reviewer amendment A1, 2026-10-10: a figure explicitly stated as displayed is a stated figure."
+        "state": "NOT_STATED",
+        "reason": "The admitted sealed record explicitly records no reported figure."
       },
       "true_comparison_route": {
         "state": "DETERMINED",
@@ -4018,20 +4006,8 @@
         "basis": "Human oracle decision 2026-10-09, R1"
       },
       "true_reported_figure": {
-        "state": "DETERMINED",
-        "value": {
-          "state": "NUMBER",
-          "value": "8765",
-          "precision": {
-            "state": "EXACT"
-          },
-          "source": {
-            "start": 148,
-            "end": 152,
-            "quote": "8765"
-          }
-        },
-        "reason": "Owner/reviewer amendment A1, 2026-10-10: a figure explicitly stated as displayed is a stated figure."
+        "state": "NOT_STATED",
+        "reason": "The admitted sealed record explicitly records no reported figure."
       },
       "true_comparison_route": {
         "state": "DETERMINED",
@@ -5077,20 +5053,8 @@
         "basis": "Human oracle decision 2026-10-09, R1"
       },
       "true_reported_figure": {
-        "state": "DETERMINED",
-        "value": {
-          "state": "NUMBER",
-          "value": "8765",
-          "precision": {
-            "state": "EXACT"
-          },
-          "source": {
-            "start": 218,
-            "end": 222,
-            "quote": "8765"
-          }
-        },
-        "reason": "Owner/reviewer amendment A1, 2026-10-10: a figure explicitly stated as displayed is a stated figure."
+        "state": "NOT_STATED",
+        "reason": "The admitted sealed record explicitly records no reported figure."
       },
       "true_comparison_route": {
         "state": "DETERMINED",

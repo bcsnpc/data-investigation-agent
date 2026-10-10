@@ -15,9 +15,31 @@ class SealedOracleTests(unittest.TestCase):
         self.oracle,self.seal=load(ROOT/'acceptance/oracle')
 
     def test_approved_exact_bytes_and_partition_are_fixed(self):
-        self.assertEqual(self.seal['sha256'],'be029b56a6de27195dac507bfb5010f0ce7abc2732702d9a230e5f4a8d38406c')
+        self.assertEqual(self.seal['sha256'],'bc2819f1ab12ae93d2203a519a6318a6f9ecbc1a3220a466e664a00c495a9a6b')
         self.assertEqual(len(self.oracle['records']),68)
         self.assertEqual(sum(r['partition']=='held_out' for r in self.oracle['records']),28)
+
+    def test_a1_preserves_superseded_seal_and_changes_only_reported_figures(self):
+        import hashlib
+        directory=ROOT/'acceptance/oracle'
+        before=json.loads((directory/'oracle-before-a1.json').read_text())
+        prior=json.loads((directory/'oracle-seal-before-a1.json').read_text())
+        self.assertEqual(hashlib.sha256((directory/'oracle-before-a1.json').read_bytes()).hexdigest(),prior['sha256'])
+        self.assertEqual(self.seal['supersedes']['sha256'],prior['sha256'])
+        amendment=json.loads((directory/'oracle-amendment-a1.json').read_text())
+        changed=[]
+        for left,right in zip(before['records'],self.oracle['records']):
+            a=copy.deepcopy(left);b=copy.deepcopy(right)
+            old=a.pop('true_reported_figure');new=b.pop('true_reported_figure')
+            self.assertEqual(a,b)
+            if old!=new:
+                changed.append(left['id'])
+                self.assertEqual(old['state'],'NOT_STATED')
+                source=new['value']['source']
+                self.assertEqual(left['ticket'][source['start']:source['end']],source['quote'])
+                self.assertEqual(new['value']['value'],source['quote'])
+        self.assertEqual(set(changed),{c['id'] for c in amendment['changes']})
+        self.assertEqual(len(changed),3)
 
     def test_one_oracle_byte_change_invalidates_approval(self):
         with tempfile.TemporaryDirectory() as temp:
