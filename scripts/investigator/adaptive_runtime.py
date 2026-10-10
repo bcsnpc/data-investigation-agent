@@ -43,6 +43,24 @@ def outcome(state):
 
 
 class AdaptiveRuntime:
+    def _persist_process_stage(self,identity,kind,detail):
+        from .local_accounting import boundary
+        def persist():
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                self.save(db,current,kind,detail)
+        return boundary('PROCESS_STAGE_ADMISSION',persist)
+
+    def _persist_process_read(self,identity,key,entry,uncertain):
+        from .local_accounting import boundary
+        def persist():
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                current.setdefault('process_read_receipts',[]).append(entry)
+                self.save(db,current,'PROCESS_READ_RECORDED',entry)
+                if self.governor:self.governor.settle(db,identity,key,uncertain=uncertain)
+        return boundary('PROCESS_READ_RECEIPT_PERSISTENCE',persist)
+
     def __init__(self,runtime,planner,clock=time.time,planner_profile=None,usage_policy=None,process_judge=None,
                  process_lineage=None):
         self.runtime=runtime;self.store=runtime.store;self.config=runtime.config
@@ -534,11 +552,7 @@ class AdaptiveRuntime:
                 if first:
                     entry['logical_tool']=tool
                     entry['logical_receipt']=receipt(number,tool,result,error_type)
-                with self.runtime.db() as db:
-                    db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
-                    current.setdefault('process_read_receipts',[]).append(entry)
-                    self.save(db,current,'PROCESS_READ_RECORDED',entry)
-                    if self.governor:self.governor.settle(db,identity,key,uncertain=uncertain)
+                self._persist_process_read(identity,key,entry,uncertain)
 
         provider=self.process_judge
         if provider is None and self.planner_profile.get('adapter')=='azure':
@@ -706,9 +720,7 @@ class AdaptiveRuntime:
             read_refresh_timing=read_refresh_timing if self.config['fabric'].get('refresh_timing_reader') else None,
             read_snapshot_identity=read_snapshot_identity if self.config['fabric'].get('snapshot_identity_reader') else None)
         def stage_event(kind, detail):
-            with self.runtime.db() as db:
-                db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
-                self.save(db,current,kind,detail)
+            return self._persist_process_stage(identity,kind,detail)
         from .process_stages import Adapter as StageAdapter
         adapter=StageAdapter(adapter,stage_event)
         from .context_search import MeasurePathLimit

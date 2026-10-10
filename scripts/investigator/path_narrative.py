@@ -118,7 +118,11 @@ MECHANISM_LIMIT_TERMS=(
     'have not confirmed', 'has not been', 'remain unestablished',
     'business intent', 'business rule', 'business correctness', 'intended grain',
     'permission', 'access limitation', 'same moment', 'update timing',
-    'limitation', 'caveat')
+    'limitation', 'caveat',
+    'needed field', 'required field', 'missing field', 'did not report',
+    'stops before', 'stopped before', 'path stops', 'path stopped',
+    'blocked comparison', 'comparison blocked', 'cannot compare',
+    'could not compare', 'unsupported scope', 'unsupported filtered scope')
 MECHANISM_FORBIDDEN=r'\b(?:'+'|'.join(_casefold(t) for t in MECHANISM_LIMIT_TERMS)+r')\b'
 HEDGE_TERMS=('can','could','may','might','possibly','potentially','allowed to','able to','is possible','are possible')
 HEDGE_PATTERN=r'\b(?:'+'|'.join(_casefold(t) for t in HEDGE_TERMS)+r')\b'
@@ -138,6 +142,7 @@ def producer_rules():
         'Do not copy native names with digits; explain the operation instead. '
         'Do not use these path-account terms: '+', '.join(COMMENTARY_TERMS)+'. '
         'Do not use these engine-owned limitation terms: '+', '.join(MECHANISM_LIMIT_TERMS)+'. '
+        'Never attribute a refusal, failed comparison, missing field or termination to a cause. Those are engine-rendered status facts, not mechanisms. '
         'The mechanism_evidence section contains original retained definition evidence and a '
         'completed judgment where present. Explain only the recorded operation; its limitations '
         'are rendered locally. No new inference, value or proof is supplied by that display copy.')

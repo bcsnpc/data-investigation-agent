@@ -266,4 +266,6 @@ def build(state,db):
   if accounts:result['deterministic_process_finding']['delivery_accounts']=copy.deepcopy(accounts)
   profiled=assessment.get('technical_output',{}).get('profile_verified_boundaries')
   if profiled:result['deterministic_process_finding']['profile_verified_boundaries']=copy.deepcopy(profiled)
+ from .narrative_form import layers
+ result['layer_registry']=layers(result,assessment)
  return result

@@ -39,6 +39,7 @@ def raise_saved(body):
     exc=getattr(sqlite3,error['type'])(error['message'])
     for name in ('sqlite_errorcode','sqlite_errorname'):
         if error[name] is not None:setattr(exc,name,error[name])
+    exc.sqlite_phase=body['stage']
     raise exc from None
 
 def boundary(stage,producer):
@@ -50,6 +51,7 @@ def boundary(stage,producer):
         raise_saved(saved)
     try:result=producer()
     except sqlite3.Error as exc:
+        exc.sqlite_phase=stage
         message=str(exc);safe=message in MESSAGES
         code=getattr(exc,'sqlite_errorcode',None);name=getattr(exc,'sqlite_errorname',None)
         if type(code) is not int or not 0<=code<=2147483647:code=None

@@ -18,6 +18,11 @@ def retained_limit(text,all_snapshots_unverified):
 
 
 def layers(payload,source):
+    # The digest owns one registry constructed from the complete assessment.
+    # Provider vocabulary, validation, legend and prose all consume this map.
+    if 'layer_registry' in payload:
+        import copy
+        return copy.deepcopy(payload['layer_registry'])
     result={}
     labels=source.get('technical_output',{}).get('layer_labels',payload.get('layer_labels',{}))
     def add(identity):
