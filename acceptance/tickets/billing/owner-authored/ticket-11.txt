@@ -1,0 +1,3 @@
+Subject: invoce totl looks too big
+
+billing report invoiced amount says 950 but i get 700 adding the four invoices in the app. its the October 1 invoices. didnt pick a filter. can someone check pls
