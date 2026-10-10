@@ -26,6 +26,28 @@ class QuestionnaireTests(unittest.TestCase):
         self.assertIsNone(r['cell_mode']);self.assertEqual(r['cell_keys'],[])
     def test_optional_visual_never_selects_a_representative(self):
         self.assertIsNone(to_form({**self.request,'visual_id':None},self.models)['target_id'])
+    def test_nothing_with_description_preserves_subject_instead_of_inventing_discrepancy(self):
+        from investigator import form_scope
+        import test_smart_intake
+        request=to_form({**self.request,'comparing':{'kind':'NOTHING'},
+            'description':'In Report, explain the global numerator and denominator of Quantity.'},self.models)
+        p=self.h.description_proposal(request);p.pop('ticket_route')
+        raw,_=test_smart_intake.fixture(form_scope.document(request,None)['text'],figures=[])
+        raw['kind']='METRIC_COMPONENTS';p['extracted_ticket']={'response':raw}
+        built=form_scope.build(request,self.models,None,description_proposal=p)
+        self.assertEqual(built['proposal']['ticket_route']['route'],'DECLARED_SUBJECT')
+        self.assertEqual(built['proposal']['target_visual']['target_id'],'card')
+    def test_blank_nothing_and_explicit_application_keep_their_routes(self):
+        self.assertEqual(to_form({**self.request,'comparing':{'kind':'NOTHING'}},self.models)['comparison'],'LOOKS_WRONG')
+        self.assertEqual(to_form({**self.request,'description':'Explain Quantity.'},self.models)['comparison'],'APPLICATION')
+    def test_eval_mapping_cannot_invent_a_comparison_or_required_pick(self):
+        from investigator.questionnaire_eval_inputs import map_form
+        form=to_form(self.request,self.models)
+        self.assertEqual(map_form(form,'original text')['description'],'original text')
+        for change in ({'comparison':None},{'comparison':'OTHER_REPORT'},{'page_id':None}):
+            with self.assertRaisesRegex(ValueError,'QUESTIONNAIRE_NOT_MEASURABLE'):
+                map_form({**form,**change},'original text')
+        self.assertEqual(map_form({**form,'comparison':'DECLARED_SUBJECT'},'Explain Quantity')['comparing'],{'kind':'NOTHING'})
     def test_other_page_and_report_cannot_alias_or_escape_declared_context(self):
         for comparison in ({'kind':'OTHER_PAGE','page_id':'page'},{'kind':'OTHER_REPORT','report_id':'absent','page_id':'x'}):
             with self.assertRaises(ValueError):validate({**self.request,'comparing':comparison},self.models)

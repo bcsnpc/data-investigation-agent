@@ -67,5 +67,5 @@ def to_form(request,models,*,review=None):
     kind=request['comparing']['kind']
     return {'version':form_intake.VERSION,'request_key':request['request_key'],
         'report_id':request['report_id'],'page_id':request['page_id'],'target_id':request['visual_id'],
-        'cell_mode':mode,'value_seen':None,'comparison':'APPLICATION' if kind=='APPLICATION' else 'LOOKS_WRONG' if kind=='NOTHING' else form_intake.SUBJECT_ROUTE,
+        'cell_mode':mode,'value_seen':None,'comparison':'APPLICATION' if kind=='APPLICATION' else (None if description.strip() else 'LOOKS_WRONG') if kind=='NOTHING' else form_intake.SUBJECT_ROUTE,
         'description':description,'cell_keys':[]}
