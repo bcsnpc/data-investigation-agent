@@ -7,7 +7,7 @@ from investigator.adapters.microsoft_load_declarations import declared_source_co
 
 class PipelineDeclaredConnectionTests(unittest.TestCase):
     def test_retained_pipeline_source_connections_are_native_declarations(self):
-        raw=Path('fixture-code/billing/published-20261009/pipeline-content.json').read_text()
+        raw=(Path(__file__).resolve().parents[1]/'fixture-code/billing/published-20261009/pipeline-content.json').read_text()
         value=json.loads(raw)
         expected={activity['typeProperties']['source']['datasetSettings']['externalReferences']['connection']
             for activity in value['properties']['activities'] if activity['type']=='Copy'}

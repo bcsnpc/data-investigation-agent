@@ -210,8 +210,32 @@ class TapeTests(unittest.TestCase):
             with active(replayed),self.assertRaises(TapeError):
                 gov.metered_read('owned-session','request',corrupt_own)
 
-    def test_no_governor_workspace_records_and_replays_without_claiming_a_budget_baseline(self):
-        self.exercise_process(no_governor=True)
+    def test_no_governor_read_only_operation_records_and_replays_without_budget_baseline(self):
+        from types import SimpleNamespace
+        import test_flexible_investigation as fixture
+        from investigator import run_recording,process_tape as journal
+        helper=fixture.DynamicTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        agent=SimpleNamespace(store=helper.store,config=helper.config,
+            planner_profile={'adapter':'injected','deployment':'synthetic'},governor=None)
+        identity=helper.envelope['model_id']
+        class ReadOnlyIntake:
+            def __init__(self):self.agent=agent;self.owner=identity
+            @run_recording.operation('intake')
+            def resolve(self,request):return {'id':identity,'status':'NEEDS_INPUT'}
+        owner=ReadOnlyIntake();request={'text':'No target has been supplied'}
+        with patch.dict('os.environ',{'INVESTIGATOR_RECORD_RUNS':'1'}),patch.object(run_recording,'ROOT',helper.fixture.root):
+            result=owner.resolve(request)
+        tape=agent._run_tapes[identity]
+        self.assertIsNone(tape.bootstrap['usage_policy']);self.assertNotIn('budget_checkpoint',tape.bootstrap['state'])
+        self.assertFalse(any(e['kind']=='BUDGET_INPUT' for e in tape.events))
+        original=tape.path.read_bytes();replayed=Tape(tape.path)
+        final={'operation':'intake','error':None,'outputs':None,'status':'NEEDS_INPUT','result':result}
+        with active(replayed):
+            operation=json.loads(replayed.take('OPERATION_START'))
+            event('CONFIGURATION',{'config':agent.config,'profile':agent.planner_profile,'usage_policy':None})
+            self.assertEqual(owner.resolve(*operation['args'],**operation['kwargs']),result)
+            event('OPERATION_END',{'name':'intake','error':None});replayed.finish(final)
+        self.assertEqual(tape.path.read_bytes(),original)
 
     def test_real_process_runtime_records_and_replays_its_two_outputs(self):
         self.exercise_process()
@@ -237,7 +261,7 @@ class TapeTests(unittest.TestCase):
     def test_smart_ticket_auto_start_records_and_replays_without_an_extra_click(self):
         self.exercise_process(smart_ticket=True,auto_start=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False,no_governor=False):
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -258,7 +282,7 @@ class TapeTests(unittest.TestCase):
             'max_inflight_planners':1,'no_progress_limit':3}
         native=lambda request:bounded_call('synthetic-native',request,lambda:helper.runtime.native_transport(request))
         runtime=Runtime(helper.store,helper.config,native,helper.runtime.source_transport)
-        agent=AdaptiveRuntime(runtime,lambda _:self.fail('No open planner'),usage_policy=None if no_governor else policy,
+        agent=AdaptiveRuntime(runtime,lambda _:self.fail('No open planner'),usage_policy=policy,
             planner_profile={'adapter':'injected','deployment':'synthetic'})
         envelope=copy.deepcopy(helper.envelope);envelope['strategy']=VERSION
         envelope['comparison_mode']='VERTICAL';envelope['ticket_shape']='MISMATCH_COMPLAINT'
@@ -348,9 +372,6 @@ class TapeTests(unittest.TestCase):
                 self.assertIn('Mechanism not stated',result['synthesis']['outputs'][key]['explanation']['text'])
                 self.assertNotIn('The quantity can.',result['synthesis']['outputs'][key]['explanation']['text'])
         tape=agent._run_tapes[created['id']]
-        if no_governor:
-            self.assertNotIn('budget_checkpoint',tape.bootstrap['state'])
-            self.assertIsNone(tape.bootstrap['usage_policy'])
         if pinned_context:self.assertEqual(tape.bootstrap['state']['context_pins'],helper.store.context_pins)
         if fixture_state:self.assertEqual(tape.bootstrap['state']['fixture_state'],helper.store.acceptance_fixture_state)
         sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
