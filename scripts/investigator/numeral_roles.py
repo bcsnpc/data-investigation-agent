@@ -43,7 +43,13 @@ def expected(mentions,ticket=None,*,allow_opaque=False):
             # whether it is meaningful for the declared key type.
             result.append({'value':literal,'source':copy.deepcopy(mention['source'])})
             continue
-        value,precision=stated(literal)
+        try:value,precision=stated(literal)
+        except ValueError as exc:
+            from .intake_rules import RuleViolation
+            raise RuleViolation('IDENTIFIER_QUOTE_INVALID',
+                'Quote each identifier token exactly, without its surrounding description. '
+                'An identifier is not a reported quantity and has no comparison precision; '
+                'do not choose among competing identifier tokens.') from exc
         if precision!={'state':'EXACT'}:raise ValueError('Expected record identifier must be exact, not rounded')
         result.append({'value':value,'source':copy.deepcopy(mention['source'])})
     return result

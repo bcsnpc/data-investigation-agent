@@ -9,6 +9,49 @@ import test_investigator_workspace as workspace_fixture
 
 
 class SmartIntakeTests(unittest.TestCase):
+    def test_model_subject_is_preserved_through_scope_adoption_without_visual_question(self):
+        self.raw,self.payload=fixture('Is the global Quantity in Model current?',
+            kind='FRESHNESS',triage='MISMATCH_COMPLAINT:VERTICAL',
+            reports=[{'quote':'Model','role':'PRIMARY'}],
+            visuals=[{'quote':'global','role':'PRIMARY','form':'UNGROUPED'}])
+        self.catalog['models']=self.payload['models']
+        request={'text':self.payload['text'],'request_key':'model-measure',
+                 'structured':{'subject':'MODEL_MEASURE','comparison':'STALE'}}
+        self.controller.configuration['must_confirm']=[]
+        saved=self.controller.submit(request)
+        self.assertEqual(saved['ticket']['questions'],[])
+        adopted=self.workspace.intake.get(saved['ticket']['intake_id'])
+        self.assertEqual(adopted['input_request'],request)
+        self.assertNotIn('target_visual',adopted['proposal'])
+        self.assertNotIn('report_binding',adopted['proposal'])
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
+    def test_identifier_phrase_is_retried_once_and_exact_opaque_token_proceeds(self):
+        from investigator import form_scope,form_intake
+        from investigator.question_intake import azure_resolve
+        text='In Report, Global card Quantity reflects adjustment reason X73.'
+        good,payload=fixture(text,kind='SOURCE_CORRECTNESS',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}],
+            identifiers=[{'quote':'X73','role':'PRIMARY'}])
+        bad=copy.deepcopy(good);bad['identifiers'][0]['quote']='adjustment reason X73'
+        for visual in payload['models'][0]['visuals']:visual['page_id']='page'
+        self.catalog['models']=payload['models']
+        request={'version':form_intake.VERSION,'request_key':'identifier-form','report_id':'report',
+            'page_id':'page','target_id':'card','cell_mode':'UNGROUPED','comparison':'APPLICATION',
+            'value_seen':None,'description':text}
+        doc=form_scope.document(request,self.workspace.intake_configuration)
+        end=next(p['end'] for p in doc['parts'] if p['pointer']=='/description')
+        self.workspace.intake.resolver=azure_resolve
+        with patch('ticket_planner.azure_generate',side_effect=[(bad,{}),(good,{})]) as provider:
+            saved=self.workspace.intake.resolve({'text':doc['text'][:end],
+                'request_key':'identifier-repair','parent_id':None},retain_extraction=True,form_request=request)
+        self.assertEqual(saved['status'],'PROPOSED',saved)
+        self.assertEqual(provider.call_count,2)
+        self.assertEqual(saved['resolution_attempts'][0]['rule'],'IDENTIFIER_QUOTE_INVALID')
+        self.assertEqual(saved['proposal']['expected_records'][0]['value'],'X73')
+        self.assertEqual(saved['retained_extraction'],bad)
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_incomplete_two_key_cell_holds_before_adoption_and_every_reader(self):
         self.raw,self.payload=fixture('In Report, Warehouse matrix Quantity North / One shows 16. Can saved context reproduce it?',
             kind='VISUAL_CONTENT',triage='BUSINESS_QUESTION:NONE',

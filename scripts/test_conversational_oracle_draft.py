@@ -11,7 +11,12 @@ class OracleDraftTests(unittest.TestCase):
     def test_owner_amendment_diff_accounts_for_every_changed_field(self):
         root=ROOT/'acceptance/oracle'
         before=json.loads((root/'oracle-draft-before-owner-review.json').read_text())
-        after=json.loads((root/'oracle-draft.json').read_text())
+        # This diff documents the earlier owner review. A1 is a separate,
+        # later approved amendment, with its own exhaustive diff test.
+        sealed_review=root/'oracle-before-a1.json'
+        self.assertEqual(hashlib.sha256(sealed_review.read_bytes()).hexdigest(),
+                         'be029b56a6de27195dac507bfb5010f0ce7abc2732702d9a230e5f4a8d38406c')
+        after=json.loads(sealed_review.read_text())
         diff=json.loads((root/'oracle-approval-diff.json').read_text())
         changes={r['id']:r['fields'] for r in diff['changes']}
         for old,new in zip(before['records'],after['records']):

@@ -122,6 +122,10 @@ def wire(payload):
     if len(json.dumps({'names':names,'visual_titles':titles},ensure_ascii=False))>NAME_CAP:
         raise ValueError('INTAKE_NAME_LIST_OVERSIZE: compact typed names exceed '+str(NAME_CAP))
     value = {'ticket':payload['text'],'question_kinds':list(question_kind.KINDS),'names':names,'visual_titles':titles}
+    from .ticket_inputs import model_subject
+    if model_subject(payload.get('_input_request'),payload['text']):
+        value['user_subject']='MODEL_MEASURE'
+        value['subject_rule']='The user explicitly chose a semantic-model measure question, not a report visual. Preserve actual column restrictions and the named model/measure. A generic global word does not select a visual. Do not invent a report or visual target.'
     if payload.get('_form_description_input') is not None:
         value['form_description_rules']='Extract the description verbatim. The separately selected form objects are already established by code. An invoked bookmark label is page-state context, never a record identifier. A selected comparison is a user fact; an inferred default does not contradict it.'
     repairs = {k:v for k,v in payload.items() if k.startswith('_') and k.endswith('repair')}
@@ -316,6 +320,8 @@ def resolve(raw, payload):
     from . import report_scope, numeral_roles, intake_rules
     from .visual_target import TargetUnresolved
     ticket=payload['text']
+    from .ticket_inputs import model_subject
+    model_only=model_subject(payload.get('_input_request'),ticket)
     confirmation=payload.get('_ticket_confirmation')
     confirmed={}
     if confirmation is not None:
@@ -530,6 +536,11 @@ def resolve(raw, payload):
         if report not in reports:reports.append(report)
     needs_report=kind in ('VISUAL_CONTENT','FILTER_EFFECT') or any(active(i,extraction) for i in extraction['visuals'])
     needs_report=needs_report or bool(pending)
+    if model_only:
+        if kind in ('VISUAL_CONTENT','FILTER_EFFECT') or pending:
+            raise intake_rules.RuleViolation('MODEL_SUBJECT_CONFLICT',
+                'A report-context question conflicts with the user-selected model-measure subject; do not invent a visual.')
+        reports=[];needs_report=False
     if needs_report or reports:
         if len(reports)!=1:
             raise TargetUnresolved(model.get('visuals',[]),'Named report is unresolved or ambiguous.',

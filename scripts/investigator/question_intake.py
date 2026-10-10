@@ -670,6 +670,8 @@ class Intake:
         from .ticket_inputs import active_request
         from .input_reference import from_input as supplied_reference
         input_request=active_request(saved)
+        from .ticket_inputs import model_subject
+        if model_subject(input_request,source['text']):payload['_input_request']=copy.deepcopy(input_request)
         reference=supplied_reference(input_request,source['text'],catalog['models'])
         if reference is not None:
             payload['_input_request']=copy.deepcopy(input_request)
@@ -717,6 +719,8 @@ class Intake:
                 scope_provenance='SAVED_USER_CONFIRMED_SCOPE_PROPOSAL' if proof else 'REVALIDATED_RETAINED_SCOPE_PROPOSAL',
                 provider_calls=0,confirmation_ticket={'id':identity,'revision':revision,
                     'authority_hash':intake_confirmation.authority_hash(ticket)})
+            if payload.get('_input_request') is not None:
+                body['input_request']=copy.deepcopy(payload['_input_request'])
             db.execute('INSERT INTO workspace_intakes VALUES(?,?,?,?)',
                        (body['id'],request_key,encoded(body),digest(body)))
             return body
@@ -803,9 +807,10 @@ class Intake:
             from .input_reference import preflight, from_input
             preflight(input_request)
             reference=from_input(input_request,combined,catalog['models'])
-            if reference is None:raise ValueError('Supplied input authority has no declared reference')
+            from .ticket_inputs import model_subject
+            if reference is None and not model_subject(input_request,combined):raise ValueError('Supplied input authority has no declared reference')
             payload['_input_request']=copy.deepcopy(input_request)
-            payload['_ticket_reference']=reference
+            if reference is not None:payload['_ticket_reference']=reference
             body['input_request']=copy.deepcopy(input_request)
         governor = self.workspace.agent.governor
         with self.store.connect() as db:

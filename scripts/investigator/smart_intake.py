@@ -47,6 +47,7 @@ class SmartIntake:
                         'reason':'DECLARED_REFERENCE_UNAVAILABLE','message':str(exc),
                         'source_input_hash':digest(request),'provider_calls':0}))
             options['input_request']=request
+        if ticket_inputs.model_subject(request,document['text']):options['input_request']=request
         source=self.workspace.intake.resolve({'text':document['text'],
             'request_key':'smart:'+saved['ticket']['id'],'parent_id':None},**options)
         def attach(ticket):
@@ -85,6 +86,8 @@ class SmartIntake:
         from .ticket_inputs import active_request
         from .input_reference import from_input
         input_request=active_request(saved)
+        from .ticket_inputs import model_subject
+        if model_subject(input_request,source['text']):payload['_input_request']=input_request
         reference=from_input(input_request,source['text'],catalog['models'])
         if reference is not None:
             payload['_input_request']=input_request;payload['_ticket_reference']=reference

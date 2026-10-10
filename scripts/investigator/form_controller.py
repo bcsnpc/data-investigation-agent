@@ -54,7 +54,7 @@ class Forms:
             # No report authority is manufactured for a model-level question.
             # Preserve the form envelope, but use the existing free-text port.
             forwarded={'text':request['description'],'request_key':request['request_key']}
-            structured={}
+            structured={'subject':'MODEL_MEASURE'}
             if request['value_seen'] is not None:structured['number']=request['value_seen']
             if request['comparison'] not in (None,form_intake.SUBJECT_ROUTE):structured['comparison']=request['comparison']
             if structured:forwarded['structured']=structured

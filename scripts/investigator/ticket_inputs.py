@@ -6,9 +6,11 @@ from .onboarding import digest
 VERSION='ticket-input-document-v1'
 ROUTE_VERSION='ticket-comparison-input-v1'
 STRUCTURED=protocol.obj({'number':protocol.TEXT,'report_page':protocol.TEXT,'report_link':protocol.TEXT,
-                         'comparison':{'enum':list(protocol.ROUTES)}},
-                        optional=('number','report_page','report_link','comparison'))
+                         'comparison':{'enum':list(protocol.ROUTES)},'subject':{'enum':['MODEL_MEASURE']}},
+                        optional=('number','report_page','report_link','comparison','subject'))
 STRUCTURED['minProperties']=1
+STRUCTURED['allOf']=[{'if':{'required':['subject']},'then':{
+    'not':{'anyOf':[{'required':['report_page']},{'required':['report_link']}]}}}]
 REQUEST=protocol.obj({'text':{**protocol.TEXT,'minLength':0},
                      'request_key':{'type':'string','minLength':1,'maxLength':100},
                      'structured':STRUCTURED},optional=('structured',))
@@ -49,6 +51,12 @@ def document(request):
     if len(result)>protocol.TEXT['maxLength']:raise ValueError('Combined input document exceeds the intake consumer bound; nothing was truncated')
     return {'text':result,'provenance':{'version':VERSION,'source_input_hash':digest(request),
                                       'document_hash':digest(result),'parts':parts}}
+
+
+def model_subject(request, text):
+    if request is None:return False
+    if document(request)['text']!=text:raise ValueError('Model subject belongs to different input')
+    return request.get('structured',{}).get('subject')=='MODEL_MEASURE'
 
 
 def route(request, text, configuration):

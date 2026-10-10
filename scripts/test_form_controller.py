@@ -48,6 +48,7 @@ class FormControllerTests(unittest.TestCase):
             saved=self.workspace.forms.submit(request)
         forwarded=submit.call_args.args[0]
         self.assertEqual(forwarded['text'],request['description'])
+        self.assertEqual(forwarded['structured']['subject'],'MODEL_MEASURE')
         self.assertNotIn('report_page',forwarded.get('structured',{}))
         self.assertEqual(saved['ticket']['form_origin'],request)
         self.assertNotIn('form_input',saved['ticket'])
