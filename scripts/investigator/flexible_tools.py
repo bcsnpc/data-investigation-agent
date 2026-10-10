@@ -213,7 +213,8 @@ def run(store,plan,config,tool,execute,*,receipt_id=None,catalog=None):
     raw_report=None
     try:
         if build(store,plan,config,tool,catalog=catalog)!=request:raise Conflict('Context changed before query')
-        response=execute(request)
+        from .physical_transport_retry import execute as retry_transport
+        response=retry_transport(request,execute,tool)
         if tool=='bounded_dax':require(response,request,config['fabric']['native_reader'])
         elif not response.get('read_only_verified'):raise ValueError('Source read-only permission check missing')
         if request.get('surface_report_columns'):

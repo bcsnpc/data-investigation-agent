@@ -26,6 +26,75 @@ class EndToEndTests(unittest.TestCase):
         self.assertEqual(span(result['source'],result['text']),'7 units')
         self.assertNotEqual(result['source']['start'],source['start'])
 
+    def test_projected_accounting_pin_replays_actual_output_release(self):
+        from investigator.usage_governance import charged
+        from investigator.process_tape import active
+        policy={'tape_class':'PRIVACY_PROJECTED','version':'estate-privacy-projection-v1',
+            'estate_id':'synthetic','key_reference':'secret/synthetic','columns':['person']}
+        key=lambda _:b'synthetic-in-memory-key-32-bytes!!'
+        row={'reserved':json.dumps({'output_tokens':100}),'actual':json.dumps({'output_tokens':30}),
+             'status':'SETTLED'}
+        with tempfile.TemporaryDirectory() as folder:
+            tape=PrivacyTape(Path(folder)/'tape.json',Projection(policy,key))
+            tape.event('BOOTSTRAP',canonical({'state':{'accounting_version':3}}))
+            with active(tape):expected=charged(row)
+            tape.finish({'status':'COMPLETED'})
+            replay=PrivacyTape(tape.path,Projection(policy,key),replay=True)
+            with active(replay):self.assertEqual(charged(row),expected)
+
+    def test_projected_tape_peek_validates_without_consumption(self):
+        from investigator.privacy_projection import ProjectionError
+        policy={'tape_class':'PRIVACY_PROJECTED','version':'estate-privacy-projection-v1',
+            'estate_id':'synthetic','key_reference':'secret/synthetic','columns':['person']}
+        key=lambda _:b'synthetic-in-memory-key-32-bytes!!'
+        with tempfile.TemporaryDirectory() as folder:
+            tape=PrivacyTape(Path(folder)/'tape.json',Projection(policy,key))
+            self.assertIsNone(tape.peek('CONTROL'))
+            tape.event('CONTROL',canonical({'status':'FAILED'}));tape.finish({})
+            replay=PrivacyTape(tape.path,Projection(policy,key),replay=True)
+            self.assertEqual(replay.peek('CONTROL'),canonical({'status':'FAILED'}))
+            self.assertIsNone(replay.peek('OTHER'));self.assertEqual(replay.index,0)
+            replay.events[0]['sha256']='0'*64
+            with self.assertRaises(ProjectionError):replay.peek('CONTROL')
+
+    def test_projected_no_governor_does_not_pin_unprepared_delta(self):
+        from investigator.privacy_installation import _admission_state
+        no_governor=SimpleNamespace(concurrency_limit=1,agent=SimpleNamespace(governor=None))
+        self.assertNotIn('budget_checkpoint',_admission_state(no_governor,SimpleNamespace(),False))
+        governed=SimpleNamespace(concurrency_limit=1,agent=SimpleNamespace(governor=object()))
+        self.assertEqual(_admission_state(governed,SimpleNamespace(),False)['budget_checkpoint'],'DELTA_V1')
+
+    def test_projected_admission_pins_keep_legacy_contract_and_refuse_changed_pins(self):
+        from investigator.privacy_installation import _admission_state
+        from investigator.privacy_projection import ProjectionError
+        workspace=SimpleNamespace(concurrency_limit=3)
+        self.assertIsNone(_admission_state(workspace,SimpleNamespace(bootstrap={}),True))
+        legacy={'workspace_concurrency_limit':1}
+        self.assertEqual(_admission_state(workspace,SimpleNamespace(bootstrap={'state':legacy}),True),legacy)
+        for name,value in [('local_accounting','OTHER'),('budget_checkpoint','OTHER'),('snapshot_clock','OTHER'),
+                           ('physical_transport_retries',True),('physical_transport_retries',3),
+                           ('provider_transport_retries',3),('accounting_version',True),('accounting_version',999)]:
+            with self.subTest(name=name,value=value),self.assertRaises(ProjectionError):
+                _admission_state(workspace,SimpleNamespace(bootstrap={'state':{name:value}}),True)
+
+    def test_projected_tape_exposes_bootstrap_admission_state_without_raw_disk(self):
+        policy={'tape_class':'PRIVACY_PROJECTED','version':'estate-privacy-projection-v1',
+            'estate_id':'synthetic','key_reference':'secret/synthetic','columns':['person']}
+        key=lambda _:b'synthetic-in-memory-key-32-bytes!!'
+        p=Projection(policy,key);p.bind('person','PRIVATE_PERSON')
+        bootstrap={'state':{'workspace_concurrency_limit':3},'person':'PRIVATE_PERSON'}
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json';tape=PrivacyTape(path,p)
+            tape.event('BOOTSTRAP',canonical(bootstrap))
+            self.assertEqual(tape.bootstrap['state']['workspace_concurrency_limit'],3)
+            self.assertFalse(path.exists())
+            tape.finish({'status':'COMPLETED'})
+            self.assertNotIn(b'PRIVATE_PERSON',path.read_bytes())
+            replay=PrivacyTape(path,Projection(policy,key),replay=True)
+            self.assertEqual(replay.bootstrap['state']['workspace_concurrency_limit'],3)
+            replay.event('BOOTSTRAP',canonical(replay.bootstrap))
+            replay.finish({'status':'COMPLETED'})
+
     def test_sensitive_column_full_procedure_has_no_raw_disk_sidecar_output_or_broken_seal(self):
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -128,12 +197,20 @@ class EndToEndTests(unittest.TestCase):
                 result=install.investigate(request)
             self.assertEqual(result['tape_class'],'PRIVACY_PROJECTED')
             self.assertNotIn(raw,json.dumps(result))
-            self.assertEqual(result['result']['status'],'COMPLETED',result['result']['technical'].get('process_error') or result['result']['technical']['outcome'])
+            self.assertEqual(result['result']['status'],'COMPLETED',result['result'])
             self.assertEqual(agent.get(result['result']['id'])['synthesis']['status'],'COMPLETED',agent.get(result['result']['id'])['synthesis'])
             for file in root.rglob('*'):
                 if file.is_file():self.assertNotIn(raw.encode(),file.read_bytes(),str(file))
             tape=PrivacyTape(result['recording'],Projection(policy,lambda _:b'synthetic-in-memory-key-32-bytes!!'),replay=True)
             import base64
+            from investigator.budget_tape_contract import ACCOUNTING_VERSION
+            from investigator.local_accounting import PIN as LOCAL_ACCOUNTING_PIN
+            self.assertEqual(tape.bootstrap['state']['local_accounting'],LOCAL_ACCOUNTING_PIN)
+            self.assertEqual(tape.accounting_version,ACCOUNTING_VERSION)
+            self.assertEqual(tape.bootstrap['state']['budget_checkpoint'],'DELTA_V1')
+            self.assertEqual(tape.bootstrap['state']['snapshot_clock'],'ONE_CLOCK_V1')
+            self.assertEqual(tape.bootstrap['state']['physical_transport_retries'],2)
+            self.assertEqual(tape.bootstrap['state']['provider_transport_retries'],2)
             for event in tape.events:self.assertNotIn(raw.encode(),base64.b64decode(event['body']))
             before={str(file):file.read_bytes() for file in root.rglob('*') if file.is_file()}
             with patch('investigator.adapters.microsoft_process.MicrosoftProcessAdapter',Reader), \

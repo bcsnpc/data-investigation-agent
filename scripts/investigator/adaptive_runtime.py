@@ -402,14 +402,23 @@ class AdaptiveRuntime:
                 number=current.get('physical_calls',current['cloud_calls'])+1;key='physical:'+str(number)
                 if self.governor:self.governor.reserve(db,identity,key,'cloud')
                 current['physical_calls']=number;self.save(db,current,'PHYSICAL_READ_RESERVED',{'tool':tool,'number':number})
-            result=None;error=None
+            result=None;error=None;retry_physical=None
             try:
-                result=execute();return result
+                from .physical_reads import scope
+                from .process_tape import ACTIVE as active_tape
+                tape=active_tape.get()
+                legacy=tape is not None and tape.replaying and tape.bootstrap.get('state',{}).get('physical_transport_retries')!=2
+                if legacy:result=execute()
+                else:
+                    with scope(additional_read) as retry_physical:result=execute()
+                return result
             except Exception as exc:
                 error=type(exc).__name__;raise
             finally:
                 from .process_read_receipts import receipt
-                entry=receipt(number,tool,result,error)
+                first=retry_physical.get('first_report') if retry_physical else None
+                entry=receipt(number,first['request_kind'] if first else tool,first or result,error)
+                if first:entry['logical_tool']=tool
                 with self.runtime.db() as db:
                     db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
                     current.setdefault('physical_read_receipts',[]).append(entry)
@@ -629,7 +638,7 @@ class AdaptiveRuntime:
             return meter_read('xmla_failure_detail',execute,True)
 
         def read_endpoint(request):
-            def execute():
+            def execute(request):
                 import subprocess
                 from metadata_config import ROOT
                 from uuid import UUID
@@ -655,7 +664,8 @@ class AdaptiveRuntime:
                     return {'id':body['id'],'properties':{'sqlEndpointProperties':{
                         k:properties[k] for k in ('id','connectionString') if k in properties}}}
                 except (ValueError,KeyError,subprocess.TimeoutExpired):return {'status':'UNAVAILABLE'}
-            return meter_read('fabric_endpoint_metadata',execute)
+            from .physical_transport_retry import execute as retry_transport
+            return meter_read('fabric_endpoint_metadata',lambda:retry_transport(request,execute,'fabric_endpoint_metadata'))
 
         # The independent lower surface: declared only when the reader's own
         # session is present (a local check, no token request).

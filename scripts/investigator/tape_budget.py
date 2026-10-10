@@ -34,6 +34,9 @@ def checkpoint(self,db,session_id):
     if tape is None:return
     owned=getattr(tape,'budget_owned_sessions',set())
     owned.add(session_id);tape.budget_owned_sessions=owned
+    from .budget_delta import enabled,checkpoint as delta_checkpoint
+    if enabled(tape):
+        return delta_checkpoint(tape,db,self.environment,owned)
     schemas={table:[r[1] for r in db.execute('PRAGMA table_info('+table+')')] for table in TABLES}
     def external_rows(table,columns):
         sql='SELECT * FROM '+table+' WHERE environment=?';args=[self.environment]

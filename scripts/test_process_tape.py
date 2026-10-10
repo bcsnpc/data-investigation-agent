@@ -17,6 +17,16 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def test_peek_validates_without_consuming_and_has_no_wire_effect(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'peek.json';tape=Tape(path,bootstrap());tape.finish({})
+            original=path.read_bytes();replay=Tape(path);index=replay.index
+            self.assertEqual(replay.peek('FINAL'),bytes_of({}));self.assertEqual(replay.index,index)
+            self.assertIsNone(replay.peek('CLOCK'));self.assertEqual(replay.index,index)
+            replay.finish({});self.assertIsNone(replay.peek('FINAL'));self.assertEqual(path.read_bytes(),original)
+            replay=Tape(path);replay.events[replay.index]['sha256']='wrong'
+            with self.assertRaisesRegex(TapeError,'BODY_INTEGRITY'):replay.peek('FINAL')
+
     def test_accounting_version_requires_integer_not_boolean_alias(self):
         from investigator.process_tape import sha
         with tempfile.TemporaryDirectory() as folder:
@@ -82,7 +92,7 @@ class TapeTests(unittest.TestCase):
                 recorded.event('BOUNDED_RESPONSE', bytes_of({'value': 2}))
                 recorded.finish({})
             original = path.read_bytes()
-            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v6')
+            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v7')
             replayed = Tape(path)
             self.assertEqual(replayed.version, 'bounded-worker-tape-v1')
             replayed.event('BOUNDED_REQUEST', bytes_of({'request': 1}))
@@ -90,7 +100,7 @@ class TapeTests(unittest.TestCase):
             replayed.finish({})
             self.assertEqual(path.read_bytes(), original)
 
-    def test_v5_replays_unchanged_after_parallel_recorder_moves_to_v6(self):
+    def test_v5_replays_unchanged_after_recorder_moves_to_v7(self):
         from investigator import process_tape as journal
         with tempfile.TemporaryDirectory() as folder:
             path=Path(folder)/'v5.json'
@@ -179,7 +189,8 @@ class TapeTests(unittest.TestCase):
             def concurrent():
                 with active(None):gov.metered_read('other-session','request',lambda:'other physical request')
                 return 'own result'
-            tape=Tape(folder/'tape.json',bootstrap())
+            with patch('investigator.process_tape.VERSION','bounded-worker-tape-v6'):
+                tape=Tape(folder/'tape.json',bootstrap())
             with active(tape):
                 result=gov.metered_read('owned-session','request',concurrent)
                 expected={'result':result,'charged':gov.snapshot()['read_allowance']['ordinary_charged']}
@@ -198,6 +209,9 @@ class TapeTests(unittest.TestCase):
                 return 'own result'
             with active(replayed),self.assertRaises(TapeError):
                 gov.metered_read('owned-session','request',corrupt_own)
+
+    def test_no_governor_workspace_records_and_replays_without_claiming_a_budget_baseline(self):
+        self.exercise_process(no_governor=True)
 
     def test_real_process_runtime_records_and_replays_its_two_outputs(self):
         self.exercise_process()
@@ -223,7 +237,7 @@ class TapeTests(unittest.TestCase):
     def test_smart_ticket_auto_start_records_and_replays_without_an_extra_click(self):
         self.exercise_process(smart_ticket=True,auto_start=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False):
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False,no_governor=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -244,7 +258,7 @@ class TapeTests(unittest.TestCase):
             'max_inflight_planners':1,'no_progress_limit':3}
         native=lambda request:bounded_call('synthetic-native',request,lambda:helper.runtime.native_transport(request))
         runtime=Runtime(helper.store,helper.config,native,helper.runtime.source_transport)
-        agent=AdaptiveRuntime(runtime,lambda _:self.fail('No open planner'),usage_policy=policy,
+        agent=AdaptiveRuntime(runtime,lambda _:self.fail('No open planner'),usage_policy=None if no_governor else policy,
             planner_profile={'adapter':'injected','deployment':'synthetic'})
         envelope=copy.deepcopy(helper.envelope);envelope['strategy']=VERSION
         envelope['comparison_mode']='VERTICAL';envelope['ticket_shape']='MISMATCH_COMPLAINT'
@@ -334,6 +348,9 @@ class TapeTests(unittest.TestCase):
                 self.assertIn('Mechanism not stated',result['synthesis']['outputs'][key]['explanation']['text'])
                 self.assertNotIn('The quantity can.',result['synthesis']['outputs'][key]['explanation']['text'])
         tape=agent._run_tapes[created['id']]
+        if no_governor:
+            self.assertNotIn('budget_checkpoint',tape.bootstrap['state'])
+            self.assertIsNone(tape.bootstrap['usage_policy'])
         if pinned_context:self.assertEqual(tape.bootstrap['state']['context_pins'],helper.store.context_pins)
         if fixture_state:self.assertEqual(tape.bootstrap['state']['fixture_state'],helper.store.acceptance_fixture_state)
         sys.path.insert(0,str(Path(__file__).resolve().parents[1]))

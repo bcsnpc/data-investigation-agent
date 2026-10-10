@@ -14,12 +14,12 @@ from contextlib import closing
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
-VERSION = 'bounded-worker-tape-v6'
-SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', VERSION))
+VERSION = 'bounded-worker-tape-v7'
+SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', 'bounded-worker-tape-v6', VERSION))
 PINNED_VERSIONS = SUPPORTED_VERSIONS - {'bounded-worker-tape-v1'}
-ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4','bounded-worker-tape-v5',VERSION))
-SMART_VERSIONS = frozenset(('bounded-worker-tape-v5',VERSION))
-CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5',VERSION))
+ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6',VERSION))
+SMART_VERSIONS = frozenset(('bounded-worker-tape-v5','bounded-worker-tape-v6',VERSION))
+CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6',VERSION))
 SMART_OPERATIONS=frozenset(('ticket_submit','ticket_reply','ticket_attach','ticket_share','ticket_close','ticket_respond','ticket_finish',
                           'form_submit','form_reply','form_screenshot_reply','form_comment'))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
@@ -144,6 +144,13 @@ class Tape:
         # but are incomplete and cannot masquerade as replayable finished tapes.
         if kind in ('BOOTSTRAP','FINAL'):self.flush()
 
+    def peek(self,kind):
+        """Validate a pending replay body without consuming its event."""
+        if not self.replaying or self.index>=len(self.events):return None
+        pending=self.events[self.index]
+        body=validate_event(pending,self.index+1)
+        return body if pending['kind']==kind else None
+
     def take(self,kind):
         if self.index>=len(self.events):raise TapeError('TAPE_EXHAUSTED')
         event=self.events[self.index]
@@ -176,6 +183,14 @@ class Tape:
                 fields.add('provider_transport_retries')
                 if type(state['provider_transport_retries']) is not int or state['provider_transport_retries']!=2:
                     raise TapeError('TAPE_PROVIDER_TRANSPORT_RETRY_CONFIGURATION')
+            for key,expected in (('budget_checkpoint','DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),('local_accounting','SQLITE_BOUNDARY_V1')):
+                if key in state:
+                    fields.add(key)
+                    if state[key]!=expected:raise TapeError('TAPE_BUDGET_CONFIGURATION')
+            if 'physical_transport_retries' in state:
+                fields.add('physical_transport_retries')
+                if type(state['physical_transport_retries']) is not int or state['physical_transport_retries']!=2:
+                    raise TapeError('TAPE_PHYSICAL_TRANSPORT_RETRY_CONFIGURATION')
             if 'workspace_concurrency_limit' in state:
                 if type(state['workspace_concurrency_limit']) is not int or not 1<=state['workspace_concurrency_limit']<=8:
                     raise TapeError('TAPE_WORKSPACE_CONCURRENCY_CONFIGURATION')
@@ -328,6 +343,9 @@ class Tape:
 
 @contextmanager
 def active(tape):
+    if tape is not None and getattr(tape,'version',None)=='bounded-worker-tape-v7' and tape.bootstrap.get('entry_point')=='workspace' and tape.bootstrap.get('usage_policy') is not None and tape.bootstrap.get('state',{}).get('budget_checkpoint')=='DELTA_V1':
+        from .budget_delta import prepare
+        prepare(tape,tape.path.parent/'catalog.sqlite',tape.bootstrap['state']['environment'])
     token=ACTIVE.set(tape)
     try:yield tape
     finally:ACTIVE.reset(token)

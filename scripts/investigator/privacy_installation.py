@@ -12,6 +12,30 @@ from .privacy_tape import PrivacyTape
 from .process_tape import active as tape_active
 
 
+def _admission_state(workspace,tape,replaying):
+    """Legacy packets keep their recorded contract; new pins are strict."""
+    import copy
+    from .budget_tape_contract import ACCOUNTING_HISTORY,ACCOUNTING_VERSION
+    from .local_accounting import PIN as LOCAL_ACCOUNTING_PIN
+    if replaying:
+        if 'state' not in tape.bootstrap:return None
+        state=copy.deepcopy(tape.bootstrap['state'])
+    else:
+        state={'local_accounting':LOCAL_ACCOUNTING_PIN,'accounting_version':ACCOUNTING_VERSION,'snapshot_clock':'ONE_CLOCK_V1',
+            'physical_transport_retries':2,'provider_transport_retries':2,
+            'workspace_concurrency_limit':workspace.concurrency_limit}
+        if getattr(getattr(workspace,'agent',None),'governor',None) is not None:
+            state['budget_checkpoint']='DELTA_V1'
+    if not isinstance(state,dict):raise ProjectionError('PRIVACY_ADMISSION_STATE')
+    for name,expected in (('local_accounting',LOCAL_ACCOUNTING_PIN),('budget_checkpoint','DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),
+                          ('physical_transport_retries',2),('provider_transport_retries',2)):
+        if name in state and (type(state[name]) is not type(expected) or state[name]!=expected):
+            raise ProjectionError('PRIVACY_ADMISSION_PIN_DIFFERS')
+    if 'accounting_version' in state and (type(state['accounting_version']) is not int or state['accounting_version'] not in ACCOUNTING_HISTORY):
+        raise ProjectionError('PRIVACY_ACCOUNTING_VERSION')
+    return state
+
+
 class Installation:
     def __init__(self,workspace,capture,recording_root):
         self._workspace=workspace;self.capture=capture;self.recording_root=Path(recording_root)
@@ -26,13 +50,21 @@ class Installation:
         result=None;error=None
         try:
             with self.capture.active(),tape_active(tape):
-                tape.event('BOOTSTRAP',canonical({'tape_class':'PRIVACY_PROJECTED',
+                bootstrap={'tape_class':'PRIVACY_PROJECTED',
                     'config':self._workspace.agent.config,
                     'profile':self._workspace.agent.planner_profile,
                     'owner':self._workspace.owner,
                     'stores':[store.image() for store in self.capture.stores],
                     'ledgers':{str(path):rows for path,rows in self.capture.ledgers.items()},
-                    'request':request}))
+                    'request':request}
+                state=_admission_state(self._workspace,tape,_replay is not None)
+                if state is not None:bootstrap['state']=state
+                tape.event('BOOTSTRAP',canonical(bootstrap))
+                governor=self._workspace.agent.governor
+                if governor is not None:
+                    from .budget_delta import prepare_memory
+                    with governor.runtime.db() as db:
+                        prepare_memory(tape,db,governor.environment)
                 intake=self._workspace.intake.resolve(request)
                 if intake['status']!='PROPOSED':result={'intake':intake,'status':intake['status']}
                 else:

@@ -47,6 +47,8 @@ class UsageGovernor:
             """)
 
             read_allowance.initialize(db)
+            from .budget_delta import initialize
+            initialize(db)
             db.execute('''CREATE TABLE IF NOT EXISTS usage_violation_acknowledgments(
                 environment TEXT, session_id TEXT, reservation_key TEXT,
                 violation_hash TEXT, approval TEXT, created REAL,
@@ -177,14 +179,27 @@ class UsageGovernor:
         # actual output after settlement; missing usage retains the full bound.
 
     def snapshot(self):
+        from .process_tape import ACTIVE
+        tape=ACTIVE.get()
+        # Old sealed tapes retain their CLOCK event order. A new snapshot
+        # observes one instant, so its day and rolling window cannot disagree.
+        legacy_versions={'bounded-worker-tape-v1','bounded-worker-tape-v2',
+            'bounded-worker-tape-v3','bounded-worker-tape-v4',
+            'bounded-worker-tape-v5','bounded-worker-tape-v6'}
+        legacy=bool(tape and (tape.version in legacy_versions or
+            tape.version=='privacy-projected-tape-v1' and
+            tape.bootstrap.get('state',{}).get('snapshot_clock')!='ONE_CLOCK_V1'))
+        now=None if legacy else self.clock()
+        today=None if legacy else datetime.fromtimestamp(now,timezone.utc).date().isoformat()
         with self.runtime.db() as db:
-            reads=read_allowance.snapshot(db,self.environment,self.clock(),self.policy['daily_limits']['cloud_calls'])
+            if not legacy and not db.in_transaction:db.execute('BEGIN')
+            reads=read_allowance.snapshot(db,self.environment,self.clock() if legacy else now,self.policy['daily_limits']['cloud_calls'])
             rows=db.execute('SELECT day,kind,reserved,actual,status FROM adaptive_usage WHERE environment=? ORDER BY created',
                             (self.environment,)).fetchall()
         total=dict.fromkeys(KEYS,0);used=dict.fromkeys(KEYS,0);active=dict.fromkeys(KEYS,0);states={}
         unknown_output=0
         for r in rows:
-            if r['day']==self.day():
+            if r['day']==(self.day() if legacy else today):
                 for k,v in json.loads(r['reserved']).items():total[k]+=v
                 for k,v in charged(r).items():used[k]+=v
                 if r['status']=='RESERVED':
@@ -192,7 +207,7 @@ class UsageGovernor:
                 elif r['kind']=='planner' and 'output_tokens' not in json.loads(r['actual'] or '{}'):
                     unknown_output+=json.loads(r['reserved'])['output_tokens']
             states[r['status']]=states.get(r['status'],0)+1
-        return {'environment':self.environment,'day':self.day(),'policy_hash':self.hash,
+        return {'environment':self.environment,'day':self.day() if legacy else today,'policy_hash':self.hash,
                 'limits':self.policy['daily_limits'],'reserved_today':total,'charged_today':used,
                 'active_reservations':active,'unknown_output_charged':unknown_output,'reservation_states':states,
                 'read_allowance':reads,'billing_cap_verified':False,

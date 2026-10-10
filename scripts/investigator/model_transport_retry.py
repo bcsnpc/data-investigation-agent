@@ -20,9 +20,12 @@ class Scope:
         self.admit_extra=admit_extra;self.metadata=metadata
         self.deadline=deadline;self.clock=clock
     def settle(self,usage=None,uncertain=False):
-        with self.governor.runtime.db() as db:
-            db.execute('BEGIN IMMEDIATE')
-            self.governor.settle(db,self.session_id,self.current,usage,uncertain=uncertain)
+        from .local_accounting import boundary
+        def settle():
+            with self.governor.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE')
+                self.governor.settle(db,self.session_id,self.current,usage,uncertain=uncertain)
+        return boundary('MODEL_OWNER_SETTLE',settle)
     def reserve(self,attempt):
         key=self.original+':transport-retry:'+str(attempt-1)
         with self.governor.runtime.db() as db:

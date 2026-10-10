@@ -95,18 +95,20 @@ class SpendBudget:
 
 @contextlib.contextmanager
 def admission(body):
-    path = os.environ.get('INVESTIGATOR_MODEL_SPEND_DB')
-    if not path:
-        yield lambda usage: None
-        return
     from .process_tape import ACTIVE
+    from .local_accounting import boundary,replay_optional
     tape = ACTIVE.get()
     if tape is not None and tape.replaying:
+        try:yield lambda usage: replay_optional('MODEL_SPEND_SETTLE')
+        finally:replay_optional('MODEL_SPEND_CLEANUP')
+        return
+    path = os.environ.get('INVESTIGATOR_MODEL_SPEND_DB')
+    if not path:
         yield lambda usage: None
         return
     budget = SpendBudget(path, int(os.environ['INVESTIGATOR_MODEL_SPEND_MICRODOLLARS']))
     identity = budget.reserve(body)
     try:
-        yield lambda usage: budget.settle(identity, usage)
+        yield lambda usage: boundary('MODEL_SPEND_SETTLE',lambda:budget.settle(identity, usage))
     finally:
-        budget.settle(identity)
+        boundary('MODEL_SPEND_CLEANUP',lambda:budget.settle(identity))
