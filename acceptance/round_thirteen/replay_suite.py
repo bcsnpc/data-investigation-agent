@@ -8,6 +8,7 @@ HEX64=re.compile(r'[0-9a-f]{64}')
 HEX40=re.compile(r'[0-9a-f]{40}')
 METADATA_DISPATCHER='RECORDED_METADATA_DISCOVERY_V1'
 VERIFIER_DISPATCHER='RECORDED_CODE_VERIFIER_DEPENDENCIES_V1'
+BOUNDED_CONSUMER='acceptance/round_thirteen/bounded_replay_lifecycle.py'
 CONSUMERS=frozenset(('acceptance/unknown_domain/recorded_engine.py','acceptance/unknown_domain/process_replay.py','acceptance/unknown_domain/lineage_replay.py','acceptance/unknown_domain/catalog_replay.py','acceptance/known_domain/private_bundle.py','scripts/investigator/budget_tape_contract.py','scripts/investigator/provider_tape_contract.py','scripts/investigator/process_tape.py','scripts/investigator/privacy_tape.py'))
 
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -23,6 +24,9 @@ def validate(suite):
  hashes=suite.get('consumer_hashes',{})
  required_consumers=CONSUMERS | ({'acceptance/round_thirteen/metadata_revision.py'} if any(o.get('dispatcher')==METADATA_DISPATCHER for o in suite.get('operations',[])) else set())
  if any(o.get('dispatcher')==VERIFIER_DISPATCHER for o in suite.get('operations',[])):required_consumers=required_consumers|{'acceptance/round_thirteen/code_verifier_revision.py'}
+ if suite.get('scratch_lifecycle') is not None:
+  if suite['scratch_lifecycle']!='EXCLUSIVE_SERIAL_SHARDS_V1':raise ValueError('SUITE_SCRATCH_LIFECYCLE')
+  required_consumers=required_consumers|{BOUNDED_CONSUMER}
  if set(hashes)!=required_consumers or any(not isinstance(h,dict) or set(h)!={'git_blob_sha256','checkout_sha256'} or set(h['checkout_sha256'])!={'LF','CRLF'} or not HEX64.fullmatch(h['git_blob_sha256']) or any(not HEX64.fullmatch(v) for v in h['checkout_sha256'].values()) for h in hashes.values()):raise ValueError('SUITE_CANONICAL_CONSUMER_SET')
  assets=suite.get('assets');ops=suite.get('operations')
  if not isinstance(assets,list) or not isinstance(ops,list):raise ValueError('SUITE_ASSETS_OR_OPERATIONS')
@@ -106,10 +110,13 @@ def hydrate(root,suite,output):
   # No shell, wildcard, fallback source, estate auth or decryption key argument.
   subprocess.run(['gh','release','download',tag,'--repo',owner+'/'+repo,'--pattern',name,'--output',str(encrypted)],cwd=root,check=True,capture_output=True)
   if encrypted.stat().st_size>4_000_000_000:raise ValueError('SUITE_CIPHERTEXT_SIZE_BOUND')
+  if asset.get('ciphertext_bytes') is not None and encrypted.stat().st_size!=asset['ciphertext_bytes']:raise ValueError('SUITE_CIPHERTEXT_SIZE_PIN_DIFFERS')
   # Existing decryptor verifies ciphertext first and every exact member before extraction.
-  decrypt(encrypted,asset['ciphertext_sha256'],key,output/asset['id'],expected_members=len(asset['inventory']),inventory=asset['inventory'])
-def run(suite,member_root,output,repo,*,replay=None,load_tape=None,revision_check=None,consumer_check=None):
- validate(suite);output.mkdir(parents=True,exist_ok=False)
+  decrypt(encrypted,asset['ciphertext_sha256'],key,output/asset['id'],expected_members=len(asset['inventory']),inventory=asset['inventory'],expected_uncompressed_bytes=asset.get('uncompressed_bytes'))
+def run(suite,member_root,output,repo,*,replay=None,load_tape=None,revision_check=None,consumer_check=None,operation_ids=None):
+ validate(suite)
+ if operation_ids is not None and (not isinstance(operation_ids,set) or not operation_ids or not operation_ids<=set(o['id'] for o in suite['operations'])):raise ValueError('SUITE_SELECTED_OPERATION_UNKNOWN')
+ output.mkdir(parents=True,exist_ok=False)
  receipts=[]
  try:(consumer_check or consumers)(repo,suite)
  except Exception as exc:
@@ -121,6 +128,7 @@ def run(suite,member_root,output,repo,*,replay=None,load_tape=None,revision_chec
   from investigator.process_tape import Tape
   replay=replay_revision;load_tape=Tape
  for op in suite['operations']:
+  if operation_ids is not None and op['id'] not in operation_ids:continue
   receipt={'id':op['id'],'run_id':op['run_id'],'case':op.get('case'),'operation':op['operation'],'producer_revision':op['producer_revision'],'tape_class':op['tape_class'],'expected_status':op['expected_status'],'expected_blocker':op.get('expected_blocker'),'estate_reads':0,'model_calls':0}
   path=None
   try:
@@ -183,11 +191,15 @@ def run(suite,member_root,output,repo,*,replay=None,load_tape=None,revision_chec
  result={'operations':receipts,'counts':{k:sum(r['status']==k for r in receipts) for k in ('MATCHED_CAPTURED_OPERATION','REPLAY_BLOCKED','MISSING_CAPTURE','REPLAY_DIFFERED','CAPTURE_CHANGED_DURING_REPLAY')},'roster_matched':all(r['roster_match'] for r in receipts),'estate_reads':0,'model_calls':0,'scope':'Captured operation roster, not successful investigations or live accuracy.'}
  (output/'final-map.json').write_text(json.dumps(result,sort_keys=True,indent=2));return result
 def main():
- p=argparse.ArgumentParser();p.add_argument('--suite',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--members',type=Path);p.add_argument('--hydrate',action='store_true');p.add_argument('--repo',type=Path,default=Path.cwd());a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--suite',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--members',type=Path);p.add_argument('--hydrate',action='store_true');p.add_argument('--scratch-parent',type=Path);p.add_argument('--repo',type=Path,default=Path.cwd());a=p.parse_args()
  suite=validate(json.loads(a.suite.read_text()));consumers(a.repo,suite)
  if a.hydrate and a.members is not None:p.error('Choose hydrate or explicit member root')
  members=a.output.with_name(a.output.name+'-members') if a.hydrate else a.members
  if members is None:p.error('Declared member root or hydrate required; no fallback')
- if a.hydrate:hydrate(a.repo,suite,members)
- result=run(suite,members,a.output,a.repo);print(json.dumps({k:v for k,v in result.items() if k!='operations'}));raise SystemExit(0 if result.get('roster_matched') else 1)
+ if a.hydrate:
+  if suite.get('scratch_lifecycle')!='EXCLUSIVE_SERIAL_SHARDS_V1':p.error('Bounded scratch lifecycle contract required for hydration')
+  from bounded_replay_lifecycle import run_bounded
+  result=run_bounded(suite,a.output,a.scratch_parent or a.output.parent,a.repo,validate=validate,consumers=consumers,hydrate=hydrate,run=run)
+ else:result=run(suite,members,a.output,a.repo)
+ print(json.dumps({k:v for k,v in result.items() if k!='operations'}));raise SystemExit(0 if result.get('roster_matched') else 1)
 if __name__=='__main__':main()
