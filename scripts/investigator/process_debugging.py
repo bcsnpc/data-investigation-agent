@@ -251,7 +251,7 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                'provenance':o.get('lower_binding_provenance')} for o in comparisons]
     inferred=[b for b in bindings if b['provenance']=='INFERRED_FROM_CODE']
     grades=[{'comparison_id':o['id'],**o['surface_difference']} for o in comparisons]
-    return {'classification':outcome,'terminating_step':step,
+    result = {'classification':outcome,'terminating_step':step,
             'claim':explanation or outcome.replace('_',' ').title(),
             'evidence_ids':evidence_ids,
             'alternatives':['A different declared scope could change the comparison.'],
@@ -287,6 +287,20 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
                                     'comparisons_executed':len(comparisons),
                                     'within_layer_checks':len(within_layer),
                                     'not_comparable':not_comparable}}}
+    # Qualifications belong to the retained observations, regardless of which
+    # procedure assembled the assessment. Neither agent citations nor a caller
+    # reconstruction may silently drop them.
+    from .declared_reproduction import KIND
+    reproductions=[o for o in observations if o.get('check_kind')==KIND]
+    for finding in reproductions:
+        result['limits'].extend(finding['limitations'])
+    from .filter_effects import KIND as EFFECTS_KIND,LIMIT as EFFECTS_LIMIT
+    effects=[o for o in observations if o.get('check_kind')==EFFECTS_KIND]
+    if effects:result['limits'].append(EFFECTS_LIMIT)
+    for key in ('business_output','technical_output'):
+        if reproductions:result[key]['declared_context_reproductions']=reproductions
+        if effects:result[key]['declared_filter_effects']=effects
+    return result
 
 
 def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=None):
@@ -369,17 +383,6 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
         if configured_limits:
             for key in ('business_output','technical_output'):
                 result[key]['configured_limits']=configured_limits
-        from .declared_reproduction import KIND
-        reproductions=[o for o in result['_observations'] if o.get('check_kind')==KIND]
-        for finding in reproductions:
-            result['limits'].extend(finding['limitations'])
-        from .filter_effects import KIND as EFFECTS_KIND,LIMIT as EFFECTS_LIMIT
-        effects=[o for o in result['_observations'] if o.get('check_kind')==EFFECTS_KIND]
-        if effects:
-            result['limits'].append(EFFECTS_LIMIT)
-            for key in ('business_output','technical_output'):result[key]['declared_filter_effects']=effects
-        for key in ('business_output','technical_output'):
-            if reproductions:result[key]['declared_context_reproductions']=reproductions
         # The baseline above a divergent internal boundary is not the selected
         # report measure. Keep its evidence separate from the presentation read.
         if measure_baseline is not None:

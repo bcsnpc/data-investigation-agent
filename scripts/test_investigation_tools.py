@@ -188,6 +188,21 @@ class TerminalSupportTests(unittest.TestCase):
   result=self.tools.terminal_support('CONSISTENT_TO_BOUNDARY','target',refs)
   self.assertEqual(result['assessment']['classification'],'CONSISTENT_TO_BOUNDARY')
   self.assertEqual(len(self.adapter.evaluated),count);self.assertFalse(result['delivery_validated'])
+ def test_agent_terminal_retains_reproduction_qualifications_in_shared_assessment(self):
+  self.adapter=NeutralAdapter();self.adapter.values['lower']=8
+  self.scopes={'picked':copy.deepcopy(SCOPE)}
+  self.tools=InvestigationTools(self.adapter,self.targets,self.scopes,self.boundary)
+  refs=self.prepare()
+  reproduced=self.invoke('reproduce',target_id='target')
+  refs.append(reproduced['facade_evidence_id'])
+  result=self.tools.terminal_support('CONSISTENT_TO_BOUNDARY','target',refs)
+  from investigator.declared_reproduction import KIND
+  originals=[o for o in result['observations'].values() if o.get('check_kind')==KIND]
+  self.assertTrue(originals)
+  for observation in originals:
+   for limitation in observation['limitations']:self.assertIn(limitation,result['assessment']['limits'])
+   for side in ('business_output','technical_output'):
+    self.assertIn(observation,result['assessment'][side]['declared_context_reproductions'])
  def test_agent_preserves_roles_and_names_unchecked_resolved_boundary(self):
   self.adapter.layers=[{'id':'top'},{'id':'lower'},{'id':'third'}]
   refs=self.prepare()
