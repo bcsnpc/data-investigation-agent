@@ -88,6 +88,8 @@ class Forms:
                 'detail':{'form_input_hash':digest(request),'catalog_hash':digest(catalog)}})
             return ticket
         saved=self.smart.tickets.update(saved['ticket']['id'],saved['revision'],retain)
+        from .agent_ticket import AgentTicket, selected
+        if selected(self.workspace):return AgentTicket(self.workspace).run(saved)
         if questionnaire is not None and questionnaire['comparing']['kind'] in ('OTHER_REPORT','OTHER_PAGE'):
             return self._hold(saved,'UNIMPLEMENTED_ROUTE: comparing '+questionnaire['comparing']['kind']+' needs two faithfully equivalent declared scopes; submitted picks are retained')
         return self._plan(saved,catalog)

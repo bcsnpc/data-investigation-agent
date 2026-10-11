@@ -35,6 +35,8 @@ class SmartIntake:
         saved=self.tickets.submit(request,request['request_key'])
         if saved['ticket'].get('source_intake'):return saved
         if saved['ticket']['state']=='HELD':return saved
+        from .agent_ticket import AgentTicket, selected
+        if selected(self.workspace):return AgentTicket(self.workspace).run(saved)
         options={'retain_extraction':True}
         if request.get('structured',{}).get('report_link') is not None:
             from .input_reference import preflight, from_input

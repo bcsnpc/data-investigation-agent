@@ -14,7 +14,7 @@ DESCRIPTION = 'Resolve your verbatim ticket span extraction against retained def
 
 class Settlement:
     def __init__(self, workspace, *, text, key_prefix, record_evidence,
-                 form_request=None, input_request=None, candidate_binding=None):
+                 form_request=None, input_request=None, candidate_binding=None, predecessor=None):
         if not callable(record_evidence) or not isinstance(key_prefix, str) or not 1 <= len(key_prefix) <= 30:
             raise ValueError('Agent settlement requires evidence persistence and bounded request identity')
         if form_request is not None and input_request is not None:
@@ -23,6 +23,7 @@ class Settlement:
         self.record_evidence = record_evidence
         self.form = copy.deepcopy(form_request); self.input = copy.deepcopy(input_request)
         self.binding = copy.deepcopy(candidate_binding)
+        self.predecessor = predecessor
         self.preview_id = None
         self._admitted_result = None
         self._admitted_request_hash = None
@@ -42,7 +43,7 @@ class Settlement:
                 raise Conflict('Agent admitted intake cannot be rebound; create an explicit revision')
             workspace.intake.review(self._admitted_result['intake_id'], {
                 **{k: self._admitted_result['scope'][k] for k in ('model_id','measure_id','filters','dimension_ids')},
-                'symptom': workspace.intake.get(self._admitted_result['intake_id'])['text'], 'predecessor': None})
+                'symptom': workspace.intake.get(self._admitted_result['intake_id'])['text'], 'predecessor': self.predecessor})
             return copy.deepcopy(self._admitted_result)
         self._current_request_hash = request_hash
         payload = {'text': self.text, 'models': catalog['models']}
@@ -114,13 +115,14 @@ class Settlement:
                 body.update(status='PROPOSED', proposal=final, provider_calls=0,
                     scope_provenance='AGENT_VALIDATED_EXTRACTION', resolver_extraction=copy.deepcopy(raw),
                     agent_input_authority_hash=digest({'form': self.form, 'input': self.input}))
+                if self.predecessor is not None: body['agent_predecessor'] = self.predecessor
                 if self.form is not None:
                     body.update(form_request=copy.deepcopy(self.form), form_description_intake=description_id,
                         form_candidate_binding=copy.deepcopy(self.binding))
                 if self.input is not None: body['input_request'] = copy.deepcopy(self.input)
                 db.execute('INSERT INTO workspace_intakes VALUES(?,?,?,?)', (body['id'], key, encoded(body), digest(body)))
         preview_request = {k: final[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids')}
-        preview_request.update(symptom=text, predecessor=None, intake_id=body['id'])
+        preview_request.update(symptom=text, predecessor=self.predecessor, intake_id=body['id'])
         preview = workspace.preview(preview_request)
         self.preview_id = preview['id']
         result = self._record({'status': 'INTAKE_ADMITTED', 'intake_id': body['id'], 'preview_id': preview['id'],

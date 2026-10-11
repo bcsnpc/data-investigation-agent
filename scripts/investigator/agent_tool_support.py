@@ -82,7 +82,11 @@ def build(tools,outcome,target_id,citations):
   baseline={'status':'ESTABLISHED','layer':chosen['upper_layer'],'reason':None,'evidence_ids':[chosen['upper_evidence_id']]}
  # No producer grants a role from a requested outcome. For example, timestamps
  # alone do not become freshness, and a retained definition is not absence.
- reason=path.get('missing_comparable_quantity') or 'The required capability evidence has not been established by the cited tools.'
+ reason=path.get('missing_comparable_quantity')
+ if outcome in ('NO_COMPARABLE_PATH','NO_KNOWN_PATTERN') and not reason:
+  barriers=[call['result'].get('reason') for call in selected.values() if call['result'].get('status') in ('UNAVAILABLE','UNDECLARED','NOT_COMPARABLE') and call['result'].get('reason')]
+  if not barriers:raise ValueError('Capability-gap outcome requires an actual recorded named barrier')
+  reason='Recorded tool barrier: '+str(barriers[0])
  assessment=_answer(outcome,step,observations,deepest,path.get('stopped_by','REACHED'),baseline,roles=REQUIRED_ROLES[outcome],missing_capability=reason if outcome in ('NO_COMPARABLE_PATH','NO_KNOWN_PATTERN') else None,capabilities=tools.adapter.capabilities())
  for ordinal,obs in enumerate(comparisons,1):
   limit=limitation(obs,ordinal)

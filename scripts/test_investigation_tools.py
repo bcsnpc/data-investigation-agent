@@ -205,6 +205,10 @@ class TerminalSupportTests(unittest.TestCase):
   refs=self.prepare();refs.append(self.invoke('probe_layer',target_id='target',layer_id='third',scope_id='picked')['facade_evidence_id'])
   with self.assertRaisesRegex(ValueError,'suppress an observed divergent'):self.tools.terminal_support('CONSISTENT_TO_BOUNDARY','target',refs)
 
+ def test_missing_optional_tool_calls_are_not_an_invented_capability_barrier(self):
+  refs=self.prepare()
+  with self.assertRaisesRegex(ValueError,'actual recorded named barrier'):self.tools.terminal_support('NO_KNOWN_PATTERN','target',refs)
+
 class PathAdmissionTests(unittest.TestCase):
  setUp=InvestigationToolTests.setUp
  invoke=InvestigationToolTests.invoke

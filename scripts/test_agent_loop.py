@@ -1,8 +1,20 @@
 import unittest
-from investigator.agent_loop import AgentLoop
+from investigator.agent_loop import AgentLoop, closed_wire_schema
+from jsonschema import Draft202012Validator
 
 
 class AgentLoopTests(unittest.TestCase):
+    def test_strict_wire_preserves_optional_argument_shapes_without_null_defaults(self):
+        consumer = {'type': 'object', 'additionalProperties': False,
+                    'properties': {'id': {'type': 'string'}, 'choices': {'type': 'array', 'items': {'type': 'string'}}},
+                    'required': ['id']}
+        wire = closed_wire_schema(consumer)
+        for shape in wire['anyOf']:
+            self.assertEqual(set(shape['required']), set(shape['properties']))
+        for value in ({'id': 'a'}, {'id': 'a', 'choices': []}, {'id': 'a', 'choices': None}, {}, {'id': 'a', 'extra': 1}):
+            self.assertEqual(Draft202012Validator(consumer).is_valid(value),
+                             Draft202012Validator(wire).is_valid(value))
+
     def loop(self, decisions, *, result=None, validate=None, cap=4, clock=lambda: 0):
         rows=[]; calls=[]; choices=iter(decisions)
         def decide(payload, **kw):

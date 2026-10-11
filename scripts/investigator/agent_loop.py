@@ -6,10 +6,44 @@ compilation; a mandatory delivery validator owns every terminal claim.
 import copy
 import re
 import time
+from itertools import combinations
 from jsonschema import Draft202012Validator
 
 VERSION = 'verified-agent-loop-v1'
 MODES = ('PIPELINE', 'AGENT')
+
+
+def closed_wire_schema(value):
+    """Express optional tool arguments as exact closed object alternatives.
+
+    Strict provider objects require every declared property to be required.
+    Enumerating the existing consumer's permitted shapes preserves omission;
+    inventing nullable defaults would change tool semantics.
+    """
+    if isinstance(value, list):
+        return [closed_wire_schema(item) for item in value]
+    if not isinstance(value, dict):
+        return copy.deepcopy(value)
+    result = {key: closed_wire_schema(item) for key, item in value.items()}
+    if result.get('type') != 'object':
+        return result
+    properties = result.get('properties', {})
+    required = result.get('required', [])
+    optional = sorted(set(properties) - set(required))
+    if not optional:
+        result['required'] = list(properties)
+        return result
+    if len(optional) > 8:
+        raise ValueError('AGENT_OPTIONAL_SCHEMA_BOUND')
+    shapes = []
+    for count in range(len(optional) + 1):
+        for chosen in combinations(optional, count):
+            names = set(required) | set(chosen)
+            shape = copy.deepcopy(result)
+            shape['properties'] = {key: item for key, item in properties.items() if key in names}
+            shape['required'] = list(shape['properties'])
+            shapes.append(shape)
+    return {'anyOf': shapes}
 
 
 def decision_schema(tool_schemas, outcomes):
@@ -18,7 +52,7 @@ def decision_schema(tool_schemas, outcomes):
                 'properties': properties, 'required': list(properties)}
     summary = {'type': 'string', 'minLength': 1, 'maxLength': 500}
     choices = [obj({'action': {'const': 'TOOL'}, 'summary': summary,
-                    'tool': {'const': name}, 'arguments': schema})
+                    'tool': {'const': name}, 'arguments': closed_wire_schema(schema)})
                for name, schema in sorted(tool_schemas.items())]
     choices.extend([
         obj({'action': {'const': 'ANSWER'}, 'summary': summary,

@@ -384,3 +384,5 @@ Dated hosted metadata result, 2026-10-10 America/Chicago / 2026-10-11 UTC: run38
 
 
 Owner-directed Round Thirteen closure,2026-10-10 America/Chicago /2026-10-11 UTC: billing had completed27slots (21intake holds,6pre-intake operator failures); originalchat6admitted attempts drained. All remaining chat and24matrix cells not run by owner instruction. Exact billing wording and reasons are recorded in docs/round-thirteen-owner-closeout.md. Fixture136/142 replay matches,6historical blocks retained; billing21/21actual intake tapes match. Local export/A-G verification and remaining capture security pending. #423draft; demo notearned,prior freeze invalid. RoundmodelUSD2.723086/100,207calls,0unsettled; no budget or scope raise.
+
+Dated Round Fourteen implementation checkpoint, 2026-10-11 UTC: selectable local execution and evidence-bound agent tools implemented; 104 focused tests passed, including normal intake admission and separate local-copy approval. No R14 end-to-end or paired score yet; local exports and R13 closeout precede those runs. PIPELINE stays default, #423 stays draft, current freeze invalid. See docs/round-fourteen-agent-loop.md.

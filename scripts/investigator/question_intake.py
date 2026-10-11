@@ -1012,7 +1012,12 @@ class Intake:
             validate(proposal,{'text':saved['text'],'models':snapshot(self.workspace)['models'],
                 '_form_request':saved['form_request'],'_form_configuration':self.workspace.intake_configuration,
                 '_form_description':description,'_form_candidate_binding':saved.get('form_candidate_binding')})
-        if any(request[k] != proposal[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids')) or request['symptom'] != saved['text'] or request['predecessor'] is not None:
+        predecessor = saved.get('agent_predecessor')
+        if predecessor is not None:
+            previous = self.workspace.agent.get(predecessor)
+            if previous['status'] != 'NEEDS_INPUT' or previous['model_id'] != proposal['model_id']:
+                raise Conflict('Agent intake predecessor is not a waiting scope in this model')
+        if any(request[k] != proposal[k] for k in ('model_id', 'measure_id', 'filters', 'dimension_ids')) or request['symptom'] != saved['text'] or request['predecessor'] != predecessor:
             raise Conflict('Reviewed question scope differs from the saved proposal')
         return {**copy.deepcopy(proposal),'id': saved['id'], 'text': saved['text'],
                 'screenshot_review': saved.get('screenshot_review'),

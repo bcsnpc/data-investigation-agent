@@ -45,7 +45,10 @@ def catalog(store,config,envelope):
         from .process_debugging import VERSION as PROCESS_VERSION
         if envelope['strategy'] not in (VERSION,PROCESS_VERSION):raise ValueError('Unknown investigation strategy')
         model=store.get(envelope['model_id'])
-        if not model.get('discovery') or model['discovery']['policy_hash']!=digest(config):raise Conflict('Dynamic investigation needs current approved discovery policy')
+        if config.get('_estate', {}).get('execution', {}).get('mode') == 'LOCAL_EXPORTED':
+            from .local_execution_approval import validate as validate_local_approval
+            validate_local_approval(store, config, model)
+        elif not model.get('discovery') or model['discovery']['policy_hash']!=digest(config):raise Conflict('Dynamic investigation needs current approved discovery policy')
         if not model['enabled'] or model['revision']!=envelope['revision'] or model['context_id']!=envelope['context_id']:
             raise Conflict('Dynamic context changed or disabled')
         if envelope['measure_id'] not in {m['id'] for m in model['context']['measures']}:raise ValueError('Unknown starting measure')
