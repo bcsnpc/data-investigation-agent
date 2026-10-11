@@ -38,13 +38,22 @@ class SameReferentTests(unittest.TestCase):
         self.assertEqual(result['status'],'NEEDS_INPUT')
         self.assertIn('shows 18',result['question'])
 
-    def test_equal_numerals_use_coarser_recorded_precision(self):
+    def test_equal_plain_numerals_remain_exact_without_rounding_signal(self):
         ticket='The visual shows 16; it also shows 16.0.'
         value=figure.from_candidates(spans(ticket,['shows 16','shows 16.0']),ticket)
         self.assertEqual(value['value'],'16')
-        self.assertEqual(value['precision'],{'state':'STATED_PLACE','place':0})
+        self.assertEqual(value['precision'],{'state':'EXACT'})
+        self.assertEqual(figure.qualification(value),[])
+        forged=copy.deepcopy(value);forged['precision']={'state':'STATED_PLACE','place':0}
+        with self.assertRaises(ValueError):figure.validate(forged,ticket)
+
+    def test_equal_approximate_numerals_use_coarser_recorded_precision(self):
+        ticket='The visual shows about 16.0; it also shows about 16.00.'
+        value=figure.from_candidates(spans(ticket,['shows about 16.0','shows about 16.00']),ticket)
+        self.assertEqual(value['value'],'16.0')
+        self.assertEqual(value['precision'],{'state':'STATED_PLACE','place':-1})
         self.assertIn('weaker than an exact',figure.qualification(value)[0])
-        forged=copy.deepcopy(value);forged['precision']['place']=1
+        forged=copy.deepcopy(value);forged['precision']['place']=-2
         with self.assertRaises(ValueError):figure.validate(forged,ticket)
 
     def test_rounding_never_collapses_different_values(self):

@@ -50,3 +50,5 @@ Fresh pipeline pass complete, 2026-10-11 UTC: 18 immutable inputs, one attempt e
 | FORM | ticket-02.txt | HELD | no | Ambiguous declared name: collected | 0 | 2 |
 
 No harmful delivery observed; none of these 18 met the full sealed answer contract. The earlier pipeline baseline remains unchanged. INTAKE_ONLY HYBRID is activated against retained definitions, with zero new estate or model calls for re-approval. Its 18 attempts are next.
+
+Regression correction, 2026-10-11 UTC: full source 5c5e94d ran 3,316 tests and failed one historical test that treated written 16/16.0 as rounded without a ticket rounding signal. The test now asserts EXACT for those plain numerals and separately preserves the coarser-precision check for explicitly approximate 16.0/16.00. No production code or acceptance expectation changed. Seven same-referent tests pass. The first approximate test draft used an integer without determinable precision and correctly refused; that failed test attempt is recorded separately. A corrected full-suite run is pending.
