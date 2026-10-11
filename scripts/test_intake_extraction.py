@@ -448,4 +448,14 @@ class ExtractionTests(unittest.TestCase):
         self.assertEqual(json.loads(row[0])['input_characters'],charge)
         h.native.assert_not_called();h.source.assert_not_called()
 
+    def test_evaluation_store_lists_full_model_records_like_the_real_store(self):
+        from investigator.model_eval_intake import EvaluationStore
+        _, payload = fixture('In Model, Quantity differs.')
+        store = EvaluationStore(None, payload['models'])
+        records = store.list(True)
+        self.assertEqual(records, [store.get(m['id']) for m in payload['models']])
+        self.assertTrue(all(m['enabled'] and m['context'] for m in records))
+        records[0]['context']['reports'].append({'report': {'id': 'mutated'}})
+        self.assertNotEqual(records[0], store.get(records[0]['id']))
+
 if __name__=='__main__':unittest.main()

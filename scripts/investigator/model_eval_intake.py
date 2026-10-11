@@ -15,7 +15,7 @@ class EvaluationStore:
         # the original store/environment and all of its charged counters.
         self.environment='synthetic-intake-evaluation'
     def connect(self):return self.original.connect()
-    def list(self,enabled):return [{'id':m['id']} for m in self.catalog]
+    def list(self,enabled):return [self.get(m['id']) for m in self.catalog]
     def get(self,identity):
         model=next(m for m in self.catalog if m['id']==identity)
         return {'id':identity,'enabled':True,'revision':1,'context_id':'synthetic-evaluation',
