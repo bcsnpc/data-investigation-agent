@@ -1,17 +1,17 @@
 {
-  "recorded_at": "2026-10-11T21:53:23.307229+00:00",
+  "recorded_at": "2026-10-11T21:58:20.856949+00:00",
   "cohort": "17 remaining held billing inputs, each at most once; prior FORM01 completed non-answer excluded",
   "deployment": "investigator-intake-f-55",
   "agent_model": "gpt-5.5 2026-04-24",
   "pipeline_tools": "GPT-5.4 unchanged",
-  "attempts": 14,
+  "attempts": 16,
   "admitted": 1,
   "contract_matches": 0,
   "harmful": 0,
-  "models": 164,
+  "models": 180,
   "physical": 1,
   "diagnostic": 1,
-  "known_microdollars": 11932501,
+  "known_microdollars": 12758936,
   "rows": [
     {
       "ticket": "ticket-01.txt",
@@ -399,6 +399,109 @@
         }
       ],
       "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair3\\ticket-06.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-13.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "WAITING_FOR_USER",
+      "models": 2,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 72290,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No currency/between-month answer delivered"
+        ],
+        "reason": "HELD awaiting fixed REPORT question with the single catalog-backed Subscription Billing choice despite the named report. No duplicate premise, choice IDs, admitted technical session or delivered claim; zero estate reads. Repeated evidence reuse did not establish settlement.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:57:33.413515+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [
+        {
+          "choices": [
+            {
+              "highlight": null,
+              "id": "6a7837740678e323ada0d5e5a1397db3d5687b79c1fa368f4002195590991470",
+              "label": "Subscription Billing / Accounts"
+            },
+            {
+              "highlight": null,
+              "id": "1185cdd519663da373e76d57aca6ec1dae79787093b40e7ce5505966d924e097",
+              "label": "Subscription Billing / Subscription Billing"
+            },
+            {
+              "highlight": null,
+              "id": "767b4413556de78bc1a9f203b4d07d5781de083fb088eead36d82b9584d12db7",
+              "label": "Subscription Billing / Recent Collections"
+            }
+          ],
+          "field": "REPORT_OR_SCREENSHOT",
+          "id": "report-or-screenshot",
+          "question": "Which report is this? You may also supply its link or a screenshot."
+        }
+      ],
+      "comments": [
+        {
+          "actor": "AGENT",
+          "attachment": null,
+          "created": "2026-10-11T21:53:50.524700+00:00",
+          "id": "agent-question:398fb852ffcebc7b7cc33892cff3a20a",
+          "review": null,
+          "text": "Which report are you asking about?\nSubscription Billing"
+        }
+      ],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair4\\ticket-13.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-14.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "WAITING_FOR_USER",
+      "models": 14,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 754145,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No currency/between-month answer delivered"
+        ],
+        "reason": "HELD awaiting fixed REPORT question with the single catalog-backed Subscription Billing choice despite the named report. No duplicate premise, choice IDs, admitted technical session or delivered claim; zero estate reads. Repeated evidence reuse did not establish settlement.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:57:33.413515+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [],
+      "comments": [
+        {
+          "actor": "AGENT",
+          "attachment": null,
+          "created": "2026-10-11T21:56:11.550917+00:00",
+          "id": "agent-question:577ea148b40e50cf298ada932dcb4b9e",
+          "review": null,
+          "text": "Which report are you asking about?\nSubscription Billing"
+        }
+      ],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair4\\ticket-14.txt\\full-result.json",
       "pending": 0,
       "capture_exclusions": 0,
       "sealed_tapes": true

@@ -1,9 +1,9 @@
 {
-  "recorded_at": "2026-10-11T21:53:23.575428+00:00",
+  "recorded_at": "2026-10-11T21:58:21.002129+00:00",
   "basis": "Every preserved HELD/NEEDS_INPUT/CLARIFYING/FAILED/environment-affected attempt and completed NO_COMPARABLE_PATH refusal in current map; reporting labels only, not score changes. Historical columns and exclusions remain separate.",
   "counts": {
     "Other retained refusal; no root cause inferred": 18,
-    "Target, measure or scope unresolved": 35,
+    "Target, measure or scope unresolved": 37,
     "Business intent or description route unavailable": 25,
     "Figure/comparator interpretation or provenance unresolved": 41,
     "Agent progress or deadline exhausted": 33,
@@ -431,6 +431,28 @@
         "review_reason": "HELD waiting for fixed REPORT question with the single catalog-backed Subscription Billing choice despite the named report. No false duplicate premise, choice IDs, technical admission or delivered claim; zero estate reads.",
         "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair3\\ticket-06.txt\\full-result.json",
         "sha256": "8cdccab23d2c3d96f674f345195d8792ee537f065c05e2fd9ed2b875104332af",
+        "scoring_status": "ROOT_REVIEWED"
+      },
+      {
+        "case": "billing-free-text:ticket-13.txt",
+        "mode": "HYBRID",
+        "status": "HELD",
+        "outcome": null,
+        "stop_reason": "WAITING_FOR_USER",
+        "review_reason": "HELD awaiting fixed REPORT question with the single catalog-backed Subscription Billing choice despite the named report. No duplicate premise, choice IDs, admitted technical session or delivered claim; zero estate reads. Repeated evidence reuse did not establish settlement.",
+        "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair4\\ticket-13.txt\\full-result.json",
+        "sha256": "cbad4d08c72ec663611eef2d5f77cbf540d5bcb7184081d36dd70cc26bb0042a",
+        "scoring_status": "ROOT_REVIEWED"
+      },
+      {
+        "case": "billing-free-text:ticket-14.txt",
+        "mode": "HYBRID",
+        "status": "HELD",
+        "outcome": null,
+        "stop_reason": "WAITING_FOR_USER",
+        "review_reason": "HELD awaiting fixed REPORT question with the single catalog-backed Subscription Billing choice despite the named report. No duplicate premise, choice IDs, admitted technical session or delivered claim; zero estate reads. Repeated evidence reuse did not establish settlement.",
+        "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair4\\ticket-14.txt\\full-result.json",
+        "sha256": "8a82488414b9d535aba3620c8b6e40454706612e2d6167b88278e31e285861f7",
         "scoring_status": "ROOT_REVIEWED"
       },
       {

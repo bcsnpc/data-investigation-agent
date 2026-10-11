@@ -10,8 +10,8 @@ One immutable ticket per form/free-text twin. These are staged attempts with dif
 | CHAT ticket-04.txt | CLARIFYING | HELD | HELD |
 | CHAT ticket-05.txt | CLARIFYING | HELD | HELD |
 | CHAT ticket-06.txt | CLARIFYING | HELD | HELD |
-| CHAT ticket-13.txt | CLARIFYING | HELD | NOT_RUN |
-| CHAT ticket-14.txt | HELD | HELD | NOT_RUN |
+| CHAT ticket-13.txt | CLARIFYING | HELD | HELD |
+| CHAT ticket-14.txt | HELD | HELD | HELD |
 | CHAT ticket-15.txt | CLARIFYING | HELD | NOT_RUN |
 | FORM ticket-01.txt | HELD | COMPLETED / NO_COMPARABLE_PATH | Not requested: prior completed non-answer |
 | FORM ticket-02.txt | HELD | HELD | HELD |
