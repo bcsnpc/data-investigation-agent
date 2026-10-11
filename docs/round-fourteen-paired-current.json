@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T14:13:00.555354+00:00",
+  "recorded_at": "2026-10-11T16:02:27.525929+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-billing-agent-forms-r1-pair1-current\\ticket-01.txt\\full-result.json",
@@ -441,6 +441,204 @@
       "ticket_id": "07ee74ef-5a5a-47b2-b1f5-ab4f68171fb4",
       "tool_calls": 6,
       "tool_reuse_notes": 8
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-quote-retry-r1-pair1\\ticket-01.txt\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "billing:ticket-01.txt",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": null,
+      "elapsed_seconds": 62.5430166721344,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "BILLING_ANSWER_CONTRACT",
+      "expected_hash": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_outcome": null,
+      "expected_status": null,
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 13275,
+      "mode": "PIPELINE",
+      "model_calls": 1,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 0,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          "No delivered answer; intake refused competing reported figures."
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT",
+        "outcome_match": null,
+        "reason": "Exact repeats no longer blocked provenance. Retained intake refuses distinct extracted550/950 or950/700/600 candidates. Safe refusal, not a finding or contract answer. No outputs and no estate reads.",
+        "recorded_at": "2026-10-11T15:50:54.196976+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": null,
+      "sha256": "1ff6b413c5cbd8a5f09a6a0c3e8fbf09ee8cab7c69c9658ba34e39ed63226ce6",
+      "source_sha256": "17c02dae44dec694ff87ac5d40817eada645ddcac9d67b141a374c438c31bb0e",
+      "status": "HELD",
+      "stop_reason": "Ambiguous reported figure: more than one resolved value requires clarification: 950 from 'The card shows 950.'; 700 from 'That gives me 700'; 600 from 'or 600 if I leave out Dune because it says VOID'",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "465f6f4e-5b3a-43f8-a87f-7fc89016c305",
+      "tool_calls": 0,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-quote-retry-r1-pair1\\ticket-02.txt\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "billing:ticket-02.txt",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": null,
+      "elapsed_seconds": 60.953184843063354,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "BILLING_ANSWER_CONTRACT",
+      "expected_hash": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_outcome": null,
+      "expected_status": null,
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 11205,
+      "mode": "PIPELINE",
+      "model_calls": 1,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 0,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          "No delivered answer; intake refused competing reported figures."
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT",
+        "outcome_match": null,
+        "reason": "Exact repeats no longer blocked provenance. Retained intake refuses distinct extracted550/950 or950/700/600 candidates. Safe refusal, not a finding or contract answer. No outputs and no estate reads.",
+        "recorded_at": "2026-10-11T15:50:54.196976+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": null,
+      "sha256": "291e38f15eebab7e66753f6fb3def8a75faaed7eda94cd690dbb5eb34c8ce71b",
+      "source_sha256": "9019a3f4ba690da70a81a0c81a5dcb139e22455fd063ac6c23e9153cb379bb3e",
+      "status": "HELD",
+      "stop_reason": "Ambiguous reported figure: more than one resolved value requires clarification: 550 from '550 collected'; 950 from '950 invoiced'",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "993f7201-10f3-4678-a4c4-64c8ddac40ac",
+      "tool_calls": 0,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-quote-retry-r1-pair2-resumed\\ticket-03.txt\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "billing:ticket-03.txt",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": null,
+      "elapsed_seconds": 60.16989469528198,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "BILLING_ANSWER_CONTRACT",
+      "expected_hash": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_outcome": null,
+      "expected_status": null,
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 13250,
+      "mode": "PIPELINE",
+      "model_calls": 1,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 0,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "review_pending": true,
+        "root_reviewed": false
+      },
+      "scoring_status": "PENDING_ROOT_REVIEW",
+      "sealed_tapes": 1,
+      "session_id": null,
+      "sha256": "10cb88512c784b9b645c9fa2e14a9fb9c1327280b0d633de5aac306a43eee0d1",
+      "source_sha256": "349d6fab5f7e229cee7eea360c02f5de2cfee8492ba8c8c65c6358db98f718d4",
+      "status": "HELD",
+      "stop_reason": "Ambiguous reported figure: more than one resolved value requires clarification: 600 from 'It says 600.'; 700 from 'got 700'; 250 from 'Aster Growth 250'; 100 from 'Birch Starter 100'",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "490b99cb-12c0-4097-abb0-85ec388eb7fd",
+      "tool_calls": 0,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-billing-pipeline-form-quote-retry-r1-pair2-resumed\\ticket-04.txt\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "billing:ticket-04.txt",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": null,
+      "elapsed_seconds": 58.69130492210388,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "BILLING_ANSWER_CONTRACT",
+      "expected_hash": "b3a6d225e97855a6a86b5d693763164230cf9ee38989347b5910b63af43d2362",
+      "expected_outcome": null,
+      "expected_status": null,
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 10488,
+      "mode": "PIPELINE",
+      "model_calls": 1,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 0,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "review_pending": true,
+        "root_reviewed": false
+      },
+      "scoring_status": "PENDING_ROOT_REVIEW",
+      "sealed_tapes": 1,
+      "session_id": null,
+      "sha256": "cb163c9f0beb8ec4bd1935c589eb497035413d2c0a735502c23c05e6b6dec3eb",
+      "source_sha256": "77f0d8a9eeb0750aa746481f60f7bc1ef90f57e79a6058777d3b9d757b6243d3",
+      "status": "HELD",
+      "stop_reason": "The requested business-rule decision requires a domain specialist; technical process evidence cannot decide whether the rule is correct.",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "b789244d-f8c7-45c5-9c24-750a39503dd9",
+      "tool_calls": 0,
+      "tool_reuse_notes": 0
     },
     {
       "artifact": ".local\\round-fourteen\\paired-billing-pipeline-punctuation-r1-pair1\\ticket-01.txt\\full-result.json",
@@ -988,7 +1186,7 @@
       "diagnostic_reads": 3,
       "effective_capture_diagnostics": 0,
       "effective_capture_pending": 0,
-      "effective_outcome_status_match": false,
+      "effective_outcome_status_match": null,
       "elapsed_seconds": 707.0063636302948,
       "engine_hash": "1dcdffd0b612a837baf113ae2a7265af981af0bdfa86a6240d21718f43f332e1",
       "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
@@ -3083,6 +3281,972 @@
       "ticket_id": "7935430c-3de7-4c34-899c-c6321e8f1efe",
       "tool_calls": 6,
       "tool_reuse_notes": 14
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-A-429-single-replacement\\family-A\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-A",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 623.2250990867615,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 1704531,
+      "mode": "HYBRID",
+      "model_calls": 16,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 10,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": []
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Authorized single environmental replacement ends HELD/AGENT_STEP_CAP, not429; proposed claims on unknown/unpersisted receipts were refused. Qualified original pipeline outputs retained, no new agent finding delivered. No further replacement authorized.",
+        "recorded_at": "2026-10-11T16:00:27.725877+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "be6bdff8-7cdc-4132-ba1e-28507307e361",
+      "sha256": "4efa17c4a764db14114c30e9aca272cc9030c100409e62d6fe6d325fa1537f6f",
+      "source_sha256": "e4f9185ba131b5d55d0ebdf074ca1bd7d3f001721da699b0e2e999bbf2545a42",
+      "status": "HELD",
+      "stop_reason": "AGENT_STEP_CAP",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "755bba54-a131-42a1-88e4-fbe4ae8c1922",
+      "tool_calls": 1,
+      "tool_reuse_notes": 1
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair1-admitted\\family-A\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-A",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 167.4344139099121,
+      "engine_hash": "29254cffb28c40883a6324763ee94ccc2622080d4136d3abaad2913f552adb55",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "failure_error_type": "Conflict",
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 20003,
+      "mode": "HYBRID",
+      "model_calls": 2,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 10,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          "NO_ADMITTED_SESSION"
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "READ_STAGE_CAPTURE_UNAVAILABLE: nested HYBRID pipeline run was recorded in the outer submission tape but separate read-stage closure was required; no output delivered. Original failure preserved; next admissions paused for capture fix.",
+        "recorded_at": "2026-10-11T14:58:22.950002+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": null,
+      "sha256": "317314e0b38d08a580d123c03aea33125ead61c968bfa506bf9408356f5007fb",
+      "source_sha256": "e4f9185ba131b5d55d0ebdf074ca1bd7d3f001721da699b0e2e999bbf2545a42",
+      "status": "FAILED_PRE_ADMISSION",
+      "stop_reason": null,
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": null,
+      "tool_calls": 0,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair1-admitted\\family-B\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-B",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 135.02372336387634,
+      "engine_hash": "29254cffb28c40883a6324763ee94ccc2622080d4136d3abaad2913f552adb55",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "653988e325f9a7d7f38fc0518e62dade6b32f55ad2115e1436278403e3028044",
+      "expected_outcome": "NO_KNOWN_PATTERN",
+      "expected_status": "COMPLETED",
+      "failure_error_type": "Conflict",
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 8858,
+      "mode": "HYBRID",
+      "model_calls": 1,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 1,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          "NO_ADMITTED_SESSION"
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "READ_STAGE_CAPTURE_UNAVAILABLE: nested HYBRID pipeline run was recorded in the outer submission tape but separate read-stage closure was required; no output delivered. Original failure preserved; next admissions paused for capture fix.",
+        "recorded_at": "2026-10-11T14:58:22.950002+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": null,
+      "sha256": "464ab42275d3736deb2ba48c50f4c280a4b16dd913db6cd047663dbf0aac0ac6",
+      "source_sha256": "63db0922da874f379b07ee9012edc7d2e5a479590151d2bb4a9dc9b1dbf338fd",
+      "status": "FAILED_PRE_ADMISSION",
+      "stop_reason": null,
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": null,
+      "tool_calls": 0,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair1-capture-fixed\\family-A\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-A",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": null,
+      "elapsed_seconds": 355.6326539516449,
+      "engine_hash": "05d6cc61fe92b237465e4f07b7468d7581af8e0a1af62554c8e3538550e56860",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 928989,
+      "mode": "HYBRID",
+      "model_calls": 12,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 10,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": []
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Pipeline partial TRANSFORMATION_LOGIC preserved; fallback standard tool collided with seeded original evidence IDs, then two incomplete evidence coverage attempts were rejected; provider RateLimitError held. No new agent claim delivered.",
+        "recorded_at": "2026-10-11T15:12:20.944867+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ENVIRONMENT_AFFECTED_EXCLUDED",
+      "sealed_tapes": 1,
+      "session_id": "6a89e98b-1b6b-4c6f-80d2-c493ecb9a09a",
+      "sha256": "6551b120f8fc282e80f2bd9bf7c221e720b4664891854b52c75b1099571a93c1",
+      "source_sha256": "e4f9185ba131b5d55d0ebdf074ca1bd7d3f001721da699b0e2e999bbf2545a42",
+      "status": "HELD",
+      "stop_reason": "AGENT_ADMISSION_OR_PROVIDER_FAILED",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "38454dae-81fb-44b5-932f-3eff113f28e4",
+      "tool_calls": 2,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair1-capture-fixed\\family-B\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-B",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 397.75977063179016,
+      "engine_hash": "05d6cc61fe92b237465e4f07b7468d7581af8e0a1af62554c8e3538550e56860",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "653988e325f9a7d7f38fc0518e62dade6b32f55ad2115e1436278403e3028044",
+      "expected_outcome": "NO_KNOWN_PATTERN",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 1098627,
+      "mode": "HYBRID",
+      "model_calls": 15,
+      "outcome": "NO_COMPARABLE_PATH",
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 1,
+      "questions_asked": 0,
+      "receipt_physical_requests": 1,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "NO_KNOWN_PATTERN",
+            "invariant": "outcome",
+            "observed": "NO_COMPARABLE_PATH"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Original quantity0.733029092983457 and no faithfully comparable component source; fallback delivered qualified NO_COMPARABLE_PATH/NOT_ANSWERED, no mechanism claim, after standard result evidence-ID collision and repeated evidence fetch. Sealed expected NO_KNOWN_PATTERN not met. No technical/business correctness overclaim.",
+        "recorded_at": "2026-10-11T15:12:20.944867+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "e97b15e2-c054-4c40-9ffd-a253120bb2f7",
+      "sha256": "e4c93efc80fb803228121e1d004181f6f98d97174e18b19ff26d73bda1246236",
+      "source_sha256": "63db0922da874f379b07ee9012edc7d2e5a479590151d2bb4a9dc9b1dbf338fd",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "synthesis_status": "COMPLETED",
+      "synthesis_validation": null,
+      "ticket_id": "c262c98e-e2c3-4fb8-b31e-28c335580c39",
+      "tool_calls": 3,
+      "tool_reuse_notes": 4
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair2-receipt-fixed\\family-C\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-C",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 2,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 419.24507427215576,
+      "engine_hash": "ea69f50cc5715177a3ea78047834d1a3eb67f60bf245b7696b2da832dcda8a16",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "85bb2cc8cccde1341eb3c0e22e50054f131072e528e1160997de589de8bdbe83",
+      "expected_outcome": null,
+      "expected_status": "HELD",
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 738937,
+      "mode": "HYBRID",
+      "model_calls": 13,
+      "outcome": "NO_KNOWN_PATTERN",
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 2,
+      "questions_asked": 1,
+      "receipt_physical_requests": 2,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": [],
+            "invariant": "layers_reached",
+            "observed": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              }
+            ]
+          },
+          {
+            "expected": null,
+            "invariant": "outcome",
+            "observed": "NO_KNOWN_PATTERN"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "HELD",
+            "invariant": "status",
+            "observed": "NEEDS_INPUT"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Pipeline DESCRIPTION_SUBJECT_UNRESOLVED; agent resolved target, ran standard walk, inspected lineage and a probe, but two unsupported delivery attempts were rejected; asked user, NEEDS_INPUT. No narrative or harmful finding delivered; retained as a non-answer, not expected HELD match.",
+        "recorded_at": "2026-10-11T15:22:48.251630+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "4f9d9065-bf0e-40bf-abed-b51f1cfec65c",
+      "sha256": "accdc6849b4c4e7769dc533f8fdd0e2983ee3740b67b96463c717a2eb2068c9d",
+      "source_sha256": "9e80cdc0e1230f8466a5eb82cd105b9472b107385245f1476cf5395923ab27b8",
+      "status": "NEEDS_INPUT",
+      "stop_reason": "AGENT_WAITING_FOR_USER",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "c28f4c85-8fd5-435d-be64-30d7a2b1d61d",
+      "tool_calls": 5,
+      "tool_reuse_notes": 3
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair2-receipt-fixed\\family-D\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-D",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 3,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": true,
+      "elapsed_seconds": 418.2479362487793,
+      "engine_hash": "ea69f50cc5715177a3ea78047834d1a3eb67f60bf245b7696b2da832dcda8a16",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "dcb27412ecbe374f3ef5a47230a1f31304baf34830b3a802bf462d708aad0316",
+      "expected_outcome": "NO_COMPARABLE_PATH",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 1226488,
+      "mode": "HYBRID",
+      "model_calls": 12,
+      "outcome": "NO_COMPARABLE_PATH",
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 3,
+      "questions_asked": 0,
+      "receipt_physical_requests": 3,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": {
+              "report_binding": "STATED",
+              "selection": null
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "Standard tool receipt now works without original-ID rebinding. Agent reused original supported NO_COMPARABLE_PATH, after rejected incomplete claims. Both outputs explicitly give North3359 vs undeclared-context8765 and no reported figure/no verdict, preserve filtered lower refusal and snapshot limits. No new boundary or causal claim; no gap closed.",
+        "recorded_at": "2026-10-11T15:22:48.251630+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "d75f0cd0-4e47-49b2-a5e6-91fd5c62b275",
+      "sha256": "34f8ddda24a6d020fdbf2801105b0ce99ad3a9ce012f20217b7142504210b60b",
+      "source_sha256": "be3de08f567327986ab3fdea7a0ac4bf568d620a6fa74c768219606bc32c96cc",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "synthesis_status": "COMPLETED",
+      "synthesis_validation": null,
+      "ticket_id": "32931cdf-5e47-4dd9-b4c0-efc090c31eca",
+      "tool_calls": 2,
+      "tool_reuse_notes": 2
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair3-receipt-fixed\\family-E\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-E",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": null,
+      "elapsed_seconds": 364.5785400867462,
+      "engine_hash": "ea69f50cc5715177a3ea78047834d1a3eb67f60bf245b7696b2da832dcda8a16",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 822794,
+      "mode": "HYBRID",
+      "model_calls": 10,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 10,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": []
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "environment_affected": true,
+        "excluded_from_scoring": true,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Pipeline qualified TRANSFORMATION_LOGIC with freshness partly answered and timestamps/accounting/source delivery unavailable retained. Agent reused standard walk and checked freshness, proposed changing outcome to NO_KNOWN_PATTERN; validator refused, then provider RateLimitError held. No unsupported latency or new causal claim delivered. Owner2026-10-11 rule: provider429 is not an investigation result; preserve this historical throttle and exclude from scoring, no unapproved replacement.",
+        "recorded_at": "2026-10-11T16:02:22.715058+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ENVIRONMENT_AFFECTED_EXCLUDED",
+      "sealed_tapes": 1,
+      "session_id": "1fcd328f-1e8b-4834-80fb-f52a74d3e6bc",
+      "sha256": "39977a47d8c3cb6abf15e646396c1f8570649ce3e195aaa3627d922f0ece9aa2",
+      "source_sha256": "657c031bd47bd29c6cb9dbcd599130a176a51466b301eb0da90a881cb733d056",
+      "status": "HELD",
+      "stop_reason": "AGENT_ADMISSION_OR_PROVIDER_FAILED",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "90b93207-465b-460a-875e-d0a1a64f4aba",
+      "tool_calls": 3,
+      "tool_reuse_notes": 1
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair3-receipt-fixed\\family-F\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-F",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 3,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 453.7969162464142,
+      "engine_hash": "ea69f50cc5715177a3ea78047834d1a3eb67f60bf245b7696b2da832dcda8a16",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "d29bda93ea311613a7a3dc4bf486a4354a3c97868be4294d758e53fb656345f2",
+      "expected_outcome": "CONSISTENT_TO_BOUNDARY",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 1350703,
+      "mode": "HYBRID",
+      "model_calls": 14,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 7,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": []
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "CONSISTENT_TO_BOUNDARY",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Pipeline equality57043 through serving with source unreachable and mechanism NOT_ANSWERED retained. Agent read a transformation contract, refused source reachability, repeatedly fetched evidence and cited unpersisted original IDs without using standard tool; delivery validation rejected and step12 held. No new mechanism or source-faithfulness claim delivered.",
+        "recorded_at": "2026-10-11T15:31:45.073378+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "221c7371-0fc4-4e07-80a0-4acd31a154a5",
+      "sha256": "feea474ab38b266db3ab878b28ed4aad54f6b5fb54d67710f209c02376bc8097",
+      "source_sha256": "e85e88199d77e3b178971497c666173840ce23998da3208097241cadc048009e",
+      "status": "HELD",
+      "stop_reason": "AGENT_STEP_CAP",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "dfc96fe0-94e5-4d7a-8ae7-57172dffcbfb",
+      "tool_calls": 3,
+      "tool_reuse_notes": 3
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair4-receipt-fixed\\family-G\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-G",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 261.4326605796814,
+      "engine_hash": "ea69f50cc5715177a3ea78047834d1a3eb67f60bf245b7696b2da832dcda8a16",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 280261,
+      "mode": "HYBRID",
+      "model_calls": 5,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 10,
+      "questions_asked": 1,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": []
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "NEEDS_INPUT"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Original qualified pipeline outputs preserved; fallback asked for intent instead of claiming business correctness. No new causal or coverage claim delivered. NEEDS_INPUT does not close the technical gap.",
+        "recorded_at": "2026-10-11T15:41:42.988898+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "5a67f25c-bb77-4dd8-9509-065b1bd46e79",
+      "sha256": "2d0037d849a5fd748f61d7cfefa707344402c2d3941c121c6602dbb58b8853c4",
+      "source_sha256": "6feb59b1d540e916851f9ec28505c59270427e231c90b2f4111fa96841d14761",
+      "status": "NEEDS_INPUT",
+      "stop_reason": "AGENT_WAITING_FOR_USER",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "009c32ae-a990-45d6-aff7-0e31f5c4a494",
+      "tool_calls": 2,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair4-receipt-fixed\\family-H\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-H",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 237.26217412948608,
+      "engine_hash": "ea69f50cc5715177a3ea78047834d1a3eb67f60bf245b7696b2da832dcda8a16",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "653988e325f9a7d7f38fc0518e62dade6b32f55ad2115e1436278403e3028044",
+      "expected_outcome": "NO_KNOWN_PATTERN",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 269463,
+      "mode": "HYBRID",
+      "model_calls": 5,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 1,
+      "questions_asked": 1,
+      "receipt_physical_requests": 0,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "NO_KNOWN_PATTERN",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "NEEDS_INPUT"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Original qualified pipeline outputs preserved; fallback asked for intent instead of claiming business correctness. No new causal or coverage claim delivered. NEEDS_INPUT does not close the technical gap.",
+        "recorded_at": "2026-10-11T15:41:42.988898+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "b2c64336-90fa-4d06-b804-af35805d0402",
+      "sha256": "d1e5e33c9d6f718471781b9859055611e76f637df21e2b9b04a6480cc6cee87a",
+      "source_sha256": "b796bb0e7404805d916e89b8ac2b0e7c801ec9709afc197c115b8ed0151bcec8",
+      "status": "NEEDS_INPUT",
+      "stop_reason": "AGENT_WAITING_FOR_USER",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "d4e67d8c-2233-4f5c-80a5-dd0fcfb21bd7",
+      "tool_calls": 3,
+      "tool_reuse_notes": 0
     },
     {
       "artifact": ".local\\round-fourteen\\paired-original-pipeline-C-24000\\family-C\\full-result.json",
