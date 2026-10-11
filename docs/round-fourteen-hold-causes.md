@@ -5,7 +5,7 @@ All preserved columns are included below, including superseded revisions and env
 | Cause | Preserved attempts |
 |---|---:|
 | Other retained refusal; no root cause inferred | 18 |
-| Target, measure or scope unresolved | 29 |
+| Target, measure or scope unresolved | 31 |
 | Business intent or description route unavailable | 25 |
 | Figure/comparator interpretation or provenance unresolved | 41 |
 | Agent progress or deadline exhausted | 33 |
@@ -52,6 +52,8 @@ All preserved columns are included below, including superseded revisions and env
 - billing:ticket-15.txt / HYBRID / HELD (ROOT_REVIEWED): 12 combined model calls, zero reads, no technical session; original plan-selector question not answered, no unsupported plan-scoped finding. Artifact: `.local\round-fourteen\paired-billing-hybrid-form-shared-5c5e94d-pair5\ticket-15.txt\full-result.json`.
 - billing:ticket-02.txt / HYBRID / HELD (ROOT_REVIEWED): Root read resolve_ticket failures and ask_user receipt: unresolved measure, then Which visual are you asking about? Choices all catalog names, fixed report/page preserved, provenance/context supplied; no duplicate-count premise or ID display. No technical session;9models,0reads. Artifact: `.local\round-fourteen\paired-billing-hybrid-form-span-grounded-r1-pair1\ticket-02.txt\full-result.json`.
 - billing:ticket-06.txt / HYBRID / HELD (ROOT_REVIEWED): HELD WAITING_FOR_USER after unresolved/ambiguous measure; posted catalog-derived visual names only. No ID display, invented duplicate premise, stale-serving claim or investigation. Artifact: `.local\round-fourteen\paired-billing-hybrid-form-span-grounded-r1-pair3\ticket-06.txt\full-result.json`.
+- billing-free-text:ticket-01.txt / HYBRID / HELD (ROOT_REVIEWED): HELD after catalog lookup and unresolved settlement; asks fixed REPORT question with one catalog-backed Subscription Billing choice despite the ticket already naming it. Redundant but no duplicate premise, IDs or delivered technical claim; zero estate reads. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-chat-final-pair1\ticket-01.txt\full-result.json`.
+- billing-free-text:ticket-02.txt / HYBRID / HELD (ROOT_REVIEWED): HELD after catalog lookup and unresolved settlement; asks fixed REPORT question with one catalog-backed Subscription Billing choice despite the ticket already naming it. Redundant but no duplicate premise, IDs or delivered technical claim; zero estate reads. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-chat-final-pair1\ticket-02.txt\full-result.json`.
 - billing:ticket-06.txt / HYBRID / HELD (ROOT_REVIEWED): HELD starting measure/model ambiguous; grounded visual-name question, no technical claim or admission. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-form-final-pair3\ticket-06.txt\full-result.json`.
 - billing-free-text:ticket-02.txt / PIPELINE / CLARIFYING (ROOT_REVIEWED): Exact free-text ticket gives first page but no report name/link; clarification preserved without inventing an answer or selector. Artifact: `.local\round-fourteen\paired-billing-pipeline-chat-shared-5c5e94d-pair1\ticket-02.txt\full-result.json`.
 - billing-free-text:ticket-06.txt / PIPELINE / CLARIFYING (ROOT_REVIEWED): Exact text mentions report overview but no report title/link; unresolved admission preserved; no freshness or plan-state assertion delivered. Artifact: `.local\round-fourteen\paired-billing-pipeline-chat-shared-5c5e94d-pair3\ticket-06.txt\full-result.json`.
