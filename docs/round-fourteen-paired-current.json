@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T08:53:17.270755+00:00",
+  "recorded_at": "2026-10-11T09:09:09.352993+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -498,6 +498,123 @@
       "status": "HELD",
       "stop_reason": "AGENT_STEP_CAP",
       "ticket_id": "73370634-a5de-4a56-9e40-ee7a6633dc1c"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r2-CD-1662b85\\family-C\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-C",
+      "diagnostic_reads": 3,
+      "elapsed_seconds": 691.6398599147797,
+      "engine_hash": "7ecc0dc81c4a9635fd147c724fa89a9c2ed7c69310e2d07cc2908ab489574f2d",
+      "expected_hash": "85bb2cc8cccde1341eb3c0e22e50054f131072e528e1160997de589de8bdbe83",
+      "has_outputs": false,
+      "microdollars": 1219436,
+      "mode": "AGENT",
+      "model_calls": 25,
+      "outcome": null,
+      "physical_requests": 3,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "Safe step-cap hold with no outputs. Seven rejected proposals: missing flow consistency or unpersisted citation.",
+        "recorded_at": "2026-10-11T09:09:07.907339+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "a883f125-a1f4-4aac-82d2-7d8aa6b5e2a6",
+      "sha256": "a9d2d12500bb905b07ae299ca685f44d6791ef098c6566962ed5a95d5e8f0447",
+      "source_sha256": "9e80cdc0e1230f8466a5eb82cd105b9472b107385245f1476cf5395923ab27b8",
+      "status": "HELD",
+      "stop_reason": "AGENT_STEP_CAP",
+      "ticket_id": "6552e7a0-af21-4b03-ab1f-6c34094ca385"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r2-CD-1662b85\\family-D\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-D",
+      "diagnostic_reads": 1,
+      "elapsed_seconds": 801.6510667800903,
+      "engine_hash": "7ecc0dc81c4a9635fd147c724fa89a9c2ed7c69310e2d07cc2908ab489574f2d",
+      "expected_hash": "dcb27412ecbe374f3ef5a47230a1f31304baf34830b3a802bf462d708aad0316",
+      "has_outputs": false,
+      "microdollars": 1240983,
+      "mode": "AGENT",
+      "model_calls": 25,
+      "outcome": null,
+      "physical_requests": 1,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "NO_REPORTED_FIGURE",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "NO_COMPARABLE_PATH",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED",
+              "selection": null
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Safe step-cap hold with no outputs. Eight rejected proposals: missing original restriction comparisons, scope/path roles or unpersisted citation; no filtered-scope refusal weakened.",
+        "recorded_at": "2026-10-11T09:09:07.907339+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "0f055fc9-f80a-4f8c-882a-68d927b3ee8b",
+      "sha256": "36f662164053a0645c9a60ed4467a6d34df7d6d4218f7fdba5b9c60dbdb82c2b",
+      "source_sha256": "be3de08f567327986ab3fdea7a0ac4bf568d620a6fa74c768219606bc32c96cc",
+      "status": "HELD",
+      "stop_reason": "AGENT_STEP_CAP",
+      "ticket_id": "7106bbb8-144b-4891-9949-00472cce9055"
     },
     {
       "artifact": ".local\\round-fourteen\\paired-original-pipeline-C-24000\\family-C\\full-result.json",
