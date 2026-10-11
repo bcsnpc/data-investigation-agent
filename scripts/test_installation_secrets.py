@@ -36,5 +36,5 @@ class ExistingSecretLocationTests(unittest.TestCase):
             statuses=[]
             with patch.dict(os.environ,{'INVESTIGATOR_LIVE_ADMISSION_DEADLINE':'2000-01-01T23:30:00-05:00'}):
                 result=b''.join(app({'HTTP_HOST':'127.0.0.1:8791','HTTP_AUTHORIZATION':'Bearer '+token,'REQUEST_METHOD':'GET','PATH_INFO':path,'wsgi.input':BytesIO()},lambda status,headers:statuses.append(status)))
-            self.assertIn('400',statuses[0]);self.assertIn(b'LIVE_ADMISSION_DEADLINE_REACHED',result)
+            self.assertIn('409',statuses[0]);self.assertIn(b'LIVE_ADMISSION_DEADLINE_REACHED',result)
         workspace.forms.catalog.assert_not_called()

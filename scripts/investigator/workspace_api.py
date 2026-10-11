@@ -50,8 +50,10 @@ def create_app(workspace, token, port=8776):
             if method not in ('GET', 'POST'):
                 return respond('405 Method Not Allowed', {'error': 'Method not allowed'})
             if method=='POST' or path in ('/api/workspace/forms/catalog','/api/workspace/questionnaire/catalog'):
-                from .admission_deadline import require_open
-                require_open()
+                from .admission_deadline import require_open,AdmissionClosed
+                try:require_open()
+                except AdmissionClosed:
+                    return respond('409 Conflict',{'error':'Live admissions have closed for this batch. Captured work remains available.','code':'LIVE_ADMISSION_DEADLINE_REACHED'})
             body = None
             if method == 'POST':
                 size = int(env.get('CONTENT_LENGTH', '0'))
