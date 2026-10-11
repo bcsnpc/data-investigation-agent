@@ -116,6 +116,29 @@ def hydrate(root,suite,output):
   if asset.get('ciphertext_bytes') is not None and encrypted.stat().st_size!=asset['ciphertext_bytes']:raise ValueError('SUITE_CIPHERTEXT_SIZE_PIN_DIFFERS')
   # Existing decryptor verifies ciphertext first and every exact member before extraction.
   decrypt(encrypted,asset['ciphertext_sha256'],key,output/asset['id'],expected_members=len(asset['inventory']),inventory=asset['inventory'],expected_uncompressed_bytes=asset.get('uncompressed_bytes'))
+def materialize_capture(root,op,output):
+ """Assemble verified shard members into one fresh logical capture directory."""
+ target=output/'materialized-captures'/op['id']/Path(op['tape']['member']).parent.name;target.mkdir(parents=True,exist_ok=False)
+ references={'tape.json':op['tape'],'catalog.sqlite':op['catalog']}
+ if op.get('inventory'):references['inventory.sqlite']=op['inventory']
+ if op.get('estate_manifest'):references[Path(op['estate_manifest']['member']).name]=op['estate_manifest']
+ for group in ('capture_support','after_artifacts','dependencies'):
+  for name,ref in op.get(group,{}).items():
+   if ref is not None:
+    relative(name)
+    if name in references and references[name]!=ref:raise ValueError('SUITE_CAPTURE_MEMBER_COLLISION')
+    references[name]=ref
+ for name,ref in references.items():
+  source=member(root,ref)
+  # The declared native basename is semantic; shards supply storage only.
+  if source.name!=Path(name).name:raise ValueError('SUITE_CAPTURE_MEMBER_BASENAME')
+  dest=target/relative(name);dest.parent.mkdir(parents=True,exist_ok=True)
+  # Same-volume scratch hardlinks avoid a third catalog copy. They are never
+  # modified by replay; recorded_engine owns its separate mutable clone.
+  os.link(source,dest)
+  if sha(dest)!=ref['sha256']:raise ValueError('SUITE_MATERIALIZED_MEMBER_HASH_DIFFERS')
+ return target
+
 def run(suite,member_root,output,repo,*,replay=None,load_tape=None,revision_check=None,consumer_check=None,operation_ids=None):
  validate(suite)
  if operation_ids is not None and (not isinstance(operation_ids,set) or not operation_ids or not operation_ids<=set(o['id'] for o in suite['operations'])):raise ValueError('SUITE_SELECTED_OPERATION_UNKNOWN')
@@ -133,7 +156,7 @@ def run(suite,member_root,output,repo,*,replay=None,load_tape=None,revision_chec
  for op in suite['operations']:
   if operation_ids is not None and op['id'] not in operation_ids:continue
   receipt={'id':op['id'],'run_id':op['run_id'],'case':op.get('case'),'operation':op['operation'],'producer_revision':op['producer_revision'],'tape_class':op['tape_class'],'expected_status':op['expected_status'],'expected_blocker':op.get('expected_blocker'),'estate_reads':0,'model_calls':0}
-  path=None
+  path=None;capture=None;capture_hashes={}
   try:
    (revision_check or git_revision)(repo,op['producer_revision'])
    if op.get('tape') is None:
@@ -142,14 +165,17 @@ def run(suite,member_root,output,repo,*,replay=None,load_tape=None,revision_chec
     metadata=op.get('dispatcher') in (METADATA_DISPATCHER,METADATA_V2_DISPATCHER)
     verifier=op.get('dispatcher')==VERIFIER_DISPATCHER
     path=member(member_root,op['tape']);cat=member(member_root,op['catalog']);inv=member(member_root,op['inventory']) if op.get('inventory') else None
+    capture=materialize_capture(member_root,op,output)
+    capture_hashes={str(p.relative_to(capture)):sha(p) for p in capture.rglob('*') if p.is_file()}
+    path=capture/'tape.json';cat=capture/'catalog.sqlite';inv=capture/'inventory.sqlite' if inv is not None else None
     if cat!=path.parent/'catalog.sqlite' or inv is not None and inv!=path.parent/'inventory.sqlite':raise ValueError('SUITE_BOOTSTRAP_ARTIFACT_LOCATION')
     if metadata:
      for name,ref in {**op['capture_support'],**op['after_artifacts']}.items():
-      if ref is not None and member(member_root,ref)!=path.parent/name:raise ValueError('SUITE_METADATA_SUPPORT_LOCATION')
+      if ref is not None and sha(path.parent/name)!=ref['sha256']:raise ValueError('SUITE_METADATA_SUPPORT_LOCATION')
     if verifier:
      if path.stat().st_size>64*1024*1024:raise ValueError('VERIFIER_SEPARATE_LARGE_TAPE_CLASS_REQUIRED')
      for name,ref in op['dependencies'].items():
-      if member(member_root,ref)!=path.parent/name:raise ValueError('SUITE_VERIFIER_DEPENDENCY_LOCATION')
+      if sha(path.parent/name)!=ref['sha256']:raise ValueError('SUITE_VERIFIER_DEPENDENCY_LOCATION')
     tape=load_tape(path)
     if verifier and (tape.bootstrap['entry_point']!='code_verifier' or tape.bootstrap['state'].get('capture_contract')!='code-verifier-dependencies-v1'):raise ValueError('SUITE_VERIFIER_CAPTURE_CONTRACT')
     if verifier and {n:ref['sha256'] for n,ref in op['dependencies'].items()}!=tape.bootstrap['state']['members']:raise ValueError('SUITE_VERIFIER_SEALED_DEPENDENCIES_DIFFER')
@@ -191,6 +217,14 @@ def run(suite,member_root,output,repo,*,replay=None,load_tape=None,revision_chec
    except OSError:receipt['tape_sha256_after']=None
    receipt['sealed_tape_unchanged']=receipt['tape_sha256_after']==op['tape']['sha256']
    if not receipt['sealed_tape_unchanged']:receipt.update(status='CAPTURE_CHANGED_DURING_REPLAY',blocker='SEALED_TAPE_BYTES_CHANGED')
+  if capture is not None and capture_hashes:
+   changed=[]
+   for name,expected in capture_hashes.items():
+    try:valid=sha(capture/name)==expected
+    except OSError:valid=False
+    if not valid:changed.append(name)
+   receipt['sealed_capture_members_unchanged']=not changed
+   if changed:receipt.update(status='CAPTURE_CHANGED_DURING_REPLAY',blocker='SEALED_CAPTURE_MEMBER_BYTES_CHANGED',changed_members=changed)
   receipt['roster_match']=receipt['status']==op['expected_status'] and (receipt['status']!='REPLAY_BLOCKED' or receipt.get('blocker')==op.get('expected_blocker'))
   (output/(op['id']+'.receipt.json')).write_text(json.dumps(receipt,sort_keys=True,indent=2));receipts.append(receipt)
   (output/'partial-map.json').write_text(json.dumps({'operations':receipts,'estate_reads':0,'model_calls':0},sort_keys=True,indent=2))
