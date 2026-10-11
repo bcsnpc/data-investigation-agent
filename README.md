@@ -363,3 +363,12 @@ DECIDED WITHOUT REVIEW: the billing private runner had omitted the shared dollar
 Metadata SQL replay V2 is a separate, narrowly scoped consumer, not a rewritten V1 result: the preserved V1 fails CLOCK:AUTH_STATE; V2 matches the archived Collector/Discovery, worker protocol and recorded decoded result. It does not replay pre-tape authentication or the private caller's outer bound. V2's nine regression tests passed, followed by all 67 acceptance/round_thirteen tests (native exit 0). Investigation engine bytes remain unchanged; prior freeze remains invalid. Billing metadata cell and schema publication audits passed independently. Eight hash-pinned encrypted metadata shards are approved for immutable publication under the existing owner decision; whole-round publication and the one-command suite remain pending.
 
 Window at admission: pot 1,882/2,500; rolling 748/3,000; restoration reserve 95; diagnostic cap 12 unchanged. D/F remain paused on both estates, demo not earned, #423 remains draft.
+
+
+Billing014940 metadata-only replay has its own immutable encrypted assets and manifest. With the existing `KNOWN_DOMAIN_REPLAY_KEY` supplied through the secret environment and `RUNNER_TEMP` set to a fresh-output parent, the hosted workflow runs:
+
+```bash
+python acceptance/round_thirteen/replay_suite.py --suite acceptance/round_thirteen/billing-metadata-replay-suite.json --hydrate --output "$RUNNER_TEMP/billing-metadata-replay-results" --scratch-parent "$RUNNER_TEMP"
+```
+
+This separately preserves the original V1 negative and tests the V2 protocol/context claim. It is not a runnable whole-round suite or a billing investigation accuracy result. See [the section 8 publication record](docs/round-thirteen-encrypted-metadata-evidence.md).
