@@ -14,3 +14,6 @@ DECIDED WITHOUT REVIEW: preserve complete safe consumer diagnostics rather than 
 
 
 Dated C pipeline re-run under shared 24,000 bound, 2026-10-11: ticket e99ea780 held at intake with DESCRIPTION_SUBJECT_UNRESOLVED. The selected Nothing comparator was retained while model extraction chose a VERTICAL discrepancy. One model call, zero physical requests, USD0.009048; no resolver invocation or delivered claim. Terminal HELD projection matches the historical expectation, full contract does not; this does not demonstrate the enlarged resolver. Original C results remain unchanged. Pot2051/4000, reserve95, rolling901/3000. Agent C re-run follows; #423 draft, freeze invalid.
+
+
+2026-10-11 ongoing C/G checkpoint: agent C admitted METRIC_COMPONENTS and lineage is AVAILABLE under the shared 24,000-character bound. A BUSINESS_QUESTION proposal was rejected with the exact consumer diagnosis "BUSINESS_QUESTION requires flow_consistency evidence" and affected claim indices1-6; it later held at AGENT_STEP_CAP after repeated retained-evidence fetches. Final capture/usage closure remains pending, so this is not a completed scored result. G is still running. No bound, read cap, expectation or claim validator was changed to obtain a result. Hosted Validation and archived billing metadata replay passed on c44ac47; full local regression and acceptance jobs remain pending.
