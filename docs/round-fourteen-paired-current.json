@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T16:41:34.808954+00:00",
+  "recorded_at": "2026-10-11T17:09:42.259819+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-billing-agent-forms-r1-pair1-current\\ticket-01.txt\\full-result.json",
@@ -5274,6 +5274,465 @@
       "ticket_id": "9ff026c9-2971-4cd9-95fe-fcfa388c5cc2",
       "tool_calls": 2,
       "tool_reuse_notes": 6
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair2-quote-retry\\family-C\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-C",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 227.49300932884216,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "85bb2cc8cccde1341eb3c0e22e50054f131072e528e1160997de589de8bdbe83",
+      "expected_outcome": null,
+      "expected_status": "HELD",
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 348289,
+      "mode": "HYBRID",
+      "model_calls": 9,
+      "outcome": "NO_KNOWN_PATTERN",
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 1,
+      "questions_asked": 1,
+      "receipt_physical_requests": 1,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": [],
+            "invariant": "layers_reached",
+            "observed": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              }
+            ]
+          },
+          {
+            "expected": null,
+            "invariant": "outcome",
+            "observed": "NO_KNOWN_PATTERN"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "HELD",
+            "invariant": "status",
+            "observed": "NEEDS_INPUT"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "NEEDS_INPUT asks what expected quantity/comparison makes Quantity Balance low; picked form comparison was absent. Standard investigation did not close the gap. Nine models, one physical/diagnostic; no mechanism or value claim delivered.",
+        "recorded_at": "2026-10-11T16:47:19.545817+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "7f1b592e-501f-4893-a8d6-3853d8679756",
+      "sha256": "3773f3998986346a60af87071be74b8073626d4d26517ae6084d734118f46241",
+      "source_sha256": "9e80cdc0e1230f8466a5eb82cd105b9472b107385245f1476cf5395923ab27b8",
+      "status": "NEEDS_INPUT",
+      "stop_reason": "AGENT_WAITING_FOR_USER",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "da4899b7-f539-46bb-b1ce-b175b8e4e7ad",
+      "tool_calls": 4,
+      "tool_reuse_notes": 1
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair2-quote-retry\\family-D\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-D",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 331.0028917789459,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "dcb27412ecbe374f3ef5a47230a1f31304baf34830b3a802bf462d708aad0316",
+      "expected_outcome": "NO_COMPARABLE_PATH",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 1275362,
+      "mode": "HYBRID",
+      "model_calls": 14,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 1,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "NO_REPORTED_FIGURE",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "NO_COMPARABLE_PATH",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED",
+              "selection": null
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "HELD at twelve steps, fourteen models and one physical/diagnostic. North3359 pipeline result retained with every filtered lower comparison explicitly refused. Agent queried source and invoked standard investigation but proposed unknown citations and incomplete coverage were rejected. No approximated filtered comparison or new agent finding; question-kind variation and no full expected contract remain failures.",
+        "recorded_at": "2026-10-11T16:47:19.545817+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "4cde3fce-05c9-4dde-8be0-ec191da0788f",
+      "sha256": "8015798f0cbc12dff115fa61869e58b6974418d568e63651dfc1dd9ae036d183",
+      "source_sha256": "be3de08f567327986ab3fdea7a0ac4bf568d620a6fa74c768219606bc32c96cc",
+      "status": "HELD",
+      "stop_reason": "AGENT_STEP_CAP",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "5b47037a-1913-43bf-92c8-97007e7a69e0",
+      "tool_calls": 3,
+      "tool_reuse_notes": 1
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair3-quote-retry\\family-E\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-E",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 337.0453245639801,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 994050,
+      "mode": "HYBRID",
+      "model_calls": 12,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 10,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": []
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "HELD after ValueError at agent decision8. Tape establishes HTTP429, one separately recorded retry and HTTP200; the eventual ValueError is not relabelled as a rate-limit result or environment exclusion. Qualified original pipeline output explicitly says freshness not established, own load accounting absent and source delivery unavailable. Unknown-citation NO_KNOWN_PATTERN proposal rejected. Twelve models, ten physical/four diagnostics; gap not closed.",
+        "recorded_at": "2026-10-11T16:54:12.095463+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "c3b852b8-e342-408a-a41a-6f5a226b2d65",
+      "sha256": "f1777c80e83cb05a3ffc36d4e2aa6d525bf1aeebceb0282d3bad2d0f2683af6a",
+      "source_sha256": "657c031bd47bd29c6cb9dbcd599130a176a51466b301eb0da90a881cb733d056",
+      "status": "HELD",
+      "stop_reason": "AGENT_ADMISSION_OR_PROVIDER_FAILED",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "a8063a23-ab6e-44eb-ac79-3ad44c09bc99",
+      "tool_calls": 2,
+      "tool_reuse_notes": 2
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair3-quote-retry\\family-F\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-F",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 3,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": true,
+      "elapsed_seconds": 362.23863077163696,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "d29bda93ea311613a7a3dc4bf486a4354a3c97868be4294d758e53fb656345f2",
+      "expected_outcome": "CONSISTENT_TO_BOUNDARY",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 937848,
+      "mode": "HYBRID",
+      "model_calls": 13,
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 7,
+      "questions_asked": 0,
+      "receipt_physical_requests": 2,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "COMPLETED validated CONSISTENT_TO_BOUNDARY after a rejected incomplete-coverage proposal, evidence retrieval and corrected delivery. Both outputs explicitly say the mechanism question is not answered, application source not reached, 57043 equality only at semantic/serving boundary, snapshot unverified. Thirteen models, seven physical/three diagnostics. Safe delivery preserved, but no missing mechanism recovered and no pipeline gap closed.",
+        "recorded_at": "2026-10-11T16:54:12.095463+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "a714e4a9-bf50-4e7b-bde7-45f8b1c2937d",
+      "sha256": "41bc2da002b47b2dd5f8439f8314b3e1ad33af88f0bf703083166007120af793",
+      "source_sha256": "e85e88199d77e3b178971497c666173840ce23998da3208097241cadc048009e",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "synthesis_status": "COMPLETED",
+      "synthesis_validation": null,
+      "ticket_id": "12a6ec7c-c76c-4437-aa57-a2b3985c1a23",
+      "tool_calls": 4,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair4-quote-retry\\family-G\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-G",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 3.8541860580444336,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "failure_error_type": "OperationalError",
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 0,
+      "mode": "HYBRID",
+      "model_calls": 0,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 0,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          "NO_ADMITTED_SESSION"
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "CAPTURE_BOOTSTRAP_FAILED: SQLite database or disk is full while backing up catalog, before any model or estate request. Zero usage, no delivered claim, no sealed run tape was produced. Failure trace retained; this is not an investigation pass or a capability refusal.",
+        "recorded_at": "2026-10-11T16:56:34.361576+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 0,
+      "session_id": null,
+      "sha256": "9084775fdee4a46c39c789be58477d3148e5682616241049433ffea7ebfb5d7c",
+      "source_sha256": "6feb59b1d540e916851f9ec28505c59270427e231c90b2f4111fa96841d14761",
+      "status": "FAILED_PRE_ADMISSION",
+      "stop_reason": null,
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": null,
+      "tool_calls": 0,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair4-quote-retry\\family-H\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-H",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 2.530595541000366,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "653988e325f9a7d7f38fc0518e62dade6b32f55ad2115e1436278403e3028044",
+      "expected_outcome": "NO_KNOWN_PATTERN",
+      "expected_status": "COMPLETED",
+      "failure_error_type": "OperationalError",
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 0,
+      "mode": "HYBRID",
+      "model_calls": 0,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 0,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          "NO_ADMITTED_SESSION"
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "CAPTURE_BOOTSTRAP_FAILED: SQLite database or disk is full while backing up catalog, before any model or estate request. Zero usage, no delivered claim, no sealed run tape was produced. Failure trace retained; this is not an investigation pass or a capability refusal.",
+        "recorded_at": "2026-10-11T16:56:34.361576+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 0,
+      "session_id": null,
+      "sha256": "0432e893fb998970a966ae860b6f6f8287b7692c6966a1b260dc51d921d35e24",
+      "source_sha256": "b796bb0e7404805d916e89b8ac2b0e7c801ec9709afc197c115b8ed0151bcec8",
+      "status": "FAILED_PRE_ADMISSION",
+      "stop_reason": null,
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": null,
+      "tool_calls": 0,
+      "tool_reuse_notes": 0
     },
     {
       "artifact": ".local\\round-fourteen\\paired-original-pipeline-C-24000\\family-C\\full-result.json",
