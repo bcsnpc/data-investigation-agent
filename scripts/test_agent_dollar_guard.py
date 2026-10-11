@@ -18,7 +18,7 @@ class GuardTests(unittest.TestCase):
  def test_replay_consumes_guard_without_environment_or_db(self):
   v={'control':P['CONTROL'],'version':P['VERSION'],'configured':True,'ceiling_microdollars':100000000,'admission':'MODEL_SPEND_V1'};t=Tape(True,v)
   def forbidden(*a):raise AssertionError('External DB write attempted')
-  for version in ('bounded-worker-tape-v10','bounded-worker-tape-v11'):
+  for version in ('bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12'):
    t=Tape(True,v);t.version=version
    self.assertEqual(P['declare'](tape=t,environment={},policy_factory=forbidden),v);self.assertEqual(t.calls,1)
  def test_old_v9_refuses_without_retroactive_claim(self):

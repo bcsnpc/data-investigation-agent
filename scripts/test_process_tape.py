@@ -92,7 +92,7 @@ class TapeTests(unittest.TestCase):
                 recorded.event('BOUNDED_RESPONSE', bytes_of({'value': 2}))
                 recorded.finish({})
             original = path.read_bytes()
-            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v11')
+            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v12')
             replayed = Tape(path)
             self.assertEqual(replayed.version, 'bounded-worker-tape-v1')
             replayed.event('BOUNDED_REQUEST', bytes_of({'request': 1}))
@@ -627,7 +627,7 @@ class AgentTapeVersionTests(unittest.TestCase):
  def test_all_legacy_versions_replay_without_seal_changes_after_v11(self):
   from investigator import process_tape as journal
   with tempfile.TemporaryDirectory() as folder:
-   for version in range(1,11):
+   for version in range(1,12):
     path=Path(folder)/('v'+str(version)+'.json')
     with patch.object(journal,'VERSION','bounded-worker-tape-v'+str(version)):
      tape=Tape(path,bootstrap());tape.event('CONFIGURATION',bytes_of({'legacy':version}));tape.finish({})

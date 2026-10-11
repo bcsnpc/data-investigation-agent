@@ -151,7 +151,17 @@ class AgentLoop:
 
     def run(self, ticket, *, fixed_facts, context_id):
         ticket, facts = copy.deepcopy(ticket), copy.deepcopy(fixed_facts)
-        started = self.clock(); transcript = []; evidence = {}; feedback = None; fetched = None
+        def elapsed_clock():
+            from .process_tape import ACTIVE, clock as taped_clock
+            observed = self.clock()
+            tape = ACTIVE.get()
+            # Old recordings did not retain this clock. Preserve their older
+            # consumer contract rather than inventing historical elapsed time.
+            if (tape is not None and tape.replaying and
+                    tape.version not in ('bounded-worker-tape-v12','privacy-projected-tape-v2')):
+                return observed
+            return taped_clock('agent-loop-monotonic', lambda: observed)
+        started = elapsed_clock(); transcript = []; evidence = {}; feedback = None; fetched = None
         obtained = {}
 
         def record(event):
@@ -171,7 +181,7 @@ class AgentLoop:
         record({'event': 'STARTED', 'version': VERSION, 'context_id': context_id,
                 'fixed_facts': facts})
         for ordinal in range(1, self.step_cap + 1):
-            if self.clock() - started >= self.wall_seconds:
+            if elapsed_clock() - started >= self.wall_seconds:
                 return hold('AGENT_WALL_LIMIT')
             try:
                 self.admit('MODEL', ordinal)
@@ -196,7 +206,7 @@ class AgentLoop:
                         'reason': feedback['reason']})
                 continue
             record({'event': 'DECISION', 'ordinal': ordinal, **copy.deepcopy(decision)})
-            if self.clock() - started >= self.wall_seconds:
+            if elapsed_clock() - started >= self.wall_seconds:
                 return hold('AGENT_WALL_LIMIT')
             if decision['action'] == 'HOLD':
                 return hold(decision['reason'])

@@ -4,6 +4,28 @@ from jsonschema import Draft202012Validator
 
 
 class AgentLoopTests(unittest.TestCase):
+    def test_recorded_deadline_branch_replays_at_different_monotonic_speed(self):
+        import tempfile
+        from pathlib import Path
+        from investigator.process_tape import Tape, active
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'loop.json'
+            bootstrap={'entry_point':'synthetic','context_identity':'retained','config':{},
+                       'profile':{},'usage_policy':{},'engine_hash':'synthetic','state':{}}
+            tape=Tape(path,bootstrap)
+            times=iter([0,0,1000])
+            recorded_loop,_,_=self.loop([self.tool()],clock=lambda:next(times))
+            with active(tape):
+                recorded=self.run_loop(recorded_loop);tape.finish(recorded)
+            self.assertEqual(recorded['reason'],'AGENT_WALL_LIMIT')
+            original=path.read_bytes()
+            replay=Tape(path)
+            replay_loop,_,_=self.loop([self.tool()],clock=lambda:0)
+            with active(replay):
+                observed=self.run_loop(replay_loop);replay.finish(observed)
+            self.assertEqual(observed,recorded)
+            self.assertEqual(original,path.read_bytes())
+
     def test_repeat_returns_original_evidence_without_tool_or_read_admission(self):
         from unittest.mock import Mock
         loop, rows, calls = self.loop([self.tool(), self.tool(), self.answer()])
