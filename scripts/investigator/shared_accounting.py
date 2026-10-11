@@ -48,6 +48,20 @@ def attach(db, accounting):
     existing = {r[0] for r in sqlite3.Connection.execute(db, 'SELECT name FROM ' + SCHEMA + '.sqlite_master WHERE type=\'table\'')}
     if not TABLES <= existing:
         raise ValueError('SHARED_ACCOUNTING_UNINITIALIZED')
+    sqlite3.Connection.execute(db,'''CREATE TABLE IF NOT EXISTS isolated_budget_ownership(
+        environment TEXT,session_id TEXT,reservation_key TEXT,
+        PRIMARY KEY(environment,session_id,reservation_key))''')
+    def owned(environment,session,key):
+        return int(sqlite3.Connection.execute(db,'''SELECT 1 FROM isolated_budget_ownership
+            WHERE environment=? AND session_id=? AND reservation_key=?''',(environment,session,key)).fetchone() is not None)
+    db.create_function('isolated_budget_owned',3,owned)
+    # TEMP machinery is private to this connection, never written into the
+    # shared catalog. Only reservations acquired by this isolated catalog may
+    # be settled; old unowned charges cannot quietly be released.
+    sqlite3.Connection.execute(db,'''CREATE TEMP TRIGGER isolated_budget_settlement
+        BEFORE UPDATE ON shared_budget.adaptive_usage
+        WHEN isolated_budget_owned(OLD.environment,OLD.session_id,OLD.reservation_key)=0
+        BEGIN SELECT RAISE(ABORT,'SHARED_ACCOUNTING_RESERVATION_NOT_OWNED'); END''')
     def authorize(action, table, column, database, trigger):
         if database != SCHEMA:
             return sqlite3.SQLITE_OK
@@ -63,6 +77,13 @@ def attach(db, accounting):
         return sqlite3.SQLITE_DENY
     db.set_authorizer(authorize)
     db.shared_accounting = str(accounting)
+
+
+def register_owned(db,sql,parameters,result):
+    if re.match(r'\s*INSERT\s+INTO\s+shared_budget\.adaptive_usage\b',sql,re.I) and result.rowcount==1:
+        if not isinstance(parameters,(tuple,list)) or len(parameters)<3:
+            raise ValueError('SHARED_ACCOUNTING_RESERVATION_PARAMETERS_REQUIRED')
+        sqlite3.Connection.execute(db,'INSERT OR IGNORE INTO isolated_budget_ownership VALUES(?,?,?)',tuple(parameters[:3]))
 
 
 def materialize(destination, accounting):

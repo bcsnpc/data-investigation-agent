@@ -47,6 +47,9 @@ class ReplayBudgetConnection(sqlite3.Connection):
             from .process_tape import TapeError
             raise TapeError('TAPE_BUDGET_REPLAY_SAVEPOINT_UNSUPPORTED')
         result = super().execute(sql, *args, **kwargs)
+        if getattr(self,'shared_accounting',None):
+            from .shared_accounting import register_owned
+            register_owned(self,sql,args[0] if args else kwargs.get('parameters'),result)
         if command == 'ROLLBACK':
             self._restore_external_budget()
         elif command in ('COMMIT', 'END'):
@@ -57,6 +60,9 @@ class ReplayBudgetConnection(sqlite3.Connection):
         if getattr(self,'shared_accounting',None):
             from .shared_accounting import qualify
             sql=qualify(sql)
+            import re
+            if re.match(r'\s*INSERT\s+INTO\s+shared_budget\.adaptive_usage\b',sql,re.I):
+                raise ValueError('SHARED_ACCOUNTING_SINGLE_RESERVATION_REQUIRED')
         return super().executemany(sql,*args,**kwargs)
 
     def __exit__(self, kind, value, traceback):

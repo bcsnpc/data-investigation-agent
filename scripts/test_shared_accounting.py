@@ -87,9 +87,20 @@ class SharedAccountingTests(unittest.TestCase):
                         "UPDATE adaptive_usage SET reserved='{}'",
                         'DROP TABLE shared_budget.adaptive_usage'):
                 with self.assertRaises((sqlite3.DatabaseError,ValueError),msg=sql):db.execute(sql)
+            with self.assertRaisesRegex(ValueError,'SINGLE_RESERVATION_REQUIRED'):
+                db.executemany('INSERT INTO adaptive_usage VALUES(?,?,?,?,?,?,?,?,?,?)',[])
         with closing(sqlite3.connect(self.shared)) as db:
             for table in ('models','enterprise_scans','smart_tickets'):
                 self.assertEqual(db.execute('SELECT * FROM '+table).fetchall(),[('original','immutable')])
+
+    def test_other_catalog_cannot_settle_existing_reservation_or_release_old_charge(self):
+        with self.a.db() as db:
+            self.ga.reserve(db,'owned-by-a','m','planner',100,output_tokens=500)
+        with self.b.db() as db:
+            with self.assertRaisesRegex(sqlite3.IntegrityError,'RESERVATION_NOT_OWNED'):
+                self.gb.settle(db,'owned-by-a','m',{'output_tokens':0})
+        with self.a.db() as db:self.ga.settle(db,'owned-by-a','m',{'output_tokens':20})
+        self.assertEqual(self.gb.snapshot()['charged_today']['output_tokens'],20)
 
     def test_sealed_budget_baseline_replays_without_live_attachment(self):
         from investigator import budget_delta_v2 as v2

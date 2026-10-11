@@ -102,7 +102,10 @@ above remain historical. The new optional `storage.shared_accounting` port
 attaches that existing budget file to the isolated catalog connection. Only the
 consumer-owned budget tables and journals are addressable; shared model,
 discovery and ticket records cannot be read or changed. DELETE, DROP and changes
-to reserved amounts are refused. Both files must retain DELETE journal mode;
+to reserved amounts are refused. Connection-private settlement guards also
+refuse to release an existing reservation owned by another catalog. Ownership
+keys are acquired only after a successful single reservation insert in the same
+transaction, and persist only in the isolated catalog. Both files must retain DELETE journal mode;
 the same SQLite transaction commits the session transition and reservation.
 No copied accounting table governs live admission.
 
@@ -126,5 +129,6 @@ source context remain the source. Preparation explicitly re-approves those
 unchanged definitions only in the isolated catalog and records the new context,
 configuration and source hashes. No cloud metadata is recollected. The server
 uses the original shared dollar file, $190 ceiling and $10 margin. POST admission
-closes at 23:30 Central; already-admitted workers finish and their tapes close.
+and live catalog requests close at 23:30 Central with an explicit cutoff message;
+already-admitted workers finish and their tapes close.
 The live trial has not yet been admitted at this implementation checkpoint.
