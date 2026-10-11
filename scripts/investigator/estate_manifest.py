@@ -98,7 +98,10 @@ SCHEMA=obj({
         'statement':{'type':'string','minLength':1,'maxLength':STATEMENT_BOUND}})),
     # Evaluator-only declarations; not projected into tools or prompts.
     'execution':{'oneOf':[obj({'mode':{'const':'LIVE'}}), obj({'mode':{'const':'LOCAL_EXPORTED'},'bundle':STRING, 'manifest_sha256':{'type':'string','pattern':'^[0-9a-f]{64}$'}, 'source_manifest_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'}})]},
-    'investigation':obj({'mode':enum(('PIPELINE','AGENT')),'step_cap':integer(1,25),'wall_seconds':integer(1,3600)}),
+    'investigation':{'oneOf':[
+        obj({'mode':{'const':'PIPELINE'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600)}),
+        obj({'mode':{'const':'AGENT'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600),
+             'input_characters_per_request':integer(8000,150000)}, optional=('input_characters_per_request',))]},
     'fixture_states':array(obj({'id':STRING,'description':STRING,
         'arithmetic':{'type':'string','minLength':1,'maxLength':2000},
         'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer','retention','recording','intake','ownership','execution','investigation'))

@@ -38,7 +38,8 @@ class GovernedDecision:
         body = provider_body(shared, prompt, wire, 'verified_agent_decision',
                              generation_options=options)
         size = input_characters(body)
-        if size > options['max_payload_characters']:
+        bound = request_bound(self.runtime)
+        if size > bound:
             raise ValueError('AGENT_PROVIDER_REQUEST_BOUND')
         with self.runtime.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE')
@@ -58,7 +59,7 @@ class GovernedDecision:
                 response_options = {} if self.generate is not None else {'agent_final_answer': True}
                 value, metadata = generate(shared,
                     instructions=prompt, schema=wire, name='verified_agent_decision',
-                    generation_options=options, max_request_characters=options['max_payload_characters'], **response_options)
+                    generation_options=options, max_request_characters=bound, **response_options)
             received = True
             if not isinstance(value, dict) or set(value) != {'decision'}:
                 raise ValueError('AGENT_PROVIDER_WRAPPER')
@@ -76,3 +77,14 @@ class GovernedDecision:
                     db.execute('BEGIN IMMEDIATE')
                     self.runtime.governor.settle(db, self.session_id, key,
                         metadata.get('usage') if isinstance(metadata, dict) else None)
+
+
+def request_bound(runtime):
+    """Agent override is isolated from the pipeline generation profile."""
+    config = runtime.config.get('_estate', {}).get('investigation', {})
+    bound = config.get('input_characters_per_request', runtime.generation_options['max_payload_characters'])
+    if type(bound) is not int or not 8000 <= bound <= 150000:
+        raise ValueError('AGENT_REQUEST_BOUND_CONFIGURATION')
+    if 'input_characters_per_request' in config and config.get('mode') != 'AGENT':
+        raise ValueError('AGENT_REQUEST_BOUND_MODE')
+    return bound

@@ -10,7 +10,7 @@ from .onboarding import Conflict, digest, encoded
 
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
     'extraction': copy.deepcopy(intake_extraction.SCHEMA)}, 'required': ['extraction']}
-DESCRIPTION = 'Resolve your verbatim ticket span extraction against retained definitions and immutable picked form facts. Code validates referent, scope, figure precision and comparison. Returns an admitted preview or explicit refusal, never starts a read or calls another model.'
+DESCRIPTION = 'Resolve your verbatim ticket span extraction against retained definitions and immutable picked form facts. Every quote, including comparisons, must occur exactly in the ticket text; fixed comparison enums are not ticket quotes. Code validates referent, scope, figure precision and comparison. An admitted result supplies target_registry and scope_registry: use those IDs for investigation tools, not the original visual ID. Returns an admitted preview or explicit refusal, never starts a read or calls another model.'
 
 class Settlement:
     def __init__(self, workspace, *, text, key_prefix, record_evidence,

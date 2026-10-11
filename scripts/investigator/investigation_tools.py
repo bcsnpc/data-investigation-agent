@@ -20,7 +20,7 @@ TOOLS = {
  'query_source': ('target_id','scope_id'),
 }
 DESCRIPTIONS = {
- 'reproduce':'Evaluate the registered resolved visual and its saved declared context. Returns named unavailability if the figure/context cannot be faithfully evaluated.',
+ 'reproduce':'Evaluate the saved declared report context using target_registry from admitted resolve_ticket, never the raw visual ID. A missing reported figure gives no reproduction verdict, even if within-layer values were read. To measure a quantity without a reported figure, use lineage and probe_layer. Returns named unavailability if context cannot be faithfully evaluated.',
  'lineage':'Read the declared/verified quantity path and its explicit gaps. Metadata reachability does not establish equality or business correctness.',
  'probe_layer':'Evaluate the registered quantity at a resolved path layer under an already admitted scope; no arbitrary SQL or filter expressions.',
  'read_transformation':'Read a retained operation contract for a path step. Returns unavailable rather than manufacturing an operation or causal judgment.',
@@ -34,6 +34,10 @@ def schemas():
  result=[]
  for name,fields in TOOLS.items():
   properties={key:({'type':'integer','minimum':1,'maximum':32} if key=='step' else {'type':'string','minLength':1,'maxLength':300}) for key in fields}
+  for key,node in properties.items():
+   if key in ('target_id','a','b'):node['description']='Use a key from admitted resolve_ticket.target_registry, not an asset or visual ID.'
+   elif key=='scope_id':node['description']='Use the target\'s scope_id from admitted resolve_ticket.scope_registry; scope cannot be changed.'
+   elif key=='layer_id':node['description']='Use an exact layer ID from lineage for the registered target.'
   result.append({'name':name,'description':DESCRIPTIONS[name],'parameters':{'type':'object','properties':properties,'required':list(fields),'additionalProperties':False}})
  return result
 

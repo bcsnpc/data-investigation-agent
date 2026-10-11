@@ -55,7 +55,7 @@ class Boundaries(unittest.TestCase):
         with self.assertRaisesRegex(Exception, 'integrity'): journal.read()
 
     def runtime(self, cap=32000):
-        return SimpleNamespace(governor=Governor(), runtime=SimpleNamespace(db=self.store.connect),
+        return SimpleNamespace(config={}, governor=Governor(), runtime=SimpleNamespace(db=self.store.connect),
             generation_options={'timeout_seconds': 45, 'max_output_tokens': 1500,
                                 'max_payload_characters': cap})
 
@@ -77,6 +77,21 @@ class Boundaries(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'REQUEST_BOUND'):
             GovernedDecision(runtime, 's', generate=generate)({'text': 'x'*9000}, instructions='Choose.', schema={'type':'object','properties':{},'required':[],'additionalProperties':False})
         self.assertEqual(runtime.governor.events, [])
+
+    def test_agent_override_dispatches_above_profile_and_refuses_above_approved_bound(self):
+        runtime = self.runtime()
+        runtime.config = {'_estate': {'investigation': {'mode': 'AGENT', 'input_characters_per_request': 150000}}}
+        seen=[]
+        def generate(*args, **kwargs):
+            seen.append(kwargs['max_request_characters'])
+            return {'decision': {'action':'HOLD'}}, {'usage': {'input_tokens':1,'output_tokens':1}}
+        decision=GovernedDecision(runtime, 's', generate=generate)
+        contract={'type':'object','properties':{},'required':[],'additionalProperties':False}
+        decision({'text':'x'*40000}, instructions='Choose.', schema=contract)
+        self.assertEqual(seen,[150000])
+        with self.assertRaisesRegex(ValueError,'AGENT_PROVIDER_REQUEST_BOUND'):
+            decision({'text':'x'*150000}, instructions='Choose.', schema=contract)
+        self.assertEqual(seen,[150000])
 
     def test_provider_failure_keeps_uncertain_reservation(self):
         runtime = self.runtime()
