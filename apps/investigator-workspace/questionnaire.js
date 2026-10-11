@@ -91,9 +91,9 @@ function renderQuestionnaireTicket(saved){
   const input=ticket.questionnaire_input||ticket.form_input||saved.request, facts=$('ticket-submitted-facts');facts.replaceChildren();
   for(const [label,value] of [['Report',input.report_id],['Page',input.page_id],['Visual',input.visual_id||input.target_id],['Comparison',input.comparing?.kind||input.comparison],['Value in the source',input.comparing?.source_value],['Description',input.description||input.text]]){
     if(!value)continue;
-    const found=questionnaireCatalog?.models.flatMap(m=>[...m.reports,...(m.visuals||[]).flatMap(v=>[{id:v.target_id,name:v.names?.[0]},{id:v.page_id,name:v.page_names?.[0]}])]).find(v=>v.id===value);
+    const found=questionnaireCatalog?.models.flatMap(m=>[...m.reports,...(m.visuals||[]).flatMap(v=>[{id:v.target_id,name:(v.display_names??v.names??[]).join(' / ')},{id:v.page_id,name:v.page_names?.[0]}])]).find(v=>v.id===value);
     const choice=label==='Comparison'?questionnaireDefinition?.fields.find(f=>f.name==='comparing').choices.find(c=>c.value===value):null;
-    facts.append(node('dt',label),node('dd',found?.name||choice?.label||value));
+    facts.append(node('dt',label),node('dd',found?.name||choice?.label||(['Report','Page','Visual'].includes(label)?'Saved selection (name unavailable)':value)));
   }
   const thread=$('ticket-comments');thread.replaceChildren();
   for(const q of ticket.questions)thread.append(node('li','Investigator: '+q.question));

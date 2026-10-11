@@ -76,7 +76,18 @@ def create_app(workspace, token, port=8776):
             elif path == '/api/workspace/questionnaire/visuals' and method=='POST':
                 fields(body,['report_id','page_id'])
                 from .question_intake import snapshot
-                result={'source':'RETAINED_APPROVED_DEFINITION','visuals':[{'id':v['target_id'],'name':next(iter(v.get('names',[])),'Unnamed visual')} for m in snapshot(workspace)['models'] for v in m.get('visuals',[]) if v['report_id']==body['report_id'] and v['page_id']==body['page_id']]}
+                from .clarification_grounding import label
+                display=workspace.__dict__.get('visual_display_names')
+                rows=[];unavailable=0
+                for model in snapshot(workspace)['models']:
+                    titles=display(model['id']) if callable(display) else None
+                    for visual in model.get('visuals',[]):
+                        if visual['report_id']!=body['report_id'] or visual['page_id']!=body['page_id']:continue
+                        names=titles.get(visual['target_id'],[]) if titles is not None else visual.get('names',[])
+                        if not names:
+                            unavailable+=1;continue
+                        rows.append({'id':visual['target_id'],'name':label(names)})
+                result={'source':'RETAINED_APPROVED_DEFINITION','visuals':rows,'untitled_visuals':unavailable}
             elif path == '/api/workspace/questionnaire' and method=='POST':
                 result=workspace.forms.submit(body)
             elif path == '/api/workspace/forms/catalog':

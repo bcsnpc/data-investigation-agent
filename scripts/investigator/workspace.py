@@ -44,6 +44,7 @@ class Workspace:
         self.dynamic_read_limit=dynamic_read_limit
         self.intake_configuration=intake_configuration
         self.ownership_configuration=ownership_configuration
+        self.visual_display_names=None
         self.agent, self.store, self.clock = agent, agent.store, lambda:tape_clock('workspace',clock)
         self.execution_enabled = execution_enabled
         if execution_enabled and (agent.planner is None or agent.governor is None):

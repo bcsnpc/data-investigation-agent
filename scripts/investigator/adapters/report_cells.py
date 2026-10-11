@@ -38,7 +38,7 @@ def declared_aliases(model):
     return {key:sorted(values) for key,values in result.items()}
 
 
-def catalog(model):
+def catalog(model, *, include_display_names=False):
     """Retained names and shapes only; never quantities or inferred targets."""
     from .report_predicates import member, Refusal
     result = []
@@ -59,11 +59,14 @@ def catalog(model):
                                if 'Measure' in p.get('field', {})})
             if not measures: continue
             names = [pages.get(path[2])]
+            display_names=[]
             titles = doc.get('visual', {}).get('visualContainerObjects', {}).get('title', [])
             for title in titles:
                 literal = title.get('properties', {}).get('text', {}).get('expr', {}).get('Literal', {}).get('Value')
                 if isinstance(literal, str) and literal.startswith("'") and literal.endswith("'"):
-                    names.append(literal[1:-1].replace("''", "'"))
+                    visible=literal[1:-1].replace("''", "'")
+                    names.append(visible)
+                    display_names.append(visible)
             try:
                 columns, _ = roles(model, doc)
                 grouping = sorted(c['id'] for c in columns)
@@ -80,6 +83,8 @@ def catalog(model):
                            'form': ('CARD' if doc['visual']['visualType'] in ('card','multiRowCard') else
                                     'MATRIX' if doc['visual']['visualType'] in ('tableEx','pivotTable') else
                                     'CHART' if doc['visual']['visualType'] in ROLES else None)})
+            if include_display_names:
+                result[-1]['display_names']=sorted(set(n for n in display_names if n))
             # Matrix address order is declaration evidence, never alphabetical
             # column order or the serialization order of queryState keys.
             if doc.get('visual',{}).get('visualType')=='pivotTable' and unsupported is None:

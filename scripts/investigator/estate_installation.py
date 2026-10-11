@@ -67,6 +67,8 @@ def _build_workspace(manifest,path,config,execution_enabled):
         ownership_configuration=ownership,
         dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'],
         concurrency_limit=budget['planner_daily']['max_inflight'])
+    from .adapters.report_display import install as install_visual_display
+    install_visual_display(workspace)
     local = config.get('_estate',{}).get('execution',{}).get('mode')=='LOCAL_EXPORTED'
     if local:
         # The shared form controller reads retained definitions when this live

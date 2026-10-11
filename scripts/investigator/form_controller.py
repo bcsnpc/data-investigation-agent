@@ -31,6 +31,12 @@ class Forms:
                 'comparison_choices':[*settings(self.workspace.intake_configuration)['comparison_choices'],
                     {'route':form_intake.SUBJECT_ROUTE,'label':form_intake.SUBJECT_LABEL}],
                 'source':'RETAINED_APPROVED_CONTEXT', 'live_lists_connected':False}
+        display=self.workspace.__dict__.get('visual_display_names')
+        if callable(display):
+            for model in result['models']:
+                names=display(model['id'])
+                for visual in model.get('visuals',[]):
+                    visual['display_names']=names.get(visual['target_id'],[])
         lists=getattr(self.workspace,'report_lists',None)
         if lists is not None:
             live=lists.bound_catalog(current['models'],refresh=refresh)

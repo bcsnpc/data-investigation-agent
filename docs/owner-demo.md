@@ -138,3 +138,18 @@ uses the original shared dollar file, $190 ceiling and $10 margin. POST admissio
 and live catalog requests close at 23:30 Central with an explicit cutoff message;
 already-admitted workers finish and their tapes close.
 The live trial has not yet been admitted at this implementation checkpoint.
+
+### Dated pre-admission visual-label finding
+
+The first live portal startup charged two reader metadata controls (report and
+page listings), with zero diagnostic reads or model calls. No family-A ticket
+was submitted. Its dropdown displayed four different visuals as “Inventory
+Health” because it used the first lookup alias, which happened to be the page
+name. Selecting an internal URI would have concealed the problem from the owner.
+
+The repair preserves lookup aliases exactly and projects explicit retained visual
+titles through a separate display port. It does not subtract names by string
+equality: a visual genuinely titled “Sales” on a page named “Sales” still displays
+“Sales”. Untitled visuals are reported as unavailable rather than given an internal
+ID. The ticket's selected facts use these same explicit titles. This is a UI
+projection change, not another intake classifier or per-ticket patch.
