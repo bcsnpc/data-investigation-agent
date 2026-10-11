@@ -298,6 +298,9 @@ class TapeTests(unittest.TestCase):
                 value={key:[] for key in SCHEMA['properties']}
                 value.update(kind='SOURCE_CORRECTNESS',triage='MISMATCH_COMPLAINT:VERTICAL',
                     primary=view['ticket'],measures=[{'quote':'Total','role':'PRIMARY'}])
+                if view.get('span_protocol'):
+                    from test_intake_span_references import encode_fixture
+                    value=encode_fixture(value,view['ticket'])
             elif body['tool_choice']['name']=='resolve_business_question':
                 metric=next(m for m in view['models'][0]['measures'] if m['name']=='Total')
                 value={'value_mentions':[],'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':view['text']}},

@@ -202,7 +202,7 @@ class HybridTests(unittest.TestCase):
         from investigator.agent_ticket import AgentTicket
         from contextlib import nullcontext
         fixture=SettlementTests();fixture.setUp();self.addCleanup(fixture.doCleanups)
-        w=fixture.workspace;w.agent.config['_estate']={'investigation':{'mode':'HYBRID','step_cap':3,'wall_seconds':900}}
+        w=fixture.workspace;w.agent.config['_estate']={'investigation':{'mode':'HYBRID','step_cap':3,'wall_seconds':900,'input_characters_per_request':150000}}
         fixture.f.helper.h.model['discovery']['policy_hash']=digest(w.agent.config)
         saved=w.smart_intake.tickets.submit({'text':fixture.form['description'],'request_key':'terminal-'+initial+str(error)},'terminal-'+initial+str(error))
         # Real retained starting state of the I/G defect, without estate reads.
@@ -229,7 +229,7 @@ class HybridTests(unittest.TestCase):
         from investigator.agent_ticket import AgentTicket
         fixture=SettlementTests();fixture.setUp();self.addCleanup(fixture.doCleanups)
         w=fixture.workspace
-        w.agent.config['_estate']={'investigation':{'mode':'HYBRID','step_cap':3,'wall_seconds':900}}
+        w.agent.config['_estate']={'investigation':{'mode':'HYBRID','step_cap':3,'wall_seconds':900,'input_characters_per_request':150000}}
         fixture.f.helper.h.model['discovery']['policy_hash']=digest(w.agent.config)
         saved=w.smart_intake.tickets.submit({'text':fixture.form['description'],'request_key':'hybrid-intake-test'},'hybrid-intake-test')
         parent={'saved_ticket':copy.deepcopy(saved),'session':None,'gap':{'reason':'TARGET_UNRESOLVED'},'intake':None}
@@ -239,7 +239,7 @@ class HybridTests(unittest.TestCase):
                      hybrid_pipeline=copy.deepcopy(parent),agent_diagnostic_reads=2)
             return t
         saved=w.smart_intake.tickets.update(saved['ticket']['id'],saved['revision'],retain)
-        decide=Mock(side_effect=[{'action':'TOOL','summary':'Resolve the named scope','tool':'resolve_ticket','arguments':{'extraction':fixture.raw}},
+        decide=Mock(side_effect=[{'action':'TOOL','summary':'Resolve the named scope','tool':'resolve_ticket','arguments':{'extraction':__import__('test_intake_span_references').encode_fixture(fixture.raw,fixture.form['description'])}},
             {'action':'HOLD','summary':'No additional evidence','reason':'GAP_NOT_CLOSED'}])
         with patch('investigator.agent_ticket.snapshot',return_value=fixture.catalog),patch('investigator.context_search.latest',return_value={'version':'synthetic','assets':[]}),patch('investigator.agent_ticket.GovernedDecision',return_value=decide),patch.object(w.agent,'process_adapter',return_value=Mock()):
             result=AgentTicket(w).run(saved,pipeline_result=parent)

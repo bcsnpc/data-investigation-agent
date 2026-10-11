@@ -13,8 +13,8 @@ class Tests(unittest.TestCase):
                 if name == 'scope_id':self.assertIn('scope_registry', schema['description'])
 
     def test_quote_source_and_measurement_versus_reproduction_are_explicit(self):
-        self.assertIn('including comparisons', DESCRIPTION)
-        self.assertIn('not ticket quotes', DESCRIPTION)
+        self.assertIn('normal primary/comparison/context', DESCRIPTION)
+        self.assertIn('never copied quotes', DESCRIPTION)
         reproduce=next(tool for tool in schemas() if tool['name']=='reproduce')
         self.assertIn('no reproduction verdict', reproduce['description'])
         self.assertIn('probe_layer', reproduce['description'])

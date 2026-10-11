@@ -150,7 +150,7 @@ class ExtractionTests(unittest.TestCase):
     def test_current_resolver_supplies_recordable_nonverbatim_retry_evidence(self):
         from investigator.question_intake import QuoteNotFound
         raw,payload=fixture('In Report, Quantity differs.',measures=[{'quote':'Invented metric','role':'PRIMARY'}])
-        with patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'retained'})):
+        with patch('investigator.intake_span_references.enabled',return_value=False), patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'retained'})):
             with self.assertRaises(QuoteNotFound) as caught:extraction.azure_resolve(payload)
         self.assertEqual(caught.exception.repair,{'field':caught.exception.field,
             'quote':'Invented metric','response':raw})
@@ -159,7 +159,7 @@ class ExtractionTests(unittest.TestCase):
     def test_independent_extraction_does_not_add_planner_context(self):
         raw,payload=fixture('In Report, Global card Quantity differs.',
             visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
-        with patch('ticket_planner.azure_generate',return_value=(raw,{})) as provider:
+        with patch('investigator.intake_span_references.enabled',return_value=False), patch('ticket_planner.azure_generate',return_value=(raw,{})) as provider:
             extraction.azure_extract(payload)
             before=provider.call_args
             extraction.azure_resolve(payload)
@@ -169,7 +169,7 @@ class ExtractionTests(unittest.TestCase):
 
     def test_extraction_survives_an_unresolved_target_without_another_model_call(self):
         raw,payload=fixture('In Report, Quantity differs.')
-        with patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'retained'})) as provider:
+        with patch('investigator.intake_span_references.enabled',return_value=False), patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'retained'})) as provider:
             extracted,metadata=extraction.azure_extract(payload)
             with self.assertRaises(TargetUnresolved):extraction.resolve(extracted,payload)
             self.assertEqual(provider.call_count,1)
@@ -179,7 +179,7 @@ class ExtractionTests(unittest.TestCase):
     def test_independent_extraction_still_rejects_nonverbatim_provenance(self):
         from investigator.question_intake import QuoteNotFound
         raw,payload=fixture('In Report, Quantity differs.',measures=[{'quote':'Invented metric','role':'PRIMARY'}])
-        with patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'retained'})):
+        with patch('investigator.intake_span_references.enabled',return_value=False), patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'retained'})):
             with self.assertRaises(QuoteNotFound) as caught:extraction.azure_extract(payload)
         self.assertEqual(caught.exception.provider_metadata,{'response_id':'retained'})
 
@@ -252,7 +252,7 @@ class ExtractionTests(unittest.TestCase):
         ticket='Please decide the business rule.'
         raw,payload=fixture(ticket,kind='BUSINESS_MEANING',triage='BUSINESS_QUESTION:NONE',measures=[],reports=[])
         from investigator.question_kind import UnimplementedRoute
-        with patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'recorded'})):
+        with patch('investigator.intake_span_references.enabled',return_value=False), patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'recorded'})):
             with self.assertRaises(UnimplementedRoute) as caught:extraction.azure_resolve(payload)
         self.assertEqual(caught.exception.provider_metadata,{'response_id':'recorded'})
 
@@ -438,6 +438,8 @@ class ExtractionTests(unittest.TestCase):
         owner=workspace(h.agent,payload['models'],extraction.azure_resolve)
         request_payload={'text':payload['text'],'models':snapshot(owner)['models']}
         charge=extraction.request_size(request_payload)
+        from test_intake_span_references import encode_fixture
+        raw=encode_fixture(raw,payload['text'])
         with patch('ticket_planner.azure_generate',return_value=(raw,{'usage':{'input_tokens':10,'output_tokens':10}})) as provider:
             result=Intake(owner,extraction.azure_resolve).resolve({'text':payload['text'],'request_key':'new-wire','parent_id':None})
         self.assertEqual(result['status'],'PROPOSED',result)

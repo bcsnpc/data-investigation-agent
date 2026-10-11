@@ -767,7 +767,7 @@ def _generate(payload):
     raw,metadata=azure_generate(data,instructions=instructions,schema=schema,
         name='extract_ticket_spans',decision_tool=True,max_request_characters=REQUEST_CAP)
     from . import intake_span_references as refs
-    if raw.get('version')==refs.VERSION:
+    if refs.enabled():
         try:raw=refs.decode(raw,payload['text'])
         except Exception as exc:_failure(exc,metadata)
     return raw,metadata

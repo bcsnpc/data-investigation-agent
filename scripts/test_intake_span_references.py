@@ -12,7 +12,26 @@ def response(text,**updates):
     value={k:[] for k in extraction.SCHEMA['properties']}
     value.update(version=refs.VERSION,kind='FIGURE_DIFFERENCE',triage='MISMATCH_COMPLAINT:VERTICAL',primary=[1,len(refs.tokens(text))])
     value.update(updates);return value
+
+def encode_fixture(raw,text):
+    """Test-only conversion of copied fixture quotes to the current producer wire."""
+    value=copy.deepcopy(raw);value['version']=refs.VERSION
+    value['primary']=reference(text,value['primary'])
+    for entries in value.values():
+        if not isinstance(entries,list):continue
+        for item in entries:
+            if not isinstance(item,dict):continue
+            occurrence=item.pop('occurrence',None) or 1
+            for name in ('quote','column','value','precision_quote'):
+                if item.get(name) is not None:item[name]=reference(text,item[name],occurrence if name=='quote' else 1)
+    return value
+
 class ReferenceTests(unittest.TestCase):
+    def test_current_producer_cannot_fall_back_to_copied_quotes(self):
+        raw,payload=fixture('In Report, Quantity differs.')
+        with patch('ticket_planner.azure_generate',return_value=(raw,{'response_id':'kept'})):
+            with self.assertRaises(Exception) as caught:extraction.azure_extract(payload)
+        self.assertEqual(caught.exception.provider_metadata,{'response_id':'kept'})
     def test_exact_billing_ticket_wording_no_copied_quote_needed(self):
         root=Path(__file__).resolve().parents[1]/'acceptance/tickets/billing/tester'
         for path in sorted(root.glob('ticket-*.txt')):
