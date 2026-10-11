@@ -9,6 +9,24 @@ from jsonschema import Draft202012Validator
 
 
 class PromptViewTests(unittest.TestCase):
+    def test_specific_rejections_survive_intervening_fetch_in_compact_transcript(self):
+        rejection={'event':'CLAIM_REJECTED','reason':'DELIVERY_VALIDATION_FAILED',
+            'error_type':'ValueError','validation':{'stage':'TERMINAL_SUPPORT_OR_DELIVERY',
+            'message':'BUSINESS_QUESTION requires flow_consistency evidence','claim_indices':[1,2]}}
+        events=[rejection,{'event':'EVIDENCE_FETCH','evidence_id':'existing','receipt_id':'fetch'}]
+        original=copy.deepcopy(events)
+        compact=view(events,{}, {})
+        self.assertEqual(compact['transcript'][0]['validation'],rejection['validation'])
+        self.assertEqual(events,original)
+
+    def test_outcome_guidance_is_derived_from_consumer_roles(self):
+        from unittest.mock import patch
+        with patch.dict('investigator.process_outcomes.REQUIRED_ROLES',{'BUSINESS_QUESTION':('future_role',)}):
+            schema=described_schema({},['BUSINESS_QUESTION'],{})
+        outcome=next(c['properties']['outcome'] for c in schema['anyOf'] if 'outcome' in c['properties'])
+        self.assertIn('future_role',outcome['description'])
+        self.assertNotIn('flow_consistency',outcome['description'])
+        self.assertEqual(outcome['enum'],['BUSINESS_QUESTION'])
     def test_compact_input_fetch_and_delivery_preserve_original_evidence(self):
         full = {'status': 'OBSERVED', 'evidence_ids': ['native:1'], 'rows': [{'value': 'retained-detail'}]}
         decisions = iter([

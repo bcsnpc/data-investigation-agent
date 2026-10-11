@@ -13,7 +13,7 @@ def view(transcript, evidence, ticket, fixed_facts=None):
     for event in transcript:
         row = {k: copy.deepcopy(event[k]) for k in
                ('event', 'ordinal', 'tool', 'summary', 'reason', 'receipt_id', 'evidence_id',
-                'note', 'evidence_ids', 'original_receipt_id')
+                'note', 'evidence_ids', 'original_receipt_id', 'validation', 'error_type')
                if k in event}
         result = event.get('result', {})
         if event.get('event') == 'TOOL_RESULT':
@@ -63,4 +63,11 @@ def described_schema(schemas, outcomes, ids):
             source = 'target_id' if key in ('a', 'b') else key
             if ids.get(source) and (source != 'id' or name == 'get_evidence'):
                 node['description'] = node.get('description', '') + '\nExact currently valid identifiers: ' + repr(ids[source])
-    return decision_schema(schemas, outcomes)
+    result=decision_schema(schemas, outcomes)
+    from .process_outcomes import REQUIRED_ROLES
+    for choice in result['anyOf']:
+        node=choice.get('properties',{}).get('outcome')
+        if node is not None:
+            node['description']='Required producer evidence roles (necessary, not sufficient): '+repr({
+                outcome:list(REQUIRED_ROLES[outcome]) for outcome in sorted(outcomes) if outcome in REQUIRED_ROLES})+'. Tool unavailability is not evidence for these roles; all existing support and coverage gates still apply.'
+    return result
