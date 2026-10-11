@@ -1,6 +1,53 @@
 {
   "current_engine_revision": "edb153e",
   "date": "2026-10-11",
+  "dated_corrections": [
+    {
+      "authority": "OWNER_SHARED_RESOLVER_24000_BOTH_MODES",
+      "cases": [
+        {
+          "case": "family-C-r1",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_OWNER_RESOLVER_BOUND",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-C-r2",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_OWNER_RESOLVER_BOUND",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-C-r3",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_OWNER_RESOLVER_BOUND",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-C-r1",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_OWNER_RESOLVER_BOUND",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-C-r2",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_OWNER_RESOLVER_BOUND",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-C-r3",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_OWNER_RESOLVER_BOUND",
+          "prior_decision": "REUSE"
+        }
+      ],
+      "date": "2026-10-11",
+      "engine_revision": "a363561",
+      "expectations_unchanged": true,
+      "reason": "Owner explicitly requested new C comparison in both modes after shared path-context ceiling 12000 -> 24000; retained older C runs remain recorded, not current post-bound baselines"
+    }
+  ],
   "fixture_ticket_and_expectation_matches": 48,
   "free_text_billing": "No Round Thirteen baseline exists; fresh PIPELINE baseline needed, not an unchanged rerun.",
   "missing_fixture_slots": "Six D/F pause slots lack an admitted baseline; never counted as saved runs.",
