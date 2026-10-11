@@ -11,3 +11,6 @@ The implementation was prepared in a separate worktree while attempt A7 continue
 Verification covers one handler invocation/read admission on a repeat, original evidence identity, canonical argument ordering, changed arguments, pre-admission retry and repeated full-detail fetch. Omitting empty identifier descriptions also restores the existing 32,000-character initial-request regression without changing its ceiling; populated identifiers remain supplied exactly.
 
 The earlier full regression's three local-factory test errors came from a fake local adapter without an exported bundle. Those factory tests now double only the separately tested bundle-approval boundary; production approval, candidate and budget checks are unchanged.
+
+Combined agent suite: 105 tests passed in 71.980s; local factory suite: eight passed in 10.559s. These checks make no estate or real provider requests.
+The local approval suite separately passed 16 tests in 4.524s; the factory test double does not alter its production refusal gate.
