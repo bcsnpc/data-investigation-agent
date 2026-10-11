@@ -410,8 +410,7 @@ Round Fourteen owner-approved agent input changes are under verification: compac
 
 Round Fourteen checkpoint (2026-10-11): first agent integration completed with a qualified transformation finding; paired comparison remains incomplete. Eligible Round Thirteen pipeline baselines are reused, not counted as fresh runs. Owner-approved estate pot4,000 preserves95 for restoration. PIPELINE remains the default; no general agent acceptance or demo claim.
 
-<<<<<<< HEAD
 2026-10-11 Round Fourteen recovery: original A-r1 retained ENVIRONMENT-AFFECTED and excluded by owner decision; one detached replacement is running on unchanged source. B-r1 retained HELD/AGENT_WALL_LIMIT; timing and local catalog-work diagnosis in docs/round-fourteen-B-intake-timing.md. No adoption/pass claim, #423 remains draft.
-=======
 2026-10-11 Round Fourteen offline repair: shared primary-ask guidance, fresh-catalog duplicate-read removal and nested progress-clock replay repair tested; whole-source regression pending. Freeze invalidated, #423 remains draft. See docs/round-fourteen-clock-and-primary-repair.md.
->>>>>>> 45894e9 (Share primary-ask guidance, remove catalog duplication and preserve clock replay order)
+
+2026-10-11 worker-start repair: recurrent0xC0000142 independently reproduced by one of eight no-estate default PowerShell launches; eight no-window controls succeeded. Common pipe-worker launch now requests no window on Windows; final clean-source regression pending. No extra live replacement, deadline, scope or machine setting change; freeze invalidated.
