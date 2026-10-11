@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T11:28:32.600748+00:00",
+  "recorded_at": "2026-10-11T11:37:27.506931+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -1989,6 +1989,51 @@
       "status": "COMPLETED",
       "stop_reason": "ENOUGH_DIAGNOSTICS",
       "ticket_id": "f9058a23-a388-40b8-a18f-07222a5e6b5e"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-pipeline-r1-I-original-inventory-admission-2\\family-I\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-I",
+      "diagnostic_reads": 4,
+      "elapsed_seconds": 446.86994075775146,
+      "engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+      "expected_hash": "a83558ec1c950f549e04f081c1d6ee5117d7f5f145e03e632169f7b15198a21d",
+      "has_outputs": true,
+      "microdollars": 35259,
+      "mode": "PIPELINE",
+      "model_calls": 3,
+      "outcome": "TRANSFORMATION_LOGIC",
+      "physical_requests": 10,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "Both outputs explicitly leave Q49 business meaning and intended metric treatment NOT_ANSWERED. They separately state checked 7661-to-8765 divergence and a conditional possible join effect; no actual repeated matches or intent asserted. Application/source remains unchecked, snapshot uncertainty retained.",
+        "recorded_at": "2026-10-11T11:37:22.986760+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 3,
+      "session_id": "7fdb887e-f8e5-435f-8e26-eafd45333838",
+      "sha256": "fbdf838c6bbc468df22abc2225fdf8e17d2dd8637a813d6a0e53497e0c504337",
+      "source_sha256": "f6ef872811a53d29b4dbcf4218e9f6f2c8613049288bb43dc581144dc5a6362f",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "59ad399d-a585-4150-823f-0f8de304949a"
     }
   ],
   "status": "IN_PROGRESS_NOT_ADOPTION_GATE",
