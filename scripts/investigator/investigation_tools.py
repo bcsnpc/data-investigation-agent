@@ -97,7 +97,11 @@ attested reads. The caller still runs existing support and coverage validators.
   result=copy.deepcopy(result);native=evidence_ids(result)
   self.tool_ledger[receipt['receipt_id']]={'tool':name,'arguments':copy.deepcopy(args),'result':copy.deepcopy(result),'receipt_evidence_ids':list(native)}
   attested=[p.evidence['id'] for p in self._probe_ledger.values() if p.evidence and p.evidence['id'] in native and p.evidence.get('surface_attestation',{}).get('status') in ('MATCHED','PARTIAL')]
-  return {**result,'tool':name,'facade_evidence_id':receipt['receipt_id'],'native_evidence_ids':native,'attested_read_evidence_ids':list(dict.fromkeys(attested)),'evidence_ids':[receipt['receipt_id'],*native],'finding_authority':False}
+  # Original pipeline identities already name original observations in the
+  # loop's evidence store. A high-level result references them; it cannot
+  # redefine them to mean this new aggregate envelope.
+  refs=[receipt['receipt_id']] if name=='run_standard_investigation' else [receipt['receipt_id'],*native]
+  return {**result,'tool':name,'facade_evidence_id':receipt['receipt_id'],'native_evidence_ids':native,'attested_read_evidence_ids':list(dict.fromkeys(attested)),'evidence_ids':refs,'finding_authority':False}
 
  def _execute(self,name,args):
   from .context_search import MeasurePathLimit
@@ -111,7 +115,13 @@ attested reads. The caller still runs existing support and coverage validators.
    if candidate is None:return build(self,outcome,target_id,citations)
    if candidate['assessment']['classification']!=outcome:raise ValueError('Standard investigation outcome differs from proposed claim')
    known=set(self.tool_ledger)|{i for c in self.tool_ledger.values() for i in c['receipt_evidence_ids']}
-   if not isinstance(citations,list) or set(citations)-known or not set(candidate['assessment']['evidence_ids'])<=set(citations):raise ValueError('Standard investigation evidence coverage incomplete')
+   if not isinstance(citations,list) or set(citations)-known:raise ValueError('Standard investigation evidence coverage incomplete')
+   covered=set(citations)
+   for identity in citations:
+    entry=self.tool_ledger.get(identity)
+    if entry and entry['tool']=='run_standard_investigation':
+     covered.update(entry['receipt_evidence_ids'])
+   if not set(candidate['assessment']['evidence_ids'])<=covered:raise ValueError('Standard investigation evidence coverage incomplete')
    from .assessment_support import validate
    validate(candidate['assessment'],candidate['observations'])
    return copy.deepcopy(candidate)

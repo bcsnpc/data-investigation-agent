@@ -98,10 +98,14 @@ class HybridTests(unittest.TestCase):
         standard=Mock(return_value=candidate)
         tools=InvestigationTools(object(),{'t':{'measure_id':'m','scope_id':'s'}},{'s':{'filters':[]}},PersistedBoundary(),standard=standard)
         result=tools.invoke('run_standard_investigation',{'target_id':'t','scope_id':'s'})
+        self.assertEqual(result['evidence_ids'],[result['facade_evidence_id']])
+        self.assertTrue(set(assessment['evidence_ids'])<=set(result['native_evidence_ids']))
         refs=result['evidence_ids'];support=tools.terminal_support('CONSISTENT_TO_BOUNDARY','t',refs)
         self.assertEqual(support['assessment'],assessment);self.assertEqual(support['observations'],observations)
         with self.assertRaisesRegex(ValueError,'outcome differs'):tools.terminal_support('TRANSFORMATION_LOGIC','t',refs)
-        with self.assertRaisesRegex(ValueError,'coverage incomplete'):tools.terminal_support('CONSISTENT_TO_BOUNDARY','t',[refs[0]])
+        with self.assertRaisesRegex(ValueError,'coverage incomplete'):tools.terminal_support('CONSISTENT_TO_BOUNDARY','t',[])
+        unrelated=tools.invoke('run_standard_investigation',{'target_id':'t','scope_id':'other'})
+        with self.assertRaisesRegex(ValueError,'coverage incomplete'):tools.terminal_support('CONSISTENT_TO_BOUNDARY','t',unrelated['evidence_ids'])
         refused=tools.invoke('run_standard_investigation',{'target_id':'t','scope_id':'other'})
         self.assertEqual(refused['status'],'UNDECLARED');self.assertEqual(standard.call_count,1)
         self.assertNotIn('run_standard_investigation',{s['name'] for s in schemas()})
@@ -118,6 +122,30 @@ class HybridTests(unittest.TestCase):
         self.assertEqual(result['status'],'HELD')
         self.assertEqual(calls.call_args.args[0]['fetched_evidence']['result'],original)
         self.assertEqual(events[1]['result'],original)
+
+    def test_standard_result_references_seeded_pipeline_evidence_without_rebinding_it(self):
+        class BoundAdapter(Adapter):
+            def evaluate(self,*args):
+                probe=super().evaluate(*args)
+                probe.evidence['test_purpose']='REPRODUCE_MEASURE'
+                return probe
+        assessment=vertical(BoundAdapter(['top','lower'],{'top':5,'lower':5}),'m',{'filters':[]})
+        observations={o['id']:o for o in assessment.pop('_observations')}
+        candidate={'status':'AVAILABLE','assessment':assessment,'observations':observations}
+        tools=InvestigationTools(object(),{'t':{'measure_id':'m','scope_id':'s'}},{'s':{'filters':[]}},PersistedBoundary(),standard=lambda *a:candidate)
+        original_id=next(iter(observations));original=copy.deepcopy(observations[original_id]);events=[]
+        decide=Mock(side_effect=[{'action':'TOOL','summary':'Use retained walk','tool':'run_standard_investigation','arguments':{'target_id':'t','scope_id':'s'}},
+            {'action':'TOOL','summary':'Inspect original observation','tool':'get_evidence','arguments':{'id':original_id}},
+            {'action':'HOLD','summary':'Remaining gap unavailable','reason':'CAPABILITY_UNAVAILABLE'}])
+        loop=AgentLoop(tools={'run_standard_investigation':lambda **args:tools.invoke('run_standard_investigation',args)},
+            schemas={'run_standard_investigation':next(s['parameters'] for s in schemas(include_standard=True) if s['name']=='run_standard_investigation')},decide=decide,
+            persist=lambda e:events.append(copy.deepcopy(e)) or 'receipt:'+str(len(events)),validate_delivery=Mock(),
+            outcomes=['CONSISTENT_TO_BOUNDARY'],admit=lambda *a:None,step_cap=3)
+        loop.run({},fixed_facts={},context_id='c',starting_evidence=observations)
+        self.assertFalse(any(e['event']=='TOOL_FAILED' for e in events))
+        fetch=next(e for e in events if e['event']=='EVIDENCE_FETCH')
+        self.assertEqual(fetch['evidence']['result'],original)
+        self.assertEqual(observations[original_id],original)
 
     def test_standard_candidate_executes_same_walk_and_remains_nonterminal_until_support_gate(self):
         import test_flexible_investigation as fixture
