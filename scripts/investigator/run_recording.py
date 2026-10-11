@@ -48,6 +48,8 @@ def operation(name):
                 except BaseException as exc:failure=exc;raise
                 finally:journal.event('OPERATION_END',{'name':name,'error':type(failure).__name__ if failure else None})
             if journal.ACTIVE.get() is not None:
+                if name == 'run' and agent.config.get('_estate',{}).get('investigation',{}).get('mode') == 'HYBRID':
+                    return embedded_read_stage(agent,method,owner,args,kwargs)
                 # The replay driver supplies the same outer operation events.
                 return method(owner,*args,**kwargs)
             enabled=agent.planner_profile.get('adapter') not in (None,'injected') or os.environ.get('INVESTIGATOR_RECORD_RUNS')=='1'
@@ -190,6 +192,23 @@ def retained_read_capture(agent, identity):
     return {'status':'SEALED','tape_sha256':row[1]}
 
 
+def embedded_read_stage(agent, method, owner, args, kwargs):
+    """An atomic hybrid submission owns its pipeline reads, including their return."""
+    tape=journal.ACTIVE.get()
+    identity=args[0] if args else None
+    journal.event('OPERATION_START',{'name':'run','args':list(args),'kwargs':kwargs})
+    result=method(owner,*args,**kwargs)
+    if not isinstance(result,dict) or result.get('id')!=identity:
+        raise journal.TapeError('EMBEDDED_READ_STAGE_SESSION_DIFFERS')
+    body={'name':'run','result':result,'error':None,'capture':'EMBEDDED_READ_STAGE'}
+    journal.event('OPERATION_END',body)
+    stages=getattr(agent,'_embedded_read_stages',None)
+    if stages is None:agent._embedded_read_stages=stages={}
+    stages[str(identity)]={'tape':tape,'closure':{'status':'EMBEDDED','stage_sha256':journal.sha(journal.bytes_of(body)),
+        'session_id':identity,'capture':'CURRENT_ATOMIC_OPERATION'}}
+    return result
+
+
 def seal_read_stage(agent, identity):
     """Close the old read capture before a separate ticket composition capture.
 
@@ -198,6 +217,11 @@ def seal_read_stage(agent, identity):
     A missing live capture refuses instead of fabricating the run's return.
     """
     def seal():
+        embedded=getattr(agent,'_embedded_read_stages',{}).get(str(identity))
+        if embedded is not None:
+            if embedded['tape'] is not journal.ACTIVE.get():
+                return {'status':'UNAVAILABLE','reason':'EMBEDDED_READ_STAGE_CAPTURE_DIFFERS'}
+            return dict(embedded['closure'])
         prior=getattr(agent,'_run_tapes',{}).get(str(identity))
         enabled=agent.planner_profile.get('adapter') not in (None,'injected') or os.environ.get('INVESTIGATOR_RECORD_RUNS')=='1'
         if prior is None:

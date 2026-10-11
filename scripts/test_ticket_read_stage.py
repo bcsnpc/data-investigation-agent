@@ -9,7 +9,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 from investigator import process_tape as journal
-from investigator.run_recording import seal_read_stage,retain_read_capture
+from investigator.run_recording import seal_read_stage,retain_read_capture,operation
 from investigator.onboarding import Conflict
 
 
@@ -29,6 +29,42 @@ def store_at(path):
 
 
 class ReadStageTests(unittest.TestCase):
+    def test_hybrid_nested_pipeline_return_and_read_receipt_replay_in_atomic_capture(self):
+        class Agent:
+            config={'_estate':{'investigation':{'mode':'HYBRID'}}}
+            planner_profile={'adapter':'injected'}
+            @operation('run')
+            def run(self,identity):
+                journal.event('BOUNDED_REQUEST',{'probe':'synthetic-probe'})
+                receipt=journal.value('BOUNDED_RESPONSE','synthetic-probe',lambda:{'value':16,'receipt':'original'})
+                return {'id':identity,'status':'COMPLETED','observations':[receipt]}
+        with tempfile.TemporaryDirectory() as folder:
+            tape=journal.Tape(Path(folder)/'atomic.json',bootstrap())
+            with journal.active(tape):
+                agent=Agent();result=agent.run('session');closure=seal_read_stage(agent,'session')
+                self.assertEqual(closure['status'],'EMBEDDED')
+                self.assertEqual(closure['session_id'],'session')
+                tape.finish({'result':result,'closure':closure})
+            original=tape.path.read_bytes();replay=journal.Tape(tape.path)
+            with journal.active(replay):
+                agent=Agent();again=agent.run('session');closed=seal_read_stage(agent,'session')
+                replay.finish({'result':again,'closure':closed})
+            self.assertEqual(result,again);self.assertEqual(closure,closed)
+            self.assertEqual(tape.path.read_bytes(),original)
+            self.assertEqual(sum(e['kind']=='BOUNDED_RESPONSE' for e in tape.events),1)
+
+    def test_embedded_stage_cannot_close_in_a_different_capture(self):
+        from investigator.run_recording import embedded_read_stage
+        with tempfile.TemporaryDirectory() as folder:
+            agent=SimpleNamespace(planner_profile={'adapter':'injected'})
+            first=journal.Tape(Path(folder)/'first.json',bootstrap())
+            second=journal.Tape(Path(folder)/'second.json',bootstrap())
+            with journal.active(first):
+                embedded_read_stage(agent,lambda owner,identity:{'id':identity},agent,('session',),{})
+            with journal.active(second):
+                with self.assertRaisesRegex(Conflict,'EMBEDDED_READ_STAGE_CAPTURE_DIFFERS'):
+                    seal_read_stage(agent,'session')
+
     def test_cold_resume_uses_immutable_original_final_and_refuses_changed_bytes(self):
         with tempfile.TemporaryDirectory() as folder,patch('investigator.run_recording.ROOT',Path(folder)):
             root=Path(folder)/'.local/process-tapes';root.mkdir(parents=True)
