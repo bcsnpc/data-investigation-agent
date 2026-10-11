@@ -90,17 +90,20 @@ def materialize(destination, accounting):
     """Seal only budget state into a private bootstrap; original rows untouched."""
     with closing(sqlite3.connect(Path(accounting).resolve().as_uri() + '?mode=ro', uri=True)) as shared:
         shared.execute('BEGIN')
-        with closing(sqlite3.connect(destination)) as clone:
-            from .budget_delta_v2 import register_codec
-            register_codec(clone)
-            machinery = list(clone.execute("SELECT name,sql FROM sqlite_master WHERE type='trigger' AND (name LIKE 'budget_delta_%' OR name LIKE 'budget_v2_delta_%' OR name LIKE 'budget_mutations_no_%' OR name LIKE 'budget_mutations_v2_no_%')"))
-            with clone:
-                for name, sql in machinery:
-                    clone.execute('DROP TRIGGER "' + name + '"')
-                for table in TABLES:
-                    clone.execute('DELETE FROM ' + table)
-                    columns = len(shared.execute('PRAGMA table_info(' + table + ')').fetchall())
-                    clone.executemany('INSERT INTO ' + table + ' VALUES(' + ','.join('?' for _ in range(columns)) + ')', shared.execute('SELECT * FROM ' + table))
-                for name, sql in machinery:
-                    clone.execute(sql)
+        # A consistent capture baseline, never the authority for live admission.
+        # Release the source read lock before slow clone serialization/commit.
+        snapshot={table:(len(shared.execute('PRAGMA table_info(' + table + ')').fetchall()),
+                         shared.execute('SELECT * FROM ' + table).fetchall()) for table in TABLES}
         shared.rollback()
+    with closing(sqlite3.connect(destination)) as clone:
+        from .budget_delta_v2 import register_codec
+        register_codec(clone)
+        machinery = list(clone.execute("SELECT name,sql FROM sqlite_master WHERE type='trigger' AND (name LIKE 'budget_delta_%' OR name LIKE 'budget_v2_delta_%' OR name LIKE 'budget_mutations_no_%' OR name LIKE 'budget_mutations_v2_no_%')"))
+        with clone:
+            for name, sql in machinery:
+                clone.execute('DROP TRIGGER "' + name + '"')
+            for table,(columns,rows) in snapshot.items():
+                clone.execute('DELETE FROM ' + table)
+                clone.executemany('INSERT INTO ' + table + ' VALUES(' + ','.join('?' for _ in range(columns)) + ')', rows)
+            for name, sql in machinery:
+                clone.execute(sql)

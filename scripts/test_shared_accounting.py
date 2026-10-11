@@ -121,6 +121,37 @@ class SharedAccountingTests(unittest.TestCase):
     def test_sql_literals_are_never_rewritten_as_identifiers(self):
         self.assertEqual(qualify("SELECT 'adaptive_usage' FROM adaptive_usage"),"SELECT 'adaptive_usage' FROM shared_budget.adaptive_usage")
 
+    def test_materialization_releases_shared_snapshot_before_slow_clone_write(self):
+        from unittest.mock import patch
+        from investigator import shared_accounting as accounting
+        clone=self.root/'slow-clone.sqlite'
+        with closing(sqlite3.connect(self.shared)) as source,closing(sqlite3.connect(clone)) as target:
+            source.backup(target)
+        self.ga.metered_read('prior','read',lambda:1)
+        with closing(sqlite3.connect(self.shared)) as source:
+            expected={table:source.execute('SELECT * FROM '+table).fetchall() for table in accounting.TABLES}
+        connect_original=sqlite3.connect;writers=[]
+        class SlowClone(sqlite3.Connection):
+            def executemany(clone_db,sql,rows):
+                if not writers:
+                    # A source writer must commit while clone serialization is paused.
+                    # An open source read transaction would make this fail locked.
+                    with closing(connect_original(self.shared,timeout=.1)) as writer:
+                        writer.execute("INSERT INTO models VALUES('concurrent','immutable')")
+                        writer.commit()
+                    writers.append('committed')
+                return super().executemany(sql,rows)
+        def factory(path,*args,**kwargs):
+            if str(path)==str(clone):kwargs['factory']=SlowClone
+            return connect_original(path,*args,**kwargs)
+        with patch.object(accounting.sqlite3,'connect',side_effect=factory):
+            materialize(clone,self.shared)
+        self.assertEqual(writers,['committed'])
+        with closing(connect_original(clone)) as target:
+            for table,rows in expected.items():
+                self.assertEqual(target.execute('SELECT * FROM '+table).fetchall(),rows)
+            self.assertEqual(target.execute('SELECT * FROM models').fetchall(),[('original','immutable')])
+
     def test_recorded_external_delta_replays_exact_from_materialized_baseline(self):
         from investigator import budget_delta_v2 as v2
         from test_budget_delta_v2 import Tape
