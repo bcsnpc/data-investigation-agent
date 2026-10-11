@@ -4,6 +4,7 @@ Unsupported constraints are stated at their exact field, then validated by
 the loop before dispatch. No constraint is removed from the consumer schema.
 """
 import json
+from collections import Counter
 from jsonschema import Draft202012Validator
 from .adapters.structured_output_contract import KEYS, TYPES
 
@@ -44,4 +45,31 @@ def schema(consumer):
     Draft202012Validator.check_schema(wire)
     if wire.get('type') != 'object' or 'anyOf' in wire:
         raise ValueError('AGENT_WIRE_ROOT')
-    return wire
+    # JSON Schema references share identical subcontracts rather than repeating
+    # their fields in every tool branch. This is supported structured-output
+    # syntax, not a weaker consumer contract.
+    nodes, counts = {}, Counter()
+    def text(node): return json.dumps(node, sort_keys=True, separators=(',', ':'))
+    def children(node):
+        yield from node.get('properties', {}).values()
+        yield from node.get('anyOf', [])
+        if 'items' in node: yield node['items']
+    def collect(node):
+        encoded = text(node)
+        if len(encoded) >= 100:
+            nodes[encoded] = node; counts[encoded] += 1
+        for child in children(node): collect(child)
+    collect(wire)
+    names = {key: 'd'+str(i) for i, key in enumerate(sorted(k for k, n in counts.items() if n > 1))}
+    def share(node, defining=None):
+        key = text(node)
+        if key in names and key != defining: return {'$ref': '#/$defs/'+names[key]}
+        out = dict(node)
+        if 'properties' in out: out['properties'] = {k: share(v) for k, v in out['properties'].items()}
+        if 'items' in out: out['items'] = share(out['items'])
+        if 'anyOf' in out: out['anyOf'] = [share(v) for v in out['anyOf']]
+        return out
+    compact = share(wire)
+    if names: compact['$defs'] = {names[key]: share(nodes[key], key) for key in names}
+    Draft202012Validator.check_schema(compact)
+    return compact

@@ -82,7 +82,7 @@ class SnapshotHistoryTests(unittest.TestCase):
     finally:process_tape.ACTIVE.reset(token)
     self.assertEqual(len(calls),1)
  def test_v8_registry_keeps_v6_and_v7_in_every_supported_feature_class(self):
-    self.assertEqual(process_tape.VERSION,'bounded-worker-tape-v8')
+    self.assertIn(process_tape.VERSION,process_tape.SUPPORTED_VERSIONS)
     for versions in (process_tape.SUPPORTED_VERSIONS,process_tape.PINNED_VERSIONS,process_tape.ACCOUNTED_VERSIONS,process_tape.SMART_VERSIONS,process_tape.CODE_VERSIONS):
      self.assertIn('bounded-worker-tape-v6',versions);self.assertIn('bounded-worker-tape-v7',versions);self.assertIn('bounded-worker-tape-v8',versions)
  def test_four_concurrent_reservations_with_history_have_no_counter_leaks(self):

@@ -21,6 +21,7 @@ class GovernedDecision:
     def __call__(self, payload, *, instructions, schema):
         from ticket_planner import _azure_generate, provider_body
         from .agent_wire import schema as wire_schema
+        from .agent_shared_input import encode as share_input, decode as expand_input
         from .planner_recording import recording
         options = copy.deepcopy(self.runtime.generation_options)
         # Responses strict schemas require an object at the root. The union
@@ -29,9 +30,12 @@ class GovernedDecision:
                    'properties': {'decision': schema}, 'required': ['decision']}
         # Enum vocabularies remain in the exact wire schema. Other consumer
         # constraints are derived into field descriptions, never hand copied.
-        prompt = instructions
+        prompt = instructions + '\nInput uses lossless shared-value references. Replace an object containing only $agent_shared_ref with that entry from shared_values; all original fields are retained. Tool arguments must use the actual identifiers, not references.'
         wire = wire_schema(wrapped)
-        body = provider_body(payload, prompt, wire, 'verified_agent_decision',
+        shared = share_input(payload)
+        if expand_input(shared) != payload:
+            raise ValueError('AGENT_SHARED_INPUT_CONSERVATION')
+        body = provider_body(shared, prompt, wire, 'verified_agent_decision',
                              generation_options=options)
         size = input_characters(body)
         if size > options['max_payload_characters']:
@@ -50,7 +54,7 @@ class GovernedDecision:
                     'payload_hash': digest(payload), 'schema_hash': digest(wrapped),
                     'reservation': {'key': key, 'input_characters': size,
                                     'output_tokens': options['max_output_tokens']}}):
-                value, metadata = (self.generate or _azure_generate)(payload,
+                value, metadata = (self.generate or _azure_generate)(shared,
                     instructions=prompt, schema=wire, name='verified_agent_decision',
                     generation_options=options, max_request_characters=options['max_payload_characters'])
             received = True

@@ -23,10 +23,14 @@ jobs:
           python-version: '3.13'
       - name: Install offline replay dependencies
         run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt -r scripts/requirements-replay.txt
+      - name: Materialize the immutable suite's canonical consumer
+        run: |
+          REVISION="$(python -c "import json; print(json.load(open('acceptance/round_thirteen/billing-metadata-replay-suite.json'))['consumer_revision'])")"
+          git worktree add --detach "$RUNNER_TEMP/r13-canonical-consumer" "$REVISION"
       - name: Replay immutable billing metadata under explicit consumers
         env:
           GH_TOKEN: ${{ github.token }}
           KNOWN_DOMAIN_REPLAY_KEY: ${{ secrets.KNOWN_DOMAIN_REPLAY_KEY }}
         # Separate from the whole-round suite. V1's negative is expected;
         # V2 proves its narrower protocol/context claim, not live accuracy.
-        run: python acceptance/round_thirteen/replay_suite.py --suite acceptance/round_thirteen/billing-metadata-replay-suite.json --hydrate --output "$RUNNER_TEMP/billing-metadata-replay-results" --scratch-parent "$RUNNER_TEMP"
+        run: python "$RUNNER_TEMP/r13-canonical-consumer/acceptance/round_thirteen/replay_suite.py" --repo "$RUNNER_TEMP/r13-canonical-consumer" --suite acceptance/round_thirteen/billing-metadata-replay-suite.json --hydrate --output "$RUNNER_TEMP/billing-metadata-replay-results" --scratch-parent "$RUNNER_TEMP"
