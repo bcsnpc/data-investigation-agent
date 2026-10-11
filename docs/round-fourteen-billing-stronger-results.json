@@ -1,17 +1,17 @@
 {
-  "recorded_at": "2026-10-11T21:51:00.176649+00:00",
+  "recorded_at": "2026-10-11T21:53:23.307229+00:00",
   "cohort": "17 remaining held billing inputs, each at most once; prior FORM01 completed non-answer excluded",
   "deployment": "investigator-intake-f-55",
   "agent_model": "gpt-5.5 2026-04-24",
   "pipeline_tools": "GPT-5.4 unchanged",
-  "attempts": 12,
+  "attempts": 14,
   "admitted": 1,
   "contract_matches": 0,
   "harmful": 0,
-  "models": 156,
+  "models": 164,
   "physical": 1,
   "diagnostic": 1,
-  "known_microdollars": 11464755,
+  "known_microdollars": 11932501,
   "rows": [
     {
       "ticket": "ticket-01.txt",
@@ -273,6 +273,132 @@
       ],
       "comments": [],
       "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair2\\ticket-04.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-05.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "WAITING_FOR_USER",
+      "models": 5,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 380058,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No overage/plan-change explanation delivered"
+        ],
+        "reason": "HELD waiting for fixed REPORT question with the single catalog-backed Subscription Billing choice despite the named report. No false duplicate premise, choice IDs, technical admission or delivered claim; zero estate reads.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:52:50.681438+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [
+        {
+          "choices": [
+            {
+              "highlight": null,
+              "id": "6a7837740678e323ada0d5e5a1397db3d5687b79c1fa368f4002195590991470",
+              "label": "Subscription Billing / Accounts"
+            },
+            {
+              "highlight": null,
+              "id": "1185cdd519663da373e76d57aca6ec1dae79787093b40e7ce5505966d924e097",
+              "label": "Subscription Billing / Subscription Billing"
+            },
+            {
+              "highlight": null,
+              "id": "767b4413556de78bc1a9f203b4d07d5781de083fb088eead36d82b9584d12db7",
+              "label": "Subscription Billing / Recent Collections"
+            }
+          ],
+          "field": "REPORT_OR_SCREENSHOT",
+          "id": "report-or-screenshot",
+          "question": "Which report is this? You may also supply its link or a screenshot."
+        }
+      ],
+      "comments": [
+        {
+          "actor": "AGENT",
+          "attachment": null,
+          "created": "2026-10-11T21:51:56.718975+00:00",
+          "id": "agent-question:575dba3ff6112a58442da2ffa6b1b174",
+          "review": null,
+          "text": "Which report are you asking about?\nSubscription Billing"
+        }
+      ],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair3\\ticket-05.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-06.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "WAITING_FOR_USER",
+      "models": 3,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 87688,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No overage/plan-change explanation delivered"
+        ],
+        "reason": "HELD waiting for fixed REPORT question with the single catalog-backed Subscription Billing choice despite the named report. No false duplicate premise, choice IDs, technical admission or delivered claim; zero estate reads.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:52:50.681438+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [
+        {
+          "choices": [
+            {
+              "highlight": null,
+              "id": "6a7837740678e323ada0d5e5a1397db3d5687b79c1fa368f4002195590991470",
+              "label": "Subscription Billing / Accounts"
+            },
+            {
+              "highlight": null,
+              "id": "1185cdd519663da373e76d57aca6ec1dae79787093b40e7ce5505966d924e097",
+              "label": "Subscription Billing / Subscription Billing"
+            },
+            {
+              "highlight": null,
+              "id": "767b4413556de78bc1a9f203b4d07d5781de083fb088eead36d82b9584d12db7",
+              "label": "Subscription Billing / Recent Collections"
+            }
+          ],
+          "field": "REPORT_OR_SCREENSHOT",
+          "id": "report-or-screenshot",
+          "question": "Which report is this? You may also supply its link or a screenshot."
+        }
+      ],
+      "comments": [
+        {
+          "actor": "AGENT",
+          "attachment": null,
+          "created": "2026-10-11T21:51:12.261112+00:00",
+          "id": "agent-question:3c955352a27afd7e44ff300ddc11e8ae",
+          "review": null,
+          "text": "Which report are you asking about?\nSubscription Billing"
+        }
+      ],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair3\\ticket-06.txt\\full-result.json",
       "pending": 0,
       "capture_exclusions": 0,
       "sealed_tapes": true

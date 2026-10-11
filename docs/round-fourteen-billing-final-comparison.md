@@ -8,8 +8,8 @@ One immutable ticket per form/free-text twin. These are staged attempts with dif
 | CHAT ticket-02.txt | CLARIFYING | HELD | HELD |
 | CHAT ticket-03.txt | CLARIFYING | HELD | HELD |
 | CHAT ticket-04.txt | CLARIFYING | HELD | HELD |
-| CHAT ticket-05.txt | CLARIFYING | HELD | NOT_RUN |
-| CHAT ticket-06.txt | CLARIFYING | HELD | NOT_RUN |
+| CHAT ticket-05.txt | CLARIFYING | HELD | HELD |
+| CHAT ticket-06.txt | CLARIFYING | HELD | HELD |
 | CHAT ticket-13.txt | CLARIFYING | HELD | NOT_RUN |
 | CHAT ticket-14.txt | HELD | HELD | NOT_RUN |
 | CHAT ticket-15.txt | CLARIFYING | HELD | NOT_RUN |

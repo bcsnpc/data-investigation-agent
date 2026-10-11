@@ -1,9 +1,9 @@
 {
-  "recorded_at": "2026-10-11T21:51:00.538513+00:00",
+  "recorded_at": "2026-10-11T21:53:23.575428+00:00",
   "basis": "Every preserved HELD/NEEDS_INPUT/CLARIFYING/FAILED/environment-affected attempt and completed NO_COMPARABLE_PATH refusal in current map; reporting labels only, not score changes. Historical columns and exclusions remain separate.",
   "counts": {
     "Other retained refusal; no root cause inferred": 18,
-    "Target, measure or scope unresolved": 33,
+    "Target, measure or scope unresolved": 35,
     "Business intent or description route unavailable": 25,
     "Figure/comparator interpretation or provenance unresolved": 41,
     "Agent progress or deadline exhausted": 33,
@@ -409,6 +409,28 @@
         "review_reason": "HELD terminal note repeats the tool-recorded ambiguous declared name Subscription Billing blocker, without an admitted target/scope. Catalog has one report; this is opaque/possibly misleading ambiguity wording, not proof of duplicate reports. No technical output or factual question. Residual recorded, not fixed.",
         "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair2\\ticket-04.txt\\full-result.json",
         "sha256": "752099e7507864ec20d21187fc0f386ce918b202c681df49d3fa1b8d3e86aa66",
+        "scoring_status": "ROOT_REVIEWED"
+      },
+      {
+        "case": "billing-free-text:ticket-05.txt",
+        "mode": "HYBRID",
+        "status": "HELD",
+        "outcome": null,
+        "stop_reason": "WAITING_FOR_USER",
+        "review_reason": "HELD waiting for fixed REPORT question with the single catalog-backed Subscription Billing choice despite the named report. No false duplicate premise, choice IDs, technical admission or delivered claim; zero estate reads.",
+        "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair3\\ticket-05.txt\\full-result.json",
+        "sha256": "581e843249d37bcae3e84914a312aeda72138f769d707e941a99a26f56fee5db",
+        "scoring_status": "ROOT_REVIEWED"
+      },
+      {
+        "case": "billing-free-text:ticket-06.txt",
+        "mode": "HYBRID",
+        "status": "HELD",
+        "outcome": null,
+        "stop_reason": "WAITING_FOR_USER",
+        "review_reason": "HELD waiting for fixed REPORT question with the single catalog-backed Subscription Billing choice despite the named report. No false duplicate premise, choice IDs, technical admission or delivered claim; zero estate reads.",
+        "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair3\\ticket-06.txt\\full-result.json",
+        "sha256": "8cdccab23d2c3d96f674f345195d8792ee537f065c05e2fd9ed2b875104332af",
         "scoring_status": "ROOT_REVIEWED"
       },
       {
