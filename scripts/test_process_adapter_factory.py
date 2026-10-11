@@ -17,6 +17,10 @@ class ProcessAdapterFactoryTests(unittest.TestCase):
   self.assertEqual(self.fixture.native_calls,[]);self.assertEqual(self.fixture.sql_calls,[])
  def local(self):
   self.fixture.config['_estate']={'execution':{'mode':'LOCAL_EXPORTED'}}
+  # Factory unit double, not an exported-bundle approval test. Keep all
+  # candidate/admission checks real except the separately tested bundle gate.
+  approval=patch('investigator.local_execution_approval.validate',return_value=None)
+  approval.start();self.addCleanup(approval.stop)
   from investigator.onboarding import digest
   import copy
   original_get=self.agent.store.get

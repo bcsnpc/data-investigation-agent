@@ -12,7 +12,8 @@ def view(transcript, evidence, ticket, fixed_facts=None):
     rows = []
     for event in transcript:
         row = {k: copy.deepcopy(event[k]) for k in
-               ('event', 'ordinal', 'tool', 'summary', 'reason', 'receipt_id', 'evidence_id')
+               ('event', 'ordinal', 'tool', 'summary', 'reason', 'receipt_id', 'evidence_id',
+                'note', 'evidence_ids', 'original_receipt_id')
                if k in event}
         result = event.get('result', {})
         if event.get('event') == 'TOOL_RESULT':
@@ -60,6 +61,6 @@ def described_schema(schemas, outcomes, ids):
     for name, schema in schemas.items():
         for key, node in schema.get('properties', {}).items():
             source = 'target_id' if key in ('a', 'b') else key
-            if source in ids and (source != 'id' or name == 'get_evidence'):
+            if ids.get(source) and (source != 'id' or name == 'get_evidence'):
                 node['description'] = node.get('description', '') + '\nExact currently valid identifiers: ' + repr(ids[source])
     return decision_schema(schemas, outcomes)

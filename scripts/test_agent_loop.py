@@ -4,6 +4,53 @@ from jsonschema import Draft202012Validator
 
 
 class AgentLoopTests(unittest.TestCase):
+    def test_repeat_returns_original_evidence_without_tool_or_read_admission(self):
+        from unittest.mock import Mock
+        loop, rows, calls = self.loop([self.tool(), self.tool(), self.answer()])
+        handler = Mock(return_value={'status':'OBSERVED','evidence_ids':['read:1'],'value':7})
+        loop.tools['lookup'] = handler
+        loop.admit = Mock()
+        out = self.run_loop(loop)
+        self.assertEqual(out['status'], 'COMPLETED')
+        handler.assert_called_once_with()
+        self.assertEqual([c.args[0] for c in loop.admit.call_args_list].count('TOOL'), 1)
+        reused = next(r for r in rows if r['event'] == 'TOOL_REUSED')
+        self.assertEqual(reused['evidence_ids'], ['read:1'])
+        self.assertEqual(reused['original_receipt_id'], 'event:3')
+        self.assertEqual(calls[2]['feedback']['status'], 'ALREADY_OBTAINED')
+        self.assertEqual(sum(r['event']=='TOOL_RESULT' for r in rows), 1)
+
+    def test_argument_order_reuses_but_changed_content_executes(self):
+        from unittest.mock import Mock
+        decisions = [dict(self.tool(), arguments=a) for a in
+                     ({'a':1,'b':2}, {'b':2,'a':1}, {'a':2,'b':2})]
+        loop, rows, calls = self.loop(decisions, cap=3)
+        loop.validator = Mock(iter_errors=lambda d: [])
+        handler = Mock(side_effect=[{'evidence_ids':['first']}, {'evidence_ids':['second']}])
+        loop.tools['lookup'] = handler
+        self.run_loop(loop)
+        self.assertEqual(handler.call_count, 2)
+        self.assertEqual(sum(r['event']=='TOOL_REUSED' for r in rows), 1)
+
+    def test_pre_admission_refusal_does_not_poison_admitted_call(self):
+        from unittest.mock import Mock
+        loop, rows, _ = self.loop([self.tool(), self.tool()], cap=2)
+        loop.tools['lookup'] = Mock(side_effect=[
+            {'status':'NOT_ADMITTED','evidence_ids':['refusal']},
+            {'status':'OBSERVED','evidence_ids':['read:1']}])
+        self.run_loop(loop)
+        self.assertEqual(loop.tools['lookup'].call_count, 2)
+        self.assertFalse(any(r['event']=='TOOL_REUSED' for r in rows))
+
+    def test_repeat_fetch_is_note_and_keeps_original_full_evidence(self):
+        fetch = {'action':'TOOL','tool':'get_evidence','arguments':{'id':'read:1'},'summary':'Inspect receipt.'}
+        loop, rows, calls = self.loop([self.tool(), fetch, fetch, self.answer()])
+        self.assertEqual(self.run_loop(loop)['status'], 'COMPLETED')
+        self.assertEqual(sum(r['event']=='EVIDENCE_FETCH' for r in rows), 1)
+        self.assertEqual(calls[2]['fetched_evidence']['result']['value'], 7)
+        self.assertIsNone(calls[3]['fetched_evidence'])
+        self.assertEqual(calls[3]['feedback']['evidence_ids'], ['read:1'])
+
     def test_provider_decision_has_typed_scalar_enums_and_same_allowed_values(self):
         wire = decision_schema({'lookup': {'type': 'object', 'additionalProperties': False,
             'properties': {}, 'required': []}}, {'CONSISTENT_TO_BOUNDARY'})
