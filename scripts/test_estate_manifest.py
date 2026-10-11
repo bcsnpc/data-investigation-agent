@@ -13,6 +13,14 @@ ROOT=Path(__file__).resolve().parents[1]
 class ManifestTests(unittest.TestCase):
     def fixture(self):return json.loads((ROOT/'infra/estates/fixture.json').read_text())
 
+    def test_daily_output_allowance_uses_consumer_ceiling(self):
+        from investigator.usage_limits import DAILY_MAXIMUM
+        m=self.fixture();m['budgets']['planner_daily']['output_tokens']=20000000
+        self.assertEqual(manifest.validate(m)['budgets']['planner_daily']['output_tokens'],20000000)
+        self.assertEqual(manifest.SCHEMA['properties']['budgets']['properties']['planner_daily']['properties']['output_tokens']['maximum'],DAILY_MAXIMUM['output_tokens'])
+        m['budgets']['planner_daily']['output_tokens']=DAILY_MAXIMUM['output_tokens']+1
+        with self.assertRaisesRegex(ValueError,'output_tokens'):manifest.validate(m)
+
     def smart(self):
         value=self.fixture()
         value['intake']={'comparison_choices':[{'route':'APPLICATION','label':'Against our application'},
