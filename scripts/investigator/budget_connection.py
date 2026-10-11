@@ -9,6 +9,8 @@ from .budget_delta_v2 import register_codec
 
 
 def connect(*args, **kwargs):
+    from .budget_replay_transaction import ReplayBudgetConnection
+    kwargs.setdefault('factory', ReplayBudgetConnection)
     db = sqlite3.connect(*args, **kwargs)
     try:
         register_codec(db)

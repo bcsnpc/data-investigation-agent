@@ -1,4 +1,4 @@
-﻿"""v8 lossless REAL journal beside unchanged v1 machinery."""
+"""v8 lossless REAL journal beside unchanged v1 machinery."""
 import json,sqlite3
 from contextlib import closing
 from pathlib import Path
@@ -163,6 +163,7 @@ def _checkpoint(tape,db,environment,owned):
             if current(k) is not None:raise TapeError('TAPE_BUDGET_DELTA_DUPLICATE_KEY')
             staged[table,k]=after
     if tape.replaying:
+        from .budget_replay_transaction import preserve
         # Only changed external primary keys are touched. Before-images also
         # prove the bootstrap + prior deltas equals the current replay state.
         for (table,k),row in staged.items():
@@ -170,8 +171,12 @@ def _checkpoint(tape,db,environment,owned):
             actual=db.execute('SELECT * FROM '+table+' WHERE '+where,k).fetchone()
             expected=state['states'][table].get(k)
             if (list(actual) if actual is not None else None)!=expected:raise TapeError('TAPE_BUDGET_DELTA_REPLAY_STATE_DIFFERS')
+        caller_transaction = preserve(db, staged, state['schemas'])
+        for (table,k),row in staged.items():
+            schema=state['schemas'][table];where=' AND '.join('"'+c+'"=?' for c in schema['keys'])
             db.execute('DELETE FROM '+table+' WHERE '+where,k)
             if row is not None:db.execute('INSERT INTO '+table+' VALUES('+','.join('?' for _ in schema['columns'])+')',row)
+        if staged and not caller_transaction:db.commit()
     for (table,k),row in staged.items():
         if row is None:state['states'][table].pop(k,None)
         else:state['states'][table][k]=row

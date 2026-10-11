@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T09:33:11.214421+00:00",
+  "recorded_at": "2026-10-11T09:43:47.365667+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -401,7 +401,7 @@
       "microdollars": 860269,
       "mode": "AGENT",
       "model_calls": 20,
-      "outcome": null,
+      "outcome": "TRANSFORMATION_LOGIC",
       "physical_requests": 12,
       "repeat": 2,
       "root_review": {
@@ -728,7 +728,7 @@
       "microdollars": 285332,
       "mode": "AGENT",
       "model_calls": 9,
-      "outcome": null,
+      "outcome": "CONSISTENT_TO_BOUNDARY",
       "physical_requests": 5,
       "repeat": 2,
       "root_review": {
@@ -778,7 +778,7 @@
       "microdollars": 407540,
       "mode": "AGENT",
       "model_calls": 12,
-      "outcome": null,
+      "outcome": "TRANSFORMATION_LOGIC",
       "physical_requests": 17,
       "repeat": 2,
       "root_review": {
@@ -961,6 +961,56 @@
       "ticket_id": "d9dfa601-f93f-4f79-a325-0cd09a4af5b3"
     },
     {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r2-I-v12\\family-I\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-I",
+      "diagnostic_reads": 6,
+      "elapsed_seconds": 520.6728119850159,
+      "engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "expected_hash": "a83558ec1c950f549e04f081c1d6ee5117d7f5f145e03e632169f7b15198a21d",
+      "has_outputs": true,
+      "microdollars": 933338,
+      "mode": "AGENT",
+      "model_calls": 20,
+      "outcome": "NO_COMPARABLE_PATH",
+      "physical_requests": 12,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": "NO_COMPARABLE_PATH"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Validated NO_COMPARABLE_PATH rather than expected TRANSFORMATION_LOGIC. Both outputs NOT_ANSWERED for Q49 business meaning/intent; source not reached and transformation explanation unconfirmed. Three-layer quantity comparisons8765/8765/7661 do not supply that meaning. No business correctness verdict. Next admission paused for unrelated full-regression budget replay error.",
+        "recorded_at": "2026-10-11T09:43:46.138698+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "2f7b2894-445b-4f45-9be0-bb571912fa1d",
+      "sha256": "17913b14ab300fee09ad94794e2fc6dcbadaeb35fe7e605b6af87b68b6347538",
+      "source_sha256": "f6ef872811a53d29b4dbcf4218e9f6f2c8613049288bb43dc581144dc5a6362f",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "b62a5c1f-96f6-40f0-bfa6-5aff09e303d6"
+    },
+    {
       "artifact": ".local\\round-fourteen\\paired-original-pipeline-C-24000\\family-C\\full-result.json",
       "capture_diagnostics": 0,
       "capture_pending": 0,
@@ -1007,7 +1057,7 @@
       "microdollars": 37131,
       "mode": "PIPELINE",
       "model_calls": 3,
-      "outcome": null,
+      "outcome": "TRANSFORMATION_LOGIC",
       "physical_requests": 10,
       "repeat": 1,
       "root_review": {
@@ -1039,7 +1089,7 @@
       "microdollars": 20296,
       "mode": "PIPELINE",
       "model_calls": 2,
-      "outcome": null,
+      "outcome": "NO_COMPARABLE_PATH",
       "physical_requests": 1,
       "repeat": 1,
       "root_review": {

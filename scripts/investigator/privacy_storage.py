@@ -31,10 +31,8 @@ def path_identity(path):
 def connect(path,*args,**kwargs):
     with _LOCK:store=_STORES.get(path_identity(path))
     if store is not None:return store.connection(path,*args,**kwargs)
-    db=sqlite3.connect(path,*args,**kwargs)
-    from .budget_delta_v2 import register_codec
-    register_codec(db)
-    return db
+    from .budget_connection import connect as exact_connect
+    return exact_connect(path,*args,**kwargs)
 
 
 class EvidenceStore:
@@ -63,9 +61,8 @@ class EvidenceStore:
             raise ProjectionError('PRIVACY_STORE_PATH_DIFFERS')
         # URI mode=ro is an access intent, not a licence to open a raw file.
         readonly=kwargs.pop('uri',False) and 'mode=ro' in str(path)
-        db=sqlite3.connect(self.uri,*args,uri=True,**kwargs)
-        from .budget_delta_v2 import register_codec
-        register_codec(db)
+        from .budget_connection import connect as budget_connect
+        db=budget_connect(self.uri,*args,uri=True,**kwargs)
         db.execute('PRAGMA temp_store=MEMORY');db.execute('PRAGMA journal_mode=MEMORY')
         if readonly:db.execute('PRAGMA query_only=ON')
         return db
