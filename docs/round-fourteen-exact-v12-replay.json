@@ -1,5 +1,53 @@
 {
   "consumer_revision": "8fa2161",
+  "dated_additions": [
+    {
+      "consumer_revision": "551a049",
+      "operations": [
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "551a049",
+          "family": "family-A",
+          "matched": true,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "f9adb5ef8a990fa222460e9573b8c811e5dc321bd9015788ef5249c7011f25f8",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "f9adb5ef8a990fa222460e9573b8c811e5dc321bd9015788ef5249c7011f25f8",
+          "replay_setup_correction": null,
+          "source_identity_limitation": null,
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\a599a628-afb9-4567-b239-c93d8823ba0c\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "551a049",
+          "family": "family-B",
+          "matched": true,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "f9adb5ef8a990fa222460e9573b8c811e5dc321bd9015788ef5249c7011f25f8",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "f9adb5ef8a990fa222460e9573b8c811e5dc321bd9015788ef5249c7011f25f8",
+          "replay_setup_correction": "Restore production live candidate reader port",
+          "source_identity_limitation": null,
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\396a7878-f7cb-4760-910c-6f359907ad39\\tape.json"
+        }
+      ],
+      "prior_failed_replays_preserved": true,
+      "recorded_at": "2026-10-11T10:37:58.394933+00:00",
+      "setup_failure": "First restored-port diagnostic patched an imported module but invoked a separate runpy namespace; no setup change was applied there. Corrected diagnostic invokes the patched consumer."
+    }
+  ],
   "engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
   "estate_requests": 0,
   "model_calls": 0,
