@@ -79,6 +79,10 @@ measure through its path; HORIZONTAL only for an explicit comparison of distinct
 A request without a mismatch allegation uses BUSINESS_QUESTION:NONE. This is interpretation of
 the primary ask and its named referent, not a keyword search of unrelated footers or comparators.'''
 INSTRUCTIONS += intake_rules.SUBJECT_INSTRUCTIONS
+PRIMARY_REFERENT_INSTRUCTIONS = """The primary quote includes the named referent and its setup, not only the final question.
+Do not put the setup that identifies that primary referent into contexts. Contexts contain
+unrelated background, footers and other topics. A title/page in that setup remains PRIMARY.
+"""
 INSTRUCTIONS += """
 Classification distinguishes the requested work, not the words on a footer:
 METRIC_COMPONENTS asks a numerator, denominator, contribution or component breakdown.
@@ -91,10 +95,7 @@ FIGURE_DIFFERENCE asks to locate a discrepancy; VISUAL_CONTENT asks to reproduce
 explain its declared/selected scope. FILTER_EFFECT requires an actual question about which
 restriction changes/hides results, not merely a selected context that should be explained.
 FRESHNESS asks currency; TEMPORAL_COMPARISON asks to compare two times.
-The primary quote includes the named referent and its setup, not only the final question.
-Do not put the setup that identifies that primary referent into contexts. Contexts contain
-unrelated background, footers and other topics. A title/page in that setup remains PRIMARY.
-Selections are only user-selected/chosen/filtered values, never categories merely asked about.
+""" + PRIMARY_REFERENT_INSTRUCTIONS + """Selections are only user-selected/chosen/filtered values, never categories merely asked about.
 For a global hint, quote the actual request containing global, not the report name.
 Comparing a scoped cell to the same measure's global value is VERTICAL, not HORIZONTAL.
 HORIZONTAL means distinct measures or reports. A comparator remains excluded from target choice.

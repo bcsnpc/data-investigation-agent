@@ -1,7 +1,7 @@
 ﻿import copy
 import unittest
 from unittest.mock import patch
-from investigator.agent_intake_settlement import Settlement
+from investigator.agent_intake_settlement import Settlement, DESCRIPTION
 from investigator import intake_extraction
 from investigator.onboarding import Conflict
 import test_form_controller
@@ -77,5 +77,24 @@ class SettlementTests(unittest.TestCase):
     def test_citation_is_required(self):
         tool = self.tool(); tool.record_evidence = lambda body: None
         with self.assertRaises(Conflict): tool.resolve_ticket(self.raw)
+
+    def test_agent_tool_supplies_shared_primary_ask_extraction_instructions(self):
+        self.assertIn(intake_extraction.PRIMARY_REFERENT_INSTRUCTIONS, DESCRIPTION)
+        self.assertIn(intake_extraction.PRIMARY_REFERENT_INSTRUCTIONS, intake_extraction.INSTRUCTIONS)
+
+    def test_subject_form_requires_actual_ask_in_primary_quote(self):
+        text = 'In Report, Global card Quantity looks high. Explain the numerator and denominator using the actual measure definitions.'
+        form = {**self.form, 'description':text, 'comparison':None}
+        raw = copy.deepcopy(self.raw)
+        raw.update(primary='Quantity looks high',kind='METRIC_COMPONENTS',triage='MISMATCH_COMPLAINT:VERTICAL')
+        rejected = self.tool(form_request=form).resolve_ticket(raw)
+        self.assertEqual(rejected['status'],'UNRESOLVED')
+        self.assertIn('comparison or declared subject',rejected['reason'])
+        raw['primary']=text
+        result=self.tool(form_request=form).resolve_ticket(raw)
+        self.assertEqual(result['status'],'INTAKE_ADMITTED',result)
+        self.assertEqual(result['scope']['question_kind']['kind'],'METRIC_COMPONENTS')
+        self.assertEqual(result['scope']['target_visual']['target_id'],'card')
+        self.f.helper.h.native.assert_not_called()
 
 if __name__ == '__main__': unittest.main()

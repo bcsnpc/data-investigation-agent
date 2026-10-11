@@ -26,7 +26,14 @@ class Journal:
             ordinal = db.execute('SELECT coalesce(max(ordinal),0)+1 FROM agent_progress WHERE ticket_id=?', (self.identity,)).fetchone()[0]
             identity = 'agent-progress:' + digest({'ticket': self.identity, 'ordinal': ordinal, 'event': value})
             body = {'id': identity, 'ordinal': ordinal, 'event': value}
-            at = clock('agent-progress', self.now) if self.now else clock('agent-progress')
+            # The runtime clock is itself taped. Evaluate it before the outer
+            # clock in both modes: recording already emitted its inner event
+            # first, but replay does not evaluate a clock's producer.
+            if self.now:
+                observed = self.now()
+                at = clock('agent-progress', lambda: observed)
+            else:
+                at = clock('agent-progress')
             event('CONFIGURATION', {'control': 'AGENT_PROGRESS', **body})
             db.execute('INSERT INTO agent_progress VALUES(?,?,?,?,?)',
                        (self.identity, ordinal, encoded(body), digest(body), at))

@@ -445,4 +445,8 @@ Dated owner decision, 2026-10-11: agent-only per-request input ceiling approved 
 
 2026-10-11 owner approval: Round Fourteen estate pot4000, remaining restoration95, rolling3000 and diagnostic12 unchanged. Paired comparison is underway, using saved eligible pipeline baselines; changed-code runs and absent baselines are separately identified in docs/round-fourteen-pipeline-baseline-reuse.json. No adoption/demo claim; PIPELINE remains default, #423 remains draft, freeze invalid.
 
+<<<<<<< HEAD
 2026-10-11 Round Fourteen recovery: original A-r1 retained ENVIRONMENT-AFFECTED and excluded by owner decision; one detached replacement is running on unchanged source. B-r1 retained HELD/AGENT_WALL_LIMIT; timing and local catalog-work diagnosis in docs/round-fourteen-B-intake-timing.md. No adoption/pass claim, #423 remains draft.
+=======
+2026-10-11 Round Fourteen offline repair: shared primary-ask guidance, fresh-catalog duplicate-read removal and nested progress-clock replay repair tested; whole-source regression pending. Freeze invalidated, #423 remains draft. See docs/round-fourteen-clock-and-primary-repair.md.
+>>>>>>> 45894e9 (Share primary-ask guidance, remove catalog duplication and preserve clock replay order)

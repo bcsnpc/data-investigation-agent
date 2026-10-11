@@ -1,0 +1,11 @@
+# Round Fourteen: intake feedback and progress replay repair
+
+2026-10-11. B-r1 remains HELD with its original eighteen responses intact. The agent now receives the existing consumer primary-question instructions from a shared constant; the pipeline prompt is byte-identical. A synthetic picked-card component question refuses its background-only primary span and admits the full actual ask. No target, subject or provenance gate was weakened.
+
+Fresh intake snapshots stop retrieving already-returned full model records twice and stop loading identical current discovery context once per model. Every snapshot still reads current enabled models and context; a regression proves context mutation changes its versions, and role lists are separately copied. This removes local redundant work, not a deadline or budget check.
+
+Offline replay also exposed a nested-clock defect: recording evaluated runtime clock before progress clock, while replay skipped the runtime producer and expected progress first. Journal now evaluates the runtime clock explicitly before the progress-clock producer. Recording order and values remain unchanged. A round-trip test proves both clock events are consumed in their original order and the sealed tape bytes remain unchanged.
+
+DECIDED WITHOUT REVIEW: share existing primary-span instructions instead of weakening intake; remove duplicate fresh retrievals instead of caching mutable metadata; fix clock consumption instead of skipping recorded events. Current engine freeze invalidated. No identity, credential, fixture, oracle or expected-outcome change; no estate reads or model calls in these tests. Draft #423 remains draft.
+
+Verification: combined agent-focused suite110 PASS before snapshot optimization; final settlement9 PASS, clock-boundaries8 PASS, fresh-snapshot1 PASS and question-intake39 PASS after it. Whole-source regression pending. PowerShell treats unittest stderr as NativeCommandError in redirected logs; the Python unittest results are OK, not failures.

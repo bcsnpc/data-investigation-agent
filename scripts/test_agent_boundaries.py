@@ -45,6 +45,32 @@ class Boundaries(unittest.TestCase):
         self.assertEqual(rows[0]['result_ids'], ['receipt-a'])
         self.assertEqual(rows[0]['arguments'], {'target_id': 't'})
 
+    def test_progress_with_taped_runtime_clock_replays_original_nested_order(self):
+        from investigator.process_tape import Tape, active, clock
+        from base64 import b64decode
+        path = Path(self.tmp.name) / 'progress.json'
+        bootstrap = {'entry_point':'synthetic','context_identity':'context',
+            'config':{},'profile':{},'usage_policy':{},'engine_hash':'synthetic','state':{}}
+        recorded = Tape(path, bootstrap)
+        value = {'event':'STARTED','summary':'Start the admitted target'}
+        with active(recorded):
+            identity = Journal(self.store, 'ticket', now=lambda: clock('agent', lambda: 123)).persist(value)
+        recorded.finish({'identity':identity})
+        original = path.read_bytes()
+        clocks = [json.loads(b64decode(e['body']))['name']
+                  for e in recorded.events if e['kind'] == 'CLOCK']
+        # This is the order already sealed by the original nested producer.
+        self.assertEqual(clocks, ['agent','agent-progress'])
+        replay_store = Store(Path(self.tmp.name) / 'replay.sqlite')
+        replayed = Tape(path)
+        def no_real_clock(): self.fail('Replay used a live clock')
+        with active(replayed):
+            actual = Journal(replay_store, 'ticket', now=lambda: clock('agent', no_real_clock)).persist(value)
+        replayed.finish({'identity':actual})
+        self.assertEqual(actual, identity)
+        self.assertEqual(path.read_bytes(), original)
+        self.assertEqual(Journal(replay_store, 'ticket').read()[0]['at'],123)
+
     def test_projection_precedes_disk_and_integrity_is_checked(self):
         journal = Journal(self.store, 'ticket', projection=lambda value:
                           json.loads(json.dumps(value).replace('private-value', 'projected')), now=lambda: 1)

@@ -428,8 +428,13 @@ def wire_contract(payload):
 def snapshot(workspace):
     """No truncation or hidden selection: oversize catalogs require manual scope."""
     models, versions = [], {}
-    for row in workspace.store.list(True):
-        model = workspace.store.get(row['id'])
+    declared = {r['asset_id'] for r in workspace.agent.config.get('layer_roles', [])}
+    if declared:
+        from .context_search import latest
+        context = latest(workspace.store) or {}
+        declared_layers = [{'id': a['id'], 'name': a['name']}
+                           for a in context.get('assets', []) if a['id'] in declared]
+    for model in workspace.store.list(True):
         if not model['enabled'] or not model.get('context'): continue
         item = workspace.model(model['id'])
         item['columns'] = [c for c in item['columns'] if not c['name'].startswith('_')]
@@ -445,12 +450,8 @@ def snapshot(workspace):
             for member in item[key]:
                 names=set(member.get('aliases',[]))|set(aliases.get(member[identity],[]))
                 if names:member['aliases']=sorted(names)
-        if workspace.agent.config.get('layer_roles'):
-            from .context_search import latest
-            declared={r['asset_id'] for r in workspace.agent.config['layer_roles']}
-            context=latest(workspace.store) or {}
-            item['declared_layers']=[{'id':a['id'],'name':a['name']} for a in context.get('assets',[])
-                if a['id'] in declared]
+        if declared:
+            item['declared_layers'] = copy.deepcopy(declared_layers)
         # Only a current reviewed definition, never credentials or full expressions.
         business = model.get('business') or {}
         item['business_definition'] = (business.get('definition', '')
