@@ -1,0 +1,563 @@
+{
+  "recorded_at": "2026-10-11T21:19:03.117921+00:00",
+  "attempts": 18,
+  "admitted": 1,
+  "contract_matches": 0,
+  "harmful": 0,
+  "models": 172,
+  "physical": 1,
+  "diagnostic": 1,
+  "rows": [
+    {
+      "ticket": "ticket-01.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 14,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "What figure does that visual show?"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No invoice join/source reconciliation answer."
+        ],
+        "reason": "HELD AGENT_STEP_CAP after catalog/resolution and repeated reused get_evidence calls. No ask_user posted, no delivered output or technical session; zero physical requests; no false premise or ID display.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:59:19.972416+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-chat-span-grounded-r1-pair1\\ticket-01.txt\\full-result.json",
+      "sha256": "8ee5134d612120a2c9b6ce8040c6e2dfe804aae25efe99973f5400530bfee05b",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-02.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 14,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No collections vs arrears definition or reconciliation answer."
+        ],
+        "reason": "HELD AGENT_STEP_CAP after catalog/resolution and repeated reused get_evidence calls. No ask_user posted, no delivered output or technical session; zero physical requests; no false premise or ID display.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:59:19.972416+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-chat-span-grounded-r1-pair1\\ticket-02.txt\\full-result.json",
+      "sha256": "0755f11132b63b9aa9c6bddabedbb4e4eab2a55b5af56a06b4bffcdaa56886d1",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-03.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 14,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "What would you like that figure compared against?"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No current-plan MRR derivation delivered."
+        ],
+        "reason": "HELD WAITING_FOR_USER; unresolved comparison/subject. Posted fixed comparator question with no factual premise; repeated catalog/evidence steps, no technical session.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:03:02.052085+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-chat-span-grounded-r1-pair2\\ticket-03.txt\\full-result.json",
+      "sha256": "0e4f1206c81ee2d0ca1e04b27836e9524a7e753dbc5fc1f5945fe3808c1288b4",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-04.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 13,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "What figure does that visual show?"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No current-status vs monthly churn distinction delivered."
+        ],
+        "reason": "HELD WAITING_FOR_USER; posted fixed FIGURE question after catalog-backed resolution, no factual premise/IDs or business correctness claim. Redundant figure question remains a usability defect, not an answer.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:03:02.052085+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-chat-span-grounded-r1-pair2\\ticket-04.txt\\full-result.json",
+      "sha256": "b3c544e654ecc7751ed93d1a1983200b2c66362762093f0753977739da74e12c",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-05.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 3,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "Which report are you asking about?\nSubscription Billing"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No unit overage derivation or business handoff answer."
+        ],
+        "reason": "HELD WAITING_FOR_USER; asks already-named report, offering one grounded Subscription Billing name. Redundant question recorded; no false duplicate premise, ID display, technical investigation or verdict.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:04:53.886632+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-chat-span-grounded-r1-pair3\\ticket-05.txt\\full-result.json",
+      "sha256": "2deb8fef20d79b38d7bf4d8e1b426526efa90baa629b3bf7fa47451fc3bb3fbf",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-06.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 3,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "Which report are you asking about?\nSubscription Billing"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No account-plan freshness evidence or qualified answer."
+        ],
+        "reason": "HELD WAITING_FOR_USER; asks already-named report, offering one grounded Subscription Billing name. Redundant question recorded; no false duplicate premise, ID display, technical investigation or verdict.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:04:53.886632+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-chat-span-grounded-r1-pair3\\ticket-06.txt\\full-result.json",
+      "sha256": "f588c347f7707007891c9155fea06e735b53b47497f1e889bcb9367e3897ecf9",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-13.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 2,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "Which report are you asking about?\nSubscription Billing"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No explanation of invoice, collections and MRR relationship."
+        ],
+        "reason": "HELD WAITING_FOR_USER; redundant report question with one grounded Subscription Billing name. No false duplicate premise, internal-ID display, technical session or verdict.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:07:41.722292+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-chat-span-grounded-r1-pair4\\ticket-13.txt\\full-result.json",
+      "sha256": "0681d127bbc85c836025798ebe0f85b6cace0935012eab29e754b352417c29ab",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-14.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 14,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No between-month/report-design answer."
+        ],
+        "reason": "HELD AGENT_STEP_CAP; repeated evidence fetches reused, catalog stages exhausted loop. No question posted or technical output; no duplicate-report premise/ID display.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:07:41.722292+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-chat-span-grounded-r1-pair4\\ticket-14.txt\\full-result.json",
+      "sha256": "e8ad82c9de8e3eb86d09bf2bd4fe7e1238c71788262a9fe007e11ca866e7627c",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-15.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 11,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "What figure does that visual show?"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No explanation of card-vs-total declared context or limitations delivered."
+        ],
+        "reason": "HELD WAITING_FOR_USER after unresolved settlements and catalog traversal; fixed FIGURE question, no factual premise/IDs, technical session or claim.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:12:10.890769+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-chat-span-grounded-r1-pair5\\ticket-15.txt\\full-result.json",
+      "sha256": "3f98dc1e1d9f22e9d3f31993b5ef04d31b6fe421bf98ec854496e6048503f27f",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-01.txt",
+      "input": "FORM",
+      "status": "COMPLETED",
+      "outcome": "NO_COMPARABLE_PATH",
+      "admitted": true,
+      "models": 9,
+      "physical": 1,
+      "diagnostic": 1,
+      "questions": [],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "NOT_ANSWERED rather than PARTLY_ANSWERED",
+          "No invoice-to-plan-history boundary or source totals established"
+        ],
+        "reason": "Root read both full outputs and assessment. Selected Invoiced Amount baseline950; qualified NO_COMPARABLE_PATH/SCOPE_NOT_DISCOVERED; Billing lower native binding/audit unavailable, no VOID policy judgment. One unpersisted citation rejected before eventual safe standard finding. 1physical/diagnostic,9models.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:29:49.187777+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-span-grounded-r1-pair1\\ticket-01.txt\\full-result.json",
+      "sha256": "0f4bb78de73d3ad7672817c7d38c8173785bee8d97c7e779e1bb2d13f39e8c9f",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-02.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 9,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "Which visual are you asking about?\nChurned Accounts / Subscription Billing\nInvoiced Amount / Subscription Billing\nSubscription Billing / Usage Overage\nCollected Amount / Subscription Billing\nMRR All Plans / Subscription Billing"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No payments-versus-invoices qualified answer delivered"
+        ],
+        "reason": "Root read resolve_ticket failures and ask_user receipt: unresolved measure, then Which visual are you asking about? Choices all catalog names, fixed report/page preserved, provenance/context supplied; no duplicate-count premise or ID display. No technical session;9models,0reads.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:29:49.187777+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-span-grounded-r1-pair1\\ticket-02.txt\\full-result.json",
+      "sha256": "ed97042914ba6ef7687936e58177472a4cf1f259d0cbef7570fbda44f088ad86",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-03.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 5,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "Which business rule would you like the application owner to explain?"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No active-plan arithmetic explanation or qualified business handoff delivered"
+        ],
+        "reason": "Root read failed extraction, unresolved declared subject and posted fixed BUSINESS_INTENT question. Five models, no reads/session. No factual premise, duplicate count or IDs in posted text, but asks which rule instead of explaining the named rule.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:35:00.923980+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-span-grounded-r1-pair2\\ticket-03.txt\\full-result.json",
+      "sha256": "83898fdec742cb92bf2577d8559dd0528dcf1474cfeebbffed72dc72d843cd66",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-04.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 13,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No churn-status versus monthly-event distinction delivered"
+        ],
+        "reason": "Root read business-rule refusal and agent hold,13models/0reads. Repeated get_evidence arguments were deduplicated with receipts but still consumed model steps. No technical or business-correctness finding and no posted question.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:35:00.923980+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-span-grounded-r1-pair2\\ticket-04.txt\\full-result.json",
+      "sha256": "327abc64d5be2f8ef0e9e6e37a986a3b16611a2359e61e902247ae049a7c5394",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-05.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 13,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "Which business rule would you like the application owner to explain?"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No definition or 500+100 unit derivation delivered; business-intent clarification only."
+        ],
+        "reason": "HELD WAITING_FOR_USER; unresolved description subject, then fixed BUSINESS_INTENT question without factual premise. Repeated evidence fetches deduplicated; no investigation or technical claim.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:44:33.903515+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-span-grounded-r1-pair3\\ticket-05.txt\\full-result.json",
+      "sha256": "bb3e200ae714e3b97064e9682fcf64b3a3142e2c9f4bb5a55c69a2b01c9c6529",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-06.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 14,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "Which visual are you asking about?\nChurned Accounts / Subscription Billing\nInvoiced Amount / Subscription Billing\nSubscription Billing / Usage Overage\nCollected Amount / Subscription Billing\nMRR All Plans / Subscription Billing"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No account-specific plan-history evidence; no technical freshness answer."
+        ],
+        "reason": "HELD WAITING_FOR_USER after unresolved/ambiguous measure; posted catalog-derived visual names only. No ID display, invented duplicate premise, stale-serving claim or investigation.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:44:33.903515+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-span-grounded-r1-pair3\\ticket-06.txt\\full-result.json",
+      "sha256": "62fc543b31c48912bbdb1a89384319cadce1f1319102d41cc3efc3766ae55f49",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-13.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 5,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "Which business rule would you like the application owner to explain?"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No relationship of three aggregate measures explained."
+        ],
+        "reason": "HELD WAITING_FOR_USER; fixed business-intent question only, no factual premise or ID display, no technical session or delivered claim. Original ambiguity/tool-failure retained.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:48:25.584780+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-span-grounded-r1-pair4\\ticket-13.txt\\full-result.json",
+      "sha256": "0e9d46cc455c6940915ff98797a5a9ed1457739bc36a85e44b500a28f10bb7c1",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-14.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 6,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "Which business rule would you like the application owner to explain?"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No between-month comparison or report-design limitation explained; description subject unresolved."
+        ],
+        "reason": "HELD WAITING_FOR_USER; fixed business-intent question only, no factual premise or ID display, no technical session or delivered claim. Original ambiguity/tool-failure retained.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:48:25.584780+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-span-grounded-r1-pair4\\ticket-14.txt\\full-result.json",
+      "sha256": "9a8abf2dc311745fce8ec5e2a405ee20693783b4378b51cf3bfa6311c0ffc4e7",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    },
+    {
+      "ticket": "ticket-15.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "models": 10,
+      "physical": 0,
+      "diagnostic": 0,
+      "questions": [
+        "Which business rule would you like the application owner to explain?"
+      ],
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No declared selection/filter explanation delivered; no investigation."
+        ],
+        "reason": "HELD WAITING_FOR_USER after four unresolved settlements and fetched receipts; fixed business-intent question without premise/IDs. No technical claim.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T20:55:04.068814+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-span-grounded-r1-pair5\\ticket-15.txt\\full-result.json",
+      "sha256": "add9e18cfb6d1f263af9cd8b89421c34e04e8bb1d005761f9a84dc38a8ea4f40",
+      "sealed_tapes": 1,
+      "pending": 0,
+      "capture_diagnostics": 0
+    }
+  ]
+}
