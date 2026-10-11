@@ -1,12 +1,12 @@
 {
-  "recorded_at": "2026-10-11T21:37:10.333048+00:00",
+  "recorded_at": "2026-10-11T21:40:30.604458+00:00",
   "basis": "Every preserved HELD/NEEDS_INPUT/CLARIFYING/FAILED/environment-affected attempt and completed NO_COMPARABLE_PATH refusal in current map; reporting labels only, not score changes. Historical columns and exclusions remain separate.",
   "counts": {
-    "Other retained refusal; no root cause inferred": 17,
+    "Other retained refusal; no root cause inferred": 18,
     "Target, measure or scope unresolved": 29,
     "Business intent or description route unavailable": 25,
     "Figure/comparator interpretation or provenance unresolved": 41,
-    "Agent progress or deadline exhausted": 32,
+    "Agent progress or deadline exhausted": 33,
     "Platform binding or faithful compilation unavailable": 3,
     "Evidence citation or delivery coverage refusal": 7,
     "Environment or admission/storage failure": 6
@@ -121,6 +121,17 @@
         "review_reason": "HELD WAITING_FOR_USER after four unresolved settlements and fetched receipts; fixed business-intent question without premise/IDs. No technical claim.",
         "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-span-grounded-r1-pair5\\ticket-15.txt\\full-result.json",
         "sha256": "add9e18cfb6d1f263af9cd8b89421c34e04e8bb1d005761f9a84dc38a8ea4f40",
+        "scoring_status": "ROOT_REVIEWED"
+      },
+      {
+        "case": "billing:ticket-15.txt",
+        "mode": "HYBRID",
+        "status": "HELD",
+        "outcome": null,
+        "stop_reason": "WAITING_FOR_USER",
+        "review_reason": "HELD waiting for fixed BUSINESS_INTENT question after unresolved settlements. No factual premise or IDs in the question; no technical admission/claim.",
+        "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair4\\ticket-15.txt\\full-result.json",
+        "sha256": "62f0cee4565ebe336ae9d075fd90342f3f814bc03927eba626df3f2f57ee8e08",
         "scoring_status": "ROOT_REVIEWED"
       },
       {
@@ -1394,6 +1405,17 @@
         "review_reason": "HELD AGENT_STEP_CAP after repeated unresolved resolve_ticket; no output, question or investigation.",
         "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair3\\ticket-13.txt\\full-result.json",
         "sha256": "70f802b68a5708a130a43e29c33a941117cd40e6096c475f4e207221161b471e",
+        "scoring_status": "ROOT_REVIEWED"
+      },
+      {
+        "case": "billing:ticket-14.txt",
+        "mode": "HYBRID",
+        "status": "HELD",
+        "outcome": "NO_KNOWN_PATTERN",
+        "stop_reason": "AGENT_STEP_CAP",
+        "review_reason": "HELD AGENT_STEP_CAP after one diagnostic and standard UNIMPLEMENTED_ROUTE investigation; unknown evidence ID claim rejected, repeated evidence fetches. No delivered output; no temporal answer invented.",
+        "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair4\\ticket-14.txt\\full-result.json",
+        "sha256": "6d44bcd3cb85ac72a2be74aede8842a5c0d89fc8e20c1dcb405b5e3fe59a8721",
         "scoring_status": "ROOT_REVIEWED"
       },
       {

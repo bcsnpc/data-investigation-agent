@@ -4,11 +4,11 @@ All preserved columns are included below, including superseded revisions and env
 
 | Cause | Preserved attempts |
 |---|---:|
-| Other retained refusal; no root cause inferred | 17 |
+| Other retained refusal; no root cause inferred | 18 |
 | Target, measure or scope unresolved | 29 |
 | Business intent or description route unavailable | 25 |
 | Figure/comparator interpretation or provenance unresolved | 41 |
-| Agent progress or deadline exhausted | 32 |
+| Agent progress or deadline exhausted | 33 |
 | Platform binding or faithful compilation unavailable | 3 |
 | Evidence citation or delivery coverage refusal | 7 |
 | Environment or admission/storage failure | 6 |
@@ -27,6 +27,7 @@ All preserved columns are included below, including superseded revisions and env
 - billing:ticket-13.txt / HYBRID / HELD (ROOT_REVIEWED): HELD WAITING_FOR_USER; fixed business-intent question only, no factual premise or ID display, no technical session or delivered claim. Original ambiguity/tool-failure retained. Artifact: `.local\round-fourteen\paired-billing-hybrid-form-span-grounded-r1-pair4\ticket-13.txt\full-result.json`.
 - billing:ticket-14.txt / HYBRID / HELD (ROOT_REVIEWED): HELD WAITING_FOR_USER; fixed business-intent question only, no factual premise or ID display, no technical session or delivered claim. Original ambiguity/tool-failure retained. Artifact: `.local\round-fourteen\paired-billing-hybrid-form-span-grounded-r1-pair4\ticket-14.txt\full-result.json`.
 - billing:ticket-15.txt / HYBRID / HELD (ROOT_REVIEWED): HELD WAITING_FOR_USER after four unresolved settlements and fetched receipts; fixed business-intent question without premise/IDs. No technical claim. Artifact: `.local\round-fourteen\paired-billing-hybrid-form-span-grounded-r1-pair5\ticket-15.txt\full-result.json`.
+- billing:ticket-15.txt / HYBRID / HELD (ROOT_REVIEWED): HELD waiting for fixed BUSINESS_INTENT question after unresolved settlements. No factual premise or IDs in the question; no technical admission/claim. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-form-final-pair4\ticket-15.txt\full-result.json`.
 - billing-free-text:ticket-13.txt / PIPELINE / CLARIFYING (ROOT_REVIEWED): No served timestamp or refresh currency invented from displayed values or payment dates. No user reply supplied on their behalf. Artifact: `.local\round-fourteen\paired-billing-pipeline-chat-quote-retry-r1-pair4\ticket-13.txt\full-result.json`.
 - billing-free-text:ticket-01.txt / PIPELINE / HELD (ROOT_REVIEWED): Retained No faithful choices for NUMBER hold; no posted question or technical output. Artifact: `.local\round-fourteen\paired-billing-pipeline-chat-span-grounded-r1-pair1\ticket-01.txt\full-result.json`.
 - billing-free-text:ticket-14.txt / PIPELINE / HELD (ROOT_REVIEWED): No faithful NUMBER choices hold, empty question/output lists; no invented between-month data or defect. Artifact: `.local\round-fourteen\paired-billing-pipeline-chat-span-grounded-r1-pair4\ticket-14.txt\full-result.json`.
@@ -154,6 +155,7 @@ All preserved columns are included below, including superseded revisions and env
 - billing:ticket-03.txt / HYBRID / HELD (ROOT_REVIEWED): HELD AGENT_STEP_CAP; stronger decision calls repeatedly attempted unresolved settlement/fetched existing evidence. No question, technical investigation or delivered claim; zero physical reads. Receipt models confirm GPT-5.5 agent/GPT-5.4 extraction. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-form-final-pair1\ticket-03.txt\full-result.json`.
 - billing:ticket-05.txt / HYBRID / HELD (ROOT_REVIEWED): HELD AGENT_STEP_CAP; repeated unresolved description settlements using stronger decisions. No technical session/output or question, zero estate reads. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-form-final-pair2\ticket-05.txt\full-result.json`.
 - billing:ticket-13.txt / HYBRID / HELD (ROOT_REVIEWED): HELD AGENT_STEP_CAP after repeated unresolved resolve_ticket; no output, question or investigation. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-form-final-pair3\ticket-13.txt\full-result.json`.
+- billing:ticket-14.txt / HYBRID / HELD (ROOT_REVIEWED): HELD AGENT_STEP_CAP after one diagnostic and standard UNIMPLEMENTED_ROUTE investigation; unknown evidence ID claim rejected, repeated evidence fetches. No delivered output; no temporal answer invented. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-form-final-pair4\ticket-14.txt\full-result.json`.
 - original:family-A / AGENT / HELD (ROOT_REVIEWED): Replacement HELD on wall limit; recurring worker initialization defect outside crash, no delivered finding. No second replacement. Artifact: `.local\round-fourteen\paired-original-agent-A-replacement-1\family-A\full-result.json`.
 - original:family-B / AGENT / HELD (ROOT_REVIEWED): No delivered finding or invented answer. This is a completed attempt with a question/hold, not a crash interruption. Artifact: `.local\round-fourteen\paired-original-agent-r1-AB\family-B\full-result.json`.
 - original:family-D / AGENT / HELD (ROOT_REVIEWED): Two successful within-layer quantity reads; no reported figure, reproduction unavailable. Repeated unsupported DECLARED_FILTER_EFFECTS proposals rejected. HELD at step cap, no delivered claim. Artifact: `.local\round-fourteen\paired-original-agent-r1-CD\family-D\full-result.json`.

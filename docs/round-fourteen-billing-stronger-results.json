@@ -1,0 +1,283 @@
+{
+  "recorded_at": "2026-10-11T21:40:55.545619+00:00",
+  "cohort": "17 remaining held billing inputs, each at most once; prior FORM01 completed non-answer excluded",
+  "deployment": "investigator-intake-f-55",
+  "agent_model": "gpt-5.5 2026-04-24",
+  "pipeline_tools": "GPT-5.4 unchanged",
+  "attempts": 8,
+  "admitted": 1,
+  "contract_matches": 0,
+  "harmful": 0,
+  "models": 101,
+  "physical": 1,
+  "diagnostic": 1,
+  "known_microdollars": 8010721,
+  "rows": [
+    {
+      "ticket": "ticket-02.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "AGENT_STEP_CAP",
+      "models": 14,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 915606,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No collections or arrears answer."
+        ],
+        "reason": "HELD AGENT_STEP_CAP; stronger decision calls repeatedly attempted unresolved settlement/fetched existing evidence. No question, technical investigation or delivered claim; zero physical reads. Receipt models confirm GPT-5.5 agent/GPT-5.4 extraction.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:24:00.430082+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [],
+      "comments": [],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair1\\ticket-02.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-03.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "AGENT_STEP_CAP",
+      "models": 13,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 1339848,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No current-plan MRR derivation or qualified answer."
+        ],
+        "reason": "HELD AGENT_STEP_CAP; stronger decision calls repeatedly attempted unresolved settlement/fetched existing evidence. No question, technical investigation or delivered claim; zero physical reads. Receipt models confirm GPT-5.5 agent/GPT-5.4 extraction.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:24:00.430082+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [],
+      "comments": [],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair1\\ticket-03.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-04.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "I cannot run the deterministic investigation: the retained intake and repeated admission result for the selected Churned Accounts referent report that this is a business-rule/definition question requiring a domain specialist, and no admitted target_registry or scope_registry IDs are available for run_standard_investigation. Evidence IDs: 16ad7848-10e0-4a23-8014-64c39ef1a2e0, agent-progress:65e2ac2213ca50e6f288b2d0b62d48fc6a4b9adf092224921d76e821564bf973.",
+      "models": 11,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 801710,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No safe current-status/monthly-churn distinction delivered; terminal note exposes evidence IDs and registry terms."
+        ],
+        "reason": "HELD business-rule/domain-specialist refusal; preserves business correctness boundary, no admitted session/claim. Stronger terminal hold has residual internal vocabulary/IDs; no user choice or false factual question.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:29:09.576819+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [],
+      "comments": [],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair2\\ticket-04.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-05.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "AGENT_STEP_CAP",
+      "models": 13,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 1275960,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No 500+100 overage units derivation delivered."
+        ],
+        "reason": "HELD AGENT_STEP_CAP; repeated unresolved description settlements using stronger decisions. No technical session/output or question, zero estate reads.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:29:09.576819+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [],
+      "comments": [],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair2\\ticket-05.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-06.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "WAITING_FOR_USER",
+      "models": 8,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 495221,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No application plan-change explanation delivered"
+        ],
+        "reason": "HELD starting measure/model ambiguous; grounded visual-name question, no technical claim or admission.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:35:11.337795+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [],
+      "comments": [
+        {
+          "actor": "AGENT",
+          "attachment": null,
+          "created": "2026-10-11T21:31:22.208514+00:00",
+          "id": "agent-question:6501f0aeb09bbca53e217682f5f5a5ea",
+          "review": null,
+          "text": "Which visual are you asking about?\nChurned Accounts / Subscription Billing\nInvoiced Amount / Subscription Billing\nSubscription Billing / Usage Overage\nCollected Amount / Subscription Billing\nMRR All Plans / Subscription Billing"
+        }
+      ],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair3\\ticket-06.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-13.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "AGENT_STEP_CAP",
+      "models": 13,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 938743,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No declared filter explanation delivered"
+        ],
+        "reason": "HELD AGENT_STEP_CAP after repeated unresolved resolve_ticket; no output, question or investigation.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:35:11.337795+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [],
+      "comments": [],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair3\\ticket-13.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-14.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": "NO_KNOWN_PATTERN",
+      "admitted": true,
+      "stop_reason": "AGENT_STEP_CAP",
+      "models": 15,
+      "physical": 1,
+      "diagnostic": 1,
+      "microdollars": 1166068,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No between-month revenue reconciliation delivered"
+        ],
+        "reason": "HELD AGENT_STEP_CAP after one diagnostic and standard UNIMPLEMENTED_ROUTE investigation; unknown evidence ID claim rejected, repeated evidence fetches. No delivered output; no temporal answer invented.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:40:08.654044+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [],
+      "comments": [],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair4\\ticket-14.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-15.txt",
+      "input": "FORM",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "WAITING_FOR_USER",
+      "models": 14,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 1077565,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No account-value relationship explanation delivered"
+        ],
+        "reason": "HELD waiting for fixed BUSINESS_INTENT question after unresolved settlements. No factual premise or IDs in the question; no technical admission/claim.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:40:08.654044+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [],
+      "comments": [
+        {
+          "actor": "AGENT",
+          "attachment": null,
+          "created": "2026-10-11T21:39:34.884646+00:00",
+          "id": "agent-question:fd637d24d9aed31a255e8671513d96eb",
+          "review": null,
+          "text": "Which business rule would you like the application owner to explain?"
+        }
+      ],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-form-final-pair4\\ticket-15.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    }
+  ]
+}
