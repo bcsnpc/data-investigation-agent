@@ -6,6 +6,16 @@ from test_intake_extraction import fixture
 
 
 class QuestionGateTests(unittest.TestCase):
+    def test_report_fallback_shows_page_name_never_page_uri(self):
+        raw,payload=fixture('Quantity differs.')
+        raw['reports']=[]
+        for visual in payload['models'][0]['visuals']:
+            visual.update(page_id='fabric://internal/page/1234',page_names=['Subscription Billing'])
+        result=gate.offer(protocol.new('t'),{'retained_extraction':raw},payload,planner.settings(),{'questions':[],'values':{},'blocked':None})
+        labels=[c['label'] for q in result['questions'] for c in q['choices']]
+        self.assertEqual(labels,['Report / Subscription Billing'])
+        self.assertNotIn('fabric://',str(labels))
+
     def test_current_quantity_does_not_mean_freshness(self):
         raw,payload=fixture('In Report, Global card Quantity seems overstated. Investigate its current total.',
             visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])

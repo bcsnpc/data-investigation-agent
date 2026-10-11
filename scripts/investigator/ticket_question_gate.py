@@ -106,7 +106,12 @@ def offer(ticket, source, payload, configuration, proposed):
                     for page in sorted({v.get('page_id') for v in model.get('visuals',[])
                                         if v['report_id']==report['id']},key=lambda p:p or ''):
                         value={'report_id':report['id'],'page_id':page}
-                        choices.append(({'id':digest(value),'label':report['name']+(' / '+page if page else ''),
+                        from .clarification_grounding import label as visible_label
+                        from .intake_span_references import enabled
+                        page_names=[name for visual in model.get('visuals',[]) if visual['report_id']==report['id'] and visual.get('page_id')==page for name in visual.get('page_names',[])]
+                        try:page_label=visible_label(page_names) if enabled() and page else page
+                        except ValueError as exc:return {'questions':[],'values':{},'blocked':str(exc)}
+                        choices.append(({'id':digest(value),'label':report['name']+(' / '+page_label if page else ''),
                                          'highlight':None},value))
             if not choices:return {'questions':[],'values':{},'blocked':'TARGET_UNRESOLVED: no retained report candidates'}
             q={'id':'report-or-screenshot','field':'REPORT_OR_SCREENSHOT',
