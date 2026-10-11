@@ -1,17 +1,17 @@
 {
-  "recorded_at": "2026-10-11T21:45:58.360444+00:00",
+  "recorded_at": "2026-10-11T21:51:00.176649+00:00",
   "cohort": "17 remaining held billing inputs, each at most once; prior FORM01 completed non-answer excluded",
   "deployment": "investigator-intake-f-55",
   "agent_model": "gpt-5.5 2026-04-24",
   "pipeline_tools": "GPT-5.4 unchanged",
-  "attempts": 10,
+  "attempts": 12,
   "admitted": 1,
   "contract_matches": 0,
   "harmful": 0,
-  "models": 129,
+  "models": 156,
   "physical": 1,
   "diagnostic": 1,
-  "known_microdollars": 9648274,
+  "known_microdollars": 11464755,
   "rows": [
     {
       "ticket": "ticket-01.txt",
@@ -112,6 +112,167 @@
         }
       ],
       "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair1\\ticket-02.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-03.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "WAITING_FOR_USER",
+      "models": 13,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 938520,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No declared collection-rule explanation delivered"
+        ],
+        "reason": "HELD after repeated unresolved settlements; fixed REPORT question with the single catalog-backed Subscription Billing choice despite ticket naming it. No false duplicate premise, IDs, technical admission or claim.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:50:15.269478+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [
+        {
+          "choices": [
+            {
+              "highlight": null,
+              "id": "0e44e3335195f0b8e75d3f5e86e987199cb5f70a3931ea091d0a40194e24030d",
+              "label": "Subscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'It says 600' at 166:177"
+            }
+          ],
+          "field": "NUMBER",
+          "id": "number",
+          "question": "Which displayed number should we investigate?"
+        },
+        {
+          "choices": [
+            {
+              "highlight": null,
+              "id": "e864be0f4c1ac4c52d17184b119be7dd61bdb1ce84b5522a17731be8462a9aab",
+              "label": "The application"
+            },
+            {
+              "highlight": null,
+              "id": "c932d2b094598be1734ae20802fad516b188043132e8dd520653361b93b73d57",
+              "label": "The information seems stale"
+            },
+            {
+              "highlight": null,
+              "id": "77d1fe9e04ea4de290671787a590a862a94caa1631e69480fd71867a158622b7",
+              "label": "It looks wrong"
+            },
+            {
+              "highlight": null,
+              "id": "799d9d4d5720d93123c3c25740cd1d42fc48ae4c3073abe4ebefd1a9cb9f48f4",
+              "label": "Another report"
+            },
+            {
+              "highlight": null,
+              "id": "72b950c5dc8590e5d746dd1eb29d25f0dfbdaaef41b3538980b21d09f3f4efaa",
+              "label": "The business meaning or rule"
+            }
+          ],
+          "field": "COMPARISON",
+          "id": "comparison",
+          "question": "What are you comparing against?"
+        }
+      ],
+      "comments": [
+        {
+          "actor": "AGENT",
+          "attachment": null,
+          "created": "2026-10-11T21:48:45.044855+00:00",
+          "id": "agent-question:62c4d8d8023ccfdb9e40d3b4262b2381",
+          "review": null,
+          "text": "Which report are you asking about?\nSubscription Billing"
+        }
+      ],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair2\\ticket-03.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-04.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "The retained intake and repeated admission attempts still fail with the same blocker: ambiguous declared name \u201cSubscription Billing.\u201d No target or scope was admitted, so run_standard_investigation has no valid target_id or scope_id to execute.",
+      "models": 14,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 877961,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No current-status/monthly-churn explanation delivered"
+        ],
+        "reason": "HELD terminal note repeats the tool-recorded ambiguous declared name Subscription Billing blocker, without an admitted target/scope. Catalog has one report; this is opaque/possibly misleading ambiguity wording, not proof of duplicate reports. No technical output or factual question. Residual recorded, not fixed.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T21:50:15.269478+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [
+        {
+          "choices": [
+            {
+              "highlight": null,
+              "id": "02883d9f0bd10df892dcd6a0f8d7b0c6209ccaa0328d7b87480e46c5179f69cd",
+              "label": "Subscription Billing / Subscription Billing / Churned Accounts / Subscription Billing \u2014 'Churned Accounts = 1' at 59:79"
+            }
+          ],
+          "field": "NUMBER",
+          "id": "number",
+          "question": "Which displayed number should we investigate?"
+        },
+        {
+          "choices": [
+            {
+              "highlight": null,
+              "id": "e864be0f4c1ac4c52d17184b119be7dd61bdb1ce84b5522a17731be8462a9aab",
+              "label": "The application"
+            },
+            {
+              "highlight": null,
+              "id": "c932d2b094598be1734ae20802fad516b188043132e8dd520653361b93b73d57",
+              "label": "The information seems stale"
+            },
+            {
+              "highlight": null,
+              "id": "77d1fe9e04ea4de290671787a590a862a94caa1631e69480fd71867a158622b7",
+              "label": "It looks wrong"
+            },
+            {
+              "highlight": null,
+              "id": "799d9d4d5720d93123c3c25740cd1d42fc48ae4c3073abe4ebefd1a9cb9f48f4",
+              "label": "Another report"
+            },
+            {
+              "highlight": null,
+              "id": "72b950c5dc8590e5d746dd1eb29d25f0dfbdaaef41b3538980b21d09f3f4efaa",
+              "label": "The business meaning or rule"
+            }
+          ],
+          "field": "COMPARISON",
+          "id": "comparison",
+          "question": "What are you comparing against?"
+        }
+      ],
+      "comments": [],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair2\\ticket-04.txt\\full-result.json",
       "pending": 0,
       "capture_exclusions": 0,
       "sealed_tapes": true
