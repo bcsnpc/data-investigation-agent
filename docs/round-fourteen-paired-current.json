@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T16:27:45.699114+00:00",
+  "recorded_at": "2026-10-11T16:41:34.808954+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-billing-agent-forms-r1-pair1-current\\ticket-01.txt\\full-result.json",
@@ -4218,7 +4218,7 @@
       "session_id": null,
       "sha256": "317314e0b38d08a580d123c03aea33125ead61c968bfa506bf9408356f5007fb",
       "source_sha256": "e4f9185ba131b5d55d0ebdf074ca1bd7d3f001721da699b0e2e999bbf2545a42",
-      "status": "FAILED_PRE_ADMISSION",
+      "status": "FAILED_DURING_HYBRID",
       "stop_reason": null,
       "synthesis_status": null,
       "synthesis_validation": null,
@@ -4272,7 +4272,7 @@
       "session_id": null,
       "sha256": "464ab42275d3736deb2ba48c50f4c280a4b16dd913db6cd047663dbf0aac0ac6",
       "source_sha256": "63db0922da874f379b07ee9012edc7d2e5a479590151d2bb4a9dc9b1dbf338fd",
-      "status": "FAILED_PRE_ADMISSION",
+      "status": "FAILED_DURING_HYBRID",
       "stop_reason": null,
       "synthesis_status": null,
       "synthesis_validation": null,
@@ -5022,6 +5022,258 @@
       "ticket_id": "d4e67d8c-2233-4f5c-80a5-dd0fcfb21bd7",
       "tool_calls": 3,
       "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r1-pair5-quote-retry\\family-I\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-I",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 230.6163272857666,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "a83558ec1c950f549e04f081c1d6ee5117d7f5f145e03e632169f7b15198a21d",
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "failure_error_type": "ValueError",
+      "guard_requests": 6,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 397462,
+      "mode": "HYBRID",
+      "model_calls": 7,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 10,
+      "questions_asked": 0,
+      "read_accounting_correction": ".local\\round-fourteen\\paired-original-hybrid-r1-pair5-quote-retry\\family-I\\read-accounting-correction-1.json",
+      "receipt_physical_requests": 10,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          "NO_ADMITTED_SESSION"
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Retained HYBRID failure: ValueError Invalid ticket transition while trying to record HELD, followed by the same failure in AGENT_INTERRUPTED cleanup. No hybrid output was delivered; this is a real execution defect, not an environment exclusion or a pass. Seven model calls and ten physical requests remain charged; original sealed failure and partial evidence retained.",
+        "recorded_at": "2026-10-11T16:32:18.973735+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": null,
+      "sha256": "b07fddd9fc031d20b3b2a21da79004898776371979484fc867e11a8c1d2c2929",
+      "source_sha256": "f6ef872811a53d29b4dbcf4218e9f6f2c8613049288bb43dc581144dc5a6362f",
+      "status": "FAILED_DURING_HYBRID",
+      "stop_reason": null,
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": null,
+      "tool_calls": 0,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair1-quote-retry\\family-A\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-A",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 4,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 460.4749631881714,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 1625236,
+      "mode": "HYBRID",
+      "model_calls": 16,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 10,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": []
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "HELD at twelve agent steps. Original qualified pipeline 8765/7661 finding retained; mechanism is conditional on repeated rate matches and explicitly unconfirmed. Seven agent answer proposals rejected for unknown/unpersisted evidence. No new agent claim delivered and no gap closed; sixteen models, ten physical, four diagnostics.",
+        "recorded_at": "2026-10-11T16:41:09.431987+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "cd5c63de-b100-4f44-8a33-eddf12262935",
+      "sha256": "a7001ea8ced4feb223189bdbe77828029d1eb01debb41bd098082ef3734e6016",
+      "source_sha256": "e4f9185ba131b5d55d0ebdf074ca1bd7d3f001721da699b0e2e999bbf2545a42",
+      "status": "HELD",
+      "stop_reason": "AGENT_STEP_CAP",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "5ba36ebf-96df-43f7-b5ac-903eeac31909",
+      "tool_calls": 2,
+      "tool_reuse_notes": 1
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair1-quote-retry\\family-B\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-B",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 381.403195142746,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "653988e325f9a7d7f38fc0518e62dade6b32f55ad2115e1436278403e3028044",
+      "expected_outcome": "NO_KNOWN_PATTERN",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 1084473,
+      "mode": "HYBRID",
+      "model_calls": 15,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 1,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "NO_KNOWN_PATTERN",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "HELD at twelve steps after resolve_ticket, standard investigation, repeated standard/evidence calls and rejected incomplete-coverage answer. Original NCP baseline and explicit unanswered component question retained. Fifteen models, one physical/diagnostic; no invented faithful ratio compilation or new agent finding.",
+        "recorded_at": "2026-10-11T16:41:09.431987+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "cec60103-6681-43c0-b49a-ab1e335a3e3b",
+      "sha256": "a8c4023baa17acbb74b8c8a3b19482cd42ac8148ca2c50d04cfd476035e41dc7",
+      "source_sha256": "63db0922da874f379b07ee9012edc7d2e5a479590151d2bb4a9dc9b1dbf338fd",
+      "status": "HELD",
+      "stop_reason": "AGENT_STEP_CAP",
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": "9ff026c9-2971-4cd9-95fe-fcfa388c5cc2",
+      "tool_calls": 2,
+      "tool_reuse_notes": 6
     },
     {
       "artifact": ".local\\round-fourteen\\paired-original-pipeline-C-24000\\family-C\\full-result.json",
