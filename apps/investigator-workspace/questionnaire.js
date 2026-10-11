@@ -86,6 +86,14 @@ $('simple-form').addEventListener('submit',guard(async()=>{
 }));
 for(const [id,mode] of [['simple-web','WEB'],['simple-chat','CHAT']])$(id).addEventListener('click',guard(async()=>{questionnaireMode=mode;questionnaireStep=0;await renderQuestionnaire();}));
 $('simple-refresh').addEventListener('click',guard(()=>loadReportForm(true)));
+$('simple-ticket-link').addEventListener('click',guard(async event=>{
+  // Keep the tab's memory-only access key: opening a saved ticket is not navigation.
+  event.preventDefault();
+  if(!smartTicket)return;
+  const epoch=++smartTicketGeneration;
+  const saved=await api('tickets/'+encodeURIComponent(smartTicket.ticket.id));
+  if(epoch===smartTicketGeneration)showSmartTicket(saved);
+}));
 function renderQuestionnaireTicket(saved){
   const ticket=saved.ticket;$('smart-ticket-intake').hidden=false;$('ticket-discussion').hidden=false;
   const input=ticket.questionnaire_input||ticket.form_input||saved.request, facts=$('ticket-submitted-facts');facts.replaceChildren();
