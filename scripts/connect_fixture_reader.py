@@ -16,7 +16,8 @@ def application(tenant):
     import msal
     from msal_extensions import FilePersistenceWithDataProtection, PersistedTokenCache
     from fabric_cli.core.fab_constant import AUTH_DEFAULT_CLIENT_ID
-    folder = Path(__file__).resolve().parents[1] / '.local/fixture-reader-auth'
+    from installation_secrets import root
+    folder = root(Path(__file__).resolve().parents[1]) / '.local/fixture-reader-auth'
     folder.mkdir(parents=True, exist_ok=True)
     cache = PersistedTokenCache(FilePersistenceWithDataProtection(str(folder / 'msal.cache')))
     return msal.PublicClientApplication(AUTH_DEFAULT_CLIENT_ID,

@@ -45,10 +45,13 @@ _CATALOG_CONNECTION=ContextVar('catalog_connection',default=None)
 
 
 class ModelStore:
-    def __init__(self, database, inventory, environment, *, context_pins=None):
+    def __init__(self, database, inventory, environment, *, context_pins=None, shared_accounting=None):
         self.database = Path(database)
         self.inventory = Path(inventory)
         self.environment = text(environment, 100)
+        self.shared_accounting = Path(shared_accounting).resolve() if shared_accounting is not None else None
+        if self.shared_accounting == self.database.resolve():
+            raise ValueError('Shared accounting requires an isolated session catalog')
         # Operator-owned acceptance selection. Never changes retained metadata,
         # model enablement, current discovery approval, or reader scope.
         self.context_pins = json.loads(encoded(context_pins or {}))
@@ -99,7 +102,7 @@ class ModelStore:
             return
 
         from .privacy_storage import connect
-        db = connect(self.database, timeout=10)
+        db = connect(self.database, timeout=10,shared_accounting=getattr(self,'shared_accounting',None))
         db.row_factory = sqlite3.Row
         db.execute('PRAGMA foreign_keys=ON')
         try:

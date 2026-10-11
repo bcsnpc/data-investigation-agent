@@ -38,6 +38,10 @@ class ReplayBudgetConnection(sqlite3.Connection):
         self._restore_external_budget()
 
     def execute(self, sql, *args, **kwargs):
+        if getattr(self,'shared_accounting',None):
+            from .shared_accounting import qualify
+            sql=qualify(sql)
+            self._budget_schema_query='shared_budget.sqlite_master' in sql
         command = sql.strip().rstrip(';').upper()
         if command.startswith('ROLLBACK TO') and getattr(self, '_external_budget', {}):
             from .process_tape import TapeError
@@ -48,6 +52,12 @@ class ReplayBudgetConnection(sqlite3.Connection):
         elif command in ('COMMIT', 'END'):
             self._external_budget = {}
         return result
+
+    def executemany(self,sql,*args,**kwargs):
+        if getattr(self,'shared_accounting',None):
+            from .shared_accounting import qualify
+            sql=qualify(sql)
+        return super().executemany(sql,*args,**kwargs)
 
     def __exit__(self, kind, value, traceback):
         if kind is not None:

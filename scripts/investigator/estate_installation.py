@@ -43,7 +43,9 @@ def _build_workspace(manifest,path,config,execution_enabled):
     from metadata_config import ROOT
     model=manifest['model'];budget=manifest['budgets']
     planner,resolver=provider(model['provider'],model['credential']) if execution_enabled else (None,None)
-    store=ModelStore(ROOT/manifest['storage']['catalog'],config['storage']['database'],manifest['environment'])
+    shared=manifest['storage'].get('shared_accounting')
+    store=ModelStore(ROOT/manifest['storage']['catalog'],config['storage']['database'],manifest['environment'],
+        shared_accounting=ROOT/shared if shared is not None else None)
     native,source=transports(config) if execution_enabled else (None,None)
     profile={'adapter':model['provider'],'deployment':model['deployment'],'endpoint':model['endpoint'],
         'process_max_boundaries':budget['max_boundaries'],'generation_options':model['generation_options'],

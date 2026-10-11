@@ -75,6 +75,9 @@ def operation(name):
                 root=ROOT/'.local/process-tapes'/str(fresh_id())
                 root.mkdir(parents=True,exist_ok=False)
                 backup(agent.store.database,root/'catalog.sqlite')
+                if getattr(agent.store,'shared_accounting',None):
+                    from .shared_accounting import materialize
+                    materialize(root/'catalog.sqlite',agent.store.shared_accounting)
                 backup(agent.store.inventory,root/'inventory.sqlite')
                 from .context_search import latest
                 from .runtime import fingerprint

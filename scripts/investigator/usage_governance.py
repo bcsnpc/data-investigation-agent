@@ -38,6 +38,13 @@ class UsageGovernor:
             if type(policy[key]) is not int or not 1<=policy[key]<=maximum:raise ValueError('Invalid policy limit')
         self.runtime=runtime;self.policy=json.loads(encoded(policy));self.clock=clock
         self.environment=policy['environment'];self.hash=digest(policy)
+        if runtime.store.__dict__.get('shared_accounting') is not None:
+            # The owner-installed ledger must already exist. Never provision,
+            # copy, reset or replace allowance state from an isolated catalog.
+            with runtime.db() as db:
+                from .budget_delta_v2 import journal_schema
+                journal_schema(db)
+            return
         with runtime.db() as db:
             db.executescript("""
             CREATE TABLE IF NOT EXISTS adaptive_usage(

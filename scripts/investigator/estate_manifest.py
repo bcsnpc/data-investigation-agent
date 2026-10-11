@@ -45,7 +45,7 @@ SCHEMA=obj({
     'intake':INTAKE_SCHEMA,'ownership':OWNERSHIP_SCHEMA,
     'version':{'const':'estate-manifest-v1'},'environment':STRING,
     'lineage_proposer':BOOL,'assistant_proposer':BOOL,
-    'storage':obj({'catalog':STRING,'inventory':STRING}),
+    'storage':obj({'catalog':STRING,'inventory':STRING,'shared_accounting':STRING}, optional=('shared_accounting',)),
     'retention':RETENTION,
     'recording':RECORDING,
     'adapters':array(obj({'id':STRING,'implementation':STRING,

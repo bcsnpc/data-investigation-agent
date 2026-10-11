@@ -93,3 +93,38 @@ is enforced if live mode is requested. No identity, scope or secret changed.
 
 This is a working offline portal start command plus an identified architectural
 blocker, not a completed live owner demonstration or owner acceptance.
+
+## Dated supersession — shared accounting implemented
+
+The owner subsequently directed this round to use the same existing dollar and
+pot ledgers from the isolated copy. The earlier blocker and offline inspection
+above remain historical. The new optional `storage.shared_accounting` port
+attaches that existing budget file to the isolated catalog connection. Only the
+consumer-owned budget tables and journals are addressable; shared model,
+discovery and ticket records cannot be read or changed. DELETE, DROP and changes
+to reserved amounts are refused. Both files must retain DELETE journal mode;
+the same SQLite transaction commits the session transition and reservation.
+No copied accounting table governs live admission.
+
+The recorder materializes a budget-only snapshot into the sealed private
+bootstrap. Replay uses that snapshot locally and never attaches the live ledger.
+Tests exercise two isolated catalogs sharing physical and model caps, joint
+rollback, forbidden shared-record/reset access and exact external-delta replay.
+An explicit existing-secret-root locator references the original DPAPI/MSAL and
+CLI mechanism without copying it; every reader's identity checks remain intact.
+
+The live start command, after current-source checks and approval, is:
+
+```powershell
+Set-Location D:\dia-round-fifteen-demo
+C:\Users\chait\anaconda3\python.exe scripts/owner_demo.py --source-manifest D:\dia-round-eleven-links\.local\round-fourteen\original-pipeline-control-24000-original-inventory\estate.json --budget-manifest D:\dia-round-eleven-links\.local\round-fourteen\billing-pipeline-span-grounded-bb971f0\estate.json --context-id a6b6b130-e955-432d-8433-f2f7203302a2 --context-hash e3cce421b4b694b005d9643c40dd0c66035e7a35cf0b3af0495ae655ff3e9dd5 --folder .local/owner-live-demo --port 8791 --live
+```
+
+The second manifest supplies only already-approved current budgets, not billing
+readers, definitions or data. The original fixture configuration and retained
+source context remain the source. Preparation explicitly re-approves those
+unchanged definitions only in the isolated catalog and records the new context,
+configuration and source hashes. No cloud metadata is recollected. The server
+uses the original shared dollar file, $190 ceiling and $10 margin. POST admission
+closes at 23:30 Central; already-admitted workers finish and their tapes close.
+The live trial has not yet been admitted at this implementation checkpoint.

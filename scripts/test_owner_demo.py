@@ -8,9 +8,13 @@ import owner_demo
 
 
 class OwnerDemoTests(unittest.TestCase):
-    def test_live_refuses_copied_budget_even_before_deadline(self):
-        with self.assertRaisesRegex(ValueError, 'SHARED_TRANSACTIONAL_BUDGET_PORT_REQUIRED|ROUND_FIFTEEN_DEADLINE'):
-            owner_demo.live_admission()
+    def test_live_refuses_after_owner_deadline(self):
+        from datetime import datetime
+        with patch.object(owner_demo,'datetime') as clock:
+            clock.now.return_value.astimezone.return_value.timestamp.return_value=9999999999
+            clock.fromisoformat.side_effect=datetime.fromisoformat
+            with self.assertRaisesRegex(ValueError, 'ROUND_FIFTEEN_DEADLINE'):
+                owner_demo.live_admission()
 
     def test_storage_clone_does_not_copy_secrets_or_share_catalog(self):
         import sqlite3
