@@ -68,7 +68,7 @@ class SettlementTests(unittest.TestCase):
     def test_repeated_tool_call_reuses_preview_and_cannot_rebind(self):
         tool = self.tool(); first = tool.resolve_ticket(self.raw); second = tool.resolve_ticket(self.raw)
         self.assertEqual(first, second)
-        changed = copy.deepcopy(self.raw); changed['figures'] = [{'quote': '16', 'role': 'PRIMARY', 'state': 'NUMBER', 'precision_quote': None}]
+        changed = copy.deepcopy(self.raw); changed['figures'] = [{'quote': '16', 'occurrence': None, 'role': 'PRIMARY', 'state': 'NUMBER', 'precision_quote': None}]
         with self.assertRaises(Conflict): tool.resolve_ticket(changed)
 
     def test_empty_description_complete_form_needs_no_extraction_provider(self):
