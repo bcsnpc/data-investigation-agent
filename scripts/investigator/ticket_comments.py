@@ -1,7 +1,7 @@
 """Retained discussion and attachments, never automatic scope changes."""
 import copy
-from datetime import datetime,timezone
 from .onboarding import fields,text
+from .process_tape import utc_now
 
 def append(workspace,request,*,actor='USER'):
     fields(request,['ticket_id','revision','request_key','text','attachment_id','review_id'])
@@ -18,7 +18,7 @@ def append(workspace,request,*,actor='USER'):
         return saved
     def retain(ticket):
         ticket.setdefault('comments',[]).append({'id':key,'actor':actor,'text':request['text'],
-            'created':datetime.now(timezone.utc).isoformat(),'attachment':copy.deepcopy(image),'review':copy.deepcopy(review)})
+            'created':utc_now(),'attachment':copy.deepcopy(image),'review':copy.deepcopy(review)})
         ticket.setdefault('comment_keys',{})[key]=digest(request)
         return ticket
     return workspace.smart_intake.tickets.update(request['ticket_id'],request['revision'],retain)
