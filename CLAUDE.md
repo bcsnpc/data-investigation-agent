@@ -786,3 +786,5 @@ Dated Round Thirteen repair,2026-10-10: shared engine-owned layer registry now f
 
 
 Dated Round Thirteen capture checkpoint,2026-10-10 America/Chicago /2026-10-11 UTC:48fixture attempts/142operations,136exact matches and6blocked; E-r3 lacks original local-failure boundary, G-r2 source-location reconstruction differs. Original seals and expectations preserved. Enhanced capture security plus11focused tests pass; actual source audit and V2 publication remain pending. Billing/chat/matrix unrun,#423draft,prior freeze invalid. Four authentication controls charged after local collection abort, no counter reset. See docs/round-thirteen-live-results.md.
+
+Dated Round Thirteen billing-preparation checkpoint,2026-10-11 UTC: collection014940 completed28metadata+4auth controls; current context/policy integrity established,security/approval pending. Exact metadata replay blocked CLOCK:AUTH_STATE,originals unchanged. Pot1882/2500,reserve95,modelUSD2.190760/100. Fixture48attempts preserved,D/Fpaused; billing/chat/matrix pending,#423draft,freeze invalid. See docs/round-thirteen-live-results.md.
