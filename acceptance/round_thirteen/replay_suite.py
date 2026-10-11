@@ -7,6 +7,8 @@ VERSION='round-thirteen-captured-replay-suite-v1'
 HEX64=re.compile(r'[0-9a-f]{64}')
 HEX40=re.compile(r'[0-9a-f]{40}')
 METADATA_DISPATCHER='RECORDED_METADATA_DISCOVERY_V1'
+METADATA_V2_DISPATCHER='RECORDED_METADATA_SQL_PROTOCOL_V2'
+METADATA_V2_CONSUMERS={'acceptance/round_thirteen/'+n for n in ('metadata_revision_v2.py','metadata_worker_v2.py','replay_metadata_v2.py')}
 VERIFIER_DISPATCHER='RECORDED_CODE_VERIFIER_DEPENDENCIES_V1'
 BOUNDED_CONSUMER='acceptance/round_thirteen/bounded_replay_lifecycle.py'
 CONSUMERS=frozenset(('acceptance/unknown_domain/recorded_engine.py','acceptance/unknown_domain/process_replay.py','acceptance/unknown_domain/lineage_replay.py','acceptance/unknown_domain/catalog_replay.py','acceptance/known_domain/private_bundle.py','scripts/investigator/budget_tape_contract.py','scripts/investigator/provider_tape_contract.py','scripts/investigator/process_tape.py','scripts/investigator/privacy_tape.py'))
@@ -23,6 +25,7 @@ def validate(suite):
  if not HEX40.fullmatch(suite.get('consumer_revision','')):raise ValueError('SUITE_CONSUMER_REVISION')
  hashes=suite.get('consumer_hashes',{})
  required_consumers=CONSUMERS | ({'acceptance/round_thirteen/metadata_revision.py'} if any(o.get('dispatcher')==METADATA_DISPATCHER for o in suite.get('operations',[])) else set())
+ if any(o.get('dispatcher')==METADATA_V2_DISPATCHER for o in suite.get('operations',[])):required_consumers=required_consumers|METADATA_V2_CONSUMERS
  if any(o.get('dispatcher')==VERIFIER_DISPATCHER for o in suite.get('operations',[])):required_consumers=required_consumers|{'acceptance/round_thirteen/code_verifier_revision.py'}
  if suite.get('scratch_lifecycle') is not None:
   if suite['scratch_lifecycle']!='EXCLUSIVE_SERIAL_SHARDS_V1':raise ValueError('SUITE_SCRATCH_LIFECYCLE')
@@ -40,9 +43,9 @@ def validate(suite):
    relative(member)
    if not HEX64.fullmatch(h):raise ValueError('SUITE_MEMBER_HASH')
  for op in ops:
-  metadata=op.get('dispatcher')==METADATA_DISPATCHER
+  metadata=op.get('dispatcher') in (METADATA_DISPATCHER,METADATA_V2_DISPATCHER)
   verifier=op.get('dispatcher')==VERIFIER_DISPATCHER
-  if op.get('dispatcher','RECORDED_WORKSPACE') not in ('RECORDED_WORKSPACE',METADATA_DISPATCHER,VERIFIER_DISPATCHER):raise ValueError('SUITE_DISPATCHER_UNSUPPORTED')
+  if op.get('dispatcher','RECORDED_WORKSPACE') not in ('RECORDED_WORKSPACE',METADATA_DISPATCHER,METADATA_V2_DISPATCHER,VERIFIER_DISPATCHER):raise ValueError('SUITE_DISPATCHER_UNSUPPORTED')
   if not re.fullmatch(r'[a-zA-Z0-9_-]+',op.get('id','')) or op['id'] in locations:raise ValueError('SUITE_OPERATION_ID_COLLISION')
   locations.add(op['id'])
   if not op.get('run_id') or not op.get('operation') or not HEX40.fullmatch(op.get('producer_revision','')):raise ValueError('SUITE_OPERATION_IDENTITY')
@@ -136,7 +139,7 @@ def run(suite,member_root,output,repo,*,replay=None,load_tape=None,revision_chec
    if op.get('tape') is None:
     receipt['status']='MISSING_CAPTURE'
    else:
-    metadata=op.get('dispatcher')==METADATA_DISPATCHER
+    metadata=op.get('dispatcher') in (METADATA_DISPATCHER,METADATA_V2_DISPATCHER)
     verifier=op.get('dispatcher')==VERIFIER_DISPATCHER
     path=member(member_root,op['tape']);cat=member(member_root,op['catalog']);inv=member(member_root,op['inventory']) if op.get('inventory') else None
     if cat!=path.parent/'catalog.sqlite' or inv is not None and inv!=path.parent/'inventory.sqlite':raise ValueError('SUITE_BOOTSTRAP_ARTIFACT_LOCATION')
@@ -170,8 +173,11 @@ def run(suite,member_root,output,repo,*,replay=None,load_tape=None,revision_chec
      if digest(obj)!=estate.get('manifest_hash'):raise ValueError('SUITE_SEALED_ESTATE_MANIFEST_DIGEST_DIFFERS')
     if metadata:
      import importlib.util
-     handler_path=Path(__file__).with_name('metadata_revision.py');spec=importlib.util.spec_from_file_location('metadata_revision',handler_path);handler=importlib.util.module_from_spec(spec);spec.loader.exec_module(handler)
-     with offline():result=handler.replay_metadata_revision(path,output/op['id'],op['producer_revision'],repository=repo)
+     v2=op.get('dispatcher')==METADATA_V2_DISPATCHER
+     handler_path=Path(__file__).with_name('metadata_revision_v2.py' if v2 else 'metadata_revision.py');spec=importlib.util.spec_from_file_location('metadata_revision_v2' if v2 else 'metadata_revision',handler_path);handler=importlib.util.module_from_spec(spec);spec.loader.exec_module(handler)
+     with offline():
+      if v2:result=handler.replay_metadata_v2_revision(path,output/op['id'],op['producer_revision'],repository=repo,consumer_hashes={n:sha(Path(__file__).with_name(n)) for n in ('metadata_worker_v2.py','replay_metadata_v2.py')})
+      else:result=handler.replay_metadata_revision(path,output/op['id'],op['producer_revision'],repository=repo)
     elif verifier:
      import importlib.util
      handler_path=Path(__file__).with_name('code_verifier_revision.py');spec=importlib.util.spec_from_file_location('code_verifier_revision',handler_path);handler=importlib.util.module_from_spec(spec);spec.loader.exec_module(handler)
