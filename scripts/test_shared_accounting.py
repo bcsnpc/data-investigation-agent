@@ -66,6 +66,20 @@ class SharedAccountingTests(unittest.TestCase):
             self.assertEqual(db.execute('SELECT count(*) FROM local_session').fetchone()[0],0)
             self.assertEqual(db.execute('SELECT count(*) FROM adaptive_usage').fetchone()[0],0)
 
+    def test_concurrent_isolated_catalogs_cannot_over_admit_shared_pot(self):
+        from concurrent.futures import ThreadPoolExecutor
+        def attempt(number):
+            governor=self.ga if number%2 else self.gb
+            try:
+                governor.metered_read('concurrent-'+str(number),'r',lambda:number)
+                return 'admitted'
+            except UsageHold:return 'refused'
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            results=list(pool.map(attempt,range(20)))
+        self.assertEqual(results.count('admitted'),2)
+        self.assertEqual(results.count('refused'),18)
+        self.assertEqual(self.ga.snapshot()['reserved_today']['cloud_calls'],2)
+
     def test_shared_records_and_reset_operations_are_forbidden(self):
         with self.a.db() as db:
             for sql in ('SELECT * FROM shared_budget.models','SELECT * FROM shared_budget.enterprise_scans',
