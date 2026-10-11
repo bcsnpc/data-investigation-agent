@@ -26,6 +26,16 @@ def append(workspace,request,*,actor='USER'):
 def progress(workspace,identity):
     saved=workspace.smart_intake.tickets.get(identity);ticket=saved['ticket']
     steps=[]
+    with workspace.store.connect() as db:
+        has_agent=db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='agent_progress'").fetchone()
+    if has_agent:
+        from .agent_journal import Journal
+        agent_steps=Journal(workspace.store,identity).read()
+        if not agent_steps and ticket.get('session_id'):
+            agent_steps=Journal(workspace.store,ticket['session_id']).read()
+        if agent_steps:
+            return {'ticket_id':identity,'state':ticket['state'],'mode':'AGENT',
+                    'steps':[dict(s,status=s['status'] or ('HELD' if s['event']=='HELD' else 'FINISHED')) for s in agent_steps]}
     if ticket.get('session_id'):
         # Read only retained events; a status view never dispatches a probe.
         with workspace.store.connect() as db:

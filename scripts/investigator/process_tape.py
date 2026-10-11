@@ -15,12 +15,14 @@ from .artifact_identity_cache import IdentityCache,ArtifactChanged
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
-VERSION = 'bounded-worker-tape-v8'
-SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', 'bounded-worker-tape-v6', 'bounded-worker-tape-v7', VERSION))
+VERSION = 'bounded-worker-tape-v9'
+SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', 'bounded-worker-tape-v6', 'bounded-worker-tape-v7','bounded-worker-tape-v8', VERSION))
 PINNED_VERSIONS = SUPPORTED_VERSIONS - {'bounded-worker-tape-v1'}
-ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7',VERSION))
-SMART_VERSIONS = frozenset(('bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7',VERSION))
-CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7',VERSION))
+ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7','bounded-worker-tape-v8',VERSION))
+SMART_VERSIONS = frozenset(('bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7','bounded-worker-tape-v8',VERSION))
+AGENT_VERSIONS = frozenset(('bounded-worker-tape-v9',))
+AGENT_OPERATIONS = frozenset(('agent_run',))
+CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7','bounded-worker-tape-v8',VERSION))
 SMART_OPERATIONS=frozenset(('ticket_submit','ticket_reply','ticket_attach','ticket_share','ticket_close','ticket_respond','ticket_finish',
                           'form_submit','form_reply','form_screenshot_reply','form_comment'))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
@@ -188,7 +190,7 @@ class Tape:
                 fields.add('provider_transport_retries')
                 if type(state['provider_transport_retries']) is not int or state['provider_transport_retries']!=2:
                     raise TapeError('TAPE_PROVIDER_TRANSPORT_RETRY_CONFIGURATION')
-            for key,expected in (('budget_checkpoint','DELTA_V2' if self.version=='bounded-worker-tape-v8' else 'DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),('local_accounting','SQLITE_BOUNDARY_V1')):
+            for key,expected in (('budget_checkpoint','DELTA_V2' if self.version in ('bounded-worker-tape-v8','bounded-worker-tape-v9') else 'DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),('local_accounting','SQLITE_BOUNDARY_V1')):
                 if key in state:
                     fields.add(key)
                     if state[key]!=expected:raise TapeError('TAPE_BUDGET_CONFIGURATION')
@@ -289,7 +291,7 @@ class Tape:
         for event in self.events:
             kind=event['kind']
             if kind=='BUDGET_INPUT_FAILURE':
-                if self.version!='bounded-worker-tape-v8':raise TapeError('TAPE_BUDGET_FAILURE_VERSION')
+                if self.version not in ('bounded-worker-tape-v8','bounded-worker-tape-v9'):raise TapeError('TAPE_BUDGET_FAILURE_VERSION')
                 from .budget_delta_v2 import validate_failure
                 validate_failure(json.loads(validate_event(event,event['ordinal'])))
             elif kind=='BUDGET_INPUT':external_checkpoint=True
@@ -304,6 +306,7 @@ class Tape:
                 body=json.loads(validate_event(event,event['ordinal']))
                 supported={'intake','preview','create','run','synthesize'}
                 if self.version in SMART_VERSIONS:supported.update(SMART_OPERATIONS)
+                if self.version in AGENT_VERSIONS:supported.update(AGENT_OPERATIONS)
                 if bootstrap['entry_point']=='workspace' and (set(body)!={'name','args','kwargs'} or body['name'] not in supported or not isinstance(body['args'],list) or not isinstance(body['kwargs'],dict)):
                     raise TapeError('TAPE_OPERATION_FIELDS')
                 operations.append(body['name'])
@@ -347,7 +350,7 @@ class Tape:
 
 @contextmanager
 def active(tape):
-    if tape is not None and getattr(tape,'version',None) in ('bounded-worker-tape-v7','bounded-worker-tape-v8') and tape.bootstrap.get('entry_point')=='workspace' and tape.bootstrap.get('usage_policy') is not None and tape.bootstrap.get('state',{}).get('budget_checkpoint') in ('DELTA_V1','DELTA_V2'):
+    if tape is not None and getattr(tape,'version',None) in ('bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9') and tape.bootstrap.get('entry_point')=='workspace' and tape.bootstrap.get('usage_policy') is not None and tape.bootstrap.get('state',{}).get('budget_checkpoint') in ('DELTA_V1','DELTA_V2'):
         from .budget_checkpoint import prepare
         prepare(tape,tape.path.parent/'catalog.sqlite',tape.bootstrap['state']['environment'])
     token=ACTIVE.set(tape)

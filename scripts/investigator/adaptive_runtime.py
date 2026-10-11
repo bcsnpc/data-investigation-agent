@@ -510,14 +510,12 @@ class AdaptiveRuntime:
             result=self.step(identity)
             if result['status']!='READY':return result
 
-    def run_process(self,identity):
-        """Execute the deterministic vertical strategy; open planning is fallback only."""
+    def process_adapter(self,identity):
+        """Construct the admitted, governed adapter without resolving or reading data."""
         from .adapters.microsoft_process import MicrosoftProcessAdapter
-        from .process_debugging import vertical
-        from .assessment_support import validate as validate_support
         with self.runtime.db() as db:
             state=self.load(db,identity);self.admit(state,db)
-            if state['status']!='READY':return self.get(identity)
+            if state['status'] not in ('READY','EXECUTING'):raise Conflict('Process adapter requires an admitted session')
         model=self.store.get(state['model_id'])
 
         def meter_read(tool,execute,physical_only=False):
@@ -681,6 +679,34 @@ class AdaptiveRuntime:
             from .physical_transport_retry import execute as retry_transport
             return meter_read('fabric_endpoint_metadata',lambda:retry_transport(request,execute,'fabric_endpoint_metadata'))
 
+        local_execution=self.config.get('_estate',{}).get('execution',{}).get('mode')=='LOCAL_EXPORTED'
+        if local_execution:
+            def meter_local_read(tool,execute):
+                with self.runtime.db() as db:
+                    db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
+                    if current['status']!='EXECUTING' or self.clock()>=current['deadline']:
+                        raise UsageHold('Local read cancelled or deadline exhausted')
+                    from . import process_budget
+                    process_budget.admit(current,tool)
+                    if current['cloud_calls']>=current['envelope']['limits']['cloud_calls']:
+                        raise UsageHold('Investigation diagnostic-read limit')
+                    current['cloud_calls']+=1;process_budget.charge(current)
+                    current['local_diagnostic_reads']=current.get('local_diagnostic_reads',0)+1
+                    self.save(db,current,'PROCESS_LOCAL_READ_RESERVED',{'tool':tool,'diagnostic_reads':current['cloud_calls'],'physical_calls':current.get('physical_calls',0)})
+                return execute()
+            def record_local_evidence(evidence):
+                identity_value='local-read:'+str(uuid4());evidence=dict(evidence,id=identity_value)
+                with self.runtime.db() as db:
+                    db.execute('BEGIN IMMEDIATE');current=self.load(db,identity)
+                    current.setdefault('local_read_evidence',[]).append(evidence)
+                    self.save(db,current,'PROCESS_LOCAL_READ_RECORDED',{'evidence_id':identity_value})
+                return identity_value
+            from .adapters.local_process import create
+            adapter=create(self.store,self.config,model,record_evidence=record_local_evidence,
+                meter_local_read=meter_local_read,judge_definition=judge if provider is not None else None,
+                max_boundaries=self.process_max_boundaries)
+            return self._stage_process_adapter(identity,adapter,meter_local_read,local=True)
+
         # The independent lower surface: declared only when the reader's own
         # session is present (a local check, no token request).
         lower_surface=None;execute_lower=None
@@ -719,10 +745,105 @@ class AdaptiveRuntime:
             max_boundaries=self.process_max_boundaries,read_endpoint=read_endpoint,
             read_refresh_timing=read_refresh_timing if self.config['fabric'].get('refresh_timing_reader') else None,
             read_snapshot_identity=read_snapshot_identity if self.config['fabric'].get('snapshot_identity_reader') else None)
-        def stage_event(kind, detail):
+        return self._stage_process_adapter(identity,adapter,meter_read,local=False)
+
+    def _stage_process_adapter(self,identity,adapter,meter_read,local):
+        def stage_event(kind,detail):
             return self._persist_process_stage(identity,kind,detail)
         from .process_stages import Adapter as StageAdapter
         adapter=StageAdapter(adapter,stage_event)
+        adapter._runtime_meter_read=meter_read
+        adapter._runtime_stage_event=stage_event
+        adapter._runtime_local_execution=local
+        adapter._runtime_session_id=identity
+        return adapter
+
+    def agent_tool_boundary(self,identity):
+        """Persist complete tool observations before returning their evidence IDs.
+
+        Read/model admission remains in the governed adapter. This boundary owns
+        local persistence and terminal failure facts, not causal classification.
+        """
+        def boundary(name,arguments,operation):
+            receipt_id='agent-tool:'+str(uuid4())
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+                if state['status']!='EXECUTING' or self.clock()>=state['deadline']:
+                    raise UsageHold('Agent tool cancelled or deadline exhausted')
+                self.save(db,state,'AGENT_TOOL_STARTED',{'receipt_id':receipt_id,'tool':name})
+            tape_event('CONFIGURATION',{'control':'AGENT_TOOL_BOUNDARY_V1','phase':'START','session_id':identity,'receipt_id':receipt_id,'tool':name,'arguments':arguments})
+            try:result=operation()
+            except BaseException as exc:
+                from .process_failure import capture
+                failure=capture(exc)
+                with self.runtime.db() as db:
+                    db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
+                    state.setdefault('agent_tool_receipts',[]).append({'id':receipt_id,'tool':name,'arguments':arguments,'status':'FAILED','failure':failure})
+                    self.save(db,state,'AGENT_TOOL_FAILED',{'receipt_id':receipt_id,'tool':name,'failure':failure})
+                tape_event('CONFIGURATION',{'control':'AGENT_TOOL_BOUNDARY_V1','phase':'FAILED','session_id':identity,'receipt_id':receipt_id,'error_type':type(exc).__name__})
+                raise
+            with self.runtime.db() as db:
+                db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+                if state['status']!='EXECUTING':raise Conflict('Agent tool persistence fenced')
+                state.setdefault('agent_tool_receipts',[]).append({'id':receipt_id,'tool':name,'arguments':arguments,'status':'COMPLETED','result':result})
+                self.save(db,state,'AGENT_TOOL_COMPLETED',{'receipt_id':receipt_id,'tool':name})
+            tape_event('CONFIGURATION',{'control':'AGENT_TOOL_BOUNDARY_V1','phase':'COMPLETED','session_id':identity,'receipt_id':receipt_id,'result_hash':digest(result)})
+            return {'receipt_id':receipt_id,'result':result}
+        return boundary
+
+    def begin_agent_process(self,identity):
+        """Claim a trusted intake session for tool-led execution, without walking."""
+        with self.runtime.db() as db:
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+            if state['status']!='READY' or state.get('process_started'):
+                raise Conflict('Agent requires a fresh admitted process session')
+            state.update(process_started=True,status='EXECUTING')
+            self.save(db,state,'PROCESS_STARTED',{'procedure':'AGENT_TOOL_LOOP','reserved_reads':0})
+        return self.get(identity)
+
+    def accept_agent_support(self,identity,tools,outcome,target_id,citations):
+        """Persist only existing-gate support built from this session's tool ledger.
+
+        This is not delivery: synthesize still applies coverage and prose gates.
+        The caller's text/claims cannot confer roles or become engine evidence.
+        """
+        from .investigation_tools import InvestigationTools
+        from .definition_target import procedure_scope
+        from .assessment_support import validate as validate_support
+        if not isinstance(tools,InvestigationTools) or getattr(tools.adapter,'_runtime_session_id',None)!=identity:
+            raise Conflict('Agent support belongs to a different session')
+        with self.runtime.db() as db:
+            state=self.load(db,identity);self.admit(state,db)
+            if state['status']!='EXECUTING':raise Conflict('Agent session is not executing')
+            target=tools._target(target_id)
+            if target is None or target[0]!=state['envelope']['measure_id'] or digest(target[1])!=digest(procedure_scope(state['envelope'])):
+                raise Conflict('Agent support target or scope changed')
+        candidate=tools.terminal_support(outcome,target_id,citations)
+        assessment=candidate['assessment'];observations=candidate['observations']
+        validate_support(assessment,observations)
+        with self.runtime.db() as db:
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+            if state['status']!='EXECUTING':raise Conflict('Agent terminal transition fenced')
+            existing={o['id']:o for o in state['observations']}
+            for key,value in observations.items():
+                if key in existing and existing[key]!=value:raise Conflict('Agent evidence identity changed')
+                existing[key]=value
+            state['observations']=list(existing.values());state['assessment']=assessment
+            state.update(status='COMPLETED',stop_reason='ENOUGH_DIAGNOSTICS',token=None,pending=None)
+            self.save(db,state,'PROCESS_AGENT_STOPPED',{'classification':assessment['classification'],
+                'support_receipt_id':candidate['support_receipt_id']})
+        return self.get(identity)
+
+    def run_process(self,identity):
+        """Execute the unchanged deterministic strategy through the shared adapter."""
+        from .process_debugging import vertical
+        from .assessment_support import validate as validate_support
+        with self.runtime.db() as db:
+            state=self.load(db,identity);self.admit(state,db)
+            if state['status']!='READY':return self.get(identity)
+        adapter=self.process_adapter(identity)
+        meter_read=adapter._runtime_meter_read
+        stage_event=adapter._runtime_stage_event
         from .context_search import MeasurePathLimit
         try:
             path=adapter.resolve_path(state['envelope']['measure_id'])
@@ -747,7 +868,7 @@ class AdaptiveRuntime:
         try:
             from .definition_target import procedure_scope
             with observation_journal.scope(journal):
-                if self.process_lineage is not None:
+                if self.process_lineage is not None and not adapter._runtime_local_execution:
                     stage_event('PROCESS_STAGE_STARTED',{'stage':'context','operation':'qualify_lineage'})
                     lineage_error=None
                     try:path=self.process_lineage(adapter,path,state['envelope'],meter_read)

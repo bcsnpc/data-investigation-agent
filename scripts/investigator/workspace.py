@@ -80,6 +80,13 @@ class Workspace:
             self._forms=Forms(self)
         return self._forms
 
+    @property
+    def agent_controller(self):
+        if not hasattr(self,'_agent_controller'):
+            from .agent_process import AgentProcess
+            self._agent_controller=AgentProcess(self)
+        return self._agent_controller
+
     def models(self):
         return {'execution_enabled': self.execution_enabled, 'question_intake_enabled': self.execution_enabled and self.intake.resolver is not None,
                 'screenshot_intake_enabled': self.execution_enabled and self.screenshots.extractor is not None,
@@ -179,7 +186,11 @@ class Workspace:
         self.store.get(body['model_id'])
         return body
 
-    def start(self, identity):
+    def start(self, identity, *, controller_owned=False):
+        if type(controller_owned) is not bool:
+            raise ValueError('Controller ownership must be boolean')
+        if controller_owned and self.agent.config.get('_estate',{}).get('investigation',{}).get('mode','PIPELINE')!='AGENT':
+            raise Conflict('Controller ownership requires configured agent mode')
         if not self.execution_enabled:
             raise Conflict('This host is in history-only mode')
         preview = self.read_preview(identity)
@@ -208,8 +219,8 @@ class Workspace:
             state = (self.agent.revise(preview['predecessor'], preview['envelope'], 'workspace:' + identity)
                      if preview['predecessor'] else self.agent.create(preview['envelope'], 'workspace:' + identity))
             with self.store.connect() as db:
-                db.execute("UPDATE workspace_jobs SET session_id=?,status='QUEUED' WHERE preview_id=? AND status='SUBMITTING'",
-                           (state['id'], identity))
+                db.execute("UPDATE workspace_jobs SET session_id=?,status=? WHERE preview_id=? AND status='SUBMITTING'",
+                           (state['id'], 'RUNNING' if controller_owned else 'QUEUED', identity))
         except Exception:
             with self.store.connect() as db:
                 db.execute("UPDATE workspace_jobs SET status='INTERRUPTED',error='SUBMISSION_FAILED' WHERE preview_id=?", (identity,))
@@ -224,7 +235,10 @@ class Workspace:
                 return False
             db.execute("UPDATE workspace_jobs SET status='RUNNING' WHERE preview_id=?", (row['preview_id'],))
         try:
-            self.agent.run(row['session_id'])
+            if self.agent.config.get('_estate',{}).get('investigation',{}).get('mode','PIPELINE')=='AGENT':
+                self.agent_controller.run(row['session_id'])
+            else:
+                self.agent.run(row['session_id'])
             status, error = 'FINISHED', None
         except Exception:
             status, error = 'INTERRUPTED', 'WORKER_INTERRUPTED'

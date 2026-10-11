@@ -100,7 +100,7 @@ function renderQuestionnaireTicket(saved){
   if(ticket.questions.some(q=>q.field==='NUMBER'))thread.append(node('li','Investigator: You can attach a screenshot of the displayed number to help identify it.'));
   $('ticket-screenshot-answer').hidden=ticket.state!=='CLARIFYING'||!ticket.form_input||Boolean(ticket.intake_id);
   for(const c of ticket.comments||[]){const item=node('li',(c.actor==='USER'?'You':'Investigator')+': '+c.text);if(c.attachment)item.append(node('p','Attached screenshot: '+c.attachment.name));if(c.review)item.append(node('p','Reviewed visible details: '+c.review.text));thread.append(item);}
-  if(ticket.session_id)api('tickets/'+encodeURIComponent(ticket.id)+'/progress').then(r=>{if(smartTicket?.ticket.id===ticket.id)$('ticket-progress').replaceChildren(...r.steps.map(s=>node('li',s.label+' — '+s.status.toLowerCase())));}).catch(showError);
+  if(ticket.session_id||ticket.investigation_mode==='AGENT')api('tickets/'+encodeURIComponent(ticket.id)+'/progress').then(r=>{if(smartTicket?.ticket.id===ticket.id)$('ticket-progress').replaceChildren(...r.steps.map(s=>{const item=node('li',s.label+' — '+s.status.toLowerCase());if(r.mode==='AGENT'){if(s.tool)item.append(node('p','Tool: '+s.tool.replaceAll('_',' ')));if(s.arguments)for(const [name,value] of Object.entries(s.arguments))item.append(node('p',name.replaceAll('_',' ')+': '+(typeof value==='string'?value:Array.isArray(value)?value.join(', '):'Recorded structured selection')));if(s.result_ids?.length)item.append(node('p','Evidence: '+s.result_ids.join(', ')));}return item;}));}).catch(showError);
 }
 $('ticket-comment-form').addEventListener('submit',guard(async()=>{
   if(!smartTicket)return;

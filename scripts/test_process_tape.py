@@ -92,7 +92,7 @@ class TapeTests(unittest.TestCase):
                 recorded.event('BOUNDED_RESPONSE', bytes_of({'value': 2}))
                 recorded.finish({})
             original = path.read_bytes()
-            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v8')
+            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v9')
             replayed = Tape(path)
             self.assertEqual(replayed.version, 'bounded-worker-tape-v1')
             replayed.event('BOUNDED_REQUEST', bytes_of({'request': 1}))
@@ -622,3 +622,36 @@ print(json.dumps({'status':'AVAILABLE','quantity':7}),flush=True)
 
 
 if __name__=='__main__':unittest.main()
+
+class AgentTapeVersionTests(unittest.TestCase):
+ def test_all_legacy_versions_replay_without_seal_changes_after_v9(self):
+  from investigator import process_tape as journal
+  with tempfile.TemporaryDirectory() as folder:
+   for version in range(1,9):
+    path=Path(folder)/('v'+str(version)+'.json')
+    with patch.object(journal,'VERSION','bounded-worker-tape-v'+str(version)):
+     tape=Tape(path,bootstrap());tape.event('CONFIGURATION',bytes_of({'legacy':version}));tape.finish({})
+    original=path.read_bytes();replay=Tape(path);replay.event('CONFIGURATION',bytes_of({'legacy':version}));replay.finish({})
+    self.assertEqual(path.read_bytes(),original)
+ def workspace(self,folder):
+  import sqlite3
+  from investigator import process_tape as journal
+  hashes={}
+  for name in ('catalog.sqlite','inventory.sqlite'):
+   db=sqlite3.connect(Path(folder)/name);db.execute('CREATE TABLE fixture(value TEXT)');db.commit();db.close();hashes[name]=journal.sha((Path(folder)/name).read_bytes())
+  return {**bootstrap(),'entry_point':'workspace','state':{'environment':'synthetic','workspace_owner':None,'artifacts':hashes,'dynamic_read_limit':12,'dynamic_input_limit':384000}}
+ def test_agent_operation_is_v9_only_and_replays_exact(self):
+  from investigator import process_tape as journal
+  for version in (8,9):
+   with tempfile.TemporaryDirectory() as folder:
+    path=Path(folder)/'tape.json';b=self.workspace(folder)
+    with patch.object(journal,'VERSION','bounded-worker-tape-v'+str(version)),patch('subprocess.check_output',side_effect=['','a'*40]):
+     tape=Tape(path,b)
+    tape.event('OPERATION_START',bytes_of({'name':'agent_run','args':['synthetic-session'],'kwargs':{}}));tape.event('OPERATION_END',bytes_of({'name':'agent_run','error':None}))
+    final={'operation':'agent_run','error':None,'outputs':None,'status':'HELD','result':{}}
+    if version==8:
+     with self.assertRaisesRegex(TapeError,'TAPE_OPERATION_FIELDS'):tape.finish(final)
+    else:
+     tape.finish(final);original=path.read_bytes();replay=Tape(path)
+     replay.event('OPERATION_START',bytes_of({'name':'agent_run','args':['synthetic-session'],'kwargs':{}}));replay.event('OPERATION_END',bytes_of({'name':'agent_run','error':None}));replay.finish(final)
+     self.assertEqual(path.read_bytes(),original)

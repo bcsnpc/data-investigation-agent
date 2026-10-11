@@ -40,7 +40,7 @@ def _build_workspace(manifest,path,config,execution_enabled):
         'process_max_boundaries':budget['max_boundaries'],'generation_options':model['generation_options'],
         'max_planner_recoveries':model['max_planner_recoveries']}
     lineage=None
-    if any(b['may_infer_from_code'] for b in manifest['lineage'].get('code_locations',[])):
+    if config.get('_estate',{}).get('execution',{}).get('mode')!='LOCAL_EXPORTED' and any(b['may_infer_from_code'] for b in manifest['lineage'].get('code_locations',[])):
         from .adapters.code_lineage import Installation
         lineage=Installation(manifest,path,ROOT)
         if execution_enabled:lineage.approval()
@@ -56,9 +56,18 @@ def _build_workspace(manifest,path,config,execution_enabled):
         ownership_configuration=ownership,
         dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'],
         concurrency_limit=budget['planner_daily']['max_inflight'])
-    from .adapters.report_list_installation import install as install_report_lists
-    workspace.report_lists=install_report_lists(workspace,config)
-    if execution_enabled:
-        from .adapters.form_candidate_values import install as install_form_candidates
-        install_form_candidates(workspace)
+    local = config.get('_estate',{}).get('execution',{}).get('mode')=='LOCAL_EXPORTED'
+    if local:
+        # The shared form controller reads retained definitions when this live
+        # metadata port is absent. Never authenticate merely to list local data.
+        workspace.report_lists=None
+        if execution_enabled:
+            from .adapters.local_installation import install as install_local_candidates
+            install_local_candidates(workspace)
+    else:
+        from .adapters.report_list_installation import install as install_report_lists
+        workspace.report_lists=install_report_lists(workspace,config)
+        if execution_enabled:
+            from .adapters.form_candidate_values import install as install_form_candidates
+            install_form_candidates(workspace)
     return workspace

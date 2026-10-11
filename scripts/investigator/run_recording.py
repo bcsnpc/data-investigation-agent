@@ -60,7 +60,7 @@ def operation(name):
                 from .onboarding import digest
                 key=digest(request)
             tape=tapes.get(str(key))
-            if tape is None and name in ('create','run','synthesize'):
+            if tape is None and name in ('create','run','synthesize','agent_run'):
                 from .process_debugging import VERSION
                 envelope=request if name=='create' else agent.get(request)['envelope']
                 if envelope.get('strategy')!=VERSION:
@@ -68,7 +68,7 @@ def operation(name):
                     # own contract. This bootstrap extends the process path.
                     return method(owner,*args,**kwargs)
             if tape is None:
-                if name not in {'intake','preview','create',*journal.SMART_OPERATIONS} and not (name=='run' and has_smart_ticket(agent,str(key))):
+                if name not in {'intake','preview','create',*journal.SMART_OPERATIONS} and not (name in ('run','agent_run') and has_smart_ticket(agent,str(key))):
                     raise journal.TapeError('LIVE_RUN_MISSING_RECORDING_BOOTSTRAP')
                 root=ROOT/'.local/process-tapes'/str(fresh_id())
                 root.mkdir(parents=True,exist_ok=False)
@@ -124,18 +124,18 @@ def operation(name):
                             from .onboarding import digest
                             tapes[digest(result['envelope'])]=tape
                         elif name=='create':tapes[result['id']]=tape
-                        elif name=='run' and error is None:
+                        elif name in ('run','agent_run') and error is None:
                             tapes[str(key)]=tape
                             # Retain the actual return, not a later reconstruction
                             # containing synthesis or ticket-state changes.
                             tape.pending_read_final=json.loads(journal.bytes_of({
-                                'operation':'run','error':None,
+                                'operation':name,'error':None,
                                 'outputs':result.get('refusal_outputs'),
                                 'status':result.get('status'),'result':result}))
-                    smart_read=(name=='run' and error is None and result is not None and
+                    smart_read=(name in ('run','agent_run') and error is None and result is not None and
                                 result.get('status') not in ('READY','PLANNING','EXECUTING') and
                                 has_smart_ticket(agent,str(key)))
-                    terminal=error is not None or name=='synthesize' or name in journal.SMART_OPERATIONS or name=='intake' and result.get('status')!='PROPOSED' or smart_read
+                    terminal=error is not None or name in ('synthesize','agent_run') or name in journal.SMART_OPERATIONS or name=='intake' and result.get('status')!='PROPOSED' or smart_read
                     if terminal:
                         final={'operation':name,'error':type(error).__name__ if error else None,
                                'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs'),
