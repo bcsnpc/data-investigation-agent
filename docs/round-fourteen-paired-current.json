@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T11:51:02.787188+00:00",
+  "recorded_at": "2026-10-11T12:03:11.084562+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -2196,6 +2196,91 @@
       "status": "COMPLETED",
       "stop_reason": "ENOUGH_DIAGNOSTICS",
       "ticket_id": "083d042a-26af-487b-9a4d-57e37ba4d263"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-pipeline-r2-CE-original-inventory\\family-C\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-C",
+      "diagnostic_reads": 0,
+      "elapsed_seconds": 171.62023305892944,
+      "engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+      "expected_hash": "85bb2cc8cccde1341eb3c0e22e50054f131072e528e1160997de589de8bdbe83",
+      "has_outputs": false,
+      "microdollars": 8853,
+      "mode": "PIPELINE",
+      "model_calls": 1,
+      "outcome": null,
+      "physical_requests": 0,
+      "repeat": 2,
+      "root_review": {
+        "comparison_basis": "Terminal HELD/null-outcome projection only, no session or full delivery contract",
+        "contract_differences": [
+          "NO_ADMITTED_SESSION"
+        ],
+        "contract_match": false,
+        "correction_reason": "Post-review helper incorrectly used session absence as failure even though the terminal ticket HELD/null outcome matches the sealed expected status. Original review and ledger row unchanged.",
+        "correction_to": "root-post-review-1.json",
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "HELD at DESCRIPTION_SUBJECT_UNRESOLVED: selected Nothing retained, no description route admitted. One model call, no diagnostic/physical read or session. Resolver24000 not exercised; no delivered claim. Historical C results unchanged.",
+        "recorded_at": "2026-10-11T12:03:06.399431+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": null,
+      "sha256": "fe0e9cb6bc76a06a90471f812a6ea6fe09b56648bd28f0134e49054b21d05ce7",
+      "source_sha256": "9e80cdc0e1230f8466a5eb82cd105b9472b107385245f1476cf5395923ab27b8",
+      "status": "HELD",
+      "stop_reason": "DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again.",
+      "ticket_id": "4372db9d-6526-4d05-b306-898eb3358d66"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-pipeline-r2-CE-original-inventory\\family-E\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-E",
+      "diagnostic_reads": 4,
+      "elapsed_seconds": 491.1868796348572,
+      "engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "has_outputs": true,
+      "microdollars": 37151,
+      "mode": "PIPELINE",
+      "model_calls": 3,
+      "outcome": "TRANSFORMATION_LOGIC",
+      "physical_requests": 10,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "Both outputs explicitly say freshness PARTLY_ANSWERED and currency not established, refresh history unavailable, successful processing without load accounting and missing exact source mapping. Separate observed divergence7661-to-8765 and conditional possible join mechanism; actual repeated matches and aligned timing unconfirmed. No latency verdict manufactured.",
+        "recorded_at": "2026-10-11T12:02:05.647763+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 3,
+      "session_id": "12d41948-e900-47f0-bae0-5562df41de61",
+      "sha256": "6cf5befd4a70ba7360be21fd9283520c49ed51fa2579db9bec8094fb2e460f85",
+      "source_sha256": "657c031bd47bd29c6cb9dbcd599130a176a51466b301eb0da90a881cb733d056",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "6245437e-5a2e-43b2-bf33-36391f1aaf83"
     }
   ],
   "status": "IN_PROGRESS_NOT_ADOPTION_GATE",
