@@ -49,7 +49,7 @@ def create_app(workspace, token, port=8776):
         try:
             if method not in ('GET', 'POST'):
                 return respond('405 Method Not Allowed', {'error': 'Method not allowed'})
-            if method=='POST':
+            if method=='POST' or path in ('/api/workspace/forms/catalog','/api/workspace/questionnaire/catalog'):
                 from .admission_deadline import require_open
                 require_open()
             body = None

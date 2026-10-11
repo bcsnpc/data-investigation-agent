@@ -26,3 +26,15 @@ class ExistingSecretLocationTests(unittest.TestCase):
             require_open()
         with patch.dict(os.environ,{'INVESTIGATOR_LIVE_ADMISSION_DEADLINE':'2000-01-01T23:30:00-05:00'}):
             with self.assertRaisesRegex(ValueError,'LIVE_ADMISSION_DEADLINE_REACHED'):require_open()
+    def test_expired_portal_refuses_live_catalog_before_any_reader(self):
+        from investigator.workspace_api import create_app
+        from unittest.mock import MagicMock
+        from io import BytesIO
+        workspace=MagicMock();token='synthetic-local-token-of-at-least-32-characters'
+        app=create_app(workspace,token,8791)
+        for path in ('/api/workspace/forms/catalog','/api/workspace/questionnaire/catalog'):
+            statuses=[]
+            with patch.dict(os.environ,{'INVESTIGATOR_LIVE_ADMISSION_DEADLINE':'2000-01-01T23:30:00-05:00'}):
+                result=b''.join(app({'HTTP_HOST':'127.0.0.1:8791','HTTP_AUTHORIZATION':'Bearer '+token,'REQUEST_METHOD':'GET','PATH_INFO':path,'wsgi.input':BytesIO()},lambda status,headers:statuses.append(status)))
+            self.assertIn('400',statuses[0]);self.assertIn(b'LIVE_ADMISSION_DEADLINE_REACHED',result)
+        workspace.forms.catalog.assert_not_called()
