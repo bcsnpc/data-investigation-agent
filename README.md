@@ -489,3 +489,5 @@ Dated Round Fourteen billing checkpoint, 2026-10-11: first two agent billing for
 
 
 Dated 2026-10-11 hybrid checkpoint: shared trailing-period fix passed 3,284 tests. Nine fresh billing pipeline attempts all held at intake (16 model calls, zero estate reads); original failed agent attempts preserved. HYBRID development underway; approval verification cap40 authorized, investigation12 unchanged. Draft #423; no adoption, freezes invalid. See docs/round-fourteen-parser-billing-audit.md.
+
+Dated Round Fourteen hybrid verification, 2026-10-11: live36/40 probes,85physical (2controls),0diagnostics/models; exact archived replay refused FINAL:CLOCK, profile unpublished, rebuilt hybrid not run. Full3295PASS. Pot2463/4000,reserve95,rolling1313/3000; original hybrid pending,#423draft,freeze invalid. See docs/round-fourteen-hybrid-verification.md.
