@@ -101,10 +101,11 @@ SCHEMA=obj({
     'investigation':{'oneOf':[
         obj({'mode':{'const':'PIPELINE'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600)}),
         obj({'mode':{'const':'AGENT'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600),
-             'input_characters_per_request':integer(8000,150000)}, optional=('input_characters_per_request',)),
+             'input_characters_per_request':integer(8000,150000),'agent_deployment':STRING}, optional=('input_characters_per_request','agent_deployment')),
         obj({'mode':{'const':'HYBRID'},'step_cap':integer(1,12),'wall_seconds':integer(1,3600),
              'input_characters_per_request':integer(8000,150000),
-             'fallback_scope':{'enum':['ANY_GAP','INTAKE_ONLY']}}, optional=('input_characters_per_request','fallback_scope'))]},
+             'agent_deployment':STRING,
+             'fallback_scope':{'enum':['ANY_GAP','INTAKE_ONLY']}}, optional=('input_characters_per_request','fallback_scope','agent_deployment'))]},
     'fixture_states':array(obj({'id':STRING,'description':STRING,
         'arithmetic':{'type':'string','minLength':1,'maxLength':2000},
         'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer','retention','recording','intake','ownership','execution','investigation'))

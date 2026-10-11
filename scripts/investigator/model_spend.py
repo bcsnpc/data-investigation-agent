@@ -25,6 +25,7 @@ class SpendBudget:
                        '(id TEXT PRIMARY KEY, created REAL, reserved INTEGER, '
                        'charged INTEGER, status TEXT, input_tokens INTEGER, output_tokens INTEGER)')
             db.execute('CREATE TABLE IF NOT EXISTS spend_policy (id INTEGER PRIMARY KEY, ceiling INTEGER)')
+            db.execute('CREATE TABLE IF NOT EXISTS model_spend_deployments (id TEXT PRIMARY KEY, model TEXT)')
             db.execute('INSERT OR IGNORE INTO spend_policy VALUES (1, ?)', (self.ceiling,))
             if db.execute('SELECT ceiling FROM spend_policy WHERE id=1').fetchone()[0] != self.ceiling:
                 raise SpendHold('Round dollar ceiling differs from sealed spending policy')
@@ -39,9 +40,9 @@ class SpendBudget:
             db.close()
 
     @staticmethod
-    def price(input_tokens, output_tokens):
+    def price(input_tokens, output_tokens, *, model=None):
         from .adapters.model_price import price
-        return price(input_tokens, output_tokens)
+        return price(input_tokens, output_tokens, model=model)
 
     def reserve(self, body):
         if not isinstance(body.get('input'), str):
@@ -50,19 +51,23 @@ class SpendBudget:
         # schemas and instructions, and framing overhead rather than chars/4.
         inputs = len(json.dumps(body, ensure_ascii=False).encode('utf8')) + 4096
         outputs = body['max_output_tokens']
-        bound = self.price(inputs, outputs)
+        bound = self.price(inputs, outputs, model=body.get('model'))
         with self.connect() as db:
             db.execute('BEGIN IMMEDIATE')
             if db.execute("SELECT 1 FROM model_spend WHERE status='VIOLATION'").fetchone():
                 raise SpendHold('Provider cost exceeded reservation; new calls refused')
             charged = db.execute('SELECT COALESCE(SUM(charged),0) FROM model_spend').fetchone()[0]
-            if charged + bound > self.ceiling:
+            margin = int(os.environ.get('INVESTIGATOR_MODEL_SPEND_MARGIN_MICRODOLLARS', '0'))
+            if not 0 <= margin < self.ceiling:
+                raise SpendHold('Invalid protected model-credit margin')
+            if charged + bound > self.ceiling - margin:
                 raise SpendHold('Round model-spend hard stop: request would exceed dollar ceiling')
             # Private spend-row identity is allocated atomically by this ledger,
             # outside investigation identities and replay events. Rows are retained.
             identity = 'cost-'+str(db.execute('SELECT COALESCE(MAX(rowid),0)+1 FROM model_spend').fetchone()[0])
             db.execute('INSERT INTO model_spend VALUES (?,?,?,?,?,?,?)',
                        (identity, time.time(), bound, bound, 'RESERVED', None, None))
+            db.execute('INSERT INTO model_spend_deployments VALUES (?,?)', (identity, body.get('model')))
         return identity
 
     def settle(self, identity, usage=None):
@@ -78,7 +83,8 @@ class SpendBudget:
             if not known:
                 db.execute("UPDATE model_spend SET status='UNCERTAIN' WHERE id=?", (identity,))
                 return
-            amount = self.price(usage['input_tokens'], usage['output_tokens'])
+            deployment = db.execute('SELECT model FROM model_spend_deployments WHERE id=?', (identity,)).fetchone()
+            amount = self.price(usage['input_tokens'], usage['output_tokens'], model=deployment[0] if deployment else None)
             status = 'VIOLATION' if amount > row[0] else 'SETTLED'
             db.execute('UPDATE model_spend SET charged=?,status=?,input_tokens=?,output_tokens=? WHERE id=?',
                        (amount, status, usage['input_tokens'], usage['output_tokens'], identity))

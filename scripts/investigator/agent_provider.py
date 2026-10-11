@@ -20,6 +20,11 @@ class GovernedDecision:
         self.deadline=deadline
 
     def __call__(self, payload, *, instructions, schema):
+        from .provider_selection import agent_selection
+        with agent_selection(self.runtime):
+            return self._call(payload, instructions=instructions, schema=schema)
+
+    def _call(self, payload, *, instructions, schema):
         from ticket_planner import _azure_generate, provider_body
         from .agent_wire import schema as wire_schema
         from .agent_shared_input import encode as share_input, decode as expand_input

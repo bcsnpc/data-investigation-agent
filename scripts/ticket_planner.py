@@ -71,7 +71,8 @@ def validate_plan(value, ticket, reports):
 def provider_body(payload, instructions, schema, name, *, decision_tool=False, image_data_url=None, generation_options=None):
     from investigator.generation_policy import validate as generation_policy
     policy=generation_policy(generation_options)
-    deployment=os.environ.get('AZURE_OPENAI_DEPLOYMENT','UNCONFIGURED')
+    from investigator.provider_selection import DEPLOYMENT
+    deployment=DEPLOYMENT.get() or os.environ.get('AZURE_OPENAI_DEPLOYMENT','UNCONFIGURED')
     # Stored evidence is canonicalized by the catalog. Equivalent dictionaries
     # reconstructed in replay must produce the exact same provider input bytes.
     request_input = json.dumps(payload, sort_keys=True)
@@ -110,7 +111,7 @@ def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tic
             event('CONFIGURATION',{'control':'INTAKE_REQUEST_OVERSIZE','characters':size,'cap':max_request_characters})
             raise ValueError('INTAKE_REQUEST_OVERSIZE: '+str(size)+' > '+str(max_request_characters))
     endpoint = os.environ.get('AZURE_OPENAI_ENDPOINT', '')
-    deployment = os.environ.get('AZURE_OPENAI_DEPLOYMENT', '')
+    deployment = body['model']
     key = os.environ.get('AZURE_OPENAI_API_KEY', '')
     if not re.fullmatch(r'https://[a-zA-Z0-9-]+\.openai\.azure\.com/?', endpoint) or not deployment or not key:
         raise ValueError('Azure endpoint, deployment and local API key must be configured')
