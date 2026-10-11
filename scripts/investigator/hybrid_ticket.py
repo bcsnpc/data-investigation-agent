@@ -33,6 +33,9 @@ def complete(workspace, saved):
         workspace.run_session_once(saved['ticket']['session_id'])
         saved = workspace.smart_intake.finish({'ticket_id': saved['ticket']['id'], 'revision': saved['revision']})
     state = workspace.agent.get(saved['ticket']['session_id']) if saved['ticket'].get('session_id') else None
+    policy=workspace.agent.config.get('_estate',{}).get('investigation',{}).get('fallback_scope','ANY_GAP')
+    if policy=='INTAKE_ONLY' and state is not None:
+        return saved  # Already admitted; retain the pipeline result without a post-intake agent.
     missing = gap(saved, state)
     if missing is None:
         return saved

@@ -113,7 +113,11 @@ class AgentTicket:
             candidate_reader=candidate_reader if reader is not None else None,
             screenshot_reader=screenshot_reader(self.workspace, identity),
             fixed_facts=fixed, comment_port=self._comments(identity))
-        definitions = tools.definitions() + investigation_schemas(include_standard=hybrid) + [
+        investigation_definitions=investigation_schemas(include_standard=hybrid)
+        intake_only=hybrid and runtime.config.get('_estate',{}).get('investigation',{}).get('fallback_scope')=='INTAKE_ONLY'
+        if intake_only:
+            investigation_definitions=[d for d in investigation_definitions if d['name']=='run_standard_investigation']
+        definitions = tools.definitions() + investigation_definitions + [
             {'name': 'resolve_ticket', 'description': DESCRIPTION, 'parameters': SCHEMA}]
         handlers = tools.handlers()
 
@@ -189,7 +193,7 @@ class AgentTicket:
             return {**result, **active['binding']}
 
         handlers['resolve_ticket'] = resolve_ticket
-        for item in investigation_schemas(include_standard=hybrid):
+        for item in investigation_definitions:
             def invoke(name=item['name'], **arguments):
                 if not active:
                     return {'status': 'NOT_ADMITTED', 'reason': 'Resolve and admit the ticket first',
@@ -242,6 +246,8 @@ class AgentTicket:
             if hybrid:
                 payload['pipeline_starting_state'] = copy.deepcopy(pipeline_result)
                 payload['task'] = 'Close only the named pipeline gap or ask a better user question. Do not repeat completed work. After resolving intake use run_standard_investigation for the normal walk; low-level tools are for the remaining gap. Never use a business-rule refusal as permission to judge business correctness.'
+                if intake_only:
+                    payload['task']='Close the retained intake hold using the original ticket and picked facts. After validated admission, run_standard_investigation executes the pipeline. No low-level investigation tools are available in this profile. Do not change the reported referent or invent a user answer.'
             starting_evidence = None
             if hybrid:
                 starting_evidence={o['id']:copy.deepcopy(o) for o in (pipeline_result.get('session') or {}).get('observations',[])}

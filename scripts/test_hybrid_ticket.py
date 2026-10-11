@@ -34,6 +34,18 @@ class HybridTests(unittest.TestCase):
         unhashed=copy.deepcopy(parent);seal=unhashed.pop('hash');self.assertEqual(seal,digest(unhashed))
         self.assertNotIn('source_intake',current['ticket'])
 
+    def test_intake_only_fallback_never_reopens_an_admitted_pipeline_gap(self):
+        w=self.workspace();w.agent.config['_estate']['investigation']['fallback_scope']='INTAKE_ONLY'
+        saved=self.saved();saved['ticket'].update(state='FINDINGS_SHARED',session_id='run')
+        w.agent.get.return_value={'status':'HELD','stop_reason':'NOT_COMPARABLE'}
+        with patch('investigator.agent_ticket.AgentTicket.run') as fallback:
+            self.assertEqual(hybrid_ticket.complete(w,saved),saved)
+        fallback.assert_not_called()
+        saved=self.saved()
+        with patch('investigator.agent_ticket.AgentTicket.run',return_value='intake repair') as fallback:
+            self.assertEqual(hybrid_ticket.complete(w,saved),'intake repair')
+        fallback.assert_called_once()
+
     def test_hybrid_cannot_be_started_without_pipeline_authority(self):
         from investigator.agent_ticket import AgentTicket
         with self.assertRaisesRegex(Conflict,'retained pipeline result'):

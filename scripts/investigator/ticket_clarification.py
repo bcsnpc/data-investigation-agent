@@ -53,6 +53,15 @@ def visual_candidates(ticket, extraction, payload):
         names={i['quote']['quote'] for i in named}
         report_ids={r['id'] for m in payload['models'] for r in m.get('reports',[]) if r['name'] in names}
         pairs=[(m,v) for m,v in pairs if v['report_id'] in report_ids]
+    # Declared container names narrow an offer without selecting a visual.
+    narrowed=[]
+    for model,visual in pairs:
+        hints=intake_extraction.declared_pages(extraction,payload['text'],model)
+        active=[h for h in hints if intake_extraction.active(h,extraction)]
+        if active and any(intake_extraction.normalize(h['quote']['quote']) not in
+                          {intake_extraction.normalize(n) for n in visual.get('page_names',[])} for h in active):continue
+        narrowed.append((model,visual))
+    pairs=narrowed
     measures=[]
     eligible_models={m['id'] for m,v in pairs}
     candidates=[{**metric,'binding_id':digest([m['id'],metric['id']])} for m in payload['models']
@@ -107,8 +116,8 @@ def batch(ticket, source, payload, configuration=None):
             add('REPORT_PAGE','Which report or page are you asking about?',choices)
         if 'NUMBER' not in ticket['settled']:
             figures=[]
-            for item in extraction['figures']:
-                if item['quote'] not in figures:figures.append(item['quote'])
+            for item in intake_extraction.primary_figures(extraction,payload['text']):
+                        if item['quote'] not in figures:figures.append(item['quote'])
             figures=figures or [None]
             if 'FIGURE' in ticket['confirmed']:
                 selected=intake_confirmation.values(intake_confirmation.build(ticket,payload['text']),

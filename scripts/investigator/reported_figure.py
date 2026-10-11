@@ -67,9 +67,20 @@ def stated(quote):
     if approximate and '.' not in raw and not scale:
         raise UnavailablePrecision('Approximate figure has no determinable stated precision')
     decimals=len(raw.split('.')[1]) if '.' in raw else 0
-    precision=({'state':'STATED_PLACE','place':scale-decimals} if (decimals or scale)
+    precision=({'state':'STATED_PLACE','place':scale-decimals} if (approximate or scale)
                and not re.search(r'\bexact(?:ly)?\b',quote,re.I) else {'state':'EXACT'})
     return format(value,'f'),precision
+
+
+def empty_result(quote):
+    matches=empty_matches(quote)
+    if not matches:return False
+    if all(m.group()=='-' for m in matches):
+        try:stated(quote)
+        except UnavailablePrecision:return True
+        # A dash separating prose from digits is punctuation, not a blank.
+        return False
+    return True
 
 
 def validate(value, ticket=None):
@@ -88,7 +99,7 @@ def validate(value, ticket=None):
         return value
     quote=span(value['source'],ticket)
     if state=='EMPTY':
-        if not empty_matches(quote):
+        if not empty_result(quote):
             raise ValueError('Empty reported state lacks explicit ticket provenance')
     else:
         number,precision=stated(quote)
@@ -110,7 +121,7 @@ def _resolve(candidates,ticket):
     for source in candidates:span(source,ticket)
     for source in sorted(candidates,key=lambda s:(s['start'],s['end'])):
         quote=span(source,ticket)
-        if empty_matches(quote):key=('EMPTY',);number=precision=None
+        if empty_result(quote):key=('EMPTY',);number=precision=None
         else:
             number,precision=stated(quote);key=('NUMBER',Decimal(number))
         rows=groups.setdefault(key,[])

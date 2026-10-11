@@ -496,3 +496,5 @@ Dated Round Fourteen continuation,2026-10-11: owner-approved daily model input80
 
 
 2026-10-11 owner reprioritisation: remaining original-fixture HYBRID admissions stopped. R1 and A-H R2 attempts are preserved (including the separate G/H disk bootstrap failures); G R2 closed with Invalid ticket transition, H R2 delivered a qualified non-answer. No new gap closed and no harmful delivered claim in these HYBRID attempts. I R2 and every R3 are NOT_RUN by owner decision. Billing shared intake and one fresh 9-form/9-chat pass per mode take priority; all limits unchanged, minimum 10 GB free before admission.
+
+2026-10-11: shared primary-figure intake and safe invalid-quote questions implemented with focused regression coverage. Billing INTAKE_ONLY hybrid scope added; fresh 18 pipeline then 18 hybrid attempts pending. Full offline regression running; freeze invalidated. See docs/round-fourteen-billing-shared-intake.md. No limit raised.

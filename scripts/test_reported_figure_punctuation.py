@@ -21,7 +21,7 @@ class ReportedFigurePunctuationTests(unittest.TestCase):
         self.assertEqual(reported_figure.label(value, '950.1'), 'NOT_REPRODUCED')
 
     def test_decimal_and_suffix_precision_survive_sentence_punctuation(self):
-        for quote, number, place in [('The card shows 950.00.', '950.00', -2),
+        for quote, number, place in [('The card shows about 950.00.', '950.00', -2),
                                      ('The card shows about 3.4M.', '3400000.0', 5)]:
             with self.subTest(quote=quote):
                 self.assertEqual(reported_figure.stated(quote),

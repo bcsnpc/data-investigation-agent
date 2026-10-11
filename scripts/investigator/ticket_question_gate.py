@@ -92,7 +92,9 @@ def offer(ticket, source, payload, configuration, proposed):
     """Replace a combined target/figure offer with exactly one figure question."""
     raw=intake_extraction.retained_response(source)
     if raw is None:return proposed
-    extraction=intake_extraction.spans(raw,payload['text'],figure_occurrences=True)
+    try:extraction=intake_extraction.spans(raw,payload['text'],figure_occurrences=True)
+    except (ValueError,ValidationError) as exc:
+        return {'questions':[],'values':{},'blocked':'RETAINED_EXTRACTION_INVALID: '+str(exc)}
     if 'REPORT_PAGE' not in ticket['settled'] and not payload.get('_ticket_reference'):
         named=intake_extraction.literal_reports(extraction,payload['text'],payload['models'])
         if not named and 'REPORT_OR_SCREENSHOT' not in ticket['confirmed']:
@@ -115,7 +117,7 @@ def offer(ticket, source, payload, configuration, proposed):
                 models=payload['models'],maximum=configuration['max_clarifying_rounds'])
             return {'questions':[q],'values':values,'blocked':None}
     figures=[]
-    for item in extraction['figures']:
+    for item in intake_extraction.primary_figures(extraction,payload['text']):
         if item['quote'] not in figures:figures.append(item['quote'])
     if len(figures)>1 and 'FIGURE' not in ticket['confirmed']:
         if ticket['rounds']:

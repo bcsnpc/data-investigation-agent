@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T17:16:56.373313+00:00",
+  "recorded_at": "2026-10-11T17:27:41.182625+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-billing-agent-forms-r1-pair1-current\\ticket-01.txt\\full-result.json",
@@ -5632,7 +5632,7 @@
       "capture_pending": 0,
       "case_id": "original:family-G",
       "connection_retry_requests": 0,
-      "diagnostic_reads": 0,
+      "diagnostic_reads": 4,
       "effective_capture_diagnostics": 0,
       "effective_capture_pending": 0,
       "effective_outcome_status_match": false,
@@ -5643,7 +5643,7 @@
       "expected_outcome": "TRANSFORMATION_LOGIC",
       "expected_status": "COMPLETED",
       "failure_error_type": "ValueError",
-      "guard_requests": 0,
+      "guard_requests": 6,
       "has_outputs": false,
       "mechanism_error_type": null,
       "microdollars": 173898,
@@ -5653,7 +5653,8 @@
       "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
       "physical_requests": 10,
       "questions_asked": 0,
-      "receipt_physical_requests": 0,
+      "read_accounting_correction": ".local\\round-fourteen\\paired-original-hybrid-r2-pair4-after-storage-bootstrap\\family-G\\read-accounting-correction-1.json",
+      "receipt_physical_requests": 10,
       "repeat": 2,
       "root_review": {
         "contract_differences": [
