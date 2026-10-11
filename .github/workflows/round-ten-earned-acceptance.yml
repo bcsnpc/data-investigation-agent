@@ -25,6 +25,8 @@ jobs:
           python-version: '3.13'
       - name: Install replay dependencies
         run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt -r scripts/requirements-replay.txt
+      - name: Check historical-policy isolation and current-policy audit
+        run: python acceptance/round_ten/test_historical_policy.py
       - name: Download immutable encrypted earned evidence
         env:
           GH_TOKEN: ${{ github.token }}

@@ -146,7 +146,19 @@ def run(roster_path, fixture_root, output):
             state = replayed['session']
             reconstructed = {'error': None}
             reconstructed['session' if original.get('session') else 'intake'] = state
-            row.update(grade(case, row['column'], reconstructed))
+            current = grade(case, row['column'], reconstructed)
+            row['current_policy_audit'] = current
+            from historical_policy import select, grade as historical_grade
+            policy = select(roster_path, selected)
+            # Run/tape byte seals were checked above. The cohort pin additionally
+            # binds the whole roster and each exact selected run/tape hash.
+            if policy is not None:
+                row.update(historical_grade(policy, case, row['column'], reconstructed))
+                row['historical_policy'] = {key: policy[key] for key in
+                    ('revision', 'archive_sha256', 'checker_sha256', 'module_sha256')}
+            else:
+                row.update(current)
+                row['historical_policy'] = None
             row['replay_matched'] = replayed['matched']
             row['passed'] = row['passed'] and replayed['matched']
         except Exception as exc:
@@ -154,6 +166,12 @@ def run(roster_path, fixture_root, output):
         results.append(row)
     result = {'count': len(results), 'passed': sum(r['passed'] for r in results),
               'network_requests': 0, 'physical_requests': 0, 'rows': results,
+              'current_policy_audit': {'count': len(results),
+                  'passed': sum((r.get('current_policy_audit') or {}).get('passed', False) for r in results),
+                  'failures': [{'id': r['id'], 'column': r['column'],
+                      'errors': (r.get('current_policy_audit') or {}).get('errors', []),
+                      'reason': r.get('reason')}
+                      for r in results if not (r.get('current_policy_audit') or {}).get('passed', False)]},
               'claim': 'Historical producer replay against independently authored synthetic expectations; not general or unfamiliar-domain acceptance.'}
     (output / 'scores.json').write_text(json.dumps(result, indent=2))
     return result
@@ -167,4 +185,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     result = run(args.roster, args.fixture_root, args.output)
     print(json.dumps({key: result[key] for key in ('count', 'passed', 'network_requests', 'physical_requests')}))
+    print(json.dumps({'CURRENT_POLICY_AUDIT': result['current_policy_audit']}))
     raise SystemExit(0 if result['count'] == result['passed'] else 1)
