@@ -27,11 +27,17 @@ for this offline view.
 
 1. Open the browser tab titled **Investigator · Investigations** at
    `http://127.0.0.1:8791/`.
-2. Choose **New investigation**. For the eventual live test, use the unchanged
-   original fixture family-A ticket in `acceptance/tickets/`, choosing its
-   actual report and target; do not replace it with a billing ticket or authored
-   simplified complaint. The family-A subject is Handled Quantity in Inventory
-   Health e1b8e1.
+2. Choose **New investigation**. Use the preserved original family-A form:
+   report **Inventory Health e1b8e1**, page **Inventory Health**, visual
+   **Movement Units**, comparison **application source**, and this unchanged
+   description (no reported value was given):
+
+   > In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.
+
+   Its original sealed form is under
+   `.local/round-twelve-e/live-forms-c377331/original-family-A/input-and-expectation.json`;
+   only the form fields are used for submission. Do not replace it with a billing
+   ticket, a broadest visual guess or an authored simplified complaint.
 3. A successful future live run should show progress and then the recorded
    transformation finding: **7,661 → 8,765**, with the retained left-join
    mechanism, distinct input/output roles, and the snapshot/surface limitations.
