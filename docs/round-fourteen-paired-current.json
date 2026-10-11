@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T17:09:42.259819+00:00",
+  "recorded_at": "2026-10-11T17:16:56.373313+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-billing-agent-forms-r1-pair1-current\\ticket-01.txt\\full-result.json",
@@ -5625,6 +5625,126 @@
       "ticket_id": "12a6ec7c-c76c-4437-aa57-a2b3985c1a23",
       "tool_calls": 4,
       "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair4-after-storage-bootstrap\\family-G\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-G",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 0,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 223.6354739665985,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "expected_outcome": "TRANSFORMATION_LOGIC",
+      "expected_status": "COMPLETED",
+      "failure_error_type": "ValueError",
+      "guard_requests": 0,
+      "has_outputs": false,
+      "mechanism_error_type": null,
+      "microdollars": 173898,
+      "mode": "HYBRID",
+      "model_calls": 5,
+      "outcome": null,
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 10,
+      "questions_asked": 0,
+      "receipt_physical_requests": 0,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          "NO_ADMITTED_SESSION"
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Invalid ticket transition after qualified pipeline findings; no agent delivery. Failure preserved; diagnostic receipt correction remains explicit.",
+        "recorded_at": "2026-10-11T17:16:23.529118+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": null,
+      "sha256": "903147ff09fd71a6168a892db0feb5aec742503eda1d2cf4f6bde99fbd933975",
+      "source_sha256": "6feb59b1d540e916851f9ec28505c59270427e231c90b2f4111fa96841d14761",
+      "status": "FAILED_DURING_HYBRID",
+      "stop_reason": null,
+      "synthesis_status": null,
+      "synthesis_validation": null,
+      "ticket_id": null,
+      "tool_calls": 0,
+      "tool_reuse_notes": 0
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair4-after-storage-bootstrap\\family-H\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-H",
+      "connection_retry_requests": 0,
+      "diagnostic_reads": 1,
+      "effective_capture_diagnostics": 0,
+      "effective_capture_pending": 0,
+      "effective_outcome_status_match": false,
+      "elapsed_seconds": 352.22093749046326,
+      "engine_hash": "ad74715f70d55c7c0e02cb9a04658cac0048600d1df34e870623a9495fafdabc",
+      "expectation_class": "KNOWN_DOMAIN_OUTCOME_CONTRACT",
+      "expected_hash": "653988e325f9a7d7f38fc0518e62dade6b32f55ad2115e1436278403e3028044",
+      "expected_outcome": "NO_KNOWN_PATTERN",
+      "expected_status": "COMPLETED",
+      "guard_requests": 0,
+      "has_outputs": true,
+      "mechanism_error_type": null,
+      "microdollars": 1093270,
+      "mode": "HYBRID",
+      "model_calls": 15,
+      "outcome": "NO_COMPARABLE_PATH",
+      "overhead_accounting": "PHYSICAL_RECEIPT_TYPES; diagnostic cap counts logical attempts including guard-blocked attempts",
+      "physical_requests": 1,
+      "questions_asked": 0,
+      "receipt_physical_requests": 1,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "NO_KNOWN_PATTERN",
+            "invariant": "outcome",
+            "observed": "NO_COMPARABLE_PATH"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Validated delivery explicitly says mechanism/business intent not answered and no boundary comparison established; no gap closed.",
+        "recorded_at": "2026-10-11T17:16:23.529118+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "c92e61f6-fabc-4c2f-b493-17772195e9cf",
+      "sha256": "1750329fd48ecc6c174f38bf8edadfc57ac262b1d502e49c426d80a04a859f34",
+      "source_sha256": "b796bb0e7404805d916e89b8ac2b0e7c801ec9709afc197c115b8ed0151bcec8",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "synthesis_status": "COMPLETED",
+      "synthesis_validation": null,
+      "ticket_id": "857e7064-5289-472c-a619-3d9c9ca0e64c",
+      "tool_calls": 3,
+      "tool_reuse_notes": 6
     },
     {
       "artifact": ".local\\round-fourteen\\paired-original-hybrid-r2-pair4-quote-retry\\family-G\\full-result.json",
