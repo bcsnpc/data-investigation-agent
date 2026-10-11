@@ -26,9 +26,8 @@ SCHEMAS = {
         'cell_keys': form_intake.SCHEMA['properties']['cell_keys']},
         ('cell_mode', 'measure_id', 'cell_keys')),
     'read_screenshot': schema({'image_id': ID}),
-    'ask_user': schema({'question': TEXT, 'choices': {'type': 'array', 'minItems': 2,
-        'maxItems': 8, 'uniqueItems': True, 'items': TEXT}}, ('choices',)),
-    'request_screenshot': schema({'what': TEXT}),
+    'ask_user': schema({'field':{'enum':['REPORT','PAGE','VISUAL','FIGURE','COMPARISON','SELECTION','BUSINESS_INTENT']},'report_id':{'anyOf':[ID,{'type':'null'}]},'page_id':{'anyOf':[ID,{'type':'null'}]}},('report_id','page_id')),
+    'request_screenshot': schema({}),
 }
 DESCRIPTIONS = {
     'list_reports': 'List retained reports. Definitions are not live screenshots or user selections.',
@@ -36,7 +35,7 @@ DESCRIPTIONS = {
     'list_visuals': 'List retained visual titles, measures, grouping and declared filter scopes. Incomplete scopes stay explicit.',
     'find_value_on_page': 'Search verified quantities on a page. Returns candidates, not a selected target. Default searches ungrouped cells only; totals or keyed cells require explicit cell_mode and keys. Does not assert a search value came from the user.',
     'read_screenshot': 'Read a supplied attachment through the governed vision port. Transcription is unverified unless user reviewed; positions refer only to supplied pixels.',
-    'ask_user': 'Post one question to this ticket and pause. No answer is fabricated; resume requires a real user comment.',
+    'ask_user': 'Select the missing fact field. Code renders the question and named choices from retained catalog evidence; no free factual assertions or IDs are posted. Supply report_id and page_id only to scope catalog choices. Do not ask for a picked fact. Resume requires a real user comment.',
     'request_screenshot': 'Ask the user for a screenshot in this ticket and pause. Does not capture a browser or select an image.',
 }
 
@@ -57,8 +56,22 @@ class IntakeTools:
         return copy.deepcopy(self._fixed)
 
     def definitions(self):
-        return [{'name': name, 'description': DESCRIPTIONS[name],
-                 'parameters': copy.deepcopy(parameters)} for name, parameters in SCHEMAS.items()]
+        from .intake_span_references import enabled
+        descriptions=copy.deepcopy(DESCRIPTIONS)
+        if not enabled():descriptions['ask_user']='Post one question to this ticket and pause. No answer is fabricated; resume requires a real user comment.'
+        definitions=[{'name':name,'description':descriptions[name],'parameters':copy.deepcopy(parameters)} for name,parameters in self.schemas().items()]
+        if enabled():
+            for d in definitions:
+                if d['name']=='ask_user':d['parameters']['required']=list(d['parameters']['properties'])
+        return definitions
+
+    def schemas(self):
+        from .intake_span_references import enabled
+        value=copy.deepcopy(SCHEMAS)
+        if not enabled():
+            value['ask_user']=schema({'question':TEXT,'choices':{'type':'array','minItems':2,'maxItems':8,'uniqueItems':True,'items':TEXT}},('choices',))
+            value['request_screenshot']=schema({'what':TEXT})
+        return value
 
     def handlers(self):
         return {name: (lambda name=name, **arguments: self.call(name, arguments)) for name in SCHEMAS}
@@ -69,9 +82,9 @@ class IntakeTools:
     def call(self, name, arguments):
         if name not in SCHEMAS:
             raise ValueError('Unknown agent intake tool')
-        Draft202012Validator(SCHEMAS[name]).validate(arguments)
+        Draft202012Validator(self.schemas()[name]).validate(arguments)
         for key, value in self._fixed.items():
-            if key in arguments and value is not None and arguments[key] != value:
+            if key in arguments and value is not None and arguments[key] is not None and arguments[key] != value:
                 raise Conflict('Picked form fact is immutable: ' + key)
         return getattr(self, name)(**copy.deepcopy(arguments))
 
@@ -216,17 +229,25 @@ class IntakeTools:
             'positions_status': 'AVAILABLE' if positioned is not None else 'UNAVAILABLE_FROM_TRANSCRIPTION',
             'interpretation_verified': False, 'scope_authority': 'VISIBLE_PIXELS_ONLY; hidden filters, RLS and cause not established'})
 
-    def _question(self, kind, text, choices=None):
+    def _question(self, kind, text, choices=None, grounding=None, catalog=None):
         if self.comment_port is None:
             return self._record(kind, {'status': 'UNAVAILABLE', 'reason': 'TICKET_COMMENT_PORT_UNAVAILABLE'})
         posted = self.comment_port({'actor': 'AGENT', 'kind': kind, 'question': text, 'choices': choices or []})
         if not isinstance(posted, dict) or not posted.get('comment_id'):
             raise Conflict('Question was not retained in the ticket thread')
         return self._record(kind, {'status': 'WAITING_FOR_USER', 'comment_id': posted['comment_id'],
-            'question': text, 'choices': choices or [], 'answer': None})
+            'question': text, 'choices': choices or [], 'answer': None, **({'grounding':grounding} if grounding else {})}, catalog)
 
-    def ask_user(self, question, choices=None):
-        return self._question('ask_user', question, choices)
+    def ask_user(self, field=None, report_id=None, page_id=None, question=None, choices=None):
+        from .intake_span_references import enabled
+        if not enabled():return self._question('ask_user',question,choices)
+        if question is not None or choices is not None:raise Conflict('Ungrounded model-written question refused')
+        from .clarification_grounding import render
+        catalog=self._catalog();rendered=render(field,catalog,self._fixed,report_id,page_id)
+        return self._question('ask_user',rendered['question'],rendered['choices'],rendered['grounding'],catalog)
 
-    def request_screenshot(self, what):
-        return self._question('request_screenshot', what)
+    def request_screenshot(self, what=None):
+        from .intake_span_references import enabled
+        if not enabled():return self._question('request_screenshot',what)
+        if what is not None:raise Conflict('Ungrounded screenshot request refused')
+        return self._question('request_screenshot','Please share a screenshot of the visual and its visible selections.')

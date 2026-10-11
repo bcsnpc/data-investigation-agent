@@ -91,7 +91,7 @@ class IntakeToolTests(unittest.TestCase):
         with self.assertRaises(ValueError): self.tools.call('execute_sql', {})
     def test_question_waits_for_real_comment_answer(self):
         self.tools.comment_port = lambda request: {'comment_id': 'comment-1', 'answer': 'fabricated-by-port'}
-        result = self.tools.call('ask_user', {'question': 'Which card?', 'choices': ['First', 'Second']})
+        result = self.tools.call('ask_user', {'field':'VISUAL','report_id':'report','page_id':'page'})
         self.assertEqual(result['status'], 'WAITING_FOR_USER'); self.assertIsNone(result['answer'])
         self.assertEqual(result['comment_id'], 'comment-1')
     def test_screenshot_positions_are_validated_and_never_hidden_scope(self):
@@ -108,7 +108,7 @@ class IntakeToolTests(unittest.TestCase):
         self.tools.screenshot_reader = lambda image: {'image_sha256': 'a'*64, 'receipt_id': 'vision', 'visible_text': '16'}
         self.assertEqual(self.tools.call('read_screenshot', {'image_id': 'image'})['positions_status'], 'UNAVAILABLE_FROM_TRANSCRIPTION')
     def test_missing_ports_explicit_unavailability(self):
-        self.assertEqual(self.tools.call('request_screenshot', {'what': 'Show the card'})['status'], 'UNAVAILABLE')
+        self.assertEqual(self.tools.call('request_screenshot', {})['status'], 'UNAVAILABLE')
         self.assertEqual(self.tools.call('read_screenshot', {'image_id': 'image'})['status'], 'UNAVAILABLE')
         self.tools.candidate_reader = None
         self.assertEqual(self.search()['status'], 'UNAVAILABLE')

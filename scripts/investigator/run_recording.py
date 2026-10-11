@@ -89,6 +89,7 @@ def operation(name):
                         'workspace_concurrency_limit':getattr(getattr(owner,'workspace',owner),'concurrency_limit',1),
                         'dynamic_input_limit':getattr(getattr(owner,'workspace',owner),'dynamic_input_limit',384000),
                         'provider_transport_retries':2,
+                        'intake_span_protocol':'ticket-token-references-v1',
                         'snapshot_clock':'ONE_CLOCK_V1',
                         'local_accounting':'SQLITE_BOUNDARY_V1','physical_transport_retries':2}}
                 bootstrap['state']['agent_dollar_guard']='agent-dollar-guard-v1'

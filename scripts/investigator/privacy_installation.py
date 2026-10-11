@@ -23,12 +23,13 @@ def _admission_state(workspace,tape,replaying):
     else:
         state={'local_accounting':LOCAL_ACCOUNTING_PIN,'accounting_version':ACCOUNTING_VERSION,'snapshot_clock':'ONE_CLOCK_V1',
             'physical_transport_retries':2,'provider_transport_retries':2,
+            'intake_span_protocol':'ticket-token-references-v1',
             'workspace_concurrency_limit':workspace.concurrency_limit}
         if getattr(getattr(workspace,'agent',None),'governor',None) is not None:
             state['budget_checkpoint']='DELTA_V2'
     if not isinstance(state,dict):raise ProjectionError('PRIVACY_ADMISSION_STATE')
     for name,expected in (('local_accounting',LOCAL_ACCOUNTING_PIN),('budget_checkpoint','DELTA_V2' if (not replaying or getattr(tape,'version','privacy-projected-tape-v1')=='privacy-projected-tape-v2') else 'DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),
-                          ('physical_transport_retries',2),('provider_transport_retries',2)):
+                          ('physical_transport_retries',2),('provider_transport_retries',2),('intake_span_protocol','ticket-token-references-v1')):
         if name in state and (type(state[name]) is not type(expected) or state[name]!=expected):
             raise ProjectionError('PRIVACY_ADMISSION_PIN_DIFFERS')
     if 'accounting_version' in state and (type(state['accounting_version']) is not int or state['accounting_version'] not in ACCOUNTING_HISTORY):

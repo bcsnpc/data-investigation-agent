@@ -189,6 +189,10 @@ class Tape:
                 raise TapeError('TAPE_ENGINE_REVISION_MISSING')
             state=bootstrap['state']
             fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}
+            if 'intake_span_protocol' in state:
+                fields.add('intake_span_protocol')
+                from .intake_span_references import VERSION as span_version
+                if state['intake_span_protocol']!=span_version:raise TapeError('TAPE_INTAKE_SPAN_PROTOCOL')
             if 'provider_transport_retries' in state:
                 fields.add('provider_transport_retries')
                 if type(state['provider_transport_retries']) is not int or state['provider_transport_retries']!=2:

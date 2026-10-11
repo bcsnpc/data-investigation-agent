@@ -111,7 +111,10 @@ def batch(ticket, source, payload, configuration=None):
                     pages={v.get('page_id') for v in model.get('visuals',[]) if v['report_id']==report['id']}
                     if reference and reference['page_id'] is not None:pages&={reference['page_id']}
                     for page in sorted(pages,key=lambda p:p or ''):
-                        label=report['name']+(' / '+page if page else '')
+                        from .clarification_grounding import label as visible_label
+                        names=[n for v in model.get('visuals',[]) if v['report_id']==report['id'] and v.get('page_id')==page for n in v.get('page_names',[])]
+                        from .intake_span_references import enabled
+                        label=report['name']+(' / '+(visible_label(names) if enabled() else page) if page else '')
                         choices.append((label,{'report_id':report['id'],'page_id':page}))
             add('REPORT_PAGE','Which report or page are you asking about?',choices)
         if 'NUMBER' not in ticket['settled']:

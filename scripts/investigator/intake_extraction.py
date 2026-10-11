@@ -111,7 +111,9 @@ page quotes Global card; there is no independently stated visual title, so visua
 No result is inferred by this example. A reported figure never chooses a target.
 """
 
-def wire(payload):
+def wire(payload, *, references=None):
+    from . import intake_span_references as refs
+    references=refs.enabled() if references is None else references
     names = sorted({name for m in payload['models'] for key in ('measures','columns')
                     for x in m.get(key,[]) for name in [x['name'],*x.get('aliases',[])]} | {x['table_name'] for m in payload['models']
                     for x in m.get('columns',[]) if x.get('table_name')})
@@ -141,11 +143,22 @@ def wire(payload):
             value['correction_quote']=repairs['_provenance_quote_repair']['quote']
         if '_intake_rule_repair' in repairs:
             value['correction_rule']=repairs['_intake_rule_repair']['requirement']
+    if references:
+        value['span_protocol']=refs.VERSION
+        value['ticket_tokens']=refs.wire_tokens(payload['text'])
     return value
+
+def producer_contract(payload):
+    from . import intake_span_references as refs
+    if not refs.enabled():return wire(payload,references=False),INSTRUCTIONS,SCHEMA
+    instructions=INSTRUCTIONS.replace('Every quote must occur verbatim. Code computes offsets', 'Every reference must identify the verbatim span. Code computes offsets')
+    instructions+='\n'+refs.INSTRUCTIONS
+    return wire(payload,references=True),instructions,refs.schema()
 
 def request_size(payload):
     from ticket_planner import provider_body
-    body = provider_body(wire(payload), INSTRUCTIONS, SCHEMA, 'extract_ticket_spans', decision_tool=True)
+    data,instructions,schema=producer_contract(payload)
+    body = provider_body(data, instructions, schema, 'extract_ticket_spans', decision_tool=True)
     size = len(json.dumps(body,ensure_ascii=False,separators=(',',':')))
     if size > REQUEST_CAP:
         from .process_tape import event
@@ -156,7 +169,8 @@ def request_size(payload):
 
 def request_output_tokens(payload):
     from ticket_planner import provider_body
-    return provider_body(wire(payload),INSTRUCTIONS,SCHEMA,'extract_ticket_spans',
+    data,instructions,schema=producer_contract(payload)
+    return provider_body(data,instructions,schema,'extract_ticket_spans',
                          decision_tool=True)['max_output_tokens']
 
 def normalize(value):
@@ -168,11 +182,13 @@ def match(quote, candidates, id_field, audit=None):
 
 def spans(raw, ticket, *, figure_occurrences=False):
     from .question_intake import locate
-    raw=copy.deepcopy(raw)
+    from .intake_span_references import unpack
+    raw,reference_sources=unpack(raw,ticket)
     # Archived quote-only extraction remains readable; it gains no invented selection.
     for item in raw.get('figures',[]):item.setdefault('occurrence',None)
     Draft202012Validator(SCHEMA).validate(raw)
     result = copy.deepcopy(raw)
+    if reference_sources:figure_occurrences=False
     if figure_occurrences:
         # A user can distinguish occurrences that a quote-only model response
         # cannot. Retain every occurrence before applying that user's choice.
@@ -215,6 +231,14 @@ def spans(raw, ticket, *, figure_occurrences=False):
                         if offset < 0:raise ValueError('Nested provenance must lie inside its relationship span')
                         start=parent['start']+offset
                         item[field]={'start':start,'end':start+len(value),'quote':value}
+    if reference_sources:
+        result['primary']=reference_sources['/primary']
+        for key in ('comparisons','contexts'):
+            result[key]=[reference_sources[f'/{key}/{i}'] for i in range(len(raw[key]))]
+        for key in ('measures','figures','selections','visuals','reports','pages','dates','groupings','identifiers'):
+            for i,item in enumerate(result[key]):
+                for field in ('quote','column','value','precision_quote'):
+                    if field in item and item[field] is not None:item[field]=reference_sources[f'/{key}/{i}/{field}']
     return result
 
 def active(item, extraction):
@@ -463,17 +487,22 @@ def resolve(raw, payload):
     # winners cannot establish a unique global referent.
     candidates=[{**metric,'resolution_id':json.dumps([model['id'],metric['id']],separators=(',',':'))}
                 for model in models for metric in model['measures']]
+    from .intake_name_resolution import page_candidates
+    candidates,page_lookup=page_candidates(models,extraction,ticket,candidates,report_words,report_confirmation,reference,form_anchor,audit)
     resolved=[]
     for mention in mentions:
         try:chosen=match(mention['quote']['quote'],candidates,'resolution_id',audit)
         except ValueError as exc:
-            if getattr(exc,'resolution_evidence',{}).get('resolution')!='UNRESOLVED':raise
+            if getattr(exc,'resolution_evidence',{}).get('resolution')!='UNRESOLVED' and not page_lookup:raise
             chosen=None
-            if form_anchor:
+            if page_lookup:
+                from .intake_name_resolution import page_measure
+                chosen=page_measure(mention['quote']['quote'],candidates,page_lookup,audit)
+            if chosen is None and form_anchor:
                 from .form_description import transposed_measure
                 visual=next(v for m in models for v in m.get('visuals',[]) if v['target_id']==form_anchor['target_id'])
                 chosen=transposed_measure(mention['quote']['quote'],candidates,visual,audit)
-            elif model_only and report_words and len(models)==1:
+            elif chosen is None and model_only and report_words and len(models)==1:
                 from .form_description import transposed_measure
                 chosen=transposed_measure(mention['quote']['quote'],candidates,None,audit,model=models[0])
             if chosen is None:continue
@@ -734,8 +763,14 @@ def resolve(raw, payload):
 def _generate(payload):
     from ticket_planner import azure_generate
     request_size(payload)
-    return azure_generate(wire(payload),instructions=INSTRUCTIONS,schema=SCHEMA,
+    data,instructions,schema=producer_contract(payload)
+    raw,metadata=azure_generate(data,instructions=instructions,schema=schema,
         name='extract_ticket_spans',decision_tool=True,max_request_characters=REQUEST_CAP)
+    from . import intake_span_references as refs
+    if raw.get('version')==refs.VERSION:
+        try:raw=refs.decode(raw,payload['text'])
+        except Exception as exc:_failure(exc,metadata)
+    return raw,metadata
 
 
 def _failure(exc, metadata):

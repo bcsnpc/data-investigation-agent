@@ -229,7 +229,9 @@ class Forms:
                     pages={v['page_id'] for v in model.get('visuals',[]) if v['report_id']==report['id']}
                     for page in sorted(pages):
                         sample=next(v for v in model['visuals'] if v['page_id']==page)
-                        label=report.get('name',report['id'])+' / '+next(iter(sample.get('page_names',[])),page)
+                        from .clarification_grounding import label as visible_label
+                        from .intake_span_references import enabled
+                        label=(visible_label([report.get('name')])+' / '+visible_label(sample.get('page_names',[]))) if enabled() else report.get('name',report['id'])+' / '+next(iter(sample.get('page_names',[])),page)
                         options.append((label,{'report_id':report['id'],'page_id':page}))
         elif wanted=='COMPARISON':
             from .ticket_clarification import settings

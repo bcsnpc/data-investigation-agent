@@ -396,7 +396,7 @@ class ExtractionTests(unittest.TestCase):
     def test_wire_titles_without_values_or_identities_and_duplicate_catalog_growth_is_constant(self):
         raw,payload=fixture('In Report, Quantity differs.')
         before=extraction.request_size(payload);wire=extraction.wire(payload)
-        self.assertEqual(set(wire),{'ticket','question_kinds','names','visual_titles'})
+        self.assertEqual(set(wire),{'ticket','question_kinds','names','visual_titles','ticket_tokens','span_protocol'})
         self.assertEqual(wire['visual_titles'],['Global card','Warehouse matrix']);self.assertNotIn('target_id',json.dumps(wire));self.assertNotIn('model',json.dumps(wire))
         payload['models'][0]['visuals']*=10000
         self.assertEqual(extraction.request_size(payload),before)

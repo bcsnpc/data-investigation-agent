@@ -100,3 +100,62 @@ def closed_value(quote, values, audit=None):
             'resolved_value':close[0],'score':1-d/max(len(quote),len(str(close[0]))),'edit_distance':d,
             'maximum_edit_distance':settings['closed_value_edit_distance']})
     return close[0]
+
+
+def page_candidates(models,extraction,ticket,candidates,report_words,confirmation,reference,form_anchor,audit):
+    """Restrict lookup to a user-declared page. Never use quantity evidence."""
+    from .intake_extraction import active,declared_pages
+    from .intake_span_references import enabled
+    if not enabled():return candidates,[]
+    anchor=form_anchor or confirmation or reference
+    visuals=[]
+    if anchor and anchor.get('page_id') is not None:
+        visuals=[v for m in models for v in m.get('visuals',[])
+                 if v['report_id']==anchor['report_id'] and v.get('page_id')==anchor['page_id']]
+    elif report_words:
+        reports=[r for m in models for r in m.get('reports',[])]
+        ids={resolve(q,reports,'id')['id'] for q in report_words
+             if not any(tokens(q)==tokens(m['name']) for m in models)}
+        if len(ids)==1:
+            pool=[v for m in models for v in m.get('visuals',[]) if v['report_id'] in ids]
+            page_ids=set()
+            for model in models:
+                for hint in declared_pages(extraction,ticket,model):
+                    if active(hint,extraction):
+                        pages=[{'id':v['page_id'],'name':n} for v in pool for n in v.get('page_names',[])]
+                        if pages:page_ids.add(resolve(hint['quote']['quote'],pages,'id',audit)['id'])
+            if len(page_ids)==1:visuals=[v for v in pool if v.get('page_id') in page_ids]
+    if not visuals:return candidates,[]
+    allowed={mid for v in visuals for mid in v['measure_ids']}
+    bindings={(m['id'],mid) for m in models for v in m.get('visuals',[]) if v in visuals for mid in v['measure_ids']}
+    scoped=[c for c in candidates if tuple(json.loads(c['resolution_id'])) in bindings]
+    audit.append({'resolution':'SELECTED_PAGE_CLOSED_MEASURE_LOOKUP','page_ids':sorted({v['page_id'] for v in visuals}),
+                  'target_ids':sorted(v['target_id'] for v in visuals),'measure_ids':sorted(allowed)})
+    return scoped,visuals
+
+def page_measure(quote,candidates,visuals,audit):
+    """A loose word may identify a retained visual/field on the selected page.
+
+    Morphology is spelling evidence within that closed page, not an alias or
+    a selected filter. Every matching measure is retained; rivals refuse.
+    """
+    def stem(word):
+        for suffix in ('ing','ion','ed'):
+            if word.endswith(suffix) and len(word)-len(suffix)>=5:return word[:-len(suffix)]
+        return word
+    query={stem(w) for w in tokens(quote)}
+    hits={}
+    for c in candidates:
+        names=[c['name'],*c.get('aliases',[])]
+        names.extend(n for v in visuals if c['id'] in v['measure_ids'] for n in v.get('names',[]))
+        matched=[n for n in names if query and query<={stem(w) for w in tokens(n)}]
+        if matched:hits[c['resolution_id']]=(c,matched)
+    if len(hits)>1:
+        exc=ValueError('Ambiguous selected-page field or visual name: '+quote)
+        exc.resolution_evidence={'resolution':'AMBIGUOUS','quote':quote};exc.candidates=[c for c,_ in hits.values()]
+        raise exc
+    if not hits:return None
+    c,matched=next(iter(hits.values()))
+    audit.append({'resolution':'SELECTED_PAGE_VISUAL_FIELD_NAME','quote':quote,'measure_id':c['id'],
+                  'declared_names':sorted(set(matched)),'target_ids':sorted(v['target_id'] for v in visuals if c['id'] in v['measure_ids'])})
+    return c

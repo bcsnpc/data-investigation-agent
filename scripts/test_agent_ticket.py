@@ -1,3 +1,4 @@
+import copy
 import unittest
 from unittest.mock import patch, Mock
 from investigator.agent_ticket import AgentTicket
@@ -11,13 +12,33 @@ class AgentTicketTests(unittest.TestCase):
     def setUp(self):
         self.fixture = SettlementTests(); self.fixture.setUp(); self.addCleanup(self.fixture.doCleanups)
         self.workspace = self.fixture.workspace
-        self.workspace.agent.config['_estate'] = {'investigation': {'mode': 'AGENT', 'step_cap': 3, 'wall_seconds': 900}}
+        # Owner-approved current agent bound; pipeline's bound is unchanged.
+        self.workspace.agent.config['_estate'] = {'investigation': {'mode': 'AGENT', 'step_cap': 3, 'wall_seconds': 900, 'input_characters_per_request':150000}}
+        self.fixture.catalog['versions']={m['id']:'test-retained-version' for m in self.fixture.catalog['models']}
+        for m in self.fixture.catalog['models']:m['context_id']='test-retained-context'
         self.snapshot = patch('investigator.agent_ticket.snapshot', return_value=self.fixture.catalog)
         self.snapshot.start(); self.addCleanup(self.snapshot.stop)
         self.saved = self.workspace.smart_intake.tickets.submit({'text': 'Quantity differs.', 'request_key': 'unified-test'}, 'unified-test')
 
     def decisions(self, values):
-        decisions = Mock(side_effect=values)
+        from test_intake_span_references import reference
+        from investigator.intake_span_references import VERSION
+        converted=[]
+        for value in values:
+            value=copy.deepcopy(value)
+            if value.get('tool')=='ask_user':
+                value['arguments'].setdefault('report_id',None);value['arguments'].setdefault('page_id',None)
+            if value.get('tool')=='resolve_ticket':
+                raw=value['arguments']['extraction'];text=self.fixture.form['description']
+                raw['version']=VERSION;raw['primary']=reference(text,raw['primary'])
+                for key in ('comparisons','contexts'):raw[key]=[reference(text,q) for q in raw[key]]
+                for key in ('measures','figures','selections','visuals','reports','pages','dates','groupings','identifiers'):
+                    for item in raw[key]:
+                        occurrence=item.pop('occurrence',None) or 1
+                        for field in ('quote','column','value','precision_quote'):
+                            if field in item and item[field] is not None:item[field]=reference(text,item[field],occurrence if field=='quote' else 1)
+            converted.append(value)
+        decisions = Mock(side_effect=converted)
         patcher = patch('investigator.agent_ticket.GovernedDecision', return_value=decisions)
         patcher.start(); self.addCleanup(patcher.stop)
         return decisions
@@ -49,7 +70,7 @@ class AgentTicketTests(unittest.TestCase):
 
     def test_question_is_real_retained_comment_without_fabricated_answer(self):
         self.decisions([{'action': 'TOOL', 'summary': 'Ask for missing target', 'tool': 'ask_user',
-            'arguments': {'question': 'Which visual?', 'choices': ['Card', 'Matrix']}}])
+            'arguments': {'field':'SELECTION'}}])
         result = AgentTicket(self.workspace).run(self.saved)
         self.assertEqual(result['ticket']['agent_loop']['status'], 'WAITING_FOR_USER')
         self.assertEqual(result['ticket']['comments'][0]['actor'], 'AGENT')
@@ -90,7 +111,7 @@ class AgentTicketTests(unittest.TestCase):
         with patch.object(self.workspace.screenshots, 'read', side_effect=AssertionError('unattached image')):
             with self.assertRaises(Conflict): reader(self.workspace, self.saved['ticket']['id'])('other-user-image')
 
-    def test_actual_provider_request_schema_fits_initial_configured_bound(self):
+    def test_actual_provider_request_schema_fits_owner_approved_agent_bound(self):
         from investigator.contract_vocabulary import instructions
         from investigator.agent_loop import INSTRUCTIONS
         from ticket_planner import provider_body
@@ -102,13 +123,14 @@ class AgentTicketTests(unittest.TestCase):
             'properties': {'decision': call.kwargs['schema']}, 'required': ['decision']}
         body = provider_body(call.args[0], instructions(INSTRUCTIONS, wrapped), wrapped,
             'verified_agent_decision', generation_options=self.workspace.agent.generation_options)
-        self.assertLessEqual(input_characters(body), self.workspace.agent.generation_options['max_payload_characters'])
+        from investigator.agent_provider import request_bound
+        self.assertLessEqual(input_characters(body),request_bound(self.workspace.agent))
 
     def test_resume_needs_actual_user_reply_and_keeps_step_budget(self):
         from investigator.ticket_comments import append
         self.workspace.agent.config['_estate']['investigation']['step_cap'] = 2
         decisions = self.decisions([{'action': 'TOOL', 'summary': 'Ask target', 'tool': 'ask_user',
-            'arguments': {'question': 'Which visual?', 'choices': ['Card','Matrix']}}, self.hold()])
+            'arguments': {'field':'SELECTION'}}, self.hold()])
         controller = AgentTicket(self.workspace); waiting = controller.run(self.saved)
         with self.assertRaises(Conflict): controller.resume(waiting['ticket']['id'], revision=waiting['revision'], comment_id='made-up')
         replied = append(self.workspace, {'ticket_id': waiting['ticket']['id'], 'revision': waiting['revision'],
@@ -180,7 +202,7 @@ class AgentTicketTests(unittest.TestCase):
         saved = self.workspace.smart_intake.tickets.update(self.saved['ticket']['id'], self.saved['revision'], retain)
         resolve = {'action': 'TOOL', 'summary': 'Resolve actual scope', 'tool': 'resolve_ticket', 'arguments': {'extraction': self.fixture.raw}}
         decisions = self.decisions([resolve, {'action': 'TOOL', 'summary': 'Ask owner', 'tool': 'ask_user',
-            'arguments': {'question': 'Should I continue this selected scope?', 'choices': ['Continue','Stop']}}, resolve, self.hold()])
+            'arguments': {'field':'SELECTION'}}, resolve, self.hold()])
         controller = AgentTicket(self.workspace)
         with patch('investigator.context_search.latest', return_value={'version': 'synthetic-discovery', 'assets': []}), patch.object(self.workspace.agent, 'process_adapter', return_value=Mock()):
             waiting = controller.run(saved); predecessor = waiting['ticket']['session_id']
@@ -197,5 +219,10 @@ class AgentTicketTests(unittest.TestCase):
         self.assertEqual(decisions.call_args.args[0]['steps_remaining'], 2)
         self.assertEqual(decisions.call_count, 4)
 
+
+    def test_archived_initial_request_still_fits_32000_without_new_protocol(self):
+        self.workspace.agent.config['_estate']['investigation']['input_characters_per_request']=32000
+        with patch('investigator.intake_span_references.enabled',return_value=False):
+            self.test_actual_provider_request_schema_fits_owner_approved_agent_bound()
 
 if __name__ == '__main__': unittest.main()

@@ -221,3 +221,29 @@ class NameResolutionTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main()
+
+
+class SelectedPageLookupTests(unittest.TestCase):
+    def fixture(self,word='revenue'):
+        ticket=f'In Report, on Overview, Global card {word} differs.'
+        raw,payload=fixture(ticket,measures=[{'quote':word,'role':'PRIMARY'}],pages=[{'quote':'Overview','role':'PRIMARY'}],visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        m=payload['models'][0];m['measures']=[{'id':'measure','name':'Revenue total'},{'id':'other','name':'Revenue elsewhere'}]
+        for v in m['visuals']:v.update(page_id='overview',page_names=['Overview'])
+        other=copy.deepcopy(m['visuals'][0]);other.update(target_id='elsewhere',page_id='another',page_names=['Another page'],measure_ids=['other'])
+        m['visuals'].append(other);return raw,payload
+    def test_only_selected_page_candidates_compete_before_measure_admission(self):
+        raw,payload=self.fixture();value=extraction.resolve(raw,payload)
+        self.assertEqual(value['measure_id'],'measure');self.assertEqual(value['target_visual']['target_id'],'card')
+        self.assertTrue(any(a.get('resolution')=='SELECTED_PAGE_CLOSED_MEASURE_LOOKUP' for a in value['extracted_ticket']['resolution_evidence']))
+        validate(value,payload)
+    def test_two_candidates_on_selected_page_still_refuse(self):
+        raw,payload=self.fixture();payload['models'][0]['visuals'][-1].update(page_id='overview',page_names=['Overview'])
+        with self.assertRaisesRegex(ValueError,'Ambiguous'):extraction.resolve(raw,payload)
+    def test_loose_collected_name_can_use_page_visual_but_never_other_page(self):
+        raw,payload=self.fixture('collected');m=payload['models'][0]
+        m['measures'][0]['name']='Settled cash'
+        for v in m['visuals'][:2]:v['names'].append('Collections')
+        value=extraction.resolve(raw,payload)
+        self.assertEqual(value['measure_id'],'measure')
+        m['visuals'][0]['names']=['Global card'];m['visuals'][1]['names']=['Warehouse matrix'];m['visuals'][-1]['names']=['Collections']
+        with self.assertRaisesRegex(ValueError,'unresolved'):extraction.resolve(raw,payload)

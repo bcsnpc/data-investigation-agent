@@ -11,7 +11,7 @@ from .agent_loop import AgentLoop
 from .agent_provider import GovernedDecision
 from .agent_journal import Journal
 from .agent_intake_tools import IntakeTools
-from .agent_intake_settlement import Settlement, SCHEMA, DESCRIPTION
+from .agent_intake_settlement import Settlement, SCHEMA, DESCRIPTION, LEGACY_DESCRIPTION
 from .investigation_tools import InvestigationTools, schemas as investigation_schemas
 from .definition_target import procedure_scope
 from .process_outcomes import OUTCOMES
@@ -123,8 +123,11 @@ class AgentTicket:
         intake_only=hybrid and runtime.config.get('_estate',{}).get('investigation',{}).get('fallback_scope')=='INTAKE_ONLY'
         if intake_only:
             investigation_definitions=[d for d in investigation_definitions if d['name']=='run_standard_investigation']
+        from . import intake_extraction
+        from .intake_span_references import enabled
+        settlement_schema=SCHEMA if enabled() else {'type':'object','additionalProperties':False,'properties':{'extraction':copy.deepcopy(intake_extraction.SCHEMA)},'required':['extraction']}
         definitions = tools.definitions() + investigation_definitions + [
-            {'name': 'resolve_ticket', 'description': DESCRIPTION, 'parameters': SCHEMA}]
+            {'name': 'resolve_ticket', 'description': DESCRIPTION if enabled() else LEGACY_DESCRIPTION, 'parameters': settlement_schema}]
         handlers = tools.handlers()
 
         def resolve_ticket(extraction):
@@ -244,11 +247,13 @@ class AgentTicket:
             step_cap=remaining_steps, wall_seconds=remaining_wall)
         finalized = False
         try:
+            from .intake_span_references import enabled,wire_tokens,VERSION
             payload = {'text': text, 'input': copy.deepcopy(saved['request']),
                 'retained_user_replies': copy.deepcopy(replies),
                 # Parameter contracts already occur in the strict decision
                 # schema. Do not duplicate them in the payload.
                 'tool_catalog': [{k: d[k] for k in ('name','description')} for d in definitions]}
+            if enabled():payload.update(ticket_tokens=wire_tokens(text),span_protocol=VERSION)
             if hybrid:
                 payload['pipeline_starting_state'] = copy.deepcopy(pipeline_result)
                 payload['task'] = 'Close only the named pipeline gap or ask a better user question. Do not repeat completed work. After resolving intake use run_standard_investigation for the normal walk; low-level tools are for the remaining gap. Never use a business-rule refusal as permission to judge business correctness.'

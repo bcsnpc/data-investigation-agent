@@ -21,7 +21,7 @@ class AgentResumeApiTests(unittest.TestCase):
             resume.assert_not_called()
 
     def test_endpoint_requires_actual_retained_reply(self):
-        self.f.decisions([{'action':'TOOL','summary':'Ask target','tool':'ask_user','arguments':{'question':'Which visual?','choices':['Card','Matrix']}}])
+        self.f.decisions([{'action':'TOOL','summary':'Ask target','tool':'ask_user','arguments':{'field':'SELECTION'}}])
         waiting = AgentTicket(self.workspace).run(self.f.saved)
         path = '/api/workspace/tickets/'+waiting['ticket']['id']+'/agent-resume'
         result = self.http(path,{'revision':waiting['revision'],'comment_id':'fabricated'})
@@ -29,7 +29,7 @@ class AgentResumeApiTests(unittest.TestCase):
 
     def test_real_public_comment_then_resume_continues_same_bounded_loop(self):
         self.workspace.agent.config['_estate']['investigation']['step_cap'] = 2
-        decisions = self.f.decisions([{'action':'TOOL','summary':'Ask target','tool':'ask_user','arguments':{'question':'Which visual?','choices':['Card','Matrix']}},self.f.hold()])
+        decisions = self.f.decisions([{'action':'TOOL','summary':'Ask target','tool':'ask_user','arguments':{'field':'SELECTION'}},self.f.hold()])
         waiting = AgentTicket(self.workspace).run(self.f.saved)
         prefix = '/api/workspace/tickets/'+waiting['ticket']['id']
         posted = self.http(prefix+'/comments',{'revision':waiting['revision'],'request_key':'real-api-reply','text':'The Global card.','attachment_id':None,'review_id':None})

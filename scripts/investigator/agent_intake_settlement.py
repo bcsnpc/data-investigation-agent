@@ -1,4 +1,4 @@
-﻿"""Agent-provided spans through the existing intake admission and preview gates.
+"""Agent-provided spans through the existing intake admission and preview gates.
 
 No provider is called here. The governing agent records its model call. Picked
 form inputs are copied once, remain authority, and are never filled by search.
@@ -7,14 +7,17 @@ import copy
 
 INTAKE_ADMITTED = 'INTAKE_ADMITTED'
 from jsonschema import Draft202012Validator
-from . import intake_extraction, question_intake, form_scope, question_kind
+from . import intake_extraction, question_intake, form_scope, question_kind, intake_span_references
 from .onboarding import Conflict, digest, encoded
 
 SCHEMA = {'type': 'object', 'additionalProperties': False, 'properties': {
-    'extraction': copy.deepcopy(intake_extraction.SCHEMA)}, 'required': ['extraction']}
-DESCRIPTION = 'Resolve your verbatim ticket span extraction against retained definitions and immutable picked form facts. Every quote, including comparisons, must occur exactly in the ticket text; fixed comparison enums are not ticket quotes. Code validates referent, scope, figure precision and comparison. An admitted result supplies target_registry and scope_registry: use those IDs for investigation tools, not the original visual ID. Returns an admitted preview or explicit refusal, never starts a read or calls another model.'
-DESCRIPTION += '\nPrimary-span instructions shared with the existing intake producer:\n' + intake_extraction.PRIMARY_REFERENT_INSTRUCTIONS
-DESCRIPTION += '\nFigure instructions shared with the pipeline producer:\n' + intake_extraction.FIGURE_INSTRUCTIONS
+    'extraction': intake_span_references.schema()}, 'required': ['extraction']}
+DESCRIPTION = 'Resolve token-reference extraction against retained definitions and picked form facts. Code validates the exact ticket spans, primary referent, selected scope, precision and comparison. Catalog search never supplies a target choice. An admitted preview supplies target_registry and scope_registry IDs for investigation; this tool starts no read or model call.'
+DESCRIPTION += '\n' + intake_span_references.INSTRUCTIONS + '\n' + intake_extraction.FIGURE_INSTRUCTIONS + '\n' + intake_extraction.PRIMARY_REFERENT_INSTRUCTIONS
+
+LEGACY_DESCRIPTION = 'Resolve your verbatim ticket span extraction against retained definitions and immutable picked form facts. Every quote, including comparisons, must occur exactly in the ticket text; fixed comparison enums are not ticket quotes. Code validates referent, scope, figure precision and comparison. An admitted result supplies target_registry and scope_registry: use those IDs for investigation tools, not the original visual ID. Returns an admitted preview or explicit refusal, never starts a read or calls another model.'
+LEGACY_DESCRIPTION += '\nPrimary-span instructions shared with the existing intake producer:\n' + intake_extraction.PRIMARY_REFERENT_INSTRUCTIONS
+LEGACY_DESCRIPTION += '\nFigure instructions shared with the pipeline producer:\n' + intake_extraction.FIGURE_INSTRUCTIONS
 
 class Settlement:
     def __init__(self, workspace, *, text, key_prefix, record_evidence,
@@ -39,7 +42,10 @@ class Settlement:
         return {**body, 'evidence_ids': [identity], 'facade_evidence_id': identity, 'finding_authority': False}
 
     def resolve_ticket(self, extraction):
-        Draft202012Validator(intake_extraction.SCHEMA).validate(extraction)
+        from .intake_span_references import VERSION,decode
+        if extraction.get('version')==VERSION:extraction=decode(extraction,self.text)
+        from .intake_span_references import EVIDENCE
+        Draft202012Validator(intake_extraction.SCHEMA).validate({k:v for k,v in extraction.items() if k!=EVIDENCE})
         workspace = self.workspace; catalog = question_intake.snapshot(workspace)
         request_hash = digest(extraction)
         if self._admitted_result is not None:
@@ -55,6 +61,8 @@ class Settlement:
             doc = form_scope.document(self.form, workspace.intake_configuration)
             if self.form['description']:
                 part = next(p for p in doc['parts'] if p['pointer'] == '/description')
+                if intake_span_references.EVIDENCE in extraction:
+                    extraction=intake_span_references.relocate(extraction,self.text,doc['text'][:part['end']],part['start'])
                 payload.update(text=doc['text'][:part['end']], _form_description_input=self.form,
                     _form_configuration=workspace.intake_configuration,
                     _form_description_candidate_binding=self.binding)
