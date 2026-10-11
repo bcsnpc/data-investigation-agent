@@ -33,7 +33,12 @@ def corrected_case(case, sealed_bytes, corrections):
     return result
 
 
-def grade(case, column, run):
+def grade(case, column, run, *, prospective=False, readiness=None):
+    # Archived replay retains its recorded policy. New estate investigations
+    # explicitly opt into the prospective six-stage scoring admission.
+    if prospective:
+        from investigator.estate_readiness import score_prospectively
+        return score_prospectively(grade, case, column, run, readiness=readiness or {})
     expected = case['expectation_columns'][column]
     state = run.get('session') or {}
     intake = run.get('intake') or {}
