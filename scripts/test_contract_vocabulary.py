@@ -23,7 +23,9 @@ class ContractVocabularyTests(unittest.TestCase):
 
     def test_live_providers_send_the_exact_schema_vocabulary(self):
         payload={'outcome':'NO_COMPARABLE_PATH','evidence':[{'id':'receipt-A'}]}
-        answer={'technical_output':{'text':'The calculation was checked.','evidence_ids':['r0']}}
+        # With no typed operation supplied, the vocabulary must require no
+        # mechanism prose rather than allow the mock to invent one.
+        answer={'technical_output':{'text':'','evidence_ids':[]}}
         with patch('ticket_planner.azure_generate',return_value=(answer,{})) as provider:
             evidence_synthesis.azure_synthesize(payload,{})
             sent=provider.call_args.kwargs

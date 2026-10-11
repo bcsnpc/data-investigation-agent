@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T11:10:11.724642+00:00",
+  "recorded_at": "2026-10-11T11:28:32.600748+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -1799,6 +1799,196 @@
       "status": "COMPLETED",
       "stop_reason": "ENOUGH_DIAGNOSTICS",
       "ticket_id": "099c1589-0fbe-4a47-a798-57e2314efb7a"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-pipeline-r1-EF-original-inventory\\family-E\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-E",
+      "diagnostic_reads": 4,
+      "elapsed_seconds": 360.90636110305786,
+      "engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "has_outputs": true,
+      "microdollars": 39061,
+      "mode": "PIPELINE",
+      "model_calls": 3,
+      "outcome": "TRANSFORMATION_LOGIC",
+      "physical_requests": 10,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "TRANSFORMATION_LOGIC possible join multiplicity at 7661 ->8765; both outputs PARTLY_ANSWERED freshness and explicitly cannot establish currency, unavailable refresh timing/accounting/source mapping. No actual duplicate proof or snapshot proof claimed.",
+        "recorded_at": "2026-10-11T11:19:20.152109+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 3,
+      "session_id": "52c7be1d-8795-4586-8fa8-ec05c532bcef",
+      "sha256": "4391f97180de08a68ec0b18008d58cbda8c2e5329567caf3c9bac9571b5f49f5",
+      "source_sha256": "657c031bd47bd29c6cb9dbcd599130a176a51466b301eb0da90a881cb733d056",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "548cc2ae-1a70-4e1f-826b-b80f0f6e4e1c"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-pipeline-r1-EF-original-inventory\\family-F\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-F",
+      "diagnostic_reads": 3,
+      "elapsed_seconds": 331.8873281478882,
+      "engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+      "expected_hash": "d29bda93ea311613a7a3dc4bf486a4354a3c97868be4294d758e53fb656345f2",
+      "has_outputs": true,
+      "microdollars": 17316,
+      "mode": "PIPELINE",
+      "model_calls": 2,
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "physical_requests": 7,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "CONSISTENT_TO_BOUNDARY 57043 at semantic/serving, snapshot unverified and source not reached; mechanism NOT_ANSWERED in both outputs. Empty provider mechanism successfully validates without fallback under shared original inventory.",
+        "recorded_at": "2026-10-11T11:19:20.152109+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 3,
+      "session_id": "0b91efd8-7b77-4262-8780-29c0ccca5dc3",
+      "sha256": "b4ac3b3110cc46f8125ed847a22ff4b398ce481d7673b87a6c74bde2a3b0873b",
+      "source_sha256": "e85e88199d77e3b178971497c666173840ce23998da3208097241cadc048009e",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "23e3ef24-7ccd-4129-a8c0-63da3bfd6e0c"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-pipeline-r1-GH-original-inventory\\family-G\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-G",
+      "diagnostic_reads": 4,
+      "elapsed_seconds": 309.73178243637085,
+      "engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "has_outputs": true,
+      "microdollars": 35720,
+      "mode": "PIPELINE",
+      "model_calls": 3,
+      "outcome": "TRANSFORMATION_LOGIC",
+      "physical_requests": 10,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "Both outputs leave source correctness and intent NOT_ANSWERED. The observed 7661-to-8765 boundary difference is stated separately from possible repeated join matches; actual duplication and aligned timing remain unconfirmed. Unchecked source boundaries explicitly retained.",
+        "recorded_at": "2026-10-11T11:28:30.871312+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 3,
+      "session_id": "0ce45b74-2fb3-4d07-ae27-2bf34f22f195",
+      "sha256": "b048b7d1a5f9aac27218a484592358c3fad3894b6ef45658a3f0d4965f34dd2d",
+      "source_sha256": "6feb59b1d540e916851f9ec28505c59270427e231c90b2f4111fa96841d14761",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "e5b09ca7-b090-446f-ac70-8ccc97cc365d"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-pipeline-r1-GH-original-inventory\\family-H\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-H",
+      "diagnostic_reads": 1,
+      "elapsed_seconds": 259.6480851173401,
+      "engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+      "expected_hash": "653988e325f9a7d7f38fc0518e62dade6b32f55ad2115e1436278403e3028044",
+      "has_outputs": true,
+      "microdollars": 15738,
+      "mode": "PIPELINE",
+      "model_calls": 2,
+      "outcome": "NO_KNOWN_PATTERN",
+      "physical_requests": 1,
+      "repeat": 1,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "NO_KNOWN_PATTERN names inability to compile Inbound Quantity faithfully; both outputs say mechanism and intent NOT_ANSWERED. Only the 6425 model baseline was obtained, no comparison or causal explanation invented.",
+        "recorded_at": "2026-10-11T11:28:30.871312+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 3,
+      "session_id": "0a850d13-d99a-40ee-8e11-a88514837e32",
+      "sha256": "0c39717c20af1665a818a5046d402e318f01ffdcb61ca9e5425ac4cb07c7ef17",
+      "source_sha256": "b796bb0e7404805d916e89b8ac2b0e7c801ec9709afc197c115b8ed0151bcec8",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "f9058a23-a388-40b8-a18f-07222a5e6b5e"
     }
   ],
   "status": "IN_PROGRESS_NOT_ADOPTION_GATE",
