@@ -210,3 +210,74 @@ Outcome/status match and full contract match are separate. Paused or unadmitted 
 Dated rebuilt next-cohort review: G-r2 returned NO_COMPARABLE_PATH/NOT_ANSWERED after gold logical receipt failed with retained OperationalError,SQLITE_BUSY(code5),adaptive_runtime.py58,PROCESS_READ_RECEIPT_PERSISTENCE. Native SQL identity guard completed; the logical quantity read did not. Deeper refined/landing equality is preserved and never described as presentation continuity. No replacement or inferred estate permission diagnosis. H-r2 NO_KNOWN_PATTERN/NOT_ANSWERED; I-r2 TRANSFORMATION_LOGIC/NOT_ANSWERED; A-r3 TRANSFORMATION_LOGIC/PARTLY_ANSWERED. All four exact outputs reviewed: no new harmful claim,3/4outcome/status projections,0/4full contract matches. A mechanism location wording remains imprecise; rendered spine is correct.38physical,10model,USD0.114635 added; pot1809/2500,reserve95,rolling683/3000,USD2.032770/100; reservations0. Six rebuilt attempts unadmitted; D/Fpaused.
 
 DECIDED WITHOUT REVIEW: reduce future fixture width4->2 after local SQLite receipt contention; reject retaining width4 merely because no cloud throttled. No semantic replacement, engine change, cap raise or receipt repair. This is separate from provider throttle policy. Thirty-eight completed cold replay catalogs compressed in place,all hashes unchanged,4,254,580,736 allocated bytes reclaimed; no evidence deletion.
+
+Dated final B/C cohort: B-r3 NO_COMPARABLE_PATH/NOT_ANSWERED differs expectedNO_KNOWN_PATTERN; C-r3 HELD/PATH_CONTEXT_LIMIT matches status. Both exact outputs reviewed,no new harm,known B action-detail defect retained.2physical,3model,USD0.029364 added; pot1811/2500,reserve95,rolling677/3000,USD2.062134/100. Rolling decreased through expiry,not refund. Four rebuilt slots remain; D/Fpaused.
+
+Dated final E/G cohort review: both completed with TRANSFORMATION_LOGIC; E currency is explicitly not established and G business intent is explicitly unanswered. No new harmful claim found. G technical mechanism uses stronger ?explains? wording, qualified by repeated-match possibility and explicit unconfirmed-match/snapshot limits. 22 physical requests, 6 model calls, USD0.072657; pot1833/2500, reserve95, rolling699/3000. Root review b6864519c4c7de631f9d5d3dea46ee5a9db9a37079792fb0c25565cd764fdfa4. Original outputs unchanged.
+
+Dated precision note on the final E/G cohort: the two outcome labels match; G?s NOT_ANSWERED category differs from unchanged PARTLY_ANSWERED expectation. The outcome-label count is not an answer-contract pass. Both full contracts differ, including USER_SUPPLIED_FORM versus STATED provenance.
+
+Dated billing/capture preparation: private billing worker default2 now matches the retained SQLite contention decision; 3 actual synthetic cohort and11 driver tests passed. Enterprise and model context/hash/policy are jointly pinned by current-context check and approval validation (2 binding tests passed). Hermetic metadata dispatcher2 and suite16 tests passed with zero estate/model calls. No engine, scope or secret change. Receipt 9df04ea0664d666488bf95dcb5df0546c63e6be9a080efecda1ddc279da5d23b.
+
+## Fixture live report point, 2026-10-11 UTC
+
+48 completed/held attempted slots preserved: original26 and rebuilt22. Six planned slots were not admitted after D/F harmful findings; four initial aborted worker attempts remain a separate capture class, not replacements. 296 physical requests and106 model calls for the48; final round window1846/2500, reserve95, rolling712/3000, model spendUSD2.190760/100. No engine or identity change at this report point. Full corrected source regression3061PASS.
+
+34/48 outcome/status projections match; 0/48 full sealed contracts match. Nine of18 families have three matching outcome/status projections, including expected C holds; that is not nine delivered-answer or full-contract passes. Complete three-repeat outcomes vary for original E/H and rebuilt G. Original F has only2attempts; rebuilt F0 and D1 because paused. Original I first synthesis failed despite its matching procedure outcome. Harmful delivered claims remain2: original F-r2 coverage overclaim and rebuilt D-r1 technical layer/blocker overclaim. No confident wrong causal finding was identified. Demo precondition is not earned.
+
+Current final H-r3 safely refuses unsupported source compilation. I-r3 gives conditional join mechanism and explicitly does not answer adjustment business meaning; both narratives retain timestamp/snapshot/key limits. G-r3 also differs in answer category: NOT_ANSWERED versus unchanged PARTLY_ANSWERED. Outcome-label matching is never a category or full-contract pass. G-r2?s successful permission guard is retained in the tape, then SQLITE_BUSY prevented its receipt transaction and settlement; one cloud reservation remains charged, no reset/refund. It does not occupy planner concurrency. Audit821e3063af4787883bf2be2348efce9a254c6f486f3408f2936ef737d93e43bb.
+
+The final column below is additive; earlier checkpoint tables and original reports remain unchanged. Machine column [round-thirteen-fixture-final.json](round-thirteen-fixture-final.json), SHA256 0888550b2a21a434f334dfe0ea7a6c8cc8ee837fb4c9ca6d491d8d6775075140.
+
+| Estate | Ticket/repeat | Expected | Actual | Outcome/status match | Full contract | Harmful | Physical | Model | USD | Seconds |
+|---|---|---|---|---|---|---|---:|---:|---:|---:|
+| original | family-C-r1 | HELD | HELD | yes | no | no | 0 | 1 | 0.008838 | 365.9 |
+| original | family-B-r1 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH | no | no | no | 1 | 1 | 0.008858 | 465.0 |
+| original | family-D-r1 | NO_COMPARABLE_PATH | HELD | no | no | no | 3 | 1 | 0.009905 | 578.8 |
+| original | family-A-r1 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.037316 | 734.6 |
+| original | family-F-r1 | CONSISTENT_TO_BOUNDARY | HELD | no | no | no | 0 | 1 | 0.009093 | 136.3 |
+| original | family-H-r1 | NO_KNOWN_PATTERN | NO_KNOWN_PATTERN | yes | no | no | 1 | 1 | 0.009375 | 256.5 |
+| original | family-E-r1 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.035338 | 328.7 |
+| original | family-G-r1 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.036595 | 335.6 |
+| original | family-C-r2 | HELD | HELD | yes | no | no | 0 | 1 | 0.008838 | 237.5 |
+| original | family-B-r2 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH | no | no | no | 1 | 1 | 0.009068 | 264.9 |
+| original | family-A-r2 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.035620 | 334.6 |
+| original | family-I-r1 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.037379 | 337.7 |
+| original | family-D-r2 | NO_COMPARABLE_PATH | HELD | no | no | no | 3 | 1 | 0.010100 | 418.8 |
+| original | family-F-r2 | CONSISTENT_TO_BOUNDARY | CONSISTENT_TO_BOUNDARY | yes | no | yes | 7 | 2 | 0.019586 | 470.1 |
+| original | family-G-r2 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.034575 | 474.4 |
+| original | family-E-r2 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.035925 | 477.0 |
+| original | family-B-r3 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH | no | no | no | 1 | 2 | 0.018613 | 374.9 |
+| original | family-H-r2 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH | no | no | no | 1 | 2 | 0.019573 | 379.6 |
+| original | family-I-r2 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.037121 | 481.8 |
+| original | family-A-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.037698 | 486.9 |
+| original | family-C-r3 | HELD | HELD | yes | no | no | 0 | 1 | 0.008853 | 324.9 |
+| original | family-D-r3 | NO_COMPARABLE_PATH | HELD | no | no | no | 2 | 1 | 0.010100 | 386.8 |
+| original | family-G-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.035676 | 486.4 |
+| original | family-E-r3 | TRANSFORMATION_LOGIC | NO_COMPARABLE_PATH | no | no | no | 14 | 2 | 0.023818 | 543.3 |
+| original | family-H-r3 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH | no | no | no | 1 | 2 | 0.019483 | 260.7 |
+| original | family-I-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 10 | 3 | 0.035088 | 351.8 |
+| rebuilt | family-C-r1 | HELD | HELD | yes | no | no | 0 | 1 | 0.008458 | 247.3 |
+| rebuilt | family-B-r1 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH | no | no | no | 2 | 2 | 0.020771 | 305.9 |
+| rebuilt | family-D-r1 | NO_COMPARABLE_PATH | NO_COMPARABLE_PATH | yes | no | yes | 4 | 2 | 0.027438 | 338.9 |
+| rebuilt | family-A-r1 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 3 | 0.037745 | 373.2 |
+| rebuilt | family-H-r1 | NO_KNOWN_PATTERN | NO_KNOWN_PATTERN | yes | no | no | 2 | 2 | 0.018425 | 226.9 |
+| rebuilt | family-I-r1 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 3 | 0.036913 | 360.4 |
+| rebuilt | family-E-r1 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 3 | 0.036416 | 369.7 |
+| rebuilt | family-G-r1 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 4 | 0.054025 | 372.4 |
+| rebuilt | family-C-r2 | HELD | HELD | yes | no | no | 0 | 1 | 0.008248 | 259.1 |
+| rebuilt | family-B-r2 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH | no | no | no | 2 | 2 | 0.020366 | 269.8 |
+| rebuilt | family-A-r2 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 3 | 0.037258 | 347.1 |
+| rebuilt | family-E-r2 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 3 | 0.035605 | 351.0 |
+| rebuilt | family-H-r2 | NO_KNOWN_PATTERN | NO_KNOWN_PATTERN | yes | no | no | 2 | 2 | 0.018140 | 253.9 |
+| rebuilt | family-A-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 3 | 0.037028 | 357.1 |
+| rebuilt | family-I-r2 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 3 | 0.035199 | 359.0 |
+| rebuilt | family-G-r2 | TRANSFORMATION_LOGIC | NO_COMPARABLE_PATH | no | no | no | 14 | 2 | 0.024268 | 391.6 |
+| rebuilt | family-C-r3 | HELD | HELD | yes | no | no | 0 | 1 | 0.008458 | 185.4 |
+| rebuilt | family-B-r3 | NO_KNOWN_PATTERN | NO_COMPARABLE_PATH | no | no | no | 2 | 2 | 0.020906 | 190.6 |
+| rebuilt | family-G-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 3 | 0.035956 | 232.1 |
+| rebuilt | family-E-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 3 | 0.036701 | 236.1 |
+| rebuilt | family-H-r3 | NO_KNOWN_PATTERN | NO_KNOWN_PATTERN | yes | no | no | 2 | 2 | 0.019625 | 291.2 |
+| rebuilt | family-I-r3 | TRANSFORMATION_LOGIC | TRANSFORMATION_LOGIC | yes | no | no | 11 | 3 | 0.036344 | 356.2 |
+
+Billing, chat and matrix are next; none is represented as completed by the fixture report. Capture storage requires additional verified headroom before billing admission. All original receipts/expectations remain unchanged; draft#423 remains draft, freeze invalid.
