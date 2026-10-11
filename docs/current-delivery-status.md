@@ -545,3 +545,5 @@ Dated billing shared-intake checkpoint, 2026-10-11: fresh pipeline 1/18 and inta
 Dated arithmetic correction, 2026-10-11: the closed hybrid pass consumed 214 model calls (FORM 100 + CHAT 114), not the 207 stated in the preceding delivery line. Counts and run rows are unchanged.
 
 Dated intake/clarification fix checkpoint, 2026-10-11: token-reference provenance, selected-page field lookup and engine-rendered named questions implemented; focused checks pass, committed tape/full regression and fresh billing passes pending. Zero new estate/model calls; no expectation or scope change. #423 draft, freeze invalid. See docs/round-fourteen-billing-shared-intake.md.
+
+Dated Round Fifteen isolated owner-demo checkpoint, 2026-10-11: offline portal inspected in a separate worktree/catalog; live demo blocked because session-transaction accounting has no isolated shared-budget port. No new estate/model request or counter/pin/scope change. Five focused tests pass. One-start offline guide: docs/owner-demo.md. Fresh family A, progress/finding/comment flow not run; no owner acceptance, #423 remains draft, prior freeze invalid.
