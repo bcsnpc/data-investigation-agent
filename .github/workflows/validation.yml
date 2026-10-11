@@ -62,6 +62,8 @@ jobs:
           python -m unittest discover -s scripts -p test_privacy_projection.py
           python -m unittest discover -s scripts -p test_privacy_storage.py
           python -m unittest discover -s scripts -p test_privacy_end_to_end.py
+          python -m unittest discover -s scripts -p test_hybrid_ticket.py
+          python -m unittest discover -s scripts -p test_reported_figure_punctuation.py
           python -m unittest discover -s scripts -p test_run_context_pin.py
           python -m unittest discover -s scripts -p test_model_eval_reader.py
           python -m unittest discover -s scripts -p test_translation_eval.py

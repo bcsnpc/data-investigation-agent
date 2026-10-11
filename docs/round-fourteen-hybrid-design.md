@@ -10,4 +10,6 @@ Rejected alternative: a second standalone pure-agent investigation after every r
 
 The owner approved a separate approval-verification cap of 40 on 2026-10-11 (previously 35; the retained attempt needed 36). Investigation diagnostics remain 12. Rebuilt witnesses will be published only after the newly recorded verifier's exact offline replay matches; the earlier budget-held run and replay failure remain evidence.
 
-Status: design recorded; implementation and live hybrid acceptance pending. No adoption claimed. Draft #423 remains draft and delivery freezes remain invalid.
+Implementation checkpoint: e0c4716 implements the controller and high-level tool; 132 focused tests pass, including eleven hybrid tests. The shared figure-extraction guidance is used by both producers; the competing-figure validator is unchanged. A fresh verification is recording under the current hybrid manifest and cap40. Full regression and live hybrid acceptance are pending. No adoption claimed. Draft #423 remains draft and delivery freezes remain invalid.
+
+Budget configuration detail: the effective approval cap is `min(2 * bindings + metadata_probes, session_cap)`. Setting session40 alone retained effective35. The recorded zero-read preflight exposed this; the actual authorized pass uses sixteen bindings, eight metadata slots and session40, hence effective40. Investigation diagnostic12, rolling3000, pot4000 and the protected95 remain unchanged.
