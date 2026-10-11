@@ -46,6 +46,241 @@
       "engine_revision": "a363561",
       "expectations_unchanged": true,
       "reason": "Owner explicitly requested new C comparison in both modes after shared path-context ceiling 12000 -> 24000; retained older C runs remain recorded, not current post-bound baselines"
+    },
+    {
+      "authority": "ROUND_FOURTEEN_SHARED_CAUSAL_AND_OPERATION_INVENTORY_REPAIRS",
+      "cases": [
+        {
+          "case": "family-B-r1",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-A-r1",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-H-r1",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-E-r1",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-G-r1",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-B-r2",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-A-r2",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-I-r1",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-F-r2",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-G-r2",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-E-r2",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-B-r3",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-H-r2",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-I-r2",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-A-r3",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-G-r3",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-E-r3",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-H-r3",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-I-r3",
+          "estate": "original",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-B-r1",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-D-r1",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-A-r1",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-H-r1",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-I-r1",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-E-r1",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-G-r1",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "RERUN_AFFECTED"
+        },
+        {
+          "case": "family-B-r2",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-A-r2",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-E-r2",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-H-r2",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-A-r3",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-I-r2",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-G-r2",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-B-r3",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-G-r3",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-E-r3",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-H-r3",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        },
+        {
+          "case": "family-I-r3",
+          "estate": "rebuilt",
+          "new_decision": "RERUN_AFFECTED_SHARED_SYNTHESIS_CONTRACT",
+          "prior_decision": "REUSE"
+        }
+      ],
+      "date": "2026-10-11T11:42:30.050993+00:00",
+      "reason": "Shared _answer now retains causal qualifications; synthesis producer and consumer use the same original operation inventory, and no-operation prose is structurally empty. Retained runs that reached these paths must be freshly compared; pre-procedure intake holds remain reusable. Missing baseline slots still need new attempts. All earlier baseline assessments preserved."
     }
   ],
   "fixture_ticket_and_expectation_matches": 48,
