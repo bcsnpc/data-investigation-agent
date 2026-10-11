@@ -153,3 +153,7 @@ equality: a visual genuinely titled “Sales” on a page named “Sales” stil
 “Sales”. Untitled visuals are reported as unavailable rather than given an internal
 ID. The ticket's selected facts use these same explicit titles. This is a UI
 projection change, not another intake classifier or per-ticket patch.
+
+## First live portal trial ? 2026-10-11
+
+Original family A has now executed once through the portal, producing the actual 7,661/8,765 comparison and TRANSFORMATION_LOGIC, partly answered. Both explanations were read; a clearly agent-operated demo comment and agreement closed the isolated ticket. This required a normal local restart after the Open ticket link lost its memory-only key; the generic link repair and title repairs are recorded, so this is not a seamless unaided-owner claim. The full verbatim outputs, steps, costs and limitations are in [the live transcript](round-fifteen-owner-demo-trial.md). No independent owner acceptance or general estate capability is inferred from this one ticket.
