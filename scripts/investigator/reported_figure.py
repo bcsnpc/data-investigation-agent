@@ -51,7 +51,10 @@ def span(source, ticket=None):
 
 def stated(quote):
     """Read digits/scale exactly as supplied. No implicit approximation interval."""
-    matches=list(re.finditer(r'(?<![\w.])[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*[KMBkmb]?(?![\w.])',quote))
+    # A sentence's final full stop is punctuation, not an unknown decimal
+    # place. Still reject partial numbers embedded in dotted identifiers or
+    # malformed decimal strings: a dot followed by a word cannot terminate it.
+    matches=list(re.finditer(r'(?<![\w.])[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*[KMBkmb]?(?!\w|\.\w)',quote))
     if len(matches)!=1: raise UnavailablePrecision('Reported numeral or its stated precision is ambiguous')
     raw=matches[0].group().strip(); scale=0
     if raw[-1].upper() in 'KMB': scale={'K':3,'M':6,'B':9}[raw[-1].upper()];raw=raw[:-1].strip()
