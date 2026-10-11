@@ -1,12 +1,12 @@
 {
-  "recorded_at": "2026-10-11T21:58:21.002129+00:00",
+  "recorded_at": "2026-10-11T22:01:36.175942+00:00",
   "basis": "Every preserved HELD/NEEDS_INPUT/CLARIFYING/FAILED/environment-affected attempt and completed NO_COMPARABLE_PATH refusal in current map; reporting labels only, not score changes. Historical columns and exclusions remain separate.",
   "counts": {
     "Other retained refusal; no root cause inferred": 18,
     "Target, measure or scope unresolved": 37,
     "Business intent or description route unavailable": 25,
     "Figure/comparator interpretation or provenance unresolved": 41,
-    "Agent progress or deadline exhausted": 33,
+    "Agent progress or deadline exhausted": 34,
     "Platform binding or faithful compilation unavailable": 3,
     "Evidence citation or delivery coverage refusal": 7,
     "Environment or admission/storage failure": 6
@@ -1449,6 +1449,17 @@
         "review_reason": "Repeated intake/evidence attempts exhaust unchanged 12-step ceiling; zero reads, no timestamp inferred or currentness claim; original held output preserved.",
         "artifact": ".local\\round-fourteen\\paired-billing-hybrid-form-shared-5c5e94d-pair4\\ticket-13.txt\\full-result.json",
         "sha256": "bd9eff790e705cc06f8b5add603b883755b1248bce9ea085db76768bd0597d15",
+        "scoring_status": "ROOT_REVIEWED"
+      },
+      {
+        "case": "billing-free-text:ticket-15.txt",
+        "mode": "HYBRID",
+        "status": "HELD",
+        "outcome": null,
+        "stop_reason": "AGENT_STEP_CAP",
+        "review_reason": "HELD AGENT_STEP_CAP after repeated unresolved settlements and catalog/evidence fetches. No factual question, technical admission, output or delivered claim; zero estate reads. Stronger model did not close this hold.",
+        "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair5\\ticket-15.txt\\full-result.json",
+        "sha256": "2d2f92f0fc9332f18f4735980015f0b400f2e7f639de75e6c7fc3431cf56d804",
         "scoring_status": "ROOT_REVIEWED"
       },
       {

@@ -8,7 +8,7 @@ All preserved columns are included below, including superseded revisions and env
 | Target, measure or scope unresolved | 37 |
 | Business intent or description route unavailable | 25 |
 | Figure/comparator interpretation or provenance unresolved | 41 |
-| Agent progress or deadline exhausted | 33 |
+| Agent progress or deadline exhausted | 34 |
 | Platform binding or faithful compilation unavailable | 3 |
 | Evidence citation or delivery coverage refusal | 7 |
 | Environment or admission/storage failure | 6 |
@@ -159,6 +159,7 @@ All preserved columns are included below, including superseded revisions and env
 - billing-free-text:ticket-14.txt / HYBRID / HELD (ROOT_REVIEWED): HELD AGENT_STEP_CAP; repeated evidence fetches reused, catalog stages exhausted loop. No question posted or technical output; no duplicate-report premise/ID display. Artifact: `.local\round-fourteen\paired-billing-hybrid-chat-span-grounded-r1-pair4\ticket-14.txt\full-result.json`.
 - billing:ticket-05.txt / HYBRID / HELD (ROOT_REVIEWED): 12-step fallback ceiling enforced with no replacement or cap increase; repeated resolution/evidence attempts did not establish units/charge answer; zero reads and no harmful finding. Artifact: `.local\round-fourteen\paired-billing-hybrid-form-shared-5c5e94d-pair3\ticket-05.txt\full-result.json`.
 - billing:ticket-13.txt / HYBRID / HELD (ROOT_REVIEWED): Repeated intake/evidence attempts exhaust unchanged 12-step ceiling; zero reads, no timestamp inferred or currentness claim; original held output preserved. Artifact: `.local\round-fourteen\paired-billing-hybrid-form-shared-5c5e94d-pair4\ticket-13.txt\full-result.json`.
+- billing-free-text:ticket-15.txt / HYBRID / HELD (ROOT_REVIEWED): HELD AGENT_STEP_CAP after repeated unresolved settlements and catalog/evidence fetches. No factual question, technical admission, output or delivered claim; zero estate reads. Stronger model did not close this hold. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-chat-final-pair5\ticket-15.txt\full-result.json`.
 - billing:ticket-02.txt / HYBRID / HELD (ROOT_REVIEWED): HELD AGENT_STEP_CAP; stronger decision calls repeatedly attempted unresolved settlement/fetched existing evidence. No question, technical investigation or delivered claim; zero physical reads. Receipt models confirm GPT-5.5 agent/GPT-5.4 extraction. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-form-final-pair1\ticket-02.txt\full-result.json`.
 - billing:ticket-03.txt / HYBRID / HELD (ROOT_REVIEWED): HELD AGENT_STEP_CAP; stronger decision calls repeatedly attempted unresolved settlement/fetched existing evidence. No question, technical investigation or delivered claim; zero physical reads. Receipt models confirm GPT-5.5 agent/GPT-5.4 extraction. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-form-final-pair1\ticket-03.txt\full-result.json`.
 - billing:ticket-05.txt / HYBRID / HELD (ROOT_REVIEWED): HELD AGENT_STEP_CAP; repeated unresolved description settlements using stronger decisions. No technical session/output or question, zero estate reads. Artifact: `.local\round-fourteen\paired-billing-hybrid-stronger-form-final-pair2\ticket-05.txt\full-result.json`.

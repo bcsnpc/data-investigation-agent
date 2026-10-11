@@ -1,17 +1,17 @@
 {
-  "recorded_at": "2026-10-11T21:58:20.856949+00:00",
+  "recorded_at": "2026-10-11T22:01:35.894737+00:00",
   "cohort": "17 remaining held billing inputs, each at most once; prior FORM01 completed non-answer excluded",
   "deployment": "investigator-intake-f-55",
   "agent_model": "gpt-5.5 2026-04-24",
   "pipeline_tools": "GPT-5.4 unchanged",
-  "attempts": 16,
+  "attempts": 17,
   "admitted": 1,
   "contract_matches": 0,
   "harmful": 0,
-  "models": 180,
+  "models": 194,
   "physical": 1,
   "diagnostic": 1,
-  "known_microdollars": 12758936,
+  "known_microdollars": 13751094,
   "rows": [
     {
       "ticket": "ticket-01.txt",
@@ -502,6 +502,82 @@
         }
       ],
       "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair4\\ticket-14.txt\\full-result.json",
+      "pending": 0,
+      "capture_exclusions": 0,
+      "sealed_tapes": true
+    },
+    {
+      "ticket": "ticket-15.txt",
+      "input": "CHAT",
+      "status": "HELD",
+      "outcome": null,
+      "admitted": false,
+      "stop_reason": "AGENT_STEP_CAP",
+      "models": 14,
+      "physical": 0,
+      "diagnostic": 0,
+      "microdollars": 992158,
+      "root_review": {
+        "root_reviewed": true,
+        "harmful": false,
+        "contract_match": false,
+        "contract_differences": [
+          "No account-value relationship explanation delivered"
+        ],
+        "reason": "HELD AGENT_STEP_CAP after repeated unresolved settlements and catalog/evidence fetches. No factual question, technical admission, output or delivered claim; zero estate reads. Stronger model did not close this hold.",
+        "review_pending": false,
+        "recorded_at": "2026-10-11T22:01:32.120227+00:00",
+        "outcome_match": null,
+        "outcome_expectation": "NOT_DECLARED_BY_SEALED_BILLING_CONTRACT"
+      },
+      "questions": [
+        {
+          "choices": [
+            {
+              "highlight": null,
+              "id": "bc98275e3c3f647a4ca2a81e3e0ac640bdd870a9cc2f876e43e68c2aff1aaf0c",
+              "label": "Subscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'MRR All Plans 600' at 95:112"
+            }
+          ],
+          "field": "NUMBER",
+          "id": "number",
+          "question": "Which displayed number should we investigate?"
+        },
+        {
+          "choices": [
+            {
+              "highlight": null,
+              "id": "e864be0f4c1ac4c52d17184b119be7dd61bdb1ce84b5522a17731be8462a9aab",
+              "label": "The application"
+            },
+            {
+              "highlight": null,
+              "id": "c932d2b094598be1734ae20802fad516b188043132e8dd520653361b93b73d57",
+              "label": "The information seems stale"
+            },
+            {
+              "highlight": null,
+              "id": "77d1fe9e04ea4de290671787a590a862a94caa1631e69480fd71867a158622b7",
+              "label": "It looks wrong"
+            },
+            {
+              "highlight": null,
+              "id": "799d9d4d5720d93123c3c25740cd1d42fc48ae4c3073abe4ebefd1a9cb9f48f4",
+              "label": "Another report"
+            },
+            {
+              "highlight": null,
+              "id": "72b950c5dc8590e5d746dd1eb29d25f0dfbdaaef41b3538980b21d09f3f4efaa",
+              "label": "The business meaning or rule"
+            }
+          ],
+          "field": "COMPARISON",
+          "id": "comparison",
+          "question": "What are you comparing against?"
+        }
+      ],
+      "comments": [],
+      "artifact": ".local\\round-fourteen\\paired-billing-hybrid-stronger-chat-final-pair5\\ticket-15.txt\\full-result.json",
       "pending": 0,
       "capture_exclusions": 0,
       "sealed_tapes": true
