@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T09:22:59.974492+00:00",
+  "recorded_at": "2026-10-11T09:33:11.214421+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -764,6 +764,201 @@
       "status": "COMPLETED",
       "stop_reason": "ENOUGH_DIAGNOSTICS",
       "ticket_id": "17fcab60-b3e1-4b9b-b6fc-cbcac4ef3fb2"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r2-GH-v12\\family-G\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-G",
+      "diagnostic_reads": 8,
+      "elapsed_seconds": 486.0606949329376,
+      "engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "has_outputs": true,
+      "microdollars": 407540,
+      "mode": "AGENT",
+      "model_calls": 12,
+      "outcome": null,
+      "physical_requests": 17,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "values_equal": true
+              }
+            ]
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_bronze_e1b8e1"
+              }
+            ]
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "Validated TRANSFORMATION_LOGIC: model/serving8765,refined/landing7661; retained left join supports possible multiplication, repeated matches and timing unconfirmed. Both outputs explicitly NOT_ANSWERED for business/source intent. Display checked-depth L2 is narrower than actual L3 probe; recorded detail discrepancy, no broader unsupported coverage or business verdict.",
+        "recorded_at": "2026-10-11T09:33:09.545326+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "d3bad4c6-1e70-4017-95ad-59b3807db89b",
+      "sha256": "91ad7cad6d33182f14c72ea8b18ecef766ea976bf2ede7737729aae153fcaf94",
+      "source_sha256": "6feb59b1d540e916851f9ec28505c59270427e231c90b2f4111fa96841d14761",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "2638307c-020e-41d1-987b-2b1174eff118"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r2-GH-v12\\family-H\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-H",
+      "diagnostic_reads": 0,
+      "elapsed_seconds": 497.6510007381439,
+      "engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "expected_hash": "653988e325f9a7d7f38fc0518e62dade6b32f55ad2115e1436278403e3028044",
+      "has_outputs": false,
+      "microdollars": 1156372,
+      "mode": "AGENT",
+      "model_calls": 25,
+      "outcome": null,
+      "physical_requests": 0,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "NO_KNOWN_PATTERN",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Safe step-cap hold after repeated retained lineage/page metadata retrieval; no estate probes, no outputs, no business or causal claim.",
+        "recorded_at": "2026-10-11T09:33:09.545326+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "ecbaee79-df4d-4177-94d1-937af58c4057",
+      "sha256": "deb8ca26f62df5d1fb04cdb46e3607b67e7d6dafe440bcd6bc5e12b004b2e9df",
+      "source_sha256": "b796bb0e7404805d916e89b8ac2b0e7c801ec9709afc197c115b8ed0151bcec8",
+      "status": "HELD",
+      "stop_reason": "AGENT_STEP_CAP",
+      "ticket_id": "d9dfa601-f93f-4f79-a325-0cd09a4af5b3"
     },
     {
       "artifact": ".local\\round-fourteen\\paired-original-pipeline-C-24000\\family-C\\full-result.json",

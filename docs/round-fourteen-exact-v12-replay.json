@@ -1,0 +1,50 @@
+{
+  "consumer_revision": "8fa2161",
+  "engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+  "estate_requests": 0,
+  "model_calls": 0,
+  "operations": [
+    {
+      "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+      "consumer_revision": "8fa2161",
+      "family": "family-E",
+      "matched": true,
+      "network_requests": 0,
+      "operations": [
+        "form_submit"
+      ],
+      "outcome": null,
+      "recorded_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "recorded_engine_identity_used": false,
+      "replay_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "sealed_tape_sha256": "3175e11a0d575d061884fda090a8793d0ab140f013e0c9add1cc01c6907911e7",
+      "source_identity_limitation": null,
+      "status": null,
+      "synthesis_status": null,
+      "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\8f3cc412-113a-4763-b9bf-908484b06cad\\tape.json"
+    },
+    {
+      "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+      "consumer_revision": "8fa2161",
+      "family": "family-F",
+      "matched": true,
+      "network_requests": 0,
+      "operations": [
+        "form_submit"
+      ],
+      "outcome": null,
+      "recorded_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "recorded_engine_identity_used": false,
+      "replay_engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "sealed_tape_sha256": "9cc031b72bdfbed778649d850b49ccf383ade2da11e9941164b67e0ff2f8d480",
+      "source_identity_limitation": null,
+      "status": null,
+      "synthesis_status": null,
+      "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\560067ae-35b2-45e9-a9f6-fb6c05c68277\\tape.json"
+    }
+  ],
+  "original_tapes_unchanged": true,
+  "recorded_at": "2026-10-11T09:31:22.233321+00:00",
+  "scope": "These two captured form_submit operations include the agent decisions and delivery; native transport decoding itself is not exercised by bounded replay. Not a claim about other historical tapes.",
+  "status": "EXACT_MATCHED"
+}
