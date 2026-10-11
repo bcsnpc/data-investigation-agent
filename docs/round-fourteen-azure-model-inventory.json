@@ -667,5 +667,121 @@
       ]
     }
   ],
-  "interpretation": "No GPT-6 deployment returned. Existing GPT-5.5 deployment Succeeded; account offered-model list is separate from deployment list and runtime serving. No new deployment made."
+  "interpretation": "No GPT-6 deployment returned. Existing GPT-5.5 deployment Succeeded; account offered-model list is separate from deployment list and runtime serving. No new deployment made.",
+  "catalog_continuation": {
+    "recorded_at": "2026-10-11T21:32:21.520410+00:00",
+    "complete": true,
+    "physical_controls": 1,
+    "additional_models": [
+      {
+        "name": "gpt-5.4-pro",
+        "version": "2026-03-05"
+      },
+      {
+        "name": "gpt-5.4-mini",
+        "version": "2026-03-17"
+      },
+      {
+        "name": "gpt-5.4-nano",
+        "version": "2026-03-17"
+      },
+      {
+        "name": "sora-2",
+        "version": "2025-12-08"
+      },
+      {
+        "name": "gpt-image-2",
+        "version": "2026-04-21"
+      },
+      {
+        "name": "gpt-5.5",
+        "version": "2026-04-24"
+      },
+      {
+        "name": "gpt-chat-latest",
+        "version": "2026-05-05"
+      },
+      {
+        "name": "gpt-realtime-translate",
+        "version": "2026-05-06"
+      },
+      {
+        "name": "gpt-realtime-whisper",
+        "version": "2026-05-06"
+      },
+      {
+        "name": "gpt-realtime-2",
+        "version": "2026-05-06"
+      },
+      {
+        "name": "gpt-chat-latest",
+        "version": "2026-05-28"
+      },
+      {
+        "name": "gpt-chat-latest",
+        "version": "2026-06-24"
+      },
+      {
+        "name": "gpt-realtime-2.1-mini",
+        "version": "2026-07-07"
+      },
+      {
+        "name": "gpt-realtime-2.1",
+        "version": "2026-07-07"
+      },
+      {
+        "name": "gpt-5.6-sol",
+        "version": "2026-07-09"
+      },
+      {
+        "name": "gpt-5.6-luna",
+        "version": "2026-07-09"
+      },
+      {
+        "name": "gpt-5.6-terra",
+        "version": "2026-07-09"
+      },
+      {
+        "name": "gpt-live-transcribe",
+        "version": "2026-07-28"
+      },
+      {
+        "name": "gpt-transcribe",
+        "version": "2026-07-28"
+      },
+      {
+        "name": "gpt-chat-latest",
+        "version": "2026-08-06"
+      },
+      {
+        "name": "gpt-6-astra",
+        "version": "2026-09-03"
+      },
+      {
+        "name": "gpt-image-2.5-flare",
+        "version": "2026-09-08"
+      },
+      {
+        "name": "gpt-image-2.5-sunburst",
+        "version": "2026-09-08"
+      },
+      {
+        "name": "gpt-live-1",
+        "version": "2026-09-10"
+      },
+      {
+        "name": "gpt-6-luna",
+        "version": "2026-09-22"
+      },
+      {
+        "name": "gpt-6-sol",
+        "version": "2026-09-22"
+      },
+      {
+        "name": "gpt-6.1-sol",
+        "version": "2026-09-29"
+      }
+    ],
+    "correction": "The first 50-model page was incomplete. GPT-6 Astra is offered in the account catalog, but no GPT-6 deployment exists. GPT-5.5 is the strongest existing deployment; testing uses it without provisioning a deployment or changing identities."
+  }
 }
