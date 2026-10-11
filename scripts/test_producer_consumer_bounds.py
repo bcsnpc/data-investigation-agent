@@ -52,7 +52,12 @@ class BoundsTests(unittest.TestCase):
         self.assert_text(wire['properties']['metric_quote'],L.INTAKE_QUOTE,lambda v:text(v,L.INTAKE_QUOTE))
         self.assert_text(wire['properties']['filters']['items']['properties']['quote'],L.INTAKE_QUOTE,lambda v:text(v,L.INTAKE_QUOTE))
         self.assertEqual(wire['properties']['filters']['items']['properties']['values']['maxItems'],L.FILTER_VALUES)
-        n=narrative.schema({'evidence':[]})
+        empty=narrative.schema({'evidence':[]})
+        empty_text=empty['properties']['technical_output']['properties']['text']
+        self.assertEqual(empty_text['enum'],[''])
+        self.assertLessEqual(max(map(len,empty_text['enum'])),L.ASSESSMENT_CLAIM)
+        self.assertFalse(Draft202012Validator(empty_text).is_valid('Invented mechanism.'))
+        n=narrative.schema({'evidence':[{'id':'definition','process_roles':['presentation_definition']}]})
         wire=n['properties']['technical_output']['properties']['text']
         self.assertEqual(wire['maxLength'],L.ASSESSMENT_CLAIM)
         for v in ('The definition may multiply matching rows.',):Draft202012Validator(wire).validate(v);text(v,L.ASSESSMENT_CLAIM)
