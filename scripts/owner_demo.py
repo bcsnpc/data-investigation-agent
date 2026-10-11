@@ -106,6 +106,8 @@ def main():
     if shutil.disk_usage(Path.cwd()).free < 10 * 1024 ** 3:
         raise ValueError('OWNER_STORAGE_STOP')
     manifest = prepare(args.source_manifest, args.folder,live=args.live,budget_manifest=args.budget_manifest,context_id=args.context_id,context_hash=args.context_hash)
+    if shutil.disk_usage(Path.cwd()).free < 10 * 1024 ** 3:
+        raise ValueError('OWNER_STORAGE_STOP_AFTER_PREPARATION')
     source_root=args.source_manifest.resolve().parents[3]
     if args.live:
         os.environ.update(INVESTIGATOR_EXISTING_SECRET_ROOT=str(source_root),

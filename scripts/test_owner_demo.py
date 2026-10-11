@@ -8,6 +8,12 @@ import owner_demo
 
 
 class OwnerDemoTests(unittest.TestCase):
+    def test_preparation_cannot_consume_admission_disk_floor(self):
+        from types import SimpleNamespace
+        with patch('sys.argv',['owner_demo','--source-manifest','synthetic.json']),\
+             patch.object(owner_demo,'prepare',return_value=Path('isolated.json')),\
+             patch.object(owner_demo.shutil,'disk_usage',side_effect=[SimpleNamespace(free=15*1024**3),SimpleNamespace(free=9*1024**3)]):
+            with self.assertRaisesRegex(ValueError,'OWNER_STORAGE_STOP_AFTER_PREPARATION'):owner_demo.main()
     def test_live_refuses_after_owner_deadline(self):
         from datetime import datetime
         with patch.object(owner_demo,'datetime') as clock:
