@@ -39,6 +39,11 @@ class AgentTicket:
         if len(match) != 1 or not asked or comments.index(match[0]) <= asked[-1]:
             raise Conflict('Agent continuation requires a retained user reply after its question')
         if comment_id in saved['ticket'].get('agent_consumed_replies', []): raise Conflict('Agent reply already consumed')
+        from .agent_wait_time import interval, total
+        journal = Journal(self.workspace.store, identity, now=self.workspace.agent.clock)
+        now = self.workspace.agent.clock()
+        total(saved['ticket'], journal.read(), now=now)
+        pause = interval(saved['ticket'], loop, comment_id, journal.read(), now=now)
         if saved['ticket'].get('session_id'):
             previous = self.workspace.agent.get(saved['ticket']['session_id'])
             if previous['status'] != 'NEEDS_INPUT': raise Conflict('Agent predecessor is not waiting')
@@ -47,6 +52,8 @@ class AgentTicket:
         def retain(ticket):
             ticket.setdefault('agent_consumed_replies', []).append(comment_id)
             ticket.setdefault('agent_loop_history', []).append(copy.deepcopy(ticket.pop('agent_loop')))
+            ticket.setdefault('agent_wait_pauses', []).append(copy.deepcopy(pause))
+            total(ticket, journal.read(), now=now)
             ticket.setdefault('agent_replies', []).append(copy.deepcopy(match[0]))
             if previous is not None:
                 ticket.setdefault('agent_scope_history', []).append({k: copy.deepcopy(ticket.get(k))
@@ -57,6 +64,7 @@ class AgentTicket:
                 ticket['settled'] = {}; ticket['confirmed'] = {}; ticket['questions'] = []
             return protocol.transition(ticket, 'CLARIFYING', actor='USER', detail={'comment_id': comment_id})
         saved = tickets.update(identity, revision, retain)
+        journal.persist({'event': 'HUMAN_WAIT_EXCLUDED', **pause})
         return self.run(saved, pipeline_result=saved['ticket'].get('hybrid_pipeline'))
 
     def run(self, saved, *, pipeline_result=None):
@@ -228,11 +236,14 @@ class AgentTicket:
             return {'validated': True, 'outputs': from_state(runtime.get(active['session_id']))['outputs']}
 
         configuration = runtime.config['_estate']['investigation']
+        from .agent_wait_time import total as human_wait_total
+        now = runtime.clock()
+        excluded_wait = human_wait_total(saved['ticket'], journal.read(), now=now)
         prior_decisions = sum(1 for entry in journal.read() if entry['event'] in
             ('DECISION','DECISION_REJECTED','ADMISSION_OR_PROVIDER_FAILED'))
         remaining_steps = configuration.get('step_cap', 25) - prior_decisions
         remaining_wall = int(configuration.get('wall_seconds', 900) -
-            max(0, runtime.clock() - saved['ticket']['agent_loop_started_at']))
+            max(0, now - saved['ticket']['agent_loop_started_at'] - excluded_wait))
         if remaining_steps <= 0 or remaining_wall <= 0:
             reason = 'AGENT_STEP_CAP' if remaining_steps <= 0 else 'AGENT_WALL_LIMIT'
             current = tickets.get(identity)
@@ -242,7 +253,7 @@ class AgentTicket:
             return tickets.update(identity, current['revision'], exhausted)
         loop = AgentLoop(tools=handlers, schemas={d['name']: d['parameters'] for d in definitions},
             decide=GovernedDecision(runtime, identity, generate=self.generate,
-                deadline=saved['ticket']['agent_loop_started_at']+configuration.get('wall_seconds',900)), persist=journal.persist,
+                deadline=saved['ticket']['agent_loop_started_at']+configuration.get('wall_seconds',900)+excluded_wait), persist=journal.persist,
             validate_delivery=deliver, outcomes=OUTCOMES, admit=admit,
             step_cap=remaining_steps, wall_seconds=remaining_wall)
         finalized = False

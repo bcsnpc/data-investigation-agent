@@ -12,6 +12,11 @@ class AgentTicketTests(unittest.TestCase):
     def setUp(self):
         self.fixture = SettlementTests(); self.fixture.setUp(); self.addCleanup(self.fixture.doCleanups)
         self.workspace = self.fixture.workspace
+        # Comment and runtime timestamps use the same native wall-clock domain.
+        from datetime import datetime, timezone
+        comments_clock = patch('investigator.ticket_comments.utc_now', side_effect=lambda:
+            datetime.fromtimestamp(self.workspace.agent.clock(), timezone.utc).isoformat())
+        comments_clock.start(); self.addCleanup(comments_clock.stop)
         # Owner-approved current agent bound; pipeline's bound is unchanged.
         self.workspace.agent.config['_estate'] = {'investigation': {'mode': 'AGENT', 'step_cap': 3, 'wall_seconds': 900, 'input_characters_per_request':150000}}
         self.fixture.catalog['versions']={m['id']:'test-retained-version' for m in self.fixture.catalog['models']}
