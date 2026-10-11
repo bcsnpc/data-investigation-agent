@@ -190,6 +190,40 @@ class HybridTests(unittest.TestCase):
         runtime.config['_estate']['investigation']['mode']='PIPELINE'
         with self.assertRaises(Conflict):runtime.run_process(identity,agent_candidate=True)
 
+    def test_families_i_g_shared_findings_fallback_can_hold_without_invalid_transition(self):
+        self._fallback_terminal_regression('FINDINGS_SHARED')
+        self._fallback_terminal_regression('HELD')
+
+    def test_families_i_g_fallback_exception_retains_original_error_not_transition_error(self):
+        self._fallback_terminal_regression('FINDINGS_SHARED',error=True)
+
+    def _fallback_terminal_regression(self,initial,error=False):
+        from test_agent_intake_settlement import SettlementTests
+        from investigator.agent_ticket import AgentTicket
+        from contextlib import nullcontext
+        fixture=SettlementTests();fixture.setUp();self.addCleanup(fixture.doCleanups)
+        w=fixture.workspace;w.agent.config['_estate']={'investigation':{'mode':'HYBRID','step_cap':3,'wall_seconds':900}}
+        fixture.f.helper.h.model['discovery']['policy_hash']=digest(w.agent.config)
+        saved=w.smart_intake.tickets.submit({'text':fixture.form['description'],'request_key':'terminal-'+initial+str(error)},'terminal-'+initial+str(error))
+        # Real retained starting state of the I/G defect, without estate reads.
+        saved=w.smart_intake.tickets.update(saved['ticket']['id'],saved['revision'],lambda t:{**t,'state':initial})
+        parent={'saved_ticket':copy.deepcopy(saved),'session':None,'gap':{'reason':'QUESTION_NOT_FULLY_ANSWERED'},'intake':None}
+        parent['hash']=digest(parent)
+        saved=w.smart_intake.tickets.update(saved['ticket']['id'],saved['revision'],lambda t:{**t,'hybrid_pipeline':copy.deepcopy(parent)})
+        decide=Mock(side_effect=RuntimeError('retained-original-provider-failure') if error else [{'action':'HOLD','summary':'No new supported answer','reason':'GAP_NOT_CLOSED'}])
+        with patch('investigator.agent_ticket.snapshot',return_value=fixture.catalog),patch('investigator.context_search.latest',return_value={'version':'synthetic','assets':[]}),patch('investigator.agent_ticket.GovernedDecision',return_value=decide):
+            with (patch('investigator.agent_ticket.AgentLoop.run',side_effect=RuntimeError('retained-original-provider-failure')) if error else nullcontext()):
+                if error:
+                    with self.assertRaisesRegex(RuntimeError,'retained-original-provider-failure'):AgentTicket(w).run(saved,pipeline_result=parent)
+                    result=w.smart_intake.tickets.get(saved['ticket']['id'])
+                else:result=AgentTicket(w).run(saved,pipeline_result=parent)
+        self.assertEqual(result['ticket']['state'],'HELD')
+        self.assertEqual(result['ticket']['hybrid_pipeline'],parent)
+        reopened=next(h for h in result['ticket']['history'] if h['detail'].get('reason')=='HYBRID_GAP_REOPENED')
+        self.assertEqual((reopened['from'],reopened['to']),(initial,'CLARIFYING'))
+        self.assertEqual(result['ticket']['agent_loop']['status'],'INTERRUPTED' if error else 'HELD')
+        self.assertNotIn('session_id',result['ticket'])
+
     def test_actual_fallback_admission_carries_prior_reads_and_full_pipeline_state(self):
         from test_agent_intake_settlement import SettlementTests
         from investigator.agent_ticket import AgentTicket

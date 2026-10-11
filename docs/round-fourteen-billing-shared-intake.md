@@ -13,3 +13,10 @@ Focused checks passed: shared billing wording (nine immutable descriptions in fo
 All existing financial/request/diagnostic limits remain unchanged. Admission requires at least 10 GiB free (conservative implementation of owner's 10 GB floor), checked by both queue and cohort worker. Closed sealed captures are transparently compressed with before/after logical SHA-256 verification; originals remain at their existing locations. No compression control is counted as an investigation read.
 
 Fresh billing pipeline then HYBRID results are pending. The earlier 0/18 technical-admission result remains preserved, not overwritten.
+
+
+Follow-up, 2026-10-11: before the next billing admission, fixed the I/G Invalid ticket transition defect. A hybrid fallback from FINDINGS_SHARED or HELD now enters CLARIFYING with a recorded HYBRID_GAP_REOPENED event and the retained pipeline hash; existing protocol transitions/admission gates were not relaxed. Tests cover both starting states, terminal HOLD, and an original exception retained without a secondary transition crash. Original failed tapes and ledger entries remain unchanged.
+
+The expanded figure guidance caused the existing initial-agent-body bound test to report 32,350 characters against 32,000. The producer wording was compacted and that unchanged-bound test now passes; no cap raised. The preliminary full suite was stopped for this source correction, not reported as a pass. A fresh full suite will run on this revision.
+
+First fresh pipeline pair (pre-compaction revision bcf2b83): ticket 01 admitted and delivered qualified NO_COMPARABLE_PATH, application reconciliation not answered (one physical/diagnostic read, two model calls). Ticket 02 HELD on Ambiguous declared name: collected (zero reads, two model calls). Zero harmful delivered claims. These attempts will not be replaced. Remaining billing slots use the follow-up revision and current re-approval.

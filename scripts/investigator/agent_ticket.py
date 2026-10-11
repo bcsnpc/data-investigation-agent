@@ -71,6 +71,12 @@ class AgentTicket:
         identity = saved['ticket']['id']; runtime = self.workspace.agent
         if saved['ticket'].get('agent_loop'): return saved
         def mark(ticket):
+            # A fallback is a new clarification phase, not an attempt to hold
+            # a previously shared finding (or to hold an already held ticket).
+            # Keep the sealed pipeline result; normal admission gates still apply.
+            if hybrid and ticket['state'] in ('FINDINGS_SHARED','HELD'):
+                ticket=protocol.transition(ticket,'CLARIFYING',actor='AGENT',
+                    detail={'reason':'HYBRID_GAP_REOPENED','pipeline_hash':pipeline_result['hash']})
             ticket['investigation_mode'] = 'HYBRID' if hybrid else 'AGENT'
             ticket.setdefault('agent_loop_started_at', runtime.clock())
             return ticket
