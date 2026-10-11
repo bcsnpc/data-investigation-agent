@@ -66,7 +66,7 @@ class Boundaries(unittest.TestCase):
             self.assertIn('decision', options['schema']['properties'])
             return {'decision': {'action': 'HOLD'}}, {'usage': {'output_tokens': 20}}
         with patch('investigator.agent_provider.input_characters', side_effect=lambda v: len(json.dumps(v))):
-            result = GovernedDecision(runtime, 's', generate=generate)({'a': 'b'}, instructions='Choose.', schema={'type': 'object'})
+            result = GovernedDecision(runtime, 's', generate=generate)({'a': 'b'}, instructions='Choose.', schema={'type':'object','properties':{},'required':[],'additionalProperties':False})
         self.assertEqual(result, {'action': 'HOLD'})
         self.assertEqual(runtime.governor.events[0][0], 'reserve')
         self.assertEqual(runtime.governor.events[-1][2], {'output_tokens': 20})
@@ -75,14 +75,14 @@ class Boundaries(unittest.TestCase):
         runtime = self.runtime(8000)
         generate = lambda *a, **k: self.fail('dispatched oversized request')
         with self.assertRaisesRegex(ValueError, 'REQUEST_BOUND'):
-            GovernedDecision(runtime, 's', generate=generate)({'text': 'x'*9000}, instructions='Choose.', schema={'type':'object'})
+            GovernedDecision(runtime, 's', generate=generate)({'text': 'x'*9000}, instructions='Choose.', schema={'type':'object','properties':{},'required':[],'additionalProperties':False})
         self.assertEqual(runtime.governor.events, [])
 
     def test_provider_failure_keeps_uncertain_reservation(self):
         runtime = self.runtime()
         def generate(*args, **kwargs): raise ConnectionError('no response')
         with self.assertRaises(ConnectionError):
-            GovernedDecision(runtime, 's', generate=generate)({}, instructions='Choose.', schema={'type':'object'})
+            GovernedDecision(runtime, 's', generate=generate)({}, instructions='Choose.', schema={'type':'object','properties':{},'required':[],'additionalProperties':False})
         self.assertTrue(runtime.governor.events[-1][3]['uncertain'])
 
     def test_restart_does_not_reset_model_call_cap(self):
@@ -91,7 +91,7 @@ class Boundaries(unittest.TestCase):
                 [('s', 'agent-model:'+str(i)) for i in range(1,26)])
         runtime = self.runtime()
         with self.assertRaisesRegex(ValueError, 'MODEL_CALL_CAP'):
-            GovernedDecision(runtime, 's', generate=lambda *a, **k: self.fail('dispatched'))({}, instructions='Choose.', schema={'type':'object'})
+            GovernedDecision(runtime, 's', generate=lambda *a, **k: self.fail('dispatched'))({}, instructions='Choose.', schema={'type':'object','properties':{},'required':[],'additionalProperties':False})
         self.assertEqual(runtime.governor.events, [])
 
 

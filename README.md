@@ -391,3 +391,5 @@ Dated Round Thirteen final owner closure, 2026-10-11 UTC: fixture34/48 outcome p
 
 
 Dated Round Fourteen integration checkpoint, 2026-10-11 UTC: first AGENT attempt HELD on provider schema HTTP400, one model call and zero estate reads; original tape and uncertain charge preserved. Typed closed-schema repair, recorded dollar authority for new v10 tapes, explicit user-reply API and generic partial-export helpers are under regression verification. No end-to-end or paired pass; PIPELINE remains default, #423 draft, freeze invalid. See docs/round-fourteen-agent-loop.md.
+
+Dated Round Fourteen provider-subset correction,2026-10-11: second integration held on unsupported uniqueItems,one model request,zero estate reads,original evidence preserved. Consumer uniqueness and bounds remain enforced; provider schema derives field obligations. Clean tape39pass; six provider-boundary and three full-wire tests pass after closed synthetic-schema repair. Full fresh committed regression pending; #423draft,freeze invalid,no paired/adoption pass.

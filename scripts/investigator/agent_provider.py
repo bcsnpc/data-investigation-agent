@@ -20,15 +20,18 @@ class GovernedDecision:
 
     def __call__(self, payload, *, instructions, schema):
         from ticket_planner import _azure_generate, provider_body
-        from .contract_vocabulary import instructions as vocabulary
+        from .agent_wire import schema as wire_schema
         from .planner_recording import recording
         options = copy.deepcopy(self.runtime.generation_options)
         # Responses strict schemas require an object at the root. The union
         # remains the same consumer-owned decision contract inside that object.
         wrapped = {'type': 'object', 'additionalProperties': False,
                    'properties': {'decision': schema}, 'required': ['decision']}
-        prompt = vocabulary(instructions, wrapped)
-        body = provider_body(payload, prompt, wrapped, 'verified_agent_decision',
+        # Enum vocabularies remain in the exact wire schema. Other consumer
+        # constraints are derived into field descriptions, never hand copied.
+        prompt = instructions
+        wire = wire_schema(wrapped)
+        body = provider_body(payload, prompt, wire, 'verified_agent_decision',
                              generation_options=options)
         size = input_characters(body)
         if size > options['max_payload_characters']:
@@ -48,7 +51,7 @@ class GovernedDecision:
                     'reservation': {'key': key, 'input_characters': size,
                                     'output_tokens': options['max_output_tokens']}}):
                 value, metadata = (self.generate or _azure_generate)(payload,
-                    instructions=prompt, schema=wrapped, name='verified_agent_decision',
+                    instructions=prompt, schema=wire, name='verified_agent_decision',
                     generation_options=options, max_request_characters=options['max_payload_characters'])
             received = True
             if not isinstance(value, dict) or set(value) != {'decision'}:
