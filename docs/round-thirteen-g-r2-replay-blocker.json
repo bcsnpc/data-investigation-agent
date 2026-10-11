@@ -1,0 +1,39 @@
+{
+  "audit_sha256": "f458b91d547a90417e1a885d8be1e449ba4e71333843409cb1628e0a078aac16",
+  "differences": [
+    {
+      "path": ".result.events[17].detail.logical_receipt.result_hash",
+      "recorded": "c04489be37a52a38af629f78d8e62f22f46e9f0e631bb17dec8df347885167dd",
+      "replayed": "2f18bd528abc49a6dcb53c862f87d9bdbf9eeb5bc2d8374d7b35cde139699a2d"
+    },
+    {
+      "path": ".result.process_read_receipts[2].logical_receipt.result_hash",
+      "recorded": "c04489be37a52a38af629f78d8e62f22f46e9f0e631bb17dec8df347885167dd",
+      "replayed": "2f18bd528abc49a6dcb53c862f87d9bdbf9eeb5bc2d8374d7b35cde139699a2d"
+    }
+  ],
+  "engine_changed": false,
+  "error_type": "OperationalError",
+  "estate_reads": 0,
+  "expectations_changed": false,
+  "failed_event_ordinal": 114,
+  "final_map_sha256": "cbf9f836c388e4e75ddc6e61b074b80db90a4c8ca103cab2b6d6ae946b1aaaf6",
+  "model_calls": 0,
+  "native_line": 58,
+  "native_module": "adaptive_runtime.py",
+  "new_offline_replays": 0,
+  "new_tests": 0,
+  "producer_revision": "6bfc06f84f69d4db75c2511bec5a9d928cab9e99",
+  "publication_status": "BLOCKED_CURRENT_EXACT_PRODUCER_REPLAY",
+  "receipt_id": "c1da2d56-52e1-4599-ac25-064b9a6e42e3",
+  "recomputed_final_sha256": "53cd4f85cf60d33c851526d22bf310388ed91c3211b816b92003958c6fe117e4",
+  "recorded_at": "2026-10-11T01:25:46.895483+00:00",
+  "replay_line": 43,
+  "replay_module": "local_accounting.py",
+  "run_tape_sha256": "28e1007ff81fae16f57c4e8cb4d1c7c781f096ed1c19533c80737015694befde",
+  "session_id": "691c05cb-59b4-4ccf-9bc6-d3be23f95282",
+  "sqlite_code": 5,
+  "sqlite_name": "SQLITE_BUSY",
+  "sqlite_phase": "PROCESS_READ_RECEIPT_PERSISTENCE",
+  "tapes_changed": false
+}
