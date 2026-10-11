@@ -8,6 +8,9 @@ from investigator.admission_deadline import require_open
 
 
 class ExistingSecretLocationTests(unittest.TestCase):
+    def test_secret_locator_bytes_are_frozen_with_transports(self):
+        from investigator.runtime import FINGERPRINT_TRANSPORTS
+        self.assertIn('scripts/installation_secrets.py',FINGERPRINT_TRANSPORTS)
     def test_existing_location_only_no_creation(self):
         with tempfile.TemporaryDirectory() as temporary:
             folder=Path(temporary)
