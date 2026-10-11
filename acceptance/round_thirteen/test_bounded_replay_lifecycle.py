@@ -10,7 +10,7 @@ class Tests(unittest.TestCase):
    def hydrate(repo,s,m):seen.append([a['id'] for a in s['assets']]);m.mkdir();(m/'native.sqlite').write_bytes(b'clone')
    def run(s,m,w,r,operation_ids):
     w.mkdir();(w/'catalog.sqlite').write_bytes(b'mutable');(w/'failure.log').write_text('retained failure');return {'status':'REPLAY_BLOCKED'}
-   out=run_bounded(suite,root/'out',root,root,validate=lambda s:None,consumers=lambda r,s:None,hydrate=hydrate,run=run,free=lambda p:10**12)
+   out=run_bounded(suite,root/'out',root,root,validate=lambda s:None,consumers=lambda r,s:None,hydrate=hydrate,run=run,free=lambda p:10**12,available_memory=lambda:10**12)
    self.assertEqual(seen,[['a'],['b']]);self.assertEqual(len(out['operations']),2)
    self.assertEqual(original.read_bytes(),b'native');self.assertEqual((old/'keep').read_text(),'keep')
    self.assertEqual((root/'out/a/failure.log').read_text(),'retained failure');self.assertFalse((root/'out/a/catalog.sqlite').exists());self.assertFalse(list(root.glob('dia-suite-scratch-*')))
@@ -18,7 +18,7 @@ class Tests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as d:
    root=Path(d);s={'assets':[{'id':'a','ciphertext_bytes':1,'uncompressed_bytes':2}], 'operations':[{'id':'a','tape':{'asset':'a'}}]}
    def forbidden(*a,**k):raise AssertionError('must not admit')
-   out=run_bounded(s,root/'out',root,root,validate=lambda s:None,consumers=lambda r,s:None,hydrate=forbidden,run=forbidden,free=lambda p:FLOOR)
+   out=run_bounded(s,root/'out',root,root,validate=lambda s:None,consumers=lambda r,s:None,hydrate=forbidden,run=forbidden,free=lambda p:FLOOR,available_memory=lambda:10**12)
    self.assertEqual(out['operations'][0]['status'],'RESOURCE_ADMISSION_REFUSED');self.assertFalse(out['roster_matched'])
  def test_missing_size_and_existing_output_refuse(self):
   with self.assertRaisesRegex(ValueError,'SIZE_PIN'):peak({'assets':[{'id':'a'}]}, {'tape':{'asset':'a'}})
@@ -29,7 +29,7 @@ class Tests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as d:
    root=Path(d);s={'assets':[], 'operations':[{'id':'a'}]}
    def bad(*args):raise ValueError('cipher hash mismatch')
-   out=run_bounded(s,root/'out',root,root,validate=lambda s:None,consumers=lambda r,s:None,hydrate=bad,run=None,free=lambda p:10**12)
+   out=run_bounded(s,root/'out',root,root,validate=lambda s:None,consumers=lambda r,s:None,hydrate=bad,run=None,free=lambda p:10**12,available_memory=lambda:10**12)
    self.assertEqual(out['operations'][0]['status'],'REPLAY_TRANSPORT_BLOCKED');self.assertFalse(list(root.glob('dia-suite-scratch-*')))
  def test_large_member_memory_refusal_before_decryption(self):
   with tempfile.TemporaryDirectory() as d:
