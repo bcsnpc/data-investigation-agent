@@ -1,0 +1,11 @@
+# Round Fourteen: shared resolver ceiling and specific rejection feedback
+
+Owner decision, 2026-10-11: "raise the resolver path-context size bound from 12,000 to 24,000 characters, in both pipeline and agent mode"; re-run C in both modes and preserve earlier results. The one shared context_search.MEASURE_PATH_LIMIT supplies both routes. It retains the complete bounded projection; paths above 24,000 still refuse. Other planner, intake, tool-content, request, wall, step and read limits are unchanged.
+
+Owner requested specific delivery rejection reasons. The loop keeps each consumer error message in structured feedback and on the journal, naming the terminal support/delivery stage, chosen outcome and affected proposed claim indices. Unknown receipt citations identify the particular claim and absent IDs. Proposed prose still cannot become evidence: the trusted support and existing coverage/synthesis gates decide delivery. A support-set failure can affect all proposed claims; the feedback does not pretend a separate causal judgment was made for each sentence.
+
+The existing capture credential detector checks exception details before they reach model input or progress storage. It withholds credential-bearing messages, never silently truncates them, and does not execute another tool/read to generate feedback.
+
+DECIDED WITHOUT REVIEW: preserve complete safe consumer diagnostics rather than replace the generic code with guessed advice, infer missing receipts, weaken validation, or raise the wall/step limit.
+
+2026-10-11 owner-approved resolver/delivery preparation: shared measure-path context ceiling changes 12000 -> 24000 characters for both PIPELINE and AGENT. Earlier C attempts remain unchanged; new C runs in both modes are required after integration and current-engine approval. Delivery rejections now retain the specific consumer diagnosis, affected proposed-claim indices, and unknown citation IDs per claim; credential-bearing error details are withheld. No validator is weakened. Twenty loop tests, two shared resolver-bound tests, thirty-five investigation-tool tests and forty-three pipeline-process tests PASS offline. No estate/model calls. Engine freeze invalidated; draft #423 remains draft; live E/F remains pinned to its admitted older engine until closed.

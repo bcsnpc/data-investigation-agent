@@ -121,6 +121,35 @@ class AgentLoopTests(unittest.TestCase):
         loop,rows,calls=self.loop([self.tool(),self.answer(),{'action':'HOLD','summary':'Scope not proven.','reason':'Coverage refused'}],validate=reject)
         self.assertEqual(self.run_loop(loop)['status'],'HELD');self.assertEqual(calls[2]['feedback']['reason'],'COVERAGE_EXCEEDS_EVIDENCE')
 
+    def test_specific_missing_evidence_and_coverage_rejection_reaches_next_decision(self):
+        for message in ('DECLARED_FILTER_EFFECTS requires filter_effect evidence',
+                        'Claim 1 coverage includes source, but no source receipt was obtained.'):
+            with self.subTest(message=message):
+                def reject(*a, **k): raise ValueError(message)
+                loop, rows, calls = self.loop([self.tool(), self.answer(),
+                    {'action':'HOLD','summary':'Missing proof.','reason':'Cannot establish it'}], validate=reject)
+                self.assertEqual(self.run_loop(loop)['status'], 'HELD')
+                feedback = calls[2]['feedback']
+                self.assertEqual(feedback['validation']['message'], message)
+                self.assertEqual(feedback['validation']['claim_indices'], [1])
+                self.assertEqual(next(r for r in rows if r['event']=='CLAIM_REJECTED')['validation'],
+                                 feedback['validation'])
+
+    def test_unknown_citation_rejection_identifies_claim_and_missing_receipt(self):
+        loop, _, calls = self.loop([self.answer('missing'),
+            {'action':'HOLD','summary':'No proof.','reason':'Cannot establish it'}])
+        self.run_loop(loop)
+        self.assertEqual(calls[1]['feedback']['invalid_claims'],
+                         [{'claim_index':1, 'unknown_evidence_ids':['missing']}])
+
+    def test_rejection_feedback_never_persists_a_credential(self):
+        from unittest.mock import patch
+        from investigator.agent_loop import delivery_rejection
+        marker = 'SYNTHETIC_SECRET_123456789'
+        with patch.dict('os.environ', {'TEST_API_KEY':marker}):
+            feedback = delivery_rejection(ValueError(marker), self.answer())
+        self.assertNotIn(marker, str(feedback))
+
     def test_step_cap_preserves_progress(self):
         loop,rows,_=self.loop([self.tool()],cap=1);out=self.run_loop(loop)
         self.assertEqual(out['reason'],'AGENT_STEP_CAP');self.assertEqual(out['evidence_ids'],['read:1'])

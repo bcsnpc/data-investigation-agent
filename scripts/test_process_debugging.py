@@ -378,7 +378,7 @@ class VerticalProcedureTests(unittest.TestCase):
         envelope=copy.deepcopy(fixture.envelope);envelope['strategy']=VERSION
         agent=AdaptiveRuntime(fixture.runtime,lambda _:self.fail('No planner fallback for a context budget refusal'))
         state=agent.create(envelope,'oversized-path')
-        with patch('investigator.adapters.microsoft_process.context_search.measure_path',side_effect=MeasurePathLimit(13001)):
+        with patch('investigator.adapters.microsoft_process.context_search.measure_path',side_effect=MeasurePathLimit(24001)):
             result=agent.run(state['id'])
         self.assertEqual(result['status'],'HELD')
         self.assertEqual(result['stop_reason'],'PATH_CONTEXT_LIMIT')

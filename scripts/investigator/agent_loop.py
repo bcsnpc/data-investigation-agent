@@ -14,6 +14,29 @@ VERSION = 'verified-agent-loop-v1'
 MODES = ('PIPELINE', 'AGENT')
 
 
+def delivery_rejection(exc, decision):
+    """Keep the consumer's actual diagnosis, without persisting credentials.
+
+    Delivery checks the terminal support set; model prose is not evidence.
+    Claim indices identify the proposed claims affected by that set rejection.
+    """
+    from .planner_recording import _safe, RecordingError
+    message = str(exc)
+    safe = True
+    try:
+        _safe(json.dumps(message, ensure_ascii=False).encode('utf-8'))
+    except RecordingError:
+        safe = False
+        message = 'Rejection details withheld because they contain a credential.'
+    return {'status': 'REJECTED',
+            'reason': str(exc) if safe and re.fullmatch(r'[A-Z][A-Z0-9_]{0,199}', str(exc))
+                      else 'DELIVERY_VALIDATION_FAILED',
+            'error_type': type(exc).__name__,
+            'validation': {'stage': 'TERMINAL_SUPPORT_OR_DELIVERY',
+                'message': message, 'outcome': decision['outcome'],
+                'claim_indices': list(range(1, len(decision['claims']) + 1))}}
+
+
 def closed_wire_schema(value):
     """Express optional tool arguments as exact closed object alternatives.
 
@@ -180,7 +203,11 @@ class AgentLoop:
             if decision['action'] == 'ANSWER':
                 refs = {ref for claim in decision['claims'] for ref in claim['evidence_ids']}
                 if refs - evidence.keys():
-                    feedback = {'status': 'REJECTED', 'reason': 'UNKNOWN_EVIDENCE_ID'}
+                    feedback = {'status': 'REJECTED', 'reason': 'UNKNOWN_EVIDENCE_ID',
+                        'invalid_claims': [{'claim_index': index,
+                            'unknown_evidence_ids': sorted(set(claim['evidence_ids']) - evidence.keys())}
+                            for index, claim in enumerate(decision['claims'], 1)
+                            if set(claim['evidence_ids']) - evidence.keys()]}
                 else:
                     # Existing outcome support, overclaim, coverage and rendering
                     # contracts are mandatory here; references alone prove nothing.
@@ -192,11 +219,7 @@ class AgentLoop:
                                 or not isinstance(delivered.get('outputs'), dict) or not delivered['outputs']):
                             raise ValueError('DELIVERY_NOT_VALIDATED')
                     except (ValueError, TypeError, KeyError) as exc:
-                        code = str(exc)
-                        feedback = {'status': 'REJECTED', 'reason': code
-                                    if re.fullmatch(r'[A-Z][A-Z0-9_]{0,199}', code)
-                                    else 'DELIVERY_VALIDATION_FAILED',
-                                    'error_type': type(exc).__name__}
+                        feedback = delivery_rejection(exc, decision)
                     else:
                         record({'event': 'DELIVERED', 'ordinal': ordinal,
                                 'evidence_ids': sorted(refs)})

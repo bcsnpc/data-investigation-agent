@@ -58,9 +58,9 @@ class InvestigationToolTests(unittest.TestCase):
   result=self.invoke('probe_layer',target_id='target',layer_id='lower',scope_id='picked')
   self.assertEqual(result['status'],'NOT_COMPARABLE');self.assertEqual(result['data']['value_state'],'NOT_OBTAINED')
  def test_large_resolver_becomes_explicit_capability_unavailability(self):
-  with patch.object(self.adapter,'resolve_path',side_effect=MeasurePathLimit(12001)):
+  with patch.object(self.adapter,'resolve_path',side_effect=MeasurePathLimit(24001)):
    result=self.invoke('lineage',target_id='target')
-  self.assertEqual(result['reason'],'RESOLVER_SIZE_BOUND');self.assertEqual(result['data']['limit'],12000)
+  self.assertEqual(result['reason'],'RESOLVER_SIZE_BOUND');self.assertEqual(result['data']['limit'],24000)
  def test_reproduction_uses_real_inventory_consumer_and_reads(self):
   adapter=NeutralAdapter();tools=InvestigationTools(adapter,self.targets,{'picked':copy.deepcopy(SCOPE)},self.boundary)
   result=tools.invoke('reproduce',{'target_id':'target'})
