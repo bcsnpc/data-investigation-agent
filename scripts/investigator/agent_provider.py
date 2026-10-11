@@ -54,9 +54,11 @@ class GovernedDecision:
                     'payload_hash': digest(payload), 'schema_hash': digest(wrapped),
                     'reservation': {'key': key, 'input_characters': size,
                                     'output_tokens': options['max_output_tokens']}}):
-                value, metadata = (self.generate or _azure_generate)(shared,
+                generate = self.generate or _azure_generate
+                response_options = {} if self.generate is not None else {'agent_final_answer': True}
+                value, metadata = generate(shared,
                     instructions=prompt, schema=wire, name='verified_agent_decision',
-                    generation_options=options, max_request_characters=options['max_payload_characters'])
+                    generation_options=options, max_request_characters=options['max_payload_characters'], **response_options)
             received = True
             if not isinstance(value, dict) or set(value) != {'decision'}:
                 raise ValueError('AGENT_PROVIDER_WRAPPER')

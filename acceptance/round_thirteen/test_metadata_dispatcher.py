@@ -31,7 +31,10 @@ class Tests(unittest.TestCase):
   self.assertTrue(replayed['matched']);self.assertTrue(replayed['context_result_byte_identical']);self.assertEqual(replayed['metadata_requests'],sequence);self.assertEqual(before,tape_path.read_bytes())
   (tape_path.parent/'metadata_capture.py').write_bytes((tape_path.parent/'metadata_capture.py').read_bytes()+b'\n# changed\n')
   with self.assertRaisesRegex(ValueError,'SUPPORT_CHANGED'):H['replay_metadata_revision'](tape_path,f.root/'tamper-replay',revision,repository=ROOT)
-  with self.assertRaisesRegex(ValueError,'SEALED_PRODUCER_REVISION_MISMATCH'):H['replay_metadata_revision'](tape_path,f.root/'wrong-revision',subprocess.check_output(['git','rev-parse',revision+'^'],text=True).strip(),repository=ROOT)
+  # The mismatch is checked before checkout. Do not require a parent commit
+  # which shallow CI checkouts legitimately do not contain.
+  wrong_revision=('1' if revision[0]=='0' else '0')+revision[1:]
+  with self.assertRaisesRegex(ValueError,'SEALED_PRODUCER_REVISION_MISMATCH'):H['replay_metadata_revision'](tape_path,f.root/'wrong-revision',wrong_revision,repository=ROOT)
  def test_live_socket_attempt_from_sealed_synthetic_helper_is_denied(self):
   from investigator import process_tape as journal
   from investigator.runtime import fingerprint

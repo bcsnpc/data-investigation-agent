@@ -144,8 +144,9 @@ class AgentLoop:
                     'steps_remaining': self.step_cap - ordinal + 1},
                     instructions=INSTRUCTIONS, schema=copy.deepcopy(self.schema))
             except Exception as exc:
+                from .generation_policy import error_summary
                 record({'event': 'ADMISSION_OR_PROVIDER_FAILED', 'ordinal': ordinal,
-                        'error_type': type(exc).__name__})
+                        **error_summary(exc)})
                 return hold('AGENT_ADMISSION_OR_PROVIDER_FAILED')
             errors = list(self.validator.iter_errors(decision))
             if errors:

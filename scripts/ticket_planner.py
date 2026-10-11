@@ -98,7 +98,7 @@ def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tick
             image_data_url=image_data_url,generation_options=generation_options,max_request_characters=max_request_characters)
 
 
-def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False, image_data_url=None, generation_options=None, max_request_characters=None):
+def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False, image_data_url=None, generation_options=None, max_request_characters=None, agent_final_answer=False):
     from investigator.generation_policy import validate as generation_policy
     policy=generation_policy(generation_options)
     body=provider_body(payload,instructions,schema,name,decision_tool=decision_tool,
@@ -140,6 +140,9 @@ def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tic
         if len(calls)!=1 or calls[0].name!=name or any(item.type not in ('function_call','reasoning') for item in response.output):
             raise ProviderResponseError('DECISION_CALL_SHAPE',usage)
         raw=calls[0].arguments
+    elif agent_final_answer:
+        from investigator.agent_response import final_text
+        raw=final_text(response,usage)
     else:raw=response.output_text
     try:value=json.loads(raw)
     except (ValueError,TypeError):raise ProviderResponseError('INVALID_JSON',usage) from None
