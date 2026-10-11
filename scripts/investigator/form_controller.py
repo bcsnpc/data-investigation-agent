@@ -39,7 +39,7 @@ class Forms:
                     visual['display_names']=names.get(visual['target_id'],[])
         lists=getattr(self.workspace,'report_lists',None)
         if lists is not None:
-            live=lists.bound_catalog(current['models'],refresh=refresh)
+            live=lists.bound_catalog(result['models'],refresh=refresh)
             result.update(models=live['models'],source=live['source'],live_lists_connected=True,
                           unbound_reports=live['unbound_reports'],cached=live['cached'],
                           cache_ttl_seconds=live['cache_ttl_seconds'],identity=live['identity'])

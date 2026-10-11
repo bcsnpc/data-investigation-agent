@@ -9,6 +9,22 @@ import test_report_cells as fixture
 
 
 class VisualDisplayTests(unittest.TestCase):
+    def test_live_report_binding_preserves_projected_visual_title_in_submitted_facts(self):
+        from investigator.form_controller import Forms
+        original={'models':[{'id':'model','visuals':[{'target_id':'card','names':['Inventory Health','Movement Units']}]}]}
+        class Lists:
+            def bound_catalog(self,models,refresh=False):
+                return {'models':models,'source':'LIVE_READER','unbound_reports':[],
+                        'cached':True,'cache_ttl_seconds':60,'identity':'reader'}
+        workspace=SimpleNamespace(intake_configuration=None,report_lists=Lists(),
+                                  visual_display_names=lambda identity:{'card':['Movement Units']})
+        with patch('investigator.form_controller.snapshot',return_value=original):
+            result=Forms(workspace).catalog()
+        visual=result['models'][0]['visuals'][0]
+        self.assertEqual(visual['display_names'],['Movement Units'])
+        self.assertEqual(visual['names'],['Inventory Health','Movement Units'])
+        self.assertNotIn('display_names',original['models'][0]['visuals'][0])
+
     def test_actual_family_a_alias_shape_does_not_display_page_as_visual(self):
         helper=fixture.CellTests();helper.setUp();self.addCleanup(helper.doCleanups)
         helper.modify(helper.page,lambda d:d.update(displayName='Inventory Health'))
