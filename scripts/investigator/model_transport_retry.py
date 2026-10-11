@@ -60,8 +60,17 @@ def timeout(maximum):
     return min(maximum,remaining)
 
 
-def backoff(attempt):
+def backoff(attempt,exc=None):
     seconds=2**attempt  # 2 and 4 seconds; never a long blocking sleep.
+    headers=getattr(getattr(exc,'response',None),'headers',{}) or {}
+    try:
+        delay=float(headers.get('retry-after',0)) or float(headers.get('retry-after-ms',0))/1000
+        if delay>0:seconds=max(seconds,min(delay,60))
+    except (TypeError,ValueError):pass
+    owner=ACTIVE.get()
+    if owner is not None and owner.deadline is not None and owner.clock()+seconds>=owner.deadline:
+        from .usage_governance import UsageHold
+        raise UsageHold('Provider backoff cannot fit the existing deadline')
     def wait():
         time.sleep(seconds)
         return {'attempt':attempt,'seconds':seconds,'completed':True}
@@ -101,7 +110,7 @@ def dispatch(body,invoke):
                 raise
             journal.event('CONFIGURATION',{'control':'PROVIDER_TRANSPORT_RETRY','completed_attempt':attempt,
                 'http_status':429,'original_reservation':owner.original,'next_attempt':attempt+1})
-            backoff(attempt)
+            backoff(attempt,exc)
 
 
 def intake_scope(intake,body,payload,key):
@@ -193,4 +202,4 @@ def retry_read(request,invoke_once,record_control):
         except Exception as exc:
             if not is_throttle(exc) or attempt==3:raise
             record_control({'control':'READ_TRANSPORT_RETRY','completed_attempt':attempt,'next_attempt':attempt+1,'http_status':429})
-            backoff(attempt)
+            backoff(attempt,exc)

@@ -112,7 +112,12 @@ class FigureQuoteAmbiguous(QuoteRefused):
 def locate(source,ticket,*,field='reported_figure',audit=None):
     if field not in ('reported_figure','measure','column','selection','report','visual','descriptor','question_kind','numeral','grouping'):
         raise ValueError('Unknown provenance field')
-    fields(source,['quote'])
+    if field=='reported_figure' and set(source)=={'quote','occurrence'}:
+        occurrence=source['occurrence']
+        if occurrence is not None and (type(occurrence) is not int or occurrence<1):
+            raise QuoteRefused('Reported-figure occurrence must be a positive one-based index.')
+    else:
+        fields(source,['quote']);occurrence=None
     text(source['quote'],limits.INTAKE_QUOTE)
     quote=source['quote'];positions=[];start=0
     while True:
@@ -122,6 +127,10 @@ def locate(source,ticket,*,field='reported_figure',audit=None):
     if not positions:raise QuoteNotFound(quote,field)
     occurrences=[{'start':v,'end':v+len(quote),'quote':quote} for v in positions]
     if audit is not None:audit.append({'field':field,'occurrences':occurrences})
+    if occurrence is not None:
+        if occurrence>len(occurrences):raise QuoteRefused('Reported-figure occurrence does not exist in the ticket.')
+        if audit is not None:audit[-1]['selected_occurrence']=occurrence
+        return occurrences[occurrence-1]
     if field=='reported_figure' and len(positions)!=1:
         raise FigureQuoteAmbiguous(quote,occurrences)
     return occurrences[0]

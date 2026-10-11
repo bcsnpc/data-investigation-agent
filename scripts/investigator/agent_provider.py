@@ -7,7 +7,7 @@ from .privacy_capture import input_characters
 
 
 class GovernedDecision:
-    def __init__(self, runtime, session_id, *, generate=None):
+    def __init__(self, runtime, session_id, *, generate=None, deadline=None):
         if runtime.governor is None:
             raise ValueError('AGENT_USAGE_GOVERNOR_REQUIRED')
         if generate is None:
@@ -17,6 +17,7 @@ class GovernedDecision:
         self.runtime, self.session_id = runtime, session_id
         self.generate = generate
         self.calls = 0
+        self.deadline=deadline
 
     def __call__(self, payload, *, instructions, schema):
         from ticket_planner import _azure_generate, provider_body
@@ -49,9 +50,18 @@ class GovernedDecision:
             key = 'agent-model:' + str(self.calls)
             self.runtime.governor.reserve(db, self.session_id, key, 'planner', size,
                                          output_tokens=options['max_output_tokens'])
+        from .model_transport_retry import scope
+        def admit_retry(db,retry_key,characters,tokens):
+            from .usage_governance import UsageHold
+            calls=db.execute("SELECT count(*) FROM adaptive_usage WHERE session_id=? AND reservation_key LIKE 'agent-model:%'",(self.session_id,)).fetchone()[0]
+            if calls>=25:raise UsageHold('AGENT_MODEL_CALL_CAP')
+            if self.deadline is not None and self.runtime.clock()>=self.deadline:
+                raise UsageHold('Agent transport retry deadline')
         received = False; metadata = None
         try:
-            with recording(lambda: {'session_id': self.session_id, 'agent_call': self.calls,
+            with scope(self.runtime.governor,self.session_id,key,size,options['max_output_tokens'],
+                    admit_extra=admit_retry,deadline=self.deadline,clock=getattr(self.runtime,'clock',__import__('time').time),
+                    metadata={'phase':'AGENT_TRANSPORT_RETRY'}), recording(lambda: {'session_id': self.session_id, 'agent_call': self.calls,
                     'payload_hash': digest(payload), 'schema_hash': digest(wrapped),
                     'reservation': {'key': key, 'input_characters': size,
                                     'output_tokens': options['max_output_tokens']}}):

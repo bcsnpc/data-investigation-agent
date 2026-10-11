@@ -228,7 +228,8 @@ class AgentTicket:
                 return protocol.transition(ticket, 'HELD', actor='AGENT', detail={'reason': reason})
             return tickets.update(identity, current['revision'], exhausted)
         loop = AgentLoop(tools=handlers, schemas={d['name']: d['parameters'] for d in definitions},
-            decide=GovernedDecision(runtime, identity, generate=self.generate), persist=journal.persist,
+            decide=GovernedDecision(runtime, identity, generate=self.generate,
+                deadline=saved['ticket']['agent_loop_started_at']+configuration.get('wall_seconds',900)), persist=journal.persist,
             validate_delivery=deliver, outcomes=OUTCOMES, admit=admit,
             step_cap=remaining_steps, wall_seconds=remaining_wall)
         finalized = False

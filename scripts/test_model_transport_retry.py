@@ -38,6 +38,35 @@ class RetryTests(unittest.TestCase):
     def rows(self):
         with self.runtime.db() as db:return [dict(r) for r in db.execute('SELECT * FROM adaptive_usage ORDER BY reservation_key')]
 
+    def test_agent_decision_binds_retry_scope_and_keeps_existing_call_cap(self):
+        from investigator.agent_provider import GovernedDecision
+        runtime=SimpleNamespace(runtime=self.runtime,governor=self.governor,clock=lambda:1000,
+            config={},generation_options={'max_output_tokens':8000,'max_payload_characters':32000,'timeout_seconds':60})
+        calls=[]
+        def generate(*args,**kwargs):
+            owner=retry.ACTIVE.get();self.assertIsNotNone(owner)
+            def invoke(body):
+                calls.append(retry.journal.bytes_of(body))
+                if len(calls)==1:raise Throttle('capacity')
+                return SimpleNamespace(usage={'input_tokens':2,'output_tokens':3})
+            response=retry.dispatch({'input':'unchanged'},invoke)
+            return {'decision':{'action':'HOLD'}},{'usage':response.usage}
+        with patch('investigator.planner_recording.recording',no_sidecar),patch.object(retry.time,'sleep'):
+            result=GovernedDecision(runtime,'session',generate=generate,deadline=1100)(
+                {'text':'ticket'},instructions='Choose.',schema={'type':'object','properties':{},'required':[],'additionalProperties':False})
+        self.assertEqual(result,{'action':'HOLD'});self.assertEqual(calls[0],calls[1])
+        rows=self.rows();self.assertEqual(len(rows),3)
+        self.assertEqual([r['status'] for r in rows if r['reservation_key'].startswith('agent-model:')],['UNCERTAIN','SETTLED'])
+    def test_provider_retry_after_is_observed_without_extending_deadline(self):
+        error=Throttle('capacity');error.response=SimpleNamespace(headers={'retry-after':'30'})
+        with self.scope(),patch.object(retry.time,'sleep') as wait:
+            retry.backoff(1,error)
+        wait.assert_called_once_with(30)
+        with self.scope() as owner,patch.object(retry.time,'sleep') as wait:
+            owner.deadline=1010;owner.clock=lambda:1000
+            with self.assertRaisesRegex(UsageHold,'existing deadline'):retry.backoff(1,error)
+        wait.assert_not_called()
+
     def test_429_then_success_owns_two_reservations_identical_bodies_and_one_ticket(self):
         calls=[];waits=[]
         def invoke(body):
