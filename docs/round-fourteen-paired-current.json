@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T10:07:27.484844+00:00",
+  "recorded_at": "2026-10-11T10:25:55.504473+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -1125,6 +1125,144 @@
       "status": "HELD",
       "stop_reason": "AGENT_STEP_CAP",
       "ticket_id": "3017e223-e925-4693-99fc-8e7b24de2973"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r3-CD-2e7fde6\\family-C\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-C",
+      "diagnostic_reads": 3,
+      "elapsed_seconds": 519.7413971424103,
+      "engine_hash": "efd997d2cc639bdb5bbe282b7c720078a4f0763755b359db73db98f196641740",
+      "expected_hash": "85bb2cc8cccde1341eb3c0e22e50054f131072e528e1160997de589de8bdbe83",
+      "has_outputs": true,
+      "microdollars": 1252144,
+      "mode": "AGENT",
+      "model_calls": 25,
+      "outcome": "NO_COMPARABLE_PATH",
+      "physical_requests": 3,
+      "repeat": 3,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": [],
+            "invariant": "layers_reached",
+            "observed": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              }
+            ]
+          },
+          {
+            "expected": null,
+            "invariant": "outcome",
+            "observed": "NO_COMPARABLE_PATH"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "HELD",
+            "invariant": "status",
+            "observed": "COMPLETED"
+          }
+        ],
+        "contract_match": false,
+        "harmful": true,
+        "outcome_match": false,
+        "reason": "Technical mechanism says Quantity Balance applies a direct additive sum and rejects other expressions; original retained definition is [Inbound Quantity]-[Outbound Quantity]. No operation evidence was supplied to the synthesis spine. Confident wrong mechanism detail, original retained; no replacement.",
+        "recorded_at": "2026-10-11T10:25:53.770583+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "3168b12f-ebac-4054-b245-6de4eb0a2630",
+      "sha256": "eee9e3549e34c98fe29809e20d3b164e61ac270bfc84ce583ee1c79b874e6f5c",
+      "source_sha256": "9e80cdc0e1230f8466a5eb82cd105b9472b107385245f1476cf5395923ab27b8",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "64041e11-d0c4-483e-9690-376e966f4d53"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r3-CD-2e7fde6\\family-D\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-D",
+      "diagnostic_reads": 1,
+      "elapsed_seconds": 518.800173997879,
+      "engine_hash": "efd997d2cc639bdb5bbe282b7c720078a4f0763755b359db73db98f196641740",
+      "expected_hash": "dcb27412ecbe374f3ef5a47230a1f31304baf34830b3a802bf462d708aad0316",
+      "has_outputs": false,
+      "microdollars": 1376681,
+      "mode": "AGENT",
+      "model_calls": 25,
+      "outcome": null,
+      "physical_requests": 1,
+      "repeat": 3,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "NO_REPORTED_FIGURE",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "NO_COMPARABLE_PATH",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED",
+              "selection": null
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "HELD without delivered outputs. Its free-text stop reason says diagnostic caps stopped probes, but owned count is1/12; this is unvalidated agent rationale, not an established estate/cap finding. Preserve exact reason and report discrepancy.",
+        "recorded_at": "2026-10-11T10:25:53.770583+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "d5158634-0510-49b7-83cf-968558fc9fa4",
+      "sha256": "34eaf4a4d0d06377b568781b4904b8de5882229f0af73461622add77f1adbb7e",
+      "source_sha256": "be3de08f567327986ab3fdea7a0ac4bf568d620a6fa74c768219606bc32c96cc",
+      "status": "HELD",
+      "stop_reason": "I can support that the ticket was admitted for the declared target and scope, that lineage exists from Activity through movement_values into stock_movements_e1b8e1, and that both reproduce and probe attempts were unavailable because diagnostic read caps stopped them (agent-progress:0bd279b7437864a4f400306c53e473ea5a1d958c8b0551e5665266a52cd828e7, path-f9d0faee-6fe4-4eb3-9ceb-dc95464dac88, 716ea801-170a-4608-9490-d418762fb86f, probe-not-executed-40b7b7b2-b697-40b6-9c84-ea213ba15e37). With the remaining retained evidence, I do not have validator-safe support to conclude the exact saved filter context for North or to classify the difference outcome.",
+      "ticket_id": "8e483720-8e36-4fd5-b9a2-19d6bc5cabcd"
     },
     {
       "artifact": ".local\\round-fourteen\\paired-original-pipeline-C-24000\\family-C\\full-result.json",

@@ -4,6 +4,15 @@ from pathlib import Path
 from .estate_manifest import load, policy
 
 
+def install_candidate_reader(workspace):
+    """Same configured value-reading port for live construction and tape replay."""
+    if workspace.agent.config.get('_estate',{}).get('execution',{}).get('mode')=='LOCAL_EXPORTED':
+        from .adapters.local_installation import install
+    else:
+        from .adapters.form_candidate_values import install
+    install(workspace)
+
+
 def build(path, *, execution_enabled=True,secret_store=None):
     manifest=load(path)
     from .adapters.estate_installation import configuration,transports,provider
@@ -62,12 +71,10 @@ def _build_workspace(manifest,path,config,execution_enabled):
         # metadata port is absent. Never authenticate merely to list local data.
         workspace.report_lists=None
         if execution_enabled:
-            from .adapters.local_installation import install as install_local_candidates
-            install_local_candidates(workspace)
+            install_candidate_reader(workspace)
     else:
         from .adapters.report_list_installation import install as install_report_lists
         workspace.report_lists=install_report_lists(workspace,config)
         if execution_enabled:
-            from .adapters.form_candidate_values import install as install_form_candidates
-            install_form_candidates(workspace)
+            install_candidate_reader(workspace)
     return workspace

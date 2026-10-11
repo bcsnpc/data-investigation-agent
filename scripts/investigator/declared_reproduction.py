@@ -9,6 +9,7 @@ import json
 from decimal import Decimal, InvalidOperation
 from . import proposal_limits as limits
 from . import reported_figure as figure
+from .process_budget import phase
 
 CAPABILITY = 'declared_context_reproduction'
 KIND = 'DECLARED_CONTEXT_REPRODUCTION'
@@ -343,6 +344,7 @@ def validate(marker, observations, quantities=None):
     return marker
 
 
+@phase('REPRODUCTION')
 def run(adapter, layer, measure_id, scope):
     """Evaluate independent cells, retaining named refusals and cap-limited candidates."""
     if hasattr(adapter,'report_catalog') and 'report_binding' not in scope:

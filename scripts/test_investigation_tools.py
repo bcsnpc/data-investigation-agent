@@ -14,6 +14,25 @@ class PersistedBoundary:
   return {'receipt_id':receipt,'result':result}
 
 class InvestigationToolTests(unittest.TestCase):
+ def test_reproduction_uses_its_phase_when_filter_effect_walk_is_exhausted(self):
+  from investigator import process_budget
+  adapter=NeutralAdapter();phases=[]
+  scope={**copy.deepcopy(SCOPE),'question_kind':{'kind':'FILTER_EFFECT','source':{'start':0,'end':12,'quote':'which filter'}}}
+  state={'envelope':{**scope,'limits':{'cloud_calls':12}},'cloud_calls':1,'diagnostic_phase_counts':{'WALK':1,'REPRODUCTION':0}}
+  adapter.remaining_diagnostic_reads=lambda:process_budget.remaining(state)
+  original=adapter.evaluate_declared_context
+  def read(*args,**kwargs):
+   phases.append(process_budget.current());process_budget.admit(state,'declared context')
+   result=original(*args,**kwargs);state['cloud_calls']+=1;process_budget.charge(state);return result
+  adapter.evaluate_declared_context=read
+  tools=InvestigationTools(adapter,{'target':{'measure_id':'measure','scope_id':'scope'}},{'scope':scope},PersistedBoundary())
+  self.assertEqual(process_budget.remaining(state),0)
+  result=tools.invoke('reproduce',{'target_id':'target'})
+  self.assertTrue(phases);self.assertEqual(set(phases),{'REPRODUCTION'})
+  self.assertEqual(state['diagnostic_phase_counts']['WALK'],1)
+  self.assertLessEqual(state['cloud_calls'],12)
+  self.assertEqual(process_budget.current(),'WALK')
+  self.assertNotEqual(result.get('reason'),'Diagnostic read cap reached.')
  def setUp(self):
   self.adapter=Adapter(['top','lower'],{'top':8,'lower':8});self.boundary=PersistedBoundary()
   self.targets={'target':{'measure_id':'measure','scope_id':'picked'}};self.scopes={'picked':{'filters':[]},'other':{'filters':[{'column_id':'x','values':[1]}]}}

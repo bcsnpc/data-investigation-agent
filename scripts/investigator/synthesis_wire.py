@@ -47,6 +47,9 @@ def prepare(payload):
         'text':{'type':'string','description':'Mechanism only. Complete sentences, at most '+str(limits.ASSESSMENT_CLAIM)+' characters; no limitations or path-account references.'},
         'evidence_ids':{'type':'array','items':{'type':'string','enum':list(handles)}}},
         'required':['text','evidence_ids']}
+    if 'mechanism_evidence' in payload and not payload['mechanism_evidence']:
+        statement['properties']['text']['enum']=['']
+        statement['properties']['text']['description']='No retained operation evidence was supplied. Return an empty mechanism; the engine renders the complete finding.'
     from .path_narrative import divergent_boundaries
     boundaries=divergent_boundaries(payload)
     if boundaries:
