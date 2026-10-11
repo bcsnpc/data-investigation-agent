@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T09:09:09.352993+00:00",
+  "recorded_at": "2026-10-11T09:22:59.974492+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -615,6 +615,155 @@
       "status": "HELD",
       "stop_reason": "AGENT_STEP_CAP",
       "ticket_id": "7106bbb8-144b-4891-9949-00472cce9055"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r2-EF-v12\\family-E\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-E",
+      "diagnostic_reads": 0,
+      "elapsed_seconds": 510.5058591365814,
+      "engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "has_outputs": false,
+      "microdollars": 1140450,
+      "mode": "AGENT",
+      "model_calls": 25,
+      "outcome": null,
+      "physical_requests": 0,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": []
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "Safe step-cap hold; unavailable freshness evidence, two explicit support/citation rejections, repeated retained-evidence retrieval; no finding or outputs.",
+        "recorded_at": "2026-10-11T09:22:58.245402+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "9ac89b6a-df3e-46ff-8d9e-25516cb69a24",
+      "sha256": "37449c584b82a53277c186425bc13b57a2ad6b32c372b5280c84d61e80863b49",
+      "source_sha256": "657c031bd47bd29c6cb9dbcd599130a176a51466b301eb0da90a881cb733d056",
+      "status": "HELD",
+      "stop_reason": "AGENT_STEP_CAP",
+      "ticket_id": "91a54093-b283-411c-88c7-3c7fc42fe0a7"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r2-EF-v12\\family-F\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-F",
+      "diagnostic_reads": 2,
+      "elapsed_seconds": 396.6780381202698,
+      "engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",
+      "expected_hash": "d29bda93ea311613a7a3dc4bf486a4354a3c97868be4294d758e53fb656345f2",
+      "has_outputs": true,
+      "microdollars": 285332,
+      "mode": "AGENT",
+      "model_calls": 9,
+      "outcome": null,
+      "physical_requests": 5,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "Validated CONSISTENT_TO_BOUNDARY on equal 57043 values; both outputs explicitly NOT_ANSWERED for requested mechanism, source not reached. No currency or business-intent claim.",
+        "recorded_at": "2026-10-11T09:22:58.245402+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "94f20e69-1d52-4f2a-924a-a8fa452a0906",
+      "sha256": "727c1cffcd0c3271cc3e424d93dbb1508cc4798d67450546ec692a65cfbddc5c",
+      "source_sha256": "e85e88199d77e3b178971497c666173840ce23998da3208097241cadc048009e",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "17fcab60-b3e1-4b9b-b6fc-cbcac4ef3fb2"
     },
     {
       "artifact": ".local\\round-fourteen\\paired-original-pipeline-C-24000\\family-C\\full-result.json",
