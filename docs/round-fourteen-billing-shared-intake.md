@@ -24,3 +24,29 @@ First fresh pipeline pair (pre-compaction revision bcf2b83): ticket 01 admitted 
 Checkpoint, 2026-10-11 UTC: the independently repeated hybrid regression passed all 15 tests (native exit 0), including fallback from FINDINGS_SHARED/HELD and retention of the original exception. The transition fix is pushed as 5c5e94d; no further original-fixture pair was admitted.
 
 The first eight fresh billing forms are preserved: 01 admitted and delivered a qualified NO_COMPARABLE_PATH; 02 held on ambiguous measure name; 03, 05 and 14 held on description-subject admission; 04 held for a business-rule decision; 06 and 13 held on non-verbatim provenance. One technical admission, seven holds, no harmful delivered claim observed in these eight. These are partial results, not the complete 18-input pipeline or HYBRID score. Ticket 15 is running; chat twins and intake-only hybrid remain pending. Full current-source regression remains running. Original tickets, acceptance expectations and earlier tapes are unchanged.
+
+
+Fresh pipeline pass complete, 2026-10-11 UTC: 18 immutable inputs, one attempt each.
+
+| Input | Ticket | State | Technical admission | Finding / reason | Physical | Model calls |
+|---|---|---|---|---|---:|---:|
+| CHAT | ticket-01.txt | HELD | no | RETAINED_EXTRACTION_INVALID: Reported-figure occurrence does not exist in the ticket. | 0 | 2 |
+| CHAT | ticket-02.txt | CLARIFYING | no | Clarification: REPORT_OR_SCREENSHOT | 0 | 2 |
+| CHAT | ticket-03.txt | CLARIFYING | no | Clarification: NUMBER, COMPARISON | 0 | 2 |
+| CHAT | ticket-04.txt | CLARIFYING | no | Clarification: NUMBER, COMPARISON | 0 | 2 |
+| CHAT | ticket-05.txt | HELD | no | RETAINED_EXTRACTION_INVALID: Provenance quote not found verbatim in the ticket. | 0 | 2 |
+| CHAT | ticket-06.txt | CLARIFYING | no | Clarification: REPORT_OR_SCREENSHOT | 0 | 2 |
+| CHAT | ticket-13.txt | HELD | no | RETAINED_EXTRACTION_INVALID: Provenance quote not found verbatim in the ticket. | 0 | 2 |
+| CHAT | ticket-14.txt | HELD | no | RETAINED_EXTRACTION_INVALID: Provenance quote not found verbatim in the ticket. | 0 | 2 |
+| CHAT | ticket-15.txt | CLARIFYING | no | Clarification: NUMBER, COMPARISON | 0 | 2 |
+| FORM | ticket-03.txt | HELD | no | DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again. | 0 | 1 |
+| FORM | ticket-04.txt | HELD | no | The requested business-rule decision requires a domain specialist; technical process evidence cannot decide whether the rule is correct. | 0 | 1 |
+| FORM | ticket-05.txt | HELD | no | DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again. | 0 | 1 |
+| FORM | ticket-06.txt | HELD | no | Provenance quote not found verbatim in the ticket. | 0 | 2 |
+| FORM | ticket-13.txt | HELD | no | Provenance quote not found verbatim in the ticket. | 0 | 2 |
+| FORM | ticket-14.txt | HELD | no | DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again. | 0 | 1 |
+| FORM | ticket-15.txt | HELD | no | Ambiguous declared name: plan | 0 | 2 |
+| FORM | ticket-01.txt | COMPLETED | yes | NO_COMPARABLE_PATH | 1 | 2 |
+| FORM | ticket-02.txt | HELD | no | Ambiguous declared name: collected | 0 | 2 |
+
+No harmful delivery observed; none of these 18 met the full sealed answer contract. The earlier pipeline baseline remains unchanged. INTAKE_ONLY HYBRID is activated against retained definitions, with zero new estate or model calls for re-approval. Its 18 attempts are next.
