@@ -17,3 +17,10 @@ Dated C pipeline re-run under shared 24,000 bound, 2026-10-11: ticket e99ea780 h
 
 
 2026-10-11 ongoing C/G checkpoint: agent C admitted METRIC_COMPONENTS and lineage is AVAILABLE under the shared 24,000-character bound. A BUSINESS_QUESTION proposal was rejected with the exact consumer diagnosis "BUSINESS_QUESTION requires flow_consistency evidence" and affected claim indices1-6; it later held at AGENT_STEP_CAP after repeated retained-evidence fetches. Final capture/usage closure remains pending, so this is not a completed scored result. G is still running. No bound, read cap, expectation or claim validator was changed to obtain a result. Hosted Validation and archived billing metadata replay passed on c44ac47; full local regression and acceptance jobs remain pending.
+
+
+## Completed agent C re-run under 24,000 — 2026-10-11
+
+Ticket45f13140-277c-493a-bc4e-d78f78a15a19, sessionc4f4634f-611e-43bc-a706-9d3a39f67a54: HELD at AGENT_STEP_CAP. The component question was admitted, lineage became AVAILABLE, and one bounded DAX diagnostic probe succeeded. The enlarged bound removed the earlier resolver refusal, but did not earn an answer. Four BUSINESS_QUESTION proposals were refused with the specific diagnosis `BUSINESS_QUESTION requires flow_consistency evidence`; indices identified each affected proposed claim. The agent reused fetched evidence16times instead of collecting the missing support. No cross-boundary comparison or delivered synthesis/output; no harmful delivered finding. Terminal HELD projection matches the historical expectation only; full contract does not.
+
+25model calls,1physical/1diagnostic read against12,0guard requests; USD1.162171; elapsed710.659seconds. Tape045ab3dd-bec4-4b5d-9591-0bee134e0c04 sealed SHA256898355261565634fd259b6d7c8c6a4e48b8f7c4afd5d13a882e77fb535da8643, no pending/excluded capture bodies. Earlier C artifacts and expectations remain unchanged. Pipeline C separately held at intake, so its enlarged resolver was not exercised. G is still running; aggregate closing window is deferred until it drains.
