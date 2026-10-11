@@ -52,6 +52,7 @@ jobs:
           pip install -r scripts/requirements-tracing.txt
           python -m unittest discover -s scripts -p 'test_agent*.py'
           python -m unittest discover -s scripts -p 'test_local*.py'
+          python -m unittest discover -s acceptance/local_export -p 'test_*.py'
           python -m unittest discover -s scripts -p test_investigation_tools.py
           python -m unittest discover -s scripts -p test_tape_trace.py
           python -m unittest discover -s scripts -p test_trace_footer.py

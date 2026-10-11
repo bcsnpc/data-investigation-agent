@@ -25,6 +25,18 @@ def closed_wire_schema(value):
     if not isinstance(value, dict):
         return copy.deepcopy(value)
     result = {key: closed_wire_schema(item) for key, item in value.items()}
+    if 'const' in result:
+        result['enum'] = [result.pop('const')]
+    if 'enum' in result and 'type' not in result:
+        def scalar_type(item):
+            if item is None: return 'null'
+            if isinstance(item, bool): return 'boolean'
+            if isinstance(item, str): return 'string'
+            if isinstance(item, int): return 'integer'
+            if isinstance(item, float): return 'number'
+            raise ValueError('AGENT_ENUM_SCHEMA_TYPE')
+        types = sorted({scalar_type(item) for item in result['enum']})
+        result['type'] = types[0] if len(types) == 1 else types
     if result.get('type') != 'object':
         return result
     properties = result.get('properties', {})
@@ -65,7 +77,7 @@ def decision_schema(tool_schemas, outcomes):
                                                       'items': {'type': 'string'}}})}}),
         obj({'action': {'const': 'HOLD'}, 'summary': summary,
              'reason': {'type': 'string', 'minLength': 1, 'maxLength': 1000}})])
-    return {'anyOf': choices}
+    return closed_wire_schema({'anyOf': choices})
 
 
 INSTRUCTIONS = '''Investigate this ticket using the provided read-only tools.

@@ -1,9 +1,24 @@
 import unittest
-from investigator.agent_loop import AgentLoop, closed_wire_schema
+from investigator.agent_loop import AgentLoop, closed_wire_schema, decision_schema
 from jsonschema import Draft202012Validator
 
 
 class AgentLoopTests(unittest.TestCase):
+    def test_provider_decision_has_typed_scalar_enums_and_same_allowed_values(self):
+        wire = decision_schema({'lookup': {'type': 'object', 'additionalProperties': False,
+            'properties': {}, 'required': []}}, {'CONSISTENT_TO_BOUNDARY'})
+        def visit(value):
+            if isinstance(value, dict):
+                self.assertNotIn('const', value)
+                if 'enum' in value: self.assertIn('type', value)
+                for item in value.values(): visit(item)
+            elif isinstance(value, list):
+                for item in value: visit(item)
+        visit(wire)
+        self.assertTrue(Draft202012Validator(wire).is_valid(self.tool()))
+        invalid = self.tool(); invalid['action'] = 'WRITE'
+        self.assertFalse(Draft202012Validator(wire).is_valid(invalid))
+
     def test_strict_wire_preserves_optional_argument_shapes_without_null_defaults(self):
         consumer = {'type': 'object', 'additionalProperties': False,
                     'properties': {'id': {'type': 'string'}, 'choices': {'type': 'array', 'items': {'type': 'string'}}},

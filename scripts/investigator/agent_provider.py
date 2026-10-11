@@ -10,9 +10,10 @@ class GovernedDecision:
     def __init__(self, runtime, session_id, *, generate=None):
         if runtime.governor is None:
             raise ValueError('AGENT_USAGE_GOVERNOR_REQUIRED')
-        if generate is None and not (os.environ.get('INVESTIGATOR_MODEL_SPEND_DB') and
-                                     os.environ.get('INVESTIGATOR_MODEL_SPEND_MICRODOLLARS')):
-            raise ValueError('AGENT_DOLLAR_GUARD_REQUIRED')
+        if generate is None:
+            from .agent_dollar_guard import declare
+            from .process_tape import ACTIVE, event
+            self.dollar_authority = declare(tape=ACTIVE.get(), emit=event)
         self.runtime, self.session_id = runtime, session_id
         self.generate = generate
         self.calls = 0

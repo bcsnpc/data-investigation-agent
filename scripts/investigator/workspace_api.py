@@ -123,6 +123,13 @@ def create_app(workspace, token, port=8776):
                     result=progress(workspace,parts[0])
                 elif len(parts)==2 and parts[1]=='comments' and method=='POST':
                     result=workspace.forms.comment({'ticket_id':parts[0],**body})
+                elif len(parts)==2 and parts[1]=='agent-resume' and method=='POST':
+                    fields(body,['revision','comment_id'])
+                    if type(body['revision']) is not int or not isinstance(body['comment_id'],str) or not 1<=len(body['comment_id'])<=100:
+                        raise ValueError('Agent resume requires a revision and retained comment ID')
+                    from .agent_ticket import AgentTicket, selected
+                    if not selected(workspace):raise Conflict('Agent mode is not selected')
+                    result=AgentTicket(workspace).resume(parts[0],revision=body['revision'],comment_id=body['comment_id'])
                 elif len(parts)==2 and parts[1]=='screenshot-reply' and method=='POST':
                     result=workspace.forms.screenshot_reply({'ticket_id':parts[0],**body})
                 elif len(parts)==2 and parts[1]=='layout' and method=='GET':

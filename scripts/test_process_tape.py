@@ -92,7 +92,7 @@ class TapeTests(unittest.TestCase):
                 recorded.event('BOUNDED_RESPONSE', bytes_of({'value': 2}))
                 recorded.finish({})
             original = path.read_bytes()
-            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v9')
+            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v10')
             replayed = Tape(path)
             self.assertEqual(replayed.version, 'bounded-worker-tape-v1')
             replayed.event('BOUNDED_REQUEST', bytes_of({'request': 1}))
