@@ -16,6 +16,7 @@ from .investigation_tools import InvestigationTools, schemas as investigation_sc
 from .definition_target import procedure_scope
 from .process_outcomes import OUTCOMES
 from . import ticket_protocol as protocol
+from .run_recording import operation
 
 
 def selected(workspace):
@@ -27,6 +28,16 @@ class AgentTicket:
         self.workspace = workspace
         self.generate, self.synthesis_provider = generate, synthesis_provider
 
+    # The normal smart-operation recorder uses the same installed policy as
+    # form/chat submission. These are aliases, not a second intake contract.
+    @property
+    def configuration(self): return self.workspace.smart_intake.configuration
+    @property
+    def ownership(self): return self.workspace.smart_intake.ownership
+    @property
+    def auto_start(self): return self.workspace.smart_intake.auto_start
+
+    @operation('agent_resume')
     def resume(self, identity, *, revision, comment_id):
         tickets = self.workspace.smart_intake.tickets
         saved = tickets.get(identity)

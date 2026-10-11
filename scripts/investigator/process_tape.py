@@ -25,7 +25,8 @@ AGENT_VERSIONS = frozenset(('bounded-worker-tape-v9','bounded-worker-tape-v10','
 AGENT_OPERATIONS = frozenset(('agent_run',))
 CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11',VERSION))
 SMART_OPERATIONS=frozenset(('ticket_submit','ticket_reply','ticket_attach','ticket_share','ticket_close','ticket_respond','ticket_finish',
-                          'form_submit','form_reply','form_screenshot_reply','form_comment'))
+                          'form_submit','form_reply','form_screenshot_reply','form_comment','agent_resume'))
+AGENT_RESUME_VERSIONS = frozenset(('bounded-worker-tape-v12',))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
     'BUDGET','BUDGET_INPUT','BUDGET_INPUT_FAILURE','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
@@ -316,7 +317,8 @@ class Tape:
             elif kind=='OPERATION_START':
                 body=json.loads(validate_event(event,event['ordinal']))
                 supported={'intake','preview','create','run','synthesize'}
-                if self.version in SMART_VERSIONS:supported.update(SMART_OPERATIONS)
+                if self.version in SMART_VERSIONS:supported.update(SMART_OPERATIONS - {'agent_resume'})
+                if self.version in AGENT_RESUME_VERSIONS:supported.add('agent_resume')
                 if self.version in AGENT_VERSIONS:supported.update(AGENT_OPERATIONS)
                 if bootstrap['entry_point']=='workspace' and (set(body)!={'name','args','kwargs'} or body['name'] not in supported or not isinstance(body['args'],list) or not isinstance(body['kwargs'],dict)):
                     raise TapeError('TAPE_OPERATION_FIELDS')

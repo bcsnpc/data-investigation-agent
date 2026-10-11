@@ -63,6 +63,9 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
                        form_screenshot_reply=form_method('screenshot_reply'),form_comment=form_method('comment'))
     if tape.version in journal.AGENT_VERSIONS:
         methods.update(agent_run=workspace.agent_controller.run)
+    if tape.version in journal.AGENT_RESUME_VERSIONS:
+        from investigator.agent_ticket import AgentTicket
+        methods.update(agent_resume=AgentTicket(workspace).resume)
     result=None;error=None;operations=[]
     with ExitStack() as stack:
         if allow_engine_drift:
