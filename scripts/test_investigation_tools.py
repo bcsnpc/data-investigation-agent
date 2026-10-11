@@ -225,6 +225,18 @@ class TerminalSupportTests(unittest.TestCase):
   refs=self.prepare(False);refs.append(self.invoke('read_transformation',target_id='target',step=1)['facade_evidence_id'])
   result=self.tools.terminal_support('TRANSFORMATION_LOGIC','target',refs)
   self.assertEqual(result['assessment']['classification'],'TRANSFORMATION_LOGIC')
+ def test_terminal_keeps_producer_causal_limitation_without_pipeline_wrapper(self):
+  refs=self.prepare(False)
+  original=self.adapter.transformation_definition
+  limitation='Actual matching rows and key uniqueness were not established.'
+  def qualified(boundary):
+   result=original(boundary)
+   result['limitation']=limitation
+   return result
+  self.adapter.transformation_definition=qualified
+  refs.append(self.invoke('read_transformation',target_id='target',step=1)['facade_evidence_id'])
+  result=self.tools.terminal_support('TRANSFORMATION_LOGIC','target',refs)
+  self.assertEqual(result['assessment']['limits'].count(limitation),1)
  def test_differing_receipt_contexts_cannot_form_boundary(self):
   refs=self.prepare()
   from dataclasses import replace

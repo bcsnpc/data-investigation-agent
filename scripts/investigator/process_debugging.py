@@ -297,6 +297,10 @@ def _answer(outcome, step, observations, deepest, stopped_by='REACHED', baseline
     from .filter_effects import KIND as EFFECTS_KIND,LIMIT as EFFECTS_LIMIT
     effects=[o for o in observations if o.get('check_kind')==EFFECTS_KIND]
     if effects:result['limits'].append(EFFECTS_LIMIT)
+    for observation in observations:
+        judgment=observation.get('judgment') or {}
+        if judgment.get('limitation'):
+            result['limits'].append(judgment['limitation'])
     for key in ('business_output','technical_output'):
         if reproductions:result[key]['declared_context_reproductions']=reproductions
         if effects:result[key]['declared_filter_effects']=effects
@@ -428,9 +432,6 @@ def vertical(adapter: ProcessAdapter, measure_id: str, scope: dict, fallback=Non
                     'Elapsed delay and which state is newer are not established by the value comparison.'])
         contracts=path.get('quantity_contracts',[])
         if contracts:result['limits'].append('Quantities trace unchanged integral columns; joins may multiply rows and whole-row deduplication may remove them. Key uniqueness and intended grain are not established.')
-        for observation in observed:
-            limitation=(observation.get('judgment') or {}).get('limitation')
-            if limitation:result['limits'].append(limitation)
         from .source_delivery import render_account
         delivery_runs={o['delivery_result'].get('run_id') for o in observed if o.get('check_kind')=='SOURCE_DELIVERY'}
         for observation in observed:

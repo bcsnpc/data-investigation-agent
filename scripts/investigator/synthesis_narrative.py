@@ -93,7 +93,9 @@ def assemble(response,payload,state):
         import re
         if re.search(r'\b(?:you asked|answer to your question|partly answered|not answered)\b',value['technical_output']['text'],re.I):
             raise ValueError('Question coverage belongs to the engine, not model commentary')
-        if not rejected and not layer_rejection:path_narrative.validate_mechanism(value['technical_output']['text'],state['assessment']['limits'])
+        if not rejected and not layer_rejection:
+            path_narrative.validate_mechanism(value['technical_output']['text'],state['assessment']['limits'])
+            path_narrative.validate_causal_certainty(value['technical_output']['text'],payload)
     source=state['assessment']
     if value['business_output']['text']!=business_text(source['classification'],payload):
         raise ValueError('Business wording differs from the fixed outcome')

@@ -6,6 +6,15 @@ from investigator import process_outcomes,assessment_support
 import test_process_debugging as contract_fixtures
 
 class NarrativeContractTests(unittest.TestCase):
+    def test_causal_certainty_is_checked_against_original_judgment(self):
+        state,payload=self.source('TRANSFORMATION_LOGIC')
+        payload['evidence'].append({'id':'qualified-definition','result':{'judgment':{
+            'status':'COMPLETED','explanation':'Matches may multiply.',
+            'limitation':'Actual uniqueness is not established.'}}})
+        value=self.response(payload)
+        value['technical_output']['text']='Repeated matches explain the difference.'
+        with self.assertRaisesRegex(ValueError,'actual cause'):
+            narrative.assemble(narrative.Response(value),payload,state)
     def test_roles_render_without_a_boundary_or_model_role_reference(self):
         state,payload=self.source('CONSISTENT_TO_BOUNDARY')
         labels={'model':{'role':'SEMANTIC','name':'Calculation'}}

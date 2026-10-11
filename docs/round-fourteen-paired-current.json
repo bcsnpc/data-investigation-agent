@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T09:43:47.365667+00:00",
+  "recorded_at": "2026-10-11T10:07:27.484844+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -1009,6 +1009,122 @@
       "status": "COMPLETED",
       "stop_reason": "ENOUGH_DIAGNOSTICS",
       "ticket_id": "b62a5c1f-96f6-40f0-bfa6-5aff09e303d6"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r3-AB-551a049\\family-A\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-A",
+      "diagnostic_reads": 4,
+      "elapsed_seconds": 321.51271963119507,
+      "engine_hash": "f9adb5ef8a990fa222460e9573b8c811e5dc321bd9015788ef5249c7011f25f8",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "has_outputs": true,
+      "microdollars": 424251,
+      "mode": "AGENT",
+      "model_calls": 12,
+      "outcome": "NO_COMPARABLE_PATH",
+      "physical_requests": 10,
+      "repeat": 3,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": "NO_COMPARABLE_PATH"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": true,
+        "outcome_match": false,
+        "reason": "Technical prose asserts repeated join matches explain the quantity increase, while retained judgment supports possibility only and cause_verified is false. Business output says the explanation is unconfirmed; original harmful output retained. No replacement.",
+        "recorded_at": "2026-10-11T10:07:26.215336+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "5cd46575-ea32-4b95-98b2-c6172dbc4523",
+      "sha256": "5c47259f991d81d0fd2736c57756340391f88b09442bb7fbcb1c87477083decc",
+      "source_sha256": "e4f9185ba131b5d55d0ebdf074ca1bd7d3f001721da699b0e2e999bbf2545a42",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "a651d1cf-f6b2-47a8-b3b0-0c66c77dcbba"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r3-AB-551a049\\family-B\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-B",
+      "diagnostic_reads": 3,
+      "elapsed_seconds": 414.7780330181122,
+      "engine_hash": "f9adb5ef8a990fa222460e9573b8c811e5dc321bd9015788ef5249c7011f25f8",
+      "expected_hash": "653988e325f9a7d7f38fc0518e62dade6b32f55ad2115e1436278403e3028044",
+      "has_outputs": false,
+      "microdollars": 1187275,
+      "mode": "AGENT",
+      "model_calls": 25,
+      "outcome": null,
+      "physical_requests": 4,
+      "repeat": 3,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "NO_KNOWN_PATTERN",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "HELD at unchanged 25-step cap; no delivered claim. Retained delivery rejections identify absent flow consistency and unknown citation.",
+        "recorded_at": "2026-10-11T10:07:26.215336+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "9a87a6da-1778-4409-bd9b-2709737f5df6",
+      "sha256": "0dcf33ec01cf0d77d63f3f3fe71cc90a24c4f6af0c8162258fe68594251c5495",
+      "source_sha256": "63db0922da874f379b07ee9012edc7d2e5a479590151d2bb4a9dc9b1dbf338fd",
+      "status": "HELD",
+      "stop_reason": "AGENT_STEP_CAP",
+      "ticket_id": "3017e223-e925-4693-99fc-8e7b24de2973"
     },
     {
       "artifact": ".local\\round-fourteen\\paired-original-pipeline-C-24000\\family-C\\full-result.json",

@@ -70,7 +70,7 @@ def build(tools,outcome,target_id,citations):
   if definition and definition.get('evidence',{}).get('id') in definition_refs:
    result=definition;ev=copy.deepcopy(result['evidence'])
    if result.get('explains') is True and obs['values_equal'] is False:
-    ev.setdefault('judgment',{k:copy.deepcopy(result[k]) for k in ('status','explains','explanation') if k in result});ev['comparison_id']=obs['id'];add(ev,'transformation_definition','mechanism','established')
+    ev.setdefault('judgment',{k:copy.deepcopy(result[k]) for k in ('status','explains','explanation','limitation') if k in result});ev['comparison_id']=obs['id'];add(ev,'transformation_definition','mechanism','established')
   if outcome in BOUNDARY_ATTRIBUTIONS and not obs['values_equal']:
    baseline={'status':'ESTABLISHED','layer':upper.layer,'reason':None,'evidence_ids':[upper.evidence['id']]}
  if outcome in ('CONSISTENT_TO_BOUNDARY','CONSISTENT_TO_SOURCE') and any(c['values_equal'] is not True for c in comparisons):

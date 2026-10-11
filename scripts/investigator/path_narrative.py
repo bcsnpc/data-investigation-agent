@@ -145,7 +145,9 @@ def producer_rules():
         'Never attribute a refusal, failed comparison, missing field or termination to a cause. Those are engine-rendered status facts, not mechanisms. '
         'The mechanism_evidence section contains original retained definition evidence and a '
         'completed judgment where present. Explain only the recorded operation; its limitations '
-        'are rendered locally. No new inference, value or proof is supplied by that display copy.')
+        'are rendered locally and are not causal proof. When describing the effect of repeated join matches, use one '
+        'possibility marker in that effect sentence; never state that they actually explain the observed difference. '
+        'No new inference, value or proof is supplied by that display copy.')
 
 
 def mechanism_schema(bound):
@@ -203,6 +205,22 @@ def validate_mechanism(text,limits=()):
             phrase=' '.join(sentence.casefold().split()).strip(' .;')
             if phrase and phrase in normalized:
                 raise ValueError('Mechanism repeats a retained limitation')
+
+
+def validate_causal_certainty(text,payload):
+    """A retained operation judgment is compatibility evidence, not actual cause.
+
+    Reject affirmative attribution in that situation. This lexical guard is not
+    an exhaustive semantic entailment checker; original judgments remain the
+    authority and their limitations are rendered independently.
+    """
+    import re
+    entries=payload.get('mechanism_evidence',payload.get('evidence',[]))
+    if not any((e.get('result',{}).get('judgment') or e.get('judgment')) for e in entries):return
+    causal=r'\b(?:explains?|causes?|caused|replicates?|duplicates?|increases?|raises?|repeat(?:s|ed)?|multipl(?:y|ies))\b'
+    for sentence in re.split(r'(?<=[.!?])\s+',text):
+        if re.search(causal,sentence,re.I) and not re.search(HEDGE_PATTERN,sentence):
+            raise ValueError('Mechanism asserts an actual cause from a definition judgment that establishes possibility only')
 
 
 def render_roles(payload,source=None):
