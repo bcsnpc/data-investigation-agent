@@ -6,6 +6,13 @@ from test_intake_extraction import fixture
 
 
 class TicketClarificationTests(unittest.TestCase):
+    def test_unnamed_visual_never_becomes_an_internal_id_choice(self):
+        raw,payload=fixture('In Report, Quantity differs.')
+        for visual in payload['models'][0]['visuals']:visual['names']=[]
+        offer=planner.batch(protocol.new('ticket'),{'retained_extraction':raw},payload)
+        self.assertEqual(offer['questions'],[])
+        self.assertIn('user-visible name',offer['blocked'])
+
     def test_saved_single_axis_address_is_offered_only_for_confirmable_matrix(self):
         raw,payload=fixture('In Report, selected North Quantity differs.',
             selections=[{'quote':'selected North','column':None,'value':'North','role':'PRIMARY'}])

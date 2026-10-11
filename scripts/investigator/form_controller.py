@@ -202,7 +202,10 @@ class Forms:
         if visual:
             figure=p.get('reported_figure',{'state':'UNSPECIFIED'})
             route=(p.get('ticket_route') or {}).get('route')
-            alternatives.append(('Use the described '+next(iter(visual.get('names',[])),visual['target_id']),{
+            from .clarification_grounding import label as visible_label
+            from .intake_span_references import enabled
+            visual_name=visible_label(visual.get('names',[])) if enabled() else next(iter(visual.get('names',[])),visual['target_id'])
+            alternatives.append(('Use the described '+visual_name,{
                 'report_id':binding.get('report_id'),'page_id':visual['page_id'],'target_id':visual['target_id'],
                 'cell_mode':target['mode'],'comparison':None if route=='DECLARED_SUBJECT' else route,
                 'value_seen':figure.get('source',{}).get('quote'),
@@ -247,7 +250,9 @@ class Forms:
                     if request['target_id'] and visual['target_id']!=request['target_id']:continue
                     modes=['TOTAL','KEYED'] if visual['grouping_columns'] else ['UNGROUPED']
                     for mode in modes:
-                        label=next(iter(visual.get('names',[])),visual['target_id'])+' / '+{
+                        from .clarification_grounding import label as visible_label
+                        from .intake_span_references import enabled
+                        label=(visible_label(visual.get('names',[])) if enabled() else next(iter(visual.get('names',[])),visual['target_id']))+' / '+{
                             'UNGROUPED':'single number','KEYED':'one row','TOTAL':'total row'}[mode]
                         options.append((label,{'target_id':visual['target_id'],'cell_mode':mode}))
         if not options:return self._hold(saved,'No executable retained choice for '+wanted)

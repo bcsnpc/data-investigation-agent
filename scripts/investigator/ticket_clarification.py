@@ -146,8 +146,10 @@ def batch(ticket, source, payload, configuration=None):
                         modes.insert(0,('KEYED',' (cell: '+keys+')'))
                 report=next(r for r in model['reports'] if r['id']==visual['report_id'])
                 page=' / '.join(visual.get('page_names') or [])
+                from .clarification_grounding import label as visible_label
+                from .intake_span_references import enabled
                 name=' / '.join([report['name'],*([page] if page else []),
-                                ' / '.join(visual.get('names') or [visual['target_id']])])
+                                visible_label(visual.get('names',[])) if enabled() else ' / '.join(visual.get('names') or [visual['target_id']])])
                 for mode,suffix in modes:
                     for figure in figures:
                         label=name+suffix+(' — '+repr(figure['quote'])+f" at {figure['start']}:{figure['end']}" if figure else ' — no figure supplied')

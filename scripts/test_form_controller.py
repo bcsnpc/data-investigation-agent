@@ -24,6 +24,12 @@ class FormControllerTests(unittest.TestCase):
 
     def submit(self,**changes):return self.workspace.forms.submit({**self.request,**changes})
 
+    def test_unnamed_visual_is_refused_instead_of_displaying_its_id(self):
+        for visual in self.catalog['models'][0]['visuals']:visual['names']=[]
+        with self.assertRaisesRegex(Conflict,'user-visible name'):
+            self.workspace.forms._ask({'ticket':{'form_input':{**self.request,'target_id':None,'cell_mode':None}}},
+                self.catalog,{'questions':[{'field':'NUMBER'}]})
+
     def proposal(self,saved):return self.workspace.intake.get(saved['ticket']['intake_id'])
 
     def test_complete_form_adopts_without_model_or_fake_confirmation(self):
