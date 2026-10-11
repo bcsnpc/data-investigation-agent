@@ -5,6 +5,15 @@ from .output_contract import _business_mechanism
 LIMITATION='These findings apply only to the recorded scope; unchecked conditions remain unestablished.'
 
 
+def operation_evidence(payload):
+    """The same typed originals supply the provider inventory and local validator."""
+    if 'mechanism_evidence' in payload:
+        return payload['mechanism_evidence']
+    return [entry for entry in payload.get('evidence',[])
+            if set(entry.get('process_roles',[])) &
+            {'transformation_definition','presentation_definition'}]
+
+
 def divergent_boundaries(payload):
     if 'boundaries' in payload:
         return sorted(row['comparison_id'] for row in payload['boundaries'] if row.get('values_equal') is False)

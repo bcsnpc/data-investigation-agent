@@ -39,9 +39,9 @@ class Response:
 def mechanism_unavailable(payload):
     """An explicit empty operation inventory cannot support model mechanism prose.
 
-    Historical payloads without this field retain their recorded contract.
+    The provider spine and original local payload share the same typed inventory.
     """
-    return 'mechanism_evidence' in payload and not payload['mechanism_evidence']
+    return not path_narrative.operation_evidence(payload)
 
 
 def schema(payload):

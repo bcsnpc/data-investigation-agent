@@ -9,11 +9,11 @@ from .onboarding import encoded
 
 def build(payload, state, bound):
     from .output_contract import business_text
-    from .path_narrative import facts
+    from .path_narrative import facts,operation_evidence
     outcome = (state.get('assessment') or {}).get('classification')
     result = {'version': 2, 'question': payload['question'],
               'scope': copy.deepcopy(payload['scope']), 'evidence': [],
-              'candidates': [], 'boundaries': facts(payload), 'mechanism_evidence': [],
+              'candidates': [], 'boundaries': facts(payload), 'mechanism_evidence': copy.deepcopy(operation_evidence(payload)),
               'elided': [], 'rendered_business': business_text(outcome, payload) if outcome else None}
     if outcome: result['outcome'] = outcome
     from .path_narrative import layer_tokens
@@ -35,8 +35,6 @@ def build(payload, state, bound):
         # A display copy, never a reconstructed validation observation. Keep
         # the complete retained definition and judgment together, including
         # provenance and limits; future evidence fields cannot silently vanish.
-        if set(entry.get('process_roles', [])) & {'transformation_definition', 'presentation_definition'}:
-            result['mechanism_evidence'].append(copy.deepcopy(entry))
         if row.get('check_kind') == 'DECLARED_CONTEXT_REPRODUCTION':
             cell = row.get('cell') or {}
             declarations = row.get('declarations', [])

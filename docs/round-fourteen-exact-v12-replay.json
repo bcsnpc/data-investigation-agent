@@ -46,6 +46,51 @@
       "prior_failed_replays_preserved": true,
       "recorded_at": "2026-10-11T10:37:58.394933+00:00",
       "setup_failure": "First restored-port diagnostic patched an imported module but invoked a separate runpy namespace; no setup change was applied there. Corrected diagnostic invokes the patched consumer."
+    },
+    {
+      "consumer_revision": "984892d",
+      "date": "2026-10-11",
+      "model_calls": 0,
+      "originals_unchanged": true,
+      "reads": 0,
+      "runs": [
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "984892d",
+          "family": "family-E",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "202e9ed05c38bbb77428c85f914c0fb367d5da81751232cb986aaf04a709a7f0",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "202e9ed05c38bbb77428c85f914c0fb367d5da81751232cb986aaf04a709a7f0",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\6b60d8c3-a0b7-4a2d-b3be-ce2ebae050bf\\tape.json"
+        },
+        {
+          "claim": "Engine decisions and outputs replayed from bounded worker/provider bytes; upstream decoding not exercised.",
+          "consumer_revision": "984892d",
+          "family": "family-F",
+          "matched": true,
+          "model_calls": 0,
+          "network_requests": 0,
+          "operations": [
+            "form_submit"
+          ],
+          "outcome": null,
+          "recorded_engine_hash": "202e9ed05c38bbb77428c85f914c0fb367d5da81751232cb986aaf04a709a7f0",
+          "recorded_engine_identity_used": false,
+          "replay_engine_hash": "202e9ed05c38bbb77428c85f914c0fb367d5da81751232cb986aaf04a709a7f0",
+          "status": null,
+          "synthesis_status": null,
+          "tape_path": "D:\\dia-round-eleven-links\\.local\\process-tapes\\790afff4-2026-4741-9971-8a1bca802844\\tape.json"
+        }
+      ]
     }
   ],
   "engine_hash": "abfcbf10568f67aee03923b2f9951f501605bb11ce93cb63916fb00eac1146b2",

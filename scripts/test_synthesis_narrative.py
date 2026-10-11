@@ -130,8 +130,12 @@ class NarrativeContractTests(unittest.TestCase):
             intent_dependency='NOT_REQUIRED',intent_basis='Implemented behavior only.',intent_evidence_ids=[],
             measure_connection='ESTABLISHED',measure_connection_basis='A baseline was read.',
             measure_connection_evidence_ids=['baseline'],remaining_test='Obtain intended rules.')
+        observations['synthetic-operation']={'id':'synthetic-operation','status':'COMPLETED',
+            'tool':'process','completeness':'COMPLETE_RESPONSE','process_roles':['presentation_definition'],
+            'result':{'definition':'The synthetic operation carries the additive quantity.'}}
         return {'envelope':{'symptom':'Explain the observed difference.'},'assessment':value,'observations':list(observations.values())},{'evidence':[{'id':i,
-            **({'result':copy.deepcopy(o)} if 'surface_difference' in o or outcome=='DECLARED_FILTER_EFFECTS' else {})} for i,o in observations.items()],
+            **({'process_roles':o['process_roles'],'result':copy.deepcopy(o.get('result',o))} if 'process_roles' in o else
+               {'result':copy.deepcopy(o)} if 'surface_difference' in o or outcome=='DECLARED_FILTER_EFFECTS' else {})} for i,o in observations.items()],
             'deterministic_process_finding':{'classification':outcome}}
 
     def response(self,payload):

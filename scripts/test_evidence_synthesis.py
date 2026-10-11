@@ -141,8 +141,8 @@ class SynthesisTests(unittest.TestCase):
                    'evidence_ids':[source['observations'][0]['id']]}
         business={**statement,'text':narrative.business_text(source['assessment']['classification'])}
         def provider(view,**kwargs):
-            return {'technical_output':{'text':narrative.path_narrative.summary(payload),
-                'evidence_ids':[view['evidence'][0]['id']]}},{}
+            self.assertEqual(view['mechanism_evidence'],[])
+            return {'technical_output':{'text':'','evidence_ids':[]}},{}
         with patch('ticket_planner.azure_generate',side_effect=provider):
             result=agent.synthesize(state['id'],synthesis.azure_synthesize)
         self.assertEqual(result['synthesis']['status'],'COMPLETED')
@@ -152,7 +152,7 @@ class SynthesisTests(unittest.TestCase):
         validate_account(result['outcome']['synthesis_outputs'],source)
         self.assertEqual(result['outcome']['synthesis_outputs']['technical_output']['mandatory_limits'],source['assessment']['limits'])
 
-    def test_one_rejected_sentence_then_valid_retry_preserves_original_contract(self):
+    def test_unsupported_mechanism_then_empty_retry_preserves_original_contract(self):
         agent,state=self.stopped()
         with agent.runtime.db() as db:
             source=agent.load(db,state['id']);payload=synthesis_digest.build(source,db)
@@ -161,15 +161,17 @@ class SynthesisTests(unittest.TestCase):
         calls=[]
         def provider(view,**kwargs):
             calls.append(kwargs)
-            text='Unfinished prose' if len(calls)==1 else 'The retained calculation adds the measured entries.'
-            return {'technical_output':{'text':text,'evidence_ids':[view['evidence'][0]['id']]}},{'usage':{'input_tokens':1,'output_tokens':1}}
+            self.assertEqual(view['mechanism_evidence'],[])
+            text='Unfinished prose' if len(calls)==1 else ''
+            return {'technical_output':{'text':text,'evidence_ids':[]}}, {'usage':{'input_tokens':1,'output_tokens':1}}
         with patch('ticket_planner.azure_generate',side_effect=provider):
             result=agent.synthesize(state['id'],synthesis.azure_synthesize)
         record=result['synthesis']
         self.assertEqual(record['calls'],2);self.assertEqual(record['status'],'COMPLETED')
         self.assertEqual(record['assessment']['support'],source['assessment']['support'])
         self.assertNotIn('mechanism_error',record)
-        self.assertEqual(record['outputs']['technical_output']['model_mechanism']['text'],'The retained calculation adds the measured entries.')
+        self.assertEqual(record['outputs']['technical_output']['model_mechanism']['text'],'')
+        self.assertEqual(record['outputs']['technical_output']['model_mechanism']['provenance'],'MECHANISM_NOT_STATED')
         self.assertLessEqual(calls[1]['generation_options']['timeout_seconds'],calls[0]['generation_options']['timeout_seconds'])
 
     def test_two_rejected_model_sentences_keep_original_result_and_both_outputs(self):
