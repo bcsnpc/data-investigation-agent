@@ -378,3 +378,9 @@ Dated Round Thirteen repair,2026-10-10: shared engine-owned layer registry now f
 
 
 Dated Round Thirteen capture checkpoint (2026-10-10 America/Chicago /2026-10-11 UTC):44fixture attempts have130captured operations checked offline,124exact matches and6blocked replays. This is capture replay, not accuracy. The final four attempts, billing collection, strengthened publication security and encrypted assets remain pending. No demo or full-round offline-success claim; #423 remains draft. See docs/round-thirteen-live-results.md.
+
+
+Dated Round Thirteen capture checkpoint,2026-10-10 America/Chicago /2026-10-11 UTC:48fixture attempts/142operations,136exact replay matches and6blocked; zero new estate/model calls for replay. Earlier44 map retained; docs/round-thirteen-replay-48.json holds final fixture map. Enhanced metadata credential checker and11focused tests pass, including corrected hermetic promoted capture tests. Actual source audit and V2 publication scans pending; billing/chat/matrix not yet executed. Engine unchanged, prior freeze invalid,#423draft; demo notearned. Four prior authentication controls remain charged after separately recorded local metadata abort.
+
+
+Dated source-security admission,2026-10-11 UTC: full read-only audit passed39tables/31274rows/164119TEXTcells plus115schema rows; source main-file hash unchanged and configured inventory absent. Audited safe() AST matches the promoted inline checker. Zero backups, estate/model calls or scope changes. Receipt SHA256 ddc08497dc5b9d57578e1b2390f189e5e7b093592ad1cd5f40caa3ecc9b95374. A distinct bounded billing metadata collection is now admitted; no billing investigation or context approval has occurred.

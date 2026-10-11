@@ -15,20 +15,47 @@ from investigator.planner_recording import _safe,RecordingError
 from investigator.privacy_projection import declaration
 
 
+MAX_JSON_LAYERS=8
+
 def safe(value):
-    _safe(journal.bytes_of(value))
-    if isinstance(value,dict):
-        for key,item in value.items():
-            if key.lower() in ('authorization','proxy-authorization','set-cookie','cookie'):
-                raise RecordingError('METADATA_CAPTURE_AUTH_HEADER')
-            # Native definition payloads are encoded; audit their decoded contents.
-            if key=='payload' and isinstance(item,str):
-                try:decoded=base64.b64decode(item,validate=True)
-                except ValueError:pass
-                else:_safe(decoded)
-            safe(item)
-    elif isinstance(value,list):
-        for item in value:safe(item)
+ # One whole serialized scan retains the old parent/subtree representations.
+ _safe(journal.bytes_of(value))
+ strings=[]
+ def visit(item,decoded_depth=0):
+  if isinstance(item,str):
+   strings.append(item)
+   try:decoded=json.loads(item)
+   except ValueError:pass
+   else:
+    if decoded_depth>=MAX_JSON_LAYERS:raise RecordingError('METADATA_CAPTURE_JSON_DECODING_BOUND')
+    # JSON-looking values may encode another object or another JSON string.
+    # Scan and traverse each decoded layer, rather than trusting the wrapper
+    # string's repr to expose Unicode-escaped credentials inside it.
+    _safe(item.encode('utf8'))
+    _safe(journal.bytes_of(decoded))
+    visit(decoded,decoded_depth+1)
+  elif isinstance(item,dict):
+   for key,child in item.items():
+    if key.lower() in ('authorization','proxy-authorization','set-cookie','cookie'):raise RecordingError('METADATA_CAPTURE_AUTH_HEADER')
+    if key=='payload' and isinstance(child,str):
+     try:decoded=base64.b64decode(child,validate=True)
+     except ValueError:pass
+     else:
+      _safe(decoded)
+      try:definition=json.loads(decoded)
+      except ValueError:pass
+      else:
+       if decoded_depth>=MAX_JSON_LAYERS:raise RecordingError('METADATA_CAPTURE_JSON_DECODING_BOUND')
+       visit(definition,decoded_depth+1)
+    visit(child,decoded_depth)
+  elif isinstance(item,list):
+   for child in item:visit(child,decoded_depth)
+ visit(value)
+ if strings:
+  # JSON repr escapes nested strings; the previous leaf scans also examined
+  # their literal decoded content. NUL prevents cross-leaf token formation and
+  # forces _safe's JSON parser not to interpret a JSON-looking string twice.
+  _safe(('\0'+'\0'.join(strings)+'\0').encode('utf8'))
 
 
 class CapturedHttp(MetadataHttp):
@@ -53,6 +80,9 @@ def snapshot(source,destination):
     if not source.exists():return None
     with closing(sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True)) as db:
         db.execute('BEGIN')
+        # The backup retains DDL as well as ordinary table rows.
+        for row in db.execute('SELECT type,name,tbl_name,rootpage,sql FROM sqlite_master ORDER BY type,name'):
+            safe(list(row))
         tables=[r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")]
         for table in tables:
             quoted='"'+table.replace('"','""')+'"'
@@ -61,7 +91,11 @@ def snapshot(source,destination):
                     if isinstance(value,str):
                         try:safe(json.loads(value))
                         except json.JSONDecodeError:_safe(value.encode())
-                    elif isinstance(value,bytes):_safe(value)
+                    elif isinstance(value,bytes):
+                        _safe(value)
+                        try:decoded=value.decode('utf8')
+                        except UnicodeDecodeError:pass
+                        else:safe(decoded)
         # Backup a separate read connection: the validated snapshot stays stable.
         with closing(sqlite3.connect(destination)) as output:db.backup(output)
         db.rollback()
