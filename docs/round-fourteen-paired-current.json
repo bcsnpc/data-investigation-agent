@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T08:30:03.673157+00:00",
+  "recorded_at": "2026-10-11T08:31:05.738384+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -341,7 +341,7 @@
         "harmful": false,
         "outcome_match": false,
         "reason": "HELD at 25 steps; mixed technical subject was eventually admitted, but repeated evidence fetches/listing produced no probe or answer.",
-        "recorded_at": "2026-10-11T08:30:02.385845+00:00",
+        "recorded_at": "2026-10-11T08:31:04.761378+00:00",
         "review_pending": false,
         "root_reviewed": true
       },
@@ -371,10 +371,15 @@
       "physical_requests": 1,
       "repeat": 1,
       "root_review": {
-        "review_pending": true,
-        "root_reviewed": false
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "NEEDS_INPUT after 25 steps; one semantic probe, source path undeclared. Asked for the business/system definition of Q49, without changing the selected target or claiming business correctness. No delivered output.",
+        "recorded_at": "2026-10-11T08:31:04.761378+00:00",
+        "review_pending": false,
+        "root_reviewed": true
       },
-      "scoring_status": "PENDING_ROOT_REVIEW",
+      "scoring_status": "ROOT_REVIEWED",
       "sealed_tapes": 1,
       "session_id": "61f3fe6d-a5a4-477d-b5f6-6db15b8c2c93",
       "sha256": "d9fa4fdac5c17a547c7c917cf724e72302952f9e83279006191508c560361a85",
