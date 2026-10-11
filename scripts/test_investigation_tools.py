@@ -182,6 +182,18 @@ class TerminalSupportTests(unittest.TestCase):
   result=self.tools.terminal_support('CONSISTENT_TO_BOUNDARY','target',refs)
   self.assertEqual(result['assessment']['classification'],'CONSISTENT_TO_BOUNDARY')
   self.assertEqual(len(self.adapter.evaluated),count);self.assertFalse(result['delivery_validated'])
+ def test_agent_preserves_roles_and_names_unchecked_resolved_boundary(self):
+  self.adapter.layers=[{'id':'top'},{'id':'lower'},{'id':'third'}]
+  refs=self.prepare()
+  path=self.tools._paths['measure'];path['stopped_by']='NO_LINEAGE'
+  path['layer_labels']={'top':{'role':'SEMANTIC','name':'Measure'},'lower':{'role':'SERVING','name':'Served'}}
+  result=self.tools.terminal_support('CONSISTENT_TO_BOUNDARY','target',refs)['assessment']
+  self.assertEqual(result['technical_output']['layer_labels'],path['layer_labels'])
+  self.assertEqual(result['support']['process']['visibility_boundary']['stopped_by'],'REACHED')
+  for output in ('business_output','technical_output'):
+   self.assertEqual(result[output]['unverified_boundaries'],[{'upper_layer':'lower','lower_layer':'third','reason':'Investigation terminated before this boundary'}])
+   self.assertEqual(result[output]['checked_depth'],'lower')
+  self.assertTrue(any('Unchecked lower -> third' in text for text in result['limits']))
  def test_unknown_citation_cannot_authorize_terminal(self):
   self.prepare()
   with self.assertRaisesRegex(ValueError,'unknown or unpersisted'):self.tools.terminal_support('DEFECT','target',['made-up'])

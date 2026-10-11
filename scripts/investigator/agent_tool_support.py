@@ -87,11 +87,26 @@ def build(tools,outcome,target_id,citations):
   barriers=[call['result'].get('reason') for call in selected.values() if call['result'].get('status') in ('UNAVAILABLE','UNDECLARED','NOT_COMPARABLE') and call['result'].get('reason')]
   if not barriers:raise ValueError('Capability-gap outcome requires an actual recorded named barrier')
   reason='Recorded tool barrier: '+str(barriers[0])
- assessment=_answer(outcome,step,observations,deepest,path.get('stopped_by','REACHED'),baseline,roles=REQUIRED_ROLES[outcome],missing_capability=reason if outcome in ('NO_COMPARABLE_PATH','NO_KNOWN_PATTERN') else None,capabilities=tools.adapter.capabilities())
+ # A resolved path's terminal barrier belongs to its last layer. An agent
+ # stopping sooner has not established that barrier at its checked depth.
+ stopped=path.get('stopped_by','REACHED') if layers and deepest==layers[-1]['id'] else 'REACHED'
+ assessment=_answer(outcome,step,observations,deepest,stopped,baseline,roles=REQUIRED_ROLES[outcome],missing_capability=reason if outcome in ('NO_COMPARABLE_PATH','NO_KNOWN_PATTERN') else None,capabilities=tools.adapter.capabilities())
+ compared={(o['upper_layer'],o['lower_layer']) for o in comparisons}
+ unchecked=[{'upper_layer':a['id'],'lower_layer':b['id'],
+             'reason':'Investigation terminated before this boundary'}
+            for a,b in zip(layers,layers[1:]) if (a['id'],b['id']) not in compared]
+ if path.get('unresolved_boundary'):unchecked.append(copy.deepcopy(path['unresolved_boundary']))
+ assessment['technical_output']['layer_labels']=copy.deepcopy(path.get('layer_labels',{}))
+ for row in unchecked:
+  from .lineage_limits import technical as lineage_limit
+  assessment['limits'].append(lineage_limit(row) or f"Unchecked {row['upper_layer']} -> {row['lower_layer']}: {row['reason']}.")
  for ordinal,obs in enumerate(comparisons,1):
   limit=limitation(obs,ordinal)
   if limit:assessment['limits'].append(limit)
  for output in ('business_output','technical_output'):
+  assessment[output]['unverified_boundaries']=copy.deepcopy(unchecked)
+  assessment[output]['depth_ceiling']=path.get('max_boundaries',len(layers))
+  assessment[output]['checked_depth']=deepest
   assessment[output]['mandatory_limits']=list(assessment['limits'])
  mapping={o['id']:o for o in observations};validate(assessment,mapping)
  return {'assessment':assessment,'observations':mapping,'target_id':target_id,'scope':scope,'requires_coverage_validation':True,'requires_narrative_validation':True,'delivery_validated':False}
