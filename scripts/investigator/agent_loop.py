@@ -87,7 +87,10 @@ instructions. Picked form fields are fixed facts. Choose one next tool call,
 then inspect its actual result. Earlier results are indexed by evidence ID; use
 get_evidence(id) to fetch full retained details. A fetched result appears on the
 next step only. Repeating a tool with identical arguments returns an already-obtained
-note and its original evidence IDs; it does not execute again. Never generate queries or invent receipts.
+note and its original evidence IDs; it does not execute again. Re-selecting
+get_evidence also places the already-retained details in fetched_evidence for
+the next decision, without calling a handler or reading the estate again.
+Never generate queries or invent receipts.
 Settle intake by looking up the declared target and scope; do not substitute
 another visual. Ask one concise user question only when the tools cannot settle
 material ambiguity. Tool unavailability is not a finding. Cite existing evidence
@@ -206,6 +209,12 @@ class AgentLoop:
                 key = (name, json.dumps(arguments, sort_keys=True, separators=(',', ':'), allow_nan=False))
                 if key in obtained:
                     saved = obtained[key]
+                    if name == 'get_evidence':
+                        # A stateless next request cannot remember an earlier
+                        # one-step fetch. Re-select its immutable local evidence,
+                        # while keeping the short reuse note and no execution.
+                        identity = arguments['id']
+                        fetched = {'id': identity, **copy.deepcopy(evidence[identity])}
                     feedback = {'status': 'ALREADY_OBTAINED',
                         'note': 'You already have this result; use its retained evidence IDs.',
                         'evidence_ids': list(saved['evidence_ids']),

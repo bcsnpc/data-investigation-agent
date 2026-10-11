@@ -48,8 +48,22 @@ class AgentLoopTests(unittest.TestCase):
         self.assertEqual(self.run_loop(loop)['status'], 'COMPLETED')
         self.assertEqual(sum(r['event']=='EVIDENCE_FETCH' for r in rows), 1)
         self.assertEqual(calls[2]['fetched_evidence']['result']['value'], 7)
-        self.assertIsNone(calls[3]['fetched_evidence'])
+        self.assertEqual(calls[3]['fetched_evidence'], calls[2]['fetched_evidence'])
         self.assertEqual(calls[3]['feedback']['evidence_ids'], ['read:1'])
+
+    def test_reselecting_fetched_evidence_after_another_step_is_local_and_lossless(self):
+        from unittest.mock import Mock
+        fetch = {'action':'TOOL','tool':'get_evidence','arguments':{'id':'read:1'},'summary':'Inspect receipt.'}
+        loop, rows, calls = self.loop([self.tool(), fetch, self.tool(), fetch, self.answer()], cap=5)
+        handler = Mock(return_value={'status':'OBSERVED','evidence_ids':['read:1'],'value':7})
+        loop.tools['lookup'] = handler
+        loop.admit = Mock()
+        self.assertEqual(self.run_loop(loop)['status'], 'COMPLETED')
+        handler.assert_called_once_with()
+        self.assertEqual(sum(c.args[0]=='TOOL' for c in loop.admit.call_args_list), 2)
+        self.assertEqual(sum(r['event']=='EVIDENCE_FETCH' for r in rows), 1)
+        self.assertEqual(calls[4]['fetched_evidence'], calls[2]['fetched_evidence'])
+        self.assertEqual(calls[4]['feedback']['status'], 'ALREADY_OBTAINED')
 
     def test_provider_decision_has_typed_scalar_enums_and_same_allowed_values(self):
         wire = decision_schema({'lookup': {'type': 'object', 'additionalProperties': False,
