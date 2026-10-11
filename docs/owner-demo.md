@@ -157,3 +157,5 @@ projection change, not another intake classifier or per-ticket patch.
 ## First live portal trial ? 2026-10-11
 
 Original family A has now executed once through the portal, producing the actual 7,661/8,765 comparison and TRANSFORMATION_LOGIC, partly answered. Both explanations were read; a clearly agent-operated demo comment and agreement closed the isolated ticket. This required a normal local restart after the Open ticket link lost its memory-only key; the generic link repair and title repairs are recorded, so this is not a seamless unaided-owner claim. The full verbatim outputs, steps, costs and limitations are in [the live transcript](round-fifteen-owner-demo-trial.md). No independent owner acceptance or general estate capability is inferred from this one ticket.
+
+All six stages of that trial replayed exactly offline, including the manual finish Conflict and the saved comment/close, with zero network requests. The recorded source remains pinned; post-run repairs were tested offline without spending another live run.
