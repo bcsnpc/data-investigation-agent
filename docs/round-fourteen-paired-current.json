@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T10:25:55.504473+00:00",
+  "recorded_at": "2026-10-11T10:46:38.039097+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -1263,6 +1263,155 @@
       "status": "HELD",
       "stop_reason": "I can support that the ticket was admitted for the declared target and scope, that lineage exists from Activity through movement_values into stock_movements_e1b8e1, and that both reproduce and probe attempts were unavailable because diagnostic read caps stopped them (agent-progress:0bd279b7437864a4f400306c53e473ea5a1d958c8b0551e5665266a52cd828e7, path-f9d0faee-6fe4-4eb3-9ceb-dc95464dac88, 716ea801-170a-4608-9490-d418762fb86f, probe-not-executed-40b7b7b2-b697-40b6-9c84-ea213ba15e37). With the remaining retained evidence, I do not have validator-safe support to conclude the exact saved filter context for North or to classify the difference outcome.",
       "ticket_id": "8e483720-8e36-4fd5-b9a2-19d6bc5cabcd"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r3-EF-984892d\\family-E\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-E",
+      "diagnostic_reads": 0,
+      "elapsed_seconds": 354.188764333725,
+      "engine_hash": "202e9ed05c38bbb77428c85f914c0fb367d5da81751232cb986aaf04a709a7f0",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "has_outputs": false,
+      "microdollars": 701724,
+      "mode": "AGENT",
+      "model_calls": 18,
+      "outcome": null,
+      "physical_requests": 0,
+      "repeat": 3,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": []
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": []
+          },
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": null
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          },
+          {
+            "expected": "COMPLETED",
+            "invariant": "status",
+            "observed": "HELD"
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "HELD without delivered finding; retained missing timing and lineage evidence named, no freshness verdict.",
+        "recorded_at": "2026-10-11T10:44:38.371979+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "51d1f684-fd2c-4e6a-ab4e-4b96b0ad8897",
+      "sha256": "2dd998116b7a8c6ce565ef997ceee4134860f79b0f887cce233e9825aa9ee848",
+      "source_sha256": "657c031bd47bd29c6cb9dbcd599130a176a51466b301eb0da90a881cb733d056",
+      "status": "HELD",
+      "stop_reason": "Current retained evidence does not support a validated terminal outcome. The declared target and scope were admitted, and check_freshness reports snapshot alignment NOT_ESTABLISHED, missing refresh_timing capability, and no exact full-table Copy Job mapping to the declared source (agent-progress:a9cd91714df2ae38cb6daacfddfc756d81656628c9fbce1d6ba6faebe0db942f, agent-tool:cd145222-2a7f-4ee1-8a4f-a0bfc5983892). Lineage also stops at NO_LINEAGE before reaching a source with comparable refresh history (agent-tool:448bbf39-77a6-41ee-9bee-511383dca323, path-f4d5d249-7493-43ad-874b-059d3929f0f0).",
+      "ticket_id": "87eea56d-c90f-415b-9aa4-fae0cef8e322"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-agent-r3-EF-984892d\\family-F\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-F",
+      "diagnostic_reads": 2,
+      "elapsed_seconds": 400.0128936767578,
+      "engine_hash": "202e9ed05c38bbb77428c85f914c0fb367d5da81751232cb986aaf04a709a7f0",
+      "expected_hash": "d29bda93ea311613a7a3dc4bf486a4354a3c97868be4294d758e53fb656345f2",
+      "has_outputs": true,
+      "microdollars": 590103,
+      "mode": "AGENT",
+      "model_calls": 15,
+      "outcome": "CONSISTENT_TO_BOUNDARY",
+      "physical_requests": 5,
+      "repeat": 3,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "PARTLY_ANSWERED",
+            "invariant": "answer_category",
+            "observed": "NOT_ANSWERED"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": true,
+        "reason": "CONSISTENT_TO_BOUNDARY for 57043 on model and serving surface, engine-independent but snapshot unverified; both outputs explicitly NOT_ANSWERED for requested mechanism and source not reached. Two producer decode failures retained with deterministic fallback; no causal upgrade.",
+        "recorded_at": "2026-10-11T10:44:38.371979+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 1,
+      "session_id": "ab607d8b-9a78-4f2f-bda0-65ef56d693f7",
+      "sha256": "f25a247c5270c9a83ce85b40e6a79935856aa8f9130ad89f451c8465c9ecb231",
+      "source_sha256": "e85e88199d77e3b178971497c666173840ce23998da3208097241cadc048009e",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "7e368ae7-4695-420d-bc81-4c7653c79aa2"
     },
     {
       "artifact": ".local\\round-fourteen\\paired-original-pipeline-C-24000\\family-C\\full-result.json",

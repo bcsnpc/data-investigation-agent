@@ -6,6 +6,29 @@ from investigator import process_outcomes,assessment_support
 import test_process_debugging as contract_fixtures
 
 class NarrativeContractTests(unittest.TestCase):
+    def test_explicit_empty_operation_inventory_survives_wire_and_consumer(self):
+        from investigator import synthesis_wire
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY')
+        payload['mechanism_evidence']=[]
+        _,wire,handles=synthesis_wire.prepare(payload)
+        response={'technical_output':{'text':'','evidence_ids':[]}}
+        decoded=synthesis_wire.decode(response,payload,wire,handles)
+        assessment,outputs=narrative.assemble(narrative.Response(decoded),payload,state)
+        self.assertEqual(assessment,state['assessment'])
+        self.assertEqual(outputs['technical_output']['model_mechanism']['text'],'')
+        self.assertEqual(outputs['technical_output']['model_mechanism']['provenance'],'MECHANISM_NOT_STATED')
+        self.assertIn('Measure:',outputs['technical_output']['explanation']['text'])
+        decoded['technical_output']['text']='An invented calculation explains the result.'
+        with self.assertRaises(ValidationError):
+            narrative.assemble(narrative.Response(decoded),payload,state)
+
+    def test_operation_inventory_does_not_allow_empty_mechanism(self):
+        state,payload=self.source('CONSISTENT_TO_BOUNDARY')
+        payload['mechanism_evidence']=[{'id':payload['evidence'][0]['id']}]
+        value=self.response(payload);value['technical_output']['text']=''
+        with self.assertRaises(ValidationError):
+            narrative.assemble(narrative.Response(value),payload,state)
+
     def test_causal_certainty_is_checked_against_original_judgment(self):
         state,payload=self.source('TRANSFORMATION_LOGIC')
         payload['evidence'].append({'id':'qualified-definition','result':{'judgment':{

@@ -36,9 +36,17 @@ class Response:
     narrative: dict
 
 
+def mechanism_unavailable(payload):
+    """An explicit empty operation inventory cannot support model mechanism prose.
+
+    Historical payloads without this field retain their recorded contract.
+    """
+    return 'mechanism_evidence' in payload and not payload['mechanism_evidence']
+
+
 def schema(payload):
     ids=sorted({e['id'] for e in payload['evidence']})
-    refs={'type':'array','minItems':1 if ids else 0,'maxItems':limits.ASSESSMENT_REFS if ids else 0,
+    refs={'type':'array','minItems':1 if ids and not mechanism_unavailable(payload) else 0,'maxItems':limits.ASSESSMENT_REFS if ids else 0,
           'items':{'type':'string',**({'enum':ids} if ids else {})}}
     def statement(length):
         return {'type':'object','additionalProperties':False,'properties':{
@@ -54,6 +62,8 @@ def schema(payload):
     business['properties']['text']={'type':'string','enum':texts}
     technical=statement(limits.ASSESSMENT_CLAIM)
     technical['properties']['text']=path_narrative.mechanism_schema(limits.ASSESSMENT_CLAIM)
+    if mechanism_unavailable(payload):
+        technical['properties']['text']={'type':'string','enum':['']}
     boundaries=path_narrative.divergent_boundaries(payload)
     if boundaries:
         technical['properties']['boundary_evidence_id']={'type':'string','enum':boundaries}
@@ -89,7 +99,8 @@ def assemble(response,payload,state):
         if layer_rejection:
             contract['properties']['technical_output']['properties']['text']=evidence_prose.schema(limits.ASSESSMENT_CLAIM)
         Draft202012Validator(contract).validate(value)
-        evidence_prose.validate(value['technical_output']['text'],limits.ASSESSMENT_CLAIM)
+        if not mechanism_unavailable(payload):
+            evidence_prose.validate(value['technical_output']['text'],limits.ASSESSMENT_CLAIM)
         import re
         if re.search(r'\b(?:you asked|answer to your question|partly answered|not answered)\b',value['technical_output']['text'],re.I):
             raise ValueError('Question coverage belongs to the engine, not model commentary')
@@ -120,7 +131,7 @@ def assemble(response,payload,state):
     outputs['technical_output']['path_order']=path_narrative.facts(payload)
     outputs['technical_output']['model_mechanism']={
         'text':'' if rejected or layer_rejection else value['technical_output']['text'],
-        'provenance':'MECHANISM_NOT_STATED' if fallback else 'PROVIDER_MECHANISM',
+        'provenance':'MECHANISM_NOT_STATED' if fallback or mechanism_unavailable(payload) else 'PROVIDER_MECHANISM',
         'evidence_ids':copy.deepcopy(value['technical_output']['evidence_ids'])}
     if delivery:outputs['technical_output']['engine_mechanism']=delivery
     from . import narrative_form
