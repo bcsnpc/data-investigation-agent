@@ -1,6 +1,6 @@
 {
   "version": "round-thirteen-captured-replay-suite-v1",
-  "consumer_revision": "c585cd91067e097ebc0310109e3b17d3f04b6bd6",
+  "consumer_revision": "e4d173ae83ae077cf5e84b539999ce461a847432",
   "consumer_hash_mode": "GIT_BLOB_WITH_DECLARED_TEXT_MATERIALIZATION_V1",
   "consumer_hashes": {
     "acceptance/known_domain/private_bundle.py": {
