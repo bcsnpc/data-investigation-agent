@@ -102,10 +102,12 @@ class Tape:
                 import subprocess
                 root=Path(__file__).resolve().parents[2]
                 from .runtime import FINGERPRINT_TRANSPORTS
+                from .worker_launch import options
                 scope=['scripts/investigator',*FINGERPRINT_TRANSPORTS]
-                dirty=subprocess.check_output(['git','status','--porcelain','--untracked-files=all','--',*scope],cwd=root,text=True)
+                launch=options({'cwd':root,'text':True})
+                dirty=subprocess.check_output(['git','status','--porcelain','--untracked-files=all','--',*scope],**launch)
                 if dirty.strip():raise TapeError('TAPE_UNCOMMITTED_ENGINE')
-                self.engine_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
+                self.engine_revision=subprocess.check_output(['git','rev-parse','HEAD'],**launch).strip()
             self.event('BOOTSTRAP',bytes_of(bootstrap))
 
     def flush(self):

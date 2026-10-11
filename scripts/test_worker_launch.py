@@ -1,10 +1,34 @@
 import unittest
+import tempfile
+from pathlib import Path
 from unittest.mock import patch, Mock
 from investigator.worker_launch import options
 from investigator import tape_worker
 
 
 class WorkerLaunchTests(unittest.TestCase):
+    def test_tape_git_integrity_and_revision_checks_share_no_console_policy(self):
+        from investigator.process_tape import Tape, TapeError
+        bootstrap = {'entry_point': 'workspace', 'config': {}}
+        revision = 'a' * 40
+        with tempfile.TemporaryDirectory() as folder, \
+                patch('investigator.worker_launch.options',
+                      side_effect=lambda kw: {**kw, 'creationflags': 123}) as policy, \
+                patch('subprocess.check_output', side_effect=['', revision]) as check:
+            tape = Tape(Path(folder) / 'clean.json', bootstrap)
+            self.assertEqual(tape.engine_revision, revision)
+            self.assertEqual(policy.call_count, 1)
+            self.assertEqual(check.call_count, 2)
+            for call in check.call_args_list:
+                self.assertEqual(call.kwargs['creationflags'], 123)
+            self.assertEqual(check.call_args_list[0].args[0][:2], ['git', 'status'])
+            self.assertEqual(check.call_args_list[1].args[0], ['git', 'rev-parse', 'HEAD'])
+        with tempfile.TemporaryDirectory() as folder, \
+                patch('subprocess.check_output', return_value=' M scripts/investigator/a.py') as check:
+            with self.assertRaisesRegex(TapeError, 'TAPE_UNCOMMITTED_ENGINE'):
+                Tape(Path(folder) / 'dirty.json', bootstrap)
+            self.assertEqual(check.call_count, 1)
+
     def test_windows_pipe_worker_never_requires_a_console(self):
         original = {'stdin': 1, 'stdout': 2, 'creationflags': 0x200}
         self.assertEqual(options(original, platform='nt'), {
