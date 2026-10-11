@@ -41,6 +41,10 @@ class SmartIntakeTests(unittest.TestCase):
             'value_seen':None,'description':text}
         doc=form_scope.document(request,self.workspace.intake_configuration)
         end=next(p['end'] for p in doc['parts'] if p['pointer']=='/description')
+        from test_intake_span_references import encode_fixture
+        from investigator.intake_span_references import decode
+        source_text=doc['text'][:end]
+        bad=encode_fixture(bad,source_text);good=encode_fixture(good,source_text)
         self.workspace.intake.resolver=azure_resolve
         with patch('ticket_planner.azure_generate',side_effect=[(bad,{}),(good,{})]) as provider:
             saved=self.workspace.intake.resolve({'text':doc['text'][:end],
@@ -49,7 +53,7 @@ class SmartIntakeTests(unittest.TestCase):
         self.assertEqual(provider.call_count,2)
         self.assertEqual(saved['resolution_attempts'][0]['rule'],'IDENTIFIER_QUOTE_INVALID')
         self.assertEqual(saved['proposal']['expected_records'][0]['value'],'X73')
-        self.assertEqual(saved['retained_extraction'],bad)
+        self.assertEqual(saved['retained_extraction'],decode(bad,source_text))
         self.h.native.assert_not_called();self.h.source.assert_not_called()
 
     def test_incomplete_two_key_cell_holds_before_adoption_and_every_reader(self):
@@ -390,13 +394,27 @@ class SmartIntakeTests(unittest.TestCase):
         self.assertTrue(any(e['detail'].get('reason')=='COMPARISON_ESTABLISHED_FROM_REQUEST'
             for e in saved['ticket']['history']))
 
-    def test_current_producer_retries_nonverbatim_once_and_preserves_both_attempts(self):
+    def test_reference_producer_retries_invalid_reference_once(self):
+        from investigator.question_intake import azure_resolve
+        from test_intake_span_references import encode_fixture
+        good,payload=fixture('In Report, Global card Quantity differs.',
+            visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
+        good=encode_fixture(good,payload['text']);bad=copy.deepcopy(good);bad['primary']=[1,999]
+        self.workspace.intake.resolver=azure_resolve
+        with patch('ticket_planner.azure_generate',side_effect=[(bad,{}),(good,{})]) as provider:
+            result=self.workspace.intake.resolve({'text':payload['text'],'request_key':'reference-retry','parent_id':None},retain_extraction=True)
+        self.assertEqual(result['status'],'PROPOSED',result)
+        self.assertEqual(provider.call_count,2)
+        self.assertEqual(result['resolution_attempts'][0]['event'],'INTAKE_EXTRACTION_INVALID')
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
+    def test_archived_quote_producer_retries_nonverbatim_once_and_preserves_both_attempts(self):
         from investigator.question_intake import azure_resolve
         good,payload=fixture('In Report, Global card Quantity differs.',
             visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}])
         bad=copy.deepcopy(good);bad['measures'][0]['quote']='Invented metric'
         self.workspace.intake.resolver=azure_resolve
-        with patch('ticket_planner.azure_generate',side_effect=[(bad,{}),(good,{})]) as provider:
+        with patch('investigator.intake_span_references.enabled',return_value=False), patch('ticket_planner.azure_generate',side_effect=[(bad,{}),(good,{})]) as provider:
             saved=self.workspace.intake.resolve({'text':payload['text'],'request_key':'exact-retry','parent_id':None},retain_extraction=True)
         self.assertEqual(saved['status'],'PROPOSED',saved)
         self.assertEqual(provider.call_count,2)
@@ -404,7 +422,7 @@ class SmartIntakeTests(unittest.TestCase):
                          ['PROVENANCE_QUOTE_NOT_FOUND','PROVENANCE_QUOTE_RETRY'])
         self.assertEqual(saved['retained_extraction'],bad)
         self.assertEqual(intake_extraction.retained_response(saved),good)
-        with patch('ticket_planner.azure_generate',side_effect=[(bad,{}),(bad,{})]) as provider:
+        with patch('investigator.intake_span_references.enabled',return_value=False), patch('ticket_planner.azure_generate',side_effect=[(bad,{}),(bad,{})]) as provider:
             refused=self.workspace.intake.resolve({'text':payload['text'],'request_key':'double-bad','parent_id':None},retain_extraction=True)
         self.assertEqual(refused['status'],'NEEDS_INPUT');self.assertEqual(provider.call_count,2)
         self.h.native.assert_not_called();self.h.source.assert_not_called()
