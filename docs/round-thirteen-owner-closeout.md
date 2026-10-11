@@ -1,3 +1,19 @@
+# Round Thirteen final owner-directed report
+
+Dated final closure, 2026-10-11 UTC. The owner stopped further Round Thirteen work and clarified that only model credit expires; the live estate remains available. The earlier checkpoint below is retained as history. The exact independent billing wording and all per-attempt refusal reasons remain in this document.
+
+The fixture produced 34/48 outcome/status matches, **0/48 complete contract matches**, nine of eighteen groups with three matching outcome projections, and **two harmful delivered claims**. It did not earn the demo or a general stability claim. Billing delivered no findings: six pre-intake operator failures and 21 intake holds across 27 slots. Those are failures, not successful safe answers. Original chat preserved six attempts (21 physical requests, 12 model calls); remaining chats and the scenario matrix were not run. The older statement that H delivered a qualified transformation finding was incorrect: the authoritative native closure shows H CLARIFYING with no output; G delivered TRANSFORMATION_LOGIC / NOT_ANSWERED. The table below remains correct.
+
+Offline replay: fixture **136/142 matched**, six historical operations blocked; billing **21/21 matched**; chat **12/12 matched**. Six billing pre-intake operator failures have no invented tapes. Originals were not repaired or upgraded. The encrypted billing metadata collection boundary has a hosted replay pass. Whole-round encrypted publication is still awaiting the complete credential security scan; it is not claimed pushed or all-green. Public result maps and this report are pushed; private unscanned evidence is not published.
+
+The owner stopped the local export after 64 schema/metadata physical requests and 32 data-request admissions. Seven table reads completed (545 rows), but the estate-wide transaction was interrupted; **no completed usable local export exists**. Thirty data requests settled and two reservations remain retained. Partial database, plans and control receipts remain private. The local execution switch and bounded helper work are retained, without an estate-validation claim. The local A/G check was **withdrawn by the owner**, not run and not failed. No identity, permission, secret or fixture data changed during export.
+
+Closeout window: pot **1,999/2,500**, restoration reserve **95**, rolling **857/3,000**; shared rate-card model spend **$2.723086/$100**, 207 calls including prior work, no unsettled dollar calls. The unchanged conservative dollar ceiling preserves the previously recorded $20 margin against the stated credit; this is not a newly queried provider balance. Full f01fab5 regression is running; prior focused checks passed, no fresh full-pass claim yet. Draft #423 stays draft and the engine freeze is invalidated.
+
+Structured final report: `docs/round-thirteen-owner-final.json`, SHA-256 `87ad644352b045cc63c11c19d235061b8dd8bff2130eee98e5cf97879fcf0dc6`.
+
+## Earlier closeout checkpoint, retained unchanged
+
 # Round Thirteen owner-directed closeout
 
 Owner changed the plan on 2026-10-10 America/Chicago (execution 2026-10-11 UTC). No further Round Thirteen investigation admissions. Billing had already completed all 27 once-only slots: six pre-intake runner failures and 21 intake holds. The admitted original chat cohort was drained; six original chat cases were preserved. The remaining original I, all rebuilt/billing chat cases and the entire 24-cell scenario matrix were not run. No replacement attempts.
