@@ -6,6 +6,7 @@ intake review, preview and controller-owned start have admitted the scope.
 import copy
 from .onboarding import Conflict, digest
 from .question_intake import snapshot
+from .agent_catalog_guard import CatalogGuard
 from .agent_loop import AgentLoop
 from .agent_provider import GovernedDecision
 from .agent_journal import Journal
@@ -81,7 +82,8 @@ class AgentTicket:
         if form is not None and replies:
             form['description'] += ''.join('\n\nRetained user reply:\n'+c['text'] for c in replies)
         text = document(input_request)['text'] if form is None else form['description']
-        catalog = snapshot(self.workspace)
+        catalog_guard = CatalogGuard(self.workspace, snapshot)
+        catalog = catalog_guard.read()
         journal = Journal(self.workspace.store, identity, now=runtime.clock)
         retain = lambda body: journal.persist({'event': 'INTAKE_TOOL_EVIDENCE', 'result': body})
         generation = len(saved['ticket'].get('agent_loop_history', []))
@@ -101,7 +103,7 @@ class AgentTicket:
             if reader is None: raise Conflict('Candidate-value reader unavailable')
             return reader(candidate)
         from .agent_screenshot_reader import reader as screenshot_reader
-        tools = IntakeTools(lambda: snapshot(self.workspace), retain,
+        tools = IntakeTools(catalog_guard.read, retain,
             candidate_reader=candidate_reader if reader is not None else None,
             screenshot_reader=screenshot_reader(self.workspace, identity),
             fixed_facts=fixed, comment_port=self._comments(identity))
@@ -174,7 +176,7 @@ class AgentTicket:
             handlers[item['name']] = invoke
 
         def admit(kind, ordinal):
-            if digest(snapshot(self.workspace)) != digest(catalog): raise Conflict('Agent ticket metadata changed')
+            catalog_guard.read()
             if active:
                 with runtime.runtime.db() as db:
                     current = runtime.load(db, active['session_id']); runtime.admit(current, db)

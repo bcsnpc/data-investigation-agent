@@ -19,6 +19,12 @@ class InvestigationToolTests(unittest.TestCase):
   self.targets={'target':{'measure_id':'measure','scope_id':'picked'}};self.scopes={'picked':{'filters':[]},'other':{'filters':[{'column_id':'x','values':[1]}]}}
   self.tools=InvestigationTools(self.adapter,self.targets,self.scopes,self.boundary)
  def invoke(self,name,**args):return self.tools.invoke(name,args)
+ def test_transformation_tool_explains_adjacent_probe_preconditions_and_step_numbering(self):
+  description=next(s['description'] for s in schemas() if s['name']=='read_transformation')
+  for fact in ('Step 1 connects path layers 0 and 1','step 2 connects layers 1 and 2',
+               'OBSERVED probe_layer results for both adjacent layers under the same scope',
+               'no causal judgment is established','unavailable result is not proof'):
+   self.assertIn(fact,description)
  def test_strict_schemas_offer_no_sql_or_free_filter_predicates(self):
   self.assertEqual({s['name'] for s in schemas()},{'reproduce','lineage','probe_layer','read_transformation','check_freshness','compare_reports','query_source'})
   for schema in schemas():self.assertFalse(schema['parameters']['additionalProperties']);self.assertNotIn('query',schema['parameters']['properties'])
