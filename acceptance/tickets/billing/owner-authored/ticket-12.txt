@@ -1,0 +1,11 @@
+Subject: Fwd: billing numbers for the update
+
+Hi team,
+
+Can someone check the Invoiced Amount card on Subscription Billing before we circulate this? It is 950 on my screen. I get 700 from the application invoices, but 600 if I leave out the void Dune invoice. I'm not sure which comparison we should be using. The card doesn't tell me whether void invoices count.
+
+Thanks,
+Finance operations
+
+----- Forwarded message -----
+Please confirm the billing figure before the afternoon update. No need to send the full customer list.

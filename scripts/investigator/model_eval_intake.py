@@ -19,15 +19,32 @@ class EvaluationStore:
     def get(self,identity):
         model=next(m for m in self.catalog if m['id']==identity)
         return {'id':identity,'enabled':True,'revision':1,'context_id':'synthetic-evaluation',
-                'context':{'reports':[{'report':r} for r in model.get('reports',[])]}}
+                'context':copy.deepcopy(model.get('evaluation_context',
+                    {'reports':[{'report':r} for r in model.get('reports',[])]}))}
 
 
 def workspace(agent,catalog,resolver):
     store=EvaluationStore(agent.store,catalog)
     owner=SimpleNamespace(store=store,agent=agent,execution_enabled=True,clock=time.time)
-    owner.model=lambda identity:copy.deepcopy(next(m for m in catalog if m['id']==identity))
+    owner.model=lambda identity:{k:copy.deepcopy(v) for k,v in next(m for m in catalog if m['id']==identity).items()
+                                 if k!='evaluation_context'}
     owner.target_options=lambda *_:[]
     return owner
+
+
+def ci_agent(directory, profile):
+    """Isolated quality governor and metadata store, with no estate transports."""
+    from pathlib import Path
+    from .onboarding import ModelStore
+    from .runtime import Runtime
+    from .adaptive_runtime import AdaptiveRuntime
+    directory=Path(directory);directory.mkdir(parents=True,exist_ok=True)
+    config={'storage':{'database':str(directory/'inventory.sqlite')}}
+    store=ModelStore(directory/'catalog.sqlite',config['storage']['database'],'intake-ci')
+    policy={'environment':'intake-ci','daily_limits':{'planner_calls':118,'cloud_calls':1,
+            'input_characters':8000000,'output_tokens':1500000},
+            'max_inflight_planners':1,'no_progress_limit':2}
+    return AdaptiveRuntime(Runtime(store,config,None,None),None,planner_profile=profile,usage_policy=policy)
 
 
 def run_case(agent,golden,case,resolver,path,request_key):

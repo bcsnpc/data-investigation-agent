@@ -1,0 +1,100 @@
+{
+  "source_tape_sha256": "fd4ffd25c040d12c056d15dd3aefc9b715cbd251a156bb91eba5340380d5dde8",
+  "ticket": "Inventory Health e1b8e1 Handled Quantity currently shows 8765 and 8766 for the identical card and scope. Both are reported values.",
+  "responses": [
+    {
+      "kind": "FIGURE_DIFFERENCE",
+      "triage": "MISMATCH_COMPLAINT:VERTICAL",
+      "primary": "Inventory Health e1b8e1 Handled Quantity currently shows 8765 and 8766 for the identical card and scope. Both are reported values.",
+      "comparisons": [
+        "8766"
+      ],
+      "contexts": [],
+      "measures": [
+        {
+          "quote": "Handled Quantity",
+          "role": "PRIMARY"
+        }
+      ],
+      "figures": [
+        {
+          "quote": "8765",
+          "role": "PRIMARY",
+          "state": "NUMBER",
+          "precision_quote": null
+        },
+        {
+          "quote": "8766",
+          "role": "COMPARISON",
+          "state": "NUMBER",
+          "precision_quote": null
+        }
+      ],
+      "selections": [],
+      "visuals": [
+        {
+          "quote": "identical card",
+          "role": "PRIMARY",
+          "form": "CARD"
+        }
+      ],
+      "reports": [
+        {
+          "quote": "Inventory Health e1b8e1",
+          "role": "PRIMARY"
+        }
+      ],
+      "pages": [],
+      "dates": [],
+      "groupings": [],
+      "identifiers": []
+    },
+    {
+      "kind": "FIGURE_DIFFERENCE",
+      "triage": "MISMATCH_COMPLAINT:VERTICAL",
+      "primary": "Inventory Health e1b8e1 Handled Quantity currently shows 8765 and 8766 for the identical card and scope. Both are reported values.",
+      "comparisons": [
+        "8766"
+      ],
+      "contexts": [],
+      "measures": [
+        {
+          "quote": "Handled Quantity",
+          "role": "PRIMARY"
+        }
+      ],
+      "figures": [
+        {
+          "quote": "8765",
+          "role": "PRIMARY",
+          "state": "NUMBER",
+          "precision_quote": null
+        },
+        {
+          "quote": "8766",
+          "role": "COMPARISON",
+          "state": "NUMBER",
+          "precision_quote": null
+        }
+      ],
+      "selections": [],
+      "visuals": [
+        {
+          "quote": "card",
+          "role": "PRIMARY",
+          "form": "CARD"
+        }
+      ],
+      "reports": [
+        {
+          "quote": "Inventory Health e1b8e1",
+          "role": "PRIMARY"
+        }
+      ],
+      "pages": [],
+      "dates": [],
+      "groupings": [],
+      "identifiers": []
+    }
+  ]
+}

@@ -6,8 +6,9 @@ never rewritten. v1 and v2 accounting remain replayable under their producer.
 """
 import json
 
-ACCOUNTING_VERSION = 2
-ACCOUNTING_HISTORY = {1: 'Before #393', 2: '#393 7abaabf: physical guard/control accounting and bounded resume'}
+ACCOUNTING_VERSION = 3
+ACCOUNTING_HISTORY = {1: 'Before #393', 2: '#393 7abaabf: physical guard/control accounting and bounded resume',
+                     3: 'Round Twelve E: reconcile settled model output against actual usage; unknown usage stays charged at its bound'}
 
 def budget_value(body):
     value=json.loads(body)

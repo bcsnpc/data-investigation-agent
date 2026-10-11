@@ -116,6 +116,9 @@ def _query_evidence(tool,query,rows):
 def _process_evidence(observation,by_id,quantities=None):
  from .process_receipts import identify
  name,spec=identify(observation)
+ if spec.route=='filter_effects':
+  from .filter_effects import validate
+  return copy.deepcopy(validate(observation,by_id,quantities))
  if spec.route=='reproduction':
   from .declared_reproduction import validate
   # Preserve the complete validated original, not a reconstructed projection.
@@ -263,4 +266,11 @@ def build(state,db):
   if accounts:result['deterministic_process_finding']['delivery_accounts']=copy.deepcopy(accounts)
   profiled=assessment.get('technical_output',{}).get('profile_verified_boundaries')
   if profiled:result['deterministic_process_finding']['profile_verified_boundaries']=copy.deepcopy(profiled)
+ from .narrative_form import layers
+ # Role-bearing path identities define aliases. Display-only directory entries
+ # and human names must neither cross the provider seam nor renumber tokens.
+ alias_source={'technical_output':copy.deepcopy(assessment.get('technical_output',{}))}
+ alias_source['technical_output']['layer_labels']=copy.deepcopy(result['layer_labels'])
+ result['layer_registry']={identity:{'term':item['term']} for identity,item in layers(result,alias_source).items()
+   if identity in result['layer_labels']}
  return result

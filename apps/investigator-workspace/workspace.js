@@ -65,7 +65,7 @@ function scopePills(target,scope,columns){
   if(!scope.filters.length)target.append(node('span','All records in the model','pill'));
   for(const id of scope.dimension_ids){const c=columns[id];target.append(node('span','Breakdown: '+(c?.name || 'Selected column'),'pill'));}
 }
-async function history(){
+async function investigationHistory(){
   const [data,questions,images]=await Promise.all([api('sessions'),api('questions'),api('attachments')]);
   renderImageHistory(images.images);
   $('question-history').replaceChildren(...questions.questions.map(q=>{const b=node('button');b.type='button';b.append(node('strong',q.text.slice(0,90)),node('small',q.status==='PROPOSED'?'Scope suggested':q.status==='NEEDS_INPUT'?'Clarification needed':q.status==='RESOLVING'?'Waiting for response':'Paused'));b.addEventListener('click',guard(async()=>{resetComposer();const epoch=generation;const draft=await api('questions/'+encodeURIComponent(q.id));if(epoch===generation)showIntake(draft);}));return b;}));$('history').replaceChildren();
@@ -134,7 +134,7 @@ function renderBindings(rows){
 }
 async function openSession(id){
   stopPolling();const epoch=generation;const data=await api('sessions/'+encodeURIComponent(id));if(epoch!==generation)return;
-  render(data);await history();schedule(epoch);
+  render(data);await investigationHistory();schedule(epoch);
 }
 function schedule(epoch){
   if(!current||!activeStates.includes(current.status)||!current.worker_attached||current.job_status==='INTERRUPTED')return;
@@ -142,11 +142,12 @@ function schedule(epoch){
 }
 function resetComposer(){resetIntake();stopPolling();current=null;predecessor=null;invalidate();$('result').hidden=true;$('composer').hidden=false;$('clarification-note').hidden=true;$('symptom').value='';modelChanged();}
 $('login-form').addEventListener('submit',guard(async()=>{
-  key=$('access-key').value;const result=await api('models');models=result.models;execution=result.execution_enabled;$('question-intake').hidden=!result.question_intake_enabled;$('screenshot-intake').hidden=!result.screenshot_intake_enabled;
+  key=$('access-key').value;const result=await api('models');models=result.models;execution=result.execution_enabled;$('question-intake').hidden=!result.question_intake_enabled;$('smart-ticket-intake').hidden=!result.question_intake_enabled;$('screenshot-intake').hidden=!result.screenshot_intake_enabled;
+  options($('smart-ticket-comparison'),(result.intake_options?.comparison_choices||[]).map(choice=>({id:choice.route,name:choice.label})),'Not specified');
   $('access-key').value='';$('login').hidden=true;$('workspace').hidden=false;$('signout').hidden=false;$('read-only').hidden=execution;
-  options($('model'),models.map(m=>({id:m.id,name:m.name})));resetComposer();await history();
+  options($('model'),models.map(m=>({id:m.id,name:m.name})));resetComposer();await investigationHistory();await loadReportForm();
 }));
-$('signout').addEventListener('click',()=>{resetIntake();stopPolling();key='';models=[];current=null;preview=null;predecessor=null;$('workspace').hidden=true;$('login').hidden=false;$('signout').hidden=true;$('access-key').value='';$('history').replaceChildren();$('question-history').replaceChildren();$('image-history').replaceChildren();$('facts').replaceChildren();$('activity').replaceChildren();for(const id of ['technical-scope','technical-outcome','technical-decisions','identities'])$(id).replaceChildren();$('scope-form').reset();clearError();});
+$('signout').addEventListener('click',()=>{resetIntake();resetSmartTicket();resetReportForm();stopPolling();key='';models=[];current=null;preview=null;predecessor=null;$('workspace').hidden=true;$('login').hidden=false;$('signout').hidden=true;$('access-key').value='';$('history').replaceChildren();$('question-history').replaceChildren();$('image-history').replaceChildren();$('facts').replaceChildren();$('activity').replaceChildren();for(const id of ['technical-scope','technical-outcome','technical-decisions','identities'])$(id).replaceChildren();$('scope-form').reset();clearError();});
 $('model').addEventListener('change',()=>{predecessor=null;$('clarification-note').hidden=true;modelChanged();});
 $('scope-form').addEventListener('input',invalidate);$('scope-form').addEventListener('change',invalidate);
 $('add-filter').addEventListener('click',guard(()=>addFilter()));
@@ -155,9 +156,9 @@ $('scope-form').addEventListener('submit',guard(async()=>{
   const request={model_id:$('model').value,measure_id:$('metric').value,symptom:$('symptom').value.trim(),filters,dimension_ids:$('breakdown').value?[$('breakdown').value]:[],predecessor,...(intakeId?{intake_id:intakeId}:{})};
   const revision=scopeRevision;$('review').disabled=true;try{const data=await api('previews',request);if(revision!==scopeRevision)throw new Error('The scope changed during review. Please review it again.');preview=data;$('preview-title').textContent=data.measure_name;$('preview-symptom').textContent=data.envelope.symptom;scopePills($('preview-filters'),data.envelope,data.columns);$('preview-note').textContent=data.scope_note;$('preview-contexts').replaceChildren(...(data.calculation_contexts||[]).map(c=>node('li',c.path.join(' \u2192 ')+': '+c.filters.map(f=>f.column+' = '+JSON.stringify(f.value)+(f.mode==='INTERSECT'?' (intersects existing filter)':' (replaces existing filter)')).join('; '))));$('preview').hidden=false;$('start').disabled=!execution;$('preview').scrollIntoView({behavior:'smooth',block:'nearest'});}finally{$('review').disabled=false;}
 }));
-$('start').addEventListener('click',guard(async()=>{if(!preview)return;const epoch=generation;$('start').disabled=true;try{const data=await api('sessions',{preview_id:preview.id});if(epoch===generation)await openSession(data.id);else await history();}finally{$('start').disabled=!execution;}}));
-$('new-investigation').addEventListener('click',resetComposer);$('refresh-history').addEventListener('click',guard(history));
-$('cancel').addEventListener('click',guard(async()=>{if(!current)return;const id=current.id;stopPolling();const epoch=generation;$('cancel').disabled=true;try{const data=await api('sessions/'+encodeURIComponent(id)+'/cancel',{});if(epoch===generation)render(data);await history();}finally{$('cancel').disabled=false;}}));
+$('start').addEventListener('click',guard(async()=>{if(!preview)return;const epoch=generation;const reviewed=preview;const ticket=smartTicket;$('start').disabled=true;try{const data=await api('sessions',{preview_id:reviewed.id});if(ticket?.ticket.intake_id&&ticket.ticket.intake_id===reviewed.intake?.id){const attached=await api('tickets/'+encodeURIComponent(ticket.ticket.id)+'/attach',{revision:ticket.revision,session_id:data.id});if(epoch===generation)showSmartTicket(attached);}if(epoch===generation)await openSession(data.id);else await investigationHistory();}finally{$('start').disabled=!execution;}}));
+$('new-investigation').addEventListener('click',resetComposer);$('refresh-history').addEventListener('click',guard(investigationHistory));
+$('cancel').addEventListener('click',guard(async()=>{if(!current)return;const id=current.id;stopPolling();const epoch=generation;$('cancel').disabled=true;try{const data=await api('sessions/'+encodeURIComponent(id)+'/cancel',{});if(epoch===generation)render(data);await investigationHistory();}finally{$('cancel').disabled=false;}}));
 $('clarify').addEventListener('click',()=>{const data=current;resetComposer();predecessor=data.id;$('model').value=data.model_id;modelChanged();$('metric').value=data.scope.measure_id;$('symptom').value=data.symptom+'\n\nClarification: ';for(const f of data.scope.filters)addFilter(f);$('breakdown').value=data.scope.dimension_ids[0]||'';$('clarification-note').textContent=data.question;$('clarification-note').hidden=false;$('symptom').focus();});
 function tab(technical){$('business').hidden=technical;$('technical').hidden=!technical;$('business-tab').setAttribute('aria-selected',String(!technical));$('technical-tab').setAttribute('aria-selected',String(technical));}
 $('business-tab').addEventListener('click',()=>tab(false));$('technical-tab').addEventListener('click',()=>tab(true));
@@ -183,8 +184,107 @@ $('question-form').addEventListener('submit',guard(async()=>{
   const epoch=generation,revision=questionRevision,scope=scopeRevision;
   if(!intakeRequest)intakeRequest={text:submitted,parent_id:intakeParent,request_key:crypto.randomUUID(),...(screenshotReviewId&&!intakeParent?{screenshot_review_id:screenshotReviewId}:{})};
   $('resolve-question').disabled=true;$('intake-status').hidden=false;$('intake-status').textContent='Finding the metric and filters in the catalog...';
-  try{const data=await api('questions',intakeRequest);if(epoch!==generation||revision!==questionRevision||scope!==scopeRevision)return;showIntake(data);await history();}finally{$('resolve-question').disabled=false;}
+  try{const data=await api('questions',intakeRequest);if(epoch!==generation||revision!==questionRevision||scope!==scopeRevision)return;showIntake(data);await investigationHistory();}finally{$('resolve-question').disabled=false;}
 }));
 $('intake-history').addEventListener('click',guard(async()=>{if(!intakeSaved)return;const epoch=generation,revision=questionRevision,scope=scopeRevision;const data=await api('questions/'+encodeURIComponent(intakeSaved));if(epoch===generation&&revision===questionRevision&&scope===scopeRevision)showIntake(data);}));
 
-$('hold-question').addEventListener('click',guard(async()=>{if(!intakeSaved)return;const epoch=generation;const data=await api('questions/'+encodeURIComponent(intakeSaved)+'/hold',{});if(epoch===generation)showIntake(data);await history();}));
+$('hold-question').addEventListener('click',guard(async()=>{if(!intakeSaved)return;const epoch=generation;const data=await api('questions/'+encodeURIComponent(intakeSaved)+'/hold',{});if(epoch===generation)showIntake(data);await investigationHistory();}));
+
+let smartTicket=null, smartTicketRequest=null, smartTicketGeneration=0, smartTicketTimer=null;
+function resetSmartTicket(){clearTimeout(smartTicketTimer);smartTicketTimer=null;smartTicket=null;smartTicketRequest=null;smartTicketGeneration++;for(const id of ['smart-ticket-text','smart-ticket-number','smart-ticket-report-page','smart-ticket-report-link','smart-ticket-comparison'])$(id).value='';$('smart-ticket-result').hidden=true;$('smart-ticket-answers').replaceChildren();$('smart-ticket-history').replaceChildren();for(const id of ['smart-ticket-business','smart-ticket-technical','smart-ticket-handoff','smart-ticket-reuse','smart-ticket-reply-text']){const element=$(id);if(element.tagName==='TEXTAREA')element.value='';else element.replaceChildren();}}
+function showSmartTicket(saved){
+  clearTimeout(smartTicketTimer);smartTicketTimer=null;
+  smartTicket=saved;const ticket=saved.ticket;$('smart-ticket-result').hidden=false;
+  $('smart-ticket-state').textContent=ticket.state==='HELD'?'Paused: '+(ticket.history.at(-1)?.detail?.reason||'More evidence is needed'):ticket.intake_id&&['NEW','CLARIFYING'].includes(ticket.state)?'Your choices are resolved. Review the scope to continue.':ticket.state.replaceAll('_',' ');
+  const form=$('smart-ticket-answers');form.replaceChildren();
+  for(const question of ticket.questions){
+    const group=node('fieldset');group.append(node('legend',question.question));
+    for(const choice of question.choices){const label=node('label');const radio=node('input');radio.type='radio';radio.name=question.id;radio.value=choice.id;radio.required=true;label.append(radio,document.createTextNode(choice.label));group.append(label);}
+    const unknown=node('label');const radio=node('input');radio.type='radio';radio.name=question.id;radio.dataset.unavailable='true';radio.required=true;unknown.append(radio,document.createTextNode('I cannot tell from the information I have'));group.append(unknown);
+    form.append(group);
+  }
+  if((ticket.state==='CLARIFYING'||ticket.state==='HELD'&&ticket.history.at(-1)?.detail?.unavailable_fields)&&ticket.questions.length){const button=node('button','Send these answers');button.type='submit';form.append(button);}
+  if(ticket.questions.length)loadChoiceLayouts(saved);
+  $('smart-ticket-transitions').replaceChildren(...ticket.history.map(entry=>node('li',(entry.actor==='USER'?'You':entry.actor==='OWNER'?'Owner':'Investigator')+': '+(entry.to||'NEW').replaceAll('_',' '))));
+  $('smart-ticket-review').hidden=!ticket.intake_id||Boolean(ticket.session_id);
+  $('smart-ticket-finish').hidden=ticket.state!=='INVESTIGATING';
+  $('smart-ticket-findings').hidden=!ticket.findings;
+  if(ticket.findings){
+    const outputs=ticket.findings.outputs;
+    $('smart-ticket-business').textContent=outputs.business_output?.explanation?.text||outputs.business_output?.text||'';
+    $('smart-ticket-technical').textContent=outputs.technical_output?.explanation?.text||outputs.technical_output?.text||'';
+    $('smart-ticket-handoff').textContent=ticket.handoff?'Recorded for '+ticket.handoff.owner+'. Delivery has not been sent.':ticket.history.at(-1)?.detail?.handoff_unavailable?'The owning person or team is not uniquely configured. The findings remain available.':'';
+  }
+  $('smart-ticket-reuse').hidden=!ticket.retained_answer;
+  $('smart-ticket-reuse').textContent=ticket.retained_answer?.qualification||'';
+  $('smart-ticket-close').disabled=!['FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'].includes(ticket.state);
+  $('smart-ticket-followup').hidden=!['NEW','CLARIFYING','HELD','FINDINGS_SHARED','BUSINESS_VALIDATION','TECH_HANDOFF'].includes(ticket.state);
+  const canDiscussFindings=Boolean(ticket.findings)||ticket.handoff?.kind==='BUSINESS_VALIDATION';
+  for(const choice of $('smart-ticket-reply-kind').options)choice.disabled=choice.value!=='RESTATE_QUESTION'&&!canDiscussFindings;
+  if($('smart-ticket-reply-kind').selectedOptions[0]?.disabled)$('smart-ticket-reply-kind').value='RESTATE_QUESTION';
+  if(ticket.state==='INVESTIGATING'&&ticket.session_id)scheduleSmartTicket(saved,smartTicketGeneration);
+  if(typeof renderQuestionnaireTicket==='function')renderQuestionnaireTicket(saved);
+}
+function scheduleSmartTicket(saved,epoch){
+  smartTicketTimer=setTimeout(async()=>{
+    if(epoch!==smartTicketGeneration||saved.ticket.id!==smartTicket?.ticket.id)return;
+    try{
+      const session=await api('sessions/'+encodeURIComponent(saved.ticket.session_id));
+      if(typeof renderQuestionnaireTicket==='function')renderQuestionnaireTicket(saved);
+      if(epoch!==smartTicketGeneration)return;
+      if(session.job_status==='INTERRUPTED'||!session.worker_attached){
+        $('smart-ticket-state').textContent='Investigation paused. The worker did not complete; no automatic retry.';return;
+      }
+      if(activeStates.includes(session.status)){scheduleSmartTicket(saved,epoch);return;}
+      const latest=await api('tickets/'+encodeURIComponent(saved.ticket.id));
+      if(epoch!==smartTicketGeneration)return;
+      const result=latest.ticket.state==='INVESTIGATING'?await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/finish',{revision:latest.revision}):latest;
+      if(epoch===smartTicketGeneration)showSmartTicket(result);
+    }catch(error){if(epoch===smartTicketGeneration)showError(error);}
+  },2000);
+}
+async function smartTicketHistory(){const epoch=generation;const data=await api('tickets');if(epoch!==generation)return;
+  $('smart-ticket-history').replaceChildren(...data.tickets.map(saved=>{const label=saved.request.text??saved.request.description??'Report question';const button=node('button',(label||'Report question').slice(0,100)+' · '+saved.ticket.state.replaceAll('_',' '));button.type='button';button.addEventListener('click',guard(async()=>{const requestEpoch=++smartTicketGeneration;const value=await api('tickets/'+encodeURIComponent(saved.ticket.id));if(requestEpoch===smartTicketGeneration)showSmartTicket(value);}));return button;}));}
+$('smart-ticket-form').addEventListener('submit',guard(async()=>{
+  const text=$('smart-ticket-text').value;const structured={};for(const [field,id] of [['number','smart-ticket-number'],['report_page','smart-ticket-report-page'],['report_link','smart-ticket-report-link'],['comparison','smart-ticket-comparison']]){if($(id).value)structured[field]=$(id).value;}
+  const input={text,...(Object.keys(structured).length?{structured}:{})};if(!text&&!structured.number&&!structured.report_page&&!structured.report_link)throw new Error('Add your question or describe the number.');
+  if(!smartTicketRequest||JSON.stringify({...smartTicketRequest,request_key:undefined})!==JSON.stringify(input))smartTicketRequest={...input,request_key:crypto.randomUUID()};
+  const epoch=++smartTicketGeneration;$('smart-ticket-submit').disabled=true;
+  try{const saved=await api('tickets',smartTicketRequest);if(epoch===smartTicketGeneration)showSmartTicket(saved);await smartTicketHistory();}finally{$('smart-ticket-submit').disabled=false;}
+}));
+$('smart-ticket-answers').addEventListener('submit',guard(async()=>{
+  if(!smartTicket)return;const saved=smartTicket;const form=$('smart-ticket-answers');
+  const answers=saved.ticket.questions.map(question=>{const selected=form.querySelector('input[name="'+CSS.escape(question.id)+'"]:checked');return selected?.dataset.unavailable==='true'?{question_id:question.id,unavailable:true}:{question_id:question.id,choice_id:selected?.value};});
+  const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/reply',{revision:saved.revision,answers,request_key:crypto.randomUUID()});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();
+}));
+$('smart-ticket-refresh').addEventListener('click',guard(smartTicketHistory));
+$('smart-ticket-review').addEventListener('click',guard(async()=>{if(!smartTicket?.ticket.intake_id)return;const epoch=generation;const saved=await api('questions/'+encodeURIComponent(smartTicket.ticket.intake_id));if(epoch===generation)showIntake(saved);}));
+$('smart-ticket-finish').addEventListener('click',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/finish',{revision:saved.revision});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();}));
+$('smart-ticket-close').addEventListener('click',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/close',{revision:saved.revision});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();}));
+$('smart-ticket-followup').addEventListener('submit',guard(async()=>{if(!smartTicket)return;const saved=smartTicket;const epoch=++smartTicketGeneration;const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/respond',{revision:saved.revision,kind:$('smart-ticket-reply-kind').value,text:$('smart-ticket-reply-text').value});if(epoch===smartTicketGeneration)showSmartTicket(result);await smartTicketHistory();}));
+
+function layoutDrawing(page,selected){
+  const drawing=node('div',undefined,'report-layout');drawing.setAttribute('role','img');
+  drawing.setAttribute('aria-label',page.name+': retained layout, no live values');
+  for(const visual of page.visuals){const box=node('span',visual.name,'layout-visual'+(visual.target_id===selected?' selected':''));
+    for(const [property,value] of [['left',visual.box.x],['top',visual.box.y],['width',visual.box.width],['height',visual.box.height]])box.style[property]=(100*value)+'%';
+    drawing.append(box);
+  }return drawing;
+}
+async function loadChoiceLayouts(saved){
+  try{const result=await api('tickets/'+encodeURIComponent(saved.ticket.id)+'/layout');
+    if(smartTicket!==saved)return;
+    for(const label of $('smart-ticket-answers').querySelectorAll('label')){const radio=label.querySelector('input');const match=result.choices[radio?.value];
+      if(match)label.append(layoutDrawing(match.page,match.visual.target_id),node('small',result.qualification));}
+  }catch(error){if(smartTicket===saved)$('smart-ticket-answers').append(node('p','Layout preview unavailable: '+error.message,'muted'));}
+}
+const linkPreview=node('div');$('smart-ticket-report-link').after(linkPreview);let layoutGeneration=0;
+$('smart-ticket-report-link').addEventListener('change',guard(async()=>{
+  const epoch=++layoutGeneration;linkPreview.replaceChildren();const link=$('smart-ticket-report-link').value;if(!link||!key)return;
+  const result=await api('report-layouts',{report_link:link});if(epoch!==layoutGeneration)return;
+  linkPreview.append(node('p',result.qualification,'muted'));
+  for(const page of result.pages)linkPreview.append(node('h4',page.name),layoutDrawing(page,null));
+}));
+// The fragment is never sent to the server or saved in history/storage.
+const initialAccess=new URLSearchParams(location.hash.slice(1)).get('access');
+if(initialAccess){window.history.replaceState(null,'',location.pathname);$('access-key').value=initialAccess;$('login-form').requestSubmit();}

@@ -16,6 +16,7 @@ class Shape:
 
 REGISTRY = {
     'DECLARED_CONTEXT_REPRODUCTION': Shape('reproduction'),
+    'DECLARED_FILTER_EFFECTS':Shape('filter_effects'),
     'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE': Shape('retained'),
     'REPORT_SELECTION_RESOLUTION': Shape('resolution'),
     'REPORT_SELECTION_REFUSED': Shape('retained', refusal_stage='selection resolution'),
@@ -41,7 +42,7 @@ REGISTRY = {
        'INTAKE_REFUSED': 'intake', 'RESOLUTION_REFUSED': 'resolution',
        'INVENTORY_REFUSED': 'declaration inventory',
        'REPRODUCTION_REFUSED': 'declared-context reproduction',
-       'WALK_REFUSED': 'process walk', 'PROCESS_FAILED':'process failure','BUDGET_STOP':'read budget'}.items()},
+       'WALK_REFUSED': 'process walk', 'UNIMPLEMENTED_ROUTE':'unimplemented route', 'PROCESS_FAILED':'process failure','BUDGET_STOP':'read budget'}.items()},
 }
 
 QUERY_TABLES = {name: spec.table for name, spec in REGISTRY.items()

@@ -68,24 +68,10 @@ def validate_plan(value, ticket, reports):
             'plan': value, 'executable': False, 'automatic_defect_routing': False}
 
 
-def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False, image_data_url=None, generation_options=None):
-    from investigator.planner_recording import recording
-    with recording({'session_id':'standalone:'+str(uuid4()),'planner_call':1,
-                    'call_kind':name,'context_version':None,'payload':payload,
-                    'budget':None,'reservation':None}):
-        return _azure_generate(payload,instructions,schema,name,decision_tool=decision_tool,
-            image_data_url=image_data_url,generation_options=generation_options)
-
-
-def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False, image_data_url=None, generation_options=None):
+def provider_body(payload, instructions, schema, name, *, decision_tool=False, image_data_url=None, generation_options=None):
     from investigator.generation_policy import validate as generation_policy
     policy=generation_policy(generation_options)
-    endpoint = os.environ.get('AZURE_OPENAI_ENDPOINT', '')
-    deployment = os.environ.get('AZURE_OPENAI_DEPLOYMENT', '')
-    key = os.environ.get('AZURE_OPENAI_API_KEY', '')
-    if not re.fullmatch(r'https://[a-zA-Z0-9-]+\.openai\.azure\.com/?', endpoint) or not deployment or not key:
-        raise ValueError('Azure endpoint, deployment and local API key must be configured')
-    from openai import OpenAI
+    deployment=os.environ.get('AZURE_OPENAI_DEPLOYMENT','UNCONFIGURED')
     # Stored evidence is canonicalized by the catalog. Equivalent dictionaries
     # reconstructed in replay must produce the exact same provider input bytes.
     request_input = json.dumps(payload, sort_keys=True)
@@ -94,16 +80,52 @@ def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='tic
             raise ValueError('Expected bounded inline image; remote image URLs are not accepted')
         request_input = [{'role':'user','content':[{'type':'input_text','text':request_input},
                          {'type':'input_image','image_url':image_data_url,'detail':'high'}]}]
+    options = ({'tools':[{'type':'function','name':name,'description':'Propose exactly one next diagnostic action; no execution.',
+                         'parameters':schema,'strict':True}],
+                'tool_choice':{'type':'function','name':name},'parallel_tool_calls':False}
+               if decision_tool else {'text':{'format':{'type':'json_schema','name':name,'strict':True,'schema':schema}}})
+    if 'reasoning_effort' in policy:options['reasoning']={'effort':policy['reasoning_effort']}
+    return dict(model=deployment, instructions=instructions, input=request_input, store=False,
+                max_output_tokens=policy['max_output_tokens'], **options)
+
+
+def azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False, image_data_url=None, generation_options=None, max_request_characters=None):
+    from investigator.planner_recording import recording
+    with recording({'session_id':'standalone:'+str(uuid4()),'planner_call':1,
+                    'call_kind':name,'context_version':None,'payload':payload,
+                    'budget':None,'reservation':None}):
+        return _azure_generate(payload,instructions,schema,name,decision_tool=decision_tool,
+            image_data_url=image_data_url,generation_options=generation_options,max_request_characters=max_request_characters)
+
+
+def _azure_generate(payload, instructions=INSTRUCTIONS, schema=SCHEMA, name='ticket_plan', *, decision_tool=False, image_data_url=None, generation_options=None, max_request_characters=None):
+    from investigator.generation_policy import validate as generation_policy
+    policy=generation_policy(generation_options)
+    body=provider_body(payload,instructions,schema,name,decision_tool=decision_tool,
+        image_data_url=image_data_url,generation_options=generation_options)
+    if max_request_characters is not None:
+        size=len(json.dumps(body,ensure_ascii=False,separators=(',',':')))
+        if size>max_request_characters:
+            from investigator.process_tape import event
+            event('CONFIGURATION',{'control':'INTAKE_REQUEST_OVERSIZE','characters':size,'cap':max_request_characters})
+            raise ValueError('INTAKE_REQUEST_OVERSIZE: '+str(size)+' > '+str(max_request_characters))
+    endpoint = os.environ.get('AZURE_OPENAI_ENDPOINT', '')
+    deployment = os.environ.get('AZURE_OPENAI_DEPLOYMENT', '')
+    key = os.environ.get('AZURE_OPENAI_API_KEY', '')
+    if not re.fullmatch(r'https://[a-zA-Z0-9-]+\.openai\.azure\.com/?', endpoint) or not deployment or not key:
+        raise ValueError('Azure endpoint, deployment and local API key must be configured')
+    from openai import OpenAI
     from investigator.planner_recording import http_options
-    with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=policy['timeout_seconds'], max_retries=0, **http_options()) as client:
-        options = ({'tools':[{'type':'function','name':name,'description':'Propose exactly one next diagnostic action; no execution.',
-                             'parameters':schema,'strict':True}],
-                    'tool_choice':{'type':'function','name':name},'parallel_tool_calls':False}
-                   if decision_tool else {'text':{'format':{'type':'json_schema','name':name,'strict':True,'schema':schema}}})
-        if 'reasoning_effort' in policy:options['reasoning']={'effort':policy['reasoning_effort']}
-        response = client.responses.create(
-            model=deployment, instructions=instructions, input=request_input, store=False,
-            max_output_tokens=policy['max_output_tokens'], **options)
+    from investigator.model_spend import admission
+    def send(unchanged_body):
+        with admission(unchanged_body) as settle_spend:
+            from investigator.model_transport_retry import timeout
+            with OpenAI(api_key=key, base_url=endpoint.rstrip('/') + '/openai/v1/', timeout=timeout(policy['timeout_seconds']), max_retries=0, **http_options()) as client:
+                response=client.responses.create(**unchanged_body)
+            settle_spend(response.usage.model_dump() if response.usage else None)
+            return response
+    from investigator.model_transport_retry import dispatch
+    response=dispatch(body,send)
     from investigator.generation_policy import ProviderResponseError
     usage=response.usage.model_dump() if response.usage else None
     if any(c.type=='refusal' for item in response.output if item.type=='message' for c in item.content):

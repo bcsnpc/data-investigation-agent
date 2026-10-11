@@ -180,6 +180,9 @@ def _run_one(adapter, layer, measure_id, scope):
         return {'status': 'UNDECLARED', 'reason': 'Unsupported declarations: ' + declaration.get('unsupported_form','UNSUPPORTED_DECLARATION') + ' [' + ', '.join(e['id'] for e in unsupported) + ']' ,
                 'unsupported_form': 'UNSUPPORTED_DECLARATION', 'inventory': inventory.neutral(entries), 'observations': []}
     cell = declaration.get('cell')
+    if scope.get('target_visual') is not None:
+        from .report_cell import validate as validate_cell
+        validate_cell(cell, measure_id, scope)
     keys = cell['key_restrictions'] if cell is not None else []
     if not declaration['restrictions'] and cell is None:
         return {'status': 'UNDECLARED', 'reason': 'No active declaration restrictions.', 'observations': []}
@@ -346,6 +349,10 @@ def run(adapter, layer, measure_id, scope):
         return {'status':'UNDECLARED','unsupported_form':'REPORT_BINDING_ABSENT',
             'reason':'Report ambiguity: no stated report binding was supplied; model-wide declarations are not eligible.',
             'observations':[]}
+    if hasattr(adapter,'report_catalog') and scope.get('report_binding') and not scope.get('target_visual'):
+        return {'status':'UNDECLARED','unsupported_form':'TARGET_UNRESOLVED',
+                'reason':'TARGET_UNRESOLVED: reproduction requires the ticket\'s resolved visual.',
+                'observations':[]}
     if not hasattr(adapter, 'declared_cells') or 'report_binding' not in scope:
         return _run_one(adapter, layer, measure_id, scope)
     if CAPABILITY not in adapter.capabilities(): return {'status': 'UNDECLARED', 'observations': []}

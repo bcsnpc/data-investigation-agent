@@ -1,0 +1,17 @@
+{
+  "status": "REPORT_PUBLISHED_READER_VALUES_SERVED_DISCOVERY_NOT_APPROVED",
+  "workspace_id": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+  "model_id": "c6c1091c-3bde-46ca-94fc-58f62d1e4188",
+  "report_id": "e995a2cf-7748-45f7-bde1-47510ddc509a",
+  "source_database": "billingapp",
+  "application_reachable": false,
+  "pipeline_id": "fc8438fd-2c18-4196-9191-33e26481e2e0",
+  "audit_table": "billing_ops.dbo.load_run_audit",
+  "audit_high_watermark": null,
+  "code_source": {
+    "kind": "LOCAL_PATH",
+    "path": "fixture-code/billing/transform.sql"
+  },
+  "snapshot": "SNAPSHOT_UNVERIFIED",
+  "author_defect_inventory_in_runtime": false
+}

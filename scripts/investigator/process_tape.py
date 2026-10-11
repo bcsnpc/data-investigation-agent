@@ -11,18 +11,26 @@ import math
 import re
 import sqlite3
 from contextlib import closing
+from .artifact_identity_cache import IdentityCache,ArtifactChanged
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
-VERSION = 'bounded-worker-tape-v4'
-SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', VERSION))
+VERSION = 'bounded-worker-tape-v8'
+SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', 'bounded-worker-tape-v6', 'bounded-worker-tape-v7', VERSION))
 PINNED_VERSIONS = SUPPORTED_VERSIONS - {'bounded-worker-tape-v1'}
-ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4'))
+ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7',VERSION))
+SMART_VERSIONS = frozenset(('bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7',VERSION))
+CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7',VERSION))
+SMART_OPERATIONS=frozenset(('ticket_submit','ticket_reply','ticket_attach','ticket_share','ticket_close','ticket_respond','ticket_finish',
+                          'form_submit','form_reply','form_screenshot_reply','form_comment'))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
-    'BUDGET','BUDGET_INPUT','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
+    'BUDGET','BUDGET_INPUT','BUDGET_INPUT_FAILURE','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
     'PROVIDER_REQUEST','PROVIDER_RESPONSE','PROVIDER_FAILURE','AUTH_STATE',
     'BOUNDED_REQUEST','BOUNDED_RESPONSE','BOUNDED_FAILURE','FINAL'})
 UUID_PATTERN=re.compile(r'(?i)\b[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}\b')
+
+
+_ARTIFACT_IDENTITIES=IdentityCache(UUID_PATTERN)
 
 
 class TapeError(ValueError):
@@ -68,9 +76,10 @@ class Tape:
             if value['seal']!=sha(bytes_of({k:v for k,v in value.items() if k!='seal'})):
                 raise TapeError('TAPE_SEAL')
             self.version=value['version']
-            from .budget_tape_contract import ACCOUNTING_VERSION
-            if self.version in ACCOUNTED_VERSIONS and value['accounting_version']!=ACCOUNTING_VERSION:
+            from .budget_tape_contract import ACCOUNTING_HISTORY
+            if self.version in ACCOUNTED_VERSIONS and (type(value['accounting_version']) is not int or value['accounting_version'] not in ACCOUNTING_HISTORY):
                 raise TapeError('TAPE_ACCOUNTING_VERSION')
+            self.accounting_version=value.get('accounting_version',1)
             self.engine_revision=value.get('engine_revision')
             if self.version in PINNED_VERSIONS and self.engine_revision is not None and not re.fullmatch('[0-9a-f]{40}',self.engine_revision):
                 raise TapeError('TAPE_ENGINE_REVISION')
@@ -86,7 +95,7 @@ class Tape:
             self.bootstrap=bootstrap
             self.engine_revision=None
             if self.version in PINNED_VERSIONS and (bootstrap['entry_point']=='workspace'
-                    or self.version=='bounded-worker-tape-v4' and bootstrap['entry_point'] in ('code_reader','code_verifier')):
+                    or self.version in CODE_VERSIONS and bootstrap['entry_point'] in ('code_reader','code_verifier')):
                 import subprocess
                 root=Path(__file__).resolve().parents[2]
                 from .runtime import FINGERPRINT_TRANSPORTS
@@ -105,7 +114,8 @@ class Tape:
             value['accounting_version']=ACCOUNTING_VERSION
         value['seal']=sha(bytes_of(value))
         # Only this still-open attempt is rewritten. Sealed tapes are immutable.
-        self.path.write_bytes(bytes_of(value))
+        from .atomic_tape_publish import publish
+        publish(self.path,bytes_of(value))
 
     def event(self,kind,body):
         if not isinstance(body,bytes):raise TypeError('Tape bodies must be bytes')
@@ -139,6 +149,13 @@ class Tape:
         # but are incomplete and cannot masquerade as replayable finished tapes.
         if kind in ('BOOTSTRAP','FINAL'):self.flush()
 
+    def peek(self,kind):
+        """Validate a pending replay body without consuming its event."""
+        if not self.replaying or self.index>=len(self.events):return None
+        pending=self.events[self.index]
+        body=validate_event(pending,self.index+1)
+        return body if pending['kind']==kind else None
+
     def take(self,kind):
         if self.index>=len(self.events):raise TapeError('TAPE_EXHAUSTED')
         event=self.events[self.index]
@@ -160,13 +177,48 @@ class Tape:
             raise TapeError('TAPE_BOOTSTRAP_IDENTITY')
         if any(not isinstance(bootstrap[key],dict) for key in ('config','profile','state')) or not isinstance(bootstrap['usage_policy'],(dict,type(None))):
             raise TapeError('TAPE_BOOTSTRAP_CONFIGURATION')
-        if self.version=='bounded-worker-tape-v4' and bootstrap['entry_point'] in ('code_reader','code_verifier') and self.engine_revision is None:
+        if self.version in CODE_VERSIONS and bootstrap['entry_point'] in ('code_reader','code_verifier') and self.engine_revision is None:
             raise TapeError('TAPE_ENGINE_REVISION_MISSING')
         if bootstrap['entry_point']=='workspace':
             if self.version in PINNED_VERSIONS and self.engine_revision is None:
                 raise TapeError('TAPE_ENGINE_REVISION_MISSING')
             state=bootstrap['state']
             fields={'environment','workspace_owner','artifacts','dynamic_read_limit','dynamic_input_limit'}
+            if 'provider_transport_retries' in state:
+                fields.add('provider_transport_retries')
+                if type(state['provider_transport_retries']) is not int or state['provider_transport_retries']!=2:
+                    raise TapeError('TAPE_PROVIDER_TRANSPORT_RETRY_CONFIGURATION')
+            for key,expected in (('budget_checkpoint','DELTA_V2' if self.version=='bounded-worker-tape-v8' else 'DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),('local_accounting','SQLITE_BOUNDARY_V1')):
+                if key in state:
+                    fields.add(key)
+                    if state[key]!=expected:raise TapeError('TAPE_BUDGET_CONFIGURATION')
+            if 'physical_transport_retries' in state:
+                fields.add('physical_transport_retries')
+                if type(state['physical_transport_retries']) is not int or state['physical_transport_retries']!=2:
+                    raise TapeError('TAPE_PHYSICAL_TRANSPORT_RETRY_CONFIGURATION')
+            if 'workspace_concurrency_limit' in state:
+                if type(state['workspace_concurrency_limit']) is not int or not 1<=state['workspace_concurrency_limit']<=8:
+                    raise TapeError('TAPE_WORKSPACE_CONCURRENCY_CONFIGURATION')
+                fields.add('workspace_concurrency_limit')
+            if 'smart_intake' in state:
+                if self.version not in SMART_VERSIONS:raise TapeError('TAPE_SMART_INTAKE_VERSION')
+                fields.add('smart_intake')
+                from .ticket_clarification import settings as intake_settings
+                from jsonschema.exceptions import ValidationError
+                try:intake_settings(state['smart_intake'])
+                except (ValueError,TypeError,ValidationError):raise TapeError('TAPE_SMART_INTAKE_CONFIGURATION')
+            if 'smart_auto_start' in state:
+                if self.version not in SMART_VERSIONS or type(state['smart_auto_start']) is not bool:
+                    raise TapeError('TAPE_SMART_AUTO_START_CONFIGURATION')
+                fields.add('smart_auto_start')
+            if 'smart_ownership' in state:
+                if self.version not in SMART_VERSIONS:raise TapeError('TAPE_SMART_INTAKE_VERSION')
+                fields.add('smart_ownership')
+                from .ticket_protocol import OWNERSHIP
+                from jsonschema import Draft202012Validator
+                from jsonschema.exceptions import ValidationError
+                try:Draft202012Validator(OWNERSHIP).validate(state['smart_ownership'])
+                except ValidationError:raise TapeError('TAPE_SMART_OWNERSHIP_CONFIGURATION')
             if 'fixture_state' in state:
                 fields.add('fixture_state')
                 binding=state['fixture_state']
@@ -210,7 +262,9 @@ class Tape:
             # Procedure completion is not narrative completion. A failed
             # composition is replayable failure evidence, with no outputs;
             # it must never satisfy the dual-output acceptance gate.
-            if final['status']=='COMPLETED' and final['error'] is None and not failed_composition:
+            read_stage=(self.version in SMART_VERSIONS and final['operation']=='run'
+                        and not synthesis and final['outputs'] is None)
+            if final['status']=='COMPLETED' and final['error'] is None and not failed_composition and not read_stage:
                 outputs=final['outputs']
                 if not isinstance(outputs,dict) or not {'business_output','technical_output'}<=outputs.keys() or any(not isinstance(outputs[key],dict) or not isinstance(outputs[key].get('explanation',{}).get('text'),str) or not outputs[key]['explanation']['text'] for key in ('business_output','technical_output')):
                     raise TapeError('TAPE_COMPLETED_OUTPUTS_MISSING')
@@ -225,13 +279,8 @@ class Tape:
                 source=self.path.parent/name
                 if not source.exists() or sha(source.read_bytes())!=expected:
                     raise TapeError('TAPE_BOOTSTRAP_ARTIFACT_CHANGED:'+name)
-                with closing(sqlite3.connect(source.resolve().as_uri()+'?mode=ro',uri=True)) as db:
-                    tables=[r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")]
-                    for table in tables:
-                        quoted='"'+table.replace('"','""')+'"'
-                        for row in db.execute('SELECT * FROM '+quoted):
-                            for value in row:
-                                if isinstance(value,str):known.update(v.casefold() for v in UUID_PATTERN.findall(value))
+                try:known.update(_ARTIFACT_IDENTITIES.get(source,expected))
+                except ArtifactChanged:raise TapeError('TAPE_BOOTSTRAP_ARTIFACT_CHANGED:'+name) from None
             introduced={v.casefold() for v in UUID_PATTERN.findall(bytes_of(final).decode())}-known
             if introduced:raise TapeError('TAPE_UNRECORDED_IDENTITY:'+','.join(sorted(introduced)))
         # Every started operation/provider/worker has a terminal event, in order.
@@ -239,7 +288,11 @@ class Tape:
         previous_usage=None;external_checkpoint=False
         for event in self.events:
             kind=event['kind']
-            if kind=='BUDGET_INPUT':external_checkpoint=True
+            if kind=='BUDGET_INPUT_FAILURE':
+                if self.version!='bounded-worker-tape-v8':raise TapeError('TAPE_BUDGET_FAILURE_VERSION')
+                from .budget_delta_v2 import validate_failure
+                validate_failure(json.loads(validate_event(event,event['ordinal'])))
+            elif kind=='BUDGET_INPUT':external_checkpoint=True
             elif kind=='BUDGET':
                 budget=json.loads(validate_event(event,event['ordinal']))
                 if budget.get('phase') in ('BEFORE','AFTER') and 'usage_rows' in budget.get('state',{}):
@@ -249,7 +302,9 @@ class Tape:
                     previous_usage=rows;external_checkpoint=False
             elif kind=='OPERATION_START':
                 body=json.loads(validate_event(event,event['ordinal']))
-                if bootstrap['entry_point']=='workspace' and (set(body)!={'name','args','kwargs'} or body['name'] not in {'intake','preview','create','run','synthesize'} or not isinstance(body['args'],list) or not isinstance(body['kwargs'],dict)):
+                supported={'intake','preview','create','run','synthesize'}
+                if self.version in SMART_VERSIONS:supported.update(SMART_OPERATIONS)
+                if bootstrap['entry_point']=='workspace' and (set(body)!={'name','args','kwargs'} or body['name'] not in supported or not isinstance(body['args'],list) or not isinstance(body['kwargs'],dict)):
                     raise TapeError('TAPE_OPERATION_FIELDS')
                 operations.append(body['name'])
             elif kind=='OPERATION_END':
@@ -292,6 +347,9 @@ class Tape:
 
 @contextmanager
 def active(tape):
+    if tape is not None and getattr(tape,'version',None) in ('bounded-worker-tape-v7','bounded-worker-tape-v8') and tape.bootstrap.get('entry_point')=='workspace' and tape.bootstrap.get('usage_policy') is not None and tape.bootstrap.get('state',{}).get('budget_checkpoint') in ('DELTA_V1','DELTA_V2'):
+        from .budget_checkpoint import prepare
+        prepare(tape,tape.path.parent/'catalog.sqlite',tape.bootstrap['state']['environment'])
     token=ACTIVE.set(tape)
     try:yield tape
     finally:ACTIVE.reset(token)

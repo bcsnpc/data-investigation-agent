@@ -1,0 +1,19 @@
+{
+  "version": "conversational-oracle-seal-v1",
+  "artifact": "oracle-draft.json",
+  "sha256": "bc2819f1ab12ae93d2203a519a6318a6f9ecbc1a3220a466e664a00c495a9a6b",
+  "approved_at": "2026-10-10",
+  "owner": "Chiranjeevi Bhogireddy",
+  "reviewer": "Claude",
+  "decision": "A1: explicit displayed figures amended under dated owner/reviewer approval; every other field unchanged",
+  "source_split_sha256": "d2c330ff5144b9f05c69c5571bb5c89a17b157d781cabc8d86c56346ded96795",
+  "records": 68,
+  "dev": 40,
+  "held_out": 28,
+  "supersedes": {
+    "sha256": "be029b56a6de27195dac507bfb5010f0ce7abc2732702d9a230e5f4a8d38406c",
+    "artifact": "oracle-before-a1.json",
+    "seal": "oracle-seal-before-a1.json",
+    "reason": "A1: a figure the ticket explicitly states is a stated figure"
+  }
+}

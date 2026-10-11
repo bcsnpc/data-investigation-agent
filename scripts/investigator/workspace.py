@@ -32,13 +32,18 @@ PHASES.update(CONTEXT_OBSERVED='Reading definitions and relationships',PROPOSAL_
 
 
 class Workspace:
-    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000):
+    def __init__(self, agent, *, execution_enabled=False, clock=time.time, question_resolver=None, screenshot_extractor=None, dynamic_read_limit=15, dynamic_input_limit=384000, intake_configuration=None, ownership_configuration=None, concurrency_limit=1):
+        if type(concurrency_limit) is not int or not 1<=concurrency_limit<=8:
+            raise ValueError('Workspace concurrency must be one through eight')
+        self.concurrency_limit=concurrency_limit
         if type(dynamic_read_limit) is not int or not DYNAMIC_READ_BOUNDS[0]<=dynamic_read_limit<=DYNAMIC_READ_BOUNDS[1]:
             raise ValueError('Dynamic read limit must be 1–15')
         if type(dynamic_input_limit) is not int or not DYNAMIC_INPUT_BOUNDS[0]<=dynamic_input_limit<=DYNAMIC_INPUT_BOUNDS[1]:
             raise ValueError("Invalid dynamic input limit")
         self.dynamic_input_limit=dynamic_input_limit
         self.dynamic_read_limit=dynamic_read_limit
+        self.intake_configuration=intake_configuration
+        self.ownership_configuration=ownership_configuration
         self.agent, self.store, self.clock = agent, agent.store, lambda:tape_clock('workspace',clock)
         self.execution_enabled = execution_enabled
         if execution_enabled and (agent.planner is None or agent.governor is None):
@@ -52,13 +57,28 @@ class Workspace:
             CREATE TABLE IF NOT EXISTS workspace_jobs(
               preview_id TEXT PRIMARY KEY, model_id TEXT NOT NULL, session_id TEXT UNIQUE,
               owner TEXT NOT NULL, status TEXT NOT NULL, created REAL NOT NULL, error TEXT);
-            CREATE UNIQUE INDEX IF NOT EXISTS workspace_single_active ON workspace_jobs((1))
-              WHERE status IN ('SUBMITTING','QUEUED','RUNNING');
             ''')
+            db.execute('BEGIN IMMEDIATE')
+            db.execute('DROP INDEX IF EXISTS workspace_single_active')
+            db.execute("CREATE UNIQUE INDEX IF NOT EXISTS workspace_owner_active ON workspace_jobs(owner) WHERE status IN ('SUBMITTING','QUEUED','RUNNING')")
         from .question_intake import Intake
         self.intake = Intake(self, question_resolver)
         from .screenshot_intake import Screenshots
         self.screenshots = Screenshots(self, screenshot_extractor)
+
+    @property
+    def smart_intake(self):
+        if not hasattr(self,'_smart_intake'):
+            from .smart_intake import SmartIntake
+            self._smart_intake=SmartIntake(self,self.intake_configuration,self.ownership_configuration,auto_start=True)
+        return self._smart_intake
+
+    @property
+    def forms(self):
+        if not hasattr(self,'_forms'):
+            from .form_controller import Forms
+            self._forms=Forms(self)
+        return self._forms
 
     def models(self):
         return {'execution_enabled': self.execution_enabled, 'question_intake_enabled': self.execution_enabled and self.intake.resolver is not None,
@@ -180,8 +200,8 @@ class Workspace:
             raise Conflict('Available checks changed; review again')
         with self.store.connect() as db:
             db.execute('BEGIN IMMEDIATE')
-            if db.execute("SELECT 1 FROM workspace_jobs WHERE status IN ('SUBMITTING','QUEUED','RUNNING')").fetchone():
-                raise Conflict('Another investigation is active; wait or cancel it first')
+            from .workspace_admission import admit
+            admit(db,self.owner,self.concurrency_limit)
             db.execute('INSERT INTO workspace_jobs VALUES (?,?,NULL,?,?,?,NULL)',
                        (identity, preview['model_id'], self.owner, 'SUBMITTING', self.clock()))
         try:

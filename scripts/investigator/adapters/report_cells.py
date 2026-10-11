@@ -1,5 +1,6 @@
 """Native visual roles become neutral measure-and-key cell addresses."""
 import copy
+import json
 from ..onboarding import digest
 
 # This knowledge is adapter-owned; no native role names cross this boundary.
@@ -14,6 +15,106 @@ ROLES = {
     'stackedColumnChart': ({'Category': 'group', 'Series': 'group'}, {'Y'}),
     'lineChart': ({'Category': 'group', 'Series': 'group'}, {'Y'}),
 }
+
+
+def declared_aliases(model):
+    """Projection display names are declared aliases, not inferred synonyms."""
+    from .report_predicates import member, Refusal
+    result={}
+    for report in model['context'].get('reports',[]):
+        for part in report.get('report_definitions',[]):
+            if not part['name'].endswith('/visual.json'):continue
+            document=json.loads(part['metadata']['content'])
+            state=document.get('visual',{}).get('query',{}).get('queryState',{})
+            for role in state.values():
+                for projection in role.get('projections',[]):
+                    alias=projection.get('displayName');field=projection.get('field',{})
+                    if not isinstance(alias,str) or not alias:continue
+                    for kind in ('Measure','Column'):
+                        if kind not in field:continue
+                        try:identity=member(model,field,kind)['id']
+                        except Refusal:continue  # An unresolved alias grants no name match.
+                        result.setdefault(identity,set()).add(alias)
+    return {key:sorted(values) for key,values in result.items()}
+
+
+def catalog(model):
+    """Retained names and shapes only; never quantities or inferred targets."""
+    from .report_predicates import member, Refusal
+    result = []
+    for report in model['context'].get('reports', []):
+        pages = {}
+        for part in report.get('report_definitions', []):
+            path = part['name'].split('/')
+            if len(path) == 4 and path[-1] == 'page.json':
+                doc = json.loads(part['metadata']['content'])
+                pages[path[2]] = doc.get('displayName')
+        for part in report.get('report_definitions', []):
+            path = part['name'].split('/')
+            if len(path) != 6 or path[-1] != 'visual.json': continue
+            doc = json.loads(part['metadata']['content'])
+            state = doc.get('visual', {}).get('query', {}).get('queryState', {})
+            measures = sorted({member(model, p['field'], 'Measure')['id']
+                               for role in state.values() for p in role.get('projections', [])
+                               if 'Measure' in p.get('field', {})})
+            if not measures: continue
+            names = [pages.get(path[2])]
+            titles = doc.get('visual', {}).get('visualContainerObjects', {}).get('title', [])
+            for title in titles:
+                literal = title.get('properties', {}).get('text', {}).get('expr', {}).get('Literal', {}).get('Value')
+                if isinstance(literal, str) and literal.startswith("'") and literal.endswith("'"):
+                    names.append(literal[1:-1].replace("''", "'"))
+            try:
+                columns, _ = roles(model, doc)
+                grouping = sorted(c['id'] for c in columns)
+                unsupported = None
+            except Refusal as exc:
+                grouping = []
+                unsupported = str(exc)
+            result.append({'target_id': part['id'], 'report_id': report['report']['id'],
+                           'names': sorted(set(n for n in names if n)),
+                           'page_id': report['report']['id']+'/page/'+path[2],
+                           'page_names': [pages[path[2]]] if pages.get(path[2]) else [],
+                           'measure_ids': measures, 'grouping_columns': grouping,
+                           'unsupported': unsupported,
+                           'form': ('CARD' if doc['visual']['visualType'] in ('card','multiRowCard') else
+                                    'MATRIX' if doc['visual']['visualType'] in ('tableEx','pivotTable') else
+                                    'CHART' if doc['visual']['visualType'] in ROLES else None)})
+            # Matrix address order is declaration evidence, never alphabetical
+            # column order or the serialization order of queryState keys.
+            if doc.get('visual',{}).get('visualType')=='pivotTable' and unsupported is None:
+                order=[]
+                for role in ('Rows','Columns'):
+                    for projection in state.get(role,{}).get('projections',[]):
+                        if 'Column' in projection.get('field',{}):
+                            identity=member(model,projection['field'],'Column')['id']
+                            if identity not in order:order.append(identity)
+                result[-1]['cell_key_order']=order
+    return sorted(result, key=lambda c: c['target_id'])
+
+
+def declared_scopes(model, visuals):
+    """Complete supported retained declarations, not absence of recognition."""
+    from .report_predicates import scoped_declaration
+    from ..declared_reproduction import compose
+    result=copy.deepcopy(visuals)
+    for visual in result:
+        proofs={}
+        for measure in visual['measure_ids']:
+            try:
+                name=next(r['report']['name'] for r in model['context']['reports'] if r['report']['id']==visual['report_id'])
+                declared=scoped_declaration(model,measure,{'report_binding':{
+                    'report_id':visual['report_id'],'resolution_kind':'STATED',
+                    'source':{'start':0,'end':len(name),'quote':name}}},visual['target_id'])
+                if declared.get('unsupported_form'):continue
+                inventory=declared['inventory']
+                if any(e['disposition']=='UNSUPPORTED' for e in inventory['entries']):continue
+                proofs[measure]={'state':'COMPLETE','restrictions':compose(declared['restrictions']),
+                    'context_id':model['context_id'],'context_hash':digest(model['context']),
+                    'inventory_hash':digest(inventory)}
+            except (ValueError,KeyError,TypeError):continue
+        if proofs:visual['declared_scopes']=proofs
+    return result
 
 
 def projected_measure(model, document, measure_id):
@@ -51,6 +152,10 @@ def addresses(model, document, target_id, measure_id, scope):
     from ..declared_reproduction import compose
     columns, measures = roles(model, document)
     if measure_id not in {m['id'] for m in measures}: return []
+    referent = scope.get('target_visual')
+    if referent is not None:
+        if referent['target_id'] != target_id or referent['measure_id'] != measure_id:
+            raise Refusal('TARGET_UNRESOLVED: addressed visual differs from the ticket referent')
     stated = {}
     for restriction in scope.get('filters', []):
         if restriction.get('operator', 'in') != 'in': continue
@@ -61,13 +166,20 @@ def addresses(model, document, target_id, measure_id, scope):
         values = compose(stated[column['id']])[0]['values'] if column['id'] in stated else []
         if len(values) != 1: missing.append(column['name'])
         else: keys.append({'field_id': column['id'], 'operator': 'IN', 'values': values})
-    if missing: raise Refusal('MISSING_CELL_KEYS: ' + ', '.join(missing))
     def cell(keys, mode):
         result = {'target_id': target_id, 'measure_id': measure_id,
                   'grouping_columns': sorted(c['id'] for c in columns),
                   'key_restrictions': sorted(copy.deepcopy(keys), key=lambda r: r['field_id']), 'mode': mode}
         result['id'] = digest(result)
         return result
+    if referent is not None and referent['mode'] == 'TOTAL':
+        if not columns: raise Refusal('TARGET_UNRESOLVED: ungrouped visual has no total row')
+        return [cell([], 'TOTAL')]
+    if missing: raise Refusal('MISSING_CELL_KEYS: ' + ', '.join(missing))
     result = [cell(keys, 'KEYED' if columns else 'UNGROUPED')]
+    if referent is not None:
+        if result[0]['mode'] != referent['mode']:
+            raise Refusal('TARGET_UNRESOLVED: addressed mode differs from the ticket referent')
+        return result
     if columns: result.append(cell([], 'TOTAL'))
     return result

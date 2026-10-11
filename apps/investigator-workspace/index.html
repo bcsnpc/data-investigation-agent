@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Investigator · Investigations</title><link rel="stylesheet" href="/style.css"><script src="/workspace.js" defer></script><script src="/screenshots.js" defer></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Investigator · Investigations</title><link rel="stylesheet" href="/style.css"><script src="/workspace.js" defer></script><script src="/form.js" defer></script><script src="/questionnaire.js" defer></script><script src="/screenshots.js" defer></script></head>
 <body>
 <header><a class="brand" href="/"> <span class="mark">i</span> Investigator</a><span class="environment">Local workspace</span><button id="signout" class="quiet" hidden>Sign out</button></header>
 <main>
@@ -10,9 +10,44 @@
     <aside><div class="section-heading"><h2>Investigations</h2><button id="refresh-history" class="quiet" aria-label="Refresh investigations">↻</button></div><button id="new-investigation" class="secondary full">+ New investigation</button><div id="history" class="history"></div><h2>Recent questions</h2><div id="question-history" class="history"></div><h2>Recent screenshots</h2><div id="image-history" class="history"></div></aside>
     <div class="content">
       <section id="composer" class="card">
-        <p class="eyebrow">START WITH YOUR QUESTION</p><h1>What looks different?</h1><p class="muted">Choose a metric and the records you want checked. The investigator chooses its next checks from the available evidence.</p>
+        <p class="eyebrow">START WITH YOUR QUESTION</p><h1>What looks different?</h1><p class="muted">Choose a report and explain what looks wrong. Your ticket keeps the selections, checks and replies together.</p>
         <div id="read-only" class="notice" hidden>This host shows history and scope previews. Live execution is disabled.</div>
         <div id="clarification-note" class="notice" hidden></div>
+        <section id="simple-intake" hidden>
+          <h2>Your report question</h2>
+          <button id="simple-web" type="button">Web form</button><button id="simple-chat" type="button" class="quiet">Chat</button>
+          <p id="simple-list-note" class="muted" role="status"></p><button id="simple-refresh" type="button" class="quiet">Refresh report choices</button>
+          <p id="simple-channel-note" role="status"></p>
+          <form id="simple-form"><div id="simple-fields"></div><button id="simple-submit" type="submit">Submit ticket</button></form>
+          <p id="simple-submitted" role="status"></p><a id="simple-ticket-link"></a>
+        </section>
+        <section id="form-intake" hidden>
+          <h2>Choose your report and number</h2>
+          <button id="form-measure-text" type="button" class="quiet">It's about a measure, not a specific report</button>
+          <p id="form-measure-note" hidden>Measure questions use the existing text intake. Name the model and measure in your question; no report or page is required.</p>
+          <p id="form-list-status" class="muted small" role="status"></p>
+          <button id="form-refresh" type="button" class="quiet">Refresh report choices</button>
+          <form id="report-ticket-form">
+            <label for="form-report-search">Find a report</label><input id="form-report-search" type="search" placeholder="Search report names">
+            <label for="form-report">Report</label><select id="form-report"></select>
+            <label for="form-page">Page or tab</label><select id="form-page"></select>
+            <div id="form-page-picture" aria-label="Pick a visual from its retained page layout"></div>
+            <details><summary>I know the visual name</summary><label for="form-target">Visual title (optional)</label><select id="form-target"></select></details>
+            <label for="form-mode">Displayed cell</label><select id="form-mode"></select>
+            <div id="form-cell-keys"></div>
+            <label for="form-value">Value you see (optional)</label><input id="form-value" maxlength="2000" placeholder="For example, 16 or empty">
+            <label for="form-comparison">Compared to</label><select id="form-comparison"></select>
+            <label for="form-description">Description (optional)</label><textarea id="form-description" rows="3" maxlength="2000"></textarea>
+            <button id="form-submit" type="submit">Submit report question</button>
+          </form>
+        </section>
+        <section id="smart-ticket-intake" hidden>
+          <h2>Work a ticket</h2>
+          <form id="smart-ticket-form"><label for="smart-ticket-text">Your question or pasted email</label><textarea id="smart-ticket-text" rows="4" maxlength="2000"></textarea><details><summary>Optional details</summary><label for="smart-ticket-number">Which number or visual?</label><input id="smart-ticket-number" maxlength="2000" placeholder="For example, the total card shows 16"><label for="smart-ticket-report-page">Report or page</label><input id="smart-ticket-report-page" maxlength="2000"><label for="smart-ticket-report-link">Report link</label><input id="smart-ticket-report-link" type="url" maxlength="2000" placeholder="Paste a shared report link"><label for="smart-ticket-comparison">What are you comparing against?</label><select id="smart-ticket-comparison"><option value="">Not specified</option></select></details><p class="muted small">We will ask you to choose when the report, displayed number or comparison is uncertain. Your ticket and replies are saved.</p><button id="smart-ticket-submit" type="submit">Submit ticket</button></form>
+          <button id="smart-ticket-refresh" class="quiet" type="button">Recent tickets</button>
+          <div id="smart-ticket-history" class="history"></div>
+          <div id="smart-ticket-result" hidden><p id="smart-ticket-state" role="status"></p><form id="smart-ticket-answers"></form><ol id="smart-ticket-transitions"></ol><button id="smart-ticket-review" type="button" hidden>Review the resolved scope</button><button id="smart-ticket-finish" type="button" hidden>Prepare findings from completed checks</button><div id="smart-ticket-findings" hidden><h3>Findings</h3><p id="smart-ticket-business"></p><details><summary>Technical explanation</summary><p id="smart-ticket-technical"></p></details><p>Does this answer your question?</p><button id="smart-ticket-close" type="button">Yes, close my ticket</button><p id="smart-ticket-handoff"></p><p id="smart-ticket-reuse" hidden></p></div><form id="smart-ticket-followup"><label for="smart-ticket-reply-kind">Reply</label><select id="smart-ticket-reply-kind"><option value="RESTATE_QUESTION">That is not what I meant ? here is my question</option><option value="DISPUTE">I still dispute the number</option><option value="REQUEST_CHANGE">I need a change</option><option value="EXPLAIN_RECORDED_RESULT">Show the retained explanation again</option></select><label for="smart-ticket-reply-text">Your reply</label><textarea id="smart-ticket-reply-text" rows="3" maxlength="2000" required></textarea><button type="submit">Record reply</button></form></div>
+        </section>
         <section id="screenshot-intake" hidden>
           <label for="screenshot-file">Add a report screenshot (optional)</label><input id="screenshot-file" type="file" accept="image/png,image/jpeg">
           <p class="muted small">PNG or JPEG, up to 1 MB and 8 million pixels. Reading sends this image to the configured AI service. Review the visible text before using it.</p>
@@ -28,7 +63,7 @@
           <button id="hold-question" class="quiet danger" type="button" hidden>Stop waiting for this question</button>
           <p id="intake-provenance" class="muted small" hidden>AI suggested the scope below. Check every metric and filter before reviewing. Editing it switches to your manually selected scope.</p>
         </section>
-        <h2>Select or review the scope</h2>
+        <div id="legacy-scope-controls" hidden><h2>Select or review the scope</h2>
         <form id="scope-form">
           <div class="grid"><div><label for="model">Reporting model</label><select id="model" required></select></div><div><label for="metric">Metric</label><select id="metric" required></select></div></div>
           <label for="symptom">Describe the difference you noticed</label><textarea id="symptom" rows="3" maxlength="2000" required placeholder="For example: this number looks lower than expected for the records I selected."></textarea>
@@ -38,7 +73,8 @@
           <p class="muted small">Only these filters are applied. Report, page and screenshot filters are not imported automatically. Date ranges use the model’s dates, with the end excluded.</p>
           <label for="breakdown">Optional breakdown</label><select id="breakdown"><option value="">No breakdown selected</option></select>
           <button id="review" type="submit" class="review-button">Review scope <span aria-hidden="true">→</span></button>
-        </form>
+        </form></div>
+        <section id="ticket-discussion" hidden><h2>Ticket</h2><h3>What you submitted</h3><dl id="ticket-submitted-facts"></dl><h3>Progress</h3><ol id="ticket-progress"></ol><h3>Comments</h3><ol id="ticket-comments"></ol><form id="ticket-comment-form"><label for="ticket-comment-text">Add a comment</label><textarea id="ticket-comment-text" maxlength="2000" required></textarea><label><input id="ticket-comment-attach" type="checkbox">Attach the screenshot uploaded and reviewed above</label><button type="submit">Post comment</button></form><button id="ticket-screenshot-answer" type="button" hidden>Use reviewed screenshot to answer the pending question</button></section>
       </section>
       <section id="preview" class="card review" hidden><p class="eyebrow">READY FOR YOUR REVIEW</p><h2 id="preview-title"></h2><p id="preview-symptom"></p><div id="preview-filters" class="scope-pills"></div><p id="preview-note" class="muted"></p><ul id="preview-contexts" class="small"></ul><p class="small">Starting runs connected read-only checks and may use the language model within the configured usage limits.</p><button id="start">Start investigation</button></section>
       <section id="result" hidden>

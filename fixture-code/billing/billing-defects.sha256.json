@@ -1,0 +1,9 @@
+{
+  "sealed_file": "billing-defects.sealed.md",
+  "sha256": "9886e5e43ea170bbc8164a007686832e0d116fbe337c9f9ac59e3eb35aab5919",
+  "sealed_at": "2026-10-08T05:56:56.615403+00:00",
+  "status": "AUTHORING_STATES_NOT_DEPLOYED",
+  "tickets_authored": 0,
+  "runtime_visibility": "EXCLUDED",
+  "rule": "New sealed bytes require a new dated hash and authoring reason; never edit this pin to match a result."
+}

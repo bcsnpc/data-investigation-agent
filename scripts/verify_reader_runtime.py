@@ -10,6 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 import sqlite3
+from investigator.budget_connection import connect as budget_connect
 from urllib.parse import quote
 from uuid import UUID, uuid5, NAMESPACE_URL
 
@@ -86,7 +87,7 @@ class FixtureStore:
 
     @contextmanager
     def connect(self):
-        db = sqlite3.connect(self.database, timeout=10); db.row_factory = sqlite3.Row
+        db = budget_connect(self.database, timeout=10); db.row_factory = sqlite3.Row
         try:
             with db: yield db
         finally: db.close()

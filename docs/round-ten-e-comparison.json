@@ -1,0 +1,1950 @@
+{
+  "scores": {
+    "old": {
+      "cases": 68,
+      "evaluated": 68,
+      "full_matches": 11,
+      "field_accuracy": {
+        "kind": 0.6470588235294118,
+        "figure_precision": 0.23529411764705882,
+        "measure": 0.23529411764705882,
+        "selections": 0.23529411764705882,
+        "target": 0.23529411764705882,
+        "triage": 0.23529411764705882,
+        "report_page": 0.23529411764705882
+      },
+      "unscored_fields": {
+        "primary_span": "No expected primary-span annotation exists in these sealed golden records. Verbatim validity is not semantic accuracy.",
+        "comparison_spans": "No expected comparison-span annotation exists in these sealed golden records; no reference was invented."
+      },
+      "basis": {
+        "kind": "Recorded nomination compared to sealed kind, including rejected proposals.",
+        "report_page": "Target-derived report/page binding; not separate page-span interpretation."
+      },
+      "results": [
+        {
+          "case_id": "original:family-A-mention",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-A-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-A-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-A-typo",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-B-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-B-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-B-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-C-noisy",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-C-terse",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-C-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-D-noisy",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-D-terse",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-D-typo",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-E-mention",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": true,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-E-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-E-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-E-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-F-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-F-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-F-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-G-mention",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": true,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-G-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-G-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-G-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-H-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-H-terse",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-H-typo",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-I-noisy",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-I-terse",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-I-typo",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:question-change-days",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:question-change-week",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:question-hiding-rows",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:question-stale-no-sla",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-business-benchmark",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:refusal-business-intent",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:refusal-business-q49",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:refusal-nonexistent-column",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:refusal-two-figures-total",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:refusal-two-figures",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-unidentified-measure",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:refusal-unidentified-visual",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-unsupported-filter",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:refusal-unsupported-relative",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:visual-1",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:visual-2",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:visual-3",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:visual-4",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:visual-5",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": false,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:visual-6",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-A",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-B",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-C",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-D",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-E",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-F",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-G",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-H",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-I",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-A",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-B",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-C",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-D",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": false,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-E",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-F",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-G",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-H",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-I",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        }
+      ]
+    },
+    "new": {
+      "cases": 68,
+      "evaluated": 68,
+      "full_matches": 11,
+      "field_accuracy": {
+        "kind": 0.5882352941176471,
+        "figure_precision": 0.47058823529411764,
+        "measure": 0.47058823529411764,
+        "selections": 0.4411764705882353,
+        "target": 0.45588235294117646,
+        "triage": 0.45588235294117646,
+        "report_page": 0.45588235294117646
+      },
+      "unscored_fields": {
+        "primary_span": "No expected primary-span annotation exists in these sealed golden records. Verbatim validity is not semantic accuracy.",
+        "comparison_spans": "No expected comparison-span annotation exists in these sealed golden records; no reference was invented."
+      },
+      "basis": {
+        "kind": "Recorded nomination compared to sealed kind, including rejected proposals.",
+        "report_page": "Target-derived report/page binding; not separate page-span interpretation."
+      },
+      "results": [
+        {
+          "case_id": "original:family-A-mention",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-A-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-A-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-A-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-B-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-B-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-B-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-C-noisy",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-C-terse",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-C-typo",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-D-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-D-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-D-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-E-mention",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-E-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-E-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-E-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-F-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-F-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "original:family-F-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-G-mention",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-G-noisy",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-G-terse",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-G-typo",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-H-noisy",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-H-terse",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-H-typo",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-I-noisy",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-I-terse",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-I-typo",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:question-change-days",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:question-change-week",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:question-hiding-rows",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:question-stale-no-sla",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-business-benchmark",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-business-intent",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-business-q49",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-nonexistent-column",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-two-figures-total",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-two-figures",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-unidentified-measure",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-unidentified-visual",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-unsupported-filter",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:refusal-unsupported-relative",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:visual-1",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:visual-2",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:visual-3",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:visual-4",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:visual-5",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:visual-6",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": false,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-A",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-B",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-C",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-D",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": false,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-E",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-F",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-G",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-H",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "original:family-I",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-A",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-B",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-C",
+          "fields": {
+            "kind": false,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-D",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": false,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-E",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": true,
+            "triage": true,
+            "report_page": true
+          },
+          "full_match": true
+        },
+        {
+          "case_id": "rebuilt:family-F",
+          "fields": {
+            "kind": true,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-G",
+          "fields": {
+            "kind": true,
+            "figure_precision": true,
+            "measure": true,
+            "selections": true,
+            "target": false,
+            "triage": true,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-H",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        },
+        {
+          "case_id": "rebuilt:family-I",
+          "fields": {
+            "kind": false,
+            "figure_precision": false,
+            "measure": false,
+            "selections": false,
+            "target": false,
+            "triage": false,
+            "report_page": false
+          },
+          "full_match": false
+        }
+      ]
+    }
+  },
+  "losing_fields": {
+    "kind": -0.05882352941176472
+  },
+  "structured_adoption_gate": "FAILED",
+  "estate_reads": 0,
+  "unscored_fields": {
+    "primary_span": "No expected primary-span annotation exists in these sealed golden records. Verbatim validity is not semantic accuracy.",
+    "comparison_spans": "No expected comparison-span annotation exists in these sealed golden records; no reference was invented."
+  },
+  "summaries": {
+    "old": {
+      "calls": 73,
+      "mean_characters": 54491.24657534246,
+      "total_characters": 3977861,
+      "per_family": {
+        "A": {
+          "cases": 6,
+          "matches": 0
+        },
+        "B": {
+          "cases": 5,
+          "matches": 0
+        },
+        "C": {
+          "cases": 5,
+          "matches": 0
+        },
+        "D": {
+          "cases": 5,
+          "matches": 0
+        },
+        "E": {
+          "cases": 6,
+          "matches": 0
+        },
+        "F": {
+          "cases": 5,
+          "matches": 0
+        },
+        "G": {
+          "cases": 6,
+          "matches": 0
+        },
+        "H": {
+          "cases": 5,
+          "matches": 0
+        },
+        "I": {
+          "cases": 5,
+          "matches": 0
+        },
+        "null": {
+          "cases": 20,
+          "matches": 11
+        }
+      },
+      "pot_before": 1013,
+      "pot_after": 1013
+    },
+    "new": {
+      "calls": 92,
+      "mean_characters": 9426.184782608696,
+      "total_characters": 867209,
+      "per_family": {
+        "A": {
+          "cases": 6,
+          "matches": 2
+        },
+        "B": {
+          "cases": 5,
+          "matches": 3
+        },
+        "C": {
+          "cases": 5,
+          "matches": 0
+        },
+        "D": {
+          "cases": 5,
+          "matches": 2
+        },
+        "E": {
+          "cases": 6,
+          "matches": 3
+        },
+        "F": {
+          "cases": 5,
+          "matches": 1
+        },
+        "G": {
+          "cases": 6,
+          "matches": 0
+        },
+        "H": {
+          "cases": 5,
+          "matches": 0
+        },
+        "I": {
+          "cases": 5,
+          "matches": 0
+        },
+        "null": {
+          "cases": 20,
+          "matches": 0
+        }
+      },
+      "pot_before": 1013,
+      "pot_after": 1013
+    }
+  },
+  "plans": {
+    "old": {
+      "engine_hash": "4a27f2aa0ae451a920d003c493a518f78d5010f9fb5bc03ff381302fe3d9bd0d",
+      "model_version": "investigator-quality-54",
+      "original_golden_hash": "f00fb6d22bcdecf8e7dfe8f984d9c4b3610044ec2aa96c83689b2ddf5e9f5e67",
+      "rebuilt_golden_hash": "40cfe415d05a7ecdac25c0b62f8e77d8a8442ed8c33f022d9cd70f81bef3ca4c",
+      "cases": 68,
+      "pace_seconds": 65,
+      "request_cap": 80000
+    },
+    "new": {
+      "engine_hash": "832f2dfb07dbfbd138e82206cd4827b7a8a7bba4359f205ac827d0112fe315cf",
+      "model_version": "investigator-quality-54",
+      "original_golden_hash": "f00fb6d22bcdecf8e7dfe8f984d9c4b3610044ec2aa96c83689b2ddf5e9f5e67",
+      "rebuilt_golden_hash": "40cfe415d05a7ecdac25c0b62f8e77d8a8442ed8c33f022d9cd70f81bef3ca4c",
+      "cases": 68,
+      "pace_seconds": 65,
+      "request_cap": 20000
+    }
+  },
+  "adoption": "REJECTED; draft candidate not adopted; no estate run permitted"
+}

@@ -1,0 +1,8 @@
+600 overage - units or money?
+
+The Usage Overage card says 600 but I can't see a unit or currency next to it.
+
+The app has Aster using 3,500 against 3,000 included and Birch using 1,100 against 1,000. Cedar is 2,800 against 3,000, and Dune is 500 against 1,000. Counting only the amounts above the allowances gives 600 units, so that part looks reasonable.
+
+Is the card showing units rather than a charge? I expected a label that tells me which before I put it into the billing notes.
+

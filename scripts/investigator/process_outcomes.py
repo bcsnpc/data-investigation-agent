@@ -8,7 +8,7 @@ OUTCOMES = (
     'REFRESH_LATENCY', 'LOAD_LATENCY', 'PRESENTATION_LOGIC',
     'TRANSFORMATION_LOGIC', 'INGESTION_GAP', 'DEFECT',
     'CONSISTENT_TO_BOUNDARY', 'CONSISTENT_TO_SOURCE', 'NO_COMPARABLE_PATH', 'DEFINITION_DIFFERENCE', 'SCOPE_DIFFERENCE',
-    'DIFFERENT_SUBJECT', 'BUSINESS_QUESTION', 'NO_KNOWN_PATTERN')
+    'DIFFERENT_SUBJECT', 'BUSINESS_QUESTION', 'NO_KNOWN_PATTERN','DECLARED_FILTER_EFFECTS')
 
 ACTIONS = {
     'REFRESH_LATENCY': 'RECHECK_AFTER_REFRESH',
@@ -25,6 +25,7 @@ ACTIONS = {
     'DIFFERENT_SUBJECT': 'INFORMATIONAL',
     'BUSINESS_QUESTION': 'ASK_DOMAIN_SPECIALIST',
     'NO_KNOWN_PATTERN': 'FOLLOW_NAMED_NEXT_STEP',
+    'DECLARED_FILTER_EFFECTS':'CONFIRM_SCOPE_INTENT',
 }
 
 # Roles are attached by deterministic adapters/procedures, not inferred from
@@ -44,6 +45,7 @@ REQUIRED_ROLES = {
     'DIFFERENT_SUBJECT': ('left_path', 'right_path'),
     'BUSINESS_QUESTION': ('flow_consistency', 'comparison'),
     'NO_KNOWN_PATTERN': ('established',),
+    'DECLARED_FILTER_EFFECTS':('established',),
 }
 
 BOUNDARY_ATTRIBUTIONS = {
@@ -121,6 +123,10 @@ def validate(assessment, observations):
             if output in assessment and entry not in assessment[output].get('unattested_surface_fields',[]):
                 raise ValueError('Every unattested surface field must be named in both outputs')
     for observation in observations.values():
+        if observation.get('check_kind')=='DECLARED_FILTER_EFFECTS':
+            from .filter_effects import validate as validate_effects,LIMIT
+            validate_effects(observation,observations)
+            if LIMIT not in assessment.get('limits',[]):raise ValueError('Filter effects require their within-layer limitation')
         if observation.get('check_kind')!=KIND:continue
         validate_reproduction(observation,observations)
         if observation['id'] not in assessment['evidence_ids']:
@@ -144,6 +150,8 @@ def validate(assessment, observations):
         if required and required not in assessment.get('limits',[]):
             raise ValueError('Snapshot-unverified comparison requires its specific limitation')
     process = assessment.get('support', {}).get('process')
+    if outcome=='DECLARED_FILTER_EFFECTS' and not any(o.get('check_kind')=='DECLARED_FILTER_EFFECTS' for o in observations.values()):
+        raise ValueError('Declared filter effects require original per-restriction comparisons')
     if not isinstance(process, dict):
         raise ValueError('Process outcome requires process support')
     expected = set(schema()['required'])
@@ -163,7 +171,7 @@ def validate(assessment, observations):
         raise ValueError('Declared capabilities must be a sorted unique list')
     required_capability={'REFRESH_LATENCY':'presentation_freshness','LOAD_LATENCY':'job_history',
         'PRESENTATION_LOGIC':'presentation_context','TRANSFORMATION_LOGIC':'transformation_definition',
-        'INGESTION_GAP':'ingestion'}
+        'INGESTION_GAP':'ingestion','DECLARED_FILTER_EFFECTS':'declared_filter_effects'}
     needed=required_capability.get(outcome)
     if outcome=='REFRESH_LATENCY' and 'declared_source_comparison' in capabilities:needed='declared_source_comparison'
     if needed and needed not in capabilities:

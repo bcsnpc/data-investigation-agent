@@ -5,6 +5,7 @@ from decimal import Decimal
 import json
 import re
 import subprocess
+import sqlite3
 from .process_tape import uuid4
 from .onboarding import fields,digest,encoded,Conflict
 from .model_context import assets
@@ -213,7 +214,8 @@ def run(store,plan,config,tool,execute,*,receipt_id=None,catalog=None):
     raw_report=None
     try:
         if build(store,plan,config,tool,catalog=catalog)!=request:raise Conflict('Context changed before query')
-        response=execute(request)
+        from .physical_transport_retry import execute as retry_transport
+        response=retry_transport(request,execute,tool)
         if tool=='bounded_dax':require(response,request,config['fabric']['native_reader'])
         elif not response.get('read_only_verified'):raise ValueError('Source read-only permission check missing')
         if request.get('surface_report_columns'):
@@ -234,6 +236,9 @@ def run(store,plan,config,tool,execute,*,receipt_id=None,catalog=None):
     except Exception as exc:
         status='HELD' if isinstance(exc,Conflict) else 'INTERRUPTED' if isinstance(exc,(TimeoutError,subprocess.TimeoutExpired)) else 'FAILED'
         result={'error_type':type(exc).__name__,'cause_verified':False}
+        if isinstance(exc,sqlite3.Error):
+            from .process_failure import capture
+            result['local_failure']=capture(exc)
         if raw_report is not None:
             from .raw_surface_report import report as retained_report
             result.update(raw_surface_report=raw_report,surface_report=retained_report(raw_report),surface_report_binding='VALUE_QUERY')
@@ -249,8 +254,11 @@ def run(store,plan,config,tool,execute,*,receipt_id=None,catalog=None):
                 attempts=connection_attempts(getattr(exc,'connection_attempts',None))
                 if attempts is not None:result['connection_attempts']=attempts
             except (ValueError,TypeError):pass
-    with store.connect() as db:
-        db.execute('UPDATE '+TABLE+' SET status=?,result=? WHERE id=?',(status,encoded(result),identity))
-        from .receipt_integrity import seal
-        seal(db,tool,identity)
+    from .local_accounting import boundary
+    def persist_read_receipt():
+        with store.connect() as db:
+            db.execute('UPDATE '+TABLE+' SET status=?,result=? WHERE id=?',(status,encoded(result),identity))
+            from .receipt_integrity import seal
+            seal(db,tool,identity)
+    boundary('FLEXIBLE_READ_RECEIPT_PERSISTENCE',persist_read_receipt)
     return {'id':identity,'status':status,'request_hash':digest(request),'result':result}

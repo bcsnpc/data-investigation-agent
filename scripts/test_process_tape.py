@@ -17,6 +17,41 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def test_peek_validates_without_consuming_and_has_no_wire_effect(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'peek.json';tape=Tape(path,bootstrap());tape.finish({})
+            original=path.read_bytes();replay=Tape(path);index=replay.index
+            self.assertEqual(replay.peek('FINAL'),bytes_of({}));self.assertEqual(replay.index,index)
+            self.assertIsNone(replay.peek('CLOCK'));self.assertEqual(replay.index,index)
+            replay.finish({});self.assertIsNone(replay.peek('FINAL'));self.assertEqual(path.read_bytes(),original)
+            replay=Tape(path);replay.events[replay.index]['sha256']='wrong'
+            with self.assertRaisesRegex(TapeError,'BODY_INTEGRITY'):replay.peek('FINAL')
+
+    def test_accounting_version_requires_integer_not_boolean_alias(self):
+        from investigator.process_tape import sha
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'tape.json';tape=Tape(path,bootstrap());tape.finish({})
+            value=json.loads(path.read_bytes());value['accounting_version']=True
+            value['seal']=sha(bytes_of({k:v for k,v in value.items() if k!='seal'}))
+            path.write_bytes(bytes_of(value))
+            with self.assertRaisesRegex(TapeError,'ACCOUNTING_VERSION'):Tape(path)
+
+    def test_v4_tape_replays_unchanged_after_smart_ticket_version_bump(self):
+        from investigator import process_tape as journal
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'v4.json'
+            with patch.object(journal,'VERSION','bounded-worker-tape-v4'):
+                recorded=Tape(path,bootstrap())
+                recorded.event('BOUNDED_REQUEST',bytes_of({'value':16}))
+                recorded.event('BOUNDED_RESPONSE',bytes_of({'value':17}))
+                recorded.finish({'status':'HELD'})
+            original=path.read_bytes();replayed=Tape(path)
+            self.assertEqual(replayed.version,'bounded-worker-tape-v4')
+            replayed.event('BOUNDED_REQUEST',bytes_of({'value':16}))
+            self.assertEqual(json.loads(replayed.take('BOUNDED_RESPONSE')),{'value':17})
+            replayed.finish({'status':'HELD'})
+            self.assertEqual(path.read_bytes(),original)
+
     def test_worker_admission_never_rewrites_prior_envelope(self):
         with tempfile.TemporaryDirectory() as folder:
             tape=Tape(Path(folder)/'tape.json',bootstrap())
@@ -57,13 +92,29 @@ class TapeTests(unittest.TestCase):
                 recorded.event('BOUNDED_RESPONSE', bytes_of({'value': 2}))
                 recorded.finish({})
             original = path.read_bytes()
-            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v4')
+            self.assertEqual(journal.VERSION, 'bounded-worker-tape-v8')
             replayed = Tape(path)
             self.assertEqual(replayed.version, 'bounded-worker-tape-v1')
             replayed.event('BOUNDED_REQUEST', bytes_of({'request': 1}))
             self.assertEqual(json.loads(replayed.take('BOUNDED_RESPONSE')), {'value': 2})
             replayed.finish({})
             self.assertEqual(path.read_bytes(), original)
+
+    def test_v5_replays_unchanged_after_recorder_moves_to_v7(self):
+        from investigator import process_tape as journal
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'v5.json'
+            with patch.object(journal,'VERSION','bounded-worker-tape-v5'):
+                recorded=Tape(path,bootstrap())
+                recorded.event('BOUNDED_REQUEST',bytes_of({'value':16}))
+                recorded.event('BOUNDED_RESPONSE',bytes_of({'value':17}))
+                recorded.finish({'status':'HELD'})
+            original=path.read_bytes();replayed=Tape(path)
+            self.assertEqual(replayed.version,'bounded-worker-tape-v5')
+            replayed.event('BOUNDED_REQUEST',bytes_of({'value':16}))
+            self.assertEqual(json.loads(replayed.take('BOUNDED_RESPONSE')),{'value':17})
+            replayed.finish({'status':'HELD'})
+            self.assertEqual(path.read_bytes(),original)
 
     def test_v2_recording_replays_unchanged_under_v3(self):
         from investigator import process_tape as journal
@@ -138,7 +189,8 @@ class TapeTests(unittest.TestCase):
             def concurrent():
                 with active(None):gov.metered_read('other-session','request',lambda:'other physical request')
                 return 'own result'
-            tape=Tape(folder/'tape.json',bootstrap())
+            with patch('investigator.process_tape.VERSION','bounded-worker-tape-v6'):
+                tape=Tape(folder/'tape.json',bootstrap())
             with active(tape):
                 result=gov.metered_read('owned-session','request',concurrent)
                 expected={'result':result,'charged':gov.snapshot()['read_allowance']['ordinary_charged']}
@@ -158,10 +210,37 @@ class TapeTests(unittest.TestCase):
             with active(replayed),self.assertRaises(TapeError):
                 gov.metered_read('owned-session','request',corrupt_own)
 
+    def test_no_governor_read_only_operation_records_and_replays_without_budget_baseline(self):
+        from types import SimpleNamespace
+        import test_flexible_investigation as fixture
+        from investigator import run_recording,process_tape as journal
+        helper=fixture.DynamicTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        agent=SimpleNamespace(store=helper.store,config=helper.config,
+            planner_profile={'adapter':'injected','deployment':'synthetic'},governor=None)
+        identity=helper.envelope['model_id']
+        class ReadOnlyIntake:
+            def __init__(self):self.agent=agent;self.owner=identity
+            @run_recording.operation('intake')
+            def resolve(self,request):return {'id':identity,'status':'NEEDS_INPUT'}
+        owner=ReadOnlyIntake();request={'text':'No target has been supplied'}
+        with patch.dict('os.environ',{'INVESTIGATOR_RECORD_RUNS':'1'}),patch.object(run_recording,'ROOT',helper.fixture.root):
+            result=owner.resolve(request)
+        tape=agent._run_tapes[identity]
+        self.assertIsNone(tape.bootstrap['usage_policy']);self.assertNotIn('budget_checkpoint',tape.bootstrap['state'])
+        self.assertFalse(any(e['kind']=='BUDGET_INPUT' for e in tape.events))
+        original=tape.path.read_bytes();replayed=Tape(tape.path)
+        final={'operation':'intake','error':None,'outputs':None,'status':'NEEDS_INPUT','result':result}
+        with active(replayed):
+            operation=json.loads(replayed.take('OPERATION_START'))
+            event('CONFIGURATION',{'config':agent.config,'profile':agent.planner_profile,'usage_policy':None})
+            self.assertEqual(owner.resolve(*operation['args'],**operation['kwargs']),result)
+            event('OPERATION_END',{'name':'intake','error':None});replayed.finish(final)
+        self.assertEqual(tape.path.read_bytes(),original)
+
     def test_real_process_runtime_records_and_replays_its_two_outputs(self):
         self.exercise_process()
 
-    def test_failed_composition_is_replayable_failure_not_completed_outputs(self):
+    def test_failed_composition_keeps_completed_outputs_and_recorded_retry_in_replay(self):
         self.exercise_process(failed_composition=True)
 
     def test_explicit_acceptance_context_pin_is_recorded_and_replayed(self):
@@ -170,7 +249,19 @@ class TapeTests(unittest.TestCase):
     def test_fixture_state_and_selected_context_are_recorded_validated_and_replayed(self):
         self.exercise_process(pinned_context=True,fixture_state=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False):
+    def test_smart_ticket_read_stage_and_composition_replay_independently(self):
+        self.exercise_process(smart_ticket=True)
+
+    def test_smart_ticket_cold_resume_preserves_read_stage_and_replays_composition(self):
+        self.exercise_process(smart_ticket=True,cold_resume=True)
+
+    def test_unavailable_clarification_and_later_reply_replay_as_distinct_events(self):
+        self.exercise_process(smart_ticket=True,unavailable_reply=True)
+
+    def test_smart_ticket_auto_start_records_and_replays_without_an_extra_click(self):
+        self.exercise_process(smart_ticket=True,auto_start=True)
+
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -196,13 +287,21 @@ class TapeTests(unittest.TestCase):
         envelope=copy.deepcopy(helper.envelope);envelope['strategy']=VERSION
         envelope['comparison_mode']='VERTICAL';envelope['ticket_shape']='MISMATCH_COMPLAINT'
         workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve)
+        if smart_ticket:
+            workspace.smart_intake.auto_start=auto_start
+            workspace.smart_intake.configuration['must_confirm']=['COMPARISON']
         import httpx
         def provider(request):
             body=json.loads(request.content);view=json.loads(body['input'])
-            if body['tool_choice']['name']=='resolve_business_question':
+            if body['tool_choice']['name']=='extract_ticket_spans':
+                from investigator.intake_extraction import SCHEMA
+                value={key:[] for key in SCHEMA['properties']}
+                value.update(kind='SOURCE_CORRECTNESS',triage='MISMATCH_COMPLAINT:VERTICAL',
+                    primary=view['ticket'],measures=[{'quote':'Total','role':'PRIMARY'}])
+            elif body['tool_choice']['name']=='resolve_business_question':
                 metric=next(m for m in view['models'][0]['measures'] if m['name']=='Total')
                 value={'value_mentions':[],'question_kind':{'kind':'SOURCE_CORRECTNESS','source':{'quote':view['text']}},
-                    'report_quote':None,'target_request':None,'reported_candidates':[],
+                    'report_quote':None,'visual_request':None,'target_request':None,'reported_candidates':[],
                     'action':'PROPOSE','model_id':view['models'][0]['id'],'measure_id':metric['id'],
                     'metric_quote':'Total','question':None,'triage':'MISMATCH_COMPLAINT:VERTICAL',
                     'filters':[],'dimension_ids':[]}
@@ -218,20 +317,79 @@ class TapeTests(unittest.TestCase):
                 patch.dict('os.environ',{'AZURE_OPENAI_ENDPOINT':'https://synthetic.openai.azure.com',
                     'AZURE_OPENAI_DEPLOYMENT':'synthetic','AZURE_OPENAI_API_KEY':'synthetic-key-for-test'}),
                 patch('httpx.HTTPTransport',return_value=httpx.MockTransport(provider))):
-            intake=workspace.intake.resolve({'text':'Does Total reflect source entries?',
-                'request_key':'synthetic-process-ticket','parent_id':None})
+            if smart_ticket:
+                saved=workspace.smart_intake.submit({'text':'Does Total reflect the intended comparison?',
+                    'request_key':'synthetic-process-ticket'})
+                question=saved['ticket']['questions'][0]
+                choice=next(c for c in question['choices'] if c['label']=='The application')
+                if unavailable_reply:
+                    saved=workspace.smart_intake.reply({'ticket_id':saved['ticket']['id'],
+                        'revision':saved['revision'],'answers':[{'question_id':question['id'],'unavailable':True}],
+                        'request_key':'synthetic-unavailable'})
+                    self.assertEqual(saved['ticket']['state'],'HELD')
+                    self.assertNotIn('intake_id',saved['ticket'])
+                saved=workspace.smart_intake.reply({'ticket_id':saved['ticket']['id'],
+                    'revision':saved['revision'],'answers':[{'question_id':question['id'],'choice_id':choice['id']}],
+                    'request_key':'synthetic-reply'})
+                intake=workspace.intake.get(saved['ticket']['intake_id'])
+            else:
+                intake=workspace.intake.resolve({'text':'Does Total reflect source entries?',
+                    'request_key':'synthetic-process-ticket','parent_id':None})
             self.assertEqual(intake['status'],'PROPOSED',intake)
             scope=intake['proposal']
-            preview=workspace.preview({**{k:scope[k] for k in ('model_id','measure_id','filters','dimension_ids')},
-                'symptom':intake['text'],'predecessor':None,'intake_id':intake['id']})
-            created=agent.create(preview['envelope'],'synthetic-process')
-            agent.run(created['id']);result=agent.synthesize(created['id'])
-        self.assertEqual(result['synthesis']['status'],'FAILED' if failed_composition else 'COMPLETED')
+            if not auto_start:
+                preview=workspace.preview({**{k:scope[k] for k in ('model_id','measure_id','filters','dimension_ids')},
+                    'symptom':intake['text'],'predecessor':None,'intake_id':intake['id']})
+            if smart_ticket:
+                if auto_start:
+                    self.assertEqual(saved['ticket']['state'],'INVESTIGATING')
+                    created=agent.get(saved['ticket']['session_id'])
+                else:
+                    created=workspace.start(preview['id'])
+                    saved=workspace.smart_intake.attach({'ticket_id':saved['ticket']['id'],
+                        'revision':saved['revision'],'session_id':created['id']})
+                self.assertTrue(workspace.run_once())
+                original_capture=agent._run_tapes[created['id']]
+                if cold_resume:
+                    self.assertTrue(original_capture.finished)
+                    original_bytes=original_capture.path.read_bytes()
+                    agent._run_tapes={}
+                saved=workspace.smart_intake.finish({'ticket_id':saved['ticket']['id'],'revision':saved['revision']})
+                if cold_resume:
+                    self.assertEqual(original_capture.path.read_bytes(),original_bytes)
+                    agent._run_tapes[created['id']]=original_capture
+                self.assertEqual(saved['ticket']['state'],'FINDINGS_SHARED')
+                result=agent.get(created['id'])
+            else:
+                created=agent.create(preview['envelope'],'synthetic-process')
+                agent.run(created['id']);result=agent.synthesize(created['id'])
+        self.assertEqual(result['synthesis']['status'],'COMPLETED')
+        if failed_composition:
+            self.assertEqual(result['synthesis']['calls'],2)
+            self.assertEqual(len(result['synthesis']['attempts']),2)
+            self.assertEqual(result['synthesis']['validation'],'ORIGINAL_EVIDENCE_WITHOUT_MODEL_MECHANISM')
+            for key in ('business_output','technical_output'):
+                self.assertIn('Mechanism not stated',result['synthesis']['outputs'][key]['explanation']['text'])
+                self.assertNotIn('The quantity can.',result['synthesis']['outputs'][key]['explanation']['text'])
         tape=agent._run_tapes[created['id']]
         if pinned_context:self.assertEqual(tape.bootstrap['state']['context_pins'],helper.store.context_pins)
         if fixture_state:self.assertEqual(tape.bootstrap['state']['fixture_state'],helper.store.acceptance_fixture_state)
         sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
         from acceptance.unknown_domain.process_replay import replay
+        if smart_ticket:
+            paths=list((helper.fixture.root/'.local/process-tapes').glob('*/tape.json'))
+            self.assertEqual(len(paths),(5 if unavailable_reply else 4) if auto_start else (6 if unavailable_reply else 5))
+            operations=[]
+            with tempfile.TemporaryDirectory() as output:
+                for n,path in enumerate(paths):
+                    actual=replay(path,Path(output)/str(n),native_transport=lambda request:
+                        bounded_call('synthetic-native',request,lambda:self.fail('No live transport in replay')))
+                    self.assertTrue(actual['matched'],actual)
+                    self.assertEqual(actual['network_requests'],0)
+                    operations.append(actual['operations'])
+            self.assertIn(['run'] if auto_start else ['preview','create','run'],operations)
+            self.assertIn(['ticket_finish'],operations)
+            return
         with tempfile.TemporaryDirectory() as output:
             actual=replay(tape.path,Path(output)/'replay',native_transport=lambda request:
                 bounded_call('synthetic-native',request,lambda:self.fail('No live transport in replay')))

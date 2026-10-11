@@ -11,7 +11,8 @@ import httpx
 from openai import DefaultHttpxClient
 from intake_regression_fixture import IntakeFixture
 from investigator import planner_recording
-from investigator.question_intake import azure_resolve,validate
+# Explicit historical wire-v2 decoder; current producer covered by test_intake_extraction.
+from investigator.question_intake import azure_resolve_legacy as azure_resolve,validate
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'acceptance/unknown_domain'))
 from score_intake import score
 
@@ -33,6 +34,7 @@ class IntakeFamilyTests(unittest.TestCase):
     def provider(self,case,requests):
         def transport(request):
             requests.append(json.loads(request.content))
+            current_schema=requests[-1]['tools'][0]['parameters']
             # Synthetic v1 fixtures remain immutable; adapt only the test response
             # serialization to v2. Historical live tapes are never rewritten.
             response=copy.deepcopy(case['response'])
@@ -46,6 +48,8 @@ class IntakeFamilyTests(unittest.TestCase):
                 value['question_kind']=None if value['action']=='ASK' else {'kind':'FIGURE_DIFFERENCE','source':{'quote':case['payload']['text']}}
                 value['value_mentions']=[{'role':'SELECTION','source':{'quote':f['quote']}} for f in value['filters']]
                 value['reported_candidates']=[] # Explicit new synthetic response; the v1 fixture is unchanged.
+                if 'visual_request' in current_schema['required']:
+                    value['visual_request']=None # These synthetic cases name a model, not a report visual.
                 output['arguments']=json.dumps(value)
             return httpx.Response(200,json=response)
         return patch('openai.DefaultHttpxClient',side_effect=lambda **kw:DefaultHttpxClient(transport=httpx.MockTransport(transport),**kw))

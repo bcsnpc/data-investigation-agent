@@ -15,6 +15,7 @@ from metadata_inventory import expand_definition, collect_sql
 from metadata_protocol import pages
 from metadata_connectors import FabricMetadataConnector, PowerBIMetadataConnector
 from .onboarding import digest
+from .adapters.microsoft_load_declarations import declared_source_connections
 
 
 class BudgetExceeded(RuntimeError):
@@ -170,16 +171,14 @@ class Collector:
             if kind == 'SemanticModel':
                 history=self.attempt(aid+'/refreshes', lambda item=item: powerbi.get_refresh_history(item))
                 if history is not None:self.observe(aid,'refresh_history','AVAILABLE',aid,history)
-        # Follow only connection references declared by collected Copy Jobs.
-        # An exact approved source scope is required; neither connection listing
-        # nor credential material belongs in the discovery context.
+        # Interpretation of native load declaration forms belongs in the adapter.
+        # Follow explicit declared source references, never a recursive string sweep.
         references=set()
         for part in list(self.assets.values()):
-            if part['kind']!='DefinitionPart' or part['metadata'].get('path')!='copyjob-content.json':continue
+            if part['kind']!='DefinitionPart':continue
             def refs(part=part):
-                document=json.loads(part['metadata']['content'])
-                ref=document['properties']['source']['connectionSettings'].get('externalReferences',{}).get('connection')
-                if ref:references.add(str(UUID(ref)))
+                references.update(declared_source_connections(
+                    part.get('metadata',{}).get('path'), part['metadata']['content']))
             self.attempt(part['id']+'/connection_reference',refs)
         sql=config['sql']; sqlroot='sql://'+sql['server']+'/'+sql['database']
         for cid in sorted(references):

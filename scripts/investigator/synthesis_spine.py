@@ -85,17 +85,8 @@ def build(payload, state, bound):
 
 def degraded_outputs(payload, state, spine):
     """No new conclusion: render the original supported assessment locally."""
-    from .synthesis_narrative import Response, assemble
-    from .output_contract import business_text
-    source = state['assessment']
-    refs = [payload['evidence'][0]['id']] if payload['evidence'] else []
-    technical={'text': 'The recorded checks evaluate the declared calculation.', 'evidence_ids': refs}
-    from .path_narrative import divergent_boundaries
-    boundaries=divergent_boundaries(payload)
-    if boundaries:technical['boundary_evidence_id']=boundaries[0]
-    response = Response({'business_output': {'text': business_text(source['classification'], payload), 'evidence_ids': refs},
-                         'technical_output': technical})
-    assessment, outputs = assemble(response, payload, state)
+    from .synthesis_narrative import assemble
+    assessment, outputs = assemble(None, payload, state)
     for key in ('business_output', 'technical_output'):
         note = ('The explanation used the complete saved evidence locally; part of the model view was omitted to stay within its input allowance.'
                 if key == 'business_output' else 'Provider view elided: ' + '; '.join(

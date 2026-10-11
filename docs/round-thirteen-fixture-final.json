@@ -1,0 +1,1034 @@
+{
+  "rows": [
+    {
+      "estate": "original",
+      "case": "family-C-r1",
+      "expected": "HELD",
+      "actual": "HELD",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 0,
+      "model": 1,
+      "usd": 0.008838,
+      "seconds": 365.9372236728668,
+      "artifact_sha256": "e7adb620c3425d8b68e060ccfc6dc30ccb8dce8a640b4427ab1ba986a4abb88b"
+    },
+    {
+      "estate": "original",
+      "case": "family-B-r1",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 1,
+      "model": 1,
+      "usd": 0.008858,
+      "seconds": 464.9810185432434,
+      "artifact_sha256": "9c1b44b0700183b253ac5175dc50251c4dd4f95bb337ea7adece46c0c0b03a07"
+    },
+    {
+      "estate": "original",
+      "case": "family-D-r1",
+      "expected": "NO_COMPARABLE_PATH",
+      "actual": "HELD",
+      "category": "NO_REPORTED_FIGURE",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 3,
+      "model": 1,
+      "usd": 0.009905,
+      "seconds": 578.7531032562256,
+      "artifact_sha256": "bb07adbcb378789f7b60531d991429102cdf4c39fde2b96b489bb4a32195d166"
+    },
+    {
+      "estate": "original",
+      "case": "family-A-r1",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.037316,
+      "seconds": 734.6430902481079,
+      "artifact_sha256": "b4ba54be67cfb0b4564d698a880570241a6afe2be086eb0e0686f09af412b7f8"
+    },
+    {
+      "estate": "original",
+      "case": "family-F-r1",
+      "expected": "CONSISTENT_TO_BOUNDARY",
+      "actual": "HELD",
+      "category": "NOT_DELIVERED",
+      "outcome_match": false,
+      "full_contract_match": null,
+      "harmful": false,
+      "physical": 0,
+      "model": 1,
+      "usd": 0.009093,
+      "seconds": 136.3297197818756,
+      "artifact_sha256": "545508690ed5febc2fd085ff392496239c556b7b227ab23afc680eb7312c3ca9"
+    },
+    {
+      "estate": "original",
+      "case": "family-H-r1",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_KNOWN_PATTERN",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 1,
+      "model": 1,
+      "usd": 0.009375,
+      "seconds": 256.54786562919617,
+      "artifact_sha256": "036ab2679ad6fc7d7fdc662f2669af319bda69ffc00d3b67707c3f1f0e30752e"
+    },
+    {
+      "estate": "original",
+      "case": "family-E-r1",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.035338,
+      "seconds": 328.65684485435486,
+      "artifact_sha256": "2e55ba5f393892c1667918fcf5f5249bd4082161d7f219eca18be7e7ea1552a6"
+    },
+    {
+      "estate": "original",
+      "case": "family-G-r1",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.036595,
+      "seconds": 335.5861518383026,
+      "artifact_sha256": "843cfdb1207651565efcc956298d44fda4bc8a77e944e96601f90f823649df81"
+    },
+    {
+      "estate": "original",
+      "case": "family-C-r2",
+      "expected": "HELD",
+      "actual": "HELD",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 0,
+      "model": 1,
+      "usd": 0.008838,
+      "seconds": 237.52586007118225,
+      "artifact_sha256": "d009ce66e108e734b87b326da9c752789f6b01db23d835a89309c3e09578416b"
+    },
+    {
+      "estate": "original",
+      "case": "family-B-r2",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 1,
+      "model": 1,
+      "usd": 0.009068,
+      "seconds": 264.8633451461792,
+      "artifact_sha256": "a857d35d965514bdb59c6713223804f446f7476dbe96cdb1f9c2cdf6cfaaac0d"
+    },
+    {
+      "estate": "original",
+      "case": "family-A-r2",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.03562,
+      "seconds": 334.6094048023224,
+      "artifact_sha256": "306f845358ccee6f0c25d0bf70d9c950a38e5f58af4a1b30fda9ae6b225d5bbe"
+    },
+    {
+      "estate": "original",
+      "case": "family-I-r1",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": null,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.037379,
+      "seconds": 337.7019557952881,
+      "artifact_sha256": "7e765a707cd35dda643a3469c6fc4be8ecb6e206a49376e7a963e933d4f75ad1"
+    },
+    {
+      "estate": "original",
+      "case": "family-D-r2",
+      "expected": "NO_COMPARABLE_PATH",
+      "actual": "HELD",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 3,
+      "model": 1,
+      "usd": 0.0101,
+      "seconds": 418.78999376296997,
+      "artifact_sha256": "ab25bf69df8e258b2d915bbba28dc440a972dcf28b2f07e548b5fc83fda86b84"
+    },
+    {
+      "estate": "original",
+      "case": "family-F-r2",
+      "expected": "CONSISTENT_TO_BOUNDARY",
+      "actual": "CONSISTENT_TO_BOUNDARY",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": true,
+      "physical": 7,
+      "model": 2,
+      "usd": 0.019586,
+      "seconds": 470.11596870422363,
+      "artifact_sha256": "45c3fa44c4c70df5ae166fcaaa700f6e6ed8dcacc3b5bff8344cd01a351e02e7"
+    },
+    {
+      "estate": "original",
+      "case": "family-G-r2",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.034575,
+      "seconds": 474.4433319568634,
+      "artifact_sha256": "1c7ff2d233b242bfbd62b01aca701ca9ee2a4e93da3c84129b80e3f41b89c3f7"
+    },
+    {
+      "estate": "original",
+      "case": "family-E-r2",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.035925,
+      "seconds": 476.9785304069519,
+      "artifact_sha256": "7364056d8fa9473b203ded479981d001227b9f2c1c97be3ee6ed738555c24c9a"
+    },
+    {
+      "estate": "original",
+      "case": "family-B-r3",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 1,
+      "model": 2,
+      "usd": 0.018613,
+      "seconds": 374.93280363082886,
+      "artifact_sha256": "fd7f69049ffd6827da8d68130d10c4a0e8e1cc889c1b8022d44571ffa6276841"
+    },
+    {
+      "estate": "original",
+      "case": "family-H-r2",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 1,
+      "model": 2,
+      "usd": 0.019573,
+      "seconds": 379.6147496700287,
+      "artifact_sha256": "975fe3624ae126763d359858d21a44fee78d64a4bfa898402a063871418afc54"
+    },
+    {
+      "estate": "original",
+      "case": "family-I-r2",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.037121,
+      "seconds": 481.7584788799286,
+      "artifact_sha256": "fb9516d46299b62870531953ede3bf8326a400897e5c79665b4bf2b179705855"
+    },
+    {
+      "estate": "original",
+      "case": "family-A-r3",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.037698,
+      "seconds": 486.8871898651123,
+      "artifact_sha256": "dfc8ce3d483f8bddff83408f7eeafde3757ecb60369024065b244158f4e54d6e"
+    },
+    {
+      "estate": "original",
+      "case": "family-C-r3",
+      "expected": "HELD",
+      "actual": "HELD",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 0,
+      "model": 1,
+      "usd": 0.008853,
+      "seconds": 324.92778730392456,
+      "artifact_sha256": "46a1cb6bb956f23818c6fc1189254ace33488cd7b291707ec12b126f87d10461"
+    },
+    {
+      "estate": "original",
+      "case": "family-D-r3",
+      "expected": "NO_COMPARABLE_PATH",
+      "actual": "HELD",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 2,
+      "model": 1,
+      "usd": 0.0101,
+      "seconds": 386.76726031303406,
+      "artifact_sha256": "655e7fb0a7a2ce6800a8c5c1589726bdd1a26d032a8130e17d6c932c6852649b"
+    },
+    {
+      "estate": "original",
+      "case": "family-G-r3",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.035676,
+      "seconds": 486.35423254966736,
+      "artifact_sha256": "e1a5a4fe5471d030c916130262aa63345fad0bfe82490db5f14a7e1be4183001"
+    },
+    {
+      "estate": "original",
+      "case": "family-E-r3",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 14,
+      "model": 2,
+      "usd": 0.023818,
+      "seconds": 543.2794575691223,
+      "artifact_sha256": "b07fa13b1e20078be430f5ec40ad573b3c534d43570e6b9c2bbbc19d3652a015"
+    },
+    {
+      "estate": "original",
+      "case": "family-H-r3",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 1,
+      "model": 2,
+      "usd": 0.019483,
+      "seconds": 260.65404295921326,
+      "artifact_sha256": "a4b4a4c081b285b2ef5f957394a1a36ae0d95d27b15eed4b92e18a2589ab6059"
+    },
+    {
+      "estate": "original",
+      "case": "family-I-r3",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 10,
+      "model": 3,
+      "usd": 0.035088,
+      "seconds": 351.83469820022583,
+      "artifact_sha256": "831c1344e89c67f20155ff4684c2c096171871b8dd447b47297ac81db7c93f37"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-C-r1",
+      "expected": "HELD",
+      "actual": "HELD",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 0,
+      "model": 1,
+      "usd": 0.008458,
+      "seconds": 247.30537509918213,
+      "artifact_sha256": "b63c30f718cd0e65d204a18215b5f1c63a85034a283f1ec2cd5521b01f08acbd"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-B-r1",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 2,
+      "model": 2,
+      "usd": 0.020771,
+      "seconds": 305.88542652130127,
+      "artifact_sha256": "7dbfcc927831f4e524c94f1babc921384dad99cc2f4fa0ec97b3bd13b136fe1a"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-D-r1",
+      "expected": "NO_COMPARABLE_PATH",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "NO_REPORTED_FIGURE",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": true,
+      "physical": 4,
+      "model": 2,
+      "usd": 0.027438,
+      "seconds": 338.9183280467987,
+      "artifact_sha256": "216e70d73820428985fc894e8a95781ed8fba12ec431bd454027c41831faa49f"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-A-r1",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 3,
+      "usd": 0.037745,
+      "seconds": 373.2285237312317,
+      "artifact_sha256": "92098552291942c24df5e832d0c064d5efe24def2b0674964de64ebb25b2b698"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-H-r1",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_KNOWN_PATTERN",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 2,
+      "model": 2,
+      "usd": 0.018425,
+      "seconds": 226.878901720047,
+      "artifact_sha256": "8ba85b90629d99d6f0fe74fc4e7c49cc7d8a45e4e1aa78cfaf7bd2425f74f606"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-I-r1",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 3,
+      "usd": 0.036913,
+      "seconds": 360.40087127685547,
+      "artifact_sha256": "a2d156a1aa7b0e203b9f7a968a0848679cbede170128329ae78253c0de22ff70"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-E-r1",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 3,
+      "usd": 0.036416,
+      "seconds": 369.7285101413727,
+      "artifact_sha256": "fc4fd69309229116cedc12397866c4db3e07d43a4b5e7d3c3bf95158cca67f2e"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-G-r1",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 4,
+      "usd": 0.054025,
+      "seconds": 372.36441111564636,
+      "artifact_sha256": "4844487de55663087c1cea8d4276e5cefca71fe5ff01175525046e502f95b92b"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-C-r2",
+      "expected": "HELD",
+      "actual": "HELD",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 0,
+      "model": 1,
+      "usd": 0.008248,
+      "seconds": 259.0896861553192,
+      "artifact_sha256": "2d4bb99ecd36ba23feec2be4d51789e3d5c71320999d3d43229d5d15c6776541"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-B-r2",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 2,
+      "model": 2,
+      "usd": 0.020366,
+      "seconds": 269.7676820755005,
+      "artifact_sha256": "b9a1857c11fb7f8efc1edf29487cc5bcdc02d7ff31e52df7214d688ad8216172"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-A-r2",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 3,
+      "usd": 0.037258,
+      "seconds": 347.1423215866089,
+      "artifact_sha256": "923ed38400ef5c39429fab338c0a6a9263eeaba7b1e48edc8ef727e2363d5c99"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-E-r2",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 3,
+      "usd": 0.035605,
+      "seconds": 351.04941153526306,
+      "artifact_sha256": "9a10081ff4b05535e08c2798a41e5eafdfb267100f297acd5cb16e58e4ff169a"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-H-r2",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_KNOWN_PATTERN",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 2,
+      "model": 2,
+      "usd": 0.01814,
+      "seconds": 253.93650197982788,
+      "artifact_sha256": "3ffd725dfbd5568e0c3e462a4a990ace6bb01a10dc8fa91bfa3fc23157ddc75e"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-A-r3",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 3,
+      "usd": 0.037028,
+      "seconds": 357.14475083351135,
+      "artifact_sha256": "c75293e34a7a19044a9efec65596cedf32ba5ea4f9d762d00cdd03cc8418efcf"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-I-r2",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 3,
+      "usd": 0.035199,
+      "seconds": 359.04570508003235,
+      "artifact_sha256": "bea5e169c27e7f5b69ea3e36edcace3c6c253760d566ef870ff311b091215475"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-G-r2",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 14,
+      "model": 2,
+      "usd": 0.024268,
+      "seconds": 391.6093547344208,
+      "artifact_sha256": "d57becbbce9a7f875bc6a6096f02432dca74b19ad02ffe08c2c7dcbfa299eebd"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-C-r3",
+      "expected": "HELD",
+      "actual": "HELD",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 0,
+      "model": 1,
+      "usd": 0.008458,
+      "seconds": 185.3511505126953,
+      "artifact_sha256": "c83196a4c5a313911d6668ced0460ca1bc59a22c9a8338b7ee7126e19aa83ce2"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-B-r3",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_COMPARABLE_PATH",
+      "category": "NOT_ANSWERED",
+      "outcome_match": false,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 2,
+      "model": 2,
+      "usd": 0.020906,
+      "seconds": 190.64317536354065,
+      "artifact_sha256": "9d275891e4ba1e4e0434b30ec9392bedcd03dc2d8a711363607293d558d3ec87"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-G-r3",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 3,
+      "usd": 0.035956,
+      "seconds": 232.09473180770874,
+      "artifact_sha256": "f65fb8e845165fb587e8885e4c80dbff5d06796a768f86bd3f6ec68f739dafd3"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-E-r3",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "PARTLY_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 3,
+      "usd": 0.036701,
+      "seconds": 236.07796216011047,
+      "artifact_sha256": "cdf947450f93e9b01d753d31a45a90f4bedd0a995af868cb54ee61b5a45e0728"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-H-r3",
+      "expected": "NO_KNOWN_PATTERN",
+      "actual": "NO_KNOWN_PATTERN",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 2,
+      "model": 2,
+      "usd": 0.019625,
+      "seconds": 291.18835949897766,
+      "artifact_sha256": "ac089d2ed6c936ff43690ea424c1f996740b4f46da61dff29cfe04d2add2651a"
+    },
+    {
+      "estate": "rebuilt",
+      "case": "family-I-r3",
+      "expected": "TRANSFORMATION_LOGIC",
+      "actual": "TRANSFORMATION_LOGIC",
+      "category": "NOT_ANSWERED",
+      "outcome_match": true,
+      "full_contract_match": false,
+      "harmful": false,
+      "physical": 11,
+      "model": 3,
+      "usd": 0.036344,
+      "seconds": 356.1591703891754,
+      "artifact_sha256": "6f3e60a8cccec8cba0850105789c1e9f3a9bb41866620e2aa9350d8cae0deb1c"
+    }
+  ],
+  "initial_aborts_excluded_from_finished_attempts": true,
+  "unadmitted_not_counted": true,
+  "stability": [
+    {
+      "estate": "original",
+      "family": "family-A",
+      "attempts": 3,
+      "outcomes": [
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC"
+      ],
+      "categories": [
+        "PARTLY_ANSWERED",
+        "PARTLY_ANSWERED",
+        "PARTLY_ANSWERED"
+      ],
+      "three_matching_outcomes": true,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "original",
+      "family": "family-B",
+      "attempts": 3,
+      "outcomes": [
+        "NO_COMPARABLE_PATH",
+        "NO_COMPARABLE_PATH",
+        "NO_COMPARABLE_PATH"
+      ],
+      "categories": [
+        "NOT_ANSWERED",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": false,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "original",
+      "family": "family-C",
+      "attempts": 3,
+      "outcomes": [
+        "HELD",
+        "HELD",
+        "HELD"
+      ],
+      "categories": [
+        "NOT_ANSWERED",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": true,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "original",
+      "family": "family-D",
+      "attempts": 3,
+      "outcomes": [
+        "HELD",
+        "HELD",
+        "HELD"
+      ],
+      "categories": [
+        "NO_REPORTED_FIGURE",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": false,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "original",
+      "family": "family-E",
+      "attempts": 3,
+      "outcomes": [
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC",
+        "NO_COMPARABLE_PATH"
+      ],
+      "categories": [
+        "PARTLY_ANSWERED",
+        "PARTLY_ANSWERED",
+        "PARTLY_ANSWERED"
+      ],
+      "three_matching_outcomes": false,
+      "three_full_contracts": false,
+      "outcomes_varied": true
+    },
+    {
+      "estate": "original",
+      "family": "family-F",
+      "attempts": 2,
+      "outcomes": [
+        "HELD",
+        "CONSISTENT_TO_BOUNDARY"
+      ],
+      "categories": [
+        "NOT_DELIVERED",
+        "PARTLY_ANSWERED"
+      ],
+      "three_matching_outcomes": false,
+      "three_full_contracts": false,
+      "outcomes_varied": true
+    },
+    {
+      "estate": "original",
+      "family": "family-G",
+      "attempts": 3,
+      "outcomes": [
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC"
+      ],
+      "categories": [
+        "NOT_ANSWERED",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": true,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "original",
+      "family": "family-H",
+      "attempts": 3,
+      "outcomes": [
+        "NO_KNOWN_PATTERN",
+        "NO_COMPARABLE_PATH",
+        "NO_COMPARABLE_PATH"
+      ],
+      "categories": [
+        "NOT_ANSWERED",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": false,
+      "three_full_contracts": false,
+      "outcomes_varied": true
+    },
+    {
+      "estate": "original",
+      "family": "family-I",
+      "attempts": 3,
+      "outcomes": [
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC"
+      ],
+      "categories": [
+        "NOT_ANSWERED",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": true,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "rebuilt",
+      "family": "family-A",
+      "attempts": 3,
+      "outcomes": [
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC"
+      ],
+      "categories": [
+        "PARTLY_ANSWERED",
+        "PARTLY_ANSWERED",
+        "PARTLY_ANSWERED"
+      ],
+      "three_matching_outcomes": true,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "rebuilt",
+      "family": "family-B",
+      "attempts": 3,
+      "outcomes": [
+        "NO_COMPARABLE_PATH",
+        "NO_COMPARABLE_PATH",
+        "NO_COMPARABLE_PATH"
+      ],
+      "categories": [
+        "NOT_ANSWERED",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": false,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "rebuilt",
+      "family": "family-C",
+      "attempts": 3,
+      "outcomes": [
+        "HELD",
+        "HELD",
+        "HELD"
+      ],
+      "categories": [
+        "NOT_ANSWERED",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": true,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "rebuilt",
+      "family": "family-D",
+      "attempts": 1,
+      "outcomes": [
+        "NO_COMPARABLE_PATH"
+      ],
+      "categories": [
+        "NO_REPORTED_FIGURE"
+      ],
+      "three_matching_outcomes": false,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "rebuilt",
+      "family": "family-E",
+      "attempts": 3,
+      "outcomes": [
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC"
+      ],
+      "categories": [
+        "PARTLY_ANSWERED",
+        "PARTLY_ANSWERED",
+        "PARTLY_ANSWERED"
+      ],
+      "three_matching_outcomes": true,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "rebuilt",
+      "family": "family-G",
+      "attempts": 3,
+      "outcomes": [
+        "TRANSFORMATION_LOGIC",
+        "NO_COMPARABLE_PATH",
+        "TRANSFORMATION_LOGIC"
+      ],
+      "categories": [
+        "NOT_ANSWERED",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": false,
+      "three_full_contracts": false,
+      "outcomes_varied": true
+    },
+    {
+      "estate": "rebuilt",
+      "family": "family-H",
+      "attempts": 3,
+      "outcomes": [
+        "NO_KNOWN_PATTERN",
+        "NO_KNOWN_PATTERN",
+        "NO_KNOWN_PATTERN"
+      ],
+      "categories": [
+        "NOT_ANSWERED",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": true,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    },
+    {
+      "estate": "rebuilt",
+      "family": "family-I",
+      "attempts": 3,
+      "outcomes": [
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC",
+        "TRANSFORMATION_LOGIC"
+      ],
+      "categories": [
+        "NOT_ANSWERED",
+        "NOT_ANSWERED",
+        "NOT_ANSWERED"
+      ],
+      "three_matching_outcomes": true,
+      "three_full_contracts": false,
+      "outcomes_varied": false
+    }
+  ],
+  "unadmitted_slots": 6,
+  "paused_families": [
+    "D",
+    "F"
+  ],
+  "basis": "Outcome/status matching separately from full immutable contract; original F-r2 and rebuilt D-r1 harmful root corrections retained."
+}

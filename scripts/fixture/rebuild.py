@@ -1,8 +1,8 @@
-"""Plan-only fixture rebuild. No platform client or mutation path is imported.
+"""Create-only fixture rebuild with separate offline plan and explicit apply.
 
-Apply deliberately does not exist in this round. New tenant identities, explicit
-connections and actual returned item IDs must be approved before an executor is
-built; a plan cannot manufacture discovery approval or diagnostic permissions.
+Apply requires an approved empty workspace and an independently prepared,
+table-only-readable source. Identity creation and discovery approvals remain
+explicit owner steps; an apply never manufactures either.
 """
 import argparse
 import hashlib
@@ -16,7 +16,7 @@ from fixture.seed import load as seed, summary, insert_plan, NOTEBOOK, ROOT
 from investigator.estate_manifest import load as manifest_load
 
 TEMPLATES = Path(__file__).with_name('templates')
-TEMPLATE_NAMES = ('original-model', 'application-model', 'predicate-report', 'copy-job', 'audit-pipeline')
+TEMPLATE_NAMES = ('original-model', 'application-model', 'predicate-report', 'inventory-report', 'warehouse-report', 'copy-job', 'audit-pipeline')
 AUDIT_COLUMNS = ('run_id', 'pipeline_name', 'status', 'rows_read', 'rows_written',
                  'accounting_state', 'start_time_utc', 'end_time_utc', 'high_watermark')
 
@@ -93,6 +93,9 @@ def plan(manifest):
         step(name, 'fixture publisher', 'PUBLISH_RECORDED_MODEL', template=recorded[name])
     step('predicate-report', 'fixture publisher', 'PUBLISH_RECORDED_REPORT', template=recorded['predicate-report'],
          retained='Pages, visuals, active slicer defaults, page/visual predicates, control page and conditional bookmark.')
+    for name in ('inventory-report', 'warehouse-report'):
+        step(name, 'fixture publisher', 'PUBLISH_RECORDED_REPORT', template=recorded[name],
+             retained='Original nine-family report referents; only model/workspace bindings change.')
     step('reader-grants', 'human estate owner then authorized control identity', 'SEPARATE_EXPLICIT_SCOPE_DECISIONS',
          grants=['SELECT on new application table only', 'SELECT on new audit table only',
                  'Read + Build on the two new models only'],
@@ -106,15 +109,28 @@ def plan(manifest):
     step('recollect-and-approve', 'authorized discovery operator', 'COLLECT_NEW_CONTEXT_THEN_EXPLICITLY_APPROVE',
          refusal='Old context approvals, snapshots and recorded runs remain historical and are never relabelled.')
     return {'mode':'PLAN_ONLY', 'platform_requests':0, 'mutations':0,
-            'apply_implemented':False, 'seed':summary(literal), 'steps':steps}
+            'apply_implemented':True, 'seed':summary(literal), 'steps':steps}
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--manifest', required=True, type=Path)
-    parser.add_argument('--plan', required=True, action='store_true')
+    mode=parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument('--plan', action='store_true')
+    mode.add_argument('--apply', action='store_true')
+    parser.add_argument('--parameters',type=Path)
+    parser.add_argument('--output',type=Path)
+    parser.add_argument('--grant-models',action='store_true',help='Only with explicit approval for Read + Build on the two new models')
     args = parser.parse_args(argv)
-    print(json.dumps(plan(manifest_load(args.manifest)), indent=2, ensure_ascii=False))
+    if args.apply:
+        if not args.parameters or not args.output:parser.error('--apply requires --parameters and --output')
+        from fixture.apply import run
+        result=run(manifest_load(args.manifest),json.loads(args.parameters.read_text(encoding='utf-8-sig')),
+                   args.output,grant_models=args.grant_models)
+        print(json.dumps({k:result.get(k) for k in ('status','details','physical_requests')},indent=2))
+    else:
+        if args.grant_models:parser.error('--grant-models requires --apply')
+        print(json.dumps(plan(manifest_load(args.manifest)), indent=2, ensure_ascii=False))
     return 0
 
 

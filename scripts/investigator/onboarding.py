@@ -4,6 +4,7 @@ No cloud execution or inference. Server configuration owns the inventory path an
 environment; API clients cannot provide a database path or credentials.
 """
 from contextlib import contextmanager, closing
+from contextvars import ContextVar
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -40,6 +41,9 @@ def fields(body, expected):
         raise ValueError('Unexpected fields')
 
 
+_CATALOG_CONNECTION=ContextVar('catalog_connection',default=None)
+
+
 class ModelStore:
     def __init__(self, database, inventory, environment, *, context_pins=None):
         self.database = Path(database)
@@ -73,7 +77,27 @@ class ModelStore:
             ''')
 
     @contextmanager
+    def catalog_connection(self,db):
+        """Read this catalog through its caller-owned transaction, without commit.
+
+        A scoped path binding prevents an unrelated catalog from borrowing the
+        connection. Only the outer writer owns its lifecycle and transaction.
+        """
+        path=str(self.database.resolve()).casefold()
+        filename=db.execute('PRAGMA database_list').fetchone()[2]
+        if filename and str(Path(filename).resolve()).casefold()!=path:
+            raise Conflict('Catalog transaction belongs to another database')
+        token=_CATALOG_CONNECTION.set((path,db))
+        try:yield
+        finally:_CATALOG_CONNECTION.reset(token)
+
+    @contextmanager
     def connect(self):
+        current=_CATALOG_CONNECTION.get()
+        if current is not None and current[0]==str(self.database.resolve()).casefold():
+            yield current[1]
+            return
+
         from .privacy_storage import connect
         db = connect(self.database, timeout=10)
         db.row_factory = sqlite3.Row

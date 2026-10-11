@@ -55,7 +55,7 @@ $('read-screenshot').addEventListener('click',guard(async()=>{
     if(!screenshotReadRequest)screenshotReadRequest={attachment_id:screenshotAttachment.id,request_key:crypto.randomUUID()};
     $('screenshot-status').hidden=false;$('screenshot-status').textContent='Reading the visible report details...';
     const result=await api('screenshot-reads',screenshotReadRequest);if(revision!==screenshotRevision||epoch!==generation)return;
-    screenshotChanged();showImageRead(result);await history();
+    screenshotChanged();showImageRead(result);await investigationHistory();
   }finally{$('read-screenshot').disabled=false;}
 }));
 $('screenshot-text').addEventListener('input',screenshotChanged);
@@ -69,4 +69,4 @@ $('confirm-screenshot').addEventListener('click',guard(async()=>{
 }));
 $('screenshot-saved-status').addEventListener('click',guard(async()=>{if(!screenshotRead)return;const revision=screenshotRevision;const data=await api('screenshot-reads/'+encodeURIComponent(screenshotRead.id));if(revision===screenshotRevision)showImageRead(data);}));
 $('hold-screenshot').addEventListener('click',guard(async()=>{if(!screenshotRead)return;const revision=screenshotRevision;const data=await api('screenshot-reads/'+encodeURIComponent(screenshotRead.id)+'/hold',{});if(revision===screenshotRevision)showImageRead(data);}));
-$('remove-screenshot').addEventListener('click',guard(async()=>{if(!screenshotAttachment)return;const revision=screenshotRevision;await api('attachments/'+encodeURIComponent(screenshotAttachment.id)+'/remove',{});if(revision!==screenshotRevision)return;resetScreenshots();screenshotChanged();$('screenshot-status').hidden=false;$('screenshot-status').textContent='Stored image removed. Previously saved transcriptions and questions remain available.';await history();}));
+$('remove-screenshot').addEventListener('click',guard(async()=>{if(!screenshotAttachment)return;const revision=screenshotRevision;await api('attachments/'+encodeURIComponent(screenshotAttachment.id)+'/remove',{});if(revision!==screenshotRevision)return;resetScreenshots();screenshotChanged();$('screenshot-status').hidden=false;$('screenshot-status').textContent='Stored image removed. Previously saved transcriptions and questions remain available.';await investigationHistory();}));

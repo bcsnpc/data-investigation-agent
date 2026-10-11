@@ -1,0 +1,3 @@
+Subject: Are void invoices included in Invoiced Amount?
+
+The Invoiced Amount card is 950. For October 1 the issued invoices I can see are Aster 250, Birch 100 and Cedar 250, which comes to 600. Dune's 100 invoice is marked VOID. I expected the issued amount to be 600. Can you check what this card is counting?

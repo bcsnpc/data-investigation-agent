@@ -57,7 +57,7 @@ class MicrosoftProcessAdapter:
 
     def capabilities(self):
         result={'resolve_measure_path','evaluate_scoped_quantity','presentation_context','job_history','declared_source_comparison',
-                'declared_context_reproduction'}
+                'declared_context_reproduction','declared_filter_effects'}
         if self.judge_definition is not None:result.add('transformation_definition')
         if self.read_ingestion is not None:result.add('ingestion')
         if (self.lower_surface or {}).get('status')=='READY' and self.execute_lower is not None:
@@ -161,9 +161,17 @@ class MicrosoftProcessAdapter:
         applied=scope.get('restrictions')
         keys=declaration.get('cell',{}).get('key_restrictions',[])
         expected_fields={'restrictions','dimension_ids'} | ({'cell_id','probe_purpose'} if 'cell' in declaration else set())
+        purpose=scope.get('probe_purpose')
+        allowed=([],compose(declaration['restrictions']+keys))
+        if purpose=='WITHOUT_DECLARATION' and 'cell' in declaration:
+            from ..filter_effects import variant
+            from ..declared_reproduction import _entries
+            expected_fields.update(('declaration_id','restriction_index'))
+            entries=_entries(declaration['evidence'],declaration['inventory'],declaration['restrictions'])
+            allowed=(variant(entries,scope.get('declaration_id'),scope.get('restriction_index'),keys),)
         if (set(scope)!=expected_fields or scope['dimension_ids']!=[]
-                or ('cell' in declaration and scope.get('probe_purpose') not in ('DECLARED_CONTEXT','UNDECLARED_CONTEXT'))
-                or not isinstance(applied,list) or applied not in ([],compose(declaration['restrictions'] + keys))):
+                or ('cell' in declaration and purpose not in ('DECLARED_CONTEXT','UNDECLARED_CONTEXT','WITHOUT_DECLARATION'))
+                or not isinstance(applied,list) or applied not in allowed):
             raise Conflict('Reproduction scope differs from the pinned composed declaration')
         measure=next(a for a in assets(model['context']) if a['id']==measure_id)
         if layer.get('kind')!='presentation' or layer['id']!=measure['parent_id']:
@@ -263,13 +271,18 @@ class MicrosoftProcessAdapter:
     def selection_columns(self):
         return [{'id':a['id'],'name':a['name']} for a in assets(self.model['context']) if a['kind']=='SemanticColumn']
 
-    def report_selection_inventory(self,measure_id,binding):
+    def report_selection_inventory(self,measure_id,binding,target_visual=None):
         from .report_predicates import pinned,scoped_options,_document
         from .report_cells import roles
         model=pinned(self)
         from .report_predicates import Refusal
         from ..declared_reproduction import UnsupportedRestriction
-        try: declarations=scoped_options(model,measure_id,binding)
+        try:
+            if target_visual is None:
+                declarations=scoped_options(model,measure_id,binding)
+            else:
+                from .report_predicates import scoped_declaration
+                declarations=[scoped_declaration(model,measure_id,{'report_binding':binding},target_visual['target_id'])]
         except Refusal as exc: raise UnsupportedRestriction(exc.form) from exc
         grouping=set()
         for declaration in declarations:
@@ -409,6 +422,11 @@ class MicrosoftProcessAdapter:
         binding=self._partition_binding(metadata) if self.store is not None else {'status':'NO_DECLARATION','candidates':[]}
         layers=[{'id':measure['parent_id'],'kind':'presentation','measure':measure}]
         if binding.get('status')=='RESOLVED':
+            # The concrete scoped pointer supersedes the collector's generic
+            # partition-identity gap even when this measure cannot be compiled.
+            # Binding resolution and faithful quantity compilation are separate
+            # facts; an unsupported expression must not become a missing pointer.
+            gaps=[g for g in gaps if g.get('reason')!='UNRESOLVED_PARTITION_IDENTITY']
             referenced_columns=[a for a in metadata.get('assets',[]) if a.get('kind')=='SemanticColumn']
             expression=measure.get('metadata',{}).get('expression','')
             if isinstance(expression,list):expression='\n'.join(expression)
@@ -426,7 +444,9 @@ class MicrosoftProcessAdapter:
                     'binding':binding,'definition_asset_id':binding['definition_asset_id']})
                 from .direct_source import quantity_proof
                 layers[-1]['direct_source_proof']=quantity_proof(metadata,layers[-1],self.config)
-                gaps=[g for g in gaps if g.get('reason')!='UNRESOLVED_PARTITION_IDENTITY']
+            else:
+                gaps=[{'reason':'UNSUPPORTED_DECLARED_SOURCE_QUANTITY',
+                    'detail':'The declared partition source was resolved, but this measure expression cannot be compiled faithfully on that source; only a direct additive SUM is supported by this path.'}]+gaps
             context=context_search.latest(self.store);edges=(context or {}).get('graph',{}).get('edges',[])
             upstream=[]
             for edge in edges:
@@ -459,7 +479,8 @@ class MicrosoftProcessAdapter:
                 'stopped_by':'CAPABILITY_UNAVAILABLE' if gaps else 'REACHED',
                 'missing_comparable_quantity':missing,
                 'evidence':{'id':'path-'+str(uuid4()),'tool':'context','completeness':'PARTIAL' if gaps else 'COMPLETE_RESPONSE',
-                            'metadata':metadata,'declared_source_binding':binding}}
+                            'metadata':metadata,'declared_source_binding':binding,
+                            'resolved_path_gaps':gaps}}
         if self.max_boundaries>1 and len(layers)>1:
             from .declared_chain import extend
             path['layers'],contracts,gap=extend(context_search.latest(self.store) or {},layers)

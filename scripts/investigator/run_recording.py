@@ -68,7 +68,7 @@ def operation(name):
                     # own contract. This bootstrap extends the process path.
                     return method(owner,*args,**kwargs)
             if tape is None:
-                if name not in ('intake','preview','create'):
+                if name not in {'intake','preview','create',*journal.SMART_OPERATIONS} and not (name=='run' and has_smart_ticket(agent,str(key))):
                     raise journal.TapeError('LIVE_RUN_MISSING_RECORDING_BOOTSTRAP')
                 root=ROOT/'.local/process-tapes'/str(fresh_id())
                 root.mkdir(parents=True,exist_ok=False)
@@ -84,11 +84,21 @@ def operation(name):
                         'workspace_owner':getattr(getattr(owner,'workspace',owner),'owner',None),
                         'artifacts':{name:journal.sha((root/name).read_bytes()) for name in ('catalog.sqlite','inventory.sqlite')},
                         'dynamic_read_limit':getattr(getattr(owner,'workspace',owner),'dynamic_read_limit',12),
-                        'dynamic_input_limit':getattr(getattr(owner,'workspace',owner),'dynamic_input_limit',384000)}}
+                        'workspace_concurrency_limit':getattr(getattr(owner,'workspace',owner),'concurrency_limit',1),
+                        'dynamic_input_limit':getattr(getattr(owner,'workspace',owner),'dynamic_input_limit',384000),
+                        'provider_transport_retries':2,
+                        'snapshot_clock':'ONE_CLOCK_V1',
+                        'local_accounting':'SQLITE_BOUNDARY_V1','physical_transport_retries':2}}
+                if agent.governor is not None:
+                    bootstrap['state']['budget_checkpoint']='DELTA_V2'
                 if getattr(agent.store,'context_pins',None):
                     bootstrap['state']['context_pins']=agent.store.context_pins
                 if getattr(agent.store,'acceptance_fixture_state',None):
                     bootstrap['state']['fixture_state']=agent.store.acceptance_fixture_state
+                if name in journal.SMART_OPERATIONS:
+                    bootstrap['state']['smart_intake']=owner.configuration
+                    bootstrap['state']['smart_ownership']=owner.ownership
+                    bootstrap['state']['smart_auto_start']=owner.auto_start
                 tape=journal.Tape(root/'tape.json',bootstrap)
             error=None;result=None
             with journal.active(tape):
@@ -114,7 +124,18 @@ def operation(name):
                             from .onboarding import digest
                             tapes[digest(result['envelope'])]=tape
                         elif name=='create':tapes[result['id']]=tape
-                    terminal=error is not None or name=='synthesize' or name=='intake' and result.get('status')!='PROPOSED'
+                        elif name=='run' and error is None:
+                            tapes[str(key)]=tape
+                            # Retain the actual return, not a later reconstruction
+                            # containing synthesis or ticket-state changes.
+                            tape.pending_read_final=json.loads(journal.bytes_of({
+                                'operation':'run','error':None,
+                                'outputs':result.get('refusal_outputs'),
+                                'status':result.get('status'),'result':result}))
+                    smart_read=(name=='run' and error is None and result is not None and
+                                result.get('status') not in ('READY','PLANNING','EXECUTING') and
+                                has_smart_ticket(agent,str(key)))
+                    terminal=error is not None or name=='synthesize' or name in journal.SMART_OPERATIONS or name=='intake' and result.get('status')!='PROPOSED' or smart_read
                     if terminal:
                         final={'operation':name,'error':type(error).__name__ if error else None,
                                'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs'),
@@ -123,9 +144,77 @@ def operation(name):
                         except journal.TapeError as failure:
                             if error is not None:error.add_note(str(failure))
                             else:raise
+                        if smart_read:retain_read_capture(agent,str(key),tape)
                     if trace_error is not None:raise trace_error
         return invoke
     return decorate
+
+
+def has_smart_ticket(agent, identity):
+    """Only attached interactive reads get a separate durable completion."""
+    with agent.store.connect() as db:
+        if not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='smart_tickets'").fetchone():return False
+        from .ticket_state import Tickets
+        for row in db.execute('SELECT id FROM smart_tickets'):
+            ticket=Tickets._get(db,row[0])['ticket']
+            if ticket.get('session_id')==identity:return True
+    return False
+
+
+def retain_read_capture(agent, identity, tape):
+    """Persist only a hash-pinned pointer after the actual FINAL was sealed."""
+    if not tape.finished:raise journal.TapeError('READ_CAPTURE_NOT_SEALED')
+    path=str(tape.path.resolve());fingerprint=journal.sha(tape.path.read_bytes())
+    with agent.store.connect() as db:
+        db.execute('CREATE TABLE IF NOT EXISTS smart_read_captures(id TEXT PRIMARY KEY,path TEXT NOT NULL,sha256 TEXT NOT NULL)')
+        prior=db.execute('SELECT path,sha256 FROM smart_read_captures WHERE id=?',(identity,)).fetchone()
+        if prior and tuple(prior)!=(path,fingerprint):raise journal.TapeError('READ_CAPTURE_POINTER_CHANGED')
+        db.execute('INSERT OR IGNORE INTO smart_read_captures VALUES(?,?,?)',(identity,path,fingerprint))
+
+
+def retained_read_capture(agent, identity):
+    """Cold resume validates original bytes; never backfill from current state."""
+    if not hasattr(agent,'store'):return None
+    with agent.store.connect() as db:
+        if not db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='smart_read_captures'").fetchone():return None
+        row=db.execute('SELECT path,sha256 FROM smart_read_captures WHERE id=?',(identity,)).fetchone()
+    if row is None:return None
+    path=Path(row[0]).resolve();root=(ROOT/'.local/process-tapes').resolve()
+    if not path.is_relative_to(root):raise journal.TapeError('READ_CAPTURE_OUTSIDE_RECORDING_ROOT')
+    if journal.sha(path.read_bytes())!=row[1]:raise journal.TapeError('READ_CAPTURE_HASH_DIFFERS')
+    recorded=journal.Tape(path)
+    final=json.loads(journal.validate_event(recorded.events[-1],len(recorded.events)))
+    if final.get('operation')!='run' or (final.get('result') or {}).get('id')!=identity:
+        raise journal.TapeError('READ_CAPTURE_SESSION_DIFFERS')
+    return {'status':'SEALED','tape_sha256':row[1]}
+
+
+def seal_read_stage(agent, identity):
+    """Close the old read capture before a separate ticket composition capture.
+
+    The closure is a recorded control input. Replay consumes its hash; values
+    and claims still come from the separately hash-checked bootstrap database.
+    A missing live capture refuses instead of fabricating the run's return.
+    """
+    def seal():
+        prior=getattr(agent,'_run_tapes',{}).get(str(identity))
+        enabled=agent.planner_profile.get('adapter') not in (None,'injected') or os.environ.get('INVESTIGATOR_RECORD_RUNS')=='1'
+        if prior is None:
+            retained=retained_read_capture(agent,str(identity))
+            if retained is not None:return retained
+            if enabled:return {'status':'UNAVAILABLE','reason':'READ_STAGE_CAPTURE_UNAVAILABLE'}
+            return {'status':'RECORDING_DISABLED'}
+        if not prior.finished:
+            pending=getattr(prior,'pending_read_final',None)
+            if pending is None or pending['result']['id']!=identity:
+                return {'status':'UNAVAILABLE','reason':'READ_STAGE_RETURN_UNAVAILABLE'}
+            prior.finish(pending)
+        return {'status':'SEALED','tape_sha256':journal.sha(prior.path.read_bytes())}
+    closure=journal.value('CONFIGURATION','ticket_read_stage_closure',seal)
+    if closure['status']=='UNAVAILABLE':
+        from .onboarding import Conflict
+        raise Conflict(closure['reason'])
+    return closure
 
 
 def attach_trace_footer(agent,identity,tape,result):

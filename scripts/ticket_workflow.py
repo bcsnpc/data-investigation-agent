@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import sqlite3
+from investigator.budget_connection import connect as budget_connect
 import time
 from uuid import UUID,uuid4
 
@@ -48,7 +49,7 @@ class TicketStore:
               status TEXT NOT NULL,detail TEXT NOT NULL);''')
             db.commit()
 
-    def connect(self):return sqlite3.connect(self.database,timeout=10)
+    def connect(self):return budget_connect(self.database,timeout=10)
 
     @staticmethod
     def event(db,identity,status,detail,now):

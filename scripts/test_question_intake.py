@@ -4,7 +4,7 @@ from threading import Event, Thread
 import unittest
 from unittest.mock import MagicMock, patch
 
-from investigator.question_intake import Intake, validate, snapshot, azure_resolve, wire_contract
+from investigator.question_intake import Intake, validate, snapshot, azure_resolve_legacy as azure_resolve, wire_contract
 from investigator.onboarding import Conflict
 from investigator.usage_governance import UsageHold
 from investigator.workspace import Workspace
@@ -173,6 +173,22 @@ class IntakeTests(unittest.TestCase):
 
     def resolve(self): return self.workspace.intake.resolve(copy.deepcopy(self.request))
 
+    def test_business_rule_question_refuses_at_intake_without_process_execution(self):
+        value=proposal()
+        value['question_kind']={'kind':'BUSINESS_MEANING',
+            'source':{'start':0,'end':len(self.request['text']),'quote':self.request['text']}}
+        self.resolver.return_value=(value,{'usage':{'output_tokens':80}})
+        saved=self.resolve()
+        self.assertEqual(saved['status'],'HELD')
+        self.assertEqual(saved['error'],'UNIMPLEMENTED_ROUTE')
+        self.assertIn('business-rule decision',saved['refusal_reason'])
+        self.assertIsNone(saved['proposal'])
+        self.h.native.assert_not_called()
+        self.h.source.assert_not_called()
+        for output in saved['refusal_outputs'].values():
+            if isinstance(output,dict) and 'explanation' in output:
+                self.assertIn('domain specialist',output['explanation']['text'])
+
     def review(self, saved):
         return self.workspace.preview(dict(self.h.request, symptom=saved['text'], intake_id=saved['id']))
 
@@ -274,6 +290,21 @@ class IntakeTests(unittest.TestCase):
         saved = self.resolve(); self.assertEqual(saved['error'], 'PROVIDER_USAGE_LIMIT')
         self.assertIsNone(saved['proposal'])
         with self.assertRaises(Conflict): self.review(saved)
+
+    def test_explicit_producer_output_bound_is_reserved_before_dispatch(self):
+        self.resolver.request_output_tokens=lambda payload:8000
+        self.resolver.return_value=proposal(),{'usage':{'output_tokens':2504}}
+        saved=self.resolve()
+        self.assertEqual(saved['status'],'PROPOSED')
+        with self.h.store.connect() as db:
+            row=db.execute('SELECT reserved,status FROM adaptive_usage').fetchone()
+        self.assertEqual(json.loads(row['reserved'])['output_tokens'],8000)
+        self.assertEqual(row['status'],'SETTLED')
+
+    def test_model_reservation_uses_actual_provider_body_bound(self):
+        from investigator.intake_extraction import request_output_tokens
+        with patch('ticket_planner.provider_body',return_value={'max_output_tokens':8000}):
+            self.assertEqual(request_output_tokens({'text':'Explain Quantity.','models':[]}),8000)
 
     def test_usage_counts_are_recorded_without_provider_metadata(self):
         self.resolver.return_value = proposal(), {'usage': {'input_tokens': 50, 'output_tokens': 10}, 'response_id': 'private'}

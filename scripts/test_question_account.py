@@ -3,6 +3,83 @@ from investigator import question_account as account
 from investigator.onboarding import Conflict
 
 class QuestionAccountTests(unittest.TestCase):
+    def test_short_valid_kind_quote_cannot_hide_the_primary_business_question(self):
+        description='What does Q49 mean, and should those adjustments affect this metric?'
+        question='Description supplied by user:\n'+description+'\n\nComparison selected by user:\nThe application'
+        for quote in ('Q49',description):
+            state=self.state(question);start=question.index(quote)
+            state['envelope']['question_kind']={'kind':'SOURCE_CORRECTNESS','source':{
+                'quote':quote,'start':start,'end':start+len(quote)}}
+            state['observations']=[{'id':'flow','status':'COMPLETED','comparison_status':'CROSS_SURFACE_VERIFIED'}]
+            self.assertEqual(account.build(state)['status'],'NOT_ANSWERED')
+            outputs=self.outputs();account.attach(outputs,state)
+            for entry in outputs.values():self.assertIn('Answer to your question: Not answered.',entry['explanation']['text'])
+    def test_business_only_ask_is_not_promoted_by_a_form_comparator_or_technical_finding(self):
+        description='For Handled Quantity, what does adjustment reason Q49 mean, and should those adjustments affect this metric?'
+        question='Description supplied by user:\n'+description+'\n\nComparison selected by user:\nThe application'
+        for outcome in ('TRANSFORMATION_LOGIC','BUSINESS_QUESTION','CONSISTENT_TO_SOURCE','INGESTION_GAP'):
+            with self.subTest(outcome=outcome):
+                s=self.state(question);start=question.index(description)
+                s['envelope']['question_kind']={'kind':'SOURCE_CORRECTNESS','source':{
+                    'quote':description,'start':start,'end':start+len(description)}}
+                s['assessment']['classification']=outcome
+                s['observations']=[{'id':'flow','status':'COMPLETED','comparison_status':'CROSS_SURFACE_VERIFIED'},
+                    {'id':'delivery','status':'COMPLETED','check_kind':'SOURCE_DELIVERY','delivery_result':{'status':'GAP'}}]
+                outputs=self.outputs();account.attach(outputs,s)
+                for entry in outputs.values():
+                    self.assertEqual(entry['question_account']['status'],'NOT_ANSWERED')
+                    self.assertIn('Answer to your question: Not answered.',entry['explanation']['text'])
+                    self.assertIn('What was found instead:',entry['explanation']['text'])
+                self.assertEqual(s['assessment']['classification'],outcome)
+                broken=copy.deepcopy(outputs)
+                broken['business_output']['question_account']['status']='PARTLY_ANSWERED'
+                with self.assertRaises(Conflict):account.validate(broken,s)
+
+    def test_proven_appended_report_link_is_evidence_not_business_question(self):
+        from investigator.ticket_inputs import document
+        from investigator.onboarding import digest
+        question='Could the reported quantity be stale?'
+        request={'text':question,'request_key':'test','structured':{
+            'report_link':'https://app.powerbi.com/groups/workspace/reports/report/page'}}
+        derived=document(request);s=self.state(derived['text'])
+        part=derived['provenance']['parts'][-1]
+        s['envelope']['report_binding']={'resolution_kind':'DECLARED_REFERENCE','reference':{
+            'request_hash':digest(derived['text']),
+            'source':{'start':part['start'],'end':part['end'],'quote':request['structured']['report_link']}}}
+        before=copy.deepcopy(s);outputs=self.outputs();account.attach(outputs,s)
+        business=outputs['business_output']['explanation']['text']
+        technical=outputs['technical_output']['explanation']['text']
+        self.assertIn(question,business);self.assertNotIn('https://',business)
+        self.assertNotIn('Report link supplied by user:',business)
+        self.assertIn(derived['text'],technical)
+        self.assertEqual(outputs['business_output']['question_account']['question'],derived['text'])
+        self.assertEqual(s,before)
+        broken=copy.deepcopy(outputs);broken['business_output']['question_account']['business_question']='Another ask.'
+        with self.assertRaises(Conflict):account.validate(broken,s)
+        s['envelope']['report_binding']['reference']['source']['start']+=1
+        with self.assertRaises(Conflict):account.attach(self.outputs(),s)
+
+    def test_user_typed_identifier_is_not_silently_removed(self):
+        s=self.state('Inspect https://example.com/report freshness.')
+        with self.assertRaisesRegex(ValueError,'Technical identifier'):
+            account.attach(self.outputs(),s)
+
+    def test_no_reported_figure_category_requires_the_explicit_procedure_receipt(self):
+        from investigator.declared_reproduction import NO_FIGURE
+        s=self.state('Explain the selected quantity.')
+        s['envelope']['question_kind']={'kind':'VISUAL_CONTENT'}
+        s['assessment']['classification']='NO_COMPARABLE_PATH'
+        s['observations']=[{'id':'no-figure','status':'COMPLETED',
+            'check_kind':'DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE','reason':NO_FIGURE}]
+        result=account.build(s)
+        self.assertEqual(result['status'],'NO_REPORTED_FIGURE')
+        self.assertEqual(result['subjects'][0]['evidence_ids'],['no-figure'])
+        self.assertIn('Answer to your question: No verdict',account.render(result))
+        s['observations'][0]['reason']='The declared selection is unsupported.'
+        self.assertEqual(account.build(s)['status'],'NOT_ANSWERED')
+        s['observations'][0]['reason']=NO_FIGURE
+        s['observations'][0]['status']='UNAVAILABLE'
+        self.assertEqual(account.build(s)['status'],'NOT_ANSWERED')
     def state(self,question='Could the reported quantity be stale? Inspect freshness and processing history.'):
         return {'envelope':{'symptom':question},'observations':[],
                 'assessment':{'classification':'TRANSFORMATION_LOGIC','limits':['Snapshot unknown.'],
@@ -27,6 +104,17 @@ class QuestionAccountTests(unittest.TestCase):
         a=self.outputs();b=self.outputs();account.attach(a,self.state());account.attach(b,self.state('Explain the observed difference.'))
         self.assertNotEqual(a['business_output']['explanation']['text'],b['business_output']['explanation']['text'])
         self.assertEqual(a['business_output']['mandatory_limits'],b['business_output']['mandatory_limits'])
+
+    def test_mixed_typed_question_always_declines_authoritative_meaning(self):
+        s=self.state('Explain the observed difference and state what business intent remains unknown.')
+        s['envelope']['question_kind']={'kind':'TRANSFORMATION_MECHANISM'}
+        s['observations']=[{'id':'definition','status':'COMPLETED','process_roles':['transformation_definition']}]
+        outputs=self.outputs();account.attach(outputs,s)
+        for output in outputs.values():
+            text=output['explanation']['text']
+            self.assertIn('supported mechanism',text)
+            self.assertIn('No authoritative business meaning',text)
+        self.assertEqual(outputs['business_output']['question_account']['status'],'PARTLY_ANSWERED')
     def test_outcome_or_optional_timestamp_does_not_establish_currency(self):
         for outcome in ('REFRESH_LATENCY','CONSISTENT_TO_BOUNDARY','TRANSFORMATION_LOGIC'):
             s=self.state();s['assessment']['classification']=outcome

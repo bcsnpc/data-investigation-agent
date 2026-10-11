@@ -106,7 +106,7 @@ class CallRecord:
 
 
 @contextmanager
-def recording(metadata):
+def recording(metadata, *, distinct=False):
     """The flag is operator process configuration, never a ticket/provider field."""
     from .process_tape import ACTIVE as RUN_TAPE
     tape=RUN_TAPE.get()
@@ -115,7 +115,7 @@ def recording(metadata):
             def safe_write(self,name,data):return True
         yield ReplayRecord()
         return
-    if (os.environ.get(FLAG) != '1' and tape is None) or ACTIVE.get() is not None:
+    if (os.environ.get(FLAG) != '1' and tape is None) or (ACTIVE.get() is not None and not distinct):
         yield ACTIVE.get()
         return
     record = CallRecord(metadata() if callable(metadata) else metadata)

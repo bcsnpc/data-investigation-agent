@@ -1,0 +1,3 @@
+Subject: Which date makes a payment recent?
+
+Recent Collections won't display its Collected in the Last Seven Days card. The application has payments dated October 2 for 200, October 3 for 100 and October 4 for 250. Which dates should today's seven-day figure include? I don't want to use the all-time 550 in place of a recent amount.

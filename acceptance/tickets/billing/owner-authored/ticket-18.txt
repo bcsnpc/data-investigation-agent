@@ -1,0 +1,3 @@
+Subject: Help me check the usage allowance calculation
+
+Usage Overage says 600. The application gives Growth an allowance of 3000 and Starter an allowance of 1000. Aster used 3500 and Birch 1100, while Cedar used 2800 and Dune 500. If I only count the amount over each allowance I get 500 plus 100, or 600. Is that how this card is meant to be read, and is it units rather than a charge?

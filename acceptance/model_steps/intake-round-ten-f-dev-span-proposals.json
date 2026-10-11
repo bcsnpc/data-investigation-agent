@@ -1,0 +1,313 @@
+{
+  "status": "PROPOSED_NOT_ACCEPTED",
+  "cases": [
+    {
+      "case_id": "original:family-B-noisy",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Inventory Health e1b8e1 Inbound Fraction looks high. Explain its global numerator and denominator from the definitions.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-B-terse",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Inbound Fraction looks high. Explain its global numerator and denominator from the definitions.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-B-typo",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Inbound Fraction looks high. pls explain its global numerator and denominator from the definitions.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-D-noisy",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Explain the selected warehouse scope.",
+      "comparison_spans": [
+        "global value"
+      ]
+    },
+    {
+      "case_id": "original:family-D-terse",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Explain the selected warehouse scope.",
+      "comparison_spans": [
+        "the global value"
+      ]
+    },
+    {
+      "case_id": "original:family-D-typo",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "pls explain the selected warehouse scope. thx, need the actual scope too",
+      "comparison_spans": [
+        "the global value"
+      ]
+    },
+    {
+      "case_id": "original:family-E-mention",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Handled Quantity may be stale. Check freshness and processing history; no freshness SLA is supplied.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-E-noisy",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Inventory Health e1b8e1 Handled Quantity may be stale. Check freshness and processing history; no freshness SLA is supplied.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-E-terse",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Handled Quantity may be stale. Check freshness and processing history; no freshness SLA is supplied.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-E-typo",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Handled Qunatity may be stale. chk freshness and processing history; no freshness SLA is supplied. thx, need the actual scope too",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-H-noisy",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Inbound Quantity differs from Outbound Quantity. Explain their definitions and what business intent stays unknown.",
+      "comparison_spans": [
+        "Outbound Quantity"
+      ]
+    },
+    {
+      "case_id": "original:family-H-terse",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Explain their definitions and what business intent stays unknown.",
+      "comparison_spans": [
+        "Inbound Quantity",
+        "Outbound Quantity"
+      ]
+    },
+    {
+      "case_id": "original:family-H-typo",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Inbound Qunatity differs from Outbound Qunatity. pls explain their definitions and what business intent stays unknown. thx, need the actual scope too",
+      "comparison_spans": [
+        "Outbound Qunatity"
+      ]
+    },
+    {
+      "case_id": "original:family-I-noisy",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Inventory Health e1b8e1 Handled Quantity: what does adjustment reason Q49 mean, and should those adjustments affect the metric?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-I-terse",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "what does adjustment reason Q49 mean, and should those adjustments affect the metric?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-I-typo",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Handled Qunatity: what does adjustment reason Q49 mean, and should those adjustments affect the metric?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:question-change-days",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "why did Handled Quantity change between the saved 14 September and 15 September report states?",
+      "comparison_spans": [
+        "14 September",
+        "15 September"
+      ]
+    },
+    {
+      "case_id": "original:question-hiding-rows",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Which saved filters are hiding movements?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:question-stale-no-sla",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Is Inventory Health e1b8e1 Handled Quantity up to date?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:refusal-business-benchmark",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "what fraction should the warehouse consider acceptable?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:refusal-business-intent",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Should every inventory adjustment count in Inventory Health e1b8e1 Handled Quantity? Please decide the business rule.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:refusal-business-q49",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "What business meaning does Q49 have in Inventory Health e1b8e1 adjustments?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:refusal-two-figures",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "The same Handled Quantity card in Declared predicate fixture 20261001 shows 16 and 17 at the same time. Both are reported figures; I cannot identify which is correct.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:refusal-unidentified-visual",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "A report card somewhere shows 16 and seems wrong. I do not know the report, page, visual, or measure.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:refusal-unsupported-filter",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Handled Quantity shows 16 under an unidentified custom-script slicer filter.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:refusal-unsupported-relative",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Round Nine translation filters 20261007: Handled Quantity for the last seven days shows 16. Reproduce that relative-date context; Activity.event_day is a text field.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:visual-1",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Can the saved declared context reproduce that figure?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:visual-3",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Can the saved declared context reproduce that figure?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:visual-4",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Can the saved declared context reproduce that figure?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:visual-5",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Does the saved active context reproduce it, and what remains unknown about that bookmark invocation?",
+      "comparison_spans": [
+        "Saved bookmark comparison",
+        "the saved active context"
+      ]
+    },
+    {
+      "case_id": "original:family-B",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Check its current global value and explain the numerator and denominator using the actual measure definitions.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-D",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Check the North selection in the Activity by warehouse matrix and explain what report context you can and cannot reproduce.",
+      "comparison_spans": [
+        "the global total"
+      ]
+    },
+    {
+      "case_id": "original:family-E",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "On the Movement Units card, inspect the available refresh and processing history and explain whether freshness can be established.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "original:family-H",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "For the Received Units card, explain whether the current observed difference follows their definitions, and state what business intent remains unknown.",
+      "comparison_spans": [
+        "Inbound Quantity and Outbound Quantity are different."
+      ]
+    },
+    {
+      "case_id": "original:family-I",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "For Inventory Health e1b8e1 Handled Quantity, on the Movement Units card, what does adjustment reason Q49 mean, and should those adjustments affect this metric?",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "rebuilt:family-B",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Check its current global value and explain the numerator and denominator using the actual measure definitions.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "rebuilt:family-D",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Check the North selection in the Activity by warehouse matrix and explain what report context you can and cannot reproduce.",
+      "comparison_spans": [
+        "the global total"
+      ]
+    },
+    {
+      "case_id": "rebuilt:family-E",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "Handled Quantity may be stale. On the Movement Units card, inspect the available refresh and processing history and explain whether freshness can be established.",
+      "comparison_spans": []
+    },
+    {
+      "case_id": "rebuilt:family-H",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "For the Received Units card, explain whether the current observed difference follows their definitions, and state what business intent remains unknown.",
+      "comparison_spans": [
+        "Inbound Quantity",
+        "Outbound Quantity"
+      ]
+    },
+    {
+      "case_id": "rebuilt:family-I",
+      "state": "PROPOSED_FOR_HUMAN_REVIEW_NOT_GRADED",
+      "basis": "Retained dev-only extraction; requires reviewer correction; not a golden annotation",
+      "primary": "what does adjustment reason Q49 mean, and should those adjustments affect this metric?",
+      "comparison_spans": []
+    }
+  ]
+}

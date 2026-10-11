@@ -1,0 +1,3 @@
+Subject: Check which account is counted as churned
+
+The Churned Accounts card says 1. I see Dune marked CHURNED in the application, with Aster, Birch and Cedar active. That appears to line up, but can you confirm whether the report is counting current status or accounts that churned during a particular month?

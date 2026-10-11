@@ -9,6 +9,19 @@ from .tape_budget import decision
 KEYS=('planner_calls','cloud_calls','input_characters','output_tokens')
 
 
+def charged(row):
+    """Keep immutable reservations; release unused output only with usage evidence."""
+    amount=json.loads(row['reserved'])
+    from .process_tape import ACTIVE
+    tape=ACTIVE.get()
+    if tape is not None and tape.replaying and getattr(tape,'accounting_version',1)<3:
+        return amount
+    actual=json.loads(row['actual']) if row['actual'] else {}
+    if row['status']!='RESERVED' and type(actual.get('output_tokens')) is int:
+        amount['output_tokens']=actual['output_tokens']
+    return amount
+
+
 class UsageHold(Conflict):pass
 
 
@@ -18,9 +31,10 @@ class UsageGovernor:
         if not isinstance(policy['environment'],str) or policy['environment']!=runtime.store.environment:
             raise ValueError('Policy must match configured environment')
         fields(policy['daily_limits'],KEYS)
-        for value in policy['daily_limits'].values():
-            if type(value) is not int or not 1<=value<=10000000:raise ValueError('Invalid daily limit')
-        for key,maximum in [('max_inflight_planners',4),('no_progress_limit',4)]:
+        from .usage_limits import DAILY_MAXIMUM
+        for key,value in policy['daily_limits'].items():
+            if type(value) is not int or not 1<=value<=DAILY_MAXIMUM[key]:raise ValueError('Invalid daily limit')
+        for key,maximum in [('max_inflight_planners',8),('no_progress_limit',4)]:
             if type(policy[key]) is not int or not 1<=policy[key]<=maximum:raise ValueError('Invalid policy limit')
         self.runtime=runtime;self.policy=json.loads(encoded(policy));self.clock=clock
         self.environment=policy['environment'];self.hash=digest(policy)
@@ -33,9 +47,45 @@ class UsageGovernor:
             """)
 
             read_allowance.initialize(db)
+            from .budget_delta import initialize
+            initialize(db)
+            from .budget_delta_v2 import initialize as initialize_v2
+            initialize_v2(db)
+            db.execute('''CREATE TABLE IF NOT EXISTS usage_violation_acknowledgments(
+                environment TEXT, session_id TEXT, reservation_key TEXT,
+                violation_hash TEXT, approval TEXT, created REAL,
+                PRIMARY KEY(environment,session_id,reservation_key))''')
+
+    def acknowledge_violation(self, session_id, key, approval):
+        """Operator-only, explicit owner decision; charges and violation stay intact."""
+        fields(approval,['owner','approved_at','reason','corrected_output_tokens'])
+        if any(not isinstance(approval[k],str) or not approval[k].strip()
+               for k in ('owner','approved_at','reason')):
+            raise ValueError('Dated owner approval required')
+        if type(approval['corrected_output_tokens']) is not int or not 500<=approval['corrected_output_tokens']<=MAX_OUTPUT_TOKENS:
+            raise ValueError('Invalid corrected output bound')
+        with self.runtime.db() as db:
+            db.execute('BEGIN IMMEDIATE')
+            row=db.execute('SELECT * FROM adaptive_usage WHERE environment=? AND session_id=? AND reservation_key=?',
+                           (self.environment,session_id,key)).fetchone()
+            if row is None or row['status']!='VIOLATION':raise UsageHold('Named violation required')
+            if approval['corrected_output_tokens']<json.loads(row['actual']).get('output_tokens',0):
+                raise ValueError('Corrected bound does not cover retained usage')
+            record={'violation_hash':digest(dict(row)),'approval':approval}
+            prior=db.execute('SELECT violation_hash,approval FROM usage_violation_acknowledgments WHERE environment=? AND session_id=? AND reservation_key=?',
+                             (self.environment,session_id,key)).fetchone()
+            if prior:
+                if prior['violation_hash']!=record['violation_hash'] or json.loads(prior['approval'])!=approval:
+                    raise UsageHold('Acknowledgment is immutable')
+                return record
+            db.execute('INSERT INTO usage_violation_acknowledgments VALUES(?,?,?,?,?,?)',
+                       (self.environment,session_id,key,record['violation_hash'],encoded(approval),self.clock()))
+            return record
 
     def grant_batch(self, approval):
         with self.runtime.db() as db:
+            from .budget_delta_v2 import register_codec
+            register_codec(db)
             db.execute("BEGIN IMMEDIATE")
             read_allowance.grant(db,self.environment,approval,self.clock())
 
@@ -92,10 +142,13 @@ class UsageGovernor:
             active=db.execute("SELECT count(*) FROM adaptive_usage WHERE environment=? AND kind='planner' AND status='RESERVED'",(self.environment,)).fetchone()[0]
             if active>=self.policy['max_inflight_planners']:raise UsageHold('Planner concurrency limit')
         total=dict.fromkeys(KEYS,0)
-        for row in db.execute('SELECT reserved FROM adaptive_usage WHERE environment=? AND day=?',(self.environment,self.day())):
-            for k,v in json.loads(row[0]).items():total[k]+=v
+        for row in db.execute('SELECT reserved,actual,status FROM adaptive_usage WHERE environment=? AND day=?',(self.environment,self.day())):
+            for k,v in charged(row).items():total[k]+=v
         if any(amount[k] and total[k]+amount[k]>self.policy['daily_limits'][k] for k in KEYS if k!='cloud_calls'):raise UsageHold('Daily usage limit')
-        if purpose!='RESTORATION' and db.execute("SELECT 1 FROM adaptive_usage WHERE environment=? AND day=? AND status='VIOLATION' LIMIT 1",(self.environment,self.day())).fetchone():
+        violations=db.execute("SELECT * FROM adaptive_usage WHERE environment=? AND day=? AND status='VIOLATION'",(self.environment,self.day())).fetchall()
+        if purpose!='RESTORATION' and any(not db.execute('''SELECT 1 FROM usage_violation_acknowledgments
+                WHERE environment=? AND session_id=? AND reservation_key=? AND violation_hash=?''',
+                (self.environment,r['session_id'],r['reservation_key'],digest(dict(r)))).fetchone() for r in violations):
             raise UsageHold('Provider usage exceeded reservation')
         if kind=='cloud':
             round_policy=self.runtime.config.get('_estate',{}).get('round')
@@ -126,19 +179,40 @@ class UsageGovernor:
             status='VIOLATION'
         db.execute('UPDATE adaptive_usage SET actual=?,status=? WHERE environment=? AND session_id=? AND reservation_key=?',
                    (encoded(actual),status,self.environment,session_id,key))
-        # Conservative reservations are never refunded. Missing usage remains explicit.
+        # The original reservation stays immutable. Admission charges known
+        # actual output after settlement; missing usage retains the full bound.
 
     def snapshot(self):
+        from .process_tape import ACTIVE
+        tape=ACTIVE.get()
+        # Old sealed tapes retain their CLOCK event order. A new snapshot
+        # observes one instant, so its day and rolling window cannot disagree.
+        legacy_versions={'bounded-worker-tape-v1','bounded-worker-tape-v2',
+            'bounded-worker-tape-v3','bounded-worker-tape-v4',
+            'bounded-worker-tape-v5','bounded-worker-tape-v6'}
+        legacy=bool(tape and (tape.version in legacy_versions or
+            tape.version=='privacy-projected-tape-v1' and
+            tape.bootstrap.get('state',{}).get('snapshot_clock')!='ONE_CLOCK_V1'))
+        now=None if legacy else self.clock()
+        today=None if legacy else datetime.fromtimestamp(now,timezone.utc).date().isoformat()
         with self.runtime.db() as db:
-            reads=read_allowance.snapshot(db,self.environment,self.clock(),self.policy['daily_limits']['cloud_calls'])
+            if not legacy and not db.in_transaction:db.execute('BEGIN')
+            reads=read_allowance.snapshot(db,self.environment,self.clock() if legacy else now,self.policy['daily_limits']['cloud_calls'])
             rows=db.execute('SELECT day,kind,reserved,actual,status FROM adaptive_usage WHERE environment=? ORDER BY created',
                             (self.environment,)).fetchall()
-        total=dict.fromkeys(KEYS,0);states={}
+        total=dict.fromkeys(KEYS,0);used=dict.fromkeys(KEYS,0);active=dict.fromkeys(KEYS,0);states={}
+        unknown_output=0
         for r in rows:
-            if r['day']==self.day():
+            if r['day']==(self.day() if legacy else today):
                 for k,v in json.loads(r['reserved']).items():total[k]+=v
+                for k,v in charged(r).items():used[k]+=v
+                if r['status']=='RESERVED':
+                    for k,v in json.loads(r['reserved']).items():active[k]+=v
+                elif r['kind']=='planner' and 'output_tokens' not in json.loads(r['actual'] or '{}'):
+                    unknown_output+=json.loads(r['reserved'])['output_tokens']
             states[r['status']]=states.get(r['status'],0)+1
-        return {'environment':self.environment,'day':self.day(),'policy_hash':self.hash,
-                'limits':self.policy['daily_limits'],'reserved_today':total,'reservation_states':states,
+        return {'environment':self.environment,'day':self.day() if legacy else today,'policy_hash':self.hash,
+                'limits':self.policy['daily_limits'],'reserved_today':total,'charged_today':used,
+                'active_reservations':active,'unknown_output_charged':unknown_output,'reservation_states':states,
                 'read_allowance':reads,'billing_cap_verified':False,
                 'limitation':'Planner reservations use UTC days; ordinary reads use rolling 24 hours, with separate expiring run credits. Initiated requests in this catalog only, not provider spend or SQL compute.'}

@@ -77,7 +77,7 @@ def render(state,payload=None):
             from .question_account import build,render as render_account
             checked=copy.deepcopy(state)
             checked['observations']=[o for o in state['observations'] if o.get('check_kind')!='DECLARED_CONTEXT_REPRODUCTION' or o['id'] in {c['id'] for c in cells}]
-            prefix=render_account(build(checked))
+            prefix=render_account(build(checked),business=key=='business_output')
             if key=='business_output':
                 from .narrative_form import validate
                 rendered=validate(prefix+'\n\n'+body(cells),True)

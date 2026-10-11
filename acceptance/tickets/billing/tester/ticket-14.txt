@@ -1,0 +1,8 @@
+How do I switch September and October?
+
+Report: Subscription Billing, overview page.
+
+I can't find a month selector on the page, and the Filters pane says there aren't any filters to display before I select a visual. The application lookup gives me zero invoices and zero payments in September, then four invoices and 550 payments in October.
+
+I need to compare those two months. What month does the 950 Invoiced Amount card cover, and how do I select a month? I expected to be able to make that choice rather than assume these are October numbers.
+

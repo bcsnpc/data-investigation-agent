@@ -18,6 +18,22 @@ def retained_limit(text,all_snapshots_unverified):
 
 
 def layers(payload,source):
+    # The digest owns one registry constructed from the complete assessment.
+    # Provider vocabulary, validation, legend and prose all consume this map.
+    if 'layer_registry' in payload:
+        # Engine aliases only cross the model boundary. Names stay local and
+        # are enriched from the validated assessment without changing aliases.
+        stripped=dict(payload);stripped.pop('layer_registry')
+        local=layers(stripped,source)
+        result={}
+        for identity,item in payload['layer_registry'].items():
+            display=local.get(identity,{'name':unquote(identity.rstrip('/').rsplit('/',1)[-1]),'identifier':identity})
+            result[identity]={**display,'term':item['term']}
+        next_term=max((int(v['term'][1:]) for v in result.values()),default=-1)+1
+        for identity,item in local.items():
+            if identity not in result:
+                result[identity]={**item,'term':'L'+str(next_term)};next_term+=1
+        return result
     result={}
     labels=source.get('technical_output',{}).get('layer_labels',payload.get('layer_labels',{}))
     def add(identity):
@@ -65,6 +81,7 @@ def business(text,payload):
     if reproduction is not None:
         from .lineage_limits import business as lineage_limit
         limitation=lineage_limit(payload)
+        if payload.get('deterministic_process_finding',{}).get('classification')=='DECLARED_FILTER_EFFECTS':reproduction=text
         return validate(reproduction+(' '+limitation if limitation else ''),True)
     from .selection_descriptor import render as render_descriptor
     for entry in payload.get('evidence',[]):
@@ -93,6 +110,10 @@ def business(text,payload):
                   if finding['reason']==NO_FIGURE else
                   'The declared selections could not be tested with the available evidence. ')+text
     if reproduction_limits:text+=' '+' '.join(reproduction_limits)
+    from .filter_effects import KIND as EFFECTS_KIND,render as render_effects
+    for entry in payload.get('evidence',[]):
+        if entry.get('result',{}).get('check_kind')==EFFECTS_KIND:
+            text+=' '+render_effects(entry['result'],True)
     from .surface_difference import wording
     statements=[]
     baseline=next((e['id'] for e in payload.get('evidence',[]) if e.get('test_purpose')=='ESTABLISH_BASELINE'),None)
@@ -157,6 +178,9 @@ def technical(commentary,payload,source,recommended):
         result=entry.get('result',{})
         if result.get('check_kind')==KIND:
             if not cell_lines:finding.append(render(result,include_limits=False))
+        elif result.get('check_kind')=='DECLARED_FILTER_EFFECTS':
+            from .filter_effects import render as render_effects
+            finding.append(render_effects(result))
         elif result.get('check_kind')=='PROBE_NOT_EXECUTED':
             finding.append('Probe not executed for '+result['target_id']+': '+result['reason']+' Would establish '+result['would_establish']+'.')
         elif result.get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION_UNAVAILABLE':

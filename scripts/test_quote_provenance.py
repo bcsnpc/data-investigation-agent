@@ -2,7 +2,7 @@
 import copy
 import unittest
 from unittest.mock import patch
-from investigator.question_intake import locate,QuoteRefused,azure_resolve,wire_contract
+from investigator.question_intake import locate,QuoteRefused,azure_resolve_legacy as azure_resolve,wire_contract
 
 class QuoteProvenanceTests(unittest.TestCase):
     def test_exact_quote_computes_span(self):

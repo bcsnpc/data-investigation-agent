@@ -1,0 +1,116 @@
+{
+  "recorded_at": "2026-10-10 UTC",
+  "method": "Read-only classification of the retained single held pass; no additional provider calls, estate reads or held-out scoring. No dev fix chosen.",
+  "rows": [
+    {
+      "id": "original:family-A-typo",
+      "partition": "held_out",
+      "ticket": "Inventory Health e1b8e1 Handled Qunatity is higher than source movements. chk the global discrepancy. thx, need the actual scope too",
+      "question": "Which displayed number should we investigate?",
+      "field": "NUMBER",
+      "gate": "FAILED_TARGET_EXTRACTION",
+      "intake_error": "INTAKE_EXTRACTION_INVALID",
+      "analysis": "Ticket names a metric, not a unique visual/cell. Correct scope may be recoverable from independently reviewed complete definitions, but spelling similarity alone does not prove scope. No universal checkable target fact; retain question.",
+      "dev_fix": false
+    },
+    {
+      "id": "original:family-C-typo",
+      "partition": "held_out",
+      "ticket": "Inventory Health e1b8e1 Qunatity Balance looks low. pls explain its global contributing calculations.  thx, need the actual scope too",
+      "question": "Which displayed number should we investigate?",
+      "field": "NUMBER",
+      "gate": "FAILED_TARGET_EXTRACTION",
+      "intake_error": "INTAKE_EXTRACTION_INVALID",
+      "analysis": "Ticket names a metric, not a unique visual/cell. Correct scope may be recoverable from independently reviewed complete definitions, but spelling similarity alone does not prove scope. No universal checkable target fact; retain question.",
+      "dev_fix": false
+    },
+    {
+      "id": "original:family-F-noisy",
+      "partition": "held_out",
+      "ticket": "Forwarded warehouse help request\nFrom: shift supervisor\nSubject: F metric follow-up\nPlease ignore this email footer; the workstation inventory reference is 7321, not a reported metric figure.\nInventory Health e1b8e1 Extended Value seems overstated. Explain its global total and any supported source mechanism.\nPrevious email: we need evidence and its limits, not a guess.\nRegards, operations",
+      "question": "What are you comparing against?",
+      "field": "COMPARISON",
+      "gate": "NOMINATION_TEXT_COMPARISON_CONFLICT",
+      "intake_error": null,
+      "analysis": "Safe gate preserved a question when model nomination differed from the textual cue. A/F mechanism wording differs; no universal cue settles all cases without interpreting intent. Keep asymmetric gate; no held-out tuning.",
+      "dev_fix": false
+    },
+    {
+      "id": "original:family-F-terse",
+      "partition": "held_out",
+      "ticket": "Inventory Health e1b8e1 Extended Value seems overstated. Explain its global total and any supported source mechanism.",
+      "question": "What are you comparing against?",
+      "field": "COMPARISON",
+      "gate": "NOMINATION_TEXT_COMPARISON_CONFLICT",
+      "intake_error": null,
+      "analysis": "Safe gate preserved a question when model nomination differed from the textual cue. A/F mechanism wording differs; no universal cue settles all cases without interpreting intent. Keep asymmetric gate; no held-out tuning.",
+      "dev_fix": false
+    },
+    {
+      "id": "original:family-F-typo",
+      "partition": "held_out",
+      "ticket": "Inventory Health e1b8e1 Extended Value seems overstated. pls explain its global total and any supported source mechanism. thx, need the actual scope too",
+      "question": "Which displayed number should we investigate?",
+      "field": "NUMBER",
+      "gate": "FAILED_TARGET_EXTRACTION",
+      "intake_error": "TARGET_UNRESOLVED",
+      "analysis": "Ticket names a metric, not a unique visual/cell. Correct scope may be recoverable from independently reviewed complete definitions, but spelling similarity alone does not prove scope. No universal checkable target fact; retain question.",
+      "dev_fix": false
+    },
+    {
+      "id": "original:family-F-typo",
+      "partition": "held_out",
+      "ticket": "Inventory Health e1b8e1 Extended Value seems overstated. pls explain its global total and any supported source mechanism. thx, need the actual scope too",
+      "question": "What are you comparing against?",
+      "field": "COMPARISON",
+      "gate": "NOMINATION_TEXT_COMPARISON_CONFLICT",
+      "intake_error": "TARGET_UNRESOLVED",
+      "analysis": "Safe gate preserved a question when model nomination differed from the textual cue. A/F mechanism wording differs; no universal cue settles all cases without interpreting intent. Keep asymmetric gate; no held-out tuning.",
+      "dev_fix": false
+    },
+    {
+      "id": "original:family-G-typo",
+      "partition": "held_out",
+      "ticket": "Inventory Health e1b8e1 Handled Qunatity may contain incorrect source entries. chk source movements and inventory adjustments, without assuming adjustment business intent. thx, need the actual scope too",
+      "question": "Which displayed number should we investigate?",
+      "field": "NUMBER",
+      "gate": "FAILED_TARGET_EXTRACTION",
+      "intake_error": "INTAKE_EXTRACTION_INVALID",
+      "analysis": "Ticket names a metric, not a unique visual/cell. Correct scope may be recoverable from independently reviewed complete definitions, but spelling similarity alone does not prove scope. No universal checkable target fact; retain question.",
+      "dev_fix": false
+    },
+    {
+      "id": "original:family-A",
+      "partition": "held_out",
+      "ticket": "In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.",
+      "question": "What are you comparing against?",
+      "field": "COMPARISON",
+      "gate": "NOMINATION_TEXT_COMPARISON_CONFLICT",
+      "intake_error": null,
+      "analysis": "Safe gate preserved a question when model nomination differed from the textual cue. A/F mechanism wording differs; no universal cue settles all cases without interpreting intent. Keep asymmetric gate; no held-out tuning.",
+      "dev_fix": false
+    },
+    {
+      "id": "rebuilt:family-A",
+      "partition": "held_out",
+      "ticket": "In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.",
+      "question": "What are you comparing against?",
+      "field": "COMPARISON",
+      "gate": "NOMINATION_TEXT_COMPARISON_CONFLICT",
+      "intake_error": null,
+      "analysis": "Safe gate preserved a question when model nomination differed from the textual cue. A/F mechanism wording differs; no universal cue settles all cases without interpreting intent. Keep asymmetric gate; no held-out tuning.",
+      "dev_fix": false
+    },
+    {
+      "id": "rebuilt:family-F",
+      "partition": "held_out",
+      "ticket": "Inventory Health e1b8e1 Extended Value seems overstated. Investigate the Movement Value card's current total, the upstream data and available transformation definitions to identify a supported explanation.",
+      "question": "What are you comparing against?",
+      "field": "COMPARISON",
+      "gate": "NOMINATION_TEXT_COMPARISON_CONFLICT",
+      "intake_error": null,
+      "analysis": "Safe gate preserved a question when model nomination differed from the textual cue. A/F mechanism wording differs; no universal cue settles all cases without interpreting intent. Keep asymmetric gate; no held-out tuning.",
+      "dev_fix": false
+    }
+  ]
+}

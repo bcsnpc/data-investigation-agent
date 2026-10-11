@@ -1,4 +1,5 @@
 """Build an investigation from one validated manifest; no configuration fallback."""
+import copy
 from pathlib import Path
 from .estate_manifest import load, policy
 
@@ -45,7 +46,19 @@ def _build_workspace(manifest,path,config,execution_enabled):
         if execution_enabled:lineage.approval()
     agent=AdaptiveRuntime(Runtime(store,config,native,source),planner,
         planner_profile=profile,usage_policy=policy(manifest),process_lineage=lineage)
+    ownership=copy.deepcopy(manifest.get('ownership',{'business':[],'technical':[]}))
+    addresses={layer['id']:layer['asset_id'] for layer in manifest['layers']}
+    addresses.update({pipeline['id']:pipeline['producer_asset_id'] for pipeline in manifest['pipelines']})
+    for row in ownership['technical']:row['layer_or_pipeline']=addresses[row['layer_or_pipeline']]
     workspace=Workspace(agent,execution_enabled=execution_enabled,
         question_resolver=resolver,
-        dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'])
+        intake_configuration=manifest.get('intake'),
+        ownership_configuration=ownership,
+        dynamic_read_limit=budget['diagnostic_reads_per_run'],dynamic_input_limit=budget['input_characters_per_run'],
+        concurrency_limit=budget['planner_daily']['max_inflight'])
+    from .adapters.report_list_installation import install as install_report_lists
+    workspace.report_lists=install_report_lists(workspace,config)
+    if execution_enabled:
+        from .adapters.form_candidate_values import install as install_form_candidates
+        install_form_candidates(workspace)
     return workspace

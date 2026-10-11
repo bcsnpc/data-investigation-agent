@@ -21,7 +21,7 @@ def select(findings):
 
 
 def from_payload(payload):
-    if payload.get('question') and not requested(payload['question']):return []
+    if (payload.get('scope',{}).get('question_kind') or {}).get('kind')!='FILTER_EFFECT' and payload.get('question') and not requested(payload['question']):return []
     rows=[copy.deepcopy(e['result']) for e in payload.get('evidence',[]) if e.get('result',{}).get('check_kind')=='DECLARED_CONTEXT_REPRODUCTION']
     for row in rows:
         name=payload.get('scope',{}).get('cell_display_names',{}).get(row.get('cell',{}).get('target_id'))

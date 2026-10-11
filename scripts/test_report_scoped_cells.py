@@ -99,8 +99,8 @@ class ScopedTests(unittest.TestCase):
         self.assertEqual(lookup['surface_report_receipt_id'],lookup['id'])
         self.adapter.remaining_diagnostic_reads=lambda:4-len(self.requests)
         result=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],scope)
-        self.assertEqual([r['cell']['mode'] for r in result['cells']],['KEYED','TOTAL'])
-        self.assertEqual(len(self.requests),4)
+        self.assertEqual([r['cell']['mode'] for r in result['cells']],['KEYED'])
+        self.assertEqual(len(self.requests),3)
         self.assertIn('no declared report filter',result['business_output'])
         self.assertIn('OBSERVED',result['technical_output'])
         self.assertTrue(all(r['finding']['unavailability'] is None for r in result['cells']))
@@ -111,7 +111,7 @@ class ScopedTests(unittest.TestCase):
         scope,obs=self.prepare();scope['selection_observations']=obs
         result=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],scope)
         self.assertEqual(result['reason'],declared_reproduction.NO_FIGURE)
-        self.assertEqual(len(result['cells']),2)
+        self.assertEqual(len(result['cells']),1)
         self.assertTrue(all(r['finding']['label'] is None and r['finding']['reproduced_value']=='3' for r in result['cells']))
 
     def test_none_or_multiple_matching_columns_is_a_named_refusal(self):
@@ -154,14 +154,14 @@ class ScopedTests(unittest.TestCase):
         self.assertNotIn('cell',obs[0])
         self.assertEqual(len(self.adapter.declared_cells(self.layer,self.measure['id'],scope)['cells']),1)
 
-    def test_missing_second_key_names_it_and_total_remains_evaluable(self):
+    def test_missing_second_key_names_it_without_substituting_a_total(self):
         self.grouped()
         another={**self.column,'id':'resolved/customers/product','name':'Product'}
         self.model['context']['model_assets'].append(another)
         self.modify(self.visual,lambda d:d['visual']['query']['queryState']['Values']['projections'].insert(0,{'field':field(column='Product')}))
         batch=self.adapter.declared_cells(self.layer,self.measure['id'],self.scope)
         self.assertIn('MISSING_CELL_KEYS: Product',batch['refusals'][0]['reason'])
-        self.assertEqual(batch['cells'][0]['cell']['mode'],'TOTAL')
+        self.assertEqual(batch['cells'],[])
 
     def test_unsupported_unfamiliar_selection_visual_is_blocked_by_consumer(self):
         self.part('definition/pages/p/visuals/alien/visual.json',{'visual':{'visualType':'unfamiliarSelectionBearingThing'}})
@@ -182,12 +182,17 @@ class ScopedTests(unittest.TestCase):
     def test_distinct_compiled_read_is_never_refused_even_if_results_equal(self):
         self.modify(self.page,lambda d:d.pop('filterConfig'));self.parts.remove(self.slicer)
         document=json.loads(self.visual['metadata']['content']);document['name']='other'
+        document['visual']['visualContainerObjects']['title'][0]['properties']['text']['expr']['Literal']['Value']="'Other card'"
         document['filterConfig']=filter_config(native_filter(('West',)))
         self.part('definition/pages/p/visuals/other/visual.json',document)
         result=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
+        self.scope['target_visual']['target_id']=self.parts[-1]['id']
+        self.scope['target_visual']['source']={'start':0,'end':10,'quote':'Other card'}
+        second=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
         self.assertEqual(len(self.requests),3)
         self.assertEqual(len({r['query'] for r in self.requests}),3)
-        self.assertEqual(len(result['cells']),2)
+        self.assertEqual(len(result['cells']),1)
+        self.assertEqual(len(second['cells']),1)
 
     def test_original_resolution_receipt_is_required_by_marker_validation(self):
         self.no_predicates();self.grouped();self.request();self.native()

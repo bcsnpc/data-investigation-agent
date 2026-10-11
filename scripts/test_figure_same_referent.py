@@ -6,7 +6,8 @@ import unittest
 from unittest.mock import patch
 from jsonschema import Draft202012Validator
 from investigator import reported_figure as figure
-from investigator.question_intake import azure_resolve, Intake
+# Explicit historical wire-v2 decoder; current producer covered by test_intake_extraction.
+from investigator.question_intake import azure_resolve_legacy as azure_resolve, Intake
 import test_question_intake as fixture
 
 

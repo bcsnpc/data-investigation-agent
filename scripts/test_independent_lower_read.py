@@ -203,6 +203,31 @@ class CompileTests(unittest.TestCase):
 
 
 class ResolvedLayerTests(unittest.TestCase):
+    def test_resolved_partition_with_ratio_or_filtered_measure_names_compilation_gap_not_missing_binding(self):
+        from investigator.adapters.microsoft_process import MicrosoftProcessAdapter
+        for expression in ('DIVIDE([Input Quantity],[Quantity])',
+                           'CALCULATE([Quantity],\'T\'[kind]="INBOUND")'):
+            with self.subTest(expression=expression):
+                metadata={'measure':{'id':'q','parent_id':'table','metadata':{'expression':expression}},
+                    'assets':[], 'gaps':[{'reason':'UNRESOLVED_PARTITION_IDENTITY',
+                        'detail':'No stable identity edge was collected.'}]}
+                original=copy.deepcopy(metadata)
+                binding={'status':'RESOLVED','asset':{'id':'lower-asset'},
+                    'definition_asset_id':'def','provenance':'DECLARED_BY_DEFINITION'}
+                adapter=MicrosoftProcessAdapter(object(),{'fabric':{}},{'context':{}},None,None)
+                with patch('investigator.adapters.microsoft_process.context_search.measure_path',return_value=metadata), \
+                     patch.object(MicrosoftProcessAdapter,'_partition_binding',return_value=binding), \
+                     patch('investigator.adapters.microsoft_process.context_search.latest',return_value={}):
+                    path=adapter.resolve_path('q')
+                self.assertEqual(len(path['layers']),1)  # Never approximate ratio/filter semantics.
+                self.assertEqual(path['stopped_by'],'CAPABILITY_UNAVAILABLE')
+                self.assertEqual(path['evidence']['declared_source_binding']['status'],'RESOLVED')
+                self.assertEqual(path['evidence']['resolved_path_gaps'][0]['reason'],
+                                 'UNSUPPORTED_DECLARED_SOURCE_QUANTITY')
+                self.assertIn('cannot be compiled faithfully',path['missing_comparable_quantity'])
+                self.assertNotIn('no stable discovered asset binding',path['missing_comparable_quantity'])
+                self.assertEqual(metadata,original)  # Retained collector evidence remains unchanged.
+
     def test_declared_columns_come_from_the_referenced_semantic_column_assets(self):
         from investigator.adapters.microsoft_process import MicrosoftProcessAdapter
         metadata = {'measure': {'id': 'q', 'parent_id': 'table', 'metadata': {'expression': "SUM('T'[c])"}},

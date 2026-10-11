@@ -1,0 +1,3 @@
+Subject: Should a paused account count as churned?
+
+Churned Accounts is 1 in Subscription Billing. Before we use this number for retention reporting, should a temporarily paused subscription count as churned, or only an account that has actually cancelled? This is a question about the business definition, not a request to change the figure.

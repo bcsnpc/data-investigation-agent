@@ -1,0 +1,10 @@
+Invoice total won't reconcile
+
+Report: Subscription Billing
+Page: Subscription Billing
+Visual: Invoiced Amount
+
+The card shows 950. In the application I found October 1 invoices 101 Aster 250, 102 Birch 100, 103 Cedar 250 and 104 Dune 100. That gives me 700, or 600 if I leave out Dune because it says VOID. Sorry, I have both totals in my notes. Neither gets me to 950.
+
+I expected to be able to reconcile the card to those invoices. Can someone confirm the total and whether void invoices belong in it?
+

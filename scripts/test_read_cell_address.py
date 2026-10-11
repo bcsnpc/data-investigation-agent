@@ -14,14 +14,22 @@ class ReadCellAddressTests(unittest.TestCase):
         self.grouped()
         return declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
 
-    def test_two_cells_share_definition_and_validate_against_distinct_sealed_reads(self):
+    def test_two_explicit_cell_requests_validate_against_their_own_definition_and_reads(self):
         result=self.run_cells()
-        findings=[c['finding'] for c in result['cells']]
+        from investigator.visual_target import resolve
+        from investigator.adapters.report_cells import catalog
+        previous=self.scope['target_visual']
+        self.scope['target_visual']=resolve({'source':previous['source'],'mode':'TOTAL',
+            'mode_source':{'start':0,'end':5,'quote':'TOTAL'}},ticket=None,candidates=catalog(self.model),
+            report_id=previous['report_id'],measure_id=previous['measure_id'])
+        total=declared_reproduction.run(self.adapter,self.layer,self.measure['id'],self.scope)
+        findings=[c['finding'] for c in result['cells']+total['cells']]
         self.assertEqual(len(findings),2)
-        self.assertEqual(findings[0]['definition_evidence_id'],findings[1]['definition_evidence_id'])
+        self.assertNotEqual(findings[0]['definition_evidence_id'],findings[1]['definition_evidence_id'])
         self.assertNotEqual(findings[0]['lower_evidence_id'],findings[1]['lower_evidence_id'])
-        observations={o['id']:o for o in result['observations']}
+        observations={o['id']:o for o in result['observations']+total['observations']}
         definition=observations[findings[0]['definition_evidence_id']]
+        self.assertEqual(definition['cell_definition'],observations[findings[1]['definition_evidence_id']]['cell_definition'])
         self.assertNotIn('cell',definition)
         for f in findings:
             read=observations[f['lower_evidence_id']]
@@ -46,6 +54,25 @@ class ReadCellAddressTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Cell identity differs'):
             declared_reproduction.validate(f,obs)
 
+    def test_refused_walk_keeps_proven_link_in_technical_evidence_only(self):
+        from investigator.refusal_synthesis import render
+        from investigator.process_receipts import refusal
+        from investigator.ticket_inputs import document
+        from investigator.onboarding import digest
+        self.scope['reported_figure']={'state':'UNSPECIFIED'}
+        result=self.run_cells()
+        request={'text':'Explain the selected row.','request_key':'link',
+                 'structured':{'report_link':'https://example.com/report/page'}}
+        derived=document(request);part=derived['provenance']['parts'][-1]
+        state={'envelope':{'symptom':derived['text'],'report_binding':{
+            'resolution_kind':'DECLARED_REFERENCE','reference':{'request_hash':digest(derived['text']),
+            'source':{'start':part['start'],'end':part['end'],'quote':request['structured']['report_link']}}}},
+            'observations':result['observations']+[refusal('WALK_REFUSED','TOOL_UNAVAILABLE','walk-stop')]}
+        outputs=render(state)
+        self.assertIn('Explain the selected row.',outputs['business_output']['explanation']['text'])
+        self.assertNotIn('https://',outputs['business_output']['explanation']['text'])
+        self.assertIn(request['structured']['report_link'],outputs['technical_output']['explanation']['text'])
+
     def test_refused_walk_delivers_validated_cell_values_without_inventing_verdict(self):
         from investigator.refusal_synthesis import render
         from investigator.process_receipts import refusal
@@ -57,7 +84,7 @@ class ReadCellAddressTests(unittest.TestCase):
         self.assertIn('selected row produced 3',outputs['business_output']['explanation']['text'])
         self.assertIn('No reported figure supplied',outputs['business_output']['explanation']['text'])
         self.assertIn('KEYED',outputs['technical_output']['explanation']['text'])
-        self.assertIn('TOTAL',outputs['technical_output']['explanation']['text'])
+        self.assertNotIn('(TOTAL)',outputs['technical_output']['explanation']['text'])
         self.assertEqual(outputs['provenance'],'DETERMINISTIC_REFUSAL_RENDERING')
 
 

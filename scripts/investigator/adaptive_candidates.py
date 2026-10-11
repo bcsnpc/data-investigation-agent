@@ -25,6 +25,9 @@ def catalog(store,config,envelope):
     if 'question_kind' in envelope:
         from .question_kind import validate
         validate(envelope['question_kind'],envelope['symptom'])
+    if 'ticket_route' in envelope:
+        from .ticket_route import validate,admit
+        validate(envelope['ticket_route'],envelope['symptom']);admit(envelope['ticket_route'])
     if 'report_binding' in envelope:
         from . import report_scope
         model=store.get(envelope['model_id'])

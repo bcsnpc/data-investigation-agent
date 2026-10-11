@@ -1,0 +1,126 @@
+{
+  "blocked_rows": [
+    {
+      "error_message": "TAPE_EVENT_DIFFERS:CLOCK:OPERATION_END",
+      "error_type": "TapeError",
+      "recorded_engine_revision": "912fce1f329625441f103856df3449b4468ac774",
+      "status": "REPLAY_BLOCKED",
+      "tape_id": "638884ae-544e-4989-b375-5bbbdda7d993"
+    },
+    {
+      "error_message": "TAPE_EVENT_DIFFERS:BUDGET_INPUT:OPERATION_END",
+      "error_type": "TapeError",
+      "recorded_engine_revision": "0cc86cddd1aa65e33bb4dde48d720c56387a9e68",
+      "status": "REPLAY_BLOCKED",
+      "tape_id": "fb1c7f22-bd33-4ddf-8182-2d5c35ef677c"
+    },
+    {
+      "error_message": "TAPE_EVENT_DIFFERS:CLOCK:BUDGET_INPUT",
+      "error_type": "TapeError",
+      "recorded_engine_revision": "242f20e800f8a81d5be540bb98b594b1f80857e1",
+      "status": "REPLAY_BLOCKED",
+      "tape_id": "bb3469f2-56e7-4c79-9564-04bd8e77d8aa"
+    },
+    {
+      "error_message": "TAPE_REQUEST_BYTES_DIFFER",
+      "error_type": "TapeError",
+      "recorded_engine_revision": "694dc9a1edc8519b4509789296c673887e306c65",
+      "status": "REPLAY_BLOCKED",
+      "tape_id": "a7de7a17-087a-42f2-81cf-916293f87012"
+    },
+    {
+      "error_message": "TAPE_EVENT_DIFFERS:CLOCK:OPERATION_END",
+      "error_type": "TapeError",
+      "recorded_engine_revision": "694dc9a1edc8519b4509789296c673887e306c65",
+      "status": "REPLAY_BLOCKED",
+      "tape_id": "d05dea06-06db-4c2e-a952-e7050684c00c"
+    },
+    {
+      "error_message": "TAPE_REQUEST_BYTES_DIFFER",
+      "error_type": "TapeError",
+      "recorded_engine_revision": "6bfc06f84f69d4db75c2511bec5a9d928cab9e99",
+      "status": "REPLAY_BLOCKED",
+      "tape_id": "e5d48a9a-4f49-48e3-9c76-16c4c0f63750"
+    }
+  ],
+  "claim": "Exact producer operation replay only. Matching captured operation does not establish correct finding or live accuracy. Native failures preserved, no expected-outcome changes.",
+  "counts": {
+    "MATCHED_CAPTURED_OPERATION": 124,
+    "REPLAY_BLOCKED": 6
+  },
+  "estate_reads": 0,
+  "excluded_classes": [
+    "Initial f927 abort:4formoperations2matched2blocked,zero completed investigations.",
+    "LaterEG/HIfixtureoperations remain queued;not counted.",
+    "Verifier/metadata custom classes separately recorded."
+  ],
+  "fixture_attempts": 44,
+  "map_pins": [
+    {
+      "counts": {
+        "MATCHED_CAPTURED_OPERATION": 32,
+        "REPLAY_BLOCKED": 2
+      },
+      "label": "ownership-closure-twelve-2/expanded-native-map-final-1.json",
+      "operations": 34,
+      "sha256": "51d2022897620ccc82d3aba4894600ad3fd4c5de3be2769afa5396d5e2a92548"
+    },
+    {
+      "counts": {
+        "MATCHED_CAPTURED_OPERATION": 23,
+        "REPLAY_BLOCKED": 1
+      },
+      "label": "all-operation-replay-v8-eight-1/final-map.json",
+      "operations": 24,
+      "sha256": "b3434b036b1a7c4470ae1e23d8a617f46ce535b89d35e9b5a0c096307893da4b"
+    },
+    {
+      "counts": {
+        "MATCHED_CAPTURED_OPERATION": 16,
+        "REPLAY_BLOCKED": 2
+      },
+      "label": "all-operation-replay-final-six-1/final-map.json",
+      "operations": 18,
+      "sha256": "29e966b68d856f410070a02fc411a606861f1f1b0293108e010e5eded51950cf"
+    },
+    {
+      "counts": {
+        "MATCHED_CAPTURED_OPERATION": 24
+      },
+      "label": "round-thirteen/rebuilt-eight-expanded-native-map-final-1.json",
+      "operations": 24,
+      "sha256": "591ecccfe5bcd9d4b201b9f419418bbe25cdf5ed999ad3537175bc8be39d4729"
+    },
+    {
+      "counts": {
+        "MATCHED_CAPTURED_OPERATION": 12
+      },
+      "label": "all-operation-replay-rebuilt-next-four-1/final-map.json",
+      "operations": 12,
+      "sha256": "7fae04ef24c054fd7571019e6d03455c505a1b6c2ff3dc52a9018b262b735686"
+    },
+    {
+      "counts": {
+        "MATCHED_CAPTURED_OPERATION": 11,
+        "REPLAY_BLOCKED": 1
+      },
+      "label": "all-operation-replay-rebuilt-third-four-1/final-map.json",
+      "operations": 12,
+      "sha256": "cbf9f836c388e4e75ddc6e61b074b80db90a4c8ca103cab2b6d6ae946b1aaaf6"
+    },
+    {
+      "counts": {
+        "MATCHED_CAPTURED_OPERATION": 6
+      },
+      "label": "all-operation-replay-rebuilt-next-two-1/final-map.json",
+      "operations": 6,
+      "sha256": "a79b9725c15f23e3818e8554a2bfd2c12d4d1219ab4e3c28b5b0a0c3de4ed024"
+    }
+  ],
+  "model_calls": 0,
+  "operations": 130,
+  "publication_executed": false,
+  "seal_changes": 0,
+  "source_summary_sha256": "504ac018f3d2f821c0d1e635d995a11fff8855c3c2ba12b65d15d74fc9467ee9",
+  "version": "ROUND_THIRTEEN_CAPTURE_REPLAY_SCALAR_MAP_V1"
+}

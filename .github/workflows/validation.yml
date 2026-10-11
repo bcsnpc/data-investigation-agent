@@ -64,6 +64,7 @@ jobs:
           python -m unittest discover -s scripts -p test_dia_commands.py
           python -m unittest discover -s scripts -p test_private_replay_bundle.py
           python -m unittest discover -s scripts -p test_two_column_replay_gate.py
+          python -m unittest discover -s acceptance/round_ten -p test_check.py
           python -m unittest discover -s scripts -p test_reproduction_composition.py
           python -m unittest discover -s scripts -p test_synthesis_spine.py
           python -m unittest discover -s scripts -p test_path_narrative.py
@@ -170,10 +171,53 @@ jobs:
           python -m unittest discover -s scripts -p test_lineage_gap_policy.py
           python -m unittest discover -s scripts -p test_publication_lineage_contract.py
           python -m py_compile scripts/lineage_graph.py scripts/lineage_notebook.py scripts/collect_lineage_evidence.py scripts/validate_lineage.py
+      - name: Test Round Thirteen concurrency, accounting and coverage invariants
+        run: |
+          python -m unittest discover -s scripts -p test_artifact_identity_cache.py
+          python -m unittest discover -s scripts -p test_budget_delta.py
+          python -m unittest discover -s scripts -p test_budget_delta_v2.py
+          python -m unittest discover -s scripts -p test_budget_connection.py
+          python -m unittest discover -s scripts -p test_atomic_tape_publish.py
+          python -m unittest discover -s scripts -p test_mechanism_subject_grammar.py
+          python -m unittest discover -s scripts -p test_causal_question_coverage.py
+          python -m unittest discover -s scripts -p test_usage_snapshot_history.py
+          python -m unittest discover -s scripts -p test_local_accounting.py
+          python -m unittest discover -s scripts -p test_physical_transport_retry.py
+          python -m unittest discover -s scripts -p test_model_spend.py
+          python -m unittest discover -s scripts -p test_parallel_run.py
+          python -m unittest discover -s scripts -p test_parallel_usage_reservations.py
+          python -m unittest discover -s scripts -p test_model_transport_retry.py
+          python -m unittest discover -s scripts -p test_retry_owners.py
+          python -m unittest discover -s scripts -p test_workspace_admission.py
+          python -m unittest discover -s scripts -p test_round_thirteen_questionnaire_coverage.py
+          python -m unittest discover -s scripts -p test_question_account.py
+          python -m unittest discover -s scripts -p test_process_read_receipts.py
+          python -m unittest discover -s scripts -p test_pipeline_adapter_owned.py
+          python -m unittest discover -s scripts -p test_catalog_transaction.py
+          python -m unittest discover -s scripts -p test_model_usage_reconciliation.py
+          python -m unittest discover -s scripts -p test_producer_consumer_bounds.py
+          python -m unittest discover -s scripts -p test_contract_vocabulary.py
+          python -m unittest discover -s scripts -p test_intake_questionnaire.py
+          python -m unittest discover -s scripts -p test_ticket_question_gate.py
+          python -m unittest discover -s scripts -p test_model_subject_input.py
       - name: Test deterministic investigation evidence
         run: |
           python -m unittest discover -s scripts -p test_investigation_checks.py
           python -m py_compile scripts/investigation_checks.py scripts/check_model_freshness.py
+      - name: Test interactive intake and its sealed-record evaluator offline
+        run: |
+          python -m unittest discover -s scripts -p "test_smart_intake*.py"
+          python -m unittest discover -s scripts -p test_ticket_clarification.py
+          python -m unittest discover -s scripts -p test_ticket_route.py
+          python -m unittest discover -s scripts -p test_ticket_inputs.py
+          python -m unittest discover -s scripts -p test_ticket_protocol.py
+          python -m unittest discover -s scripts -p test_ticket_state.py
+          python -m unittest discover -s scripts -p test_intake_confirmation.py
+          python -m unittest discover -s scripts -p test_intake_vocabulary.py
+          python -m unittest discover -s scripts -p test_input_reference.py
+          python -m unittest discover -s scripts -p test_report_link.py
+          python -m unittest discover -s scripts -p test_intake_extraction.py
+          python -m unittest discover -s scripts -p test_question_intake.py
       - name: Test read-only metric adapters and ordered boundaries
         run: |
           python -m unittest discover -s scripts -p test_cross_layer_investigation.py

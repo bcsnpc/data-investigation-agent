@@ -1,0 +1,53 @@
+{
+  "source": "5272812",
+  "engine_hash": "21aafbd42a5f40aa51abe87086f1b497ef11d7b566b09f39b903f16affe155dd",
+  "provider_calls": 5,
+  "input_characters": 65177,
+  "estate_reads": 0,
+  "rows": [
+    {
+      "id": "original:question-hiding-rows",
+      "group": "visual-skipped",
+      "questions": 0,
+      "adopted": false,
+      "ticket_state": "HELD",
+      "failure": null,
+      "new_model_calls": 1
+    },
+    {
+      "id": "original:visual-3",
+      "group": "visual-skipped",
+      "questions": 0,
+      "adopted": false,
+      "ticket_state": "HELD",
+      "failure": null,
+      "new_model_calls": 2
+    },
+    {
+      "id": "original:visual-5",
+      "group": "visual-skipped",
+      "questions": 0,
+      "adopted": true,
+      "ticket_state": "NEW",
+      "failure": null,
+      "new_model_calls": 2
+    }
+  ],
+  "dollar_guard": {
+    "ceiling_usd": 100.0,
+    "charged_usd": 0.957119,
+    "calls": 51,
+    "input_tokens": 133435,
+    "output_tokens": 41568,
+    "unsettled_calls": 0,
+    "rate_card_billing_estimate": true
+  },
+  "artifact": ".local\\round-thirteen\\dev-5272812-1791662766645301900\\results.json",
+  "combined_settlement": {
+    "complete": 28,
+    "complete_denominator": 28,
+    "visual_skipped": 4,
+    "visual_skipped_denominator": 6
+  },
+  "method": "Earlier unchanged dev results plus only the three affected dev records freshly rerun; not a second full dev pass."
+}
