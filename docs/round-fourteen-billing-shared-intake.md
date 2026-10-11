@@ -115,3 +115,17 @@ Question-grounding continuation, 2026-10-11: the first full regression was stopp
 Corrected focused check:123 tests passed, native exit0,62.106 seconds. This includes the current producer rejection, legacy protocol compatibility, intake settlement, agent tickets, hybrid transition/prior-read retention, actual false-question fixtures and name-only catalog choices. No live admission during correction.
 
 A follow-up display audit found three legacy ID fallback paths in form conflicts, missing-visual form choices and free-text number choices. These now require retained visual names in the current protocol, preserving archived replay labels only. New tests cover an unnamed visual in both form and free-text clarification. The 16edd95 full check was stopped for this correction; its concurrent tape check encountered five TAPE_UNCOMMITTED_ENGINE refusals after edits, so it is not reported as passing. No live runs or real model calls occurred.
+
+Current reference/grounding form pass,2026-10-11: **0/9 technical admissions,13model calls,0physical estate requests,0harmful delivered technical findings,0posted false questions,0/9full contracts**. Each attempt is sealed and root-reviewed, not replaced. Free-text and hybrid columns remain pending; do not compare this partial column as a complete18.
+
+| Ticket | State | Models | Stop |
+|---|---|---:|---|
+| ticket-01.txt | HELD | 2 | Referenced quote exceeds consumer bound: /primary |
+| ticket-02.txt | HELD | 2 | Starting measure/model is unresolved |
+| ticket-03.txt | HELD | 1 | DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again. |
+| ticket-04.txt | HELD | 1 | The requested business-rule decision requires a domain specialist; technical process evidence cannot decide whether the rule is correct. |
+| ticket-05.txt | HELD | 1 | DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again. |
+| ticket-06.txt | HELD | 2 | Starting measure/model is ambiguous |
+| ticket-13.txt | HELD | 1 | Ambiguous reported figure: more than one resolved value requires clarification: 950 from '950 invoiced'; 550 from '550 collected'; 600 from '600 MRR' |
+| ticket-14.txt | HELD | 2 | DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again. |
+| ticket-15.txt | HELD | 1 | DESCRIPTION_SUBJECT_UNRESOLVED: the selected Nothing comparison is retained; no description route could be admitted. Restate the question; the comparator will not be asked again. |
