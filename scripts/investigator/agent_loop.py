@@ -147,7 +147,7 @@ class AgentLoop:
             try:
                 self.admit('MODEL', ordinal)
                 from .agent_prompt_view import view, described_schema
-                prompt_view = view(transcript, evidence, ticket)
+                prompt_view = view(transcript, evidence, ticket, facts)
                 decision = self.decide({'ticket': {k:v for k,v in ticket.items() if k != 'tool_catalog'}, 'fixed_facts': facts,
                     'context_id': context_id, **prompt_view, 'fetched_evidence': fetched,
                     'feedback': feedback,

@@ -4,6 +4,8 @@ No provider is called here. The governing agent records its model call. Picked
 form inputs are copied once, remain authority, and are never filled by search.
 """
 import copy
+
+INTAKE_ADMITTED = 'INTAKE_ADMITTED'
 from jsonschema import Draft202012Validator
 from . import intake_extraction, question_intake, form_scope, question_kind
 from .onboarding import Conflict, digest, encoded
@@ -125,7 +127,7 @@ class Settlement:
         preview_request.update(symptom=text, predecessor=self.predecessor, intake_id=body['id'])
         preview = workspace.preview(preview_request)
         self.preview_id = preview['id']
-        result = self._record({'status': 'INTAKE_ADMITTED', 'intake_id': body['id'], 'preview_id': preview['id'],
+        result = self._record({'status': INTAKE_ADMITTED, 'intake_id': body['id'], 'preview_id': preview['id'],
             'model_id': final['model_id'], 'measure_id': final['measure_id'], 'scope': copy.deepcopy(final),
             'catalog_hash': digest(catalog), 'config_hash': body['config_hash'], 'engine_hash': body['engine_hash'],
             'data_queries': 0, 'provider_calls': 0})

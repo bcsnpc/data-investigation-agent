@@ -41,11 +41,21 @@ class PromptViewTests(unittest.TestCase):
 
     def test_only_admitted_registry_identifiers_enter_argument_descriptions(self):
         events=[{'event':'TOOL_RESULT','tool':'resolve_ticket','result':{'status':'UNRESOLVED','target_registry':{'wrong':{}},'evidence_ids':['e0']}},
-                {'event':'TOOL_RESULT','tool':'resolve_ticket','result':{'status':'ADMITTED','target_registry':{'target:actual':{'scope_id':'scope:actual'}},'scope_registry':{'scope:actual':{}},'evidence_ids':['e1']}}]
+                {'event':'TOOL_RESULT','tool':'resolve_ticket','result':{'status':'INTAKE_ADMITTED','target_registry':{'target:actual':{'scope_id':'scope:actual'}},'scope_registry':{'scope:actual':{}},'evidence_ids':['e1']}}]
         ids=view(events,{}, {})['valid_identifiers']
         schema=described_schema({'probe':{'type':'object','properties':{'target_id':{'type':'string'},'scope_id':{'type':'string'}},'required':['target_id','scope_id'],'additionalProperties':False}},[],ids)
         text=str(schema)
         self.assertIn('target:actual',text); self.assertIn('scope:actual',text); self.assertNotIn('wrong',text)
+        self.assertEqual(ids['target_id'],['target:actual']); self.assertEqual(ids['scope_id'],['scope:actual'])
+
+    def test_compact_summary_keeps_quantity_and_order_without_receipt_body(self):
+        full={'status':'AVAILABLE','evidence_ids':['read'],'data':{'layer':'layer:one','value_state':'MEASURED','value':{'quantity':7},'evidence':{'query':'private full statement'}}}
+        event={'event':'TOOL_RESULT','tool':'probe_layer','result':full}
+        compact=view([event],{}, {}, {'report_id':'report:picked','page_id':'page:picked'})
+        self.assertEqual(compact['transcript'][0]['summary']['value'],{'quantity':7})
+        self.assertNotIn('private full statement',str(compact))
+        self.assertEqual(compact['valid_identifiers']['report_id'],['report:picked'])
+        self.assertEqual(full['data']['evidence']['query'],'private full statement')
 
     def test_agent_bound_override_does_not_change_pipeline_profile(self):
         profile={'max_payload_characters':32000}
