@@ -372,3 +372,8 @@ python acceptance/round_thirteen/replay_suite.py --suite acceptance/round_thirte
 ```
 
 This separately preserves the original V1 negative and tests the V2 protocol/context claim. It is not a runnable whole-round suite or a billing investigation accuracy result. See [the section 8 publication record](docs/round-thirteen-encrypted-metadata-evidence.md).
+
+
+Dated Round Thirteen billing final, 2026-10-10 America/Chicago /2026-10-11 UTC: all27once-only slots preserved,6pre-intake operator failures and21intake holds. Delivered0/27,full independent answer contracts0/27,three-repeat passes0/9,harmful delivered claims0.35model calls,0investigation physical requests,$0.398165 rate-card billing cost. Round USD2.588925/100; pot1882/2500,rolling748/3000,reserve95,diagnostic12 unchanged. Earlier ten pre-guard calls remain labelled retrospectively charged; all later calls use the explicit shared guard. Billing07-12 pending owner/reviewer. Complete final map docs/round-thirteen-billing-final.json SHA22ff158528084f6d175b0a91db9812746933b45c2c44b5cd2b24f0dcedfbbd3c.
+
+Normal zero-read retained-definition activation for original chat created context0d97befa-b481-4a72-955c-94f653c1a352 under whole configurationd9e16cdc7ebe90b6edb3d166ab88445edf9d649e8c6f09e841f61b0bb91126f3. Old source context and recorded runs unchanged; new model-context IDs carry the new complete policy. No inferred witness or new query-snapshot claim. Seven unpaused original chat cases underway; D/F remain paused. Root verified23exact native FORM references,17chat tests,3billing consumer tests and5matrix dollar-control tests; zero estate/model calls for these offline checks. Engine bytes unchanged; prior freeze invalid,#423draft,demo not earned.

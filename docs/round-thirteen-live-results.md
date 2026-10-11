@@ -336,3 +336,43 @@ DECIDED WITHOUT REVIEW: the billing private runner had omitted the shared dollar
 Metadata SQL replay V2 is a separate, narrowly scoped consumer, not a rewritten V1 result: the preserved V1 fails CLOCK:AUTH_STATE; V2 matches the archived Collector/Discovery, worker protocol and recorded decoded result. It does not replay pre-tape authentication or the private caller's outer bound. V2's nine regression tests passed, followed by all 67 acceptance/round_thirteen tests (native exit 0). Investigation engine bytes remain unchanged; prior freeze remains invalid. Billing metadata cell and schema publication audits passed independently. Eight hash-pinned encrypted metadata shards are approved for immutable publication under the existing owner decision; whole-round publication and the one-command suite remain pending.
 
 Window at admission: pot 1,882/2,500; rolling 748/3,000; restoration reserve 95; diagnostic cap 12 unchanged. D/F remain paused on both estates, demo not earned, #423 remains draft.
+
+
+Dated billing form result, 2026-10-11T02:49:45.459979+00:00. All27once-only slots preserved. Six failed before intake;21reached intake and held; no output, comparison or synthesis delivered. Full answer contracts0/27, three-repeat passes0/9, harmful delivered claims0; this is not a hard-zero general claim. Expected terminal outcomes are deliberately not invented for these sealed answer/evidence contracts. No replacement, no expectation changes.
+
+| Ticket | Repeat | Expected answer category | Actual | Full contract match | Harmful delivered claim | Physical | Model | USD rate-card | Seconds |
+|---|---:|---|---|---|---|---:|---:|---:|---:|
+| ticket-01.txt | 1 | PARTLY_ANSWERED | PRE_INTAKE_OPERATOR_FAILURE | False | False | 0 | 0 | 0.000000 | 1.725 |
+| ticket-01.txt | 2 | PARTLY_ANSWERED | HELD | False | False | 0 | 2 | 0.022935 | 48.044 |
+| ticket-01.txt | 3 | PARTLY_ANSWERED | HELD | False | False | 0 | 2 | 0.024870 | 48.794 |
+| ticket-02.txt | 1 | NOT_ANSWERED | PRE_INTAKE_OPERATOR_FAILURE | False | False | 0 | 0 | 0.000000 | 1.794 |
+| ticket-02.txt | 2 | NOT_ANSWERED | HELD | False | False | 0 | 2 | 0.021885 | 46.442 |
+| ticket-02.txt | 3 | NOT_ANSWERED | HELD | False | False | 0 | 2 | 0.022650 | 47.384 |
+| ticket-03.txt | 1 | NOT_ANSWERED | PRE_INTAKE_OPERATOR_FAILURE | False | False | 0 | 0 | 0.000000 | 1.771 |
+| ticket-03.txt | 2 | NOT_ANSWERED | HELD | False | False | 0 | 2 | 0.023260 | 49.087 |
+| ticket-03.txt | 3 | NOT_ANSWERED | HELD | False | False | 0 | 2 | 0.023605 | 35.642 |
+| ticket-04.txt | 1 | NOT_ANSWERED | PRE_INTAKE_OPERATOR_FAILURE | False | False | 0 | 0 | 0.000000 | 1.707 |
+| ticket-04.txt | 2 | NOT_ANSWERED | HELD | False | False | 0 | 1 | 0.009673 | 63.295 |
+| ticket-04.txt | 3 | NOT_ANSWERED | HELD | False | False | 0 | 1 | 0.010558 | 34.411 |
+| ticket-05.txt | 1 | PARTLY_ANSWERED | PRE_INTAKE_OPERATOR_FAILURE | False | False | 0 | 0 | 0.000000 | 2.237 |
+| ticket-05.txt | 2 | PARTLY_ANSWERED | HELD | False | False | 0 | 2 | 0.020183 | 65.083 |
+| ticket-05.txt | 3 | PARTLY_ANSWERED | HELD | False | False | 0 | 2 | 0.021880 | 40.315 |
+| ticket-06.txt | 1 | NOT_ANSWERED | PRE_INTAKE_OPERATOR_FAILURE | False | False | 0 | 0 | 0.000000 | 2.316 |
+| ticket-06.txt | 2 | NOT_ANSWERED | HELD | False | False | 0 | 2 | 0.024678 | 51.256 |
+| ticket-06.txt | 3 | NOT_ANSWERED | HELD | False | False | 0 | 2 | 0.024265 | 41.441 |
+| ticket-13.txt | 1 | NOT_ANSWERED | HELD | False | False | 0 | 2 | 0.021703 | 72.228 |
+| ticket-13.txt | 2 | NOT_ANSWERED | HELD | False | False | 0 | 2 | 0.021838 | 50.205 |
+| ticket-13.txt | 3 | NOT_ANSWERED | HELD | False | False | 0 | 2 | 0.021343 | 39.065 |
+| ticket-14.txt | 1 | NOT_ANSWERED | HELD | False | False | 0 | 1 | 0.010945 | 70.720 |
+| ticket-14.txt | 2 | NOT_ANSWERED | HELD | False | False | 0 | 1 | 0.012160 | 46.194 |
+| ticket-14.txt | 3 | NOT_ANSWERED | HELD | False | False | 0 | 2 | 0.025240 | 39.914 |
+| ticket-15.txt | 1 | PARTLY_ANSWERED | HELD | False | False | 0 | 1 | 0.011123 | 47.021 |
+| ticket-15.txt | 2 | PARTLY_ANSWERED | HELD | False | False | 0 | 1 | 0.011933 | 44.403 |
+| ticket-15.txt | 3 | PARTLY_ANSWERED | HELD | False | False | 0 | 1 | 0.011438 | 35.009 |
+
+Exact retained reasons, source pins and per-run maps are in docs/round-thirteen-billing-final.json. Billing01-06 first attempts are operator defects, never counted as provider/capacity failures. No second number or source evidence was substituted to force intake. Billing07-12 remain pending owner/reviewer expectations. Chat and matrix remain pending; demo not earned. Current round USD 2.588925/100; engine unchanged, prior freeze invalid, #423draft.
+
+
+Dated Round Thirteen billing final, 2026-10-10 America/Chicago /2026-10-11 UTC: all27once-only slots preserved,6pre-intake operator failures and21intake holds. Delivered0/27,full independent answer contracts0/27,three-repeat passes0/9,harmful delivered claims0.35model calls,0investigation physical requests,$0.398165 rate-card billing cost. Round USD2.588925/100; pot1882/2500,rolling748/3000,reserve95,diagnostic12 unchanged. Earlier ten pre-guard calls remain labelled retrospectively charged; all later calls use the explicit shared guard. Billing07-12 pending owner/reviewer. Complete final map docs/round-thirteen-billing-final.json SHA22ff158528084f6d175b0a91db9812746933b45c2c44b5cd2b24f0dcedfbbd3c.
+
+Normal zero-read retained-definition activation for original chat created context0d97befa-b481-4a72-955c-94f653c1a352 under whole configurationd9e16cdc7ebe90b6edb3d166ab88445edf9d649e8c6f09e841f61b0bb91126f3. Old source context and recorded runs unchanged; new model-context IDs carry the new complete policy. No inferred witness or new query-snapshot claim. Seven unpaused original chat cases underway; D/F remain paused. Root verified23exact native FORM references,17chat tests,3billing consumer tests and5matrix dollar-control tests; zero estate/model calls for these offline checks. Engine bytes unchanged; prior freeze invalid,#423draft,demo not earned.
