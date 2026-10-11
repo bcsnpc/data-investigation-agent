@@ -8,7 +8,7 @@
     "No score uses unsealed billing07-12 or owner-authored tickets"
   ],
   "earlier_results_unchanged": true,
-  "recorded_at": "2026-10-11T11:37:27.506931+00:00",
+  "recorded_at": "2026-10-11T11:51:02.787188+00:00",
   "runs": [
     {
       "artifact": ".local\\round-fourteen\\paired-original-agent-A-replacement-1\\family-A\\full-result.json",
@@ -2034,6 +2034,168 @@
       "status": "COMPLETED",
       "stop_reason": "ENOUGH_DIAGNOSTICS",
       "ticket_id": "59ad399d-a585-4150-823f-0f8de304949a"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-pipeline-r2-AB-original-inventory\\family-A\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-A",
+      "diagnostic_reads": 6,
+      "elapsed_seconds": 588.7393481731415,
+      "engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+      "expected_hash": "1f6e8fe2e14d16346caa63397a1f4e2ecb49e84829a45fb067bfd6a2d4e263b3",
+      "has_outputs": true,
+      "microdollars": 21930,
+      "mode": "PIPELINE",
+      "model_calls": 2,
+      "outcome": "NO_COMPARABLE_PATH",
+      "physical_requests": 12,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": [
+              {
+                "grade": "ENGINE_INDEPENDENT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity",
+                "values_equal": true
+              },
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/b0ab76f7-20c7-410e-90e4-2c4eb104059a/table/movement_values",
+                "values_equal": false
+              }
+            ],
+            "invariant": "boundaries",
+            "observed": [
+              {
+                "grade": "OBJECT_DISTINCT",
+                "lower_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/09ba0ef9-7342-4179-a49e-1fc8adf48d82/table/stock_movements_e1b8e1",
+                "upper_layer": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/ba24d52c-fcf9-4f1f-a377-f4d38547d887/table/stock_movements_e1b8e1",
+                "values_equal": true
+              }
+            ]
+          },
+          {
+            "expected": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_gold_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              }
+            ],
+            "invariant": "layers_reached",
+            "observed": [
+              {
+                "connection": "149f8d99-1c66-4a0a-9624-759be002bb60",
+                "engine": "OLAP Server",
+                "object": "3484a2bc-98c5-4cef-be5c-a6215484075e"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_silver_e1b8e1"
+              },
+              {
+                "connection": "sql://i4iptx6c5nlundn6llzsrvlxqa-tggz6fdgdqfevfreown6aav3ma.datawarehouse.fabric.microsoft.com",
+                "engine": "Microsoft Azure SQL Data Warehouse",
+                "object": "warehouse_bronze_e1b8e1"
+              }
+            ]
+          },
+          {
+            "expected": "TRANSFORMATION_LOGIC",
+            "invariant": "outcome",
+            "observed": "NO_COMPARABLE_PATH"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "NO_COMPARABLE_PATH preserves unavailable model-to-serving and serving-to-refined reads; only landing/refined equality7661 is compared. Both outputs scope the partial comparison, leave main report/source difference unestablished and preserve snapshot/intent/source limits. Expected transformation finding not earned. No invented mechanism; failed read results preserved. Labels reordered by available comparison, a presentation limitation, not a claimed successful upper boundary.",
+        "recorded_at": "2026-10-11T11:50:58.555030+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 3,
+      "session_id": "08d83cd7-2a49-4948-be61-6ce289a9324b",
+      "sha256": "b985b1228f39436256f36b609f45e39baf1c8887e48953d2d85a9678d5a4c0a9",
+      "source_sha256": "e4f9185ba131b5d55d0ebdf074ca1bd7d3f001721da699b0e2e999bbf2545a42",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "663ce605-5ef7-4088-ace7-9ec9e57faf84"
+    },
+    {
+      "artifact": ".local\\round-fourteen\\paired-original-pipeline-r2-AB-original-inventory\\family-B\\full-result.json",
+      "capture_diagnostics": 0,
+      "capture_pending": 0,
+      "case_id": "original:family-B",
+      "diagnostic_reads": 1,
+      "elapsed_seconds": 426.1841616630554,
+      "engine_hash": "010c97bb8fc22f00dcd590af7e219e2aa5f0dc91529175c5201e3304dcda5dd5",
+      "expected_hash": "653988e325f9a7d7f38fc0518e62dade6b32f55ad2115e1436278403e3028044",
+      "has_outputs": true,
+      "microdollars": 15773,
+      "mode": "PIPELINE",
+      "model_calls": 2,
+      "outcome": "NO_COMPARABLE_PATH",
+      "physical_requests": 1,
+      "repeat": 2,
+      "root_review": {
+        "contract_differences": [
+          {
+            "expected": "NO_KNOWN_PATTERN",
+            "invariant": "outcome",
+            "observed": "NO_COMPARABLE_PATH"
+          },
+          {
+            "expected": {
+              "report_binding": "STATED"
+            },
+            "invariant": "resolutions",
+            "observed": {
+              "report_binding": "USER_SUPPLIED_FORM"
+            }
+          }
+        ],
+        "contract_match": false,
+        "harmful": false,
+        "outcome_match": false,
+        "reason": "NO_COMPARABLE_PATH with ratio baseline only; both outputs say requested definitions/components NOT_ANSWERED. No-op empty model mechanism validates without fallback; no numerator/denominator or independent comparison invented.",
+        "recorded_at": "2026-10-11T11:50:58.555030+00:00",
+        "review_pending": false,
+        "root_reviewed": true
+      },
+      "scoring_status": "ROOT_REVIEWED",
+      "sealed_tapes": 3,
+      "session_id": "d428e5ed-4340-486a-9915-087dfcd70d39",
+      "sha256": "6c04741f5d96d72fa000cd3a392cb10c75f51cc90cee2ca837d54e9af6a9006c",
+      "source_sha256": "63db0922da874f379b07ee9012edc7d2e5a479590151d2bb4a9dc9b1dbf338fd",
+      "status": "COMPLETED",
+      "stop_reason": "ENOUGH_DIAGNOSTICS",
+      "ticket_id": "083d042a-26af-487b-9a4d-57e37ba4d263"
     }
   ],
   "status": "IN_PROGRESS_NOT_ADOPTION_GATE",
