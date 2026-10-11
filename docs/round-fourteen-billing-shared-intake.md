@@ -62,3 +62,38 @@ Owner approval, 2026-10-11 UTC: daily output allowance 10M -> 20M, counters pres
 Allowance setup correction, 2026-10-11 UTC: initial 20M activation refused at the old hard schema bound, and the dependent private launcher failed on missing approval before admitting any ticket (zero estate/model calls). Both failures preserved. Manifest output bound now derives from consumer DAILY_MAXIMUM, approved maximum 20M. Twenty-two manifest tests pass, including exact approved bound and rejection above it; usage tests pending. Prior 3,317 full pass applies to pre-ceiling-change source; this configuration-only revision invalidates the source pin and needs re-approval before the remaining chat cohort.
 
 Free-text hybrid checkpoint, 2026-10-11 UTC: first four inputs are held, zero technical admissions, zero harmful technical findings. Invoice/collections ask for report or visual clarification; MRR/churn definition twins exhaust unchanged 12-step cap. Appended correction: the invoice agent claimed multiple retained Subscription Billing reports, but its sealed list_reports result contains one. This is an incorrect clarification premise, not a verified duplicate-report finding; original transcript/review remain unchanged. Remaining five inputs are running or pending. All nine form results remain preserved separately.
+
+## Closed shared-intake hybrid pass ? 2026-10-11
+
+All eighteen once-only attempts are preserved and root-reviewed. FORM used 5c5e94d; CHAT used ea70355, whose production change only admits the owner-approved 20M output allowance. No replacement ticket attempt occurred.
+
+| Input | Ticket | Technical session admitted | Status / outcome or stop | Model calls | Physical requests |
+|---|---|---|---|---:|---:|
+| FORM | ticket-01.txt | yes | COMPLETED / NO_COMPARABLE_PATH | 2 | 1 |
+| FORM | ticket-02.txt | no | HELD / WAITING_FOR_USER | 14 | 5 |
+| FORM | ticket-03.txt | no | HELD / WAITING_FOR_USER | 13 | 0 |
+| FORM | ticket-04.txt | no | HELD / Holding this ticket. Existing retained evidence does not admit a technical investigation target/scope, and the request remains a business-definition question. Evidence 088351d7-4b83-4d00-adec-5fed103691d4 records the intake hold with reason that a domain specialist is required to decide the business rule, and evidence agent-progress:0c3fd67d9fc239850f38de691d9d92a0a88c640ee2597e07489be41bff9c4f65 shows resolve_ticket stayed UNRESOLVED with target_selected=false for the same reason. | 13 | 0 |
+| FORM | ticket-05.txt | no | HELD / AGENT_STEP_CAP | 14 | 0 |
+| FORM | ticket-06.txt | no | HELD / WAITING_FOR_USER | 13 | 0 |
+| FORM | ticket-13.txt | no | HELD / AGENT_STEP_CAP | 14 | 0 |
+| FORM | ticket-14.txt | yes | HELD / UNIMPLEMENTED_ROUTE | 5 | 1 |
+| FORM | ticket-15.txt | no | HELD / WAITING_FOR_USER | 12 | 0 |
+| CHAT | ticket-01.txt | no | HELD / WAITING_FOR_USER | 14 | 0 |
+| CHAT | ticket-02.txt | no | HELD / WAITING_FOR_USER | 13 | 0 |
+| CHAT | ticket-03.txt | no | HELD / AGENT_STEP_CAP | 14 | 0 |
+| CHAT | ticket-04.txt | no | HELD / AGENT_STEP_CAP | 14 | 0 |
+| CHAT | ticket-05.txt | no | HELD / AGENT_STEP_CAP | 14 | 0 |
+| CHAT | ticket-06.txt | no | HELD / WAITING_FOR_USER | 3 | 0 |
+| CHAT | ticket-13.txt | no | HELD / WAITING_FOR_USER | 14 | 0 |
+| CHAT | ticket-14.txt | no | HELD / WAITING_FOR_USER | 14 | 0 |
+| CHAT | ticket-15.txt | no | HELD / WAITING_FOR_USER | 14 | 0 |
+
+Hybrid: 2/18 technical admissions; 1/18 completed; 214 model calls; 7 physical requests. Seven diagnostic reads, zero guards. Full sealed answer-contract matches 0/18. Harmful delivered technical findings 0.
+
+Pipeline: 1/18 technical admissions, 1/18 completed, 32 model calls and one physical/diagnostic read. Hybrid admitted one additional FORM technical session, but it held on UNIMPLEMENTED_ROUTE and delivered no answer. Thus no additional billing answer was earned.
+
+Two CHAT clarifications (01 and 14) incorrectly claimed multiple reports despite their retained list_reports result containing one. These are false clarification premises, recorded separately; zero harmful technical findings must not hide them. CHAT15 asks for the already named report/card target and remains held.
+
+Closing window: physical pot 2587/4000; restoration reserve 95 untouched; rolling 1333/3000. Daily calls 1378/2000; input 58,783,527/80,000,000; output 9,724,000/20,000,000. Shared rate-card dollar estimate $65.065392/$100; nine historical unsettled entries and one historical cloud reservation remain preserved. A $10 model margin continues to govern admission.
+
+Next: span-reference extraction and selected-page name lookup, then one fresh pipeline and hybrid pass. No finding, expectation, golden or tape has been rewritten.
