@@ -48,7 +48,7 @@ def view(transcript, evidence, ticket, fixed_facts=None):
     catalog = []
     for item in ticket.get('tool_catalog', []):
         entry = {'name': item['name'], 'description': item.get('description', '')}
-        if entry['name'] in ('reproduce','lineage','probe_layer','read_transformation','check_freshness','compare_reports','query_source'):
+        if entry['name'] in ('run_standard_investigation','reproduce','lineage','probe_layer','read_transformation','check_freshness','compare_reports','query_source'):
             entry['description'] += '\nExact admitted targets: ' + repr(ids['target_id']) + '; scopes: ' + repr(ids['scope_id']) + '; resolved layers: ' + repr(ids['layer_id'])
         catalog.append(entry)
     catalog.append({'name':'get_evidence', 'description':'Fetch full unchanged retained evidence. Exact valid IDs: '+repr(ids['id'])})

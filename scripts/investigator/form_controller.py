@@ -47,6 +47,10 @@ class Forms:
 
     @operation('form_submit')
     def submit(self, request):
+        from .hybrid_ticket import submit
+        return submit(self, request, self._submit)
+
+    def _submit(self, request):
         self.smart._guard()
         original_request=copy.deepcopy(request)
         questionnaire=None

@@ -8,6 +8,7 @@ from .model_context import assets as model_assets
 from .evidence_prose import diagnostic_detail
 from datetime import datetime, timezone
 import json
+import copy
 import time
 from .process_tape import uuid4
 from .run_recording import operation
@@ -834,13 +835,16 @@ class AdaptiveRuntime:
                 'support_receipt_id':candidate['support_receipt_id']})
         return self.get(identity)
 
-    def run_process(self,identity):
+    def run_process(self,identity,*,agent_candidate=False):
         """Execute the unchanged deterministic strategy through the shared adapter."""
         from .process_debugging import vertical
         from .assessment_support import validate as validate_support
         with self.runtime.db() as db:
             state=self.load(db,identity);self.admit(state,db)
-            if state['status']!='READY':return self.get(identity)
+            if agent_candidate:
+                if self.config.get('_estate',{}).get('investigation',{}).get('mode')!='HYBRID' or state['status']!='EXECUTING' or not state.get('process_started'):
+                    raise Conflict('Standard candidate requires an executing hybrid session')
+            elif state['status']!='READY':return self.get(identity)
         adapter=self.process_adapter(identity)
         meter_read=adapter._runtime_meter_read
         stage_event=adapter._runtime_stage_event
@@ -850,7 +854,7 @@ class AdaptiveRuntime:
         except MeasurePathLimit as exc:
             with self.runtime.db() as db:
                 db.execute('BEGIN IMMEDIATE');current=self.load(db,identity);self.admit(current,db)
-                if current['status']!='READY':return self.project_after_commit(db,current)
+                if current['status']!=('EXECUTING' if agent_candidate else 'READY'):return self.project_after_commit(db,current)
                 self.stop(db,current,'PATH_CONTEXT_LIMIT','HELD')
                 current['process_error']='PATH_CONTEXT_LIMIT'
                 self.save(db,current,'PROCESS_PATH_REFUSED',{'reason':'PATH_CONTEXT_LIMIT',
@@ -859,7 +863,7 @@ class AdaptiveRuntime:
                 return self.project_after_commit(db,current)
         with self.runtime.db() as db:
             db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
-            if state['status']!='READY':return self.project_after_commit(db,state)
+            if state['status']!=('EXECUTING' if agent_candidate else 'READY'):return self.project_after_commit(db,state)
             state['process_started']=True;state['status']='EXECUTING'
             self.save(db,state,'PROCESS_STARTED',{'procedure':'VERTICAL','reserved_reads':0})
         from . import observation_journal
@@ -928,6 +932,11 @@ class AdaptiveRuntime:
                 self.save(db,state,'PROCESS_ROUTE_UNIMPLEMENTED',{'reason':route_error})
                 return self.project_after_commit(db,state)
             state['observations'].extend(observations);state['assessment']=assessment
+            if agent_candidate:
+                # Keep terminal authority with the original support/delivery gate.
+                self.save(db,state,'STANDARD_INVESTIGATION_CANDIDATE',{'classification':assessment['classification']})
+                return {'status':'AVAILABLE','assessment':copy.deepcopy(assessment),
+                        'observations':{o['id']:copy.deepcopy(o) for o in observations}}
             state.update(status='COMPLETED',stop_reason='ENOUGH_DIAGNOSTICS',token=None,pending=None)
             self.save(db,state,'PROCESS_STOPPED',{'classification':assessment['classification'],
                 'terminating_step':assessment['terminating_step']})

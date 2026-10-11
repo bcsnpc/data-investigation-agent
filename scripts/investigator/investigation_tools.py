@@ -11,6 +11,7 @@ from .process_debugging import Probe, NoValue, attest, applicability
 from . import declared_reproduction
 
 TOOLS = {
+ 'run_standard_investigation': ('target_id','scope_id'),
  'reproduce': ('target_id',),
  'lineage': ('target_id',),
  'probe_layer': ('target_id','layer_id','scope_id'),
@@ -20,6 +21,7 @@ TOOLS = {
  'query_source': ('target_id','scope_id'),
 }
 DESCRIPTIONS = {
+ 'run_standard_investigation':'Run the existing deterministic pipeline walk once for the admitted target_registry and scope_registry keys. If the pipeline already walked exactly that target and scope, reuse its original evidence. Prefer this high-level tool after resolving intake; low-level tools are for the named remaining gap only. Returned limitations are not proof of business correctness.',
  'reproduce':'Evaluate the saved declared report context using target_registry from admitted resolve_ticket, never the raw visual ID. A missing reported figure gives no reproduction verdict, even if within-layer values were read. To measure a quantity without a reported figure, use lineage and probe_layer. Returns named unavailability if context cannot be faithfully evaluated.',
  'lineage':'Read the declared/verified quantity path and its explicit gaps. Metadata reachability does not establish equality or business correctness.',
  'probe_layer':'Evaluate the registered quantity at a resolved path layer under an already admitted scope; no arbitrary SQL or filter expressions.',
@@ -29,10 +31,11 @@ DESCRIPTIONS = {
  'query_source':'Read the same registered quantity at the explicitly declared reachable application layer; an undeclared/unreachable source refuses.',
 }
 
-def schemas():
+def schemas(*, include_standard=False):
  """Provider-independent strict JSON schemas; no free-form native queries."""
  result=[]
  for name,fields in TOOLS.items():
+  if name=='run_standard_investigation' and not include_standard:continue
   properties={key:({'type':'integer','minimum':1,'maximum':32} if key=='step' else {'type':'string','minLength':1,'maxLength':300}) for key in fields}
   for key,node in properties.items():
    if key in ('target_id','a','b'):node['description']='Use a key from admitted resolve_ticket.target_registry, not an asset or visual ID.'
@@ -69,11 +72,12 @@ class InvestigationTools:
 Receipt IDs use `agent-tool:` to distinguish facade observations from native
 attested reads. The caller still runs existing support and coverage validators.
 """
- def __init__(self,adapter,targets,scopes,boundary):
+ def __init__(self,adapter,targets,scopes,boundary,*,standard=None):
   if not callable(boundary):raise ValueError('Persisted governed tool boundary required')
   if not isinstance(targets,dict) or not isinstance(scopes,dict):raise ValueError('Trusted target/scope registries required')
   self.adapter=adapter;self._targets=copy.deepcopy(targets);self._scopes=copy.deepcopy(scopes);self.boundary=boundary
   self._probe_ledger={};self._paths={};self._definition_ledger={};self.tool_ledger={}
+  self._standard=standard;self._standard_candidates={}
   for target in self._targets.values():
    if not isinstance(target,dict) or set(target)!={'measure_id','scope_id'} or not isinstance(target['measure_id'],str) or target['scope_id'] not in self._scopes:raise ValueError('Target requires resolved measure and registered scope')
   if any(not isinstance(scope,dict) for scope in self._scopes.values()):raise ValueError('Scope registry requires admitted structured scopes')
@@ -102,7 +106,16 @@ attested reads. The caller still runs existing support and coverage validators.
 
  def terminal_support(self,outcome,target_id,citations):
   from .agent_tool_support import build
-  receipt=self.boundary('terminal_support',{'outcome':outcome,'target_id':target_id,'citations':copy.deepcopy(citations)},lambda:build(self,outcome,target_id,citations))
+  def support():
+   candidate=self._standard_candidates.get(target_id)
+   if candidate is None:return build(self,outcome,target_id,citations)
+   if candidate['assessment']['classification']!=outcome:raise ValueError('Standard investigation outcome differs from proposed claim')
+   known=set(self.tool_ledger)|{i for c in self.tool_ledger.values() for i in c['receipt_evidence_ids']}
+   if not isinstance(citations,list) or set(citations)-known or not set(candidate['assessment']['evidence_ids'])<=set(citations):raise ValueError('Standard investigation evidence coverage incomplete')
+   from .assessment_support import validate
+   validate(candidate['assessment'],candidate['observations'])
+   return copy.deepcopy(candidate)
+  receipt=self.boundary('terminal_support',{'outcome':outcome,'target_id':target_id,'citations':copy.deepcopy(citations)},support)
   if not isinstance(receipt,dict) or set(receipt)!={'receipt_id','result'} or not isinstance(receipt['receipt_id'],str) or not receipt['receipt_id'].startswith('agent-tool:'):raise ValueError('Terminal support requires persisted derived evidence')
   return {**receipt['result'],'support_receipt_id':receipt['receipt_id']}
 
@@ -153,6 +166,16 @@ attested reads. The caller still runs existing support and coverage validators.
   return path
 
  def _dispatch(self,name,args):
+  if name=='run_standard_investigation':
+   resolved=self._target(args['target_id'],args['scope_id'])
+   if resolved is None:return unavailable('TARGET_OR_SCOPE_UNRESOLVED',status='UNDECLARED')
+   if self._standard is None:return unavailable('STANDARD_INVESTIGATION_UNDECLARED',status='UNDECLARED')
+   candidate=self._standard(*resolved)
+   if candidate.get('status')!='AVAILABLE':return candidate
+   from .assessment_support import validate
+   validate(candidate['assessment'],candidate['observations'])
+   self._standard_candidates[args['target_id']]=copy.deepcopy(candidate)
+   return {**copy.deepcopy(candidate),'native_evidence_ids':list(candidate['observations'])}
   if name=='compare_reports':return self._compare(args['a'],args['b'])
   resolved=self._target(args['target_id'],args.get('scope_id'))
   if resolved is None:return unavailable('TARGET_OR_SCOPE_UNRESOLVED',status='UNDECLARED')

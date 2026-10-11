@@ -189,7 +189,7 @@ class Workspace:
     def start(self, identity, *, controller_owned=False):
         if type(controller_owned) is not bool:
             raise ValueError('Controller ownership must be boolean')
-        if controller_owned and self.agent.config.get('_estate',{}).get('investigation',{}).get('mode','PIPELINE')!='AGENT':
+        if controller_owned and self.agent.config.get('_estate',{}).get('investigation',{}).get('mode','PIPELINE') not in ('AGENT','HYBRID'):
             raise Conflict('Controller ownership requires configured agent mode')
         if not self.execution_enabled:
             raise Conflict('This host is in history-only mode')
@@ -228,9 +228,13 @@ class Workspace:
         return self.session(state['id'])
 
     def run_once(self):
+        return self.run_session_once(None)
+
+    def run_session_once(self, identity):
+        """Claim the requested queued session, never another ticket's work."""
         with self.store.connect() as db:
             db.execute('BEGIN IMMEDIATE')
-            row = db.execute("SELECT * FROM workspace_jobs WHERE owner=? AND status='QUEUED' ORDER BY created LIMIT 1", (self.owner,)).fetchone()
+            row = db.execute("SELECT * FROM workspace_jobs WHERE owner=? AND status='QUEUED' AND (? IS NULL OR session_id=?) ORDER BY created LIMIT 1", (self.owner,identity,identity)).fetchone()
             if row is None:
                 return False
             db.execute("UPDATE workspace_jobs SET status='RUNNING' WHERE preview_id=?", (row['preview_id'],))

@@ -85,6 +85,6 @@ def request_bound(runtime):
     bound = config.get('input_characters_per_request', runtime.generation_options['max_payload_characters'])
     if type(bound) is not int or not 8000 <= bound <= 150000:
         raise ValueError('AGENT_REQUEST_BOUND_CONFIGURATION')
-    if 'input_characters_per_request' in config and config.get('mode') != 'AGENT':
+    if 'input_characters_per_request' in config and config.get('mode') not in ('AGENT','HYBRID'):
         raise ValueError('AGENT_REQUEST_BOUND_MODE')
     return bound

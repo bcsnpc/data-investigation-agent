@@ -28,6 +28,10 @@ class SmartIntake:
 
     @operation('ticket_submit')
     def submit(self, request):
+        from .hybrid_ticket import submit
+        return submit(self, request, self._submit)
+
+    def _submit(self, request):
         self._guard()
         from . import ticket_inputs
         document=ticket_inputs.document(request)

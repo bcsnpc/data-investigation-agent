@@ -57,15 +57,21 @@ class AgentTicket:
                 ticket['settled'] = {}; ticket['confirmed'] = {}; ticket['questions'] = []
             return protocol.transition(ticket, 'CLARIFYING', actor='USER', detail={'comment_id': comment_id})
         saved = tickets.update(identity, revision, retain)
-        return self.run(saved)
+        return self.run(saved, pipeline_result=saved['ticket'].get('hybrid_pipeline'))
 
-    def run(self, saved):
-        if not selected(self.workspace): raise Conflict('Agent mode is not selected')
+    def run(self, saved, *, pipeline_result=None):
+        hybrid = self.workspace.agent.config.get('_estate', {}).get('investigation', {}).get('mode') == 'HYBRID'
+        if hybrid:
+            if not pipeline_result or saved['ticket'].get('hybrid_pipeline') != pipeline_result:
+                raise Conflict('Hybrid agent requires its retained pipeline result')
+            sealed = copy.deepcopy(pipeline_result); expected = sealed.pop('hash', None)
+            if expected != digest(sealed):raise Conflict('Hybrid pipeline evidence changed')
+        elif not selected(self.workspace): raise Conflict('Agent mode is not selected')
         tickets = self.workspace.smart_intake.tickets
         identity = saved['ticket']['id']; runtime = self.workspace.agent
         if saved['ticket'].get('agent_loop'): return saved
         def mark(ticket):
-            ticket['investigation_mode'] = 'AGENT'
+            ticket['investigation_mode'] = 'HYBRID' if hybrid else 'AGENT'
             ticket.setdefault('agent_loop_started_at', runtime.clock())
             return ticket
         saved = tickets.update(identity, saved['revision'], mark)
@@ -107,7 +113,7 @@ class AgentTicket:
             candidate_reader=candidate_reader if reader is not None else None,
             screenshot_reader=screenshot_reader(self.workspace, identity),
             fixed_facts=fixed, comment_port=self._comments(identity))
-        definitions = tools.definitions() + investigation_schemas() + [
+        definitions = tools.definitions() + investigation_schemas(include_standard=hybrid) + [
             {'name': 'resolve_ticket', 'description': DESCRIPTION, 'parameters': SCHEMA}]
         handlers = tools.handlers()
 
@@ -145,6 +151,8 @@ class AgentTicket:
                 if used > state['envelope']['limits']['cloud_calls']: raise Conflict('Agent intake diagnostic cap exceeded')
                 state['cloud_calls'] = used
                 state['agent_intake_diagnostic_reads'] = used
+                if hybrid and pipeline_result.get('session'):
+                    state['diagnostic_phase_counts'] = copy.deepcopy(pipeline_result['session'].get('diagnostic_phase_counts', {'WALK':0,'REPRODUCTION':0}))
                 if runtime.config.get('_estate', {}).get('execution', {}).get('mode') == 'LOCAL_EXPORTED':
                     state['local_diagnostic_reads'] = used
                 runtime.save(db, state, 'AGENT_INTAKE_BUDGET_CARRIED', {'diagnostic_reads': used})
@@ -159,15 +167,29 @@ class AgentTicket:
             target_id = 'resolved-target:' + digest({'measure': envelope['measure_id'], 'scope': scope})
             scope_id = 'admitted-scope:' + digest(scope)
             targets = {target_id: {'measure_id': envelope['measure_id'], 'scope_id': scope_id}}
+            def standard(measure, admitted_scope):
+                if measure != envelope['measure_id'] or digest(admitted_scope) != digest(scope):
+                    raise Conflict('Standard investigation admitted scope differs')
+                previous = pipeline_result.get('session') if hybrid else None
+                if previous and previous.get('assessment') and previous['envelope']['measure_id']==measure and digest(procedure_scope(previous['envelope']))==digest(admitted_scope):
+                    from .assessment_support import validate
+                    original = {o['id']: copy.deepcopy(o) for o in previous['observations']}
+                    validate(previous['assessment'], original)
+                    return {'status':'AVAILABLE','assessment':copy.deepcopy(previous['assessment']),
+                            'observations':original,'reused_pipeline_session':previous['id']}
+                result = runtime.run_process(session_id, agent_candidate=True)
+                if result.get('status') == 'AVAILABLE':return result
+                return {'status':'UNAVAILABLE','reason':result.get('stop_reason','STANDARD_INVESTIGATION_INCOMPLETE'),
+                        'data':copy.deepcopy(result),'native_evidence_ids':[o['id'] for o in result.get('observations',[])]}
             facade = InvestigationTools(runtime.process_adapter(session_id), targets,
-                {scope_id: scope}, runtime.agent_tool_boundary(session_id))
+                {scope_id: scope}, runtime.agent_tool_boundary(session_id), standard=standard if hybrid else None)
             active.update(session_id=session_id, facade=facade, target_id=target_id)
             active['binding'] = {'session_id': session_id, 'target_registry': targets,
                                  'scope_registry': {scope_id: scope}}
             return {**result, **active['binding']}
 
         handlers['resolve_ticket'] = resolve_ticket
-        for item in investigation_schemas():
+        for item in investigation_schemas(include_standard=hybrid):
             def invoke(name=item['name'], **arguments):
                 if not active:
                     return {'status': 'NOT_ADMITTED', 'reason': 'Resolve and admit the ticket first',
@@ -211,12 +233,21 @@ class AgentTicket:
             step_cap=remaining_steps, wall_seconds=remaining_wall)
         finalized = False
         try:
-            result = loop.run({'text': text, 'input': copy.deepcopy(saved['request']),
+            payload = {'text': text, 'input': copy.deepcopy(saved['request']),
                 'retained_user_replies': copy.deepcopy(replies),
                 # Parameter contracts already occur in the strict decision
                 # schema. Do not duplicate them in the payload.
-                'tool_catalog': [{k: d[k] for k in ('name','description')} for d in definitions]},
-                fixed_facts=fixed, context_id=digest(catalog))
+                'tool_catalog': [{k: d[k] for k in ('name','description')} for d in definitions]}
+            if hybrid:
+                payload['pipeline_starting_state'] = copy.deepcopy(pipeline_result)
+                payload['task'] = 'Close only the named pipeline gap or ask a better user question. Do not repeat completed work. After resolving intake use run_standard_investigation for the normal walk; low-level tools are for the remaining gap. Never use a business-rule refusal as permission to judge business correctness.'
+            starting_evidence = None
+            if hybrid:
+                starting_evidence={o['id']:copy.deepcopy(o) for o in (pipeline_result.get('session') or {}).get('observations',[])}
+                intake=pipeline_result.get('intake')
+                if intake:starting_evidence[intake['id']]=copy.deepcopy(intake)
+            result = loop.run(payload,
+                fixed_facts=fixed, context_id=digest(catalog), starting_evidence=starting_evidence)
             if active:
                 with runtime.runtime.db() as db:
                     db.execute('BEGIN IMMEDIATE'); current = runtime.load(db, active['session_id'])

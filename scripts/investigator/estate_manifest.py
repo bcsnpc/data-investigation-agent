@@ -101,6 +101,8 @@ SCHEMA=obj({
     'investigation':{'oneOf':[
         obj({'mode':{'const':'PIPELINE'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600)}),
         obj({'mode':{'const':'AGENT'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600),
+             'input_characters_per_request':integer(8000,150000)}, optional=('input_characters_per_request',)),
+        obj({'mode':{'const':'HYBRID'},'step_cap':integer(1,12),'wall_seconds':integer(1,3600),
              'input_characters_per_request':integer(8000,150000)}, optional=('input_characters_per_request',))]},
     'fixture_states':array(obj({'id':STRING,'description':STRING,
         'arithmetic':{'type':'string','minLength':1,'maxLength':2000},

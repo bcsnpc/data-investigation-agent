@@ -11,7 +11,7 @@ from itertools import combinations
 from jsonschema import Draft202012Validator
 
 VERSION = 'verified-agent-loop-v1'
-MODES = ('PIPELINE', 'AGENT')
+MODES = ('PIPELINE', 'AGENT', 'HYBRID')
 
 
 def delivery_rejection(exc, decision):
@@ -149,7 +149,7 @@ class AgentLoop:
         self.validator = Draft202012Validator(self.schema)
         self.step_cap, self.wall_seconds, self.clock = step_cap, wall_seconds, clock
 
-    def run(self, ticket, *, fixed_facts, context_id):
+    def run(self, ticket, *, fixed_facts, context_id, starting_evidence=None):
         ticket, facts = copy.deepcopy(ticket), copy.deepcopy(fixed_facts)
         def elapsed_clock():
             from .process_tape import ACTIVE, clock as taped_clock
@@ -180,6 +180,10 @@ class AgentLoop:
 
         record({'event': 'STARTED', 'version': VERSION, 'context_id': context_id,
                 'fixed_facts': facts})
+        for identity,result in (starting_evidence or {}).items():
+            if not isinstance(identity,str) or not identity or not isinstance(result,dict):raise ValueError('Invalid starting evidence')
+            receipt=record({'event':'PIPELINE_EVIDENCE','evidence_id':identity,'result':copy.deepcopy(result)})
+            evidence[identity]={'tool':'pipeline','receipt_id':receipt,'result':copy.deepcopy(result)}
         for ordinal in range(1, self.step_cap + 1):
             if elapsed_clock() - started >= self.wall_seconds:
                 return hold('AGENT_WALL_LIMIT')
