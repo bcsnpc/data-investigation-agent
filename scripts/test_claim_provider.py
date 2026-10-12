@@ -26,4 +26,14 @@ class ClaimProviderTests(unittest.TestCase):
   bad={'facts':[{'field':'metric','reference':[99,99],'symbol':None,'metric_reference':None}]};FakeDecision.values=[bad,bad]
   with patch('investigator.claim_provider.GovernedDecision',FakeDecision),self.assertRaisesRegex(ValueError,'REJECTED_TWICE'):extract(self.workspace,'Quantity','doc','session')
   self.assertEqual(len(FakeDecision.calls),2)
+ def test_producer_schema_cannot_emit_field_symbol_mismatch(self):
+  from jsonschema import Draft202012Validator,ValidationError
+  from investigator.claim_facts import EXTRACTION_SCHEMA,FIELDS,DIRECTIONS,COMPARATORS,SCOPES,ROLES
+  validate=Draft202012Validator(EXTRACTION_SCHEMA).validate
+  for field in FIELDS:
+   symbol={'direction':DIRECTIONS[0],'comparator':COMPARATORS[0],'scope':SCOPES[0],'observation':ROLES[0]}.get(field)
+   item={'field':field,'reference':[1,1],'symbol':symbol,'metric_reference':None};validate({'facts':[item]})
+   wrong=dict(item,symbol='LESS'if symbol!='LESS'else'APPLICATION')
+   with self.assertRaises(ValidationError):validate({'facts':[wrong]})
+  with self.assertRaises(ValidationError):validate({'facts':[{'field':'metric','reference':[1,1],'symbol':None,'metric_reference':[1,1]}]})
 if __name__=='__main__':unittest.main()

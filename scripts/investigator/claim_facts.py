@@ -11,12 +11,20 @@ COMPARATORS=('OWN_COUNT','APPLICATION','OTHER_REPORT','SPREADSHEET','FINANCE','N
 SCOPES=('RECORDS','VISUALS','PAGE','REPORT','UNKNOWN')
 ROLES=('OBSERVED','EXPECTED','CONTEXT')
 SYMBOLS=tuple(dict.fromkeys((*DIRECTIONS,*COMPARATORS,*SCOPES,*ROLES)))
-EXTRACTION_SCHEMA={'type':'object','additionalProperties':False,'properties':{
-    'facts':{'type':'array','maxItems':40,'items':{'type':'object','additionalProperties':False,'properties':{
-        'field':{'enum':list(FIELDS)},'reference':copy.deepcopy(REFERENCE),
-        'symbol':{'anyOf':[{'enum':list(SYMBOLS)},{'type':'null'}]},
-        'metric_reference':{'anyOf':[copy.deepcopy(REFERENCE),{'type':'null'}]}},
-        'required':['field','reference','symbol','metric_reference']}}},'required':['facts']}
+def extraction_schema():
+    """The producer can express only the field's own consumer vocabulary."""
+    variants=[]
+    enums={'direction':DIRECTIONS,'comparator':COMPARATORS,'scope':SCOPES,'observation':ROLES}
+    for field in FIELDS:
+        variants.append({'type':'object','additionalProperties':False,'properties':{
+            'field':{'type':'string','enum':[field]},'reference':copy.deepcopy(REFERENCE),
+            'symbol':{'type':'string','enum':list(enums[field])}if field in enums else{'type':'null'},
+            'metric_reference':{'anyOf':[copy.deepcopy(REFERENCE),{'type':'null'}]}if field=='observation'else{'type':'null'}},
+            'required':['field','reference','symbol','metric_reference']})
+    return {'type':'object','additionalProperties':False,'properties':{'facts':{'type':'array','maxItems':40,'items':{'anyOf':variants}}},'required':['facts']}
+
+EXTRACTION_SCHEMA=extraction_schema()
+
 
 
 def span(reference,text):
