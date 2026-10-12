@@ -220,3 +220,15 @@ The next collection uses investigator-code-reader for Fabric definitions and con
 Matching declared Copy projection names to source and destination column metadata produces **INFERRED_FROM_CODE / UNVERIFIED** mappings. Native source casts remain explicit transformations, including the row-version-to-bigint cast. They are never replaced by an identity mapping or treated as proof of type or value equivalence. This generic adapter has no billing column literals or per-ticket branches. It refuses unknown expressions, conflicting names, incomplete destinations and predicates that change the source row set.
 
 The table-scoped grant does not confer schema-wide VIEW DEFINITION. Returned source objects and Fabric catalog rows are retained as visible-object evidence only. Coverage still states that whole-schema completeness is unavailable; invisible objects are never asserted absent. Metadata collection alone does not make Copy/warehouse-script lineage executable, approve a model context, earn a verified binding or make billing ready. Publication still requires the normal verification and exact replay gates.
+
+
+### Collection preparation failure retained
+
+At 2026-10-12 06:15:44 UTC, `billing-native-collection-20261012T061544` stopped before capture or metadata collection with `JSONDecodeError: Expecting property name enclosed in double quotes: line 2 column 1 (char 2)`. Four code-reader authentication HTTP requests succeeded; a fifth conservative slot covered the SQL authentication wrapper. No metadata was read and no context was created. The private Azure CLI wrapper had not directed its formatted output into its in-memory output stream; it was corrected to pass `out_file` explicitly. The original receipt and ledger row remain unchanged. This was control plumbing, not a permission refusal or an investigation result.
+
+
+### Shared-catalog capture lock finding
+
+The initial exact-capture helper audited the shared catalog while holding a SQLite read transaction, then created its backup. On the 347,693,056-byte catalog, that audit held the read lock for several minutes and blocked three Part A smoke workspace initializations before ticket execution. Those initialization failures are control/environment failures, not ticket scores. The current collection was allowed to finish with its original helper unchanged.
+
+For subsequent captures, the prepared helper first copies a consistent SQLite snapshot into memory, closes the source connection, audits the in-memory snapshot, and only writes the durable snapshot after the credential audit succeeds. Two offline tests pass: another connection can commit to the source during the audit while the retained copy stays consistent; rejected synthetic secret material leaves no output snapshot file. The failed first version of the tests exposed Windows test connection cleanup and was corrected by closing the test handles explicitly. The future helper is separate from the current sealed capture support; it does not alter earlier tapes or weaken the credential audit.

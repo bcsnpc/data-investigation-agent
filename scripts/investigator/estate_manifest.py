@@ -57,6 +57,11 @@ SCHEMA=obj({
         'string_semantics':STRING_SEMANTICS},
         optional=('serverless','worker_timeout_seconds','comparison_normalization','string_semantics'))),
     'resources':array(RESOURCE),
+    # A comparison ceiling names unexamined upstream work. It does not declare
+    # a system of record, create a route, or grant access to the named asset.
+    'scope_boundaries':array(obj({'asset_id':STRING,
+        'kind':{'const':'REACHABILITY_CEILING'},
+        'unchecked_limits':{'type':'array','items':STRING,'minItems':1,'maxItems':32}})),
     'identities':array(obj({'id':STRING,'principal':STRING,'credential_reference':STRING,
         'scopes':array(SCOPE)})),
     'system_of_record':{'anyOf':[STRING,{'type':'null'}]},
@@ -108,7 +113,7 @@ SCHEMA=obj({
              'fallback_scope':{'enum':['ANY_GAP','INTAKE_ONLY']}}, optional=('input_characters_per_request','fallback_scope','agent_deployment'))]},
     'fixture_states':array(obj({'id':STRING,'description':STRING,
         'arithmetic':{'type':'string','minLength':1,'maxLength':2000},
-        'evidence':array(STRING)}))}, optional=('fixture_states','lineage_proposer','assistant_proposer','retention','recording','intake','ownership','execution','investigation'))
+        'evidence':array(STRING)}))}, optional=('scope_boundaries','fixture_states','lineage_proposer','assistant_proposer','retention','recording','intake','ownership','execution','investigation'))
 
 
 def validate(value):
@@ -138,6 +143,9 @@ def validate(value):
             result[row['id']]=row
         return result
     layers=indexed('layers');resources=indexed('resources');adapters=indexed('adapters');identities=indexed('identities')
+    boundary_assets=[b['asset_id'] for b in value.get('scope_boundaries', [])]
+    if len(boundary_assets)!=len(set(boundary_assets)):
+        raise ValueError('manifest.scope_boundaries: duplicate asset')
     from .string_semantics import validate as validate_string_semantics
     for layer in layers.values():
         if 'string_semantics' in layer:validate_string_semantics(layer['string_semantics'])

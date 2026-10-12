@@ -43,6 +43,41 @@ class ScopedReadinessTests(unittest.TestCase):
         d=dependency();d['declarations'][0].update(disposition='DIRECT',dependencies=[])
         with self.assertRaisesRegex(ValueError,'DIRECT_SOURCE'):scope_closure(d,['a'])
 
+    def boundary(self):
+        d=dependency()
+        d['discovered_declarations'][1].update(operation='DECLARED_BOUNDARY',unchecked_limits=['Upstream creation not compared'])
+        d['declarations'][1].update(disposition='BOUNDARY',unchecked_limits=['Upstream creation not compared'])
+        return d
+
+    def test_declared_boundary_ends_walk_without_claiming_direct_source(self):
+        d=self.boundary()
+        self.assertEqual(scope_closure(d,['a']),{'a','b'})
+        self.assertEqual(d['declarations'][1]['disposition'],'BOUNDARY')
+        d['declarations'][1]['disposition']='DIRECT'
+        with self.assertRaisesRegex(ValueError,'DIRECT_SOURCE'):scope_closure(d,['a'])
+
+    def test_boundary_requires_positive_declaration_and_unchecked_limit(self):
+        for field in ('operation','unchecked_limits'):
+            d=self.boundary();d['discovered_declarations'][1].pop(field)
+            with self.assertRaisesRegex(ValueError,'BOUNDARY_NOT_ESTABLISHED'):scope_closure(d,['a'])
+
+    def test_boundary_cannot_hide_a_dependency(self):
+        d=self.boundary();d['declarations'][1]['dependencies']=['hidden']
+        with self.assertRaisesRegex(ValueError,'BOUNDARY_NOT_ESTABLISHED'):scope_closure(d,['a'])
+
+    def test_boundary_requires_the_same_positive_manifest_ceiling(self):
+        with tempfile.TemporaryDirectory()as folder:
+            original={'scope':{'name':'chain','roots':['a'],'assets':['a','b']},'dependency_inventory':self.boundary()}
+            source=Path(folder)/'original.json';source.write_text(json.dumps(original))
+            receipt=dict(original,pins=self.pins,sources=[{'path':str(source),'sha256':sha(source.read_bytes()),'field':k,'pointer':'/'+k}for k in original])
+            path=Path(folder)/'scope.json';path.write_text(json.dumps(receipt));ref={'path':str(path),'sha256':sha(path.read_bytes())}
+            result=assess_named_scope(self.manifest,self.pins,{},ref)
+            self.assertEqual(result['detail'],'SCOPE_BOUNDARY_NOT_DECLARED_IN_MANIFEST')
+            manifest=copy.deepcopy(self.manifest);manifest['scope_boundaries']=[{'asset_id':'b','kind':'REACHABILITY_CEILING','unchecked_limits':['Upstream creation not compared']}]
+            with patch('investigator.estate_readiness.assess',return_value={'status':'READY'})as check:
+                result=assess_named_scope(manifest,self.pins,{},ref)
+            self.assertEqual(result['status'],'READY')
+
     def test_partial_inventory_never_becomes_complete_because_no_warnings(self):
         d=dependency();d.update(status='PARTIAL',warnings=[])
         with self.assertRaisesRegex(ValueError,'INCOMPLETE'):scope_closure(d,['a'])
@@ -68,7 +103,9 @@ class ScopedReadinessTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'COVERAGE_INCOMPLETE'):discovery(r,m,self.pins,scope_assets={'a'})
 
     def receipt(self,folder):
-        original={'scope':{'name':'chain','roots':['a'],'assets':['a','b']},
+        original={'scope':{'name':'chain','roots':['a'],'assets':['a','b'],
+                          'constraints':{'kind':'WHOLE_ENTITY_QUANTITY','measure_ids':['measure'],'filters':[],'dimension_ids':[]},
+                          'limits':['SNAPSHOT_UNVERIFIED']},
                   'dependency_inventory':dependency()}
         source=Path(folder)/'original.json';source.write_text(json.dumps(original))
         receipt=dict(original,pins=self.pins,sources=[{'path':str(source),
@@ -79,7 +116,7 @@ class ScopedReadinessTests(unittest.TestCase):
     def test_scope_filters_only_proven_closure_without_editing_manifest(self):
         with tempfile.TemporaryDirectory()as folder:
             ref=self.receipt(folder);original=copy.deepcopy(self.manifest)
-            with patch('investigator.estate_readiness.assess',return_value={'status':'READY','scoring':'ADMITTED'})as check:
+            with patch('investigator.estate_readiness.assess',return_value={'status':'READY','scoring':'ADMITTED','admitted_constraints':[{'kind':'WHOLE_ENTITY_QUANTITY','measure_ids':['measure'],'filters':[],'dimension_ids':[]}]})as check:
                 result=assess_named_scope(self.manifest,self.pins,{},ref)
             self.assertEqual(result['scope']['assets'],['a','b'])
             self.assertEqual(result['estate_status'],'NOT_ESTABLISHED_BY_SCOPED_ASSESSMENT')
@@ -98,10 +135,18 @@ class ScopedReadinessTests(unittest.TestCase):
         with tempfile.TemporaryDirectory()as folder:
             readiness={'manifest':self.manifest,'pins':self.pins,'index':{},'scope_ref':self.receipt(folder)}
             score=Mock(return_value={'passed':True})
-            with patch('investigator.estate_readiness.assess',return_value={'status':'READY','scoring':'ADMITTED'}):
+            with patch('investigator.estate_readiness.assess',return_value={'status':'READY','scoring':'ADMITTED','admitted_constraints':[{'kind':'WHOLE_ENTITY_QUANTITY','measure_ids':['measure'],'filters':[],'dimension_ids':[]}]}):
                 refused=score_named_scope(score,readiness=readiness,requested_assets=['c'])
                 self.assertEqual(refused['scope_reason'],'REQUEST_OUTSIDE_VERIFIED_SCOPE');score.assert_not_called()
-                self.assertTrue(score_named_scope(score,readiness=readiness,requested_assets=['a'])['passed'])
+                scope={'kind':'WHOLE_ENTITY_QUANTITY','measure_ids':['measure'],'filters':[],'dimension_ids':[]}
+                self.assertTrue(score_named_scope(score,readiness=readiness,requested_assets=['a'],requested_scope=scope)['passed'])
+                for field,value in [('filters',[{'field':'x','value':1}]),('dimension_ids',['group']),('measure_ids',['other'])]:
+                    different=dict(scope,**{field:value});score.reset_mock()
+                    self.assertEqual(score_named_scope(score,readiness=readiness,requested_assets=['a'],requested_scope=different)['scoring'],'NOT_SCORED')
+                    score.assert_not_called()
+                score.reset_mock()
+                self.assertEqual(score_named_scope(score,readiness=readiness,requested_assets=['a'])['scoring'],'NOT_SCORED')
+                score.assert_not_called()
 
     def test_ready_label_without_evidence_cannot_invoke_scorer(self):
         scorer=Mock()

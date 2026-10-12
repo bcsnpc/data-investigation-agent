@@ -101,6 +101,9 @@ def build(assets,supplement):
                 else:graph.gap(target or part['parent'],'Copy mapping unresolved',{'source':src,'destination':dst,'connection_id':cid})
         if part['name']=='pipeline-content.json':
             for _,node in walk(json.loads(part['meta']['content'])):
+                if isinstance(node,dict) and node.get('type')=='Copy':
+                    from investigator.adapters.microsoft_copy_mapping import graph_mapping
+                    graph_mapping(graph, part, node, connections)
                 if isinstance(node,dict) and node.get('type')=='InvokeCopyJob':
                     p=node['typeProperties']; target=f"fabric://{p['workspaceId']}/{p['copyJobId']}"
                     graph.edge(part['parent'],target,'orchestration',part['id'],node)
@@ -146,6 +149,14 @@ def build(assets,supplement):
                 if record and match.group(1)==record['data']['sqlEndpointProperties'].get('connectionString'):
                     e=record['data']; parent=f"fabric://{e['workspaceId']}/{e['id']}"
                     origin=graph.find('LakehouseTable',source.get('entityName',''),parent) or graph.find('LakehouseTable',source.get('schemaName','')+'.'+source.get('entityName',''),parent)
+                if not origin and match:
+                    candidates=[a for a in assets if a['kind']=='Warehouse' and a['meta'].get('id')==match.group(2)
+                        and a['parent']==model_id.rsplit('/',1)[0]
+                        and a['meta'].get('properties',{}).get('connectionString')==match.group(1)]
+                    if len(candidates)==1:
+                        warehouse=candidates[0]
+                        origin=graph.find('WarehouseTable',source.get('schemaName','')+'.'+source.get('entityName',''),warehouse['id'])
+                        record={'asset_id':warehouse['id'],'content_hash':warehouse['hash'],'data':warehouse['meta']}
                 if origin:graph.edge(origin,tid,'data',part['id'],{'partition':partition,'expression':expression,'endpoint_evidence':record})
                 else:graph.gap(tid,'Semantic partition unresolved',partition)
     for asset in assets:

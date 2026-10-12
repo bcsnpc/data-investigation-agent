@@ -46,7 +46,7 @@ def static(unit,*,schemas,boundary,item,target_table):
     elif languages<={'sql','sparksql','tsql'}:
         writes={};locations={}
         for cell in cells:
-            found=extract_statement(cell['source'],schemas)
+            found=extract_statement(cell['source'],schemas,dialect='tsql' if cell['language'].casefold()=='tsql' else 'spark')
             if set(writes)&set(found):raise Unsupported('Multiple cell writers for one target')
             writes.update(found)
             locations.update({target:(cell['line_start'],cell['line_end']) for target in found})

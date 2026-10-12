@@ -74,3 +74,59 @@ def infer_column_mapping(activity, source_columns, destination_columns):
         'limitations': ['Column-name mapping is inferred, not verified equivalence.',
                         'Casts require independent type and value verification.',
                         'No source capture cut or served snapshot is established.']}
+
+
+def graph_mapping(graph, part, activity, connections):
+    """Retain a native Copy declaration plus inferred maps, never verification."""
+    try:
+        prop=activity['typeProperties']; source=prop['source']['datasetSettings']
+        cid=source['externalReferences']['connection']; connection=connections[cid]
+        pair=connection['data']['connectionDetails']['path'].split(';')
+        if len(pair)!=2:raise ValueError('Source connection is not a declared server/database pair')
+        database='sql://'+pair[0]+'/'+pair[1]
+        declared=source['typeProperties']
+        src=graph.find('SqlObject',declared['schema']+'.'+declared['table'],database)
+        sink=prop['sink']['datasetSettings']; destination=sink['linkedService']['properties']['typeProperties']
+        parent='fabric://'+destination['workspaceId']+'/'+destination['artifactId']
+        if parent.rsplit('/',1)[0]!=part['parent'].rsplit('/',1)[0]:raise ValueError('Copy destination leaves declared workspace')
+        # The platform lists legacy Lakehouse names without dbo; both retained
+        # spellings may describe the declared object, but two objects are ambiguous.
+        name=sink['typeProperties']['table'];schema=sink['typeProperties'].get('schema','dbo')
+        matches=[a['id'] for a in graph.assets.values() if a['kind']=='LakehouseTable' and a['parent']==parent
+                 and a['name'] in (name,schema+'.'+name)]
+        if not src or len(matches)!=1:raise ValueError('Copy source or destination declaration unresolved or ambiguous')
+        target=matches[0]
+        inferred=infer_column_mapping(activity,graph.assets[src]['meta']['columns'],graph.assets[target]['meta']['columns'])
+        graph.edge(src,target,'data',part['id'],{'activity':activity['name'],'mapping':inferred,'connection_evidence':connection})
+        graph.edge(part['parent'],target,'produces',part['id'],{'activity':activity['name'],'mapping_provenance':'INFERRED_FROM_CODE','verification':'UNVERIFIED'})
+    except (KeyError,ValueError,TypeError) as exc:
+        graph.gap(part['parent'],'Embedded Copy mapping unavailable',{'activity':activity.get('name'),'reason':str(exc)})
+
+
+def column_proposals(mapping, *, source_asset, destination_asset, part, boundary):
+    """Consumer-valid candidates only for unchanged projected columns.
+
+    The cast columns remain named exclusions. No candidate is verified here.
+    """
+    from ..lineage_binding import validate
+    content=part['metadata']['content'];lines=content.splitlines()
+    marker=json.dumps(mapping['activity'],ensure_ascii=False)
+    hits=[i+1 for i,line in enumerate(lines) if marker in line and '"name"' in line]
+    if len(hits)!=1:raise ValueError('Copy activity location is ambiguous in retained definition')
+    if mapping['row_delivery']!='OverwriteSchema':raise ValueError('Copy delivery is not a declared whole-target overwrite')
+    if mapping['verification']!='UNVERIFIED' or mapping['provenance']!='INFERRED_FROM_CODE':raise ValueError('Mapping evidence status differs')
+    proposals=[];excluded=[]
+    for entry in mapping['mappings']:
+        if not entry['unchanged_column']:
+            excluded.append({'column':entry['destination'],'reason':'Native cast remains unsupported by the neutral expression contract','expression':entry['expression']});continue
+        source={'table':source_asset['id'],'columns':[entry['source']]}
+        relation={'kind':'PROJECT','input':{'kind':'SCAN',**source},'columns':[
+            {'name':entry['destination'],'expression':{'kind':'COLUMN','name':entry['source']}}]}
+        proposal={'boundary':copy.deepcopy(boundary),'sources':[source],
+            'target':{'table':destination_asset['id'],'column':entry['destination']},
+            'expression':{'relation':relation,'column':entry['destination']},
+            'location':{'item':part['parent_id'],'path':part['metadata']['path'],
+                'cell':'activity:'+mapping['activity'],'line_start':hits[0],'line_end':len(lines),
+                'content_hash':hashlib.sha256(content.encode()).hexdigest()},'extractor':'STATIC'}
+        proposals.append(validate(proposal))
+    return {'proposals':proposals,'excluded':excluded,'provenance':'INFERRED_FROM_CODE','verification':'UNVERIFIED'}

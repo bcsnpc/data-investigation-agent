@@ -543,6 +543,25 @@ class SmartIntakeTests(unittest.TestCase):
         self.assertEqual(body['catalog_revalidation']['status'],'CURRENT_CATALOG_UNRESOLVED')
         self.assertIsNone(body['catalog_revalidation']['target'])
 
+    def test_catalog_revalidation_business_route_refusal_never_asks_for_a_visual(self):
+        from investigator.continuation_catalog import rebind
+        from investigator.question_kind import UnimplementedRoute
+        saved=self.submit();source=self.workspace.intake.get(saved['ticket']['source_intake'])
+        original=copy.deepcopy(source)
+        source['retained_extraction']=copy.deepcopy(self.raw)
+        source['retained_extraction']['kind']='BUSINESS_MEANING'
+        self.catalog['versions']=['changed']
+        with patch('investigator.continuation_catalog.resolve',side_effect=UnimplementedRoute('Business meaning requires business-owner validation.')):
+            current,body=rebind(self.controller,saved,source,self.catalog)
+        self.assertEqual(body['error'],'UNIMPLEMENTED_ROUTE')
+        self.assertEqual(body['catalog_revalidation']['status'],'ROUTE_UNAVAILABLE')
+        self.assertEqual(current['ticket']['questions'],[])
+        result=self.controller._plan(current,body)
+        self.assertEqual(result['ticket']['state'],'HELD')
+        self.assertEqual(result['ticket']['questions'],[])
+        self.assertEqual(self.workspace.intake.get(original['id']),original)
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
     def test_projected_installation_refuses_before_persisting_raw_ticket(self):
         self.workspace.agent.config['_estate']={'recording':{'tape_class':'PRIVACY_PROJECTED'}}
         from investigator.process_tape import TapeError

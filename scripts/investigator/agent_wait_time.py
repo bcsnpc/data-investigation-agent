@@ -1,4 +1,4 @@
-"""Exclude only retained human-reply intervals from active agent wall time."""
+"""Exclude receipt-backed inactive waiting, including a queued real reply."""
 from datetime import datetime
 import math
 from .onboarding import Conflict
@@ -42,9 +42,18 @@ def interval(ticket, loop, comment_id, journal, *, now):
             'seconds': end - start}
 
 
+def queued_reply(ticket, loop, comment_id, journal, *, now):
+    """The worker remains inactive until it consumes the already saved reply."""
+    human=interval(ticket,loop,comment_id,journal,now=now)
+    end=timestamp(human['replied_at'])
+    return {'version':'queued-agent-reply-v1','comment_id':comment_id,
+        'waiting_receipt_id':human['waiting_receipt_id'],'replied_at':human['replied_at'],
+        'consumed_at':now,'seconds':now-end}
+
+
 def total(ticket, journal, *, now):
     """Recompute every pause from original evidence, never trust saved seconds."""
-    seconds = 0; last = float('-inf'); used = set()
+    seconds = 0; last = float('-inf'); used = set();segments=[];humans={}
     loops = ticket.get('agent_loop_history', [])
     for saved in ticket.get('agent_wait_pauses', []):
         if saved['comment_id'] in used:
@@ -57,4 +66,28 @@ def total(ticket, journal, *, now):
         if checked != saved or checked['waiting_started_at'] < last:
             raise Conflict('Agent human wait interval changed or overlaps')
         seconds += checked['seconds']; last = timestamp(checked['replied_at']); used.add(saved['comment_id'])
+        humans[checked['comment_id']]=checked
+        segments.append((checked['waiting_started_at'],last))
+    queued=set()
+    for saved in ticket.get('agent_reply_queue_pauses',[]):
+        identity=saved['comment_id'];human=humans.get(identity)
+        if identity in queued or identity not in ticket.get('agent_consumed_replies',[]) or human is None:
+            raise Conflict('Queued reply wait lacks a unique consumed human reply')
+        start=timestamp(human['replied_at']);end=saved['consumed_at']
+        if not isinstance(end,(int,float)) or not math.isfinite(end) or not start<=end<=now:
+            raise Conflict('Queued reply wait timestamp order differs')
+        expected={'version':'queued-agent-reply-v1','comment_id':identity,
+            'waiting_receipt_id':human['waiting_receipt_id'],'replied_at':human['replied_at'],
+            'consumed_at':end,'seconds':end-start}
+        marker=[r for r in journal if r.get('id')==saved.get('receipt_id') and
+                r.get('event')=='QUEUED_REPLY_WAIT_EXCLUDED' and r.get('detail',{}).get('pause')==expected]
+        if saved!={**expected,'receipt_id':saved.get('receipt_id')} or len(marker)!=1 or marker[0]['at']<end:
+            raise Conflict('Queued reply wait lacks its consumption receipt')
+        if any(start<=r['at']<end and r.get('event') in ('DECISION','DECISION_REJECTED','TOOL_RESULT','ADMISSION_OR_PROVIDER_FAILED') for r in journal):
+            raise Conflict('Queued reply wait overlaps active agent work')
+        queued.add(identity);seconds+=end-start;segments.append((start,end))
+    previous=float('-inf')
+    for start,end in sorted(segments):
+        if start<previous:raise Conflict('Inactive agent intervals overlap')
+        previous=end
     return seconds

@@ -83,8 +83,9 @@ def parse_select(text,catalog):
     frame=Frame({f['name']:columns.get(f['expression'].get('name'),'derived') for f in fields},{})
     frame.plan=relation;return frame
 
-def extract_statement(text,catalog):
-    statements=parse(text,read='spark');writes={}
+def extract_statement(text,catalog,*,dialect='spark'):
+    if dialect not in ('spark','tsql'):raise Unsupported('SQL code dialect is not declared or supported')
+    statements=parse(text,read=dialect);writes={}
     for statement in statements:
         if isinstance(statement,exp.Create) and statement.kind=='TABLE' and isinstance(statement.expression,exp.Select):
             if statement.args.get('exists'):

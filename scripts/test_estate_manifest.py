@@ -13,6 +13,18 @@ ROOT=Path(__file__).resolve().parents[1]
 class ManifestTests(unittest.TestCase):
     def fixture(self):return json.loads((ROOT/'infra/estates/fixture.json').read_text())
 
+    def test_explicit_comparison_ceiling_is_optional_closed_and_not_system_of_record(self):
+        m=self.fixture();self.assertEqual(manifest.validate(m),m)
+        before=m['system_of_record']
+        m['scope_boundaries']=[{'asset_id':m['layers'][0]['asset_id'],
+            'kind':'REACHABILITY_CEILING','unchecked_limits':['Upstream not compared']}]
+        self.assertEqual(manifest.validate(m)['system_of_record'],before)
+        for change in ({'kind':'DIRECT_SOURCE'},{'unchecked_limits':[]},{'extra':True}):
+            bad=copy.deepcopy(m);bad['scope_boundaries'][0].update(change)
+            with self.assertRaisesRegex(ValueError,'scope_boundaries'):manifest.validate(bad)
+        bad=copy.deepcopy(m);bad['scope_boundaries']*=2
+        with self.assertRaisesRegex(ValueError,'duplicate asset'):manifest.validate(bad)
+
     def test_daily_output_allowance_uses_consumer_ceiling(self):
         from investigator.usage_limits import DAILY_MAXIMUM
         m=self.fixture();m['budgets']['planner_daily']['output_tokens']=20000000

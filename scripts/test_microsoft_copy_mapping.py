@@ -31,6 +31,19 @@ class CopyAutoMappingTests(unittest.TestCase):
                 self.activity['typeProperties']['source']['sqlReaderQuery']=query
                 with self.assertRaises(ValueError):infer_column_mapping(self.activity,self.src,self.dst)
 
+    def test_proposals_preserve_cast_exclusion_and_refuse_append(self):
+        import json
+        from investigator.adapters.microsoft_copy_mapping import column_proposals
+        mapping=infer_column_mapping(self.activity,self.src,self.dst)
+        part={'parent_id':'pipeline','metadata':{'path':'pipeline-content.json','content':json.dumps({'activities':[self.activity]},indent=2)}}
+        kwargs={'source_asset':{'id':'source'},'destination_asset':{'id':'destination'},'part':part,'boundary':{'from_layer':'input','to_layer':'output'}}
+        result=column_proposals(mapping,**kwargs)
+        self.assertEqual(len(result['proposals']),1)
+        self.assertEqual(result['excluded'][0]['column'],'stamp')
+        self.assertEqual(result['verification'],'UNVERIFIED')
+        mapping['row_delivery']='Append'
+        with self.assertRaises(ValueError):column_proposals(mapping,**kwargs)
+
     def test_explicit_translator_never_treated_as_auto(self):
         self.activity['typeProperties']['translator']={}
         with self.assertRaises(ValueError):infer_column_mapping(self.activity,self.src,self.dst)

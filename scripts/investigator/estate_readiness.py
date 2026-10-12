@@ -96,7 +96,7 @@ def inventory(receipt, manifest, pins):
     entries = receipt['inventory']
     exactly([d['id'] for d in declarations], [e['id'] for e in entries], 'DECLARATION')
     discovered = {d['id']: d for d in declarations}
-    allowed = {'READ', 'DIRECT', 'UNSUPPORTED'}
+    allowed = {'READ', 'DIRECT', 'BOUNDARY', 'UNSUPPORTED'}
     for entry in entries:
         if entry.get('disposition') not in allowed:
             raise ValueError('DECLARATION_DISPOSITION_REQUIRED')
@@ -107,6 +107,13 @@ def inventory(receipt, manifest, pins):
         if entry['disposition'] == 'DIRECT':
             if discovered[entry['id']].get('operation') != 'DIRECT_REFERENCE':
                 raise ValueError('DIRECT_SOURCE_NOT_ESTABLISHED')
+        elif entry['disposition']=='BOUNDARY':
+            original=discovered[entry['id']]
+            ceiling=next((b for b in manifest.get('scope_boundaries',[]) if b['asset_id']==original.get('owner')),None)
+            if (original.get('operation')!='DECLARED_BOUNDARY' or ceiling is None or
+                    ceiling['kind']!='REACHABILITY_CEILING' or not ceiling['unchecked_limits'] or
+                    ceiling['unchecked_limits']!=original.get('unchecked_limits')):
+                raise ValueError('TRANSFORMATION_COMPARISON_CEILING_UNESTABLISHED')
         elif not entry.get('retained_content_hash') or not entry.get('reader'):
             raise ValueError('TRANSFORMATION_READ_EVIDENCE_MISSING')
     # Explicit completeness belongs to the extractor's receipt. A warnings
@@ -120,6 +127,17 @@ def inventory(receipt, manifest, pins):
             raise ValueError('BOUNDARY_DECLARATION_EVIDENCE_MISSING')
 
 
+def declared_routes(receipt, manifest):
+    routes=receipt.get('declared_routes', [])
+    if not routes:
+        return []
+    from .adapters.readiness_registry import declared_route_validator
+    check=declared_route_validator(manifest)
+    checked=[check(route,manifest=manifest,scan=receipt['scan']) for route in routes]
+    exactly([r['route_identity'] for r in checked],[r['route_identity'] for r in checked],'DECLARED_ROUTE_IDENTITY')
+    return checked
+
+
 def proposals(receipt, manifest, pins):
     require_pins(receipt, pins)
     from .lineage_binding import validate
@@ -129,7 +147,8 @@ def proposals(receipt, manifest, pins):
     # is over boundaries, while conservation/uniqueness is over full proposals.
     from .lineage_binding import seal
     exactly([seal(p) for p in rows], [seal(p) for p in rows], 'PROPOSAL_IDENTITY')
-    if {boundary(p['boundary']) for p in rows} != set(expected):
+    direct=declared_routes(receipt,manifest)
+    if {boundary(p['boundary']) for p in rows}|{boundary(r['boundary']) for r in direct} != set(expected):
         raise ValueError('PROPOSED_BINDING_CONSERVATION_FAILED')
     if not expected:
         raise ValueError('NO_EXECUTABLE_BINDING_INVENTORY')
@@ -141,7 +160,8 @@ def verification(receipt, manifest, pins):
     rows = receipt['verifications']
     from .lineage_binding import seal
     exactly([seal(v['proposal']) for v in rows], [seal(v['proposal']) for v in rows], 'VERIFICATION_IDENTITY')
-    if {boundary(v['proposal']['boundary']) for v in rows} != {
+    direct=declared_routes(receipt,manifest)
+    if {boundary(v['proposal']['boundary']) for v in rows}|{boundary(r['boundary']) for r in direct} != {
             boundary(b) for b in manifest['lineage']['bindings']}:
         raise ValueError('VERIFIED_BINDING_CONSERVATION_FAILED')
     for original in rows:
@@ -149,7 +169,7 @@ def verification(receipt, manifest, pins):
         if checked.get('status') != 'VERIFIED':
             raise ValueError('BINDING_NOT_VERIFIED')
         if original['context'] not in receipt['model_contexts'].values():
-            raise ValueError('VERIFICATION_CONTEXT_DIFFERS')
+            recompile_retained_proposal(original['proposal'],receipt.get('compatible_code_units',[]))
         for observation in original['observations']:
             # Revalidation owns quantity/attestation gates. The readiness gate
             # additionally requires native retained reader receipts, not a
@@ -159,8 +179,72 @@ def verification(receipt, manifest, pins):
                 raise ValueError('LIVE_READER_RECEIPT_MISSING')
 
 
+def recompile_retained_proposal(proposal, units):
+    """Old context proof is reusable only for an identical current code plan.
+
+    The old context and observation are never rewritten as current. This is a
+    component compatibility check, not a new value or snapshot observation.
+    """
+    from .transformation_reader import static
+    from .lineage_binding import seal
+    location=proposal['location']
+    matched=[]
+    for entry in units:
+        raw=Path(entry['source_path']).read_bytes()
+        unit=entry['unit']
+        if sha(raw)!=unit['content_hash'] or unit['content_hash']!=location['content_hash']:
+            continue
+        # Whole-file cells must actually be the retained file, not a producer's
+        # replacement program with a borrowed content-hash label.
+        text=raw.decode('utf8').replace('\r\n','\n').replace('\r','\n')
+        if (len(unit['cells'])!=1 or unit['cells'][0]['source']!=text or
+                unit['cells'][0]['line_start']!=1 or
+                unit['cells'][0]['line_end']!=len(text.splitlines())):
+            continue
+        found=static(unit,schemas=entry['schemas'],boundary=proposal['boundary'],
+            item=location['item'],target_table=proposal['target']['table'])['proposals']
+        matched.extend(p for p in found if seal(p)==seal(proposal))
+    if len(matched)!=1:
+        raise ValueError('VERIFICATION_CONTEXT_COMPONENT_COMPATIBILITY_UNESTABLISHED')
+
+
+def binding_identity(proposal):
+    """Physical plan identity; recorder path/cell labels are provenance, not plan."""
+    return sha(json.dumps({k:proposal[k]for k in ('boundary','sources','target','expression')}
+        |{'binding_kind':proposal.get('binding_kind'),'code_hash':proposal['location']['content_hash']},
+        sort_keys=True,separators=(',',':')).encode())
+
+
+def required_code_binding_identities(receipt,manifest,scope_inventory):
+    from .transformation_reader import static
+    scan=receipt['scan'];assets=scan['assets'];by_id={a['id']:a for a in assets}
+    layer_parent={by_id[l['asset_id']].get('parent_id'):l['id']for l in manifest['layers']}
+    entries={e['id']:e for e in scope_inventory['declarations']}
+    result=[]
+    for declaration in scope_inventory['discovered_declarations']:
+        if declaration['form']!='STATIC_WRITER':continue
+        entry=entries[declaration['id']]
+        if entry['disposition']=='BOUNDARY':continue
+        owner=by_id[declaration['owner']];target=owner['metadata']['location']
+        lower={layer_parent[by_id[a].get('parent_id')]for a in entry['dependencies']}
+        if len(lower)!=1:raise ValueError('SCOPED_CODE_WRITER_BOUNDARY_UNESTABLISHED')
+        boundary_row={'from_layer':lower.pop(),'to_layer':layer_parent[owner.get('parent_id')]}
+        units=[u for u in receipt['compatible_code_units']if u['unit']['content_hash']==declaration['code_hash']]
+        if len(units)!=1:raise ValueError('SCOPED_CODE_UNIT_UNESTABLISHED')
+        unit=units[0];raw=Path(unit['source_path']).read_bytes();text=raw.decode('utf8').replace('\r\n','\n').replace('\r','\n')
+        if sha(raw)!=unit['unit']['content_hash'] or len(unit['unit']['cells'])!=1 or unit['unit']['cells'][0]['source']!=text:
+            raise ValueError('SCOPED_CODE_UNIT_CONTENT_DIFFERS')
+        found=static(unit['unit'],schemas=unit['schemas'],boundary=boundary_row,
+            item='readiness',target_table=target)['proposals']
+        if not found:raise ValueError('SCOPED_CODE_WRITER_PROPOSALS_MISSING')
+        result.extend(binding_identity(p)for p in found)
+    return result
+
+
 def publication(receipt, manifest, pins):
     require_pins(receipt, pins)
+    if receipt.get('publication',{}).get('kind') == 'RETAINED_EXECUTION':
+        return retained_execution_publication(receipt,manifest)
     replay = receipt['replay']
     published = receipt['publication']
     if replay.get('status') != 'COMPLETED' or replay.get('matched') is not True:
@@ -177,6 +261,64 @@ def publication(receipt, manifest, pins):
     source = next((s for s in receipt['sources'] if s.get('field') == 'replay'), None)
     if source is None or published.get('replay_receipt_sha256') != source['sha256']:
         raise ValueError('PUBLICATION_REPLAY_RECEIPT_DIFFERS')
+
+
+def retained_execution_publication(receipt,manifest):
+    """Declared routes need retained execution, not a fictitious profile append.
+
+    Every reused witness must occur in original capture bytes associated with
+    a retained successful offline replay. This does not replace observations,
+    publish a runtime inferred binding, or claim fresh data currency.
+    """
+    import base64
+    values=[]
+    def visit(value):
+        if isinstance(value,dict):
+            values.append(value)
+            for key,item in value.items():
+                visit(item)
+                if key=='body' and isinstance(item,str):
+                    try:visit(json.loads(base64.b64decode(item)))
+                    except (ValueError,TypeError,UnicodeDecodeError):pass
+        elif isinstance(value,list):
+            for item in value:visit(item)
+    executions=receipt['publication']['executions']
+    if not executions:raise ValueError('PUBLICATION_EXECUTION_RECEIPTS_REQUIRED')
+    for execution in executions:
+        capture=load_ref(execution['capture_ref'],'.')
+        from .process_tape import Tape
+        Tape(execution['capture_ref']['path'])
+        run=load_ref(execution['run_ref'],'.')
+        replay=load_ref(execution['replay_ref'],'.')
+        if Path(run['tape_path']).resolve()!=Path(execution['capture_ref']['path']).resolve():
+            raise ValueError('PUBLICATION_REPLAY_CAPTURE_DIFFERS')
+        if replay.get('matched') is not True or replay.get('status')!='COMPLETED' or replay.get('network_requests')!=0:
+            raise ValueError('PROFILE_OFFLINE_REPLAY_NOT_MATCHED')
+        bootstraps=[json.loads(base64.b64decode(e['body'])) for e in capture['events'] if e['kind']=='BOOTSTRAP']
+        if len(bootstraps)!=1 or not bootstraps[0].get('engine_hash') or replay.get('recorded_engine_hash')!=bootstraps[0]['engine_hash']:
+            raise ValueError('PUBLICATION_REPLAY_ENGINE_DIFFERS')
+        final=json.loads(base64.b64decode(capture['events'][-1]['body']))
+        captured_hash=replay.get('capture_sha256')
+        if captured_hash is not None:
+            if captured_hash!=execution['capture_ref']['sha256']:
+                raise ValueError('PUBLICATION_REPLAY_CAPTURE_HASH_DIFFERS')
+        elif (not isinstance(final.get('result'),dict)or not final['result'].get('id') or
+              replay.get('session')!=final['result'] or replay.get('outputs')!=final.get('outputs')):
+            # Historical receipts predate an input-hash field. Exact native
+            # FINAL/session/outputs (including unique read IDs) associate them;
+            # this is expressly narrower than a recorded full-capture hash.
+            raise ValueError('PUBLICATION_LEGACY_FINAL_ASSOCIATION_UNESTABLISHED')
+        visit(capture['events'])
+    for witness in receipt['verifications']:
+        if not any(witness==value for value in values):
+            raise ValueError('PUBLISHED_WITNESS_NOT_IN_REPLAYED_CAPTURE')
+    direct=declared_routes(receipt,manifest)
+    for route in receipt.get('declared_routes',[]):
+        for observation in route['selected_observations']:
+            if not any(observation==value for value in values):
+                raise ValueError('PUBLISHED_DECLARED_READ_NOT_IN_REPLAYED_CAPTURE')
+    if not receipt['verifications'] and not direct:
+        raise ValueError('NO_EXECUTED_READINESS_ROUTES')
 
 
 CHECKS = dict(zip(STAGES, (discovery, approval, inventory, proposals, verification, publication)))
@@ -205,7 +347,7 @@ def bind_sources(receipt, base):
             raise ValueError('AUTHORITATIVE_FIELD_DIFFERS:' + source['field'])
 
 
-def assess(manifest, pins, index=None, *, base='.', _approved_manifest=None, _scope_assets=None):
+def assess(manifest, pins, index=None, *, base='.', _approved_manifest=None, _scope_assets=None, _scope_inventory=None):
     """An incomplete estate remains runnable for diagnostics, but not scoreable."""
     if set(pins) != set(PINS) or any(not isinstance(v, str) or not v for v in pins.values()):
         raise ValueError('READINESS_CURRENT_PINS_REQUIRED')
@@ -230,16 +372,29 @@ def assess(manifest, pins, index=None, *, base='.', _approved_manifest=None, _sc
             rows.append({'stage': stage, 'status': 'BLOCKED', 'reason': str(exc)})
     if 'bindings' in retained and 'reader_verification' in retained:
         from .lineage_binding import seal
-        planned = {seal(p) for p in retained['bindings']['proposals']}
-        checked = {seal(v['proposal']) for v in retained['reader_verification']['verifications']}
+        planned = {seal(p) for p in retained['bindings']['proposals']}|{
+            r['route_identity'] for r in declared_routes(retained['bindings'],manifest)}
+        checked = {seal(v['proposal']) for v in retained['reader_verification']['verifications']}|{
+            r['route_identity'] for r in declared_routes(retained['reader_verification'],manifest)}
         if planned != checked:
             rows[STAGES.index('reader_verification')] = {
                 'stage': 'reader_verification', 'status': 'BLOCKED',
                 'reason': 'PROPOSED_VERIFIED_IDENTITY_CONSERVATION_FAILED'}
+    if _scope_inventory is not None and 'transformations' in retained and 'bindings' in retained:
+        try:
+            required=required_code_binding_identities(retained['transformations'],manifest,_scope_inventory)
+            exactly([binding_identity(p)for p in retained['bindings']['proposals']],required,'SCOPED_CODE_BINDING')
+        except (ValueError,KeyError,TypeError,OSError)as exc:
+            rows[STAGES.index('bindings')]={'stage':'bindings','status':'BLOCKED','reason':str(exc)}
     ready = all(r['status'] == 'VERIFIED' for r in rows)
+    admitted_constraints=[]
+    if ready:
+        for route in declared_routes(retained.get('reader_verification',{}),manifest):
+            admitted_constraints.append(route['constraints'])
     return {'version': VERSION, 'pins': dict(pins), 'status': 'READY' if ready else 'BLOCKED',
             'scoring': 'ADMITTED' if ready else 'NOT_SCORED',
             'reason': None if ready else 'estate-not-fully-onboarded', 'stages': rows,
+            'admitted_constraints':admitted_constraints,
             'estate_reads': 0, 'model_calls': 0}
 
 
@@ -291,11 +446,22 @@ def scope_closure(dependency_inventory, roots):
             raise ValueError('SCOPE_DECLARATION_OWNER_DIFFERS')
         if item.get('owner') is not None and item['owner'] != owner:
             raise ValueError('SCOPE_DECLARATION_OWNER_DIFFERS')
-        if item.get('disposition') not in ('RESOLVED', 'DIRECT'):
+        if item.get('disposition') not in ('RESOLVED', 'DIRECT', 'BOUNDARY'):
             raise ValueError('SCOPE_DECLARATION_UNSUPPORTED:' + original['form'])
         if item['disposition'] == 'DIRECT':
             if original.get('operation') != 'DIRECT_REFERENCE' or item.get('dependencies'):
                 raise ValueError('SCOPE_DIRECT_SOURCE_NOT_ESTABLISHED')
+        elif item['disposition'] == 'BOUNDARY':
+            # A declared reachability ceiling is not a claim of direct source
+            # identity. Its inputs remain expressly unchecked.
+            if (original.get('operation') != 'DECLARED_BOUNDARY' or
+                    item.get('dependencies') or
+                    not isinstance(original.get('unchecked_limits'), list) or
+                    not original['unchecked_limits'] or
+                    any(not isinstance(v, str) or not v.strip()
+                        for v in original['unchecked_limits']) or
+                    item.get('unchecked_limits') != original['unchecked_limits']):
+                raise ValueError('SCOPE_BOUNDARY_NOT_ESTABLISHED')
         elif not item.get('dependencies'):
             raise ValueError('SCOPE_RESOLVED_DEPENDENCIES_MISSING')
     reached = set()
@@ -330,6 +496,18 @@ def assess_named_scope(manifest, pins, index, scope_ref, *, base='.'):
         if not isinstance(scope.get('name'), str) or not scope['name']:
             raise ValueError('SCOPE_NAME_REQUIRED')
         assets = scope_closure(receipt['dependency_inventory'], scope['roots'])
+        declared_boundaries = {b['asset_id']: b for b in manifest.get('scope_boundaries', [])}
+        for item in receipt['dependency_inventory']['declarations']:
+            if item['disposition'] != 'BOUNDARY':
+                continue
+            original = next(d for d in receipt['dependency_inventory']['discovered_declarations']
+                            if d['id'] == item['id'])
+            owner = next(n['asset_id'] for n in receipt['dependency_inventory']['nodes']
+                         if item['id'] in n['declarations'])
+            boundary = declared_boundaries.get(owner)
+            if (boundary is None or boundary.get('unchecked_limits') != original['unchecked_limits'] or
+                    boundary.get('kind') != 'REACHABILITY_CEILING'):
+                raise ValueError('SCOPE_BOUNDARY_NOT_DECLARED_IN_MANIFEST')
         exactly(scope['assets'], assets, 'SCOPE_ASSET')
         layers = [l for l in manifest['layers'] if l['asset_id'] in assets]
         if not layers or not set(scope['roots']) <= {l['asset_id'] for l in layers}:
@@ -356,9 +534,17 @@ def assess_named_scope(manifest, pins, index, scope_ref, *, base='.'):
         scoped['lineage']['bindings'] = [dict(from_layer=lower, to_layer=upper)
                                        for lower, upper in sorted(boundaries)]
         report = assess(scoped, pins, index, base=base,
-                        _approved_manifest=manifest, _scope_assets=assets)
+                        _approved_manifest=manifest, _scope_assets=assets,
+                        _scope_inventory=receipt['dependency_inventory'])
+        constraints=scope.get('constraints')
+        if constraints is not None:
+            validate_scope_constraints(constraints)
+            if report['status']=='READY' and constraints not in report.get('admitted_constraints',[]):
+                raise ValueError('SCOPE_QUANTITY_CONSTRAINTS_NOT_ESTABLISHED_BY_DECLARED_ROUTE')
         report.update(scope={'name': scope['name'], 'roots': list(scope['roots']),
-                             'assets': sorted(assets), 'layers': sorted(layer_ids)},
+                             'assets': sorted(assets), 'layers': sorted(layer_ids),
+                             'constraints': scope.get('constraints'),
+                             'limits': scope.get('limits', [])},
                       estate_status='NOT_ESTABLISHED_BY_SCOPED_ASSESSMENT')
         return report
     except (ValueError, KeyError, TypeError, OSError) as exc:
@@ -368,7 +554,7 @@ def assess_named_scope(manifest, pins, index, scope_ref, *, base='.'):
                 'estate_reads': 0, 'model_calls': 0}
 
 
-def score_named_scope(score, *args, readiness, requested_assets, **kwargs):
+def score_named_scope(score, *args, readiness, requested_assets, requested_scope=None, **kwargs):
     """A scoped READY receipt cannot be used for a different ticket scope."""
     try:
         report = assess_named_scope(readiness['manifest'], readiness['pins'],
@@ -376,10 +562,24 @@ def score_named_scope(score, *args, readiness, requested_assets, **kwargs):
     except (KeyError, TypeError, ValueError):
         report = {'status': 'BLOCKED', 'detail': 'SCOPED_READINESS_EVIDENCE_INPUTS_REQUIRED'}
     requested = set(requested_assets)
-    if (report['status'] != 'READY' or not requested or
+    constraints = report.get('scope', {}).get('constraints')
+    try:validate_scope_constraints(constraints);scope_matches=requested_scope==constraints
+    except (ValueError,TypeError):scope_matches=False
+    if (report['status'] != 'READY' or not requested or not scope_matches or
             not requested <= set(report.get('scope', {}).get('assets', []))):
         return {'scoring': 'NOT_SCORED', 'reason': 'estate-not-fully-onboarded',
                 'scope_reason': 'REQUEST_OUTSIDE_VERIFIED_SCOPE' if report['status'] == 'READY'
                     else report.get('detail', 'SCOPE_PROOFS_NOT_COMPLETE'),
                 'readiness': report, 'passed': None}
     return score(*args, **kwargs)
+
+
+def validate_scope_constraints(value):
+    if not isinstance(value,dict) or set(value)!={'kind','measure_ids','filters','dimension_ids'}:
+        raise ValueError('SCOPE_QUANTITY_CONSTRAINTS_REQUIRED')
+    measures=value['measure_ids']
+    if (value['kind']!='WHOLE_ENTITY_QUANTITY' or value['filters']!=[] or
+            value['dimension_ids']!=[] or not isinstance(measures,list) or not measures or
+            any(not isinstance(v,str)or not v for v in measures)or len(measures)!=len(set(measures))):
+        raise ValueError('SCOPE_QUANTITY_CONSTRAINTS_UNSUPPORTED')
+    return value

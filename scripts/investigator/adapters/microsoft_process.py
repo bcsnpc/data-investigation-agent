@@ -388,6 +388,16 @@ class MicrosoftProcessAdapter:
         relations=[e for e in context.get('graph',{}).get('edges',[]) if e.get('source')==endpoint
                    and e.get('relation')=='NATIVE_CASCADEDELETE' and by_id.get(e.get('target'),{}).get('kind')=='Lakehouse']
         roots=sorted({e['target'] for e in relations})
+        warehouse=by_id.get(endpoint)
+        warehouse=(warehouse if warehouse and warehouse.get('kind')=='Warehouse' else None)
+        if warehouse:
+            native=warehouse.get('metadata',{})
+            if (warehouse.get('availability')!='CURRENT' or native.get('id')!=match.group(2)
+                    or native.get('properties',{}).get('connectionString')!=match.group(1)
+                    or match.group(1)!=self.config.get('fabric',{}).get('sql_reader',{}).get('server')):
+                return {'status':'SCOPE_NOT_DISCOVERED','scope_ids':[endpoint],'candidates':[],
+                        'reason':'Warehouse metadata does not establish the declared server and item identity.'}
+            roots=[endpoint]
         if not roots:
             status='ACCESS_DENIED' if denied(model_root+'/relations/upstream') else 'SCOPE_NOT_DISCOVERED'
             return {'status':status,'scope_ids':[endpoint],'candidates':[],
@@ -397,7 +407,7 @@ class MicrosoftProcessAdapter:
         labels=[x.lstrip('.') for x in labels if x.strip('.')]
         offset=definition['metadata']['content'].find(str(source.get('entityName','')))
         declaration={'scope_ids':roots,'target_labels':labels,
-            'target_kinds':['LakehouseTable'],'definition_asset_id':definition['id'],
+            'target_kinds':['WarehouseTable'] if warehouse else ['LakehouseTable'],'definition_asset_id':definition['id'],
             'declared_connection_asset_id':endpoint}
         if offset>=0:declaration['definition_offset']=offset
         resolved=self.resolve_declared_source(declaration)
@@ -412,6 +422,10 @@ class MicrosoftProcessAdapter:
         resolved['declared_role_count']=len(document.get('roles') or [])
         resolved['relation_cross_check']={'status':'AGREES' if resolved['status']=='RESOLVED' else 'NO_UNIQUE_AGREEMENT',
             'relations':[{'source':e['source'],'target':e['target'],'relation':e['relation']} for e in relations]}
+        if warehouse:
+            resolved['relation_cross_check']={'status':'WAREHOUSE_DECLARATION_MATCHED',
+                'metadata_asset_id':warehouse['id'],'metadata_hash':warehouse['content_hash'],
+                'reason':'The model declares the Warehouse item directly; no Lakehouse ownership relation is inferred.'}
         return resolved
 
     def resolve_path(self,measure_id):
@@ -690,8 +704,10 @@ class MicrosoftProcessAdapter:
             return None,'The measured column does not declare a physical source column.'
         context=context_search.latest(self.store) or {}
         endpoint=next((a for a in context.get('assets',[]) if a.get('id')==binding.get('declared_connection_asset_id')
-                       and a.get('kind')=='SQLEndpoint'),None)
+                       and a.get('kind') in ('SQLEndpoint','Warehouse')),None)
         if not endpoint:return None,'The binding declares no SQL endpoint for the source.'
+        if endpoint['kind']=='Warehouse' and endpoint.get('metadata',{}).get('properties',{}).get('connectionString')!=self.config.get('fabric',{}).get('sql_reader',{}).get('server'):
+            return None,'The Warehouse declaration differs from the approved SQL endpoint.'
         from ..source_diagnostics import quote
         types={'int64':'bigint','double':'float','decimal':'decimal','string':'nvarchar','boolean':'bit','dateTime':'datetime2'}
         columns=[{'name':c['sourceColumn'],'data_type':types.get(c.get('dataType'),'sql_variant')}

@@ -62,13 +62,17 @@ def resolve(source,ticket,catalog,configuration,request):
 def rebind(controller,saved,source,catalog):
     """Append a new intake/pin and ticket revision; retain the original untouched."""
     from .ticket_inputs import active_request
-    reason=None
+    from .question_kind import UnimplementedRoute
+    reason=None;route_refusal=False
     try:proposal,raw=resolve(source,saved['ticket'],catalog,controller.configuration,active_request(saved))
+    except UnimplementedRoute as error:
+        reason=str(error);proposal=None;raw=intake_extraction.retained_response(source);route_refusal=True
     except (ValueError,Conflict,ValidationError) as error:
         reason=str(error);proposal=None;raw=intake_extraction.retained_response(source)
     if raw is None:raise Conflict('No retained extraction exists for catalog re-resolution')
     resolved=bool(proposal and proposal.get('action')=='PROPOSE')
-    if not proposal:status='TARGET_CONFIRMATION_REQUIRED'
+    if route_refusal:status='ROUTE_UNAVAILABLE'
+    elif not proposal:status='TARGET_CONFIRMATION_REQUIRED'
     elif not resolved:status='CURRENT_CATALOG_UNRESOLVED'
     elif (source.get('proposal') or {}).get('action')=='PROPOSE':status='SAME_STABLE_OBJECTS'
     elif saved['ticket'].get('confirmed',{}).get('NUMBER'):status='USER_TARGET_REVALIDATED'
@@ -81,6 +85,7 @@ def rebind(controller,saved,source,catalog):
             'previous_target':copy.deepcopy((source.get('proposal') or {}).get('target_visual')),
             'target':identity(proposal,referents(catalog)),
             'status':status,'reason':reason})
+    if route_refusal:body.update(status='HELD',error='UNIMPLEMENTED_ROUTE',refusal_reason=reason)
     with controller.store.connect() as db:
         db.execute('INSERT INTO workspace_intakes VALUES(?,?,?,?)',(body['id'],key,encoded(body),digest(body)))
     def update(ticket):
@@ -91,6 +96,9 @@ def rebind(controller,saved,source,catalog):
         ticket['source_intake']=body['id']
         ticket['history'].append({'from':ticket['state'],'to':ticket['state'],'actor':'AGENT',
             'detail':{'catalog_revalidation':copy.deepcopy(body['catalog_revalidation']),'intake_id':body['id']}})
+        if route_refusal:
+            ticket['questions']=[]
+            return ticket
         if proposal:
             if ticket.get('choice_context'):ticket['choice_context']['catalog_hash']=digest(catalog['models'])
             return ticket

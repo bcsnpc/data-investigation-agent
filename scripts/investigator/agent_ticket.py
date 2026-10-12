@@ -50,7 +50,7 @@ class AgentTicket:
         if len(match) != 1 or not asked or comments.index(match[0]) <= asked[-1]:
             raise Conflict('Agent continuation requires a retained user reply after its question')
         if comment_id in saved['ticket'].get('agent_consumed_replies', []): raise Conflict('Agent reply already consumed')
-        from .agent_wait_time import interval, total
+        from .agent_wait_time import interval, total, queued_reply
         journal = Journal(self.workspace.store, identity, now=self.workspace.agent.clock)
         now = self.workspace.agent.clock()
         total(saved['ticket'], journal.read(), now=now)
@@ -60,10 +60,13 @@ class AgentTicket:
             if previous['status'] != 'NEEDS_INPUT': raise Conflict('Agent predecessor is not waiting')
             self.workspace.smart_intake._bound_session(saved['ticket'], previous['id'])
         else: previous = None
+        queue=queued_reply(saved['ticket'],loop,comment_id,journal.read(),now=now)
+        queue['receipt_id']=journal.persist({'event':'QUEUED_REPLY_WAIT_EXCLUDED','pause':copy.deepcopy(queue)})
         def retain(ticket):
             ticket.setdefault('agent_consumed_replies', []).append(comment_id)
             ticket.setdefault('agent_loop_history', []).append(copy.deepcopy(ticket.pop('agent_loop')))
             ticket.setdefault('agent_wait_pauses', []).append(copy.deepcopy(pause))
+            ticket.setdefault('agent_reply_queue_pauses', []).append(copy.deepcopy(queue))
             total(ticket, journal.read(), now=now)
             ticket.setdefault('agent_replies', []).append(copy.deepcopy(match[0]))
             if self.workspace.agent.config.get('_estate',{}).get('investigation',{}).get('mode')=='HYBRID':
