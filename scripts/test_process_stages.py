@@ -34,6 +34,17 @@ class StageTests(unittest.TestCase):
         self.assertEqual(delegate.resolve_path('x'),'original path')
         self.assertEqual(observed.resolve_path('x'),'original path')
 
+    def test_claim_projection_preserves_layer_scope_and_stage(self):
+        events=[];seen=[];sentinel=object()
+        def probe(*args):seen.append(args);return sentinel
+        delegate=SimpleNamespace(claim_probe=probe,config={'_estate':{'layers':[{'asset_id':'app','role':'APPLICATION'}]}})
+        observed=Adapter(delegate,lambda k,d:events.append((k,d)))
+        args=({'layers':[]},{'id':'app'},{'kind':'MULTIPLICITY'},{})
+        self.assertIs(observed.claim_probe(*args),sentinel);self.assertEqual(seen,[args])
+        self.assertEqual(events[0][1],{'stage':'source','operation':'claim_probe'})
+        observed.claim_probe({}, {'id':'model'},{},{})
+        self.assertEqual(events[2][1]['stage'],'walk')
+
     def test_labels_are_engine_stage_facts_and_do_not_include_native_operation_or_error_text(self):
         self.assertEqual(label({'kind':'PROCESS_STAGE_STARTED','detail':{'stage':'reproduce','operation':'secret'}}),
                          'Checking declared report context started')

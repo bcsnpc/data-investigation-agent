@@ -66,6 +66,8 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
         claims=ClaimIntake(workspace)
         methods.update(claim_submit=claims.submit,claim_reply=claims.reply,claim_confirm=claims.confirm,
             claim_screenshot_identify=workspace.claim_screenshots.identify,claim_screenshot_confirm=workspace.claim_screenshots.confirm)
+    if tape.version in journal.CLAIM_RUN_VERSIONS:
+        methods['claim_run']=workspace.claim_investigations.run
     if tape.version in journal.AGENT_VERSIONS:
         methods.update(agent_run=workspace.agent_controller.run)
     if tape.version in journal.AGENT_RESUME_VERSIONS:

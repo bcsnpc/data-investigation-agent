@@ -15,21 +15,23 @@ from .artifact_identity_cache import IdentityCache,ArtifactChanged
 from uuid import uuid4 as new_uuid, UUID
 
 ACTIVE = ContextVar('process_tape', default=None)
-VERSION = 'bounded-worker-tape-v13'
-SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', 'bounded-worker-tape-v6', 'bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9', 'bounded-worker-tape-v10', 'bounded-worker-tape-v11', 'bounded-worker-tape-v12', VERSION))
-DOLLAR_GUARDED_VERSIONS = frozenset(('bounded-worker-tape-v10', 'bounded-worker-tape-v11', 'bounded-worker-tape-v12', VERSION))
+VERSION = 'bounded-worker-tape-v14'
+SUPPORTED_VERSIONS = frozenset(('bounded-worker-tape-v1', 'bounded-worker-tape-v2', 'bounded-worker-tape-v3', 'bounded-worker-tape-v4', 'bounded-worker-tape-v5', 'bounded-worker-tape-v6', 'bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9', 'bounded-worker-tape-v10', 'bounded-worker-tape-v11', 'bounded-worker-tape-v12', 'bounded-worker-tape-v13', VERSION))
+DOLLAR_GUARDED_VERSIONS = frozenset(('bounded-worker-tape-v10', 'bounded-worker-tape-v11', 'bounded-worker-tape-v12', 'bounded-worker-tape-v13', VERSION))
 PINNED_VERSIONS = SUPPORTED_VERSIONS - {'bounded-worker-tape-v1'}
-ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12',VERSION))
-SMART_VERSIONS = frozenset(('bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12',VERSION))
-AGENT_VERSIONS = frozenset(('bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12',VERSION))
+ACCOUNTED_VERSIONS = frozenset(('bounded-worker-tape-v3','bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12','bounded-worker-tape-v13',VERSION))
+SMART_VERSIONS = frozenset(('bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12','bounded-worker-tape-v13',VERSION))
+AGENT_VERSIONS = frozenset(('bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12','bounded-worker-tape-v13',VERSION))
 AGENT_OPERATIONS = frozenset(('agent_run',))
-CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12',VERSION))
+CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5','bounded-worker-tape-v6','bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12','bounded-worker-tape-v13',VERSION))
 SMART_OPERATIONS=frozenset(('ticket_submit','ticket_reply','ticket_attach','ticket_share','ticket_close','ticket_respond','ticket_finish',
                           'form_submit','form_reply','form_screenshot_reply','form_comment','agent_resume','claim_submit','claim_reply','claim_confirm','claim_screenshot_identify','claim_screenshot_confirm'))
-AGENT_RESUME_VERSIONS = frozenset(('bounded-worker-tape-v12',VERSION))
+AGENT_RESUME_VERSIONS = frozenset(('bounded-worker-tape-v12','bounded-worker-tape-v13',VERSION))
 BUDGET_V2_VERSIONS=SUPPORTED_VERSIONS - frozenset('bounded-worker-tape-v'+str(n)for n in range(1,8))
 AGENT_CLOCK_VERSIONS=AGENT_RESUME_VERSIONS
-CLAIM_VERSIONS=frozenset((VERSION,))
+CLAIM_VERSIONS=frozenset(('bounded-worker-tape-v13',VERSION))
+CLAIM_RUN_VERSIONS=frozenset((VERSION,))
+CLAIM_RUN_OPERATIONS=frozenset(('claim_run',))
 CLAIM_OPERATIONS=frozenset(('claim_submit','claim_reply','claim_confirm','claim_screenshot_identify','claim_screenshot_confirm'))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',
     'BUDGET','BUDGET_INPUT','BUDGET_INPUT_FAILURE','CLOCK','IDENTITY','WORKER_START','WORKER_SEND','WORKER_READ','WORKER_END','WORKER_FAILURE',
@@ -202,7 +204,7 @@ class Tape:
                 fields.add('provider_transport_retries')
                 if type(state['provider_transport_retries']) is not int or state['provider_transport_retries']!=2:
                     raise TapeError('TAPE_PROVIDER_TRANSPORT_RETRY_CONFIGURATION')
-            for key,expected in (('budget_checkpoint','DELTA_V2' if self.version in ('bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12',VERSION) else 'DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),('local_accounting','SQLITE_BOUNDARY_V1')):
+            for key,expected in (('budget_checkpoint','DELTA_V2' if self.version in ('bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12','bounded-worker-tape-v13',VERSION) else 'DELTA_V1'),('snapshot_clock','ONE_CLOCK_V1'),('local_accounting','SQLITE_BOUNDARY_V1')):
                 if key in state:
                     fields.add(key)
                     if state[key]!=expected:raise TapeError('TAPE_BUDGET_CONFIGURATION')
@@ -287,8 +289,11 @@ class Tape:
                         and not synthesis and final['outputs'] is None)
             if final['status']=='COMPLETED' and final['error'] is None and not failed_composition and not read_stage:
                 outputs=final['outputs']
-                if not isinstance(outputs,dict) or not {'business_output','technical_output'}<=outputs.keys() or any(not isinstance(outputs[key],dict) or not isinstance(outputs[key].get('explanation',{}).get('text'),str) or not outputs[key]['explanation']['text'] for key in ('business_output','technical_output')):
-                    raise TapeError('TAPE_COMPLETED_OUTPUTS_MISSING')
+                if self.version in CLAIM_RUN_VERSIONS and final['operation']=='claim_run':
+                    valid=isinstance(outputs,dict)and set(outputs)=={'business_explanation','technical_narrative'}and all(isinstance(v,str)and v.strip()for v in outputs.values())
+                else:
+                    valid=isinstance(outputs,dict)and {'business_output','technical_output'}<=outputs.keys()and all(isinstance(outputs[key],dict)and isinstance(outputs[key].get('explanation',{}).get('text'),str)and outputs[key]['explanation']['text']for key in ('business_output','technical_output'))
+                if not valid:raise TapeError('TAPE_COMPLETED_OUTPUTS_MISSING')
             # A final result cannot introduce an identity whose provenance is
             # absent from recorded inputs, generated-identity events or pinned
             # bootstrap state. This catches missed identity producers rather
@@ -310,7 +315,7 @@ class Tape:
         for event in self.events:
             kind=event['kind']
             if kind=='BUDGET_INPUT_FAILURE':
-                if self.version not in ('bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12',VERSION):raise TapeError('TAPE_BUDGET_FAILURE_VERSION')
+                if self.version not in ('bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12','bounded-worker-tape-v13',VERSION):raise TapeError('TAPE_BUDGET_FAILURE_VERSION')
                 from .budget_delta_v2 import validate_failure
                 validate_failure(json.loads(validate_event(event,event['ordinal'])))
             elif kind=='BUDGET_INPUT':external_checkpoint=True
@@ -325,6 +330,7 @@ class Tape:
                 body=json.loads(validate_event(event,event['ordinal']))
                 supported={'intake','preview','create','run','synthesize'}
                 if self.version in SMART_VERSIONS:supported.update(SMART_OPERATIONS - {'agent_resume'} - (set()if self.version in CLAIM_VERSIONS else CLAIM_OPERATIONS))
+                if self.version in CLAIM_RUN_VERSIONS:supported.update(CLAIM_RUN_OPERATIONS)
                 if self.version in AGENT_RESUME_VERSIONS:supported.add('agent_resume')
                 if self.version in AGENT_VERSIONS:supported.update(AGENT_OPERATIONS)
                 if bootstrap['entry_point']=='workspace' and (set(body)!={'name','args','kwargs'} or body['name'] not in supported or not isinstance(body['args'],list) or not isinstance(body['kwargs'],dict)):
@@ -370,7 +376,7 @@ class Tape:
 
 @contextmanager
 def active(tape):
-    if tape is not None and getattr(tape,'version',None) in ('bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12',VERSION) and tape.bootstrap.get('entry_point')=='workspace' and tape.bootstrap.get('usage_policy') is not None and tape.bootstrap.get('state',{}).get('budget_checkpoint') in ('DELTA_V1','DELTA_V2'):
+    if tape is not None and getattr(tape,'version',None) in ('bounded-worker-tape-v7','bounded-worker-tape-v8','bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12','bounded-worker-tape-v13',VERSION) and tape.bootstrap.get('entry_point')=='workspace' and tape.bootstrap.get('usage_policy') is not None and tape.bootstrap.get('state',{}).get('budget_checkpoint') in ('DELTA_V1','DELTA_V2'):
         from .budget_checkpoint import prepare
         prepare(tape,tape.path.parent/'catalog.sqlite',tape.bootstrap['state']['environment'])
     token=ACTIVE.set(tape)

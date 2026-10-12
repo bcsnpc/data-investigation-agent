@@ -70,7 +70,7 @@ def operation(name):
                     # own contract. This bootstrap extends the process path.
                     return method(owner,*args,**kwargs)
             if tape is None:
-                if name not in {'intake','preview','create',*journal.SMART_OPERATIONS} and not (name in ('run','agent_run') and has_smart_ticket(agent,str(key))):
+                if name not in {'intake','preview','create',*journal.SMART_OPERATIONS,*journal.CLAIM_RUN_OPERATIONS} and not (name in ('run','agent_run') and has_smart_ticket(agent,str(key))):
                     raise journal.TapeError('LIVE_RUN_MISSING_RECORDING_BOOTSTRAP')
                 root=ROOT/'.local/process-tapes'/str(fresh_id())
                 root.mkdir(parents=True,exist_ok=False)
@@ -102,7 +102,7 @@ def operation(name):
                     bootstrap['state']['context_pins']=agent.store.context_pins
                 if getattr(agent.store,'acceptance_fixture_state',None):
                     bootstrap['state']['fixture_state']=agent.store.acceptance_fixture_state
-                if name in journal.CLAIM_OPERATIONS:
+                if name in journal.CLAIM_OPERATIONS | journal.CLAIM_RUN_OPERATIONS:
                     bootstrap['state']['claim_intake']='claim-intake-v1'
                 elif name in journal.SMART_OPERATIONS:
                     bootstrap['state']['smart_intake']=owner.configuration
@@ -144,10 +144,10 @@ def operation(name):
                     smart_read=(name in ('run','agent_run') and error is None and result is not None and
                                 result.get('status') not in ('READY','PLANNING','EXECUTING') and
                                 has_smart_ticket(agent,str(key)))
-                    terminal=error is not None or name in ('synthesize','agent_run') or name in journal.SMART_OPERATIONS or name=='intake' and result.get('status')!='PROPOSED' or smart_read
+                    terminal=error is not None or name in ('synthesize','agent_run') or name in journal.SMART_OPERATIONS | journal.CLAIM_RUN_OPERATIONS or name=='intake' and result.get('status')!='PROPOSED' or smart_read
                     if terminal:
                         final={'operation':name,'error':type(error).__name__ if error else None,
-                               'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs'),
+                               'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs') or ((result or {}).get('outputs') if name in journal.CLAIM_RUN_OPERATIONS else None),
                                'status':(result or {}).get('status'),'result':result}
                         try:tape.finish(final)
                         except journal.TapeError as failure:

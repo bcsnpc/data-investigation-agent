@@ -4,7 +4,7 @@ from functools import wraps
 METHODS = {
     'resolve_path':'context', 'declared_context':'reproduce', 'declared_cells':'reproduce',
     'evaluate_declared_context':'reproduce', 'observe_selection_value':'reproduce',
-    'evaluate':'walk', 'direct_source_comparison':'walk', 'presentation_context':'walk',
+    'claim_probe':'walk', 'evaluate':'walk', 'direct_source_comparison':'walk', 'presentation_context':'walk',
     'presentation_freshness':'walk', 'transformation_definition':'walk',
     'failure_detail':'walk', 'refresh_timing':'walk', 'snapshot_identity':'walk',
     'job_history':'source', 'ingestion':'source', 'source_delivery':'source', 'record_presence':'source',
@@ -32,8 +32,9 @@ class Adapter:
         @wraps(value)
         def invoke(*args, **kwargs):
             stage = METHODS[key]
-            if key == 'evaluate' and args and isinstance(args[0], dict):
-                layer = args[0].get('id')
+            layer_argument = args[1] if key == 'claim_probe' and len(args)>1 else args[0] if key == 'evaluate' and args else None
+            if isinstance(layer_argument, dict):
+                layer = layer_argument.get('id')
                 estate = getattr(self._adapter, 'config', {}).get('_estate', {})
                 if any(l.get('asset_id') == layer and l.get('role') == 'APPLICATION' for l in estate.get('layers', [])):
                     stage = 'source'

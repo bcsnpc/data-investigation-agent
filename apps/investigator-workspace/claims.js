@@ -16,7 +16,7 @@
   const endpoint = 'claims';
   function paragraph(parent, text) { parent.appendChild(node('p', text)); }
   function render(record) {
-    current = record;
+    current = record; el('claim-check-result').hidden = true;
     const box = el('claim-result'); box.hidden = false; box.replaceChildren();
     paragraph(box, ({CLARIFYING: 'One detail will help us choose the right check.',
       AWAITING_CONFIRMATION: 'Check that we understood your question.',
@@ -59,8 +59,32 @@
       box.appendChild(confirm);
       paragraph(box, 'If anything is wrong, edit your description and submit it again before confirming.');
     }
+    if (record.status === 'CONFIRMED') {
+      const execute = node('button', 'Run the confirmed check'); execute.type = 'button';
+      // The controller leases one execution per confirmed revision. Re-opening
+      // this page can retrieve that result; it cannot issue replacement probes.
+      const executionKey = 'confirmed-' + record.id + '-' + record.revision;
+      execute.addEventListener('click', () => run(async () => {
+        execute.disabled = true;
+        try { renderInvestigation(await request(endpoint + '/' + encodeURIComponent(record.id) + '/run',
+          {revision:record.revision, request_key:executionKey})); }
+        finally { execute.disabled = false; }
+      }));
+      box.appendChild(execute);
+      paragraph(box, 'If this confirmed check has already run, this opens its saved result without repeating reads.');
+    }
     const link = node('a', 'Open this saved question');
     link.href = '#claim=' + encodeURIComponent(record.id); box.appendChild(link);
+  }
+  function renderInvestigation(result) {
+    const box = el('claim-check-result'); box.hidden = false; box.replaceChildren();
+    const business = result.outputs?.business_explanation;
+    const technical = result.outputs?.technical_narrative;
+    if (typeof business !== 'string' || typeof technical !== 'string')
+      throw new Error('The retained check has no complete pair of explanations.');
+    box.appendChild(node('h3', 'What the check found')); paragraph(box, business);
+    const details = node('details'); details.appendChild(node('summary', 'Technical evidence'));
+    paragraph(details, technical); box.appendChild(details);
   }
   function renderScreenshot(review) {
     screenshot = review;
@@ -100,7 +124,7 @@
   function reset() {
     revision++;
     current = null; screenshot = null; el('claim-form').reset();
-    el('claim-result').hidden = true; el('claim-image-result').hidden = true;
+    el('claim-result').hidden = true; el('claim-image-result').hidden = true; el('claim-check-result').hidden = true;
   }
   el('new-investigation').addEventListener('click', reset);
   el('signout').addEventListener('click', reset);

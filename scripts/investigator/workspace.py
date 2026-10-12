@@ -82,6 +82,13 @@ class Workspace:
         return self._claims
 
     @property
+    def claim_investigations(self):
+        if not hasattr(self, "_claim_investigations"):
+            from .claim_investigations import ClaimInvestigations
+            self._claim_investigations = ClaimInvestigations(self)
+        return self._claim_investigations
+
+    @property
     def claim_glossary(self):
         if not hasattr(self, '_claim_glossary'):
             from .claim_glossary import EstateGlossary

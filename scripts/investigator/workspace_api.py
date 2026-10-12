@@ -74,6 +74,12 @@ def create_app(workspace, token, port=8776):
                 parts = path[len('/api/workspace/claims/'):].split('/')
                 if len(parts) == 1 and method == 'GET':
                     result = workspace.claims.get(parts[0])
+                elif len(parts) == 2 and parts[1] == 'investigation' and method == 'GET':
+                    result = workspace.claim_investigations.get(parts[0])
+                elif len(parts) == 2 and parts[1] == 'run' and method == 'POST':
+                    if not isinstance(body, dict) or 'id' in body:
+                        raise ValueError('Claim identity comes from the path')
+                    result = workspace.claim_investigations.run({'id': parts[0], **body})
                 elif len(parts) == 2 and parts[1] in ('replies', 'confirm') and method == 'POST':
                     if not isinstance(body, dict) or 'id' in body:
                         raise ValueError('Claim identity comes from the path')

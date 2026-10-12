@@ -27,6 +27,32 @@ class ClaimTests(unittest.TestCase):
  def request(self,**changes):
   claim={'metric_phrase':'Quantity','observations':[{'observed':950,'expected':1000}], 'direction':'LESS','comparator':'OWN_COUNT','scope':{'kind':'VISUALS','report_id':'report','page_id':'page','visual_ids':['card','other']}}
   claim.update(changes);return {'request_key':'one','claim':claim}
+ def test_global_multiplicity_does_not_require_an_example_key(self):
+  result=self.controller.submit(self.request(scope={'kind':'RECORDS','model_id':'model'},direction='MORE'))
+  self.assertEqual(result['status'],'AWAITING_CONFIRMATION');self.assertEqual(result['questions'],[])
+ def test_missing_records_still_require_an_example_or_a_compiled_comparator_set(self):
+  result=self.controller.submit(self.request(scope={'kind':'RECORDS','model_id':'model'},direction='LESS'))
+  self.assertEqual(result['questions'][0]['field'],'examples')
+ def test_model_only_claim_disambiguates_shared_measure_name_without_report(self):
+  catalog=copy.deepcopy(CAT);catalog['models'][0]['name']='Operations model';catalog['models'].append({'id':'foreign','name':'Billing model','measures':[{'id':'other-quantity','name':'Quantity'}],'reports':[],'visuals':[]})
+  with patch.object(self.controller,'_catalog',return_value=catalog):
+   req=self.request(scope={'kind':'RECORDS','model_id':'model'},examples=[42]);r=self.controller.submit(req)
+   self.assertEqual(r['status'],'AWAITING_CONFIRMATION');self.assertEqual(r['claim']['selected_binding']['model_id'],'model')
+   self.assertIn('Operations model',r['interpretation']['text']);self.assertEqual(r['questions'],[])
+   req['request_key']='bad-model';req['claim']['scope']['model_id']='unknown'
+   with self.assertRaisesRegex(ValueError,'unknown model'):self.controller.submit(req)
+ def test_typed_field_and_dimension_require_retained_identity_and_render_names(self):
+  catalog=copy.deepcopy(CAT);catalog['models'][0]['columns']=[{'column_id':'field-secret-id','name':'Status'},{'column_id':'dimension-secret-id','name':'Region'}]
+  with patch.object(self.controller,'_catalog',return_value=catalog):
+   request=self.request();request['claim']['scope'].update(field_id='field-secret-id',dimension_id='dimension-secret-id')
+   result=self.controller.submit(request)
+   self.assertIn('Field to trace: Status.',result['interpretation']['text']);self.assertIn('Breakdown by: Region.',result['interpretation']['text'])
+   self.assertNotIn('secret-id',result['interpretation']['text'])
+   request['request_key']='bad';request['claim']['scope']['field_id']='unknown'
+   with self.assertRaisesRegex(ValueError,'unknown'):self.controller.submit(request)
+   catalog['models'].append({'id':'other-model','measures':[],'columns':[{'column_id':'foreign-field','name':'Foreign'}]})
+   request['claim']['scope']['field_id']='foreign-field'
+   with self.assertRaisesRegex(ValueError,'outside'):self.controller.submit(request)
  def test_plural_claim_requires_confirmation_and_never_executes(self):
   result=self.controller.submit(self.request())
   self.assertEqual(result['status'],'AWAITING_CONFIRMATION');self.assertEqual(result['questions'],[])

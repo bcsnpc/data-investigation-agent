@@ -19,6 +19,24 @@ def catalog_projection(catalog):
     return result
 
 
+def scope_columns(scope,catalog,binding=None):
+    """Only a uniquely retained column in the selected model is executable."""
+    entries=binding.get('bindings',[])if binding and binding.get('kind')=='MULTIPLE'else[binding]if binding else[]
+    model_ids={item['model_id']for item in entries}
+    if scope.get('model_id'):model_ids.add(scope['model_id'])
+    if not model_ids and scope.get('report_id'):
+        model_ids={model['id']for model in catalog['models']if any(r['id']==scope['report_id']for r in model.get('reports',[]))}
+    result={}
+    for field in ('field_id','dimension_id'):
+        if field not in scope:continue
+        if not isinstance(scope[field],str)or not scope[field]:raise ValueError('Claim column identity must be a nonempty string')
+        columns=[(model,column)for model in catalog['models']for column in model.get('columns',[])if column.get('column_id')==scope[field]]
+        if len(columns)!=1 or model_ids and columns[0][0]['id']not in model_ids:
+            raise ValueError('Claim column is unknown or outside the selected model')
+        result[field]=label([columns[0][1]['name']])
+    return result
+
+
 def resolve_scope(fact,catalog,context=None):
     """Resolve only actual visible names inside the user's extracted scope span."""
     value=dict(context or {},**fact['value']);phrase=value.get('phrase','')
@@ -47,12 +65,14 @@ def candidates(settled,catalog,glossary=None):
             resolved=glossary.resolve(phrase,catalog['models'])
             if resolved:glossary_phrases.add(phrase)
             for candidate in resolved:
+                if scope.get('model_id')and candidate['model_id']!=scope['model_id']:continue
                 model=next((m for m in catalog['models']if m['id']==candidate['model_id']),None)
                 if model is None:continue
                 vs=[v for v in model.get('visuals',[])if candidate.get('measure_id')in v['measure_ids']and(not candidate.get('report_id')or v['report_id']==candidate['report_id'])and(not candidate.get('page_id')or v.get('page_id')==candidate['page_id'])and(not candidate.get('target_ids')or v['target_id']in candidate['target_ids'])and(not scope.get('report_id')or v['report_id']==scope['report_id'])and(not scope.get('page_id')or v.get('page_id')==scope['page_id'])and(not scope.get('visual_ids')or v['target_id']in scope['visual_ids'])]
                 if (scope.get('report_id')or scope.get('page_id')or scope.get('visual_ids'))and not vs:continue
                 candidate=dict(candidate,metric_phrase=phrase,report_id=scope.get('report_id',candidate.get('report_id')),page_id=scope.get('page_id',candidate.get('page_id')),target_ids=[v['target_id']for v in vs]);result.append(candidate)
     for model in catalog['models']:
+        if scope.get('model_id')and model['id']!=scope['model_id']:continue
         visuals=[v for v in model.get('visuals',[]) if
             (not scope.get('report_id')or v['report_id']==scope['report_id'])and
             (not scope.get('page_id')or v.get('page_id')==scope['page_id'])and
@@ -127,7 +147,7 @@ def plan(claim,catalog):
         choices=[(v['label'],{'scope':{'kind':'VISUALS','visual_ids':[v['id']]}})for v in targets]
         if scope.get('page_id'):choices.append(('All matching visuals on this page',{'scope':{'kind':'VISUALS','visual_ids':[v['id']for v in targets]}}))
         return question('targets','Which visible objects are included in this claim?',choices,digest(catalog),facts)
-    if scope.get('kind')=='RECORDS'and not s.get('examples'):
+    if scope.get('kind')=='RECORDS'and not s.get('examples')and direction!='MORE':
         return question('examples','Can you give one missing, extra, or wrong record as an example?',[],digest(catalog),facts)
     # A freshness/page complaint never needs a single displayed figure. Values
     # already supplied remain facts, but do not manufacture a reproduction.
@@ -149,6 +169,12 @@ def interpretation(claim,catalog):
         f=value['figure'];number='an empty result'if f['state']=='EMPTY'else f.get('source',{}).get('quote',f.get('value','not stated'))
         parts.append(('You observed 'if value['role']=='OBSERVED'else'You expected ')+str(number)+'.')
     scope=s.get('scope')or{};projection=catalog_projection(catalog)
+    if scope.get('model_id'):
+        models=[m for m in catalog['models']if m['id']==scope['model_id']]
+        if len(models)!=1:raise ValueError('Interpretation names an unknown model')
+        parts.append('Using '+label([models[0].get('name','Selected semantic model')])+'.')
+    for field,name in scope_columns(scope,catalog,binding).items():
+        parts.append(('Field to trace: 'if field=='field_id'else'Breakdown by: ')+name+'.')
     for field,rows in(('report_id',projection['reports']),('page_id',projection['pages'])):
         if scope.get(field):
             matches=[r for r in rows if r['id']==scope[field]]

@@ -50,6 +50,8 @@ class ClaimIntake:
         claim['settled'],claim['conflicts']=facts.settled(claim['facts'])
         scope=claim['settled'].get('scope')or{}
         projected=policy.catalog_projection(catalog)
+        if scope.get('model_id')and not any(m['id']==scope['model_id']for m in catalog['models']):raise ValueError('Claim names an unknown model')
+        if scope.get('model_id')and scope.get('report_id')and not any(r['id']==scope['report_id']and r['model_id']==scope['model_id']for r in projected['reports']):raise ValueError('Claim report is outside selected model')
         for key,rows in (('report_id',projected['reports']),('page_id',projected['pages'])):
             if scope.get(key)and not any(r['id']==scope[key]for r in rows):raise ValueError('Claim names an unknown '+key)
         if scope.get('page_id')and scope.get('report_id')and not any(p['id']==scope['page_id']and p['report_id']==scope['report_id']for p in projected['pages']):raise ValueError('Claim page is outside selected report')
@@ -64,6 +66,8 @@ class ClaimIntake:
         if glossary:glossary.seed_catalog(catalog['models'])
         claim['candidate_bindings']=policy.candidates(claim['settled'],catalog,glossary)+claim.get('screenshot_candidates',[])
         question,binding=policy.plan(claim,catalog)
+        resolved_binding=binding if isinstance(binding,dict)and ('model_id'in binding or binding.get('kind')=='MULTIPLE')else claim.get('selected_binding')
+        policy.scope_columns(scope,catalog,resolved_binding)
         body['catalog_hash']=digest(catalog);body['engine_admission']=None
         if question:
             policy.validate_question(claim,question)
