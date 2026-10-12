@@ -1,3 +1,19 @@
+# Part A closing result ? 2026-10-12
+
+**Whole-fixture readiness was not achieved; billing also remains BLOCKED / NOT_SCORED.** The final named-scope gate passed all six stages for the original unfiltered Handled Quantity path through its six-asset closure. It conserves 14 immutable historical witnesses and four new bounded witnesses. The application branch, other measures, filters and grouped scopes are outside that result. Connection attestation remains partial and snapshots remain unverified. This is not authorization to score the whole Part D cohort.
+
+The final index is `.local/round-sixteen/a0-final-guarded-index/result.json`. The initial final index is preserved with its publication refusal: its fresh replay receipt lacked a network counter. The additional guarded offline replay matched and measured zero network attempts. An initial archived-source replay refused an LF/CRLF fingerprint difference; exact committed bytes were restored in an isolated archive before the successful replay. No engine hash was spoofed. A duplicate root index validation was cancelled once the agent's already-running validation was found; its partial files remain, with zero estate/model calls.
+
+Part A used 99 charged slots: 71 for billing grants, collection and controls, then 28 for fixture verification. The latter contains 27 actual SQL requests plus one conservatively charged cached-auth slot with zero observed HTTP calls. Verification used 10/11 probes; investigation diagnostics and model calls were zero. Pot 2,740/4,000; reserve 95 untouched; rolling 695/3,000 at the verifier's closing snapshot. Conservative model total stays $94.704272, against $119.704272 with the existing $10 margin retained.
+
+The three smoke results were two wrong visual questions and one wall-limit hold, all preserved and replayed exactly. The exposed route and inactive-queue accounting defects were corrected offline, without replacement attempts. Integrated selection: 140 tests passed; clean tape test: one passed. The final scoped-manifest correction passed 36 readiness tests. These overlap and are not a full-suite claim.
+
+Billing grants and actual native definitions are retained, but unsupported cast/procedure/view/UNION semantics prevent publication. No misleading partial binding profile was published. See the separate onboarding and verification records below. Lossless NTFS compression preserved file hashes and recovered headroom; automatic removal was rejected with only `rejected: blocked by policy`, so nothing was deleted. Final measured free disk was 12,316,459,008 bytes.
+
+Part B follows immediately. Draft #423 is not merged; the previous freeze is invalidated.
+
+---
+
 # Round Sixteen Part A
 
 Work in progress, 2026-10-12. The fixture readiness rebuild and billing binding work are still in progress; neither estate is claimed READY by this checkpoint. The Part A deadline is 07:50:24 UTC.
