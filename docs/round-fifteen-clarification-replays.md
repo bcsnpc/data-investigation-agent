@@ -6,7 +6,7 @@ The operations comprise 71 form comments, 19 ticket replies and 38 agent resumes
 
 ## The preserved mismatch
 
-`c30646ee-b47b-4c88-aeef-beb6552b5de8`, clarification 030, `agent_resume`, returned **TapeError: TAPE_REQUEST_BYTES_DIFFER** under the matching source fingerprint `b9868654?`. Its failed clone and result remain, compressed with identical logical SHA-256. It was not retried and was never counted as a pass.
+`c30646ee-b47b-4c88-aeef-beb6552b5de8`, clarification 030, `agent_resume`, returned **TapeError: TAPE_REQUEST_BYTES_DIFFER** under the matching source fingerprint `b9868654a96b89e0d254ea813ff7889c6f57afbec86886e4a57b1065b63eae6b`. Its failed clone and result remain, compressed with identical logical SHA-256. It was not retried and was never counted as a pass.
 
 Read-only code reconstruction identifies the exception-chain fidelity problem at the next recorded progress event (CONFIGURATION ordinal 264):
 
@@ -23,11 +23,11 @@ Phase one preserved the mismatch and stopped its peer: 73 matches, one mismatch 
 
 ## Source and controls
 
-Six historical operations replayed against their recorded Git revisions, 515bb1c and 09ad88b. Nineteen unchanged Git-blob files required their recorded working-copy line endings; logical source contents did not change. Their actual source fingerprint matched `3326f52096e52c07be711ed07a27ae99e3d324f17107f0bffe9145c04be11667`. The other 122 operations match `b9868654a96b89e0d254ea813ff7889c6f57afbec86886e4a57b1065b63eae6b`. Current main source remains unchanged.
+Six historical operations replayed against their recorded Git revisions, 515bb1c and 09ad88b. Nineteen unchanged Git-blob files required their recorded working-copy line endings; logical source contents did not change. Their actual source fingerprint matched `3326f52096e52c07be711ed07a27ae99e3d324f17107f0bffe9145c04be11667`. The other 122 operations match `b9868654a96b89e0d254ea813ff7889c6f57afbec86886e4a57b1065b63eae6b`. The current working source remains unchanged.
 
 The first serial replay pass yielded to live continuations. After live work drained, root approved at most two independent offline coordinators: distinct frozen tape lists, distinct outputs, no child writes to the shared map, and one aggregation writer verifying duplicate/conflict coverage and original SHA-256. Measured startup headroom was 17,832,046,592 bytes, exceeding 16 GiB; each child additionally required more than 14 GiB free. The existing 10 GiB floor was retained. DECIDED WITHOUT REVIEW records the authorized scheduling choice and rejected serial-duration alternative. Nine private coordinator tests passed, separately from the unchanged production suite; they cover disjointness, admission limits, source/offline boundaries, duplicate and SHA refusal, single-writer ownership and preservation of incomplete failed reports.
 
-Cold controls 10?15 used disjoint slices of the existing inventory: 84:96, 96:108, 108:120, 120:132, 132:144 and 144:156. All 72 original catalogs were FINAL, journal-free, nonactive and outside the shared ledgers; all six controls returned native exit 0 and preserved catalog/tape logical SHA-256. Receipts and dated ledger notes are retained. Cold 16 was unused. All 126 clones produced by this helper were compressed after closing, with SHA-256 agreement, including the mismatch. No file was deleted. Final free space was 17,201,254,400 bytes.
+Cold controls 10 through 15 used disjoint slices of the existing inventory: 84:96, 96:108, 108:120, 120:132, 132:144 and 144:156. All 72 original catalogs were FINAL, journal-free, nonactive and outside the shared ledgers; all six controls returned native exit 0 and preserved catalog/tape logical SHA-256. Receipts and dated ledger notes are retained. Cold 16 was unused. All 126 clones produced by this helper were compressed after closing, with SHA-256 agreement, including the mismatch. No file was deleted. Final free space was 17,201,254,400 bytes.
 
 The separate billing metadata replay remains blocked by its recorded-source mismatch; these clarification matches do not repair it or authorize publishing a profile. The [owner portal trial](round-fifteen-owner-demo-trial.md) has its separate six matched operations and is not included in this 128-operation clarification count.
 
