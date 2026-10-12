@@ -1,5 +1,13 @@
 # Round Fifteen billing clarifications: pipeline-phase checkpoint
 
+Dated continuation, 2026-10-11 America/Chicago / 2026-10-12 UTC: all 18 PIPELINE runtime tickets have now completed their permitted author replies. Nine hold because the catalog hash differs from the original intake; nine hold because the offered page or choice could not be identified. None reached a technical investigation. These continuations used zero estate requests and zero model calls and delivered no technical finding. The 33 HYBRID continuations are next.
+
+The pipeline record contains 47 individual question prompts (25 original, 22 second-round) and 33 distinct author reply rounds (18 first, 15 second). No ticket received more than two reply rounds. Consuming 037's already-retained second reply added neither a third comment nor another question. Original operator failures remain recorded separately.
+
+The catalog refusals are the existing checks in `smart_intake.py`: the saved intake catalog hash must equal the current snapshot before clarification or container settlement. The observed hashes differ. This is distinct from author ambiguity and SQL access; old targets and pins were not changed to bypass it. The evidence below is the earlier checkpoint and remains preserved pending the final combined assembly.
+
+## Earlier checkpoint
+
 This is an interim record. The remaining 33 HYBRID runtime tickets have not yet continued; the 14 pending PIPELINE groups now have their second independent replies prepared. This is 51 historical runtime tickets drawn from nine independently authored billing tickets, not 51 independent cases. All investigation results are NOT_SCORED because onboarding remains incomplete.
 
 The 18 PIPELINE groups have all received a first author reply: 15 in the serial v2 cohort and three preserved earlier attempts. Of the v2 groups, 14 remained pending choice mapping and one accepted the figure then held on retained metadata. The earlier 036 operator bridge defect is preserved separately; its second reply accepted the figure but also held on metadata. No continuation so far used an estate request or model call or reached a technical investigation.
