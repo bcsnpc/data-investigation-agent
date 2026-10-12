@@ -1,0 +1,11 @@
+# Round Sixteen C: page checks
+
+The production claim execution path now has page-consistency and freshness ports. They receive the retained user-confirmed claim and the admitted process adapter; they do not start a separate investigation or bypass reader, context, budget or deadline admissions.
+
+Consistency recompiles each supported scalar visual from current retained definitions, applies the actual typed EQ/IN claim filters, and independently reloads and verifies the original sealed query receipt. Changing a returned value or query, or borrowing another visual's sealed receipt, is refused. Numeric-looking strings are not treated as numeric values. Every visual has a disposition, including nonmetric visuals, unsupported grouped cells and incomplete measures on otherwise readable visuals. Differing declared restrictions produce NOT_COMPARABLE, not a defect. Agreement or difference is an observation with SNAPSHOT_UNVERIFIED; neither establishes a cause or business correctness.
+
+Freshness uses actual configured refresh metadata and declared producer job/audit completion records. The load completion belongs to the operation's output layer, although its producer identifier is carried on the input descriptor. Missing timestamps stay unavailable. No maximum business date, guessed timestamp, latest-load inference or freshness deadline is substituted. Summaries show the actual retained timestamps and values using visible names; the execution controller renders evidence IDs and snapshot limits once.
+
+A screenshot-origin claim remains held when its visible filter scope has not been compiled faithfully. Absence of recognized slicer facts never establishes an unfiltered scope. Stable object identities after a catalog refresh may continue only when recomputing the actual confirmation interpretation produces the same hash; changed scope or display interpretation still refuses.
+
+Validation on 2026-10-12: 24 page tests and four platform-literal ratchet tests passed, using synthetic retained definitions and injected native transports. No estate or model calls. This is implementation validation, not a live cohort score; estate and request-capability readiness remain separate requirements.

@@ -283,6 +283,51 @@ class ClaimsExecutionTests(unittest.TestCase):
         self.assertNotIn('SNAPSHOT_UNVERIFIED',result['business_explanation'])
         self.assertIn('private-receipt',result['technical_narrative'])
 
+    def test_page_attestation_gaps_are_rendered_per_receipt_without_mutation(self):
+        checks={'kind':'PAGE_CONSISTENCY','status':'NOT_COMPARABLE','summary':'The values use different restrictions.',
+            'evidence':[{'id':'receipt-a','attestation':{'unattested_fields':['connection']}},
+                        {'id':'receipt-b','attestation':{'unattested_fields':['connection']}}],
+            'comparisons':[{'outcome':'NOT_COMPARABLE','reason':'DIFFERENT_DECLARED_RESTRICTIONS'}]}
+        before=copy.deepcopy(checks)
+        limits=self.controller._limits(checks,['SNAPSHOT_UNVERIFIED'])
+        self.assertEqual(limits,self.controller._limits(checks,limits))
+        reason=self.controller._held_reason(checks)
+        self.assertEqual(reason,'DIFFERENT_DECLARED_RESTRICTIONS')
+        result=self.controller._prose(checks,'HELD',reason,limits)
+        self.assertIn('receipt receipt-a: connection',result['technical_narrative'])
+        self.assertIn('receipt receipt-b: connection',result['technical_narrative'])
+        self.assertNotIn('receipt-a',result['business_explanation'])
+        for output in result.values():
+            self.assertIn('Recommended action: Ask the report owner',output)
+            self.assertIn('compare matching declared scope',output)
+        self.assertEqual(checks,before)
+
+    def test_actual_run_retains_evidenced_hold_reason_and_attestation_limits(self):
+        request=self.confirmed()
+        checks={'status':'NOT_COMPARABLE','kind':'PAGE_CONSISTENCY','summary':'92 versus16 use different restrictions.',
+            'evidence':[{'id':'page-receipt','attestation':{'unattested_fields':['connection']}}],
+            'comparisons':[{'outcome':'NOT_COMPARABLE','reason':'DIFFERENT_DECLARED_RESTRICTIONS'}]}
+        with self.planned(lambda adapter:checks):result=self.controller.run(request)
+        self.assertEqual(result['status'],'HELD')
+        self.assertEqual(result['reason'],'DIFFERENT_DECLARED_RESTRICTIONS')
+        self.assertIn('Surface fields not self-reported for receipt page-receipt: connection.',result['limits'])
+        self.assertEqual(result['outputs']['technical_narrative'].count('receipt page-receipt: connection'),1)
+
+    def test_generic_held_and_freshness_actions_do_not_invent_a_cause(self):
+        for checks in ({'status':'HELD'}, {'status':'UNAVAILABLE','kind':'PAGE_FRESHNESS'}):
+            reason=self.controller._held_reason(checks)
+            self.assertTrue(reason)
+            result=self.controller._prose(checks,'HELD',reason,[])
+            for output in result.values():
+                self.assertIn('Recommended action:',output)
+                self.assertNotIn('fix the defect',output)
+
+    def test_multiple_evidenced_gaps_are_not_collapsed_to_one_invented_reason(self):
+        checks={'status':'NOT_COMPARABLE','comparisons':[
+            {'outcome':'NOT_COMPARABLE','reason':'DIFFERENT_DECLARED_RESTRICTIONS'},
+            {'outcome':'NOT_COMPARABLE','reason':'DIFFERENT_METRICS'}]}
+        self.assertEqual(self.controller._held_reason(checks),'MULTIPLE_COMPARISON_GAPS')
+
 
 class NativeClaimExecutionTests(unittest.TestCase):
     def setUp(self):

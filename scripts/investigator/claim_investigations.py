@@ -312,7 +312,62 @@ class ClaimInvestigations:
                            'input_characters': 32000, 'max_depth': 0}}
 
     @staticmethod
+    def _limits(checks, limits):
+        """Carry each receipt's actual attestation gaps across every route."""
+        retained = copy.deepcopy(limits)
+        for entry in checks.get('evidence', []) + checks.get('observations', []):
+            identity = entry.get('id', entry.get('evidence_id'))
+            attestation = entry.get('attestation', entry.get('surface_attestation')) or {}
+            fields = attestation.get('unattested_fields', [])
+            if fields and isinstance(identity, str):
+                sentence = ('Surface fields not self-reported for receipt ' + identity + ': '
+                            + ', '.join(sorted(set(fields))) + '.')
+                if sentence not in retained:
+                    retained.append(sentence)
+        return retained
+
+    @staticmethod
+    def _held_reason(checks):
+        if checks.get('reason'):
+            return checks['reason']
+        reasons = {row['reason'] for row in checks.get('comparisons', [])
+                   if row.get('outcome') == 'NOT_COMPARABLE' and row.get('reason')}
+        if len(reasons) == 1:
+            return next(iter(reasons))
+        if len(reasons) > 1:
+            return 'MULTIPLE_COMPARISON_GAPS'
+        if checks.get('missing_layers'):
+            return 'LAYER_EVIDENCE_UNAVAILABLE'
+        if checks.get('comparison_gaps'):
+            return 'COMPARISON_EVIDENCE_UNAVAILABLE'
+        return checks.get('outcome') or checks.get('status') or 'REQUIRED_EVIDENCE_UNAVAILABLE'
+
+    @staticmethod
+    def _action(checks, status, reason):
+        """Consumer-owned next step; no action confers a cause or a grant."""
+        if reason == 'DIFFERENT_DECLARED_RESTRICTIONS':
+            return ('Ask the report owner whether these visuals should use the same restrictions; '
+                    'compare matching declared scope before diagnosing a pipeline defect.')
+        if reason in ('CONFIRMED_TARGET_UNAVAILABLE', 'CONFIRMED_SCOPE_UNAVAILABLE',
+                      'INTERPRETATION_RECONFIRMATION_REQUIRED'):
+            return 'Confirm the current target and interpretation before another investigation.'
+        if reason in ('SCREENSHOT_SCOPE_NOT_COMPILED', 'SCREENSHOT_FILTER_SCOPE_NOT_COMPILED',
+                      'CLAIM_SCOPE_NOT_COMPILED', 'VISUAL_PROJECTION_SCOPE_UNSUPPORTED'):
+            return 'Ask the report owner to establish the missing filter and security scope before comparing the data.'
+        if checks.get('kind') == 'PAGE_FRESHNESS':
+            return ('Ask the report and pipeline owners to review the retained refresh and load times '
+                    'and supply any missing timing evidence; current freshness has not been established.')
+        if checks.get('missing_layers') or status == 'HELD':
+            return 'Ask the relevant owner for the missing scope or evidence, then reassess the confirmed request.'
+        if checks.get('status') == 'OBSERVED_DIFFERENCE':
+            return ('Ask the owner of the observed boundary to review its declared operation; '
+                    'the observed change does not establish its cause or whether it is wrong.')
+        return ('Review the bounded findings and their limits with the report or application owner; '
+                'agreement alone does not establish business correctness.')
+
+    @staticmethod
     def _prose(checks, status, reason, limits):
+        limits = ClaimInvestigations._limits(checks, limits)
         summary = checks.get('business_summary', checks.get('summary'))
         if not isinstance(summary, str) or not summary:
             summary = ('The requested check could not be completed under the confirmed scope.'
@@ -352,6 +407,9 @@ class ClaimInvestigations:
             suffix = ' Limits: ' + ' '.join(dict.fromkeys(limit_text))
             summary += suffix
             technical += ' Limits: ' + ' '.join(dict.fromkeys(technical_limits or limit_text))
+        action = ' Recommended action: ' + ClaimInvestigations._action(checks, status, reason)
+        summary += action
+        technical += action
         return {'business_explanation': summary, 'technical_narrative': technical}
 
     @operation('claim_run')
@@ -413,8 +471,8 @@ class ClaimInvestigations:
                 raise ValueError('CLAIM_CHECK_STATUS_UNRECOGNIZED')
             result['status'] = ('HELD' if checks['status'] in ('HELD', 'UNAVAILABLE', 'NOT_COMPARABLE')
                                 else 'PARTIAL' if checks['status'] == 'PARTIAL' else 'COMPLETED')
-            result['reason'] = checks.get('reason')
-            result['limits'] = copy.deepcopy(checks.get('limitations', checks.get('limits', [])))
+            result['reason'] = self._held_reason(checks) if result['status'] == 'HELD' else checks.get('reason')
+            result['limits'] = self._limits(checks, checks.get('limitations', checks.get('limits', [])))
         except Exception as exc:
             result.update(status='HELD', reason='CLAIM_EXECUTION_FAILED',
                           failure=self._failure(identity, 'EXECUTION', exc))
