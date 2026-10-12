@@ -1,0 +1,16 @@
+{
+  "instructions": "Independent original author clarification round two. Use only this packet and original allowed tester README/session/tickets. Do not read engine code, expectations, oracle, defect lists, delivery records, tapes or ledgers. No estate or external-provider tool calls are requested; only your ordinary author text reply. Answer in plain words as the original ticket author would, with answer_basis ticket/form or unknown, and preserve each exact_question. Quote one offered phrase only when it is what your notes mean. Do not invent missing facts.",
+  "qa_round": 2,
+  "questions": [
+    {
+      "clarification_request": "Answer this exact retained question in your own words; do not invent absent facts.",
+      "exact_question": "What figure does that visual show?",
+      "id": "clarification-022-round-two",
+      "input_kind": "FORM",
+      "offered_phrases": [],
+      "original_form": null,
+      "original_ticket": "Is the overview up to date?\n\nThe first page has 950 invoiced, 550 collected and 600 MRR. I can't see an as-of date or last-updated time alongside those cards.\n\nI can look up payments through October 4 in the application, but I can't tell from this page how current its figures are. Please tell me what date/time the report covers. I expected some indication before relying on it for today's collection calls.\n\n",
+      "original_ticket_file": "ticket-13.txt"
+    }
+  ]
+}

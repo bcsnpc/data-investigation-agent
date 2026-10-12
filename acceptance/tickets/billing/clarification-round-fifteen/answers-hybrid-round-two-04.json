@@ -1,0 +1,21 @@
+{
+  "author_identity": "independent fresh tester session",
+  "qa_round": 2,
+  "answer_count": 1,
+  "independence_statement": "Independent original-author session. Used only this public question packet and previously permitted original README/tester-session/ticket facts. No repository, code, oracle, expectations, defects, tapes, ledgers, delivery records or other excluded sources accessed. No network, browser, SQL, cloud, estate or model API queries made. No original modified and no new number or timestamp invented.",
+  "answers": [
+    {
+      "id": "clarification-022-round-two",
+      "exact_question": "What figure does that visual show?",
+      "original_ticket_file": "ticket-13.txt",
+      "input_kind": "FORM",
+      "reply": "The first page shows 950 invoiced, 550 collected and 600 MRR. I did not single out one visual. My question is what date and time those figures cover, because I could not see an as-of date or last-updated time. I do not know that date or time from the page.",
+      "answer_basis": "ticket/form",
+      "basis_detail": "The original ticket supplies all three displayed figures and asks about the overview freshness and missing as-of timing. It supplies neither a single selected visual nor a report timestamp; no authored form is supplied.",
+      "prior_supplied_ticket_or_form_already_answered": true,
+      "author_judgment": "Yes: the ticket already gives the three displayed figures. It does not identify one visual because the request concerns the overview timing.",
+      "author_inability_cause": "A single selected visual and the report as-of date/time are not known from the original notes.",
+      "author_identity": "independent fresh tester session"
+    }
+  ]
+}
