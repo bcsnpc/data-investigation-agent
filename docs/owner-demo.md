@@ -14,6 +14,16 @@ This is the actual startup used for the completed trial and recovery. The existi
 
 The tested worktree deliberately remains on the recorded engine fingerprint `1f9914e985b3ec09ea82894a551f071d84314cbcc7afba45b83b8942dd765e3f`, context `387f5991-3744-45dd-b8b7-c833d589c8d2`. Later root fixes are not silently claimed to be installed there. Its six operation tapes have replayed exactly against that frozen source. The checked-in `scripts/owner_demo.py` is the general preparation/start launcher; the command above resumes the already prepared, actually tested installation rather than cloning or replacing its evidence.
 
+## Read-only history, including after the deadline
+
+```powershell
+Set-Location D:\dia-round-fifteen-demo; C:\Users\chait\anaconda3\python.exe scripts/serve_investigator_workspace.py --manifest .local/round-fifteen/owner-live-final/estate.json --port 8792 --open-browser
+```
+
+This command uses the existing frozen installation and omits `--live`. Execution, model providers, live transports, report-list controls and the worker are disabled. It opens a new ephemeral local access key in the browser; keep that key private. Use Recent tickets to inspect the saved CLOSED trial. Do not submit a new ticket or comment in history mode. The live helper's admission cutoff does not prevent this read-only startup.
+
+The normal CLI was tested at port 8792 without `--live`: authenticated loopback retrieval returned HTTP 200 for the saved CLOSED ticket. All 41 isolated catalog tables retained identical row counts and content hashes; source fingerprint remained `1f9914e985b3ec09ea82894a551f071d84314cbcc7afba45b83b8942dd765e3f`. No estate or model requests were made, no new records were created and the server was stopped afterward. This check exercised CLI startup and the history HTTP endpoint, not a second investigation or a fresh browser acceptance trial.
+
 ## Inspect the completed trial
 
 1. Open **Recent tickets**. Choose the Inventory Health question beginning ?In Inventory Health e1b8e1, Handled Quantity appears higher??. The retained ticket is `e573535d-041c-4cd9-bb7a-4f1c55b46046`; it is CLOSED.
