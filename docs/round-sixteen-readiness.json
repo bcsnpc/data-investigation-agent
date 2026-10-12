@@ -1,0 +1,175 @@
+{
+  "recorded_at": "2026-10-12T11:07:58.732012+00:00",
+  "current_assessments": [
+    {
+      "estate": "fixture",
+      "recorded_at": "2026-10-12T11:04:24.900997+00:00",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "manifest_sha256": "65cb7999ec5958f3692b2c195447d0c04db192fbf91a774d40dd7c3c2da7f05a",
+      "approval_sha256": "75f4318f356d17534ffe2c906586e6d682dadc80fb440683d6b430d10d305828",
+      "index_sha256": "6ffb2d7816256c5a57645de51b046ba382e2310730b56e2e5ff27228497d907b",
+      "result": {
+        "version": "estate-readiness-v1",
+        "pins": {
+          "manifest_hash": "d536188b4500f14cb1fa648cd19ae75afda2c95bfe087bc22f899dccbcd4fca6",
+          "context_identity": "e3d3e50b-844a-4f1a-bbe3-d98508d83d72",
+          "context_hash": "7559076451e4b770a74f0c14be9a56ab60da635cead3084eaea11dbce4b0dd32",
+          "config_hash": "613e343c82531c5812b28313e788fe98ad34a41429c5f0675e33e82cdd4433b4",
+          "engine_hash": "b2a0fb2ee3a341eba6acfff1f4cbab4f125163268e1e3560da7a998258085065"
+        },
+        "status": "BLOCKED",
+        "scoring": "NOT_SCORED",
+        "reason": "estate-not-fully-onboarded",
+        "stages": [
+          {
+            "stage": "discovery",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          },
+          {
+            "stage": "discovery_approval",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          },
+          {
+            "stage": "transformations",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          },
+          {
+            "stage": "bindings",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          },
+          {
+            "stage": "reader_verification",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          },
+          {
+            "stage": "publication",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          }
+        ],
+        "admitted_constraints": [],
+        "estate_reads": 0,
+        "model_calls": 0
+      }
+    },
+    {
+      "estate": "billing",
+      "recorded_at": "2026-10-12T11:04:24.900997+00:00",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "manifest_sha256": "73f1596bf57f53c94908006c1ab9624a0f31e88a334146a60dcde3189d35e2bc",
+      "approval_sha256": "fca508fee6e1bf7fff9353d00c6e05d25bc3845895ff40bb0252c7b1612f9996",
+      "index_sha256": null,
+      "result": {
+        "version": "estate-readiness-v1",
+        "pins": {
+          "manifest_hash": "5c71237002607f11d7762485f258d0944a59ad5d89a5924bdc66f3f0fd92aecd",
+          "context_identity": "01c29e37-914a-4ec5-9a1c-23d3de0bfb71",
+          "context_hash": "011cc23304f45c7f7250a69ce4d6e3ccdb12144d0ae678136e327240f4000206",
+          "config_hash": "95d5340b0509c50ddf2a19308ee4bbdbf470ab92aa87e8b379552654e475e57a",
+          "engine_hash": "b2a0fb2ee3a341eba6acfff1f4cbab4f125163268e1e3560da7a998258085065"
+        },
+        "status": "BLOCKED",
+        "scoring": "NOT_SCORED",
+        "reason": "estate-not-fully-onboarded",
+        "stages": [
+          {
+            "stage": "discovery",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          },
+          {
+            "stage": "discovery_approval",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          },
+          {
+            "stage": "transformations",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          },
+          {
+            "stage": "bindings",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          },
+          {
+            "stage": "reader_verification",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          },
+          {
+            "stage": "publication",
+            "status": "BLOCKED",
+            "reason": "ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE"
+          }
+        ],
+        "admitted_constraints": [],
+        "estate_reads": 0,
+        "model_calls": 0
+      }
+    }
+  ],
+  "retrospective_material_gap_assessment": {
+    "mode": "RETROSPECTIVE_ORIGINAL_PINS_ONLY_NOT_CURRENT_SCORING_APPROVAL",
+    "recorded_at": "2026-10-12T11:05:39.084792+00:00",
+    "original_index_sha256": "6ffb2d7816256c5a57645de51b046ba382e2310730b56e2e5ff27228497d907b",
+    "result": {
+      "version": "estate-readiness-v1",
+      "pins": {
+        "manifest_hash": "d536188b4500f14cb1fa648cd19ae75afda2c95bfe087bc22f899dccbcd4fca6",
+        "context_identity": "e3d3e50b-844a-4f1a-bbe3-d98508d83d72",
+        "context_hash": "7559076451e4b770a74f0c14be9a56ab60da635cead3084eaea11dbce4b0dd32",
+        "config_hash": "613e343c82531c5812b28313e788fe98ad34a41429c5f0675e33e82cdd4433b4",
+        "engine_hash": "33cd9e00efb2cba8b446c1982358194027c592b3d8b110b855d5babfd158d7bf"
+      },
+      "status": "BLOCKED",
+      "scoring": "NOT_SCORED",
+      "reason": "estate-not-fully-onboarded",
+      "stages": [
+        {
+          "stage": "discovery",
+          "status": "BLOCKED",
+          "reason": "DISCOVERY_NOT_COMPLETE"
+        },
+        {
+          "stage": "discovery_approval",
+          "status": "VERIFIED"
+        },
+        {
+          "stage": "transformations",
+          "status": "BLOCKED",
+          "reason": "BOUNDARY_CONSERVATION_FAILED"
+        },
+        {
+          "stage": "bindings",
+          "status": "BLOCKED",
+          "reason": "PROPOSED_BINDING_CONSERVATION_FAILED"
+        },
+        {
+          "stage": "reader_verification",
+          "status": "BLOCKED",
+          "reason": "VERIFIED_BINDING_CONSERVATION_FAILED"
+        },
+        {
+          "stage": "publication",
+          "status": "VERIFIED"
+        }
+      ],
+      "admitted_constraints": [],
+      "estate_reads": 0,
+      "model_calls": 0
+    },
+    "estate_reads": 0,
+    "model_calls": 0
+  },
+  "no_current_approval_derived_from_retrospective_result": true,
+  "estate_reads": 0,
+  "model_calls": 0
+}
