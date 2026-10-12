@@ -43,6 +43,12 @@ class IntegrationTests(unittest.TestCase):
         for fact in result['claim']['facts']:
             self.assertEqual(fact['source']['review_id'], review['id'])
             self.assertEqual(fact['source']['review_hash'], review['hash'])
+        with self.w.store.connect() as db:
+            _,stored=self.w.claims._load(db,result['id'])
+        self.assertEqual(stored['captured_context']['review_id'],review['id'])
+        self.assertEqual(stored['captured_context']['review_hash'],review['hash'])
+        self.assertEqual(stored['captured_context']['visible_filter_scope']['status'],'NOT_COMPILED')
+        self.assertFalse(stored['captured_context']['visible_filter_scope']['unfiltered_scope_established'])
         self.h.native.assert_not_called(); self.h.source.assert_not_called(); self.h.planner.assert_not_called()
 
 

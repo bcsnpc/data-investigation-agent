@@ -67,7 +67,8 @@
     const box = el('claim-image-result'); box.hidden = false; box.replaceChildren();
     paragraph(box, 'Visible text was read locally. Hidden selections and security rules are not established by an image.');
     if (review.question) paragraph(box, typeof review.question === 'string' ? review.question : review.question.text || 'Which report and page is this?');
-    for (const candidate of review.candidates || []) {
+    // Indistinguishable names need a visible locator, not a hidden-ID choice.
+    for (const candidate of review.status === 'NEEDS_LOCATOR' || review.locator_required ? [] : review.candidates || []) {
       const button = node('button', candidate.label); button.type = 'button';
       button.addEventListener('click', () => run(async () => {
         const portal = portalContext();

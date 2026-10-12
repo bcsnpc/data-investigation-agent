@@ -58,7 +58,7 @@ class AgentResumeApiTests(unittest.TestCase):
         self.assertEqual(waiting['ticket']['agent_loop']['status'], 'WAITING_FOR_USER')
         return waiting, parent, decisions
 
-    def test_hybrid_public_comment_resume_keeps_pipeline_authority_and_budget(self):
+    def test_hybrid_public_comment_resume_keeps_authority_and_records_fresh_budget(self):
         waiting, parent, decisions = self.hybrid_waiting()
         prefix = '/api/workspace/tickets/' + waiting['ticket']['id']
         posted = self.http(prefix + '/comments', {'revision': waiting['revision'], 'request_key': 'hybrid-author-reply',
@@ -72,7 +72,10 @@ class AgentResumeApiTests(unittest.TestCase):
         self.assertEqual(ticket['agent_consumed_replies'], ['hybrid-author-reply'])
         self.assertEqual(ticket['agent_loop']['status'], 'HELD')
         self.assertEqual(decisions.call_count, 2)
-        self.assertEqual(decisions.call_args.args[0]['steps_remaining'], 1)
+        self.assertEqual(decisions.call_args.args[0]['steps_remaining'], 2)
+        self.assertEqual(ticket['hybrid_reply_budget']['previous_budget']['steps_remaining'], 1)
+        self.assertEqual(ticket['agent_step_budgets'][-1]['kind'], 'HYBRID_REPLY')
+        self.assertEqual(ticket['agent_step_budgets'][-1]['cumulative_decisions'], 1)
         self.f.fixture.f.helper.h.native.assert_not_called(); self.f.fixture.f.helper.h.source.assert_not_called()
 
     def test_hybrid_fabricated_stale_or_agent_authored_reply_is_refused(self):
@@ -122,7 +125,7 @@ class AgentResumeApiTests(unittest.TestCase):
         self.assertTrue(result['status'].startswith('409'), result)
         self.assertEqual(decisions.call_count, 1)
 
-    def test_long_human_wait_preserves_900_active_seconds_and_cumulative_steps(self):
+    def test_human_and_queue_wait_preserve_active_seconds_and_record_fresh_hybrid_steps(self):
         waiting, _, decisions = self.hybrid_waiting()
         self.f.fixture.f.helper.h.clock.return_value = 10000
         prefix = '/api/workspace/tickets/' + waiting['ticket']['id']
@@ -135,12 +138,13 @@ class AgentResumeApiTests(unittest.TestCase):
         self.assertEqual(ticket['agent_loop']['reason'], 'UNRESOLVED')
         self.assertEqual(ticket['agent_loop_started_at'], 1000)
         self.assertEqual(ticket['agent_wait_pauses'][0]['seconds'], 9000)
+        self.assertEqual(ticket['agent_reply_queue_pauses'][0]['seconds'], 5)
         from investigator import agent_ticket
-        self.assertEqual(agent_ticket.GovernedDecision.call_args.kwargs['deadline'], 10900)
+        self.assertEqual(agent_ticket.GovernedDecision.call_args.kwargs['deadline'], 10905)
         self.assertEqual(decisions.call_count, 2)
-        self.assertEqual(decisions.call_args.args[0]['steps_remaining'], 1)
+        self.assertEqual(decisions.call_args.args[0]['steps_remaining'], 2)
 
-    def test_active_time_after_reply_still_holds_at_900(self):
+    def test_queued_reply_does_not_spend_active_budget(self):
         waiting, _, decisions = self.hybrid_waiting()
         self.f.fixture.f.helper.h.clock.return_value = 10000
         prefix = '/api/workspace/tickets/' + waiting['ticket']['id']
@@ -149,8 +153,25 @@ class AgentResumeApiTests(unittest.TestCase):
         self.f.fixture.f.helper.h.clock.return_value = 10901
         result = self.http(prefix + '/agent-resume', {'revision': posted['body']['revision'], 'comment_id': 'active-deadline'})
         self.assertTrue(result['status'].startswith('200'), result)
+        self.assertEqual(result['body']['ticket']['agent_loop']['reason'], 'UNRESOLVED')
+        self.assertEqual(result['body']['ticket']['agent_reply_queue_pauses'][0]['seconds'], 901)
+        self.assertEqual(decisions.call_count, 2)
+
+
+    def test_actual_active_work_after_reply_still_holds_at_900(self):
+        from investigator.agent_loop import AgentLoop
+        waiting, _, decisions = self.hybrid_waiting()
+        self.f.fixture.f.helper.h.clock.return_value = 10000
+        prefix = '/api/workspace/tickets/' + waiting['ticket']['id']
+        posted = self.http(prefix + '/comments', {'revision': waiting['revision'], 'request_key': 'real-active-work',
+            'text': 'The Global card.', 'attachment_id': None, 'review_id': None})
+        # The provider consumes 901 seconds after the worker consumes the reply.
+        active_clock = Mock(side_effect=[0, 0, 901])
+        with patch('investigator.agent_ticket.AgentLoop', side_effect=lambda **kw: AgentLoop(clock=active_clock, **kw)):
+            result = self.http(prefix + '/agent-resume', {'revision': posted['body']['revision'], 'comment_id': 'real-active-work'})
+        self.assertTrue(result['status'].startswith('200'), result)
         self.assertEqual(result['body']['ticket']['agent_loop']['reason'], 'AGENT_WALL_LIMIT')
-        self.assertEqual(decisions.call_count, 1)
+        self.assertEqual(decisions.call_count, 2)
 
 
 if __name__ == '__main__':unittest.main()

@@ -55,6 +55,18 @@ class Tests(unittest.TestCase):
         value=self.s.identify(self.request);self.assertEqual(value['status'],'NEEDS_INPUT')
         self.assertEqual([x['label'] for x in value['question']['choices']],['Billing / a','Billing / b'])
         self.assertEqual(value['facts'],[]);self.h.native.assert_not_called()
+    def test_duplicate_visible_names_hold_without_hidden_id_confirmation(self):
+        self.w.claim_screenshot_catalog=lambda:[page(),dict(page('b'),label=page()['label'])]
+        value=self.s.identify(self.request)
+        self.assertEqual(value['status'],'NEEDS_LOCATOR')
+        self.assertEqual(value['question']['choices'],[])
+        self.assertEqual(value['unresolved_reason'],'UNRESOLVED_VISIBLE_LOCATOR')
+        self.assertEqual(self.s.load(value['id'])['candidate_bindings'],[])
+        with self.assertRaisesRegex(Conflict,'hidden candidate IDs'):
+            self.s.confirm({'review_id':value['id'],'candidate_id':'b','request_key':'force'})
+    def test_no_filter_fact_is_not_an_unfiltered_scope_assertion(self):
+        value=self.s.identify(self.request)
+        self.assertEqual(self.s.load(value['id'])['visible_filter_scope'],{'status':'NOT_COMPILED','unfiltered_scope_established':False})
     def test_confirmation_is_append_only_and_portal_mapping_stales(self):
         value=self.s.identify(self.request);oldhash=value['hash']
         confirmed=self.s.confirm({'review_id':value['id'],'candidate_id':'a','request_key':'confirm','portal':{'portal':'Ops','tab':'Sales'}})

@@ -86,7 +86,7 @@ class ClaimIntake:
             if prior:
                 if prior[1]!=hash:raise Conflict('Claim key reused with different input')
                 return self._public(self._load(db,prior[0])[1])
-        id=str(uuid4());new=facts.merge(facts.submitted(request.get('claim',{}),hash),facts.merge(facts.labelled_text(text,hash),facts.linked_text(text,hash)));screenshot_candidates=[]
+        id=str(uuid4());new=facts.merge(facts.submitted(request.get('claim',{}),hash),facts.merge(facts.labelled_text(text,hash),facts.linked_text(text,hash)));screenshot_candidates=[];captured_context=None
         if request.get('screenshot_evidence'):
             ref=request['screenshot_evidence']
             if not isinstance(ref,dict)or set(ref)!={'review_id'}:raise ValueError('Screenshot requires retained review ID')
@@ -94,6 +94,9 @@ class ClaimIntake:
             for f in review['facts']:
                 if f['authority']!='SCREENSHOT_REVIEW' or f['source'].get('review_id')!=review['id']or f['source'].get('review_hash')!=review['hash']:raise ValueError('Screenshot fact lacks retained review provenance')
             new=facts.merge(new,review['facts']);screenshot_candidates=review.get('candidate_bindings',[])
+            captured_context={'review_id':review['id'],'review_hash':review['hash'],
+                'visible_filter_scope':copy.deepcopy(review.get('visible_filter_scope')),
+                'limitations':copy.deepcopy(review.get('limitations',[]))}
         audit={'calls':0,'rejections':[]}
         refusal=None
         if text.strip():
@@ -103,6 +106,7 @@ class ClaimIntake:
             except ValueError as exc:
                 refusal={'reason':'CLAIM_EXTRACTION_UNAVAILABLE','message':str(exc)}
         body={'id':id,'revision':0,'status':'NEW','claim':{'version':facts.VERSION,'facts':new,'settled':{},'conflicts':[],'candidate_bindings':[],'screenshot_candidates':screenshot_candidates,'selected_binding':None},'questions':[],'interpretation':None,'engine_admission':None,'history':[{'kind':'SUBMITTED','request_hash':hash,'model':audit}], '_choices':{},'documents':[{ 'hash':hash,'request':copy.deepcopy(request)}]}
+        if captured_context is not None:body['captured_context']=captured_context
         if refusal:body['status']='HELD';body['history'].append(refusal)
         else:body=self._plan(body,self._catalog())
         with self.store.connect()as db:

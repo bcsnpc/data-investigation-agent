@@ -80,11 +80,19 @@ class ClaimScreenshots:
                     candidates=[dict(matching[0],score=0,matched_anchors=[],status='CANDIDATE')];method='USER_CONFIRMED_PORTAL_MAPPING'
         unique=bool(candidates) and (len(candidates)==1 or candidates[0]['score']>candidates[1]['score'])
         status='IDENTIFIED' if unique else ('NEEDS_INPUT' if candidates else 'UNREADABLE')
+        labels=[p['label'] for p in candidates[:3]]
+        unresolved_locator=status=='NEEDS_INPUT' and len(set(labels))!=len(labels)
+        if unresolved_locator:status='NEEDS_LOCATOR'
         body={'id':str(uuid4()),'request':request,'created':self.workspace.clock(),'status':status,
               'image':metadata,'ocr':ocr,'candidates':candidates[:3],'catalog_hash':digest(pages),
               'identification_method':method,'limitations':['Visible pixels do not establish hidden filters, RLS, cause or freshness.',
-                'Numeric ties require a faithful admitted scope; no value probe was made.']}
+                'Visible slicer/filter text is retained but not compiled; absence of filter facts does not establish unfiltered scope.',
+                'Numeric ties require a faithful admitted scope; no value probe was made.'],
+              'visible_filter_scope':{'status':'NOT_COMPILED','unfiltered_scope_established':False}}
         if status=='NEEDS_INPUT':body['question']={'text':'Which report page is shown?','choices':[{'candidate_id':p['candidate_id'],'label':p['label']} for p in candidates[:3]]}
+        if unresolved_locator:
+            body['unresolved_reason']='UNRESOLVED_VISIBLE_LOCATOR'
+            body['question']={'text':'The retained report and page names do not distinguish these candidates. Can you provide a portal tab or a report/page link?','choices':[]}
         with self.store.connect() as db:db.execute('INSERT INTO claim_screenshot_reviews VALUES(?,?,?,?)',(body['id'],request['request_key'],encoded(body),digest(body)))
         return self.get(body['id'])
 
@@ -106,9 +114,13 @@ class ClaimScreenshots:
         candidates=body['candidates']
         chosen=next((p for p in candidates if checked and p['candidate_id']==checked[-1]['candidate_id']),None)
         selected=[chosen] if chosen else candidates
+        names=[p['label']for p in candidates]
+        locator_required=body['status']=='NEEDS_LOCATOR' or (body['status']=='NEEDS_INPUT' and len(set(names))!=len(names))
+        body['locator_required']=locator_required
         body['candidate_bindings']=[{'model_id':p['model_id'],'report_id':p['report_id'],'page_id':p['page_id'],
             'target_ids':[v['target_id'] for v in p['targets']], 'label':p['label'],'evidence_ids':[identity],
             'status':'CONFIRMED' if chosen else 'CANDIDATE'} for p in selected]
+        if locator_required:body['candidate_bindings']=[]
         body['facts']=[]
         if chosen:
             region={'x':0,'y':0,'width':body['ocr']['width'],'height':body['ocr']['height']}
@@ -167,6 +179,7 @@ class ClaimScreenshots:
     def confirm(self,request):
         self._guard();request_shape(request,('review_id','candidate_id','request_key'),('portal',))
         review=self.get(request['review_id'])
+        if review['locator_required']:raise Conflict('UNRESOLVED_VISIBLE_LOCATOR: hidden candidate IDs cannot resolve indistinguishable names')
         candidate=next((p for p in review['candidates'] if p['candidate_id']==request.get('candidate_id')),None)
         if not candidate:raise Conflict('Confirm only a retained screenshot candidate')
         if candidate['candidate_id'] not in {p['candidate_id'] for p in self._pages()}:raise Conflict('Screenshot definition changed; identify again')
@@ -188,4 +201,7 @@ class ClaimScreenshots:
     def load(self,review_id,catalog=None):
         value=self.get(review_id)
         if value['catalog_hash']!=digest(self._pages()):raise Conflict('Screenshot candidate catalog changed; identify again')
-        return {k:value[k] for k in ('id','hash','text','facts','candidate_bindings')}
+        # Old exact reviews retain their original sealed body/hash. Their missing
+        # context marker cannot become positive unfiltered-scope authority.
+        value.setdefault('visible_filter_scope',{'status':'NOT_COMPILED','unfiltered_scope_established':False})
+        return {k:value[k] for k in ('id','hash','text','facts','candidate_bindings','visible_filter_scope','limitations')}

@@ -9,6 +9,17 @@ LINK=f'https://app.powerbi.com/groups/{WORKSPACE}/reports/{REPORT}/ReportSection
 
 
 class ReportLinkTests(unittest.TestCase):
+    def test_claim_link_scanner_preserves_exact_span_and_refuses_dropped_context(self):
+        from investigator.claim_facts import linked_text
+        text='Please check '+LINK+'.'
+        facts=linked_text(text,'ticket-hash')
+        self.assertEqual(len(facts),1)
+        source=facts[0]['source']['span']
+        self.assertEqual(text[source['start']:source['end']],LINK)
+        self.assertEqual(facts[0]['value']['report_id'],REPORT)
+        with self.assertRaisesRegex(ValueError,'CLAIM_LINK_CONTEXT_UNSUPPORTED'):
+            linked_text(LINK+'?'+urlencode({'filter':'Sales/Count eq 5'}),'ticket-hash')
+
     def test_shared_declaration_is_not_attestation_of_user_state(self):
         value=parse(LINK)
         self.assertEqual(value['report_id'],REPORT)

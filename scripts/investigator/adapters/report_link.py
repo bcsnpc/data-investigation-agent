@@ -142,3 +142,12 @@ def bind(link, models):
         page=expected
     return {'model_id':model['id'],'report_id':report['id'],'page_id':page,
             'scope_state':'NO_ADDITIONAL_RESTRICTIONS'}
+
+
+def references(text):
+    """Find declared native links with their exact offsets; never fetch them."""
+    result=[]
+    for match in re.finditer(r'https://app\.powerbi\.com/[^\s<>]+',text):
+        quote=match.group().rstrip('.,;)')
+        result.append((match.start(),quote,parse(quote)))
+    return result

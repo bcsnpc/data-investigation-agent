@@ -159,14 +159,12 @@ def labelled_text(text,document_id):
 
 
 def linked_text(text,document_id):
-    """Visible Power BI links carry declared identity, never discarded filters."""
-    import re
-    from .adapters.report_link import parse
+    """Visible report links carry declared identity, never discarded filters."""
+    from .adapters.report_link import references
     result=[]
-    for match in re.finditer(r'https://app\.powerbi\.com/[^\s<>]+',text):
-        quote=match.group().rstrip('.,;)');reference=parse(quote)
+    for start,quote,reference in references(text):
         if reference['predicates']or reference['bookmark_reference']is not None:raise ValueError('CLAIM_LINK_CONTEXT_UNSUPPORTED')
         value={'kind':'UNKNOWN','report_id':reference['report_id']}
         if reference.get('page_id'):value['page_id']=reference['page_id']
-        result.append(fact('scope',value,{'kind':'REPORT_LINK','document_id':document_id,'span':{'start':match.start(),'end':match.start()+len(quote),'quote':quote}},authority='USER_TEXT'))
+        result.append(fact('scope',value,{'kind':'REPORT_LINK','document_id':document_id,'span':{'start':start,'end':start+len(quote),'quote':quote}},authority='USER_TEXT'))
     return result
