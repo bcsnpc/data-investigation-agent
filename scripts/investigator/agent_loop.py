@@ -157,8 +157,9 @@ class AgentLoop:
             tape = ACTIVE.get()
             # Old recordings did not retain this clock. Preserve their older
             # consumer contract rather than inventing historical elapsed time.
+            from .process_tape import AGENT_CLOCK_VERSIONS
             if (tape is not None and tape.replaying and
-                    tape.version not in ('bounded-worker-tape-v12','privacy-projected-tape-v2')):
+                    tape.version not in AGENT_CLOCK_VERSIONS | {'privacy-projected-tape-v2'}):
                 return observed
             return taped_clock('agent-loop-monotonic', lambda: observed)
         started = elapsed_clock(); transcript = []; evidence = {}; feedback = None; fetched = None

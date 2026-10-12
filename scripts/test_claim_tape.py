@@ -25,4 +25,12 @@ class ClaimTapeTests(unittest.TestCase):
   from investigator.process_tape import SUPPORTED_VERSIONS,AGENT_RESUME_VERSIONS
   self.assertEqual(VERSION,'bounded-worker-tape-v13');self.assertIn('bounded-worker-tape-v12',SUPPORTED_VERSIONS);self.assertIn('bounded-worker-tape-v12',AGENT_RESUME_VERSIONS)
   self.assertNotIn('bounded-worker-tape-v12',CLAIM_VERSIONS);self.assertIn('claim_screenshot_identify',CLAIM_OPERATIONS)
+ def test_current_recorder_supports_all_inherited_budget_and_agent_features(self):
+  from investigator.process_tape import SMART_VERSIONS,AGENT_VERSIONS,AGENT_RESUME_VERSIONS,DOLLAR_GUARDED_VERSIONS,CODE_VERSIONS,BUDGET_V2_VERSIONS,AGENT_CLOCK_VERSIONS
+  from investigator.budget_checkpoint import implementation
+  from investigator import budget_delta_v2
+  for versions in(SMART_VERSIONS,AGENT_VERSIONS,AGENT_RESUME_VERSIONS,DOLLAR_GUARDED_VERSIONS,CODE_VERSIONS,BUDGET_V2_VERSIONS,AGENT_CLOCK_VERSIONS):self.assertIn(VERSION,versions)
+  tape=SimpleNamespace(version=VERSION,bootstrap={'state':{'budget_checkpoint':'DELTA_V2'}})
+  self.assertIs(implementation(tape),budget_delta_v2)
+  self.assertNotIn('bounded-worker-tape-v7',BUDGET_V2_VERSIONS);self.assertNotIn('bounded-worker-tape-v11',AGENT_CLOCK_VERSIONS)
 if __name__=='__main__':unittest.main()

@@ -27,6 +27,8 @@ CODE_VERSIONS = frozenset(('bounded-worker-tape-v4','bounded-worker-tape-v5','bo
 SMART_OPERATIONS=frozenset(('ticket_submit','ticket_reply','ticket_attach','ticket_share','ticket_close','ticket_respond','ticket_finish',
                           'form_submit','form_reply','form_screenshot_reply','form_comment','agent_resume','claim_submit','claim_reply','claim_confirm','claim_screenshot_identify','claim_screenshot_confirm'))
 AGENT_RESUME_VERSIONS = frozenset(('bounded-worker-tape-v12',VERSION))
+BUDGET_V2_VERSIONS=SUPPORTED_VERSIONS - frozenset('bounded-worker-tape-v'+str(n)for n in range(1,8))
+AGENT_CLOCK_VERSIONS=AGENT_RESUME_VERSIONS
 CLAIM_VERSIONS=frozenset((VERSION,))
 CLAIM_OPERATIONS=frozenset(('claim_submit','claim_reply','claim_confirm','claim_screenshot_identify','claim_screenshot_confirm'))
 KINDS = frozenset({'BOOTSTRAP','OPERATION_START','OPERATION_END','CONFIGURATION',

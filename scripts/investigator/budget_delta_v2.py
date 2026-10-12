@@ -7,7 +7,8 @@ TABLES=('adaptive_usage','read_batches','read_batch_runs','read_allocations')
 VERSION='bounded-worker-tape-v8'
 
 def enabled(tape):
-    return getattr(tape,'version',None) in (VERSION,'bounded-worker-tape-v9','bounded-worker-tape-v10','bounded-worker-tape-v11','bounded-worker-tape-v12','privacy-projected-tape-v2') and getattr(tape,'bootstrap',{}).get('state',{}).get('budget_checkpoint')=='DELTA_V2'
+    from .process_tape import BUDGET_V2_VERSIONS
+    return getattr(tape,'version',None) in BUDGET_V2_VERSIONS | {'privacy-projected-tape-v2'} and getattr(tape,'bootstrap',{}).get('state',{}).get('budget_checkpoint')=='DELTA_V2'
 
 def register_codec(db):
     # Must be invoked on EVERY connection that can write any budget table.
