@@ -227,7 +227,9 @@ class Workspace:
         if type(controller_owned) is not bool:
             raise ValueError('Controller ownership must be boolean')
         if controller_owned and self.agent.config.get('_estate',{}).get('investigation',{}).get('mode','PIPELINE') not in ('AGENT','HYBRID'):
-            raise Conflict('Controller ownership requires configured agent mode')
+            from .agent_handoff import controller_owned as automatic_controller
+            if not automatic_controller(self):
+                raise Conflict('Controller ownership requires configured agent mode or retained code handoff authority')
         if not self.execution_enabled:
             raise Conflict('This host is in history-only mode')
         preview = self.read_preview(identity)

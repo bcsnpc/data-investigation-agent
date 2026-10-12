@@ -6,6 +6,18 @@ from .run_recording import operation
 
 def normal(value):return ' '.join(re.findall(r'\w+',value.casefold()))
 
+PARTIAL_STOP_WORDS=frozenset(('the','of','and','by','for','all','in','on','to','at','is','a','an'))
+
+def partial_label(fragment,anchor):
+    """A positional OCR line may be a literal contiguous label fragment.
+
+    Numbers alone and generic single words do not identify a page. No computed
+    value is predicted from a measure definition or assigned to a missing label.
+    """
+    fragment,anchor=normal(fragment),normal(anchor)
+    informative=[word for word in fragment.split()if word.isalpha()and len(word)>=3 and word not in PARTIAL_STOP_WORDS]
+    return bool(fragment and fragment!=anchor and len(informative)>=2 and ' '+fragment+' 'in' '+anchor+' ')
+
 def request_shape(request,required,optional=()):
     if not isinstance(request,dict)or set(request)-set(required)-set(optional)or not set(required)<=set(request):raise ValueError('Invalid screenshot request fields')
     for key in required:text(request[key],200 if key.endswith('_id') else 100)
@@ -18,14 +30,28 @@ def rank(ocr,pages):
     visible=' '+normal('\n'.join(line['text'] for line in ocr['lines']))+' '
     ranked=[]
     for page in pages:
-        hits=[]
+        hits={};matched=[]
+        visual_labels={normal(v)for v in page['anchors']}
         for anchor in [page['names']['report'],page['names']['page'],*page['anchors']]:
             key=normal(anchor)
-            if key and ' '+key+' ' in visible and key not in [normal(x) for x in hits]:hits.append(anchor)
+            if not key:continue
+            weight=2 if key in visual_labels else 1
+            if ' '+key+' 'in visible:
+                hits[key]=max(hits.get(key,0),weight)
+                matched.append({'kind':'EXACT_LABEL','fragment':anchor,'anchor':anchor})
+            for line in ocr['lines']:
+                if not partial_label(line['text'],anchor):continue
+                fragment=normal(line['text'])
+                # A short exact label and the same fragment of a longer label
+                # are equally compatible with the visible pixels. Do not prefer
+                # the shorter definition or multiply one line into many votes.
+                hits[fragment]=max(hits.get(fragment,0),weight)
+                matched.append({'kind':'PARTIAL_LABEL','fragment':line['text'],'anchor':anchor,'region':line['region']})
         if not hits:continue
         # Distinct visual labels outweigh a shared page/report title.
-        score=sum(2 if normal(a) in {normal(v) for v in page['anchors']} else 1 for a in hits)
-        ranked.append(dict(page,score=score,matched_anchors=hits,status='CANDIDATE'))
+        score=sum(hits.values())
+        ranked.append(dict(page,score=score,matched_anchors=list(dict.fromkeys(m['anchor']for m in matched)),
+                           matched_fragments=matched,status='CANDIDATE'))
     return sorted(ranked,key=lambda p:(-p['score'],p['candidate_id']))
 
 class ClaimScreenshots:
@@ -87,7 +113,7 @@ class ClaimScreenshots:
               'image':metadata,'ocr':ocr,'candidates':candidates[:3],'catalog_hash':digest(pages),
               'identification_method':method,'limitations':['Visible pixels do not establish hidden filters, RLS, cause or freshness.',
                 'Visible slicer/filter text is retained but not compiled; absence of filter facts does not establish unfiltered scope.',
-                'Numeric ties require a faithful admitted scope; no value probe was made.'],
+                'Computed visible numbers cannot identify a page without retained value associations or a faithful admitted scope; no value probe was made.'],
               'visible_filter_scope':{'status':'NOT_COMPILED','unfiltered_scope_established':False}}
         if status=='NEEDS_INPUT':body['question']={'text':'Which report page is shown?','choices':[{'candidate_id':p['candidate_id'],'label':p['label']} for p in candidates[:3]]}
         if unresolved_locator:

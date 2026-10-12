@@ -90,8 +90,28 @@ def candidates(settled,catalog,glossary=None):
                     'evidence_ids':['catalog:'+digest(catalog)],'status':'INFERRED','metric_phrase':next(phrase for phrase in phrases if phrase not in glossary_phrases and re.sub(r'\W+',' ',phrase).strip().casefold()in[re.sub(r'\W+',' ',n).strip().casefold()for n in names])})
     unique={}
     for c in result:
-        key=digest({k:c.get(k)for k in('model_id','measure_id','report_id','page_id','target_ids')})
-        if key not in unique or c.get('status')=='CONFIRMED':unique[key]=c
+        targets=sorted(set(c.get('target_ids',[])))
+        addresses=[v for m in catalog['models']if m['id']==c['model_id']for v in m.get('visuals',[])if v['target_id']in targets]
+        complete=bool(targets)and len(addresses)==len(targets)
+        def container(field):
+            if c.get(field)is not None:return c[field]
+            values={v.get(field)for v in addresses}
+            return next(iter(values))if complete and len(values)==1 else None
+        # A glossary path and a direct definition path can designate the same
+        # actual visual scope without both repeating its container identifiers.
+        # The key uses exact retained addresses; returned user scope is unchanged.
+        key=digest({'model_id':c['model_id'],'measure_id':c['measure_id'],
+            'metric_phrase':c.get('metric_phrase'),'report_id':container('report_id'),
+            'page_id':container('page_id'),'target_ids':targets})
+        if key not in unique:unique[key]=c
+        else:
+            current=unique[key]
+            preferred=c if c.get('status')=='CONFIRMED'and current.get('status')!='CONFIRMED'else current
+            other=current if preferred is c else c
+            for field in ('evidence_ids','link_ids'):
+                if field in preferred or field in other:
+                    preferred[field]=list(dict.fromkeys([*preferred.get(field,[]),*other.get(field,[])]))
+            unique[key]=preferred
     return list(unique.values())
 
 
@@ -127,7 +147,7 @@ def plan(claim,catalog):
         else:
             choices=[(r['label'],{'binding':r})for r in rows]
             return question('binding'if s.get('metric')else'metric','Which retained definition should represent the metric you named?'if s.get('metric')else'Which business metric do you mean?',choices,digest(catalog),facts)
-    if not s.get('comparator')and direction not in('STALE','DEFINITION'):
+    if s.get('comparator')in(None,'UNKNOWN')and direction not in('STALE','DEFINITION'):
         return question('comparator','What are you comparing against?',[
             ('My own count',{'comparator':'OWN_COUNT'}),('The source application',{'comparator':'APPLICATION'}),
             ('Another report',{'comparator':'OTHER_REPORT'}),('No other comparison',{'comparator':'NONE'})],digest(catalog),facts)
@@ -151,7 +171,7 @@ def plan(claim,catalog):
         return question('examples','Can you give one missing, extra, or wrong record as an example?',[],digest(catalog),facts)
     # A freshness/page complaint never needs a single displayed figure. Values
     # already supplied remain facts, but do not manufacture a reproduction.
-    if direction is None:
+    if direction in(None,'UNKNOWN'):
         return question('direction','Is it less, more, different, stale, or a definition question?',[
             ('Less or missing',{'direction':'LESS'}),('More or extra',{'direction':'MORE'}),
             ('Different',{'direction':'DIFFERENT'}),('Stale or not up to date',{'direction':'STALE'}),
@@ -166,7 +186,8 @@ def interpretation(claim,catalog):
     if binding and phrases:parts.append("By '"+"', '".join(phrases)+"', you mean "+name+'.')
     for value in s.get('observation',[]):
         if value['role']=='CONTEXT':continue
-        f=value['figure'];number='an empty result'if f['state']=='EMPTY'else f.get('source',{}).get('quote',f.get('value','not stated'))
+        f=value['figure'];number=(value['statement']['quote']if value.get('statement')else
+            'an empty result'if f['state']=='EMPTY'else f.get('source',{}).get('quote',f.get('value','not stated')))
         parts.append(('You observed 'if value['role']=='OBSERVED'else'You expected ')+str(number)+'.')
     scope=s.get('scope')or{};projection=catalog_projection(catalog)
     if scope.get('model_id'):

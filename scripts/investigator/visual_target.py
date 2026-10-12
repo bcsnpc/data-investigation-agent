@@ -67,6 +67,17 @@ def resolve(request, *, ticket, candidates, report_id, measure_id):
 
 
 def validate(value, *, ticket, candidates, report_id, measure_id):
+    if isinstance(value,dict) and 'confirmed_claim' in value.get('match_basis',{}):
+        from .claim_reference import validate_proof
+        proof=validate_proof(value['match_basis']['confirmed_claim'])
+        expected={'target_id':proof['target_id'],'report_id':proof['report_id'],'measure_id':proof['measure_id'],
+            'mode':'UNGROUPED','source':None,'mode_source':None,'resolution':'RESOLVED',
+            'match_basis':{'confirmed_claim':proof}}
+        matches=[c for c in candidates if c['target_id']==proof['target_id'] and c['report_id']==report_id
+                 and measure_id in c['measure_ids'] and c.get('grouping_columns')==[] and not c.get('unsupported')]
+        if value!=expected or proof['report_id']!=report_id or proof['measure_id']!=measure_id or len(matches)!=1:
+            raise TargetUnresolved(matches,'Confirmed claim target differs from retained visual.')
+        return value
     if isinstance(value,dict) and isinstance(value.get('match_basis'),dict) and 'form' in value['match_basis']:
         from .form_scope import validate_target
         return validate_target(value,ticket=ticket,candidates=candidates,report_id=report_id,measure_id=measure_id)

@@ -87,7 +87,11 @@ class AgentTicket:
         return self.run(saved, pipeline_result=saved['ticket'].get('hybrid_pipeline'))
 
     def run(self, saved, *, pipeline_result=None):
-        hybrid = self.workspace.agent.config.get('_estate', {}).get('investigation', {}).get('mode') == 'HYBRID'
+        from . import agent_handoff
+        automatic = agent_handoff.ACTIVE.get()
+        if automatic is not None:
+            agent_handoff.ticket_authority(self.workspace, automatic)
+        hybrid = automatic is not None or self.workspace.agent.config.get('_estate', {}).get('investigation', {}).get('mode') == 'HYBRID'
         if hybrid:
             if not pipeline_result or saved['ticket'].get('hybrid_pipeline') != pipeline_result:
                 raise Conflict('Hybrid agent requires its retained pipeline result')
@@ -255,6 +259,10 @@ class AgentTicket:
             return {'validated': True, 'outputs': from_state(runtime.get(active['session_id']))['outputs']}
 
         configuration = runtime.config['_estate']['investigation']
+        if automatic is not None:
+            configuration = {**configuration,
+                'step_cap': min(configuration.get('step_cap', 25), automatic['policy']['step_cap']),
+                'wall_seconds': min(configuration.get('wall_seconds', 900), automatic['policy']['wall_seconds'])}
         from .agent_wait_time import total as human_wait_total
         now = runtime.clock()
         excluded_wait = human_wait_total(saved['ticket'], journal.read(), now=now)

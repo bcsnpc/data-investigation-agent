@@ -39,12 +39,20 @@ def complete(workspace, saved):
     missing = gap(saved, state)
     if missing is None:
         return saved
+    from . import agent_handoff
+    automatic = None
+    if not selected(workspace):
+        automatic = agent_handoff.authority(workspace, saved['ticket'], state)
+        if automatic is None:
+            return saved
     source=saved['ticket'].get('source_intake')
     parent = {'saved_ticket': copy.deepcopy(saved), 'session': copy.deepcopy(state), 'gap': missing,
               'intake':copy.deepcopy(workspace.intake.get(source)) if source else None}
     parent['hash'] = digest(parent)
     def retain(ticket):
         ticket['hybrid_pipeline'] = copy.deepcopy(parent)
+        if automatic is not None:
+            ticket['automatic_handoff'] = {'authority': copy.deepcopy(automatic), 'status': 'STARTED'}
         ticket['agent_diagnostic_reads'] = ((state or {}).get('cloud_calls') if state else
             ticket.get('form_candidate_diagnostic_reads', 0))
         ticket['agent_intake_diagnostic_reads'] = ticket.get('form_candidate_diagnostic_reads', 0)
@@ -53,12 +61,17 @@ def complete(workspace, saved):
         return ticket
     current = workspace.smart_intake.tickets.update(saved['ticket']['id'], saved['revision'], retain)
     from .agent_ticket import AgentTicket
+    if automatic is not None:
+        with agent_handoff.ticket_phase(workspace, automatic):
+            return AgentTicket(workspace).run(current, pipeline_result=parent)
     return AgentTicket(workspace).run(current, pipeline_result=parent)
 
 
 def submit(controller, request, pipeline):
     workspace = controller.workspace
-    if not selected(workspace) or getattr(workspace, '_hybrid_pipeline_active', False):
+    from .agent_handoff import settings
+    enabled = selected(workspace) or settings(workspace)['enabled']
+    if not enabled or getattr(workspace, '_hybrid_pipeline_active', False):
         return pipeline(request)
     workspace._hybrid_pipeline_active = True
     try:
@@ -66,3 +79,11 @@ def submit(controller, request, pipeline):
         return complete(workspace, saved)
     finally:
         workspace._hybrid_pipeline_active = False
+
+
+def automatic(controller, request, pipeline):
+    """Extend only the new opt-in path; preserve explicit HYBRID semantics."""
+    from .agent_handoff import settings
+    if selected(controller.workspace) or not settings(controller.workspace)['enabled']:
+        return pipeline(request)
+    return submit(controller, request, pipeline)

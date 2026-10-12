@@ -30,7 +30,20 @@ class ClaimIntake:
         return row[0],body
 
     def _public(self,body):
-        return {k:copy.deepcopy(body[k])for k in ('id','revision','status','claim','questions','interpretation','engine_admission','history')}
+        result={k:copy.deepcopy(body[k])for k in ('id','revision','status','claim','questions','interpretation','engine_admission','history')}
+        from .agent_handoff import settings
+        if settings(self.workspace)['enabled']:
+            from .claim_handoff import ClaimHandoff
+            handoff=ClaimHandoff(self.workspace).get(body['id'])
+            if handoff is not None:result['automatic_handoff']=handoff
+        return result
+
+    def _after_pipeline(self,body,result=None):
+        from .claim_handoff import maybe
+        handoff=maybe(self.workspace,body,result)
+        if handoff is not None:
+            with self.store.connect()as db:_,body=self._load(db,body['id'])
+        return self._public(body)
 
     def get(self,id):
         with self.store.connect()as db:_,body=self._load(db,id)
@@ -43,6 +56,12 @@ class ClaimIntake:
 
     def _plan(self,body,catalog):
         claim=body['claim']
+        for original in list(claim['facts']):
+            if original['field']=='scope'and not original.get('superseded_by'):
+                derived=facts.resolve_native_scope(original,catalog)
+                if derived is not None:
+                    original['superseded_by']=derived['id']
+                    claim['facts']=facts.merge(claim['facts'],[derived])
         for _ in range(2):
             context=(facts.settled(claim['facts'])[0].get('scope')or{})
             resolved=[policy.resolve_scope(f,catalog,context)for f in claim['facts']if f['field']=='scope']
@@ -72,6 +91,8 @@ class ClaimIntake:
         if question:
             policy.validate_question(claim,question)
             body['status']='CLARIFYING';body['questions']=[question];body['_choices']=binding;body['interpretation']=None
+            if not any(h.get('kind')=='QUESTION_PLANNED'and h.get('question_id')==question['id']for h in body['history']):
+                body['history'].append({'kind':'QUESTION_PLANNED','question_id':question['id'],'field':question['field']})
         else:
             claim['selected_binding']=binding;body['status']='AWAITING_CONFIRMATION';body['questions']=[];body['_choices']={};body['interpretation']=policy.interpretation(claim,catalog)
         return body
@@ -118,7 +139,7 @@ class ClaimIntake:
             db.execute('INSERT INTO claim_intakes VALUES(?,?,?,?,?,?)',(id,key,hash,0,encoded(body),digest(body)))
             event('CONFIGURATION',{'claim_intake':'SUBMIT','request':request,'body':body})
             db.execute('INSERT INTO claim_revisions VALUES(?,?,?,?)',(id,0,encoded(body),digest(body)))
-        return self._public(body)
+        return self._after_pipeline(body)
 
     @operation('claim_reply')
     def reply(self,request):
@@ -147,13 +168,23 @@ class ClaimIntake:
         if text:
             from .claim_provider import extract
             extra,audit=extract(self.workspace,text,sourcehash,body['id']);new=facts.merge(new,extra)
-        if not choice and not new:raise ValueError('Claim reply supplied no usable fact')
+        from .agent_handoff import settings
+        if not choice and not new and not settings(self.workspace)['enabled']:raise ValueError('Claim reply supplied no usable fact')
         if question['field']=='correction'or question['field']in body['claim'].get('conflicts',[]):
             replacements={f['field']:[n['id']for n in new if n['field']==f['field']]for f in new}
             for old in body['claim']['facts']:
                 if old['field']in replacements and not old.get('superseded_by'):old['superseded_by']=replacements[old['field']]
             body['history'].append({'kind':'USER_CORRECTION','superseded_fields':list(replacements),'request_hash':sourcehash})
         if text:body['history'].append({'kind':'REPLY_EXTRACTION','model':audit})
+        expected_fields={'binding':{'metric','scope'},'report_binding':{'scope'},
+            'page_binding':{'scope'},'report':{'scope'},'page':{'scope'},
+            'targets':{'scope'},'current_target':{'metric','scope'},
+            'correction':set(f['field']for f in new)}.get(question['field'],{question['field']})
+        actual_fields=sorted({f['field']for f in new})
+        body['history'].append({'kind':'REPLY_TYPE_MATCH','question_id':question['id'],
+            'expected_fields':sorted(expected_fields),'actual_fields':actual_fields,
+            'status':'MATCHED'if choice or set(actual_fields)&expected_fields else'NO_EXPECTED_TYPE',
+            'request_hash':sourcehash})
         body['claim']['facts']=facts.merge(body['claim']['facts'],new)
         body['revision']+=1;body['history'].append({'kind':'REPLIED','request_hash':sourcehash,'question_id':question['id']});body['documents'].append({'hash':sourcehash,'request':copy.deepcopy(request)})
         body=self._plan(body,self._catalog())
@@ -161,7 +192,7 @@ class ClaimIntake:
             db.execute('BEGIN IMMEDIATE')
             if self._load(db,body['id'])[0]!=revision:raise Conflict('Concurrent claim reply')
             self._persist(db,body)
-        return self._public(body)
+        return self._after_pipeline(body)
 
     @operation('claim_confirm')
     def confirm(self,request):

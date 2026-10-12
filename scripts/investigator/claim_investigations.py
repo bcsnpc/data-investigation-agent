@@ -140,8 +140,16 @@ class ClaimInvestigations:
         elif scope.get('kind') == 'RECORDS' and direction in ('LESS', 'DIFFERENT', 'MORE'):
             kind = 'MULTIPLICITY' if direction == 'MORE' else 'SET_RECONCILIATION'
         else:
-            return {'status': 'HELD', 'reason': 'LEGACY_ROUTE_ADMISSION_UNAVAILABLE',
-                    'limitations': ['Existing legacy routes remain available through their retained admissions; this claim has no faithful legacy admission.']}, None
+            from .claim_reference import compile as compile_claim_reference
+            try:
+                compiled=compile_claim_reference(body,self.workspace.claims._catalog())
+            except Conflict:
+                return {'status': 'HELD', 'reason': 'LEGACY_ROUTE_ADMISSION_UNAVAILABLE',
+                        'limitations': ['This claim cannot be faithfully admitted as one ungrouped visual without changing its confirmed scope.']}, None
+            binding=body['claim']['selected_binding']
+            return {'status':'PLANNED','kind':'CONFIRMED_LEGACY_VISUAL',
+                'model_id':binding['model_id'],'measure_ids':[binding['measure_id']],
+                'compiled_reference':compiled,'limitations':[]}, None
         from .claim_projection import validate_request
         if scope.get('kind') != 'RECORDS' or scope.get('visual_ids'):
             return {'status': 'HELD', 'reason': 'VISUAL_PROJECTION_SCOPE_UNSUPPORTED',
@@ -456,13 +464,29 @@ class ClaimInvestigations:
                 checks = prepared
             else:
                 envelope = self._envelope(prepared, claim)
-                session = self.workspace.agent.begin_claim_process(envelope, 'claim:' + identity,
-                    claim_hash=claim_hash, confirmation_hash=confirmation_hash)
+                legacy=prepared.get('kind')=='CONFIRMED_LEGACY_VISUAL'
+                if legacy:
+                    compiled=prepared['compiled_reference']
+                    envelope.update({k:copy.deepcopy(compiled[k]) for k in ('target_visual','report_binding','reported_figure')})
+                    envelope.update(ticket_shape='MISMATCH_COMPLAINT',comparison_mode='VERTICAL')
+                    session=self.workspace.agent.create(envelope,'confirmed-visual:'+identity)
+                else:
+                    session = self.workspace.agent.begin_claim_process(envelope, 'claim:' + identity,
+                        claim_hash=claim_hash, confirmation_hash=confirmation_hash)
                 result['session_id'] = session['id']
                 with self.store.connect() as db:
                     db.execute('BEGIN IMMEDIATE'); self._save(db, result)
-                adapter = self.workspace.agent.process_adapter(session['id'])
-                checks = execute(adapter)
+                if legacy:
+                    self.workspace.agent.run_process(session['id'])
+                    self.workspace.agent.synthesize(session['id'])
+                    from .ticket_findings import from_state
+                    finding=from_state(self.workspace.agent.get(session['id']))
+                    checks={'status':'HELD'if finding['classification']=='HELD'else'COMPLETED','validated_findings':finding,
+                        'observations':finding['observations'],'limits':finding['assessment'].get('limits',[]) if finding['assessment'] else []}
+                    result['classification']=finding['classification']
+                else:
+                    adapter = self.workspace.agent.process_adapter(session['id'])
+                    checks = execute(adapter)
             result['checks'] = checks
             if checks.get('cause_verified') is True or checks.get('defect_established') is True:
                 raise ValueError('CLAIM_CAUSAL_PROOF_NOT_ESTABLISHED')
@@ -485,7 +509,12 @@ class ClaimInvestigations:
                 stop_error = exc
         finally:
             try:
-                result['outputs'] = self._prose(result['checks'], result['status'], result['reason'], result['limits'])
+                finding=result['checks'].get('validated_findings')
+                if finding:
+                    result['outputs']={'business_explanation':finding['outputs']['business_output']['explanation']['text'],
+                        'technical_narrative':finding['outputs']['technical_output']['explanation']['text']}
+                else:
+                    result['outputs'] = self._prose(result['checks'], result['status'], result['reason'], result['limits'])
             except (ValueError, TypeError, KeyError) as exc:
                 result.update(status='HELD', reason='CLAIM_OUTPUT_VALIDATION_FAILED')
                 result['output_failure'] = self._failure(identity, 'OUTPUT', exc)
@@ -498,8 +527,11 @@ class ClaimInvestigations:
                 result['outputs'][key] = 'Confirmed request: ' + context + ' ' + ending + ' ' + result['outputs'][key]
             if session:
                 try:
-                    final = self.workspace.agent.finalize_claim_process(session['id'], result,
-                        claim_hash=claim_hash, confirmation_hash=confirmation_hash)
+                    if prepared.get('kind')=='CONFIRMED_LEGACY_VISUAL':
+                        final=self.workspace.agent.get(session['id'])
+                    else:
+                        final = self.workspace.agent.finalize_claim_process(session['id'], result,
+                            claim_hash=claim_hash, confirmation_hash=confirmation_hash)
                 except Exception as exc:
                     result.update(status='HELD', reason='CLAIM_FINALIZATION_FAILED',
                                   finalization_failure=self._failure(identity, 'FINALIZATION', exc))
@@ -514,4 +546,12 @@ class ClaimInvestigations:
                 db.execute('BEGIN IMMEDIATE'); self._save(db, result)
         if stop_error:
             raise stop_error
+        # Optional handoff is a separate, once-only phase. It cannot replace
+        # these retained receipts, checked outcome or original outputs.
+        from .claim_handoff import maybe
+        handoff = maybe(self.workspace, claim, result)
+        if handoff is not None:
+            result['automatic_handoff'] = handoff
+            with self.store.connect() as db:
+                db.execute('BEGIN IMMEDIATE'); self._save(db, result)
         return copy.deepcopy(result)

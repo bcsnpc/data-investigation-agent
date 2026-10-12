@@ -891,7 +891,13 @@ class AdaptiveRuntime:
         with self.runtime.db() as db:
             state=self.load(db,identity);self.admit(state,db)
             if agent_candidate:
-                if self.config.get('_estate',{}).get('investigation',{}).get('mode')!='HYBRID' or state['status']!='EXECUTING' or not state.get('process_started'):
+                automatic=False
+                from .agent_handoff import WORKSPACE
+                workspace=WORKSPACE.get()
+                if workspace is not None:
+                    from .agent_handoff import controller_owned
+                    automatic=workspace.agent is self and controller_owned(workspace)
+                if (self.config.get('_estate',{}).get('investigation',{}).get('mode')!='HYBRID' and not automatic) or state['status']!='EXECUTING' or not state.get('process_started'):
                     raise Conflict('Standard candidate requires an executing hybrid session')
             elif state['status']!='READY':return self.get(identity)
         adapter=self.process_adapter(identity)

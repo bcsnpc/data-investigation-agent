@@ -197,6 +197,10 @@ class SmartIntake:
 
     @operation('ticket_reply')
     def reply(self, request):
+        from .hybrid_ticket import automatic
+        return automatic(self,request,self._reply)
+
+    def _reply(self, request):
         self._guard();fields(request,['ticket_id','revision','answers','request_key']);text(request['request_key'],100)
         saved=self.tickets.get(request['ticket_id'])
         # A repeated request is safe only if the same sealed reply was applied.
@@ -322,6 +326,10 @@ class SmartIntake:
 
     @operation('ticket_finish')
     def finish(self, request):
+        from .hybrid_ticket import automatic
+        return automatic(self,request,self._finish)
+
+    def _finish(self, request):
         """Compose once through the existing governed synthesis producer."""
         self._guard();fields(request,['ticket_id','revision'])
         saved=self.tickets.get(request['ticket_id']);ticket=saved['ticket']

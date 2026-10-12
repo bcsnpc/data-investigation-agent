@@ -1,5 +1,5 @@
 """Consumer-owned claim vocabulary and append-only, source-backed facts."""
-import copy,json
+import copy,json,re
 from .onboarding import digest
 from .intake_span_references import tokens,REFERENCE
 from . import reported_figure
@@ -24,6 +24,59 @@ def extraction_schema():
     return {'type':'object','additionalProperties':False,'properties':{'facts':{'type':'array','maxItems':40,'items':{'anyOf':variants}}},'required':['facts']}
 
 EXTRACTION_SCHEMA=extraction_schema()
+
+
+def normalise(raw):
+    """Repair only lossless representation choices, never roles or referents."""
+    result=copy.deepcopy(raw);repairs=[]
+    if not isinstance(result,dict)or set(result)!={'facts'}:return result,repairs
+    if isinstance(result['facts'],dict):result['facts']=[result['facts']];repairs.append('SINGLE_FACT_ARRAY')
+    if not isinstance(result['facts'],list):return result,repairs
+    enums={'direction':DIRECTIONS,'comparator':COMPARATORS,'scope':SCOPES,'observation':ROLES}
+    for index,item in enumerate(result['facts']):
+        if not isinstance(item,dict):continue
+        field=item.get('field')
+        if isinstance(field,str)and field.lower()in FIELDS and field!=field.lower():
+            field=item['field']=field.lower();repairs.append('FIELD_CASE:'+str(index))
+        if field not in FIELDS:continue
+        if 'metric_reference'not in item:item['metric_reference']=None;repairs.append('NULL_METRIC_REFERENCE:'+str(index))
+        elif field!='observation'and item['metric_reference']is not None:
+            # This field's contract has no metric association; its own exact
+            # reference retains the fact, and the rejected raw annotation stays
+            # in the recorded provider response and repair audit.
+            item['metric_reference']=None;repairs.append('NON_OBSERVATION_METRIC_REFERENCE:'+str(index))
+        if field not in enums and item.get('symbol')is not None:
+            item['symbol']=None;repairs.append('NON_ENUM_FIELD_SYMBOL:'+str(index))
+        elif field not in enums and 'symbol'not in item:
+            item['symbol']=None;repairs.append('NULL_TEXT_SYMBOL:'+str(index))
+        elif isinstance(item.get('symbol'),str)and item['symbol'].upper()in enums.get(field,())and item['symbol']!=item['symbol'].upper():
+            item['symbol']=item['symbol'].upper();repairs.append('ENUM_CASE:'+str(index))
+    return result,repairs
+
+
+def observation(source,text,role,metric):
+    """A statement, range or plural quantities is not one exact scalar.
+
+Keep each original numeral span even when scalar precision is unavailable.
+These branches cannot be consumed as a numeric reproduction claim.
+"""
+    try:
+        figure=reported_figure.from_candidates([source],text)
+        return {'role':role,'figure':figure,'metric_phrase':metric}
+    except reported_figure.UnavailablePrecision:
+        quote=source['quote']
+        pattern=r'(?<![\w.])[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*[KMBkmb]?(?!\w|\.\w)'
+        numbers=[]
+        for match in re.finditer(pattern,quote):
+            end=match.end()
+            while end>match.start()and quote[end-1].isspace():end-=1
+            numbers.append({'start':source['start']+match.start(),'end':source['start']+end,
+                'quote':quote[match.start():end]})
+        range_words=bool(re.search(r'\b(?:between|from|range|ranging)\b|\d\s*(?:-|–|—|to)\s*\d',quote,re.I))
+        kind=('QUALITATIVE'if not numbers else'RANGE'if len(numbers)>1 and range_words else
+              'MULTIPLE_QUANTITIES'if len(numbers)>1 else'PRECISION_UNAVAILABLE')
+        return {'role':role,'figure':{'state':'UNSPECIFIED'},'metric_phrase':metric,
+            'statement':copy.deepcopy(source),'quantity_structure':{'kind':kind,'numerals':numbers}}
 
 
 
@@ -67,9 +120,8 @@ def extraction(raw,text,document_id):
         source=span(item['reference'],text);field=item['field'];symbol=item['symbol'];value=source['quote']
         if field=='observation':
             if symbol not in ROLES:raise ValueError('Observation requires an explicit consumer role')
-            figure=reported_figure.from_candidates([source],text)
             metric=span(item['metric_reference'],text)['quote']if item['metric_reference']else None
-            value={'role':symbol,'figure':figure,'metric_phrase':metric}
+            value=observation(source,text,symbol,metric)
         elif field in ('direction','comparator','scope'):
             allowed={'direction':DIRECTIONS,'comparator':COMPARATORS,'scope':SCOPES}[field]
             if symbol not in allowed:raise ValueError('Claim symbol does not belong to its field')
@@ -134,6 +186,18 @@ def settled(facts):
         for f in rows:
             if f['value']not in values:values.append(copy.deepcopy(f['value']))
         if name in ('observation','metric','examples','filters'):fields[name]=values
+        elif name in ('time','when_last_right'):
+            # These are verbatim temporal statements, not one compiled date or
+            # interval. Preserve all clauses for confirmation; never choose one.
+            fields[name]=values[0]if len(values)==1 else values
+        elif name=='direction':
+            known=[v for v in values if v!='UNKNOWN']
+            if len(known)>1 and'DIFFERENT'in known:
+                specific=[v for v in known if v!='DIFFERENT']
+                if len(specific)==1 and specific[0]in('LESS','MORE','WRONG_BREAKDOWN','FIELD_WRONG'):known=specific
+            if len(known)==1:fields[name]=known[0]
+            elif not known:fields[name]='UNKNOWN'
+            else:conflicts.append(name)
         elif name=='scope':
             combined={};bad=False
             for value in values:
@@ -171,3 +235,19 @@ def linked_text(text,document_id):
         if reference.get('page_id'):value['page_id']=reference['page_id']
         result.append(fact('scope',value,{'kind':'REPORT_LINK','document_id':document_id,'span':{'start':start,'end':start+len(quote),'quote':quote}},authority='USER_TEXT'))
     return result
+
+
+def resolve_native_scope(original,catalog):
+    """Bind a declared URL via the existing adapter's exact native-ID contract.
+
+    The caller retains/supersedes the original fact, rather than overwriting its
+    submitted identity. Unsupported filters/bookmarks still refuse in bind().
+    """
+    if original['field']!='scope'or original['source'].get('kind')!='REPORT_LINK':return None
+    from .adapters.report_link import bind
+    resolved=bind(original['source']['span']['quote'],catalog['models'])
+    value=copy.deepcopy(original['value'])
+    value.update(model_id=resolved['model_id'],report_id=resolved['report_id'])
+    if resolved['page_id']is not None:value['page_id']=resolved['page_id']
+    return fact('scope',value,{'kind':'CATALOG_REFERENCE_BINDING','source_fact_id':original['id'],
+        'catalog_hash':digest(catalog),'binding':resolved},authority=original['authority'])

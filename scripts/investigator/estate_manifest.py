@@ -12,6 +12,7 @@ from .code_sources import CODE_SOURCE_SCHEMA, validate_sources as validate_code_
 from .binding_sample import SAMPLE_SCHEMA
 from .string_semantics import SCHEMA as STRING_SEMANTICS
 from .ticket_protocol import INTAKE as INTAKE_SCHEMA, OWNERSHIP as OWNERSHIP_SCHEMA
+from .agent_handoff import SETTING as AUTOMATIC_HANDOFF_SETTING
 
 
 def obj(properties, optional=()):
@@ -104,7 +105,8 @@ SCHEMA=obj({
     # Evaluator-only declarations; not projected into tools or prompts.
     'execution':{'oneOf':[obj({'mode':{'const':'LIVE'}}), obj({'mode':{'const':'LOCAL_EXPORTED'},'bundle':STRING, 'manifest_sha256':{'type':'string','pattern':'^[0-9a-f]{64}$'}, 'source_manifest_hash':{'type':'string','pattern':'^[0-9a-f]{64}$'}})]},
     'investigation':{'oneOf':[
-        obj({'mode':{'const':'PIPELINE'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600)}),
+        obj({'mode':{'const':'PIPELINE'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600),
+             'automatic_handoff':AUTOMATIC_HANDOFF_SETTING}, optional=('automatic_handoff',)),
         obj({'mode':{'const':'AGENT'},'step_cap':integer(1,25),'wall_seconds':integer(1,3600),
              'input_characters_per_request':integer(8000,150000),'agent_deployment':STRING}, optional=('input_characters_per_request','agent_deployment')),
         obj({'mode':{'const':'HYBRID'},'step_cap':integer(1,12),'wall_seconds':integer(1,3600),

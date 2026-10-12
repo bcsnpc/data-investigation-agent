@@ -31,7 +31,10 @@ from .input_reference import SCHEMA as REFERENCE_SCHEMA
 REFERENCE_REPORT_SCHEMA=variant('resolution_kind','DECLARED_REFERENCE',{
     'report_id':ID,'source':{'type':'null'},'reference':REFERENCE_SCHEMA})
 from .form_scope import REPORT as FORM_REPORT_SCHEMA
-BINDING_SCHEMA={'anyOf':[STATED_REPORT_SCHEMA,CONFIRMED_REPORT_SCHEMA,REFERENCE_REPORT_SCHEMA,FORM_REPORT_SCHEMA]}
+from .claim_reference import SCHEMA as CLAIM_REFERENCE_SCHEMA
+CLAIM_REPORT_SCHEMA=variant('resolution_kind','USER_CONFIRMED_CLAIM',{
+    'report_id':ID,'source':{'type':'null'},'claim_reference':CLAIM_REFERENCE_SCHEMA})
+BINDING_SCHEMA={'anyOf':[STATED_REPORT_SCHEMA,CONFIRMED_REPORT_SCHEMA,REFERENCE_REPORT_SCHEMA,FORM_REPORT_SCHEMA,CLAIM_REPORT_SCHEMA]}
 REPORT_SCHEMA = {'anyOf': [STATED_REPORT_SCHEMA,
     variant('resolution_kind', 'REFUSED', {
         'source': {'type': 'null'},
@@ -44,7 +47,7 @@ REPORT_SCHEMA = {'anyOf': [STATED_REPORT_SCHEMA,
     variant('resolution_kind', 'REFUSED', {
         'source': reported_figure.SPAN_SCHEMA,
         'candidates': {'type': 'array', 'minItems': 2, 'maxItems': 512, 'uniqueItems': True, 'items': ID},
-            'reason': {'type': 'string', 'enum': ['MULTIPLE_EXACT_MATCHES']}}),CONFIRMED_REPORT_SCHEMA,REFERENCE_REPORT_SCHEMA,FORM_REPORT_SCHEMA]}
+            'reason': {'type': 'string', 'enum': ['MULTIPLE_EXACT_MATCHES']}}),CONFIRMED_REPORT_SCHEMA,REFERENCE_REPORT_SCHEMA,FORM_REPORT_SCHEMA,CLAIM_REPORT_SCHEMA]}
 REFUSED_REPORT_SCHEMAS=[v for v in REPORT_SCHEMA['anyOf']
                         if v['properties']['resolution_kind']['enum']==['REFUSED']]
 LOOKUP_SCHEMA = {'anyOf': [variant('status', state, {'receipt_ids': {
@@ -103,6 +106,14 @@ def resolve_report(source, reports, ticket=None):
 
 
 def report_binding(binding, *, reports, ticket=None, allow_refused=False):
+    if isinstance(binding,dict) and binding.get('resolution_kind')=='USER_CONFIRMED_CLAIM':
+        from .claim_reference import validate_proof
+        if set(binding)!={'resolution_kind','report_id','source','claim_reference'} or binding['source'] is not None:
+            raise ValueError('Confirmed claim report has an invalid structure')
+        proof=validate_proof(binding['claim_reference'])
+        if proof['report_id']!=binding['report_id'] or sum(r['id']==binding['report_id'] for r in reports)!=1:
+            raise ValueError('Confirmed claim report differs from retained selection')
+        return binding
     if isinstance(binding,dict) and binding.get('resolution_kind')=='USER_SUPPLIED_FORM':
         Draft202012Validator(FORM_REPORT_SCHEMA).validate(binding)
         proof=binding['form']
