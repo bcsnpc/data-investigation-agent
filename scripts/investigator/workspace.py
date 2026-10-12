@@ -75,6 +75,35 @@ class Workspace:
         return self._smart_intake
 
     @property
+    def claims(self):
+        if not hasattr(self, '_claims'):
+            from .claim_intake import ClaimIntake
+            self._claims = ClaimIntake(self)
+        return self._claims
+
+    @property
+    def claim_glossary(self):
+        if not hasattr(self, '_claim_glossary'):
+            from .claim_glossary import EstateGlossary
+            from .claim_glossary_evidence import RetainedClaimEvidence
+            evidence = RetainedClaimEvidence(
+                self.store, lambda: self.claims._catalog(),
+                fallback=lambda identity: (
+                    self.claim_glossary_evidence(identity)
+                    if callable(getattr(self, 'claim_glossary_evidence', None)) else None))
+            self._claim_glossary = EstateGlossary(
+                self.store.database, self.store.environment,
+                evidence_lookup=evidence)
+        return self._claim_glossary
+
+    @property
+    def claim_screenshots(self):
+        if not hasattr(self, '_claim_screenshots'):
+            from .claim_screenshots import ClaimScreenshots
+            self._claim_screenshots = ClaimScreenshots(self)
+        return self._claim_screenshots
+
+    @property
     def forms(self):
         if not hasattr(self,'_forms'):
             from .form_controller import Forms

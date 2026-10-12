@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Investigator · Investigations</title><link rel="stylesheet" href="/style.css"><script src="/workspace.js" defer></script><script src="/form.js" defer></script><script src="/questionnaire.js" defer></script><script src="/screenshots.js" defer></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Investigator · Investigations</title><link rel="stylesheet" href="/style.css"><script src="/workspace.js" defer></script><script src="/form.js" defer></script><script src="/questionnaire.js" defer></script><script src="/screenshots.js" defer></script><script src="/claims.js" defer></script></head>
 <body>
 <header><a class="brand" href="/"> <span class="mark">i</span> Investigator</a><span class="environment">Local workspace</span><button id="signout" class="quiet" hidden>Sign out</button></header>
 <main>
@@ -10,7 +10,20 @@
     <aside><div class="section-heading"><h2>Investigations</h2><button id="refresh-history" class="quiet" aria-label="Refresh investigations">↻</button></div><button id="new-investigation" class="secondary full">+ New investigation</button><div id="history" class="history"></div><h2>Recent questions</h2><div id="question-history" class="history"></div><h2>Recent screenshots</h2><div id="image-history" class="history"></div></aside>
     <div class="content">
       <section id="composer" class="card">
-        <p class="eyebrow">START WITH YOUR QUESTION</p><h1>What looks different?</h1><p class="muted">Choose a report and explain what looks wrong. Your ticket keeps the selections, checks and replies together.</p>
+        <p class="eyebrow">START WITH YOUR QUESTION</p><h1>What looks different?</h1><p class="muted">Describe the number, records or page you are questioning. A screenshot works even without a report link.</p>
+        <section id="claim-intake">
+          <form id="claim-form">
+            <label for="claim-text">Your question</label><textarea id="claim-text" rows="4" maxlength="6000" placeholder="What did you see, and what did you expect?"></textarea>
+            <label for="claim-image">Screenshot (optional)</label><input id="claim-image" type="file" accept="image/png,image/jpeg">
+            <p class="muted small">PNG or JPEG, up to 1 MB. Visible text is read on this computer.</p>
+            <details><summary>This report is inside a portal</summary><label for="claim-portal">Portal name</label><input id="claim-portal" maxlength="100"><label for="claim-portal-tab">Tab name</label><input id="claim-portal-tab" maxlength="100"></details>
+            <button id="claim-read-image" type="button" class="secondary">Read screenshot</button>
+            <div id="claim-image-result" role="status" hidden></div>
+            <button type="submit">Review my question</button>
+          </form>
+          <div id="claim-result" aria-live="polite" hidden></div>
+        </section>
+        <details id="compatible-intake"><summary>Use an existing form or saved investigation</summary>
         <div id="read-only" class="notice" hidden>This host shows history and scope previews. Live execution is disabled.</div>
         <div id="clarification-note" class="notice" hidden></div>
         <section id="simple-intake" hidden>
@@ -75,6 +88,7 @@
           <button id="review" type="submit" class="review-button">Review scope <span aria-hidden="true">→</span></button>
         </form></div>
         <section id="ticket-discussion" hidden><h2>Ticket</h2><h3>What you submitted</h3><dl id="ticket-submitted-facts"></dl><h3>Progress</h3><ol id="ticket-progress"></ol><h3>Comments</h3><ol id="ticket-comments"></ol><form id="ticket-comment-form"><label for="ticket-comment-text">Add a comment</label><textarea id="ticket-comment-text" maxlength="2000" required></textarea><label><input id="ticket-comment-attach" type="checkbox">Attach the screenshot uploaded and reviewed above</label><button type="submit">Post comment</button></form><button id="ticket-screenshot-answer" type="button" hidden>Use reviewed screenshot to answer the pending question</button></section>
+        </details>
       </section>
       <section id="preview" class="card review" hidden><p class="eyebrow">READY FOR YOUR REVIEW</p><h2 id="preview-title"></h2><p id="preview-symptom"></p><div id="preview-filters" class="scope-pills"></div><p id="preview-note" class="muted"></p><ul id="preview-contexts" class="small"></ul><p class="small">Starting runs connected read-only checks and may use the language model within the configured usage limits.</p><button id="start">Start investigation</button></section>
       <section id="result" hidden>

@@ -102,7 +102,9 @@ def operation(name):
                     bootstrap['state']['context_pins']=agent.store.context_pins
                 if getattr(agent.store,'acceptance_fixture_state',None):
                     bootstrap['state']['fixture_state']=agent.store.acceptance_fixture_state
-                if name in journal.SMART_OPERATIONS:
+                if name in journal.CLAIM_OPERATIONS:
+                    bootstrap['state']['claim_intake']='claim-intake-v1'
+                elif name in journal.SMART_OPERATIONS:
                     bootstrap['state']['smart_intake']=owner.configuration
                     bootstrap['state']['smart_ownership']=owner.ownership
                     bootstrap['state']['smart_auto_start']=owner.auto_start

@@ -38,6 +38,7 @@ def create_app(workspace, token, port=8776):
                   '/workspace.js': ('workspace.js', 'text/javascript'), '/screenshots.js': ('screenshots.js', 'text/javascript'), '/style.css': ('style.css', 'text/css')}
         assets['/form.js']=('form.js','text/javascript')
         assets['/questionnaire.js']=('questionnaire.js','text/javascript')
+        assets['/claims.js']=('claims.js','text/javascript')
         if method == 'GET' and path in assets:
             filename, mime = assets[path]
             return respond('200 OK', (ASSETS / filename).read_bytes(), mime)
@@ -65,6 +66,33 @@ def create_app(workspace, token, port=8776):
                 result = workspace.models()
                 from .ticket_clarification import settings
                 result['intake_options']={'comparison_choices':settings(workspace.intake_configuration)['comparison_choices']}
+            elif path == '/api/workspace/claims/catalog' and method == 'GET':
+                result = workspace.claims.catalog()
+            elif path == '/api/workspace/claims' and method == 'POST':
+                result = workspace.claims.submit(body)
+            elif path.startswith('/api/workspace/claims/'):
+                parts = path[len('/api/workspace/claims/'):].split('/')
+                if len(parts) == 1 and method == 'GET':
+                    result = workspace.claims.get(parts[0])
+                elif len(parts) == 2 and parts[1] in ('replies', 'confirm') and method == 'POST':
+                    if not isinstance(body, dict) or 'id' in body:
+                        raise ValueError('Claim identity comes from the path')
+                    name = 'reply' if parts[1] == 'replies' else 'confirm'
+                    result = getattr(workspace.claims, name)({'id': parts[0], **body})
+                else:
+                    return respond('404 Not Found', {'error': 'Not found'})
+            elif path == '/api/workspace/claim-screenshots' and method == 'POST':
+                result = workspace.claim_screenshots.identify(body)
+            elif path.startswith('/api/workspace/claim-screenshots/'):
+                parts = path[len('/api/workspace/claim-screenshots/'):].split('/')
+                if len(parts) == 1 and method == 'GET':
+                    result = workspace.claim_screenshots.get(parts[0])
+                elif len(parts) == 2 and parts[1] == 'confirm' and method == 'POST':
+                    if not isinstance(body, dict) or 'review_id' in body:
+                        raise ValueError('Screenshot review identity comes from the path')
+                    result = workspace.claim_screenshots.confirm({'review_id': parts[0], **body})
+                else:
+                    return respond('404 Not Found', {'error': 'Not found'})
             elif path == '/api/workspace/questionnaire/schema' and method=='GET':
                 from .intake_questionnaire import DEFINITION
                 result=DEFINITION

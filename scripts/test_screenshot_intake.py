@@ -28,6 +28,16 @@ class ScreenshotTests(unittest.TestCase):
         self.upload = {'name': 'report.png', 'mime': 'image/png', 'base64': base64.b64encode(self.raw).decode(), 'request_key': 'upload'}
 
     def attach(self): return self.w.screenshots.upload(self.upload)
+
+    def test_projected_installation_refuses_pixels_before_decode_or_write(self):
+        self.w.agent.config['_estate'] = {'recording': {'tape_class': 'PRIVACY_PROJECTED'}}
+        with patch('investigator.screenshot_intake.base64.b64decode') as decode:
+            with self.assertRaisesRegex(Conflict, 'privacy projection'):
+                self.attach()
+        decode.assert_not_called()
+        with self.w.store.connect() as db:
+            self.assertEqual(db.execute('SELECT COUNT(*) FROM workspace_images').fetchone()[0], 0)
+        self.extractor.assert_not_called()
     def read(self): return self.w.screenshots.read({'attachment_id': self.attach()['id'], 'request_key': 'read'})
     def review(self): return self.w.screenshots.review({'extraction_id': self.read()['id'], 'text': 'ratio 7\nCurrency USD', 'request_key': 'review'})
 

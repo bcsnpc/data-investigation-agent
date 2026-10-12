@@ -146,6 +146,7 @@ $('login-form').addEventListener('submit',guard(async()=>{
   options($('smart-ticket-comparison'),(result.intake_options?.comparison_choices||[]).map(choice=>({id:choice.route,name:choice.label})),'Not specified');
   $('access-key').value='';$('login').hidden=true;$('workspace').hidden=false;$('signout').hidden=false;$('read-only').hidden=execution;
   options($('model'),models.map(m=>({id:m.id,name:m.name})));resetComposer();await investigationHistory();await loadReportForm();
+  window.dispatchEvent(new Event('workspace-ready'));
 }));
 $('signout').addEventListener('click',()=>{resetIntake();resetSmartTicket();resetReportForm();stopPolling();key='';models=[];current=null;preview=null;predecessor=null;$('workspace').hidden=true;$('login').hidden=false;$('signout').hidden=true;$('access-key').value='';$('history').replaceChildren();$('question-history').replaceChildren();$('image-history').replaceChildren();$('facts').replaceChildren();$('activity').replaceChildren();for(const id of ['technical-scope','technical-outcome','technical-decisions','identities'])$(id).replaceChildren();$('scope-form').reset();clearError();});
 $('model').addEventListener('change',()=>{predecessor=null;$('clarification-note').hidden=true;modelChanged();});
