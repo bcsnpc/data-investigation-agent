@@ -41,6 +41,10 @@ def _accepted(store, identity, catalog):
         return None
     from .claim_facts import settled
     actual, conflicts = settled(body['claim']['facts'])
+    from . import claim_clarification as policy
+    scope=policy.merge_location_scope(actual)
+    scope=policy.candidate_location(scope,catalog,policy.candidates(actual,catalog))
+    if scope:actual['scope']=scope
     if conflicts or actual != body['claim'].get('settled'):
         return None
     from .claim_clarification import interpretation

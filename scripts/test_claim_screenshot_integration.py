@@ -41,8 +41,15 @@ class IntegrationTests(unittest.TestCase):
         self.assertEqual(result['status'], 'CLARIFYING')
         self.assertNotIn(result['questions'][0]['field'], ('report', 'page', 'metric', 'observation'))
         for fact in result['claim']['facts']:
-            self.assertEqual(fact['source']['review_id'], review['id'])
-            self.assertEqual(fact['source']['review_hash'], review['hash'])
+            source = fact['source']
+            if source['kind'] == 'LOCATION_NOT_EXTENT':
+                original = next(f for f in result['claim']['facts'] if f['id'] == source['source_fact_id'])
+                self.assertEqual(original['superseded_by'], fact['id'])
+                self.assertEqual(source['original_source'], original['source'])
+                self.assertEqual(fact['field'], 'location')
+                source = original['source']
+            self.assertEqual(source['review_id'], review['id'])
+            self.assertEqual(source['review_hash'], review['hash'])
         with self.w.store.connect() as db:
             _,stored=self.w.claims._load(db,result['id'])
         self.assertEqual(stored['captured_context']['review_id'],review['id'])

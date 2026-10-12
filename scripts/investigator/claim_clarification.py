@@ -57,6 +57,30 @@ def resolve_scope(fact,catalog,context=None):
     return make(fact['field'],resolved,{'kind':'CATALOG_NAME_RESOLUTION','catalog_hash':digest(catalog),'source_fact_id':fact['id']},authority=fact['authority'])
 
 
+def merge_location_scope(settled):
+    """Build the effective extent without turning its location into an extent."""
+    scope=dict(settled.get('location')or{},**(settled.get('scope')or{}))
+    if scope.get('kind','UNKNOWN')=='UNKNOWN'and settled.get('metric'):
+        scope['kind']='METRIC'
+    if scope:
+        scope.setdefault('kind','UNKNOWN');settled['scope']=scope
+    return scope
+
+
+def candidate_location(scope,catalog,rows):
+    """Derive containers only when every candidate address is retained and agrees."""
+    scope=dict(scope)
+    if rows and scope.get('kind')in('METRIC','VISUALS'):
+        model_ids={r['model_id']for r in rows};targets={t for r in rows for t in r.get('target_ids',[])}
+        addresses=[v for m in catalog['models']if m['id']in model_ids for v in m.get('visuals',[])if v['target_id']in targets]
+        if targets and len(addresses)==len(targets):
+            for field in('report_id','page_id'):
+                values={v.get(field)for v in addresses}
+                if not scope.get(field)and len(values)==1 and None not in values:scope[field]=next(iter(values))
+            if len(model_ids)==1:scope.setdefault('model_id',next(iter(model_ids)))
+    return scope
+
+
 def candidates(settled,catalog,glossary=None):
     scope=settled.get('scope')or{};phrases=[m['phrase']for m in settled.get('metric',[])]
     result=[];glossary_phrases=set()

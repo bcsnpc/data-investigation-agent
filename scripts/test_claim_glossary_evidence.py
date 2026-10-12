@@ -65,6 +65,13 @@ class RetainedGlossaryEvidenceTests(unittest.TestCase):
         self.assertIsNone(self.lookup(learned[0]['evidence_id']))
         self.assertEqual(self.glossary.resolve('Quantity', self.catalog), [])
 
+    def test_catalog_derived_location_is_recomputed_not_trusted(self):
+        done = self.confirmed()
+        self.assertEqual(done['claim']['settled']['scope']['model_id'], 'model')
+        self.assertEqual(len(confirmed_relationships(self.store, done['id'], self.catalog)), 1)
+        self.alter(done['id'], lambda b: b['claim']['settled']['scope'].update(model_id='invented'))
+        self.assertEqual(confirmed_relationships(self.store, done['id'], self.catalog), [])
+
 
     def test_current_confirmation_does_not_promote_stale_inferred_link(self):
         source = {'kind': 'PHRASE', 'label': 'Quantity'}

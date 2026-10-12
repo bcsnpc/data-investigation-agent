@@ -1,3 +1,5 @@
+Dated owner correction, 2026-10-12: the supporting Codex helper limit does not trigger the Azure billing/authorisation stop. Round Seventeen continues in the main session without helpers. The prior partial-close entry is superseded as a stopping decision, not erased as history. Shared dollar ceiling remains $122.932940 (start $102.932940 + $20), margin $10; all counters and other caps unchanged. CI repair: shared scope derivation now revalidates glossary confirmation; screenshot provenance follows its retained source fact; image test dependency installed. 201 claim tests pass offline. Prior freeze invalid; Part C and D remain to be earned.
+
 # Round Seventeen: partial close
 
 2026-10-12. Draft **#423 remains draft**. Part A route readiness and Part B implementation/smoke are recorded; the round did **not** earn its independent score or three additional READY routes.

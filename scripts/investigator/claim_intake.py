@@ -76,9 +76,7 @@ class ClaimIntake:
             resolved=[policy.resolve_scope(f,catalog,context)for f in claim['facts']if f['field']in('scope','location')and not f.get('superseded_by')]
             claim['facts']=facts.merge(claim['facts'],[f for f in resolved if f])
         claim['settled'],claim['conflicts']=facts.settled(claim['facts'])
-        settled=claim['settled'];scope=dict(settled.get('location')or{},**(settled.get('scope')or{}))
-        if scope.get('kind','UNKNOWN')=='UNKNOWN'and settled.get('metric'):scope['kind']='METRIC'
-        if scope:scope.setdefault('kind','UNKNOWN');settled['scope']=scope
+        settled=claim['settled'];scope=policy.merge_location_scope(settled)
         projected=policy.catalog_projection(catalog)
         if scope.get('model_id')and not any(m['id']==scope['model_id']for m in catalog['models']):raise ValueError('Claim names an unknown model')
         if scope.get('model_id')and scope.get('report_id')and not any(r['id']==scope['report_id']and r['model_id']==scope['model_id']for r in projected['reports']):raise ValueError('Claim report is outside selected model')
@@ -98,15 +96,8 @@ class ClaimIntake:
         # Exact candidate addresses can establish location without selecting a
         # visual. Distinct pages/reports remain an actual location question.
         rows=claim['candidate_bindings']
-        if rows and scope.get('kind')in('METRIC','VISUALS'):
-            model_ids={r['model_id']for r in rows};targets={t for r in rows for t in r.get('target_ids',[])}
-            addresses=[v for m in catalog['models']if m['id']in model_ids for v in m.get('visuals',[])if v['target_id']in targets]
-            if targets and len(addresses)==len(targets):
-                for field in('report_id','page_id'):
-                    values={v.get(field)for v in addresses}
-                    if not scope.get(field)and len(values)==1 and None not in values:scope[field]=next(iter(values))
-                if len(model_ids)==1:scope.setdefault('model_id',next(iter(model_ids)))
-                settled['scope']=scope
+        scope=policy.candidate_location(scope,catalog,rows)
+        if scope:settled['scope']=scope
         groups=[]
         for phrase in settled.get('metric',[]):
             matches=[r for r in rows if r.get('metric_phrase')==phrase['phrase']]

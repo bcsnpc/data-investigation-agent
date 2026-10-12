@@ -50,6 +50,7 @@ jobs:
           pip install -r scripts/requirements-llm.txt
           pip install -r scripts/requirements-replay.txt
           pip install -r scripts/requirements-tracing.txt
+          pip install -r scripts/requirements-workspace.txt
           python -m unittest discover -s scripts -p 'test_agent*.py'
           python -m unittest discover -s scripts -p 'test_claim*.py'
           python -m unittest discover -s scripts -p 'test_*readiness*.py'
