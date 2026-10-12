@@ -112,3 +112,9 @@ The recovery lock mechanism was reproduced in a separate synthetic worktree: the
 No fresh run was admitted after these post-run repairs. The live result and tapes certify the earlier frozen source; the repairs carry focused tests, not an invented live acceptance claim. Current owner demo is one successful known-fixture finding with a completed operator workflow and disclosed recovery defects, not evidence that arbitrary owner questions or billing onboarding work.
 
 Accounting scope: the 15-request demo total includes the two pre-admission controls already recorded earlier. The run itself used 10 physical requests; subsequent startup/recovery added three controls. The appended ledger clarification prevents treating cumulative reporting as an additional charge. Diagnostic slots comprise one DAX value query, two SQL value queries and one endpoint metadata request; six SQL identity/permission requests are guard overhead.
+
+## Historical setup blocker, superseded before live admission
+
+The first isolated prototype was offline only: its separate catalog could not atomically charge the original budget ledger, and copied counters could not honestly enforce the owner's shared pot. The live launcher therefore refused; no estate/model request or family-A ticket was admitted in that phase. Five focused prototype tests and an offline portal inspection were recorded. This was a real architectural blocker, not a completed demonstration.
+
+The owner subsequently explicitly directed the isolated installation to use the SAME existing shared accounting files. The neutral budget-only attachment, ownership guards and sealed replay baseline were implemented and tested; the live trial above followed that supersession. The old offline-only refusal remains historical evidence, not an instruction to use copied counters or a current claim that live startup is unavailable.
