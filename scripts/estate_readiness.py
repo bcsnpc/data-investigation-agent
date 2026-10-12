@@ -39,12 +39,36 @@ def main(argv=None):
     parser.add_argument('--index', type=Path)
     parser.add_argument('--scope', type=Path,
                         help='Hash-bound named dependency scope receipt; never a whole-estate certificate')
+    parser.add_argument('--routes', type=Path,
+                        help='Route certificates whose original onboarding evidence is revalidated offline')
+    parser.add_argument('--route-inventory', type=Path,
+                        help='Retained declared metric-route inventory; unregistered routes remain listed as BLOCKED')
+    parser.add_argument('--replay-output', type=Path,
+                        help='Exclusive output directory for automatic current-component route verification')
     args = parser.parse_args(argv)
     try:
         manifest, pins = current_pins(args.manifest, args.approval)
         index = json.loads(args.index.read_text()) if args.index else None
         base = args.index.parent if args.index else '.'
-        if args.scope:
+        if args.routes:
+            if args.scope or not args.replay_output:
+                raise ValueError('ROUTES_REQUIRE_REPLAY_OUTPUT_AND_NO_LEGACY_SCOPE')
+            import sys
+            sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'acceptance' / 'round_thirteen'))
+            from route_verification_replay import replay_verifications
+            from investigator.route_readiness import assess_routes
+            certificates = json.loads(args.routes.read_text(encoding='utf8'))
+            inventory = json.loads(args.route_inventory.read_text(encoding='utf8')) if args.route_inventory else None
+            if isinstance(certificates, dict):
+                if set(certificates) != {'routes', 'certificates'} or inventory is not None:
+                    raise ValueError('ROUTE_INVENTORY_DOCUMENT_INVALID')
+                inventory, certificates = certificates['routes'], certificates['certificates']
+            if not isinstance(certificates, list) or inventory is not None and not isinstance(inventory, list):
+                raise ValueError('ROUTE_CERTIFICATE_LIST_REQUIRED')
+            result = assess_routes(certificates, pins, replay_verifications=replay_verifications,
+                output=args.replay_output, route_inventory=inventory,
+                whole_estate=assess(manifest, pins, index, base=base), base=args.routes.parent)
+        elif args.scope:
             result = assess_named_scope(manifest, pins, index,
                 {'path': str(args.scope.resolve()), 'sha256': sha(args.scope.read_bytes())}, base=base)
         else:
@@ -53,7 +77,7 @@ def main(argv=None):
         result = {'status': 'BLOCKED', 'scoring': 'NOT_SCORED', 'reason': 'estate-not-fully-onboarded',
                   'detail': str(exc), 'estate_reads': 0, 'model_calls': 0}
     print(json.dumps(result, indent=2, sort_keys=True))
-    return 0 if result['status'] == 'READY' else 2
+    return 0 if result.get('status') == 'READY' or result.get('ready_routes') else 2
 
 
 if __name__ == '__main__':
