@@ -1,3 +1,27 @@
+# Round Seventeen Part B: pre-steer results and owner continuation
+
+2026-10-12. The fresh extraction pass is complete on source `0cd9b33`: **85/85 contract-valid**, 85 model calls, no repair retries, no unhandled timeouts, **$4.385152**, zero estate data reads. All 85 new extraction tapes replay MATCHED offline. Contract validity is not semantic accuracy or a completed investigation.
+
+The actual planner still asks on **54/60 previously avoidable cases**, against the target of at most ten. It settles six. All 21 previously legitimate cases still ask; four historically undetermined cases also ask. Among the 22 former re-ask cases, 21 ask a different question and one settles; none repeats the original wording or requested fact axis. That does not prove every new question legitimate.
+
+A separately recorded correction removes invented whole-page/report extent from seven retained form-picker inputs. Original extractions and tapes stay unchanged. This produces 55/60 continuing avoidable questions; 20 legitimate questions and one refusal by the settled-fact validator. The validator incorrectly treats a known location with UNKNOWN extent as a settled extent. Owner's later scope design supersedes that behavior; implementation and a new offline count are in progress.
+
+The screenshot score remains 19/21 full, 3/21 cropped, 19/21 portal: **41 correct, 22 held, zero wrong** on synthetic images. Labels shared by several candidates and missing value associations cannot establish a target.
+
+The off-default automatic handoff has five code-owned triggers, bounded hybrid tools, retained authority, one attempt, shared budgets and delivery validation. Confirmed single-visual claims can enter the normal procedure. Prior broad checks passed 352 tests; final narrow intake/link checks passed 61. These overlap; no full-suite or live handoff pass is claimed.
+
+## Preserved smoke and disk finding
+
+All three original smoke slots were blocked **before submission** by `OWNER_STORAGE_STOP`: no investigation, no new model call, no investigation tape. One provider-authentication control was charged. The owner explicitly authorized one replacement three-ticket smoke once storage is above the floor.
+
+Disk inventory at 17:23:28 UTC: total **252,560,011,264 bytes**, used **240,160,321,536**, free **12,399,689,728 (11.55 GiB)**. Private top-ten drive/top-fifteen local folder report: `.local/round-seventeen/disk-report.md`. The largest logical store is original process tapes (218.29 GiB); compressed allocation is smaller. Original captures are protected. A validated plan identified 224 regenerable replay database files (22.28 logical GiB), retaining their original captures and result summaries. The deletion command was refused with **blocked by policy**, before execution; zero files were deleted. Hash-preserving compression continues. The demo worktree is retained because `docs/owner-demo.md` depends on it. No budget, identity, scope or secret changed.
+
+At 17:22:25 UTC: model total **$107.318092**, ceiling **$122.932940**, protected margin **$10**, remaining admissible spend **$5.614848**; pot **2766/4000**, reserve **95**, rolling **187/3000**, diagnostic cap **12**. Historical uncertain reservations are preserved.
+
+Part B continues under the 2026-10-12 owner steer: location/extent separation, automatic same-metric visual comparison, figure matching, offline regrade and the authorized smoke replacement. Draft #423 stays draft; prior freeze invalid. Detailed per-record results: `docs/round-seventeen-b-results.json`.
+
+---
+
 # Round Seventeen Part B: extraction and guarded handoff
 
 2026-10-12. In progress; draft #423 remains open. Fresh 85-record scoring and the bounded live smoke have not yet run. Engine edits invalidate the prior freeze.

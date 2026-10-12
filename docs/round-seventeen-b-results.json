@@ -1,0 +1,919 @@
+{
+  "recorded_at": "2026-10-12T17:15:21.612795+00:00",
+  "source_commit": "0cd9b33",
+  "contract_valid": 85,
+  "calls": 85,
+  "repair_retries": 0,
+  "timeouts": 0,
+  "model_spend_usd": 4.385152,
+  "estate_data_reads": 0,
+  "provider_auth_controls": 1,
+  "policy_counts": {
+    "AWAITING_CONFIRMATION": 6,
+    "CLARIFYING": 79
+  },
+  "by_original_grade": {
+    "AVOIDABLE": {
+      "AWAITING_CONFIRMATION": 6,
+      "CLARIFYING": 54
+    },
+    "LEGITIMATE": {
+      "CLARIFYING": 21
+    },
+    "NOT_ESTABLISHED": {
+      "CLARIFYING": 4
+    }
+  },
+  "rows": [
+    {
+      "id": "clarification-001",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "AWAITING_CONFIRMATION",
+      "question_field": null,
+      "tape_sha256": "3ca8035db4f065f97b7ef39ea22750f4a0938048d7fa826ac032c9312a3a40f7",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-002",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "NOT_ESTABLISHED",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "9a9270291afdbde2f738ebcb7092b6dfb70ac51efa5fc24c204a7c1baddeedb3",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-003",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "report",
+      "tape_sha256": "d1397bfcaa14325b2af08715375e6a6ced90b991dfe3723f927b607776873687",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-003-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "NOT_ESTABLISHED",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "06d459a3e5afe57aa15a78286dae94c28d698f174458d6bc4f3131773941b2cd",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-004",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "c06a405e96111f46108b74afa32b37b2af820340f03f6a7dedb440b9f4dceeb3",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-005",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "e69f471ae8a93e467e6f5806710306dfbd9ccf2ad38a584409465e1461d23dbf",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-006",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "NOT_ESTABLISHED",
+      "current_status": "CLARIFYING",
+      "question_field": "report",
+      "tape_sha256": "dbf0a0c2f688f280b29eb9af86944197b473e805762a056e6fd4cb1392a3c3df",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-007",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "AWAITING_CONFIRMATION",
+      "question_field": null,
+      "tape_sha256": "7fa481e4f1e09bd834b7e53f85a6d5b42153eb243ba94c5e69b6dbe0f9fd0e7b",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-008",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "cf7309472f41673f8b102453c6dbbc14f2e520955d976110d407dcf31ae8a83d",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-009",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "cf385846403a355fdc2987fef1e6115a441e393bc7e9ef7ea018a8d4f3b900b3",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-010",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "report",
+      "tape_sha256": "f51a0b04f6e4e39064bf9fe4ded4d554c8a47b9d09294158871c14abd460d3f8",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-010-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "85c937f8893886f0ced0c12a9f9cab2975cfed06014aaa3303bc36480ffc1d1a",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-011",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "0723b49636f71ac33fc8284469eaf4d47f418ea424a7ef9cd5907a5f0edd8d23",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-011-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "page",
+      "tape_sha256": "1cb008154d78ff5daaac9ab0ca16f371669e9e26b25559db063297d77b93ec27",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-012",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "3954a36540aaf16b6c262ff489b0ab7c6c5a14006992a642b01e77d7ee353e18",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-013",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "3cd5b945fe427c45a923e2adb5aeb38dbfcf58933682f05ad66abd0dc58b9a27",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-014",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "6bce9e743146197a127d9c9c0a28f65c899b5fa6464a414cf01a299a4037ffcb",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-015",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "914c0bd5f4ddf7f880adfe2ab683e923c671b53cc96da8d966a49a141b403913",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-016",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "AWAITING_CONFIRMATION",
+      "question_field": null,
+      "tape_sha256": "36a67ad8e814be7cfcc0649fe8b9d1c6fd89e4b6ae5f1fc4c5a854946887631b",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-017",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "ed476765fb6fb62985916397ff36bfd2fa6cd30d83330344c877d97ed904fcac",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-018",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "96d3658e4d214a8089727712cf570954ba57397531c85934eac1705ffd30a134",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-019",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "91634e71ac28bffc94b3335a715e1eb5204c426a9bc032e4879367cf76eb22c7",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-020",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "985108d9eebdb78f364876c61975366c87c503b42464ce2930c5da8260cc902e",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-021",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "32863e1a6546a8bd36f523126150e4837305d9ab1f12b03ba63c869f0f553f9c",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-022",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "3413c9e2bb02a1482171b56618c90799c935eeadc19b8198a27a426ffaf00ecb",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-022-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "NOT_ESTABLISHED",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "5b2996974fc35e92a1b5f0a97dee802d67401ce64f211051edc769645d0ad058",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-023",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "2e3e1a407936052ac12e18862868339940d661110500c20d0eca6ee18b0867b5",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-024",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "47a5957505526e6d6d3691c06577f9b9ea33be3b943c514551d0983043892cdf",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-025",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "AWAITING_CONFIRMATION",
+      "question_field": null,
+      "tape_sha256": "5a0509946ee1a8bee198982a873d7e8ce14d6f4a821df931529416a335d41d32",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-026",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "3aba2010642d240b9d25e8120b13e69a72366eb0c5b0867e61ec11db4fbc8484",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-027",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "9fe3ae5313e8cc5d2157150df8418ade1c32864d826b7c9432eec9ab5af4cff4",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-028",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "9c30096616b843376385ae6902246693ec32c7e86ee38e0f0378c4df6d7fe863",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-029",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "d412558012cd177e8a20e168439aa3c25e8950275ced0ea82425aee595f4e39b",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-029-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "81e7ae18cd3f890df09d7bf3532f37e03c056e16c1b6fe04eaf4274e2826cf4e",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-030",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "5328ccff8ad9951b35d831eb2466c8f25d0340b22fde584ad2418412457c3b7b",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-031",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "651ae78c5a4bfbee92e4e21ba4a64cefda5b756ebed1aa3755b4b2eab1f59c35",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-032",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "b493a84226c2ff77233aa77a5ae9bb5ca0265728599867e6f6202865975f47d9",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-033",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "660e7c698e7e2a1f0b155a51c2f68555485262c2175377de9a7d19f4baa923bb",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-034",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "AWAITING_CONFIRMATION",
+      "question_field": null,
+      "tape_sha256": "2be414999917e9217a4c796ddf93dd7378e9f27cfa6f874341727bc2c9a83683",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-035",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "de3cafab123437ac687e42f16f8118e163ff7d02e3ce1ddfa5c5cd7ff5dab56d",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-036",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "02636837b0cd4385c4b8e174c0af35c04069daefa77d45218e1967d292699e47",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-036-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "375f2aad419b2b14ea5acad795064aa7aca6a522a86696cf9e3cd5ced5a8a185",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-037",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "31db122f2c150706235d66dcb3464a1630e6cb0da3253646e53793421a03e6c3",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-037-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "fa51c4ed7ddd5bebcf426a1839385e3e0e7d6f2e95de49b72505ab64db6de6c9",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-038",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "03f66bed55e6d7c40bab784a38e3f908ab8a173358338d6692bda9ee2327db0c",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-038-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "fb04d2f2f55a9e2b2b71f3fab47b59ddf506920a02f2e0f67f2e8b5cb0513c4b",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-039",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "7ebd4319201bd0ac4a97b48dcc311f0571e78c2f80200122a4e75ae42980c8db",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-039-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "1ff534a427032b2909e262a288d508bbf4c882318dbbc7d86262a8c700575989",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-040",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "report",
+      "tape_sha256": "204e4f70ea860595401eb614e6055579cf53a85887c242422ba2dea2cf2dc654",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-041",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "df0a565af8c2643c2e0dd911b471cd83137d9eaed1ac6d98afbaf60d62d9d623",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-041-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "9ec061a0e917eec6bb7f9e460269b780955c61dd20c9340e8c59a836497bc97d",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-042",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "report",
+      "tape_sha256": "d3d7309d15870bc1a7bd2e7fd973b34ef02f3b2ac324af3df18300618a867af2",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-042-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "7173ef27548ad757831686db5d84ea6ebef9fa0364ba38084cf865babdcb314c",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-043",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "cc7e0bf62dbbe7a4e79de744d3c312714f74102cc1dfd6b6c126c6bb80f43aef",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-043-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "report",
+      "tape_sha256": "a2cfa934fc8ca4aa834052e7459e689f711304a134cfe9a97e246913b17e5d71",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-044",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "e73a0f21b3fb2d1cc676a559dcbfab8172092bbdab2a5ebaa6ffecca81824f91",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-044-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "781f5efd670fed45d355377cc6e475ebbbcfc7cdbc360c734d093687f4206649",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-045",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "80db0efb27104d8cec4a7bdcedfda540dc7d96275a2f648170a5850e55870b05",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-045-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "4ca5299ab3daf65a3d1bbb678630aab3a5edf6cd92bab80b14736447dbd7e135",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-046",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "report",
+      "tape_sha256": "2dc48d43a3487010ef02f09ef8f865f1dd4a57885c41dd6f21f7ae75b2d9dc5e",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-046-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "74aca41d3972e129ca162bbd695801eb07e0b5608e31971438e536bdba88439c",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-047",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "07bcc4e00dc1502154f4b84949b8367c3bb426552a13f0583cb5bc8abd0b43db",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-047-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "a9c7dc23d0b15fdd5e92c6fa1694f2418a2a9cd96820e2868523725db759bca9",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-048",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "2483fb983a88229a0db8e9c53c1852e0d55958bea5b06bbd97a188797b71da9b",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-048-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "53c5fed7f8e6076c39ac88fb4c2e1d2da507fc9eaa3f5acd458d32a7f8b60030",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-049",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "c43bcebccc171168502f50613445963530ebe277394ec481b43cae5842fe8887",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-049-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "0f0951121a962dad3c3b7a2345c3df812da255cb1410f7ebc696765a55f15e38",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-050",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "a288d13d6cdcd95e5b100d45c030403cdd952a2fa1c7a34f7e2698bc92d35886",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-050-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "af1dcd86a7e36b052f52a1c2d31853397a6453f2c852670c32d63d6ea4cbee67",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-051",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "37c6da45d2d3052d66ddaabff75ad865113e1ee61844f000139a22a27c29c2d6",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-051-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "report",
+      "tape_sha256": "ae16cd3fd6394d42d6599175778415159782c10f97d5e0f2613cc9b05fd2e56b",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-052",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "da7e1eba84f385003f1c3d647d0d7abc396690dee877cb0b46dc99f7359126aa",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-052-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "bd6fd6f86458b27f9daabac2348db874f272c36bcb9794b9d056d6067c56914c",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-053",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "46c24ee96056845615a7bd6e97a1e981cd92e91c5842357b6e81b16f1f1203ac",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-053-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "AWAITING_CONFIRMATION",
+      "question_field": null,
+      "tape_sha256": "1547e7483f36c5e3b18e38f6435f97bcc855c8f919d654c8996db2de1ab83f5a",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-054",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "88025c7e0bd10a88b97298108bde22a1e1e6803c0bdf4aaa12c2b1472c4a4447",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-054-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "715f671094013e81b4ddd123eb0ba97c519f564b635bc191adec6704f736c9d0",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-055",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "binding",
+      "tape_sha256": "13a449c78acb2e63f617dc8ef0182046a9b43a01a19e1b42115c9df8fb77bbf0",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-055-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "direction",
+      "tape_sha256": "1463e2ed2d1b994d94c88f32e4a055916beb5d202ba5a3004590baaa8ea105e3",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-056",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "LEGITIMATE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "ba59f0e88c8042dd8abd951504f85983173e7cdfecad15e178ec0c4f2f8ef05c",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-056-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "6c8dfbe99aa751e42f134ca0ad8c7bc539108ae24ddd5c160a64b4869a567dd9",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-057",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "9751af00a67aeeba57efa3afe2df67049daefa8204c8d9bbe2b987a32d9de755",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-057-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "409b173f059f33f65d2458470c1045ec028bebc8e81fae2c20869f389061e0a2",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-058",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "f3ac5d542b4afd448e0af3e405becb42949585e0a26db4041ab228dccb2a1212",
+      "replay": "MATCHED"
+    },
+    {
+      "id": "clarification-058-round-two",
+      "contract_valid": true,
+      "model_calls": 1,
+      "question_grade": "AVOIDABLE",
+      "current_status": "CLARIFYING",
+      "question_field": "scope",
+      "tape_sha256": "932d8de68f7a7fdc7fa984a8dd1e7095c377fe3727b92b4140953ba1d7762683",
+      "replay": "MATCHED"
+    }
+  ],
+  "live_smoke": {
+    "slots": 3,
+    "admitted": 0,
+    "reason": "OWNER_STORAGE_STOP",
+    "provider_auth_controls": 1,
+    "data_reads": 0,
+    "model_calls": 0
+  },
+  "derived_container_harness_correction": {
+    "input_kind": "OFFLINE_DERIVED_FACTS_ORIGINALS_UNCHANGED",
+    "results": {
+      "AVOIDABLE": {
+        "awaiting_confirmation": 5,
+        "continuing_question": 55,
+        "not_measurable": 0,
+        "records": 60
+      },
+      "LEGITIMATE": {
+        "awaiting_confirmation": 0,
+        "continuing_question": 20,
+        "not_measurable": 1,
+        "records": 21
+      },
+      "NOT_ESTABLISHED": {
+        "awaiting_confirmation": 0,
+        "continuing_question": 4,
+        "not_measurable": 0,
+        "records": 4
+      }
+    },
+    "former22": {
+      "any_continuing_question": 21,
+      "literal_same_question": 0,
+      "same_requested_semantic_axis": 0,
+      "unknown_original_axis": 0
+    },
+    "not_measurable_reason": "clarification-032: CLAIM_QUESTION_REASKS_SETTLED_FACT",
+    "source_report": ".local\\round-seventeen\\b-policy-container-corrected\\result.json"
+  },
+  "owner_scope_steer": "2026-10-12: further production scope correction in progress; these counts preserved as before."
+}
