@@ -4,6 +4,8 @@ Original family A completed once through the isolated portal on 2026-10-11. The 
 
 The installation has its own worktree, catalog, context approval and captures. Its accounting uses the **same existing dollar and physical/daily ledgers**, never copies governing live admission. The $190 guard, $10 protected margin, 4,000-request pot, 95 restoration requests, rolling allowance and diagnostic cap still apply. No estate identity, scope, secret or data was changed.
 
+The live dollar ledger is `D:\data_investigation_agent\.local\round-thirteen\model-spend.sqlite`. Physical requests and daily allowances use `D:\data_investigation_agent\.local\unknown-domain-v4\catalog.sqlite`. The isolated installation references those actual files. Private snapshots retained inside captures are for offline replay only; they do not govern live admission.
+
 ## One start command on this prepared machine
 
 ```powershell
