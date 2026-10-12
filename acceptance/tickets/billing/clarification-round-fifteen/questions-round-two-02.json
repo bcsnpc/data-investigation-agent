@@ -1,0 +1,300 @@
+{
+  "instructions": "Independent original author clarification round two. Use only this packet and original allowed tester README/session/tickets. Do not read engine code, expectations, oracle, defect lists, delivery records, tapes or ledgers. No estate or external-provider tool calls are requested; only your ordinary author text reply. Answer in plain words as the original ticket author would, with answer_basis ticket/form or unknown, and preserve each exact_question. Quote one offered phrase only when it is what your notes mean. Do not invent missing facts.",
+  "qa_round": 2,
+  "questions": [
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / Churned Accounts / Subscription Billing \u2014 'Churned Accounts = 1' at 59:79",
+      "id": "clarification-037-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / Subscription Billing / Churned Accounts / Subscription Billing \u2014 'Churned Accounts = 1' at 59:79"
+      ],
+      "original_form": null,
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_ticket_file": "ticket-04.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule",
+      "id": "clarification-038-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "The application",
+        "The information seems stale",
+        "It looks wrong",
+        "Another report",
+        "The business meaning or rule"
+      ],
+      "original_form": null,
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_ticket_file": "ticket-04.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847",
+      "id": "clarification-039-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c",
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d",
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+      ],
+      "original_form": null,
+      "original_ticket": "Is the overview up to date?\n\nThe first page has 950 invoiced, 550 collected and 600 MRR. I can't see an as-of date or last-updated time alongside those cards.\n\nI can look up payments through October 4 in the application, but I can't tell from this page how current its figures are. Please tell me what date/time the report covers. I expected some indication before relying on it for today's collection calls.\n\n",
+      "original_ticket_file": "ticket-13.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847",
+      "id": "clarification-041-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c",
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d",
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+      ],
+      "original_form": null,
+      "original_ticket": "somethings off with collections\n\ncollections looks low - 550 collected against 950 invoiced on the first page. are we really that far behind?\n\nI checked the app payments: Aster 200, Birch 100, Cedar 250. Those do add up to 550, so maybe the collections number is fine and I'm reading the gap wrong. I expected the gap to be explainable before I use it as the amount still to chase.\n\n",
+      "original_ticket_file": "ticket-02.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'It says 600' at 166:177",
+      "id": "clarification-042-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'It says 600' at 166:177"
+      ],
+      "original_form": null,
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_ticket_file": "ticket-03.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule",
+      "id": "clarification-043-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "The application",
+        "The information seems stale",
+        "It looks wrong",
+        "Another report",
+        "The business meaning or rule"
+      ],
+      "original_form": null,
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_ticket_file": "ticket-03.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / Churned Accounts / Subscription Billing \u2014 'Churned Accounts = 1' at 59:79",
+      "id": "clarification-044-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / Subscription Billing / Churned Accounts / Subscription Billing \u2014 'Churned Accounts = 1' at 59:79"
+      ],
+      "original_form": null,
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_ticket_file": "ticket-04.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule",
+      "id": "clarification-045-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "The application",
+        "The information seems stale",
+        "It looks wrong",
+        "Another report",
+        "The business meaning or rule"
+      ],
+      "original_form": null,
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_ticket_file": "ticket-04.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847",
+      "id": "clarification-046-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c",
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d",
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+      ],
+      "original_form": null,
+      "original_ticket": "Has Aster's plan change reached this view?\n\nAster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.\n\nCan you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.\n\n",
+      "original_ticket_file": "ticket-06.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'MRR All Plans 600' at 95:112",
+      "id": "clarification-047-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'MRR All Plans 600' at 95:112"
+      ],
+      "original_form": null,
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_ticket_file": "ticket-15.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule",
+      "id": "clarification-048-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "The application",
+        "The information seems stale",
+        "It looks wrong",
+        "Another report",
+        "The business meaning or rule"
+      ],
+      "original_form": null,
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_ticket_file": "ticket-15.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d\nSubscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847",
+      "id": "clarification-049-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/5051e1ac7f7e58d89f5c",
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/c9b267726b645332927d",
+        "Subscription Billing / fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/page/e02da1e0c071513ea847"
+      ],
+      "original_form": null,
+      "original_ticket": "somethings off with collections\n\ncollections looks low - 550 collected against 950 invoiced on the first page. are we really that far behind?\n\nI checked the app payments: Aster 200, Birch 100, Cedar 250. Those do add up to 550, so maybe the collections number is fine and I'm reading the gap wrong. I expected the gap to be explainable before I use it as the amount still to chase.\n\n",
+      "original_ticket_file": "ticket-02.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'It says 600' at 166:177",
+      "id": "clarification-050-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'It says 600' at 166:177"
+      ],
+      "original_form": null,
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_ticket_file": "ticket-03.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule",
+      "id": "clarification-051-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "The application",
+        "The information seems stale",
+        "It looks wrong",
+        "Another report",
+        "The business meaning or rule"
+      ],
+      "original_form": null,
+      "original_ticket": "FW: Monthly recurring number for the review\n\nSubject: FW: Monthly recurring number for the review\n\nHi,\n\nCan you check the MRR All Plans card on Subscription Billing? It says 600. I added the plan prices for the four subscriptions and got 700: Aster Growth 250, Birch Starter 100, Cedar Growth 250, Dune Starter 100.\n\nDune is marked CHURNED in the app, and leaving it out gives 600. Is that the intended rule even though the title says All Plans? Please confirm so we don't ask for the extra 100 in the review.\n\nThanks,\nFinance\nSent from my phone\nPlease ignore the earlier request for a spreadsheet.\n\n",
+      "original_ticket_file": "ticket-03.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / Churned Accounts / Subscription Billing \u2014 'Churned Accounts = 1' at 59:79",
+      "id": "clarification-052-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / Subscription Billing / Churned Accounts / Subscription Billing \u2014 'Churned Accounts = 1' at 59:79"
+      ],
+      "original_form": null,
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_ticket_file": "ticket-04.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule",
+      "id": "clarification-053-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "The application",
+        "The information seems stale",
+        "It looks wrong",
+        "Another report",
+        "The business meaning or rule"
+      ],
+      "original_form": null,
+      "original_ticket": "What does the churn count cover?\n\nSubscription Billing has Churned Accounts = 1. Dune is CHURNED in the application, which seems to explain the one.\n\nIs this the number currently churned, or accounts that churned during a particular month? Also, should a paused account count as churned? I haven't found a paused account in the records I checked; this is a definition question before we use the number for retention reporting. I'd expect the reporting period and treatment of pauses to be clear.\n\n",
+      "original_ticket_file": "ticket-04.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / Accounts\nSubscription Billing / Subscription Billing\nSubscription Billing / Recent Collections",
+      "id": "clarification-054-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / Accounts",
+        "Subscription Billing / Subscription Billing",
+        "Subscription Billing / Recent Collections"
+      ],
+      "original_form": null,
+      "original_ticket": "600 overage - units or money?\n\nThe Usage Overage card says 600 but I can't see a unit or currency next to it.\n\nThe app has Aster using 3,500 against 3,000 included and Birch using 1,100 against 1,000. Cedar is 2,800 against 3,000, and Dune is 500 against 1,000. Counting only the amounts above the allowances gives 600 units, so that part looks reasonable.\n\nIs the card showing units rather than a charge? I expected a label that tells me which before I put it into the billing notes.\n\n",
+      "original_ticket_file": "ticket-05.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / Accounts\nSubscription Billing / Subscription Billing\nSubscription Billing / Recent Collections",
+      "id": "clarification-055-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / Accounts",
+        "Subscription Billing / Subscription Billing",
+        "Subscription Billing / Recent Collections"
+      ],
+      "original_form": null,
+      "original_ticket": "Has Aster's plan change reached this view?\n\nAster moved from Starter to Growth on October 1 according to its plan history in the app; September was Starter. The report overview shows MRR All Plans 600 and Usage Overage 600, but neither tells me what plan it is using for Aster.\n\nCan you confirm this view includes the October change? I expected to be able to check that Aster has the Growth allowance of 3,000 for its October 2 usage of 3,500. I'm worried about using an old plan for this month's review, rather than saying the 600 itself is definitely wrong.\n\n",
+      "original_ticket_file": "ticket-06.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which report is this? You may also supply its link or a screenshot.\nSubscription Billing / Accounts\nSubscription Billing / Subscription Billing\nSubscription Billing / Recent Collections",
+      "id": "clarification-056-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / Accounts",
+        "Subscription Billing / Subscription Billing",
+        "Subscription Billing / Recent Collections"
+      ],
+      "original_form": null,
+      "original_ticket": "Is the overview up to date?\n\nThe first page has 950 invoiced, 550 collected and 600 MRR. I can't see an as-of date or last-updated time alongside those cards.\n\nI can look up payments through October 4 in the application, but I can't tell from this page how current its figures are. Please tell me what date/time the report covers. I expected some indication before relying on it for today's collection calls.\n\n",
+      "original_ticket_file": "ticket-13.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "Which displayed number should we investigate?\nSubscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'MRR All Plans 600' at 95:112",
+      "id": "clarification-057-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "Subscription Billing / Subscription Billing / MRR All Plans / Subscription Billing \u2014 'MRR All Plans 600' at 95:112"
+      ],
+      "original_form": null,
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_ticket_file": "ticket-15.txt"
+    },
+    {
+      "clarification_request": "Please identify the offered phrase you mean, quoting it exactly in your reply. The trailing source-position address is not needed. If you genuinely cannot identify which phrase applies, say so explicitly. Do not guess.",
+      "exact_question": "What are you comparing against?\nThe application\nThe information seems stale\nIt looks wrong\nAnother report\nThe business meaning or rule",
+      "id": "clarification-058-round-two",
+      "input_kind": "FREE_TEXT",
+      "offered_phrases": [
+        "The application",
+        "The information seems stale",
+        "It looks wrong",
+        "Another report",
+        "The business meaning or rule"
+      ],
+      "original_form": null,
+      "original_ticket": "Need to check Starter versus Growth\n\nWhere do I pick a plan on Subscription Billing? I can see MRR All Plans 600, but no plan slicer or month-by-plan grid on the pages I checked.\n\nIn the application, the active subscriptions are Birch on Starter at 100, plus Aster and Cedar on Growth at 250 each. I wanted to check the Starter/October and Growth/October amounts separately. I expected a way to see that breakdown or select a plan; please point me to it if I'm missing it.\n\n",
+      "original_ticket_file": "ticket-15.txt"
+    }
+  ]
+}
