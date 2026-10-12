@@ -49,7 +49,7 @@ class ClaimTapeTests(unittest.TestCase):
     start={'name':'claim_run','args':[{'id':'claim','revision':1,'request_key':'once'}],'kwargs':{}}
     end={'name':'claim_run','error':None}
     tape.event('OPERATION_START',bytes_of(start));tape.event('OPERATION_END',bytes_of(end))
-    final={'operation':'claim_run','error':None,'outputs':outputs,'status':'COMPLETED','result':{}}
+    final={'operation':'claim_run','error':None,'outputs':outputs,'status':'PARTIAL'if outputs and len(outputs)==1 else'COMPLETED','result':{}}
     if version==13:
      with self.assertRaisesRegex(journal.TapeError,'TAPE_OPERATION_FIELDS|TAPE_COMPLETED_OUTPUTS_MISSING'):tape.finish(final)
     elif len(outputs)==1:

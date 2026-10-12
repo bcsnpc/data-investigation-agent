@@ -30,6 +30,7 @@ REGISTRY = {
     'SOURCE_DELIVERY': Shape('retained'),
     'FRESHNESS_ATTEMPT': Shape('retained'),
     'EXPECTED_RECORD_PRESENCE': Shape('query','flexible_diagnostics'),
+    'CLAIM_PROJECTION': Shape('query','flexible_diagnostics'),
     'EXPECTED_RECORD_UNAVAILABLE': Shape('retained'),
     **{name: Shape('context') for name in ('CONTEXT_METADATA',
        'DECLARED_CONTEXT_DEFINITION', 'TRANSFORMATION_DEFINITION', 'INGESTION',
@@ -64,6 +65,10 @@ def validate_for_synthesis(observation):
         for field in ('request_hash','values'):
             if field not in observation:
                 raise Conflict('Registered process receipt '+name+' lacks required '+field)
+    if name=='CLAIM_PROJECTION':
+        from .claim_projection import validate
+        try:validate(observation)
+        except (ValueError,KeyError,TypeError) as exc:raise Conflict('Claim projection differs from its original typed evidence') from exc
     if name=='EXPECTED_RECORD_PRESENCE':
         from .record_presence import validate
         try:validate(observation)

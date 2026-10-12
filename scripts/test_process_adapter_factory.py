@@ -64,6 +64,37 @@ class ProcessAdapterFactoryTests(unittest.TestCase):
   state=self.agent.begin_agent_process(self.identity)
   self.assertEqual(state['status'],'EXECUTING');self.assertEqual(self.fixture.native_calls,[])
   with self.assertRaises(Conflict):self.agent.begin_agent_process(self.identity)
+ def test_confirmed_claim_port_uses_real_session_without_planner_or_reads(self):
+  from investigator.onboarding import digest,Conflict
+  envelope=dict(self.fixture.envelope,strategy=VERSION)
+  claim_hash=digest({'claim':'confirmed'});confirmation_hash=digest({'accepted':True})
+  state=self.agent.begin_claim_process(envelope,'confirmed-claim',claim_hash=claim_hash,confirmation_hash=confirmation_hash)
+  self.assertEqual(state['status'],'EXECUTING');self.assertEqual(state['cloud_calls'],0)
+  self.assertEqual(self.fixture.native_calls,[]);self.assertEqual(self.fixture.sql_calls,[])
+  with self.assertRaises(Conflict):self.agent.begin_claim_process(envelope,'confirmed-claim',claim_hash=claim_hash,confirmation_hash=confirmation_hash)
+  final=self.agent.finalize_claim_process(state['id'],{'status':'HELD','reason':'UNAVAILABLE','reads':{'diagnostic':999}},claim_hash=claim_hash,confirmation_hash=confirmation_hash)
+  self.assertEqual(final['claim_result']['reads']['diagnostic'],0)
+  self.assertEqual(final['status'],'COMPLETED')
+  with self.assertRaises(Conflict):self.agent.finalize_claim_process(state['id'],{'status':'HELD'},claim_hash=claim_hash,confirmation_hash=confirmation_hash)
+ def test_claim_finalize_cannot_confer_causality_or_rebind_confirmation(self):
+  from investigator.onboarding import digest,Conflict
+  envelope=dict(self.fixture.envelope,strategy=VERSION);claim_hash=digest({'claim':1});confirmation_hash=digest({'confirmed':1})
+  state=self.agent.begin_claim_process(envelope,'claim-proof',claim_hash=claim_hash,confirmation_hash=confirmation_hash)
+  with self.assertRaises(ValueError):self.agent.finalize_claim_process(state['id'],{'status':'COMPLETED','cause_verified':True},claim_hash=claim_hash,confirmation_hash=confirmation_hash)
+  with self.assertRaises(Conflict):self.agent.finalize_claim_process(state['id'],{'status':'HELD'},claim_hash=digest({'claim':2}),confirmation_hash=confirmation_hash)
+ def test_claim_port_cannot_admit_more_than_twelve_diagnostics(self):
+  from investigator.onboarding import digest
+  import copy
+  envelope=copy.deepcopy(self.fixture.envelope);envelope['strategy']=VERSION;envelope['limits']['cloud_calls']=13
+  with self.assertRaisesRegex(ValueError,'existing run cap'):
+   self.agent.begin_claim_process(envelope,'too-many-claim-reads',claim_hash=digest({'a':1}),confirmation_hash=digest({'b':1}))
+ def test_claim_adapter_has_no_implicit_model_judgment_provider(self):
+  from investigator.onboarding import digest
+  envelope=dict(self.fixture.envelope,strategy=VERSION)
+  state=self.agent.begin_claim_process(envelope,'claim-no-model',claim_hash=digest({'a':1}),confirmation_hash=digest({'b':1}))
+  self.agent.process_judge=lambda *args:(_ for _ in ()).throw(AssertionError('model called'))
+  adapter=self.agent.process_adapter(state['id'])
+  self.assertIsNone(adapter.judge_definition)
  def test_agent_support_is_validated_but_synthesis_rejects_incomplete_original_receipts(self):
   from investigator.investigation_tools import InvestigationTools
   from investigator.definition_target import procedure_scope

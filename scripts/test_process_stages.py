@@ -53,5 +53,16 @@ class StageTests(unittest.TestCase):
         self.assertIsNone(label({'kind':'CREATED'}))
         with self.assertRaises(ValueError):label({'kind':'PROCESS_STAGE_STARTED','detail':{'stage':'unknown'}})
 
+    def test_page_ports_record_actual_stage_without_changing_arguments_or_results(self):
+        for operation, stage in [('read_visual_quantity', 'walk'), ('read_page_refresh', 'walk'), ('read_page_load', 'source')]:
+            with self.subTest(operation=operation):
+                events=[]; seen=[]; result=object(); argument=object()
+                def read(value):seen.append(value); return result
+                adapter=Adapter(SimpleNamespace(**{operation:read}),lambda k,d:events.append((k,d)))
+                self.assertIs(getattr(adapter,operation)(argument),result)
+                self.assertEqual(seen,[argument])
+                self.assertEqual(events[0][1],{'stage':stage,'operation':operation})
+                self.assertEqual(events[-1][1]['error_type'],None)
+
 
 if __name__ == '__main__':unittest.main()

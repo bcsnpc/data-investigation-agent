@@ -287,7 +287,8 @@ class Tape:
             # it must never satisfy the dual-output acceptance gate.
             read_stage=(self.version in SMART_VERSIONS and final['operation']=='run'
                         and not synthesis and final['outputs'] is None)
-            if final['status']=='COMPLETED' and final['error'] is None and not failed_composition and not read_stage:
+            claim_terminal=self.version in CLAIM_RUN_VERSIONS and final['operation']=='claim_run' and final['status']in('COMPLETED','PARTIAL','HELD')
+            if (final['status']=='COMPLETED' or claim_terminal) and final['error'] is None and not failed_composition and not read_stage:
                 outputs=final['outputs']
                 if self.version in CLAIM_RUN_VERSIONS and final['operation']=='claim_run':
                     valid=isinstance(outputs,dict)and set(outputs)=={'business_explanation','technical_narrative'}and all(isinstance(v,str)and v.strip()for v in outputs.values())

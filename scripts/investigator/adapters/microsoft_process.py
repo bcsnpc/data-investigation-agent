@@ -895,9 +895,37 @@ class MicrosoftProcessAdapter:
                 for i,(upper,lower) in enumerate(zip(layers,layers[1:]),1)
                 if by_id.get(lower.get('transformation_asset_id'),{}).get('kind') in ('DataPipeline','CopyJob','Notebook')]
 
+    def read_visual_quantity(self,candidate):
+        from .page_observations import read
+        return read(self,candidate)
+
+    def read_page_refresh(self,path):
+        from .page_observations import refresh
+        return refresh(self,path)
+
+    def verify_visual_quantity(self,candidate,probe):
+        from .page_observations import verify_quantity
+        return verify_quantity(self,candidate,probe)
+
+    def page_visual_inventory(self,scope):
+        from .page_observations import inventory
+        return inventory(self,scope)
+
+    def read_page_load(self,boundary):
+        from .page_observations import load
+        return load(self,boundary)
+
     def source_delivery(self,boundary,scope):
         from .source_delivery import read
         return read(self,boundary,scope)
+
+    def claim_probe_contract(self,path,layer,request,scope):
+        from .claim_projection import contract
+        return contract(self,path,layer,request,scope)
+
+    def claim_probe(self,path,layer,request,scope):
+        from .claim_projection import read
+        return read(self,path,layer,request,scope)
 
     def record_presence(self,path,layer,requested,scope):
         from .record_presence import read

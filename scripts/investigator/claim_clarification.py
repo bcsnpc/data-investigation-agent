@@ -147,7 +147,7 @@ def plan(claim,catalog):
         choices=[(v['label'],{'scope':{'kind':'VISUALS','visual_ids':[v['id']]}})for v in targets]
         if scope.get('page_id'):choices.append(('All matching visuals on this page',{'scope':{'kind':'VISUALS','visual_ids':[v['id']for v in targets]}}))
         return question('targets','Which visible objects are included in this claim?',choices,digest(catalog),facts)
-    if scope.get('kind')=='RECORDS'and not s.get('examples')and direction!='MORE':
+    if scope.get('kind')=='RECORDS'and not s.get('examples')and direction not in ('MORE','WRONG_BREAKDOWN'):
         return question('examples','Can you give one missing, extra, or wrong record as an example?',[],digest(catalog),facts)
     # A freshness/page complaint never needs a single displayed figure. Values
     # already supplied remain facts, but do not manufacture a reproduction.

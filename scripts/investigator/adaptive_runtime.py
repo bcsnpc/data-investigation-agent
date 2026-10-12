@@ -553,8 +553,8 @@ class AdaptiveRuntime:
                     entry['logical_receipt']=receipt(number,tool,result,error_type)
                 self._persist_process_read(identity,key,entry,uncertain)
 
-        provider=self.process_judge
-        if provider is None and self.planner_profile.get('adapter')=='azure':
+        provider=None if state.get('claim_process') else self.process_judge
+        if provider is None and not state.get('claim_process') and self.planner_profile.get('adapter')=='azure':
             from .transformation_judgment import azure_judge
             provider=azure_judge
 
@@ -800,6 +800,55 @@ class AdaptiveRuntime:
                 raise Conflict('Agent requires a fresh admitted process session')
             state.update(process_started=True,status='EXECUTING')
             self.save(db,state,'PROCESS_STARTED',{'procedure':'AGENT_TOOL_LOOP','reserved_reads':0})
+        return self.get(identity)
+
+    def begin_claim_process(self,envelope,key,*,claim_hash,confirmation_hash):
+        """Admit one confirmed claim through the ordinary session/read guards.
+
+        This port does not choose scope, run a planner, or grant a capability.
+        The consumer retains the confirmed claim separately; these hashes fence
+        the resulting metered session against reuse by another interpretation.
+        """
+        for value in (claim_hash,confirmation_hash):
+            if not isinstance(value,str) or len(value)!=64 or any(c not in '0123456789abcdef'for c in value):
+                raise ValueError('Confirmed claim hashes are required')
+        cap=min(12,self.config.get('_estate',{}).get('budgets',{}).get('diagnostic_reads_per_run',12))
+        if envelope.get('limits',{}).get('cloud_calls',13)>cap:
+            raise ValueError('Claim diagnostic ceiling exceeds the existing run cap')
+        identity=self.create(envelope,key)['id']
+        with self.runtime.db()as db:
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity);self.admit(state,db)
+            if state['status']!='READY' or state.get('process_started'):
+                raise Conflict('Claim requires a fresh admitted process session')
+            state.update(process_started=True,status='EXECUTING',claim_process={
+                'claim_hash':claim_hash,'confirmation_hash':confirmation_hash})
+            self.save(db,state,'PROCESS_STARTED',{'procedure':'CONFIRMED_CLAIM','reserved_reads':0,
+                'claim_hash':claim_hash,'confirmation_hash':confirmation_hash})
+        return self.get(identity)
+
+    def finalize_claim_process(self,identity,result,*,claim_hash,confirmation_hash):
+        """Retain deterministic consumer-checked results and actual read receipts.
+
+        No synthesis/model call or causal promotion takes place here. The claim
+        controller is responsible for the route's receipt-bound reducer.
+        """
+        if not isinstance(result,dict)or result.get('status')not in('COMPLETED','HELD','PARTIAL'):
+            raise ValueError('Claim result requires an explicit terminal status')
+        if result.get('cause_verified')is True or result.get('classification')in('DEFECT','DATA_DEFECT'):
+            raise ValueError('A claim projection cannot confer causal defect proof')
+        with self.runtime.db()as db:
+            db.execute('BEGIN IMMEDIATE');state=self.load(db,identity)
+            if state.get('claim_process')!={'claim_hash':claim_hash,'confirmation_hash':confirmation_hash}:
+                raise Conflict('Claim interpretation differs from the admitted session')
+            if state['status']!='EXECUTING':raise Conflict('Claim terminal transition is fenced')
+            state['claim_result']=copy.deepcopy(result)
+            state['claim_result']['reads']={'diagnostic':state['cloud_calls'],
+                'physical':state.get('physical_calls',0),
+                'receipts':copy.deepcopy(state.get('process_read_receipts',[]))}
+            state.update(status='COMPLETED',stop_reason='CLAIM_CHECK_COMPLETE',token=None,pending=None)
+            self.save(db,state,'PROCESS_CLAIM_STOPPED',{'status':result['status'],
+                'result_hash':digest(result),'diagnostic_reads':state['cloud_calls'],
+                'physical_calls':state.get('physical_calls',0)})
         return self.get(identity)
 
     def accept_agent_support(self,identity,tools,outcome,target_id,citations):

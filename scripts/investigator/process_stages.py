@@ -5,6 +5,7 @@ METHODS = {
     'resolve_path':'context', 'declared_context':'reproduce', 'declared_cells':'reproduce',
     'evaluate_declared_context':'reproduce', 'observe_selection_value':'reproduce',
     'claim_probe':'walk', 'evaluate':'walk', 'direct_source_comparison':'walk', 'presentation_context':'walk',
+    'read_visual_quantity':'walk', 'read_page_refresh':'walk', 'read_page_load':'source',
     'presentation_freshness':'walk', 'transformation_definition':'walk',
     'failure_detail':'walk', 'refresh_timing':'walk', 'snapshot_identity':'walk',
     'job_history':'source', 'ingestion':'source', 'source_delivery':'source', 'record_presence':'source',

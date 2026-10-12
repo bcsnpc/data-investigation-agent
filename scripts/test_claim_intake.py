@@ -157,4 +157,7 @@ class QuestionInvariantTests(unittest.TestCase):
  def test_record_complaint_asks_only_one_example_and_page_does_not(self):
   base={'facts':[],'settled':{'metric':[{'phrase':'Quantity'}],'direction':'LESS','comparator':'APPLICATION','scope':{'kind':'RECORDS'}},'conflicts':[],'candidate_bindings':[{'model_id':'model','measure_id':'quantity','label':'Quantity'}]}
   q,_=policy.plan(base,CAT);self.assertEqual(q['field'],'examples')
+ def test_aggregate_breakdown_does_not_ask_for_an_example_record(self):
+  base={'facts':[],'settled':{'metric':[{'phrase':'Quantity'}],'direction':'WRONG_BREAKDOWN','comparator':'APPLICATION','scope':{'kind':'RECORDS'}},'conflicts':[],'candidate_bindings':[{'model_id':'model','measure_id':'quantity','label':'Quantity'}]}
+  q,binding=policy.plan(base,CAT);self.assertIsNone(q);self.assertEqual(binding['measure_id'],'quantity')
 if __name__=='__main__':unittest.main()
