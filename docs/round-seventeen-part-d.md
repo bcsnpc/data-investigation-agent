@@ -21,3 +21,11 @@ Four tester reply/confirmation tapes and the generation tape also remain sealed:
 Closing counters at 19:34:24 UTC: shared model charge **$107.491251**, round charge **$4.558311**, ceiling **$122.932940**, protected margin **$10**, admissible remainder **$5.441689**. Estate pot **2,826/4,000**, restoration reserve **95**, rolling **239/3,000**, diagnostic cap **12**. No current-round reservation remains open. One historical physical reservation and historical uncertain/violation rows remain preserved; none was silently released. Free disk: **16,572,895,232 bytes (15.43 GiB)**. Closed-file lossless compression finished; owner cleanup script was not run.
 
 Resume instructions are in `.local/round-seventeen/RESUME.md`; hashes and checkpoint details are in [the capture inventory](round-seventeen-pause-captures.json). No clock, credit expiry or budget was reset or extended for this pause. Draft #423 stays draft; the round remains unfinished.
+
+## Resumed ? 2026-10-12, 6:30 p.m. America/Chicago
+
+Owner authorized resumption. **DECIDED WITHOUT REVIEW:** exclude the owner-requested laptop pause from working time, retaining only the previously unspent97m56.547s, rather than start another two-hour allocation or abandon the continuation. Resumed deadline:8:08:12p.m. America/Chicago. Original clock and pause retained separately. No expiring credit renewed, no allowance raised, no counter reset. Ordinary rolling usage185/3000; pot2826/4000; shared model$107.491251, admissible$5.441689 after margin; disk19.49GiB. Private harness now reads UTF-8 explicitly, checks pause before authentication, and selects unadmitted phases without rerunning initial dev. These are harness repairs; engine and expectations remain frozen between halves.
+
+All applicable hosted checks on the pause checkpoint passed; current-intake-evaluation was skipped. Pending dev continuation and13 offline replays resumed.
+
+Resumed replay: all13 pending initial-dev/tester captures MATCHED, zero network/model calls; generation had already matched, so pre-pause D captures are14/14. Original failures replay as failures; this is reproducibility, not an answer-quality pass. Authentication-session reuse in the first resumed continuation preflight was refused before dispatch; a distinct new control identity is used for the continuation. No ticket was retried.

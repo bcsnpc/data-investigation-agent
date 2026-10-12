@@ -1,0 +1,231 @@
+{
+  "recorded_at": "2026-10-12T23:42:40.583100+00:00",
+  "scope": "Initial pipeline six dev attempts and tester replies; generation separately matched before pause",
+  "total": 13,
+  "matched": 13,
+  "estate_reads": 0,
+  "model_calls": 0,
+  "records": [
+    {
+      "tape_id": "12141d0c-9fa3-40ff-828e-47ef75da5501",
+      "source_archive": "D:\\dia-round-eleven-links",
+      "source_fingerprint": "4023bec45557e48ef2c8409a2d611990d191a4db247c518f62b8dfcdade6042c",
+      "corrected_consumer": "D:\\dia-round-eleven-links\\acceptance\\unknown_domain\\process_replay.py",
+      "corrected_consumer_sha256": "e273f4b068721ec6efa07266381782d252e2caf1ee16d53e94bb8be159c8a893",
+      "archived_engine_modules": false,
+      "source_kind": "EXACT_MATCHED_ENGINE_FINGERPRINT",
+      "estate_requests": 0,
+      "model_calls": 0,
+      "live_shared_ledger_attached": false,
+      "started_at": "2026-10-12T23:30:37.524940+00:00",
+      "status": "MATCHED",
+      "operations": [
+        "claim_confirm"
+      ],
+      "network_requests": 0,
+      "recorded_engine_identity_used": false,
+      "finished_at": "2026-10-12T23:31:38.815913+00:00",
+      "free_after": 20923342848
+    },
+    {
+      "tape_id": "408c95c5-c013-4f3d-874d-28f3728cee28",
+      "source_archive": "D:\\dia-round-eleven-links",
+      "source_fingerprint": "4023bec45557e48ef2c8409a2d611990d191a4db247c518f62b8dfcdade6042c",
+      "corrected_consumer": "D:\\dia-round-eleven-links\\acceptance\\unknown_domain\\process_replay.py",
+      "corrected_consumer_sha256": "e273f4b068721ec6efa07266381782d252e2caf1ee16d53e94bb8be159c8a893",
+      "archived_engine_modules": false,
+      "source_kind": "EXACT_MATCHED_ENGINE_FINGERPRINT",
+      "estate_requests": 0,
+      "model_calls": 0,
+      "live_shared_ledger_attached": false,
+      "started_at": "2026-10-12T23:31:44.271983+00:00",
+      "status": "MATCHED",
+      "operations": [
+        "claim_confirm"
+      ],
+      "network_requests": 0,
+      "recorded_engine_identity_used": false,
+      "finished_at": "2026-10-12T23:32:42.874862+00:00",
+      "free_after": 20923314176
+    },
+    {
+      "tape_id": "85f1f362-9851-4d80-9949-1c95292651d0",
+      "source_archive": "D:\\dia-round-eleven-links",
+      "source_fingerprint": "4023bec45557e48ef2c8409a2d611990d191a4db247c518f62b8dfcdade6042c",
+      "corrected_consumer": "D:\\dia-round-eleven-links\\acceptance\\unknown_domain\\process_replay.py",
+      "corrected_consumer_sha256": "e273f4b068721ec6efa07266381782d252e2caf1ee16d53e94bb8be159c8a893",
+      "archived_engine_modules": false,
+      "source_kind": "EXACT_MATCHED_ENGINE_FINGERPRINT",
+      "estate_requests": 0,
+      "model_calls": 0,
+      "live_shared_ledger_attached": false,
+      "started_at": "2026-10-12T23:32:48.594738+00:00",
+      "status": "MATCHED",
+      "operations": [
+        "claim_submit"
+      ],
+      "network_requests": 0,
+      "recorded_engine_identity_used": false,
+      "finished_at": "2026-10-12T23:34:09.892868+00:00",
+      "free_after": 20105314304
+    },
+    {
+      "tape_id": "9ee5bc94-5bf5-43ea-8f58-5d6f0608663a",
+      "source_archive": "D:\\dia-round-eleven-links",
+      "source_fingerprint": "4023bec45557e48ef2c8409a2d611990d191a4db247c518f62b8dfcdade6042c",
+      "corrected_consumer": "D:\\dia-round-eleven-links\\acceptance\\unknown_domain\\process_replay.py",
+      "corrected_consumer_sha256": "e273f4b068721ec6efa07266381782d252e2caf1ee16d53e94bb8be159c8a893",
+      "archived_engine_modules": false,
+      "source_kind": "EXACT_MATCHED_ENGINE_FINGERPRINT",
+      "estate_requests": 0,
+      "model_calls": 0,
+      "live_shared_ledger_attached": false,
+      "started_at": "2026-10-12T23:34:15.256081+00:00",
+      "status": "MATCHED",
+      "operations": [
+        "claim_submit"
+      ],
+      "network_requests": 0,
+      "recorded_engine_identity_used": false,
+      "finished_at": "2026-10-12T23:35:36.550701+00:00",
+      "free_after": 20105297920
+    },
+    {
+      "tape_id": "a4ef2b6c-179e-4984-906d-63e63c5cf2ee",
+      "source_archive": "D:\\dia-round-eleven-links",
+      "source_fingerprint": "4023bec45557e48ef2c8409a2d611990d191a4db247c518f62b8dfcdade6042c",
+      "corrected_consumer": "D:\\dia-round-eleven-links\\acceptance\\unknown_domain\\process_replay.py",
+      "corrected_consumer_sha256": "e273f4b068721ec6efa07266381782d252e2caf1ee16d53e94bb8be159c8a893",
+      "archived_engine_modules": false,
+      "source_kind": "EXACT_MATCHED_ENGINE_FINGERPRINT",
+      "estate_requests": 0,
+      "model_calls": 0,
+      "live_shared_ledger_attached": false,
+      "started_at": "2026-10-12T23:35:49.288756+00:00",
+      "status": "MATCHED",
+      "operations": [
+        "claim_confirm"
+      ],
+      "network_requests": 0,
+      "recorded_engine_identity_used": false,
+      "finished_at": "2026-10-12T23:36:38.026215+00:00",
+      "free_after": 20105277440
+    },
+    {
+      "tape_id": "b74d6e68-3ce2-4dc1-8086-b319bb062cbb",
+      "source_archive": "D:\\dia-round-eleven-links",
+      "source_fingerprint": "4023bec45557e48ef2c8409a2d611990d191a4db247c518f62b8dfcdade6042c",
+      "corrected_consumer": "D:\\dia-round-eleven-links\\acceptance\\unknown_domain\\process_replay.py",
+      "corrected_consumer_sha256": "e273f4b068721ec6efa07266381782d252e2caf1ee16d53e94bb8be159c8a893",
+      "archived_engine_modules": false,
+      "source_kind": "EXACT_MATCHED_ENGINE_FINGERPRINT",
+      "estate_requests": 0,
+      "model_calls": 0,
+      "live_shared_ledger_attached": false,
+      "started_at": "2026-10-12T23:36:42.902870+00:00",
+      "status": "MATCHED",
+      "operations": [
+        "claim_submit"
+      ],
+      "network_requests": 0,
+      "recorded_engine_identity_used": false,
+      "finished_at": "2026-10-12T23:37:50.325773+00:00",
+      "free_after": 19756539904
+    },
+    {
+      "tape_id": "cbc0b2af-963e-48f6-aeae-6f8fd75ee464",
+      "source_archive": "D:\\dia-round-eleven-links",
+      "source_fingerprint": "4023bec45557e48ef2c8409a2d611990d191a4db247c518f62b8dfcdade6042c",
+      "corrected_consumer": "D:\\dia-round-eleven-links\\acceptance\\unknown_domain\\process_replay.py",
+      "corrected_consumer_sha256": "e273f4b068721ec6efa07266381782d252e2caf1ee16d53e94bb8be159c8a893",
+      "archived_engine_modules": false,
+      "source_kind": "EXACT_MATCHED_ENGINE_FINGERPRINT",
+      "estate_requests": 0,
+      "model_calls": 0,
+      "live_shared_ledger_attached": false,
+      "started_at": "2026-10-12T23:37:55.593334+00:00",
+      "status": "MATCHED",
+      "operations": [
+        "claim_submit"
+      ],
+      "network_requests": 0,
+      "recorded_engine_identity_used": false,
+      "finished_at": "2026-10-12T23:39:04.872824+00:00",
+      "free_after": 19756511232
+    },
+    {
+      "tape_id": "d08ee192-7724-4e69-9312-7cbc2ac1f561",
+      "source_archive": "D:\\dia-round-eleven-links",
+      "source_fingerprint": "4023bec45557e48ef2c8409a2d611990d191a4db247c518f62b8dfcdade6042c",
+      "corrected_consumer": "D:\\dia-round-eleven-links\\acceptance\\unknown_domain\\process_replay.py",
+      "corrected_consumer_sha256": "e273f4b068721ec6efa07266381782d252e2caf1ee16d53e94bb8be159c8a893",
+      "archived_engine_modules": false,
+      "source_kind": "EXACT_MATCHED_ENGINE_FINGERPRINT",
+      "estate_requests": 0,
+      "model_calls": 0,
+      "live_shared_ledger_attached": false,
+      "started_at": "2026-10-12T23:39:10.420163+00:00",
+      "status": "MATCHED",
+      "operations": [
+        "claim_submit"
+      ],
+      "network_requests": 0,
+      "recorded_engine_identity_used": false,
+      "finished_at": "2026-10-12T23:40:24.443603+00:00",
+      "free_after": 19756507136
+    },
+    {
+      "tape_id": "e35e1e7b-2b78-4e5e-98b7-fd3173d1a914",
+      "source_archive": "D:\\dia-round-eleven-links",
+      "source_fingerprint": "4023bec45557e48ef2c8409a2d611990d191a4db247c518f62b8dfcdade6042c",
+      "corrected_consumer": "D:\\dia-round-eleven-links\\acceptance\\unknown_domain\\process_replay.py",
+      "corrected_consumer_sha256": "e273f4b068721ec6efa07266381782d252e2caf1ee16d53e94bb8be159c8a893",
+      "archived_engine_modules": false,
+      "source_kind": "EXACT_MATCHED_ENGINE_FINGERPRINT",
+      "estate_requests": 0,
+      "model_calls": 0,
+      "live_shared_ledger_attached": false,
+      "started_at": "2026-10-12T23:40:29.631245+00:00",
+      "status": "MATCHED",
+      "operations": [
+        "claim_submit"
+      ],
+      "network_requests": 0,
+      "recorded_engine_identity_used": false,
+      "finished_at": "2026-10-12T23:41:37.760677+00:00",
+      "free_after": 18938015744
+    },
+    {
+      "matched": true,
+      "network_requests": 0,
+      "model_calls": 0,
+      "tape_sha256": "4e8512bd25c182e125d97f1cdbdb11fac14a9fd61b048088448a71426a63747f",
+      "status": "MATCHED",
+      "tape_id": "tester-R17-03-reply-0"
+    },
+    {
+      "matched": true,
+      "network_requests": 0,
+      "model_calls": 0,
+      "tape_sha256": "ac342d0845eba708713fd1fc25f767de8b74ced06baf944f0514755091d872f3",
+      "status": "MATCHED",
+      "tape_id": "tester-R17-07-confirm"
+    },
+    {
+      "matched": true,
+      "network_requests": 0,
+      "model_calls": 0,
+      "tape_sha256": "40171eadb351354987cc18eab6c92c16bc7e7e1580d7477cc883b644f601789b",
+      "status": "MATCHED",
+      "tape_id": "tester-R17-09-confirm"
+    },
+    {
+      "matched": true,
+      "network_requests": 0,
+      "model_calls": 0,
+      "tape_sha256": "b0b5e37c29dbba4e05de1bbdbfe69ad8598c64f5a3ca672c593853109c234fe7",
+      "status": "MATCHED",
+      "tape_id": "tester-R17-11-confirm"
+    }
+  ]
+}
