@@ -34,8 +34,16 @@ Part A has charged 71 physical slots: 10 grant/resume controls, five authenticat
 
 The final readiness result, tests, replay housekeeping and Part A commit will be appended before the part closes. Draft #423 is not merged; the previous freeze is invalid.
 
+## Dated correction to the smoke's wall-limit explanation
+
+The HYBRID hold above was subsequently traced to an accounting defect. Only 204.681757 seconds of active work preceded its saved reply. The old calculation also charged 13,040.677252 seconds during which the reply was queued but no worker was consuming it. The correction excludes that inactive interval only when the original waiting, reply and consumption receipts establish it. It preserves the prior active time and the 900-second cap; the exact timestamp regression leaves 695 seconds. The original smoke remains HELD, and no replacement attempt was run. See [the continuation record](round-sixteen-a-continuations.md).
+
+All three smoke operations replayed exactly on their actual recorded source, with zero network, estate or model requests. Replay preserves the wrong-question results and the wall-limit hold; it is not a successful-investigation score. The replay copies and closed capture databases were compressed without changing logical bytes.
+
 ## Additional offline review
 
 The root's combined manifest, scoped-readiness, continuation and Copy/Warehouse regression run passed 101 tests. A separate transformation/verifier selection passed 42 tests; its tape test refused `TAPE_UNCOMMITTED_ENGINE` while source edits were in progress. That refusal is retained, and the tape check will be repeated after the source is committed. These counts overlap the agent's focused suites and are not added into a new unique-test total.
 
 Recompilation also found that the current compiler types the Gold product identifier as a key, whereas its historical record has a numeric profile. The old record remains unchanged. The bounded A0 verification therefore plans four bindings: three rate columns and the key. Eight value probes and two target catalogs use 10 of the existing verification class's 11 slots; the investigation cap remains 12. The physical estimate is 27 SQL requests, bounded at 32, plus at most four separately recorded authentication controls. No new model call, identity, permission or fixture mutation is required.
+
+The integrated pre-verification source `2846c25` passed a 140-test selection covering continuation accounting, manifest/readiness, native boundary validation, and adapter behavior. Its clean-source tape test then passed separately (one test); the earlier uncommitted-source refusal is retained. Focused suite counts overlap and are not a claimed full-suite total.

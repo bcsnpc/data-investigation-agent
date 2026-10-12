@@ -5,6 +5,20 @@ from unittest.mock import patch
 from investigator.transformation_reader import static
 
 class RetainedReadinessTests(unittest.TestCase):
+    def test_scoped_native_routes_compile_with_approved_full_runtime_manifest(self):
+        from investigator.estate_readiness import proposals,verification
+        boundary={'from_layer':'low','to_layer':'high'}
+        scoped={'lineage':{'bindings':[boundary]}}
+        full=dict(scoped,system_of_record='application',layers=[{'id':'low'},{'id':'high'},{'id':'application'}])
+        pins={k:'pin'for k in PINS}
+        receipt={'pins':pins,'scan':{},'declared_routes':[{}],'proposals':[],'verifications':[],'model_contexts':{}}
+        def check(route,*,manifest,scan):
+            self.assertEqual(manifest,full)
+            return {'boundary':boundary,'route_identity':'native-route'}
+        with patch('investigator.adapters.readiness_registry.declared_route_validator',return_value=check):
+            proposals(receipt,scoped,pins,runtime_manifest=full)
+            verification(receipt,scoped,pins,runtime_manifest=full)
+
     def test_omitted_auxiliary_writer_is_blocked_even_when_boundary_is_covered(self):
         with tempfile.TemporaryDirectory()as folder:
             p=Path(folder)/'unit.py';text="a=spark.read.format('delta').load('stock-source')\na.write.format('delta').mode('overwrite').save('stock-target')\nb=spark.read.format('delta').load('rates-source')\nb.write.format('delta').mode('overwrite').save('rates-target')\n";p.write_text(text)

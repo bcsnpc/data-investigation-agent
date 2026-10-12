@@ -138,7 +138,7 @@ def declared_routes(receipt, manifest):
     return checked
 
 
-def proposals(receipt, manifest, pins):
+def proposals(receipt, manifest, pins, *, runtime_manifest=None):
     require_pins(receipt, pins)
     from .lineage_binding import validate
     rows = [validate(p) for p in receipt['proposals']]
@@ -147,20 +147,20 @@ def proposals(receipt, manifest, pins):
     # is over boundaries, while conservation/uniqueness is over full proposals.
     from .lineage_binding import seal
     exactly([seal(p) for p in rows], [seal(p) for p in rows], 'PROPOSAL_IDENTITY')
-    direct=declared_routes(receipt,manifest)
+    direct=declared_routes(receipt,runtime_manifest or manifest)
     if {boundary(p['boundary']) for p in rows}|{boundary(r['boundary']) for r in direct} != set(expected):
         raise ValueError('PROPOSED_BINDING_CONSERVATION_FAILED')
     if not expected:
         raise ValueError('NO_EXECUTABLE_BINDING_INVENTORY')
 
 
-def verification(receipt, manifest, pins):
+def verification(receipt, manifest, pins, *, runtime_manifest=None):
     require_pins(receipt, pins)
     from .lineage_binding import revalidate_verification
     rows = receipt['verifications']
     from .lineage_binding import seal
     exactly([seal(v['proposal']) for v in rows], [seal(v['proposal']) for v in rows], 'VERIFICATION_IDENTITY')
-    direct=declared_routes(receipt,manifest)
+    direct=declared_routes(receipt,runtime_manifest or manifest)
     if {boundary(v['proposal']['boundary']) for v in rows}|{boundary(r['boundary']) for r in direct} != {
             boundary(b) for b in manifest['lineage']['bindings']}:
         raise ValueError('VERIFIED_BINDING_CONSERVATION_FAILED')
@@ -241,10 +241,10 @@ def required_code_binding_identities(receipt,manifest,scope_inventory):
     return result
 
 
-def publication(receipt, manifest, pins):
+def publication(receipt, manifest, pins, *, runtime_manifest=None):
     require_pins(receipt, pins)
     if receipt.get('publication',{}).get('kind') == 'RETAINED_EXECUTION':
-        return retained_execution_publication(receipt,manifest)
+        return retained_execution_publication(receipt,runtime_manifest or manifest)
     replay = receipt['replay']
     published = receipt['publication']
     if replay.get('status') != 'COMPLETED' or replay.get('matched') is not True:
@@ -364,6 +364,8 @@ def assess(manifest, pins, index=None, *, base='.', _approved_manifest=None, _sc
                 discovery(receipt, manifest, pins, scope_assets=_scope_assets)
             elif stage == 'discovery_approval' and _approved_manifest is not None:
                 approval(receipt, _approved_manifest, pins)
+            elif stage in ('bindings','reader_verification','publication') and _approved_manifest is not None:
+                CHECKS[stage](receipt,manifest,pins,runtime_manifest=_approved_manifest)
             else:
                 CHECKS[stage](receipt, manifest, pins)
             retained[stage] = receipt
@@ -373,9 +375,9 @@ def assess(manifest, pins, index=None, *, base='.', _approved_manifest=None, _sc
     if 'bindings' in retained and 'reader_verification' in retained:
         from .lineage_binding import seal
         planned = {seal(p) for p in retained['bindings']['proposals']}|{
-            r['route_identity'] for r in declared_routes(retained['bindings'],manifest)}
+            r['route_identity'] for r in declared_routes(retained['bindings'],_approved_manifest or manifest)}
         checked = {seal(v['proposal']) for v in retained['reader_verification']['verifications']}|{
-            r['route_identity'] for r in declared_routes(retained['reader_verification'],manifest)}
+            r['route_identity'] for r in declared_routes(retained['reader_verification'],_approved_manifest or manifest)}
         if planned != checked:
             rows[STAGES.index('reader_verification')] = {
                 'stage': 'reader_verification', 'status': 'BLOCKED',
@@ -389,7 +391,7 @@ def assess(manifest, pins, index=None, *, base='.', _approved_manifest=None, _sc
     ready = all(r['status'] == 'VERIFIED' for r in rows)
     admitted_constraints=[]
     if ready:
-        for route in declared_routes(retained.get('reader_verification',{}),manifest):
+        for route in declared_routes(retained.get('reader_verification',{}),_approved_manifest or manifest):
             admitted_constraints.append(route['constraints'])
     return {'version': VERSION, 'pins': dict(pins), 'status': 'READY' if ready else 'BLOCKED',
             'scoring': 'ADMITTED' if ready else 'NOT_SCORED',
