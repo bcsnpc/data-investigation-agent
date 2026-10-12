@@ -19,6 +19,14 @@ from run_native_diagnostic import transport as native
 from run_source_diagnostic import transport as source
 
 
+def final_envelope(name,result,error):
+    """Match the recorder's operation-specific delivered-output envelope."""
+    return {'operation':name,'error':error,
+            'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs') or
+                      ((result or {}).get('outputs') if name in journal.CLAIM_RUN_OPERATIONS else None),
+            'status':(result or {}).get('status'),'result':result}
+
+
 def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_transport=None):
     tape=journal.Tape(path);bootstrap=tape.bootstrap
     replay_engine_hash=fingerprint()
@@ -104,8 +112,7 @@ def replay(path,output,*,allow_engine_drift=False,native_transport=None,source_t
                 except journal.TapeError:raise
                 except Exception as exc:error=type(exc).__name__
             operations.append(name)
-        final={'operation':name,'error':error,'outputs':((result or {}).get('synthesis') or {}).get('outputs') or (result or {}).get('refusal_outputs'),
-               'status':(result or {}).get('status'),'result':result}
+        final=final_envelope(name,result,error)
         # Preserve the recomputed return even on mismatch. It is diagnostic
         # evidence, never substituted for the sealed final or a passing replay.
         (output/'recomputed-final.json').write_bytes(journal.bytes_of(final))
