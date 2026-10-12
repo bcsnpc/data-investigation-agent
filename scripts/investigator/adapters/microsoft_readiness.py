@@ -30,6 +30,30 @@ def _unique(rows,message):
     return rows[0]
 
 
+def required_copy_bindings(receipt,manifest,inventory):
+    """Recompile each declared Copy quantity from its served definition."""
+    from .copy_quantity import resolve,approval_sample
+    from ..estate_readiness import binding_identity
+    scan=receipt['scan'];entries={e['id']:e for e in inventory['declarations']}
+    result=[]
+    for declaration in inventory['discovered_declarations']:
+        if declaration['form']!='DECLARED_COPY':continue
+        target=declaration['owner'];column=declaration['column'];entry=entries[declaration['id']]
+        proof,reason=resolve(scan,target,column)
+        if proof is None:raise ValueError('SCOPED_COPY_MAPPING_UNESTABLISHED: '+reason)
+        if (declaration['content_hash']!=proof['definition_hash'] or
+                entry['disposition']!='RESOLVED' or entry['dependencies']!=[proof['source']['id']]):
+            raise ValueError('SCOPED_COPY_DECLARATION_DIFFERS')
+        def layer(asset):
+            return _unique([l['id']for l in manifest['layers']if l['asset_id']==asset],
+                           'SCOPED_COPY_LAYER_UNESTABLISHED')
+        boundary={'from_layer':layer(proof['source']['id']),'to_layer':layer(target)}
+        proposal=approval_sample(scan,target,column,boundary=boundary,context_id='current-definition',
+            cell={},precision={})['proposal']
+        result.append(binding_identity(proposal))
+    return result
+
+
 def validate_declared_route(route,*,manifest,scan):
     """Recompile, verify scoped native receipts, and derive the neutral boundary.
 

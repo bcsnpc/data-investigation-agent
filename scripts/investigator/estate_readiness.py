@@ -217,10 +217,11 @@ def binding_identity(proposal):
 
 def required_code_binding_identities(receipt,manifest,scope_inventory):
     from .transformation_reader import static
+    from .adapters.readiness_registry import required_native_bindings
     scan=receipt['scan'];assets=scan['assets'];by_id={a['id']:a for a in assets}
     layer_parent={by_id[l['asset_id']].get('parent_id'):l['id']for l in manifest['layers']}
     entries={e['id']:e for e in scope_inventory['declarations']}
-    result=[]
+    result=required_native_bindings(receipt,manifest,scope_inventory)
     for declaration in scope_inventory['discovered_declarations']:
         if declaration['form']!='STATIC_WRITER':continue
         entry=entries[declaration['id']]
