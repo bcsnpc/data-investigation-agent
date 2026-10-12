@@ -41,3 +41,17 @@ The three once-only smoke inputs completed within the original 15-minute batch: 
 22 physical requests comprised8 diagnostic,12 permission/identity overhead and2 pre-warm controls. Pot2742->2764/4000,reserve95; rolling601->618/3000. Model calls0. Source7f101b4 full regression passed3,659 tests. The smoke exposed missing recommended actions, missing page receipt-specific connection limits, and a null HELD reason; the generic renderer correction passes36 focused tests without changing original evidence.
 
 An archived intake replay exposed request-key-order dependence: canonical JSON reordered submitted fields while the producer emitted facts in dictionary insertion order. Current construction now iterates canonical field order. A24-permutation test requires byte-identical facts, and a full synthetic claim submit/confirm tape test replays a canonicalized request. All34 intake/tape tests passed. The original live tape remains unchanged and is not retrospectively called replay-green. No expected fact/value is weakened or reordered to mask the difference.
+
+## Capture result
+
+The [replay map](round-sixteen-c-replay.md) conserves all nine operations: six MATCHED and three historical submit mismatches. All three investigation outputs replay exactly with the corrected acceptance-only final-envelope builder and the exact archived engine. The old replayer had omitted the direct output pair, although its recomputed checks matched. All three confirmations also match. The three submitted-fact ordering failures remain failures, without rewriting their arrays, original inputs or seals. The corrected consumer has four regression tests; claim UI scripts also pass three Node syntax checks.
+
+Capture clones were replayed in memory after the disk-clone headroom guard stopped further disk allocation. The network and canonical ledgers were denied throughout. Hash-preserving compression affected only closed isolated copies. No new live attempt was admitted, and none of these replay repairs changes a diagnostic finding or an expectation.
+
+The closing shared counters at10:54:45UTC were pot2764/4000,reserve95,rolling603/3000 and USD102.932940(total),USD8.228668(new this round). No model reservation is open. One pre-existing cloud reservation from2026-10-11 remains conservatively charged; it predates this round and was not reset or refunded.
+
+## Final validation and close
+
+The final investigator engine passed **3,665 tests in947.724seconds**, native exit0. Four new acceptance-envelope tests passed separately, along with three JavaScript syntax checks. The full sweep started at source38c2733; the acceptance-only consumer correction a3a540d and its additional four tests were committed during that sweep. Investigator engine bytes were unchanged. The earlier source7f101b4 full3,659PASS is retained separately. Existing SQLite ResourceWarnings and intentional CLI-rejection stderr appeared; no test failed.
+
+Part C closes with all three live smoke attempts recorded, original outputs unchanged, and replay6/9. The remaining three capture failures and the unsupported capabilities above are explicit. No full scored run or current freeze is claimed. Part D starts with readiness, not scenario seeding.
