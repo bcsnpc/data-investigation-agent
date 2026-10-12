@@ -19,6 +19,54 @@ from investigator.native_identity import allows
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_lakehouse_reader_columns_bind_only_to_exact_listed_table(self):
+        from unittest.mock import Mock
+        lid=str(uuid4());self.items.append({'id':lid,'type':'Lakehouse','displayName':'Landing'})
+        aid='fabric://'+self.ws+'/'+lid;old=self.transport
+        def transport(endpoint,**kwargs):
+            if endpoint.endswith('/lakehouses/'+lid):
+                return {'status_code':200,'text':{'id':lid,'displayName':'Landing'}}
+            return old(endpoint,**kwargs)
+        reader=Mock(return_value={'scope':'VISIBLE_OBJECTS_ONLY','complete_schema':False,
+            'tables':[{'schema_name':'dbo','name':'new_fact','columns':[{'name':'id','data_type':'int'}]}]})
+        batch=Collector(self.config,transport,self.sql,lakehouse_catalog_reader=reader).run()
+        table=next(a for a in batch['assets'] if a['kind']=='LakehouseTable')
+        self.assertEqual(table['metadata']['columns'],[{'name':'id','data_type':'int'}])
+        reader.return_value['tables'].append({'schema_name':'dbo','name':'unlisted','columns':[]})
+        batch=Collector(self.config,transport,self.sql,lakehouse_catalog_reader=reader).run()
+        table=next(a for a in batch['assets'] if a['kind']=='LakehouseTable')
+        self.assertNotIn('reader_schema',table['metadata'])
+        self.assertEqual(batch['coverage'][aid+'/visible_column_schema']['status'],'UNAVAILABLE')
+
+    def test_missing_schema_visibility_retains_visible_objects_without_completeness(self):
+        def visible(*args):
+            result=self.sql(*args);result['permissions']=[{'can_view_definition':False}];return result
+        batch=Collector(self.config,self.transport,visible).run()
+        self.assertTrue(any(a['kind']=='SqlObject' and a['name']=='business.events' for a in batch['assets']))
+        self.assertFalse(any(a['name']=='secret.restricted' for a in batch['assets']))
+        coverage=batch['coverage']['sql://approved.database.windows.net/source/catalog']
+        self.assertEqual(coverage['status'],'UNAVAILABLE')
+        self.assertFalse(coverage['complete_schema'])
+        self.assertEqual(coverage['retained_scope'],'VISIBLE_OBJECTS_ONLY')
+        self.assertTrue(any(o['capability']=='catalog_visibility' and o['status']=='UNAVAILABLE' for o in batch['observations']))
+
+    def test_visible_warehouse_catalog_preserves_scope_without_claiming_completeness(self):
+        from unittest.mock import Mock
+        wid=str(uuid4());self.items.append({'id':wid,'type':'Warehouse','displayName':'Serving'})
+        aid='fabric://'+self.ws+'/'+wid;old=self.transport
+        def transport(endpoint,**kwargs):
+            if endpoint.endswith('/warehouses/'+wid):
+                return {'status_code':200,'text':{'id':wid,'displayName':'Serving','properties':{'connectionString':'approved'}}}
+            return old(endpoint,**kwargs)
+        reader=Mock(return_value={'scope':'VISIBLE_OBJECTS_ONLY','complete_schema':False,
+            'tables':[{'schema_name':'dbo','name':'events','columns':[{'name':'id','data_type':'int'}]}]})
+        batch=Collector(self.config,transport,self.sql,warehouse_catalog_reader=reader).run()
+        self.assertEqual(reader.call_count,1)
+        self.assertTrue(any(a['kind']=='WarehouseTable' and a['name']=='dbo.events' for a in batch['assets']))
+        observation=next(x for x in batch['observations'] if x['asset_id']==aid and x['capability']=='catalog_visibility')
+        self.assertEqual(observation['status'],'PARTIAL')
+        self.assertFalse(observation['detail']['complete_schema'])
+
     def test_only_declared_warehouse_audit_schema_is_collected(self):
         wid=str(uuid4());self.items.append({'id':wid,'type':'Warehouse','displayName':'Operations'})
         aid='fabric://'+self.ws+'/'+wid;tid=aid+'/table/dbo.audit'

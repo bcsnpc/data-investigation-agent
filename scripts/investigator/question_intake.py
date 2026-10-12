@@ -654,10 +654,12 @@ class Intake:
 
     def _new_record(self, request, combined, catalog, turn=1, screenshot=None):
         """One producer for the pins consumed by preview/review."""
+        from .continuation_catalog import referents
         return {'id': str(uuid4()), 'version': VERSION, 'request': request, 'text': combined, 'turn': turn,
                 'status': 'RESOLVING', 'proposal': None, 'question': None, 'error': None,
                 'created': self.workspace.clock(), 'expires': self.workspace.clock() + 900,
                 'catalog_hash': digest(catalog), 'engine_hash': fingerprint(),
+                'catalog_referents':referents(catalog),
                 'config_hash': digest(self.workspace.agent.config), 'planner_hash': digest(self.workspace.agent.planner_profile),
                 'screenshot_review': screenshot,
                 'data_queries': 0, 'requires_scope_review': True, 'cause_verified': False}

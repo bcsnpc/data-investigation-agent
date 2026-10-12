@@ -66,6 +66,11 @@ class AgentTicket:
             ticket.setdefault('agent_wait_pauses', []).append(copy.deepcopy(pause))
             total(ticket, journal.read(), now=now)
             ticket.setdefault('agent_replies', []).append(copy.deepcopy(match[0]))
+            if self.workspace.agent.config.get('_estate',{}).get('investigation',{}).get('mode')=='HYBRID':
+                from .agent_phase_budget import used,budget
+                ticket['hybrid_reply_budget']={'reply_id':comment_id,'prior_decisions':used(journal.read()),
+                    'previous_budget':copy.deepcopy(budget(ticket,journal.read(),
+                        self.workspace.agent.config['_estate']['investigation'],hybrid=True))}
             if previous is not None:
                 ticket.setdefault('agent_scope_history', []).append({k: copy.deepcopy(ticket.get(k))
                     for k in ('source_intake','intake_id','session_id','settled','confirmed')})
@@ -250,11 +255,17 @@ class AgentTicket:
         from .agent_wait_time import total as human_wait_total
         now = runtime.clock()
         excluded_wait = human_wait_total(saved['ticket'], journal.read(), now=now)
-        prior_decisions = sum(1 for entry in journal.read() if entry['event'] in
-            ('DECISION','DECISION_REJECTED','ADMISSION_OR_PROVIDER_FAILED'))
-        remaining_steps = configuration.get('step_cap', 25) - prior_decisions
+        from .agent_phase_budget import budget as phase_budget
+        recorded_budget=phase_budget(saved['ticket'],journal.read(),configuration,hybrid=hybrid)
+        remaining_steps=recorded_budget['steps_remaining']
         remaining_wall = int(configuration.get('wall_seconds', 900) -
             max(0, now - saved['ticket']['agent_loop_started_at'] - excluded_wait))
+        recorded_budget['wall_seconds_remaining']=remaining_wall
+        current=tickets.get(identity)
+        def retain_budget(ticket):
+            ticket.setdefault('agent_step_budgets',[]).append(copy.deepcopy(recorded_budget));return ticket
+        tickets.update(identity,current['revision'],retain_budget)
+        journal.persist({'event':'AGENT_STEP_PHASE_BUDGET',**recorded_budget})
         if remaining_steps <= 0 or remaining_wall <= 0:
             reason = 'AGENT_STEP_CAP' if remaining_steps <= 0 else 'AGENT_WALL_LIMIT'
             current = tickets.get(identity)

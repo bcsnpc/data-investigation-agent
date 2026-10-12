@@ -17,7 +17,7 @@ def setup_reference(text='Global card Quantity shows 16. Can its saved context r
         visuals=[{'quote':'Global card','role':'PRIMARY','form':'TITLE'}],
         figures=[{'quote':'16','role':'PRIMARY','state':'NUMBER','precision_quote':None}])
     model=payload['models'][0];model['reports']=[{'id':ASSET,'name':'Report'}]
-    for i,v in enumerate(model['visuals']):v.update(report_id=ASSET,page_id=ASSET+'/page/'+('PageA' if i==0 else 'PageB'))
+    for i,v in enumerate(model['visuals']):v.update(report_id=ASSET,page_id=ASSET+'/page/'+('PageA' if i==0 else 'PageB'),page_names=['Overview' if i==0 else 'Details'])
     request={'text':text,'request_key':'one','structured':{'report_link':LINK}}
     payload['text']=ticket_inputs.document(request)['text']
     payload['_input_request']=request

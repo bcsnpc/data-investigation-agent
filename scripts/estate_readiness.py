@@ -3,7 +3,7 @@ import argparse
 import json
 import sqlite3
 from pathlib import Path
-from investigator.estate_readiness import assess, sha
+from investigator.estate_readiness import assess, assess_named_scope, sha
 from investigator.onboarding import digest
 from investigator.runtime import fingerprint
 
@@ -37,11 +37,18 @@ def main(argv=None):
     parser.add_argument('--manifest', type=Path, required=True)
     parser.add_argument('--approval', type=Path, required=True)
     parser.add_argument('--index', type=Path)
+    parser.add_argument('--scope', type=Path,
+                        help='Hash-bound named dependency scope receipt; never a whole-estate certificate')
     args = parser.parse_args(argv)
     try:
         manifest, pins = current_pins(args.manifest, args.approval)
         index = json.loads(args.index.read_text()) if args.index else None
-        result = assess(manifest, pins, index, base=args.index.parent if args.index else '.')
+        base = args.index.parent if args.index else '.'
+        if args.scope:
+            result = assess_named_scope(manifest, pins, index,
+                {'path': str(args.scope.resolve()), 'sha256': sha(args.scope.read_bytes())}, base=base)
+        else:
+            result = assess(manifest, pins, index, base=base)
     except (ValueError, KeyError, OSError, sqlite3.Error) as exc:
         result = {'status': 'BLOCKED', 'scoring': 'NOT_SCORED', 'reason': 'estate-not-fully-onboarded',
                   'detail': str(exc), 'estate_reads': 0, 'model_calls': 0}

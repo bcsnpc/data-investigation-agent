@@ -88,7 +88,14 @@ class SmartIntake:
 
     def _plan(self, saved, source):
         ticket=saved['ticket'];catalog=snapshot(self.workspace)
+        if source['catalog_hash']!=digest(catalog) and source.get('error')!='UNIMPLEMENTED_ROUTE':
+            from .continuation_catalog import rebind
+            saved,source=rebind(self,saved,source,catalog);ticket=saved['ticket']
+            if ticket['questions']:return saved
         payload={'text':source['text'],'models':catalog['models']}
+        if source.get('catalog_revalidation') and ticket.get('confirmed'):
+            from .continuation_catalog import confirmation
+            payload['_ticket_confirmation']=confirmation(ticket,source['text'],catalog['models'])
         from .ticket_inputs import active_request
         from .input_reference import from_input
         input_request=active_request(saved)
@@ -97,8 +104,6 @@ class SmartIntake:
         reference=from_input(input_request,source['text'],catalog['models'])
         if reference is not None:
             payload['_input_request']=input_request;payload['_ticket_reference']=reference
-        from .onboarding import digest
-        if source['catalog_hash']!=digest(catalog):raise Conflict('Ticket metadata changed before clarification')
         from .intake_extraction import retained_response
         raw=retained_response(source)
         if source.get('error')=='UNIMPLEMENTED_ROUTE' and raw and raw.get('kind')=='BUSINESS_MEANING':
@@ -209,22 +214,28 @@ class SmartIntake:
         if set(saved['ticket']['confirmed'])&{'FIGURE','REPORT_OR_SCREENSHOT'}:
             try:return self._plan(saved,self.workspace.intake.get(saved['ticket']['source_intake']))
             except (ValueError,Conflict) as exc:
+                saved=self.tickets.get(request['ticket_id'])
+                if saved['ticket']['state']=='HELD':return saved
                 return self.tickets.update(request['ticket_id'],saved['revision'],lambda ticket:
                     protocol.transition(ticket,'HELD',actor='AGENT',detail={'reason':str(exc)}))
         if 'REPORT_PAGE' not in saved['ticket']['settled'] and 'NUMBER' in saved['ticket']['confirmed']:
             source=self.workspace.intake.get(saved['ticket']['source_intake'])
             try:
                 catalog=snapshot(self.workspace)
-                if digest(catalog)!=source['catalog_hash']:raise Conflict('Ticket metadata changed before container settlement')
+                if digest(catalog)!=source['catalog_hash']:return self._plan(saved,source)
                 saved=self.tickets.update(request['ticket_id'],saved['revision'],lambda ticket:
                     intake_confirmation.settle_container(ticket,request_text=source['text'],models=catalog['models']))
             except (ValueError,Conflict) as exc:
+                saved=self.tickets.get(request['ticket_id'])
+                if saved['ticket']['state']=='HELD':return saved
                 return self.tickets.update(request['ticket_id'],saved['revision'],lambda ticket:
                     protocol.transition(ticket,'HELD',actor='AGENT',detail={'reason':str(exc)}))
         return self._adopt(saved)
 
     def _adopt(self, saved):
         ticket=saved['ticket']
+        source=self.workspace.intake.get(ticket['source_intake']);catalog=snapshot(self.workspace)
+        if source['catalog_hash']!=digest(catalog):return self._plan(saved,source)
         try:
             # Scope is established by the original validator, never by the
             # completeness of the UI's answer batch alone.

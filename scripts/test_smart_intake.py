@@ -507,13 +507,41 @@ class SmartIntakeTests(unittest.TestCase):
             with self.subTest(change=change),self.assertRaises(ValueError):self.controller.reply({**request,**change})
         self.assertEqual(self.controller.tickets.get(saved['ticket']['id'])['revision'],saved['revision'])
 
-    def test_changed_catalog_holds_and_no_query_is_dispatched(self):
+    def test_changed_catalog_label_keeps_stable_target_and_original_pin(self):
         saved=self.submit();request=self.reply(saved)
+        original=self.workspace.intake.get(saved['ticket']['source_intake'])
         self.catalog['models'][0]['name']='Changed'
         resumed=self.controller.reply(request)
-        self.assertEqual(resumed['ticket']['state'],'HELD')
-        self.assertIn('metadata changed',resumed['ticket']['history'][-1]['detail']['reason'])
+        self.assertIn('intake_id',resumed['ticket'])
+        self.assertEqual(self.workspace.intake.get(original['id']),original)
+        proposal=self.workspace.intake.get(resumed['ticket']['intake_id'])['proposal']
+        self.assertEqual(proposal['target_visual']['target_id'],'card')
+        self.assertEqual(proposal['reported_figure']['value'],'17')
         self.h.native.assert_not_called();self.h.source.assert_not_called()
+
+    def test_changed_selected_object_asks_one_named_question_and_keeps_old_frame(self):
+        saved=self.submit();request=self.reply(saved)
+        original=self.workspace.intake.get(saved['ticket']['source_intake'])
+        choices=copy.deepcopy(saved['ticket']['choice_values'])
+        self.catalog['models'][0]['visuals'][0]['target_id']='replacement-card'
+        resumed=self.controller.reply(request)
+        self.assertEqual(resumed['ticket']['state'],'CLARIFYING')
+        self.assertEqual(len(resumed['ticket']['questions']),1)
+        self.assertEqual(resumed['ticket']['questions'][0]['field'],'NUMBER')
+        self.assertTrue(all('replacement-card' not in c['label'] for c in resumed['ticket']['questions'][0]['choices']))
+        self.assertEqual(resumed['ticket']['catalog_continuation_history'][0]['choice_values'],choices)
+        self.assertEqual(self.workspace.intake.get(original['id']),original)
+        self.h.native.assert_not_called();self.h.source.assert_not_called()
+
+    def test_unresolved_current_catalog_does_not_claim_same_objects(self):
+        from investigator.continuation_catalog import rebind
+        saved=self.submit();source=self.workspace.intake.get(saved['ticket']['source_intake'])
+        self.catalog['versions']=['changed']
+        with patch('investigator.continuation_catalog.resolve',return_value=({'action':'ASK'},self.raw)):
+            _,body=rebind(self.controller,saved,source,self.catalog)
+        self.assertEqual(body['status'],'NEEDS_INPUT')
+        self.assertEqual(body['catalog_revalidation']['status'],'CURRENT_CATALOG_UNRESOLVED')
+        self.assertIsNone(body['catalog_revalidation']['target'])
 
     def test_projected_installation_refuses_before_persisting_raw_ticket(self):
         self.workspace.agent.config['_estate']={'recording':{'tape_class':'PRIVACY_PROJECTED'}}

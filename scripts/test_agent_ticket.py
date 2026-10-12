@@ -153,6 +153,28 @@ class AgentTicketTests(unittest.TestCase):
             settlement.start(controller_owned=True)
         start.assert_called_once_with('preview', controller_owned=True)
 
+    def test_hybrid_user_reply_has_fresh_gap_steps_and_retains_prior_budget(self):
+        from investigator.ticket_comments import append
+        from investigator.onboarding import digest
+        configuration=self.workspace.agent.config['_estate']['investigation']
+        configuration.update(mode='HYBRID',step_cap=2)
+        parent={'reason':'TARGET_UNRESOLVED'};parent['hash']=digest(parent)
+        saved=self.workspace.smart_intake.tickets.update(self.saved['ticket']['id'],self.saved['revision'],
+            lambda t:{**t,'hybrid_pipeline':parent,'agent_diagnostic_reads':0})
+        decisions=self.decisions([{'action':'TOOL','summary':'Ask selection','tool':'ask_user',
+            'arguments':{'field':'SELECTION'}},self.hold()])
+        controller=AgentTicket(self.workspace);waiting=controller.run(saved,pipeline_result=parent)
+        replied=append(self.workspace,{'ticket_id':waiting['ticket']['id'],'revision':waiting['revision'],
+            'request_key':'real-hybrid-reply','text':'The saved selections.',
+            'attachment_id':None,'review_id':None})
+        result=controller.resume(replied['ticket']['id'],revision=replied['revision'],comment_id='real-hybrid-reply')
+        self.assertEqual(decisions.call_args.args[0]['steps_remaining'],2)
+        budgets=result['ticket']['agent_step_budgets']
+        self.assertEqual([b['steps_remaining'] for b in budgets],[2,2])
+        self.assertEqual(result['ticket']['hybrid_reply_budget']['previous_budget']['steps_remaining'],1)
+        self.assertEqual(budgets[-1]['decisions_before_phase'],1)
+        self.assertEqual(result['ticket']['agent_diagnostic_reads'],0)
+
     def test_real_preview_start_authority_and_single_loop(self):
         from investigator.onboarding import digest
         self.fixture.f.helper.h.model['discovery']['policy_hash'] = digest(self.workspace.agent.config)

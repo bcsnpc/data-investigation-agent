@@ -113,8 +113,7 @@ def batch(ticket, source, payload, configuration=None):
                     for page in sorted(pages,key=lambda p:p or ''):
                         from .clarification_grounding import label as visible_label
                         names=[n for v in model.get('visuals',[]) if v['report_id']==report['id'] and v.get('page_id')==page for n in v.get('page_names',[])]
-                        from .intake_span_references import enabled
-                        label=report['name']+(' / '+(visible_label(names) if enabled() else page) if page else '')
+                        label=visible_label([report['name']])+(' / '+visible_label(names) if page else '')
                         choices.append((label,{'report_id':report['id'],'page_id':page}))
             add('REPORT_PAGE','Which report or page are you asking about?',choices)
         if 'NUMBER' not in ticket['settled']:
@@ -145,11 +144,10 @@ def batch(ticket, source, payload, configuration=None):
                                        for key in visual['grouping_columns'])
                         modes.insert(0,('KEYED',' (cell: '+keys+')'))
                 report=next(r for r in model['reports'] if r['id']==visual['report_id'])
-                page=' / '.join(visual.get('page_names') or [])
                 from .clarification_grounding import label as visible_label
-                from .intake_span_references import enabled
-                name=' / '.join([report['name'],*([page] if page else []),
-                                visible_label(visual.get('names',[])) if enabled() else ' / '.join(visual.get('names') or [visual['target_id']])])
+                page=visible_label(visual.get('page_names',[])) if visual.get('page_id') else None
+                name=' / '.join([visible_label([report['name']]),*([page] if page else []),
+                                visible_label(visual.get('names',[]))])
                 for mode,suffix in modes:
                     for figure in figures:
                         label=name+suffix+(' — '+repr(figure['quote'])+f" at {figure['start']}:{figure['end']}" if figure else ' — no figure supplied')

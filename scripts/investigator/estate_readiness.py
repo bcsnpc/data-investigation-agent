@@ -44,13 +44,16 @@ def require_pins(receipt, pins):
         raise ValueError('ONBOARDING_PINS_DIFFER')
 
 
-def discovery(receipt, manifest, pins):
+def discovery(receipt, manifest, pins, *, scope_assets=None):
     require_pins(receipt, pins)
     scan = receipt['scan']
-    if scan.get('status') != 'COMPLETE' or not scan.get('coverage'):
+    if not scan.get('coverage'):
         raise ValueError('DISCOVERY_NOT_COMPLETE')
-    if any(c.get('status') != 'COMPLETE' for c in scan['coverage'].values()):
-        raise ValueError('DISCOVERY_PARTIAL')
+    if scope_assets is None:
+        if scan.get('status') != 'COMPLETE':
+            raise ValueError('DISCOVERY_NOT_COMPLETE')
+        if any(c.get('status') != 'COMPLETE' for c in scan['coverage'].values()):
+            raise ValueError('DISCOVERY_PARTIAL')
     assets = scan['assets']
     if isinstance(assets, dict):
         assets = list(assets.values())
@@ -58,6 +61,16 @@ def discovery(receipt, manifest, pins):
     required = {l['asset_id'] for l in manifest['layers']} | {r['asset_id'] for r in manifest['resources']}
     if not required <= ids:
         raise ValueError('DISCOVERY_DECLARED_ASSET_MISSING')
+    if scope_assets is not None:
+        by_id = {a['id']: a for a in assets}
+        if not set(scope_assets) <= ids:
+            raise ValueError('DISCOVERY_SCOPE_ASSET_MISSING')
+        for asset in scope_assets:
+            original = by_id[asset]
+            coverage = scan['coverage'].get(original.get('coverage_scope'), {})
+            if (original.get('availability') != 'CURRENT' or
+                    coverage.get('status') != 'COMPLETE' or not original.get('content_hash')):
+                raise ValueError('DISCOVERY_SCOPE_COVERAGE_INCOMPLETE:' + asset)
 
 
 def approval(receipt, manifest, pins):
@@ -192,7 +205,7 @@ def bind_sources(receipt, base):
             raise ValueError('AUTHORITATIVE_FIELD_DIFFERS:' + source['field'])
 
 
-def assess(manifest, pins, index=None, *, base='.'):
+def assess(manifest, pins, index=None, *, base='.', _approved_manifest=None, _scope_assets=None):
     """An incomplete estate remains runnable for diagnostics, but not scoreable."""
     if set(pins) != set(PINS) or any(not isinstance(v, str) or not v for v in pins.values()):
         raise ValueError('READINESS_CURRENT_PINS_REQUIRED')
@@ -205,7 +218,12 @@ def assess(manifest, pins, index=None, *, base='.'):
                 raise ValueError('ONBOARDING_EVIDENCE_INDEX_MISSING_OR_STALE')
             receipt = load_ref(index['stages'][stage], base)
             bind_sources(receipt, base)
-            CHECKS[stage](receipt, manifest, pins)
+            if stage == 'discovery' and _scope_assets is not None:
+                discovery(receipt, manifest, pins, scope_assets=_scope_assets)
+            elif stage == 'discovery_approval' and _approved_manifest is not None:
+                approval(receipt, _approved_manifest, pins)
+            else:
+                CHECKS[stage](receipt, manifest, pins)
             retained[stage] = receipt
             rows.append({'stage': stage, 'status': 'VERIFIED'})
         except (ValueError, KeyError, TypeError, OSError) as exc:
@@ -236,5 +254,132 @@ def score_prospectively(score, *args, readiness, **kwargs):
         report = {'status': 'BLOCKED', 'reason': 'READINESS_EVIDENCE_INPUTS_REQUIRED'}
     if report['status'] != 'READY':
         return {'scoring': 'NOT_SCORED', 'reason': 'estate-not-fully-onboarded',
+                'readiness': report, 'passed': None}
+    return score(*args, **kwargs)
+
+
+def scope_closure(dependency_inventory, roots):
+    """Close a named scope over a retained adapter dependency inventory.
+
+    This is not a best-effort walk over the discovery graph. Every discovered
+    declaration has an explicit disposition, including unresolved references.
+    An absent edge cannot certify that an object is a direct source.
+    """
+    if dependency_inventory.get('status') != 'COMPLETE':
+        raise ValueError('SCOPE_DEPENDENCY_INVENTORY_INCOMPLETE')
+    discovered = dependency_inventory['discovered_declarations']
+    declarations = dependency_inventory['declarations']
+    exactly([d['id'] for d in discovered], [d['id'] for d in declarations],
+            'SCOPE_DECLARATION')
+    source = {d['id']: d for d in discovered}
+    nodes = dependency_inventory['nodes']
+    exactly([n['asset_id'] for n in nodes], [n['asset_id'] for n in nodes],
+            'SCOPE_NODE')
+    by_asset = {n['asset_id']: n for n in nodes}
+    by_id = {d['id']: d for d in declarations}
+    listed = [item for node in nodes for item in node['declarations']]
+    exactly(listed, list(by_id), 'SCOPE_NODE_DECLARATION')
+    for item in declarations:
+        original = source[item['id']]
+        if (not isinstance(original.get('content_hash'), str) or
+                not original['content_hash'] or not item.get('content_hash')):
+            raise ValueError('SCOPE_DECLARATION_CONTENT_HASH_REQUIRED')
+        if item.get('content_hash') != original.get('content_hash'):
+            raise ValueError('SCOPE_DECLARATION_CONTENT_DIFFERS')
+        owner = next(n['asset_id'] for n in nodes if item['id'] in n['declarations'])
+        if original.get('owner') is not None and original['owner'] != owner:
+            raise ValueError('SCOPE_DECLARATION_OWNER_DIFFERS')
+        if item.get('owner') is not None and item['owner'] != owner:
+            raise ValueError('SCOPE_DECLARATION_OWNER_DIFFERS')
+        if item.get('disposition') not in ('RESOLVED', 'DIRECT'):
+            raise ValueError('SCOPE_DECLARATION_UNSUPPORTED:' + original['form'])
+        if item['disposition'] == 'DIRECT':
+            if original.get('operation') != 'DIRECT_REFERENCE' or item.get('dependencies'):
+                raise ValueError('SCOPE_DIRECT_SOURCE_NOT_ESTABLISHED')
+        elif not item.get('dependencies'):
+            raise ValueError('SCOPE_RESOLVED_DEPENDENCIES_MISSING')
+    reached = set()
+    pending = list(roots)
+    if not pending or len(pending) != len(set(pending)):
+        raise ValueError('SCOPE_ROOTS_REQUIRED')
+    while pending:
+        asset = pending.pop()
+        if asset in reached:
+            continue
+        node = by_asset.get(asset)
+        if node is None or not node['declarations']:
+            raise ValueError('SCOPE_ASSET_DEPENDENCIES_UNESTABLISHED:' + asset)
+        reached.add(asset)
+        for declaration in node['declarations']:
+            pending.extend(by_id[declaration].get('dependencies', []))
+    return reached
+
+
+def assess_named_scope(manifest, pins, index, scope_ref, *, base='.'):
+    """Score only an exhaustive named dependency closure, never the estate.
+
+    All six proofs remain required for the scoped manifest. Historical reader
+    receipts do not acquire current engine compatibility just by being wrapped.
+    A compatibility bridge must satisfy the same original source/pin checks.
+    """
+    try:
+        receipt = load_ref(scope_ref, base)
+        bind_sources(receipt, base)
+        require_pins(receipt, pins)
+        scope = receipt['scope']
+        if not isinstance(scope.get('name'), str) or not scope['name']:
+            raise ValueError('SCOPE_NAME_REQUIRED')
+        assets = scope_closure(receipt['dependency_inventory'], scope['roots'])
+        exactly(scope['assets'], assets, 'SCOPE_ASSET')
+        layers = [l for l in manifest['layers'] if l['asset_id'] in assets]
+        if not layers or not set(scope['roots']) <= {l['asset_id'] for l in layers}:
+            raise ValueError('SCOPE_ROOT_NOT_DECLARED_LAYER')
+        layer_ids = {l['id'] for l in layers}
+        resources = [r for r in manifest['resources'] if r['asset_id'] in assets]
+        import copy
+        scoped = copy.deepcopy(manifest)
+        scoped['layers'] = layers
+        scoped['resources'] = resources
+        # Required boundaries come from the conserved dependency closure, not
+        # only a legacy manifest's explicitly hand-declared binding list. Such
+        # a list can omit inferred or definition-declared boundaries entirely.
+        layer_by_asset = {l['asset_id']: l['id'] for l in layers}
+        declarations = {d['id']: d for d in receipt['dependency_inventory']['declarations']}
+        boundaries = set()
+        for node in receipt['dependency_inventory']['nodes']:
+            if node['asset_id'] not in layer_by_asset:
+                continue
+            for identity in node['declarations']:
+                for dependency in declarations[identity].get('dependencies', []):
+                    if dependency in layer_by_asset and dependency != node['asset_id']:
+                        boundaries.add((layer_by_asset[dependency], layer_by_asset[node['asset_id']]))
+        scoped['lineage']['bindings'] = [dict(from_layer=lower, to_layer=upper)
+                                       for lower, upper in sorted(boundaries)]
+        report = assess(scoped, pins, index, base=base,
+                        _approved_manifest=manifest, _scope_assets=assets)
+        report.update(scope={'name': scope['name'], 'roots': list(scope['roots']),
+                             'assets': sorted(assets), 'layers': sorted(layer_ids)},
+                      estate_status='NOT_ESTABLISHED_BY_SCOPED_ASSESSMENT')
+        return report
+    except (ValueError, KeyError, TypeError, OSError) as exc:
+        return {'version': VERSION, 'status': 'BLOCKED', 'scoring': 'NOT_SCORED',
+                'reason': 'estate-not-fully-onboarded', 'detail': str(exc),
+                'estate_status': 'NOT_ESTABLISHED_BY_SCOPED_ASSESSMENT',
+                'estate_reads': 0, 'model_calls': 0}
+
+
+def score_named_scope(score, *args, readiness, requested_assets, **kwargs):
+    """A scoped READY receipt cannot be used for a different ticket scope."""
+    try:
+        report = assess_named_scope(readiness['manifest'], readiness['pins'],
+            readiness.get('index'), readiness['scope_ref'], base=readiness.get('base', '.'))
+    except (KeyError, TypeError, ValueError):
+        report = {'status': 'BLOCKED', 'detail': 'SCOPED_READINESS_EVIDENCE_INPUTS_REQUIRED'}
+    requested = set(requested_assets)
+    if (report['status'] != 'READY' or not requested or
+            not requested <= set(report.get('scope', {}).get('assets', []))):
+        return {'scoring': 'NOT_SCORED', 'reason': 'estate-not-fully-onboarded',
+                'scope_reason': 'REQUEST_OUTSIDE_VERIFIED_SCOPE' if report['status'] == 'READY'
+                    else report.get('detail', 'SCOPE_PROOFS_NOT_COMPLETE'),
                 'readiness': report, 'passed': None}
     return score(*args, **kwargs)

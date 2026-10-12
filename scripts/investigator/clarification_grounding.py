@@ -14,7 +14,7 @@ QUESTIONS={'REPORT':'Which report are you asking about?', 'PAGE':'Which page are
 
 def label(names):
     values=[n for n in names if isinstance(n,str) and n.strip() and
-        not re.search(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[0-9a-f]{16,}$',n,re.I)]
+        not re.search(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[0-9a-f]{16,}|\w+://|^ReportSection[0-9a-f]+$',n,re.I)]
     if not values:raise Conflict('Clarification has no retained user-visible name')
     return ' / '.join(sorted(set(values)))
 

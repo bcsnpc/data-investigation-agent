@@ -1,5 +1,47 @@
-"""Reader-owned schema for explicitly declared Warehouse audit tables only."""
+"""Reader-owned Warehouse metadata; visible inventory is explicitly scoped."""
 import re
+
+
+def inventory(config, warehouse, *, execute=None):
+    """Read visible tables on one discovered, approved Warehouse connection.
+
+    This does not claim invisible objects are absent. Per-object definition
+    visibility and source identity accompany every returned schema.
+    """
+    from fabric_sql_surface import read as sql_read
+    from investigator.control_contract import bounds
+    max_rows = bounds('FABRIC_SQL')['maximum_rows']
+    visible_limit = max_rows - 1
+    reader=config['fabric'].get('sql_reader')
+    if not reader or warehouse.get('properties',{}).get('connectionString')!=reader['server']:
+        raise ValueError('Warehouse catalog leaves the approved connection')
+    request={'query':
+        f'SELECT TOP {visible_limit} s.name AS schema_name,o.name AS table_name,c.name AS column_name,'
+        't.name AS data_type,c.column_id,c.max_length,c.precision,c.scale,c.is_nullable,'
+        "HAS_PERMS_BY_NAME(QUOTENAME(s.name)+'.'+QUOTENAME(o.name),'OBJECT','VIEW DEFINITION') AS can_view_definition "
+        'FROM sys.tables o JOIN sys.schemas s ON s.schema_id=o.schema_id '
+        'JOIN sys.columns c ON c.object_id=o.object_id '
+        'JOIN sys.types t ON t.user_type_id=c.user_type_id '
+        'WHERE o.is_ms_shipped=0 ORDER BY s.name,o.name,c.column_id',
+        'parameters':[], 'read_only_objects':['[sys].[tables]','[sys].[schemas]','[sys].[columns]','[sys].[types]'],
+        'max_rows':max_rows,'result_columns':['schema_name','table_name','column_name','data_type','column_id',
+            'max_length','precision','scale','is_nullable','can_view_definition']}
+    result=(execute or sql_read)(config,warehouse['displayName'],request)
+    report=result.get('surface_report') or {};rows=result.get('rows')
+    if (report.get('identity')!=reader['account'] or report.get('object')!=warehouse['displayName']
+            or report.get('engine')!='Microsoft Azure SQL Data Warehouse'
+            or not result.get('read_only_verified') or not isinstance(rows,list) or len(rows)>=visible_limit):
+        raise ValueError('Warehouse inventory lacks bounded reader-owned evidence')
+    tables={}
+    for row in rows:
+        key=(row['schema_name'],row['table_name'])
+        table=tables.setdefault(key,{'schema_name':key[0],'name':key[1],'type_desc':'USER_TABLE',
+            'columns':[],'definition_visible':True})
+        table['definition_visible'] &= row['can_view_definition'] in (True,1,'1')
+        table['columns'].append({('name' if k=='column_name' else k):row[k] for k in
+            ('column_name','data_type','column_id','max_length','precision','scale','is_nullable')})
+    return {'scope':'VISIBLE_OBJECTS_ONLY','complete_schema':False,'tables':list(tables.values()),
+            'surface_report':report,'read_only_verified':True}
 
 
 def read(config, warehouse, table_name, *, execute=None):
