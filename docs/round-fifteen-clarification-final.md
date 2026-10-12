@@ -15,6 +15,8 @@ The final PIPELINE default was restored via retained PARTIAL-context re-adoption
 
 Assembly SHA-256: 91fce10c85dd09f0feafdb69f6e262dc82ec029cf9ac70f33a551f5cfb9f5824
 
+Dated independent question audit, 2026-10-12 UTC (2026-10-11 Central): [per-prompt legitimacy audit](round-fifteen-question-legitimacy.md) reviews all 85 prompts against actual submitted fields, wording and retained evidence: 60 AVOIDABLE, 21 LEGITIMATE, 4 NOT_ESTABLISHED. These reviewer judgments are separate from the unchanged author raw35/23 vote and from the question-defect axis. Exact question/reply strings below remain unchanged.
+
 ## Five actual secondary HYBRID questions and replies
 
 ### clarification-003
