@@ -203,7 +203,16 @@ def recompile_retained_proposal(proposal, units):
             continue
         found=static(unit,schemas=entry['schemas'],boundary=proposal['boundary'],
             item=location['item'],target_table=proposal['target']['table'])['proposals']
-        matched.extend(p for p in found if seal(p)==seal(proposal))
+        for candidate in found:
+            # Capture-relative paths and whole-file cell labels are recorder
+            # provenance. The exact file hash, source span, item and entire
+            # compiled plan still have to match; no original witness changes.
+            location = dict(candidate['location'])
+            for label in ('path', 'cell'):
+                location[label] = proposal['location'][label]
+            comparable = dict(candidate, location=location)
+            if seal(comparable) == seal(proposal):
+                matched.append(candidate)
     if len(matched)!=1:
         raise ValueError('VERIFICATION_CONTEXT_COMPONENT_COMPATIBILITY_UNESTABLISHED')
 

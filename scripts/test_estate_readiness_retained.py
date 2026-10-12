@@ -51,6 +51,14 @@ class RetainedReadinessTests(unittest.TestCase):
             entry={'source_path':str(p),'unit':unit,'schemas':{'source':{'units':'bigint'}}}
             proposal=static(unit,schemas=entry['schemas'],boundary={'from_layer':'low','to_layer':'high'},item='code',target_table='target')['proposals'][0]
             recompile_retained_proposal(proposal,[entry])
+            relocated=copy.deepcopy(proposal)
+            relocated['location'].update(path='capture/unit.py',cell='cell-1')
+            retained=copy.deepcopy(relocated)
+            recompile_retained_proposal(relocated,[entry])
+            self.assertEqual(relocated,retained)
+            wrong_span=copy.deepcopy(relocated);wrong_span['location']['line_start']+=1
+            with self.assertRaisesRegex(ValueError,'COMPATIBILITY_UNESTABLISHED'):
+                recompile_retained_proposal(wrong_span,[entry])
             changed=copy.deepcopy(proposal);changed['expression']['column']='other'
             with self.assertRaisesRegex(ValueError,'COMPATIBILITY_UNESTABLISHED'):recompile_retained_proposal(changed,[entry])
             fake=copy.deepcopy(entry);fake['unit']['cells'][0]['source']=text.replace('source','forged')
