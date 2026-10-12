@@ -86,7 +86,10 @@ def submitted(claim,request_hash):
     if not isinstance(claim,dict)or set(claim)-{'metric_phrase','observations','direction','comparator','scope','time','filters','examples','guessed_cause','when_last_right'}:
         raise ValueError('Invalid submitted claim fields')
     result=[]
-    for key,value in claim.items():
+    # A taped JSON request is canonicalized by key. Facts are ordered evidence,
+    # so their order must not depend on the caller's dictionary insertion order.
+    for key in sorted(claim):
+        value=claim[key]
         if value is None:continue
         field='metric'if key=='metric_phrase'else 'observation'if key=='observations'else key
         values=value if key=='observations'else[value]

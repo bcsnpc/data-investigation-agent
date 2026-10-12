@@ -19,6 +19,13 @@ class Store:
    with db:yield db
   finally:db.close()
 class ClaimTests(unittest.TestCase):
+ def test_submitted_fact_bytes_do_not_depend_on_form_key_order(self):
+  from investigator.process_tape import bytes_of
+  import itertools
+  claim={'metric_phrase':'Quantity','comparator':'NONE','direction':'DIFFERENT','scope':{'kind':'PAGE','report_id':'report','page_id':'page'}}
+  expected=bytes_of(facts.submitted(claim,'same-request-hash'))
+  for keys in itertools.permutations(claim):
+   self.assertEqual(bytes_of(facts.submitted({k:claim[k]for k in keys},'same-request-hash')),expected)
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
   self.workspace=SimpleNamespace(store=Store(Path(self.tmp.name)/'db.sqlite'),agent=SimpleNamespace(config={},planner_profile={'adapter':'injected'}))

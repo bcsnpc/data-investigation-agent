@@ -7,6 +7,21 @@ from investigator.claim_intake import ClaimIntake
 from test_claim_intake import Store,CAT
 from test_process_tape import bootstrap
 class ClaimTapeTests(unittest.TestCase):
+ def test_canonicalized_taped_form_replays_full_claim_submit_and_confirmation(self):
+  with tempfile.TemporaryDirectory()as directory:
+   root=Path(directory);path=root/'tape.json';tape=Tape(path,bootstrap())
+   original={'request_key':'same-request','claim':{'metric_phrase':'Quantity','direction':'DIFFERENT','comparator':'NONE','scope':{'kind':'PAGE','report_id':'report','page_id':'page'}}}
+   def exercise(filename,t,request):
+    workspace=SimpleNamespace(store=Store(root/filename),agent=SimpleNamespace(config={},planner_profile={'adapter':'injected'}))
+    controller=ClaimIntake(workspace)
+    with active(t),patch.object(controller,'_catalog',return_value=CAT),patch('socket.socket.connect',side_effect=AssertionError('NETWORK_FORBIDDEN')),patch('investigator.claim_provider.extract',side_effect=AssertionError('MODEL_FORBIDDEN')):
+     event('OPERATION_START',{'name':'claim_submit','args':[request],'kwargs':{}});result=controller.submit(request);event('OPERATION_END',{'name':'claim_submit','error':None})
+     confirm={'id':result['id'],'revision':result['revision'],'accepted':True}
+     event('OPERATION_START',{'name':'claim_confirm','args':[confirm],'kwargs':{}});result=controller.confirm(confirm);event('OPERATION_END',{'name':'claim_confirm','error':None});t.finish(result)
+    return result
+   expected=exercise('record.sqlite',tape,original)
+   actual=exercise('replay.sqlite',Tape(path),json.loads(bytes_of(original)))
+   self.assertEqual(bytes_of(expected),bytes_of(actual))
  def test_claim_submit_and_confirm_replay_exact_without_network_or_provider(self):
   with tempfile.TemporaryDirectory()as directory:
    root=Path(directory);path=root/'tape.json';tape=Tape(path,bootstrap())

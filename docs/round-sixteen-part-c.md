@@ -33,3 +33,11 @@ Tape version 14 adds confirmed-claim execution and requires both explanations fo
 - Housekeeping normally waits until part close. Closed capture databases may be compressed before the next admission only to preserve the unchanged 10 GiB floor; logical hashes are checked, originals are not deleted, and shared live ledgers are not compressed.
 
 Validation, the once-only smoke, replay and accounting are appended below when the part closes. Draft #423 remains open; prior freeze invalid.
+
+## Live smoke and offline corrections
+
+The three once-only smoke inputs completed within the original 15-minute batch: page consistency HELD on 92 versus16 under different restrictions; global multiplicity observed360 rows and360 distinct nonblank keys at all three layers; record1 had units16 at all three layers. These are fixture-authored typed claims, not independent tester accuracy evidence. The [live report](round-sixteen-c-live-smoke.md) preserves both outputs, receipt IDs, original null HELD reason and tape seals.
+
+22 physical requests comprised8 diagnostic,12 permission/identity overhead and2 pre-warm controls. Pot2742->2764/4000,reserve95; rolling601->618/3000. Model calls0. Source7f101b4 full regression passed3,659 tests. The smoke exposed missing recommended actions, missing page receipt-specific connection limits, and a null HELD reason; the generic renderer correction passes36 focused tests without changing original evidence.
+
+An archived intake replay exposed request-key-order dependence: canonical JSON reordered submitted fields while the producer emitted facts in dictionary insertion order. Current construction now iterates canonical field order. A24-permutation test requires byte-identical facts, and a full synthetic claim submit/confirm tape test replays a canonicalized request. All34 intake/tape tests passed. The original live tape remains unchanged and is not retrospectively called replay-green. No expected fact/value is weakened or reordered to mask the difference.
