@@ -1,0 +1,6 @@
+{
+  "id": "R17-01",
+  "topic": "quantity",
+  "text": "Please review the Handled Quantity card on the Unfiltered control page for Declared predicate fixture 20261001. It is showing 8765, and I want the displayed count checked.",
+  "split": "dev"
+}

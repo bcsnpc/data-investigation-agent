@@ -1,0 +1,55 @@
+{
+  "source": "Isolated Azure model tester, fresh public-only request; not a Codex helper or a human",
+  "sealed_truth_sha256": "033095c4b5a34bf1ce91df33d4efab15a9433e89719a3c03c748ff385ef1d1c2",
+  "public_payload_sha256": "cea195bb7ad2f96ed7b23b2b807f71924e25edb7709301bd3db5ce0a5d626d0a",
+  "tickets": [
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-01.json",
+      "sha256": "fc1c924ea50e27ea8a0399a2e594f59f83faffbecc9e14c025a151d4005c46b4"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-02.json",
+      "sha256": "ee00f23cdece93a2e06c4231eb257093841b9f98675462cb7d14b281ce9e0b8c"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-03.json",
+      "sha256": "3a4ef2c83479b949126b1ba73326f0d5303310a224144b56606939af47a696f5"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-04.json",
+      "sha256": "dc60895b8813d4cdf218a69a169e3069405396ab6448c217c98d57aef91a8423"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-05.json",
+      "sha256": "8a03109513c263132dd34a9f1fc4a42334ae9d509124c02fbbf384794a6d5fe6"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-06.json",
+      "sha256": "e28a45b7fbb64f310e9ef8a87b7f51990d275c2d7980b9daceab13acc25c6c7c"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-07.json",
+      "sha256": "17f27be5f73fc197eceaec675fb51a93649023da18881bc57093124cef5c764b"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-08.json",
+      "sha256": "ecb004f5ae058a95f10f6b4c00e4127d77f138b7e23d89191f64b7907427e8ea"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-09.json",
+      "sha256": "d349dbf95f216ccb64d2931a6b585553b17754cf031dc30f22e518ef69153f38"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-10.json",
+      "sha256": "db916980e2b421daa58ae7d29cee37c97995794ae08823385c6b81e2cef11caf"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-11.json",
+      "sha256": "59aa99b80202a6f3693cfce0666092f7cae68d5501d03fdf45a85eb395a552c7"
+    },
+    {
+      "path": "D:\\dia-billing-tester\\round-seventeen\\tickets\\R17-12.json",
+      "sha256": "fb2412b4cb1ffd9f45c7a8c28142d2f020d3520cd87272013fd1065a1392a922"
+    }
+  ]
+}
