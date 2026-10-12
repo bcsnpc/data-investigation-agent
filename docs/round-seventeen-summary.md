@@ -1,3 +1,5 @@
+Owner pause, 2026-10-12: Round Seventeen paused; Part C earned one additional READY application route. Part D initial dev: two errors, four clarifying, no investigations; six held-out and all agent handoffs not run. Captures saved, workers exited, counters preserved. Shared model $107.491251, round $4.558311; pot2826/4000, reserve95 untouched. Draft423 remains draft, freeze invalid. See docs/round-seventeen-part-d.md and docs/round-seventeen-pause-captures.json.
+
 Dated owner correction, 2026-10-12: the supporting Codex helper limit does not trigger the Azure billing/authorisation stop. Round Seventeen continues in the main session without helpers. The prior partial-close entry is superseded as a stopping decision, not erased as history. Shared dollar ceiling remains $122.932940 (start $102.932940 + $20), margin $10; all counters and other caps unchanged. CI repair: shared scope derivation now revalidates glossary confirmation; screenshot provenance follows its retained source fact; image test dependency installed. 201 claim tests pass offline. Prior freeze invalid; Part C and D remain to be earned.
 
 # Round Seventeen: partial close

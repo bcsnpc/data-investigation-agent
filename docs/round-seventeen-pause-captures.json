@@ -1,0 +1,187 @@
+{
+  "recorded_at": "2026-10-12T19:36:16.006120+00:00",
+  "status": "INTERRUPTED (OWNER_PAUSE)",
+  "pause_requested_at": "2026-10-12T19:31:36.716168+00:00",
+  "initial_dev_results": {
+    "R17-05": "ERROR",
+    "R17-01": "ERROR",
+    "R17-03": "CLARIFYING",
+    "R17-07": "CLARIFYING",
+    "R17-11": "CLARIFYING",
+    "R17-09": "CLARIFYING"
+  },
+  "held_out_not_run": [
+    "R17-02",
+    "R17-04",
+    "R17-06",
+    "R17-08",
+    "R17-10",
+    "R17-12"
+  ],
+  "handoff_tickets_admitted": 0,
+  "continuation_interrupted": [
+    "R17-07",
+    "R17-09",
+    "R17-11"
+  ],
+  "continuation_model_calls": 0,
+  "late_control": {
+    "session": "r17-d-correction-dev:auth",
+    "physical_requests": 1,
+    "status": "SETTLED",
+    "reason": "Already-running offline readiness preflight reached auth bootstrap after pause flag; no subsequent model call or ticket operation admitted. Missing check before bootstrap retained as resume finding."
+  },
+  "captures": [
+    {
+      "path": ".local\\round-seventeen\\d-generate\\tester\\tickets\\tape.json",
+      "sha256": "dac99a690c91249e7426171f294ecbb119278fac7da045a46ce5315cdb510550",
+      "seal": "685eca74ac3307a3692f9f9b245ee948bdc6aa97f60cac87245b895bf5d5daff",
+      "final_present": true,
+      "replay_status": "MATCHED"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\12141d0c-9fa3-40ff-828e-47ef75da5501\\tape.json",
+      "sha256": "d21cfc554789fdd93c4df047021d2c00e1bb8719b33697ce6005799e50ebcf65",
+      "seal": "860b90f821ac5cce0e6ad6afa8e928deb45f83c4cd06f548b145e95bd0f44f7b",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\408c95c5-c013-4f3d-874d-28f3728cee28\\tape.json",
+      "sha256": "6366951017cf743442cfc19f8aed0bf2565a755759f76a55399020f8370097cf",
+      "seal": "4f1121b8d66131ad581247f603ea3ee4eac105af1c23ada2bebd30ff2a44eb69",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\85f1f362-9851-4d80-9949-1c95292651d0\\tape.json",
+      "sha256": "2080085c38e5f0e3015a6f7b5a9555d1eb37c688ae7a022744464c818654e142",
+      "seal": "cf8a03e60f86185b2cff3431dbdd6294b48c86baa6f46e35959bbe69be972158",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\9ee5bc94-5bf5-43ea-8f58-5d6f0608663a\\tape.json",
+      "sha256": "8fb970221e372d03f96d2b49d1d8496e7f3e70ca0845d7d76a42a319a9e958ee",
+      "seal": "f6699e831af5896cdeb52d902bc1c2e3376839412f1a71ecc31329feb24c721e",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\a4ef2b6c-179e-4984-906d-63e63c5cf2ee\\tape.json",
+      "sha256": "27706d009974a1fc62264a1b9fba2fcafc152be34443cef8f44820487ea80b3c",
+      "seal": "473b861c2652cb5e617d94ca00a5f0f7f0d42517c20f41d6f5352e7e55c1b4de",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\b74d6e68-3ce2-4dc1-8086-b319bb062cbb\\tape.json",
+      "sha256": "788332a91efa5503862e01b2f667be7e6986f07586e5ad4b45cb6b69b059c9ea",
+      "seal": "570647c9589db79deb780082ebfe1f4e8df4fc14c09d964f0854295f83a8b775",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\cbc0b2af-963e-48f6-aeae-6f8fd75ee464\\tape.json",
+      "sha256": "2a55a41acf08c592926e66efaf962a9c8b371b1ba450c0be3c1f9676d04b92f5",
+      "seal": "c6baf12b4d8cacf8877418b80bb55f4522d51ca5aeeaeefd2d76a9a9a852cb52",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\d08ee192-7724-4e69-9312-7cbc2ac1f561\\tape.json",
+      "sha256": "d6769de68e26ce96aa5e45ac4966b4d65f719d9179f3174bda425c1657a6177b",
+      "seal": "cb1a704009a89a9729ccd1304408784d8056c21db1ebeb2c4f2659a6594b06a6",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\capture\\.local\\process-tapes\\e35e1e7b-2b78-4e5e-98b7-fd3173d1a914\\tape.json",
+      "sha256": "4486cc330a203bab123c6284760892a17301e34cbe125650d7f48949e4152ce6",
+      "seal": "677debdea2e0241e96c1e6da99c7794b32d9af92e05f166975ece4fb3f0bbf3d",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\tester\\R17-03-reply-0\\tape.json",
+      "sha256": "4e8512bd25c182e125d97f1cdbdb11fac14a9fd61b048088448a71426a63747f",
+      "seal": "0731639cee2c2ba22bf108b7d12c139b41746df185463a052df2373dee69cad8",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\tester\\R17-07-confirm\\tape.json",
+      "sha256": "ac342d0845eba708713fd1fc25f767de8b74ced06baf944f0514755091d872f3",
+      "seal": "dd431bf838c78210af30a11f1c32781a578517a16f671ae748e4ae6606dc1eee",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\tester\\R17-09-confirm\\tape.json",
+      "sha256": "40171eadb351354987cc18eab6c92c16bc7e7e1580d7477cc883b644f601789b",
+      "seal": "7f2f2923ca03ca1e68b472facdf259cc45ad47d8297838d1ceb0783da945b913",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    },
+    {
+      "path": ".local\\round-seventeen\\d-pipeline\\tester\\R17-11-confirm\\tape.json",
+      "sha256": "b0b5e37c29dbba4e05de1bbdbfe69ad8598c64f5a3ca672c593853109c234fe7",
+      "seal": "5fbfde449aa5c844aebf5349aaeb5286206270547482c1e7021e3426da8092f9",
+      "final_present": true,
+      "replay_status": "PENDING; not started during owner pause"
+    }
+  ],
+  "counters": {
+    "recorded_at": "2026-10-12T19:34:24.539376+00:00",
+    "pot": 2826,
+    "pot_limit": 4000,
+    "restoration_remaining": 95,
+    "rolling": 239,
+    "rolling_limit": 3000,
+    "diagnostic_cap": 12,
+    "model_total_microdollars": 107491251,
+    "round_new_microdollars": 4558311,
+    "model_ceiling_microdollars": 122932940,
+    "protected_margin_microdollars": 10000000,
+    "admissible_remaining_microdollars": 5441689,
+    "model_states": [
+      [
+        "RETROSPECTIVE_SETTLED",
+        10
+      ],
+      [
+        "SETTLED",
+        2237
+      ],
+      [
+        "UNCERTAIN",
+        15
+      ]
+    ],
+    "physical_states": [
+      {
+        "status": "RESERVED",
+        "n": 1
+      },
+      {
+        "status": "SETTLED",
+        "n": 9886
+      },
+      {
+        "status": "UNCERTAIN",
+        "n": 81
+      },
+      {
+        "status": "VIOLATION",
+        "n": 1
+      }
+    ],
+    "free_bytes": 16572895232,
+    "estate_requests": 0,
+    "model_calls": 0
+  },
+  "owned_workers_running": false,
+  "reservations_released": 0,
+  "reservation_reason": "No R17 RESERVED rows or open dollar reservations. Historical cloud RESERVED row from 2026-10-11 and prior UNCERTAIN/VIOLATION rows retained, not released without evidence.",
+  "finalizer_error": "Initial pipeline partial-result finalizer raised UnicodeDecodeError on default cp1252. Original per-ticket UTF-8 files and all nine lifecycle tapes preserved; this separate checkpoint recovers the inventory without altering originals."
+}
