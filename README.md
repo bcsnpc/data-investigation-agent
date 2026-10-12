@@ -1,4 +1,4 @@
-Round Seventeen B in progress, 2026-10-12: extraction/policy repairs pass 59 focused checks; fresh 85 and live smoke pending. Synthetic screenshot score remains 41/63 correct, 0 wrong. Automatic handoff defaults off and is under integration. Draft #423, freeze invalid. See docs/round-seventeen-part-b.md.
+Round Seventeen B checkpoint, 2026-10-12: fresh85/85 contract-valid, all85 replayed, USD4.385152; original planner still asks54/60 avoidable cases. Synthetic OCR41/63, zero wrong. Original three smoke slots storage-blocked before submission. Owner scope redesign and replacement smoke underway; automatic handoff defaults off, live scoring unearned. Draft423, freeze invalid. See docs/round-seventeen-part-b.md.
 
 Round Seventeen A, 2026-10-12: Handled Quantity is READY only for its unfiltered six-asset route; other fixture and billing routes remain blocked. Current-component verification replay matched with zero new estate/model calls; 73 focused tests passed. Draft #423, freeze invalid. See docs/round-seventeen-part-a.md.
 
