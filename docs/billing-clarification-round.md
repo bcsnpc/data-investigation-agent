@@ -1,3 +1,17 @@
+# Round Fifteen billing clarifications: HYBRID checkpoint at 25
+
+Dated 2026-10-11 America/Chicago / 2026-10-12 UTC: the first 25 of 33 HYBRID runtime tickets have received their first independent author reply and normal continuation. Twenty-one ended HELD at the unchanged cumulative 12-step cap; four returned actual WAITING_FOR_USER questions (003, 010, 011 and 022). The corresponding second independent replies are retained and will be consumed after this first cohort drains. No step, model or read budget has been reset. Human-wait intervals are excluded only through their retained timestamp-bound receipts; the 900-second active-work limit remains.
+
+These 25 continuations reached no technical investigation or delivered technical finding: zero physical requests, 75 model calls, 3,197,620 input characters and $4.538100 from their own provider receipts. Their 50 operation tapes are sealed; exact offline replay is pending for the new cohort and is not claimed from sealing alone. No new harmful technical claim was delivered. The eight remaining first replies and the four second replies have not yet run at this checkpoint.
+
+All 18 PIPELINE runtime tickets already closed: nine catalog-hash refusals and nine unavailable page/choice replies, zero investigations, estate requests or model calls. The combined scope is 51 historical runtime tickets drawn from nine independently authored ticket files, with 58 original questions. The 18 owner-authored tickets remain separate and unrun. There is no investigation accuracy score: billing onboarding is PARTIAL, the profile is unpublished, and outcomes are NOT_SCORED (estate-not-fully-onboarded).
+
+Raw author avoidability votes do not establish question legitimacy. The retained one-report evidence contradicts the old duplicate-report premises in 001 and 005; 034 already names report, page and visual but was asked which report using page-GUID choices. These are avoidable old questions. Picked form facts come from the actual outer submission; an unpicked visual can still be named or described in its text. The new 022 figure question follows an explicit page-timing ask, so its necessity remains unproven. Original questions, operator errors, replies, tapes and earlier checkpoint text below remain unchanged.
+
+Current source fingerprint b9868654 remains frozen. PIPELINE default will be restored after HYBRID and permitted second replies drain. Draft #423 remains draft; freeze invalid. Lossless bounded cold09 compression retained 12 closed catalogs with byte-identical hashes and zero estate/model calls, preserving the 10 GiB admission floor.
+
+## Earlier pipeline-phase checkpoint (preserved)
+
 # Round Fifteen billing clarifications: pipeline-phase checkpoint
 
 Dated continuation, 2026-10-11 America/Chicago / 2026-10-12 UTC: all 18 PIPELINE runtime tickets have now completed their permitted author replies. Nine hold because the catalog hash differs from the original intake; nine hold because the offered page or choice could not be identified. None reached a technical investigation. These continuations used zero estate requests and zero model calls and delivered no technical finding. The 33 HYBRID continuations are next.
