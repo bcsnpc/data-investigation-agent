@@ -60,9 +60,9 @@ class PageInvestigations:
             return self._hold(kind,'SCREENSHOT_FILTER_SCOPE_NOT_COMPILED',captured_context={
                 'review_id':identity,'review_hash':review['hash'],'visible_filter_scope':marker})
         settled=claim.get('settled',{});scope=copy.deepcopy(settled.get('scope')or{})
-        if scope.get('kind')not in('PAGE','REPORT','VISUALS')or not scope.get('report_id'):
+        if scope.get('kind')not in('PAGE','REPORT','VISUALS','METRIC')or not scope.get('report_id'):
             return self._hold(kind,'CONFIRMED_REPORT_SCOPE_REQUIRED')
-        if scope['kind']in('PAGE','VISUALS')and not scope.get('page_id'):return self._hold(kind,'CONFIRMED_PAGE_REQUIRED')
+        if scope['kind']in('PAGE','VISUALS','METRIC')and not scope.get('page_id'):return self._hold(kind,'CONFIRMED_PAGE_REQUIRED')
         if settled.get('time'):return self._hold(kind,'TIME_SCOPE_NOT_COMPILED')
         filters=copy.deepcopy(settled.get('filters',[]))
         if len(filters)==1 and isinstance(filters[0],list):filters=filters[0]
@@ -75,6 +75,8 @@ class PageInvestigations:
         models=[m for m in catalog['models']if any(r['id']==scope['report_id']for r in m.get('reports',[]))]
         binding=claim.get('selected_binding')or{}
         bindings=binding.get('bindings',[])if binding.get('kind')=='MULTIPLE'else([binding]if binding else[])
+        if scope['kind']=='METRIC':
+            scope.update(kind='VISUALS',visual_ids=list(dict.fromkeys(t for b in bindings for t in b.get('target_ids',[]))))
         bound_models={b.get('model_id')for b in bindings if b.get('model_id')}
         if len(bound_models)>1:return self._hold(kind,'CROSS_MODEL_PAGE_SCOPE_UNSUPPORTED')
         if bound_models:models=[m for m in models if m['id']in bound_models]

@@ -125,6 +125,11 @@ class ClaimInvestigations:
         if direction not in ('LESS', 'MORE', 'DIFFERENT', 'STALE', 'FIELD_WRONG', 'WRONG_BREAKDOWN'):
             return {'status': 'HELD', 'reason': 'UNIMPLEMENTED_CLAIM_ROUTE',
                     'limitations': ['This question kind has no admitted claim check; a different question was not substituted.']}, None
+        if scope.get('kind')=='METRIC'and direction in('LESS','MORE','DIFFERENT'):
+            from .metric_visual_checks import MetricVisualChecks
+            service=MetricVisualChecks(self.workspace);prepared=service.prepare(body)
+            prepared['kind']='METRIC_LOCATION_CHECK'
+            return prepared,lambda adapter:service.run(body,adapter)
         if (direction == 'STALE' or direction not in ('FIELD_WRONG', 'WRONG_BREAKDOWN')
                 and (scope.get('kind') in ('PAGE', 'REPORT') or len(scope.get('visual_ids', [])) > 1)):
             from .page_investigations import PageInvestigations
@@ -142,7 +147,7 @@ class ClaimInvestigations:
         else:
             from .claim_reference import compile as compile_claim_reference
             try:
-                compiled=compile_claim_reference(body,self.workspace.claims._catalog())
+                compiled=compile_claim_reference(body,self.workspace.claims._catalog(),store=self.store,config=self.workspace.agent.config)
             except Conflict:
                 return {'status': 'HELD', 'reason': 'LEGACY_ROUTE_ADMISSION_UNAVAILABLE',
                         'limitations': ['This claim cannot be faithfully admitted as one ungrouped visual without changing its confirmed scope.']}, None
@@ -452,6 +457,8 @@ class ClaimInvestigations:
             self._save(db, result)
         session = None
         stop_error = None
+        parent_reads = None
+        parent_finalized = False
         try:
             catalog, reason = self._current(claim)
             if reason:
@@ -474,6 +481,14 @@ class ClaimInvestigations:
                     session = self.workspace.agent.begin_claim_process(envelope, 'claim:' + identity,
                         claim_hash=claim_hash, confirmation_hash=confirmation_hash)
                 result['session_id'] = session['id']
+                prior_candidate_reads=(claim.get('candidate_checks')or{}).get('diagnostic_reads',0)
+                if prior_candidate_reads:
+                    if type(prior_candidate_reads)is not int or not 0<=prior_candidate_reads<=envelope['limits']['cloud_calls']:
+                        raise Conflict('Candidate diagnostic accounting exceeds the existing run cap')
+                    with self.workspace.agent.runtime.db()as db:
+                        db.execute('BEGIN IMMEDIATE');current=self.workspace.agent.load(db,session['id'])
+                        current['cloud_calls']=prior_candidate_reads
+                        self.workspace.agent.save(db,current,'CLAIM_CANDIDATE_BUDGET_CARRIED',{'prior_diagnostic_reads':prior_candidate_reads})
                 with self.store.connect() as db:
                     db.execute('BEGIN IMMEDIATE'); self._save(db, result)
                 if legacy:
@@ -487,6 +502,33 @@ class ClaimInvestigations:
                 else:
                     adapter = self.workspace.agent.process_adapter(session['id'])
                     checks = execute(adapter)
+                    if prepared.get('kind')=='METRIC_LOCATION_CHECK'and checks.get('metric_selection'):
+                        metric_checks=copy.deepcopy(checks);parent=self.workspace.agent.get(session['id'])
+                        parent_result={'status':'COMPLETED','checks':metric_checks,'outputs':None}
+                        self.workspace.agent.finalize_claim_process(session['id'],parent_result,
+                            claim_hash=claim_hash,confirmation_hash=confirmation_hash)
+                        parent_reads={'physical':parent.get('physical_calls',0),'receipts':copy.deepcopy(parent.get('process_read_receipts',[]))}
+                        parent_finalized=True
+                        result['candidate_session_id']=session['id'];result['candidate_checks']=metric_checks
+                        from .claim_reference import compile as compile_reference
+                        compiled=compile_reference(claim,catalog,store=self.store,config=self.workspace.agent.config)
+                        binding=claim['claim']['selected_binding']
+                        prepared={'kind':'CONFIRMED_LEGACY_VISUAL','model_id':binding['model_id'],'measure_ids':[binding['measure_id']]}
+                        envelope=self._envelope(prepared,claim)
+                        envelope.update({k:compiled[k]for k in('target_visual','report_binding','reported_figure')})
+                        envelope.update(ticket_shape='MISMATCH_COMPLAINT',comparison_mode='VERTICAL')
+                        session=self.workspace.agent.create(envelope,'checked-metric:'+identity)
+                        with self.workspace.agent.runtime.db()as db:
+                            db.execute('BEGIN IMMEDIATE');current=self.workspace.agent.load(db,session['id'])
+                            current['cloud_calls']=parent['cloud_calls']
+                            self.workspace.agent.save(db,current,'METRIC_CONSISTENCY_BUDGET_CARRIED',{'prior_diagnostic_reads':parent['cloud_calls']})
+                        result['session_id']=session['id']
+                        self.workspace.agent.run_process(session['id']);self.workspace.agent.synthesize(session['id'])
+                        from .ticket_findings import from_state
+                        finding=from_state(self.workspace.agent.get(session['id']))
+                        checks={'status':'HELD'if finding['classification']=='HELD'else'COMPLETED','validated_findings':finding,
+                            'observations':finding['observations'],'limits':finding['assessment'].get('limits',[])if finding['assessment']else[]}
+                        result['classification']=finding['classification']
             result['checks'] = checks
             if checks.get('cause_verified') is True or checks.get('defect_established') is True:
                 raise ValueError('CLAIM_CAUSAL_PROOF_NOT_ESTABLISHED')
@@ -527,7 +569,7 @@ class ClaimInvestigations:
                 result['outputs'][key] = 'Confirmed request: ' + context + ' ' + ending + ' ' + result['outputs'][key]
             if session:
                 try:
-                    if prepared.get('kind')=='CONFIRMED_LEGACY_VISUAL':
+                    if prepared.get('kind')=='CONFIRMED_LEGACY_VISUAL' or parent_finalized:
                         final=self.workspace.agent.get(session['id'])
                     else:
                         final = self.workspace.agent.finalize_claim_process(session['id'], result,
@@ -542,6 +584,20 @@ class ClaimInvestigations:
                         result['outputs'][key] = 'Confirmed request: ' + context + ' The request remains unresolved. ' + result['outputs'][key]
                 result['reads'] = {'diagnostic': final['cloud_calls'], 'physical': final.get('physical_calls', 0),
                                    'receipts': copy.deepcopy(final.get('process_read_receipts', []))}
+                if parent_reads and result.get('candidate_session_id')!=session['id']:
+                    result['reads']['physical']+=parent_reads['physical']
+                    result['reads']['receipts']=parent_reads['receipts']+result['reads']['receipts']
+                prior=claim.get('candidate_checks')or{}
+                if prior.get('accounting_session_id'):
+                    governor=self.workspace.agent.governor
+                    with governor.runtime.db()as db:
+                        charges=[dict(r)for r in db.execute(
+                            "SELECT reservation_key,status,reserved,actual FROM adaptive_usage WHERE environment=? AND session_id=? AND kind='cloud'",
+                            (governor.environment,prior['accounting_session_id']))]
+                    result['reads']['candidate_physical_charges']=charges
+                    result['reads']['physical']+=len(charges)
+                    result['reads']['candidate_receipts']=[copy.deepcopy(r['observation'])for r in prior.get('rows',[])if r.get('observation')]
+
             with self.store.connect() as db:
                 db.execute('BEGIN IMMEDIATE'); self._save(db, result)
         if stop_error:

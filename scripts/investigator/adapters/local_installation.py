@@ -19,9 +19,8 @@ def recorder(store):
 def install(workspace):
     save = recorder(workspace.store)
     def reader(candidate):
-        count = getattr(workspace, '_form_candidate_count', 0)
-        if count >= workspace.dynamic_read_limit: raise NotMeasurable('Local per-form diagnostic cap reached')
-        workspace._form_candidate_count = count + 1
+        from ..candidate_read_budget import consume
+        consume(workspace)
         model = workspace.store.get(candidate['model_id'])
         adapter = create(workspace.store, workspace.agent.config, model, record_evidence=save)
         from .form_candidate_values import plan

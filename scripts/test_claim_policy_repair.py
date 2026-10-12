@@ -1,5 +1,5 @@
 import copy,unittest
-from investigator.claim_clarification import candidates,plan,interpretation
+from investigator.claim_clarification import candidates,plan,interpretation,resolve_scope
 from investigator.claim_facts import fact,settled,linked_text,resolve_native_scope
 
 CAT={'models':[{'id':'model','measures':[{'id':'quantity','name':'Quantity'}],
@@ -14,6 +14,19 @@ class Glossary:
 
 
 class PolicyRepairTests(unittest.TestCase):
+    def test_report_title_in_combined_location_line_resolves_unique_catalog_name(self):
+        source=fact('scope',{'kind':'UNKNOWN','phrase':'Activity, Overview page.','report_phrase':'Activity, Overview page.'},
+            {'kind':'TOKEN_SPAN','document_id':'doc'},authority='USER_TEXT')
+        result=resolve_scope(source,CAT)
+        self.assertEqual(result['value']['report_id'],'report')
+        self.assertEqual(result['value']['page_id'],'page')
+        self.assertEqual(result['value']['kind'],'UNKNOWN')
+    def test_multiple_matching_report_names_are_not_selected(self):
+        catalog=copy.deepcopy(CAT);catalog['models'][0]['reports'].append({'id':'second','name':'Activity Summary'})
+        source=fact('scope',{'kind':'UNKNOWN','phrase':'Activity Summary, overview.','report_phrase':'Activity Summary, overview.'},
+            {'kind':'TOKEN_SPAN','document_id':'doc'},authority='USER_TEXT')
+        result=resolve_scope(source,catalog)
+        self.assertTrue(result is None or 'report_id'not in result['value'])
     def test_declared_link_uses_existing_exact_native_identity_binding(self):
         workspace='22222222-2222-4222-8222-222222222222';report='11111111-1111-4111-8111-111111111111'
         native='fabric://'+workspace+'/'+report

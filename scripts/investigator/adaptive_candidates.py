@@ -21,7 +21,7 @@ def catalog(store,config,envelope):
         # second controller, worker, job queue or provider.
         view=Workspace.__new__(Workspace);view.store=store
         view.agent=SimpleNamespace(config=config);view.visual_display_names=None
-        validate_envelope(envelope,store,snapshot(view))
+        validate_envelope(envelope,store,snapshot(view),config)
     from .numeral_roles import evidence
     evidence(envelope,envelope['symptom'])
     if 'name_binding' in envelope:

@@ -11,9 +11,10 @@ FIELDS = ('version','claim_id','revision','claim_hash','confirmation_hash','mode
 SCHEMA = {'type':'object','additionalProperties':False,'properties': {
     **{k:{'type':'string','minLength':1} for k in FIELDS if k!='revision'},
     'revision':{'type':'integer','minimum':0}},'required':list(FIELDS)}
+SCHEMA['properties']['selection_hash']={'type':'string','pattern':'^[0-9a-f]{64}$'}
 
 
-def compile(body, catalog):
+def compile(body, catalog, *, store=None, config=None):
     from .claim_clarification import interpretation
     claim=body['claim']; confirmation=body.get('confirmation') or {}
     try:current_interpretation=interpretation(claim,catalog)
@@ -28,16 +29,22 @@ def compile(body, catalog):
               and digest(d.get('request'))==d.get('hash') and d['request'].get('accepted') is True]
     if len(accepted)!=1:raise Conflict('Confirmed claim reference lacks retained user decision')
     binding=claim.get('selected_binding') or {}; settled=claim['settled']; scope=settled.get('scope') or {}
+    selection=None
+    if scope.get('kind')=='METRIC':
+        if store is None or config is None:raise Conflict('Metric route requires retained checked representative')
+        from .metric_visual_checks import load
+        selection=load(store,body,catalog,config)
+        selected_ids=[selection['target_id']]
+    else:selected_ids=scope.get('visual_ids',[])
     if (settled.get('direction') not in ('LESS','MORE','DIFFERENT')
         or binding.get('kind')=='MULTIPLE' or settled.get('time') or settled.get('filters')
-        or any(item not in ([],None) for item in settled.get('examples',[])) or scope.get('kind')!='VISUALS'
+        or any(item not in ([],None) for item in settled.get('examples',[])) or scope.get('kind')not in('VISUALS','METRIC')
         or set(scope)-{'kind','model_id','report_id','page_id','visual_ids','phrase','report_phrase','page_phrase'}
-        or len(scope.get('visual_ids',[]))!=1 or len(binding.get('target_ids',[]))!=1
-        or scope['visual_ids']!=binding['target_ids']):
+        or len(selected_ids)!=1 or (selection is None and(len(binding.get('target_ids',[]))!=1 or selected_ids!=binding['target_ids']))):
         raise Conflict('Confirmed claim route requires one exact visual and no added scope')
     model=next((m for m in catalog['models'] if m['id']==binding.get('model_id')),None)
     if model is None:raise Conflict('Confirmed claim model is unavailable')
-    visual=next((v for v in model.get('visuals',[]) if v['target_id']==scope['visual_ids'][0]),None)
+    visual=next((v for v in model.get('visuals',[]) if v['target_id']==selected_ids[0]),None)
     if (visual is None or visual.get('grouping_columns')!=[] or visual.get('unsupported')
         or binding.get('measure_id') not in visual['measure_ids']
         or scope.get('report_id')!=visual['report_id'] or scope.get('page_id')!=visual.get('page_id')):
@@ -48,6 +55,8 @@ def compile(body, catalog):
     proof={'version':'confirmed-claim-reference-v1','claim_id':body['id'],'revision':body['revision'],
         'claim_hash':digest(claim),'confirmation_hash':digest(confirmation),'model_id':model['id'],
         'measure_id':binding['measure_id'],'report_id':visual['report_id'],'target_id':visual['target_id'],'mode':'UNGROUPED'}
+    if selection:
+        proof.update(version='confirmed-claim-reference-v2-metric-checked',selection_hash=selection['hash'])
     observed=[o['figure'] for o in settled.get('observation',[]) if o.get('role')=='OBSERVED']
     if len(observed)>1:raise Conflict('Confirmed claim has more than one reported figure')
     return {'proof':proof,'reported_figure':copy.deepcopy(observed[0] if observed else {'state':'UNSPECIFIED'}),
@@ -61,15 +70,17 @@ def compile(body, catalog):
 def validate_proof(proof):
     from jsonschema import Draft202012Validator
     Draft202012Validator(SCHEMA).validate(proof)
-    if proof['version']!='confirmed-claim-reference-v1' or proof['mode']!='UNGROUPED':
+    if proof['version']not in('confirmed-claim-reference-v1','confirmed-claim-reference-v2-metric-checked') or proof['mode']!='UNGROUPED':
         raise Conflict('Unknown confirmed claim reference')
     for key in ('claim_hash','confirmation_hash'):
         if len(proof[key])!=64 or any(c not in '0123456789abcdef' for c in proof[key]):
             raise Conflict('Confirmed claim reference hash is invalid')
+    if (proof['version']=='confirmed-claim-reference-v2-metric-checked')!=('selection_hash'in proof):
+        raise Conflict('Metric representative proof needs its checked selection hash')
     return proof
 
 
-def validate_envelope(envelope, store, catalog):
+def validate_envelope(envelope, store, catalog, config=None):
     target=envelope.get('target_visual') or {}; proof=target.get('match_basis',{}).get('confirmed_claim')
     validate_proof(proof)
     with store.connect() as db:
@@ -78,7 +89,7 @@ def validate_envelope(envelope, store, catalog):
     if row is None:raise Conflict('Confirmed claim reference is not retained')
     body=json.loads(row[0])
     if digest(body)!=row[1]:raise Conflict('Confirmed claim revision is corrupt')
-    expected=compile(body,catalog)
+    expected=compile(body,catalog,store=store,config=config)
     if any(envelope.get(k)!=expected[k] for k in ('target_visual','report_binding','reported_figure')):
         raise Conflict('Confirmed claim envelope differs from retained user scope')
     if envelope['model_id']!=proof['model_id'] or envelope['measure_id']!=proof['measure_id'] or proof!=expected['proof']:

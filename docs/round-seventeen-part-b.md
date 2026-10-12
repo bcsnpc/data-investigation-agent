@@ -1,3 +1,11 @@
+## Owner-steer implementation checkpoint (2026-10-12)
+
+The retained-response regrade now prepares 33 interpretations and asks 52 questions, with zero not measurable. Among the 60 previously avoidable cases, **27 prepare and 33 still ask** (previously 54; target <=10 unmet). Remaining causes: scope7, direction12, binding12, report2. Of 21 legitimate cases,16 still ask; five now await explicitly required candidate checks. None is claimed answered by offline scoring. Former22 re-asks:12 ask a different fact axis,10 prepare; zero repeat the original fact axis. Zero new model calls or estate reads for this regrade; originals unchanged.
+
+Report/page location is separate from explicit whole-container scope. Metric candidates require real, sealed value checks before a representative can be recorded; equal values with different declared restrictions do not establish comparability. Candidate reads and the subsequent procedure share the diagnostic cap. Scoped filtered lower comparison still refuses.
+
+Owner-run cleanup script: `D:\data_investigation_agent\.local\round-seventeen\cleanup-regenerable.ps1`,224 regenerable replay files,8,868,196,352 allocated bytes (8.26GiB) at preparation; ongoing compression can reduce that. The script was syntax-checked and **not executed**. No deletion or budget change occurred. Current freeze invalid; replacement smoke remains pending.
+
 # Round Seventeen Part B: pre-steer results and owner continuation
 
 2026-10-12. The fresh extraction pass is complete on source `0cd9b33`: **85/85 contract-valid**, 85 model calls, no repair retries, no unhandled timeouts, **$4.385152**, zero estate data reads. All 85 new extraction tapes replay MATCHED offline. Contract validity is not semantic accuracy or a completed investigation.

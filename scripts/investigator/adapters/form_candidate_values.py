@@ -48,10 +48,8 @@ def install(workspace):
     def reader(candidate):
         from ..flexible_tools import run
         model=workspace.store.get(candidate['model_id']);request=plan(model,candidate)
-        counter=getattr(workspace,'_form_candidate_count',0)
-        if counter>=workspace.dynamic_read_limit:raise NotMeasurable('Per-form diagnostic cap reached')
-        workspace._form_candidate_count=counter+1
-        session=workspace._form_candidate_session
+        from ..candidate_read_budget import consume
+        session,counter=consume(workspace)
         result=workspace.agent.governor.metered_read(session,'candidate:'+str(counter),
             lambda:run(workspace.store,request,workspace.agent.config,'bounded_dax',workspace.agent.runtime.native_transport))
         return observation(model,workspace.agent.config,request,result)

@@ -28,6 +28,14 @@ class HandoffTests(unittest.TestCase):
     def test_pipeline_gap_uses_retained_typed_unimplemented_step(self):
         self.assert_trigger('PIPELINE_GAP', self.source(), {'status': 'HELD', 'reason': 'CLAIM_SCOPE_NOT_COMPILED'})
 
+    def test_metric_capability_gaps_are_eligible_but_read_and_budget_failures_are_not(self):
+        for reason in ('METRIC_CANDIDATE_COVERAGE_INCOMPLETE', 'METRIC_CONTEXT_NOT_COMPARABLE',
+                       'METRIC_MULTI_BRANCH_WALK_UNAVAILABLE', 'METRIC_FILTERED_LOWER_COMPARISON_UNSUPPORTED'):
+            self.assert_trigger('PIPELINE_GAP', self.source(), {'status': 'HELD', 'reason': reason})
+        for reason in ('METRIC_CANDIDATE_READ_UNAVAILABLE', 'CANDIDATE_DIAGNOSTIC_CAP',
+                       'CANDIDATE_RECEIPT_INVALID', 'CANDIDATE_CONTEXT_CHANGED', 'AUTHORIZATION_FAILED'):
+            self.assertIsNone(handoff.authority(self.workspace(), self.source(), {'status': 'HELD', 'reason': reason}))
+
     def test_unreadable_transformation_requires_actual_engine_check(self):
         self.assert_trigger('UNREADABLE_TRANSFORMATION', self.source(), self.process([]))
 

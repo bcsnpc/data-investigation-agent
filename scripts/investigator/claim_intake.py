@@ -62,12 +62,23 @@ class ClaimIntake:
                 if derived is not None:
                     original['superseded_by']=derived['id']
                     claim['facts']=facts.merge(claim['facts'],[derived])
+        texts={d['hash']:d.get('request',{}).get('text','')for d in body.get('documents',[])}
+        for original in list(claim['facts']):
+            if original.get('superseded_by'):continue
+            source=original['source'];document=source.get('document_id')
+            text=texts.get(document,'')
+            derived=facts.location_fact(original,text)
+            if derived is not None:
+                original['superseded_by']=derived['id'];claim['facts']=facts.merge(claim['facts'],[derived])
         for _ in range(2):
-            context=(facts.settled(claim['facts'])[0].get('scope')or{})
-            resolved=[policy.resolve_scope(f,catalog,context)for f in claim['facts']if f['field']=='scope']
+            established=facts.settled(claim['facts'])[0]
+            context=dict(established.get('location')or{},**(established.get('scope')or{}))
+            resolved=[policy.resolve_scope(f,catalog,context)for f in claim['facts']if f['field']in('scope','location')and not f.get('superseded_by')]
             claim['facts']=facts.merge(claim['facts'],[f for f in resolved if f])
         claim['settled'],claim['conflicts']=facts.settled(claim['facts'])
-        scope=claim['settled'].get('scope')or{}
+        settled=claim['settled'];scope=dict(settled.get('location')or{},**(settled.get('scope')or{}))
+        if scope.get('kind','UNKNOWN')=='UNKNOWN'and settled.get('metric'):scope['kind']='METRIC'
+        if scope:scope.setdefault('kind','UNKNOWN');settled['scope']=scope
         projected=policy.catalog_projection(catalog)
         if scope.get('model_id')and not any(m['id']==scope['model_id']for m in catalog['models']):raise ValueError('Claim names an unknown model')
         if scope.get('model_id')and scope.get('report_id')and not any(r['id']==scope['report_id']and r['model_id']==scope['model_id']for r in projected['reports']):raise ValueError('Claim report is outside selected model')
@@ -84,6 +95,54 @@ class ClaimIntake:
         glossary=getattr(self.workspace,'claim_glossary',None)
         if glossary:glossary.seed_catalog(catalog['models'])
         claim['candidate_bindings']=policy.candidates(claim['settled'],catalog,glossary)+claim.get('screenshot_candidates',[])
+        # Exact candidate addresses can establish location without selecting a
+        # visual. Distinct pages/reports remain an actual location question.
+        rows=claim['candidate_bindings']
+        if rows and scope.get('kind')in('METRIC','VISUALS'):
+            model_ids={r['model_id']for r in rows};targets={t for r in rows for t in r.get('target_ids',[])}
+            addresses=[v for m in catalog['models']if m['id']in model_ids for v in m.get('visuals',[])if v['target_id']in targets]
+            if targets and len(addresses)==len(targets):
+                for field in('report_id','page_id'):
+                    values={v.get(field)for v in addresses}
+                    if not scope.get(field)and len(values)==1 and None not in values:scope[field]=next(iter(values))
+                if len(model_ids)==1:scope.setdefault('model_id',next(iter(model_ids)))
+                settled['scope']=scope
+        groups=[]
+        for phrase in settled.get('metric',[]):
+            matches=[r for r in rows if r.get('metric_phrase')==phrase['phrase']]
+            if len(matches)==1:groups.append(copy.deepcopy(matches[0]))
+        numeric=[copy.deepcopy(f)for f in claim['facts']if f['field']=='observation'and not f.get('superseded_by')and f['value'].get('role')=='OBSERVED'and
+            (f['value']['figure']['state']in('NUMBER','EMPTY')or f['value'].get('quantity_structure',{}).get('kind')=='MULTIPLE_QUANTITIES')]
+        if(scope.get('kind')=='METRIC'or scope.get('kind')=='VISUALS'and not scope.get('visual_ids'))and groups and all(g.get('target_ids')for g in groups)and len(groups)==len(settled.get('metric',[])):
+            body['planning_request']={'kind':'METRIC_VISUAL_CHECKS','catalog_hash':digest(catalog),
+                'groups':groups,'reported_observations':numeric,'purpose':'CONSISTENCY_AND_FIGURE_ATTRIBUTION',
+                'status':'AWAITING_CONFIRMED_CANDIDATE_CHECKS'}
+        elif numeric and scope.get('report_id')and scope.get('page_id'):
+            matching_groups=copy.deepcopy(rows)
+            if not rows:
+                # A stated figure with an established location may be matched
+                # against the actual retained visual inventory. This lists
+                # candidates; it does not guess the user's metric.
+                for model in catalog['models']:
+                    if scope.get('model_id')and model['id']!=scope['model_id']:continue
+                    for measure in model.get('measures',[]):
+                        target_ids=[v['target_id']for v in model.get('visuals',[])if v['report_id']==scope['report_id']and v.get('page_id')==scope['page_id']and measure['id']in v['measure_ids']]
+                        if target_ids:
+                            matching_groups.append({'model_id':model['id'],'measure_id':measure['id'],'report_id':scope['report_id'],
+                                'page_id':scope['page_id'],'target_ids':target_ids,'label':measure['name'],
+                                'status':'INFERRED','evidence_ids':['catalog:'+digest(catalog)]})
+            body['planning_request']={'kind':'FIGURE_VISUAL_MATCH','catalog_hash':digest(catalog),
+                'groups':matching_groups,'reported_observations':numeric,
+                'purpose':'FIGURE_ATTRIBUTION_BEFORE_QUESTION','status':'AWAITING_CANDIDATE_CHECKS'}
+        else:body.pop('planning_request',None)
+        check=getattr(self.workspace,'claim_candidate_checks',None)
+        validator=getattr(self.workspace,'validate_claim_candidate_checks',None)
+        if body.get('planning_request')and callable(check):
+            if not callable(validator):raise ValueError('Claim candidate result validation is required')
+            checked=check(body,catalog);validator(checked,body,catalog)
+            body['candidate_checks']=copy.deepcopy(checked)
+            if checked.get('candidate_bindings'):
+                claim['candidate_bindings']=copy.deepcopy(checked['candidate_bindings'])
         question,binding=policy.plan(claim,catalog)
         resolved_binding=binding if isinstance(binding,dict)and ('model_id'in binding or binding.get('kind')=='MULTIPLE')else claim.get('selected_binding')
         policy.scope_columns(scope,catalog,resolved_binding)
@@ -176,9 +235,9 @@ class ClaimIntake:
                 if old['field']in replacements and not old.get('superseded_by'):old['superseded_by']=replacements[old['field']]
             body['history'].append({'kind':'USER_CORRECTION','superseded_fields':list(replacements),'request_hash':sourcehash})
         if text:body['history'].append({'kind':'REPLY_EXTRACTION','model':audit})
-        expected_fields={'binding':{'metric','scope'},'report_binding':{'scope'},
-            'page_binding':{'scope'},'report':{'scope'},'page':{'scope'},
-            'targets':{'scope'},'current_target':{'metric','scope'},
+        expected_fields={'binding':{'metric','scope','location'},'report_binding':{'scope','location'},
+            'page_binding':{'scope','location'},'report':{'scope','location'},'page':{'scope','location'},
+            'targets':{'scope'},'current_target':{'metric','scope','location'},
             'correction':set(f['field']for f in new)}.get(question['field'],{question['field']})
         actual_fields=sorted({f['field']for f in new})
         body['history'].append({'kind':'REPLY_TYPE_MATCH','question_id':question['id'],

@@ -5,10 +5,10 @@ from .intake_span_references import tokens,REFERENCE
 from . import reported_figure
 
 VERSION='claim-intake-v1'
-FIELDS=('metric','observation','direction','comparator','scope','time','filters','examples','guessed_cause','when_last_right')
+FIELDS=('metric','observation','direction','comparator','scope','location','time','filters','examples','guessed_cause','when_last_right')
 DIRECTIONS=('LESS','MORE','DIFFERENT','STALE','DEFINITION','WRONG_BREAKDOWN','CONTEXT','FIELD_WRONG','UNKNOWN')
 COMPARATORS=('OWN_COUNT','APPLICATION','OTHER_REPORT','SPREADSHEET','FINANCE','NONE','UNKNOWN')
-SCOPES=('RECORDS','VISUALS','PAGE','REPORT','UNKNOWN')
+SCOPES=('RECORDS','VISUALS','PAGE','REPORT','METRIC','UNKNOWN')
 ROLES=('OBSERVED','EXPECTED','CONTEXT')
 SYMBOLS=tuple(dict.fromkeys((*DIRECTIONS,*COMPARATORS,*SCOPES,*ROLES)))
 def extraction_schema():
@@ -128,6 +128,7 @@ def extraction(raw,text,document_id):
             value={'kind':symbol,'phrase':source['quote']}if field=='scope'else symbol
         elif symbol is not None:raise ValueError('Text claim fact cannot supply an enum symbol')
         if field=='metric':value={'phrase':value}
+        if field=='location':value={'phrase':value}
         provenance={'kind':'TOKEN_SPAN','document_id':document_id,'span':source}
         if field=='observation'and item['metric_reference']:provenance['metric_span']=span(item['metric_reference'],text)
         result.append(fact(field,value,provenance,authority='USER_TEXT'))
@@ -135,7 +136,7 @@ def extraction(raw,text,document_id):
 
 
 def submitted(claim,request_hash):
-    if not isinstance(claim,dict)or set(claim)-{'metric_phrase','observations','direction','comparator','scope','time','filters','examples','guessed_cause','when_last_right'}:
+    if not isinstance(claim,dict)or set(claim)-{'metric_phrase','observations','direction','comparator','scope','location','time','filters','examples','guessed_cause','when_last_right'}:
         raise ValueError('Invalid submitted claim fields')
     result=[]
     # A taped JSON request is canonicalized by key. Facts are ordered evidence,
@@ -149,6 +150,8 @@ def submitted(claim,request_hash):
         if key=='direction'and value not in DIRECTIONS:raise ValueError('Unknown submitted direction')
         if key=='comparator'and value not in COMPARATORS:raise ValueError('Unknown submitted comparator')
         if key=='scope'and(not isinstance(value,dict)or value.get('kind')not in SCOPES):raise ValueError('Unknown submitted scope')
+        if key=='location'and(not isinstance(value,dict)or set(value)-{'model_id','report_id','page_id','phrase','report_phrase','page_phrase','visual_phrase'}or any(not isinstance(v,str)or not v for v in value.values())):
+            raise ValueError('Invalid submitted location')
         for i,item in enumerate(values):
             path='/claim/'+key+('/'+str(i)if key=='observations'else'')
             if key=='metric_phrase':item={'phrase':item}
@@ -198,7 +201,7 @@ def settled(facts):
             if len(known)==1:fields[name]=known[0]
             elif not known:fields[name]='UNKNOWN'
             else:conflicts.append(name)
-        elif name=='scope':
+        elif name in('scope','location'):
             combined={};bad=False
             for value in values:
                 for key,item in value.items():
@@ -212,6 +215,40 @@ def settled(facts):
         elif len(values)==1:fields[name]=values[0]
         else:conflicts.append(name)
     return fields,conflicts
+
+
+def requested_extent(text):
+    """An explicit whole-container complaint, never merely a location mention."""
+    patterns=[r'\b(?:everything|whole|entire|all\s+(?:the\s+)?(?:numbers|metrics|cards|visuals))\b[^\n?.]{0,65}\b(?P<unit>page|overview|report|dashboard)\b',
+        r'\b(?:is|are)\s+(?:(?:this|that|the|whole|entire)\s+)?(?P<unit>page|overview|report|dashboard)\s+(?:up[\s-]+to[\s-]+date|current|stale|wrong)\b',
+        r'\b(?:(?:this|that|the|whole|entire)\s+)(?P<unit>page|overview|report|dashboard)\s+(?:is|looks|seems)\s+(?:wrong|stale|out[\s-]+of[\s-]+date)\b']
+    found=[]
+    for pattern in patterns:
+        for match in re.finditer(pattern,text,re.I):
+            found.append({'kind':'REPORT'if match['unit'].lower()in('report','dashboard')else'PAGE',
+                'source':{'start':match.start(),'end':match.end(),'quote':match.group()}})
+    return found
+
+
+def location_fact(original,text=''):
+    """Separate model-extracted location from explicitly requested extent.
+
+    Submitted/confirmed scope choices are fixed. Form container pickers and
+    screenshots supply location; they do not assert a whole-container request.
+    """
+    if original['field']!='scope'or original.get('superseded_by'):return None
+    value=original['value'];kind=value.get('kind');source=original['source'];authority=original['authority']
+    if kind not in('PAGE','REPORT','UNKNOWN'):return None
+    fixed=authority in('USER_SUBMITTED','USER_CONFIRMED')and source.get('kind')not in(
+        'RETAINED_FORM_PICKERS','RETAINED_FORM_CONTAINER_CORRECTION','SCREENSHOT_REVIEW')
+    if fixed and kind!='UNKNOWN':return None
+    extents=requested_extent(text or source.get('span',{}).get('quote',''))
+    if kind in('PAGE','REPORT')and any(e['kind']==kind for e in extents)and source.get('kind')not in('RETAINED_FORM_PICKERS','RETAINED_FORM_CONTAINER_CORRECTION'):
+        return None
+    location={k:copy.deepcopy(v)for k,v in value.items()if k!='kind'}
+    if not location:return None
+    return fact('location',location,{'kind':'LOCATION_NOT_EXTENT','source_fact_id':original['id'],
+        'original_source':copy.deepcopy(source),'rule':'OWNER_LOCATION_NOT_EXTENT'},authority=authority)
 
 
 def labelled_text(text,document_id):

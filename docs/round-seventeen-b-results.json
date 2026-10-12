@@ -915,5 +915,2716 @@
     "not_measurable_reason": "clarification-032: CLAIM_QUESTION_REASKS_SETTLED_FACT",
     "source_report": ".local\\round-seventeen\\b-policy-container-corrected\\result.json"
   },
-  "owner_scope_steer": "2026-10-12: further production scope correction in progress; these counts preserved as before."
+  "owner_scope_steer": "2026-10-12: further production scope correction in progress; these counts preserved as before.",
+  "owner_location_design_offline_regrade": {
+    "recorded_at": "2026-10-12T17:49:25.954538+00:00",
+    "source_sha256": "6ca01cdd7b40e94ab60533baac921386dfe3bf633ee9719156dc8d2d4be4df6f",
+    "groups": {
+      "AVOIDABLE": {
+        "awaiting_confirmation": 27,
+        "continuing_question": 33,
+        "not_measurable": 0,
+        "records": 60
+      },
+      "LEGITIMATE": {
+        "awaiting_confirmation": 5,
+        "continuing_question": 16,
+        "not_measurable": 0,
+        "records": 21
+      },
+      "NOT_ESTABLISHED": {
+        "awaiting_confirmation": 1,
+        "continuing_question": 3,
+        "not_measurable": 0,
+        "records": 4
+      }
+    },
+    "former22": {
+      "any_continuing_question": 12,
+      "literal_same_question": 0,
+      "same_requested_semantic_axis": 0,
+      "unknown_original_axis": 0
+    },
+    "remaining_avoidable_causes": {
+      "scope": 7,
+      "direction": 12,
+      "binding": 12,
+      "report": 2
+    },
+    "model_calls": 0,
+    "estate_requests": 0,
+    "target_met": false,
+    "prepared_is_not_technical_answer": true,
+    "per_case": [
+      {
+        "id": "clarification-001",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-002",
+        "original_grade": "NOT_ESTABLISHED",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "5c7e1413116a2680cbb185fc5281bce56446056c47e30a939f799a2c22142119",
+              "fact_ids": [
+                "c2c4648fdeb1db89119eb49dc2497b956415cc372385d1f22c4a4f099dd81e7e",
+                "462a81164fb04422f7a6f50b21d8a0f76e3b6739476e231e54c149ecb0792982",
+                "60232f25669c933870906faba4844d45bd89aff635c01a80ae976f1aa91f5e56",
+                "4acade0ace8af0faa27951545f0f30eeb13c882a078a573480e08992a43846ab",
+                "a2e7b0cb70f1529817b19d98775e3abeb33104f9da2fbc7ed517535b43cf0305",
+                "c972306fb1c0f08ae234f9ba208d92dad0352bc4f0d8285ccf13d9035bf6afb1",
+                "9a0bb44b586a7c7004b0748f3b00e2e3ad7714e53cbf62bcafffa63dd84804d2",
+                "5b219bf86c83b9f8a899ac5419c962ce5c1e881e7583326cba28abbc715fe252",
+                "024a955c1a866a2968f6d82d569b21ff16620ae1641deb0228d9f08a3402f6ad",
+                "82879904ff62058bd5daa6cc89a734105326743377de45b1a860cc73e36ccd44",
+                "c00181b75fd9051bd6a44acc056b7d7715b8e85bab52832f850a9fa4a83c1609"
+              ]
+            },
+            "id": "bdf1e9f48b4568cf13073d6ed1aaa4b48396add8039cc1df231292b031e942b6"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-003",
+        "original_grade": "LEGITIMATE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": "Identified metric bindings have one retained container; no representative visual is chosen. The owner rule checks every same-metric visual at execution instead of asking the user to select one. Awaiting confirmation and actual candidate consistency; no technical answer earned offline.",
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-003-round-two",
+        "original_grade": "NOT_ESTABLISHED",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [
+              {
+                "id": "2a412206bd6517a3c74c397cc03ee9c316888c8dc16b3784773f0b59e3370f6b",
+                "label": "MRR All Plans"
+              },
+              {
+                "id": "47a11086faf4b18169576fb0b9653dfadfa9abd1cd719d9fc8e51bce809f977d",
+                "label": "Usage Overage"
+              }
+            ],
+            "grounding": {
+              "catalog_hash": "5c7e1413116a2680cbb185fc5281bce56446056c47e30a939f799a2c22142119",
+              "fact_ids": [
+                "68293cbb48c3f00422e5c2b5b337fd49e42547b4a91763a655040ac14a99f9e0",
+                "e67b87e9295b3504a99fc3188d68032f3ede429e225cd4ec24ee112ea2dace7c",
+                "4f758a233c1db170579c33726deccd9b53f9541c874154aea3261b5034473f24",
+                "809e70651330eb8c347e542f6014416516a1590d79c10afd8161f484a9ce1700",
+                "eec4ca3f85931c6e18b6992d8d9d0a2684a463987ed3bee2627ffb4d39df4fd7",
+                "ae25843a3ec51a8225b1c46106ad9870beae2fa3683ffe2adf5e98ecaba806cf",
+                "bdb58e651b968214153588b15e136f69382af997a86dcd86f0a4fbebc291fc3d",
+                "6758a367ec0b60aa27cd7e93ea5b170fb4bd3802a7ce90b8208dd1e49a50dbea",
+                "43d2c814edc8b10ac9ef550a8fe1b7a0c80c86674c2a3b93e6d0dea6a3736aab",
+                "ee978b023a025d2886f3bcc0ede5dbe1470629a732bc0717915ce4c165dde2e6",
+                "329ea9ee19f955be260699c85bcde3bef323528efd79ea1163bde3fbc8b103f0",
+                "7ae6935de2492f790ab17ca29f653a0c2f66a064ccea777607f0d11f47c43822",
+                "267dccf662bcf58bb368a62234a0f83dfad7510b1bff366df2b9cc02ae6b2d42",
+                "f6a4023d501b9c257ff1c53cae36c58f9182df4a159d2972e4c09fac89e7dbf6",
+                "f4ac7712d7b6f01d97b2862ee1eb132a34d07a1e5673215d650d1f83d74d3ba3",
+                "5715cfc159bbe1ecc5c396377a7a704ceee6b8117bb9d0a48a272e6d843ea161",
+                "5fa6fdf43b2f4d9671d3c64afc0d2edbb4a02b15c1e0dff19068e368724059be"
+              ]
+            },
+            "id": "d9b4646bd6735909f6cce639a93a9e8c003abc0bebc0e14a1f54f80284ace0cc"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-004",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "5c7e1413116a2680cbb185fc5281bce56446056c47e30a939f799a2c22142119",
+              "fact_ids": [
+                "bf85162c2650da5133e37775d95918cb2b05ad99f7d2e23d100e92bc6c201ba2",
+                "f627b5f05393ef788b44c43ea75bdf3383fceef9314ec32816490c46cdacfba6",
+                "e91ab6bcf4a6806aa11496a7ce6d9d84d728223c3661bcc506c5627b6eae4804",
+                "fd2a2a402f80855f7ed740a63fb37739beee5445a7fb37a59450724aab002da9",
+                "f3da9955359d2547345d0367a0b3c88c8e8cba67ef64c5aa8b405d6082e2cb3e",
+                "5f1238b465a8e5fdb65bc56cae89e1d1552b4561d605a829abfe1b6bb3413616",
+                "476f9e600dfe142a7ab6b1a0b5a7d55bc97a3e51edc4e3872060390652c18139",
+                "c295f0ac4fbb828cb9838c14c1905d45718bd2f3508f7463e469d7155e2eedcf",
+                "4c015e367fb6897bd6c076b98cb3cdb75f97c3f02d6196f56d096ac122fbe1c1",
+                "e5831f391951515d0c57ccb8a79f83016cbebcaead64d2b88ea0411697b05027",
+                "ff70c2782e9ee4f9d33a1bda4a25a2c380e68faeca6618a3722b1d3e946a6c44",
+                "a98fc95b6ffe15acbe6ab2d75e0cf5c16d3b1c924fb7dedc2a50ab9745c21614",
+                "e7d59d146624216c7c1088d54e46b552f9ba52214f321e53869019b045fbaad4",
+                "a1ffb2d0490aef2e9044dac995b3a8707d5e3baaada2b7aa95eb35f4a052817a",
+                "6f6eff88b432639864e462a1e448e64d24778f2a26d223d5c4ff208f8865366a"
+              ]
+            },
+            "id": "386cd4ce05fb7a7928b8c494cfceca492b5d358b06244c5b94681eb07bbe8105"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-005",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "5c7e1413116a2680cbb185fc5281bce56446056c47e30a939f799a2c22142119",
+              "fact_ids": [
+                "7910500a4cc615c64d5620a3a80a4b999c45e90b211b7e63d6c2c1734910c866",
+                "c572d22d4854838535ee064076610da4415fe9898c6ea1a21b8e99bc48a30df1",
+                "31a6fee44ee9c2e1e71982ea12938d1ccd9db467c8a97afaacb1feeab2c188bf",
+                "6207eb46f779fb4516a2eda0b9ed76daf47493ee38d09ea1b3e2c37f6730a162",
+                "5724157ea38a8bdeefa9dd2231bce90139ab377b3035bbfc223adcf5ff0b0d47",
+                "4231e2425165ebcbadd53f8c61b7fb22c9e900927801be684cc99cdb85dfced9",
+                "32e51692cee27c0c69d718ed1041ade36b05941c1a1d3a46aa541ae99115cb1b",
+                "2a864f6c02d12670b2139db7e501129eb034b9aa0d7f38b79fd2ff7e4b8ed30d",
+                "a9cf57ce9793032418f57608f9bf5a9593bcecf14d8c7ab42b85766e900ee475",
+                "090ce67582738410d526cb706abf96cccaf6e28254f00e5e503ec3626126130a",
+                "b9e199b1dd6e89e570d157a392a54aa08443d0d6e9720f5c62524aeb435600da",
+                "fbb299145037453a9ce3b03b9c8239c46e9b7e75311582bbe7f27ad1c1625eaa",
+                "262e6e1e94797127d157291c49240db6a04f4408b4b850f3016fc744e4dc0997",
+                "40760d4ad96941b863ba0d479b379213ff72b8104734e90cc7687c6bc5e281d9",
+                "fe7f7f668f61268cbef85be3d8c4b710322fa26e0cbb41ba4797a6e2d91fd131",
+                "ec931d1deec0ca950a5a8a07dc2b946124e1acc3f6557a8f8c5f68072afcf053",
+                "67b4c024a038546922abfcf5276e6cdc31ab6c6ce7c58307b42541c0f14d4eac",
+                "0517339427519cd6a6dfb5dce2c1b35993ffd11412a6f65e0190e27c474569ee",
+                "44970dab982133bf63296a79dbaae6851b648e7e726f2a029eba29ec795b84f6",
+                "0fb28e9aeae754236505e905a0c8947d56c0236e11a92dc850403d30125095bf",
+                "50a05da2825ce572506afa98834c5dc46fb22efee12e0aa89424def30852efed",
+                "8efefa4223fa101e074de3e29b11badec940925bd8a658271c821c7be5f898ca"
+              ]
+            },
+            "id": "0341ba9d832eb8b0b17f89a947adf39408965711015d7352793f8324d633bfff"
+          }
+        ],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-006",
+        "original_grade": "NOT_ESTABLISHED",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-007",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-008",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "2ccaf7f4a67f762575fba606720e8361b0f95322ad134a8b4efc0978bd8d61ab",
+                "b8b01232f725a7d6d48868ca3362f6bfc0c61f31c1c4f1a0b149e48948565b83",
+                "2c7c2877b6f2fdf6ba71ffaa26dbf31b4da42dd33bb93300ebd90827073f2d4f",
+                "19c4a9b0b569afeeed38576e4f72079825200d755209dd2f4fa2b99263467e27",
+                "507e95d3b6573dfe70188d9554f04d39980624c9d53f6e904223a270551270fd",
+                "e2c562ad8ce49bff96ab4f29d8b0328212d4de52378c17d1c5a580201078f2ff",
+                "69e083ec276139670c201cfe0b686ac6c2dc555c9d171ba14229216c8bab33e9",
+                "bedc03e47498fad0dc51443e07ff4b943f6438f8d6c9cae3708de2cf5aaa51be",
+                "3e4847323fa6aa68aa150359ffcc281fa51ff41025f53aba47b90ebafe33ad5b",
+                "7f1707163f9485278c0e4604a6b2867822403e9f15380b59f79bebef5d4ea798"
+              ]
+            },
+            "id": "5c6465daaefa9f41a69e11d6e42463f951546689433d4f20e273c0ac6adfcdb8"
+          }
+        ],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-009",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-010",
+        "original_grade": "LEGITIMATE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": "Identified metric bindings have one retained container; no representative visual is chosen. The owner rule checks every same-metric visual at execution instead of asking the user to select one. Awaiting confirmation and actual candidate consistency; no technical answer earned offline.",
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-010-round-two",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definition should represent the metric you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "fb021ef30e257f3c274d32704f50a577786fcdb390b45d09692fa76c91909c0b",
+                "f23a2b1c39a8ef09dc8ede1df3b2ea934583de59bd2670e764ed37e65ab07349",
+                "05794847a1d68776014adb36e001db1c16416f3c48507d332de28fc007b5dcce",
+                "3f71e4b96e4bdec379ff1fb20065516bec83d66b88194e35ce9a844bba7023bd",
+                "6d37eb54e870a7c807d0bb18ae2f091640bf4e0f2ddb7eead45db985f8d4aef3",
+                "6c4885fcca0cc7457fc8e7b42e6a598281807cbb5dd9398783f03d4cf24c1cca",
+                "6599bf5274f75d32833590891b4392aaa5297139e1fd47c93e02aaace412b98c",
+                "780ccab33a01bac44b3d69795ce0cd46e4b4148c979cff0e288a4221320a7d89",
+                "c8f0eff00674c3f6d5e846ed4f756f16c650123ba3f6c6c82789761ef9d1aaef",
+                "8139c3281bf987ab33f3669ab34d0044316cc2a542147fa85f8f78b4171bfe0c",
+                "f2d9d3472e7d120cd9cf3e63a4d4e695ffe0de0575f662603325b0a930695f17",
+                "1ccbb0fd054c438ab9ec5d708412f76b82ad4253528b5e79115021913f28f183",
+                "d5dbf6253628c6803704effd938da5bdd31318a20125f0849e08333ec98a0684"
+              ]
+            },
+            "id": "62ed72965d53366601319d17c308b31f9a050d7aa13588b7ddbf0fce794dd62a"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-011",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [
+              {
+                "id": "96a9400c658670aa8384d4e5c6ccc49c0577310462a033ee2b5e20017693e11c",
+                "label": "MRR All Plans"
+              },
+              {
+                "id": "c3e2b344cfd3a7470a86f8be6f65b397eaa38c7428701e7e62dadc81ce4272a6",
+                "label": "Usage Overage"
+              }
+            ],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "51e37a1fddcc1052203ae8d0872eddde274006ab45fe841e2ce6e165dee2a6b7",
+                "872493e806953005cd9884770a7aac738bf2e625f6993243cbaf5b7608ca7b98",
+                "32ee735e91ddeb0ab3d299a07903dd746d62b1484496a6f237a335a4ca352770",
+                "0cb680d0f0a58145db3a5307e5ab68efd9c542c092199b3e3e0a8d65b5fe21e1",
+                "0ac5ac855b6770b879a6659275ae3d615c8a41ba254fc410440de68dcfd52ad2",
+                "62668091cf5863b63a056c58903f4c1067dafe95ae8918165e806e4f58dd4485",
+                "6855d081e6a344fe86739c4dd3a67c3b225e5deb3f54a003bccc2fbaea41648d",
+                "e1e42e3b56a29b46717a69eb5187490a94ea7851e60439879446dd707b9fcc0f",
+                "4db36786584ff486f03cf9ad4aa1273a6c5a9e0c5527365d46d8222c6e3d76dd",
+                "7a697030d725c2526f6ad39a7c0a8ee16978d0988e9c6ed3d7697ef95fffaa7a",
+                "1f7e7f173646f548df618676fbac23ff50170306cbbbb406faa902325f38358d",
+                "8c40e222dfe51e23702a6cac6324f4c9a94debf0d88779cd08983a03a0253d66",
+                "5f44b224c7ca4f12365b6f72834f90cfd8b67975666855f861d4ccb66211c0b5",
+                "695b8c856068f760bc68ec4bcf24e3d379a7079d02bda961dc78d2768d025467",
+                "acd6bc888099bbbe48b42fb931eb4d24845ba661dd0aacdda9cfad7e312b78cc",
+                "4d52b1503743d49f558b678dbe5eaef56c6aa0ad7c6c8d58fbada37c8576badd"
+              ]
+            },
+            "id": "435654d9ab2660463719765de0b8c7261fbd68b99d2bb7fe2625adea688f3097"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-011-round-two",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [
+              {
+                "id": "14d0d395864376ad62ed6caba81e19347e321b210b35a9b7cf7743769da167c1",
+                "label": "MRR All Plans"
+              },
+              {
+                "id": "0100a2a7bc7076db4273741213207665bdc554e198c603b01d0e6008315c65d9",
+                "label": "Usage Overage"
+              }
+            ],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "6dbcad2c3f4ae87abf3345ac506e01901879dc4cc7eb0c50e9710996b4f2dfc6",
+                "78d93ffa42b6e0a65a1de010b1102687e6898ece87bd20b7cefa3f669f1484cb",
+                "fe8c038cff67ee7762303dfe1e83150cababb53dc621af95b6b88688f32f4dc4",
+                "fe4bd0e64903d5d8a9dc348cda0b59d565df4c514d4170ffb73d4689aafba1f2",
+                "9c3ac02996f4f1b12bf0af8596bc3016b4a310ed4d213721a7fdf1e1fea4f40d",
+                "565dc1d99eeeb5d83802e30f387012a160da602263abe7a00b771381d4ed36d5",
+                "34ceaea683d8c7950e1961ccbfd14a18b5317731c1a3c0317918969f7fa2b478",
+                "49bf4fbc94a97f7c0439138cb7ae4f127785a4e350f0ef932d12e417910a1852",
+                "b823c670f0329181077713ae13f945723e07733033aa4717be3429de42ff1ac6",
+                "04e4beb939048c028669159c4cb287cf87cf3e0065b3b3331c6cadabb5daac11",
+                "623c5a1a7b92140d16d0c3e6c676464c7f4a37c7eb20aaaa6b02d4660151ba0e",
+                "ee545916449ebbe52b9e8760fb5d49406d1d8112f8ff1f9caee4ce6fea5f8d44",
+                "fdd6b4b3795fcd813815ea06b9e84b966518599696ea460e01eb67766f91ed5b",
+                "3cfce7978c295cd0217fe433a77e638387b603dea6a87a902bd281762b4c3894",
+                "b53c17f648476eaacc9143a1b886bd4b8a3cab9d1cb29ce18e788b689e6e52c8",
+                "d2fd8758e66e76ecb0a965ee758a9c21c47e2c1f3f65d19472518799dbf936ed",
+                "b04e45018eab74630a41ada6734b0489cf07b4a4569e10f2f09d2dca7eae5bd7",
+                "3c2e703871b20a4151cbcab78ff2d88f0748f1afb972fa65a5f26b071fb14d5e",
+                "e39e089dfc7920b1a33fcc016e3b2793e7f94a986b9c953fb1ccd7e913362c6b",
+                "f6fdd7c252f655ce115374e8abe03451c576195ce11dea805989af76a70e9562",
+                "980639fe0c38c4b1b7b9a33e9d9aa2b1706a0e1705cf046c81ece57ee21dbcf8"
+              ]
+            },
+            "id": "6cc3641601af24d679e982ca94a5cf34629d1efac99437a01eede6330c70d495"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-012",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "report"
+        ],
+        "questions": [
+          {
+            "field": "report",
+            "question": "Which report is this about?",
+            "choices": [
+              {
+                "id": "853fbe544ef5ffe972b3122d1d755da47c515459df73abfc9e2b9378edc1d829",
+                "label": "Subscription Billing"
+              }
+            ],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "bf85162c2650da5133e37775d95918cb2b05ad99f7d2e23d100e92bc6c201ba2",
+                "51c33885c74d173eb7343c9142155e5f459b7e326699b6c913bfe9bfbf55b516",
+                "f627b5f05393ef788b44c43ea75bdf3383fceef9314ec32816490c46cdacfba6",
+                "cf12dc64e370a6c84132c6668d0a18000efb4d1514c38d37177b2e1f02ef908d",
+                "fd2a2a402f80855f7ed740a63fb37739beee5445a7fb37a59450724aab002da9",
+                "9172120a8d12f305889ed9e2ed282776cf14e5b312547acd69986d2437c423e4",
+                "5f1238b465a8e5fdb65bc56cae89e1d1552b4561d605a829abfe1b6bb3413616",
+                "dfb584383e5dff714e8049e5c555487fe42b4068ce19e9f735535ea44b89cbd7",
+                "cd459e07cc97f2c862c464a055a62ccd876ed0505ff6f45b169607da47c5f9d9",
+                "363762098035a00ccd11a037b94b1b286c4b8a257af265ed0b51a9dd76a6515e",
+                "df923c275a5ea840c585652278fbcdd2c8efeab976deff0ba1a14b73b23a2bc5",
+                "a1ffb2d0490aef2e9044dac995b3a8707d5e3baaada2b7aa95eb35f4a052817a",
+                "b63ad865fc20b82e7b6e4d5c3f2568a7bde448460280164f3d82e835e76a552b"
+              ]
+            },
+            "id": "298019b86a15d46de380830d3b3300a1733810f1c2ba8d1675ec9d55a47678a9"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-013",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "f5c2a3776c7acf7915b8d907ae02516e278cecbc71d508a5d700cc7ac65575ff",
+                "12229043ccc3e55dde24081a026d701502bd4c5de74173735fc6c2ca838eeb30",
+                "9e851863f86a93c399775b50dd6990753db80bb56ec4fc04d7065a1e6735fdad",
+                "a5f47443db631b591598ec2e7429c66f0b89a74bf439daf7727a81020cb2a0df",
+                "643830e6b22c346c24c94a20e95da42a3f6eabf58b998a649821dc263e58b616",
+                "733b16acdfd56d20e73c17a021900c1ae4d8b03fad2865c39f758327388a339a",
+                "c640618cc208878cf2f6990a0b2cc24bf66070b10c09598d0e8fbe6f2e0bfead",
+                "f22253c9a8e9a56a7df9fde4d0eb5333b3cfc68ecb44b644ce81ae32575f133d",
+                "121f49e7e68b3d1e8cd4bc62504dd55364d96e93912aeee678d4a8c09fbda9cc",
+                "985c905589ab20cc65e5e02bcbdb9e92239990e261689076ee9fbb4c4366903a",
+                "cb86171ebcbe9955d17a699389f2a67f5758910f66d2845d5370b24eebca5717",
+                "61ecccecdfc3bf35cad860a82b5fdaaec8390afb18b64ff5cf67d8dbe82cac57",
+                "ac1551082a9294b16ec5ec3bbe41712285a9526eabd62c6cb0c0d324d352839c",
+                "c85275cddb9d1a797e83a0c730e5a270b478190e691eaa3e1ef810bb8350d4e1",
+                "6cd1a399c3afaa216092b8061e1ecc6df4ee099430f87d4bcccadc4cf25f8ad7",
+                "ed62f6b2f788ce19b10574d4aa2c1075ca8e72fba14c38f98d334c2675d1b4be",
+                "895b84138fb8b9e560a8893d51ea99dd4929a83a71fd1c0520d514d6c08290cf"
+              ]
+            },
+            "id": "323d8646a3597c3fad03abbb11159ed1a641be6a86d3a4939a6052efedefebe7"
+          }
+        ],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-014",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "a5f070627bc420dccf1da923dedd68586ec4df8b82ec1d385903efe051f5f98f",
+              "fact_ids": [
+                "454bc3986a588c90ea62e8121290275d641aa0c54cd1862adec03b2af158a162",
+                "d8f00b7ca5e0142fe04a0ea9ead2ac98de77ed367ec302f9579e3aa8242b07b2",
+                "ca2bb7e228566754d977aec6c70a4030af87f5fad843e8dbabf30e0dbdf50063",
+                "462a81164fb04422f7a6f50b21d8a0f76e3b6739476e231e54c149ecb0792982",
+                "c05aedc49c81cc34bcf855243049e063c7c8ec02c2690acaebfa8419ffadf1b1",
+                "9176a7f81db38e47adad65ada7c251dd52b357653fdf7ef31fda5cd3f34bda80",
+                "1324f62554228d9496169cd40712bfcc6d2a2f3da9f3890b572fd6dbda98baaa",
+                "03adc3a6de288abbf5cd86900ca68953251327d90f1dd283ed711fa1b515e25a",
+                "9dd3280e5f47cebe47dc9a950eb0787c54ad836b2e622d88ff4fcba17e7ec858",
+                "a819cd6708597c8419cdf8a55e112aeb01d97f760f9873365d256b046f5ba76c",
+                "bf97e6462abd60a387b07916152018f9925522e3b4cad3bfe8b4282a639eb48b",
+                "0335e2a66b5c3bcfe08cd05e432053c0ab8b0344c81b602c9ef6a7b033800290",
+                "6aeaf7dadedf826b0b39c8c9c676008de68d6fe504259b8d5de65eedfb98494e",
+                "7f9fadcf150998d7380fb192a952bc6ee0766441a7c6060d81d901ef909b2a6b",
+                "19710cb29c4c9d1db2fb1ea775fc5af7d1bf314c6cf1f4464b302e3108279998",
+                "0ed3634cbafd88d1c487f0f83ade611ff18b4c07b8a2fad536a6339b1bb8b54a",
+                "22673c96bf6bad3da7dd7c1692c033be0dd865eaf106f1ed5d9db916db09b9b5"
+              ]
+            },
+            "id": "2764b64565996f05940d678b12ea11ec1dcc1165230168dd310980129dae411c"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-015",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "a5f070627bc420dccf1da923dedd68586ec4df8b82ec1d385903efe051f5f98f",
+              "fact_ids": [
+                "a624426c0622cc65f275cf373b930eea4e04d92c57f56ddbd2449162b3d2192f",
+                "2ccaf7f4a67f762575fba606720e8361b0f95322ad134a8b4efc0978bd8d61ab",
+                "b8b01232f725a7d6d48868ca3362f6bfc0c61f31c1c4f1a0b149e48948565b83",
+                "2c7c2877b6f2fdf6ba71ffaa26dbf31b4da42dd33bb93300ebd90827073f2d4f",
+                "64a16986f18c7c3ef1c1da20eba4b31428e2494f6669dfff142e76f40b7b470f",
+                "48a26ae7d456f89880f6b5879072d347775bf2fb8492f79f064ae86e9d9ca2ca",
+                "f975ec09610c832ee15e71119bff02987638b30b69213ed546fa9c940a39c6fb",
+                "7f1707163f9485278c0e4604a6b2867822403e9f15380b59f79bebef5d4ea798",
+                "69e083ec276139670c201cfe0b686ac6c2dc555c9d171ba14229216c8bab33e9",
+                "8a35e2d8a523531d8066cd81c494fac3aa69870df8523839ad5c852b3b852027",
+                "f2688714e59d172e0c13e50ca4573813c2ff7268f903e1652d3d320d7c02301d",
+                "117bc8138e228cc93e0885b7743dd7ab6431b0688474c7dfcbcc2a2d797afa6e"
+              ]
+            },
+            "id": "694598a6469aabe3913c78bad62816853a629992d0e901ba47c3921e7e6887aa"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-016",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-017",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-018",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "4367a24dc195ecfc702e441e51880856b33f44675a0dca7706cca8da447591a6",
+                "d8f00b7ca5e0142fe04a0ea9ead2ac98de77ed367ec302f9579e3aa8242b07b2",
+                "462a81164fb04422f7a6f50b21d8a0f76e3b6739476e231e54c149ecb0792982",
+                "ca2bb7e228566754d977aec6c70a4030af87f5fad843e8dbabf30e0dbdf50063",
+                "c05aedc49c81cc34bcf855243049e063c7c8ec02c2690acaebfa8419ffadf1b1",
+                "9176a7f81db38e47adad65ada7c251dd52b357653fdf7ef31fda5cd3f34bda80",
+                "a70cedb8ea237bfad6461aa0dbaf7d751a765489e7d6044b0b2e0a268aba1887",
+                "9a0bb44b586a7c7004b0748f3b00e2e3ad7714e53cbf62bcafffa63dd84804d2",
+                "9dd3280e5f47cebe47dc9a950eb0787c54ad836b2e622d88ff4fcba17e7ec858",
+                "5b219bf86c83b9f8a899ac5419c962ce5c1e881e7583326cba28abbc715fe252",
+                "024a955c1a866a2968f6d82d569b21ff16620ae1641deb0228d9f08a3402f6ad",
+                "82879904ff62058bd5daa6cc89a734105326743377de45b1a860cc73e36ccd44",
+                "72ba7b9c1564334a9d5f3e5139138191f2b8bb8c24d016393dca79bea322f6f9",
+                "805cc4cf185f73c9a82fda5d296bc0a481d7275bcd6ca4b071cf91fba7624482",
+                "19710cb29c4c9d1db2fb1ea775fc5af7d1bf314c6cf1f4464b302e3108279998",
+                "a75c680675b945893e40a44fcff680c182ba8a9a2c06d8c936bac20c4d6b7889",
+                "2c61f1c7ebe5e4f7ee2706eaa0849007b297fcaa12e22759c5268c5aeee45792"
+              ]
+            },
+            "id": "5a8e966f22aa2092e10f78e8a34d624e58e8ed09791c6cfa51768c5f165a6577"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-019",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "dcaff942cf333379a879628bab542e7c42dd16b3dfd54918103854ae2cf83805",
+                "73c7eeccc3a8d611f4ecd65db5aec8da3fe25022bb621a9ebe3296387bf9d0eb",
+                "b8b01232f725a7d6d48868ca3362f6bfc0c61f31c1c4f1a0b149e48948565b83",
+                "db65a7a0afb4f24b14a407981d940cc5e24facf0f24caeb341011ec47236d9cb",
+                "5acbfa319c9f1063254d731c49197a2017762a100d017e119744ebf2e70cd1a9",
+                "507e95d3b6573dfe70188d9554f04d39980624c9d53f6e904223a270551270fd",
+                "e2c562ad8ce49bff96ab4f29d8b0328212d4de52378c17d1c5a580201078f2ff",
+                "69e083ec276139670c201cfe0b686ac6c2dc555c9d171ba14229216c8bab33e9",
+                "8a35e2d8a523531d8066cd81c494fac3aa69870df8523839ad5c852b3b852027",
+                "ee9676ba1d14994c31db5faf28142ccc6ff2d6bc199620010fd0108ba8209dc2",
+                "7f1707163f9485278c0e4604a6b2867822403e9f15380b59f79bebef5d4ea798",
+                "e2ff876b2c00be8d29f09745adfc6325c9a27fddfed4c7e26f1b8909c829742b"
+              ]
+            },
+            "id": "e17ea0097f76750474733833f21bd7adcb18004c1e8deb56a4c674058b8d5078"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-020",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definition should represent the metric you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "e616a78a97a4103c476f35e2936d74411d83254509d254413dda1393634a63a5",
+                "d37bb702621bce8aeb3618cb009521841a35afc76b8d39294193dc9b2214da33",
+                "1d1a0943faf98c0b472b0ff67f6bf9bf4350e32ce9fb8886e9cd08b925cb9b5a",
+                "376317f126afe69df9bd59a7228e5c8b2f9bb9d0fea806abd74d09eb8be6d756",
+                "72fd712c31841c0189f565a72ad9f1b269c6e58c3be984ebf8e344f805a1b7dc",
+                "85539f08a7a7d7ae2144eb6b83dc0144268aef67c544b337080a0cc16c81819c",
+                "6cbb4ec870cfe0254f727a2fab4ebc18399abce9af578fe28cf9160d1ee1d802",
+                "3d3998e5832a399837408c5eb90b77b58142267c2c1023e9dcd2b7d6da5e16f8",
+                "cc48448294651305ede0b65e021cd25660578bcc90bdee781fbaa3972461a75e",
+                "31cb0e92986c2eba354b63e3e8f7ac12b4089b10ed9f86abeecf99cc5494f83f",
+                "4df2642f75b3829e5a25f9e94fa0b1fab8c9d366d83835552fd2a1b68d38df34"
+              ]
+            },
+            "id": "98012e8b2b9cb94b5587fb669857940bcb95ab5b16c3a7d13a9055df183643cb"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-021",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "9b9ff876b578ff9f06e5b8492c9f8c2f9399b9378149cbf51429c30b126e9169",
+                "62668091cf5863b63a056c58903f4c1067dafe95ae8918165e806e4f58dd4485",
+                "6855d081e6a344fe86739c4dd3a67c3b225e5deb3f54a003bccc2fbaea41648d",
+                "e1e42e3b56a29b46717a69eb5187490a94ea7851e60439879446dd707b9fcc0f",
+                "4db36786584ff486f03cf9ad4aa1273a6c5a9e0c5527365d46d8222c6e3d76dd",
+                "0cb680d0f0a58145db3a5307e5ab68efd9c542c092199b3e3e0a8d65b5fe21e1",
+                "1cf4989998893cf034cdebcdb3293104c65dc7d725513d037ca233e19727cbe4",
+                "bb5fe01faa951568ed1c3cd86774f45d2de2918c48aba4462f776fb7fc0ad8cf",
+                "3f1874e64c6973cfe35c0f9fa1d340f0b8ad142639ebeb8a31c6dc3a824e7efb",
+                "6650d144dce338b36c6c3ee6d724ae22599ed8ab15bcaebd745a8c5436bd45f4",
+                "4f1ccae6a5d242a788e948e928ab284f9be99f42037502da4263947f7fb97d3d",
+                "253be63f58028e68273eb5da2531624cdf7c988d5927490e443fac12e38ccbfa",
+                "15b62bcd3f331d0b99cb2dfa75a3bffb246ae0c6f81088e6bf4e014e37b1fb0b",
+                "931b1cac18caaade0444856535ad184219e715d22900b765a0c18f3a11a585b6",
+                "5ec2a214e469b7ca6b358edffbbd805729accf076fc8038f4d0cbcef9a356b82",
+                "4d52b1503743d49f558b678dbe5eaef56c6aa0ad7c6c8d58fbada37c8576badd",
+                "bc50c1bd9930464d23cc3a1b263f2c20dda1f817c1b5e49052a13e96e33b4231",
+                "7d93011d9fbdd3cba2f04dad868c2ec6e40ea6165b87507cb7e70d915aad6a06",
+                "d1435fdca2ebb96b885f191c0146ca35d0c0cd805d6a9806869fc97bf21e4b61",
+                "48ac1b93e0158d7e9aea3a8be78bd9516f48cc90fca97877c0c762cdc7899268",
+                "d4cc3c184eba08dba53d5ee1e2f7d9ec52679e2cfdbfc29769f1650e7cf99563",
+                "f8c92b5bdbd556af017d6c519d38f16d1a736697341a7ab321e421cd415e9f3c",
+                "1a4ff8021096f11b5dd7f6331a8476fe70e17a02448ed7d62a1d7c6978807aa3",
+                "de161e49b3be0462e57e01d028a486775452b062fbd9b7b8686c03bfb7822105",
+                "48c768e4cfea4fb45eeda0305e4d244b3856397985617c320da4a1febcf988c6"
+              ]
+            },
+            "id": "40f5406adda004b65c0ebe19d3674e1f62b3b610d7767e52b565135c3394abb5"
+          }
+        ],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-022",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "3da1316d9dfcbbd9c1c1f898ae131f00d462f88c8808d7dfdd4e0bfcaaca60a1",
+                "f627b5f05393ef788b44c43ea75bdf3383fceef9314ec32816490c46cdacfba6",
+                "e91ab6bcf4a6806aa11496a7ce6d9d84d728223c3661bcc506c5627b6eae4804",
+                "fd2a2a402f80855f7ed740a63fb37739beee5445a7fb37a59450724aab002da9",
+                "f3da9955359d2547345d0367a0b3c88c8e8cba67ef64c5aa8b405d6082e2cb3e",
+                "5f1238b465a8e5fdb65bc56cae89e1d1552b4561d605a829abfe1b6bb3413616",
+                "476f9e600dfe142a7ab6b1a0b5a7d55bc97a3e51edc4e3872060390652c18139",
+                "c295f0ac4fbb828cb9838c14c1905d45718bd2f3508f7463e469d7155e2eedcf",
+                "363762098035a00ccd11a037b94b1b286c4b8a257af265ed0b51a9dd76a6515e",
+                "a1ffb2d0490aef2e9044dac995b3a8707d5e3baaada2b7aa95eb35f4a052817a",
+                "981933066e57e5b647084c0393cd0e0ae9fb55b7dc3396309fa8cb8bf7539a0b",
+                "ff70c2782e9ee4f9d33a1bda4a25a2c380e68faeca6618a3722b1d3e946a6c44",
+                "4c015e367fb6897bd6c076b98cb3cdb75f97c3f02d6196f56d096ac122fbe1c1",
+                "a98fc95b6ffe15acbe6ab2d75e0cf5c16d3b1c924fb7dedc2a50ab9745c21614",
+                "e8b5c0e9123b0eb018a295448239cda3d529c72ef375410c98001cab28b4dc1d",
+                "e5831f391951515d0c57ccb8a79f83016cbebcaead64d2b88ea0411697b05027",
+                "9d49a3b06885611c860c1d4853ee6c2b44f4f5d5302d6b009cc42995a59c4383",
+                "ae3d075b55314a13ed7c237c00f6c42bc67f06cd46791129803501a765f315b6",
+                "67d5b584cd909d4179a92ddfeda9be89e6832876534bec09999756bbcbec21ab",
+                "85d92eaef2bad483545a1fe00e9474c34363e207437214a5bf67c665f68301f4",
+                "2bdfdf9c72241d1cfaea8d620e16f09f72324104c730c37491364cbb5f735866",
+                "354b365b3807e32c631591d2e7afec83f668b5dcb74f3a409218d9a784c03371"
+              ]
+            },
+            "id": "8855f09a643af75da1a6849582ea0a09aa8677333deb955666c319ca04e2d990"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-022-round-two",
+        "original_grade": "NOT_ESTABLISHED",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "3da1316d9dfcbbd9c1c1f898ae131f00d462f88c8808d7dfdd4e0bfcaaca60a1",
+                "823d3465e0ad331dddb926df0938c15ce3bc37e8c0f3b328c6980d6c8ee06324",
+                "6360d8487e4e0cd4fa8b539208739e5f96323aaf9884106ed7a448d25a556427",
+                "e9228639fde1f3f7ef2dbc8fc028e465bd02e391d93270c0c8af990e1dc44af6",
+                "e2ba46d2d68ae27052c0c3e2d22a23a252c7d6b580d0e11fac2201ffe29b71cf",
+                "bf6a324948ac9b3e6a50d5ad2ed2686e1cdae35a933de019003875407ab83b38",
+                "10a3ccd2d3013ce0ad1ce1c796f041115b572d5fc8e0e47a373e77d4df146826",
+                "7cf5f8c83a761b65ce54c87c9e9a08bd2f902715a4a5b90844ced5e97024d1c4",
+                "b36cd64dffa5b936c08e794ad9a64a2ccad78eda64c08f04d4be887d9f2f6887",
+                "d0797ee786fead4823eaf9e3e5fd1836382dd9bf591f9c2cdfc5197ddf6ba7c7",
+                "6ae6e9827b0e935b379b3eecb19d028f3b09e64663e139917e9d8fa6f2b92239",
+                "f06bc9bd0d64e0b2560d91eb91e05d3e23a06793aa28d513fe82dc013cf3d63a",
+                "21c86962f232cf8931cef7b74ebce18a2ed3c97e185b23a05e578d52a6c8c17b",
+                "08ef30aab2e920ce91995b9c7e1de658d661ced40f2a1b7fab57132bab0dca02",
+                "5f1829f963b5a9c362beeb1cabd9d6386dd992db2ccb2523a66c987fde7acd5f",
+                "d7b55fcaede6de51b69d0e45b3c9cb75e1106b37163c8fe80fcd67193935fe14",
+                "61530f1c2b74b8b17a309ff8221936f33876cabbbb87da46f86e79bb9e81a711",
+                "646b2aadf55faad14e482f18feaf60279baf16dea2b31d13545a814aaa5c8fad",
+                "dc5e948a08c6ac3e51344d5b957c0bad223d971e405c971f41b4d57e21557c16",
+                "2fa1995e75e8bd2ada553b37a5c3e25bf1dd17f0919f4f20df036c415571da89",
+                "9d49a3b06885611c860c1d4853ee6c2b44f4f5d5302d6b009cc42995a59c4383",
+                "84847694d4776a7ed94e0b7624930454d6e0afb81bf6809208a4c748b3f81781",
+                "593ea3e8ebeb6d472816fd42636b200177411434af439d1815f109c1ae9e1da1",
+                "24fd3740cc1f23f92ab3647d2c6aaa8167861ccec43c30a601cd5d6c033d8670",
+                "e1f169d6c4ef88133ad50df083352b6a6e9c1abce3e97a55f3442bafd20f3b4d",
+                "575cd16ec342f35a7543e48daddf924b935b7b7f0c10b9c81c12657d5dab4989"
+              ]
+            },
+            "id": "c17fc5a4809d408347b47bfb00e4e2f26cad2e992ea1a07c023df981c8c7b609"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-023",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "9b0bb4d4114a247abb3b9b2bb00730f61922e65e89b40b11a49d60fcab67c974",
+                "1e635deae2cd83c6ae82572c96de489917370a9f7870506068de01bc2143cd2d",
+                "31a6fee44ee9c2e1e71982ea12938d1ccd9db467c8a97afaacb1feeab2c188bf",
+                "9d4ceebcd81c44429c366830315106156730bab9204f57c21d3231f4e7ec0344",
+                "cdbda9317ad3d91b75b945ca872a47704f61093d63e79cb96a9505933ea3823d",
+                "ebfc71907dcca6b4a44b348611ae73358c6a3ff16d8a2a82154d92e8317e3a68",
+                "4231e2425165ebcbadd53f8c61b7fb22c9e900927801be684cc99cdb85dfced9",
+                "90596d48c5ffc40471d22670354565f127150fb24553bc6b544351dc80154cfb",
+                "28c1f1563b90deb988226d135a820d3012c1c919e5831d665239f78c7101d415",
+                "4856a4242dbf6162499763746ba3416ee2e638ec17429d5a987a27741565a4cf",
+                "ce80d94ebc659b1d1110d7feb6749bdfed40fe5da4d84eaabbf3d2a34d1682d7",
+                "b9167e3e430253fd3ccdec2ce2dc714ec5798bdf4dc0744f2172ecdfe5d9c094",
+                "ecd88f36b54d4a0bf8ced58498bd52fbf64f581e0b4d4c5a53f6ad161aba3dba",
+                "9645ea18ef200afd1d6742011c79c184029bb28966da3905b9a58a9faae8f019",
+                "ba790ad4bfd04c3c3554040a3dec9bcb765f0701237d8cae3c1ccfa68ea19b17",
+                "68c1b6ef41b4727e09a9d444ee375f64ae975bc2353edb5f9840064aa72cf635",
+                "fe7f7f668f61268cbef85be3d8c4b710322fa26e0cbb41ba4797a6e2d91fd131",
+                "d0ffac9d78d0baad7491c4e847edee889150157b8bc4cb0887b68c5738638eb1",
+                "12a6f98754e883abb4a698f9a447dc61bb7a9f1fb75543f3f147da77efe22287",
+                "af10ff01802971b693296d9090cd43c4616621c092b0334141ca89492026812c",
+                "65d3ebe5665c5584c3555d4447c14c57125e8004e14697c7ac7f1d394d507b9b",
+                "deae0c2d96b8589ac7fa64ba3607b0a6ba66e2c7a97e16deec6d81e88b94fa39"
+              ]
+            },
+            "id": "9b5497db90296d2f6bf57100ae4adc7f67cc2256f3b15a1efc72ee2b74010ee5"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-024",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definition should represent the metric you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "fafcb75d3f603d72d25aacae4eeea42e0998296d1ab15440e505fa7ae47e295a",
+              "fact_ids": [
+                "afd276f143d1d909d05d153316ffd4fa707c69e94678bfb1b58f007cc730724f",
+                "9139783c1804401a7b3ac53b43d53c801ee4a4bcaf16aa205c63e102401eb193",
+                "964507af3d807f0f8eefada117961f6c9e44b3e54861cd13708b9ead2c5de644",
+                "561b13c3158394573e4a31b19195eef43467a75bb73da55c3eb6372a9d8abcd7",
+                "9e8385ddd5abf4fbe131951b614e01b264040adde0715d8d0d4b848573b72ef1",
+                "f3c4adced6d8b95a282b5558edc4ecd8f46daa96c0d3dc0aacc20354843059b8",
+                "8d6ee05eb3eaba93c301057da1b6491b3c7820086857b77b94c08c4c082335ff",
+                "d908d74b6a8328ff250a09a4c52eeabc47b235ac7a7c6e677f237f08acf989e4",
+                "6861dc540ca3418997c677498b6818ea4dfe152c04f2e57b6d3eb1f0c7b54981",
+                "1b68cdf577ab563eb7cb7c37b5492eafcd432289b932ef7d4395c5f65ce76668",
+                "c640618cc208878cf2f6990a0b2cc24bf66070b10c09598d0e8fbe6f2e0bfead",
+                "61ecccecdfc3bf35cad860a82b5fdaaec8390afb18b64ff5cf67d8dbe82cac57",
+                "895b84138fb8b9e560a8893d51ea99dd4929a83a71fd1c0520d514d6c08290cf"
+              ]
+            },
+            "id": "1302e32dd862bb4da0efb81b5745732e9241dbfca70afd1f6f67db63a5537d32"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-025",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-026",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "3f3556303669a8ffe8cd9c51d980be9a6991878a6d7e9f764cb92504493b3406",
+              "fact_ids": [
+                "81cd303e7cdee0328feb7e1588e5064fc9c928f8bfec8d498cd7aa41f09d9545",
+                "462a81164fb04422f7a6f50b21d8a0f76e3b6739476e231e54c149ecb0792982",
+                "f462604282ed51cde9b646f2ab5fe809bdaedeec8e8a8735a24ae1427d3eefde",
+                "1ba13f6fd11f8602f0bb2f84cafdf0a0a12a048258deecc052448ec46d2271b5",
+                "9176a7f81db38e47adad65ada7c251dd52b357653fdf7ef31fda5cd3f34bda80",
+                "1324f62554228d9496169cd40712bfcc6d2a2f3da9f3890b572fd6dbda98baaa",
+                "9a0bb44b586a7c7004b0748f3b00e2e3ad7714e53cbf62bcafffa63dd84804d2",
+                "5b219bf86c83b9f8a899ac5419c962ce5c1e881e7583326cba28abbc715fe252",
+                "a819cd6708597c8419cdf8a55e112aeb01d97f760f9873365d256b046f5ba76c",
+                "f51274814e2e779a6dcdf3dde1dfe3039c53d369deed389eada41981999d5d50",
+                "19710cb29c4c9d1db2fb1ea775fc5af7d1bf314c6cf1f4464b302e3108279998"
+              ]
+            },
+            "id": "d3e168ecf2a78a021056427b3f626895f40248bb4cfa5f0dc7d6fe998eaa4bd1"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-027",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "3f3556303669a8ffe8cd9c51d980be9a6991878a6d7e9f764cb92504493b3406",
+              "fact_ids": [
+                "73c7eeccc3a8d611f4ecd65db5aec8da3fe25022bb621a9ebe3296387bf9d0eb",
+                "db65a7a0afb4f24b14a407981d940cc5e24facf0f24caeb341011ec47236d9cb",
+                "c2cddd807dd8d997de2219519c0dbfd2cb1a16a3768d704c15d87149f2029dda",
+                "ee9676ba1d14994c31db5faf28142ccc6ff2d6bc199620010fd0108ba8209dc2",
+                "e2c562ad8ce49bff96ab4f29d8b0328212d4de52378c17d1c5a580201078f2ff",
+                "7f1707163f9485278c0e4604a6b2867822403e9f15380b59f79bebef5d4ea798",
+                "507e95d3b6573dfe70188d9554f04d39980624c9d53f6e904223a270551270fd",
+                "e70c369b7b6457a27d0c31e9c29a800171a3de780b1175a0afefa1691e93e2be",
+                "69e083ec276139670c201cfe0b686ac6c2dc555c9d171ba14229216c8bab33e9",
+                "240f875b4f258ea6110e31c9b693d5c862b3fe0fe1de813d8765c695f34af327"
+              ]
+            },
+            "id": "b82debfaa551ed0a0eb88d4be7d70f07167094c4ec3dead236064b83dc3fb6ca"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-028",
+        "original_grade": "LEGITIMATE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": "Identified metric bindings have one retained container; no representative visual is chosen. The owner rule checks every same-metric visual at execution instead of asking the user to select one. Awaiting confirmation and actual candidate consistency; no technical answer earned offline.",
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-029",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "3f3556303669a8ffe8cd9c51d980be9a6991878a6d7e9f764cb92504493b3406",
+              "fact_ids": [
+                "62668091cf5863b63a056c58903f4c1067dafe95ae8918165e806e4f58dd4485",
+                "6855d081e6a344fe86739c4dd3a67c3b225e5deb3f54a003bccc2fbaea41648d",
+                "e1e42e3b56a29b46717a69eb5187490a94ea7851e60439879446dd707b9fcc0f",
+                "4db36786584ff486f03cf9ad4aa1273a6c5a9e0c5527365d46d8222c6e3d76dd",
+                "bf21322778402a4a259dd12d2fb9118fd1dd5213c0829b7113330c23e43653a1",
+                "0ac5ac855b6770b879a6659275ae3d615c8a41ba254fc410440de68dcfd52ad2",
+                "0cb680d0f0a58145db3a5307e5ab68efd9c542c092199b3e3e0a8d65b5fe21e1",
+                "eb2fe3f5315399e617aa879bc2d34ab04c0976108521d3055f0c91eb0f629ef7",
+                "7018e4beb43a4e6a4c1b199a7d22f3db115925429551111c7deb2adfc7b79479",
+                "dcd2345d88f0b936444b8a21d1511bfb4be9a27864b5596e665c5a691651898f",
+                "e69c79dc8cc82535e439d65fdca26aee4f6e6469f14f33bd1f668086334c4ac0",
+                "0c8f634b1e4f4edd50bb6256030385b460828dfc975a5282a061a8041ddb8ef2",
+                "4f1ccae6a5d242a788e948e928ab284f9be99f42037502da4263947f7fb97d3d",
+                "5f44b224c7ca4f12365b6f72834f90cfd8b67975666855f861d4ccb66211c0b5",
+                "6650d144dce338b36c6c3ee6d724ae22599ed8ab15bcaebd745a8c5436bd45f4",
+                "b704941cbbc78a8c1cf16e6a3d4c5b644b284cca21673363c0a668548d8f8773",
+                "6f2f1aec8a71719cdaffad2fe74d4573a8fe771129af5be9919c3595ad63dfe2",
+                "ea2392b079ad49cb3ecb61a1047bebf58f205b869b9a31322015f3a80f360604"
+              ]
+            },
+            "id": "e3d5ac912edd00d4e48551f736334e29e5139dd5058fa8b8e569c260a25d3066"
+          }
+        ],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-029-round-two",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [
+              {
+                "id": "6c0e788e5337fc6e3dd25c235dc0c929ba732542bf5ebaa9b5afd2aece7d4163",
+                "label": "MRR All Plans"
+              },
+              {
+                "id": "dc7edd94b834c7de23295d145a7706813ef961f1487624df0340100d722fa8fd",
+                "label": "Usage Overage"
+              }
+            ],
+            "grounding": {
+              "catalog_hash": "3f3556303669a8ffe8cd9c51d980be9a6991878a6d7e9f764cb92504493b3406",
+              "fact_ids": [
+                "36f3d453fa3d725295a757cdcd775cab16eb997b36ed633abcc642f4f278d5df",
+                "09354b29c734da8ea70247487ad920b5b93aa8d7ac4272c6a023624542017e23",
+                "64e24ca133e8db7eef36e375c9ea4095e67f22bd569dec0cf3d41d2acd85de1a",
+                "d2fd8758e66e76ecb0a965ee758a9c21c47e2c1f3f65d19472518799dbf936ed",
+                "78d93ffa42b6e0a65a1de010b1102687e6898ece87bd20b7cefa3f669f1484cb",
+                "7e0b864e795479350f3f9afd9c12c38c919dc0bb3a32d40617c95e2c9312d6e7",
+                "fe4bd0e64903d5d8a9dc348cda0b59d565df4c514d4170ffb73d4689aafba1f2",
+                "d515fe32378a5c9c29099d4ad3ac3fbd0b856f30a6da1bc81071eb15fbc4a3e3",
+                "f22a34b92df749e2f947a2ee06e466aa117f963eabf3983794f7406b7132d27e",
+                "ee545916449ebbe52b9e8760fb5d49406d1d8112f8ff1f9caee4ce6fea5f8d44",
+                "fdd6b4b3795fcd813815ea06b9e84b966518599696ea460e01eb67766f91ed5b",
+                "b04e45018eab74630a41ada6734b0489cf07b4a4569e10f2f09d2dca7eae5bd7",
+                "3cfce7978c295cd0217fe433a77e638387b603dea6a87a902bd281762b4c3894",
+                "b53c17f648476eaacc9143a1b886bd4b8a3cab9d1cb29ce18e788b689e6e52c8",
+                "868804c0d2bd6e4a897dcb35daaf292da2e5708e478fdc29635be8783828967b",
+                "623c5a1a7b92140d16d0c3e6c676464c7f4a37c7eb20aaaa6b02d4660151ba0e",
+                "f55a2599723b73923e4793a2a3e6590805338d0897010bc0eae65375a0615ea0",
+                "e676dc7723802838425a8513a7970ca56039f2fb2ecdba3aeeec8b5c14157cae"
+              ]
+            },
+            "id": "51b07dd2a573899c288cebf9593cf3ff547bbe19a39154c6d746a3e989ace0df"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-030",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "3f3556303669a8ffe8cd9c51d980be9a6991878a6d7e9f764cb92504493b3406",
+              "fact_ids": [
+                "bf85162c2650da5133e37775d95918cb2b05ad99f7d2e23d100e92bc6c201ba2",
+                "f627b5f05393ef788b44c43ea75bdf3383fceef9314ec32816490c46cdacfba6",
+                "cf12dc64e370a6c84132c6668d0a18000efb4d1514c38d37177b2e1f02ef908d",
+                "fd2a2a402f80855f7ed740a63fb37739beee5445a7fb37a59450724aab002da9",
+                "9172120a8d12f305889ed9e2ed282776cf14e5b312547acd69986d2437c423e4",
+                "5f1238b465a8e5fdb65bc56cae89e1d1552b4561d605a829abfe1b6bb3413616",
+                "dfb584383e5dff714e8049e5c555487fe42b4068ce19e9f735535ea44b89cbd7",
+                "fecdc3fc3e83fa60957a4e9986319330a672ed4d46758ecd11983fb22f551b21",
+                "4019ec5cfc2fb859ed1b3de28b6cdc12fa8531d32206eb271a9e9b4aeae0cc44",
+                "4c015e367fb6897bd6c076b98cb3cdb75f97c3f02d6196f56d096ac122fbe1c1",
+                "4727b0e7880ad7f835e58b80d6ca0049572bb64be781158d381726bd09fed121",
+                "808624b79d59c735ecc0307b314e3bdaac2f3c51b87de55851a92728ad79b006",
+                "e5831f391951515d0c57ccb8a79f83016cbebcaead64d2b88ea0411697b05027",
+                "ff70c2782e9ee4f9d33a1bda4a25a2c380e68faeca6618a3722b1d3e946a6c44",
+                "a98fc95b6ffe15acbe6ab2d75e0cf5c16d3b1c924fb7dedc2a50ab9745c21614",
+                "363762098035a00ccd11a037b94b1b286c4b8a257af265ed0b51a9dd76a6515e",
+                "70d09ee14a2dd3b632d110b9e5825fb44b02161326959eba8ef28df128aa4052",
+                "e7d59d146624216c7c1088d54e46b552f9ba52214f321e53869019b045fbaad4",
+                "a1ffb2d0490aef2e9044dac995b3a8707d5e3baaada2b7aa95eb35f4a052817a",
+                "6f6eff88b432639864e462a1e448e64d24778f2a26d223d5c4ff208f8865366a"
+              ]
+            },
+            "id": "d6628d6fbf9bff8b22a0db90367e6d22d88904a0d876b459afbca73d9848c8fa"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "direction",
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-031",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definition should represent the metric you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "3f3556303669a8ffe8cd9c51d980be9a6991878a6d7e9f764cb92504493b3406",
+              "fact_ids": [
+                "a820eb09c2c9db642059463a1812d5d33720a0369bba5934764048ea612b57d0",
+                "c572d22d4854838535ee064076610da4415fe9898c6ea1a21b8e99bc48a30df1",
+                "31a6fee44ee9c2e1e71982ea12938d1ccd9db467c8a97afaacb1feeab2c188bf",
+                "5745af1a02b9f0818ae03305211f91e3e57616978b6dbc279d27224b4cb4137a",
+                "6bcd679bd9655911d3c265e70944ccdb9966735a9f3d7258b910eb44f84566db",
+                "4231e2425165ebcbadd53f8c61b7fb22c9e900927801be684cc99cdb85dfced9",
+                "ece664d87b80c0268027b161dcce449b0fdd01972a7f36479e985f006b78def0",
+                "a004816978d07fdb2ed48704c9753542709ea8b2adb717e74d037f6e48e7e89d",
+                "6dbd07fab046112a421573fe1f91466ec9ade3c61ff18b5620a1c3aa8db101f6",
+                "fbb299145037453a9ce3b03b9c8239c46e9b7e75311582bbe7f27ad1c1625eaa",
+                "431d0a6ea5116c596c9bdba7a728b6a35809036acac0d94c5a36ee87384cc17a",
+                "5d4abfc36c4bd75ea29c1e5f1842debaa937abf914caf2fffbf14dd08c026c91",
+                "fe7f7f668f61268cbef85be3d8c4b710322fa26e0cbb41ba4797a6e2d91fd131",
+                "8d2e025da04620e90c63195ea46c100381ab5a65edd22bb1f6459cbd0c4f9708",
+                "2423cc998661c87410338981996325c1844f7f457c478d6810030c93ae4d344d",
+                "bb1dd767c8e3ef3eaf285f15a5a4a1ba712f5ca42857d97c5e85878b65a2932a",
+                "cb758e129d5f86af37e6fff19ff4e903bfba629f067d614a8bd61bd41169c467",
+                "5039be53298d73dc57ed9f91f66be1351477343cf2917adfa9fceb3f8afec831"
+              ]
+            },
+            "id": "cf8e10fc5e9c09a27b93d43f506c7441fdcf94c778f0761828068699f9dea862"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-032",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Is it less, more, different, stale, or a definition question?",
+            "choices": [
+              {
+                "id": "e111a74072bd1234a8ba97304473d0baf64574215bde87ed0dc90e7dba616411",
+                "label": "Less or missing"
+              },
+              {
+                "id": "bc41625825d3a4a37fdc565bc43121a790764c2d750863a987e0a657e1d1a712",
+                "label": "More or extra"
+              },
+              {
+                "id": "1033e96533e73493620d2d572990c90efacda01441d6d76cb57f0f6e4172b53e",
+                "label": "Different"
+              },
+              {
+                "id": "686ab537d2c73d3278d4ee5fb55940cd112d851963db46b744aee752df9b05f6",
+                "label": "Stale or not up to date"
+              },
+              {
+                "id": "932e053d6996160d45902405f2f248314986e6e1abde65bc09bab8b579b81ba5",
+                "label": "A definition question"
+              }
+            ],
+            "grounding": {
+              "catalog_hash": "3f3556303669a8ffe8cd9c51d980be9a6991878a6d7e9f764cb92504493b3406",
+              "fact_ids": [
+                "6619250e729bb66b6243d00882c2edf77b370316fb289b7a12a12dca6f86b555",
+                "cc81ebb8c7634c955e308e044d1559b6fb1529c945a0ff622b530164adb7b6be",
+                "261eaf6b7d428e84c46e265dc6333a5082b2f69ba1bd503351d86c1b364b0ee2",
+                "112cfc2eeab810ff44cf851c37bd12e902b17746c248f2c6eab04f3af78f2d90",
+                "e1e42e3b56a29b46717a69eb5187490a94ea7851e60439879446dd707b9fcc0f",
+                "4db36786584ff486f03cf9ad4aa1273a6c5a9e0c5527365d46d8222c6e3d76dd",
+                "0cb680d0f0a58145db3a5307e5ab68efd9c542c092199b3e3e0a8d65b5fe21e1",
+                "e00e843a919243fedae7cc8823efe64a245e4f7f45992cd22e0f7c9170a6f2d6",
+                "4f1ccae6a5d242a788e948e928ab284f9be99f42037502da4263947f7fb97d3d",
+                "d533c93d57cd3c1d21ec34babdfa5a4df14714a1c3f11b466d0c7b8b38c11dbe",
+                "978df78222de127a5ac7467c8b501116fe120eaba39d2db341a2b981bfa9e5d1",
+                "6a6f2ca0434b4eac063e2058d826b4ce76b13ce5fad716a88cf25bdb8e962adc",
+                "253be63f58028e68273eb5da2531624cdf7c988d5927490e443fac12e38ccbfa",
+                "b704941cbbc78a8c1cf16e6a3d4c5b644b284cca21673363c0a668548d8f8773",
+                "0852eaaf1beb3c40d512555d5325e8579fcd995251d9c1f3bd04b771c835317c"
+              ]
+            },
+            "id": "51f7b032ea8787569a00af0e2172263bc4ce376998ace2aa229729f241586c99"
+          }
+        ],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-033",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-034",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-035",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "d755caf815ec58a2d522298c937550c6acbf3f448be08d4fa55e3f9bc3d70c86",
+              "fact_ids": [
+                "81cd303e7cdee0328feb7e1588e5064fc9c928f8bfec8d498cd7aa41f09d9545",
+                "f462604282ed51cde9b646f2ab5fe809bdaedeec8e8a8735a24ae1427d3eefde",
+                "462a81164fb04422f7a6f50b21d8a0f76e3b6739476e231e54c149ecb0792982",
+                "23c555c03415d2d1bdd2b6bdc557d9228a02f5c5217023a4770d4f4265305201",
+                "49db8e2df5627e623b90be90fabe6c80951aff8c4c43e1cddebc1a5717f73998",
+                "1b4121e1275010f72b697ced467ce34ca16f446ce67d1a6a70b2cf68108082fd",
+                "1324f62554228d9496169cd40712bfcc6d2a2f3da9f3890b572fd6dbda98baaa",
+                "03adc3a6de288abbf5cd86900ca68953251327d90f1dd283ed711fa1b515e25a",
+                "024a955c1a866a2968f6d82d569b21ff16620ae1641deb0228d9f08a3402f6ad",
+                "5b219bf86c83b9f8a899ac5419c962ce5c1e881e7583326cba28abbc715fe252",
+                "82879904ff62058bd5daa6cc89a734105326743377de45b1a860cc73e36ccd44",
+                "72ba7b9c1564334a9d5f3e5139138191f2b8bb8c24d016393dca79bea322f6f9",
+                "cbc7c5dbac7e9f740216a9641cc1c778be13984bc749d2bd5eef96c5eb09871b"
+              ]
+            },
+            "id": "7aa846fd1383987b09b824d02ac480fa86d17b58b9d0ecee32db54e8331fb0ac"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-036",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "d755caf815ec58a2d522298c937550c6acbf3f448be08d4fa55e3f9bc3d70c86",
+              "fact_ids": [
+                "2ccaf7f4a67f762575fba606720e8361b0f95322ad134a8b4efc0978bd8d61ab",
+                "b8b01232f725a7d6d48868ca3362f6bfc0c61f31c1c4f1a0b149e48948565b83",
+                "2c7c2877b6f2fdf6ba71ffaa26dbf31b4da42dd33bb93300ebd90827073f2d4f",
+                "d79e2dd56dab0687f6737482211b2f8c3c1c6d3990b95dce691a50b565661ba3",
+                "48a26ae7d456f89880f6b5879072d347775bf2fb8492f79f064ae86e9d9ca2ca",
+                "8fe1b91be0bec7e67db9c9a9476cf0755967ee6c1cb04b367d0d3bf982b7409a",
+                "69e083ec276139670c201cfe0b686ac6c2dc555c9d171ba14229216c8bab33e9",
+                "8a35e2d8a523531d8066cd81c494fac3aa69870df8523839ad5c852b3b852027",
+                "7f1707163f9485278c0e4604a6b2867822403e9f15380b59f79bebef5d4ea798"
+              ]
+            },
+            "id": "a4a72d06eb8192d66661319044aa70aae2eeefddb73f786e2bccb7d7d8b85db5"
+          }
+        ],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-036-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "d755caf815ec58a2d522298c937550c6acbf3f448be08d4fa55e3f9bc3d70c86",
+              "fact_ids": [
+                "f228ae252966a03332b6b1896f8b884228f09c3a979f680b0aebb47467610535",
+                "5f9ed15808e40c13341c03de8f07ae7cfd5563094b9bffae22d156a416332dbb",
+                "dcb4e7e852eed24d1ec65796671faca482cddfc37a3b4a92b22b285ff0b30f14",
+                "b1e14f08f5086d0ce168dce3be96769cbea440682e11a4d692762aa62ab5f1f0",
+                "a425c74d86d3132a6c7e91f120c03b495e6b56bfc4c98fe8854984136f029556",
+                "761b495408c9f44153a1abf497e54ab35647267067d5dd489b26faa32fbc7a83",
+                "82b14ed01747c947b3cf689b96c3e4f2c3d9a859bf2333b3e395b0be63152d84",
+                "0e9d174d5b4c47c1e695692dd99c0d3163a115827a38d840cb1940978e37b4ec",
+                "94f9b00e894dd3bd1b0ea924a08884d3e36a019ee2f38f444c60e0890ce07e4e"
+              ]
+            },
+            "id": "1a131b680579c1f17dbb504d0120bd48a275b7bbb7c9b6cf861243e3ca2cf482"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-037",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-037-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-038",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-038-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-039",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "d755caf815ec58a2d522298c937550c6acbf3f448be08d4fa55e3f9bc3d70c86",
+              "fact_ids": [
+                "981933066e57e5b647084c0393cd0e0ae9fb55b7dc3396309fa8cb8bf7539a0b",
+                "51c33885c74d173eb7343c9142155e5f459b7e326699b6c913bfe9bfbf55b516",
+                "f627b5f05393ef788b44c43ea75bdf3383fceef9314ec32816490c46cdacfba6",
+                "e91ab6bcf4a6806aa11496a7ce6d9d84d728223c3661bcc506c5627b6eae4804",
+                "fd2a2a402f80855f7ed740a63fb37739beee5445a7fb37a59450724aab002da9",
+                "f3da9955359d2547345d0367a0b3c88c8e8cba67ef64c5aa8b405d6082e2cb3e",
+                "5f1238b465a8e5fdb65bc56cae89e1d1552b4561d605a829abfe1b6bb3413616",
+                "476f9e600dfe142a7ab6b1a0b5a7d55bc97a3e51edc4e3872060390652c18139",
+                "4cbacdaf3df50f7634d81b07577ca6a556df4a5117ff2ae073747747e4541f3e",
+                "df4ef5b7f566493bab8ee8cdc3930ebb094145cd9229e03922d519a3979b586b",
+                "f5e6f7fd91c7d9cfc04f81690a23ae17040a53a5bb40791d065d89afeccc396b",
+                "e5831f391951515d0c57ccb8a79f83016cbebcaead64d2b88ea0411697b05027",
+                "ff70c2782e9ee4f9d33a1bda4a25a2c380e68faeca6618a3722b1d3e946a6c44",
+                "a98fc95b6ffe15acbe6ab2d75e0cf5c16d3b1c924fb7dedc2a50ab9745c21614",
+                "e7d59d146624216c7c1088d54e46b552f9ba52214f321e53869019b045fbaad4",
+                "35c74b609ae47472e5f090526445945fafd9f69b5dfddc7706dae07c71296179",
+                "6f6eff88b432639864e462a1e448e64d24778f2a26d223d5c4ff208f8865366a"
+              ]
+            },
+            "id": "5b1efc0704b25e665c792fdb52d7f8d0c30e8f0fb27a690722f547bb4f9f747b"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-039-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "d755caf815ec58a2d522298c937550c6acbf3f448be08d4fa55e3f9bc3d70c86",
+              "fact_ids": [
+                "fe55e5889259f5065fbbf104056a79315412c9f7db864617588066007e0f335a",
+                "00a892f31a886aa562e20b67d5ff5da80428de400dbce586c45f4d7b0436ab7c",
+                "4d7a13047cb850d08c694c185ef176cc1b18c323078830113290b43d64112b8c",
+                "738c4471fc655ee56cabc2dd0e05a02a7ca3ec27fba3bddc01e31e6330871cee",
+                "28812543cb5a5f10eeca667ccd3e52d607128a611be80ea4e38d824090e1fd0c",
+                "84f907535a7caa55ca2cbb62144b82d332256fbc63a95dd89b7ebf8edb29629a",
+                "ec62d3937e19c7fedbc90836df46b16648a2f41d13e4e56940c7ae29546078e0",
+                "0ce0be42ecf271e0eed6dd5d0c86581b72fe6a52d98bcb46c2ce5688bd90a452",
+                "7dffb87e4c4a10d93b325114078e0ae0371f7dc78a20550ae7333a10404483c0",
+                "2e211d0826bc192285731e9fd48ad0318e80437a561c1fdae5e933cc4d433b37",
+                "6454e7b6cbb630836d51d94c3fc89b18ecb559da1ae3935198a1b6eb6855d45e",
+                "39cd03cbbcf2ac1e859dcfa92eb52494159a9f69b3181465992207d053f42081",
+                "159fda78cf0eba41bca222349c5e83c9eeec16d6ddd7a5cdb51ed19568da3464",
+                "44c6cae8de430a293c57b91f983b5b4e36560ceb326ee2117397fcba41543d86",
+                "ca349357c68af9d2c0b45b027ac32276c433214a9c96517ca7edb0b44b761bf6",
+                "89751a19dfc1bd5bb9704599da0ebf57afc1126d3e2d4dd83b1d1089e4ac927c",
+                "625d56745ceaf472d79c62e78cb6163b941d048b98c667ff1c3b4486e5880a18",
+                "b6162466ba3819d00cedec32cb4713426b2794420841d7bf27f6f5e4b3970c45",
+                "4405621572b04080342982ef82b26257f09621c68ed39ffb54ced34f938c7a69",
+                "7c55d08ffc6f3048eed2d1408912c6e80af69a98f62774a1d66c7f9b367e3d92",
+                "fe610a033e6b243ad2cfd1f15b6d6b1ad26fbc45e0fa1fbbc790516397aae1f2"
+              ]
+            },
+            "id": "b817f03d8111652e81c60b2898711205eea161dab83c79f8307dc73adf4ead4a"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-040",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-041",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "34f2da98566394d1c5234a83fad6c0980ff24896bf373901364e47f3d5f3d00a",
+              "fact_ids": [
+                "81cd303e7cdee0328feb7e1588e5064fc9c928f8bfec8d498cd7aa41f09d9545",
+                "462a81164fb04422f7a6f50b21d8a0f76e3b6739476e231e54c149ecb0792982",
+                "f462604282ed51cde9b646f2ab5fe809bdaedeec8e8a8735a24ae1427d3eefde",
+                "49db8e2df5627e623b90be90fabe6c80951aff8c4c43e1cddebc1a5717f73998",
+                "1b4121e1275010f72b697ced467ce34ca16f446ce67d1a6a70b2cf68108082fd",
+                "a2e7b0cb70f1529817b19d98775e3abeb33104f9da2fbc7ed517535b43cf0305",
+                "c972306fb1c0f08ae234f9ba208d92dad0352bc4f0d8285ccf13d9035bf6afb1",
+                "9a0bb44b586a7c7004b0748f3b00e2e3ad7714e53cbf62bcafffa63dd84804d2",
+                "5b219bf86c83b9f8a899ac5419c962ce5c1e881e7583326cba28abbc715fe252",
+                "a819cd6708597c8419cdf8a55e112aeb01d97f760f9873365d256b046f5ba76c",
+                "f51274814e2e779a6dcdf3dde1dfe3039c53d369deed389eada41981999d5d50",
+                "c00181b75fd9051bd6a44acc056b7d7715b8e85bab52832f850a9fa4a83c1609"
+              ]
+            },
+            "id": "27715bf268dfa6658d27c16815a00728afa476789dcc717bede8776414b131ef"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-041-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "34f2da98566394d1c5234a83fad6c0980ff24896bf373901364e47f3d5f3d00a",
+              "fact_ids": [
+                "d3a45d124ecbc5b2add0a24d9ccfc8bf2105c41fe2b14374f2098f18c21de091",
+                "30f07db78feaa66eac53fb9f3f4415d87536b342094437578fef365080c06541",
+                "4e338ee054d026eb011c6416a0027dd50419d0de1a531309f834c110698adebc",
+                "b973f1e0e1865a56dbb03a04060b0dfe381518200156fdc9820bd65e274c3696",
+                "a3fc18ffe2b09e56103c0fc1d4c2012486dedc3c62178086017dbd7ea9ed0612",
+                "c725b9e48ec92fe16ecd3d4099f34942eb8f32716c7612e9758a07ab7453c275",
+                "2dece869e714ad819e2554296c2128cc4f27bb525e27ef75395f809dde611720",
+                "cdf5dff5cddb3c7541ba301e0d18098ee4472246537b291c53165cf2ea6c8f6c",
+                "1afbadffc25c16a239e45eea9b6b150cd355a1f12b020a84e4e7a089cc92ad26",
+                "e8a4b68f46257bac41ebbf965981455a7068ddae66f4f68411251e993fe85e5c",
+                "767ed7bac34ac8aa3a3b6b6f08e0abc680fb7b092db9dc473e385ef607bff534",
+                "d469ee019fd9719f9c6dacf4d8f3b340c53ee7a8c5545d7f55c80c4805959162",
+                "d31cce410f491905a121aabfde1a0ddad2325f41ba383e024f244e603e8a7aa4",
+                "abf2e094c4411a1b59576ea5cc185cb59ffaf1834a7fe330363084b1a8d71f5f",
+                "62d4eb40f224826a0719a051f718d435d858f123f0df10b9ae45ad312d7e39a4",
+                "911fc22a2e7e91614dec4c8f4a13bb4b2f9b2104c5aa33846a0a3198ac59deee"
+              ]
+            },
+            "id": "134050f227cd1a60fa76f72f3981048afb5c3210ea675f2b1aaaf6ed454c94b6"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-042",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-042-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definition should represent the metric you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "34f2da98566394d1c5234a83fad6c0980ff24896bf373901364e47f3d5f3d00a",
+              "fact_ids": [
+                "ff4823f89cb75d11af37d905afccb349375a58e84eb4d7d7d3ebcfd10afe1fae",
+                "b657403310c11c745d91860c5cb828e1daf82970100beb8301e356781bc85c2a",
+                "7f89fb4892789f6f8e5aca09d948938f2242a63d5b5ead465478c012a11765c0",
+                "8ae5024610e44d41ec84bfe1a2d0df3219573e350b396cd669b7afbc647d1156",
+                "6178e9b9a3dba6d403648053be61463e96e1a1535d53ff68c7756641a317decc",
+                "82b14ed01747c947b3cf689b96c3e4f2c3d9a859bf2333b3e395b0be63152d84",
+                "05096d23a52501eb7aa17442e6ca7f967960f474e349fb6c99870f257b903934",
+                "0e9d174d5b4c47c1e695692dd99c0d3163a115827a38d840cb1940978e37b4ec",
+                "77869899f7f345f1c8990bbd443c2b422a67a2a5c03af1822c2c47165494bffa"
+              ]
+            },
+            "id": "7351cfd39d53cdec45aa533b2c768f32632f0f36fce9206622e05bb1f9064374"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-043",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "34f2da98566394d1c5234a83fad6c0980ff24896bf373901364e47f3d5f3d00a",
+              "fact_ids": [
+                "2ccaf7f4a67f762575fba606720e8361b0f95322ad134a8b4efc0978bd8d61ab",
+                "b8b01232f725a7d6d48868ca3362f6bfc0c61f31c1c4f1a0b149e48948565b83",
+                "dfc460f15a29658dc4f131ac952d7e58096453c10f043fb8cfe90d5196e1716d",
+                "2c7c2877b6f2fdf6ba71ffaa26dbf31b4da42dd33bb93300ebd90827073f2d4f",
+                "64a16986f18c7c3ef1c1da20eba4b31428e2494f6669dfff142e76f40b7b470f",
+                "f975ec09610c832ee15e71119bff02987638b30b69213ed546fa9c940a39c6fb",
+                "48a26ae7d456f89880f6b5879072d347775bf2fb8492f79f064ae86e9d9ca2ca",
+                "69e083ec276139670c201cfe0b686ac6c2dc555c9d171ba14229216c8bab33e9",
+                "973aefecc0cc35c957250757b7871be243d0a857cf40612e33420b139d210338",
+                "f7cee97f50bf741b2567e3f6706daafa9a4b0e57dbf1ba2e316e984dbe0f68dd",
+                "7f1707163f9485278c0e4604a6b2867822403e9f15380b59f79bebef5d4ea798",
+                "a262c72dc0259acef83b820352984a3d87f92c9d3e4b519994a57e7daabb301e",
+                "ae87977f0a14ea4c52ca5ac8e46d0c2a11f6a70215c6684ee41878370c08155f",
+                "ef9d2634b81b653d186720474d03e3a10ffc3f8b82cd0f62b13e2ab47b8e5a44"
+              ]
+            },
+            "id": "c8f214484e8839503a1c61ce4f3bf406eb84a7944570c3b20a8cd39685a3b19e"
+          }
+        ],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-043-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-044",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-044-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-045",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-045-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-046",
+        "original_grade": "LEGITIMATE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": "Identified metric bindings have one retained container; no representative visual is chosen. The owner rule checks every same-metric visual at execution instead of asking the user to select one. Awaiting confirmation and actual candidate consistency; no technical answer earned offline.",
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-046-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "34f2da98566394d1c5234a83fad6c0980ff24896bf373901364e47f3d5f3d00a",
+              "fact_ids": [
+                "33bf0eb4e639ee7f91f0537f10a4b9e33385131c3fd5dfa8701f0e3647df1341",
+                "2aeae1f67b41b2345cc83920ff93f4b9132ab1ff043ba6ffb0792bc8a90360ee",
+                "49827f8ce6a424b1e90344450779650f319ca55f1363a5ab11b4802493b62419",
+                "8da92923812a67e7dc5cfe3466944f195e28683c5f2f163c0465dd8c76d90742",
+                "b16ea1fa195714432392af558fd540fa5aa4252c63517b43f280501f7d3f76c8",
+                "0ce02308d167719fe7b7b740d2b76dd79a269a3f43ba28ea73fe245b532a4536",
+                "7db64a36c648baafd53e8e8d780103bf8a823f412d206f5e747cccbd311ce699",
+                "7b479a5bf7bec06b97d6385bda8d03d461b4a3abde1aca7db6ca76fbc07ef8d3",
+                "0552aeff05a60c3d3dfee46c035806bacb8314a6cefd457b3d0661783a946a51",
+                "4b0c0ccde86d01eed5f5332102534ad5b2556b8d2e442b0c5a623abdc5d4d845",
+                "6293795a8bb535525af8b185bee67249bc379eab38a3c2d5d1afff22d09edb65",
+                "8771cd0108b3deebfe82591c61a1cc6305866f18c63310058fad930f090a52bc",
+                "73557d428127ad59ea81d0fb045980890b42b6369dc044574b71227ac91aa0fe",
+                "baf667a37063150353eb9838eb6d81f68f4157374cc2140c8c7de67610967f71",
+                "cb05d6910d5110bff1f6c09ab38c9bfdba4025041c80d2eab5c821009111aeca",
+                "4c3861fe3a24c4f875a4a55ee096ae22c39506dcc7031775d67c609457b90799",
+                "66a7e10d429194eb5b03802596232f13f6bc7f5988380245b053fe1a1faf5acc",
+                "46e3bba59072d2f4d31c29bc3e74c67b7e1387ab6d243442a690615453ecb646",
+                "f98b8d343df608209137329d2502b130246db83c9d5cd660fbd3d698aac3c8d4",
+                "2f4fd9bb5380e682f56b74e51967bd4cf3e9230ba04115028686f46347b50260",
+                "c7d1dd500dd8b03eae92b48967daabe3c7b228ac56e185324073c5586788e48c",
+                "3badb935e7ed9a2c9047cc6de74ef208ed6546e2f571ce28a9f0c69b45cf46bc",
+                "ef189f6812113d6d309c03fede6c7659c847a17017b224f798f8ee421e6c6768",
+                "5724f8d7716053fe954a4aca916fb32a23a2e0c1ef2b2e5527ba2fb834429d1d"
+              ]
+            },
+            "id": "a98da9693e57c845767a860f53c2c676dc1e702ad18e1b6a619566c903406085"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-047",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definition should represent the metric you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "34f2da98566394d1c5234a83fad6c0980ff24896bf373901364e47f3d5f3d00a",
+              "fact_ids": [
+                "9139783c1804401a7b3ac53b43d53c801ee4a4bcaf16aa205c63e102401eb193",
+                "c1b2996f618ee7a896c8ffe936eca959e4c377fb3e74fc4d5fc3e75d0b081ce6",
+                "c7234c9c6a5a654a8f5b8b2afb0f99022ee1a1f1d6a9b2b3cf4322d6f458dcc9",
+                "643830e6b22c346c24c94a20e95da42a3f6eabf58b998a649821dc263e58b616",
+                "c640618cc208878cf2f6990a0b2cc24bf66070b10c09598d0e8fbe6f2e0bfead",
+                "9e851863f86a93c399775b50dd6990753db80bb56ec4fc04d7065a1e6735fdad",
+                "106beddd44252b3d21d5bb6efd7ae23fc0b01e33d53d7d6f858646a5eb5a7e34",
+                "fcda633dab6b5b68b31c1a5895b078e33995ed256c9cdc31f0fbc2776784f8c7",
+                "212ce06af835a58f5e3b14211986cf5211210f4a3a6dda2222826108a7f663e7",
+                "e7ac98b05e1eebb214c9971bb1caa468ad3ed20695d58821687f85dd39776711",
+                "61ecccecdfc3bf35cad860a82b5fdaaec8390afb18b64ff5cf67d8dbe82cac57"
+              ]
+            },
+            "id": "f2d16fba60476de2e2c62308a3d79d174bccc20418657d0063cbabc79d824ae2"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-047-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-048",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definition should represent the metric you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "34f2da98566394d1c5234a83fad6c0980ff24896bf373901364e47f3d5f3d00a",
+              "fact_ids": [
+                "9139783c1804401a7b3ac53b43d53c801ee4a4bcaf16aa205c63e102401eb193",
+                "9e0b1c2b2d6b33e8f31b64a57629cff4c098a9d5371082e180d9655fef155c45",
+                "c7234c9c6a5a654a8f5b8b2afb0f99022ee1a1f1d6a9b2b3cf4322d6f458dcc9",
+                "643830e6b22c346c24c94a20e95da42a3f6eabf58b998a649821dc263e58b616",
+                "c640618cc208878cf2f6990a0b2cc24bf66070b10c09598d0e8fbe6f2e0bfead",
+                "9e851863f86a93c399775b50dd6990753db80bb56ec4fc04d7065a1e6735fdad",
+                "68d17608f8631ba735a7adc8e17f0fc7bf2b05defd4eaf82d53de04e0ec7215c",
+                "1defe0e98d4579de25d899da1760f05d20954d11e3fae66b88e29efebab81dff",
+                "e7ac98b05e1eebb214c9971bb1caa468ad3ed20695d58821687f85dd39776711",
+                "985c905589ab20cc65e5e02bcbdb9e92239990e261689076ee9fbb4c4366903a",
+                "61ecccecdfc3bf35cad860a82b5fdaaec8390afb18b64ff5cf67d8dbe82cac57"
+              ]
+            },
+            "id": "c314afb0cf0282975103a6acdf5ea2f5dac37b88952c8c880a8f2f21ac134b59"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-048-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "report"
+        ],
+        "questions": [
+          {
+            "field": "report",
+            "question": "Which report is this about?",
+            "choices": [
+              {
+                "id": "853fbe544ef5ffe972b3122d1d755da47c515459df73abfc9e2b9378edc1d829",
+                "label": "Subscription Billing"
+              }
+            ],
+            "grounding": {
+              "catalog_hash": "34f2da98566394d1c5234a83fad6c0980ff24896bf373901364e47f3d5f3d00a",
+              "fact_ids": [
+                "2e7d5d7caeccbc6aaac16ce9f6480b47d603085f9344230247ea240615c58c70",
+                "c66b19181a702cbcd2c6e627deaed5e7cfb030ec53f516469716ee00b5732a0c",
+                "1fa3055a70d441c614d3e35d5af1921df266705f422c8983678d9c6922c2b61f",
+                "7097bc49144a93081e702b190e3d1c00228e71cc7266a0f220698ce997850c09",
+                "67a66e42678b25c53c5afacfc052ff6e6042a19d8f72204bb0b3c2a5421ed9d6",
+                "1998f0fa9fe0fff614cb1065f3b040b14cc637269946906f6ecbe67aede31932",
+                "f771ef2504a96dbe4b7f550cc74ae87d3bd5f70de1065e8a514aac2ad6731842",
+                "04d5c66c9bbd11a3c1baad5f2c554f47a0a80b609fad7ddc1fc643c29e30cfa3",
+                "87a0a4671e2f5661f063e3d5882064268f40fc6ca3b499a52abf6e66d1f5cfac",
+                "8bec0ab7d9c2240b3aa6407d4703a687fef6f0060cf4ad53575af25d478edbf2",
+                "0876800ad4c5d2cc64a47d35d29ce1d1ec94c46e8c1d34851279eba1d88ebbca"
+              ]
+            },
+            "id": "838f85e9ea960beb7ac576eab60d7868308550657639488d7cff9ee202690d7c"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-049",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "78eecb68fe25ae144062bc1118c43b113fd69bd0264faf294eafe57c14bcb320",
+              "fact_ids": [
+                "81cd303e7cdee0328feb7e1588e5064fc9c928f8bfec8d498cd7aa41f09d9545",
+                "f462604282ed51cde9b646f2ab5fe809bdaedeec8e8a8735a24ae1427d3eefde",
+                "77d86d45feebf8bbb8971cf7c08ebcf7b59396bfc358add65bb341280e42a265",
+                "462a81164fb04422f7a6f50b21d8a0f76e3b6739476e231e54c149ecb0792982",
+                "9176a7f81db38e47adad65ada7c251dd52b357653fdf7ef31fda5cd3f34bda80",
+                "a70cedb8ea237bfad6461aa0dbaf7d751a765489e7d6044b0b2e0a268aba1887",
+                "9a0bb44b586a7c7004b0748f3b00e2e3ad7714e53cbf62bcafffa63dd84804d2",
+                "2107c137519899c046510a74767e394eb6a9bd743bdae564076fc7b59316928b",
+                "5b219bf86c83b9f8a899ac5419c962ce5c1e881e7583326cba28abbc715fe252",
+                "024a955c1a866a2968f6d82d569b21ff16620ae1641deb0228d9f08a3402f6ad",
+                "d57d493ccf7267de697aa660768edbf54c5ec7196b0055418f8eb2d842d72a2d",
+                "72ba7b9c1564334a9d5f3e5139138191f2b8bb8c24d016393dca79bea322f6f9",
+                "19710cb29c4c9d1db2fb1ea775fc5af7d1bf314c6cf1f4464b302e3108279998"
+              ]
+            },
+            "id": "c72ae53b2699f5befd69bf3b9ca34757579394f651d2b8ad6615f95ef95dc002"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-049-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definitions should represent the metrics you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "78eecb68fe25ae144062bc1118c43b113fd69bd0264faf294eafe57c14bcb320",
+              "fact_ids": [
+                "d5904baf6bb019ffd0baa6fbb5f83aa2a730700935dd32e3b042e3bcea9f60de",
+                "30f07db78feaa66eac53fb9f3f4415d87536b342094437578fef365080c06541",
+                "41b527895beef426e1aa11f5a814f6cacb2590ab15c0809f55753919d6c4342d",
+                "64d92217b7080f2dfd9d4edb7e39024fcc56c1038b22ebe2c11add3dbf20b065",
+                "20b04e5f8428536df56887a5f9a3231107a90718b7ea80db87cb4b013d010adb",
+                "4e338ee054d026eb011c6416a0027dd50419d0de1a531309f834c110698adebc",
+                "2dece869e714ad819e2554296c2128cc4f27bb525e27ef75395f809dde611720",
+                "cdf5dff5cddb3c7541ba301e0d18098ee4472246537b291c53165cf2ea6c8f6c",
+                "831cb2c6d277b8dc2867b4f49823b7986c8da655e37f1eb2919f3677e6a8109d",
+                "6bedf176810b9042cb40619fc6d22145e2a1b45ab6f1e8564a77de2368776e22",
+                "6116872e9748de66e8b29d8b301b456d36fea9a40821979f6ebdbdceaec932b1",
+                "52685827672082f07d7c0d30d39167d44a8bc6bb2337dc1b7ab4221c4351dff8",
+                "3e62f399f009582cd30c88cf0e6e5f26c1db3f02ba6539b9744bcb48e6e9f197",
+                "ddfe901f59d5166ac586946ece139433392f5090a78cc0a240a1b1ff08c5d323",
+                "73e7bcabdaed2dacd8d3d80c853f1d01d257e2871d46a178645c44930d8441cc",
+                "006c699a135936bba8c87af7c41d0b8addf26b23f602bdacee97f872fb820d54",
+                "2a7620f5cc2bbc346c3c80d192b06295e5ba236f81789c43a9ae64f83b631062",
+                "e3b21daa4199b53a0896bfdc06145ba4c8186142491a892660c86ce6177a6165",
+                "ed7efbec67f6278181ee94718089929e729fe9fa3192b4914ca99d12767f0ead",
+                "2b1f48740e1214bb1e3be3f4a20e9a22a054ee552ff8f6053c849b2a25b7b679",
+                "fe3257d976918e9b583f601241433fe0889722c7b7bdf49052914338ca79b01a"
+              ]
+            },
+            "id": "9fe195f8c974b90090ad08bda99b2c9db24a148338423c6f95b2acab60fdcff3"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-050",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "c1a6e02a9c93801f62b1933687fbe194e761cdf184346348a94d15fe91c400f2",
+              "fact_ids": [
+                "2ccaf7f4a67f762575fba606720e8361b0f95322ad134a8b4efc0978bd8d61ab",
+                "b8b01232f725a7d6d48868ca3362f6bfc0c61f31c1c4f1a0b149e48948565b83",
+                "1d7fb4ecfcc7f2d13e9dac0d3d1404ad095c047d57fa81b842d1f455241f4c9f",
+                "e2c562ad8ce49bff96ab4f29d8b0328212d4de52378c17d1c5a580201078f2ff",
+                "fc6b72ccbf4c96e6641f9202792ac87fa923176aa6354594f7d701ea9117d35d",
+                "42491e4e81d7ac42f54e95f5a1e21d7c45189fd0e363e05371242f5a99a49cd5",
+                "69e083ec276139670c201cfe0b686ac6c2dc555c9d171ba14229216c8bab33e9",
+                "68cfa24cd940f50adc285cfd34fc2912ec2ff4e3fb48efb02cc64a6e98fec22e",
+                "722c014743a01ce3f29b60b054d6c8ff486bb285337326b1e1e8cafb81917f53",
+                "5b95d90cfaa265003941437eba836651053fd39be05c329177c51124caa8c52c",
+                "985664bfe34c180ebb2b6db6ae54556f325f91bd4b8f66bcab7c3decfc3ad8c1",
+                "8a35e2d8a523531d8066cd81c494fac3aa69870df8523839ad5c852b3b852027",
+                "7f1707163f9485278c0e4604a6b2867822403e9f15380b59f79bebef5d4ea798",
+                "c4777509cfab80b163fbbd453ce23683cc6edb737bc9ae5a599b07f8ba60df9e",
+                "99fbe3360ccd85864dbbaf6606a1675175756deda9881463627351c7043bca75"
+              ]
+            },
+            "id": "6ef509b7150219367782513ed930f28d6ede1bf9ee5fa750f0c80d0e3e5506e8"
+          }
+        ],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-050-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "c1a6e02a9c93801f62b1933687fbe194e761cdf184346348a94d15fe91c400f2",
+              "fact_ids": [
+                "f228ae252966a03332b6b1896f8b884228f09c3a979f680b0aebb47467610535",
+                "5f9ed15808e40c13341c03de8f07ae7cfd5563094b9bffae22d156a416332dbb",
+                "189e26a5ddeec8a9702b107259acbe7b68134c58f4d26c675ef194701e100fc1",
+                "4e79000a765bb01156452c314965794a3f7985ceed58b35d3de74d6e8951a040",
+                "b1e14f08f5086d0ce168dce3be96769cbea440682e11a4d692762aa62ab5f1f0",
+                "82b14ed01747c947b3cf689b96c3e4f2c3d9a859bf2333b3e395b0be63152d84",
+                "3e090423b7b356d268e327c5010da0574c55977bd2bc75c78a74a7e41b3f98a4",
+                "4b12296db012ccd57663002a12dd3670fa8527eeba853840704eaab722b2c859",
+                "285e13441a6fbaaa5f7ebba2f7154c3dfc2a6549b42b7e7002ec3c106530887f",
+                "77869899f7f345f1c8990bbd443c2b422a67a2a5c03af1822c2c47165494bffa"
+              ]
+            },
+            "id": "b20ecad26444bcf4347345e5d94d4097d5b5bf1e05632acc716ade9575b26062"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-051",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "c1a6e02a9c93801f62b1933687fbe194e761cdf184346348a94d15fe91c400f2",
+              "fact_ids": [
+                "2ccaf7f4a67f762575fba606720e8361b0f95322ad134a8b4efc0978bd8d61ab",
+                "e70c369b7b6457a27d0c31e9c29a800171a3de780b1175a0afefa1691e93e2be",
+                "2c7c2877b6f2fdf6ba71ffaa26dbf31b4da42dd33bb93300ebd90827073f2d4f",
+                "98faf563391408df96274181f08c2dfdacb2eb26ca79559b3f3be1157ea209d6",
+                "507e95d3b6573dfe70188d9554f04d39980624c9d53f6e904223a270551270fd",
+                "69e083ec276139670c201cfe0b686ac6c2dc555c9d171ba14229216c8bab33e9",
+                "973aefecc0cc35c957250757b7871be243d0a857cf40612e33420b139d210338",
+                "8a35e2d8a523531d8066cd81c494fac3aa69870df8523839ad5c852b3b852027",
+                "e2c562ad8ce49bff96ab4f29d8b0328212d4de52378c17d1c5a580201078f2ff",
+                "7f1707163f9485278c0e4604a6b2867822403e9f15380b59f79bebef5d4ea798"
+              ]
+            },
+            "id": "9f42e8ebffd8a594ef9107ce94cf1b444ecce8a8fe87759ce68dc41cad6ec1c4"
+          }
+        ],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-051-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-052",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CANDIDATE_CHECKS",
+        "planning_kind": "FIGURE_VISUAL_MATCH",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-052-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-053",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-053-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-054",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definition should represent the metric you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "c1a6e02a9c93801f62b1933687fbe194e761cdf184346348a94d15fe91c400f2",
+              "fact_ids": [
+                "d37bb702621bce8aeb3618cb009521841a35afc76b8d39294193dc9b2214da33",
+                "8805cf7c9ce775da7c8c33a9e08ae824c9f7ba163caf8d1838f51d6af6338cf0",
+                "fbceecc2bbc761fa01232418850b1facce34e00e88c1b10275cc17e1a58af939",
+                "6cbb4ec870cfe0254f727a2fab4ebc18399abce9af578fe28cf9160d1ee1d802",
+                "f43fbdbd9dc75b59f71742641b52edc9b200295232fd6ec0d1aed9a2c828c1b9",
+                "3d3998e5832a399837408c5eb90b77b58142267c2c1023e9dcd2b7d6da5e16f8",
+                "376317f126afe69df9bd59a7228e5c8b2f9bb9d0fea806abd74d09eb8be6d756",
+                "cc48448294651305ede0b65e021cd25660578bcc90bdee781fbaa3972461a75e",
+                "d780648c98aeef3e89a17fac8b1fffd1279f3a746ac4c011e3ab0d93e3791154"
+              ]
+            },
+            "id": "56406d6e6c71fe23afe130b2b98df20ff792059ad3a3c17c14c0d40bbb09bd1c"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-054-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definition should represent the metric you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "c1a6e02a9c93801f62b1933687fbe194e761cdf184346348a94d15fe91c400f2",
+              "fact_ids": [
+                "148cf3652d02f3ed68e24b744a2890004638a9385534b8fb4687a86e0898c402",
+                "0ce0bc3d5021359c4ee898ba24ce8f470b02e19665fa4c63d193e25bc61625e6",
+                "e363000b7503c25015b78e917f6c87c64e913242c987c03822024dd6bed97a02",
+                "e61b8caa8ab4126817f17077caa04fe464460080222c31b8342a6f48e790bd54",
+                "6e0b11eb0dba9c82147d482ab8bf1e544334557c1c13edecd7dd7a11baf5ef2d",
+                "49f24f5a87d6f7ef408f91d5865eabab71e65e42eb057d867d12b964e480d044",
+                "696c728314dfe6f327873287c64e83722a7f0012f2e43e948d74eb4fcb593ba9",
+                "f060b5d6cfa0831243c8efabfe4823d0cc5e2a5a2eb2f8e4a0975c5a95d2483b",
+                "6515c7e3c762efad42b81d608bb6a5de88f670916cf2132fe0cb965bf07a93f1",
+                "e1afb9b9bd08939dc2be09c16dd4280f1729ab35101fabae469d06952387ca58",
+                "ac4d10fff5dae200bea3ac13ef0db65008d73c92d6b4bf951c844b7082a33892",
+                "95ae55b304f672f5c240ae6a2bcd1be1ba01138d6f5a71e0d1c2cc07a7e7df08",
+                "2cb3b556eae5d8a6f0cf0454a856b80f6f6ceb50b49ea960afb36b2939305bd3"
+              ]
+            },
+            "id": "9917779048ac2aed96ed82be1ebb7ef386ab11cf5c3a0898e56ab898e1b0f5df"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-055",
+        "original_grade": "LEGITIMATE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": "Identified metric bindings have one retained container; no representative visual is chosen. The owner rule checks every same-metric visual at execution instead of asking the user to select one. Awaiting confirmation and actual candidate consistency; no technical answer earned offline.",
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-055-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "direction"
+        ],
+        "questions": [
+          {
+            "field": "direction",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "c1a6e02a9c93801f62b1933687fbe194e761cdf184346348a94d15fe91c400f2",
+              "fact_ids": [
+                "3c933c64125ba2be9f77305f3037d9ad2187646eaa8f0cd19ed462a8fa12c439",
+                "777df217a836a70bd2898509d354afe35bb9cde2dddff2931f17d38ca5fea418",
+                "387bde9429ab6c0f7ea90096f23fe4ae694453ef9bf0a630870d38b245e39c8e",
+                "67f16fa7ecba5ac9e164b3e3ed5e4c4bdccab3f081e6a07325db6639c7acf9fe",
+                "4c3764da3b497ff847f6882cfae1ba38e7c17b678ddfe9e5a3f7c822b6d7c8ff",
+                "e9e4d67d37394efb5f6b0ca320cb84ff803a1c248ac7bcf37a8d2671c3230179",
+                "99e82fafbdae2a15fa8bfd5bb2de7e7e7b939e7096d6abe64885a93a2319bf7b",
+                "2538dbf09c1e4ec552e532235914013c459b725707572134b9abd4ab72c28ba2",
+                "4778d7d28ea4081b31fd781484dbb791e509ff664640d12035a275e3bc724829",
+                "39aceae9816b10375cc91c92d011d56a415738447d560636f13c644612800982",
+                "3328d807ba8046eb37504beff3ea365e9d3898e08e16a7b484a6474cf3bd1978",
+                "01dd25287110a303ee0368182a04ac263a01d547f93f52d30e1c864872df95a6",
+                "62e0a8312b80ee649c1ac30204c13e0a8c3d5bab68f4a0ed099124230ed9ba19",
+                "b5811f0cddd51bad2ec70e5f9a88769efbe3db5c4fb1a1512b2c1a8865a66d22",
+                "8b8bfc5043a41a1f16be93f29d2accedfb51982be709855191a782e9cb630cb7",
+                "78865e20bfacfb875039a1cc09bf313420a7ef0a14055e5ec0f82bf11a302a5e",
+                "e8f14c6056b82a8fb0b2a18f0cd08c936b2ef5ca4133c1733c571f1478682691",
+                "41030347b010186911e233e5ba2966178532d9d8d69037712a63ab1b1442cc0e",
+                "2e5183f007bcefd044cb48bcf1e41ade08cd772b79d77c2743e1abe8dd537803",
+                "f0a1b436eb133ab0eb1942562c3bd26b3fa088863ba24833b440f7e4e330cd49",
+                "e6800e2e2ba19a217538d69e281ed010a4dcd79b3fb099b956502a6db9ff89c3",
+                "20d8f871de4d89480bc38f5a42ab258c71fcfce6c12f2b7e375d91332397db44"
+              ]
+            },
+            "id": "0cc06e878bcee30773543db04516c8e86af549b4bed88696faae2bb157db2e9c"
+          }
+        ],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": [
+          "direction"
+        ]
+      },
+      {
+        "id": "clarification-056",
+        "original_grade": "LEGITIMATE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "c1a6e02a9c93801f62b1933687fbe194e761cdf184346348a94d15fe91c400f2",
+              "fact_ids": [
+                "f627b5f05393ef788b44c43ea75bdf3383fceef9314ec32816490c46cdacfba6",
+                "e91ab6bcf4a6806aa11496a7ce6d9d84d728223c3661bcc506c5627b6eae4804",
+                "fd2a2a402f80855f7ed740a63fb37739beee5445a7fb37a59450724aab002da9",
+                "f3da9955359d2547345d0367a0b3c88c8e8cba67ef64c5aa8b405d6082e2cb3e",
+                "5f1238b465a8e5fdb65bc56cae89e1d1552b4561d605a829abfe1b6bb3413616",
+                "476f9e600dfe142a7ab6b1a0b5a7d55bc97a3e51edc4e3872060390652c18139",
+                "bf85162c2650da5133e37775d95918cb2b05ad99f7d2e23d100e92bc6c201ba2",
+                "51c33885c74d173eb7343c9142155e5f459b7e326699b6c913bfe9bfbf55b516",
+                "4c015e367fb6897bd6c076b98cb3cdb75f97c3f02d6196f56d096ac122fbe1c1",
+                "ba63b86e59dded8a9b98ec79d0636bcc71ed7705092091917e16bd3422593cc2",
+                "4727b0e7880ad7f835e58b80d6ca0049572bb64be781158d381726bd09fed121",
+                "e5831f391951515d0c57ccb8a79f83016cbebcaead64d2b88ea0411697b05027",
+                "ff70c2782e9ee4f9d33a1bda4a25a2c380e68faeca6618a3722b1d3e946a6c44",
+                "a98fc95b6ffe15acbe6ab2d75e0cf5c16d3b1c924fb7dedc2a50ab9745c21614",
+                "e7d59d146624216c7c1088d54e46b552f9ba52214f321e53869019b045fbaad4",
+                "70d09ee14a2dd3b632d110b9e5825fb44b02161326959eba8ef28df128aa4052",
+                "a1ffb2d0490aef2e9044dac995b3a8707d5e3baaada2b7aa95eb35f4a052817a",
+                "6f6eff88b432639864e462a1e448e64d24778f2a26d223d5c4ff208f8865366a"
+              ]
+            },
+            "id": "383bed59f7256a4d811874dac1521ca2f18c14bc57be2f6fc34976e24df9d923"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-056-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "scope"
+        ],
+        "questions": [
+          {
+            "field": "scope",
+            "question": "Which description should we use for this investigation?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "c1a6e02a9c93801f62b1933687fbe194e761cdf184346348a94d15fe91c400f2",
+              "fact_ids": [
+                "ac94fa92197ee168b538ad248d6393abf62024c8a2c490bfce7285b45c3717e7",
+                "288bdc187c92ada48695bbe7a2de08515bfb36334e3948ab1fa22d9d6de46ac8",
+                "12e8643b693f7e6bf92c831965e80bff74c65c209942df112f3b5d3143715c29",
+                "e50dc9f2c151cfe5918732e0a2ba22e970ed600800e617430513d867d6fd07f1",
+                "a6bbe9472cbcd27dbfdb2434e70835e2a31ab1e51b7082f9c514b45185b8503e",
+                "136807e3447df6456d88d2f75ce37b975e7e6b63987231d1929afae501afd484",
+                "e0001a3cac82354584414434000550e7931d4b4981813061023d2d93970bce94",
+                "93717e710d616133ce2d1694cf0970eedd337824192296ebf34be01e23103f83",
+                "c4dcb7e409d65155923752e456dfe77b57ced5f2f6fd1a575545cb109b738f06",
+                "6617e97f7cb136e36be05ea3c8d8947b61fdc44da56124b9c12e9ff6512f55d3",
+                "7ca515fdf64c3364313c9763babbab46ff6c43e2ab55c20c46352a16579722e8",
+                "9d7a365000eecfd05b4dbb55043b541b1cf02c46ff22b06135307b62e8e805c7",
+                "c65018c9b6012bbb492b586e76de8827ba10add58ef1058605eb08991d15e95d",
+                "a5348c3276b1e908950d60a3e5072169919f7a0dd43488561f52f04f38ac544a",
+                "509471ae662650039578e8e26b862cea17cf091a4c03902788d9618db65690a5",
+                "4696bd15a10312ca4724f1e3b2cff702ce6015746d363d4057e7c2ebc7f9bf88",
+                "8590b19a54c12a2d467624db6ac5433219531418e1cba56122d6ba1021ac71dd",
+                "86eb9d18744e9642179386ffd1af4deb5783d73803f33a0c10f4e654f8720b99",
+                "dd64748cf85d362d56fcd3ba028604175b38425feb5ae1ba8d62b3b5a37641a1",
+                "683a6dc8adab2b8f500bace6ec721dd6cd916ac6bf791c59ce766d343f43f454",
+                "0bf094353c9eb2feddc0a3961412c35ce16c9d186c32c68fea82427e46d9582a",
+                "7f0990e4879e120965846a5ab77d43e525305a118fdd1636bd694e07ebceb120",
+                "f9b79ae189d909b9b58c1803ff79108855d54f98920953e68fc1b160997f9f26",
+                "ea55fbf6d244d950f54f1a2d8c620ff9c7fd47382fb2e74ef1bb388ca598bd51"
+              ]
+            },
+            "id": "baa47c92e2308fec7d885205fea9a70278f9f17a2f8a133116d2602fb0b7b393"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": [
+          "scope"
+        ]
+      },
+      {
+        "id": "clarification-057",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "binding"
+        ],
+        "questions": [
+          {
+            "field": "binding",
+            "question": "Which retained definition should represent the metric you named?",
+            "choices": [],
+            "grounding": {
+              "catalog_hash": "c1a6e02a9c93801f62b1933687fbe194e761cdf184346348a94d15fe91c400f2",
+              "fact_ids": [
+                "9139783c1804401a7b3ac53b43d53c801ee4a4bcaf16aa205c63e102401eb193",
+                "c7234c9c6a5a654a8f5b8b2afb0f99022ee1a1f1d6a9b2b3cf4322d6f458dcc9",
+                "bc84c04efc0f3e84008994c889bc5420be92ad3121394139fef736bd3947abe4",
+                "cfa4129308eb2c06197651e2c244740a049d5b3c7759a6bf58940e1d49d51c71",
+                "643830e6b22c346c24c94a20e95da42a3f6eabf58b998a649821dc263e58b616",
+                "c7ff94ee921262013e88d21db3b15323423de0dffc378826cba61ae79f49bb85",
+                "c640618cc208878cf2f6990a0b2cc24bf66070b10c09598d0e8fbe6f2e0bfead",
+                "9e851863f86a93c399775b50dd6990753db80bb56ec4fc04d7065a1e6735fdad",
+                "207953ed639720b7f9c579cd195284c672a1dceacc7caa3dd0f316220a999667",
+                "c8de6eb44705aa00ae82ea6b079548ef49d7883a1e551d3d3339f24901796c08",
+                "121f49e7e68b3d1e8cd4bc62504dd55364d96e93912aeee678d4a8c09fbda9cc",
+                "ed6939c3ac1a9d198ec26f5c7545638124c22b7bf1bfa23ba8fd717113050a12",
+                "61ecccecdfc3bf35cad860a82b5fdaaec8390afb18b64ff5cf67d8dbe82cac57"
+              ]
+            },
+            "id": "a16afd4365f90cc2cc465134883c90a47550549b2057e4421e73af4935756fe7"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-057-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-058",
+        "original_grade": "AVOIDABLE",
+        "state": "AWAITING_CONFIRMATION",
+        "question_fields": [],
+        "questions": [],
+        "planning_state": "AWAITING_CONFIRMED_CANDIDATE_CHECKS",
+        "planning_kind": "METRIC_VISUAL_CHECKS",
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_EVALUATED_NO_EXECUTION_PORT",
+        "conflicts": []
+      },
+      {
+        "id": "clarification-058-round-two",
+        "original_grade": "AVOIDABLE",
+        "state": "CLARIFYING",
+        "question_fields": [
+          "report"
+        ],
+        "questions": [
+          {
+            "field": "report",
+            "question": "Which report is this about?",
+            "choices": [
+              {
+                "id": "853fbe544ef5ffe972b3122d1d755da47c515459df73abfc9e2b9378edc1d829",
+                "label": "Subscription Billing"
+              }
+            ],
+            "grounding": {
+              "catalog_hash": "c1a6e02a9c93801f62b1933687fbe194e761cdf184346348a94d15fe91c400f2",
+              "fact_ids": [
+                "2e7d5d7caeccbc6aaac16ce9f6480b47d603085f9344230247ea240615c58c70",
+                "c773bb160ec7a8ce274ae08b3ffb1b064bdaa72784cfa16dddaed347b094d2ff",
+                "3345f95ab9c6fd9cfce34f692d822846db5dbf5bc3006197597fc81b7cc972ca",
+                "8e71de9a123472bfee7fd71b5b2f0322a330b46e0dd7e513991814540244b67f",
+                "1fa3055a70d441c614d3e35d5af1921df266705f422c8983678d9c6922c2b61f",
+                "7097bc49144a93081e702b190e3d1c00228e71cc7266a0f220698ce997850c09",
+                "86e4aaf19ca29dcdd7c2634d21acb43db7da6d31049d4baa0f269f6ee22c4a3e",
+                "b0caeca209093d4649467df9385163bfc21cb03ce632acc41dc90b41ba81cbd9",
+                "87a0a4671e2f5661f063e3d5882064268f40fc6ca3b499a52abf6e66d1f5cfac",
+                "8bec0ab7d9c2240b3aa6407d4703a687fef6f0060cf4ad53575af25d478edbf2",
+                "0876800ad4c5d2cc64a47d35d29ce1d1ec94c46e8c1d34851279eba1d88ebbca"
+              ]
+            },
+            "id": "9feab8aa6ace52e9087cd616ddbd359a04d0565432a5e519bfaa2f3befe0e325"
+          }
+        ],
+        "planning_state": null,
+        "planning_kind": null,
+        "prepared_reason": null,
+        "offline_candidate_matching": "NOT_REQUESTED",
+        "conflicts": []
+      }
+    ]
+  }
 }

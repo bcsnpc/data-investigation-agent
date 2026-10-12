@@ -42,19 +42,19 @@ def resolve_scope(fact,catalog,context=None):
     value=dict(context or {},**fact['value']);phrase=value.get('phrase','')
     if not phrase:return None
     projection=catalog_projection(catalog)
-    def matches(name):return re.search(r'(?<!\w)'+re.escape(name)+r'(?!\w)',phrase,re.I)is not None
-    reports=[r for r in projection['reports']if (r['label'].casefold()==value['report_phrase'].casefold()if value.get('report_phrase')else matches(r['label']))]
+    def matches(name,words=phrase):return re.search(r'(?<!\w)'+re.escape(name)+r'(?!\w)',words,re.I)is not None
+    reports=[r for r in projection['reports']if matches(r['label'],value.get('report_phrase')or phrase)]
     selected=value.get('report_id')or(reports[0]['id']if len(reports)==1 else None)
     pages=[p for p in projection['pages']if matches(p['label'])and(not selected or p['report_id']==selected)]
     page=value.get('page_id')or(pages[0]['id']if len(pages)==1 else None)
     visuals=[v for v in projection['visuals']if matches(v['label'])and(not selected or v['report_id']==selected)and(not page or v['page_id']==page)]
-    resolved={'kind':value['kind']}
+    resolved={}if fact['field']=='location'else{'kind':value['kind']}
     if selected:resolved['report_id']=selected
     if page:resolved['page_id']=page
-    if visuals and value['kind']=='VISUALS':resolved['visual_ids']=[v['id']for v in visuals]
-    if len(resolved)==1:return None
+    if visuals and value.get('kind')=='VISUALS':resolved['visual_ids']=[v['id']for v in visuals]
+    if not resolved or fact['field']=='scope'and len(resolved)==1:return None
     from .claim_facts import fact as make
-    return make('scope',resolved,{'kind':'CATALOG_NAME_RESOLUTION','catalog_hash':digest(catalog),'source_fact_id':fact['id']},authority=fact['authority'])
+    return make(fact['field'],resolved,{'kind':'CATALOG_NAME_RESOLUTION','catalog_hash':digest(catalog),'source_fact_id':fact['id']},authority=fact['authority'])
 
 
 def candidates(settled,catalog,glossary=None):
@@ -128,13 +128,13 @@ def question(field,text,choices,catalog_hash,fact_ids):
 
 def plan(claim,catalog):
     s=claim['settled'];facts=[f['id']for f in claim['facts']];scope=s.get('scope')or{};direction=s.get('direction')
-    is_page=scope.get('kind')in('PAGE','REPORT','VISUALS')
+    is_page=scope.get('kind')in('PAGE','REPORT','VISUALS','METRIC')
     conflicts=claim['conflicts']
     if conflicts:return question(conflicts[0],'Which description should we use for this investigation?',[],digest(catalog),facts)
     binding=claim.get('selected_binding');rows=claim['candidate_bindings']
     if not binding and not(direction=='STALE'and scope.get('kind')in('PAGE','REPORT')):
         if len(rows)==1:binding=rows[0]
-        elif len(s.get('metric',[]))>1 and scope.get('kind')in('VISUALS','PAGE','REPORT'):
+        elif len(s.get('metric',[]))>1 and scope.get('kind')in('VISUALS','PAGE','REPORT','METRIC'):
             selected=[]
             for metric in s['metric']:
                 matches=[r for r in rows if r.get('metric_phrase')==metric['phrase']]
@@ -155,18 +155,18 @@ def plan(claim,catalog):
         return question('scope','Does the issue concern records, particular visuals, the page, or the report?',[
             ('Particular records',{'scope':{'kind':'RECORDS'}}),('One or more visuals',{'scope':{'kind':'VISUALS'}}),
             ('The page',{'scope':{'kind':'PAGE'}}),('The report',{'scope':{'kind':'REPORT'}})],digest(catalog),facts)
-    if is_page and not scope.get('report_id'):
+    model_only=(scope.get('kind')=='METRIC'and isinstance(binding,dict)and binding.get('model_id')
+        and binding.get('measure_id')and not binding.get('target_ids')
+        and not any(scope.get(k)for k in('report_id','page_id','report_phrase','page_phrase','visual_ids','visual_phrase')))
+    if is_page and not model_only and not scope.get('report_id'):
         visible=catalog_projection(catalog)
         return question('report_binding'if scope.get('report_phrase')else'report',('Which retained report matches the report you named?'if scope.get('report_phrase')else'Which report is this about?'),[(r['label'],{'report_id':r['id']})for r in visible['reports']],digest(catalog),facts)
-    if scope.get('kind')in('PAGE','VISUALS')and not scope.get('page_id'):
+    if scope.get('kind')in('PAGE','VISUALS','METRIC')and not model_only and not scope.get('page_id'):
         visible=catalog_projection(catalog)
         pages=[p for p in visible['pages']if p['report_id']==scope.get('report_id')]
         return question('page_binding'if scope.get('page_phrase')else'page',('Which retained page matches the page you named?'if scope.get('page_phrase')else'Which page is this about?'),[(p['label'],{'page_id':p['id']})for p in pages],digest(catalog),facts)
-    if scope.get('kind')=='VISUALS'and not scope.get('visual_ids')and binding and len(binding.get('target_ids',[]))>1:
-        visible=catalog_projection(catalog);targets=[v for v in visible['visuals']if v['id']in binding['target_ids']]
-        choices=[(v['label'],{'scope':{'kind':'VISUALS','visual_ids':[v['id']]}})for v in targets]
-        if scope.get('page_id'):choices.append(('All matching visuals on this page',{'scope':{'kind':'VISUALS','visual_ids':[v['id']for v in targets]}}))
-        return question('targets','Which visible objects are included in this claim?',choices,digest(catalog),facts)
+    # Identified metrics with several visuals are checked for consistency by
+    # the execution consumer. Intake never selects a representative by itself.
     if scope.get('kind')=='RECORDS'and not s.get('examples')and direction not in ('MORE','WRONG_BREAKDOWN'):
         return question('examples','Can you give one missing, extra, or wrong record as an example?',[],digest(catalog),facts)
     # A freshness/page complaint never needs a single displayed figure. Values
@@ -227,7 +227,7 @@ def interpretation(claim,catalog):
     if s.get('comparator'):parts.append('Compared with '+comparator_labels[s['comparator']]+'.')
     for field,title in(('time','Time'),('filters','Visible filters'),('examples','Example records'),('guessed_cause','Your suggested cause, not an established finding'),('when_last_right','When last correct')):
         if field in s:parts.append(title+': '+display(s[field])+'.')
-    scope_labels={'RECORDS':'particular records','VISUALS':'the selected visuals','PAGE':'the page','REPORT':'the report','UNKNOWN':'not yet specified'}
+    scope_labels={'RECORDS':'particular records','VISUALS':'the selected visuals','PAGE':'the whole page','REPORT':'the whole report','METRIC':'the identified metric at this location','UNKNOWN':'not yet specified'}
     parts.append('Scope: '+scope_labels[scope.get('kind','UNKNOWN')]+'.')
     parts.append('Is this interpretation correct?')
     return {'text':' '.join(parts),'fact_ids':[f['id']for f in claim['facts']]}
@@ -237,6 +237,7 @@ def validate_question(claim,q):
     """A consequential question must not request a fact already established."""
     field=q['field'];s=claim['settled'];scope=s.get('scope')or{}
     if field in claim['conflicts']or field in('binding','report_binding','page_binding','current_target','correction'):return
+    if field=='scope'and scope.get('kind','UNKNOWN')=='UNKNOWN':return
     if field=='report'and(scope.get('report_id')or scope.get('report_phrase'))or field=='page'and(scope.get('page_id')or scope.get('page_phrase')):
         raise ValueError('CLAIM_QUESTION_REASKS_SETTLED_FACT')
     if field in s and s[field]not in(None,[],'UNKNOWN'):

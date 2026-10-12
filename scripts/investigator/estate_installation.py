@@ -11,6 +11,8 @@ def install_candidate_reader(workspace):
     else:
         from .adapters.form_candidate_values import install
     install(workspace)
+    from .claim_candidate_checks import install as install_claim_candidates
+    install_claim_candidates(workspace)
 
 
 def build(path, *, execution_enabled=True,secret_store=None):
