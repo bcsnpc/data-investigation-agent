@@ -7,10 +7,12 @@ NAMESPACE = 'graph_scan_cursor'
 
 
 class IncrementalScanner:
-    def __init__(self, repository, collector, extract, *, max_owners=100):
+    def __init__(self, repository, collector, extract, *, max_owners=100, reconcile=None, observation_clock=None):
         if type(max_owners) is not int or not 1 <= max_owners <= 1000:
             raise ValueError('GRAPH_SCAN_OWNER_BOUND')
         self.repo, self.collector, self.extract, self.limit = repository, collector, extract, max_owners
+        self.reconcile=reconcile
+        self.observation_clock=observation_clock
 
     def run(self, estate, at):
         from .graph_scan_health import record as health
@@ -60,38 +62,43 @@ class IncrementalScanner:
                 health(self.repo.state,estate,owner,at,'UNAVAILABLE',reason)
                 results.append({'owner':owner,'status':'UNAVAILABLE','reason':reason})
         for owner, signal in sorted(signals.items()):
+            owner_at=contract.timestamp(self.observation_clock()) if self.observation_clock else at
             before = old.get(owner)
             if signal['deleted']:
                 if before and not before.get('deleted'):
                     digest = sha({'deleted': owner, 'previous': before['definition_hash']})
-                    result = self.repo.replace({'estate': estate, 'owner': owner, 'observed_at': at,
-                        'definition_hash': digest, 'nodes': [], 'edges': []})
-                    health(self.repo.state, estate, owner, at, 'DELETED')
+                    result = (self.reconcile(estate,owner,owner_at,{'assets':[],'source_asset_ids':[]}) if self.reconcile else
+                        self.repo.replace({'estate': estate, 'owner': owner, 'observed_at': owner_at,
+                        'definition_hash': digest, 'nodes': [], 'edges': []}))
+                    health(self.repo.state, estate, owner, owner_at, 'DELETED')
                     latest[owner] = {'signal': signal['fingerprint'], 'definition_hash': digest, 'deleted': True}
                     results.append({'owner': owner, 'status': 'DELETED', 'graph': result})
                 continue
             if before and not before.get('deleted') and signal['fingerprint'] is not None and before['signal'] == signal['fingerprint'] and owner not in unconfirmed:
                 results.append({'owner': owner, 'status': 'UNCHANGED_SIGNAL'}); continue
             try:
-                health(self.repo.state, estate, owner, at, 'REFRESHING', 'Current owner definition is awaiting a bounded refresh.')
+                health(self.repo.state, estate, owner, owner_at, 'REFRESHING', 'Current owner definition is awaiting a bounded refresh.')
                 payload = self.collector.fetch(owner)
+                if self.observation_clock:owner_at=contract.timestamp(self.observation_clock())
                 if set(payload) != {'assets', 'source_asset_ids'} or not isinstance(payload['assets'], list):
                     raise ValueError('GRAPH_OWNER_DEFINITION_SHAPE')
                 digest = sha(payload)
                 if before and not before.get('deleted') and before['definition_hash'] == digest:
                     result = {'status': 'UNCHANGED_DEFINITION'}
+                elif self.reconcile is not None:
+                    result={'status':'RESCANNED','graph':self.reconcile(estate,owner,owner_at,payload)}
                 else:
-                    graph = self.extract(estate, owner, at, payload)
-                    if graph['estate'] != estate or graph['owner'] != owner or graph['observed_at'] != at:
+                    graph = self.extract(estate, owner, owner_at, payload)
+                    if graph['estate'] != estate or graph['owner'] != owner or graph['observed_at'] != owner_at:
                         raise ValueError('GRAPH_EXTRACT_OWNER_DIFFERS')
                     result = {'status': 'RESCANNED', 'graph': self.repo.replace(graph)}
-                health(self.repo.state, estate, owner, at, 'CURRENT')
+                health(self.repo.state, estate, owner, owner_at, 'CURRENT')
                 latest[owner] = {'signal': signal['fingerprint'], 'definition_hash': digest, 'deleted': False}
                 results.append({'owner': owner, **result})
             except Exception as error:
                 # Do not advance this owner's cursor. Permission denial never deletes it.
                 detail=safe_failure(error)
-                health(self.repo.state, estate, owner, at, 'UNAVAILABLE', 'Owner definition refresh unavailable: ' + type(error).__name__,failure=detail)
+                health(self.repo.state, estate, owner, owner_at, 'UNAVAILABLE', 'Owner definition refresh unavailable: ' + type(error).__name__,failure=detail)
                 results.append({'owner': owner, 'status': 'UNAVAILABLE', 'reason': type(error).__name__,'failure':detail})
         self.repo.state.put(NAMESPACE, identity, {'owners': latest, 'observed_at': at}, revision=previous['revision'])
         return {'estate': estate, 'observed_at': at, 'listing_complete': listing['complete'], 'owners': results}

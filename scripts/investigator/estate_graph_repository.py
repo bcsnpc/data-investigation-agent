@@ -1,5 +1,6 @@
 ﻿"""Transactional graph history on the existing PostgreSQL shared-state authority."""
 import copy
+from contextlib import nullcontext
 import json
 from . import estate_graph_contract as contract
 from .shared_state import StateConflict,encoded,sha
@@ -105,7 +106,7 @@ class GraphRepository:
     def replace(self,value):
         return self.replace_many([value])
 
-    def replace_many(self,values):
+    def replace_many(self,values,*,_db=None):
         """Atomically reconcile changed owners with one current projection read.
 
         Incoming owners may refer to each other regardless of input order. A
@@ -118,7 +119,7 @@ class GraphRepository:
         if any(value['estate']!=estate or contract.timestamp(value['observed_at'])!=now for value in values):
             raise ValueError('GRAPH_BATCH_ESTATE_OR_TIME_DIFFERS')
         if len({value['owner'] for value in values})!=len(values):raise ValueError('GRAPH_BATCH_DUPLICATE_OWNER')
-        with self.state.transaction() as db:
+        with (self.state.transaction() if _db is None else nullcontext(_db)) as db:
             versions={owner:(hash,observed) for owner,hash,observed in self.state.sql(db,
                 'SELECT owner,definition_hash,observed_at FROM estate_graph_owner_versions WHERE estate=?',(estate,)).fetchall()}
             pending=[]
@@ -204,18 +205,30 @@ class GraphRepository:
                 if len(identities)>1000:raise ValueError('GRAPH_ALLOWLIST_BOUND')
                 where+=' AND identity IN ('+','.join('?' for _ in identities)+')';args.extend(sorted(identities))
             rows=self.state.sql(db,'SELECT record_kind,body,body_hash,valid_from,valid_to FROM estate_graph_history WHERE '+where+' ORDER BY record_kind,identity LIMIT ?',(*args,limit+1)).fetchall()
+            try:catalog=self.state._get(db,'graph_asset_catalog',estate)['body']
+            except KeyError:catalog={'owners':{}}
         result={'nodes':[],'edges':[],'truncated':len(rows)>limit}
         for kind,raw,hash,valid_from,valid_to in rows[:limit]:
             item=json.loads(raw)
             if sha(item)!=hash:raise StateConflict('GRAPH_HISTORY_HASH_DIFFERS')
             result[kind].append({**item,'valid_from':valid_from,'valid_to':valid_to})
+        # Resolve code-proof ownership from the approved retained asset manifest,
+        # without changing sealed graph records or their stored hashes.
+        source_owners={source:owner for owner,entry in catalog['owners'].items()
+            for source in entry['source_observations']}
+        for kind in ('nodes','edges'):
+            for item in result[kind]:
+                source_owner=source_owners.get(item['provenance']['source_id'])
+                if source_owner:item['properties']['definition_source_owner']=source_owner
         from .graph_scan_health import unavailable
-        collection=unavailable(self.state,estate,{item['owner'] for kind in ('nodes','edges') for item in result[kind]},at=when)
+        collection=unavailable(self.state,estate,{owner for kind in ('nodes','edges') for item in result[kind]
+            for owner in (item['owner'],item.get('properties',{}).get('definition_source_owner'))if owner},at=when)
         if collection:
             result['unavailable_owners']=collection
             owners={item['id']:item['owner'] for item in result['nodes']}
             for item in result['edges']:
-                affected={item['owner'],owners.get(item['source']),owners.get(item['target'])} & collection.keys()
+                affected={item['owner'],item.get('properties',{}).get('definition_source_owner'),
+                    owners.get(item['source']),owners.get(item['target'])} & collection.keys()
                 if affected and item['confidence']=='VERIFIED':
                     item['confidence']=item['base_confidence']
                     item['verification']={**item['verification'],'state':'STALE'}

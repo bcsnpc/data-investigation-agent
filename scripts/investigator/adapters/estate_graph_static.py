@@ -475,3 +475,10 @@ def extract_partitioned(estate,assets,definition_sink,*,observed_at,source_asset
     """
     return StaticGraph(estate,'retained-catalog',observed_at,assets,definition_sink,
                        source_asset_ids=source_asset_ids,partitioned=True,source_observations=source_observations).build()
+
+
+def asset_owners(assets):
+    """Retained parent identity ownership shared by catalog and graph compiler."""
+    graph=StaticGraph('catalog-ownership','retained-catalog','1970-01-01T00:00:00Z',assets,
+        lambda raw: (_ for _ in ()).throw(ValueError('OWNERSHIP_MUST_NOT_CAPTURE')))
+    return {identity:graph.item_owner(identity) for identity in graph.assets}

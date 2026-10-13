@@ -26,3 +26,20 @@ class DefinitionSink:
                 self.files.verify(identity)
             self.references[identity]={**reference,'uri':self.uri_prefix+'/files/'+identity}
         return dict(self.references[identity])
+
+
+    def read(self,reference):
+        """Resolve only an exact manifest reference in the configured Files store."""
+        if (not isinstance(reference,dict) or set(reference)!={'sha256','bytes','uri'}
+                or reference['uri']!=self.uri_prefix+'/files/'+reference['sha256']
+                or type(reference['bytes'])is not int or not 0<=reference['bytes']<=16*1024*1024):
+            raise ValueError('GRAPH_DEFINITION_REFERENCE_DIFFERS')
+        detail=self.files.describe(reference['sha256'])
+        if detail['bytes']!=reference['bytes']:raise ValueError('GRAPH_DEFINITION_CAPTURE_DIFFERS')
+        with tempfile.TemporaryDirectory(prefix='graph-definition-read-',dir=self.scratch) as folder:
+            path=Path(folder)/'definition'
+            self.files.restore(reference['sha256'],path)
+            raw=path.read_bytes()
+        if len(raw)!=reference['bytes'] or hashlib.sha256(raw).hexdigest()!=reference['sha256']:
+            raise ValueError('GRAPH_DEFINITION_CAPTURE_DIFFERS')
+        return raw

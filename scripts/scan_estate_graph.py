@@ -68,7 +68,7 @@ def execute(config):
     from investigator.estate_graph_repository import GraphRepository
     from investigator.estate_graph_incremental import IncrementalScanner
     from investigator.adapters.graph_change_collector import FabricChanges
-    from investigator.adapters.estate_graph_static import extract
+    from investigator.adapters.estate_graph_static import extract,extract_partitioned,asset_owners
     from investigator.adapters.blob_artifacts import recording_stores
     from investigator.graph_definitions import DefinitionSink
     from metadata_auth import MetadataHttp
@@ -88,8 +88,13 @@ def execute(config):
     collector = FabricChanges(config['workspace'], config['owners'], http)
     files, _ = recording_stores(config['storage'])
     sink = DefinitionSink(files, config['definition_uri_prefix'], recording_class='EXACT')
-    scanner = IncrementalScanner(repo, collector, lambda estate, owner, at, payload:
-        extract(estate, payload['assets'], sink, observed_at=at, owner=owner, source_asset_ids=payload['source_asset_ids']))
+    from investigator.graph_asset_catalog import AssetCatalog
+    allowed=set(collector.configured_owners)
+    for group in config.get('sql',[]):allowed.update(group['objects'])
+    catalog=AssetCatalog(repo,sink,extract_partitioned,asset_owners,allowed_owners=allowed)
+    catalog.snapshot(config['estate'])  # Retained external symbols must exist before any estate call.
+    clock=lambda:datetime.now(timezone.utc).isoformat().replace('+00:00','Z')
+    scanner = IncrementalScanner(repo, collector, None,reconcile=catalog.refresh,observation_clock=clock)
     at = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     try:
         result = scanner.run(config['estate'], at)
@@ -104,8 +109,7 @@ def execute(config):
                         return read(group['config'],database,request)
                 return meter(operation)
             sql=FabricSqlChanges(group['identity'],group['config'],group['objects'],execute_sql)
-            reader=IncrementalScanner(repo,sql,lambda estate,owner,when,payload:
-                extract(estate,payload['assets'],sink,observed_at=when,owner=owner,source_asset_ids=[]))
+            reader=IncrementalScanner(repo,sql,None,reconcile=catalog.refresh,observation_clock=clock)
             result['sql_collectors'].append(reader.run(config['estate'],at))
         result['coverage_gaps']=[
             {'capability':'runtime_query_monitoring','status':'UNAVAILABLE','reason':'Scheduled runtime-query monitoring collector is not implemented; no monitoring permission or data is inferred.'},

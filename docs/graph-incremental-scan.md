@@ -144,9 +144,36 @@ available. Provider bodies, messages, headers and tokens are excluded; unknown
 provider codes are withheld. Coverage exposes these diagnostics with the
 unavailable owner. This does not turn a permission failure into a new grant.
 
-Current incremental extraction receives only the changed owner's assets. It
-does not resolve external symbols against the retained approved catalog or
-compute affected-owner closure. Cross-owner report/model references can remain
-UNKNOWN, and code changes that alter table-owned projections require a future
-closure calculation and atomic multi-owner replacement. The scheduled collector
-must not be described as maintaining all cross-owner lineage yet.
+Incremental extraction now uses a hash-pinned retained metadata catalog. One
+immutable asset payload per owner lives in the existing definition Blob store;
+the per-estate PostgreSQL manifest records its reference and each source's
+original observation time. The scheduler refuses to query an estate until this
+catalog has been explicitly seeded from retained collector assets.
+
+A successful fetch replaces only its approved owner's assets. Partitioned
+extraction resolves against the merged retained catalog, and all affected
+partitions plus the manifest commit under one transaction and manifest-revision
+CAS. Unchanged partition hashes skip history writes. A concurrent update causes
+a refusal instead of overwriting newer symbols. Failed fetches never become
+cached current definitions. Collection observations remain separate: retained
+external assets keep their original dates, and unavailable source owners still
+block derived columns owned by another item. Only changed owners are read from
+the estate; metadata recompilation uses the retained catalog locally.
+
+Seed the existing projection without rewriting its graph history:
+
+```powershell
+python scripts/seed_graph_asset_catalog.py --config scan.json --seed-file retained-assets.json --receipt seed-plan.json
+python scripts/seed_graph_asset_catalog.py --config scan.json --seed-file retained-assets.json --receipt seed-receipt.json --apply
+```
+
+The seed file has exactly `assets`, `source_asset_ids`, `observed_at` (publication
+time), and `source_observations` (an original timestamp for every retained asset
+ID). No source-of-record declaration is inferred. Apply recompiles metadata
+without republishing existing definitions, verifies the **entire current owner
+and partition-hash map** in the same PostgreSQL transaction, then adds only the
+asset manifest. A mismatch refuses. Asset payloads are checked by the existing
+secret detector before any file/Blob write; projected capture stays explicitly
+unsupported. A failed CAS can leave an unreferenced immutable asset Blob, but no
+partial graph/manifest update. The bounded catalog allows at most 1,000 owners,
+50,000 assets, 16 MiB per owner and 256 MiB total.
