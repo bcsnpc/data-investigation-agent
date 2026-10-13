@@ -74,6 +74,12 @@ class GraphRepository:
                     self._proof(item)
                     previous=old[kind].get(item['id'])
                     new[kind][item['id']]=copy.deepcopy(previous) if previous and structural(previous)==structural(item) else item
+                    # Re-extraction emits definition confidence, not an earned
+                    # query proof. Retain superseded proof as explicitly stale
+                    # instead of silently discarding it when the edge changes.
+                    if (kind=='edges' and previous and previous['confidence']=='VERIFIED'
+                            and item['confidence']!='VERIFIED' and structural(previous)!=structural(item)):
+                        new[kind][item['id']]['verification']={**copy.deepcopy(previous['verification']),'state':'STALE'}
             changed_nodes={identity for identity in old['nodes'].keys()|new['nodes'].keys() if old['nodes'].get(identity)!=new['nodes'].get(identity)}
             # Imported edges that depend on a changed object lose earned proof.
             # A deleted endpoint gets an explicit stopping boundary; old versions

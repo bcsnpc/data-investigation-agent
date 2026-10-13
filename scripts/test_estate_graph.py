@@ -45,6 +45,17 @@ class GraphRepositoryTests(unittest.TestCase):
         self.assertEqual(len(self.repo.records('estate',at=T0)['nodes']),5)
         self.assertEqual(len(self.repo.records('estate',at=T1)['nodes']),4)
         self.assertEqual(len(self.repo.changes('estate')),2)
+    def test_reextracted_changed_declared_edge_keeps_old_verification_as_stale(self):
+        value=graph();edge=value['edges'][2];edge.update(confidence='VERIFIED',provenance=proof(source='QUERY_VERIFICATION'),
+            verification={'state':'CURRENT','evidence_ids':['q'],'scope_hash':'b'*64})
+        self.repo.verification_resolver=lambda _: {'producer':'QUERY_VERIFICATION','status':'VERIFIED','scope_hash':'b'*64,'definition_hashes':['a'*64],'edge_ids':['vm']}
+        self.repo.replace(value)
+        changed=graph();changed.update(definition_hash='c'*64,observed_at=T1)
+        changed['edges'][2]['provenance']=proof(hash='c'*64)
+        self.repo.replace(changed)
+        got=next(e for e in self.repo.records('estate')['edges'] if e['id']=='vm')
+        self.assertEqual(got['confidence'],'DECLARED');self.assertEqual(got['verification']['state'],'STALE')
+        self.assertEqual(got['verification']['evidence_ids'],['q'])
     def test_foreign_owner_and_dangling_links_refuse_transactionally(self):
         original=graph();self.repo.replace(original)
         bad={**graph(),'owner':'other','definition_hash':'b'*64,'observed_at':T1}
