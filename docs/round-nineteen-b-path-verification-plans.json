@@ -7,18 +7,18 @@
     {
       "estate": "fixture",
       "target": {
-        "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/visual/definition%2Fpages%2F0f86b2ef08bcd78983f1%2Fvisuals%2Fe1b0664f78b177987b3a%2Fvisual.json",
+        "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/visual/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Fa32b6a48db655ac8a4f2%2Fvisual.json",
         "kind": "ReportVisual",
-        "name": "e1b0664f78b177987b3a",
-        "retained_content_hash": "db21c75c97692711f4be439831564d8b02387c1d6c730cf5514990de3e1ade37",
-        "metadata_sha256": "db21c75c97692711f4be439831564d8b02387c1d6c730cf5514990de3e1ade37"
+        "name": "a32b6a48db655ac8a4f2",
+        "retained_content_hash": "7ccf810b97b5e50ced73a9055497541369eeb545f1e223210b5293affd4c0a5a",
+        "metadata_sha256": "7ccf810b97b5e50ced73a9055497541369eeb545f1e223210b5293affd4c0a5a"
       },
       "page": {
-        "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/page/0f86b2ef08bcd78983f1",
+        "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/page/8b067ecb975e5af7a39b",
         "kind": "ReportPage",
-        "name": "Six active predicates",
-        "retained_content_hash": "984a56d62ef1a49825c3b956d885dfd02ddc6e9d7ec56c815f7f688d9ed198b4",
-        "metadata_sha256": "984a56d62ef1a49825c3b956d885dfd02ddc6e9d7ec56c815f7f688d9ed198b4"
+        "name": "Saved predicate selections",
+        "retained_content_hash": "411fc935e83af45b02a82ec6b2f0630e5e755ef92d8cafa06e527084b6ca5c94",
+        "metadata_sha256": "411fc935e83af45b02a82ec6b2f0630e5e755ef92d8cafa06e527084b6ca5c94"
       },
       "measure": {
         "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
@@ -31,114 +31,6 @@
       "scope": {
         "kind": "FULL_DECLARED_REPORT_CONTEXT_REQUIRED",
         "retained_page_filters": [
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Activity"
-                  }
-                },
-                "Property": "warehouse_id"
-              }
-            },
-            "filter": {
-              "From": [
-                {
-                  "Entity": "Activity",
-                  "Name": "s",
-                  "Type": 0
-                }
-              ],
-              "Version": 2,
-              "Where": [
-                {
-                  "Condition": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "s"
-                              }
-                            },
-                            "Property": "warehouse_id"
-                          }
-                        }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "1L"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              ]
-            },
-            "howCreated": "User",
-            "name": "warehouse",
-            "type": "Categorical"
-          },
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Activity"
-                  }
-                },
-                "Property": "product_id"
-              }
-            },
-            "filter": {
-              "From": [
-                {
-                  "Entity": "Activity",
-                  "Name": "s",
-                  "Type": 0
-                }
-              ],
-              "Version": 2,
-              "Where": [
-                {
-                  "Condition": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "s"
-                              }
-                            },
-                            "Property": "product_id"
-                          }
-                        }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "1L"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              ]
-            },
-            "howCreated": "User",
-            "name": "product",
-            "type": "Categorical"
-          },
           {
             "field": {
               "Column": {
@@ -190,9 +82,11 @@
               ]
             },
             "howCreated": "User",
-            "name": "type",
+            "name": "page_receipts",
             "type": "Categorical"
-          },
+          }
+        ],
+        "retained_visual_filters": [
           {
             "field": {
               "Column": {
@@ -244,119 +138,126 @@
               ]
             },
             "howCreated": "User",
-            "name": "day",
-            "type": "Categorical"
-          },
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Locations"
-                  }
-                },
-                "Property": "warehouse_name"
-              }
-            },
-            "filter": {
-              "From": [
-                {
-                  "Entity": "Locations",
-                  "Name": "s",
-                  "Type": 0
-                }
-              ],
-              "Version": 2,
-              "Where": [
-                {
-                  "Condition": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "s"
-                              }
-                            },
-                            "Property": "warehouse_name"
-                          }
-                        }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "'North'"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              ]
-            },
-            "howCreated": "User",
-            "name": "warehouse_name",
-            "type": "Categorical"
-          },
-          {
-            "field": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Items"
-                  }
-                },
-                "Property": "product_name"
-              }
-            },
-            "filter": {
-              "From": [
-                {
-                  "Entity": "Items",
-                  "Name": "s",
-                  "Type": 0
-                }
-              ],
-              "Version": 2,
-              "Where": [
-                {
-                  "Condition": {
-                    "In": {
-                      "Expressions": [
-                        {
-                          "Column": {
-                            "Expression": {
-                              "SourceRef": {
-                                "Source": "s"
-                              }
-                            },
-                            "Property": "product_name"
-                          }
-                        }
-                      ],
-                      "Values": [
-                        [
-                          {
-                            "Literal": {
-                              "Value": "'Component 1'"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                  }
-                }
-              ]
-            },
-            "howCreated": "User",
-            "name": "product_name",
+            "name": "visual_event_day",
             "type": "Categorical"
           }
         ],
-        "must_also_inventory_report_visual_and_slicer_declarations": true
+        "retained_slicer_defaults": [
+          {
+            "asset": {
+              "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/visual/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Fd93c45218e8d5014b475%2Fvisual.json",
+              "kind": "ReportVisual",
+              "name": "d93c45218e8d5014b475",
+              "retained_content_hash": "3037f91ac309c6c8f6a0d6fb5ba930b918eccef50762c9a9f77a11de3d0e86fe",
+              "metadata_sha256": "3037f91ac309c6c8f6a0d6fb5ba930b918eccef50762c9a9f77a11de3d0e86fe"
+            },
+            "general": [
+              {
+                "properties": {
+                  "filter": {
+                    "filter": {
+                      "From": [
+                        {
+                          "Entity": "Items",
+                          "Name": "s",
+                          "Type": 0
+                        }
+                      ],
+                      "Version": 2,
+                      "Where": [
+                        {
+                          "Condition": {
+                            "In": {
+                              "Expressions": [
+                                {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "s"
+                                      }
+                                    },
+                                    "Property": "product_name"
+                                  }
+                                }
+                              ],
+                              "Values": [
+                                [
+                                  {
+                                    "Literal": {
+                                      "Value": "'Component 1'"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "asset": {
+              "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/visual/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2Ff330a73cbbdf5467ae5c%2Fvisual.json",
+              "kind": "ReportVisual",
+              "name": "f330a73cbbdf5467ae5c",
+              "retained_content_hash": "7a8569a759b45e708832df81462a2f53862bcc3384b61fa97e350a755e7ae715",
+              "metadata_sha256": "7a8569a759b45e708832df81462a2f53862bcc3384b61fa97e350a755e7ae715"
+            },
+            "general": [
+              {
+                "properties": {
+                  "filter": {
+                    "filter": {
+                      "From": [
+                        {
+                          "Entity": "Locations",
+                          "Name": "s",
+                          "Type": 0
+                        }
+                      ],
+                      "Version": 2,
+                      "Where": [
+                        {
+                          "Condition": {
+                            "In": {
+                              "Expressions": [
+                                {
+                                  "Column": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "s"
+                                      }
+                                    },
+                                    "Property": "warehouse_name"
+                                  }
+                                }
+                              ],
+                              "Values": [
+                                [
+                                  {
+                                    "Literal": {
+                                      "Value": "'North'"
+                                    }
+                                  }
+                                ]
+                              ]
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "must_conserve_all_declarations": true,
+        "saved_default_assumption_qualification_required": true
       },
       "admissible": false,
       "blockers": [

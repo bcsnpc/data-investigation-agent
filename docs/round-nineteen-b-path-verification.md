@@ -8,20 +8,22 @@ IDs, metadata hashes and native scope declarations are in
 
 ## Filtered fixture visual
 
-The retained `Six active predicates` page contains a Handled Quantity card
-with six page predicates: warehouse_id 1, product_id 1, movement_type RECEIPT,
-event_day 2026-09-15, Locations.warehouse_name North and Items.product_name
-Component 1. This is a concrete filtered target. Its card title says
-“unfiltered”, but the page predicates are present in the definition and must
-apply. Its title is not scope evidence. A fresh inventory must also account
-for any report, visual and slicer declarations before admission.
+The retained `Saved predicate selections` page in `Declared predicate fixture
+20261001` contains a Handled Quantity card with an explicit visual event-day
+filter of 2026-09-15. The page restricts movement_type to RECEIPT; its two
+slicers retain saved defaults North and Component 1. This satisfies the
+requested slicer/visual-filter target. Every declaration must enter the
+inventory, and any result relying on saved slicer defaults carries the weaker
+saved-default assumption qualification. The earlier six-page-predicate target
+was a useful scope counterexample but did not meet the specific requested
+slicer/visual-filter selection; this plan corrects that selection.
 
 `BindingVerificationRoute.compile()` accepts a `BINDING_SAMPLE` containing
 one key range or date window. It passes that sample to `compile_quantity()`;
 it does not receive the report's active restriction inventory. Its successful
 execution explicitly labels the scope `BINDING_SAMPLE`. The graph attachment
 resolver recompiles these same statements and checks their sealed receipts.
-That proves the bounded column sample, not preservation of all six report
+That proves the bounded column sample, not preservation of all report
 predicates through every layer. Adding extra report predicates to the sample
 is rejected before any query, as the new regression test confirms.
 
