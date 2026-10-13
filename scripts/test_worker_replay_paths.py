@@ -70,6 +70,37 @@ class PortableWorkerTests(unittest.TestCase):
             self.assertIs(metadata_config.validate_config({}),root)
         self.assertIs(metadata_config.ROOT,root)
 
+    def test_historical_inline_validator_and_imported_alias_remain_original(self):
+        import sys
+        from types import ModuleType
+        module=ModuleType('metadata_config')
+        # The historical API has no validate_config function. Its loader checks
+        # the complete record before resolving paths against its own ROOT.
+        exec('def load_config(config):\n'
+             ' if set(config)!={"version","path"}: raise ValueError("FIELDS")\n'
+             ' if config["version"]!=1: raise ValueError("VERSION")\n'
+             ' return str((ROOT/config["path"]).resolve())\n',module.__dict__)
+        root=PurePosixPath('/historical');module.ROOT=root
+        imported_alias=module.load_config
+        journal=SimpleNamespace(ACTIVE=Mock())
+        journal.ACTIVE.get.return_value=SimpleNamespace(replaying=True)
+        with patch.dict(sys.modules,{'metadata_config':module}),helper.configuration_paths(journal):
+            self.assertIs(module.load_config,imported_alias)
+            self.assertFalse(hasattr(module,'validate_config'))
+            self.assertEqual(imported_alias({'version':1,'path':r'D:\retained\config.json'}),r'D:\retained\config.json')
+            for bad,message in [({'version':2,'path':'x'},'VERSION'),({'version':1,'path':'x','extra':True},'FIELDS')]:
+                with self.assertRaisesRegex(ValueError,message):imported_alias(bad)
+            # The adapter does not alter a live/no-tape path expression.
+            journal.ACTIVE.get.return_value=None
+            self.assertEqual(module.ROOT/'relative',root/'relative')
+        self.assertIs(module.ROOT,root);self.assertIs(module.load_config,imported_alias)
+
+    def test_unknown_historical_configuration_api_is_not_skipped(self):
+        import sys
+        module=SimpleNamespace(ROOT=PurePosixPath('/historical'))
+        with patch.dict(sys.modules,{'metadata_config':module}),self.assertRaisesRegex(ValueError,'ENTRY_POINT_UNSUPPORTED'):
+            with helper.configuration_paths(SimpleNamespace()):pass
+
     def test_first_mismatch_is_retained_when_error_handling_raises_another(self):
         expected=process_tape.bytes_of({'command':['python','expected.py']})
         tape=process_tape.Tape.__new__(process_tape.Tape)
