@@ -114,5 +114,11 @@ class SharedApplicationTests(unittest.TestCase):
             db.execute('CREATE TABLE workspace_images(id TEXT,content BLOB)');db.execute('INSERT INTO workspace_images VALUES(?,?)',('i',b'pixels'))
         with self.assertRaisesRegex(StateConflict,'BLOB_MIGRATION'):app.source(self.store.database,'synthetic')
 
+    def test_new_application_table_never_silently_falls_back_to_local_state(self):
+        with self.assertRaisesRegex(StateConflict,'NOT_REGISTERED'):
+            with self.store.connect()as db:db.execute('CREATE TABLE claim_future_state(id TEXT)')
+        with closing(sqlite3.connect(self.store.database))as db:
+            self.assertIsNone(db.execute("SELECT 1 FROM sqlite_master WHERE name='claim_future_state'").fetchone())
+
 
 if __name__=='__main__':unittest.main()

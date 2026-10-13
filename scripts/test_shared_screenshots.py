@@ -14,7 +14,7 @@ from investigator import shared_application as app
 from investigator.shared_state import SharedState
 from investigator.live_gateway import Gateway, GatewayDenied
 from investigator.adapters import screenshot_blobs as blobs
-from test_shared_application import SharedApplicationTests, store
+import test_shared_application as shared_fixture
 from test_screenshot_intake import image_bytes
 
 
@@ -27,7 +27,7 @@ class Objects:
 
 class SharedScreenshotTests(unittest.TestCase):
     def setUp(self):
-        SharedApplicationTests.setUp(self);self.now=1000.;self.objects=Objects()
+        shared_fixture.SharedApplicationTests.setUp(self);self.now=1000.;self.objects=Objects()
         self.workspace=SimpleNamespace(store=self.store,clock=lambda:self.now,agent=SimpleNamespace(config={}),intake_configuration=None)
         self.screens=Screenshots(self.workspace);self.screens.pixels._objects=self.objects
         self.raw=image_bytes()
@@ -98,6 +98,21 @@ class ScreenshotGatewayTests(unittest.TestCase):
             self.gateway.http(self.channel,'DELETE',self.url)
             with patch.dict('os.environ',{'DIA_LIVE_ACCESS_DISABLED':'1'}):
                 with self.assertRaises(GatewayDenied):self.gateway.http(self.channel,'DELETE',self.url)
+
+    def test_real_sdk_put_and_delete_are_gated_and_pixel_free_in_control_receipts(self):
+        import tempfile
+        from investigator.adapters.guarded_transport import GuardedTransport
+        from test_guarded_blob_transport import Wire
+        with tempfile.TemporaryDirectory()as root:
+            path=Path(root)/'receipts.jsonl';wire=Wire((201,202));original=GuardedTransport
+            with patch('investigator.adapters.guarded_transport.GuardedTransport',
+                side_effect=lambda gate,channel:original(gate,channel,receipts=path,inner=wire)),\
+                patch('investigator.adapters.blob_artifacts.bound_credential',return_value=None),\
+                patch('investigator.live_gateway.current',return_value=self.gateway):
+                objects=blobs.Objects({'account_url':self.account,'channel':self.channel,'identity':{}})
+                objects.put(self.key,self.raw);objects.delete(self.key)
+            self.assertEqual(wire.sent,[('PUT',self.url),('DELETE',self.url)])
+            self.assertNotIn(self.raw.decode(),path.read_text())
 
 
 if __name__=='__main__':unittest.main()

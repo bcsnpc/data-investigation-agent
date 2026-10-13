@@ -141,6 +141,8 @@ def migrate(state, identity, source):
             proofs.append({'table': table, 'rows_before': len(payload['rows']), 'rows_after': len(actual['rows']),
                            'sha256_before': sha(payload), 'sha256_after': sha(actual), 'matched': True})
         proof = {'source_sha256': fingerprint, 'environment': source['environment'], 'tables': proofs}
+        from .shared_case_file import publish_changed
+        publish_changed(state, db, source['environment'], source['tables'])
         state.sql(db, 'INSERT INTO state_migrations VALUES(?,?,?)', (identity, fingerprint, encoded(proof)))
         return proof
 
@@ -193,6 +195,10 @@ class Connection:
         # routing; it never grants any external query or rewrites its semantics.
         tokens = set(re.findall(r'[A-Za-z_][A-Za-z_0-9]*', sql))
         tables = tokens & TABLES
+        referenced = re.findall(r'\b(?:FROM|JOIN|INTO|UPDATE|TABLE(?:\s+IF\s+NOT\s+EXISTS)?)\s+["\[]?([A-Za-z_][A-Za-z_0-9]*)',sql,re.I)
+        for table in referenced:
+            if table.startswith(('claim_','v2_','workspace_','adaptive_')) and table not in TABLES and table!='adaptive_usage':
+                raise StateConflict('APPLICATION_TABLE_NOT_REGISTERED:'+table)
         if 'sqlite_master' in tokens and args and args[0] in TABLES:tables.add(args[0])
         if sql.strip().upper() in ('BEGIN', 'BEGIN IMMEDIATE'):
             if not self.memory.in_transaction:self.memory.execute('BEGIN')
