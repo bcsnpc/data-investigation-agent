@@ -52,6 +52,7 @@ class FabricSqlChanges:
         if not isinstance(objects,dict)or not 1<=len(objects)<=100:raise ValueError('GRAPH_SQL_OWNER_BOUND')
         self.identity,self.config,self.objects,self.execute=identity,config,objects,execute
         self.fingerprints={}
+        self.configured_owners=tuple(sorted(objects))
         for obj in objects.values():
             names(obj)
             if obj.get('surface','FABRIC_SQL')!='FABRIC_SQL' or obj['connection']!=config['fabric']['sql_reader']['server']:

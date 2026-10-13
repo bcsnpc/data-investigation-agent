@@ -91,7 +91,12 @@ class MetadataHttp:
                 return {'status_code': response.status, 'headers': dict(response.headers),
                         'text': json.loads(body) if body else {}}
         except HTTPError as exc:
-            raise RuntimeError('Metadata HTTP status ' + str(exc.code)) from None
+            from investigator.adapters.metadata_error import MetadataUnavailable
+            try:
+                raw=exc.read(32769)
+                body=json.loads(raw) if len(raw)<=32768 else None
+            except Exception:body=None
+            raise MetadataUnavailable(exc.code,body) from None
 
 
 class WorkerTransport:

@@ -21,10 +21,18 @@ class IncrementalScanner:
         old = previous['body']['owners']; latest = copy.deepcopy(old)
         if previous['body']['observed_at'] and at <= previous['body']['observed_at']:
             raise ValueError('GRAPH_SCAN_TIME_MUST_ADVANCE')
+        configured=getattr(self.collector,'configured_owners',())
+        if not isinstance(configured,(tuple,list,set,frozenset)):configured=()
+        if len(configured)>self.limit or any(not isinstance(owner,str)or not owner for owner in configured):
+            raise ValueError('GRAPH_OWNER_ALLOWLIST')
+        watched=set(old)|set(configured)
+        if len(watched)>self.limit:raise ValueError('GRAPH_SCAN_OWNER_BOUND')
+        from .adapters.metadata_error import safe_failure
         try: listing = self.collector.list_changes()
-        except (RuntimeError, PermissionError, TimeoutError) as error:
-            for owner in old:
-                health(self.repo.state, estate, owner, at, 'UNAVAILABLE', 'Item listing unavailable: ' + type(error).__name__)
+        except Exception as error:
+            detail=safe_failure(error)
+            for owner in watched:
+                health(self.repo.state, estate, owner, at, 'UNAVAILABLE', 'Item listing unavailable: ' + type(error).__name__,failure=detail)
             raise
         if set(listing) != {'items', 'complete'} or type(listing['complete']) is not bool:
             raise ValueError('GRAPH_CHANGE_LISTING_SHAPE')
@@ -46,6 +54,11 @@ class IncrementalScanner:
         from .graph_scan_health import unavailable
         unconfirmed=unavailable(self.repo.state,estate,set(signals))
         results = []
+        if not listing['complete']:
+            for owner in sorted(watched-signals.keys()):
+                reason='GRAPH_OWNER_NOT_VISIBLE: configured or retained owner absent from incomplete listing; deletion is not established.'
+                health(self.repo.state,estate,owner,at,'UNAVAILABLE',reason)
+                results.append({'owner':owner,'status':'UNAVAILABLE','reason':reason})
         for owner, signal in sorted(signals.items()):
             before = old.get(owner)
             if signal['deleted']:
@@ -75,9 +88,10 @@ class IncrementalScanner:
                 health(self.repo.state, estate, owner, at, 'CURRENT')
                 latest[owner] = {'signal': signal['fingerprint'], 'definition_hash': digest, 'deleted': False}
                 results.append({'owner': owner, **result})
-            except (RuntimeError, PermissionError, TimeoutError) as error:
+            except Exception as error:
                 # Do not advance this owner's cursor. Permission denial never deletes it.
-                health(self.repo.state, estate, owner, at, 'UNAVAILABLE', 'Owner definition refresh unavailable: ' + type(error).__name__)
-                results.append({'owner': owner, 'status': 'UNAVAILABLE', 'reason': type(error).__name__})
+                detail=safe_failure(error)
+                health(self.repo.state, estate, owner, at, 'UNAVAILABLE', 'Owner definition refresh unavailable: ' + type(error).__name__,failure=detail)
+                results.append({'owner': owner, 'status': 'UNAVAILABLE', 'reason': type(error).__name__,'failure':detail})
         self.repo.state.put(NAMESPACE, identity, {'owners': latest, 'observed_at': at}, revision=previous['revision'])
         return {'estate': estate, 'observed_at': at, 'listing_complete': listing['complete'], 'owners': results}

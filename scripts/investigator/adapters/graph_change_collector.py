@@ -22,6 +22,7 @@ class FabricChanges:
         self.max_pages, self.max_items = max_pages, max_items
         self.identity = 'fabric-workspace:' + self.workspace + ':' + sha(sorted(self.owners))
         self.items = {}
+        self.configured_owners=tuple(sorted(self.owner(key) for key in self.owners))
 
     def list_changes(self):
         base = 'workspaces/' + self.workspace + '/items'; endpoint = base
@@ -29,7 +30,9 @@ class FabricChanges:
         for _ in range(self.max_pages):
             if endpoint in seen: raise ValueError('GRAPH_REPEATED_CONTINUATION')
             seen.add(endpoint); response = self.http(endpoint)
-            if response['status_code'] != 200: raise RuntimeError('GRAPH_LISTING_UNAVAILABLE')
+            if response['status_code'] != 200:
+                from .metadata_error import MetadataUnavailable
+                raise MetadataUnavailable(response['status_code'],response.get('text'))
             body = response['text']
             for item in body['value']:
                 count += 1
@@ -62,7 +65,13 @@ class FabricChanges:
         if kind not in ('Report', 'SemanticModel', 'Notebook', 'DataPipeline', 'CopyJob'):
             raise RuntimeError('GRAPH_DEFINITION_KIND_UNAVAILABLE')
         endpoint = 'workspaces/' + self.workspace + '/items/' + key + '/getDefinition'
-        parts = definition(endpoint + ('?format=TMSL' if kind == 'SemanticModel' else ''), self.http)
+        def checked_call(*args,**kwargs):
+            from .metadata_error import MetadataUnavailable
+            response=self.http(*args,**kwargs)
+            if response['status_code'] not in (200,202):
+                raise MetadataUnavailable(response['status_code'],response.get('text'))
+            return response
+        parts = definition(endpoint + ('?format=TMSL' if kind == 'SemanticModel' else ''), checked_call)
         assets = Assets()
         # Volatile listing clocks are not definition content.
         metadata = {k: v for k, v in item.items() if k not in ('lastModifiedDateTime', 'modifiedDateTime', 'modifiedTime')}
@@ -80,6 +89,7 @@ class SqlSchemaChanges:
     def __init__(self, identity, objects, read_catalog, definitions):
         if not objects or len(objects) > 100: raise ValueError('GRAPH_SQL_OWNER_BOUND')
         self.identity, self.objects, self.read_catalog, self.definitions = identity, objects, read_catalog, definitions
+        self.configured_owners=tuple(sorted(objects))
     def list_changes(self):
         result = []
         for owner, obj in sorted(self.objects.items()):

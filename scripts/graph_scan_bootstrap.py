@@ -18,7 +18,8 @@ def main():
         os.environ['DIA_GATEWAY_POLICY']=str(policy)
         try:print(json.dumps(execute(config),sort_keys=True))
         except Exception as error:
-            print(json.dumps({'status':'FAILED','error_type':type(error).__name__}))
+            from investigator.adapters.metadata_error import safe_failure
+            print(json.dumps({'status':'FAILED','error_type':type(error).__name__,'failure':safe_failure(error)}))
             raise SystemExit(1)from None
 
 

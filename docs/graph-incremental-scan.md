@@ -129,3 +129,24 @@ test must use the existing estate build script under the owner's recorded
 approval, change one fixture definition, scan, then revert through the same
 script and scan again. Record both changes and restoration; the scanner itself
 never mutates the estate.
+
+
+Failure visibility: collectors declare their bounded owner allowlist separately
+from the last successful cursor. A first listing failure therefore marks seeded
+owners UNAVAILABLE even when no scan cursor exists. An owner missing from an
+incomplete/permission-filtered list also becomes UNAVAILABLE; its retained
+history is preserved and absence never proves deletion. A later successful
+owner definition read is required to clear the gap.
+
+Scan receipts and owner health retain the existing source-literal/redacted
+failure diagnostic, numeric HTTP status and known provider error code when
+available. Provider bodies, messages, headers and tokens are excluded; unknown
+provider codes are withheld. Coverage exposes these diagnostics with the
+unavailable owner. This does not turn a permission failure into a new grant.
+
+Current incremental extraction receives only the changed owner's assets. It
+does not resolve external symbols against the retained approved catalog or
+compute affected-owner closure. Cross-owner report/model references can remain
+UNKNOWN, and code changes that alter table-owned projections require a future
+closure calculation and atomic multi-owner replacement. The scheduled collector
+must not be described as maintaining all cross-owner lineage yet.

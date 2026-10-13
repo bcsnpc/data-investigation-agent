@@ -86,6 +86,30 @@ class IncrementalTests(unittest.TestCase):
         self.scan.run('estate', TIMES[2])
         self.assertEqual(self.collector.fetch.call_count,2)
         self.assertNotIn('unavailable_owners',self.repo.records('estate'))
+    def test_preseeded_graph_first_listing_failure_marks_configured_owners(self):
+        from investigator.adapters.metadata_error import MetadataUnavailable
+        self.repo.replace(self.graph('estate','one',TIMES[0],self.payloads['one']))
+        self.collector.configured_owners=('one','two')
+        self.collector.list_changes.side_effect=MetadataUnavailable(403,{'errorCode':'InsufficientPrivileges','message':'secret-token'})
+        with self.assertRaises(MetadataUnavailable):self.scan.run('estate',TIMES[1])
+        graph=self.repo.records('estate');failure=graph['unavailable_owners']['one']['failure']
+        self.assertEqual(failure['http_status'],403)
+        self.assertEqual(failure['provider_code'],'InsufficientPrivileges')
+        self.assertNotIn('secret-token',json.dumps(graph))
+        self.assertNotIn('unavailable_owners',self.repo.records('estate',at=TIMES[0]))
+
+    def test_permission_hidden_item_without_cursor_is_unavailable_not_deleted(self):
+        self.repo.replace(self.graph('estate','one',TIMES[0],self.payloads['one']))
+        self.collector.configured_owners=('one','two')
+        self.signals=self.signals[1:]
+        result=self.scan.run('estate',TIMES[1])
+        self.assertEqual(result['owners'][0]['status'],'UNAVAILABLE')
+        self.assertIn('GRAPH_OWNER_NOT_VISIBLE',result['owners'][0]['reason'])
+        graph=self.repo.records('estate')
+        self.assertEqual(len(graph['nodes']),2)
+        self.assertIn('one',coverage(graph)['unavailable_owners'])
+        self.collector.fetch.assert_called_once_with('two')
+
     def test_inflight_refresh_is_unavailable_if_worker_crashes(self):
         self.scan.run('estate', TIMES[0]);health(self.state,'estate','one',TIMES[1],'REFRESHING','Awaiting collection')
         self.assertEqual(self.repo.records('estate')['unavailable_owners']['one']['status'],'REFRESHING')

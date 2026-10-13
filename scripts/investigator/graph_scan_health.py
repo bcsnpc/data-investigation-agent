@@ -6,7 +6,7 @@ NAMESPACE = 'graph_owner_collection'
 STATES = frozenset({'REFRESHING', 'CURRENT', 'UNAVAILABLE', 'DELETED'})
 
 
-def record(state, estate, owner, at, status, reason=None):
+def record(state, estate, owner, at, status, reason=None, *, failure=None):
     at = c.timestamp(at)
     if status not in STATES or (reason is not None and not c.text(reason)):
         raise ValueError('GRAPH_COLLECTION_STATUS')
@@ -17,6 +17,7 @@ def record(state, estate, owner, at, status, reason=None):
     if events and at < events[-1]['at']: raise ValueError('GRAPH_COLLECTION_TIME_MUST_ADVANCE')
     if len(events) >= 10000: raise ValueError('GRAPH_COLLECTION_HISTORY_BOUND')
     event = {'at': at, 'status': status, 'reason': reason}
+    if failure is not None:event['failure']=failure
     if events and events[-1] == event: return
     state.put(NAMESPACE, identity, {'events': [*events, event]}, revision=prior['revision'])
 

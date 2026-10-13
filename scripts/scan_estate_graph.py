@@ -115,8 +115,9 @@ def execute(config):
         state.put('graph_scan_run', meter.owner, result)
         return result
     except BaseException as error:
+        from investigator.adapters.metadata_error import safe_failure
         state.put('graph_scan_run', meter.owner, {'estate': config['estate'], 'observed_at': at,
-            'status': 'FAILED', 'error_type': type(error).__name__, 'physical_requests': meter.used,
+            'status': 'FAILED', 'error_type': type(error).__name__, 'failure':safe_failure(error),'physical_requests': meter.used,
             'approval': config['approval'], 'config_hash': sha(config)})
         raise
     finally: meter.close()
