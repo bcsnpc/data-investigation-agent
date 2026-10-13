@@ -15,6 +15,7 @@ TEST_MODULES = (
     'test_live_gateway.py', 'test_tape_decoders.py', 'test_model_transport_retry.py',
     'test_keyed_readback.py', 'test_native_diagnostics.py',
     'test_budget_tape_contract.py', 'test_provider_tape_contract.py', 'test_ticket_protocol.py',
+    'test_shared_usage_replay.py', 'test_cloud_verification_first_error.py',
 )
 
 

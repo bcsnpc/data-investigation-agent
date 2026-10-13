@@ -31,8 +31,13 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         entries = list(range(63))
         buckets = [partition(entries, n, 8) for n in range(8)]
         self.assertEqual(sorted(x for bucket in buckets for x in bucket), entries)
-        self.assertEqual(len(TEST_MODULES), 8)
-        self.assertTrue(all(len(partition(TEST_MODULES, n, 8)) == 1 for n in range(8)))
+        self.assertGreaterEqual(len(TEST_MODULES), 8)
+        self.assertEqual(len(TEST_MODULES), len(set(TEST_MODULES)))
+        module_buckets = [partition(TEST_MODULES, n, 8) for n in range(8)]
+        self.assertTrue(all(module_buckets))
+        self.assertEqual(sorted(x for bucket in module_buckets for x in bucket), sorted(TEST_MODULES))
+        self.assertIn('test_shared_usage_replay.py', TEST_MODULES)
+        self.assertIn('test_cloud_verification_first_error.py', TEST_MODULES)
         with self.assertRaises(ValueError): partition(entries, 8, 8)
 
     def test_hash_and_path_refuse_before_replay(self):
