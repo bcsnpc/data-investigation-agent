@@ -107,7 +107,12 @@ class StaticGraph:
 
     def gap(self,origin,reason,remedy,proof,*,kind='COMPUTED_FROM'):
         unknown={'reason':reason[:2048],'remedy':remedy[:2048]}
-        target=self.add('BOUNDARY',reason[:200],[origin,reason],proof,confidence='UNKNOWN',unknown=unknown)
+        # Equal gap wording at different source locations is not one declaration.
+        # Keep each location so repeated unresolved references cannot collide or
+        # erase evidence. Deliberately omit observation time/content hash: the
+        # same declaration location keeps its identity across later revisions.
+        target=self.add('BOUNDARY',reason[:200],[origin,reason,proof['source_id'],proof['span']],
+            proof,confidence='UNKNOWN',unknown=unknown)
         self.link(kind,origin,target,proof,confidence='UNKNOWN',unknown=unknown);return target
 
     def ancestor(self,asset_id,kind):
