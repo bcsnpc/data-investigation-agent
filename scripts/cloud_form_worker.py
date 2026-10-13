@@ -6,11 +6,14 @@ answers a question, creates a route, or changes a limit. Private SQLite files ar
 per-job execution/replay state; PostgreSQL owns tickets, catalog and accounting.
 """
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 import os
 from pathlib import Path
 import shutil
+import stat
+from uuid import UUID
 
 
 def file_hash(path):
@@ -81,6 +84,113 @@ def prepare(bundle_path,sha256,job_root):
     return bundle,files,manifest,readiness
 
 
+def capture_ids(root):
+    """List local capture identities only; never traverse their snapshots."""
+    root=Path(root)
+    if not root.exists():return set()
+    return {entry.name for entry in root.iterdir()}
+
+
+def _plain(path):
+    info=path.lstat()
+    if stat.S_ISLNK(info.st_mode) or getattr(info,'st_file_attributes',0)&0x400:
+        raise ValueError('CLOUD_CAPTURE_LINK_FORBIDDEN')
+    return info
+
+
+def export_capture_pointers(root,before,job_root):
+    """Retain native pointers byte-for-byte, including explicit incomplete rows.
+
+    No remote read or database copy belongs here. A copied pointer records the
+    publication receipt; actual CAS availability and replay remain separate.
+    """
+    from investigator.process_tape import bytes_of,sha,validate_event,SUPPORTED_VERSIONS
+    from investigator.slim_recording import VERSION,validate
+    root=Path(root);destination=Path(job_root)/'captures'
+    destination.mkdir(exist_ok=False)
+    rows=[]
+    for identity in sorted(capture_ids(root)-before):
+        row={'id':identity,'status':'UNINSPECTED'};rows.append(row)
+        directory=root/identity
+        try:
+            if str(UUID(identity))!=identity:raise ValueError('CLOUD_CAPTURE_ID_INVALID')
+            if not stat.S_ISDIR(_plain(directory).st_mode):raise ValueError('CLOUD_CAPTURE_NOT_DIRECTORY')
+            tape_path=directory/'tape.json';pointer=directory/'slim-recording.json'
+            # Export a present pointer even when validation below fails, so a
+            # broken publication never disappears from the evidence inventory.
+            receipt=None
+            if pointer.exists():
+                if not stat.S_ISREG(_plain(pointer).st_mode) or pointer.stat().st_size>1_000_000:
+                    raise ValueError('CLOUD_CAPTURE_POINTER_BOUND')
+                body=pointer.read_bytes();target=destination/identity/'slim-recording.json';target.parent.mkdir()
+                with target.open('xb') as output:output.write(body)
+                row['pointer']={'path':target.relative_to(job_root).as_posix(),
+                    'sha256':hashlib.sha256(body).hexdigest(),'bytes':len(body)}
+                receipt=json.loads(body)
+            if not tape_path.exists():row['status']='MISSING_TAPE';continue
+            if not stat.S_ISREG(_plain(tape_path).st_mode):raise ValueError('CLOUD_CAPTURE_TAPE_NOT_FILE')
+            try:
+                sealed=json.loads(tape_path.read_bytes())
+                # Full Tape validation requires retired SQLite snapshots. This
+                # export validates only the native sealed envelope/event journal;
+                # CAS restoration and complete engine replay remain separate.
+                if (sealed.get('version') not in SUPPORTED_VERSIONS
+                        or sealed.get('seal')!=sha(bytes_of({k:v for k,v in sealed.items() if k!='seal'}))):
+                    raise ValueError('CLOUD_CAPTURE_TAPE_SEAL')
+                events=sealed.get('events',[])
+                if not events or events[0]['kind']!='BOOTSTRAP' or events[-1]['kind']!='FINAL':
+                    raise ValueError('CLOUD_CAPTURE_TAPE_INCOMPLETE')
+                for ordinal,event in enumerate(events,1):validate_event(event,ordinal)
+                journal=tape_path.with_suffix('.events.jsonl')
+                if journal.exists():
+                    if not stat.S_ISREG(_plain(journal).st_mode):raise ValueError('CLOUD_CAPTURE_JOURNAL_NOT_FILE')
+                    if [json.loads(line) for line in journal.read_bytes().splitlines()]!=events:
+                        raise ValueError('CLOUD_CAPTURE_JOURNAL_DIFFERS')
+            except Exception as error:
+                row.update(status='UNSEALED_OR_INVALID_TAPE',error_type=type(error).__name__,reason=str(error));continue
+            row['source_seal']=sealed['seal']
+            row['tape_validation']='SEALED_ENVELOPE_AND_EVENT_JOURNAL_ONLY'
+            row['tape_sha256']=file_hash(tape_path)
+            if receipt is None:
+                row['status']='SEALED_WITHOUT_PUBLICATION_POINTER';continue
+            if (receipt.get('version')!=VERSION or receipt.get('restoration_verified') is not True
+                    or receipt.get('source_seal')!=sealed['seal']):
+                raise ValueError('CLOUD_CAPTURE_POINTER_INVALID')
+            validate(receipt['configuration'])
+            reference=receipt.get('bundle',{})
+            from investigator.artifact_store import hash_id
+            hash_id(reference.get('sha256'))
+            if set(reference)!={'sha256','bytes'} or type(reference['bytes']) is not int or reference['bytes']<0:
+                raise ValueError('CLOUD_CAPTURE_BUNDLE_REFERENCE_INVALID')
+            row.update(status='NATIVE_POINTER_EXPORTED',bundle_sha256=reference['sha256'],engine_replay='NOT_RUN')
+        except Exception as error:
+            row.update(status='CAPTURE_EXPORT_INVALID',error_type=type(error).__name__,reason=str(error))
+    result={'version':'cloud-native-capture-index-v1','count':len(rows),
+            'status':'NO_NEW_CAPTURES' if not rows else 'INDEXED',
+            'native_pointers':sum(row['status']=='NATIVE_POINTER_EXPORTED' for row in rows),
+            'incomplete':sum(row['status']!='NATIVE_POINTER_EXPORTED' for row in rows),'captures':rows}
+    with (destination/'index.json').open('x',encoding='utf8') as output:json.dump(result,output,indent=2)
+    return result
+
+
+@contextmanager
+def retaining_capture_pointers(job_root,capture_root):
+    before=capture_ids(capture_root);primary=None
+    try:yield
+    except BaseException as error:primary=error;raise
+    finally:
+        try:export_capture_pointers(capture_root,before,job_root)
+        except Exception as error:
+            # A disk/export problem must not replace the actual model/worker
+            # failure. Keep a separate private diagnostic whenever disk permits.
+            try:
+                with (Path(job_root)/'capture-export-error.json').open('x',encoding='utf8') as output:
+                    json.dump({'status':'CAPTURE_EXPORT_FAILED','error_type':type(error).__name__,
+                               'primary_error_type':type(primary).__name__ if primary else None},output)
+            except Exception:pass
+            if primary is None:raise
+
+
 def run_form(workspace,form):
     """One normal form pass. Refusals/questions remain terminal for this job."""
     saved=workspace.forms.submit(form)
@@ -136,8 +246,10 @@ def main(argv=None):
             raise ValueError('CLOUD_PUBLISHED_MODEL_CONTEXT_DIFFERS')
         guard_preview(workspace,readiness,pin['model_id'])
         settings={**manifest['model']['credential'],'endpoint':manifest['model']['endpoint'],'deployment':manifest['model']['deployment']}
-        with local_azure_key(settings):
-            result['ticket']=run_form(workspace,json.loads(files['form'].read_bytes()))
+        from investigator.run_recording import ROOT as recording_root
+        with retaining_capture_pointers(args.job_root,recording_root/'.local/process-tapes'):
+            with local_azure_key(settings):
+                result['ticket']=run_form(workspace,json.loads(files['form'].read_bytes()))
         result['status']=result['ticket']['ticket']['state']
     except BaseException as exc:
         result.update(status='ERROR',error_type=type(exc).__name__)

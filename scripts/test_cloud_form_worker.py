@@ -101,4 +101,104 @@ class CloudFormWorkerTests(unittest.TestCase):
         workspace.smart_intake.finish.assert_not_called()
 
 
+
+class NativeCaptureExportTests(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
+        self.root=Path(self.temp.name);self.captures=self.root/'source';self.captures.mkdir()
+        self.job=self.root/'one-attempt';self.job.mkdir()
+
+    def capture(self,identity,*,sealed=True,pointer=True):
+        from investigator.process_tape import Tape,bytes_of
+        from test_slim_recording import CONFIG
+        path=self.captures/identity;path.mkdir()
+        (path/'catalog.sqlite').write_bytes(b'never copy this database')
+        tape=Tape(path/'tape.json',{'entry_point':'synthetic','context_identity':'test','config':{},
+            'profile':{},'usage_policy':{},'engine_hash':'test','state':{}})
+        if sealed:tape.finish({'status':'COMPLETED'})
+        if pointer:
+            receipt={'version':'slim-recording-v1','configuration':CONFIG,
+                'bundle':{'sha256':'b'*64,'bytes':10},'bundle_seal':'c'*64,
+                'source_seal':json.loads(tape.path.read_bytes())['seal'],
+                'restoration_verified':True,'engine_replay':'NOT_RUN','retired_private_files':[]}
+            (path/'slim-recording.json').write_text(json.dumps(receipt,indent=3)+'\n')
+        return path
+
+    def test_new_native_pointer_bytes_and_index_export_without_databases_or_old_captures(self):
+        old=self.capture('11111111-1111-4111-8111-111111111111');before=worker.capture_ids(self.captures)
+        new=self.capture('22222222-2222-4222-8222-222222222222')
+        originals={p.name:p.read_bytes() for p in new.iterdir()}
+        result=worker.export_capture_pointers(self.captures,before,self.job)
+        self.assertEqual((result['count'],result['native_pointers'],result['incomplete']),(1,1,0))
+        self.assertEqual(result['captures'][0]['status'],'NATIVE_POINTER_EXPORTED')
+        target=self.job/'captures'/new.name/'slim-recording.json'
+        self.assertEqual(target.read_bytes(),originals['slim-recording.json'])
+        self.assertEqual({p.name:p.read_bytes() for p in new.iterdir()},originals)
+        self.assertEqual(sorted(p.name for p in (self.job/'captures').rglob('*') if p.is_file()),['index.json','slim-recording.json'])
+        self.assertFalse((self.job/'captures'/old.name).exists())
+
+    def test_retired_databases_are_not_needed_or_reconstituted_for_pointer_export(self):
+        path=self.capture('11111111-1111-4111-8111-111111111111')
+        (path/'catalog.sqlite').unlink()
+        with patch('investigator.process_tape.Tape',side_effect=AssertionError('No full snapshot validation during export')):
+            result=worker.export_capture_pointers(self.captures,set(),self.job)
+        self.assertEqual(result['native_pointers'],1)
+        self.assertEqual(result['captures'][0]['tape_validation'],'SEALED_ENVELOPE_AND_EVENT_JOURNAL_ONLY')
+        self.assertFalse((path/'catalog.sqlite').exists())
+
+    def test_stage_archive_includes_native_index_and_pointer_bytes(self):
+        import zipfile
+        from cloud_stage_worker import package
+        path=self.capture('11111111-1111-4111-8111-111111111111')
+        worker.export_capture_pointers(self.captures,set(),self.job)
+        inputs=self.root/'inputs';inputs.mkdir();output=self.root/'stage.zip'
+        package(inputs,self.root,output)
+        with zipfile.ZipFile(output) as archive:
+            self.assertEqual(archive.read('one-attempt/captures/'+path.name+'/slim-recording.json'),(path/'slim-recording.json').read_bytes())
+            self.assertEqual(json.loads(archive.read('one-attempt/captures/index.json'))['count'],1)
+            self.assertFalse(any(name.endswith('.sqlite') for name in archive.namelist()))
+
+    def test_missing_unsealed_and_sealed_unpublished_each_get_explicit_disposition(self):
+        (self.captures/'11111111-1111-4111-8111-111111111111').mkdir()
+        self.capture('22222222-2222-4222-8222-222222222222',sealed=False,pointer=False)
+        self.capture('33333333-3333-4333-8333-333333333333',pointer=False)
+        result=worker.export_capture_pointers(self.captures,set(),self.job)
+        self.assertEqual(result['count'],3);self.assertEqual(result['incomplete'],3)
+        self.assertEqual([r['status'] for r in result['captures']],
+            ['MISSING_TAPE','UNSEALED_OR_INVALID_TAPE','SEALED_WITHOUT_PUBLICATION_POINTER'])
+
+    def test_bad_publication_pointer_retained_verbatim_with_failure(self):
+        path=self.capture('11111111-1111-4111-8111-111111111111')
+        (path/'slim-recording.json').write_bytes(b'{ invalid publication }')
+        result=worker.export_capture_pointers(self.captures,set(),self.job)
+        self.assertEqual(result['captures'][0]['status'],'CAPTURE_EXPORT_INVALID')
+        self.assertEqual((self.job/'captures'/path.name/'slim-recording.json').read_bytes(),b'{ invalid publication }')
+
+    def test_success_and_failure_both_export_after_attempt(self):
+        with worker.retaining_capture_pointers(self.job,self.captures):
+            self.capture('11111111-1111-4111-8111-111111111111')
+        self.assertEqual(json.loads((self.job/'captures/index.json').read_bytes())['native_pointers'],1)
+        second=self.root/'failed-attempt';second.mkdir()
+        with self.assertRaisesRegex(RuntimeError,'original worker failure'):
+            with worker.retaining_capture_pointers(second,self.captures):
+                self.capture('22222222-2222-4222-8222-222222222222',pointer=False)
+                raise RuntimeError('original worker failure')
+        self.assertEqual(json.loads((second/'captures/index.json').read_bytes())['incomplete'],1)
+
+    def test_export_failure_never_masks_original_attempt_failure(self):
+        with patch.object(worker,'export_capture_pointers',side_effect=OSError('disk full')):
+            with self.assertRaisesRegex(RuntimeError,'original failure'):
+                with worker.retaining_capture_pointers(self.job,self.captures):raise RuntimeError('original failure')
+        error=json.loads((self.job/'capture-export-error.json').read_bytes())
+        self.assertEqual(error,{'status':'CAPTURE_EXPORT_FAILED','error_type':'OSError','primary_error_type':'RuntimeError'})
+
+    def test_export_failure_after_success_is_not_silently_accepted(self):
+        with patch.object(worker,'export_capture_pointers',side_effect=OSError('disk full')):
+            with self.assertRaisesRegex(OSError,'disk full'):
+                with worker.retaining_capture_pointers(self.job,self.captures):pass
+
+    def test_zero_new_captures_is_explicit_not_a_replay_pass(self):
+        result=worker.export_capture_pointers(self.captures,set(),self.job)
+        self.assertEqual(result['status'],'NO_NEW_CAPTURES');self.assertEqual(result['count'],0)
+
 if __name__=='__main__':unittest.main()
