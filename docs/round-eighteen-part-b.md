@@ -1,0 +1,17 @@
+# Round Eighteen - Part B
+
+Storage checkpoint, 2026-10-13 UTC. Draft #424 targets #423; neither merges. The previous freeze is invalid.
+
+PostgreSQL is now the transactional authority for cloud tickets, case-file sections, catalogs, readiness and budgets. Versioned migrations retained the original monetary account and all 10,022 usage rows, including failed, uncertain and one historical reserved row. The model opening balance is $107.957725; ceiling $127.957725 includes a protected $10 margin. Pot usage remains 2,839/4,000 with 95 restoration requests remaining. Local originals were not reset. The reserved graph tables were queried and both contain zero rows. Worker managed-identity health passed for PostgreSQL, Blob and Key Vault; separate scoped-cache authentication passed for the existing Fabric reader's Power BI and SQL audiences.
+
+SQLite remains the per-job replay materialisation and offline mode. A cloud configuration requires PostgreSQL and cannot silently fall back. Shared writes mirror to the private capture after commit; mirror failure preserves the committed revision and blocks further work. Privacy-projected PostgreSQL persistence remains an explicit refusal; it is not silently recorded exact.
+
+The pilot plus eight selected historical tapes were converted. The eight tapes' 1,958,359,736 source bytes added 23,394,768 bytes to a shared content-addressed store, growing it from 25,200,488 to 48,595,256 bytes. All 32 restored files are byte-identical and all eight pinned-engine replays match. The earlier pilot also restored and replayed exactly. This is a selected conversion, not completion of the historical backlog.
+
+The verified archive pilot contains 45 files: 246,408,805 original bytes stored as 25,360,988 compressed bytes. Their verified local removal freed 96,485,376 allocated bytes; logical size and freed space differ because NTFS compression was already in use. A later 32-file batch hit connection reset 10054 during upload. Without a completed verified receipt its originals remain local. The broader candidate inventory is approximately 397.96 GB logical / 184.05 GB allocated across 21,841 files; eligibility alone is not a privacy review or a completed upload. Bulk archiving remains unfinished.
+
+**Dated correction to the operator upload accounting:** the Azure Storage SDK ignored the `per_call_policies` argument used by the local pilot publication scripts. Byte readback and archive receipts remain evidence of content verification, but their inferred request totals are not measured physical counts and the intended gateway callback was not enforced. A transport-level replacement is being tested before further operator SDK uploads. Worker platform transports use a different, explicitly gated implementation. No estate read or model call occurred in these migrations.
+
+The frozen 4377cbf engine passed 3,983 tests, 46 skipped and 1,407 subtests, in 796.43 seconds. Real PostgreSQL migration/concurrency tests and subsequent focused cloud tests are recorded separately. Current disk free was 13,850,230,784 bytes after the eight conversions; the 10 GB admission floor remains.
+
+Part C proceeds with the cloud demo prerequisites and the Linux historical replay correction. The first eight-way cloud replay matched 7/8; a Windows-path descriptor portability defect explains the retained failure. That result is not upgraded here. Cloud estate readiness and the live demo remain unearned at this checkpoint.
