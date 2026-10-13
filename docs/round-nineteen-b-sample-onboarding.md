@@ -107,3 +107,130 @@ Journal `owner-publication.jsonl` in `sample-publication-03`, SHA-256 `c426e8b3e
 ```
 
 Publication accounting: 15 actual HTTP sends; 16 charged controls including one interrupted reservation conservatively retained. The failed first response and interrupted second continuation remain recorded. The final continuation made five sends and did not recreate, reimport, or regrant workspace roles.
+
+### Exact workspace before/after and grants
+
+```json
+{
+  "at": "2026-10-13T17:43:46.241846+00:00",
+  "method": "GET",
+  "url": "https://api.fabric.microsoft.com/v1/workspaces/220708c4-6b51-4be7-ba1a-fb91bbd09e0f/roleAssignments",
+  "body": null,
+  "http_status": 200,
+  "response": {
+    "value": [
+      {
+        "id": "23de217f-6e14-49cf-9acd-47dcd83cb82f",
+        "principal": {
+          "displayName": "Chaitanya Bhogireddy",
+          "id": "23de217f-6e14-49cf-9acd-47dcd83cb82f",
+          "type": "User",
+          "userDetails": {
+            "userPrincipalName": "admin@skynwhy.com"
+          }
+        },
+        "role": "Admin"
+      }
+    ]
+  }
+}
+```
+
+```json
+{
+  "at": "2026-10-13T17:43:50.576759+00:00",
+  "method": "POST",
+  "url": "https://api.fabric.microsoft.com/v1/workspaces/220708c4-6b51-4be7-ba1a-fb91bbd09e0f/roleAssignments",
+  "body": {
+    "principal": {
+      "id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+      "type": "ServicePrincipal"
+    },
+    "role": "Viewer"
+  },
+  "http_status": 201,
+  "response": {
+    "id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+    "principal": {
+      "id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+      "type": "ServicePrincipal"
+    },
+    "role": "Viewer"
+  }
+}
+```
+
+```json
+{
+  "at": "2026-10-13T17:43:54.534257+00:00",
+  "method": "POST",
+  "url": "https://api.fabric.microsoft.com/v1/workspaces/220708c4-6b51-4be7-ba1a-fb91bbd09e0f/roleAssignments",
+  "body": {
+    "principal": {
+      "id": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
+      "type": "ServicePrincipal"
+    },
+    "role": "Contributor"
+  },
+  "http_status": 201,
+  "response": {
+    "id": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
+    "principal": {
+      "id": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
+      "type": "ServicePrincipal"
+    },
+    "role": "Contributor"
+  }
+}
+```
+
+```json
+{
+  "at": "2026-10-13T17:43:58.683505+00:00",
+  "method": "GET",
+  "url": "https://api.fabric.microsoft.com/v1/workspaces/220708c4-6b51-4be7-ba1a-fb91bbd09e0f/roleAssignments",
+  "body": null,
+  "http_status": 200,
+  "response": {
+    "value": [
+      {
+        "id": "23de217f-6e14-49cf-9acd-47dcd83cb82f",
+        "principal": {
+          "displayName": "Chaitanya Bhogireddy",
+          "id": "23de217f-6e14-49cf-9acd-47dcd83cb82f",
+          "type": "User",
+          "userDetails": {
+            "userPrincipalName": "admin@skynwhy.com"
+          }
+        },
+        "role": "Admin"
+      },
+      {
+        "id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+        "principal": {
+          "displayName": "dia-investigator-round19",
+          "id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+          "servicePrincipalDetails": {
+            "aadAppId": "531419ef-1610-415a-b8bf-01a4b6aad751"
+          },
+          "type": "ServicePrincipal"
+        },
+        "role": "Viewer"
+      },
+      {
+        "id": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
+        "principal": {
+          "displayName": "dia-scanner",
+          "id": "dbb49594-6c70-4989-a6c8-c4f237c4a021",
+          "servicePrincipalDetails": {
+            "aadAppId": "86a9d95a-466c-443e-9eb9-91f870ffe15a"
+          },
+          "type": "ServicePrincipal"
+        },
+        "role": "Contributor"
+      }
+    ]
+  }
+}
+```
+
