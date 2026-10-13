@@ -8,7 +8,9 @@ from investigator.live_gateway import ACTIVE, configured
 @contextmanager
 def allow_http(*entries):
     base=copy.deepcopy(ACTIVE.get().policy) if ACTIVE.get() else {'version':1,'live_enabled':True,'identities':{}}
-    base['identities'].setdefault('offline-test',{}).setdefault('http',[]).extend(entries)
+    grants=base['identities'].setdefault('offline-test',{}).setdefault('http',[])
+    for entry in entries:
+        if entry not in grants:grants.append(entry)
     with patch.dict(os.environ,{'DIA_GATEWAY_HTTP_IDENTITY':'offline-test','DIA_GATEWAY_MODEL_IDENTITY':'offline-test'}),configured(base):
         yield
 

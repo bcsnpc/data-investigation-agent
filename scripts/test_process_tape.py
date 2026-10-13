@@ -631,10 +631,6 @@ print(json.dumps({'status':'AVAILABLE','quantity':7}),flush=True)
 if __name__=='__main__':unittest.main()
 
 class AgentTapeVersionTests(unittest.TestCase):
-    def setUp(self):
-        from gateway_test_support import allow_models
-        self.enterContext(allow_models())
-
  def test_all_legacy_versions_replay_without_seal_changes_after_v11(self):
   from investigator import process_tape as journal
   with tempfile.TemporaryDirectory() as folder:

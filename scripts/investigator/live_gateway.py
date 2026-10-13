@@ -206,6 +206,9 @@ def validate_sql(query,allowed_objects):
     safe=NODES|{'Collate','Substring','Length','CharacterSet','SHA2'}
     for node in tree.walk():
         if node.comments:_deny('SQL_COMMENTS_REJECTED',target=query)
+        if isinstance(node,exp.QueryOption):
+            if node.sql(dialect='tsql').upper()!='MAXDOP 1':_deny('SQL_QUERY_HINT_REJECTED',target=query)
+            continue
         if type(node).__name__ not in safe:
             if isinstance(node,exp.Anonymous) and node.name.upper() in {'DATALENGTH','HASHBYTES','SUSER_SNAME','DB_NAME','ORIGINAL_LOGIN'}:
                 continue
@@ -236,7 +239,10 @@ def validate_dax(query):
     from .query_dax import FUNCTIONS, ENUMS
     if not isinstance(query,str) or not 1<=len(query)<=32000:_deny('DAX_TEXT_BOUND')
     if any(m.lastgroup=='comment' for m in TOKEN.finditer(query)):_deny('DAX_COMMENTS_REJECTED',target=query)
-    tokens,gaps=tokenize(query)
+    from .adapters.microsoft_self_report import SCALARS
+    inspected=query
+    for scalar in SCALARS:inspected=inspected.replace(scalar,'1')
+    tokens,gaps=tokenize(inspected)
     if gaps or not tokens or tokens[0][0]!='name' or tokens[0][1].upper()!='EVALUATE':
         _deny('SINGLE_EVALUATE_REQUIRED',target=query)
     # Compiler self-description and rendering primitives are read-only scalars.

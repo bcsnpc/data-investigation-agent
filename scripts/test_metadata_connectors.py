@@ -62,6 +62,8 @@ class ConnectorTests(unittest.TestCase):
         with self.assertRaises(UnsupportedCapability): connector.get_refresh_history({})
 
     def test_local_sql_adapter_passes_values_as_arguments(self):
+        from gateway_test_support import allow_sql
+        self.enterContext(allow_sql("other.host","name;with delimiter",[],["CATALOG"]))
         def runner(command, **kwargs):
             self.assertEqual(command[command.index('-Database')+1], 'name;with delimiter')
             self.assertEqual(command[command.index('-VisibilitySchema')+1], 'sales')
