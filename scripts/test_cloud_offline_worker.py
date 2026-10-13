@@ -46,10 +46,12 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder); (root / 'tape').write_bytes(b'tape')
             entry = {'id': 'one', 'tape_path': 'tape', 'tape_sha256': hashlib.sha256(b'tape').hexdigest(), 'engine_revision': 'a' * 40}
+            private = []
             result = replay({'version': 1, 'entries': [entry]}, root, root / 'out', 0, 8,
-                            Mock(side_effect=ValueError('secret-bearing native failure')))
+                            Mock(side_effect=ValueError('secret-bearing native failure')), private_failures=private)
             self.assertNotIn('secret-bearing', str(result))
             self.assertEqual(result['rows'][0]['error_type'], 'ValueError')
+            self.assertEqual(private, [{'id': 'one', 'error_type': 'ValueError', 'reason': 'secret-bearing native failure'}])
 
 
 if __name__ == '__main__': unittest.main()

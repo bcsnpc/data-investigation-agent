@@ -7,6 +7,7 @@ from pathlib import Path
 import tarfile
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from unittest.mock import patch
 import cloud_replay_bootstrap as bootstrap
 
@@ -133,6 +134,36 @@ class BootstrapTests(unittest.TestCase):
                 self.assertEqual(bootstrap.execute(config, transport=FakeTransport()), 0)
             self.assertNotIn('never-upload-this', json.dumps(uploads))
             self.assertEqual(uploads[0]['matched'], 1)
+
+    def test_failure_details_go_only_to_explicit_private_artifact(self):
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder) / 'a.tar.gz'; archive(source)
+            data = source.read_bytes(); uploads = {}; logs = io.StringIO()
+            config = {'version': 1, 'input_url': 'https://demostore.blob.core.windows.net/tapes/a.tar.gz',
+                      'result_url': 'https://demostore.blob.core.windows.net/captures/result.json',
+                      'diagnostics_url': 'https://demostore.blob.core.windows.net/captures/private-detail.json',
+                      'input_sha256': hashlib.sha256(data).hexdigest(), 'channel': 'worker-artifact',
+                      'identity': {'mode': 'managed_identity', 'client_id': '11111111-1111-4111-8111-111111111111',
+                                   'tenant_id': '22222222-2222-4222-8222-222222222222',
+                                   'principal_id': '33333333-3333-4333-8333-333333333333'},
+                      'max_download_bytes': 10000, 'max_expanded_bytes': 10000, 'shard': 0, 'shards': 8}
+            class FakeTransport:
+                def request(self, url, body=None):
+                    if body is None: return io.BytesIO(data)
+                    uploads[url] = json.loads(body); return io.BytesIO(b'')
+            def worker(command, **kwargs):
+                output = Path(command[command.index('--output') + 1]); output.mkdir()
+                (output / 'shard-0.json').write_text(json.dumps({'mode': 'SEALED_REPLAY', 'shard': 0,
+                    'shards': 8, 'count': 1, 'matched': 0, 'network_requests': 0, 'physical_requests': 0,
+                    'rows': [{'id': 'case', 'error_type': 'TapeError'}]}))
+                (output / 'shard-0-private-failures.json').write_text(json.dumps({'failures': [
+                    {'id': 'case', 'error_type': 'TapeError', 'reason': 'private sealed mismatch detail'}]}))
+                return type('Done', (), {'returncode': 1})()
+            with patch.object(bootstrap, 'prepare_repo'), patch.object(bootstrap.subprocess, 'run', worker), redirect_stdout(logs):
+                self.assertEqual(bootstrap.execute(config, transport=FakeTransport()), 1)
+            self.assertIn('private sealed mismatch detail', json.dumps(uploads[config['diagnostics_url']]))
+            self.assertNotIn('private sealed mismatch detail', json.dumps(uploads[config['result_url']]))
+            self.assertNotIn('private sealed mismatch detail', logs.getvalue())
 
 
 if __name__ == '__main__':

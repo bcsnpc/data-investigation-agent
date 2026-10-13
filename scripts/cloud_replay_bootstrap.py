@@ -24,9 +24,13 @@ def validate(config):
     from investigator.adapters.managed_identity import validate as identity
     fields = {'version', 'input_url', 'input_sha256', 'result_url', 'identity', 'channel',
               'max_download_bytes', 'max_expanded_bytes', 'shard', 'shards'}
-    if not isinstance(config, dict) or set(config) != fields or config['version'] != 1:
+    if not isinstance(config, dict) or set(config) not in (fields, fields | {'diagnostics_url'}) or config['version'] != 1:
         raise ValueError('REPLAY_BOOTSTRAP_CONFIG')
     endpoint(config['input_url']); endpoint(config['result_url']); identity(config['identity'])
+    if 'diagnostics_url' in config:
+        endpoint(config['diagnostics_url'])
+        if not config['diagnostics_url'].endswith('.json') or config['diagnostics_url'] == config['result_url']:
+            raise ValueError('REPLAY_DISTINCT_PRIVATE_DIAGNOSTICS_REQUIRED')
     if not config['input_url'].endswith('.tar.gz') or not config['result_url'].endswith('.json'):
         raise ValueError('REPLAY_ARTIFACT_TYPE')
     if not re.fullmatch('[0-9a-f]{64}', config['input_sha256']):
@@ -139,6 +143,12 @@ def execute(config, *, transport=None):
                    '--shard', str(config['shard']), '--shards', str(config['shards'])]
         done = subprocess.run(command, env=env, cwd=root, capture_output=True, timeout=7500)
         answer = json.loads((output / f"shard-{config['shard']}.json").read_bytes())
+        if done.returncode != 0 and 'diagnostics_url' in config:
+            failures = output / f"shard-{config['shard']}-private-failures.json"
+            diagnostics = {'input_sha256': config['input_sha256'], 'worker_exit': done.returncode,
+                           'result': answer, 'private_failures': json.loads(failures.read_bytes()) if failures.exists() else None}
+            with transport.request(config['diagnostics_url'], json.dumps(diagnostics, sort_keys=True).encode()):
+                pass
         # Deliberately no ticket IDs, provider bodies, output prose, URLs or exception messages.
         result = {key: answer[key] for key in ('mode', 'shard', 'shards', 'count', 'matched',
                                              'network_requests', 'physical_requests')}

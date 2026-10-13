@@ -38,7 +38,7 @@ def sealed_file(root, relative, digest):
     return path
 
 
-def replay(manifest, evidence, output, shard, shards, executor):
+def replay(manifest, evidence, output, shard, shards, executor, *, private_failures=None):
     if set(manifest) != {'version', 'entries'} or manifest['version'] != 1:
         raise ValueError('OFFLINE_REPLAY_MANIFEST')
     entries = manifest['entries']
@@ -65,6 +65,9 @@ def replay(manifest, evidence, output, shard, shards, executor):
         except Exception as exc:
             # No provider body, connection details or exception text in public CI logs.
             row['error_type'] = type(exc).__name__
+            if private_failures is not None:
+                private_failures.append({'id': entry['id'], 'error_type': type(exc).__name__,
+                                         'reason': str(exc)})
         rows.append(row)
     return {'mode': 'SEALED_REPLAY', 'shard': shard, 'shards': shards, 'count': len(rows),
             'matched': sum(row['matched'] for row in rows), 'network_requests': 0,
@@ -106,8 +109,12 @@ def main(argv=None):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     sys.path.insert(0, str(repo / 'scripts'))
+    failures = []
     result = replay(json.loads(args.manifest.read_bytes()), args.evidence, args.output,
-                    args.shard, args.shards, module.replay_revision)
+                    args.shard, args.shards, module.replay_revision, private_failures=failures)
+    if failures:
+        (args.output / f'shard-{args.shard}-private-failures.json').write_text(
+            json.dumps({'mode': 'PRIVATE_REPLAY_DIAGNOSTICS', 'failures': failures}, indent=2) + '\n', encoding='utf-8')
     (args.output / f'shard-{args.shard}.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({key: value for key, value in result.items() if key != 'rows'}))
     return 0 if result['matched'] == result['count'] else 1

@@ -27,6 +27,12 @@ PUT on the exact result URL, purpose `platform_blob`; never wildcard access.
 Each shard has its own immutable result URL (`If-None-Match: *`). The platform
 identity needs only the previously approved artifact container scope. MSI token
 acquisition is authentication-plane traffic, separate from replay evidence reads.
+An optional `diagnostics_url` names a distinct private `.json` Blob with its own
+exact PUT grant. On failure it receives the complete replay result and retained
+exception type/reason. These private diagnostics may contain evidence identifiers
+or sealed-body details and must never be printed or published publicly. Standard
+result upload and stdout remain counts-only. The first failed attempt remains
+unchanged; a diagnostic rerun is a separate attempt and artifact.
 
 The gzip tar must contain only `engine.bundle`, `replay-manifest.json`, and
 `evidence/...`. The Git bundle must contain every immutable engine revision named
