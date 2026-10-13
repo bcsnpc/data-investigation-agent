@@ -177,17 +177,22 @@ def verify_local(manifest, entry):
 
 def encoded_chunks(path, encoding, stats):
     """Bounded streaming gzip, no whole-file buffer or temporary archive."""
+    with Path(path).open('rb') as stream:
+        yield from encoded_stream(stream,encoding,stats)
+
+
+def encoded_stream(stream, encoding, stats):
+    """Encode a trusted bounded binary stream without materializing its body."""
     if encoding not in ENCODINGS:raise ArtifactError('ARCHIVE_STORAGE_ENCODING')
     encoder=zlib.compressobj(level=6,wbits=31) if encoding=='gzip' else None
     whole=hashlib.sha256();size=0
-    with Path(path).open('rb') as stream:
-        while block:=stream.read(STREAM_BLOCK):
-            out=encoder.compress(block) if encoder else block
-            if out:
-                whole.update(out);size+=len(out);yield out
-        if encoder:
-            out=encoder.flush()
+    while block:=stream.read(STREAM_BLOCK):
+        out=encoder.compress(block) if encoder else block
+        if out:
             whole.update(out);size+=len(out);yield out
+    if encoder:
+        out=encoder.flush()
+        whole.update(out);size+=len(out);yield out
     stats.update(stored_bytes=size,stored_sha256=whole.hexdigest(),stream_complete=True)
 
 

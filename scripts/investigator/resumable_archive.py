@@ -59,7 +59,7 @@ def block_id(index, data):
 
 
 def publish_resumable(manifest, manifest_sha, review, client, journal, *, source_verifier=verify_local,
-                      max_stored_bytes=None):
+                      max_stored_bytes=None, source_encoder=None):
     privacy_approved(review, manifest_sha)
     if digest(canonical(manifest)) != manifest_sha:
         raise ArtifactError('ARCHIVE_MANIFEST_SHA_DIFFERS')
@@ -68,6 +68,7 @@ def publish_resumable(manifest, manifest_sha, review, client, journal, *, source
     # The full approved set is checked before any control request is dispatched.
     paths = [source_verifier(manifest, entry) for entry in manifest['entries']]
     encoding = manifest.get('storage_encoding', 'identity')
+    source_encoder=source_encoder or encoded_chunks
     if max_stored_bytes is not None:
         if type(max_stored_bytes) is not int or max_stored_bytes < 1:
             raise ArtifactError('ARCHIVE_TRANSFER_BYTE_CAP')
@@ -76,7 +77,7 @@ def publish_resumable(manifest, manifest_sha, review, client, journal, *, source
             identity=(entry['sha256'],entry['bytes'])
             if identity in measured:continue
             stats={}
-            for _ in encoded_chunks(path,encoding,stats):pass
+            for _ in source_encoder(path,encoding,stats):pass
             measured[identity]=stats['stored_bytes']
             if sum(measured.values())>max_stored_bytes:
                 raise ArtifactError('ARCHIVE_TRANSFER_BYTE_CAP')
@@ -100,7 +101,7 @@ def publish_resumable(manifest, manifest_sha, review, client, journal, *, source
                 stats = {}
                 ids = []
                 streamed_bytes=0
-                for index, data in enumerate(fixed_blocks(encoded_chunks(path, encoding, stats))):
+                for index, data in enumerate(fixed_blocks(source_encoder(path, encoding, stats))):
                     streamed_bytes+=len(data)
                     if max_stored_bytes is not None and streamed_bytes>measured[(entry['sha256'],entry['bytes'])]:
                         raise ArtifactError('ARCHIVE_TRANSFER_BYTE_CAP')
