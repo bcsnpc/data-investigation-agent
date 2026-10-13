@@ -177,6 +177,8 @@ def transport(config):
 def main():
  from investigator.source_revision import committed_revision
  committed_revision()
+ from cloud_stage_environment import install
+ install()
  config=json.loads(os.environ['DIA_CLOUD_STAGE']);download,upload=transport(config)
  print(json.dumps(run(config,download=download,upload=upload)))
 if __name__=='__main__':main()

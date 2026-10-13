@@ -161,4 +161,5 @@ def model_key(session):
     credential = session['credential']
     if credential['mode'] == 'managed_identity':
         return Tokens(credential).get_token('https://cognitiveservices.azure.com/.default')
-    return secret(credential['reference'])
+    import os
+    return secret(credential['reference'],gateway_identity=os.environ.get('DIA_GATEWAY_MODEL_IDENTITY',''))
