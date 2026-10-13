@@ -100,7 +100,7 @@ class Workspace:
                     if callable(getattr(self, 'claim_glossary_evidence', None)) else None))
             self._claim_glossary = EstateGlossary(
                 self.store.database, self.store.environment,
-                evidence_lookup=evidence)
+                evidence_lookup=evidence,store=self.store)
         return self._claim_glossary
 
     @property

@@ -68,6 +68,8 @@ class Capture:
   if profile_member is not None and profile_member not in files:raise ValueError('VERIFIER_PROFILE_BASELINE_REQUIRED')
   state={'profile_member':profile_member,'capture_contract':CONTRACT,'engine_revision':revision,'environment':environment,'inputs':inputs,'members':members,'database_members':sorted(databases),'native_path_identities':identities,'budget_checkpoint':'DELTA_V2','snapshot_clock':'ONE_CLOCK_V1'}
   if shared_usage:
+   from investigator.shared_application import VERSION as application_version
+   state['shared_application']=application_version
    from investigator.shared_usage_replay import declaration
    state['shared_usage_replay']=declaration(session)
   # Execute exactly the serialized representation replay will consume. Mapping

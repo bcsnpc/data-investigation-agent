@@ -105,6 +105,9 @@ def operation(name):
                         'snapshot_clock':'ONE_CLOCK_V1',
                         'local_accounting':'SQLITE_BOUNDARY_V1','physical_transport_retries':2}}
                 bootstrap['state']['agent_dollar_guard']='agent-dollar-guard-v1'
+                if getattr(agent.store, 'shared_catalog', None) is not None:
+                    from .shared_application import VERSION as application_version
+                    bootstrap['state']['shared_application'] = application_version
                 if shared_backend is not None:
                     bootstrap['state']['shared_usage_replay']=shared_backend
                 if agent.governor is not None:

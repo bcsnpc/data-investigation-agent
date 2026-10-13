@@ -71,6 +71,11 @@ class Screenshots:
             CREATE TABLE IF NOT EXISTS workspace_image_reads(id TEXT PRIMARY KEY,request_key TEXT UNIQUE,body TEXT,hash TEXT);
             CREATE TABLE IF NOT EXISTS workspace_image_reviews(id TEXT PRIMARY KEY,request_key TEXT UNIQUE,body TEXT,hash TEXT);
             ''')
+        self.pixels=None
+        from .shared_application import enabled
+        if enabled(self.store):
+            from .shared_screenshots import Pixels
+            self.pixels=Pixels(self)
 
     def upload(self, request):
         if self.workspace.agent.config.get('_estate', {}).get('recording', {}).get('tape_class') == 'PRIVACY_PROJECTED':
@@ -83,6 +88,7 @@ class Screenshots:
         try: raw = base64.b64decode(data, validate=True)
         except Exception as exc: raise ValueError('Invalid image encoding') from exc
         metadata = dict(inspect_image(raw, request['mime']), name=request['name'])
+        if self.pixels is not None:return self.pixels.upload(request,metadata,raw)
         with self.store.connect() as db:
             db.execute('BEGIN IMMEDIATE')
             prior = db.execute('SELECT id FROM workspace_images WHERE request_key=?', (request['request_key'],)).fetchone()
@@ -97,6 +103,7 @@ class Screenshots:
         return dict(body, available=True)
 
     def image(self, identity, *, content=False):
+        if self.pixels is not None:return self.pixels.image(identity,content=content)
         with self.store.connect() as db:
             row = db.execute('SELECT body,hash,content FROM workspace_images WHERE id=?', (identity,)).fetchone()
         if not row: raise KeyError('Screenshot not found')
@@ -109,6 +116,7 @@ class Screenshots:
         return dict(body, available=raw is not None)
 
     def remove(self, identity):
+        if self.pixels is not None:return self.pixels.remove(identity)
         self.image(identity)
         with self.store.connect() as db: db.execute('UPDATE workspace_images SET content=NULL WHERE id=?', (identity,))
         return self.image(identity)

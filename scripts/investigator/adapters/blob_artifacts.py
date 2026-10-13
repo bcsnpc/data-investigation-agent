@@ -11,13 +11,22 @@ def validate_account_url(value):
 
 def recording_stores(config):
     """The platform adapter owns its endpoint, token audience and SDK classes."""
+    from ..artifact_store import Files
+    from ..live_gateway import current
+    validate_account_url(config['account_url'])
+    credential = bound_credential(config['identity']); gateway = current()
+    return (Files(BlobObjects(config['account_url'], 'snapshots', credential, channel=config['snapshot_channel'], gateway=gateway)),
+            Files(BlobObjects(config['account_url'], 'tapes', credential, channel=config['tape_channel'], gateway=gateway)))
+
+
+def bound_credential(identity):
+    """Same strictly audience-bound managed identity for platform containers."""
     import base64
     import json
     from .managed_identity import Tokens
     from ..artifact_store import Files
     from ..live_gateway import current
-    validate_account_url(config['account_url'])
-    tokens = Tokens(config['identity'])
+    tokens = Tokens(identity)
     class BoundCredential:
         def get_token(self, *scopes, **kwargs):
             if scopes != ('https://storage.azure.com/.default',):
@@ -27,9 +36,7 @@ def recording_stores(config):
             part = token.split('.')[1]
             claims = json.loads(base64.urlsafe_b64decode(part + '=' * (-len(part) % 4)))
             return AccessToken(token, int(claims['exp']))
-    credential = BoundCredential(); gateway = current()
-    return (Files(BlobObjects(config['account_url'], 'snapshots', credential, channel=config['snapshot_channel'], gateway=gateway)),
-            Files(BlobObjects(config['account_url'], 'tapes', credential, channel=config['tape_channel'], gateway=gateway)))
+    return BoundCredential()
 
 
 class BlobObjects:

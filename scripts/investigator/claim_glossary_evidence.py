@@ -10,7 +10,7 @@ PREFIX = 'claim-confirmation/'
 
 
 def _accepted(store, identity, catalog):
-    with closing(connect(store.database)) as db:
+    with store.connect() as db:
         row = db.execute('SELECT revision,body,body_hash FROM claim_intakes WHERE id=?', (identity,)).fetchone()
     if row is None:
         return None
