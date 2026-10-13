@@ -37,7 +37,7 @@ def build(manifest, manifest_sha, destination, *, compression='identity', max_st
     with destination.open('xb') as stream:
         from contextlib import nullcontext
         compressed=(gzip.GzipFile(filename='',fileobj=BoundedWriter(stream),mode='wb',mtime=0)
-                    if compression=='gzip' else nullcontext(stream))
+                    if compression=='gzip' else nullcontext(BoundedWriter(stream)))
         with compressed as output, tarfile.open(fileobj=output, mode='w|', format=tarfile.PAX_FORMAT) as archive:
             metadata = canonical(manifest)
             info = tarfile.TarInfo('manifest.json')

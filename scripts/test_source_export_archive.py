@@ -34,6 +34,8 @@ class Tests(unittest.TestCase):
                 self.assertEqual(gzip_proof['bundle_compression'],'gzip')
                 with self.assertRaisesRegex(ArtifactError,'STAGING_BOUND'):
                     build(source,sha,root/'too-large.tar.gz',compression='gzip',max_staging_bytes=1)
+                with self.assertRaisesRegex(ArtifactError,'STAGING_BOUND'):
+                    build(source,sha,root/'too-large.tar',compression='identity',max_staging_bytes=1)
             self.assertEqual(proof['original_paths'], 4)
             self.assertEqual(proof['unique_objects'], 3)
             prepared = bundle_manifest(bundle, source, sha, proof)
