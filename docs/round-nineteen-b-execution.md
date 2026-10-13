@@ -81,3 +81,14 @@ The first sample-publication preparation failed on its first read-only workspace
 The final cloud verification attempt was admitted after an offline 18-binding,40/40-probe check, full manifest/spec budget equality, and an independent current-model match. Candidate e77890a70a7b6661456d3098aa9594ad79040f98f1453a451e360297f1238a0a; execution job-dia-worker-siyf9k6. No third live attempt is authorized.
 
 Archive selection caught six additional capture parents referenced by current acceptance manifests before the first network upload. The original100-file plan and zero-network interruption remain; corrected76-file batch excludes24 files. Nothing from either batch is yet declared cleanup-ready.
+
+## Owner additional cloud attempt approval, 2026-10-13 (section 8)
+
+Chaitu approved one additional attempt, conditional on a matching job/run runtime of at least 1,800 seconds, exclusive shared-budget writer access with bounded lock waits, and passing offline admission. This supersedes only the earlier no-third-attempt stopping decision; both failed attempts remain unchanged. All other caps, identities and scopes stay unchanged. No retry follows a failure of this additional attempt.
+
+The existing job was read, changed from replicaTimeout600 to1800 and temporarily switched from its six-hour Schedule to Manual (parallelism1/completion1), then independently read back. No paid resource was added. The original schedule will be restored after the isolated window. Before/after: `.local/round-nineteen-b/job-before-owner-runtime-approval.json`, `job-isolation-update.json`, `job-after-isolation-update.json`.
+
+Platform-only PostgreSQL contention proof passed using an isolated namespace and advisory key, leaving the production lease untouched. Foreign writer refused in0.345s; a held lock raised SQLSTATE55P03 (canceling statement due to lock timeout) after5.387s; same-owner access, recovery and exception release passed. Receipt SHA256cc4070aa950aaf58ec24e8d6b875875a03ccb0038a65e9f09e8f4e016ee4cc4a. This is not evidence that production workers drained; fresh production observations are required at admission.
+
+
+Frozen source78b17f8: full unittest discovery ran4,451tests in1,804.662seconds, OK,46skipped. Subsequent integrated changes receive separate focused/full validation. No original capture or expectation changed.
