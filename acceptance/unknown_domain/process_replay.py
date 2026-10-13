@@ -60,36 +60,38 @@ def _replay(path,output,*,allow_engine_drift=False,native_transport=None,source_
     if tape.version in journal.AGENT_VERSIONS and config.get('_estate'):
         from investigator.estate_installation import install_candidate_reader
         install_candidate_reader(workspace)
-    methods={'intake':workspace.intake.resolve,'preview':workspace.preview,
-             'create':agent.create,'run':agent.run,'synthesize':agent.synthesize}
-    if tape.version in journal.SMART_VERSIONS:
-        from investigator.smart_intake import SmartIntake
-        controller=SmartIntake(workspace,settings.get('smart_intake'),settings.get('smart_ownership'),
-                               auto_start=settings.get('smart_auto_start',False))
-        workspace._smart_intake=controller
-        methods.update(ticket_submit=controller.submit,ticket_reply=controller.reply,
-            ticket_attach=controller.attach,ticket_share=controller.share,ticket_close=controller.close,
-            ticket_respond=controller.respond,ticket_finish=controller.finish)
-        def form_method(method):
-            def invoke(*args,**kwargs):
-                workspace.intake_configuration=settings.get('smart_intake')
-                workspace.ownership_configuration=settings.get('smart_ownership')
-                return getattr(workspace.forms,method)(*args,**kwargs)
-            return invoke
-        methods.update(form_submit=form_method('submit'),form_reply=form_method('reply'),
-                       form_screenshot_reply=form_method('screenshot_reply'),form_comment=form_method('comment'))
-    if tape.version in journal.CLAIM_VERSIONS:
-        from investigator.claim_intake import ClaimIntake
-        claims=ClaimIntake(workspace)
-        methods.update(claim_submit=claims.submit,claim_reply=claims.reply,claim_confirm=claims.confirm,
-            claim_screenshot_identify=workspace.claim_screenshots.identify,claim_screenshot_confirm=workspace.claim_screenshots.confirm)
-    if tape.version in journal.CLAIM_RUN_VERSIONS:
-        methods['claim_run']=workspace.claim_investigations.run
-    if tape.version in journal.AGENT_VERSIONS:
-        methods.update(agent_run=workspace.agent_controller.run)
-    if tape.version in journal.AGENT_RESUME_VERSIONS:
-        from investigator.agent_ticket import AgentTicket
-        methods.update(agent_resume=AgentTicket(workspace).resume)
+    controllers=journal.active(tape) if settings.get('shared_usage_replay') else nullcontext()
+    with controllers:
+        methods={'intake':workspace.intake.resolve,'preview':workspace.preview,
+                 'create':agent.create,'run':agent.run,'synthesize':agent.synthesize}
+        if tape.version in journal.SMART_VERSIONS:
+            from investigator.smart_intake import SmartIntake
+            controller=SmartIntake(workspace,settings.get('smart_intake'),settings.get('smart_ownership'),
+                                   auto_start=settings.get('smart_auto_start',False))
+            workspace._smart_intake=controller
+            methods.update(ticket_submit=controller.submit,ticket_reply=controller.reply,
+                ticket_attach=controller.attach,ticket_share=controller.share,ticket_close=controller.close,
+                ticket_respond=controller.respond,ticket_finish=controller.finish)
+            def form_method(method):
+                def invoke(*args,**kwargs):
+                    workspace.intake_configuration=settings.get('smart_intake')
+                    workspace.ownership_configuration=settings.get('smart_ownership')
+                    return getattr(workspace.forms,method)(*args,**kwargs)
+                return invoke
+            methods.update(form_submit=form_method('submit'),form_reply=form_method('reply'),
+                           form_screenshot_reply=form_method('screenshot_reply'),form_comment=form_method('comment'))
+        if tape.version in journal.CLAIM_VERSIONS:
+            from investigator.claim_intake import ClaimIntake
+            claims=ClaimIntake(workspace)
+            methods.update(claim_submit=claims.submit,claim_reply=claims.reply,claim_confirm=claims.confirm,
+                claim_screenshot_identify=workspace.claim_screenshots.identify,claim_screenshot_confirm=workspace.claim_screenshots.confirm)
+        if tape.version in journal.CLAIM_RUN_VERSIONS:
+            methods['claim_run']=workspace.claim_investigations.run
+        if tape.version in journal.AGENT_VERSIONS:
+            methods.update(agent_run=workspace.agent_controller.run)
+        if tape.version in journal.AGENT_RESUME_VERSIONS:
+            from investigator.agent_ticket import AgentTicket
+            methods.update(agent_resume=AgentTicket(workspace).resume)
     result=None;error=None;operations=[]
     with ExitStack() as stack:
         if allow_engine_drift:
