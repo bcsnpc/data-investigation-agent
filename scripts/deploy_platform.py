@@ -17,6 +17,11 @@ def validate_staged_postgres(params):
             raise ValueError('COMPUTE_ONLY_REQUIRES_EXPLICIT_POSTGRES_HOST')
 
 
+def deployment_operation(what_if):
+    # Azure CLI ignores --output json for the default pretty What-If renderer.
+    return ['what-if', '--no-pretty-print'] if what_if else ['create']
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--az-python', required=True)
@@ -48,7 +53,7 @@ def main():
         raise SystemExit('Subscription not enabled')
     call('resources-before', ['resource', 'list', '--subscription', account['id']])
     template = Path(__file__).resolve().parents[1] / 'infra/platform/main.bicep'
-    cmd = ['deployment', 'sub', 'what-if' if args.what_if else 'create', '--name', args.deployment_name,
+    cmd = ['deployment', 'sub'] + deployment_operation(args.what_if) + ['--name', args.deployment_name,
            '--location', params.get('location', 'eastus'), '--template-file', str(template), '--parameters']
     cmd += [k + '=' + (str(v).lower() if isinstance(v, bool) else str(v)) for k, v in params.items()]
     result = call('deployment', cmd)

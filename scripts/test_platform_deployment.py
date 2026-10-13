@@ -3,6 +3,11 @@ import unittest
 
 
 class PlatformTemplateTests(unittest.TestCase):
+    def test_what_if_requests_parseable_json_instead_of_pretty_renderer(self):
+        from deploy_platform import deployment_operation
+        self.assertEqual(deployment_operation(True), ['what-if', '--no-pretty-print'])
+        self.assertEqual(deployment_operation(False), ['create'])
+
     def test_compute_only_preserves_explicit_existing_database_host(self):
         from deploy_platform import validate_staged_postgres
         with self.assertRaisesRegex(ValueError, 'EXPLICIT_POSTGRES_HOST'):
