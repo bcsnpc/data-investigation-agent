@@ -53,7 +53,7 @@ class Tests(unittest.TestCase):
     def test_plan_protects_shared_state_and_quarantines_credentials(self):
         names=['.local/round-thirteen/model-spend.sqlite','.local/round-nine/catalog.sqlite',
                '.local/round-seven/shared.sqlite','.local/round-nine/secret.json',
-               '.local/round-nine/config.json','.local/round-sixteen/tape.json','.local/round-five/receipt.json']
+               '.local/round-nine/config.json','.local/round-eighteen/tape.json','.local/round-five/receipt.json']
         for path in names:self.put(path,b'password=really-private-value' if path.endswith('config.json') else b'fixture')
         result=self.plan(names,['.local/round-seven/shared.sqlite'])
         self.assertEqual([e['path'] for e in result['entries']],['.local/round-five/receipt.json'])

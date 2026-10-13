@@ -128,6 +128,10 @@ class Gateway:
                 from .adapters.screenshot_blobs import declaration
                 if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
                 for item in permissions['platform_screenshots']:declaration(item)
+            if permissions.get('platform_archive'):
+                from .adapters.platform_archive import declaration
+                if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
+                for item in permissions['platform_archive']:declaration(item)
             for target in permissions.get('sql',[]):
                 if (target.get('read_only') is not True or not target.get('server') or not target.get('database')
                         or type(target.get('row_cap')) is not int or not 1<=target['row_cap']<=1000
@@ -157,6 +161,9 @@ class Gateway:
                 from .adapters.screenshot_blobs import permits as screenshot_permits
                 if screenshot_permits(self,identity,method,url,body,headers):
                     return {'method':method,'url':url,'purpose':'platform_screenshot'}
+                from .adapters.platform_archive import permits as archive_permits
+                if archive_permits(self,identity,method,url,body,headers):
+                    return {'method':method,'url':url,'purpose':'platform_archive'}
             _deny('ENDPOINT_METHOD_NOT_ALLOWED',identity=identity,operation=method,target=url)
         path=unquote(urlsplit(url).path).casefold().split('/')
         if (set(path)&FORBIDDEN_HTTP_SEGMENTS

@@ -63,7 +63,8 @@ def main(argv=None):
     prepare.add_argument('--finished-statement',required=True)
     prepare.add_argument('--storage-encoding',choices=('identity','gzip'),default='identity')
     prepare.add_argument('--output',required=True,type=Path)
-    for action in ('upload','cleanup-script','convert'):
+    prepare.add_argument('--source-export-roots',type=Path,help='Owner-approved explicit export roots JSON; otherwise refused')
+    for action in ('upload','upload-resumable','cleanup-script','convert'):
         sub=commands.add_parser(action)
         sub.add_argument('--manifest',required=True,type=Path)
         sub.add_argument('--manifest-sha256',required=True)
@@ -76,6 +77,16 @@ def main(argv=None):
             sub.add_argument('--account-url',required=True)
             sub.add_argument('--managed-client-id',required=True)
             sub.add_argument('--gateway-channel',required=True)
+        if action=='upload-resumable':
+            sub.add_argument('--account-url',required=True)
+            auth=sub.add_mutually_exclusive_group(required=True)
+            auth.add_argument('--managed-client-id')
+            auth.add_argument('--azure-cli-tenant',help='Explicit existing owner CLI identity; no ambient fallback')
+            sub.add_argument('--subscription',help='Required with --azure-cli-tenant')
+            sub.add_argument('--azure-cli-python',type=Path,help='Explicit installed CLI module when az is not on PATH')
+            sub.add_argument('--gateway-channel',required=True)
+            sub.add_argument('--max-control-requests',required=True,type=int)
+            sub.add_argument('--journal',required=True,type=Path)
         if action=='convert':
             sub.add_argument('--tape-directory',required=True,type=Path)
             sub.add_argument('--local-cas',required=True,type=Path)
@@ -83,7 +94,8 @@ def main(argv=None):
     if args.command=='plan':
         value=plan(args.workspace,json.loads(args.files.read_bytes()),
                    protected=json.loads(args.protected_paths.read_bytes()),finished_statement=args.finished_statement,
-                   storage_encoding=args.storage_encoding)
+                   storage_encoding=args.storage_encoding,
+                   source_export_roots=json.loads(args.source_export_roots.read_bytes()) if args.source_export_roots else ())
         identity=write_new(args.output,value)
         print(json.dumps({'manifest_sha256':identity,'eligible_files':len(value['entries']),
                           'excluded_files':len(value['excluded']),'privacy_status':value['privacy_status'],
@@ -99,7 +111,22 @@ def main(argv=None):
         print(json.dumps({'script':str(args.output),'executed':False}));return 0
     review=json.loads(args.privacy_review.read_bytes())
     privacy_approved(review,args.manifest_sha256)
-    if args.command=='upload':
+    if args.command=='upload-resumable':
+        from investigator.resumable_archive import IdentityArchiveClient, Journal, publish_resumable
+        from investigator.live_gateway import current
+        from azure.identity import ManagedIdentityCredential, AzureCliCredential
+        if args.azure_cli_tenant and not args.subscription:
+            raise ArtifactError('ARCHIVE_CLI_SUBSCRIPTION_REQUIRED')
+        from investigator.adapters.platform_credentials import OwnerCliCredential
+        credential=(ManagedIdentityCredential(client_id=args.managed_client_id) if args.managed_client_id else
+                    OwnerCliCredential(args.azure_cli_python,args.azure_cli_tenant,args.subscription) if args.azure_cli_python else
+                    AzureCliCredential(tenant_id=args.azure_cli_tenant,subscription=args.subscription))
+        if args.output.exists():raise ArtifactError('ARCHIVE_OUTPUT_ALREADY_EXISTS')
+        journal=Journal(args.journal,args.manifest_sha256,args.account_url)
+        client=IdentityArchiveClient(args.account_url,credential,current(),args.gateway_channel,
+                    max_requests=args.max_control_requests,receipts=str(args.journal)+'.controls.jsonl')
+        result=publish_resumable(value,args.manifest_sha256,review,client,journal)
+    elif args.command=='upload':
         def checkpoint(row):
             progress=Path(str(args.output)+'.progress.jsonl')
             record={'manifest_sha256':args.manifest_sha256,'privacy_review':review,'object':row}

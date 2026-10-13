@@ -34,9 +34,9 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
     minimumTlsVersion: 'TLS1_2'
     supportsHttpsTrafficOnly: true
     defaultToOAuthAuthentication: true
-    // Owner bootstrap transfers use existing ARM listKeys authority in memory.
-    // The worker uses only its scoped managed identity, never this key.
-    allowSharedKeyAccess: true
+    // Worker uses managed identity; owner bootstrap uses explicit Azure CLI
+    // identity. Existing installations apply this only after caller migration.
+    allowSharedKeyAccess: false
   }
 }
 resource blob 'Microsoft.Storage/storageAccounts/blobServices@2023-05-01' = {

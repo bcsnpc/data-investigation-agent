@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-13T06:41:44.120089+00:00",
+  "source_manifest_sha256": "835af4c7b4311bcc2e58f0a0fa18aa3844cd776021eecf98a3b329716e7dd788",
+  "archive_receipt_sha256": "ba43043769c87368ab4c4649a1e9c32da62acc0ff661b14067b8cebbde7546e6",
+  "bundle_sha256": "857ad2bd15ef7a14c651b7c3b6216a13e5509bfb07b5777a79d3050c2097b418",
+  "blob": "originals/857ad2bd15ef7a14c651b7c3b6216a13e5509bfb07b5777a79d3050c2097b418/cb4ea6e41577ec9e39737be0f42e3223fcc4db75c4c4cb529497e5c2d7609a06.gz",
+  "stored_bytes": 17369676,
+  "original_bytes": 304087195,
+  "platform_controls": 16,
+  "controls_by_method": {
+    "HEAD": 5,
+    "GET": 3,
+    "PUT": 8
+  },
+  "free_bytes": 11915845632,
+  "original_files_remaining": 25,
+  "cleanup": "BLOCKED_BY_POLICY_BEFORE_LAUNCH",
+  "cleanup_error": "CreateProcess rejected: blocked by policy",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "shared_key_used": false,
+  "secret_written": false
+}

@@ -14,7 +14,7 @@ from .artifact_store import ArtifactError, canonical, digest, hash_id
 VERSION = 'finished-round-archive-v1'
 ENCODINGS = frozenset({'identity','gzip'})
 STREAM_BLOCK = 1024 * 1024
-ROUNDS = ('five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen')
+ROUNDS = ('five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen')
 from .adapters.platform_credentials import CREDENTIAL_PATH_WORDS
 SENSITIVE = re.compile(r'(^|[/_.-])(' + CREDENTIAL_PATH_WORDS + r')([/_.-]|$)', re.I)
 LIVE = re.compile(r'(model[-_]spend|shared[-_](?:accounting|catalog)|(?:budget|usage|pot|ledger)(?:[-_.]|$))', re.I)
@@ -56,6 +56,15 @@ def eligible(relative):
     return folder=='process-tapes' or any(folder==f'round-{n}' or folder.startswith(f'round-{n}-') for n in ROUNDS)
 
 
+def approved_scope(relative, source_export_roots=()):
+    """A separately owner-approved export is explicit, never a directory glob."""
+    for root in source_export_roots:
+        if not re.fullmatch(r'\.local/source-snapshots/[0-9a-f-]{36}', root):
+            raise ArtifactError('ARCHIVE_SOURCE_EXPORT_SCOPE')
+    value = Path(relative).as_posix()
+    return eligible(relative) or any(value.startswith(root + '/') for root in source_export_roots)
+
+
 def protected_path(relative, protected):
     normalized=Path(relative).as_posix().casefold()
     if any(normalized==Path(p).as_posix().casefold() for p in protected):return True
@@ -91,7 +100,7 @@ def sealed_snapshot_reason(path):
     return None
 
 
-def plan(workspace, relative_files, *, protected, finished_statement, storage_encoding='identity'):
+def plan(workspace, relative_files, *, protected, finished_statement, storage_encoding='identity', source_export_roots=()):
     if storage_encoding not in ENCODINGS:raise ArtifactError('ARCHIVE_STORAGE_ENCODING')
     if not finished_statement or not isinstance(protected,list):
         raise ArtifactError('FINISHED_SCOPE_AND_PROTECTED_PATHS_REQUIRED')
@@ -99,7 +108,7 @@ def plan(workspace, relative_files, *, protected, finished_statement, storage_en
     entries=[];excluded=[]
     for relative in sorted(set(relative_files)):
         path=bounded_path(workspace,relative)
-        reason=('OUTSIDE_FINISHED_ROUNDS' if not eligible(relative) else
+        reason=('OUTSIDE_FINISHED_ROUNDS' if not approved_scope(relative,source_export_roots) else
                 'LIVE_STATE_PROTECTED' if protected_path(relative,protected) else
                 sealed_snapshot_reason(path) or privacy_reason(path,relative))
         if reason:
@@ -112,6 +121,9 @@ def plan(workspace, relative_files, *, protected, finished_statement, storage_en
             'finished_statement':finished_statement,'protected_paths':sorted(protected),
             'privacy_status':'QUARANTINED_PENDING_REVIEW','entries':entries,'excluded':excluded}
     if storage_encoding!='identity':result['storage_encoding']=storage_encoding
+    if source_export_roots:
+        result['version']='finished-round-archive-v2'
+        result['source_export_roots']=sorted(set(source_export_roots))
     return result
 
 
@@ -120,9 +132,11 @@ def load_pinned(path, expected_sha):
     raw=Path(path).read_bytes()
     if digest(raw)!=expected_sha:raise ArtifactError('ARCHIVE_MANIFEST_SHA_DIFFERS')
     manifest=json.loads(raw)
-    if manifest.get('version')!=VERSION or manifest.get('privacy_status')!='QUARANTINED_PENDING_REVIEW':
+    if manifest.get('version') not in (VERSION,'finished-round-archive-v2') or manifest.get('privacy_status')!='QUARANTINED_PENDING_REVIEW':
         raise ArtifactError('ARCHIVE_MANIFEST_SCHEMA')
     if manifest.get('storage_encoding','identity') not in ENCODINGS:raise ArtifactError('ARCHIVE_STORAGE_ENCODING')
+    if manifest.get('source_export_roots') and manifest['version']!='finished-round-archive-v2':
+        raise ArtifactError('ARCHIVE_SOURCE_EXPORT_VERSION_REQUIRED')
     if not isinstance(manifest.get('protected_paths'),list) or not manifest.get('finished_statement'):
         raise ArtifactError('ARCHIVE_PROTECTION_RECORD_REQUIRED')
     seen=set()
@@ -131,7 +145,7 @@ def load_pinned(path, expected_sha):
             raise ArtifactError('ARCHIVE_ENTRY_SCHEMA')
         seen.add(entry['path']);hash_id(entry['sha256'])
         if type(entry['bytes']) is not int or entry['bytes']<0:raise ArtifactError('ARCHIVE_ENTRY_SIZE')
-        if not eligible(entry['path']) or protected_path(entry['path'],manifest['protected_paths']):
+        if not approved_scope(entry['path'],manifest.get('source_export_roots',())) or protected_path(entry['path'],manifest['protected_paths']):
             raise ArtifactError('ARCHIVE_PROTECTED_PATH')
     return manifest
 
@@ -144,6 +158,8 @@ def privacy_approved(review, manifest_sha):
 
 def verify_local(manifest, entry):
     path=bounded_path(manifest['workspace'],entry['path'])
+    if not approved_scope(entry['path'],manifest.get('source_export_roots',())):
+        raise ArtifactError('ARCHIVE_PROTECTED_PATH')
     if protected_path(entry['path'],manifest['protected_paths']) or sealed_snapshot_reason(path) or privacy_reason(path,entry['path']):
         raise ArtifactError('ARCHIVE_PROTECTED_OR_QUARANTINED')
     if path.stat().st_size!=entry['bytes'] or sha_file(path)!=entry['sha256']:

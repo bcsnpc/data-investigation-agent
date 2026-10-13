@@ -1,0 +1,1705 @@
+{
+  "version": 1,
+  "scope": "D:\\data_investigation_agent",
+  "classification": "SIZE_INVENTORY_NOT_PRIVACY_APPROVAL",
+  "allocation_method": "GetCompressedFileSizeW",
+  "unique_file_id_allocated_bytes": 201197826530,
+  "groups": {
+    "process-tapes": {
+      "files": 3187,
+      "logical_bytes": 232185732206,
+      "allocated_bytes": 65040577977,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eight-20261006": {
+      "files": 274,
+      "logical_bytes": 6981932748,
+      "allocated_bytes": 6981932748,
+      "protected_name_files": 121,
+      "opaque_files": 0
+    },
+    "round-eleven": {
+      "files": 2926,
+      "logical_bytes": 17277860951,
+      "allocated_bytes": 17277860951,
+      "protected_name_files": 362,
+      "opaque_files": 0
+    },
+    "round-eleven-c-autostart-fixed.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-demo-final-regression.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-demo-workspace-check.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-dev-b0d14aa.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-dev-final-77482c0.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-dev-final.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-dev-freeze-tests.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-dev-resume-77482c0.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-dev-resume.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-dev.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-final-regression.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-fix-clean.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-fix-focused.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-focused-final.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-focused-v1.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-focused-v2.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-focused-v3.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-focused-v4.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-focused-v5.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-freeze-check.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-held-final-77482c0.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-held-final.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-lifecycle-fixed.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-model-allowance-restored.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-model-allowance.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-pr423-body.md": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-regression-77482c0.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-regression-b0d14aa.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-regression-resume-77482c0.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-restore.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-c-ticket-regression.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-ci-21a78b2-generator.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-confirmation-smoke.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-demo-link-after-bridge.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-demo-link-approved-route-resume.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-demo-link-approved-route.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-demo-link-corrected-renderer.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-demo-link-finalized-resume.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-demo-link.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-demo-offline-compose.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-demo-recording-corrected.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v2.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v3.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v4.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v4.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v5.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v5.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v6.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v6.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v7.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v7.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v8.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v8.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit-v9.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-dev-controller-audit.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-final-phase-a-44490b4.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-final-phase-a.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-final-regression-44490b4.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-final-regression-request-fixture.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-finalize-stranded-provider.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-fresh-dev-v1.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-fresh-dev-v2.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-fresh-dev-v2.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-optional-input-replay.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-final-cc7dfd2.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-final.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-regression-53005e4.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-regression-99b43e1.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-regression-cc7dfd2.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-regression-d3feb29.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-regression-fa0507c.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-regression-final.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-regression.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-retained-dev-82b8582.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-retained-dev-99b43e1.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-oracle-retained-dev.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-regression-4175ced.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-regression-4565752.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-regression-c48841e.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-regression-e200e8b.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-regression-lifecycle.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-regression-optional-input.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-regression-request-keys.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-regression-subject-proof.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-regression-vocabulary.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-regression.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-restatement-replay.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-eleven-score-fresh-dev.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-fifteen": {
+      "files": 1531,
+      "logical_bytes": 45520415082,
+      "allocated_bytes": 6207576426,
+      "protected_name_files": 259,
+      "opaque_files": 0
+    },
+    "round-five-20261004": {
+      "files": 353,
+      "logical_bytes": 3197181118,
+      "allocated_bytes": 3197181118,
+      "protected_name_files": 86,
+      "opaque_files": 0
+    },
+    "round-five-c-20261005": {
+      "files": 142,
+      "logical_bytes": 3874512516,
+      "allocated_bytes": 3874512516,
+      "protected_name_files": 82,
+      "opaque_files": 0
+    },
+    "round-five-c-final-regression-tests.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-five-c-gate-comment.md": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-five-c-merged-comment.md": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-five-c-pr-body.md": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-five-c-regression-tests.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-five-c-targeted-tests.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-five-d-20261005": {
+      "files": 2,
+      "logical_bytes": 37548,
+      "allocated_bytes": 37548,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-five-e-20261005": {
+      "files": 61,
+      "logical_bytes": 218399678,
+      "allocated_bytes": 218399678,
+      "protected_name_files": 4,
+      "opaque_files": 0
+    },
+    "round-five-e-live-20261005": {
+      "files": 70,
+      "logical_bytes": 1444225849,
+      "allocated_bytes": 1444225849,
+      "protected_name_files": 29,
+      "opaque_files": 0
+    },
+    "round-five-f-20261005": {
+      "files": 97,
+      "logical_bytes": 1522975185,
+      "allocated_bytes": 1522975185,
+      "protected_name_files": 30,
+      "opaque_files": 0
+    },
+    "round-five-f-live-20261005": {
+      "files": 45,
+      "logical_bytes": 343892807,
+      "allocated_bytes": 343892807,
+      "protected_name_files": 10,
+      "opaque_files": 0
+    },
+    "round-five-g-20261005": {
+      "files": 85,
+      "logical_bytes": 1584958114,
+      "allocated_bytes": 1584958114,
+      "protected_name_files": 31,
+      "opaque_files": 0
+    },
+    "round-five-g-live-20261005": {
+      "files": 22,
+      "logical_bytes": 118071552,
+      "allocated_bytes": 118071552,
+      "protected_name_files": 4,
+      "opaque_files": 0
+    },
+    "round-five-h-20261005": {
+      "files": 1223,
+      "logical_bytes": 1687391137,
+      "allocated_bytes": 1687391137,
+      "protected_name_files": 60,
+      "opaque_files": 0
+    },
+    "round-five-h-live-20261005": {
+      "files": 14,
+      "logical_bytes": 115157391,
+      "allocated_bytes": 115157391,
+      "protected_name_files": 3,
+      "opaque_files": 0
+    },
+    "round-five-i-20261005": {
+      "files": 90,
+      "logical_bytes": 1847556807,
+      "allocated_bytes": 1847556807,
+      "protected_name_files": 31,
+      "opaque_files": 1
+    },
+    "round-fourteen": {
+      "files": 3124,
+      "logical_bytes": 6807866648,
+      "allocated_bytes": 6807866648,
+      "protected_name_files": 49,
+      "opaque_files": 0
+    },
+    "round-nine-20261006": {
+      "files": 1203,
+      "logical_bytes": 17278937714,
+      "allocated_bytes": 17278937714,
+      "protected_name_files": 282,
+      "opaque_files": 0
+    },
+    "round-nine-b-diagnosis-comment.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-nine-b-live-20261007": {
+      "files": 7,
+      "logical_bytes": 40018376,
+      "allocated_bytes": 40018376,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-nine-b-merge-comment.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-nine-b-pr-body.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-nine-b-test-env": {
+      "files": 1063,
+      "logical_bytes": 14944223,
+      "allocated_bytes": 14944223,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-nine-live-20261007": {
+      "files": 147,
+      "logical_bytes": 15993685,
+      "allocated_bytes": 15993685,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-seven-20261005": {
+      "files": 228,
+      "logical_bytes": 4425958007,
+      "allocated_bytes": 4425958007,
+      "protected_name_files": 72,
+      "opaque_files": 1
+    },
+    "round-seventeen": {
+      "files": 4802,
+      "logical_bytes": 51011986079,
+      "allocated_bytes": 17825668111,
+      "protected_name_files": 132,
+      "opaque_files": 0
+    },
+    "round-six-20261005": {
+      "files": 192,
+      "logical_bytes": 4060041312,
+      "allocated_bytes": 4060041312,
+      "protected_name_files": 62,
+      "opaque_files": 0
+    },
+    "round-six-c-20261005": {
+      "files": 80,
+      "logical_bytes": 1826959499,
+      "allocated_bytes": 1826959499,
+      "protected_name_files": 30,
+      "opaque_files": 0
+    },
+    "round-six-d-20261005": {
+      "files": 17,
+      "logical_bytes": 527335623,
+      "allocated_bytes": 281533124,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-six-e-20261005": {
+      "files": 24,
+      "logical_bytes": 85650113,
+      "allocated_bytes": 85650113,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-six-f-20261005": {
+      "files": 15,
+      "logical_bytes": 85867689,
+      "allocated_bytes": 85867689,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-six-g-20261005": {
+      "files": 40,
+      "logical_bytes": 660155085,
+      "allocated_bytes": 406202542,
+      "protected_name_files": 1,
+      "opaque_files": 0
+    },
+    "round-six-h-20261005": {
+      "files": 205,
+      "logical_bytes": 3094636787,
+      "allocated_bytes": 3094636787,
+      "protected_name_files": 64,
+      "opaque_files": 0
+    },
+    "round-six-i-20261005": {
+      "files": 101,
+      "logical_bytes": 1719035179,
+      "allocated_bytes": 1719035179,
+      "protected_name_files": 34,
+      "opaque_files": 0
+    },
+    "round-six-j-20261005": {
+      "files": 144,
+      "logical_bytes": 2113765033,
+      "allocated_bytes": 2113765033,
+      "protected_name_files": 49,
+      "opaque_files": 0
+    },
+    "round-sixteen": {
+      "files": 5787,
+      "logical_bytes": 16720454681,
+      "allocated_bytes": 4802657011,
+      "protected_name_files": 225,
+      "opaque_files": 2
+    },
+    "round-ten-20261007": {
+      "files": 2676,
+      "logical_bytes": 19598253171,
+      "allocated_bytes": 18492413889,
+      "protected_name_files": 125,
+      "opaque_files": 4
+    },
+    "round-thirteen": {
+      "files": 2164,
+      "logical_bytes": 10966837160,
+      "allocated_bytes": 6331636486,
+      "protected_name_files": 80,
+      "opaque_files": 0
+    },
+    "round-twelve-c-139ad42-regression.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-17c18a2-regression.exit": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-17c18a2-regression.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture-held-v1.exit": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture-held-v1.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture-held-v1.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture-v2.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture-v2.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture-v3.exit": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture-v3.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture-v3.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture.exit": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-candidate-capture.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-checkpoint.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-clean-full.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-dev-console.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-dev-current-stop.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-diagnosis.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-final-focus.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-final-form-focus.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-final-summary.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-focus.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-forms-dev-v2.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-forms-dev.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-full.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-generate-v2.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-generate-v3.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-grouped-dev-v1.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-grouped-dev-v1.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-grouped-dev-v2.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-grouped-dev-v3.exit": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-grouped-dev-v3.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-grouped-held-v3.exit": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-grouped-held-v3.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-grouped-v2.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-grouped-v3.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-latch-acknowledgment.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-one-trace.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-real-trace.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-record-v2.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-retained-dev-audit-v2.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-retained-dev-wiring-audit.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-retained-dev-wiring-audit.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-c-share-refusal.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-d": {
+      "files": 97,
+      "logical_bytes": 1111871,
+      "allocated_bytes": 1111871,
+      "protected_name_files": 1,
+      "opaque_files": 0
+    },
+    "round-twelve-d-extraction-final.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-d-full-regression-488664b.exit": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-d-full-regression-488664b.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-d-full-regression-572c70d.exit": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-d-full-regression-572c70d.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-d-full-regression-9914e9d.exit": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-d-full-regression-9914e9d.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-d-full-regression.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-definition-audit-continuation.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-definition-audit-continuation.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-definition-audit.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-definition-audit.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-definition-operation-result.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-definition-operation-result.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-e": {
+      "files": 114,
+      "logical_bytes": 24621427,
+      "allocated_bytes": 24621427,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-e-audit.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-form-full-regression.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-form-integrated-full.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-forms-console-v2.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-forms-console-v3.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-forms-console.txt": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-forms.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-full-regression-native-result.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-full-regression-native.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-full-regression.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-held.log": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-held.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-list-probes-continuation.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-list-probes-continuation.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-list-probes.json": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-list-probes.py": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    },
+    "round-twelve-pr423-body.md": {
+      "files": 0,
+      "logical_bytes": 0,
+      "allocated_bytes": 0,
+      "protected_name_files": 0,
+      "opaque_files": 0
+    }
+  },
+  "errors": [
+    {
+      "path": ".local\\round-fourteen\\diagnostic-v12-family-B-r3-551-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\exact-family-E-pipeline-r1-010-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\exact-family-E-pipeline-r1-010-replay-1",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\exact-family-E-r3-984-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\exact-family-F-r3-984-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\exact-v12-family-A-r3-551-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\exact-v12-family-B-r3-551-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\exact-v12-family-E-r2-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\exact-v12-family-F-r2-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\exact-v12-family-G-r2-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\exact-v12-family-H-r2-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\restored-live-port-2-family-B-r3-551-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    },
+    {
+      "path": ".local\\round-fourteen\\restored-live-port-family-B-r3-551-replay-0",
+      "reason": "REPARSE_POINT_SKIPPED"
+    }
+  ],
+  "source_exports": [
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/audit_log.jsonl",
+      "bytes": 65304166,
+      "sha256": "f66a0ad0989f1b69bef3f35ed931cee2b353b3186f6d81845d28be69fcce38bb"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/bronze-plan.json",
+      "bytes": 5721,
+      "sha256": "5ee782f1d43764f402a310d191f6e17a685163432b63ccf08816f9f926e6e2f1"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/customers.jsonl",
+      "bytes": 1875173,
+      "sha256": "d1200245f248dcc3c14f0e3668d687e0fc57bf7e2038dbc0edc89bcb8a439449"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/manifest.json",
+      "bytes": 12664,
+      "sha256": "809b998a4a731072f504e5435e0b3cdd08a61abf18947e926c9cac2ea358601a"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/order_lines.jsonl",
+      "bytes": 29032328,
+      "sha256": "330097cc0a13fc36b52ef9afe695f6f4dcc37937955935612da3d7eb785109e4"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/orders.jsonl",
+      "bytes": 22686876,
+      "sha256": "fcdd907d1935e172b2320083209a5c448e7603c655443fa2ccd7212491fe85cd"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/payments.jsonl",
+      "bytes": 9876261,
+      "sha256": "89e0235568f7624bf15dcc5f6d1a94a22eda8d547b00e6f598db012956c91081"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/products.jsonl",
+      "bytes": 18446,
+      "sha256": "0078e037b6381c7b46883bc1e38bd5233a172006243ae791c0ba85740a5221bb"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/receipt.json",
+      "bytes": 43168,
+      "sha256": "5dc3e858f5782e1eca8a4d3d674373dc3f19ad5e2c96bf208ce84c093a4b0f80"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/refund_lines.jsonl",
+      "bytes": 710427,
+      "sha256": "334c75a14dc2b231a23b4d13163d75d4aa25435addfd995cd35219f7268ff540"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/refunds.jsonl",
+      "bytes": 747845,
+      "sha256": "beeb78258e6c323c6a6c13febee955ee199bf3d9feed883702d93dd91638a461"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/shipment_lines.jsonl",
+      "bytes": 10164168,
+      "sha256": "a5c432004b279930e406f3663b3853da8ef360964db6fbf2046a896a3698ef9b"
+    },
+    {
+      "path": ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/shipments.jsonl",
+      "bytes": 11580756,
+      "sha256": "3968a14ef74d4fbec888ed87bb99c39a5683d6aae50e7e963647430dcac353fb"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/audit_log.jsonl",
+      "bytes": 65304166,
+      "sha256": "f66a0ad0989f1b69bef3f35ed931cee2b353b3186f6d81845d28be69fcce38bb"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/customers.jsonl",
+      "bytes": 1875173,
+      "sha256": "d1200245f248dcc3c14f0e3668d687e0fc57bf7e2038dbc0edc89bcb8a439449"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/manifest.json",
+      "bytes": 8079,
+      "sha256": "b694c6f54e6c93ec67cd3ad0694eeddc6120c7158ff90f262210f4600ce2dc52"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/order_lines.jsonl",
+      "bytes": 29032328,
+      "sha256": "330097cc0a13fc36b52ef9afe695f6f4dcc37937955935612da3d7eb785109e4"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/orders.jsonl",
+      "bytes": 22686876,
+      "sha256": "fcdd907d1935e172b2320083209a5c448e7603c655443fa2ccd7212491fe85cd"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/payments.jsonl",
+      "bytes": 9876261,
+      "sha256": "89e0235568f7624bf15dcc5f6d1a94a22eda8d547b00e6f598db012956c91081"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/products.jsonl",
+      "bytes": 18446,
+      "sha256": "0078e037b6381c7b46883bc1e38bd5233a172006243ae791c0ba85740a5221bb"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/receipt.json",
+      "bytes": 24671,
+      "sha256": "f076f2b369d34e971fa4517392b0c6dc10095c345c5bcc58a32baf31a892dd67"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/refund_lines.jsonl",
+      "bytes": 710427,
+      "sha256": "334c75a14dc2b231a23b4d13163d75d4aa25435addfd995cd35219f7268ff540"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/refunds.jsonl",
+      "bytes": 747845,
+      "sha256": "beeb78258e6c323c6a6c13febee955ee199bf3d9feed883702d93dd91638a461"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/shipment_lines.jsonl",
+      "bytes": 10164168,
+      "sha256": "a5c432004b279930e406f3663b3853da8ef360964db6fbf2046a896a3698ef9b"
+    },
+    {
+      "path": ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/shipments.jsonl",
+      "bytes": 11580756,
+      "sha256": "3968a14ef74d4fbec888ed87bb99c39a5683d6aae50e7e963647430dcac353fb"
+    }
+  ],
+  "source_export_logical_bytes": 304087195,
+  "source_export_unique_bytes": 152090749,
+  "duplicate_sets": [
+    [
+      ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/audit_log.jsonl",
+      ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/audit_log.jsonl"
+    ],
+    [
+      ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/customers.jsonl",
+      ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/customers.jsonl"
+    ],
+    [
+      ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/order_lines.jsonl",
+      ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/order_lines.jsonl"
+    ],
+    [
+      ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/orders.jsonl",
+      ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/orders.jsonl"
+    ],
+    [
+      ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/payments.jsonl",
+      ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/payments.jsonl"
+    ],
+    [
+      ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/products.jsonl",
+      ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/products.jsonl"
+    ],
+    [
+      ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/refund_lines.jsonl",
+      ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/refund_lines.jsonl"
+    ],
+    [
+      ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/refunds.jsonl",
+      ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/refunds.jsonl"
+    ],
+    [
+      ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/shipment_lines.jsonl",
+      ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/shipment_lines.jsonl"
+    ],
+    [
+      ".local/source-snapshots/3b9354f3-af21-4296-a936-91b4a299777a/shipments.jsonl",
+      ".local/source-snapshots/aa95b1d3-7626-4adc-860f-fd8cb2e3041c/shipments.jsonl"
+    ]
+  ],
+  "archive_originals_untouched": true
+}

@@ -1,0 +1,229 @@
+"""Streaming archive migration. No local deletion, credential fallback or overwrite."""
+import base64
+from datetime import datetime, timezone
+import hashlib
+import json
+import os
+from pathlib import Path
+import time
+import xml.etree.ElementTree as ET
+
+from .archive_migration import encoded_chunks, privacy_approved, verify_download, verify_local
+from .artifact_store import ArtifactError, canonical, digest
+from .adapters.platform_archive import BLOCK_BYTES, bind
+
+
+class Journal:
+    """Append-only, fsynced, hash-chained checkpoint scoped to one manifest/remote."""
+    def __init__(self, path, manifest_sha, account_url):
+        self.path = Path(path)
+        self.scope = {'manifest_sha256': manifest_sha, 'account_url': account_url, 'container': 'archive'}
+        self.rows = []
+        self.tail = '0' * 64
+        if self.path.exists():
+            for line in self.path.read_bytes().splitlines():
+                row = json.loads(line)
+                identity = row.pop('record_sha256')
+                if row.get('scope') != self.scope or row.get('previous_sha256') != self.tail or digest(canonical(row)) != identity:
+                    raise ArtifactError('ARCHIVE_JOURNAL_INTEGRITY')
+                self.tail = identity
+                self.rows.append(row['event'])
+
+    def append(self, event):
+        row = {'scope': self.scope, 'previous_sha256': self.tail, 'event': event}
+        identity = digest(canonical(row))
+        with self.path.open('ab') as stream:
+            stream.write(canonical({**row, 'record_sha256': identity}) + b'\n')
+            stream.flush()
+            os.fsync(stream.fileno())
+        self.tail = identity
+        self.rows.append(event)
+
+    def last(self, key, phase):
+        return next((row for row in reversed(self.rows) if row.get('blob') == key and row.get('phase') == phase), None)
+
+
+def fixed_blocks(chunks):
+    pending = bytearray()
+    for chunk in chunks:
+        pending.extend(chunk)
+        while len(pending) >= BLOCK_BYTES:
+            yield bytes(pending[:BLOCK_BYTES])
+            del pending[:BLOCK_BYTES]
+    if pending:
+        yield bytes(pending)
+
+
+def block_id(index, data):
+    # Azure requires equal-length base64 block IDs. The decoded 64-byte identity
+    # includes position and bytes, so a resumed block cannot silently change.
+    return base64.b64encode(hashlib.sha256(index.to_bytes(8, 'big') + data).hexdigest().encode()).decode()
+
+
+def publish_resumable(manifest, manifest_sha, review, client, journal, *, source_verifier=verify_local):
+    privacy_approved(review, manifest_sha)
+    if digest(canonical(manifest)) != manifest_sha:
+        raise ArtifactError('ARCHIVE_MANIFEST_SHA_DIFFERS')
+    if journal.scope != {'manifest_sha256': manifest_sha, 'account_url': client.account_url, 'container': 'archive'}:
+        raise ArtifactError('ARCHIVE_JOURNAL_SCOPE')
+    # The full approved set is checked before any control request is dispatched.
+    paths = [source_verifier(manifest, entry) for entry in manifest['entries']]
+    encoding = manifest.get('storage_encoding', 'identity')
+    receipts = []
+    first_path = {}
+    for entry, path in zip(manifest['entries'], paths):
+        original_path = first_path.setdefault((entry['sha256'], entry['bytes']), entry['path'])
+        key = 'originals/' + entry['sha256'] + '/' + digest(original_path.encode()) + ('.gz' if encoding == 'gzip' else '')
+        before = client.properties(key)
+        if before and before['tier'] == 'Archive':
+            prior = journal.last(key, 'ARCHIVED') or journal.last(key, 'VERIFIED')
+            if (not prior or prior['etag'] != before['etag'] or prior.get('download_verified_sha256') != entry['sha256']
+                    or prior.get('bytes') != entry['bytes']):
+                raise ArtifactError('ARCHIVE_COLD_OBJECT_WITHOUT_MATCHING_VERIFICATION')
+            receipt = {**prior, **entry, 'tier': 'Archive', 'phase': 'ARCHIVED'}
+        else:
+            if before and before['tier'] != 'Hot':
+                raise ArtifactError('ARCHIVE_HOT_VERIFICATION_REQUIRED')
+            if before is None:
+                existing = client.blocks(key)
+                stats = {}
+                ids = []
+                for index, data in enumerate(fixed_blocks(encoded_chunks(path, encoding, stats))):
+                    if index >= 30000:
+                        raise ArtifactError('ARCHIVE_BLOCK_COUNT_BOUND')
+                    identity = block_id(index, data)
+                    ids.append(identity)
+                    if existing.get(identity) != len(data):
+                        client.stage(key, identity, data)
+                        journal.append({'phase': 'BLOCK_STAGED', 'blob': key, 'block_id': identity,
+                                        'index': index, 'bytes': len(data), 'sha256': digest(data)})
+                client.commit(key, ids)
+                before = client.properties(key)
+            if not before or before['tier'] != 'Hot' or not before.get('etag'):
+                raise ArtifactError('ARCHIVE_HOT_VERIFICATION_REQUIRED')
+            verified = verify_download(client.download_chunks(key), encoding, entry)
+            after = client.properties(key)
+            if after != before:
+                raise ArtifactError('ARCHIVE_OBJECT_CHANGED_DURING_VERIFICATION')
+            # Persist proof BEFORE tiering. A crash cannot turn an unverified
+            # object into a valid deletion receipt.
+            receipt = {**entry, **verified, 'blob': key, 'etag': before['etag'], 'phase': 'VERIFIED',
+                       'verified_at': datetime.now(timezone.utc).isoformat()}
+            journal.append(receipt)
+            client.archive(key, before['etag'])
+            final = client.properties(key)
+            if not final or final['tier'] != 'Archive' or not final.get('etag'):
+                raise ArtifactError('ARCHIVE_TIER_NOT_CONFIRMED')
+            receipt = {**receipt, 'etag': final['etag'], 'tier': 'Archive', 'phase': 'ARCHIVED'}
+        journal.append(receipt)
+        receipts.append(receipt)
+    return {'version': 'verified-archive-receipt-v1', 'manifest_sha256': manifest_sha, 'privacy_review': review,
+            'objects': receipts, 'local_deletion_performed': False,
+            'original_bytes': sum(row['bytes'] for row in receipts),
+            'stored_bytes': sum(row['stored_bytes'] for row in receipts)}
+
+
+class IdentityArchiveClient:
+    """Azure token credential only. Fixed REST operations, finite controls/retries."""
+    def __init__(self, account_url, credential, gateway, channel, *, max_requests, receipts, transport=None, sleep=time.sleep):
+        from .adapters.guarded_transport import GuardedTransport
+        if not callable(getattr(credential, 'get_token', None)):
+            raise ArtifactError('ARCHIVE_TOKEN_CREDENTIAL_REQUIRED')
+        if type(max_requests) is not int or max_requests < 1:
+            raise ArtifactError('ARCHIVE_CONTROL_CAP_REQUIRED')
+        self.account_url, self.credential, self.gateway, self.channel = account_url, credential, gateway, channel
+        # One cap spans restarts; interrupted sends remain charged.
+        previous = []
+        if Path(receipts).exists():
+            previous = [json.loads(line) for line in Path(receipts).read_text().splitlines()]
+        charged = sum(row.get('phase') == 'DISPATCHED' for row in previous)
+        self.remaining, self.sleep = max_requests - charged, sleep
+        self.transport = transport or GuardedTransport(gateway, channel, receipts=receipts)
+
+    @staticmethod
+    def close(response):
+        # azure.core's transport response wraps requests.Response; unlike the
+        # higher-level REST response, the transport response has no close().
+        target = getattr(response, 'internal_response', response)
+        target.close()
+
+    def request(self, key, operation, *, body=b'', block_id=None, etag=None, absent=False):
+        from azure.core.pipeline.transport import HttpRequest
+        from azure.core.exceptions import ServiceRequestError, ServiceResponseError
+        with bind(self.gateway, self.channel, self.account_url, key, operation, body=body, block_id=block_id, etag=etag) as (method, url, required):
+            for attempt in range(3):
+                if self.remaining <= 0:
+                    raise ArtifactError('ARCHIVE_CONTROL_CAP_REACHED')
+                token = self.credential.get_token('https://storage.azure.com/.default')
+                headers = {**required, 'Authorization': 'Bearer ' + token.token, 'x-ms-version': '2023-11-03',
+                           'x-ms-date': datetime.now(timezone.utc).strftime('%a, %d %b %Y %H:%M:%S GMT')}
+                self.remaining -= 1
+                try:
+                    response = self.transport.send(HttpRequest(method, url, headers=headers, data=body), stream=True,
+                                                   connection_timeout=30, read_timeout=60)
+                except (ServiceRequestError, ServiceResponseError):
+                    if attempt == 2:
+                        raise
+                    self.sleep(2 ** attempt)
+                    continue
+                if response.status_code in (408, 429, 500, 502, 503, 504) and attempt < 2:
+                    self.close(response)
+                    self.sleep(2 ** attempt)
+                    continue
+                if absent and response.status_code == 404:
+                    self.close(response)
+                    return None
+                if operation == 'COMMIT' and response.status_code in (409, 412):
+                    self.close(response)
+                    return None  # another attempt committed; whole download still required
+                if not 200 <= response.status_code < 300:
+                    status = response.status_code
+                    self.close(response)
+                    raise ArtifactError('ARCHIVE_HTTP_' + str(status))
+                return response
+
+    def properties(self, key):
+        response = self.request(key, 'HEAD', absent=True)
+        if response is None:
+            return None
+        try:
+            headers = {k.lower(): v for k, v in response.headers.items()}
+            return {'tier': headers.get('x-ms-access-tier'), 'etag': headers.get('etag')}
+        finally:
+            self.close(response)
+
+    def blocks(self, key):
+        response = self.request(key, 'BLOCKS', absent=True)
+        if response is None:
+            return {}
+        try:
+            data = bytearray()
+            for chunk in response.stream_download(None):
+                data.extend(chunk)
+                if len(data) > BLOCK_BYTES:
+                    raise ArtifactError('ARCHIVE_BLOCK_LIST_BOUND')
+            root = ET.fromstring(bytes(data))
+            return {row.findtext('Name'): int(row.findtext('Size')) for row in root.findall('./UncommittedBlocks/Block')}
+        finally:
+            self.close(response)
+
+    def stage(self, key, identity, data):
+        self.close(self.request(key, 'STAGE', body=data, block_id=identity))
+
+    def commit(self, key, identities):
+        root = ET.Element('BlockList')
+        for identity in identities:
+            ET.SubElement(root, 'Latest').text = identity
+        response = self.request(key, 'COMMIT', body=ET.tostring(root, encoding='utf-8'))
+        if response is not None:
+            self.close(response)
+
+    def download_chunks(self, key):
+        response = self.request(key, 'DOWNLOAD')
+        try:
+            yield from response.stream_download(None)
+        finally:
+            self.close(response)
+
+    def archive(self, key, etag):
+        self.close(self.request(key, 'ARCHIVE', etag=etag))
