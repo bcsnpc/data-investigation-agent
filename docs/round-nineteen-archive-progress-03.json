@@ -1,0 +1,221 @@
+{
+  "at": "2026-10-13T08:07:18.061827+00:00",
+  "classification": "PARTIAL_ARCHIVE_NOT_COMPLETE",
+  "batches": [
+    {
+      "batch": "source-export-archive",
+      "receipt_sha256": "ba43043769c87368ab4c4649a1e9c32da62acc0ff661b14067b8cebbde7546e6",
+      "manifest_sha256": "835af4c7b4311bcc2e58f0a0fa18aa3844cd776021eecf98a3b329716e7dd788",
+      "files": 25,
+      "original_bytes": 304087195,
+      "stored_bytes": 17369676,
+      "controls": 16,
+      "controls_by_method": {
+        "HEAD": 5,
+        "GET": 3,
+        "PUT": 8
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false
+    },
+    {
+      "batch": "archive-batch-02",
+      "receipt_sha256": "9153c71ab4f9f29a63a5339cd1df1c4c284b5650554d175794a63ad4631924d5",
+      "manifest_sha256": "e50adb78781bacd758153301511b211c50a6d6c5ae1c410ff9fef1a0cf5686d5",
+      "files": 166,
+      "original_bytes": 245364053,
+      "stored_bytes": 24463899,
+      "controls": 14,
+      "controls_by_method": {
+        "HEAD": 4,
+        "GET": 2,
+        "PUT": 8
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false
+    },
+    {
+      "batch": "archive-batch-03-0",
+      "receipt_sha256": "31e7c326bc916d13df90e81e4113c0da8b539c0a1dff1ccf1ef7930f29a13d21",
+      "manifest_sha256": "b8b9bf452806b29e4f960842365003c822b663ffb4d6c1bcaf2ca461c016f4d2",
+      "files": 20,
+      "original_bytes": 711023623,
+      "stored_bytes": 65438324,
+      "controls": 25,
+      "controls_by_method": {
+        "HEAD": 5,
+        "GET": 2,
+        "PUT": 18
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false
+    },
+    {
+      "batch": "archive-batch-03-1",
+      "receipt_sha256": "b3632d26bd605bfbc07cabee81750c886fab415c4c316aaa6691f758ebbc2b88",
+      "manifest_sha256": "e2c9d8f795bc3ebf65f21b96523101971f02d39ed25d45c16af571b773c66dbb",
+      "files": 18,
+      "original_bytes": 603494411,
+      "stored_bytes": 55658328,
+      "controls": 22,
+      "controls_by_method": {
+        "HEAD": 4,
+        "GET": 2,
+        "PUT": 16
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false
+    },
+    {
+      "batch": "archive-batch-03-2",
+      "receipt_sha256": "8a3abc172c4651c99dc82f12a23aa9bb94b1a864863e6008864cd8ab37fc8660",
+      "manifest_sha256": "1be2641556ec5bc591a0dbfd8553fd52f7172690b09e30441f76e50702f44c71",
+      "files": 253,
+      "original_bytes": 483853103,
+      "stored_bytes": 46232072,
+      "controls": 21,
+      "controls_by_method": {
+        "HEAD": 4,
+        "GET": 2,
+        "PUT": 15
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false
+    },
+    {
+      "batch": "archive-batch-04",
+      "receipt_sha256": "6c451eebbb3f0fd2f90e0986046ce8e8c8bf0865ca82ef729b380d9fd9418a17",
+      "manifest_sha256": "4f96058fedace5fe522af2a5f7303187f01ef3d7e84bd3d885f767ceb5363100",
+      "files": 4,
+      "original_bytes": 154311703,
+      "stored_bytes": 15819180,
+      "controls": 39,
+      "controls_by_method": {
+        "HEAD": 16,
+        "GET": 8,
+        "PUT": 15
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false,
+      "mode": "DIRECT_STREAM_NO_STAGING"
+    },
+    {
+      "batch": "archive-batch-05",
+      "receipt_sha256": "2aae34c31f80d96b4bb4fa42a869c385633cbfd60205dcf46dab86fd6accda8e",
+      "files": 200,
+      "original_bytes": 662379820,
+      "stored_bytes": 69505445,
+      "controls": 26,
+      "controls_by_method": {
+        "HEAD": 4,
+        "GET": 2,
+        "PUT": 20
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false,
+      "mode": "STREAMED_TAR_GZIP_NO_BODY_STAGING",
+      "manifest_sha256": "f3150cb7d27151dc3da2eec4c88f8b311307a2ded6559ecf1847dc4107f826c1"
+    },
+    {
+      "batch": "archive-batch-06",
+      "receipt_sha256": "bcbedc81cd550d25b1f1452be9892e51e7205e8d1709235b4e9c1928f0862f50",
+      "files": 198,
+      "original_bytes": 727933616,
+      "stored_bytes": 69815967,
+      "controls": 25,
+      "controls_by_method": {
+        "HEAD": 4,
+        "GET": 2,
+        "PUT": 19
+      },
+      "status": "VERIFIED_ARCHIVE",
+      "local_deletion": false,
+      "mode": "STREAMED_TAR_GZIP_NO_BODY_STAGING",
+      "manifest_sha256": "daab27a298d8b1bf05ceebc9d0f17ecacc708ed128544467388ddece75cf26fb"
+    }
+  ],
+  "original_paths": 884,
+  "original_bytes": 3892447524,
+  "stored_bytes": 364302891,
+  "platform_controls": 188,
+  "model_calls": 0,
+  "estate_reads": 0,
+  "local_originals_deleted": 0,
+  "disk_before_source_pilot_bytes": 12384309248,
+  "disk_at_record_bytes": 10827874304,
+  "disk_note": "Concurrent root operations and retained staging affect the difference; no deletion savings claimed.",
+  "cost_estimate_usd": {
+    "archive_monthly": "0.00036065986209",
+    "internet_egress_no_free_allowance_credit": "0.031694351517",
+    "transactions_upper_using_all_controls_at_0_10_per_10k": "0.00188"
+  },
+  "cost_not_invoice": true,
+  "errors_preserved": [
+    "source-pilot transient upload reset and setup failures",
+    "source cleanup blocked by policy before launch",
+    "batch03 ARCHIVE_STAGING_BOUND, partial retained, zero remote requests",
+    "batch03-2 GATEWAY_POLICY_UNREADABLE, wrong env representation, zero remote requests",
+    "batch03-0 ModuleNotFoundError: jsonschema after remote proof; resumed with original journal and full runtime",
+    "batch03-2 transient 4MiB stage reset; resumed under same controls cap",
+    "batch05 transient 4MiB stage reset; resumed under same controls cap"
+  ],
+  "limits": [
+    "Size inventory 32352 files /459000730051 logical bytes is not privacy approval.",
+    "34 selected files excluded from batch02 and9 from batch03; all remain local.",
+    "Opaque containers, snapshots with invalid seals and live/protected state remain excluded.",
+    "Historical rounds outside selected captured directories are not archived by this result.",
+    "Existing sealed bytes were not converted or rewritten.",
+    "All originals and failed staging remain; cleanup blocked."
+  ],
+  "previous_checkpoint_sha256": "660ef7b0a9825d3f0b205502d0162c99290095c226ba868a87a25248c9c9b8cc",
+  "controls_by_method": {
+    "HEAD": 46,
+    "GET": 23,
+    "PUT": 119
+  },
+  "transfer_accounting": {
+    "successful_staged_payload_bytes": 364302891,
+    "verified_download_payload_bytes": 364302891,
+    "failed_requests": [
+      {
+        "batch": "source-export-archive",
+        "error_type": "ServiceResponseError",
+        "method": "PUT",
+        "operation": [
+          "STAGE:4194304"
+        ],
+        "actual_wire_bytes": "unknown"
+      },
+      {
+        "batch": "archive-batch-03-2",
+        "error_type": "ServiceResponseError",
+        "method": "PUT",
+        "operation": [
+          "STAGE:4194304"
+        ],
+        "actual_wire_bytes": "unknown"
+      },
+      {
+        "batch": "archive-batch-05",
+        "error_type": "ServiceResponseError",
+        "method": "PUT",
+        "operation": [
+          "STAGE:4194304"
+        ],
+        "actual_wire_bytes": "unknown"
+      }
+    ],
+    "scope": "Exact application payload bytes; not total network wire bytes. Metadata, HTTP/TLS framing and partial failed transfers are not measured.",
+    "failed_upload_payload_bytes_upper_bound": 12582912
+  },
+  "controller": {
+    "status": "PREPARED_NOT_RUN",
+    "new_admissions": "Stopped after batch06 pending root review",
+    "transfer_allocation_usd": "4.50",
+    "platform_total_usd_month_cap": "20",
+    "batch_stored_bytes_cap": 134217728,
+    "batch_controls_cap": 49,
+    "disk_floor_bytes": 10737418240,
+    "local_deletion": false
+  }
+}
