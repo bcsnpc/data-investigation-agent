@@ -8,8 +8,8 @@ Set `DIA_GATEWAY_POLICY` to its path. Set `DIA_GATEWAY_HTTP_IDENTITY`,
 `DIA_GATEWAY_SQL_IDENTITY`, and `DIA_GATEWAY_MODEL_IDENTITY` to the corresponding
 explicit identity keys. Credentials remain with their existing authenticator;
 these labels neither create an identity nor grant access. `DIA_LIVE_ACCESS_DISABLED=1`
-stops subsequent governed live accesses, including model calls. For a durable
-local denial journal set `DIA_GATEWAY_AUDIT_FILE`; only a target hash and rejection
+stops subsequent governed live accesses, including model calls. The durable local denial journal defaults to `.local/gateway-denials.jsonl`;
+override it with `DIA_GATEWAY_AUDIT_FILE`. Only a target hash and rejection
 reason are logged, never SQL literals, tokens, ticket text, or request bodies.
 
 Example, with synthetic values only:
@@ -77,3 +77,18 @@ block uploads/commit URLs. PostgreSQL adapters call
 `authorize_platform_database(identity, host, database)` before connecting.
 These are internal application persistence operations, never model-facing tools;
 estate queries cannot request platform authority or supply those identity labels.
+
+The identity keys are *logical authority channels*, not a requirement for distinct
+Entra principals. The approved managed identity can authenticate both
+`id-dia-worker:state` and `id-dia-worker:investigation`. Their policy entries stay
+separate, and internal code selects the state channel; model-facing tools cannot.
+Actual tenant/principal verification remains with the authenticator.
+
+Optional native helpers require exact `native_controls` grants per channel:
+`XMLA_EVALUATE` plus workspace/model, or `SNAPSHOT_SQL_METADATA` plus
+server/database, or `SNAPSHOT_XMLA_METADATA` plus workspace/model. XMLA query
+text passes the same EVALUATE-only guard. Snapshot helpers accept no caller query;
+their fixed bounded metadata query remains separately identified and cannot
+establish query-bound snapshot attestation. No native control is inferred from
+an HTTP or SQL grant. Legacy fixed-template SQL diagnostics without catalog
+binding now refuse with `LEGACY_SQL_TRANSPORT_NOT_GATEWAY_BOUND`.

@@ -20,7 +20,12 @@ try {
   $stage='connect'
   $source='powerbi://api.powerbi.com/v1.0/myorg/'+$request.workspace_name
   $connection=[Activator]::CreateInstance($connectionType)
-  $connection.ConnectionString="Data Source=$source;Initial Catalog=$($request.model_name);User ID=;Password=$($request.access_token)"
+  $builder=New-Object System.Data.Common.DbConnectionStringBuilder
+  $builder['Data Source']=$source
+  $builder['Initial Catalog']=$request.model_name
+  $builder['User ID']=''
+  $builder['Password']=$request.access_token
+  $connection.ConnectionString=$builder.ConnectionString
   $connection.Open()
   $stage='query'
   $command=$connection.CreateCommand()

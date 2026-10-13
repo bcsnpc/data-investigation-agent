@@ -224,8 +224,10 @@ class XmlaTransportTests(unittest.TestCase):
         self.assertEqual(xmla.extract_codes(None), [])
 
     def test_read_returns_codes_and_never_the_message(self):
+        from gateway_test_support import allow_native
+        self.enterContext(allow_native("XMLA_EVALUATE",workspace="W",model="M"))
         library = ROOT/'.local'/'test-adomd'/'Adomd.dll'
-        request = {'library': '.local/test-adomd/Adomd.dll', 'workspace_name': 'W', 'model_name': 'M', 'query': 'Q'}
+        request = {'library': '.local/test-adomd/Adomd.dll', 'workspace_name': 'W', 'model_name': 'M', 'query': 'EVALUATE ROW("v",1)'}
         def run(command, input, **kwargs):
             sent = json.loads(input)
             self.assertEqual(sorted(sent), ['access_token', 'library', 'model_name', 'query', 'workspace_name'])
@@ -245,7 +247,7 @@ class XmlaTransportTests(unittest.TestCase):
     def test_script_names_workspace_and_model_and_accepts_fixed_fields(self):
         source = (ROOT/'infra/scripts/Read-XmlaFailure.ps1').read_text(encoding='utf-8-sig')
         self.assertIn("'access_token,library,model_name,query,workspace_name'", source)
-        self.assertIn('Initial Catalog=', source)
+        self.assertIn("$builder['Initial Catalog']=$request.model_name", source)
         self.assertIn("'workspace_name','model_name','query','library'", source)
 
     def test_library_is_loaded_lazily_and_client_failures_are_not_surface_errors(self):

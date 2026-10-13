@@ -26,3 +26,9 @@ def allow_sql(server,database,objects,controls=()):
         'server':server,'database':database,'objects':objects,'read_only':True,'row_cap':1000,
         'timeout_seconds':30,'controls':list(controls)})
     with patch.dict(os.environ,{'DIA_GATEWAY_SQL_IDENTITY':'offline-test'}),configured(base):yield
+
+@contextmanager
+def allow_native(operation,**target):
+    base=copy.deepcopy(ACTIVE.get().policy) if ACTIVE.get() else {'version':1,'live_enabled':True,'identities':{}}
+    base['identities'].setdefault('offline-test',{}).setdefault('native_controls',[]).append({'operation':operation,**target})
+    with patch.dict(os.environ,{'DIA_GATEWAY_HTTP_IDENTITY':'offline-test'}),configured(base):yield

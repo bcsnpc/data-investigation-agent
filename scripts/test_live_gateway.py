@@ -143,11 +143,33 @@ class GatewayRedTeamTests(unittest.TestCase):
         logs=self.denied(lambda:validate_sql(raw,{('dbo','sales')}))
         self.assertNotIn('private-value-719',str(logs))
 
+    def test_native_control_queries_cannot_smuggle_xmla_writes(self):
+        policy=copy.deepcopy(POLICY)
+        policy['identities']['reader']['native_controls']=[{'operation':'XMLA_EVALUATE','workspace':'W','model':'M'},
+            {'operation':'SNAPSHOT_SQL_METADATA','server':'s','database':'d'}]
+        gateway=Gateway(policy)
+        gateway.native_control('reader','XMLA_EVALUATE',{'workspace':'W','model':'M'},'EVALUATE ROW("v",1)')
+        self.denied(lambda:gateway.native_control('reader','XMLA_EVALUATE',{'workspace':'W','model':'M'},'REFRESH model'))
+        self.denied(lambda:gateway.native_control('reader','XMLA_EVALUATE',{'workspace':'other','model':'M'},'EVALUATE ROW("v",1)'))
+        self.denied(lambda:gateway.native_control('reader','SNAPSHOT_SQL_METADATA',{'server':'s','database':'d'},'DELETE FROM t'))
+
+    def test_denials_survive_child_stderr_discard_without_raw_text(self):
+        with tempfile.TemporaryDirectory() as folder:
+            journal=Path(folder)/'denied.jsonl'
+            with patch.dict(os.environ,{'DIA_GATEWAY_AUDIT_FILE':str(journal)}):
+                self.denied(lambda:validate_sql("DELETE FROM dbo.Sales WHERE name='private-value'",{('dbo','sales')}))
+            entry=json.loads(journal.read_text())
+            self.assertEqual(entry['event'],'LIVE_ACCESS_DENIED')
+            self.assertNotIn('private-value',journal.read_text())
+
     def test_platform_writes_are_separate_from_estate_or_model_authority(self):
         policy=copy.deepcopy(POLICY)
         url='https://platform.blob.core.windows.net/snapshots/sha256'
         policy['identities']['platform']={'role':'platform','http':[{'method':'PUT','url':url,'purpose':'platform_blob'}],
             'platform_databases':[{'host':'state.postgres.database.azure.com','database':'dia_state'}]}
+        # These channels intentionally authenticate as the same approved MI.
+        policy['identities']['reader']['principal_id']='same-managed-identity'
+        policy['identities']['platform']['principal_id']='same-managed-identity'
         gateway=Gateway(policy)
         gateway.http('platform','PUT',url)
         gateway.platform_database('platform','state.postgres.database.azure.com','dia_state')

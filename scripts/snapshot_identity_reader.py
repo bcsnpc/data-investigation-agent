@@ -40,6 +40,11 @@ def read(config,model,probe,workspace_name,run=subprocess.run):
             or not isinstance(account,str) or account.casefold()!=profile['account'].casefold()):
         return dict(result,reason='METADATA_TOKEN_IDENTITY_MISMATCH')
     provenance.update(token_identity=account,object_id=claims.get('oid'),interface=kind)
+    from investigator.live_gateway import authorize_native_control
+    if kind=='FABRIC_SQL':
+        authorize_native_control('SNAPSHOT_SQL_METADATA',{'server':request['server'],'database':request['database']})
+    else:
+        authorize_native_control('SNAPSHOT_XMLA_METADATA',{'workspace':request['workspace_name'],'model':request['model_name']})
     proc=run(['powershell','-NoProfile','-NonInteractive','-File',str(ROOT/'infra/scripts/Read-SnapshotMetadata.ps1')],
              input=json.dumps(dict(request,access_token=token)),capture_output=True,text=True,encoding='utf-8',timeout=150)
     if len(proc.stdout.encode('utf-8'))>65536:return dict(result,reason='METADATA_RESPONSE_LIMIT')

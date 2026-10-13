@@ -32,11 +32,12 @@ def _deny(reason, *, identity='', operation='', target=''):
     LOG.warning(json.dumps(entry,sort_keys=True))
     # Optional deployment-owned durable sink. It is never a request field. A
     # failed audit write still refuses access; it never falls back to allow.
-    audit=os.environ.get('DIA_GATEWAY_AUDIT_FILE')
+    audit=os.environ.get('DIA_GATEWAY_AUDIT_FILE') or str(Path(__file__).resolve().parents[2]/'.local/gateway-denials.jsonl')
     if audit:
         from datetime import datetime,timezone
         entry['recorded_at']=datetime.now(timezone.utc).isoformat()
         try:
+            Path(audit).parent.mkdir(parents=True,exist_ok=True)
             with open(audit,'a',encoding='utf-8') as stream:
                 stream.write(json.dumps(entry,sort_keys=True)+'\n')
                 stream.flush()
@@ -48,9 +49,12 @@ def _deny(reason, *, identity='', operation='', target=''):
 
 def _url(value):
     if not isinstance(value,str):_deny('INVALID_ENDPOINT')
-    parsed=urlsplit(value)
+    try:
+        parsed=urlsplit(value)
+        port=parsed.port
+    except ValueError:_deny('INVALID_ENDPOINT',target=value)
     if (parsed.scheme!='https' or not parsed.hostname or parsed.username or parsed.password
-            or parsed.fragment or parsed.port not in (None,443) or '\\' in value
+            or parsed.fragment or port not in (None,443) or '\\' in value
             or any(c.isspace() for c in value)):
         _deny('INVALID_ENDPOINT',target=value)
     decoded=unquote(parsed.path)
@@ -155,6 +159,17 @@ class Gateway:
             # (including execute_query commands) must not be a metadata bypass.
             _deny('KQL_GATEWAY_NOT_IMPLEMENTED',identity=identity,target=url)
         return matches[0]
+
+    def native_control(self,identity,operation,target,query=None):
+        permissions=self.identity(identity)
+        if operation not in ('XMLA_EVALUATE','SNAPSHOT_SQL_METADATA','SNAPSHOT_XMLA_METADATA'):
+            _deny('NATIVE_CONTROL_UNKNOWN',identity=identity)
+        grant={'operation':operation,**target}
+        if grant not in permissions.get('native_controls',[]):
+            _deny('NATIVE_CONTROL_NOT_ALLOWED',identity=identity,operation=operation)
+        if operation=='XMLA_EVALUATE':validate_dax(query)
+        elif query is not None:_deny('FIXED_METADATA_QUERY_REQUIRED',identity=identity)
+        return grant
 
     def platform_database(self,identity,host,database):
         permissions=self.identity(identity)
@@ -313,3 +328,7 @@ def authorize_sql_control(server,database,control,*,identity=None):
 def authorize_platform_database(identity,host,database):
     """Internal persistence only; no agent/model tool exposes this operation."""
     return current().platform_database(identity,host,database)
+
+
+def authorize_native_control(operation,target,query=None,*,identity=None):
+    return current().native_control(identity or os.environ.get('DIA_GATEWAY_HTTP_IDENTITY',''),operation,target,query)
