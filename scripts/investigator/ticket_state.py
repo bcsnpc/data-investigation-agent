@@ -18,7 +18,7 @@ class Tickets:
         state = None if tape is not None and tape.replaying else configured_state()
         if state is not None:
             from .shared_tickets import SharedTickets
-            return SharedTickets(state)
+            return SharedTickets(state,replay_store=store)
         return super().__new__(cls)
 
     def __init__(self, store):
