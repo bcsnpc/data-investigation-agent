@@ -40,3 +40,6 @@ Final cloud-focused regression after the preflight correction: **85 passed, 4 sk
 
 
 Dated closing-CI correction, 2026-10-13: workflow 38372381714 on 30cb27e replayed inferred 15/15 but archived 7/15. Eight archived cases stopped before events because the current replay harness expected `metadata_config.validate_config`; their historical engine validates inline in `load_config`. Fix c4602de preserves that original validator and imported aliases, adapting only lexical path joining during replay. Ten portability regressions pass, including original validation refusing invalid configuration. No tape, expectation or historical engine bytes changed; zero estate/model calls. The full thirty-case hosted rerun is pending.
+
+
+Final CI result, 2026-10-13 09:38 UTC: corrected source `c8e4bb1` passes archived **15/15** and inferred **15/15** in [workflow 38375299019](https://github.com/bcsnpc/data-investigation-agent/actions/runs/38375299019), with zero physical/network/model calls. All 25 checks pass; image publication is intentionally skipped. Original failure retained above; no tape or expectation changed. This confirms historical replay compatibility, not the unearned live demo or path-verification targets. This closing follow-up changes records only.
