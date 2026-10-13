@@ -82,6 +82,20 @@ class Gateway:
     """Policy is trusted operator configuration, never an operation's request."""
     policy: dict
 
+    def graph_objects(self,estate,object_ids,*,identity):
+        """Read-only graph authority is an exact caller-independent object slice."""
+        scope=self.policy.get('identities',{}).get(identity,{}).get('graph',{})
+        if not isinstance(scope,dict):_deny('GRAPH_SCOPE_REQUIRED',identity=identity,operation='graph',target=estate)
+        allowed=scope.get(estate)
+        if (not isinstance(allowed,list) or not allowed or len(allowed)>1000
+                or any(not isinstance(item,str) or not item or item=='*' for item in allowed)):
+            _deny('GRAPH_SCOPE_REQUIRED',identity=identity,operation='graph',target=estate)
+        if not isinstance(object_ids,(list,set,tuple)) or not object_ids or len(object_ids)>1000:
+            _deny('GRAPH_SLICE_BOUND',identity=identity,operation='graph',target=estate)
+        if not set(object_ids)<=set(allowed):
+            _deny('GRAPH_OBJECT_NOT_ALLOWED',identity=identity,operation='graph',target=estate)
+        return tuple(sorted(set(object_ids)))
+
     def __post_init__(self):
         # Snapshot the source: a caller cannot widen authority after construction.
         object.__setattr__(self,'policy',json.loads(json.dumps(self.policy)))
