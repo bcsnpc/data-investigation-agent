@@ -92,3 +92,13 @@ Platform-only PostgreSQL contention proof passed using an isolated namespace and
 
 
 Frozen source78b17f8: full unittest discovery ran4,451tests in1,804.662seconds, OK,46skipped. Subsequent integrated changes receive separate focused/full validation. No original capture or expectation changed.
+
+## Additional isolated attempt admitted, 2026-10-13
+
+Frozen source `ff0347dba28ff8080db687648f53c93cfbe50dbc` passed the full pytest suite: 4,455 passed, 46 skipped, 1,552 subtests passed in 796.41 seconds. All PR checks passed; the separately published image passed its eight offline shards. Its immutable digest is `sha256:1a62ec92012d419b0b040cf6aef99bfaf2dda17835c61e8e5e687f19ecd126b6`.
+
+Preparation03 completed without estate or model calls. Its publication candidate pins the current revision6 model, rather than restoring an earlier image of shared state. The reviewed candidate hash is `528d97d11b0e983e43f4c2e45a0d92b32129019c4a77f9240adc1716b79e273c`.
+
+The additional attempt started at 18:46:51 UTC as `job-dia-worker-rhp9wxh`. Fresh control-plane observations showed all56 earlier executions terminal, the sole job Manual with1800-second timeout, no other Container Apps and no other PostgreSQL sessions or advisory holders. The admission check passed before the one start request. A2100-second exclusive writer lease covers the1800-second run envelope;1200seconds are available for work and600 for finalization. Foreign cooperative writers refuse before waiting; database lock waits are bounded. Old images/raw administrative writers remain operationally drained. This is not a database ACL claim. Archive uploads touch Blob/local files only.
+
+The live result is pending; admission is not successful verification, exact replay or a demo finding. A failure of this additional attempt will not be retried. Original attempts and charges remain unchanged.
