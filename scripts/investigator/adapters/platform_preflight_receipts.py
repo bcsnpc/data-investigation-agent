@@ -49,14 +49,24 @@ def authentication_facts(manifest, receipt, identity):
         fabric=adapter.get('options',{}).get('fabric',{})
         for label,key in (('semantic','auth'),('sql','sql_reader')):
             declaration=fabric.get(key,{})
-            if declaration.get('mode')=='key_vault_user_cache':
+            if declaration.get('mode') in ('key_vault_user_cache','federated_reader'):
+                declaration=dict(declaration)
+                if declaration['mode']=='federated_reader':
+                    declaration['scope']=('https://analysis.windows.net/powerbi/api/.default'
+                                          if label=='semantic' else 'https://database.windows.net/.default')
                 expected[(adapter['id'],label)]=declaration
+        declaration=adapter.get('options',{}).get('sql',{}).get('auth',{})
+        if declaration.get('mode')=='federated_reader':
+            expected[(adapter['id'],'application_sql')]=dict(declaration,scope='https://database.windows.net/.default')
     rows=receipt.get('checks')
-    if not isinstance(rows,list) or len(rows)>3:raise ValueError('PREFLIGHT_AUTH_RECEIPT_SHAPE')
+    if not isinstance(rows,list) or len(rows)>16:raise ValueError('PREFLIGHT_AUTH_RECEIPT_SHAPE')
     result=[]
     for (adapter,label),declaration in expected.items():
-        matches=[r for r in rows if r.get('kind')=='EXISTING_READER_AUTHENTICATION'
-                 and all(r.get(k)==declaration[k] for k in ('scope','tenant_id','principal_id'))]
+        federated=declaration['mode']=='federated_reader'
+        kind='FEDERATED_READER_AUTHENTICATION' if federated else 'EXISTING_READER_AUTHENTICATION'
+        fields=('scope','tenant_id','principal_id','client_id') if federated else ('scope','tenant_id','principal_id')
+        matches=[r for r in rows if r.get('kind')==kind
+                 and all(r.get(k)==declaration[k] for k in fields)]
         if len(matches)>1:raise ValueError('PREFLIGHT_AUTH_RECEIPT_AMBIGUOUS')
         status='MISSING'
         if matches:
