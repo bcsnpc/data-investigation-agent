@@ -32,6 +32,10 @@ class ProviderCanonicalTests(unittest.TestCase):
   tape=object.__new__(Tape);tape.replaying=True;tape.take=lambda kind:b'{"count":1}'
   tape.event('PROVIDER_REQUEST',b'{ "count":1 }')
   with self.assertRaisesRegex(TapeError,'PROVIDER_CONTENT_DIFFERS'):tape.event('PROVIDER_REQUEST',b'{"count":2}')
+  # A failed replay retains its first error; test physical byte matching on
+  # an independent replay rather than trying to continue the failed one.
+  with self.assertRaisesRegex(TapeError,'PROVIDER_CONTENT_DIFFERS'):tape.event('BOUNDED_REQUEST',b'{ "count":1 }')
+  tape=object.__new__(Tape);tape.replaying=True;tape.take=lambda kind:b'{"count":1}'
   with self.assertRaisesRegex(TapeError,'REQUEST_BYTES_DIFFER'):tape.event('BOUNDED_REQUEST',b'{ "count":1 }')
  def test_archived_producer_uses_the_same_canonical_consumer(self):
   class Old:
