@@ -53,13 +53,13 @@ def _replay(path,output,*,allow_engine_drift=False,native_transport=None,source_
         runtime=Runtime(store,config,native_transport or (lambda r:native(config,r)),
                         source_transport or (lambda r:source(config,r)))
         agent=AdaptiveRuntime(runtime,azure_plan,planner_profile=bootstrap['profile'],usage_policy=bootstrap['usage_policy'])
-        workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve,
-            dynamic_read_limit=settings['dynamic_read_limit'],dynamic_input_limit=settings['dynamic_input_limit'],
-            concurrency_limit=settings.get('workspace_concurrency_limit',1))
-        workspace.owner=settings['workspace_owner']
-        if tape.version in journal.AGENT_VERSIONS and config.get('_estate'):
-            from investigator.estate_installation import install_candidate_reader
-            install_candidate_reader(workspace)
+    workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve,
+        dynamic_read_limit=settings['dynamic_read_limit'],dynamic_input_limit=settings['dynamic_input_limit'],
+        concurrency_limit=settings.get('workspace_concurrency_limit',1))
+    workspace.owner=settings['workspace_owner']
+    if tape.version in journal.AGENT_VERSIONS and config.get('_estate'):
+        from investigator.estate_installation import install_candidate_reader
+        install_candidate_reader(workspace)
     methods={'intake':workspace.intake.resolve,'preview':workspace.preview,
              'create':agent.create,'run':agent.run,'synthesize':agent.synthesize}
     if tape.version in journal.SMART_VERSIONS:
