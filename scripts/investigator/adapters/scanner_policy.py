@@ -136,3 +136,9 @@ def bind_response(permissions,channel,grant,method,url,request_body,response):
 def followup(channel,method,url):
     active=identity._JOB.get()
     return active[3].get((channel,method,url))if active is not None else None
+
+
+def response_bound_only(url):
+    path=urlsplit(url).path
+    return bool(re.fullmatch(r'/v1/operations/[0-9a-f-]{36}(?:/result)?',path)
+        or re.fullmatch(r'/v1.0/myorg/admin/workspaces/(?:scanStatus|scanResult)/[0-9a-f-]{36}',path))

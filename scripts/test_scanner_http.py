@@ -64,6 +64,12 @@ class ScannerTransportTests(ScannerGuardrailTests):
             http(path+'?continuationToken=a%2Fb%20%26%20c')
             self.assertEqual(opener.open.call_count,2)
 
+    def test_operator_grant_alone_cannot_cross_workspace_via_opaque_poll(self):
+        for url in (FAB+'operations/'+OTHER,PBI+'admin/workspaces/scanResult/'+OTHER):
+            with self.subTest(url=url),auth.job(DECL,[W],kind='SCAN'):
+                with self.assertRaisesRegex(GatewayDenied,'SCANNER_RESPONSE_BINDING_REQUIRED'):
+                    Gateway(self.policy([self.grant(url)])).http(channel(DECL),'GET',url)
+
     def test_response_size_and_workspace_scope_fail_closed(self):
         url=FAB+f'workspaces/{W}/items';value=self.policy([self.grant(url)])
         value['identities'][channel(DECL)]['scanner']['workspaces'].append(OTHER)

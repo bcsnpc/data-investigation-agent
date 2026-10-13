@@ -167,6 +167,10 @@ class Gateway:
             from .adapters.scanner_policy import followup
             bound=followup(identity,method,url)
             if bound is not None:matches=[bound]
+        if permissions.get('role')=='scanner':
+            from .adapters.scanner_policy import response_bound_only,followup
+            if response_bound_only(url) and followup(identity,method,url) is None:
+                _deny('SCANNER_RESPONSE_BINDING_REQUIRED',identity=identity,operation=method,target=url)
         if len(matches)!=1:
             if not matches and permissions.get('role')=='platform':
                 from .adapters.platform_cas import permits

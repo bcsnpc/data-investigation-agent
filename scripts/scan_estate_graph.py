@@ -61,11 +61,21 @@ def validate(config):
         return config
     required = {'estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix',
                 'budget', 'max_requests', 'approval'}
-    if not isinstance(config, dict) or not required<=set(config)<=required|{'sql'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
+    if not isinstance(config, dict) or not required<=set(config)<=required|{'sql','dependency_models'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
     if 'sql' in config and (not isinstance(config['sql'],list) or not 1<=len(config['sql'])<=10):
         raise ValueError('GRAPH_SQL_COLLECTOR_BOUND')
     for group in config.get('sql',[]):
         if not isinstance(group,dict)or set(group)!={'identity','config','objects'}:raise ValueError('GRAPH_SQL_COLLECTOR_SHAPE')
+    if config.get('authentication',{}).get('mode')=='federated_scanner' and config.get('sql'):
+        raise ValueError('SCANNER_SQL_CREDENTIAL_FORBIDDEN')
+    if 'dependency_models' in config:
+        from uuid import UUID
+        models=config['dependency_models']
+        if (config.get('authentication',{}).get('mode')!='federated_scanner'
+                or not isinstance(models,list) or not 1<=len(models)<=100
+                or len(set(models))!=len(models) or not set(models)<=set(config['owners'])
+                or any(str(UUID(model))!=model for model in models)):
+            raise ValueError('SCANNER_DEPENDENCY_MODEL_SCOPE_REQUIRED')
     if not isinstance(config['approval'], str) or not config['approval'].strip():
         raise ValueError('GRAPH_SCHEDULE_OWNER_APPROVAL_REQUIRED')
     return config
@@ -80,6 +90,28 @@ def execute(config):
     for child in config['scans']:results.append(_execute_one(child))
     return {'status':'COMPLETED','estates':results,'physical_requests':sum(r['physical_requests']for r in results),
         'config_hash':sha(config),'approval':config['approval'],'budget':config['budget']}
+
+
+def scanner_dependencies(config,tokens,meter,sink):
+    """Operator-selected models only; four fixed metadata queries, metered once."""
+    validate(config)
+    selected=frozenset(config.get('dependency_models',[]))
+    if not selected:return None
+    from investigator.adapters.scanner_identity import require_job
+    from investigator.adapters.scanner_http import channel
+    from investigator.adapters.graph_dax_http import DaxMetadataHttp
+    from investigator.adapters.graph_dependencies import collect,FUNCTIONS
+    from investigator.estate_graph_contract import canonical
+    require_job(tokens.declaration,[config['workspace']])
+    identity=channel(tokens.declaration)
+    transport=DaxMetadataHttp(tokens,identity,lambda envelope:sink(canonical(envelope).encode())['sha256'])
+    def dependencies(target):
+        if target['workspace']!=config['workspace']:raise ValueError('SCANNER_DEPENDENCY_WORKSPACE_SCOPE_REQUIRED')
+        if target['model'] not in selected:return []
+        return [collect(kind=kind,target=target,identity=identity,gateway=None,
+            meter=lambda descriptor,call:meter(call),transport=transport,route='EXECUTE_DAX_QUERIES',
+            semantic_write_permission=True)for kind in FUNCTIONS]
+    return dependencies
 
 
 def _execute_one(config):
@@ -120,11 +152,13 @@ def _execute_one_scoped(config):
     else: raise ValueError('GRAPH_SCHEDULE_IDENTITY_MODE_UNSUPPORTED')
     if mode=='federated_scanner':
         from investigator.adapters.scanner_http import ScannerHttp
-        http=ScannerHttp(Tokens(config['authentication']),meter=meter)
+        tokens=Tokens(config['authentication'])
+        http=ScannerHttp(tokens,meter=meter)
     else:http = MetadataHttp(Tokens(config['authentication']), meter=meter)
-    collector = FabricChanges(config['workspace'], config['owners'], http)
     files, _ = recording_stores(config['storage'])
     sink = DefinitionSink(files, config['definition_uri_prefix'], recording_class='EXACT')
+    dependencies=scanner_dependencies(config,tokens,meter,sink) if mode=='federated_scanner' else None
+    collector = FabricChanges(config['workspace'], config['owners'], http,dependencies=dependencies)
     from investigator.graph_asset_catalog import AssetCatalog
     allowed=set(collector.configured_owners)
     for group in config.get('sql',[]):allowed.update(group['objects'])
