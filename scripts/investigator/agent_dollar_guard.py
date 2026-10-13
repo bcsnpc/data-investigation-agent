@@ -16,6 +16,7 @@ def declare(*,tape=None,environment=None,policy_factory=None,emit=None):
   return schema(json.loads(tape.take('CONFIGURATION')))
  env=os.environ if environment is None else environment
  path=env.get('INVESTIGATOR_MODEL_SPEND_DB');raw=env.get('INVESTIGATOR_MODEL_SPEND_MICRODOLLARS')
+ if env.get('INVESTIGATOR_STATE_BACKEND')=='postgresql':path='postgresql-shared-state'
  if not path or not raw:raise ValueError('AGENT_DOLLAR_GUARD_REQUIRED')
  try:ceiling=int(raw)
  except (ValueError,TypeError):raise ValueError('AGENT_DOLLAR_GUARD_REQUIRED') from None

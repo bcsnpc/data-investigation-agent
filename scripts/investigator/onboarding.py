@@ -49,6 +49,14 @@ class ModelStore:
         self.database = Path(database)
         self.inventory = Path(inventory)
         self.environment = text(environment, 100)
+        from .shared_state import configured_state
+        from .process_tape import ACTIVE
+        tape=ACTIVE.get()
+        state=None if tape is not None and tape.replaying else configured_state()
+        self.shared_catalog=None
+        if state is not None:
+            from .shared_catalog import SharedCatalog
+            self.shared_catalog=SharedCatalog(state,self.environment)
         self.shared_accounting = Path(shared_accounting).resolve() if shared_accounting is not None else None
         if self.shared_accounting == self.database.resolve():
             raise ValueError('Shared accounting requires an isolated session catalog')
@@ -116,6 +124,13 @@ class ModelStore:
                          (str(UUID(text(identity, 100))), self.environment)).fetchone()
         if row is None:
             raise KeyError('Model not found')
+        if self.shared_catalog is not None:
+            authoritative=self.shared_catalog.get(identity)
+            local=dict(row)
+            for field in ('reports','business'):local[field]=json.loads(local[field])
+            local['enabled']=bool(local['enabled'])
+            if any(local[k]!=authoritative[k] for k in local):
+                raise Conflict('PRIVATE_CATALOG_DIFFERS_FROM_POSTGRES_PUBLICATION')
         return row
 
     def event(self, db, identity, revision, action, actor, detail):
@@ -123,6 +138,8 @@ class ModelStore:
                    (identity, revision, action, actor, datetime.now(timezone.utc).isoformat(), encoded(detail)))
 
     def register(self, body, actor):
+        if self.shared_catalog is not None:
+            raise Conflict('CLOUD_CATALOG_REQUIRES_OPERATOR_PUBLICATION')
         fields(body, ['name', 'workspace', 'model_id', 'report_ids'])
         workspace, native = str(UUID(text(body['workspace'],100))), str(UUID(text(body['model_id'],100)))
         reports = body['report_ids']
@@ -141,6 +158,8 @@ class ModelStore:
         return self.get(identity)
 
     def _context(self, db, identity, context_id):
+        if self.shared_catalog is not None:
+            return self.shared_catalog.context(identity,context_id)
         row = db.execute('SELECT body,hash FROM model_contexts WHERE id=? AND model_id=?',
                          (context_id, identity)).fetchone()
         if row is None:
@@ -151,6 +170,8 @@ class ModelStore:
         return value
 
     def get(self, identity):
+        if self.shared_catalog is not None:
+            return self.shared_catalog.get(identity,self.context_pins.get(identity))
         with self.connect() as db:
             row = dict(self.row(db, identity))
             row['reports'] = json.loads(row['reports'])
@@ -174,11 +195,15 @@ class ModelStore:
             return row
 
     def list(self, enabled_only=False):
+        if self.shared_catalog is not None:
+            return self.shared_catalog.list(enabled_only)
         with self.connect() as db:
             ids = [x[0] for x in db.execute('SELECT id FROM models WHERE environment=? AND (?=0 OR enabled=1) ORDER BY name,id', (self.environment, int(enabled_only)))]
         return [self.get(x) for x in ids]
 
     def context(self, identity, context_id):
+        if self.shared_catalog is not None:
+            return self.shared_catalog.context(identity,context_id)
         with self.connect() as db:
             self.row(db, identity)
             return self._context(db, identity, str(UUID(text(context_id,100))))
@@ -188,6 +213,8 @@ class ModelStore:
             raise Conflict('Model changed; reload before editing')
 
     def import_scan(self, identity, revision, scan_id, actor):
+        if self.shared_catalog is not None:
+            raise Conflict('CLOUD_CATALOG_REQUIRES_OPERATOR_PUBLICATION')
         scan_id = str(UUID(text(scan_id,100)))
         # Read and validate the complete registered report set in one inventory
         # snapshot. bundle validates immutable hashes and explicit model binding.
@@ -256,6 +283,8 @@ class ModelStore:
         return self.get(identity)
 
     def review(self, identity, revision, body, actor):
+        if self.shared_catalog is not None:
+            raise Conflict('CLOUD_CATALOG_REQUIRES_OPERATOR_PUBLICATION')
         fields(body, ['definition','owner','date_basis','refresh_expectation','tolerance','exceptions'])
         data = {k:text(v) for k,v in body.items()}
         with self.connect() as db:
@@ -271,6 +300,8 @@ class ModelStore:
         return self.get(identity)
 
     def enable(self, identity, revision, enabled, actor):
+        if self.shared_catalog is not None:
+            raise Conflict('CLOUD_CATALOG_REQUIRES_OPERATOR_PUBLICATION')
         if type(enabled) is not bool:
             raise ValueError('Expected boolean')
         with self.connect() as db:

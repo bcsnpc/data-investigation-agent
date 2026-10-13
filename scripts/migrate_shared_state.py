@@ -23,18 +23,27 @@ def main(argv=None):
     digest=sha(source)
     if digest != args.expected_sha256:
         parser.error('Source hash differs from approved migration input')
+    usage_import=source.get('version')=='shared-usage-import-v1'
+    catalog_import=source.get('version')=='shared-catalog-import-v1'
     # Refuse decimal floats, rather than stringifying already rounded values.
-    for account in source['accounts']:
+    for account in source.get('accounts',[]):
         for field in ('ceiling','protected','opening'):
             amount(account[field])
     report={'mode':'APPLY' if args.apply else 'PLAN','source_sha256':digest,
-            'accounts':source['accounts'],'legacy_files_unchanged':True}
+            'accounts':source.get('accounts',[]),'legacy_files_unchanged':True}
     if args.apply:
         state=configured_state()
         if state is None:
             parser.error('PostgreSQL configuration is required for apply')
         state.migrate()
-        report['verification']=state.import_accounts(args.migration_id,source)
+        if usage_import:
+            from investigator.shared_usage import import_usage
+            report['verification']=import_usage(state,args.migration_id,source)
+        elif catalog_import:
+            from investigator.shared_catalog import import_catalog
+            report['verification']=import_catalog(state,args.migration_id,source)
+        else:
+            report['verification']=state.import_accounts(args.migration_id,source)
     Path(args.report).write_text(json.dumps(report,indent=2)+'\n',encoding='utf8')
     print(json.dumps({'mode':report['mode'],'source_sha256':digest,'report':args.report}))
 

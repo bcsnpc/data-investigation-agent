@@ -15,6 +15,16 @@ class SpendHold(RuntimeError):
 
 
 class SpendBudget:
+    def __new__(cls, path, ceiling_microdollars):
+        from .shared_state import configured_state
+        from .process_tape import ACTIVE
+        tape=ACTIVE.get()
+        state=None if tape is not None and tape.replaying else configured_state()
+        if state is not None:
+            from .shared_spend import SharedSpendBudget
+            return SharedSpendBudget(state,ceiling_microdollars)
+        return super().__new__(cls)
+
     def __init__(self, path, ceiling_microdollars):
         self.path = str(path)
         self.ceiling = ceiling_microdollars

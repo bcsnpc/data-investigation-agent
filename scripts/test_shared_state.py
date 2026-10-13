@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
-from investigator.shared_state import SharedState, StateConflict, amount
+from investigator.shared_state import SharedState, StateConflict, amount, exact_sum
 from investigator.shared_tickets import SharedTickets
 from investigator.onboarding import Conflict
 
@@ -48,6 +48,10 @@ class SharedStateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'EXACT_AMOUNT'):
             self.state.import_accounts('bad',invalid)
         with self.assertRaises(KeyError):self.state.snapshot('pot')
+
+    def test_decimal_accounting_does_not_use_default_context_rounding(self):
+        self.assertEqual(str(exact_sum(['100000000000000000000000000000.000001','0.000001'])),
+                         '100000000000000000000000000000.000002')
 
     def test_concurrent_reservations_cannot_spend_protected_capacity(self):
         limited=source();limited['accounts'][0].update(ceiling='2845',protected='5')
@@ -101,10 +105,11 @@ class SharedStateTests(unittest.TestCase):
             self.assertIsInstance(Tickets(object()),SharedTickets)
 
     def test_cloud_usage_cannot_fall_back_to_sqlite_authority(self):
-        from investigator.usage_governance import UsageGovernor,UsageHold
-        with patch('investigator.shared_state.configured_state',return_value=self.state):
-            with self.assertRaisesRegex(UsageHold,'POSTGRES_USAGE_GOVERNOR_NOT_MIGRATED'):
-                UsageGovernor(None,None,None)
+        from investigator.shared_usage import SharedUsage
+        from types import SimpleNamespace
+        governor=SimpleNamespace(environment='test',policy={},runtime=SimpleNamespace(config={}))
+        with self.assertRaises(KeyError):
+            SharedUsage(governor,self.state,owner='test-worker')
 
 
 @unittest.skipUnless(os.environ.get('DIA_TEST_POSTGRES_DSN'),'local PostgreSQL DSN not configured')

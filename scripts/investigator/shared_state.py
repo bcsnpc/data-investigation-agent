@@ -29,11 +29,22 @@ def amount(value):
     result = Decimal(value)
     if not result.is_finite() or result < 0:
         raise ValueError('NONNEGATIVE_FINITE_AMOUNT_REQUIRED')
+    if len(result.as_tuple().digits)>38 or not -18<=result.as_tuple().exponent<=38:
+        raise ValueError('AMOUNT_PRECISION_BOUND_EXCEEDED')
     return result
 
 
 def decimal_text(value):
     return format(amount(value), 'f')
+
+
+def exact_sum(values):
+    """Add decimal coefficients as integers, independent of decimal context."""
+    values=[amount(value) for value in values]
+    if not values:return Decimal(0)
+    exponent=min(v.as_tuple().exponent for v in values)
+    total=sum(int(''.join(map(str,v.as_tuple().digits)))*10**(v.as_tuple().exponent-exponent) for v in values)
+    return Decimal((0,tuple(map(int,str(total))),exponent))
 
 
 # Text payloads preserve their exact encoded bytes and hashes on both backends.
@@ -64,6 +75,29 @@ CREATE TABLE IF NOT EXISTS estate_graph_edges(
  provenance TEXT NOT NULL, body TEXT NOT NULL, PRIMARY KEY(estate,identity),
  FOREIGN KEY(estate,source) REFERENCES estate_graph_nodes(estate,identity),
  FOREIGN KEY(estate,target) REFERENCES estate_graph_nodes(estate,identity));
+'''
+
+USAGE_DDL = '''
+CREATE TABLE IF NOT EXISTS state_usage(
+ environment TEXT NOT NULL, session_id TEXT NOT NULL, reservation_key TEXT NOT NULL,
+ day TEXT NOT NULL, kind TEXT NOT NULL, reserved TEXT NOT NULL, actual TEXT,
+ status TEXT NOT NULL, policy_hash TEXT NOT NULL, created DOUBLE PRECISION NOT NULL,
+ owner TEXT NOT NULL, PRIMARY KEY(environment,session_id,reservation_key));
+CREATE INDEX IF NOT EXISTS state_usage_window ON state_usage(environment,kind,created);
+CREATE TABLE IF NOT EXISTS state_read_batches(
+ environment TEXT NOT NULL, batch_id TEXT NOT NULL, approval TEXT NOT NULL,
+ issued DOUBLE PRECISION NOT NULL, expires DOUBLE PRECISION NOT NULL,
+ PRIMARY KEY(environment,batch_id));
+CREATE TABLE IF NOT EXISTS state_read_batch_runs(
+ environment TEXT NOT NULL, session_id TEXT NOT NULL, batch_id TEXT NOT NULL,
+ purpose TEXT NOT NULL, allowance BIGINT NOT NULL, PRIMARY KEY(environment,session_id));
+CREATE TABLE IF NOT EXISTS state_read_allocations(
+ environment TEXT NOT NULL, session_id TEXT NOT NULL, reservation_key TEXT NOT NULL,
+ batch_id TEXT, purpose TEXT NOT NULL, PRIMARY KEY(environment,session_id,reservation_key));
+CREATE TABLE IF NOT EXISTS state_usage_acknowledgments(
+ environment TEXT NOT NULL, session_id TEXT NOT NULL, reservation_key TEXT NOT NULL,
+ violation_hash TEXT NOT NULL, approval TEXT NOT NULL, created DOUBLE PRECISION NOT NULL,
+ PRIMARY KEY(environment,session_id,reservation_key));
 '''
 
 
@@ -114,18 +148,23 @@ class SharedState:
 
     def migrate(self):
         text = DDL.format(number='NUMERIC' if self.backend == 'postgresql' else 'TEXT')
-        digest = hashlib.sha256(text.encode()).hexdigest()
+        migrations = {1:text,2:USAGE_DDL}
         with self.transaction() as db:
             db.execute('CREATE TABLE IF NOT EXISTS state_schema_versions(version INTEGER PRIMARY KEY, sha256 TEXT NOT NULL)')
             rows = db.execute('SELECT version,sha256 FROM state_schema_versions ORDER BY version').fetchall()
-            if rows:
-                if rows != [(1, digest)]:
+            applied = dict(rows)
+            for version,digest in rows:
+                if version not in migrations or digest != hashlib.sha256(migrations[version].encode()).hexdigest():
                     raise StateConflict('SCHEMA_VERSION_OR_HASH_DIFFERS')
-                return
-            for statement in text.split(';'):
-                if statement.strip():
-                    db.execute(statement)
-            self.sql(db, 'INSERT INTO state_schema_versions VALUES(?,?)', (1, digest))
+            if sorted(applied) != list(range(1,len(applied)+1)):
+                raise StateConflict('SCHEMA_VERSION_SEQUENCE_DIFFERS')
+            for version,text in migrations.items():
+                if version in applied:
+                    continue
+                for statement in text.split(';'):
+                    if statement.strip():
+                        db.execute(statement)
+                self.sql(db, 'INSERT INTO state_schema_versions VALUES(?,?)', (version,hashlib.sha256(text.encode()).hexdigest()))
 
     def _get(self, db, namespace, identity):
         row = self.sql(db, 'SELECT revision,body,body_hash FROM state_documents WHERE namespace=? AND identity=?', (namespace, identity)).fetchone()
@@ -179,7 +218,7 @@ class SharedState:
         reservations = self.sql(db, 'SELECT identity,owner,reserved,charged,status,detail FROM state_reservations WHERE account=? ORDER BY identity', (identity,)).fetchall()
         return {'identity': identity, 'unit': row[0], 'ceiling': decimal_text(row[1]),
                 'protected': decimal_text(row[2]), 'opening': decimal_text(row[3]),
-                'charged': decimal_text(amount(row[3])+sum((amount(r[3]) for r in reservations), Decimal(0))),
+                'charged': decimal_text(exact_sum([row[3]]+[r[3] for r in reservations])),
                 'violated': bool(row[4]), 'reservations': [
                     {'identity': r[0], 'owner': r[1], 'reserved': decimal_text(r[2]), 'charged': decimal_text(r[3]), 'status': r[4], 'detail': json.loads(r[5])} for r in reservations]}
 
@@ -203,7 +242,7 @@ class SharedState:
                 raise StateConflict('RESERVATION_ALREADY_ADMITTED')
             if snapshot['violated']:
                 raise StateConflict('ACCOUNT_VIOLATION_LATCHED')
-            if amount(snapshot['charged']) + bound > amount(snapshot['ceiling']) - amount(snapshot['protected']):
+            if exact_sum([snapshot['charged'],bound,snapshot['protected']]) > amount(snapshot['ceiling']):
                 raise StateConflict('ACCOUNT_CAP_REACHED')
             self.sql(db, 'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)', (identity, key, owner, decimal_text(bound), decimal_text(bound), 'RESERVED', encoded(detail)))
             return key
