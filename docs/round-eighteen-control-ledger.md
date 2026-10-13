@@ -163,3 +163,18 @@ Platform health recheck `job-dia-worker-2oshp00` passed PostgreSQL, immutable Bl
 Auth-only execution `job-dia-worker-wynal6w` exited 0, but log retrieval failed first with `ErrorGeneratingAuthToken`, then `ExecutionReplicaNotFound` after replica cleanup. It is retained as successful execution without retrievable check detail. The repeat `job-dia-worker-5u7s0as` writes its sanitized result to private Blob. At 03:22:54 UTC both PBI and SQL refresh checks PASS: tenant `dff91047-ebc2-4657-8dbe-5af328d57780`, object `8a582d2a-ecb4-4320-bf72-75a529a0d382`, their original audiences. Model-key availability PASS; model API authorization was not tested. No secret values, tokens or updated cache are logged or written to disk. No new consent, identity, audience or estate permission.
 
 The eight cloud historical replays completed at 7/8 exact matches; shard4 is a retained mismatch, not a pass. The initial wrapper retained counts but omitted private failure details; a diagnostic-only rerun of that shard will retain them. Every replay child reports zero network/estate/model requests; platform download/publication controls are separate. Each job temporarily used1vCPU/2GiB so the2.5GB estimated scratch fits [documented4GiB ephemeral storage](https://learn.microsoft.com/en-us/azure/container-apps/storage-mounts). The default job remains0.5vCPU/1GiB, no persistent scale change. Eight1800-second maximum executions bound compute at USD0.432 before free allowances, inside the existing40vCPU-hour monthly envelope.
+
+
+## Storage and compute checkpoint, 2026-10-13 03:42 UTC
+
+The frozen 4377cbf regression passed 3,983 tests, with 46 skipped and 1,407 passing subtests, in 796.43 seconds. The later catalog/cloud-reader and portable-worker changes passed 18 focused tests; this is a separate revision, not a claim that the old full run tested them.
+
+Eight further tapes converted: all 32 reconstructed files byte-identical, all eight actual pinned-engine replays MATCHED. Their 1,958,359,736 original bytes add 23,394,768 bytes to the shared CAS; its total is now 48,595,256 bytes. Originals are preserved. Broad history conversion remains incomplete.
+
+The diagnostic cloud replay still failed 0/1: `TapeError: TAPE_EVENT_DIFFERS:CLOCK:WORKER_SEND`. Investigation found Windows executable paths normalized differently on Linux, causing an earlier worker descriptor mismatch masked by error handling. The lexical-path fix changes no recorded events, statement bytes or expectations. Linux recheck is pending; original 7/8 and diagnostic 0/1 remain recorded.
+
+Compute-only deployment `dia-platform-compute-only-03` succeeded after an explicit existing-PostgreSQL-host parameter prevented reapplying its administrator. Earlier deployment failure remains. Machine-readable What-If needed `--no-pretty-print`; its first wrapper parse failure changed no resource.
+
+The separate 32-file archive batch failed on upload with `ServiceResponseError: ConnectionResetError(10054, An existing connection was forcibly closed by the remote host)`. No complete verified receipt was produced, and none of those originals was removed. The earlier 45-file verified archive and cleanup remain valid. Owner SDK hook auditing is in progress; do not infer exact transport counts from logical operations.
+
+Read-only platform verification found graph nodes=0 and edges=0. The PostgreSQL model account retains opening107,957,725 microdollars, ceiling127,957,725 and protected10,000,000, violation0, no new reservations. This is platform state, not an estate query. The historical reserved usage row remains preserved. No new estate reads or model calls in this checkpoint; pot2,839/4,000, reserve95.
