@@ -11,6 +11,7 @@ from scan_estate_graph import validate
 
 def plan(config,payload):
     validate(config)
+    if 'scans' in config:raise ValueError('GRAPH_SEED_ONE_ESTATE_REQUIRED')
     if not isinstance(payload,dict)or set(payload)!={'assets','source_asset_ids','observed_at','source_observations'}:
         raise ValueError('GRAPH_SEED_PAYLOAD_SHAPE')
     timestamp(payload['observed_at'])

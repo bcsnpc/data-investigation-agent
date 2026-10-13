@@ -177,3 +177,15 @@ secret detector before any file/Blob write; projected capture stays explicitly
 unsupported. A failed CAS can leave an unreferenced immutable asset Blob, but no
 partial graph/manifest update. The bounded catalog allows at most 1,000 owners,
 50,000 assets, 16 MiB per owner and 256 MiB total.
+
+
+The same existing scheduled job can run fixture and billing sequentially. Set
+`DIA_GRAPH_SCAN_CONFIG` to `{ "scans": [<fixture single-estate config>, <billing
+single-estate config>], "budget": <the same existing pinned budget>, "approval":
+"<recorded owner decision>" }`. At most two distinct estates are accepted; both
+child budget declarations must exactly equal the parent, and their request caps
+must sum to at most 100. Counters and the restoration reserve are never reset.
+A failure stops before the next estate; started scans retain their individual
+PostgreSQL receipts. Seed each estate separately before enabling this schedule.
+The job remains one existing job, one replica, the same six-hour cadence and
+600-second deadline. No additional resource is required by this configuration.

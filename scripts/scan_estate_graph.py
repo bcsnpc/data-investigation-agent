@@ -47,6 +47,18 @@ class Meter:
 
 
 def validate(config):
+    if isinstance(config,dict) and 'scans' in config:
+        if set(config)!={'scans','budget','approval'}or not isinstance(config['scans'],list)or not 1<=len(config['scans'])<=2:
+            raise ValueError('GRAPH_SCHEDULE_ESTATE_BOUND')
+        if not isinstance(config['approval'],str)or not config['approval'].strip():raise ValueError('GRAPH_SCHEDULE_OWNER_APPROVAL_REQUIRED')
+        for child in config['scans']:
+            if 'scans' in child:raise ValueError('GRAPH_SCHEDULE_NESTING_FORBIDDEN')
+            validate(child)
+            if child['budget']!=config['budget']:raise ValueError('GRAPH_SCHEDULE_SHARED_BUDGET_PINS_DIFFER')
+            if type(child['max_requests'])is not int or not 1<=child['max_requests']<=100:raise ValueError('GRAPH_PHYSICAL_REQUEST_BOUND')
+        if len({child['estate']for child in config['scans']})!=len(config['scans']):raise ValueError('GRAPH_SCHEDULE_DUPLICATE_ESTATE')
+        if sum(child['max_requests']for child in config['scans'])>100:raise ValueError('GRAPH_SCHEDULE_COMBINED_REQUEST_BOUND')
+        return config
     required = {'estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix',
                 'budget', 'max_requests', 'approval'}
     if not isinstance(config, dict) or not required<=set(config)<=required|{'sql'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
@@ -60,6 +72,17 @@ def validate(config):
 
 
 def execute(config):
+    config=validate(config)
+    if 'scans' not in config:return _execute_one(config)
+    # Sequential scans share the same existing policy and counters. A failure
+    # stops before the next estate; each started scan retains its own receipt.
+    results=[]
+    for child in config['scans']:results.append(_execute_one(child))
+    return {'status':'COMPLETED','estates':results,'physical_requests':sum(r['physical_requests']for r in results),
+        'config_hash':sha(config),'approval':config['approval'],'budget':config['budget']}
+
+
+def _execute_one(config):
     import os
     from investigator.privacy_capture import ACTIVE
     if ACTIVE.get() is not None or os.environ.get('INVESTIGATOR_RECORDING_CLASS', 'EXACT') != 'EXACT':
@@ -134,7 +157,7 @@ def main():
     parser.add_argument('--receipt', type=Path, required=True)
     args = parser.parse_args(); config = validate(json.loads(args.config.read_text(encoding='utf-8-sig')))
     result = execute(config) if args.apply else {'status': 'PLAN_ONLY', 'config_hash': sha(config),
-        'schedule': '0 */6 * * *', 'owners': len(config['owners']), 'approval': config['approval'],
+        'schedule': '0 */6 * * *', 'owners': sum(len(c['owners']) for c in config.get('scans',[config])), 'approval': config['approval'],
         'requirements': ['Existing Container Apps Job; no new resource', 'Existing shared request accounts and reserve',
                          'Exact gateway grants and reader permissions; no automatic elevation',
                          'Operator-migrated graph tables', 'Owner-approved deployment and controlled change/revert']}
