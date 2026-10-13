@@ -1,6 +1,8 @@
 targetScope = 'subscription'
 
 param location string = 'eastus'
+param postgresLocation string = location
+param computeLocation string = postgresLocation
 param resourceGroupName string
 param storageName string
 param vaultName string
@@ -26,6 +28,8 @@ module platform './platform.bicep' = {
   scope: group
   params: {
     location: location
+    postgresLocation: postgresLocation
+    computeLocation: computeLocation
     storageName: storageName
     vaultName: vaultName
     postgresName: postgresName

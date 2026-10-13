@@ -1,6 +1,8 @@
 targetScope = 'resourceGroup'
 
 param location string
+param postgresLocation string
+param computeLocation string
 param storageName string
 param vaultName string
 param postgresName string
@@ -82,7 +84,7 @@ resource secretsRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
 
 resource postgres 'Microsoft.DBforPostgreSQL/flexibleServers@2024-08-01' = if (deployPostgres) {
   name: postgresName
-  location: location
+  location: postgresLocation
   sku: { name: 'Standard_B1ms', tier: 'Burstable' }
   properties: {
     version: '16'
@@ -124,7 +126,7 @@ resource database 'Microsoft.DBforPostgreSQL/flexibleServers/databases@2024-08-0
 
 resource environment 'Microsoft.App/managedEnvironments@2025-01-01' = if (deployCompute) {
   name: environmentName
-  location: location
+  location: computeLocation
   properties: {
     appLogsConfiguration: { destination: 'none' }
     workloadProfiles: [{ name: 'Consumption', workloadProfileType: 'Consumption' }]
@@ -133,7 +135,7 @@ resource environment 'Microsoft.App/managedEnvironments@2025-01-01' = if (deploy
 }
 resource job 'Microsoft.App/jobs@2025-01-01' = if (deployCompute) {
   name: jobName
-  location: location
+  location: computeLocation
   identity: { type: 'UserAssigned', userAssignedIdentities: { '${worker.id}': {} } }
   properties: {
     environmentId: environment!.id
