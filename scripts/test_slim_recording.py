@@ -118,7 +118,7 @@ class Tests(unittest.TestCase):
         # Existing engine harness executes intake, preview, create, run, synthesize,
         # then checks all decisions and both output bodies against their sealed bytes.
         from test_process_tape import TapeTests
-        helper=TapeTests();self.addCleanup(helper.doCleanups)
+        helper=TapeTests();helper.setUp();self.addCleanup(helper.doCleanups)
         with patch.object(slim,'configuration',return_value=CONFIG),patch.object(slim,'stores',return_value=self.storage):
             helper.exercise_process()
         self.assertTrue(list((self.root/'snapshots/files').iterdir()))
