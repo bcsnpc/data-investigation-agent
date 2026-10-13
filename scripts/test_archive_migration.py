@@ -4,6 +4,8 @@ import tempfile
 import unittest
 from unittest.mock import patch
 import gzip
+import os
+import subprocess
 
 from investigator import archive_migration as archive
 from investigator.artifact_store import ArtifactError, Files, LocalObjects, canonical, digest
@@ -187,6 +189,25 @@ class Tests(unittest.TestCase):
         row=receipt['objects'][0]
         for key in ('storage_encoding','original_bytes','stored_bytes','stored_sha256'):row.pop(key)
         self.assertIn('Get-FileHash',archive.cleanup_script(plan,sha,receipt))
+
+    @unittest.skipUnless(os.name=='nt','PowerShell ancestor regression requires Windows')
+    def test_generated_cleanup_walks_multiple_directoryinfo_ancestors_and_logs_actual_bytes(self):
+        relative='.local/round-five/deep/nested/evidence.json'
+        original=b'synthetic verified archive fixture'
+        target=self.put(relative,original)
+        kept=self.put('.local/round-five/deep/nested/not-in-manifest.json',b'must remain')
+        plan=self.plan([relative]);sha,review=self.review(plan)
+        receipt=archive.publish(plan,sha,review,Remote())
+        script=self.root/'cleanup.ps1';script.write_text(archive.cleanup_script(plan,sha,receipt),encoding='utf-8')
+        # Actual execution is restricted to this test's fresh temporary workspace.
+        self.assertTrue(target.resolve().is_relative_to(self.root.resolve()))
+        result=subprocess.run(['powershell','-NoProfile','-NonInteractive','-File',str(script)],
+                              capture_output=True,text=True,timeout=30)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertFalse(target.exists());self.assertTrue(kept.exists())
+        row=json.loads((self.root/'.local/archive-cleanup-removals.jsonl').read_text(encoding='utf-8-sig'))
+        self.assertEqual(Path(row['path']),target);self.assertEqual(row['bytes'],len(original))
+        self.assertIn('Total actual bytes freed: '+str(len(original)),result.stdout)
 
 
 if __name__=='__main__':unittest.main()

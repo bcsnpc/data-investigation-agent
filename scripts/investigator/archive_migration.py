@@ -259,7 +259,7 @@ foreach ($entry in $plan.files) {
     $cursor = Get-Item -LiteralPath $resolved -Force
     while ($cursor.FullName.TrimEnd('\\') -ne $root.TrimEnd('\\')) {
         if (($cursor.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) { throw 'Reparse point refused' }
-        $cursor = if ($cursor.PSIsContainer) { $cursor.Parent } else { $cursor.Directory }
+        $cursor = if ($cursor -is [IO.DirectoryInfo]) { $cursor.Parent } else { $cursor.Directory }
         if ($null -eq $cursor) { throw 'Workspace ancestor missing' }
     }
     $item = Get-Item -LiteralPath $resolved -Force
