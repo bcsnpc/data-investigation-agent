@@ -1,0 +1,13 @@
+{
+  "comparing": {
+    "kind": "APPLICATION"
+  },
+  "description": "In Inventory Health e1b8e1, Handled Quantity appears higher than the source stock movements total. Investigate the current global value and explain any observed difference.",
+  "page_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/page/688de76fce97549d9756",
+  "report_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497",
+  "request_key": "round-eighteen-cloud-family-a-1",
+  "screenshot_review_id": null,
+  "subject": "REPORT",
+  "version": "intake-questionnaire-v1",
+  "visual_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/692f3ead-d1d1-4f7f-984b-51e54f3e7497/part/definition%2Fpages%2F688de76fce97549d9756%2Fvisuals%2F25189fcc5fe05539b3b6%2Fvisual.json"
+}
