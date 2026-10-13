@@ -3,6 +3,7 @@ import argparse
 import json
 from pathlib import Path
 import subprocess
+import sys
 
 from investigator.onboarding import ModelStore
 from investigator.source_diagnostics import run, snapshot
@@ -27,19 +28,23 @@ class SourceReadTimeout(TimeoutError):
 
 
 def read_once(config, request):
-    if config['sql']['auth'].get('mode')=='managed_identity':
-        raise ValueError('MANAGED_IDENTITY_SQL_GUARDED_TRANSPORT_NOT_INSTALLED')
     payload = {'server': config['sql']['server'], 'database': config['sql']['database'],
-               'credential_file': config['sql']['auth']['credential_file'],
                'query': request.get('query',''), 'parameters': request.get('parameters',[])}
+    managed = config['sql']['auth'].get('mode') == 'managed_identity'
+    if managed:
+        from investigator.adapters.managed_identity import FIELDS
+        payload['authentication'] = {key:config['sql']['auth'][key] for key in FIELDS}
+        command = [sys.executable, str(ROOT/'scripts/managed_sql_worker.py')]
+    else:
+        payload['credential_file'] = config['sql']['auth']['credential_file']
+        command = ['powershell', '-NoProfile', '-NonInteractive', '-File', str(ROOT/'infra/scripts/Read-CatalogAggregate.ps1')]
     if request.get('control_mode')=='PREWARM':payload['control_mode']='PREWARM'
     if request.get('response_mode')=='records':
         payload.update(response_mode='records',max_rows=request['max_rows'],result_columns=request['result_columns'])
     if request.get('require_read_only'):
         payload.update(require_read_only=True,read_only_objects=request['read_only_objects'])
     from investigator.physical_reads import run as physical_run
-    completed = physical_run(['powershell', '-NoProfile', '-NonInteractive', '-File',
-        str(ROOT / 'infra/scripts/Read-CatalogAggregate.ps1')],
+    completed = physical_run(command,
         input=json.dumps(payload), capture_output=True, text=True, encoding='utf-8',
         timeout=layer_policy(config,request)['worker_timeout_seconds'])
     if len(completed.stdout) > (2*1024*1024 if request.get('response_mode')=='records' else 8192):

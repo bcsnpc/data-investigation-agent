@@ -9,6 +9,7 @@ the sign-in required.
 import json
 import re
 import subprocess
+import sys
 
 from fabric_sql_auth import ROOT, SignInRequired, get_sql_token
 
@@ -37,8 +38,20 @@ def self_report(config, database, *, token=get_sql_token, run=subprocess.run):
                 'surface_report': None}
     surface = declared(reader, database)
     if reader.get('mode')=='managed_identity':
-        return {'status':'UNAVAILABLE','reason':'MANAGED_IDENTITY_SQL_GUARDED_TRANSPORT_NOT_INSTALLED',
-                'execution_surface':surface,'surface_report':None}
+        from investigator.adapters.managed_identity import FIELDS
+        from investigator.physical_reads import run as physical_run
+        payload = {'server':reader['server'],'database':database,'control_mode':'SELF_REPORT',
+                   'authentication':{key:reader[key] for key in FIELDS}}
+        completed = physical_run([sys.executable,str(ROOT/'scripts/managed_sql_worker.py')],
+            input=json.dumps(payload), timeout=120, fallback=run, capture_output=True,text=True,encoding='utf-8')
+        try:
+            answer = json.loads(completed.stdout)
+        except (TypeError,ValueError):
+            answer = {}
+        if completed.returncode or answer.get('status') != 'REACHABLE':
+            return {'status':'UNAVAILABLE','reason':'SURFACE_UNREACHABLE','execution_surface':surface,'surface_report':None}
+        return {'status':'REACHABLE','reason':None,'execution_surface':surface,
+                'surface_report':{'identity':answer['login_name'],'object':answer['database_name']}}
     from investigator.live_gateway import authorize_sql_control
     authorize_sql_control(reader['server'],database,'SELF_REPORT')
     try:
@@ -89,7 +102,7 @@ def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
     if reader is None:
         raise LowerReadError('setup')
     if reader.get('mode')=='managed_identity':
-        raise ValueError('MANAGED_IDENTITY_SQL_GUARDED_TRANSPORT_NOT_INSTALLED')
+        return _managed_read(config, database, request, reader, run)
     try:
         access = token(config['fabric']['auth']['tenant_id'], reader['account'], reader['profile'])
     except SignInRequired:
@@ -112,4 +125,24 @@ def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
         raise LowerReadError(answer.get('stage') if isinstance(answer, dict) else None,
                              answer.get('error_number') if isinstance(answer, dict) else None,
                              answer.get('error_kind') if isinstance(answer, dict) else None)
+    return answer
+
+
+def _managed_read(config, database, request, reader, fallback):
+    from investigator.adapters.managed_identity import FIELDS
+    from investigator.physical_reads import run as physical_run
+    from sql_layer_policy import policy as layer_policy
+    payload = {key:request[key] for key in ('query','read_only_objects','max_rows','result_columns')}
+    payload.update(parameters=request.get('parameters',[]),server=reader['server'],database=database,
+                   surface_kind='FABRIC_SQL', authentication={key:reader[key] for key in FIELDS})
+    completed = physical_run([sys.executable,str(ROOT/'scripts/managed_sql_worker.py')],input=json.dumps(payload),
+        timeout=layer_policy(config,request,default_timeout=150)['worker_timeout_seconds'],fallback=fallback,
+        capture_output=True,text=True,encoding='utf-8')
+    try:
+        answer=json.loads(completed.stdout)
+    except (TypeError,ValueError):
+        raise LowerReadError('response') from None
+    if completed.returncode or not isinstance(answer,dict) or answer.get('error'):
+        detail=answer if isinstance(answer,dict) else {}
+        raise LowerReadError(detail.get('stage'),detail.get('error_number'),detail.get('error_kind'))
     return answer

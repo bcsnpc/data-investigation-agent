@@ -120,13 +120,16 @@ class ManagedIdentityTests(unittest.TestCase):
         import run_source_diagnostic, fabric_sql_surface
         from investigator.adapters.estate_installation import configuration
         config = configuration(cloud_manifest())
-        with patch('subprocess.run', side_effect=AssertionError('No legacy auth fallback')):
-            with self.assertRaisesRegex(ValueError, 'GUARDED_TRANSPORT_NOT_INSTALLED'):
-                run_source_diagnostic.read_once(config, {'query':'SELECT 1'})
-            with self.assertRaisesRegex(ValueError, 'GUARDED_TRANSPORT_NOT_INSTALLED'):
-                fabric_sql_surface.read(config, 'synthetic', {'query':'SELECT 1'})
-            self.assertEqual(fabric_sql_surface.self_report(config,'synthetic')['reason'],
-                             'MANAGED_IDENTITY_SQL_GUARDED_TRANSPORT_NOT_INSTALLED')
+        request={'query':'SELECT 1','max_rows':2,'result_columns':['value'],'read_only_objects':['dbo.synthetic'],
+                 'response_mode':'records','require_read_only':True}
+        completed=SimpleNamespace(returncode=0,stdout='{"rows":[]}')
+        with patch('subprocess.run', side_effect=AssertionError('No legacy auth fallback')), \
+             patch('investigator.physical_reads.run',return_value=completed) as run:
+            run_source_diagnostic.read_once(config, request)
+            self.assertTrue(run.call_args.args[0][-1].endswith('managed_sql_worker.py'))
+            self.assertEqual(json.loads(run.call_args.kwargs['input'])['authentication']['mode'],'managed_identity')
+            fabric_sql_surface.read(config, 'synthetic', request)
+            self.assertTrue(run.call_args.args[0][-1].endswith('managed_sql_worker.py'))
 
     def test_model_context_uses_explicit_credential_without_environment_secrets(self):
         from run_adaptive_investigation import local_azure_key

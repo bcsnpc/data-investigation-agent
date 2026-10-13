@@ -51,17 +51,46 @@ tape, environment or file. The response secret ID must match the requested
 version. Managed-identity token issuance uses Azure Identity's local managed
 identity endpoint; it is an authentication-plane operation, not estate evidence.
 
-## Explicit remaining dependency
+## Guarded Linux SQL transport
 
-**Managed-identity SQL execution is not yet installed by this change.** The
-source and Fabric SQL paths refuse with
-`MANAGED_IDENTITY_SQL_GUARDED_TRANSPORT_NOT_INSTALLED`; metadata SQL collection
-reports `MANAGED_IDENTITY_SQL_CATALOG_TRANSPORT_NOT_INSTALLED`. They never fall
-through to DPAPI, a CLI profile, or a different principal. A Linux SQL port must
-preserve the existing object permission checks, read-only connection intent,
-row/time bounds, per-request accounting and surface attestation before this
-refusal can be removed. A cloud smoke requiring those reads is not earned by
-passing the authentication tests.
+`managed_sql_worker.py` executes admitted record quantities for Azure SQL and
+Fabric SQL using ODBC Driver 18 and a token acquired inside the child. No token
+crosses a tape, command line, environment variable, or connection-string field.
+Gateway admission precedes credential acquisition and connection. Encryption,
+certificate validation, read-only intent and ODBC read-only access mode are set.
+The SQL guard still checks database and every admitted object's effective
+permissions before reading: unexpected write/DDL/administrative permission
+refuses. Identity is read separately; Fabric retains query-bound surface fields,
+and the application wrapper retains its own query-bound fields. Empty Fabric
+results have no fabricated surface attestation.
+
+Identity, database permission, object permission and quantity requests use the
+existing physical REQUEST/DONE protocol. Permission reuse requires the parent's
+established receipt; reuse itself issues no SQL. The cache identity includes the
+public managed-identity declaration. No connection pool survives the worker.
+Connect and statement limits are 30 seconds; existing parent worker deadlines
+still kill the child. Record responses cap at 251 rows, 16 columns and 1,000
+characters per value. Query parameters stay bound values. PREWARM and SELF_REPORT
+require explicit gateway control declarations and never act as diagnostic reads.
+
+**SQL catalog collection is not ported.** It still refuses with
+`MANAGED_IDENTITY_SQL_CATALOG_TRANSPORT_NOT_INSTALLED`; there is no DPAPI/CLI
+fallback. The old non-record three-column source aggregate is also not supported
+by the MI worker: it needs the admitted record quantity contract and refuses
+missing row/column/object bounds. A cloud smoke is not earned by offline tests.
+
+For a Debian 12 container install `ca-certificates`, `curl`, `unixodbc` and
+`unixodbc-dev`, then install Microsoft's signed Debian 12 repository package
+from `https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb`.
+Run `ACCEPT_EULA=Y apt-get install -y msodbcsql18` after updating package metadata,
+then `pip install -r scripts/requirements-cloud-auth.txt`. These are image-build
+steps; do not install packages or provision identities during a ticket. Driver
+availability is checked by a connection attempt, not silently substituted.
+Microsoft's [Linux installation instructions](https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server)
+and [access-token ODBC contract](https://learn.microsoft.com/en-us/sql/connect/odbc/using-azure-active-directory)
+document the driver setup and length-prefixed UTF-16 token attribute.
+
+## Remaining dependencies
 
 Optional refresh/XMLA and privacy-key secret readers are not automatically
 converted by this schema extension. Preflight must report any still-local path
@@ -72,7 +101,7 @@ Windows example is deployable in a Linux container.
 
 Offline tests cover token bindings, exact identity construction, no CLI
 fallback or secret error leakage, closed schema/projection, native partial
-identity receipts, named SQL refusal, task-local model selection, report-list
+identity receipts, guarded SQL dispatch, task-local model selection, report-list
 binding, metadata credential forwarding and versioned Key Vault reference
 validation. The final focused regression passed 152 tests. No real token, secret or estate read was used.
 
