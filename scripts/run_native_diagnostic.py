@@ -47,7 +47,7 @@ def worker_failure(exc):
     return failure
 
 
-def execute(request,tenant,reader=None):
+def execute(request,tenant,reader=None,authentication=None):
     workspace=str(UUID(request['workspace']));model=str(UUID(request['native_model_id']))
     if reader is None:
         if request.get('requires_native_reader'):raise ValueError('Discovered execution requires a read-only reader')
@@ -56,9 +56,16 @@ def execute(request,tenant,reader=None):
         profile(reader)
         if reader['tenant_id'] != tenant or not allows(reader,workspace,model):
             raise ValueError('Native reader target differs')
-        from connect_fixture_reader import application, token as reader_token
+        if reader['mode']=='managed_identity':
+            from investigator.adapters.managed_identity import Tokens,validate
+            credential=validate({k:authentication[k] for k in ('mode','tenant_id','client_id','principal_id')}) if authentication else None
+            if credential is None or credential['principal_id']!=reader['principal_id'] or credential['tenant_id']!=tenant:
+                raise ValueError('Managed identity reader credential binding differs')
+            token=Tokens(credential).get_token('https://analysis.windows.net/powerbi/api/.default')
+        else:
+            from connect_fixture_reader import application, token as reader_token
+            token=reader_token(application(tenant),reader['account'],tenant,'https://analysis.windows.net/powerbi/api/.default')
         import base64
-        token=reader_token(application(tenant),reader['account'],tenant,'https://analysis.windows.net/powerbi/api/.default')
         part=token.split('.')[1]
         claims=json.loads(base64.urlsafe_b64decode(part+'='*(-len(part)%4)))
         if claims.get('oid') != reader['principal_id']:
@@ -121,7 +128,7 @@ if __name__=='__main__':
         try:
             request=json.load(sys.stdin)
             if request['workspace']!=config['fabric']['workspace_id']:raise ValueError('Workspace differs')
-            print(execute(request,config['fabric']['auth']['tenant_id'],config['fabric'].get('native_reader')))
+            print(execute(request,config['fabric']['auth']['tenant_id'],config['fabric'].get('native_reader'),config['fabric']['auth']))
         except Exception as exc:
             print(json.dumps(worker_failure(exc)));raise SystemExit(1)
     else:

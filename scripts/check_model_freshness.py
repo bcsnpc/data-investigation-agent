@@ -16,7 +16,7 @@ def collect(config, model_id, lineage_run, max_age_seconds=None):
     model_id = str(UUID(model_id))
     fabric = config['fabric']
     auth = fabric['auth']
-    transport = WorkerTransport(auth['python'], auth['tenant_id'], ROOT/'scripts/metadata_worker.py')
+    transport = WorkerTransport(auth['python'], auth['tenant_id'], ROOT/'scripts/metadata_worker.py',authentication=auth)
     connector = PowerBIMetadataConnector(FabricMetadataConnector(fabric['workspace_id'], transport, transport.tables))
     history = connector.get_refresh_history({'id': model_id, 'type': 'SemanticModel'})
     # Retain identifiers and timestamps, not service error payloads or credentials.

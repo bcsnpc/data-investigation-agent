@@ -27,6 +27,8 @@ class SourceReadTimeout(TimeoutError):
 
 
 def read_once(config, request):
+    if config['sql']['auth'].get('mode')=='managed_identity':
+        raise ValueError('MANAGED_IDENTITY_SQL_GUARDED_TRANSPORT_NOT_INSTALLED')
     payload = {'server': config['sql']['server'], 'database': config['sql']['database'],
                'credential_file': config['sql']['auth']['credential_file'],
                'query': request.get('query',''), 'parameters': request.get('parameters',[])}

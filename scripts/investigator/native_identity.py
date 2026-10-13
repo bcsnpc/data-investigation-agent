@@ -27,13 +27,13 @@ def canonical(value):
 def profile(value):
     scope='workspace_ids' if 'workspace_ids' in value else 'model_ids'
     fields(value, ['mode', 'tenant_id', 'account', 'principal_id', scope])
-    if value['mode'] != 'isolated_reader':
+    if value['mode'] not in ('isolated_reader','managed_identity'):
         raise ValueError('Unsupported native reader mode')
     for key in ('tenant_id', 'principal_id'):
         if str(UUID(value[key])) != value[key]:
             raise ValueError('Expected canonical principal identifiers')
     account = value['account']
-    if (not isinstance(account, str) or not 3 <= len(account) <= 254 or account.count('@') != 1
+    if (not isinstance(account, str) or not 3 <= len(account) <= 254 or (value['mode']=='isolated_reader' and account.count('@') != 1)
             or any(c.isspace() or ord(c) < 32 for c in account)):
         raise ValueError('Expected reader account')
     models = value[scope]

@@ -35,7 +35,7 @@ def main():
     from investigator.estate_manifest import policy
     governor=UsageGovernor(Runtime(store,config,None,None),policy(manifest),time.time)
     auth=config['fabric']['auth']
-    transport=WorkerTransport(auth['python'],auth['tenant_id'],ROOT/'scripts/metadata_worker.py')
+    transport=WorkerTransport(auth['python'],auth['tenant_id'],ROOT/'scripts/metadata_worker.py',authentication=auth)
     sql=PowerShellSqlCatalog(ROOT/'infra/scripts/Get-SqlMetadata.ps1',config['sql']['auth']['credential_file'])
     summaries=[]
     for i in range(args.cycles):

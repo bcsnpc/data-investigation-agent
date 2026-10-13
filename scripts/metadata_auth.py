@@ -95,11 +95,15 @@ class MetadataHttp:
 
 class WorkerTransport:
     """Development bridge: isolated CLI virtualenv, structured input, no tokens in output."""
-    def __init__(self, python, tenant, worker):
+    def __init__(self, python, tenant, worker, authentication=None):
         self.python, self.tenant, self.worker = python, tenant, str(worker)
+        self.authentication=authentication
 
     def invoke(self, request):
         request = dict(request, tenant=self.tenant)
+        if self.authentication and self.authentication.get('mode')=='managed_identity':
+            from investigator.adapters.managed_identity import validate
+            request['authentication']=validate({k:self.authentication[k] for k in ('mode','tenant_id','client_id','principal_id')})
         from investigator.physical_reads import run
         result = run([self.python, self.worker], input=json.dumps(request), fallback=subprocess.run,
                                 capture_output=True, text=True, encoding='utf-8', timeout=360)

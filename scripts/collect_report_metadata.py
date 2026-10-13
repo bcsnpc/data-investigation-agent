@@ -62,7 +62,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     config = load_config(args.config)
     auth = config['fabric']['auth']
-    transport = WorkerTransport(auth['python'], auth['tenant_id'], ROOT/'scripts/metadata_worker.py')
+    transport = WorkerTransport(auth['python'], auth['tenant_id'], ROOT/'scripts/metadata_worker.py',authentication=auth)
     fabric = FabricMetadataConnector(config['fabric']['workspace_id'], transport, transport.tables)
     try:
         result = collect(args.database, ReportReader(fabric), args.item)

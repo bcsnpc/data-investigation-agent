@@ -21,6 +21,10 @@ def local_azure_key(settings_path):
         yield
         return
     settings=settings_path if isinstance(settings_path,dict) else json.loads(settings_path.read_text(encoding='utf-8-sig'))
+    if settings.get('mode') in ('managed_identity','key_vault'):
+        from investigator.adapters.managed_identity import model_session
+        with model_session(settings):yield
+        return
     variables=('AZURE_OPENAI_API_KEY','AZURE_OPENAI_ENDPOINT','AZURE_OPENAI_DEPLOYMENT')
     previous={k:os.environ.get(k) for k in variables}
     try:

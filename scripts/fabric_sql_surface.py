@@ -36,6 +36,9 @@ def self_report(config, database, *, token=get_sql_token, run=subprocess.run):
         return {'status': 'UNAVAILABLE', 'reason': 'SQL_READER_NOT_CONFIGURED', 'execution_surface': None,
                 'surface_report': None}
     surface = declared(reader, database)
+    if reader.get('mode')=='managed_identity':
+        return {'status':'UNAVAILABLE','reason':'MANAGED_IDENTITY_SQL_GUARDED_TRANSPORT_NOT_INSTALLED',
+                'execution_surface':surface,'surface_report':None}
     try:
         access = token(config['fabric']['auth']['tenant_id'], reader['account'], reader['profile'])
     except SignInRequired as exc:
@@ -83,6 +86,8 @@ def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
     reader = config['fabric'].get('sql_reader')
     if reader is None:
         raise LowerReadError('setup')
+    if reader.get('mode')=='managed_identity':
+        raise ValueError('MANAGED_IDENTITY_SQL_GUARDED_TRANSPORT_NOT_INSTALLED')
     try:
         access = token(config['fabric']['auth']['tenant_id'], reader['account'], reader['profile'])
     except SignInRequired:
