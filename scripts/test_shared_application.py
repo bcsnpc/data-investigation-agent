@@ -120,5 +120,13 @@ class SharedApplicationTests(unittest.TestCase):
         with closing(sqlite3.connect(self.store.database))as db:
             self.assertIsNone(db.execute("SELECT 1 FROM sqlite_master WHERE name='claim_future_state'").fetchone())
 
+    def test_projected_capture_cannot_reuse_a_previously_constructed_shared_store(self):
+        from investigator.privacy_capture import ACTIVE
+        token=ACTIVE.set(object())
+        try:
+            with self.assertRaisesRegex(StateConflict,'PROJECTED_STATE_NOT_IMPLEMENTED'):
+                with self.store.connect():self.fail('raw shared access')
+        finally:ACTIVE.reset(token)
+
 
 if __name__=='__main__':unittest.main()

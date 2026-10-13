@@ -48,7 +48,13 @@ def enabled(store):
     tape = ACTIVE.get()
     if tape is not None and tape.replaying:
         return not BOOTSTRAP_REPLAY.get() and tape.bootstrap.get('state', {}).get('shared_application') == VERSION
-    return store.__dict__.get('shared_catalog') is not None
+    shared=store.__dict__.get('shared_catalog') is not None
+    if shared:
+        import os
+        from .privacy_capture import ACTIVE as privacy
+        if privacy.get() is not None or os.environ.get('INVESTIGATOR_RECORDING_CLASS','EXACT')!='EXACT':
+            raise StateConflict('POSTGRES_PRIVACY_PROJECTED_STATE_NOT_IMPLEMENTED')
+    return shared
 
 
 def schema(db, table):
