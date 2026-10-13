@@ -1,4 +1,4 @@
-﻿# Round Eighteen — Part D checkpoint
+ï»¿# Round Eighteen â€” Part D checkpoint
 
 Recorded 2026-10-13 UTC. This is the setup/documentation result, not a successful
 estate onboarding or completed cloud demonstration.
@@ -46,3 +46,10 @@ work. Same-tenant client managed identity is the default. The approved test user
 vault cache remains that existing reader; the code-reader Contributor is never a
 quantity identity. Cross-tenant MI federation is documented as a future proposal
 only. No new permission or secret was created by this documentation work.
+
+A later offline [recording-content audit](round-eighteen-recording-content-audit.md)
+expands the earlier samples to the available loose tape JSON and inventory/catalog
+schemas. Its exact coverage and exceptions are recorded there; it does not turn
+schema-only or archive-member inspection into a universal no-bulk claim. Storage
+documentation also now names unenforced screenshot expiry and the remaining
+projected cloud-capture boundaries.
