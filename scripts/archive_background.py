@@ -104,6 +104,8 @@ def run(config,output,client_factory,*,planner=batch,preparer=prepare,publisher=
     mode=config.get('verification_mode','readback')
     if (mode=='block-checksum-v1') != (config['cost_policy'].get('version')==2):
         raise ArtifactError('BACKGROUND_VERIFICATION_COST_POLICY_MISMATCH')
+    if mode=='block-checksum-v1' and not config.get('runtime_reference_paths'):
+        raise ArtifactError('BACKGROUND_CURRENT_RUNTIME_REFERENCES_REQUIRED')
     root=Path(config['workspace']).resolve(strict=True)
     output=Path(output)
     output.mkdir(parents=True,exist_ok=False)
@@ -132,8 +134,15 @@ def run(config,output,client_factory,*,planner=batch,preparer=prepare,publisher=
             if shutil.disk_usage(root).free<10*1024**3:raise ArtifactError('BACKGROUND_DISK_FLOOR')
             projected=admission(config['cost_policy'],stored,controls)
             folder=output/f'batch-{index:04d}';folder.mkdir()
+            runtime_kwargs={}
+            if mode=='block-checksum-v1':
+                from archive_runtime_references import reference_ids
+                runtime=reference_ids(config['runtime_reference_paths'])
+                write_new(folder/'runtime-reference-audit.json',runtime)
+                runtime_kwargs['runtime_reference_ids']=runtime['references']
             manifest=planner(root,cutoff,max_original_bytes=config['max_original_bytes'],
-                             max_files=config['max_files'],protected=config['protected_paths'],skip_paths=skip)
+                             max_files=config['max_files'],protected=config['protected_paths'],skip_paths=skip,
+                             **runtime_kwargs)
             manifest['previous_plans']=list(pins)
             sha=write_new(folder/'source-plan.json',manifest)
             pin={'path':str((folder/'source-plan.json').resolve()),'sha256':sha}
