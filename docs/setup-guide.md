@@ -135,6 +135,12 @@ Use `deployCompute=false` until an immutable image is available; staged deployme
 is not evidence that the worker ran. There is no password parameter. Review the current cost estimate and grant scope
 before creation; do not assume a free allowance applies to an arbitrary client.
 
+For a compute-only update after database provisioning, set `deployPostgres=false`
+and `existingPostgresHost` to the verified server FQDN. The wrapper refuses an
+empty or invalid host. This preserves the database route without reapplying its
+administrator, firewall or database resources; it does not discover or change a
+database identity.
+
 ```powershell
 python scripts/deploy_platform.py --az-python <python-with-azure-cli> --parameters .local/client-platform-parameters.json --receipts .local/deploy-001 --deployment-name client-platform-001
 ```

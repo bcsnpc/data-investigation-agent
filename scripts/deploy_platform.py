@@ -8,6 +8,13 @@ import datetime as dt
 import json
 from pathlib import Path
 import subprocess
+import re
+
+
+def validate_staged_postgres(params):
+    if params.get('deployCompute', False) and not params.get('deployPostgres', True):
+        if not re.fullmatch(r'[a-z0-9-]+\.postgres\.database\.azure\.com', params.get('existingPostgresHost', '')):
+            raise ValueError('COMPUTE_ONLY_REQUIRES_EXPLICIT_POSTGRES_HOST')
 
 
 def main():
@@ -19,6 +26,7 @@ def main():
     p.add_argument('--what-if', action='store_true')
     args = p.parse_args()
     params = json.loads(args.parameters.read_text(encoding='utf-8-sig'))
+    validate_staged_postgres(params)
     if any('password' in k.lower() or 'secret' in k.lower() for k in params):
         raise SystemExit('Credential parameters are forbidden')
     args.receipts.mkdir(parents=True, exist_ok=True)

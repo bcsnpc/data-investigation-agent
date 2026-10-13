@@ -16,6 +16,7 @@ param ownerIp string
 param databaseName string = 'investigator'
 param deployCompute bool = false
 param deployPostgres bool = true
+param existingPostgresHost string = ''
 param workerImage string = ''
 
 resource group 'Microsoft.Resources/resourceGroups@2024-03-01' = {
@@ -42,6 +43,7 @@ module platform './platform.bicep' = {
     databaseName: databaseName
     deployCompute: deployCompute
     deployPostgres: deployPostgres
+    existingPostgresHost: existingPostgresHost
     workerImage: workerImage
   }
 }

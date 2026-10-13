@@ -15,6 +15,7 @@ param ownerIp string
 param databaseName string
 param deployCompute bool
 param deployPostgres bool
+param existingPostgresHost string = ''
 param workerImage string
 
 resource worker 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
@@ -157,7 +158,7 @@ resource job 'Microsoft.App/jobs@2025-01-01' = if (deployCompute) {
           { name: 'DIA_STORAGE_ACCOUNT', value: storage.name }
           { name: 'DIA_KEY_VAULT_URL', value: vault.properties.vaultUri }
           { name: 'INVESTIGATOR_STATE_BACKEND', value: 'postgresql' }
-          { name: 'INVESTIGATOR_PG_HOST', value: deployPostgres ? postgres!.properties.fullyQualifiedDomainName : '' }
+          { name: 'INVESTIGATOR_PG_HOST', value: deployPostgres ? postgres!.properties.fullyQualifiedDomainName : existingPostgresHost }
           { name: 'INVESTIGATOR_PG_DATABASE', value: databaseName }
           { name: 'INVESTIGATOR_PG_USER', value: identityName }
           { name: 'DIA_LIVE_ACCESS_DISABLED', value: '1' }
@@ -172,5 +173,5 @@ output managedIdentityClientId string = worker.properties.clientId
 output managedIdentityPrincipalId string = worker.properties.principalId
 output storageAccountName string = storage.name
 output vaultUri string = vault.properties.vaultUri
-output postgresHost string = deployPostgres ? postgres!.properties.fullyQualifiedDomainName : ''
+output postgresHost string = deployPostgres ? postgres!.properties.fullyQualifiedDomainName : existingPostgresHost
 output databaseName string = databaseName
