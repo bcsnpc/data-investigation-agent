@@ -43,6 +43,7 @@ def propose(*,estate,owner,code,definition_hash,source_id,observed_at,nodes,prod
         seen.add(identity)
         edges.append(c.edge(identity,owner,item['kind'],item['source'],item['target'],proof,
             confidence='INFERRED',properties={'explanation':item['explanation'],'quote':item['quote'],
-                'completeness':'NOT_ESTABLISHED','semantic_correctness':'NOT_ESTABLISHED'}))
+                'completeness':'NOT_ESTABLISHED','semantic_correctness':'NOT_ESTABLISHED',
+                'execution_established':False,'deployment_binding':'NOT_ESTABLISHED'}))
     return {'edges':edges,'coverage':'INCOMPLETE','unknown':{'reason':'A code proposal does not establish complete dependencies.',
         'remedy':'Verify each proposed edge with scope-bound queries and retain any unresolved static gaps.'}}

@@ -93,7 +93,8 @@ def attach_scripts(graph,parent,activity,index,proof):
         for label,inputs in projected:
             output=code_column(root,label,at)
             graph.link('DERIVED_IN_STEP',output,step,at)
-            for source in sorted(inputs):graph.link('COMPUTED_FROM',output,source,at)
+            for source in sorted(inputs):graph.link('COMPUTED_FROM',output,source,at,
+                properties={'execution_established':False,'deployment_binding':'DECLARED_ACTIVITY_SCRIPT_NOT_OBSERVED_DEPLOYMENT'})
         for offset,(clause,inputs) in enumerate(conditions):
             join=isinstance(clause,exp.Join)
             operation=graph.add('QUERY_STEP' if join else 'FILTER','Declared SQL join' if join else 'Declared SQL filter',

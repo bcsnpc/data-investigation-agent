@@ -91,6 +91,10 @@ class GraphBindingTests(unittest.TestCase):
         result,resolver=self.prepare();self.assertEqual(result['verification']['status'],'FALSIFIED')
         self.assertEqual(len(self.ledger.records()),1)
         with self.assertRaisesRegex(ValueError,'PROFILE_NOT_VERIFIED'):resolver(result['evidence_id'])
+    def test_authoring_only_code_is_not_promoted_by_equal_profile_values(self):
+        result,resolver=self.prepare()
+        resolver.graph['edges'][-1]['properties'].update(execution_established=False,deployment_binding='NOT_ESTABLISHED')
+        with self.assertRaisesRegex(ValueError,'READER_OBSERVED_DEPLOYMENT_REQUIRED'):resolver(result['evidence_id'])
     def test_no_physical_meter_refuses_before_query(self):
         self.process.meter_read=None
         with self.assertRaisesRegex(ValueError,'METER_REQUIRED'):self.prepare()

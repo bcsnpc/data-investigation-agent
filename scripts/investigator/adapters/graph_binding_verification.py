@@ -71,6 +71,8 @@ class BindingVerificationResolver(VerificationResolver):
         edges=[e for e in self.graph['edges'] if e['id']==edge_id]
         if len(edges)!=1:raise ValueError('GRAPH_BINDING_EDGE_NOT_UNIQUE')
         edge=edges[0];c.record(edge,edge=True)
+        if edge['properties'].get('execution_established') is False:
+            raise ValueError('GRAPH_BINDING_READER_OBSERVED_DEPLOYMENT_REQUIRED')
         if edge['confidence']=='UNKNOWN' or edge['kind'] not in ('COMPUTED_FROM','DERIVED_IN_STEP'):
             raise ValueError('GRAPH_BINDING_EDGE_KIND_UNSUPPORTED')
         output=self._column(proposal['target']['table'],proposal['target']['column'])
