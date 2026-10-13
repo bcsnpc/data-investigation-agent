@@ -75,15 +75,9 @@ class ReplayUsage(SharedUsage):
         self.owners = {}
         workspace = marker.get('version') == WORKSPACE_VERSION
         if workspace:
-            if (set(marker) != {'version', 'owner', 'baseline_owners'}
-                    or not isinstance(marker['owner'], str) or not marker['owner']
-                    or not isinstance(marker['baseline_owners'], list)):
-                raise TapeError('TAPE_SHARED_USAGE_CONTRACT_DIFFERS')
+            validate_workspace(marker)
             for row in marker['baseline_owners']:
-                if not isinstance(row, list) or len(row) != 3 or any(not isinstance(v, str) or not v for v in row):
-                    raise TapeError('TAPE_SHARED_USAGE_OWNER_INVALID')
                 key = tuple(row[:2])
-                if key in self.owners:raise TapeError('TAPE_SHARED_USAGE_OWNER_DUPLICATE')
                 self.owners[key] = row[2]
             self.sessions = None
             owner = marker['owner']

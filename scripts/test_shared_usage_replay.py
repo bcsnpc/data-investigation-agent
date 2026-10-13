@@ -30,6 +30,35 @@ def perform(b,work,catalog,live):
 
 
 class SharedUsageReplayTests(unittest.TestCase):
+    def test_workspace_replay_cannot_settle_foreign_reserved_usage(self):
+        from types import SimpleNamespace
+        from investigator.shared_usage import SharedUsage
+        from investigator.shared_usage_replay import capture_backend, ReplayUsage
+        from investigator.usage_governance import UsageHold
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            runtime = Catalog(root / 'catalog.sqlite', 'estate')
+            policy = {'environment': 'estate', 'daily_limits': {
+                'planner_calls': 20, 'cloud_calls': 2,
+                'input_characters': 100000, 'output_tokens': 30000},
+                'max_inflight_planners': 1, 'no_progress_limit': 2}
+            governor = UsageGovernor(runtime, policy, lambda: 172799.0)
+            state = SharedState.offline(root / 'shared.sqlite');state.migrate()
+            with runtime.db() as local:
+                import_usage(state, 'baseline', export_usage(local, 'estate', policy, None))
+            governor.shared = SharedUsage(governor, state, owner='other-worker')
+            with runtime.db() as local:
+                governor.reserve(local, 'foreign', 'pending', 'cloud')
+            governor.shared = SharedUsage(governor, state, owner='this-worker')
+            marker = capture_backend(governor)
+            tape = SimpleNamespace(replaying=True, bootstrap={'state': {'shared_usage_replay': marker}},
+                                   budget_owned_sessions={'foreign'})
+            replayed = ReplayUsage(governor, tape)
+            with runtime.db() as local:
+                with self.assertRaisesRegex(UsageHold, 'owner differs'):
+                    replayed.settle(local, 'foreign', 'pending')
+                self.assertEqual(local.execute('SELECT status FROM adaptive_usage').fetchone()[0], 'RESERVED')
+
     def test_cloud_single_clock_algorithm_replays_success_failure_and_cap(self):
         for fail in (False, True):
             with self.subTest(fail=fail), tempfile.TemporaryDirectory() as folder:
