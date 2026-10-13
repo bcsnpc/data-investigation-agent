@@ -63,7 +63,8 @@ class Capture:
    if baseline.execute('SELECT count(*) FROM adaptive_usage WHERE environment=? AND session_id IN (?,?)',(environment,session,session+':prewarm-controls')).fetchone()[0]:raise ValueError('VERIFIER_SESSION_ALREADY_USED')
   audit(program);shutil.copyfile(program,self.root/'verification_program.py');members['verification_program.py']=sha(self.root/'verification_program.py')
   shutil.copyfile(Path(__file__),self.root/'code_verifier_capture.py');members['code_verifier_capture.py']=sha(self.root/'code_verifier_capture.py')
-  revision=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+  from investigator.source_revision import committed_revision
+  revision=committed_revision()
   if profile_member is not None and profile_member not in files:raise ValueError('VERIFIER_PROFILE_BASELINE_REQUIRED')
   state={'profile_member':profile_member,'capture_contract':CONTRACT,'engine_revision':revision,'environment':environment,'inputs':inputs,'members':members,'database_members':sorted(databases),'native_path_identities':identities,'budget_checkpoint':'DELTA_V2','snapshot_clock':'ONE_CLOCK_V1'}
   # Execute exactly the serialized representation replay will consume. Mapping

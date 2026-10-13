@@ -106,15 +106,9 @@ class Tape:
             self.engine_revision=None
             if self.version in PINNED_VERSIONS and (bootstrap['entry_point']=='workspace'
                     or self.version in CODE_VERSIONS and bootstrap['entry_point'] in ('code_reader','code_verifier')):
-                import subprocess
-                root=Path(__file__).resolve().parents[2]
-                from .runtime import FINGERPRINT_TRANSPORTS
-                from .worker_launch import options
-                scope=['scripts/investigator',*FINGERPRINT_TRANSPORTS]
-                launch=options({'cwd':root,'text':True})
-                dirty=subprocess.check_output(['git','status','--porcelain','--untracked-files=all','--',*scope],**launch)
-                if dirty.strip():raise TapeError('TAPE_UNCOMMITTED_ENGINE')
-                self.engine_revision=subprocess.check_output(['git','rev-parse','HEAD'],**launch).strip()
+                from .source_revision import committed_revision
+                try:self.engine_revision=committed_revision()
+                except ValueError as exc:raise TapeError(str(exc)) from exc
             self.event('BOOTSTRAP',bytes_of(bootstrap))
 
     def flush(self):

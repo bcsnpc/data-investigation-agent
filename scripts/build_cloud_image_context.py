@@ -30,6 +30,9 @@ def stage(repo, destination):
     if destination.exists():
         raise ValueError('BUILD_CONTEXT_MUST_BE_NEW')
     names = subprocess.check_output(['git', 'ls-files', '-z'], cwd=repo).decode().split('\0')
+    revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+    dirty=subprocess.check_output(['git','status','--porcelain','--untracked-files=all'],cwd=repo,text=True)
+    if dirty.strip():raise ValueError('BUILD_REQUIRES_CLEAN_COMMITTED_SOURCE')
     entries = []
     for name in names:
         if not name or not admitted(name): continue
@@ -42,7 +45,7 @@ def stage(repo, destination):
         entries.append({'path': name, 'sha256': hashlib.sha256(target.read_bytes()).hexdigest()})
     if not (destination / 'infra/cloud-worker/Dockerfile').is_file():
         raise ValueError('TRACKED_DOCKERFILE_REQUIRED')
-    (destination / 'image-source-manifest.json').write_text(json.dumps({'version': 1, 'files': entries}, indent=2) + '\n')
+    (destination / 'image-source-manifest.json').write_text(json.dumps({'version': 2, 'engine_revision':revision, 'files': entries}, indent=2) + '\n')
     print(json.dumps({'files': len(entries), 'context': str(destination), 'private_artifacts': 0}))
 
 
