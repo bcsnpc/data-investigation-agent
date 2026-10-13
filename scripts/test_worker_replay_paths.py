@@ -36,6 +36,26 @@ class PortableWorkerTests(unittest.TestCase):
                 value = tape_worker.descriptor(command)
             self.assertEqual(value, ['python', 'reader.py'] if replaying else command)
 
+    def test_first_mismatch_is_retained_when_error_handling_raises_another(self):
+        expected=process_tape.bytes_of({'command':['python','expected.py']})
+        tape=process_tape.Tape.__new__(process_tape.Tape)
+        tape.replaying=True;tape.index=0
+        tape.events=[{'ordinal':1,'kind':'WORKER_START','at':0,'body':base64.b64encode(expected).decode(),
+                     'sha256':process_tape.sha(expected)},
+                    {'ordinal':2,'kind':'WORKER_SEND','at':0,'body':base64.b64encode(b'payload').decode(),
+                     'sha256':process_tape.sha(b'payload')}]
+        actual=process_tape.bytes_of({'command':['python','wrong.py']});private=[]
+        with helper.first_tape_error(process_tape,private):
+            with self.assertRaisesRegex(process_tape.TapeError,'REQUEST_BYTES_DIFFER'):
+                tape.event('WORKER_START',actual)
+            with self.assertRaisesRegex(process_tape.TapeError,'CLOCK:WORKER_SEND'):
+                tape.event('CLOCK',b'irrelevant')
+        self.assertEqual(len(private),1)
+        self.assertEqual(private[0]['reason'],'TAPE_REQUEST_BYTES_DIFFER')
+        self.assertEqual(private[0]['index_before'],0);self.assertEqual(private[0]['index_after'],1)
+        self.assertEqual(base64.b64decode(private[0]['actual_body_base64']),actual)
+        self.assertEqual(base64.b64decode(private[0]['recorded_body_base64']),expected)
+
     def test_worker_event_bytes_remain_exact_after_portable_descriptor(self):
         # No comparison policy changes: different commands/queries still fail.
         self.assertNotEqual(process_tape.bytes_of(tape_worker.descriptor(['python', 'a.py'])),

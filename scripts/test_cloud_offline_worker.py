@@ -52,6 +52,12 @@ class CloudOfflineWorkerTests(unittest.TestCase):
             self.assertNotIn('secret-bearing', str(result))
             self.assertEqual(result['rows'][0]['error_type'], 'ValueError')
             self.assertEqual(private, [{'id': 'one', 'error_type': 'ValueError', 'reason': 'secret-bearing native failure'}])
+            error=ValueError('masked');error.private_replay_diagnostics=[{'reason':'private first mismatch'}]
+            private=[]
+            result=replay({'version':1,'entries':[entry]},root,root/'out',0,8,
+                          Mock(side_effect=error),private_failures=private)
+            self.assertNotIn('private first mismatch',str(result))
+            self.assertEqual(private[0]['first_tape_errors'][0]['reason'],'private first mismatch')
             private = []
             result = replay({'version': 1, 'entries': [entry]}, root, root / 'out', 0, 8,
                             Mock(return_value={'matched': False, 'detail': 'private mismatch body'}), private_failures=private)

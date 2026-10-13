@@ -31,3 +31,33 @@ def install(journal):
         return original(command)
     with patch.object(tape_worker, 'descriptor', descriptor):
         yield
+
+
+@contextmanager
+def first_tape_error(journal, diagnostics):
+    """Retain the original mismatch even if engine recovery masks it later.
+
+    Only the separate private replay diagnostics receive these bytes. This is
+    observation, not normalization: the original exception is always re-raised.
+    """
+    import base64
+    import traceback
+    original = journal.Tape.event
+    def event(self, kind, body=None):
+        index = self.index
+        expected = self.events[index] if index < len(self.events) else None
+        try:
+            return original(self, kind, body)
+        except journal.TapeError as error:
+            if not diagnostics:
+                detail = {'error_type': type(error).__name__, 'reason': str(error),
+                          'requested_kind': kind, 'index_before': index, 'index_after': self.index,
+                          'recorded_kind': expected['kind'] if expected else None,
+                          'traceback': traceback.format_exc()}
+                if kind == 'WORKER_START':
+                    detail['actual_body_base64'] = base64.b64encode(body or b'').decode()
+                    detail['recorded_body_base64'] = expected.get('body') if expected else None
+                diagnostics.append(detail)
+            raise
+    with patch.object(journal.Tape, 'event', event):
+        yield

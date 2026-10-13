@@ -69,7 +69,8 @@ def replay(manifest, evidence, output, shard, shards, executor, *, private_failu
             row['error_type'] = type(exc).__name__
             if private_failures is not None:
                 private_failures.append({'id': entry['id'], 'error_type': type(exc).__name__,
-                                         'reason': str(exc)})
+                                         'reason': str(exc), **({'first_tape_errors': exc.private_replay_diagnostics}
+                                             if hasattr(exc, 'private_replay_diagnostics') else {})})
         rows.append(row)
     return {'mode': 'SEALED_REPLAY', 'shard': shard, 'shards': shards, 'count': len(rows),
             'matched': sum(row['matched'] for row in rows), 'network_requests': 0,

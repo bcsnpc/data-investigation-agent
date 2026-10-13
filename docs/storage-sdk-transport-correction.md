@@ -49,3 +49,10 @@ Each fully verified Archive object can now be checkpointed. The CLI fsyncs these
 to `<output>.progress.jsonl` before attempting the next object. These rows preserve
 completed work on a later failure; they are not automatically trusted resume
 instructions, nor permission to overwrite, delete or accept an incomplete file.
+
+The engine identity-producer ratchet now explicitly admits only
+`adapters/guarded_transport.py` as another private correlation namespace. It is
+not disguised through an alternate randomness API. A regression runs an SDK
+request while an engine tape is active: the platform journal identifier consumes
+no engine identity, emits no tape event and is absent from the SDK result. This
+keeps control receipt IDs independent without weakening deterministic result IDs.

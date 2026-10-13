@@ -37,6 +37,7 @@ root=Path(__file__).parent
 sys.path[:0]=[str(root/'scripts'),str(root/'acceptance/unknown_domain')]
 def refused(*a,**k):raise RuntimeError('NETWORK_FORBIDDEN')
 socket.create_connection=refused;socket.socket.connect=refused
+first_errors=[]
 try:
  from investigator import process_tape as journal
  spec=importlib.util.spec_from_file_location('budget_tape_contract',sys.argv[5])
@@ -52,12 +53,12 @@ try:
  worker_spec=importlib.util.spec_from_file_location('worker_replay',sys.argv[10])
  worker=importlib.util.module_from_spec(worker_spec);worker_spec.loader.exec_module(worker)
  tape=journal.Tape(sys.argv[1])
- with worker.install(journal),catalog.install(process_replay),lineage.install(process_replay,tape,sys.argv[8] or None):
+ with worker.first_tape_error(journal,first_errors),worker.install(journal),catalog.install(process_replay),lineage.install(process_replay,tape,sys.argv[8] or None):
   result=process_replay.replay(sys.argv[1],sys.argv[2],allow_engine_drift=True)
  result['replay_engine_revision']=sys.argv[3]
  Path(sys.argv[4]).write_text(json.dumps({'result':result}))
 except Exception as exc:
- Path(sys.argv[4]).write_text(json.dumps({'error_type':type(exc).__name__,'reason':str(exc)}))
+ Path(sys.argv[4]).write_text(json.dumps({'error_type':type(exc).__name__,'reason':str(exc),'first_tape_errors':first_errors}))
  raise SystemExit(1)
 """, encoding='utf-8')
         answer = root / 'answer.json'
@@ -68,6 +69,8 @@ except Exception as exc:
         value = json.loads(answer.read_text())
         if 'result' not in value:
             from investigator.process_tape import TapeError
-            raise TapeError(value.get('reason', 'PINNED_REPLAY_FAILED'))
+            error=TapeError(value.get('reason', 'PINNED_REPLAY_FAILED'))
+            error.private_replay_diagnostics=value.get('first_tape_errors',[])
+            raise error
         value['result']['replay_accounting_version']=accounting_version
         return value['result']

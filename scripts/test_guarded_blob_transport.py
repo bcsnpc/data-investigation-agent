@@ -79,6 +79,19 @@ class Tests(unittest.TestCase):
         records=self.records();self.assertEqual(records[-1]['error_type'],'ConnectionResetError')
         self.assertEqual(records[0]['phase'],'DISPATCHED');self.assertNotIn('secret-body',self.receipts.read_text())
 
+    def test_platform_correlation_id_does_not_enter_engine_tape_or_result(self):
+        from investigator import process_tape
+        from types import SimpleNamespace
+        # The only capture interaction allowed is none: control identity belongs
+        # to the private HTTP journal, not deterministic investigation evidence.
+        tape=SimpleNamespace(replaying=False,event=lambda *args: self.fail('control entered tape'))
+        wire=Wire();client=self.client(wire)
+        with process_tape.active(tape), patch.object(process_tape,'uuid4',side_effect=AssertionError('engine identity consumed')):
+            result=client.upload_blob(b'private-evidence',overwrite=False)
+        identifier=self.records()[0]['id']
+        self.assertNotIn(identifier,str(result))
+        self.assertEqual(len(wire.sent),1)
+
     def test_redirect_target_needs_its_own_permission(self):
         # RedirectPolicy/StorageHosts may issue another send; the final transport
         # sees that exact URL, not just the URL initially passed into the SDK.

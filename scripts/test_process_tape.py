@@ -584,8 +584,11 @@ print(json.dumps({'status':'AVAILABLE','quantity':7}),flush=True)
         # producer do not create engine result identities. Their boundaries
         # are explicit; all other producers must use the common source.
         private={'process_tape.py','run_recording.py','planner_recording.py','physical_reads.py'}
+        # Platform HTTP journal correlation IDs never enter an engine event/result.
+        # test_guarded_blob_transport proves that boundary under an active tape.
+        private_paths={'adapters/guarded_transport.py'}
         for path in root.rglob('*.py'):
-            if path.name in private:continue
+            if path.name in private or path.relative_to(root).as_posix() in private_paths:continue
             tree=ast.parse(path.read_text(encoding='utf-8-sig'))
             for node in ast.walk(tree):
                 if isinstance(node,ast.ImportFrom) and node.module=='uuid':
