@@ -100,4 +100,14 @@ class GraphBindingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'METER_REQUIRED'):self.prepare()
         self.assertEqual(self.budget.count,0)
 
+    def test_report_predicates_cannot_be_smuggled_into_binding_sample(self):
+        # The existing route earns sample verification only. It does not accept
+        # a report-context scope or silently drop extra saved predicates.
+        sample={**self.sample,'active_restrictions':[{'column':'region','operator':'EQ','value':'North'}]}
+        with self.assertRaises(Exception):
+            verify_binding(self.binding,route=self.route,sample=sample,budget=self.budget,ledger=self.ledger)
+        self.assertEqual(self.budget.count,0)
+        self.assertEqual(self.db.execute('SELECT COUNT(*) FROM flexible_diagnostics').fetchone()[0],0)
+        self.assertEqual(self.ledger.records(),[])
+
 if __name__=='__main__':unittest.main()

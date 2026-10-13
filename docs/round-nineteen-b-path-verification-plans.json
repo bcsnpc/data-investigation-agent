@@ -1,0 +1,445 @@
+{
+  "version": 1,
+  "mode": "OFFLINE_PLAN_ONLY",
+  "observed_state": "retained Round Nineteen catalogs; not a fresh scan",
+  "physical_requests_admitted": 0,
+  "plans": [
+    {
+      "estate": "fixture",
+      "target": {
+        "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/visual/definition%2Fpages%2F0f86b2ef08bcd78983f1%2Fvisuals%2Fe1b0664f78b177987b3a%2Fvisual.json",
+        "kind": "ReportVisual",
+        "name": "e1b0664f78b177987b3a",
+        "retained_content_hash": "db21c75c97692711f4be439831564d8b02387c1d6c730cf5514990de3e1ade37",
+        "metadata_sha256": "db21c75c97692711f4be439831564d8b02387c1d6c730cf5514990de3e1ade37"
+      },
+      "page": {
+        "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/95b6d455-9150-4738-983d-ca6e7e0f3719/page/0f86b2ef08bcd78983f1",
+        "kind": "ReportPage",
+        "name": "Six active predicates",
+        "retained_content_hash": "984a56d62ef1a49825c3b956d885dfd02ddc6e9d7ec56c815f7f688d9ed198b4",
+        "metadata_sha256": "984a56d62ef1a49825c3b956d885dfd02ddc6e9d7ec56c815f7f688d9ed198b4"
+      },
+      "measure": {
+        "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/measures/Handled%20Quantity",
+        "kind": "Measure",
+        "name": "Handled Quantity",
+        "retained_content_hash": "cb8ae306e95a996a2eba0a0ffdbb40d5bbc3ce13de43ff63d3dd74259d7dd039",
+        "metadata_sha256": "cb8ae306e95a996a2eba0a0ffdbb40d5bbc3ce13de43ff63d3dd74259d7dd039",
+        "expression": "SUM('Activity'[units])"
+      },
+      "scope": {
+        "kind": "FULL_DECLARED_REPORT_CONTEXT_REQUIRED",
+        "retained_page_filters": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Activity"
+                  }
+                },
+                "Property": "warehouse_id"
+              }
+            },
+            "filter": {
+              "From": [
+                {
+                  "Entity": "Activity",
+                  "Name": "s",
+                  "Type": 0
+                }
+              ],
+              "Version": 2,
+              "Where": [
+                {
+                  "Condition": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "s"
+                              }
+                            },
+                            "Property": "warehouse_id"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "1L"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "howCreated": "User",
+            "name": "warehouse",
+            "type": "Categorical"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Activity"
+                  }
+                },
+                "Property": "product_id"
+              }
+            },
+            "filter": {
+              "From": [
+                {
+                  "Entity": "Activity",
+                  "Name": "s",
+                  "Type": 0
+                }
+              ],
+              "Version": 2,
+              "Where": [
+                {
+                  "Condition": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "s"
+                              }
+                            },
+                            "Property": "product_id"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "1L"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "howCreated": "User",
+            "name": "product",
+            "type": "Categorical"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Activity"
+                  }
+                },
+                "Property": "movement_type"
+              }
+            },
+            "filter": {
+              "From": [
+                {
+                  "Entity": "Activity",
+                  "Name": "s",
+                  "Type": 0
+                }
+              ],
+              "Version": 2,
+              "Where": [
+                {
+                  "Condition": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "s"
+                              }
+                            },
+                            "Property": "movement_type"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'RECEIPT'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "howCreated": "User",
+            "name": "type",
+            "type": "Categorical"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Activity"
+                  }
+                },
+                "Property": "event_day"
+              }
+            },
+            "filter": {
+              "From": [
+                {
+                  "Entity": "Activity",
+                  "Name": "s",
+                  "Type": 0
+                }
+              ],
+              "Version": 2,
+              "Where": [
+                {
+                  "Condition": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "s"
+                              }
+                            },
+                            "Property": "event_day"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'2026-09-15'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "howCreated": "User",
+            "name": "day",
+            "type": "Categorical"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Locations"
+                  }
+                },
+                "Property": "warehouse_name"
+              }
+            },
+            "filter": {
+              "From": [
+                {
+                  "Entity": "Locations",
+                  "Name": "s",
+                  "Type": 0
+                }
+              ],
+              "Version": 2,
+              "Where": [
+                {
+                  "Condition": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "s"
+                              }
+                            },
+                            "Property": "warehouse_name"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'North'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "howCreated": "User",
+            "name": "warehouse_name",
+            "type": "Categorical"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Items"
+                  }
+                },
+                "Property": "product_name"
+              }
+            },
+            "filter": {
+              "From": [
+                {
+                  "Entity": "Items",
+                  "Name": "s",
+                  "Type": 0
+                }
+              ],
+              "Version": 2,
+              "Where": [
+                {
+                  "Condition": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "s"
+                              }
+                            },
+                            "Property": "product_name"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'Component 1'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "howCreated": "User",
+            "name": "product_name",
+            "type": "Categorical"
+          }
+        ],
+        "must_also_inventory_report_visual_and_slicer_declarations": true
+      },
+      "admissible": false,
+      "blockers": [
+        {
+          "code": "FILTER_SCOPE_NOT_REPRESENTABLE_BY_BINDING_SAMPLE",
+          "reason": "BindingVerificationRoute passes only one KEY_RANGE or DATE_WINDOW sample to compile_quantity; no full active restriction inventory is accepted.",
+          "source": "scripts/investigator/adapters/binding_verification.py:compile"
+        },
+        {
+          "code": "VISUAL_AND_MEASURE_EDGE_PRODUCER_UNIMPLEMENTED",
+          "reason": "BindingVerificationResolver only attaches sealed column profiles to COMPUTED_FROM/DERIVED_IN_STEP exact-column edges. It cannot verify visual-to-measure or measure-to-column edges.",
+          "source": "scripts/investigator/adapters/graph_binding_verification.py:BindingVerificationResolver"
+        },
+        {
+          "code": "FRESH_GRAPH_AND_CONTEXT_REQUIRED",
+          "reason": "The archived model dependency gap remains UNKNOWN. A new scanner result must be pinned and inspected before constructing a current path."
+        }
+      ]
+    },
+    {
+      "estate": "billing",
+      "target": {
+        "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/e995a2cf-7748-45f7-bde1-47510ddc509a/visual/definition%2Fpages%2Fc9b267726b645332927d%2Fvisuals%2Fe8b8215afb445128b3d8%2Fvisual.json",
+        "kind": "ReportVisual",
+        "name": "e8b8215afb445128b3d8",
+        "retained_content_hash": "642bf5f9dc480557efd68b1ee55e0d6ed2e33d8658498134a4d8df6e5e594997",
+        "metadata_sha256": "642bf5f9dc480557efd68b1ee55e0d6ed2e33d8658498134a4d8df6e5e594997"
+      },
+      "measure": {
+        "asset_id": "fabric://7d67bb36-04f6-4182-95aa-da5d515248fa/c6c1091c-3bde-46ca-94fc-58f62d1e4188/table/Billing/measures/MRR%20All%20Plans",
+        "kind": "Measure",
+        "name": "MRR All Plans",
+        "retained_content_hash": "9c8c12c7288086825a87bdd15dcd0e4c4d71cb80da05eced36d4885aae18f277",
+        "metadata_sha256": "9c8c12c7288086825a87bdd15dcd0e4c4d71cb80da05eced36d4885aae18f277",
+        "expression": "CALCULATE(SUMX(FILTER(Subscriptions, Subscriptions[status] = \"ACTIVE\"), RELATED(Plans[monthly_price])), REMOVEFILTERS(Plans))"
+      },
+      "partition_sources": [
+        {
+          "table": "Plans",
+          "partitions": [
+            {
+              "mode": "directLake",
+              "name": "Plans",
+              "source": {
+                "entityName": "plans",
+                "expressionSource": "BillingServingSource",
+                "schemaName": "gold",
+                "type": "entity"
+              }
+            }
+          ]
+        },
+        {
+          "table": "Subscriptions",
+          "partitions": [
+            {
+              "mode": "directLake",
+              "name": "Subscriptions",
+              "source": {
+                "entityName": "subscriptions",
+                "expressionSource": "BillingServingSource",
+                "schemaName": "gold",
+                "type": "entity"
+              }
+            }
+          ]
+        }
+      ],
+      "admissible": false,
+      "blockers": [
+        {
+          "code": "MRR_PROCEDURE_HOP_NOT_OBSERVED",
+          "reason": "Retained interpreter tasks describe invoice procedures/recipes, not a producer for gold.subscriptions or gold.plans. No such MRR procedure hop is reader-observed."
+        },
+        {
+          "code": "AUTHORING_ONLY_DEFINITION_NOT_DEPLOYMENT",
+          "reason": "The two retained distinct procedure recipes state they are fixture-authoring code, not executed or asserted deployed; execution_established remains false."
+        },
+        {
+          "code": "VISUAL_AND_MEASURE_EDGE_PRODUCER_UNIMPLEMENTED",
+          "reason": "The installed binding-profile resolver does not verify the visual/measure semantics, iterator, relationship lookup, or REMOVEFILTERS effect."
+        }
+      ]
+    }
+  ]
+}
