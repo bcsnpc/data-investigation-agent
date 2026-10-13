@@ -1,4 +1,4 @@
-import json
+﻿import json
 import sqlite3
 import tempfile
 import unittest
@@ -64,7 +64,7 @@ class SharedUsageReplayTests(unittest.TestCase):
                 self.assertTrue(result['matched'])
                 self.assertEqual(result['status'], final['status'])
                 if not fail:
-                    self.assertEqual(result['result']['refusal'], 'Rolling read allowance exhausted')
+                    self.assertEqual(result['result']['refusal'], 'Rolling 24-hour read allowance exhausted')
 
     def test_replay_marker_cannot_claim_an_existing_session(self):
         from investigator.shared_usage_replay import declaration
@@ -75,3 +75,4 @@ class SharedUsageReplayTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
