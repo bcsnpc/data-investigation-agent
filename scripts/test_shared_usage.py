@@ -23,6 +23,35 @@ class SharedReadBudgetTests(read_budget_tests.ReadBudgetTests):
         self.proof=import_usage(self.state,'initial',source)
         self.g.shared=SharedUsage(self.g,self.state,owner='worker-one')
 
+    def test_atomic_competing_requests_cannot_overrun(self):
+        # Real workers share PostgreSQL, never their private SQLite mirrors.
+        # The inherited legacy test holds one SQLite BEGIN IMMEDIATE during
+        # network transactions; its local 5-second timeout hides PG concurrency.
+        workers=[]
+        for number in range(8):
+            catalog=Catalog(self.folder/('worker-'+str(number)+'.sqlite'),'estate')
+            governor=UsageGovernor(catalog,self.policy,lambda:self.now)
+            governor.shared=SharedUsage(governor,self.state,owner='worker-'+str(number))
+            workers.append((catalog,governor))
+        self.assertEqual(len({str(c.path) for c,_ in workers}),8)
+        def attempt(number):
+            catalog,governor=workers[number]
+            try:
+                with catalog.db() as local:
+                    governor.reserve(local,'worker-'+str(number),'one','cloud')
+                return 'ADMITTED'
+            except UsageHold:return 'HELD'
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            results=list(pool.map(attempt,range(8)))
+        self.assertEqual(results.count('ADMITTED'),2)
+        self.assertEqual(results.count('HELD'),6)
+        snapshot=self.g.snapshot()
+        self.assertEqual(snapshot['read_allowance']['ordinary_charged'],2)
+        self.assertEqual(snapshot['reservation_states'],{'RESERVED':2})
+        with self.state.transaction() as db:
+            owners=self.state.sql(db,'SELECT owner FROM state_usage WHERE environment=?',('estate',)).fetchall()
+        self.assertEqual(len({row[0] for row in owners}),2)
+
     def test_legacy_rows_count_without_rewriting(self):
         # Legacy means imported history, not deletion from a reporting mirror.
         legacy=Catalog(self.folder/'legacy.sqlite','legacy')

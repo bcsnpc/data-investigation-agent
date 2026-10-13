@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 import sys
 import tempfile
-from threading import Thread
+from concurrent.futures import ThreadPoolExecutor
 import unittest
 
 from read_budget import Catalog
@@ -46,14 +46,15 @@ class ReadBudgetTests(unittest.TestCase):
         with self.runtime.db() as db:self.assertEqual(tuple(db.execute('SELECT * FROM adaptive_usage').fetchone()),before)
 
     def test_atomic_competing_requests_cannot_overrun(self):
-        errors=[]
         def attempt(i):
-            try:self.reserve(str(i))
-            except UsageHold:errors.append(i)
-        threads=[Thread(target=attempt,args=(i,)) for i in range(8)]
-        for t in threads:t.start()
-        for t in threads:t.join()
-        self.assertEqual(len(errors),6)
+            try:self.reserve(str(i));return 'ADMITTED'
+            except UsageHold:return 'HELD'
+        # Future.result propagates unexpected worker errors. They must never
+        # disappear into warnings or be counted as a legitimate budget hold.
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            results=list(pool.map(attempt,range(8)))
+        self.assertEqual(results.count('HELD'),6)
+        self.assertEqual(results.count('ADMITTED'),2)
         self.assertEqual(self.g.snapshot()['read_allowance']['ordinary_charged'],2)
 
     def test_batch_is_separate_scoped_expiring_and_earmarked(self):
