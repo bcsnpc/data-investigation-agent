@@ -321,6 +321,17 @@ def model_request(request):
 
 def authorize_sql_payload(payload):
     identity=os.environ.get('DIA_GATEWAY_SQL_IDENTITY','')
+    from .adapters.binding_catalog import compiled_control_objects
+    catalog_objects=compiled_control_objects(payload)
+    if catalog_objects is not None:
+        gateway=current()
+        gateway.sql_control(identity,payload['server'],payload['database'],'CATALOG')
+        # Reuse normal connection/object/row/time admission; SELECT 1 has no
+        # additional object authority. Only the exact compiler shape above can
+        # use catalog views, and all user-object permission guards remain.
+        gateway.sql(identity,payload['server'],payload['database'],'SELECT 1',
+            objects=catalog_objects,max_rows=payload['max_rows'],timeout=30)
+        return {**payload,'require_read_only':True,'read_only_objects':catalog_objects}
     admission=current().sql(identity,payload['server'],payload['database'],payload['query'],
         objects=payload.get('read_only_objects'),max_rows=payload.get('max_rows',1),timeout=30)
     return {**payload,'require_read_only':True,'read_only_objects':admission['objects']}

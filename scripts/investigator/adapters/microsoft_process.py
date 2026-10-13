@@ -60,7 +60,7 @@ class MicrosoftProcessAdapter:
                 'declared_context_reproduction','declared_filter_effects'}
         if self.judge_definition is not None:result.add('transformation_definition')
         if self.read_ingestion is not None:result.add('ingestion')
-        if (self.lower_surface or {}).get('status')=='READY' and self.execute_lower is not None:
+        if (self.lower_surface or {}).get('status') in ('READY','CONFIGURED') and self.execute_lower is not None:
             result.add('independent_lower_surface')
         if self.read_failure_detail is not None:result.add('failure_detail')
         if self.read_refresh_timing is not None:result.add('refresh_timing')

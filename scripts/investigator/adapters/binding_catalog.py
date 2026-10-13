@@ -70,6 +70,27 @@ def request_many(objects):
             'result_columns':['schema_name','table_name','column_name','data_type','collation_name']}
 
 
+def compiled_control_objects(payload):
+    """Recognize only byte-exact bounded batch metadata compiled for real objects.
+
+    This grants no sys.* query authority. The gateway separately admits the
+    named user tables, CATALOG control, connection and bounds. Permission guards
+    continue to check those user tables, never the system catalog views.
+    """
+    try:
+        objects=[]
+        for name in payload['read_only_objects']:
+            match=re.fullmatch(r'\[([A-Za-z_][A-Za-z0-9_]{0,127})\]\.\[([A-Za-z_][A-Za-z0-9_]{0,127})\]',name)
+            if not match:return None
+            objects.append({'connection':payload['server'],'database':payload['database'],
+                'catalog':{'metadata':{'schema_name':match[1],'name':match[2]}}})
+        expected=request_many(objects)
+        if any(payload.get(key)!=value for key,value in expected.items()):return None
+        return list(expected['read_only_objects'])
+    except (KeyError,TypeError,ValueError):
+        return None
+
+
 def read_many(config, objects, *, execute):
     reader=config['fabric']['sql_reader'];request=request_many(objects)
     if any(o.get('surface','FABRIC_SQL')!='FABRIC_SQL' or o['connection']!=reader['server'] for o in objects):

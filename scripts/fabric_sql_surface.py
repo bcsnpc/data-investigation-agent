@@ -29,6 +29,22 @@ def declared(reader, database):
             'identity': reader['account']}
 
 
+def reader_availability(config):
+    """Configuration availability only; a cloud credential is not a signed-in receipt."""
+    reader=config['fabric'].get('sql_reader')
+    if not reader:return None
+    if reader.get('mode') in ('managed_identity','key_vault_user_cache'):
+        from investigator.adapters.vault_user_cache import credential
+        auth=credential(reader)
+        if auth['tenant_id']!=config['fabric']['auth']['tenant_id']:
+            raise ValueError('SQL reader tenant differs')
+        return {'status':'CONFIGURED','account':reader['account'],
+                'authentication_verified':False,'permission_verified':False,
+                'limitation':'Credential declaration only; authentication and guarded surface reads remain to be established.'}
+    from fabric_sql_auth import session_status
+    return session_status(config['fabric']['auth']['tenant_id'],reader['account'],reader['profile'])
+
+
 def self_report(config, database, *, token=get_sql_token, run=subprocess.run):
     """Return the declared surface and the surface's own answer about itself."""
     database = database_name(database)
