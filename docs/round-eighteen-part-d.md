@@ -53,3 +53,15 @@ schemas. Its exact coverage and exceptions are recorded there; it does not turn
 schema-only or archive-member inspection into a universal no-bulk claim. Storage
 documentation also now names unenforced screenshot expiry and the remaining
 projected cloud-capture boundaries.
+
+
+## Part D close, 2026-10-13
+
+The final structural audit and its explicit gaps are committed. The separate legacy export is not deleted or published; normal recording publication excludes it. A final code review corrected a shared-state overclaim: smart-ticket state is wired to PostgreSQL, but claim-first/runtime/image state remains per-job SQLite and the generic case-file repository has no production writer. These gaps are documented rather than represented as a completed migration. Existing workstation secret mechanisms remain; approved cloud copies use Key Vault.
+
+Guide-driven billing configuration and retained-control preflight were completed offline, with the failed initial candidate preserved. Whole-estate readiness, a fresh client subscription onboarding, and deletion/teardown are not established. No new estate/model request or permission change was made during Part D. The cloud demo remained blocked by exact replay in Part C. Final integrated regression and closing disk measurement are reported in the round summary.
+
+
+## Final close, 2026-10-13 05:48 UTC
+
+Integrated db3bed8 suite:4,073 PASS,46 skipped,1,416 subtests in449.65seconds. All eight cloud CI shards passed and GHCR publication succeeded (workflow38352575331). No live execution uses that corrected image in this round. All22 listed Container Apps executions are stopped. Closing SELECT-only repeatable-read report at05:48:18 preserves pot3,017/4,000, rolling376/3,000, restoration95, new178 physical reservations SETTLED, and zero new monetary reservations/model spend. D: free12,648,144,896 bytes, above10GB. Opening Part D free13,558,284,288; net change -910,139,392 bytes after retaining new evidence/working material, not a net cleanup saving. Reports and fixes are pushed to draft424; neither PR merges. The demo, full state migration, whole-estate onboarding and universal archive-content claim remain unearned as listed in the summary. No more admissions.
