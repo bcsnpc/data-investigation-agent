@@ -3,6 +3,8 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
+from types import SimpleNamespace
+import sys
 import gzip
 import os
 import subprocess
@@ -181,6 +183,24 @@ class Tests(unittest.TestCase):
         self.assertEqual(gzip.decompress(b''.join(parts)),b'x'*(archive.STREAM_BLOCK*3))
         self.assertTrue(stats['stream_complete'])
         self.assertEqual(list(self.root.iterdir()),[path])
+
+    def test_archive_sdk_adapter_consumes_streaming_gzip_iterator_without_temp_copy(self):
+        from archive_finished_rounds import ArchiveClient
+        raw=b'synthetic transfer block\n'*100000
+        source=self.put('source',raw);calls=[];stored=[]
+        def upload(data,**kwargs):
+            self.assertFalse(isinstance(data,(bytes,bytearray,str)))
+            calls.append(kwargs);stored.extend(data)
+        client=ArchiveClient.__new__(ArchiveClient)
+        client.client=SimpleNamespace(get_blob_client=lambda key:SimpleNamespace(upload_blob=upload))
+        with patch.dict(sys.modules,{'azure.storage.blob':SimpleNamespace(StandardBlobTier=SimpleNamespace(Hot='Hot'))}):
+            result=client.upload_hot('immutable-object.gz',source,encoding='gzip')
+        encoded=b''.join(stored)
+        self.assertEqual(gzip.decompress(encoded),raw)
+        self.assertEqual(result['stored_sha256'],digest(encoded))
+        self.assertEqual(result['stored_bytes'],len(encoded));self.assertTrue(result['stream_complete'])
+        self.assertEqual(calls,[{'overwrite':False,'validate_content':True,'max_concurrency':1,'standard_blob_tier':'Hot'}])
+        self.assertEqual(list(self.root.iterdir()),[source])
 
     def test_old_raw_manifest_and_receipt_remain_usable(self):
         self.put('.local/round-five/receipt.json')
