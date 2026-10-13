@@ -113,3 +113,17 @@ SELECT rolname,rolsuper,rolcreaterole,rolcreatedb,rolcanlogin FROM pg_roles WHER
 Result: `[["id-dia-worker", false, false, false, true]]`.
 
 Control receipt SHA-256: `6c03e0c34590245c657e106d5b3b35b0ba9ed909878c7004fab8af30ee25f44c`. Original receipt remains local. Before: no worker role or table grant. After: login without superuser, role-creation or database-creation rights; state usage true, state/public/database CREATE false. No other database received an explicit grant. Existing PostgreSQL PUBLIC defaults are not an explicit worker grant.
+
+## Owner credential-location and vault-role decisions, 2026-10-12
+
+Chaitu approved keeping the test-estate identities unchanged and moving their existing credentials to the platform Key Vault. Client deployments belong in the same Entra tenant as Fabric so managed identity can be used directly. The existing quantity reader is an Entra user, `investigator-reader@skynwhy.com`, object `8a582d2a-ecb4-4320-bf72-75a529a0d382`, not a service principal. The owner then explicitly approved migrating only its scoped existing sign-in cache and using it in memory in the worker, with the same tenant, object ID and audiences. `investigator-code-reader` has Contributor for definitions and is never substituted for quantity reads. No new estate role or audience is authorized by this migration.
+
+The first interactive `az login` did not open a browser. Device-code login was attempted; the owner supplied a screen saying authentication succeeded but resource access was denied. This is not evidence of a wrong password. The separate, retained Key Vault request establishes the actionable denial: `ForbiddenByRbac`, action `Microsoft.KeyVault/vaults/secrets/readMetadata/action`, owner object `c22c5e9b-5005-4a48-af98-51d614e6021a`, assignment not found, deny assignment null.
+
+The owner explicitly approved Key Vault Secrets Officer for `leelamounika14@gmail.com` on `kv-dia-d5dd7d65` only if that data-plane permission was missing. The repeated request confirmed it. Applied at 2026-10-13T02:41:15Z (2026-10-12 America/Chicago):
+
+```powershell
+az role assignment create --assignee-object-id c22c5e9b-5005-4a48-af98-51d614e6021a --assignee-principal-type User --role b86a8fe4-44ce-4948-aee5-eccb2c155cd7 --scope /subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourceGroups/rg-dia-platform/providers/Microsoft.KeyVault/vaults/kv-dia-d5dd7d65
+```
+
+Before: no vault-scoped data-plane assignment; inherited Owner (two historic assignments) and Foundry User only. After: those unchanged plus Key Vault Secrets Officer on the exact vault, assignment `33e291aa-b860-41c4-9888-225c0ecda672`. Worker remains Secrets User, not Officer. Subsequent secret metadata listing succeeded and returned `[]`; this establishes owner metadata access, not that any credential has already migrated. Before/after local receipts contain metadata only.
