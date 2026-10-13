@@ -62,6 +62,9 @@ def validate(config):
     required = {'estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix',
                 'budget', 'max_requests', 'approval'}
     if not isinstance(config, dict) or not required<=set(config)<=required|{'sql','dependency_models','admin_metadata'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
+    if not isinstance(config['approval'], str) or not config['approval'].strip():
+        raise ValueError('GRAPH_SCHEDULE_OWNER_APPROVAL_REQUIRED')
+    if not isinstance(config['authentication'],dict):raise ValueError('GRAPH_SCHEDULE_AUTHENTICATION_REQUIRED')
     if 'sql' in config and (not isinstance(config['sql'],list) or not 1<=len(config['sql'])<=10):
         raise ValueError('GRAPH_SQL_COLLECTOR_BOUND')
     for group in config.get('sql',[]):

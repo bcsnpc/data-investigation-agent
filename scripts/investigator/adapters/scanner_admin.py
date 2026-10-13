@@ -45,8 +45,6 @@ def collect(config,http,sink,*,sleep=time.sleep):
             if index<7:sleep(2);waited+=2
         return summary('UNKNOWN',scan_id=scan,reason='Admin scan still pending after eight bounded status reads.')
     except Exception as error:
-        from ..live_gateway import GatewayDenied
-        from ..usage_governance import UsageHold
-        from ..shared_state import StateConflict
-        if isinstance(error,(GatewayDenied,UsageHold,StateConflict)) or str(error)=='GRAPH_PHYSICAL_REQUEST_CAP':raise
+        from ..estate_graph_incremental import is_stop_condition
+        if is_stop_condition(error):raise
         return summary('UNKNOWN',failure=safe_failure(error))

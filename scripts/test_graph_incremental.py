@@ -65,6 +65,27 @@ class IncrementalTests(unittest.TestCase):
         self.assertEqual(result['owners'][0]['reason'], 'PermissionError')
         self.collector.fetch.side_effect = lambda owner: self.payloads[owner]
         self.scan.run('estate', TIMES[1]); self.assertEqual(len(self.repo.records('estate')['nodes']), 2)
+    def test_policy_and_budget_stop_records_health_then_aborts_without_next_owner(self):
+        from investigator.live_gateway import GatewayDenied
+        from investigator.usage_governance import UsageHold
+        from investigator.discovery_collect import BudgetExceeded
+        from investigator.model_spend import SpendHold
+        from investigator.estate_graph_incremental import NAMESPACE
+        self.scan.run('estate',TIMES[0])
+        identity=c.canonical(['estate',self.collector.identity])
+        before=self.state.get(NAMESPACE,identity)
+        self.signals[0]['fingerprint']=sha('changed')
+        self.signals[1]['fingerprint']=sha('also changed')
+        for error in (GatewayDenied('SCANNER_OPERATION_REFUSED'),UsageHold('Daily usage limit'),
+                      ValueError('GRAPH_PHYSICAL_REQUEST_CAP'),BudgetExceeded('read cap'),SpendHold('dollar cap')):
+            self.collector.fetch.reset_mock();self.collector.fetch.side_effect=error
+            with self.subTest(error=type(error).__name__),self.assertRaises(type(error))as caught:
+                self.scan.run('estate',TIMES[1])
+            self.assertIs(caught.exception,error)
+            self.collector.fetch.assert_called_once_with('one')
+            self.assertEqual(self.state.get(NAMESPACE,identity),before)
+            self.assertEqual(self.repo.records('estate')['unavailable_owners']['one']['failure']['error_type'],type(error).__name__)
+
     def test_failed_refresh_blocks_path_and_old_asof_remains_available(self):
         self.scan.run('estate', TIMES[0]); self.signals[0]['fingerprint']=sha('changed')
         self.collector.fetch.side_effect=PermissionError('not retained')
@@ -181,6 +202,8 @@ class ScheduleTests(unittest.TestCase):
     def test_owner_approval_required_before_scheduling(self):
         config = dict.fromkeys(('estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix', 'budget', 'max_requests', 'approval'))
         with self.assertRaisesRegex(ValueError, 'APPROVAL'): validate(config)
+        config['approval']='Owner approved scanner'
+        with self.assertRaisesRegex(ValueError, 'AUTHENTICATION'): validate(config)
 
 
 if __name__ == '__main__': unittest.main()
