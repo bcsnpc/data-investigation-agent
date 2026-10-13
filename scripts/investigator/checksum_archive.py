@@ -3,7 +3,7 @@ import base64
 from datetime import datetime,timezone
 import hashlib
 from .artifact_store import ArtifactError,canonical,digest
-from .archive_migration import privacy_approved,encoded_stream,verify_local
+from .archive_migration import privacy_approved,encoded_stream,verify_unchanged_local
 from .streaming_archive_bundle import prepare
 from .resumable_archive import fixed_blocks,block_id
 
@@ -67,6 +67,9 @@ def publish(plan,plan_sha,manifest,manifest_sha,review,client,journal,*,max_stor
                     client.stage_checked(key,b['block_id'],data)
                     journal.append({'phase':'BLOCK_CHECKSUM_VALIDATED','blob':key,**b})
             if seen!=measured['blocks']:raise ArtifactError('ARCHIVE_STREAM_SOURCE_CHANGED')
+            # A compressor may have consumed a source before the first remote
+            # block is sent. Recheck current original hashes before commit too.
+            for entry in manifest['entries']:verify_unchanged_local(manifest,entry)
             journal.append({'phase':'ORDERED_COMMIT_INTENT','blob':key,'blocks_sha256':digest(canonical(expected)),
                             'stored_md5':measured['stored_md5']})
             client.commit_cool(key,[b['block_id'] for b in measured['blocks']],measured['stored_md5'])
@@ -87,7 +90,7 @@ def publish(plan,plan_sha,manifest,manifest_sha,review,client,journal,*,max_stor
         journal.append({**verified,'phase':'ARCHIVED_CHECKSUM','tier':'Archive'})
     objects=[]
     for e in manifest['entries']:
-        verify_local(manifest,e)
+        verify_unchanged_local(manifest,e)
         objects.append({**e,'blob':key,'etag':verified['etag'],'tier':'Archive','stored_bytes':measured['stored_bytes'],
                         'stored_bytes_scope':'WHOLE_BUNDLE_NOT_MEMBER','stored_sha256':measured['stored_sha256'],
                         'stored_md5':measured['stored_md5'],'bundle_sha256':plan['entries'][0]['sha256'],

@@ -82,6 +82,37 @@ class Tests(unittest.TestCase):
         remote=Remote()
         with self.assertRaisesRegex(ArtifactError,'TRANSFER_BYTE_CAP'):self.run_publish(remote,cap=1)
         self.assertEqual(remote.calls,[])
+    def test_initial_review_required_and_upload_drift_refuses_commit(self):
+        remote=Remote()
+        with self.assertRaises(ArtifactError):
+            publish(self.plan,self.psha,self.manifest,self.sha,{**self.review,'manifest_sha256':'f'*64},remote,self.journal,max_stored_bytes=100000)
+        self.assertEqual(remote.calls,[])
+        original=remote.stage_checked
+        path=self.root/self.manifest['entries'][0]['path']
+        def changed(key,identity,data):
+            original(key,identity,data)
+            path.write_bytes(b'changed' * 1000)
+        remote.stage_checked=changed
+        with patch('investigator.resumable_archive.BLOCK_BYTES',80):
+            with self.assertRaisesRegex(ArtifactError,'SOURCE_CHANGED|LOCAL_HASH_DIFFERS'):
+                self.run_publish(remote)
+        self.assertNotIn('COMMIT',remote.calls)
+
+    def test_final_check_uses_same_reviewed_hash_and_detects_post_upload_change(self):
+        import investigator.streaming_archive_bundle as module
+        original=module.verify_local
+        with patch.object(module,'verify_local',wraps=original) as checked:
+            self.run_publish(Remote())
+            self.assertEqual(checked.call_count,len(self.manifest['entries']))
+        remote=Remote();archive=remote.archive
+        def changed(key,etag):
+            archive(key,etag)
+            path=self.root/self.manifest['entries'][0]['path']
+            path.write_bytes(b'x'*path.stat().st_size)
+        remote.archive=changed
+        with self.assertRaisesRegex(ArtifactError,'LOCAL_HASH_DIFFERS'):
+            self.run_publish(remote,Journal(self.root/'changed-after',self.psha,URL))
+
     def test_transport_requires_checksum_and_cool_immutable_commit(self):
         g=gateway();body=b'fixture';identity=base64.b64encode(b'a'*64).decode()
         with bind(g,'archive',URL,KEY,'STAGE_CHECKED',body=body,block_id=identity) as (method,url,headers):

@@ -206,6 +206,24 @@ def verify_local(manifest, entry):
     return path
 
 
+def verify_unchanged_local(manifest, entry):
+    """Recheck bytes already privacy-reviewed by this publish operation.
+
+    This is never an initial admission check. The publisher must first call
+    verify_local for every source; unchanged SHA proves that same reviewed body.
+    """
+    path=bounded_path(manifest['workspace'],entry['path'])
+    if not approved_scope(entry['path'],manifest.get('source_export_roots',())) or protected_path(entry['path'],manifest['protected_paths']):
+        raise ArtifactError('ARCHIVE_PROTECTED_PATH')
+    before=path.stat()
+    if before.st_size!=entry['bytes'] or sha_file(path)!=entry['sha256']:
+        raise ArtifactError('ARCHIVE_LOCAL_HASH_DIFFERS')
+    after=path.stat()
+    if (before.st_size,before.st_mtime_ns)!=(after.st_size,after.st_mtime_ns):
+        raise ArtifactError('ARCHIVE_SOURCE_CHANGED_DURING_CHECK')
+    return path
+
+
 def encoded_chunks(path, encoding, stats):
     """Bounded streaming gzip, no whole-file buffer or temporary archive."""
     with Path(path).open('rb') as stream:
