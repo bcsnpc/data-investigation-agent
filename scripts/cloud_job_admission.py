@@ -26,17 +26,24 @@ def admit(stage, observation, *, now=None):
     required=stage.get('required_runtime_seconds')
     if type(required)is not int or required<1800 or timeout!=required:
         raise ValueError('CLOUD_JOB_RUNTIME_MUST_MATCH_APPROVED_1800_OR_GREATER')
+    started=stage.get('run_admitted_at');overall=stage.get('overall_run_deadline')
+    if (type(started)not in (float,int)or type(overall)not in (float,int)
+            or not math.isfinite(started)or not math.isfinite(overall)
+            or not 0<=now-started<=300 or overall-started!=required):
+        raise ValueError('CLOUD_OVERALL_DEADLINE_MUST_MATCH_JOB_RUNTIME')
     deadline=stage.get('deadline')
     if type(deadline)not in (int,float) or not math.isfinite(deadline) or deadline<=now:
         raise ValueError('CLOUD_JOB_DEADLINE_REQUIRED')
     requested=deadline-now
     if requested>timeout:raise ValueError('CLOUD_STAGE_DEADLINE_EXCEEDS_JOB_TIMEOUT')
     reserve=stage.get('finalization_reserve_seconds')
-    if type(reserve)is not int or reserve<600 or requested>min(1200,timeout-reserve):
+    if (type(reserve)is not int or reserve<600 or deadline>overall-reserve
+            or deadline-started>1200):
         raise ValueError('CLOUD_STAGE_FINALIZATION_RESERVE_REQUIRED')
     return {'version':'cloud-job-deadline-admission-v1','job_id':job['id'],
             'observed_at':observed,'admitted_at':now,'deadline':deadline,
             'replica_timeout_seconds':timeout,'remaining_deadline_seconds':requested,
+            'run_admitted_at':started,'overall_run_deadline':overall,'work_deadline':deadline,
             'finalization_reserve_seconds':reserve,'work_limit_seconds':1200,
             'observation_sha256':hashlib.sha256(json.dumps(observation,sort_keys=True,separators=(',',':')).encode()).hexdigest(),
             'platform_settings_changed':False}

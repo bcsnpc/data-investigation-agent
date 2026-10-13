@@ -8,16 +8,17 @@ OBS={'observed_at':1000,'job':{'id':'/subscriptions/11111111-1111-1111-1111-1111
 LEASE={'owner':'verify-test','lease_id':'one-isolated-attempt','expires_at':2900}
 ISOLATION={'observed_at':1000,'executions':[],'scheduled_job':OBS['job'],'advisory_lock_holders':0,
            'lease':dict(LEASE,status='ACTIVE')}
+WINDOW={'run_admitted_at':1000,'overall_run_deadline':2800}
 
 class AdmissionTests(unittest.TestCase):
     def test_1200_deadline_cannot_use_600_second_job(self):
         observed=copy.deepcopy(OBS);observed['job']['properties']['configuration']['replicaTimeout']=600
         before=copy.deepcopy(observed)
         with self.assertRaisesRegex(ValueError,'RUNTIME_MUST_MATCH'):
-            admit({'deadline':2200,'required_runtime_seconds':1800,'finalization_reserve_seconds':600},observed,now=1000)
+            admit({**WINDOW,'deadline':2200,'required_runtime_seconds':1800,'finalization_reserve_seconds':600},observed,now=1000)
         self.assertEqual(observed,before)
     def test_exact_bound_allowed_without_changing_settings(self):
-        receipt=admit({'deadline':2200,'required_runtime_seconds':1800,'finalization_reserve_seconds':600},OBS,now=1000)
+        receipt=admit({**WINDOW,'deadline':2200,'required_runtime_seconds':1800,'finalization_reserve_seconds':600},OBS,now=1000)
         self.assertEqual(receipt['remaining_deadline_seconds'],1200)
         self.assertEqual(receipt['finalization_reserve_seconds'],600)
         self.assertFalse(receipt['platform_settings_changed'])
@@ -29,7 +30,7 @@ class AdmissionTests(unittest.TestCase):
         for value in (float('nan'),float('inf'),True,1000):
             with self.subTest(deadline=value),self.assertRaises(ValueError):admit({'deadline':value,'required_runtime_seconds':1800},OBS,now=1000)
     def test_launch_builder_cannot_emit_verify_environment_without_admission(self):
-        stage=dict(STAGE,phase='verify',deadline=2900,required_runtime_seconds=1800,exclusive_writer=LEASE,finalization_reserve_seconds=600)
+        stage=dict(STAGE,**WINDOW,phase='verify',deadline=2900,required_runtime_seconds=1800,exclusive_writer=LEASE,finalization_reserve_seconds=600)
         kwargs=dict(worker_id='verify-test',ceiling_microdollars=20,margin_microdollars=10,admission_now=1000)
         with self.assertRaisesRegex(ValueError,'OBSERVATION_REQUIRED'):build(stage,POLICY,PLATFORM,SLIM,**kwargs)
         with self.assertRaisesRegex(ValueError,'DEADLINE_EXCEEDS_JOB_TIMEOUT'):
@@ -45,7 +46,11 @@ class AdmissionTests(unittest.TestCase):
     def test_inner_deadline_cannot_consume_reserved_finalization_time(self):
         for deadline,reserve in ((2800,600),(2200,0),(2201,600)):
             with self.subTest(deadline=deadline,reserve=reserve),self.assertRaisesRegex(ValueError,'FINALIZATION_RESERVE'):
-                admit({'deadline':deadline,'required_runtime_seconds':1800,'finalization_reserve_seconds':reserve},OBS,now=1000)
+                admit({**WINDOW,'deadline':deadline,'required_runtime_seconds':1800,'finalization_reserve_seconds':reserve},OBS,now=1000)
+    def test_overall_deadline_duration_must_match_observed_runtime(self):
+        for overall in (2200,2801):
+            with self.assertRaisesRegex(ValueError,'OVERALL_DEADLINE_MUST_MATCH'):
+                admit(dict(WINDOW,overall_run_deadline=overall,deadline=2200,required_runtime_seconds=1800,finalization_reserve_seconds=600),OBS,now=1000)
     def test_isolation_rejects_active_job_schedule_lock_or_short_lease(self):
         stage={'exclusive_writer':LEASE,'required_runtime_seconds':1800}
         bad=[]

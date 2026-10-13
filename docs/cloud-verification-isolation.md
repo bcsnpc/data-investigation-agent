@@ -61,13 +61,18 @@ lease = acquire(state, owner=worker_id, lease_id=unique_attempt_label,
 {
   "required_runtime_seconds": 1800,
   "finalization_reserve_seconds": 600,
+  "run_admitted_at": 0,
+  "overall_run_deadline": 0,
   "deadline": 0,
   "exclusive_writer": {"owner": "same-worker-id", "lease_id": "unique-attempt-label", "expires_at": 0}
 }
 ```
 
 The zeroes are placeholders, never admissible values. Supply actual finite Unix
-timestamps. The remaining deadline must fit the observed job runtime. Leave
+timestamps from one admission epoch: `overall_run_deadline = run_admitted_at +
+1800` and the inner `deadline <= run_admitted_at + 1200`. The total configured
+run duration must equal the observed job runtime; an integer runtime label alone
+is insufficient. Admission cannot be older than five minutes. Leave
 at least 600 seconds for capture packaging and upload: work admission is capped
 at the earlier of 1,200 seconds or job runtime minus that reserve. The stage
 checks before readiness and demo. The same inner deadline is inherited by
