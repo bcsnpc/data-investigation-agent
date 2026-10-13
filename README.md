@@ -1,3 +1,5 @@
+Round Nineteen Part 0: cloud verification stopped after 4 physical requests on missing reader-owned target-type evidence; demo not run. Secretless auth4/4 and primary migration23568 rows exact; storage keys disabled. Historical claims/archive remain partial. See docs/round-nineteen-part-zero.md. Draft425, freeze invalid.
+
 Round Nineteen authentication control found a resource-ID audience handling defect; corrected with nine focused tests passing. Owner platform-only storage grant verified. Reader permission proof and cloud demo remain pending.
 
 Round Nineteen in progress: dedicated federated reader provisioned with read scopes; live identity/preflight and cloud demo remain unverified. Graph/shared-state work is in progress. See docs/round-nineteen-control-ledger.md.
