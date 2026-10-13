@@ -51,3 +51,23 @@ These sources describe `silver.invoices` and `gold.invoice_activity`, including
 the join to `bronze.account_plan_history`. They do not describe the native MRR
 path through Subscriptions and Plans. None of the 26 proposals is eligible for
 attachment as an MRR procedure hop. No inference removes that existing gap.
+
+## Separately derived statement citations
+
+The subsequent offline adapter review uses the installed SQL parser, not name
+similarity or a new model call. Both retained procedures parse as one explicit
+INSERT/SELECT recipe. The reviewer accepts only direct column projections,
+declared INSERT column order and explicit FROM/JOIN aliases; unsupported
+control flow, ambiguous unqualified columns, unknown aliases and unsupported
+expressions refuse. Original tokenizer offsets locate the complete statement
+without reformatting its bytes.
+
+The parser supports all 26 mappings from those complete statements. It still
+marks the same 19 original quotations inadequate. The separate private record
+`.local/round-nineteen-b/interpreter-01-parser-review.json` links each original
+edge to its exact supporting statement, original definition hash and parser
+version. This is a derived citation review, not a rewritten model response.
+No original edge, quotation, tape or expectation changed; no graph publication
+occurred. A regression retains all 26 original source/target labels, code spans
+and quotations and confirms the 7 adequate / 19 inadequate split. These recipes
+remain undeployed, with an INFERRED ceiling, and unrelated to MRR.
