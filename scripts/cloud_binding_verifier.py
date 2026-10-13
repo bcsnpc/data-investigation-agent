@@ -19,6 +19,13 @@ def plan(spec):
     targets={p['target']['table'] for p in proposals}
     if set(spec['samples'])!=targets:raise ValueError('VERIFICATION_SAMPLE_COVERAGE_DIFFERS')
     vb=VerificationBudget(spec['budgets'],len(proposals),record=lambda event:None)
+    prewarm=spec.get('prewarm')
+    if prewarm is not None:
+        if (not isinstance(prewarm,dict) or set(prewarm)!={'asset_ids'}
+                or not isinstance(prewarm['asset_ids'],list) or not 1<=len(prewarm['asset_ids'])<=32
+                or any(not isinstance(a,str) or not a for a in prewarm['asset_ids'])
+                or len(set(prewarm['asset_ids']))!=len(prewarm['asset_ids'])):
+            raise ValueError('VERIFICATION_PREWARM_DECLARATION')
     groups={spec['target_databases'][name] for name in targets}
     needed=2*len(proposals)+len(groups)+2
     return {'bindings':len(proposals),'target_catalog_reads':len(groups),
@@ -26,6 +33,46 @@ def plan(spec):
         'admissible':needed<=vb.cap,'physical_endpoint_requests':0,
         'diagnostic_investigation_reads':0,'model_calls':0,
         'publication':'NOT_PERFORMED','native_direct_route':'TWO_READS_IN_SAME_SESSION'}
+
+
+def prewarm_source(spec,config,objects,governor,inputs,record,*,execute=None,sleep=None):
+    """Opt-in source connection control; ordinary pot, no verification probes."""
+    declaration=spec.get('prewarm')
+    if declaration is None:return
+    from investigator import process_tape as tape
+    from serverless_control import prewarm
+    if tape.ACTIVE.get() is None:raise ValueError('EXACT_CAPTURE_REQUIRED')
+    assets=declaration['asset_ids']
+    sources={objects[s['table']]['asset_id']for p in spec['proposals']for s in p['sources']}
+    layers={l['asset_id']:l for l in config.get('_estate',{}).get('layers',[])}
+    if not set(assets)<=sources or any(layers.get(a,{}).get('serverless')is not True for a in assets):
+        raise ValueError('VERIFICATION_PREWARM_SOURCE_NOT_DECLARED')
+    from sql_layer_policy import policy
+    timeout=policy(config,{'asset_ids':assets})['worker_timeout_seconds']
+    if type(timeout)is not int or not 1<=timeout<=240:
+        raise ValueError('VERIFICATION_PREWARM_WORKER_BOUND')
+    events=record.setdefault('control_events',[]);sequence=0
+    def event(kind,value):
+        entry={'class':'CONTROL','kind':kind,'value':value}
+        events.append(tape.bounded_call('verification_prewarm_control',entry,lambda:entry))
+    def deadline():
+        if tape.clock('cloud-verification-prewarm-deadline')>=inputs['deadline']:
+            raise ValueError('VERIFICATION_DEADLINE')
+    def admit(kind,call):
+        nonlocal sequence
+        # Never admit a worker whose existing timeout reaches beyond the
+        # verification job deadline. The configured timeout is not increased.
+        if tape.clock('cloud-verification-prewarm-admission')+timeout>=inputs['deadline']:
+            raise ValueError('VERIFICATION_DEADLINE')
+        sequence+=1
+        event(kind,{'asset_ids':assets,'attempt':sequence,'status':'ADMITTED'})
+        return governor.metered_read(inputs['session_id']+':prewarm-controls',kind+':'+str(sequence),call)
+    options={}
+    if execute is not None:options['execute']=execute
+    if sleep is not None:options['sleep']=sleep
+    result=prewarm(config,assets,admit_control=admit,record_control=event,**options)
+    deadline()
+    if result.get('error') or result.get('status')!='CONNECTED':raise ValueError('VERIFICATION_PREWARM_FAILED')
 
 
 def perform(bootstrap, work, budget_catalog=None, live=None):
@@ -80,6 +127,7 @@ def perform(bootstrap, work, budget_catalog=None, live=None):
     if missing:raise ValueError('VERIFICATION_OBJECT_RESOLUTION_REFUSED')
     try:
         with guard_scope(lambda e:record['guards'].append(e)):
+            prewarm_source(spec,config,objects,governor,i,record)
             groups={}
             for name in dict.fromkeys(p['target']['table'] for p in spec['proposals']):
                 target=objects[name]
