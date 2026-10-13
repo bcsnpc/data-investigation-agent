@@ -84,6 +84,14 @@ class GatewayRedTeamTests(unittest.TestCase):
             'SELECT s.n FROM dbo.Sales s JOIN dbo.Customers c ON s.id=c.id']:
             self.assertIn(('dbo','sales'),validate_sql(query,{('dbo','sales'),('dbo','customers')}))
 
+    def test_existing_same_statement_attestation_and_scope_compiler_remain_readable(self):
+        from investigator.adapters.microsoft_self_report import compose
+        validate_dax(compose('EVALUATE ROW("v",[Units])'))
+        query="SELECT q.*, CURRENT_USER AS who, CAST(SERVERPROPERTY('EngineEdition') AS int) AS engine, DB_NAME() AS db FROM (SELECT SUM(n) AS n FROM dbo.Sales) q"
+        self.assertEqual(validate_sql(query,{('dbo','sales')}),{('dbo','sales')})
+        validate_sql('SELECT CONVERT(nvarchar(100),n) FROM dbo.Sales OPTION (MAXDOP 1)',{('dbo','sales')})
+        self.denied(lambda:validate_sql('SELECT n FROM dbo.Sales OPTION (MAXDOP 8)',{('dbo','sales')}))
+
     def test_sql_policy_and_catalog_slice_intersect_never_union(self):
         gateway=Gateway(POLICY)
         self.assertEqual(gateway.sql('reader','server','database','SELECT n FROM dbo.Sales',objects=['dbo.Sales'])['objects'],['dbo.Sales'])

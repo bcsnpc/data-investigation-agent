@@ -203,14 +203,14 @@ def validate_sql(query,allowed_objects):
     if len(list(tree.walk()))>3000:_deny('SQL_AST_BOUND',target=query)
     # Parser allowlist, not a write-keyword denylist. INTO/locking/external
     # table functions are absent. Harmless-looking unknown constructs also stop.
-    safe=NODES|{'Collate','Substring','Length','CharacterSet','SHA2'}
+    safe=NODES|{'Collate','Substring','Length','CharacterSet','SHA2','Convert','CurrentUser'}
     for node in tree.walk():
         if node.comments:_deny('SQL_COMMENTS_REJECTED',target=query)
         if isinstance(node,exp.QueryOption):
             if node.sql(dialect='tsql').upper()!='MAXDOP 1':_deny('SQL_QUERY_HINT_REJECTED',target=query)
             continue
         if type(node).__name__ not in safe:
-            if isinstance(node,exp.Anonymous) and node.name.upper() in {'DATALENGTH','HASHBYTES','SUSER_SNAME','DB_NAME','ORIGINAL_LOGIN'}:
+            if isinstance(node,exp.Anonymous) and node.name.upper() in {'DATALENGTH','HASHBYTES','SUSER_SNAME','DB_NAME','ORIGINAL_LOGIN','SERVERPROPERTY'}:
                 continue
             _deny('SQL_AST_NOT_ALLOWED:'+type(node).__name__,target=query)
     references=set()

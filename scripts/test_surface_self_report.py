@@ -112,6 +112,10 @@ class ReaderSessionTests(unittest.TestCase):
 
 
 class SurfaceTransportTests(unittest.TestCase):
+    def setUp(self):
+        from gateway_test_support import allow_sql
+        self.enterContext(allow_sql(READER["server"],"gold",[],["SELF_REPORT"]))
+
     def test_database_is_required_before_any_token_or_connection(self):
         for bad in (None, '', ' ', 'gold;drop', 'a' * 129):
             with self.assertRaises(ValueError):

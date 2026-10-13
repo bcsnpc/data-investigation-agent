@@ -87,6 +87,8 @@ class PartialReportTests(unittest.TestCase):
             raw_surface_report.validate(self.request,written['result'])
 
     def test_other_all_fields_collapse_in_sql_session_is_removed(self):
+        from gateway_test_support import allow_sql
+        self.enterContext(allow_sql("example.invalid","database",[],["SELF_REPORT"]))
         import fabric_sql_surface
         config={'fabric':{'auth':{'tenant_id':'tenant'},'sql_reader':{'account':'reader','profile':'.local/reader','server':'example.invalid'}}}
         answer=SimpleNamespace(returncode=0,stdout=json.dumps({'status':'REACHABLE','login_name':'reader','database_name':None}))
