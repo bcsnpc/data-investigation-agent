@@ -37,6 +37,32 @@
   "local_deletion": false,
   "server_computed_sha256": false,
   "integrity_method": "SERVER_VALIDATED_BLOCK_MD5_ORDERED_COMMIT_AND_STORED_MD5_PROPERTY",
-  "new_cleanup_status": "56 new entries undergoing local proof/runtime validation; prior published owner script remains valid; no newly ready claim",
-  "coverage": "Only completed immutable receipts counted. Next selection in offline preparation is excluded; full archive remains incomplete."
+  "coverage": "Only completed immutable receipts counted. Next selection in offline preparation is excluded; full archive remains incomplete.",
+  "owner_cleanup": {
+    "eligible_allocated_bytes": 934621975,
+    "existing_eligible_paths": 56,
+    "free_bytes": 15734992896,
+    "helper_sha256": "1ac6f087630f232a1033daab31ed7ff020215e9a3e975ad72b5f237223eb5abe",
+    "new_verified_paths": 56,
+    "paths": 1496,
+    "plan_sha256": "2824bf9bcaf674d1e567c96363dea9e074d0944059c8633b813f5a612a91af46",
+    "proof_blobs": 18,
+    "protected": 129,
+    "remote_rechecked_this_preparation": false,
+    "script_sha256": "df43bf04463dd3512f0fa5c923d045973f2668c8abd39a63f265fa6ad468241d",
+    "status": "OWNER_SCRIPT_PREPARED_NOT_EXECUTED",
+    "powershell_syntax": "PASS",
+    "observed_prior_eligible_absence": "Previous641 eligible files now absent; owner-run removal log changed. This helper performed no deletion."
+  },
+  "additional_cleanup_metadata_controls": {
+    "actual_HEAD": 32,
+    "receipts": [
+      "cleanup-remote-a668bc5c-0f86-4636-a912-be6851a5a2cd.jsonl",
+      "cleanup-remote-f1e140e6-a8ad-4c67-a6e2-ea3733a4a586.jsonl"
+    ],
+    "archive_plus_cleanup_actual_controls": 623,
+    "body_downloads": 0,
+    "estimated_cost_usd": "0.00032",
+    "accounting": "Separate from archive-upload totals; next admission holds0.01 for auxiliary controls."
+  }
 }
