@@ -92,12 +92,24 @@ def verify_remote(plan,client):
             'proof_classes':sorted({b.get('proof_class','HISTORICAL_DOWNLOAD_READBACK') for b in plan['blobs']})}
 
 
+def verify_current_runtime(plan):
+    from archive_runtime_references import reference_ids,held_parents
+    paths=plan.get('runtime_reference_paths')
+    if not paths:raise ArtifactError('CLEANUP_CURRENT_RUNTIME_REFERENCES_REQUIRED')
+    facts=reference_ids(paths)
+    candidates=[row['path'] for row in plan['files'] if not row.get('runtime_protected') and Path(row['path']).exists()]
+    held=held_parents(candidates,facts['references'])
+    if held:raise ArtifactError('CLEANUP_NEW_RUNTIME_REFERENCE: '+str(len(held))+' capture parents; regenerate the owner plan')
+    return {'status':'CURRENT_RUNTIME_REFERENCES_UNCHANGED','scanned_files':facts['scanned_files']}
+
+
 def main():
     import argparse
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--verify-plan',type=Path,required=True)
     parser.add_argument('--plan-sha256',required=True)
     args=parser.parse_args();plan=json.loads(pinned({'path':str(args.verify_plan),'sha256':args.plan_sha256}))
+    verify_current_runtime(plan)
     from investigator.adapters.platform_credentials import OwnerCliCredential
     from investigator.adapters.platform_archive_client import IdentityArchiveClient
     from investigator.live_gateway import current

@@ -9,6 +9,20 @@ from test_checksum_archive import Remote,URL
 from prepare_checksum_cleanup import append_checksum,verify_remote
 
 class Tests(unittest.TestCase):
+    def test_new_runtime_reference_refuses_owner_cleanup_before_network(self):
+        from prepare_checksum_cleanup import verify_current_runtime
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);identity='08086928-0113-4a0c-9c4e-8061f3980b14'
+            capture=root/identity/'tape.json';capture.parent.mkdir();capture.write_text('{}')
+            reference=root/'test-fixture.json';reference.write_text('{}')
+            plan={'files':[{'path':str(capture),'runtime_protected':False}],'runtime_reference_paths':[str(reference)]}
+            self.assertEqual(verify_current_runtime(plan)['status'],'CURRENT_RUNTIME_REFERENCES_UNCHANGED')
+            reference.write_text(identity)
+            with self.assertRaisesRegex(ArtifactError,'NEW_RUNTIME_REFERENCE'):verify_current_runtime(plan)
+            plan['files'][0]['runtime_protected']=True
+            verify_current_runtime(plan)
+            with self.assertRaisesRegex(ArtifactError,'REFERENCES_REQUIRED'):verify_current_runtime({'files':[]})
+
     def test_checked_proof_members_and_journal_required(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);p=root/'.local/round-five/x.json';p.parent.mkdir(parents=True);p.write_bytes(b'fixture')
