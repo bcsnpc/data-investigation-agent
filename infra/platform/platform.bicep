@@ -128,7 +128,8 @@ resource environment 'Microsoft.App/managedEnvironments@2025-01-01' = if (deploy
   name: environmentName
   location: computeLocation
   properties: {
-    appLogsConfiguration: { destination: 'none' }
+    // CLI --logs-destination none serializes JSON null, not the string "none".
+    appLogsConfiguration: { destination: null }
     workloadProfiles: [{ name: 'Consumption', workloadProfileType: 'Consumption' }]
     zoneRedundant: false
   }
