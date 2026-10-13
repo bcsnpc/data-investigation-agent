@@ -13,8 +13,9 @@ class Assets:
 
 
 class FabricChanges:
-    def __init__(self, workspace, owners, http, *, max_pages=5, max_items=1000):
+    def __init__(self, workspace, owners, http, *, max_pages=5, max_items=1000, dependencies=None):
         self.workspace = str(UUID(workspace)); self.http = http
+        self.dependencies = dependencies
         if not owners or len(owners) > 100 or len(set(owners)) != len(owners): raise ValueError('GRAPH_OWNER_ALLOWLIST')
         self.owners = {str(UUID(owner)) for owner in owners}
         if type(max_pages) is not int or not 1 <= max_pages <= 10 or type(max_items) is not int or not 1 <= max_items <= 10000:
@@ -77,6 +78,15 @@ class FabricChanges:
         metadata = {k: v for k, v in item.items() if k not in ('lastModifiedDateTime', 'modifiedDateTime', 'modifiedTime')}
         assets.asset(owner, kind, item['displayName'], endpoint, metadata)
         expand_definition(assets, owner, kind, parts, endpoint)
+        if kind == 'SemanticModel' and self.dependencies is not None:
+            import hashlib
+            native = parts.get('model.bim')
+            if not isinstance(native,str): raise ValueError('GRAPH_DEPENDENCY_MODEL_DEFINITION_REQUIRED')
+            pin=hashlib.sha256(native.encode()).hexdigest()
+            for result in self.dependencies({'workspace':self.workspace,'model':key}):
+                asset_id=owner+'/engine-dependencies/'+result['request']['kind']
+                assets.asset(asset_id,'EngineDependencyMetadata',result['request']['kind'],endpoint,
+                    {'result':result,'model_name':item['displayName'],'model_definition_hash':pin},owner)
         return {'assets': assets.values, 'source_asset_ids': []}
 
 
