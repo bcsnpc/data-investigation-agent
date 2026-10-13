@@ -108,3 +108,44 @@ Integrated offline foundation: static graph/history/bounded API, shared applicat
 First check sagxfam failed four audiences without a safe stage. Diagnostic htkjvt8 at06:30:19UTC failed all four at MANAGED_ASSERTION_BINDING. Separate 7f737qu control established expected tenant/oid and audience `fb60f99c-7a34-4190-8149-302f77469936`, issuer `https://login.microsoftonline.com/aeb4d0a9-e637-4a7e-8efc-63cf0c3827df/v2.0`. Only these public claims retained, never tokens. Local start receipts and logs retained; 60-second hold allowed log capture. Zero estate requests/model calls; not estate permission tests.
 
 Microsoft documents the resource ID [here](https://learn.microsoft.com/entra/identity/conditional-access/agent-id); its [federation guide](https://learn.microsoft.com/entra/workload-id/workload-identity-federation-config-app-trust-managed-identity) uses the URI form. Adapter accepts these two exact representations only, preserving tenant/principal validation. Nine focused tests pass. Live exchange pending; no grant or trust change. A combined documentation/commit shell call was blocked by policy; none of it executed. README contains historical non-UTF8 bytes, so new text was prepended without changing those bytes.
+
+## Foundation controls completed, 2026-10-13 06:49?06:51 UTC
+
+The dedicated application successfully exchanged the worker assertion for all four configured tokens: Fabric-tenant Power BI, Fabric API and SQL, plus application-tenant SQL. Execution `job-dia-worker-d2wyaef` used tested image `d01700abb7163fdd9a4c7e13183c8d542ccedaa3`, registry manifest `46f55a7455c689600100a643a8010422dde8815dd2b17fd93de403036b26d5ff`. Exact public tenant/client/principal/audience checks passed. This establishes authentication only; query permissions and end-to-end readiness remain pending. No token was retained. Earlier failed controls remain unchanged.
+
+Storage hardening applied after caller audit: `allowSharedKeyAccess` changed from true to false on `diaplatformd5dd7d65` only; public Blob access remains false. Six control operations include before/after and creation of three 30-day screenshot lifecycle prefix rules (fixture-example, billing-example, unknown-domain-v4). Owner token-authenticated immutable PUT/GET after disablement passed, byte-exact. Subsequent archive batch02 also passed with keys disabled. No investigator or estate-storage scope changed. Worker storage confirmation awaits its next job.
+
+Local controls and their hashes:
+- `federated-auth-06-results.log`: `1ae02508ce4840ef6e4e5a5c4e91c1cead9c0e2ce6dfa95c432d77bbf51ab074`.
+- `federated-auth-06-start-receipt.json`: `03d9464e74712a932c4f5a65f62684a4f15f9cb34408751f6b4045067fd4c51c`.
+- `auth-06-image-proof.json`: `6f0526a3d7de89224ed396efad8590056496587d32a203f9e7d1f2238c4b2bbe`.
+- `storage-hardening.json`: `45f0caaea2cd2ad5f4f078bd3a989bfad1d22cb2c57bf3ef6008569cbeb7cdd8`.
+- `screenshot-lifecycle-policy.json`: `d14b5aab56c66f9ebbe306669d36b71ab76639d345464c095201a40b0a713033`.
+- `storage-identity-proof.json`: `cfbc26efff20de1fd72679ff93a5fd05218e57a77bb944a5721b640685437661`.
+
+## Exact application-state migration, 2026-10-13
+
+Original catalog migrated to PostgreSQL: 23568 rows across 20 tables, every source/target table hash equal. Source hash `5add459c65263cccf64b10a4ab1175be732e03146ee17440a13d1639be8cfe14`. Production case sections were published in the same transaction. Historical isolated claim catalogs are separate and not yet claimed migrated. No estate or model reads. Receipt `application-migration-applied.json`, SHA256 `6db21e3c0a69737b4eb03f4a6f422bf3078960b730b20feffb39db750bac2764`.
+
+| Table | Rows before | Rows after | Exact match |
+|---|---:|---:|---|
+| adaptive_events | 11456 | 11456 | yes |
+| adaptive_sessions | 438 | 438 | yes |
+| adaptive_syntheses | 317 | 317 | yes |
+| agent_progress | 3832 | 3832 | yes |
+| aggregate_receipt_seals | 1422 | 1422 | yes |
+| comparison_assessments | 0 | 0 | yes |
+| flexible_diagnostics | 1420 | 1420 | yes |
+| native_capability_decisions | 3 | 3 | yes |
+| native_diagnostics | 3 | 3 | yes |
+| v2_cancellations | 0 | 0 | yes |
+| v2_run_events | 1124 | 1124 | yes |
+| v2_runs | 281 | 281 | yes |
+| v2_steps | 281 | 281 | yes |
+| workspace_form_controls | 0 | 0 | yes |
+| workspace_image_reads | 0 | 0 | yes |
+| workspace_image_reviews | 0 | 0 | yes |
+| workspace_images | 0 | 0 | yes |
+| workspace_intakes | 2365 | 2365 | yes |
+| workspace_jobs | 163 | 163 | yes |
+| workspace_previews | 463 | 463 | yes |
