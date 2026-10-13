@@ -410,7 +410,9 @@ class TapeTests(unittest.TestCase):
             self.assertIn(['run'] if auto_start else ['preview','create','run'],operations)
             self.assertIn(['ticket_finish'],operations)
             return
-        with tempfile.TemporaryDirectory() as output:
+        from contextlib import nullcontext
+        offline_state=patch('investigator.shared_state.configured_state',side_effect=AssertionError('Replay contacted live state')) if shared_backend else nullcontext()
+        with tempfile.TemporaryDirectory() as output,offline_state:
             actual=replay(tape.path,Path(output)/'replay',native_transport=lambda request:
                 bounded_call('synthetic-native',request,lambda:self.fail('No live transport in replay')))
         self.assertTrue(actual['matched'])
