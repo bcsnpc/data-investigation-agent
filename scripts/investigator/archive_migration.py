@@ -87,11 +87,14 @@ def privacy_reason(path, relative):
             combined=tail+block
             if SECRET_BYTES.search(combined):return 'CREDENTIAL_PATTERN'
             tail=combined[-4096:]
-    if Path(path).name=='tape.json':
+    if Path(path).name in ('tape.json','tape.events.jsonl'):
         import base64
         try:
-            tape=json.loads(Path(path).read_bytes())
-            for event in tape['events']:
+            if Path(path).name=='tape.json':
+                events=json.loads(Path(path).read_bytes())['events']
+            else:
+                events=(json.loads(line) for line in Path(path).read_bytes().splitlines())
+            for event in events:
                 decoded=base64.b64decode(event['body'],validate=True)
                 if SECRET_BYTES.search(decoded):return 'DECODED_TAPE_CREDENTIAL_PATTERN'
         except (ValueError,TypeError,KeyError):return 'TAPE_PRIVACY_DECODE_FAILED'

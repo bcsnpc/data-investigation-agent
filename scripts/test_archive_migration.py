@@ -78,6 +78,8 @@ class Tests(unittest.TestCase):
         body=canonical({'events':[{'body':base64.b64encode(secret).decode()}]})
         tape=self.put('.local/round-five/tape.json',body)
         self.assertEqual(archive.privacy_reason(tape,tape.name),'DECODED_TAPE_CREDENTIAL_PATTERN')
+        sidecar=self.put('.local/round-five/tape.events.jsonl',canonical({'body':base64.b64encode(secret).decode()})+b'\n')
+        self.assertEqual(archive.privacy_reason(sidecar,sidecar.name),'DECODED_TAPE_CREDENTIAL_PATTERN')
 
     def test_hot_download_hash_then_archive_receipt_then_cleanup_script(self):
         self.put('.local/round-five/receipt.json')
