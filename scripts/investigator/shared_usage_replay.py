@@ -11,6 +11,23 @@ from .shared_usage import SharedUsage, TABLES
 from .process_tape import TapeError
 
 VERSION = 'FRESH_SHARED_USAGE_V1'
+WORKSPACE_VERSION = 'OWNED_SHARED_USAGE_V1'
+
+
+def capture_backend(governor):
+    """Seal public ownership with a mirror-consistent baseline before capture."""
+    shared = governor.shared
+    with governor.runtime.db() as local:
+        shared.mirror(local)
+        with shared.state.transaction() as db:
+            rows = shared.state.sql(db, 'SELECT session_id,reservation_key,owner FROM state_usage WHERE environment=?',
+                                    (governor.environment,)).fetchall()
+        actual = {(r[0], r[1]) for r in local.execute(
+            'SELECT session_id,reservation_key FROM adaptive_usage WHERE environment=?', (governor.environment,))}
+        if actual != {(r[0], r[1]) for r in rows}:
+            raise TapeError('TAPE_SHARED_BASELINE_CHANGED_DURING_CAPTURE')
+    return {'version': WORKSPACE_VERSION, 'owner': shared.owner,
+            'baseline_owners': sorted([list(r) for r in rows])}
 
 
 def declaration(session):
@@ -39,10 +56,29 @@ class MemoryState(SharedState):
 class ReplayUsage(SharedUsage):
     def __init__(self, governor, tape):
         marker = tape.bootstrap['state']['shared_usage_replay']
-        session = tape.bootstrap['state']['inputs']['session_id']
-        if not tape.replaying or marker != declaration(session):
+        self.tape = tape
+        self.owners = {}
+        workspace = marker.get('version') == WORKSPACE_VERSION
+        if workspace:
+            if (set(marker) != {'version', 'owner', 'baseline_owners'}
+                    or not isinstance(marker['owner'], str) or not marker['owner']
+                    or not isinstance(marker['baseline_owners'], list)):
+                raise TapeError('TAPE_SHARED_USAGE_CONTRACT_DIFFERS')
+            for row in marker['baseline_owners']:
+                if not isinstance(row, list) or len(row) != 3 or any(not isinstance(v, str) or not v for v in row):
+                    raise TapeError('TAPE_SHARED_USAGE_OWNER_INVALID')
+                key = tuple(row[:2])
+                if key in self.owners:raise TapeError('TAPE_SHARED_USAGE_OWNER_DUPLICATE')
+                self.owners[key] = row[2]
+            self.sessions = None
+            owner = marker['owner']
+        else:
+            session = tape.bootstrap['state']['inputs']['session_id']
+            if marker != declaration(session):raise TapeError('TAPE_SHARED_USAGE_CONTRACT_DIFFERS')
+            self.sessions = frozenset(marker['fresh_sessions'])
+            owner = 'SEALED_FRESH_SESSION'
+        if not tape.replaying:
             raise TapeError('TAPE_SHARED_USAGE_CONTRACT_DIFFERS')
-        self.sessions = frozenset(marker['fresh_sessions'])
         self.applying = False
         state = MemoryState()
         expected = {'policy': governor.policy,
@@ -50,7 +86,12 @@ class ReplayUsage(SharedUsage):
         with state.transaction() as db:
             state.sql(db, 'INSERT INTO state_documents VALUES(?,?,?,?,?)',
                       ('usage_policy', governor.environment, 0, encoded(expected), sha(expected)))
-        super().__init__(governor, state, owner='SEALED_FRESH_SESSION')
+        super().__init__(governor, state, owner=owner)
+        if workspace:
+            with governor.runtime.db() as local:
+                actual = {(r[0], r[1]) for r in local.execute(
+                    'SELECT session_id,reservation_key FROM adaptive_usage WHERE environment=?', (self.environment,))}
+                if actual != set(self.owners):raise TapeError('TAPE_SHARED_BASELINE_OWNERS_DIFFER')
 
     def mirror(self, local):
         # The tape's checkpoint applies external deltas immediately AFTER this
@@ -59,7 +100,8 @@ class ReplayUsage(SharedUsage):
             super().mirror(local)
 
     def _load(self, local, session):
-        if session not in self.sessions:
+        allowed = self.sessions if self.sessions is not None else getattr(self.tape, 'budget_owned_sessions', set())
+        if session not in allowed:
             raise TapeError('TAPE_SHARED_USAGE_SESSION_DIFFERS')
         with self.state.transaction() as db:
             for original, (target, columns) in TABLES.items():
@@ -71,7 +113,8 @@ class ReplayUsage(SharedUsage):
                     names = list(columns)
                     if original == 'adaptive_usage':
                         names.append('owner')
-                        values.append(self.owner if row[1] in self.sessions else 'EXTERNAL_BASELINE')
+                        values.append(self.owners.get((row[1], row[2]),
+                            self.owner if self.sessions is not None and row[1] in self.sessions else 'EXTERNAL_BASELINE'))
                     self.state.sql(db, 'INSERT INTO ' + target + '(' + ','.join(names) +
                                    ') VALUES(' + ','.join('?' for _ in values) + ')', values)
 
@@ -79,7 +122,9 @@ class ReplayUsage(SharedUsage):
         self._load(local, session)
         self.applying = True
         try:
-            return super().reserve(local, session, key, *args, **kwargs)
+            result = super().reserve(local, session, key, *args, **kwargs)
+            self.owners[(session, key)] = self.owner
+            return result
         finally:
             self.applying = False
 

@@ -316,9 +316,21 @@ class SharedUsage:
         import sqlite3
         from .read_allowance import snapshot as read_snapshot,initialize
         g=self.governor;now=g.clock();today=self._day(now)
-        with self.state.transaction() as db:
-            retained={original:self.state.sql(db,'SELECT '+','.join(columns)+' FROM '+target+' WHERE environment=?',(self.environment,)).fetchall()
-                      for original,(target,columns) in TABLES.items()}
+        from .process_tape import ACTIVE
+        tape=ACTIVE.get()
+        if tape is not None and tape.bootstrap.get('state',{}).get('shared_usage_replay',{}).get('version')=='OWNED_SHARED_USAGE_V1':
+            # Snapshot inputs can change before the first reservation. Capture
+            # them with the same lossless external-delta contract as admission.
+            from .budget_checkpoint import checkpoint
+            with g.runtime.db() as local:
+                self.mirror(local)
+                checkpoint(tape,local,self.environment,getattr(tape,'budget_owned_sessions',set()))
+                retained={original:local.execute('SELECT '+','.join(columns)+' FROM '+original+' WHERE environment=?',(self.environment,)).fetchall()
+                          for original,(_,columns) in TABLES.items()}
+        else:
+            with self.state.transaction() as db:
+                retained={original:self.state.sql(db,'SELECT '+','.join(columns)+' FROM '+target+' WHERE environment=?',(self.environment,)).fetchall()
+                          for original,(target,columns) in TABLES.items()}
         db=sqlite3.connect(':memory:');db.row_factory=sqlite3.Row
         try:
             db.execute('CREATE TABLE adaptive_usage(environment,session_id,reservation_key,day,kind,reserved,actual,status,policy_hash,created)')

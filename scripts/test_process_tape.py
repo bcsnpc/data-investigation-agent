@@ -265,7 +265,10 @@ class TapeTests(unittest.TestCase):
     def test_smart_ticket_auto_start_records_and_replays_without_an_extra_click(self):
         self.exercise_process(smart_ticket=True,auto_start=True)
 
-    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False):
+    def test_shared_cloud_workspace_replays_initial_snapshot_and_full_intake_investigation(self):
+        self.exercise_process(shared_backend=True)
+
+    def exercise_process(self,failed_composition=False,pinned_context=False,fixture_state=False,smart_ticket=False,cold_resume=False,unavailable_reply=False,auto_start=False,shared_backend=False):
         import test_flexible_investigation as fixture
         from investigator.runtime import Runtime
         from investigator.adaptive_runtime import AdaptiveRuntime
@@ -288,6 +291,16 @@ class TapeTests(unittest.TestCase):
         runtime=Runtime(helper.store,helper.config,native,helper.runtime.source_transport)
         agent=AdaptiveRuntime(runtime,lambda _:self.fail('No open planner'),usage_policy=policy,
             planner_profile={'adapter':'injected','deployment':'synthetic'})
+        if shared_backend:
+            from investigator.shared_state import SharedState
+            from investigator.shared_usage import SharedUsage, export_usage, import_usage
+            with runtime.db() as db:
+                agent.governor.reserve(db,'foreign-history','old','cloud')
+                agent.governor.settle(db,'foreign-history','old')
+                source=export_usage(db,helper.store.environment,policy,None)
+            shared=SharedState.offline(helper.fixture.root/'shared-authority.sqlite');shared.migrate()
+            import_usage(shared,'baseline',source)
+            agent.governor.shared=SharedUsage(agent.governor,shared,owner='worker-current')
         envelope=copy.deepcopy(helper.envelope);envelope['strategy']=VERSION
         envelope['comparison_mode']='VERTICAL';envelope['ticket_shape']='MISMATCH_COMPLAINT'
         workspace=Workspace(agent,execution_enabled=True,question_resolver=azure_resolve)

@@ -79,6 +79,10 @@ def operation(name):
                 slim_config=slim_configuration(agent)
                 root=ROOT/'.local/process-tapes'/str(fresh_id())
                 root.mkdir(parents=True,exist_ok=False)
+                shared_backend=None
+                if agent.governor is not None and agent.governor.shared is not None:
+                    from .shared_usage_replay import capture_backend
+                    shared_backend=capture_backend(agent.governor)
                 backup(agent.store.database,root/'catalog.sqlite')
                 if getattr(agent.store,'shared_accounting',None):
                     from .shared_accounting import materialize
@@ -101,6 +105,8 @@ def operation(name):
                         'snapshot_clock':'ONE_CLOCK_V1',
                         'local_accounting':'SQLITE_BOUNDARY_V1','physical_transport_retries':2}}
                 bootstrap['state']['agent_dollar_guard']='agent-dollar-guard-v1'
+                if shared_backend is not None:
+                    bootstrap['state']['shared_usage_replay']=shared_backend
                 if agent.governor is not None:
                     bootstrap['state']['budget_checkpoint']='DELTA_V2'
                 if getattr(agent.store,'context_pins',None):
