@@ -162,3 +162,9 @@ Interpreter execution r5na9t8 stopped before provider dispatch because the recor
 DECIDED WITHOUT REVIEW: do not mutate the proposed controlled-change report while the actual graph reader cannot fetch its baseline definition (HTTP404 EntityNotFound). Rejected alternative: use publisher credentials to make the reader test pass. Continue offline change/revert tests and scheduling with explicit gaps.
 
 Four retained input databases were losslessly NTFS-compressed; SHA256 before/after matched for each, originals not deleted. Free bytes10,825,805,824 ->11,392,466,944. Receipt `retained-inputs-ntfs-compression.json` is local. This changes filesystem allocation only, not evidence bytes.
+
+## Part D interpreter result, 2026-10-13
+
+Execution `job-dia-worker-x9fz5t9` used the tested `ef31595` image (all eight hosted shards green). It attempted only two of the three previously unattempted inputs: the first returned seven exact-span-validated INFERRED proposals; the second failed `GRAPH_INTERPRETER_SPAN_DIFFERS`. The batch stopped and the final input was not attempted. Both complete request/response captures are retained in private hash-addressed Blob storage, alongside the failed result. No retries, estate reads or graph mutations were performed. Result SHA-256: `eb43be7af0b67102dc4eeae0871e3ed13f204a7963cee5053be2e3418ba0d3e1`. Shared-ledger model charge: USD0.088833.
+
+The seven proposals remain reviewable evidence, not published graph truth. Exact span validity does not prove semantic correctness or deployment; these fixture-authoring procedure declarations explicitly do not establish deployment. End-to-end procedure verification remains unavailable. The earlier pre-provider failure and its conservatively charged planner reservation remain unchanged.
