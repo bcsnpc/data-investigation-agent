@@ -219,6 +219,10 @@ Run against each estate using only the guide and the client configuration:
 python scripts/preflight_installation.py --manifest .local/client-estate.json --platform .local/client-platform.json --output .local/preflight-001.json
 ```
 
+To import already-earned platform controls for fixture and billing without new
+calls, follow [the hash-pinned receipt recipe](cloud-preflight-receipts.md).
+Credential authentication remains distinct from actual query permission.
+
 The default command is offline and makes zero estate/model calls. It prints
 **PASS**, **FAIL**, or **MISSING** for every prerequisite with an actionable fix.
 Configuration PASS and access PASS are separate checks. Exit code 2 means the
