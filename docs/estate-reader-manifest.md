@@ -1,3 +1,5 @@
+Dated Round Nineteen-B,2026-10-13: separate secretless dia-scanner (app86a9d95a-466c-443e-9eb9-91f870ffe15a; FabricSPdbb49594-6c70-4989-a6c8-c4f237c4a021) has Contributor only on fixture149f8d99-1c66-4a0a-9624-759be002bb60 and billing7d67bb36-04f6-4182-95aa-da5d515248fa. Scanner-only group94dbb72c-f1f2-4b4f-9e21-2e1e5ca73096 added to three admin metadata settings. Credential loading requires trusted scan/change job and read-only endpoint allowlist. This privileged metadata identity is never the investigator; existing reader permissions unchanged. Exact before/after and owner decision: docs/round-nineteen-b-execution.md.
+
 Dated Round Nineteen, 2026-10-13: dia-investigator-round19 (app531419ef-1610-415a-b8bf-01a4b6aad751) has Viewer on three test workspaces, group ReadExplore on nine models, db_datareader and VIEW DEFINITION in ordersops/billingapp. Federation and query proof pending; old cache retained. Owner separately received Storage Blob Data Contributor on platform account diaplatformd5dd7d65 only, as a control identity. Exact authority: docs/round-nineteen-control-ledger.md.
 
 # Estate reader manifest seed

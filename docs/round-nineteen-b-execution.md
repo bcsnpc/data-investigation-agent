@@ -22,3 +22,37 @@ Part0 runs first, with background archive alongside later parts. Live captures p
 Opened 2026-10-13T16:26:06.421688+00:00; free disk11432660992bytes (10.647GiB). Live-capture admission blocked below11GiB; offline engineering and approved platform controls continue.
 
 Budget opened 2026-10-13T16:26:13.900646+00:00: shared USD108.046558; ceiling USD133.046558, including protectedUSD10 and newUSD15. Fresh physical pot1500/reserve95. Rolling3000 and all daily limits unchanged; counters not reset. No existing RESERVED monetary reservation. Previous scheduled scanner retains its old round pin and must not silently adopt the new pot.
+
+## Owner archive verification amendment, 2026-10-13
+
+New archive uploads use Cool tier, locally computed hashes, upload Content-MD5 validation and a properties comparison; no verification download. Matching objects are then moved to Archive. The USD20 ceiling applies to steady monthly running cost. The owner separately approved up to USD2 total one-off archive transactions this round. Current runtime/test inputs remain excluded. Previous full-readback receipts are preserved as historical proofs, not retroactively relabelled. For block uploads, each block must use service-validated transactional MD5; stored whole-object MD5 alone is a client-supplied property and is not represented as Azure recomputing SHA256.
+
+Scanner setup before first use: the home application, federated credential and home service principal were created. Fabric-tenant service-principal creation returned HTTP400 NoBackingApplicationObject. Receipt and original failure retained under `.local/round-nineteen-b/scanner-identity-controls.json`; no scanner token or estate call yet. The existing same-pattern investigator had the same propagation response. One bounded retry is permitted only after independently confirming the unchanged backing app, without changing identity/scope or creating a second app. This resolves propagation rather than bypassing a permission refusal. Initial local script encoding failure made zero network calls and is preserved separately.
+
+
+## Scanner setup applied, 2026-10-13 (§8)
+
+Approved by Chaitu in the Round Nineteen-B prompt. The unchanged backing application was independently checked; one bounded retry created its Fabric service principal. No password or certificate was created. The federated credential trusts the existing platform managed identity, with the application in its home tenant and service principal in Fabric. This follows the existing cross-tenant federation pattern.
+
+- app_id: `86a9d95a-466c-443e-9eb9-91f870ffe15a`
+- app_object_id: `706915c6-0dc6-472f-beca-caf29547a030`
+- home_sp_id: `77d6ee28-5b37-46b4-9d10-8985c01bc318`
+- fabric_sp_id: `dbb49594-6c70-4989-a6c8-c4f237c4a021`
+- group_id: `94dbb72c-f1f2-4b4f-9e21-2e1e5ca73096`
+- name: `dia-scanner`
+- credential: `federated id-dia-worker; no secret or certificate`
+
+Exact workspace grant on each of fixture `149f8d99-1c66-4a0a-9624-759be002bb60` and billing `7d67bb36-04f6-4182-95aa-da5d515248fa`:
+
+```http
+POST https://api.fabric.microsoft.com/v1/workspaces/{workspace}/roleAssignments
+{"principal": {"id": "dbb49594-6c70-4989-a6c8-c4f237c4a021", "type": "ServicePrincipal"}, "role": "Contributor"}
+```
+
+Independent listings: scanner absent before, one Contributor assignment after, on each workspace. The rebuilt workspace was not granted. No direct model grant was applied; inherited workspace rights will be tested rather than presumed to prove INFO access. Investigator roles are unchanged.
+
+Tenant settings `AllowServicePrincipalsUseReadAdminAPIs`, `AdminApisIncludeDetailedMetadata`, and `AdminApisIncludeExpressions` each retained their existing groups and appended only scanner group `94dbb72c-f1f2-4b4f-9e21-2e1e5ca73096` (`dia-scanner-metadata-only`). All three read back enabled with that group. Group contains only the scanner. The exact requests, before/after listings, initial 400 and later success are retained locally in `scanner-identity-controls.json`; no secret is in that receipt.
+
+Integrated focused check: 52 tests and 106 subtests passed, including denied write paths and scanner credentials unavailable to investigation jobs. A subsequent dependency wiring/CI change is under verification before first scanner live use. This is application gateway enforcement, not a claim of an OS/network security boundary.
+
+Cleanup correction: 37 files referenced by current tests/runtime were removed before exclusions were complete. Calling the script ready was an implementation error. All 37 were restored from retained local archives, with exact original SHA256 and size checks (1,071,241,247 bytes), without network retrieval. The new script protects them; original deletion logs remain. Disk afterward: 12,551,286,784 bytes free.
