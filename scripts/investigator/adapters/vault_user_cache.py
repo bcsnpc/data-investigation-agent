@@ -52,6 +52,11 @@ def reference(value):
     return value['vault_url'] + '/secrets/' + value['secret_name'] + '/' + value['secret_version']
 
 
+def channel(value):
+    value=validate(value)
+    return 'user-cache:' + value['client_id'] + (':powerbi' if value['scope']==PBI else ':sql')
+
+
 def cache_payload(raw, declaration):
     """Validate minimal migration envelope before handing anything to MSAL."""
     d = validate(declaration)
@@ -89,8 +94,9 @@ def cache_payload(raw, declaration):
 
 class Http:
     """MSAL transport: exact declared tenant endpoints and gateway, no redirects."""
-    def __init__(self, declaration):
+    def __init__(self, declaration, gateway_identity=None):
         self.d = declaration
+        self.gateway_identity = gateway_identity or channel(declaration)
 
     def get(self, url, **kwargs):
         expected = 'https://login.microsoftonline.com/' + self.d['tenant_id'] + '/v2.0/.well-known/openid-configuration'
@@ -112,7 +118,7 @@ class Http:
         from metadata_auth import NoRedirect
         from ..live_gateway import open_http
         try:
-            response = open_http(build_opener(NoRedirect()), request, timeout=30)
+            response = open_http(build_opener(NoRedirect()), request, timeout=30, identity=self.gateway_identity)
         except HTTPError as error:
             response = error
         with response:
@@ -129,10 +135,11 @@ class Http:
 
 
 class Tokens:
-    def __init__(self, declaration, *, loader=None, application=None):
+    def __init__(self, declaration, *, loader=None, application=None, gateway_identity=None):
         self.d = validate(declaration)
         self.loader = loader or secret
         self.application = application
+        self.gateway_identity = gateway_identity or channel(declaration)
 
     def get_token(self, scope):
         if scope != self.d['scope']:
@@ -140,10 +147,11 @@ class Tokens:
         try:
             import msal
             cache = msal.SerializableTokenCache()
-            cache.deserialize(json.dumps(cache_payload(self.loader(self.d['reference']), self.d)))
+            options = {'gateway_identity': self.gateway_identity} if self.gateway_identity is not None else {}
+            cache.deserialize(json.dumps(cache_payload(self.loader(self.d['reference'], **options), self.d)))
             factory = self.application or msal.PublicClientApplication
             app = factory(self.d['client_id'], authority='https://login.microsoftonline.com/' + self.d['tenant_id'],
-                token_cache=cache, http_client=Http(self.d), instance_discovery=False, enable_pii_log=False)
+                token_cache=cache, http_client=Http(self.d, self.gateway_identity), instance_discovery=False, enable_pii_log=False)
             accounts = app.get_accounts(username=self.d['account'])
             if len(accounts) != 1 or accounts[0].get('local_account_id') != self.d['principal_id']:
                 raise ValueError('account')

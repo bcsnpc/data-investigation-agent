@@ -57,7 +57,7 @@ class CacheTests(unittest.TestCase):
     def test_wrong_token_claims_or_provider_error_never_exposes_secrets(self):
         for claims in ({'tid':CLIENT},{'oid':CLIENT},{'aud':'https://evil.invalid'},{'upn':'admin@example.test'}):
             with self.assertRaisesRegex(RuntimeError,'BINDING_MISMATCH') as error:
-                auth.Tokens(D,loader=lambda _:json.dumps(CACHE),application=Mock(return_value=self.app(token(**claims)))).get_token(auth.PBI)
+                auth.Tokens(D,loader=lambda _,**kw:json.dumps(CACHE),application=Mock(return_value=self.app(token(**claims)))).get_token(auth.PBI)
             self.assertNotIn('synthetic-refresh',str(error.exception))
         with self.assertRaisesRegex(RuntimeError,'BINDING_MISMATCH') as error:
             auth.Tokens(D,loader=Mock(side_effect=ValueError('raw-secret')),application=Mock()).get_token(auth.PBI)
@@ -153,7 +153,7 @@ class CacheTests(unittest.TestCase):
             return response
         with patch.dict('os.environ',{'DIA_LIVE_ACCESS_DISABLED':'0'}), \
                 patch('investigator.live_gateway.open_http',side_effect=opened):
-            self.assertEqual(auth.Tokens(D,loader=lambda _:json.dumps(CACHE)).get_token(auth.PBI),token())
+            self.assertEqual(auth.Tokens(D,loader=lambda _,**kw:json.dumps(CACHE)).get_token(auth.PBI),token())
         self.assertEqual([r.full_url for r in requests],[discovery,token_url])
         self.assertEqual(parse_qs(requests[1].data.decode())['grant_type'],['refresh_token'])
 

@@ -47,16 +47,20 @@ workspace allowlist. `fabric.sql_reader` carries the separate SQL declaration
 credential reference is the exact versioned vault URL without query string.
 The worker MI retrieves the secret; it does not become the quantity identity.
 
-The configured gateway HTTP identity needs these exact entries, never a wildcard:
+Authentication uses a deterministic logical gateway channel:
+`user-cache:<client_id>:powerbi` for the Power BI cache and
+`user-cache:<client_id>:sql` for the SQL cache. The existing investigation
+channel still governs each estate query. Each authentication channel needs
+these exact entries, never a wildcard:
 
 * GET the versioned vault URL with `?api-version=7.4`, purpose `metadata`.
 * GET `https://login.microsoftonline.com/<tenant>/v2.0/.well-known/openid-configuration`, purpose `metadata`.
 * POST `https://login.microsoftonline.com/<tenant>/oauth2/v2.0/token`, purpose
   `auth_refresh`, with `tenant_id`, `client_id` and `scope` fields matching this
   declaration. This accepts only the refresh-token grant for that client and
-  scope, with the usual OIDC scopes. A second client/scope on the same token
-  endpoint uses a separate logical gateway identity/session policy (duplicate
-  exact endpoint grants are ambiguous and refused).
+  scope, with the usual OIDC scopes. The two deterministic channels let one
+  policy carry the clients' different grants for the same token endpoint;
+  duplicate exact endpoint grants within a channel remain ambiguous and refused.
 * The existing exact query endpoint or SQL object/control allowance.
 
 KV access and refresh requests carry credentials only in memory. MSAL uses an
@@ -73,3 +77,24 @@ SQL permission checks, object allowlists, physical accounting and surface
 attestation remain the same. Tokens and refresh values never enter tapes.
 Tests use fabricated cache records and mock transports, including the real
 MSAL cache/refresh path, without any cloud or estate call.
+
+## Authentication-only preflight
+
+`python scripts/platform_auth_preflight.py --environment-config` reads only
+the trusted public JSON configuration from `DIA_PLATFORM_AUTH_CONFIG` and the
+gateway policy from `DIA_PLATFORM_GATEWAY_POLICY`. The configuration has
+`version:1`, `readers` (exactly two entries, each with `channel` and
+`authentication`), and `model_key` (null, or `channel` and a versioned
+`reference`). Use the deterministic channels above for the two reader entries.
+Both declarations must use their separate existing client/cache references.
+The optional model-key channel needs only the exact versioned vault GET.
+The ordinary kill switch applies; enabling it is a separate operator action.
+
+This command retrieves version-pinned caches and silently refreshes each
+existing reader's token, then discards it. It prints only PASS/FAIL, stable
+failure reason and public bound identity/audience fields. It can verify that
+the version-pinned model key is present without contacting the model API.
+`--output <path>` optionally retains that sanitized report. It performs zero
+estate reads and zero model calls; a pass does not establish estate permission
+or model authorization. No caches, tokens, secret values or raw SDK errors are
+written to the report, stdout or disk.
