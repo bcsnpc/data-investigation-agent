@@ -5,7 +5,7 @@ Sampling is descriptive, not privacy approval or a guaranteed compression ratio.
 """
 import argparse
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 import gzip
 import hashlib
 import json
@@ -99,20 +99,60 @@ def batch(root,cutoff,*,max_original_bytes,max_files,protected,skip_paths=()):
     return manifest
 
 
+def partition(manifest, source_sha, *, max_original_bytes, max_files):
+    """Partition a pinned selection, preserving every complete capture exactly."""
+    if digest(canonical(manifest)) != source_sha:
+        raise ValueError('PARTITION_MANIFEST_SHA_DIFFERS')
+    if max_original_bytes < 1 or max_files < 1:
+        raise ValueError('PARTITION_BOUND')
+    groups=defaultdict(list)
+    for entry in manifest['entries']:
+        groups[str(Path(entry['path']).parent)].append(entry)
+    parts=[];entries=[];size=0
+    for name,group in sorted(groups.items()):
+        total=sum(row['bytes'] for row in group)
+        if total>max_original_bytes or len(group)>max_files:
+            raise ValueError('PARTITION_CAPTURE_EXCEEDS_BOUND: '+name)
+        if entries and (size+total>max_original_bytes or len(entries)+len(group)>max_files):
+            parts.append(entries);entries=[];size=0
+        entries.extend(group);size+=total
+    if entries:parts.append(entries)
+    return [{**manifest,'created_at':datetime.now(timezone.utc).isoformat(),
+             'entries':rows,'excluded':[],
+             'partition_source_sha256':source_sha,'partition_index':index,
+             'partition_count':len(parts),'parent_excluded_count':len(manifest['excluded'])}
+            for index,rows in enumerate(parts)]
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',choices=['sample','batch'])
+    parser.add_argument('action',choices=['sample','batch','partition'])
     parser.add_argument('--workspace',required=True,type=Path)
-    parser.add_argument('--cutoff',required=True,help='ISO UTC time from round opening receipt')
+    parser.add_argument('--cutoff',help='ISO UTC time from round opening receipt')
+    parser.add_argument('--source-manifest',type=Path)
+    parser.add_argument('--source-manifest-sha256')
+    parser.add_argument('--partition-index',type=int)
     parser.add_argument('--max-original-bytes',type=int,default=1024*1024*1024)
     parser.add_argument('--max-files',type=int,default=200)
     parser.add_argument('--protected-paths',type=Path)
     parser.add_argument('--previous-plans',type=Path,help='JSON list of {path,sha256}; skip retained prior selections/holds without changing them')
     parser.add_argument('--output',required=True,type=Path)
     args=parser.parse_args();root=args.workspace.resolve(strict=True)
-    cutoff=datetime.fromisoformat(args.cutoff).timestamp()
-    if args.action=='sample':value=sample(root,cutoff)
+    from investigator.archive_migration import load_pinned
+    if args.action=='partition':
+        if args.source_manifest is None or args.source_manifest_sha256 is None or args.partition_index is None:
+            raise ValueError('PARTITION_SOURCE_REQUIRED')
+        source=load_pinned(args.source_manifest,args.source_manifest_sha256)
+        if Path(source['workspace']).resolve(strict=True)!=root:raise ValueError('PARTITION_WORKSPACE_DIFFERS')
+        parts=partition(source,args.source_manifest_sha256,max_original_bytes=args.max_original_bytes,max_files=args.max_files)
+        if args.partition_index<0 or args.partition_index>=len(parts):raise ValueError('PARTITION_INDEX')
+        value=parts[args.partition_index]
+    elif args.action=='sample':
+        if not args.cutoff:raise ValueError('CUTOFF_REQUIRED')
+        value=sample(root,datetime.fromisoformat(args.cutoff).timestamp())
     else:
+        if not args.cutoff:raise ValueError('CUTOFF_REQUIRED')
+        cutoff=datetime.fromisoformat(args.cutoff).timestamp()
         if args.protected_paths is None:raise ValueError('PROTECTED_PATHS_REQUIRED')
         from investigator.archive_migration import load_pinned
         previous=json.loads(args.previous_plans.read_bytes()) if args.previous_plans else []
