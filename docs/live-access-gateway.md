@@ -67,3 +67,13 @@ PowerShell scripts are not an OS sandbox: a human running those scripts manually
 can bypass the Python dispatcher. Do not describe this as a network firewall.
 The deployment must expose only governed worker entrypoints and preserve
 least-privilege principals independently of this application guard.
+
+Platform persistence is separately scoped: an identity with `role: "platform"`
+may declare only `platform_blob` HTTP grants (GET/HEAD/PUT; never DELETE) and
+`platform_databases: [{"host": "exact-host", "database": "tool-state-db"}]`.
+It cannot also declare estate SQL or model/metadata endpoints. Blob SDK adapters
+must call `current().http(identity, method, exact_url)` before each send, including
+block uploads/commit URLs. PostgreSQL adapters call
+`authorize_platform_database(identity, host, database)` before connecting.
+These are internal application persistence operations, never model-facing tools;
+estate queries cannot request platform authority or supply those identity labels.

@@ -88,10 +88,19 @@ class Gateway:
                 _deny('INVALID_GATEWAY_IDENTITY')
             for endpoint in permissions.get('http',[]):
                 _url(endpoint['url'])
-                if endpoint.get('method') not in ('GET','HEAD','POST'):
+                if endpoint.get('method') not in ('GET','HEAD','POST','PUT'):
                     _deny('MUTATING_METHOD_IN_POLICY')
-                if endpoint.get('purpose') not in ('metadata','dax','model','blob_read','kql'):
+                if endpoint.get('purpose') not in ('metadata','dax','model','blob_read','kql','platform_blob'):
                     _deny('INVALID_ENDPOINT_PURPOSE')
+                if endpoint['method']=='PUT' and endpoint['purpose']!='platform_blob':
+                    _deny('ESTATE_WRITE_METHOD_IN_POLICY')
+                if endpoint['purpose']=='platform_blob' and permissions.get('role')!='platform':
+                    _deny('PLATFORM_IDENTITY_REQUIRED')
+            if permissions.get('role')=='platform' and (permissions.get('sql') or
+                    any(item['purpose']!='platform_blob' for item in permissions.get('http',[]))):
+                _deny('PLATFORM_AND_ESTATE_IDENTITY_MIXED')
+            if permissions.get('platform_databases') and permissions.get('role')!='platform':
+                _deny('PLATFORM_IDENTITY_REQUIRED')
             for target in permissions.get('sql',[]):
                 if (target.get('read_only') is not True or not target.get('server') or not target.get('database')
                         or type(target.get('row_cap')) is not int or not 1<=target['row_cap']<=1000
@@ -138,11 +147,20 @@ class Gateway:
         elif purpose=='model':
             if method!='POST' or path[-1] not in ('responses','completions'):
                 _deny('MODEL_ENDPOINT_REQUIRED',identity=identity,target=url)
+        elif purpose=='platform_blob':
+            if method not in ('GET','HEAD','PUT'):
+                _deny('PLATFORM_BLOB_OPERATION_BLOCKED',identity=identity,target=url)
         elif purpose=='kql':
             # No general KQL interpreter is exposed in this round. A dot command
             # (including execute_query commands) must not be a metadata bypass.
             _deny('KQL_GATEWAY_NOT_IMPLEMENTED',identity=identity,target=url)
         return matches[0]
+
+    def platform_database(self,identity,host,database):
+        permissions=self.identity(identity)
+        if permissions.get('role')!='platform' or {'host':host,'database':database} not in permissions.get('platform_databases',[]):
+            _deny('PLATFORM_DATABASE_NOT_ALLOWED',identity=identity,target=host+'/'+database)
+        return {'host':host,'database':database}
 
     def sql_control(self,identity,server,database,control):
         permissions=self.identity(identity)
@@ -284,3 +302,8 @@ def authorize_sql_payload(payload):
 
 def authorize_sql_control(server,database,control,*,identity=None):
     return current().sql_control(identity or os.environ.get('DIA_GATEWAY_SQL_IDENTITY',''),server,database,control)
+
+
+def authorize_platform_database(identity,host,database):
+    """Internal persistence only; no agent/model tool exposes this operation."""
+    return current().platform_database(identity,host,database)

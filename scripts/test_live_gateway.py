@@ -135,6 +135,20 @@ class GatewayRedTeamTests(unittest.TestCase):
         logs=self.denied(lambda:validate_sql(raw,{('dbo','sales')}))
         self.assertNotIn('private-value-719',str(logs))
 
+    def test_platform_writes_are_separate_from_estate_or_model_authority(self):
+        policy=copy.deepcopy(POLICY)
+        url='https://platform.blob.core.windows.net/snapshots/sha256'
+        policy['identities']['platform']={'role':'platform','http':[{'method':'PUT','url':url,'purpose':'platform_blob'}],
+            'platform_databases':[{'host':'state.postgres.database.azure.com','database':'dia_state'}]}
+        gateway=Gateway(policy)
+        gateway.http('platform','PUT',url)
+        gateway.platform_database('platform','state.postgres.database.azure.com','dia_state')
+        self.denied(lambda:gateway.http('reader','PUT',url))
+        self.denied(lambda:gateway.http('platform','DELETE',url))
+        self.denied(lambda:gateway.platform_database('platform','state.postgres.database.azure.com','estate_data'))
+        policy['identities']['platform']['sql']=POLICY['identities']['reader']['sql']
+        self.denied(lambda:Gateway(policy))
+
     def test_model_http_hook_denies_refresh_and_unknown_destination(self):
         import httpx
         from investigator.live_gateway import model_request
