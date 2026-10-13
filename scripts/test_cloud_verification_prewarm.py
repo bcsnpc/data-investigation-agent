@@ -64,5 +64,18 @@ class PrewarmVerificationTests(unittest.TestCase):
             spec=self.spec();spec['prewarm']=declaration
             with self.assertRaisesRegex(ValueError,'PREWARM_DECLARATION'):plan(spec)
 
+    def test_worker_bound_and_remaining_job_time_checked_before_admission(self):
+        with tempfile.TemporaryDirectory() as folder,active(Tape(Path(folder)/'tape.json',bootstrap())):
+            governor=Mock();execute=Mock();config=copy.deepcopy(CONFIG)
+            config['_estate']['layers'][0]['worker_timeout_seconds']=1800
+            with self.assertRaisesRegex(ValueError,'WORKER_BOUND'):
+                self.run_control(self.spec(),config,execute,governor)
+            # Retry wrapper retains this failed control result, but admits no
+            # request and cannot continue into verification after the deadline.
+            with self.assertRaisesRegex(ValueError,'DEADLINE'):
+                prewarm_source(self.spec(),CONFIG,{'source':{'asset_id':ASSET}},governor,
+                    {'session_id':'verification','deadline':0},{},execute=execute)
+            governor.metered_read.assert_not_called();execute.assert_not_called()
+
 
 if __name__=='__main__':unittest.main()
