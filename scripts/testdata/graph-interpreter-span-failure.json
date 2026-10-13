@@ -1,0 +1,38 @@
+{
+  "source_request_sha256": "2b9988192707bc103fef6d34de6a0e7ec72e21ede0c77b2594533be437e51c5e",
+  "source_response_sha256": "e0b5981fca3199d33db0e15d45b81fe658d34550710ee07f07db2455ea2a3e18",
+  "definition_hash": "e1774b4e88a902d91dd63ccf0fc554647b33f1d9d7846226fe36300e683efed4",
+  "code": "-- Fixture-authoring code only. Not executed or asserted to be deployed.\n-- Bronze tables are Dataflow Gen2 destinations; no literal-row staging here.\nCREATE PROCEDURE [silver].[build_invoices]\nAS\nBEGIN\n DELETE FROM [silver].[invoices];\n INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];\nEND;",
+  "failed_edges": [
+    {
+      "start": 235,
+      "end": 400,
+      "quote": "INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];"
+    },
+    {
+      "start": 235,
+      "end": 400,
+      "quote": "INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];"
+    },
+    {
+      "start": 235,
+      "end": 400,
+      "quote": "INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];"
+    },
+    {
+      "start": 235,
+      "end": 400,
+      "quote": "INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];"
+    },
+    {
+      "start": 235,
+      "end": 400,
+      "quote": "INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];"
+    },
+    {
+      "start": 235,
+      "end": 400,
+      "quote": "INSERT INTO [silver].[invoices] (invoice_id,account_id,invoice_date,amount,status)\n SELECT invoice_id,account_id,invoice_date,amount,status FROM [bronze].[invoices];"
+    }
+  ]
+}
