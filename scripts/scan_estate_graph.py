@@ -49,7 +49,11 @@ class Meter:
 def validate(config):
     required = {'estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix',
                 'budget', 'max_requests', 'approval'}
-    if not isinstance(config, dict) or set(config) != required: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
+    if not isinstance(config, dict) or not required<=set(config)<=required|{'sql'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
+    if 'sql' in config and (not isinstance(config['sql'],list) or not 1<=len(config['sql'])<=10):
+        raise ValueError('GRAPH_SQL_COLLECTOR_BOUND')
+    for group in config.get('sql',[]):
+        if not isinstance(group,dict)or set(group)!={'identity','config','objects'}:raise ValueError('GRAPH_SQL_COLLECTOR_SHAPE')
     if not isinstance(config['approval'], str) or not config['approval'].strip():
         raise ValueError('GRAPH_SCHEDULE_OWNER_APPROVAL_REQUIRED')
     return config
@@ -89,6 +93,23 @@ def execute(config):
     at = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     try:
         result = scanner.run(config['estate'], at)
+        result['sql_collectors']=[]
+        for group in config.get('sql',[]):
+            from investigator.adapters.graph_sql_changes import FabricSqlChanges
+            from investigator.physical_reads import scope
+            from fabric_sql_surface import read
+            def execute_sql(database,request):
+                def operation():
+                    with scope(lambda kind,call:meter(call)):
+                        return read(group['config'],database,request)
+                return meter(operation)
+            sql=FabricSqlChanges(group['identity'],group['config'],group['objects'],execute_sql)
+            reader=IncrementalScanner(repo,sql,lambda estate,owner,when,payload:
+                extract(estate,payload['assets'],sink,observed_at=when,owner=owner,source_asset_ids=[]))
+            result['sql_collectors'].append(reader.run(config['estate'],at))
+        result['coverage_gaps']=[
+            {'capability':'runtime_query_monitoring','status':'UNAVAILABLE','reason':'Scheduled runtime-query monitoring collector is not implemented; no monitoring permission or data is inferred.'},
+            {'capability':'refresh_pipeline_delta_history','status':'UNAVAILABLE','reason':'Scheduled refresh, run and Delta-history collectors are not implemented. Item/SQL modify dates describe definitions, not data freshness.'}]
         result.update(physical_requests=meter.used, approval=config['approval'], config_hash=sha(config),
             usage_before=meter.before,usage_after=meter.usage.snapshot())
         state.put('graph_scan_run', meter.owner, result)

@@ -87,13 +87,26 @@ listing. `IncrementalScanner` supports explicit trusted deletion events, or an
 explicitly authoritative complete inventory from another collector. Deleted
 objects retain graph history and dependent paths gain a named stopping boundary.
 
-The `SqlSchemaChanges` adapter takes the existing attested exact-object catalog
-reader and a scoped definition callback. It compares column fingerprints and an
-observed object modify date. Without modify-date evidence it polls definitions,
-because unchanged columns do not imply unchanged view/procedure logic. The
-Fabric scheduled CLI does **not** configure SQL callbacks automatically: each SQL
-route still needs its existing reader/gateway binding. Event/activity-log feeds
-and freshness/Delta-history collectors are not implemented here.
+The optional `sql` configuration is an array of at most ten groups, each with
+`identity` (stable collector name), `config` (the existing explicit Fabric SQL
+reader configuration) and `objects` (owner-to-resolved-object map, max 100).
+The `FabricSqlChanges` callback uses `fabric_sql_surface.read` with every child
+permission/control/query request metered through the same shared usage guard.
+It compiles only exact-object sys catalog controls, with the existing CATALOG,
+object, row-cap and timeout authority. It never grants arbitrary sys queries.
+The poll reads schema columns plus object modify dates; a view/procedure body
+is fetched only when its fingerprint changes. A differing modify date between
+poll and definition read refuses the non-atomic observation. Missing VIEW
+DEFINITION evidence or a body exceeding 262,144 UTF-16 bytes is unavailable.
+Direct application SQL callbacks remain unimplemented; no Fabric SQL reader is
+silently substituted for them.
+
+The generic `SqlSchemaChanges` adapter remains available for other already
+attested callbacks. Without modify-date evidence it polls definitions, because
+unchanged columns do not imply unchanged view/procedure logic. Event/activity-log
+feeds and freshness/Delta-history collectors are not implemented. Every scheduled
+result explicitly names runtime monitoring and refresh/run/Delta history as
+UNAVAILABLE; SQL modify dates are never presented as data freshness.
 
 Changed owner snapshots close old graph versions and append change records.
 Before a definition fetch, the shared collection history records REFRESHING.

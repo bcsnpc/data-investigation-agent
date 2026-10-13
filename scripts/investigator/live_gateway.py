@@ -367,6 +367,9 @@ def authorize_sql_payload(payload):
     identity=os.environ.get('DIA_GATEWAY_SQL_IDENTITY','')
     from .adapters.binding_catalog import compiled_control_objects
     catalog_objects=compiled_control_objects(payload)
+    if catalog_objects is None:
+        from .adapters.graph_sql_changes import compiled_control_objects as graph_catalog_objects
+        catalog_objects=graph_catalog_objects(payload)
     if catalog_objects is not None:
         gateway=current()
         gateway.sql_control(identity,payload['server'],payload['database'],'CATALOG')
