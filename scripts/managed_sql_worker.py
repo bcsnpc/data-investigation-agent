@@ -92,7 +92,8 @@ def execute(payload, *, connect=None, tokens=None, protocol=None, progress=None)
     protocol = protocol or Protocol()
     progress = progress if progress is not None else {}
     progress['stage'] = 'setup'
-    auth = validate(payload['authentication'])
+    from investigator.adapters.vault_user_cache import MODE, validate as user_validate, provider
+    auth = (user_validate if payload['authentication'].get('mode') == MODE else validate)(payload['authentication'])
     connection_string = _connection_string(payload)
     control = payload.get('control_mode')
     if control:
@@ -112,7 +113,7 @@ def execute(payload, *, connect=None, tokens=None, protocol=None, progress=None)
         pyodbc.pooling = False  # No cross-run connection/permission state.
         connect = pyodbc.connect
     progress['stage'] = 'token'
-    token = (tokens or Tokens(auth)).get_token('https://database.windows.net/.default').encode('utf-16-le')
+    token = (tokens or provider(auth)).get_token('https://database.windows.net/.default').encode('utf-16-le')
     packed = struct.pack('<I', len(token)) + token
     progress['stage'] = 'connect'
     connection = connect(connection_string, attrs_before={1256:packed, 101:1}, timeout=30, autocommit=True)

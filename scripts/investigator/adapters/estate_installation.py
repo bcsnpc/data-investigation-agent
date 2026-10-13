@@ -32,7 +32,10 @@ def configuration(manifest):
             else:actual=auth['credential_file']
         else:
             reader=options['fabric']['sql_reader']
-            if reader.get('mode')=='managed_identity':
+            if reader.get('mode')=='key_vault_user_cache':
+                from .vault_user_cache import credential, reference as identity_reference
+                actual=identity_reference(credential(reader))
+            elif reader.get('mode')=='managed_identity':
                 from .managed_identity import reference as identity_reference
                 actual=identity_reference({k:reader[k] for k in ('mode','tenant_id','client_id','principal_id')})
             else:actual=reader['profile']

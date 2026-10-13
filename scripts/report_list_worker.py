@@ -9,7 +9,8 @@ from metadata_auth import MetadataHttp
 
 def read(request, *, application=None, token=None, http_factory=MetadataHttp, meter=None):
     expected={'endpoint','workspace_ids','reader'}
-    if request.get('reader',{}).get('mode')=='managed_identity':expected.add('authentication')
+    cached=request.get('authentication',{}).get('mode')=='key_vault_user_cache'
+    if cached or request.get('reader',{}).get('mode')=='managed_identity':expected.add('authentication')
     if set(request)!=expected:
         raise ValueError('Unexpected report metadata request fields')
     reader=profile(request['reader'])
@@ -18,7 +19,7 @@ def read(request, *, application=None, token=None, http_factory=MetadataHttp, me
         raise ValueError('Report metadata endpoint outside declared scope')
     if 'workspace_ids' in reader and not set(request['workspace_ids'])<=set(reader['workspace_ids']):
         raise ValueError('Report metadata workspace exceeds reader allowlist')
-    if reader['mode']!='managed_identity' and (application is None or token is None):
+    if not cached and reader['mode']!='managed_identity' and (application is None or token is None):
         from connect_fixture_reader import application, token
     class Tokens:
         def get_token(self,scope):
@@ -32,7 +33,13 @@ def read(request, *, application=None, token=None, http_factory=MetadataHttp, me
                     or (claims.get('preferred_username') or claims.get('upn') or '').casefold()!=reader['account'].casefold()):
                 raise ValueError('Report metadata reader principal differs')
             return access
-    if reader['mode']=='managed_identity':
+    if cached:
+        from investigator.adapters.vault_user_cache import validate, Tokens as CachedTokens
+        auth=validate(request['authentication'])
+        if reader['mode']!='isolated_reader' or any(auth[k]!=reader[k] for k in ('tenant_id','principal_id','account')):
+            raise ValueError('Report metadata reader identity differs')
+        provider=CachedTokens(auth)
+    elif reader['mode']=='managed_identity':
         from investigator.adapters.managed_identity import Tokens as ManagedTokens,validate
         auth=validate(request['authentication'])
         if auth['tenant_id']!=reader['tenant_id'] or auth['principal_id']!=reader['principal_id']:

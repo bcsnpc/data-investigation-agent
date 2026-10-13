@@ -50,6 +50,7 @@ def worker_failure(exc):
 def execute(request,tenant,reader=None,authentication=None):
     workspace=str(UUID(request['workspace']));model=str(UUID(request['native_model_id']))
     if reader is None:
+        if (authentication or {}).get('mode')=='key_vault_user_cache':raise ValueError('Cached native reader identity required')
         if request.get('requires_native_reader'):raise ValueError('Discovered execution requires a read-only reader')
         token=FabricCliTokens(tenant).get_token('https://analysis.windows.net/powerbi/api/.default')
     else:
@@ -62,6 +63,12 @@ def execute(request,tenant,reader=None,authentication=None):
             if credential is None or credential['principal_id']!=reader['principal_id'] or credential['tenant_id']!=tenant:
                 raise ValueError('Managed identity reader credential binding differs')
             token=Tokens(credential).get_token('https://analysis.windows.net/powerbi/api/.default')
+        elif (authentication or {}).get('mode') == 'key_vault_user_cache':
+            from investigator.adapters.vault_user_cache import credential, Tokens, PBI
+            auth = credential(authentication)
+            if any(auth[k] != reader[k] for k in ('tenant_id','principal_id','account')):
+                raise ValueError('Native cached reader binding differs')
+            token = Tokens(auth).get_token(PBI)
         else:
             from connect_fixture_reader import application, token as reader_token
             token=reader_token(application(tenant),reader['account'],tenant,'https://analysis.windows.net/powerbi/api/.default')

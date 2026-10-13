@@ -37,11 +37,11 @@ def self_report(config, database, *, token=get_sql_token, run=subprocess.run):
         return {'status': 'UNAVAILABLE', 'reason': 'SQL_READER_NOT_CONFIGURED', 'execution_surface': None,
                 'surface_report': None}
     surface = declared(reader, database)
-    if reader.get('mode')=='managed_identity':
-        from investigator.adapters.managed_identity import FIELDS
+    if reader.get('mode') in ('managed_identity','key_vault_user_cache'):
+        from investigator.adapters.vault_user_cache import credential
         from investigator.physical_reads import run as physical_run
         payload = {'server':reader['server'],'database':database,'control_mode':'SELF_REPORT',
-                   'authentication':{key:reader[key] for key in FIELDS}}
+                   'authentication':credential(reader)}
         completed = physical_run([sys.executable,str(ROOT/'scripts/managed_sql_worker.py')],
             input=json.dumps(payload), timeout=120, fallback=run, capture_output=True,text=True,encoding='utf-8')
         try:
@@ -101,7 +101,7 @@ def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
     reader = config['fabric'].get('sql_reader')
     if reader is None:
         raise LowerReadError('setup')
-    if reader.get('mode')=='managed_identity':
+    if reader.get('mode') in ('managed_identity','key_vault_user_cache'):
         return _managed_read(config, database, request, reader, run)
     try:
         access = token(config['fabric']['auth']['tenant_id'], reader['account'], reader['profile'])
@@ -129,12 +129,12 @@ def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
 
 
 def _managed_read(config, database, request, reader, fallback):
-    from investigator.adapters.managed_identity import FIELDS
+    from investigator.adapters.vault_user_cache import credential
     from investigator.physical_reads import run as physical_run
     from sql_layer_policy import policy as layer_policy
     payload = {key:request[key] for key in ('query','read_only_objects','max_rows','result_columns')}
     payload.update(parameters=request.get('parameters',[]),server=reader['server'],database=database,
-                   surface_kind='FABRIC_SQL', authentication={key:reader[key] for key in FIELDS})
+                   surface_kind='FABRIC_SQL', authentication=credential(reader))
     completed = physical_run([sys.executable,str(ROOT/'scripts/managed_sql_worker.py')],input=json.dumps(payload),
         timeout=layer_policy(config,request,default_timeout=150)['worker_timeout_seconds'],fallback=fallback,
         capture_output=True,text=True,encoding='utf-8')

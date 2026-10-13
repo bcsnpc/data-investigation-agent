@@ -92,7 +92,7 @@ def run(command, *, input, timeout, fallback=None, **kwargs):
     # Credential fingerprint stays in memory only, never in receipts.
     def secret_connection():
         credential=payload.get('access_token','')
-        if payload.get('authentication',{}).get('mode')=='managed_identity':
+        if payload.get('authentication',{}).get('mode') in ('managed_identity','key_vault_user_cache'):
             credential=json.dumps(payload['authentication'],sort_keys=True)
         if payload.get('credential_file'):
             credential=Path(payload['credential_file']).read_bytes().hex()

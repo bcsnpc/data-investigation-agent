@@ -102,6 +102,8 @@ class WorkerTransport:
 
     def invoke(self, request):
         request = dict(request, tenant=self.tenant)
+        if self.authentication and self.authentication.get('mode')=='key_vault_user_cache':
+            raise ValueError('SCOPED_USER_CACHE_METADATA_ROUTE_UNDECLARED')
         if self.authentication and self.authentication.get('mode')=='managed_identity':
             from investigator.adapters.managed_identity import validate
             request['authentication']=validate({k:self.authentication[k] for k in ('mode','tenant_id','client_id','principal_id')})

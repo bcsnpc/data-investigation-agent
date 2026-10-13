@@ -77,6 +77,7 @@ def validate_config(config):
         raise ValueError('SQL server must be a hostname')
     text(sql['database']); text(sql['visibility_schema'])
     from investigator.adapters.managed_identity import validate as managed_identity
+    from investigator.adapters.vault_user_cache import MODE as USER_CACHE, FIELDS as USER_FIELDS, validate as user_cache, PBI, SQL
     if sql['auth'].get('mode') == 'managed_identity':
         keys(sql['auth'], ['mode', 'tenant_id', 'client_id', 'principal_id', 'account'])
         managed_identity({k:sql['auth'][k] for k in ('mode','tenant_id','client_id','principal_id')})
@@ -90,7 +91,14 @@ def validate_config(config):
     optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'refresh_timing_reader', 'snapshot_identity_reader') if k in fabric]
     keys(fabric, ['workspace_id', 'auth'] + optional)
     fabric['workspace_id'] = str(UUID(text(fabric['workspace_id'])))
-    if fabric['auth'].get('mode') == 'managed_identity':
+    if fabric['auth'].get('mode') == USER_CACHE:
+        keys(fabric['auth'], USER_FIELDS | {'python'})
+        credential = user_cache({k:fabric['auth'][k] for k in USER_FIELDS})
+        if credential['scope'] != PBI:raise ValueError('Native reader audience differs')
+        reader = fabric.get('native_reader', {})
+        if reader.get('mode') != 'isolated_reader' or any(reader.get(k) != credential[k] for k in ('tenant_id','principal_id','account')):
+            raise ValueError('Native cached reader binding differs')
+    elif fabric['auth'].get('mode') == 'managed_identity':
         keys(fabric['auth'], ['mode', 'tenant_id', 'client_id', 'principal_id', 'python'])
         managed_identity({k:fabric['auth'][k] for k in ('mode','tenant_id','client_id','principal_id')})
     else:
@@ -137,7 +145,13 @@ def validate_config(config):
         if name in fabric:
             from fabric_sql_auth import account_name, profile_path
             section = fabric[name]
-            if section.get('mode') == 'managed_identity':
+            if section.get('mode') == USER_CACHE:
+                if name != 'sql_reader':raise ValueError('Cached identity is a reader, not a control session')
+                keys(section, USER_FIELDS | {'server'})
+                credential = user_cache({k:section[k] for k in USER_FIELDS})
+                if credential['scope'] != SQL or credential['tenant_id'] != fabric['auth']['tenant_id']:
+                    raise ValueError('SQL cached reader audience or tenant differs')
+            elif section.get('mode') == 'managed_identity':
                 if name != 'sql_reader':raise ValueError('Managed identity is a reader, not a control session')
                 keys(section, ['mode', 'tenant_id', 'client_id', 'principal_id', 'account', 'server'])
                 managed_identity({k:section[k] for k in ('mode','tenant_id','client_id','principal_id')})
@@ -153,7 +167,7 @@ def validate_config(config):
     keys(config['storage'], ['database'])
     for section, key in [(sql['auth'], 'credential_file'), (fabric['auth'], 'python'), (config['storage'], 'database')]:
         if key not in section:continue
-        if key == 'python' and fabric['auth']['mode']=='managed_identity':
+        if key == 'python' and fabric['auth']['mode'] in ('managed_identity', USER_CACHE):
             text(section[key]);continue
         section[key] = str((ROOT / text(section[key])).resolve())
     return config

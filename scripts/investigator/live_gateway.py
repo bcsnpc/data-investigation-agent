@@ -95,7 +95,7 @@ class Gateway:
                 _url(endpoint['url'])
                 if endpoint.get('method') not in ('GET','HEAD','POST','PUT'):
                     _deny('MUTATING_METHOD_IN_POLICY')
-                if endpoint.get('purpose') not in ('metadata','dax','model','blob_read','kql','platform_blob'):
+                if endpoint.get('purpose') not in ('metadata','dax','model','blob_read','kql','platform_blob','auth_refresh'):
                     _deny('INVALID_ENDPOINT_PURPOSE')
                 if endpoint['method']=='PUT' and endpoint['purpose']!='platform_blob':
                     _deny('ESTATE_WRITE_METHOD_IN_POLICY')
@@ -147,6 +147,10 @@ class Gateway:
         elif purpose=='metadata':
             if method not in ('GET','HEAD') and not (method=='POST' and path[-1]=='getdefinition' and not body):
                 _deny('METADATA_MUTATION_BLOCKED',identity=identity,operation=method,target=url)
+        elif purpose=='auth_refresh':
+            from .adapters.vault_user_cache import validate_refresh_request
+            if not validate_refresh_request(method, url, body, matches[0]):
+                _deny('AUTH_REFRESH_REQUEST_REFUSED',identity=identity,target=url)
         elif purpose=='blob_read':
             if method not in ('GET','HEAD'):_deny('BLOB_WRITE_BLOCKED',identity=identity,target=url)
         elif purpose=='model':
