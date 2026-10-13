@@ -34,7 +34,7 @@ class Wire(HttpTransport):
 
 class Gate:
     def __init__(self, allowed=True): self.calls=[]; self.allowed=allowed
-    def http(self, identity, method, url):
+    def http(self, identity, method, url, body=None, headers=None):
         self.calls.append((identity,method,url))
         if not self.allowed: raise RuntimeError('DENIED')
 

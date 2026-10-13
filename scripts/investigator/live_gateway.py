@@ -106,6 +106,10 @@ class Gateway:
                 _deny('PLATFORM_AND_ESTATE_IDENTITY_MIXED')
             if permissions.get('platform_databases') and permissions.get('role')!='platform':
                 _deny('PLATFORM_IDENTITY_REQUIRED')
+            if permissions.get('platform_cas'):
+                from .adapters.platform_cas import declaration
+                if permissions.get('role')!='platform':_deny('PLATFORM_IDENTITY_REQUIRED')
+                for item in permissions['platform_cas']:declaration(item)
             for target in permissions.get('sql',[]):
                 if (target.get('read_only') is not True or not target.get('server') or not target.get('database')
                         or type(target.get('row_cap')) is not int or not 1<=target['row_cap']<=1000
@@ -123,11 +127,16 @@ class Gateway:
         if permissions is None:_deny('IDENTITY_NOT_ALLOWED',identity=identity)
         return permissions
 
-    def http(self,identity,method,url,body=None):
+    def http(self,identity,method,url,body=None,headers=None):
         permissions=self.identity(identity);_url(url)
         method=method.upper()
         matches=[item for item in permissions.get('http',[]) if item['method']==method and item['url']==url]
-        if len(matches)!=1:_deny('ENDPOINT_METHOD_NOT_ALLOWED',identity=identity,operation=method,target=url)
+        if len(matches)!=1:
+            if not matches and permissions.get('role')=='platform':
+                from .adapters.platform_cas import permits
+                if permits(self,identity,method,url,body,headers):
+                    return {'method':method,'url':url,'purpose':'platform_cas'}
+            _deny('ENDPOINT_METHOD_NOT_ALLOWED',identity=identity,operation=method,target=url)
         path=unquote(urlsplit(url).path).casefold().split('/')
         if (set(path)&FORBIDDEN_HTTP_SEGMENTS
                 or method not in ('GET','HEAD') and set(path)&{'refreshes','refresh'}):

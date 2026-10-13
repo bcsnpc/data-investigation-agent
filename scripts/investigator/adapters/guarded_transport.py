@@ -52,7 +52,8 @@ class GuardedTransport(HttpTransport):
     def send(self, request, **kwargs):
         # Exact original URL goes to the gate; only the query-free route is logged.
         # The RequestsTransport itself disables automatic requests redirects.
-        self.gateway.http(self.identity, request.method, request.url)
+        self.gateway.http(self.identity, request.method, request.url,
+                          body=request.body,headers=dict(request.headers))
         url = urlsplit(request.url)
         base = {'id': str(uuid.uuid4()), 'at': time.time(), 'identity': self.identity,
                 'method': request.method, 'url': urlunsplit((url.scheme, url.netloc, url.path, '', '')),

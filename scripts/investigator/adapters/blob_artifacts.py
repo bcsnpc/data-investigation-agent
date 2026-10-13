@@ -44,8 +44,11 @@ class BlobObjects:
         from azure.storage.blob import ContainerClient
         if container not in {'snapshots', 'tapes', 'captures', 'screenshots'}:
             raise ArtifactError('ARTIFACT_CONTAINER_NOT_ALLOWED')
+        self.account_url=validate_account_url(account_url)
+        self.container,self.channel,self.gateway=container,channel,gateway
         self.client = ContainerClient(account_url, container, credential=credential,
-                                      transport=GuardedTransport(gateway, channel), retry_total=0)
+                                      transport=GuardedTransport(gateway, channel), retry_total=0,
+                                      max_single_put_size=4*1024*1024,max_block_size=4*1024*1024)
 
     @staticmethod
     def key(key):
@@ -55,13 +58,17 @@ class BlobObjects:
 
     def put(self, key, data):
         from azure.core.exceptions import ResourceExistsError
-        blob = self.client.get_blob_client(self.key(key))
-        try:
-            blob.upload_blob(data, overwrite=False, validate_content=True)
-        except ResourceExistsError:
-            if not equivalent(key, blob.download_blob().readall(), data):
-                raise ArtifactError('IMMUTABLE_OBJECT_CONFLICT')
+        from .platform_cas import bind
+        with bind(self.gateway,self.channel,self.account_url,self.container,self.key(key),data):
+            blob = self.client.get_blob_client(key)
+            try:
+                blob.upload_blob(data, overwrite=False, validate_content=True)
+            except ResourceExistsError:
+                if not equivalent(key, blob.download_blob().readall(), data):
+                    raise ArtifactError('IMMUTABLE_OBJECT_CONFLICT')
 
     def get(self, key):
-        return self.client.get_blob_client(self.key(key)).download_blob().readall()
+        from .platform_cas import bind
+        with bind(self.gateway,self.channel,self.account_url,self.container,self.key(key)):
+            return self.client.get_blob_client(key).download_blob().readall()
 
