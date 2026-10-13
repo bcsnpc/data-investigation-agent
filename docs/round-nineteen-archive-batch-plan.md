@@ -99,3 +99,22 @@ Do not relaunch this controller using stale accounting after interruption. Resum
 Offline regression: **19 passed** across controller, streaming TAR conservation/resume, archive cap tests and platform literal sweep. The first controller test exposed mutable previous-plan aliasing; it was fixed by snapshotting the list before hashing. No controller cloud request occurred before or after that fix. Deadline and stop-marker tests prove zero clients are constructed after closure.
 
 This remains a **partial archive**. The opening inventory of 32,352 files / 459,000,730,051 logical bytes includes material not admitted by the whole-capture planner. Protected/live files, invalid snapshot seals, opaque containers and quarantined peers remain local. No claim that the entire historical collection is archived, universally secret-free or free of bulk client rows is made. Cleanup is still blocked by tool policy; all originals remain.
+
+## Checkpoint 04: observed controller completed, 2026-10-13 08:31 UTC
+
+Root ran the reviewed four-batch controller to completion (session67231, exit0). It added **424 paths, 2,925,681,702 original bytes, 294,262,540 stored bytes and 106 platform controls**. Last VERIFIED event: `2026-10-13T08:27:03.209012+00:00`. Result SHA-256: `4b3799ee6c1ae4fc5ab8a384db62767c9ff963f4cb8cfb6f68e96cb870f1f8f4`.
+
+| Controller batch | Paths | Original bytes | Stored bytes | Controls |
+|---|---:|---:|---:|---:|
+| 0000 | 88 | 733,966,202 | 75,116,155 | 26 |
+| 0001 | 80 | 733,744,665 | 74,901,255 | 26 |
+| 0002 | 56 | 733,991,546 | 76,407,484 | 28 |
+| 0003 | 200 | 723,979,289 | 67,837,646 | 26 |
+
+Cumulative, including the source export exactly once: **1,308 paths / 6,818,129,226 original bytes / 658,565,431 stored bytes / 294 controls** (62 HEAD, 31 GET, 201 PUT). Successful upload payload and verified download payload are each 658,565,431 bytes. Five failed 4 MiB STAGE attempts across all batches are included in the controls; partial failed-upload wire bytes remain unknown, with a 20,971,520-byte payload upper bound. Two of these failures occurred in the controller; both resumed without losing conservation or exceeding their 49-control caps.
+
+The [fourth checkpoint](round-nineteen-archive-progress-04.json) pins the prior checkpoint and individual receipts. Offline reconciliation checked each new receipt SHA, source manifest/member `(path, SHA, bytes)` conservation, complete journal hash chain, successful stage-byte sum, whole-download hash equality, final Archive proof and dispatched-control count. These are checks of retained live receipts; reconciliation made **zero cloud requests, zero model calls and zero bulk-source reads**.
+
+Cumulative estimates, not invoices: **$0.057295192497** paid egress with no free allowance credit; **$0.00294** controls at the conservative all-write rate; **$0.00065197977669/month** Archive storage. Combined with the conditional $13.74 platform baseline, the same-month conservative projection is **$13.80088717227369**, below $20. Disk free at reconciliation: **11,491,274,752 bytes**. No deletion savings are attributed to this change; other work was concurrent and all archive originals remain.
+
+**Ledger/delivery note — 2026-10-13:** Owner Round Nineteen authorizes private, identity-authenticated historical archives after SHA verification. Root executed the reviewed controller under the existing platform-only storage identity scope and cost allocation; this checkpoint records its four finished publications and all 106 controls, including failed attempts. Every original is retained because deletion remains policy-blocked. No identity, role, secret, model/estate limit or acceptance expectation changed. No new uploads/jobs were admitted for this reconciliation. The historical archive remains partial, not complete; protected, opaque, invalid-seal and unselected material remains local. No universal no-bulk/no-secret assertion is made.
