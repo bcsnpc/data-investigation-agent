@@ -110,3 +110,28 @@ only after the isolation window has ended, with before/after receipts.
 The guard does not preserve a partial tape across a hard container kill. That
 known retention gap remains; no complete verification or replay is claimed from
 settled ledger entries alone.
+
+## Live platform-only contention proof
+
+On 2026-10-13 the owner-authorized proof used the existing PostgreSQL owner
+connector, the isolated test namespace `platform_lease_proof_20261013_01`, and
+advisory key `183746891`. A harness-only SQL proxy mapped the production lease
+namespace and advisory key to those test values. The global lease/key were not
+touched; scans in flight were not blocked by the test. This proves the same
+guard and timeout implementation against real PostgreSQL, not the operational
+drain of the production job.
+
+All checks passed: same-owner write; foreign-owner refusal before advisory
+acquisition (0.345 seconds); contended isolated advisory wait rejected in
+5.387 seconds with `LockNotAvailable`, SQLSTATE `55P03`, message
+`canceling statement due to lock timeout`; successful write after rollback;
+normal release; release after a deliberate exception; and final confirmation
+that no foreign document was written and the test lock was available. Test
+documents remain retained with their final lease RELEASED. No estate/model
+request, schema, identity, permission or production lease changed.
+
+Private receipt:
+`.local/round-nineteen-b/isolated-lease-proof/receipt.json`, SHA-256
+`cc4070aa950aaf58ec24e8d6b875875a03ccb0038a65e9f09e8f4e016ee4cc4a`.
+The owner must still collect fresh production drain, schedule, advisory-lock,
+runtime and lease observations before the additional attempt.
