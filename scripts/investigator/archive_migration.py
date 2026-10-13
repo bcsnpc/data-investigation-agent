@@ -12,7 +12,8 @@ from .artifact_store import ArtifactError, canonical, digest, hash_id
 
 VERSION = 'finished-round-archive-v1'
 ROUNDS = ('five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen')
-SENSITIVE = re.compile(r'(^|[/_.-])(secret|secrets|credentials?|tokens?|azure|ssh|env)([/_.-]|$)', re.I)
+from .adapters.platform_credentials import CREDENTIAL_PATH_WORDS
+SENSITIVE = re.compile(r'(^|[/_.-])(' + CREDENTIAL_PATH_WORDS + r')([/_.-]|$)', re.I)
 LIVE = re.compile(r'(model[-_]spend|shared[-_](?:accounting|catalog)|(?:budget|usage|pot|ledger)(?:[-_.]|$))', re.I)
 SECRET_BYTES = re.compile(rb'-----BEGIN [A-Z ]*PRIVATE KEY-----|Bearer\s+[A-Za-z0-9._~-]{16,}|'
                           rb'eyJ[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}|'

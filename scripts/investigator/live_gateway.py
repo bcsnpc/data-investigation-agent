@@ -1,4 +1,4 @@
-﻿"""Deny-by-default live I/O authority. Tickets/model output never supply this policy.
+"""Deny-by-default live I/O authority. Tickets/model output never supply this policy.
 
 The operator supplies DIA_GATEWAY_POLICY (a local JSON file or mounted secret-free
 configuration) and explicit identity names per transport. The gateway does not
@@ -10,6 +10,7 @@ from contextvars import ContextVar
 from dataclasses import dataclass
 import hashlib
 import json
+from .adapters.platform_credentials import FORBIDDEN_HTTP_SEGMENTS
 import logging
 import os
 from pathlib import Path
@@ -128,7 +129,7 @@ class Gateway:
         matches=[item for item in permissions.get('http',[]) if item['method']==method and item['url']==url]
         if len(matches)!=1:_deny('ENDPOINT_METHOD_NOT_ALLOWED',identity=identity,operation=method,target=url)
         path=unquote(urlsplit(url).path).casefold().split('/')
-        if (set(path)&{'permissions','users','share','shares','roleassignments','xmla'}
+        if (set(path)&FORBIDDEN_HTTP_SEGMENTS
                 or method not in ('GET','HEAD') and set(path)&{'refreshes','refresh'}):
             _deny('ESTATE_CONTROL_ENDPOINT_BLOCKED',identity=identity,operation=method,target=url)
         purpose=matches[0]['purpose']
@@ -247,7 +248,7 @@ def validate_dax(query):
     """Lexical query boundary plus an explicit function vocabulary.
 
     Catalog binding remains the existing query_dax compiler's responsibility;
-    this independent transport guard prevents bypasses into TMSL/XMLA/control.
+    this independent transport guard prevents bypasses into native control commands.
     String literals remain data, including SQL/OCR prompt injections.
     """
     from .semantic_graph import tokenize, TOKEN

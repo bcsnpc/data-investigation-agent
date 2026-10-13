@@ -327,8 +327,8 @@ def configured_state(environ=None):
         import psycopg
         from .live_gateway import authorize_platform_database
         authorize_platform_database(env.get('DIA_GATEWAY_STATE_IDENTITY','state'),env[required[0]],env[required[1]])
-        from azure.identity import ManagedIdentityCredential
-        with ManagedIdentityCredential(client_id=env['AZURE_CLIENT_ID']) as credential:
+        from .adapters.platform_credentials import credential_type
+        with credential_type()(client_id=env['AZURE_CLIENT_ID']) as credential:
             token = credential.get_token('https://ossrdbms-aad.database.windows.net/.default').token
         return psycopg.connect(host=env[required[0]], dbname=env[required[1]], user=env[required[2]],
                               password=token, sslmode='verify-full', connect_timeout=15)
