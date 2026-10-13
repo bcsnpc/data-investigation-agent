@@ -92,8 +92,22 @@ def configuration_paths(journal):
     No tape/expected byte is read to decide or modify a configuration value.
     """
     import metadata_config
-    original = metadata_config.validate_config
     root = metadata_config.ROOT
+    original = getattr(metadata_config,'validate_config',None)
+    if original is None:
+        # Older pinned engines validate inline in load_config. Other historical
+        # modules may already hold aliases to that function, so replacing the
+        # loader would miss them. Preserve the exact function and its checks;
+        # adapt only its module-global path root while an active tape replays.
+        if not callable(getattr(metadata_config,'load_config',None)):
+            raise ValueError('REPLAY_CONFIGURATION_ENTRY_POINT_UNSUPPORTED')
+        class HistoricalRoot:
+            def __truediv__(self,value):
+                active=journal.ACTIVE.get()
+                return (_ReplayConfigRoot(root) if active is not None and active.replaying else root)/value
+            def __getattr__(self,name):return getattr(root,name)
+        with patch.object(metadata_config,'ROOT',HistoricalRoot()):yield
+        return
     def validate(config):
         active = journal.ACTIVE.get()
         if active is None or not active.replaying:
