@@ -148,6 +148,31 @@ only for the reviewed input. Each migration is immutable and idempotent; it
 cannot reset charges when run again. Import the money accounts and the usage
 rows/batches/allocations/acknowledgments separately, retaining both proofs.
 
+The document migration has a combined read-only export and offline plan:
+
+```powershell
+python scripts/migrate_shared_documents.py export --catalog <drained-catalog.sqlite> --environment <estate-id> --tape-class EXACT --readiness <retained-certificate.json> --output .local/documents.json
+python scripts/migrate_shared_documents.py migrate --source .local/documents.json --expected-sha256 <exported-hash> --migration-id <unique-migration-id> --report .local/documents-plan.json
+```
+
+Repeat `--readiness` for each certificate; omit it when none is retained. Export
+opens SQLite read-only, inside one snapshot. Plan exercises the same imports in
+memory with no cloud call. A separate reviewed apply requires a migration owner's
+PostgreSQL connection, not the worker's narrower table rights. The Python
+`import_documents` API accepts that explicit owner `SharedState`; CLI `--apply`
+requires an explicitly configured migration identity. Neither falls back to a
+signed-in developer identity. Apply writes separate atomic catalog, ticket and
+readiness components, checkpoints each one, and resumes only the same bundle
+hash after interruption. It is not one cross-component transaction.
+
+The ticket import preserves all `smart_tickets` rows, their request keys,
+revisions, questions, replies, history, embedded evidence and original serialized
+JSON. Hash collisions or an already-present key refuse rather than overwrite.
+A second import cannot reset newer ticket work. Ticket references to captures
+still need those pinned blobs/private snapshots; this is not an import of every
+execution/cache table into PostgreSQL. Readiness is retained, not re-earned.
+Projected cloud persistence remains unsupported and must not use this EXACT path.
+
 Publish retained catalog contexts with `shared_catalog.export_catalog` and
 `import_catalog`, then retain readiness certificates with `publish_readiness`.
 Every context retains its hash. Storage does not make a route READY: the existing
