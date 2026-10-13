@@ -1,0 +1,52 @@
+import hashlib
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import Mock
+from cloud_offline_worker import TEST_MODULES, partition, replay, sealed_file
+from build_cloud_image_context import admitted
+
+
+class CloudOfflineWorkerTests(unittest.TestCase):
+    def test_public_build_context_excludes_private_and_untyped_material(self):
+        for name in ['.local/tape.json', 'acceptance/answer.json', 'scripts/reader-secret.txt',
+                     'scripts/cache.sqlite', '.git/config', 'scripts/__pycache__/x.py', 'docs/receipt.md',
+                     'infra/estates/real-installation.json']:
+            self.assertFalse(admitted(name), name)
+        for name in ['scripts/investigator/live_gateway.py', 'scripts/test_live_gateway.py',
+                     'scripts/requirements-cloud-worker.txt', 'infra/scripts/Read-Source.ps1',
+                     'acceptance/unknown_domain/recorded_engine.py', 'infra/cloud-worker/Dockerfile']:
+            self.assertTrue(admitted(name), name)
+
+    def test_eight_shards_cover_each_entry_once(self):
+        entries = list(range(63))
+        buckets = [partition(entries, n, 8) for n in range(8)]
+        self.assertEqual(sorted(x for bucket in buckets for x in bucket), entries)
+        self.assertEqual(len(TEST_MODULES), 8)
+        self.assertTrue(all(len(partition(TEST_MODULES, n, 8)) == 1 for n in range(8)))
+        with self.assertRaises(ValueError): partition(entries, 8, 8)
+
+    def test_hash_and_path_refuse_before_replay(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder); (root / 'tape.json').write_bytes(b'original')
+            executor = Mock(return_value={'matched': True})
+            entry = {'id': 'one', 'tape_path': 'tape.json', 'tape_sha256': '0' * 64, 'engine_revision': 'a' * 40}
+            result = replay({'version': 1, 'entries': [entry]}, root, root / 'out', 0, 8, executor)
+            self.assertEqual(result['matched'], 0); executor.assert_not_called()
+            with self.assertRaises(ValueError): sealed_file(root, '../outside', '0' * 64)
+            entry['tape_sha256'] = hashlib.sha256(b'original').hexdigest()
+            result = replay({'version': 1, 'entries': [entry]}, root, root / 'out', 0, 8, executor)
+            self.assertEqual(result['matched'], 1)
+            self.assertEqual((root / 'tape.json').read_bytes(), b'original')
+
+    def test_exception_text_is_not_published_in_summary(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder); (root / 'tape').write_bytes(b'tape')
+            entry = {'id': 'one', 'tape_path': 'tape', 'tape_sha256': hashlib.sha256(b'tape').hexdigest(), 'engine_revision': 'a' * 40}
+            result = replay({'version': 1, 'entries': [entry]}, root, root / 'out', 0, 8,
+                            Mock(side_effect=ValueError('secret-bearing native failure')))
+            self.assertNotIn('secret-bearing', str(result))
+            self.assertEqual(result['rows'][0]['error_type'], 'ValueError')
+
+
+if __name__ == '__main__': unittest.main()

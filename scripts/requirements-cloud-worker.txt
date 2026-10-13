@@ -1,0 +1,6 @@
+pytest==8.4.2
+pytest-xdist==3.8.0
+azure-identity>=1.19,<2
+azure-storage-blob>=12.20,<13
+psycopg[binary]>=3.2,<4
+pyodbc>=5,<6
