@@ -68,6 +68,12 @@ class StaticGraph:
         # child. Equality is checked; a convenient same-name part is not proof.
         report=self.ancestor(asset['id'],'Report')
         if report and asset['kind'] in ('Report','ReportPage','ReportVisual'):
+            from .legacy_report import location
+            for part in self.assets.values():
+                if (part['kind']=='DefinitionPart' and part.get('parent_id')==report and part['name']=='report.json'
+                        and asset['kind'] in ('ReportPage','ReportVisual')):
+                    raw=part['metadata']['content'];pointer=location(json.loads(raw),asset['id'],report,asset.get('metadata',{}))
+                    if pointer is not None:return self.proof(part,raw,path=pointer)
             matches=[]
             suffix={'Report':'definition/report.json','ReportPage':'/page.json','ReportVisual':'/visual.json'}[asset['kind']]
             for part in self.assets.values():
@@ -78,6 +84,10 @@ class StaticGraph:
                 except (KeyError,ValueError,TypeError):continue
             if len(matches)==1:return self.proof(matches[0][0],matches[0][1])
         return self.proof(asset)
+
+    def legacy(self,asset):
+        report=self.ancestor(asset['id'],'Report')
+        return any(p['kind']=='DefinitionPart' and p.get('parent_id')==report and p['name']=='report.json' for p in self.assets.values())
 
     def add(self,kind,label,locator,proof,properties=None,*,confidence='DECLARED',unknown=None,owner=None):
         owner=owner or (self.item_owner(proof['source_id']) if self.partitioned else self.owner)
@@ -199,9 +209,14 @@ class StaticGraph:
             if kind is None:continue
             meta=asset.get('metadata',{});proof=self.asset_proof(asset)
             if native=='ReportVisual' and meta.get('visual',{}).get('visualType')=='slicer':kind='SLICER'
+            legacy=self.legacy(asset) if native in ('Report','ReportPage','ReportVisual') else False
+            if legacy and native=='ReportVisual':
+                from .legacy_report import object_json
+                if object_json(meta['config']).get('singleVisual',{}).get('visualType')=='slicer':kind='SLICER'
             if native in ('SqlObject','WarehouseTable'):kind={'V':'VIEW','SQL_STORED_PROCEDURE':'PROCEDURE','P':'PROCEDURE','VIEW':'VIEW'}.get(meta.get('type',meta.get('type_desc')),kind)
             if native=='SemanticColumn' and meta.get('type')=='calculated':kind='CALCULATED_COLUMN'
             props={'asset_id':aid,'native_kind':native,'hidden':meta.get('isHidden',meta.get('visibility'))}
+            if legacy:props['native_format']='PBIR_LEGACY'
             if 'content_hash' in asset:
                 spaced=hashlib.sha256(json.dumps(meta,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
                 props['retained_metadata_hash_encoding']='SORTED_JSON_SPACED' if asset['content_hash']==spaced else 'SORTED_JSON_COMPACT_LEGACY'
@@ -215,6 +230,10 @@ class StaticGraph:
             if parent in self.by_asset:self.link('CONTAINS',self.by_asset[parent],node,proof)
             if asset['kind'] in ('Report','ReportPage','ReportVisual'):
                 report=self.ancestor(aid,'Report');model=self.model_for_report(report) if report else None
+                if self.legacy(asset):
+                    self.gap(node,'PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted.',
+                        'Use a supported explicit legacy semantic reader; do not treat this structural graph as complete visual lineage.',proof)
+                    continue
                 self.filters(node,meta,model,proof,scope={'Report':'report','ReportPage':'page','ReportVisual':'visual'}[asset['kind']])
                 if asset['kind']=='ReportVisual':
                     references=self.fields(node,meta.get('visual',{}).get('query',{}),model,proof)

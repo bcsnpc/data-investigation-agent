@@ -140,8 +140,9 @@ def bootstrap_catalog(catalog,collector,estate,clock):
         return {'estate':estate,'observed_at':at,'bootstrap':True,'owners':[
             {'owner':owner,'status':'SEEDED'}for owner in sorted(configured)],'graph':result}
     except Exception as error:
+        from investigator.adapters.graph_change_collector import failure_definition_reference
         for owner in configured:health(catalog.repo.state,estate,owner,clock(),'UNAVAILABLE',
-            'Initial definition collection incomplete',failure=safe_failure(error),payload_reference=references.get(owner))
+            'Initial definition collection incomplete',failure=safe_failure(error),payload_reference=references.get(owner) or failure_definition_reference(error,owner))
         raise
 
 
@@ -223,7 +224,7 @@ def _execute_one_scoped(config):
     sink = DefinitionSink(files, config['definition_uri_prefix'], recording_class='EXACT')
     dependencies=scanner_dependencies(config,tokens,meter,sink) if mode=='federated_scanner' else None
     definition_owners=definition_owner_ids(config)
-    collector = FabricChanges(config['workspace'],definition_owners,http,dependencies=dependencies) if definition_owners else None
+    collector = FabricChanges(config['workspace'],definition_owners,http,dependencies=dependencies,retain_definition=sink) if definition_owners else None
     from investigator.graph_asset_catalog import AssetCatalog
     allowed={'fabric://'+config['workspace']+'/'+key for key in config['owners']}
     for group in config.get('sql',[]):allowed.update(group['objects'])

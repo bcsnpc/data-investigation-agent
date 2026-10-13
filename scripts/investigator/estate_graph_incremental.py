@@ -112,6 +112,10 @@ class IncrementalScanner:
                 from .graph_asset_catalog import failure_reference,failure_manifest_reference
                 reference=failure_reference(error,estate,owner)
                 retained={'payload_reference':reference,'catalog_manifest_reference':failure_manifest_reference(error,estate,owner)} if reference is not None else {}
+                if reference is None:
+                    from .adapters.graph_change_collector import failure_definition_reference
+                    reference=failure_definition_reference(error,owner)
+                    if reference is not None:retained={'payload_reference':reference}
                 health(self.repo.state, estate, owner, owner_at, 'UNAVAILABLE', 'Owner definition refresh unavailable: ' + type(error).__name__,failure=detail,**retained)
                 if is_stop_condition(error):raise
                 results.append({'owner': owner, 'status': 'UNAVAILABLE', 'reason': type(error).__name__,'failure':detail,**retained})

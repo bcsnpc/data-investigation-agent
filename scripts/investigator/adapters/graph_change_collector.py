@@ -3,7 +3,17 @@ from uuid import UUID
 from urllib.parse import quote
 from metadata_protocol import relative, definition
 from metadata_inventory import expand_definition
-from ..shared_state import sha
+from ..shared_state import sha,encoded
+
+
+class _DefinitionFailure:
+    def __init__(self,owner,reference):
+        self.owner,self.reference=owner,reference
+
+
+def failure_definition_reference(error,owner):
+    value=getattr(error,'_graph_definition_failure',None)
+    return value.reference if isinstance(value,_DefinitionFailure) and value.owner==owner else None
 
 
 class Assets:
@@ -13,9 +23,10 @@ class Assets:
 
 
 class FabricChanges:
-    def __init__(self, workspace, owners, http, *, max_pages=5, max_items=1000, dependencies=None):
+    def __init__(self, workspace, owners, http, *, max_pages=5, max_items=1000, dependencies=None, retain_definition=None):
         self.workspace = str(UUID(workspace)); self.http = http
         self.dependencies = dependencies
+        self.retain_definition=retain_definition
         if not owners or len(owners) > 100 or len(set(owners)) != len(owners): raise ValueError('GRAPH_OWNER_ALLOWLIST')
         self.owners = {str(UUID(owner)) for owner in owners}
         if type(max_pages) is not int or not 1 <= max_pages <= 10 or type(max_items) is not int or not 1 <= max_items <= 10000:
@@ -77,7 +88,12 @@ class FabricChanges:
         # Volatile listing clocks are not definition content.
         metadata = {k: v for k, v in item.items() if k not in ('lastModifiedDateTime', 'modifiedDateTime', 'modifiedTime')}
         assets.asset(owner, kind, item['displayName'], endpoint, metadata)
-        expand_definition(assets, owner, kind, parts, endpoint)
+        reference=(self.retain_definition(encoded({'owner':owner,'kind':kind,'endpoint':endpoint,'parts':parts}).encode('utf8'))
+            if self.retain_definition is not None else None)
+        try:expand_definition(assets, owner, kind, parts, endpoint)
+        except Exception as error:
+            if reference is not None:error._graph_definition_failure=_DefinitionFailure(owner,reference)
+            raise
         if kind == 'SemanticModel' and self.dependencies is not None:
             import hashlib
             native = parts.get('model.bim')
