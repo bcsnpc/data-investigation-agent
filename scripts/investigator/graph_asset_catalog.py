@@ -114,17 +114,24 @@ class AssetCatalog:
             source_observations=times)
         return self._commit(estate,at,manifest,partitions,None,existing_graph_only=existing_graph_only)
 
-    def refresh(self,estate,owner,at,payload):
+    def refresh(self,estate,owner,at,payload,*,retained_asset_ids=()):
         at=contract.timestamp(at)
         if owner not in self.allowed:raise ValueError('GRAPH_REFRESH_OWNER_NOT_APPROVED')
         old,assets,sources,observations=self.snapshot(estate)
         if owner not in old['body']['owners']:raise ValueError('GRAPH_REFRESH_OWNER_NOT_SEEDED')
         if at<=old['body']['owners'][owner]['observed_at']:raise StateConflict('GRAPH_CATALOG_TIME_MUST_ADVANCE')
+        retained=set(retained_asset_ids)
+        owner_map=self.owner_for(assets)
+        original={a['id']:a for a in assets if owner_map[a['id']]==owner}
+        proposed={a['id']:a for a in payload['assets']}
+        if not retained<=original.keys() or any(proposed.get(key)!=original[key] for key in retained):
+            raise ValueError('GRAPH_RETAINED_ASSET_CONTENT_DIFFERS')
+        times={a['id']:observations[a['id']] if a['id'] in retained else at for a in payload['assets']}
         raw=self._payload(owner,payload);manifest=copy.deepcopy(old['body'])
         if sum(v['reference']['bytes']for k,v in manifest['owners'].items()if k!=owner)+len(raw)>MAX_BYTES:
             raise ValueError('GRAPH_CATALOG_TOTAL_BYTE_BOUND')
         manifest['owners'][owner]={'reference':self.sink(raw),'observed_at':at,
-            'source_observations':{a['id']:at for a in payload['assets']}}
+            'source_observations':times}
         owner_ids={key for key,value in self.owner_for(assets).items()if value==owner}
         assets=[a for a in assets if a['id']not in owner_ids]+payload['assets']
         if len(assets)>MAX_ASSETS or len({a['id']for a in assets})!=len(assets):raise ValueError('GRAPH_CATALOG_DUPLICATE_OR_ASSET_BOUND')
@@ -133,6 +140,6 @@ class AssetCatalog:
         if not set(sources)<={a['id']for a in assets}:raise ValueError('GRAPH_DECLARED_SOURCE_REMOVED')
         if not set(payload['source_asset_ids'])<=set(sources):raise ValueError('GRAPH_REFRESH_CANNOT_DECLARE_SOURCE')
         observations={key:value for key,value in observations.items()if key not in owner_ids}
-        observations.update({a['id']:at for a in payload['assets']})
+        observations.update(times)
         partitions=self.partition(estate,assets,self.sink,observed_at=at,source_asset_ids=sources,source_observations=observations)
         return self._commit(estate,at,manifest,partitions,old['revision'],retire_missing=True)

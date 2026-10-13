@@ -61,7 +61,7 @@ def validate(config):
         return config
     required = {'estate', 'workspace', 'owners', 'authentication', 'storage', 'definition_uri_prefix',
                 'budget', 'max_requests', 'approval'}
-    if not isinstance(config, dict) or not required<=set(config)<=required|{'sql','dependency_models','admin_metadata'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
+    if not isinstance(config, dict) or not required<=set(config)<=required|{'sql','container_schemas','dependency_models','admin_metadata'}: raise ValueError('GRAPH_SCHEDULE_CONFIGURATION')
     if not isinstance(config['approval'], str) or not config['approval'].strip():
         raise ValueError('GRAPH_SCHEDULE_OWNER_APPROVAL_REQUIRED')
     if not isinstance(config['authentication'],dict):raise ValueError('GRAPH_SCHEDULE_AUTHENTICATION_REQUIRED')
@@ -69,7 +69,15 @@ def validate(config):
         raise ValueError('GRAPH_SQL_COLLECTOR_BOUND')
     for group in config.get('sql',[]):
         if not isinstance(group,dict)or set(group)!={'identity','config','objects'}:raise ValueError('GRAPH_SQL_COLLECTOR_SHAPE')
-    if config.get('authentication',{}).get('mode')=='federated_scanner' and config.get('sql'):
+    if 'container_schemas' in config:
+        groups=config['container_schemas']
+        if not isinstance(groups,list)or not 1<=len(groups)<=10:raise ValueError('GRAPH_CONTAINER_GROUP_BOUND')
+        for group in groups:
+            if not isinstance(group,dict)or set(group)!={'identity','config','owners'}:raise ValueError('GRAPH_CONTAINER_GROUP_SHAPE')
+            if not isinstance(group['owners'],dict)or not group['owners']:raise ValueError('GRAPH_CONTAINER_OWNER_BOUND')
+            approved={'fabric://'+config['workspace']+'/'+key for key in config['owners']}
+            if not set(group['owners'])<=approved:raise ValueError('GRAPH_CONTAINER_OWNER_SCOPE')
+    if config.get('authentication',{}).get('mode')=='federated_scanner' and (config.get('sql')or config.get('container_schemas')):
         raise ValueError('SCANNER_SQL_CREDENTIAL_FORBIDDEN')
     if 'admin_metadata' in config and (type(config['admin_metadata'])is not bool or config['authentication'].get('mode')!='federated_scanner'):
         raise ValueError('SCANNER_ADMIN_METADATA_CONFIGURATION')
@@ -84,6 +92,11 @@ def validate(config):
     if not isinstance(config['approval'], str) or not config['approval'].strip():
         raise ValueError('GRAPH_SCHEDULE_OWNER_APPROVAL_REQUIRED')
     return config
+
+
+def definition_owner_ids(config):
+    schemas={owner for group in config.get('container_schemas',[])for owner in group['owners']}
+    return [key for key in config['owners']if 'fabric://'+config['workspace']+'/'+key not in schemas]
 
 
 def execute(config):
@@ -148,7 +161,7 @@ def _execute_one_scoped(config):
     meter = Meter(state, config['budget'], config['max_requests'])
     mode = config['authentication'].get('mode')
     if mode == 'federated_scanner':
-        if config.get('sql'):raise ValueError('SCANNER_SQL_CREDENTIAL_FORBIDDEN')
+        if config.get('sql')or config.get('container_schemas'):raise ValueError('SCANNER_SQL_CREDENTIAL_FORBIDDEN')
         from investigator.adapters.scanner_identity import Tokens
     elif mode == 'federated_reader':
         from investigator.adapters.federated_reader import Tokens
@@ -163,19 +176,20 @@ def _execute_one_scoped(config):
     files, _ = recording_stores(config['storage'])
     sink = DefinitionSink(files, config['definition_uri_prefix'], recording_class='EXACT')
     dependencies=scanner_dependencies(config,tokens,meter,sink) if mode=='federated_scanner' else None
-    collector = FabricChanges(config['workspace'], config['owners'], http,dependencies=dependencies)
+    definition_owners=definition_owner_ids(config)
+    collector = FabricChanges(config['workspace'],definition_owners,http,dependencies=dependencies) if definition_owners else None
     from investigator.graph_asset_catalog import AssetCatalog
-    allowed=set(collector.configured_owners)
+    allowed={'fabric://'+config['workspace']+'/'+key for key in config['owners']}
     for group in config.get('sql',[]):allowed.update(group['objects'])
     catalog=AssetCatalog(repo,sink,extract_partitioned,asset_owners,allowed_owners=allowed)
     catalog.snapshot(config['estate'])  # Retained external symbols must exist before any estate call.
     clock=lambda:datetime.now(timezone.utc).isoformat().replace('+00:00','Z')
-    scanner = IncrementalScanner(repo, collector, None,reconcile=catalog.refresh,observation_clock=clock)
+    scanner = IncrementalScanner(repo, collector, None,reconcile=catalog.refresh,observation_clock=clock) if collector else None
     at = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     try:
         from investigator.adapters.scanner_admin import collect as admin_metadata
         admin_result=admin_metadata(config,http,sink)
-        result = scanner.run(config['estate'], at)
+        result = scanner.run(config['estate'], at) if scanner else {'estate':config['estate'],'observed_at':at,'owners':[],'definition_collection':'NOT_REQUESTED_SCHEMA_ONLY'}
         result['admin_metadata']=admin_result
         result['sql_collectors']=[]
         for group in config.get('sql',[]):
@@ -190,6 +204,24 @@ def _execute_one_scoped(config):
             sql=FabricSqlChanges(group['identity'],group['config'],group['objects'],execute_sql)
             reader=IncrementalScanner(repo,sql,None,reconcile=catalog.refresh,observation_clock=clock)
             result['sql_collectors'].append(reader.run(config['estate'],at))
+        result['container_schema_collectors']=[]
+        for group in config.get('container_schemas',[]):
+            from investigator.adapters.graph_container_schema import SqlContainerChanges
+            from investigator.physical_reads import scope
+            from fabric_sql_surface import read
+            def retained_owner(owner):
+                _,assets,sources,_=catalog.snapshot(config['estate']);mapping=asset_owners(assets)
+                values=[a for a in assets if mapping[a['id']]==owner]
+                return {'assets':values,'source_asset_ids':[x for x in sources if mapping[x]==owner]}
+            def execute_schema(database,request):
+                def operation():
+                    with scope(lambda kind,call:meter(call)):
+                        return read(group['config'],database,request)
+                return meter(operation)
+            sql=SqlContainerChanges(group['identity'],group['config'],group['owners'],retained_owner,execute_schema)
+            reader=IncrementalScanner(repo,sql,None,
+                reconcile=lambda estate,owner,at,payload:sql.reconcile(catalog,estate,owner,at,payload),observation_clock=clock)
+            result['container_schema_collectors'].append(reader.run(config['estate'],clock()))
         result['coverage_gaps']=[
             {'capability':'runtime_query_monitoring','status':'UNAVAILABLE','reason':'Scheduled runtime-query monitoring collector is not implemented; no monitoring permission or data is inferred.'},
             {'capability':'refresh_pipeline_delta_history','status':'UNAVAILABLE','reason':'Scheduled refresh, run and Delta-history collectors are not implemented. Item/SQL modify dates describe definitions, not data freshness.'}]
