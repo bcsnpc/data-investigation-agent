@@ -2,7 +2,7 @@
 import json
 import os
 from datetime import datetime, timezone
-from investigator.adapters.federated_reader import Tokens, validate, SCOPES, claims
+from investigator.adapters.federated_reader import Tokens, validate, SCOPES, claims, FederationUnavailable
 from investigator.live_gateway import configured
 
 
@@ -27,6 +27,9 @@ def run(config, factory=Tokens):
                 raise ValueError('Token binding differs')
             result.update(status='PASS',audience=observed['aud'])
             del access,observed
+        except FederationUnavailable as error:
+            result.update(reason='FEDERATED_AUTHENTICATION_UNAVAILABLE_OR_BINDING_MISMATCH',
+                          stage=error.stage,http_status=error.http_status,provider_code=error.provider_code)
         except Exception:
             result['reason']='FEDERATED_AUTHENTICATION_UNAVAILABLE_OR_BINDING_MISMATCH'
         checks.append(result)

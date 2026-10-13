@@ -87,5 +87,13 @@ class FederationTests(unittest.TestCase):
         failed=run([{'authentication':D,'scope':SCOPE}],factory=Mock(return_value=Mock(get_token=Mock(return_value=token(appid=TENANT)))))
         self.assertEqual(failed['status'],'FAIL')
 
+    def test_failure_retains_safe_stage_and_code_but_not_provider_secrets(self):
+        from platform_federated_preflight import run
+        provider=auth.Tokens(D,managed=Mock(get_token=Mock(side_effect=ValueError('AADSTS70021 SECRET-VALUE'))))
+        result=run([{'authentication':D,'scope':SCOPE}],factory=Mock(return_value=provider))
+        self.assertEqual(result['checks'][0]['stage'],'MANAGED_ASSERTION')
+        self.assertEqual(result['checks'][0]['provider_code'],'AADSTS70021')
+        self.assertNotIn('SECRET-VALUE',json.dumps(result))
+
 
 if __name__=='__main__':unittest.main()
