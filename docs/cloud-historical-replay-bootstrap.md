@@ -35,6 +35,9 @@ relative to `evidence/`. Include each native tape directory and all its snapshot
 files unchanged. The package is a transit copy, not a replacement for CAS or the
 original tape. Packaging/publication requires the existing evidence privacy
 review; the bootstrap does not certify that a package contains no secrets.
+Prefer a shallow bundle containing only each sealed revision's tree, with decoded
+tree files included in the credential scan. Local fetch accepts its shallow
+boundary; it never fetches missing parents or unrelated repository history.
 
 Archive extraction refuses absolute/traversing paths, links, device nodes,
 packaged `.git` directories and undeclared roots. Hash and compressed/expanded

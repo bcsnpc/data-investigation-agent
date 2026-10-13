@@ -102,8 +102,12 @@ def prepare_repo(package, repo, env):
         revisions.add(revision)
     repo.mkdir()
     subprocess.run(['git', 'init', '--quiet', str(repo)], check=True, env=env, capture_output=True)
+    # A Git bundle carries objects and refs but not the sender's shallow file.
+    # Each approved immutable revision is the boundary; no parent is required
+    # for git archive or byte replay and no parent may be fetched from a network.
+    (repo / '.git/shallow').write_text('\n'.join(sorted(revisions)) + '\n', encoding='ascii')
     for revision in sorted(revisions):
-        subprocess.run(['git', '-c', 'protocol.file.allow=always', 'fetch', '--no-tags',
+        subprocess.run(['git', '-c', 'protocol.file.allow=always', 'fetch', '--no-tags', '--update-shallow',
                         str(package / 'engine.bundle'), revision], cwd=repo, env=env,
                        check=True, capture_output=True, timeout=120)
     for relative in HELPERS:

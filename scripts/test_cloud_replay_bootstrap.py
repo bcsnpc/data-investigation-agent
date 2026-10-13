@@ -76,22 +76,31 @@ class BootstrapTests(unittest.TestCase):
             def git(*args, cwd=original):
                 return subprocess.check_output(['git', *args], cwd=cwd, text=True, stderr=subprocess.DEVNULL).strip()
             git('init', '--quiet')
+            (original / 'engine.py').write_text('excluded earlier engine')
+            git('add', 'engine.py')
+            git('-c', 'user.name=OfflineTest', '-c', 'user.email=test@example.invalid', 'commit', '-qm', 'earlier')
             (original / 'engine.py').write_text('sealed historical engine')
             git('add', 'engine.py')
             git('-c', 'user.name=OfflineTest', '-c', 'user.email=test@example.invalid', 'commit', '-qm', 'sealed')
             revision = git('rev-parse', 'HEAD')
             package = root / 'package'; package.mkdir(); evidence = package / 'evidence'; evidence.mkdir()
             tape = evidence / 'tape.json'; tape.write_bytes(b'sealed tape')
-            git('bundle', 'create', str(package / 'engine.bundle'), 'HEAD')
+            shallow = root / 'shallow.git'
+            git('init', '--bare', '--quiet', str(shallow))
+            git('-c', 'protocol.file.allow=always', 'fetch', '--depth=1', original.as_uri(),
+                'HEAD:refs/heads/replay', cwd=shallow)
+            git('bundle', 'create', str(package / 'engine.bundle'), 'refs/heads/replay', cwd=shallow)
             (package / 'replay-manifest.json').write_text(json.dumps({'version': 1, 'entries': [{
                 'id': 'test', 'tape_path': 'tape.json', 'tape_sha256': hashlib.sha256(tape.read_bytes()).hexdigest(),
                 'engine_revision': revision}]}))
             repo = root / 'restored'
-            env = dict(os.environ, GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull, GIT_TERMINAL_PROMPT='0')
+            env = {key: os.environ[key] for key in ('PATH', 'SYSTEMROOT', 'TEMP', 'TMP') if key in os.environ}
+            env.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull, GIT_TERMINAL_PROMPT='0')
             bootstrap.prepare_repo(package, repo, env)
             self.assertEqual(git('show', revision + ':engine.py', cwd=repo), 'sealed historical engine')
             self.assertFalse((repo / 'engine.py').exists())
             self.assertTrue((repo / bootstrap.HELPERS[0]).is_file())
+            self.assertTrue((repo / '.git/shallow').is_file())
 
     def test_fixed_replay_child_scrubs_live_environment_and_uploads_counts_only(self):
         with tempfile.TemporaryDirectory() as folder:
