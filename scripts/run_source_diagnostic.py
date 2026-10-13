@@ -30,10 +30,10 @@ class SourceReadTimeout(TimeoutError):
 def read_once(config, request):
     payload = {'server': config['sql']['server'], 'database': config['sql']['database'],
                'query': request.get('query',''), 'parameters': request.get('parameters',[])}
-    managed = config['sql']['auth'].get('mode') == 'managed_identity'
+    managed = config['sql']['auth'].get('mode') in ('managed_identity','federated_reader')
     if managed:
-        from investigator.adapters.managed_identity import FIELDS
-        payload['authentication'] = {key:config['sql']['auth'][key] for key in FIELDS}
+        from investigator.adapters.vault_user_cache import credential
+        payload['authentication'] = credential(config['sql']['auth'])
         command = [sys.executable, str(ROOT/'scripts/managed_sql_worker.py')]
     else:
         payload['credential_file'] = config['sql']['auth']['credential_file']

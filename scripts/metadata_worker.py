@@ -17,9 +17,9 @@ if __name__ == '__main__':
         metered='--metered' in sys.argv
         request = json.loads(sys.stdin.readline()) if metered else json.load(sys.stdin)
         if request.get('authentication') is not None:
-            from investigator.adapters.managed_identity import Tokens
-            tokens=Tokens(request['authentication'])
-            if tokens.declaration['tenant_id']!=request['tenant']:raise ValueError('Metadata reader tenant differs')
+            from investigator.adapters.vault_user_cache import credential, provider
+            auth=credential(request['authentication']);tokens=provider(auth)
+            if auth['tenant_id']!=request['tenant']:raise ValueError('Metadata reader tenant differs')
         else:tokens=FabricCliTokens(request['tenant'])
         http = MetadataHttp(tokens,meter=metered_request if metered else None)
         if request['operation'] == 'request':

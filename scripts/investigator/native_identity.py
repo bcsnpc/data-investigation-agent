@@ -27,7 +27,7 @@ def canonical(value):
 def profile(value):
     scope='workspace_ids' if 'workspace_ids' in value else 'model_ids'
     fields(value, ['mode', 'tenant_id', 'account', 'principal_id', scope])
-    if value['mode'] not in ('isolated_reader','managed_identity'):
+    if value['mode'] not in ('isolated_reader','managed_identity','federated_reader'):
         raise ValueError('Unsupported native reader mode')
     for key in ('tenant_id', 'principal_id'):
         if str(UUID(value[key])) != value[key]:

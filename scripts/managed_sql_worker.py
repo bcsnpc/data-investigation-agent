@@ -93,7 +93,8 @@ def execute(payload, *, connect=None, tokens=None, protocol=None, progress=None)
     progress = progress if progress is not None else {}
     progress['stage'] = 'setup'
     from investigator.adapters.vault_user_cache import MODE, validate as user_validate, provider
-    auth = (user_validate if payload['authentication'].get('mode') == MODE else validate)(payload['authentication'])
+    from investigator.adapters.federated_reader import validate as federated_validate
+    auth = (federated_validate if payload['authentication'].get('mode') == 'federated_reader' else user_validate if payload['authentication'].get('mode') == MODE else validate)(payload['authentication'])
     connection_string = _connection_string(payload)
     control = payload.get('control_mode')
     if control:

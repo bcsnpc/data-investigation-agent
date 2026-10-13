@@ -78,7 +78,11 @@ def validate_config(config):
     text(sql['database']); text(sql['visibility_schema'])
     from investigator.adapters.managed_identity import validate as managed_identity
     from investigator.adapters.vault_user_cache import MODE as USER_CACHE, FIELDS as USER_FIELDS, validate as user_cache, PBI, SQL
-    if sql['auth'].get('mode') == 'managed_identity':
+    from investigator.adapters.federated_reader import MODE as FEDERATED, FIELDS as FED_FIELDS, validate as federated
+    if sql['auth'].get('mode') == FEDERATED:
+        keys(sql['auth'], FED_FIELDS | {'account'})
+        federated({k:sql['auth'][k] for k in FED_FIELDS});text(sql['auth']['account'])
+    elif sql['auth'].get('mode') == 'managed_identity':
         keys(sql['auth'], ['mode', 'tenant_id', 'client_id', 'principal_id', 'account'])
         managed_identity({k:sql['auth'][k] for k in ('mode','tenant_id','client_id','principal_id')})
         text(sql['auth']['account'])
@@ -91,7 +95,13 @@ def validate_config(config):
     optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'refresh_timing_reader', 'snapshot_identity_reader', 'retained_endpoints') if k in fabric]
     keys(fabric, ['workspace_id', 'auth'] + optional)
     fabric['workspace_id'] = str(UUID(text(fabric['workspace_id'])))
-    if fabric['auth'].get('mode') == USER_CACHE:
+    if fabric['auth'].get('mode') == FEDERATED:
+        keys(fabric['auth'], FED_FIELDS | {'python'})
+        credential=federated({k:fabric['auth'][k] for k in FED_FIELDS})
+        reader=fabric.get('native_reader',{})
+        if reader.get('mode')!=FEDERATED or any(reader.get(k)!=credential[k] for k in ('tenant_id','principal_id')):
+            raise ValueError('Native federated reader binding differs')
+    elif fabric['auth'].get('mode') == USER_CACHE:
         keys(fabric['auth'], USER_FIELDS | {'python'})
         credential = user_cache({k:fabric['auth'][k] for k in USER_FIELDS})
         if credential['scope'] != PBI:raise ValueError('Native reader audience differs')
@@ -154,6 +164,12 @@ def validate_config(config):
                 credential = user_cache({k:section[k] for k in USER_FIELDS})
                 if credential['scope'] != SQL or credential['tenant_id'] != fabric['auth']['tenant_id']:
                     raise ValueError('SQL cached reader audience or tenant differs')
+            elif section.get('mode') == FEDERATED:
+                if name != 'sql_reader':raise ValueError('Federated identity is a reader, not a control session')
+                keys(section, FED_FIELDS | {'account','server'})
+                federated({k:section[k] for k in FED_FIELDS});text(section['account'])
+                if section['tenant_id'] != fabric['auth']['tenant_id']:
+                    raise ValueError('SQL federated reader tenant differs')
             elif section.get('mode') == 'managed_identity':
                 if name != 'sql_reader':raise ValueError('Managed identity is a reader, not a control session')
                 keys(section, ['mode', 'tenant_id', 'client_id', 'principal_id', 'account', 'server'])
@@ -170,7 +186,7 @@ def validate_config(config):
     keys(config['storage'], ['database'])
     for section, key in [(sql['auth'], 'credential_file'), (fabric['auth'], 'python'), (config['storage'], 'database')]:
         if key not in section:continue
-        if key == 'python' and fabric['auth']['mode'] in ('managed_identity', USER_CACHE):
+        if key == 'python' and fabric['auth']['mode'] in ('managed_identity', USER_CACHE, FEDERATED):
             text(section[key]);continue
         section[key] = str((ROOT / text(section[key])).resolve())
     return config

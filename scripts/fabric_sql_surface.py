@@ -33,7 +33,7 @@ def reader_availability(config):
     """Configuration availability only; a cloud credential is not a signed-in receipt."""
     reader=config['fabric'].get('sql_reader')
     if not reader:return None
-    if reader.get('mode') in ('managed_identity','key_vault_user_cache'):
+    if reader.get('mode') in ('managed_identity','key_vault_user_cache','federated_reader'):
         from investigator.adapters.vault_user_cache import credential, SQL
         auth=credential(reader)
         if auth['tenant_id']!=config['fabric']['auth']['tenant_id']:
@@ -55,7 +55,7 @@ def self_report(config, database, *, token=get_sql_token, run=subprocess.run):
         return {'status': 'UNAVAILABLE', 'reason': 'SQL_READER_NOT_CONFIGURED', 'execution_surface': None,
                 'surface_report': None}
     surface = declared(reader, database)
-    if reader.get('mode') in ('managed_identity','key_vault_user_cache'):
+    if reader.get('mode') in ('managed_identity','key_vault_user_cache','federated_reader'):
         from investigator.adapters.vault_user_cache import credential
         from investigator.physical_reads import run as physical_run
         payload = {'server':reader['server'],'database':database,'control_mode':'SELF_REPORT',
@@ -119,7 +119,7 @@ def read(config, database, request, *, token=get_sql_token, run=subprocess.run):
     reader = config['fabric'].get('sql_reader')
     if reader is None:
         raise LowerReadError('setup')
-    if reader.get('mode') in ('managed_identity','key_vault_user_cache'):
+    if reader.get('mode') in ('managed_identity','key_vault_user_cache','federated_reader'):
         return _managed_read(config, database, request, reader, run)
     try:
         access = token(config['fabric']['auth']['tenant_id'], reader['account'], reader['profile'])

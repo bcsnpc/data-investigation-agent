@@ -169,6 +169,9 @@ class Tokens:
 
 
 def credential(reader):
+    if reader.get('mode') == 'federated_reader':
+        from .federated_reader import FIELDS as FED_FIELDS, validate as federated_validate
+        return federated_validate({k:reader[k] for k in FED_FIELDS})
     if reader.get('mode') == MODE:
         return validate({k: reader[k] for k in FIELDS})
     from .managed_identity import FIELDS as MI_FIELDS, validate as mi_validate
@@ -176,6 +179,9 @@ def credential(reader):
 
 
 def provider(declaration):
+    if declaration.get('mode') == 'federated_reader':
+        from .federated_reader import Tokens as FederatedTokens
+        return FederatedTokens(declaration)
     if declaration.get('mode') == MODE:
         return Tokens(declaration)
     from .managed_identity import Tokens as MI_Tokens
