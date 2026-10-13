@@ -88,7 +88,7 @@ def validate_config(config):
             if len(text(sql['auth']['account']))>128:raise ValueError('Source reader account exceeds bound')
         if sql['auth']['mode'] != 'dpapi_file':
             raise ValueError('Unsupported SQL authentication mode')
-    optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'refresh_timing_reader', 'snapshot_identity_reader') if k in fabric]
+    optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'refresh_timing_reader', 'snapshot_identity_reader', 'retained_endpoints') if k in fabric]
     keys(fabric, ['workspace_id', 'auth'] + optional)
     fabric['workspace_id'] = str(UUID(text(fabric['workspace_id'])))
     if fabric['auth'].get('mode') == USER_CACHE:
@@ -106,6 +106,9 @@ def validate_config(config):
         if fabric['auth']['mode'] != 'fabric_cli':
             raise ValueError('Unsupported Fabric authentication mode')
         fabric['auth']['tenant_id'] = str(UUID(text(fabric['auth']['tenant_id'])))
+    if 'retained_endpoints' in fabric:
+        from investigator.adapters.retained_endpoints import validate as retained_endpoints
+        retained_endpoints(fabric['retained_endpoints'])
     if 'native_reader' in fabric:
         from investigator.native_identity import profile
         profile(fabric['native_reader'])

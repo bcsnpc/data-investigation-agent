@@ -651,6 +651,10 @@ class AdaptiveRuntime:
             return meter_read('xmla_failure_detail',execute,True)
 
         def read_endpoint(request):
+            if 'retained_endpoints' in self.config['fabric']:
+                from .adapters.retained_endpoints import read as retained_endpoint
+                from . import context_search
+                return retained_endpoint(self.config, context_search.latest(self.store) or {}, request)
             def execute(request):
                 import subprocess
                 from metadata_config import ROOT

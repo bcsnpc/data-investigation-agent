@@ -612,6 +612,8 @@ class MicrosoftProcessAdapter:
             compiled['query']='SELECT SUM('+quote(compiled['source_column'])+') AS [quantity] FROM '+quote(compiled['schema'])+'.'+quote(compiled['table'])
             layer['binding']['declared_connection_asset_id']=matches[0]['id']
             layer['endpoint_evidence']={'lakehouse':parent,'endpoint_id':props['id'],'server':props['connectionString']}
+            if endpoint.get('endpoint_provenance'):
+                layer['endpoint_evidence']['provenance']=endpoint['endpoint_provenance']
             return self._evaluate_lower(layer,measure_id,compiled)
         measure=next(a for a in assets(self.model['context']) if a['id']==measure_id)
         reader=((self.config or {}).get('fabric') or {}).get('native_reader') or {}
