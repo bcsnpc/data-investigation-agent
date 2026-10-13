@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from investigator.archive_migration import (plan, load_pinned, publish, cleanup_script,
-    privacy_approved, verify_local, convert_tape)
+    privacy_approved, verify_local, convert_tape, encoded_chunks)
 from investigator.artifact_store import ArtifactError, Files, LocalObjects, canonical, digest
 
 
@@ -22,11 +22,12 @@ class ArchiveClient:
         self.client=ContainerClient(account_url,'archive',credential=ManagedIdentityCredential(client_id=identity),
                                     per_call_policies=[Guard()],retry_total=0)
 
-    def upload_hot(self,key,path):
+    def upload_hot(self,key,path,encoding='identity'):
         from azure.storage.blob import StandardBlobTier
-        with path.open('rb') as stream:
-            self.client.get_blob_client(key).upload_blob(stream,overwrite=False,validate_content=True,
-                                                        standard_blob_tier=StandardBlobTier.Hot)
+        stats={}
+        self.client.get_blob_client(key).upload_blob(encoded_chunks(path,encoding,stats),overwrite=False,
+                    validate_content=True,max_concurrency=1,standard_blob_tier=StandardBlobTier.Hot)
+        return stats
 
     def download_chunks(self,key):
         yield from self.client.get_blob_client(key).download_blob().chunks()
@@ -56,6 +57,7 @@ def main(argv=None):
     prepare.add_argument('--files',required=True,type=Path,help='JSON array of explicit relative file paths; no glob')
     prepare.add_argument('--protected-paths',required=True,type=Path,help='JSON array including current shared catalogs/ledgers')
     prepare.add_argument('--finished-statement',required=True)
+    prepare.add_argument('--storage-encoding',choices=('identity','gzip'),default='identity')
     prepare.add_argument('--output',required=True,type=Path)
     for action in ('upload','cleanup-script','convert'):
         sub=commands.add_parser(action)
@@ -76,10 +78,13 @@ def main(argv=None):
     args=parser.parse_args(argv)
     if args.command=='plan':
         value=plan(args.workspace,json.loads(args.files.read_bytes()),
-                   protected=json.loads(args.protected_paths.read_bytes()),finished_statement=args.finished_statement)
+                   protected=json.loads(args.protected_paths.read_bytes()),finished_statement=args.finished_statement,
+                   storage_encoding=args.storage_encoding)
         identity=write_new(args.output,value)
         print(json.dumps({'manifest_sha256':identity,'eligible_files':len(value['entries']),
-                          'excluded_files':len(value['excluded']),'privacy_status':value['privacy_status']}))
+                          'excluded_files':len(value['excluded']),'privacy_status':value['privacy_status'],
+                          'original_bytes':sum(entry['bytes'] for entry in value['entries']),
+                          'storage_encoding':value.get('storage_encoding','identity')}))
         return 0
     value=load_pinned(args.manifest,args.manifest_sha256)
     if args.command=='cleanup-script':
@@ -106,7 +111,8 @@ def main(argv=None):
         result=convert_tape(directory,Files(LocalObjects(args.local_cas)))
         result['manifest_sha256']=args.manifest_sha256
     identity=write_new(args.output,result)
-    print(json.dumps({'output_sha256':identity,'local_deletion_performed':False}))
+    print(json.dumps({'output_sha256':identity,'local_deletion_performed':False,
+                      **{key:result[key] for key in ('original_bytes','stored_bytes') if key in result}}))
     return 0
 
 

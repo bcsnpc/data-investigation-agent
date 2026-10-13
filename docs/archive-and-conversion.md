@@ -64,6 +64,35 @@ bounds, every ancestor for reparse points, size and SHA immediately before each
 file and its actual byte count, and prints the total. Archive retention cost and
 rehydration delay remain; Archive is not an instant replay source.
 
+### Optional lossless gzip storage
+
+Add `--storage-encoding gzip` to **plan** to pin compression in the reviewed
+manifest. Existing manifests without this field remain raw `identity` storage;
+their original receipts and cleanup authorization remain valid. Choosing gzip
+changes the manifest hash and requires its own privacy review. Compression does
+not change any source file, tape event or original SHA-256 expectation.
+
+The upload iterator reads one MiB at a time, compresses with a gzip wrapper and
+streams directly into Blob's block upload. There is no whole-file buffer or
+temporary compressed disk copy. Blob upload concurrency is one. The SDK's
+[documented iterable upload interface](https://learn.microsoft.com/en-us/python/api/azure-storage-blob/azure.storage.blob.blobclient)
+provides bounded block transfer. The `.gz` object key distinguishes it from a
+previous raw copy without overwriting either.
+
+Verification streams the downloaded gzip through a bounded decompressor and
+checks the **original** byte count and SHA-256 from the manifest. It separately
+checks stored byte count and SHA against the uploaded encoded stream. Corrupt
+CRC/trailer, truncation, extra concatenated members/trailing bytes, excess
+decompressed bytes, original-hash mismatch or ETag change prevent Archive tier
+and prevent cleanup authorization. Originals remain local until verification
+and tier confirmation have succeeded.
+
+Every new receipt reports `original_bytes`, `stored_bytes`, `stored_sha256` and
+`storage_encoding` per object, plus both byte totals for the batch. These are
+observed streamed counts, not a compression estimate. Cleanup always rechecks the
+original local file's hash and original length. Compression can reduce transfer
+and storage; it is optional and does not itself establish a cost-budget block.
+
 ## Conversion and honest replay status
 
 ```powershell

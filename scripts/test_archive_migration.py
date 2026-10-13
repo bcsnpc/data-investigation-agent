@@ -2,6 +2,8 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
+import gzip
 
 from investigator import archive_migration as archive
 from investigator.artifact_store import ArtifactError, Files, LocalObjects, canonical, digest
@@ -18,6 +20,18 @@ class Remote:
     def archive(self,key,etag):
         assert etag=='etag-Hot'
         self.calls.append('archive');self.tiers[key]='Archive'
+
+
+class CompressedRemote(Remote):
+    def upload_hot(self,key,path,encoding='identity'):
+        self.calls.append('upload_hot');stats={}
+        self.data[key]=b''.join(archive.encoded_chunks(path,encoding,stats));self.tiers[key]='Hot'
+        return stats
+    def download_chunks(self,key):
+        self.calls.append('download')
+        data=self.data[key]
+        if self.corrupt:data=data[:-3]+b'bad'
+        for start in range(0,len(data),17):yield data[start:start+17]
 
 
 class Tests(unittest.TestCase):
@@ -121,6 +135,58 @@ class Tests(unittest.TestCase):
         self.assertEqual(result['verification']['byte_restoration'],'PASSED')
         self.assertEqual(result['verification']['engine_replay'],'NOT_RUN')
         self.assertEqual(before,{p.name:p.read_bytes() for p in folder.iterdir()})
+
+    def test_gzip_stream_verifies_original_and_reports_both_sizes(self):
+        raw=b'synthetic fixture values\n'*(150000)
+        source=self.put('.local/round-five/receipt.json',raw)
+        plan=archive.plan(self.root,['.local/round-five/receipt.json'],protected=[],finished_statement='Finished',storage_encoding='gzip')
+        sha,review=self.review(plan);remote=CompressedRemote()
+        receipt=archive.publish(plan,sha,review,remote)
+        row=receipt['objects'][0]
+        self.assertEqual(row['storage_encoding'],'gzip');self.assertTrue(row['blob'].endswith('.gz'))
+        self.assertEqual(receipt['original_bytes'],len(raw));self.assertEqual(row['original_bytes'],len(raw))
+        self.assertLess(receipt['stored_bytes'],len(raw)//10)
+        self.assertEqual(row['stored_sha256'],digest(remote.data[row['blob']]))
+        self.assertEqual(gzip.decompress(remote.data[row['blob']]),raw)
+        self.assertEqual(source.read_bytes(),raw)
+        self.assertIn('Remove-Item -LiteralPath',archive.cleanup_script(plan,sha,receipt))
+        row.pop('stored_sha256')
+        with self.assertRaises(ArtifactError):archive.cleanup_script(plan,sha,receipt)
+
+    def test_gzip_corruption_prevents_archive(self):
+        self.put('.local/round-five/receipt.json',b'fixture'*100)
+        plan=archive.plan(self.root,['.local/round-five/receipt.json'],protected=[],finished_statement='Finished',storage_encoding='gzip')
+        sha,review=self.review(plan);remote=CompressedRemote(corrupt=True)
+        with self.assertRaisesRegex(ArtifactError,'GZIP_CORRUPT'):archive.publish(plan,sha,review,remote)
+        self.assertNotIn('archive',remote.calls)
+
+    def test_gzip_bounds_hash_truncation_and_extra_members(self):
+        raw=b'original'*300000;encoded=gzip.compress(raw,mtime=0)
+        entry={'bytes':len(raw),'sha256':digest(raw)}
+        for altered,expected,reason in (
+            (encoded,{**entry,'bytes':len(raw)-1},'SIZE_EXCEEDED'),
+            (encoded,{**entry,'bytes':len(raw)+1},'HASH_DIFFERS'),
+            (encoded,{**entry,'sha256':'0'*64},'HASH_DIFFERS'),
+            (encoded[:-1],entry,'INCOMPLETE'),
+            (encoded+gzip.compress(b'',mtime=0),entry,'TRAILING_BYTES')):
+            with self.subTest(reason=reason),self.assertRaisesRegex(ArtifactError,reason):
+                archive.verify_download(iter([altered]),'gzip',expected)
+
+    def test_encoder_reads_bounded_chunks_and_no_temporary_archive(self):
+        path=self.put('input',b'x'*(archive.STREAM_BLOCK*3));stats={}
+        with patch.object(Path,'read_bytes',side_effect=AssertionError('Whole file read forbidden')):
+            parts=list(archive.encoded_chunks(path,'gzip',stats))
+        self.assertEqual(gzip.decompress(b''.join(parts)),b'x'*(archive.STREAM_BLOCK*3))
+        self.assertTrue(stats['stream_complete'])
+        self.assertEqual(list(self.root.iterdir()),[path])
+
+    def test_old_raw_manifest_and_receipt_remain_usable(self):
+        self.put('.local/round-five/receipt.json')
+        plan=self.plan(['.local/round-five/receipt.json']);self.assertNotIn('storage_encoding',plan)
+        sha,review=self.review(plan);receipt=archive.publish(plan,sha,review,Remote())
+        row=receipt['objects'][0]
+        for key in ('storage_encoding','original_bytes','stored_bytes','stored_sha256'):row.pop(key)
+        self.assertIn('Get-FileHash',archive.cleanup_script(plan,sha,receipt))
 
 
 if __name__=='__main__':unittest.main()
