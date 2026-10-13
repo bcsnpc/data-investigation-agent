@@ -10,10 +10,10 @@ from investigator.shared_state import SharedState,StateConflict
 from investigator.shared_usage import SharedUsage,export_usage,import_usage
 from investigator.usage_governance import UsageGovernor,UsageHold
 from read_budget import Catalog
-from test_read_budget import ReadBudgetTests
+import test_read_budget as read_budget_tests
 
 
-class SharedReadBudgetTests(ReadBudgetTests):
+class SharedReadBudgetTests(read_budget_tests.ReadBudgetTests):
     """Run established read-budget cases through the new authoritative backend."""
     def setUp(self):
         super().setUp()
@@ -111,7 +111,7 @@ class SharedReadBudgetTests(ReadBudgetTests):
 class PostgreSQLUsageTests(SharedReadBudgetTests):
     def setUp(self):
         # Baseline SQLite is private offline state; authority is real PostgreSQL.
-        ReadBudgetTests.setUp(self)
+        read_budget_tests.ReadBudgetTests.setUp(self)
         import psycopg
         from uuid import uuid4
         schema='usage_'+uuid4().hex;dsn=os.environ['DIA_TEST_POSTGRES_DSN']
