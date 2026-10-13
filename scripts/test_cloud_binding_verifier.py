@@ -9,7 +9,7 @@ class VerificationPlanTests(unittest.TestCase):
             'target_databases':{'one':'db1','two':'db2','three':'db2'},
             'budgets':{'binding_verification':{'metadata_probes':4,'session_cap':40,'probes_per_binding':2}}}
     def test_all18pairs_plus_two_catalog_reads_leave_two_for_native_route(self):
-        p=plan(self.spec());self.assertEqual(p['verification_reads_needed'],38)
+        p=plan(self.spec());self.assertEqual(p['verification_reads_needed'],40)
         self.assertEqual(p['verification_cap'],40);self.assertTrue(p['admissible'])
     def test_missing_schema_or_sample_is_not_silently_omitted(self):
         for field in ('schemas','samples'):

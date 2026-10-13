@@ -30,7 +30,7 @@ def validate(value):
     return value
 
 
-def read(config, context, request):
+def read(config, context, request, *, receipt_path=None):
     """Return only the exact approved route; missing/stale declarations fail closed.
 
     This is a local metadata lookup, not a physical request. Query-bound surface
@@ -41,7 +41,7 @@ def read(config, context, request):
     if len(bindings) != 1: raise ValueError('Endpoint request has no retained binding')
     if request['workspace'] != config['fabric']['workspace_id']:
         raise ValueError('Retained endpoint leaves approved workspace')
-    raw = Path(pin['receipt_path']).read_bytes()
+    raw = Path(receipt_path if receipt_path is not None else pin['receipt_path']).read_bytes()
     if hashlib.sha256(raw).hexdigest() != pin['receipt_sha256']:
         raise ValueError('Retained endpoint receipt changed')
     receipt = json.loads(raw)

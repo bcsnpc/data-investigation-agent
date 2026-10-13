@@ -20,12 +20,12 @@ def plan(spec):
     if set(spec['samples'])!=targets:raise ValueError('VERIFICATION_SAMPLE_COVERAGE_DIFFERS')
     vb=VerificationBudget(spec['budgets'],len(proposals),record=lambda event:None)
     groups={spec['target_databases'][name] for name in targets}
-    needed=2*len(proposals)+len(groups)
+    needed=2*len(proposals)+len(groups)+2
     return {'bindings':len(proposals),'target_catalog_reads':len(groups),
         'verification_reads_needed':needed,'verification_cap':vb.cap,
         'admissible':needed<=vb.cap,'physical_endpoint_requests':0,
         'diagnostic_investigation_reads':0,'model_calls':0,
-        'publication':'NOT_PERFORMED','native_direct_route':'SEPARATE_PROOF_REQUIRED'}
+        'publication':'NOT_PERFORMED','native_direct_route':'TWO_READS_IN_SAME_SESSION'}
 
 
 def perform(bootstrap, work, budget_catalog=None, live=None):
@@ -56,7 +56,7 @@ def perform(bootstrap, work, budget_catalog=None, live=None):
     model=json.loads((work/'model.json').read_bytes())
     if digest(context)!=i['context_hash'] or model['context_id']!=i['model_context_id']:
         raise ValueError('VERIFIER_CONTEXT_PIN_DIFFERS')
-    store=ModelStore(work/'model-catalog.sqlite',work/'inventory.sqlite',bootstrap['state']['environment'])
+    store=ModelStore(budget_catalog or work/'catalog.sqlite',work/'inventory.sqlite',bootstrap['state']['environment'])
     if store.get(model['id'])!=model:raise ValueError('VERIFIER_MODEL_STATE_DIFFERS')
     runtime=Runtime(store,config,None,None)
     governor=UsageGovernor(runtime,bootstrap['usage_policy'],lambda:tape.clock('cloud-verification-budget'))
@@ -72,9 +72,10 @@ def perform(bootstrap, work, budget_catalog=None, live=None):
         sequence+=1
         return governor.metered_read(i['session_id'],tool+':'+str(sequence),execute)
     def sql(database,request):return sql_read(config,database,request)
-    process=MicrosoftProcessAdapter(store,config,model,None,None,meter_read=meter,
+    from run_native_diagnostic import transport as native_transport
+    process=MicrosoftProcessAdapter(store,config,model,lambda request:native_transport(config,request),None,meter_read=meter,
         lower_surface={'status':'READY'},execute_lower=sql,
-        read_endpoint=lambda request:endpoint(config,context,request))
+        read_endpoint=lambda request:endpoint(config,context,request,receipt_path=work/'endpoints.json'))
     objects,missing=resolve_objects(process,context,spec['schemas'])
     if missing:raise ValueError('VERIFICATION_OBJECT_RESOLUTION_REFUSED')
     try:
@@ -98,6 +99,25 @@ def perform(bootstrap, work, budget_catalog=None, live=None):
                     execute=lambda side,compiled:vb.read(side,lambda:route.execute(side,compiled)))
                 record['witnesses'].append(witness)
                 if witness['status']!='VERIFIED':break
+        if len(record['witnesses'])==len(spec['proposals']) and all(w['status']=='VERIFIED' for w in record['witnesses']):
+            # The declared semantic SUM boundary is checked in the same40-probe
+            # session; no separate cap or duplicated allowance is created.
+            from investigator.process_debugging import vertical
+            receipts=[]
+            def native_meter(tool,execute):
+                if tool not in ('bounded_dax','bounded_fabric_sql'):raise ValueError('NATIVE_ROUTE_UNEXPECTED_READ')
+                result=vb.read('TARGET' if tool=='bounded_dax' else 'SOURCE',lambda:meter(tool,execute))
+                receipts.append({'receipt_id':result.get('id'),'status':result.get('status'),'tool':tool,'result_hash':digest(result)})
+                return result
+            process.meter_read=native_meter
+            process.max_boundaries=1
+            result=vertical(process,spec['native_measure_id'],{'filters':[],'dimension_ids':[]})
+            record['native_route']={'id':i['session_id']+':native-route',
+                'observations':result['_observations'],'process_read_receipts':receipts,
+                'assessment':{k:v for k,v in result.items() if k!='_observations'}}
+            comparisons=[o for o in result['_observations'] if o.get('comparison_status')=='CROSS_SURFACE_VERIFIED']
+            if len(receipts)!=2 or len(comparisons)!=1 or comparisons[0].get('values_equal') is not True:
+                raise ValueError('NATIVE_DECLARED_ROUTE_NOT_VERIFIED')
         record['status']='VERIFIED' if len(record['witnesses'])==len(spec['proposals']) and all(w['status']=='VERIFIED' for w in record['witnesses']) else 'REFUSED'
         return record
     finally:

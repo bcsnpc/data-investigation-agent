@@ -67,6 +67,8 @@ def validate_declared_route(route,*,manifest,scan):
     tape=Tape(path)
     if tape.events[-1]['kind']!='FINAL':raise ValueError('Original native tape is not sealed complete')
     original=json.loads(base64.b64decode(tape.events[-1]['body']))['result']
+    if tape.bootstrap.get('entry_point')=='code_verifier' and tape.bootstrap.get('state',{}).get('inputs',{}).get('native_route_contract')=='declared-native-pair-v1':
+        original=original['native_route']
     if original['id']!=route['session_id']:raise ValueError('Original native session differs')
     original_observations={o['id']:o for o in original['observations']}
     if any(o['id'] not in original_observations or bytes_of(o)!=bytes_of(original_observations[o['id']]) for o in observations):
