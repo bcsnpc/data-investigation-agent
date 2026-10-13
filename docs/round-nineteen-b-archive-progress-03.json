@@ -1,0 +1,42 @@
+{
+  "recorded_at": "2026-10-13",
+  "status": "THIRD_CHECKED_BATCH_COMPLETE_FULL_ARCHIVE_IN_PROGRESS",
+  "completed_batch": "archive-checksum-controller-01/batch-0001",
+  "receipt_sha256": "d70b6ae3a0ee070aa414172ec5589111d202e4e9bef17a7038a4bc4cdf3fbdb9",
+  "new_paths": 56,
+  "new_original_bytes": 4891178977,
+  "new_stored_bytes": 360814555,
+  "new_platform_controls": 97,
+  "control_methods": {
+    "HEAD": 3,
+    "GET": 2,
+    "PUT": 92
+  },
+  "GET_purpose": "Block-list metadata only",
+  "retained_retry_error_types": [
+    "ServiceResponseError",
+    "ServiceResponseError",
+    "ServiceResponseError"
+  ],
+  "cumulative_historical_plus_new": {
+    "verified_paths": 1496,
+    "original_bytes": 20401623316,
+    "stored_bytes": 1772289674,
+    "platform_controls": 591
+  },
+  "round_nineteen_b": {
+    "verified_paths": 188,
+    "original_bytes": 13583494090,
+    "stored_bytes": 1113724243,
+    "platform_controls": 297,
+    "oneoff_estimate_usd_including_cool_minimum_and_prior": "0.02091289544338666666666666667"
+  },
+  "projected_platform_usd_month": "14.82175456677726",
+  "invoice_actual_available": false,
+  "blob_body_downloads_new_batches": 0,
+  "local_deletion": false,
+  "server_computed_sha256": false,
+  "integrity_method": "SERVER_VALIDATED_BLOCK_MD5_ORDERED_COMMIT_AND_STORED_MD5_PROPERTY",
+  "new_cleanup_status": "56 new entries undergoing local proof/runtime validation; prior published owner script remains valid; no newly ready claim",
+  "coverage": "Only completed immutable receipts counted. Next selection in offline preparation is excluded; full archive remains incomplete."
+}
