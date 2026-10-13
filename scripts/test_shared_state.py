@@ -111,6 +111,41 @@ class SharedStateTests(unittest.TestCase):
         with self.assertRaises(KeyError):
             SharedUsage(governor,self.state,owner='test-worker')
 
+    def test_cloud_pg_uses_only_explicit_managed_identity_after_gateway(self):
+        from investigator.shared_state import configured_state
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        calls=[]
+        class Credential:
+            def __init__(self,*,client_id):calls.append(('identity',client_id))
+            def __enter__(self):return self
+            def __exit__(self,*args):pass
+            def get_token(self,scope):calls.append(('scope',scope));return SimpleNamespace(token='IN_MEMORY_TEST_TOKEN')
+        def authorize(*args):calls.append(('gateway',args))
+        connect=Mock(return_value=object())
+        env={'INVESTIGATOR_STATE_BACKEND':'postgresql','INVESTIGATOR_PG_HOST':'pg.example.test',
+             'INVESTIGATOR_PG_DATABASE':'tool','INVESTIGATOR_PG_USER':'worker','AZURE_CLIENT_ID':'configured-identity'}
+        modules={'azure.identity':SimpleNamespace(ManagedIdentityCredential=Credential),
+                 'psycopg':SimpleNamespace(connect=connect),
+                 'investigator.live_gateway':SimpleNamespace(authorize_platform_database=authorize)}
+        with patch.dict('sys.modules',modules):configured_state(env).connector()
+        self.assertEqual(calls[0],('gateway',('state','pg.example.test','tool')))
+        self.assertEqual(calls[1],('identity','configured-identity'))
+        self.assertEqual(connect.call_args.kwargs['sslmode'],'verify-full')
+
+    def test_cloud_pg_gateway_refusal_precedes_token_or_connection(self):
+        from investigator.shared_state import configured_state
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        credential=Mock();connect=Mock()
+        env={'INVESTIGATOR_STATE_BACKEND':'postgresql','INVESTIGATOR_PG_HOST':'pg.example.test',
+             'INVESTIGATOR_PG_DATABASE':'tool','INVESTIGATOR_PG_USER':'worker','AZURE_CLIENT_ID':'configured-identity'}
+        modules={'azure.identity':SimpleNamespace(ManagedIdentityCredential=credential),
+                 'psycopg':SimpleNamespace(connect=connect),
+                 'investigator.live_gateway':SimpleNamespace(authorize_platform_database=Mock(side_effect=PermissionError('denied')))}
+        with patch.dict('sys.modules',modules),self.assertRaises(PermissionError):configured_state(env).connector()
+        credential.assert_not_called();connect.assert_not_called()
+
 
 @unittest.skipUnless(os.environ.get('DIA_TEST_POSTGRES_DSN'),'local PostgreSQL DSN not configured')
 class PostgreSQLTests(SharedStateTests):

@@ -303,8 +303,9 @@ class SharedState:
 def configured_state(environ=None):
     """Cloud configuration has no SQLite fallback and no password DSN.
 
-    Azure CLI developer auth and managed identity are selected by Azure's default
-    credential chain. A PostgreSQL token is refreshed for every connection.
+    Cloud authentication selects exactly the configured managed identity. Owner
+    migration is a separate explicitly supplied connector; no CLI fallback is
+    available to a worker. A token is refreshed for every connection.
     """
     import os
     env = os.environ if environ is None else environ
@@ -319,13 +320,15 @@ def configured_state(environ=None):
         # Raw shared-state writes cannot precede that boundary. Do not silently
         # degrade a projected installation to exact storage.
         raise ValueError('POSTGRES_PRIVACY_PROJECTED_STATE_NOT_IMPLEMENTED')
-    required = ('INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER')
+    required = ('INVESTIGATOR_PG_HOST','INVESTIGATOR_PG_DATABASE','INVESTIGATOR_PG_USER','AZURE_CLIENT_ID')
     if any(not env.get(k) for k in required):
         raise ValueError('POSTGRES_CONNECTION_CONFIGURATION_MISSING')
     def connect():
         import psycopg
-        from azure.identity import DefaultAzureCredential
-        with DefaultAzureCredential(managed_identity_client_id=env.get('AZURE_CLIENT_ID')) as credential:
+        from .live_gateway import authorize_platform_database
+        authorize_platform_database(env.get('DIA_GATEWAY_STATE_IDENTITY','state'),env[required[0]],env[required[1]])
+        from azure.identity import ManagedIdentityCredential
+        with ManagedIdentityCredential(client_id=env['AZURE_CLIENT_ID']) as credential:
             token = credential.get_token('https://ossrdbms-aad.database.windows.net/.default').token
         return psycopg.connect(host=env[required[0]], dbname=env[required[1]], user=env[required[2]],
                               password=token, sslmode='verify-full', connect_timeout=15)
