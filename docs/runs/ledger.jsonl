@@ -4250,3 +4250,13 @@
 {"at": "2026-10-13T03:02:06.424043+00:00", "round": "eighteen", "kind": "CONTROL_PLATFORM_HEALTH", "status": "PARTIAL_FAILURE", "artifact_sha256": "790ad038632e0b27e9be6ca1ee41135fda1dcf6134e39a34f05f95d89c88f363", "estate_reads": 0, "model_calls": 0}
 {"at": "2026-10-13T03:02:06.424178+00:00", "round": "eighteen", "kind": "OFFLINE_INTEGRATED_TESTS", "attempt": 2, "passed": 2807, "failed": 9, "errors": 1, "estate_reads": 0, "model_calls": 0}
 {"at": "2026-10-13T03:02:06.424222+00:00", "round": "eighteen", "kind": "OFFLINE_INTEGRATED_TESTS", "attempt": 3, "passed": 3945, "failed": 4, "skipped": 46, "estate_reads": 0, "model_calls": 0}
+{"at": "2026-10-13T03:13:49.720599+00:00", "round": "eighteen", "kind": "CONTROL_CAS_PUBLICATION", "objects": 237, "bytes": 25200488, "physical_controls": 474, "estate_reads": 0, "model_calls": 0, "status": "BYTE_VERIFIED"}
+{"at": "2026-10-13T03:13:49.720599+00:00", "round": "eighteen", "kind": "OFFLINE_HISTORICAL_REPLAY", "capture_id": "10fe967b-ac1b-4bdc-9ec8-87717aa4c4dd", "status": "MATCHED", "estate_reads": 0, "model_calls": 0}
+{"at": "2026-10-13T03:13:49.720599+00:00", "round": "eighteen", "kind": "OFFLINE_HISTORICAL_REPLAY", "capture_id": "1a384606-630d-468e-b628-9e9b18c00431", "status": "MATCHED", "estate_reads": 0, "model_calls": 0}
+{"at": "2026-10-13T03:13:49.720599+00:00", "round": "eighteen", "kind": "OFFLINE_HISTORICAL_REPLAY", "capture_id": "1f9dad9a-057d-4158-8ba8-94e9ff6a8ce3", "status": "MATCHED", "estate_reads": 0, "model_calls": 0}
+{"at": "2026-10-13T03:13:49.720599+00:00", "round": "eighteen", "kind": "OFFLINE_HISTORICAL_REPLAY", "capture_id": "27e7c3f6-0b57-4c70-b862-84edf3af0ebe", "status": "MATCHED", "estate_reads": 0, "model_calls": 0}
+{"at": "2026-10-13T03:13:49.720599+00:00", "round": "eighteen", "kind": "OFFLINE_HISTORICAL_REPLAY", "capture_id": "32e15ad1-bd79-468f-9e01-0af578aa2ea5", "status": "MATCHED", "estate_reads": 0, "model_calls": 0}
+{"at": "2026-10-13T03:13:49.720599+00:00", "round": "eighteen", "kind": "OFFLINE_HISTORICAL_REPLAY", "capture_id": "35883d6f-5e51-48e3-99b8-5d0011d4c8ba", "status": "MATCHED", "estate_reads": 0, "model_calls": 0}
+{"at": "2026-10-13T03:13:49.720599+00:00", "round": "eighteen", "kind": "OFFLINE_HISTORICAL_REPLAY", "capture_id": "36ed5cb1-4a6b-4f79-bfcc-044696f0f0f3", "status": "MATCHED", "estate_reads": 0, "model_calls": 0}
+{"at": "2026-10-13T03:13:49.720599+00:00", "round": "eighteen", "kind": "OFFLINE_HISTORICAL_REPLAY", "capture_id": "55eadb6a-9d56-4a7c-ad5d-b5c92b7ddf22", "status": "MATCHED", "estate_reads": 0, "model_calls": 0}
+{"at": "2026-10-13T03:13:49.720599+00:00", "round": "eighteen", "kind": "POSTGRES_DOCUMENT_TESTS", "passed": 16, "failed": 0, "estate_reads": 0, "model_calls": 0}

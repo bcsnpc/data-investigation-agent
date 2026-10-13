@@ -147,3 +147,11 @@ Compute deployment 02 created the South Central US environment and worker job, b
 Cloud health execution `job-dia-worker-h44txra` authenticated as `id-dia-worker` to PostgreSQL (database investigator, transaction_read_only=on; two schema versions, five migrations, one account, 2,391 state documents) and Blob (immutable PUT201/GET200). Its Key Vault check failed before HTTP. A separate auth-plane control established the exact same tenant/object ID and Key Vault audience `cfa8b339-82a2-471a-a3c9-0fc0be7a4093`; the checker incorrectly required the URI spelling. The first diagnostic control failed before authentication with `ModuleNotFoundError: No module named investigator`; the corrected control retained only aud/tid/oid, never the token.
 
 The interactive owner device flow was cancelled after the browser denial; CLI retained `AADSTS70016: Authorization is pending`. Existing owner CLI authorization still worked. The vault-specific approved grant resolved the demonstrated ForbiddenByRbac; no tenant/sign-in policy was changed.
+
+## Cloud snapshot publication and local verification, 2026-10-13
+
+At 03:12:18 UTC, the pilot's 237 content-addressed objects (25,200,488 bytes) were published immutably to the private `snapshots` container and all read back byte-for-byte. The exact two-method per-object gateway allowed 474 platform transport requests, zero estate requests and zero model calls. The one-time owner storage bootstrap credential stayed in memory. This is the previously audited four-file pilot, not conversion of all historic recordings. Local receipt: `pilot-cas-cloud-receipt.json`.
+
+The eight selected historic tapes replayed locally with eight workers: 8/8 matched in 198.253 seconds. Their original bytes and historical engine revision were unchanged. The initial transit package was superseded before publication to remove unrelated Git history; cloud replay remains pending. Exact results and timings are local in `cloud-replay-pack/laptop-baseline.json`.
+
+After the shared ticket mirror repair, the document-migration/mirror selection passed 16 tests, including six real PostgreSQL migration variants. Disposable test schemas were isolated from `dia_state`; estate and model usage were zero. The frozen 4377cbf full regression is running separately, not claimed passed yet.
