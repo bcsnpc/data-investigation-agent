@@ -26,6 +26,7 @@ def structural(value):
     value=copy.deepcopy(value)
     value['provenance'].pop('observed_at',None)
     if 'base_confidence' in value:
+        value['properties'].pop('query_verification',None)
         value['confidence']=value['base_confidence']
         value['verification']={'state':'NOT_VERIFIED','evidence_ids':[],'scope_hash':None}
         if value['provenance']['source']=='QUERY_VERIFICATION':
@@ -48,9 +49,12 @@ class GraphRepository:
         rows=self.state.sql(db,'SELECT identity,body FROM '+table+' WHERE estate=?',(estate,)).fetchall()
         return {identity:json.loads(body) for identity,body in rows}
 
-    def _proof(self,item):
+    def _proof(self,item,estate=None):
         if item['confidence']!='VERIFIED':return
         if self.verification_resolver is None:raise ValueError('GRAPH_VERIFIED_RECEIPT_RESOLVER_REQUIRED')
+        from .graph_verification import VerificationResolver
+        if not isinstance(self.verification_resolver,VerificationResolver):
+            raise ValueError('GRAPH_TRUSTED_EDGE_RECEIPT_RESOLVER_REQUIRED')
         proofs=[self.verification_resolver(identity) for identity in item['verification']['evidence_ids']]
         for proof in proofs:
             if (proof.get('producer')!='QUERY_VERIFICATION' or proof.get('status')!='VERIFIED'
@@ -58,6 +62,43 @@ class GraphRepository:
                     or item['provenance']['definition_hash'] not in proof.get('definition_hashes',[])
                     or item['id'] not in proof.get('edge_ids',[])):
                 raise ValueError('GRAPH_VERIFIED_RECEIPT_SCOPE_DIFFERS')
+            if proof['source']!=item.get('source') or proof['target']!=item.get('target'):
+                raise ValueError('GRAPH_VERIFIED_RECEIPT_ENDPOINT_DIFFERS')
+            if estate is not None and proof['estate']!=estate:raise ValueError('GRAPH_VERIFIED_RECEIPT_ESTATE_DIFFERS')
+            item['properties']['query_verification']={'qualification':proof['qualification'],'snapshot':proof['snapshot']}
+
+    def verify_edges(self,estate,evidence_ids,*,observed_at):
+        """Append earned proof without inventing a changed definition hash."""
+        from .graph_verification import VerificationResolver
+        if not isinstance(self.verification_resolver,VerificationResolver):
+            raise ValueError('GRAPH_TRUSTED_EDGE_RECEIPT_RESOLVER_REQUIRED')
+        if not isinstance(evidence_ids,list) or not 1<=len(evidence_ids)<=20 or len(set(evidence_ids))!=len(evidence_ids):
+            raise ValueError('GRAPH_VERIFICATION_BOUND')
+        now=contract.timestamp(observed_at)
+        proofs=[(eid,self.verification_resolver(eid)) for eid in evidence_ids]
+        if len({p['edge_ids'][0] for _,p in proofs})!=len(proofs):raise ValueError('GRAPH_DUPLICATE_VERIFICATION_EDGE')
+        with self.state.transaction() as db:
+            current=self._current(db,estate,'edges');updates=[]
+            for evidence_id,proof in proofs:
+                if proof['estate']!=estate:raise ValueError('GRAPH_VERIFIED_RECEIPT_ESTATE_DIFFERS')
+                edge_id=proof['edge_ids'][0];before=current.get(edge_id)
+                if before is None or before['confidence']=='UNKNOWN':raise ValueError('GRAPH_UNRESOLVED_EDGE_CANNOT_VERIFY')
+                after=copy.deepcopy(before);after['confidence']='VERIFIED'
+                after['provenance']={**after['provenance'],'source':'QUERY_VERIFICATION','observed_at':now}
+                after['verification']={'state':'CURRENT','evidence_ids':[evidence_id],'scope_hash':proof['scope_hash']}
+                after['properties']['query_verification']={'qualification':proof['qualification'],'snapshot':proof['snapshot']}
+                contract.record(after,edge=True);self._proof(after,estate)
+                latest=self.state.sql(db,'SELECT valid_from FROM estate_graph_history WHERE estate=? AND record_kind=? AND identity=? AND valid_to IS NULL',(estate,'edges',edge_id)).fetchone()
+                if not latest or now<=latest[0] or now<contract.timestamp(proof['observed_at']):raise StateConflict('GRAPH_VERIFICATION_TIME_MUST_ADVANCE')
+                updates.append(after)
+            for after in updates:
+                self.state.sql(db,'UPDATE estate_graph_history SET valid_to=? WHERE estate=? AND record_kind=? AND identity=? AND valid_to IS NULL',(now,estate,'edges',after['id']))
+                self.state.sql(db,'INSERT INTO estate_graph_history VALUES(?,?,?,?,?,?,?,?)',(estate,'edges',after['id'],after['owner'],now,None,encoded(after),sha(after)))
+                self.state.sql(db,'UPDATE estate_graph_edges SET confidence=?,provenance=?,body=? WHERE estate=? AND identity=?',
+                    (after['confidence'],encoded(after['provenance']),encoded(after),estate,after['id']))
+                self.state.sql(db,'INSERT INTO estate_graph_changes VALUES(?,?,?,?,?,?)',(estate,now,'verification:'+after['id'],
+                    after['provenance']['definition_hash'],after['provenance']['definition_hash'],encoded([{'kind':'edges','id':after['id'],'change':'QUERY_VERIFIED','evidence_ids':after['verification']['evidence_ids']}])) )
+        return {'status':'UPDATED','changed':len(updates)}
 
     def replace(self,value):
         value=contract.snapshot(value);estate=value['estate'];owner=value['owner']
@@ -71,7 +112,7 @@ class GraphRepository:
             for kind in ('nodes','edges'):
                 for item in value[kind]:
                     if item['id'] in new[kind]:raise StateConflict('GRAPH_IDENTITY_OWNED_BY_ANOTHER_ITEM')
-                    self._proof(item)
+                    self._proof(item,estate)
                     previous=old[kind].get(item['id'])
                     new[kind][item['id']]=copy.deepcopy(previous) if previous and structural(previous)==structural(item) else item
                     # Re-extraction emits definition confidence, not an earned

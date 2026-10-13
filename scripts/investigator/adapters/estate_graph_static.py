@@ -13,7 +13,8 @@ from .. import estate_graph_contract as c
 KINDS={'Report':'REPORT','ReportPage':'PAGE','ReportVisual':'VISUAL','SemanticModel':'MODEL',
  'SemanticTable':'TABLE','SemanticColumn':'COLUMN','Measure':'MEASURE','SemanticRelationship':'RELATIONSHIP',
  'SqlObject':'TABLE','SqlColumn':'COLUMN','SqlDatabase':'SOURCE','Lakehouse':'SOURCE','Warehouse':'SOURCE',
- 'LakehouseTable':'TABLE','LakehouseColumn':'COLUMN','RefreshSchedule':'REFRESH_SCHEDULE','Notebook':'NOTEBOOK','DataPipeline':'PIPELINE','CopyJob':'PIPELINE'}
+ 'LakehouseTable':'TABLE','LakehouseColumn':'COLUMN','WarehouseTable':'TABLE','WarehouseColumn':'COLUMN',
+ 'RefreshSchedule':'REFRESH_SCHEDULE','Notebook':'NOTEBOOK','DataPipeline':'PIPELINE','CopyJob':'PIPELINE'}
 
 
 def walk(value,path=''):
@@ -32,7 +33,12 @@ class StaticGraph:
         for asset in self.assets.values():
             if 'content_hash' in asset:
                 raw=json.dumps(asset.get('metadata',{}),sort_keys=True,ensure_ascii=False).encode()
-                if hashlib.sha256(raw).hexdigest()!=asset['content_hash']:raise ValueError('GRAPH_RETAINED_METADATA_HASH_DIFFERS')
+                compact=json.dumps(asset.get('metadata',{}),sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()
+                # Historical Collector.asset used spaced JSON, while enrichment
+                # used onboarding.digest's compact JSON. Verify either exact
+                # historical serialization; never rewrite the retained hash.
+                if asset['content_hash'] not in (hashlib.sha256(raw).hexdigest(),hashlib.sha256(compact).hexdigest()):
+                    raise ValueError('GRAPH_RETAINED_METADATA_HASH_DIFFERS')
         self.sink=definition_sink;self.definitions={};self.nodes={};self.edges={};self.by_asset={};self.proofs={}
         self.sources=set(source_asset_ids)
         if not self.sources<=self.assets.keys():raise ValueError('GRAPH_SOURCE_DECLARATION_NOT_COLLECTED')
@@ -172,9 +178,12 @@ class StaticGraph:
             if kind is None:continue
             meta=asset.get('metadata',{});proof=self.asset_proof(asset)
             if native=='ReportVisual' and meta.get('visual',{}).get('visualType')=='slicer':kind='SLICER'
-            if native=='SqlObject':kind={'V':'VIEW','SQL_STORED_PROCEDURE':'PROCEDURE','P':'PROCEDURE','VIEW':'VIEW'}.get(meta.get('type',meta.get('type_desc')),kind)
+            if native in ('SqlObject','WarehouseTable'):kind={'V':'VIEW','SQL_STORED_PROCEDURE':'PROCEDURE','P':'PROCEDURE','VIEW':'VIEW'}.get(meta.get('type',meta.get('type_desc')),kind)
             if native=='SemanticColumn' and meta.get('type')=='calculated':kind='CALCULATED_COLUMN'
             props={'asset_id':aid,'native_kind':native,'hidden':meta.get('isHidden',meta.get('visibility'))}
+            if 'content_hash' in asset:
+                spaced=hashlib.sha256(json.dumps(meta,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+                props['retained_metadata_hash_encoding']='SORTED_JSON_SPACED' if asset['content_hash']==spaced else 'SORTED_JSON_COMPACT_LEGACY'
             if aid in self.sources or any(parent in self.sources for parent in self._parents(aid)):props['system_of_record']=True
             for key in ('dataType','sourceColumn','isActive','crossFilteringBehavior','securityFilteringBehavior'):
                 if key in meta:props[key]=meta[key]
@@ -194,9 +203,9 @@ class StaticGraph:
                 if asset['kind']=='ReportPage':self.interactions(aid,meta,proof)
             if asset['kind'] in ('Measure','SemanticColumn') and ('expression' in meta or asset['kind']=='Measure'):
                 self.gap(node,'Engine-resolved expression dependencies have not been collected.',
-                    'Read INFO.CALCDEPENDENCY for this model through the existing metadata authority; retain any refusal.',proof)
+                    'CALCDEPENDENCY needs model write permission and is unavailable to this read-only investigator; retain UNKNOWN or use a separately approved metadata source.',proof)
             if asset['kind']=='SemanticRelationship':self.relationship(aid,meta,proof)
-            if asset['kind']=='SqlObject':
+            if asset['kind'] in ('SqlObject','WarehouseTable'):
                 for index,definition in enumerate(meta.get('definitions',[])):
                     text=definition.get('definition') if isinstance(definition,dict) else None
                     if isinstance(text,str):self.sql(aid,text,self.proof(asset,text,span={'kind':'TEXT','start':0,'end':max(1,len(text))}))
@@ -339,7 +348,7 @@ class StaticGraph:
         database=self.assets[parent].get('parent_id');tables={}
         for table in tree.find_all(exp.Table):
             qualified=(table.db+'.' if table.db else '')+table.name
-            candidates=[aid for aid,a in self.assets.items() if a['kind']=='SqlObject' and a.get('parent_id')==database and a['name']==qualified]
+            candidates=[aid for aid,a in self.assets.items() if a['kind'] in ('SqlObject','WarehouseTable') and a.get('parent_id')==database and a['name']==qualified]
             if table.catalog or len(candidates)!=1:
                 self.gap(self.by_asset[parent],'SQL source is unresolved in its declared database: '+table.sql(dialect='tsql'),
                     'Collect that exact qualified object under the connection named by this definition.',proof);continue
@@ -347,13 +356,13 @@ class StaticGraph:
             self.link('COMPUTED_FROM',self.by_asset[parent],self.by_asset[candidates[0]],proof)
         def resolve(column):
             options=[tables[column.table]] if column.table in tables else list(tables.values()) if not column.table else []
-            matches=[aid for aid,a in self.assets.items() if a['kind']=='SqlColumn' and a.get('parent_id') in options and a['name']==column.name]
+            matches=[aid for aid,a in self.assets.items() if a['kind'] in ('SqlColumn','WarehouseColumn') and a.get('parent_id') in options and a['name']==column.name]
             return self.by_asset[matches[0]] if len(matches)==1 else None
         for index,projection in enumerate(tree.expressions):
             label=projection.alias_or_name
             if not label:
                 self.gap(self.by_asset[parent],'SQL output expression has no stable column name.','Retain an explicit output-column declaration.',proof);continue
-            matches=[aid for aid,a in self.assets.items() if a['kind']=='SqlColumn' and a.get('parent_id')==parent and a['name']==label]
+            matches=[aid for aid,a in self.assets.items() if a['kind'] in ('SqlColumn','WarehouseColumn') and a.get('parent_id')==parent and a['name']==label]
             target=self.by_asset[matches[0]] if len(matches)==1 else self.add('CALCULATED_COLUMN',label,[parent,'sql-output',label],proof)
             self.link('CONTAINS',self.by_asset[parent],target,proof)
             for column in projection.find_all(exp.Column):

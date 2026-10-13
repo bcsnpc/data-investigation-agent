@@ -64,6 +64,16 @@ class Collector:
         self.observations.append({'asset_id': asset, 'capability': capability,
                                   'status': status, 'source': source, 'detail': detail})
 
+    def replace_metadata(self,identity,metadata):
+        """Same hash serialization and byte accounting as initial asset capture."""
+        previous=self.assets[identity]['metadata']
+        raw=json.dumps(metadata,sort_keys=True,ensure_ascii=False)
+        total=self.asset_bytes-len(json.dumps(previous,sort_keys=True,ensure_ascii=False).encode())+len(raw.encode())
+        if total>self.max_bytes:raise BudgetExceeded('Expanded metadata byte limit')
+        self.assets[identity]['metadata']=copy.deepcopy(metadata)
+        self.assets[identity]['content_hash']=text_digest(raw)
+        self.asset_bytes=total
+
     def attempt(self, scope, collect):
         before = set(self.assets)
         self.scope = scope
@@ -159,8 +169,8 @@ class Collector:
                             if len(matches)!=1:raise ValueError('SQL table not uniquely bound to listed Lakehouse table')
                             plans.append((matches[0],table))
                         for target,table in plans:
-                            target['metadata']['reader_schema']=copy.deepcopy(table)
-                            target['metadata']['columns']=copy.deepcopy(table['columns']);target['content_hash']=digest(target['metadata'])
+                            metadata={**target['metadata'],'reader_schema':copy.deepcopy(table),'columns':copy.deepcopy(table['columns'])}
+                            self.replace_metadata(target['id'],metadata)
                             for column in table['columns']:
                                 cid=target['id']+'/column/'+quote(column['name'],safe='')
                                 if cid not in self.assets:
@@ -173,8 +183,7 @@ class Collector:
                         endpoint=f'workspaces/{workspace}/warehouses/{item["id"]}'
                         body=self.call(endpoint)['text']
                         if body.get('id')!=item['id']:raise ValueError('Warehouse identity differs')
-                        self.assets[aid]['metadata']=copy.deepcopy(body)
-                        self.assets[aid]['content_hash']=digest(body)
+                        self.replace_metadata(aid,body)
                         self.charge()
                         snapshot=self.warehouse_catalog_reader(config,body)
                         if snapshot.get('scope')!='VISIBLE_OBJECTS_ONLY' or snapshot.get('complete_schema') is not False:
@@ -196,8 +205,7 @@ class Collector:
                         endpoint=f'workspaces/{workspace}/warehouses/{item["id"]}'
                         body=self.call(endpoint)['text']
                         if body.get('id')!=item['id']:raise ValueError('Warehouse identity differs')
-                        self.assets[aid]['metadata']=copy.deepcopy(body)
-                        self.assets[aid]['content_hash']=digest(body)
+                        self.replace_metadata(aid,body)
                         for tid in declared:
                             name=unquote(tid.removeprefix(aid+'/table/'))
                             self.charge()

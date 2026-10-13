@@ -80,7 +80,8 @@ class GraphRepositoryTests(unittest.TestCase):
         value=graph();edge=value['edges'][2];edge.update(confidence='VERIFIED',provenance=proof(source='QUERY_VERIFICATION'),
             verification={'state':'CURRENT','evidence_ids':['q'],'scope_hash':'b'*64})
         with self.assertRaisesRegex(ValueError,'RESOLVER_REQUIRED'):self.repo.replace(value)
-        self.repo.verification_resolver=lambda _: {'producer':'QUERY_VERIFICATION','status':'VERIFIED','scope_hash':'b'*64,'definition_hashes':['a'*64],'edge_ids':['vm']}
+        from test_graph_part_b import verification_fixture
+        self.repo.verification_resolver=verification_fixture()[0]
         self.repo.replace(value)
         second=copy.deepcopy(value);second.update(definition_hash='c'*64,observed_at=T1);second['nodes'][2]['label']='Changed visual'
         self.repo.replace(second)
@@ -91,7 +92,8 @@ class GraphRepositoryTests(unittest.TestCase):
     def test_unrelated_definition_change_keeps_verified_edge_and_original_observation(self):
         value=graph();edge=value['edges'][2];edge.update(confidence='VERIFIED',provenance=proof(source='QUERY_VERIFICATION'),
             verification={'state':'CURRENT','evidence_ids':['q'],'scope_hash':'b'*64})
-        self.repo.verification_resolver=lambda _: {'producer':'QUERY_VERIFICATION','status':'VERIFIED','scope_hash':'b'*64,'definition_hashes':['a'*64],'edge_ids':['vm']}
+        from test_graph_part_b import verification_fixture
+        self.repo.verification_resolver=verification_fixture()[0]
         self.repo.replace(value)
         second=copy.deepcopy(value);second.update(definition_hash='c'*64,observed_at=T1)
         for item in second['nodes']+second['edges']:item['provenance']['observed_at']=T1
@@ -118,6 +120,28 @@ class GraphRepositoryTests(unittest.TestCase):
         self.repo.replace(graph())
         with self.state.transaction() as db:db.execute("UPDATE estate_graph_history SET body_hash='wrong'")
         with self.assertRaisesRegex(StateConflict,'HASH_DIFFERS'):self.repo.records('estate')
+
+    def test_query_proof_promotes_without_changing_definition_hash_and_history_survives(self):
+        from test_graph_part_b import verification_fixture
+        self.repo.replace(graph());self.repo.verification_resolver=verification_fixture()[0]
+        self.assertEqual(self.repo.verify_edges('estate',['q'],observed_at=T1),{'status':'UPDATED','changed':1})
+        current=next(e for e in self.repo.records('estate')['edges'] if e['id']=='vm')
+        self.assertEqual(current['confidence'],'VERIFIED');self.assertEqual(current['provenance']['definition_hash'],'a'*64)
+        self.assertIn('semantic correctness',current['properties']['query_verification']['qualification'])
+        self.assertEqual(current['properties']['query_verification']['snapshot'],'SNAPSHOT_UNVERIFIED')
+        old=next(e for e in self.repo.records('estate',at=T0)['edges'] if e['id']=='vm')
+        self.assertEqual(old['confidence'],'DECLARED')
+        self.assertEqual(self.repo.replace(graph()),{'status':'UNCHANGED','changed':0})
+        self.assertEqual(self.repo.changes('estate')[0]['changes'][0]['change'],'QUERY_VERIFIED')
+
+    def test_same_values_from_other_estate_cannot_promote(self):
+        from test_graph_part_b import verification_fixture
+        resolver,check,binding,reads=verification_fixture()
+        check['estate']=binding['estate']='other'
+        for read in reads.values():read['estate']='other'
+        self.repo.replace(graph());self.repo.verification_resolver=resolver
+        with self.assertRaisesRegex(ValueError,'ESTATE_DIFFERS'):self.repo.verify_edges('estate',['q'],observed_at=T1)
+        self.assertEqual(len(self.repo.changes('estate')),1)
 
 class GraphAPITests(GraphRepositoryTests):
     def api(self,allowed=None,**kwargs):

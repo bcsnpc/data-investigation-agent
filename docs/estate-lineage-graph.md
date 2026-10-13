@@ -55,3 +55,67 @@ These are implemented entry points, not evidence that the live steps occurred.
 ## Validation
 
 Parallel offline graph/gateway/shared-state/neutrality/literal tests: 72 passed, 14 skipped, 47 subtests passed before the final serialized-byte-bound test; final graph/static tests: 33 passed. The skipped shared-state tests require a PostgreSQL test server; no PostgreSQL connection was opened in this work. Tests cover original definition restoration, no projected-to-raw fallback, unknown predicate forms, metadata hash tampering, identity-sensitive deletion fingerprints, SQL/filter extraction, hard API bounds, unauthorized objects, history tampering, unrelated-change proof preservation and cross-owner deletion.
+
+## Round 19 Part B: bounded producers and scoped verification
+
+`adapters/graph_dependencies.py` admits only four fixed metadata queries, an
+exact model/workspace/identity grant, a bounded result (with truncation sentinel),
+and the existing caller-owned metadata meter. Each physical attempt goes through
+`bounded_call`. Permission failures preserve their returned receipt; unsupported
+routes and omitted calculation rows remain UNKNOWN. No retry or privilege fallback
+is hidden in this collector. The XMLA transport is an injected installed adapter;
+this commit does not claim one has run or been installed in the cloud image.
+
+Microsoft Learn explicitly says that [INFO.CALCDEPENDENCY requires semantic-model
+write permission](https://learn.microsoft.com/en-us/dax/info-calcdependency-function-dax).
+The investigator cannot receive that permission. The [ExecuteQueries API excludes
+INFO and DMV queries](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/execute-queries-in-group).
+[INFO.VIEW.RELATIONSHIPS](https://learn.microsoft.com/en-us/dax/info-view-relationships-function-dax)
+documents active state and filter direction, but does not override this REST
+restriction. These are dated 2026-10-13 documentation findings, not estate probes.
+The fixed XMLA operation requires its own exact gateway grant and cannot be sent
+through the ordinary DAX operation by this collector. Relationship/column view
+rows can be retained; only calculation dependency rows currently have the graph
+edge conversion function. An empty response does not remove static coverage gaps.
+
+`graph_interpreter.py` accepts at most 24,000 code characters and 128 admitted
+objects. One governed provider call returns up to 64 proposals. Each proposal must
+cite a byte-preserving Unicode text span and existing graph IDs. Unknown fields,
+invented quotes and out-of-slice endpoints refuse. Every edge is INFERRED; static
+gaps remain, because a proposal list does not establish completeness. The installed
+provider adapter returns its metadata separately for caller retention. There is
+no code execution and no model-selected tool or retry path.
+
+The existing sqlglot static reader handles single explicit-column SELECTs and
+CREATE VIEW SELECTs, including WHERE/JOIN dependencies. It now handles the actual
+WarehouseTable/WarehouseColumn catalog kinds as well. CTEs, stars, procedural
+control flow and dynamic SQL still produce named gaps, not a partial complete path.
+
+`graph_verification.VerificationResolver` requires a trusted retained compiler
+binding, a non-numeric dependency witness, and two successful read receipts bound
+to the exact endpoints, statements, scope and definition. All four attestation
+fields must match. BLANK is distinct from zero, missing value and failed query.
+Equal values alone cannot verify an edge. The resulting claim is explicitly
+**scoped query agreement only**, not semantic correctness or global equivalence.
+Missing aligned query-bound snapshot reports retain SNAPSHOT_UNVERIFIED.
+`verify_path` admits a connected edge slice and its two-reads-per-edge budget
+before sending anything. Its compiler, query-reader and evidence-store adapters
+must be installed by the runtime; no live path verification is earned by these
+offline contract tests. `GraphRepository.verify_edges` appends proof/history
+without falsifying a changed definition hash. The consumer refuses arbitrary
+self-reported VERIFIED dictionaries and requires the receipt resolver.
+
+### Retained catalog audit correction
+
+The first billing import refused nine content hashes. Inspection established
+that all nine exactly match compact JSON: enrichment used `onboarding.digest`,
+while initial `Collector.asset` used sorted JSON with spaces. This was **not**
+evidence of tampering or a stale metadata body. Both exact historic encodings are
+now explicitly recomputed and recognized, with the encoding recorded on each
+node; neither retained body nor retained hash is rewritten. Unknown hashes still
+refuse. Future enrichment uses the initial capture serializer and updates the
+expanded byte budget transactionally before mutation. Original scans stay intact.
+
+Freeze invalidation: graph contract/producers, gateway vocabulary and discovery
+hash production changed. No estate/model calls, recorded-run changes, new scope,
+secret changes, or live verification were performed by these tests.

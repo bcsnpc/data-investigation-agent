@@ -208,12 +208,15 @@ class Gateway:
 
     def native_control(self,identity,operation,target,query=None):
         permissions=self.identity(identity)
-        if operation not in ('XMLA_EVALUATE','SNAPSHOT_SQL_METADATA','SNAPSHOT_XMLA_METADATA'):
+        if operation not in ('XMLA_EVALUATE','XMLA_GRAPH_METADATA','SNAPSHOT_SQL_METADATA','SNAPSHOT_XMLA_METADATA'):
             _deny('NATIVE_CONTROL_UNKNOWN',identity=identity)
         grant={'operation':operation,**target}
         if grant not in permissions.get('native_controls',[]):
             _deny('NATIVE_CONTROL_NOT_ALLOWED',identity=identity,operation=operation)
         if operation=='XMLA_EVALUATE':validate_dax(query)
+        elif operation=='XMLA_GRAPH_METADATA':
+            from .adapters.graph_dependencies import validate_query
+            validate_query(query)
         elif query is not None:_deny('FIXED_METADATA_QUERY_REQUIRED',identity=identity)
         return grant
 

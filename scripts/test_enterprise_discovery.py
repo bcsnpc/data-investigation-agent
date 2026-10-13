@@ -19,6 +19,20 @@ from investigator.native_identity import allows
 
 
 class DiscoveryTests(unittest.TestCase):
+    def test_enriched_metadata_uses_initial_capture_hash_and_byte_bound(self):
+        from investigator.discovery_collect import BudgetExceeded
+        from investigator.privacy_identities import text_digest
+        collector=Collector(self.config,self.transport,self.sql,max_bytes=200)
+        collector.asset('item','Warehouse','Serving','test',{'name':'Serving'})
+        metadata={'name':'Serving','columns':[{'name':'amount'}]}
+        collector.replace_metadata('item',metadata)
+        raw=json.dumps(metadata,sort_keys=True,ensure_ascii=False)
+        self.assertEqual(collector.assets['item']['content_hash'],text_digest(raw))
+        self.assertEqual(collector.asset_bytes,len(raw.encode()))
+        before=copy.deepcopy(collector.assets['item'])
+        with self.assertRaises(BudgetExceeded):collector.replace_metadata('item',{'padding':'x'*201})
+        self.assertEqual(collector.assets['item'],before)
+
     def test_lakehouse_reader_columns_bind_only_to_exact_listed_table(self):
         from unittest.mock import Mock
         lid=str(uuid4());self.items.append({'id':lid,'type':'Lakehouse','displayName':'Landing'})

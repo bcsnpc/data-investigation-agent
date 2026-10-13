@@ -7,6 +7,25 @@ def asset(id,kind,name,parent=None,metadata=None):return {'id':id,'kind':kind,'n
 def part(id,parent,name,content):return asset(id,'DefinitionPart',name,parent,{'content':content if isinstance(content,str) else json.dumps(content),'path':name})
 def field(kind,table,name):return {kind:{'Expression':{'SourceRef':{'Entity':table}},'Property':name}}
 class StaticTests(unittest.TestCase):
+    def test_both_evidenced_historical_hash_serializations_checked_without_rewrite(self):
+        value=asset('wh','Warehouse','Serving',metadata={'name':'Serving','properties':{'route':'catalog'}})
+        for separators,label in [(None,'SORTED_JSON_SPACED'),((',',':'),'SORTED_JSON_COMPACT_LEGACY')]:
+            raw=json.dumps(value['metadata'],sort_keys=True,ensure_ascii=False,separators=separators)
+            value['content_hash']=hashlib.sha256(raw.encode()).hexdigest();before=value['content_hash']
+            got=self.build([value]);self.assertEqual(got['nodes'][0]['properties']['retained_metadata_hash_encoding'],label)
+            self.assertEqual(value['content_hash'],before)
+        value['metadata']['name']='changed'
+        with self.assertRaisesRegex(ValueError,'HASH_DIFFERS'):self.build([value])
+
+    def test_warehouse_projection_uses_warehouse_column_catalog(self):
+        assets=[asset('wh','Warehouse','Warehouse'),asset('src','WarehouseTable','app.source','wh'),
+            asset('src/c','WarehouseColumn','amount','src'),asset('view','WarehouseTable','app.view','wh',
+            {'type_desc':'VIEW','definitions':[{'definition':'CREATE VIEW app.view AS SELECT s.amount AS revenue FROM app.source s'}]}),
+            asset('view/c','WarehouseColumn','revenue','view')]
+        graph=self.build(assets);by_asset={n['properties'].get('asset_id'):n for n in graph['nodes']}
+        self.assertEqual(by_asset['view']['kind'],'VIEW')
+        self.assertTrue(any(e['source']==by_asset['view/c']['id'] and e['target']==by_asset['src/c']['id'] for e in graph['edges']))
+
     def build(self,assets,**kwargs):
         self.blobs={};self.calls=[]
         def sink(raw):
