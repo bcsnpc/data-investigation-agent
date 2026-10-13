@@ -1,4 +1,4 @@
-﻿import copy
+import copy
 from pathlib import Path
 import tempfile
 import unittest
@@ -48,7 +48,8 @@ class GraphRepositoryTests(unittest.TestCase):
     def test_reextracted_changed_declared_edge_keeps_old_verification_as_stale(self):
         value=graph();edge=value['edges'][2];edge.update(confidence='VERIFIED',provenance=proof(source='QUERY_VERIFICATION'),
             verification={'state':'CURRENT','evidence_ids':['q'],'scope_hash':'b'*64})
-        self.repo.verification_resolver=lambda _: {'producer':'QUERY_VERIFICATION','status':'VERIFIED','scope_hash':'b'*64,'definition_hashes':['a'*64],'edge_ids':['vm']}
+        from test_graph_part_b import verification_fixture
+        self.repo.verification_resolver=verification_fixture()[0]
         self.repo.replace(value)
         changed=graph();changed.update(definition_hash='c'*64,observed_at=T1)
         changed['edges'][2]['provenance']=proof(hash='c'*64)
@@ -60,7 +61,8 @@ class GraphRepositoryTests(unittest.TestCase):
         from investigator.graph_scan_health import record
         value=graph();edge=value['edges'][2];edge.update(confidence='VERIFIED',provenance=proof(source='QUERY_VERIFICATION'),
             verification={'state':'CURRENT','evidence_ids':['q'],'scope_hash':'b'*64})
-        self.repo.verification_resolver=lambda _: {'producer':'QUERY_VERIFICATION','status':'VERIFIED','scope_hash':'b'*64,'definition_hashes':['a'*64],'edge_ids':['vm']}
+        from test_graph_part_b import verification_fixture
+        self.repo.verification_resolver=verification_fixture()[0]
         self.repo.replace(value)
         record(self.state,'estate','owner',T1,'UNAVAILABLE','Definition read permission refused')
         got=next(e for e in self.repo.records('estate')['edges'] if e['id']=='vm')
