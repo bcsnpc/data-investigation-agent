@@ -51,18 +51,36 @@ def export_usage(connection,environment,policy,round_policy):
             'round_policy':round_policy,'tables':tables}
 
 
-def import_usage(state,identity,source):
+def orphan_approval(source,approval):
+    """Explicitly preserve, never settle, named historical reservations."""
+    pending=[{'session_id':r[1],'reservation_key':r[2]} for r in source['tables']['adaptive_usage']['rows'] if r[7]=='RESERVED']
+    if approval is None:
+        if pending:raise StateConflict('USAGE_IMPORT_REQUIRES_DRAINED_WORKERS')
+        return None
+    fields(approval,['source_sha256','approved_by','approved_at','reason','drained_workers','reservations'])
+    if approval['source_sha256']!=sha(source):raise StateConflict('ORPHAN_APPROVAL_SOURCE_HASH_DIFFERS')
+    if approval['drained_workers']is not True:raise StateConflict('ORPHAN_APPROVAL_REQUIRES_DRAINED_WORKERS')
+    for key in ('approved_by','approved_at','reason'):text(approval[key],2000)
+    if not pending or sorted(approval['reservations'],key=encoded)!=sorted(pending,key=encoded):
+        raise StateConflict('ORPHAN_APPROVAL_RESERVATIONS_DIFFER')
+    return approval
+
+
+def import_usage(state,identity,source,*,preserve_orphans=None):
     if set(source)!={'version','environment','policy','round_policy','tables'} or source['version']!='shared-usage-import-v1':
         raise ValueError('USAGE_IMPORT_SCHEMA_DIFFERS')
     environment=source['environment']
     if source['policy']['environment']!=environment or set(source['tables'])!=set(TABLES):
         raise ValueError('USAGE_IMPORT_SCOPE_DIFFERS')
+    approval=orphan_approval(source,preserve_orphans)
     fingerprint=sha(source)
     with state.transaction() as db:
         prior=state.sql(db,'SELECT source_hash,verification FROM state_migrations WHERE identity=?',(identity,)).fetchone()
         if prior:
             if prior[0]!=fingerprint:raise StateConflict('MIGRATION_SOURCE_CHANGED')
-            return json.loads(prior[1])
+            prior_proof=json.loads(prior[1])
+            if prior_proof.get('preserved_orphan_approval')!=approval:raise StateConflict('MIGRATION_ORPHAN_APPROVAL_CHANGED')
+            return prior_proof
         proof=[]
         for original,(target,columns) in TABLES.items():
             saved=source['tables'][original]
@@ -75,10 +93,8 @@ def import_usage(state,identity,source):
                     reservation=json.loads(row[5])
                     if set(reservation)!=set(KEYS) or any(type(v)is not int or v<0 for v in reservation.values()):
                         raise ValueError('USAGE_IMPORT_COUNTS_INVALID')
-                    if row[7]=='RESERVED':
-                        raise StateConflict('USAGE_IMPORT_REQUIRES_DRAINED_WORKERS')
                 insert_columns=columns+('owner',) if original=='adaptive_usage' else columns
-                values=list(row)+['MIGRATED'] if original=='adaptive_usage' else row
+                values=list(row)+['MIGRATED_ORPHAN' if row[7]=='RESERVED' else 'MIGRATED'] if original=='adaptive_usage' else row
                 state.sql(db,'INSERT INTO '+target+'('+','.join(insert_columns)+') VALUES('+','.join('?' for _ in values)+')',values)
             actual=state.sql(db,'SELECT '+','.join(columns)+' FROM '+target+' WHERE environment=?',(environment,)).fetchall()
             actual=sorted([list(row) for row in actual],key=encoded)
@@ -95,6 +111,7 @@ def import_usage(state,identity,source):
         after=usage_totals(copied)
         if before!=after:raise StateConflict('USAGE_MIGRATION_TOTALS_DIFFER')
         verification={'source_sha256':fingerprint,'tables':proof,'policy':policy,'totals_before':before,'totals_after':after}
+        if approval is not None:verification['preserved_orphan_approval']=approval
         state.sql(db,'INSERT INTO state_migrations VALUES(?,?,?)',(identity,fingerprint,encoded(verification)))
         return verification
 
@@ -235,6 +252,7 @@ class SharedUsage:
             found=rows(self.state,db,'SELECT * FROM state_usage WHERE environment=? AND session_id=? AND reservation_key=?',(self.environment,session,key))
             if not found:raise UsageHold('Missing usage reservation')
             row=found[0]
+            if row['owner']=='MIGRATED_ORPHAN':raise UsageHold('Historical orphan reservation is immutable and conservatively charged')
             if row['owner']!=self.owner:raise UsageHold('Shared reservation owner differs')
             if row['status']=='RESERVED':
                 actual={k:v for k,v in (usage if isinstance(usage,dict) else {}).items() if k in ('input_tokens','output_tokens','total_tokens') and type(v)is int and v>=0}

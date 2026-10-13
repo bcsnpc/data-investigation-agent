@@ -90,6 +90,47 @@ class SharedReadBudgetTests(read_budget_tests.ReadBudgetTests):
             source=export_usage(db,'inflight',policy,None)
         with self.assertRaisesRegex(StateConflict,'DRAINED_WORKERS'):import_usage(self.state,'inflight',source)
 
+    def test_explicit_orphan_import_conserves_reservation_and_keeps_budget_bound(self):
+        from investigator.shared_state import sha
+        legacy=Catalog(self.folder/'orphan.sqlite','orphan')
+        policy=copy.deepcopy(self.policy);policy['environment']='orphan'
+        old=UsageGovernor(legacy,policy,lambda:self.now)
+        with legacy.db() as db:
+            old.reserve(db,'historical','one','planner',10,output_tokens=1500)
+            source=export_usage(db,'orphan',policy,None)
+        approval={'source_sha256':sha(source),'approved_by':'owner','approved_at':'2026-10-12',
+                  'reason':'Worker absence established; retain original reservation unchanged',
+                  'drained_workers':True,'reservations':[{'session_id':'historical','reservation_key':'one'}]}
+        import migrate_shared_state
+        source_file=self.folder/'orphan-source.json';source_file.write_text(json.dumps(source))
+        approval_file=self.folder/'orphan-approval.json';approval_file.write_text(json.dumps(approval))
+        plan_file=self.folder/'orphan-plan.json'
+        with patch('migrate_shared_state.configured_state',side_effect=AssertionError('plan must be offline')):
+            migrate_shared_state.main(['--source',str(source_file),'--migration-id','orphan',
+                '--expected-sha256',sha(source),'--report',str(plan_file),
+                '--preserve-orphans-approval',str(approval_file)])
+        self.assertEqual(json.loads(plan_file.read_text())['preserved_orphan_approval'],approval)
+        wrong=copy.deepcopy(approval);wrong['source_sha256']='0'*64
+        with self.assertRaisesRegex(StateConflict,'SOURCE_HASH'):import_usage(self.state,'orphan',source,preserve_orphans=wrong)
+        wrong=copy.deepcopy(approval);wrong['reservations']=[]
+        with self.assertRaisesRegex(StateConflict,'RESERVATIONS'):import_usage(self.state,'orphan',source,preserve_orphans=wrong)
+        proof=import_usage(self.state,'orphan',source,preserve_orphans=approval)
+        self.assertEqual(proof['totals_before'],proof['totals_after'])
+        self.assertEqual(proof['totals_after']['all_time_charged']['output_tokens'],1500)
+        self.assertTrue(all(t['sha256_before']==t['sha256_after'] for t in proof['tables']))
+        self.assertEqual(import_usage(self.state,'orphan',source,preserve_orphans=approval),proof)
+        wrong=copy.deepcopy(approval);wrong['reason']='changed'
+        with self.assertRaisesRegex(StateConflict,'APPROVAL_CHANGED'):import_usage(self.state,'orphan',source,preserve_orphans=wrong)
+        old.shared=SharedUsage(old,self.state,owner='MIGRATED_ORPHAN')
+        with legacy.db() as db:
+            with self.assertRaisesRegex(UsageHold,'immutable'):old.settle(db,'historical','one',{'output_tokens':0})
+            with self.assertRaisesRegex(UsageHold,'concurrency'):old.reserve(db,'new','one','planner',10,output_tokens=1500)
+        self.assertEqual(old.snapshot()['reservation_states'],{'RESERVED':1})
+        self.assertEqual(old.snapshot()['charged_today']['output_tokens'],1500)
+        with self.state.transaction() as db:
+            actual=self.state.sql(db,'SELECT '+','.join(source['tables']['adaptive_usage']['columns'])+' FROM state_usage WHERE environment=?',('orphan',)).fetchall()
+        self.assertEqual([list(r) for r in actual],source['tables']['adaptive_usage']['rows'])
+
     def test_pot_protects_reserve_and_restoration_consumes_it(self):
         policy=copy.deepcopy(self.policy);policy['environment']='round'
         limits={'starts_at_epoch':0,'physical_requests':3,'restoration_reserved':1}

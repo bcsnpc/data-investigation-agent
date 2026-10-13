@@ -1,7 +1,7 @@
 """Apply shared-state schema or import an operator-reviewed exact ledger snapshot.
 
 Input is local-only JSON. Amounts must be decimal strings or integers, never JSON
-floats. Run --plan first; --apply imports exactly this hash once. This command
+floats. Plan (the default) first; --apply imports exactly this hash once. This command
 never edits the legacy ledger, changes a cap, or creates a cloud resource.
 """
 import argparse
@@ -17,6 +17,7 @@ def main(argv=None):
     parser.add_argument('--migration-id',required=True)
     parser.add_argument('--expected-sha256',required=True)
     parser.add_argument('--apply',action='store_true')
+    parser.add_argument('--preserve-orphans-approval',help='Explicit local approval JSON binding the exact source hash and historical reserved rows; never clears or settles them')
     parser.add_argument('--report',required=True)
     args=parser.parse_args(argv)
     source=json.loads(Path(args.source).read_text(encoding='utf-8-sig'))
@@ -25,12 +26,20 @@ def main(argv=None):
         parser.error('Source hash differs from approved migration input')
     usage_import=source.get('version')=='shared-usage-import-v1'
     catalog_import=source.get('version')=='shared-catalog-import-v1'
+    approval=None
+    if args.preserve_orphans_approval:
+        if not usage_import:parser.error('Orphan preservation applies only to usage imports')
+        approval=json.loads(Path(args.preserve_orphans_approval).read_text(encoding='utf-8-sig'))
+    if usage_import:
+        from investigator.shared_usage import orphan_approval
+        orphan_approval(source,approval)
     # Refuse decimal floats, rather than stringifying already rounded values.
     for account in source.get('accounts',[]):
         for field in ('ceiling','protected','opening'):
             amount(account[field])
     report={'mode':'APPLY' if args.apply else 'PLAN','source_sha256':digest,
             'accounts':source.get('accounts',[]),'legacy_files_unchanged':True}
+    if approval is not None:report['preserved_orphan_approval']=approval
     if args.apply:
         state=configured_state()
         if state is None:
@@ -38,7 +47,7 @@ def main(argv=None):
         state.migrate()
         if usage_import:
             from investigator.shared_usage import import_usage
-            report['verification']=import_usage(state,args.migration_id,source)
+            report['verification']=import_usage(state,args.migration_id,source,preserve_orphans=approval)
         elif catalog_import:
             from investigator.shared_catalog import import_catalog
             report['verification']=import_catalog(state,args.migration_id,source)

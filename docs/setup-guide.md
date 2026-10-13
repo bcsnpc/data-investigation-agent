@@ -90,6 +90,16 @@ INVESTIGATOR_MODEL_SPEND_MICRODOLLARS=<approved-shared-ceiling>
 INVESTIGATOR_MODEL_SPEND_MARGIN_MICRODOLLARS=<approved-protected-margin>
 ```
 
+The prepared `infra/platform/sql/grant-worker-state.sql` binds the managed
+identity object ID and grants only the tool database's `dia_state` tables. Apply
+migrations as the owner with `search_path=dia_state,pg_catalog` first; the worker's
+database-specific search path uses that schema. The script is deliberately split
+at that migration step and is not an unattended whole-file execution. It grants
+no schema CREATE, DELETE, ownership, graph writes or other-database privileges.
+PostgreSQL authentication roles exist at server scope; existing PUBLIC defaults
+must be checked separately and are not evidence of an explicit grant. The
+post-grant checks must show no inherited CREATE before admission.
+
 The PostgreSQL adapter uses the explicit managed identity and TLS certificate
 verification. Operator migration instead receives an explicitly supplied owner
 connector. It is not a worker authentication fallback.
@@ -122,7 +132,15 @@ Stop admissions and drain workers first. Keep the original SQLite ledgers intact
 Run `scripts/export_shared_state.py` with the existing catalog, dollar ledger,
 approved policy/round JSON, exact protected microdollar margin and a new output
 directory. The output contains original rows and exact integer/decimal totals.
-An active reservation refuses migration.
+An active reservation refuses migration. For a specifically audited historical
+orphan only, `--preserve-orphans-approval <local-json>` accepts an explicit approval
+with `source_sha256`, `approved_by`, `approved_at`, `reason`, `drained_workers: true`
+and the exact `reservations` list of `session_id`/`reservation_key` pairs. It
+preserves every original field, including RESERVED status and charged amount;
+records that approval beside the migration proof; and forbids worker settlement
+of the imported orphan. It does not free concurrency or budget. If that reservation
+still blocks admission, resolving it needs a separate evidence-backed decision,
+not this import option.
 
 Review the emitted hashes and use `scripts/migrate_shared_state.py --source ...
 --migration-id ... --expected-sha256 ... --report ...` in plan mode. Add `--apply`
