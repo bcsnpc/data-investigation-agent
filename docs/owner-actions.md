@@ -1,5 +1,9 @@
 # Owner actions and deferred options
 
+## Round Nineteen verified archive cleanup (2026-10-13)
+
+The source export has a SHA-verified private Blob archive, but automatic approval review rejected the local cleanup command before launch with `blocked by policy`. Original files remain. Prepared owner command: `powershell -NoProfile -File D:\data_investigation_agent\.local\round-nineteen\source-export-archive\cleanup-verified.ps1`. It checks hashes and path containment before removal. No alternative deletion was attempted. See round-nineteen-archive-storage.md for manifest/receipt hashes. This does not block independent graph/state work.
+
 ## Current authority record
 
 The prior Key Vault data-plane refusal is resolved as an authority decision:
