@@ -70,6 +70,15 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(ArtifactError,'PRIVACY_REVIEW'):archive.publish(plan,sha,{},remote)
         self.assertEqual(remote.calls,[])
 
+    def test_json_credential_and_base64_tape_credential_are_quarantined(self):
+        import base64
+        secret=canonical({'password':'synthetic-secret-value'})
+        plain=self.put('.local/round-five/unsafe.json',secret)
+        self.assertEqual(archive.privacy_reason(plain,plain.name),'CREDENTIAL_PATTERN')
+        body=canonical({'events':[{'body':base64.b64encode(secret).decode()}]})
+        tape=self.put('.local/round-five/tape.json',body)
+        self.assertEqual(archive.privacy_reason(tape,tape.name),'DECODED_TAPE_CREDENTIAL_PATTERN')
+
     def test_hot_download_hash_then_archive_receipt_then_cleanup_script(self):
         self.put('.local/round-five/receipt.json')
         plan=self.plan(['.local/round-five/receipt.json']);sha,review=self.review(plan);remote=Remote()

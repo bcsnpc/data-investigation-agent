@@ -15,6 +15,8 @@ def main():
     parser.add_argument('--bundle', required=True, type=Path)
     parser.add_argument('--bundle-plan', required=True, type=Path)
     parser.add_argument('--bundle-plan-sha256')
+    parser.add_argument('--bundle-compression',choices=['identity','gzip'],default='identity')
+    parser.add_argument('--max-staging-bytes',type=int,default=512*1024*1024)
     parser.add_argument('--privacy-review', type=Path)
     parser.add_argument('--account-url')
     parser.add_argument('--tenant')
@@ -22,19 +24,21 @@ def main():
     parser.add_argument('--azure-cli-python', type=Path)
     parser.add_argument('--gateway-channel')
     parser.add_argument('--max-control-requests', type=int)
+    parser.add_argument('--max-stored-bytes', type=int,help='Required for new publications; actual compressed measurement before network')
     parser.add_argument('--journal', type=Path)
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()
     manifest = load_pinned(args.manifest, args.manifest_sha256)
     if args.action == 'build':
         if args.bundle_plan.exists(): raise ArtifactError('BUNDLE_PLAN_EXISTS')
-        proof = build(manifest, args.manifest_sha256, args.bundle)
+        proof = build(manifest, args.manifest_sha256, args.bundle,compression=args.bundle_compression,
+                      max_staging_bytes=args.max_staging_bytes)
         plan = bundle_manifest(args.bundle, manifest, args.manifest_sha256, proof)
         with args.bundle_plan.open('xb') as output: output.write(canonical(plan))
         print(json.dumps({**proof, 'bundle_plan_sha256': digest(canonical(plan))}))
         return
     required = ['bundle_plan_sha256', 'privacy_review', 'account_url', 'tenant', 'subscription',
-                'gateway_channel', 'max_control_requests', 'journal', 'output']
+                'gateway_channel', 'max_control_requests', 'max_stored_bytes', 'journal', 'output']
     if any(getattr(args, key) is None for key in required): raise ArtifactError('BUNDLE_PUBLICATION_ARGUMENTS')
     if args.output.exists(): raise ArtifactError('BUNDLE_RECEIPT_EXISTS')
     raw = args.bundle_plan.read_bytes()
@@ -54,7 +58,7 @@ def main():
                    max_requests=args.max_control_requests, receipts=str(args.journal) + '.controls.jsonl')
     result = publish_bundle(plan, args.bundle_plan_sha256, manifest, args.manifest_sha256,
                 json.loads(args.privacy_review.read_bytes()), client,
-                Journal(args.journal, args.bundle_plan_sha256, args.account_url))
+                Journal(args.journal, args.bundle_plan_sha256, args.account_url),max_stored_bytes=args.max_stored_bytes)
     with args.output.open('xb') as output: output.write(canonical(result))
     print(json.dumps({'receipt_sha256': digest(canonical(result)), 'original_bytes': result['original_bytes'],
                       'stored_bytes': result['stored_bytes'], 'local_deletion_performed': False,

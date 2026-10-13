@@ -3,6 +3,7 @@ from pathlib import Path
 import tempfile
 import tarfile
 import unittest
+from unittest.mock import patch
 from investigator.archive_migration import plan, cleanup_script
 from investigator.artifact_store import canonical, digest, ArtifactError
 from investigator.source_export_archive import build, verify_bundle, bundle_manifest, publish_bundle
@@ -25,12 +26,24 @@ class Tests(unittest.TestCase):
             source = plan(root, paths, protected=[], finished_statement='explicit test', source_export_roots=roots, storage_encoding='gzip')
             sha = digest(canonical(source))
             bundle = root / 'bundle.tar'
-            proof = build(source, sha, bundle)
+            with patch('shutil.disk_usage',return_value=type('Usage',(),{'free':20*1024**3})()):
+                proof = build(source, sha, bundle)
+                compressed=root/'compressed.tar.gz'
+                gzip_proof=build(source,sha,compressed,compression='gzip',max_staging_bytes=1024*1024)
+                self.assertEqual(gzip_proof['unique_objects'],3)
+                self.assertEqual(gzip_proof['bundle_compression'],'gzip')
+                with self.assertRaisesRegex(ArtifactError,'STAGING_BOUND'):
+                    build(source,sha,root/'too-large.tar.gz',compression='gzip',max_staging_bytes=1)
             self.assertEqual(proof['original_paths'], 4)
             self.assertEqual(proof['unique_objects'], 3)
             prepared = bundle_manifest(bundle, source, sha, proof)
             prepared_sha = digest(canonical(prepared))
             review = {'status': 'APPROVED', 'manifest_sha256': sha, 'reviewer': 'test', 'basis': 'synthetic'}
+            refused_remote=Remote()
+            with self.assertRaisesRegex(ArtifactError,'TRANSFER_BYTE_CAP'):
+                publish_bundle(prepared,prepared_sha,source,sha,review,refused_remote,
+                               Journal(root/'too-small',prepared_sha,URL),max_stored_bytes=1)
+            self.assertEqual(refused_remote.calls,[])
             receipt = publish_bundle(prepared, prepared_sha, source, sha, review, Remote(), Journal(root / 'journal', prepared_sha, URL))
             self.assertEqual(len(receipt['objects']), 4)
             self.assertEqual(len({row['blob'] for row in receipt['objects']}), 1)

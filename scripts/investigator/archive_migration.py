@@ -20,7 +20,7 @@ SENSITIVE = re.compile(r'(^|[/_.-])(' + CREDENTIAL_PATH_WORDS + r')([/_.-]|$)', 
 LIVE = re.compile(r'(model[-_]spend|shared[-_](?:accounting|catalog)|(?:budget|usage|pot|ledger)(?:[-_.]|$))', re.I)
 SECRET_BYTES = re.compile(rb'-----BEGIN [A-Z ]*PRIVATE KEY-----|Bearer\s+[A-Za-z0-9._~-]{16,}|'
                           rb'eyJ[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}\.[A-Za-z0-9_-]{12,}|'
-                          rb'(?:password|api[_-]?key|client[_-]?secret|AccountKey)\s*[=:]\s*["\x27]?[^\s"\x27;,}]{6,}', re.I)
+                          rb'(?:password|api[_-]?key|client[_-]?secret|AccountKey)["\x27]?\s*[=:]\s*["\x27]?[^\s"\x27;,}]{6,}', re.I)
 
 
 def sha_file(path):
@@ -87,6 +87,14 @@ def privacy_reason(path, relative):
             combined=tail+block
             if SECRET_BYTES.search(combined):return 'CREDENTIAL_PATTERN'
             tail=combined[-4096:]
+    if Path(path).name=='tape.json':
+        import base64
+        try:
+            tape=json.loads(Path(path).read_bytes())
+            for event in tape['events']:
+                decoded=base64.b64decode(event['body'],validate=True)
+                if SECRET_BYTES.search(decoded):return 'DECODED_TAPE_CREDENTIAL_PATTERN'
+        except (ValueError,TypeError,KeyError):return 'TAPE_PRIVACY_DECODE_FAILED'
     return None
 
 

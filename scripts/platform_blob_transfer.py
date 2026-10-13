@@ -75,11 +75,13 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if args.receipt.exists():
         raise ArtifactError('PLATFORM_RECEIPT_EXISTS')
-    from azure.identity import AzureCliCredential
     from investigator.live_gateway import current
     from investigator.adapters.platform_credentials import OwnerCliCredential
-    credential=(OwnerCliCredential(args.azure_cli_python,args.tenant,args.subscription) if args.azure_cli_python else
-                AzureCliCredential(tenant_id=args.tenant, subscription=args.subscription))
+    if args.azure_cli_python:
+        credential=OwnerCliCredential(args.azure_cli_python,args.tenant,args.subscription)
+    else:
+        from azure.identity import AzureCliCredential
+        credential=AzureCliCredential(tenant_id=args.tenant, subscription=args.subscription)
     result = transfer(args.action, args.url, args.file, args.sha256, credential=credential,
              gateway=current(), channel=args.gateway_channel, controls=args.controls)
     with args.receipt.open('x', encoding='utf-8') as output:

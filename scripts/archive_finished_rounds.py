@@ -114,13 +114,17 @@ def main(argv=None):
     if args.command=='upload-resumable':
         from investigator.resumable_archive import IdentityArchiveClient, Journal, publish_resumable
         from investigator.live_gateway import current
-        from azure.identity import ManagedIdentityCredential, AzureCliCredential
         if args.azure_cli_tenant and not args.subscription:
             raise ArtifactError('ARCHIVE_CLI_SUBSCRIPTION_REQUIRED')
         from investigator.adapters.platform_credentials import OwnerCliCredential
-        credential=(ManagedIdentityCredential(client_id=args.managed_client_id) if args.managed_client_id else
-                    OwnerCliCredential(args.azure_cli_python,args.azure_cli_tenant,args.subscription) if args.azure_cli_python else
-                    AzureCliCredential(tenant_id=args.azure_cli_tenant,subscription=args.subscription))
+        if args.managed_client_id:
+            from azure.identity import ManagedIdentityCredential
+            credential=ManagedIdentityCredential(client_id=args.managed_client_id)
+        elif args.azure_cli_python:
+            credential=OwnerCliCredential(args.azure_cli_python,args.azure_cli_tenant,args.subscription)
+        else:
+            from azure.identity import AzureCliCredential
+            credential=AzureCliCredential(tenant_id=args.azure_cli_tenant,subscription=args.subscription)
         if args.output.exists():raise ArtifactError('ARCHIVE_OUTPUT_ALREADY_EXISTS')
         journal=Journal(args.journal,args.manifest_sha256,args.account_url)
         client=IdentityArchiveClient(args.account_url,credential,current(),args.gateway_channel,
