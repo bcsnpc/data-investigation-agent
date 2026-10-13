@@ -66,7 +66,8 @@ class GraphRepository:
                 raise ValueError('GRAPH_VERIFIED_RECEIPT_ENDPOINT_DIFFERS')
             if estate is not None and proof['estate']!=estate:raise ValueError('GRAPH_VERIFIED_RECEIPT_ESTATE_DIFFERS')
             item['properties']['query_verification']={'qualification':proof['qualification'],'snapshot':proof['snapshot'],
-                'origin_source':'MODEL_PROPOSAL' if item['base_confidence']=='INFERRED' else proof['origin_source']}
+                'origin_source':'MODEL_PROPOSAL' if item['base_confidence']=='INFERRED' else proof['origin_source'],
+                'requires_reverification':proof.get('requires_reverification',proof['snapshot'] not in ('SNAPSHOT_VERIFIED','ALIGNED_QUERY_BOUND'))}
 
     def verify_edges(self,estate,evidence_ids,*,observed_at):
         """Append earned proof without inventing a changed definition hash."""

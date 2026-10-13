@@ -158,3 +158,46 @@ is not itself Blob publication. Fixture definitions are 567 objects / 540,032
 bytes; billing definitions 189 objects / 132,158 bytes. Earlier semantic-only and
 intact-earlier-billing staging outputs are separate and are not the publication
 seed.
+
+### Verification integration correction (2026-10-13)
+
+The initial synthetic `VerificationResolver` contract demanded four matched
+self-reported fields. That is stricter than the established Microsoft producer
+contract and is **not the production Microsoft graph route**. It earned no live
+path and must not be used to declare Microsoft's partial attestation invalid.
+The installed production bridge is now
+`adapters.graph_binding_verification.BindingVerificationResolver`:
+
+- consumes the existing immutable `lineage_binding.Ledger` rows and recomputes
+  the verdict with `revalidate_verification` / `binding_sample.verify`;
+- recompiles through the existing `BindingVerificationRoute` against the pinned
+  context, verifies original terminal query seals, and requires exact compiled
+  statement, scope, rows and query-bound surface-report correspondence;
+- binds graph output/input columns to that proposal's exact declared catalog
+  assets and retained code hash; a similar name or a coincidentally equal scalar
+  cannot attach another edge;
+- preserves the existing `surface_difference` standard. PARTIAL coverage is
+  acceptable when required fields match and comparable query-bound reports earn
+  OBJECT_DISTINCT or ENGINE_INDEPENDENT. No claim of engine independence is made
+  for OBJECT_DISTINCT. Missing aligned query-bound versions retain
+  SNAPSHOT_UNVERIFIED and `requires_reverification`;
+- exposes `verify_binding` using the existing profile compiler, guarded reader,
+  separate verification budget and immutable ledger, preserving failures too.
+  It refuses a missing physical meter before either read.
+
+Offline integration tests execute the actual profile compiler's statements in a
+synthetic SQLite estate, create normal sealed terminal receipts, revalidate the
+existing binding profile, and attach the exact graph edge. They cover PARTIAL
+attestation with OBJECT_DISTINCT, tampered read receipts, changed recompilation,
+changed code hash, unequal data and absent metering. No estate request was made.
+
+Current live scope is deliberately narrow: retained SQL column-expression edges
+can use the already installed binding-profile route if their exact catalog
+objects, comparison profile, sample and permissions compile faithfully. The new
+bridge does not implement graph verification for visual-to-measure, DAX
+calculation dependencies, filter-effect or stored-procedure control-flow edges.
+Those paths remain UNKNOWN/INFERRED until their own supported producer and
+path-specific evidence exist. The retained fixture and billing graphs therefore
+have **no newly earned complete VERIFIED path**. This is an implementation gap,
+not a reason to weaken attestation or classify aggregate agreement as semantic
+truth. Inferred SQL/code edges still require a real profile check before promotion.
