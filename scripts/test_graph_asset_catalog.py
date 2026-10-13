@@ -61,6 +61,39 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(self.state.get(NAMESPACE,'estate'),before)
         self.assertEqual(self.repo.changes('estate'),history)
         self.assertIn('book',self.repo.records('estate')['unavailable_owners'])
+    def test_failed_extraction_seals_exact_payload_and_reports_only_reference(self):
+        before=self.state.get(NAMESPACE,'estate');history=self.repo.changes('estate')
+        payload=self.payload('book',True)
+        payload['assets'][0]['name']='fresh-metadata-only-sentinel'
+        source=Mock(identity='source',configured_owners=('book',))
+        source.list_changes.return_value={'items':[{'owner':'book','fingerprint':sha('new'),'deleted':False}],'complete':False}
+        source.fetch.return_value=payload
+        error=ValueError('GRAPH_UNKNOWN_COLLISION')
+        self.catalog.partition=Mock(side_effect=error)
+        result=IncrementalScanner(self.repo,source,None,reconcile=self.catalog.refresh).run('estate',T[1])
+        reference=result['owners'][0]['payload_reference']
+        self.assertEqual(json.loads(self.sink.read(reference)),payload)
+        self.assertNotIn('fresh-metadata-only-sentinel',json.dumps(result))
+        self.assertEqual(self.repo.records('estate')['unavailable_owners']['book']['payload_reference'],reference)
+        self.assertEqual(self.state.get(NAMESPACE,'estate'),before)
+        self.assertEqual(self.repo.changes('estate'),history)
+        from investigator.graph_asset_catalog import failure_reference
+        self.assertIsNone(failure_reference(error,'other-estate','book'))
+        self.assertIsNone(failure_reference(error,'estate','other-owner'))
+        forged=ValueError('untrusted');forged._graph_failed_payload={'reference':reference}
+        self.assertIsNone(failure_reference(forged,'estate','book'))
+    def test_cross_owner_payload_refuses_before_capture(self):
+        calls=Mock(wraps=self.sink);self.catalog.sink=calls
+        with self.assertRaisesRegex(ValueError,'LEAVES_OWNER'):
+            self.catalog.refresh('estate','book',T[1],self.payload('lake'))
+        calls.assert_not_called()
+    def test_failure_reference_rejects_secret_query_and_invalid_hash(self):
+        from investigator.graph_scan_health import record
+        for reference in ({'sha256':'not-a-sha','bytes':1,'uri':'cas://definitions/files/not-a-sha'},
+                          {'sha256':'a'*64,'bytes':1,'uri':'https://example.invalid/files/'+'a'*64+'?sig=secret'}):
+            with self.subTest(reference=reference),self.assertRaises(ValueError):
+                record(self.state,'estate','book',T[1],'UNAVAILABLE',payload_reference=reference)
+
     def test_stale_manifest_cannot_overwrite_concurrent_refresh(self):
         old,_,_,_=self.catalog.snapshot('estate');history=self.repo.changes('estate')
         original=self.catalog.partition
