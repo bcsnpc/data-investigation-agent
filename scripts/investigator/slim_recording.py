@@ -1,6 +1,5 @@
 """Opt-in CAS publication of newly created exact recordings, never old tapes."""
 from contextlib import contextmanager
-import base64
 import hashlib
 import json
 import os
@@ -9,7 +8,7 @@ import re
 import stat
 from uuid import UUID
 
-from .artifact_store import ArtifactError, BlobObjects, Files, canonical, digest
+from .artifact_store import ArtifactError, canonical, digest
 from . import tape_bundle
 
 VERSION='slim-recording-v1'
@@ -21,8 +20,8 @@ def validate(value):
     if not isinstance(value,dict) or set(value)!=fields or value['version']!=VERSION:
         raise ArtifactError('SLIM_RECORDING_CONFIGURATION')
     if value['tape_class']!='EXACT':raise ArtifactError('SLIM_PROJECTED_CAPTURE_NOT_IMPLEMENTED')
-    if not isinstance(value['account_url'],str) or not re.fullmatch(r'https://[a-z0-9]{3,24}\.blob\.core\.windows\.net',value['account_url']):
-        raise ArtifactError('SLIM_PLATFORM_BLOB_URL_REQUIRED')
+    from .adapters.blob_artifacts import validate_account_url
+    validate_account_url(value['account_url'])
     from .adapters.managed_identity import validate as validate_identity
     validate_identity(value['identity'])
     if any(not isinstance(value[k],str) or not re.fullmatch(r'[A-Za-z0-9_.-]{1,80}',value[k])
@@ -42,20 +41,8 @@ def configuration(agent):
 
 def stores(config):
     validate(config)
-    from .adapters.managed_identity import Tokens
-    from .live_gateway import current
-    from azure.core.credentials import AccessToken
-    tokens=Tokens(config['identity'])
-    class BoundCredential:
-        def get_token(self,*scopes,**kwargs):
-            if scopes!=('https://storage.azure.com/.default',):raise ArtifactError('SLIM_AUTH_SCOPE')
-            token=tokens.get_token(scopes[0])
-            part=token.split('.')[1]
-            claims=json.loads(base64.urlsafe_b64decode(part+'='*(-len(part)%4)))
-            return AccessToken(token,int(claims['exp']))
-    credential=BoundCredential();gateway=current()
-    return (Files(BlobObjects(config['account_url'],'snapshots',credential,channel=config['snapshot_channel'],gateway=gateway)),
-            Files(BlobObjects(config['account_url'],'tapes',credential,channel=config['tape_channel'],gateway=gateway)))
+    from .adapters.blob_artifacts import recording_stores
+    return recording_stores(config)
 
 
 def _exclusive(path,value):

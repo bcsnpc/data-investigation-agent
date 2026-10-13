@@ -2,6 +2,36 @@
 import re
 from ..artifact_store import ArtifactError, equivalent
 
+
+def validate_account_url(value):
+    if not isinstance(value, str) or not re.fullmatch(r'https://[a-z0-9]{3,24}\.blob\.core\.windows\.net', value):
+        raise ArtifactError('SLIM_PLATFORM_BLOB_URL_REQUIRED')
+    return value
+
+
+def recording_stores(config):
+    """The platform adapter owns its endpoint, token audience and SDK classes."""
+    import base64
+    import json
+    from .managed_identity import Tokens
+    from ..artifact_store import Files
+    from ..live_gateway import current
+    validate_account_url(config['account_url'])
+    tokens = Tokens(config['identity'])
+    class BoundCredential:
+        def get_token(self, *scopes, **kwargs):
+            if scopes != ('https://storage.azure.com/.default',):
+                raise ArtifactError('SLIM_AUTH_SCOPE')
+            from azure.core.credentials import AccessToken
+            token = tokens.get_token(scopes[0])
+            part = token.split('.')[1]
+            claims = json.loads(base64.urlsafe_b64decode(part + '=' * (-len(part) % 4)))
+            return AccessToken(token, int(claims['exp']))
+    credential = BoundCredential(); gateway = current()
+    return (Files(BlobObjects(config['account_url'], 'snapshots', credential, channel=config['snapshot_channel'], gateway=gateway)),
+            Files(BlobObjects(config['account_url'], 'tapes', credential, channel=config['tape_channel'], gateway=gateway)))
+
+
 class BlobObjects:
     """Private platform artifacts. SDK requests are checked before transport.
 

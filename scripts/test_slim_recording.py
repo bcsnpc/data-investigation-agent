@@ -4,7 +4,7 @@ from pathlib import Path
 from types import SimpleNamespace
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 from uuid import uuid4
 
 from investigator import slim_recording as slim
@@ -19,6 +19,32 @@ CONFIG={'version':'slim-recording-v1','account_url':'https://synthetic.blob.core
 
 
 class Tests(unittest.TestCase):
+    def test_store_adapter_preserves_identity_audience_and_exact_channels(self):
+        import base64
+        import sys
+        from investigator.adapters import blob_artifacts
+        encoded=base64.urlsafe_b64encode(json.dumps({'exp':1234567890}).encode()).decode().rstrip('=')
+        token='header.'+encoded+'.signature'
+        provider=Mock();provider.get_token.return_value=token
+        gateway=object()
+        with patch('investigator.adapters.managed_identity.Tokens',return_value=provider) as tokens, \
+             patch('investigator.live_gateway.current',return_value=gateway), \
+             patch.object(blob_artifacts,'BlobObjects') as objects:
+            snapshots,tapes=slim.stores(CONFIG)
+        tokens.assert_called_once_with(CONFIG['identity'])
+        self.assertEqual([call.args[1] for call in objects.call_args_list],['snapshots','tapes'])
+        self.assertEqual([call.kwargs['channel'] for call in objects.call_args_list],['worker-snapshots','worker-tapes'])
+        self.assertTrue(all(call.kwargs['gateway'] is gateway for call in objects.call_args_list))
+        credential=objects.call_args_list[0].args[2]
+        with self.assertRaisesRegex(ArtifactError,'SLIM_AUTH_SCOPE'):
+            credential.get_token('https://other.example/.default')
+        provider.get_token.assert_not_called()
+        constructor=lambda value,expiry:SimpleNamespace(token=value,expires_on=expiry)
+        with patch.dict(sys.modules,{'azure.core.credentials':SimpleNamespace(AccessToken=constructor)}):
+            result=credential.get_token('https://storage.azure.com/.default')
+        self.assertEqual((result.token,result.expires_on),(token,1234567890))
+        provider.get_token.assert_called_once_with('https://storage.azure.com/.default')
+
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name)
