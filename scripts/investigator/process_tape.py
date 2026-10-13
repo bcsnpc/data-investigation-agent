@@ -82,10 +82,13 @@ class Tape:
     # bytes as privacy-projected or mix the contracts within an estate.
     tape_class='EXACT'
     def __init__(self,path,bootstrap=None):
+        recording_class=bootstrap
+        for field in ('config','_estate','recording','tape_class'):
+            recording_class=recording_class.get(field) if isinstance(recording_class,dict) else None
+        if recording_class=='PRIVACY_PROJECTED':
+            raise TapeError('PRIVACY_PROJECTED_CANNOT_USE_EXACT_CAPTURE')
         if bootstrap is not None:
             validate_bootstrap_header(bootstrap)
-        if bootstrap is not None and bootstrap.get('config',{}).get('_estate',{}).get('recording',{}).get('tape_class')=='PRIVACY_PROJECTED':
-            raise TapeError('PRIVACY_PROJECTED_CANNOT_USE_EXACT_CAPTURE')
         self.path=Path(path);self.events=[];self.index=0;self.replaying=bootstrap is None
         self.journal_path=self.path.with_suffix('.events.jsonl')
         self.exclusions=[];self.finished=False;self.version=VERSION

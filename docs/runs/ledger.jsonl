@@ -4382,3 +4382,6 @@
 {"date": "2026-10-13", "round": "NINETEEN_B", "kind": "OFFLINE_REPLAY", "run_id": "attempt03-windows-replay", "status": "REFUSED_ENGINE_ENVIRONMENT_DIFFERS", "physical_requests": 0, "model_calls": 0}
 {"date": "2026-10-13", "round": "NINETEEN_B", "kind": "BRONZE_CHECK", "execution": "job-dia-worker-exoycg8", "run_id": "round-nineteen-b-bronze-check-01", "status": "RESULT_UNAVAILABLE_CAPTURE_FINALIZATION_FAILED", "physical_requests": 4, "diagnostic_reads_admitted": 1, "diagnostic_results_retained": 0, "model_calls": 0, "pending_reservations": 0, "replacement_run": false}
 {"at": "2026-10-13", "kind": "OFFLINE_TEST", "run_id": "round19b-backport424-replay-compatibility", "tests": 10, "status": "PASS", "physical_requests": 0, "model_calls": 0}
+{"at": "2026-10-13", "kind": "OFFLINE_TEST", "run_id": "round19b-e34-capture-focused", "status": "PASS", "tests": 50, "subtests": 13, "physical_requests": 0, "model_calls": 0}
+{"at": "2026-10-13", "kind": "OFFLINE_TEST", "run_id": "round19b-e34-full", "status": "FAIL", "passed": 4461, "failed": 2, "skipped": 46, "subtests": 1557, "physical_requests": 0, "model_calls": 0}
+{"at": "2026-10-13", "kind": "OFFLINE_TEST", "run_id": "round19b-early-header-compatibility", "status": "PASS", "tests": 7, "subtests": 5, "physical_requests": 0, "model_calls": 0}
