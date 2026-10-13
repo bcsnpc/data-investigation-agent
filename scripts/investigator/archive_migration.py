@@ -28,6 +28,9 @@ SECRET_BYTES = re.compile(b'|'.join(re.escape(prefix)+suffix for prefix,suffix i
 _PREFIX_RULES=[(prefix.lower(),re.compile(re.escape(prefix)+suffix,re.I)) for prefix,suffix in _SECRET_RULES]
 
 
+_TOKEN_BOUNDARY = re.compile(rb'[^A-Za-z0-9_-]')
+
+
 def credential_pattern(data):
     """Same full patterns; locate their mandatory literal prefixes in C first."""
     lowered=data.lower()
@@ -35,7 +38,16 @@ def credential_pattern(data):
         offset=lowered.find(prefix)
         while offset>=0:
             if pattern.match(data,offset):return True
-            offset=lowered.find(prefix,offset+1)
+            if prefix==b'eyj':
+                # All later starts in this same first token share its suffix.
+                # If the longest candidate fails, a shorter first segment cannot
+                # make it pass. Skip it once rather than retrying a megabyte-long
+                # base64-like value at every embedded JSON prefix (quadratic).
+                boundary=_TOKEN_BOUNDARY.search(data,offset)
+                if boundary is None:break
+                offset=lowered.find(prefix,boundary.start())
+            else:
+                offset=lowered.find(prefix,offset+1)
     return False
 
 
