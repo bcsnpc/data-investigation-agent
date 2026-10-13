@@ -35,6 +35,7 @@ class Tests(unittest.TestCase):
             config={'workspace':str(root),'scope_approval':'synthetic test','local_deletion':False,
                     'accounting_checkpoint':{'path':str(baseline),'sha256':digest(baseline.read_bytes())},
                     'previous_plans':[],'cutoff':datetime.fromtimestamp(time.time()+1,timezone.utc).isoformat(),
+                    'admit_before':'2099-01-01T00:00:00+00:00','stop_file':str(root/'STOP'),
                     'max_batches':1,'max_original_bytes':10000,'max_files':10,'protected_paths':[],
                     'cost_policy':POLICY}
             clients=[]
@@ -50,6 +51,12 @@ class Tests(unittest.TestCase):
                 with self.assertRaises(FileExistsError):run(config,root/'output',factory,publisher=producer)
                 with self.assertRaisesRegex(ArtifactError,'PLATFORM_COST_CAP'):
                     run({**config,'cost_policy':{**POLICY,'platform_total_usd_cap':'13'}},root/'refused',factory)
+                self.assertEqual(len(clients),1)
+                stopped=run({**config,'admit_before':'2000-01-01T00:00:00+00:00'},root/'past-deadline',factory)
+                self.assertEqual(stopped['batches'],[])
+                (root/'STOP').touch()
+                stopped=run(config,root/'owner-stopped',factory)
+                self.assertEqual(stopped['batches'],[])
                 self.assertEqual(len(clients),1)
 
 

@@ -73,6 +73,9 @@ def run(config,output,client_factory,*,planner=batch,preparer=prepare,publisher=
         prior=load_pinned(pin['path'],pin['sha256'])
         skip.update(row['path'] for row in prior['entries']+prior['excluded'])
     cutoff=datetime.fromisoformat(config['cutoff']).timestamp()
+    deadline=datetime.fromisoformat(config['admit_before'])
+    if deadline.tzinfo is None:raise ArtifactError('BACKGROUND_DEADLINE_TIMEZONE_REQUIRED')
+    stop_file=Path(config['stop_file'])
     rows=[]
     def record(event):
         with (output/'controller.jsonl').open('ab') as stream:
@@ -81,6 +84,9 @@ def run(config,output,client_factory,*,planner=batch,preparer=prepare,publisher=
         print(json.dumps(event),flush=True)
     try:
         for index in range(config['max_batches']):
+            if datetime.now(timezone.utc)>=deadline or stop_file.exists():
+                record({'phase':'ADMISSIONS_CLOSED','index':index,'reason':'deadline or stop file'})
+                break
             if shutil.disk_usage(root).free<10*1024**3:raise ArtifactError('BACKGROUND_DISK_FLOOR')
             projected=admission(config['cost_policy'],stored,controls)
             folder=output/f'batch-{index:04d}';folder.mkdir()
@@ -99,6 +105,10 @@ def run(config,output,client_factory,*,planner=batch,preparer=prepare,publisher=
                     'reviewer':'Automated bounded archive under '+config['scope_approval'],
                     'basis':'Pinned historical scope before fixed cutoff; source seal/hash and raw/decoded credential-pattern checks passed. Whole captures only, quarantined peers excluded, private archive, no raw staging or deletion. This is a scope-limited automated check, not a universal privacy claim.'}
             write_new(folder/'privacy-review.json',review)
+            if datetime.now(timezone.utc)>=deadline or stop_file.exists():
+                record({'phase':'ADMISSIONS_CLOSED','index':index,'reason':'deadline or stop file after preparation'})
+                break
+            if shutil.disk_usage(root).free<10*1024**3:raise ArtifactError('BACKGROUND_DISK_FLOOR')
             record({'phase':'ADMITTED','index':index,'manifest_sha256':sha,'files':len(manifest['entries']),
                     'excluded':len(manifest['excluded']),**projected})
             client=client_factory(folder,config['cost_policy']['batch_controls'])
