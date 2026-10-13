@@ -52,7 +52,7 @@
     "script_sha256": "df43bf04463dd3512f0fa5c923d045973f2668c8abd39a63f265fa6ad468241d",
     "status": "OWNER_SCRIPT_PREPARED_NOT_EXECUTED",
     "powershell_syntax": "PASS",
-    "observed_prior_eligible_absence": "Previous641 eligible files now absent; owner-run removal log changed. This helper performed no deletion."
+    "observed_prior_eligible_absence": "Previous641 eligible files now absent; external cleanup execution observed in retained removal log. Invoking human/process not established by log; helper/root session did not execute deletion."
   },
   "additional_cleanup_metadata_controls": {
     "actual_HEAD": 32,
@@ -64,5 +64,15 @@
     "body_downloads": 0,
     "estimated_cost_usd": "0.00032",
     "accounting": "Separate from archive-upload totals; next admission holds0.01 for auxiliary controls."
+  },
+  "externally_observed_cleanup": {
+    "classification": "EXTERNALLY_OBSERVED_CLEANUP_EXECUTION_INVOKER_NOT_ESTABLISHED_BY_LOG",
+    "log_sha256": "f440ae1d23c85edcc41d9eea2a79384cf0c82fde922e4ce89de28d0e4f66cdbf",
+    "removed_records": 641,
+    "allocated_bytes_before_sum": 2744546347,
+    "logical_bytes_sum": 9488623995,
+    "first_removed_at": "2026-10-13T18:39:37.4109005Z",
+    "last_removed_at": "2026-10-13T18:41:49.4026329Z",
+    "meaning": "Recorded allocation for641 removed paths, not a volume-free delta; invoking human/process is not established. This helper/root session did not run deletion."
   }
 }
