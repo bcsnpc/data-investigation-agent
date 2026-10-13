@@ -263,3 +263,5 @@ Committed managed SQL request construction now includes `require_read_only:true`
 
 
 CI caught an existing test that deliberately continued the same tape after a provider mismatch, then expected a different physical-request error. The new first-error preservation correctly retained the original failure. The test now checks that preservation explicitly and uses an independent replay instance to test physical byte equality; provider canonicalization and byte-exact physical comparison are unchanged. The old CI failures remain. Corrected provider/managed-worker/form/stage selection:29 PASS,3 subtests. No estate/model call or acceptance-file change.
+
+Final-bee326f regression:4,071 PASS,2 obsolete first-error expectations failed,46 skipped,1,416 subtests in446.13seconds. The second expected cleanup to consume a CLOCK event after the first worker mismatch. Corrected test asserts the original failure and unchanged tape cursor instead. Both test corrections retain physical byte equality and forbid continuation after a failed replay. Focused18tests/3subtests pass. The production engine is unchanged by these test-only corrections; final clean suite follows.

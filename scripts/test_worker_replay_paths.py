@@ -82,8 +82,9 @@ class PortableWorkerTests(unittest.TestCase):
         with helper.first_tape_error(process_tape,private):
             with self.assertRaisesRegex(process_tape.TapeError,'REQUEST_BYTES_DIFFER'):
                 tape.event('WORKER_START',actual)
-            with self.assertRaisesRegex(process_tape.TapeError,'CLOCK:WORKER_SEND'):
+            with self.assertRaisesRegex(process_tape.TapeError,'REQUEST_BYTES_DIFFER'):
                 tape.event('CLOCK',b'irrelevant')
+            self.assertEqual(tape.index,1)  # Cleanup cannot consume past failure.
         self.assertEqual(len(private),1)
         self.assertEqual(private[0]['reason'],'TAPE_REQUEST_BYTES_DIFFER')
         self.assertEqual(private[0]['index_before'],0);self.assertEqual(private[0]['index_after'],1)
