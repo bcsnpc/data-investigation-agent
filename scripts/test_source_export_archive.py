@@ -41,6 +41,12 @@ class Tests(unittest.TestCase):
             prepared = bundle_manifest(bundle, source, sha, proof)
             prepared_sha = digest(canonical(prepared))
             review = {'status': 'APPROVED', 'manifest_sha256': sha, 'reviewer': 'test', 'basis': 'synthetic'}
+            unready_remote=Remote()
+            with patch('investigator.source_export_archive.verify_local',side_effect=ModuleNotFoundError('jsonschema')):
+                with self.assertRaisesRegex(ModuleNotFoundError,'jsonschema'):
+                    publish_bundle(prepared,prepared_sha,source,sha,review,unready_remote,
+                                   Journal(root/'runtime-unready',prepared_sha,URL))
+            self.assertEqual(unready_remote.calls,[])
             refused_remote=Remote()
             with self.assertRaisesRegex(ArtifactError,'TRANSFER_BYTE_CAP'):
                 publish_bundle(prepared,prepared_sha,source,sha,review,refused_remote,

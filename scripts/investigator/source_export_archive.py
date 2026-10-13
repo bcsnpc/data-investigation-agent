@@ -112,6 +112,10 @@ def bundle_manifest(path, source_manifest, source_sha, proof):
 
 def publish_bundle(bundle, bundle_sha, source_manifest, source_sha, review, client, journal, *, max_stored_bytes=None):
     privacy_approved(review, source_sha)
+    # Validate source seals and runtime dependencies before any remote mutation,
+    # then repeat after publication before deriving per-original receipts.
+    for entry in source_manifest['entries']:
+        verify_local(source_manifest, entry)
     proof = bundle['member_proof']
     if bundle.get('source_manifest_sha256') != source_sha or len(bundle['entries']) != 1:
         raise ArtifactError('SOURCE_EXPORT_BUNDLE_SCOPE')
