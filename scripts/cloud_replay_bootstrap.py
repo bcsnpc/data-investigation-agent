@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 HELPERS = ('acceptance/unknown_domain/recorded_engine.py',
            'acceptance/unknown_domain/lineage_replay.py',
            'acceptance/unknown_domain/catalog_replay.py',
+           'acceptance/unknown_domain/worker_replay.py',
            'scripts/investigator/budget_tape_contract.py',
            'scripts/investigator/provider_tape_contract.py')
 
