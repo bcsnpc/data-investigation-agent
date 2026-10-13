@@ -47,6 +47,17 @@ class TapeError(ValueError):
     pass
 
 
+def validate_bootstrap_header(bootstrap):
+    """Refuse an unsealable capture before any producer can execute."""
+    required={'entry_point','context_identity','config','profile','usage_policy','engine_hash','state'}
+    if not isinstance(bootstrap,dict) or set(bootstrap)!=required:
+        raise TapeError('TAPE_BOOTSTRAP_FIELDS')
+    if not bootstrap['context_identity'] or not bootstrap['engine_hash']:
+        raise TapeError('TAPE_BOOTSTRAP_IDENTITY')
+    if any(not isinstance(bootstrap[key],dict) for key in ('config','profile','state')) or not isinstance(bootstrap['usage_policy'],(dict,type(None))):
+        raise TapeError('TAPE_BOOTSTRAP_CONFIGURATION')
+
+
 def bytes_of(value):
     return json.dumps(value,sort_keys=True,ensure_ascii=False,separators=(',',':')).encode()
 
@@ -71,6 +82,8 @@ class Tape:
     # bytes as privacy-projected or mix the contracts within an estate.
     tape_class='EXACT'
     def __init__(self,path,bootstrap=None):
+        if bootstrap is not None:
+            validate_bootstrap_header(bootstrap)
         if bootstrap is not None and bootstrap.get('config',{}).get('_estate',{}).get('recording',{}).get('tape_class')=='PRIVACY_PROJECTED':
             raise TapeError('PRIVACY_PROJECTED_CANNOT_USE_EXACT_CAPTURE')
         self.path=Path(path);self.events=[];self.index=0;self.replaying=bootstrap is None
@@ -184,13 +197,7 @@ class Tape:
             raise TapeError('TAPE_INCOMPLETE')
         for n,event in enumerate(self.events,1):validate_event(event,n)
         bootstrap=json.loads(validate_event(self.events[0],1))
-        required={'entry_point','context_identity','config','profile','usage_policy','engine_hash','state'}
-        if not isinstance(bootstrap,dict) or set(bootstrap)!=required:
-            raise TapeError('TAPE_BOOTSTRAP_FIELDS')
-        if not bootstrap['context_identity'] or not bootstrap['engine_hash']:
-            raise TapeError('TAPE_BOOTSTRAP_IDENTITY')
-        if any(not isinstance(bootstrap[key],dict) for key in ('config','profile','state')) or not isinstance(bootstrap['usage_policy'],(dict,type(None))):
-            raise TapeError('TAPE_BOOTSTRAP_CONFIGURATION')
+        validate_bootstrap_header(bootstrap)
         if self.version in CODE_VERSIONS and bootstrap['entry_point'] in ('code_reader','code_verifier') and self.engine_revision is None:
             raise TapeError('TAPE_ENGINE_REVISION_MISSING')
         if bootstrap['entry_point']=='workspace':

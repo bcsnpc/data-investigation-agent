@@ -17,6 +17,30 @@ def bootstrap():
 
 
 class TapeTests(unittest.TestCase):
+    def test_bronze_probe_malformed_header_refuses_before_producer_or_artifact(self):
+        # Retained owner probe launcher omitted five required header fields.
+        # The refusal must precede its SQL read, not happen at finish/upload.
+        from unittest.mock import Mock
+        producer=Mock()
+        malformed={'entry_point':'bounded_bronze_control','config':{},'request':{},'database':'landing','cap':10}
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'new'/'probe.json'
+            with self.assertRaisesRegex(TapeError,'TAPE_BOOTSTRAP_FIELDS'):
+                capture=Tape(path,malformed)
+                producer()
+                capture.finish({})
+            producer.assert_not_called()
+            self.assertFalse(path.parent.exists())
+
+    def test_all_required_header_failures_refuse_before_producer(self):
+        for field,value,reason in [('context_identity','', 'IDENTITY'),('engine_hash','', 'IDENTITY'),
+                                   ('config',[], 'CONFIGURATION'),('state',None, 'CONFIGURATION'),
+                                   ('usage_policy','bad','CONFIGURATION')]:
+            with self.subTest(field=field),tempfile.TemporaryDirectory() as folder:
+                b=bootstrap();b[field]=value
+                with self.assertRaisesRegex(TapeError,'TAPE_BOOTSTRAP_'+reason):
+                    Tape(Path(folder)/'probe.json',b)
+
     def setUp(self):
         from gateway_test_support import allow_models
         self.enterContext(allow_models())
@@ -489,8 +513,8 @@ class TapeTests(unittest.TestCase):
     def test_bootstrap_with_unpinned_context_refused(self):
         with tempfile.TemporaryDirectory() as folder:
             body=bootstrap();body['context_identity']=None
-            tape=Tape(Path(folder)/'tape.json',body)
-            with self.assertRaisesRegex(TapeError,'BOOTSTRAP_IDENTITY'):tape.finish({})
+            with self.assertRaisesRegex(TapeError,'BOOTSTRAP_IDENTITY'):
+                Tape(Path(folder)/'tape.json',body)
 
     def test_unknown_event_is_not_accepted(self):
         with tempfile.TemporaryDirectory() as folder:

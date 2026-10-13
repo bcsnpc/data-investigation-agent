@@ -270,3 +270,16 @@ An offline check used the original public PBIX, SHA-256 `2fd4c768661362889f04ff2
 Diagnosis used five read-only platform PostgreSQL connections in total (four from the bounded coverage reporter and one exact-session accounting/health check), zero estate/model calls and zero remote writes. The actual failed-run evidence is in `.local/round-nineteen-b/sample-coverage-failed-first/` and `sample-bootstrap-01-log.txt`. No replacement live scan has been launched by this helper.
 
 Offline legacy-structure, static graph, incremental scanner, first-scan, catalog and scanner-dependency regressions: **63 passed, 11 subtests passed**. This includes exact original-part provenance, malformed/mixed-format refusal, owner-bound failure references, and absent current publication after both initial and incremental parse failures.
+
+## Replacement scan result, 2026-10-13
+The separately admitted replacement `job-dia-worker-iw8hnx5` succeeded (19:05:41?19:07:50 UTC), using tested source `6c94c1b` and immutable image `sha256:130333ec48b935b6a2f52591daf5ecac16addd34142deeefc2048f7136e7be55`. Scan `graph-scan:b7f48e78-13e2-41f1-8598-912d96c3bdec` recorded 15 physical requests, zero model calls. The earlier 15-request failure remains separate.
+Read-only coverage confirms 359 nodes and 396 edges: 12 tables, 60 columns, 25 calculated columns, 32 query steps, 12 relationships, one model, one measure, one report, three pages, seven visuals, one slicer and 204 explicit boundary nodes. Edges: CONTAINS153, COMPUTED_FROM219, JOINED_VIA24. Edge confidence:192DECLARED,204UNKNOWN,0VERIFIED.
+UNKNOWN boundary nodes, counted once each:
+- 119: Engine dependency row has an unresolved model or endpoint.
+- 25: Engine-resolved expression dependencies have not been collected..
+- 12: PBIR-Legacy structure retained; embedded query, filter and interaction semantics are not interpreted..
+- 32: Power Query step source and expression semantics are not yet resolved..
+- 16: Requested calculation has no resolved dependency row.
+
+The old zero-publication result becomes a structurally collected graph, not a verified source path. Legacy query/filter/interaction semantics, unresolved dependency endpoints and Power Query source semantics still block complete traversal. The imported workbook is not a declared reachable application source. No quantity verification was admitted: a missing faithful path cannot be repaired by taking an unrelated read.
+Coverage receipt `.local/round-nineteen-b/sample-coverage-sample-coverage-02/report.json`, SHA256 `96b6951685223121a7d9058c4a6f6b0c97e16a990af17f86ab59d2e087e81dfe`; returned graph was untruncated and the catalog did not change during readback. Guide corrections and generic repairs above remain separately recorded; no sample data or definition was altered.

@@ -112,3 +112,7 @@ The complete353,827,279-byte ZIP is retained locally and remotely, SHA256 `e1c1a
 At19:00:50 a read-only platform check found no other PostgreSQL sessions or advisory holders. Cleanup released the exact lease. Schedule restoration PATCH returned success with an empty body; the control receipt parser raised JSONDecodeError. That control failure remains recorded. An independent GET at19:05:04 confirmed the original Schedule/cron/retry/template restored with timeout1800 retained; no repeated PATCH was sent and no usage counter changed.
 
 Sample repair frozen source6c94c1b full pytest:4,461passed,46skipped,1,552subtests,615.75seconds. The tested image starts the separate sample structural rescan at19:05:41 as `job-dia-worker-iw8hnx5`; this is not a cloud-demo retry.
+
+## Bronze follow-up owner approval, 2026-10-13
+
+The owner conditionally approved one further full attempt after a maximum-ten-request Bronze-only check. Exact identity/endpoint and before-permission evidence are in [the diagnosis](round-nineteen-b-bronze-diagnosis.md). Current Viewer scope already covers the unchanged Bronze endpoint; no grant or identity switch was justified or performed. The first probe launcher failed before imports and zero SQL reads; corrected launcher pending. The sample rescan completed with359nodes/396edges,204UNKNOWN boundaries and no verified source path.
