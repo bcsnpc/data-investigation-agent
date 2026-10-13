@@ -94,9 +94,10 @@ def accounting(b,work):
  verification=sum(json.loads(r[2]).get('cloud_calls',0) for r in rows if r[0]==identity)
  if any(r[1]!='cloud' for r in rows):raise ValueError('VERIFIER_OWNED_NONREAD_USAGE')
  return {'physical_requests':controls+verification,'control_requests':controls,'verification_physical_requests':verification,'pending_reservations':sum(r[3]=='RESERVED' for r in rows),'diagnostic_reads':0,'model_calls':0,'ownership':'EXACT_SESSION_AND_PREWARM_CONTROL_SESSION'}
-def perform(program,b,work,catalog,live):
+def perform(program,b,work,catalog,live,*,propagate_tape_errors=False):
  try:return program.perform(b,work,catalog,live),None,'COMPLETED'
  except Exception as exc:
+  if propagate_tape_errors and isinstance(exc,journal.TapeError):raise
   error={'error_type':type(exc).__name__,'message':str(exc),'errno':getattr(exc,'errno',None)}
   try:_safe(journal.bytes_of(error))
   except Exception:error={'error_type':type(exc).__name__,'message_retention':'REFUSED_SECRET_CONTENT','errno':getattr(exc,'errno',None)}
@@ -130,7 +131,21 @@ def replay(folder,output):
  prepare(tape,folder/'catalog.sqlite',s['environment'])
  def forbidden(*a,**k):raise RuntimeError('VERIFIER_LIVE_PRODUCER_FORBIDDEN')
  with journal.active(tape):
-  result,error,status=perform(load_program(folder/'verification_program.py'),b,output,output/'catalog.sqlite',forbidden)
+  try:
+   result,error,status=perform(load_program(folder/'verification_program.py'),b,output,output/'catalog.sqlite',forbidden,
+                               propagate_tape_errors=True)
+  except journal.TapeError as exc:
+   # A broken event stream cannot produce a comparable FINAL. Retain the first
+   # cause rather than masking it with a later snapshot/accounting/final mismatch.
+   diagnostic={'status':'REPLAY_ERROR','matched':False,'exact_final_compared':False,
+               'error':{'error_type':type(exc).__name__,'message':str(exc)},'event_index':tape.index}
+   try:
+    _safe(journal.bytes_of(diagnostic))
+    (output.parent/(output.name+'-recomputed-final.json')).write_bytes(journal.bytes_of(diagnostic))
+   except Exception:
+    # Diagnostic I/O failure also must not replace the original replay error.
+    pass
+   raise
   after=output.parent/(output.name+'-catalog-after.sqlite');snapshot(output/'catalog.sqlite',after);shutil.copyfile(after,output/'catalog.sqlite')
   final=finalize(b,output,result,error,status,tape)
   (output.parent/(output.name+'-recomputed-final.json')).write_bytes(journal.bytes_of(final))
