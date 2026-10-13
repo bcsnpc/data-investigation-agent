@@ -127,3 +127,23 @@ az role assignment create --assignee-object-id c22c5e9b-5005-4a48-af98-51d614e60
 ```
 
 Before: no vault-scoped data-plane assignment; inherited Owner (two historic assignments) and Foundry User only. After: those unchanged plus Key Vault Secrets Officer on the exact vault, assignment `33e291aa-b860-41c4-9888-225c0ecda672`. Worker remains Secrets User, not Officer. Subsequent secret metadata listing succeeded and returned `[]`; this establishes owner metadata access, not that any credential has already migrated. Before/after local receipts contain metadata only.
+
+## Credential relocation completed, 2026-10-13 UTC / October 12 owner date
+
+The scoped reader caches were migrated at 02:47:32 UTC. Only Account, RefreshToken and AppMetadata sections were copied; each source contained exactly the declared reader account, tenant and client. AccessToken and IdToken were excluded. Original DPAPI files were unchanged. No credential value was printed, stored in a new local file, or included in a tape. The existing model provider key was copied in memory at 02:55:59 UTC; it was not regenerated. These one-time owner provisioning writes are separate from worker gateway reads.
+
+| Secret | Immutable version | Existing purpose |
+|---|---|---|
+| `reader-pbi-existing-session` | `2d14a40d063c42f79cb57baa774f5943` | https://analysis.windows.net/powerbi/api/.default |
+| `reader-sql-existing-session` | `d158c9c5f31a468b996f580aacc4a083` | https://database.windows.net/.default |
+| `existing-model-provider-key` | `ad19c73a9041471abd06950224aba505` | Existing model provider, aoai-investigator-9696025 |
+
+Worker value-read/refresh verification remains a separate pending check. Public configuration carries only these versioned references and identity IDs. Worker Secrets User scope remains the single vault.
+
+## Platform control findings
+
+Compute deployment 02 created the South Central US environment and worker job, both Succeeded. The overall deployment nevertheless failed when reapplying the PostgreSQL owner administrator: `AadAuthOperationCannotBePerformedWhenServerIsNotAccessible`. A subsequent read shows PostgreSQL Ready and the same owner administrator intact. No account or administrator was replaced. The Container Apps provider was still Registering; its CLI precheck refused commands despite the job existing. The documented ARM job-start API accepted the same owner request.
+
+Cloud health execution `job-dia-worker-h44txra` authenticated as `id-dia-worker` to PostgreSQL (database investigator, transaction_read_only=on; two schema versions, five migrations, one account, 2,391 state documents) and Blob (immutable PUT201/GET200). Its Key Vault check failed before HTTP. A separate auth-plane control established the exact same tenant/object ID and Key Vault audience `cfa8b339-82a2-471a-a3c9-0fc0be7a4093`; the checker incorrectly required the URI spelling. The first diagnostic control failed before authentication with `ModuleNotFoundError: No module named investigator`; the corrected control retained only aud/tid/oid, never the token.
+
+The interactive owner device flow was cancelled after the browser denial; CLI retained `AADSTS70016: Authorization is pending`. Existing owner CLI authorization still worked. The vault-specific approved grant resolved the demonstrated ForbiddenByRbac; no tenant/sign-in policy was changed.
