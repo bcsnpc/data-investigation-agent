@@ -239,3 +239,19 @@ Offline audit inspected1,146 loose tapes,1,596 inventory schemas/counts and1,959
 
 
 Dated correction,2026-10-13 05:16 UTC: final code review narrows the earlier shared-state claim. Production SharedTickets persists smart-ticket state in PostgreSQL; claim-first state and runtime/investigation/image tables still write per-job SQLite retained in captures. A generic case-file repository exists but is not wired into a production writer. No successful migration of that full state is claimed. Existing workstation credential caches/mechanisms also remain; the approved cloud copies are in Key Vault, not a wholesale credential deletion/migration. Summary and storage documentation now state these implementation boundaries. Review was offline, zero estate/model calls.
+
+
+At05:19 UTC, a full invocation accidentally used system Python and repository-wide discovery instead of project llm-env/scripts scope:4,155 passed,2 failed,3 collection errors. Four failures/errors were missing Azure dependencies; the fifth was colliding acceptance check module names. No code is changed for this operator invocation error. The documented suite is running again on the same e646 revision in the existing project environment. Original output retained.
+
+The interim owner read-only budget report failed during SharedUsage.snapshot with `psycopg.OperationalError: consuming input failed: server closed the connection unexpectedly`; rollback then reported `the connection is lost`. It performed no mutations, estate reads or model calls. No counter total is inferred from that failed report; closing counters remain due.
+
+
+## Part C close, 2026-10-13 05:30 UTC
+
+Verify02 `job-dia-worker-ybvd8u6` ran05:08:29--05:24:53 UTC (984seconds). Live verification again completed18/18 witnesses,40/40 probes and89 physical requests, all settled, with zero investigation diagnostics/model calls. Its immutable tape SHA256 is `c6cad49ae8ab08f066157e3c349513daa5e5857a426c40db74abad6fc0d3998d`. Output ZIP301,321,267 bytes, SHA256 `30edf2399ce391b608f6ffaa8e61e5d5376fc665b8c4f4fc9018cdffc5c55243`, was read back and retained. Native-route limits remain unchanged.
+
+Exact replay failed `TapeError: TAPE_EVENT_DIFFERS:BUDGET_INPUT:WORKER_READ`. Readiness was not published; the one family A cloud demo was NOT_RUN. The first mismatching request is now identified: live gateway normalization adds `require_read_only:true` to SQL worker payloads, while replay skips that live-only gateway branch and omits the field. A later wait/finalization masks the initial byte mismatch. This is a producer/replay payload asymmetry; it establishes neither a wrong value nor a successful replay. Offline correction is underway; neither original tape is amended or relabelled. No third verification/live attempt is admitted in this part.
+
+Full corrected enginee646f7e:4,057 PASS,46 skipped,1,416 subtests in464.88seconds. Later native-pointer export correction has19 focused tests: new capture pointers are copied byte-identically under the stage output, missing/unsealed/unpublished captures listed explicitly, and primary failures retained. No database copy or estate/model request is added. It does not retroactively change either executed image.
+
+Closing read-only repeatable-read PostgreSQL report at05:29:12 UTC:10,200 usage rows, two new sessions of89 SETTLED requests each, shared model opening/charge107,957,725 microdollars with no new monetary reservations. New model spend$0; pot3,017/4,000, restoration95 remaining, rolling376/3,000. The ordinary SharedState status helper stalled and was stopped as a read-only control; the direct consistent SELECT report made no mutations and avoids that advisory-lock path. The earlier connection-loss receipt is retained. All new verification reservations are settled. Part D documentation/audit continues offline.
