@@ -61,3 +61,44 @@ def first_tape_error(journal, diagnostics):
             raise
     with patch.object(journal.Tape, 'event', event):
         yield
+
+
+class _ReplayConfigRoot:
+    """Windows absolute config paths are lexical references, not host files."""
+    def __init__(self, root):
+        self.root = root
+
+    def __truediv__(self, value):
+        windows = PureWindowsPath(value)
+        if windows.is_absolute():
+            import ntpath
+            normalized = ntpath.normpath(str(value))
+            class Absolute:
+                def resolve(self):
+                    return normalized
+            return Absolute()
+        if windows.drive:
+            raise ValueError('REPLAY_WINDOWS_DRIVE_RELATIVE_PATH_UNSUPPORTED')
+        return self.root / value
+
+
+@contextmanager
+def configuration_paths(journal):
+    """Correct historical config path interpretation, only during replay.
+
+    The original validator still checks every field. Its repository root gets
+    Windows lexical absolute-path semantics only for the duration of that call.
+    Relative and native absolute paths retain the original host resolution.
+    No tape/expected byte is read to decide or modify a configuration value.
+    """
+    import metadata_config
+    original = metadata_config.validate_config
+    root = metadata_config.ROOT
+    def validate(config):
+        active = journal.ACTIVE.get()
+        if active is None or not active.replaying:
+            return original(config)
+        with patch.object(metadata_config, 'ROOT', _ReplayConfigRoot(root)):
+            return original(config)
+    with patch.object(metadata_config, 'validate_config', validate):
+        yield

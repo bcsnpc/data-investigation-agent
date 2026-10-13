@@ -53,7 +53,7 @@ try:
  worker_spec=importlib.util.spec_from_file_location('worker_replay',sys.argv[10])
  worker=importlib.util.module_from_spec(worker_spec);worker_spec.loader.exec_module(worker)
  tape=journal.Tape(sys.argv[1])
- with worker.first_tape_error(journal,first_errors),worker.install(journal),catalog.install(process_replay),lineage.install(process_replay,tape,sys.argv[8] or None):
+ with worker.first_tape_error(journal,first_errors),worker.configuration_paths(journal),worker.install(journal),catalog.install(process_replay),lineage.install(process_replay,tape,sys.argv[8] or None):
   result=process_replay.replay(sys.argv[1],sys.argv[2],allow_engine_drift=True)
  result['replay_engine_revision']=sys.argv[3]
  Path(sys.argv[4]).write_text(json.dumps({'result':result}))

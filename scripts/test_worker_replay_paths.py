@@ -36,6 +36,40 @@ class PortableWorkerTests(unittest.TestCase):
                 value = tape_worker.descriptor(command)
             self.assertEqual(value, ['python', 'reader.py'] if replaying else command)
 
+    def test_absolute_windows_config_paths_preserved_by_real_validator_on_posix_root(self):
+        import copy
+        import json
+        import metadata_config
+        config=json.loads((Path(__file__).resolve().parents[1]/'infra/metadata/development.json').read_text(encoding='utf-8-sig'))
+        config['sql']['auth']['credential_file']=r'D:\retained\reader.xml'
+        config['fabric']['auth']['python']=r'D:\retained\Scripts\python.exe'
+        config['storage']['database']=r'D:\retained\inventory.sqlite'
+        journal=SimpleNamespace(ACTIVE=Mock())
+        journal.ACTIVE.get.return_value=SimpleNamespace(replaying=True)
+        with patch.object(metadata_config,'ROOT',PurePosixPath('/isolated/replay')), helper.configuration_paths(journal):
+            actual=metadata_config.validate_config(copy.deepcopy(config))
+        self.assertEqual(actual['sql']['auth']['credential_file'],config['sql']['auth']['credential_file'])
+        self.assertEqual(actual['fabric']['auth']['python'],config['fabric']['auth']['python'])
+        self.assertEqual(actual['storage']['database'],config['storage']['database'])
+
+    def test_replay_config_root_preserves_relative_and_posix_absolute_semantics(self):
+        root=helper._ReplayConfigRoot(PurePosixPath('/isolated/replay'))
+        self.assertEqual(str(root/'relative/file.json'),'/isolated/replay/relative/file.json')
+        self.assertEqual(str(root/'/absolute/file.json'),'/absolute/file.json')
+        self.assertEqual((root/r'D:\absolute\file.json').resolve(),r'D:\absolute\file.json')
+        self.assertEqual((root/r'\\server\share\file.json').resolve(),r'\\server\share\file.json')
+        with self.assertRaisesRegex(ValueError,'DRIVE_RELATIVE'):
+            root/'D:relative.json'
+
+    def test_configuration_path_helper_does_not_change_live_validation_root(self):
+        import metadata_config
+        journal=SimpleNamespace(ACTIVE=Mock());journal.ACTIVE.get.return_value=SimpleNamespace(replaying=False)
+        root=metadata_config.ROOT
+        original=Mock(side_effect=lambda config:metadata_config.ROOT)
+        with patch.object(metadata_config,'validate_config',original),helper.configuration_paths(journal):
+            self.assertIs(metadata_config.validate_config({}),root)
+        self.assertIs(metadata_config.ROOT,root)
+
     def test_first_mismatch_is_retained_when_error_handling_raises_another(self):
         expected=process_tape.bytes_of({'command':['python','expected.py']})
         tape=process_tape.Tape.__new__(process_tape.Tape)

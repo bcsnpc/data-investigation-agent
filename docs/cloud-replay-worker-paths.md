@@ -42,3 +42,23 @@ and error type only; first-error details follow the existing approved private
 artifact channel. A regression deliberately creates a first request-byte mismatch
 then the secondary clock mismatch and proves both semantics and original details
 are retained. No further cloud replay was performed by this helper.
+
+The private first-error capture established a second host-path dependency:
+historical `metadata_config.validate_config` resolved the three configured path
+fields using `str((ROOT / value).resolve())`. Linux treated the retained absolute
+Windows paths as relative and prefixed the extracted repository directory. The
+first mismatch is therefore WORKER_START request bytes; CLOCK/WORKER_SEND remains
+a secondary error. Executable argv normalization alone could not fix configuration
+contents.
+
+Historical replay now wraps that validator's root only for the duration of a
+validation call while a replay tape is active. Fully qualified Windows drive/UNC
+paths retain Windows lexical absolute-path semantics; native absolute and relative
+paths retain host resolution. Drive-relative Windows paths refuse because their
+meaning needs a drive working directory. The original validator still checks all
+fields. This does not inspect expected tape bytes, strip an observed temporary
+prefix, rewrite statements, or change comparison rules. Live validation is
+unchanged. Regression executes the real validator against Windows configuration
+strings with a POSIX root, and tests relative paths, POSIX absolute paths, UNC
+paths, drive-relative refusal and the unchanged live root. A new Linux measurement
+is still required; all earlier failed attempts remain in the record.
