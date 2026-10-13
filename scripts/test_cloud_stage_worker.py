@@ -8,6 +8,23 @@ def zipped():
  with zipfile.ZipFile(out,'w')as z:z.writestr('hello.json','{}')
  return out.getvalue()
 class CloudStageTests(unittest.TestCase):
+ def test_budget_mismatch_refuses_before_publication_or_verification(self):
+  from cloud_stage_worker import verify_phase
+  from types import SimpleNamespace
+  with tempfile.TemporaryDirectory()as folder:
+   root=Path(folder);inputs=root/'inputs';work=root/'work';(inputs/'verification').mkdir(parents=True);work.mkdir()
+   candidate=inputs/'verification/publication-candidate.json';candidate.write_text('{}')
+   (inputs/'verification/context.json').write_text('{}');(inputs/'verification/endpoints.json').write_text('{}')
+   (inputs/'verification-spec.json').write_text(json.dumps({'budgets':{'round':{'id':'OLD'},'binding_verification':{'session_cap':40}}}))
+   manifest={'budgets':{'round':{'id':'NEW'},'binding_verification':{'session_cap':40}}}
+   with patch('investigator.shared_state.configured_state',return_value=SimpleNamespace(backend='postgresql')), \
+     patch('investigator.estate_manifest.load',return_value=manifest), \
+     patch('investigator.adapters.estate_installation.configuration',return_value={}), \
+     patch('cloud_context_prepare.publish')as publish,patch('cloud_verification_run.execute')as execute:
+    with self.assertRaisesRegex(ValueError,'VERIFICATION_BUDGET_DIFFERS'):
+     verify_phase(inputs,work,{'candidate_sha256':hashlib.sha256(candidate.read_bytes()).hexdigest()})
+    publish.assert_not_called();execute.assert_not_called()
+
  def test_preparation_preserves_current_owner_decision(self):
   from cloud_stage_worker import prepare_phase
   with tempfile.TemporaryDirectory()as folder:

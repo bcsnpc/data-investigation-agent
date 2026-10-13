@@ -87,8 +87,11 @@ def prewarm_assets(spec,config,objects):
     return list(assets)
 
 
-def preflight(spec,config,context,*,receipt_path):
+def preflight(spec,config,context,*,receipt_path,manifest_budgets):
     """Pure retained-input admission; no transport, PG, model or budget seam."""
+    # The probe cap alone is insufficient: a stale round, rolling allowance,
+    # reserve or daily policy must refuse before publishing a model candidate.
+    if spec.get('budgets')!=manifest_budgets:raise ValueError('VERIFICATION_BUDGET_DIFFERS')
     from types import SimpleNamespace
     from investigator.adapters.code_verification import resolve_objects
     from investigator.adapters.retained_endpoints import read
@@ -98,7 +101,7 @@ def preflight(spec,config,context,*,receipt_path):
     if missing:raise ValueError('VERIFICATION_PREFLIGHT_OBJECT_RESOLUTION_REFUSED')
     result=plan(spec,config=config,objects=objects)
     assets=prewarm_assets(spec,config,objects)
-    return {**result,'prewarm_scope_validated':True,'prewarm_asset_ids':assets,
+    return {**result,'budget_match_validated':True,'prewarm_scope_validated':True,'prewarm_asset_ids':assets,
         'resolved_source_asset_ids':sorted({objects[s['table']]['asset_id']for p in spec['proposals']for s in p['sources']})}
 
 
@@ -215,7 +218,9 @@ def main():
         if not all((args.manifest,args.context,args.endpoints)):raise ValueError('VERIFICATION_PREFLIGHT_INPUTS_REQUIRED')
         from investigator.estate_manifest import load
         from investigator.adapters.estate_installation import configuration
-        result=preflight(spec,configuration(load(args.manifest)),json.loads(args.context.read_bytes()),receipt_path=args.endpoints)
+        manifest=load(args.manifest)
+        result=preflight(spec,configuration(manifest),json.loads(args.context.read_bytes()),receipt_path=args.endpoints,
+            manifest_budgets=manifest['budgets'])
     else:result=plan(spec)
     print(json.dumps(result,indent=2))
 

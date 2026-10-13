@@ -110,8 +110,9 @@ def verify_phase(inputs,work,config):
  from cloud_binding_verifier import preflight
  from investigator.estate_manifest import load
  from investigator.adapters.estate_installation import configuration
- admitted=preflight(read(inputs/'verification-spec.json'),configuration(load(inputs/'estate.json')),
-  read(prepared/'context.json'),receipt_path=prepared/'endpoints.json')
+ manifest=load(inputs/'estate.json')
+ admitted=preflight(read(inputs/'verification-spec.json'),configuration(manifest),
+  read(prepared/'context.json'),receipt_path=prepared/'endpoints.json',manifest_budgets=manifest['budgets'])
  if not admitted['admissible']:raise ValueError('VERIFICATION_PREFLIGHT_REFUSED')
  publication=publish(state,read(candidate));write(prepared/'publication.json',publication)
  plan=read(inputs/'operator-plan.json')
