@@ -2,7 +2,7 @@ name: Cloud worker offline foundation
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, feat/round-eighteen-cloud-foundation]
   workflow_dispatch:
     inputs:
       publish:
@@ -57,7 +57,7 @@ jobs:
           path: ${{ runner.temp }}/results
           retention-days: 3
   publish:
-    if: github.event_name == 'workflow_dispatch' && inputs.publish
+    if: (github.event_name == 'workflow_dispatch' && inputs.publish) || (github.event_name == 'push' && github.ref == 'refs/heads/feat/round-eighteen-cloud-foundation')
     needs: offline-shards
     runs-on: ubuntu-latest
     permissions:

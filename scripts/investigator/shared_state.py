@@ -327,9 +327,10 @@ def configured_state(environ=None):
         import psycopg
         from .live_gateway import authorize_platform_database
         authorize_platform_database(env.get('DIA_GATEWAY_STATE_IDENTITY','state'),env[required[0]],env[required[1]])
-        from .adapters.platform_credentials import credential_type
+        from .adapters.platform_credentials import credential_type, trust_roots
         with credential_type()(client_id=env['AZURE_CLIENT_ID']) as credential:
             token = credential.get_token('https://ossrdbms-aad.database.windows.net/.default').token
         return psycopg.connect(host=env[required[0]], dbname=env[required[1]], user=env[required[2]],
-                              password=token, sslmode='verify-full', connect_timeout=15)
+                              password=token, sslmode='verify-full', sslrootcert=trust_roots(),
+                              options='-c search_path=dia_state', connect_timeout=15)
     return SharedState(connect, backend='postgresql', mode='live')
