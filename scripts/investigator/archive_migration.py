@@ -83,7 +83,7 @@ def approved_scope(relative, source_export_roots=()):
 
 def protected_path(relative, protected):
     normalized=Path(relative).as_posix().casefold()
-    if any(normalized==Path(p).as_posix().casefold() for p in protected):return True
+    if any(normalized==Path(p).as_posix().casefold() or normalized.startswith(Path(p).as_posix().casefold().rstrip('/')+'/') for p in protected):return True
     if LIVE.search(Path(relative).name):return True
     # Catalogs are eligible only inside sealed tape directories, not shared roots.
     if Path(relative).name.casefold() in ('catalog.sqlite','inventory.sqlite'):

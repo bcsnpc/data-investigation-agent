@@ -28,6 +28,7 @@ def main():
     parser.add_argument('--max-stored-bytes',type=int)
     parser.add_argument('--journal',type=Path)
     parser.add_argument('--output',type=Path)
+    parser.add_argument('--verification-mode',choices=['readback','block-checksum-v1'],default='readback')
     args=parser.parse_args()
     manifest=load_pinned(args.manifest,args.manifest_sha256)
     if args.action=='prepare':
@@ -56,7 +57,10 @@ def main():
         credential=OwnerCliCredential(args.azure_cli_python,args.tenant,args.subscription)
     client=IdentityArchiveClient(args.account_url,credential,current(),args.gateway_channel,
                                 max_requests=args.max_control_requests,receipts=str(args.journal)+'.controls.jsonl')
-    result=publish(json.loads(raw),args.bundle_plan_sha256,manifest,args.manifest_sha256,
+    publisher=publish
+    if args.verification_mode=='block-checksum-v1':
+        from investigator.checksum_archive import publish as publisher
+    result=publisher(json.loads(raw),args.bundle_plan_sha256,manifest,args.manifest_sha256,
                    json.loads(args.privacy_review.read_bytes()),client,
                    Journal(args.journal,args.bundle_plan_sha256,args.account_url),max_stored_bytes=args.max_stored_bytes)
     with args.output.open('xb') as stream:stream.write(canonical(result))

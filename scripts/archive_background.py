@@ -147,7 +147,12 @@ def main():
     def client(folder,cap):
         return IdentityArchiveClient(config['account_url'],credential,current(),config['gateway_channel'],
                                      max_requests=cap,receipts=str(folder/'progress.jsonl')+'.controls.jsonl')
-    run(config,args.output,client)
+    publisher=publish
+    mode=config.get('verification_mode','readback')
+    if mode=='block-checksum-v1':
+        from investigator.checksum_archive import publish as publisher
+    elif mode!='readback':raise ArtifactError('BACKGROUND_VERIFICATION_MODE')
+    run(config,args.output,client,publisher=publisher)
 
 
 if __name__=='__main__':main()

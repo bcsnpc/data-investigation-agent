@@ -27,6 +27,11 @@ class CleanupTests(unittest.TestCase):
             setup(row);(root/'batch/receipt.json').write_bytes(b'{}')
             with self.assertRaisesRegex(ArtifactError,'RECEIPT_SHA'):build(checkpoint,root,root,protected_parents=[])
 
+    def test_runtime_parent_protection_reaches_descendants_not_siblings(self):
+        from investigator.archive_migration import protected_path
+        self.assertTrue(protected_path('.local/round-five/live/tape.json',['.local/round-five/live']))
+        self.assertFalse(protected_path('.local/round-five/lively/tape.json',['.local/round-five/live']))
+
     def test_only_unchanged_remote_readback_admits_cleanup(self):
         plan={'blobs':[{'blob':'blob','etag':'exact','stored_bytes':20}]}
         class Client:

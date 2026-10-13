@@ -32,10 +32,10 @@ class IdentityArchiveClient:
         target = getattr(response, 'internal_response', response)
         target.close()
 
-    def request(self, key, operation, *, body=b'', block_id=None, etag=None, absent=False):
+    def request(self, key, operation, *, body=b'', block_id=None, etag=None, absent=False, blob_md5=None):
         from azure.core.pipeline.transport import HttpRequest
         from azure.core.exceptions import ServiceRequestError, ServiceResponseError
-        with bind(self.gateway, self.channel, self.account_url, key, operation, body=body, block_id=block_id, etag=etag) as (method, url, required):
+        with bind(self.gateway, self.channel, self.account_url, key, operation, body=body, block_id=block_id, etag=etag,blob_md5=blob_md5) as (method, url, required):
             for attempt in range(3):
                 if self.remaining <= 0:
                     raise ArtifactError('ARCHIVE_CONTROL_CAP_REACHED')
@@ -58,7 +58,7 @@ class IdentityArchiveClient:
                 if absent and response.status_code == 404:
                     self.close(response)
                     return None
-                if operation == 'COMMIT' and response.status_code in (409, 412):
+                if operation in ('COMMIT','COMMIT_COOL') and response.status_code in (409, 412):
                     self.close(response)
                     return None  # another attempt committed; whole download still required
                 if not 200 <= response.status_code < 300:
@@ -112,3 +112,34 @@ class IdentityArchiveClient:
 
     def archive(self, key, etag):
         self.close(self.request(key, 'ARCHIVE', etag=etag))
+
+    def checksum_properties(self,key):
+        response=self.request(key,'HEAD',absent=True)
+        if response is None:return None
+        try:
+            h={k.lower():v for k,v in response.headers.items()}
+            return {'tier':h.get('x-ms-access-tier'),'etag':h.get('etag'),
+                    'stored_bytes':int(h.get('content-length',-1)),'stored_md5':h.get('content-md5')}
+        finally:self.close(response)
+
+    def checksum_blocks(self,key):
+        response=self.request(key,'BLOCKS',absent=True)
+        if response is None:return {'committed':[],'uncommitted':{}}
+        try:
+            data=bytearray()
+            for chunk in response.stream_download(None):
+                data.extend(chunk)
+                if len(data)>BLOCK_BYTES:raise ArtifactError('ARCHIVE_BLOCK_LIST_BOUND')
+            root=ET.fromstring(data)
+            return {'committed':[(x.findtext('Name'),int(x.findtext('Size'))) for x in root.findall('./CommittedBlocks/Block')],
+                    'uncommitted':{x.findtext('Name'):int(x.findtext('Size')) for x in root.findall('./UncommittedBlocks/Block')}}
+        finally:self.close(response)
+
+    def stage_checked(self,key,identity,data):
+        self.close(self.request(key,'STAGE_CHECKED',body=data,block_id=identity))
+
+    def commit_cool(self,key,identities,whole_md5):
+        root=ET.Element('BlockList')
+        for identity in identities:ET.SubElement(root,'Latest').text=identity
+        response=self.request(key,'COMMIT_COOL',body=ET.tostring(root,encoding='utf-8'),blob_md5=whole_md5)
+        if response is not None:self.close(response)
