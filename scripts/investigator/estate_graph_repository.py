@@ -142,6 +142,16 @@ class GraphRepository:
             item=json.loads(raw)
             if sha(item)!=hash:raise StateConflict('GRAPH_HISTORY_HASH_DIFFERS')
             result[kind].append({**item,'valid_from':valid_from,'valid_to':valid_to})
+        from .graph_scan_health import unavailable
+        collection=unavailable(self.state,estate,{item['owner'] for kind in ('nodes','edges') for item in result[kind]},at=when)
+        if collection:
+            result['unavailable_owners']=collection
+            owners={item['id']:item['owner'] for item in result['nodes']}
+            for item in result['edges']:
+                affected={item['owner'],owners.get(item['source']),owners.get(item['target'])} & collection.keys()
+                if affected and item['confidence']=='VERIFIED':
+                    item['confidence']=item['base_confidence']
+                    item['verification']={**item['verification'],'state':'STALE'}
         return result
 
     def changes(self,estate,*,limit=100):

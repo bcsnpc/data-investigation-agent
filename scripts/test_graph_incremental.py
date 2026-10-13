@@ -9,6 +9,8 @@ from investigator.estate_graph_repository import GraphRepository
 from investigator.estate_graph_incremental import IncrementalScanner
 from investigator.adapters.graph_change_collector import FabricChanges, SqlSchemaChanges
 from investigator import estate_graph_contract as c
+from investigator.estate_graph_api import GraphAPI, coverage
+from investigator.graph_scan_health import record as health
 from scan_estate_graph import Meter, validate
 
 TIMES = ['2026-10-13T00:00:00Z', '2026-10-13T01:00:00Z', '2026-10-13T02:00:00Z']
@@ -63,6 +65,30 @@ class IncrementalTests(unittest.TestCase):
         self.assertEqual(result['owners'][0]['reason'], 'PermissionError')
         self.collector.fetch.side_effect = lambda owner: self.payloads[owner]
         self.scan.run('estate', TIMES[1]); self.assertEqual(len(self.repo.records('estate')['nodes']), 2)
+    def test_failed_refresh_blocks_path_and_old_asof_remains_available(self):
+        self.scan.run('estate', TIMES[0]); self.signals[0]['fingerprint']=sha('changed')
+        self.collector.fetch.side_effect=PermissionError('not retained')
+        self.scan.run('estate', TIMES[1])
+        gateway=Mock();gateway.graph_objects.side_effect=lambda estate,objects,**kw:list(objects)
+        api=GraphAPI(self.repo,gateway,identity='reader',estate='estate',allowed_objects=['one','two'])
+        current=api.path_to_source('one')
+        self.assertIn('PermissionError',current['stops'][0]['reason'])
+        self.assertIn('one',current['unavailable_owners'])
+        self.assertFalse(api.as_of(TIMES[0]).path_to_source('one')['unavailable_owners'])
+        self.assertIn('one',coverage(self.repo.records('estate'))['unavailable_owners'])
+    def test_failed_listing_then_same_signal_forces_revalidation_and_clears_gap(self):
+        self.scan.run('estate', TIMES[0])
+        self.collector.list_changes.side_effect=PermissionError('denied')
+        with self.assertRaises(PermissionError):self.scan.run('estate', TIMES[1])
+        self.assertEqual(len(self.repo.records('estate')['unavailable_owners']),2)
+        self.collector.fetch.reset_mock()
+        self.collector.list_changes.side_effect=lambda:{'items':self.signals,'complete':False}
+        self.scan.run('estate', TIMES[2])
+        self.assertEqual(self.collector.fetch.call_count,2)
+        self.assertNotIn('unavailable_owners',self.repo.records('estate'))
+    def test_inflight_refresh_is_unavailable_if_worker_crashes(self):
+        self.scan.run('estate', TIMES[0]);health(self.state,'estate','one',TIMES[1],'REFRESHING','Awaiting collection')
+        self.assertEqual(self.repo.records('estate')['unavailable_owners']['one']['status'],'REFRESHING')
     def test_extra_signal_duplicate_and_owner_limit_refuse_before_fetch(self):
         self.signals.append(copy.deepcopy(self.signals[0]))
         with self.assertRaisesRegex(ValueError, 'DUPLICATE'): self.scan.run('estate', TIMES[0])

@@ -27,6 +27,7 @@ class GraphAPI:
         graph=self.repository.records(self.estate,at=self.at,limit=10000)
         if graph['truncated']:raise ValueError('GRAPH_REPOSITORY_SCAN_BOUND')
         nodes={node['id']:node for node in graph['nodes']}
+        self.unavailable=graph.get('unavailable_owners',{})
         if not set(roots)<=nodes.keys():raise KeyError('GRAPH_OBJECT_NOT_PRESENT_AT_TIME')
         return nodes,graph['edges']
 
@@ -36,10 +37,18 @@ class GraphAPI:
         seen=set(roots);queue=deque(roots);selected={};stops=[];truncated=False
         while queue:
             current=queue.popleft()
+            if nodes[current]['owner'] in self.unavailable:
+                observation=self.unavailable[nodes[current]['owner']]
+                stops.append({'node':current,'reason':observation['reason'],
+                    'remedy':'Refresh this owner definition successfully before treating its path as current.'})
+                continue
             linked=[edge for edge in edges if edge['source']==current and (edge_kinds is None or edge['kind'] in edge_kinds)]
             if not linked and nodes[current]['kind'] not in ('FILTER','SECURITY_ROLE','REFRESH_SCHEDULE') and not nodes[current]['properties'].get('system_of_record'):
                 stops.append({'node':current,'reason':'No retained upstream dependency is declared for this object.'})
             for edge in linked:
+                if edge['owner'] in self.unavailable:
+                    stops.append({'node':current,'reason':self.unavailable[edge['owner']]['reason'],
+                        'remedy':'Refresh the unavailable edge owner before following this dependency.'});continue
                 target=edge['target']
                 if target not in self.allowed:
                     stops.append({'node':current,'reason':'Upstream object lies outside the admitted graph slice.'});continue
@@ -54,6 +63,7 @@ class GraphAPI:
                 if edge['confidence']=='UNKNOWN':stops.append({'node':current,**edge['unknown']})
                 if nodes[target]['confidence']=='UNKNOWN':stops.append({'node':target,**nodes[target]['unknown']})
         return self._bounded({'estate':self.estate,'as_of':self.at,'nodes':[nodes[i] for i in sorted(seen)],
+            'unavailable_owners':{owner:obs for owner,obs in self.unavailable.items() if any(nodes[i]['owner']==owner for i in seen)},
             'edges':[selected[i] for i in sorted(selected)],'stops':stops,'truncated':truncated})
 
     def path_to_source(self,visual):
@@ -84,6 +94,7 @@ class GraphAPI:
         extra=[edge for edge in edges if {edge['source'],edge['target']}&columns and edge['kind']!='CONTAINS']
         selected={node['id']:node for node in result['nodes']}
         for edge in extra:
+            if any(nodes[edge[key]]['owner'] in self.unavailable for key in ('source','target')):continue
             if not {edge['source'],edge['target']}<=self.allowed:continue
             if len(result['edges'])>=self.max_edges or len(selected.keys()|{edge['source'],edge['target']})>self.max_nodes:
                 result['truncated']=True;continue
@@ -95,13 +106,14 @@ class GraphAPI:
     def definition_of(self,node):
         nodes,_=self._read([node]);value=nodes[node]
         return {'node':node,'provenance':value['provenance'],'definition':value['properties'].get('definition'),
+                'collection_unavailable':self.unavailable.get(value['owner']),
                 'valid_from':value['valid_from'],'valid_to':value['valid_to']}
 
     def freshness(self,node):
         result=self._slice([node],edge_kinds=contract.EDGE_KINDS-{'CONTAINS','INTERACTS_WITH'})
         return {'facts':[{'node':item['id'],'timing':item['properties']['timing'],'provenance':item['provenance']}
-                for item in result['nodes'] if 'timing' in item['properties']],
-                'unknown':[item['id'] for item in result['nodes'] if 'timing' not in item['properties']],
+                for item in result['nodes'] if 'timing' in item['properties'] and item['owner'] not in self.unavailable],
+                'unknown':[item['id'] for item in result['nodes'] if 'timing' not in item['properties'] or item['owner'] in self.unavailable],
                 'stops':result['stops'],'truncated':result['truncated'],'as_of':self.at}
 
 
@@ -111,4 +123,5 @@ def coverage(graph):
         'edges_by_kind':dict(Counter(v['kind'] for v in graph['edges'])),
         'edges_by_confidence':dict(Counter(v['confidence'] for v in graph['edges'])),
         'unknown':[{'id':v['id'],'kind':v['kind'],**v['unknown']} for v in graph['nodes']+graph['edges'] if v['confidence']=='UNKNOWN'],
+        'unavailable_owners':graph.get('unavailable_owners',{}),
         'truncated':graph.get('truncated',False)}

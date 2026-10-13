@@ -56,6 +56,18 @@ class GraphRepositoryTests(unittest.TestCase):
         got=next(e for e in self.repo.records('estate')['edges'] if e['id']=='vm')
         self.assertEqual(got['confidence'],'DECLARED');self.assertEqual(got['verification']['state'],'STALE')
         self.assertEqual(got['verification']['evidence_ids'],['q'])
+    def test_collection_failure_downgrades_earned_proof_without_rewriting_history(self):
+        from investigator.graph_scan_health import record
+        value=graph();edge=value['edges'][2];edge.update(confidence='VERIFIED',provenance=proof(source='QUERY_VERIFICATION'),
+            verification={'state':'CURRENT','evidence_ids':['q'],'scope_hash':'b'*64})
+        self.repo.verification_resolver=lambda _: {'producer':'QUERY_VERIFICATION','status':'VERIFIED','scope_hash':'b'*64,'definition_hashes':['a'*64],'edge_ids':['vm']}
+        self.repo.replace(value)
+        record(self.state,'estate','owner',T1,'UNAVAILABLE','Definition read permission refused')
+        got=next(e for e in self.repo.records('estate')['edges'] if e['id']=='vm')
+        self.assertEqual(got['confidence'],'DECLARED');self.assertEqual(got['verification']['state'],'STALE')
+        old=next(e for e in self.repo.records('estate',at=T0)['edges'] if e['id']=='vm')
+        self.assertEqual(old['confidence'],'VERIFIED')
+        self.assertEqual(len(self.repo.changes('estate')),1)
     def test_foreign_owner_and_dangling_links_refuse_transactionally(self):
         original=graph();self.repo.replace(original)
         bad={**graph(),'owner':'other','definition_hash':'b'*64,'observed_at':T1}

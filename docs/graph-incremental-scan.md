@@ -74,6 +74,13 @@ route still needs its existing reader/gateway binding. Event/activity-log feeds
 and freshness/Delta-history collectors are not implemented here.
 
 Changed owner snapshots close old graph versions and append change records.
+Before a definition fetch, the shared collection history records REFRESHING.
+Failure records UNAVAILABLE and does not advance the owner cursor. Graph reads
+at that time expose the unavailable owner, downgrade its affected earned proofs
+to STALE, and traversal stops at the named gap. A worker crash leaves REFRESHING,
+which is also unavailable. Earlier as-of reads retain their earlier status.
+Only a successful definition check clears the gap; unchanged listing metadata
+does not clear it. The sealed graph history is not rewritten to apply this view.
 Previously earned proofs on changed edges remain present but STALE. Unrelated
 owners are not fetched or re-extracted. Cursor advancement happens after graph
 replacement; a crash between them causes a harmless hash-checked retry. Revision
