@@ -21,6 +21,18 @@ VERSION='cloud-graph-interpreter-v1'
 OPTIONS={'max_output_tokens':8000,'timeout_seconds':120,'reasoning_effort':'low'}
 
 
+def failure_detail(error,stage):
+    """Retain local stage and safe diagnostics, never arbitrary provider prose."""
+    result={**error_summary(error),'stage':stage}
+    if isinstance(error,OSError):
+        result.update(errno=error.errno,winerror=getattr(error,'winerror',None),
+            message=os.strerror(error.errno) if isinstance(error.errno,int) else 'Local I/O operation failed')
+    elif isinstance(error,ValueError) and re.fullmatch(r'[A-Z][A-Z0-9_:]{0,160}',str(error)):
+        result['message']=str(error)
+    else:result['message']='Failure during '+stage+'; arbitrary exception text withheld'
+    return result
+
+
 def tasks_from_bytes(raw,expected):
     if not isinstance(raw,bytes) or len(raw)>250_000:raise ValueError('GRAPH_BATCH_INPUT_BOUND')
     if hashlib.sha256(raw).hexdigest()!=expected:raise ValueError('GRAPH_BATCH_INPUT_HASH_DIFFERS')
@@ -92,19 +104,24 @@ def execute(tasks,*,batch_id,input_sha256,state,governor,files,work,producer=Non
     prior_flag=os.environ.get('INVESTIGATOR_RECORD_PLANNER');os.environ['INVESTIGATOR_RECORD_PLANNER']='1'
     try:
         for number,task in enumerate(tasks):
-            metadata={};record_path=None;reserved=False;key='graph:'+str(number)
+            metadata={};record_path=None;reserved=False;key='graph:'+str(number);stage='EDGE_INPUT_VALIDATION'
             def provider(request,schema):
-                answer,meta=producer(request,schema,OPTIONS);metadata.update(meta);return answer
+                nonlocal stage
+                stage='PROVIDER_CALL'
+                answer,meta=producer(request,schema,OPTIONS);metadata.update(meta);stage='EDGE_VALIDATION';return answer
             def call(request,send):
-                nonlocal reserved,record_path
+                nonlocal reserved,record_path,stage
+                stage='PROVIDER_BODY_COMPILATION'
                 request_body=body(request)
                 characters=len(json.dumps(request_body,ensure_ascii=False,separators=(',',':')))
                 if characters>64_000:raise ValueError('GRAPH_BATCH_PROVIDER_BODY_BOUND')
+                stage='USAGE_RESERVATION'
                 with governor.runtime.db() as db:
                     governor.reserve(db,batch_id,key,'planner',characters,output_tokens=8000)
                 reserved=True
+                stage='CAPTURE_INITIALIZATION'
                 with recording({'session_id':batch_id,'planner_call':number+1,'call_kind':'graph_interpreter',
-                    'definition_hash':task['definition_hash'],'reservation':{'input_characters':characters,'output_tokens':8000}},distinct=True) as record:
+                    'definition_hash':task['definition_hash'],'reservation':{'input_characters':characters,'output_tokens':8000}},distinct=True,directory=work/'planner-recordings') as record:
                     if record is None:raise ValueError('GRAPH_BATCH_RECORDING_REQUIRED')
                     record_path=record.path
                     record.safe_write('compiled-provider-body.json',json.dumps(request_body,sort_keys=True).encode())
@@ -115,21 +132,21 @@ def execute(tasks,*,batch_id,input_sha256,state,governor,files,work,producer=Non
                     producer=provider,model_call=call)
                 results.append({'task':number,'status':'PROPOSED_FOR_REVIEW','result':result,'metadata':metadata})
             except Exception as exc:
-                error=exc;results.append({'task':number,'status':'FAILED','error':error_summary(exc)})
+                error=exc;results.append({'task':number,'status':'FAILED','error':failure_detail(exc,stage)})
             finally:
                 if reserved:
                     usage=metadata.get('usage') if error is None else failure_usage(error) or metadata.get('usage')
                     try:
                         with governor.runtime.db() as db:governor.settle(db,batch_id,key,usage,uncertain=usage is None)
                     except Exception as exc:
-                        settlement_errors.append({'task':number,'error':error_summary(exc)})
+                        settlement_errors.append({'task':number,'error':failure_detail(exc,'USAGE_SETTLEMENT')})
                 if record_path is not None:
                     try:
                         manifest=json.loads((record_path/'manifest.json').read_bytes())
                         refs=publish_files({p.name:p for p in record_path.iterdir() if p.is_file()},files)
                         captures.append({'task':number,'files':refs,'complete':manifest.get('request_captured') is True and
                             manifest.get('response_captured') is True and manifest.get('exclusion') is None})
-                    except Exception as exc:publication_errors.append({'task':number,'error':error_summary(exc)})
+                    except Exception as exc:publication_errors.append({'task':number,'error':failure_detail(exc,'CAPTURE_PUBLICATION')})
             if error is not None or publication_errors or settlement_errors or not captures or not captures[-1]['complete']:break
     finally:
         if prior_flag is None:os.environ.pop('INVESTIGATOR_RECORD_PLANNER',None)

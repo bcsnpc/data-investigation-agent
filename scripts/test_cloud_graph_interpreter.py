@@ -15,7 +15,6 @@ class CloudGraphTests(unittest.TestCase):
         self.state=SharedState.offline(self.root/'state.sqlite');self.state.migrate()
         self.files=Files(LocalObjects(self.root/'objects'))
         self.state.put('usage_policy',POLICY['environment'],{'policy':POLICY,'round_policy':None})
-        self.rootpatch=patch('investigator.planner_recording.ROOT',self.root);self.rootpatch.start();self.addCleanup(self.rootpatch.stop)
         self.statepatch=patch('investigator.shared_state.configured_state',return_value=self.state);self.statepatch.start();self.addCleanup(self.statepatch.stop)
         self.envpatch=patch.dict('os.environ',{'INVESTIGATOR_WORKER_ID':'test-worker'});self.envpatch.start();self.addCleanup(self.envpatch.stop)
         self.gov=runtime_governor(self.state,POLICY['environment'],self.root)
@@ -90,6 +89,28 @@ class CloudGraphTests(unittest.TestCase):
         self.assertEqual(result['results'][0]['error']['error_type'],'ValueError')
         self.assertEqual(result['settlement_errors'][0]['error']['error_type'],'RuntimeError')
         self.assertEqual(result['not_run'],[1]);self.assertEqual(len(self.calls),1)
+    def test_explicit_capture_work_directory_ignores_unwritable_default_root(self):
+        from investigator import planner_recording
+        default=planner_recording.ROOT/'.local'/'planner-recordings'
+        original=Path.mkdir;attempts=[]
+        def guarded(path,*args,**kwargs):
+            if path==default or default in path.parents:
+                attempts.append(path);raise PermissionError(13,'Permission denied',str(path))
+            return original(path,*args,**kwargs)
+        with patch.object(Path,'mkdir',guarded):
+            summary=self.run_batch()
+        self.assertEqual(summary['status'],'COMPLETED');self.assertEqual(attempts,[])
+        self.assertEqual(len(list((self.root/'b'/'planner-recordings').glob('*/request.body'))),1)
+        self.assertTrue(self.result(summary)['captures'][0]['complete'])
+    def test_capture_permission_failure_has_safe_stage_and_errno(self):
+        original=Path.mkdir
+        def guarded(path,*args,**kwargs):
+            if path.parent.name=='planner-recordings':raise PermissionError(13,'Permission denied',str(path))
+            return original(path,*args,**kwargs)
+        with patch.object(Path,'mkdir',guarded):result=self.result(self.run_batch())
+        error=result['results'][0]['error']
+        self.assertEqual(error['stage'],'CAPTURE_INITIALIZATION');self.assertEqual(error['errno'],13)
+        self.assertIn('denied',error['message'].lower());self.assertEqual(self.calls,[])
 
 
 if __name__=='__main__':unittest.main()

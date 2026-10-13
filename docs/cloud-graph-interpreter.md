@@ -27,4 +27,6 @@ The shared immutable batch admission prevents accidental job retries from re-cal
 
 `planner_recording` preserves exact provider request/response bytes and the compiled request sidecar. Private CAS receives every retained capture file plus the result document. The public result contains status, attempted/not-run counts and the verified result CAS reference only. Stdout does not include code or model prose. Original tapes and graph snapshots are unchanged. This is recorded model evidence, not a claim of full investigation process-tape replay.
 
+The cloud caller explicitly passes `/work/graph-interpreter/planner-recordings` to the recorder's `directory` argument. It does not require the installed `/app` tree to be writable. Local callers that omit the argument retain their existing directory. Error records name the failed stage; local I/O failures include errno and its standard system message. Provider text remains withheld, avoiding credential or source-code disclosure through exception messages. The first live batch's inaccessible default-directory failure is preserved, not rerun by this fix.
+
 Offline tests exercise shared reservations, exact capture restoration, once-only admission, one-attempt refusal, authentication stop and settlement-error retention. No cloud or model call is made by those tests.
