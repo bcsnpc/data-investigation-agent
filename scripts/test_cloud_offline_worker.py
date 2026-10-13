@@ -8,6 +8,12 @@ from build_cloud_image_context import admitted
 
 
 class CloudOfflineWorkerTests(unittest.TestCase):
+    def test_non_root_worker_has_explicit_writable_job_directories(self):
+        dockerfile=(Path(__file__).parents[1]/'infra/cloud-worker/Dockerfile').read_text()
+        self.assertIn('mkdir /results /work /inputs',dockerfile)
+        self.assertIn('chown dia:dia /results /work /inputs',dockerfile)
+        self.assertIn('USER 10001:10001',dockerfile)
+
     def test_public_build_context_excludes_private_and_untyped_material(self):
         for name in ['.local/tape.json', 'acceptance/answer.json', 'scripts/reader-secret.txt',
                      'scripts/cache.sqlite', '.git/config', 'scripts/__pycache__/x.py', 'docs/receipt.md',

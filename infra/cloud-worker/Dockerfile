@@ -14,6 +14,6 @@ COPY acceptance/ /app/acceptance/
 COPY infra/scripts/ /app/infra/scripts/
 COPY image-source-manifest.json /app/image-source-manifest.json
 RUN groupadd --gid 10001 dia && useradd --uid 10001 --gid dia --no-create-home dia \
-    && mkdir /results && chown dia:dia /results
+    && mkdir /results /work /inputs && chown dia:dia /results /work /inputs
 USER 10001:10001
 ENTRYPOINT ["python", "/app/scripts/cloud_offline_worker.py"]
