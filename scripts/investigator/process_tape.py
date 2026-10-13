@@ -129,11 +129,11 @@ class Tape:
             recorded=self.take(kind)
             if kind=='BUDGET':
                 from .budget_tape_contract import equal
-                if not equal(recorded,body):raise TapeError('TAPE_BUDGET_DECISION_DIFFERS')
+                if not equal(recorded,body):self._replay_error('TAPE_BUDGET_DECISION_DIFFERS')
             elif kind in ('PROVIDER_REQUEST','PROVIDER_RESPONSE'):
                 from .provider_tape_contract import equal
-                if not equal(kind,recorded,body):raise TapeError('TAPE_PROVIDER_CONTENT_DIFFERS')
-            elif recorded!=body:raise TapeError('TAPE_REQUEST_BYTES_DIFFER')
+                if not equal(kind,recorded,body):self._replay_error('TAPE_PROVIDER_CONTENT_DIFFERS')
+            elif recorded!=body:self._replay_error('TAPE_REQUEST_BYTES_DIFFER')
             return
         if self.finished or kind not in KINDS:raise TapeError('TAPE_EVENT_NOT_ADMISSIBLE')
         from .planner_recording import _safe, RecordingError
@@ -163,12 +163,20 @@ class Tape:
         return body if pending['kind']==kind else None
 
     def take(self,kind):
-        if self.index>=len(self.events):raise TapeError('TAPE_EXHAUSTED')
+        if getattr(self,'replay_first_error',None) is not None:raise self.replay_first_error
+        if self.index>=len(self.events):self._replay_error('TAPE_EXHAUSTED')
         event=self.events[self.index]
         body=validate_event(event,self.index+1)
-        if event['kind']!=kind:raise TapeError('TAPE_EVENT_DIFFERS:'+kind+':'+event['kind'])
+        if event['kind']!=kind:self._replay_error('TAPE_EVENT_DIFFERS:'+kind+':'+event['kind'])
         self.index+=1
         return body
+
+    def _replay_error(self,message):
+        # Cleanup/settlement must not replace the original byte mismatch with
+        # an expected consequence of the already-disrupted event position.
+        error=getattr(self,'replay_first_error',None) or TapeError(message)
+        self.replay_first_error=error
+        raise error
 
     def validate(self):
         if self.exclusions:raise TapeError('TAPE_EXCLUDED_BODY')

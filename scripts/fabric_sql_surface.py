@@ -152,7 +152,7 @@ def _managed_read(config, database, request, reader, fallback):
     from sql_layer_policy import policy as layer_policy
     payload = {key:request[key] for key in ('query','read_only_objects','max_rows','result_columns')}
     payload.update(parameters=request.get('parameters',[]),server=reader['server'],database=database,
-                   surface_kind='FABRIC_SQL', authentication=credential(reader))
+                   surface_kind='FABRIC_SQL', authentication=credential(reader),require_read_only=True)
     completed = physical_run([sys.executable,str(ROOT/'scripts/managed_sql_worker.py')],input=json.dumps(payload),
         timeout=layer_policy(config,request,default_timeout=150)['worker_timeout_seconds'],fallback=fallback,
         capture_output=True,text=True,encoding='utf-8')
