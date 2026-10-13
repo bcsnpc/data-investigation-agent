@@ -38,6 +38,21 @@ def extract(raw,root,*,expected,expanded_limit):
  root.chmod(0o555)
 
 
+def audit_database(path):
+ import sqlite3
+ from contextlib import closing
+ with closing(sqlite3.connect(Path(path).resolve().as_uri()+'?mode=ro',uri=True)) as db:
+  for (table,) in db.execute("SELECT name FROM sqlite_master WHERE type='table'"):
+   query='SELECT * FROM '+chr(34)+table.replace(chr(34),chr(34)*2)+chr(34)
+   for row in db.execute(query):
+    for value in row:
+     if isinstance(value,str):
+      try:parsed=json.loads(value)
+      except json.JSONDecodeError:parsed=value
+      _safe(json.dumps(parsed,ensure_ascii=False).encode())
+     elif isinstance(value,bytes):_safe(value)
+
+
 def package(inputs,work,output):
  # Public result artifacts and existing audited input only. Credential caches
  # are memory-only and no home/tmp/environment directories are admitted here.
@@ -50,8 +65,15 @@ def package(inputs,work,output):
   if (work/name).is_file():paths.append((work/name,name))
  if len(paths)>20000 or sum(p.stat().st_size for p,_ in paths)>5_500_000_000:raise ValueError('OUTPUT_BOUND')
  from cloud_verification_capture import audit
+ # Inputs were audited before their explicitly approved archive hash. New or
+ # changed SQLite snapshots are inspected as rows, never uploaded unchecked.
+ approved_databases={sha(p) for p in inputs.rglob('*') if p.is_file() and p.suffix in ('.sqlite','.db')}
  for p,_ in paths:
-  if p.suffix not in ('.sqlite','.db'):audit(p)
+  if p.suffix in ('.sqlite','.db'):
+   identity=sha(p)
+   if identity not in approved_databases:
+    audit_database(p);approved_databases.add(identity)
+  else:audit(p)
  with zipfile.ZipFile(output,'x',compression=zipfile.ZIP_DEFLATED,compresslevel=4) as archive:
   for p,name in paths:archive.write(p,name)
  return {'sha256':sha(output),'bytes':output.stat().st_size,'expanded_bytes':sum(p.stat().st_size for p,_ in paths),'members':len(paths)}
