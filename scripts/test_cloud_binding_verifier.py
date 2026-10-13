@@ -21,3 +21,23 @@ class VerificationPlanTests(unittest.TestCase):
     def test_duplicate_binding_rejected(self):
         s=self.spec();s['proposals'].append(copy.deepcopy(s['proposals'][0]))
         with self.assertRaisesRegex(ValueError,'DUPLICATE'):plan(s)
+
+class VerifierCatalogOwnershipTests(unittest.TestCase):
+    def test_live_and_replay_use_the_explicit_accounting_catalog(self):
+        import json,tempfile
+        from pathlib import Path
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        from investigator import process_tape
+        from investigator.onboarding import digest
+        from cloud_binding_verifier import perform
+        with tempfile.TemporaryDirectory() as folder:
+            work=Path(folder);context={'version':'retained'};model={'context_id':'model-pin'}
+            (work/'context.json').write_text(json.dumps(context));(work/'model.json').write_text(json.dumps(model))
+            explicit=work/'authoritative-private-mirror.sqlite';explicit.write_bytes(b'existing')
+            boot={'config':{},'state':{'environment':'estate','inputs':{'engine_fingerprint':'engine','verification_spec':VerificationPlanTests().spec(),'context_hash':digest(context),'model_context_id':'model-pin'}}}
+            for path in (explicit,None):
+                with process_tape.active(SimpleNamespace(replaying=False)),patch('investigator.runtime.fingerprint',return_value='engine'),patch('investigator.onboarding.ModelStore',side_effect=RuntimeError('STOP_AT_STORE')) as store:
+                    with self.assertRaisesRegex(RuntimeError,'STOP_AT_STORE'):perform(boot,work,path)
+                    self.assertEqual(store.call_args.args[0],explicit if path else work/'catalog.sqlite')
+            self.assertFalse((work/'model-catalog.sqlite').exists())
